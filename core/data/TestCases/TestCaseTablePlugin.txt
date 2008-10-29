@@ -1,0 +1,725 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111930902" format="1.0" version="$Rev: 7490 $"}%
+
+---+!! %SYSTEMWEB%.TablePlugin tests
+
+%TOC%
+
+---++ Basic layout
+
+---+++ Table with top headers
+| *Item* | *Text* |
+| Item1  | Lorem ipsum dolor sit amet, consectetur, adipisci velit.  |
+| Item9  | Morel iptul domor tis ales, duit ausel vem eul iriure domor eu, feugias numma.  |
+| Item10  | Neque porro quisquam est qui dolorem ipsum dolor sit amet, consectetur, adipisci velit.  |
+| Item11  | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. |
+| Item111  | Us weiti enil ad linil venial, quit notsurd exerci sasion, nal miber domor. |
+
+---+++ Table with side headers
+| *Header 1* | Lorem ipsum dolor sit amet, consectetur, adipisci velit.  |
+| *Header 2* | Morel iptul domor tis ales, duit ausel vem eul iriure domor eu, feugias numma.  |
+| *Header 3* | Neque porro quisquam est qui dolorem ipsum dolor sit amet, consectetur, adipisci velit.  |
+
+---+++ Table without headers
+| no header | no header |
+| text 1 | text 2 |
+
+---+++ Table with very wide header
+| *Lorem ipsum dolor sit amet, consectetur, adipisci velit* | *Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo* |
+| Lorem  | |
+| Ipsum  | Neque porro quisquam |
+
+---+++ Table with numbers and text
+| *Numbers* | *Texts* |
+| 456  | uvw |
+| 123  | xyz |
+| 789  | rst |
+
+---+++ Table with sortable single column:
+| *Single column* |
+| text |
+
+---+++ Table with sortable single column, no header
+| Single column no header |
+| text |
+
+---+++ Very simple table
+| Row 1 of 2 |
+||
+
+---+++ Complex table
+| One One | One Two | One Three |
+| ^ | Two Two | Two Three |
+| Three One | ^ | Three Three |
+
+---+++ More cellspan examples
+| *vertical span* | *table 1* | *normal* |
+|^ | <- pipe-caret-pipe ||
+| cell | cell | cell |
+| *vertical span* | *table 1* | *normal* |
+|^ | <- pipe-caret-pipe ||
+| cell | cell | cell |
+| vertical span | cell | cell |
+|^ | <- pipe-caret-pipe ||
+| cell | cell | cell |
+
+| *vertical span* | *table 2* | *normal* |
+| ^ | <- pipe-space-caret-space-pipe ||
+| cell | cell | cell |
+| vertical span | cell | cell |
+| ^ | <- pipe-space-caret-space-pipe ||
+| cell | cell | cell |
+
+| vertical span | table 3 | normal |
+| ^ | <- pipe-space-caret-space-pipe ||
+| cell | cell | cell |
+| vertical span | cell | cell |
+| ^ | <- pipe-space-caret-space-pipe ||
+| cell | cell | cell |
+
+---+++ Complex table with headers
+| *One One* | *One Two* | *One Three* |
+| ^ | Two Two | Two Three |
+| Three One | ^ | Three Three |
+
+---+++ Vertical cellspan in headers
+| *Web* | *Sitemap* | *VIEW* || *CHANGE* || *RENAME* ||
+| ^ | *Listed* | *DENY* | *ALLOW* | *DENY* | *ALLOW* | *DENY* | *ALLOW* |
+
+
+---++ Sorting
+
+---+++ Table with mixed data
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ Table with mixed data, no databg
+<verbatim>
+%TABLE{databg="none"}%
+</verbatim>
+%TABLE{databg="none"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ Table with mixed data, specified databg and headerbg
+<verbatim>
+%TABLE{databg="#ffcc33" headerbg="#990033"}%
+</verbatim>
+%TABLE{databg="#ffcc33" headerbg="#990033"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ headerbgsorted
+%TABLE{databg="#ffffcc" databgsorted="#ffcc33" headerbg="#990033" headerbgsorted="#660000" initsort="1"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ Sorting icons
+| *One* |
+| %Y% |
+| %I% |
+| %Y% |
+| %Y% |
+| %P% |
+| %P% |
+| %Q% |
+| %I% |
+| %Y% |
+
+---++ initsort
+
+initdirection="up", column 1
+%TABLE{sort="on" initsort="1" initdirection="up"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+initdirection="down", column 2
+%TABLE{sort="on" initsort="2" initdirection="down"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+no initdirection specified, column 3
+%TABLE{sort="on" initsort="3"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ headercolor
+<verbatim>
+%TABLE{headercolor="#990000" headerbg="#eeeeee" headerbgsorted="#dddddd"}%
+</verbatim>
+%TABLE{headercolor="#990000" headerbg="#eeeeee" headerbgsorted="#dddddd"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headercolor="#990000" headerbg="#eeeeee"}%
+</verbatim>
+%TABLE{headercolor="#990000" headerbg="#eeeeee"}%
+| *Header 1* | Lorem ipsum dolor sit amet, consectetur, adipisci velit.  |
+| *Header 2* | Morel iptul domor tis ales, duit ausel vem eul iriure domor eu, feugias numma.  |
+| *Header 3* | Neque porro quisquam est qui dolorem ipsum dolor sit amet, consectetur, adipisci velit.  |
+
+---++ datacolor
+<verbatim>
+%TABLE{datacolor="#ff0000,#ff9933"}%
+</verbatim>
+%TABLE{datacolor="#ff0000,#ff9933"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ tableborder
+---+++ tableborder="5"
+<verbatim>
+%TABLE{tableborder="5"}%
+</verbatim>
+%TABLE{tableborder="5"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ tableborder="0"
+<verbatim>
+%TABLE{tableborder="0"}%
+</verbatim>
+%TABLE{tableborder="0"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ cellpadding
+<verbatim>
+%TABLE{cellpadding="15"}%
+</verbatim>
+%TABLE{cellpadding="15"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ cellspacing
+<verbatim>
+%TABLE{cellspacing="15"}%
+</verbatim>
+%TABLE{cellspacing="15"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ cellborder
+---+++ cellborder="0"
+<verbatim>
+%TABLE{cellborder="0" tableborder="0"}%
+</verbatim>
+%TABLE{cellborder="0" tableborder="0"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ cellborder="3"
+<verbatim>
+%TABLE{cellborder="3" tableborder="3"}%
+</verbatim>
+%TABLE{cellborder="3" tableborder="3"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+
+---++ Alignment
+---+++ Cell alignment using spaces
+|*Left aligned*  |*Not sure*|  *Middle*  |  *Right aligned*|
+|1  |abc|  vwxxxxxxxxx  |  01 Jan 1900|
+|2  |def|  stu  |  31 Dec 1999|
+|3 xxxxxxxxxxxxxx  |ghi xxxxxxxx  |  pqr  |  xxxxxxxxx 15 Jan 2006|
+
+---+++ valign
+<verbatim>
+%TABLE{valign="top"}%
+</verbatim>
+%TABLE{valign="top"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{valign="middle"}%
+</verbatim>
+%TABLE{valign="middle"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{valign="bottom"}%
+</verbatim>
+%TABLE{valign="bottom"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{valign="baseline"}%
+</verbatim>
+%TABLE{valign="baseline"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ headervalign
+<verbatim>
+%TABLE{headervalign="top"}%
+</verbatim>
+%TABLE{headervalign="top"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headervalign="middle"}%
+</verbatim>
+%TABLE{headervalign="middle"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headervalign="bottom"}%
+</verbatim>
+%TABLE{headervalign="bottom"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headervalign="baseline"}%
+</verbatim>
+%TABLE{headervalign="baseline"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ datavalign
+<verbatim>
+%TABLE{datavalign="top"}%
+</verbatim>
+%TABLE{datavalign="top"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{datavalign="middle"}%
+</verbatim>
+%TABLE{datavalign="middle"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{datavalign="bottom"}%
+</verbatim>
+%TABLE{datavalign="bottom"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{datavalign="baseline"}%
+</verbatim>
+%TABLE{datavalign="baseline"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ Combined headervalign and datavalign
+<verbatim>
+%TABLE{headervalign="bottom" datavalign="top"}%
+</verbatim>
+%TABLE{headervalign="bottom" datavalign="top"}%
+| *One* | *Two<br />Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ headeralign
+
+<verbatim>
+%TABLE{headeralign="left"}%
+</verbatim>
+%TABLE{headeralign="left"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headeralign="center"}%
+</verbatim>
+%TABLE{headeralign="center"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headeralign="right"}%
+</verbatim>
+%TABLE{headeralign="right"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{headeralign="justify"}%
+</verbatim>
+%TABLE{headeralign="justify"}%
+| *One* | *Two* | *A wide column three Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo.* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++++ Mixed headeralign
+
+<verbatim>
+%TABLE{headeralign="right,left,justify,right"}%
+</verbatim>
+%TABLE{headeralign="right,left,justify,right"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc def ghi jkl | vwx | 01 Jan 1900 |
+| 2222 | defdefdefdefdefdefdefdef | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 33333333 | ghi | pqr | 15 Jan 2006 |
+
+---+++ dataalign
+
+<verbatim>
+%TABLE{dataalign="left"}%
+</verbatim>
+%TABLE{dataalign="left"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{dataalign="center"}%
+</verbatim>
+%TABLE{dataalign="center"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{dataalign="right"}%
+</verbatim>
+%TABLE{dataalign="right"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+<verbatim>
+%TABLE{dataalign="justify"}%
+</verbatim>
+%TABLE{dataalign="justify"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++++ Mixed dataalign
+<verbatim>
+%TABLE{dataalign="right,left,justify,right"}%
+</verbatim>
+%TABLE{dataalign="right,left,justify,right"}%
+| *One* | *Two* | *A wide column three* | *Four* |
+| 1 | abc def ghi jkl | vwx | 01 Jan 1900 |
+| 2222 | defdefdefdefdefdefdefdef | Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. | 31 Dec 1999 |
+| 33333333 | ghi | pqr | 15 Jan 2006 |
+
+---++ tablerules
+---+++ none
+<verbatim>
+%TABLE{tablerules="none" headerbg="#ffffff" headercolor="#ff0000"}%
+</verbatim>
+%TABLE{tablerules="none" headerbg="#ffffff" headercolor="#ff0000"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ groups
+<verbatim>
+%TABLE{tablerules="groups" headerbg="#ffffff" headercolor="#ff0000"}%
+</verbatim>
+%TABLE{tablerules="groups" headerbg="#ffffff" headercolor="#ff0000"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+
+---++++ With footerrows
+<verbatim>
+%TABLE{footerrows="1" tablerules="groups" headerbg="#ffffff" headercolor="#ff0000"}%
+</verbatim>
+%TABLE{footerrows="1" tablerules="groups" headerbg="#ffffff" headercolor="#ff0000"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+| *Footer row* ||||||
+
+---+++ cols
+<verbatim>
+%TABLE{tablerules="cols"}%
+</verbatim>
+%TABLE{tablerules="cols"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ rows
+<verbatim>
+%TABLE{tablerules="rows"}%
+</verbatim>
+%TABLE{tablerules="rows"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ all
+<verbatim>
+%TABLE{tablerules="all"}%
+</verbatim>
+%TABLE{tablerules="all"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ tableframe
+---+++ void
+<verbatim>
+%TABLE{tableframe="void" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="void" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ above
+<verbatim>
+%TABLE{tableframe="above" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="above" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ below
+<verbatim>
+%TABLE{tableframe="below" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="below" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ lhs
+<verbatim>
+%TABLE{tableframe="lhs" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="lhs" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ rhs
+<verbatim>
+%TABLE{tableframe="rhs" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="rhs" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ hsides
+<verbatim>
+%TABLE{tableframe="hsides" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="hsides" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ vsides
+<verbatim>
+%TABLE{tableframe="vsides" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="vsides" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ box
+<verbatim>
+%TABLE{tableframe="box" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="box" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ border
+<verbatim>
+%TABLE{tableframe="border" tablerules="none" tableborder="4"}%
+</verbatim>
+%TABLE{tableframe="border" tablerules="none" tableborder="4"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+
+---++ tablewidth
+---+++ in percentages
+<verbatim>
+%TABLE{tablewidth="50%"}%
+</verbatim>
+%TABLE{tablewidth="50%"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ in pixels
+<verbatim>
+%TABLE{tablewidth="500px"}%
+</verbatim>
+%TABLE{tablewidth="500px"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ columnwidths
+---+++ in percentage
+<verbatim>
+%TABLE{columnwidths="10%,20%,30%,40%"}%
+</verbatim>
+%TABLE{columnwidths="10%,20%,30%,40%"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---+++ in pixels
+<verbatim>
+%TABLE{columnwidths="50px,100px,150px,200px"}%
+</verbatim>
+%TABLE{columnwidths="50px,100px,150px,200px"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ headerrows
+<verbatim>
+%TABLE{headerrows="2"}%
+</verbatim>
+%TABLE{headerrows="2"}%
+| *Table with two header rows* ||||||
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ footerrows
+<verbatim>
+%TABLE{footerrows="1"}%
+</verbatim>
+%TABLE{footerrows="1"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+| *Footer row* ||||||
+
+---++ id
+<verbatim>
+%TABLE{id="myTestTable"}%
+</verbatim>
+%TABLE{id="myTestTable"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ summary
+<verbatim>
+%TABLE{summary="This is a summary"}%
+</verbatim>
+%TABLE{summary="This is a summary"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+---++ caption
+<verbatim>
+%TABLE{caption="This is a caption"}%
+</verbatim>
+%TABLE{caption="This is a caption"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+
+

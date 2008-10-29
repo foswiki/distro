@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarSCRIPTNAME
+---+++ SCRIPTNAME -- name of current script
+   * The name of the current script is shown, including script suffix, if any (for example =viewauth.cgi=)
+   * Syntax: =%<nop>SCRIPTNAME%=
+   * Expands to: =%SCRIPTNAME%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]]
+

@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 15171 $"}%
+---+++ Web Changes Notification Service
+
+Each TWiki web has an automatic e-mail notification service that sends you an e-mail with links to all of the topics modified since the last alert. 
+
+%INCLUDE{"MailerContrib"}%
+
+__Note for System Administrators:__ Notification is supported by an add-on to the TWiki kernel called the !MailerContrib. See the [[%SYSTEMWEB%.MailerContrib][MailerContrib]] topic for details of how to set up this service.
+
+__Note:__ If you prefer a news feed, point your reader to [[%INCLUDINGWEB%.WebRss][WebRss]] (for RSS 1.0 feeds) or [[%INCLUDINGWEB%.WebAtom][WebAtom]] (for ATOM 1.0 feeds). Learn more at [[%SYSTEMWEB%.WebRssBase][WebRssBase]] and [[%SYSTEMWEB%.WebAtomBase][WebAtomBase]], respectively.

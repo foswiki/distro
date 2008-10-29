@@ -1,0 +1,49 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 15648 $"}%
+---+!! <nop>%WEB% Web Preferences
+
+The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the __site-level preferences__ in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by __user preferences__ (your personal topic, eg: %USERSWEB%.%WIKINAME% in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
+
+%TOC%
+
+---++ Web Preferences Settings
+
+These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiPreferences#DefaultWebPreferences][full list of defaults with explanation]].
+
+   * Web settings:
+      * Set WEBTOPICLIST = [[WelcomeGuest][Welcome]] %SEP% [[TWikiRegistration][Register]] %SEP% [[WebChanges][Changes]] %SEP% [[WebTopicList][Topics]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
+      * Set WEBBGCOLOR = #FFD8AA
+      * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/%WEBPREFSTOPIC%/Dakar.gif
+      * Set SITEMAPLIST = on
+      * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.TWikiRegistration][Registration]], and other %WEB%.StartingPoints; TWiki history &amp; Wiki style; All the docs...
+      * Set SITEMAPUSETO = ...discover TWiki details, and how to start your own site.
+      * Hide Table of Contents if the topic is included
+         * Set TOC_HIDE_IF_INCLUDED = on
+      * Set default Table of Contents title
+         * Set TOC_TITLE = On this page:
+      * The first header level to appear in the TOC:
+         * Set TOC_MIN_DEPTH = 2
+      * Use auto linking for the TWiki documentation pages:
+         * Set NOAUTOLINK = 0
+
+   * Default template for *new topics* for this web:
+      * WebTopicEditTemplate: Site-level default topic template
+
+   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.TWikiForms][TWikiForms]] for more information.
+      * Set WEBFORMS = TWikiPreferencesForm
+
+   * Copyright notice for the TWiki web.
+      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://twiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-badge-88x31.gif" alt="This site is powered by the TWiki collaboration platform" width="88" height="31" title="This site is powered by the TWiki collaboration platform" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then="<br /> __Note:__ Please contribute updates to this topic on TWiki.org at TWiki:TWiki.%BASETOPIC%"}%
+
+   * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See %SYSTEMWEB%.TWikiAccessControl).
+      * Set ALLOWWEBCHANGE = %USERSWEB%.TWikiAdminGroup
+      * Set ALLOWWEBRENAME = %USERSWEB%.TWikiAdminGroup
+
+   * Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., %USERSWEB%.WebAdministratorsGroup)
+      * Set ALLOWTOPICCHANGE = %USERSWEB%.TWikiAdminGroup
+
+   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
+      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, ALLOWWEBRENAME, DENYWEBRENAME
+
+%INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%
+
+%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1100974473" path="favicon.ico" size="318" tmpFilename="/var/tmp/CGItemp25580" user="TWikiContributor" version="1.1"}%

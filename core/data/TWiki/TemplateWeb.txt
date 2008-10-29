@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICPARENT{name="ManagingWebs"}%
+%TOC%
+
+---+!! Template Web
+
+---++ Purpose
+
+Template webs were created to act as templates in creating webs.  It is now possible to create webs via the %SYSTEMWEB%.ManagingWebs topic.  In the not so distant past TWiki webs were created by hand.  The data directory contains the different webs such as *Main* and *TWiki*.  A web that begins with an underscore &quot;_&quot; character is considered invisible and a template.  All files in the *_default* (or any other web that begins with an underscore) template web will be copied into your new web.  The [[_default.%HOMETOPIC%][_default]] web template contains the following topics: =<nop>%HOMETOPIC%, <nop>WebChanges, <nop>WebIndex, <nop>WebNotify, <nop>WebPreferences, <nop>WebSearch, <nop>WebStatistics and <nop>WebTopicList.=
+
+---++ Customizing
+
+The web template is useful for administrators to design for creating webs of a certain type.  Departmental webs can at least begin with a similar look and feel.
+
+Simply create a web with an underscore for the first character.  These can be used by authorized users to create webs from this template.
+
+
+
+

@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarINCLUDE
+---+++ QUERYPARAMS -- show paramaters to the query
+   * Expands the parameters to the query that was used to display the page.
+   * Syntax: =%<nop>QUERYPARAMS{...}%=
+   * Parameters:
+      * =format="..."= format string for each entry, default =$name=$value=
+      * =separator="..."= separator string, default =separator="$n"= (newline)
+      * =encoding="..."= the encoding to apply to parameter values; see [[VarENCODE][ENCODE]] for a description of the available encodings. If this parameter is not given, no encoding is performed.
+   * The following escape sequences are expanded in the format string:
+| *Sequence:* | *Expands To:* |
+| =$name= | Name of the parameter |
+| =$value= | String value of the parameter. Multi-valued parameters will have a "row" for each value. |
+%INCLUDE{FormatTokens}%
+
+   * Example:
+      * =%<nop>QUERYPARAMS{format="&lt;input type='hidden' name='$name' value='$value' encoding="entity" />"}%=
+   * See also [[VarQUERYSTRING][QUERYSTRING]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarURLPARAM][URLPARAM]]

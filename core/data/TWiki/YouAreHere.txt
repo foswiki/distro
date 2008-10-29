@@ -1,0 +1,12 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+%STARTINCLUDE%
+   * <span style='background : %VAR{"WEBBGCOLOR" web="%INCLUDINGWEB%"}%'>You are currently in the <nop>%INCLUDINGWEB% web. The color code for this web is this background, so you know where you are.</span>
+   * If you are not familiar with the <nop>%WIKITOOLNAME% collaboration platform, please visit %SYSTEMWEB%.WelcomeGuest first.
+%STOPINCLUDE%
+---
+
+   * The description above briefly explains how a background color corresponds to a particular web. It can be included within other topics using the following directive: <p />
+     =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.YouAreHere"}%=
+
+   * [[%SCRIPTURLPATH{"search"}%/%WEB%?scope=text&amp;regex=on&amp;web=all&amp;search=INCLUDE.*YouAreHere&amp;casesensitive=on&amp;nosummary=on&amp;nototal=on][List]] all topics which include this topic.
+

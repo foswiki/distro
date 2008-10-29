@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 8441 $"}%
+An ObjectMethod is a method that must be called relative to a previous constructed object of the class type. For example:
+
+---+ package Telecoms
+---++ ClassMethod new()
+---++ ObjectMethod phone( $who )
+
+must be called something like this
+
+<verbatim>
+my $mobile = new Telecoms();
+$mobile->phone( "home" );
+</verbatim>
+or you can pass the object in as a parameter if you need to:
+<verbatim>
+Telecoms::phone( $mobile, "home" );
+</verbatim>
+
+__Related Topics:__ ClassMethod, StaticMethod, DeveloperDocumentationCategory
+

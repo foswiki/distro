@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarWIKIPREFSTOPIC
+---+++ WIKIPREFSTOPIC -- name of site-wide preferences topic
+   * Syntax: =%<nop>WIKIPREFSTOPIC%=
+   * Expands to: =%WIKIPREFSTOPIC%=, renders as [[%WIKIPREFSTOPIC%]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarWEBPREFSTOPIC][WEBPREFSTOPIC]]
+

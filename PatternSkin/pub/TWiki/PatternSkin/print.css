@@ -1,0 +1,179 @@
+@media print {
+	/* Layout */
+	.clear {
+		clear:none; /* otherwise firefox cuts off tables */
+	}	
+	#patternScreen,
+	#patternPageShadow, 
+	#patternPage {
+		margin:0;
+		padding:0;
+		top:0;
+	}
+	#patternScreen {
+		padding:0;
+	}
+	body html {
+		margin:0;
+		padding:0;
+	}
+	#patternMain {
+		padding-bottom:1em;
+		width:100%;
+	}
+	
+	/* no left bar */
+	#patternOuter {
+		margin-left:0;
+	}
+	#patternLeftBar {
+		width:0em;
+		margin-left:0em;
+		display:none;
+	}
+	#patternWrapper {
+		height:1%;
+	}
+	
+	/* no top bar */
+	#patternTopBar,
+	#patternClearHeaderCenter,
+	#patternClearHeaderLeft,
+	#patternClearHeaderRight,
+	#patternTopBarContentsOuter {
+		display:none;
+	}
+	
+	/* Content */
+	/* show url for links */
+	/* disabled to make the topic readable again */
+	/*
+	.patternTopic a:link:after,
+	.patternTopic a:visited:after {
+		content: " (" attr(href) ") ";
+		font-weight:normal;
+		font-size:86%;
+	}
+	.twikiAttachments a:link:after,
+	.twikiAttachments a:visited:after,
+	.twikiForm a:link:after,
+	.twikiForm a:visited:after,
+	.twikiTable a:link:after,
+	.twikiTable a:visited:after,
+	table a:link:after,
+	table a:visited:after {
+		content:"";
+	}
+	table {
+		page-break-inside:avoid;
+	}
+	*/
+	
+	
+	/* hide bits of the gui */
+	.patternTopicAction,
+	.patternToolBar,
+	.patternToolBarBottom,
+	.patternHomePath img,
+	.patternHomePathTitle {
+		display:none;
+	}
+	
+	#patternMainContents {
+		padding:0 0 0 2em; /* bigger side margin for binding */
+	}
+	#patternBottomBar {
+		border:none;
+	}
+	/* hide attachment twisty controls */
+	#attachmentsshow,
+	#attachmentshide {
+		display:none;
+	}
+	
+	/* hide plugins */
+	.commentPlugin {
+		display:none;
+	}
+	
+	/* Colors */
+	body {
+		background-color:#fff;
+	}
+	h2, h3, h4, h5, h6 {
+		background-color:transparent;
+	}
+	/* make sure that overflowing content is visible */
+	pre,
+	html>body pre {
+		overflow:visible !important;
+	}
+
+	/*Some rules about Page breaks */
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after:avoid;
+		page-break-inside:avoid;
+	}
+	img {
+		page-break-inside:avoid;
+		page-break-after:avoid;
+	}
+	blockquote, table, pre {
+		page-break-inside:avoid;
+	}
+	ul, ol, dl {
+		page-break-before:avoid;
+	}
+	pre, code, tt {
+		color:#5b4221;
+	}
+	.twikiTable th {
+		border-style:solid;
+		border-width:0 0 1px 1px;
+		border-color:#ccc;
+		color:#000;
+	}
+	.twikiTable th a:link,
+	.twikiTable th a:visited,
+	.twikiTable th a font,
+	.twikiAttachments .twikiTable th a:link,
+	.twikiAttachments .twikiTable th a:visited,
+	.twikiAttachments .twikiTable th a font {
+		color:#000;
+		text-decoration:none;
+	}
+	:visited,
+	.patternTopic a:visited {
+		color:#06c;
+		background-color:transparent;
+	}
+	.twikiAttachments,
+	.patternContent .twikiAttachments,
+	.twikiForm,
+	.patternContent .twikiForm {
+		background-color:#fff;
+	}
+	.patternTopicFooter {
+		margin:1em 0 0 0;
+	}
+	.patternRevInfo,
+	.twikiGrayText {
+		color:#666; /*T7*/
+	}
+	.patternRevInfo a:link,
+	.patternRevInfo a:visited
+	.twikiGrayText a:link,
+	.twikiGrayText a:visited {
+		color:#666; /*T7*/
+	}
+	.twistyTrigger {
+		display:none;
+	}
+	.editTableEditImageButton {
+		display:none;
+	}
+	
+	/* define custom print styles here */
+
+
+}

@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="TWikiContributor" date="1107568683" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+---+ Raw Text link
+
+At the bottom of the page next to *Edit* and *Attach*, there is a *Raw Text* link that allows one to easily see how the TWiki topic looks in its raw form. This allows you to see and copy raw text without the need to edit and lock a topic.
+
+[[TWikiTipsOfTheDay][See More Tips...]]
+
+-- TWiki:Main.PaulineCheung - 17 Jan 2005
+

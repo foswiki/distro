@@ -1,0 +1,115 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 14527 $"}%
+---+ The Smilies Plugin <nop>:-)
+
+Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon.
+
+Here is the list of smilies supported by this plugin. To add others, attach new icons to this topic and tweak the table below.
+
+| *You type*      | *You see*                 | *Emotion* |
+| <nop>:-)          | %ATTACHURL%/smile.gif       | "smile" |
+| <nop>:)         | %ATTACHURL%/smile.gif       | "smile" |
+| <nop>8-)          | %ATTACHURL%/cool.gif        | "cool!" |
+| <nop>:cool:       | %ATTACHURL%/cool.gif        | "cool!" |
+| <nop>:-I          | %ATTACHURL%/indifferent.gif | "indifferent" |
+| <nop>:(         | %ATTACHURL%/frown.gif       | "frown" |
+| <nop>:-(          | %ATTACHURL%/frown.gif       | "frown" |
+| <nop>:o         | %ATTACHURL%/redface.gif     | "embarrassment" |
+| <nop>:D         | %ATTACHURL%/biggrin.gif     | "big grin" |
+| <nop>:-D          | %ATTACHURL%/biggrin.gif     | "big grin" |
+| <nop>;)         | %ATTACHURL%/wink.gif        | "wink" |
+| <nop>;-)          | %ATTACHURL%/wink.gif        | "wink" |
+| <nop>:p         | %ATTACHURL%/tongue.gif      | "stick out tongue" |
+| <nop>:-p         | %ATTACHURL%/tongue.gif      | "stick out tongue" |
+| <nop>:rolleyes:   | %ATTACHURL%/rolleyes.gif    | "roll eyes (sarcastic)" |
+| <nop>:mad:      | %ATTACHURL%/mad.gif         | "mad!" |
+| <nop>:eek:      | %ATTACHURL%/eek.gif         | "eek!" |
+| <nop>:confused:   | %ATTACHURL%/confused.gif    | "confused" |
+| <nop>&nbsp;>:-)   | %ATTACHURL%/devil.gif       | "hehe!" |
+| <nop>:devil:      | %ATTACHURL%/devil.gif       | "hehe!" |
+| <nop>&nbsp;>;-)   | %ATTACHURL%/devilwink.gif   | "hehe! (friendly)" |
+| <nop>:devilish:   | %ATTACHURL%/devilwink.gif   | "hehe! (friendly)" |
+| <nop>:-X          | %ATTACHURL%/sealed.gif      | "sealed lips" |
+| <nop>:ok:         | %ATTACHURL%/thumbs.gif      | "thumbs up" |
+| <nop>:yes:      | %ATTACHURL%/yes.gif         | "yes" |
+| <nop>:no:         | %ATTACHURL%/no.gif          | "no" |
+| <nop>:love:       | %ATTACHURL%/love.gif        | "I love it!" |
+| <nop>:skull:      | %ATTACHURL%/skull.gif       | "dead!" |
+
+---++ <nop>%TOPIC% Global Settings
+
+Plugin settings are stored as preferences variables. To reference
+a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
+
+	* One line description, shown in the %TWIKIWEB%.TextFormattingRules topic:
+	* Set SHORTDESCRIPTION = Render smilies as icons, like :-) for =&nbsp;:-)= or :eek: for =&nbsp;:eek:=
+
+	* The name of the topic containig your Smilies. Default: ==%WEB%.SmiliesPlugin==
+	* #Set TOPIC = %TWIKIWEB%.SmiliesPlugin
+
+	* The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). Default: ==&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;==
+<verbatim>
+	* #Set FORMAT = <img src="$url" alt="$emoticon" title="$emoticon" border="0" />
+</verbatim>
+
+---++ Plugin Installation Instructions
+This plugin is installed by default with a TWiki release. You should not need to install the plugin unless it is for an upgrade.
+	* Download the ZIP file from the Plugin web (see below)
+	* Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+     | *File:* | *Description:* |
+     | ==data/TWiki/%TOPIC%.txt== | Plugin topic |
+     | ==data/TWiki/%TOPIC%.txt,v== | Plugin topic repository |
+     | ==lib/TWiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
+     | ==pub/TWiki/%TOPIC%/*.gif== | Plugin icon files |
+	* (Dakar) Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+	* Test if the plugin is correctly installed:
+	* You will see a series of icons on next line: <br />
+        :-) :) :cool: :( :o :D ;) :p :rolleyes: :mad: :eek: :confused: >:-) >;-) :-X :ok: :yes: :no: :love: :skull:
+
+---++ Plugin Info
+
+|  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny |
+|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny, TWiki Contributors |
+|  Plugin Version: | 21 Nov 2007 |
+|  Change History: | <!-- specify latest version first -->&nbsp; |
+|  21 Nov 2007: | Doc improvements |
+|  16 Mar 2005: | Fixed typo "scull" |
+|  5 Mar 2005   | 1.004 Crawford Currie prepared for Dakar |
+|  21 Nov 2004: | Added benchmarks (no code changes) |
+|  21 Aug 2004: | Fixed tooltip for Netscape; added "sealed lips", "thumbs up", "yes" "no", "in love", "skull" |
+|  16 Feb 2004: | Added "devil" and "devilwink" smilies (by TWiki:Main.CrawfordCurrie) |
+|  26 Feb 2003: | Added "indifferent" smilie |
+|  20 Oct 2002: | Fixed STDERR warning for non-initialized Plugin |
+|  20 Apr 2002: | Improved performance; removed non-standard Plugin API dependencies; added standard plugin topic content -- TWiki:Main.PeterThoeny |
+|  23 Nov 2001: | Added TOPIC and FORMAT setting |
+|  10 Jun 2001: | Packaged into ZIP |
+|  28 Feb 2001: | Initial version |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.0 |
+|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle 96%, %TWIKIWEB%.FormattedSearch 98%, SmiliesPlugin 96% |
+|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+
+%META:FILEATTACHMENT{name="biggrin.gif" attr="h" comment="" date="1071216488" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\biggrin.gif" size="152" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="confused.gif" attr="h" comment="" date="1071216502" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\confused.gif" size="110" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="cool.gif" attr="h" comment="" date="1071216522" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\cool.gif" size="124" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="eek.gif" attr="h" comment="" date="1071216532" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\eek.gif" size="1264" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="frown.gif" attr="h" comment="" date="1071216543" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\frown.gif" size="94" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="indifferent.gif" attr="h" comment="" date="1071216555" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\indifferent.gif" size="132" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="mad.gif" attr="h" comment="" date="1071216566" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\mad.gif" size="154" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="redface.gif" attr="h" comment="" date="1071216576" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\redface.gif" size="136" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="rolleyes.gif" attr="h" comment="" date="1071216591" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\rolleyes.gif" size="1784" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="smile.gif" attr="h" comment="" date="1071216609" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\smile.gif" size="93" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="tongue.gif" attr="h" comment="" date="1071216632" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\tongue.gif" size="338" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="wink.gif" attr="h" comment="" date="1071216641" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\wink.gif" size="135" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="devil.gif" attr="h" comment="" date="1077002192" path="C:\Data\Temp\devil.gif" size="139" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="devilwink.gif" attr="h" comment="" date="1077002138" path="C:\Data\Temp\devilwink.gif" size="141" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="sealed.gif" attr="h" comment="" date="1093124420" path="C:\Data\Temp\1\sealed.gif" size="142" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="thumbs.gif" attr="h" comment="" date="1093124440" path="C:\Data\Temp\1\thumbs.gif" size="166" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="yes.gif" attr="h" comment="" date="1093124449" path="C:\Data\Temp\1\yes.gif" size="262" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="no.gif" attr="h" comment="" date="1093124458" path="C:\Data\Temp\1\no.gif" size="468" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="love.gif" attr="h" comment="" date="1093124471" path="C:\Data\Temp\1\love.gif" size="379" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="skull.gif" attr="h" comment="" date="1093124482" path="C:\Data\Temp\1\skull.gif" size="1006" user="TWikiContributor" version="1.1"}%

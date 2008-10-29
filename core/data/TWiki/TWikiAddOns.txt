@@ -1,0 +1,37 @@
+%META:TOPICINFO{author="TWikiContributor" date="1177803014" format="1.1" version="$Rev$"}%
+%STARTINCLUDE%
+---+ TWiki Add-Ons
+
+_Add functionality to TWiki with extensions not based on the TWiki scripts._
+
+%TOC%
+
+---++ Overview
+
+An add-on runs separately from the TWiki scripts, e.g. for data import, export to static HTML, etc. Add-Ons normally do not call any TWiki code directly, though may invoke TWiki scripts. There are different types of add-ons, they may be stand alone scripts, browser plugins, office tool extensions, or even a set of TWiki topics that form a TWiki application.
+
+__Relevant links on TWiki.org:__
+   * TWiki:Plugins.AddOnPackage - list of all contributed add-on scripts
+   * TWiki:Plugins.AddOnDevelopment - discussion and feedback on contributed add-on scripts
+   * TWiki:Plugins.AddOnBrainstorming - open forum for new add-on script ideas
+   * TWiki:Plugins.AddOnPackageHowTo - instructions and template to create a new add-on topic
+
+__See other types of extensions:__ TWikiContribs, TWikiPlugins, TWikiSkins
+
+---++ Add-Ons Installed on this TWiki
+
+%SEARCH{ "AddOn" scope="topic" topic="*AddOn" nosearch="on" format="   * <b>[[$topic]]</b>: <nop>$pattern(.*?\*\sSet\sSHORTDESCRIPTION\s\=([^\n\r]*).*) <span style=\"color: gray;\">- version $pattern(.*?Version\:?\s*\|([^\n\r\|]*)\|.*)</span> <br /> <span style=\"color: gray; font-size: 80%\"> Author: $pattern(.*?\sAuthors?:\s*\|\s*(.*?)\s*\|.*) - last modified: r$rev - [[%SCRIPTURL{rdiff}%/$web/$topic][$date]] - $wikiusername </span>" }%
+
+---++ Installing Add-Ons
+
+   * Download an add-on from TWiki:Plugins.AddOnPackage.
+   * Follow the installation instructions in the add-on topic.
+
+---++ Creating new Add-Ons
+
+   * Visit TWiki:Plugins.AddOnPackageHowTo and follow the instructions.
+
+%STOPINCLUDE%
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:TWiki.TWikiPluginsSupplement
+
+-- __Contributors:__ TWiki:Main.PeterThoeny

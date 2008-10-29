@@ -1,0 +1,15 @@
+
+/* 1 */
+.editTableInput,
+.editTableTextarea {
+	font-family:arial, "Lucida Grande", verdana, sans-serif;
+}
+/* 2 */
+.editTable .twikiTable td {
+	vertical-align:top;
+}
+/* 3 */
+.editTableInput,
+.editTableTextarea {
+	background-color:#FBF7E8;	
+}

@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="TWikiContributor" date="1163619832" format="1.0" version="$Rev$"}%
+---++ %URLPARAM{"limit" default="25"}% most recent topic changes in %URLPARAM{"web" default="all"}% webs
+
+%TABLE{sort="on" initsort="1" initdirection="up"}%
+| *Last Modified* | *Web.Topic* | *Last Editor* |
+%SEARCH{ "." 
+type="regex" 
+nosearch="on" 
+nototal="on" 
+limit="%URLPARAM{"limit" default="25"}%" 
+web="%URLPARAM{"web" default="all"}%" 
+excludetopic="WebStatistics" 
+reverse="on"
+order="modified" 
+format="| $date - [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?_foo=$rev][diff]] / [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=1000&_foo=$rev][in-line diff]] - $rev | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$web.$topic]] | $wikiusername |" 
+}%
+

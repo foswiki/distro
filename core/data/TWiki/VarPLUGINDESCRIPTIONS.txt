@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarPLUGINDESCRIPTIONS
+---+++ PLUGINDESCRIPTIONS -- list of plugin descriptions
+   * Syntax: =%<nop>PLUGINDESCRIPTIONS%=
+   * Expands to: %PLUGINDESCRIPTIONS%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarFAILEDPLUGINS][FAILEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarPLUGINVERSION][PLUGINVERSION]]
+

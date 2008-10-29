@@ -1,0 +1,18 @@
+%META:TOPICINFO{author="TWikiContributor" date="1123279665" format="1.0" version="$Rev: 15171 $"}%
+---+!! %MAKETEXT{"Local customisations of site-wide preferences"}%
+
+<div class="twikiHelp">%ICON{"info"}% %MAKETEXT{"Site-level preferences are located in [_1], however this [_2] prefs topic has override priority and should be used for local customisations. This allows for easier upgrades as you don't need to worry about the shipped preferences clobbering yours. It's easier to keep a handle on if you only copy over the settings you actually change." args="[[%SYSTEMWEB%.%TOPIC%]], [[%USERSWEB%.%TOPIC%]]"}% </div>
+
+%EDITPREFERENCES{"%SYSTEMWEB%/TWikiPreferencesForm"}%
+%IF{"$ SCRIPTNAME != 'viewauth%SCRIPTSUFFIX%'" then="<span class='twikiGrayText'>%MAKETEXT{"Quick edit of existing preferences (edit the topic text to set new preferences)"}%</span>" }%
+
+<!-- Preferences start here -->
+
+   * =FINALPREFERENCES= locks site-level preferences that are *not* allowed to be overridden by [[%WEBPREFSTOPIC%]] or user preferences:
+      * Set FINALPREFERENCES = ATTACHFILESIZELIMIT, PREVIEWBGIMAGE, WIKITOOLNAME, WIKIHOMEURL, ALLOWROOTCHANGE, DENYROOTCHANGE, TWIKILAYOUTURL, TWIKISTYLEURL, TWIKICOLORSURL, USERSWEB, SYSTEMWEB, DOCWEB
+
+<!-- Keep this as a security measure:
+   * Set ALLOWTOPICCHANGE = TWikiAdminGroup
+   * Set ALLOWTOPICRENAME = TWikiAdminGroup
+-->
+

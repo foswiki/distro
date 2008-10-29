@@ -1,0 +1,33 @@
+%{ to include a left bar on a page, just include this template in the page template }%
+%TMPL:DEF{"leftbar"}%<div id="patternLeftBar"><div id="patternClearHeaderLeft"></div>
+<div id="patternLeftBarContents">%TMPL:P{"webleftbar"}%
+</div><!-- /patternLeftBarContents--></div><!-- /patternLeftBar-->%TMPL:END%
+
+
+
+%TMPL:DEF{"webleftbarindicator"}%<div class="patternWebIndicator">
+   * [[%BASEWEB%.%HOMETOPIC%][%ICON{"web-bg-small"}% <nop>%BASEWEB%]]
+</div>%TMPL:END%
+
+
+
+%TMPL:DEF{"webleftbar"}%%TMPL:P{"webleftbarindicator"}%
+%INCLUDE{"%WEB%.WebLeftBar"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"startleftbarwrapper"}%<div id="patternWrapper">%TMPL:END%
+
+
+
+%TMPL:DEF{"endleftbarwrapper"}%</div><!-- /patternWrapper-->%TMPL:END%
+
+
+
+%TMPL:DEF{"leftbardimensions"}%#patternOuter {
+	margin-left:14em;
+}
+#patternLeftBar {
+	width:14em;
+	margin-left:-14em;
+}%TMPL:END%

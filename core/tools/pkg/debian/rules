@@ -1,0 +1,181 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+include /usr/share/dpatch/dpatch.make
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# not www-data.  remember to sync with postinst.
+TWIKI_OWNER=www-data
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	touch configure-stamp
+
+build: patch build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+	touch build-stamp
+
+clean: clean-patched unpatch
+clean-patched:
+	dh_testdir
+	dh_testroot
+	find . -name '*~' -print0 | xargs -0 rm -f
+	rm -f build-stamp configure-stamp
+	debconf-updatepo
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	cp -r bin/* debian/twiki/usr/lib/cgi-bin/twiki
+	cp -r debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg.txt debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
+
+	# not needed, with statoverride?
+	chmod 755 debian/twiki/usr/lib/cgi-bin/twiki/*
+	chmod 644 debian/twiki/usr/lib/cgi-bin/twiki/setlib.cfg
+	#need more libreal perms to allow configure script to work :()
+	chmod 644 debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
+	chmod 644 debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg.txt
+	
+#	chown $(TWIKI_OWNER) debian/twiki/usr/lib/cgi-bin/twiki/*
+	cp -Rp pub debian/twiki/var/lib/twiki/
+	cp -pR templates debian/twiki/var/lib/twiki/
+	cp -pR locale debian/twiki/var/lib/twiki/
+	cp -pR data debian/twiki/var/lib/twiki/
+	
+    #move configure's logos and css to /var/lib/twiki/pub/logos
+	mv debian/twiki/usr/lib/cgi-bin/twiki/logos debian/twiki/var/lib/twiki/pub/
+	
+	#create mailnotify timestamps
+	date +%s > debian/twiki/var/lib/twiki/data/TWiki/.mailnotify
+	date +%s > debian/twiki/var/lib/twiki/data/Main/.mailnotify
+	date +%s > debian/twiki/var/lib/twiki/data/Sandbox/.mailnotify
+	
+# change the unix owners -- don't bother, tar --owner does it
+# so now we don't even care if TWIKI_OWNER exists at build time
+#	chown -R $(TWIKI_OWNER) debian/twiki/var/lib/twiki/data
+# and change the RCS lock owners to match
+
+	#distribute the tools scripts
+	#cp UpgradeTwiki debian/twiki/var/lib/twiki
+	#chmod 777 debian/twiki/var/lib/twiki/UpgradeTwiki
+    	
+	mkdir debian/twiki/var/lib/twiki/tools
+	cp -r tools/* debian/twiki/var/lib/twiki/tools/
+	chmod -R 777 debian/twiki/var/lib/twiki/tools/*
+	cp -p debian/mod_perl_startup.pl debian/twiki/var/lib/twiki/tools/
+
+
+    #SVEN - you should probably make this a patch file.
+	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/twiki/var/lib/twiki/tools/rewriteshbang.pl
+	perl -piOLD -e 's{#!perl}{#!/usr/bin/perl}g;' debian/twiki/var/lib/twiki/tools/upgrade_emails.pl
+	
+	rm debian/twiki/var/lib/twiki/tools/*OLD
+
+	chmod -R 644 debian/twiki/var/lib/twiki/templates/*
+
+
+	find debian/twiki/var/lib/twiki/data -type f -name '*,v' | \
+	  xargs -n1 perl -pi -e 's/^(\s)nobody:/\1$(TWIKI_OWNER):/ unless $$done; $$done=1 if /^\n$$/;'
+	tar -cf - -C debian/twiki var/lib/twiki/data \
+		| tardy -User_NAme=$(TWIKI_OWNER) -Group_NAme=www-data \
+		| gzip -c -9 > debian/twiki/usr/share/twiki/twiki-data.tar.gz
+	rm -rf debian/twiki/var/lib/twiki/data
+
+#do the same with pub - it should also only be replaced if there is none there already
+# and it needs to be owned by $(TWIKI_OWNER)
+	find debian/twiki/var/lib/twiki/pub -type f -name '*,v' | \
+	  xargs -n1 perl -pi -e 's/^(\s)nobody:/\1$(TWIKI_OWNER):/ unless $$done; $$done=1 if /^\n$$/;'
+	tar -cf - -C debian/twiki var/lib/twiki/pub \
+		| tardy -User_NAme=$(TWIKI_OWNER) -Group_NAme=www-data \
+		| gzip -c -9 > debian/twiki/usr/share/twiki/twiki-pub.tar.gz
+	rm -rf debian/twiki/var/lib/twiki/pub
+
+	cp -pR lib/* debian/twiki/usr/share/perl5/
+	cp -p debian/apache.conf debian/twiki/etc/twiki/
+
+	#move non-CPAN files out of cpan dir
+	mv debian/twiki/usr/share/perl5/DEPENDENCIES debian/twiki/etc/twiki/
+	mv debian/twiki/usr/share/perl5/TWiki.spec debian/twiki/etc/twiki/
+	mv debian/twiki/usr/share/perl5/MANIFEST debian/twiki/etc/twiki/
+	mv debian/twiki/usr/share/perl5/CPAN debian/twiki/usr/share/twiki/
+	#mv debian/twiki/var/lib/twiki/tools/native_search debian/twiki/usr/share/twiki/
+	#chmod 644 debian/twiki/usr/share/twiki/native_search/*
+ 	#TODO: rename this to TWiki::Assert or something?
+	#can't move this away without code changes - better to move entire twikilib out of cpan dir.
+	#mv debian/twiki/usr/share/perl5/Assert.pm debian/twiki/usr/share/twiki/
+    
+    # setlib.cfg
+	perl -pi~ -e 's|^(.twikiLibPath).*|\1 = \"/usr/share/perl5\";|;' debian/twiki/usr/lib/cgi-bin/twiki/setlib.cfg
+	rm debian/twiki/usr/lib/cgi-bin/twiki/setlib.cfg~
+
+#move twiki.cfg to /etc/twiki
+	cp debian/LocalSite.cfg debian/twiki/etc/twiki/LocalSite.cfg
+	#mv debian/twiki/usr/share/perl5/LocalSite.cfg.txt debian/twiki/etc/twiki/LocalSite.cfg.txt
+	#mv debian/twiki/usr/share/perl5/TWiki.cfg debian/twiki/etc/twiki/TWiki.cfg
+ 
+	perl -pi~ -e 's|^(.twikiLibPath).*|\1 = \"/etc/twiki\";|;' debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
+	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/twiki/lib\";|;' debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
+	rm debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg~
+
+	chmod -R 644 debian/twiki/etc/twiki/*
+
+ 
+# fix paths for index.html
+	perl -pi~ -e 's|http://your.server.com/your-cgi-bin/view/Main/WebHome|http://localhost/cgi-bin/twiki/view/Main/WebHome|;' index.html
+	perl -pi~ -e 's|license.txt|copyright|g;' index.html
+	rm index.html~
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installdebconf	
+	dh_installdocs -Xlicense.txt
+	dh_installexamples
+	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+	dh_installcron
+	dh_installman
+	dh_installinfo
+#	dh_undocumented
+	dh_installchangelogs 
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms # --exclude /var/lib/twiki/data
+#	dh_makeshlibs
+	dh_installdeb
+	dh_perl
+#	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture-dependent files here.
+binary-arch: build install
+# We have nothing to do by default.
+
+# maintainer targets
+#checkpo:
+#	for i in po/*.po; do \
+#		echo \"Checking: $$i\"; \
+#		msgmerge -U $$i po/templates.pot; \
+#		msgfmt -o /dev/null -c --statistics $$i; \
+#	done
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure 

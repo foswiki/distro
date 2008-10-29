@@ -1,0 +1,26 @@
+%{ This is a default template }%%TMPL:INCLUDE{"twiki"}%
+%TMPL:DEF{"titleaction"}% %MAKETEXT{"(change language)"}% %TMPL:END%
+%TMPL:DEF{"webaction"}%%TMPL:END%
+%TMPL:DEF{"heading"}%%MAKETEXT{"Change language"}%%TMPL:END%
+
+%TMPL:DEF{"languagenotes"}%
+%ICON{info}% %MAKETEXT{"You can set your favorite language permanently by setting the [_1] variable in your user topic." args="*LANGUAGE*"}%
+%TMPL:END%
+
+%TMPL:DEF{"content"}%
+
+%MAKETEXT{"TWiki's user interface is available in several languages. If you want to change the language for this session, choose one of the following and hit \"Change language\". Otherwise, follow the \"Cancel\" link on the bottom of the page to return to the previous topic."}%
+
+<center>
+<form action="%SCRIPTURLPATH{"oops"}%/%WEB%/%TOPIC%" method="get">
+  <select name="language">
+    %LANGUAGES{format="<option $marker value='$langtag'>$langname</option>" selection="%LANGUAGE%"}%
+  </select>
+  <input type="hidden" name="template" value="oopslanguagechanged"/>
+  <input type="submit" class="twikiSubmit" value=' %MAKETEXT{"Change language"}% ' />
+</form>
+</center>
+
+%TMPL:P{"languagenotes"}%
+%TMPL:P{"topicinfo"}%
+%TMPL:END%

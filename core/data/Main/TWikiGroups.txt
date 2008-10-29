@@ -1,0 +1,29 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111931141" format="1.0" version="$Rev: 15171 $"}%
+---+ TWiki Groups
+
+These groups can be used to define fine grained [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]] in <nop>%WIKITOOLNAME%:
+
+%GROUPS%
+
+<form action="%SCRIPTURLPATH{"edit"}%/%WEB%/" method="get">
+
+<div class="twikiFormSteps">
+<div class="twikiFormStep twikiLast">
+%TABLE{databg="" cellborder="0" tableborder="0"}%
+| New Group: |<input type="text" name="topic" value="NameGroup" size="40" class="twikiInputField" />&nbsp;<input class="twikiSubmit" type="submit" value="Add"/>  |
+| |%ICON{"warning"}% __Note:__ A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and __must__ end in =...Group=. New topics are based on [[TWikiGroupTemplate]]  |
+
+<input type="hidden" name="templatetopic" value="TWikiGroupTemplate"/>
+<input type="hidden" name="topicparent" value="%TOPIC%"/>
+<input type="hidden" name="onlywikiname" value="on" />
+<input type="hidden" name="onlynewtopic" value="on" />
+</div>
+</div>
+</form>
+
+*IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
+   * There is enough peer pressure to post only appropriate content.
+   * Content does not get lost because topics are under revision control.
+   * A topic revision can be undone by a member of the [[%USERSWEB%.TWikiAdminGroup][TWikiAdminGroup]] if necesssary.
+
+__Related topics:__ [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]

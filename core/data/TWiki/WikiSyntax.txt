@@ -1,0 +1,52 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13239 $"}%
+---+ TWiki Shorthand Basics
+
+If you can enter text, you're ready for TWiki. With a few simple, intuitive TextFormattingRules, you'll be able to use plain text to create well-styled postings, instantly. Here's a fast-track guide to shorthand basics...
+
+%STARTINCLUDE%
+
+   * Separate each *paragraph* with a blank line.
+
+   * To display a word or phrase in *bold type*, put it in asterisks: =*bold type*=.
+
+   * To display a word or phrase in _italic_, put it in underscores: =_italic_=.
+
+   * To display a word or phrase in __bold italic__, put it in _double_ underscores: =__bold italic__=.
+
+   * To link to another Wiki topic, type the WikiWord for that topic. To link to a Wiki topic in another web, type the name of the web, and a dot, first: =Sandbox.<nop>%HOMETOPIC%=.
+
+   * If you enter a WikiWord for a topic that doesn't exist, it'll appear highlighted, with question mark at the end, prompting you (or someone else) to start off the new topic by clicking the *?* - NewTopic (click the *?*, but don't save, to preserve the example!).
+   
+   * When entering <nop>WikiName signatures - like, <nop>%USERNAME% - include "%USERSWEB%." as a prefix, since all TWiki member pages are in the %USERSWEB% web: =%USERSWEB%.YourName=.
+
+   * For an external link, type the full URL: =http://twiki.org/=.
+
+   * To prevent a <nop>WikiWord from becoming a link, type =&lt;nop&gt;= or an exclamation point first: ==&lt;nop&gt;NoLinkPlease== or ==!NoLinkPlease==.
+
+   * To indent with a bullet, enter =[space][space][space][asterisk][space]=.
+      * Use multiples of 3 spaces to start *nested bullets*.
+         * That's 3-6-9-...
+
+   * To create a numbered list:
+      1 Start items in a *numbered list* with =[space][space][space][1][space]=.
+      1 The "1" (or *any number*) will be replaced by the correct number, in order.
+      1 To add a new paragraph without restarting list numbering, use the %<nop>BR% variable, like below:%BR% Text added (in new paragraph)
+      1 and list numbering continues.
+
+   * Always start *counting* spaces for bullets and such from the beginning of a new line.
+
+   * To include an image, type its URL. You also can Attach an image to the page and display it with text <br /> =%<nop>ATTACHURL%/yourimagefilename.jpg=
+
+   * To display a word or phrase in =MONOSPACED TYPE=, put it in equal signs: =<nop>=like this==. <br />Use =<nop>=<nop>=two=== for bold: ==bold mono==.
+
+   * Use ==&lt;verbatim&gt;== to enclose code excerpts, filenames, and other unformatted text:%BR%
+     =<b>&lt;verbatim&gt;</b>= %BR%
+     =unformatted text!= %BR%
+     =<b>&lt;/verbatim&gt;</b>= %BR%%BR%
+     __%X% NOTE:__ VARIABLES can be set within verbatim tags, that is, they are not disabled
+
+   * Use ==&lt;literal&gt;== to enclose anything that TWiki must not touch under any circumstances, such as in-line HTML code.
+
+   * Follow GoodStyle recommendations when editing topics.
+
+   * See TextFormattingRules for the complete set of formatting rules.

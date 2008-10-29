@@ -1,0 +1,3 @@
+data/TWiki/TestFixturePlugin.txt NEW
+lib/TWiki/Plugins/TestFixturePlugin.pm NEW
+lib/TWiki/Plugins/TestFixturePlugin/HTMLDiffer.pm NEW

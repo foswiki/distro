@@ -1,0 +1,23 @@
+%TMPL:INCLUDE{"view"}%
+%TMPL:INCLUDE{"searchbase"}%
+
+
+%TMPL:DEF{"topicaction"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(search results)"}% %TMPL:END%
+
+
+
+%TMPL:DEF{"result"}%<div class="patternSearchResult"><div class="twikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div><div class="twikiRight twikiSRAuthor"> %AUTHOR%</div><div class="twikiRight twikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div><br class="twikiClear" /></div><!--/twikiTopRow--><div class="twikiBottomRow"><div class="twikiSummary twikiGrayText">%TEXTHEAD%</div><!--/twikiSummary-->
+</div><!--/twikiBottomRow--></div><!--/patternSearchResult-->%TMPL:END%
+
+
+
+%TMPL:DEF{"content"}%%SPLIT%%TMPL:P{"searched"}%
+%SPLIT%%TMPL:P{"header"}%%REPEAT%%TMPL:P{"result"}%%REPEAT%%SPLIT%%TMPL:P{"count"}%%SPLIT%%TMPL:END%
+
+
+
+%TMPL:DEF{"header:style:backgroundcolor"}%style="background-color:%WEBBGCOLOR%"%TMPL:END%

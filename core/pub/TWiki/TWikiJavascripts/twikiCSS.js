@@ -1,0 +1,100 @@
+if (twiki == undefined) var twiki = {};
+twiki.CSS = {
+
+	/**
+	Remove the given class from an element, if it is there.
+	@param el : (HTMLElement) element to remove the class of
+	@param inClassName : (String) CSS class name to remove
+	*/
+	removeClass:function(el, inClassName) {
+		if (!el) return;
+		var classes = twiki.CSS.getClassList(el);
+		if (!classes) return;
+		var index = twiki.CSS._indexOf(classes, inClassName);
+		if (index >= 0) {
+			classes.splice(index,1);
+			twiki.CSS.setClassList(el, classes);
+		}
+	},
+	
+	/**
+	Add the given class to the element, unless it is already there.
+	@param el : (HTMLElement) element to add the class to
+	@param inClassName : (String) CSS class name to add
+	*/
+	addClass:function(el, inClassName) {
+		if (!el) return;
+		var classes = twiki.CSS.getClassList(el);
+		if (!classes) return;
+		if (twiki.CSS._indexOf(classes, inClassName) < 0) {
+			classes[classes.length] = inClassName;
+			twiki.CSS.setClassList(el,classes);
+		}
+	},
+	
+	/**
+	Replace the given class with a different class on the element.
+	The new class is added even if the old class is not present.
+	@param el : (HTMLElement) element to replace the class of
+	@param inOldClass : (String) CSS class name to remove
+	@param inNewClass : (String) CSS class name to add
+	*/
+	replaceClass:function(el, inOldClass, inNewClass) {
+		if (!el) return;
+		twiki.CSS.removeClass(el, inOldClass);
+		twiki.CSS.addClass(el, inNewClass);
+	},
+	
+	/**
+	Get an array of the classes on the object.
+	@param el : (HTMLElement) element to get the class list from
+	*/
+	getClassList:function(el) {
+		if (!el) return;
+		if (el.className && el.className != "") {
+			return el.className.split(' ');
+		}
+		return [];
+	},
+	
+	/**
+	Set the classes on an element from an array of class names.
+	@param el : (HTMLElement) element to set the class list to
+	@param inClassList : (Array) list of CSS class names
+	*/
+	setClassList:function(el, inClassList) {
+		if (!el) return;
+		el.className = inClassList.join(' ');
+	},
+	
+	/**
+	Determine if the element has the given class string somewhere in it's
+	className attribute.
+	@param el : (HTMLElement) element to check the class occurrence of
+	@param inClassName : (String) CSS class name
+	*/
+	hasClass:function(el, inClassName) {
+		if (!el) return;
+		if (el.className) {
+			var classes = twiki.CSS.getClassList(el);
+			if (classes) return (twiki.CSS._indexOf(classes, inClassName) >= 0);
+			return false;
+		}
+	},
+	
+	/* PRIVILIGED METHODS */
+	
+	/**
+	See: twiki.Array.indexOf
+	Function copied here to prevent extra dependency on twiki.Array.
+	*/
+	_indexOf:function(inArray, el) {
+		if (!inArray || inArray.length == undefined) return null;
+		var i, ilen = inArray.length;
+		for (i=0; i<ilen; ++i) {
+			if (inArray[i] == el) return i;
+		}
+		return -1;
+	}
+
+}

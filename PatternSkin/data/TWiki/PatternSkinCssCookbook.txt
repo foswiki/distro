@@ -1,0 +1,84 @@
+%META:TOPICINFO{author="TWikiContributor" date="1129333294" format="1.1" version="$Rev$"}%
+
+---+!! %TWIKIWEB%.PatternSkin CSS Cookbook
+
+*Questions and answers on how to customize the default look of TWiki for your own needs, using style sheets.* For configuring page elements, see PatternSkinCustomization.
+
+%TOC%
+
+---++ First Read: How to modify !PatternSkin styles
+
+!PatternSkin uses 3 style sheets (attached to %TWIKIWEB%.PatternSkin):
+   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/layout.css][layout.css]] - the positioning of main page elements (blocks), widths and heights
+   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/style.css][style.css]] - fonts, sizes, margins and paddings
+   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/colors.css][colors.css]] - border colors, text colors and background colors
+
+When customizing your TWiki installation, you can either choose to completely rewrite all css styles, or to selectively override some styles. The latter option is by far less time consuming, but all depends on your graphical wishes.
+
+---+++ Changing the color scheme
+Have a look at PatternSkinColorSettings.
+
+---+++ When you need lots of graphic changes: Rewriting CSS
+   * Create a new topic that will contain your new CSS files
+   * Attach 3 new style sheets to the topic
+   * Point the CSS variables in [[%TWIKIWEB%.TWikiPreferences]] to your new files:
+<pre>
+      * <nop>Set TWIKILAYOUTURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/layout.css
+      * <nop>Set TWIKISTYLEURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/style.css
+      * <nop>Set TWIKICOLORSURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/colors.css
+ </pre>
+
+---+++ When you need to make small adjustments: Adding to existing CSS
+With CSS you cannot remove already defined classes, you can only add to it, or overwrite existing styles. <br />
+Overriding default CSS is done with 3 variables: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
+   * Create a new topic that will contain your new CSS files
+   * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
+   * Point the CSS variables in [[%TWIKIWEB%.TWikiPreferences]] to your new files (below the =TWIKIXXXURL= variables):
+<pre>
+      * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/layout.css
+      * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/style.css
+      * <nop>Set USERCOLORSURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/colors.css
+ </pre>
+   * If you use only little CSS and you've only attached one file, write:
+<pre>
+      * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/YourNewTopic/style.css
+ </pre>
+
+Instead of setting these variables in [[%TWIKIWEB%.TWikiPreferences]], you can set these in your home topic, or in any other topic. Setting style URL variables in:
+   * [[%TWIKIWEB%.TWikiPreferences]]: the style is visible for all users, site-wide
+   * WebPreferences: the style is visible for all users in one web
+   * Home topic: the style is visible for that one user when viewing the site
+   * Some other topic: the style is only visible in that one topic
+
+User styles are always loaded after TWiki styles.
+
+The rest of this topic shows examples of small CSS changes.
+
+---++ Recipes
+
+---+++ Hide the left bar
+   
+See example at: PatternSkinCssCookbookNoLeftBar
+
+---+++ Use different fonts
+
+See example at: PatternSkinCssCookbookFonts
+
+---+++ No top bar
+
+See example at: PatternSkinCssCookbookNoTopBar
+
+---+++ Centered page
+
+See example at: PatternSkinCssCookbookCenterPage
+
+---+++ Centered page (with a border around the page)
+
+See example at: PatternSkinCssCookbookCenterPageBorder
+
+---+++ Setting !EditTablePlugin styles
+
+See example at: PatternSkinCssCookbookEditTableStyle
+
+---++ Style sheet documentation
+See %TWIKIWEB%.PatternSkinCss for documentation of !PatternSkin CSS classes

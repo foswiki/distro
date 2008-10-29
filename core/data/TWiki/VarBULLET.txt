@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1176595670" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiPreferences"}%
+#VarBULLET
+
+---+++ BULLET -- bullet character
+   * Type: Preference variable - TWikiRenderingShortcut.
+   * Current value: BULLET = %BULLET%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarCARET][CARET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarVBAR][VBAR]]

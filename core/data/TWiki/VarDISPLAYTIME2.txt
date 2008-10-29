@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarDISPLAYTIME2
+---+++ DISPLAYTIME{"format"} -- formatted display time
+   * Formatted time - either GMT or Local server time, depending on {DisplayTimeValues} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. Same format qualifiers as =%<nop>GMTIME%=
+   * Syntax: =%<nop>DISPLAYTIME{"format"}%=
+   * Example: =%<nop>DISPLAYTIME{"$hou:$min"}%= expands to =%DISPLAYTIME{"$hou:$min"}%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarDISPLAYTIME][DISPLAYTIME]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSERVERTIME][SERVERTIME]]
+

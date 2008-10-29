@@ -1,0 +1,41 @@
+%META:TOPICINFO{author="TWikiContributor" date="1174436429" format="1.1" version="$Rev: 11678 $"}%
+---+ <nop>GoodStyle Collaboration Tips
+
+   * TWiki has a very simple *[[TWikiShorthand][text formatting shorthand]]*. In any case, you won't go wrong if you simply:
+      * start each line without spaces
+      * separate paragraphs with a blank line 
+
+   * Run together capitalized words to form *[[WikiWords][WikiWords]]:* 
+      * WikiWords automatically appear as hyperlinks
+      * make up meaningful, reasonably brief Wiki names - it can be a challenge (it'll sharpen you up!)
+      * WikiWords has name-creation tips that may help
+
+#SignAndDate
+   * If a *discussion* is going on:
+      * separate each follow-up with a space
+      * add your WikiName and the date at the end. Example:%BR%
+        =-- <nop>%WIKIUSERNAME% - %SERVERTIME{$day $mon $year}%=
+      * OR, by all means, insert your comment where it seems to fit best:
+         * you may want to inset it with a bullet and/or _set it in italics_ so it's clear (always sign and date)
+      * if you'd like to use an initial, use a link with label. Example:%BR%
+        =-- [<nop>[%WIKIUSERNAME%][ZXQ]] - %SERVERTIME{$day $mon $year}%=
+
+   * A good format for a *new topic* is "dissertation followed by discussion": 
+      * start with a brief, factual introduction, followed by double horizontal rules
+      * let the discussion begin
+
+   * When a discussion dies down and the page becomes static, if you're clear on your course, feel free to *refactor mercilessly*:
+      * fearlessly edit down to capture the key points
+      * reduce the noise without losing the facts or the flavor
+      * if you merge or delete comments, group credit =Contributors:= at the end of the page
+      * _This is how Wiki content matures and grows in value over time._
+
+   * For *external site links*, you can type URLs directly into the text - =http://etcete.ra/...= - it'll be clear to anyone where they're headed on click. 
+
+   * TWiki is intended for world-wide use, and an internationally understood date format like ==01 Sep %SERVERTIME{$year}%== or ==%SERVERTIME{$year}%-09-01== is preferred. It's clearer than the xx/xx/xx format, where a date like 9/1/01 can mean either Jan or Sep, depending on the local conventions of the readers. For months, use the first three letters: Jan, Feb, Mar, Apr,...
+
+   * *TIP:* Check the source when you want to find out how something is formatted: click ==Edit== on the lower toolbar. To see earlier versions, click ==More==, then check ==Raw text format== and click ==View revision==. A bit of HTML experience can't hurt, but you'll soon see with TWikiShorthand how far that is from necessary. 
+
+__Related Topics:__ UserDocumentationCategory
+
+-- __Contributors:__ TWiki:Main.MikeMannix, TWiki:Main.PeterThoeny

@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="TWikiContributor" date="1163619832" format="1.0" version="$Rev: 10464 $"}%
+%TOPICLIST{"   * [[%BASEWEB%.$name][$name]]"}%
+
+%MAKETEXT{"See also the verbose [_1]." args="[[%BASEWEB%.WebIndex][WebIndex]]"}%

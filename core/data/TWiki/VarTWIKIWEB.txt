@@ -1,0 +1,6 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarTWIKIWEB
+---+++ TWIKIWEB -- synonym for [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSYSTEMWEB][SYSTEMWEB]]
+   * Deprecated. Please use =%<nop>SYSTEMWEB%= instead.
+

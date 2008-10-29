@@ -1,0 +1,467 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>{$lang_twikibuttons_colours_dlg_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/editable_selects.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/colour.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/popup.css" />
+	<base target="_self" />
+  </head>
+    <body onload="tinyMCEPopup.executeOnLoad('init();');" id="twikibuttonscolours" style="display: none">
+      <div class="panel_wrapper">
+        <div id="general_panel" class="panel current">
+          <table class="colours">
+            <tr>
+              <td class="colours" style="background-color:steelblue">
+                <input title="steelblue" class="colours" style="background-color:steelblue" type="button" value="&nbsp;" onclick="setColour('steelblue')" />
+              </td>
+              <td class="colours" style="background-color:royalblue">
+                <input title="royalblue" class="colours" style="background-color:royalblue" type="button" value="&nbsp;" onclick="setColour('royalblue')" />
+              </td>
+              <td class="colours" style="background-color:cornflowerblue">
+                <input title="cornflowerblue" class="colours" style="background-color:cornflowerblue" type="button" value="&nbsp;" onclick="setColour('cornflowerblue')" />
+              </td>
+              <td class="colours" style="background-color:lightsteelblue">
+                <input title="lightsteelblue" class="colours" style="background-color:lightsteelblue" type="button" value="&nbsp;" onclick="setColour('lightsteelblue')" />
+              </td>
+              <td class="colours" style="background-color:mediumslateblue">
+                <input title="mediumslateblue" class="colours" style="background-color:mediumslateblue" type="button" value="&nbsp;" onclick="setColour('mediumslateblue')" />
+              </td>
+              <td class="colours" style="background-color:slateblue">
+                <input title="slateblue" class="colours" style="background-color:slateblue" type="button" value="&nbsp;" onclick="setColour('slateblue')" />
+              </td>
+              <td class="colours" style="background-color:darkslateblue">
+                <input title="darkslateblue" class="colours" style="background-color:darkslateblue" type="button" value="&nbsp;" onclick="setColour('darkslateblue')" />
+              </td>
+              <td class="colours" style="background-color:midnightblue">
+                <input title="midnightblue" class="colours" style="background-color:midnightblue" type="button" value="&nbsp;" onclick="setColour('midnightblue')" />
+              </td>
+              <td class="twikicolours" style="background-color:navy">
+                <input title="%NAVY%" class="colours" style="background-color:navy" type="button" value="&nbsp;" onclick="setColour('navy')" />
+              </td>
+              <td class="colours" style="background-color:darkblue">
+                <input title="darkblue" class="colours" style="background-color:darkblue" type="button" value="&nbsp;" onclick="setColour('darkblue')" />
+              </td>
+              <td class="colours" style="background-color:mediumblue">
+                <input title="mediumblue" class="colours" style="background-color:mediumblue" type="button" value="&nbsp;" onclick="setColour('mediumblue')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="twikicolours" style="background-color:blue">
+                <input title="%BLUE%" class="colours" style="background-color:blue" type="button" value="&nbsp;" onclick="setColour('blue')" />
+              </td>
+              <td class="colours" style="background-color:dodgerblue">
+                <input title="dodgerblue" class="colours" style="background-color:dodgerblue" type="button" value="&nbsp;" onclick="setColour('dodgerblue')" />
+              </td>
+              <td class="colours" style="background-color:deepskyblue">
+                <input title="deepskyblue" class="colours" style="background-color:deepskyblue" type="button" value="&nbsp;" onclick="setColour('deepskyblue')" />
+              </td>
+              <td class="colours" style="background-color:lightskyblue">
+                <input title="lightskyblue" class="colours" style="background-color:lightskyblue" type="button" value="&nbsp;" onclick="setColour('lightskyblue')" />
+              </td>
+              <td class="colours" style="background-color:skyblue">
+                <input title="skyblue" class="colours" style="background-color:skyblue" type="button" value="&nbsp;" onclick="setColour('skyblue')" />
+              </td>
+              <td class="colours" style="background-color:lightblue">
+                <input title="lightblue" class="colours" style="background-color:lightblue" type="button" value="&nbsp;" onclick="setColour('lightblue')" />
+              </td>
+              <td class="colours" style="background-color:powderblue">
+                <input title="powderblue" class="colours" style="background-color:powderblue" type="button" value="&nbsp;" onclick="setColour('powderblue')" />
+              </td>
+              <td class="colours" style="background-color:azure">
+                <input title="azure" class="colours" style="background-color:azure" type="button" value="&nbsp;" onclick="setColour('azure')" />
+              </td>
+              <td class="colours" style="background-color:lightcyan">
+                <input title="lightcyan" class="colours" style="background-color:lightcyan" type="button" value="&nbsp;" onclick="setColour('lightcyan')" />
+              </td>
+              <td class="colours" style="background-color:paleturquoise">
+                <input title="paleturquoise" class="colours" style="background-color:paleturquoise" type="button" value="&nbsp;" onclick="setColour('paleturquoise')" />
+              </td>
+              <td class="colours" style="background-color:mediumturquoise">
+                <input title="mediumturquoise" class="colours" style="background-color:mediumturquoise" type="button" value="&nbsp;" onclick="setColour('mediumturquoise')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:lightseagreen">
+                <input title="lightseagreen" class="colours" style="background-color:lightseagreen" type="button" value="&nbsp;" onclick="setColour('lightseagreen')" />
+              </td>
+              <td class="colours" style="background-color:darkcyan">
+                <input title="darkcyan" class="colours" style="background-color:darkcyan" type="button" value="&nbsp;" onclick="setColour('darkcyan')" />
+              </td>
+              <td class="twikicolours" style="background-color:teal">
+                <input title="%TEAL%" class="colours" style="background-color:teal" type="button" value="&nbsp;" onclick="setColour('teal')" />
+              </td>
+              <td class="colours" style="background-color:cadetblue">
+                <input title="cadetblue" class="colours" style="background-color:cadetblue" type="button" value="&nbsp;" onclick="setColour('cadetblue')" />
+              </td>
+              <td class="colours" style="background-color:darkturquoise">
+                <input title="darkturquoise" class="colours" style="background-color:darkturquoise" type="button" value="&nbsp;" onclick="setColour('darkturquoise')" />
+              </td>
+              <td class="colours" style="background-color:aqua">
+                <input title="aqua" class="colours" style="background-color:aqua" type="button" value="&nbsp;" onclick="setColour('aqua')" />
+              </td>
+              <td class="twikicolours" style="background-color:cyan">
+                <input title="%AQUA%" class="colours" style="background-color:cyan" type="button" value="&nbsp;" onclick="setColour('cyan')" />
+              </td>
+              <td class="colours" style="background-color:turquoise">
+                <input title="turquoise" class="colours" style="background-color:turquoise" type="button" value="&nbsp;" onclick="setColour('turquoise')" />
+              </td>
+              <td class="colours" style="background-color:aquamarine">
+                <input title="aquamarine" class="colours" style="background-color:aquamarine" type="button" value="&nbsp;" onclick="setColour('aquamarine')" />
+              </td>
+              <td class="colours" style="background-color:mediumaquamarine">
+                <input title="mediumaquamarine" class="colours" style="background-color:mediumaquamarine" type="button" value="&nbsp;" onclick="setColour('mediumaquamarine')" />
+              </td>
+              <td class="colours" style="background-color:darkseagreen">
+                <input title="darkseagreen" class="colours" style="background-color:darkseagreen" type="button" value="&nbsp;" onclick="setColour('darkseagreen')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:mediumseagreen">
+                <input title="mediumseagreen" class="colours" style="background-color:mediumseagreen" type="button" value="&nbsp;" onclick="setColour('mediumseagreen')" />
+              </td>
+              <td class="colours" style="background-color:seagreen">
+                <input title="seagreen" class="colours" style="background-color:seagreen" type="button" value="&nbsp;" onclick="setColour('seagreen')" />
+              </td>
+              <td class="colours" style="background-color:darkgreen">
+                <input title="darkgreen" class="colours" style="background-color:darkgreen" type="button" value="&nbsp;" onclick="setColour('darkgreen')" />
+              </td>
+              <td class="twikicolours" style="background-color:green">
+                <input title="%GREEN%" class="colours" style="background-color:green" type="button" value="&nbsp;" onclick="setColour('green')" />
+              </td>
+              <td class="colours" style="background-color:forestgreen">
+                <input title="forestgreen" class="colours" style="background-color:forestgreen" type="button" value="&nbsp;" onclick="setColour('forestgreen')" />
+              </td>
+              <td class="colours" style="background-color:limegreen">
+                <input title="limegreen" class="colours" style="background-color:limegreen" type="button" value="&nbsp;" onclick="setColour('limegreen')" />
+              </td>
+              <td class="twikicolours" style="background-color:lime">
+                <input title="%LIME%" class="colours" style="background-color:lime" type="button" value="&nbsp;" onclick="setColour('lime')" />
+              </td>
+              <td class="colours" style="background-color:chartreuse">
+                <input title="chartreuse" class="colours" style="background-color:chartreuse" type="button" value="&nbsp;" onclick="setColour('chartreuse')" />
+              </td>
+              <td class="colours" style="background-color:lawngreen">
+                <input title="lawngreen" class="colours" style="background-color:lawngreen" type="button" value="&nbsp;" onclick="setColour('lawngreen')" />
+              </td>
+              <td class="colours" style="background-color:greenyellow">
+                <input title="greenyellow" class="colours" style="background-color:greenyellow" type="button" value="&nbsp;" onclick="setColour('greenyellow')" />
+              </td>
+              <td class="colours" style="background-color:yellowgreen">
+                <input title="yellowgreen" class="colours" style="background-color:yellowgreen" type="button" value="&nbsp;" onclick="setColour('yellowgreen')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:palegreen">
+                <input title="palegreen" class="colours" style="background-color:palegreen" type="button" value="&nbsp;" onclick="setColour('palegreen')" />
+              </td>
+              <td class="colours" style="background-color:lightgreen">
+                <input title="lightgreen" class="colours" style="background-color:lightgreen" type="button" value="&nbsp;" onclick="setColour('lightgreen')" />
+              </td>
+              <td class="colours" style="background-color:springgreen">
+                <input title="springgreen" class="colours" style="background-color:springgreen" type="button" value="&nbsp;" onclick="setColour('springgreen')" />
+              </td>
+              <td class="colours" style="background-color:mediumspringgreen">
+                <input title="mediumspringgreen" class="colours" style="background-color:mediumspringgreen" type="button" value="&nbsp;" onclick="setColour('mediumspringgreen')" />
+              </td>
+              <td class="colours" style="background-color:darkolivegreen">
+                <input title="darkolivegreen" class="colours" style="background-color:darkolivegreen" type="button" value="&nbsp;" onclick="setColour('darkolivegreen')" />
+              </td>
+              <td class="colours" style="background-color:olivedrab">
+                <input title="olivedrab" class="colours" style="background-color:olivedrab" type="button" value="&nbsp;" onclick="setColour('olivedrab')" />
+              </td>
+              <td class="twikicolours" style="background-color:olive">
+                <input title="%OLIVE%" class="colours" style="background-color:olive" type="button" value="&nbsp;" onclick="setColour('olive')" />
+              </td>
+              <td class="colours" style="background-color:darkkhaki">
+                <input title="darkkhaki" class="colours" style="background-color:darkkhaki" type="button" value="&nbsp;" onclick="setColour('darkkhaki')" />
+              </td>
+              <td class="colours" style="background-color:darkgoldenrod">
+                <input title="darkgoldenrod" class="colours" style="background-color:darkgoldenrod" type="button" value="&nbsp;" onclick="setColour('darkgoldenrod')" />
+              </td>
+              <td class="colours" style="background-color:goldenrod">
+                <input title="goldenrod" class="colours" style="background-color:goldenrod" type="button" value="&nbsp;" onclick="setColour('goldenrod')" />
+              </td>
+              <td class="colours" style="background-color:gold">
+                <input title="gold" class="colours" style="background-color:gold" type="button" value="&nbsp;" onclick="setColour('gold')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="twikicolours" style="background-color:yellow">
+                <input title="%YELLOW%" class="colours" style="background-color:yellow" type="button" value="&nbsp;" onclick="setColour('yellow')" />
+              </td>
+              <td class="colours" style="background-color:khaki">
+                <input title="khaki" class="colours" style="background-color:khaki" type="button" value="&nbsp;" onclick="setColour('khaki')" />
+              </td>
+              <td class="colours" style="background-color:palegoldenrod">
+                <input title="palegoldenrod" class="colours" style="background-color:palegoldenrod" type="button" value="&nbsp;" onclick="setColour('palegoldenrod')" />
+              </td>
+              <td class="colours" style="background-color:blanchedalmond">
+                <input title="blanchedalmond" class="colours" style="background-color:blanchedalmond" type="button" value="&nbsp;" onclick="setColour('blanchedalmond')" />
+              </td>
+              <td class="colours" style="background-color:moccasin">
+                <input title="moccasin" class="colours" style="background-color:moccasin" type="button" value="&nbsp;" onclick="setColour('moccasin')" />
+              </td>
+              <td class="colours" style="background-color:wheat">
+                <input title="wheat" class="colours" style="background-color:wheat" type="button" value="&nbsp;" onclick="setColour('wheat')" />
+              </td>
+              <td class="colours" style="background-color:navajowhite">
+                <input title="navajowhite" class="colours" style="background-color:navajowhite" type="button" value="&nbsp;" onclick="setColour('navajowhite')" />
+              </td>
+              <td class="colours" style="background-color:burlywood">
+                <input title="burlywood" class="colours" style="background-color:burlywood" type="button" value="&nbsp;" onclick="setColour('burlywood')" />
+              </td>
+              <td class="colours" style="background-color:tan">
+                <input title="tan" class="colours" style="background-color:tan" type="button" value="&nbsp;" onclick="setColour('tan')" />
+              </td>
+              <td class="colours" style="background-color:rosybrown">
+                <input title="rosybrown" class="colours" style="background-color:rosybrown" type="button" value="&nbsp;" onclick="setColour('rosybrown')" />
+              </td>
+              <td class="colours" style="background-color:sienna">
+                <input title="sienna" class="colours" style="background-color:sienna" type="button" value="&nbsp;" onclick="setColour('sienna')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:saddlebrown">
+                <input title="saddlebrown" class="colours" style="background-color:saddlebrown" type="button" value="&nbsp;" onclick="setColour('saddlebrown')" />
+              </td>
+              <td class="colours" style="background-color:chocolate">
+                <input title="chocolate" class="colours" style="background-color:chocolate" type="button" value="&nbsp;" onclick="setColour('chocolate')" />
+              </td>
+              <td class="colours" style="background-color:peru">
+                <input title="peru" class="colours" style="background-color:peru" type="button" value="&nbsp;" onclick="setColour('peru')" />
+              </td>
+              <td class="colours" style="background-color:sandybrown">
+                <input title="sandybrown" class="colours" style="background-color:sandybrown" type="button" value="&nbsp;" onclick="setColour('sandybrown')" />
+              </td>
+              <td class="colours" style="background-color:darkred">
+                <input title="darkred" class="colours" style="background-color:darkred" type="button" value="&nbsp;" onclick="setColour('darkred')" />
+              </td>
+              <td class="twikicolours" style="background-color:maroon">
+                <input title="%MAROON%" class="colours" style="background-color:maroon" type="button" value="&nbsp;" onclick="setColour('maroon')" />
+              </td>
+              <td class="twikicolours" style="background-color:brown">
+                <input title="%BROWN%" class="colours" style="background-color:brown" type="button" value="&nbsp;" onclick="setColour('brown')" />
+              </td>
+              <td class="colours" style="background-color:firebrick">
+                <input title="firebrick" class="colours" style="background-color:firebrick" type="button" value="&nbsp;" onclick="setColour('firebrick')" />
+              </td>
+              <td class="colours" style="background-color:indianred">
+                <input title="indianred" class="colours" style="background-color:indianred" type="button" value="&nbsp;" onclick="setColour('indianred')" />
+              </td>
+              <td class="colours" style="background-color:lightcoral">
+                <input title="lightcoral" class="colours" style="background-color:lightcoral" type="button" value="&nbsp;" onclick="setColour('lightcoral')" />
+              </td>
+              <td class="colours" style="background-color:salmon">
+                <input title="salmon" class="colours" style="background-color:salmon" type="button" value="&nbsp;" onclick="setColour('salmon')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:darksalmon">
+                <input title="darksalmon" class="colours" style="background-color:darksalmon" type="button" value="&nbsp;" onclick="setColour('darksalmon')" />
+              </td>
+              <td class="colours" style="background-color:lightsalmon">
+                <input title="lightsalmon" class="colours" style="background-color:lightsalmon" type="button" value="&nbsp;" onclick="setColour('lightsalmon')" />
+              </td>
+              <td class="colours" style="background-color:coral">
+                <input title="coral" class="colours" style="background-color:coral" type="button" value="&nbsp;" onclick="setColour('coral')" />
+              </td>
+              <td class="colours" style="background-color:tomato">
+                <input title="tomato" class="colours" style="background-color:tomato" type="button" value="&nbsp;" onclick="setColour('tomato')" />
+              </td>
+              <td class="colours" style="background-color:darkorange">
+                <input title="darkorange" class="colours" style="background-color:darkorange" type="button" value="&nbsp;" onclick="setColour('darkorange')" />
+              </td>
+              <td class="twikicolours" style="background-color:orange">
+                <input title="%ORANGE%" class="colours" style="background-color:orange" type="button" value="&nbsp;" onclick="setColour('orange')" />
+              </td>
+              <td class="colours" style="background-color:orangered">
+                <input title="orangered" class="colours" style="background-color:orangered" type="button" value="&nbsp;" onclick="setColour('orangered')" />
+              </td>
+              <td class="colours" style="background-color:crimson">
+                <input title="crimson" class="colours" style="background-color:crimson" type="button" value="&nbsp;" onclick="setColour('crimson')" />
+              </td>
+              <td class="twikicolours" style="background-color:red">
+                <input title="%RED%" class="colours" style="background-color:red" type="button" value="&nbsp;" onclick="setColour('red')" />
+              </td>
+              <td class="colours" style="background-color:deeppink">
+                <input title="deeppink" class="colours" style="background-color:deeppink" type="button" value="&nbsp;" onclick="setColour('deeppink')" />
+              </td>
+              <td class="twikicolours" style="background-color:fuchsia">
+                <input title="%PINK%" class="colours" style="background-color:fuchsia" type="button" value="&nbsp;" onclick="setColour('fuchsia')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:magenta">
+                <input title="magenta" class="colours" style="background-color:magenta" type="button" value="&nbsp;" onclick="setColour('magenta')" />
+              </td>
+              <td class="colours" style="background-color:hotpink">
+                <input title="hotpink" class="colours" style="background-color:hotpink" type="button" value="&nbsp;" onclick="setColour('hotpink')" />
+              </td>
+              <td class="colours" style="background-color:lightpink">
+                <input title="lightpink" class="colours" style="background-color:lightpink" type="button" value="&nbsp;" onclick="setColour('lightpink')" />
+              </td>
+              <td class="colours" style="background-color:pink">
+                <input title="pink" class="colours" style="background-color:pink" type="button" value="&nbsp;" onclick="setColour('pink')" />
+              </td>
+              <td class="colours" style="background-color:palevioletred">
+                <input title="palevioletred" class="colours" style="background-color:palevioletred" type="button" value="&nbsp;" onclick="setColour('palevioletred')" />
+              </td>
+              <td class="colours" style="background-color:mediumvioletred">
+                <input title="mediumvioletred" class="colours" style="background-color:mediumvioletred" type="button" value="&nbsp;" onclick="setColour('mediumvioletred')" />
+              </td>
+              <td class="twikicolours" style="background-color:purple">
+                <input title="%PURPLE%" class="colours" style="background-color:purple" type="button" value="&nbsp;" onclick="setColour('purple')" />
+              </td>
+              <td class="colours" style="background-color:darkmagenta">
+                <input title="darkmagenta" class="colours" style="background-color:darkmagenta" type="button" value="&nbsp;" onclick="setColour('darkmagenta')" />
+              </td>
+              <td class="colours" style="background-color:mediumpurple">
+                <input title="mediumpurple" class="colours" style="background-color:mediumpurple" type="button" value="&nbsp;" onclick="setColour('mediumpurple')" />
+              </td>
+              <td class="colours" style="background-color:blueviolet">
+                <input title="blueviolet" class="colours" style="background-color:blueviolet" type="button" value="&nbsp;" onclick="setColour('blueviolet')" />
+              </td>
+              <td class="colours" style="background-color:indigo">
+                <input title="indigo" class="colours" style="background-color:indigo" type="button" value="&nbsp;" onclick="setColour('indigo')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:darkviolet">
+                <input title="darkviolet" class="colours" style="background-color:darkviolet" type="button" value="&nbsp;" onclick="setColour('darkviolet')" />
+              </td>
+              <td class="colours" style="background-color:darkorchid">
+                <input title="darkorchid" class="colours" style="background-color:darkorchid" type="button" value="&nbsp;" onclick="setColour('darkorchid')" />
+              </td>
+              <td class="colours" style="background-color:mediumorchid">
+                <input title="mediumorchid" class="colours" style="background-color:mediumorchid" type="button" value="&nbsp;" onclick="setColour('mediumorchid')" />
+              </td>
+              <td class="colours" style="background-color:orchid">
+                <input title="orchid" class="colours" style="background-color:orchid" type="button" value="&nbsp;" onclick="setColour('orchid')" />
+              </td>
+              <td class="colours" style="background-color:violet">
+                <input title="violet" class="colours" style="background-color:violet" type="button" value="&nbsp;" onclick="setColour('violet')" />
+              </td>
+              <td class="colours" style="background-color:plum">
+                <input title="plum" class="colours" style="background-color:plum" type="button" value="&nbsp;" onclick="setColour('plum')" />
+              </td>
+              <td class="colours" style="background-color:thistle">
+                <input title="thistle" class="colours" style="background-color:thistle" type="button" value="&nbsp;" onclick="setColour('thistle')" />
+              </td>
+              <td class="colours" style="background-color:lavender">
+                <input title="lavender" class="colours" style="background-color:lavender" type="button" value="&nbsp;" onclick="setColour('lavender')" />
+              </td>
+              <td class="colours" style="background-color:ghostwhite">
+                <input title="ghostwhite" class="colours" style="background-color:ghostwhite" type="button" value="&nbsp;" onclick="setColour('ghostwhite')" />
+              </td>
+              <td class="colours" style="background-color:aliceblue">
+                <input title="aliceblue" class="colours" style="background-color:aliceblue" type="button" value="&nbsp;" onclick="setColour('aliceblue')" />
+              </td>
+              <td class="colours" style="background-color:mintcream">
+                <input title="mintcream" class="colours" style="background-color:mintcream" type="button" value="&nbsp;" onclick="setColour('mintcream')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:honeydew">
+                <input title="honeydew" class="colours" style="background-color:honeydew" type="button" value="&nbsp;" onclick="setColour('honeydew')" />
+              </td>
+              <td class="colours" style="background-color:lightgoldenrodyellow">
+                <input title="lightgoldenrodyellow" class="colours" style="background-color:lightgoldenrodyellow" type="button" value="&nbsp;" onclick="setColour('lightgoldenrodyellow')" />
+              </td>
+              <td class="colours" style="background-color:lemonchiffon">
+                <input title="lemonchiffon" class="colours" style="background-color:lemonchiffon" type="button" value="&nbsp;" onclick="setColour('lemonchiffon')" />
+              </td>
+              <td class="colours" style="background-color:cornsilk">
+                <input title="cornsilk" class="colours" style="background-color:cornsilk" type="button" value="&nbsp;" onclick="setColour('cornsilk')" />
+              </td>
+              <td class="colours" style="background-color:lightyellow">
+                <input title="lightyellow" class="colours" style="background-color:lightyellow" type="button" value="&nbsp;" onclick="setColour('lightyellow')" />
+              </td>
+              <td class="colours" style="background-color:ivory">
+                <input title="ivory" class="colours" style="background-color:ivory" type="button" value="&nbsp;" onclick="setColour('ivory')" />
+              </td>
+              <td class="colours" style="background-color:floralwhite">
+                <input title="floralwhite" class="colours" style="background-color:floralwhite" type="button" value="&nbsp;" onclick="setColour('floralwhite')" />
+              </td>
+              <td class="colours" style="background-color:linen">
+                <input title="linen" class="colours" style="background-color:linen" type="button" value="&nbsp;" onclick="setColour('linen')" />
+              </td>
+              <td class="colours" style="background-color:oldlace">
+                <input title="oldlace" class="colours" style="background-color:oldlace" type="button" value="&nbsp;" onclick="setColour('oldlace')" />
+              </td>
+              <td class="colours" style="background-color:antiquewhite">
+                <input title="antiquewhite" class="colours" style="background-color:antiquewhite" type="button" value="&nbsp;" onclick="setColour('antiquewhite')" />
+              </td>
+              <td class="colours" style="background-color:bisque">
+                <input title="bisque" class="colours" style="background-color:bisque" type="button" value="&nbsp;" onclick="setColour('bisque')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="colours" style="background-color:peachpuff">
+                <input title="peachpuff" class="colours" style="background-color:peachpuff" type="button" value="&nbsp;" onclick="setColour('peachpuff')" />
+              </td>
+              <td class="colours" style="background-color:papayawhip">
+                <input title="papayawhip" class="colours" style="background-color:papayawhip" type="button" value="&nbsp;" onclick="setColour('papayawhip')" />
+              </td>
+              <td class="colours" style="background-color:beige">
+                <input title="beige" class="colours" style="background-color:beige" type="button" value="&nbsp;" onclick="setColour('beige')" />
+              </td>
+              <td class="colours" style="background-color:seashell">
+                <input title="seashell" class="colours" style="background-color:seashell" type="button" value="&nbsp;" onclick="setColour('seashell')" />
+              </td>
+              <td class="colours" style="background-color:lavenderblush">
+                <input title="lavenderblush" class="colours" style="background-color:lavenderblush" type="button" value="&nbsp;" onclick="setColour('lavenderblush')" />
+              </td>
+              <td class="colours" style="background-color:mistyrose">
+                <input title="mistyrose" class="colours" style="background-color:mistyrose" type="button" value="&nbsp;" onclick="setColour('mistyrose')" />
+              </td>
+              <td class="colours" style="background-color:snow">
+                <input title="snow" class="colours" style="background-color:snow" type="button" value="&nbsp;" onclick="setColour('snow')" />
+              </td>
+              <td class="twikicolours" style="background-color:white">
+                <input title="%WHITE%" class="colours" style="background-color:white" type="button" value="&nbsp;" onclick="setColour('white')" />
+              </td>
+              <td class="colours" style="background-color:whitesmoke">
+                <input title="whitesmoke" class="colours" style="background-color:whitesmoke" type="button" value="&nbsp;" onclick="setColour('whitesmoke')" />
+              </td>
+              <td class="colours" style="background-color:gainsboro">
+                <input title="gainsboro" class="colours" style="background-color:gainsboro" type="button" value="&nbsp;" onclick="setColour('gainsboro')" />
+              </td>
+              <td class="colours" style="background-color:lightgrey">
+                <input title="lightgrey" class="colours" style="background-color:lightgrey" type="button" value="&nbsp;" onclick="setColour('lightgrey')" />
+              </td>
+            </tr>
+            <tr>
+              <td class="twikicolours" style="background-color:silver">
+                <input title="%SILVER%" class="colours" style="background-color:silver" type="button" value="&nbsp;" onclick="setColour('silver')" />
+              </td>
+              <td class="colours" style="background-color:darkgray">
+                <input title="darkgray" class="colours" style="background-color:darkgray" type="button" value="&nbsp;" onclick="setColour('darkgray')" />
+              </td>
+              <td class="twikicolours" style="background-color:gray">
+                <input title="%GRAY%" class="colours" style="background-color:gray" type="button" value="&nbsp;" onclick="setColour('gray')" />
+              </td>
+              <td class="colours" style="background-color:lightslategray">
+                <input title="lightslategray" class="colours" style="background-color:lightslategray" type="button" value="&nbsp;" onclick="setColour('lightslategray')" />
+              </td>
+              <td class="colours" style="background-color:slategray">
+                <input title="slategray" class="colours" style="background-color:slategray" type="button" value="&nbsp;" onclick="setColour('slategray')" />
+              </td>
+              <td class="colours" style="background-color:dimgray">
+                <input title="dimgray" class="colours" style="background-color:dimgray" type="button" value="&nbsp;" onclick="setColour('dimgray')" />
+              </td>
+              <td class="colours" style="background-color:darkslategray">
+                <input title="darkslategray" class="colours" style="background-color:darkslategray" type="button" value="&nbsp;" onclick="setColour('darkslategray')" />
+              </td>
+              <td class="twikicolours" style="background-color:black">
+                <input title="%BLACK%" class="colours" style="background-color:black" type="button" value="&nbsp;" onclick="setColour('black')" />
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </body>
+</html>
+

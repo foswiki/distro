@@ -1,0 +1,101 @@
+%META:TOPICINFO{author="TWikiContributor" date="1153528583" format="1.1" version="$Rev: 15450 $"}%
+%STARTINCLUDE%
+---+ Managing Webs
+
+_Adding, renaming and deleting webs are all web-based operations._
+
+%TOC%
+
+---++ Overview
+
+A TWikiSite is divided into webs; each one represents one subject, one area of collaboration. Administrators can add/rename/delete webs.
+
+#WebTemplate
+---++ Choose Web Template
+
+There are two methods used to create a new web.  First you can use a specially designed TemplateWeb.  This is an invisible web that begins with an underscore &quot;_&quot; character (for example =_default=).  All topics in the template web will be copied into your new web.
+
+The second method is to use an existing web as a template web.  This may be useful if you already have a web that you would like to use as a starting point.  Only topics that have names beginning with *Web...* (like "%HOMETOPIC%", "%NOTIFYTOPIC%", etc.) are copied.
+
+In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. Any TWikiVariables defined in the form below will automatically be set in the !WebPreferences of the new web.
+
+#CreateNewWeb
+---++ Adding a New Web
+
+<form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
+Create a new web by filling out this form.%BR%
+__%X% Note:__ *Keep the number of webs to a minimum!* Don't create a new web for each little project. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
+|  *Name of new web:* | <input name="newweb" class="twikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="16" /> | The name must start with an upper case letter, followed by upper or lower case letters or numbers. Specify a short name to avoid long URLs. |
+|  *Based on web:* | <select name="baseweb" class="twikiSelect"> %WEBLIST{ "<option $marker>$name</option>" webs="webtemplate,public" selection="_default" separator=" "}% </select> | Select a TemplateWeb |
+|  *Web color:* | <input name="WEBBGCOLOR" class="twikiInputField" type="text" value="#D0D0D0" size="16" /> | Enter a StandardColors code for the web |
+|  *Site Map:* | <input type="radio" name="SITEMAPLIST" value="on" checked="checked" /> Yes &nbsp; <input type="radio" name="SITEMAPLIST" value="" /> No | Include this web in the site map |
+|  *Description:<br /> &nbsp;<br /> &nbsp;* | <input type="text" class="twikiInputField" name="SITEMAPWHAT" value="" size="60" /><br /> Enter a short description of the web. Write =Web.TopicName= instead of just =TopicName= if you include links. This description will be used in the %SYSTEMWEB%.SiteMap ||
+|  *Use to...<br /> &nbsp;* | <input type="text" class="twikiInputField" name="SITEMAPUSETO" value="...collaborate on" size="60" /><br /> Continue the sentence describing the intended use. This is also for the %SYSTEMWEB%.SiteMap ||
+|  *Hidden:* | <input type="radio" name="NOSEARCHALL" value="on" /> Yes &nbsp; <input type="radio" name="NOSEARCHALL" value="" checked="checked" /> No | Specify if you want to exclude the web from a "search all webs" search. *This will not prevent users accessing the web*. It will simply hide it from searches. |
+| *&nbsp;* | <input type="submit" class="twikiSubmit" value="Create new web" /> ||
+<input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" />
+<input name="action" type="hidden" value="createweb" />
+</form>
+
+__Notes:__
+   * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)
+   * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
+
+---++ Hierarchical Webs
+
+You can only create hierarchical webs (webs within webs) if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%][configure]] is enabled. Hierarchical webs are currently %IF{"{EnableHierarchicalWebs}" then="enabled." else="disabled. Without this setting, TWiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs."}%
+
+__%T% Note:__ You might not need hierarchical webs. TWiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
+
+You can create hierarchical webs via the _Adding a New Web_ form above, by using a slash- or dot-separated path name which is based on an existing web name in the _Name of new web:_ field.
+
+*Example:*
+
+To create a subweb named =Bar= inside a web named =Foo=, use =Foo/Bar= or =Foo.Bar= as the new web name in the form above.
+
+---+++ Subweb Preferences are Inherited
+
+The preferences of a subweb are inherited from the parent web and overridden locally.  Preferences are ultimately inherited from the [[%SYSTEMWEB%.TWikiPreferences]] topic.
+
+*Example Preference Inheritance for =Sandbox/TestWeb/SubWeb.SubWebTopic= topic:*
+
+   1. =%SYSTEMWEB%.TWikiPreferences= site-wide preferences
+   2. =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SYSTEMWEB%.TWikiPreferences=
+   3. =Sandbox/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox.%WEBPREFSTOPIC%=
+   4. =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%= 
+   5. =Sandbox/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= 
+
+---+++ Navigation
+
+The Pattern skin (default) indicates Subwebs by indenting them in the sidebar relative to their level in the hierarchy.
+
+#RenameWeb
+---++ Renaming or Deleting a Web
+
+Rename a web via the Tools section in each %WEBPREFSTOPIC% topic.  You may delete a web by moving it into a Trash web.  
+
+---+++ Permissions
+
+You may only rename a web if you have the following permissions
+   * You must be allowed to rename and changes topics in the web you want to rename
+   * You must be allowed to rename topics in the parent web of the web you want to rename
+   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.TWikiPreferences]].
+   * If you move the web to another parent web you must be allowed to create and change topics in the new parent web.
+   
+When you rename a web TWiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the TWiki installation it is generally best to let an administrator rename webs to avoid too many broken links. 
+
+---+++ Edit Conflicts
+
+If anyone is editing a topic which requires updating, or which lives in the web being renamed, a second confirmation screen will come up which will indicate which topics are still locked for edit.  You may continue to hit the refresh button until an edit lease is obtained for each topic which requires updating (the "Refresh" button will change to "Submit"), or hit "Cancel", which will cancel your edit lease on all affected topics.
+
+---+++ Renaming the webs in the distribution
+
+It is possible, though not recommended, to change the names of the webs in the distribution.
+
+If you plan to rename the %USERSWEB% web, remember that TWiki stores user topics in this web. That means that every WikiName signature - =%USERSWEB%.<nop>SomeUserName= - points to it and would need updating (unless the variable, =%<nop>USERSWEB%.<nop>SomeUserName=, is used throughout). This potentially large change can be performed automatically if you rename the web from the Tools section of %WEBPREFSTOPIC%, as described above.
+
+%X% If you want to rename the %SYSTEMWEB% or %USERSWEB% webs, remember they are referred to in the TWiki configuration. You will need to change the ={SystemWebName}=, ={UsersWebName}= and/or ={LocalSitePreferences}= settings in the configuration using the [[%SCRIPTURL{configure}%][configure]] interface.
+
+%X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.
+
+__Related Topics:__ AdminDocumentationCategory, AdminToolsCategory

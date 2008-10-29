@@ -1,0 +1,66 @@
+%TMPL:INCLUDE{"css"}%
+%TMPL:DEF{"twikistyle"}%%TMPL:P{"stylesscreen"}%
+%TMPL:P{"stylesprint"}%%TMPL:END%
+
+
+%{ template leftbardimensions is included from viewleftbar.pattern.tmpl }%
+%{ template topbardimensions is included from viewtopbar.pattern.tmpl }%
+
+
+%TMPL:DEF{"stylesscreen"}%<style type="text/css" media="all">
+%TMPL:P{"topbardimensions"}%
+%TMPL:P{"leftbardimensions"}%
+</style>
+<style type="text/css" media="all">
+%IF{ "$ TWIKILAYOUTURL" then="@import url('%TWIKILAYOUTURL%');"}%
+%IF{ "$ TWIKISTYLEURL"  then="@import url('%TWIKISTYLEURL%');"}%
+%IF{ "$ TWIKICOLORSURL" then="@import url('%TWIKICOLORSURL%');"}%
+</style>
+%TMPL:P{"stylesdynamic"}%<style type="text/css" media="all">
+%IF{ "$ USERLAYOUTURL" then="@import url('%USERLAYOUTURL%');"}%
+%IF{ "$ USERSTYLEURL"  then="@import url('%USERSTYLEURL%');"}%
+%IF{ "$ USERCOLORSURL" then="@import url('%USERCOLORSURL%');"}%
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"stylesprint"}%<style type="text/css" media="all">
+	@import url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/print.css");
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"stylesdynamic"}%<style type="text/css" media="all">
+	/* Styles that are set using variables */
+	.patternBookView .twikiTopRow,
+	.patternWebIndicator a img,
+	.patternWebIndicator a:hover img {
+		background-color:%WEBBGCOLOR%;
+	}
+	%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:no-repeat;}'}%
+	%IF{ 'defined WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
+	.patternBookView {
+		border-color:%WEBBGCOLOR%;
+	}
+	.patternPreviewPage #patternMain {
+		/* uncomment to set the preview image */
+		/*background-image:url("%PREVIEWBGIMAGE%");*/
+	}
+	%IF{ "defined PAGEBGCOLOR and $ PAGEBGCOLOR != ''" then='html body, #patternPage, #patternBottomBar, .twikiPreviewArea, #patternOuter, #patternTopBar { background-color:%PAGEBGCOLOR%;}
+	#patternOuter {background-image:none;}'}%
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"iespecificstyle"}%<!--[if IE]><style type="text/css" media="screen">
+pre {
+	overflow-x:auto;
+	padding-bottom:expression(this.scrollWidth > this.offsetWidth ? 16 : 0);
+}
+</style>
+<![endif]-->
+<!--[if lte IE 6]> 
+<style type="text/css">
+#patternLeftBar {
+	position:relative; /* IE 5.5 needs this or the contents won't show outside the parent container on print. IE 6.0 needs it only during printable copy! */
+}
+</style><![endif]-->%TMPL:END%
+
+%TMPL:DEF{"javascriptaffectedstyle"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twikiStyles.js"></script>%TMPL:END%

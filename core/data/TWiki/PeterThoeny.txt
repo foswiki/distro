@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 7133 $"}%
+Peter Thoeny is the founder of TWiki and TWiki.org, is a [[TWiki:Codev.CoreTeam][Core Team]] member, and a TWikiContributor.
+
+See home page at TWiki:Main.PeterThoeny

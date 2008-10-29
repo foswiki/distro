@@ -1,0 +1,5 @@
+%META:TOPICINFO{author="TWikiContributor" date="1122323718" format="1.1" version="$Rev $"}%
+---+ A List of TWiki Administrator Documentation
+
+%SEARCH{"%TOPIC%" excludetopic="%TOPIC%" nonoise="on" format="   * $web.$topic$n      * $summary(100, noheader)"}%
+

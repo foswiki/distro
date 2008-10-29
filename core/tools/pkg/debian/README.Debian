@@ -1,0 +1,144 @@
+TWiki for Debian
+----------------
+
+Initial wiki contents
+=====================
+
+/usr/share/twiki/twiki-data.tar.gz has the initial data set, if
+you find you want to restore the data in /var/lib/twiki/data/ after
+experimenting.
+/usr/share/twiki/twiki-pub.tar.gz has the initial pub data set.
+It should also be unpacked to /var/lib/twiki/pub
+
+Post-install TWiki configuration
+================================
+
+The Debian TWiki package provides a default generic configuration, but
+additional configuration steps are required from the administrator,
+considering the versatile nature of TWiki. Most of them are described
+in TWiki's standard documentation available in the 'TWiki' wiki/web
+installed by default (see
+http://localhost/cgi-bin/twiki/view/TWiki/TWikiInstallationGuide#Next_Steps
+for a start).
+
+Access to the 'configure' script is protected with an authentified
+HTTP session. This means that TWiki configuration through the Web
+interface, is only possible by launching a web browser from the
+server's local accounts.  It is still possible to configure it by
+editing the /etc/twiki/LocalSite.cfg file it that's more convenient.
+  
+The username and password for this 'configure' CGI access are defined 
+during package install (so-called "apache user" debconf questions, 
+with a username by default 'admin').
+
+
+ATTENTION :
+
+Note that you should create yourself (inside TWiki, with it's user
+registration mechanism) a TWiki user account, and add it
+Main.TWikiAdminGroup to restrict Admin privileges to that user.
+
+The procedure for doing so is described in the TWiki documentation.
+
+The Debian package only protects access to the 'configure' script, and
+in no way deals with TWiki's users and groups, so the default ACLs
+right after install more or less allow anyone to modify contents of
+the Wiki, including locking other users out.
+
+
+Installing multiple TWiki instances on the same server
+======================================================
+
+For multiple TWiki's on the same machine, it is recommended that you
+just have multiple data sets on one TWiki.  If you really need more
+than one, in particular to isolate the data under a different uid,
+there are a bunch of things you need to do; I can make suggestions, or
+if you figure it out let me know and I'll try and integrate such
+enhancements into the package.
+
+Bug reporting
+=============
+
+To report upstream issues (and feedback) please goto 
+     http://twiki.org/cgi-bin/view/Codev/TWikiOnDebian
+
+ -- Olivier Berger <olivier.berger@it-sudparis.eu>, Sat, 28 Jun 2008 10:47:57 +0200
+
+
+
+Security Alert: Login bypass allows view of access restricted content
+(CVE-2006-6071)
+http://twiki.org/cgi-bin/view/Codev/SecurityAlert-CVE-2006-6071
+
+Attack Vectors
+
+An unauthorized user can login by cancelling out of a failed login.
+
+Impact
+
+An unauthorized user is able to view content in access restricted topics.
+Editing topics and attaching files is not impacted.
+
+Severity Level
+
+The TWiki SecurityTeam triaged this issue as documented in
+TWikiSecurityAlertProcess and assigned the following severity level:
+
+    * Severity 3 issue: TWiki content or browser is compromised 
+
+MITRE Name for this Vulnerability
+
+The Common Vulnerabilities and Exposures project has assigned the name
+CVE-2006-6071 to this vulnerability.
+
+Details
+
+Your site may be vulnerable if:
+
+   1. If you have ErrorDocument 401 set to point to the TWikiRegistration topic
+      (or any other TWiki topic) and 
+   2. You are using ApacheLogin with TWiki-4.0 and have sessions enabled, or
+      you are using an earlier TWiki version with SessionPlugin, and 
+   3. You are running Apache 1.3 
+
+The exploit can be used to view pages protected by TWiki permissions. It does
+not allow you to to gain write access. You can verify if your site is
+vulnerable as follows:
+
+   1. Click the 'Login' link in the left bar
+   2. Enter the login name of a valid user, but an incorrect password.
+   3. Click "Ok"
+   4. If apache re-prompts, enter the same username and password again
+   5. Click "Cancel" 
+
+If your site is vulnerable you will be redirected to the TWikiRegistration
+topic with the valid user apparently logged in (the name appears in the left
+bar).
+
+Countermeasures
+
+    * Restrict access to the TWiki installation.
+    * Apply the hotfix indicated below. 
+
+    * NOTE: The hotfix is known to prevent the current attacks, but it might not be a complete fix 
+
+Hotfix
+
+Delete the ErrorDocument line in the Apache configuration (httpd.conf or
+.htaccess), or (preferred) change it to point to a static HTML page. This page
+can safely contain a link to the TWikiRegistration page. For example,
+
+<html>
+<title>Failed login</title>
+<head>
+</head>
+<body>
+Your login attempt failed.
+<p />
+Do you want to
+<a href="/cgi-bin/view/TWiki/TWikiRegistration">register in TWiki</a>?
+</body>
+</html>
+
+(modify the href as appropriate for your site.) 
+

@@ -1,0 +1,3 @@
+   * %ICON{"move"}% *%MAKETEXT{"Rename, move or delete this web:"}%*
+      * *<a href="%SCRIPTURLPATH{"rename"}%/%BASEWEB%/%BASETOPIC%?action=renameweb" rel='nofollow'>%MAKETEXT{"Rename/move/delete web..."}%</a>*,
+        %MAKETEXT{"looking for references in _all public webs_"}% - %MAKETEXT{"See also:"}% %SYSTEMWEB%.ManagingWebs

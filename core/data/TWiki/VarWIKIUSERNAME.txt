@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarWIKIUSERNAME
+---+++ WIKIUSERNAME -- your Wiki username with web prefix
+   * Your %<nop>WIKINAME% with %USERSWEB% web prefix, useful to point to your <nop>%WIKITOOLNAME% home page
+   * Syntax: =%<nop>WIKIUSERNAME%=
+   * Expands to: =%WIKIUSERNAME%=, renders as %WIKIUSERNAME%
+   * __%X% Note:__ When used in a template topic, this variable will be expanded when the template is used to create a new topic. See TWikiTemplates#TemplateTopicsVars for details
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarREMOTEUSER][REMOTE_USER]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarUSERINFO][USERINFO]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarWIKINAME][WIKINAME]]
+

@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarSTARTSECTION
+---+++ STARTSECTION -- marks the start of a section within a topic
+   * Section boundaries are defined with =%<nop>STARTSECTION{}%= and =%<nop>ENDSECTION{}%=.
+   * Sections may be given a name to help identify them, and/or a type, which changes how they are used.
+      * =type="section"= - the default, used for a generic section, such as a named section used by [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarINCLUDE][INCLUDE]].
+      * =type="include"= - like =%<nop>STARTINCLUDE%= ... =%<nop>STOPINCLUDE%= except that you can have as many include blocks as you want (=%<nop>STARTINCLUDE%= is restricted to only one).
+      * =type="templateonly"= - start position of text to be removed when a template topic is used. This is used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. See TWikiTemplates for more information.
+   * Syntax: =%<nop>STARTSECTION{"name"}% ................ %<nop>ENDSECTION{"name"}%=
+   * Syntax: =%<nop>STARTSECTION{type="include"}% ........ %<nop>ENDSECTION{type="include"}%=
+   * Syntax: =%<nop>STARTSECTION{type="templateonly"}% ... %<nop>ENDSECTION{type="templateonly"}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default* |
+     | ="name"= | Name of the section. Must be unique inside a topic. | Generated name |
+     | =type="..."= | Type of the section; type ="section"=, ="include"= or ="templateonly"= | ="section"= |
+   * __%X% Note:__ If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
+   * __%X% Note:__ You can define nested sections. It is not recommended to overlap sections, although it is valid in TWiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarENDSECTION][ENDSECTION]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarNOP][NOP]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]]
+

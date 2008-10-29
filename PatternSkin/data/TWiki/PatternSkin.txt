@@ -1,0 +1,132 @@
+%META:TOPICINFO{author="TWikiContributor" date="1160971176" format="1.1" version="1.1"}%
+%STARTINCLUDE%
+<!--
+   * Set SHORTDESCRIPTION = <nop>PatternSkin provides a CSS based default look and feel for TWiki - flexible and <nop>W3C-compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment
+-->
+---+!! Pattern skin
+
+%SHORTDESCRIPTION%. For use in corporate or perhaps in personal websites it should be fairly easy to tune the looks or even create a !PatternSkin-based new skin.
+
+%TOC{title="Page contents"}%
+
+---++ Screenshot
+
+<a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" height="130" /></a>
+<!--
+%SEARCH{ "%TOPIC%" scope="topic" nosearch="on" nototal="on" format="$pattern(.*\| *Screenshot\:[^\|]*\|([^\|]*).*)" }%
+<div class="twikiGrayText">Click to view full screenshot</div>-->
+
+---++ Creating your own look
+
+---+++ Template customization
+%SYSTEMWEB%.PatternSkinCustomization - how to configure page elements
+%TOC{"%SYSTEMWEB%.PatternSkinCustomization"}%
+
+---+++ Style sheet customization
+%SYSTEMWEB%.PatternSkinCssCookbook - how to customize the visual style
+%TOC{"%SYSTEMWEB%.PatternSkinCssCookbook"}%
+
+---+++ Changing graphics
+The original Photoshop files of the skin graphics (mainly background images) are attached to PatternSkinGraphics.
+
+---++ Supported browsers
+
+!PatternSkin has been tested successfully on the following browsers:
+   * Windows
+      * Internet Explorer 7.0, 6.0, 5.5 (note: Explorer 5.0 is *not* supported: will function but shows visual quirks)
+      * Mozilla/Firefox 2.0, 1.5
+   * Mac OS X
+      * Safari 3.0.2
+      * Mozilla/Firefox 2.0, 1.5 (note: Firefox 1.0 will show visual quirks)
+   * *nix
+      * Mozilla/Firefox 1.5 (note: Firefox 1.0 will show visual quirks)
+
+---++ Installation
+
+*Note:* You do not need to install anything on the browser to use this skin. The following instructions are for the administrator who installs the skin on the server where TWiki is running.
+
+*Note 2:* !PatternSkin is included with TWiki by default. Use the following instructions only if you are upgrading !PatternSkin.
+
+   * Download the ZIP file from the Skin Home page (see below)
+   * Unzip ==%TOPIC%.zip== in your twiki installation directory
+   * Test if installed: %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=pattern
+   * For skin activation see %SYSTEMWEB%.TWikiSkins
+
+---+++ Troubleshooting
+
+If you have set the SKIN variable setting to =pattern= and you still don't see the layout as on the <a href="%ATTACHURL%/patternskin_screenshot_full.png">screenshot</a>, a few settings in may have been disabled.
+
+Check these variables here:
+   * TWIKILAYOUTURL = %TWIKILAYOUTURL%
+   * TWIKISTYLEURL = %TWIKISTYLEURL%
+   * TWIKICOLORSURL = %TWIKICOLORSURL%
+   * SKIN = %SKIN%
+
+If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing files, check in %SYSTEMWEB%.TWikiPreferences that the following variables do exist and that they are set to on:
+<pre>
+   * %<nop>SYSTEMWEB%.PatternSkin settings:
+      * <nop>Set TWIKILAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/layout.css
+      * <nop>Set TWIKISTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/style.css
+      * <nop>Set TWIKICOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/colors.css
+</pre>
+
+*NOTE:* customization of these values should be done in [[%USERSWEB%.TWikiPreferences]]
+
+If this still does not work, contact the administrator who installs skins.
+
+For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Report bugs in the [[TWiki:Support/WebHome][Support web]].
+
+---++ Skin Info
+
+|  Description: | TWiki's default skin; CSS based, flexible and <nop>W3C-compliant |
+|  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" height="130" /></a> |
+|  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
+|  Base Name: | pattern |
+|  Skin Author: | TWiki:Main/ArthurClemens |
+|  Skin Version: | 03 Aug 2008 (v3.0.1) | 
+|  History: | <!-- specify latest version first -->&nbsp; |
+|  03 Aug 2008: | v.3.0.1 - TWiki 4.2.1 (Edinburgh) RELEASE VERSION |
+|  13 Jul 2007: | v.3.0.0 - TWiki 4.2.0 (Edinburgh) RELEASE VERSION |
+|  15 Jan 2006: | v.2.0.6 - TWiki 4.1.0 (Edinburgh) RELEASE VERSION |
+|  26 Sep 2006: | v.2.0.5 - Fixed form background colors |
+|  22 Jul 2006: | v.2.0.4 - Refactored info in colors.css; fixed textarea color |
+|  26 Jun 2006: | v.2.0.3 - TWiki 4.0.3 (Dakar) RELEASE VERSION |
+|  31 Jan 2006: | v.2.0.0 - TWiki 4.0.0 (Dakar) RELEASE VERSION |
+|  28 Aug 2004: | v.1.0.9 - TWiki 3.0 (Cairo) RELEASE VERSION |
+|  08 Aug 2004: | Initial version (v1.0.0) |
+|  Dependencies: | TWiki:Plugins/TwistyContrib (automatically supported by Dakar) |
+|  Skin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev | %STOPINCLUDE%
+|  Download: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+
+---++ Related topics
+
+   * %SYSTEMWEB%.TWikiCss
+   * %SYSTEMWEB%.PatternSkinCss
+   * %SYSTEMWEB%.PatternSkinCssCookbook
+   * %SYSTEMWEB%.PatternSkinCssCookbookCenterPage
+   * %SYSTEMWEB%.PatternSkinCssCookbookEditTableStyle
+   * %SYSTEMWEB%.PatternSkinCssCookbookFonts
+   * %SYSTEMWEB%.PatternSkinCssCookbookNoLeftBar
+   * %SYSTEMWEB%.PatternSkinCssCookbookNoTopBar
+   * %SYSTEMWEB%.PatternSkinCustomization
+   * %SYSTEMWEB%.PatternSkinGraphics
+   * %SYSTEMWEB%.WebBottomBar
+   * %SYSTEMWEB%.WebLeftBar
+   * %SYSTEMWEB%.WebLeftBarCookbook
+   * %SYSTEMWEB%.WebLeftBarExample
+   * %SYSTEMWEB%.WebLeftBarLogin
+   * %SYSTEMWEB%.WebLeftBarPersonalTemplate
+   * %SYSTEMWEB%.WebLeftBarSearch
+   * %SYSTEMWEB%.WebLeftBarWebsList
+   * %SYSTEMWEB%.WebTopBar
+   * %SYSTEMWEB%.AdminDocumentationCategory
+
+Other skins:
+   * %SYSTEMWEB%.TWikiSkins
+   * %SYSTEMWEB%.TWikiSkinBrowser
+
+---++ Feedback
+
+Leave remarks, suggestions and other feedback in TWiki:Plugins.PatternSkinDev.
+

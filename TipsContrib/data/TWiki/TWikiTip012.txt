@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="TWikiContributor" date="1107570220" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+---+ <nop>WikiWords for linking
+
+<nop>WikiWords are capitalized words, run together, such as <b>WebPreferences</b> and <b>CollaborationPlatform</b>. Using a lot of !WikiWords creates a good browsing experience for the reader. %WIKITOOLNAME% links <nop>WikiWords automatically to topics of that name.
+
+[[TWikiTipsOfTheDay][See More Tips...]]
+
+-- TWiki:Main.PaulineCheung - 30 Jan 2005
+

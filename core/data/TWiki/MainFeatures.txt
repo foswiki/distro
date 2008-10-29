@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+---+ Main Features of TWiki
+
+   * *Any web browser:* Edit existing pages or create new pages by using any web browser. There is no need to upload pages.
+   * *Edit link:* To edit a page, simply click on the ==Edit== link at the top or bottom of the page.
+   * *Auto links:* Web pages are [[WikiWord][linked automatically]]. You do not need to learn HTML commands to link pages.
+   * *Text formatting:* Simple, powerful and easy-to-learn [[WikiSyntax][text formatting rules]]. Basically you write text like you would write an e-mail.
+   * *Webs:* Pages are grouped into [[%SYSTEMWEB%.SiteMap][TWiki webs]] (or collections). This allows you to set up separate collaboration groups.
+   * *Search:* [[WebSearch][Full text search]] with/without regular expressions. See a sample [[%SCRIPTURLPATH{"search"}%/TWiki/?scope=text&search=learn][search result]].
+   * *E-mail notification:* Get [[WebChangesAlert][automatically notified]] when something has changed in a TWiki web.
+   * *Structured content:* Use TWikiForms to classify and categorize unstructured web pages and to create simple workflow systems.
+   * *File attachments:* [[FileAttachment][Upload]] and download any file as an attachment to a page by using your browser. This is similar to file attachments in an e-mail, but it happens on web pages.
+   * *Revision control:* All changes to pages and attachments are tracked. Retrieve previous page revisions; compare differences; find out who changed what and when.
+   * *Access control:* Define groups and impose fine-grained read and write [[TWikiAccessControl][access restrictions]] based on groups and users.
+   * *Variables:* Use [[TWikiVariables][variables]] to dynamically compose your pages. This allows you for example to dynamically build a table of contents, include other pages, or show a search result embedded in a page.
+   * *TWiki plugins:* Easily install program enhancements using external [[TWikiPlugins][plug-in modules]]. Developers can create plug-ins in Perl using the TWiki Plugin API.
+   * *Templates and skins:* A flexible [[TWikiTemplates][templating system]] separates program logic and presentation. [[TWikiSkins][Skins]] overwrite template headers and footers; page content is unaffected.
+   * *Managing pages:* Individual [[TWikiTopics][pages]] can be renamed, moved and deleted through the browser.
+   * *Managing users:* Web-based [[TWikiRegistration][user registration]] and [[ChangePassword][change of password]].
+   * *Statistics:* Create statistics of TWiki webs. Find out most popular pages and top contributors.
+   * *Preferences:* Three levels of preferences: TWikiPreferences for site-level, WebPreferences for each web, and user level preferences.
+   * *[[SimultaneousEdits][simultaneous page editing]]:* 
+   * *Referred-By:* Find the pages that contain links to a topic.
+
+__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

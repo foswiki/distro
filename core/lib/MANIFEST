@@ -1,0 +1,23 @@
+!include ../BehaviourContrib/lib/TWiki/Contrib/BehaviourContrib
+!include ../ClassicSkin/lib/TWiki/Contrib/ClassicSkin
+!include ../CommentPlugin/lib/TWiki/Plugins/CommentPlugin
+!include ../EditTablePlugin/lib/TWiki/Plugins/EditTablePlugin
+!include ../EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin
+!include ../InterwikiPlugin/lib/TWiki/Plugins/InterwikiPlugin
+!include ../JSCalendarContrib/lib/TWiki/Contrib/JSCalendarContrib
+!include ../MailerContrib/lib/TWiki/Contrib/MailerContrib
+!include ../PatternSkin/lib/TWiki/Contrib/PatternSkin
+!include ../PreferencesPlugin/lib/TWiki/Plugins/PreferencesPlugin
+!include ../RenderListPlugin/lib/TWiki/Plugins/RenderListPlugin
+!include ../SlideShowPlugin/lib/TWiki/Plugins/SlideShowPlugin
+!include ../SmiliesPlugin/lib/TWiki/Plugins/SmiliesPlugin
+!include ../SpreadSheetPlugin/lib/TWiki/Plugins/SpreadSheetPlugin
+!include ../TablePlugin/lib/TWiki/Plugins/TablePlugin
+!include ../TipsContrib/lib/TWiki/Contrib/TipsContrib
+!include ../TinyMCEPlugin/lib/TWiki/Plugins/TinyMCEPlugin
+!include ../TWikiUserMappingContrib/lib/TWiki/Contrib/TWikiUserMappingContrib
+!include ../TwistyContrib/lib/TWiki/Contrib/TwistyContrib
+!include ../TwistyPlugin/lib/TWiki/Plugins/TwistyPlugin
+!include ../WysiwygPlugin/lib/TWiki/Plugins/WysiwygPlugin
+!include ../core/lib/TWiki/Contrib/core
+

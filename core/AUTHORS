@@ -1,0 +1,113 @@
+TWiki (TM) was written by Peter Thoeny, based on parts of Ward Cunningham's
+original Wiki and Jos Wiki, and has been further developed by Peter and other
+TWiki contributors.
+
+TWiki (TM) is copyright as described in the file COPYRIGHT in the root of
+this distribution and is licensed under the terms of the GNU General Public
+License as described in the file LICENSE accompanying this notice. The people
+listed below are identified as joint copyright owners.
+
+A TWiki contributor is defined as a person who has contributed:
+   * significant amounts of code that was taken into the TWiki distribution, or
+   * considerably to the TWiki documentation.
+
+This document identifies these people as authors of TWiki.
+
+| *Name*               | *Contact*                      | *Country*   |
+| Adam Theo            | TWiki:Main.AdamTheo            | USA         |
+| Adrian Lynch         | TWiki:Main.AdrianLynch         | Australia   |
+| Al Williams          | TWiki:Main.AlWilliams          | USA         |
+| Alex Tananaev        | TWiki:Main.AlexTananaev        | Russia      |
+| Amanda Smith         | TWiki:Main.AmandaSmith         | USA         |
+| Andrea Sterbini      | TWiki:Main.AndreaSterbini      | Italy       |
+| Andre Ulrich         | TWiki:Main.AndreUlrich         | Germany     |
+| Andrew Moise         | TWiki:Main.AndrewMoise         | USA         |
+| Andrey Tkachenko     | TWiki:Main.AndreyTkachenko     | Russia      |
+| Anton Aylward        | TWiki:Main.AntonAylward        | Canada      |
+| Antonio Bellezza     | TWiki:Main.AntonioBellezza     | Italy       |
+| Antonio Terceiro     | TWiki:Main.AntonioTerceiro     | Brazil      |
+| Arthur Clemens       | TWiki:Main.ArthurClemens       | Netherlands |
+| Ben Houston          | TWiki:Main.BenHouston          | USA         |
+| Ben Voui             | TWiki:Main.BenVoui             | France      |
+| Brig Johnson         | TWiki:Main.BrigJohnson         | USA         |
+| Carlinhos Cecconi    | TWiki:Main.CarlinhosCecconi    | Brazil      |
+| Carl Patten          | TWiki:Main.CarlPatten          | USA         |
+| Caylan Larson        | TWiki:Main.CaylanLarson        | USA         |
+| Che Dong             | TWiki:Main.CheDong             | China       |
+| Christopher Oezbek   | TWiki:Main.ChristopherOezbek   | Germany     |
+| Christophe Vermeulen | TWiki:Main.ChristopheVermeulen | Belgium     |
+| Claus Brunzema       | TWiki:Main.ClausBrunzema       | Germany     |
+| Colas Nahaboo        | TWiki:Main.ColasNahaboo        | France      |
+| Corey Fruitman       | TWiki:Main.CoreyFruitman       | Canada      |
+| Crawford Currie      | http://c-dot.co.uk             | UK          |
+| Cris Bailiff         | TWiki:Main.CrisBailiff         | Australia   |
+| Dan Boitnott         | TWiki:Main.DanBoitnott         | USA         |
+| Dave Harris          | drh@bhresearch.co.uk           | UK          |
+| David Warman         | TWiki:Main.DavidWarman         | USA         |
+| Eric Schwertfeger    | TWiki:Main.EricSchwertfeger    | Germany     |
+| Erik &aring;man      | TWiki:Main.ErikAman            | Sweden      |
+| Florian Weimer       | http://www.enyo.de/fw/         | Germany     |
+| Frank Smith          | TWiki:Main.FrankSmith          | Canada      |
+| Gabriel Araujo       | TWiki:Main.GabrielAraujo       | Brazil      |
+| Gilmar Santos Jr     | TWiki:Main.GilmarSantosJr      | Brazil      |
+| Grant Bowman         | TWiki:Main.GrantBow            | USA         |
+| Greg Abbas           | TWiki:Main.GregAbbas           | USA         |
+| Guido Ostkamp        | TWiki:Main.GuidoOstkamp        | Germany     |
+| Harold Gottschalk    | TWiki:Main.HaroldGottschalk    | USA         |
+| Harald Joerg         | TWiki:Main.HaraldJoerg         | Germany     |
+| Ivan Kuncl           | TWiki:Main:IvanKuncl           | Czech Republic |
+| J Christoph Fuchs    | TWiki:Main.JChristophFuchs     | Germany     |
+| John Talintyre       | TWiki:Main.JohnTalintyre       | UK          |
+| Kenneth Lavrsen      | http://www.lavrsen.dk          | Denmark     |
+| Kevin Kinnell        | TWiki:Main.KevinKinnell        | USA         |
+| Kim Covil            | TWiki:Main.KimCovil            | UK          |
+| Klaus Wriessnegger   | TWiki:Main.KlausWriessnegger   | Germany     |
+| Koen Martens         | TWiki:Main.KoenMartens         | Netherlands |
+| Lynnwood Brown       | TWiki:Main.LynnwoodBrown       | USA         |
+| Manpreet Singh       | TWiki:Main.ManpreetSingh       | USA         |
+| Marco Antonio Gonzalez Parra |                        | Mexico      |
+| Mario Frasca         | TWiki:Main.MarioFrasca         | Italy       |
+| Markus Peter         | !SPiN !GmbH (warpi@spin.de)    | Germany     |
+| Martin Cleaver       | http://www.cleaver.org         | Canada /UK  |
+| Martin Gregory       | TWiki:Main.MartinGregory       | Australia   |
+| Martin Raabe         | TWiki:Main.MartinRaabe         | Germany     |
+| Marzia Mastrogiacomo | TWiki:Main.MarziaMastrogiacomo | Italy       |
+| Massimo Mancini      | TWiki:Main.MassimoMancini      | Italy       |
+| Matt Wilkie          | TWiki:Main.MattWilkie          | Canada      |
+| MeredithLesly        | TWiki:Main.MeredithLesly       | USA         |
+| Michael Daum         | TWiki:Main.MichaelDaum         | Germany     |
+| Michael Sparks       | http://kamaelia.org/Michael.html | UK        |
+| Miguel A. Bayona     | TWiki:Main.MiguelABayona       | Spain       |
+| Mike Mannix          | TWiki:Main.MikeMannix          | USA         |
+| Mike Salisbury       | TWiki:Main.MikeSalisbury       | USA         |
+| Mirian Bruckschen    | TWiki:Main.MirianBruckschen    | Brazil      |
+| Moritz Naumann       | TWiki:Main.MoritzNaumann       | Germany     |
+| Neil McCurdy         | TWiki:Main.NeilMcCurdy         | USA         |
+| Nicholas Lee         | TWiki:Main.NicholasLee         | New Zealand |
+| Niels Koldso         | TWiki:Main.NielsKoldso         | Denmark     |
+| Oliver Krueger       | TWiki:Main.OliverKrueger       | Germany     |
+| Pauline Cheung       | TWiki:Main.PaulineCheung       | USA         |
+| Pavel Goran          | TWiki:Main.PavelGoran          | Russia      |
+| Peter Fokkinga       | TWiki:Main.PeterFokkinga       | Netherlands |
+| Peter Nixon          | TWiki:Main.PeterNixon          | USA         |
+| Peter Thoeny         | http://www.structuredwikis.com/peter | USA   |
+| Rafael Alvarez       | TWiki:Main.RafaelAlvarez       | Venezuela   |
+| Randy Kramer         | TWiki:Main.RandyKramer         | USA         |
+| Raymond Lutz         | TWiki:Main.RaymondLutz         | USA         |
+| Richard Donkin       | TWiki:Main.RichardDonkin       | UK          |
+| Ryan Freebern        | TWiki:Main.RyanFreebern        | USA         |
+| Sam Hasler           | TWiki:Main.SamHasler           | UK          |
+| Sergej Znamenskij    | TWiki:Main.SergejZnamenskij    | Russia      |
+| Sergey "JSinx"       | TWiki:Main.SergeyJSinx         | Russia      |
+| Stanley Knutson      | TWiki:Main.StanleyKnutson      | USA         |
+| Steffen Poulsen      | TWiki.Main.SteffenPoulsen      | Denmark     |
+| Sue Blake            | TWiki:Main.SueBlake            | Australia   |
+| Sven Dowideit        | TWiki:Main.SvenDowideit        | Australia   |
+| Ted Pavlic           | TWiki:Main.TedPavlic           | USA         |
+| Thomas Freudenberg   | TWiki:Main.ThomasFreudenberg   | Germany     |
+| Thomas Weigert       | TWiki:Main.ThomasWeigert       | USA         |
+| Travis Barker        | TWiki:Main.TravisBarker        | USA /Sweden |
+| Vito Miliano         | TWiki:Main.VitoMiliano         | USA         |
+| Walter Mundt         | TWiki:Main.WalterMundt         | USA         |
+| Will Norris          | TWiki:Main.WillNorris          | Mexico      |
+| Zbigniew Kulesza     | TWiki:Main.ZbigniewKulesza     | Poland      |

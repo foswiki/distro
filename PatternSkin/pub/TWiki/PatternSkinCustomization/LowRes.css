@@ -1,0 +1,23 @@
+/* Changes to layout */
+
+.twikiMain {
+	margin-left:0px;
+}
+.twikiLeftBar {
+	margin-left:100%;
+}
+.twikiBottomBar {
+	margin-left:1em;
+	margin-right:0;
+	padding:0;
+}
+
+/* Changes to style */
+
+.twikiMain {
+	padding-left:1em;
+	padding-right:1em;
+}
+.twikiBottomBarContents {
+	padding-left:0em;
+}

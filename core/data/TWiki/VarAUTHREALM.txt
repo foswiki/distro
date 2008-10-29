@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarAUTHREALM
+---+++ AUTHREALM -- authentication realm
+   * String defined as {AuthRealm} in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is used in certain password encodings, and in login templates as part of the login prompt.
+   * Syntax: =%<nop>AUTHREALM%=
+   * Expands to: %AUTHREALM%
+   * Related: TWikiUserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSION_VARIABLE][SESSION_VARIABLE]]
+

@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="TWikiContributor" date="1127386324" format="1.1" version="$Rev: 6517 $"}%
+<!--
+Try and make sure robots don't spam contributor names
+   * Set HTTP_EQUIV_ON_VIEW = <meta name="robots" content="noindex,nofollow" />
+-->
+
+---+ TWiki Contributor
+
+%INCLUDE{"%ATTACHURL%/AUTHORS"}%
+
+On a personal note, I would like to take this opportunity to express my sincere appreciation and thanks to all who contributed ideas, code, fixes and documentation and anything else to the Open Source TWiki project. -- TWiki:Main.PeterThoeny
+ 
+__Note:__ Please contact us at http://TWiki.org if you contributed to TWiki and your name is not on this list!
+
+__Disclaimer:__ TWiki gets installed on many public web sites. The TWiki contributors are not affiliated in any way with those sites.
+
+__Releated Topics:__ %SYSTEMWEB%.TWikiHistory, and the List of Production Releases in TWiki:Codev/TWikiReleases
+
+%META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS~" size="117" user="TWikiContributor" version="1.1"}%

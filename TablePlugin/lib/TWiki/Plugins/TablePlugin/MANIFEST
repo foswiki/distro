@@ -1,0 +1,4 @@
+data/TWiki/TablePlugin.txt 0644
+data/TWiki/VarTABLE.txt 0644
+lib/TWiki/Plugins/TablePlugin.pm 0444
+lib/TWiki/Plugins/TablePlugin/Core.pm 0444

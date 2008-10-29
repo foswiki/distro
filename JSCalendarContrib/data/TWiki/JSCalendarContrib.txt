@@ -1,0 +1,81 @@
+---+!! %TOPIC%
+<img src="%ATTACHURL%/screenshot.gif" style="float:right"/>
+
+%SHORTDESCRIPTION%
+
+<!--
+
+   PLEASE DO NOT EDIT THIS TOPIC
+
+   It is automatically generated from the subversion repository, and any changes
+   you make will simply be overwritten the next time a release is generated.
+
+   Instead, you could check your fix in, raise a bug in the Bugs web, or mail thge author.
+-->
+
+%TOC%
+
+---++ Summary of Contents
+This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] Javascript in a form suitable for use with TWiki.
+
+---++ Detailed Documentation
+%$POD%
+
+---+++ Using the Calendar in user forms
+You can also use the calendar directly in your own hand-built forms, without
+having to write any code. Just add this inline in the topic text:
+<verbatim>
+%INCLUDE{"%TWIKIWEB%/JSCalendarContribInline"}%
+</verbatim>
+Then, to display a calendar icon next to a text input field:
+<verbatim>
+<input type="text" id="cal_val_here" />
+<input type="image" src="%PUBURL%/%TWIKIWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+</verbatim>
+If the contrib is installed, you will see such a field here:
+%INCLUDE{"%TWIKIWEB%/JSCalendarContribInline"}%
+<input type="text" id="cal_val_here" />
+<input type="image" src="%PUBURL%/%TWIKIWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+
+<!--
+   * Set SHORTDESCRIPTION = [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons.
+-->
+
+---+++ Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+	* An administrator can customize the appearance of the calendar by setting the following in =<nop>LocalSite.cfg=
+     | *Setting* | *Default* |
+     | =$TWiki::cfg{JSCalendarContrib}{style}= | ='blue'= |
+     | =$TWiki::cfg{JSCalendarContrib}{lang}= | ='en'= |
+     | =$TWiki::cfg{JSCalendarContrib}{format}= | ='%e %b %Y'= |
+
+---+++ Contrib Info
+
+Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+|  Author: | TWiki:Main/CrawfordCurrie http://c-dot.co.uk |
+|  Version: | %$VERSION% of the Mishoo calendar |
+|  Copyright &copy;: | See [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Dependencies: | %$DEPENDENCIES% |
+| Change History: | |
+|  10 Sep 2008 | Bugs:Item5991 Applied patch to fix rendering on IE7 .|
+|  06 Sep 2007 | Bugs:Item4030 Added doc for using the calendar in user forms |
+|  13603 | Bugs:Item2982 cleaned up the interface to the contrib, re-added a date rendering function with a more generic interface |
+|  11594 | Allow format to be configured. |
+|  11415 | Add a =renderFormFieldForEditHandler= so other plugins can forward to this handler to add the date field to the TWikiForms. (TWiki:Main.ThomasWeigert) |
+|  10247 | Bugs:Item2054 put the calendar at z-index 2000, way above pattern skin divs. |
+|  6634 | Bugs:Item453  removed EditTablePlugins private copy of the Mishoo JS calendar, and made sure it works with JSCalendarContrib. Improved the documentation of the JSCalendar while I was there. |
+|  6626 | Bugs:Item468  updated docs for Dakar release |
+|  5048 | Cairo readiness |
+|  5039 | Split from !SharedCode |
+|  27 Dec 2005 | updated to calendar version 1.0; set style for Safari to win2k-1|
+|  14 Aug 2004 | Separated out from !SharedCode module |
+|  Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+__Related Topics:__ %TWIKIWEB%.TWikiPreferences
+
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%

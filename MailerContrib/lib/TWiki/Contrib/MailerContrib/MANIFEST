@@ -1,0 +1,16 @@
+lib/TWiki/Contrib/MailerContrib/Config.spec 0444 Spec file for =configure=
+lib/TWiki/Contrib/MailerContrib/WebNotify.pm 0444
+lib/TWiki/Contrib/MailerContrib/Subscriber.pm 0444
+lib/TWiki/Contrib/MailerContrib/Subscription.pm 0444
+lib/TWiki/Contrib/MailerContrib/TopicContext.pm 0444
+lib/TWiki/Contrib/MailerContrib/Change.pm 0444
+lib/TWiki/Contrib/MailerContrib/Constants.pm 0444
+lib/TWiki/Contrib/MailerContrib/UpData.pm 0444
+lib/TWiki/Contrib/MailerContrib/CompatibilityHacks.pm 0444
+lib/TWiki/Contrib/MailerContrib.pm 0444
+data/TWiki/MailerContrib.txt 0644
+tools/mailnotify 0555
+templates/mailnotify.tmpl 0444
+templates/newsletter.tmpl 0444
+pub/TWiki/MailerContrib/wikiringlogo20x20.png 0660
+pub/TWiki/MailerContrib/logo.gif 0660

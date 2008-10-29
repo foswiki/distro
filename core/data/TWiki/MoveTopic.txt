@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 4516 $"}%
+ManagingTopics can be used to move a topic from one Web to another.  One specialised use of this is DeleteWeb.
+
+__Related Topics:__ UserDocumentationCategory

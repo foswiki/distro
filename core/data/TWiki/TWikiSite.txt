@@ -1,0 +1,54 @@
+%META:TOPICINFO{author="TWikiContributor" date="1215477251" format="1.1" version="$Rev: 15474 $"}%
+---++ TWiki is a Web-based collaboration platform
+   * A TWiki site is an easy-to-use, full-featured open communications environment:
+      * people anywhere on the Web or on an intranet can meet
+      * rich Web text, images, and online multimedia are easily shared
+      * documents and other files can be uploaded and downloaded
+      * all you need is a Web browser and any available network connection
+
+---++ TWiki is an UNUSUAL Web-based collaboration platform
+   * There's no doubt that, to most people, TWiki at first seems almost the opposite of how the Web and online communications "normally" work. Why?
+      * TWiki operates like a whiteboard for the Web - it lets you and all other users write, place pictures and post links, anywhere on any page.
+      * Not only that, everyone can EDIT anything, anywhere on a page.
+      * At first, this may seem "too" open - it soon becomes second-nature, allowing you the freedom to edit and update the way you want to.
+
+---++ TWiki is a powerful Web enhancement...
+   * TWiki's parsing engine is written in Perl. It reads a text file, and converts TWiki shorthand into standard HTML, on the fly. The point is to:
+      * make adding and editing text simple _(How simple? Click on the *Edit* link at the bottom of the page...)_ 
+      * let you find information _fast_ ([[WebSearch][WebSearch]])
+
+   * TWiki provides an intuitive way for people to meet and collaborate, that aspires to the Zen ideals known as WabiSabi. It finds beauty in the imperfect and ephemeral and constantly evolving. (When it comes down to it, that's all you need.)
+
+   * TWiki is one of many WikiWikiClones, based on Ward Cunningham's original [[http://c2.com/][Wiki Wiki Web]].
+
+---++ "TWiki" stands for...
+
+   * _Wiki wiki_ means "quick" in Hawaiian. The shuttle at Honolulu Airport is called the _wiki wiki_ bus, which is where the original Wiki web got its name.
+   * _TWiki_ is short for _TakeFive Wiki_, the name of the company where its founder Peter Thoeny worked. (It was later discovered that _Twiki_ is also the name of an AI robot that co-starred in the <a href="http://www.buck-rogers.com/" target="_blank"><i>Buck Rogers</i></a> movie and TV series from 1979.)
+
+---++ Selected TWiki Topics...
+
+   * WelcomeGuest is a fast track guide to TWiki
+   * TWikiSite provides a basic big picture overview of the TWiki platform
+   * TWikiTopics is a quick and concentrated look at the TWiki core
+   * TWikiPlannedFeatures lists approved additions to future TWiki versions.
+   * TWikiEnhancementRequests is the place to add your new feature requests.
+   * [[%HOMETOPIC%][TWiki Documentation]]: a compact User's Guide and an in-depth Reference Manual.
+   * TWikiHistory puts TWiki development on a timeline
+   * WikiCulture looks at the unique type of collaboration Wiki systems offer.
+   * WikiReferences links to articles and books about collaboration and Wiki technology.
+
+<blockquote> %X% If you have to log-in to use TWiki, for example, if TWiki is running on an intranet, it automatically signs pages you edit and create with your WikiName. If your TWiki installation doesn't require a log-in, TWiki gives everyone the same username: %USERSWEB%.TWikiGuest.</blockquote>
+
+---++ Disclaimer
+
+   * TWiki<sup>&reg;</sup> is a registered trademarks of TWiki founder [[http://twiki.org/cgi-bin/view/Main/PeterThoeny][Peter Thoeny]], [[http://twiki.net/][TWIKI.NET]]. The [[TWikiLogos][TWiki logo]] and the "Collaborate with TWiki" tagline are trademarks of Peter Thoeny.
+   * TWiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]].
+   * TWiki has its root in the GPLed <nop>JosWiki. Many thanks to Markus Peter and Dave Harris for creating <nop>JosWiki!
+   * TWiki's home address is http://twiki.org/
+   * The latest TWiki release is available from http://twiki.org/download.html
+   * This site is powered by TWiki version *%WIKIVERSION%*
+
+__Related Topics:__ UserDocumentationCategory
+%STOPINCLUDE%
+-- __Contributors:__ TWiki:Main.MikeMannix, TWiki:Main.PeterThoeny

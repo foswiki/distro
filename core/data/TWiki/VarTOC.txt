@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarTOC
+---+++ TOC -- table of contents of current topic
+   * Syntax: =%<nop>TOC%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarTOC2][TOC{"Topic"}]]
+

@@ -1,0 +1,407 @@
+%META:TOPICINFO{author="TWikiContributor" date="1168735119" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="FormattedSearch"}%
+---+!! Search Pattern Cookbook
+
+The Search function in TWiki is very powerful. Especially searches using a RegularExpression play an important part of tapping TWiki's full potential. Unfortunately RegularExpressions can be incredibly obscure to the uninitiated. 
+
+Most people not familiar (enough) with Regular Expressions mostly cut and paste (and maybe tweak) from existing examples. This page intends to collect lots of examples together.
+
+%TOC{ depth="2" }%
+
+<!-- ============================== -->
+#SearchTables
+---++ Pattern 1: Extract values from a table
+
+---+++ Problem definition
+
+Suppose there is a topic with a table defining entries in a !TWikiForm. I.e. they define select menu items in a form template. They are then formatted like:
+
+<verbatim>
+| *Name* | *Type* | *Tooltip message* |
+| option1 | option | |
+| option2 | option | |
+| option3 | option | |
+</verbatim>
+
+How to extract the 'name' values, i.e. 'option1', 'option2' and 'option3' and put them in a HTML form select input?
+
+---+++ Solution
+
+The following search pattern can be employed:
+
+<verbatim>
+<form>
+<select>
+%SEARCH{ "^\|[^\|]*\| *option *\|" topic="%TOPIC%" type="regex" multiple="on" nosearch="on" nototal="on" format="<option>$pattern(^\| *(.*?) *\|.*)</option>" }%
+</select>
+</form>
+</verbatim>
+
+which is, in effect:
+<form>
+<select>
+%SEARCH{ "^\|[^\|]*\| *option *\|" topic="%TOPIC%" type="regex" multiple="on" nosearch="on" nototal="on" format="<option>$pattern(^\| *(.*?) *\|.*)</option>" }%
+</select>
+</form>
+
+
+<!-- ============================== -->
+#SearchFormClassification
+---++ Pattern 2: List generated from form classification
+
+---+++ Problem
+
+Imagine a TWiki form-based topic classification, i.e. every page has a form with several fields. How to:
+   1. create a search to display all topics where one form field is set to a certain value
+   1. create a search to filter the list above based on the values of a second form field
+
+---+++ Test case
+
+In practice: %BR%
+Image a TWiki form with two fields:
+   * !TopicClassification = One, Two or Three
+   * !TopicStatus = Test or Final
+
+We will:
+   1. List all topics where the !TopicClassification field is set to 'Two'
+   2. Enable the user to filter this list based on the values of !TopicStatus
+
+---+++ Solution
+
+<verbatim>
+%SEARCH{"[T]opicClassification.*value\=.*Two;[T]opicStatus.*value\=.*%URLPARAM{type}%"
+type="regex" casesensitive="on" nosearch="on" 
+format="   * $topic - <font face=\"arial,helvetica\" size=\"1\"> 
+_last modified by_ $wikiusername _on_ $date </font> %BR% &nbsp;&nbsp;&nbsp; 
+<font face=\"arial,helvetica\" size=\"1\"> $formfield(TopicStatus) </font>" 
+sort="topic"}%
+</verbatim>
+
+The filtering select dialogue is created as in Pattern 1:
+
+<verbatim>
+%STARTSIDEBAR%
+*Filter:* %BR%
+<form name="selectType" action="%SCRIPTURLPATH{"view"}%/%WEB%/" >
+<select name="type" size="1" onchange="document.location=this.value;"> 
+%SEARCH{ "^\|[^\|]*\| *option *\|" topic="TopicClassification" web="%WEB%" type="regex" 
+multiple="on" nosearch="on" nototal="on" format="<option value=%INCLUDINGTOPIC%?type=$pattern(^\| *(.*?) *\|.*)>$pattern(^\| *(.*?) *\|.*)</option>" }% 
+<option value=%INCLUDINGTOPIC%>All pages</option> </select>
+</form>
+%STOPSIDEBAR% 
+</verbatim>
+
+This will create similar functionality as TWiki:Plugins.TopicClassificationAddOn
+
+
+<!-- ============================== -->
+#SearchUsernames
+---++ Pattern 3: Creating lists of TWiki usernames
+
+---+++ Problem
+
+How to populate a list box with all usernames of registered TWiki users
+
+---+++ Solution 1: Appropriate for Sep 2004 TWiki (Cairo)
+
+<verbatim>
+<form name="testing" action="%SCRIPTURLPATH{"view"}%/%USERSWEB%" method="get">
+<select name="topic">
+<option>Select user...</option>
+%SEARCH{ "Name:;Email:;Country:" web="%USERSWEB%" type="regex" nosearch="on" nototal="on" format="<option>$topic</option>" }%
+</select>
+<input type="submit" value="Go" />
+</form>
+</verbatim>
+
+Which expands to this: (here limited to all Z* users because TWiki.org has so many)
+
+<form name="testing" action="%SCRIPTURLPATH{"view"}%/%USERSWEB%" method="get">
+<select name="topic">
+<option>Select user...</option>
+%SEARCH{ "Name:;Email:;Country:" web="%USERSWEB%" type="regex" topic="Z*" nosearch="on" nototal="on" format="<option>$topic</option>" }%
+</select>
+<input type="submit" value="Go" />
+</form>
+
+This searches all topics in the Main web that contain "Name", "Email" and "Country" bullets. Alternatively, do a %SYSTEMWEB%.FormattedSearch with =multiple="on"= on the [[%USERSWEB%.TWikiUsers]] topic.
+
+---+++ Solution 2: As Solution 1, but with possibility for multi-selecting usernames
+
+The example of Solution 1 produces the list box.  Add a MULTIPLE to the _select_ statement, i.e.:
+<verbatim>
+<select name="topic" size="2" MULTIPLE>
+</verbatim>
+
+Please note that the Search pattern is unchanged compared to Solution 1. The change is in the HTML form element.
+
+The abovementioned modification is, in effect:
+<form name="testing" action="%SCRIPTURLPATH{"view"}%/%USERSWEB%" method="get">
+<select name="topic" size="2" MULTIPLE>
+<option>Select user...</option>
+%SEARCH{ "Name:;Email:;Country:" web="%USERSWEB%" type="regex" topic="Z*" nosearch="on" nototal="on" format="<option>$topic</option>" }%
+</select>
+<input type="submit" value="Go" />
+</form>
+
+---+++ Solution 3: Appropriate for TWiki 4 (Dakar)
+
+When the User information is stored in a UserForm (as is default in Dakar) then this list can be generated as follows:
+
+<verbatim>
+<form name="testing" action="%SCRIPTURLPATH{"view"}%/%USERSWEB%" method="get">
+<select name="topic">
+<option>Select user...</option>
+%SEARCH{"%META:FORM.*[U]serForm" web="%USERSWEB%" type="regex" casesensitive="on" nosearch="on" format="<option>$topic</option>" sort="topic" excludetopic="Test*, TWiki*"}%
+</select>
+<input type="submit" value="Go" />
+</form>
+</verbatim>
+
+In the above example:
+   * ==META:FORM.*[U]serForm== will search for all topics with a UserForm attached - change this if you have a different form where userdata is stored. Please note that this search does not actually extract anything from the form - it just uses it to identify the appropriate pages
+   * ==excludetopic="Test*, TWiki*"== allows to skip all topics starting with Test and TWiki, such as !TestUser or !TWikiAdmin. Use this if you have any special users who you do not want appearing in this list
+
+
+<!-- ============================== -->
+#SearchTopicParent
+---++ Pattern 4: Extract the parent of a given topic
+
+---+++ Problem
+
+How to get to the parent of the current topic to display on the page?
+
+---+++ Solution 1: Using META
+
+Since TWiki 4.0 you can now use the META variable:
+
+=%<nop>META{ "parent" dontrecurse="on" }%=
+
+
+---+++ Solution 2: Using !SpreadSheetPlugin
+
+You might think that the following Search would do the trick:
+<verbatim>
+%SEARCH{ "^%BASETOPIC%$" scope="topic" nosearch="on" type="regex" nonoise="on" format="   * $parent" }%
+</verbatim>
+
+However, the =$parent= link fails if the topic has no parent set (=$parent= will be empty). You can use some TWiki:Plugins/SpreadSheetPlugin magic to conditionally link to the parent or to =WebHome=:
+
+<verbatim>
+$percntCALC{$IF($EXACT($parent,),<nop>,$NOP(   * $parent))}$percnt
+</verbatim>
+
+So the total Search query to find a topic's parent topic is:
+<verbatim>
+%SEARCH{ "^%BASETOPIC%$" scope="topic" type="regex" nonoise="on" format="$percntCALC{$IF($EXACT($parent,),<nop>,$NOP(   * $parent))}$percnt" }%
+</verbatim>
+
+---++++ Test Case
+
+The parent topic of this topic is:
+%SEARCH{ "^%BASETOPIC%$" scope="topic" type="regex" nonoise="on" format="$percntCALC{$IF($EXACT($parent,),<nop>,$NOP(   * $parent))}$percnt" }%
+
+---+++ Solution 3: Using IF statement
+This pattern can be rewritten using =%<nop>IF%=, removing the dependency on !SpreadSheetPlugin:
+<verbatim>
+%SEARCH{ "^%BASETOPIC%$" web="%BASEWEB%" scope="topic" type="regex" nonoise="on" format="$percntIF{$quot$parent$quot then=$quot   * $parent$quot else=$quot<nop>$quot}$percnt" }%
+</verbatim>
+
+---++++ Test Case
+The parent topic of this topic is: %BR%
+%SEARCH{ "^%BASETOPIC%$" web="%BASEWEB%" scope="topic" type="regex" nonoise="on" format="$percntIF{$quot$parent$quot then=$quot   * $parent$quot else=$quot<nop>$quot}$percnt" }%
+
+
+<!-- ============================== -->
+#SearchTopicChildren
+---++ Pattern 5: Show all Children of a given topic
+
+---+++ Problem
+
+How to get to the list of all children of the current topic to display on the page?
+
+---+++ Solution
+
+The parent information is stored in the META:TOPICPARENT meta data. Do a SEARCH to find all topic parent meta data pointing to the current topic:
+
+<verbatim>
+Children:
+%SEARCH{ "META\:TOPICPARENT.*\"%TOPIC%\"" type="regex" nonoise="on" format="[[$topic]]" separator=", " }%
+</verbatim>
+
+__Note:__ Replace =%<nop>TOPIC%= with =%<nop>BASETOPIC%= if you put this SEARCH into the skin or a sidebar.
+
+
+<!-- ============================== -->
+#SearchPublicWebsList
+---++ Pattern 6: Search and display the home topics of public webs in a list
+
+---+++ Problem
+
+How to find and display public webs in a drop down list box.
+
+---+++ Solution
+
+_Thanks to TWiki:Main.PeterThoeny for these solutions._
+
+<verbatim>
+<form>
+<select name="topic">
+<option value="%TOPIC%">Select...</option>
+%SEARCH{ "%HOMETOPIC%" scope="topic" web="all" topic="%HOMETOPIC%" format="<option value=\"$web.$topic\">$web</option>" separator=" " }%
+</select>
+<input type="submit"  value="Go" />
+</form>
+</verbatim>
+
+---+++ Test case
+
+Public webs of TWiki.
+
+<form>
+<select name="topic">
+<option value="%TOPIC%">Select...</option>
+%SEARCH{ "%HOMETOPIC%" scope="topic" web="all" topic="%HOMETOPIC%" format="<option value=\"$web.$topic\">$web</option>" separator=" " }%
+</select>
+<input type="submit"  value="Go" />
+</form>
+
+%T% For private webs, or any other webs you wish to exclude from the display, use "on" for the =Exclude web from a web="all" search= setting in the relevant web's !WebPreferences topic.
+
+---+++ Alternative solution
+
+This result can also be accomplished with the %<nop>WEBLIST% variable.
+
+<form>
+<select name="topic">
+<option value="%TOPIC%">Select...</option>
+%WEBLIST{ format="<option value=\"$name.%HOMETOPIC%\">$name</option>" webs="public" separator=" " }%
+</select>
+<input type="submit" value="Go" />
+</form>
+
+
+<!-- ============================== -->
+#SearchBulletList
+---++ Pattern 7: Create a select box with values from a bullet list
+
+---+++ Problem
+
+We have a topic with a bullet list with category names. In another topic we want to offer these values in a select box dropdown.
+
+For example, !CategoryList has:
+   * Clients
+   * People
+   * Rooms
+   * Buildings
+
+---+++ Solution
+
+The following search pattern can be employed:
+
+<verbatim>
+<select name="type">
+<option>Select category...</option>
+%SEARCH{"   *\s*.*?" topic="CategoryList" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="<option>$pattern(.*   \*\s*([^\n]*).*)</option>"}%
+</select>
+</verbatim>
+
+To render the bullet list as a comma-separated list, use the =separator= parameter:
+<verbatim>
+%SEARCH{"   *\s*.*?" topic="CategoryList" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" separator="," format="$pattern(.*   \*\s*([^\n]*).*)"}%
+</verbatim>
+
+
+<!-- ============================== -->
+#SearchNamedBulletList
+---++ Pattern 8: Extract a value from a named bullet list item
+
+---+++ Problem
+
+Display the user name in the user's topic title
+
+---+++ Solution
+
+Search for the =Name:= entry.
+
+<verbatim>
+%SEARCH{"   * [N]ame: " topic="%TOPIC%" type="regex" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="---+!! $pattern(.*   \* Name: ([^\n]*).*)"}%
+</verbatim>
+
+---+++ Test case
+
+To create a test case, we will put a name entry here:
+
+   * Name: John Doe
+
+Search result:
+
+%SEARCH{"   * [N]ame: " topic="%TOPIC%" type="regex" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="---+!! $pattern(.*   \* Name: ([^\n]*).*)"}%
+
+
+<!-- ============================== -->
+#SearchMetaData
+---++ Pattern 9: Search for Form and Meta data: explained
+
+---+++ Problem
+
+Below is an example of a search that searches form data. The questions are:
+   * why is this searching the metadata, shouldn't it just search the text?
+   * what is the meaning of the =td..td= in the search expression? 
+
+<pre>
+%<nop>SEARCH{ "[S]tatus.*(td..td|value\=).*[W]aiting" casesensitive="on" type="regex" 
+nosearch="on" nototal="on" format="| [[$topic]]&lt;br /> ($date - $rev - 
+[[%<nop>SCRIPTURLPATH{rdiff}%/$web/$topic][Diffs]]) |"}%
+</pre>
+
+---+++ Solution
+
+%SEARCH depends on grep, and grep searches the whole file, including the meta data.
+
+An example meta data form field is:
+<pre>
+%<nop>META:<nop>FIELD{name="OperatingSystem" title="OperatingSystem" value="Os<nop>Win"}%
+</pre>
+So a search for a form field could look like:
+<pre>
+%<nop>SEARCH{ "[O]peratingSystem.*value\=.*[O]sWin" type="regex" ... }%
+</pre>
+   * Using square brackets is a trick to avoid a hit on the topic doing the search.
+   * The =.*= indicate that there can be any number of any character between =OperatingSystem= and =value= in the (whole) file
+
+Now the original file format of the category table (the predecessor of the TWiki forms) looks like this:
+<verbatim>
+<td valign="top" align="right"> OperatingSystem:  </td><td>  OsWin </td>
+</verbatim>
+The following search finds topics in the old and new format:
+<pre>
+%<nop>SEARCH{ "[O]peratingSystem.*(td..td|value\=).*[O]sWin" type="regex" ... }%
+</pre>
+
+The =td..td= matches =td&lt;&gt;td=; a simple search on ="[O]peratingSystem.*[O]sWin"= could find a hit in the topic text by coincidence.
+
+A simple =%<nop>SEARCH{ "[O]peratingSystem.*value\=<nop>.*[O]sWin" ...}%= search is sufficient if you do not have topics in the old format.
+
+
+<!-- ============================== -->
+#MovedTopics
+---++ Pattern 10: Search all topics that have been moved
+
+---+++ Problem
+
+How would I go about listing all moved topics ?
+
+---+++ Solution
+
+Search for the META:TOPICMOVED meta data. Type this: 
+
+=Moved topics: %<nop>SEARCH{ "%META\:TOPICMOVED" type="regex" format="$topic, " nosearch="on" noheader="on" nosummary="on" }%=
+
+to get this (limited to 10 results):
+
+Moved topics: %SEARCH{ "%META\:TOPICMOVED" type="regex" format="$topic, " nosearch="on" noheader="on" nosummary="on" limit="10"}%
+
+__Related Topics:__ UserDocumentationCategory, SearchHelp, TWikiVariables#VarSEARCH, FormattedSearch, RegularExpression
+
+-- __Contributors:__ TWiki:Main.AntonAylward, TWiki:Main.ArthurClemens, TWiki:Main.JosMaccabiani, TWiki:Main.PeterThoeny, TWiki:Main.SueLocke

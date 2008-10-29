@@ -1,0 +1,16 @@
+Source: twiki
+Section: web
+Priority: optional
+Maintainer: Sven Dowideit <SvenDowideit@DistributedINFORMATION.com>
+Build-Depends: debhelper (>= 5), tardy, po-debconf, dpatch
+Standards-Version: 3.8.0
+
+Package: twiki
+Architecture: all
+Depends: ${perl:Depends}, libnet-perl, libmime-base64-perl, rcs (>= 5.7), apache-common | apache2-common | apache2.2-common, debconf (>=  0.5) | debconf-2.0, libalgorithm-diff-perl, liberror-perl, libdigest-sha1-perl, libtext-diff-perl, liblocale-maketext-lexicon-perl, libcgi-session-perl, liburi-perl, libhtml-parser-perl
+Suggests: libunicode-maputf8-perl, libapache-mod-perl, libapache2-mod-perl2
+Description: A Web Based Collaboration Platform
+ TWiki is a modern CGI-based implementation of the Wiki collaboration platform
+ originally developed for OOP/Patterns collaboration.  In addition to the 
+ traditional Wiki feature of allowing any web browser to serve as a contributing
+ client, TWiki adds rcs-based version control and user management.

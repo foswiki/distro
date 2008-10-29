@@ -1,0 +1,83 @@
+%TMPL:INCLUDE{"edit"}%
+%TMPL:DEF{"logo"}%%TMPL:END%%{ don't show a logo to make best use of screen estate }%
+
+
+
+%TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
+
+%TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twikiPref.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
+<script>
+twiki.Event.addLoadEvent(initForm);
+</script>%TMPL:END%
+
+
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" link="%MAKETEXT{"Edit help"}%" showimgleft="%ICONURLPATH{toggleopen}%"
+hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
+
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage patternEditPage%TMPL:END%
+
+
+%TMPL:DEF{"formstart"}%<div class="twikiFormHolder" id="formHolder">
+<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" onsubmit="return validateTWikiMandatoryFields(event)">%TMPL:END%
+
+
+%TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='twikiEditComment twikiInputField' type='text' style='width:50%' name='comment' id='comment' /> <a target='RevComment' class='twikiPopUp' href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/RevComment' rel='nofollow'>%MAKETEXT{"help"}%</a></div><!--/revComment-->" else=""}%%TMPL:END%
+
+
+%TMPL:DEF{"forcerevisioncheckbox"}%<span class="patternSaveOptionsContents"><input type="checkbox" class="twikiCheckbox" title="Creates a new topic revision when saving" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% /><label for="forcenewrevision">%MAKETEXT{"Force new revision"}%</label> <a class="twikiPopUp" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/ForceNewRevision" target="ForceNewRevision" rel='nofollow' title='%MAKETEXT{"Read new revision help text in new window"}%'>%MAKETEXT{"help"}%</a></span><!--/patternSaveOptionsContents-->%TMPL:END%
+
+
+%TMPL:DEF{"saveoptions"}%<div class="patternSaveOptions">%TMPL:P{"forcerevisioncheckbox"}%</div><!--/patternSaveOptions-->%TMPL:END%
+
+
+%TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp;%TMPL:P{"button_quietsave"}%&nbsp;%TMPL:P{"button_checkpoint"}% %TMPL:P{"button_preview"}% %MAKETEXT{"or"}% %TMPL:P{"button_cancel"}%%TMPL:END%
+
+
+%TMPL:DEF{"button_save"}%<input type="submit" class="twikiSubmit" name="action_save" id="save" %MAKETEXT{"value='Save' accesskey='s'"}% />%TMPL:END%
+
+%TMPL:DEF{"button_quietsave"}%<input type="submit" class="twikiButton" name="action_quietsave" id="quietsave" %MAKETEXT{"value='Quiet save' accesskey='q'"}% />%TMPL:END%
+
+%TMPL:DEF{"button_checkpoint"}%<input type="submit" class="twikiButton" name="action_checkpoint" id="checkpoint" %MAKETEXT{"value='Save and Continue' accesskey='k'"}% />%TMPL:END%
+
+%TMPL:DEF{"button_preview"}%<input type="submit" class="twikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% onclick="enableTWikiMandatoryChecks()" />%TMPL:END%
+
+%TMPL:DEF{"button_cancel"}%<input type="submit" class="twikiButton twikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressTWikiSaveValidation()" />%TMPL:END%
+
+
+%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp twikiGrayText">%TMPL:P{"accesskeys_help"}%</div><!--/patternSaveHelp-->%TMPL:END%
+
+
+%TMPL:DEF{"accesskeys_help"}%%ICON{info}% <a class="twikiPopUp" target="AccessKeys" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/AccessKeys">%MAKETEXT{"Access keys"}%</a>: %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"topicinfo"}%<div class="patternTopicActions"><div class="patternTopicAction">%TMPL:P{"revCommentPluginOptions"}%<div class="patternActionButtons">%TMPL:P{"action_buttons"}%</div><!--/patternActionButtons-->
+%TMPL:P{"saveoptions"}%</div><!--/patternTopicAction--></div><!--/patternTopicActions-->%TMPL:P{"actionbuttons_help"}%%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="twikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+
+%TMPL:DEF{"textarea"}%<textarea class="twikiTextarea twikiEditboxStyleProportional" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>
+%TMPL:P{"sig_textareabuttons"}%%TMPL:END%
+
+
+%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"sig"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%<br class="twikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
+
+
+%TMPL:DEF{"sig"}%<span class="patternSig twikiLeft"><label for="sig" class="twikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="twikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /></span><!--/patternSig-->%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="twikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
+%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%
+%TMPL:P{"textarea"}%
+%TMPL:P{"formbottom"}%%TMPL:P{"topicinfo"}%
+%TMPL:P{"formend"}%
+%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%

@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1160951440" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="VarBB"}%
+#VarBB4
+---+++ BB4 -- level 4 bullet with line break
+   * Line break and bullet, level 4.
+   * Type: Preference variable - TWikiRenderingShortcut.
+   * Current value: BB4 = %BB4%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarVBAR][VBAR]]

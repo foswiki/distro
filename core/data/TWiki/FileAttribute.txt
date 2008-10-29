@@ -1,0 +1,5 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 5940 $"}%
+%META:TOPICPARENT{name="FileAttachment"}%
+Each FileAttachment in a Topic has an attribute string.  At present only the hidden attribute is supported.  If the attribute includes _h_ then the attachment is considered to be hidden.  It is not listed in the topic, but is displayed when attach page is displayed.
+
+__Related Topics:__ UserDocumentationCategory, DeveloperDocumentationCategory

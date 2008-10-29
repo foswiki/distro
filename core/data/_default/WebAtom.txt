@@ -1,0 +1,6 @@
+%META:TOPICINFO{author="TWikiContributor" date="1138082878" format="1.0" version="$Rev: 8264 $"}%
+<title>%WIKITOOLNAME%'s <nop>%WEB% web</title>
+<subtitle>%MAKETEXT{"The [_1] web of TWiki. TWiki is a Web-Based Collaboration Platform for the Enterprise." args="<nop>%WEB%"}%</subtitle>
+%INCLUDE{"%SYSTEMWEB%.WebAtomBase"}% <!--
+   * Set SKIN = rssatom
+-->

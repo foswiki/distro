@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="TWikiContributor" date="1127386324" format="1.1" version="$Rev: 15171 $"}%
+---+ TWiki Contributor
+
+Not an actual user of this site, but a person devoting some of his/her time to contribute to the Open Source TWiki project. [[%SYSTEMWEB%.TWikiContributor][TWikiContributor]] lists the people involved.
+
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]]
+
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="TWikiAdminGroup"}%
+

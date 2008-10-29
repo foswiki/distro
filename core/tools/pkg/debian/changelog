@@ -1,0 +1,446 @@
+twiki (1:4.2.3-1) unstable; urgency=high
+
+  * update to 4.2.3 release (Closes: #462560)
+  * add enabling of apache modules (Closes: #439680)
+  * mention the cronjobs in the README.Debian (Closes: #426394)
+  * change redirects so they are relative paths, not localhost
+  * change the configure installer to work on debianised paths (Closes: #292474)
+  * change RedirectMatch's to use relative paths (Closes: #454347)
+  * fix control Depends line (Closes: #453193)
+  * change configure to use any valid-user - TWikiGuest is silly
+  * move pub to /var/lib/twiki/pub and use apache.conf
+ 
+ -- Sven Dowideit <SvenDowideit@DistributedINFORMATION.com>  Mon, 18 Aug 2008 09:53:40 +0100 
+
+twiki (1:4.1.2-4) unstable; urgency=emergency
+
+  * squash softlink exploit on session directory (Closes: #494648)
+  * related issue with passthrough files (Closes: #468159)
+  * fix dependancys on apache* rather than apache*-common (Closes: #482285)
+  * remove TWikiGuest user with hardcoded password from htpassword.
+  * Build instructions moved from section -arch to -indep (closes lintian warning).
+
+ -- Sven Dowideit <SvenDowideit@DistributedINFORMATION.com>  Thu, 14 Aug 2008 09:53:40 +0100
+
+twiki (1:4.1.2-3.2) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Protect configure script which used to be world accessible as a
+    trivial user : will now be accessible only from localhost as a
+    specific user, which is configured through Debconf. (Closes: #485562)
+  * Added spanish translation , thanks to Fernando C. Estrada (Closes:
+    #458573).
+  * Improved docs in NEWS.Debian and README.Debian
+  * Improved wording of debconf templates
+  * Updated debconf translations following call for updates (thanks to
+    Christian Perrier) :
+    - Galician : Closes: #488377
+    - Vietnamese : Closes: #488383
+    - Norwegian Bokmål. Closes: #488387
+    - Romanian : Closes: #488712
+    - French : Closes: #488758
+    - Portuguese : Closes: #488893
+    - Basque : Closes: #488933
+    - Czech : Closes: #489439
+    - German : Closes: #489527
+    - Russian : Closes: #489530
+  * Removed obsolete br.po (see pt_BR.po instead) translation file.
+  * Add new Finnish translation of the debconf templates, thanks to Esko
+    Arajärvi (Closes: #489147).
+  * Properly clean after dpatch
+
+ -- Olivier Berger <olivier.berger@it-sudparis.eu>  Wed, 16 Jul 2008 15:04:09 +0200
+
+twiki (1:4.1.2-3.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Do not version the perl dependency substitution. (Closes: #453193)
+
+ -- Philipp Kern <pkern@debian.org>  Sat, 12 Jan 2008 12:26:01 +0100
+
+twiki (1:4.1.2-3) unstable; urgency=high
+
+  * secure /var/www/twiki/pub/_work_areas (Closes: #444982)
+    CVE-2007-5193
+  * session files in /tmp/twiki, and add O_EXCL to files that go there
+  * updated Vietnamese translation (Closes: #426850)
+  * don't modify files that are not installed (Closes: #444498)
+
+ -- Sven Dowideit <SvenDowideit@DistributedINFORMATION.com>  Mon, 29 Oct 2007 09:53:40 +0100
+
+twiki (1:4.1.2-2) unstable; urgency=high
+
+  * secure /var/www/twiki/pub/_work_areas (Closes: #444982)
+    CVE-2007-5193
+  * added Dutch translation (Closes: #422245)
+
+ -- Sven Dowideit <SvenDowideit@DistributedINFORMATION.com>  Sun, 14 Oct 2007 09:53:40 +0100 
+
+twiki (1:4.1.2-1) unstable; urgency=low
+
+  * add commented out mod_perl on apache 2 support using IFModule
+  * block php from pub and spiders from DOS'ing us
+  * remove 192.168.1.10 from configure access (Closes: #412057)
+  * update to twiki release 4.1.2 (Closes: #414361)
+
+ -- Sven Dowideit <SvenDowideit@DistributedINFORMATION.com>  Sun, 15 Apr 2007 08:53:40 +0100
+
+twiki (1:4.0.5-9.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Correct inconsistencies in debconf templates
+  * Debconf translations:
+    - Remove the incorrect br.po file (Breton != Brazilian)
+    - Galician. Closes: #411191
+    - Tamil. Closes: #411211
+    - German. Closes: #411219
+    - Czech. Closes: #411223
+    - Swedish. Closes: #411230
+    - Russian. Closes: #411239
+    - Brazilian Portuguese. Closes: #411278
+    - Portuguese. Closes: #411295
+    - Norwegian Bokmal. Closes: #411331
+    - Romanian. Closes: #411351
+    - French. Closes: #411615
+    - Basque. Closes: #411632
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 20 Feb 2007 08:53:40 +0100
+
+twiki (1:4.0.5-9) unstable; urgency=emergency
+
+  * move cgi-bin/.htaccess to apache.conf and remove // from end of defaultsiteurl
+    (Closes #408380)
+  * add liburi-perl dependancy for MailerContrib (Closes #408748)
+  * add libhtml-parser-perl for WysiwygPlugin (Closes #408748)
+  * secure the session files, and use file time to expire them 
+    Arbitrary code execution in session files (CVE-2007-0669) (Closes #410256)
+  * update index.html to 4.0.5 version
+  * updated Czech (cs.po) translation (Closes #408659)
+  * moved twiki-pub.tar.gz to /usr/share/twiki (Closes #410803)
+  * changed samplefiles prompt to remove yes/no assumption
+  * unpatch on clean
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 11 Feb 2007  22:32:36 +0100
+
+twiki (1:4.0.5-8) unstable; urgency=medium
+
+  * make patch for #404222 allow trailing slashes again
+  * enable FormFields containing Name
+    (Closes: #405571).
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Wed, 10 Jan 2007  22:32:36 +0100
+
+twiki (1:4.0.5-7) unstable; urgency=medium
+
+  * Add a more useful error message in debian/patches/01_redirect_fix.dpatch
+    when fixing #404222, to prevent redirect to other hosts (phishing). 
+    (Closes: #405083). Urgency medium, because it makes twiki almost unusable.
+    Also, the $TWiki::cfg{DefaultUrlHost} in /etc/twiki/LocalSite.cfg must not
+    have a trailing slash, which was no problem before. 
+    Thanks to Kai Pastor Kai" <pastor@uni-mainz.de> and Marcus C. Gottwald
+    <gottwald@quantum-hydrometrie.de>. 
+
+ -- Amaya Rodrigo Sastre <amaya@debian.org>  Tue,  2 Jan 2007 12:17:36 +0100
+
+twiki (1:4.0.5-6) unstable; urgency=high
+
+  [ Sven Dowideit ]
+  * made dependancy on apache-common | apache2-common | apache2.2-common
+    (Closes: #400212, #403464).
+  * French debconf translation update - thankyou Michel Grentzinger
+    (Closes: #403532)
+  * prevent redirect code from allowing redirect to other hosts
+    (Closes: #404222)
+
+  [ Amaya Rodrigo Sastre ]
+  * Added a Build-Depend on dpatch. 
+
+ -- Amaya Rodrigo Sastre <amaya@debian.org>  Fri, 22 Dec 2006 17:42:12 +0100
+
+twiki (1:4.0.5-5) unstable; urgency=low
+
+  * fix prerm and postrm's
+    (Closes: #402817). 
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Thu,  14 Dec 2006 22:32:36 +0100
+
+twiki (1:4.0.5-4) unstable; urgency=low
+
+  * Patch for debian/postinstall by Paul Szabo <psz@maths.usyd.edu.au>
+    (Closes: #401769). 
+
+ -- Amaya Rodrigo Sastre <amaya@debian.org>  Tue,  5 Dec 2006 22:32:36 +0100
+
+twiki (1:4.0.5-3) unstable; urgency=low
+
+  * Correctly fix #400212 by closing the right bug number instead of #40212.
+    (Closes: #400212).
+
+ -- Amaya Rodrigo Sastre <amaya@debian.org>  Tue,  5 Dec 2006 08:35:50 +0100
+
+twiki (1:4.0.5-2) unstable; urgency=high
+
+  [ Sven Dowideit ]
+  * add tools scripts to /var/lib/twiki/tools (Closes: #400226)
+  * fix apache.conf setup to backup in the /etc/twiki dir (Closes: #333679, #400213)
+  * add dependancy on apache2.2-common (Closes: #40212)
+  * added default .mailnotify files to stop sending out change
+    emails for distributed topics (Closes: #211237)
+
+  [ Amaya Rodrigo Sastre ]
+  * mv DH_COMPAT to debian/compat. Upgrade to 5
+  * cleaned debian/rules slightly
+  * urgency=high because of added hotfix for security problem CVE-2006-6071
+    TWiki Authentication Bypass Vulnerabilityin NEWS.Debian (Closes:#401303).
+  * Accepted patch from Olivier Berger <oberger@ouvaton.org> for
+    debian/apache.conf, preventing that accessing wiki with .../twiki/ URL
+    pub contents are displayed (Closes: #400977).
+  * Add myself to the Uploaders: field so that I can hep more effectively.
+  * tools/mailnotify is now installed at /var/lib/twiki/tools/mailnotify
+    (Closes: #400226).
+  * Now explicitly depend on apache-common (Closes: #400212). 
+
+ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun,  3 Dec 2006 12:19:17 +0100
+
+twiki (1:4.0.5-1) unstable; urgency=high
+
+  * update to twiki release 4.0.5 (Closes: #324916, #307299, #308347)
+  * following work by Amaya Rodrigo Sastre <amaya@debian.org> - Thankyou :)
+  * Build-Depend on tardy instead of the soon to be removed tarcust (Closes: #390748).
+  * Unfuzzy debian/po translations, thanks to Bubulle for guidance. Tampered a
+    bit with the pt_BR translation to unfuzzy it for real. My excuses for my
+    poor Brazilian skills :)
+  * Relate Hotfix 4 with #389267 in changelog for completeness.
+  * Add debconf-updatepo to the debian/rules clean target 
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Fri,  10 Nov 2006 09:52:09 +0100
+
+twiki (1:4.0.4-3) unstable; urgency=high
+
+  * added Hotfix 4 for TWiki 4.0.4 (Closes: #389267).
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Fri, 15 Sep 2006 00:00:01 -1000
+
+twiki (1:4.0.4-2) unstable; urgency=high
+
+  * added Hotfix 3 for TWiki 4.0.4
+    includes: 
+      Item 2714 - SECURITY ISSUE! - Topics with ALLOWTOPICVIEW 
+        defined in "Edit Settings" (META) can be read by anyone 
+        with a specially crafted SEARCH.
+      Item 2806 - Security Alert CVE-2006-4294 - viewfile doesn't 
+        follow rules for mapping attachment names
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sat, 09 Sep 2006 00:00:01 -1000
+
+twiki (1:4.0.4-1) unstable; urgency=high
+
+  * added Hotfix 2 for TWiki 4.0.4
+    includes (CVE-2006-3819) - Configure robustness update
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 20 Aug 2006 00:00:01 -1000
+
+twiki (1:4.0.4-0.1) unstable; urgency=high
+
+  * new upstream version TWiki-4.0.4
+    includes prevent script execution of uploaded files (CVE-2006-3336)
+    (Closes: #381907)
+    4.0.2 includes CVE-2006-1387: DoS with INCLUDE
+    (Closes: #367973)
+  * restricted access to configure script
+  * added libcgi-session-perl dependency
+  * stopped failure when /etc/apache-foo/conf.d/twiki.conf_old doesn't
+    exist
+  * cleaned up handling of apache reload/restart calls
+
+ -- Andrew Moise <chops@demiurgestudios.com>  Fri, 11 Aug 2006 15:05:06 -0400
+
+twiki (1:4.0.1-1) unstable; urgency=high
+
+  * new upstream version TWiki-4.0.1 
+    (Closes: #255782, #221514, #338118, #311662, #305793, #345668)
+  * added brute force restart of apache & apache2 (Closes: #300601)
+  * fixed regex that was supposed to set WIKIWEBMASTER (Closes: #305034)
+  * removed data dir from apache.conf (Closes #307928)
+  * added debconf-2.0 dependancy (Closes: #332129)
+  * improved RedirectMatch (Closes: #293369)
+  * updated Czech translation of debconf (Closes: #321818)
+  * added Vietnamese translation of debconf (Closes: #322398)
+  * added Swedish translation of debconf (Closes: #341095)
+  * fixed up debconf spelling mistake (Closes: #322399)
+  * added dependancy option of apache-perl (Closes: #235603)
+  * cleaned up index.html (Closes: #228748)
+  * added extra test for existing data (Closes: #229036)
+  * added primitive test and use of htpasswd2 for apache2 (Closes: #233943)
+  * remove use of wwwconfig (Closes: 251340)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 26 Feb 2006 00:00:01 -1000
+
+twiki (20040902-3) unstable; urgency=high
+  * update to include Paul Wise's RC fix
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Mon, 11 Apr 2005 00:00:01 -1000
+
+twiki (20040902-2) unstable; urgency=high
+  * set twikiLibPath to /usr/share/perl5 in setlib.cfg (Closes: #296461)
+  * applied robustness patch from Florian Weimer <fw@deneb.enyo.de>
+    CAN-2005-2877 - (Closes: #296655)
+  * added libunicode-maputf8-perl suggestion (Closes: #297031)
+  * default to use sendmail (Closes: #252439)
+  * updated fr.po file (Closes: #296149, #298750)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 10 Mar 2005 00:00:01 -1000
+
+twiki (20040902-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Urgency medium due to RC fix.
+  * Remove Text/Diff.pm and Algorithm/Diff.pm in debian/rules (Closes: #295221)
+
+ -- Paul Wise <pabs@zip.to>  Wed,  6 Apr 2005 23:56:57 +0800
+
+twiki (20040902-1) unstable; urgency=high
+  * upgraded to 02-Sept-2004 release (Cairo) 
+    (Closes :#270143, #283517, #281597)
+  * don't allow view on topics with empty ALLOW pref (Closes: #281624)
+  * applied ViewAfterSaveCachesOldPage-ugly-fix.patch (Closes: #218922)
+    - maybe!! (I could never re-produce it)
+  * corrected the permssions of log and .htpasswd (Closes: #281761)
+  * added another test to reduce the chance of over-writing an existing
+    universe (Closes: #282947)
+  * moved postinst backup files (~) to /tmp (Closes: #283812)
+  * postinst can now deal with remnant apache.conf files (Closes: #282006)
+  * added Czech translation of debconf messages - Thanks to Miroslav Kure
+    (Closes: #287432)
+  * added Brazilian Portuguese translation of debconf messages 
+    Thanks to Tiago Bortoletto Vaz (Closes: #267513)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 16 Nov 2004 00:00:01 -1000
+
+twiki (20030201-6) unstable; urgency=emergency
+
+  * patched security vunerability in Search (Closes: #281005)
+  * removed apachectl restart as it fails in postrm (Closes: #276058)
+  * enable apache2 cgi using symlink (Closes: #266873)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sat, 13 Nov 2004 00:00:01 -1000
+
+twiki (20030201-5) unstable; urgency=low
+
+  * added dependancy option of apache-perl (Closes: #235603)
+  * cleaned up index.html (Closes: #228748)
+  * added extra test for existing data (Closes: #229036)
+  * added primitive test and use of htpasswd2 for apache2 (Closes: #233943)
+  * added upstream patch ProxiedIncludesBrokenImplementationBug
+    - (Closes: #255782)
+  * made TWikiRegistrationPub the default to match .htaccess default
+    - (Closes: #221514)
+  * remove use of wwwconfig (Closes: 251340)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 27 Jun 2004 00:00:01 -1000
+
+twiki (20030201-4) unstable; urgency=high
+
+  * added .htaccess to conffile (Closes: #217406)
+  * fixed up doc-base file (Closes: #215395)
+  * moved change of index.html from postinst to rules (Closes: #215397)
+  * updated copyright
+  * created viewauth by copying view  (Closes: #228061)
+  * added upstream patch for ExtraneousLineInHttpHeader
+  * added upstream patch for InsecureViewWithFailedAuthentication
+  * added upstream patch for NoShellCharacterEscapingInFileAttachComment
+  * added upstream patch for SecurityAlertGainAdminRightWithTWikiUsersMapping
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sat, 17 Jan 2004 00:00:01 -1000
+
+twiki (20030201-3) unstable; urgency=low
+
+  * fixed up index.html path in postinst (Closes: #211166)
+  * added softlinks in /var/lib/twiki to re-produce upstream filesystem
+    - (Closes: #210898)
+  * set .mailnotify timestamp on example universe install 
+    - part of #211237 suggestion
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 1 Oct 2003 00:00:01 -1000
+
+twiki (20030201-2) unstable; urgency=low
+
+  * applied some patches from upstream 
+    - Codev.AlternateWebPrefsBug: Incorrect init of alternate web 
+      preferences (Closes: #194783)
+    - Support.TWikiWebCantBeProtected: removed special case for TWiki
+      and Main Webs (Closes: #202314)
+    - unsafe grep options fixed upstream  (Closes: #152515)
+  * upstream release fixed META suffix macro (Closes: #152516)
+  * I'm fixing the bugs, don't need to orphan (Closes: #186428)
+  * should have closed this last time: new release of TWiki, apache-ssl
+    (Closes: #194356)
+  * apache-ssl works (from previous release) (Closes: #169433)
+  * added debconf note about Registration and creation of apache users
+   - (Closes: #171429, #152497, #163344)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 14 Sep 2003 00:00:01 -1000
+
+twiki (20030201-1) unstable; urgency=low
+
+  * Changed Maintainership - Mark W. Eichin has no time 
+  * upgrade to 01Feb2003 release (Bejing) (Closes: #192718)
+  * removed the use of twikidat user for now, 
+    - it causes problems with uploads of attachments and topic edits 
+    - (Closes: #163514, #165340, #171441, #153430)
+  * removed the Alias /twiki line in apache.conf
+    - (Closes: #151187, #190409)
+  * fixed postrm script (Closes: #171421)
+  * added TWikiOnDebian to README.Debian (Closes: #171468)
+  * changed the path to grep
+    - (Closes: #177047)
+  * removed perl-suid dependancy for the moment (Closes: #149319)
+  * added dependency for apache2 | apache | apache-ssl (Closes: #171426)
+  * switched to gettext for the debconf templates (Closes: #199999)  
+  * added french translation of the debconf templates (Closes: #200575)
+  * seems to fix apt-get --purge remove twiki (Closes: #183917)
+  * this has been resolved upstream (Closes: #151188)
+  * this has been resolved upstream (Closes: #153168)
+  * this has been resolved upstream 
+    - http://www.twiki.org/cgi-bin/view/Codev/FormRenderForEdit 
+    - (Closes: #152766)
+  * seems to be working now with perl 5.8.0 (Closes: #169791)
+
+ -- Sven Dowideit <svenud@ozemail.com.au>  Sun, 27 Aug 2003 00:00:01 -1000
+
+twiki (20011201-2.1) unstable; urgency=low
+ 
+  * Non-maintainer upload
+  * Fix FTBFS problem. (Closes: #163514)
+    - do not chown to twiki user, because it will break the building process
+  * debian/control:
+    - change Build-Depends to Build-Depends-Indep
+    - update standards version
+  * debian/copyright:
+    - remove (s) from Author's line
+  * debian/rules:
+    - chmod the files, to make it lintian clear. Afaik 655 doesn't make sense.
+    - don't install license.txt this violate to policy
+
+ -- Thorsten Sauter <tsauter@debian.org>  Fri, 18 Jul 2003 10:11:12 +0000
+
+twiki (20011201-2) unstable; urgency=low
+
+  * One step at a time - getting the trivial ones out of the way...
+  * debian/postrm: ignore status of dpkg-statoverride --remove, in case
+    we've been run twice (Closes: #151105)
+  * debian/postinst: create /var/lib/twiki/data/.htpasswd if we have to
+    (Closes: #151186, #148805) Don't let apacheconfig hang (since there's
+    no way to mix apacheconfig and debconf) but lacking a sane perl debconf
+    example, just cheat and force apacheconfig without restarting the server.
+  * debian/control: bump wwwconfig-common dependency to a version that
+    includes it apache-include-postrm.sh.
+
+ -- Mark W. Eichin <eichin@thok.org>  Mon, 22 Jul 2002 00:34:51 -0400
+
+twiki (20011201-1) unstable; urgency=low
+
+  * Initial Release. (Closes: #68712, #79667)
+
+ -- Mark W. Eichin <eichin@thok.org>  Sun, 20 Jan 2002 10:31:23 -0500
+

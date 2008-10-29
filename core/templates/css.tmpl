@@ -1,0 +1,29 @@
+%{ This is a default template }%
+
+%TMPL:DEF{"defaultstyle"}%%TMPL:P{"twikibase"}%
+%TMPL:P{"twikistyle"}%
+%TMPL:P{"iespecificstyle"}%
+%TMPL:P{"javascriptaffectedstyle"}%
+%TMPL:P{"templatestyle"}%%TMPL:END%
+
+
+%TMPL:DEF{"twikibase"}%<style type="text/css" media="all">
+@import url('%PUBURLPATH%/%SYSTEMWEB%/TWikiTemplates/base.css');
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"twikistyle"}%<style type="text/css" media="all">
+@import url('%PUBURLPATH%/%SYSTEMWEB%/TWikiTemplates/default.css');
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"iespecificstyle"}%<!--[if IE]><style type="text/css" media="screen">
+pre {
+	overflow-x:auto;
+	padding-bottom:expression(this.scrollWidth > this.offsetWidth ? 16 : 0);
+}
+</style>
+<![endif]-->%TMPL:END%
+
+
+%TMPL:DEF{"javascriptaffectedstyle"}%%{ To be implemented by sub-skins }%%TMPL:END%

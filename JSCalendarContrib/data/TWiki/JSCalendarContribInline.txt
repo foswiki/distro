@@ -1,0 +1,4 @@
+Inline include of JSCalendarContrib HTML for use in forms.
+%STARTINCLUDE%
+<style type='text/css' media='all'>@import url('%PUBURLPATH%/%TWIKIWEB%/JSCalendarContrib/calendar-blue.css');.calendar {z-index:2000;}</style><script type='text/javascript' src='%PUBURLPATH%/%TWIKIWEB%/JSCalendarContrib/calendar.js'></script><script type='text/javascript' src='%PUBURLPATH%/%TWIKIWEB%/JSCalendarContrib/lang/calendar-en.js'></script><script type='text/javascript' src='%PUBURLPATH%/%TWIKIWEB%/JSCalendarContrib/calendar-setup.js'></script><script type='text/javascript' src='%PUBURLPATH%/%TWIKIWEB%/JSCalendarContrib/twiki.js'></script>
+%STOPINCLUDE%

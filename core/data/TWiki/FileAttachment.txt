@@ -1,0 +1,136 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 15732 $"}%
+%STARTINCLUDE%
+---+ File Attachments
+
+_Each topic can have one or more files of any type attached to it by using the Attach screen to upload (or download) files from your local PC. Attachments are stored under revision control: uploads are automatically backed up; all previous versions of a modified file can be retrieved._ 
+
+%TOC%
+
+---++ What Are Attachments Good For?
+
+File Attachments can be used to archive data, or to create powerful customized groupware solutions, like file sharing and document management systems, and quick Web page authoring.
+
+---+++ Document Management System
+
+   * You can use Attachments to store and retrieve documents (in any format, with associated graphics, and other media files); attach documents to specific TWiki topics; collaborate on documents with full revision control; distribute documents on a [[#AttachmentAccess][need-to-know basis]] using web and topic-level access control; create a central reference library that's easy to share with an user group spread around the world.
+
+---+++ File Sharing
+
+   * For file sharing, FileAttachments on a series of topics can be used to quickly create a well-documented, categorized digital download center for all types of files: documents; graphics and other media; drivers and patches; applications; anything you can safely upload!
+
+---+++ Web Authoring
+
+   * Through your Web browser, you can easily upload graphics (or sound files, or anything else you want to link to on a page) and place them on a single page, or use them across a web, or site-wide.
+      * __NOTE:__ You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files can't be managed using browser-based Attachment controls. You can use your browser to create TWikiVariables shortcuts, like this %<nop>H% = %H%.
+
+---++ Uploading Files
+
+   * Click on the ==Attach== link at the bottom of the page. The =Attach= screen lets you browse for a file, add a comment, and upload it. The uploaded file will show up in the [[#FileAttachmentTable][File Attachment table]].
+      * __NOTE:__ The topic must already exist. It is a two step process if you want to attach a file to a non-existing topic; first create the topic, then add the file attachment.
+      * Any type of file can be uploaded. Some files that might pose a security risk are renamed, ex: =*.php= files are renamed to =*.php.txt= so that no one can place code that would be read in a .php file. 
+      * The previous upload path is retained for convenience. In case you make some changes to the local file and want to upload it, again you can copy the previous upload path into the Local file field.
+      * TWiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= variable of the TWikiPreferences, currently set at %ATTACHFILESIZELIMIT% KB.
+         * %X% It's not recommended to upload files greater than a few hundred K through a browser. Large files can be extremely slow-loading, and often time out. Use an FTP site for large file uploads.
+   * Automatic attachments:
+      * When enabled, all files in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an 'Attach' link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
+      * To enable this feature, set the {AutoAttachPubFiles} configuration option.
+      * __NOTE:__ The automatic attachment feature can only be used by an administrator who has access to the server's file system.
+   
+---++ Downloading Files
+
+   * Click on the file in the [[#FileAttachmentTable][File Attachment table]].
+#AttachmentAccess
+
+   * %X% _NOTE:_ There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[TWikiDocumentation#TWikiAccessControl][access restrictions]] for each.
+
+---++ Moving Attachment Files
+
+An attachment can be moved between topics. 
+   * Click ==Manage== on the Attachment to be moved.
+   * On the control screen, select the new web and/or topic.
+   * Click ==Move==. The attachment and its version history are moved. The original location is stored as [[TWikiDocumentation#Meta_Data_Definition][topic Meta Data]].
+
+---++ Deleting Attachments
+
+Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
+
+---++ Linking to Attached Files
+
+   * Once a file is attached it can be referenced in the topic. Example:
+      1. ==Attach== file: =Sample.txt=
+      1. ==Edit== topic and enter: =%<nop>ATTACHURL%/Sample.txt=
+      1. ==Preview==: =%<nop>ATTACHURL%/Sample.txt= text appears as: %PUBURLPATH%/%WEB%/%TOPIC%/Sample.txt, a link to the text file.
+
+   * To reference an attachment located in another topic, enter:
+      * =%<nop>PUBURLPATH%/%<nop>WEB%/OtherTopic/Sample.txt= (if it's within the same web)
+      * =%<nop>PUBURLPATH%/Otherweb/OtherTopic/Sample.txt= (if it's in a different web)
+
+   * Attached HTML files and text files can be inlined in a topic. Example:
+      1. ==Attach== file: =Sample.txt=
+      1. ==Edit== topic and write text: =%<nop>INCLUDE{"%<nop>ATTACHURL%/Sample.txt"}%=
+         * Content of attached file is shown inlined.
+         * Read more about INCLUDE in [[VarINCLUDE][TWiki<nop>Variables]]
+
+   * GIF, JPG and PNG images can be attached and shown embedded in a topic. Example:
+      1. ==Attach== file: =Smile.gif=
+      1. ==Edit== topic and write text: =%<nop>ATTACHURL%/Smile.gif=
+      1. ==Preview==: text appears as %PUBURLPATH%/%WEB%/%TOPIC%/Smile.gif, an image.
+
+#FileAttachmentTable
+---++ File Attachment Contents Table
+
+Files attached to a topic are displayed in a directory table, displayed at the bottom of the page, or optionally, hidden and accessed when you click *Attach*.
+
+<div class="twikiAttachments">
+<table summary="Topic attachments" style="border-width:1px;" cellspacing="0" id="twikiAttachmentsTable" cellpadding="0" class="twikiTable" rules="rows" border="1"><caption>Topic attachments</caption><tr class="twikiTableEven"><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="twikiFirstCol"> <a rel="nofollow" href="%TOPIC%?sortcol=0;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">I</a> </th><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;"> <a rel="nofollow" href="%TOPIC%?sortcol=1;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">Attachment</a> </th><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;"> <a rel="nofollow" href="%TOPIC%?sortcol=2;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">Action</a> </th><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;"> <a rel="nofollow" href="%TOPIC%?sortcol=3;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">Size</a> </th><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;"> <a rel="nofollow" href="%TOPIC%?sortcol=4;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">Date</a> </th><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;"> <a rel="nofollow" href="%TOPIC%?sortcol=5;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">Who</a> </th><th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;"> <a rel="nofollow" href="%TOPIC%?sortcol=6;table=1;up=0#sorted_table" style="color:#0066cc" title="Sort by this column">Comment</a> </th></tr>
+<tr class="twikiTableOdd"><td bgcolor="#ffffff" align="center" valign="top" style="text-align:center;vertical-align:top;" class="twikiFirstCol"> <img width="16" alt="txt" align="top" src="%PUBURL%/%SYSTEMWEB%/TWikiDocGraphics/txt.gif" height="16" border="0" /><span class="twikiHidden">txt</span> </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> <a href="/twiki4/MAIN/bin/viewfile/TWiki/FileAttachment?rev=;filename=Sample.txt">Sample.txt</a> </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> <a href="/twiki4/MAIN/bin/attach/TWiki/FileAttachment?filename=Sample.txt&amp;revInfo=1" title='change, update, previous revisions, move, delete...'rel='nofollow'>manage</a> </td><td bgcolor="#ffffff" align="right" valign="top" style="text-align:right;vertical-align:top;"> 0.1&nbsp;K </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> 22 Jul 2000 - 19:37 </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> <a href="TWikiContributor" class="twikiLink">TWikiContributor</a> </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> Just a sample </td></tr>
+<tr class="twikiTableEven"><td bgcolor="#ffffff" align="center" valign="top" style="text-align:center;vertical-align:top;" class="twikiFirstCol twikiLast"> <img width="16" alt="gif" align="top" src="%PUBURL%/%SYSTEMWEB%/TWikiDocGraphics/gif.gif" height="16" border="0" /><span class="twikiHidden">gif</span> </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;" class="twikiLast"> <a href="/twiki4/MAIN/bin/viewfile/TWiki/FileAttachment?rev=;filename=Smile.gif">Smile.gif</a> </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;" class="twikiLast"> <a href="/twiki4/MAIN/bin/attach/TWiki/FileAttachment?filename=Smile.gif&amp;revInfo=1" title='change, update, previous revisions, move, delete...'rel='nofollow'>manage</a> </td><td bgcolor="#ffffff" align="right" valign="top" style="text-align:right;vertical-align:top;" class="twikiLast"> 0.1&nbsp;K </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;" class="twikiLast"> 22 Jul 2000 - 19:38 </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;" class="twikiLast"> <a href="TWikiContributor" class="twikiLink">TWikiContributor</a> </td><td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;" class="twikiLast"> Smiley face </td></tr>
+</table></div><!--//twikiAttachments-->
+
+---++ File Attachment Controls
+
+Clicking on a ==Manage== link takes you to a new page that looks a bit like this (depending on what [[TWikiSkins][skin]] is selected):
+
+<div class="twikiFormSteps">
+<div class="twikiFormStep">
+<h3><a name="Attach_new_file"></a> Attach new file </h3>
+<p />
+Select a new local file to update attachment <code>Sample.txt</code> <span class="twikiGrayText">(<a href="#" class="twikiLink">UploadingUser</a>)</span><br />Upload up to 10000 KB.
+<p />
+<input class="twikiInputField" type="file" name="filepath" value="Sample.txt" size="30" /><input type="hidden" name="filename" value="Sample.txt" />
+</div><!-- /twikiFormStep-->
+<div class="twikiFormStep">
+<h3><a name="Comment"></a> Comment </h3>
+<p />
+Describe the file so other people know what it is.
+<p />
+<input class="twikiInputField" type="text" name="filecomment" value="Just a sample" maxlength="256" size="50" />
+</div><!-- /twikiFormStep-->
+<div class="twikiFormStep">
+<h3><a name="Properties"></a> Properties </h3>
+<p />
+<input type="checkbox" class="twikiCheckbox" id="createlink" name="createlink"  /><label for="createlink">Create a link to the attached file</label> <span class="twikiGrayText">Images will be displayed, for other attachments a link will be created.</span>
+<p />
+<input type="checkbox" class="twikiCheckbox" id="hidefile" name="hidefile"  /><label for="hidefile">Do not show attachment in table</label> <span class="twikiGrayText">Attachments will not be shown in topic view page.</span>
+</div><!-- /twikiFormStep--><div class="twikiFormStep twikiLast"><input type="submit" class="twikiButton" name="changeproperties" value='Change comment and properties only' /></div><!-- /twikiFormStep-->
+</div><!-- /twikiFormSteps-->
+<a name="topic-actions"> </a><div class="patternTopicActions"><div class="patternTopicAction" style="margin-top:-1px;"><span class="patternActionButtons"> <input type="submit" class="twikiSubmit" value='Upload file' /> or <a href="#" title='Back to topic' accesskey='c' rel='nofollow'><span class='twikiAccessKey'>C</span>ancel</a></span></div></div><!--/patternTopicActions-->
+
+
+   * The first table is a list of all attachments, including their attributes. An =h= means the attachment is hidden, it isn't listed when viewing a topic.
+
+   * The second table is all the versions of the attachment. Click on *View* to see that version. If it's the most recent version, you'll be taken to an URL that always displays the latest version, which is usually what you want.
+      * *To change the comment* on an attachment, enter a new comment and then click *Change properties*.  Note that the comment listed against the specific version will not change, however the comment displayed when viewing the topic does change.  
+      * *To hide/unhide* an attachment, enable the ==Hide file== checkbox, then click ==Change properties==.
+
+---++ Known Issues
+
+   * Unlike topics, attachments are not locked during editing. As a workaround, you can change the comment to indicate an attachment file is being worked on - the comment on the specific version isn't lost, it's there when you list all versions of the attachment.
+   * Attachments are not secured. Anyone can read them if they know the name of the web, topic and attachment.
+   
+%STOPINCLUDE%
+
+__Related Topics:__ UserDocumentationCategory
+
+%META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="964294620" path="C:\DATA\Sample.txt" size="30" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="964294680" path="C:\DATA\Smile.gif" size="94" user="TWikiContributor" version=""}%

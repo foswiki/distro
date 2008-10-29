@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111930902" format="1.0" version="$Rev: 13214 $"}%
+
+Description: Intranet Registration manual tests
+
+---++ Preconditions
+	1 The WikiName is not registered
+	2 The RemoteUser is not used
+	3 The Wiki is set up with the intranet version of <strike>TWiki.TWikiRegistrationRemoteName</strike> TWikiRegistration
+
+---++ Test case
+	1 ...
+
+---++ Expected result
+	1 Topic named as %<nop>WIKINAME% written to %USERSWEB%
+	2 Entry written to [[%USERSWEB%.TWikiUsers]]
+	3 There is no .htpasswd entry for RemoteUser 
+	4 Email is sent to administrator
+	5 Email is sent to user
+ 
+

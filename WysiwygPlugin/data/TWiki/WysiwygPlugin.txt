@@ -1,0 +1,198 @@
+---+!! Wysiwyg Plugin
+<!--
+   * Set SHORTDESCRIPTION = Translator framework for Wysiwyg editors
+-->
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
+%SHORTDESCRIPTION%
+
+Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TWiki translator script. For WYSIWYG editing in TWiki, you will also need to install a specific editor package such as TWiki:Plugins.TinyMCEPlugin.
+
+This plugin provides a generic framework that supports editing of TWiki topics using any browser-based HTML editor. It works by transforming TML (TWiki Meta Language) into HTML for the editor, and then transforming HTML back into TML on save.
+
+%TOC%
+
+---++ Features
+	* Supports the input of malformed HTML
+	* Full round-trip (TML -> XHTML -> TWiki syntax)
+	* Framework is editor-agnostic
+
+---++ Details
+---+++ What's in the package
+The package includes the following pieces:
+	* TML (TWiki syntax) to HTML translator
+	* HTML to TML translator (with stand-alone script)
+	* Generic TWiki plugin for automating the translation during editing
+
+---+++ How it works
+The plugin works by translating the topic text into HTML when someone edits a topic. The HTML is then fed to the WYSIWYG editor. On save, the edited HTML is run through the reverse translation before saving to the topic. TWiki syntax is used in preference to HTML in the stored topic wherever possible, though HTML may be used if the translator can't find a suitable TML equivalent..
+
+The default rendering that TWiki uses to generate HTML for display in browsers is 'lossy' - information in the TWiki syntax is lost in the HTML output, and a round-trip (recovering the original TWiki syntax from the HTML) is impossible. To solve this problem the plugin instead uses its own translation of TWiki syntax to XHTML. The generated XHTML is annotated with CSS classes that support the accurate recovery of the original TWiki syntax.
+
+_Before you ask the obvious question, yes, the translator *could* be used to replace the TWiki rendering pipeline for generating HTML pages. In fact, the translator is taken almost directly from the implementation of the rendering pipeline for the TWiki-4 release_
+
+Translation of the HTML back to TWiki syntax uses the CPAN:HTML::Parser. This parser is used in preference to a more modern XML parser, because the WYSIWYG editor may not generate fully compliant XHTML. A strict parser would risk losing content. CPAN:HTML::Parser is better at handling malformed HTML.
+
+There is also the advantage that the translator can be used to *import* HTML from other sources - for example, existing web pages. Due to the simple nature of TWiki syntax and the potential complexity of web pages, this translation is often lossy - i.e there will be HTML features that can be entered by editors that will be lost in this translation step. This is especially noticeable with HTML tables.
+
+---+++ Using the translators from Perl scripts
+
+Both translators can be used directly from Perl scripts, for example to build your own stand-alone translators.
+
+A stand-alone convertor script for HTML to TWiki is included in the installation. It can be found in =tools/html2tml.pl=.
+
+---+++ Integrating a HTML Editor
+The plugin can be used to integrate an HTML editor in a number of different ways.
+   1 The HTML for the content-to-be-edited can be generated directly in the standard edit template.
+   1 The HTML for the content-to-be-edited can be generated directly in a specialised edit template.
+   1 A URL can be used to fetch the content-to-be-edited from the server, for use in an IFRAME.
+   1 REST handlers can be called from Javascript to convert content.
+
+---++++ Generating content directly in the standard edit template
+This is the technique used by WYSIWYG editors that can sit on top of HTML
+textareas, such as !TinyMCE. The topic content is pre-converted to HTML before inclusion in the standard edit template. These editors use plugins that have a =beforeEditHandler= and an =afterEditHandler=. These handlers are responsible for the conversion of topic text to HTML, and post-conversion of HTML back to TML.
+   1 User hits "edit".
+   1 Editor-specific plugin =beforeEditHandler= converts topic content to HTML by calling =TWiki::Plugins::WysiwygPlugin::TranslateTML2HTML=.
+   1 User edits and saves
+   1 Editor-specific plugin =afterEditHandler= converts HTML back to TML by calling =TWiki::Plugins::WysiwygPlugin::TranslateHTML2TML=.
+   * !WysiwygPlugin should *not* be enabled in =configure=.
+   * =WYSIWYGPLUGIN_WYSIWYGSKIN= should *not* be set.
+   * Your plugin should set the =textareas_hijacked= context id, to signal to skins to suppress their textarea manipulation functions.
+This is the recommended integration technique, if your editor can support it.
+
+---++++ Generating content directly in a specialised edit template
+This technique is useful when the editor requires the topic content in a variety of different formats at the same time. In this scenario the editor uses a custom edit template. The WYSIWYG content is made available for instantiation in that template in a number of different formats. =WYSIWYGPLUGIN_WYSIWYGSKIN= *must* be set for this to work.
+
+The flow of control is as follows:
+   1 User hits "edit" with the skin (or cover) set the same as =WYSIWYGPLUGIN_WYSIWYGSKIN=.
+   1 The !WysiwygPlugin =beforeEditHandler= determines if the topic is WYSIWYG editable, and vetos the edit if not by redirecting to the standard edit skin.
+ the edit
+   1 The =edit= template containing the JS editor is instantiated.
+   1 The following variables are available for expansion in the template:
+      * =%<nop>WYSIWYG_TEXT%= expands to the HTML of the content-to-be-edited. This is suitable for use in a =textarea=.
+      * =%<nop>JAVASCRIPT_TEXT%= expands to the HTML of the content-to-be-edited in a javascript constant.
+   1 User edits and saves
+   1 The =afterEditHandler= in the !WyswiygPlugin sees that =wysiwyg_edit= is set, which triggers the conversion back to TML.
+
+   * The HTML form in the edit template *must* include an =&lt;input= called =wysiwyg_edit= and set it to 1, to trigger the conversion from HTML back to TML.
+   * =WYSIWYGPLUGIN_WYSIWYGSKIN= must be set to the name of the skin used for WYSIWYG editing. This is often the name of the editor e.g. =xinha=.
+
+---++++ Fetching content from a URL
+In this scenario, the edit template is generated *without* the content-to-be-edited. The content is retrieved from the server using a URL e.g. from an =IFRAME=.
+
+The flow of control is as follows:
+   1 As _Generating content directly in a specialised edit template_
+   1 As _Generating content directly in a specialised edit template_
+   1 As _Generating content directly in a specialised edit template_
+   1 When the document loads in the browser, the JS editor invokes a content URL (using an =IFRAME= or a =XmlHttpRequest=) to obtain the HTML document to be edited
+      * The content URL is just a TWiki =view= URL with the =wysiwyg_edit=
+        parameter set.
+      * The !WysiwygPlugin recognises the =wysiwyg_edit= parameter and uses the
+        TML2HTML translator to prepare the text, which is then returned
+        as =text/plain= to the browser.
+      * Two TWiki variables, =%<nop>OWEB%= and %<nop>OTOPIC%=, can be used in the content URL in the edit template to refer to the source topic for the content.
+   1 After edit handling is as for _Generating content directly in a specialised edit template_
+
+---+++ Other techniques
+---++++ Asynchronous saves
+Editors can use =XmlHttpRequest= to perform saves, by POSTing to the TWiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %TWIKIWEB%.TWikiScripts for details of the other parameters to the =save= script.
+
+Once the save script has completed it responds with a redirect, either to an Oops page if the save failed, or to the appropriate post-save URL (usually a =view=). The editor must be ready to handle this redirect.
+
+---++++ Handling Attachments
+Attachment uploads can be handled by URL requests from the editor template to the TWiki
+=upload= script. The =upload= script normally redirects to the containing topic; a behaviour that you usually don't want in an editor! There are two ways to handle this:
+   * If the uploads are done in an =IFRAME= or via =XmlHttpRequest=, then the
+     302 redirect at the end of the upload can simply be ignored.
+   * You can pass =noredirect= to the =upload= script to suppress the redirect. In this case
+     you will get a =text/plain= response of =OK= followed by a message if everything went well, or an error message if it did not.
+
+---++++ REST handlers
+If you are confident in Javascript you can use REST handlers with =XmlHttpRequest= to convert content from TML to HTML and back again.
+
+The plugin defines the following REST handlers:
+
+=.../rest/WysiwygPlugin/html2tml?topic=Web.Topic;text=htmltexttotranslate=
+
+Converts the HTML text to TML. =topic= *must* be specified.
+
+=.../rest/WysiwygPlugin/tml2html?topic=Web.Topic;text=tmltexttotranslate=
+
+Converts the TML text to HTML. =topic= *must* be specified. The response is a =text/plain= page of converted content.
+
+---++ Plugin Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+
+---++ Plugin Configuration Settings
+
+---+++ Translator control
+%INCLUDE{"%TWIKIWEB%.WysiwygPluginSettings"}%
+
+*Implementors note* if you are using your own before/after edit handlers, you can call =TWiki::Plugins::WysiwygPlugin::isWysiwygEditable()= to check these controls.
+
+---++ Known issues
+
+---+++ Incompatible with "non-standard" syntax
+WysiwygPlugin is incompatible with plugins that expand non-standard syntax e.g. TWiki:Plugins.MathModePlugin (WysiwygPlugin)
+
+Plugins that extend the syntax using TWiki variables, such as =%MYVARIABLE%=, should work fine.
+
+---+++ Overlapping styles
+Because TWiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formating in the original TWiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
+<verbatim>
+*bold _bold-italic* italic_
+</verbatim>
+is legal in TML, but in HTML is represented by
+<verbatim>
+<strong>bold <em>bold-italic</em></strong> <em>italic</em>
+</verbatim>
+which gets translated back to TML as
+<verbatim>
+*bold _bold-italic_* _italic_
+</verbatim>
+which is correct by construction, but does not render correctly in TWiki. This problem is unfortunately unavoidable due to the way TWiki syntax works.
+
+---++ Plugin Info
+
+This plugin is brought to you by a [[http://wikiring.com][WikiRing <a href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" title="WikiRing: Professional Wiki Innovation and Support" /></a>]] partner - working together to improve your wiki experience!
+
+Many thanks to the following sponsors for supporting this work:
+   * [[http://ilog.fr][ILOG]]
+   * [[http://www.carrier.com][Carrier Corporation]]
+   * [[http://twiki.net][TWIKI.NET]]
+
+|  Plugin Author(s): | TWiki:Main.CrawfordCurrie http://www.c-dot.co.uk |
+|  Copyright | &copy; ILOG 2005 http://www.ilog.fr |
+|  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Plugin Version: | %$VERSION% |
+|  Change History: | |
+|  22 Oct 2008 | Fixed TWikibug:Item5961 (emphasis), TWikibug:Item6089 (backslash in verbatim) |
+|  7 Aug 2008 | Fixed TWikibug:Item5707 (mod_perl) |
+|  3 Aug 2008 | TWiki 4.2.1 release version |
+|  25 May 2008 | TWikibug:Item5457: TWikibug:Item5528: TWikibug:Item5626: using a debug simulation, I believe I have finally fixed all the complexities of using international character sets with the translator. |
+|  13 Apr 2008 | TWikibug:Item4946: TWikibug:Item5530: I think I have finally fixed non-iso-8859-1 character sets. Painful. TWikibug:Item5393: removed spurious DIV generated by IE inside LI tags |
+|  31 Mar 2008 | TWikibug:Item5314: TWikibug:Item5457: Fixed pickaxe mode for editing UTF-8. Characters above 255 are converted to entitites, which is a bit of a PITA, but at least it no longer corrupts topics. |
+|  28 Mar 2008 | TWikibug:Item5294: fixed angle brackets in plain text and promoted sticky to be higher priority than any other tag, solving several problems in one go |
+|  24 Jan 2008 | TWikibug:Item5257: remove extra spaces at end of Set lines |
+|  20 Dec 2007 | TWikibug:Item5022: made TT font size same as verbatim. Had to add a new style to do it, as TMCE didn't want to play with TT or CODE tags. TWikibug:Item5138: post-conversion of 8-bit entities to characters to aid searching etc. |
+| 19 Dec 2007 | TWikibug:Item4836: make the parser tolerant of META, so pasting OO docs works TWikibug:Item4969: autoclose BR and HR tags TWikibug:Item5132: fixed IMG tags TWikibug:Item5076: fixed line-sensitive TML embedded in tables |
+|  8 Nov 2007 | TWikibug:Item4923: fixed blocking of table conversion due to empty attributes TWikibug:Item4936: An em embedded in an em was getting eaten TWikibug:Item4817: added typewriter text button TWikibug:Item4850: added font colour controls TWikibug:Item4645: added REST handlers for upload and fetching lists of attachments |
+|  2 Nov 2007 | TWikibug:Item4903: corrected over-enthusiastive interpretation of ! as an escape |
+|  21 Oct 2007 | TWikibug:Item4788: fixed unbalanced protect, which could cause loss of protected status TWikibug:Item4811: noautolink *looks* like an HTML construct but in fact is not; the tag is infact an "on-off" switch and does not imply any HTML structure, so cannot be converted to a DIV or a span, so has to be removed. TWikibug:Item4747: added &lt;sticky&gt; to try to overcome limitations in translation TWikibug:Item4831: added increased flexibility in deciding what HTML get converted to TML, and what does not. Analysed all the HTML4 tags to establish initial settings. TWikibug:Item4847: don't call non-existent function with older HTML::Parser releases TWikibug:Item4844: Saving a table from IE didn't convert it back to TML TWikibug:Item4855: table rows generated from TWiki variables were being eaten |
+|  6 Oct 2007 | TWikibug:Item4700: fixed colspans TWikibug:Item4701: removed extra line between %TABLE and the table TWikibug:Item4705: fixed spacing around literal and verbatim blocks TWikibug:Item4706: merge adjacent verbatim blocks separated only by whitespace TWikibug:Item4712: fixed eating of noautolink and literal TWikibug:Item4763: list items spanning multiple lines fixed TWikibug:Item4867: released tml2html |
+|  17 Sep 2007 | TWikibug:Item4647: TWikibug:Item4652: problems related to DIV fixed. TWikibug:Item4653: fixed multi-line twiki variables |
+|  16 Sep 2007 | TWikibug:Item4630: polished up the way the secret string is done, to ensure synch between perl and JS. Item4622: added UTF-8 handling steps that fixup malformed UTF8 strings before presenting them to the editor (saves Moz) and stops the editor passing them back to TWiki (saves IE). Removed extra entity decoding steps that were causing problems. TWikibug:Item4629: fixed issues with verbatim, highlighted by previous mangling of this topic |
+|  13 Sep 2007 | TWikibug:Item4613 cleaned up spurious message when navigating away TWikibug:Item4615 fixed incorrect rendering of emphasis next to br |
+|  12 Sep 2007 | TWikibug:Item4604 Fixes to REST handler, and add ability to trigger HTML2TML conversion from a content comment alone (required for some editors) TWikibug:Item4588 fixes to conversion of double-character emphases |
+|  7 Sep 2007 | TWikibug:Item4503 excess empty lines TWikibug:Item4486 no toc headers with unofficial syntax TWikibug:Item4560: empty lines lost TWikibug:Item4566: corrupted table on save TWikibug:Item4550 section tags being eaten |
+|  4 Sep 2007 | TWikibug:Item4534 TWikibug:Item4535 fixed |
+| See Subversion logs for earlier revisions ||
+|  Dependencies: | %$DEPENDENCIES% |
+|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | TWiki:Plugins/%TOPIC%Dev |
+|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
+
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%

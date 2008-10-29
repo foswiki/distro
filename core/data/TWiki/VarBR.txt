@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1176595597" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiPreferences"}%
+#VarBR
+
+---+++ BR -- line break
+   * Type: Preference variable - TWikiRenderingShortcut.
+   * Current value: BR = %BR%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarCARET][CARET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarVBAR][VBAR]]

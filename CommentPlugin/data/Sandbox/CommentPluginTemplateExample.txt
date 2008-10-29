@@ -1,0 +1,40 @@
+%META:TOPICINFO{author="TWikiContributor" date="1165176010" format="1.1" reprev="1.1" version="1.1"}%
+---+!! Template Example
+
+Example template topic for [[%TWIKIWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+
+
+<verbatim>
+%TMPL:DEF{PROMPT:example}%%TMPL:P{promptbox}%%TMPL:END%
+</verbatim>
+
+<verbatim>
+%TMPL:DEF{FORM:example}%
+#TemplateTopicPrompt
+<form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
+%COMMENTPROMPT%
+</form>
+%TMPL:END%
+</verbatim>
+
+<verbatim>
+%TMPL:DEF{OUTPUT:example}%%POS:BEFORE%%TMPL:P{OUTPUT:examplethreadmode}%%TMPL:END%
+</verbatim>
+
+<verbatim>
+%TMPL:DEF{OUTPUT:examplethreadmode}%%POS:BEFORE%
+%GMTIME{"#CommentDate$epoch"}%
+%WIKIUSERNAME% - %DATE%:
+
+%URLPARAM{"comment"}%
+
+--- 
+%TMPL:END%
+</verbatim>
+
+
+Include generic comment templates:
+<verbatim>
+%TMPL:INCLUDE{"%TWIKIWEB%.CommentPlugin"}%
+</verbatim>

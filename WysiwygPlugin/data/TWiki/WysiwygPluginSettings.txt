@@ -1,0 +1,62 @@
+---+ Settings for WysiwygPlugin that are common to most editor integrations
+%STARTINCLUDE%
+The *global* TWiki Variable =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
+   * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
+   * =variables= - simple variables (e.g. =%<nop>VAR%=) or 
+   * =calls= - TWiki variables with parameters e.g. =%<nop>VARIABLE{...}%=
+   * =pre= blocks (=&lt;pre&gt;=)
+   * HTML =comments= (=&lt;!--= ... =--&gt;=)
+If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
+
+If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of TWiki variables that do *not* block edits. this is done in the *global* TWiki variable =WYSIWYG_EDITABLE_CALLS=, which should be a list of TWiki variable names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
+
+You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %MAINWEB%.TWikiPreferences, or in %WEBPREFSTOPIC% for each web.
+
+You can define the global variable =WYSIWYGPLUGIN_STICKYBITS= to stop the
+plugin from ever trying to convert specific HTML tags into
+HTML when certain specific attributes are present on the tag. This is most
+useful when you have styling or alignment information in tags that must be
+preserved.
+
+This variable is used to tell the translator which attributes, when present
+on a tag, make it "stick" i.e. block conversion. For example, setting it to
+=table=background,lang;tr=valign= will stop the translator from trying to
+handle any =table= tag that has =background= or =lang= attributes, and any
+=tr= tag that has a =valign= attribute.
+
+You can use perl regular expressions to match tag and attribute names, so =.*=id,on.*= will ensure that any tag with an =on*= event handler is kept as HTML.
+
+The default setting for this variable is:
+<verbatim>
+    .*=id,lang,title,dir,on.*;
+    A=accesskey,coords,shape,target;
+    BDO=dir;
+    BR=clear;
+    COL=char,charoff,span,valign,width;
+    COLGROUP=align,char,charoff,span,valign,width;
+    DIR=compact;
+    DIV=align;
+    DL=compact;
+    FONT=size,face;
+    H\d=align;
+    HR=align,noshade,size,width;
+    LEGEND=accesskey,align;
+    LI=type,value;
+    OL=compact,start,type;
+    P=align;
+    PARAM=name,type,value,valuetype;
+    PRE=width;
+    Q=cite;
+    TABLE=align,bgcolor,border,cellpadding,cellspacing,frame,rules,summary,width;
+    TBODY=align,char,charoff,valign;
+    TD=abbr,align,axis,bgcolor,char,charoff,colspan,headers,height,nowrap,rowspan,scope,valign,width;
+    TFOOT=align,char,charoff,valign;
+    TH=abbr,align,axis,bgcolor,char,charoff,colspan,height,nowrap,rowspan,scope,valign,width,headers;
+    THEAD=align,char,charoff,valign;
+    TR=bgcolor,char,charoff,valign;
+    UL=compact,type
+</verbatim>
+
+If you edit using the plain-text editor, you can use the &lt;sticky&gt;..&lt;/sticky&gt; tags to delimit HTML (or TML) that you do *not* want to be WYSIWYG edited.
+
+%STOPINCLUDE%

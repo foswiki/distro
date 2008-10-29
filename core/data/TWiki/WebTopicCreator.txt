@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="TWikiContributor" date="1131431859" format="1.1" version="$Rev$"}%
+---+ %MAKETEXT{"'Create New Topic' page has moved"}%
+
+*[[%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%?create=on&newtopic=&topicparent=%URLPARAM{"parent"}%&template=WebCreateNewTopic][%MAKETEXT{"Continue to create the new page"}%]]*
+
+
+<div class="twikiNotification">
+---+++ TWiki admins
+
+Please replace all web's !WebTopicCreator topic contents with this text:
+
+<textarea style="width:99%; background:#ffe;" rows="3">
+<!--
+   * Local VIEW_TEMPLATE = <nop>WebCreateNewTopic
+-->
+</textarea>
+
+All !WebTopicCreator topics on this site:
+%SEARCH{"WebTopicCreator" scope="topic" nonoise="on" web="all,-%SYSTEMWEB%" format="   * [[%SCRIPTURL{edit}%/$web/$topic?t=%GMTIME{$epoch}%][Edit $web.$topic]]"}%
+</div>

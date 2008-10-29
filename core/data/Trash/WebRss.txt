@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111938186" format="1.0" version="$Rev: 8256 $"}%
+<channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
+%IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
+  <link>%SCRIPTURL{"view"}%/%WEB%</link>
+  <description>%MAKETEXT{"The [_1] web of TWiki. TWiki is a Web-Based Collaboration Platform for the Enterprise." args="<nop>%WEB%"}%</description>
+%INCLUDE{"%SYSTEMWEB%.WebRssBase"}%<!--
+   * Set SKIN = rss
+-->

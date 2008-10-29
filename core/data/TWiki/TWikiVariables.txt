@@ -1,0 +1,136 @@
+%META:TOPICINFO{author="TWikiContributor" date="1173217738" format="1.0" version="$Rev: 15689 $"}%
+%META:TOPICPARENT{name="WebHome"}%
+%STARTSECTION{type="include"}%
+---+ TWiki Variables
+
+_Special text strings expand on the fly to display user data or system info_
+
+<nop>TWikiVariables are text strings - =%<nop>VARIABLE%= or =%<nop>VARIABLE{ parameter="value" }%= - that expand into content whenever a topic is rendered for viewing. There are two types of variables:
+   1 Preferences variables: Can be defined and changed by the user
+   1 Predefined variables: Defined by the TWiki system or by Plugins (for example, the SpreadSheetPlugin introduces a =%<nop>CALC{}%= variable)
+
+%TOC%
+
+---++ Using Variables
+
+To use a variable type its name. For example,
+   * type =%<nop>T%= to get %T% (a preferences variable)
+   * type =%<nop>TOPIC%= to get =%TOPIC%= (a predefined variable)
+   * type =%<nop>CALC{ "$UPPER(Text)" }%= to get =TEXT= (a variable defined by Plugin)
+
+__Note:__
+   * To leave a variable unexpanded, precede it with an exclamation point, e.g. type =!%<nop>TOPIC%= to get =%<nop>TOPIC%=
+   * Variables are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
+   * Type =%<nop>ALLVARIABLES%= to get a full listing of all variables defined for a particular topic
+
+---++ Variable Names
+Variable names must start with a letter. The following characters can be letters, numbers and the underscore '_'. You can use both upper-case and lower-case letters and you can mix the characteres. E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all valid variable names. Variables are case sensitive. =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same variable.
+
+By convention all settings, predefined variables and variables used by plugins are always UPPER-CASE.
+
+#SettingPrefs
+#PreferencesVariables
+---++ Preferences Variables
+
+Unlike predefined variables, preferences variables can be defined by the user in various places.
+
+---+++ Setting Preferences Variables
+You can set variables in all the following places:
+   1 local site level in [[%SYSTEMWEB%.TWikiPreferences][%SYSTEMWEB%.TWikiPreferences]]
+   1 plugin topics (see TWikiPlugins)
+   1 local site level in [[%LOCALSITEPREFS%][%LOCALSITEPREFS%]]
+   1 user level in individual user topics in %USERSWEB% web
+   1 web level in %WEBPREFSTOPIC% of each web
+   1 topic level in topics in webs
+   1 session variables (if sessions are enabled)
+
+Settings at higher-numbered levels override settings of the same variable at lower numbered levels, unless the variable was included in the setting of FINALPREFERENCES at a lower-numbered level, in which case it is locked at the value it has at that level.
+
+If you are setting a variable and using it in the same topic, note that TWiki reads all the variable settings from the saved version of the topic before it displays anything.  This means you can use a variable anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a variable you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+
+The syntax for setting Variables is the same anywhere in TWiki (on its own TWiki bullet line, including nested bullets): <br /> =[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [space] value=
+<blockquote>
+*Examples:*
+   * ==<nop>Set VARIABLENAME = value==
+      * ==<nop>Set VARIABLENAME = value==
+</blockquote>
+Spaces between the = sign and the value will be ignored. You can split a value over several lines by indenting following lines with spaces - as long as you don't try to use * as the first character on the following line.
+<blockquote>
+*Example:*
+<pre>
+   * <nop>Set VARIABLENAME = value starts here
+     and continues here
+</pre>
+</blockquote>
+
+Whatever you include in your Variable will be expanded on display, exactly as if it had been entered directly.
+
+<blockquote>
+*Example: Create a custom logo variable* <br />
+   * To place a logo anywhere in a web by typing ==%<nop>MYLOGO%==, define the Variable on the web's WebPreferences topic, and upload a logo file, ex: =mylogo.gif=. You can upload by [[FileAttachment][attaching the file]] to WebPreferences, or, to avoid clutter, to any other topic in the same web, e.g. =LogoTopic=. Sample variable setting in WebPreferences:
+      * ==<nop>Set MYLOGO = %<nop>PUBURL%/%<nop>WEB%/LogoTopic/mylogo.gif==
+</blockquote>
+
+You can also set preferences variables on a topic by clicking the link =Edit topic preference settings= under =More topic actions=. Preferences set in this manner are not visible in the topic text, but take effect nevertheless.
+
+---+++ Access Control Variables
+
+These are special types of preferences variables to control access to content. TWikiAccessControl explains these security settings in detail.
+
+---+++ Local values for variables
+Certain topics (a users home topic, web site and default preferences topics) have a problem; variables defined in those topics can have two meanings. For example, consider a user topic. A user may want to use a double-height edit box when they are editing their home topic - but *only* when editing their home topic. The rest of the time, they want to have a normal edit box. This separation is achieved using =Local= in place of =Set= in the variable definition. For example, if the user sets the following in their home topic:
+<verbatim>
+   * Set EDITBOXHEIGHT = 10
+   * Local EDITBOXHEIGHT = 20
+</verbatim>
+Then when they are editing any other topic, they will get a 10 high edit box. However when they are editing their home topic, they will get a 20 high edit box.
+=Local= can be used wherever a preference needs to take a different value depending on where the current operation is being performed.
+
+Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to get a listing of the values of all variables in their evaluation order, so you can see variable scope if you get confused.
+
+---+++ Frequently Used Preferences Variables
+
+The following preferences variables are frequently used. They are defined in TWikiPreferences#Miscellaneous_Settings:
+   * =%<nop>BR%= - line break
+   * =%<nop>BULLET%= - bullet sign
+   * =%<nop>BB%= - line break and bullet combined
+   * =%<nop>BB2%= - indented line break and bullet
+   * =%<nop>RED% text %<nop>ENDCOLOR%= - colored text (also =%<nop>YELLOW%=, =%<nop>ORANGE%=, =%<nop>PINK%=, =%<nop>PURPLE%=, =%<nop>TEAL%=, =%<nop>NAVY%=, =%<nop>BLUE%=, =%<nop>AQUA%=, =%<nop>LIME%=, =%<nop>GREEN%=, =%<nop>OLIVE%=, =%<nop>MAROON%=, =%<nop>BROWN%=, =%<nop>BLACK%=, =%<nop>GRAY%=, =%<nop>SILVER%=, =%<nop>WHITE%=)
+   * =%<nop>H%= - %H% Help icon
+   * =%<nop>I%= - %I% Idea icon
+   * =%<nop>M%= - %M% Moved to icon
+   * =%<nop>N%= - %N% New icon
+   * =%<nop>P%= - %P% Refactor icon
+   * =%<nop>Q%= - %Q% Question icon
+   * =%<nop>S%= - %S% Pick icon
+   * =%<nop>T%= - %T% Tip icon
+   * =%<nop>U%= - %U% Updated icon
+   * =%<nop>X%= - %X% Alert icon
+   * =%<nop>Y%= - %Y% Done icon
+
+There are additional useful preferences variables defined in TWikiPreferences, in [[%LOCALSITEPREFS%]], and in WebPreferences of every web.
+
+#PreDef
+---++ Predefined Variables
+
+Most predefined variables return values that were either set in the configuration when TWiki was installed, or taken from server info (such as current username, or date and time). Some, like =%<nop>SEARCH%=, are powerful and general tools.
+
+   * %X% Predefined variables can be overridden by [[#PreferencesVariables][preferences variables]] (except TOPIC and WEB)
+   * %X% Plugins may extend the set of predefined variables (see individual Plugins topics for details)
+   * %T% *Take the time to thoroughly read through ALL preference variables.* If you actively configure your site, review variables periodically. They cover a wide range of functions, and it can be easy to miss the one perfect variable for something you have in mind. For example, see =%<nop>INCLUDINGTOPIC%=, =%<nop>INCLUDE%=, and the mighty =%<nop>SEARCH%=.
+
+This version of TWiki - %WIKIVERSION% - predefines the following variables:
+
+%SEARCH{
+    "^Var[A-Z_0-9]+$"
+    casesensitive="on"
+    type="regex"
+    scope="topic"
+    format="$percntINCLUDE{$web.$topic}$percnt"
+    nonoise="on"
+}%
+
+%ENDSECTION{type="include"}%
+
+__Related Topics:__ UserDocumentationCategory
+

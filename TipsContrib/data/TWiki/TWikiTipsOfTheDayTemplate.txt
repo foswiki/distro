@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="TWikiContributor" date="1107567335" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiTipsOfTheDayAdmin"}%
+---+ Heading
+
+Quick Summary with link to more information.
+
+[[%TWIKIWEB%.TWikiTipsOfTheDay][See More Tips...]]
+
+-- %WIKIUSERNAME% - %DATE%
+

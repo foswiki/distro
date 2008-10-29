@@ -1,0 +1,9 @@
+data/TWiki/BuildContrib.txt 0444 Description
+lib/TWiki/Contrib/Build.pm 0444 Code module
+lib/TWiki/Contrib/BuildContrib/BaseBuild.pm 0444 Common functionality for build programs
+lib/TWiki/Contrib/BuildContrib/build.pl 0555 Build script
+lib/TWiki/Contrib/BuildContrib/TEMPLATE_installer.pl 0444 Installer template
+pub/TWiki/BuildContrib/logo.gif 0444 Image
+create_new_extension.pl 0555 Wizard for creating new extensions
+pub/TWiki/BuildContrib/wikiringlogo20x20.png 0660
+build.pl 0750 Interface to build scripts

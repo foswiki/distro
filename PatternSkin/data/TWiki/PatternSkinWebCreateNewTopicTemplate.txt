@@ -1,0 +1,71 @@
+%META:TOPICINFO{author="TWikiContributor" date="1131431859" format="1.1" version="$Rev$"}%
+%TMPL:INCLUDE{"WebCreateNewTopic"}%
+
+%{"hide page top controls"}%
+%TMPL:DEF{"top"}%%TMPL:END%
+
+%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURL%/%TWIKIWEB%/TWikiJavascripts/twikiString.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/TWikiJavascripts/unicode_chars.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+function openTemplateWindow () {
+	var window = twiki.Window.openPopup(
+		"%SCRIPTURL{view}%/",
+			{
+    			topic:"WebTemplateTopics",
+    			web:"%TWIKIWEB%",
+    			template:"viewplain",
+    			attributes:"resizable=1,scrollbars=1,status=1,toolbar=1",
+    			urlparams:"web=%BASEWEB%"
+    		}
+    	);
+	return false;
+}
+function getQueryUrl() {
+	return "%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?%QUERYSTRING%;pickparent=1"
+}
+/* Localized texts */
+var TEXT_FEEDBACK_HEADER = "%MAKETEXT{"Topic will be named: "}%";
+/* Url params */
+var URL_PICK_PARENT = "%URLPARAM{"pickparent"}%";
+var URL_TEMPLATE = "%URLPARAM{"template"}%";
+//]]>
+</script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/PatternSkin/webtopiccreator.js"></script>%TMPL:END%
+
+%TMPL:DEF{"formstartstep"}%%TMPL:P{"formstart"}%
+<div class="twikiFormSteps">%TMPL:END%
+
+%TMPL:DEF{"formendstep"}%</div><!--/twikiFormSteps-->
+%TMPL:P{"formend"}%%TMPL:END%
+
+%TMPL:DEF{"titlestep"}%<div class="twikiFormStep">
+---++ %MAKETEXT{"Create New Topic in [_1] Web" args="<nop>%BASEWEB%"}%
+</div><!--/twikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"topicnamestep"}%<div class="twikiFormStep">
+---+++ %MAKETEXT{"Topic name:"}%
+<p>
+%TMPL:P{"topicname"}% <span id="webTopicCreatorFeedback" class="twikiGrayText"><!--generated name will be put here--></span>
+</p>%TMPL:P{"nonwikiword"}%
+</div><!--/twikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"topicparentstep"}%<div class="twikiFormStep">
+---+++ %MAKETEXT{"Topic parent:"}%
+<p>
+%TMPL:P{"topicparent"}%
+</p>
+</div><!--/twikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"topictemplatestep"}%<div class="twikiFormStep">
+---+++ %MAKETEXT{"Use template:"}%
+<p>
+%TMPL:P{"topictemplate"}%
+</p>
+</div><!--/twikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"submitstep"}%<div class="twikiFormStep">
+<p>
+%TMPL:P{"submit"}%
+</p>
+</div><!--/twikiFormStep-->%TMPL:END%

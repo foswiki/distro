@@ -1,0 +1,24 @@
+/* copy the styles from viewtopbar.pattern.tmpl */
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter {
+	height:0;
+}
+#patternTopBar,
+#patternTopBarContents {
+	display:hidden;
+}
+/* move the left bar contents down to show the logo */
+#patternLeftBarContents {
+	margin-top:64px; /* top bar height */
+}
+#patternLeftBar {
+	/* dynamic background image set in topic */
+	/* or write a hard coded image location here */
+	background-attachment:relative;
+	background-position:1em 11px;
+	background-repeat:no-repeat;
+	border-top:0px;
+}

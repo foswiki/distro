@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 8768 $"}%
+%META:TOPICPARENT{name="FileAttachment"}%
+---+ Hide/Unhide Attachments
+
+You can hide/unhide file attachments in normal topic view.
+
+   * In the FileAttachment table, click on an *action* link,
+   * enable the *Hide file* checkbox,
+   * then click *Change properties* 
+
+__Note:__ All attachments are listed in the attach screen, regardless of the hide file flag.
+
+__Related Topics:__ UserDocumentationCategory

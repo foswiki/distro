@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarMETA
+---+++ META -- displays meta-data
+   * Provided mainly for use in templates, this variable generates the parts of the topic view that relate to meta-data (attachments, forms etc.) The =formfield= item is the most likely to be useful to casual users.
+   * Syntax: =%<nop>META{ "item" ...}%=
+   * Parameters:
+     | *Item* | *Options* | *Description* |
+     | ="formfield"= | =name="..."=: name of the field. The field value can be shortened as described in %SYSTEMWEB%.FormattedSearch for =$formfield= %BR% \
+                       =newline="..."=: by default, each newline character will be rewritten to =&lt;br /&gt;= to allow metadata that contains newlines to be used in tables, etc. =$n= indicates a newline character. %BR% \
+                       =bar="..."=: by default, each vertical bar is rewritten to an HTML entity so as to not be mistaken for a table separator. \
+                    | Show a single form field |
+     | ="form"= | _none_ | Generates the table showing the form fields. See [[TWikiDocumentation#Form_Templates][Form Templates]] |
+     | ="attachments"= | =all="on"= to show hidden attachments. %BR% \
+     					 =title="..."= to show a title - only if attachments are displayed. %BR% \
+     					 =template="..."= to use a custom template for the rendering of attachments; default =attachtables= is used. \
+      			| Generates the list of attachments |
+     | ="moved"= | _none_ | Details of any topic moves |
+     | ="parent"= | =dontrecurse="on"=: By default recurses up tree, this has some cost. %BR% \
+                    =nowebhome="on"=: Suppress <nop>%HOMETOPIC%. %BR% \
+		    =prefix="..."=: Prefix that goes before parents, but only if there are parents, default =""=. %BR% \
+		    =format="..."=: Format string used to display each parent topic where =$web= expands to the web name, and =$topic= expands to the topic name; default: ="[<nop>[$web.$topic][$topic]]"= %BR% \
+		    =suffix="..."=: Suffix, only appears if there are parents; default =""=. %BR% \
+		    =separator="..."=: Separator between parents; default =" &gt; "=. \
+                  | Generates the parent link |
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarMETASEARCH][METASEARCH]]
+

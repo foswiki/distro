@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarWIKITOOLNAME
+---+++ WIKITOOLNAME -- name of your TWiki site
+   * Syntax: =%<nop>WIKITOOLNAME%=
+   * Expands to: =%WIKITOOLNAME%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarWIKIHOMEURL][WIKIHOMEURL]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarWIKIVERSION][WIKIVERSION]]
+

@@ -1,0 +1,36 @@
+%TMPL:INCLUDE{"attachagain"}%
+%TMPL:INCLUDE{"attachtables"}%
+
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Update attachment [_1] on [_2]" args="[[%ATTACHURLPATH%/%ENCODE{%FILENAME%}%][%FILENAME%]],[[%TOPIC%]]"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"versions"}%---++ %MAKETEXT{"Version history of [_1]" args="<nop>%FILENAME%"}%
+<div class="twikiAttachments">
+%TABLE{%TMPL:P{"commonattachtableattributes"}% summary="%MAKETEXT{"Version history"}%" caption="%MAKETEXT{"Version history"}%"}%
+%ATTACHTABLE%
+</div><!-- /twikiAttachments-->%TMPL:END%
+
+
+
+%TMPL:DEF{"changepropertiesaction"}%<div class="twikiFormStep twikiLast"><input type="submit" class="twikiButton" name="changeproperties" value='%MAKETEXT{"Change comment and properties only"}%' /></div><!-- /twikiFormStep-->%TMPL:END%
+
+
+
+%TMPL:DEF{"previous"}%<p>%MAKETEXT{"Select a new local file to update attachment"}% <code>%FILEPATH%</code> <span class="twikiGrayText">%TMPL:P{"fileuser"}%</span></p>%TMPL:END%
+
+
+
+%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment"><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="twikiLinkLabel">%MAKETEXT{"Move"}%</span></a> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?web=%TRASHWEB%&template=renameattachmentdelete&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="twikiLinkLabel">%MAKETEXT{"Delete"}%</span></a> =%FILENAME%= </div>%TMPL:END%
+
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="twikiSubmit" value='%MAKETEXT{"Upload file"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"fileuser"}%(%FILEUSER%)%TMPL:END%
+
+
+
+%TMPL:P{"attach"}%

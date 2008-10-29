@@ -1,0 +1,124 @@
+%META:TOPICINFO{author="TWikiContributor" date="1170016036" format="1.1" version="$Rev: 11142 $"}%
+---+ The 216 Standard Colors
+
+This table can be used to choose a color in %WEBPREFSTOPIC% of each web.
+
+<table width="100%">
+<tr align="center">
+<td bgcolor="#000000"><font color="#FFFFFF"><b> #000000 </b></font></td><td bgcolor="#000033"><font color="#FFFFFF"><b> #000033 </b></font></td><td bgcolor="#000066"><font color="#FFFFFF"><b> #000066 </b></font></td><td bgcolor="#000099"><font color="#FFFFFF"><b> #000099 </b></font></td><td bgcolor="#0000CC"><font color="#FFFFFF"><b> #0000CC </b></font></td><td bgcolor="#0000FF"><font color="#FFFFFF"><b> #0000FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#003300"><font color="#FFFFFF"><b> #003300 </b></font></td><td bgcolor="#003333"><font color="#FFFFFF"><b> #003333 </b></font></td><td bgcolor="#003366"><font color="#FFFFFF"><b> #003366 </b></font></td><td bgcolor="#003399"><font color="#FFFFFF"><b> #003399 </b></font></td><td bgcolor="#0033CC"><font color="#FFFFFF"><b> #0033CC </b></font></td><td bgcolor="#0033FF"><font color="#FFFFFF"><b> #0033FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#006600"><font color="#FFFFFF"><b> #006600 </b></font></td><td bgcolor="#006633"><font color="#FFFFFF"><b> #006633 </b></font></td><td bgcolor="#006666"><font color="#FFFFFF"><b> #006666 </b></font></td><td bgcolor="#006699"><font color="#FFFFFF"><b> #006699 </b></font></td><td bgcolor="#0066CC"><font color="#FFFFFF"><b> #0066CC </b></font></td><td bgcolor="#0066FF"><font color="#FFFFFF"><b> #0066FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#009900"><b> #009900 </b></td><td bgcolor="#009933"><b> #009933 </b></td><td bgcolor="#009966"><b> #009966 </b></td><td bgcolor="#009999"><b> #009999 </b></td><td bgcolor="#0099CC"><b> #0099CC </b></td><td bgcolor="#0099FF"><b> #0099FF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#00CC00"><b> #00CC00 </b></td><td bgcolor="#00CC33"><b> #00CC33 </b></td><td bgcolor="#00CC66"><b> #00CC66 </b></td><td bgcolor="#00CC99"><b> #00CC99 </b></td><td bgcolor="#00CCCC"><b> #00CCCC </b></td><td bgcolor="#00CCFF"><b> #00CCFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#00FF00"><b> #00FF00 </b></td><td bgcolor="#00FF33"><b> #00FF33 </b></td><td bgcolor="#00FF66"><b> #00FF66 </b></td><td bgcolor="#00FF99"><b> #00FF99 </b></td><td bgcolor="#00FFCC"><b> #00FFCC </b></td><td bgcolor="#00FFFF"><b> #00FFFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#330000"><font color="#FFFFFF"><b> #330000 </b></font></td><td bgcolor="#330033"><font color="#FFFFFF"><b> #330033 </b></font></td><td bgcolor="#330066"><font color="#FFFFFF"><b> #330066 </b></font></td><td bgcolor="#330099"><font color="#FFFFFF"><b> #330099 </b></font></td><td bgcolor="#3300CC"><font color="#FFFFFF"><b> #3300CC </b></font></td><td bgcolor="#3300FF"><font color="#FFFFFF"><b> #3300FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#333300"><font color="#FFFFFF"><b> #333300 </b></font></td><td bgcolor="#333333"><font color="#FFFFFF"><b> #333333 </b></font></td><td bgcolor="#333366"><font color="#FFFFFF"><b> #333366 </b></font></td><td bgcolor="#333399"><font color="#FFFFFF"><b> #333399 </b></font></td><td bgcolor="#3333CC"><font color="#FFFFFF"><b> #3333CC </b></font></td><td bgcolor="#3333FF"><font color="#FFFFFF"><b> #3333FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#336600"><font color="#FFFFFF"><b> #336600 </b></font></td><td bgcolor="#336633"><font color="#FFFFFF"><b> #336633 </b></font></td><td bgcolor="#336666"><font color="#FFFFFF"><b> #336666 </b></font></td><td bgcolor="#336699"><font color="#FFFFFF"><b> #336699 </b></font></td><td bgcolor="#3366CC"><font color="#FFFFFF"><b> #3366CC </b></font></td><td bgcolor="#3366FF"><font color="#FFFFFF"><b> #3366FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#339900"><b> #339900 </b></td><td bgcolor="#339933"><b> #339933 </b></td><td bgcolor="#339966"><b> #339966 </b></td><td bgcolor="#339999"><b> #339999 </b></td><td bgcolor="#3399CC"><b> #3399CC </b></td><td bgcolor="#3399FF"><b> #3399FF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#33CC00"><b> #33CC00 </b></td><td bgcolor="#33CC33"><b> #33CC33 </b></td><td bgcolor="#33CC66"><b> #33CC66 </b></td><td bgcolor="#33CC99"><b> #33CC99 </b></td><td bgcolor="#33CCCC"><b> #33CCCC </b></td><td bgcolor="#33CCFF"><b> #33CCFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#33FF00"><b> #33FF00 </b></td><td bgcolor="#33FF33"><b> #33FF33 </b></td><td bgcolor="#33FF66"><b> #33FF66 </b></td><td bgcolor="#33FF99"><b> #33FF99 </b></td><td bgcolor="#33FFCC"><b> #33FFCC </b></td><td bgcolor="#33FFFF"><b> #33FFFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#660000"><font color="#FFFFFF"><b> #660000 </b></font></td><td bgcolor="#660033"><font color="#FFFFFF"><b> #660033 </b></font></td><td bgcolor="#660066"><font color="#FFFFFF"><b> #660066 </b></font></td><td bgcolor="#660099"><font color="#FFFFFF"><b> #660099 </b></font></td><td bgcolor="#6600CC"><font color="#FFFFFF"><b> #6600CC </b></font></td><td bgcolor="#6600FF"><font color="#FFFFFF"><b> #6600FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#663300"><font color="#FFFFFF"><b> #663300 </b></font></td><td bgcolor="#663333"><font color="#FFFFFF"><b> #663333 </b></font></td><td bgcolor="#663366"><font color="#FFFFFF"><b> #663366 </b></font></td><td bgcolor="#663399"><font color="#FFFFFF"><b> #663399 </b></font></td><td bgcolor="#6633CC"><font color="#FFFFFF"><b> #6633CC </b></font></td><td bgcolor="#6633FF"><font color="#FFFFFF"><b> #6633FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#666600"><font color="#FFFFFF"><b> #666600 </b></font></td><td bgcolor="#666633"><font color="#FFFFFF"><b> #666633 </b></font></td><td bgcolor="#666666"><font color="#FFFFFF"><b> #666666 </b></font></td><td bgcolor="#666699"><font color="#FFFFFF"><b> #666699 </b></font></td><td bgcolor="#6666CC"><font color="#FFFFFF"><b> #6666CC </b></font></td><td bgcolor="#6666FF"><font color="#FFFFFF"><b> #6666FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#669900"><b> #669900 </b></td><td bgcolor="#669933"><b> #669933 </b></td><td bgcolor="#669966"><b> #669966 </b></td><td bgcolor="#669999"><b> #669999 </b></td><td bgcolor="#6699CC"><b> #6699CC </b></td><td bgcolor="#6699FF"><b> #6699FF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#66CC00"><b> #66CC00 </b></td><td bgcolor="#66CC33"><b> #66CC33 </b></td><td bgcolor="#66CC66"><b> #66CC66 </b></td><td bgcolor="#66CC99"><b> #66CC99 </b></td><td bgcolor="#66CCCC"><b> #66CCCC </b></td><td bgcolor="#66CCFF"><b> #66CCFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#66FF00"><b> #66FF00 </b></td><td bgcolor="#66FF33"><b> #66FF33 </b></td><td bgcolor="#66FF66"><b> #66FF66 </b></td><td bgcolor="#66FF99"><b> #66FF99 </b></td><td bgcolor="#66FFCC"><b> #66FFCC </b></td><td bgcolor="#66FFFF"><b> #66FFFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#990000"><font color="#FFFFFF"><b> #990000 </b></font></td><td bgcolor="#990033"><font color="#FFFFFF"><b> #990033 </b></font></td><td bgcolor="#990066"><font color="#FFFFFF"><b> #990066 </b></font></td><td bgcolor="#990099"><font color="#FFFFFF"><b> #990099 </b></font></td><td bgcolor="#9900CC"><font color="#FFFFFF"><b> #9900CC </b></font></td><td bgcolor="#9900FF"><font color="#FFFFFF"><b> #9900FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#993300"><font color="#FFFFFF"><b> #993300 </b></font></td><td bgcolor="#993333"><font color="#FFFFFF"><b> #993333 </b></font></td><td bgcolor="#993366"><font color="#FFFFFF"><b> #993366 </b></font></td><td bgcolor="#993399"><font color="#FFFFFF"><b> #993399 </b></font></td><td bgcolor="#9933CC"><font color="#FFFFFF"><b> #9933CC </b></font></td><td bgcolor="#9933FF"><font color="#FFFFFF"><b> #9933FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#996600"><font color="#FFFFFF"><b> #996600 </b></font></td><td bgcolor="#996633"><font color="#FFFFFF"><b> #996633 </b></font></td><td bgcolor="#996666"><font color="#FFFFFF"><b> #996666 </b></font></td><td bgcolor="#996699"><font color="#FFFFFF"><b> #996699 </b></font></td><td bgcolor="#9966CC"><font color="#FFFFFF"><b> #9966CC </b></font></td><td bgcolor="#9966FF"><font color="#FFFFFF"><b> #9966FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#999900"><b> #999900 </b></td><td bgcolor="#999933"><b> #999933 </b></td><td bgcolor="#999966"><b> #999966 </b></td><td bgcolor="#999999"><b> #999999 </b></td><td bgcolor="#9999CC"><b> #9999CC </b></td><td bgcolor="#9999FF"><b> #9999FF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#99CC00"><b> #99CC00 </b></td><td bgcolor="#99CC33"><b> #99CC33 </b></td><td bgcolor="#99CC66"><b> #99CC66 </b></td><td bgcolor="#99CC99"><b> #99CC99 </b></td><td bgcolor="#99CCCC"><b> #99CCCC </b></td><td bgcolor="#99CCFF"><b> #99CCFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#99FF00"><b> #99FF00 </b></td><td bgcolor="#99FF33"><b> #99FF33 </b></td><td bgcolor="#99FF66"><b> #99FF66 </b></td><td bgcolor="#99FF99"><b> #99FF99 </b></td><td bgcolor="#99FFCC"><b> #99FFCC </b></td><td bgcolor="#99FFFF"><b> #99FFFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#CC0000"><font color="#FFFFFF"><b> #CC0000 </b></font></td><td bgcolor="#CC0033"><font color="#FFFFFF"><b> #CC0033 </b></font></td><td bgcolor="#CC0066"><font color="#FFFFFF"><b> #CC0066 </b></font></td><td bgcolor="#CC0099"><font color="#FFFFFF"><b> #CC0099 </b></font></td><td bgcolor="#CC00CC"><font color="#FFFFFF"><b> #CC00CC </b></font></td><td bgcolor="#CC00FF"><font color="#FFFFFF"><b> #CC00FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#CC3300"><font color="#FFFFFF"><b> #CC3300 </b></font></td><td bgcolor="#CC3333"><font color="#FFFFFF"><b> #CC3333 </b></font></td><td bgcolor="#CC3366"><font color="#FFFFFF"><b> #CC3366 </b></font></td><td bgcolor="#CC3399"><font color="#FFFFFF"><b> #CC3399 </b></font></td><td bgcolor="#CC33CC"><font color="#FFFFFF"><b> #CC33CC </b></font></td><td bgcolor="#CC33FF"><font color="#FFFFFF"><b> #CC33FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#CC6600"><font color="#FFFFFF"><b> #CC6600 </b></font></td><td bgcolor="#CC6633"><font color="#FFFFFF"><b> #CC6633 </b></font></td><td bgcolor="#CC6666"><font color="#FFFFFF"><b> #CC6666 </b></font></td><td bgcolor="#CC6699"><font color="#FFFFFF"><b> #CC6699 </b></font></td><td bgcolor="#CC66CC"><font color="#FFFFFF"><b> #CC66CC </b></font></td><td bgcolor="#CC66FF"><font color="#FFFFFF"><b> #CC66FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#CC9900"><b> #CC9900 </b></td><td bgcolor="#CC9933"><b> #CC9933 </b></td><td bgcolor="#CC9966"><b> #CC9966 </b></td><td bgcolor="#CC9999"><b> #CC9999 </b></td><td bgcolor="#CC99CC"><b> #CC99CC </b></td><td bgcolor="#CC99FF"><b> #CC99FF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#CCCC00"><b> #CCCC00 </b></td><td bgcolor="#CCCC33"><b> #CCCC33 </b></td><td bgcolor="#CCCC66"><b> #CCCC66 </b></td><td bgcolor="#CCCC99"><b> #CCCC99 </b></td><td bgcolor="#CCCCCC"><b> #CCCCCC </b></td><td bgcolor="#CCCCFF"><b> #CCCCFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#CCFF00"><b> #CCFF00 </b></td><td bgcolor="#CCFF33"><b> #CCFF33 </b></td><td bgcolor="#CCFF66"><b> #CCFF66 </b></td><td bgcolor="#CCFF99"><b> #CCFF99 </b></td><td bgcolor="#CCFFCC"><b> #CCFFCC </b></td><td bgcolor="#CCFFFF"><b> #CCFFFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#FF0000"><font color="#FFFFFF"><b> #FF0000 </b></font></td><td bgcolor="#FF0033"><font color="#FFFFFF"><b> #FF0033 </b></font></td><td bgcolor="#FF0066"><font color="#FFFFFF"><b> #FF0066 </b></font></td><td bgcolor="#FF0099"><font color="#FFFFFF"><b> #FF0099 </b></font></td><td bgcolor="#FF00CC"><font color="#FFFFFF"><b> #FF00CC </b></font></td><td bgcolor="#FF00FF"><font color="#FFFFFF"><b> #FF00FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#FF3300"><font color="#FFFFFF"><b> #FF3300 </b></font></td><td bgcolor="#FF3333"><font color="#FFFFFF"><b> #FF3333 </b></font></td><td bgcolor="#FF3366"><font color="#FFFFFF"><b> #FF3366 </b></font></td><td bgcolor="#FF3399"><font color="#FFFFFF"><b> #FF3399 </b></font></td><td bgcolor="#FF33CC"><font color="#FFFFFF"><b> #FF33CC </b></font></td><td bgcolor="#FF33FF"><font color="#FFFFFF"><b> #FF33FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#FF6600"><font color="#FFFFFF"><b> #FF6600 </b></font></td><td bgcolor="#FF6633"><font color="#FFFFFF"><b> #FF6633 </b></font></td><td bgcolor="#FF6666"><font color="#FFFFFF"><b> #FF6666 </b></font></td><td bgcolor="#FF6699"><font color="#FFFFFF"><b> #FF6699 </b></font></td><td bgcolor="#FF66CC"><font color="#FFFFFF"><b> #FF66CC </b></font></td><td bgcolor="#FF66FF"><font color="#FFFFFF"><b> #FF66FF </b></font></td>
+</tr>
+<tr align="center">
+<td bgcolor="#FF9900"><b> #FF9900 </b></td><td bgcolor="#FF9933"><b> #FF9933 </b></td><td bgcolor="#FF9966"><b> #FF9966 </b></td><td bgcolor="#FF9999"><b> #FF9999 </b></td><td bgcolor="#FF99CC"><b> #FF99CC </b></td><td bgcolor="#FF99FF"><b> #FF99FF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#FFCC00"><b> #FFCC00 </b></td><td bgcolor="#FFCC33"><b> #FFCC33 </b></td><td bgcolor="#FFCC66"><b> #FFCC66 </b></td><td bgcolor="#FFCC99"><b> #FFCC99 </b></td><td bgcolor="#FFCCCC"><b> #FFCCCC </b></td><td bgcolor="#FFCCFF"><b> #FFCCFF </b></td>
+</tr>
+<tr align="center">
+<td bgcolor="#FFFF00"><b> #FFFF00 </b></td><td bgcolor="#FFFF33"><b> #FFFF33 </b></td><td bgcolor="#FFFF66"><b> #FFFF66 </b></td><td bgcolor="#FFFF99"><b> #FFFF99 </b></td><td bgcolor="#FFFFCC"><b> #FFFFCC </b></td><td bgcolor="#FFFFFF"><b> #FFFFFF </b></td>
+</tr>
+</table>
+
+See TWiki:Codev.ColorScheme for links to web sites with web safe palettes, scheme generators, and other color tools and reference.
+
+__Related web sites:__
+   * http://html-color-codes.info/ - map of hexadecimal color codes, with color picker
+   * http://www.triplecode.com/munsell/ - color picker based on how people _perceive_ colors
+   * http://www.cloford.com/resources/colours/websafe2.htm - Web-safe colors
+
+__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

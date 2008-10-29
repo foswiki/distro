@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarSCRIPTURL2
+---+++ SCRIPTURL{"script"} -- URL of TWiki script
+   * Syntax: =%<nop>SCRIPTURL{"script"}%=
+   * Expands to: =%SCRIPTURL{"script"}%=
+   * Example: To get the authenticated version of the current topic you can write  =%<nop>SCRIPTURL{"viewauth"}%/%<nop>WEB%/%<nop>TOPIC%= which expands to =%SCRIPTURL{"viewauth"}%/%WEB%/%INCLUDINGTOPIC%=
+   * __%X% Note:__ In most cases you should use =%<nop>SCRIPTURLPATH{"script"}%= instead, as it works with URL rewriting much better
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSCRIPTURLPATH2][SCRIPTURLPATH{"script"}]]
+

@@ -1,0 +1,18 @@
+%META:TOPICINFO{author="TWikiContributor" date="1107567165" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+---+ TWiki Tip Of The Day Administration
+
+---++ Adminstrative Pages
+
+| [[TWikiTipsOfTheDay][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TWikiTipsOfTheDay?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TWikiTipsOfTheDay | Aggregated List of All Tips, from %MAINWEB% and %TWIKIWEB%. |
+| [[TWikiTipsOfTheDayAddNew][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TWikiTipsOfTheDayAddNew?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TWikiTipsOfTheDayAddNew | Add A New Tip |
+| [[TWikiTipsOfTheDayInclude][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TWikiTipsOfTheDayInclude?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TWikiTipsOfTheDayInclude | This topic generates the random tip to display. It gets included to the focus box.  |
+| [[TWikiTipsOfTheDayTemplate][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TWikiTipsOfTheDayTemplate?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%TWIKIWEB%/TWikiDocGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TWikiTipsOfTheDayTemplate | Template for new TWiki Tips |
+
+---++ Focus Box Example
+<table border="0" width="200px"><tr><td>
+%INCLUDE{"TWikiTipsOfTheDayInclude" warn="off" }%
+</td></tr></table>
+
+-- TWiki:Main.PaulineCheung - 29 Jan 2005
+

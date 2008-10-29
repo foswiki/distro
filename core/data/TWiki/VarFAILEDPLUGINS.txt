@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarFAILEDPLUGINS
+---+++ FAILEDPLUGINS -- debugging for plugins that failed to load, and handler list
+   * Syntax: =%<nop>FAILEDPLUGINS%=
+   * Expands to: See TWikiPlugins#FAILEDPLUGINS
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%ACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%PLUGINVERSION2][PLUGINVERSION]]
+

@@ -1,0 +1,4 @@
+TWiki::Contrib::TwistyContrib,>=1.4.1,perl,Required if using TwistyContrib twisties.
+TWiki::Contrib::BehaviourContrib,>=0,perl,Required if using TwistyContrib twisties.
+TWiki::Plugins::JQueryPlugin,>=0.5,perl,Required if using jquery twisties.
+TWiki::Plugins::DojoToolkitContrib,>=0,perl,Required if using dojo twisties.

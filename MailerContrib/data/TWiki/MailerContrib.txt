@@ -1,0 +1,221 @@
+---+!! Mailer Contrib
+<a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
+
+Allows users to "subscribe" to regularly scheduled e-mails containing either:
+   * A report on changes to all topics that have changed within a particular TWiki web.
+   * A report on changes to a specific topic or set of topics the user can define flexibly.
+   * The entire content of a specific topic or set of topics. This is referred to as "news mode."
+   * The companion plugin (TWiki:Plugins.SubscribePlugin) lets you trivially add a "Subscribe to changes" button to topics
+
+<!--
+
+   PLEASE DO NOT EDIT THIS TOPIC
+
+   It is automatically generated from the subversion repository, and any changes
+   you make will simply be overwritten the next time a release is generated.
+
+   Instead, you could check your fix in, raise a bug in the Bugs web, or mail the author.
+-->
+
+
+<div class="twikiBroadcastMessage">WARNING: TWiki-4 only. If you want to use this extension with an earlier version of TWiki, please use [[http://twiki.org/cgi-bin/attach/Plugins/%TOPIC%?filename=%TOPIC%.zip&revInfo=1][revision 17 of the zip]].</div>
+
+%TOC%
+
+---++ tools/mailnotify
+
+The central component of !MailerContrib is a script, =tools/mailnotify=, that generates and sends out the emails based on analysis of
+   1 users' subcriptions listed in the <nop>%NOTIFYTOPIC%  topic in each web, and
+   1 changes within the respective webs.
+This script is designed to be run from =cron= (or an equivalent off-line job scheduler), or from the command-line. 
+
+The script collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the TWiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
+
+Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
+<!-- Included by %TWIKIWEB%.WebChangesAlert -->
+%STARTINCLUDE%
+Users subscribe to email notifications using their [[%TWIKIWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
+
+The general format of a subscription is:
+
+_three spaces_ =*= _subscriber_ [ =:= _topics_ ]
+
+Where _subscriber_ can be a [[%TWIKIWEB%.WikiName][WikiName]], an E-mail address, or a
+group name. If _subscriber_ contains any characters that are not legal in
+an email address, then it must be enclosed in 'single' or "double" quotes.
+
+_topics_ is an optional space-separated list of topics:
+   * ... *without* a _Web._ prefix
+   * ...that exist in this web.
+Users may further customize the specific content they will receive using the following controls:
+   * *Using wild-card character in topic names* - You can use =*= in a topic name, where it is treated as a [[http://en.wikipedia.org/wiki/Wildcard_character][wildcard character]]. A =*= will match zero or more other characters - so, for example, =Fred*= will match all topic names starting with =Fred=, =*Fred= will match all topic names _ending_ with =Fred=, and =*= will match _all_ topic names.
+   * *Unsubscribing to specific topics* - Each topic may optionally be preceded by a '+' or '-' sign. The '+' sign means "subscribe to this topic". The '-' sign means "unsubscribe" or "don't send notifications regarding this particular topic". This allows users to elect to filter out certain topics. Topic filters ('-') take precedence over topic includes ('+') i.e. if you unsubscribe from a topic it will cancel out any subscriptions to that topic.
+   * *Including child-topics in subscription* - Each topic may optionally be followed by an integer in parentheses, indicating the depth of the tree of children below that topic. Changes in all these children will be detected and reported along with changes to the topic itself. _Note_ This uses the TWiki "Topic parent" feature.
+   * *Subscribing to entire topic ("news mode")* - Each topic may optionally be immediately followed by an exclamation mark ! and/or a question mark ? with no intervening spaces, indicating that the topic (and children if there is a tree depth specifier as well) should be mailed out as *complete topics* instead of change summaries. ! causes the full topic to be mailed every time _even if there have been no changes_, and ? will mail the full topic only if there have been changes. One can limit the content of the subscribed topic to send out by inserting %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers within the topic. Note that "news mode" subscriptions require a corresponding cron job that includes the "-news" option (see [[%TOPIC%#Setting_up_your_cron_job_s][details]]).
+
+Examples:
+Subscribe Daisy to all changes to topics in this web.
+<verbatim>
+   * daisy.cutter@flowers.com
+</verbatim>
+Subscribe Daisy to all changes to topics that start with =Web=.
+<verbatim>
+   * daisy.cutter@flowers.com : Web*
+</verbatim>
+Subscribe Daisy to changes to topics starting with =Petal=, and their immediate children, !WeedKillers and children to a depth of 3, and all topics that match start with =Pretty= and end with =Flowers= e.g. =PrettyPinkFlowers=
+<verbatim>
+   * DaisyCutter: Petal* (1) WeedKillers (3) Pretty*Flowers
+</verbatim>
+Subscribe !StarTrekFan to changes to all topics that start with =Star= *except* those that end in =Wars=, =sInTheirEyes= or =shipTroopers=.
+<verbatim>
+   * StarTrekFan: Star* - *Wars - *sInTheirEyes - *shipTroopers
+</verbatim>
+Subscribe Daisy to the full content of !NewsLetter whenever it has changed
+<verbatim>
+   * daisy@flowers.com: NewsLetter?
+</verbatim>
+Subscribe buttercup to !NewsLetter and its immediate children, even if it hasn't changed.
+<verbatim>
+   * buttercup@flowers.com: NewsLetter! (1)
+</verbatim>
+Subscribe !GardenGroup (which includes Petunia) to all changed topics under !AllnewsLetters to a depth of 3. Then unsubscribe Petunia from the !ManureNewsLetter, which she would normally get as a member of GardenGroup:
+<verbatim>
+   * GardenGroup: AllNewsLetters? (3)
+   * petunia@flowers.com: - ManureNewsLetter
+</verbatim>
+Subscribe =IT:admins= (a non-TWiki group defined by an alternate user mapping) to all changes to Web* topics.
+<verbatim>
+   * 'IT:admins' : Web*
+</verbatim>
+
+A user may be listed many times in the <nop>%NOTIFYTOPIC% topic. Where a user has several lines in <nop>%NOTIFYTOPIC% that all match the same topic, they will only be notified about _changes_ that topic _once_ (though they will still receive individual mails for news topics).
+
+If a _group_ is listed for notification, the group will be recursively expanded to the e-mail addresses of all members.
+
+__%X% Warning: Because an email address is not linked to a user name, there is no way for TWiki to check access controls for subscribers identified by email addresses. A subscriber identified by an email address alone will only be sent change notifications if the topic they are subscribed to is readable by guest users. You can limit what email addresses can be used in %<nop>NOTIFYTOPIC%, or even block use of emails altogther, using the ={MailerContrib}{EmailFilterIn} setting in =configure=.
+
+__%T% Tip:__ List names in alphabetical order to make it easier to find the names.
+%STOPINCLUDE%
+
+In the future it is intended that individual users will be able to control the frequency with which they are notified of topic changes, by changing a schedule specification in their home topic. However at present, the notification schedule is controlled by the frequency of activation of the =cron= job that runs the =mailnotify= script.
+
+Note that when using the "news mode" =!= or =?= specifiers the entire topic text is mailed out as HTML. The =newsletter= template is used to generate the content in this mail, using whatever skin is selected in the topic being mailed.
+
+In addition, the %<nop>STARTPUBLISH% and %<nop>STOPPUBLISH% markers used by TWiki:Plugins.PublishContrib to delimit the text to be published are respected in news mode.
+
+---++ TWiki/Contrib/MailerContrib code library
+The second part of the module is a code library that provides the services for other applications to modify the subscription topics through a clean, well documented API. This allows (for example) plugin developers to add (for example) a "Register me for this newsletter" button to their pages. Developers should refer to the POD documentation for the !WebNotify class as their starting point.
+
+---++ Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+   * To make sure the installation was successful, run the =mailnotify= script from the command line, with no parameters. In this case it will print out what it would have done to =STDOUT=.
+*Additional settings*
+   * You can change the regular expression that matches email addresses in <nop>%NOTIFYTOPIC% using the ={MailerContrib}{EmailFilterIn} setting in =configure=. This allows you to limit the domains to which emails can be sent, or even block email addresses altogether.
+
+---+++ Setting up your cron job(s)
+You need to set up a =cron= (or equivalent) job to run the =tools/mailnotify= perl script.
+
+The script is used as follows: <code>perl -I _bin_ mailnotify [-q] [-news] [ <i>web1 web2 ... webN</i> ]</code>
+| _bin_ | path to the TWiki bin directory, so that the script can find the rest of TWiki. |
+| =-q= | Don't print progress information |
+| =-news= | Run in "news mode" (process subscriptions that include "!" or "?" following the topic) |
+| <code><i>web1 web2 ... webN</i></code> | List of webs to process, separated by spaces or commas. The default is to process all webs. Wildcards (*) are supported. |
+For example, assuming TWiki was installed at =/usr/local/twiki=, this cron entry:
+<verbatim>
+0 0 * * * cd /usr/local/twiki && perl -I bin tools/mailnotify -q Public Private
+</verbatim>
+will generate change notifications for the =Public= and =Private= webs every night at midnight. (Google for =crontab= for more information on what all the =0 0 * * *= fields mean)
+<verbatim>
+0 0 * * * cd /usr/local/twiki && perl -I bin tools/mailnotify -q -Sandbox
+</verbatim>
+will generate change notifications for all webs, except the =Sandbox= web.
+<verbatim>
+0 0 * * 0 cd /usr/local/twiki && perl -I bin tools/mailnotify -news
+</verbatim>
+will generate newsletters from *all* webs every week on midnight Saturday.
+
+%X% Note: Multiple instances of mailnotify script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs mailnotify in sequence as described in TWiki:Support.DuplicateNotificationsFromMailerCon.
+
+<!--
+	* Set STUB = TWiki::Contrib::Mailer
+	* Set SHORTDESCRIPTION = Supports e-mail notification of changes.
+-->
+---++ Developer Notes
+The changes mails sent to subscribers are based on a TWiki template called =mailnotify=. This template must contain the following definitions. 
+| =HTML:before= | Section of a HTML mail before the changes |
+| =HTML:middle= | Repeated in a HTML mail for each change |
+| =HTML:after= | Section of a HTML mail after the changes |
+| =PLAIN:before= | Section of a plain text mail before the changes |
+| =PLAIN:middle= | Repeated in a plain text mail for each changes |
+| =PLAIN:after= | Section of a plain text mail after the changes |
+| =MailNotifyBody= | All the above are embedded in this. %<nop>HTML_TEXT% expands to the HTML obtained by expanding the =HTML:*= templates, and %<nop>PLAIN_TEXT% from the =PLAIN:*= templates. |
+The default template sends multipart mails containing both HTML and plaintext versions. You can easily provide a custom version of this template using a local skin.
+
+Newsletters are sent after formatting using the standard =view= template, using whatever skin is selected in the topic being mailed.
+
+---+++ Contrib Info
+
+Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiring.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+Many thanks to the following sponsors for supporting this work:
+   * [[http://www.windriver.com][Wind River]]
+   * [[http://wikigardens.com][WikiGardens]]
+
+|  Author: | TWiki:Main/CrawfordCurrie (http://c-dot.co.uk) |
+|  Copyright &copy;: | 2004, Wind River Systems; 2008, http://WikiRing.com |
+|  License: | GPL |
+|  Version: | %$VERSION% |
+|  Change History: | |
+|  15 Oct 2008 | TWikibug:Item: generalised code to enable TWiki:Codev.SubscribePlugin to delegate parsing to %TOPIC% - TWiki:Main.SvenDowideit |
+|  14 Oct 2008 | TWikibug:Item6066: fixed issue for user mappings where cuid != login  - TWiki:Main.SvenDowideit |
+|  27 Aug 2008 | TWikibug:Item5949: fixed problem with unsubscribe that should result in an empty subscription |
+|  03 Aug 2008 | TWiki 4.2.1 release version |
+|  27 Jul 2008 | TWikibug:Item5776: TWiki:Main.KennethLavrsen added note to warn against running multiple instances of mailnotify at the same time. |
+|  15 May 2008 | TWikibug:Item5232: TWiki:Main.CrawfordCurrie added support for non-ascii alphanumerics in topic names to WebNotify. TWikibug:Item5630: TWiki:Main.SvenDowideit fixed some spelling errors |
+|  25 Jan 2008 | TWikibug:Item4812: added TWiki:Main.BobGoldstein's noexpand patch for groups |
+|  2 Nov 2007 | TWikibug:Item4818: added quotes to support non-alphabetic and other wierd group names TWikibug:Item4887: corrected minor rendering error TWikibug:Item4917: removed dependence on symbolic web names |
+|  9 Sep 2007 | TWikibug:Item4326 workaround for possible error in !WebNotify API in old releases, Should not affect most users. |
+|  6 Sep 2007 | TWikibug:Item4488 doc tweaks |
+|  14550 | TWikibug:Item4461 - 'Changed' link now points to most recent changes, not the entire history |
+|  22 Jun 2007 | TWikibug:Item4284 - added access control checks and email filter |
+|  21 May 2007 | TWikibug:Item3969 - 8bit email fix (TWiki:Main.WillNorris) |
+|  13623 | TWikibug:Item4014 no changes was resetting the notify time to 0. Thanks to TWiki:Main.JeffCrawford for nailing this down. |
+|  12496 | TWikibug:Item3415 mailnotify did not send notifications to intranet users because of wrong call to findUser. |
+|  11672 | Added newsletter support, after much harassment from TWiki:Main.LynnwoodBrown |
+|  11534 | TWikibug:Item2153 Clarified docs.  TWikibug:Item2698 Improved error reporting. |
+|  8808 | TWikibug:Item1654  mailnotify must enter the command_line context |
+|  8625 | TWikibug:Item1508  Making the dashes in the separatator clearer |
+|  8606 | TWikibug:Item1508  MailerContrib: Brushing up HTML mailnotify template |
+|  8602 | TWikibug:Item1508  MailerContrib: Cleaning up plaintext e-mail template, removing TEXTAREA |
+|  8522 | TWikibug:Item1511  arguments to getScriptUrl in wrong order :-( |
+|  8434 | TWikibug:Item1465  Fix 'TWiki.' to '%TWIKIEB%.' |
+|  8398 | TWikibug:Item1460  polished up the comment a bit |
+|  8308 | TWikibug:Item1362  moving mailnotify cron script |
+|  7848 | TWikibug:Item1167  forced all mail operations to generate absolute URLs |
+|  7568 | TWikibug:tem910  use SCRIPTURL{view} instead of complex url expr |
+|  6864 | TWikibug:tem624  mailer templates moved the the right places |
+|  6861 | TWikibug:tem624  Added proper templates support for plain text mails |
+|  6809 | TWikibug:tem623  don't print anything if verbosity is switched off. |
+|  6659 | TWikibug:tem528  Updated MailerContrib. it's working and the sendmail parameter is used. |
+|  6474 | TWikibug:tem420  removed spurious remove_obsolete_locks from MailerContrib |
+|  5924 | TWikibug:tem153  fix mail URL-fixing scheme |
+|  5269 | Minor doc fixes |
+|  5266 | Doc tidy-ups, added filtering of _ webs, added obsolete lock script |
+|  5264 | Changed default to add web name to user name (I hope) |
+|  5263 | Minor doc tidyups |
+|  5261 | Documentation changes, and fixed to scan all webs. |
+|  5253 | runnable as CGI script, minor bugfixes, removed dependency on DBCacheContrib |
+|  5234 | Minor doc changes |
+|  5231 | Made a change an object, added unit tests to CVS, lots of testing. |
+|  4 March 2005 | 1.010 Dakar release ready. |
+|  12 Oct 2004 | 1.004 Added support for anti-subscriptions. Doc fixes from TWiki:Main.PeterThoeny. Bug fixes to permissions code. Back-off and retry if the mailer can't be reached (should really be in Net::sendEmail) |
+|  6 Oct 2004 | 1.003 Excluded _ webs from processing, added =bin/remove_obsolete_locks= for full reverse-compatibility |
+|  1 Oct 2004 | 1.002 Peter<nop>Thoeny provided additional documentation |
+|  27 Sep 2004 | 1.001 runnable as CGI script, minor bugfixes, removed dependency on DB<nop>CacheContrib |
+|  8 Sep 2004 | 1.000 Initial version |
+|  Home: | TWiki:Plugins/%TOPIC% |
+|  Feedback: | TWiki:Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%

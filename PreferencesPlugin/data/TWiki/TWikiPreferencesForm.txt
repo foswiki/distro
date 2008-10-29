@@ -1,0 +1,51 @@
+|*Name*|*Type*|*Size*|*Value*|*Tooltip message* |*Attributes*|
+| WEBBGCOLOR | text | 20 | #FFD8AA | HTML Color | S |
+| FAVICON | text | 30 | %PUBURL%/%WEB%/WebPreferences/favicon.ico | URL of an icon image | S |
+| WEBCOPYRIGHT | textarea | | Copyright &copy; 1999-%GMTIME{"$year"}% by the contributing authors. \nAll material on this collaboration platform is the property of the contributing authors. <br /> \nIdeas, requests, problems regarding <nop>%WIKITOOLNAME%? <a href="mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%&#32;Feedback&#32;on&#32;%WEB%.%TOPIC%">Send feedback</a> | Long form copyright | S |
+| WEBRSSCOPYRIGHT | text | 30 | Copyright %GMTIME{"$year"}% by contributing authors | Short form copyright | S |
+| NOSEARCHALL | select | 1 | off,on | Exclude web from a =web="all"= search| S |
+| NOAUTOLINK | select | 1 | off,on | Boolean | S |
+| INCLUDEWARNING | text | 30 | on, off | Boolean | S |
+| LINKTOOLTIPINFO | text | 30 | | Format of tooltip info | S |
+| EDITBOXWIDTH | text | 30 | 70 | Horizontal size of text edit box. | S |
+| EDITBOXHEIGHT | text | 30 | 15 | Vertical size of text edit box. | S |
+| EDITBOXSTYLE | text | 30 | width: 99% | CSS style | S |
+| PREVIEWBGIMAGE | text | 30 | %PUBURLPATH%/%TWIKIWEB%/PreviewBackground/preview2bg.gif | Image URL | S |
+| FORCENEWREVISIONCHECKBOX | select | 1 | , checked="checked" | Select checked to enable | S |
+| DONTNOTIFYCHECKBOX | select | 1 | ,checked="checked" | Select checked to enable | S |
+| ATTACHLINKBOX | select | 1 | ,checked="checked" | Select checked to enable | S |
+| ATTACHEDFILELINKFORMAT | text | 30 | \t* [[%ATTACHURL%/$name][$name]]: $comment | Text | S |
+| ATTACHEDIMAGEFORMAT | textarea | | \t* $comment: <br /><img src="%ATTACHURLPATH%/$name" alt="$comment" $size /> | Text | S |
+| WIKITOOLNAME | text | 30 | TWiki | Site name | S |
+| WEBLOGONAME | text | 30 | T-logo-158x45.gif | Filename of a logo image | S |
+| WEBLOGOIMG | text | 30 | %PUBURL%/%BASEWEB%/%WEBPREFSTOPIC%/%WEBLOGONAME% | URL of a logo image | S |
+| WEBLOGOURL | text | 30 | %SCRIPTURL%/view%SCRIPTSUFFIX%/%BASEWEB%/%HOMETOPIC% | URL under the logo | S |
+| WEBLOGOALT | text | 30 | Home | Logo tooltip text of the logo | S |
+| WIKILOGOIMG | text | 30 | %PUBURL%/%TWIKIWEB%/TWikiLogos/horzTWiki.gif | URL of a logo image | S |
+| WIKILOGOURL | text | 30 | http://TWiki.org/ | URL under the logo| S |
+| WIKILOGOALT | text | 30 | Powered by TWiki | Logo tooltip text of the logo | S |
+| WIKIWEBLIST | textarea | | [[%MAINWEB%.%HOMETOPIC%][%MAINWEB%]] %SEP% [[%TWIKIWEB%.%HOMETOPIC%][%TWIKIWEB%]] %SEP% [[Sandbox.%HOMETOPIC%][Sandbox]] | | S |
+| ATTACHFILESIZELIMIT | text | 30 | 3000 | Maximum size of attachments in KB, 0 for no limit | S |
+| BROADCASTMESSAGE | textarea| |  | Broadcast message on every page, for skins that support it. | S |
+| SEARCHDEFAULTTTYPE | select | 1 | keyword,literal,regex | Default type for search | S |
+| SEARCHVARDEFAULTTYPE | select | 1 | keyword,literal,regex | Default for =%<nop>SEARCH{}%= variable | S |
+| SEARCHSTOPWORDS | textarea | | a, all, am, an, and, any, as, at, b, be, by, c, d, e, for, from, g, h, how, i, i'm, i.e., in, is, isn't, it, it's, its, j, k, l, m, n, o, of, on, or, p, q, r, s, t, that, that's, the, this, to, u, v, w, was, wasn't, what, what's, when, where, who, who's, will, with, x, y, z | Stop words, e.g., common words and characters to exclude from a keyword search | S |
+| WIKIWEBMASTER | text | 30 | webmaster@example.com | TWiki administrator e-mail address | S |
+| WIKIWEBMASTERNAME | text | 30 | TWiki Administrator | TWiki administrator name (first name and last name, e.g. =Fred Smith=) | S |
+| HTTP_EQUIV_ON_VIEW| textarea | 30x1 | <link rel='alternate' type='application/rss+xml' title='RSS Feed' href='%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/WebRss' /> | http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts | S |
+| HTTP_EQUIV_ON_EDIT| textarea | 30x1 | =  | http-equiv== meta tags for ==edit== script | S |
+| HTTP_EQUIV_ON_PREVIEW| textarea | 30x1 | =  | http-equiv== meta tags for ==preview== script | S |
+| SKIN | text | 30 | pattern | Skin overriding the default TWiki templates. | S |
+| WEBTOPICLIST | textarea | 40x3 | [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" /> | Usually a list of topics | S |
+| TWIKILAYOUTURL | text | 30 | %PUBURL%/%TWIKIWEB%/PatternSkin/layout.css | URL of a CSS | S |
+| TWIKISTYLEURL | text | 30 | %PUBURL%/%TWIKIWEB%/PatternSkin/style.css | URL of a CSS | S |
+| USERLAYOUTURL | text | 30 |  | URL of a CSS | S |
+| USERSTYLEURL | text | 30 |  | URL of a CSS | S |
+| DS_THEME | text | 30 | gray | Theme: (gray, monochrome, tabstyle | S |
+| DS_QUICKLINKSHEADING | text | 30 |  | Quicklinks headings | S |
+| DS_QUICKLINKS | text | 30 |  | Quicklinks submenu | S |
+| DISABLEDPLUGINS | text | 30 | EmptyPlugin, DefaultPlugin, TestFixturePlugin | Comma-separated list | S |
+| INSTALLEDPLUGINS | text | 30 | | Plugin execution order, comma-separated list | S |
+| READTOPICPREFS | select | 1 | on,off | Boolean | S |
+| TOPICOVERRIDESUSER | select | 1 | on, off | Boolean | S |
+| FINALPREFERENCES | textarea | 60x5 | ATTACHFILESIZELIMIT, PREVIEWBGIMAGE, WIKITOOLNAME, WIKIWEBMASTER, SMTPMAILHOST, SMTPSENDERHOST, ALLOWWEBMANAGE, READTOPICPREFS, TOPICOVERRIDESUSER | Multiple select | S |

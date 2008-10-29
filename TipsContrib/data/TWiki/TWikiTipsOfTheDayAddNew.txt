@@ -1,0 +1,57 @@
+%META:TOPICINFO{author="TWikiContributor" date="1163619832" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiTipsOfTheDayAdmin"}%
+---+ Add New TWiki Tip Of The Day
+
+There are *Custom Tips* maintained on your local %WIKITOOLNAME% installation, *Official TWiki Tips* maintained on the TWiki.org web site, and *Plugin Tips* maintained by Plugin authors.
+
+---++ Add a Custom %WIKITOOLNAME% Tip
+
+Custom tips are located in the %MAINWEB% web. You can add custom tips that are specific to your TWiki installation and to your organization in general.
+
+<form name="newlocal" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%MAINWEB%/">
+<!--
+| Last topic:	  | %CALC{$SET(ctopic, %SEARCH{ "TWikiCustomTip[0-9]" scope="topic" web="%MAINWEB%" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ctopic)}% |
+| Next available: | %CALC{$SET(cnext, $INT($VALUE($GET(ctopic)) + 1))$GET(cnext)}% |
+| Zero pad to 3:  | %CALC{$SET(cnext, $REPLACE(0000$GET(cnext),1,$INT(1 + $LENGTH($GET(cnext)))))$GET(cnext)}% |
+| New topic name: | %CALC{$SET(ctopic, TWikiCustomTip$GET(cnext))$GET(ctopic)}% |
+-->
+<input type="hidden" name="topic" value="%CALC{$GET(ctopic)}%" />
+<input type="hidden" name="onlynewtopic" value="on" />
+<input type="hidden" name="templatetopic" value="%TWIKIWEB%.TWikiTipsOfTheDayTemplate" />
+New Custom Tip: <nop>%CALC{$GET(ctopic)}% <input type="submit" value="Create" />
+</form>
+
+---++ Add an Official TWiki Tip
+
+Official TWiki tips are located in the %TWIKIWEB% web. Please do not submit new tips on your local TWiki installation since they will get lost on a TWiki upgrade. Visit TWiki:TWiki.TWikiTipsOfTheDayAddNew to contribute official TWiki tips.
+<form name="new" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/">
+<!--
+| Last topic:	  | %CALC{$SET(ttopic, %SEARCH{ "TWikiTip[0-9]" scope="topic" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ttopic)}% |
+| Next available: | %CALC{$SET(tnext, $INT($VALUE($GET(ttopic)) + 1))$GET(tnext)}% |
+| Zero pad to 3:  | %CALC{$SET(tnext, $REPLACE(0000$GET(tnext),1,$INT(1 + $LENGTH($GET(tnext)))))$GET(tnext)}% |
+| New topic name: | %CALC{$SET(ttopic, TWikiTip$GET(tnext))$GET(ttopic)}% |
+-->
+<input type="hidden" name="topic" value="%CALC{$GET(ttopic)}%" />
+<input type="hidden" name="onlynewtopic" value="on" />
+<input type="hidden" name="topicparent" value="TWikiTipsOfTheDay" />
+<input type="hidden" name="templatetopic" value="TWikiTipsOfTheDayTemplate" />
+New Official TWiki Tip: <nop>%CALC{$GET(ttopic)}% <input type="%CALC{$IF($EXACT($LOWER(%HTTP_HOST%),twiki.org),submit,hidden)}%" value="Create" />
+</form>
+
+---++ Add a TWiki Tip for a Plugin
+
+If you are a Plugin author you can ship your TWiki:Plugins.PluginPackage with one (or more) tip of the day topic. Create the Plugin tip of the day topic here, then package it with your Plugin.
+
+<form name="new" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/">
+<input type="hidden" name="onlynewtopic" value="on" />
+<input type="hidden" name="topicparent" value="TWikiTipsOfTheDay" />
+<input type="hidden" name="templatetopic" value="TWikiTipsOfTheDayTemplate" />
+New Plugin Tip: 
+<input type="text" name="topic" value="TWikiTipForMyOwnPlugin" size="30" />
+<input type="submit" value="Create" /> (replace =MyOwnPlugin= with the name of your Plugin)
+</form>
+
+__Related:__ TWikiTipsOfTheDay, TWikiTipsOfTheDayAdmin, TWikiTipsOfTheDayTemplate
+
+-- TWiki:Main.PaulineCheung - 18 Jan 2005
+

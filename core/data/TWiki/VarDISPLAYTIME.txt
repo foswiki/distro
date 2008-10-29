@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarDISPLAYTIME
+---+++ DISPLAYTIME -- display date and time
+   * Syntax: =%<nop>DISPLAYTIME%=
+   * Expands to: =%DISPLAYTIME%=
+   * Date part of the format is displayed as defined by the {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]]. The time is shown as hh:mm (24 hour clock)
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarDISPLAYTIME2][DISPLAYTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSERVERTIME][SERVERTIME]]
+

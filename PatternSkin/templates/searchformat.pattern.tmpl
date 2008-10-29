@@ -1,0 +1,7 @@
+%TMPL:INCLUDE{"search"}%
+
+
+
+%TMPL:DEF{"content"}%%SPLIT%Search: <b> %SEARCHSTRING% </b><p />
+%SPLIT%%REPEAT%%REPEAT%%SPLIT%%TMPL:P{"count"}%<p />
+%SPLIT%%TMPL:END%

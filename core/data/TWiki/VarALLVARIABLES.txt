@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarALLVARIABLES
+---+++ ALLVARIABLES -- list of currently defined !TWikiVariables
+   * Syntax: =%<nop>ALLVARIABLES%=
+   * Expands to: a table showing all defined TWikiVariables in the current context
+

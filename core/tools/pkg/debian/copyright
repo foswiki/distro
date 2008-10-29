@@ -1,0 +1,53 @@
+This package was debianized by Mark W. Eichin <eichin@thok.org> on
+Sun, 20 Jan 2002 10:31:23 -0500.
+it has since been updated by Sven Dowideit <svenud@ozemail.com.au> 
+
+
+It was downloaded from http://TWiki.org/TWiki20030201.zip
+(but please go through the survey form http://TWiki.org/download.html 
+to help the upstream authors get data on usage.)
+
+Upstream Author: Peter Thoeny <Peter@Thoeny.com>
+
+Copyright: (from license.txt)
+
+Copyright and License of TWiki, 18 Dec 2003
+-------------------------------------------
+
+TWiki (TM) is copyrighted (C) 1999-2003 by Peter Thoeny, 
+Peter@Thoeny.com; ALL RIGHTS RESERVED. TWiki's core 
+team and other contributors also hold copyrights. See
+list of contributors at
+http://TWiki.org/cgi-bin/view/TWiki/TWikiContributor
+
+TWiki is open source software; you can redistribute it 
+and/or modify it under the terms of the GNU General Public 
+License as published by the Free Software Foundation; 
+either version 2 of the License, or (at your option) any 
+later version. We would appreciate if redistributions of 
+TWiki and its clones retain this license.txt file in its 
+entire form, thus acknowledging the origin of TWiki and 
+the thousands of hours the core team and contributors put 
+into creating this product.
+
+This program is distributed in the hope that it will be 
+useful, but WITHOUT ANY WARRANTY; without even the implied 
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE. See the GNU General Public License for more 
+details, for your convenience attached below, also 
+published at http://www.gnu.org/copyleft/gpl.html
+
+Please note that TWiki is NOT distributed under the LGPL
+(Lesser General Public Licence), which implies TWiki can
+only be used with software that is licensed under conditions
+compliant with the GPL. Embedding in proprietary software
+requires an alternative license. Contact the author for
+details.
+
+--
+Peter Thoeny, Peter@Thoeny.com, http://TWiki.org/
+
+
+On Debian GNU/Linux systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+

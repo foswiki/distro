@@ -1,0 +1,296 @@
+%META:TOPICINFO{author="TWikiContributor" date="1183913691" format="1.1" reprev="1." version="1.1"}%
+---+!! !Behaviour Javascript framework Contrib
+
+This contrib packages the third-party =Behaviour= Javascript event library, available from http://bennolan.com/behaviour/.
+
+Behaviour uses CSS selectors to subscribe to javascript event handlers. This allows to create clean code, separated from HTML (and well suited to create javascript based interaction that degrades nicely when javascript is not available).
+
+%TOC{title="On this page:"}%
+
+
+---++ Introduction
+From the website:
+<blockquote>
+After all the work of WASP and others to promote clean markup, valid pages and graceful degradation via css - it sucks that we're going back to tag soup days by throwing javascript tags into our html.
+
+The better way to do javascript is to do it unobtrusively. PPK and Simon Willison have been recommending this approach for ages. And it's definitely the way to go. The only problem is that it's a bit of a pain in the ass.
+
+That's why I came up with Behaviour - my solution to unobtrusive javascript behaviours.
+
+*How does it work?*
+
+Behaviour lets you use CSS selectors to specify elements to add javascript events to. This means that instead of writing:
+
+<verbatim>
+<li>
+	<a onclick="this.parentNode.removeChild(this)" href="#">
+		Click me to delete me
+	</a>
+</li>
+</verbatim>
+
+You can use:
+
+<verbatim>
+<ul id="example">
+	<li>
+		<a href="/someurl">Click me to delete me</a>
+	</li>
+</ul>
+</verbatim>
+
+And then use css selectors to select that element and add javascript functions to it.
+
+<verbatim>
+var myrules = {
+	'#example li' : function(el){
+		el.onclick = function(){
+			this.parentNode.removeChild(this);
+
+		}
+	}
+};
+
+Behaviour.register(myrules);
+</verbatim>
+</blockquote>
+
+
+
+---++ Usage
+Include the javascript file:
+
+<blockquote>
+<verbatim>
+<script type="text/javascript" src="%PUBURL%/%TWIKIWEB%/BehaviourContrib/behaviour.js"></script>
+</verbatim>
+</blockquote>
+
+In your code you create a "rules" object, with sub-objects for each html element class name or id:
+<blockquote>
+<verbatim>
+var myrules = {
+	'.classname' : function(element) {
+		// element event
+		element.onclick = function() {
+			// code here
+		}
+	},
+	
+	'#id' : function(element) {
+		// element event
+		element.onclick = function() {
+			// code here
+		}
+	}
+};
+</verbatim>
+
+Or use nested identifiers:
+
+<verbatim>
+var myrules = {
+	'.menu li a' : function(element) {
+		element.onclick = function() {
+			// code here
+		}
+	}
+};
+</verbatim>
+</blockquote>
+
+Apply the rules with:
+
+<blockquote>
+<verbatim>
+Behaviour.register(myrules);
+</verbatim>
+</blockquote>
+
+
+
+---+++ Example
+If we have a 'normal' link to TWiki Web hometopic: [[%TWIKIWEB%.%HOMETOPIC%][TWiki Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
+
+<blockquote>
+<verbatim>
+<div id="demoblock" style="padding:1em; width:100px; text-align:center;">
+MOUSE OVER ME
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+var myrules = {
+	'#demoblock' : function(el) {
+		var defaultColor = '#A3D6F8';
+		var highlightColor = '#4A7FB5';
+		
+		el.style.backgroundColor = defaultColor;
+		
+		el.onmouseover = function() {
+			this.style.backgroundColor = highlightColor;
+			return false;
+		}
+		el.onmouseout = function() {
+			this.style.backgroundColor = defaultColor;
+			return false;
+		}
+	},
+	'#demoblock span' : function(el) {
+		
+		var text = el.innerHTML;
+		
+		var fisherYates = function (inArray) {
+		  var i = inArray.length;
+		  if ( i == 0 ) return false;
+		  while ( --i ) {
+			 var j = Math.floor( Math.random() * ( i + 1 ) );
+			 var tempi = inArray[i];
+			 var tempj = inArray[j];
+			 inArray[i] = tempj;
+			 inArray[j] = tempi;
+		   }
+		}
+		
+		var randomize = function(inText) {
+			var letters = inText.split('');
+			fisherYates(letters);
+			return letters.join('');
+		}
+		el.onmouseover = function() {
+			this.innerHTML = randomize(text);
+			return false;
+		}
+		el.onmouseout = function() {
+			this.innerHTML = text;
+			return false;
+		}
+	}
+};
+Behaviour.register(myrules);
+// ]]>
+</script>
+</verbatim>
+
+Creates:
+
+<div id="demoblock" style="padding:1em; width:150px; text-align:center;">
+<span>MOUSE OVER ME</span>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+var myrules = {
+	'#demoblock' : function(el) {
+		var defaultColor = '#A3D6F8';
+		var highlightColor = '#4A7FB5';
+		
+		el.style.backgroundColor = defaultColor;
+		
+		el.onmouseover = function() {
+			this.style.backgroundColor = highlightColor;
+			return false;
+		}
+		el.onmouseout = function() {
+			this.style.backgroundColor = defaultColor;
+			return false;
+		}
+	},
+	'#demoblock span' : function(el) {
+		
+		var text = el.innerHTML;
+		
+		var fisherYates = function (inArray) {
+		  var i = inArray.length;
+		  if ( i == 0 ) return false;
+		  while ( --i ) {
+			 var j = Math.floor( Math.random() * ( i + 1 ) );
+			 var tempi = inArray[i];
+			 var tempj = inArray[j];
+			 inArray[i] = tempj;
+			 inArray[j] = tempi;
+		   }
+		}
+		
+		var randomize = function(inText) {
+			var letters = inText.split('');
+			fisherYates(letters);
+			return letters.join('');
+		}
+		el.onmouseover = function() {
+			this.innerHTML = randomize(text);
+			return false;
+		}
+		el.onmouseout = function() {
+			this.innerHTML = text;
+			return false;
+		}
+	}
+};
+Behaviour.register(myrules);
+// ]]>
+</script>
+
+
+---+++ Leaking danger
+Behaviour code leaks memory on Windows Explorer prior to version 7. To prevent leaking, set the element variable to =null=:
+<blockquote>
+<verbatim>
+var myrules = {
+	'table.test td' : function(element) {
+		element.onmouseover = function() {
+			this.style.backgroundColor = highlightColor;
+			return false;
+		}
+		element = null; // by setting this IE will not leak  
+	}
+};	
+Behaviour.register(myrules);
+</verbatim>
+</blockquote>
+
+
+---++ Development
+   * [[http://groups.google.com/group/behaviour][Google Groups: Behaviour Javascript Library]]
+   * [[http://www.nabble.com/Behaviour-Javascript-Library-f16264.html][Nabble - Behaviour Javascript Library forum & mailing list archive]]
+   * [[http://groups.google.com/group/behaviour/browse_thread/thread/e9828f9fdb482ac1/8ca704730053e23f?#8ca704730053e23f][Behaviour2]] - update in the making, since 2006
+
+
+---++ License
+Behaviour is freely distributable under the terms of an BSD license.
+For details see the Behaviour website.
+
+
+
+---++ Links
+   * [[http://bennolan.com/behaviour/][Behaviour website]]
+   * [[http://groups.google.com/group/behaviour][Behaviour Google Group]]
+
+---++ Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+
+---++ Contrib Settings
+   * Set SHORTDESCRIPTION = =Behaviour= Javascript event library to create javascript based interactions that degrade well when javascript is not available
+
+You can also set the global TWiki variable BEHAVIOURCONTRIB_DEBUG to 1 to make the contrib use uncompressed javascript sources, in the event of problems.
+
+---++ Contrib Info
+|  Author: | TWiki:Main.ArthurClemens |
+|  Copyright: | Code: =behaviour.js= version 1.1 - Copyright (c) Ben Nolan and Simon Willison. TWiki distribution and updates/additions: TWiki:Main.ArthurClemens. |
+|  License: | BSD |
+|  Version: | %$VERSION% |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Contrib&nbsp;Version: | 1.3.1 |
+|  Change&nbsp;History: | <!-- specify latest version first -->&nbsp; |
+|  17 Oct 2007 | 1.3 Replaced "faster code" by other code from Dean Edwards, [[ packed by http://groups.google.com/group/behaviour/browse_thread/thread/85137977bedf5ed/3cf3ba8065d41a8c#3cf3ba8065d41a8c][Raymond Irving]]. |
+|  02 Jul 2007 | 1.2 Integrated other faster code by Dean Edwards: [[http://dean.edwards.name/weblog/2006/06/again/][faster onload (again)]]. |
+|  08 Mar 2007 | 1.1 Integrated code by Dean Edwards (see [[#CodeUpdate][Code update version 1.1 with faster DOM queries]]). |
+|  04 Jun 2006 | 1.0  First Version. Included Behaviour version: 1.1. |
+|  Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+__Related Topics:__ %TWIKIWEB%.TWikiPreferences
+
+%META:FILEATTACHMENT{name="behaviour.js" attr="" autoattached="1" comment="" date="1162075796" path="behaviour.compressed.js" size="2902" user="UnknownUser" version=""}%
+

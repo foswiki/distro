@@ -1,0 +1,68 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 12314 $"}%
+---++ Time Specifications
+TWiki recognises the following formats for date/time strings. For all strings the time is optional.
+   * 31 Dec 2001 - 23:59
+   * 2001/12/31 23:59:59
+   * 2001.12.31.23.59.59
+   * 2001/12/31 23:59
+   * 2001.12.31.23.59
+   * =2001-12-31T23:59:59= - ISO 8601 format
+ISO dates may have a timezone specifier, either Z or a signed difference
+in hh:mm format. For example:
+   * 2001-12-31T23:59:59+01:00
+   * 2001-12-31T23:59Z
+
+---++ Time Intervals
+
+Some features of TWiki, such as searches, permit the specification of _time intervals_. A time interval is a period of time, such as "1337 to 1451" (the Hundred Years War) or "9th February 2005 to 26th March 2005" (the Christian season of Lent).
+
+The recognised format is a [[#RestrictedInterpretation][restricted]] interpretation of the [[http://www.iso.ch/iso/en/prods-services/popstds/datesandtime.html][ISO standard 8601]].
+
+A string is accepted as a valid time interval string if it conforms to the following grammar:
+
+<verbatim>
+interval ::= date
+           | date '/' date
+           | 'P' duration '/' date
+           | date '/' 'P' duration
+           ;
+
+date ::= year ('-' month ('-' day ('T' hour (':' minute (':' second)))))
+       | '$today'
+       | '$now'
+       ;
+
+duration ::= NUM unit
+           | duration NUM unit
+           ;
+
+unit ::= 'y' | 'm' | 'w' | 'd' | 'h' | 'M' | 'S'
+
+year, month, day, hour, minute, second ::= NUM
+</verbatim>
+
+An incompletely specified date will be completed by including as much time as possible.
+
+For example, if the start of a date range is specified by just a year, e.g. =1999/2006=, it will be interpreted as starting at January 1st 1999, at zero hours zero minutes zero seconds. Similarly for the end of the range; =2006= will be interpreted as the last second of 2006.
+
+If only one date is specified (e.g. the interval string is =1999=) it will be treated as if the same date were the start and the end i.e. =1999-1999=. Thus =1999= is interpreted as the whole of the year 1999.
+
+| *You write* | *You mean* |
+| =2003=                   | the whole year 2003 |
+| =2003-03-28T/2003-05-15= | from March 28th to May 15th of the year 2003 |
+| =P3w/$today=             | three weeks until today |
+| 2003-12-12               | 12th Dec 2003, from 0:00 to 23:59:59 |
+| 2003                     | any time in the year 2003 |
+| 2003/P20w                | the first 20 weeks of the year 2003 |
+| P20w/2003                | the last 20 weeks of the year 2003 |
+| $today                   | any second during the present day |
+| P2d/$today               | today and yesterday |
+| P1d/$now                 | the last 24 hours |
+| $now/P50y                | the next 50 years |
+
+Further examples can be seen [[http://www.iso.ch/iso/en/prods-services/popstds/datesandtime.html#three][here]].
+
+#RestrictedInterpretation
+---+++ Limitations
+
+If you are entering a date at both ends of the time interval string, the end date must include all leading fields, even if these are the same as in the start date. This limitation forms a proper restriction to the ISO8601 standard. i.e. ISO8601 specifies that =2003-12-12/14= means 12th Dec 2003 00:00 to 14th Dec 2003 23:59:59. However this shorthand is not supported by TWiki and must be written as =2003-12-12/2003-12-14=

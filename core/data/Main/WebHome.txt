@@ -1,0 +1,26 @@
+%META:TOPICINFO{author="TWikiContributor" date="1120846368" format="1.1" version="$Rev: 15171 $"}%
+---+!! Welcome to the <nop>%USERSWEB% web 
+Congratulations, you have finished installing TWiki.
+
+This site is running TWiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+
+To learn more about TWiki, visit the [[%SYSTEMWEB%.WebHome][TWiki web]]. Please ensure that the read/write
+permissions for each web on your site match your access control policies (see TWiki.SitePermissions
+and [[%SYSTEMWEB%.TWikiPreferences]]). Replace this text with a description of your new
+%IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="TWiki"}% site. 
+
+---++ <nop>%WEB% Web Utilities
+<form action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch">
+   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
+   * [[%SYSTEMWEB%.TWikiRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
+   * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site
+   * [[TWikiGroups]] - list of groups used for access control
+   * <input class="twikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="twikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * [[WebTopicList]] - all topics in alphabetical order
+   * [[WebChanges]] - recent topic changes in this web
+   * [[WebNotify]] - subscribe to an e-mail alert sent when topics change
+   * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes
+   * [[WebStatistics]] - listing popular topics and top contributors
+   * [[WebPreferences]] - preferences of this web
+</form>
+

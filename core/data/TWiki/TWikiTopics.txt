@@ -1,0 +1,143 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! TWiki Topics
+%TOC%
+
+The basic building block of a TWiki site is called a __topic__, identified by a unique, hopefully descriptive, %SYSTEMWEB%.WikiWord title. It may seem easier just to call them pages, but specifically a topic is the content of a page.  The distinction seems small but will become more important as your skill using TWiki increases.  TWikiSites are built using topics.
+
+---++ Characteristics
+
+A TWiki topic is a rich information unit. *Each* topic has:
+
+   * name
+      * instantly identify what the topic is about
+      * link to it from other topics just by typing in its WikiWord
+   * content
+      * edited by simply clicking the [[#PageBottom][edit link]]
+      * enter plain text, leaving a blank space between paragraphs like e-mail (all you need)
+      * enter simple TWiki shorthand to represent complex HTML and special TWiki variables
+      * enter HTML if you are familiar with it
+      * include links to other topics, URLs, Web sites, files, images, sounds, or anything else you can put on a regular Web page
+      * handy pop-up quick reference 
+      * do all of this through whatever web browser you are familiar with
+   * [[%SYSTEMWEB%.TWikiAccessControl][access control]]
+      * independently determine who can see, edit, rename, move or delete topics
+      * set permissions by individual users and user groups
+      * over-ride topic, TWiki web or site
+   * revision control
+      * topic changes are automatically saved
+      * efficiently stores every change made to the original version
+      * lets you compare and retrieve changes between any two versions, or review them all
+      * displays any previous version as a regular Web page or as raw topic text
+   * TWiki web
+      * a TWiki organizational unit to which the topic belongs
+      * relevant when searching for a topic, referencing it or typing in its URL
+   * meta-data
+      * hidden contextual data stored within each topic.
+      * parents
+         * automatically links a new topic as the "child" of the topic it was created from
+         * hierarchical, parent-child navigation
+         * allows manual assignment of parent topic from a list of all topics in the local web
+         * offers navigation by topic parents
+   * backlinks
+      * named referred-by (Ref-By)
+      * lists all topics that reference the current topic
+
+Features that can be used by topics and sites include:
+
+   * [[%SYSTEMWEB%.TWikiSkins][TWiki Skins]] to customize the look of headers and footers when topics are converted to Web pages for display:
+      * default and user selectable per session
+      * fully configurable look and feel
+      * apply skins across an entire TWiki web, or to a single displayed page
+      * use included skins and easily create new ones
+      * try the ==Printable== skin below: stripped down headers and footers suitable for clean hard copy 
+   * plug-ins
+      * new feature packages
+      * developer community evolving existing and new capabilities
+   * add-ons
+      * enhanced capability without an interface to users
+   * FileAttachment 
+      * upload files through your browser to the TWiki server
+      * attach any type of file (documents, images, applications) for viewing online, storage or sharing downloads with others
+      * upload revisions of existing files with automatic backup of all previous revisions
+   * formatted search
+      * embedded searches of topics, data and meta-data, optional regular expressions
+      * custom formatting for outputting lists or tables, optional layout, headings, summary, etc.
+   * variables
+      * similar to a command line context with site wide and locally defined variables
+      * over-ride topic, TWiki web or site
+   * [[%SYSTEMWEB%.TWikiForms][forms]]
+      * store database-style info alongside the free-form topic content
+      * accesses meta-data
+      * use text fields and boxes, radio buttons, pulldown selector menus, checkboxes
+      * create your own forms to tag topics to later search, sort and display
+   * [[#RenamingTopics][renaming, moving, and deleting]]
+      * rename a topic and automatically update all of the links to it, site-wide
+      * move a topic from one TWiki web to another
+      * safely delete a topic to a special Trash web (invisible, but recoverable from the Web server if necessary)
+   * many more features... 
+ 
+The configuration of your TWiki site, skins and your personal user account can modify the way these features are used and presented to you.
+
+#EditingPages
+---++ Creating and editing topics
+
+A primary purpose of TWiki is to make it incredibly easy for you to add and edit information on existing topics, create new topics, and link between TWiki topics.
+
+   * *To modify a topic*: click the ==Edit== link in the toolbar at the bottom left of every page (using the Default skin). An editing window appears. Type away. Use the GoodStyle and TextFormattingRules links to get pop-up window help.
+      * Click ==Preview Changes== to see how your edit looks.
+      * Click ==Save Changes== to save.
+
+   * *To add a new topic*: the simplest way is to type a new WikiName in an existing topic, while you're in edit mode. When the topic is saved, the new name will appear highlighted, with a *?* at the end: click the *?* and a new edit window appears. Enter, preview and save as usual. The new topic now exists.
+      * Go back to the topic where you started, and you'll see the *?* has disappeared, and your WikiWord name is now a regular link. Type it anywhere on any topic in that web, and it will be turned into a link.
+      * %H% *One little links rule: each topic, and its WikiWord link, belong to one unique web only.* To link _between_ webs, you must first enter the topic's web name. <br />
+         __Example:__ This is %TOPIC%, in the ==TWiki== web, so that's all you need to type on any topic in this web. But to link to <nop>%TOPIC% from a topic in the ==%USERSWEB%== web, you have to type ==%SYSTEMWEB%.<nop>%TOPIC%== - ==Webname.<nop>TopicName==. It's easy.
+
+Another way to add a topic is to type a new topic name in the Go box or an unknown topic URL.  You can type in either a WikiName to create the topic in the current web or <nop>Web.TopicName to create a topic in a different web than the current page.  Topics created with the Go box or URLs do not have parent meta-data defined.
+
+
+#OtherFeatures
+---++ Other features
+
+The color-coded toolbar at the bottom of every topic displays a series of links, including:
+   * ==Attach== - pops a new screen for FileAttachments
+   * ==Backlinks== - displays all the TWiki topics with links to the current topic
+   * ==History== - generates a page showing every change made to the current topic, with names, dates, and changes made (diffs)
+   * ==r3 &gt; r2 &gt; r1== - view most recent revision and changes
+   * ==More== - opens up a new screen containing additional controls 
+
+It looks complicated, but the basics you need to begin with are very simple to use.  The flexible and optional features are ready when you care to learn about them - the only way to confuse yourself or your site set-up and users is by using features you really don't need.  Unlike the usual expensive, complex collaboration and project management packages, TWiki is fully functional and effective just by typing in text and making WikiWord links.  All the additional features are there, but only if you need them!
+
+   * Some controls are self-explanatory and also include instructions and help links.
+   * *Experiment*. You can always ==Cancel== an edit or (using revision control) go Back whenever you like.
+   * Get *in-depth info* from the [[%SYSTEMWEB%.%HOMETOPIC%][complete documentation]], including the User's Guide, Configuration Manual and TWiki Reference. 
+
+#RenamingTopics
+---++ Renaming, moving or deleting topics
+
+You can rename, move and delete individual topics by clicking ==More== on the control strip at the bottom of every page. The access settings for a topic, web or entire site may be disabled for one or more of the three options, depending on your site set-up and access permissions.
+
+   1. Go to the top you want to change, click ==More &gt; Rename/move==
+   1. *To move or delete:* select the target web (==Trash== to delete)from the pull-down menu (otherwise, leave on the current web)
+   1. *To rename:* fill in a new WikiName (otherwise, leave the current topic name)
+   1. *To update links:* From the list of topics that show links to the topic you're changing, uncheck each entry you DON'T want to update - only checked links will be updated;
+   1. Click ==Rename/move==: the topic is renamed and/or moved, and the checked links to the topic are updated.
+      * Any problems are listed - take note, and you can fix them later.
+      * If a linked topic can't be updated (it may be locked because someone's editing it), an alert will appear. You can update missed topics later by again pressing ==Rename/move==.
+
+__%H% Note:__ Deleting means moving a topic to the Trash web. Since all webs share the one Trash, name conflicts may come up.
+
+#RevisionRollback
+---++ Reviewing and Reverting
+RCS revision control automatically saves all topic changes. To look at earlier versions of a topic, click on =Diffs= link in topic commands. If you would like to revert to an earlier version or reclaim part of an earlier version, just copy from the old topic revision to the current topic revision.  This is a step by step set of instructions:
+   1 In the =Diffs= view, take note of what version of the topic you want to reclaim and then return to =View=.
+   1 Select =More= in the topic commands.
+   1 Under "View previous topic revision," enter the version number you want to reclaim and check "raw text format." Then click on "View revision."
+   1 Select either the portion of that version you want to reclaim or the entire text of the topic if you want to revert completely to that version. Select =Copy= under your browser's =Edit= menu.
+   1 Return to the most recent version of the topic and select =Edit= from the topic commands.
+   1 Either paste in the portion of the topic you wish to reclaimed or replace the entire text with the text you copied from the earlier version.
+   1 Save the topic.
+See: [[TWikiDocumentation#Managing_Topics][ManagingTopics]] for more details.
+
+---
+__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

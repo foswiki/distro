@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 7555 $"}%
+   * <b>%MAKETEXT{"[_1] Web" args="<nop>%INCLUDINGWEB%"}%</b>
+   * [[%HOMETOPIC%][%MAKETEXT{"[_1] Web Home" args="%INCLUDINGWEB%"}%]]
+   * [[WebChanges][%MAKETEXT{"Changes"}%]] 
+   * [[WebIndex][%MAKETEXT{"Index"}%]]
+   * [[WebSearch][%MAKETEXT{"Search"}%]]
+---
+   * *%MAKETEXT{"Webs"}%*
+%WEBLIST{"      * [[$name.%HOMETOPIC%][$name]]" separator=""}%
+<div class="patternLeftBarPersonal">
+%INCLUDE{"%MAINWEB%.%WIKINAME%LeftBar" warn="<a href=\"%SCRIPTURLPATH{"edit"}%/%MAINWEB%/%WIKINAME%LeftBar?templatetopic=%TWIKIWEB%.WebLeftBarPersonalTemplate\">%MAKETEXT{"Create personal sidebar"}%</a>"}%
+</div>
+

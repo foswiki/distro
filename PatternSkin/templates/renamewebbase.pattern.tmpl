@@ -1,0 +1,9 @@
+%TMPL:INCLUDE{"renamewebbase"}%
+
+
+%TMPL:DEF{"parentwebstep"}%<div class="twikiFormStep">%TMPL:P{"parentweb"}%</div><!-- /twikiFormStep-->%TMPL:END%
+
+
+%TMPL:DEF{"renameformsteps"}%<div class="twikiFormSteps">
+<div class="twikiFormStep twikiLast">%TMPL:P{"toweb"}%</div><!-- /twikiFormStep-->
+%IF{"{EnableHierarchicalWebs}" then='%TMPL:P{"parentwebstep"}%'}%%TMPL:P{"searchresultsstep"}%</div><!-- /twikiFormSteps-->%TMPL:END%

@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1163295544" format="1.0" version="$Rev: 13096 $"}%
+%INCLUDE{"%SYSTEMWEB%.WebTopicViewTemplate"}%%IF{"'%HIDE_NON_WIKI_WORD_WARNINGS%'!='on'" then=" $percntINCLUDE{$quot$percntSYSTEMWEB$percnt.$percntWebTopicNonWikiTemplate$percnt$quot section=$quotnonwikiwordwarning$quot}$percnt"}%
+
+<!--
+<verbatim>
+%STARTSECTION{"nonwikiwordwarning"}%%RED% *%MAKETEXT{"WARNING:"}%* %ENDCOLOR% %MAKETEXT{"This topic name is not recommended because it will not be linked automatically. See [_1] for details" args="%SYSTEMWEB%.WikiWord"}%%ENDSECTION{"nonwikiwordwarning"}%
+</verbatim>
+-->

@@ -1,0 +1,74 @@
+%TMPL:INCLUDE{"view"}%
+%TMPL:INCLUDE{"viewtopicactionbuttons"}%
+%TMPL:INCLUDE{"viewtopbar"}%
+%TMPL:INCLUDE{"viewleftbar"}%
+%TMPL:DEF{"logo"}%%TMPL:END%%{ no logo because we have a top bar }%
+
+%TMPL:DEF{"bodyclassname"}%patternViewPage%IF{"defined raw" then=" patternRawViewPage"}%%TMPL:END%
+
+%TMPL:DEF{"script:skintemplate"}%%IF{"defined raw" then='%TMPL:P{"script:skintemplate:viewraw"}%'}%%TMPL:END%
+
+%TMPL:DEF{"script:skintemplate:viewraw"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twikiPref.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>%TMPL:END%
+
+%{ DEPRECATED: formattop, formatbottom, attachmentsattop and attachmentsatbottom }%
+%{ compatibility transition older than 4.2: }%
+%TMPL:DEF{"formattop"}%%TMPL:END%
+%TMPL:DEF{"formatbottom"}%%TMPL:P{"form"}%%TMPL:END%
+%TMPL:DEF{"attachmentsattop"}%%TMPL:END%
+%TMPL:DEF{"attachmentsatbottom"}%%TMPL:P{"attachments"}%%TMPL:END%
+%TMPL:DEF{"formtop"}%%TMPL:P{"formattop"}%%TMPL:END%
+%TMPL:DEF{"formbottom"}%%TMPL:P{"formatbottom"}%%TMPL:END%
+%TMPL:DEF{"attachmentstop"}%%TMPL:P{"attachmentsattop"}%%TMPL:END%
+%TMPL:DEF{"attachmentsbottom"}%%TMPL:P{"attachmentsatbottom"}%%TMPL:END%
+
+
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"activatable_edit_or_create"}%%TMPL:P{"activatable_attach"}%%TMPL:END%
+
+%TMPL:DEF{"top"}%<div class="patternTop"><span class="patternHomePath twikiLeft">%TMPL:P{"breadcrumb"}%</span><!-- /patternHomePath--><span class="patternToolBar twikiRight">%TMPL:P{"top:toolbarbuttons"}%</span><!-- /patternToolBar--><br class="twikiClear" /></div><!--/patternTop-->%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:separator"}%<span class='twikiSeparator'>&gt;</span>%TMPL:END%
+
+%TMPL:DEF{"breadcrumb"}%%{"breadcrumb:title"}%%TMPL:P{"breadcrumb:wikitoolname"}%%TMPL:P{"breadcrumb:currentweb"}%%TMPL:P{"breadcrumb:parents"}%%TMPL:P{"breadcrumb:currenttopic"}%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:parents"}%%META{"parent" nowebhome="on" prefix="%TMPL:P{"breadcrumb:separator"}%" separator="%TMPL:P{"breadcrumb:separator"}%" suffix=""}%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:topic"}%<nop>%TOPIC%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:title"}%<span class="patternHomePathTitle">%MAKETEXT{"You are here:"}% </span> %TMPL:END%
+
+%TMPL:DEF{"breadcrumb:wikitoolname"}%[[%MAINWEB%.%HOMETOPIC%][%WIKITOOLNAME%]]%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:currentweb"}%%TMPL:P{"breadcrumb:separator"}%<img src="%ICONURLPATH{web-bg-small}%" border="0" alt="" width="13" height="13" style="background-color:%WEBBGCOLOR%" />&nbsp;<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%MAKETEXT{"[_1] Web" args="<nop>%WEB%"}%</a>%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:annotation"}%%IF{"defined rev" then=" %MAKETEXT{"(revision [_1])" args="%URLPARAM{"rev"}%"}%" else=" <span class='patternRevInfo'>(%REVINFO{format="$date, $wikiusername"}%)</span>"}%%IF{"defined raw" then=" %MAKETEXT{"(raw view)"}%"}%%TMPL:END%
+
+%TMPL:DEF{"breadcrumb:currenttopic"}%%TMPL:P{"breadcrumb:separator"}%<a href="%SCRIPTURL{view}%/%WEB%/%TOPIC%" title='%MAKETEXT{"Topic revision:"}% %REVINFO{format="$rev ($date - $time)"}%'>%TMPL:P{"breadcrumb:topic"}%</a>%TMPL:P{"breadcrumb:annotation"}%%TMPL:END%
+
+%{ DEPRECATED: beforetext and aftertext }%
+%{ compatibility transition older than 4.2: }%
+%TMPL:DEF{"contentheader"}%%TMPL:P{"beforetext"}%%TMPL:END%
+%TMPL:DEF{"contentfooter"}%%TMPL:P{"aftertext"}%%TMPL:END%
+
+%TMPL:DEF{"patterntopiccontents"}%%TMPL:P{"broadcastmessage"}%%TMPL:P{"top"}%%TMPL:P{"contentheaderstylewrapper"}%%TMPL:P{"formtop"}%%TMPL:P{"attachmentstop"}%<div class="patternContent"><div class="patternTopic">%TMPL:P{"content"}%</div><!-- /patternTopic-->
+%TMPL:P{"contentfooterstylewrapper"}%%TMPL:P{"formbottom"}%%TMPL:P{"attachmentsbottom"}%</div><!-- /patternContent-->
+%TMPL:P{"topicaction"}%%TMPL:P{"footernote"}%%TMPL:END%
+
+%TMPL:DEF{"standardheader"}%%TMPL:END%
+%TMPL:DEF{"simpleheader"}%%TMPL:P{"flashnote"}%%TMPL:P{"standardheader"}%%TMPL:END%
+
+%TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%
+%TMPL:DEF{"broadcastmessage:contents"}%<div class="twikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%
+
+%TMPL:DEF{"flashnote"}%%IF{"defined FLASHNOTE and $FLASHNOTE != ''" then="$percntTMPL:P{$quotflashnote:contents$quot}$percnt"}%%TMPL:END%
+%TMPL:DEF{"flashnote:contents"}%<div class="twikiNotification"> %FLASHNOTE% </div>%TMPL:END%
+
+%TMPL:DEF{"content"}%%TMPL:P{"simpleheader"}% %TEXT% %IF{"$raw='on'" then='%TMPL:P{"sig_textareabuttons"}%'}%%TMPL:END%
+
+%TMPL:DEF{"printaction"}%%TMPL:P{"activatable_printable"}%%TMPL:END%
+
+%TMPL:DEF{"footernote"}%%TMPL:P{"topicinfo"}%%TMPL:END%
+%TMPL:DEF{"topicinfo"}%<div class="patternInfo twikiGrayText"><div class="patternRevInfo">%MAKETEXT{"Topic revision:"}% %REVINFO%</div><!-- /patternRevInfo--><div class="patternMoved">%META{"moved"}%</div><!-- /patternMoved--></div><!-- /patternInfo-->%TMPL:END%
+
+%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"textareabuttons"}%<br class="twikiClear" /></div><!-- /patternSigLine-->%TMPL:END%

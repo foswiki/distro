@@ -1,0 +1,19 @@
+Description: Test for category table and attachment upgrading
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+This topic has no TOPICINFO meta-data, to force an upgradeCategoryTable action. The test is inadequate; it doesn't check that it actually worked, only that it didn't crash.
+
+If this topic is displayed, the test passed.
+
+<font color="green">ALL TESTS PASSED</font>
+
+<verbatim>
+<!--TWikiCat-->
+
+<!--TWikiAttachment-->
+
+</verbatim>
+

@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111930902" format="1.0" version="$Rev: 5970 $"}%
+
+Description: Tests for WEBLIST tag
+<table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
+ <tr>
+  <td>WEBLIST{}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{""}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{"TWiki"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{"TWiki"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{TWiki}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{TWiki}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{"TWiki" marker="X" format="$web$name$qname$item$marker"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{"TWiki" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{"TWiki" separator="X" web="Y" webs="Z" selection="W"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{TWiki}%<!-- /actual --></td>
+ </tr>
+</table>

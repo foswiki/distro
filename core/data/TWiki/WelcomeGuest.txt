@@ -1,0 +1,47 @@
+%META:TOPICINFO{author="TWikiContributor" date="1212529094" format="1.1" version="$Rev: 15360 $"}%
+---+!! Welcome, %WIKIUSERNAME%!
+
+Welcome to <nop>%WIKITOOLNAME%! This is a TWikiSite (pronounced _twee-kee site_), a meeting place to work on common interests. Anyone can contribute using any web browser. <nop>%WIKITOOLNAME% looks like a normal web site... except that it encourages contribution and *editing* of pages, questions, answers, comments and updates.
+
+"Wiki" systems are fundamentally editable web pages.  It's a fun and useful way of communicating asynchronously over the web for many existing intranet and public Internet sites.  TWiki is simple to learn and use.  It aims to provide a transparent way for you to publish and exchange your ideas with others over the web.
+
+%TOC%
+
+---++ What's in a TWiki?
+
+   * *Webs:* A TWikiSite is divided into webs, each one represents an area for collaboration. This site has the following webs: %WEBLIST{ format="[[$name.%HOMETOPIC%][$name]]" separator=", " }%
+   * *Topics:* Each web is made up of hyperlinked [[TWikiTopics][topics]] that appear in your browser.
+
+---++ Some things to do
+
+   * *Browse.* This is a site like other sites. Read and follow interesting links.
+   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a TWiki topic. Use regular text or TWikiShorthand.
+   * *Experiment.*  Edit your personal page or visit the Sandbox.%HOMETOPIC% web.
+   * *Organize.* You can learn to use TWikiForms and [[FormattedSearch]]es to include topic information - for example, classify pages by subject, status, or date.
+   * *Learn more.* Some good places to start:
+      * TWikiTutorial is a 20-minute tour of TWiki essentials. 
+      * ATasteOfTWiki is a short introduction training course for beginners. 
+      * WikiReferences links to selected articles and books about wiki technology and online collaboration.
+      * WikiSyntax - simple syntax for edits
+      * GoodStyle - recommendations for edits
+
+ 
+---++ Some basics
+
+---+++ Editing a page:
+   * click ==Edit== at the bottom of any topic and make your changes
+   * click ==[&nbsp;Preview&nbsp;Changes&nbsp;]== at the bottom to verify the topic (use your brower's ==Back== button if necessary)
+   * click ==[&nbsp;Save&nbsp;Changes&nbsp;]== You've now edited the topic!
+
+---+++ Creating a page
+
+See a question mark link "<u>?</u>" behind a !WikiWord? That means that there's no topic yet for that Sandbox.NewWikiWord%CALC{$INT($RAND(100000))}%. If you want to create a topic for that !WikiWord, just click on the question mark. The topic will be created and you will be in the editor window.
+ 
+---+++ Viewing the history of a topic
+
+Click ==History== at the bottom of a topic
+
+---+++ Attaching files
+
+Click ==Attach== to upload and attach any type of file.
+

@@ -1,0 +1,53 @@
+#!/usr/bin/perl -w
+#
+# TWiki Collaboration Platform, http://TWiki.org/
+#
+# Copyright (C) 2004 Wind River Systems Inc.
+# Copyright (C) 2004-2007 Peter Thoeny, peter@thoeny.org
+# and TWiki Contributors.
+#
+# For licensing info read LICENSE file in the TWiki root.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details, published at
+# http://www.gnu.org/copyleft/gpl.html
+#
+# As per the GPL, removal of this notice is prohibited.
+
+# Mail notification script. You must add the TWiki bin dir to the
+# search path for this script, so it can find the rest of TWiki e.g.
+# perl -I /usr/local/twiki/bin /usr/local/twiki/tools/mailnotify
+
+BEGIN {
+    require 'setlib.cfg';
+}
+
+my $verbose = 1;
+
+my @webs = ();
+my @exwebs = ();
+
+# Called from the command line
+foreach my $arg ( @ARGV ) {
+    if( $arg eq "-q" ) {
+        $verbose = 0;
+    } elsif ( $arg =~ m/^-(.*)/ ) {
+	push( @exwebs, $1 );
+    } else {
+        push( @webs, $arg );
+    }
+}
+
+use TWiki::Contrib::MailerContrib;
+use CGI;
+
+my $report = TWiki::Contrib::MailerContrib::mailNotify(
+    \@webs, undef, $verbose, \@exwebs );
+
+print $report."\n" if $verbose;

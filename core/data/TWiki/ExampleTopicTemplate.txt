@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 4516 $"}%
+(just an example illustrating how to create a new topic based on a specific template topic. TWikiTemplates has more)
+
+-- %WIKIUSERNAME% - %DATE%

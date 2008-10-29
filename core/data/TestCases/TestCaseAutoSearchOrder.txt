@@ -1,0 +1,278 @@
+%META:TOPICINFO{author="KennethLavrsen" date="1134601077" format="1.1" version="1.1"}%
+Description: Tests for the "order" parameter in SEARCH.
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Lynnwood Brown
+
+Topics created for test (Text Item; Number Item; Created; Modified):
+   * SearchTestTopic1 (Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56)
+   * SearchTestTopic2 (Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23)
+   * SearchTestTopic3 (Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59)
+
+format="!$topic; Text Item; Number Item; created date; modified date"
+
+---++ Test searches
+
+---+++ Search ordered by Topic Name
+_This search should be ordered by sequence of values in "Topic Name" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY TOPIC NAME -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="topic" }%
+<!-- /actual -->
+
+---+++ Search ordered by Topic Name, reversed
+_This search should be ordered by *reversed* sequence of values in "Topic Name" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV TOPIC NAME -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="topic" reverse="on" }%
+<!-- /actual -->
+
+---+++ Search ordered by Topic Name, limited to 2
+_This search should be ordered by sequence of values in "Topic Name" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY TOPIC NAME LIMITED TO 2 -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="topic" limit="2"}%
+<!-- /actual -->
+
+---+++ Search ordered by Topic Name, reversed, limited to 2
+_This search should be ordered by *reversed* sequence of values in "Topic Name" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV TOPIC NAME LIMITED TO 2 -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="topic" reverse="on" limit="2"}%
+<!-- /actual -->
+
+---+++ Search ordered by "Text Item" formfield
+_This search should be ordered by sequence of values in "Text Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY TEXT ITEM -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Text Item)" reverse="0" }%
+<!-- /actual -->
+
+---+++ Search ordered by "Text Item" formfield, reversed
+_This search should be ordered by *reversed* sequence of values in "Text Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV TEXT ITEM -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Text Item)" reverse="on" }%
+<!-- /actual -->
+<!-- yes, reverse="off". That's what search does, it interprets "off" as "on" -->
+
+
+---+++ Search ordered by "Text Item" formfield, limited to 2
+_This search should be ordered by sequence of values in "Text Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY TEXT ITEM LIMITED TO 2 -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Text Item)" reverse="0" limit="2"}%
+<!-- /actual -->
+
+---+++ Search ordered by "Text Item" formfield, reversed, limited to 2
+_This search should be ordered by *reversed* sequence of values in "Text Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV TEXT ITEM LIMITED TO 2 -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Text Item)" reverse="on" limit="2"}%
+<!-- /actual -->
+<!-- yes, reverse="off". That's what search does, it interprets "off" as "on" -->
+
+---+++ Search ordered by "Number Item" formfield
+_This search should be ordered by sequence of values in "Number Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY NUMBER ITEM -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Number Item)"  }%
+<!-- /actual -->
+
+---+++ Search ordered by "Number Item" formfield, reversed
+_This search should be ordered by *reversed* sequence of values in "Number Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV NUMBER ITEM -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Number Item)" reverse="1"}%
+<!-- /actual -->
+
+---+++ Search ordered by "Number Item" formfield, limited to 2
+_This search should be ordered by sequence of values in "Number Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY NUMBER ITEM LIMITED TO 2 -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Number Item)" limit="2" }%
+<!-- /actual -->
+
+---+++ Search ordered by "Number Item" formfield, reversed, limited to 2
+_This search should be ordered by *reversed* sequence of values in "Number Item" field._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV NUMBER ITEM LIMITED TO 2 -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="formfield(Number Item)" reverse="1" limit="2"}%
+<!-- /actual -->
+
+---+++ Search ordered by date modified
+_This search should be ordered in sequence of values in "Modified" field (newest first)._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY DATE MODIFIED -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="modified" reverse="" }%
+<!-- /actual -->
+
+---+++ Search ordered by date modified, reversed
+_This search should be ordered in sequence of values in "Modified" field (oldest recently modified first)._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV DATE MODIFIED -->
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="modified" reverse="on" }%
+<!-- /actual -->
+
+---+++ Search ordered by date modified, limited to 2
+_This search should be ordered in sequence of values in "Modified" field (newest first)._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY DATE MODIFIED LIMITED TO 2 -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="modified" reverse="" limit="2"}%
+<!-- /actual -->
+
+---+++ Search ordered by date modified, reversed, limited to 2
+_This search should be ordered in sequence of values in "Modified" field (oldest recently modified first)._ %BR%
+---++++ Expected
+<!-- expected rex ORDER BY REV DATE MODIFIED LIMITED TO 2 -->
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="modified" reverse="on" limit="2"}%
+<!-- /actual -->
+
+---+++ Search ordered by date created
+<!-- expected rex ORDER BY DATE CREATED -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="created" }%
+<!-- /actual -->
+---+++ Search ordered by date created, reversed
+<!-- expected rex ORDER BY REV DATE CREATED -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="created" reverse="on"}%
+<!-- /actual -->
+
+---+++ Search ordered by date created, limited to 2
+<!-- expected rex ORDER BY DATE CREATED LIMITED TO 2 -->
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="created" limit="2"}%
+<!-- /actual -->
+---+++ Search ordered by date created, reversed, limited to 2
+<!-- expected rex ORDER BY REV DATE CREATED LIMITED TO 2 -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59<br />
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date<br />" order="created" reverse="on" limit="2"}%
+<!-- /actual -->
+
+
+---+++ Search ordered by editby, limited to 2
+<!-- expected rex ORDER BY DATE CREATED LIMITED TO 2 -->
+SearchTestTopic2; Value_2; 2; 14 Dec 2005 - 21:58; 14 Dec 2005 - 22:23; <nop>AnnaAncher<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56; <nop>KennethLavrsen<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date; <nop>$wikiname<br />" order="editby" limit="2"}%
+<!-- /actual -->
+---+++ Search ordered by editby, reversed, limited to 2
+<!-- expected rex ORDER BY REV DATE CREATED LIMITED TO 2 -->
+SearchTestTopic3; Value_3; 1; 14 Dec 2005 - 21:59; 14 Dec 2005 - 21:59; <nop>MichaelAncher<br />
+SearchTestTopic1; Value_1; 3; 14 Dec 2005 - 21:56; 14 Dec 2005 - 21:56; <nop>KennethLavrsen<br />
+<!-- /expected -->
+---++++ Actual
+<!-- actual -->
+%SEARCH{ "SearchTestTopic" scope="topic" scope="topic" nototal="on" nosearch="on" header="" format="!$topic; $formfield(Text Item); $formfield(Number Item); $createdate; $date; <nop>$wikiname<br />" order="editby" reverse="on" limit="2"}%
+<!-- /actual -->

@@ -1,0 +1,14 @@
+%{ This is a default template }%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+To: %FIRSTLASTNAME% <%EMAILADDRESS%>
+BCC: %WIKIWEBMASTER%
+Subject: %MAKETEXT{"How to activate your [_1] registration" args="%WIKITOOLNAME%"}%
+MIME-Version: 1.0
+Content-Type: text/plain; charset=%CHARSET%
+Content-Transfer-Encoding: 8bit
+
+%MAKETEXT{"Thank you for registering in the [_1] collaboration platform. Your verification code is [_2]." args="%WIKITOOLNAME%, %VERIFICATIONCODE%"}%
+
+%MAKETEXT{"You now need to verify your e-mail address. You can do so by entering [_1] in the form presented to you when this e-mail was sent, or by visiting [_2]" args="'%VERIFICATIONCODE%', %SCRIPTURL{"register"}%?action=verify;code=%VERIFICATIONCODE%"}%
+
+%MAKETEXT{"Note:"}%
+%MAKETEXT{"If you got this e-mail by mistake: Somebody ([_1]) registered at the [_2] site using your mail address [_3]. Contact [_4] if this is in error." args="%SPACEOUT{%FIRSTLASTNAME%}%, %WIKITOOLNAME%, %EMAILADDRESS%, %WIKIWEBMASTER%"}%

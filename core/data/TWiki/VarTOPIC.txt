@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="TWikiContributor" date="1170582577" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiVariables"}%
+#VarTOPIC
+---+++ TOPIC -- name of current topic
+   * =%<nop>TOPIC%= expands to the name of the topic. If you are looking at the text of an included topic, it is the name of the included topic.
+   * Syntax: =%<nop>TOPIC%=
+   * Expands to: =%INCLUDINGTOPIC%=, renders as [[%INCLUDINGTOPIC%]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarWEB][WEB]]

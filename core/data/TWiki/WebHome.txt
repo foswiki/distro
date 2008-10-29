@@ -1,0 +1,40 @@
+%META:TOPICINFO{author="TWikiContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
+<div style="float:right;width:255px;padding:1em;text-align:center;">
+<a href="http://twiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-logo-235x67-t.gif" style="margin:.3em 0;" width="235" height="67" alt="Collaborate with TWiki -- visit TWiki.org" title="Collaborate with TWiki -- visit TWiki.org" border="0" /></a>
+<br />The official TWiki<sup>&reg;</sup> site is <a href="http://twiki.org"><span class="twikiLinkLabel">twiki.org</span></a>
+</div>
+---+!! Welcome to the %WEB% Web
+
+_The place to learn about TWiki features and perform TWiki system maintenance._
+
+This site is running TWiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+
+TWiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use TWiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
+
+---++ TWiki Documentation and Configuration
+<div style="float:right;width:255px;padding:1em;">%INCLUDE{ "TWikiTipsOfTheDayInclude" warn="off" }%</div>
+   * [[WelcomeGuest][Welcome Guest]] - look here first
+   * [[TWikiTutorial][Tutorial]] - 20 minutes TWiki tutorial
+   * [[TWikiUsersGuide][User's Guide]] - documentation for TWiki users
+   * [[TWikiFAQ][Frequently Asked Questions]] - about TWiki
+   * [[TWikiReferenceManual][Reference Manual]] - documentation for system administrators
+   * [[AdminToolsCategory][Admin Tools]] - manage the TWiki site
+   * [[TWikiReleaseNotes04x02][TWiki-4.2 Release Notes]] - describes what's new in this release
+
+---++ <nop>%WEB% Web Utilities
+<form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>
+   * <input type="text" name="search" class="twikiInputField" size="22" />&nbsp;<input type="submit" class="twikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * WebTopicList - all topics in alphabetical order
+   * WebChanges - recent topic changes in this web
+   * WebNotify - subscribe to an e-mail alert sent when topics change
+   * WebRss, WebAtom - RSS and ATOM news feeds of topic changes
+   * WebStatistics - listing popular topics and top contributors
+   * WebPreferences - preferences of this web
+</form>
+
+---++ Disclaimer
+
+   * TWiki<sup>&reg;</sup> is a registered trademarks of TWiki founder [[http://twiki.org/cgi-bin/view/Main/PeterThoeny][Peter Thoeny]], [[http://twiki.net/][TWIKI.NET]]. The [[TWikiLogos][TWiki logo]] and the "Collaborate with TWiki" tagline are trademarks of Peter Thoeny.
+   * Twiki (with a lower case "w") is a robot character from the _Buck Rogers&trade; in the 25th Century_ TV series. TWiki (with an upper case "W") is not affiliated with the Dille Family Trust, the registered trademark owner of the _Buck Rogers_ name.
+   * TWiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]].
+   * Get the latest version from [[http://TWiki.org/download.html][TWiki.org downloads]].

@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="TWikiContributor" date="1176595550" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="TWikiPreferences"}%
+#VarVBAR
+
+---+++ VBAR -- vertical bar
+   * The vertical bar variable can be used in TWiki tables.
+   * Type: Preference variable - TWikiRenderingShortcut.
+   * Current value: VBAR = %VBAR%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarCARET][CARET]]

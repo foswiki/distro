@@ -1,0 +1,29 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 002_fix-configure-installer-paths.dpatch by  <SvenDowideit@home.org.au>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: fix-configure-installer-paths
+
+@DPATCH@
+
+diff -urNad /tmp/build_deb/twiki-4.1.2/lib/TWiki/Configure/UIs/EXTEND.pm TWiki412/lib/TWiki/Configure/UIs/EXTEND.pm 
+--- /tmp/build_deb/twiki-4.1.2/lib/TWiki/Configure/UIs/EXTEND.pm	2007-03-04 01:45:57.000000000 +1100
++++ TWiki412/lib/TWiki/Configure/UIs/EXTEND.pm	2007-11-16 13:47:09.000000000 +1100
+@@ -212,9 +212,10 @@
+     } elsif ($file =~ s#^pub/#$TWiki::cfg{PubDir}/#) {
+     } elsif ($file =~ s#^templates/#$TWiki::cfg{TemplateDir}/#) {
+     } elsif ($file =~ s#^locale/#$TWiki::cfg{LocalesDir}/#) {
+-    } elsif ($file =~ s#^(bin/\w+)$#$this->{root}$1$TWiki::cfg{ScriptSuffix}#) {
++    } elsif ($file =~ s#^bin/(\w+)$#/usr/lib/cgi-bin/twiki/$1$TWiki::cfg{ScriptSuffix}#) {
++    } elsif ($file =~ s#^lib/#/var/lib/twiki/plugins_lib/#) {
+         #This makes a couple of bad assumptions
+         #1. that the twiki's bin dir _is_ called bin
+         #2. that any file going into there _is_ a script - making installing the 
+         #   .htaccess file via this machanism impossible
+         #3. that softlinks are not in use (same issue below)
+     } else {
+-        $file = File::Spec->catfile($this->{root}, $file);
++        $file = File::Spec->catfile('/var/lib/twiki', $file);
+     }
+     $file =~ /^(.*)$/;
+     return $1;

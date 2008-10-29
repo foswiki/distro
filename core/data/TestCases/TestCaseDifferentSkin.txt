@@ -1,0 +1,33 @@
+%META:TOPICINFO{author="TWikiContributor" date="1111930902" format="1.0" version="$Rev: 10659 $"}%
+
+Description: Visual inspection tests for different skins.
+
+---+ Different Skins
+
+NB. Tested by visual inspection only.
+
+---++ Plain
+
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=plain
+---++ Dragon
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=dragon
+
+---++ Pattern
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=pattern
+
+---++ Print
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=print
+
+---++ Print current skin
+	* Is there a better way to invoke the printable view of pattern?
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=print.%SKIN%
+
+---++ Traditional
+%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=twiki1985
+
+
+
+
+What about ?raw=on and ?skin=test&raw=on
+
+
