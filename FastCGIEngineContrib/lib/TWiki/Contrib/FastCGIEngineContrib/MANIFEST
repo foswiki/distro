@@ -1,0 +1,3 @@
+bin/twiki_fastcgi 0755
+lib/TWiki/Engine/FastCGI.pm 0644
+data/TWiki/FastCGIEngineContrib.txt 0644
