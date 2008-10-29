@@ -1,4 +1,5 @@
 lib/TWiki/Contrib/UnitTestContrib.pm 0644
+lib/TWiki/UI/Test.pm 0644
 lib/Unit/Eavesdrop.pm 0644
 lib/Unit/HTMLDiffer.pm 0644
 lib/Unit/Request.pm 0644
@@ -10,6 +11,7 @@ test/bin/TestRunner.pl 0755
 test/unit/AccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/AutoAttachTests.pm 0644
+test/unit/CGIEngineTests.pm 0644
 test/unit/ClientTests.pm 0755
 test/unit/ConfigureTests.pm 0644
 test/unit/EmptyTests.pm 0644
