@@ -73,6 +73,8 @@ sub new {
                 topic => $form,
             }, $class );
 
+        $session->{forms}->{"$web.$form"} = $this;
+
         unless ( $def ) {
 
             my $store = $session->{store};
@@ -91,7 +93,6 @@ sub new {
             $this->{fields} = $def;
 
         }
-        $session->{forms}->{"$web.$form"} = $this;
     }
 
     return $this;
