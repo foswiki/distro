@@ -1,0 +1,40 @@
+%META:TOPICINFO{author="TWikiContributor" date="1144607735" format="1.1" version="1.1"}%
+---+ !CompareRevisionsAddOn Plugin
+
+This is an helper plugin for the CompareRevisionsAddOn on TWiki 4.
+
+It has two purposes:
+   1 It sets the =CompareRevisionAddonPluginEnabled= flag, which can be used by templates (e.g. used by the HistoryPlugin)
+   1 It provides an easy way to replace links to the original =rdiff= script by links to the new =compare= script.
+
+---++ Syntax Rules
+   
+=%<nop>RDIFF2COMPARE{"text"}%= - Replaces links to the =rdiff= script with links to the =compare= script
+
+---++ Plugin Settings
+
+(none)
+
+---++ Plugin Installation Instructions 
+
+This plugin is installed together with the CompareRevisionsAddOn, see the instructions there.
+It should be enabled (if necessary) with the configure script.
+
+Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPluginEnabled" then="" else="*not* "}%installed and enabled.
+
+---++ Plugin Info
+
+|  Plugin Author: | TWiki:Main.JChristophFuchs |
+|  Plugin Version: | 07 Nov 2006 |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  07 Nov 2007 | Updated for TWiki 4.2.0. |
+|  26 Feb 2006 | Initial version |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.0 |
+|  TWiki:Plugins/Benchmark: |  |
+|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOn |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOnDev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOnAppraisal |
+
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins

@@ -1,0 +1,44 @@
+%TMPL:INCLUDE{"compare"}%
+
+%TMPL:DEF{"rendercontent"}%
+<table class="craSideBySide">
+<tr><td></td><td colspan="5" class="craTableCellSeparator"></td></tr>
+<tr><th></th>
+    <th class="craTableCellSeparator"></th>
+    <th class="craCell"> %REVTITLE2% - %REVINFO2% </th>
+    <th class="craTableCellSeparator"></th>
+    <th class="craCell"> %REVTITLE1% - %REVINFO1%</th>
+    <th class="craTableCellSeparator"></th>
+</tr>
+<tr><td></td><td colspan="5" class="craTableCellSeparator"></td></tr>
+%REPEAT%
+<tr><td></td><td colspan="5" class="craTableCellSeparator"></td></tr>
+%REPEAT%
+<tr><td></td>
+    <td class="craTableCellSeparator"></td>
+    <td class="craCell">%TEXT2%</td>
+    <td class="craTableCellSeparator"></td>
+    <td class="craCell">%TEXT1%</td>
+    <td class="craTableCellSeparator"></td>
+</tr>
+%REPEAT%
+<tr><td bgcolor="#cccccc">&nbsp;&nbsp;</td>
+    <td class="craTableCellSeparator"></td>
+    <td class="craCell">%TEXT2%</td>
+    <td class="craTableCellSeparator"></td>
+    <td class="craCell">%TEXT1%</td>
+    <td class="craTableCellSeparator"></td>
+</tr>
+%REPEAT%
+%REPEAT%
+%REPEAT%
+<tr><td></td><td colspan="5" class="craTableCellSeparator"></td></tr>
+<tr><th></th>
+    <th class="craTableCellSeparator"></th>
+    <th class="craCell"> %REVTITLE2% - %REVINFO2% </th>
+    <th class="craTableCellSeparator"></th>
+    <th class="craCell"> %REVTITLE1% - %REVINFO1% </th>
+    <th class="craTableCellSeparator"></th>
+</tr>
+<tr><td></td><td colspan="5" class="craTableCellSeparator"></td></tr>
+</table>%TMPL:END%

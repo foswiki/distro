@@ -1,0 +1,180 @@
+%META:TOPICINFO{author="TWikiContributor" date="1144955876" format="1.1" version="1.1"}%
+---+ Compare Revisions Add-On
+
+This add-on compares the renderd HTML output of two revisions and shows the differences broken down to the word-by-word level if necessary. The output can be formatted by templates and skins.
+
+%TOC%
+
+---++ Description
+
+The !CompareRevisionsAddOn compares two revisions of a document, like _rdiff_ does. But in contrast to normal _rdiff_, the comparison is done with the rendered HTML output of the revisions instead of the TWiki source text files. (This feature was proposed by many of our users, who found the normal _rdiff_ output too technical - even with the _sidebyside_ option - and wanted to see
+differences in the content of the page).
+
+Furthermore, the differences between the revisions are shown as close as possible. If necessary, this means that different words are marked instead of whole lines or even paragraphs.
+
+The differences may be shown in two formats, either side-by-side or as an interwoven output of the old and new revision (like it is done in  Word or !StarOffice/!OpenOffice):
+
+   * Screenshot of interwoven output: <br />
+     <div class="twikiImage"><img src="%ATTACHURLPATH%/interweave.png" alt="interweave.png" width='714' height='366' /></div>
+
+   * Screenshot of side-by-side output: <br />
+     <div class="twikiImage"><img src="%ATTACHURLPATH%/sidebyside.png" alt="sidebyside.png" width='714' height='584' /></div>
+
+These screenshots have been taken from Sandbox.CompareRevisionsAddOnDemoTopic.
+
+The appearance can be affected by templates and skins.
+
+---++ Usage
+
+Call ==http:<nop>//your/twiki/bin/compare/Web/Topic?parameters== from your browser
+
+---+++ Parameters
+
+==rev1=<i>rev</i>== and ==rev2=<i>rev</i>== %BR%
+Revision numbers of the two revisions which should be compared. 
+Defaults to the last two revisions. (More exact:
+_rev2_ defaults to the latest edition, _rev1_ defaults to _rev2_ - 1)
+
+==render=interweave== or ==render=sidebyside== %BR%
+Chooses the output format. May also be given in the preference variable COMPARERENDERSTYLE
+
+==context=<i>n</i>== %BR%
+The number _n_ of unchanged sections which should be shown around changed sections. 
+A section means a top-level section like a paragraph, table, etc.
+If _n=-1_ (the default), all unchanged sections are shown.
+May also be given in the preference variable COMPARECONTEXT
+
+==skin=<i>someskin</i>== %BR%
+Chooses _someskin_ for the output. See section [[#Templates][Templates]] below
+
+---+++ Templates
+
+The output of the script is rendered by templates. Two templates are needed,
+==compare.tmpl== (or ==compare.skin.tmpl==) for the side-by-side format,
+and ==interweave.tmpl== (or ==interweave.skin.tmpl==) for the interwoven
+format.
+
+The templates itself are broken into 7 parts
+
+<verbatim>
+template for start of page
+%REPEAT%
+template for unchanged section 
+which is not printed according to context
+%REPEAT%
+template for unchanged section 
+which is printed
+%REPEAT%
+template for changed section
+%REPEAT%
+template for added section
+%REPEAT%
+template for deleted section
+%REPEAT%
+template for end of page
+</verbatim>
+
+All empty templates for a section default to their predecessor. (E.g. if you 
+do not specify a template for a deleted section, it defaults to the template
+for an added section, which in turn may default to the template for a changed section).
+
+In the templates for a section, ==%<nop>TEXT1%== is replaced by the text of the old revision
+and ==%<nop>TEXT2%== is replaced by the text of the new revision.
+In interwoven output, only ==%<nop>TEXT1%== is used.
+
+Examples for templates can be found in the default template files from
+the distribution (==compare.tmpl==, ==compare.pattern.tmpl==, ==interweave.tmpl==,
+==interweave.pattern.tmpl== ).
+
+---+++ CSS Styles
+
+The differences in the two revisions are marked with the help of
+CSS style classes, whose appearance should be defined in the templates.
+
+The following classes are used:
+
+==twikiCompareAdd== %BR%
+Class for added items (i.e. items which are in the newer revision, 
+but not yet in the older one)
+
+==twikiCompareDelete== %BR%
+Class for deleted items (i.e. items which are in the older revision,
+but no more in the newer one)
+
+==twikiCompareChange1== %BR%
+Class for the items from the older revision which have been changed.
+
+==twikiCompareChange2== %BR%
+Class for the items from the newer revision which have been changed.
+
+In the default templates files from the distribution, the classes 
+==twikiCompareAdd== and ==twikiCompareChange1== are defined with
+a light red background and stroken out text, and ==twikiCompareDelete== 
+and ==twikiCompareChange2== are defined with a light green background.
+
+
+---++ Add-On Installation Instructions
+
+__Note:__ You do not need to install anything on the browser to use this add-on. The following instructions are for the administrator who installs the add-on on the server where TWiki is running. 
+
+   * This script needs some additional Perl modules.
+     If necessary, download and install the required perl modules from [[http://www.cpan.org][CPAN]]. 
+     If you do not want to install these modules in your standard perl location,
+     install them in /your/twiki/lib.
+     (See e.g.
+     [[http://www.perldoc.com/perl5.6.1/pod/perlmodinstall.html][perldoc perlmodinstall]] on how to 
+     install perl modules).%BR%
+     These modules are required:
+      * [[http://cpan.uwinnipeg.ca/module/HTML::Tree][HTML::Tree]] (with HTML::TreeBuilder and HTML::Element). These modules in turn need
+         * [[http://cpan.uwinnipeg.ca/module/HTML::Parser][HTML::Parser]]
+         * [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]]
+      * Algorithm::Diff (which is included in the standard TWiki installation
+   * Download the [[%ATTACHURL%/CompareRevisionsAddOn.zip][ZIP file]] from the Add-on Home (see below)
+   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+     | *File:*                      | *Description:*   |
+     | ==data/TWiki/%TOPIC%.txt==   | Add-on topic     |
+     | ==bin/compare==              | Add-on script  |
+     | ==lib/TWiki/UI/Compare.pm==  | Perl package used by the script |
+     | ==templates/compare.tmpl==   | Template for side-by-side output |
+     | ==templates/compare.pattern.tmpl== | Same for pattern skin |
+     | ==templates/interweave.tmpl==   | Template for interwoven output |
+     | ==templates/interweave.pattern.tmpl== | Same for pattern skin |
+     | ==lib/TWiki/Plugins/CompareRevisionsAddonPlugin.pm== | Helper plugin |
+     | ==data/TWiki/CompareRevisionsAddonPlugin.txt== | Plugin topic |
+     | ==pub/TWiki/CompareRevisionsAddOn/interweaved.png== | Interwoven screenshot |
+     | ==pub/TWiki/CompareRevisionsAddOn/sidebyside.png== | Side-by-side screenshot |
+     | ==data/Sandbox/CompareRevisionsAddOnDemoTopic.txt== | Demonstration topic |
+     | ==data/Sandbox/CompareRevisionsAddOnDemoTopic.txt,v== | Demonstration topic history |
+
+   * Test if the installation was successful:%BR%
+     Call ==%<nop>SCRIPTURL%/compare/Web/Topic== with
+     some existing topic. (Try for instance Sandbox.CompareRevisionsAddOnDemoTopic and 
+     compare your output with above screenshots).
+
+   * Enable the helper plugin CompareRevisionsAddonPlugin with the configure script
+   * This plugin will support the HistoryPlugin, if it is enabled
+   * If you disable this plugin, the skin will behave like standard <nop>PatternSkin again
+   
+   
+
+---++ Add-On Info
+
+|  Add-on Author: | TWiki:Main/JChristophFuchs |
+|  Add-on Version: | 07 Nov 2007 |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  07 Nov 2007 | Arthur Clemens: Updated for TWiki 4.2  |
+|  09 Apr 2006 | Updated for new <nop>PatternSkin in [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00x02][TWikiRelease04x00x02]] |
+|  26 Feb 2006 | Updated for TWiki 4 |
+|  02 Mar 2005 | Corrected bug concerning uninitialized elements |
+|  03 Feb 2005 | Removed blank paragraphs before comparing |
+|  20 Jan 2005 | Initial version |
+|  CPAN Dependencies: | [[http://cpan.uwinnipeg.ca/module/HTML::Parser][HTML::Parser]], [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]], [[http://cpan.uwinnipeg.ca/module/HTML::Tree][HTML::Tree]] |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.005 |
+|  License: | GPL |
+|  Add-on Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+__Related Topic:__ %TWIKIWEB%.TWikiAddOns
+

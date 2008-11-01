@@ -1,0 +1,73 @@
+%TMPL:INCLUDE{"twiki"}%
+%TMPL:INCLUDE{"viewtopicactionbuttons"}%
+
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(compare)"}%%TMPL:END%
+
+%TMPL:DEF{"pagetitle"}% %MAKETEXT{"Difference:"}% %TOPIC% (%REVTITLE2% vs. %REVTITLE1%) %TMPL:END%
+
+
+%TMPL:DEF{"footernote"}%
+    Revision %REVTITLE2% - %REVINFO2%<br />
+    Revision %REVTITLE1% - %REVINFO1%
+%TMPL:END%
+
+
+%TMPL:DEF{"script:skintemplate"}%<style type="text/css" media="all">
+.craCompareAdd {
+    background-color:#cfc;
+}
+.craCompareChange2 {
+    background-color:#cfc;
+}
+.craCompareDelete {
+    background-color:#fcc;
+    text-decoration:line-through;
+}
+.craCompareChange1 {
+    background-color:#fcc;
+    text-decoration:line-through;
+}
+table.craSideBySide {
+	border:none;
+	border-collapse:collapse;
+}
+table.craSideBySide .craCell {
+	vertical-align:top;
+	width:50%;
+	padding:6px;
+}
+.craTableCellSeparator {
+	width:1px;
+	background-color:#666;
+}
+div.craInterweave {
+	padding-left:13px;
+}
+div.craInterweaveDiff {
+	position:relative;
+	left:-13px;
+	border-left:#ccc solid 6px;
+	padding-left:10px;
+}
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"rendercontent"}%
+<p />
+%TMPL:P{"topicinfo"}%%TMPL:END%
+
+
+%TMPL:DEF{"rendercontent"}%%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"view_topic_link"}%%TMPL:P{"sep"}%%TMPL:P{"interweave_or_sidebyside_link"}%%TMPL:P{"sep"}%%TMPL:P{"action_revisions"}%%TMPL:P{"activatable_more"}%%TMPL:END%
+
+
+%TMPL:DEF{"interweave_or_sidebyside_link"}%%MAKETEXT{"View difference"}% %IF{"$ render='sidebyside'" then="%TMPL:P{"interweave_link"}%" else="%TMPL:P{"sidebyside_link"}%"}%%TMPL:END%
+
+
+%TMPL:DEF{"sidebyside_link"}%<span><a href='%SCRIPTURLPATH%/compare%SCRIPTSUFFIX%/%WEB%/%TOPIC%?rev1=%URLPARAM{"rev1"}%&rev2=%URLPARAM{"rev2"}%&render=sidebyside&context=%URLPARAM{"context"}%&skin=%URLPARAM{"skin"}%' rel='nofollow' %MAKETEXT{"title='Side by side' accesskey='s'>&side by side"}%</a></span>%TMPL:END%
+
+
+%TMPL:DEF{"interweave_link"}%<span><a href='%SCRIPTURLPATH%/compare%SCRIPTSUFFIX%/%WEB%/%TOPIC%?rev1=%URLPARAM{"rev1"}%&rev2=%URLPARAM{"rev2"}%&render=interweave&context=%URLPARAM{"context"}%&skin=%URLPARAM{"skin"}%' rel='nofollow' %MAKETEXT{"title='Interwoven' accesskey='i'>&interwoven"}%</a></span>%TMPL:END%
