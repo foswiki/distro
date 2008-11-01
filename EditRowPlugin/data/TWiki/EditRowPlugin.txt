@@ -1,0 +1,263 @@
+---+!! !EditRowPlugin
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = Replacement for some of !EditTablePlugin, some of !EditTablerowPlugin and some of !TablePlugin.
+-->
+
+%SHORTDESCRIPTION%
+
+<img src="%ATTACHURLPATH%/screenshot.gif" alt="screenshot.gif" style="float:right" />
+
+%TOC%
+
+A replacement for most of !EditTablePlugin, some of !EditTablerowPlugin and
+some of !TablePlugin. Features:
+   1 You can edit one row at a time, instead of having to edit the entire
+     table. This solves the problem with the long page rendering times
+     required to show all the HTML for a full table edit on big tables.
+   1 Row being edited can be presented horizontally, as with !EditTablePlugin,
+     or Form-style, like !EditTablerowPlugin. Makes it easier to edit very
+     wide tables.
+   1 Supports footer rows.
+   1 Supports sorting columns in tables using Javascript, avoiding the
+     round-trip to the server required by !TablePlugin. Can fall back to
+     !TablePlugin if Javascript isn't available.
+   1 Simple interface to moving rows around in the table, deleting and
+     adding rows.
+   1 Gets row numbering right (takes account of headers).
+   1 It's faster than the individual plugins it replaces.
+   1 (geeky) Coded using a clean object-oriented architecture, which
+     makes it easily extensible.
+   1 (geeky) Uses a simple REST interface for saving changes, which allows
+     Javascript table editors to use the same interface to save.
+
+
+---++ Usage
+
+Works like the !EditTablePlugin (it uses exactly the same =%EDITTABLE= tags)
+and you can use it to edit the entire table, or just one row at a time.
+
+A =%<nop>EDITTABLE{...}%= in the topic will be associated with the next table
+in the topic. If there is no existing table, or another
+=%<nop>EDITTABLE{...}%= is seen before the next table, then a new table will
+be created.
+
+Parameters:
+
+   * ==format== - The format of the cells in a row of the table. The format is
+     defined like a table row, where the cell data specify the type for each
+     cell. For example, =format="| text,16 | label |"=. Cells can be any of
+     the following types:
+      * =text, &lt;size&gt;, &lt;initial value&gt;= Simple text field. Initial value is optional.
+      * =textarea, &lt;rows&gt;x&lt;columns&gt;, &lt;initial value&gt;=
+        Multirow text box. Initial value is optional.
+      * =select, &lt;size&gt;, &lt;option 1&gt;, &lt;option 2&gt;, etc=
+        Select one from a list of choices.
+      * =radio, &lt;size&gt;, &lt;option 1&gt;, &lt;option 2&gt;,= etc.
+        Radio buttons. =size=
+        indicates the number of buttons per line in edit mode.
+      * =checkbox, &lt;size&gt;, &lt;option 1&gt;, &lt;option 2&gt;, etc=
+        Checkboxes. =size=
+        indicates the number of buttons per line in edit mode.
+      * =label, 0, &lt;label text&gt;= Fixed label.
+      * =row= The row number, automatically worked out.
+      * =date, &lt;size&gt;, &lt;initial value&gt;, &lt;DHTML date format&gt;= Date. Initial value and date format are both optional.
+   * ==changerows== - Rows can be added and removed if ="on"=. Rows can be
+     added but not removed if ="add"=. Defaults to the value of the
+     [[%TWIKIWEB%.TWikiVariables][preference]] =CHANGEROWS=, or =off= if it isn't set.
+   * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.gif" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.gif" /> (add row) button. Defaults to the value of the
+     [[%TWIKIWEB%.TWikiVariables][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
+   * ==quietsave== - Quiet Save button is shown if ="on"=. Defaults to the
+     value of the [[%TWIKIWEB%.TWikiVariables][preference]] =QUIETSAVE=, or =off= if it
+     isn't set.
+   * ==include== -
+     Name of another topic defining the EDITTABLE parameters. The first
+     %<nop>EDITTABLE% in the topic is used. This is useful if you have many
+     topics with the same table format and you want to update the format in
+     one place.
+   * ==headerrows== -
+     Number of rows to treat as headers. Header rows are not 
+     editable, and will not be sorted. =headerislabel= is also 
+     supported for EditTablePlugin compatibility (equivalent 
+     to =headerrows="1"=) |
+   * ==header== -
+     Specify the single-row header format of a new table. For example,
+     ="%VBAR%*Food*%VBAR%*Drink*%VBAR%"=. Provided for compatibility with
+     EditTablePlugin, not recommended.
+   * ==footerrows== -
+     Number of rows to treat as footers. Footer rows are not 
+     editable and will not be sorted. |
+   * ==orientrowedit== -
+     unique to !EditRowPlugin, this parameter controls the 
+     orientation of a row when it is being edited. It can be
+     set to =horizontal= (the default) or =vertical=, which
+     will present the columns of the row as rows in the editor. This makes
+     editing very wide tables much easier. Has no effect in whole table
+     editing mode.
+   * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a TWiki table.
+
+Table rows are shown with a row edit button %ICON{edittopic}% in the first column,
+and a table edit button <img src="%ATTACHURLPATH%/edittable.gif" /> after the
+table. When the table is
+edited, then a number of buttons may be shown depending on the
+settings of =changerows= and =quietsave=.
+   * %ICON{save}% saves the changes
+   * <img src="%ATTACHURLPATH%/quiet.gif" /> saves without notification
+   * %ICON{plus}% adds a new row after the current row, taking for its contents whatever you entered into the current row
+   * %ICON{minus}% deletes the row
+   * %ICON{arrowup}% Move this row up one row in the table
+   * %ICON{arrowdown}% Move this row down one row in the table
+   * %ICON{stop}% cancels the open edit
+
+---++ Per Cell Settings
+
+An individual edit field type can be defined for each individual table cell. Place an =%<nop>EDITCELL{ "type, ..." }%= variable at the end of the cell content. This is useful to override the per column =%<nop>EDITTABLE{ format="..." }%= settings, or to create tables with key/value rows. All edit field types of the =format="..."= parameter are supported. For example, to define a text field, type: =| cell content %<nop>EDITCELL{ "text, 20" }% |=
+
+__Note:__ The =%<nop>EDITCELL{ }%=variable cannot be used by itself; place an =%<nop>EDITTABLE{ }%=variable at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= variables.
+
+---++ Examples
+Copy the following examples and paste them into a topic in the Sandbox web
+(or another web where you have write access). The !EditRowPlugin is
+%IF{"{Plugins}{EditRowPlugin}{Enabled}"
+else=" *not* enabled in this TWiki, so the examples will be disabled."
+then="enabled in this TWiki. Click on the buttons to try it out."}%
+
+---+++ Example 1
+<verbatim>
+%EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | radio, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
+| *Nr* | *Project* | *State* | *Progress* | *Timestamp* |
+| 1 | Sliced yoghourt | completed | :-) | 26 Jun 2002 |
+| 2 | Cubical turkeys | not started | :-( | 27 Oct 2007 |
+| 3 | Self-eating burritos | ongoing | :-D | 1 Apr 2008 | 
+| 4 | Unified field theory | completed | :-) | 1 Apr 2012 |
+</verbatim>
+<img src="%ATTACHURLPATH%/screenshot.gif" alt='Example 2' />
+
+---+++ Example 2
+<verbatim>
+%EDITTABLE{ format="| label,12 | textarea, 3x30 |" }%
+| *Model* | *Description* |
+| 345TG66 | Short, with sightly concave upper surface, and devilish nuts |
+| 9A-11 | A new model for 2007, but not quite as pretty as the 9A-10 |
+| RR717-D | Solid performer, dependable in vacuum grinders |
+</verbatim>
+<img src="%ATTACHURLPATH%/example3.gif" alt='Example 1'/>
+
+---+++ Example 3
+<verbatim>
+%EDITTABLE{ format="| text,100 | text,100 |" orientrowedit="vertical" headerislabel="on"}%
+| *Line* | *Explanation* |
+| He took his _vorpal_ sword in hand | A vorpal sword is made from broken bits of Commodore 64 disk-drives |
+| Long time the _manxome_ foe he sought | manxome: possibly from 'manky'; or from the Isle of Man |
+| So rested he by the _Tumtum_ tree, | Tumtum is a Nilo-Saharan language and people |
+| And stood awhile in _thought_ | _thought_ a process not often employed by example writers |
+</verbatim>
+<img src="%ATTACHURLPATH%/example4.gif" alt='Example 3'/>
+
+---+++ Example 4
+<verbatim>
+%EDITTABLE{ format="| label | text, 40 |" }%
+|*Key*|*Value*|
+| Name: | John Smith |
+| Gender: | M %EDITCELL{select, 1, , F, M}% |
+| DOB: | 18 October 2007 %EDITCELL{date, 10}% |
+| City: | New York |
+</verbatim>
+<img src="%ATTACHURLPATH%/example5.gif" alt='Example 4'/>
+
+---++ Preferences
+The plugin interprets a couple of [[%TWIKIWEB%.TWikiVariables][preferences]], in common with the !EditTablePlugin.
+| =QUIETSAVE= | Gives a default value for the =quietsave= parameter. Default is =off=. |
+| =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =off=. |
+Also, the plugin can be selectively disabled using
+| =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
+These preferences can be defined in %MAINWEB%.TWikiPreferences, in !WebPreferences for an individual web, or in the topic.
+
+---++ Relationships
+---+++ !EditTablePlugin
+At this time most features of !EditTablePlugin are supported. Known exceptions
+are:
+   * the =editbutton= parameter,
+   * Plugin preferences (though global preferences are compatible)
+---+++ !TablePlugin
+Javascript sorting in !EditRowPlugin is much faster than !TablePlugin. However
+!TablePlugin has many features this plugin does not support. The two plugins
+can safely be used together.
+---+++ !EditTablerowPlugin
+Provides the vertical row editing interface like
+!EditTablerowPlugin, with the row being edited shown in context in the table.
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Using the REST interface
+The plugin saves changes to tables via a [[http://en.wikipedia.org/wiki/Representational_State_Transfer][REST]] handler. Javascript developers may find
+this interface useful when developing their own tools that
+manipulate tables.
+
+The REST handler is invoked using the following URI format:
+
+&lt;twiki-bin-path>/rest/EditRowPlugin/save
+
+The handler accepts the following parameters:
+   * =erp_active_topic= the web.wikiname of the topic to be changed
+   * =erp_active_table= the table to be changed (numbered from 1)
+   * =erp_active_row= - the row to be changed (numbered from 1, or -1 for the whole table)
+   * =erp_active_format= - the =format= parameter from the =EDITTABLE= tag
+   * =erp_save.x= - if nonzero, this is a save
+   * =erp_quietSave.x= - if nonzero, this is a quietsave
+   * =erp_upRow.x= - if nonzero, this is a row move
+   * =erp_downRow.x= - if nonzero, this is a  row move
+   * =erp_deleteRow.x= - if nonzero, this is a row deletion
+   * =erp_cancel.x= - if nonzero, this is a cancel
+   * =erp_noredirect= - if set, suppresses the redirect and gets a status code instead
+The value of each individual cell is stored in a parameter called =erp_&lt;table>_&lt;row>_&lt;column>=
+
+---++ Plugin Info
+Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+|  Plugin Author(s): | Crawford Currie http://c-dot.co.uk |
+|  Plugin Version: | %$VERSION% |
+|  Copyright: | &copy; 2007 Wind<nop>River Inc. |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 May 2008: | TWikibug:Item5621: helptopics were getting munged because of use of BR to replace newlines. This was to prevent accidental table concatenation, but breaks other things worse so I removed it. TWikibug:Item5624: handle comments with embedded tables. TWikibug:Item5625: don't count generated tables in the table count. TWikibug:Item5594: typo was causing strange behaviour with row management tools. TWikibug:Item5595: fixed problem with included tables. TWikibug:Item5596: changed default behaviour for empty cells to ignore pre-existing spaces if there is no other content. TWikibug:Item5616: row moving was failing on 4.1.2 due to bad URL construction. |
+|  8 Mar 2008 | TWikibug:Item5386: fixed problem with editing of tables embedded from an included topic TWikibug:Item5043: added Jeff Crawford's patch to fix multiline textareas |
+|  4 Jan 2008 | TWikibug:Item5320: fixed destructive save when add row is pressed outside edit mode |
+|  13 Dec 2007 | TWikibug:Item4970: removed beforeCommonTagsHandler, which was causing problems when interacting with other plugins that use unregistered tag handlers. |
+|  23 Nov 2007 | TWikibug:Item4853: remove duplicated %EDITCELL |
+|  9 Nov 2007 | TWikibug:Item4947: added missing _src.js versions to MANIFEST |
+|  6 Nov 2007 | TWikibug:Item4935: fixed problem with embedded TWiki variables |
+|  20 Oct 2007 | TWikibug:Item4853: support %EDITCELL TWikibug:Item4861: rework the rules for associating tag with adjacent table TWikibug:Item4862: avoid expanding TWiki variables on edit |
+|  18 Oct 2007 | TWikibug:Item4834: added automatic save on row add TWikibug:Item4853: added %EDITCELL support TWikibug:Item4651: fixed validation of date change |
+|  26 Sep 2007 | TWikibug:Item4696 Keep table in full-table edit mode after a row is added TWikibug:Item4651 add JS to handle navigating away with pending changes (requires BehaviourContrib) |
+|  10 Sep 2007 | TWikibug:Item4552 Can use row buttons to delete the header, even though headerrows is set TWikibug:Item4565 "row" parameter not supported TWikibug:Item4567 header parameter not correctly handled TWikibug:Item4602 Header row gets eaten |
+|  13685 | TWikibug:Item4040 Support for =helptopic= and =disable=, which allows more flexible configuration of the UI, especially when vertical editing |
+|  13641 | TWikibug:Item4020 Improved the table anchors for a better editing experience. Fixed calendar formats. Fixed table footer sorting. Disabled label edits. Fixed multi-malued checkboxes. |
+|  13615 | TWikibug:Item3882 added initial values support TWikibug:Item4009 fixed included tables. Also fixed a bug with variable expansion reported in the dev topic. |
+|  13609 | TWikibug:Item4003: fixed colspan. Also added support for headerrows and footerrows parameters from %TABLE |
+|  13560 | TWikibug:Item4002 Problems with blank lines, multi-value edits, and line continuations resolved |
+|  13596 | TWikibug:Item4000 Added =orientrowedit=, global control options, fixed issue with wikiwords in edited data, added column sorting |
+|  13487 | TWikibug:Item3925 - fixed infinite loop when included format doesn't exist |
+|  13359 | TWikibug:Item3875 - can now edit top row of tables. Also now writes row numbers back to the topic, which was needed to support some compatible apps. |
+|  13335 | Fixed broken date prompt, and problem with radio buttons, improved and documented REST interface for Javascript authors |
+|  13291 | Added full table editing, including moving rows within the table |
+|  13161 | Bulletproofed against issues with rows that are shorter or longer than the format. |
+|  13159 | Fixed issue with short rows, and added perms check. Thanks also to TWiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
+|  13148 | TWikibug:Item3770: Bugfixes |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/EditRowPlugin |
+|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/EditRowPluginDev |
+|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/EditRowPluginAppraisal |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
+
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="quiet.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="addrow.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="example3.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="example4.gif" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="example5.gif" attr="h" comment="" version="1"}%
