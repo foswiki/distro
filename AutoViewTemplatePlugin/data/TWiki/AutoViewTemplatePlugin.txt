@@ -1,0 +1,72 @@
+%META:TOPICINFO{author="TWikiContributor" date="1194966209" format="1.1" reprev="1.2" version="$Rev$"}%
+---+ <nop>AutoViewTemplatePlugin
+%SHORTDESCRIPTION%
+
+---++ Description
+This plugin sets the VIEW_TEMPLATE and EDIT_TEMPLATE variables according to a
+corresponding form definition. So when you attach a new form to a topic, this
+plugin will enable the corresponding view/edit template automatically.  This
+comes in very handy for applications where users create new topics
+without the help of a topic creator wizard, e.g. creating a new topic for a yet
+non-existing <nop>TWikiWord. Together with the appropriate application
+settings, this plugin will then assure that the data the user enters is handled
+appropriately during view and edit.
+
+There are two modes on how the name of the template is derived: 
+   1 =exist= (default) and 
+   1 =section=.
+
+---+++ Mode "exist"
+A topic that has a =MyForm= <nop>TWikiForm attached to it, will be displayed
+using the view template =MyViewTemplate= and editted using the =MyEditTempalte=
+if they exist. The template name is derived by stripping off the suffix
+=...Form= from the form name and appending =...View=. The TWiki engine will
+then use the template name =MyView= to search for the correct template along
+the template search path, for example using a topic =MyViewTemplate=. Remember
+the engine appends yet another =...Template= to the name for templates stored
+in topics.
+
+---+++ Mode "section"
+A topic with a =MyForm= will be displayed/editted using the template name
+stored in the named section =viewtemplate/edittemplate= . For example given the
+=MyForm= form definition topic contains a section =viewtemplate= whose only
+content is =MyOtherView=, then this will be used to view the topic. Likewise,
+the content of the =edittemplate= section in =MyForm= will read to find the
+edit template.
+      
+By default existing values for VIEW_TEMPLATE and EDIT_TEMPLATE have priority.
+You can override this behaviour in =configure=.
+
+---++ Plugin Installation Instructions
+
+   * Just download the zip or tgz and unzip it into your twiki directory.
+   * Plugin configuration is done via =configure=.
+     | *File:* | *Description:* |
+%$MANIFEST%
+
+
+---++ Plugin Info
+<!--
+   * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
+-->
+|  Plugin Author: | TWiki:Main.OliverKrueger |
+|  Copyright: | &copy; 2007, !KontextWork, Germany |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 11 Jul 2008 |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  11 Jul 2008: | Item5770: try to derive the EDIT_TEMPLATE of a new topic using the <nop>WebTopicEditTemplate (MD) |
+|  03 Jul 2008: | Item5747: fixed normalizing web part of form names (MD) |
+|  13 Nov 2007: | added EDIT_TEMPLATE, speed improvements, docu (MD) |
+|  29 Oct 2007: | Item4904: made specification of view template skin agnostic, \
+                  fixed view templates in subwebs (MD) |
+|  04 Sep 2007: | Added build script and installer, minor doc changes |
+|  05 Jun 2007: | Initial version |
+|  TWiki Dependency: | $TWiki::Plugins::VERSION 1.026 |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.005 |
+|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+-- TWiki:Main/MichaelDaum - 11 Jul 2008
