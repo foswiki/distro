@@ -1,0 +1,4 @@
+data/TWiki/SubscribePlugin.txt 0664 Documentation
+data/TWiki/VarSUBSCRIBE.txt 0664 Documentation
+lib/TWiki/Plugins/SubscribePlugin.pm 0444 Perl module
+pub/TWiki/SubscribePlugin/wikiringlogo20x20.png 0660
