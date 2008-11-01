@@ -1,0 +1,17 @@
+%TMPL:INCLUDE{"editsection"}%
+
+%TMPL:DEF{"content"}%%TMPL:P{"pagetitle"}%
+%PRETEXT%
+%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%
+%TMPL:P{"edittoolbar"}%
+<input type="hidden" name="action_preview" value="" />
+<input type="hidden" name="action_save" value="" />
+<input type="hidden" name="action_checkpoint" value="" />
+<input type="hidden" name="action_cancel" value="" />
+%TMPL:P{"textarea"}%
+%TEXTDETAIL%
+%TMPL:P{"formatbottom"}%
+%TMPL:P{"formend"}%
+%POSTEXT%
+%TMPL:P{"pagehelp"}%
+%TMPL:END%

@@ -1,0 +1,220 @@
+%META:TOPICINFO{author="TWikiContributor" date="1186040402" format="1.1" reprev="1.2" version="$Rev$"}%
+<script language="javascript" src="%PUBURL%/%TWIKIWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/TWikiJavascripts/twiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/edit.js"></script>
+
+<script language="javascript">
+function testSingleNumberedBullet1() {
+    txtarea.value = '\na\nb\nc\nd\n';
+    textareaSelect('b');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\nc\nd\n", txtarea.value.valueOf());
+}
+function testSingleNumberedBullet2() {
+    txtarea.value = '\na\nb\nc\nd\n';
+    textareaSelect('b\n');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\n   1 c\nd\n", txtarea.value.valueOf());
+}
+function testMultipleNumberedBullet1() {
+    txtarea.value = '\na\nb\nc\nd\n';
+    textareaSelect('b\nc');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\n   1 c\nd\n", txtarea.value.valueOf());
+}
+function testMultipleNumberedBullet2() {
+    txtarea.value = '\na\nb\nc\nd\ne\n';
+    textareaSelect('b\nc\n');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\n   1 c\n   1 d\ne\n", txtarea.value.valueOf());
+}
+function testStartLineNumberedBullet1() {
+    txtarea.value = '\na\nb\nc\nd\n';
+    textareaSelectLine(2, 'start');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\nc\nd\n", txtarea.value.valueOf());
+}
+function testEndLineNumberedBullet1() {
+    txtarea.value = '\na\nb\nc\nd\n';
+    textareaSelectLine(2, 'end');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\nc\nd\n", txtarea.value.valueOf());
+}
+function testLineLineNumberedBullet1() {
+    txtarea.value = '\na\nb\nc\nd\n';
+    textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\na\n   1 b\nc\nd\n", txtarea.value.valueOf());
+}
+function testStartLineNumberedBullet2() {
+    txtarea.value = '\n\n\n\n\n';
+    textareaSelectLine(2, 'start');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\n\n   1 numbered bullet\n\n\n", txtarea.value.valueOf());
+}
+function testEndLineNumberedBullet2() {
+    txtarea.value = '\n\n\n\n\n';
+    textareaSelectLine(2, 'end');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\n\n   1 numbered bullet\n\n\n", txtarea.value.valueOf());
+}
+function testLineLineNumberedBullet2() {
+    txtarea.value = '\n\n\n\n\n';
+    textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "\n\n   1 numbered bullet\n\n\n", txtarea.value.valueOf());
+}
+
+
+function testEmptytextAreaNumberedBullet_noSelection() {
+    txtarea.value = '';
+    //textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", '   1 numbered bullet', txtarea.value.valueOf());
+}
+function testNoNewLinetextAreaNumberedBullet_noSelection1() {
+    txtarea.value = 'a';
+    //textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "   1 a", txtarea.value.valueOf());
+}
+function testNoNewLinetextAreaNumberedBullet_noSelection2() {
+    txtarea.value = 'asdf';
+    //textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "   1 asdf", txtarea.value.valueOf());
+}
+function testNewLinetextAreaNumberedBullet_noSelection2() {
+    txtarea.value = 'asdf\nasdf\nasdf\nasdf\nasdf\nasdf\n';
+    //textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "asdf\nasdf\nasdf\nasdf\nasdf\nasdf\n   1 numbered bullet",txtarea.value.valueOf());
+}
+function testNewLinetextAreaNumberedBullet_noSelection2() {
+    txtarea.value = 'asdf\nasdf\nasdf\nasdf\nasdf\nasdf';
+    //textareaSelectLine(2, 'line');
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "asdf\nasdf\nasdf\nasdf\nasdf\n   1 asdf",txtarea.value.valueOf());
+}
+
+function testNoNewLinetextAreaNumberedBullet_SelectionAll1() {
+    txtarea.value = 'a';
+    textareaSelect(txtarea.value);
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "   1 a", txtarea.value.valueOf());
+}
+function testNoNewLinetextAreaNumberedBullet_SelectionAll2() {
+    txtarea.value = 'asdf';
+    textareaSelect(txtarea.value);
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "   1 asdf", txtarea.value.valueOf());
+}
+function testNewLinetextAreaNumberedBullet_Selection2All() {
+    txtarea.value = 'asdf\nasdf\nasdf\nasdf\nasdf\nasdf\n';
+    textareaSelect(txtarea.value);
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "   1 asdf\n   1 asdf\n   1 asdf\n   1 asdf\n   1 asdf\n   1 asdf\n   1 ", txtarea.value.valueOf());
+}
+function testNewLinetextAreaNumberedBullet_Selection3All() {
+    txtarea.value = 'asdf\nasdf\nasdf\nasdf\nasdf\nasdf';
+    textareaSelect(txtarea.value);
+    natInsertListTag('   1 ','numbered bullet','');
+    assertStringEquals("   1 b", "   1 asdf\n   1 asdf\n   1 asdf\n   1 asdf\n   1 asdf\n   1 asdf", txtarea.value.valueOf());
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+//support functions
+function textareaSelect(selected) {
+// opera and IE use \r\n so need to modify selected to add \r
+   var crtlN = txtarea.value.indexOf('\n');
+   if (txtarea.value.charAt(crtlN-1) == '\r') {
+      selected = selected.replace(/\n/g, '\r\n');
+   }
+   var start = txtarea.value.indexOf(selected);
+   var end = start+selected.length;
+   
+   if (document.selection && !(window.opera?1:0)) {
+      //IE
+        var pretest = txtarea.value.substring(0, start);
+        pretest = pretest.replace(/[^\r]/g, '');
+        var inner = txtarea.value.substring(start, end);
+        inner = inner.replace(/[^\r]/g, '');
+        txtarea.focus();
+        var range = txtarea.createTextRange();
+        range.collapse(true);
+        var s = (start-pretest.length);
+        var e = (end-inner.length) - (start-pretest.length) -1;
+        range.moveStart("character", s);
+        range.moveEnd("character", e);
+        range.select();
+   } else {
+      //non-IE
+      txtarea.selectionStart = start;
+      txtarea.selectionEnd = end;
+   }
+}
+function textareaSelectLine(linenumber, type) {   //type == 'start', 'end', 'line'
+// opera and IE use \r\n so need to modify selected to add \r
+   var newLine = '\n';
+   var newlineRegex = new RegExp(newLine);
+   var lines = txtarea.value.split(newlineRegex);
+   assert('not enough lines', linenumber <= lines.length);
+   var start = 0;
+   for (var i=0; i <= linenumber ;i++) {
+      if (i > 0) {
+          start = start + newLine.length;
+      }
+      start = start + lines[i].length;
+   }
+//now start == index of the 'end of linenumber...
+   if (type == 'end') {//end of line no selection
+      end = start;
+   } else    if (type == 'line') {//line (without \r\n selected)
+      end = start;
+      start = start - lines[linenumber].length;
+   } else {//'start of line, no selection
+      start = start - lines[linenumber].length;
+      end = start;
+   }
+   
+   if (document.selection && !(window.opera?1:0)) {
+//      //IE
+        var pretest = txtarea.value.substring(0, start);
+        pretest = pretest.replace(/[^\r]/g, '');
+        var inner = txtarea.value.substring(start, end);
+        inner = inner.replace(/[^\r]/g, '');
+        txtarea.focus();
+        var range = txtarea.createTextRange();
+        range.collapse(true);
+        var s = (start-pretest.length);
+        var e = (end-inner.length) - (start-pretest.length) -1;
+//        if (s > e) {e=s;}
+        range.moveStart("character", s);
+        range.moveEnd("character", e);
+        range.select();
+   } else {
+      //non-IE (opera too)
+      txtarea.selectionStart = start;
+      txtarea.selectionEnd = end;
+   }
+}
+//take care of the lack of platform independance in strings (opera and IE seem to use \r\n. whereas the rest use \n)
+function assertStringEquals(msg, str1, str2) {
+    str1 = str1.replace(/\r/g, '');
+    str2 = str2.replace(/\r/g, '');
+    assertEquals(msg, str1, str2);
+}
+var areas = document.getElementsByTagName('textarea');
+txtarea = areas[0];
+</script>
+
+*[[%PUBURL%/%TWIKIWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/%TOPIC%][Run all tests]]*
+
+<a href="javascript:testStartLineNumberedBullet1()" ><span>testStartLineNumberedBullet1</span></a>
+<a href="javascript:testStartLineNumberedBullet2()" ><span>testStartLineNumberedBullet2</span></a>
+<a href="javascript:testEndLineNumberedBullet2()" ><span>testEndLineNumberedBullet2</span></a>
+<a href="javascript:testLineLineNumberedBullet2()" ><span>testLineLineNumberedBullet2</span></a>
+
+
+<textarea class="twikiEditboxStyleProportional" id="topic" name="text" rows="22" cols="70" style='width: 99%' onkeydown='handleKeyDown(event)'></textarea>

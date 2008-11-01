@@ -1,0 +1,33 @@
+%TMPL:INCLUDE{"preview"}%
+%TMPL:INCLUDE{"previewtoolbar"}%
+%TMPL:INCLUDE{"editjavascript"}%
+
+%TMPL:DEF{"styles"}%
+%TMPL:P{"stylesscreen"}%
+<style type="text/css" media="all">
+  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/styles.css");
+  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
+</style>
+%TMPL:END%
+
+%TMPL:DEF{"content"}%
+%TMPL:P{"formstart"}%
+%TMPL:P{"previewtoolbar"}%
+<div class="patternPreviewArea">
+<div class="patternContent">
+<div class="patternTopic">
+%TEXT%
+</div>
+%META{"form"}%
+</div>
+</div>
+<input type="hidden" name="action_preview" value="" />
+<input type="hidden" name="action_save" value="" />
+<input type="hidden" name="action_checkpoint" value="" />
+<input type="hidden" name="action_addform" value="" />
+<input type="hidden" name="action_replaceform" value="" />
+<input type="hidden" name="action_cancel" value="" />
+%TMPL:P{"formend"}%
+%TMPL:P{"nojavascript_pagehelp"}%
+%TMPL:END%
+

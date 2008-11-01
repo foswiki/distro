@@ -1,0 +1,98 @@
+/* default theme */
+.natEditToolBar { padding:0px; margin:0px 0px 3px 0px; height:25px}
+.natEditToolBar a:hover,
+.natEditToolBar a {
+  width:25px; 
+  height:25px; 
+  background-image:url(buttons_sprite.gif);
+}
+.natEditH1Button a { background-position:0px 0px; }
+.natEditH1Button a:hover { background-position:0px -25px; }
+.natEditH2Button a { background-position:-25px 0px; }
+.natEditH2Button a:hover { background-position:-25px -25px; }
+.natEditH3Button a { background-position:-50px 0px; }
+.natEditH3Button a:hover { background-position:-50px -25px; }
+.natEditH4Button a { background-position:-75px 0px; }
+.natEditH4Button a:hover { background-position:-75px -25px; }
+.natEditBoldButton a { background-position:-100px 0px; }
+.natEditBoldButton a:hover { background-position:-100px -25px; }
+.natEditItalicButton a { background-position:-125px 0px; }
+.natEditItalicButton a:hover { background-position:-125px -25px; }
+.natEditMonoButton a { background-position:-150px 0px; }
+.natEditMonoButton a:hover { background-position:-150px -25px; }
+.natEditUnderlineButton a { background-position:-175px 0px; }
+.natEditUnderlineButton a:hover { background-position:-175px -25px; }
+.natEditStrikeButton a { background-position:-200px 0px; }
+.natEditStrikeButton a:hover { background-position:-200px -25px; }
+.natEditLeftButton a { background-position:-225px 0px; }
+.natEditLeftButton a:hover { background-position:-225px -25px; }
+.natEditCenterButton a { background-position:-250px 0px; }
+.natEditCenterButton a:hover { background-position:-250px -25px; }
+.natEditRightButton a { background-position:-275px 0px; }
+.natEditRightButton a:hover { background-position:-275px -25px; }
+.natEditJustifyButton a { background-position:-300px 0px; }
+.natEditJustifyButton a:hover { background-position:-300px -25px; }
+.natEditExtButton a { background-position:-325px 0px; }
+.natEditExtButton a:hover { background-position:-325px -25px; }
+.natEditIntButton a { background-position:-350px 0px; }
+.natEditIntButton a:hover { background-position:-350px -25px; }
+.natEditImageButton a { background-position:-375px 0px; }
+.natEditImageButton a:hover { background-position:-375px -25px; }
+.natEditMathButton a { background-position:-400px 0px; }
+.natEditMathButton a:hover { background-position:-400px -25px; }
+.natEditVerbatimButton a { background-position:-425px 0px; }
+.natEditVerbatimButton a:hover { background-position:-425px -25px; }
+.natEditSignatureButton a { background-position:-450px 0px; }
+.natEditSignatureButton a:hover { background-position:-450px -25px; }
+.natEditFormButton a { background-position:-475px 0px;}
+.natEditFormButton a:hover { background-position:-475px -25px;}
+.natEditCheckpointButton a { background-position:-525px 0px; }
+.natEditCheckpointButton a:hover { background-position:-525px -25px; }
+.natEditHelpButton a { background-position:-555px 0px;}
+.natEditHelpButton a:hover { background-position:-555px -25px;}
+.natEditHelpButton a { background-position:-555px 0px;}
+
+.natEditNumberedButton a:hover { background-position:-575px -25px;}
+.natEditNumberedButton a { background-position:-575px 0px;}
+
+.natEditBulletButton a:hover { background-position:-600px -25px;}
+.natEditBulletButton a { background-position:-600px 0px;}
+.natEditIndentButton a:hover { background-position:-625px -25px;}
+.natEditIndentButton a { background-position:-625px 0px;}
+.natEditOutdentButton a:hover { background-position:-650px -25px;}
+.natEditOutdentButton a { background-position:-650px 0px;}
+
+.natEditBottomBar li {
+  line-height:22px;
+  font-size:12px;
+}
+.natEditBottomBar a:hover,
+.natEditBottomBar a {
+  background-color:inherit;
+  background-image:url(btn_right.gif);
+  background-position:top right;
+  background-repeat:no-repeat;
+  text-decoration:none;
+  cursor:pointer;
+  display:block;
+  float:left;
+  height:23px;
+  padding:0px;
+  margin:0px 8px 0px 0px;
+  color:black;
+}
+.natEditBottomBar a:hover {
+  color:red;
+}
+.natEditBottomBar span {
+  background-image:url(btn_left.gif);
+  background-position:top left;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  display:block;
+  float:left;
+  height:23px;
+  margin:0px 3px 0px 0px;
+  _margin:0px 1px 0px 0px;
+  padding:0px 8px;
+}

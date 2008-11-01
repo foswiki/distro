@@ -1,0 +1,18 @@
+<!-- edittoolbar.natedit.tmpl -->
+%TMPL:DEF{"bottomtopicactions"}%
+<div class="natEditBottomBar">
+<ul>
+%TMPL:P{"savebutton"}%<!-- -->
+%TMPL:P{"checkpointbutton"}%
+%TMPL:P{"previewbutton"}%
+%TMPL:P{"formbutton"}%<!-- -->
+%TMPL:P{"changeform"}%<!-- -->
+%TMPL:P{"cancelbutton"}%<!-- -->
+%TMPL:P{"forcenewrevision"}%<!-- -->
+</ul>
+</div>%TMPL:END%
+%TMPL:DEF{"savebutton"}%<li class="natEditSaveButton"><a id="save" accesskey="s" href="javascript:submitEditForm('save', 'save')" title='%MAKETEXT{"Save and exit"}%'/><span>%MAKETEXT{"Save"}%</span></a></li>%TMPL:END%
+%TMPL:DEF{"checkpointbutton"}%<li class="natEditCheckpointButton"><a id="checkpoint" accesskey="w" href="javascript:submitEditForm('save', 'checkpoint')" title='%MAKETEXT{"Save and continue editing"}%'/><span>%MAKETEXT{"Save and Continue"}%</span></a></li>%TMPL:END%
+%TMPL:DEF{"previewbutton"}%<li class="natEditPreviewButton"><a id="preview" accesskey="p" href="javascript:submitEditForm('preview', 'preview')" title='%MAKETEXT{"Preview your changes"}%'/><span>%MAKETEXT{"Preview"}%</span></a></li>%TMPL:END%
+%TMPL:DEF{"cancelbutton"}%<li class="natEditCancelButton"><a id="cancel" accesskey="c" href="javascript:submitEditForm('save', 'cancel')" title='%MAKETEXT{"Abandon changes and exit"}%'/><span>%MAKETEXT{"Cancel"}%</span></a></li>%TMPL:END%
+%TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="Creates a new topic revision when saving" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% />%MAKETEXT{"New revision"}%</label></li>%TMPL:END%

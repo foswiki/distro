@@ -1,0 +1,74 @@
+%META:TOPICINFO{author="TWikiContributor" date="1175516990" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="NatEditContrib"}%
+---+ %TOPIC%
+Help text for the NatEditContrib editor
+
+%STARTINCLUDE%
+<font color="#333333" size="-1">
+%INCLUDE{"%TWIKIWEB%.WikiSyntaxSummary"}%
+</font> 
+---+++ %MAKETEXT{"Plugins"}%
+<table cellpadding="10">
+<tr>
+<td valign="top">
+%PLUGINDESCRIPTIONS%
+</td>
+</tr>
+</table>
+---+++ %MAKETEXT{"Documentation"}%
+<table cellpadding="10">
+<tr>
+<td valign="top">
+   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/GoodStyle" target="_blank">%MAKETEXT{"GoodStyle"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
+   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/TWikiVariables" target="_blank">%MAKETEXT{"Variables"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/TWikiForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/IncludeTopicsAndWebPages" target="_blank">%MAKETEXT{"Including"}%</a>
+</td>
+</tr>
+</table>
+---+++ %MAKETEXT{"Access keys"}%
+<table cellpadding="10">
+<tr>
+<td valign="top">
+   * B = Bold
+   * I = Bold
+   * _ = Underline
+   * - = Strike
+
+   * l = Subscript
+   * ^ = Superscript
+
+   * 1 = Level 1 headline 
+   * 2 = Level 2 headline 
+   * 3 = Level 3 headline 
+   * 4 = Level 4 headline 
+</td>
+<td valign="top">
+   * &lt; = Align left
+   * &gt; = Align right
+   * . = Center align
+   * J = Justify align
+
+   * / = External link
+   * [ = Internal link
+
+   * G = Embed image
+   * M = Mathematic formula
+   * V = Ignore wiki formatting
+   * Z = Your signature
+</td>
+<td valign="top">
+   * C = Cancel
+   * D = Done
+   * F = Add form
+   * P = Preview
+   * S = Save
+   * U = Undo
+
+   * ? = Help
+</td>
+</tr>
+</table>
+%STOPINCLUDE%

@@ -1,0 +1,14 @@
+<li id="addform" ><a href="javascript:submitEditForm('save', 'addform');" accesskey="f" /><span>%MAKETEXT{"Add form"}%</span></a></li>
+<script type="text/javascript">
+var doneAddForm;
+$(function() {
+  if (!doneAddForm) {
+    $("#addform").each(function() {
+      doneAddForm = 1;
+      $(this).insertBefore("#cancel").removeAttr("id");
+    });
+  } else {
+    $("#addform").remove();
+  }
+});
+</script>

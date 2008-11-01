@@ -1,0 +1,88 @@
+%TMPL:INCLUDE{"edit"}%
+%TMPL:INCLUDE{"editjavascript"}%
+%TMPL:INCLUDE{"edittoolbar"}%
+%TMPL:INCLUDE{"edithelp"}%
+
+<!-- template: edit.natedit.tmpl -->
+
+%TMPL:DEF{"twikistyle"}%%TMPL:P{"styles"}%%TMPL:END%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
+%TMPL:DEF{"pagetitle"}%<h1 class="patternTemplateTitle"><nop>%TOPIC% %MAKETEXT{"(edit)"}%</h1>%TMPL:END%
+%TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
+
+%TMPL:DEF{"styles"}%
+%TMPL:P{"stylesscreen"}%
+<style type="text/css" media="all">
+  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/styles.css");
+  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
+</style>
+%TMPL:END%
+
+%TMPL:DEF{"content"}%<!-- -->
+<div class="natEdit">
+%TMPL:P{"pagetitle"}%
+%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%
+<input type="hidden" name="action_addform" value="" />
+<input type="hidden" name="action_replaceform" value="" />
+<input type="hidden" name="action_preview" value="" />
+<input type="hidden" name="action_save" value="" />
+<input type="hidden" name="action_checkpoint" value="" />
+<input type="hidden" name="action_cancel" value="" />
+<textarea rows="5" cols="22" style="display:none" id="savearea"></textarea>
+%TMPL:P{"tabpane"}%<!-- -->
+%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%</div>%TMPL:END%
+
+%TMPL:DEF{"help"}%%TMPL:P{"edithelp"}%%TMPL:END%
+%TMPL:DEF{"pagehelp"}%<!-- -->
+%TMPL:P{"help"}%
+%TMPL:END%
+
+%TMPL:DEF{"tabpane"}%<!-- tabpane -->
+%TABPANE%
+%TMPL:P{"firsttab"}%<!-- -->
+%TMPL:P{"formfields"}%<!-- -->
+%TMPL:P{"settingstab"}%<!-- -->
+%TMPL:P{"helptab"}%<!-- -->
+%ENDTABPANE%
+<!-- //tabpane -->%TMPL:END%
+
+%TMPL:DEF{"formfields"}%%TMPL:P{"form"}%%TMPL:END%
+
+%TMPL:DEF{"topicmeta"}%<!-- topicmeta -->
+<div class="natEditTopicInfo"><literal>
+  <table>
+  <tr class="natEditTopicTitle">
+    <th>Title:</th>
+    <td><input class="twikiInputField" type="text" name="TopicTitle" size="80" value="%URLPARAM{"TopicTitle" default="%TOPICTITLE%" type="html"}%" /></td>
+  </tr>
+  </table>
+</literal></div>
+<!-- //topicmeta -->%TMPL:END%
+
+
+%TMPL:DEF{"firsttab"}%<!-- firsttab -->
+%TAB{"%MAKETEXT{"Text"}%" after="$.natedit.autoMaxExpand('#topic')"}%
+%TMPL:P{"topicmeta"}%
+%TMPL:P{"textarea"}%<!-- -->
+%ENDTAB%
+<!-- //firsttab -->%TMPL:END%
+
+%TMPL:DEF{"settingstab"}%<!-- settingstab -->
+%TAB{"Settings" after="fixHeightOfPane()"}% %TMPL:P{"settings"}% %ENDTAB%
+<!-- //settingstab -->%TMPL:END%
+
+
+%TMPL:DEF{"helptab"}%<!-- helptab -->
+%TAB{"%MAKETEXT{"Help"}%" after="fixHeightOfPane()"}% %TMPL:P{"edithelp"}% %ENDTAB%
+<!-- //helptab -->%TMPL:END%
+
+%TMPL:DEF{"settings"}%<!-- settings -->
+<b><label for="parent">%MAKETEXT{"Parent topic"}%:</b></label>
+<input class="twikiInputField" type="text" id="parent" name="topicparent" size="40" value="%TOPICPARENT%" />
+<!-- //settings -->%TMPL:END%
+
+%TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='twikiEditComment twikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" else=""}%%TMPL:END%
+
+%TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
+%TMPL:DEF{"bottombar"}%%TMPL:END%

@@ -1,0 +1,29 @@
+<!-- template: form.natedit.tmpl -->
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
+%TMPL:DEF{"changeform"}%<li id="changeform" ><a href="javascript:submitEditForm('save', 'replaceform');" accesskey="f" /><span>%MAKETEXT{"Change form"}%</span></a></li>
+<script type="text/javascript">
+var doneChangeForm;
+$(function() {
+  if (!doneChangeForm) {
+    $("#changeform").each(function() {
+      doneChangeForm = 1;
+      $(this).insertBefore("#cancel").removeAttr("id");
+    });
+  } else {
+    $("#changeform").remove();
+  }
+});
+</script>%TMPL:END%
+
+%TMPL:DEF{"mandatory"}%<span class="twikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% %TMPL:END%
+
+%TMPL:DEF{"repeatedformrows"}% %REPEAT%
+<tr><th align="right">%ROWTITLE%%ROWEXTRA%</th><td align="left">%ROWVALUE%</td></tr>%REPEAT%<tr><th align="left" colspan="2">%ROWVALUE%</th></tr>%REPEAT% %TMPL:END%
+
+%TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
+%TAB{"Form" after="fixHeightOfPane()"}%
+<div class="twikiForm twikiEditForm"><table class="twikiFormTable">
+<tr>
+<th class="twikiFormTableHRow" colspan="2">%FORMTITLE%%TMPL:P{"changeform"}%</th>
+</tr>%TMPL:P{"repeatedformrows"}%</table>%TMPL:P{"formtail"}%</div>
+%ENDTAB%

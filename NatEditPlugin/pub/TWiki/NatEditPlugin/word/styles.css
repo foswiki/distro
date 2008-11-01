@@ -1,0 +1,75 @@
+/* Word theme */
+/* new buttons */
+.natEditTableButton a { background-image:url(button_table.png); }
+.natEditTableButton a:hover { background-image:url(button_table_hi.png); }
+.natEditNumberedButton a { background-image:url(button_numbered.png); }
+.natEditNumberedButton a:hover { background-image:url(button_numbered_hi.png); }
+.natEditBulletButton a { background-image:url(button_bullet.png); }
+.natEditBulletButton a:hover { background-image:url(button_bullet_hi.png); }
+.natEditIndentButton a { background-image:url(button_indent.png); }
+.natEditIndentButton a:hover { background-image:url(button_indent_hi.png); }
+.natEditUndentButton a { background-image:url(button_undent.png); }
+.natEditUndentButton a:hover { background-image:url(button_undent_hi.png); }
+
+
+/* orgiinal buttons */
+.natEditToolBar { height:26px; margin:0px;}
+.natEditToolBar a {width:24px; height:24px;}
+.natEditEditButton a { background-image:url(button_edit.png); width:67px;height:27px; }
+.natEditEditButton a:hover { background-image:url(button_edit_hi.png); width:67px;height:27px; }
+.natEditBoldButton a { background-image:url(button_bold.png); }
+.natEditBoldButton a:hover { background-image:url(button_bold_hi.png); }
+.natEditCancelButton a { background-image:url(button_cancel.png); }
+.natEditCancelButton a:hover { background-image:url(button_cancel_hi.png); }
+.natEditCenterButton a { background-image:url(button_center.png); }
+.natEditCenterButton a:hover { background-image:url(button_center_hi.png); }
+.natEditCheckpointButton a { background-image:url(button_floppy.png); }
+.natEditCheckpointButton a:hover { background-image:url(button_floppy_hi.png); }
+.natEditExtButton a { background-image:url(button_ext.png); }
+.natEditExtButton a:hover { background-image:url(button_ext_hi.png); }
+.natEditFormButton a { background-image:url(button_form.png);}
+.natEditFormButton a:hover { background-image:url(button_form_hi.png);}
+.natEditH1Button a { background-image:url(button_h1.png); }
+.natEditH1Button a:hover { background-image:url(button_h1_hi.png); }
+.natEditH2Button a { background-image:url(button_h2.png); }
+.natEditH2Button a:hover { background-image:url(button_h2_hi.png); }
+.natEditH3Button a { background-image:url(button_h3.png); }
+.natEditH3Button a:hover { background-image:url(button_h3_hi.png); }
+.natEditH4Button a { background-image:url(button_h4.png); }
+.natEditH4Button a:hover { background-image:url(button_h4_hi.png); }
+.natEditHelpButton a { background-image:url(button_help.png);}
+.natEditHelpButton a:hover { background-image:url(button_help_hi.png);}
+.natEditImageButton a { background-image:url(button_image.png); }
+.natEditImageButton a:hover { background-image:url(button_image_hi.png); }
+.natEditIntButton a { background-image:url(button_int.png); }
+.natEditIntButton a:hover { background-image:url(button_int_hi.png); }
+.natEditItalicButton a { background-image:url(button_italic.png); }
+.natEditItalicButton a:hover { background-image:url(button_italic_hi.png); }
+.natEditJustifyButton a { background-image:url(button_justify.png); }
+.natEditJustifyButton a:hover { background-image:url(button_justify_hi.png); }
+.natEditLeftButton a { background-image:url(button_left.png); }
+.natEditLeftButton a:hover { background-image:url(button_left_hi.png); }
+.natEditMathButton a { background-image:url(button_formula.png); }
+.natEditMathButton a:hover { background-image:url(button_formula_hi.png); }
+.natEditMonoButton a { background-image:url(button_mono.png); }
+.natEditMonoButton a:hover { background-image:url(button_mono_hi.png); }
+.natEditPreviewButton a { background-image:url(button_preview.png); }
+.natEditPreviewButton a:hover { background-image:url(button_preview_hi.png); }
+.natEditRightButton a { background-image:url(button_right.png); }
+.natEditRightButton a:hover { background-image:url(button_right_hi.png); }
+.natEditSaveButton a { background-image:url(button_save.png); }
+.natEditSaveButton a:hover { background-image:url(button_save_hi.png);}
+.natEditSignatureButton a { background-image:url(button_signature.png); }
+.natEditSignatureButton a:hover { background-image:url(button_signature_hi.png); }
+.natEditStrikeButton a { background-image:url(button_strike.png); }
+.natEditStrikeButton a:hover { background-image:url(button_strike_hi.png); }
+.natEditSubButton a { background-image:url(button_sub.png); }
+.natEditSubButton a:hover { background-image:url(button_sub_hi.png); }
+.natEditSupButton a { background-image:url(button_super.png); }
+.natEditSupButton a:hover { background-image:url(button_super_hi.png); }
+.natEditUnderlineButton a { background-image:url(button_underlined.png); }
+.natEditUnderlineButton a:hover { background-image:url(button_underlined_hi.png); }
+.natEditUndoButton a { background-image:url(button_undo.png); }
+.natEditUndoButton a:hover { background-image:url(button_undo_hi.png); }
+.natEditVerbatimButton a { background-image:url(button_verbatim.png); }
+.natEditVerbatimButton a:hover { background-image:url(button_verbatim_hi.png); }

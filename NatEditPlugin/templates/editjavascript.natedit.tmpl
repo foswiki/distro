@@ -1,0 +1,54 @@
+<!-- template:editjavascript.natedit.tmpl -->
+%TMPL:DEF{"templatescript"}%%TMPL:P{"templatejavascript"}%%TMPL:END%
+%TMPL:DEF{"script:skintemplate:edit"}%%TMPL:P{"templatejavascript"}%%TMPL:END%
+%TMPL:DEF{"editjavascript"}%<!-- editjavascript -->
+<script type="text/javascript">
+function submitEditForm(script, action) {
+  $("#savearea").val($("#topic").val());
+  $(".natEditBottomBar a").each(function () {
+    this.blur();
+  });
+  if (typeof(beforeSubmitHandler) != 'undefined') {
+    beforeSubmitHandler(script, action);
+  }
+  if (action == 'add form') {
+    document.main.elements['submitChangeForm'].value = action;
+  }
+  document.main.elements['action_preview'].value = '';
+  document.main.elements['action_save'].value = '';
+  document.main.elements['action_checkpoint'].value = '';
+  document.main.elements['action_addform'].value = '';
+  document.main.elements['action_replaceform'].value = '';
+  document.main.elements['action_cancel'].value = '';
+  document.main.elements['action_' + action].value = 'foobar';
+  document.main.submit();
+}
+</script>
+<!-- //editjavascript -->%TMPL:END%
+%TMPL:DEF{"nateditjavascript"}%<!-- jqueryscript -->
+<script type="text/javascript">
+$(function() {
+  $("#topic").natedit({
+    autoMaxExpand:true,
+    signatureMarkup: ['-- ', '%WIKIUSERNAME%', ' - %DATE%'],
+    gotImagePlugin: %IF{"context ImagePluginEnabled" then="true" else="false"}%,
+    gotMathModePlugin: %IF{"context MathModePluginEnabled" then="true" else="false"}%
+  });
+  var savetext = $("#savearea").val();
+  if (savetext) {
+    $("#topic").val(savetext);
+  }
+});
+</script>
+<!-- //jqueryscript -->%TMPL:END%
+%TMPL:DEF{"templatejavascript"}%<!-- templatejavascript -->
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/jquery.natedit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/edit.js"></script>
+<script type="text/javascript">
+$(function() {
+  window.setTimeout(fixHeightOfPane, 1);
+});
+</script>
+%TMPL:P{"nateditjavascript"}%
+%TMPL:P{"editjavascript"}%
+<!-- //templatejavascript -->%TMPL:END%
