@@ -1,0 +1,222 @@
+%META:TOPICINFO{author="TWikiContributor" date="1167759528" format="1.1" reprev="1.2" version="$Rev: 17034 $"}%
+<!--
+
+   PLEASE DO NOT EDIT THIS TOPIC
+
+   It is automatically generated from the subversion repository, and any changes
+   you make will simply be overwritten the next time a release is generated.
+
+   Instead, you could check your fix in, raise a bug in the Bugs web, or mail the author.
+-->
+---+!! <nop>ImageGalleryPlugin
+<table style="float:right">
+<tr>
+  <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png"></td>
+  <td><a href="http://wikiring.de" title="Make your Wiki ring!" style="text-decoration:none">
+      Powered by <br /> <nop>WikiRing Consultants </a>
+  </td>
+</tr>
+</table>
+%TOC{title="On this page"}%
+---++ Description
+This plugin helps you in viewing pictures that are attached to a topic in a nice thumbnail 
+gallery. Clicking on a thumbnail zooms the image. You might navigate within your images using
+a navigation toolbar to visit the next, previous, first or last image in your gallery.
+Images and thumbnails are resized according to the given settings and are cached thereafter.
+The order of images can be customized by putting a sequence number into the attachment comment.
+An image attachment can be managed by clicking on the red dot in its title.
+The plugin will generate the document relations "parent", "first", "last", "next", "previous"
+for each image to improve navigation (only a few browsers support this, e.g. mozilla).
+The image gallery is highly customizable using cascading stylesheets and html formats (see
+below).
+
+---++ Example
+%IMAGEGALLERY{"%TWIKIWEB%.TWikiDocGraphics" columns="3" limit="12" exclude="arrow" sort="name"}%
+There are %NRIMAGES{"%TWIKIWEB%.TWikiDocGraphics"}% images at %TWIKIWEB%.TWikiDocGraphics.
+
+---++ Syntax
+---+++ Arguments
+This plugin introduces two tags:
+   * %<nop>IMAGEGALLERY{...}%: render an image gallery
+   * %<nop>NRIMAGES%: returns the number of images attachted to a (list of) topics
+that both take the following arguments:
+
+| *Argument* | *Description* |
+| topic | comma separated list of topics whose attachments should be displayed %BR% \
+          (default: the current topic) |
+| limit | maximum number of images to display (default: 0, meaning no limit). |
+| include | regular expression an image must match to be part of the gallery |
+| exclude | regular expression an image must _not_ match to be part of the gallery |
+| field | specify which property of the image has to match using =include= or =exclude=; \
+          possible values: name, comment (default: name) |
+| size | the thumbnail size, the actual geometries of a size can be configured below; \
+         possible values: tiny, small, medium, large, huge  \
+         (default: medium) |
+| columns | number of thumbnails to be displayed in one row of the gallery %BR% \
+            (default: 4) |
+| docrels | flag to disable/enable document relations between images; \
+         possible values are on, off, 0, 1 (default: on) |
+| maxwidth | maximal display width of an image; images are scaled not to exceed this limit \
+          while preserving aspect ratio %BR% \
+          (default: 640) |
+| maxheight | maximal display height of an image %BR% (default: 480) |
+| minwidth | minimal display width of an image; images are scaled not to fall below this \
+            limit while preserving aspect ratio %BR% (default: 0) |
+| minheight | minimal display height of an image %BR% (default: 0) |
+| format | html format of an image %BR% \
+          (default: &lt;a href="$origurl"&gt;&lt;img src="$imageurl" title="$comment" width="$width" height="$height"/&gt;&lt;/a&gt;) |
+| titles | toggles image and thumnail titles on and off %BR% \
+          (default: on) |
+| title | html format of an image title; "off" will hide the image's title %BR% \
+          (default: $comment ($imgnr/$nrimgs)&nbsp;$reddot) |
+| thumbtitle  | html format of a thumbnail title; "off" will hide the thumbnail's title %BR% \
+          (default: $comment&nbsp;$reddot) |
+| sort | set the initial order of the images, can be name, date, size or comment (default:date) |
+| reverse | invert the initial order of the images, can be on or off (default:off) |
+
+Note, that only =topic= is meaningful to %<nop>NRIMAGES%.
+
+---+++ Variables
+The parameters "format", "title" and "thumbtitle" can use the following variables to
+refer to image properties:
+
+| *Variable* | *Description* |
+| $web | the web the image is located |
+| $topic | the topic the image is located |
+| $nrimages | the total number of images in the gallery |
+| $n | a linefeed |
+| $reddot | render a red-dot anchor to access the attachment |
+| $width | the display width of the image |
+| $height | the display height of the image |
+| $thumbwidth | the thumbnail width of the image |
+| $thumbheight | the thumbnail height of the image |
+| $origwidth | the original width of the image |
+| $origheight | the original height of the image |
+| $size | the size of the image |
+| $sizeK | the size of the image in kilobytes |
+| $comment | the comment of the image (with its sequence number stripped off) |
+| $imgnr | the sequence number of the image |
+| $date | the date when the image has been uploaded |
+| $version | the version of the image attachment | 
+| $name | the filename of the image |
+| $wikiusername | the wikiusername who uploaded the image |
+| $username | the username who uploaded the image |
+| $imageurl | the url path of the display image |
+| $thumburl | the url path of the thumbnail image |
+| $origurl | the url path pointing to the original image attachment |
+
+---+++ Query Parameters
+The IGP will check for certain query parameters in the url. These are:
+   * id=&lt;n;&gt;: distinguish multiple IMAGEGALLERYs in the same topic
+   * filename=&lt;name&gt;: display the given file of the image set
+   * refresh=on: recompute all images and thumbnails in the IGP cache
+Each IMAGEGALLERY has an anchor, namely a &lt;a name="igp&lt;n&gt;"/&gt;, that
+is used to scroll the display appropriately.
+
+---++ Customization
+First of all this plugin should come with reasonable default values, so that
+you will get a nice image gallery (with regards to my taste) right on.
+There are several things that are customizable:
+   * customize a gallery using a compination of the arguments described above
+   * add custom cascading styles in a topic to format the gallery
+   * alter the default cascading styles in the [[%ATTACHURL%/style.css][style.css]]
+     file attached to this topic
+   * customize the plugin settings below
+
+---+++ Cascading Stylesheets
+The plugin emits the following css classes (see the comments in the [[%ATTACHURL%/style.css][style.css]] file):
+
+<noautolink>
+| *Class* | *Description* |
+| igp | division for the complete output of the image gallery |
+| igpThumbNails | division of all thumbnails |
+| igpThumbNailsTable | table of thumbnail images |
+| igpThumbNail | table cell of one thumbnail image |
+| igpThumbNailTitle | table cell of the thumbnail title |
+| igpPictureTable | table of the display image and the navigation bar |
+| igpPicture | table cell of the display image |
+| igpPictureTitle | division of the title of the display image |
+| igpNavigation | table cell of the navigation bar |
+| igpRedDot | span surrounding the red dot |
+| igpAlert | span surrounding error messages |
+</noautolink>
+
+---+++ Adjusting the image sequence
+By default the image gallery will display images in the order that they where uploaded.
+This determines their _natural_ order. When you want to change this order you can
+prefix the comment of the attachment with a sequence number. For example: given a
+picture whose comment is "My old bike" that should be put at position 12
+in your image gallery then change the comment to "12 - My old bike". This
+will put the image at the desired position. Sequence numbers don't necessarily need
+to be unique, that is if there's another picture with a comment like 
+"12 - My new bike" then the natural order of the both is relevant. In general,
+a picture will be put at position =&lt;nr&gt;= if its attachment comment has the format
+<verbatim>
+  <nr><space>-<space><comment>
+</verbatim>
+Note, that the $comment variable will only display =&lt;comment&gt;= , that is with 
+=&lt;nr&gt;&lt;space&gt;-&lt;space&gt;= stripped off.
+ 
+---++ Plugin Installation Instructions
+
+   * Download the ZIP file
+   * Unzip it in your twiki installation directory. Content: 
+   | *File:* | *Description:* |
+%$MANIFEST%
+   * Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+
+---++ Plugin Info
+<!--
+   * Set SHORTDESCRIPTION = Displays image gallery with auto-generated thumbnails from attachments.
+-->
+
+
+|  Plugin Author: | TWiki:Main/MichaelDaum, TWiki:Main/WillNorris |
+|  Copyright &copy;: | 2002-2003, Will Norris; 2005-2008, Michael Daum http://michaeldaumconsulting.com |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | v3.72 |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Jul 2008 | don't crash on images that start with a digits pattern |
+|  07 Jul 2008 | fixing use of string as hash |
+|  03 Jul 2008 | applying patch by Aurélio A. Heckert (see Bugs:Item5753); \
+                 using =Resize= instead of =Scale= for higher quality thumbnails; \
+                 hiding reddot when the user has no edit access to the target topic |
+|  03 Mar 2008 | make implementation of image mage configurable, \
+                 defaulting to Graphics::Magick as Image::Magick has got issues \
+                 using perl accellerators like mod_perl, speedy-cgi |
+|  17 Jan 2008 | default to sorting by name instead of by date |
+|  13 Nov 2007 | replaced plugin topic settings with =configure= settings |
+|  19 Sep 2007 | store auto-computed images in an images subdir of its own |
+|  19 Feb 2007 | make proper use TWiki-4 API; \
+                 don't use inline css, put them into the html header instead |
+|  24 Jul 2006 | working around Image::Magick crashes reading svg image files |
+|  20 Mar 2006 | added =sort= and =reverse= arguments; \
+                 fixed updating thumbnails when a new image version is created |
+|  20 Feb 2006 | added =include=, =exclude= and =field= arguments |
+|  16 Feb 2006 | renamed thumbnail so that it does not interfer with auto-attachment |
+|  14 Sep 2005 | don't strictly depend on normalizeFilename() |
+|  15 June 2005 | new release |
+|  10 May 2005 | fixed igp id clash error found by TWiki:Main/MartinCleaver; \
+                 capture <nop>ImageMagick error messages; \
+                 don't trust attachment info - check for attachment existence as well;\
+                 added refresh query parameter to recompute images |
+|  09 May 2005 | fixed errors reported by TWiki:Main/MarcelTrap; \
+                 added support for multiple topics (proposed by TWiki:Main/MartinCleaver; \
+                 added %<nop>NRIMAGES% tag |
+|  &nbsp;      | fix error when called from within rename view |
+|  03 May 2005 | fixed thumbnail resizing; reintroduced =titles= parameter;  \
+                 support for multiple galleries per topic |
+|  27 Apr 2005 | complete rewrite |
+|  01 Aug 2003 | Updates from feedback from a Windows installation |
+|  25 Jul 2003 | Initial version posted to TWiki.org |
+|  15 Mar 2002 | Initial (internal) version |
+|  CPAN Dependencies: | CPAN:Image::Magick or CPAN:Graphics::Magick |
+|  Other Dependencies: |  |
+|  Perl Version: | 5.8 |
+|  Plugin Home: | TWiki:Plugins/%TOPIC% |
+|  Feedback: | TWiki:Plugins/%TOPIC%Dev |
+|  Appraisal: | TWiki:Plugins/%TOPIC%Appraisal |
+
+-- TWiki:Main.MichaelDaum - 16 Jul 2008
+
+%META:FILEATTACHMENT{name="wikiringlogo40x40.png" attachment="wikiringlogo40x40.png" attr="h" comment="" date="1189787359" path="wikiringlogo40x40.png" size="2571" stream="wikiringlogo40x40.png" tmpFilename="" user="TWikiContributor" version="1"}%

@@ -1,0 +1,71 @@
+/* styles for the ImageGalleryPlugin */
+
+/* container of the gallery */
+.igp {
+  width:75%;
+  padding:5px;
+}
+
+/* container of the thumbnails */
+.igpThumbNails {
+  text-align:center;
+  padding:5px;
+  width:100%;
+}
+/* table of thumbnails */
+.igpThumbNailsTable {
+  text-align:center;
+  width:100%;
+}
+
+/* one thumbnail */
+.igpThumbNail {
+  vertical-align:bottom;
+  width:25%;
+  padding-top:5px;
+}
+.igpThumbNail img {
+  border:0px;
+}
+
+/* title of a thumbnail */
+.igpThumbNailTitle {
+  vertical-align:top;
+}
+
+/* table in single-image mode */
+.igpPictureTable {
+}
+
+/* single image */
+.igpPicture {
+  text-align:center;
+  padding:10px;
+}
+.igpPicture img {
+  border:0px;
+}
+
+/* title describing the image */
+.igpPictureTitle {
+}
+
+/* navigation */
+.igpNavigation {
+  text-align:left;
+}
+
+/* red dot span */
+.content h2 .igpRedDot a,
+.content .igpRedDot a,
+h2 .igpRedDot a,
+.igpRedDot a {
+  color:red;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+/* error messages */
+.igpAlert {
+  color:red;
+}
