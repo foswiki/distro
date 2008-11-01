@@ -1,0 +1,96 @@
+%{
+This template has deliberately been made with CSS embedded in HTML tags because
+of backwards compatibility with TWiki 4.1.
+The script:skintemplate was introduced in 4.2.0 so the CSS in this template only
+works in 4.2.0 and onwards so this feature has not been used.
+Also please note that HistoryPlugin must be tested in context with both RevCommentPlugin and CompareRevisionsAddOn
+The 3 extensions form a working entity. Never modify this template without testing the 3 in combination.
+This version is tested with TWiki 4.2.0 and 4.1.2 in IE5, IE6 and FF2.
+}%
+
+
+%TMPL:INCLUDE{"oops"}%
+
+
+%TMPL:DEF{"titleaction"}%(history)%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Revision history of [_1]" args="%TOPIC%"}%%TMPL:END%
+
+
+%TMPL:DEF{"diffbin"}%%TMPL:P{context="CompareRevisionsAddonPluginEnabled" then="diffbin_compare" else="diffbin_rdiff"}%%TMPL:END%
+
+
+%TMPL:DEF{"diffbin_rdiff"}%rdiff%TMPL:END%
+
+
+%TMPL:DEF{"diffbin_compare"}%compare%TMPL:END%
+
+
+%TMPL:DEF{"historytable"}%%TMPL:P{context="RevCommentPluginEnabled" then="historytable_rcp_enabled" else="historytable_rcp_disabled"}%%TMPL:END%
+
+
+%TMPL:DEF{"historytable_rcp_enabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5">
+<tr>
+<th colspan="3">%MAKETEXT{"Revision"}%</th>
+<th>%MAKETEXT{"Date"}%</th>
+<th>%MAKETEXT{"Username"}%</th>
+<th>%MAKETEXT{"Comment"}%</th>
+</tr>
+%HISTORY{"<tr style=\"vertical-align:top;\"><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td><td>%REVCOMMENT[$rev]%&nbsp;</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="<tr><td colspan=\"6\">$next{'%MAKETEXT{"last"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"first"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}</td></tr>"}%
+</table>%TMPL:END%
+
+
+%TMPL:DEF{"historytable_rcp_disabled"}%<table class="historySelectTable" border="0" cellspacing="0" cellpadding="5">
+<tr>
+<th colspan="3">%MAKETEXT{"Revision"}%</th>
+<th>%MAKETEXT{"Date"}%</th>
+<th>%MAKETEXT{"Username"}%</th>
+</tr>
+%HISTORY{"<tr style=\"vertical-align:top;\"><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="<tr><td colspan=\"4\">$next{'%MAKETEXT{"last"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"first"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}</td></tr>"}%
+</table>%TMPL:END%
+
+
+%TMPL:DEF{"renderstyle"}%%TMPL:P{context="CompareRevisionsAddonPluginEnabled" then="renderstyle_cra_enabled" else="renderstyle_cra_disabled"}%%TMPL:END%
+
+
+%TMPL:DEF{"renderstyle_cra_enabled"}%<br />
+Render style: <select name="render">
+<option value="interweave">%MAKETEXT{"Interweave"}%</option>
+<option value="sidebyside">%MAKETEXT{"Side by side"}%</option>
+</select>&nbsp;&nbsp;&nbsp;
+%MAKETEXT{"Context:"}% <select name="context">
+<option value="-1">%MAKETEXT{"Whole page"}%</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="5">10</option>
+</select>&nbsp;&nbsp;&nbsp;(%MAKETEXT{"unchanged sections before and after each change"}%)
+<br /><br />%TMPL:END%
+
+
+%TMPL:DEF{"renderstyle_cra_disabled"}%%TMPL:END%
+
+
+%TMPL:DEF{"message"}%
+---++ %MAKETEXT{"Select an earlier (left) and a later (right) revision to compare"}%
+---++++ %MAKETEXT{"Revisions [_1] - [_2] (out of [_3])" args="%HISTORY_REV1%,%HISTORY_REV2%,%HISTORY_MAXREV%"}%
+<form name="main" action="%SCRIPTURL{"%TMPL:P{"diffbin"}%"}%/%WEB%/%TOPIC%">
+%TMPL:P{"historytable"}%
+%TMPL:P{"renderstyle"}%
+<input type="submit" class="twikiSubmit" value="%MAKETEXT{"Compare revisions"}%" />
+</form>
+<br /><br />
+<form action="%SCRIPTURL{oops}%/%WEB%/%TOPIC%">
+*%MAKETEXT{"More view options:"}%* %MAKETEXT{"Show"}% <select class="twikiSelect" name="nrev" size="1">
+<option selected="selected">%HISTORY_NREV%</option>
+<option>5</option>
+<option>10</option>
+<option>20</option>
+<option>50</option>
+</select> %MAKETEXT{"revisions up to"}% <input type="text" class="twikiInputField" name="rev2" value="%HISTORY_REV2%" size="2" />&nbsp;<input type="submit" class="twikiButton" value="%MAKETEXT{"Refresh"}%" />
+<input type="hidden" name="template" value="oopshistory" />
+</form>
+%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%<a href='%SCRIPTURL{"view"}%/%WEB%/%TOPIC%' rel='nofollow' %MAKETEXT{"title='View topic' accesskey='v'>&View topic"}%</a>%TMPL:P{"sep"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="S" rel="nofollow">%MAKETEXT{"&Sequential"}%</a>%TMPL:END%

@@ -1,0 +1,97 @@
+%META:TOPICINFO{author="TWikiContributor" date="1144943989" format="1.1" version="$Rev: 15952 $"}%
+---+ History Plugin
+
+This plugin shows a complete or partial history of a document. The output can arbitrarily be formatted. An example for a Wikipedia-like history is included.
+
+Since TWiki 4.0.3 - when using PatternSkin enabling the !HistoryPlugin changes the "History" link in the bottom action bar so it opens a page with a nice user interface where you can select the versions to compare. 
+
+With older versions of TWiki you will need to tweak the templates.
+
+If [[TWiki:Plugins.CompareRevisionsAddOn][CompareRevisionsAddOn]] is installed and activated the "History" user interface will allow you to choose how the changes are rendered (interweaved vs side-by-side, and context).
+
+If [[TWiki:Plugins.RevCommentPlugin][RevCommentPlugin]] is installed and activated the "History" page will show the comments entered for each revision.
+
+This plugins is designed to work together with !CompareRevisionsAddOn and !RevCommentPlugin but works well on its own or with just one of the two other plugins.
+
+---++ Syntax Rules
+
+   * %<nop>HISTORY%
+   * %<nop>HISTORY{parameters}%BR%
+     Supported parameters: %BR%
+     |*Parameter* | *Description* | *Default* |
+     |"format" _or_ format="format" |Format of one line, may include any variable which is supported by %<nop>REVINFO% |"r$rev - $date - $wikiusername" |
+     |topic="topic" |Topic name |Current topic |
+     |web="web" |Web name |Current web |
+     |nrev="nrev" |Number of revisions to show. Ignored, if both rev1 and rev2 are specified | Plugin preference variable NREV |
+     |rev2="rev2" |Newest revision to show | rev1+nrev, if rev1 is specified, latest revision otherwise |
+     |rev1="rev1" |Oldest revision to show | rev2-nrev |
+     |reverse="on/off" |Show newest revisions first, if _on_ |"on" |
+     |header="text" |Text to print before the list. May contain the variables $next and $previous (see below) |"$next" |
+     |footer="text" |Text to print after the list. May contain the variables $next and $previous (see below) |"$previous" |
+
+     The parameters _header_ and _footer_ may contain the variables $next and $previous, which will only be evaluated, if there are newer or older revisions available for the topic which are not listed according to _rev1_, _rev2_, _nrev_. These variables take the syntax =$next{'text' url='url'}= (analog for $previous). _text_ is the text which should be printed, _url_ is the url for a corresponding link. The variables $rev1, $rev2, $nrev in _text_ or _url_ will be replaced by appropriate values for the next or previous block of revisions. See the attached =oopshistory.tmpl= for an example of how to use this.
+
+The following variables are replaced only, if there is a corresponding %<nop>HISTORY% on the page. If more than
+one %<nop>HISTORY% is used on the same page, the values from the last one  will be used.
+
+   * %<nop>HISTORY_REV1%: Oldest revision from the printed history
+   * %<nop>HISTORY_REV2%: Latest revision from the printed history
+   * %<nop>HISTORY_NREV%: Number of the printed revisions
+   * %<nop>HISTORY_MAXREV%: Latest available revision of the document
+   
+---++ Examples
+
+The call %<nop>HISTORY% shows a simple list of available revisions like%BR%
+<pre>
+r3 - 17 Feb 2005 - 09:56 - AnUser
+r2 - 31 Dec 2004 - 10:22 - AnotherUser
+r1 - 15 Nov 2003 - 01:23 - YetAnotherUser
+</pre>
+
+For a more complex example see the attached =oopshistory.tmpl= which also allows the comparison of two selected revisions. 
+
+Example screenshot of the topic history with !HistoryPlugin enabled and working with !CompareRevisionsAddOn and !RevCommentPlugin <br />
+     <div class="twikiImage"><img src="%ATTACHURLPATH%/screenshot.png" alt="screenshot.png" width='573' height='538' /></div>
+
+---++ Plugin Installation Instructions
+
+__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where TWiki is running. 
+
+   * Download the ZIP file from the Plugin web (see below)
+   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+   | *File:* | *Description:* |
+%$MANIFEST%
+   * Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+   * Test if the installation was successful:
+      * Here should appear the history of this document inline: 
+        %HISTORY{"      r1.$rev - $date - $wikiusername%BR%"}%
+      * Show the history of Main.TWikiUsers :%BR%
+        %SCRIPTURL{oops}%/Main/TWikiUsers?template=oopshistory
+
+---++ Plugin Info
+<!--
+      * Set SHORTDESCRIPTION = Shows a complete history of a document
+-->
+|  Plugin Author: | TWiki:Main/JChristophFuchs |
+|  Plugin Version: | 09 Dec 2007: (V1.3) |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  09 Dec 2007: | 1.3 Kenneth Lavrsen: Restored the features that were lost in revision 1.1 including: Showing comments made by !RevCommentPlugin, selection of render styles "interweave" and "side by side" provided by !CompareRevisionsAddOn, and link to rdiff history. Restored compatibility with TWiki-4.1 which means removing the dependency of 4.2 only CSS feature. Updated the default rev format to 4.X format. |
+|  13 Nov 2007: | 1.2 Michael Daum: removed cruft from plugin, \
+                  updates to use modern TWiki APIs, \
+                  added some more flexibility to create a diff interface, \
+                  removed plugin topic options |
+|  07 Nov 2007: | 1.1 Arthur Clemens: updated to TWiki 4.2; improved user interface.  |
+|  19 Jan 2007: | 1.002 Corrected coding error that causes the plugin to fail with HISTORY tag in topic |
+|  9 Apr 2006: | 1.001 Updated for new <nop>PatternSkin in [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00x02][TWikiRelease04x00x02]] |
+|  17 Feb 2005: | Initial version |
+|  TWiki Dependency: | $TWiki::Plugins::VERSION 1.024 |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.005 |
+|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle 100%, %TWIKIWEB%.FormattedSearch 99%, %TOPIC% 97% |
+|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+
+__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+
