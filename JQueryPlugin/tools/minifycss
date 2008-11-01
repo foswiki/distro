@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+use CSS::Minifier qw(minify);
+
+foreach my $file (@ARGV) {
+  open(INFILE, $file) or die "failed opening $file";
+  my $result = minify(input => *INFILE);
+  close(INFILE);
+  print "$result\n";
+}

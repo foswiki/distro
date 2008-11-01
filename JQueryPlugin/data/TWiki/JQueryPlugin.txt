@@ -1,0 +1,119 @@
+%META:TOPICINFO{author="TWikiContributor" date="1209548528" format="1.1" reprev="1.1" version="$Rev$"}%
+---+!! %TOPIC%
+<!--
+   * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for TWiki
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+---++ Description
+<table style="float:right">
+<tr>
+  <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png"></td>
+  <td><a href="http://wikiring.de" title="Make your Wiki ring!" style="text-decoration:none">
+      Powered by <br /> <nop>WikiRing Consultants </a>
+  </td>
+</tr>
+</table>
+This plugin contains the latest version of the [[http://jquery.com][jQuery]]
+<nop>JavaScript library. 
+
+<blockquote>
+"jQuery is a fast, concise, <nop>JavaScript Library that simplifies how you traverse
+HTML documents, handle events, perform animations, and add Ajax interactions to
+your web pages."
+</blockquote>
+
+See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by TWiki.
+
+---++ Included libraries
+   1 jquery
+   1 jquery.bgiframe
+   1 jquery.blockUI
+   1 jquery.debug
+   1 jquery.dimensions
+   1 jquery.dom 
+   1 jquery.easing
+   1 jquery.hoverIntent
+   1 jquery.innerfade
+   1 jquery.metadata 
+   1 jquery.nifty
+   1 jquery.shrinkurls
+   1 jquery.spinner
+   1 jquery.superfish
+   1 jquery.tabpane (non-ui version)
+   1 jquery.tooltip
+   1 jquery.treeview
+   1 ui.accordion
+   1 ui.datepicker
+   1 ui.dialog
+   1 ui.draggable
+   1 ui.droppable
+   1 ui.mouse
+   1 ui.resizable
+   1 ui.selectable
+   1 ui.slider
+   1 ui.sortable
+   1 ui.tabs
+
+---++ Documentation
+   * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
+   * [[http://docs.jquery.com/Tutorials][Tutorials]]
+   * [[http://docs.jquery.com/Main_Page][Reference API]]
+   * [[http://docs.jquery.com/Using_jQuery_with_Other_Libraries][Using jQuery with other libraries]]
+   * [[http://docs.jquery.com/Plugins][Plugin repository]]
+
+---++ Syntax Rules
+
+=%<nop>JQSCRIPT{"jquery.js"}%= : include the specified script. Keep in mind that the =jquery.js= script must be loaded before plug-ins scripts.<br />
+=%<nop>JQTHEME{"mythemename"}%= : include the specified theme. Better load the desired theme before any script.<br />
+=%<nop>JQIMAGESURLPATH{"myimage.png"}%= : Expand to the specified image path.<br />
+=%<nop>JQIMAGESURLPATH%/myimage.png= : Same result as the above.<br />
+
+
+---++ Themes
+
+The following themes are provided:
+   * =flora= theme
+   * =ogray= theme
+
+---++ Examples
+
+   * Sandbox.PluginTestJQueryPlugin.txt 	 	
+   * Sandbox.JQueryPluginExamples.txt
+
+---++ Installation Instructions
+   * Download the ZIP file from the Plugin web (see below)
+   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+     | *File:* | *Description:* |
+%$MANIFEST%
+
+---++ Plugin Info
+|  Plugin Author(s): | TWiki:Main/MichaelDaum |
+|  Copyright: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
+|  License: | GPL |
+|  Plugin Version: | v0.9 |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Jul 2008: | updated to ui-1.5.2; added async treeview; added async options to tabpane |
+|  03 Jul 2008: | updated to ui-1.5.1 |
+|  05 Jun 2008: | updated to jquery-1.2.6 and ui-1.5-RC1 |
+|  30 Apr 2008: | repackaged to contain jquery UI |
+|  13 Feb 2008: | upgrade to jquery-1.2.3, as well as most plugins |
+|  17 Jan 2008: | added jquery.metadata plugin; \
+                  implemented a jquery.tabpane plugin; \
+                  updated jquery.dimensions plugin; \
+                  added jquery.empty plugin to ease development of new plugins |
+|  15 Nov 2007: | use skin independent way to add javascript files to header |
+|  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |
+|  12 Jul 2007: | initial package containing jQuery-1.1.3.1 |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/JQueryPlugin |
+|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/JQueryPluginDev |
+|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/JQueryPluginAppraisal |
+
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add
+comments/questions/remarks to the feedback topic on twiki.org instead. -->
+
+%META:FILEATTACHMENT{name="wikiringlogo40x40.png" attachment="wikiringlogo40x40.png" attr="h" comment="" date="1189787359" path="wikiringlogo40x40.png" size="2571" stream="wikiringlogo40x40.png" tmpFilename="" user="TWikiContributor" version="1"}%

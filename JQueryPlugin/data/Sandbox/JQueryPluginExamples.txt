@@ -1,0 +1,179 @@
+%META:TOPICINFO{author="TWikiContributor" date="1202906066" format="1.1" reprev="1.1" version="$Rev$"}%
+---+!! %TOPIC%
+
+Demo of the <nop>TWikiWidgets implemented by the %TWIKIWEB%.JQueryPlugin
+
+%TOC%
+
+---++ Buttons
+%BUTTON{bg="bluish" text="bluish"}%
+%BUTTON{bg="pinkish" text="pinkish"}%
+%BUTTON{bg="greenish" text="greenish"}%
+%BUTTON{style="background-color:orange;color:white;" text="orange"}%
+%CLEAR%
+
+
+---++ Toggles
+%TOGGLE{target="#lorem_area" text="$percntX$percnt Slide" effect="slide"}%
+
+<input type="button" value="Toggle" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'toggle')" />
+<input type="button" value="Fade " onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'fade')"/>
+<input type="button" value="Slide" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'slide')"/>
+<input type="button" value="Bounce" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'bounce')"/>
+<input type="button" value="Ease" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'ease')"/>
+
+<div id="lorem_area" style="border:1px solid #ccc;padding:5px;width:250px">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla dui turpis,
+convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+lacus dui vestibulum sapien, vel tincidunt nulla lectus a elit. Nullam laoreet,
+nunc ut varius pulvinar, lacus lectus condimentum orci, nec mattis augue erat
+at mauris. Donec sollicitudin, sapien id lobortis vulputate, tellus sem
+dignissim felis, in laoreet massa purus in mauris. Suspendisse tempus leo quis
+massa. Curabitur tortor eros, dictum sed, tincidunt sit amet, tristique nec,
+nisi. Mauris est urna, fermentum vel, luctus sed, luctus eu, elit. In nulla.
+</div>
+
+---++ Tooltips
+   * <span class="jqToolTip" title="Hello World: This is my first tooltip!!!">Hello world</span>
+
+---++ Rounded corners
+<div style="width:520px;">
+  <div class="jqRounded" style="width:250px;float:left;margin:5px">
+    <h2 style="color:#ffffff;background:#778cca;border:0px">1. Lorem ipsum dolor sit amet</h2>
+    <div style="background:#bfdded;color:black">
+      Consectetuer adipiscing elit. Nulla dui turpis,
+      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+    </div>
+  </div>
+  <div class="jqRounded" style="width:250px;float:right;margin:5px">
+    <h2 style="color:#ffffff;background:#9DC35B;border:0px;">2. Lorem ipsum dolor sit amet</h2>
+    <div style="background:#C4E786;color:black">
+      Consectetuer adipiscing elit. Nulla dui turpis,
+      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+    </div>
+  </div>
+  <div class="jqRounded" style="width:250px;float:left;margin:5px;">
+    <h2 style="color:#ffffff;background:#DBB13F;border:0px;">3. Lorem ipsum dolor sit amet</h2>
+    <div style="background:#ffd154;color:black">
+      Consectetuer adipiscing elit. Nulla dui turpis,
+      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+    </div>
+  </div>
+  <div class="jqRounded" style="width:250px;float:right;margin:5px">
+    <h2 style="color:#ffffff;background:#aa0000;border:0px;">4. Lorem ipsum dolor sit amet</h2>
+    <div style="background:#EDC2C2;color:black">
+      Consectetuer adipiscing elit. Nulla dui turpis,
+      convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+      egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+      molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+    </div>
+  </div>
+</div>
+<br clear="all" />
+<div class="jqRounded" style="background:#EDC2C2;color:black;width:250px;margin:5px;">
+  <div>
+  Consectetuer adipiscing elit. Nulla dui turpis,
+  convallis eget, lacinia id, vulputate ut, ipsum. Donec sed sem. Ut tempus. Nunc
+  egestas consectetuer augue. Sed a nibh. Duis rutrum nibh. Sed in orci at arcu
+  molestie ultrices. Quisque a lectus. In mollis, nulla id rutrum tincidunt,
+  </div>
+</div>
+
+---++ Treeview
+<div class="jqTreeview">
+   * list
+      * item
+      * item
+      * item
+   * list
+      * item
+      * item
+      * item
+   * list
+      * item
+      * item
+      * item
+</div>
+<div class="jqTreeview closed red">
+   * list
+      * item
+      * item
+      * item
+   * list
+      * item
+      * item
+      * item
+   * list
+      * item
+      * item
+      * item
+</div>
+
+---++ Tabpane
+%TABPANE%
+%TAB{"Tab 1"}%
+
+%TABPANE%
+%TAB{"Tab 1.1"}%
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sit amet
+tellus id ante pretium aliquam. Etiam interdum, turpis in varius facilisis,
+nibh neque tincidunt sapien, et viverra libero justo et leo. Pellentesque et mi
+%ENDTAB%
+%TAB{"Tab 1.2"}%
+tristique ligula suscipit suscipit. Donec et tortor. Integer eros eros, commodo
+in, aliquam sit amet, facilisis et, magna. Sed nisl. Pellentesque mattis, quam
+ut nonummy rutrum, sem felis ultrices nunc, sed mollis dolor diam et purus.
+%ENDTAB%
+%TAB{"Tab 1.3"}%
+Aenean urna. Morbi eros. Quisque mauris magna, rhoncus vitae, ullamcorper ac,
+volutpat quis, nibh. 
+%RED%end of tab 1%ENDCOLOR%
+%ENDTAB%
+%ENDTABPANE%
+
+%ENDTAB%
+%TAB{"Tab 2"}%
+Donec ultrices mollis velit. Integer sed eros. Nulla venenatis laoreet leo.
+Etiam consectetuer, odio sagittis pharetra ornare, est nulla nonummy nisl, quis
+ultricies nisl elit quis justo. In dictum interdum est. Duis accumsan, nibh
+mollis commodo rhoncus, ante orci dapibus purus, at pharetra est massa et
+velit. Fusce ornare nibh ut magna. Nunc sollicitudin, purus et eleifend
+consectetuer, lectus justo faucibus arcu, et cursus velit felis eu lorem. Nulla
+aliquet, turpis accumsan feugiat congue, mi arcu ultrices ligula, id ultrices
+sem elit sed lectus. Curabitur dignissim, dolor non sodales luctus, mi magna
+tincidunt tellus, at bibendum mauris magna dapibus metus. Donec et libero at
+erat bibendum blandit. Proin enim nunc, rutrum et, congue mattis, ultrices at,
+nisl. 
+%RED%end of tab 2%ENDCOLOR%
+%ENDTAB%
+%TAB{"Tab 3"}%
+Sed a nisi. Maecenas posuere vehicula orci. Proin purus. Nulla condimentum
+laoreet pede. Morbi sodales, nunc a vestibulum dignissim, lectus felis varius
+nisl, vitae lacinia sapien dui nec massa. Fusce tempus. Vivamus ac mi. Integer
+leo. Proin blandit est et sem. Quisque mi. Class aptent taciti sociosqu ad
+litora torquent per conubia nostra, per inceptos hymenaeos. Nunc imperdiet
+viverra purus. Aenean ut turpis ut nibh varius adipiscing. 
+%RED%end of tab 3%ENDCOLOR%
+%ENDTAB%
+%TAB{"Tab 4"}%
+Sed non ante non nibh pharetra facilisis. Curabitur ut odio. Suspendisse
+potenti. Fusce aliquam. Class aptent taciti sociosqu ad litora torquent per
+conubia nostra, per inceptos hymenaeos. Etiam lacinia, sapien ut volutpat
+lobortis, nisi ante auctor quam, vitae placerat dolor arcu dictum massa. Donec
+dolor. Cras eget dolor. Curabitur id nunc non purus tristique iaculis. Vivamus
+sit amet sapien.  Intege
+%RED%end of tab 4%ENDCOLOR%
+%ENDTAB%
+%ENDTABPANE%
+
+<script type="text/javascript">
+$(".jqRounded").roundedCorners();
+</script>

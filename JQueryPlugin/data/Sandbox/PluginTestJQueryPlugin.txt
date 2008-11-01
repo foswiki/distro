@@ -1,0 +1,53 @@
+%META:TOPICINFO{author="TWikiContributor" date="1212763293" format="1.1" version="$Rev$"}%
+---+!! Examples for TWiki.JQueryPlugin
+
+%TOC%
+
+<!--
+Include the jQuery javascript we need
+-->
+
+%JQTHEME{"flora"}%
+%JQSCRIPT{"jquery.spinner"}%
+%JQSCRIPT{"ui.core"}%
+%JQSCRIPT{"ui.mouse"}%
+%JQSCRIPT{"ui.draggable"}%
+%JQSCRIPT{"ui.resizable"}%
+%JQSCRIPT{"ui.dialog"}%  
+
+---++ Dialog
+---+++ Default, no options
+<div class="ogray" style="display:none" id="example1">Hello, World!</div>
+
+<button onclick="$('#example1').dialog().show()">Create Dialog</button>
+<button onclick="$('#example1').dialog('close')">Close</button>
+
+---+++ Title, Width & Height
+<div class="ogray" style="display:none" id="example2" title="Nice title">I have a title and I'm big</div>
+
+<button onclick="$('#example2').dialog({width: 600, height: 300}).show();">Create Dialog</button>
+<button onclick="$('#example2').dialog('close')">Close</button>
+
+
+---++ Spinner
+<button onclick="$('#spinner').spinner({image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner.png'});$('#spinner').show();">Start spinner</button>
+<button onclick="$('#spinner').spinner('stop').hide();">Stop</button> 
+
+<div id="spinner"></div>
+
+<button onclick="$('#spinnerbig').spinner({height: 48,width: 48,speed: 50, frames:12, image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner_big.png'}).show();">Start big spinner</button>
+<button onclick="$('#spinnerbig').spinner('stop').hide();">Stop</button> 
+
+<div id="spinnerbig"></div>
+
+<button onclick="$('#spinnerfast').spinner({height: 32,width: 32,speed: 25, image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner.png'}).show();">Start fast spinner</button>
+<button onclick="$('#spinnerfast').spinner('stop').hide();">Stop</button> 
+
+<div id="spinnerfast"></div>
+
+
+<button onclick="$('#spinnerbigfast').spinner({height: 48,width: 48,speed: 25, frames:12, image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner_big.png'}).show();">Start big fast spinner</button>
+<button onclick="$('#spinnerbigfast').spinner('stop').hide();">Stop</button> 
+
+<div id="spinnerbigfast"></div>
+		
