@@ -15,6 +15,7 @@
      | =helptopic= | Topic name containing help text shown below the table when editing a table. The %<nop>STARTINCLUDE% and %<nop>STOPINCLUDE% variables can be used in the topic to specify what is shown. | (no help text) |
      | =headerislabel= | Table header cells are read-only (labels) if ="on"=; header cells can be edited if ="off"= or "0" | ="on"= |
      | =editbutton= | Set edit button text, e.g. ="Edit this table"=; set button image with alt text, e.g. ="Edit table, %<nop>PUBURL%/%<nop>TWIKIWEB%/TWikiDocGraphics/edittopic.gif"=; hide edit button at the end of the table with ="hide"= (Note: Button is automatically hidden if an edit button is present in a cell) | =EDITBUTTON= %BR% plugin setting |
+     | =buttonrow= | Set to =top= to put the edit buttons above the table. | =bottom= |
      | =javascriptinterface= | Use javascript to directly move and delete row without page refresh. Enable with ="on"=, disable with ="off"=. | =JAVASCRIPTINTERFACE= %BR% plugin setting |
 %ENDSECTION{"edittable_attributes"}%
    * Example:%BR%

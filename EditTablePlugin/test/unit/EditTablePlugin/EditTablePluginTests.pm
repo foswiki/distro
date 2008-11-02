@@ -25,7 +25,7 @@ sub set_up {
     #    $this->{sup} = $this->{twiki}->getScriptUrl(0, 'view');
     $TWiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $TWiki::cfg{AllowInlineScript} = 0;
-    #$TWiki::cfg{TablePlugin}{Attributes} = 'tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
+    $TWiki::cfg{TablePlugin}{Attributes} = 'tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
 
     $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
 }
@@ -1072,6 +1072,151 @@ INPUT
 | <small><table><tr><td>TD...Technical Documentation <br />TM...Translation Management <br />PC...Product Catalogs </td><td>PS...Processes and Systems <br />FM...Feedback Management <br />KL...Knowledge Logistics</td></tr></table></small> |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
+    $twiki->finish();
+}
+
+=pod
+
+=cut
+
+sub test_buttonRowAtTop {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlTWikiWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+
+    $this->{twiki}->{store}
+      ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
+
+    my $raw_tag  = '%EDITTABLE{buttonrow="top"}%';
+    my $expected = <<END;
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input class="editTableEditImageButton" type="image" src="$pubUrlTWikiWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<input type="hidden" name="etrows" value="0" />
+</form>
+</div><!-- /editTable -->
+END
+    my $result =
+      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+    $this->do_testHtmlOutput( $expected, $result, 0 );
+}
+
+sub test_buttonRowAtTop_edit {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlTWikiWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+
+    my $query = new Unit::Request(
+        {
+            etedit    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    my $text = <<INPUT;
+SOMETHING %EDITTABLE{buttonrow="top"}%
+INPUT
+
+	$query->path_info("/$webName/$topicName");
+
+    my $twiki = new TWiki( undef, $query );
+    $TWiki::Plugins::SESSION = $twiki;
+    my $result =
+      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+
+    my $expected = <<EXPECTED;
+SOMETHING 
+<noautolink>
+<a name="edittable1"></a>
+<div class="editTable editTableEdit">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="hidden" name="ettablenr" value="1" />
+| <input class="twikiInputField editTableInput" type="text" name="etcell1x1" size="16" value="" /> |
+<input type="hidden" name="etrows" value="1" />
+</form>
+</div><!-- /editTable --></noautolink>
+EXPECTED
+
+    $this->do_testHtmlOutput( $expected, $result, 0 );
+}
+
+sub test_save_with_verbatim {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlTWikiWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+
+    my $input = <<INPUT;
+%EDITTABLE{}%
+| *text* |
+| <verbatim>inside verbatim</verbatim> |
+INPUT
+    my $query = new Unit::Request(
+        {
+            etedit    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    my $twiki = new TWiki( undef, $query );
+    $TWiki::Plugins::SESSION = $twiki;
+
+    $query = new Unit::Request(
+        {
+            etsave    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $input );
+
+    $twiki = new TWiki( undef, $query );
+	my $response = new Unit::Response;
+    $TWiki::Plugins::SESSION = $twiki;
+
+    my ( $saveResult, $ecode ) = $this->capture(
+        sub {
+            $response->body( TWiki::Func::expandCommonVariables( $input,
+                $this->{test_topic}, $this->{test_web}, undef ) );
+        }
+    );
+
+    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+
+    my $expected = <<NEWEXPECTED;
+%EDITTABLE{}%
+| *text* |
+| <verbatim>inside verbatim</verbatim> |
+NEWEXPECTED
+    $this->assert_str_equals( $expected, $newtext, 0 );
+
     $twiki->finish();
 }
 

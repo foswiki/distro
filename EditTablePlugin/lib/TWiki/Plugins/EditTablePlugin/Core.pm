@@ -1,5 +1,6 @@
 # Plugin for TWiki Enterprise Collaboration Platform, http://TWiki.org/
 #
+# Copyright (C) 2008 Arthur Clemens, arthur@visiblearea.com
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org and
 # TWiki Contributors.
 #
@@ -31,16 +32,17 @@ use vars qw(
   $warningMessage
 );
 
-my $RENDER_HACK        = "\n<nop>\n";
-my $DEFAULT_FIELD_SIZE = 16;
+my $RENDER_HACK                  = "\n<nop>\n";
+my $DEFAULT_FIELD_SIZE           = 16;
+my $PLACEHOLDER_BUTTONROW_TOP    = 'PLACEHOLDER_BUTTONROW_TOP';
+my $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
+my $STUB_VARIABLE                = 'E_T_P_NOP';
 
-BEGIN {
-    %regex                    = ();
-    $regex{edit_table_plugin} = '%EDITTABLE{(.*?)}%';
-    $regex{table_plugin}      = '%TABLE(?:{(.*?)})?%';
-    $regex{table_row_full}    = '^(\s*)\|.*\|\s*$';
-    $regex{table_row}         = '^(\s*)\|(.*)';
-}
+my %regex                    = ();
+$regex{edit_table_plugin} = '%EDITTABLE{(.*?)}%';
+$regex{table_plugin}      = '%TABLE(?:{(.*?)})?%';
+$regex{table_row_full}    = '^(\s*)\|.*\|\s*$';
+$regex{table_row}         = '^(\s*)\|(.*)';
 
 sub init {
     $preSp                      = '';
@@ -64,24 +66,49 @@ sub init {
     $warningMessage             = '';
 }
 
-sub preProcessSpreadsheetPluginTags {
+=pod
+
+---+++ protectVariables ($text)
+
+Called during beforeCommonTagsHandler.
+Escapes variables by placing $STUB_VARIABLE inside each variable.
+This stub is removed later on (inside handleTableRow).
+
+=cut
+
+sub protectVariables {
+
+    #my $text = $_[0]
+
     $query = TWiki::Func::getCgiQuery();
     if ( ( $query->param('etedit') ) && ( $query->param('ettablenr') ) ) {
         my $paramTableNr = $query->param('ettablenr');
         my $tmptable     = TWiki::Plugins::EditTable->new();
         my ( $tablesTakenOutText, @tableTextRefs ) =
           $tmptable->parseText( $_[0] );
-        my $tableNr   = 1;
+        my $tableNr   = 1;    # starting point
         my $tableDone = 0;
         foreach my $tableTextRef (@tableTextRefs) {
             my $tableText    = $tableTextRef->{'text'};
             my $editTableTag = $tableTextRef->{'tag'};
             if ( !$tableDone && $tableNr eq $paramTableNr ) {
 
-                # escape variables
-                $tableText =~ s/%(.*?\{*.*?\}*)%/%E_T_P_NOP$1%/go;
-                $tableText =~ s/%E_T_P_NOPBR%/&#10;/go;
-                $tableDone = 1;
+                # only do the one table that is being edited
+                my $inRe = '
+                %				# start of variable
+                (				# group at index 1
+                .*?				# variable name
+                \{*.*?\}*		# variable contents inside braces, if any
+                )				#
+                %				# end of variable';
+                $tableText =~ s/$inRe/%$STUB_VARIABLE$1%/gox;
+                $tableText =~ s/%$STUB_VARIABLE\BR%/&#10;/go
+                  ;    # replace escaped %BR% with newline
+                my $tag = 'verbatim';
+                $tableText =~
+s/\<$tag\>(.*?)\<\/$tag\>/<$STUB_VARIABLE$tag>$1<\/$STUB_VARIABLE$tag>/go
+                  ; # put stub inside verbatim to prevent the renderer to take out the verbatim block (which is unwanted in edit mode)
+                $tableDone = 1;  # mark no longer necessary to find other tables
             }
             $tableText = $editTableTag . "\n" . $tableText;
             $tablesTakenOutText =~ s/<!--edittable$tableNr-->/$tableText\n/;
@@ -511,6 +538,22 @@ s/^(\s*)\|(.*)/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdit, $do
         # ========================================
         # START PUT PROCESSED TABLE BACK IN TEXT
         my $resultText = join( "", @result );
+
+        # button row at top or bottom
+        if ( !$doSave ) {
+            my $pos = $params{'buttonrow'} || 'bottom';
+            my $buttonRow = createButtonRow( $theWeb, $theTopic, $includingWeb,
+                $includingTopic, $doEdit );
+            if ( $pos eq 'top' ) {
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM//go;    # remove
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_TOP/$buttonRow/go;
+            }
+            else {
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_TOP//go;       # remove
+                $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM/$buttonRow/go;
+            }
+        }
+
         if ( $doEdit && !$doSave && ( $paramTableNr == $tableNr ) ) {
             insertTmpTagInTableTagLine( $editTableTag,
                 ' disableallsort="on" ' );
@@ -595,6 +638,9 @@ sub extractParams {
     $tmp = TWiki::Func::extractNameValuePair( $theArgs, 'javascriptinterface' );
     $$theHashRef{'javascriptinterface'} = $tmp if ($tmp);
 
+    $tmp = TWiki::Func::extractNameValuePair( $theArgs, 'buttonrow' );
+    $$theHashRef{'buttonrow'} = $tmp if ($tmp);
+
     return;
 }
 
@@ -643,6 +689,7 @@ sub handleEditTableTag {
         'helptopic'           => '',
         'editbutton'          => '',
         'javascriptinterface' => '',
+        'buttonrow'           => '',
     );
     $warningMessage = '';
 
@@ -734,6 +781,9 @@ sub handleTableStart {
       if ( "$theWeb\_$theTopic" ne "$includingWeb\_$includingTopic" );
     $text .=
       "$preSp<form name=\"$formName\" action=\"$viewUrl\" method=\"post\">\n";
+
+    $text .= $PLACEHOLDER_BUTTONROW_TOP;
+
     $text .= hiddenField( $preSp, 'ettablenr', $theTableNr, "\n" );
     $text .= hiddenField( $preSp, 'etedit',    'on',        "\n" )
       unless $doEdit;
@@ -771,6 +821,24 @@ sub handleTableEnd {
     $text .= hiddenField( $preSp, 'etaddedrows', $addedRowCount, "\n" )
       if $addedRowCount;
 
+    $text .= $PLACEHOLDER_BUTTONROW_BOTTOM;
+
+    $text .= "$preSp</form>\n";
+    $text .= "</div><!-- /editTable -->";
+    $text .= "</noautolink>" if $doEdit;
+
+    #    $text .= "\n";
+    return $text;
+}
+
+=pod
+
+=cut
+
+sub createButtonRow {
+    my ( $theWeb, $theTopic, $includingWeb, $includingTopic, $doEdit ) = @_;
+
+    my $text = '';
     if ( $doEdit && ( "$theWeb.$theTopic" eq "$includingWeb.$includingTopic" ) )
     {
 
@@ -836,11 +904,6 @@ sub handleTableEnd {
               $preSp . viewEditCell("editbutton, 1, $params{'editbutton'}");
         }
     }
-    $text .= "$preSp</form>\n";
-    $text .= "</div><!-- /editTable -->";
-    $text .= "</noautolink>" if $doEdit;
-
-    #    $text .= "\n";
     return $text;
 }
 
@@ -1248,7 +1311,7 @@ sub handleTableRow {
             }
 
             $cell =~
-              s/E_T_P_NOP//go;    # remove escaping of variables inside cells
+              s/$STUB_VARIABLE//go;  # remove escaping of variables inside cells
 
             if ($isNewRowFromHeader) {
                 unless ($cell) {

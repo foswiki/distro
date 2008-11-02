@@ -2,12 +2,17 @@
 .editTable {
 	padding-bottom:1em;
 }
+.editTableEdit .twikiTable {
+	margin:5px 0;
+}
 .editTableInnerTable table,
 .editTableInnerTable th,
 .editTableInnerTable td {
 	border:none;
 	padding-top:0;
-	margin-top:0;
+}
+.editTableEditImageButton {
+	margin:3px 0;
 }
 
 /* Edit mode */

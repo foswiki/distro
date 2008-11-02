@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1191744279" format="1.1" version="$Rev: 16029 $"}%
+%META:TOPICINFO{author="TWikiContributor" date="1191744279" format="1.1" version="$Rev: 17303 $"}%
 ---+!! Edit Table Plugin
 
 Edit TWiki tables in place, using edit fields and drop down boxes, without having to edit the complete topic. 
@@ -210,22 +210,24 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2002-2008, TWiki:Main.PeterThoeny ([[http://www.twiki.net/][TWIKI.NET]]) and TWiki Contributors |
+|  Plugin Author: | Arthur Clemens |
+|  Copyright: | &copy; 2008, Arthur Clemens | 
+|  Based on: | TWiki:Plugins.EditTablePlugin &copy; 2002-2008, TWiki:Main.PeterThoeny and TWiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.8.7 (26 Sep 2008) |
+|  Plugin Version: | 4.9 (01 Nov 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  26 Sep 2008: | 4.8.7 Let empty table initialize more than one column from =header= parameter |
-|  24 Sep 2008: | 4.8.6 Fix parsing of header labels |
-|  21 Sep 2008: | 4.8.5 Fix rendering of TML inside label |
-|  03 Aug 2008: | 4.8.4 TWiki 4.2.1 release version |
-|  19 Jul 2008: | 4.8.3 Bugfix release |
+|  01 Nov 2008: | 4.9: Arthur Clemens: Fixed rendering of =verbatim= blocks when editing. Added parameter =buttonrow="top"= to allow the buttons to be positioned at the top of the table. |
+|  26 Sep 2008: | 4.8.7: Arthur Clemens: Let empty table initialize more than one column from =header= parameter |
+|  24 Sep 2008: | 4.8.6: Arthur Clemens: Fix parsing of header labels |
+|  21 Sep 2008: | 4.8.5: Arthur Clemens: Fix rendering of TML inside label |
+|  03 Aug 2008: | 4.8.4: TWiki 4.2.1 release version |
+|  19 Jul 2008: | 4.8.3: Bugfix release |
 |  20 Mar 2008: | 4.8: Arthur Clemens: Code refactoring; disabled table sort when editing; removed usage of =$percnt= to prevent variable expansion (is now done automatically); made Javascript interface aware of headers and footers, and of =changerows="off"=; improved feedback on row move. |
 |  25 Dec 2007: | 4.7.1: Arthur Clemens: Added warning if =include= parameter topic does not exist. |
 |  22 Dec 2007: | 4.7: Arthur Clemens: Changed handling of escaped variables. To escape TWiki variable, use formatting tokens such as =$percnt=. |
-|  16 Dec 2007: | 4.6:  Kenneth Lavrsen: The plugin prevents TablePlugin from initsorting the table being edited. This is done by temporarily appending the attribute disableallsort="on" to the TABLE tag of a table being edited. Additionally all header sorting is disabled while editing a table by setting a hidden formfield =sort= to "off". Disabling sorting while editing is needed now that the EditTablePlugin supports moving rows up and down. |
-|  01 Dec 2007: | 4.3:  Arthur Clemens: added support for TablePlugin =headerrows= and =footerrows=; updated edit button |
-|  16 Oct 2007: | 4.2:  Arthur Clemens: refactoring, bug fixes. |
+|  16 Dec 2007: | 4.6: Kenneth Lavrsen: The plugin prevents TablePlugin from initsorting the table being edited. This is done by temporarily appending the attribute disableallsort="on" to the TABLE tag of a table being edited. Additionally all header sorting is disabled while editing a table by setting a hidden formfield =sort= to "off". Disabling sorting while editing is needed now that the EditTablePlugin supports moving rows up and down. |
+|  01 Dec 2007: | 4.3: Arthur Clemens: added support for TablePlugin =headerrows= and =footerrows=; updated edit button |
+|  16 Oct 2007: | 4.2: Arthur Clemens: refactoring, bug fixes. |
 |  07 Oct 2007: | 15182: PTh: Added %TWIKIWEB%.VarEDITTABLE to have it listed in %TWIKIWEB%.TWikiVariables |
 |  15 Mar 2007: | Arthur Clemens: Fixed eating of double newlines; icons for javascript buttons and interface improvements. By default the javascript interface is turned off, set =JAVASCRIPTINTERFACE= to use it in edit mode. |
 |  05 Mar 2007: | Byron Darrah: Added ability to dynamically move and delete rows. |
@@ -258,12 +260,9 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 |  05 Apr 2002: | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | 5.0 |
-|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle 98%, %TWIKIWEB%.FormattedSearch 98%, %TOPIC% 95% |
 |  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
-
-__Related Topics:__  %TWIKIWEB%.VarEDITTABLE, %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
 
 %META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1071283396" path="EditTablePluginCalendarExample.gif" size="7823" user="TWikiContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1077050633" path="ScreenshotEditCell1.gif" size="2017" user="TWikiContributor" version="1.1"}%
