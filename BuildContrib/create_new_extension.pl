@@ -134,10 +134,10 @@ else {
         $data{PM} . ( $data{"PM_$def{TYPE}"} || '' ) );
 }
 my $modPath = "$stubPath/$def{MODULE}";
-$def{UPLOADTARGETPUB}    = 'http://twiki.org/p/pub';
-$def{UPLOADTARGETSCRIPT} = 'http://twiki.org/cgi-bin';
+$def{UPLOADTARGETPUB}    = 'http://nextwiki.org/pub';
+$def{UPLOADTARGETSCRIPT} = 'http://nextwiki.org/bin';
 $def{UPLOADTARGETSUFFIX} = '';
-$def{UPLOADTARGETWEB}    = "Plugins";
+$def{UPLOADTARGETWEB}    = "Extensions";
 while (1) {
     print <<END;
 The 'upload' target in the generated script will use the following defaults:
