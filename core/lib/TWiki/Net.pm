@@ -311,7 +311,6 @@ sub sendEmail {
     require TWiki::Time;
     my $dateStr = TWiki::Time::formatTime(time, '$email');
     $text = "Date: " . $dateStr . "\n" . $text;
-
     my $errors = '';
     my $back_off = 1; # seconds, doubles on each retry
     while ( $retries-- ) {
@@ -324,6 +323,8 @@ sub sendEmail {
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
             # install that we don't want to share.
+            $e = join( "\n", grep( /^ERROR/, split( /\n/, $e ) ) );
+
             unless( $e =~ /^ERROR/ ) {
                 $e = "Mail could not be sent - see TWiki warning log.";
             }

@@ -595,7 +595,7 @@ sub verify_registerBadVerify {
     $this->assert_matches(qr/From: $TWiki::cfg{WebMasterName} <$TWiki::cfg{WebMasterEmail}>/,$mess);
     $this->assert_matches(qr/To: .*\b$this->{new_user_email}\b/,$mess);
     # check the verification code
-    $this->assert_matches(qr/'$this->{twiki}->{DebugVerificationCode}'/,$mess);
+    $this->assert_matches(qr/'$code'/,$mess);
 }
 
 
@@ -1217,18 +1217,6 @@ sub verify_buildRegistrationEmail {
                 'Confirm' => 'mypassword'
                );
 
-    my $expected = <<EOM;
-$this->{new_user_fullname} - $this->{new_user_wikiname} - $this->{new_user_email}
-
-   * Name: $this->{new_user_fullname}
-   * Email: $this->{new_user_email}
-   * CompanyName: 
-   * CompanyURL: 
-   * Country: Saudi Arabia
-   * Comment: 
-   * Password: mypassword
-   * LoginName: 
-EOM
 
     $this->{twiki}->finish();
     $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin});
@@ -1238,9 +1226,20 @@ EOM
        ($this->{twiki},
         \%data,
         "%FIRSTLASTNAME% - %WIKINAME% - %EMAILADDRESS%\n\n%FORMDATA%",0);
-    $expected =~ s/\s+//g;
-    $actual =~ s/\s+//g;
-    $this->assert_equals( $expected, $actual );
+
+    $this->assert($actual =~ s/$this->{new_user_fullname} - $this->{new_user_wikiname} - $this->{new_user_email}\s*//s, $actual);
+
+    $this->assert($actual =~ /^\s*\*\s*Email:\s*$this->{new_user_email}$/,
+                  $actual);
+    $this->assert($actual =~ /^\s*\*\s*CompanyName:\s*$/, $actual);
+    $this->assert($actual =~ /^\s*\*\s*CompanyURL:\s*$/, $actual);
+    $this->assert($actual =~ /^\s*\*\s*Country:\s*Saudi Arabia$/, $actual);
+    $this->assert($actual =~ /^\s*\*\s*Comment:\s*$/, $actual);
+    $this->assert($actual =~ /^\s*\*\s*Password:\s*mypassword$/, $actual);
+    $this->assert($actual =~ /^\s*\*\s*LoginName:\s*$/, $actual);
+    $this->assert($actual =~ /^\s*\*\s*Name:\s*$this->{new_user_fullname}$/,
+                  $actual);
+
     $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
 }
 
