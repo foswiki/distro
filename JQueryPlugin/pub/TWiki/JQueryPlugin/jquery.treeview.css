@@ -5,12 +5,14 @@
   list-style: none !important;
 }
 
+/*
 .treeview ul {
   margin-top: 4px !important;
 }
+*/
 
 .treeview .hitarea {
-	background: url(images/treeview-default.gif) -64px -25px no-repeat;
+	background: url(images/treeview-default.gif) -64px -23px no-repeat;
 	height: 16px;
 	width: 16px;
 	margin-left: -16px;
@@ -25,7 +27,7 @@
 
 .treeview li { 
   margin: 0px !important;
-  padding: 3px 0pt 3px 16px !important;
+  padding: 1px 0pt 3px 16px !important;
   text-indent:0px !important;
   line-height:normal !important;
 }
@@ -42,6 +44,7 @@
   background-image: url(images/treeview-default-line.gif) !important;
   background-position:0 0 !important;
   background-repeat:no-repeat !important;
+  list-style-type:none;
 }
 .treeview li.collapsable, 
 .treeview li.expandable { background-position: 0 -175px !important; }
@@ -78,7 +81,7 @@
 .treeview-famfamfam li.lastExpandable { background-image: url(images/treeview-famfamfam.gif) !important; } 
 
 
-.filetree li { padding: 3px 0 2px 16px; }
+.filetree li { padding: 1px 0 2px 16px; }
 .filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; }
 .filetree span.folder { background: url(images/folder.gif) 0 0 no-repeat; }
 .filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0 0 no-repeat; }

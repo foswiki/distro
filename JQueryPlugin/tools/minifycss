@@ -1,4 +1,7 @@
 #!/usr/bin/perl -w
+BEGIN {
+  unshift @INC, $ENV{TWIKICPAN} if defined $ENV{TWIKICPAN};
+}
 use CSS::Minifier qw(minify);
 
 foreach my $file (@ARGV) {

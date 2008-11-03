@@ -14,14 +14,46 @@
  *    2 replace the strings "empty" with <plugin-name> in this file
  *
  */
-(function($) {
+
+/***************************************************************************
+ * plugin definition 
+ */
+$.empty = {
+
+    
+  /***********************************************************************
+   * constructor
+   */
+  build: function(options) {
+    writeDebug("called empty()");
+   
+    // build main options before element iteration
+    var opts = $.extend({}, $.fn.empty.defaults, options);
+   
+    // iterate and reformat each matched element
+    return this.each(function() {
+      $this = $(this);
+      
+      // build element specific options. 
+      // note you may want to install the Metadata plugin
+      var thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
+
+      // do it ...
+    });
+  },
+
+  /***************************************************************************
+   * helper function
+   */
+  helper: function() {
+  },
 
   /***************************************************************************
    * private function for debugging using the firebug console
    * TODO: move this to $.twiki.writeDebug()
    */
-  function writeDebug(msg) {
-    if ($.empty.defaults.debug) {
+  writeDebug: function(msg) {
+    if (defaults.debug) {
       if (window.console && window.console.log) {
         window.console.log("DEBUG: empty - "+msg);
       } else {
@@ -32,48 +64,14 @@
   };
 
   /***************************************************************************
-   * plugin definition 
+   * plugin defaults
    */
-  $.empty = {
+  defaults: {
+    debug: false
+  };
+}
 
-      
-    /***********************************************************************
-     * constructor
-     */
-    build: function(options) {
-      writeDebug("called empty()");
-     
-      // build main options before element iteration
-      var opts = $.extend({}, $.fn.empty.defaults, options);
-     
-      // iterate and reformat each matched element
-      return this.each(function() {
-        $this = $(this);
-        
-        // build element specific options. 
-        // note you may want to install the Metadata plugin
-        var thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
-
-        // do it ...
-      });
-    },
-
-    /***************************************************************************
-     * helper function
-     */
-    helper: function() {
-    },
-
-    /***************************************************************************
-     * plugin defaults
-     */
-    defaults: {
-      debug: false
-    };
-  }
-
-
-  /* register by extending jquery */
-  $.fn.empty = build;
-
+/* register by extending jquery */
+(function($) {
+  $.fn.empty = $.empty.build;
 })(jQuery);

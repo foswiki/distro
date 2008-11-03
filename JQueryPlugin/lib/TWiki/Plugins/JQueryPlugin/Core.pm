@@ -21,6 +21,12 @@ use constant DEBUG => 0; # toggle me
 use vars qw($tabPaneCounter $tabCounter);
 
 ###############################################################################
+sub init {
+  $tabPaneCounter = 0;
+  $tabCounter = 0;
+}
+
+###############################################################################
 sub handleTabPane {
   my ($session, $params, $theTopic, $theWeb) = @_;
 

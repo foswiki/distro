@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1202906066" format="1.1" reprev="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="TWikiContributor" date="1224177924" format="1.1" reprev="1.4" version="$Rev$"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>TWikiWidgets implemented by the %TWIKIWEB%.JQueryPlugin
@@ -177,3 +177,146 @@ sit amet sapien.  Intege
 <script type="text/javascript">
 $(".jqRounded").roundedCorners();
 </script>
+
+---++ Rating
+%JQSCRIPT{"jquery.rating"}%
+%JQSTYLE{"jquery.rating"}%
+<script type="text/javascript">
+$(function() {
+  $(".rating").rating({
+    focus: function(value, link) {
+      $("#test-tip").html(link.title || link.value);
+    },
+    blur: function(value, link) {
+      $("#test-tip").html('&nbsp;');
+    }
+  });
+});
+</script>
+
+<form>
+<input type="radio" name="test" value="1" class="rating" title="very low"/>
+<input type="radio" name="test" value="2" class="rating" title="low" />
+<input type="radio" name="test" value="3" class="rating" title="substandard" />
+<input type="radio" name="test" value="4" class="rating" title="standard" />
+<input type="radio" name="test" value="5" class="rating" title="superior" />
+<input type="radio" name="test" value="6" class="rating" title="I like it" />
+<input type="radio" name="test" value="7" class="rating" title="quite good" />
+<input type="radio" name="test" value="8" class="rating" title="good" />
+<input type="radio" name="test" value="9" class="rating" title="very good" />
+<input type="radio" name="test" value="10" class="rating" title="excelent" />
+<span id="test-tip" style="margin-left:10px">&nbsp;</span>
+</form>
+
+---++ Autocompletion
+%JQSCRIPT{"jquery.autocomplete"}%
+%JQSTYLE{"jquery.autocomplete"}%
+
+<literal>
+<script>
+  $(function(){
+    $("#example").autocomplete(
+      ["admin", 
+       "backup",
+       "bash",
+       "emulation",
+       "games",
+       "irc",
+       "linux",
+       "mercurial",
+       "patches",
+       "perl",
+       "php",
+       "python",
+       "site",
+       "surfing",
+       "tag",
+       "test",
+       "twiki",
+       "web",
+       "wiki",
+       "windows",
+       "windsurfing",
+       "wine"
+      ],
+      {multiple: true }
+    );
+  });
+</script>
+</literal>
+
+*Enter tags:* 
+<input class="twikiInputField" id="example" size='42' />
+
+
+
+---++ Client-side form validation
+<form id="validateForm">
+<label for="username">First name:</label>
+<input type="text" size="30" class="required" name="username" />
+
+<input type="submit" value="Submit" />
+</form>
+
+%JQSCRIPT{"jquery.validate"}%
+<script type="text/javascript">
+  $("#validateForm").validate();
+</script>
+
+---++ Animated slideshows
+<div class="pics">
+<div>
+  <img src="%ATTACHURLPATH%/beach1.jpg" />
+
+  St Andrews State Park
+</div>
+<div>
+  <img src="%ATTACHURLPATH%/beach2.jpg" />
+
+  Located in the Florida panhandle
+</div>
+<div>
+  <img src="%ATTACHURLPATH%/beach3.jpg" />
+  
+  Endless fun.
+</div>
+</div>
+<literal>
+<style type="text/css">
+.pics  {  
+ width:232px;
+ height:262px;
+ padding:0;  
+ margin:0;
+ text-align:center;
+}
+.pics img {  
+ padding: 15px;  
+ border:  1px solid #ccc;  
+ background-color: #eee;  
+ width:  200px; 
+ height: 200px; 
+ top:  0; 
+ left: 0 
+} 
+</style>
+</literal>
+%JQSCRIPT{"jquery.cycle"}%
+%JQSCRIPT{"jquery.cycle.trans"}%
+<script type="text/javascript">
+$(".pics").cycle({fx:'scrollLeft'});
+</script>
+
+---++ Code highlightning
+%JQSCRIPT{"jquery.chili"}%
+<verbatim class="html">
+<script type="text/javascript" src="SOMEWHERE_ELSE/jquery.js"></script> 
+<script type="text/javaScript" src="SOMEWHERE/jquery.chili-2.2.js"></script> 
+<script type="text/javascript"> 
+  ChiliBook.recipeFolder = "SOMEWHERE/";  
+</script> 
+</verbatim>
+
+%META:FILEATTACHMENT{name="beach1.jpg" attachment="beach1.jpg" attr="" comment="" date="1224090781" path="beach1.jpg" size="20327" stream="IO::File=GLOB(0x8e9d47c)" tmpFilename="/var/tmp/CGItemp27605" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach2.jpg" attachment="beach2.jpg" attr="" comment="" date="1224090795" path="beach2.jpg" size="21480" stream="IO::File=GLOB(0x8e9f36c)" tmpFilename="/var/tmp/CGItemp30447" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="beach3.jpg" attachment="beach3.jpg" attr="" comment="" date="1224090802" path="beach3.jpg" size="22629" stream="IO::File=GLOB(0x8e9fac4)" tmpFilename="/var/tmp/CGItemp30341" user="TWikiContributor" version="1"}%

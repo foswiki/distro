@@ -285,7 +285,9 @@ $(function(){
       });
   }
 
-  /* finally show treeviews */
+  /********************************************************
+   * finally show treeviews 
+   */
   if ($jqTreeviews) {
     $jqTreeviews.css('display', 'block');
   }

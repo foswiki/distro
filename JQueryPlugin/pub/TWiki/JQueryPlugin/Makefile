@@ -1,39 +1,50 @@
-TWIKIROOT=~/twiki/MAIN
+TWIKIROOT=~/twiki/trunk/core
 TARGET= \
-  jquery-all.js \
-  jquery-all.css \
-  jquery.superfish.js \
-  jquery.superfish.css \
-  jquery.debug.js \
-  jquery.spinner.js \
-  ui.accordion.js \
-  ui.core.js \
-  ui.datepicker.js \
-  ui.dialog.js \
-  ui.draggable.js \
-  ui.droppable.js \
-  ui.mouse.js \
-  ui.resizable.js \
-  ui.selectable.js \
-  ui.slider.js \
-  ui.sortable.js \
-  ui.tabs.js \
-  effects.blind.js \
-  effects.bounce.js \
-  effects.clip.js \
-  effects.core.js \
-  effects.drop.js \
-  effects.explode.js \
-  effects.fold.js \
-  effects.highlight.js \
-  effects.pulsate.js \
-  effects.scale.js \
-  effects.shake.js \
-  effects.slide.js \
-  effects.transfer.js
+  effects.blind.js.gz \
+  effects.bounce.js.gz \
+  effects.clip.js.gz \
+  effects.core.js.gz \
+  effects.drop.js.gz \
+  effects.explode.js.gz \
+  effects.fold.js.gz \
+  effects.highlight.js.gz \
+  effects.pulsate.js.gz \
+  effects.scale.js.gz \
+  effects.shake.js.gz \
+  effects.slide.js.gz \
+  effects.transfer.js.gz \
+  jquery-all.css.gz \
+  jquery-all.js.gz \
+  jquery.autocomplete.js.gz \
+  jquery.cycle.js.gz \
+  jquery.cycle.trans.js.gz \
+  jquery.debug.js.gz \
+  jquery.form.js.gz \
+  jquery.maskedinput.js.gz \
+  jquery.rating.css.gz \
+  jquery.rating.js.gz \
+  jquery.spinner.js.gz \
+  jquery.superfish.css.gz \
+  jquery.superfish.js.gz \
+  jquery.validate.additional-methods.js.gz \
+  jquery.validate.js.gz \
+  ui.accordion.js.gz \
+  ui.core.js.gz \
+  ui.datepicker.js.gz \
+  ui.dialog.js.gz \
+  ui.draggable.js.gz \
+  ui.droppable.js.gz \
+  ui.mouse.js.gz \
+  ui.resizable.js.gz \
+  ui.selectable.js.gz \
+  ui.slider.js.gz \
+  ui.sortable.js.gz \
+  ui.tabs.js
 
-MINIFYJS=$(TWIKIROOT)/tools/minifyjs
-MINIFYCSS=$(TWIKIROOT)/tools/minifycss
+
+MINIFYJS=TWIKICPAN=$(TWIKIROOT)/lib/CPAN/lib $(TWIKIROOT)/tools/minifyjs
+MINIFYCSS=TWIKICPAN=$(TWIKIROOT)/lib/CPAN/lib $(TWIKIROOT)/tools/minifycss
+GZIP=gzip
 
 
 .SUFFIXES: .js .css
@@ -42,6 +53,10 @@ all: $(TARGET)
 clean: 
 	rm -f $(TARGET)
 
+JS_VALIDATE_SOURCE=\
+  jquery.validate.uncompressed.js \
+  jquery.validate.additional-methods.js
+
 JS_SOURCES=\
   jquery.js \
   jquery.metadata.js \
@@ -49,15 +64,14 @@ JS_SOURCES=\
   jquery.hoverIntent.js \
   jquery.bgiframe.js \
   jquery.shrinkurls.js \
-  jquery.blockUI.js \
   jquery.innerfade.js \
-  jquery.dom.js \
   jquery.tooltip.js \
   jquery.nifty.js \
   jquery.treeview.js \
   jquery.treeview.async.js \
   jquery.twiki.js \
-  jquery.tabpane.js
+  jquery.tabpane.js \
+  jquery.chili.js
 
 CSS_SOURCES=\
   jquery.nifty.css \
@@ -65,15 +79,27 @@ CSS_SOURCES=\
   jquery.tabpane.css \
   jquery.treeview.css
 
-jquery-all.js: $(JS_SOURCES) Makefile $(MINIFYJS)
+jquery-all.js: $(JS_SOURCES) Makefile
 	@echo creating $@
 	@$(MINIFYJS) $(JS_SOURCES) > $@
 
 
-jquery-all.css: $(CSS_SOURCES) Makefile
+jquery-all.css: $(CSS_SOURCES) 
 	@echo creating $@
 	@$(MINIFYCSS) $(CSS_SOURCES) > $@
+
+jquery.validate.js: $(JS_VALIDATE_SOURCE)
+	@echo creating $@ from $(JS_VALIDATE_SOURCE)
+	@$(MINIFYJS) $(JS_VALIDATE_SOURCE) > $@
 
 %.js: %.uncompressed.js
 	@echo creating $@ from $<
 	@$(MINIFYJS) $< > $@
+
+%.gz: %
+	@echo compressing $< to $@
+	@$(GZIP) -c $< > $@
+
+%.css: %.uncompressed.css
+	@echo creating $@ from $<
+	@$(MINIFYCSS) $< > $@

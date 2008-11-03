@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1209548528" format="1.1" reprev="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="TWikiContributor" date="1224177960" format="1.1" reprev="1.1" version="$Rev$"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for TWiki
@@ -10,8 +10,8 @@
 ---++ Description
 <table style="float:right">
 <tr>
-  <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png"></td>
-  <td><a href="http://wikiring.de" title="Make your Wiki ring!" style="text-decoration:none">
+  <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png" title="Make your Wiki ring!" alt="WikiRing"></td>
+  <td><a href="http://wikiring.com" title="Make your Wiki ring!" style="text-decoration:none">
       Powered by <br /> <nop>WikiRing Consultants </a>
   </td>
 </tr>
@@ -28,36 +28,41 @@ your web pages."
 See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by TWiki.
 
 ---++ Included libraries
-   1 jquery
-   1 jquery.bgiframe
-   1 jquery.blockUI
-   1 jquery.debug
-   1 jquery.dimensions
-   1 jquery.dom 
-   1 jquery.easing
-   1 jquery.hoverIntent
-   1 jquery.innerfade
-   1 jquery.metadata 
-   1 jquery.nifty
-   1 jquery.shrinkurls
-   1 jquery.spinner
-   1 jquery.superfish
-   1 jquery.tabpane (non-ui version)
-   1 jquery.tooltip
-   1 jquery.treeview
-   1 ui.accordion
-   1 ui.datepicker
-   1 ui.dialog
-   1 ui.draggable
-   1 ui.droppable
-   1 ui.mouse
-   1 ui.resizable
-   1 ui.selectable
-   1 ui.slider
-   1 ui.sortable
-   1 ui.tabs
+   1 [[http://docs.jquery.com][jquery]]: the core  
+   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/][jquery.autocomplete]]: add an autocomplete to input fields   
+   1 jquery.bgiframe: helps ease the pain when having to deal with IE z-index issues  
+   1 [[http://malsup.com/jquery/block/][jquery.blockUI]]: an alternative to synchronous ajax; block the UI without locking the browser   
+   1 [[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting
+   1 [[http://www.malsup.com/jquery/cycle/][jquery.cycle, jquery.cycle.trans]]: easy to use light-weight slideshow implementation
+   1 jquery.debug: helps debugging jquery code  
+   1 [[http://gsgd.co.uk/sandbox/jquery/easing/][jquery.easing]] set custom easing types for standard animations  
+   1 [[http://www.malsup.com/jquery/form/][jquery.form]]: handle form submits via ajax and submit the form just like it is a normal submit   
+   1 [[http://cherne.net/brian/resources/jquery.hoverIntent.html][jquery.hoverIntent]]: similar to jQuery's hover. However, onMouseOver hoverIntent tracks the user's mouse and waits until it slows down before calling the onMouseOver function   
+   1 [[http://medienfreunde.com/lab/innerfade/][jquery.innerfade]]: a more flexible version of Slideshow   
+   1 [[http://digitalbush.com/projects/masked-input-plugin/][jquery.maskedinput]]: mask the characters allowed in an input field.    
+   1 [[http://docs.jquery.com/Plugins/Metadata][jquery.metadata]]: read metadata from classes, attributes or elements   
+   1 [[http://methvin.com/jquery/jq-corner.html][jquery.nifty]]: create rounded corners, TODO: replace with   
+   1 [[http://www.fyneworks.com/jquery/star-rating/][jquery.rating]]: create a non-obstrusive star rating control   
+   1 jquery.shrinkurls:  shrink link long link texts  
+   1 jquery.spinner: simple jQuery spinner  
+   1 [[http://users.tpg.com.au/j_birch/plugins/superfish/][jquery.superfish]]: multi-tiered dropdown menus including a time delay on mouseover   
+   1 jquery.tabpane: create a tabpane widget  (non-ui version)  
+   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/][jquery.tooltip]]: create customizable tooltips   
+   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-treeview/][jquery.treeview]] create a leightweight and unobtrusive expanding and collapsing treeview control   
+   1 [[http://bassistance.de/jquery-plugins/jquery-plugin-validation/][jquery.validate]]: client-side form validation   
+   1 ui.accordion   
+   1 ui.datepicker   
+   1 ui.dialog   
+   1 ui.draggable   
+   1 ui.droppable   
+   1 ui.mouse   
+   1 ui.resizable   
+   1 ui.selectable   
+   1 ui.slider   
+   1 ui.sortable   
+   1 ui.tabs   
 
----++ Documentation
+---++ Further references and tutorials
    * [[http://docs.jquery.com/How_jQuery_Works][Getting the feet wet]]
    * [[http://docs.jquery.com/Tutorials][Tutorials]]
    * [[http://docs.jquery.com/Main_Page][Reference API]]
@@ -76,7 +81,7 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
 
 The following themes are provided:
    * =flora= theme
-   * =ogray= theme
+   * =ogray= theme (outdated)
 
 ---++ Examples
 
@@ -93,8 +98,10 @@ The following themes are provided:
 |  Plugin Author(s): | TWiki:Main/MichaelDaum |
 |  Copyright: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v0.9 |
+|  Plugin Version: | v0.92 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Oct 2008: | added jquery.autocomplete, jquery.cycle |
+|  20 Jul 2008: | added jquery.form, jquery.maskedinput, jquery.validate |
 |  15 Jul 2008: | updated to ui-1.5.2; added async treeview; added async options to tabpane |
 |  03 Jul 2008: | updated to ui-1.5.1 |
 |  05 Jun 2008: | updated to jquery-1.2.6 and ui-1.5-RC1 |

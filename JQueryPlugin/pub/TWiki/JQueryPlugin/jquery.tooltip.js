@@ -1,15 +1,43 @@
-/*
- * jQuery Tooltip plugin 1.2
- *
- * http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
- * http://docs.jquery.com/Plugins/Tooltip
- *
- * Copyright (c) 2006 - 2008 Jörn Zaefferer
- *
- * $Id: jquery.tooltip.js 4569 2008-01-31 19:36:35Z joern.zaefferer $
- * 
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
- */
-eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}(';(3($){m d={},k,g,w,S=$.2f.21&&/1Y\\s(5\\.5|6\\.)/.1B(1w.2e),H=1h;$.f={r:1h,1b:{O:1Q,11:Z,U:"",u:15,z:15,R:"f"},1t:3(){$.f.r=!$.f.r}};$.F.1o({f:3(a){a=$.1o({},$.f.1b,a);1j(a);e 2.B(3(){$.1d(2,"f-7",a);2.T=2.g;$(2).1W("g");2.1U=""}).1S(16,l).1O(l)},D:S?3(){e 2.B(3(){m b=$(2).o(\'N\');4(b.1G(/^j\\(["\']?(.*\\.1C)["\']?\\)$/i)){b=1y.$1;$(2).o({\'N\':\'1x\',\'17\':"1u:1s.1r.2c(2b=Z, 2a=29, 1k=\'"+b+"\')"}).B(3(){m a=$(2).o(\'1m\');4(a!=\'23\'&&a!=\'1i\')$(2).o(\'1m\',\'1i\')})}})}:3(){e 2},1g:S?3(){e 2.B(3(){$(2).o({\'17\':\'\',N:\'\'})})}:3(){e 2},1f:3(){e 2.B(3(){$(2)[$(2).C()?"n":"l"]()})},j:3(){e 2.1e(\'1Z\')||2.1e(\'1k\')}});3 1j(a){4(d.8)e;d.8=$(\'<p R="\'+a.R+\'"><W></W><p 1c="9"></p><p 1c="j"></p></p>\').1X(I.9).l();4($.F.1a)d.8.1a();d.g=$(\'W\',d.8);d.9=$(\'p.9\',d.8);d.j=$(\'p.j\',d.8)}3 7(a){e $.1d(a,"f-7")}3 19(a){4(7(2).O)w=1T(n,7(2).O);A n();H=!!7(2).H;$(I.9).1R(\'K\',q);q(a)}3 16(){4($.f.r||2==k||(!2.T&&!7(2).J))e;k=2;g=2.T;4(7(2).J){d.g.l();m a=7(2).J.1P(2);4(a.1N||a.1M){d.9.12().P(a)}A{d.9.C(a)}d.9.n()}A 4(7(2).10){m b=g.1L(7(2).10);d.g.C(b.1K()).n();d.9.12();1J(m i=0,M;M=b[i];i++){4(i>0)d.9.P("<1I/>");d.9.P(M)}d.9.1f()}A{d.g.C(g).n();d.9.l()}4(7(2).11&&$(2).j())d.j.C($(2).j().1H(\'1F://\',\'\')).n();A d.j.l();d.8.V(7(2).U);4(7(2).D)d.8.D();19.1E(2,1D)}3 n(){w=L;d.8.n();q()}3 q(c){4($.f.r)e;4(!H&&d.8.1A(":1z")){$(I.9).18(\'K\',q)}4(k==L){$(I.9).18(\'K\',q);e}d.8.Q("t-Y").Q("t-13");m b=d.8[0].14;m a=d.8[0].X;4(c){b=c.1v+7(k).z;a=c.1V+7(k).u;d.8.o({z:b+\'E\',u:a+\'E\'})}m v=t(),h=d.8[0];4(v.x+v.1q<h.14+h.1p){b-=h.1p+20+7(k).z;d.8.o({z:b+\'E\'}).V("t-Y")}4(v.y+v.1l<h.X+h.1n){a-=h.1n+20+7(k).u;d.8.o({u:a+\'E\'}).V("t-13")}}3 t(){e{x:$(G).28(),y:$(G).27(),1q:$(G).26(),1l:$(G).25()}}3 l(a){4($.f.r)e;4(w)24(w);k=L;d.8.l().Q(7(2).U);4(7(2).D)d.8.1g()}$.F.2d=$.F.f})(22);',62,140,'||this|function|if|||settings|parent|body|||||return|tooltip|title|||url|current|hide|var|show|css|div|update|blocked||viewport|top||tID|||left|else|each|html|fixPNG|px|fn|window|track|document|bodyHandler|mousemove|null|part|backgroundImage|delay|append|removeClass|id|IE|tooltipText|extraClass|addClass|h3|offsetTop|right|true|showBody|showURL|empty|bottom|offsetLeft||save|filter|unbind|handle|bgiframe|defaults|class|data|attr|hideWhenEmpty|unfixPNG|false|relative|createHelper|src|cy|position|offsetHeight|extend|offsetWidth|cx|Microsoft|DXImageTransform|block|progid|pageX|navigator|none|RegExp|visible|is|test|png|arguments|apply|http|match|replace|br|for|shift|split|jquery|nodeType|click|call|200|bind|hover|setTimeout|alt|pageY|removeAttr|appendTo|MSIE|href||msie|jQuery|absolute|clearTimeout|height|width|scrollTop|scrollLeft|crop|sizingMethod|enabled|AlphaImageLoader|Tooltip|userAgent|browser'.split('|'),0,{}))
+;(function($){var helper={},current,title,tID,IE=$.browser.msie&&/MSIE\s(5\.5|6\.)/.test(navigator.userAgent),track=false;$.tooltip={blocked:false,defaults:{delay:200,fade:false,showURL:true,extraClass:"",top:15,left:15,id:"tooltip"},block:function(){$.tooltip.blocked=!$.tooltip.blocked;}};$.fn.extend({tooltip:function(settings){settings=$.extend({},$.tooltip.defaults,settings);createHelper(settings);return this.each(function(){$.data(this,"tooltip",settings);this.tOpacity=helper.parent.css("opacity");this.tooltipText=this.title;$(this).removeAttr("title");this.alt="";})
+.mouseover(save)
+.mouseout(hide)
+.click(hide);},fixPNG:IE?function(){return this.each(function(){var image=$(this).css('backgroundImage');if(image.match(/^url\(["']?(.*\.png)["']?\)$/i)){image=RegExp.$1;$(this).css({'backgroundImage':'none','filter':"progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=crop, src='"+image+"')"}).each(function(){var position=$(this).css('position');if(position!='absolute'&&position!='relative')
+$(this).css('position','relative');});}});}:function(){return this;},unfixPNG:IE?function(){return this.each(function(){$(this).css({'filter':'',backgroundImage:''});});}:function(){return this;},hideWhenEmpty:function(){return this.each(function(){$(this)[$(this).html()?"show":"hide"]();});},url:function(){return this.attr('href')||this.attr('src');}});function createHelper(settings){if(helper.parent)
+return;helper.parent=$('<div id="'+settings.id+'"><h3></h3><div class="body"></div><div class="url"></div></div>')
+.appendTo(document.body)
+.hide();if($.fn.bgiframe)
+helper.parent.bgiframe();helper.title=$('h3',helper.parent);helper.body=$('div.body',helper.parent);helper.url=$('div.url',helper.parent);}
+function settings(element){return $.data(element,"tooltip");}
+function handle(event){if(settings(this).delay)
+tID=setTimeout(show,settings(this).delay);else
+show();track=!!settings(this).track;$(document.body).bind('mousemove',update);update(event);}
+function save(){if($.tooltip.blocked||this==current||(!this.tooltipText&&!settings(this).bodyHandler))
+return;current=this;title=this.tooltipText;if(settings(this).bodyHandler){helper.title.hide();var bodyContent=settings(this).bodyHandler.call(this);if(bodyContent.nodeType||bodyContent.jquery){helper.body.empty().append(bodyContent)}else{helper.body.html(bodyContent);}
+helper.body.show();}else if(settings(this).showBody){var parts=title.split(settings(this).showBody);helper.title.html(parts.shift()).show();helper.body.empty();for(var i=0,part;(part=parts[i]);i++){if(i>0)
+helper.body.append("<br/>");helper.body.append(part);}
+helper.body.hideWhenEmpty();}else{helper.title.html(title).show();helper.body.hide();}
+if(settings(this).showURL&&$(this).url())
+helper.url.html($(this).url().replace('http://','')).show();else
+helper.url.hide();helper.parent.addClass(settings(this).extraClass);if(settings(this).fixPNG)
+helper.parent.fixPNG();handle.apply(this,arguments);}
+function show(){tID=null;if((!IE||!$.fn.bgiframe)&&settings(current).fade){if(helper.parent.is(":animated"))
+helper.parent.stop().show().fadeTo(settings(current).fade,current.tOpacity);else
+helper.parent.is(':visible')?helper.parent.fadeTo(settings(current).fade,current.tOpacity):helper.parent.fadeIn(settings(current).fade);}else{helper.parent.show();}
+update();}
+function update(event){if($.tooltip.blocked)
+return;if(event&&event.target.tagName=="OPTION"){return;}
+if(!track&&helper.parent.is(":visible")){$(document.body).unbind('mousemove',update)}
+if(current==null){$(document.body).unbind('mousemove',update);return;}
+helper.parent.removeClass("viewport-right").removeClass("viewport-bottom");var left=helper.parent[0].offsetLeft;var top=helper.parent[0].offsetTop;if(event){left=event.pageX+settings(current).left;top=event.pageY+settings(current).top;var right='auto';if(settings(current).positionLeft){right=$(window).width()-left;left='auto';}
+helper.parent.css({left:left,right:right,top:top});}
+var v=viewport(),h=helper.parent[0];if(v.x+v.cx<h.offsetLeft+h.offsetWidth){left-=h.offsetWidth+20+settings(current).left;helper.parent.css({left:left+'px'}).addClass("viewport-right");}
+if(v.y+v.cy<h.offsetTop+h.offsetHeight){top-=h.offsetHeight+20+settings(current).top;helper.parent.css({top:top+'px'}).addClass("viewport-bottom");}}
+function viewport(){return{x:$(window).scrollLeft(),y:$(window).scrollTop(),cx:$(window).width(),cy:$(window).height()};}
+function hide(event){if($.tooltip.blocked)
+return;if(tID)
+clearTimeout(tID);current=null;var tsettings=settings(this);function complete(){helper.parent.removeClass(tsettings.extraClass).hide().css("opacity","");}
+if((!IE||!$.fn.bgiframe)&&tsettings.fade){if(helper.parent.is(':animated'))
+helper.parent.stop().fadeTo(tsettings.fade,0,complete);else
+helper.parent.stop().fadeOut(tsettings.fade,complete);}else
+complete();if(settings(this).fixPNG)
+helper.parent.unfixPNG();}})(jQuery);;
