@@ -1,29 +1,8 @@
-%TMPL:INCLUDE{"editform"}%
-
-%TMPL:DEF{"pagetitle"}%<h1 class="patternTemplateTitle"><nop>%TOPIC% %MAKETEXT{"(edit form)"}%</h1>%TMPL:END%
-
-%TMPL:DEF{"content"}%<!-- -->
-%TMPL:P{"pagetitle"}%
-<div class="patternFormHolder">
-<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">
-<input type="hidden" name="action_addform" value="" />
-<input type="hidden" name="action_replaceform" value="" />
-<input type="hidden" name="action_preview" value="" />
-<input type="hidden" name="action_save" value="" />
-<input type="hidden" name="action_checkpoint" value="" />
-<input type="hidden" name="action_cancel" value="" />
-<input type="hidden" name="text" value="%TEXT%" />
-<input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
-<input type="hidden" name="redirectto" value="%REDIRECTTO%" />
-<input type="hidden" name="topicparent" value="%TOPICPARENT%" />
-<input type="hidden" name="settingstopic" value="%SETTINGSTOPIC%" />
-<input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
-<input type="hidden" name="editaction" value="form" />
-<input type="hidden" name="cmd" value="%CMD%" /><div></div>
-%TABPANE%
-%TMPL:P{"formfields"}%
-%TAB{"%MAKETEXT{"Help"}%" after="fixHeightOfPane()"}% %TMPL:P{"edithelp"}% %ENDTAB%
-%ENDTABPANE%
-%TMPL:P{"bottomtopicactions"}%
-</form></div><!-- /patternFormHolder-->%TMPL:END%
+%TMPL:INCLUDE{"edit"}%<!-- template: editform.natedit.tmpl -->
+%TMPL:DEF{"title"}%%TOPICTITLE% (%MAKETEXT{"edit form"}%) - %WIKITOOLNAME%%TMPL:END%
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit form)"}% %TMPL:END%
+%TMPL:DEF{"pagetitle"}%[[%WEB%.%TOPIC%]] (%MAKETEXT{"edit form"}%)%TMPL:END%
+%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
+%TMPL:DEF{"firsttab"}%%TMPL:END%
+%TMPL:DEF{"settingstab"}%%TMPL:END%
 %TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%

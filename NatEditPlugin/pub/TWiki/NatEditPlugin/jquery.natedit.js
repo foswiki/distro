@@ -1,5 +1,5 @@
 /*
- * jQuery NatEdit plugin 1.0
+ * jQuery NatEdit plugin 1.1
  *
  * Copyright (c) 2008 Michael Daum http://michaeldaumconsulting.com
  *
@@ -120,7 +120,7 @@ $.natedit = {
     imageButton: '<li class="natEditImageButton"><a href="javascript:void(0)" title="Embed image"><span>Image</span></a></li>',
     verbatimButton: '<li class="natEditVerbatimButton"><a href="javascript:void(0)" title="Ignore wiki formatting"><span>Verbatim</span></a></li>',
     signatureButton: '<li class="natEditSignatureButton"><a href="javascript:void(0)" title="Your signature with timestamp"><span>Sign</span></a></li>',
-    h1Markup: ['---+ ','%TOPIC%',''],
+    h1Markup: ['---+!! ','%TOPIC%',''],
     h2Markup: ['---++ ','Headline text',''],
     h3Markup: ['---+++ ','Headline text',''],
     h4Markup: ['---++++ ','Headline text',''],
@@ -623,6 +623,28 @@ $.natedit = {
 
 $.fn.natedit = $.natedit.build;
 
+
 })(jQuery);
 
+$(function() {
+
+  var foundNatEdit = false;
+  $(".natedit").each(function() {
+    $(this).natedit({
+      autoMaxExpand:true,
+      signatureMarkup: ['-- ', twiki.wikiUserName, ' - '+twiki.serverTime],
+      gotImagePlugin: twiki.ImagePluginEnabled,
+      gotMathModePlugin: twiki.MathModePluginEnabled 
+    });
+    foundNatEdit = true;
+  });
+  if (foundNatEdit) {
+    var savetext = $("#savearea").val();
+    if (savetext) {
+      $("#topic").val(savetext);
+    }
+
+    window.setTimeout(fixHeightOfPane, 1);
+  }
+});
 

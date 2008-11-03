@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="TWikiContributor" date="1209484064" format="1.1" reprev="1.2" version="$Rev$"}%
----+!! Natural Edit Contrib
+---+!! Natural Edit Plugin
 <!--
 
    PLEASE DO NOT EDIT THIS TOPIC
@@ -46,7 +46,7 @@ jquery.natedit docu
 
 ---++ Configuration
 *PatternSkin:* %BR%
-To enable the <nop>NatEditContrib add the identifier =natedit= to the =SKIN= 
+To enable the <nop>NatEditPlugin add the identifier =natedit= to the =SKIN= 
 variable in %MAINWEB%.TWikiPreferences or WebPreferences, e.g.
 <pre>
    * <!-- -->Set SKIN = natedit,pattern
@@ -54,7 +54,7 @@ variable in %MAINWEB%.TWikiPreferences or WebPreferences, e.g.
 
 *NatSkin:* %BR%
 No extra configuration steps are needed in case you are using TWiki:Plugins/NatSkin.
-<nop>NatEditContrib is the default editor for <nop>NatSkin, that is the normal
+<nop>NatEditPlugin is the default editor for <nop>NatSkin, that is the normal
 <pre>
    * <!-- -->Set SKIN = nat
 </pre>
@@ -68,14 +68,14 @@ is sufficient.
 
 ---++ <nop>JSUnitContrib based Unit tests
 There is a small set of browser based unit tests defined in
-NatEditContribJSUnitTests that can be run as a problem diagnosing tool. These
+NatEditPluginJSUnitTests that can be run as a problem diagnosing tool. These
 require the installation of TWiki:Plugins.JSUnitContrib, and then can be run
 from
-*[[%PUBURL%/%TWIKIWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/NatEditContribJSUnitTests][Run all tests]]*
+*[[%PUBURL%/%TWIKIWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/NatEditPluginJSUnitTests][Run all tests]]*
 
 Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 
----++ Contrib Info
+---++ Plugin Info
 Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIKI.NET]]
 
 |  Author: | TWiki:Main/MichaelDaum |

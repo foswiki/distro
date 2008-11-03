@@ -6,6 +6,6 @@ BEGIN {
 }
 
 use TWiki::Contrib::Build;
-$build = new TWiki::Contrib::Build( 'NatEditContrib' );
+$build = new TWiki::Contrib::Build( 'NatEditPlugin' );
 $build->build($build->{target});
 

@@ -1,60 +1,76 @@
-%TMPL:INCLUDE{"edit"}%
-%TMPL:INCLUDE{"editjavascript"}%
-%TMPL:INCLUDE{"edittoolbar"}%
-%TMPL:INCLUDE{"edithelp"}%
-
-<!-- template: edit.natedit.tmpl -->
-
-%TMPL:DEF{"twikistyle"}%%TMPL:P{"styles"}%%TMPL:END%
+%TMPL:INCLUDE{"edit"}%<!-- template: edit.natedit.tmpl -->
+%TMPL:INCLUDE{"editjavascript"}%<!-- editjavascript// -->
+%TMPL:INCLUDE{"edittoolbar"}%<!-- edittoolbar// -->
+%TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
 
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
-%TMPL:DEF{"pagetitle"}%<h1 class="patternTemplateTitle"><nop>%TOPIC% %MAKETEXT{"(edit)"}%</h1>%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
+%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
 
-%TMPL:DEF{"styles"}%
-%TMPL:P{"stylesscreen"}%
-<style type="text/css" media="all">
-  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/styles.css");
-  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
-</style>
-%TMPL:END%
+%TMPL:DEF{"content"}%<!-- content -->
+%TMPL:P{"contenttitle"}%<!-- contenttitle// -->
+%TMPL:P{"formstart"}%<!-- formstart// -->
+%TMPL:P{"formattop"}%<!-- formatop// -->
+%TMPL:P{"tabpane"}%<!-- tabpane// -->
+%TMPL:P{"bottomtopicactions"}%<!-- bottomtopicactions// -->
+%TMPL:P{"formend"}%<!-- formend //-->
+<!-- //content -->%TMPL:END%
 
-%TMPL:DEF{"content"}%<!-- -->
+%TMPL:DEF{"formstart"}%<!-- formstart -->
 <div class="natEdit">
-%TMPL:P{"pagetitle"}%
-%TMPL:P{"formstart"}%%TMPL:P{"formattop"}%
+<form name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">
 <input type="hidden" name="action_addform" value="" />
-<input type="hidden" name="action_replaceform" value="" />
-<input type="hidden" name="action_preview" value="" />
-<input type="hidden" name="action_save" value="" />
-<input type="hidden" name="action_checkpoint" value="" />
 <input type="hidden" name="action_cancel" value="" />
+<input type="hidden" name="action_checkpoint" value="" />
+<input type="hidden" name="action_preview" value="" />
+<input type="hidden" name="action_replaceform" value="" />
+<input type="hidden" name="action_save" value="" />
+<input type="hidden" name="cmd" value="%CMD%" /> 
+<input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
+<input type="hidden" name="forcenewrevision" value="%URLPARAM{"forcenewrevision"}%" />
+<input type="hidden" name="newtopic" value="%NEWTOPIC%" />
+<input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />
+<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
+<input type="hidden" name="redirectto" value="%REDIRECTTO%" />
+<input type="hidden" name="rev" value="%URLPARAM{"rev"}%" />
+<input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
+<input type="hidden" name="submitChangeForm" value="" /> 
+<input type="hidden" name="formtemplate" value="%FORMTEMPLATE%" />
+<input type="hidden" name="templatetopic" value="%TEMPLATETOPIC%" />
+<input type="hidden" name="template" value="%URLPARAM{"template"}%" />
+<input type="hidden" name="editaction" value="%URLPARAM{"action"}%" />
 <textarea rows="5" cols="22" style="display:none" id="savearea"></textarea>
-%TMPL:P{"tabpane"}%<!-- -->
-%TMPL:P{"bottomtopicactions"}%%TMPL:P{"formend"}%</div>%TMPL:END%
+<!-- //formstart -->%TMPL:END%
+
+%TMPL:DEF{"textarea"}%<!-- textarea -->
+<textarea id="topic" class="natEditTextArea natedit" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
+<!-- //textarea -->%TMPL:END%
+
+
+%TMPL:DEF{"formend"}%</form></div>%TMPL:END%
 
 %TMPL:DEF{"help"}%%TMPL:P{"edithelp"}%%TMPL:END%
-%TMPL:DEF{"pagehelp"}%<!-- -->
-%TMPL:P{"help"}%
-%TMPL:END%
+%TMPL:DEF{"pagehelp"}%<!-- pagehelp-->
+%TMPL:P{"help"}%<!-- help// -->
+<!-- //pagehelp -->%TMPL:END%
 
 %TMPL:DEF{"tabpane"}%<!-- tabpane -->
 %TABPANE%
-%TMPL:P{"firsttab"}%<!-- -->
-%TMPL:P{"formfields"}%<!-- -->
-%TMPL:P{"settingstab"}%<!-- -->
-%TMPL:P{"helptab"}%<!-- -->
+%TMPL:P{"firsttab"}%<!-- firstab// -->
+%TMPL:P{"formfields"}%<!-- formfields// -->
+%TMPL:P{"settingstab"}%<!-- settingstab// -->
+%TMPL:P{"helptab"}%<!-- helptab //-->
 %ENDTABPANE%
 <!-- //tabpane -->%TMPL:END%
 
-%TMPL:DEF{"formfields"}%%TMPL:P{"form"}%%TMPL:END%
+%TMPL:DEF{"formfields"}%%FORMFIELDS%%TMPL:END%
 
 %TMPL:DEF{"topicmeta"}%<!-- topicmeta -->
 <div class="natEditTopicInfo"><literal>
   <table>
   <tr class="natEditTopicTitle">
     <th>Title:</th>
-    <td><input class="twikiInputField" type="text" name="TopicTitle" size="80" value="%URLPARAM{"TopicTitle" default="%TOPICTITLE%" type="html"}%" /></td>
+    <td><input class="twikiInputField" type="text" name="TopicTitle" size="80" value="%URLPARAM{"TopicTitle" default="%GETTOPICTITLE{encode="entity" default=""}%"}%" /></td>
   </tr>
   </table>
 </literal></div>
@@ -63,8 +79,8 @@
 
 %TMPL:DEF{"firsttab"}%<!-- firsttab -->
 %TAB{"%MAKETEXT{"Text"}%" after="$.natedit.autoMaxExpand('#topic')"}%
-%TMPL:P{"topicmeta"}%
-%TMPL:P{"textarea"}%<!-- -->
+%TMPL:P{"topicmeta"}%<!-- topicmeta// -->
+%TMPL:P{"textarea"}%<!-- textarea// -->
 %ENDTAB%
 <!-- //firsttab -->%TMPL:END%
 
@@ -82,7 +98,13 @@
 <input class="twikiInputField" type="text" id="parent" name="topicparent" size="40" value="%TOPICPARENT%" />
 <!-- //settings -->%TMPL:END%
 
-%TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='twikiEditComment twikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" else=""}%%TMPL:END%
+%TMPL:DEF{"revCommentPluginOptions"}%<!--revCommentPluginOptions -->
+%IF{ 
+  "context RevCommentPluginEnabled" 
+  then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='twikiEditComment twikiInputField' size='50' type='text' name='comment' id='comment' /></div><!--/revComment-->" 
+  else=""
+}%
+<!-- //revCommentPluginOptions -->%TMPL:END%
 
 %TMPL:DEF{"sig_textareabuttons"}%%TMPL:END%
 %TMPL:DEF{"bottombar"}%%TMPL:END%

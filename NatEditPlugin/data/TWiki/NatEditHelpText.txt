@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="TWikiContributor" date="1175516990" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="NatEditContrib"}%
+%META:TOPICPARENT{name="NatEditPlugin"}%
 ---+ %TOPIC%
-Help text for the NatEditContrib editor
+Help text for the NatEditPlugin editor
 
 %STARTINCLUDE%
 ---+++ %MAKETEXT{"Access keys"}%
