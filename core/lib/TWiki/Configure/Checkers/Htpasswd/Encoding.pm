@@ -23,22 +23,25 @@ sub check {
     my $this = shift;
 
     my $enc = $TWiki::cfg{Htpasswd}{Encoding};
-    my $e = '';
+    my $e   = '';
 
-    if ($enc eq 'digest') {
+    if ( $enc eq 'digest' ) {
         $e .= $this->checkPerlModules(
-            name => 'Digest::MD5',
-            usage => "MD5 encoded passwords",
+            name           => 'Digest::MD5',
+            usage          => "MD5 encoded passwords",
             minimumVersion => 1,
-            disposition => 'required' );
-    } elsif ($enc eq 'sha1') {
-        $e .= $this->checkPerlModules(
-            name => 'MIME::Base64',
-            usage => "SHA1 password encoding",
-            minimumVersion => 1,
-            disposition => 'required');
+            disposition    => 'required'
+        );
     }
-    my $pe = $this->checkTreePerms($TWiki::cfg{Htpasswd}{FileName}, 'r');
+    elsif ( $enc eq 'sha1' ) {
+        $e .= $this->checkPerlModules(
+            name           => 'MIME::Base64',
+            usage          => "SHA1 password encoding",
+            minimumVersion => 1,
+            disposition    => 'required'
+        );
+    }
+    my $pe = $this->checkTreePerms( $TWiki::cfg{Htpasswd}{FileName}, 'r' );
     $e .= $this->ERROR($pe) if $pe;
     return $e;
 }

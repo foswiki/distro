@@ -20,7 +20,7 @@ require TWiki::Infix::Error;
 require TWiki::Infix::Node;
 
 # Set to 1 for debug
-sub MONITOR_PARSER { 0 };
+sub MONITOR_PARSER { 0 }
 
 =pod
 
@@ -64,19 +64,26 @@ behaviour of the parser:
 =cut
 
 sub new {
-    my( $class, $options ) = @_;
+    my ( $class, $options ) = @_;
 
-    my $this = bless({
-        client_class => $options->{nodeClass},
-        operators => [],
-        initialised => 0,
-    }, $class);
+    my $this = bless(
+        {
+            client_class => $options->{nodeClass},
+            operators    => [],
+            initialised  => 0,
+        },
+        $class
+    );
 
-    $this->{numbers} = defined( $options->{numbers} ) ? $options->{numbers} :
-      qr/[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/;
+    $this->{numbers} =
+      defined( $options->{numbers} )
+      ? $options->{numbers}
+      : qr/[+-]?(\d+\.\d+|\d+\.|\.\d+|\d+)([eE][+-]?\d+)?/;
 
-    $this->{words} = defined( $options->{words} ) ? $options->{words} :
-      qr/\w+/;
+    $this->{words} =
+      defined( $options->{words} )
+      ? $options->{words}
+      : qr/\w+/;
 
     return $this;
 }
@@ -110,8 +117,8 @@ by the parser.
 =cut
 
 sub addOperator {
-    my( $this, $op ) = @_;
-    push( @{$this->{operators}}, $op );
+    my ( $this, $op ) = @_;
+    push( @{ $this->{operators} }, $op );
     $this->{initialised} = 0;
 }
 
@@ -124,39 +131,44 @@ sub _initialise {
     # Build operator lists
     my @stdOpsRE;
     my @bracketOpsRE;
-    foreach my $op (@{$this->{operators}}) {
+    foreach my $op ( @{ $this->{operators} } ) {
+
         # Build a RE for the operator. Note that operators
         # that end in \w are terminated with \b
-        my $opre = quotemeta($op->{name});
-        $opre .= ($op->{name} =~ /\w$/) ? '\b' : '';
-        if ($op->{casematters}) {
+        my $opre = quotemeta( $op->{name} );
+        $opre .= ( $op->{name} =~ /\w$/ ) ? '\b' : '';
+        if ( $op->{casematters} ) {
             $op->{InfixParser_RE} = qr/$opre/;
-        } else {
+        }
+        else {
             $op->{InfixParser_RE} = qr/$opre/i;
         }
-        if (defined($op->{close})) {
-            # bracket op
-            $this->{bracket_ops}->{lc($op->{name})} = $op;
+        if ( defined( $op->{close} ) ) {
 
-            $opre = quotemeta($op->{close});
-            $opre .= ($op->{close} =~ /\w$/) ? '\b' : '';
-            if ($op->{casematters}) {
+            # bracket op
+            $this->{bracket_ops}->{ lc( $op->{name} ) } = $op;
+
+            $opre = quotemeta( $op->{close} );
+            $opre .= ( $op->{close} =~ /\w$/ ) ? '\b' : '';
+            if ( $op->{casematters} ) {
                 $op->{InfixParser_closeRE} = qr/$opre/;
-            } else {
+            }
+            else {
                 $op->{InfixParser_closeRE} = qr/$opre/i;
             }
-            push(@bracketOpsRE, $op->{InfixParser_RE});
-        } else {
-            $this->{standard_ops}->{lc($op->{name})} = $op;
-            push(@stdOpsRE, $op->{InfixParser_RE});
+            push( @bracketOpsRE, $op->{InfixParser_RE} );
+        }
+        else {
+            $this->{standard_ops}->{ lc( $op->{name} ) } = $op;
+            push( @stdOpsRE, $op->{InfixParser_RE} );
         }
     }
 
     # Build regular expression of all standard operators.
-    $this->{standard_op_REs} = join('|', @stdOpsRE);
+    $this->{standard_op_REs} = join( '|', @stdOpsRE );
 
     # and repeat for bracket operators
-    $this->{bracket_op_REs} = join('|', @bracketOpsRE);
+    $this->{bracket_op_REs} = join( '|', @bracketOpsRE );
 
     $this->{initialised} = 1;
 }
@@ -173,7 +185,7 @@ Throws TWiki::Infix::Error in the event of parse errors.
 =cut
 
 sub parse {
-    my ($this, $expr) = @_;
+    my ( $this, $expr ) = @_;
     my $data = $expr;
     $this->_initialise();
     return _parse( $this, $expr, \$data );
@@ -181,71 +193,82 @@ sub parse {
 
 # Simple stack parser, after Knuth
 sub _parse {
-    my( $this, $expr, $input, $term ) = @_;
+    my ( $this, $expr, $input, $term ) = @_;
 
     throw TWiki::Infix::Error("Empty expression")
       unless $expr && $expr =~ /\S/;
 
-    my @opers = ();
+    my @opers  = ();
     my @opands = ();
 
     $input ||= \$expr;
 
     print STDERR "Parse: $$input\n" if MONITOR_PARSER;
     try {
-        while ($$input =~ /\S/) {
-            if ($$input =~ s/^\s*($this->{standard_op_REs})//) {
+        while ( $$input =~ /\S/ ) {
+            if ( $$input =~ s/^\s*($this->{standard_op_REs})// ) {
                 my $opname = $1;
                 print STDERR "Tok: op '$opname'\n" if MONITOR_PARSER;
-                my $op = $this->{standard_ops}->{lc($opname)};
-                ASSERT($op, $opname) if DEBUG;
-                _apply($this, $op->{prec}, \@opers, \@opands);
-                push(@opers, $op);
-            } elsif ($$input =~ s/^\s*(['"])(|.*?[^\\])\1//) {
+                my $op = $this->{standard_ops}->{ lc($opname) };
+                ASSERT( $op, $opname ) if DEBUG;
+                _apply( $this, $op->{prec}, \@opers, \@opands );
+                push( @opers, $op );
+            }
+            elsif ( $$input =~ s/^\s*(['"])(|.*?[^\\])\1// ) {
                 print STDERR "Tok: qs '$1'\n" if MONITOR_PARSER;
                 my $val = $2;
-                push( @opands, $this->{client_class}->newLeaf(
-                    $val, $TWiki::Infix::Node::STRING));
-            } elsif ($$input =~ s/^\s*($this->{numbers})//) {
+                push( @opands,
+                    $this->{client_class}
+                      ->newLeaf( $val, $TWiki::Infix::Node::STRING ) );
+            }
+            elsif ( $$input =~ s/^\s*($this->{numbers})// ) {
                 print STDERR "Tok: number '$1'\n" if MONITOR_PARSER;
                 my $val = $1;
-                push( @opands, $this->{client_class}->newLeaf(
-                    $val, $TWiki::Infix::Node::NUMBER));
-            } elsif ($$input =~ s/^\s*($this->{words})//) {
+                push( @opands,
+                    $this->{client_class}
+                      ->newLeaf( $val, $TWiki::Infix::Node::NUMBER ) );
+            }
+            elsif ( $$input =~ s/^\s*($this->{words})// ) {
                 print STDERR "Tok: word '$1'\n" if MONITOR_PARSER;
                 my $val = $1;
-                push( @opands, $this->{client_class}->newLeaf(
-                    $val, $TWiki::Infix::Node::NAME));
-            } elsif ($$input =~ s/^\s*($this->{bracket_op_REs})//) {
+                push( @opands,
+                    $this->{client_class}
+                      ->newLeaf( $val, $TWiki::Infix::Node::NAME ) );
+            }
+            elsif ( $$input =~ s/^\s*($this->{bracket_op_REs})// ) {
                 my $opname = $1;
                 print STDERR "Tok: open bracket $opname\n" if MONITOR_PARSER;
-                my $op = $this->{bracket_ops}->{lc($opname)};
+                my $op = $this->{bracket_ops}->{ lc($opname) };
                 ASSERT($op) if DEBUG;
-                _apply($this, $op->{prec}, \@opers, \@opands);
-                push(@opers, $op);
-                push(@opands,
-                     $this->_parse($expr, $input, $op->{InfixParser_closeRE}));
-            } elsif (defined($term) && $$input =~ s/^\s*$term//) {
+                _apply( $this, $op->{prec}, \@opers, \@opands );
+                push( @opers, $op );
+                push( @opands,
+                    $this->_parse( $expr, $input, $op->{InfixParser_closeRE} )
+                );
+            }
+            elsif ( defined($term) && $$input =~ s/^\s*$term// ) {
                 print STDERR "Tok: close bracket $term\n" if MONITOR_PARSER;
                 last;
-            } else {
-                throw TWiki::Infix::Error(
-                    'Syntax error', $expr, $$input);
+            }
+            else {
+                throw TWiki::Infix::Error( 'Syntax error', $expr, $$input );
             }
         }
-        _apply($this, 0, \@opers, \@opands);
-    } catch Error::Simple with {
+        _apply( $this, 0, \@opers, \@opands );
+    }
+    catch Error::Simple with {
+
         # Catch errors thrown during the tree building process
-        throw TWiki::Infix::Error(shift, $expr, $$input);
+        throw TWiki::Infix::Error( shift, $expr, $$input );
     };
+    throw TWiki::Infix::Error( 'Missing operator', $expr, $$input )
+      unless scalar(@opands) == 1;
     throw TWiki::Infix::Error(
-        'Missing operator', $expr, $$input) unless scalar(@opands) == 1;
-    throw TWiki::Infix::Error(
-        'Excess operators ('.
-          join(' ', map { $_->{name} } @opers).')', $expr, $$input)
+        'Excess operators (' . join( ' ', map { $_->{name} } @opers ) . ')',
+        $expr, $$input )
       if scalar(@opers);
-    my $result =  pop(@opands);
-    print STDERR "Return ".$result->stringify()."\n" if MONITOR_PARSER;
+    my $result = pop(@opands);
+    print STDERR "Return " . $result->stringify() . "\n" if MONITOR_PARSER;
     return $result;
 }
 
@@ -254,24 +277,27 @@ sub _parse {
 # required number of operands, construct a new parse node and push
 # the node back onto the operand stack.
 sub _apply {
-    my ($this, $prec, $opers, $opands) = @_;
+    my ( $this, $prec, $opers, $opands ) = @_;
 
-    while( scalar( @$opers ) && $opers->[-1]->{prec} >= $prec &&
-             scalar( @$opands ) >= $opers->[-1]->{arity} ) {
-        my $op = pop( @$opers );
+    while (scalar(@$opers)
+        && $opers->[-1]->{prec} >= $prec
+        && scalar(@$opands) >= $opers->[-1]->{arity} )
+    {
+        my $op    = pop(@$opers);
         my $arity = $op->{arity};
         my @prams;
-        while ($arity--) {
-            unshift(@prams, pop(@$opands));
+        while ( $arity-- ) {
+            unshift( @prams, pop(@$opands) );
+
             # Should never get thrown, but just in case...
             throw TWiki::Infix::Error("Missing operand to '$op->{name}'")
               unless $prams[0];
         }
         if (MONITOR_PARSER) {
-            print STDERR "Apply $op->{name}(".
-              join(', ', map { $_->stringify() } @prams) .")\n";
+            print STDERR "Apply $op->{name}("
+              . join( ', ', map { $_->stringify() } @prams ) . ")\n";
         }
-        push(@$opands, $this->{client_class}->newNode($op, @prams));
+        push( @$opands, $this->{client_class}->newNode( $op, @prams ) );
     }
 }
 

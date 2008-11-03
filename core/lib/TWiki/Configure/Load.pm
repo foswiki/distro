@@ -60,7 +60,7 @@ sub readConfig {
     return if $TWiki::cfg{ConfigurationFinished};
 
     # Read LocalSite.cfg
-    unless (do 'TWiki.spec') {
+    unless ( do 'TWiki.spec' ) {
         die <<GOLLYGOSH;
 Content-type: text/plain
 
@@ -71,7 +71,7 @@ GOLLYGOSH
     }
 
     # Read LocalSite.cfg
-    unless (do 'LocalSite.cfg') {
+    unless ( do 'LocalSite.cfg' ) {
         die <<GOLLYGOSH;
 Content-type: text/plain
 
@@ -86,17 +86,18 @@ GOLLYGOSH
     # 'uninitialised variable' alerts later.
 
     foreach my $var qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
-                        PubDir TemplateDir ScriptUrlPath LocalesDir ) {
+      PubDir TemplateDir ScriptUrlPath LocalesDir ) {
+
         # We can't do this, because it prevents TWiki being run without
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $TWiki::cfg{$var} );
         $TWiki::cfg{$var} = 'NOT SET' unless defined $TWiki::cfg{$var};
-    }
+      }
 
-    # Expand references to $TWiki::cfg vars embedded in the values of
-    # other $TWiki::cfg vars.
-    expand(\%TWiki::cfg);
+      # Expand references to $TWiki::cfg vars embedded in the values of
+      # other $TWiki::cfg vars.
+      expand( \%TWiki::cfg );
 
     $TWiki::cfg{ConfigurationFinished} = 1;
 }
@@ -106,14 +107,14 @@ sub expand {
 
     foreach ( values %$hash ) {
         next unless $_;
-        if (ref($_) eq 'HASH') {
-            expand(\%$_);
-        } else {
+        if ( ref($_) eq 'HASH' ) {
+            expand( \%$_ );
+        }
+        else {
             s/(\$TWiki::cfg{[[A-Za-z0-9{}]+})/eval $1||'undef'/ge;
         }
     }
 }
-
 
 =pod
 
@@ -150,34 +151,33 @@ SEE ALSO: TWiki::Configure::TWikiCfg::load
 =cut
 
 sub readDefaults {
-    my %read = ( );
+    my %read = ();
     my @errors;
 
     eval {
         do 'TWiki.spec';
-        $read{'TWiki.spec'}  =  $INC{'TWiki.spec'};
+        $read{'TWiki.spec'} = $INC{'TWiki.spec'};
     };
-    push(@errors, $@) if ($@);
+    push( @errors, $@ ) if ($@);
     foreach my $dir (@INC) {
-        _loadDefaultsFrom("$dir/TWiki/Plugins", $root, \%read, \@errors);
-        _loadDefaultsFrom("$dir/TWiki/Contrib", $root, \%read, \@errors);
+        _loadDefaultsFrom( "$dir/TWiki/Plugins", $root, \%read, \@errors );
+        _loadDefaultsFrom( "$dir/TWiki/Contrib", $root, \%read, \@errors );
     }
     return \@errors;
 }
 
 sub _loadDefaultsFrom {
-    my ($dir, $root, $read, $errors) = @_;
+    my ( $dir, $root, $read, $errors ) = @_;
 
-    return unless opendir(D, $dir);
-    foreach my $extension ( grep { !/^\./ } readdir D) {
-        $extension =~ /(.*)/; $extension = $1; # untaint
+    return unless opendir( D, $dir );
+    foreach my $extension ( grep { !/^\./ } readdir D ) {
+        $extension =~ /(.*)/;
+        $extension = $1;    # untaint
         next if $read->{$extension};
         my $file = "$dir/$extension/Config.spec";
         next unless -e $file;
-        eval {
-            do $file;
-        };
-        push(@$errors, $@) if ($@);
+        eval { do $file; };
+        push( @$errors, $@ ) if ($@);
         $read->{$extension} = $file;
     }
     closedir(D);

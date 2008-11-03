@@ -30,15 +30,15 @@ Form.pm for how it is called. Subclasses should pass @_ on to this class.
 sub new {
     my $class = shift;
     my %attrs = @_;
-    ASSERT($attrs{session}) if DEBUG;
+    ASSERT( $attrs{session} ) if DEBUG;
 
-    $attrs{name} ||= '';
+    $attrs{name}       ||= '';
     $attrs{attributes} ||= '';
-    $attrs{type} ||= ''; # default
+    $attrs{type}       ||= '';    # default
     $attrs{size} =~ s/^\s*//;
     $attrs{size} =~ s/\s*$//;
 
-    return bless(\%attrs, $class);
+    return bless( \%attrs, $class );
 }
 
 =begin twiki
@@ -116,15 +116,20 @@ form table, and the =$col1html= is used as the content of the second column.
 =cut
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
     # Treat like text, make it reasonably long, add a warning
-    return ( '<br /><span class="twikiAlert">MISSING TYPE '.
-               $this->{type}.'</span>',
-            CGI::textfield( -class => $this->cssClasses('twikiEditFormError'),
-                            -name => $this->{name},
-                            -size => 80,
-                            -value => $value ));
+    return (
+        '<br /><span class="twikiAlert">MISSING TYPE '
+          . $this->{type}
+          . '</span>',
+        CGI::textfield(
+            -class => $this->cssClasses('twikiEditFormError'),
+            -name  => $this->{name},
+            -size  => 80,
+            -value => $value
+        )
+    );
 }
 
 =pod
@@ -138,10 +143,10 @@ Pass it a list of the other classnames you want on the field.
 
 sub cssClasses {
     my $this = shift;
-    if ($this->isMandatory()) {
-        push(@_, 'twikiMandatory');
+    if ( $this->isMandatory() ) {
+        push( @_, 'twikiMandatory' );
     }
-    return join(' ', @_);
+    return join( ' ', @_ );
 }
 
 =pod
@@ -160,7 +165,7 @@ sub getDefaultValue {
     my $this = shift;
 
     my $value = $this->{value};
-    $value = '' unless defined $value;  # allow 0 values
+    $value = '' unless defined $value;    # allow 0 values
 
     return $value;
 }
@@ -173,28 +178,30 @@ Render the form in =$meta= as a set of hidden fields.
 =cut
 
 sub renderHidden {
-    my( $this, $meta ) = @_;
+    my ( $this, $meta ) = @_;
 
     my $value;
-    if( $this->{name} ) {
+    if ( $this->{name} ) {
         my $field = $meta->get( 'FIELD', $this->{name} );
         $value = $field->{value};
     }
 
     my @values;
 
-    if( defined( $value )) {
-        if( $this->isMultiValued() ) {
-            push( @values, split(/\s*,\s*/, $value ));
-        } else {
+    if ( defined($value) ) {
+        if ( $this->isMultiValued() ) {
+            push( @values, split( /\s*,\s*/, $value ) );
+        }
+        else {
             push( @values, $value );
         }
-    } else {
+    }
+    else {
         $value = $this->getDefaultValue();
         push( @values, $this->getDefaultValue() ) if $value;
     }
 
-    return '' unless scalar( @values );
+    return '' unless scalar(@values);
 
     return CGI::hidden( -name => $this->{name}, -default => \@values );
 }
@@ -216,83 +223,89 @@ Return $bPresent true if a value was present in the query (even it was undef)
 =cut
 
 sub populateMetaFromQueryData {
-    my( $this, $query, $meta, $old ) = @_;
+    my ( $this, $query, $meta, $old ) = @_;
     my $value;
     my $bPresent = 0;
 
     return unless $this->{name};
 
-    if( defined( $query->param( $this->{name} ))) {
+    if ( defined( $query->param( $this->{name} ) ) ) {
         $bPresent = 1;
-        if( $this->isMultiValued() ) {
+        if ( $this->isMultiValued() ) {
             my @values = $query->param( $this->{name} );
 
-            if( scalar( @values ) == 1 ) {
+            if ( scalar(@values) == 1 ) {
                 @values = split( /,|%2C/, $values[0] );
             }
             my %vset = ();
-            foreach my $val ( @values ) {
+            foreach my $val (@values) {
                 $val =~ s/^\s*//o;
                 $val =~ s/\s*$//o;
+
                 # skip empty values
-                $vset{$val} = (defined $val && $val =~ /\S/);
+                $vset{$val} = ( defined $val && $val =~ /\S/ );
             }
             $value = '';
             my $isValues = ( $this->{type} =~ /\+values/ );
 
-            foreach my $option ( @{$this->getOptions()} ) {
+            foreach my $option ( @{ $this->getOptions() } ) {
                 $option =~ s/^.*?[^\\]=(.*)$/$1/ if $isValues;
+
                 # Maintain order of definition
-                if( $vset{$option} ) {
-                    $value .= ', ' if length( $value );
+                if ( $vset{$option} ) {
+                    $value .= ', ' if length($value);
                     $value .= $option;
                 }
             }
-        } else {
+        }
+        else {
             $value = $query->param( $this->{name} );
-            if( defined( $value ) && $this->{session}->inContext('edit')) {
-                $value = TWiki::expandStandardEscapes( $value );
+            if ( defined($value) && $this->{session}->inContext('edit') ) {
+                $value = TWiki::expandStandardEscapes($value);
             }
         }
     }
 
     # Find the old value of this field
     my $preDef;
-    foreach my $item ( @$old ) {
-        if( $item->{name} eq $this->{name} ) {
+    foreach my $item (@$old) {
+        if ( $item->{name} eq $this->{name} ) {
             $preDef = $item;
             last;
         }
     }
     my $def;
 
-    if( defined( $value ) ) {
+    if ( defined($value) ) {
+
         # mandatory fields must have length > 0
-        if( $this->isMandatory() && length( $value ) == 0) {
-            return (0, $bPresent);
+        if ( $this->isMandatory() && length($value) == 0 ) {
+            return ( 0, $bPresent );
         }
+
         # NOTE: title and name are stored in the topic so that it can be
         # viewed without reading in the form definition
         my $title = $this->{title};
-        if( $this->{definingTopic} ) {
-            $title = '[['.$this->{definingTopic}.']['.$title.']]';
+        if ( $this->{definingTopic} ) {
+            $title = '[[' . $this->{definingTopic} . '][' . $title . ']]';
         }
-        $def =
-          {
-              name =>  $this->{name},
-              title => $title,
-              value => $value,
-              attributes => $this->{attributes},
-          };
-    } elsif( $preDef ) {
+        $def = {
+            name       => $this->{name},
+            title      => $title,
+            value      => $value,
+            attributes => $this->{attributes},
+        };
+    }
+    elsif ($preDef) {
         $def = $preDef;
-    } else {
-        return (0, $bPresent);
+    }
+    else {
+        return ( 0, $bPresent );
     }
 
     $meta->putKeyed( 'FIELD', $def ) if $def;
 
-    return (1, $bPresent);
+    return ( 1, $bPresent );
 }
 
 =pod
@@ -310,15 +323,15 @@ The value is protected by TWiki::Render::protectFormFieldValue.
 =cut
 
 sub renderForDisplay {
-    my( $this, $format, $value, $attrs ) = @_;
-    ASSERT(!$attrs || ref($attrs) eq 'HASH') if DEBUG;
-    
+    my ( $this, $format, $value, $attrs ) = @_;
+    ASSERT( !$attrs || ref($attrs) eq 'HASH' ) if DEBUG;
+
     if ( !$attrs->{showhidden} ) {
         my $fa = $this->{attributes} || '';
-	if ( $fa =~ /H/ ) {
-	   return '';
-	}
-    }	   
+        if ( $fa =~ /H/ ) {
+            return '';
+        }
+    }
 
     require TWiki::Render;
     $value = TWiki::Render::protectFormFieldValue( $value, $attrs );
@@ -329,7 +342,7 @@ sub renderForDisplay {
     $format =~ s/\$attributes/$this->{attributes}/g;
     $format =~ s/\$type/$this->{type}/g;
     $format =~ s/\$size/$this->{size}/g;
-    my $definingTopic = $this->{definingTopic}|'FIELD';
+    my $definingTopic = $this->{definingTopic} | 'FIELD';
     $format =~ s/\$definingTopic/$definingTopic/g;
 
     return $format;

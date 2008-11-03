@@ -25,8 +25,11 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    if( $TWiki::cfg{Register}{NeedVerification} and !$TWiki::cfg{EnableEmail} ) {
-        return $this->WARN('Verification is enabled, but email is disabled. No verification emails will be sent. Either disable this option or enable email.');
+    if ( $TWiki::cfg{Register}{NeedVerification} and !$TWiki::cfg{EnableEmail} )
+    {
+        return $this->WARN(
+'Verification is enabled, but email is disabled. No verification emails will be sent. Either disable this option or enable email.'
+        );
     }
     return '';
 }

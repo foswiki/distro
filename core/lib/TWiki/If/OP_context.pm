@@ -14,20 +14,22 @@ use strict;
 sub new {
     my $class = shift;
     return $class->SUPER::new(
-        name => 'context',
-        prec => 600,
-        casematters => 0);
+        name        => 'context',
+        prec        => 600,
+        casematters => 0
+    );
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}->[0];
-    my $text = $a->_evaluate(@_) || '';
-    my %domain = @_;
+    my $this    = shift;
+    my $node    = shift;
+    my $a       = $node->{params}->[0];
+    my $text    = $a->_evaluate(@_) || '';
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
     return $session->inContext($text) || 0;
 }
 

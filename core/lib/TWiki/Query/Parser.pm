@@ -26,22 +26,22 @@ use Assert;
 # is a reference to a hash that contains the data being operated on, and a
 # reference to the meta-data of the topic being worked on (this is
 # effectively the "topic object"). The data being operated on can be a
-# Meta object, a reference to an array (such as attachments), a reference 
+# Meta object, a reference to an array (such as attachments), a reference
 # to a hash (such as TOPICINFO) or a scalar. Arrays can contain other arrays
 # and hashes.
 
 sub new {
-    my( $class, $options ) = @_;
+    my ( $class, $options ) = @_;
 
-    $options->{words} ||= qr/[A-Z][A-Z0-9_:]*/i;
+    $options->{words}     ||= qr/[A-Z][A-Z0-9_:]*/i;
     $options->{nodeClass} ||= 'TWiki::Query::Node';
     my $this = $class->SUPER::new($options);
     die "{Operators}{Query} is undefined; re-run configure"
       unless defined( $TWiki::cfg{Operators}{Query} );
-    foreach my $op (@{$TWiki::cfg{Operators}{Query}}) {
+    foreach my $op ( @{ $TWiki::cfg{Operators}{Query} } ) {
         eval "require $op";
-        ASSERT(!$@) if DEBUG;
-        $this->addOperator($op->new());
+        ASSERT( !$@ ) if DEBUG;
+        $this->addOperator( $op->new() );
     }
     return $this;
 }

@@ -25,9 +25,9 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    my $e = $this->guessMajorDir('DataDir', 'data');
+    my $e = $this->guessMajorDir( 'DataDir', 'data' );
     my $e2 = $this->checkTreePerms( $TWiki::cfg{DataDir}, "r" );
-    $e .= $this->warnAboutWindowsBackSlashes($TWiki::cfg{DataDir});
+    $e .= $this->warnAboutWindowsBackSlashes( $TWiki::cfg{DataDir} );
     $e2 = $this->checkTreePerms( $TWiki::cfg{DataDir}, "w", qr/\.txt$/ )
       unless $e2;
     $e .= $this->WARN($e2) if $e2;

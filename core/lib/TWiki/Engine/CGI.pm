@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -42,10 +42,10 @@ use TWiki::Request::Upload;
 use TWiki::Response;
 use Assert;
 
-sub run { 
+sub run {
     my $this = shift;
-    my $req = $this->prepare;
-    if ( UNIVERSAL::isa($req, 'TWiki::Request') ) {
+    my $req  = $this->prepare;
+    if ( UNIVERSAL::isa( $req, 'TWiki::Request' ) ) {
         my $res = TWiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
     }
@@ -68,8 +68,8 @@ sub prepareConnection {
 
 sub prepareQueryParameters {
     my ( $this, $req ) = @_;
-    $this->SUPER::prepareQueryParameters($req, $ENV{QUERY_STRING})
-        if $ENV{QUERY_STRING};
+    $this->SUPER::prepareQueryParameters( $req, $ENV{QUERY_STRING} )
+      if $ENV{QUERY_STRING};
 }
 
 sub prepareHeaders {
@@ -92,23 +92,24 @@ sub preparePath {
     # associations mapping, the path information will be present in the
     # environment, but incorrect. The best thing to do is to avoid using
     # additional path information."
-    
+
     # Clean up PATH_INFO problems, e.g.  Support.CobaltRaqInstall.  A valid
     # PATH_INFO is '/Main/WebHome', i.e. the text after the script name;
     # invalid PATH_INFO is often a full path starting with '/cgi-bin/...'.
     my $pathInfo = $ENV{PATH_INFO} || '';
     unless ( defined $ENV{SCRIPT_NAME} ) {
+
         # CGI/1.1 (rfc3875) states that the server MUST set
         # SCRIPT_NAME, so if it doens't we have a broken server
         my $reason = 'SCRIPT_NAME environment variable not defined';
-        my $res = new TWiki::Response();
-        $res->header(-type => 'text/html', -status => 500);
-        my $html = CGI::start_html( '500 - Internal Server Error' );
+        my $res    = new TWiki::Response();
+        $res->header( -type => 'text/html', -status => 500 );
+        my $html = CGI::start_html('500 - Internal Server Error');
         $html .= CGI::h1('Internal Server Error');
-        $html .= CGI::p( $reason );
+        $html .= CGI::p($reason);
         $html .= CGI::end_html();
         $res->body($html);
-        throw TWiki::EngineException(500, $reason, $res);
+        throw TWiki::EngineException( 500, $reason, $res );
     }
     my $cgiScriptPath = $ENV{SCRIPT_NAME};
     $pathInfo =~ s{$cgiScriptPath/}{/}i;
@@ -116,51 +117,55 @@ sub preparePath {
     $cgiScriptName =~ s/.*?(\w+)(\.\w+)?$/$1/;
 
     my $action;
-    if( exists $ENV{TWIKI_ACTION} ) {
+    if ( exists $ENV{TWIKI_ACTION} ) {
+
         # This handles scripts that have set $TWIKI_ACTION
         $action = $ENV{TWIKI_ACTION};
     }
-    elsif( exists $TWiki::cfg{SwitchBoard}{$cgiScriptName} ) {
+    elsif ( exists $TWiki::cfg{SwitchBoard}{$cgiScriptName} ) {
+
         # This handles other named CGI scripts that have a switchboard entry
         # but haven't set $TWIKI_ACTION (old-style run scripts)
         $action = $cgiScriptName;
     }
-    elsif( length $pathInfo > 1 ) {
+    elsif ( length $pathInfo > 1 ) {
+
         # This handles twiki_cgi; use the first path el after the script
         # name as the function
         $pathInfo =~ m{^/([^/]+)(.*)};
         my $first = $1 || '';
-        if( exists $TWiki::cfg{SwitchBoard}{$first} ) {
+        if ( exists $TWiki::cfg{SwitchBoard}{$first} ) {
+
             # The path is of the form script/function/...
-            $action   = $first;
+            $action = $first;
             $pathInfo = $2 || '';
         }
     }
     $action ||= 'view';
     ASSERT( defined $pathInfo ) if DEBUG;
     $req->action($action);
-    $req->pathInfo( $pathInfo );
+    $req->pathInfo($pathInfo);
     $req->uri( $ENV{REQUEST_URI}
           || $req->url( -absolute => 1, -path => 1, -query => 1 ) );
 }
 
 sub prepareBody {
     my ( $this, $req ) = @_;
-   
+
     return unless $ENV{CONTENT_LENGTH};
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
-    throw TWiki::EngineException($1, $2)
-        if defined $err && $err =~ /\s*(\d{3})\s*(.*)/o;
+    throw TWiki::EngineException( $1, $2 )
+      if defined $err && $err =~ /\s*(\d{3})\s*(.*)/o;
     $this->{cgi} = $cgi;
 }
 
 sub prepareBodyParameters {
     my ( $this, $req ) = @_;
-    
+
     return unless $ENV{CONTENT_LENGTH};
     my @plist = $this->{cgi}->param();
-    foreach my $pname ( @plist ) {
+    foreach my $pname (@plist) {
         my @values = $this->{cgi}->param($pname);
         $req->bodyParam( -name => $pname, -value => \@values );
         $this->{uploads}->{$pname} = 1 if scalar $this->{cgi}->upload($pname);
@@ -192,11 +197,11 @@ sub finalizeUploads {
 
 sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
-    
+
     $this->SUPER::finalizeHeaders( $res, $req );
     foreach my $header ( keys %{ $res->headers } ) {
         print $header . ': ' . $_ . $this->CRLF
-            foreach $res->getHeader($header);
+          foreach $res->getHeader($header);
     }
     print $this->CRLF;
 }

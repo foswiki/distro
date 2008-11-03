@@ -26,7 +26,7 @@ use strict;
 
 sub new {
     my $class = shift;
-    my $this = bless($class->SUPER::new('root', 0), $class);
+    my $this = bless( $class->SUPER::new( 'root', 0 ), $class );
     return $this;
 }
 

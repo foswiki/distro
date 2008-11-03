@@ -40,19 +40,21 @@ Warning: $unique assumes that the values are strings (so works for cUID's )
 
 =cut
 
-
 sub new {
-    my ($class, $list, $unique) = @_;
-    my $this = bless({
-        Itr_list => $list,
-        Itr_index => 0,
-        index => 0,
-        process => undef,
-        filter => undef,
-        next => undef,
-        unique => $unique,
-        unique_hash => {}
-    }, $class);
+    my ( $class, $list, $unique ) = @_;
+    my $this = bless(
+        {
+            Itr_list    => $list,
+            Itr_index   => 0,
+            index       => 0,
+            process     => undef,
+            filter      => undef,
+            next        => undef,
+            unique      => $unique,
+            unique_hash => {}
+        },
+        $class
+    );
     return $this;
 }
 
@@ -71,34 +73,38 @@ while ($it->hasNext()) {
 =cut
 
 sub hasNext {
-    my( $this ) = @_;
+    my ($this) = @_;
     return 1 if $this->{next};
     my $n;
     do {
         unless ( $this->{list} ) {
-            if ($this->{Itr_index} < scalar(@{$this->{Itr_list}}) ) {
-                $this->{list} = $this->{Itr_list}->[$this->{Itr_index}++];
-            } else {
-                return 0; #no more iterators in list
+            if ( $this->{Itr_index} < scalar( @{ $this->{Itr_list} } ) ) {
+                $this->{list} = $this->{Itr_list}->[ $this->{Itr_index}++ ];
             }
-        } 
-        if( $this->{list}->hasNext()) {
-            $n = $this->{list}->next();
-        } else {
-            $this->{list} = undef; #goto next iterator
+            else {
+                return 0;    #no more iterators in list
+            }
         }
-    } while (!$this->{list} || ($this->{filter} && !&{$this->{filter}}($n)) || ($this->{unique} && !$this->unique($n)));
+        if ( $this->{list}->hasNext() ) {
+            $n = $this->{list}->next();
+        }
+        else {
+            $this->{list} = undef;    #goto next iterator
+        }
+      } while ( !$this->{list}
+        || ( $this->{filter} && !&{ $this->{filter} }($n) )
+        || ( $this->{unique} && !$this->unique($n) ) );
     $this->{next} = $n;
     return 1;
 }
 
 sub unique {
-    my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
 
-    unless (defined($this->{unique_hash}{$value})) {
+    unless ( defined( $this->{unique_hash}{$value} ) ) {
         $this->{unique_hash}{$value} = 1;
         return 1;
-    } 
+    }
 
     return 0;
 }
@@ -127,7 +133,8 @@ sub next {
     $this->hasNext();
     my $n = $this->{next};
     $this->{next} = undef;
-    $n = &{$this->{process}}($n) if $this->{process};
+    $n = &{ $this->{process} }($n) if $this->{process};
+
     #print STDERR "next - $n \n";
     return $n;
 }

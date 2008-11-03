@@ -26,7 +26,7 @@ use base 'TWiki::Configure::Type';
 sub new {
     my $class = shift;
 
-    return bless({name=>'UNKNOWN'}, $class);
+    return bless( { name => 'UNKNOWN' }, $class );
 }
 
 1;

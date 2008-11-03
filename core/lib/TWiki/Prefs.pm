@@ -56,14 +56,15 @@ pushed onto the stack.
 =cut
 
 sub new {
-    my( $class, $session, $cache ) = @_;
+    my ( $class, $session, $cache ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    push( @{$this->{PREFS}}, $cache ) if defined( $cache );
+    push( @{ $this->{PREFS} }, $cache ) if defined($cache);
+
     # $this->{TOPICS} - hash of TWiki::Prefs objects, for solitary topics
     # $this->{WEBS} - hash of TWiki::Prefs objects, for solitary webs
     # remember what "Local" means
-    $this->{LOCAL} = $session->{webName}.'.'.$this->{session}->{topicName};
+    $this->{LOCAL} = $session->{webName} . '.' . $this->{session}->{topicName};
 
     return $this;
 }
@@ -81,17 +82,17 @@ Break circular references.
 sub finish {
     my $this = shift;
 
-    foreach (@{$this->{PREFS}}) {
+    foreach ( @{ $this->{PREFS} } ) {
         $_->finish();
     }
     undef $this->{PREFS};
 
-    foreach (values %{$this->{TOPICS}}) {
+    foreach ( values %{ $this->{TOPICS} } ) {
         $_->finish();
     }
     undef $this->{TOPICS};
 
-    foreach (values %{$this->{WEBS}}) {
+    foreach ( values %{ $this->{WEBS} } ) {
         $_->finish();
     }
     undef $this->{WEBS};
@@ -113,20 +114,19 @@ preferences stack.
 =cut
 
 sub pushPreferences {
-    my( $this, $web, $topic, $type, $prefix ) = @_;
+    my ( $this, $web, $topic, $type, $prefix ) = @_;
     my $top;
 
-    if( $this->{PREFS} ) {
-        $top = $this->{PREFS}[$#{$this->{PREFS}}];
+    if ( $this->{PREFS} ) {
+        $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
     }
 
     my $req =
-      new TWiki::Prefs::PrefsCache(
-          $this, $top, $type, $web, $topic, $prefix );
+      new TWiki::Prefs::PrefsCache( $this, $top, $type, $web, $topic, $prefix );
 
-    if( $req ) {
-        push( @{$this->{PREFS}}, $req );
-        $req->finalise( $this );
+    if ($req) {
+        push( @{ $this->{PREFS} }, $req );
+        $req->finalise($this);
     }
 }
 
@@ -140,11 +140,11 @@ on the preferences of all containing webs.
 =cut
 
 sub pushWebPreferences {
-    my( $this, $web ) = @_;
+    my ( $this, $web ) = @_;
 
     my @webPath = split( /[\/\.]/, $web );
     my $path = '';
-    foreach my $tmp ( @webPath ) {
+    foreach my $tmp (@webPath) {
         $path .= '/' if $path;
         $path .= $tmp;
         $this->pushPreferences( $path, $TWiki::cfg{WebPrefsTopicName}, 'WEB' );
@@ -162,10 +162,8 @@ sub pushGlobalPreferences {
     my $this = shift;
 
     # Default prefs first, from read-only web
-    my $prefs = $this->pushPreferences(
-        $TWiki::cfg{SystemWebName},
-        $TWiki::cfg{SitePrefsTopicName},
-        'DEFAULT' );
+    my $prefs = $this->pushPreferences( $TWiki::cfg{SystemWebName},
+        $TWiki::cfg{SitePrefsTopicName}, 'DEFAULT' );
 
 }
 
@@ -173,9 +171,10 @@ sub pushGlobalPreferencesSiteSpecific {
     my $this = shift;
 
     # Then local site prefs
-    if( $TWiki::cfg{LocalSitePreferences} ) {
-        my( $lweb, $ltopic ) = $this->{session}->normalizeWebTopicName(
-            undef, $TWiki::cfg{LocalSitePreferences} );
+    if ( $TWiki::cfg{LocalSitePreferences} ) {
+        my ( $lweb, $ltopic ) =
+          $this->{session}
+          ->normalizeWebTopicName( undef, $TWiki::cfg{LocalSitePreferences} );
         $this->pushPreferences( $lweb, $ltopic, 'SITE' );
     }
 }
@@ -188,13 +187,13 @@ Push a new preference level using type and values given
 =cut
 
 sub pushPreferenceValues {
-    my( $this, $type, $values ) = @_;
+    my ( $this, $type, $values ) = @_;
 
     return unless $values;
 
     my $top;
-    if( $this->{PREFS} ) {
-        $top = $this->{PREFS}[$#{$this->{PREFS}}];
+    if ( $this->{PREFS} ) {
+        $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
     }
 
     my $req = new TWiki::Prefs::PrefsCache( $this, $top, $type );
@@ -204,8 +203,8 @@ sub pushPreferenceValues {
         $req->insert( 'Set', $key, $val );
     }
 
-    push( @{$this->{PREFS}}, $req );
-    $req->finalise( $this );
+    push( @{ $this->{PREFS} }, $req );
+    $req->finalise($this);
 }
 
 =pod
@@ -219,7 +218,7 @@ are pushed during a topic include.
 
 sub mark {
     my $this = shift;
-    return scalar( @{$this->{PREFS}} );
+    return scalar( @{ $this->{PREFS} } );
 }
 
 =pod
@@ -231,9 +230,9 @@ include.
 =cut
 
 sub restore {
-    my( $this, $where ) = @_;
-    ASSERT( $where ) if DEBUG;
-    splice( @{$this->{PREFS}}, $where );
+    my ( $this, $where ) = @_;
+    ASSERT($where) if DEBUG;
+    splice( @{ $this->{PREFS} }, $where );
 }
 
 =pod
@@ -249,14 +248,15 @@ topic is the same as the current web,topic in the session.
 =cut
 
 sub getPreferencesValue {
-    my( $this, $key ) = @_;
+    my ( $this, $key ) = @_;
 
-    return undef unless @{$this->{PREFS}};
-    my $top = $this->{PREFS}[$#{$this->{PREFS}}];
-    my $lk = $this->{LOCAL}.'-'.$key;
-    if( defined( $top->{locals}{$lk} )){
+    return undef unless @{ $this->{PREFS} };
+    my $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
+    my $lk  = $this->{LOCAL} . '-' . $key;
+    if ( defined( $top->{locals}{$lk} ) ) {
         return $top->{locals}{$lk};
-    } else {
+    }
+    else {
         return $top->{values}{$key};
     }
 }
@@ -269,9 +269,9 @@ Return true if $key is finalised somewhere in the prefs stack
 =cut
 
 sub isFinalised {
-    my( $this, $key ) = @_;
+    my ( $this, $key ) = @_;
 
-    foreach my $level ( @{$this->{PREFS}} ) {
+    foreach my $level ( @{ $this->{PREFS} } ) {
         return 1 if $level->{final}{$key};
     }
 
@@ -291,12 +291,12 @@ the prefs stack.
 =cut
 
 sub getTopicPreferencesValue {
-    my( $this, $key, $web, $topic ) = @_;
+    my ( $this, $key, $web, $topic ) = @_;
 
     return undef unless defined $web && defined $topic;
-    my $wtn = $web.'.'.$topic;
+    my $wtn = $web . '.' . $topic;
 
-    unless( $this->{TOPICS}{$wtn} ) {
+    unless ( $this->{TOPICS}{$wtn} ) {
         $this->{TOPICS}{$wtn} =
           new TWiki::Prefs::PrefsCache( $this, undef, 'TOPIC', $web, $topic );
     }
@@ -312,12 +312,11 @@ The values read are *not* cached.
 =cut
 
 sub getTextPreferencesValue {
-    my( $this, $key, $text, $meta, $web, $topic ) = @_;
+    my ( $this, $key, $text, $meta, $web, $topic ) = @_;
 
-    my $wtn = $web.'.'.$topic;
+    my $wtn = $web . '.' . $topic;
 
-    my $cache = 
-      new TWiki::Prefs::PrefsCache( $this, undef, 'TOPIC' );
+    my $cache = new TWiki::Prefs::PrefsCache( $this, undef, 'TOPIC' );
     $cache->loadPrefsFromText( $text, $meta, $web, $topic );
 
     return $cache->{values}{$key};
@@ -337,19 +336,19 @@ the prefs stack.
 =cut
 
 sub getWebPreferencesValue {
-    my( $this, $key, $web ) = @_;
+    my ( $this, $key, $web ) = @_;
 
     return undef unless defined $web;
 
-    my $wtn = $web.'.'.$TWiki::cfg{WebPrefsTopicName};
+    my $wtn = $web . '.' . $TWiki::cfg{WebPrefsTopicName};
 
-    unless( $this->{WEBS}{$wtn} ) {
+    unless ( $this->{WEBS}{$wtn} ) {
         my $blank = new TWiki::Prefs( $this->{session} );
-        $blank->pushWebPreferences( $web );
+        $blank->pushWebPreferences($web);
         $this->{WEBS}{$wtn} = $blank;
     }
 
-    return $this->{WEBS}{$wtn}->getPreferencesValue( $key );
+    return $this->{WEBS}{$wtn}->getPreferencesValue($key);
 }
 
 =pod
@@ -364,9 +363,9 @@ The preference is not serialised.
 =cut
 
 sub setPreferencesValue {
-    my ($this, $name, $value) = @_;
+    my ( $this, $name, $value ) = @_;
 
-    my $top = $this->{PREFS}[$#{$this->{PREFS}}];
+    my $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
     return $top->insert( 'Set', $name, $value );
 }
 
@@ -379,19 +378,20 @@ Generate a TML-formatted version of the current preferences
 =cut
 
 sub stringify {
-    my( $this, $html ) = @_;
+    my ( $this, $html ) = @_;
     my $s = '';
 
     my %shown;
     $html = 1 unless defined $html;
 
-    foreach my $ptr ( reverse @{$this->{PREFS}} ) {
-        $s .= $ptr->stringify($html, \%shown);
+    foreach my $ptr ( reverse @{ $this->{PREFS} } ) {
+        $s .= $ptr->stringify( $html, \%shown );
     }
 
-    if( $html ) {
-        return CGI::table({class=>'twikiTable'}, $s);
-    } else {
+    if ($html) {
+        return CGI::table( { class => 'twikiTable' }, $s );
+    }
+    else {
         return $s;
     }
 }

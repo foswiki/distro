@@ -29,41 +29,42 @@ use strict;
 use TWiki::Configure::Type;
 
 sub new {
-    my ($class, $defaults, $values) = @_;
+    my ( $class, $defaults, $values ) = @_;
 
-    my $this = bless({}, $class);
+    my $this = bless( {}, $class );
     $this->{defaults} = $defaults;
-    $this->{values} = $values;
+    $this->{values}   = $values;
 
     return $this;
 }
 
 # Get a value from one of the value sets (defaults or values)
 sub _getValue {
-    my ($this, $value, $set) = @_;
+    my ( $this, $value, $set ) = @_;
     my $keys = $value->getKeys();
-    my $var = '$this->{'.$set.'}->'.$keys;
+    my $var  = '$this->{' . $set . '}->' . $keys;
     my $val;
-    eval '$val = '.$var.' if exists('.$var.')';
-    if (defined $val) {
+    eval '$val = ' . $var . ' if exists(' . $var . ')';
+    if ( defined $val ) {
+
         # SMELL: Really shouldn't do this unless we are sure it's an RE,
         # but the probability of this string occurring elsewhere than an
         # RE is so low that we can afford to take the risk.
-        while ($val =~ s/^\(\?-xism:(.*)\)$/$1/) {};
+        while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
     }
     return $val;
 }
 
 # get the current value
 sub currentValue {
-    my ($this, $value) = @_;
-    return $this->_getValue($value, 'values');
+    my ( $this, $value ) = @_;
+    return $this->_getValue( $value, 'values' );
 }
 
 # get the default value
 sub defaultValue {
-    my ($this, $value) = @_;
-    return $this->_getValue($value, 'defaults');
+    my ( $this, $value ) = @_;
+    return $this->_getValue( $value, 'defaults' );
 }
 
 # Get changed values from CGI. Each parameter is identified by a
@@ -72,27 +73,31 @@ sub defaultValue {
 # the value known to the Valuer (i.e. has been updated). If it is, the keys
 # are added to the $updated hash.
 sub loadCGIParams {
-    my ($this, $query, $updated) = @_;
+    my ( $this, $query, $updated ) = @_;
     my $param;
     my $changed = 0;
 
     # Each config param has an associated TYPEOF: param, so we only
     # pick up those things that we really want
     foreach $param ( $query->param ) {
+
         # the - (and therefore the ' and ") is required for languages
         # e.g. {Languages}{'zh-cn'}.
         next unless $param =~ /^TYPEOF:((?:{[-\w'"]+})*)/;
         my $keys = $1;
+
         # The value of TYPEOF: is the type name
-        my $typename = $query->param( $param );
-        $typename =~ /(\w+)/; $typename = $1; # check and untaint
-        my $type = TWiki::Configure::Type::load($typename);
-        my $newval = $type->string2value( $query->param( $keys ));
-        my $xpr = '$this->{values}->'.$keys;
+        my $typename = $query->param($param);
+        $typename =~ /(\w+)/;
+        $typename = $1;    # check and untaint
+        my $type   = TWiki::Configure::Type::load($typename);
+        my $newval = $type->string2value( $query->param($keys) );
+        my $xpr    = '$this->{values}->' . $keys;
         my $curval = eval $xpr;
-        if (!$type->equals($newval, $curval)) {
+        if ( !$type->equals( $newval, $curval ) ) {
+
             #print "<br>$typename $keys '$newval' != '$curval'\n";
-            eval $xpr.' = $newval';
+            eval $xpr . ' = $newval';
             $changed++;
             $updated->{$keys} = 1;
         }

@@ -43,8 +43,9 @@ require TWiki::Sandbox;
 my $debug = 0;
 
 BEGIN {
+
     # Do a dynamic 'use locale' for this module
-    if( $TWiki::cfg{UseLocale} ) {
+    if ( $TWiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
@@ -70,27 +71,29 @@ sub statistics {
     my $webName = $session->{webName};
 
     my $tmp = '';
+
     # web to redirect to after finishing
     my $destWeb = $TWiki::cfg{UsersWebName};
-    my $logDate = $session->{request}->param( 'logdate' ) || '';
-    $logDate =~ s/[^0-9]//g;  # remove all non numerals
-    $debug = $session->{request}->param( 'debug' );
+    my $logDate = $session->{request}->param('logdate') || '';
+    $logDate =~ s/[^0-9]//g;    # remove all non numerals
+    $debug = $session->{request}->param('debug');
 
-    unless( $session->inContext( 'command_line' )) {
+    unless ( $session->inContext('command_line') ) {
+
         # running from CGI
         $session->generateHTTPHeaders();
         $session->{response}->body(
             CGI::start_html( -title => 'TWiki: Create Usage Statistics' ) );
     }
+
     # Initial messages
     _printMsg( $session, 'TWiki: Create Usage Statistics' );
     _printMsg( $session, '!Do not interrupt this script!' );
     _printMsg( $session, '(Please wait until page download has finished)' );
 
     require TWiki::Time;
-    unless( $logDate ) {
-        $logDate =
-          TWiki::Time::formatTime( time(), '$year$mo', 'servertime' );
+    unless ($logDate) {
+        $logDate = TWiki::Time::formatTime( time(), '$year$mo', 'servertime' );
     }
 
     my $logMonth;
@@ -98,7 +101,8 @@ sub statistics {
     if ( $logDate =~ /^(\d\d\d\d)(\d\d)$/ ) {
         $logYear = $1;
         $logMonth = $TWiki::Time::ISOMONTH[ ( $2 % 12 ) - 1 ];
-    } else {
+    }
+    else {
         _printMsg( $session, "!Error in date $logDate - must be YYYYMM" );
         return;
     }
@@ -109,7 +113,7 @@ sub statistics {
     my $logFile = $TWiki::cfg{LogFileName};
     $logFile =~ s/%DATE%/$logDate/g;
 
-    unless( -e $logFile ) {
+    unless ( -e $logFile ) {
         _printMsg( $session, "!Log file $logFile does not exist; aborting" );
         return;
     }
@@ -118,93 +122,111 @@ sub statistics {
 
     # FIXME move the temp dir stuff to TWiki.cfg
     my $tmpDir;
-    if ( $TWiki::cfg{OS} eq 'UNIX' ) { 
-        $tmpDir = $ENV{'TEMP'} || "/tmp"; 
-    } elsif ( $TWiki::cfg{OS} eq 'WINDOWS' ) {
-        $tmpDir = $ENV{'TEMP'} || "c:/"; 
-    } else {
+    if ( $TWiki::cfg{OS} eq 'UNIX' ) {
+        $tmpDir = $ENV{'TEMP'} || "/tmp";
+    }
+    elsif ( $TWiki::cfg{OS} eq 'WINDOWS' ) {
+        $tmpDir = $ENV{'TEMP'} || "c:/";
+    }
+    else {
+
         # FIXME handle other OSs properly - assume Unix for now.
         $tmpDir = "/tmp";
     }
-    my $randNo = int ( rand 1000);	# For mod_perl with threading...
-    my $tmpFilename = TWiki::Sandbox::untaintUnchecked( "$tmpDir/twiki-stats.$$.$randNo" );
+    my $randNo = int( rand 1000 );    # For mod_perl with threading...
+    my $tmpFilename =
+      TWiki::Sandbox::untaintUnchecked("$tmpDir/twiki-stats.$$.$randNo");
 
-    File::Copy::copy ($logFile, $tmpFilename)
-        or throw Error::Simple( 'Cannot backup log file: '.$! );
+    File::Copy::copy( $logFile, $tmpFilename )
+      or throw Error::Simple( 'Cannot backup log file: ' . $! );
 
     my $TMPFILE = new IO::File;
     open $TMPFILE, $tmpFilename
-      or throw Error::Simple( 'Cannot open backup file: '.$! );
+      or throw Error::Simple( 'Cannot open backup file: ' . $! );
 
     # Do a single data collection pass on the temporary copy of logfile,
     # then process each web once.
-    my ($viewRef, $contribRef, $statViewsRef, $statSavesRef, $statUploadsRef) =
-      _collectLogData( $session, $TMPFILE, $logMonthYear );
+    my ( $viewRef, $contribRef, $statViewsRef, $statSavesRef, $statUploadsRef )
+      = _collectLogData( $session, $TMPFILE, $logMonthYear );
 
     my @weblist;
-    my $webSet = TWiki::Sandbox::untaintUnchecked($session->{request}->param( 'webs' )) || $session->{requestedWebName};
-    if( $webSet) {
+    my $webSet =
+      TWiki::Sandbox::untaintUnchecked( $session->{request}->param('webs') )
+      || $session->{requestedWebName};
+    if ($webSet) {
+
         # do specific webs
-        push( @weblist, split( /,\s*/, $webSet ));
-    } else {
+        push( @weblist, split( /,\s*/, $webSet ) );
+    }
+    else {
+
         # otherwise do all user webs:
-        @weblist = $session->{store}->getListOfWebs( 'user' );
+        @weblist = $session->{store}->getListOfWebs('user');
     }
     my $firstTime = 1;
-    foreach my $web ( @weblist ) {
+    foreach my $web (@weblist) {
         try {
-            $destWeb = _processWeb( $session,
-                                $web,
-                                $logMonthYear,
-                                $viewRef,
-                                $contribRef,
-                                $statViewsRef,
-                                $statSavesRef,
-                                $statUploadsRef,
-                                $firstTime );
-        } catch TWiki::AccessControlException with  {
-            _printMsg( $session, '  - ERROR: no permission to CHANGE statistics topic in '.$web);
+            $destWeb = _processWeb(
+                $session,      $web,            $logMonthYear,
+                $viewRef,      $contribRef,     $statViewsRef,
+                $statSavesRef, $statUploadsRef, $firstTime
+            );
+        }
+        catch TWiki::AccessControlException with {
+            _printMsg( $session,
+                '  - ERROR: no permission to CHANGE statistics topic in '
+                  . $web );
         }
         $firstTime = 0;
     }
 
-    close $TMPFILE;		# Shouldn't be necessary with 'my'
-    unlink $tmpFilename;# FIXME: works on Windows???  Unlink before
-    # usage to ensure deleted on crash?
+    close $TMPFILE;         # Shouldn't be necessary with 'my'
+    unlink $tmpFilename;    # FIXME: works on Windows???  Unlink before
+                            # usage to ensure deleted on crash?
 
-    if( !$session->inContext( 'command_line' ) ) {
+    if ( !$session->inContext('command_line') ) {
         $tmp = $TWiki::cfg{Stats}{TopicName};
         my $url = $session->getScriptUrl( 0, 'view', $destWeb, $tmp );
-        _printMsg( $session, '* Go to '
-                   . CGI::a( { href => $url,
-                               rel => 'nofollow' }, "$webName.$tmp") );
+        _printMsg(
+            $session,
+            '* Go to '
+              . CGI::a(
+                {
+                    href => $url,
+                    rel  => 'nofollow'
+                },
+                "$webName.$tmp"
+              )
+        );
     }
     _printMsg( $session, 'End creating usage statistics' );
     $session->{response}->body( $session->{response}->body . CGI::end_html() )
-        unless ( $session->inContext('command_line') );
+      unless ( $session->inContext('command_line') );
 }
 
 # Debug only
 # Print all entries in a view or contrib hash, sorted by web and item name
 sub _debugPrintHash {
     my ($statsRef) = @_;
-    # print "Main.WebHome views = " . ${$statsRef}{'Main'}{'WebHome'}."\n";
-    # print "Main web, TWikiGuest contribs = " . ${$statsRef}{'Main'}{'Main.TWikiGuest'}."\n";
-    foreach my $web ( sort keys %$statsRef) {
+
+# print "Main.WebHome views = " . ${$statsRef}{'Main'}{'WebHome'}."\n";
+# print "Main web, TWikiGuest contribs = " . ${$statsRef}{'Main'}{'Main.TWikiGuest'}."\n";
+    foreach my $web ( sort keys %$statsRef ) {
         my $count = 0;
-        print $web,' web:',"\n";
+        print $web, ' web:', "\n";
+
         # Get reference to the sub-hash for this web
         my $webhashref = ${$statsRef}{$web};
-		# print 'webhashref is ' . ref ($webhashref) ."\n";
+
+        # print 'webhashref is ' . ref ($webhashref) ."\n";
         # Items can be topics (for view hash) or users (for contrib hash)
         foreach my $item ( sort keys %$webhashref ) {
-            print "  $item = ",( ${$webhashref}{$item} || 0 ),"\n";
+            print "  $item = ", ( ${$webhashref}{$item} || 0 ), "\n";
             $count += ${$webhashref}{$item};
         }
         print "  WEB TOTAL = $count\n";
     }
 }
-
 
 # Process the whole log file and collect information in hash tables.
 # Must build stats for all webs, to handle case of renames into web
@@ -216,7 +238,7 @@ sub _debugPrintHash {
 #   $contrib{$web}{"Main.".$WikiName} == number of saves/uploads, by user
 
 sub _collectLogData {
-    my( $session, $TMPFILE, $theLogMonthYear ) = @_;
+    my ( $session, $TMPFILE, $theLogMonthYear ) = @_;
 
     # Log file format:
     # | date | user | op | web.topic | notes | ip |
@@ -229,8 +251,8 @@ sub _collectLogData {
     # notes = e.g. not on thursdays
     # ip = e.g. 127.0.0.5
 
-    my %view;		# Hash of hashes, counts topic views by (web, topic)
-    my %contrib;	# Hash of hashes, counts uploads/saves by (web, user)
+    my %view;       # Hash of hashes, counts topic views by (web, topic)
+    my %contrib;    # Hash of hashes, counts uploads/saves by (web, user)
 
     # Hashes for each type of statistic, one hash entry per web
     my %statViews;
@@ -242,54 +264,66 @@ sub _collectLogData {
     while ( my $line = <$TMPFILE> ) {
         my @fields = split( /\s*\|\s*/, $line );
 
-        my( $date, $logFileUserName );
-        while( !$date && scalar( @fields )) {
+        my ( $date, $logFileUserName );
+        while ( !$date && scalar(@fields) ) {
             $date = shift @fields;
         }
-        while( !$logFileUserName && scalar( @fields )) {
+        while ( !$logFileUserName && scalar(@fields) ) {
             $logFileUserName = shift @fields;
-            $logFileUserName = TWiki::Func::getCanonicalUserID($logFileUserName);
+            $logFileUserName =
+              TWiki::Func::getCanonicalUserID($logFileUserName);
         }
 
-        my( $opName, $webTopic, $notes, $ip ) = @fields;
+        my ( $opName, $webTopic, $notes, $ip ) = @fields;
 
         # ignore minor changes - not statistically helpful
-        next if( $notes && $notes =~ /(minor|dontNotify)/ );
+        next if ( $notes && $notes =~ /(minor|dontNotify)/ );
 
-        # ignore searches for now - idea: make a "top search phrase list" 
-        next if( $opName && $opName =~ /(search)/ );
+        # ignore searches for now - idea: make a "top search phrase list"
+        next if ( $opName && $opName =~ /(search)/ );
 
         # ignore "renamed web" log lines
-        next if( $opName && $opName =~ /(renameweb)/ );
+        next if ( $opName && $opName =~ /(renameweb)/ );
 
         # ignore "change password" log lines
-        next if( $opName && $opName =~ /(changepasswd)/ );
+        next if ( $opName && $opName =~ /(changepasswd)/ );
 
-        # .+ is used because topics name can contain stuff like !, (, ), =, -, _ and they should have stats anyway
-        if( $opName && $webTopic =~ /(^$TWiki::regex{webNameRegex})\.($TWiki::regex{wikiWordRegex}$|$TWiki::regex{abbrevRegex}|.+)/ ) {
-            my $webName = $1;
+# .+ is used because topics name can contain stuff like !, (, ), =, -, _ and they should have stats anyway
+        if (   $opName
+            && $webTopic =~
+/(^$TWiki::regex{webNameRegex})\.($TWiki::regex{wikiWordRegex}$|$TWiki::regex{abbrevRegex}|.+)/
+          )
+        {
+            my $webName   = $1;
             my $topicName = $2;
 
-            if( $opName eq 'view' ) {
-	    	next if ($topicName eq 'WebRss');
-	    	next if ($topicName eq 'WebAtom');
+            if ( $opName eq 'view' ) {
+                next if ( $topicName eq 'WebRss' );
+                next if ( $topicName eq 'WebAtom' );
                 $statViews{$webName}++;
-                unless( $notes && $notes =~ /\(not exist\)/ ) {
+                unless ( $notes && $notes =~ /\(not exist\)/ ) {
                     $view{$webName}{$topicName}++;
                 }
 
-            } elsif( $opName eq 'save' ) {
+            }
+            elsif ( $opName eq 'save' ) {
                 $statSaves{$webName}++;
-                $contrib{$webName}{$users->webDotWikiName($logFileUserName)}++;
+                $contrib{$webName}
+                  { $users->webDotWikiName($logFileUserName) }++;
 
-            } elsif( $opName eq 'upload' ) {
+            }
+            elsif ( $opName eq 'upload' ) {
                 $statUploads{$webName}++;
-                $contrib{$webName}{$users->webDotWikiName($logFileUserName)}++;
+                $contrib{$webName}
+                  { $users->webDotWikiName($logFileUserName) }++;
 
-            } elsif( $opName eq 'rename' ) {
+            }
+            elsif ( $opName eq 'rename' ) {
+
                 # Pick up the old and new topic names
-                $notes =~/moved to ($TWiki::regex{webNameRegex})\.($TWiki::regex{wikiWordRegex}|$TWiki::regex{abbrevRegex}|\w+)/o;
-                my $newTopicWeb = $1;
+                $notes =~
+/moved to ($TWiki::regex{webNameRegex})\.($TWiki::regex{wikiWordRegex}|$TWiki::regex{abbrevRegex}|\w+)/o;
+                my $newTopicWeb  = $1;
                 my $newTopicName = $2;
 
                 # Get number of views for old topic this month (may be zero)
@@ -305,8 +339,9 @@ sub _collectLogData {
                     $statViews{$newTopicWeb} += $oldViews;
                 }
             }
-        } else {
-            $session->writeDebug('WebStatistics: Bad logfile line '.$line);
+        }
+        else {
+            $session->writeDebug( 'WebStatistics: Bad logfile line ' . $line );
         }
     }
 
@@ -314,69 +349,78 @@ sub _collectLogData {
 }
 
 sub _processWeb {
-    my( $session, $web, $theLogMonthYear, $viewRef, $contribRef,
-        $statViewsRef, $statSavesRef, $statUploadsRef, $isFirstTime ) = @_;
+    my (
+        $session,      $web,            $theLogMonthYear,
+        $viewRef,      $contribRef,     $statViewsRef,
+        $statSavesRef, $statUploadsRef, $isFirstTime
+    ) = @_;
 
-    my( $topic, $user ) = ( $session->{topicName}, $session->{user} );
+    my ( $topic, $user ) = ( $session->{topicName}, $session->{user} );
 
-    if( $isFirstTime ) {
-        _printMsg( $session, '* Executed by '.$user );
+    if ($isFirstTime) {
+        _printMsg( $session, '* Executed by ' . $user );
     }
 
     _printMsg( $session, "* Reporting on $web web" );
 
     # Handle null values, print summary message to browser/stdout
-    my $statViews = $statViewsRef->{$web};
-    my $statSaves = $statSavesRef->{$web};
+    my $statViews   = $statViewsRef->{$web};
+    my $statSaves   = $statSavesRef->{$web};
     my $statUploads = $statUploadsRef->{$web};
-    $statViews ||= 0;
-    $statSaves ||= 0;
+    $statViews   ||= 0;
+    $statSaves   ||= 0;
     $statUploads ||= 0;
-    _printMsg( $session, "  - view: $statViews, save: $statSaves, upload: $statUploads" );
+    _printMsg( $session,
+        "  - view: $statViews, save: $statSaves, upload: $statUploads" );
 
-    
     # Get the top N views and contribs in this web
-    my (@topViews) = _getTopList( $TWiki::cfg{Stats}{TopViews}, $web, $viewRef );
-    my (@topContribs) = _getTopList( $TWiki::cfg{Stats}{TopContrib}, $web, $contribRef );
+    my (@topViews) =
+      _getTopList( $TWiki::cfg{Stats}{TopViews}, $web, $viewRef );
+    my (@topContribs) =
+      _getTopList( $TWiki::cfg{Stats}{TopContrib}, $web, $contribRef );
 
     # Print information to stdout
-    my $statTopViews = '';
+    my $statTopViews        = '';
     my $statTopContributors = '';
-    if( @topViews ) {
+    if (@topViews) {
         $statTopViews = join( CGI::br(), @topViews );
         $topViews[0] =~ s/[\[\]]*//g;
-        _printMsg( $session, '  - top view: '.$topViews[0] );
+        _printMsg( $session, '  - top view: ' . $topViews[0] );
     }
-    if( @topContribs ) {
+    if (@topContribs) {
         $statTopContributors = join( CGI::br(), @topContribs );
-        _printMsg( $session, '  - top contributor: '.$topContribs[0] );
+        _printMsg( $session, '  - top contributor: ' . $topContribs[0] );
     }
 
     # Update the WebStatistics topic
 
     my $tmp;
     my $statsTopic = $TWiki::cfg{Stats}{TopicName};
+
     # DEBUG
     # $statsTopic = 'TestStatistics';		# Create this by hand
-    if( $session->{store}->topicExists( $web, $statsTopic ) ) {
-        my( $meta, $text ) =
+    if ( $session->{store}->topicExists( $web, $statsTopic ) ) {
+        my ( $meta, $text ) =
           $session->{store}->readTopic( undef, $web, $statsTopic, undef );
         my @lines = split( /\r?\n/, $text );
         my $statLine;
         my $idxStat = -1;
         my $idxTmpl = -1;
-        for( my $x = 0; $x < @lines; $x++ ) {
+        for ( my $x = 0 ; $x < @lines ; $x++ ) {
             $tmp = $lines[$x];
+
             # Check for existing line for this month+year
-            if( $tmp =~ /$theLogMonthYear/ ) {
+            if ( $tmp =~ /$theLogMonthYear/ ) {
                 $idxStat = $x;
-            } elsif( $tmp =~ /<\!\-\-statDate\-\->/ ) {
+            }
+            elsif ( $tmp =~ /<\!\-\-statDate\-\->/ ) {
                 $statLine = $tmp;
-                $idxTmpl = $x;
+                $idxTmpl  = $x;
             }
         }
-        if( ! $statLine ) {
-            $statLine = '| <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |';
+        if ( !$statLine ) {
+            $statLine =
+'| <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |';
         }
         $statLine =~ s/<\!\-\-statDate\-\->/$theLogMonthYear/;
         $statLine =~ s/<\!\-\-statViews\-\->/ $statViews/;
@@ -385,29 +429,42 @@ sub _processWeb {
         $statLine =~ s/<\!\-\-statTopViews\-\->/$statTopViews/;
         $statLine =~ s/<\!\-\-statTopContributors\-\->/$statTopContributors/;
 
-        if( $idxStat >= 0 ) {
+        if ( $idxStat >= 0 ) {
+
             # entry already exists, need to update
             $lines[$idxStat] = $statLine;
 
-        } elsif( $idxTmpl >= 0 ) {
+        }
+        elsif ( $idxTmpl >= 0 ) {
+
             # entry does not exist, add after <!--statDate--> line
             $lines[$idxTmpl] = "$lines[$idxTmpl]\n$statLine";
 
-        } else {
+        }
+        else {
+
             # entry does not exist, add at the end
             $lines[@lines] = $statLine;
         }
         $text = join( "\n", @lines );
         $text .= "\n";
-        $session->{store}->saveTopic( $user, $web, $statsTopic,
-                                      $text, $meta,
-                                      { minor => 1,
-                                        dontlog => 1 } );
+        $session->{store}->saveTopic(
+            $user, $web,
+            $statsTopic,
+            $text, $meta,
+            {
+                minor   => 1,
+                dontlog => 1
+            }
+        );
 
         _printMsg( $session, "  - Topic $statsTopic updated" );
 
-    } else {
-        _printMsg( $session, "! Warning: No updates done, topic $web.$statsTopic does not exist" );
+    }
+    else {
+        _printMsg( $session,
+            "! Warning: No updates done, topic $web.$statsTopic does not exist"
+        );
     }
 
     return $web;
@@ -415,29 +472,31 @@ sub _processWeb {
 
 # Get the items with top N frequency counts
 # Items can be topics (for view hash) or users (for contrib hash)
-sub _getTopList
-{
-    my( $theMaxNum, $webName, $statsRef ) = @_;
+sub _getTopList {
+    my ( $theMaxNum, $webName, $statsRef ) = @_;
 
     # Get reference to the sub-hash for this web
     my $webhashref = $statsRef->{$webName};
 
-    # print "Main.WebHome views = " . $statsRef->{$webName}{'WebHome'}."\n";
-    # print "Main web, TWikiGuest contribs = " . ${$statsRef}{$webName}{'Main.TWikiGuest'}."\n";
+# print "Main.WebHome views = " . $statsRef->{$webName}{'WebHome'}."\n";
+# print "Main web, TWikiGuest contribs = " . ${$statsRef}{$webName}{'Main.TWikiGuest'}."\n";
 
     my @list = ();
     my $topicName;
     my $statValue;
 
-    # Convert sub hash of item=>statsvalue pairs into an array, @list, 
+    # Convert sub hash of item=>statsvalue pairs into an array, @list,
     # of '$statValue $topicName', ready for sorting.
-    while( ( $topicName, $statValue ) = each( %$webhashref ) ) {
+    while ( ( $topicName, $statValue ) = each(%$webhashref) ) {
+
         # Right-align statistic value for sorting
-        $statValue = sprintf '%7d', $statValue;	
+        $statValue = sprintf '%7d', $statValue;
+
         # Add new array item at end of array
-        if( $topicName =~ /\./ ) {
+        if ( $topicName =~ /\./ ) {
             $list[@list] = "$statValue $topicName";
-        } else {
+        }
+        else {
             $list[@list] = "$statValue [[$topicName]]";
         }
     }
@@ -447,44 +506,52 @@ sub _getTopList
     # print join "\n", @list;
 
     # Sort @list by frequency and pick the top N entries
-    if( @list ) {
+    if (@list) {
+
         # Strip initial spaces
-        @list = map{ s/^\s*//; $_ } @list;
+        @list = map { s/^\s*//; $_ } @list;
 
-        @list = # Prepend spaces depending on no. of digits
-          map{ s/^([0-9][0-9][^0-9])/\&nbsp\;$1/; $_ }
-            map{ s/^([0-9][^0-9])/\&nbsp\;\&nbsp\;$1/; $_ }
-              # Sort numerically, descending order
-              sort { (split / /, $b)[0] <=> (split / /, $a)[0] }  @list;
+        @list =    # Prepend spaces depending on no. of digits
+          map { s/^([0-9][0-9][^0-9])/\&nbsp\;$1/;    $_ }
+          map { s/^([0-9][^0-9])/\&nbsp\;\&nbsp\;$1/; $_ }
 
-        if( $theMaxNum >= @list ) {
+          # Sort numerically, descending order
+          sort { ( split / /, $b )[0] <=> ( split / /, $a )[0] } @list;
+
+        if ( $theMaxNum >= @list ) {
             $theMaxNum = @list - 1;
         }
-        return @list[0..$theMaxNum];
+        return @list[ 0 .. $theMaxNum ];
     }
     return @list;
 }
 
 sub _printMsg {
-    my( $session, $msg ) = @_;
+    my ( $session, $msg ) = @_;
 
-    if( $session->inContext('command_line') ) {
+    if ( $session->inContext('command_line') ) {
         $msg =~ s/&nbsp;/ /go;
-    } else {
-        if( $msg =~ s/^\!// ) {
-            $msg = CGI::h4( CGI::span( { class=>'twikiAlert' }, $msg ));
-        } elsif( $msg =~ /^[A-Z]/ ) {
+    }
+    else {
+        if ( $msg =~ s/^\!// ) {
+            $msg = CGI::h4( CGI::span( { class => 'twikiAlert' }, $msg ) );
+        }
+        elsif ( $msg =~ /^[A-Z]/ ) {
+
             # SMELL: does not support internationalised script messages
             $msg =~ s/^([A-Z].*)/CGI::h3($1)/ge;
-        } else {
+        }
+        else {
             $msg =~ s/(\*\*\*.*)/CGI::span( { class=>'twikiAlert' }, $1 )/ge;
             $msg =~ s/^\s\s/&nbsp;&nbsp;/go;
             $msg =~ s/^\s/&nbsp;/go;
             $msg .= CGI::br();
         }
-        $msg =~ s/==([A-Z]*)==/'=='.CGI::span( { class=>'twikiAlert' }, $1 ).'=='/ge;
+        $msg =~
+          s/==([A-Z]*)==/'=='.CGI::span( { class=>'twikiAlert' }, $1 ).'=='/ge;
     }
-    $session->{response}->body( ( $session->{response}->body || '' ) . $msg . "\n" )
+    $session->{response}
+      ->body( ( $session->{response}->body || '' ) . $msg . "\n" )
       if $msg;
 }
 

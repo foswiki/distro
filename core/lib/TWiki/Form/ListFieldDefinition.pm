@@ -34,6 +34,7 @@ sub finish {
 # PROTECTED - parse the {value} and extract a list of options.
 # Done lazily to avoid repeated topic reads.
 sub getOptions {
+
     # $web and $topic are where the form definition lives
     my $this = shift;
 
@@ -42,27 +43,32 @@ sub getOptions {
     my @vals = ();
 
     @vals = split( /,/, $this->{value} );
-    if( !scalar( @vals )) {
+    if ( !scalar(@vals) ) {
         my $topic = $this->{definingTopic} || $this->{name};
         my $session = $this->{session};
-        my( $fieldWeb, $fieldTopic ) =
+        my ( $fieldWeb, $fieldTopic ) =
           $session->normalizeWebTopicName( $this->{web}, $topic );
         my $store = $session->{store};
         if ( $store->topicExists( $fieldWeb, $fieldTopic ) ) {
-            my( $meta, $text ) =
-              $store->readTopic( $session->{user},
-                                 $fieldWeb, $fieldTopic, undef );
+            my ( $meta, $text ) =
+              $store->readTopic( $session->{user}, $fieldWeb, $fieldTopic,
+                undef );
+
             # Process SEARCHES for Lists
-            $text = $this->{session}->handleCommonTags(
-                $text, $this->{web}, $topic, $meta);
+            $text =
+              $this->{session}
+              ->handleCommonTags( $text, $this->{web}, $topic, $meta );
+
             # SMELL: yet another table parser
             my $inBlock = 0;
-            foreach( split( /\r?\n/, $text ) ) {
-                if( /^\s*\|\s*\*Name\*\s*\|/ ) {
+            foreach ( split( /\r?\n/, $text ) ) {
+                if (/^\s*\|\s*\*Name\*\s*\|/) {
                     $inBlock = 1;
-                } elsif( /^\s*\|\s*([^|]*?)\s*\|/ ) {
-                    push( @vals, $1 ) if( $inBlock );
-                } else {
+                }
+                elsif (/^\s*\|\s*([^|]*?)\s*\|/) {
+                    push( @vals, $1 ) if ($inBlock);
+                }
+                else {
                     $inBlock = 0;
                 }
             }

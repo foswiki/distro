@@ -1,7 +1,7 @@
 # Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
 #
-# Copyright (C) 2004-2007 TWiki Contributors. All Rights Reserved. 
-# TWiki Contributors are listed in the AUTHORS file in the root of 
+# Copyright (C) 2004-2007 TWiki Contributors. All Rights Reserved.
+# TWiki Contributors are listed in the AUTHORS file in the root of
 # this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
@@ -41,11 +41,11 @@ provided mainly as an example of how to write a new password manager.
 =cut
 
 sub new {
-    my( $class, $session ) = @_;
+    my ( $class, $session ) = @_;
 
-    my $this = $class->SUPER::new( $session );
-    $this->{apache} = new Apache::Htpasswd
-      ( { passwdFile => $TWiki::cfg{Htpasswd}{FileName} } );
+    my $this = $class->SUPER::new($session);
+    $this->{apache} =
+      new Apache::Htpasswd( { passwdFile => $TWiki::cfg{Htpasswd}{FileName} } );
 
     return $this;
 }
@@ -77,8 +77,9 @@ returns true if the password file is not currently modifyable
 sub readOnly {
     my $this = shift;
     my $path = $TWiki::cfg{Htpasswd}{FileName};
+
     #TODO: what if the data dir is also read only?
-    if ((!-e $path) || ( -e $path && -r $path && !-d $path && -w $path)) {
+    if ( ( !-e $path ) || ( -e $path && -r $path && !-d $path && -w $path ) ) {
         $this->{session}->enterContext('passwords_modifyable');
         return 0;
     }
@@ -90,22 +91,22 @@ sub canFetchUsers {
 }
 
 sub fetchUsers {
-    my $this = shift;
+    my $this  = shift;
     my @users = $this->{apache}->fetchUsers();
-    return new ListIterator(\@users);
+    return new ListIterator( \@users );
 }
 
 sub fetchPass {
-    my( $this, $login ) = @_;
-    ASSERT( $login ) if DEBUG;
-    my $r = $this->{apache}->fetchPass( $login );
+    my ( $this, $login ) = @_;
+    ASSERT($login) if DEBUG;
+    my $r = $this->{apache}->fetchPass($login);
     $this->{error} = undef;
     return $r;
 }
 
 sub checkPassword {
-    my( $this, $login, $passU ) = @_;
-    ASSERT( $login ) if DEBUG;
+    my ( $this, $login, $passU ) = @_;
+    ASSERT($login) if DEBUG;
 
     my $r = $this->{apache}->htCheckPassword( $login, $passU );
     $this->{error} = $this->{apache}->error();
@@ -113,38 +114,39 @@ sub checkPassword {
 }
 
 sub removeUser {
-    my( $this, $login ) = @_;
-    ASSERT( $login ) if DEBUG;
+    my ( $this, $login ) = @_;
+    ASSERT($login) if DEBUG;
 
     $this->{error} = undef;
 
     #don't ask to remove a user that does not exist - Apache::Htpasswd carpsA
-    unless ( $this->{apache}->fetchPass( $login ) ) {
+    unless ( $this->{apache}->fetchPass($login) ) {
         $this->{error} = "User does not exist";
         return;
     }
 
     my $r;
     try {
-        $r = $this->{apache}->htDelete( $login );
-        $this->{error} = $this->{apache}->error() unless (defined($r));        
-    } catch Error::Simple with {
+        $r = $this->{apache}->htDelete($login);
+        $this->{error} = $this->{apache}->error() unless ( defined($r) );
+    }
+    catch Error::Simple with {
         $this->{error} = $this->{apache}->error();
     };
     return $r;
 }
 
 sub setPassword {
-    my( $this, $login, $newPassU, $oldPassU ) = @_;
-    ASSERT( $login ) if DEBUG;
+    my ( $this, $login, $newPassU, $oldPassU ) = @_;
+    ASSERT($login) if DEBUG;
 
-    if( defined($oldPassU)) {
+    if ( defined($oldPassU) ) {
         my $ok = 0;
         try {
             $ok = $this->{apache}->htCheckPassword( $login, $oldPassU );
-        } catch Error::Simple with {
-        };
-        unless( $ok ) {
+        }
+        catch Error::Simple with {};
+        unless ($ok) {
             $this->{error} = "Wrong password";
             return 0;
         }
@@ -154,23 +156,24 @@ sub setPassword {
     try {
         $added = $this->{apache}->htpasswd( $login, $newPassU, $oldPassU );
         $this->{error} = undef;
-    } catch Error::Simple with {
+    }
+    catch Error::Simple with {
         $this->{error} = $this->{apache}->error();
-        $this->{error} = undef if
-          $this->{error} && $this->{error} =~ /assword not changed/;
+        $this->{error} = undef
+          if $this->{error} && $this->{error} =~ /assword not changed/;
     };
 
     return $added;
 }
 
 sub encrypt {
-    my( $this, $login, $passwordU, $fresh ) = @_;
-    ASSERT( $login ) if DEBUG;
+    my ( $this, $login, $passwordU, $fresh ) = @_;
+    ASSERT($login) if DEBUG;
 
     my $salt = '';
-    unless( $fresh ) {
-        my $epass = $this->fetchPass( $login );
-        $salt = substr( $epass, 0, 2 ) if ( $epass );
+    unless ($fresh) {
+        my $epass = $this->fetchPass($login);
+        $salt = substr( $epass, 0, 2 ) if ($epass);
     }
     my $r = $this->{apache}->CryptPasswd( $passwordU, $salt );
     $this->{error} = $this->{apache}->error();
@@ -188,16 +191,16 @@ sub isManagingEmails {
 
 # emails are stored in extra info field as a ; separated list
 sub getEmails {
-    my( $this, $login) = @_;
-    my @r = split(/;/, $this->{apache}->fetchInfo($login));
+    my ( $this, $login ) = @_;
+    my @r = split( /;/, $this->{apache}->fetchInfo($login) );
     $this->{error} = $this->{apache}->error() || undef;
     return @r;
 }
 
 sub setEmails {
-    my $this = shift;
+    my $this  = shift;
     my $login = shift;
-    my $r = $this->{apache}->writeInfo($login, join(';', @_));
+    my $r     = $this->{apache}->writeInfo( $login, join( ';', @_ ) );
     $this->{error} = $this->{apache}->error() || undef;
     return $r;
 }

@@ -25,25 +25,31 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    return '' if( !$Twiki::cfg{EnableEmail} );
+    return '' if ( !$Twiki::cfg{EnableEmail} );
 
     eval "use Net::SMTP";
     my $n;
     my $useprog = 0;
     if ($@) {
-        $n = "Net::SMTP is <b>not</b> installed in this environment. ";
+        $n       = "Net::SMTP is <b>not</b> installed in this environment. ";
         $useprog = 1;
-    } elsif( !$TWiki::cfg{SMTP}{MAILHOST} ) {
-        $n = $this->WARN('Net::SMTP is installed in this environment, but {SMTP}{MAILHOST} is not defined, so the {MailProgram} <b>will</b> be used..');
+    }
+    elsif ( !$TWiki::cfg{SMTP}{MAILHOST} ) {
+        $n = $this->WARN(
+'Net::SMTP is installed in this environment, but {SMTP}{MAILHOST} is not defined, so the {MailProgram} <b>will</b> be used..'
+        );
         $useprog = 1;
-    } else {
-        $n = $this->NOTE('<em>Net::SMTP is installed in this environment, so this setting will <b>not</b> be used.</em>');
+    }
+    else {
+        $n = $this->NOTE(
+'<em>Net::SMTP is installed in this environment, so this setting will <b>not</b> be used.</em>'
+        );
         $useprog = 0;
     }
     if ($useprog) {
         my $val = $TWiki::cfg{MailProgram} || '';
         $val =~ s/\s.*$//g;
-        if( ! ( -x $val ) ) {
+        if ( !( -x $val ) ) {
             $n .= $this->WARN("<tt>$val</tt> was not found. Check the path.");
         }
     }

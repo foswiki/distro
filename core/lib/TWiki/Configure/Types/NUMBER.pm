@@ -23,22 +23,23 @@ use TWiki::Configure::Type;
 use base 'TWiki::Configure::Type';
 
 sub prompt {
-    my( $this, $id, $opts, $value) = @_;
-    unless( $opts =~ /\s(\d+)\s/ ) {
+    my ( $this, $id, $opts, $value ) = @_;
+    unless ( $opts =~ /\s(\d+)\s/ ) {
+
         # fix the size
         $opts .= ' 20 ';
     }
-    return $this->SUPER::prompt($id, $opts, $value);
+    return $this->SUPER::prompt( $id, $opts, $value );
 }
 
 sub string2value {
-    my ($this, $val) = @_;
+    my ( $this, $val ) = @_;
     $val ||= 0;
-    return 0+$val;
+    return 0 + $val;
 }
 
 sub equals {
-    my ($this, $val, $def) = @_;
+    my ( $this, $val, $def ) = @_;
 
     return $val + 1 == $def + 1;
 }

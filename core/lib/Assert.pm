@@ -24,36 +24,37 @@ BEGIN {
     $VERSION = '0.01';
 
     $EXPORT_TAGS{NDEBUG} = [qw(ASSERT UNTAINTED DEBUG)];
-    $EXPORT_TAGS{DEBUG} = $EXPORT_TAGS{NDEBUG};
+    $EXPORT_TAGS{DEBUG}  = $EXPORT_TAGS{NDEBUG};
     Exporter::export_tags(qw(NDEBUG DEBUG));
 }
 
 # constant.pm, alas, adds too much load time (yes, I benchmarked it)
-sub ASSERTS_ON()  { 1 }       # CONSTANT
-sub ASSERTS_OFF() { 0 }       # CONSTANT
+sub ASSERTS_ON()  { 1 }    # CONSTANT
+sub ASSERTS_OFF() { 0 }    # CONSTANT
 
 # Export the proper DEBUG flag if TWIKI_ASSERTS is set,
 # otherwise export noop versions of our routines
-sub noop {}
+sub noop { }
 
 sub import {
     no warnings 'redefine';
     no strict 'refs';
-    if( $ENV{TWIKI_ASSERTS} ) {
+    if ( $ENV{TWIKI_ASSERTS} ) {
         *DEBUG = *ASSERTS_ON;
-        Assert->export_to_level(1, @_);
-    } else {
+        Assert->export_to_level( 1, @_ );
+    }
+    else {
         my $caller = caller;
-        *{$caller.'::ASSERT'} = \&noop;
-        *{$caller.'::UNTAINTED'} = \&ASSERTS_OFF;
-        *{$caller.'::DEBUG'} = \&ASSERTS_OFF;
+        *{ $caller . '::ASSERT' }    = \&noop;
+        *{ $caller . '::UNTAINTED' } = \&ASSERTS_OFF;
+        *{ $caller . '::DEBUG' }     = \&ASSERTS_OFF;
     }
     use strict 'refs';
     use warnings 'redefine';
 }
 
 sub ASSERT ($;$) {
-    unless ($_[0]) {
+    unless ( $_[0] ) {
         require Carp;
         my $msg = 'Assertion';
         $msg .= " ($_[1])" if defined $_[1];
@@ -64,7 +65,7 @@ sub ASSERT ($;$) {
 }
 
 sub UNTAINTED($) {
-    local (@_, $@, $^W) = @_;
+    local ( @_, $@, $^W ) = @_;
     my $x;
     return eval { $x = $_[0], kill 0; 1 };
 }

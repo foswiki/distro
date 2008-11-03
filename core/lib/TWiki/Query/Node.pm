@@ -25,7 +25,7 @@ use Assert;
 use Error qw( :try );
 
 # 1 for debug
-sub MONITOR_EVAL { 0 };
+sub MONITOR_EVAL { 0 }
 
 =pod
 
@@ -51,7 +51,7 @@ use vars qw ( %aliases %isArrayType );
     moved       => 'META:TOPICMOVED',
     parent      => 'META:TOPICPARENT',
     preferences => 'META:PREFERENCE',
-   );
+);
 
 %isArrayType =
   map { $_ => 1 } qw( FILEATTACHMENT FIELD PREFERENCE );
@@ -59,50 +59,64 @@ use vars qw ( %aliases %isArrayType );
 # $data is the indexed object
 # $field is the scalar being used to index the object
 sub _getField {
-    my( $this, $data, $field ) = @_;
+    my ( $this, $data, $field ) = @_;
 
     my $result;
-    if (UNIVERSAL::isa($data, 'TWiki::Meta')) {
+    if ( UNIVERSAL::isa( $data, 'TWiki::Meta' ) ) {
+
         # The object being indexed is a TWiki::Meta object, so
         # we have to use a different approach to treating it
         # as an associative array. The first thing to do is to
         # apply our "alias" shortcuts.
         my $realField = $field;
-        if( $aliases{$field} ) {
+        if ( $aliases{$field} ) {
             $realField = $aliases{$field};
         }
-        if ($realField =~ s/^META://) {
-            if ($isArrayType{$realField}) {
+        if ( $realField =~ s/^META:// ) {
+            if ( $isArrayType{$realField} ) {
+
                 # Array type, have to use find
-                my @e = $data->find( $realField );
+                my @e = $data->find($realField);
                 $result = \@e;
-            } else {
-                $result = $data->get( $realField );
             }
-        } elsif ($realField eq 'name') {
+            else {
+                $result = $data->get($realField);
+            }
+        }
+        elsif ( $realField eq 'name' ) {
+
             # Special accessor to compensate for lack of a topic
             # name anywhere in the saved fields of meta
             return $data->topic();
-        } elsif ($realField eq 'text') {
+        }
+        elsif ( $realField eq 'text' ) {
+
             # Special accessor to compensate for lack of the topic text
             # name anywhere in the saved fields of meta
             return $data->text();
-        } elsif ($realField eq 'web') {
+        }
+        elsif ( $realField eq 'web' ) {
+
             # Special accessor to compensate for lack of a web
             # name anywhere in the saved fields of meta
             return $data->web();
-        } else {
+        }
+        else {
+
             # The field name isn't an alias, check to see if it's
             # the form name
-            my $form = $data->get( 'FORM' );
-            if( $form && $field eq $form->{name}) {
+            my $form = $data->get('FORM');
+            if ( $form && $field eq $form->{name} ) {
+
                 # SHORTCUT;it's the form name, so give me the fields
                 # as if the 'field' keyword had been used.
                 # TODO: This is where multiple form support needs to reside.
                 # Return the array of FIELD for further indexing.
-                my @e = $data->find( 'FIELD' );
+                my @e = $data->find('FIELD');
                 return \@e;
-            } else {
+            }
+            else {
+
                 # SHORTCUT; not a predefined name; assume it's a field
                 # 'name' instead.
                 # SMELL: Needs to error out if there are multiple forms -
@@ -112,41 +126,53 @@ sub _getField {
                 $result = $result->{value} if $result;
             }
         }
-    } elsif( ref( $data ) eq 'ARRAY' ) {
+    }
+    elsif ( ref($data) eq 'ARRAY' ) {
+
         # Indexing an array object. The index will be one of:
         # 1. An integer, which is an implicit index='x' query
         # 2. A name, which is an implicit name='x' query
-        if( $field =~ /^\d+$/ ) {
+        if ( $field =~ /^\d+$/ ) {
+
             # Integer index
             $result = $data->[$field];
-        } else {
+        }
+        else {
+
             # String index
             my @res;
+
             # Get all array entries that match the field
-            foreach my $f ( @$data ) {
+            foreach my $f (@$data) {
                 my $val = $this->_getField( $f, $field );
-                push( @res, $val ) if defined( $val );
+                push( @res, $val ) if defined($val);
             }
-            if (scalar( @res )) {
+            if ( scalar(@res) ) {
                 $result = \@res;
-            } else {
+            }
+            else {
+
                 # The field name wasn't explicitly seen in any of the records.
                 # Try again, this time matching 'name' and returning 'value'
-                foreach my $f ( @$data ) {
+                foreach my $f (@$data) {
                     next unless ref($f) eq 'HASH';
-                    if ($f->{name} && $f->{name} eq $field
-                          && defined $f->{value}) {
+                    if (   $f->{name}
+                        && $f->{name} eq $field
+                        && defined $f->{value} )
+                    {
                         push( @res, $f->{value} );
                     }
                 }
-                if (scalar( @res )) {
+                if ( scalar(@res) ) {
                     $result = \@res;
                 }
             }
         }
-    } elsif( ref( $data ) eq 'HASH' ) {
-        $result = $data->{$this->{params}[0]};
-    } else {
+    }
+    elsif ( ref($data) eq 'HASH' ) {
+        $result = $data->{ $this->{params}[0] };
+    }
+    else {
         $result = $this->{params}[0];
     }
     return $result;
@@ -156,18 +182,24 @@ sub _getField {
 sub toString {
     my ($a) = @_;
     return 'undef' unless defined($a);
-    if (ref($a) eq 'ARRAY') {
-        return '['.join(',', map { toString($_) } @$a).']'
-    } elsif (UNIVERSAL::isa($a, 'TWiki::Meta')) {
+    if ( ref($a) eq 'ARRAY' ) {
+        return '[' . join( ',', map { toString($_) } @$a ) . ']';
+    }
+    elsif ( UNIVERSAL::isa( $a, 'TWiki::Meta' ) ) {
         return $a->stringify();
-    } elsif (ref($a) eq 'HASH') {
-        return '{'.join(',', map { "$_=>".toString($a->{$_}) } keys %$a).'}'
-    } else {
+    }
+    elsif ( ref($a) eq 'HASH' ) {
+        return
+          '{'
+          . join( ',', map { "$_=>" . toString( $a->{$_} ) } keys %$a ) . '}';
+    }
+    else {
         return $a;
     }
 }
 
 my $ind = 0;
+
 # </DEBUG SUPPORT>
 
 # Evalute this node by invoking the operator function named in the 'exec'
@@ -175,28 +207,32 @@ my $ind = 0;
 # results) or a scalar (for a single result)
 sub evaluate {
     my $this = shift;
-    ASSERT( scalar(@_) % 2 == 0);
+    ASSERT( scalar(@_) % 2 == 0 );
     my $result;
 
-    print STDERR ('-' x $ind).$this->stringify() if MONITOR_EVAL;
+    print STDERR ( '-' x $ind ) . $this->stringify() if MONITOR_EVAL;
 
-    if (!ref( $this->{op})) {
+    if ( !ref( $this->{op} ) ) {
         my %domain = @_;
-        if ($this->{op} == $TWiki::Infix::Node::NAME &&
-              defined $domain{data}) {
+        if ( $this->{op} == $TWiki::Infix::Node::NAME
+            && defined $domain{data} )
+        {
+
             # a name; look it up in clientData
-            $result = $this->_getField( $domain{data}, $this->{params}[0]);
-        } else {
+            $result = $this->_getField( $domain{data}, $this->{params}[0] );
+        }
+        else {
             $result = $this->{params}[0];
         }
-    } else {
+    }
+    else {
         print STDERR " {\n" if MONITOR_EVAL;
         $ind++ if MONITOR_EVAL;
         $result = $this->{op}->evaluate( $this, @_ );
         $ind-- if MONITOR_EVAL;
-        print STDERR ('-' x $ind).'}' if MONITOR_EVAL;
+        print STDERR ( '-' x $ind ) . '}' if MONITOR_EVAL;
     }
-    print STDERR ' -> ',toString($result),"\n" if MONITOR_EVAL;
+    print STDERR ' -> ', toString($result), "\n" if MONITOR_EVAL;
 
     return $result;
 }

@@ -7,17 +7,15 @@ use File::Path qw( mkpath );
 
 ################################################################################
 
-sub fields
-{
+sub fields {
     return qw( type mode owner group destination source options );
 }
 
 ################################################################################
 
-sub parseEntry
-{
+sub parseEntry {
     my $format = shift;
-    my $parms = {};
+    my $parms  = {};
 
     # type mode owner group destination source options
     @$parms{ fields() } = split( / /, $format );
@@ -27,32 +25,33 @@ sub parseEntry
 
 ################################################################################
 
-sub new
-{
+sub new {
     my $class = shift;
     my $parms = shift || {};
-    $parms = parseEntry( $parms ) unless ref( $parms );
+    $parms = parseEntry($parms) unless ref($parms);
     my $self = bless( $parms, $class );
 
     die unless $self->{source};
     $self->{source} =~ s/\$/\$\$/g;
 
-    unless ( $self->{type} )
-    {
-	$self->{type} = -l $self->{source} && 'l'
-	    || -d $self->{source} && 'd'
-	    || 'f';
+    unless ( $self->{type} ) {
+        $self->{type} =
+             -l $self->{source} && 'l'
+          || -d $self->{source} && 'd'
+          || 'f';
     }
-    $self->{mode} ||= '755';
-    $self->{owner} ||= 'root';	#?
-#?    $self->{group} ||= 'twiki';
+    $self->{mode}  ||= '755';
+    $self->{owner} ||= 'root';    #?
+
+    #?    $self->{group} ||= 'twiki';
     $self->{options} ||= '';
 
-    unless ( $self->{destination} )
-    {
-	$self->{source} .= '/' if $self->{type} eq 'd';
-	# if filename starts with one of the standard twiki points, remap it to a variable name
-	( $self->{destination} = $self->{source} ) =~ s#^((templates|lib|bin|pub|data)/)#\$$1#;
+    unless ( $self->{destination} ) {
+        $self->{source} .= '/' if $self->{type} eq 'd';
+
+# if filename starts with one of the standard twiki points, remap it to a variable name
+        ( $self->{destination} = $self->{source} ) =~
+          s#^((templates|lib|bin|pub|data)/)#\$$1#;
     }
 
     return $self;
@@ -60,34 +59,33 @@ sub new
 
 ################################################################################
 
-sub install
-{
+sub install {
     my ( $self, $p ) = @_;
     $p->{basedir} ||= '';
 
     $self->{destination} =~ s#(\$([A-Za-z_]+)/)#$p->{paths}->{$2}/#g;
+
     # cleanup double slashes (not really necessary, just being pedantic)
     $self->{destination} =~ s#//#/#g;
 
     $self->{source} = "$p->{basedir}/$self->{source}";
 
-    warn qq{source and destination files are the same "$self->{source}"\n}, return
-	if $self->{source} eq $self->{destination};
-    
-    if ( $self->{type} eq 'd' )
-    {
-#	mkdir $self->{destination};
-	mkpath $self->{destination}, 0, oct( $self->{mode} );
+    warn qq{source and destination files are the same "$self->{source}"\n},
+      return
+      if $self->{source} eq $self->{destination};
+
+    if ( $self->{type} eq 'd' ) {
+
+        #	mkdir $self->{destination};
+        mkpath $self->{destination}, 0, oct( $self->{mode} );
     }
-    elsif ( $self->{type} eq 'f' )
-    {
-	print $self, "\n";
-	cp( $self->{source}, $self->{destination} );
-	chmod oct($self->{mode}), $self->{destination};
+    elsif ( $self->{type} eq 'f' ) {
+        print $self, "\n";
+        cp( $self->{source}, $self->{destination} );
+        chmod oct( $self->{mode} ), $self->{destination};
     }
-    else
-    {
-	warn "unknown file type for $self\n";
+    else {
+        warn "unknown file type for $self\n";
     }
 
 }
@@ -113,12 +111,11 @@ use overload ( '""' => \&stringify );
 sub stringify {
     my $self = shift;
     my $text;
-    foreach my $field ( fields() )
-    {
-	my $f = $self->{ $field };
-	$f = '?' unless defined $f;
-	$f =~ s/ /\\ /g;		# escape spaces
-	$text .= "$f ";
+    foreach my $field ( fields() ) {
+        my $f = $self->{$field};
+        $f = '?' unless defined $f;
+        $f =~ s/ /\\ /g;    # escape spaces
+        $text .= "$f ";
     }
     return $text;
 }

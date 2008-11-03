@@ -66,25 +66,25 @@ If the specified topic is not found, returns an empty object.
 =cut
 
 sub new {
-    my( $class, $prefs, $parent, $type, $web, $topic, $prefix) = @_;
+    my ( $class, $prefs, $parent, $type, $web, $topic, $prefix ) = @_;
 
-    ASSERT($prefs->isa( 'TWiki::Prefs')) if DEBUG;
+    ASSERT( $prefs->isa('TWiki::Prefs') ) if DEBUG;
     ASSERT($type) if DEBUG;
 
     my $this = bless( {}, $class );
     $this->{MANAGER} = $prefs;
-    $this->{TYPE} = $type;
-    $this->{SOURCE} = '';
+    $this->{TYPE}    = $type;
+    $this->{SOURCE}  = '';
     $this->{CONTEXT} = $prefs;
 
-    if( $parent && $parent->{values} ) {
-        %{$this->{values}} = %{$parent->{values}};
+    if ( $parent && $parent->{values} ) {
+        %{ $this->{values} } = %{ $parent->{values} };
     }
-    if( $parent && $parent->{locals} ) {
-        %{$this->{locals}} = %{$parent->{locals}};
+    if ( $parent && $parent->{locals} ) {
+        %{ $this->{locals} } = %{ $parent->{locals} };
     }
 
-    if( $web && $topic ) {
+    if ( $web && $topic ) {
         $this->loadPrefsFromTopic( $web, $topic, $prefix );
     }
 
@@ -127,10 +127,11 @@ sub finalise {
     my $this = shift;
 
     my $value = $this->{values}{FINALPREFERENCES};
-    if( $value ) {
+    if ($value) {
         foreach ( split( /[\s,]+/, $value ) ) {
+
             # Note: cannot refinalise an already final value
-            unless( $this->{CONTEXT}->isFinalised( $_ )) {
+            unless ( $this->{CONTEXT}->isFinalised($_) ) {
                 $this->{final}{$_} = 1;
             }
         }
@@ -147,15 +148,15 @@ with the key prefix (default '').
 =cut
 
 sub loadPrefsFromTopic {
-    my( $this, $web, $topic, $keyPrefix ) = @_;
+    my ( $this, $web, $topic, $keyPrefix ) = @_;
 
     $keyPrefix ||= '';
 
-    $this->{SOURCE} = $web.'.'.$topic;
+    $this->{SOURCE} = $web . '.' . $topic;
 
     my $session = $this->{MANAGER}->{session};
-    if( $session->{store}->topicExists( $web, $topic )) {
-        my( $meta, $text ) =
+    if ( $session->{store}->topicExists( $web, $topic ) ) {
+        my ( $meta, $text ) =
           $session->{store}->readTopic( undef, $web, $topic, undef );
 
         $parser ||= new TWiki::Prefs::Parser();
@@ -180,12 +181,12 @@ be parsed to extract meta-data.
 # audit trail of access control settings for free.
 
 sub loadPrefsFromText {
-    my( $this, $text, $meta, $web, $topic ) = @_;
+    my ( $this, $text, $meta, $web, $topic ) = @_;
 
-    $this->{SOURCE} = $web.'.'.$topic;
+    $this->{SOURCE} = $web . '.' . $topic;
 
     my $session = $this->{MANAGER}->{session};
-    unless( $meta ) {
+    unless ($meta) {
         require TWiki::Meta;
         $meta = new TWiki::Meta( $session, $web, $topic, $text );
     }
@@ -210,18 +211,19 @@ Returns 1 if the preference was defined, 0 otherwise.
 =cut
 
 sub insert {
-    my( $this, $type, $key, $value ) = @_;
+    my ( $this, $type, $key, $value ) = @_;
 
-    return 0 if $this->{CONTEXT}->isFinalised( $key );
+    return 0 if $this->{CONTEXT}->isFinalised($key);
 
-    $value =~ tr/\r//d;                 # Delete \r
-    $value =~ tr/\t/ /;                 # replace TAB by space
-    $value =~ s/([^\\])\\n/$1\n/g;      # replace \n by new line
-    $value =~ s/([^\\])\\\\n/$1\\n/g;   # replace \\n by \n
-    $value =~ tr/`//d;                  # filter out dangerous chars
-    if( $type eq 'Local' ) {
-        $this->{locals}{$this->{SOURCE}.'-'.$key} = $value;
-    } else {
+    $value =~ tr/\r//d;                  # Delete \r
+    $value =~ tr/\t/ /;                  # replace TAB by space
+    $value =~ s/([^\\])\\n/$1\n/g;       # replace \n by new line
+    $value =~ s/([^\\])\\\\n/$1\\n/g;    # replace \\n by \n
+    $value =~ tr/`//d;                   # filter out dangerous chars
+    if ( $type eq 'Local' ) {
+        $this->{locals}{ $this->{SOURCE} . '-' . $key } = $value;
+    }
+    else {
         $this->{values}{$key} = $value;
     }
     $this->{SetHere}{$key} = 1;
@@ -238,45 +240,53 @@ Generate an (HTML if $html) representation of the content of this cache.
 =cut
 
 sub stringify {
-    my( $this, $html ) = @_;
+    my ( $this, $html ) = @_;
     my $res;
 
-    if( $html ) {
-        $res = CGI::Tr( 
-                   CGI::th( {colspan=>2, class=>'twikiFirstCol'}, CGI::h3($this->{TYPE}.' '.
-                              $this->{SOURCE} )))."\n";
-    } else {
-        $res = '******** '.$this->{TYPE}.' '.$this->{SOURCE}."\n";
+    if ($html) {
+        $res = CGI::Tr(
+            CGI::th(
+                { colspan => 2, class => 'twikiFirstCol' },
+                CGI::h3( $this->{TYPE} . ' ' . $this->{SOURCE} )
+            )
+        ) . "\n";
+    }
+    else {
+        $res = '******** ' . $this->{TYPE} . ' ' . $this->{SOURCE} . "\n";
     }
 
-    foreach my $key ( sort keys %{$this->{values}} ) {
+    foreach my $key ( sort keys %{ $this->{values} } ) {
         next unless $this->{SetHere}{$key};
         my $final = '';
-        if ( $this->{final}{$key}) {
+        if ( $this->{final}{$key} ) {
             $final = ' *final* ';
         }
         my $val = $this->{values}{$key};
         $val =~ s/^(.{32}).*$/$1..../s;
-        if( $html ) {
-            $val = "\n<verbatim style='margin:0;'>\n$val\n</verbatim>\n" if $val;
-            $res .= CGI::Tr( {valign=>'top'},
-                             CGI::td(" Set $final $key").
-                                 CGI::td( $val ))."\n";
-        } else {
+        if ($html) {
+            $val = "\n<verbatim style='margin:0;'>\n$val\n</verbatim>\n"
+              if $val;
+            $res .= CGI::Tr( { valign => 'top' },
+                CGI::td(" Set $final $key") . CGI::td($val) )
+              . "\n";
+        }
+        else {
             $res .= "Set $final $key = $val\n";
         }
     }
-    foreach my $key ( sort keys %{$this->{locals}} ) {
+    foreach my $key ( sort keys %{ $this->{locals} } ) {
         next unless $this->{SetHere}{$key};
         my $final = '';
-        my $val = $this->{locals}{$key};
+        my $val   = $this->{locals}{$key};
         $val =~ s/^(.{32}).*$/$1..../s;
-        if( $html ) {
-            $val = "\n<verbatim style='margin:0;'>\n$val\n</verbatim>\n" if $val;
-            $res .= CGI::Tr( {valign=>'top'},
-                             CGI::td(" Local $key").
-                                 CGI::td( $val ))."\n";
-        } else {
+        if ($html) {
+            $val = "\n<verbatim style='margin:0;'>\n$val\n</verbatim>\n"
+              if $val;
+            $res .= CGI::Tr( { valign => 'top' },
+                CGI::td(" Local $key") . CGI::td($val) )
+              . "\n";
+        }
+        else {
             $res .= "Local $key = $val\n";
         }
     }

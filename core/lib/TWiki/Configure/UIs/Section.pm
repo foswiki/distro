@@ -30,75 +30,91 @@ use strict;
 # depth == 2 are twisty sections
 # depth > 2 are subsections
 sub open_html {
-    my ($this, $section, $valuer, $expert) = @_;
+    my ( $this, $section, $valuer, $expert ) = @_;
 
     my $depth = $section->getDepth();
 
-    if ($depth > 2) {
+    if ( $depth > 2 ) {
+
         # A running section has no subtable, just a header row
-        if (!$expert && $section->isExpertsOnly()) {
+        if ( !$expert && $section->isExpertsOnly() ) {
             return '';
-        } else {
-            my $fn = 'CGI::h'.$depth;
+        }
+        else {
+            my $fn = 'CGI::h' . $depth;
             no strict 'refs';
-            my $head = &$fn($section->{headline});
+            my $head = &$fn( $section->{headline} );
             use strict 'refs';
             $head .= $section->{desc} if $section->{desc};
-            return '<tr><td colspan=2>'.$head.'</td></tr>';
+            return '<tr><td colspan=2>' . $head . '</td></tr>';
         }
     }
 
-    my $id = $this->_makeAnchor( $section->{headline} );
-    my $linkId = 'blockLink'.$id;
-    my $linkAnchor = $id.'link';
+    my $id         = $this->_makeAnchor( $section->{headline} );
+    my $linkId     = 'blockLink' . $id;
+    my $linkAnchor = $id . 'link';
 
     my $mess = $this->collectMessages($section);
 
     my $guts = "<!-- $depth $section->{headline} -->";
-    if ($depth == 2) {
+    if ( $depth == 2 ) {
+
         # Open row
         $guts .= '<tr><td colspan=2>';
-        $guts .= CGI::a({ name => $linkAnchor });
+        $guts .= CGI::a( { name => $linkAnchor } );
 
         # Open twisty div
         $guts .= CGI::a(
-            {id => $linkId,
-             class => 'blockLink blockLinkOff',
-             href => '#'.$linkAnchor,
-             rel => 'nofollow',
-             onclick => 'foldBlock("' . $id . '"); return false;'},
-            $section->{headline}.$mess);
+            {
+                id      => $linkId,
+                class   => 'blockLink blockLinkOff',
+                href    => '#' . $linkAnchor,
+                rel     => 'nofollow',
+                onclick => 'foldBlock("' . $id . '"); return false;'
+            },
+            $section->{headline} . $mess
+        );
 
         $guts .= "<div id='$id' class='foldableBlock foldableBlockClosed'>";
     }
 
     # Open subtable
-    $guts .=
-      CGI::start_table(
-          { width => '100%', -border => 0, -cellspacing => 0,
-            -cellpadding => 0, -cols => 2})."\n";
+    $guts .= CGI::start_table(
+        {
+            width        => '100%',
+            -border      => 0,
+            -cellspacing => 0,
+            -cellpadding => 0,
+            -cols        => 2
+        }
+    ) . "\n";
 
     # Put info text inside table row for visual consistency
-	if ($depth == 2) {
-		$guts .= CGI::Tr(
-        	CGI::td(
-        		{ colspan => 2, class=>'docdata firstInfo' },
-        			$section->{desc} )) if $section->{desc};
-	}
-	
+    if ( $depth == 2 ) {
+        $guts .= CGI::Tr(
+            CGI::td(
+                { colspan => 2, class => 'docdata firstInfo' },
+                $section->{desc}
+            )
+        ) if $section->{desc};
+    }
+
     return $guts;
 }
 
 sub close_html {
-    my ($this, $section, $expert) = @_;
+    my ( $this, $section, $expert ) = @_;
     my $depth = $section->getDepth();
-    my $end = '';
-    if ($depth <= 2) {
+    my $end   = '';
+    if ( $depth <= 2 ) {
+
         # Close subtable
         $end = "</table>";
-        if ($depth == 2) {
+        if ( $depth == 2 ) {
+
             # Close twisty div
             $end .= '</div>';
+
             # Close row
             $end .= '</td></tr>';
         }

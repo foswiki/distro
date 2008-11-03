@@ -16,12 +16,13 @@ use strict;
 require TWiki::Infix::Node;
 
 sub newLeaf {
-    my( $class, $val, $type ) = @_;
-    if( $type == $TWiki::Infix::Node::NAME && $val =~ /^({\w+})+$/) {
-        eval '$val = $TWiki::cfg'.$val;
-        return $class->SUPER::newLeaf($val, $TWiki::Infix::Node::STRING);
-    } else {
-        return $class->SUPER::newLeaf($val, $type);
+    my ( $class, $val, $type ) = @_;
+    if ( $type == $TWiki::Infix::Node::NAME && $val =~ /^({\w+})+$/ ) {
+        eval '$val = $TWiki::cfg' . $val;
+        return $class->SUPER::newLeaf( $val, $TWiki::Infix::Node::STRING );
+    }
+    else {
+        return $class->SUPER::newLeaf( $val, $type );
     }
 }
 
@@ -31,9 +32,10 @@ sub _evaluate {
     my $this = shift;
     my $result;
 
-    if (!ref( $this->{op})) {
+    if ( !ref( $this->{op} ) ) {
         return $this->{params}[0];
-    } else {
+    }
+    else {
         return $this->evaluate(@_);
     }
 }

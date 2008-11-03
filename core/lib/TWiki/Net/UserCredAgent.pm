@@ -23,23 +23,23 @@ package TWiki::Net::UserCredAgent;
 use base 'LWP::UserAgent';
 
 sub new {
-    my ($class, $user, $pass) = @_;
+    my ( $class, $user, $pass ) = @_;
     my $this = $class->SUPER::new();
     $this->{user} = $user;
     $this->{pass} = $pass;
-    if ($TWiki::cfg{PROXY}{HOST}) {
+    if ( $TWiki::cfg{PROXY}{HOST} ) {
         my $proxy = $TWiki::cfg{PROXY}{HOST};
-        if ($TWiki::cfg{PROXY}{PORT}) {
-            $proxy .= ':'.$TWiki::cfg{PROXY}{PORT};
+        if ( $TWiki::cfg{PROXY}{PORT} ) {
+            $proxy .= ':' . $TWiki::cfg{PROXY}{PORT};
         }
-        $this->proxy([ 'http', 'https' ], $proxy);
+        $this->proxy( [ 'http', 'https' ], $proxy );
     }
     return $this;
 }
 
 sub get_basic_credentials {
-    my($this, $realm, $uri) = @_;
-    return ($this->{user}, $this->{pass});
-};
+    my ( $this, $realm, $uri ) = @_;
+    return ( $this->{user}, $this->{pass} );
+}
 
 1;

@@ -49,7 +49,11 @@ in the usual way e.g. =$e->{status}= and =$e->{reason}=
 sub new {
     my ( $class, $status, $reason, $response ) = @_;
 
-    return $class->SUPER::new( status => $status, reason => $reason, response => $response );
+    return $class->SUPER::new(
+        status   => $status,
+        reason   => $reason,
+        response => $response
+    );
 }
 
 =pod
@@ -62,7 +66,8 @@ Generate a summary string. This is mainly for debugging.
 
 sub stringify {
     my $this = shift;
-    return qq(EngineException: Status code "$this->{status}" defined because of "$this->{reason}".);
+    return
+qq(EngineException: Status code "$this->{status}" defined because of "$this->{reason}".);
 }
 
 1;

@@ -26,9 +26,11 @@ sub check {
     my $this = shift;
 
     my $mess = '';
-    if( $TWiki::cfg{StoreImpl} eq 'RcsWrap') {
+    if ( $TWiki::cfg{StoreImpl} eq 'RcsWrap' ) {
+
         # Check that GNU diff is found in PATH; used by rcsdiff
         $mess .= $this->checkGnuProgram('diff');
+
         # Check all the RCS programs
         $mess .= $this->checkRCSProgram('initBinaryCmd');
         $mess .= $this->checkRCSProgram('initTextCmd');
@@ -46,6 +48,6 @@ sub check {
     }
 
     return $mess;
-};
+}
 
 1;

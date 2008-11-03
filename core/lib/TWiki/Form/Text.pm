@@ -6,25 +6,27 @@ use strict;
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new( @_ );
-    my $size = $this->{size} || '';
+    my $this  = $class->SUPER::new(@_);
+    my $size  = $this->{size} || '';
     $size =~ s/\D//g;
-    $size = 10 if( !$size || $size < 1 );
+    $size = 10 if ( !$size || $size < 1 );
     $this->{size} = $size;
     return $this;
 }
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
     return (
         '',
         CGI::textfield(
-            -class => $this->cssClasses('twikiInputField',
-                                        'twikiEditFormTextField'),
-            -name => $this->{name},
-            -size => $this->{size},
-            -value => $value ));
+            -class =>
+              $this->cssClasses( 'twikiInputField', 'twikiEditFormTextField' ),
+            -name  => $this->{name},
+            -size  => $this->{size},
+            -value => $value
+        )
+    );
 }
 
 1;

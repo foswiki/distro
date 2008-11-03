@@ -29,17 +29,18 @@ use base 'TWiki::Configure::Types::SELECT';
 # * is the only wildcard supported
 # Finds all classes that match in @INC
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value ) = @_;
     my @ropts;
-    $opts =~ s/\s.*$//; # remove e.g. EXPERT
-    foreach my $opt (split( /,/, $opts)) {
-        if ($opt eq 'none') {
-            push(@ropts, 'none');
-        } else {
-            push(@ropts, @{$this->findClasses($opt)});
+    $opts =~ s/\s.*$//;    # remove e.g. EXPERT
+    foreach my $opt ( split( /,/, $opts ) ) {
+        if ( $opt eq 'none' ) {
+            push( @ropts, 'none' );
+        }
+        else {
+            push( @ropts, @{ $this->findClasses($opt) } );
         }
     }
-    return $this->SUPER::prompt($id, join(',', @ropts), $value);
+    return $this->SUPER::prompt( $id, join( ',', @ropts ), $value );
 }
 
 # $pattern is a wildcard expression that matches classes e.g.
@@ -47,23 +48,23 @@ sub prompt {
 # * is the only wildcard supported
 # Finds all classes that match in @INC
 sub findClasses {
-    my ($this, $pattern) = @_;
+    my ( $this, $pattern ) = @_;
 
     $pattern =~ s/\*/.*/g;
-    my @path = split(/::/, $pattern);
+    my @path = split( /::/, $pattern );
 
     my $places = \@INC;
 
-    while (scalar(@path) > 1 && @$places) {
+    while ( scalar(@path) > 1 && @$places ) {
         my $pathel = shift(@path);
-        eval "\$pathel = qr/^($pathel)\$/"; # () to untaint
+        eval "\$pathel = qr/^($pathel)\$/";    # () to untaint
         my @newplaces;
 
         foreach my $place (@$places) {
-            if( opendir( DIR, $place ) ) {
+            if ( opendir( DIR, $place ) ) {
                 foreach my $subplace ( readdir DIR ) {
                     next unless $subplace =~ $pathel;
-                    push(@newplaces, $place.'/'.$1);
+                    push( @newplaces, $place . '/' . $1 );
                 }
             }
         }
@@ -75,14 +76,14 @@ sub findClasses {
     eval "\$leaf = qr/$leaf\.pm\$/";
     my %known;
     foreach my $place (@$places) {
-        if (opendir( DIR, $place )) {
+        if ( opendir( DIR, $place ) ) {
             foreach my $file ( readdir DIR ) {
                 next unless $file =~ $leaf;
                 $file =~ /^(.*)\.pm$/;
                 my $module = "$place/$1";
                 $module =~ s./.::.g;
                 $module =~ /($pattern)$/;
-                push(@list, $1) unless $known{$1};
+                push( @list, $1 ) unless $known{$1};
                 $known{$1} = 1;
             }
         }

@@ -31,12 +31,12 @@ package TWiki::I18N::Extract;
 use strict;
 
 use vars qw( $initialised $initError );
+
 BEGIN {
     eval "use base 'Locale::Maketext::Extract'";
-    $initError = $@;
+    $initError   = $@;
     $initialised = !$initError;
 }
-
 
 ##########################################################
 
@@ -51,17 +51,17 @@ warnings.
 =cut
 
 sub new {
-    my $class = shift;
+    my $class   = shift;
     my $session = shift;
 
-    unless ( $initialised ) {
-        $session->writeWarning ( $initError ) if $session;
+    unless ($initialised) {
+        $session->writeWarning($initError) if $session;
         return undef;
     }
 
     my $self = new Locale::Maketext::Extract;
     $self->{session} = $session;
-    return bless($self, $class);
+    return bless( $self, $class );
 }
 
 =pod
@@ -83,50 +83,54 @@ sub extract {
     local $_ = shift;
 
     # do existing extraction
-    $self->SUPER::extract($file, $_);
+    $self->SUPER::extract( $file, $_ );
 
     my $line;
     my $doublequoted = '"(\\\"|[^"])*"';
 
     # TWiki's %MAKETEXT{...}% into topics and templates :
-    $line = 1; pos($_) = 0;
-    my @_lines = split(/\n/,$_);
+    $line = 1;
+    pos($_) = 0;
+    my @_lines = split( /\n/, $_ );
     foreach (@_lines) {
         while (m/%MAKETEXT\{\s*(string=)?($doublequoted)/gm) {
-            my $str = substr($2, 1, -1);
+            my $str = substr( $2, 1, -1 );
             $str =~ s/\\"/"/g;
-            $self->add_entry($str, [ $file, $line, '']);
+            $self->add_entry( $str, [ $file, $line, '' ] );
         }
-        $line ++;
+        $line++;
     }
 
-    # TWiki's %MAKETEXT{...}% inside a search format would look like this:
-    # %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percnt ..." ...}%
-    #
-    # XXX: the regex down there matches a sequence formed be an escaped double
-    # quote (\"), followed by characters that are not doublequotes OR
-    # double-escaped doublequotes (\\\"), and terminated with another escaped
-    # double-quote.
-    #
-    # SMELL: although here we can extract properly the string, %SEARCH{...}%
-    # won't convert (\\\") inside format into (") as we do here. So it's best
-    # to avoid trying to put doublequotes inside a MAKETEXT that is inside
-    # a %SEARCH{...}% format.
-    $line = 1; pos($_) = 0;
-    my @_lines = split(/\n/,$_);
-    foreach(@_lines) {
+ # TWiki's %MAKETEXT{...}% inside a search format would look like this:
+ # %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percnt ..." ...}%
+ #
+ # XXX: the regex down there matches a sequence formed be an escaped double
+ # quote (\"), followed by characters that are not doublequotes OR
+ # double-escaped doublequotes (\\\"), and terminated with another escaped
+ # double-quote.
+ #
+ # SMELL: although here we can extract properly the string, %SEARCH{...}%
+ # won't convert (\\\") inside format into (") as we do here. So it's best
+ # to avoid trying to put doublequotes inside a MAKETEXT that is inside
+ # a %SEARCH{...}% format.
+    $line = 1;
+    pos($_) = 0;
+    my @_lines = split( /\n/, $_ );
+    foreach (@_lines) {
         while (m/\$percntMAKETEXT\{\s*(string=)?(\\"(\\\\\\"|[^"])*\\")/gm) {
+
             # remove the enclosing [\"]'s:
-            my $str = substr($2, 2, -2); 
+            my $str = substr( $2, 2, -2 );
+
             # remove escaped stuff:
-            $str =~ s/\\\\"/"/g; 
+            $str =~ s/\\\\"/"/g;
             $str =~ s/\\"/"/g;
+
             # collect the string:
-            $self->add_entry($str, [ $file, $line, '']);
+            $self->add_entry( $str, [ $file, $line, '' ] );
         }
         $line++;
     }
 }
-
 
 1;

@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -22,7 +22,6 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
 # As per the GPL, removal of this notice is prohibited.
-
 
 =pod
 
@@ -65,7 +64,7 @@ Constructs an engine object.
 sub new {
     my $proto = shift;
     my $class = ref($proto) || $proto;
-    my $this = { };
+    my $this  = {};
     return bless $this, $class;
 }
 
@@ -77,9 +76,9 @@ Start point to TWiki Runtime Engines.
 
 =cut
 
-sub run { 
+sub run {
     my $this = shift;
-    my $req = $this->prepare;
+    my $req  = $this->prepare;
     if ( defined $req ) {
         my $res = TWiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
@@ -112,7 +111,7 @@ sub prepare {
     catch TWiki::EngineException with {
         my $e   = shift;
         my $res = $e->{response};
-        unless (defined $res) {
+        unless ( defined $res ) {
             $res = new TWiki::Response();
             $res->header( -type => 'text/html', -status => $e->{status} );
             my $html = CGI::start_html( $e->{status} . ' Bad Request' );
@@ -125,26 +124,31 @@ sub prepare {
         return $e->{status};
     }
     otherwise {
-        my $e = shift;
+        my $e   = shift;
         my $res = TWiki::Response->new();
         $res->header( -type => 'text/plain' );
         if (DEBUG) {
+
             # output the full message and stacktrace to the browser
             $res->body( $e->stringify() );
         }
         else {
             my $mess = $e->stringify();
             print STDERR $mess;
+
             # tell the browser where to look for more help
-            my $text = 'TWiki detected an internal error - please check your TWiki logs and webserver logs for more information.'."\n\n";
+            my $text =
+'TWiki detected an internal error - please check your TWiki logs and webserver logs for more information.'
+              . "\n\n";
             $mess =~ s/ at .*$//s;
+
             # cut out pathnames from public announcement
             $mess =~ s#/[\w./]+#path#g;
             $text .= $mess;
             $res->body($text);
         }
-        $this->finalizeError( $res );
-        return 500; # Internal server error
+        $this->finalizeError($res);
+        return 500;    # Internal server error
     };
     return $req;
 }
@@ -174,12 +178,12 @@ Subclasses may redefine this method and call SUPER with query string obtained.
 =cut
 
 sub prepareQueryParameters {
-    my ($this, $req, $queryString) = @_;
+    my ( $this, $req, $queryString ) = @_;
     my @pairs = split /[&;]/, $queryString;
     my ( $param, $value, %params, @plist );
-    foreach ( @pairs ) {
+    foreach (@pairs) {
         ( $param, $value ) =
-          map { tr/+/ /; s/%([0-9a-fA-F]{2})/chr(hex($1))/oge; $_ } 
+          map { tr/+/ /; s/%([0-9a-fA-F]{2})/chr(hex($1))/oge; $_ }
           split '=', $_, 2;
         push @{ $params{$param} }, $value;
         push @plist, $param;
@@ -230,9 +234,9 @@ doesn't need to overload in children classes.
 sub prepareCookies {
     my ( $this, $req ) = @_;
     eval { require CGI::Cookie };
-    throw Error::Simple( $@ ) if $@;
+    throw Error::Simple($@) if $@;
     $req->cookies( scalar CGI::Cookie->parse( $req->header('Cookie') ) )
-        if $req->header('Cookie');
+      if $req->header('Cookie');
 }
 
 =begin twiki
@@ -289,7 +293,7 @@ take any appropriate finalize actions, such as delete temporary files.
 sub finalize {
     my ( $this, $res, $req ) = @_;
     $this->finalizeUploads($req);
-    $this->finalizeHeaders($res, $req);
+    $this->finalizeHeaders( $res, $req );
     $this->finalizeBody($res);
 }
 
@@ -381,14 +385,16 @@ as needed, sou engines should redefine that method insted of this one.
 =cut
 
 sub finalizeBody {
-    my ($this, $res) = @_;
+    my ( $this, $res ) = @_;
     my $body = $res->body;
     return unless $body;
     $this->prepareWrite($res);
-    if ( Scalar::Util::blessed($body) && $body->can('read') or ref $body eq 'GLOB' ) {
-        while (!eof $body ) {
+    if ( Scalar::Util::blessed($body) && $body->can('read')
+        or ref $body eq 'GLOB' )
+    {
+        while ( !eof $body ) {
             read $body, my $buffer, 4096;
-            last unless $this->write( $buffer );
+            last unless $this->write($buffer);
         }
         close $body;
     }

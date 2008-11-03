@@ -21,10 +21,10 @@ use base 'TWiki::Configure::Checker';
 use strict;
 
 sub new {
-    my ($class, $item) = @_;
+    my ( $class, $item ) = @_;
     my $this = $class->SUPER::new($item);
     $this->{LocalSiteDotCfg} = undef;
-    $this->{errors} = 0;
+    $this->{errors}          = 0;
 
     return $this;
 }
@@ -36,12 +36,12 @@ sub insane() {
 }
 
 sub ui {
-    my $this = shift;
+    my $this   = shift;
     my $result = '';
     my $badLSC = 0;
 
     $this->{LocalSiteDotCfg} = TWiki::findFileOnPath('LocalSite.cfg');
-    unless ($this->{LocalSiteDotCfg}) {
+    unless ( $this->{LocalSiteDotCfg} ) {
         $this->{LocalSiteDotCfg} = TWiki::findFileOnPath('TWiki.spec') || '';
         $this->{LocalSiteDotCfg} =~ s/TWiki\.spec/LocalSite.cfg/;
     }
@@ -52,7 +52,7 @@ sub ui {
 
     $TWiki::defaultCfg = _copy( \%TWiki::cfg );
 
-    if (!$this->{LocalSiteDotCfg} ) {
+    if ( !$this->{LocalSiteDotCfg} ) {
         $this->{errors}++;
         $result .= <<HERE;
 Could not find where LocalSite.cfg is supposed to go.
@@ -60,10 +60,9 @@ Edit your LocalLib.cfg and set \$twikiLibPath to point to the 'lib' directory
 for your install.
 Please correct this error before continuing.
 HERE
-    } elsif( -e $this->{LocalSiteDotCfg} ) {
-        eval {
-            TWiki::Configure::Load::readConfig();
-        };
+    }
+    elsif ( -e $this->{LocalSiteDotCfg} ) {
+        eval { TWiki::Configure::Load::readConfig(); };
         if ($@) {
             $result .= <<HERE;
 Existing configuration file has a problem
@@ -73,7 +72,8 @@ You can continue, but configure will not pick up any of the existing
 settings from this file unless you correct the perl error.
 HERE
             $badLSC = 1;
-        } elsif (!-w $this->{LocalSiteDotCfg} ) {
+        }
+        elsif ( !-w $this->{LocalSiteDotCfg} ) {
             $result .= <<HERE;
 Cannot write to existing configuration file<br />
 $this->{LocalSiteDotCfg} is not writable.
@@ -82,10 +82,11 @@ Check the file permissions.
 HERE
         }
 
-    } else {
+    }
+    else {
+
         # Doesn't exist (yet)
-        my $errs = $this->checkCanCreateFile(
-            $this->{LocalSiteDotCfg});
+        my $errs = $this->checkCanCreateFile( $this->{LocalSiteDotCfg} );
 
         if ($errs) {
             $result .= <<HERE;
@@ -95,7 +96,8 @@ write a new configuration file due to these errors:
 You can view the default configuration, but you will not be able to save.
 HERE
             $badLSC = 1;
-        } else {
+        }
+        else {
             $result .= <<HERE;
 Could not find existing configuration file $this->{LocalSiteDotCfg}.
 <p />
@@ -115,52 +117,56 @@ HERE
     # we need to default them. otherwise we get peppered with
     # 'uninitialised variable' alerts later.
     foreach my $var qw( DataDir DefaultUrlHost PubUrlPath
-                        PubDir TemplateDir ScriptUrlPath LocalesDir ) {
+      PubDir TemplateDir ScriptUrlPath LocalesDir ) {
+
         # NOT SET tells the checker to try and guess the value later on
         $TWiki::cfg{$var} ||= 'NOT SET';
-    }
+      }
 
-    # Make %ENV safer for CGI
-    $TWiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
-    unless( $TWiki::cfg{SafeEnvPath} ) {
+      # Make %ENV safer for CGI
+      $TWiki::cfg{DETECTED}{originalPath} = $ENV{PATH} || '';
+    unless ( $TWiki::cfg{SafeEnvPath} ) {
+
         # Grab the current path
-        if( defined( $ENV{PATH} )) {
+        if ( defined( $ENV{PATH} ) ) {
             $ENV{PATH} =~ /(.*)/;
             $TWiki::cfg{SafeEnvPath} = $1;
-        } else {
+        }
+        else {
+
             # Can't guess
             $TWiki::cfg{SafeEnvPath} = '';
         }
     }
     $ENV{PATH} = $TWiki::cfg{SafeEnvPath};
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 
-    return ($result, $badLSC);
+    return ( $result, $badLSC );
 }
 
 sub _copy {
     my $n = shift;
 
-    return undef unless defined( $n );
+    return undef unless defined($n);
 
-    if (UNIVERSAL::isa($n, 'ARRAY')) {
+    if ( UNIVERSAL::isa( $n, 'ARRAY' ) ) {
         my @new;
-        for ( 0..$#$n ) {
-            push(@new, _copy( $n->[$_] ));
+        for ( 0 .. $#$n ) {
+            push( @new, _copy( $n->[$_] ) );
         }
         return \@new;
     }
-    elsif (UNIVERSAL::isa($n, 'HASH')) {
+    elsif ( UNIVERSAL::isa( $n, 'HASH' ) ) {
         my %new;
         for ( keys %$n ) {
             $new{$_} = _copy( $n->{$_} );
         }
         return \%new;
     }
-    elsif (UNIVERSAL::isa($n, 'Regexp')) {
+    elsif ( UNIVERSAL::isa( $n, 'Regexp' ) ) {
         return qr/$n/;
     }
-    elsif (UNIVERSAL::isa($n, 'REF') || UNIVERSAL::isa($n, 'SCALAR')) {
+    elsif ( UNIVERSAL::isa( $n, 'REF' ) || UNIVERSAL::isa( $n, 'SCALAR' ) ) {
         $n = _copy($$n);
         return \$n;
     }

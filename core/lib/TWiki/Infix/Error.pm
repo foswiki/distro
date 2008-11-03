@@ -1,3 +1,4 @@
+
 =pod
 
 ---+ package TWiki::Infix::Error
@@ -12,17 +13,18 @@ use base 'Error';
 use strict;
 
 sub new {
-    my( $class, $message, $expr, $at ) = @_;
-    if (defined $expr && length($expr)) {
+    my ( $class, $message, $expr, $at ) = @_;
+    if ( defined $expr && length($expr) ) {
         $message .= " in '$expr'";
     }
-    if (defined $at && length($at)) {
+    if ( defined $at && length($at) ) {
         $message .= " at '$at'";
     }
     return $class->SUPER::new(
         -text => $message,
         -file => 'dummy',
-        -line => 'dummy' );
+        -line => 'dummy'
+    );
 }
 
 1;

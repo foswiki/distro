@@ -73,39 +73,42 @@ sub merge2 {
     my @a = split( /($sep)/, $ia );
     my @b = split( /($sep)/, $ib );
 
-    ASSERT($session && $session->isa('TWiki')) if DEBUG;
+    ASSERT( $session && $session->isa('TWiki') ) if DEBUG;
 
     my @out;
     require Algorithm::Diff;
-    Algorithm::Diff::traverse_balanced( \@a, \@b,
-                                        {
-                                         MATCH => \&_acceptA,
-                                         DISCARD_A => \&_acceptA,
-                                         DISCARD_B => \&_acceptB,
-                                         CHANGE => \&_change
-                                        },
-                                        undef,
-                                        \@out,
-                                        \@a,
-                                        \@b,
-                                        $session,
-                                        $info );
+    Algorithm::Diff::traverse_balanced(
+        \@a,
+        \@b,
+        {
+            MATCH     => \&_acceptA,
+            DISCARD_A => \&_acceptA,
+            DISCARD_B => \&_acceptB,
+            CHANGE    => \&_change
+        },
+        undef,
+        \@out,
+        \@a,
+        \@b,
+        $session, $info
+    );
     return join( '', @out );
 }
 
 sub _acceptA {
     my ( $a, $b, $out, $ai, $bi, $session, $info ) = @_;
 
-    ASSERT($session->isa('TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
     #print STDERR "From A: '$ai->[$a]'\n";
     # accept text from the old version without asking for resolution
-    my $merged = $session->{plugins}->dispatch(
-        'mergeHandler',
-        ' ',  $ai->[$a], undef, $info );
-    if( defined $merged ) {
+    my $merged =
+      $session->{plugins}
+      ->dispatch( 'mergeHandler', ' ', $ai->[$a], undef, $info );
+    if ( defined $merged ) {
         push( @$out, $merged );
-    } else {
+    }
+    else {
         push( @$out, $ai->[$a] );
     }
 }
@@ -113,15 +116,16 @@ sub _acceptA {
 sub _acceptB {
     my ( $a, $b, $out, $ai, $bi, $session, $info ) = @_;
 
-    ASSERT($session->isa('TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
     #print STDERR "From B: '$bi->[$b]'\n";
-    my $merged = $session->{plugins}->dispatch(
-        'mergeHandler',
-        ' ',  $bi->[$b], undef, $info );
-    if( defined $merged ) {
+    my $merged =
+      $session->{plugins}
+      ->dispatch( 'mergeHandler', ' ', $bi->[$b], undef, $info );
+    if ( defined $merged ) {
         push( @$out, $merged );
-    } else {
+    }
+    else {
         push( @$out, $bi->[$b] );
     }
 }
@@ -129,54 +133,66 @@ sub _acceptB {
 sub _change {
     my ( $a, $b, $out, $ai, $bi, $session, $info ) = @_;
     my $merged;
-    ASSERT($session->isa('TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
     # Diff isn't terribly smart sometimes; it will generate changes
     # with a or b empty, which I would have thought should have
     # been accepts.
-    if( $ai->[$a] =~ /\S/ ) {
+    if ( $ai->[$a] =~ /\S/ ) {
+
         # there is some non-white text to delete
-        if( $bi->[$b] =~ /\S/ ) {
+        if ( $bi->[$b] =~ /\S/ ) {
+
             # this insert is replacing something with something
-            $merged = $session->{plugins}->dispatch(
-                'mergeHandler',
-                'c', $ai->[$a], $bi->[$b], $info );
-            if( defined $merged ) {
+            $merged =
+              $session->{plugins}
+              ->dispatch( 'mergeHandler', 'c', $ai->[$a], $bi->[$b], $info );
+            if ( defined $merged ) {
                 push( @$out, $merged );
-            } else {
+            }
+            else {
                 push( @$out, CGI::del( $ai->[$a] ) );
                 push( @$out, CGI::ins( $bi->[$b] ) );
             }
-        } else {
-            $merged = $session->{plugins}->dispatch(
-                'mergeHandler',
-                '-',  $ai->[$a], $bi->[$b], $info );
-            if( defined $merged ) {
+        }
+        else {
+            $merged =
+              $session->{plugins}
+              ->dispatch( 'mergeHandler', '-', $ai->[$a], $bi->[$b], $info );
+            if ( defined $merged ) {
                 push( @$out, $merged );
-            } else {
+            }
+            else {
                 push( @$out, CGI::del( $ai->[$a] ) );
             }
         }
-    } elsif ( $bi->[$b] =~ /\S/ ) {
+    }
+    elsif ( $bi->[$b] =~ /\S/ ) {
+
         # inserting new
-        $merged = $session->{plugins}->dispatch(
-            'mergeHandler',
-            '+',  $ai->[$a], $bi->[$b], $info );
+        $merged =
+          $session->{plugins}
+          ->dispatch( 'mergeHandler', '+', $ai->[$a], $bi->[$b], $info );
+
         #print STDERR "From B: '$bi->[$b]'\n";
-        if( defined $merged ) {
+        if ( defined $merged ) {
             push( @$out, $merged );
-        } else {
+        }
+        else {
             push( @$out, $bi->[$b] );
         }
-    } else {
+    }
+    else {
+
         # otherwise this insert is not replacing anything
         #print STDERR "From B: '$bi->[$b]'\n";
-        $merged = $session->{plugins}->dispatch(
-            'mergeHandler',
-            ' ',  $ai->[$a], $bi->[$b], $info );
-        if( defined $merged ) {
+        $merged =
+          $session->{plugins}
+          ->dispatch( 'mergeHandler', ' ', $ai->[$a], $bi->[$b], $info );
+        if ( defined $merged ) {
             push( @$out, $merged );
-        } else {
+        }
+        else {
             push( @$out, $bi->[$b] );
         }
     }
@@ -208,57 +224,65 @@ sub simpleMerge {
 
     my $out = [];
     require Algorithm::Diff;
-    Algorithm::Diff::traverse_balanced( \@a, \@b,
-                                        {
-                                         MATCH => \&_sAcceptA,
-                                         DISCARD_A => \&_sAcceptA,
-                                         DISCARD_B => \&_sAcceptB,
-                                         CHANGE => \&_sChange
-                                        },
-                                        undef,
-                                        $out,
-                                        \@a,
-                                        \@b );
+    Algorithm::Diff::traverse_balanced(
+        \@a,
+        \@b,
+        {
+            MATCH     => \&_sAcceptA,
+            DISCARD_A => \&_sAcceptA,
+            DISCARD_B => \&_sAcceptB,
+            CHANGE    => \&_sChange
+        },
+        undef, $out,
+        \@a,
+        \@b
+    );
     return $out;
 }
 
 sub _sAcceptA {
     my ( $a, $b, $out, $ai, $bi ) = @_;
 
-    push( @$out, ' '.$ai->[$a] );
+    push( @$out, ' ' . $ai->[$a] );
 }
 
 sub _sAcceptB {
     my ( $a, $b, $out, $ai, $bi ) = @_;
 
-    push( @$out, ' '.$bi->[$b] );
+    push( @$out, ' ' . $bi->[$b] );
 }
 
 sub _sChange {
     my ( $a, $b, $out, $ai, $bi ) = @_;
     my $simpleInsert = 0;
 
-    if( $ai->[$a] =~ /\S/ ) {
+    if ( $ai->[$a] =~ /\S/ ) {
+
         # there is some non-white text to delete
-        push( @$out, '-'.$ai->[$a] );
-    } else {
+        push( @$out, '-' . $ai->[$a] );
+    }
+    else {
+
         # otherwise this insert is not replacing anything
         $simpleInsert = 1;
     }
 
-    if( !$simpleInsert && $bi->[$b] =~ /\S/ ) {
+    if ( !$simpleInsert && $bi->[$b] =~ /\S/ ) {
+
         # this insert is replacing something with something
-        push( @$out, '+'.$bi->[$b] );
-    } else {
+        push( @$out, '+' . $bi->[$b] );
+    }
+    else {
+
         # otherwise it is replacing nothing, or is whitespace or null
-        push( @$out, ' '.$bi->[$b] );
+        push( @$out, ' ' . $bi->[$b] );
     }
 }
 
 sub _equal {
-    my ($a, $b) = @_;
-    return 1 if( !defined($a) && !defined($b) );
-    return 0 if( !defined($a) || !defined($b) );
+    my ( $a, $b ) = @_;
+    return 1 if ( !defined($a) && !defined($b) );
+    return 0 if ( !defined($a) || !defined($b) );
     return $a eq $b;
 }
 
@@ -311,7 +335,7 @@ call it like this:
 sub merge3 {
     my ( $arev, $ia, $brev, $ib, $crev, $ic, $sep, $session, $info ) = @_;
 
-    $sep = "\r?\n" if (!defined($sep));
+    $sep = "\r?\n" if ( !defined($sep) );
 
     my @a = split( /(.+?$sep)/, $ia );
     my @b = split( /(.+?$sep)/, $ib );
@@ -320,15 +344,15 @@ sub merge3 {
     my @bdiffs = Algorithm::Diff::sdiff( \@a, \@b );
     my @cdiffs = Algorithm::Diff::sdiff( \@a, \@c );
 
-    my $ai = 0; # index into a
-    my $bdi = 0; # index into bdiffs
-    my $cdi = 0; # index into bdiffs
-    my $na = scalar(@a);
-    my $nbd = scalar(@bdiffs);
-    my $ncd = scalar(@cdiffs);
+    my $ai   = 0;                 # index into a
+    my $bdi  = 0;                 # index into bdiffs
+    my $cdi  = 0;                 # index into bdiffs
+    my $na   = scalar(@a);
+    my $nbd  = scalar(@bdiffs);
+    my $ncd  = scalar(@cdiffs);
     my $done = 0;
-    my (@achunk, @bchunk, @cchunk);
-    my @diffs; # (a, b, c)
+    my ( @achunk, @bchunk, @cchunk );
+    my @diffs;                    # (a, b, c)
 
     # diffs are of the form [ [ modifier, b_elem, c_elem ] ... ]
     # where modifiers is one of:
@@ -339,24 +363,24 @@ sub merge3 {
 
     # first, collate the diffs.
 
-    while(!$done) {
-        my $bop = ($bdi < $nbd) ? $bdiffs[$bdi][0] : 'x';
-        if($bop eq '+') {
-            push @bchunk, $bdiffs[$bdi++][2];
+    while ( !$done ) {
+        my $bop = ( $bdi < $nbd ) ? $bdiffs[$bdi][0] : 'x';
+        if ( $bop eq '+' ) {
+            push @bchunk, $bdiffs[ $bdi++ ][2];
             next;
         }
-        my $cop = ($cdi < $ncd) ? $cdiffs[$cdi][0] : 'x';
-        if($cop eq '+') {
-            push @cchunk, $cdiffs[$cdi++][2];
+        my $cop = ( $cdi < $ncd ) ? $cdiffs[$cdi][0] : 'x';
+        if ( $cop eq '+' ) {
+            push @cchunk, $cdiffs[ $cdi++ ][2];
             next;
         }
-        while(scalar(@bchunk) || scalar(@cchunk)) {
-            push @diffs, [shift @achunk, shift @bchunk, shift @cchunk];
+        while ( scalar(@bchunk) || scalar(@cchunk) ) {
+            push @diffs, [ shift @achunk, shift @bchunk, shift @cchunk ];
         }
-        if(scalar(@achunk)) {
+        if ( scalar(@achunk) ) {
             @achunk = ();
         }
-        last if($bop eq 'x' || $cop eq 'x');
+        last if ( $bop eq 'x' || $cop eq 'x' );
 
         # now that we've dealt with '+' and 'x', the only remaining
         # operations are '-', 'u', and 'c', which all consume an
@@ -364,7 +388,7 @@ sub merge3 {
         my $aline = $bdiffs[$bdi][1];
         my $bline = $bdiffs[$bdi][2];
         my $cline = $cdiffs[$cdi][2];
-        push @diffs, [$aline, $bline, $cline];
+        push @diffs, [ $aline, $bline, $cline ];
         $bdi++;
         $cdi++;
     }
@@ -372,137 +396,159 @@ sub merge3 {
     # at this point, both lists should be consumed, unless theres a bug in
     # Algorithm::Diff. We'll consume whatevers left if necessary though.
 
-    while($bdi < $nbd) {
-        push @diffs, [$bdiffs[$bdi][1], undef, $bdiffs[$bdi][2]];
+    while ( $bdi < $nbd ) {
+        push @diffs, [ $bdiffs[$bdi][1], undef, $bdiffs[$bdi][2] ];
         $bdi++;
     }
-    while($cdi < $ncd) {
-        push @diffs, [$cdiffs[$cdi][1], undef, $cdiffs[$cdi][2]];
+    while ( $cdi < $ncd ) {
+        push @diffs, [ $cdiffs[$cdi][1], undef, $cdiffs[$cdi][2] ];
         $cdi++;
     }
 
-    my (@aconf, @bconf, @cconf, @merged);
+    my ( @aconf, @bconf, @cconf, @merged );
     my $conflict = 0;
     my @out;
-    my ($aline, $bline, $cline);
+    my ( $aline, $bline, $cline );
 
     for my $diff (@diffs) {
-        ($aline, $bline, $cline) = @$diff;
-        my $ab = _equal($aline, $bline);
-        my $ac = _equal($aline, $cline);
-        my $bc = _equal($bline, $cline);
+        ( $aline, $bline, $cline ) = @$diff;
+        my $ab = _equal( $aline, $bline );
+        my $ac = _equal( $aline, $cline );
+        my $bc = _equal( $bline, $cline );
         my $dline = undef;
 
-        if($bc) {
+        if ($bc) {
+
             # same change (or no change) in b and c
             $dline = $bline;
-        } elsif($ab) {
+        }
+        elsif ($ab) {
+
             # line did not change in b
             $dline = $cline;
-        } elsif($ac) {
+        }
+        elsif ($ac) {
+
             # line did not change in c
             $dline = $bline;
-        } else {
+        }
+        else {
+
             # line changed in both b and c
             $conflict = 1;
         }
 
-        if($conflict) {
+        if ($conflict) {
+
             # store up conflicting lines until we get a non-conflicting
             push @aconf, $aline;
             push @bconf, $bline;
             push @cconf, $cline;
         }
 
-        if(defined($dline)) {
+        if ( defined($dline) ) {
+
             # we have a non-conflicting line
-            if($conflict) {
+            if ($conflict) {
+
                 # flush any pending conflict if there is enough
                 # context (at least 3 lines)
                 push( @merged, $dline );
-                if( @merged > 3 ) {
+                if ( @merged > 3 ) {
                     for my $i ( 0 .. $#merged ) {
                         pop @aconf;
                         pop @bconf;
                         pop @cconf;
                     }
-                    _handleConflict(\@out,
-                                    \@aconf, \@bconf, \@cconf,
-                                   $arev, $brev, $crev, $sep,
-                                   $session, $info);
+                    _handleConflict(
+                        \@out, \@aconf, \@bconf, \@cconf,  $arev,
+                        $brev, $crev,   $sep,    $session, $info
+                    );
                     $conflict = 0;
                     push @out, @merged;
                     @merged = ();
                 }
-            } else {
+            }
+            else {
+
                 # the line is non-conflicting
-                my $merged = $session->{plugins}->dispatch(
-                    'mergeHandler',
-                    ' ',  $dline, $dline, $info );
-                if( defined $merged ) {
+                my $merged =
+                  $session->{plugins}
+                  ->dispatch( 'mergeHandler', ' ', $dline, $dline, $info );
+                if ( defined $merged ) {
                     push( @out, $merged );
-                } else {
+                }
+                else {
                     push( @out, $dline );
                 }
             }
-        } elsif(@merged) {
+        }
+        elsif (@merged) {
             @merged = ();
         }
     }
 
-    if($conflict) {
+    if ($conflict) {
         for my $i ( 0 .. $#merged ) {
             pop @aconf;
             pop @bconf;
             pop @cconf;
         }
 
-        _handleConflict(\@out, \@aconf, \@bconf, \@cconf,
-                       $arev, $brev, $crev, $sep, $session, $info);
+        _handleConflict(
+            \@out, \@aconf, \@bconf, \@cconf,  $arev,
+            $brev, $crev,   $sep,    $session, $info
+        );
     }
     push @out, @merged;
     @merged = ();
 
     #foreach ( @out ) { print STDERR (defined($_) ? $_ : "undefined") . "\n"; }
 
-    return join('', @out);
+    return join( '', @out );
 }
 
-my $conflictAttrs = { class=> 'twikiConflict' };
+my $conflictAttrs = { class => 'twikiConflict' };
+
 # SMELL: internationalisation?
 my $conflictB = CGI::b('CONFLICT');
 
 sub _handleConflict {
-    my( $out, $aconf, $bconf, $cconf, $arev, $brev, $crev,
-        $sep, $session, $info ) = @_;
-    my( @a, @b, @c );
+    my (
+        $out,  $aconf, $bconf, $cconf,   $arev,
+        $brev, $crev,  $sep,   $session, $info
+    ) = @_;
+    my ( @a, @b, @c );
 
     @a = grep( $_, @$aconf );
     @b = grep( $_, @$bconf );
     @c = grep( $_, @$cconf );
-    my $merged = $session->{plugins}->dispatch(
-        'mergeHandler',
-        'c',  join( '', @b ), join( '', @c ), $info);
-    if( defined $merged ) {
+    my $merged =
+      $session->{plugins}
+      ->dispatch( 'mergeHandler', 'c', join( '', @b ), join( '', @c ), $info );
+    if ( defined $merged ) {
         push( @$out, $merged );
-    } else {
-        if(@a) {
-            push( @$out, CGI::div( $conflictAttrs,
-                                   "$conflictB original $arev:" )."\n");
-            push( @$out, @a);
+    }
+    else {
+        if (@a) {
+            push( @$out,
+                CGI::div( $conflictAttrs, "$conflictB original $arev:" )
+                  . "\n" );
+            push( @$out, @a );
         }
-        if(@b) {
-            push( @$out, CGI::div( $conflictAttrs,,
-                                   "$conflictB version $brev:" )."\n");
-            push( @$out, @b);
+        if (@b) {
+            push( @$out,
+                CGI::div( $conflictAttrs,, "$conflictB version $brev:" )
+                  . "\n" );
+            push( @$out, @b );
         }
-        if(@c) {
-            push( @$out, CGI::div( $conflictAttrs,,
-                                   "$conflictB version $crev:" )."\n");
-            push( @$out, @c);
+        if (@c) {
+            push( @$out,
+                CGI::div( $conflictAttrs,, "$conflictB version $crev:" )
+                  . "\n" );
+            push( @$out, @c );
         }
-        push( @$out, CGI::div( $conflictAttrs,,
-                               "$conflictB end" )."\n");
+        push( @$out, CGI::div( $conflictAttrs,, "$conflictB end" ) . "\n" );
     }
 }
 

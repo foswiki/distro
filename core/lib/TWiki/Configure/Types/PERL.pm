@@ -34,33 +34,40 @@ use Data::Dumper;
 use base 'TWiki::Configure::Type';
 
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
-    my $v = Data::Dumper->Dump([$value],['x']);
+    my ( $this, $id, $opts, $value ) = @_;
+    my $v = Data::Dumper->Dump( [$value], ['x'] );
     $v =~ s/^\$x = (.*);\s*$/$1/s;
     $v =~ s/^     //gm;
-    return CGI::textarea( -name => $id,
-                          -value => $v,
-                          -rows => 10,
-                          -columns => 80);
+    return CGI::textarea(
+        -name    => $id,
+        -value   => $v,
+        -rows    => 10,
+        -columns => 80
+    );
 }
 
 # verify that the string is a legal rvalue according to the grammar
 sub _rvalue {
-    my ($s, $term) = @_;
-    while (length($s) > 0 && (!$term || $s !~ s/^\s*$term//)) {
-        if ($s =~ s/^\s*'//s) {
+    my ( $s, $term ) = @_;
+    while ( length($s) > 0 && ( !$term || $s !~ s/^\s*$term// ) ) {
+        if ( $s =~ s/^\s*'//s ) {
             my $escaped = 0;
-            while (length($s) > 0 && $s =~ s/^(.)//s) {
-                last if ($1 eq "'" && !$escaped);
+            while ( length($s) > 0 && $s =~ s/^(.)//s ) {
+                last if ( $1 eq "'" && !$escaped );
                 $escaped = $1 eq '\\';
             }
-        } elsif ($s =~ s/^\s*(\w+)//s) {
-        } elsif ($s =~ s/^\s*\[//s) {
-            $s = _rvalue($s, ']');
-        } elsif ($s =~ s/^\s*{//s) {
-            $s = _rvalue($s, '}');
-        } elsif ($s =~ s/^\s*(,|=>)//s) {
-        } else {
+        }
+        elsif ( $s =~ s/^\s*(\w+)//s ) {
+        }
+        elsif ( $s =~ s/^\s*\[//s ) {
+            $s = _rvalue( $s, ']' );
+        }
+        elsif ( $s =~ s/^\s*{//s ) {
+            $s = _rvalue( $s, '}' );
+        }
+        elsif ( $s =~ s/^\s*(,|=>)//s ) {
+        }
+        else {
             last;
         }
     }
@@ -68,37 +75,39 @@ sub _rvalue {
 }
 
 sub string2value {
-    my ($this, $val) = @_;
+    my ( $this, $val ) = @_;
     my $s;
-    if ($s = _rvalue($val)) {
+    if ( $s = _rvalue($val) ) {
+
         # Parse failed, return as a string.
-        die "Parse of structured value failed at: $s\nPlease go back and check it.";
+        die
+"Parse of structured value failed at: $s\nPlease go back and check it.";
     }
-    $val =~ /(.*)/; # parsed, so safe to untaint
+    $val =~ /(.*)/;    # parsed, so safe to untaint
     return eval $1;
 }
 
 sub deep_equals {
-    my ($a, $b) = @_;
+    my ( $a, $b ) = @_;
 
-    if (!defined($a) && !defined($b)) {
+    if ( !defined($a) && !defined($b) ) {
         return 1;
     }
-    if (!defined($a) || !defined($b)) {
+    if ( !defined($a) || !defined($b) ) {
         return 0;
     }
-    if (ref($a) eq 'ARRAY' && ref($b) eq 'ARRAY') {
+    if ( ref($a) eq 'ARRAY' && ref($b) eq 'ARRAY' ) {
         return 0 unless scalar(@$a) == scalar(@$b);
-        for (0..$#$a) {
-            return 0 unless deep_equals($a->[$_], $b->[$_]);
+        for ( 0 .. $#$a ) {
+            return 0 unless deep_equals( $a->[$_], $b->[$_] );
         }
         return 1;
     }
 
-    if (ref($a) eq 'HASH' && ref($b) eq 'HASH') {
-        return 0 unless scalar(keys %$a) == scalar(keys %$b);
+    if ( ref($a) eq 'HASH' && ref($b) eq 'HASH' ) {
+        return 0 unless scalar( keys %$a ) == scalar( keys %$b );
         for ( keys %$a ) {
-            return 0 unless deep_equals($a->{$_}, $b->{$_});
+            return 0 unless deep_equals( $a->{$_}, $b->{$_} );
         }
         return 1;
     }
@@ -106,9 +115,9 @@ sub deep_equals {
 }
 
 sub equals {
-    my ($this, $val, $def) = @_;
+    my ( $this, $val, $def ) = @_;
 
-    return deep_equals($val, $def);
+    return deep_equals( $val, $def );
 }
 
 1;

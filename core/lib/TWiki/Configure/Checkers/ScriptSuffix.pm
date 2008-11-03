@@ -27,10 +27,14 @@ sub check {
 
     # SMELL: should check to see what the extension on _this_ script
     # is, and generate a helpful message
-    if ( defined $TWiki::cfg{ScriptSuffix} && $TWiki::cfg{ScriptSuffix} ne '' ) {
-    if ( ! $TWiki::query->path_info() =~ /$TWiki::cfg{ScriptSuffix}$/ ) {
-        return $this->ERROR('this script ('.$TWiki::query->path_info().') called with different ScriptSuffix setting'.$TWiki::cfg{ScriptSuffix});
-    }
+    if ( defined $TWiki::cfg{ScriptSuffix} && $TWiki::cfg{ScriptSuffix} ne '' )
+    {
+        if ( !$TWiki::query->path_info() =~ /$TWiki::cfg{ScriptSuffix}$/ ) {
+            return $this->ERROR( 'this script ('
+                  . $TWiki::query->path_info()
+                  . ') called with different ScriptSuffix setting'
+                  . $TWiki::cfg{ScriptSuffix} );
+        }
     }
     return '';
 }

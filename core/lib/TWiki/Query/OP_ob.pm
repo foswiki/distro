@@ -19,13 +19,11 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a = $node->{params}[0];
-    return $a->evaluate( @_ );
+    my $a    = $node->{params}[0];
+    return $a->evaluate(@_);
 }
 
 1;
-
-
 
 __DATA__
 

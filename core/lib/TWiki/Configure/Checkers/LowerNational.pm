@@ -24,22 +24,25 @@ sub check {
 
     # support upgrade from old configuration, where LowerNational and
     # UpperNational were stored as REGEX'es (now they are STRING's):
-    if ($TWiki::cfg{LowerNational} =~ /^\(\?-xism:(.*)\)$/) {
+    if ( $TWiki::cfg{LowerNational} =~ /^\(\?-xism:(.*)\)$/ ) {
         $TWiki::cfg{LowerNational} = $1;
     }
 
-    if( $] < 5.006 || !$TWiki::cfg{UseLocale} ) {
-        # Locales are off/broken, or using pre-5.6 Perl, so have to 
+    if ( $] < 5.006 || !$TWiki::cfg{UseLocale} ) {
+
+        # Locales are off/broken, or using pre-5.6 Perl, so have to
         # explicitly list the accented characters (but not if using UTF-8)
-        my $forLowerNat = join '', grep { uc($_) ne $_ and m/[^a-z]/ } map { chr($_) } 1..255;
+        my $forLowerNat = join '',
+          grep { uc($_) ne $_ and m/[^a-z]/ } map { chr($_) } 1 .. 255;
 
         if ($forLowerNat) {
-            return $this->WARN( <<HERE
+            return $this->WARN(
+                <<HERE
 The following lower case accented characters have been found in this locale
 and should be considered for use in this parameter:
 <strong>$forLowerNat</strong>
 HERE
-                       );
+            );
         }
     }
     return '';

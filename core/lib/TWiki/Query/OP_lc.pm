@@ -15,16 +15,17 @@ sub new {
     my $class = shift;
 
     return $class->SUPER::new(
-        name => 'lc',
-        prec => 600,
-        casematters => 1);
+        name        => 'lc',
+        prec        => 600,
+        casematters => 1
+    );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    return $this->evalUnary( $node, sub { lc( shift ) }, @_ );
-};
+    return $this->evalUnary( $node, sub { lc(shift) }, @_ );
+}
 
 1;
 

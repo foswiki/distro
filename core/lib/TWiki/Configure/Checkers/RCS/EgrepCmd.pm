@@ -26,7 +26,7 @@ sub check {
     my $this = shift;
 
     return '' unless $TWiki::cfg{RCS}{SearchAlgorithm} =~ /Forking$/;
-    return $this->checkGnuProgram($TWiki::cfg{RCS}{EgrepCmd});
+    return $this->checkGnuProgram( $TWiki::cfg{RCS}{EgrepCmd} );
 }
 
 1;

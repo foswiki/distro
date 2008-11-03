@@ -24,7 +24,7 @@ sub check {
 
     # Extract the character set from locale and use in HTML templates
     # and HTTP headers
-    unless( defined $TWiki::cfg{Site}{CharSet} ) {
+    unless ( defined $TWiki::cfg{Site}{CharSet} ) {
         $TWiki::cfg{Site}{Locale} =~ m/\.([a-z0-9_-]+)$/i;
         $TWiki::cfg{Site}{CharSet} = $1 if defined $1;
         $TWiki::cfg{Site}{CharSet} =~ s/^utf8$/utf-8/i;

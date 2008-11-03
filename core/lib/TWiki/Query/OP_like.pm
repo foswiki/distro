@@ -13,26 +13,29 @@ use strict;
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new(name => '~', prec => 500);
+    return $class->SUPER::new( name => '~', prec => 500 );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    return $this->evalTest( $node,
+    return $this->evalTest(
+        $node,
         \@_,
         sub {
-            my $expr = quotemeta($_[1]);
+            my $expr = quotemeta( $_[1] );
+
             # quotemeta will have escapes * and ? wildcards
             $expr =~ s/\\\?/./g;
             $expr =~ s/\\\*/.*/g;
-            defined($_[0]) && defined($_[1]) &&
-              $_[0] =~ m/^$expr$/s ? 1 : 0;
-        } );
+            defined( $_[0] )
+              && defined( $_[1] )
+              && $_[0] =~ m/^$expr$/s ? 1 : 0;
+        }
+    );
 }
 
 1;
-
 
 __DATA__
 

@@ -28,7 +28,7 @@ sub check {
     return '' unless $TWiki::cfg{UseClientSessions};
 
     my $e = '';
-    if( $TWiki::cfg{Sessions}{ExpireAfter} < 0) {
+    if ( $TWiki::cfg{Sessions}{ExpireAfter} < 0 ) {
         $e .= $this->WARN(<<'MESSAGE');
 TWiki will *not* clean up sessions automatically. Make sure you
 have a cron job running.

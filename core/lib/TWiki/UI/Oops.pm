@@ -48,9 +48,9 @@ values in the query.
 
 sub oops_cgi {
     my $session = shift;
-    my $topic = $session->{topicName};
-    my $web = $session->{webName};
-    my $query = $session->{request};
+    my $topic   = $session->{topicName};
+    my $web     = $session->{webName};
+    my $query   = $session->{request};
 
     oops( $session, $web, $topic, $query, 0 );
 }
@@ -70,73 +70,83 @@ the =$query= are added as hiddens into the expanded template.
 =cut
 
 sub oops {
-    my( $session, $web, $topic, $query, $keep ) = @_;
+    my ( $session, $web, $topic, $query, $keep ) = @_;
 
     my $tmplName;
     my $def;
     my @params;
     my $n = 1;
 
-    if( $keep ) {
+    if ($keep) {
+
         # Use oops parameters from the keep hash instead
         $tmplName = $keep->{template};
-        $def = $keep->{def};
-        if( ref($keep->{params}) eq 'ARRAY' ) {
-            foreach my $p ( @{$keep->{params}} ) {
+        $def      = $keep->{def};
+        if ( ref( $keep->{params} ) eq 'ARRAY' ) {
+            foreach my $p ( @{ $keep->{params} } ) {
                 push( @params, $p );
                 $n++;
             }
-        } elsif( defined $keep->{params} ) {
+        }
+        elsif ( defined $keep->{params} ) {
             push( @params, $keep->{params} );
         }
-    } else {
-        $tmplName = $query->param( 'template' );
-        $def = $query->param( 'def' );
-        while( defined( my $param = $query->param( 'param'.$n ) )) {
+    }
+    else {
+        $tmplName = $query->param('template');
+        $def      = $query->param('def');
+        while ( defined( my $param = $query->param( 'param' . $n ) ) ) {
             push( @params, $param );
             $n++;
         }
     }
     $tmplName ||= 'oops';
-    
+
     # Item5324: Filter out < and > to block XSS
     $tmplName =~ tr/<>//d;
 
     # Do not pass on the template parameter otherwise continuation won't work
-    $query->delete( 'template' );
+    $query->delete('template');
 
     my $skin = $session->getSkin();
 
     my $tmplData = $session->templates->readTemplate( $tmplName, $skin );
 
-    if( ! $tmplData ) {
-        $tmplData = CGI::start_html()
+    if ( !$tmplData ) {
+        $tmplData =
+            CGI::start_html()
           . CGI::h1('TWiki Installation Error')
-            . 'Template "'.$tmplName.'" not found.'.CGI::p()
-              . 'Check the configuration settings for {TemplateDir} and {TemplatePath}.'
-                .CGI::end_html();
-    } else {
-        if( defined $def ) {
+          . 'Template "'
+          . $tmplName
+          . '" not found.'
+          . CGI::p()
+          . 'Check the configuration settings for {TemplateDir} and {TemplatePath}.'
+          . CGI::end_html();
+    }
+    else {
+        if ( defined $def ) {
+
             # if a def is specified, instantiate that def
-            my $blah = $session->templates->expandTemplate( $def );
+            my $blah = $session->templates->expandTemplate($def);
             $tmplData =~ s/%INSTANTIATE%/$blah/;
         }
         $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
         $n = 1;
-        foreach my $param ( @params ) {
+        foreach my $param (@params) {
+
             # Entity-encode, to block any potential HTML payload
-            $param = TWiki::entityEncode( $param );
+            $param = TWiki::entityEncode($param);
             $tmplData =~ s/%PARAM$n%/$param/g;
             $n++;
         }
         $tmplData =~ s/%(PARAM\d+)%/
           CGI::span({class=>'twikiAlert'},"MISSING $1 ")/ge if DEBUG;
         $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
-        $tmplData = $session->renderer->getRenderedVersion( $tmplData, $web,
-                                                              $topic );
+        $tmplData =
+          $session->renderer->getRenderedVersion( $tmplData, $web, $topic );
     }
 
-    $session->writeCompletePage( $tmplData );
+    $session->writeCompletePage($tmplData);
 }
 
 1;

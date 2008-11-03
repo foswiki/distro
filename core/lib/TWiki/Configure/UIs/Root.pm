@@ -23,32 +23,33 @@ use TWiki::Configure::UI;
 # Visit the nodes in a tree of configuration items, and generate
 # their UIs.
 sub ui {
-    my ($this, $tree, $valuer) = @_;
+    my ( $this, $tree, $valuer ) = @_;
     $this->{valuer} = $valuer;
     $this->{output} = '';
-    @{$this->{stack}} = ();
+    @{ $this->{stack} } = ();
     $tree->visit($this);
     return $this->{output};
 }
 
 sub startVisit {
-    my ($this, $item) = @_;
-    push(@{$this->{stack}}, $this->{output});
+    my ( $this, $item ) = @_;
+    push( @{ $this->{stack} }, $this->{output} );
     $this->{output} = '';
     return 1;
 }
 
 sub endVisit {
-    my ($this, $item) = @_;
+    my ( $this, $item ) = @_;
     my $class = ref($item);
     $class =~ s/.*:://;
-    my $ui = TWiki::Configure::UI::loadUI($class, $item);
+    my $ui = TWiki::Configure::UI::loadUI( $class, $item );
     die "Fatal Error - Could not load UI for $class - $@" unless $ui;
     $this->{output} =
-      pop(@{$this->{stack}}).
-        $ui->open_html($item, $this->{valuer}, $this->{experts}).
-          $this->{output}. # only used for sections
-            $ui->close_html($item, $this->{valuer}, $this->{experts});
+        pop( @{ $this->{stack} } )
+      . $ui->open_html( $item, $this->{valuer}, $this->{experts} )
+      . $this->{output}
+      .    # only used for sections
+      $ui->close_html( $item, $this->{valuer}, $this->{experts} );
     return 1;
 }
 

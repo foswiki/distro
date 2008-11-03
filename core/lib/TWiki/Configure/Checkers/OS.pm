@@ -25,13 +25,15 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    if( defined $TWiki::cfg{OS} &&
-          $TWiki::cfg{OS} !~ /^(UNIX|WINDOWS|VMS|DOS|MACINTOSH|OS2)$/ ) {
-        return $this->WARN(<<HERE
+    if ( defined $TWiki::cfg{OS}
+        && $TWiki::cfg{OS} !~ /^(UNIX|WINDOWS|VMS|DOS|MACINTOSH|OS2)$/ )
+    {
+        return $this->WARN(
+            <<HERE
 Unrecognised operating system $TWiki::cfg{OS}.
 Accepted types are: UNIX WINDOWS VMS DOS MACINTOSH OS2
 HERE
-                       );
+        );
     }
     return '';
 }

@@ -60,32 +60,35 @@ Parse settings from text and add them to the preferences in $prefs
 =cut
 
 sub parseText {
-    my( $this, $text, $prefs, $keyPrefix ) = @_;
+    my ( $this, $text, $prefs, $keyPrefix ) = @_;
 
     $text =~ tr/\r//d;
-    my $key = '';
-    my $value ='';
+    my $key   = '';
+    my $value = '';
     my $type;
-    foreach( split( "\n", $text ) ) {
-        if( m/$TWiki::regex{setVarRegex}/os ) {
-            if( defined $type ) {
-                $prefs->insert( $type, $keyPrefix.$key, $value );
+    foreach ( split( "\n", $text ) ) {
+        if (m/$TWiki::regex{setVarRegex}/os) {
+            if ( defined $type ) {
+                $prefs->insert( $type, $keyPrefix . $key, $value );
             }
-            $type = $1;
-            $key = $2;
-            $value = (defined $3) ? $3 : '';
-        } elsif( defined $type ) {
-            if( /^(   |\t)+ *[^\s]/ && !/$TWiki::regex{bulletRegex}/o ) {
+            $type  = $1;
+            $key   = $2;
+            $value = ( defined $3 ) ? $3 : '';
+        }
+        elsif ( defined $type ) {
+            if ( /^(   |\t)+ *[^\s]/ && !/$TWiki::regex{bulletRegex}/o ) {
+
                 # follow up line, extending value
-                $value .= "\n".$_;
-            } else {
-                $prefs->insert( $type, $keyPrefix.$key, $value );
+                $value .= "\n" . $_;
+            }
+            else {
+                $prefs->insert( $type, $keyPrefix . $key, $value );
                 undef $type;
             }
         }
     }
-    if( defined $type ) {
-        $prefs->insert( $type, $keyPrefix.$key, $value );
+    if ( defined $type ) {
+        $prefs->insert( $type, $keyPrefix . $key, $value );
     }
 }
 
@@ -103,33 +106,34 @@ Settings are added to the $prefs passed.
 =cut
 
 sub parseMeta {
-    my( $this, $meta, $prefs, $keyPrefix ) = @_;
+    my ( $this, $meta, $prefs, $keyPrefix ) = @_;
 
-    my @fields = $meta->find( 'PREFERENCE' );
-    foreach my $field( @fields ) {
-        my $title = $field->{title};
+    my @fields = $meta->find('PREFERENCE');
+    foreach my $field (@fields) {
+        my $title         = $field->{title};
         my $prefixedTitle = $settingPrefPrefix . $title;
-        my $value = $field->{value};
-        my $type = $field->{type} || 'Set';
+        my $value         = $field->{value};
+        my $type          = $field->{type} || 'Set';
         $prefs->insert( $type, $prefixedTitle, $value );
-	    #SMELL: Why do we insert both based on title and name?
-	    my $name = $field->{name};
-	    $prefs->insert( $type, $keyPrefix.$name, $value );
+
+        #SMELL: Why do we insert both based on title and name?
+        my $name = $field->{name};
+        $prefs->insert( $type, $keyPrefix . $name, $value );
     }
 
     # Note that the use of the "S" attribute to support settings in
     # form fields has been deprecated.
-    my $form = $meta->get( 'FORM' );
-    if( $form ) {
-        my @fields = $meta->find( 'FIELD' );
-        foreach my $field ( @fields ) {
-            my $title = $field->{title};
+    my $form = $meta->get('FORM');
+    if ($form) {
+        my @fields = $meta->find('FIELD');
+        foreach my $field (@fields) {
+            my $title      = $field->{title};
             my $attributes = $field->{attributes};
-            if( $attributes && $attributes =~ /S/o ) {
+            if ( $attributes && $attributes =~ /S/o ) {
                 my $value = $field->{value};
-                my $name = $field->{name};
-                $prefs->insert( 'Set', 'FORM_'.$name, $value );
-                $prefs->insert( 'Set', $name, $value );
+                my $name  = $field->{name};
+                $prefs->insert( 'Set', 'FORM_' . $name, $value );
+                $prefs->insert( 'Set', $name,           $value );
             }
         }
     }

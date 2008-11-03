@@ -27,12 +27,13 @@ sub ui {
     my %modules;
     my $scanner = TWiki::Configure::Type::load('SELECTCLASS');
     my $classes = $scanner->findClasses('TWiki::Tags::*');
-    foreach my $module ( @$classes ) {
+    foreach my $module (@$classes) {
         $module =~ s/^.*::([^:]*)/$1/;
         $TWiki::cfg{Tags}{$module}{Enabled} ||= 0;
+
         # only add the first instance of any tag, as only
         # the first can get loaded from @INC.
-        unless( $modules{$module} ) {
+        unless ( $modules{$module} ) {
             $modules{$module} = 1;
         }
     }
@@ -40,11 +41,12 @@ sub ui {
     foreach my $m ( sort keys %modules ) {
         my $value = new TWiki::Configure::Value(
             'BOOLEAN', '',
+
             # SMELL - i'm assuming that the Tag topic is in the SystemWeb :(
             # Which of course it isn't.
-            "<a rel=\"nofollow\" href=\"$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/$m\">$m</a>",
-            '{Tags}{'.$m.'}{Enabled}'
-           );
+"<a rel=\"nofollow\" href=\"$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/$m\">$m</a>",
+            '{Tags}{' . $m . '}{Enabled}'
+        );
         $block .= $value->buildInputFields();
     }
 

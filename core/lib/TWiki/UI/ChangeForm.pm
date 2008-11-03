@@ -42,20 +42,20 @@ Generate the page that supports selection of the form.
 =cut
 
 sub generate {
-    my( $session, $web, $topic, $editaction ) = @_;
-    ASSERT($session->isa( 'TWiki')) if DEBUG;
+    my ( $session, $web, $topic, $editaction ) = @_;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
-    my $page = $session->templates->readTemplate( 'changeform' );
-    my $q = $session->{request};
+    my $page = $session->templates->readTemplate('changeform');
+    my $q    = $session->{request};
 
     my $store = $session->{store};
-    my $formName = $q->param( 'formtemplate' ) || '';
-    unless( $formName ) {
-        my( $meta, $tmp ) = $store->readTopic( undef, $web, $topic, undef );
-        my $form = $meta->get( 'FORM' );
+    my $formName = $q->param('formtemplate') || '';
+    unless ($formName) {
+        my ( $meta, $tmp ) = $store->readTopic( undef, $web, $topic, undef );
+        my $form = $meta->get('FORM');
         $formName = $form->{name} if $form;
     }
-    $formName = 'none' if( !$formName );
+    $formName = 'none' if ( !$formName );
 
     my $prefs = $session->{prefs};
     my $legalForms = $prefs->getWebPreferencesValue( 'WEBFORMS', $web );
@@ -64,42 +64,46 @@ sub generate {
     my @forms = split( /[,\s]+/, $legalForms );
     unshift @forms, 'none';
 
-    my $formList = '';
+    my $formList      = '';
     my $formElemCount = 0;
-    foreach my $form ( @forms ) {
-    	$formElemCount++;
-        $formList .= CGI::br() if( $formList );
+    foreach my $form (@forms) {
+        $formElemCount++;
+        $formList .= CGI::br() if ($formList);
         my $formElemId = 'formtemplateelem' . $formElemCount;
-        my $props = {
-            type => 'radio',
-            name => 'formtemplate',
-            id => $formElemId,
+        my $props      = {
+            type  => 'radio',
+            name  => 'formtemplate',
+            id    => $formElemId,
             value => $form
-           };
+        };
         $props->{checked} = 'checked' if $form eq $formName;
-        $formList .= CGI::input( $props );
-	my ($formWeb, $formTopic) = $session->normalizeWebTopicName($web, $form);
-        my $formLabelContent = '&nbsp;' . ( $store->topicExists( $formWeb, $formTopic ) ? 
-	  '[['.$formWeb.'.'.$formTopic.']['.$form.']]' : $form );
-        $formList .= CGI::label( { for => $formElemId}, $formLabelContent );
+        $formList .= CGI::input($props);
+        my ( $formWeb, $formTopic ) =
+          $session->normalizeWebTopicName( $web, $form );
+        my $formLabelContent =
+          '&nbsp;'
+          . ( $store->topicExists( $formWeb, $formTopic )
+            ? '[[' . $formWeb . '.' . $formTopic . '][' . $form . ']]'
+            : $form );
+        $formList .= CGI::label( { for => $formElemId }, $formLabelContent );
     }
     $page =~ s/%FORMLIST%/$formList/go;
 
-    my $parent = $q->param( 'topicparent' ) || '';
+    my $parent = $q->param('topicparent') || '';
     $page =~ s/%TOPICPARENT%/$parent/go;
 
-    my $redirectTo = $q->param( 'redirectto' ) || '';
+    my $redirectTo = $q->param('redirectto') || '';
     $page =~ s/%REDIRECTTO%/$redirectTo/go;
 
     my $text = '';
     $text = "<input type=\"hidden\" name=\"action\" value=\"$editaction\" />"
-        if $editaction;
+      if $editaction;
     $page =~ s/%EDITACTION%/$text/go;
 
     $page = $session->handleCommonTags( $page, $web, $topic );
     $page = $session->renderer->getRenderedVersion( $page, $web, $topic );
 
-    $text = CGI::hidden( -name => 'text', -value => $q->param( 'text' ) );
+    $text = CGI::hidden( -name => 'text', -value => $q->param('text') );
     $page =~ s/%TEXT%/$text/go;
 
     return $page;

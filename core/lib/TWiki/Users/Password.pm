@@ -44,7 +44,7 @@ for any required TWiki services.
 =cut
 
 sub new {
-    my( $class, $session ) = @_;
+    my ( $class, $session ) = @_;
 
     my $this = bless( { session => $session }, $class );
     $this->{error} = undef;
@@ -79,7 +79,7 @@ if you want to be able to use the existing TWikiUserMappingContrib ChangePasswor
 =cut
 
 sub readOnly {
-    return 1;   #there _is_ no password file.
+    return 1;    #there _is_ no password file.
 }
 
 =pod
@@ -127,7 +127,6 @@ sub removeUser {
     $this->{error} = undef;
     return 1;
 }
-
 
 =pod
 
@@ -214,7 +213,7 @@ Only used if =isManagingEmails= -> =true=.
 =cut
 
 sub getEmails {
-    ASSERT(0, "should never be called") if DEBUG;
+    ASSERT( 0, "should never be called" ) if DEBUG;
 }
 
 =pod
@@ -229,7 +228,7 @@ Only used if =isManagingEmails= -> =true=.
 =cut
 
 sub setEmails {
-    ASSERT(0, "should never be called") if DEBUG;
+    ASSERT( 0, "should never be called" ) if DEBUG;
 }
 
 =pod
@@ -246,7 +245,7 @@ Called by Users.pm.
 =cut
 
 sub findUserByEmail {
-    ASSERT(0, "should never be called") if DEBUG;
+    ASSERT( 0, "should never be called" ) if DEBUG;
 }
 
 =pod 
@@ -274,8 +273,8 @@ this is used to remove the need for a TWikiUsers topic.
 sub fetchUsers {
 
     die "not Implemented in Base class";
+
     #return new TWiki::ListIterator(\@users);
 }
-
 
 1;

@@ -22,7 +22,7 @@ use strict;
 sub check {
     my $this = shift;
 
-    my $e = $this->checkTreePerms($TWiki::cfg{Htpasswd}{FileName}, 'r');
+    my $e = $this->checkTreePerms( $TWiki::cfg{Htpasswd}{FileName}, 'r' );
     $e = $this->ERROR($e) if $e;
     return $e;
 }

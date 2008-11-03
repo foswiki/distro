@@ -17,23 +17,24 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
+    my $this   = shift;
+    my $node   = shift;
     my %domain = @_;
-    my $a = $node->{params}[0];
-    my $lval = $a->evaluate( @_ );
-    my $b = $node->{params}[1];
-    if (ref($lval) eq 'ARRAY') {
+    my $a      = $node->{params}[0];
+    my $lval   = $a->evaluate(@_);
+    my $b      = $node->{params}[1];
+    if ( ref($lval) eq 'ARRAY' ) {
         my @res;
         foreach my $el (@$lval) {
-            if ($b->evaluate( data=>$el, tom=>$domain{tom} )) {
-                push(@res, $el);
+            if ( $b->evaluate( data => $el, tom => $domain{tom} ) ) {
+                push( @res, $el );
             }
         }
-        return undef unless scalar( @res );
+        return undef unless scalar(@res);
         return \@res;
-    } else {
-        return $b->evaluate( data=>$lval, tom=>$domain{tom} );
+    }
+    else {
+        return $b->evaluate( data => $lval, tom => $domain{tom} );
     }
 }
 

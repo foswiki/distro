@@ -29,21 +29,23 @@ sub new {
 
     my $this = $class->SUPER::new('Languages');
 
-    opendir( DIR, $TWiki::cfg{LocalesDir}) or
-      return $this;
+    opendir( DIR, $TWiki::cfg{LocalesDir} )
+      or return $this;
 
     foreach my $file ( readdir DIR ) {
-        next unless ($file =~ m/^(.*)\.po$/);
+        next unless ( $file =~ m/^(.*)\.po$/ );
         my $lang = $1;
         $lang = "'$lang'" if $lang =~ /\W/;
 
         $this->addChild(
             new TWiki::Configure::Value(
-                parent=>$this,
-                keys => '{Languages}{'.$lang.'}{Enabled}',
-                typename => 'BOOLEAN'));
+                parent   => $this,
+                keys     => '{Languages}{' . $lang . '}{Enabled}',
+                typename => 'BOOLEAN'
+            )
+        );
     }
-    closedir( DIR );
+    closedir(DIR);
     return $this;
 }
 

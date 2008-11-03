@@ -25,8 +25,8 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    my $e = $this->guessMajorDir('TemplateDir', 'templates');
-    $e .= $this->warnAboutWindowsBackSlashes($TWiki::cfg{TemplateDir});
+    my $e = $this->guessMajorDir( 'TemplateDir', 'templates' );
+    $e .= $this->warnAboutWindowsBackSlashes( $TWiki::cfg{TemplateDir} );
     my $e2 = $this->checkTreePerms( $TWiki::cfg{TemplateDir}, 'r' );
     $e .= $this->ERROR($e2) if $e2;
     return $e;

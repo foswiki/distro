@@ -62,17 +62,17 @@ sub new {
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.
 
-    ASSERT($web) if DEBUG;
+    ASSERT($web)   if DEBUG;
     ASSERT($topic) if DEBUG;
 
-    $this->{_web} = $web;
+    $this->{_web}   = $web;
     $this->{_topic} = $topic;
-    $this->{_text} = '';
+    $this->{_text}  = '';
 
     $this->{FILEATTACHMENT} = [];
 
-    if (defined $text) {
-        $session->{store}->extractMetaData($this, $text);
+    if ( defined $text ) {
+        $session->{store}->extractMetaData( $this, $text );
     }
 
     return $this;
@@ -142,8 +142,8 @@ defined, sets the value to that and returns the new text.
 =cut
 
 sub text {
-    my ($this, $val) = @_;
-    if (defined($val)) {
+    my ( $this, $val ) = @_;
+    if ( defined($val) ) {
         $this->{_text} = $val;
     }
     return $this->{_text};
@@ -164,14 +164,16 @@ $meta->put( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' } );
 =cut
 
 sub put {
-    my( $this, $type, $args ) = @_;
+    my ( $this, $type, $args ) = @_;
 
     my $data = $this->{$type};
-    if( $data ) {
+    if ($data) {
+
         # overwrite old single value
         $data->[0] = $args;
-    } else {
-        push( @{$this->{$type}}, $args );
+    }
+    else {
+        push( @{ $this->{$type} }, $args );
     }
 }
 
@@ -192,22 +194,23 @@ $meta->putKeyed( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' 
 # Note: Array is used instead of a hash to preserve sequence
 
 sub putKeyed {
-    my( $this, $type, $args ) = @_;
+    my ( $this, $type, $args ) = @_;
 
     my $data = $this->{$type};
-    if( $data ) {
+    if ($data) {
         my $keyName = $args->{name};
-        ASSERT( $keyName ) if DEBUG;
-        my $i = scalar( @$data );
-        while( $keyName && $i-- ) {
-            if( $data->[$i]->{name} eq $keyName ) {
+        ASSERT($keyName) if DEBUG;
+        my $i = scalar(@$data);
+        while ( $keyName && $i-- ) {
+            if ( $data->[$i]->{name} eq $keyName ) {
                 $data->[$i] = $args;
                 return;
             }
         }
         push @$data, $args;
-    } else {
-      push( @{$this->{$type}}, $args );
+    }
+    else {
+        push( @{ $this->{$type} }, $args );
     }
 }
 
@@ -229,7 +232,7 @@ $meta->putAll( 'FIELD',
 =cut
 
 sub putAll {
-    my( $this, $type, @array ) = @_;
+    my ( $this, $type, @array ) = @_;
 
     $this->{$type} = \@array;
 }
@@ -255,15 +258,16 @@ my $topicinfo = $meta->get( 'TOPICINFO' ); # get the TOPICINFO hash
 =cut
 
 sub get {
-    my( $this, $type, $keyValue ) = @_;
+    my ( $this, $type, $keyValue ) = @_;
 
     my $data = $this->{$type};
-    if( $data ) {
-        if( defined $keyValue ) {
-            foreach my $item ( @$data ) {
-                return $item if( $item->{name} eq $keyValue );
+    if ($data) {
+        if ( defined $keyValue ) {
+            foreach my $item (@$data) {
+                return $item if ( $item->{name} eq $keyValue );
             }
-        } else {
+        }
+        else {
             return $data->[0];
         }
     }
@@ -287,12 +291,12 @@ my $attachments = $meta->find( 'FILEATTACHMENT' );
 =cut
 
 sub find {
-    my( $this, $type ) = @_;
+    my ( $this, $type ) = @_;
 
     my $itemsr = $this->{$type};
-    my @items = ();
+    my @items  = ();
 
-    if( $itemsr ) {
+    if ($itemsr) {
         @items = @$itemsr;
     }
 
@@ -312,23 +316,25 @@ With a $type and a $key it will remove only the specific item.
 =cut
 
 sub remove {
-    my( $this, $type, $keyValue ) = @_;
+    my ( $this, $type, $keyValue ) = @_;
 
-    if( $keyValue ) {
-       my $data = $this->{$type};
-       my @newData = ();
-       foreach my $item ( @$data ) {
-           if( $item->{name} ne $keyValue ) {
-               push @newData, $item;
-           }
-       }
-       $this->{$type} = \@newData;
-    } elsif( $type ) {
-       delete $this->{$type};
-    } else {
+    if ($keyValue) {
+        my $data    = $this->{$type};
+        my @newData = ();
+        foreach my $item (@$data) {
+            if ( $item->{name} ne $keyValue ) {
+                push @newData, $item;
+            }
+        }
+        $this->{$type} = \@newData;
+    }
+    elsif ($type) {
+        delete $this->{$type};
+    }
+    else {
         foreach my $entry ( keys %$this ) {
-            unless( $entry =~ /^_/ ) {
-                $this->remove( $entry );
+            unless ( $entry =~ /^_/ ) {
+                $this->remove($entry);
             }
         }
     }
@@ -353,20 +359,22 @@ Does *not* copy web, topic or text.
 =cut
 
 sub copyFrom {
-    my( $this, $otherMeta, $type, $filter ) = @_;
-    ASSERT($otherMeta->isa( 'TWiki::Meta')) if DEBUG;
+    my ( $this, $otherMeta, $type, $filter ) = @_;
+    ASSERT( $otherMeta->isa('TWiki::Meta') ) if DEBUG;
 
-    if( $type ) {
-        foreach my $item ( @{$otherMeta->{$type}} ) {
-            if( !$filter || ( $item->{name} && $item->{name} =~ /$filter/ )) {
+    if ($type) {
+        foreach my $item ( @{ $otherMeta->{$type} } ) {
+            if ( !$filter || ( $item->{name} && $item->{name} =~ /$filter/ ) ) {
                 my %data = map { $_ => $item->{$_} } keys %$item;
-                push( @{$this->{$type}}, \%data );
+                push( @{ $this->{$type} }, \%data );
             }
         }
-    } else {
+    }
+    else {
         foreach my $k ( keys %$otherMeta ) {
+
             # Don't copy the web and topic fields, this may be a new topic
-            unless( $k =~ /^_/ ) {
+            unless ( $k =~ /^_/ ) {
                 $this->copyFrom( $otherMeta, $k );
             }
         }
@@ -382,10 +390,10 @@ Return the number of entries of the given type
 =cut
 
 sub count {
-    my( $this, $type ) = @_;
+    my ( $this, $type ) = @_;
     my $data = $this->{$type};
 
-    return scalar @$data if( defined( $data ));
+    return scalar @$data if ( defined($data) );
 
     return 0;
 }
@@ -404,27 +412,28 @@ $rev is an integer revision number.
 =cut
 
 sub getRevisionInfo {
-    my( $this, $fromrev ) = @_;
+    my ( $this, $fromrev ) = @_;
     my $store = $this->{_session}->{store};
 
-    my $topicinfo = $this->get( 'TOPICINFO' );
+    my $topicinfo = $this->get('TOPICINFO');
 
-    my( $date, $author, $rev, $comment );
-    if( $topicinfo ) {
-        $date = $topicinfo->{date} ;
+    my ( $date, $author, $rev, $comment );
+    if ($topicinfo) {
+        $date   = $topicinfo->{date};
         $author = $topicinfo->{author};
-        $rev = $topicinfo->{version};
-        $rev =~ s/^\$Rev(:\s*\d+)?\s*\$$/0/; # parse out SVN keywords in doc
+        $rev    = $topicinfo->{version};
+        $rev =~ s/^\$Rev(:\s*\d+)?\s*\$$/0/;    # parse out SVN keywords in doc
         $rev =~ s/^\d+\.//;
         $comment = '';
         if ( !$fromrev || $rev eq $fromrev ) {
-            return( $date, $author, $rev, $comment );
+            return ( $date, $author, $rev, $comment );
         }
     }
+
     # Different rev, or no topic info, delegate to Store
     ( $date, $author, $rev, $comment ) =
       $store->getRevisionInfo( $this->{_web}, $this->{_topic}, $fromrev );
-    return( $date, $author, $rev, $comment );
+    return ( $date, $author, $rev, $comment );
 }
 
 =pod
@@ -448,32 +457,38 @@ sub merge {
     my ( $this, $other, $formDef ) = @_;
 
     my $data = $other->{FIELD};
-    if( $data ) {
-        foreach my $otherD ( @$data ) {
+    if ($data) {
+        foreach my $otherD (@$data) {
             my $thisD = $this->get( 'FIELD', $otherD->{name} );
             if ( $thisD && $thisD->{value} ne $otherD->{value} ) {
-                if( $formDef->isTextMergeable( $thisD->{name} )) {
+                if ( $formDef->isTextMergeable( $thisD->{name} ) ) {
                     require TWiki::Merge;
                     my $merged = TWiki::Merge::merge2(
-                        'A', $otherD->{value}, 'B', $thisD->{value},
+                        'A',
+                        $otherD->{value},
+                        'B',
+                        $thisD->{value},
                         '.*?\s+',
                         $this->{_session},
-                        $formDef->getField( $thisD->{name} ) );
+                        $formDef->getField( $thisD->{name} )
+                    );
+
                     # SMELL: we don't merge attributes or title
                     $thisD->{value} = $merged;
                 }
-            } elsif ( !$thisD ) {
-                $this->putKeyed('FIELD', $otherD );
+            }
+            elsif ( !$thisD ) {
+                $this->putKeyed( 'FIELD', $otherD );
             }
         }
     }
 
     $data = $other->{FILEATTACHMENT};
-    if( $data ) {
-        foreach my $otherD ( @$data ) {
+    if ($data) {
+        foreach my $otherD (@$data) {
             my $thisD = $this->get( 'FILEATTACHMENT', $otherD->{name} );
             if ( !$thisD ) {
-                $this->putKeyed('FILEATTACHMENT', $otherD );
+                $this->putKeyed( 'FILEATTACHMENT', $otherD );
             }
         }
     }
@@ -490,23 +505,24 @@ that match it. Types should be a perl regular expression.
 =cut
 
 sub stringify {
-    my( $this, $types ) = @_;
+    my ( $this, $types ) = @_;
     my $s = '';
     $types ||= qr/^[A-Z]+$/;
 
     foreach my $type ( grep { /$types/ } keys %$this ) {
-        foreach my $item ( @{$this->{$type}} ) {
+        foreach my $item ( @{ $this->{$type} } ) {
+
             #remove the internal 'info.rev'
             my $topicRev = $item->{'rev'};
-            if ($type eq 'TOPICINFO') {
+            if ( $type eq 'TOPICINFO' ) {
                 undef $item->{'rev'};
             }
             my @itemKeys = sort keys %$item;
-            $s .= "$type: " .
-              join(' ', map{ "$_='".($item->{$_}||'')."'" }
-                      @itemKeys ) .
-                       "\n";
-            if ($type eq 'TOPICINFO' && defined($topicRev)) {
+            $s .= "$type: "
+              . join( ' ',
+                map { "$_='" . ( $item->{$_} || '' ) . "'" } @itemKeys )
+              . "\n";
+            if ( $type eq 'TOPICINFO' && defined($topicRev) ) {
                 $item->{'rev'} = $topicRev;
             }
         }
@@ -533,16 +549,16 @@ with the result of \&fn.
 =cut
 
 sub forEachSelectedValue {
-    my( $this, $types, $keys, $fn, $options ) = @_;
+    my ( $this, $types, $keys, $fn, $options ) = @_;
 
     $types ||= qr/^[A-Z]+$/;
-    $keys ||= qr/^[a-z]+$/;
+    $keys  ||= qr/^[a-z]+$/;
 
     foreach my $type ( grep { /$types/ } keys %$this ) {
         $options->{_type} = $type;
         my $data = $this->{$type};
         next unless $data;
-        foreach my $datum ( @$data ) {
+        foreach my $datum (@$data) {
             foreach my $key ( grep { /$keys/ } keys %$datum ) {
                 $options->{_key} = $key;
                 $datum->{$key} = &$fn( $datum->{$key}, $options );
@@ -560,13 +576,14 @@ Gets the TOPICPARENT name.
 =cut
 
 sub getParent {
-    my( $this ) = @_;
+    my ($this) = @_;
 
-    my $value = '';
-    my $parent = $this->get( 'TOPICPARENT' );
-    $value = $parent->{name} if( $parent );
+    my $value  = '';
+    my $parent = $this->get('TOPICPARENT');
+    $value = $parent->{name} if ($parent);
+
     # Return empty string (not undef), if TOPICPARENT meta is broken
-    $value = '' if (!defined $value);
+    $value = '' if ( !defined $value );
     return $value;
 }
 
@@ -579,10 +596,10 @@ Returns the name of the FORM, or '' if none.
 =cut
 
 sub getFormName {
-    my( $this ) = @_;
+    my ($this) = @_;
 
-    my $aForm = $this->get( 'FORM' );
-    if( $aForm ) {
+    my $aForm = $this->get('FORM');
+    if ($aForm) {
         return $aForm->{name};
     }
     return '';
@@ -606,11 +623,12 @@ sub renderFormForDisplay {
 
     my $form = new TWiki::Form( $this->{_session}, $this->{_web}, $fname );
 
-    if( $form ) {
-        return $form->renderForDisplay( $this );
-    } else {
-        return CGI::span({class => 'twikiAlert'},
-                         "Form definition '$fname' not found");
+    if ($form) {
+        return $form->renderForDisplay($this);
+    }
+    else {
+        return CGI::span( { class => 'twikiAlert' },
+            "Form definition '$fname' not found" );
     }
 }
 
@@ -625,34 +643,36 @@ is rendered.
 =cut
 
 sub renderFormFieldForDisplay {
-    my( $this, $name, $format, $attrs ) = @_;
+    my ( $this, $name, $format, $attrs ) = @_;
 
     my $value;
     my $mf = $this->get( 'FIELD', $name );
-    unless( $mf ) {
+    unless ($mf) {
+
         # Not a valid field name, maybe it's a title.
         require TWiki::Form;
-        $name = TWiki::Form::fieldTitle2FieldName( $name );
-        $mf = $this->get( 'FIELD', $name);
+        $name = TWiki::Form::fieldTitle2FieldName($name);
+        $mf = $this->get( 'FIELD', $name );
     }
-    return '' unless $mf; # field not found
+    return '' unless $mf;    # field not found
 
     $value = $mf->{value};
 
     my $fname = $this->getFormName();
-    if( $fname ) {
+    if ($fname) {
         require TWiki::Form;
         my $form = new TWiki::Form( $this->{_session}, $this->{_web}, $fname );
-        if( $form ) {
-            my $field = $form->getField( $name );
-            if( $field ) {
+        if ($form) {
+            my $field = $form->getField($name);
+            if ($field) {
                 return $field->renderForDisplay( $format, $value, $attrs );
             }
         }
     }
+
     # Form or field wasn't found, do your best!
     my $f = $this->get( 'FIELD', $name );
-    if( $f ) {
+    if ($f) {
         $format =~ s/\$title/$f->{title}/;
         require TWiki::Render;
         $value = TWiki::Render::protectFormFieldValue( $value, $attrs );
@@ -677,12 +697,14 @@ sub getEmbeddedStoreForm {
 
     require TWiki::Store;
 
-    my $start = $this->_writeTypes( qw/TOPICINFO TOPICPARENT/ );
-    my $end = $this->_writeTypes( qw/FORM FIELD FILEATTACHMENT TOPICMOVED/ );
+    my $start = $this->_writeTypes(qw/TOPICINFO TOPICPARENT/);
+    my $end   = $this->_writeTypes(qw/FORM FIELD FILEATTACHMENT TOPICMOVED/);
+
     # append remaining meta data
-    $end .= $this->_writeTypes( qw/not TOPICINFO TOPICPARENT FORM FIELD FILEATTACHMENT TOPICMOVED/ );
+    $end .= $this->_writeTypes(
+        qw/not TOPICINFO TOPICPARENT FORM FIELD FILEATTACHMENT TOPICMOVED/);
     my $text = $start . $this->{_text};
-    $end = "\n".$end if $end;
+    $end = "\n" . $end if $end;
     $text .= $end;
     return $text;
 }
@@ -690,55 +712,59 @@ sub getEmbeddedStoreForm {
 # STATIC Write a meta-data key=value pair
 # The encoding is reversed in _readKeyValues
 sub _writeKeyValue {
-    my( $key, $value ) = @_;
+    my ( $key, $value ) = @_;
 
-    if( defined( $value )) {
-        $value = TWiki::Store::dataEncode( $value );
-    } else {
+    if ( defined($value) ) {
+        $value = TWiki::Store::dataEncode($value);
+    }
+    else {
         $value = '';
     }
 
-    return $key.'="'.$value.'"';
+    return $key . '="' . $value . '"';
 }
 
 # STATIC: Write all the key=value pairs for the types listed
 sub _writeTypes {
-    my( $this, @types ) = @_;
+    my ( $this, @types ) = @_;
 
     my $text = '';
 
-    if( $types[0] eq 'not' ) {
+    if ( $types[0] eq 'not' ) {
+
         # write all types that are not in the list
         my %seen;
-        @seen{ @types } = ();
-        @types = ();  # empty "not in list"
+        @seen{@types} = ();
+        @types = ();    # empty "not in list"
         foreach my $key ( keys %$this ) {
-            push( @types, $key ) unless
-              (exists $seen{ $key } || $key =~ /^_/);
+            push( @types, $key )
+              unless ( exists $seen{$key} || $key =~ /^_/ );
         }
     }
 
-    foreach my $type ( @types ) {
+    foreach my $type (@types) {
         my $data = $this->{$type};
-        foreach my $item ( @$data ) {
+        foreach my $item (@$data) {
             my $sep = '';
-            $text .= '%META:'.$type.'{';
+            $text .= '%META:' . $type . '{';
             my $name = $item->{name};
-            if( $name ) {
-                # If there's a name field, put first to make regexp based searching easier
+            if ($name) {
+
+      # If there's a name field, put first to make regexp based searching easier
                 $text .= _writeKeyValue( 'name', $item->{name} );
                 $sep = ' ';
             }
             foreach my $key ( sort keys %$item ) {
+
                 #don't store the rev created in addTOPICINFO
-                next if ($type eq 'TOPICINFO' && $key eq 'rev');
-                if( $key ne 'name' ) {
+                next if ( $type eq 'TOPICINFO' && $key eq 'rev' );
+                if ( $key ne 'name' ) {
                     $text .= $sep;
                     $text .= _writeKeyValue( $key, $item->{$key} );
                     $sep = ' ';
                 }
             }
-            $text .= '}%'."\n";
+            $text .= '}%' . "\n";
         }
     }
 
@@ -753,26 +779,27 @@ sub _writeTypes {
 #    * =$repRev= - is the save in progress a repRev
 # SMELL: Duplicate rev control info in the topic
 sub addTOPICINFO {
-    my( $this, $rev, $time, $user, $repRev, $format ) = @_;
+    my ( $this, $rev, $time, $user, $repRev, $format ) = @_;
     $rev = 1 if $rev < 1;
     my $users = $this->{_session}->{users};
 
-    my %options =
-      (
-          # compatibility; older versions of the code use
-          # RCS rev numbers save with them so old code can
-          # read these topics
-          version   => '1.'.$rev,
-          rev       => $rev,
-          date      => $time,
-          author    => $user,
-          format    => $format,
-         );
+    my %options = (
+
+        # compatibility; older versions of the code use
+        # RCS rev numbers save with them so old code can
+        # read these topics
+        version => '1.' . $rev,
+        rev     => $rev,
+        date    => $time,
+        author  => $user,
+        format  => $format,
+    );
+
     # if this is a reprev, then store the revision that was affected.
     # Required so we can tell when a merge is based on something that
     # is *not* the original rev where another users' edit started.
     # See Bugs:Item1897.
-    $options{reprev} = '1.'.$rev if $repRev;
+    $options{reprev} = '1.' . $rev if $repRev;
 
     $this->put( 'TOPICINFO', \%options );
 }
@@ -792,10 +819,10 @@ caching subclass, for example.
 =cut
 
 sub getMetaFor {
-    my ($this, $web, $topic) = @_;
+    my ( $this, $web, $topic ) = @_;
 
-    my ($m, $t) =  $this->session->{store}->readTopic(undef, $web, $topic);
-    return $m; # $t is already in $m->text()
+    my ( $m, $t ) = $this->session->{store}->readTopic( undef, $web, $topic );
+    return $m;    # $t is already in $m->text()
 }
 
 1;

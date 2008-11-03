@@ -23,17 +23,23 @@ use TWiki::Configure::Types::STRING;
 use base 'TWiki::Configure::Types::STRING';
 
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value ) = @_;
     my $size = '55%';
-    if( $opts =~ /\s(\d+)\s/ ) {
+    if ( $opts =~ /\s(\d+)\s/ ) {
         $size = $1;
+
         # These numbers are somewhat arbitrary..
-        if ($size > 25) {
+        if ( $size > 25 ) {
             $size = '55%';
         }
     }
 
-    return CGI::password_field( -name => $id, -size=>$size, -default=>$value, -autocomplete=>'off' );
+    return CGI::password_field(
+        -name         => $id,
+        -size         => $size,
+        -default      => $value,
+        -autocomplete => 'off'
+    );
 }
 
 1;

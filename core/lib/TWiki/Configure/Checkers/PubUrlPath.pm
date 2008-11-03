@@ -25,14 +25,18 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    unless( $TWiki::cfg{PubUrlPath} && $TWiki::cfg{PubUrlPath} ne 'NOT SET') {
+    unless ( $TWiki::cfg{PubUrlPath} && $TWiki::cfg{PubUrlPath} ne 'NOT SET' ) {
         my $guess = $TWiki::cfg{ScriptUrlPath};
         $guess =~ s/bin$/pub/;
         $TWiki::cfg{PubUrlPath} = $guess;
         return $this->guessed(0);
     }
-    return 'This is not set correctly if the link below is broken:'.CGI::br().
-      '<a rel="nofollow" href="'.$TWiki::cfg{PubUrlPath}.'">Go to &quot;pub&quot; directory</a>';
+    return
+        'This is not set correctly if the link below is broken:'
+      . CGI::br()
+      . '<a rel="nofollow" href="'
+      . $TWiki::cfg{PubUrlPath}
+      . '">Go to &quot;pub&quot; directory</a>';
 }
 
 1;

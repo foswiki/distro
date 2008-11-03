@@ -23,32 +23,38 @@ use TWiki::Configure::Types::STRING;
 use base 'TWiki::Configure::Types::STRING';
 
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value ) = @_;
     $value = '' unless defined($value);
     $value = "$value";
-    while ($value =~ s/^\(\?-xism:(.*)\)$/$1/) { };
-    $value =~ s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
-    my $res = '<input name="'.$id.'" type="text" size="55%" value="'.$value.'" />';
+    while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
+    $value =~
+      s/([[\x01-\x09\x0b\x0c\x0e-\x1f"%&'*<=>@[_\|])/'&#'.ord($1).';'/ge;
+    my $res =
+        '<input name="' 
+      . $id
+      . '" type="text" size="55%" value="'
+      . $value . '" />';
     return $res;
 }
 
 sub string2value {
-    my ($this, $value) = @_;
-    while ($value =~ s/^\(\?-xism:(.*)\)$/$1/) { };
+    my ( $this, $value ) = @_;
+    while ( $value =~ s/^\(\?-xism:(.*)\)$/$1/ ) { }
     return qr/$value/;
 }
 
 sub equals {
-    my ($this, $val, $def) = @_;
-    if (!defined $val) {
+    my ( $this, $val, $def ) = @_;
+    if ( !defined $val ) {
         return 0 if defined $def;
         return 1;
-    } elsif (!defined $def) {
+    }
+    elsif ( !defined $def ) {
         return 0;
     }
-    while ($val =~ s/^\(\?-xism:(.*)\)$/$1/) {
+    while ( $val =~ s/^\(\?-xism:(.*)\)$/$1/ ) {
     }
-    while ($def =~ s/^\(\?-xism:(.*)\)$/$1/) {
+    while ( $def =~ s/^\(\?-xism:(.*)\)$/$1/ ) {
     }
     return $val eq $def;
 }

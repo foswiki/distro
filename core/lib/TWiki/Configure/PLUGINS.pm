@@ -33,18 +33,21 @@ sub new {
     my $this = $class->SUPER::new('Installed Plugins');
     my %modules;
     my $classes = $scanner->findClasses('TWiki::Plugins::*Plugin');
-    foreach my $module ( @$classes ) {
+    foreach my $module (@$classes) {
         $module =~ s/^.*::([^:]*)/$1/;
+
         # only add the first instance of any plugin, as only
         # the first can get loaded from @INC.
         $modules{$module} = 1;
     }
-    foreach my $module (sort { lc $a cmp lc $b } keys %modules) {
+    foreach my $module ( sort { lc $a cmp lc $b } keys %modules ) {
         $this->addChild(
             new TWiki::Configure::Value(
-                parent=>$this,
-                keys => '{Plugins}{'.$module.'}{Enabled}',
-                typename => 'BOOLEAN'));
+                parent   => $this,
+                keys     => '{Plugins}{' . $module . '}{Enabled}',
+                typename => 'BOOLEAN'
+            )
+        );
     }
     return $this;
 }

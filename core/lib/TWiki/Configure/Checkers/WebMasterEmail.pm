@@ -25,10 +25,14 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    if( !$TWiki::cfg{WebMasterEmail} ) {
-        return $this->WARN('Please make sure you enter the e-mail address of the webmaster. This is required for registration to work.');
+    if ( !$TWiki::cfg{WebMasterEmail} ) {
+        return $this->WARN(
+'Please make sure you enter the e-mail address of the webmaster. This is required for registration to work.'
+        );
     }
-    if( $TWiki::cfg{WebMasterEmail} !~ /^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) {
+    if ( $TWiki::cfg{WebMasterEmail} !~
+        /^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i )
+    {
         return $this->WARN('I don\'t recognise this as a valid email address.');
     }
     return '';

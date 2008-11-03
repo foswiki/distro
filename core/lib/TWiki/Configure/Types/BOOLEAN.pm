@@ -23,20 +23,24 @@ use TWiki::Configure::Type;
 use base 'TWiki::Configure::Type';
 
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
-    return CGI::checkbox( -name => $id, -checked => ( $value ? 1 : 0),
-                          -value => 1, -label => '' );
+    my ( $this, $id, $opts, $value ) = @_;
+    return CGI::checkbox(
+        -name    => $id,
+        -checked => ( $value ? 1 : 0 ),
+        -value   => 1,
+        -label   => ''
+    );
 }
 
 sub string2value {
-    my ($this, $val) = @_;
-    return ($val ? 1 : 0);
+    my ( $this, $val ) = @_;
+    return ( $val ? 1 : 0 );
 }
 
 sub equals {
-    my ($this, $val, $def) = @_;
+    my ( $this, $val, $def ) = @_;
 
-    return (($val && $def) || (!$val && !$def));
+    return ( ( $val && $def ) || ( !$val && !$def ) );
 }
 
 1;

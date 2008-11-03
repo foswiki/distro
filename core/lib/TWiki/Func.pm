@@ -120,12 +120,13 @@ Return: =$url=       URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebN
 =cut
 
 sub getScriptUrl {
-    my $web = shift;
-    my $topic = shift;
+    my $web    = shift;
+    my $topic  = shift;
     my $script = shift;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
-    return $TWiki::Plugins::SESSION->getScriptUrl( 1, $script, $web, $topic, @_ );
+    return $TWiki::Plugins::SESSION->getScriptUrl( 1, $script, $web, $topic,
+        @_ );
 }
 
 =pod
@@ -142,7 +143,7 @@ Return: =$url=      URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNo
 =cut
 
 sub getViewUrl {
-    my( $web, $topic ) = @_;
+    my ( $web, $topic ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
     $web ||= $TWiki::Plugins::SESSION->{webName} || $TWiki::cfg{UsersWebName};
@@ -217,11 +218,11 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 =cut
 
 sub getExternalResource {
-    my( $url ) = @_;
+    my ($url) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    ASSERT(defined $url) if DEBUG;
+    ASSERT( defined $url ) if DEBUG;
 
-    return $TWiki::Plugins::SESSION->net->getExternalResource( $url );
+    return $TWiki::Plugins::SESSION->net->getExternalResource($url);
 }
 
 =pod
@@ -255,7 +256,8 @@ Session keys are stored and retrieved using =setSessionValue= and
 
 sub getSessionKeys {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    my $hash = $TWiki::Plugins::SESSION->{users}->{loginManager}->getSessionValues();
+    my $hash =
+      $TWiki::Plugins::SESSION->{users}->{loginManager}->getSessionValues();
     return keys %{$hash};
 }
 
@@ -272,12 +274,13 @@ Return: =$value=  Value associated with key; empty string if not set
 =cut
 
 sub getSessionValue {
-#   my( $key ) = @_;
+
+    #   my( $key ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
-    return $TWiki::Plugins::SESSION->{users}->{loginManager}->getSessionValue( @_ );
+    return $TWiki::Plugins::SESSION->{users}->{loginManager}
+      ->getSessionValue(@_);
 }
-
 
 =pod
 
@@ -293,10 +296,11 @@ Return: true if function succeeded
 =cut
 
 sub setSessionValue {
-#   my( $key, $value ) = @_;
+
+    #   my( $key, $value ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
-    $TWiki::Plugins::SESSION->{users}->{loginManager}->setSessionValue( @_ );
+    $TWiki::Plugins::SESSION->{users}->{loginManager}->setSessionValue(@_);
 }
 
 =pod
@@ -315,7 +319,8 @@ Return: true if the session value was cleared
 sub clearSessionValue {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
-    return $TWiki::Plugins::SESSION->{users}->{loginManager}->clearSessionValue( @_ );
+    return $TWiki::Plugins::SESSION->{users}->{loginManager}
+      ->clearSessionValue(@_);
 }
 
 =pod
@@ -397,19 +402,20 @@ values will be unchanged.
 sub pushTopicContext {
     my $twiki = $TWiki::Plugins::SESSION;
     ASSERT($twiki) if DEBUG;
-    my( $web, $topic ) = $twiki->normalizeWebTopicName( @_ );
+    my ( $web, $topic ) = $twiki->normalizeWebTopicName(@_);
     my $old = {
-        web => $twiki->{webName},
+        web   => $twiki->{webName},
         topic => $twiki->{topicName},
-        mark => $twiki->{prefs}->mark() };
+        mark  => $twiki->{prefs}->mark()
+    };
 
-    push( @{$twiki->{_FUNC_PREFS_STACK}}, $old );
-    $twiki->{webName} = $web;
+    push( @{ $twiki->{_FUNC_PREFS_STACK} }, $old );
+    $twiki->{webName}   = $web;
     $twiki->{topicName} = $topic;
-    $twiki->{prefs}->pushWebPreferences( $web );
+    $twiki->{prefs}->pushWebPreferences($web);
     $twiki->{prefs}->pushPreferences( $web, $topic, 'TOPIC' );
-    $twiki->{prefs}->pushPreferenceValues(
-        'SESSION', $twiki->{users}->{loginManager}->getSessionValues() );
+    $twiki->{prefs}->pushPreferenceValues( 'SESSION',
+        $twiki->{users}->{loginManager}->getSessionValues() );
 }
 
 =pod
@@ -426,10 +432,10 @@ Returns the TWiki context to the state it was in before the
 sub popTopicContext {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $twiki = $TWiki::Plugins::SESSION;
-    ASSERT(scalar(@{$twiki->{_FUNC_PREFS_STACK}})) if DEBUG;
-    my $old = pop( @{$twiki->{_FUNC_PREFS_STACK}} );
-    $twiki->{prefs}->restore( $old->{mark});
-    $twiki->{webName} = $old->{web};
+    ASSERT( scalar( @{ $twiki->{_FUNC_PREFS_STACK} } ) ) if DEBUG;
+    my $old = pop( @{ $twiki->{_FUNC_PREFS_STACK} } );
+    $twiki->{prefs}->restore( $old->{mark} );
+    $twiki->{webName}   = $old->{web};
     $twiki->{topicName} = $old->{topic};
 }
 
@@ -465,13 +471,14 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPreferencesValue {
-    my( $key, $web ) = @_;
+    my ( $key, $web ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    if( $web ) {
-        return $TWiki::Plugins::SESSION->{prefs}->getWebPreferencesValue(
-            $key, $web );
-    } else {
-        return $TWiki::Plugins::SESSION->{prefs}->getPreferencesValue( $key );
+    if ($web) {
+        return $TWiki::Plugins::SESSION->{prefs}
+          ->getWebPreferencesValue( $key, $web );
+    }
+    else {
+        return $TWiki::Plugins::SESSION->{prefs}->getPreferencesValue($key);
     }
 }
 
@@ -493,11 +500,12 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPluginPreferencesValue {
-    my( $key ) = @_;
+    my ($key) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $package = caller;
-    $package =~ s/.*:://; # strip off TWiki::Plugins:: prefix
-    return $TWiki::Plugins::SESSION->{prefs}->getPreferencesValue( "\U$package\E_$key" );
+    $package =~ s/.*:://;    # strip off TWiki::Plugins:: prefix
+    return $TWiki::Plugins::SESSION->{prefs}
+      ->getPreferencesValue("\U$package\E_$key");
 }
 
 =pod
@@ -522,9 +530,10 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPreferencesFlag {
-#   my( $key, $web ) = @_;
-    my $t = getPreferencesValue( @_ );
-    return TWiki::isTrue( $t );
+
+    #   my( $key, $web ) = @_;
+    my $t = getPreferencesValue(@_);
+    return TWiki::isTrue($t);
 }
 
 =pod
@@ -545,10 +554,10 @@ preferences set in the plugin topic will be ignored.
 =cut
 
 sub getPluginPreferencesFlag {
-    my( $key ) = @_;
+    my ($key) = @_;
     my $package = caller;
-    $package =~ s/.*:://; # strip off TWiki::Plugins:: prefix
-    return getPreferencesFlag( "\U$package\E_$key" );
+    $package =~ s/.*:://;    # strip off TWiki::Plugins:: prefix
+    return getPreferencesFlag("\U$package\E_$key");
 }
 
 =pod
@@ -661,14 +670,15 @@ sub getCanonicalUserID {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $cUID;
     if ($user) {
-        $cUID =
-          $TWiki::Plugins::SESSION->{users}->getCanonicalUserID( $user );
-        if (!$cUID) {
+        $cUID = $TWiki::Plugins::SESSION->{users}->getCanonicalUserID($user);
+        if ( !$cUID ) {
+
             # Not a login name or a wiki name. Is it a valid cUID?
             my $ln = $TWiki::Plugins::SESSION->{users}->getLoginName($user);
             $cUID = $user if defined $ln && $ln ne 'unknown';
         }
-    } else {
+    }
+    else {
         $cUID = $TWiki::Plugins::SESSION->{user};
     }
     return $cUID;
@@ -692,14 +702,15 @@ Return: =$wikiName= Wiki Name, e.g. ='JohnDoe'=
 sub getWikiName {
     my $user = shift;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    my $cUID = getCanonicalUserID( $user );
-    unless( defined $cUID ) {
-        my ($w, $u) = normalizeWebTopicName($TWiki::cfg{UsersWebName}, $user);
+    my $cUID = getCanonicalUserID($user);
+    unless ( defined $cUID ) {
+        my ( $w, $u ) =
+          normalizeWebTopicName( $TWiki::cfg{UsersWebName}, $user );
         return $u;
     }
-    return $TWiki::Plugins::SESSION->{users}->getWikiName( $cUID );
+    return $TWiki::Plugins::SESSION->{users}->getWikiName($cUID);
 }
- 
+
 =pod 
  
 ---+++ getWikiUserName( $user ) -> $wikiName
@@ -718,9 +729,10 @@ Return: =$wikiName= Wiki Name, e.g. ="Main.JohnDoe"=
 sub getWikiUserName {
     my $user = shift;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    my $cUID = getCanonicalUserID( $user );
-    unless( defined $cUID ) {
-        my ($w, $u) = normalizeWebTopicName($TWiki::cfg{UsersWebName}, $user);
+    my $cUID = getCanonicalUserID($user);
+    unless ( defined $cUID ) {
+        my ( $w, $u ) =
+          normalizeWebTopicName( $TWiki::cfg{UsersWebName}, $user );
         return "$w.$u";
     }
     return $TWiki::Plugins::SESSION->{users}->webDotWikiName($cUID);
@@ -749,7 +761,7 @@ returns undef if the WikiName is not found.
 =cut 
 
 sub wikiToUserName {
-    my( $wiki ) = @_;
+    my ($wiki) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     return '' unless $wiki;
 
@@ -780,15 +792,17 @@ exist in the mapping, the $loginName parameter is returned. (backward compatibil
 =cut
 
 sub userToWikiName {
-    my( $login, $dontAddWeb ) = @_;
+    my ( $login, $dontAddWeb ) = @_;
     return '' unless $login;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $users = $TWiki::Plugins::SESSION->{users};
-    my $user = getCanonicalUserID( $login );
-    return ( $dontAddWeb ? $login :
-               ( $TWiki::cfg{UsersWebName} . '.' . $login ) )
-      unless $users->userExists( $user );
-    return $users->getWikiName( $user ) if $dontAddWeb;
+    my $user  = getCanonicalUserID($login);
+    return (
+          $dontAddWeb
+        ? $login
+        : ( $TWiki::cfg{UsersWebName} . '.' . $login )
+    ) unless $users->userExists($user);
+    return $users->getWikiName($user) if $dontAddWeb;
     return $users->webDotWikiName($user);
 }
 
@@ -806,18 +820,19 @@ address, this returns a list of wikinames rather than a single wikiname.
 =cut
 
 sub emailToWikiNames {
-    my( $email, $dontAddWeb ) = @_;
+    my ( $email, $dontAddWeb ) = @_;
     ASSERT($email) if DEBUG;
 
     my %matches;
     my $users = $TWiki::Plugins::SESSION->{users};
-    my $ua = $users->findUserByEmail( $email );
+    my $ua    = $users->findUserByEmail($email);
     if ($ua) {
         foreach my $user (@$ua) {
-            if( $dontAddWeb ) {
-                $matches{$users->getWikiName($user)} = 1;
-            } else {
-                $matches{$users->webDotWikiName($user)} = 1;
+            if ($dontAddWeb) {
+                $matches{ $users->getWikiName($user) } = 1;
+            }
+            else {
+                $matches{ $users->webDotWikiName($user) } = 1;
             }
         }
     }
@@ -839,22 +854,25 @@ Since TWiki 4.2.1, $user may also be a login name, or the name of a group.
 =cut
 
 sub wikinameToEmails {
-    my( $wikiname ) = @_;
-    if( $wikiname ) {
-        if (isGroup($wikiname)) {
-            return $TWiki::Plugins::SESSION->{users}->getEmails( $wikiname );
-        } else {
-            my $uids = $TWiki::Plugins::SESSION->{users}->findUserByWikiName(
-                $wikiname );
+    my ($wikiname) = @_;
+    if ($wikiname) {
+        if ( isGroup($wikiname) ) {
+            return $TWiki::Plugins::SESSION->{users}->getEmails($wikiname);
+        }
+        else {
+            my $uids =
+              $TWiki::Plugins::SESSION->{users}->findUserByWikiName($wikiname);
             my @em = ();
             foreach my $user (@$uids) {
-                push(@em, $TWiki::Plugins::SESSION->{users}->getEmails( $user ));
+                push( @em,
+                    $TWiki::Plugins::SESSION->{users}->getEmails($user) );
             }
             return @em;
         }
-    } else {
+    }
+    else {
         my $user = $TWiki::Plugins::SESSION->{user};
-        return $TWiki::Plugins::SESSION->{users}->getEmails( $user );
+        return $TWiki::Plugins::SESSION->{users}->getEmails($user);
     }
 }
 
@@ -870,9 +888,8 @@ Test if logged in user is a guest (TWikiGuest)
 
 sub isGuest {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{user} eq
-      $TWiki::Plugins::SESSION->{users}->getCanonicalUserID(
-          $TWiki::cfg{DefaultUserLogin} );
+    return $TWiki::Plugins::SESSION->{user} eq $TWiki::Plugins::SESSION->{users}
+      ->getCanonicalUserID( $TWiki::cfg{DefaultUserLogin} );
 }
 
 =pod
@@ -889,8 +906,8 @@ the currently logged-in user is assumed.
 
 sub isAnAdmin {
     my $user = shift;
-    return $TWiki::Plugins::SESSION->{users}->isAdmin(
-        getCanonicalUserID( $user ));
+    return $TWiki::Plugins::SESSION->{users}
+      ->isAdmin( getCanonicalUserID($user) );
 }
 
 =pod
@@ -912,15 +929,17 @@ If =$user= is =undef=, it defaults to the currently logged-in user.
 =cut
 
 sub isGroupMember {
-    my ($group, $user) = @_;
+    my ( $group, $user ) = @_;
     my $users = $TWiki::Plugins::SESSION->{users};
 
     return () unless $users->isGroup($group);
-    if( $user ) {
+    if ($user) {
+
         #my $login = wikiToUserName( $user );
         #return 0 unless $login;
-        $user = getCanonicalUserID( $user );
-    } else {
+        $user = getCanonicalUserID($user);
+    }
+    else {
         $user = $TWiki::Plugins::SESSION->{user};
     }
     return $users->isInGroup( $user, $group );
@@ -970,11 +989,12 @@ sub eachMembership {
     my ($user) = @_;
     my $users = $TWiki::Plugins::SESSION->{users};
 
-    if( $user ) {
-        my $login = wikiToUserName( $user );
+    if ($user) {
+        my $login = wikiToUserName($user);
         return 0 unless $login;
-        $user = getCanonicalUserID( $login );
-    } else {
+        $user = getCanonicalUserID($login);
+    }
+    else {
         $user = $TWiki::Plugins::SESSION->{user};
     }
 
@@ -1003,7 +1023,7 @@ Use it as follows:
 
 sub eachGroup {
     my $session = $TWiki::Plugins::SESSION;
-    my $it = $session->{users}->eachGroup();
+    my $it      = $session->{users}->eachGroup();
     return $it;
 }
 
@@ -1016,9 +1036,9 @@ Checks if =$group= is the name of a group known to TWiki.
 =cut
 
 sub isGroup {
-    my( $group ) = @_;
+    my ($group) = @_;
 
-    return $TWiki::Plugins::SESSION->{users}->isGroup( $group );
+    return $TWiki::Plugins::SESSION->{users}->isGroup($group);
 }
 
 =pod
@@ -1043,10 +1063,10 @@ Use it as follows:
 =cut
 
 sub eachGroupMember {
-    my $user = shift;
+    my $user    = shift;
     my $session = $TWiki::Plugins::SESSION;
-    return undef unless
-      $TWiki::Plugins::SESSION->{users}->isGroup($user);
+    return undef
+      unless $TWiki::Plugins::SESSION->{users}->isGroup($user);
     my $it = $TWiki::Plugins::SESSION->{users}->eachGroupMember($user);
     $it->{process} = sub {
         return $TWiki::Plugins::SESSION->{users}->getWikiName( $_[0] );
@@ -1093,14 +1113,14 @@ in =ThatWeb.ThisTopic=, then a call to =checkAccessPermissions('SPIN', 'IncyWinc
 =cut
 
 sub checkAccessPermission {
-    my( $type, $user, $text, $topic, $web, $meta ) = @_;
-    return 1 unless ( $user );
+    my ( $type, $user, $text, $topic, $web, $meta ) = @_;
+    return 1 unless ($user);
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     $text = undef unless $text;
-    my $cUID = getCanonicalUserID($user) ||
-        getCanonicalUserID($TWiki::cfg{DefaultUserLogin});
-    return $TWiki::Plugins::SESSION->security->checkAccessPermission(
-        $type, $cUID, $text, $meta, $topic, $web );
+    my $cUID = getCanonicalUserID($user)
+      || getCanonicalUserID( $TWiki::cfg{DefaultUserLogin} );
+    return $TWiki::Plugins::SESSION->security->checkAccessPermission( $type,
+        $cUID, $text, $meta, $topic, $web );
 }
 
 =pod
@@ -1150,9 +1170,10 @@ Test if web exists
 =cut
 
 sub webExists {
-#   my( $web ) = @_;
+
+    #   my( $web ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{store}->webExists( @_ );
+    return $TWiki::Plugins::SESSION->{store}->webExists(@_);
 }
 
 =pod
@@ -1187,8 +1208,8 @@ try {
 
 sub createWeb {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    $TWiki::Plugins::SESSION->{store}->createWeb(
-        $TWiki::Plugins::SESSION->{user}, @_ );
+    $TWiki::Plugins::SESSION->{store}
+      ->createWeb( $TWiki::Plugins::SESSION->{user}, @_ );
 }
 
 =pod
@@ -1225,8 +1246,8 @@ TWiki::Func::moveWeb( "Deadweb", "Trash.Deadweb" );
 
 sub moveWeb {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{store}->moveWeb(
-        @_, $TWiki::Plugins::SESSION->{user});
+    return $TWiki::Plugins::SESSION->{store}
+      ->moveWeb( @_, $TWiki::Plugins::SESSION->{user} );
 
 }
 
@@ -1259,12 +1280,11 @@ Use it as follows:
 =cut
 
 sub eachChangeSince {
-    my( $web, $time ) = @_;
+    my ( $web, $time ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    ASSERT($TWiki::Plugins::SESSION->{store}->webExists($web)) if DEBUG;
+    ASSERT( $TWiki::Plugins::SESSION->{store}->webExists($web) ) if DEBUG;
 
-    my $iterator =
-      $TWiki::Plugins::SESSION->{store}->eachChange( $web, $time );
+    my $iterator = $TWiki::Plugins::SESSION->{store}->eachChange( $web, $time );
     return $iterator;
 }
 
@@ -1281,9 +1301,10 @@ Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'Web
 =cut
 
 sub getTopicList {
-#   my( $web ) = @_;
+
+    #   my( $web ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{store}->getTopicNames ( @_ );
+    return $TWiki::Plugins::SESSION->{store}->getTopicNames(@_);
 }
 
 =pod
@@ -1303,7 +1324,7 @@ To get an expected behaviour it is recommened to specify the current web for $we
 =cut
 
 sub topicExists {
-    my( $web, $topic ) = $TWiki::Plugins::SESSION->normalizeWebTopicName( @_ );
+    my ( $web, $topic ) = $TWiki::Plugins::SESSION->normalizeWebTopicName(@_);
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     return $TWiki::Plugins::SESSION->{store}->topicExists( $web, $topic );
 }
@@ -1323,41 +1344,38 @@ Return: =( $oopsUrl, $loginName, $unlockTime )= - The =$oopsUrl= for calling red
 =cut
 
 sub checkTopicEditLock {
-    my( $web, $topic, $script ) = @_;
+    my ( $web, $topic, $script ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
     ( $web, $topic ) = normalizeWebTopicName( $web, $topic );
     $script ||= 'edit';
 
     my $lease = $TWiki::Plugins::SESSION->{store}->getLease( $web, $topic );
-    if( $lease ) {
-        my $remain = $lease->{expires} - time();
+    if ($lease) {
+        my $remain  = $lease->{expires} - time();
         my $session = $TWiki::Plugins::SESSION;
 
-        if( $remain > 0 ) {
+        if ( $remain > 0 ) {
             my $who = $lease->{user};
             require TWiki::Time;
-            my $past = TWiki::Time::formatDelta(
-                time()-$lease->{taken},
-                $TWiki::Plugins::SESSION->i18n
-               );
-            my $future = TWiki::Time::formatDelta(
-                $lease->{expires}-time(),
-                $TWiki::Plugins::SESSION->i18n
-               );
+            my $past = TWiki::Time::formatDelta( time() - $lease->{taken},
+                $TWiki::Plugins::SESSION->i18n );
+            my $future = TWiki::Time::formatDelta( $lease->{expires} - time(),
+                $TWiki::Plugins::SESSION->i18n );
             my $url = getScriptUrl(
                 $web, $topic, 'oops',
                 template => 'oopsleaseconflict',
-                def => 'lease_active',
-                param1 => $who,
-                param2 => $past,
-                param3 => $future,
-                param4 => $script );
+                def      => 'lease_active',
+                param1   => $who,
+                param2   => $past,
+                param3   => $future,
+                param4   => $script
+            );
             my $login = $session->{users}->getLoginName($who);
-            return( $url, $login, $remain / 60 );
+            return ( $url, $login, $remain / 60 );
         }
     }
-    return ('', '', 0);
+    return ( '', '', 0 );
 }
 
 =pod
@@ -1381,14 +1399,15 @@ merged.
 =cut
 
 sub setTopicEditLock {
-    my( $web, $topic, $lock ) = @_;
+    my ( $web, $topic, $lock ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $session = $TWiki::Plugins::SESSION;
-    my $store = $session->{store};
-    if( $lock ) {
+    my $store   = $session->{store};
+    if ($lock) {
         $store->setLease( $web, $topic, $session->{user},
-                          $TWiki::cfg{LeaseLength} );
-    } else {
+            $TWiki::cfg{LeaseLength} );
+    }
+    else {
         $store->clearLease( $web, $topic );
     }
     return '';
@@ -1424,12 +1443,12 @@ appropriate.
 =cut
 
 sub saveTopic {
-    my( $web, $topic, $meta, $text, $options ) = @_;
+    my ( $web, $topic, $meta, $text, $options ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
-    return $TWiki::Plugins::SESSION->{store}->saveTopic
-      ( $TWiki::Plugins::SESSION->{user}, $web, $topic, $text, $meta,
-        $options );
+    return $TWiki::Plugins::SESSION->{store}
+      ->saveTopic( $TWiki::Plugins::SESSION->{user},
+        $web, $topic, $text, $meta, $options );
 
 }
 
@@ -1467,50 +1486,59 @@ $oopsUrl = TWiki::Func::saveTopicText( $web, $topic, $text ); # save topic text
 =cut
 
 sub saveTopicText {
-    my( $web, $topic, $text, $ignorePermissions, $dontNotify ) = @_;
+    my ( $web, $topic, $text, $ignorePermissions, $dontNotify ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
     my $session = $TWiki::Plugins::SESSION;
-    my( $mirrorSite, $mirrorViewURL ) = $session->readOnlyMirrorWeb( $web );
-    throw Error::Simple('Cannot save on a mirror site') if( $mirrorSite );
+    my ( $mirrorSite, $mirrorViewURL ) = $session->readOnlyMirrorWeb($web);
+    throw Error::Simple('Cannot save on a mirror site') if ($mirrorSite);
 
     # check access permission
-    unless( $ignorePermissions ||
-            $session->security->checkAccessPermission(
-                'CHANGE', $session->{user}, undef, undef,
-                $topic, $web )
-          ) {
+    unless (
+        $ignorePermissions
+        || $session->security->checkAccessPermission(
+            'CHANGE', $session->{user}, undef, undef, $topic, $web
+        )
+      )
+    {
         my @plugin = caller();
         return getScriptUrl(
             $web, $topic, 'oops',
             template => 'oopsaccessdenied',
-            def => 'topic_access',
-            param1 => 'in',
-            param2 => $plugin[0] );
+            def      => 'topic_access',
+            param1   => 'in',
+            param2   => $plugin[0]
+        );
     }
 
     return getScriptUrl(
-        $web, $topic, 'oops', template => 'oopsattention', def => 'save_error',
-        param1 => 'No text' )
-      unless( defined $text );
+        $web, $topic, 'oops',
+        template => 'oopsattention',
+        def      => 'save_error',
+        param1   => 'No text'
+    ) unless ( defined $text );
 
     # extract meta data and merge old attachment meta data
     require TWiki::Meta;
     my $meta = new TWiki::Meta( $session, $web, $topic, $text );
 
-    $meta->remove( 'FILEATTACHMENT' );
+    $meta->remove('FILEATTACHMENT');
 
-    my( $oldMeta, $oldText ) =
+    my ( $oldMeta, $oldText ) =
       $session->{store}->readTopic( undef, $web, $topic, undef );
     $meta->copyFrom( $oldMeta, 'FILEATTACHMENT' );
+
     # save topic
     my $error =
-      $session->{store}->saveTopic
-        ( $session->{user}, $web, $topic, $meta->text(), $meta,
-          { notify => $dontNotify } );
+      $session->{store}
+      ->saveTopic( $session->{user}, $web, $topic, $meta->text(), $meta,
+        { notify => $dontNotify } );
     return getScriptUrl(
-        $web, $topic, 'oops', template => 'oopsattention', def => 'save_error',
-          param1 => $error ) if( $error );
+        $web, $topic, 'oops',
+        template => 'oopsattention',
+        def      => 'save_error',
+        param1   => $error
+    ) if ($error);
     return '';
 }
 
@@ -1551,15 +1579,14 @@ try {
 =cut
 
 sub moveTopic {
-    my( $web, $topic, $newWeb, $newTopic ) = @_;
-    $newWeb ||= $web;
+    my ( $web, $topic, $newWeb, $newTopic ) = @_;
+    $newWeb   ||= $web;
     $newTopic ||= $topic;
 
-    return if( $newWeb eq $web && $newTopic eq $topic );
+    return if ( $newWeb eq $web && $newTopic eq $topic );
 
-    $TWiki::Plugins::SESSION->{store}->moveTopic(
-        $web, $topic,
-        $newWeb, $newTopic,
+    $TWiki::Plugins::SESSION->{store}
+      ->moveTopic( $web, $topic, $newWeb, $newTopic,
         $TWiki::Plugins::SESSION->{user} );
 }
 
@@ -1588,9 +1615,9 @@ more efficient.
 
 sub getRevisionInfo {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    my( $date, $user, $rev, $comment ) =
-      $TWiki::Plugins::SESSION->{store}->getRevisionInfo( @_ );
-    $user = $TWiki::Plugins::SESSION->{users}->getWikiName( $user );
+    my ( $date, $user, $rev, $comment ) =
+      $TWiki::Plugins::SESSION->{store}->getRevisionInfo(@_);
+    $user = $TWiki::Plugins::SESSION->{users}->getWikiName($user);
     return ( $date, $user, $rev, $comment );
 }
 
@@ -1611,7 +1638,7 @@ Return: Single-digit revision number, or undef if it couldn't be determined
 
 sub getRevisionAtTime {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{store}->getRevisionAtTime( @_ );
+    return $TWiki::Plugins::SESSION->{store}->getRevisionAtTime(@_);
 }
 
 =pod
@@ -1637,6 +1664,7 @@ topic.
 =cut
 
 sub readTopic {
+
     #my( $web, $topic, $rev ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
@@ -1661,25 +1689,28 @@ This method is more efficient than =readTopic=, but returns meta-data embedded i
 =cut
 
 sub readTopicText {
-    my( $web, $topic, $rev, $ignorePermissions ) = @_;
+    my ( $web, $topic, $rev, $ignorePermissions ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
     my $user;
     $user = $TWiki::Plugins::SESSION->{user}
-      unless defined( $ignorePermissions );
+      unless defined($ignorePermissions);
 
     my $text;
     try {
         $text =
-          $TWiki::Plugins::SESSION->{store}->readTopicRaw
-            ( $user, $web, $topic, $rev );
-    } catch TWiki::AccessControlException with {
+          $TWiki::Plugins::SESSION->{store}
+          ->readTopicRaw( $user, $web, $topic, $rev );
+    }
+    catch TWiki::AccessControlException with {
         my $e = shift;
         $text = getScriptUrl(
             $web, $topic, 'oops',
-            template => 'oopsaccessdenied', def=>'topic_access',
-            param1 => $e->{mode},
-            param2 => $e->{reason} );
+            template => 'oopsaccessdenied',
+            def      => 'topic_access',
+            param1   => $e->{mode},
+            param2   => $e->{reason}
+        );
     };
 
     return $text;
@@ -1700,13 +1731,13 @@ $web and $topic are parsed as described in the documentation for =normalizeWebTo
 =cut
 
 sub attachmentExists {
-    my( $web, $topic, $attachment ) = @_;
+    my ( $web, $topic, $attachment ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
 
     ( $web, $topic ) =
       $TWiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
-    return $TWiki::Plugins::SESSION->{store}->attachmentExists(
-        $web, $topic, $attachment );
+    return $TWiki::Plugins::SESSION->{store}
+      ->attachmentExists( $web, $topic, $attachment );
 }
 
 =pod
@@ -1747,11 +1778,13 @@ sub readAttachment {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $result;
 
-#    try {
-        $result = $TWiki::Plugins::SESSION->{store}->readAttachment(
-            $TWiki::Plugins::SESSION->{user}, @_ );
-#    } catch Error::Simple with {
-#    };
+    #    try {
+    $result =
+      $TWiki::Plugins::SESSION->{store}
+      ->readAttachment( $TWiki::Plugins::SESSION->{user}, @_ );
+
+    #    } catch Error::Simple with {
+    #    };
     return $result;
 }
 
@@ -1793,16 +1826,15 @@ Save an attachment to the store for a topic. On success, returns undef. If there
 =cut
 
 sub saveAttachment {
-    my( $web, $topic, $name, $data ) = @_;
+    my ( $web, $topic, $name, $data ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $result = undef;
 
     try {
-        $TWiki::Plugins::SESSION->{store}->saveAttachment(
-            $web, $topic, $name,
-            $TWiki::Plugins::SESSION->{user},
-            $data );
-    } catch Error::Simple with {
+        $TWiki::Plugins::SESSION->{store}->saveAttachment( $web, $topic, $name,
+            $TWiki::Plugins::SESSION->{user}, $data );
+    }
+    catch Error::Simple with {
         $result = shift->{-text};
     };
 
@@ -1850,20 +1882,20 @@ try {
 =cut
 
 sub moveAttachment {
-    my( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
+    my ( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment ) = @_;
 
-    $newWeb ||= $web;
-    $newTopic ||= $topic;
+    $newWeb        ||= $web;
+    $newTopic      ||= $topic;
     $newAttachment ||= $attachment;
 
-    return if( $newWeb eq $web &&
-                 $newTopic eq $topic &&
-                   $newAttachment eq $attachment );
+    return
+      if ( $newWeb eq $web
+        && $newTopic eq $topic
+        && $newAttachment eq $attachment );
 
-    $TWiki::Plugins::SESSION->{store}->moveAttachment(
-        $web, $topic, $attachment,
-        $newWeb, $newTopic, $newAttachment,
-        $TWiki::Plugins::SESSION->{user} );
+    $TWiki::Plugins::SESSION->{store}
+      ->moveAttachment( $web, $topic, $attachment, $newWeb, $newTopic,
+        $newAttachment, $TWiki::Plugins::SESSION->{user} );
 }
 
 =pod
@@ -1886,9 +1918,10 @@ Return: =$text=    Template text
 =cut
 
 sub readTemplate {
-#   my( $name, $skin ) = @_;
+
+    #   my( $name, $skin ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->templates->readTemplate( @_ );
+    return $TWiki::Plugins::SESSION->templates->readTemplate(@_);
 }
 
 =pod
@@ -1913,7 +1946,7 @@ If template text is found, extracts include statements and fully expands them.
 
 sub loadTemplate {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->templates->readTemplate( @_ );
+    return $TWiki::Plugins::SESSION->templates->readTemplate(@_);
 }
 
 =pod
@@ -1933,7 +1966,7 @@ file. See the documentation on TWiki templates for more information.
 
 sub expandTemplate {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->templates->expandTemplate( @_ );
+    return $TWiki::Plugins::SESSION->templates->expandTemplate(@_);
 }
 
 =pod
@@ -1950,9 +1983,9 @@ Return:             none
 =cut
 
 sub writeHeader {
-    my( $query, $len ) = @_;
+    my ( $query, $len ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    $TWiki::Plugins::SESSION->generateHTTPHeaders( $query );
+    $TWiki::Plugins::SESSION->generateHTTPHeaders($query);
 }
 
 =pod
@@ -1994,7 +2027,7 @@ TWiki installation.
 =cut
 
 sub redirectCgiQuery {
-    my( $query, $url, $passthru ) = @_;
+    my ( $query, $url, $passthru ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     return $TWiki::Plugins::SESSION->redirect( $url, $passthru );
 }
@@ -2023,9 +2056,9 @@ TWiki::Func::addToHEAD('PATTERN_STYLE','<link id="twikiLayoutCss" rel="styleshee
 =cut=
 
 sub addToHEAD {
-    my( $tag, $header, $requires ) = @_;
+    my ( $tag, $header, $requires ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    $TWiki::Plugins::SESSION->addToHEAD( @_ );
+    $TWiki::Plugins::SESSION->addToHEAD(@_);
 }
 
 =pod
@@ -2046,12 +2079,12 @@ See also: expandVariablesOnTopicCreation
 =cut
 
 sub expandCommonVariables {
-    my( $text, $topic, $web, $meta ) = @_;
+    my ( $text, $topic, $web, $meta ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     $topic ||= $TWiki::Plugins::SESSION->{topicName};
-    $web ||= $TWiki::Plugins::SESSION->{webName};
-    return $TWiki::Plugins::SESSION->handleCommonTags(
-        $text, $web, $topic, $meta );
+    $web   ||= $TWiki::Plugins::SESSION->{webName};
+    return $TWiki::Plugins::SESSION->handleCommonTags( $text, $web, $topic,
+        $meta );
 }
 
 =pod
@@ -2068,9 +2101,10 @@ Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&
 =cut
 
 sub renderText {
-#   my( $text, $web ) = @_;
+
+    #   my( $text, $web ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->renderer->getRenderedVersion( @_ );
+    return $TWiki::Plugins::SESSION->renderer->getRenderedVersion(@_);
 }
 
 =pod
@@ -2093,8 +2127,9 @@ Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/Web
 sub internalLink {
     my $pre = shift;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-#   my( $web, $topic, $label, $anchor, $anchor, $createLink ) = @_;
-    return $pre . $TWiki::Plugins::SESSION->renderer->internalLink( @_ );
+
+    #   my( $web, $topic, $label, $anchor, $anchor, $createLink ) = @_;
+    return $pre . $TWiki::Plugins::SESSION->renderer->internalLink(@_);
 }
 
 =pod
@@ -2129,9 +2164,10 @@ Leave a blank line between the last header field and the message body.
 =cut
 
 sub sendEmail {
+
     #my( $text, $retries ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->net->sendEmail( @_ );
+    return $TWiki::Plugins::SESSION->net->sendEmail(@_);
 }
 
 =pod
@@ -2153,9 +2189,9 @@ Since TWiki 4.2.1, $wikiName may also be a login name.
 =cut
 
 sub wikiToEmail {
-    my( $user ) = @_;
-    my @emails = wikinameToEmails( $user );
-    if (scalar(@emails)) {
+    my ($user) = @_;
+    my @emails = wikinameToEmails($user);
+    if ( scalar(@emails) ) {
         return $emails[0];
     }
     return '';
@@ -2196,7 +2232,8 @@ See also: expandVariables
 
 sub expandVariablesOnTopicCreation {
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->expandVariablesOnTopicCreation( shift, $TWiki::Plugins::SESSION->{user} );
+    return $TWiki::Plugins::SESSION->expandVariablesOnTopicCreation( shift,
+        $TWiki::Plugins::SESSION->{user} );
 }
 
 =pod
@@ -2258,20 +2295,22 @@ Registered tags differ from tags implemented using the old TWiki approach (text 
 =cut
 
 sub registerTagHandler {
-    my( $tag, $function, $syntax ) = @_;
+    my ( $tag, $function, $syntax ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
+
     # Use an anonymous function so it gets inlined at compile time.
     # Make sure we don't mangle the session reference.
-    TWiki::registerTagHandler( $tag,
-                               sub {
-                                   my $record = $TWiki::Plugins::SESSION;
-                                   $TWiki::Plugins::SESSION = $_[0];
-                                   my $result = &$function( @_ );
-                                   $TWiki::Plugins::SESSION = $record;
-                                   return $result;
-                               },
-                               $syntax
-                             );
+    TWiki::registerTagHandler(
+        $tag,
+        sub {
+            my $record = $TWiki::Plugins::SESSION;
+            $TWiki::Plugins::SESSION = $_[0];
+            my $result = &$function(@_);
+            $TWiki::Plugins::SESSION = $record;
+            return $result;
+        },
+        $syntax
+    );
 }
 
 =pod=
@@ -2319,23 +2358,23 @@ note that the URL
 =cut
 
 sub registerRESTHandler {
-    my( $alias, $function) = @_;
+    my ( $alias, $function ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
     my $plugin = caller;
-    $plugin =~ s/.*:://; # strip off TWiki::Plugins:: prefix
+    $plugin =~ s/.*:://;    # strip off TWiki::Plugins:: prefix
 
     # Use an anonymous function so it gets inlined at compile time.
     # Make sure we don't mangle the session reference.
-    TWiki::registerRESTHandler( $plugin,
-                                $alias,
-                               sub {
-                                   my $record = $TWiki::Plugins::SESSION;
-                                   $TWiki::Plugins::SESSION = $_[0];
-                                   my $result = &$function( @_ );
-                                   $TWiki::Plugins::SESSION = $record;
-                                   return $result;
-                               }
-                             );
+    TWiki::registerRESTHandler(
+        $plugin, $alias,
+        sub {
+            my $record = $TWiki::Plugins::SESSION;
+            $TWiki::Plugins::SESSION = $_[0];
+            my $result = &$function(@_);
+            $TWiki::Plugins::SESSION = $record;
+            return $result;
+        }
+    );
 }
 
 =pod
@@ -2373,7 +2412,7 @@ alphanumeric characters*. You have been warned!
 =cut
 
 sub decodeFormatTokens {
-    return TWiki::expandStandardEscapes( @_ );
+    return TWiki::expandStandardEscapes(@_);
 }
 
 =pod
@@ -2414,9 +2453,10 @@ foreach my $topic (keys %$result ) {
 =cut
 
 sub searchInWebContent {
+
     #my( $searchString, $web, $topics, $options ) = @_;
 
-    return $TWiki::Plugins::SESSION->{store}->searchInWebContent( @_ );
+    return $TWiki::Plugins::SESSION->{store}->searchInWebContent(@_);
 }
 
 =pod
@@ -2443,9 +2483,9 @@ to keep their areas tidy.
 =cut
 
 sub getWorkArea {
-    my( $plugin ) = @_;
+    my ($plugin) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{store}->getWorkArea( $plugin );
+    return $TWiki::Plugins::SESSION->{store}->getWorkArea($plugin);
 }
 
 =pod
@@ -2466,10 +2506,10 @@ sub readFile {
     my $name = shift;
     my $data = '';
     open( IN_FILE, "<$name" ) || return '';
-    local $/ = undef; # set to read to EOF
+    local $/ = undef;    # set to read to EOF
     $data = <IN_FILE>;
-    close( IN_FILE );
-    $data = '' unless $data; # no undefined
+    close(IN_FILE);
+    $data = '' unless $data;    # no undefined
     return $data;
 }
 
@@ -2489,13 +2529,13 @@ __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and a
 =cut
 
 sub saveFile {
-    my( $name, $text ) = @_;
+    my ( $name, $text ) = @_;
 
-    unless ( open( FILE, ">$name" ) )  {
+    unless ( open( FILE, ">$name" ) ) {
         die "Can't create file $name - $!\n";
     }
     print FILE $text;
-    close( FILE);
+    close(FILE);
 }
 
 =pod
@@ -2552,7 +2592,7 @@ Those expressions marked type 'RE' are precompiled regular expressions that can 
 =cut
 
 sub getRegularExpression {
-    my ( $regexName ) = @_;
+    my ($regexName) = @_;
     return $TWiki::regex{$regexName};
 }
 
@@ -2588,9 +2628,10 @@ The symbols %<nop>USERSWEB%, %<nop>SYSTEMWEB% and %<nop>DOCWEB% can be used in t
 =cut
 
 sub normalizeWebTopicName {
+
     #my( $web, $topic ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->normalizeWebTopicName( @_ );
+    return $TWiki::Plugins::SESSION->normalizeWebTopicName(@_);
 }
 
 =pod
@@ -2625,6 +2666,7 @@ With parameter $sep any string may be used as separator between the word compone
 =cut
 
 sub spaceOutWikiWord {
+
     #my ( $word, $sep ) = @_;
     return TWiki::spaceOutWikiWord(@_);
 }
@@ -2642,10 +2684,12 @@ Return:            none
 =cut
 
 sub writeWarning {
-#   my( $text ) = @_;
+
+    #   my( $text ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    my ($message)=@_;
-    return $TWiki::Plugins::SESSION->writeWarning( "(".caller().") ".$message );
+    my ($message) = @_;
+    return $TWiki::Plugins::SESSION->writeWarning(
+        "(" . caller() . ") " . $message );
 }
 
 =pod
@@ -2661,9 +2705,10 @@ Return:            none
 =cut
 
 sub writeDebug {
-#   my( $text ) = @_;
+
+    #   my( $text ) = @_;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->writeDebug( @_ );
+    return $TWiki::Plugins::SESSION->writeDebug(@_);
 }
 
 =pod
@@ -2682,9 +2727,10 @@ Return: =$text=        Formatted time string
 =cut
 
 sub formatTime {
-#   my ( $epSecs, $format, $timezone ) = @_;
+
+    #   my ( $epSecs, $format, $timezone ) = @_;
     require TWiki::Time;
-    return TWiki::Time::formatTime( @_ );
+    return TWiki::Time::formatTime(@_);
 }
 
 =pod
@@ -2704,9 +2750,10 @@ not specified it is taken as 0.
 =cut
 
 sub isTrue {
-#   my ( $value, $default ) = @_;
 
-    return TWiki::isTrue( @_ );
+    #   my ( $value, $default ) = @_;
+
+    return TWiki::isTrue(@_);
 }
 
 =pod
@@ -2721,7 +2768,7 @@ Check for a valid WikiWord or WikiName
 =cut
 
 sub isValidWikiWord {
-   return TWiki::isValidWikiWord(@_);
+    return TWiki::isValidWikiWord(@_);
 }
 
 =pod
@@ -2747,9 +2794,10 @@ Return: =%params=  Hash containing all parameters. The nameless parameter is sto
 =cut
 
 sub extractParameters {
-    my( $attr ) = @_;
+    my ($attr) = @_;
     require TWiki::Attrs;
-    my $params = new TWiki::Attrs( $attr );
+    my $params = new TWiki::Attrs($attr);
+
     # take out _RAW and _ERROR (compatibility)
     delete $params->{_RAW};
     delete $params->{_ERROR};
@@ -2780,7 +2828,7 @@ Return: =$value=   Extracted value
 
 sub extractNameValuePair {
     require TWiki::Attrs;
-    return TWiki::Attrs::extractValue( @_ );
+    return TWiki::Attrs::extractValue(@_);
 }
 
 =pod
@@ -2861,13 +2909,15 @@ then you can use =getScriptUrl= instead:
 =cut
 
 sub getOopsUrl {
-    my( $web, $topic, $template, @params ) = @_;
+    my ( $web, $topic, $template, @params ) = @_;
 
     my $n = 1;
-    @params = map { 'param'.($n++) => $_ } @params;
-    return getScriptUrl( $web, $topic, 'oops',
-                         template => $template,
-                         @params );
+    @params = map { 'param' . ( $n++ ) => $_ } @params;
+    return getScriptUrl(
+        $web, $topic, 'oops',
+        template => $template,
+        @params
+    );
 }
 
 =pod
@@ -2897,13 +2947,13 @@ foreach my $type qw( ALLOW DENY ) {
 =cut
 
 sub permissionsSet {
-    my( $web ) = @_;
+    my ($web) = @_;
 
     foreach my $type qw( ALLOW DENY ) {
         foreach my $action qw( CHANGE VIEW RENAME ) {
             my $pref = $type . 'WEB' . $action;
             my $val = getPreferencesValue( $pref, $web ) || '';
-            return 1 if( $val =~ /\S/ );
+            return 1 if ( $val =~ /\S/ );
         }
     }
 
@@ -2945,9 +2995,10 @@ Return: =$text=      Formatted time string
 =cut
 
 sub formatGmTime {
-#   my ( $epSecs, $format ) = @_;
 
-    # FIXME: Write warning based on flag (disabled for now); indicate who is calling this function
+    #   my ( $epSecs, $format ) = @_;
+
+# FIXME: Write warning based on flag (disabled for now); indicate who is calling this function
     ## writeWarning( 'deprecated use of Func::formatGmTime' );
 
     require TWiki::Time;
@@ -3011,37 +3062,40 @@ sub checkDependencies {
     my ( $context, $deps ) = @_;
     my $report = '';
     my $depsOK = 1;
-    foreach my $dep ( @$deps ) {
+    foreach my $dep (@$deps) {
         my ( $ok, $ver ) = ( 1, 0 );
-        my $msg = '';
+        my $msg   = '';
         my $const = '';
 
         eval "require $dep->{package}";
-        if ( $@ ) {
+        if ($@) {
             $msg .= "it could not be found: $@";
             $ok = 0;
-        } else {
+        }
+        else {
             if ( defined( $dep->{constraint} ) ) {
                 $const = $dep->{constraint};
                 eval "\$ver = \$$dep->{package}::VERSION;";
-                if ( $@ ) {
+                if ($@) {
                     $msg .= "the VERSION of the package could not be found: $@";
                     $ok = 0;
-                } else {
+                }
+                else {
                     eval "\$ok = ( \$ver $const )";
-                    if ( $@ || ! $ok ) {
+                    if ( $@ || !$ok ) {
                         $msg .= " $ver is currently installed: $@";
                         $ok = 0;
                     }
                 }
             }
         }
-        unless ( $ok ) {
-            $report .= "WARNING: $dep->{package}$const is required for $context, but $msg\n";
+        unless ($ok) {
+            $report .=
+"WARNING: $dep->{package}$const is required for $context, but $msg\n";
             $depsOK = 0;
         }
     }
-    return undef if( $depsOK );
+    return undef if ($depsOK);
 
     return $report;
 }

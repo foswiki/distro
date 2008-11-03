@@ -95,19 +95,22 @@ If the check fails, the reason can be recoveered using getReason.
 =cut
 
 sub checkAccessPermission {
-    my( $this, $mode, $user, $text, $meta, $topic, $web ) = @_;
+    my ( $this, $mode, $user, $text, $meta, $topic, $web ) = @_;
 
     undef $this->{failure};
 
-    print STDERR "Check $mode access $user to ". ($web||'undef'). '.'. ($topic||'undef')."\n" if MONITOR;
+    print STDERR "Check $mode access $user to "
+      . ( $web   || 'undef' ) . '.'
+      . ( $topic || 'undef' ) . "\n"
+      if MONITOR;
 
     # super admin is always allowed
-    if( $this->{session}->{users}->isAdmin( $user ) ) {
+    if ( $this->{session}->{users}->isAdmin($user) ) {
         print STDERR "$user - ADMIN\n" if MONITOR;
         return 1;
     }
 
-    $mode = uc( $mode );  # upper case
+    $mode = uc($mode);    # upper case
 
     my $prefs = $this->{session}->{prefs};
 
@@ -115,28 +118,34 @@ sub checkAccessPermission {
     my $denyText;
 
     # extract the * Set (ALLOWTOPIC|DENYTOPIC)$mode
-    if( defined $text ) {
+    if ( defined $text ) {
+
         # override topic permissions.
-        $allowText = $prefs->getTextPreferencesValue(
-            'ALLOWTOPIC'.$mode, $text, $meta, $web, $topic );
-        $denyText = $prefs->getTextPreferencesValue(
-            'DENYTOPIC'.$mode, $text, $meta, $web, $topic );
-    } elsif( $topic ) {
-        $allowText = $prefs->getTopicPreferencesValue( 'ALLOWTOPIC'.$mode,
-                                                       $web, $topic );
-        $denyText = $prefs->getTopicPreferencesValue( 'DENYTOPIC'.$mode,
-                                                      $web, $topic );
+        $allowText = $prefs->getTextPreferencesValue( 'ALLOWTOPIC' . $mode,
+            $text, $meta, $web, $topic );
+        $denyText = $prefs->getTextPreferencesValue( 'DENYTOPIC' . $mode,
+            $text, $meta, $web, $topic );
+    }
+    elsif ($topic) {
+        $allowText =
+          $prefs->getTopicPreferencesValue( 'ALLOWTOPIC' . $mode, $web,
+            $topic );
+        $denyText =
+          $prefs->getTopicPreferencesValue( 'DENYTOPIC' . $mode, $web, $topic );
     }
 
     # Check DENYTOPIC
-    if( defined( $denyText )) {
-        if( $denyText =~ /\S$/ ) {
-            if( $this->{session}->{users}->isInList( $user, $denyText )) {
-                $this->{failure} = $this->{session}->i18n->maketext('access denied on topic');
-                print STDERR $this->{failure}." ($denyText)\n" if MONITOR;
+    if ( defined($denyText) ) {
+        if ( $denyText =~ /\S$/ ) {
+            if ( $this->{session}->{users}->isInList( $user, $denyText ) ) {
+                $this->{failure} =
+                  $this->{session}->i18n->maketext('access denied on topic');
+                print STDERR $this->{failure} . " ($denyText)\n" if MONITOR;
                 return 0;
             }
-        } else {
+        }
+        else {
+
             # If DENYTOPIC is empty, don't deny _anyone_
             print STDERR "DENYTOPIC is empty\n" if MONITOR;
             return 1;
@@ -144,67 +153,74 @@ sub checkAccessPermission {
     }
 
     # Check ALLOWTOPIC. If this is defined the user _must_ be in it
-    if( defined( $allowText ) && $allowText =~ /\S/ ) {
-        if( $this->{session}->{users}->isInList( $user, $allowText )) {
+    if ( defined($allowText) && $allowText =~ /\S/ ) {
+        if ( $this->{session}->{users}->isInList( $user, $allowText ) ) {
             print STDERR "in ALLOWTOPIC\n" if MONITOR;
             return 1;
         }
-        $this->{failure} = $this->{session}->i18n->maketext('access not allowed on topic');
-        print STDERR $this->{failure}." ($allowText)\n" if MONITOR;
+        $this->{failure} =
+          $this->{session}->i18n->maketext('access not allowed on topic');
+        print STDERR $this->{failure} . " ($allowText)\n" if MONITOR;
         return 0;
     }
 
     # Check DENYWEB, but only if DENYTOPIC is not set (even if it
     # is empty - empty means "don't deny anybody")
-    unless( defined( $denyText )) {
-        $denyText =
-          $prefs->getWebPreferencesValue( 'DENYWEB'.$mode, $web );
-        if( defined( $denyText ) &&
-              $this->{session}->{users}->isInList( $user, $denyText )) {
-            $this->{failure} = $this->{session}->i18n->maketext('access denied on web');
-            print STDERR $this->{failure}."\n" if MONITOR;
+    unless ( defined($denyText) ) {
+        $denyText = $prefs->getWebPreferencesValue( 'DENYWEB' . $mode, $web );
+        if ( defined($denyText)
+            && $this->{session}->{users}->isInList( $user, $denyText ) )
+        {
+            $this->{failure} =
+              $this->{session}->i18n->maketext('access denied on web');
+            print STDERR $this->{failure} . "\n" if MONITOR;
             return 0;
         }
     }
 
     # Check ALLOWWEB. If this is defined and not overridden by
     # ALLOWTOPIC, the user _must_ be in it.
-    $allowText = $prefs->getWebPreferencesValue( 'ALLOWWEB'.$mode, $web );
+    $allowText = $prefs->getWebPreferencesValue( 'ALLOWWEB' . $mode, $web );
 
-    if( defined( $allowText ) && $allowText =~ /\S/ ) {
-        unless( $this->{session}->{users}->isInList( $user, $allowText )) {
-            $this->{failure} = $this->{session}->i18n->maketext('access not allowed on web');
-            print STDERR $this->{failure}."\n" if MONITOR;
+    if ( defined($allowText) && $allowText =~ /\S/ ) {
+        unless ( $this->{session}->{users}->isInList( $user, $allowText ) ) {
+            $this->{failure} =
+              $this->{session}->i18n->maketext('access not allowed on web');
+            print STDERR $this->{failure} . "\n" if MONITOR;
             return 0;
         }
     }
 
     # Check DENYROOT and ALLOWROOT, but only if web is not defined
-    unless( $web ) {
-        $denyText =
-          $prefs->getPreferencesValue( 'DENYROOT'.$mode, $web );
-        if( defined( $denyText ) &&
-              $this->{session}->{users}->isInList( $user, $denyText )) {
-            $this->{failure} = $this->{session}->i18n->maketext('access denied on root');
-            print STDERR $this->{failure}."\n" if MONITOR;
+    unless ($web) {
+        $denyText = $prefs->getPreferencesValue( 'DENYROOT' . $mode, $web );
+        if ( defined($denyText)
+            && $this->{session}->{users}->isInList( $user, $denyText ) )
+        {
+            $this->{failure} =
+              $this->{session}->i18n->maketext('access denied on root');
+            print STDERR $this->{failure} . "\n" if MONITOR;
             return 0;
         }
 
-        $allowText = $prefs->getPreferencesValue( 'ALLOWROOT'.$mode, $web );
+        $allowText = $prefs->getPreferencesValue( 'ALLOWROOT' . $mode, $web );
 
-        if( defined( $allowText ) && $allowText =~ /\S/ ) {
-            unless( $this->{session}->{users}->isInList( $user, $allowText )) {
-                $this->{failure} = $this->{session}->i18n->maketext('access not allowed on root');
-                print STDERR $this->{failure}."\n" if MONITOR;
+        if ( defined($allowText) && $allowText =~ /\S/ ) {
+            unless ( $this->{session}->{users}->isInList( $user, $allowText ) )
+            {
+                $this->{failure} =
+                  $this->{session}
+                  ->i18n->maketext('access not allowed on root');
+                print STDERR $this->{failure} . "\n" if MONITOR;
                 return 0;
             }
         }
     }
 
-    if( MONITOR ) {
+    if (MONITOR) {
         print STDERR "OK, permitted\n";
         print STDERR "ALLOW: $allowText\n" if defined $allowText;
-        print STDERR "DENY: $denyText\n" if defined $denyText;
+        print STDERR "DENY: $denyText\n"   if defined $denyText;
     }
     return 1;
 }

@@ -57,12 +57,14 @@ sub rest {
             );
             $res->body( "ERROR: (400) Invalid REST invocation"
                   . " - Invalid topic - no web specified\n" );
-            throw TWiki::EngineException(400, 'ERROR: (400) Invalid REST invocation', $res);
+            throw TWiki::EngineException( 400,
+                'ERROR: (400) Invalid REST invocation', $res );
         }
     }
     else {
+
         # Point it somewhere innocent
-        $twiki->{webName} = $TWiki::cfg{UsersWebName};
+        $twiki->{webName}   = $TWiki::cfg{UsersWebName};
         $twiki->{topicName} = $TWiki::cfg{HomeTopicName};
     }
 
@@ -74,8 +76,9 @@ sub rest {
                 -type   => 'text/html',
                 -status => '401'
             );
-            $res->body( "ERROR: (401) Can't login as $login");
-            throw TWiki::EngineException(401, "ERROR: (401) Can't login as $login", $res);
+            $res->body("ERROR: (401) Can't login as $login");
+            throw TWiki::EngineException( 401,
+                "ERROR: (401) Can't login as $login", $res );
         }
 
         my $cUID     = $twiki->{users}->getCanonicalUserID($login);
@@ -90,19 +93,20 @@ sub rest {
         $twiki->{users}->{loginManager}->checkAccess();
     }
     catch Error with {
-        my $e = shift;
+        my $e   = shift;
         my $res = $twiki->{response};
         $res->header(
             -type   => 'text/html',
             -status => '401'
         );
-        $res->body( "ERROR: (401) $e");
-        throw TWiki::EngineException(401, "ERROR: (401) $e", $res);
+        $res->body("ERROR: (401) $e");
+        throw TWiki::EngineException( 401, "ERROR: (401) $e", $res );
     };
 
     my $pathInfo = $query->path_info();
 
     unless ( $pathInfo =~ /\/(.*?)[\.\/](.*?)([\.\/].*?)*$/ ) {
+
         #TWiki rest invocations are defined as having a subject (pluginName)
         # and verb (restHandler in that plugin)
         my $res = $twiki->{response};
@@ -110,8 +114,9 @@ sub rest {
             -type   => 'text/html',
             -status => '400'
         );
-        $res->body( "ERROR: (400) Invalid REST invocation");
-        throw TWiki::EngineException(401, "ERROR: (400) Invalid REST invocation", $res);
+        $res->body("ERROR: (400) Invalid REST invocation");
+        throw TWiki::EngineException( 401,
+            "ERROR: (400) Invalid REST invocation", $res );
     }
     my ( $subject, $verb ) = ( $1, $2 );
 
@@ -121,8 +126,9 @@ sub rest {
             -type   => 'text/html',
             -status => '404'
         );
-        $res->body( "ERROR: (404) Invalid REST invocation ($subject)");
-        throw TWiki::EngineException(401, "ERROR: (400) Invalid REST invocation ($subject)", $res);
+        $res->body("ERROR: (404) Invalid REST invocation ($subject)");
+        throw TWiki::EngineException( 401,
+            "ERROR: (400) Invalid REST invocation ($subject)", $res );
     }
 
     my $function = $TWiki::restDispatch{$subject}{$verb};
@@ -132,8 +138,9 @@ sub rest {
             -type   => 'text/html',
             -status => '404'
         );
-        $res->body( "ERROR: (404) Invalid REST invocation ($verb on $subject)");
-        throw TWiki::EngineException(401, "ERROR: (400) Invalid REST invocation ($verb on $subject)", $res);
+        $res->body("ERROR: (404) Invalid REST invocation ($verb on $subject)");
+        throw TWiki::EngineException( 401,
+            "ERROR: (400) Invalid REST invocation ($verb on $subject)", $res );
     }
 
     no strict 'refs';

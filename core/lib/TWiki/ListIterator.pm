@@ -38,16 +38,18 @@ any way.
 
 =cut
 
-
 sub new {
-    my ($class, $list) = @_;
-    my $this = bless({
-        list => $list,
-        index => 0,
-        process => undef,
-        filter => undef,
-        next => undef,
-    }, $class);
+    my ( $class, $list ) = @_;
+    my $this = bless(
+        {
+            list    => $list,
+            index   => 0,
+            process => undef,
+            filter  => undef,
+            next    => undef,
+        },
+        $class
+    );
     return $this;
 }
 
@@ -66,16 +68,17 @@ while ($it->hasNext()) {
 =cut
 
 sub hasNext {
-    my( $this ) = @_;
+    my ($this) = @_;
     return 1 if $this->{next};
     my $n;
     do {
-        if( $this->{list} && $this->{index} < scalar(@{$this->{list}}) ) {
-            $n = $this->{list}->[$this->{index}++];
-        } else {
+        if ( $this->{list} && $this->{index} < scalar( @{ $this->{list} } ) ) {
+            $n = $this->{list}->[ $this->{index}++ ];
+        }
+        else {
             return 0;
         }
-    } while ($this->{filter} && !&{$this->{filter}}($n));
+    } while ( $this->{filter} && !&{ $this->{filter} }($n) );
     $this->{next} = $n;
     return 1;
 }
@@ -120,7 +123,7 @@ sub next {
     $this->hasNext();
     my $n = $this->{next};
     $this->{next} = undef;
-    $n = &{$this->{process}}($n) if $this->{process};
+    $n = &{ $this->{process} }($n) if $this->{process};
     return $n;
 }
 

@@ -59,49 +59,52 @@ Construct the BaseUserMapping object
 # Constructs a new user mapping handler of this type, referring to $session
 # for any required TWiki services.
 sub new {
-    my( $class, $session ) = @_;
+    my ( $class, $session ) = @_;
 
-    my $this = $class->SUPER::new($session, 'BaseUserMapping_');
+    my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );
 
     # set up our users
     $this->{L2U} = {
-        $TWiki::cfg{AdminUserLogin}   => $this->{mapping_id}.'333',
-        $TWiki::cfg{DefaultUserLogin} => $this->{mapping_id}.'666',
-        unknown                       => $this->{mapping_id}.'999',
-        TWikiContributor              => $this->{mapping_id}.'111',
-        TWikiRegistrationAgent        => $this->{mapping_id}.'222'
+        $TWiki::cfg{AdminUserLogin}   => $this->{mapping_id} . '333',
+        $TWiki::cfg{DefaultUserLogin} => $this->{mapping_id} . '666',
+        unknown                       => $this->{mapping_id} . '999',
+        TWikiContributor              => $this->{mapping_id} . '111',
+        TWikiRegistrationAgent        => $this->{mapping_id} . '222'
     };
     $this->{U2L} = {
-        $this->{mapping_id}.'333' => $TWiki::cfg{AdminUserLogin},
-        $this->{mapping_id}.'666' => $TWiki::cfg{DefaultUserLogin},
-        $this->{mapping_id}.'999' => 'unknown',
-        $this->{mapping_id}.'111' => 'TWikiContributor',
-        $this->{mapping_id}.'222' => 'TWikiRegistrationAgent'
+        $this->{mapping_id} . '333' => $TWiki::cfg{AdminUserLogin},
+        $this->{mapping_id} . '666' => $TWiki::cfg{DefaultUserLogin},
+        $this->{mapping_id} . '999' => 'unknown',
+        $this->{mapping_id} . '111' => 'TWikiContributor',
+        $this->{mapping_id} . '222' => 'TWikiRegistrationAgent'
     };
     $this->{U2W} = {
-        $this->{mapping_id}.'333' => $TWiki::cfg{AdminUserWikiName},
-        $this->{mapping_id}.'666' => $TWiki::cfg{DefaultUserWikiName},
-        $this->{mapping_id}.'999' => 'UnknownUser',
-        $this->{mapping_id}.'111' => 'TWikiContributor',
-        $this->{mapping_id}.'222' => 'TWikiRegistrationAgent'
+        $this->{mapping_id} . '333' => $TWiki::cfg{AdminUserWikiName},
+        $this->{mapping_id} . '666' => $TWiki::cfg{DefaultUserWikiName},
+        $this->{mapping_id} . '999' => 'UnknownUser',
+        $this->{mapping_id} . '111' => 'TWikiContributor',
+        $this->{mapping_id} . '222' => 'TWikiRegistrationAgent'
     };
     $this->{W2U} = {
-        $TWiki::cfg{AdminUserWikiName}   => $this->{mapping_id}.'333',
-        $TWiki::cfg{DefaultUserWikiName} => $this->{mapping_id}.'666',
-        UnknownUser                      => $this->{mapping_id}.'999',
-        TWikiContributor                 => $this->{mapping_id}.'111',
-        TWikiRegistrationAgent           => $this->{mapping_id}.'222'
+        $TWiki::cfg{AdminUserWikiName}   => $this->{mapping_id} . '333',
+        $TWiki::cfg{DefaultUserWikiName} => $this->{mapping_id} . '666',
+        UnknownUser                      => $this->{mapping_id} . '999',
+        TWikiContributor                 => $this->{mapping_id} . '111',
+        TWikiRegistrationAgent           => $this->{mapping_id} . '222'
     };
-    $this->{U2E} = {$this->{mapping_id}.'333' => $TWiki::cfg{WebMasterEmail}};
-    $this->{L2P} = {$TWiki::cfg{AdminUserLogin} => $TWiki::cfg{Password}};
+    $this->{U2E} =
+      { $this->{mapping_id} . '333' => $TWiki::cfg{WebMasterEmail} };
+    $this->{L2P} = { $TWiki::cfg{AdminUserLogin} => $TWiki::cfg{Password} };
 
     $this->{GROUPS} = {
-        $TWiki::cfg{SuperAdminGroup} => [$this->{mapping_id}.'333'],
-        TWikiBaseGroup => [$this->{mapping_id}.'333',
-                           $this->{mapping_id}.'666',
-                           $this->{mapping_id}.'999',
-                           $this->{mapping_id}.'111',
-                           $this->{mapping_id}.'222'],
+        $TWiki::cfg{SuperAdminGroup} => [ $this->{mapping_id} . '333' ],
+        TWikiBaseGroup               => [
+            $this->{mapping_id} . '333',
+            $this->{mapping_id} . '666',
+            $this->{mapping_id} . '999',
+            $this->{mapping_id} . '111',
+            $this->{mapping_id} . '222'
+        ],
     };
 
     return $this;
@@ -141,8 +144,6 @@ sub loginTemplateName {
     return 'login.sudo';
 }
 
-
-
 =pod
 
 ---++ ObjectMethod handlesUser ( $cUID, $login, $wikiname) -> $boolean
@@ -155,15 +156,14 @@ the details of the users we specialise in.
 =cut
 
 sub handlesUser {
-    my ($this, $cUID, $login, $wikiname) = @_;
+    my ( $this, $cUID, $login, $wikiname ) = @_;
 
-    return 1 if (defined($cUID) && defined($this->{U2L}{$cUID}));
-    return 1 if (defined($login) && defined($this->{L2U}{$login}));
-    return 1 if (defined($wikiname) && defined($this->{W2U}{$wikiname}));
+    return 1 if ( defined($cUID)     && defined( $this->{U2L}{$cUID} ) );
+    return 1 if ( defined($login)    && defined( $this->{L2U}{$login} ) );
+    return 1 if ( defined($wikiname) && defined( $this->{W2U}{$wikiname} ) );
 
     return 0;
 }
-
 
 =pod
 
@@ -177,7 +177,7 @@ characters, and must correspond 1:1 to the login name.
 =cut
 
 sub login2cUID {
-    my( $this, $login ) = @_;
+    my ( $this, $login ) = @_;
 
     return $this->{L2U}{$login};
 
@@ -185,7 +185,6 @@ sub login2cUID {
     #my @list = findUserByWikiName($this, $login);
     #return shift @list;
 }
-
 
 =pod
 
@@ -197,7 +196,7 @@ converts an internal cUID to that user's login
 =cut
 
 sub getLoginName {
-    my( $this, $user ) = @_;
+    my ( $this, $user ) = @_;
     return $this->{U2L}{$user};
 }
 
@@ -210,7 +209,7 @@ Map a canonical user name to a wikiname
 =cut
 
 sub getWikiName {
-    my ($this, $cUID) = @_;
+    my ( $this, $cUID ) = @_;
     return $this->{U2W}->{$cUID} || getLoginName( $this, $cUID );
 }
 
@@ -223,7 +222,7 @@ Determine if the user already exists or not.
 =cut
 
 sub userExists {
-    my( $this, $cUID ) = @_;
+    my ( $this, $cUID ) = @_;
     return $this->{U2L}{$cUID};
 }
 
@@ -236,13 +235,12 @@ See baseclass for documentation.
 =cut
 
 sub eachUser {
-    my( $this ) = @_;
+    my ($this) = @_;
 
-    my @list = keys(%{$this->{U2W}});
+    my @list = keys( %{ $this->{U2W} } );
     require TWiki::ListIterator;
     return new TWiki::ListIterator( \@list );
 }
-
 
 =pod
 
@@ -256,16 +254,16 @@ basemapper.
 =cut
 
 sub eachGroupMember {
-    my $this = shift;
+    my $this  = shift;
     my $group = shift;
 
     my $members = $this->{GROUPS}{$group};
-#print STDERR "eachGroupMember($group): ".join(',', @{$members});
+
+    #print STDERR "eachGroupMember($group): ".join(',', @{$members});
 
     require TWiki::ListIterator;
-    return new TWiki::ListIterator( $members );
+    return new TWiki::ListIterator($members);
 }
-
 
 =pod
 
@@ -276,11 +274,11 @@ See baseclass for documentation.
 =cut
 
 sub isGroup {
-    my ($this, $name) = @_;
-#TODO: what happens to the code if we implement this using an iterator too?
-    return ($this->{GROUPS}->{$name});
-}
+    my ( $this, $name ) = @_;
 
+    #TODO: what happens to the code if we implement this using an iterator too?
+    return ( $this->{GROUPS}->{$name} );
+}
 
 =pod
 
@@ -291,13 +289,12 @@ See baseclass for documentation.
 =cut
 
 sub eachGroup {
-    my ( $this ) = @_;
-    my @groups = keys(%{$this->{GROUPS}});
+    my ($this) = @_;
+    my @groups = keys( %{ $this->{GROUPS} } );
 
     require TWiki::ListIterator;
     return new TWiki::ListIterator( \@groups );
 }
-
 
 =pod
 
@@ -308,11 +305,11 @@ See baseclass for documentation.
 =cut
 
 sub eachMembership {
-    my ($this, $cUID) = @_;
+    my ( $this, $cUID ) = @_;
 
     my $it = $this->eachGroup();
     $it->{filter} = sub {
-        $this->isInGroup($cUID, $_[0]);
+        $this->isInGroup( $cUID, $_[0] );
     };
     return $it;
 }
@@ -327,7 +324,7 @@ True if the user is an admin
 =cut
 
 sub isAdmin {
-    my( $this, $cUID ) = @_;
+    my ( $this, $cUID ) = @_;
     return $this->isInGroup( $cUID, $TWiki::cfg{SuperAdminGroup} );
 }
 
@@ -341,7 +338,7 @@ return the addresses of everyone in the group.
 =cut
 
 sub getEmails {
-    my( $this, $user ) = @_;
+    my ( $this, $user ) = @_;
 
     return $this->{U2E}{$user} || ();
 }
@@ -355,21 +352,25 @@ See baseclass for documentation.
 =cut
 
 sub findUserByWikiName {
-    my( $this, $wn ) = @_;
+    my ( $this, $wn ) = @_;
     my @users = ();
 
-    if( $this->isGroup( $wn )) {
-        push( @users, $wn);
-    } else {
+    if ( $this->isGroup($wn) ) {
+        push( @users, $wn );
+    }
+    else {
+
         # Add additional mappings defined in TWikiUsers
-        if( $this->{W2U}->{$wn} ) {
+        if ( $this->{W2U}->{$wn} ) {
             push( @users, $this->{W2U}->{$wn} );
-        } elsif( $this->{L2U}->{$wn} ) {
+        }
+        elsif ( $this->{L2U}->{$wn} ) {
+
             # The wikiname is also a login name for the purposes of this
             # mapping. We have to do this because TWiki defines access controls
             # in terms of mapped users, and if a wikiname is *missing* from the
             # mapping there is "no such user".
-            push( @users, $this->{L2U}->{$wn});
+            push( @users, $this->{L2U}->{$wn} );
         }
     }
     return \@users;
@@ -386,16 +387,17 @@ Returns 1 on success, undef on failure.
 =cut
 
 sub checkPassword {
-    my( $this, $login, $pass ) = @_;
+    my ( $this, $login, $pass ) = @_;
 
     my $hash = $this->{L2P}->{$login};
-    if( $hash && crypt( $pass, $hash ) eq $hash ) {
-        return 1;   # yay, you've passed
+    if ( $hash && crypt( $pass, $hash ) eq $hash ) {
+        return 1;    # yay, you've passed
     }
+
     # be a little more helpful to the admin
-    if( $login eq $TWiki::cfg{AdminUserLogin} && !$hash ) {
-        $this->{error} = 'To login as '.$login.
-          ', you must set {Password} in configure';
+    if ( $login eq $TWiki::cfg{AdminUserLogin} && !$hash ) {
+        $this->{error} =
+          'To login as ' . $login . ', you must set {Password} in configure';
     }
     return 0;
 }
@@ -417,9 +419,9 @@ Otherwise returns 1 on success, undef on failure.
 =cut
 
 sub setPassword {
-    my( $this, $cUID, $newPassU, $oldPassU ) = @_;
+    my ( $this, $cUID, $newPassU, $oldPassU ) = @_;
     throw Error::Simple(
-          'cannot change user passwords using TWiki::BaseUserMapping');
+        'cannot change user passwords using TWiki::BaseUserMapping');
 }
 
 =pod

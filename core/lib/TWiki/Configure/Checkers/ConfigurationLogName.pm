@@ -29,7 +29,7 @@ sub check {
     my $logFile = $TWiki::cfg{ConfigurationLogName} || "";
     $logFile =~ s/%DATE%/DATE/;
     TWiki::Configure::Load::expandValue($logFile);
-    my $e = $this->checkCanCreateFile( $logFile );
+    my $e = $this->checkCanCreateFile($logFile);
     $e = $this->ERROR($e) if $e;
     return $e;
 }

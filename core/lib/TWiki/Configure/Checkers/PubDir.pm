@@ -25,8 +25,8 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    my $e = $this->guessMajorDir('PubDir', 'pub');
-    $e .= $this->warnAboutWindowsBackSlashes($TWiki::cfg{PubDir});
+    my $e = $this->guessMajorDir( 'PubDir', 'pub' );
+    $e .= $this->warnAboutWindowsBackSlashes( $TWiki::cfg{PubDir} );
     my $e2 = $this->checkTreePerms( $TWiki::cfg{PubDir}, 'rw' );
     $e .= $this->WARN($e2) if $e2;
     return $e;

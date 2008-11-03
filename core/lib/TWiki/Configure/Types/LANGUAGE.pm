@@ -24,8 +24,8 @@ use base 'TWiki::Configure::Types::BOOLEAN';
 # When any language changes, delete the cache
 sub onUpdate {
     my $this = shift;
-    if ( -f $TWiki::cfg{LocalesDir}.'/languages.cache' ) {
-        unlink($TWiki::cfg{LocalesDir}.'/languages.cache');
+    if ( -f $TWiki::cfg{LocalesDir} . '/languages.cache' ) {
+        unlink( $TWiki::cfg{LocalesDir} . '/languages.cache' );
     }
     $this->SUPER::onUpdate(@_);
 }

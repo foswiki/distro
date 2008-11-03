@@ -25,9 +25,9 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    my $e = $this->guessMajorDir('LocalesDir', 'locale');
+    my $e = $this->guessMajorDir( 'LocalesDir', 'locale' );
     my $e2 = $this->checkTreePerms( $TWiki::cfg{LocalesDir}, "r" );
-    $e .= $this->warnAboutWindowsBackSlashes($TWiki::cfg{LocalesDir});
+    $e .= $this->warnAboutWindowsBackSlashes( $TWiki::cfg{LocalesDir} );
     $e .= $this->ERROR($e2) if $e2;
     return $e;
 }

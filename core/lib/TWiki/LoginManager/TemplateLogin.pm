@@ -41,7 +41,6 @@ use base 'TWiki::LoginManager';
 use strict;
 use Assert;
 
-
 =pod
 
 ---++ ClassMethod new ($session, $impl)
@@ -51,14 +50,14 @@ Construct the TemplateLogin object
 =cut
 
 sub new {
-    my( $class, $session ) = @_;
+    my ( $class, $session ) = @_;
     my $this = $class->SUPER::new($session);
-    $session->enterContext( 'can_login' );
-    if ($TWiki::cfg{Sessions}{ExpireCookiesAfter}) {
-        $session->enterContext( 'can_remember_login' );
+    $session->enterContext('can_login');
+    if ( $TWiki::cfg{Sessions}{ExpireCookiesAfter} ) {
+        $session->enterContext('can_remember_login');
     }
-    if ($TWiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword}) {
-        $session->enterContext( 'no_auto_complete_login' );
+    if ( $TWiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} ) {
+        $session->enterContext('no_auto_complete_login');
     }
     return $this;
 }
@@ -73,23 +72,23 @@ Triggered on auth fail
 =cut
 
 sub forceAuthentication {
-    my $this = shift;
+    my $this  = shift;
     my $twiki = $this->{twiki};
 
-    unless( $twiki->inContext( 'authenticated' )) {
+    unless ( $twiki->inContext('authenticated') ) {
         my $query = $twiki->{request};
+
         # Redirect with passthrough so we don't lose the original query params
         my $twiki = $this->{twiki};
         my $topic = $twiki->{topicName};
-        my $web = $twiki->{webName};
-        my $url = $twiki->getScriptUrl( 0, 'login', $web, $topic);
-        $query->param( -name=>'origurl', -value=> $twiki->{request}->uri );
+        my $web   = $twiki->{webName};
+        my $url   = $twiki->getScriptUrl( 0, 'login', $web, $topic );
+        $query->param( -name => 'origurl', -value => $twiki->{request}->uri );
         $twiki->redirect( $url, 1 );
         return 1;
     }
     return undef;
 }
-
 
 =pod
 
@@ -101,12 +100,12 @@ Content of a login link
 =cut
 
 sub loginUrl {
-    my $this = shift;
+    my $this  = shift;
     my $twiki = $this->{twiki};
     my $topic = $twiki->{topicName};
-    my $web = $twiki->{webName};
+    my $web   = $twiki->{webName};
     return $twiki->getScriptUrl( 0, 'login', $web, $topic,
-                                 origurl => $twiki->{request}->uri );
+        origurl => $twiki->{request}->uri );
 }
 
 =pod
@@ -132,55 +131,61 @@ database, that can then be displayed by referring to
 =cut
 
 sub login {
-    my( $this, $query, $twikiSession ) = @_;
+    my ( $this, $query, $twikiSession ) = @_;
     my $twiki = $this->{twiki};
     my $users = $twiki->{users};
 
-    my $origurl = $query->param( 'origurl' );
-    my $loginName = $query->param( 'username' );
-    my $loginPass = $query->param( 'password' );
-    my $remember = $query->param( 'remember' );
+    my $origurl   = $query->param('origurl');
+    my $loginName = $query->param('username');
+    my $loginPass = $query->param('password');
+    my $remember  = $query->param('remember');
 
     # Eat these so there's no risk of accidental passthrough
-    $query->delete('origurl', 'username', 'password');
+    $query->delete( 'origurl', 'username', 'password' );
 
     # UserMappings can over-ride where the login template is defined
-    my $loginTemplate = $users->loginTemplateName();        #defaults to login.tmpl
-    my $tmpl = $twiki->templates->readTemplate(
-        $loginTemplate, $twiki->getSkin() );
+    my $loginTemplate = $users->loginTemplateName();    #defaults to login.tmpl
+    my $tmpl =
+      $twiki->templates->readTemplate( $loginTemplate, $twiki->getSkin() );
 
-    my $banner = $twiki->templates->expandTemplate( 'LOG_IN_BANNER' );
-    my $note = '';
-    my $topic = $twiki->{topicName};
-    my $web = $twiki->{webName};
+    my $banner = $twiki->templates->expandTemplate('LOG_IN_BANNER');
+    my $note   = '';
+    my $topic  = $twiki->{topicName};
+    my $web    = $twiki->{webName};
 
     my $cgisession = $this->{_cgisession};
 
     $cgisession->param( 'REMEMBER', $remember ) if $cgisession;
-    if( $cgisession && $cgisession->param( 'AUTHUSER' ) &&
-        $loginName && $loginName ne $cgisession->param( 'AUTHUSER' )) {
-        $banner = $twiki->templates->expandTemplate( 'LOGGED_IN_BANNER' );
-        $note = $twiki->templates->expandTemplate( 'NEW_USER_NOTE' );
-     }
+    if (   $cgisession
+        && $cgisession->param('AUTHUSER')
+        && $loginName
+        && $loginName ne $cgisession->param('AUTHUSER') )
+    {
+        $banner = $twiki->templates->expandTemplate('LOGGED_IN_BANNER');
+        $note   = $twiki->templates->expandTemplate('NEW_USER_NOTE');
+    }
 
     my $error = '';
 
-    if( $loginName ) {
+    if ($loginName) {
         my $validation = $users->checkPassword( $loginName, $loginPass );
         $error = $users->passwordError();
 
-        if( $validation ) {
-            $this->userLoggedIn( $loginName );
+        if ($validation) {
+            $this->userLoggedIn($loginName);
             $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
-            if( !$origurl || $origurl eq $query->url() ) {
+            if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $twiki->getScriptUrl( 0, 'view', $web, $topic );
             }
+
             #SUCCESS our user is authenticated..
-            $query->delete('sudo'); #remove the sudo param - its only to tell TemplateLogin that we're using BaseMapper..
-            # Redirect with passthrough
-            $twikiSession->redirect($origurl, 1 );
+            $query->delete('sudo')
+              ; #remove the sudo param - its only to tell TemplateLogin that we're using BaseMapper..
+                # Redirect with passthrough
+            $twikiSession->redirect( $origurl, 1 );
             return;
-        } else {
+        }
+        else {
             $banner = $twiki->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
@@ -190,7 +195,13 @@ sub login {
     $origurl ||= '';
     $twiki->{prefs}->pushPreferenceValues(
         'SESSION',
-        {ORIGURL=>$origurl, BANNER=>$banner, NOTE=>$note, ERROR=>$error});
+        {
+            ORIGURL => $origurl,
+            BANNER  => $banner,
+            NOTE    => $note,
+            ERROR   => $error
+        }
+    );
 
     $tmpl = $twiki->handleCommonTags( $tmpl, $web, $topic );
     $tmpl = $twiki->renderer->getRenderedVersion( $tmpl, '' );

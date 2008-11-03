@@ -71,20 +71,21 @@ NOTE: parameter values are automatically and unconditionally entity-encoded
 =cut
 
 sub new {
-    my $class = shift;
+    my $class    = shift;
     my $template = shift;
-    my $this = bless( $class->SUPER::new(), $class );
+    my $this     = bless( $class->SUPER::new(), $class );
     $this->{template} = $template;
-    ASSERT( scalar( @_ ) % 2 == 0, join( ";", map { $_ || 'undef'} @_ ) )
+    ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
       if DEBUG;
     while ( my $key = shift @_ ) {
         my $val = shift @_;
-        if( $key eq 'params' ) {
-            if( ref( $val ) ne 'ARRAY') {
-                $val = [ $val ];
+        if ( $key eq 'params' ) {
+            if ( ref($val) ne 'ARRAY' ) {
+                $val = [$val];
             }
             $this->{params} = $val;
-        } else {
+        }
+        else {
             $this->{$key} = $val || '';
         }
     }
@@ -103,32 +104,34 @@ operations, and also for debugging.
 =cut
 
 sub stringify {
-    my( $this, $session ) = @_;
+    my ( $this, $session ) = @_;
 
-    if ($this->{template} && $this->{def} && $session) {
+    if ( $this->{template} && $this->{def} && $session ) {
+
         # load the defs
-        $session->templates->readTemplate( 'oops'.$this->{template},
-                                             $session->getSkin() );
+        $session->templates->readTemplate( 'oops' . $this->{template},
+            $session->getSkin() );
         my $message = $session->templates->expandTemplate( $this->{def} );
-        $message = $session->handleCommonTags(
-            $message, $this->{web}, $this->{topic} );
+        $message =
+          $session->handleCommonTags( $message, $this->{web}, $this->{topic} );
         my $n = 1;
-        foreach my $param ( @{$this->{params}} ) {
+        foreach my $param ( @{ $this->{params} } ) {
             $message =~ s/%PARAM$n%/$param/g;
             $n++;
         }
         return $message;
-    } else {
+    }
+    else {
         my $s = 'OopsException(';
         $s .= $this->{template};
-        $s .= '/'.$this->{def} if $this->{def};
-        $s .= ' web=>'.$this->{web} if $this->{web};
-        $s .= ' topic=>'.$this->{topic} if $this->{topic};
+        $s .= '/' . $this->{def} if $this->{def};
+        $s .= ' web=>' . $this->{web} if $this->{web};
+        $s .= ' topic=>' . $this->{topic} if $this->{topic};
         $s .= ' keep=>1' if $this->{keep};
-        if( defined $this->{params} ) {
-            $s .= ' params=>['.join( ',', @{$this->{params}} ).']';
+        if ( defined $this->{params} ) {
+            $s .= ' params=>[' . join( ',', @{ $this->{params} } ) . ']';
         }
-        return $s.')';
+        return $s . ')';
     }
 }
 
@@ -146,21 +149,20 @@ being redirected to a GET.
 =cut
 
 sub redirect {
-    my( $this, $session ) = @_;
+    my ( $this, $session ) = @_;
 
     my @p = ();
 
-    $this->{template} = "oops$this->{template}" unless
-      $this->{template} =~ /^oops/;
+    $this->{template} = "oops$this->{template}"
+      unless $this->{template} =~ /^oops/;
     push( @p, template => $this->{template} );
-    push( @p, def => $this->{def}) if $this->{def};
+    push( @p, def => $this->{def} ) if $this->{def};
     my $n = 1;
-    push( @p, map { 'param'.($n++) => $_ } @{$this->{params}} );
-    my $url = $session->getScriptUrl(
-        1, 'oops', $this->{web}, $this->{topic}, @p);
-    while( my $p = shift( @p )) {
-        $session->{request}->param(
-            -name => $p, -value => shift( @p ));
+    push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->{params} } );
+    my $url =
+      $session->getScriptUrl( 1, 'oops', $this->{web}, $this->{topic}, @p );
+    while ( my $p = shift(@p) ) {
+        $session->{request}->param( -name => $p, -value => shift(@p) );
     }
     $session->redirect( $url, 1 );
 }

@@ -1,3 +1,4 @@
+
 =pod
 
 ---+ package TWiki::Infix::Node
@@ -12,11 +13,11 @@ package TWiki::Infix::Node;
 use strict;
 
 # 1 for debug
-sub MONITOR_EVAL   { 0 };
+sub MONITOR_EVAL { 0 }
 
 # Leaf token types
 use vars qw ($NAME $STRING $NUMBER);
-$NAME = 1;
+$NAME   = 1;
 $NUMBER = 2;
 $STRING = 3;
 
@@ -30,9 +31,9 @@ Construct a new parse node (contract with Infix::Parser)
 
 sub newNode {
     my $class = shift;
-    my $op = shift;
-    my $this = bless( {}, $class );
-    @{$this->{params}} = @_;
+    my $op    = shift;
+    my $this  = bless( {}, $class );
+    @{ $this->{params} } = @_;
     $this->{op} = $op;
     return $this;
 }
@@ -46,7 +47,7 @@ Construct a new terminal node (contract with Infix::Parser)
 =cut
 
 sub newLeaf {
-    my( $class, $val, $type ) = @_;
+    my ( $class, $val, $type ) = @_;
     return newNode( $class, $type, $val );
 }
 
@@ -60,20 +61,22 @@ to the evaluation functions.
 =cut
 
 sub evaluate {
-    my( $this, $clientData ) = @_;
+    my ( $this, $clientData ) = @_;
 
     my $result;
-    if (!ref( $this->{op})) {
+    if ( !ref( $this->{op} ) ) {
         $result = $this->{params}[0];
         if (MONITOR_EVAL) {
-            print STDERR "LEAF: ",(defined($result)?$result:'undef'),"\n";
+            print STDERR "LEAF: ", ( defined($result) ? $result : 'undef' ),
+              "\n";
         }
-    } else {
+    }
+    else {
         my $fn = $this->{op}->{evaluate};
-        $result = &$fn( $clientData, @{$this->{params}} );
+        $result = &$fn( $clientData, @{ $this->{params} } );
         if (MONITOR_EVAL) {
-            print STDERR "NODE: ",$this->stringify()," -> ",
-              (defined($result)?$result:'undef'),"\n";
+            print STDERR "NODE: ", $this->stringify(), " -> ",
+              ( defined($result) ? $result : 'undef' ), "\n";
         }
     }
     return $result;
@@ -82,16 +85,18 @@ sub evaluate {
 sub stringify {
     my $this = shift;
 
-    unless( ref( $this->{op} )) {
-        if( $this->{op} == $TWiki::Infix::Node::STRING ) {
+    unless ( ref( $this->{op} ) ) {
+        if ( $this->{op} == $TWiki::Infix::Node::STRING ) {
             return "'$this->{params}[0]'";
-        } else {
+        }
+        else {
             return $this->{params}[0];
         }
     }
 
-    return $this->{op}->{name}.'{'.
-      join(',', map { $_->stringify() } @{$this->{params}}).'}';
+    return
+      $this->{op}->{name} . '{'
+      . join( ',', map { $_->stringify() } @{ $this->{params} } ) . '}';
 }
 
 1;

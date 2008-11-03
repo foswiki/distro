@@ -64,18 +64,19 @@ The view is controlled by CGI parameters as follows:
 sub view {
     my $session = shift;
 
-    my $query = $session->{request};
-    my $webName = $session->{webName};
+    my $query     = $session->{request};
+    my $webName   = $session->{webName};
     my $topicName = $session->{topicName};
 
-    my $raw = $query->param( 'raw' ) || '';
-    my $contentType = $query->param( 'contenttype' );
+    my $raw = $query->param('raw') || '';
+    my $contentType = $query->param('contenttype');
 
-    my $showRev = 1;
+    my $showRev  = 1;
     my $logEntry = '';
-    my $revdate = '';
-    my $revuser = '';
-    my $store = $session->{store};
+    my $revdate  = '';
+    my $revuser  = '';
+    my $store    = $session->{store};
+
     # is this view indexable by search engines? Default yes.
     my $indexableView = 1;
 
@@ -83,36 +84,38 @@ sub view {
 
     my $skin = $session->getSkin();
 
-    my $rev = $store->cleanUpRevID( $query->param( 'rev' ));
+    my $rev = $store->cleanUpRevID( $query->param('rev') );
 
-    my $topicExists =
-      $store->topicExists( $webName, $topicName );
+    my $topicExists = $store->topicExists( $webName, $topicName );
 
     # text and meta of the _latest_ rev of the topic
-    my( $currText, $currMeta );
+    my ( $currText, $currMeta );
+
     # text and meta of the chosen rev of the topic
-    my( $meta, $text );
-    if( $topicExists ) {
+    my ( $meta, $text );
+    if ($topicExists) {
         require TWiki::Time;
-        ( $currMeta, $currText ) = $store->readTopic
-          ( $session->{user}, $webName, $topicName, undef );
-        TWiki::UI::checkAccess( $session, $webName, $topicName,
-                                'VIEW', $session->{user}, $currText );
+        ( $currMeta, $currText ) =
+          $store->readTopic( $session->{user}, $webName, $topicName, undef );
+        TWiki::UI::checkAccess( $session, $webName, $topicName, 'VIEW',
+            $session->{user}, $currText );
         ( $revdate, $revuser, $showRev ) = $currMeta->getRevisionInfo();
-        $revdate = TWiki::Time::formatTime( $revdate );
+        $revdate = TWiki::Time::formatTime($revdate);
 
         if ( !$rev || $rev > $showRev ) {
             $rev = $showRev;
         }
 
-        if( $rev < $showRev ) {
-            ( $meta, $text ) = $store->readTopic
-              ( $session->{user}, $webName, $topicName, $rev );
+        if ( $rev < $showRev ) {
+            ( $meta, $text ) =
+              $store->readTopic( $session->{user}, $webName, $topicName, $rev );
 
             ( $revdate, $revuser ) = $meta->getRevisionInfo();
-            $revdate = TWiki::Time::formatTime( $revdate );
-            $logEntry .= 'r'.$rev;
-        } else {
+            $revdate = TWiki::Time::formatTime($revdate);
+            $logEntry .= 'r' . $rev;
+        }
+        else {
+
             # viewing the most recent rev
             ( $text, $meta ) = ( $currText, $currMeta );
         }
@@ -121,92 +124,102 @@ sub view {
         # to apply the 'section' selection (and maybe others in the
         # future as well).  $text is cleared unless a named section
         # matching the 'section' URL parameter is found.
-        if (my $section  =  $query->param('section')) {
-            my ( $ntext, $sections ) = TWiki::parseSections( $text );
-            $text = ''; # in the beginning, there was ... NO section
+        if ( my $section = $query->param('section') ) {
+            my ( $ntext, $sections ) = TWiki::parseSections($text);
+            $text = '';    # in the beginning, there was ... NO section
           FINDSECTION:
             for my $s (@$sections) {
-                if ($s->{type} eq 'section'  &&  $s->{name} eq $section) {
-                    $text = substr( $ntext, $s->{start}, $s->{end}-$s->{start} );
+                if ( $s->{type} eq 'section' && $s->{name} eq $section ) {
+                    $text =
+                      substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                     last FINDSECTION;
                 }
             }
         }
 
-    } else { # Topic does not exist yet
+    }
+    else {                 # Topic does not exist yet
         $indexableView = 0;
-        $session->enterContext( 'new_topic' );
+        $session->enterContext('new_topic');
         $rev = 1;
-        if( TWiki::isValidTopicName( $topicName )) {
+        if ( TWiki::isValidTopicName($topicName) ) {
             ( $currMeta, $currText ) =
               TWiki::UI::readTemplateTopic( $session, 'WebTopicViewTemplate' );
-        } else {
-            ( $currMeta, $currText ) =
-              TWiki::UI::readTemplateTopic( $session, 'WebTopicNonWikiTemplate' );
+        }
+        else {
+            ( $currMeta, $currText ) = TWiki::UI::readTemplateTopic( $session,
+                'WebTopicNonWikiTemplate' );
         }
         ( $text, $meta ) = ( $currText, $currMeta );
         $logEntry .= ' (not exist)';
     }
 
-    if( $raw ) {
+    if ($raw) {
         $indexableView = 0;
-        $logEntry .= ' raw='.$raw;
-        if( $raw eq 'debug' || $raw eq 'all' ) {
+        $logEntry .= ' raw=' . $raw;
+        if ( $raw eq 'debug' || $raw eq 'all' ) {
             $text = $store->getDebugText( $meta, $text );
         }
     }
 
-    if( $TWiki::cfg{Log}{view} ) {
-        $session->writeLog( 'view', $webName.'.'.$topicName, $logEntry );
+    if ( $TWiki::cfg{Log}{view} ) {
+        $session->writeLog( 'view', $webName . '.' . $topicName, $logEntry );
     }
 
-    my( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote ) =
-      $session->readOnlyMirrorWeb( $webName );
+    my ( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote ) =
+      $session->readOnlyMirrorWeb($webName);
 
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(
-    my( $revTitle, $revArg ) = ( '', '' );
-    if( $mirrorSiteName ) {
-        $session->enterContext( 'inactive' );
-        unless( $topicExists ) {
+    my ( $revTitle, $revArg ) = ( '', '' );
+    if ($mirrorSiteName) {
+        $session->enterContext('inactive');
+        unless ($topicExists) {
             $text = '';
         }
-    } elsif( $rev < $showRev ) {
-        $session->enterContext( 'inactive' );
+    }
+    elsif ( $rev < $showRev ) {
+        $session->enterContext('inactive');
+
         # disable edit of previous revisions
-        $revTitle = '(r'.$rev.')';
-        $revArg = '&rev='.$rev;
+        $revTitle = '(r' . $rev . ')';
+        $revArg   = '&rev=' . $rev;
     }
 
-    my $template = $query->param( 'template' ) ||
-      $session->{prefs}->getPreferencesValue( 'VIEW_TEMPLATE' ) ||
-        'view';
+    my $template =
+         $query->param('template')
+      || $session->{prefs}->getPreferencesValue('VIEW_TEMPLATE')
+      || 'view';
 
     # Always use default view template for raw=debug, raw=all and raw=on
-    if( $raw =~ /^(debug|all|on)$/ ) {
+    if ( $raw =~ /^(debug|all|on)$/ ) {
         $template = 'view';
     }
 
     my $tmpl = $session->templates->readTemplate( $template, $skin );
-    if( !$tmpl && $template ne 'view' ) {
+    if ( !$tmpl && $template ne 'view' ) {
         $tmpl = $session->templates->readTemplate( 'view', $skin );
     }
 
-    if( !$tmpl ) {
-        throw TWiki::OopsException( 'attention',
-                                    def => 'no_such_template',
-                                    web => $webName,
-                                    topic => $topicName,
-                                    params => [ $template, 'VIEW_TEMPLATE' ] );
+    if ( !$tmpl ) {
+        throw TWiki::OopsException(
+            'attention',
+            def    => 'no_such_template',
+            web    => $webName,
+            topic  => $topicName,
+            params => [ $template, 'VIEW_TEMPLATE' ]
+        );
     }
 
     $tmpl =~ s/%REVINFO%/%REVINFO%$mirrorNote/go;
     $tmpl =~ s/%REVTITLE%/$revTitle/g;
     $tmpl =~ s/%REVARG%/$revArg/g;
 
-    if( $indexableView &&
-          $TWiki::cfg{AntiSpam}{RobotsAreWelcome} &&
-            !$query->param() ) {
+    if (   $indexableView
+        && $TWiki::cfg{AntiSpam}{RobotsAreWelcome}
+        && !$query->param() )
+    {
+
         # it's an indexable view type, there are no parameters
         # on the url, and robots are welcome. Remove the NOINDEX meta tag
         $tmpl =~ s/<meta name="robots"[^>]*>//goi;
@@ -217,23 +230,25 @@ sub view {
     my $revsToShow = $TWiki::cfg{NumberOfRevisions} + 1;
     $revsToShow = $showRev if $showRev < $revsToShow;
     my $doingRev = $showRev;
-    my $revs = '';
-    while( $revsToShow > 0 ) {
+    my $revs     = '';
+    while ( $revsToShow > 0 ) {
         $revsToShow--;
-        if( $doingRev == $rev) {
-            $revs .= 'r'.$rev;
-        } else {
-            $revs .= CGI::a({
-                             href=>$session->getScriptUrl( 0,
-                                                           'view',
-                                                           $webName,
-                                                           $topicName,
-                                                           rev => $doingRev ),
-                             rel => 'nofollow'
-                            },
-                            "r$doingRev" );
+        if ( $doingRev == $rev ) {
+            $revs .= 'r' . $rev;
+        }
+        else {
+            $revs .= CGI::a(
+                {
+                    href => $session->getScriptUrl(
+                        0, 'view', $webName, $topicName, rev => $doingRev
+                    ),
+                    rel => 'nofollow'
+                },
+                "r$doingRev"
+            );
         }
         if ( $doingRev - $rev >= $TWiki::cfg{NumberOfRevisions} ) {
+
             # we started too far away, need to jump closer to $rev
             use integer;
             $doingRev = $rev + $revsToShow / 2;
@@ -241,14 +256,19 @@ sub view {
             $revs .= ' | ';
             next;
         }
-        if( $revsToShow ) {
-            $revs .= '&nbsp;' . CGI::a
-              ( { href=>$session->getScriptUrl(
-                  0, 'rdiff', $webName, $topicName,
-                  rev1 => $doingRev,
-                  rev2 => $doingRev-1 ),
-                  rel => 'nofollow' },
-                '&lt;' ) . '&nbsp;';
+        if ($revsToShow) {
+            $revs .= '&nbsp;'
+              . CGI::a(
+                {
+                    href => $session->getScriptUrl(
+                        0, 'rdiff', $webName, $topicName,
+                        rev1 => $doingRev,
+                        rev2 => $doingRev - 1
+                    ),
+                    rel => 'nofollow'
+                },
+                '&lt;'
+              ) . '&nbsp;';
         }
         $doingRev--;
     }
@@ -259,9 +279,9 @@ sub view {
     ## TOC and remove all those here, finding the parameters only once
     my @qparams = ();
     foreach my $name ( $query->param ) {
-      next if ($name eq 'keywords');
-      next if ($name eq 'topic');
-      push @qparams, $name => $query->param($name);
+        next if ( $name eq 'keywords' );
+        next if ( $name eq 'topic' );
+        push @qparams, $name => $query->param($name);
     }
     $tmpl =~ s/%QUERYPARAMSTRING%/TWiki::_make_params(1,@qparams)/geo;
 
@@ -276,63 +296,75 @@ sub view {
     # topic text to work correctly (e.g., %TOC%).
     # Note: This feature is experimental and may be replaced by an
     # alternative solution not requiring additional tags.
-    my( $start, $end );
-    if( $tmpl =~ m/^(.*)%TEXT%(.*)$/s ) {
+    my ( $start, $end );
+    if ( $tmpl =~ m/^(.*)%TEXT%(.*)$/s ) {
         my @starts = split( /%STARTTEXT%/, $1 );
         if ( $#starts > 0 ) {
+
             # we know that there is something before %STARTTEXT%
             $start = $starts[0];
-            $text = $starts[1] . $text;
-        } else {
+            $text  = $starts[1] . $text;
+        }
+        else {
             $start = $1;
         }
         my @ends = split( /%ENDTEXT%/, $2 );
         if ( $#ends > 0 ) {
+
             # we know that there is something after %ENDTEXT%
             $text .= $ends[0];
             $end = $ends[1];
-        } else {
+        }
+        else {
             $end = $2;
         }
-    } else {
+    }
+    else {
         my @starts = split( /%STARTTEXT%/, $tmpl );
         if ( $#starts > 0 ) {
+
             # we know that there is something before %STARTTEXT%
             $start = $starts[0];
-            $text = $starts[1];
-        } else {
+            $text  = $starts[1];
+        }
+        else {
             $start = $tmpl;
-            $text = '';
+            $text  = '';
         }
         $end = '';
     }
 
     # If minimalist is set, images and anchors will be stripped from text
     my $minimalist = 0;
-    if( $contentType ) {
+    if ($contentType) {
         $minimalist = ( $skin =~ /\brss/ );
-    } elsif( $skin =~ /\brss/ ) {
-        $contentType = 'text/xml';
-        $minimalist = 1;
-    } elsif( $skin =~ /\bxml/ ) {
-        $contentType = 'text/xml';
-        $minimalist = 1;
-    } elsif( $raw eq 'text' || $raw eq 'all' ) {
-        $contentType = 'text/plain';
-    } else {
-        $contentType = 'text/html'
     }
-    $session->{SESSION_TAGS}{MAXREV} = $showRev;
+    elsif ( $skin =~ /\brss/ ) {
+        $contentType = 'text/xml';
+        $minimalist  = 1;
+    }
+    elsif ( $skin =~ /\bxml/ ) {
+        $contentType = 'text/xml';
+        $minimalist  = 1;
+    }
+    elsif ( $raw eq 'text' || $raw eq 'all' ) {
+        $contentType = 'text/plain';
+    }
+    else {
+        $contentType = 'text/html';
+    }
+    $session->{SESSION_TAGS}{MAXREV}  = $showRev;
     $session->{SESSION_TAGS}{CURRREV} = $rev;
 
     # Set page generation mode to RSS if using an RSS skin
-    $session->enterContext( 'rss' ) if $skin =~ /\brss/;
+    $session->enterContext('rss') if $skin =~ /\brss/;
 
     # Set the meta-object that contains the rendering info
     # SMELL: hack to get around not having a proper topic object model
     $session->enterContext( 'can_render_meta', $meta );
 
     my $page;
+
     # Legacy: If the _only_ skin is 'text' it is used like this:
     # http://.../view/Codev/MyTopic?skin=text&contenttype=text/plain&raw=on
     # which shows the topic as plain text; useful for those who want
@@ -340,43 +372,46 @@ sub view {
     # we do _not_ want to create a textarea.
     # raw=on&skin=text is deprecated; use raw=text instead.
     Monitor::MARK('Ready to render');
-    if( $raw eq 'text' || $raw eq 'all' || ( $raw && $skin eq 'text' )) {
+    if ( $raw eq 'text' || $raw eq 'all' || ( $raw && $skin eq 'text' ) ) {
+
         # use raw text
         $page = $text;
-    } else {
+    }
+    else {
         my @args = ( $session, $webName, $topicName, $meta, $minimalist );
 
-        $session->enterContext( 'header_text' );
-        $page = _prepare($start, @args);
-        $session->leaveContext( 'header_text' );
+        $session->enterContext('header_text');
+        $page = _prepare( $start, @args );
+        $session->leaveContext('header_text');
         Monitor::MARK('Rendered header');
 
-        if( $raw ) {
+        if ($raw) {
             if ($text) {
                 my $p = $session->{prefs};
-                $page .=
-                  CGI::textarea(
-                      -readonly => 'readonly',
-                      -rows => $p->getPreferencesValue('EDITBOXHEIGHT'),
-                      -cols => $p->getPreferencesValue('EDITBOXWIDTH'),
-                      -style => $p->getPreferencesValue('EDITBOXSTYLE'),
-                      -class => 'twikiTextarea twikiTextareaRawView',
-                      -id => 'topic',
-                      -default => $text
-                     );
+                $page .= CGI::textarea(
+                    -readonly => 'readonly',
+                    -rows     => $p->getPreferencesValue('EDITBOXHEIGHT'),
+                    -cols     => $p->getPreferencesValue('EDITBOXWIDTH'),
+                    -style    => $p->getPreferencesValue('EDITBOXSTYLE'),
+                    -class    => 'twikiTextarea twikiTextareaRawView',
+                    -id       => 'topic',
+                    -default  => $text
+                );
             }
-        } else {
-            $session->enterContext( 'body_text' );
-            $page .= _prepare($text, @args);
-            $session->leaveContext( 'body_text' );
+        }
+        else {
+            $session->enterContext('body_text');
+            $page .= _prepare( $text, @args );
+            $session->leaveContext('body_text');
         }
 
         Monitor::MARK('Rendered body');
-        $session->enterContext( 'footer_text' );
-        $page .= _prepare($end, @args);
-        $session->leaveContext( 'footer_text' );
+        $session->enterContext('footer_text');
+        $page .= _prepare( $end, @args );
+        $session->leaveContext('footer_text');
         Monitor::MARK('Rendered footer');
     }
+
     # Output has to be done in one go, because if we generate the header and
     # then redirect because of some later constraint, some browsers fall over
     $session->writeCompletePage( $page, 'view', $contentType );
@@ -384,16 +419,17 @@ sub view {
 }
 
 sub _prepare {
-    my( $text, $session, $webName, $topicName, $meta, $minimalist) = @_;
+    my ( $text, $session, $webName, $topicName, $meta, $minimalist ) = @_;
 
     $text = $session->handleCommonTags( $text, $webName, $topicName, $meta );
-    $text = $session->renderer->getRenderedVersion( $text, $webName, $topicName );
+    $text =
+      $session->renderer->getRenderedVersion( $text, $webName, $topicName );
     $text =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
 
-    if( $minimalist ) {
-        $text =~ s/<img [^>]*>//gi;  # remove image tags
-        $text =~ s/<a [^>]*>//gi;    # remove anchor tags
-        $text =~ s/<\/a>//gi;        # remove anchor tags
+    if ($minimalist) {
+        $text =~ s/<img [^>]*>//gi;    # remove image tags
+        $text =~ s/<a [^>]*>//gi;      # remove anchor tags
+        $text =~ s/<\/a>//gi;          # remove anchor tags
     }
 
     return $text;
@@ -418,61 +454,69 @@ sub viewfile {
 
     my $query = $session->{request};
 
-    my $topic = $session->{topicName};
+    my $topic   = $session->{topicName};
     my $webName = $session->{webName};
 
     my @path = split( '/', $query->path_info() );
-    shift( @path )unless $path[0];
+    shift(@path) unless $path[0];
     my $fileName;
-    if( defined( $query->param( 'filename' ))) {
-        $fileName = $query->param( 'filename' );
-    } else {
-        $fileName = pop( @path );
+    if ( defined( $query->param('filename') ) ) {
+        $fileName = $query->param('filename');
     }
-    if (!$fileName) {
-        throw TWiki::OopsException( 'attention',
-                                    def => 'no_such_attachment',
-                                    web => 'Unknown',
-                                    topic => 'Unknown',
-                                    params => [ 'viewfile', '?' ] );
+    else {
+        $fileName = pop(@path);
+    }
+    if ( !$fileName ) {
+        throw TWiki::OopsException(
+            'attention',
+            def    => 'no_such_attachment',
+            web    => 'Unknown',
+            topic  => 'Unknown',
+            params => [ 'viewfile', '?' ]
+        );
     }
 
-    $fileName = TWiki::Sandbox::sanitizeAttachmentName( $fileName );
+    $fileName = TWiki::Sandbox::sanitizeAttachmentName($fileName);
 
-    my $rev = $session->{store}->cleanUpRevID( $query->param( 'rev' ) );
-    unless( $fileName && $session->{store}->attachmentExists(
-        $webName, $topic, $fileName )) {
-        throw TWiki::OopsException( 'attention',
-                                    def => 'no_such_attachment',
-                                    web => $webName,
-                                    topic => $topic,
-                                    params => [ 'viewfile', $fileName||'?' ] );
+    my $rev = $session->{store}->cleanUpRevID( $query->param('rev') );
+    unless ( $fileName
+        && $session->{store}->attachmentExists( $webName, $topic, $fileName ) )
+    {
+        throw TWiki::OopsException(
+            'attention',
+            def    => 'no_such_attachment',
+            web    => $webName,
+            topic  => $topic,
+            params => [ 'viewfile', $fileName || '?' ]
+        );
     }
-# TSA SMELL: Maybe could be less memory hungry if get a file handle
-# and set response body to it. This way engines could send data the
-# best way possible to each one
-    my $fileContent = $session->{store}->readAttachment(
-        $session->{user}, $webName, $topic, $fileName, $rev );
 
-    my $type = _suffixToMimeType( $session, $fileName );
-    my $length =  length( $fileContent );
-    my $dispo = 'inline;filename='.$fileName;
+    # TSA SMELL: Maybe could be less memory hungry if get a file handle
+    # and set response body to it. This way engines could send data the
+    # best way possible to each one
+    my $fileContent =
+      $session->{store}
+      ->readAttachment( $session->{user}, $webName, $topic, $fileName, $rev );
 
-    $session->{response}->header(-type => $type, qq(Content-Disposition="$dispo") );
+    my $type   = _suffixToMimeType( $session, $fileName );
+    my $length = length($fileContent);
+    my $dispo  = 'inline;filename=' . $fileName;
+
+    $session->{response}
+      ->header( -type => $type, qq(Content-Disposition="$dispo") );
     $session->{response}->body($fileContent);
 }
 
 sub _suffixToMimeType {
-    my( $session, $theFilename ) = @_;
+    my ( $session, $theFilename ) = @_;
 
     my $mimeType = 'text/plain';
-    if( $theFilename =~ /\.([^.]+)$/ ) {
+    if ( $theFilename =~ /\.([^.]+)$/ ) {
         my $suffix = $1;
-        my @types = grep{ s/^\s*([^\s]+).*?\s$suffix\s.*$/$1/i }
-          map{ $_.' ' }
-            split( /[\n\r]/,
-                   TWiki::readFile( $TWiki::cfg{MimeTypesFileName} ) );
-        $mimeType = $types[0] if( @types );
+        my @types = grep { s/^\s*([^\s]+).*?\s$suffix\s.*$/$1/i }
+          map { $_ . ' ' }
+          split( /[\n\r]/, TWiki::readFile( $TWiki::cfg{MimeTypesFileName} ) );
+        $mimeType = $types[0] if (@types);
     }
     return $mimeType;
 }

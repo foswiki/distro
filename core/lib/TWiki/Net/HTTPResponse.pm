@@ -36,35 +36,38 @@ See the documentation of HTTP::Response for information about the methods.
 package TWiki::Net::HTTPResponse;
 
 sub new {
-    my ($class, $message) = @_;
-    return bless( {
-        code => 400, # BAD REQUEST
-        message => $message,
-        headers => {},
-    }, $class);
+    my ( $class, $message ) = @_;
+    return bless(
+        {
+            code    => 400,        # BAD REQUEST
+            message => $message,
+            headers => {},
+        },
+        $class
+    );
 }
 
 sub parse {
-    my ($class, $text) = @_;
-    my $this = new($class, 'Incomplete headers');
+    my ( $class, $text ) = @_;
+    my $this = new( $class, 'Incomplete headers' );
 
     $text =~ s/\r\n/\n/gs;
     $text =~ s/\r/\n/gs;
     $text =~ s/^(.*?)\n\n//s;
     my $httpHeader = $1;
     $this->{content} = $text;
-    if ($httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\d\d\s(.*)$//) {
-        $this->{code} = $1;
+    if ( $httpHeader =~ s/^HTTP\/[\d.]+\s(\d+)\d\d\s(.*)$// ) {
+        $this->{code}    = $1;
         $this->{message} = $2;
     }
     $httpHeader = "\n$httpHeader\n";
-    foreach my $header (split(/\n(?=![ \t])/, $httpHeader)) {
-        if ($header =~ /^.*?: (.*)$/s) {
-            $this->{headers}->{lc($1)} = $2;
-        } else {
-            $this->{code} = 400;
-            $this->{message} =
-              "Unparseable header in response: $header";
+    foreach my $header ( split( /\n(?=![ \t])/, $httpHeader ) ) {
+        if ( $header =~ /^.*?: (.*)$/s ) {
+            $this->{headers}->{ lc($1) } = $2;
+        }
+        else {
+            $this->{code}    = 400;
+            $this->{message} = "Unparseable header in response: $header";
         }
     }
 
@@ -80,7 +83,7 @@ sub message {
 }
 
 sub header {
-    my ($this, $h) = @_;
+    my ( $this, $h ) = @_;
     return $this->{headers}->{$h};
 }
 

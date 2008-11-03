@@ -13,15 +13,17 @@ use strict;
 
 sub new {
     my $class = shift;
-    return $class->SUPER::new(name => '<', prec => 400);
+    return $class->SUPER::new( name => '<', prec => 400 );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    return $this->evalTest( $node,
-        \@_, \&TWiki::Query::BinaryOP::compare,
-        sub { $_[0] < 0 ? 1 : 0 });
+    return $this->evalTest(
+        $node, \@_,
+        \&TWiki::Query::BinaryOP::compare,
+        sub { $_[0] < 0 ? 1 : 0 }
+    );
 }
 
 1;

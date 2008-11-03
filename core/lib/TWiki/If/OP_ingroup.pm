@@ -14,25 +14,29 @@ use strict;
 sub new {
     my $class = shift;
     return $class->SUPER::new(
-        name => 'ingroup',
-        prec => 600,
-        casematters => 1);
+        name        => 'ingroup',
+        prec        => 600,
+        casematters => 1
+    );
 }
 
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a = $node->{params}->[0]; # user cUID/ loginname / WikiName / WebDotWikiName :( (string)
-    my $b = $node->{params}->[1]; # group name (string
-    my %domain = @_;
+    my $a =
+      $node->{params}->[0]
+      ;    # user cUID/ loginname / WikiName / WebDotWikiName :( (string)
+    my $b       = $node->{params}->[1];    # group name (string
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
-    my $user =  $session->{users}->getCanonicalUserID($a->evaluate(@_));
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
+    my $user = $session->{users}->getCanonicalUserID( $a->evaluate(@_) );
     return 0 unless $user;
-    my $group =  $b->_evaluate(@_);
+    my $group = $b->_evaluate(@_);
     return 0 unless $group;
-    return 1 if( $session->{users}->isInGroup($user, $group) );
+    return 1 if ( $session->{users}->isInGroup( $user, $group ) );
     return 0;
 }
 

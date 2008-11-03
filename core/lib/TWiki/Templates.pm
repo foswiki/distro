@@ -104,13 +104,14 @@ sub haveTemplate {
 # Templates with conditions can only be expanded after the
 # context is fully known.
 sub _expandTrivialTemplate {
-    my( $this, $text ) = @_;
+    my ( $this, $text ) = @_;
 
     $text =~ /%TMPL\:P{(.*)}%/;
-    my $attrs = new TWiki::Attrs( $1 );
+    my $attrs = new TWiki::Attrs($1);
+
     # Can't expand context-dependant templates
     return $text if ( $attrs->{context} );
-    return $this->tmplP( $attrs );
+    return $this->tmplP($attrs);
 }
 
 =pod
@@ -127,10 +128,10 @@ $tmpls->expandTemplate('context="view" then="sigh" else="humph"');
 =cut
 
 sub expandTemplate {
-    my( $this, $params ) = @_;
+    my ( $this, $params ) = @_;
 
-    my $attrs = new TWiki::Attrs( $params );
-    my $value = $this->tmplP( $attrs );
+    my $attrs = new TWiki::Attrs($params);
+    my $value = $this->tmplP($attrs);
     return $value;
 }
 
@@ -153,16 +154,16 @@ to do this in the MacrosPlugin.
 =cut
 
 sub tmplP {
-    my( $this, $params ) = @_;
+    my ( $this, $params ) = @_;
 
     my $template = $params->remove('_DEFAULT') || '';
-    my $context = $params->remove('context');
-    my $then = $params->remove('then');
-    my $else = $params->remove('else');
-    if( $context ) {
-        $template = $then if defined( $then );
-        foreach my $id ( split( /\,\s*/, $context )) {
-            unless( $this->{session}->{context}->{$id} ) {
+    my $context  = $params->remove('context');
+    my $then     = $params->remove('then');
+    my $else     = $params->remove('else');
+    if ($context) {
+        $template = $then if defined($then);
+        foreach my $id ( split( /\,\s*/, $context ) ) {
+            unless ( $this->{session}->{context}->{$id} ) {
                 $template = ( $else || '' );
                 last;
             }
@@ -172,12 +173,13 @@ sub tmplP {
     return '' unless $template;
 
     my $val = '';
-    if( exists($this->{VARS}->{$template} )) {
+    if ( exists( $this->{VARS}->{$template} ) ) {
         $val = $this->{VARS}->{$template};
         foreach my $p ( keys %$params ) {
-            if( $p eq 'then' || $p eq 'else' ) {
+            if ( $p eq 'then' || $p eq 'else' ) {
                 $val =~ s/%$p%/$this->expandTemplate($1)/ge;
-            } elsif( defined( $params->{$p} )) {
+            }
+            elsif ( defined( $params->{$p} ) ) {
                 $val =~ s/%$p%/$params->{$p}/ge;
             }
         }
@@ -221,52 +223,61 @@ list of loaded templates, overwriting any previous definition.
 =cut
 
 sub readTemplate {
-    my( $this, $name, $skins, $web ) = @_;
+    my ( $this, $name, $skins, $web ) = @_;
 
     $this->{files} = ();
 
     # recursively read template file(s)
     my $text = _readTemplateFile( $this, $name, $skins, $web );
 
-    while( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
-        $text =~ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $web )/geo;
+    while ( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
+        $text =~
+s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $web )/geo;
     }
 
     # Kill comments, marked by %{ ... }%
     $text =~ s/%{.*?}%//sg;
 
-    if( ! ( $text =~ /%TMPL\:/s ) ) {
+    if ( !( $text =~ /%TMPL\:/s ) ) {
+
         # no template processing
-        $text =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;  # leading spaces to tabs
+        $text =~
+          s|^(( {3})+)|"\t" x (length($1)/3)|geom;    # leading spaces to tabs
         return $text;
     }
 
     my $result = '';
-    my $key  = '';
-    my $val  = '';
-    my $delim = '';
-    foreach( split( /(%TMPL\:)/, $text ) ) {
-        if( /^(%TMPL\:)$/ ) {
+    my $key    = '';
+    my $val    = '';
+    my $delim  = '';
+    foreach ( split( /(%TMPL\:)/, $text ) ) {
+        if (/^(%TMPL\:)$/) {
             $delim = $1;
-        } elsif( ( /^DEF{[\s\"]*(.*?)[\"\s]*}%(.*)/s ) && ( $1 ) ) {
+        }
+        elsif ( (/^DEF{[\s\"]*(.*?)[\"\s]*}%(.*)/s) && ($1) ) {
+
             # handle %TMPL:DEF{key}%
-            if( $key ) {
+            if ($key) {
                 $this->{VARS}->{$key} = $val;
             }
             $key = $1;
             $val = $2;
 
-        } elsif( /^END%[\n\r]*(.*)/s ) {
+        }
+        elsif (/^END%[\n\r]*(.*)/s) {
+
             # handle %TMPL:END%
             $this->{VARS}->{$key} = $val;
-            $key = '';
-            $val = '';
+            $key                  = '';
+            $val                  = '';
             $result .= $1;
 
-        } elsif( $key ) {
-            $val    .= "$delim$_";
+        }
+        elsif ($key) {
+            $val .= "$delim$_";
 
-        } else {
+        }
+        else {
             $result .= "$delim$_";
         }
     }
@@ -274,99 +285,125 @@ sub readTemplate {
     # handle %TMPL:P{"..."}% recursively
     $result =~ s/(%TMPL\:P{.*?}%)/_expandTrivialTemplate( $this, $1)/geo;
 
-    $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom;  # leading spaces to tabs
+    $result =~ s|^(( {3})+)|"\t" x (length($1)/3)|geom; # leading spaces to tabs
     return $result;
 }
 
 # STATIC: Return value: raw template text, or '' if read fails
 sub _readTemplateFile {
-    my( $this, $name, $skins, $web ) = @_;
+    my ( $this, $name, $skins, $web ) = @_;
     my $session = $this->{session};
-    my $store = $session->{store};
+    my $store   = $session->{store};
 
-    $skins = $session->getSkin() unless defined( $skins );
+    $skins = $session->getSkin() unless defined($skins);
+
     #print STDERR "SKIN path is $skins\n";
-    $web ||= $session->{webName};
+    $web  ||= $session->{webName};
     $name ||= '';
 
     # SMELL: not i18n-friendly (can't have accented characters in skin name)
     # zap anything suspicious
-    $name =~ s/[^A-Za-z0-9_,.]//go;
+    $name  =~ s/[^A-Za-z0-9_,.]//go;
     $skins =~ s/[^A-Za-z0-9_,.]//go;
 
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
-    if( $name =~ /\.tmpl$/ ) {
-        return TWiki::readFile( $TWiki::cfg{TemplateDir}.'/'.$name );
+    if ( $name =~ /\.tmpl$/ ) {
+        return TWiki::readFile( $TWiki::cfg{TemplateDir} . '/' . $name );
     }
 
-    my $userdirweb = $web;
+    my $userdirweb  = $web;
     my $userdirname = $name;
-    if( $name =~ /^(.+)\.(.+?)$/ ) {
-       $userdirweb = ucfirst($1);
-       $userdirname = ucfirst($2);
+    if ( $name =~ /^(.+)\.(.+?)$/ ) {
+        $userdirweb  = ucfirst($1);
+        $userdirname = ucfirst($2);
 
-       # if the name can be parsed into $web.$name, then this is an attempt
-       # to explicit include that topic. No further searching required.
-       if( validateTopic($session,$store,$session->{user},$userdirname,$userdirweb )) {
-	   return retrieveTopic( $store, $userdirweb, $userdirname );
-       }
+        # if the name can be parsed into $web.$name, then this is an attempt
+        # to explicit include that topic. No further searching required.
+        if (
+            validateTopic(
+                $session,     $store, $session->{user},
+                $userdirname, $userdirweb
+            )
+          )
+        {
+            return retrieveTopic( $store, $userdirweb, $userdirname );
+        }
     }
     else {
-        $userdirweb = ucfirst($userdirweb);
+        $userdirweb  = ucfirst($userdirweb);
         $userdirname = ucfirst($userdirname);
     }
 
     my @skinList = split( /\,\s*/, $skins );
     my $nrskins = $#skinList;
-    
-    my @templatePath = split (/\s*,\s*/, $TWiki::cfg{TemplatePath});
+
+    my @templatePath = split( /\s*,\s*/, $TWiki::cfg{TemplatePath} );
 
     # Search the $TWiki::cfg{TemplatePath} for the skinned versions
     my @candidates;
 
     $nrskins = 0 if $nrskins < 0;
-    foreach my $template ( @templatePath ) {
-      for ( my $idx=0; $idx<=$nrskins; $idx++ ) {
-	  my $file = $template;
-	  my $userdir = 0;
-	  # also need to do %PUBURL% etc.?
-	  # push the first time even if not modified
-	  my $skin = $skinList[$idx] || '';
-	  my $webName = $web || '';
-	  my $tmplName = $name || '';
-	  unless ( $file =~ m/.tmpl$/ ) {
-	    # Could also use $Skin, $Web, $Name to indicate uppercase
-	    $userdir = 1;
-	    $skin = ucfirst($skin);
-	    $webName = $userdirweb;
-	    $tmplName = $userdirname;
-	  }
-	  $file =~ s/\$skin/$skin/geo;
-	  $file =~ s/\$web/$webName/geo;
-	  $file =~ s/\$name/$tmplName/geo;
- 
-          my ($candidatename, $candidatevalidate, $candidateretrieve);
+    foreach my $template (@templatePath) {
+        for ( my $idx = 0 ; $idx <= $nrskins ; $idx++ ) {
+            my $file    = $template;
+            my $userdir = 0;
 
-	  if ( $userdir ) {
-	    # candidate in user directory
-	    my ($web1, $name1) = $session->normalizeWebTopicName($web, $file);
+            # also need to do %PUBURL% etc.?
+            # push the first time even if not modified
+            my $skin     = $skinList[$idx] || '';
+            my $webName  = $web            || '';
+            my $tmplName = $name           || '';
+            unless ( $file =~ m/.tmpl$/ ) {
 
-	    if( validateTopic($session,$store,$session->{user},$name1,$web1) ) {
-	      next if (defined($this->{files}->{'topic'.$session->{user},$name1,$web1}));
-	      #recursion prevention.
-	      $this->{files}->{'topic'.$session->{user},$name1,$web1} = 1;
-	      return retrieveTopic( $store, $web1, $name1 );
-	    }
-	  } else {
-	    if( validateFile( $file )) {
-	      next if (defined($this->{files}->{$file}));
-	      #recursion prevention.
-	      $this->{files}->{$file} = 1;
-            return TWiki::readFile( $file );
-	    }
-	  }
-       }
+                # Could also use $Skin, $Web, $Name to indicate uppercase
+                $userdir  = 1;
+                $skin     = ucfirst($skin);
+                $webName  = $userdirweb;
+                $tmplName = $userdirname;
+            }
+            $file =~ s/\$skin/$skin/geo;
+            $file =~ s/\$web/$webName/geo;
+            $file =~ s/\$name/$tmplName/geo;
+
+            my ( $candidatename, $candidatevalidate, $candidateretrieve );
+
+            if ($userdir) {
+
+                # candidate in user directory
+                my ( $web1, $name1 ) =
+                  $session->normalizeWebTopicName( $web, $file );
+
+                if (
+                    validateTopic(
+                        $session, $store, $session->{user}, $name1, $web1
+                    )
+                  )
+                {
+                    next
+                      if (
+                        defined(
+                            $this->{files}
+                              ->{ 'topic' . $session->{user}, $name1, $web1 }
+                        )
+                      );
+
+                    #recursion prevention.
+                    $this->{files}
+                      ->{ 'topic' . $session->{user}, $name1, $web1 } = 1;
+                    return retrieveTopic( $store, $web1, $name1 );
+                }
+            }
+            else {
+                if ( validateFile($file) ) {
+                    next if ( defined( $this->{files}->{$file} ) );
+
+                    #recursion prevention.
+                    $this->{files}->{$file} = 1;
+                    return TWiki::readFile($file);
+                }
+            }
+        }
     }
 
     # SMELL: should really
@@ -378,21 +415,21 @@ sub _readTemplateFile {
 }
 
 sub validateFile {
-   my $file = shift;
-   return -e $file;
+    my $file = shift;
+    return -e $file;
 }
 
 sub validateTopic {
-   my( $session, $store, $user, $topic, $web ) = @_;
-   return $store->topicExists( $web, $topic ) && 
-   $session->security->checkAccessPermission(
-       'VIEW', $user, undef, undef, $topic, $web );
+    my ( $session, $store, $user, $topic, $web ) = @_;
+    return $store->topicExists( $web, $topic )
+      && $session->security->checkAccessPermission( 'VIEW', $user, undef, undef,
+        $topic, $web );
 }
 
 sub retrieveTopic {
-   my( $store, $web, $topic ) = @_;
-   my ( $meta, $text ) = $store->readTopic( undef, $web, $topic, undef );
-   return $text;
+    my ( $store, $web, $topic ) = @_;
+    my ( $meta, $text ) = $store->readTopic( undef, $web, $topic, undef );
+    return $text;
 }
 
 1;

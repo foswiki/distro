@@ -6,7 +6,7 @@ use strict;
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new( @_ );
+    my $this  = $class->SUPER::new(@_);
     $this->{size} ||= 0;
     $this->{size} =~ s/\D//g;
     $this->{size} ||= 0;
@@ -16,27 +16,32 @@ sub new {
 }
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
     my $selected = '';
-    my $session = $this->{session};
+    my $session  = $this->{session};
     my %attrs;
-    foreach my $item ( @{$this->getOptions()} ) {
-        $attrs{$item} =
-          { class=> $this->cssClasses('twikiRadioButton',
-                                      'twikiEditFormRadioField'),
-            label=>$session->handleCommonTags(
-                $item, $web, $topic ) };
+    foreach my $item ( @{ $this->getOptions() } ) {
+        $attrs{$item} = {
+            class => $this->cssClasses(
+                'twikiRadioButton', 'twikiEditFormRadioField'
+            ),
+            label => $session->handleCommonTags( $item, $web, $topic )
+        };
 
-        $selected = $item if( $item eq $value );
+        $selected = $item if ( $item eq $value );
     }
 
-    return ( '', CGI::radio_group(
-        -name => $this->{name},
-        -values => $this->getOptions(),
-        -default => $selected,
-        -columns => $this->{size},
-        -attributes => \%attrs ));
+    return (
+        '',
+        CGI::radio_group(
+            -name       => $this->{name},
+            -values     => $this->getOptions(),
+            -default    => $selected,
+            -columns    => $this->{size},
+            -attributes => \%attrs
+        )
+    );
 }
 
 1;

@@ -32,7 +32,7 @@ use base 'TWiki::Configure::Section';
 sub load {
     my ($name) = @_;
 
-    my $modelName = 'TWiki::Configure::'.$name;
+    my $modelName = 'TWiki::Configure::' . $name;
     eval "use $modelName";
     Carp::confess $@ if $@;
 

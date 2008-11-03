@@ -2,8 +2,8 @@ package TWiki::Query::BinaryOP;
 
 sub new {
     my $class = shift;
-    my $this = {@_, arity => 2};
-    return bless($this, $class);
+    my $this = { @_, arity => 2 };
+    return bless( $this, $class );
 }
 
 # Determine if a string represents a valid number
@@ -14,38 +14,41 @@ sub _isNumber {
 # Static function to apply a comparison function to two data, tolerant
 #  of whether they are numeric or not
 sub compare {
-    my ($a, $b, $sub) = @_;
-    if (_isNumber($a) && _isNumber($b)) {
-        return &$sub($a <=> $b);
-    } else {
-        return &$sub($a cmp $b);
+    my ( $a, $b, $sub ) = @_;
+    if ( _isNumber($a) && _isNumber($b) ) {
+        return &$sub( $a <=> $b );
+    }
+    else {
+        return &$sub( $a cmp $b );
     }
 }
 
 # Evaluate a node using the comparison function passed in. Extra parameters
 # are passed on to the comparison function.
 sub evalTest {
-    my $this = shift;
-    my $node = shift;
+    my $this       = shift;
+    my $node       = shift;
     my $clientData = shift;
-    my $sub = shift;
-    my $a = $node->{params}[0];
-    my $b = $node->{params}[1];
-    my $ea = $a->evaluate( @{$clientData} ) || '';
-    my $eb = $b->evaluate( @{$clientData} ) || '';
-    if (ref($ea) eq 'ARRAY') {
+    my $sub        = shift;
+    my $a          = $node->{params}[0];
+    my $b          = $node->{params}[1];
+    my $ea         = $a->evaluate( @{$clientData} ) || '';
+    my $eb         = $b->evaluate( @{$clientData} ) || '';
+    if ( ref($ea) eq 'ARRAY' ) {
         my @res;
         foreach my $lhs (@$ea) {
-            push(@res, $lhs) if &$sub($lhs, $eb, @_);
+            push( @res, $lhs ) if &$sub( $lhs, $eb, @_ );
         }
-        if (scalar(@res) == 0) {
+        if ( scalar(@res) == 0 ) {
             return undef;
-        } elsif (scalar(@res) == 1) {
+        }
+        elsif ( scalar(@res) == 1 ) {
             return $res[0];
         }
         return \@res;
-    } else {
-        return &$sub($ea, $eb, @_);
+    }
+    else {
+        return &$sub( $ea, $eb, @_ );
     }
 }
 

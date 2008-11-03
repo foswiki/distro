@@ -17,33 +17,43 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}->[0]; # topic name (string)
-    my $b = $node->{params}->[1]; # access mode (string)
-    my $mode = $b->_evaluate(@_) || 'view';
-    my %domain = @_;
+    my $this    = shift;
+    my $node    = shift;
+    my $a       = $node->{params}->[0];          # topic name (string)
+    my $b       = $node->{params}->[1];          # access mode (string)
+    my $mode    = $b->_evaluate(@_) || 'view';
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
     my $str = $a->evaluate(@_);
     return 0 unless $str;
-    my ($web, $topic) = $session->normalizeWebTopicName(
-        $session->{webName}, $str);
+    my ( $web, $topic ) =
+      $session->normalizeWebTopicName( $session->{webName}, $str );
     my $ok = 0;
-    if ($session->{store}->topicExists($web, $topic)) {
+
+    if ( $session->{store}->topicExists( $web, $topic ) ) {
+
         #try the non-precise name as an existant topic first.
-        $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, $topic, $web);
-    } elsif ($session->{store}->webExists($str)) {
-        $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, undef, $str);
-    } elsif ($session->{store}->webExists($web)) {
-        #not an existing topic or web - assume any lone name is a topic without a web specified
-        $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, $topic, $web);
-    } else {
-    	$ok = 0;
+        $ok =
+          $session->security->checkAccessPermission( uc($mode),
+            $session->{user}, undef, undef, $topic, $web );
+    }
+    elsif ( $session->{store}->webExists($str) ) {
+        $ok =
+          $session->security->checkAccessPermission( uc($mode),
+            $session->{user}, undef, undef, undef, $str );
+    }
+    elsif ( $session->{store}->webExists($web) ) {
+
+#not an existing topic or web - assume any lone name is a topic without a web specified
+        $ok =
+          $session->security->checkAccessPermission( uc($mode),
+            $session->{user}, undef, undef, $topic, $web );
+    }
+    else {
+        $ok = 0;
     }
     return $ok ? 1 : 0;
 }

@@ -27,8 +27,9 @@ sub check {
         return $this->WARN(<<HERE);
 Cannot identify perl package version - cygcheck or grep not installed
 HERE
-    } else {
-        $pkg = (split ' ', $pkg)[1];    # Package version
+    }
+    else {
+        $pkg = ( split ' ', $pkg )[1];    # Package version
         return $pkg;
     }
 }

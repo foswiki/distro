@@ -24,33 +24,34 @@ use strict;
 require TWiki::Meta;
 
 sub query {
-    my ($query, $web, $topics, $store) = @_;
+    my ( $query, $web, $topics, $store ) = @_;
 
-    my $sDir = $TWiki::cfg{DataDir}.'/'.$web.'/';
+    my $sDir = $TWiki::cfg{DataDir} . '/' . $web . '/';
 
-    if (scalar(@$topics) > 6) {
+    if ( scalar(@$topics) > 6 ) {
         require TWiki::Query::HoistREs;
-        my @filter = TWiki::Query::HoistREs::hoist( $query );
+        my @filter = TWiki::Query::HoistREs::hoist($query);
         foreach my $token (@filter) {
             my $m = $store->searchInWebContent(
                 $token, $web, $topics,
                 {
-                    type => 'regex',
-                    casesensitive => 1,
+                    type                => 'regex',
+                    casesensitive       => 1,
                     files_without_match => 1,
-                });
+                }
+            );
             @$topics = keys %$m;
         }
     }
 
     my %matches;
     local $/;
-    foreach my $topic ( @$topics ) {
-        next unless open(FILE, "<$sDir/$topic.txt");
-        my $meta = new TWiki::Meta($store->{session}, $web, $topic, <FILE>);
+    foreach my $topic (@$topics) {
+        next unless open( FILE, "<$sDir/$topic.txt" );
+        my $meta = new TWiki::Meta( $store->{session}, $web, $topic, <FILE> );
         close(FILE);
         my $match = $query->evaluate( tom => $meta, data => $meta );
-        if( $match ) {
+        if ($match) {
             $matches{$topic} = $match;
         }
     }

@@ -19,18 +19,21 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    return $this->evalUnary( $node,
+    return $this->evalUnary(
+        $node,
         sub {
             my $date = shift;
             eval {
                 require TWiki::Time;
-                $date = TWiki::Time::parseTime( $date, 1);
+                $date = TWiki::Time::parseTime( $date, 1 );
             };
+
             # ignore $@
             return $date;
         },
-        @_ );
-};
+        @_
+    );
+}
 
 1;
 

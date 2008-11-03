@@ -9,14 +9,15 @@ sub new {
 sub evalUnary {
     my $this = shift;
     my $node = shift;
-    my $sub = shift;
-    my $a = $node->{params}[0];
-    my $val = $a->evaluate( @_ ) || '';
-    if (ref($val) eq 'ARRAY') {
+    my $sub  = shift;
+    my $a    = $node->{params}[0];
+    my $val  = $a->evaluate(@_) || '';
+    if ( ref($val) eq 'ARRAY' ) {
         my @res = map { &$sub($_) } @$val;
         return \@res;
-    } else {
-        return &$sub( $val );
+    }
+    else {
+        return &$sub($val);
     }
 }
 

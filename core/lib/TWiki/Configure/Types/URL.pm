@@ -23,7 +23,7 @@ use base 'TWiki::Configure::Type';
 sub new {
     my $class = shift;
 
-    return bless({name=>'URL'}, $class);
+    return bless( { name => 'URL' }, $class );
 }
 
 1;

@@ -25,7 +25,7 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    my $e = $this->checkTreePerms($TWiki::cfg{MimeTypesFileName}, 'r');
+    my $e = $this->checkTreePerms( $TWiki::cfg{MimeTypesFileName}, 'r' );
     $e = $this->ERROR($e) if $e;
     return $e;
 }

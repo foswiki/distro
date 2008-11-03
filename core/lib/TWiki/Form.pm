@@ -36,11 +36,10 @@ use Error qw( :try );
 
 # The following are reserved as URL parameters to scripts and may not be
 # used as field names in forms.
-my %reservedFieldNames =
-  map { $_ => 1 }
+my %reservedFieldNames = map { $_ => 1 }
   qw( action breaklock contenttype cover dontnotify editaction
-      forcenewrevision formtemplate onlynewtopic onlywikiname
-      originalrev skin templatetopic text topic topicparent user );
+  forcenewrevision formtemplate onlynewtopic onlywikiname
+  originalrev skin templatetopic text topic topicparent user );
 
 =pod
 
@@ -58,37 +57,39 @@ May throw TWiki::OopsException
 =cut
 
 sub new {
-    my( $class, $session, $web, $form, $def ) = @_;
+    my ( $class, $session, $web, $form, $def ) = @_;
 
-    ( $web, $form ) =
-      $session->normalizeWebTopicName( $web, $form );
+    ( $web, $form ) = $session->normalizeWebTopicName( $web, $form );
 
     my $this = $session->{forms}->{"$web.$form"};
-    unless( $this ) {
+    unless ($this) {
 
         $this = bless(
             {
                 session => $session,
-                web => $web,
-                topic => $form,
-            }, $class );
+                web     => $web,
+                topic   => $form,
+            },
+            $class
+        );
 
         $session->{forms}->{"$web.$form"} = $this;
 
-        unless ( $def ) {
+        unless ($def) {
 
             my $store = $session->{store};
 
             # Read topic that defines the form
-            unless( $store->topicExists( $web, $form ) ) {
+            unless ( $store->topicExists( $web, $form ) ) {
                 return undef;
             }
-            my( $meta, $text ) =
+            my ( $meta, $text ) =
               $store->readTopic( $session->{user}, $web, $form, undef );
 
             $this->{fields} = _parseFormDefinition( $this, $meta, $text );
 
-        } else {
+        }
+        else {
 
             $this->{fields} = $def;
 
@@ -112,7 +113,7 @@ sub finish {
     my $this = shift;
     undef $this->{web};
     undef $this->{topic};
-    foreach (@{$this->{fields}}) {
+    foreach ( @{ $this->{fields} } ) {
         $_->finish();
     }
     undef $this->{fields};
@@ -128,9 +129,9 @@ valid "name" for storing in meta-data
 =cut
 
 sub fieldTitle2FieldName {
-    my( $text ) = @_;
-    return '' unless defined( $text );
-    $text =~ s/<nop>//g; # support <nop> character in title
+    my ($text) = @_;
+    return '' unless defined($text);
+    $text =~ s/<nop>//g;             # support <nop> character in title
     $text =~ s/[^A-Za-z0-9_\.]//g;
     return $text;
 }
@@ -141,25 +142,26 @@ sub fieldTitle2FieldName {
 #   2nd - name, title, type, size, vals, tooltip, attributes
 #   Possible attributes are "M" (mandatory field)
 sub _parseFormDefinition {
-    my( $this, $meta, $text ) = @_;
+    my ( $this, $meta, $text ) = @_;
 
-    my $store = $this->{session}->{store};
-    my @fields = ();
+    my $store   = $this->{session}->{store};
+    my @fields  = ();
     my $inBlock = 0;
     $text =~ s/\r//g;
-    $text =~ s/\\\n//g; # remove trailing '\' and join continuation lines
+    $text =~ s/\\\n//g;    # remove trailing '\' and join continuation lines
 
-    # | *Name:* | *Type:* | *Size:* | *Value:*  | *Tooltip message:* | *Attributes:* |
-    # Tooltip and attributes are optional
+# | *Name:* | *Type:* | *Size:* | *Value:*  | *Tooltip message:* | *Attributes:* |
+# Tooltip and attributes are optional
     foreach my $line ( split( /\n/, $text ) ) {
-        if( $line =~ /^\s*\|.*Name[^|]*\|.*Type[^|]*\|.*Size[^|]*\|/ ) {
+        if ( $line =~ /^\s*\|.*Name[^|]*\|.*Type[^|]*\|.*Size[^|]*\|/ ) {
             $inBlock = 1;
             next;
         }
-        # Only insist on first field being present FIXME - use oops page instead?
-        if( $inBlock && $line =~ s/^\s*\|\s*// ) {
-            $line =~ s/\\\|/\007/g; # protect \| from split
-            my( $title, $type, $size, $vals, $tooltip, $attributes ) =
+
+       # Only insist on first field being present FIXME - use oops page instead?
+        if ( $inBlock && $line =~ s/^\s*\|\s*// ) {
+            $line =~ s/\\\|/\007/g;    # protect \| from split
+            my ( $title, $type, $size, $vals, $tooltip, $attributes ) =
               map { s/\007/|/g; $_ } split( /\s*\|\s*/, $line );
 
             $title ||= '';
@@ -168,13 +170,14 @@ sub _parseFormDefinition {
             $type = lc $type;
             $type =~ s/^\s*//go;
             $type =~ s/\s*$//go;
-            $type = 'text' if( ! $type );
+            $type = 'text' if ( !$type );
 
             $size ||= '';
 
             $vals ||= '';
-            $vals = $this->{session}->handleCommonTags(
-                $vals, $this->{web}, $this->{topic}, $meta);
+            $vals =
+              $this->{session}
+              ->handleCommonTags( $vals, $this->{web}, $this->{topic}, $meta );
             $vals =~ s/<\/?(nop|noautolink)\/?>//go;
             $vals =~ s/^\s+//g;
             $vals =~ s/\s+$//g;
@@ -193,37 +196,40 @@ sub _parseFormDefinition {
 
             $attributes ||= '';
             $attributes =~ s/\s*//go;
-            $attributes = '' if( ! $attributes );
+            $attributes = '' if ( !$attributes );
 
             my $definingTopic = "";
-            if( $title =~ /\[\[(.+)\]\[(.+)\]\]/ )  {
+            if ( $title =~ /\[\[(.+)\]\[(.+)\]\]/ ) {
+
                 # use common defining topics with different field titles
-                $definingTopic = fieldTitle2FieldName( $1 );
-                $title = $2;
+                $definingTopic = fieldTitle2FieldName($1);
+                $title         = $2;
             }
 
-            my $name = fieldTitle2FieldName( $title );
+            my $name = fieldTitle2FieldName($title);
 
             # Rename fields with reserved names
-            if( $reservedFieldNames{$name} ) {
+            if ( $reservedFieldNames{$name} ) {
                 $name .= '_';
             }
 
             my $fieldDef = $this->createField(
                 $type,
-                name => $name,
-                title => $title,
-                size => $size,
-                value => $vals,
-                tooltip => $tooltip,
-                attributes => $attributes,
+                name          => $name,
+                title         => $title,
+                size          => $size,
+                value         => $vals,
+                tooltip       => $tooltip,
+                attributes    => $attributes,
                 definingTopic => $definingTopic,
-                web => $this->{web},
-                topic => $this->{topic});
-            push( @fields, $fieldDef);
+                web           => $this->{web},
+                topic         => $this->{topic}
+            );
+            push( @fields, $fieldDef );
 
             $this->{mandatoryFieldsPresent} ||= $fieldDef->isMandatory();
-        } else {
+        }
+        else {
             $inBlock = 0;
         }
     }
@@ -239,15 +245,16 @@ sub createField {
     my $type = shift;
 
     my $class = $type;
-    $class =~ /^(\w*)/; # cut off +buttons etc
-	#The following is a workaround for a bug in Perl 5.8.4 that was ultimately fixed on Perl 5.8.7-8
-	# see http://bugs.debian.org/303308
-	# using $class=TWiki::Sandbox::untaintUnchecked($class) also works but is one more method call.
-    my $workaround=$1;
-    $class = 'TWiki::Form::'.ucfirst($workaround);
+    $class =~ /^(\w*)/;    # cut off +buttons etc
+      #The following is a workaround for a bug in Perl 5.8.4 that was ultimately fixed on Perl 5.8.7-8
+      # see http://bugs.debian.org/303308
+      # using $class=TWiki::Sandbox::untaintUnchecked($class) also works but is one more method call.
+    my $workaround = $1;
+    $class = 'TWiki::Form::' . ucfirst($workaround);
 
-    eval 'require '.$class;
-    if( $@ ) {
+    eval 'require ' . $class;
+    if ($@) {
+
         # Type not available; use base type
         require TWiki::Form::FieldDefinition;
         $class = 'TWiki::Form::FieldDefinition';
@@ -258,13 +265,13 @@ sub createField {
 # Generate a link to the given topic, so we can bring up details in a
 # separate window.
 sub _link {
-    my( $this, $meta, $string, $tooltip, $topic ) = @_;
+    my ( $this, $meta, $string, $tooltip, $topic ) = @_;
 
     $string =~ s/[\[\]]//go;
 
     $topic ||= $string;
-    my $defaultToolTip = $this->{session}->i18n->maketext(
-        'Details in separate window');
+    my $defaultToolTip =
+      $this->{session}->i18n->maketext('Details in separate window');
     $tooltip ||= $defaultToolTip;
 
     my $web;
@@ -274,22 +281,28 @@ sub _link {
     my $link;
 
     my $store = $this->{session}->{store};
-    if( $store->topicExists( $web, $topic ) ) {
-        $link =
-          CGI::a(
-              { target => $topic,
-                onclick => 'return launchWindow("'.$web.'","'.$topic.'")',
+    if ( $store->topicExists( $web, $topic ) ) {
+        $link = CGI::a(
+            {
+                target  => $topic,
+                onclick => 'return launchWindow("' 
+                  . $web . '","' 
+                  . $topic . '")',
                 title => $tooltip,
-                href =>$this->{session}->getScriptUrl( 0, 'view',
-                                                       $web, $topic ),
+                href =>
+                  $this->{session}->getScriptUrl( 0, 'view', $web, $topic ),
                 rel => 'nofollow'
-               }, $string );
-    } else {
-        my $expanded = $this->{session}->handleCommonTags(
-            $string, $web, $topic, $meta );
+            },
+            $string
+        );
+    }
+    else {
+        my $expanded =
+          $this->{session}->handleCommonTags( $string, $web, $topic, $meta );
         if ( $tooltip ne $defaultToolTip ) {
-            $link = CGI::span ( { title => $tooltip }, $expanded );
-        } else {
+            $link = CGI::span( { title => $tooltip }, $expanded );
+        }
+        else {
             $link = $expanded;
         }
     }
@@ -311,53 +324,58 @@ from $meta
 =cut
 
 sub renderForEdit {
-    my( $this, $web, $topic, $meta ) = @_;
-    ASSERT($meta->isa( 'TWiki::Meta')) if DEBUG;
+    my ( $this, $web, $topic, $meta ) = @_;
+    ASSERT( $meta->isa('TWiki::Meta') ) if DEBUG;
     require CGI;
     my $session = $this->{session};
 
-    if( $this->{mandatoryFieldsPresent} ) {
-        $session->enterContext( 'mandatoryfields' );
+    if ( $this->{mandatoryFieldsPresent} ) {
+        $session->enterContext('mandatoryfields');
     }
-    my $tmpl = $session->templates->readTemplate( "form" );
+    my $tmpl = $session->templates->readTemplate("form");
     $tmpl = $session->handleCommonTags( $tmpl, $web, $topic, $meta );
 
     # Note: if WEBFORMS preference is not set, can only delete form.
     $tmpl =~ s/%FORMTITLE%/_link(
         $this, $meta, $this->{web}.'.'.$this->{topic})/ge;
-    my( $text, $repeatTitledText, $repeatUntitledText, $afterText ) =
+    my ( $text, $repeatTitledText, $repeatUntitledText, $afterText ) =
       split( /%REPEAT%/, $tmpl );
 
-    foreach my $fieldDef ( @{$this->{fields}} ) {
+    foreach my $fieldDef ( @{ $this->{fields} } ) {
 
         my $value;
-        my $tooltip = $fieldDef->{tooltip};
+        my $tooltip       = $fieldDef->{tooltip};
         my $definingTopic = $fieldDef->{definingTopic};
-        my $title = $fieldDef->{title};
-        my $tmp = '';
-        if (! $title && !$fieldDef->isEditable()) {
+        my $title         = $fieldDef->{title};
+        my $tmp           = '';
+        if ( !$title && !$fieldDef->isEditable() ) {
+
             # Special handling for untitled labels.
             # SMELL: Assumes that uneditable fields are not multi-valued
-            $tmp = $repeatUntitledText;
-            $value =
-              $session->{renderer}->getRenderedVersion(
-                  $session->handleCommonTags(
-                      $fieldDef->{value}, $web, $topic, $meta ));
-        } else {
+            $tmp   = $repeatUntitledText;
+            $value = $session->{renderer}->getRenderedVersion(
+                $session->handleCommonTags(
+                    $fieldDef->{value},
+                    $web, $topic, $meta
+                )
+            );
+        }
+        else {
             $tmp = $repeatTitledText;
 
-            if( defined( $fieldDef->{name} )) {
+            if ( defined( $fieldDef->{name} ) ) {
                 my $field = $meta->get( 'FIELD', $fieldDef->{name} );
                 $value = $field->{value};
             }
-            my $extra = ''; # extras on col 0
+            my $extra = '';    # extras on col 0
 
-            unless( defined( $value )) {
-                my $dv = $fieldDef->getDefaultValue( $value );
-                if( defined( $dv )) {
-                    $dv = $this->{session}->handleCommonTags(
-                        $dv, $web, $topic, $meta );
-                    $value = TWiki::expandStandardEscapes( $dv ); # Item2837
+            unless ( defined($value) ) {
+                my $dv = $fieldDef->getDefaultValue($value);
+                if ( defined($dv) ) {
+                    $dv =
+                      $this->{session}
+                      ->handleCommonTags( $dv, $web, $topic, $meta );
+                    $value = TWiki::expandStandardEscapes($dv);    # Item2837
                 }
             }
 
@@ -365,19 +383,21 @@ sub renderForEdit {
             # col 0 :-(
             # SMELL: assumes that the field value is a string
             my $output = $session->{plugins}->dispatch(
-                'renderFormFieldForEditHandler',
-                $fieldDef->{name}, $fieldDef->{type},
-                $fieldDef->{size}, $value, $fieldDef->{attributes},
-                $fieldDef->{value} );
+                'renderFormFieldForEditHandler', $fieldDef->{name},
+                $fieldDef->{type},               $fieldDef->{size},
+                $value,                          $fieldDef->{attributes},
+                $fieldDef->{value}
+            );
 
-            if( $output ) {
+            if ($output) {
                 $value = $output;
-            } else {
-                ( $extra, $value ) = $fieldDef->renderForEdit(
-                    $web, $topic, $value );
+            }
+            else {
+                ( $extra, $value ) =
+                  $fieldDef->renderForEdit( $web, $topic, $value );
             }
 
-            if( $fieldDef->isMandatory() ) {
+            if ( $fieldDef->isMandatory() ) {
                 $extra .= CGI::span( { class => 'twikiAlert' }, ' *' );
             }
 
@@ -403,13 +423,13 @@ through edits untouched.
 =cut
 
 sub renderHidden {
-    my( $this, $meta ) = @_;
-    ASSERT($meta->isa( 'TWiki::Meta')) if DEBUG;
+    my ( $this, $meta ) = @_;
+    ASSERT( $meta->isa('TWiki::Meta') ) if DEBUG;
 
     my $text = '';
 
-    foreach my $field ( @{$this->{fields}} ) {
-        $text .= $field->renderHidden( $meta );
+    foreach my $field ( @{ $this->{fields} } ) {
+        $text .= $field->renderHidden($meta);
     }
 
     return $text;
@@ -434,23 +454,24 @@ missing from the query.
 =cut
 
 sub getFieldValuesFromQuery {
-    my( $this, $query, $meta ) = @_;
-    ASSERT($meta->isa( 'TWiki::Meta')) if DEBUG;
+    my ( $this, $query, $meta ) = @_;
+    ASSERT( $meta->isa('TWiki::Meta') ) if DEBUG;
     my @missing;
     my $seen = 0;
 
     # Remove the old defs so we apply the
     # order in the form definition, and not the
     # order in the previous meta object. See Item1982.
-    my @old = $meta->find( 'FIELD' );
+    my @old = $meta->find('FIELD');
     $meta->remove('FIELD');
-    foreach my $fieldDef ( @{$this->{fields}} ) {
-        my( $set, $present ) =
+    foreach my $fieldDef ( @{ $this->{fields} } ) {
+        my ( $set, $present ) =
           $fieldDef->populateMetaFromQueryData( $query, $meta, \@old );
-        if( $present ) {
+        if ($present) {
             $seen++;
         }
-        if( !$set && $fieldDef->isMandatory() ) {
+        if ( !$set && $fieldDef->isMandatory() ) {
+
             # Remember missing mandatory fields
             push( @missing, $fieldDef->{title} || "unnamed field" );
         }
@@ -471,12 +492,13 @@ If the form does not define the field, it is assumed to be mergeable.
 =cut
 
 sub isTextMergeable {
-    my( $this, $name ) = @_;
+    my ( $this, $name ) = @_;
 
-    my $fieldDef = $this->getField( $name );
-    if( $fieldDef ) {
+    my $fieldDef = $this->getField($name);
+    if ($fieldDef) {
         return $fieldDef->isTextMergeable();
     }
+
     # Field not found - assume it is mergeable
     return 1;
 }
@@ -493,9 +515,9 @@ define the field.
 =cut
 
 sub getField {
-    my( $this, $name ) = @_;
-    foreach my $fieldDef ( @{$this->{fields}} ) {
-        return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name);
+    my ( $this, $name ) = @_;
+    foreach my $fieldDef ( @{ $this->{fields} } ) {
+        return $fieldDef if ( $fieldDef->{name} && $fieldDef->{name} eq $name );
     }
     return undef;
 }
@@ -517,23 +539,24 @@ sub getFields {
 }
 
 sub renderForDisplay {
-    my( $this, $meta ) = @_;
+    my ( $this, $meta ) = @_;
 
     my $templates = $this->{session}->templates;
     $templates->readTemplate('formtables');
 
     my $text = $templates->expandTemplate('FORM:display:header');
 
-	my $rowTemplate = $templates->expandTemplate('FORM:display:row');
-    foreach my $fieldDef ( @{$this->{fields}} ) {
+    my $rowTemplate = $templates->expandTemplate('FORM:display:row');
+    foreach my $fieldDef ( @{ $this->{fields} } ) {
         my $fm = $meta->get( 'FIELD', $fieldDef->{name} );
         next unless $fm;
         my $fa = $fm->{attributes} || '';
         unless ( $fa =~ /H/ ) {
             my $row = $rowTemplate;
-             # Legacy; was %A_TITLE% before it was $title
+
+            # Legacy; was %A_TITLE% before it was $title
             $row =~ s/%A_TITLE%/\$title/g;
-            $row =~ s/%A_VALUE%/\$value/g; # Legacy
+            $row =~ s/%A_VALUE%/\$value/g;    # Legacy
             $text .= $fieldDef->renderForDisplay( $row, $fm->{value} );
         }
     }

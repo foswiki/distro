@@ -17,15 +17,15 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
+    my $this   = shift;
+    my $node   = shift;
     my %domain = @_;
-    my $a = $node->{params}[0];
-    my $lval = $a->evaluate( @_ );
-    return undef unless( defined $lval );
+    my $a      = $node->{params}[0];
+    my $lval   = $a->evaluate(@_);
+    return undef unless ( defined $lval );
     my $b = $node->{params}[1];
-    my $res = $b->evaluate( data=>$lval, tom=>$domain{tom} );
-    if (ref($res) eq 'ARRAY' && scalar(@$res) == 1) {
+    my $res = $b->evaluate( data => $lval, tom => $domain{tom} );
+    if ( ref($res) eq 'ARRAY' && scalar(@$res) == 1 ) {
         return $res->[0];
     }
     return $res;

@@ -23,32 +23,32 @@ use base 'TWiki::Configure::Item';
 use strict;
 
 sub new {
-    my ($class, $head) = @_;
+    my ( $class, $head ) = @_;
 
     # SMELL: What is the base object supposed to do with the UI class?
     my $this = $class->SUPER::new('TWiki::Configure::UIs::Section');
 
     $this->{headline} = $head;
-    @{$this->{children}} = ();
+    @{ $this->{children} } = ();
 
     return $this;
 }
 
 sub addChild {
-    my ($this, $child) = @_;
-    foreach my $kid (@{$this->{children}}) {
+    my ( $this, $child ) = @_;
+    foreach my $kid ( @{ $this->{children} } ) {
         Carp::confess if $child eq $kid;
     }
     $child->{parent} = $this;
-    push(@{$this->{children}}, $child);
+    push( @{ $this->{children} }, $child );
 }
 
 sub isExpertsOnly {
     my $this = shift;
-    if (!defined($this->{isExpert})) {
+    if ( !defined( $this->{isExpert} ) ) {
         $this->{isExpert} = 1;
-        foreach my $kid (@{$this->{children}}) {
-            if (!$kid->isExpertsOnly()) {
+        foreach my $kid ( @{ $this->{children} } ) {
+            if ( !$kid->isExpertsOnly() ) {
                 $this->{isExpert} = 0;
                 last;
             }
@@ -58,12 +58,12 @@ sub isExpertsOnly {
 }
 
 sub visit {
-    my ($this, $visitor) = @_;
+    my ( $this, $visitor ) = @_;
     my %visited;
     return 0 unless $visitor->startVisit($this);
-    foreach my $child (@{$this->{children}}) {
-        if ($visited{$child}) {
-            die join(' ',@{$this->{children}});
+    foreach my $child ( @{ $this->{children} } ) {
+        if ( $visited{$child} ) {
+            die join( ' ', @{ $this->{children} } );
         }
         $visited{$child} = 1;
         return 0 unless $child->visit($visitor);
@@ -74,7 +74,7 @@ sub visit {
 
 sub getDepth {
     my $depth = 0;
-    my $mum = shift;
+    my $mum   = shift;
 
     while ($mum) {
         $depth++;
@@ -85,12 +85,12 @@ sub getDepth {
 
 # Get the section object associated with the given headline and depth
 sub getSectionObject {
-    my ($this, $head, $depth) = @_;
-    if ($this->{headline} eq $head && $this->getDepth() == $depth) {
+    my ( $this, $head, $depth ) = @_;
+    if ( $this->{headline} eq $head && $this->getDepth() == $depth ) {
         return $this;
     }
-    foreach my $child (@{$this->{children}}) {
-        my $cvo = $child->getSectionObject($head, $depth);
+    foreach my $child ( @{ $this->{children} } ) {
+        my $cvo = $child->getSectionObject( $head, $depth );
         return $cvo if $cvo;
     }
     return undef;
@@ -98,8 +98,8 @@ sub getSectionObject {
 
 # Get the value object associated with the given keys
 sub getValueObject {
-    my ($this, $keys) = @_;
-    foreach my $child (@{$this->{children}}) {
+    my ( $this, $keys ) = @_;
+    foreach my $child ( @{ $this->{children} } ) {
         my $cvo = $child->getValueObject($keys);
         return $cvo if $cvo;
     }
@@ -109,10 +109,10 @@ sub getValueObject {
 # See if this section is changed from the default values. Should
 # return a count of changed values.
 sub needsSaving {
-    my ($this, $valuer) = @_;
+    my ( $this, $valuer ) = @_;
     my $count = 0;
-    foreach my $child (@{$this->{children}}) {
-       $count += $child->needsSaving($valuer);
+    foreach my $child ( @{ $this->{children} } ) {
+        $count += $child->needsSaving($valuer);
     }
     return $count;
 }

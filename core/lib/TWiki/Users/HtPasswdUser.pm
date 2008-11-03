@@ -38,21 +38,24 @@ use Error qw( :try );
 # 'Use locale' for internationalisation of Perl sorting in getTopicNames
 # and other routines - main locale settings are done in TWiki::setupLocale
 BEGIN {
+
     # Do a dynamic 'use locale' for this module
-    if( $TWiki::cfg{UseLocale} ) {
+    if ( $TWiki::cfg{UseLocale} ) {
         require locale;
-        import locale ();
+        import locale();
     }
-    #moved srand call to TWiki::Users::BEGIN, as there is a call to rand there that would not be covered if some other TWiki::Users::Password impl was used.
+
+#moved srand call to TWiki::Users::BEGIN, as there is a call to rand there that would not be covered if some other TWiki::Users::Password impl was used.
 }
 
 sub new {
-    my( $class, $session) = @_;
+    my ( $class, $session ) = @_;
     my $this = bless( $class->SUPER::new($session), $class );
     $this->{error} = undef;
-    if( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
+    if ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
         require Digest::MD5;
-    } elsif( $TWiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
+    }
+    elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
         require MIME::Base64;
         import MIME::Base64 qw( encode_base64 );
         require Digest::SHA1;
@@ -88,8 +91,9 @@ returns true if the password file is not currently modifyable
 sub readOnly {
     my $this = shift;
     my $path = $TWiki::cfg{Htpasswd}{FileName};
+
     #TODO: what if the data dir is also read only?
-    if ((!-e $path) || ( -e $path && -r $path && !-d $path && -w $path)) {
+    if ( ( !-e $path ) || ( -e $path && -r $path && !-d $path && -w $path ) ) {
         $this->{session}->enterContext('passwords_modifyable');
         return 0;
     }
@@ -99,52 +103,61 @@ sub readOnly {
 sub canFetchUsers {
     return 1;
 }
+
 sub fetchUsers {
-    my $this = shift;
-    my $db = _readPasswd($this);
+    my $this  = shift;
+    my $db    = _readPasswd($this);
     my @users = sort keys %$db;
     require TWiki::ListIterator;
-    return new TWiki::ListIterator(\@users);
+    return new TWiki::ListIterator( \@users );
 }
 
 sub _readPasswd {
     my $this = shift;
-    return $this->{passworddata} if (defined($this->{passworddata}));
+    return $this->{passworddata} if ( defined( $this->{passworddata} ) );
 
     my $data = {};
-    if ( ! -e $TWiki::cfg{Htpasswd}{FileName} ) {
+    if ( !-e $TWiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
-    open( IN_FILE, "<$TWiki::cfg{Htpasswd}{FileName}" ) ||
-      throw Error::Simple( $TWiki::cfg{Htpasswd}{FileName}.' open failed: '.$! );
+    open( IN_FILE, "<$TWiki::cfg{Htpasswd}{FileName}" )
+      || throw Error::Simple(
+        $TWiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
-    while (defined ($line =<IN_FILE>) ) {
-	if ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) { # htdigest format
-          if( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
-              $data->{$1}->{pass} = $3;
-              $data->{$1}->{emails} = $4 || '';
-          }
-	} else { # htpasswd format
-          if( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
-              $data->{$1}->{pass} = $2;
-              $data->{$1}->{emails} = $3 || '';
-          }
-	}
+    while ( defined( $line = <IN_FILE> ) ) {
+        if ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
+            if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
+                $data->{$1}->{pass} = $3;
+                $data->{$1}->{emails} = $4 || '';
+            }
+        }
+        else {                                               # htpasswd format
+            if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
+                $data->{$1}->{pass} = $2;
+                $data->{$1}->{emails} = $3 || '';
+            }
+        }
     }
-    close( IN_FILE );
+    close(IN_FILE);
     $this->{passworddata} = $data;
     return $data;
 }
 
 sub _dumpPasswd {
     my $db = shift;
-    my $s = '';
+    my $s  = '';
     foreach ( sort keys %$db ) {
-	if ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) { # htdigest format
-          $s .= $_.':'.$TWiki::cfg{AuthRealm}.':'.$db->{$_}->{pass}.':'.$db->{$_}->{emails}."\n";
-	} else { # htpasswd format
-          $s .= $_.':'.$db->{$_}->{pass}.':'.$db->{$_}->{emails}."\n";
-	}
+        if ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
+            $s .=
+                $_ . ':'
+              . $TWiki::cfg{AuthRealm} . ':'
+              . $db->{$_}->{pass} . ':'
+              . $db->{$_}->{emails} . "\n";
+        }
+        else {                                               # htpasswd format
+            $s .=
+              $_ . ':' . $db->{$_}->{pass} . ':' . $db->{$_}->{emails} . "\n";
+        }
     }
     return $s;
 }
@@ -152,84 +165,100 @@ sub _dumpPasswd {
 sub _savePasswd {
     my $db = shift;
 
-    umask( 077 );
-    open( FILE, ">$TWiki::cfg{Htpasswd}{FileName}" ) ||
-      throw Error::Simple( $TWiki::cfg{Htpasswd}{FileName}.
-                             ' open failed: '.$! );
+    umask(077);
+    open( FILE, ">$TWiki::cfg{Htpasswd}{FileName}" )
+      || throw Error::Simple(
+        $TWiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
 
     print FILE _dumpPasswd($db);
-    close( FILE);
+    close(FILE);
 }
 
 sub encrypt {
     my ( $this, $login, $passwd, $fresh ) = @_;
 
-
     $passwd ||= '';
 
-    if( $TWiki::cfg{Htpasswd}{Encoding} eq 'sha1') {
-        my $encodedPassword = '{SHA}'.
-          MIME::Base64::encode_base64( Digest::SHA1::sha1( $passwd ) );
+    if ( $TWiki::cfg{Htpasswd}{Encoding} eq 'sha1' ) {
+        my $encodedPassword =
+          '{SHA}' . MIME::Base64::encode_base64( Digest::SHA1::sha1($passwd) );
+
         # don't use chomp, it relies on $/
         $encodedPassword =~ s/\s+$//;
         return $encodedPassword;
 
-    } elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
+    }
+    elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'crypt' ) {
+
         # by David Levy, Internet Channel, 1997
         # found at http://world.inch.com/Scripts/htpasswd.pl.html
 
         my $salt;
-        $salt = $this->fetchPass( $login ) unless $fresh;
+        $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
-            my @saltchars = ( 'a'..'z', 'A'..'Z', '0'..'9', '.', '/' );
-            $salt = $saltchars[int(rand($#saltchars+1))] .
-              $saltchars[int(rand($#saltchars+1)) ];
+            my @saltchars = ( 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '.', '/' );
+            $salt =
+                $saltchars[ int( rand( $#saltchars + 1 ) ) ]
+              . $saltchars[ int( rand( $#saltchars + 1 ) ) ];
         }
         return crypt( $passwd, substr( $salt, 0, 2 ) );
 
-    } elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
-        # SMELL: what does this do if we are using a htpasswd file?
-        my $toEncode= "$login:$TWiki::cfg{AuthRealm}:$passwd";
-        return Digest::MD5::md5_hex( $toEncode );
+    }
+    elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {
 
-    } elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
+        # SMELL: what does this do if we are using a htpasswd file?
+        my $toEncode = "$login:$TWiki::cfg{AuthRealm}:$passwd";
+        return Digest::MD5::md5_hex($toEncode);
+
+    }
+    elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
         my $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
             $salt = '$1$';
-            my @saltchars= ('.', '/', 0..9, 'A'..'Z', 'a'..'z');
-            foreach my $i (0..7) {
-                # generate a salt not only from rand() but also mixing in the users login name: unecessary
-                $salt .= $saltchars[(int(rand($#saltchars+1)) + $i + ord(substr($login , $i % length($login), 1))) % ($#saltchars+1)];
+            my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );
+            foreach my $i ( 0 .. 7 ) {
+
+# generate a salt not only from rand() but also mixing in the users login name: unecessary
+                $salt .= $saltchars[
+                  (
+                      int( rand( $#saltchars + 1 ) ) +
+                        $i +
+                        ord( substr( $login, $i % length($login), 1 ) ) )
+                  % ( $#saltchars + 1 )
+                ];
             }
         }
         my $ret = crypt( $passwd, substr( $salt, 0, 11 ) );
         return $ret;
 
-    } elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
+    }
+    elsif ( $TWiki::cfg{Htpasswd}{Encoding} eq 'plain' ) {
         return $passwd;
 
     }
-    die 'Unsupported password encoding '.
-      $TWiki::cfg{Htpasswd}{Encoding};
+    die 'Unsupported password encoding ' . $TWiki::cfg{Htpasswd}{Encoding};
 }
 
 sub fetchPass {
     my ( $this, $login ) = @_;
     my $ret = 0;
 
-    if( $login ) {
+    if ($login) {
         try {
             my $db = $this->_readPasswd();
-            if( exists $db->{$login} ) {
+            if ( exists $db->{$login} ) {
                 $ret = $db->{$login}->{pass};
-            } else {
+            }
+            else {
                 $this->{error} = 'Login invalid';
                 $ret = undef;
             }
-        } catch Error::Simple with {
+        }
+        catch Error::Simple with {
             $this->{error} = $!;
         };
-    } else {
+    }
+    else {
         $this->{error} = 'No user';
     }
     return $ret;
@@ -237,12 +266,13 @@ sub fetchPass {
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
-    if( defined( $oldUserPassword )) {
-        unless( $oldUserPassword eq '1') {
+    if ( defined($oldUserPassword) ) {
+        unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
         }
-    } elsif( $this->fetchPass( $login )) {
-        $this->{error} = $login.' already exists';
+    }
+    elsif ( $this->fetchPass($login) ) {
+        $this->{error} = $login . ' already exists';
         return 0;
     }
 
@@ -250,8 +280,9 @@ sub setPassword {
         my $db = $this->_readPasswd();
         $db->{$login}->{pass} = $this->encrypt( $login, $newUserPassword, 1 );
         $db->{$login}->{emails} ||= '';
-        _savePasswd( $db );
-    } catch Error::Simple with {
+        _savePasswd($db);
+    }
+    catch Error::Simple with {
         $this->{error} = $!;
         print STDERR "ERROR: failed to resetPassword - $!";
         return undef;
@@ -268,14 +299,16 @@ sub removeUser {
 
     try {
         my $db = $this->_readPasswd();
-        unless( $db->{$login} ) {
-            $this->{error} = 'No such user '.$login;
-        } else {
+        unless ( $db->{$login} ) {
+            $this->{error} = 'No such user ' . $login;
+        }
+        else {
             delete $db->{$login};
-            _savePasswd( $db );
+            _savePasswd($db);
             $result = 1;
         }
-    } catch Error::Simple with {
+    }
+    catch Error::Simple with {
         $this->{error} = shift->{-text};
     };
     return $result;
@@ -287,11 +320,13 @@ sub checkPassword {
 
     $this->{error} = undef;
 
-    my $pw = $this->fetchPass( $login );
+    my $pw = $this->fetchPass($login);
     return 0 unless defined $pw;
+
     # $pw will be 0 if there is no pw
 
-    return 1 if( $pw && ($encryptedPassword eq $pw) );
+    return 1 if ( $pw && ( $encryptedPassword eq $pw ) );
+
     # pw may validly be '', and must match an unencrypted ''. This is
     # to allow for sysadmins removing the password field in .htpasswd in
     # order to reset the password.
@@ -306,31 +341,33 @@ sub isManagingEmails {
 }
 
 sub getEmails {
-    my( $this, $login ) = @_;
+    my ( $this, $login ) = @_;
 
     # first try the mapping cache
     my $db = $this->_readPasswd();
-    if( $db->{$login}->{emails}) {
-        return split(/;/, $db->{$login}->{emails});
+    if ( $db->{$login}->{emails} ) {
+        return split( /;/, $db->{$login}->{emails} );
     }
 
     return;
 }
 
 sub setEmails {
-    my $this = shift;
+    my $this  = shift;
     my $login = shift;
     ASSERT($login) if DEBUG;
 
     my $db = $this->_readPasswd();
-    unless ($db->{$login}) {
+    unless ( $db->{$login} ) {
         $db->{$login}->{pass} = '';
     }
+
 #SMELL: this makes no sense. - the if above suggests that we can get to this point without $db->{$login}
-#  what use is going on if the user is not in the auth system? 
-    if( defined($_[0]) ) {
-        $db->{$login}->{emails} = join(';', @_);
-    } else {
+#  what use is going on if the user is not in the auth system?
+    if ( defined( $_[0] ) ) {
+        $db->{$login}->{emails} = join( ';', @_ );
+    }
+    else {
         $db->{$login}->{emails} = '';
     }
     _savePasswd($db);
@@ -339,13 +376,13 @@ sub setEmails {
 
 # Searches the password DB for users who have set this email.
 sub findUserByEmail {
-    my( $this, $email ) = @_;
+    my ( $this, $email ) = @_;
     my $logins = [];
-    my $db = _readPasswd();
-    while (my ($k, $v) = each %$db) {
-        my %ems = map { $_ => 1 } split(';', $v->{emails});
-        if ($ems{$email}) {
-            push(@$logins, $k);
+    my $db     = _readPasswd();
+    while ( my ( $k, $v ) = each %$db ) {
+        my %ems = map { $_ => 1 } split( ';', $v->{emails} );
+        if ( $ems{$email} ) {
+            push( @$logins, $k );
         }
     }
     return $logins;

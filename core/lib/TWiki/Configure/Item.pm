@@ -29,10 +29,10 @@ use strict;
 sub new {
     my $class = shift;
 
-    my $this = bless({}, $class);
-    $this->{parent} = undef;
-    $this->{desc} = '';
-    $this->{errors} = 0;
+    my $this = bless( {}, $class );
+    $this->{parent}   = undef;
+    $this->{desc}     = '';
+    $this->{errors}   = 0;
     $this->{warnings} = 0;
 
     return $this;
@@ -40,7 +40,7 @@ sub new {
 
 sub getDepth {
     my $depth = 0;
-    my $mum = shift;
+    my $mum   = shift;
 
     while ($mum) {
         $depth++;
@@ -50,7 +50,7 @@ sub getDepth {
 }
 
 sub addToDesc {
-    my ($this, $desc) = @_;
+    my ( $this, $desc ) = @_;
 
     $this->{desc} .= "$desc\n";
 }
@@ -63,17 +63,15 @@ sub haveSettingFor {
     die "Implementation required";
 }
 
-
 # Purpose
 #     Accept an attribute setting for this item (e.g. a key name).
 #     Sort of a generic write accessor.
 sub set {
-    my ($this, %params) = @_;
-    foreach my $k (keys %params) {
+    my ( $this, %params ) = @_;
+    foreach my $k ( keys %params ) {
         $this->{$k} = $params{$k};
     }
 }
-
 
 # Purpose
 #     Increase a numeric value, recursing up to a parentless item
@@ -82,12 +80,11 @@ sub set {
 #     (intended for use with 'warnings' and 'errors')
 #     Parents of items are items (or precisely: can inc())
 sub inc {
-    my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
     $this->{$key}++;
     $this->{parent}->inc($key) if $this->{parent};
 }
-
 
 sub getSectionObject {
     return undef;

@@ -17,20 +17,20 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}->[0];
-    my %domain = @_;
+    my $this    = shift;
+    my $node    = shift;
+    my $a       = $node->{params}->[0];
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
-    my $eval =  $a->_evaluate(@_);
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
+    my $eval = $a->_evaluate(@_);
     return 0 unless $eval;
-    return 1 if( defined( $session->{request}->param( $eval )));
-    return 1 if( defined(
-        $session->{prefs}->getPreferencesValue( $eval )));
-    return 1 if( defined( $session->{SESSION_TAGS}{$eval} ));
-    return 1 if( defined( $TWiki::functionTags{$eval} ));
+    return 1 if ( defined( $session->{request}->param($eval) ) );
+    return 1 if ( defined( $session->{prefs}->getPreferencesValue($eval) ) );
+    return 1 if ( defined( $session->{SESSION_TAGS}{$eval} ) );
+    return 1 if ( defined( $TWiki::functionTags{$eval} ) );
     return 0;
 }
 

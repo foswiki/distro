@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -68,8 +68,9 @@ Deletes temp file associated.
 sub finish {
     my $this = shift;
     undef $this->{headers};
+
     # Note: untaint filename. Taken from CGI.pm
-    unlink ( $this->tmpFileName =~ m{^([a-zA-Z0-9_ \'\":/.\$\\-]+)$} );
+    unlink( $this->tmpFileName =~ m{^([a-zA-Z0-9_ \'\":/.\$\\-]+)$} );
     undef $this->{tmpname};
 }
 
@@ -109,7 +110,7 @@ Returns the names of temporarly created file.
 =cut
 
 sub tmpFileName {
-    return  $_[0]->{tmpname};
+    return $_[0]->{tmpname};
 }
 
 1;

@@ -29,22 +29,23 @@ use base 'TWiki::Configure::UI';
 use TWiki::Configure::Type;
 
 sub ui {
-    my $this = shift;
+    my $this   = shift;
     my $output = '';
 
-    if( $TWiki::query->param( 'newCfgP' )) {
-        if( $TWiki::query->param( 'newCfgP' ) eq
-              $TWiki::query->param( 'confCfgP' )) {
+    if ( $TWiki::query->param('newCfgP') ) {
+        if ( $TWiki::query->param('newCfgP') eq $TWiki::query->param('confCfgP')
+          )
+        {
             $this->{updates}{'{Password}'} =
-              $this->_encode($TWiki::query->param( 'newCfgP' ));
+              $this->_encode( $TWiki::query->param('newCfgP') );
             $output .= 'Password changed';
-        } else {
+        }
+        else {
             die 'New password and confirmation do not match';
         }
     }
 
     return $output . CGI::hr();
 }
-
 
 1;

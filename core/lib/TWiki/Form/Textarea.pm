@@ -6,11 +6,12 @@ use strict;
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new( @_ );
-    if( $this->{size} =~ /^\s*(\d+)x(\d+)\s*$/ ) {
+    my $this  = $class->SUPER::new(@_);
+    if ( $this->{size} =~ /^\s*(\d+)x(\d+)\s*$/ ) {
         $this->{cols} = $1;
         $this->{rows} = $2;
-    } else {
+    }
+    else {
         $this->{cols} = 50;
         $this->{rows} = 4;
     }
@@ -35,16 +36,20 @@ sub finish {
 }
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
-    return ( '',
-             CGI::textarea(
-                 -class => $this->cssClasses('twikiInputField',
-                                             'twikiEditFormTextAreaField'),
-                 -cols => $this->{cols},
-                 -rows => $this->{rows},
-                 -name => $this->{name},
-                 -default => "\n".$value ));
+    return (
+        '',
+        CGI::textarea(
+            -class => $this->cssClasses(
+                'twikiInputField', 'twikiEditFormTextAreaField'
+            ),
+            -cols    => $this->{cols},
+            -rows    => $this->{rows},
+            -name    => $this->{name},
+            -default => "\n" . $value
+        )
+    );
 }
 
 1;

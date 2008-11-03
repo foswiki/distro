@@ -39,15 +39,15 @@ sub new {
 
 # PRIVATE check the results
 sub _checkResponse {
-    my( $this, $response ) = @_;
+    my ( $this, $response ) = @_;
 
-    if( $response->is_redirect ) {
-        $response = $this->{ua}->get( $response->header( "Location" ));
+    if ( $response->is_redirect ) {
+        $response = $this->{ua}->get( $response->header("Location") );
     }
 
     return "Network error: ", $response->request->uri,
       " -- ", $response->status_line, "\nAborting\n", $response->as_string
-        unless $response->is_success;
+      unless $response->is_success;
 
     $this->{details} = $response->content();
     if ( $this->{details} =~ /was checked and found to be valid/ ) {
@@ -62,24 +62,25 @@ sub _checkResponse {
 sub validateFile {
     my ( $this, $file ) = @_;
 
-    my $response =
-      $this->{ua}->post( 'http://validator.w3.org/check',
-                        [
-                         uploaded_file => [ $file ],
-                         charset => "%28detect%20automatically%29",
-                         fbc => 1,
-                         doctype => "%28detect%20automatically%29",
-                         fbd => 1,
-                         ss => 0,
-                         outline => 0,
-                         sp => 0,
-                         noatt => 0,
-                         No200 => 0,
-                         verbose => 0
-                        ],
-                        'Content_type' => "form-data" );
+    my $response = $this->{ua}->post(
+        'http://validator.w3.org/check',
+        [
+            uploaded_file => [$file],
+            charset       => "%28detect%20automatically%29",
+            fbc           => 1,
+            doctype       => "%28detect%20automatically%29",
+            fbd           => 1,
+            ss            => 0,
+            outline       => 0,
+            sp            => 0,
+            noatt         => 0,
+            No200         => 0,
+            verbose       => 0
+        ],
+        'Content_type' => "form-data"
+    );
 
-    return $this->_checkResponse( $response );
+    return $this->_checkResponse($response);
 }
 
 # Perform validation check on a URL
@@ -87,24 +88,25 @@ sub validateFile {
 sub validateURL {
     my ( $this, $url ) = @_;
 
-    my $response =
-      $this->{ua}->post( 'http://validator.w3.org/check',
-                         [
-                          uri => $url,
-                          charset => "%28detect%20automatically%29",
-                          fbc => 1,
-                          doctype => "%28detect%20automatically%29",
-                          fbd => 1,
-                          ss => 0,
-                          outline => 0,
-                          sp => 0,
-                          noatt => 0,
-                          No200 => 0,
-                          verbose => 0
-                         ],
-                         'Content_type' => "form-data" );
+    my $response = $this->{ua}->post(
+        'http://validator.w3.org/check',
+        [
+            uri     => $url,
+            charset => "%28detect%20automatically%29",
+            fbc     => 1,
+            doctype => "%28detect%20automatically%29",
+            fbd     => 1,
+            ss      => 0,
+            outline => 0,
+            sp      => 0,
+            noatt   => 0,
+            No200   => 0,
+            verbose => 0
+        ],
+        'Content_type' => "form-data"
+    );
 
-    return $this->_checkResponse( $response );
+    return $this->_checkResponse($response);
 }
 
 1;

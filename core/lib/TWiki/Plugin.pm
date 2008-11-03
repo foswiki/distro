@@ -30,47 +30,45 @@ require TWiki::Plugins;
 
 use vars qw( @registrableHandlers %deprecated );
 
-@registrableHandlers =
-  (                                # TWiki::Plugins::VERSION:
-   'afterAttachmentSaveHandler',   # 1.022
-   'afterCommonTagsHandler',       # 1.024
-   'afterEditHandler',             # 1.010
-   'afterRenameHandler',           # 1.110
-   'afterSaveHandler',             # 1.020
-   'beforeAttachmentSaveHandler',  # 1.022
-   'beforeCommonTagsHandler',      # 1.024
-   'beforeEditHandler',            # 1.010
-   'beforeMergeHandler',           # 1.200
-   'beforeSaveHandler',            # 1.010
-   'commonTagsHandler',            # 1.000
-   'completePageHandler',          # 1.100
-   'earlyInitPlugin',              # 1.020
-   'endRenderingHandler',          # 1.000 DEPRECATED
-   'initPlugin',                   # 1.000
-   'initializeUserHandler',        # 1.010
-   'insidePREHandler',             # 1.000 DEPRECATED
-   'modifyHeaderHandler',          # 1.026
-   'mergeHandler',                 # 1.026
-   'outsidePREHandler',            # 1.000 DEPRECATED
-   'postRenderingHandler',         # 1.026
-   'preRenderingHandler',          # 1.026
-   'redirectCgiQueryHandler',      # 1.010
-   'registrationHandler',          # 1.010
-   'renderFormFieldForEditHandler',# ?
-   'renderWikiWordHandler',        # 1.023
-   'startRenderingHandler',        # 1.000 DEPRECATED
-   'writeHeaderHandler',           # 1.010 DEPRECATED
-  );
+@registrableHandlers = (    # TWiki::Plugins::VERSION:
+    'afterAttachmentSaveHandler',       # 1.022
+    'afterCommonTagsHandler',           # 1.024
+    'afterEditHandler',                 # 1.010
+    'afterRenameHandler',               # 1.110
+    'afterSaveHandler',                 # 1.020
+    'beforeAttachmentSaveHandler',      # 1.022
+    'beforeCommonTagsHandler',          # 1.024
+    'beforeEditHandler',                # 1.010
+    'beforeMergeHandler',               # 1.200
+    'beforeSaveHandler',                # 1.010
+    'commonTagsHandler',                # 1.000
+    'completePageHandler',              # 1.100
+    'earlyInitPlugin',                  # 1.020
+    'endRenderingHandler',              # 1.000 DEPRECATED
+    'initPlugin',                       # 1.000
+    'initializeUserHandler',            # 1.010
+    'insidePREHandler',                 # 1.000 DEPRECATED
+    'modifyHeaderHandler',              # 1.026
+    'mergeHandler',                     # 1.026
+    'outsidePREHandler',                # 1.000 DEPRECATED
+    'postRenderingHandler',             # 1.026
+    'preRenderingHandler',              # 1.026
+    'redirectCgiQueryHandler',          # 1.010
+    'registrationHandler',              # 1.010
+    'renderFormFieldForEditHandler',    # ?
+    'renderWikiWordHandler',            # 1.023
+    'startRenderingHandler',            # 1.000 DEPRECATED
+    'writeHeaderHandler',               # 1.010 DEPRECATED
+);
 
 # deprecated handlers
-%deprecated =
-  (
-   startRenderingHandler => 1,
-   outsidePREHandler => 1,
-   insidePREHandler => 1,
-   endRenderingHandler => 1,
-   writeHeaderHandler => 1,
-  );
+%deprecated = (
+    startRenderingHandler => 1,
+    outsidePREHandler     => 1,
+    insidePREHandler      => 1,
+    endRenderingHandler   => 1,
+    writeHeaderHandler    => 1,
+);
 
 =pod
 
@@ -86,9 +84,9 @@ sub new {
     my ( $class, $session, $name, $module ) = @_;
     my $this = bless( { session => $session }, $class );
     require TWiki::Sandbox;
-    $name = TWiki::Sandbox::untaintUnchecked( $name );
-    $this->{name} = $name || '';
-    $this->{module} = $module || 'TWiki::Plugins::'.$name;
+    $name = TWiki::Sandbox::untaintUnchecked($name);
+    $this->{name}   = $name   || '';
+    $this->{module} = $module || 'TWiki::Plugins::' . $name;
 
     return $this;
 }
@@ -119,7 +117,7 @@ sub finish {
 # Load and verify a plugin, invoking any early registration
 # handlers. Return the user resulting from the user handler call.
 sub load {
-    my ( $this ) = @_;
+    my ($this) = @_;
 
     # look for the plugin installation web (needed for attached files)
     # in the order:
@@ -136,48 +134,62 @@ sub load {
     #my $begin = new Benchmark;
     eval "use $p;";
     if ($@) {
-        push( @{$this->{errors}}, $p.
-              ' could not be loaded.  Errors were: '."\n$@\n".'----' );
+        push(
+            @{ $this->{errors} },
+            $p . ' could not be loaded.  Errors were: ' . "\n$@\n" . '----'
+        );
         $this->{disabled} = 1;
         return undef;
     }
 
-    my $noTopic = eval '$'.$p.'::NO_PREFS_IN_TOPIC';
+    my $noTopic = eval '$' . $p . '::NO_PREFS_IN_TOPIC';
     $this->{no_topic} = $noTopic;
 
     unless ($noTopic) {
         my $store = $this->{session}->{store};
-        if ( $store->topicExists(
-            $TWiki::cfg{SystemWebName}, $this->{name} ) ) {
+        if ( $store->topicExists( $TWiki::cfg{SystemWebName}, $this->{name} ) )
+        {
+
             # found plugin in TWiki web
-        } elsif ( $store->topicExists( 'Plugins', $this->{name} ) ) {
+        }
+        elsif ( $store->topicExists( 'Plugins', $this->{name} ) ) {
+
             # found plugin in Plugins web (compatibility, deprecated)
             $this->{installWeb} = 'Plugins';
-        } elsif ( $store->topicExists( $this->{session}->{webName},
-                                       $this->{name} ) ) {
+        }
+        elsif (
+            $store->topicExists( $this->{session}->{webName}, $this->{name} ) )
+        {
+
             # found plugin in current web
             $this->{installWeb} = $this->{session}->{webName};
-        } else {
+        }
+        else {
+
             # not found
-            push( @{$this->{errors}}, 'Plugins: could not fully register '.
-                    $this->{name}.', no plugin topic' );
+            push(
+                @{ $this->{errors} },
+                'Plugins: could not fully register '
+                  . $this->{name}
+                  . ', no plugin topic'
+            );
             $noTopic = 1;
         }
     }
 
     # Get the description from the code, if present. if it's not there, it'll
     # be loaded as a preference from the plugin topic later
-    $this->{description} = eval '$'.$p.'::SHORTDESCRIPTION';
+    $this->{description} = eval '$' . $p . '::SHORTDESCRIPTION';
 
     # Set the session for this call stack
     local $TWiki::Plugins::SESSION = $this->{session};
 
     my $sub = $p . '::earlyInitPlugin';
-    if( defined( &$sub ) ) {
+    if ( defined(&$sub) ) {
         no strict 'refs';
         my $error = &$sub();
-        if( $error ) {
-            push( @{$this->{errors}}, $sub.' failed: '.$error );
+        if ($error) {
+            push( @{ $this->{errors} }, $sub . ' failed: ' . $error );
             $this->{disabled} = 1;
             return undef;
         }
@@ -185,14 +197,17 @@ sub load {
     }
 
     my $user;
-    $sub = $p. '::initializeUserHandler';
-    if( defined( &$sub ) ) {
+    $sub = $p . '::initializeUserHandler';
+    if ( defined(&$sub) ) {
         no strict 'refs';
-        $user = &$sub( $this->{session}->{remoteUser},
-                       $this->{session}->{request}->url(),
-                       $this->{session}->{request}->path_info());
+        $user = &$sub(
+            $this->{session}->{remoteUser},
+            $this->{session}->{request}->url(),
+            $this->{session}->{request}->path_info()
+        );
         use strict 'refs';
     }
+
     #print STDERR "Compile $p: ".timestr(timediff(new Benchmark, $begin))."\n";
 
     return $user;
@@ -204,18 +219,18 @@ sub registerSettings {
 
     return if $this->{disabled};
 
-    my $p = $this->{module};
+    my $p   = $this->{module};
     my $sub = $p . "::initPlugin";
-    if( ! defined( &$sub ) ) {
-        push( @{$this->{errors}}, $sub.' is not defined');
+    if ( !defined(&$sub) ) {
+        push( @{ $this->{errors} }, $sub . ' is not defined' );
         $this->{disabled} = 1;
         return;
     }
 
     my $prefs = $this->{session}->{prefs};
-    if( !$this->{no_topic} ) {
+    if ( !$this->{no_topic} ) {
         $prefs->pushPreferences( $this->{installWeb}, $this->{name}, 'PLUGIN',
-                                 uc( $this->{name} ) . '_');
+            uc( $this->{name} ) . '_' );
     }
 }
 
@@ -225,45 +240,53 @@ sub registerHandlers {
 
     return if $this->{disabled};
 
-    my $p = $this->{module};
-    my $sub = $p . "::initPlugin";
+    my $p     = $this->{module};
+    my $sub   = $p . "::initPlugin";
     my $users = $TWiki::Plugins::SESSION->{users};
     no strict 'refs';
     my $status = &$sub(
         $TWiki::Plugins::SESSION->{topicName},
         $TWiki::Plugins::SESSION->{webName},
-        $users->getLoginName($TWiki::Plugins::SESSION->{user}),
-        $this->{installWeb} );
+        $users->getLoginName( $TWiki::Plugins::SESSION->{user} ),
+        $this->{installWeb}
+    );
     use strict 'refs';
 
-    unless( $status ) {
-        push( @{$this->{errors}}, $sub.' did not return true ('.$status.')' );
+    unless ($status) {
+        push(
+            @{ $this->{errors} },
+            $sub . ' did not return true (' . $status . ')'
+        );
         $this->{disabled} = 1;
         return;
     }
 
-    my $compat = eval '\%'.$p.'::TWikiCompatibility';
-    foreach my $h ( @registrableHandlers ) {
-        my $sub = $p.'::'.$h;
-        if( defined( &$sub )) {
-            if( $deprecated{$h} && $compat && $compat->{$h} &&
-                  $compat->{$h} <= $TWiki::Plugins::VERSION ) {
+    my $compat = eval '\%' . $p . '::TWikiCompatibility';
+    foreach my $h (@registrableHandlers) {
+        my $sub = $p . '::' . $h;
+        if ( defined(&$sub) ) {
+            if (   $deprecated{$h}
+                && $compat
+                && $compat->{$h}
+                && $compat->{$h} <= $TWiki::Plugins::VERSION )
+            {
+
                 # Compatibility handler not required in this version
                 next;
             }
             $plugins->addListener( $h, $this );
         }
     }
-    $this->{session}->enterContext( $this->{name}.'Enabled' );
+    $this->{session}->enterContext( $this->{name} . 'Enabled' );
 }
 
 # Invoke a handler
 sub invoke {
-    my $this = shift; # remove from parameter vector
+    my $this        = shift;    # remove from parameter vector
     my $handlerName = shift;
-    my $handler = $this->{module}.'::'.$handlerName;
+    my $handler = $this->{module} . '::' . $handlerName;
     no strict 'refs';
-    return &$handler( @_ );;
+    return &$handler(@_);
     use strict 'refs';
 }
 
@@ -273,7 +296,7 @@ sub getVersion {
     my $this = shift;
 
     no strict 'refs';
-    return ${$this->{module}.'::VERSION'} || '';
+    return ${ $this->{module} . '::VERSION' } || '';
     use strict 'refs';
 }
 
@@ -283,7 +306,7 @@ sub getRelease {
     my $this = shift;
 
     no strict 'refs';
-    return ${$this->{module}.'::RELEASE'} || '';
+    return ${ $this->{module} . '::RELEASE' } || '';
     use strict 'refs';
 }
 
@@ -291,23 +314,25 @@ sub getRelease {
 sub getDescription {
     my $this = shift;
 
-    unless( defined $this->{description} ) {
-        my $pref = uc( $this->{name} ) . '_SHORTDESCRIPTION';
+    unless ( defined $this->{description} ) {
+        my $pref  = uc( $this->{name} ) . '_SHORTDESCRIPTION';
         my $prefs = $this->{session}->{prefs};
-        $this->{description} = $prefs->getPreferencesValue( $pref ) || '';
+        $this->{description} = $prefs->getPreferencesValue($pref) || '';
     }
-    if( $this->{disabled} ) {
-        return ' !'.$this->{name}.': (disabled)';
+    if ( $this->{disabled} ) {
+        return ' !' . $this->{name} . ': (disabled)';
     }
 
     my $release = $this->getRelease();
     my $version = $this->getVersion();
     $version =~ s/\$Rev: (\d+) \$/$1/g;
-    $version = $release.', '.$version if $release;
+    $version = $release . ', ' . $version if $release;
 
-    my $result = ' '.$this->{installWeb}.'.'.$this->{name}.' ';
-    $result .= CGI::span( { class=> 'twikiGrayText twikiSmall'}, '('.$version.')' );
-    $result .= ': '.$this->{description};
+    my $result = ' ' . $this->{installWeb} . '.' . $this->{name} . ' ';
+    $result .=
+      CGI::span( { class => 'twikiGrayText twikiSmall' },
+        '(' . $version . ')' );
+    $result .= ': ' . $this->{description};
     return $result;
 }
 

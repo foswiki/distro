@@ -19,13 +19,14 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    return $this->evalTest( $node,
-        \@_, \&TWiki::Query::BinaryOP::compare,
-        sub { $_[0] > 0 ? 1 : 0 });
+    return $this->evalTest(
+        $node, \@_,
+        \&TWiki::Query::BinaryOP::compare,
+        sub { $_[0] > 0 ? 1 : 0 }
+    );
 }
 
 1;
-
 
 __DATA__
 

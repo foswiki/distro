@@ -16,17 +16,20 @@ use Assert;
 use TWiki::If::Node;
 
 sub new {
-    my( $class ) = @_;
+    my ($class) = @_;
 
-    my $this = $class->SUPER::new({
-        nodeClass => 'TWiki::If::Node',
-        words => qr/([A-Z][A-Z0-9_:]+|({[A-Z0-9_]+})+)/i});
+    my $this = $class->SUPER::new(
+        {
+            nodeClass => 'TWiki::If::Node',
+            words     => qr/([A-Z][A-Z0-9_:]+|({[A-Z0-9_]+})+)/i
+        }
+    );
     die "{Operators}{If} is undefined; re-run configure"
       unless defined( $TWiki::cfg{Operators}{If} );
-    foreach my $op (@{$TWiki::cfg{Operators}{If}}) {
+    foreach my $op ( @{ $TWiki::cfg{Operators}{If} } ) {
         eval "require $op";
-        ASSERT(!$@) if DEBUG;
-        $this->addOperator($op->new());
+        ASSERT( !$@ ) if DEBUG;
+        $this->addOperator( $op->new() );
     }
 
     return $this;

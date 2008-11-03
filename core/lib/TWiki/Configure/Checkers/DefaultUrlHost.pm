@@ -23,17 +23,19 @@ use TWiki::Configure::Checker;
 use base 'TWiki::Configure::Checker';
 
 sub check {
-    my ($this, $keys) = @_;
+    my ( $this, $keys ) = @_;
 
-    if( $TWiki::cfg{DefaultUrlHost} &&
-       $TWiki::cfg{DefaultUrlHost} ne 'NOT SET' ) {
+    if (   $TWiki::cfg{DefaultUrlHost}
+        && $TWiki::cfg{DefaultUrlHost} ne 'NOT SET' )
+    {
         my $host = $ENV{HTTP_HOST};
-        if( $host && $TWiki::cfg{DefaultUrlHost} !~ /$host/ ) {
-            return $this->WARN('Current setting does not match HTTP_HOST ',
-                        $ENV{HTTP_HOST});
+        if ( $host && $TWiki::cfg{DefaultUrlHost} !~ /$host/ ) {
+            return $this->WARN( 'Current setting does not match HTTP_HOST ',
+                $ENV{HTTP_HOST} );
         }
-    } else {
-        my $protocol = $TWiki::query->url() || 'http://'.$ENV{HTTP_HOST};
+    }
+    else {
+        my $protocol = $TWiki::query->url() || 'http://' . $ENV{HTTP_HOST};
         $protocol =~ s(^(.*?://.*?)/.*$)($1);
         $TWiki::cfg{DefaultUrlHost} = $protocol;
         return $this->guessed(0);

@@ -23,17 +23,21 @@ use TWiki::Configure::Types::NUMBER;
 use base 'TWiki::Configure::Types::NUMBER';
 
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
-    return CGI::textfield( -name => $id, -size => 20,
-                           -default => sprintf('0%o', $value) );
+    my ( $this, $id, $opts, $value ) = @_;
+    return CGI::textfield(
+        -name    => $id,
+        -size    => 20,
+        -default => sprintf( '0%o', $value )
+    );
 }
 
 sub string2value {
-    my ($this, $val) = @_;
+    my ( $this, $val ) = @_;
     $val ||= 0;
-    $val = '0'.$val unless $val =~ /^0/;
-    $val =~ /(\d+)/; $val = $1; # protect the eval, just in case
-    # Use eval to force octal-decimal conversion (Item3529)
+    $val = '0' . $val unless $val =~ /^0/;
+    $val =~ /(\d+)/;
+    $val = $1;    # protect the eval, just in case
+                  # Use eval to force octal-decimal conversion (Item3529)
     eval "\$val = $val";
     return $val;
 }

@@ -45,26 +45,29 @@ after the filter match has been applied; this is purely an optimisation.
 sub hoist {
     my $node = shift;
 
-    return () unless ref($node->{op});
+    return () unless ref( $node->{op} );
 
-    if ($node->{op}->{name} eq '(') {
-        return hoist($node->{params}[0]);
+    if ( $node->{op}->{name} eq '(' ) {
+        return hoist( $node->{params}[0] );
     }
 
-    print STDERR "hoist ",$node->stringify(),"\n" if MONITOR_HOIST;
-    if ($node->{op}->{name} eq 'and') {
-        my @lhs = hoist($node->{params}[0]);
-        my $rhs = _hoistOR($node->{params}[1]);
-        if (scalar(@lhs) && $rhs) {
+    print STDERR "hoist ", $node->stringify(), "\n" if MONITOR_HOIST;
+    if ( $node->{op}->{name} eq 'and' ) {
+        my @lhs = hoist( $node->{params}[0] );
+        my $rhs = _hoistOR( $node->{params}[1] );
+        if ( scalar(@lhs) && $rhs ) {
             return ( @lhs, $rhs );
-        } elsif (scalar(@lhs)) {
-            return @lhs;
-        } elsif ($rhs) {
-            return ( $rhs );
         }
-    } else {
+        elsif ( scalar(@lhs) ) {
+            return @lhs;
+        }
+        elsif ($rhs) {
+            return ($rhs);
+        }
+    }
+    else {
         my $or = _hoistOR($node);
-        return ( $or ) if $or;
+        return ($or) if $or;
     }
 
     print STDERR "\tFAILED\n" if MONITOR_HOIST;
@@ -75,21 +78,22 @@ sub hoist {
 sub _hoistOR {
     my $node = shift;
 
-    return undef unless ref($node->{op});
+    return undef unless ref( $node->{op} );
 
-    if ($node->{op}->{name} eq '(') {
-        return _hoistOR($node->{params}[0]);
+    if ( $node->{op}->{name} eq '(' ) {
+        return _hoistOR( $node->{params}[0] );
     }
 
-    print STDERR "hoistOR ",$node->stringify(),"\n" if MONITOR_HOIST;
+    print STDERR "hoistOR ", $node->stringify(), "\n" if MONITOR_HOIST;
 
-    if ($node->{op}->{name} eq 'or') {
-        my $lhs = _hoistOR($node->{params}[0]);
-        my $rhs = _hoistEQ($node->{params}[1]);
-        if ($lhs && $rhs) {
+    if ( $node->{op}->{name} eq 'or' ) {
+        my $lhs = _hoistOR( $node->{params}[0] );
+        my $rhs = _hoistEQ( $node->{params}[1] );
+        if ( $lhs && $rhs ) {
             return "$lhs|$rhs";
         }
-    } else {
+    }
+    else {
         return _hoistEQ($node);
     }
 
@@ -101,34 +105,37 @@ sub _hoistOR {
 sub _hoistEQ {
     my $node = shift;
 
-    return undef unless ref($node->{op});
+    return undef unless ref( $node->{op} );
 
-    if ($node->{op}->{name} eq '(') {
-        return _hoistEQ($node->{params}[0]);
+    if ( $node->{op}->{name} eq '(' ) {
+        return _hoistEQ( $node->{params}[0] );
     }
 
-    print STDERR "hoistEQ ",$node->stringify(),"\n" if MONITOR_HOIST;
+    print STDERR "hoistEQ ", $node->stringify(), "\n" if MONITOR_HOIST;
+
     # \000RHS\001 is a placholder for the RHS term
-    if ($node->{op}->{name} eq '=') {
-        my $lhs = _hoistDOT($node->{params}[0]);
-        my $rhs = _hoistConstant($node->{params}[1]);
-        if ($lhs && $rhs) {
+    if ( $node->{op}->{name} eq '=' ) {
+        my $lhs = _hoistDOT( $node->{params}[0] );
+        my $rhs = _hoistConstant( $node->{params}[1] );
+        if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs =~ s/\000RHS\001/$rhs/g;
             return $lhs;
         }
+
         # = is symmetric, so try the other order
-        $lhs = _hoistDOT($node->{params}[1]);
-        $rhs = _hoistConstant($node->{params}[0]);
-        if ($lhs && $rhs) {
+        $lhs = _hoistDOT( $node->{params}[1] );
+        $rhs = _hoistConstant( $node->{params}[0] );
+        if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
             $lhs =~ s/\000RHS\001/$rhs/g;
             return $lhs;
         }
-    } elsif ($node->{op}->{name} eq '~') {
-        my $lhs = _hoistDOT($node->{params}[0]);
-        my $rhs = _hoistConstant($node->{params}[1]);
-        if ($lhs && $rhs) {
+    }
+    elsif ( $node->{op}->{name} eq '~' ) {
+        my $lhs = _hoistDOT( $node->{params}[0] );
+        my $rhs = _hoistConstant( $node->{params}[1] );
+        if ( $lhs && $rhs ) {
             $rhs = quotemeta($rhs);
             $rhs =~ s/\\\?/./g;
             $rhs =~ s/\\\*/.*/g;
@@ -149,47 +156,62 @@ sub _hoistEQ {
 sub _hoistDOT {
     my $node = shift;
 
-    if (ref($node->{op}) && $node->{op}->{name} eq '(') {
-        return _hoistDOT($node->{params}[0]);
+    if ( ref( $node->{op} ) && $node->{op}->{name} eq '(' ) {
+        return _hoistDOT( $node->{params}[0] );
     }
 
-    print STDERR "hoistDOT ",$node->stringify(),"\n" if MONITOR_HOIST;
-    if (ref($node->{op}) && $node->{op}->{name} eq '.') {
+    print STDERR "hoistDOT ", $node->stringify(), "\n" if MONITOR_HOIST;
+    if ( ref( $node->{op} ) && $node->{op}->{name} eq '.' ) {
         my $lhs = $node->{params}[0];
         my $rhs = $node->{params}[1];
-        if (!ref($lhs->{op}) && !ref($rhs->{op}) &&
-              $lhs->{op} eq $TWiki::Infix::Node::NAME &&
-                $rhs->{op} eq $TWiki::Infix::Node::NAME) {
+        if (   !ref( $lhs->{op} )
+            && !ref( $rhs->{op} )
+            && $lhs->{op} eq $TWiki::Infix::Node::NAME
+            && $rhs->{op} eq $TWiki::Infix::Node::NAME )
+        {
             $lhs = $lhs->{params}[0];
             $rhs = $rhs->{params}[0];
-            if ($TWiki::Query::Node::aliases{$lhs}) {
+            if ( $TWiki::Query::Node::aliases{$lhs} ) {
                 $lhs = $TWiki::Query::Node::aliases{$lhs};
             }
-            if ($lhs =~ /^META:/) {
+            if ( $lhs =~ /^META:/ ) {
+
                 # \000RHS\001 is a placholder for the RHS term
-                return '^%'.$lhs.'{.*\\b'.$rhs."=\\\"\000RHS\001\\\"";
+                return '^%' . $lhs . '{.*\\b' . $rhs . "=\\\"\000RHS\001\\\"";
             }
+
             # Otherwise assume the term before the dot is the form name
-            if ($rhs eq 'text') {
+            if ( $rhs eq 'text' ) {
+
                 # Special case for the text body
                 return "\000RHS\001";
-            } else {
-                return "^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\"";
+            }
+            else {
+                return
+"^%META:FIELD{name=\\\"$rhs\\\".*\\bvalue=\\\"\000RHS\001\\\"";
             }
 
         }
-    } elsif (!ref($node->{op}) && $node->{op} eq $TWiki::Infix::Node::NAME) {
-        if ($node->{params}[0] eq 'name') {
+    }
+    elsif ( !ref( $node->{op} ) && $node->{op} eq $TWiki::Infix::Node::NAME ) {
+        if ( $node->{params}[0] eq 'name' ) {
+
             # Special case for the topic name
-	    return undef;
-        } elsif ($node->{params}[0] eq 'web') {
+            return undef;
+        }
+        elsif ( $node->{params}[0] eq 'web' ) {
+
             # Special case for the web name
-	    return undef;
-        } elsif ($node->{params}[0] eq 'text') {
+            return undef;
+        }
+        elsif ( $node->{params}[0] eq 'text' ) {
+
             # Special case for the text body
             return "\000RHS\001";
-        } else {
-            return "^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\"";
+        }
+        else {
+            return
+"^%META:FIELD{name=\\\"$node->{params}[0]\\\".*\\bvalue=\\\"\0RHS\1\\\"";
         }
     }
 
@@ -201,9 +223,12 @@ sub _hoistDOT {
 sub _hoistConstant {
     my $node = shift;
 
-    if (!ref($node->{op}) &&
-          ($node->{op} eq $TWiki::Infix::Node::STRING ||
-             $node->{op} eq $TWiki::Infix::Node::NUMBER)) {
+    if (
+        !ref( $node->{op} )
+        && (   $node->{op} eq $TWiki::Infix::Node::STRING
+            || $node->{op} eq $TWiki::Infix::Node::NUMBER )
+      )
+    {
         return $node->{params}[0];
     }
     return undef;

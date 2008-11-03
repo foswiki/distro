@@ -6,14 +6,15 @@ use strict;
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new( @_ );
+    my $this  = $class->SUPER::new(@_);
 
     # Parse the size to get min and max
     $this->{size} ||= 1;
-    if( $this->{size} =~ /^\s*(\d+)\.\.(\d+)\s*$/ ) {
+    if ( $this->{size} =~ /^\s*(\d+)\.\.(\d+)\s*$/ ) {
         $this->{minSize} = $1;
         $this->{maxSize} = $2;
-    } else {
+    }
+    else {
         $this->{minSize} = $this->{size};
         $this->{minSize} =~ s/[^\d]//g;
         $this->{minSize} ||= 1;
@@ -22,7 +23,6 @@ sub new {
 
     return $this;
 }
-
 
 =pod
 
@@ -43,22 +43,24 @@ sub getOptions {
     return $this->{_options} if $this->{_options};
 
     my $vals = $this->SUPER::getOptions(@_);
-    if ($this->{type} =~ /\+values/) {
+    if ( $this->{type} =~ /\+values/ ) {
+
         # create a values map
 
         $this->{valueMap} = ();
         $this->{_options} = ();
         my $str;
         foreach my $val (@$vals) {
-            if ($val =~ /^(.*?[^\\])=(.*)$/) {
+            if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
                 $str = $1;
                 $val = $2;
                 $str =~ s/\\=/=/g;
-            } else {
+            }
+            else {
                 $str = $val;
             }
             $this->{valueMap}{$val} = TWiki::urlDecode($str);
-            push @{$this->{_options}}, $val;
+            push @{ $this->{_options} }, $val;
         }
     }
 
@@ -80,52 +82,53 @@ sub finish {
     $this->SUPER::finish();
     undef $this->{minSize};
     undef $this->{maxSize};
-    undef $this->{valueMap}
+    undef $this->{valueMap};
 }
 
 sub isMultiValued { return shift->{type} =~ /\+multi/; }
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
     my $choices = '';
 
-    my %isSelected = map { $_ => 1 } split(/\s*,\s*/, $value);
-    foreach my $option ( @{$this->getOptions()} ) {
-        my %params = (
-            class => 'twikiEditFormOption',
-           );
+    my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
+    foreach my $option ( @{ $this->getOptions() } ) {
+        my %params = ( class => 'twikiEditFormOption', );
         $params{selected} = 'selected' if $isSelected{$option};
-        if (defined($this->{valueMap}{$option})) {
+        if ( defined( $this->{valueMap}{$option} ) ) {
             $params{value} = $option;
             $option = $this->{valueMap}{$option};
         }
         $option =~ s/<nop/&lt\;nop/go;
         $choices .= CGI::option( \%params, $option );
     }
-    my $size = scalar( @{$this->getOptions()} );
-    if( $size > $this->{maxSize} ) {
+    my $size = scalar( @{ $this->getOptions() } );
+    if ( $size > $this->{maxSize} ) {
         $size = $this->{maxSize};
-    } elsif( $size < $this->{minSize} ) {
+    }
+    elsif ( $size < $this->{minSize} ) {
         $size = $this->{minSize};
     }
     my $params = {
-        class => $this->cssClasses('twikiSelect', 'twikiEditFormSelect'),
-        name => $this->{name},
-        size => $this->{size},
+        class => $this->cssClasses( 'twikiSelect', 'twikiEditFormSelect' ),
+        name  => $this->{name},
+        size  => $this->{size},
     };
-    if( $this->isMultiValued() ) {
-        $params->{'multiple'}='on';
-        $value  = CGI::Select( $params, $choices );
+    if ( $this->isMultiValued() ) {
+        $params->{'multiple'} = 'on';
+        $value = CGI::Select( $params, $choices );
+
         # Item2410: We need a dummy control to detect the case where
         #           all checkboxes have been deliberately unchecked
         # Item3061:
         # Don't use CGI, it will insert the value from the query
         # once again and we need an empt field here.
-        $value .= '<input type="hidden" name="'.$this->{name}.'" value="" />';
+        $value .=
+          '<input type="hidden" name="' . $this->{name} . '" value="" />';
     }
     else {
-        $value  = CGI::Select( $params, $choices );
+        $value = CGI::Select( $params, $choices );
     }
     return ( '', $value );
 }

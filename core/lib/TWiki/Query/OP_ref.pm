@@ -18,50 +18,51 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $pnode = shift;
+    my $this   = shift;
+    my $pnode  = shift;
     my %domain = @_;
 
     my $session = $domain{tom}->session;
-    my $topic = $domain{tom}->topic;
+    my $topic   = $domain{tom}->topic;
 
-    my $a = $pnode->{params}[0];
-    my $node = $a->evaluate( @_ );
+    my $a    = $pnode->{params}[0];
+    my $node = $a->evaluate(@_);
     return undef unless defined $node;
-    if( ref($node) eq 'HASH') {
+    if ( ref($node) eq 'HASH' ) {
         return undef;
     }
-    if( !( ref($node) eq 'ARRAY' )) {
-        $node = [ $node ];
+    if ( !( ref($node) eq 'ARRAY' ) ) {
+        $node = [$node];
     }
     my @result;
     foreach my $v (@$node) {
-        next if $v !~ /^($TWiki::regex{webNameRegex}\.)*$TWiki::regex{wikiWordRegex}$/;
+        next
+          if $v !~
+              /^($TWiki::regex{webNameRegex}\.)*$TWiki::regex{wikiWordRegex}$/;
 
         # Has to be relative to the web of the topic we are querying
-        my( $w, $t ) = $session->normalizeWebTopicName(
-            $session->{webName}, $v );
+        my ( $w, $t ) =
+          $session->normalizeWebTopicName( $session->{webName}, $v );
         my $result = undef;
         try {
             my $submeta = $domain{tom}->getMetaFor( $w, $t );
-            my $b = $pnode->{params}[1];
-            my $res = $b->evaluate( tom=>$submeta, data=>$submeta );
-            if( ref($res) eq 'ARRAY') {
-                push(@result, @$res);
-            } else {
-                push(@result, $res);
+            my $b       = $pnode->{params}[1];
+            my $res     = $b->evaluate( tom => $submeta, data => $submeta );
+            if ( ref($res) eq 'ARRAY' ) {
+                push( @result, @$res );
             }
-        } catch Error::Simple with {
-        };
+            else {
+                push( @result, $res );
+            }
+        }
+        catch Error::Simple with {};
     }
-    return undef unless scalar( @result );
+    return undef unless scalar(@result);
     return $result[0] if scalar(@result) == 1;
     return \@result;
 }
 
 1;
-
-
 
 __DATA__
 

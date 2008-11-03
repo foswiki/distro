@@ -54,25 +54,26 @@ on a per-installation basis with $TWiki::cfg{PluralToSingular}.
 =cut
 
 sub singularForm {
-    my( $web, $pluralForm ) = @_;
+    my ( $web, $pluralForm ) = @_;
     $web =~ s#\.#/#go;
 
     # Plural processing only if enabled in configure or one of the
     # distributed webs
-    return undef unless( $TWiki::cfg{PluralToSingular} or 
-                         $web eq $TWiki::cfg{UsersWebName} or 
-                          $web eq $TWiki::cfg{SystemWebName} );
-    return undef unless( $pluralForm =~ /s$/ );
+    return undef
+      unless ( $TWiki::cfg{PluralToSingular}
+        or $web eq $TWiki::cfg{UsersWebName}
+        or $web eq $TWiki::cfg{SystemWebName} );
+    return undef unless ( $pluralForm =~ /s$/ );
 
     # Topic name is plural in form
     my $singularForm = $pluralForm;
-    $singularForm =~ s/ies$/y/;      # plurals like policy / policies
-    $singularForm =~ s/sses$/ss/;    # plurals like address / addresses
-    $singularForm =~ s/ches$/ch/;    # plurals like search / searches
-    $singularForm =~ s/(oes|os)$/o/; # plurals like veto / vetoes
-    $singularForm =~ s/([Xx])es$/$1/;# plurals like box / boxes
-    $singularForm =~ s/([^s])s$/$1/; # others, excluding ss like address(es)
-    return $singularForm
+    $singularForm =~ s/ies$/y/;          # plurals like policy / policies
+    $singularForm =~ s/sses$/ss/;        # plurals like address / addresses
+    $singularForm =~ s/ches$/ch/;        # plurals like search / searches
+    $singularForm =~ s/(oes|os)$/o/;     # plurals like veto / vetoes
+    $singularForm =~ s/([Xx])es$/$1/;    # plurals like box / boxes
+    $singularForm =~ s/([^s])s$/$1/;     # others, excluding ss like address(es)
+    return $singularForm;
 }
 
 1;

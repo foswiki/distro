@@ -25,11 +25,12 @@ use base 'TWiki::I18N';
 
 sub new {
     my $class = shift;
-    my $this = bless({}, $class);;
+    my $this = bless( {}, $class );
     return $this;
 }
 
 sub finish {
+
     # No data, nothing to do.
     # Must call SUPER finish to avoid memory leaks
     my $this = shift;
@@ -48,15 +49,21 @@ sub maketext {
     $text =~ s/~(\[|\])/$1/g;
 
     #plurals:
-    $text =~ s/\[\*,\_(\d+),([^,]+)(,([^,]+))?\]/_handlePlurals($args[$1-1],$2,$4)/ge;
+    $text =~
+      s/\[\*,\_(\d+),([^,]+)(,([^,]+))?\]/_handlePlurals($args[$1-1],$2,$4)/ge;
 
     return $text;
 }
 
 sub _handlePlurals {
     my ( $number, $singular, $plural ) = @_;
+
     # bad hack, but Locale::Maketext does it the same way ;)
-    return $number . ' ' . (($number == 1) ? $singular : ( $plural ? ($plural) : ($singular . 's') ) );
+    return
+      $number . ' '
+      . ( ( $number == 1 )
+        ? $singular
+        : ( $plural ? ($plural) : ( $singular . 's' ) ) );
 }
 
 sub language {

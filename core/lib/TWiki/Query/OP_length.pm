@@ -19,10 +19,10 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a = $node->{params}[0];
-    my $val = $a->evaluate( @_ ) || '';
-    if (ref($val) eq 'ARRAY') {
-        return scalar( @$val );
+    my $a    = $node->{params}[0];
+    my $val  = $a->evaluate(@_) || '';
+    if ( ref($val) eq 'ARRAY' ) {
+        return scalar(@$val);
     }
     return 1;
 }

@@ -8,7 +8,7 @@
 # This module is based/inspired on Catalyst framework. Refer to
 #
 # http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -44,13 +44,13 @@ use TWiki::Response;
 
 sub run {
     my $this = shift;
-    my @args = @ARGV;  # Copy, so original @ARGV doesn't get modified
+    my @args = @ARGV;    # Copy, so original @ARGV doesn't get modified
     while ( scalar @args ) {
         my $arg = shift @args;
         if ( $arg =~ /^-?([A-Za-z0-9_]+)(?:=(.*))?$/o ) {
             my $name = $1;
             my $arg  = TWiki::Sandbox::untaintUnchecked(
-                defined $2 ? $2 : (shift @args) );
+                defined $2 ? $2 : ( shift @args ) );
             if ( $name eq 'user' ) {
                 $this->{user} = $arg;
             }
@@ -65,7 +65,7 @@ sub run {
         }
     }
     my $req = $this->prepare;
-    if ( UNIVERSAL::isa($req, 'TWiki::Request') ) {
+    if ( UNIVERSAL::isa( $req, 'TWiki::Request' ) ) {
         my $res = TWiki::UI::handleRequest($req);
         $this->finalize( $res, $req );
     }
@@ -85,7 +85,7 @@ sub prepareQueryParameters {
     delete $this->{params};
 }
 
-sub prepareHeaders { 
+sub prepareHeaders {
     my ( $this, $req ) = @_;
     if ( defined $this->{user} ) {
         $req->remoteUser( $this->{user} );

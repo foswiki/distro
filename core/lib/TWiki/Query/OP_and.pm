@@ -19,10 +19,10 @@ sub new {
 sub evaluate {
     my $this = shift;
     my $node = shift;
-    my $a = $node->{params}[0];
-    return 0 unless $a->evaluate( @_ );
+    my $a    = $node->{params}[0];
+    return 0 unless $a->evaluate(@_);
     my $b = $node->{params}[1];
-    return $b->evaluate( @_ );
+    return $b->evaluate(@_);
 }
 
 1;

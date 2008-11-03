@@ -38,9 +38,9 @@ require TWiki::Time;
 sub changes {
     my $session = shift;
 
-    my $query = $session->{request};
+    my $query   = $session->{request};
     my $webName = $session->{webName};
-    my $topic = $session->{topicName};
+    my $topic   = $session->{topicName};
 
     TWiki::UI::checkWebExists( $session, $webName, $topic, 'find changes in' );
 
@@ -48,14 +48,20 @@ sub changes {
 
     my $text = $session->templates->readTemplate( 'changes', $skin );
 
-    my( $page, $eachChange, $after) = split( /%REPEAT%/, $text );
+    my ( $page, $eachChange, $after ) = split( /%REPEAT%/, $text );
 
-    my $showMinor = $query->param( 'minor' );
-    unless( $showMinor ) {
-        my $comment = CGI::b( 'Note: ' ).
-          'This page is showing major changes only. '.
-            CGI::a( { href => $query->url()."/$webName?minor=1",
-                      rel => 'nofollow' }, 'View all changes' );
+    my $showMinor = $query->param('minor');
+    unless ($showMinor) {
+        my $comment =
+            CGI::b('Note: ') 
+          . 'This page is showing major changes only. '
+          . CGI::a(
+            {
+                href => $query->url() . "/$webName?minor=1",
+                rel  => 'nofollow'
+            },
+            'View all changes'
+          );
         $comment = CGI::div( { class => 'twikiHelp' }, $comment );
         $page .= $comment;
     }
@@ -63,46 +69,57 @@ sub changes {
 
     my $iterator = $session->{store}->eachChange( $webName, 0 );
 
-    while( $iterator->hasNext() ) {
+    while ( $iterator->hasNext() ) {
         my $change = $iterator->next();
-        next if (!$showMinor && $change->{more} && $change->{more} =~ /minor/);
-        next if $done{$change->{topic}};
-        next unless $session->{store}->topicExists( $webName, $change->{topic} );
+        next
+          if ( !$showMinor && $change->{more} && $change->{more} =~ /minor/ );
+        next if $done{ $change->{topic} };
+        next
+          unless $session->{store}->topicExists( $webName, $change->{topic} );
         try {
             my $summary = $session->renderer->summariseChanges(
-                $session->{user}, $webName, $change->{topic}, $change->{revision} );
+                $session->{user}, $webName,
+                $change->{topic}, $change->{revision}
+            );
             my $thisChange = $eachChange;
             $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
-            my $wikiuser = $change->{user} ?
-              $session->{users}->webDotWikiName($change->{user}) : '';
+            my $wikiuser =
+                $change->{user}
+              ? $session->{users}->webDotWikiName( $change->{user} )
+              : '';
             $thisChange =~ s/%AUTHOR%/$wikiuser/go;
             my $time = TWiki::Time::formatTime( $change->{time} );
             $change->{revision} = 1 unless $change->{revision};
             my $srev = 'r' . $change->{revision};
-            if( $change->{revision} == 1 ) {
+
+            if ( $change->{revision} == 1 ) {
                 $srev = CGI::span( { class => 'twikiNew' }, 'NEW' );
             }
             $thisChange =~ s/%TIME%/$time/g;
             $thisChange =~ s/%REVISION%/$srev/go;
-            $thisChange = $session->renderer->getRenderedVersion
-              ( $thisChange, $webName, $change->{topic} );
+            $thisChange =
+              $session->renderer->getRenderedVersion( $thisChange, $webName,
+                $change->{topic} );
             $thisChange =~ s/%TEXTHEAD%/$summary/go;
             $page .= $thisChange;
-        } catch TWiki::AccessControlException with {
+        }
+        catch TWiki::AccessControlException with {
+
             # ignore changes we can't see
         };
-        $done{$change->{topic}} = 1;
+        $done{ $change->{topic} } = 1;
     }
-    if( $TWiki::cfg{Log}{changes} ) {
+    if ( $TWiki::cfg{Log}{changes} ) {
+
         # write log entry
         $session->writeLog( 'changes', $webName, '' );
     }
     $page .= $after;
 
     $page = $session->handleCommonTags( $page, $webName, $topic );
-    $page = $session->renderer->getRenderedVersion($page, $webName, $topic );
+    $page = $session->renderer->getRenderedVersion( $page, $webName, $topic );
 
-    $session->writeCompletePage( $page );
+    $session->writeCompletePage($page);
 }
 
 1;

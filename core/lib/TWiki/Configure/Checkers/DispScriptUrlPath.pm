@@ -31,7 +31,7 @@ sub check {
     my $guess = $ENV{REQUEST_URI} || $ENV{SCRIPT_NAME} || '';
     $guess =~ s(/+configure[^/]*$)();
 
-    if( !defined($val) || $val eq 'NOT SET' ) {
+    if ( !defined($val) || $val eq 'NOT SET' ) {
         $TWiki::cfg{DispScriptUrlPath} = $TWiki::cfg{ScriptUrlPath};
         return $this->guessed(0);
     }

@@ -61,11 +61,14 @@ Construct a user mapping object, using the given mapping id.
 =cut
 
 sub new {
-    my ($class, $session, $mid) = @_;
-    my $this = bless( {
-        mapping_id => $mid || '',
-        session => $session,
-    }, $class );
+    my ( $class, $session, $mid ) = @_;
+    my $this = bless(
+        {
+            mapping_id => $mid || '',
+            session => $session,
+        },
+        $class
+    );
     return $this;
 }
 
@@ -108,7 +111,7 @@ Default is *false*
 =cut
 
 sub supportsRegistration {
-    return 0; # NO, we don't
+    return 0;    # NO, we don't
 }
 
 =pod
@@ -150,7 +153,7 @@ getCanonicalUserID will still be called if login2cUID is not defined.
 =cut
 
 sub login2cUID {
-    ASSERT(0, 'Must be implemented');
+    ASSERT( 0, 'Must be implemented' );
 }
 
 =pod
@@ -208,8 +211,7 @@ user removal is not supported (the default).
 =cut
 
 sub removeUser {
-    throw Error::Simple(
-        'Failed to remove user: user removal is not supported');
+    throw Error::Simple('Failed to remove user: user removal is not supported');
 }
 
 =pod
@@ -223,7 +225,7 @@ Returns the $cUID by default.
 =cut
 
 sub getWikiName {
-    my ($this, $cUID) = @_;
+    my ( $this, $cUID ) = @_;
     return $cUID;
 }
 
@@ -343,18 +345,18 @@ inefficient.
 =cut
 
 sub isInGroup {
-    my( $this, $cUID, $group, $scanning ) = @_;
+    my ( $this, $cUID, $group, $scanning ) = @_;
     ASSERT($cUID) if DEBUG;
-    $scanning ||= {}; # Recursion block
+    $scanning ||= {};    # Recursion block
     my @users;
     my $it = $this->eachGroupMember($group);
-    while ($it->hasNext()) {
+    while ( $it->hasNext() ) {
         my $u = $it->next();
         next if $scanning->{$u};
         $scanning->{$u} = 1;
         return 1 if $u eq $cUID;
-        if( $this->isGroup($u) ) {
-            return 1 if $this->isInGroup( $cUID, $u, $scanning);
+        if ( $this->isGroup($u) ) {
+            return 1 if $this->isInGroup( $cUID, $u, $scanning );
         }
     }
     return 0;

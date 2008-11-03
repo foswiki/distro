@@ -25,79 +25,92 @@ use base 'TWiki::Configure::UI';
 # Generates the appropriate HTML for getting a value to configure the
 # entry. The actual input field is decided by the type.
 sub open_html {
-    my ($this, $value, $valuer, $expert) = @_;
+    my ( $this, $value, $valuer, $expert ) = @_;
 
     my $type = $value->getType();
     return '' if $value->{hidden};
 
-    my $info = '';
-    my $isExpert = 0; # true if this is an EXPERT setting
-    if ($value->isExpertsOnly()) {
+    my $info     = '';
+    my $isExpert = 0;    # true if this is an EXPERT setting
+    if ( $value->isExpertsOnly() ) {
         $isExpert = 1;
-        $info = CGI::h6('EXPERT') . $info;
+        $info     = CGI::h6('EXPERT') . $info;
     }
     $info .= $value->{desc};
     my $keys = $value->getKeys();
 
-    my $checker = TWiki::Configure::UI::loadChecker($keys, $value);
+    my $checker  = TWiki::Configure::UI::loadChecker( $keys, $value );
     my $isUnused = 0;
     my $isBroken = 0;
     if ($checker) {
         my $check = $checker->check($value);
         if ($check) {
+
             # something wrong
             $info .= $check;
             $isBroken = 1;
         }
-        if ($check && $check eq 'NOT USED IN THIS CONFIGURATION') {
+        if ( $check && $check eq 'NOT USED IN THIS CONFIGURATION' ) {
             $isUnused = 1;
         }
     }
 
-	# Hide rows if this is an EXPERT setting in non-experts mode, or
+    # Hide rows if this is an EXPERT setting in non-experts mode, or
     # this is a hidden or unused value
-	my $hiddenClass = '';
-    if ($isUnused ||
-          !$isBroken && ($isExpert && !$expert || $value->{hidden})) {
+    my $hiddenClass = '';
+    if ( $isUnused
+        || !$isBroken && ( $isExpert && !$expert || $value->{hidden} ) )
+    {
         $hiddenClass = ' twikiHidden';
     }
 
     # Generate the documentation row
-	my $hiddenInput = $this->hidden( 'TYPEOF:'.$keys, $value->{typename} );
-    my $row1 = $hiddenInput.$info;
+    my $hiddenInput = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
+    my $row1 = $hiddenInput . $info;
 
     # Generate col1 of the prompter row
     my $row2col1 = $keys;
-    $row2col1 = CGI::span({class=>'mandatory'}, $row2col1)
+    $row2col1 = CGI::span( { class => 'mandatory' }, $row2col1 )
       if $value->{mandatory};
-    if ($value->needsSaving($valuer)) {
+    if ( $value->needsSaving($valuer) ) {
         my $v = $valuer->defaultValue($value) || '';
-        $row2col1 .= CGI::span({title => 'default = '.$v,
-                                class => 'twikiAlert'}, '&delta;');
+        $row2col1 .= CGI::span(
+            {
+                title => 'default = ' . $v,
+                class => 'twikiAlert'
+            },
+            '&delta;'
+        );
     }
 
     # Generate col2 of the prompter row
     my $row2col2;
-    if (!$isUnused && ($isBroken || !$isExpert || $expert)) {
+    if ( !$isUnused && ( $isBroken || !$isExpert || $expert ) ) {
+
         # Generate a prompter for the value.
         my $class = $value->{typename};
-        $class .= ' mandatory' if ($value->{mandatory});
+        $class .= ' mandatory' if ( $value->{mandatory} );
         $row2col2 = CGI::span(
-            { class=>$class },
+            { class => $class },
             $type->prompt(
-                $keys, $value->{opts}, $valuer->currentValue($value)));
-    } else {
+                $keys, $value->{opts}, $valuer->currentValue($value)
+            )
+        );
+    }
+    else {
+
         # Non-expert - just pass the value through a hidden
-        $row2col2 = CGI::hidden($keys, $valuer->currentValue($value));
+        $row2col2 = CGI::hidden( $keys, $valuer->currentValue($value) );
     }
 
-    return CGI::Tr(
+    return CGI::Tr( { class => $hiddenClass },
+        CGI::td( { colspan => 2, class => 'docdata info' }, $row1 ) )
+      . "\n"
+      . CGI::Tr(
         { class => $hiddenClass },
-        CGI::td( { colspan => 2, class=>'docdata info' }, $row1))."\n"
-        . CGI::Tr(
-            { class => $hiddenClass },
-            CGI::td({class=>'firstCol'}, $row2col1)."\n"
-                . CGI::td({class=>'secondCol'}, $row2col2))."\n";
+        CGI::td( { class => 'firstCol' }, $row2col1 ) . "\n"
+          . CGI::td( { class => 'secondCol' }, $row2col2 )
+      ) . "\n";
 }
 
 sub close_html {

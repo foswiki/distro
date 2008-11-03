@@ -46,11 +46,12 @@ interface.
 
 sub available_languages {
 
-    my @available ;
+    my @available;
 
-    while ( my ( $langCode, $langOptions ) = each %{$TWiki::cfg{Languages}} ) {
+    while ( my ( $langCode, $langOptions ) = each %{ $TWiki::cfg{Languages} } )
+    {
         if ( $langOptions->{Enabled} ) {
-            push(@available, _normalize_language_tag($langCode));
+            push( @available, _normalize_language_tag($langCode) );
         }
     }
 
@@ -61,7 +62,7 @@ sub available_languages {
 # also renove any character there is not a letter [a-z] or a hyphen.
 sub _normalize_language_tag {
     my $tag = shift;
-    $tag = lc($tag);;
+    $tag = lc($tag);
     $tag =~ s/\_/-/g;
     $tag =~ s/[^a-z-]//g;
     return $tag;
@@ -69,24 +70,31 @@ sub _normalize_language_tag {
 
 # initialisation block
 BEGIN {
+
     # we only need to proceed if user wants internationalisation support
     return unless $TWiki::cfg{UserInterfaceInternationalisation};
 
-    # no languages enabled is the same as disabling {UserInterfaceInternationalisation}
+# no languages enabled is the same as disabling {UserInterfaceInternationalisation}
     my @languages = available_languages();
-    return unless (scalar(@languages));
+    return unless ( scalar(@languages) );
 
     # we first assume it's ok
     $initialised = 1;
 
     eval "use base 'Locale::Maketext'";
-    if ( $@ ) {
+    if ($@) {
         $initialised = 0;
-        push(@initErrors, "I18N: Couldn't load required perl module Locale::Maketext: " . $@."\nInstall the module or turn off {UserInterfaceInternationalisation}");
+        push( @initErrors,
+                "I18N: Couldn't load required perl module Locale::Maketext: " 
+              . $@
+              . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
+        );
     }
 
-    unless( $TWiki::cfg{LocalesDir} && -e $TWiki::cfg{LocalesDir} ) {
-        push(@initErrors, 'I18N: {LocalesDir} not configured. Define it or turn off {UserInterfaceInternationalisation}');
+    unless ( $TWiki::cfg{LocalesDir} && -e $TWiki::cfg{LocalesDir} ) {
+        push( @initErrors,
+'I18N: {LocalesDir} not configured. Define it or turn off {UserInterfaceInternationalisation}'
+        );
         $initialised = 0;
     }
 
@@ -94,14 +102,19 @@ BEGIN {
     # languages.
     my $dependencies = "use Locale::Maketext::Lexicon{'en'=>['Auto'],";
     foreach my $lang (@languages) {
-        $dependencies .= "'$lang'=>['Gettext'=>'$TWiki::cfg{LocalesDir}/$lang.po' ], ";
+        $dependencies .=
+          "'$lang'=>['Gettext'=>'$TWiki::cfg{LocalesDir}/$lang.po' ], ";
     }
     $dependencies .= '};';
 
     eval $dependencies;
-    if ( $@ ) {
+    if ($@) {
         $initialised = 0;
-        push(@initErrors, "I18N - Couldn't load required perl module Locale::Maketext::Lexicon: " . $@ . "\nInstall the module or turn off {UserInterfaceInternationalisation}");
+        push( @initErrors,
+"I18N - Couldn't load required perl module Locale::Maketext::Lexicon: "
+              . $@
+              . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
+        );
     }
 }
 
@@ -117,9 +130,10 @@ Local::Maketext::new (the superclass constructor)
 
 sub new {
     my $class = shift;
-    my( $session ) = @_;
+    my ($session) = @_;
 
-    unless( ref($session) && $session->isa('TWiki') ) {
+    unless ( ref($session) && $session->isa('TWiki') ) {
+
         # it's recursive
         return $class->SUPER::new(@_);
     }
@@ -136,21 +150,25 @@ sub new {
     #   browser.
     my $this;
     if ($initialised) {
-        $session->enterContext( 'i18n_enabled' );
-        my $userLanguage = _normalize_language_tag($session->{prefs}->getPreferencesValue('LANGUAGE'));
+        $session->enterContext('i18n_enabled');
+        my $userLanguage = _normalize_language_tag(
+            $session->{prefs}->getPreferencesValue('LANGUAGE') );
         if ($userLanguage) {
             $this = TWiki::I18N->get_handle($userLanguage);
-        } else {
+        }
+        else {
             $this = TWiki::I18N->get_handle();
         }
-    } else {
+    }
+    else {
         require TWiki::I18N::Fallback;
 
         $this = new TWiki::I18N::Fallback();
 
         # we couldn't initialise 'optional' I18N infrastructure, warn that we
         # can only use English if I18N has been requested with configure
-        $session->writeWarning('Could not load I18N infrastructure; falling back to English')
+        $session->writeWarning(
+            'Could not load I18N infrastructure; falling back to English')
           if $TWiki::cfg{UserInterfaceInternationalisation};
     }
 
@@ -159,18 +177,18 @@ sub new {
 
     # languages we know about
     $this->{enabled_languages} = { en => 'English' };
-    $this->{checked_enabled}   = undef;
+    $this->{checked_enabled} = undef;
 
     # what to do with failed translations (only needed when already initialised
     # and language is not English);
-    if ($initialised and ($this->language ne 'en')) {
+    if ( $initialised and ( $this->language ne 'en' ) ) {
         my $fallback_handle = TWiki::I18N->get_handle('en');
         $this->fail_with(
             sub {
-                shift; # get rid of the handle
-                return $fallback_handle->maketext( @_ );
+                shift;    # get rid of the handle
+                return $fallback_handle->maketext(@_);
             }
-           );
+        );
     }
 
     # finally! :-p
@@ -216,17 +234,19 @@ sub maketext {
     # into "internal representation" as expected by TWiki::I18N::maketext
     @args = map { $this->fromSiteCharSet($_) } @args;
 
-    if ($text =~ /^_/ && $text ne '_language_name') {
+    if ( $text =~ /^_/ && $text ne '_language_name' ) {
         require CGI;
         import CGI();
 
-        return CGI::span (
-            { -style => 'color:red;' } ,
-            "Error: MAKETEXT argument's can't start with an underscore (\"_\")." );
+        return CGI::span(
+            { -style => 'color:red;' },
+            "Error: MAKETEXT argument's can't start with an underscore (\"_\")."
+        );
     }
 
-    my $result = $this->SUPER::maketext($text, @args);
-    if ($result && $this->{session}) {
+    my $result = $this->SUPER::maketext( $text, @args );
+    if ( $result && $this->{session} ) {
+
         # external calls get the resultant text in the right charset:
         $result = $this->toSiteCharSet($result);
     }
@@ -263,8 +283,8 @@ listing available languages to the user.
 sub enabled_languages {
     my $this = shift;
 
-    unless ($this->{checked_enabled}) {
-        _discover_languages( $this );
+    unless ( $this->{checked_enabled} ) {
+        _discover_languages($this);
     }
 
     $this->{checked_enabled} = 1;
@@ -272,26 +292,27 @@ sub enabled_languages {
 
 }
 
-
 # discovers the available language.
 sub _discover_languages {
     my $this = shift;
 
     #use the cache, if available
-    if ( open LANGUAGE,"<$TWiki::cfg{LocalesDir}/languages.cache"  ) {
-    foreach my $line (<LANGUAGE>) {
-            my ($key,$name)=split('=',$line);
-             chop($name);
-            _add_language( $this,$key,$name);
+    if ( open LANGUAGE, "<$TWiki::cfg{LocalesDir}/languages.cache" ) {
+        foreach my $line (<LANGUAGE>) {
+            my ( $key, $name ) = split( '=', $line );
+            chop($name);
+            _add_language( $this, $key, $name );
         }
-    } else {
-        #TODO: if the cache file don't exist, perhaps a warning should be issued to the logs?
-        open LANGUAGE,">$TWiki::cfg{LocalesDir}/languages.cache";
+    }
+    else {
+
+#TODO: if the cache file don't exist, perhaps a warning should be issued to the logs?
+        open LANGUAGE, ">$TWiki::cfg{LocalesDir}/languages.cache";
         foreach my $tag ( available_languages() ) {
-            my $h = TWiki::I18N->get_handle($tag);
+            my $h    = TWiki::I18N->get_handle($tag);
             my $name = $h->maketext("_language_name");
-            $name = $this->toSiteCharSet($name); 
-            _add_language( $this,$tag, $name);
+            $name = $this->toSiteCharSet($name);
+            _add_language( $this, $tag, $name );
             print LANGUAGE "$tag=$name\n";
         }
     }
@@ -300,7 +321,6 @@ sub _discover_languages {
     $this->{checked_enabled} = 1;
 
 }
-
 
 =pod
 
@@ -321,38 +341,47 @@ ord() less than 128).
 sub fromSiteCharSet {
     my ( $this, $text ) = @_;
 
-    return $text if( !defined  $TWiki::cfg{Site}{CharSet} ||
-                       $TWiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i);
+    return $text
+      if ( !defined $TWiki::cfg{Site}{CharSet}
+        || $TWiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i );
 
-    if ($] < 5.008) {
+    if ( $] < 5.008 ) {
+
         # use Unicode::MapUTF8 for Perl older than 5.8
         require Unicode::MapUTF8;
         my $encoding = $TWiki::cfg{Site}{CharSet};
         if ( Unicode::MapUTF8::utf8_supported_charset($encoding) ) {
-          return Unicode::MapUTF8::to_utf8 ({
-                                             -string => $text,
-                                             -charset => $encoding
-                                            });
-        } else {
-          $this->{session}->writeWarning
-            ( 'Conversion from $encoding no supported, '.
-              'or name not recognised - check perldoc Unicode::MapUTF8' );
-          return $text;
+            return Unicode::MapUTF8::to_utf8(
+                {
+                    -string  => $text,
+                    -charset => $encoding
+                }
+            );
         }
-    } else {
+        else {
+            $this->{session}
+              ->writeWarning( 'Conversion from $encoding no supported, '
+                  . 'or name not recognised - check perldoc Unicode::MapUTF8' );
+            return $text;
+        }
+    }
+    else {
+
         # good Perl version, just use Encode
         require Encode;
         import Encode;
         my $encoding = Encode::resolve_alias( $TWiki::cfg{Site}{CharSet} );
         if ( not $encoding ) {
-            $this->{session}->writeWarning
-              ( 'Conversion to "'.$TWiki::cfg{Site}{CharSet}.
-                '" not supported, or name not recognised - check '.
-                '"perldoc Encode::Supported"' );
+            $this->{session}->writeWarning( 'Conversion to "'
+                  . $TWiki::cfg{Site}{CharSet}
+                  . '" not supported, or name not recognised - check '
+                  . '"perldoc Encode::Supported"' );
             return undef;
-        } else {
-            my $octets = Encode::decode ( $encoding, $text, &Encode::FB_PERLQQ() );
-            return Encode::encode ( 'utf-8', $octets );
+        }
+        else {
+            my $octets =
+              Encode::decode( $encoding, $text, &Encode::FB_PERLQQ() );
+            return Encode::encode( 'utf-8', $octets );
         }
     }
 }
@@ -378,47 +407,54 @@ See also: the =fromSiteCharSet= method.
 sub toSiteCharSet {
     my ( $this, $encoded ) = @_;
 
-    return $encoded if( !defined $TWiki::cfg{Site}{CharSet} ||
-                          $TWiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i);
+    return $encoded
+      if ( !defined $TWiki::cfg{Site}{CharSet}
+        || $TWiki::cfg{Site}{CharSet} =~ m/^utf-?8$/i );
 
     if ( $] < 5.008 ) {
+
         # use Unicode::MapUTF8 for Perl older than 5.8
         require Unicode::MapUTF8;
         my $encoding = $TWiki::cfg{Site}{CharSet};
         if ( Unicode::MapUTF8::utf8_supported_charset($encoding) ) {
-          return Unicode::MapUTF8::from_utf8 ({
-                                             -string => $encoded,
-                                             -charset => $encoding
-                                            });
-        } else {
-          $this->{session}->writeWarning
-            ( 'Conversion to $encoding no supported, '.
-              'or name not recognised - check perldoc Unicode::MapUTF8' );
-          return $encoded;
+            return Unicode::MapUTF8::from_utf8(
+                {
+                    -string  => $encoded,
+                    -charset => $encoding
+                }
+            );
         }
-    } else {
+        else {
+            $this->{session}
+              ->writeWarning( 'Conversion to $encoding no supported, '
+                  . 'or name not recognised - check perldoc Unicode::MapUTF8' );
+            return $encoded;
+        }
+    }
+    else {
         require Encode;
         import Encode;
-        my $encoding = Encode::resolve_alias ( $TWiki::cfg{Site}{CharSet} );
+        my $encoding = Encode::resolve_alias( $TWiki::cfg{Site}{CharSet} );
         if ( not $encoding ) {
-            $this->{session}->writeWarning
-              ( 'Conversion from "'.$TWiki::cfg{Site}{CharSet}.
-                '" not supported, or name not recognised - check '.
-                '"perldoc Encode::Supported"' );
+            $this->{session}->writeWarning( 'Conversion from "'
+                  . $TWiki::cfg{Site}{CharSet}
+                  . '" not supported, or name not recognised - check '
+                  . '"perldoc Encode::Supported"' );
             return $encoded;
-        } else {
+        }
+        else {
+
             # converts to {Site}{CharSet}, generating HTML NCR's when needed
-            my $octets = Encode::decode ( 'utf-8', $encoded );
-            return Encode::encode ( $encoding, $octets, &Encode::FB_HTMLCREF() );
+            my $octets = Encode::decode( 'utf-8', $encoded );
+            return Encode::encode( $encoding, $octets, &Encode::FB_HTMLCREF() );
         }
     }
 }
 
-
 # private utility method: add a pair tag/language name
 sub _add_language {
-    my ( $this, $tag, $name ) = @_;  
-    ${$this->{enabled_languages}}{$tag} = $name;
+    my ( $this, $tag, $name ) = @_;
+    ${ $this->{enabled_languages} }{$tag} = $name;
 }
 
 1;

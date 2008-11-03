@@ -61,12 +61,12 @@ sub new {
     my ( $class, $mode, $user, $web, $topic, $reason ) = @_;
 
     return $class->SUPER::new(
-                              web => $web,
-                              topic => $topic,
-                              user => $user,
-                              mode => $mode,
-                              reason => $reason,
-                             );
+        web    => $web,
+        topic  => $topic,
+        user   => $user,
+        mode   => $mode,
+        reason => $reason,
+    );
 }
 
 =pod
@@ -79,7 +79,8 @@ Generate a summary string. This is mainly for debugging.
 
 sub stringify {
     my $this = shift;
-    return "AccessControlException: Access to $this->{mode} $this->{web}.$this->{topic} for $this->{user} is denied. $this->{reason}";
+    return
+"AccessControlException: Access to $this->{mode} $this->{web}.$this->{topic} for $this->{user} is denied. $this->{reason}";
 }
 
 1;

@@ -35,31 +35,30 @@ require TWiki;
 # Constants
 use vars qw( @ISOMONTH @WEEKDAY @MONTHLENS %MON2NUM );
 
-@ISOMONTH =
-  ( 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' );
+@ISOMONTH = (
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+);
 
 # SMELL: does not account for leap years
 @MONTHLENS = ( 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 
-@WEEKDAY =
-  ( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' );
+@WEEKDAY = ( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' );
 
-%MON2NUM =
-  (
-   jan => 0,
-   feb => 1,
-   mar => 2,
-   apr => 3,
-   may => 4,
-   jun => 5,
-   jul => 6,
-   aug => 7,
-   sep => 8,
-   oct => 9,
-   nov => 10,
-   dec => 11
-  );
+%MON2NUM = (
+    jan => 0,
+    feb => 1,
+    mar => 2,
+    apr => 3,
+    may => 4,
+    jun => 5,
+    jul => 6,
+    aug => 7,
+    sep => 8,
+    oct => 9,
+    nov => 10,
+    dec => 11
+);
 
 =pod
 
@@ -99,53 +98,61 @@ If the date format was not recognised, will return 0.
 =cut
 
 sub parseTime {
-    my( $date, $defaultLocal ) = @_;
+    my ( $date, $defaultLocal ) = @_;
 
     require Time::Local;
 
     # NOTE: This routine *will break* if input is not one of below formats!
-    my $tzadj = 0; # Zulu
+    my $tzadj = 0;    # Zulu
     if ($defaultLocal) {
-        # Local time at midnight on the epoch gives us minus the 
+
+        # Local time at midnight on the epoch gives us minus the
         # local difference. e.g. CST is GMT + 1, so midnight Jan 1 1970 CST
         # is -01:00Z
-        $tzadj = -Time::Local::timelocal(0, 0, 0, 1, 0, 70);
+        $tzadj = -Time::Local::timelocal( 0, 0, 0, 1, 0, 70 );
     }
 
     # try "31 Dec 2001 - 23:59"  (TWiki date)
     # or "31 Dec 2001"
-    if ($date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i) {
+    if ( $date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
         my $year = $3;
-        $year -= 1900 if( $year > 1900 );
-        return Time::Local::timegm( 0, $5||0, $4||0, $1, $MON2NUM{lc($2)}, $year ) - $tzadj;
+        $year -= 1900 if ( $year > 1900 );
+        return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $MON2NUM{ lc($2) },
+            $year ) - $tzadj;
     }
 
     # try "2001/12/31 23:59:59" or "2001.12.31.23.59.59" (RCS date)
     # or "2001-12-31 23:59:59" or "2001-12-31 - 23:59:59"
-    if ($date =~ m!(\d+)[./\-](\d+)[./\-](\d+)[.\s\-]+(\d+)[.:](\d+)[.:](\d+)!) {
+    if (
+        $date =~ m!(\d+)[./\-](\d+)[./\-](\d+)[.\s\-]+(\d+)[.:](\d+)[.:](\d+)! )
+    {
         my $year = $1;
-        $year -= 1900 if( $year > 1900 );
-        return Time::Local::timegm( $6, $5, $4, $3, $2-1, $year ) - $tzadj;
+        $year -= 1900 if ( $year > 1900 );
+        return Time::Local::timegm( $6, $5, $4, $3, $2 - 1, $year ) - $tzadj;
     }
 
     # try "2001/12/31 23:59" or "2001.12.31.23.59" (RCS short date)
     # or "2001-12-31 23:59" or "2001-12-31 - 23:59"
-    if ($date =~ m!(\d+)[./\-](\d+)[./\-](\d+)[.\s\-]+(\d+)[.:](\d+)!) {
+    if ( $date =~ m!(\d+)[./\-](\d+)[./\-](\d+)[.\s\-]+(\d+)[.:](\d+)! ) {
         my $year = $1;
-        $year -= 1900 if( $year > 1900 );
-        return Time::Local::timegm( 0, $5, $4, $3, $2-1, $year ) - $tzadj;
+        $year -= 1900 if ( $year > 1900 );
+        return Time::Local::timegm( 0, $5, $4, $3, $2 - 1, $year ) - $tzadj;
     }
-    
+
     # ISO date
-    if ($date =~ /(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/ ) {
-        my ($Y, $M, $D, $h, $m, $s, $tz) =
-          ($1, $2||1, $3||1, $4||0, $5||0, $6||0, $7||'');
+    if ( $date =~
+/(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
+      )
+    {
+        my ( $Y, $M, $D, $h, $m, $s, $tz ) =
+          ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
         $M--;
-        $Y -= 1900 if( $Y > 1900 );
-        if ($tz eq 'Z') {
-            $tzadj = 0; # Zulu
-        } elsif ($tz =~ /([-+])(\d\d)(?::(\d\d))?/) {
-            $tzadj = ($1||'').((($2 * 60) + ($3||0)) * 60);
+        $Y -= 1900 if ( $Y > 1900 );
+        if ( $tz eq 'Z' ) {
+            $tzadj = 0;    # Zulu
+        }
+        elsif ( $tz =~ /([-+])(\d\d)(?::(\d\d))?/ ) {
+            $tzadj = ( $1 || '' ) . ( ( ( $2 * 60 ) + ( $3 || 0 ) ) * 60 );
             $tzadj -= 0;
         }
         return Time::Local::timegm( $s, $m, $h, $D, $M, $Y ) - $tzadj;
@@ -183,46 +190,53 @@ sub parseTime {
 
 # previous known as TWiki::formatTime
 
-sub formatTime  {
-    my ($epochSeconds, $formatString, $outputTimeZone) = @_;
+sub formatTime {
+    my ( $epochSeconds, $formatString, $outputTimeZone ) = @_;
     my $value = $epochSeconds;
 
     # use default TWiki format "31 Dec 1999 - 23:59" unless specified
-    $formatString ||= $TWiki::cfg{DefaultDateFormat} . ' - $hour:$min';
+    $formatString   ||= $TWiki::cfg{DefaultDateFormat} . ' - $hour:$min';
     $outputTimeZone ||= $TWiki::cfg{DisplayTimeValues};
 
-    if( $formatString =~ /http|email/i ) {
+    if ( $formatString =~ /http|email/i ) {
         $outputTimeZone = 'gmtime';
     }
 
-    my( $sec, $min, $hour, $day, $mon, $year, $wday, $tz_str);
-    if( $outputTimeZone eq 'servertime' ) {
+    my ( $sec, $min, $hour, $day, $mon, $year, $wday, $tz_str );
+    if ( $outputTimeZone eq 'servertime' ) {
         ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
-          localtime( $epochSeconds );
+          localtime($epochSeconds);
         $tz_str = 'Local';
-    } else {
-        ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
-          gmtime( $epochSeconds );
+    }
+    else {
+        ( $sec, $min, $hour, $day, $mon, $year, $wday ) = gmtime($epochSeconds);
         $tz_str = 'GMT';
     }
 
     #standard twiki date time formats
-    if( $formatString =~ /rcs/i ) {
+    if ( $formatString =~ /rcs/i ) {
+
         # RCS format, example: "2001/12/31 23:59:59"
         $formatString = '$year/$mo/$day $hour:$min:$sec';
-    } elsif ( $formatString =~ /http|email/i ) {
+    }
+    elsif ( $formatString =~ /http|email/i ) {
+
         # HTTP and email header format, e.g. "Thu, 23 Jul 1998 07:21:56 EST"
- 	    # RFC 822/2616/1123
+        # RFC 822/2616/1123
         $formatString = '$wday, $day $month $year $hour:$min:$sec $tz';
-    } elsif ( $formatString =~ /iso/i ) {
+    }
+    elsif ( $formatString =~ /iso/i ) {
+
         # ISO Format, see spec at http://www.w3.org/TR/NOTE-datetime
         # e.g. "2002-12-31T19:30:12Z"
         $formatString = '$year-$mo-$dayT$hour:$min:$sec';
-        if( $outputTimeZone eq 'gmtime' ) {
-            $formatString = $formatString.'Z';
-        } else {
+        if ( $outputTimeZone eq 'gmtime' ) {
+            $formatString = $formatString . 'Z';
+        }
+        else {
+
             #TODO:            $formatString = $formatString.
-            # TZD  = time zone designator (Z or +hh:mm or -hh:mm) 
+            # TZD  = time zone designator (Z or +hh:mm or -hh:mm)
         }
     }
 
@@ -248,15 +262,18 @@ sub formatTime  {
 }
 
 sub _weekNumber {
-    my( $day, $mon, $year, $wday ) = @_;
-    
+    my ( $day, $mon, $year, $wday ) = @_;
+
     require Time::Local;
 
     # calculate the calendar week (ISO 8601)
-    my $nextThursday = Time::Local::timegm(0, 0, 0, $day, $mon, $year) +
-      (3 - ($wday + 6) % 7) * 24 * 60 * 60; # nearest thursday
-    my $firstFourth = Time::Local::timegm(0, 0, 0, 4, 0, $year); # january, 4th
-    return sprintf('%.0f', ($nextThursday - $firstFourth) / ( 7 * 86400 )) + 1;
+    my $nextThursday =
+      Time::Local::timegm( 0, 0, 0, $day, $mon, $year ) +
+      ( 3 - ( $wday + 6 ) % 7 ) * 24 * 60 * 60;    # nearest thursday
+    my $firstFourth =
+      Time::Local::timegm( 0, 0, 0, 4, 0, $year );    # january, 4th
+    return
+      sprintf( '%.0f', ( $nextThursday - $firstFourth ) / ( 7 * 86400 ) ) + 1;
 }
 
 =pod
@@ -269,50 +286,53 @@ Format a time in seconds as a string. For example,
 =cut
 
 sub formatDelta {
-    my $secs = shift;
+    my $secs     = shift;
     my $language = shift;
 
-    my $rem = $secs % (60 * 60 * 24);
-    my $days = ($secs - $rem) / (60 * 60 * 24);
+    my $rem = $secs % ( 60 * 60 * 24 );
+    my $days = ( $secs - $rem ) / ( 60 * 60 * 24 );
     $secs = $rem;
 
-    $rem = $secs % (60 * 60);
-    my $hours = ($secs - $rem) / (60 * 60);
+    $rem = $secs % ( 60 * 60 );
+    my $hours = ( $secs - $rem ) / ( 60 * 60 );
     $secs = $rem;
 
     $rem = $secs % 60;
-    my $mins = ($secs - $rem) / 60;
+    my $mins = ( $secs - $rem ) / 60;
     $secs = $rem;
 
     my $str = '';
 
     if ($language) {
+
         #format as in user's language
-        if( $days ) {
-            $str .= $language->maketext('[*,_1,day] ', $days);
+        if ($days) {
+            $str .= $language->maketext( '[*,_1,day] ', $days );
         }
-        if( $hours ) {
-            $str .= $language->maketext('[*,_1,hour] ', $hours);
+        if ($hours) {
+            $str .= $language->maketext( '[*,_1,hour] ', $hours );
         }
-        if( $mins ) {
-            $str .= $language->maketext('[*,_1,minute] ', $mins);
+        if ($mins) {
+            $str .= $language->maketext( '[*,_1,minute] ', $mins );
         }
-        if( $secs ) {
-            $str .= $language->maketext('[*,_1,second] ', $secs);
+        if ($secs) {
+            $str .= $language->maketext( '[*,_1,second] ', $secs );
         }
-    } else {
+    }
+    else {
+
         #original code, harcoded English (BAD)
-        if( $days ) {
-            $str .= $days . ' day' .( $days > 1 ? 's ' : ' ' );
+        if ($days) {
+            $str .= $days . ' day' . ( $days > 1 ? 's ' : ' ' );
         }
-        if( $hours ) {
-            $str .= $hours . ' hour' .( $hours > 1 ? 's ' : ' ' );
+        if ($hours) {
+            $str .= $hours . ' hour' . ( $hours > 1 ? 's ' : ' ' );
         }
-        if( $mins ) {
-            $str .= $mins . ' minute' .( $mins > 1 ? 's ' : ' ' );
+        if ($mins) {
+            $str .= $mins . ' minute' . ( $mins > 1 ? 's ' : ' ' );
         }
-        if( $secs ) {
-            $str .= $secs . ' second' .( $secs > 1 ? 's ' : ' ' );
+        if ($secs) {
+            $str .= $secs . ' second' . ( $secs > 1 ? 's ' : ' ' );
         }
     }
     $str =~ s/\s+$//;
@@ -364,80 +384,89 @@ TODO: timezone
 
 =cut
 
-sub parseInterval{
+sub parseInterval {
     my ($theInterval) = @_;
 
-    my @lt = localtime();
-    my $today = sprintf('%04d-%02d-%02d',$lt[5]+1900, $lt[4]+1, $lt[3]);
-    my $now = $today . sprintf('T%02d:%02d:%02d',$lt[2], $lt[1], $lt[0]);
+    my @lt    = localtime();
+    my $today = sprintf( '%04d-%02d-%02d', $lt[5] + 1900, $lt[4] + 1, $lt[3] );
+    my $now   = $today . sprintf( 'T%02d:%02d:%02d', $lt[2], $lt[1], $lt[0] );
 
     # replace $now and $today shortcuts
     $theInterval =~ s/\$today/$today/g;
     $theInterval =~ s/\$now/$now/g;
 
     # if $theDate does not contain a '/': force it to do so.
-    $theInterval = $theInterval.'/'.$theInterval unless ($theInterval =~ /\// );
+    $theInterval = $theInterval . '/' . $theInterval
+      unless ( $theInterval =~ /\// );
 
-    my @ends = split(/\//, $theInterval);
+    my @ends = split( /\//, $theInterval );
 
     # first translate dates into seconds from epoch,
     # in the second loop we will examine interval durations.
 
-    foreach my $i (0,1) {
+    foreach my $i ( 0, 1 ) {
+
         #   if not a period of time:
-        next if ($ends[$i] =~ /^P/);
+        next if ( $ends[$i] =~ /^P/ );
 
         #   TODO assert(must include the year)
-        if($i) {
+        if ($i) {
+
             # fillEnd
             #     if ending point, complete with parts from "-12-31T23:59:60"
             #     if completing ending point, check last day of month
             # TODO: do we do leap years?
-            if (length($ends[$i]) == 7){
-                my $month = substr($ends[$i],5);
-                $ends[$i] .= $MONTHLENS[$month-1];
+            if ( length( $ends[$i] ) == 7 ) {
+                my $month = substr( $ends[$i], 5 );
+                $ends[$i] .= $MONTHLENS[ $month - 1 ];
             }
-            $ends[$i] .= substr("0000-12-31T23:59:59",length($ends[$i]));
-        } else {
+            $ends[$i] .= substr( "0000-12-31T23:59:59", length( $ends[$i] ) );
+        }
+        else {
+
             # fillStart
             #     if starting point, complete with parts from "-01-01T00:00:00"
-            $ends[$i] .= substr("0000-01-01T00:00:00",length($ends[$i]));
+            $ends[$i] .= substr( "0000-01-01T00:00:00", length( $ends[$i] ) );
         }
 
         #     convert the string into integer amount of seconds
         #     from 1970-01-01T00:00:00.00 UTC
 
-        $ends[$i] = parseTime($ends[$i], 1);
+        $ends[$i] = parseTime( $ends[$i], 1 );
     }
 
     # now we're ready to translate interval durations...
     # ... we don't do P<whatever/P<whatever> !!!
 
-    my @oper = ("-","+");
+    my @oper = ( "-", "+" );
+
     # if any extreme was a time duration, examine it
-    foreach my $i (0,1) {
-        next unless ($ends[$i] =~ /^P/);
+    foreach my $i ( 0, 1 ) {
+        next unless ( $ends[$i] =~ /^P/ );
 
         #   drop the 'P', substitute each letter with '*<value>+',
         #   where <value> is the amount of seconds represented by
         #   the unit.  for example: w (week) becomes '*604800+'.
         $ends[$i] =~ s/^P//;
-        $ends[$i] =~ s/y/\*31556925\+/gi; # tropical year
-        $ends[$i] =~ s/m/\*2592000\+/g;   # 1m = 30 days
-        $ends[$i] =~ s/w/\*604800\+/gi;   # 1w = 7 days
+        $ends[$i] =~ s/y/\*31556925\+/gi;    # tropical year
+        $ends[$i] =~ s/m/\*2592000\+/g;      # 1m = 30 days
+        $ends[$i] =~ s/w/\*604800\+/gi;      # 1w = 7 days
         $ends[$i] =~ s/d/\*86400\+/gi;
         $ends[$i] =~ s/h/\*3600\+/gi;
-        $ends[$i] =~ s/M/\*60\+/g;        # note: m != M
+        $ends[$i] =~ s/M/\*60\+/g;           # note: m != M
         $ends[$i] =~ s/S/\*1\+/gi;
-        #   possibly append '0' and evaluate numerically the string.  
+
+        #   possibly append '0' and evaluate numerically the string.
         $ends[$i] =~ s/\+$/+0/;
-        my $duration = eval($ends[$i]);
+        my $duration = eval( $ends[$i] );
+
         #   the value computed, if it specifies the starting point
         #   in time, must be subtracted from the previously
         #   computed ending point.  if it specifies the ending
         #   point, it must be added to the previously computed
         #   starting point.
-        $ends[$i] = eval($ends[1-$i].$oper[$i].$ends[$i]);
+        $ends[$i] = eval( $ends[ 1 - $i ] . $oper[$i] . $ends[$i] );
+
         # SMELL: if the user specified both start and end as a
         # time duration, some kind of error must be reported.
     }

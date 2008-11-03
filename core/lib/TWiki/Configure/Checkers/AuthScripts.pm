@@ -25,14 +25,15 @@ use base 'TWiki::Configure::Checker';
 sub check {
     my $this = shift;
 
-    if( $TWiki::cfg{AuthScripts} ) {
-        if( $TWiki::cfg{LoginManager} eq 'none' ) {
-            return $this->WARN(<<'EOF'
+    if ( $TWiki::cfg{AuthScripts} ) {
+        if ( $TWiki::cfg{LoginManager} eq 'none' ) {
+            return $this->WARN(
+                <<'EOF'
 You've asked that some scripts require authentication, but haven't
 specified a way for users to log in. Please pick a LoginManager
 other than 'none'.
 EOF
-                              );
+            );
         }
     }
     return '';

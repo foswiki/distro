@@ -23,20 +23,20 @@ use TWiki::Configure::Type;
 use base 'TWiki::Configure::Type';
 
 sub prompt {
-    my( $this, $id, $opts, $value ) = @_;
+    my ( $this, $id, $opts, $value ) = @_;
     $opts =~ s/^\s+//;
     $opts =~ s/\s+$//;
     $opts =~ s/(\b|^)EXPERT(\b|$)//i;
     my $sopts = '';
     if ( defined($value) ) {
-    	$sopts .= '<option selected="selected">'.$value.'</option>';
+        $sopts .= '<option selected="selected">' . $value . '</option>';
     }
-    foreach my $opt (split( /,\s*/, $opts)) {
-        if( $opt ne $value ) {
-            $sopts .= '<option>'.$opt.'</option>';
+    foreach my $opt ( split( /,\s*/, $opts ) ) {
+        if ( $opt ne $value ) {
+            $sopts .= '<option>' . $opt . '</option>';
         }
     }
-    return CGI::Select({ name => $id, size=>1 }, $sopts);
+    return CGI::Select( { name => $id, size => 1 }, $sopts );
 }
 
 1;

@@ -27,7 +27,7 @@ require File::Spec;
 require CGI;
 
 sub guessed {
-    my ($this, $error) = @_;
+    my ( $this, $error ) = @_;
 
     my $mess = <<'HERE';
 I guessed this setting. You are advised to confirm this setting (and any
@@ -37,69 +37,73 @@ HERE
 
     if ($error) {
         return $this->ERROR($mess);
-    } else {
+    }
+    else {
         return $this->WARN($mess);
     }
 }
 
 sub warnAboutWindowsBackSlashes {
-   my ($this, $path ) = @_;
-   if ( $path =~ /\\/ ) {
-      return $this->WARN('You should use c:/path style slashes, not c:\path in "'.$path.'"');
-   }
+    my ( $this, $path ) = @_;
+    if ( $path =~ /\\/ ) {
+        return $this->WARN(
+                'You should use c:/path style slashes, not c:\path in "' 
+              . $path
+              . '"' );
+    }
 }
 
 sub guessMajorDir {
-    my ($this, $cfg, $dir, $silent ) = @_;
+    my ( $this, $cfg, $dir, $silent ) = @_;
     my $msg = '';
-    if( !$TWiki::cfg{$cfg} || $TWiki::cfg{$cfg} eq 'NOT SET') {
+    if ( !$TWiki::cfg{$cfg} || $TWiki::cfg{$cfg} eq 'NOT SET' ) {
         require FindBin;
         $FindBin::Bin =~ /^(.*)$/;
         my @root = File::Spec->splitdir($1);
         pop(@root);
-        $TWiki::cfg{$cfg} = File::Spec->catfile(@root, $dir);
+        $TWiki::cfg{$cfg} = File::Spec->catfile( @root, $dir );
         $msg = $this->guessed();
     }
-    unless ($silent || -d $TWiki::cfg{$cfg}) {
+    unless ( $silent || -d $TWiki::cfg{$cfg} ) {
         $msg .= $this->ERROR('Directory does not exist');
     }
     return $msg;
 }
 
 sub checkTreePerms {
-    my($this, $path, $perms, $filter ) = @_;
+    my ( $this, $path, $perms, $filter ) = @_;
 
-    return '' if( defined($filter) && $path !~ $filter && !-d $path);
+    return '' if ( defined($filter) && $path !~ $filter && !-d $path );
 
     #let's ignore Subversion directories
-    return '' if( $path !~ /_svn/ );
-    return '' if( $path !~ /.svn/ );
+    return '' if ( $path !~ /_svn/ );
+    return '' if ( $path !~ /.svn/ );
 
     my $errs = '';
 
-    return $path. ' cannot be found'.CGI::br() unless( -e $path );
+    return $path . ' cannot be found' . CGI::br() unless ( -e $path );
 
-    if( $perms =~ /r/ && !-r $path) {
+    if ( $perms =~ /r/ && !-r $path ) {
         $errs .= ' readable';
     }
 
-    if( $perms =~ /w/ && !-d $path && !-w $path) {
+    if ( $perms =~ /w/ && !-d $path && !-w $path ) {
         $errs .= ' writable';
     }
 
-    if( $perms =~ /x/ && !-x $path) {
+    if ( $perms =~ /x/ && !-x $path ) {
         $errs .= ' executable';
     }
 
-    return $path.' is not '.$errs.CGI::br() if $errs;
+    return $path . ' is not ' . $errs . CGI::br() if $errs;
 
     return '' unless -d $path;
 
-    opendir(D, $path) ||
-      return 'Directory '.$path.' is not readable.'.CGI::br();
+    opendir( D, $path )
+      || return 'Directory ' . $path . ' is not readable.' . CGI::br();
 
-    foreach my $e ( grep { !/^\./ } readdir( D )) {
-        my $p = $path.'/'.$e;
+    foreach my $e ( grep { !/^\./ } readdir(D) ) {
+        my $p = $path . '/' . $e;
         $errs .= checkTreePerms( $p, $perms, $filter );
     }
     closedir(D);
@@ -107,30 +111,33 @@ sub checkTreePerms {
 }
 
 sub checkCanCreateFile {
-    my ($this, $name) = @_;
+    my ( $this, $name ) = @_;
 
-    if (-e $name) {
+    if ( -e $name ) {
+
         # if the file exists just check perms and return
-        return checkTreePerms($name,'rw');
+        return checkTreePerms( $name, 'rw' );
     }
+
     # check the containing dir
     my @path = File::Spec->splitdir($name);
     pop(@path);
-    unless( -w File::Spec->catfile(@path, '')) {
-        return File::Spec->catfile(@path, '').' is not writable';
+    unless ( -w File::Spec->catfile( @path, '' ) ) {
+        return File::Spec->catfile( @path, '' ) . ' is not writable';
     }
     my $txt1 = "test 1 2 3";
-    open( FILE, ">$name" ) ||
-      return 'Could not create test file '. $name.':'.$!;
+    open( FILE, ">$name" )
+      || return 'Could not create test file ' . $name . ':' . $!;
     print FILE $txt1;
-    close( FILE);
-    open( IN_FILE, "<$name" ) ||
-      return 'Could not read test file '. $name.':'.$!;
+    close(FILE);
+    open( IN_FILE, "<$name" )
+      || return 'Could not read test file ' . $name . ':' . $!;
     my $txt2 = <IN_FILE>;
-    close( IN_FILE );
-    unlink $name if( -e $name );
+    close(IN_FILE);
+    unlink $name if ( -e $name );
+
     unless ( $txt2 eq $txt1 ) {
-        return 'Could not write and then read '.$name;
+        return 'Could not write and then read ' . $name;
     }
     return '';
 }
@@ -141,25 +148,31 @@ sub checkCanCreateFile {
 # diff, grep, patch, etc), we only check for these tools on Unix/Linux
 # and Cygwin.
 sub checkGnuProgram {
-    my ($this, $prog) = @_;
+    my ( $this, $prog ) = @_;
     my $mess = '';
 
-    if( $TWiki::cfg{OS} eq 'UNIX' ||
-          $TWiki::cfg{OS} eq 'WINDOWS' &&
-            $TWiki::cfg{DetailedOS} eq 'cygwin' ) {
+    if (   $TWiki::cfg{OS} eq 'UNIX'
+        || $TWiki::cfg{OS} eq 'WINDOWS' && $TWiki::cfg{DetailedOS} eq 'cygwin' )
+    {
+
         # SMELL: assumes no spaces in program pathnames
         $prog =~ /^\s*(\S+)/;
         $prog = $1;
-        my $diffOut = ( `$prog --version 2>&1` || "");
+        my $diffOut = ( `$prog --version 2>&1` || "" );
         my $notFound = ( $? != 0 );
-        if( $notFound ) {
+        if ($notFound) {
             $mess = $this->ERROR("'$prog' was not found on the current PATH");
-        } elsif ( $diffOut !~ /\bGNU\b/ ) {
+        }
+        elsif ( $diffOut !~ /\bGNU\b/ ) {
+
             # Program found on path, complain if no GNU in version output
-            $mess = $this->WARN("'$prog' program was found on the PATH ",
-                      "but is not GNU $prog - this may cause ",
-                      "problems. $diffOut");
-        #} else {
+            $mess = $this->WARN(
+                "'$prog' program was found on the PATH ",
+                "but is not GNU $prog - this may cause ",
+                "problems. $diffOut"
+            );
+
+            #} else {
             #$diffOut =~ /(\d+(\.\d+)+)/;
             #$mess = "($prog is version $1).";
         }
@@ -180,59 +193,66 @@ sub checkGnuProgram {
 sub checkPerlModules {
     my $this = shift;
     my $mods;
-    if (ref($_[0]) eq 'ARRAY') {
+    if ( ref( $_[0] ) eq 'ARRAY' ) {
         $mods = $_[0];
-    } else {
-        $mods = [ { @_ } ];
+    }
+    else {
+        $mods = [ {@_} ];
     }
 
     my $e = '';
     foreach my $mod (@$mods) {
         $mod->{minimumVersion} ||= 0;
-        $mod->{disposition} ||= '';
+        $mod->{disposition}    ||= '';
         my $n = '';
         my $mod_version;
+
         # require instead of use = see Bugs:Item4585
-        eval 'require '.$mod->{name};
+        eval 'require ' . $mod->{name};
         if ($@) {
-            $n = 'Not installed. '. $mod->{usage};
-        } else {
+            $n = 'Not installed. ' . $mod->{usage};
+        }
+        else {
             no strict 'refs';
-            eval '$mod_version = $'.$mod->{name}.'::VERSION';
+            eval '$mod_version = $' . $mod->{name} . '::VERSION';
             $mod_version ||= 0;
-            $mod_version =~ s/(\d+(\.\d*)?).*/$1/; # keep 99.99 style only
+            $mod_version =~ s/(\d+(\.\d*)?).*/$1/;    # keep 99.99 style only
             use strict 'refs';
             if ( $mod_version < $mod->{minimumVersion} ) {
                 $n = $mod_version || 'Unknown version';
-                $n .= ' installed. Version '
-                   . $mod->{minimumVersion}.' '
-                   . $mod->{disposition};
+                $n .=
+                    ' installed. Version '
+                  . $mod->{minimumVersion} . ' '
+                  . $mod->{disposition};
                 $n .= ' ' . $mod->{usage} if $mod->{usage};
             }
         }
         if ($n) {
-            if( $mod->{disposition} eq 'required') {
+            if ( $mod->{disposition} eq 'required' ) {
                 $n = $this->ERROR($n);
-            } elsif ($mod->{disposition} eq 'recommended') {
+            }
+            elsif ( $mod->{disposition} eq 'recommended' ) {
                 $n = $this->WARN($n);
-            } else {
+            }
+            else {
                 $n = $this->NOTE($n);
             }
-        } else {
+        }
+        else {
             $mod_version ||= 'Unknown version';
-            $n = $this->NOTE($mod_version.' installed');
+            $n = $this->NOTE( $mod_version . ' installed' );
             $n .= ' Desc: ' . $mod->{usage} if $mod->{usage};
         }
-        $e .= $this->setting($mod->{name}, $n);
+        $e .= $this->setting( $mod->{name}, $n );
     }
     return $e;
 }
 
 # Check for a compilable RE
 sub checkRE {
-    my ($this, $keys) = @_;
+    my ( $this, $keys ) = @_;
     my $str;
-    eval '$str = $TWiki::cfg'.$keys;
+    eval '$str = $TWiki::cfg' . $keys;
     return '' unless defined $str;
     eval "qr/$str/";
     if ($@) {
@@ -246,34 +266,37 @@ MESS
 
 # Entry point for the value check. Overridden by subclasses.
 sub check {
-    my ($this, $value) = @_;
+    my ( $this, $value ) = @_;
+
     # default behaviour; do nothing
     return '';
 }
 
 sub copytree {
-    my ($this, $from, $to) = @_;
+    my ( $this, $from, $to ) = @_;
     my $e = '';
 
-    if( -d $from ) {
-        if( !-e $to ) {
+    if ( -d $from ) {
+        if ( !-e $to ) {
             mkdir($to) || return "Failed to mkdir $to: $!<br />";
-        } elsif (!-d $to) {
+        }
+        elsif ( !-d $to ) {
             return "Existing $to is in the way<br />";
         }
 
         my $d;
-        return "Failed to copy $from: $!<br />" unless opendir($d, $from);
+        return "Failed to copy $from: $!<br />" unless opendir( $d, $from );
         foreach my $f ( grep { !/^\./ } readdir $d ) {
-            $f =~ /(.*)/; $f = $1; # untaint
+            $f =~ /(.*)/;
+            $f = $1;    # untaint
             $e .= $this->copytree( "$from/$f", "$to/$f" );
         }
         closedir($d);
     }
 
-    if( !$e && !-e $to ) {
+    if ( !$e && !-e $to ) {
         require File::Copy;
-        if( !File::Copy::copy( $from, $to )) {
+        if ( !File::Copy::copy( $from, $to ) ) {
             $e = "Failed to copy $from to $to: $!<br />";
         }
     }
@@ -283,38 +306,47 @@ sub copytree {
 my $rcsverRequired = 5.7;
 
 sub checkRCSProgram {
-    my ($this, $key) = @_;
+    my ( $this, $key ) = @_;
 
     return 'NOT USED IN THIS CONFIGURATION'
       unless $TWiki::cfg{StoreImpl} eq 'RcsWrap';
 
     my $mess = '';
-    my $err = '';
+    my $err  = '';
     my $prog = $TWiki::cfg{RCS}{$key} || '';
     $prog =~ s/^\s*(\S+)\s.*$/$1/;
-    $prog =~ /^(.*)$/; $prog = $1;
-    if( !$prog ) {
-        $err .= $key.' is not set';
-    } else {
+    $prog =~ /^(.*)$/;
+    $prog = $1;
+    if ( !$prog ) {
+        $err .= $key . ' is not set';
+    }
+    else {
         my $version = `$prog -V` || '';
         if ( $version =~ /(\d+(\.\d+)+)/ ) {
             $version = $1;
-        } else {
-            $err .= $this->ERROR($prog.' did not return a version number (or might not exist..)');
         }
-        if( $version =~ /^\d/ && $version < $rcsverRequired ) {
+        else {
+            $err .= $this->ERROR( $prog
+                  . ' did not return a version number (or might not exist..)' );
+        }
+        if ( $version =~ /^\d/ && $version < $rcsverRequired ) {
+
             # RCS too old
-            $err .= $prog.' is too old, upgrade to version '.
-              $rcsverRequired.' or higher.';
+            $err .=
+                $prog
+              . ' is too old, upgrade to version '
+              . $rcsverRequired
+              . ' or higher.';
         }
     }
-    if( $err ) {
-        $mess .= $this->ERROR( $err .<<HERE
+    if ($err) {
+        $mess .= $this->ERROR(
+            $err . <<HERE
 TWiki will probably not work with this RCS setup. Either correct the setup, or
 switch to RcsLite. To enable RCSLite you need to change the setting of
 {StoreImpl} to 'RcsLite'.
 HERE
-                       );
+        );
     }
     return $mess;
 }

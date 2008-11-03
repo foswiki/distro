@@ -12,7 +12,7 @@
 # http://search.cpan.org/~lds/CGI.pm-3.29/CGI.pm,
 # http://search.cpan.org/author/ANDYA/CGI-Simple-1.103/lib/CGI/Simple.pm, and
 # http://search.cpan.org/~gaas/libwww-perl-5.808/lib/HTTP/Headers.pm
-# 
+#
 # for credits and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -106,7 +106,7 @@ sub new {
             );
         }
     }
-    elsif ( ref($initializer) && UNIVERSAL::isa($initializer, 'GLOB') ) {
+    elsif ( ref($initializer) && UNIVERSAL::isa( $initializer, 'GLOB' ) ) {
         $this->load($initializer);
     }
     return $this;
@@ -121,9 +121,9 @@ Gets/Sets action requested (view, edit, save, ...)
 =cut
 
 sub action {
-    return @_ == 1    ? 
-      $_[0]->{action} : 
-      ( $ENV{TWIKI_ACTION} = $_[0]->{action} = $_[1] );
+    return @_ == 1
+      ? $_[0]->{action}
+      : ( $ENV{TWIKI_ACTION} = $_[0]->{action} = $_[1] );
 }
 
 =begin twiki
@@ -199,9 +199,10 @@ sub queryString {
     foreach my $name ( $this->param ) {
         my $key = TWiki::urlEncode($name);
         push @params,
-          map { $key . "=" . TWiki::urlEncode(defined $_ ? $_ : '') } $this->param($name);
+          map { $key . "=" . TWiki::urlEncode( defined $_ ? $_ : '' ) }
+          $this->param($name);
     }
-    return join(';', @params);
+    return join( ';', @params );
 }
 
 =begin twiki
@@ -363,25 +364,25 @@ use param() method.
 
 sub bodyParam {
     my ( $this, @p ) = @_;
-    
+
     my ( $key, @newValue ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
     # If a parameter is defined at both query string and body, CGI.pm
-    # places body values first, but all values are available. However, 
-    # CGI::param replaces previous values with new ones whenever called, 
-    # so we need to rescue old values and append them to the new ones. 
-    # This way, this class behaves the same as CGI.pm and so does 'param' 
+    # places body values first, but all values are available. However,
+    # CGI::param replaces previous values with new ones whenever called,
+    # so we need to rescue old values and append them to the new ones.
+    # This way, this class behaves the same as CGI.pm and so does 'param'
     # method.
     my @values = $this->param($key);
-    if ( ref($newValue[0]) eq 'ARRAY' ) {
-        unshift @values, @{$newValue[0]}
+    if ( ref( $newValue[0] ) eq 'ARRAY' ) {
+        unshift @values, @{ $newValue[0] };
     }
     else {
         unshift @values, @newValue;
     }
-    return $this->param($key, @values);
+    return $this->param( $key, @values );
 }
- 
+
 =begin twiki
 
 ---++ ObjectMethod param( [-name => $name, -value => $value             |
@@ -411,13 +412,12 @@ sub param {
     if ( defined $value[0] ) {
         push @{ $this->{param_list} }, $key
           unless exists $this->{param}{$key};
-        $this->{param}{$key} =
-          ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
+        $this->{param}{$key} = ref $value[0] eq 'ARRAY' ? $value[0] : [@value];
     }
     if ( defined $this->{param}{$key} ) {
         return wantarray
-            ? @{ $this->{param}{$key} }
-            : $this->{param}{$key}->[0];
+          ? @{ $this->{param}{$key} }
+          : $this->{param}{$key}->[0];
     }
     else {
         return wantarray ? () : undef;
@@ -451,10 +451,10 @@ sub cookie {
     }
     return undef unless defined $name && $name ne '';
     return new CGI::Cookie(
-        -name    => $name,
-        -value   => $value,
-        -path    => $path || '/',
-        -secure  => $secure || $this->secure,
+        -name  => $name,
+        -value => $value,
+        -path  => $path || '/',
+        -secure  => $secure  || $this->secure,
         -expires => $expires || abs( $TWiki::cfg{Sessions}{ExpireAfter} )
     );
 }
@@ -488,9 +488,9 @@ sub delete {
     my $this = shift;
     foreach my $p (@_) {
         next unless exists $this->{param}{$p};
-        if ( my $upload = $this->{uploads}{$this->param($p)} ) {
+        if ( my $upload = $this->{uploads}{ $this->param($p) } ) {
             $upload->finish;
-            CORE::delete $this->{uploads}{$this->param($p)};
+            CORE::delete $this->{uploads}{ $this->param($p) };
         }
         CORE::delete $this->{param}{$p};
         @{ $this->{param_list} } = grep { $_ ne $p } @{ $this->{param_list} };
@@ -579,9 +579,9 @@ sub save {
     local ( $\, $, ) = ( '', '' );
     foreach my $name ( $this->param ) {
         my $key = TWiki::urlEncode($name);
-        foreach my $value ($this->param($name)) {
+        foreach my $value ( $this->param($name) ) {
             $value = '' unless defined $value;
-            print $fh $key, "=", TWiki::urlEncode($value), "\n"
+            print $fh $key, "=", TWiki::urlEncode($value), "\n";
         }
     }
     print $fh "=\n";
@@ -597,7 +597,7 @@ a previous save().
 =cut
 
 sub load {
-    my ($this, $file) = @_;
+    my ( $this, $file ) = @_;
     my %param = ();
     my @plist = ();
     local $/ = "\n";
@@ -630,7 +630,7 @@ to uploaded file.
 
 sub upload {
     my ( $this, $name ) = @_;
-    my $upload = $this->{uploads}{$this->param($name)};
+    my $upload = $this->{uploads}{ $this->param($name) };
     return defined $upload ? $upload->handle : undef;
 }
 
@@ -698,10 +698,10 @@ Please, use =header()= instead. Present only for compatibility with CGI.
 =cut
 
 sub http {
-    my ($this, $p) = @_;
+    my ( $this, $p ) = @_;
     if ( defined $p ) {
         $p =~ s/^https?[_-]//i;
-        return $this->header( $p );
+        return $this->header($p);
     }
     return $this->header();
 }
@@ -735,7 +735,7 @@ Convenience method to get User-Agent string.
 
 *user_agent = \&userAgent;
 
-sub userAgent { shift->header('User-Agent') };
+sub userAgent { shift->header('User-Agent') }
 
 =begin twiki
 
@@ -745,6 +745,6 @@ Convenience method to get Referer uri.
 
 =cut
 
-sub referer   { shift->header('Referer')    };
+sub referer { shift->header('Referer') }
 
 1;

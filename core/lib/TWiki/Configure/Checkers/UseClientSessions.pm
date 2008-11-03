@@ -24,38 +24,39 @@ use base 'TWiki::Configure::Checker';
 
 my @modules = (
     {
-        name => 'CGI::Session',
-        usage => "Sessions",
+        name            => 'CGI::Session',
+        usage           => "Sessions",
         requiredVersion => 1,
     },
     {
-        name => 'CGI::Cookie',
-        usage => "Sessions",
+        name               => 'CGI::Cookie',
+        usage              => "Sessions",
         recommendedVersion => 1,
     },
-   );
+);
 
 sub check {
     my $this = shift;
 
     my $mess = '';
-    if (!eval "use CGI::Cookie; 1") {
+    if ( !eval "use CGI::Cookie; 1" ) {
         $mess .= <<HERE;
 The CGI::Cookie Perl module is required for session support, but is not
 available.
 HERE
     }
-    if (!eval "use CGI::Session; 1") {
+    if ( !eval "use CGI::Session; 1" ) {
         $mess .= <<HERE;
 The CGI::Session Perl module is required for session support, but is not
 available.
 HERE
     }
-    if( $mess ) {
-        if ($TWiki::cfg{UseClientSessions} ) {
-            $mess = $this->ERROR( $mess );
-        } else {
-            $mess = $this->WARN( $mess );
+    if ($mess) {
+        if ( $TWiki::cfg{UseClientSessions} ) {
+            $mess = $this->ERROR($mess);
+        }
+        else {
+            $mess = $this->WARN($mess);
         }
     }
     return $mess;

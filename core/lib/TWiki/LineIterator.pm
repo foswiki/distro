@@ -37,25 +37,26 @@ there will be no elements in the iterator.
 
 =cut
 
-
 sub new {
-    my ($class, $file) = @_;
-    my $this = bless({}, $class);
+    my ( $class, $file ) = @_;
+    my $this = bless( {}, $class );
     $this->{nextLine} = undef;
-    if( open($this->{handle}, '<', $file )) {
+    if ( open( $this->{handle}, '<', $file ) ) {
         $this->next();
-    } else {
+    }
+    else {
         die $!;
-    };
+    }
     $this->{process} = undef;
-    $this->{filter} = undef;
+    $this->{filter}  = undef;
 
     return $this;
 }
 
 sub _DESTROY {
     my $this = shift;
-    if( defined( $this->{nextLine} )) {
+    if ( defined( $this->{nextLine} ) ) {
+
         # the iterator is still open
         close( $this->{handle} );
     }
@@ -110,21 +111,26 @@ while ($it->hasNext()) {
 =cut
 
 sub next {
-    my ($this) = @_;
+    my ($this)  = @_;
     my $curLine = $this->{nextLine};
-    my $h = $this->{handle};
+    my $h       = $this->{handle};
     local $/ = "\n";
     do {
         $this->{nextLine} = <$h>;
-        if( ! defined( $this->{nextLine} )) {
-            close( $h );
-        } else {
+        if ( !defined( $this->{nextLine} ) ) {
+            close($h);
+        }
+        else {
             chomp( $this->{nextLine} );
         }
-    } while (!( !defined( $this->{nextLine} ) ||
-               !$this->{filter} ||
-                 !&{$this->{filter}}($this->{nextLine})));
-    $curLine = &{$this->{process}}($curLine) if $this->{process};
+      } while (
+        !(
+               !defined( $this->{nextLine} )
+            || !$this->{filter}
+            || !&{ $this->{filter} }( $this->{nextLine} )
+        )
+      );
+    $curLine = &{ $this->{process} }($curLine) if $this->{process};
     return $curLine;
 }
 

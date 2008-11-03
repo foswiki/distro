@@ -6,7 +6,7 @@ use strict;
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new( @_ );
+    my $this  = $class->SUPER::new(@_);
     $this->{size} ||= 0;
     $this->{size} =~ s/\D//g;
     $this->{size} ||= 0;
@@ -22,51 +22,56 @@ sub getDefaultValue { undef }
 sub isMultiValued { 1 }
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $web, $topic, $value ) = @_;
 
     my $session = $this->{session};
-    my $extra = '';
-    if( $this->{type} =~ m/\+buttons/ ) {
-        my $boxes = scalar( @{$this->getOptions()} );
+    my $extra   = '';
+    if ( $this->{type} =~ m/\+buttons/ ) {
+        my $boxes = scalar( @{ $this->getOptions() } );
         $extra = CGI::br();
-        $extra .= CGI::button
-          ( -class => 'twikiCheckBox twikiEditFormCheckboxButton',
-            -value => $session->i18n->maketext('Set all'),
-            -onClick => 'checkAll(this,2,'.$boxes.',true)' );
+        $extra .= CGI::button(
+            -class   => 'twikiCheckBox twikiEditFormCheckboxButton',
+            -value   => $session->i18n->maketext('Set all'),
+            -onClick => 'checkAll(this,2,' . $boxes . ',true)'
+        );
         $extra .= '&nbsp;';
-        $extra .= CGI::button
-          ( -class => 'twikiCheckBox twikiEditFormCheckboxButton',
-            -value => $session->i18n->maketext('Clear all'),
-            -onClick => 'checkAll(this,1,'.$boxes.',false)');
+        $extra .= CGI::button(
+            -class   => 'twikiCheckBox twikiEditFormCheckboxButton',
+            -value   => $session->i18n->maketext('Clear all'),
+            -onClick => 'checkAll(this,1,' . $boxes . ',false)'
+        );
     }
-    $value = '' unless defined( $value ) && length( $value );
-    my %isSelected = map { $_ => 1 } split(/\s*,\s*/, $value);
+    $value = '' unless defined($value) && length($value);
+    my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     my %attrs;
     my @defaults;
-    foreach my $item ( @{$this->getOptions()} ) {
-        # NOTE: Does not expand $item in label
-        $attrs{$item} =
-          {
-              class => $this->cssClasses('twikiEditFormCheckboxField'),
-              label => $session->handleCommonTags( $item, $web, $topic ),
-          };
+    foreach my $item ( @{ $this->getOptions() } ) {
 
-        if( $isSelected{$item} ) {
+        # NOTE: Does not expand $item in label
+        $attrs{$item} = {
+            class => $this->cssClasses('twikiEditFormCheckboxField'),
+            label => $session->handleCommonTags( $item, $web, $topic ),
+        };
+
+        if ( $isSelected{$item} ) {
             $attrs{$item}{checked} = 'checked';
             push( @defaults, $item );
         }
     }
-    $value = CGI::checkbox_group( -name => $this->{name},
-                                  -values => $this->getOptions(),
-                                  -defaults => \@defaults,
-                                  -columns => $this->{size},
-                                  -attributes => \%attrs );
+    $value = CGI::checkbox_group(
+        -name       => $this->{name},
+        -values     => $this->getOptions(),
+        -defaults   => \@defaults,
+        -columns    => $this->{size},
+        -attributes => \%attrs
+    );
+
     # Item2410: We need a dummy control to detect the case where
     #           all checkboxes have been deliberately unchecked
     # Item3061:
     # Don't use CGI, it will insert the sticky value from the query
     # once again and we need an empty field here.
-    $value .= '<input type="hidden" name="'.$this->{name}.'" value="" />';
+    $value .= '<input type="hidden" name="' . $this->{name} . '" value="" />';
     return ( $extra, $value );
 }
 

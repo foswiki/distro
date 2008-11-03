@@ -15,17 +15,19 @@ sub new {
     my $class = shift;
     return $class->SUPER::new(
         name => 'isweb',
-        prec => 600);
+        prec => 600
+    );
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}->[0];
-    my %domain = @_;
+    my $this    = shift;
+    my $node    = shift;
+    my $a       = $node->{params}->[0];
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
     my $web = $a->_evaluate(@_) || '';
     return $session->{store}->webExists($web) ? 1 : 0;
 }

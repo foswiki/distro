@@ -32,56 +32,59 @@ sub preview {
     my $session = shift;
 
     my $query = $session->{request};
-    my $web = $session->{webName};
+    my $web   = $session->{webName};
     my $topic = $session->{topicName};
-    my $user = $session->{user};
+    my $user  = $session->{user};
 
-    my( $meta, $text, $saveOpts, $merged ) =
-      TWiki::UI::Save::buildNewTopic($session, 'preview');
+    my ( $meta, $text, $saveOpts, $merged ) =
+      TWiki::UI::Save::buildNewTopic( $session, 'preview' );
 
     # Note: param(formtemplate) has already been decoded by buildNewTopic
     # so the $meta entry reflects if it was used.
     my $formFields = '';
     my $form = $meta->get('FORM') || '';
-    if( $form ) {
-        $form = $form->{name}; # used later on as well
+    if ($form) {
+        $form = $form->{name};    # used later on as well
         require TWiki::Form;
         my $formDef = new TWiki::Form( $session, $web, $form );
-        unless( $formDef ) {
-            throw TWiki::OopsException( 'attention',
-                                        def => 'no_form_def',
-                                        web => $session->{webName},
-                                        topic => $session->{topicName},
-                                        params => [ $web, $form ] );
+        unless ($formDef) {
+            throw TWiki::OopsException(
+                'attention',
+                def    => 'no_form_def',
+                web    => $session->{webName},
+                topic  => $session->{topicName},
+                params => [ $web, $form ]
+            );
         }
         $formFields = $formDef->renderHidden( $meta, 0 );
     }
 
-    $session->{plugins}->dispatch(
-        'afterEditHandler', $text, $topic, $web );
+    $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
 
     my $skin = $session->getSkin();
     my $tmpl = $session->templates->readTemplate( 'preview', $skin );
-    if( $saveOpts->{minor} ) {
+    if ( $saveOpts->{minor} ) {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/go;
-    } else {
+    }
+    else {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%//go;
     }
-    if( $saveOpts->{forcenewrevision} ) {
+    if ( $saveOpts->{forcenewrevision} ) {
         $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%/checked="checked"/go;
-    } else {
+    }
+    else {
         $tmpl =~ s/%FORCENEWREVISIONCHECKBOX%//go;
     }
-    my $saveCmd = $query->param( 'cmd' ) || '';
+    my $saveCmd = $query->param('cmd') || '';
     $tmpl =~ s/%CMD%/$saveCmd/go;
 
-    my $redirectTo = $query->param( 'redirectto' ) || '';
+    my $redirectTo = $query->param('redirectto') || '';
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/go;
 
     $tmpl =~ s/%FORMTEMPLATE%/$form/g;
 
     my $parent = $meta->get('TOPICPARENT');
-    $parent = $parent->{name} if( $parent );
+    $parent = $parent->{name} if ($parent);
     $parent ||= '';
     $tmpl =~ s/%TOPICPARENT%/$parent/g;
 
@@ -89,10 +92,12 @@ sub preview {
 
     my $dispText = $text;
     $dispText = $session->handleCommonTags( $dispText, $web, $topic, $meta );
-    $dispText = $session->renderer->getRenderedVersion( $dispText, $web, $topic );
+    $dispText =
+      $session->renderer->getRenderedVersion( $dispText, $web, $topic );
 
     # Disable links and inputs in the text
-    $dispText =~ s#<a\s[^>]*>(.*?)</a>#<span class="twikiEmulatedLink">$1</span>#gis;
+    $dispText =~
+      s#<a\s[^>]*>(.*?)</a>#<span class="twikiEmulatedLink">$1</span>#gis;
     $dispText =~ s/<(input|button|textarea) /<$1 disabled="disabled" /gis;
     $dispText =~ s(</?form(|\s.*?)>)()gis;
     $dispText =~ s/(<[^>]*\bon[A-Za-z]+=)('[^']*'|"[^"]*")/$1''/gis;
@@ -108,22 +113,24 @@ sub preview {
     $tmpl =~ s/%HIDDENTEXT%/$text/go;
 
     $tmpl =~ s/<\/?(nop|noautolink)\/?>//gis;
-    
-    #I don't know _where_ these should be done, so I'll do them as late as possible
-    my $originalrev = $query->param( 'originalrev' ); # rev edit started on
-    #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
+
+ #I don't know _where_ these should be done, so I'll do them as late as possible
+    my $originalrev = $query->param('originalrev');    # rev edit started on
+         #ASSERT($originalrev ne '%ORIGINALREV%') if DEBUG;
     $tmpl =~ s/%ORIGINALREV%/$originalrev/go;
-    my $templatetopic = $query->param( 'templatetopic');
+    my $templatetopic = $query->param('templatetopic');
+
     #ASSERT($templatetopic ne '%TEMPLATETOPIC%') if DEBUG;
     $tmpl =~ s/%TEMPLATETOPIC%/$templatetopic/go;
+
     #this one's worrying, its special, and not set much at all
     #$tmpl =~ s/%SETTINGSTOPIC%/$settingstopic/go;
-    my $newtopic = $query->param( 'newtopic' );
+    my $newtopic = $query->param('newtopic');
+
     #ASSERT($newtopic ne '%NEWTOPIC%') if DEBUG;
     $tmpl =~ s/%NEWTOPIC%/$newtopic/go;
 
-
-    $session->writeCompletePage( $tmpl );
+    $session->writeCompletePage($tmpl);
 }
 
 1;

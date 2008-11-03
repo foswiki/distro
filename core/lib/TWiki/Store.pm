@@ -53,8 +53,9 @@ use vars qw( $STORE_FORMAT_VERSION );
 $STORE_FORMAT_VERSION = '1.1';
 
 BEGIN {
+
     # Do a dynamic 'use locale' for this module
-    if( $TWiki::cfg{UseLocale} ) {
+    if ( $TWiki::cfg{UseLocale} ) {
         require locale;
         import locale();
     }
@@ -72,9 +73,9 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    $this->{IMPL} = 'TWiki::Store::'.$TWiki::cfg{StoreImpl};
-    eval 'require '.$this->{IMPL};
-    if( $@ ) {
+    $this->{IMPL} = 'TWiki::Store::' . $TWiki::cfg{StoreImpl};
+    eval 'require ' . $this->{IMPL};
+    if ($@) {
         die "$this->{IMPL} compile failed $@";
     }
 
@@ -101,7 +102,7 @@ sub finish {
 # Get the handler for the current store implementation.
 # $web, $topic and $attachment _must_ be untainted.
 sub _getHandler {
-    my( $this, $web, $topic, $attachment ) = @_;
+    my ( $this, $web, $topic, $attachment ) = @_;
 
     return $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
 }
@@ -128,11 +129,11 @@ TWiki::Meta object.  (The topic text is, as usual, just a string.)
 =cut
 
 sub readTopic {
-    my( $this, $user, $web, $topic, $version ) = @_;
+    my ( $this, $user, $web, $topic, $version ) = @_;
     $web =~ s#\.#/#go;
 
-    if (defined $version) {
-    	$version = $this->cleanUpRevID( $version );
+    if ( defined $version ) {
+        $version = $this->cleanUpRevID($version);
     }
 
     # SMELL: assumes that the backend can't store meta outside the topic
@@ -140,29 +141,39 @@ sub readTopic {
     my $meta = new TWiki::Meta( $this->{session}, $web, $topic, $text );
 
     # Override meta with that blended from pub.
-    if ($TWiki::cfg{AutoAttachPubFiles} &&
-        $web eq $this->{session}->{webName} && # only check the currently requested topic
-        $topic eq $this->{session}->{topicName}) {
+    if (
+           $TWiki::cfg{AutoAttachPubFiles}
+        && $web eq $this->{session}->{webName}
+        &&    # only check the currently requested topic
+        $topic eq $this->{session}->{topicName}
+      )
+    {
 
-      my @knownAttachments = $meta->find('FILEATTACHMENT');
-      my @attachmentsFoundInPub = _findAttachments($this, $web, $topic, \@knownAttachments);
-      my @validAttachmentsFound;
-      foreach my $foundAttachment (@attachmentsFoundInPub) {
+        my @knownAttachments = $meta->find('FILEATTACHMENT');
+        my @attachmentsFoundInPub =
+          _findAttachments( $this, $web, $topic, \@knownAttachments );
+        my @validAttachmentsFound;
+        foreach my $foundAttachment (@attachmentsFoundInPub) {
             my ( $fileName, $origName ) =
-                TWiki::Sandbox::sanitizeAttachmentName( $foundAttachment->{name} );
-            #test if the attachment filenam would need sanitizing, if so, ignore it.
-            if ($fileName ne $origName) {
-                $this->{session}->writeWarning
-                    ("AutoAttachPubFiles ignoring $origName, in $web.$topic - not a valid TWiki Attachment filename");
-            } else {
+              TWiki::Sandbox::sanitizeAttachmentName(
+                $foundAttachment->{name} );
+
+        #test if the attachment filenam would need sanitizing, if so, ignore it.
+            if ( $fileName ne $origName ) {
+                $this->{session}->writeWarning(
+"AutoAttachPubFiles ignoring $origName, in $web.$topic - not a valid TWiki Attachment filename"
+                );
+            }
+            else {
                 push @validAttachmentsFound, $foundAttachment;
             }
-      }
+        }
 
-      $meta->putAll('FILEATTACHMENT', @validAttachmentsFound) if @validAttachmentsFound;
+        $meta->putAll( 'FILEATTACHMENT', @validAttachmentsFound )
+          if @validAttachmentsFound;
     }
 
-    return( $meta, $meta->text() );
+    return ( $meta, $meta->text() );
 }
 
 =pod 
@@ -183,51 +194,50 @@ TODO consider logging when things are added to metadata
 =cut
 
 sub _findAttachments {
-    my ($this, $web, $topic, $attachmentsKnownInMeta) = @_;
+    my ( $this, $web, $topic, $attachmentsKnownInMeta ) = @_;
     my $session = $this->{session};
-    ASSERT($session->isa( 'TWiki' )) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
     my $store = $this;
 
-    my %filesListedInPub = $store->getAttachmentList($web, $topic);
+    my %filesListedInPub = $store->getAttachmentList( $web, $topic );
     my %filesListedInMeta = ();
 
     # You need the following lines if you want metadata to supplement
     # the filesystem
-    if (defined $attachmentsKnownInMeta) {
-        %filesListedInMeta = map {
-            $_->{name} => $_ } @$attachmentsKnownInMeta;
+    if ( defined $attachmentsKnownInMeta ) {
+        %filesListedInMeta = map { $_->{name} => $_ } @$attachmentsKnownInMeta;
     }
 
-    foreach my $file (keys %filesListedInPub) {
-        if ($filesListedInMeta{$file}) {
-            # Bring forward any missing yet wanted attributes
-            #SMELL: this will over-write (empty) any meta data field not listed here :( 
+    foreach my $file ( keys %filesListedInPub ) {
+        if ( $filesListedInMeta{$file} ) {
+
+     # Bring forward any missing yet wanted attributes
+     #SMELL: this will over-write (empty) any meta data field not listed here :(
             foreach my $field qw(comment attr user version) {
-              if ($filesListedInMeta{$file}{$field}) {
-                $filesListedInPub{$file}{$field} =
-                $filesListedInMeta{$file}{$field};
-              }
+                if ( $filesListedInMeta{$file}{$field} ) {
+                    $filesListedInPub{$file}{$field} =
+                      $filesListedInMeta{$file}{$field};
+                }
             }
-        # Develop:Bugs.Item452 - WHY IS USER STILL WRONG?
-      }
+
+            # Develop:Bugs.Item452 - WHY IS USER STILL WRONG?
+        }
     }
 
-    # A comparison of the keys of the $filesListedInMeta and %filesListedInPub 
+    # A comparison of the keys of the $filesListedInMeta and %filesListedInPub
     # would show files that were in Meta but have disappeared from Pub.
 
     # SMELL Meta really ought index its attachments in a hash by attachment
     # name but this is not the case
     #
     # SMELL: Do not change this from array to hash, you would lose the
-    # proper attachment sequence 
+    # proper attachment sequence
     #
-    my @deindexedBecauseMetaDoesnotIndexAttachments =
-      values(%filesListedInPub);
+    my @deindexedBecauseMetaDoesnotIndexAttachments = values(%filesListedInPub);
 
     return @deindexedBecauseMetaDoesnotIndexAttachments;
 }
-
 
 =pod
 
@@ -255,32 +265,35 @@ $web and $topic _must_ be untainted.
 =cut
 
 sub readTopicRaw {
-    my( $this, $user, $web, $topic, $version ) = @_;
+    my ( $this, $user, $web, $topic, $version ) = @_;
     $web =~ s#\.#/#go;
 
     # test if topic contains a webName to override $web
-    ( $web, $topic ) =
-      $this->{session}->normalizeWebTopicName( $web, $topic );
+    ( $web, $topic ) = $this->{session}->normalizeWebTopicName( $web, $topic );
 
     my $text;
 
     my $handler = _getHandler( $this, $web, $topic );
-    unless ( $version ) {
+    unless ($version) {
         $text = $handler->getLatestRevision();
-    } else {
-        $text = $handler->getRevision( $version );
+    }
+    else {
+        $text = $handler->getRevision($version);
     }
 
     # Note: passing undef as meta will cause extraction of the meta
     # from the (raw) text passed
     # SMELL: assumes that the backend can't store meta outside the topic
-    if( $user &&
-          !$this->{session}->security->checkAccessPermission
-            ( 'VIEW', $user, $text, undef, $topic, $web )) {
+    if (
+        $user
+        && !$this->{session}->security->checkAccessPermission(
+            'VIEW', $user, $text, undef, $topic, $web
+        )
+      )
+    {
         my $users = $this->{session}->{users};
-        throw TWiki::AccessControlException(
-            'VIEW', $user, $web, $topic,
-            $this->{session}->security->getReason());
+        throw TWiki::AccessControlException( 'VIEW', $user, $web, $topic,
+            $this->{session}->security->getReason() );
     }
 
     return $text;
@@ -299,72 +312,89 @@ All parameters must be defined, and must be untainted.
 =cut
 
 sub moveAttachment {
-    my( $this, $oldWeb, $oldTopic, $oldAttachment,
-        $newWeb, $newTopic, $newAttachment, $user ) = @_;
+    my ( $this, $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic,
+        $newAttachment, $user )
+      = @_;
     my $users = $this->{session}->{users};
 
     $this->lockTopic( $user, $oldWeb, $oldTopic );
     try {
-        my( $ometa, $otext ) = $this->readTopic( undef, $oldWeb, $oldTopic );
-        if( $user &&
-              !$this->{session}->security->checkAccessPermission
-                ( 'CHANGE', $user, $otext, $ometa, $oldTopic, $oldWeb )) {
-            throw TWiki::AccessControlException(
-                'CHANGE', $user, $oldWeb, $oldTopic,
-                $this->{session}->security->getReason());
+        my ( $ometa, $otext ) = $this->readTopic( undef, $oldWeb, $oldTopic );
+        if (
+            $user
+            && !$this->{session}->security->checkAccessPermission(
+                'CHANGE', $user, $otext, $ometa, $oldTopic, $oldWeb
+            )
+          )
+        {
+            throw TWiki::AccessControlException( 'CHANGE', $user, $oldWeb,
+                $oldTopic, $this->{session}->security->getReason() );
         }
 
         my ( $nmeta, $ntext ) = $this->readTopic( undef, $newWeb, $newTopic );
-        if( $user &&
-              !$this->{session}->security->checkAccessPermission
-                ( 'CHANGE', $user, $ntext, $nmeta, $newTopic, $newWeb )) {
-            throw TWiki::AccessControlException(
-                'CHANGE', $user, $newWeb, $newTopic,
-                $this->{session}->security->getReason());
+        if (
+            $user
+            && !$this->{session}->security->checkAccessPermission(
+                'CHANGE', $user, $ntext, $nmeta, $newTopic, $newWeb
+            )
+          )
+        {
+            throw TWiki::AccessControlException( 'CHANGE', $user, $newWeb,
+                $newTopic, $this->{session}->security->getReason() );
         }
 
         # Remove file attachment from old topic
-        my $handler =
-          _getHandler( $this, $oldWeb, $oldTopic, $oldAttachment );
+        my $handler = _getHandler( $this, $oldWeb, $oldTopic, $oldAttachment );
 
         $handler->moveAttachment( $newWeb, $newTopic, $newAttachment );
 
-        my $fileAttachment =
-          $ometa->get( 'FILEATTACHMENT', $oldAttachment );
+        my $fileAttachment = $ometa->get( 'FILEATTACHMENT', $oldAttachment );
         $ometa->remove( 'FILEATTACHMENT', $oldAttachment );
         _noHandlersSave( $this, $user, $oldWeb, $oldTopic, $otext, $ometa,
-                                { notify => 0 } );
+            { notify => 0 } );
 
         # we move the attachment in the the old topic
         # so we need to remove the attachment in nmeta
-        if( $oldTopic eq $newTopic && $oldWeb eq $newWeb ) {
-               $nmeta->remove( 'FILEATTACHMENT', $oldAttachment );
-	}
+        if ( $oldTopic eq $newTopic && $oldWeb eq $newWeb ) {
+            $nmeta->remove( 'FILEATTACHMENT', $oldAttachment );
+        }
 
         # Add file attachment to new topic
         $fileAttachment->{name} = $newAttachment;
-        $fileAttachment->{movefrom} = $oldWeb.'.'.$oldTopic.'.'.$oldAttachment;
-        $fileAttachment->{moveby}   = $user;
-        $fileAttachment->{movedto}  = $newWeb.'.'.$newTopic.'.'.$newAttachment;
+        $fileAttachment->{movefrom} =
+          $oldWeb . '.' . $oldTopic . '.' . $oldAttachment;
+        $fileAttachment->{moveby} = $user;
+        $fileAttachment->{movedto} =
+          $newWeb . '.' . $newTopic . '.' . $newAttachment;
         $fileAttachment->{movedwhen} = time();
         $nmeta->putKeyed( 'FILEATTACHMENT', $fileAttachment );
 
-        _noHandlersSave( $this, $user, $newWeb, $newTopic, $ntext,
-                                $nmeta, { dontlog => 1,
-                                          notify => 0,
-                                          comment => 'moved' } );
+        _noHandlersSave(
+            $this, $user, $newWeb,
+            $newTopic,
+            $ntext, $nmeta,
+            {
+                dontlog => 1,
+                notify  => 0,
+                comment => 'moved'
+            }
+        );
         $this->{session}->writeLog(
             'move',
-            $fileAttachment->{movefrom}.' moved to '.
-              $fileAttachment->{movedto}, $users->webDotWikiName($user) );
-    } finally {
+            $fileAttachment->{movefrom}
+              . ' moved to '
+              . $fileAttachment->{movedto},
+            $users->webDotWikiName($user)
+        );
+    }
+    finally {
         $this->unlockTopic( $user, $oldWeb, $oldTopic );
         $this->unlockTopic( $user, $newWeb, $newTopic );
     };
 
     # alert plugins of attachment move
-    $this->{session}->{plugins}->dispatch(
-        'afterRenameHandler', $oldWeb, $oldTopic, $oldAttachment,
+    $this->{session}->{plugins}
+      ->dispatch( 'afterRenameHandler', $oldWeb, $oldTopic, $oldAttachment,
         $newWeb, $newTopic, $newAttachment );
 }
 
@@ -390,13 +420,16 @@ Permissions are checked for the user name passed in.
 sub getAttachmentStream {
     my ( $this, $user, $web, $topic, $att ) = @_;
 
-    if( $user &&
-          !$this->{session}->security->checkAccessPermission
-            ( 'VIEW', $user, undef, undef, $topic, $web )) {
+    if (
+        $user
+        && !$this->{session}->security->checkAccessPermission(
+            'VIEW', $user, undef, undef, $topic, $web
+        )
+      )
+    {
         my $users = $this->{session}->{users};
-        throw TWiki::AccessControlException(
-            'VIEW', $user, $web, $topic,
-            $this->{session}->security->getReason());
+        throw TWiki::AccessControlException( 'VIEW', $user, $web, $topic,
+            $this->{session}->security->getReason() );
     }
 
     my $handler = _getHandler( $this, $web, $topic, $att );
@@ -412,10 +445,10 @@ returns @($attachmentName => [stat]) for any given web, topic
 =cut
 
 sub getAttachmentList {
-    my( $this, $web, $topic ) = @_;
+    my ( $this, $web, $topic ) = @_;
 
     my $handler = _getHandler( $this, $web, $topic );
-    return $handler->getAttachmentList($web, $topic);
+    return $handler->getAttachmentList( $web, $topic );
 }
 
 =pod
@@ -427,7 +460,7 @@ Determine if the attachment already exists on the given topic
 =cut
 
 sub attachmentExists {
-    my( $this, $web, $topic, $att ) = @_;
+    my ( $this, $web, $topic, $att ) = @_;
 
     my $handler = _getHandler( $this, $web, $topic, $att );
     return $handler->storedDataExists();
@@ -442,9 +475,10 @@ This is where we are going to remove from meta any entry that is marked as an au
 =cut
 
 sub _removeAutoAttachmentsFromMeta {
-    my ($this, $meta) = @_;
-#    use Data::Dumper;
-#    die "removeAutoAttachmentsFromMeta".Dumper($meta);
+    my ( $this, $meta ) = @_;
+
+    #    use Data::Dumper;
+    #    die "removeAutoAttachmentsFromMeta".Dumper($meta);
     return $meta;
 }
 
@@ -457,11 +491,11 @@ All parameters must be defined and must be untainted.
 =cut
 
 sub moveTopic {
-    my( $this, $oldWeb, $oldTopic, $newWeb, $newTopic, $user ) = @_;
+    my ( $this, $oldWeb, $oldTopic, $newWeb, $newTopic, $user ) = @_;
 
     my $handler = _getHandler( $this, $oldWeb, $oldTopic, '' );
-    my $rev = $handler->numRevisions();
-    my $users = $this->{session}->{users};
+    my $rev     = $handler->numRevisions();
+    my $users   = $this->{session}->{users};
 
     # will block
     $this->lockTopic( $user, $oldWeb, $oldTopic );
@@ -473,34 +507,42 @@ sub moveTopic {
 
     try {
         my $otext = $this->readTopicRaw( undef, $oldWeb, $oldTopic );
+
         # Note: undef $meta param will cause $otext to be parsed for meta
-        if( $user &&
-              !$this->{session}->security->checkAccessPermission
-                ( 'CHANGE', $user, $otext, undef, $oldTopic, $oldWeb )) {
-            throw TWiki::AccessControlException(
-                'CHANGE', $user,
-                $oldWeb, $oldTopic,
-                $this->{session}->security->getReason());
+        if (
+            $user
+            && !$this->{session}->security->checkAccessPermission(
+                'CHANGE', $user, $otext, undef, $oldTopic, $oldWeb
+            )
+          )
+        {
+            throw TWiki::AccessControlException( 'CHANGE', $user, $oldWeb,
+                $oldTopic, $this->{session}->security->getReason() );
         }
 
         my ( $nmeta, $ntext );
-        if( $this->topicExists( $newWeb, $newTopic )) {
+        if ( $this->topicExists( $newWeb, $newTopic ) ) {
             ( $nmeta, $ntext ) = $this->readTopic( undef, $newWeb, $newTopic );
         }
-        if( $user &&
-              !$this->{session}->security->checkAccessPermission
-                ( 'CHANGE', $user, $ntext, $nmeta, $newTopic, $newWeb )) {
-            throw TWiki::AccessControlException(
-                'CHANGE', $user, $newWeb, $newTopic,
-                $this->{session}->security->getReason());
+        if (
+            $user
+            && !$this->{session}->security->checkAccessPermission(
+                'CHANGE', $user, $ntext, $nmeta, $newTopic, $newWeb
+            )
+          )
+        {
+            throw TWiki::AccessControlException( 'CHANGE', $user, $newWeb,
+                $newTopic, $this->{session}->security->getReason() );
         }
 
         $handler->moveTopic( $newWeb, $newTopic );
-    } finally {
+    }
+    finally {
         $this->unlockTopic( $user, $oldWeb, $oldTopic );
     };
 
-    if( $newWeb ne $oldWeb ) {
+    if ( $newWeb ne $oldWeb ) {
+
         # Record that it was moved away
         $handler->recordChange( $user, $rev );
     }
@@ -509,16 +551,16 @@ sub moveTopic {
     $handler->recordChange( $user, $rev );
 
     # Log rename
-    if( $TWiki::cfg{Log}{rename} ) {
-        my $old = $oldWeb.'.'.$oldTopic;
-        my $new = $newWeb.'.'.$newTopic;
+    if ( $TWiki::cfg{Log}{rename} ) {
+        my $old = $oldWeb . '.' . $oldTopic;
+        my $new = $newWeb . '.' . $newTopic;
         $this->{session}->writeLog( 'rename', $old, "moved to $new", $user );
     }
 
     # alert plugins of topic move
-    $this->{session}->{plugins}->dispatch(
-        'afterRenameHandler', $oldWeb, $oldTopic, '',
-        $newWeb, $newTopic, '' );
+    $this->{session}->{plugins}
+      ->dispatch( 'afterRenameHandler', $oldWeb, $oldTopic, '', $newWeb,
+        $newTopic, '' );
 }
 
 =pod
@@ -532,34 +574,34 @@ All parrameters must be defined and must be untainted.
 =cut
 
 sub moveWeb {
-    my( $this, $oldWeb, $newWeb, $user ) = @_;
+    my ( $this, $oldWeb, $newWeb, $user ) = @_;
 
     $oldWeb =~ s/\./\//go;
     $newWeb =~ s/\./\//go;
 
-    my (@webList) = $this->getListOfWebs('public', $oldWeb);
-    unshift(@webList,$oldWeb);
+    my (@webList) = $this->getListOfWebs( 'public', $oldWeb );
+    unshift( @webList, $oldWeb );
     foreach my $webIter (@webList) {
-        if( $webIter ) {
-            my @webTopicList = $this->getTopicNames( $webIter );
+        if ($webIter) {
+            my @webTopicList = $this->getTopicNames($webIter);
             foreach my $webTopic (@webTopicList) {
                 $this->lockTopic( $user, $webIter, $webTopic );
             }
         }
     }
 
-    my @newParentPath = split(/\//,$newWeb);
-    pop( @newParentPath );
+    my @newParentPath = split( /\//, $newWeb );
+    pop(@newParentPath);
     my $newParent = join( '/', @newParentPath );
 
     my $handler = _getHandler( $this, $oldWeb );
-    $handler->moveWeb( $newWeb );
+    $handler->moveWeb($newWeb);
 
-    (@webList) = $this->getListOfWebs('public', $newWeb);
-    unshift(@webList, $newWeb);
+    (@webList) = $this->getListOfWebs( 'public', $newWeb );
+    unshift( @webList, $newWeb );
     foreach my $webIter (@webList) {
-        if( $webIter ) {
-            my @webTopicList = $this->getTopicNames( $webIter );
+        if ($webIter) {
+            my @webTopicList = $this->getTopicNames($webIter);
             foreach my $webTopic (@webTopicList) {
                 $this->unlockTopic( $user, $webIter, $webTopic );
             }
@@ -567,13 +609,14 @@ sub moveWeb {
     }
 
     # Log rename
-    if( $TWiki::cfg{Log}{rename} ) {
-        $this->{session}->writeLog( 'renameweb', $oldWeb, 'moved to '.$newWeb, $user );
+    if ( $TWiki::cfg{Log}{rename} ) {
+        $this->{session}
+          ->writeLog( 'renameweb', $oldWeb, 'moved to ' . $newWeb, $user );
     }
 
     # alert plugins of web move
-    $this->{session}->{plugins}->dispatch(
-        'afterRenameHandler', $oldWeb, '', '', $newWeb, '', '' );
+    $this->{session}->{plugins}
+      ->dispatch( 'afterRenameHandler', $oldWeb, '', '', $newWeb, '', '' );
 }
 
 =pod
@@ -594,18 +637,20 @@ If $theRev is not given, the most recent rev is assumed.
 sub readAttachment {
     my ( $this, $user, $web, $topic, $attachment, $theRev ) = @_;
 
-
-    if( $user &&
-          !$this->{session}->security->checkAccessPermission
-            ( 'VIEW', $user, undef, undef, $topic, $web )) {
+    if (
+        $user
+        && !$this->{session}->security->checkAccessPermission(
+            'VIEW', $user, undef, undef, $topic, $web
+        )
+      )
+    {
         my $users = $this->{session}->{users};
-        throw TWiki::AccessControlException(
-            'VIEW', $user, $web, $topic,
-            $this->{session}->security->getReason());
+        throw TWiki::AccessControlException( 'VIEW', $user, $web, $topic,
+            $this->{session}->security->getReason() );
     }
 
     my $handler = _getHandler( $this, $web, $topic, $attachment );
-    return $handler->getRevision( $theRev );
+    return $handler->getRevision($theRev);
 }
 
 =pod
@@ -620,7 +665,7 @@ WORKS FOR ATTACHMENTS AS WELL AS TOPICS
 =cut
 
 sub getRevisionNumber {
-    my( $this, $web, $topic, $attachment ) = @_;
+    my ( $this, $web, $topic, $attachment ) = @_;
 
     $attachment = '' unless $attachment;
 
@@ -638,10 +683,10 @@ intended as a work area for plugins. The directory will exist.
 =cut
 
 sub getWorkArea {
-    my( $this, $key ) = @_;
+    my ( $this, $key ) = @_;
 
     my $handler = _getHandler( $this, );
-    return $handler->getWorkArea( $key );
+    return $handler->getWorkArea($key);
 }
 
 =pod
@@ -659,35 +704,40 @@ Return reference to an array of [ diffType, $right, $left ]
 =cut
 
 sub getRevisionDiff {
-    my( $this, $user, $web, $topic, $rev1, $rev2, $contextLines ) = @_;
-    ASSERT(defined($contextLines)) if DEBUG;
-    if( $user ) {
+    my ( $this, $user, $web, $topic, $rev1, $rev2, $contextLines ) = @_;
+    ASSERT( defined($contextLines) ) if DEBUG;
+    if ($user) {
         my $r1;
         try {
+
             # Make sure both revs are readable.
             $r1 = $this->readTopicRaw( $user, $web, $topic, $rev1 );
-        } catch TWiki::AccessControlException with {
+        }
+        catch TWiki::AccessControlException with {
             $r1 = undef;
         };
         my $r2;
         try {
             $r2 = $this->readTopicRaw( $user, $web, $topic, $rev2 );
-        } catch TWiki::AccessControlException with {
+        }
+        catch TWiki::AccessControlException with {
             $r2 = undef;
         };
         my $rd;
-        if( !defined( $r1 )) {
-            $rd = [[ '-', " *Revision $rev1 is unreadable* ", '' ]];
-            if( !defined( $r2 )) {
+        if ( !defined($r1) ) {
+            $rd = [ [ '-', " *Revision $rev1 is unreadable* ", '' ] ];
+            if ( !defined($r2) ) {
                 push( @$rd, [ '+', '', " *Revision $rev2 is unreadable* " ] );
-            } else {
-                foreach ( split( /\r?\n/, $r2 )) {
+            }
+            else {
+                foreach ( split( /\r?\n/, $r2 ) ) {
                     push( @$rd, [ '+', '', $_ ] );
                 }
             }
-        } elsif( !defined( $r2 )) {
-            $rd = [[ '+', '', " *Revision $rev2 is unreadable* " ]];
-            foreach ( split( /\r?\n/, $r1 )) {
+        }
+        elsif ( !defined($r2) ) {
+            $rd = [ [ '+', '', " *Revision $rev2 is unreadable* " ] ];
+            foreach ( split( /\r?\n/, $r1 ) ) {
                 push( @$rd, [ '-', $_, '' ] );
             }
         }
@@ -724,15 +774,13 @@ coming from meta and Store revision information being out of step.
 =cut
 
 sub getRevisionInfo {
-    my( $this, $web, $topic, $rev, $attachment ) = @_;
+    my ( $this, $web, $topic, $rev, $attachment ) = @_;
 
     $rev ||= 0;
 
-    my $handler =
-      _getHandler( $this, $web, $topic, $attachment );
+    my $handler = _getHandler( $this, $web, $topic, $attachment );
 
-    my( $rrev, $date, $user, $comment ) =
-      $handler->getRevisionInfo( $rev );
+    my ( $rrev, $date, $user, $comment ) = $handler->getRevisionInfo($rev);
     $rev = $rrev;
 
     return ( $date, $user, $rev, $comment );
@@ -785,7 +833,7 @@ sub dataDecode {
 # SMELL: duplication of TWiki::Attrs, using a different
 # system of escapes :-(
 sub _readKeyValues {
-    my( $args, $format ) = @_;
+    my ( $args, $format ) = @_;
     my $res = {};
 
     $format =~ s/[^\d\.]+//g if $format;
@@ -798,16 +846,18 @@ sub _readKeyValues {
 }
 
 sub _singleKey {
-    my( $key, $value, $res, $oldStyle ) = @_;
+    my ( $key, $value, $res, $oldStyle ) = @_;
 
-    if( $oldStyle ) {
+    if ($oldStyle) {
+
         # Old decoding retained for backward compatibility
         # (this encoding is badly broken)
         $value =~ s/%_N_%/\n/g;
         $value =~ s/%_Q_%/\"/g;
         $value =~ s/%_P_%/%/g;
-    } else {
-        $value = dataDecode( $value );
+    }
+    else {
+        $value = dataDecode($value);
     }
 
     $res->{$key} = $value;
@@ -840,40 +890,46 @@ Save a new revision of the topic, calling plugins handlers as appropriate.
 =cut
 
 sub saveTopic {
-    my( $this, $user, $web, $topic, $text, $meta, $options ) = @_;
+    my ( $this, $user, $web, $topic, $text, $meta, $options ) = @_;
     ASSERT($user) if DEBUG;
     $web =~ s#\.#/#go;
     $meta = _removeAutoAttachmentsFromMeta( $this, $meta );
     my $users = $this->{session}->{users};
 
-    $options = {} unless defined( $options );
-    if( $user &&
-          !$this->{session}->security->checkAccessPermission
-            ( 'CHANGE', $user, undef, undef, $topic, $web )) {
-        throw TWiki::AccessControlException(
-            'CHANGE', $user, $web, $topic,
-            $this->{session}->security->getReason());
+    $options = {} unless defined($options);
+    if (
+        $user
+        && !$this->{session}->security->checkAccessPermission(
+            'CHANGE', $user, undef, undef, $topic, $web
+        )
+      )
+    {
+        throw TWiki::AccessControlException( 'CHANGE', $user, $web, $topic,
+            $this->{session}->security->getReason() );
     }
     my $plugins = $this->{session}->{plugins};
+
     # Semantics inherited from Cairo. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
-    if( $plugins->haveHandlerFor( 'beforeSaveHandler' )) {
+    if ( $plugins->haveHandlerFor('beforeSaveHandler') ) {
         my $before = '';
-        if( $meta ) {
+        if ($meta) {
+
             # write the meta into the topic text. Nasty compatibility
             # requirement.
             $meta->text($text);
-            $text = $meta->getEmbeddedStoreForm();
+            $text   = $meta->getEmbeddedStoreForm();
             $before = $meta->stringify();
         }
-        $plugins->dispatch(
-            'beforeSaveHandler', $text, $topic, $web, $meta );
+        $plugins->dispatch( 'beforeSaveHandler', $text, $topic, $web, $meta );
+
         # remove meta again
         my $after = new TWiki::Meta( $this->{session}, $web, $topic, $text );
         $text = $after->text();
+
         # If there are no changes in the $meta object, take the meta
         # from the text. Nasty compatibility requirement.
-        if( !$meta || $meta->stringify() eq $before ){
+        if ( !$meta || $meta->stringify() eq $before ) {
             $meta = $after;
         }
     }
@@ -881,20 +937,20 @@ sub saveTopic {
     my $error;
     try {
         _noHandlersSave( $this, $user, $web, $topic, $text, $meta, $options );
-    } catch Error::Simple with {
+    }
+    catch Error::Simple with {
         $error = shift;
     };
 
     # Semantics inherited from Cairo. See
     # TWiki:Codev.BugBeforeSaveHandlerBroken
-    if( $plugins->haveHandlerFor( 'afterSaveHandler' )) {
-        if( $meta ) {
+    if ( $plugins->haveHandlerFor('afterSaveHandler') ) {
+        if ($meta) {
             $meta->text($text);
             $text = $meta->getEmbeddedStoreForm();
         }
-        $plugins->dispatch(
-            'afterSaveHandler', $text, $topic, $web,
-            $error?$error->{-text}:'', $meta );
+        $plugins->dispatch( 'afterSaveHandler', $text, $topic, $web,
+            $error ? $error->{-text} : '', $meta );
     }
 
     throw $error if $error;
@@ -928,8 +984,8 @@ If file is not set, this is a properties-only save.
 =cut
 
 sub saveAttachment {
-    my( $this, $web, $topic, $attachment, $user, $opts ) = @_;
-    ASSERT(defined($opts)) if DEBUG;
+    my ( $this, $web, $topic, $attachment, $user, $opts ) = @_;
+    ASSERT( defined($opts) ) if DEBUG;
     my $action;
     my $plugins = $this->{session}->{plugins};
     my $attrs;
@@ -938,152 +994,169 @@ sub saveAttachment {
     $this->lockTopic( $user, $web, $topic );
 
     try {
+
         # update topic
-        my( $meta, $text ) = $this->readTopic( undef, $web, $topic, undef );
+        my ( $meta, $text ) = $this->readTopic( undef, $web, $topic, undef );
 
-        if( $user &&
-              !$this->{session}->security->checkAccessPermission
-                ( 'CHANGE', $user, $text, $meta, $topic, $web )) {
+        if (
+            $user
+            && !$this->{session}->security->checkAccessPermission(
+                'CHANGE', $user, $text, $meta, $topic, $web
+            )
+          )
+        {
 
-            throw TWiki::AccessControlException(
-                'CHANGE', $user, $web, $topic,
-                $this->{session}->security->getReason());
+            throw TWiki::AccessControlException( 'CHANGE', $user, $web, $topic,
+                $this->{session}->security->getReason() );
         }
 
-        if( $opts->{file} && !$opts->{stream} ) {
-            open($opts->{stream}, "<$opts->{file}") ||
-              throw Error::Simple('Could not open '.$opts->{file} );
-            binmode($opts->{stream}) ||
-              throw Error::Simple( $opts->{file}.' binmode failed: '.$! );
+        if ( $opts->{file} && !$opts->{stream} ) {
+            open( $opts->{stream}, "<$opts->{file}" )
+              || throw Error::Simple( 'Could not open ' . $opts->{file} );
+            binmode( $opts->{stream} )
+              || throw Error::Simple(
+                $opts->{file} . ' binmode failed: ' . $! );
             $opts->{tmpFilename} = $opts->{file};
         }
         if ( $opts->{stream} ) {
             $action = 'upload';
 
             $attrs = {
-                attachment => $attachment,
-                stream => $opts->{stream},
+                attachment  => $attachment,
+                stream      => $opts->{stream},
                 tmpFilename => $opts->{tmpFilename},
-                user => $user,
-               };
+                user        => $user,
+            };
             $attrs->{comment} = $opts->{comment}
-              if (defined($opts->{comment}));
+              if ( defined( $opts->{comment} ) );
 
             my $handler = _getHandler( $this, $web, $topic, $attachment );
-            
+
             my $tmpFile;
 
-            if( $plugins->haveHandlerFor( 'beforeAttachmentSaveHandler' )) {
+            if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+
                 # We create an extra temporary copy of the uploaded file
                 # It appears that under some circumstances the CGI deletes
                 # the uploaded file when you close it even though the doco
                 # says it is deleted when it goes out of scope.
                 # The code below has proven to work for all. See Item5307
-                
+
                 use File::Temp;
                 my $fh;
-                
+
                 ( $fh, $tmpFile ) = File::Temp::tempfile();
-                binmode( $fh );
+                binmode($fh);
+
                 # transfer 512KB blocks
                 my $transfer;
                 my $r;
-                while( $r = sysread( $opts->{stream}, $transfer, 0x80000 )) {
+                while ( $r = sysread( $opts->{stream}, $transfer, 0x80000 ) ) {
                     syswrite( $fh, $transfer, $r );
                 }
-                close( $fh );
+                close($fh);
                 $attrs->{tmpFilename} = $tmpFile;
-                $plugins->dispatch('beforeAttachmentSaveHandler',
-                                   $attrs, $topic, $web );
+                $plugins->dispatch( 'beforeAttachmentSaveHandler',
+                    $attrs, $topic, $web );
                 open( $opts->{stream}, "<$tmpFile" );
                 binmode( $opts->{stream} );
             }
             my $error;
             try {
                 $handler->addRevisionFromStream( $opts->{stream},
-                                                 $opts->{comment},
-                                                 $user );
-            } catch Error::Simple with {
+                    $opts->{comment}, $user );
+            }
+            catch Error::Simple with {
                 $error = shift;
             };
-            
-            unlink( $tmpFile ) if( $tmpFile && -e $tmpFile );
 
-            if( $plugins->haveHandlerFor( 'afterAttachmentSaveHandler' )) {
-                $plugins->dispatch('afterAttachmentSaveHandler',
-                                   $attrs, $topic, $web,
-                                   $error ? 
-                                     $error->{-text} : '' );
+            unlink($tmpFile) if ( $tmpFile && -e $tmpFile );
+
+            if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
+                $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
+                    $topic, $web, $error ? $error->{-text} : '' );
             }
             throw $error if $error;
 
             $attrs->{name} ||= $attachment;
-            my $fileVersion = $this->getRevisionNumber( $web, $topic,
-                                                        $attachment );
+            my $fileVersion =
+              $this->getRevisionNumber( $web, $topic, $attachment );
             $attrs->{version} = $fileVersion;
-            $attrs->{path} = $opts->{filepath} if (defined($opts->{filepath}));
-            $attrs->{size} = $opts->{filesize} if (defined($opts->{filesize}));
-            $attrs->{date} = $opts->{filedate} if (defined($opts->{filedate}));
-        } else {
+            $attrs->{path}    = $opts->{filepath}
+              if ( defined( $opts->{filepath} ) );
+            $attrs->{size} = $opts->{filesize}
+              if ( defined( $opts->{filesize} ) );
+            $attrs->{date} = $opts->{filedate}
+              if ( defined( $opts->{filedate} ) );
+        }
+        else {
+
             # Property change
-            $action = 'save';
-            $attrs = $meta->get( 'FILEATTACHMENT', $attachment );
-            $attrs->{name} = $attachment;
-            $attrs->{comment} = $opts->{comment} if (defined($opts->{comment}));
+            $action           = 'save';
+            $attrs            = $meta->get( 'FILEATTACHMENT', $attachment );
+            $attrs->{name}    = $attachment;
+            $attrs->{comment} = $opts->{comment}
+              if ( defined( $opts->{comment} ) );
         }
         $attrs->{attr} = ( $opts->{hide} ) ? 'h' : '';
         $meta->putKeyed( 'FILEATTACHMENT', $attrs );
 
-        if( $opts->{createlink} ) {
-            $text .= $this->{session}->attach->getAttachmentLink(
-                $user, $web, $topic, $attachment, $meta );
+        if ( $opts->{createlink} ) {
+            $text .=
+              $this->{session}
+              ->attach->getAttachmentLink( $user, $web, $topic, $attachment,
+                $meta );
         }
 
         $this->saveTopic( $user, $web, $topic, $text, $meta, {} );
 
-    } finally {
+    }
+    finally {
         $this->unlockTopic( $user, $web, $topic );
     };
 
-    if ( ( ! $opts->{dontlog} ) && ( $TWiki::cfg{Log}{$action} ) ) {
-        $this->{session}->writeLog( $action, $web.'.'.$topic, $attachment, $user );
+    if ( ( !$opts->{dontlog} ) && ( $TWiki::cfg{Log}{$action} ) ) {
+        $this->{session}
+          ->writeLog( $action, $web . '.' . $topic, $attachment, $user );
     }
 }
 
 # Save a topic or attachment _without_ invoking plugin handlers.
 # FIXME: does rev info from meta work if user saves a topic with no change?
 sub _noHandlersSave {
-    my( $this, $user, $web, $topic, $text, $meta, $options ) = @_;
+    my ( $this, $user, $web, $topic, $text, $meta, $options ) = @_;
 
     $meta ||= new TWiki::Meta( $this->{session}, $web, $topic );
 
-    my $users = $this->{session}->{users};
-    my $handler = _getHandler( $this, $web, $topic );
+    my $users      = $this->{session}->{users};
+    my $handler    = _getHandler( $this, $web, $topic );
     my $currentRev = $handler->numRevisions() || 0;
-    my $nextRev = $currentRev + 1;
+    my $nextRev    = $currentRev + 1;
 
-    if( $currentRev && !$options->{forcenewrevision} ) {
+    if ( $currentRev && !$options->{forcenewrevision} ) {
+
         # See if we want to replace the existing top revision
         my $mtime1 = $handler->getTimestamp();
         my $mtime2 = time();
 
-        if( abs( $mtime2 - $mtime1 ) <
-              $TWiki::cfg{ReplaceIfEditedAgainWithin} ) {
+        if (
+            abs( $mtime2 - $mtime1 ) < $TWiki::cfg{ReplaceIfEditedAgainWithin} )
+        {
 
-            my( $rev, $date, $revuser, $comment ) =
-              $handler->getRevisionInfo( $currentRev );
+            my ( $rev, $date, $revuser, $comment ) =
+              $handler->getRevisionInfo($currentRev);
 
             # same user?
-            if(  $revuser eq $user ) {
-                $this->repRev( $user, $web, $topic, $text,
-                               $meta, $options );
+            if ( $revuser eq $user ) {
+                $this->repRev( $user, $web, $topic, $text, $meta, $options );
                 return;
             }
         }
     }
 
-    if( $meta ) {
-        $meta->addTOPICINFO( $nextRev, time(), $user, 0, $STORE_FORMAT_VERSION );
+    if ($meta) {
+        $meta->addTOPICINFO( $nextRev, time(), $user, 0,
+            $STORE_FORMAT_VERSION );
         $meta->text($text);
         $text = $meta->getEmbeddedStoreForm();
     }
@@ -1092,19 +1165,20 @@ sub _noHandlersSave {
     $this->lockTopic( $user, $web, $topic );
 
     try {
-        $handler->addRevisionFromText( $text, $options->{comment},
-                                       $user );
+        $handler->addRevisionFromText( $text, $options->{comment}, $user );
+
         # just in case they are not sequential
         $nextRev = $handler->numRevisions();
 
         my $extra = $options->{minor} ? 'minor' : '';
         $handler->recordChange( $user, $nextRev, $extra );
 
-        if( ( $TWiki::cfg{Log}{save} ) && ! ( $options->{dontlog} ) ) {
-            $this->{session}->writeLog( 'save', $web.'.'.$topic,
-                                        $extra, $user );
+        if ( ( $TWiki::cfg{Log}{save} ) && !( $options->{dontlog} ) ) {
+            $this->{session}
+              ->writeLog( 'save', $web . '.' . $topic, $extra, $user );
         }
-    } finally {
+    }
+    finally {
         $this->unlockTopic( $user, $web, $topic );
     };
 }
@@ -1131,17 +1205,18 @@ to a normal save or not.
 =cut
 
 sub repRev {
-    my( $this, $user, $web, $topic, $text, $meta, $options ) = @_;
+    my ( $this, $user, $web, $topic, $text, $meta, $options ) = @_;
 
-    ASSERT($meta && $meta->isa('TWiki::Meta')) if DEBUG;
+    ASSERT( $meta && $meta->isa('TWiki::Meta') ) if DEBUG;
 
-    my( $revdate, $revuser, $rev ) = $meta->getRevisionInfo();
+    my ( $revdate, $revuser, $rev ) = $meta->getRevisionInfo();
     my $users = $this->{session}->{users};
 
     # RCS requires a newline for the last line,
     $text .= "\n" unless $text =~ /\n$/s;
 
-    if( $options->{timetravel} ) {
+    if ( $options->{timetravel} ) {
+
         # We are trying to force the rev to be saved with the same date
         # and user as the prior rev. However, exactly the same date may
         # cause some revision control systems to barf, so to avoid this we
@@ -1149,7 +1224,9 @@ sub repRev {
         # will normally require sysadmin privilege, as it can result in
         # confused rev dates if abused.
         $revdate += 60;
-    } else {
+    }
+    else {
+
         # use defaults (current time, current user)
         $revdate = time();
         $revuser = $user;
@@ -1161,22 +1238,28 @@ sub repRev {
     $this->lockTopic( $user, $web, $topic );
     try {
         my $handler = _getHandler( $this, $web, $topic );
-        $handler->replaceRevision( $text, $options->{comment},
-                                        $revuser, $revdate );
-    } finally {
+        $handler->replaceRevision( $text, $options->{comment}, $revuser,
+            $revdate );
+    }
+    finally {
         $this->unlockTopic( $user, $web, $topic );
     };
 
-    if( ( $TWiki::cfg{Log}{save} ) && ! ( $options->{dontlog} ) ) {
+    if ( ( $TWiki::cfg{Log}{save} ) && !( $options->{dontlog} ) ) {
+
         # write log entry
         require TWiki::Time;
 
-        my $extra = "repRev $rev by " .
-          $revuser .
-            ' '. TWiki::Time::formatTime( $revdate, '$rcs', 'gmtime' );
-        $extra   .= ' minor' if( $options->{minor} );
-        $this->{session}->writeLog( $options->{operation} || 'save',
-                                    $web.'.'.$topic, $extra, $user );
+        my $extra =
+            "repRev $rev by " 
+          . $revuser . ' '
+          . TWiki::Time::formatTime( $revdate, '$rcs', 'gmtime' );
+        $extra .= ' minor' if ( $options->{minor} );
+        $this->{session}->writeLog(
+            $options->{operation} || 'save',
+            $web . '.' . $topic,
+            $extra, $user
+        );
     }
 }
 
@@ -1198,12 +1281,12 @@ simply promote the previous revision up to the head.
 =cut
 
 sub delRev {
-    my( $this, $user, $web, $topic ) = @_;
+    my ( $this, $user, $web, $topic ) = @_;
 
     my $rev = $this->getRevisionNumber( $web, $topic );
-    if( $rev <= 1 ) {
-        throw Error::Simple( 'Cannot delete initial revision of '.
-                               $web.'.'.$topic );
+    if ( $rev <= 1 ) {
+        throw Error::Simple(
+            'Cannot delete initial revision of ' . $web . '.' . $topic );
     }
 
     $this->lockTopic( $user, $web, $topic );
@@ -1213,15 +1296,19 @@ sub delRev {
 
         # restore last topic from repository
         $handler->restoreLatestRevision($user);
-    } finally {
+    }
+    finally {
         $this->unlockTopic( $user, $web, $topic );
     };
 
     # TODO: delete entry in .changes
 
     # write log entry
-    $this->{session}->writeLog( 'cmd', $web.'.'.$topic, 'delRev by '.
-                                  $user.": $rev", $user );
+    $this->{session}->writeLog(
+        'cmd',
+        $web . '.' . $topic,
+        'delRev by ' . $user . ": $rev", $user
+    );
 }
 
 =pod
@@ -1244,26 +1331,27 @@ _note_ the locks used when a topic is edited; those are Leases
 
 sub lockTopic {
     my ( $this, $locker, $web, $topic ) = @_;
-    ASSERT($web && $topic) if DEBUG;
+    ASSERT( $web && $topic ) if DEBUG;
 
     my $handler = _getHandler( $this, $web, $topic );
     my $users = $this->{session}->{users};
 
-    while ( 1 ) {
+    while (1) {
         my ( $user, $time ) = $handler->isLocked();
         last if ( !$user || $locker eq $user );
-        $this->{session}->writeWarning( "Lock on $web.$topic for ".
-                                          $locker.
-                                            " denied by $user" );
+        $this->{session}->writeWarning(
+            "Lock on $web.$topic for " . $locker . " denied by $user" );
+
         # see how old the lock is. If it's older than 2 minutes,
         # break it anyway. Locks are atomic, and should never be
         # held that long, by _any_ process.
         if ( time() - $time > 2 * 60 ) {
-            $this->{session}->writeWarning
-              ( $locker." broke ${user}s lock on $web.$topic" );
-            $handler->setLock( 0 );
+            $this->{session}
+              ->writeWarning( $locker . " broke ${user}s lock on $web.$topic" );
+            $handler->setLock(0);
             last;
         }
+
         # wait a couple of seconds before trying again
         sleep(2);
     }
@@ -1305,7 +1393,7 @@ A web _has_ to have a preferences topic to be a web.
 =cut
 
 sub webExists {
-    my( $this, $web ) = @_;
+    my ( $this, $web ) = @_;
     $web =~ s#\.#/#go;
 
     return 0 unless defined $web;
@@ -1327,16 +1415,16 @@ Test if topic exists
  for you (it'd make TWiki even slower) so make sure you do so.
  
 =cut
-  
+
 sub topicExists {
-    my( $this, $web, $topic ) = @_;
+    my ( $this, $web, $topic ) = @_;
     $web =~ s#\.#/#go;
-    ASSERT(defined($topic)) if DEBUG;
+    ASSERT( defined($topic) ) if DEBUG;
     if (DEBUG) {
-	    my     ( $webTest, $topicTest ) =
-		    $this->{session}->normalizeWebTopicName( $web, $topic );
-	    ASSERT($topic eq $topicTest);
-	    ASSERT($web eq $webTest);
+        my ( $webTest, $topicTest ) =
+          $this->{session}->normalizeWebTopicName( $web, $topic );
+        ASSERT( $topic eq $topicTest );
+        ASSERT( $web   eq $webTest );
     }
     return 0 unless $topic;
 
@@ -1355,20 +1443,23 @@ sub topicExists {
 # meta-data is embedded in text.
 #
 sub extractMetaData {
-    my( $this, $meta, $text ) = @_;
+    my ( $this, $meta, $text ) = @_;
 
     my $users = $this->{session}->{users};
 
     my $format = $STORE_FORMAT_VERSION;
+
     # head meta-data
     $text =~ s(^%META:TOPICINFO{(.*)}%\r?\n)
       ($meta->put( 'TOPICINFO', _readKeyValues( $1 ));'')gem;
 
-    my $ti = $meta->get( 'TOPICINFO' );
-    if( $ti ) {
+    my $ti = $meta->get('TOPICINFO');
+    if ($ti) {
         $format = $ti->{format} || $STORE_FORMAT_VERSION;
+
         # Make sure we update the topic format
         $ti->{format} = $STORE_FORMAT_VERSION;
+
         #add the rev derived from version=''
         $ti->{version} =~ /\d*\.(\d*)/;
         $ti->{rev} = $1;
@@ -1393,7 +1484,7 @@ sub extractMetaData {
     $text =~ s/\n$//s if $endMeta;
 
     # If there is no meta data then convert from old format
-    if( ! $meta->count( 'TOPICINFO' ) ) {
+    if ( !$meta->count('TOPICINFO') ) {
         if ( $text =~ /<!--TWikiAttachment-->/ ) {
             require TWiki::Compatibility;
             $text = TWiki::Compatibility::migrateToFileAttachmentMacro(
@@ -1402,29 +1493,30 @@ sub extractMetaData {
 
         if ( $text =~ /<!--TWikiCat-->/ ) {
             require TWiki::Compatibility;
-            $text = TWiki::Compatibility::upgradeCategoryTable(
-                $this->{session}, $meta->web(), $meta->topic(),
-                $meta, $text );
+            $text =
+              TWiki::Compatibility::upgradeCategoryTable( $this->{session},
+                $meta->web(), $meta->topic(), $meta, $text );
         }
-    } elsif( $format eq '1.0beta' ) {
+    }
+    elsif ( $format eq '1.0beta' ) {
         require TWiki::Compatibility;
+
         # This format used live at DrKW for a few months
-        if( $text =~ /<!--TWikiCat-->/ ) {
-            $text = TWiki::Compatibility::upgradeCategoryTable(
-                $this->{session}, $meta->web(), $meta->topic(),
-                $meta,
-                $text );
+        if ( $text =~ /<!--TWikiCat-->/ ) {
+            $text =
+              TWiki::Compatibility::upgradeCategoryTable( $this->{session},
+                $meta->web(), $meta->topic(), $meta, $text );
         }
-        TWiki::Compatibility::upgradeFrom1v0beta(
-            $this->{session}, $meta );
-        if( $meta->count( 'TOPICMOVED' ) ) {
-            my $moved = $meta->get( 'TOPICMOVED' );
+        TWiki::Compatibility::upgradeFrom1v0beta( $this->{session}, $meta );
+        if ( $meta->count('TOPICMOVED') ) {
+            my $moved = $meta->get('TOPICMOVED');
             $meta->put( 'TOPICMOVED', $moved );
         }
     }
 
     $format =~ s/[^\d\.]//g;
-    if( $format && $format < 1.1 ) {
+    if ( $format && $format < 1.1 ) {
+
         # compatibility; topics version 1.0 and earlier equivalenced tab
         # with three spaces. Respect that.
         $text =~ s/\t/   /g;
@@ -1447,9 +1539,9 @@ of use by Render.pm.
 # SMELL: does not honour access controls
 
 sub getTopicParent {
-    my( $this, $web, $topic ) = @_;
-    ASSERT(defined($web)) if DEBUG;
-    ASSERT(defined($topic)) if DEBUG;
+    my ( $this, $web, $topic ) = @_;
+    ASSERT( defined($web) )   if DEBUG;
+    ASSERT( defined($topic) ) if DEBUG;
 
     return undef unless $this->topicExists( $web, $topic );
 
@@ -1457,17 +1549,18 @@ sub getTopicParent {
 
     my $strm = $handler->getStream();
     my $data = '';
-    while( ( my $line = <$strm> ) ) {
-        if( $line !~ /^%META:/ ) {
+    while ( ( my $line = <$strm> ) ) {
+        if ( $line !~ /^%META:/ ) {
             last;
-        } else {
+        }
+        else {
             $data .= $line;
         }
     }
-    close( $strm );
+    close($strm);
 
     my $meta = new TWiki::Meta( $this->{session}, $web, $topic, $data );
-    my $parentMeta = $meta->get( 'TOPICPARENT' );
+    my $parentMeta = $meta->get('TOPICPARENT');
     return $parentMeta->{name} if $parentMeta;
     return undef;
 }
@@ -1506,7 +1599,7 @@ sub eachChange {
     $web =~ s#\.#/#go;
 
     my $handler = _getHandler( $this, $web );
-    return $handler->eachChange( $time );
+    return $handler->eachChange($time);
 }
 
 =pod
@@ -1520,7 +1613,7 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 =cut
 
 sub getTopicNames {
-    my( $this, $web ) = @_ ;
+    my ( $this, $web ) = @_;
 
     $web =~ s#\.#/#go;
 
@@ -1546,63 +1639,66 @@ sub-webs recursively.
 =cut
 
 sub getListOfWebs {
-    my( $this, $filter, $web ) = @_;
+    my ( $this, $filter, $web ) = @_;
     $filter ||= '';
-    $web ||= '';
+    $web    ||= '';
     $web =~ s#\.#/#g;
 
     my @webList = _getSubWebs( $this, $web );
 
     if ( $filter =~ /\buser\b/ ) {
         @webList = grep { !/(?:^_|\/_)/, } @webList;
-    } elsif( $filter =~ /\btemplate\b/ ) {
+    }
+    elsif ( $filter =~ /\btemplate\b/ ) {
         @webList = grep { /(?:^_|\/_)/, } @webList;
     }
 
     my $user = $this->{session}->{user};
-    if( $filter =~ /\bpublic\b/ &&
-          !$this->{session}->{users}->isAdmin( $user )) {
+    if ( $filter =~ /\bpublic\b/
+        && !$this->{session}->{users}->isAdmin($user) )
+    {
         my $prefs = $this->{session}->{prefs};
-        my $wn = $this->{session}->{webName};
+        my $wn    = $this->{session}->{webName};
         @webList =
           grep {
-              $_ eq $wn ||
-                !$prefs->getWebPreferencesValue( 'NOSEARCHALL', $_ )
-            } @webList;
+            $_ eq $wn
+              || !$prefs->getWebPreferencesValue( 'NOSEARCHALL', $_ )
+          } @webList;
     }
 
-    if( $filter =~ /\ballowed\b/ ) {
+    if ( $filter =~ /\ballowed\b/ ) {
         my $security = $this->{session}->security;
         @webList =
           grep {
-              $security->checkAccessPermission(
-                  'VIEW', $user, undef, undef, undef, $_ )
+            $security->checkAccessPermission( 'VIEW', $user, undef, undef,
+                undef, $_ )
           } @webList;
     }
 
     # Only return webs that really exist
-    return sort grep { $this->webExists( $_ ) } @webList;
+    return sort grep { $this->webExists($_) } @webList;
 }
 
 # get a list of directories within the named web directory. If hierarchical
 # webs are enabled, returns a deep list e.g. web, web/subweb,
 # web/subweb/subsubweb
 sub _getSubWebs {
-    my( $this, $web ) = @_ ;
+    my ( $this, $web ) = @_;
 
     my $handler = _getHandler( $this, $web );
     my @webList = $handler->getWebNames();
-    if( $web ) {
+    if ($web) {
+
         # sub-web, add hierarchical path
         foreach (@webList) {
             $_ = "$web/$_";
         }
     }
 
-    if( $TWiki::cfg{EnableHierarchicalWebs} ) {
+    if ( $TWiki::cfg{EnableHierarchicalWebs} ) {
         my @subWebList = ();
-        foreach my $subWeb ( @webList ) {
-            push( @subWebList, _getSubWebs( $this, $subWeb ));
+        foreach my $subWeb (@webList) {
+            push( @subWebList, _getSubWebs( $this, $subWeb ) );
         }
         push( @webList, @subWebList );
     }
@@ -1631,30 +1727,34 @@ the web preferences topic in the new web.
 sub createWeb {
     my ( $this, $user, $newWeb, $baseWeb, $opts ) = @_;
 
-    unless( $baseWeb ) {
+    unless ($baseWeb) {
+
         # For a web to be a web, it has to have at least one topic
-        my $meta = new TWiki::Meta( $this->{session}, $newWeb,
-                                    $TWiki::cfg{WebPrefsTopicName} );
+        my $meta =
+          new TWiki::Meta( $this->{session}, $newWeb,
+            $TWiki::cfg{WebPrefsTopicName} );
         $this->saveTopic( $user, $newWeb, $TWiki::cfg{WebPrefsTopicName},
-                          "Preferences", $meta );
+            "Preferences", $meta );
         return;
     }
 
-    unless( $this->webExists( $baseWeb )) {
-        throw Error::Simple( 'Base web '.$baseWeb.' does not exist' );
+    unless ( $this->webExists($baseWeb) ) {
+        throw Error::Simple( 'Base web ' . $baseWeb . ' does not exist' );
     }
 
     $newWeb =~ s#\.#/#go;
     $baseWeb =~ s#\.#/#go if $baseWeb;
-    # copy topics from base web
-    my @topicList = $this->getTopicNames( $baseWeb );
 
-    unless( $baseWeb =~ /^_/ ) {
+    # copy topics from base web
+    my @topicList = $this->getTopicNames($baseWeb);
+
+    unless ( $baseWeb =~ /^_/ ) {
+
         # not a system web, so filter for only Web* topics
         @topicList = grep { /^Web/ } @topicList;
     }
 
-    foreach my $topic ( @topicList ) {
+    foreach my $topic (@topicList) {
         $this->copyTopic( $user, $baseWeb, $topic, $newWeb, $topic );
     }
 
@@ -1663,11 +1763,11 @@ sub createWeb {
 
     return unless $this->topicExists( $newWeb, $wpt );
 
-    if( $opts ) {
-        my( $meta, $text ) =
-            $this->readTopic( undef, $newWeb, $wpt, undef );
-        foreach my $key ( %$opts ) {
-            $text =~ s/($TWiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm;
+    if ($opts) {
+        my ( $meta, $text ) = $this->readTopic( undef, $newWeb, $wpt, undef );
+        foreach my $key (%$opts) {
+            $text =~
+              s/($TWiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm;
         }
         $this->saveTopic( $user, $newWeb, $wpt, $text, $meta );
     }
@@ -1689,12 +1789,12 @@ The web must be a known web to be removed this way.
 =cut
 
 sub removeWeb {
-    my( $this, $user, $web ) = @_;
-    ASSERT( $web ) if DEBUG;
+    my ( $this, $user, $web ) = @_;
+    ASSERT($web) if DEBUG;
     $web =~ s#\.#/#go;
 
-    unless( $this->webExists( $web )) {
-        throw Error::Simple( 'No such web '.$web );
+    unless ( $this->webExists($web) ) {
+        throw Error::Simple( 'No such web ' . $web );
     }
 
     my $handler = _getHandler( $this, $web );
@@ -1734,10 +1834,10 @@ sub cleanUpRevID {
     return 0 unless $rev;
 
     $rev =~ s/^r(ev)?//i;
-    $rev =~ s/^\d+\.//; # clean up RCS rev number
-    $rev =~ s/[^\d]//g; # digits only
+    $rev =~ s/^\d+\.//;     # clean up RCS rev number
+    $rev =~ s/[^\d]//g;     # digits only
 
-    return TWiki::Sandbox::untaintUnchecked( $rev );
+    return TWiki::Sandbox::untaintUnchecked($rev);
 }
 
 =pod
@@ -1753,7 +1853,7 @@ SMELL: Does not fix up meta-data!
 sub copyTopic {
     my ( $this, $user, $fromWeb, $fromTopic, $toWeb, $toTopic ) = @_;
     $fromWeb =~ s#\.#/#go;
-    $toWeb =~ s#\.#/#go;
+    $toWeb   =~ s#\.#/#go;
 
     my $handler = _getHandler( $this, $fromWeb, $fromTopic );
     $handler->copyTopic( $toWeb, $toTopic );
@@ -1783,62 +1883,69 @@ SMELL: should be replaced with a proper SQL-like search, c.f. Plugins.DBCacheCon
 sub searchMetaData {
     my ( $this, $params ) = @_;
 
-    my $attrType = $params->{type} || 'FIELD';
-    my $attrWeb = $params->{web} || $this->{session}->{webName};
+    my $attrType  = $params->{type}  || 'FIELD';
+    my $attrWeb   = $params->{web}   || $this->{session}->{webName};
     my $attrTopic = $params->{topic} || $this->{session}->{topicName};
 
     my $searchVal = 'XXX';
 
     if ( $attrType eq 'parent' ) {
-        $searchVal = "%META:TOPICPARENT[{].*name=\\\"($attrWeb\\.)?$attrTopic\\\".*[}]%";
-    } elsif ( $attrType eq 'topicmoved' ) {
-        $searchVal = "%META:TOPICMOVED[{].*from=\\\"$attrWeb\.$attrTopic\\\".*[}]%";
-    } else {
-        $searchVal = "%META:".uc( $attrType )."[{].*";
+        $searchVal =
+          "%META:TOPICPARENT[{].*name=\\\"($attrWeb\\.)?$attrTopic\\\".*[}]%";
+    }
+    elsif ( $attrType eq 'topicmoved' ) {
+        $searchVal =
+          "%META:TOPICMOVED[{].*from=\\\"$attrWeb\.$attrTopic\\\".*[}]%";
+    }
+    else {
+        $searchVal = "%META:" . uc($attrType) . "[{].*";
         $searchVal .= "name=\\\"$params->{name}\\\".*"
-          if (defined $params->{name});
+          if ( defined $params->{name} );
         $searchVal .= "value=\\\"$params->{value}\\\".*"
-          if (defined $params->{value});
+          if ( defined $params->{value} );
         $searchVal .= "[}]%";
     }
 
     my $text = '';
-    if ($params->{format}) {
+    if ( $params->{format} ) {
         $text = $this->{session}->search->searchWeb(
-            format	       => $params->{format},
-            search        => $searchVal,
-            web           => $attrWeb,
-            type          => 'regex',
-            nosummary     => 'on',
-            nosearch      => 'on',
-            noheader      => 'on',
-            nototal       => 'on',
-            noempty       => 'on',
-            template      => 'searchmeta',
-            inline        => 1,
-           );
-    } else {
+            format    => $params->{format},
+            search    => $searchVal,
+            web       => $attrWeb,
+            type      => 'regex',
+            nosummary => 'on',
+            nosearch  => 'on',
+            noheader  => 'on',
+            nototal   => 'on',
+            noempty   => 'on',
+            template  => 'searchmeta',
+            inline    => 1,
+        );
+    }
+    else {
         $this->{session}->search->searchWeb(
-            _callback     => \&_collate,
-            _cbdata       => \$text,,
-            search        => $searchVal,
-            web           => $attrWeb,
-            type          => 'regex',
-            nosummary     => 'on',
-            nosearch      => 'on',
-            noheader      => 'on',
-            nototal       => 'on',
-            noempty       => 'on',
-            template      => 'searchmeta',
-            inline        => 1,
-           );
+            _callback => \&_collate,
+            _cbdata   => \$text,
+            ,
+            search    => $searchVal,
+            web       => $attrWeb,
+            type      => 'regex',
+            nosummary => 'on',
+            nosearch  => 'on',
+            noheader  => 'on',
+            nototal   => 'on',
+            noempty   => 'on',
+            template  => 'searchmeta',
+            inline    => 1,
+        );
     }
     my $attrTitle = $params->{title} || '';
-    if( $text ) {
-        $text = $attrTitle.$text;
-    } else {
+    if ($text) {
+        $text = $attrTitle . $text;
+    }
+    else {
         my $attrDefault = $params->{default} || '';
-        $text = $attrTitle.$attrDefault;
+        $text = $attrTitle . $attrDefault;
     }
 
     return $text;
@@ -1858,9 +1965,9 @@ to their parent.
 =cut
 
 sub searchInWebMetaData {
-    my( $this, $query, $web, $topics ) = @_;
+    my ( $this, $query, $web, $topics ) = @_;
     ASSERT($query);
-    ASSERT($query->isa('TWiki::Query::Node'));
+    ASSERT( $query->isa('TWiki::Query::Node') );
     $web =~ s#\.#/#go;
 
     my $handler = _getHandler( $this, $web );
@@ -1901,7 +2008,7 @@ match per topic, and will not return matching lines).
 =cut
 
 sub searchInWebContent {
-    my( $this, $searchString, $web, $topics, $options ) = @_;
+    my ( $this, $searchString, $web, $topics, $options ) = @_;
     $web =~ s#\.#/#go;
 
     my $handler = _getHandler( $this, $web );
@@ -1926,7 +2033,7 @@ sub getRevisionAtTime {
     my ( $this, $web, $topic, $time ) = @_;
 
     my $handler = _getHandler( $this, $web, $topic );
-    return $handler->getRevisionAtTime( $time );
+    return $handler->getRevisionAtTime($time);
 }
 
 =pod
@@ -1946,7 +2053,7 @@ another user is already editing a topic.
 =cut
 
 sub getLease {
-    my( $this, $web, $topic ) = @_;
+    my ( $this, $web, $topic ) = @_;
 
     my $handler = _getHandler( $this, $web, $topic );
     my $lease = $handler->getLease();
@@ -1964,18 +2071,20 @@ See =getLease= for more details about Leases.
 =cut
 
 sub setLease {
-    my( $this, $web, $topic, $user, $length ) = @_;
+    my ( $this, $web, $topic, $user, $length ) = @_;
 
     my $handler = _getHandler( $this, $web, $topic );
     my $lease;
-    if( $user ) {
+    if ($user) {
         my $t = time();
-        $lease = { user => $user,
-                   expires => $t + $length,
-                   taken => $t };
+        $lease = {
+            user    => $user,
+            expires => $t + $length,
+            taken   => $t
+        };
     }
 
-    $handler->setLease( $lease );
+    $handler->setLease($lease);
 }
 
 =pod
@@ -1989,10 +2098,10 @@ See =getLease= for more details about Leases.
 =cut
 
 sub clearLease {
-    my( $this, $web, $topic ) = @_;
+    my ( $this, $web, $topic ) = @_;
 
     my $handler = _getHandler( $this, $web, $topic );
-    $handler->setLease( undef );
+    $handler->setLease(undef);
 }
 
 =pod
@@ -2005,7 +2114,7 @@ some store implementations when a topic is created, but never saved.
 =cut
 
 sub removeSpuriousLeases {
-    my( $this, $web ) = @_;
+    my ( $this, $web ) = @_;
     my $handler = _getHandler( $this, $web );
     $handler->removeSpuriousLeases();
 }

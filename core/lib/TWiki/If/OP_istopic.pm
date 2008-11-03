@@ -17,18 +17,19 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}->[0];
-    my %domain = @_;
+    my $this    = shift;
+    my $node    = shift;
+    my $a       = $node->{params}->[0];
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
-    my( $web, $topic) = ( $session->{webName}, $a->_evaluate(@_));
-    return 0 unless defined $topic; # null topic cannot possibly exist
-    ($web, $topic) = $session->normalizeWebTopicName($web, $topic);
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
+    my ( $web, $topic ) = ( $session->{webName}, $a->_evaluate(@_) );
+    return 0 unless defined $topic;    # null topic cannot possibly exist
+    ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
 
-    return $session->{store}->topicExists($web, $topic) ? 1 : 0;
+    return $session->{store}->topicExists( $web, $topic ) ? 1 : 0;
 }
 
 1;

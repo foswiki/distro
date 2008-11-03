@@ -24,14 +24,15 @@ use base 'TWiki::Configure::Checker';
 
 sub check {
     my $this = shift;
-    my $n = '';
+    my $n    = '';
 
     # Upgrade compatible option
-    if( defined( $TWiki::cfg{MapUserToWikiName} )) {
-        if ( !$TWiki::cfg{MapUserToWikiName} &&
-               $TWiki::cfg{Register}{AllowLoginName} ||
-                 $TWiki::cfg{MapUserToWikiName} &&
-                   !$TWiki::cfg{Register}{AllowLoginName}) {
+    if ( defined( $TWiki::cfg{MapUserToWikiName} ) ) {
+        if (  !$TWiki::cfg{MapUserToWikiName}
+            && $TWiki::cfg{Register}{AllowLoginName}
+            || $TWiki::cfg{MapUserToWikiName}
+            && !$TWiki::cfg{Register}{AllowLoginName} )
+        {
             $n = $this->WARN(<<WARNED);
 Deprecated {MapUserToWikiName} setting is inconsistent with
 {Register}{AllowLoginName}. {MapUserToWikiName} will be ignored.

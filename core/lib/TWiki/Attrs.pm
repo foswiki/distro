@@ -92,62 +92,72 @@ sub new {
 
     $this->{$RAWKEY} = $string;
 
-    return $this unless defined( $string );
+    return $this unless defined($string);
 
-    $string =~ s/\\(["'])/$TWiki::TranslationToken.sprintf("%.2u", ord($1))/ge;  # escapes
+    $string =~
+      s/\\(["'])/$TWiki::TranslationToken.sprintf("%.2u", ord($1))/ge; # escapes
 
     my $sep = ( $friendly ? "[\\s,]" : "\\s" );
     my $first = 1;
 
-    if( !$friendly && $string =~ s/^\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/$2/s ) {
+    if ( !$friendly && $string =~ s/^\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/$2/s ) {
         $this->{$DEFAULTKEY} = $1;
     }
     while ( $string =~ m/\S/s ) {
+
         # name="value" pairs
         if ( $string =~ s/^$sep*(\w+)\s*=\s*\"(.*?)\"//is ) {
             $this->{$1} = $2;
             $first = 0;
         }
+
         # simple double-quoted value with no name, sets the default
         elsif ( $string =~ s/^$sep*\"(.*?)\"//os ) {
             $this->{$DEFAULTKEY} = $1
               unless defined( $this->{$DEFAULTKEY} );
             $first = 0;
         }
-        elsif ( $friendly ) {
+        elsif ($friendly) {
+
             # name='value' pairs
             if ( $string =~ s/^$sep*(\w+)\s*=\s*'(.*?)'//is ) {
                 $this->{$1} = $2;
             }
+
             # name=value pairs
             elsif ( $string =~ s/^$sep*(\w+)\s*=\s*([^\s,\}\'\"]*)//is ) {
                 $this->{$1} = $2;
             }
+
             # simple single-quoted value with no name, sets the default
             elsif ( $string =~ s/^$sep*'(.*?)'//os ) {
                 $this->{$DEFAULTKEY} = $1
                   unless defined( $this->{$DEFAULTKEY} );
             }
+
             # simple name with no value (boolean, or _DEFAULT)
             elsif ( $string =~ s/^$sep*([a-z]\w*)\b//is ) {
                 my $key = $1;
                 $this->{$key} = 1;
             }
+
             # otherwise the whole string - sans padding - is the default
             else {
-                if( $string =~ m/^\s*(.*?)\s*$/s &&
-                      !defined($this->{$DEFAULTKEY})) {
+                if ( $string =~ m/^\s*(.*?)\s*$/s
+                    && !defined( $this->{$DEFAULTKEY} ) )
+                {
                     $this->{$DEFAULTKEY} = $1;
                 }
                 last;
             }
-        } elsif( $string =~ m/^\s*(.*?)\s*$/s ) {
-            $this->{$DEFAULTKEY} = $1 if( $first );
+        }
+        elsif ( $string =~ m/^\s*(.*?)\s*$/s ) {
+            $this->{$DEFAULTKEY} = $1 if ($first);
             last;
         }
     }
     foreach my $k ( keys %$this ) {
-        $this->{$k} =~ s/$TWiki::TranslationToken(\d\d)/chr($1)/geo;  # escapes
+        $this->{$k} =~ s/$TWiki::TranslationToken(\d\d)/chr($1)/geo;   # escapes
     }
     return $this;
 }
@@ -161,13 +171,12 @@ Return false if attribute set is not empty.
 =cut
 
 sub isEmpty {
-  my $this = shift;
+    my $this = shift;
 
-
-  foreach my $k ( keys %$this ) {
-      return 0 if $k ne $RAWKEY;
-  }
-  return 1;
+    foreach my $k ( keys %$this ) {
+        return 0 if $k ne $RAWKEY;
+    }
+    return 1;
 }
 
 =pod
@@ -181,10 +190,10 @@ Remove an attr value from the map, return old value. After a call to
 =cut
 
 sub remove {
-  my ( $this, $attr ) = @_;
-  my $val = $this->{$attr};
-  delete( $this->{$attr} ) if ( exists $this->{$attr} );
-  return $val;
+    my ( $this, $attr ) = @_;
+    my $val = $this->{$attr};
+    delete( $this->{$attr} ) if ( exists $this->{$attr} );
+    return $val;
 }
 
 =pod
@@ -198,20 +207,19 @@ syntax observed (no {} brackets, though).
 =cut
 
 sub stringify {
-  my $this = shift;
-  my $key;
-  my @ss;
-  foreach $key ( sort keys %$this ) {
-	if ( $key ne $ERRORKEY && $key ne $RAWKEY ) {
-	  my $es = ( $key eq $DEFAULTKEY ) ? '' : $key.'=';
-	  my $val = $this->{$key};
-      $val =~ s/"/\\"/g;
-      push( @ss, $es.'"'.$val.'"' );
-	}
-  }
-  return join( ' ', @ss );
+    my $this = shift;
+    my $key;
+    my @ss;
+    foreach $key ( sort keys %$this ) {
+        if ( $key ne $ERRORKEY && $key ne $RAWKEY ) {
+            my $es = ( $key eq $DEFAULTKEY ) ? '' : $key . '=';
+            my $val = $this->{$key};
+            $val =~ s/"/\\"/g;
+            push( @ss, $es . '"' . $val . '"' );
+        }
+    }
+    return join( ' ', @ss );
 }
-
 
 # ---++ StaticMethod extractValue() -> $string
 #
@@ -225,37 +233,45 @@ sub stringify {
 # then call extractValue( "def" ), it will return "ghi".
 
 sub extractValue {
-    my( $str, $name ) = @_;
+    my ( $str, $name ) = @_;
 
     my $value = '';
-    return $value unless( $str );
-    $str =~ s/\\\"/\\$TWiki::TranslationToken/g;  # escape \"
+    return $value unless ($str);
+    $str =~ s/\\\"/\\$TWiki::TranslationToken/g;    # escape \"
 
-    if( $name ) {
+    if ($name) {
+
         # format is: %VAR{ ... name = "value" }%
-        if( $str =~ /(^|[^\S])$name\s*=\s*\"([^\"]*)\"/ ) {
-            $value = $2 if defined $2;  # distinguish between '' and "0"
+        if ( $str =~ /(^|[^\S])$name\s*=\s*\"([^\"]*)\"/ ) {
+            $value = $2 if defined $2;    # distinguish between '' and "0"
         }
 
-    } else {
+    }
+    else {
+
         # test if format: { "value" ... }
-        if( $str =~ /(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/ ) {
+        if ( $str =~ /(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/ ) {
+
             # is: %VAR{ "value" }%
             # or: %VAR{ "value" param="etc" ... }%
             # or: %VAR{ ... = "..." "value" ... }%
             # Note: "value" may contain embedded double quotes
-            $value = $2 if defined $2;  # distinguish between '' and "0";
+            $value = $2 if defined $2;    # distinguish between '' and "0";
 
-        } elsif( ( $str =~ /^\s*\w+\s*=\s*\"([^\"]*)/ ) && ( $1 ) ) {
+        }
+        elsif ( ( $str =~ /^\s*\w+\s*=\s*\"([^\"]*)/ ) && ($1) ) {
+
             # is: %VAR{ name = "value" }%
             # do nothing, is not a standalone var
 
-        } else {
+        }
+        else {
+
             # format is: %VAR{ value }%
             $value = $str;
         }
     }
-    $value =~ s/\\$TWiki::TranslationToken/\"/go;  # resolve \"
+    $value =~ s/\\$TWiki::TranslationToken/\"/go;    # resolve \"
     return $value;
 }
 
@@ -267,7 +283,7 @@ sub extractValue {
 # Synonymous with $attrs->{$key}. Retained mainly for compatibility with
 # the old AttrsContrib.
 sub get {
-    my( $this, $field) = @_;
+    my ( $this, $field ) = @_;
     return $this->{$field};
 }
 

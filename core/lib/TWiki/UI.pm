@@ -8,12 +8,12 @@
 # Part of this module is based on "bin/twiki" script, which is:
 #    Copyright (C) 2005 Martin at Cleaver.org
 #    Copyright (C) 2005-2007 TWiki Contributors
-# 
+#
 # and also based/inspired on Catalyst framework, whose Author is
 # Sebastian Riedel. Refer to
 #
 # http://search.cpan.org/~mramberg/Catalyst-Runtime-5.7010/lib/Catalyst.pm
-# 
+#
 # for more credit and liscence details.
 #
 # This program is free software; you can redistribute it and/or
@@ -42,47 +42,47 @@ use strict;
 BEGIN {
     $TWiki::cfg{SwitchBoard} ||= {};
     $TWiki::cfg{SwitchBoard}{attach} =
-      [ 'TWiki::UI::Upload',     'attach',        { attach      => 1 } ];
+      [ 'TWiki::UI::Upload', 'attach', { attach => 1 } ];
     $TWiki::cfg{SwitchBoard}{changes} =
-      [ 'TWiki::UI::Changes',    'changes',       { changes     => 1 } ];
+      [ 'TWiki::UI::Changes', 'changes', { changes => 1 } ];
     $TWiki::cfg{SwitchBoard}{edit} =
-      [ 'TWiki::UI::Edit',       'edit',          { edit        => 1 } ];
+      [ 'TWiki::UI::Edit', 'edit', { edit => 1 } ];
     $TWiki::cfg{SwitchBoard}{login} =
-      [ undef,                   'logon',         { (login=>1, logon=>1) } ];
+      [ undef, 'logon', { ( login => 1, logon => 1 ) } ];
     $TWiki::cfg{SwitchBoard}{logon} =
-      [ undef,                   'logon',         { (login=>1, logon=>1) } ];
+      [ undef, 'logon', { ( login => 1, logon => 1 ) } ];
     $TWiki::cfg{SwitchBoard}{manage} =
-      [ 'TWiki::UI::Manage',     'manage',        { manage      => 1 } ];
+      [ 'TWiki::UI::Manage', 'manage', { manage => 1 } ];
     $TWiki::cfg{SwitchBoard}{oops} =
-      [ 'TWiki::UI::Oops',       'oops_cgi',      { oops        => 1 } ];
+      [ 'TWiki::UI::Oops', 'oops_cgi', { oops => 1 } ];
     $TWiki::cfg{SwitchBoard}{preview} =
-      [ 'TWiki::UI::Preview',    'preview',       { preview     => 1 } ];
+      [ 'TWiki::UI::Preview', 'preview', { preview => 1 } ];
     $TWiki::cfg{SwitchBoard}{rdiffauth} =
-      [ 'TWiki::UI::RDiff',      'diff',          { diff        => 1 } ];
+      [ 'TWiki::UI::RDiff', 'diff', { diff => 1 } ];
     $TWiki::cfg{SwitchBoard}{rdiff} =
-      [ 'TWiki::UI::RDiff',      'diff',          { diff        => 1 } ];
+      [ 'TWiki::UI::RDiff', 'diff', { diff => 1 } ];
     $TWiki::cfg{SwitchBoard}{register} =
-      [ 'TWiki::UI::Register',   'register_cgi',  { register    => 1 } ];
+      [ 'TWiki::UI::Register', 'register_cgi', { register => 1 } ];
     $TWiki::cfg{SwitchBoard}{rename} =
-      [ 'TWiki::UI::Manage',     'rename',        { rename      => 1 } ];
+      [ 'TWiki::UI::Manage', 'rename', { rename => 1 } ];
     $TWiki::cfg{SwitchBoard}{resetpasswd} =
-      [ 'TWiki::UI::Register',   'resetPassword', { resetpasswd => 1 } ];
+      [ 'TWiki::UI::Register', 'resetPassword', { resetpasswd => 1 } ];
     $TWiki::cfg{SwitchBoard}{rest} =
-      [ 'TWiki::UI::Rest',       'rest',          { rest        => 1 } ];
+      [ 'TWiki::UI::Rest', 'rest', { rest => 1 } ];
     $TWiki::cfg{SwitchBoard}{save} =
-      [ 'TWiki::UI::Save',       'save',          { save        => 1 } ];
+      [ 'TWiki::UI::Save', 'save', { save => 1 } ];
     $TWiki::cfg{SwitchBoard}{search} =
-      [ 'TWiki::UI::Search',     'search',        { search      => 1 } ];
+      [ 'TWiki::UI::Search', 'search', { search => 1 } ];
     $TWiki::cfg{SwitchBoard}{statistics} =
-      [ 'TWiki::UI::Statistics', 'statistics',    { statistics  => 1 } ];
+      [ 'TWiki::UI::Statistics', 'statistics', { statistics => 1 } ];
     $TWiki::cfg{SwitchBoard}{upload} =
-      [ 'TWiki::UI::Upload',     'upload',        { upload      => 1 } ];
+      [ 'TWiki::UI::Upload', 'upload', { upload => 1 } ];
     $TWiki::cfg{SwitchBoard}{viewauth} =
-      [ 'TWiki::UI::View',       'view',          { view        => 1 } ];
+      [ 'TWiki::UI::View', 'view', { view => 1 } ];
     $TWiki::cfg{SwitchBoard}{viewfile} =
-      [ 'TWiki::UI::View',       'viewfile',      { viewfile    => 1 } ];
+      [ 'TWiki::UI::View', 'viewfile', { viewfile => 1 } ];
     $TWiki::cfg{SwitchBoard}{view} =
-      [ 'TWiki::UI::View',       'view',          { view        => 1 } ];
+      [ 'TWiki::UI::View', 'view', { view => 1 } ];
 }
 
 use Error qw(:try);
@@ -99,9 +99,10 @@ use CGI;
 our %isInitialized = ();
 
 sub TRACE_PASSTHRU {
+
     # Change to a 1 to trace passthrough
     0;
-};
+}
 
 =begin twiki
 
@@ -115,34 +116,37 @@ sub handleRequest {
     my $req = shift;
 
     my $res;
-    my $dispatcher = $TWiki::cfg{SwitchBoard}{$req->action()};
-    unless (defined $dispatcher && ref($dispatcher) eq 'ARRAY') {
+    my $dispatcher = $TWiki::cfg{SwitchBoard}{ $req->action() };
+    unless ( defined $dispatcher && ref($dispatcher) eq 'ARRAY' ) {
         $res = new TWiki::Response();
-        $res->header(-type => 'text/html', -status => '404');
+        $res->header( -type => 'text/html', -status => '404' );
         my $html = CGI::start_html('404 Not Found');
-        $html .=   CGI::h1('Not Found');
-        $html .=   CGI::p("The requested URL " . $req->uri . " was not found on this server.");
-        $html .=   CGI::end_html();
+        $html .= CGI::h1('Not Found');
+        $html .=
+          CGI::p( "The requested URL "
+              . $req->uri
+              . " was not found on this server." );
+        $html .= CGI::end_html();
         $res->body($html);
         return $res;
     }
     my ( $package, $function, $context ) = @$dispatcher;
 
-    if ($package && !$isInitialized{$package}) {
+    if ( $package && !$isInitialized{$package} ) {
         eval qq(use $package);
         die $@ if $@;
         $isInitialized{$package} = 1;
     }
 
     my $sub;
-    $sub  = $package.'::' if $package;
+    $sub = $package . '::' if $package;
     $sub .= $function;
 
-    if ( UNIVERSAL::isa($TWiki::engine, 'TWiki::Engine::CLI') ) {
+    if ( UNIVERSAL::isa( $TWiki::engine, 'TWiki::Engine::CLI' ) ) {
         $context->{command_line} = 1;
     }
 
-    $res = execute($req, \&$sub, %$context );
+    $res = execute( $req, \&$sub, %$context );
     return $res;
 }
 
@@ -156,12 +160,14 @@ $sub method. Returns the TWiki::Response object generated
 =cut
 
 sub execute {
-    my ($req, $sub, %initialContext ) = @_;
+    my ( $req, $sub, %initialContext ) = @_;
 
     my $cache = $req->param('twiki_redirect_cache');
-    # Never trust input data from a query. We will only accept an MD5 32 character string
+
+# Never trust input data from a query. We will only accept an MD5 32 character string
     if ( $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
         $cache = $1;
+
         # Read cached post parameters
         my $passthruFilename =
           $TWiki::cfg{WorkingDir} . '/tmp/passthru_' . $cache;
@@ -174,7 +180,7 @@ sub execute {
                 close(F);
                 open( F, '<' . $passthruFilename );
             }
-            $req->load(\*F);
+            $req->load( \*F );
             close(F);
             unlink($passthruFilename);
             $req->delete('twiki_redirect_cache');
@@ -280,8 +286,8 @@ Handler to "logon" action.
 =cut
 
 sub logon {
-  my $session = shift;
-  $session->{users}->{loginManager}->login( $session->{request}, $session );
+    my $session = shift;
+    $session->{users}->{loginManager}->login( $session->{request}, $session );
 }
 
 =pod twiki
@@ -295,15 +301,16 @@ Check if the web exists. If it doesn't, will throw an oops exception.
 
 sub checkWebExists {
     my ( $session, $webName, $topic, $op ) = @_;
-    ASSERT($session->isa( 'TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
-    unless ( $session->{store}->webExists( $webName ) ) {
-        throw
-          TWiki::OopsException( 'accessdenied',
-                                def => 'no_such_web',
-                                web => $webName,
-                                topic => $topic,
-                                params => [ $op ] );
+    unless ( $session->{store}->webExists($webName) ) {
+        throw TWiki::OopsException(
+            'accessdenied',
+            def    => 'no_such_web',
+            web    => $webName,
+            topic  => $topic,
+            params => [$op]
+        );
     }
 }
 
@@ -318,14 +325,16 @@ if it doesn't. $op is the user operation being performed.
 
 sub checkTopicExists {
     my ( $session, $webName, $topic, $op ) = @_;
-    ASSERT($session->isa( 'TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
-    unless( $session->{store}->topicExists( $webName, $topic )) {
-        throw TWiki::OopsException( 'accessdenied',
-                                    def => 'no_such_topic',
-                                    web => $webName,
-                                    topic => $topic,
-                                    params => [ $op ] );
+    unless ( $session->{store}->topicExists( $webName, $topic ) ) {
+        throw TWiki::OopsException(
+            'accessdenied',
+            def    => 'no_such_topic',
+            web    => $webName,
+            topic  => $topic,
+            params => [$op]
+        );
     }
 }
 
@@ -340,15 +349,15 @@ if it is.
 
 sub checkMirror {
     my ( $session, $webName, $topic ) = @_;
-    ASSERT($session->isa( 'TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
-    my( $mirrorSiteName, $mirrorViewURL ) =
-      $session->readOnlyMirrorWeb( $webName );
+    my ( $mirrorSiteName, $mirrorViewURL ) =
+      $session->readOnlyMirrorWeb($webName);
 
-    return unless ( $mirrorSiteName );
+    return unless ($mirrorSiteName);
 
     throw Error::Simple(
-        "This is a mirror site $mirrorSiteName, $mirrorViewURL" );
+        "This is a mirror site $mirrorSiteName, $mirrorViewURL");
 }
 
 =pod twiki
@@ -362,17 +371,21 @@ web.topic is permissible, throwing a TWiki::OopsException if not.
 
 sub checkAccess {
     my ( $session, $web, $topic, $mode, $user ) = @_;
-    ASSERT($session->isa( 'TWiki')) if DEBUG;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
-    unless( $session->security->checkAccessPermission(
-        $mode, $user, undef, undef, $topic, $web )) {
-        throw TWiki::OopsException( 'accessdenied',
-                                    def => 'topic_access',
-                                    web => $web,
-                                    topic => $topic,
-                                    params =>
-                                      [ $mode,
-                                        $session->security->getReason()]);
+    unless (
+        $session->security->checkAccessPermission(
+            $mode, $user, undef, undef, $topic, $web
+        )
+      )
+    {
+        throw TWiki::OopsException(
+            'accessdenied',
+            def    => 'topic_access',
+            web    => $web,
+            topic  => $topic,
+            params => [ $mode, $session->security->getReason() ]
+        );
     }
 }
 
@@ -386,18 +399,20 @@ web.
 =cut
 
 sub readTemplateTopic {
-    my( $session, $theTopicName ) = @_;
-    ASSERT($session->isa( 'TWiki')) if DEBUG;
+    my ( $session, $theTopicName ) = @_;
+    ASSERT( $session->isa('TWiki') ) if DEBUG;
 
     $theTopicName =~ s/$TWiki::cfg{NameFilter}//go;
 
     my $web = $TWiki::cfg{SystemWebName};
-    if( $session->{store}->topicExists( $session->{webName}, $theTopicName )) {
+    if ( $session->{store}->topicExists( $session->{webName}, $theTopicName ) )
+    {
+
         # try to read from current web, if found
         $web = $session->{webName};
     }
-    return $session->{store}->readTopic(
-        $session->{user}, $web, $theTopicName, undef );
+    return $session->{store}
+      ->readTopic( $session->{user}, $web, $theTopicName, undef );
 }
 
 =pod

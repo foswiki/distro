@@ -17,18 +17,19 @@ sub new {
 }
 
 sub evaluate {
-    my $this = shift;
-    my $node = shift;
-    my $a = $node->{params}->[0];
-    my %domain = @_;
+    my $this    = shift;
+    my $node    = shift;
+    my $a       = $node->{params}->[0];
+    my %domain  = @_;
     my $session = $domain{tom}->session;
-    throw Error::Simple('No context in which to evaluate "'.
-                          $a->stringify().'"') unless $session;
-    my $eval =  $a->_evaluate(@_);
+    throw Error::Simple(
+        'No context in which to evaluate "' . $a->stringify() . '"' )
+      unless $session;
+    my $eval = $a->_evaluate(@_);
     return 1 unless $eval;
-    return 0 if( $session->{request}->param( $eval ));
-    return 0 if( $session->{prefs}->getPreferencesValue( $eval ));
-    return 0 if( $session->{SESSION_TAGS}{$eval} );
+    return 0 if ( $session->{request}->param($eval) );
+    return 0 if ( $session->{prefs}->getPreferencesValue($eval) );
+    return 0 if ( $session->{SESSION_TAGS}{$eval} );
     return 1;
 }
 

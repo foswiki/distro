@@ -36,7 +36,7 @@ use TWiki::Configure::Checker;
 sub check {
     my $this = shift;
 
-    unless( $TWiki::cfg{SafeEnvPath} ) {
+    unless ( $TWiki::cfg{SafeEnvPath} ) {
         return $this->WARN("You should set a value for this path.");
     }
 
@@ -44,23 +44,29 @@ sub check {
 
     # First, get the proposed path
     my @dirs;
-    if ($TWiki::cfg{DetailedOS} eq 'MSWin32') {
+    if ( $TWiki::cfg{DetailedOS} eq 'MSWin32' ) {
+
         # Active State perl, probably. Need DOS paths.
-        @dirs = split(';', $TWiki::cfg{SafeEnvPath});
-    } else {
-        @dirs = split(':', $TWiki::cfg{SafeEnvPath});
+        @dirs = split( ';', $TWiki::cfg{SafeEnvPath} );
     }
+    else {
+        @dirs = split( ':', $TWiki::cfg{SafeEnvPath} );
+    }
+
     # Check they exist
     my $found = 0;
     foreach my $dir (@dirs) {
-        if (-d $dir) {
+        if ( -d $dir ) {
             $found++;
-        } else {
+        }
+        else {
             $check .= $this->WARN("$dir could not be found");
         }
     }
-    if ($TWiki::cfg{DetailedOS} eq 'MSWin32' && !$found) {
-        $check .= $this->ERROR("None of the directories on the path could be found. This path will almost certainly not work on Windows. Normally the minimum acceptable {SafeEnvPath} is C:\\WINDOWS\\System32 (or the equivalent on your system).");
+    if ( $TWiki::cfg{DetailedOS} eq 'MSWin32' && !$found ) {
+        $check .= $this->ERROR(
+"None of the directories on the path could be found. This path will almost certainly not work on Windows. Normally the minimum acceptable {SafeEnvPath} is C:\\WINDOWS\\System32 (or the equivalent on your system)."
+        );
     }
 
     return $check;
