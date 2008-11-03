@@ -175,4 +175,23 @@ FORM
     $meta->renderFormForDisplay();
 }
 
+sub test_makeFromMeta {
+    my $this = shift;
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{test_web}, 'SplodgeOne', <<FORM);
+%META:FORM{name="NonExistantForm"}%
+%META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
+FORM
+    my ($meta, $text) =
+      $this->{twiki}->{store}->readTopic(
+          undef, $this->{test_web}, 'SplodgeOne');
+    my $form = new TWiki::Form(
+        $this->{twiki}, $this->{test_web}, 'NonExistantForm', $meta);
+    my $f = $form->getField('Ecks');
+    $this->assert_str_equals('', $f->getDefaultValue());
+    $this->assert_str_equals('Ecks', $f->{name});
+    $this->assert_str_equals('X', $f->{title});
+    $this->assert_str_equals('', $f->{size});
+}
+
 1;

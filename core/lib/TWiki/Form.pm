@@ -43,14 +43,17 @@ my %reservedFieldNames = map { $_ => 1 }
 
 =pod
 
----++ ClassMethod new ( $session, $web, $form, $def )
+---++ ClassMethod new ( $session, $web, $form, \@def )
 
 Looks up a form in the session object or, if it hasn't been read yet,
 reads it frm the form definition topic on disc.
-   * $web - default web to recover form from, if $form doesn't specify a web
-   * =$form= - topic name to read form definition from
-   * =$def= - optional. a reference to a list of field definitions. if present,
-              these definitions will be used, rather than those in =$form=.
+   * =$web= - default web to recover form from, if =$form= doesn't
+     specify a web
+   * =$form= - name of the form
+   * =\@def= - optional. A reference to a list of field definitions.
+     If present, these definitions will be used, rather than any read from
+     the form definition topic. Note that this array should not be modified
+     again after being passed into this constructor (it is not copied).
 
 May throw TWiki::OopsException
 
@@ -80,19 +83,24 @@ sub new {
             my $store = $session->{store};
 
             # Read topic that defines the form
-            unless ( $store->topicExists( $web, $form ) ) {
+            if ( $store->topicExists( $web, $form ) ) {
+                my ( $meta, $text ) =
+                  $store->readTopic( $session->{user}, $web, $form, undef );
+
+                $this->{fields} = _parseFormDefinition( $this, $meta, $text );
+            }
+            else {
+                delete $session->{forms}->{"$web.$form"};
                 return undef;
             }
-            my ( $meta, $text ) =
-              $store->readTopic( $session->{user}, $web, $form, undef );
-
-            $this->{fields} = _parseFormDefinition( $this, $meta, $text );
-
+        }
+        elsif ( ref($def) eq 'ARRAY' ) {
+            $this->{fields} = $def;
         }
         else {
 
-            $this->{fields} = $def;
-
+            # TWiki::Meta object
+            $this->{fields} = $this->_extractPseudoFieldDefs($def);
         }
     }
 
@@ -181,16 +189,6 @@ sub _parseFormDefinition {
             $vals =~ s/<\/?(nop|noautolink)\/?>//go;
             $vals =~ s/^\s+//g;
             $vals =~ s/\s+$//g;
-
-            # SMELL: This expansion of $users is undocumented, AFAICT not
-            # used, and downright *dangerous* (it won't work with a non-TWiki
-            # user mapping for example) so in the interests of good hygiene,
-            # I have removed it (CC, 30 Jun 07).
-            #if( $vals eq '$users' ) {
-            #    $vals = $TWiki::cfg{UsersWebName} . '.' .
-            #      join( ", ${TWiki::cfg{UsersWebName}}.",
-            #        ( $store->getTopicNames( $TWiki::cfg{UsersWebName} )));
-            #}
 
             $tooltip ||= '';
 
@@ -563,6 +561,31 @@ sub renderForDisplay {
     $text .= $templates->expandTemplate('FORM:display:footer');
     $text =~ s/%A_TITLE%/$this->{web}.$this->{topic}][$this->{topic}/g;
     return $text;
+}
+
+# extractPseudoFieldDefs( $meta ) -> $fieldDefs
+# Examine the FIELDs in $meta and reverse-engineer a set of field
+# definitions that can be used to construct a new "pseudo-form". This
+# fake form can be used to support editing of topics that have an attached
+# form that has no definition topic.
+sub _extractPseudoFieldDefs {
+    my ( $this, $meta ) = @_;
+    my @fields = $meta->find('FIELD');
+    my @fieldDefs;
+    require TWiki::Form::FieldDefinition;
+    foreach my $field (@fields) {
+
+        # Fields are name, value, title, but there is no other type
+        # information so we have to treat them all as "text" :-(
+        my $fieldDef = new TWiki::Form::FieldDefinition(
+            session    => $this->{session},
+            name       => $field->{name},
+            title      => $field->{title} || $field->{name},
+            attributes => $field->{attributes} || ''
+        );
+        push( @fieldDefs, $fieldDef );
+    }
+    return \@fieldDefs;
 }
 
 1;

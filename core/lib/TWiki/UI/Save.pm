@@ -236,13 +236,19 @@ sub buildNewTopic {
         require TWiki::Form;
         $formDef = new TWiki::Form( $session, $webName, $formName );
         unless ($formDef) {
-            throw TWiki::OopsException(
-                'attention',
-                def    => 'no_form_def',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                params => [ $webName, $formName ]
-            );
+            unless ($prevMeta) {
+                throw TWiki::OopsException(
+                    'attention',
+                    def    => 'no_form_def',
+                    web    => $session->{webName},
+                    topic  => $session->{topicName},
+                    params => [ $webName, $formName ]
+                );
+            }
+
+            # Recreate the form fields from the previous rev of the topic.
+            $formDef =
+              new TWiki::Form( $session, $webName, $formName, $prevMeta );
         }
         $newMeta->put( 'FORM', { name => $formName } );
     }

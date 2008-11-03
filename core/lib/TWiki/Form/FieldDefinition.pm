@@ -35,6 +35,7 @@ sub new {
     $attrs{name}       ||= '';
     $attrs{attributes} ||= '';
     $attrs{type}       ||= '';    # default
+    $attrs{size}       ||= '';
     $attrs{size} =~ s/^\s*//;
     $attrs{size} =~ s/\s*$//;
 

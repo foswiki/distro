@@ -350,15 +350,13 @@ sub init_edit {
     if ( $form && !$saveCmd ) {
         require TWiki::Form;
         my $formDef = new TWiki::Form( $session, $templateWeb, $form );
-        unless ($formDef) {
-            throw TWiki::OopsException(
-                'attention',
-                def    => 'no_form_def',
-                web    => $session->{webName},
-                topic  => $session->{topicName},
-                params => [ $templateWeb, $form ]
-            );
+        if ( !$formDef ) {
+
+            # Reverse-engineer a form definition from the meta-data.
+            $formDef = new TWiki::Form( $session, $templateWeb, $form, $meta );
         }
+
+        # Update with field values from the query
         $formDef->getFieldValuesFromQuery( $session->{request}, $meta );
 
         # And render them for editing

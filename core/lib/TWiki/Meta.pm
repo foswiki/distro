@@ -627,8 +627,14 @@ sub renderFormForDisplay {
         return $form->renderForDisplay($this);
     }
     else {
-        return CGI::span( { class => 'twikiAlert' },
-            "Form definition '$fname' not found" );
+
+        # Make pseudo-form from field data
+        $form =
+          new TWiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
+        return CGI::span(
+            { class => 'twikiAlert' },
+            "%MAKETEXT{\"Form definition '[_1]' not found\" args=\"$fname\"}%"
+        ) . $form->renderForDisplay($this);
     }
 }
 
