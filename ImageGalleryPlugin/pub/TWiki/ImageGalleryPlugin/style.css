@@ -51,8 +51,48 @@
 }
 
 /* navigation */
-.igpNavigation {
-  text-align:left;
+.igpNavi {
+  text-align:center;
+}
+.igpNaviSep,
+.igpNaviDisabled span,
+.igpNavi a span {
+  display:none;
+}
+.igpNaviContents {
+  margin:0 auto;
+  width:105px;
+}
+.igpNaviDisabled,
+.igpNaviContents a {
+  float:left;
+  width:16px;
+  height:16px;
+  background-image:url(navi.png) !important;
+  background-repeat:no-repeat;
+  margin:0px 5px 0px 0px;
+}
+.igpNavi a:hover {
+  background-color:inherit;
+}
+
+.igpNaviFirst { background-position:0px  -16px !important; }
+.igpNaviPrev { background-position:-16px -16px !important; }
+.igpNaviNext { background-position:-32px -16px !important; }
+.igpNaviLast { background-position:-48px -16px !important; }
+
+.igpNaviFirst:hover { background-position:0px  0px !important; }
+.igpNaviPrev:hover { background-position:-16px 0px !important; }
+.igpNaviNext:hover { background-position:-32px 0px !important; }
+.igpNaviLast:hover { background-position:-48px 0px !important; }
+
+.igpNaviFirst.igpNaviDisabled { background-position:0px  -32px !important; }
+.igpNaviPrev.igpNaviDisabled { background-position:-16px -32px !important; }
+.igpNaviNext.igpNaviDisabled { background-position:-32px -32px !important; }
+.igpNaviLast.igpNaviDisabled { background-position:-48px -32px !important; }
+
+.igpNaviDone {
+  float:right;
 }
 
 /* red dot span */

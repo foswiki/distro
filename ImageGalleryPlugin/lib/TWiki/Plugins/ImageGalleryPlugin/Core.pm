@@ -20,7 +20,7 @@ package TWiki::Plugins::ImageGalleryPlugin::Core;
 
 use strict;
 
-sub DEBUG { 0; } # toggle me
+use constant DEBUG => 0; # toggle me
 
 # =========================
 # constructor
@@ -49,7 +49,7 @@ sub new {
   $this->{doRefresh} = 0;
   $this->{errorMsg} = ''; # from image mage
 
-  $this->{wikiUserName} = TWiki::Func::getWikiUserName();
+  $this->{wikiName} = TWiki::Func::getWikiName();
   $this->{pubDir} = TWiki::Func::getPubDir();
   $this->{imagesDir} = $this->{pubDir}.'/images';
   $this->{pubUrlPath} = TWiki::Func::getPubUrlPath();
@@ -141,7 +141,7 @@ sub init {
   $this->{thumbwidth} = $thumbwidth;
   $this->{thumbheight} = $thumbheight;
 
-  #writeDebug("size=$this->{size} thumbsize=$thumbsize thumbwidth=$thumbwidth thumbheight=$thumbheight");
+  writeDebug("size=$this->{size} thumbsize=$thumbsize thumbwidth=$thumbwidth thumbheight=$thumbheight");
   
   my $topics = 
     $params->{_DEFAULT}
@@ -177,9 +177,9 @@ sub init {
   $this->{minwidth} = $this->{maxwidth} if $this->{minwidth} > $this->{maxwidth};
   $this->{format} = $params->{format} || 
       '<a href="$origurl"><img src="$imageurl" title="$comment" width="$width" height="$height"/></a>';
-  $this->{title} = $params->{title} || '$comment ($imgnr/$nrimgs)&nbsp;$reddot';
+  $this->{title} = $params->{title} || ' $comment ($imgnr/$nrimgs)&nbsp;$reddot';
   $this->{doTitles} = ($this->{title} eq 'off')?0:1;
-  $this->{thumbtitle} = $params->{thumbtitle} || '$comment&nbsp;$reddot';
+  $this->{thumbtitle} = $params->{thumbtitle} || ' $comment $reddot';
   $this->{doThumbTitles} = ($this->{thumbtitle} eq 'off')?0:1;
   $this->{titles} = $params->{titles};
   if ($this->{titles}) {
@@ -322,30 +322,30 @@ sub renderImage {
   if ($this->{doDocRels}) {
     $result .=
       "<link rel=\"parent\" href=\"".
-       TWiki::Func::getViewUrl($thisImg->{IGP_web}, $thisImg->{IGP_topic}) .
+       TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
       "\" title=\"Thumbnails\" />\n";
     if ($firstImg && $firstImg->{name} ne $filename) {
       $result .=
         "<link rel=\"first\" href=\"".
-        TWiki::Func::getViewUrl($firstImg->{IGP_web}, $firstImg->{IGP_topic}) .
+        TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
         "?id=$this->{id}&filename=$firstImg->{name}#igp$this->{id}\" title=\"$firstImg->{name}\" />\n";
     }
     if ($lastImg && $lastImg->{name} ne $filename) {
       $result .=
           "<link rel=\"last\" href=\"".
-          TWiki::Func::getViewUrl($lastImg->{IGP_web}, $lastImg->{IGP_topic}) .
+          TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
           "?id=$this->{id}&filename=$lastImg->{name}#igp$this->{id}\" title=\"$lastImg->{name}\" />\n";
     }
     if ($nextImg && $nextImg->{name} ne $filename) {
       $result .=
           "<link rel=\"next\" href=\"".
-          TWiki::Func::getViewUrl($nextImg->{IGP_web}, $nextImg->{IGP_topic}) .
+          TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
           "?id=$this->{id}&filename=$nextImg->{name}#igp$this->{id}\" title=\"$nextImg->{name}\" />\n";
     }
     if ($prevImg && $prevImg->{name} ne $filename) {
       $result .=
         "<link rel=\"previous\" href=\"".
-        TWiki::Func::getViewUrl($prevImg->{IGP_web}, $prevImg->{IGP_topic}) .
+        TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
         "?id=$this->{id}&filename=$prevImg->{name}#igp$this->{id}\" title=\"$prevImg->{name}\" />\n";
     }
   }
@@ -366,47 +366,50 @@ sub renderImage {
   # layout img table
   $result .= "<table class=\"igpPictureTable\">\n";
 
-  # navi
-  $result .= "<tr><td class=\"igpNavigation\">";
-  if ($firstImg && $firstImg->{name} ne $filename) {
-    $result .= "<a href=\"".
-    TWiki::Func::getViewUrl($thisImg->{IGP_web}, $thisImg->{IGP_topic}) .
-    "?id=$this->{id}&filename=$firstImg->{name}#igp$this->{id}\">first</a>";
-  } else {
-    $result .= "first";
-  }
-  $result .= ' | ';
-  if ($prevImg) {
-    $result .= "<a href=\"".
-    TWiki::Func::getViewUrl($prevImg->{IGP_web}, $prevImg->{IGP_topic}) .
-    "?id=$this->{id}&filename=$prevImg->{name}#igp$this->{id}\">prev</a>";
-  } else {
-    $result .= "prev";
-  }
-  $result .= " | <a href=\"".
-    TWiki::Func::getViewUrl($this->{web},$this->{topic})."#igp$this->{id}".
-    "\">up</a> |";
-  if ($nextImg) {
-    $result .= "<a href=\"".
-    TWiki::Func::getViewUrl($nextImg->{IGP_web}, $nextImg->{IGP_topic}) .
-    "?id=$this->{id}&filename=$nextImg->{name}#igp$this->{id}\">next</a>";
-  } else {
-    $result .= "next";
-  }
-  $result .= ' | ';
-  if ($lastImg && $lastImg->{name} ne $filename) {
-    $result .= "<a href=\"".
-    TWiki::Func::getViewUrl($lastImg->{IGP_web}, $lastImg->{IGP_topic}) .
-    "?id=$this->{id}&filename=$lastImg->{name}#igp$this->{id}\">last</a>";
-  } else {
-    $result .= "last";
-  }
-  $result .= "</td></tr>\n";
-
   # img
   $result .= "<tr><td class=\"igpPicture\">" 
-    . $this->replaceVars($this->{format}, $thisImg)
-    . "</td></tr></table>\n";
+    . $this->replaceVars($this->{format}, $thisImg);
+
+  # navi
+  $result .= "<tr><td class=\"igpNavi\"><div class=\"igpNaviContents\">";
+  my $sep = '<span class="igpNaviSep"><span>|</span></span>';
+  if ($firstImg && $firstImg->{name} ne $filename) {
+    $result .= "<a class=\"igpNaviFirst\" title=\"go to first\" href=\"".
+    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
+    "?id=$this->{id}&filename=$firstImg->{name}#igp$this->{id}\"><span>first</span></a>";
+  } else {
+    $result .= "<span class=\"igpNaviFirst igpNaviDisabled \"><span>first</span></span>";
+  }
+  $result .= $sep;
+  if ($prevImg) {
+    $result .= "<a class=\"igpNaviPrev\" title=\"go to previous\" href=\"".
+    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
+    "?id=$this->{id}&filename=$prevImg->{name}#igp$this->{id}\"><span>prev</span></a>";
+  } else {
+    $result .= "<span class=\"igpNaviPrev igpNaviDisabled \"><span>prev</span></span>";
+  }
+  $result .= $sep;
+  if ($nextImg) {
+    $result .= "<a class=\"igpNaviNext\" title=\"go to next\" href=\"".
+    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
+    "?id=$this->{id}&filename=$nextImg->{name}#igp$this->{id}\"><span>next</span></a>";
+  } else {
+    $result .= "<span class=\"igpNaviNext igpNaviDisabled \"><span>next</span></span>";
+  }
+  $result .= $sep;
+  if ($lastImg && $lastImg->{name} ne $filename) {
+    $result .= "<a class=\"igpNaviLast\" title=\"go to last\" href=\"".
+    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
+    "?id=$this->{id}&filename=$lastImg->{name}#igp$this->{id}\"><span>last</span></a>";
+  } else {
+    $result .= "<span class=\"igpNaviLast igpNaviDisabled \"><span>last</span></span>";
+  }
+  $result .= "</div>";
+  $result .= "<a class=\"igpNaviDone\" href=\"".
+    TWiki::Func::getViewUrl($this->{web},$this->{topic})."#igp$this->{id}".
+    "\">done</a>";
+  $result .= "</td></tr>\n";
+  $result .= "</td></tr></table>\n";
 
   return $result;
 }
@@ -439,7 +442,7 @@ sub renderThumbnails {
     }
 
     $result .= "<td width=\"" . (100 / $maxCols) . "%\" class=\"igpThumbNail\"><a href=\""
-      .  TWiki::Func::getViewUrl($image->{IGP_web}, $image->{IGP_topic})
+      .  TWiki::Func::getViewUrl($this->{web}, $this->{topic})
       . "?id=$this->{id}&filename=$image->{name}#igp$this->{id}\">"
       . "<img src=\"$this->{imagesPubUrl}/thumb_$image->{name}"
       . (($image->{name} =~ /\.svgz?$/ )?'.png':'')
@@ -501,7 +504,7 @@ sub renderRedDot {
   my ($this, $image) = @_;
 
   my $changeAccessOK =
-    TWiki::Func::checkAccessPermission("change", $this->{wikiUserName}, undef,
+    TWiki::Func::checkAccessPermission("change", $this->{wikiName}, undef,
       $image->{IGP_topic}, $image->{IGP_web});
 
   return '' unless $changeAccessOK;
@@ -522,8 +525,8 @@ sub getImages {
   my @images;
   foreach my $webtopic (@{$this->{topics}}) {
     my ($theWeb, $theTopic) = TWiki::Func::normalizeWebTopicName($this->{web}, $webtopic);
-    writeDebug("reading from $theWeb.$theTopic}");
-    my $viewAccessOK = TWiki::Func::checkAccessPermission("view", $this->{wikiUserName}, undef, 
+    writeDebug("reading from $theWeb.$theTopic");
+    my $viewAccessOK = TWiki::Func::checkAccessPermission("view", $this->{wikiName}, undef, 
       $theTopic, $theWeb);
 
     if (!$viewAccessOK) {
