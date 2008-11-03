@@ -62,7 +62,10 @@ sub preview {
     $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
 
     my $skin = $session->getSkin();
-    my $tmpl = $session->templates->readTemplate( 'preview', $skin );
+    my $template =
+      $session->{prefs}->getPreferencesValue('VIEW_TEMPLATE')
+      || 'preview';
+    my $tmpl = $session->templates->readTemplate( $template, $skin );
     if ( $saveOpts->{minor} ) {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/go;
     }
