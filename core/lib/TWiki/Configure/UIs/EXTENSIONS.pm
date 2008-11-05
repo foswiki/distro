@@ -178,16 +178,24 @@ sub _getInstalledVersion {
         $lib = 'Contrib';
     }
 
-    my $path = 'TWiki::' . $lib . '::' . $module;
-    my $version;
-    my $check = 'use ' . $path . '; $version = $' . $path . '::VERSION;';
-    eval $check;
+    my $path = 'TWiki::'.$lib.'::'.$module;
+    eval "use $path";
+    my $release;
+    eval '$release = $'.$path.'::RELEASE';
 
-    #print STDERR $@ if $@ && DEBUG;
+    my $version;
+    eval '$version = $'.$path.'::VERSION';
     if ($version) {
+        # tidy up the subversion rev number
         $version =~ s/^\s*\$Rev:\s*(.*?)\s*\$$/$1/;
+        $version =~ s/(\d+)\s\((.*)\)/$1, $2/;
+        if ($release) {
+            $release .= " ($version)";
+        } else {
+            $release = $version;
+        }
     }
-    return $version;
+    return $release || '';
 }
 
 1;

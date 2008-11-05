@@ -29,7 +29,7 @@ sub check {
         && $TWiki::cfg{DefaultUrlHost} ne 'NOT SET' )
     {
         my $host = $ENV{HTTP_HOST};
-        if ( $host && $TWiki::cfg{DefaultUrlHost} !~ /$host/ ) {
+        if ( $host && $TWiki::cfg{DefaultUrlHost} !~ /$host/i ) {
             return $this->WARN( 'Current setting does not match HTTP_HOST ',
                 $ENV{HTTP_HOST} );
         }
