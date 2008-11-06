@@ -3,8 +3,8 @@
 #
 # Generates WebNotify from the WaitingFor and ReportedBy fields
 #
-my $where = '/home/twiki4/twikisvn/core/data/Bugs';
-my $text = `perl -T ./view topic="Bugs.GenerateWebNotify" -skin text -contenttype text/plain`;
+my $where = '/home/twikifork.org/data/Tasks';
+my $text = `cd /home/twikifork.org/bin && perl -T ./view topic="Tasks.GenerateWebNotify" -skin text -contenttype text/plain`;
 my %topics;
 foreach my $line (split(/\r?\n/, $text)) {
     $line =~ s#(TWiki:)?Main[./]##g;
