@@ -62,10 +62,20 @@ undef $/;
 my @DATA = split( /<<<< (.*?) >>>>\s*\n/, <DATA> );
 shift @DATA;    # remove empty first element
 
-unless ( do 'tools/extender.pl' ) {
-    die <<MESSAGE;
+unless ( my $return = do 'tools/extender.pl' ) {
+
+    # Do could read tools/extender.pl but not compile it
+    die <<MESSAGE if $@;
 ************************************************************
-Could not load installer script from tools/extender.pl.
+Could not parse tools/extender.pl: $@
+************************************************************
+MESSAGE
+
+    # Do cannot read tools/extender.pl
+    die <<MESSAGE unless defined $return;
+************************************************************
+Could not load installer script from tools/extender.pl:
+$!
 
 If this is a TWiki release prior to 4.2, please download the
 latest version of the script from:
@@ -77,6 +87,16 @@ root (create the directory if necessary).
 
 If this is TWiki 4.2 or later, the script is missing from
 your installation, or may be broken.
+************************************************************
+MESSAGE
+
+    # tools/extender.pl didn't return 1;
+    die <<MESSAGE unless $return;
+************************************************************
+Couldn't run tools/extender.pl. It returned $return.
+
+Maybe the module you're trying to install doesn't ensure
+a safe return code with "1;" at the end.
 ************************************************************
 MESSAGE
 }
