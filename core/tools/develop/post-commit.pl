@@ -11,7 +11,7 @@ use strict;
 my $REPOS = $ARGV[0];
 my $first = `cat $ENV{HOME}/lastupdate`;
 chomp($first);
-my $last = $ARGV[1] || `/usr/bin/svnlook youngest $REPOS`;
+my $last = $ARGV[1] || `/usr/local/bin/svnlook youngest $REPOS`;
 chomp($last);
 #my $BRANCH = $ARGV[2]; # Not used
 
@@ -26,7 +26,7 @@ for (my $i = $first + 1; $i <= $last; $i++) {
 # No filter since change to /trunk/
 #          map { s/^.*?$BRANCH\///; $_ }
 #           grep { /twiki\/branches\/$BRANCH/ }
-            split(/\n/, `/usr/bin/svnlook changed -r $i $REPOS` ));
+            split(/\n/, `/usr/local/bin/svnlook changed -r $i $REPOS` ));
 }
 exit 0 unless scalar( @changes );
 
@@ -48,7 +48,7 @@ $/ = undef;
 
 for my $rev ($first..$last) {
     # Update the list of checkins for referenced bugs
-    my $logmsg = `/usr/bin/svnlook log -r $rev $REPOS`;
+    my $logmsg = `/usr/local/bin/svnlook log -r $rev $REPOS`;
 
     my @list;
     while( $logmsg =~ s/\b(Item\d+):// ) {

@@ -4,14 +4,15 @@ use strict;
 # PRE-COMMIT HOOK for TWiki Subversion
 #
 # The pre-commit hook tests that the item(s) listed in the checkin
-# exist(s) in Bugs web, and is(are) in a state to receive checkins.
+# exist(s) in Tasks web, and is(are) in a state to receive checkins.
 #
 # STDERR ends up on the users' terminal
 
 my $REPOS = $ARGV[0];
 my $TXN = $ARGV[1];
+my $twikiDataDir = '/home/twikifork.org/data';
 
-my $logmsg = `/usr/bin/svnlook log -t $TXN $REPOS`;
+my $logmsg = `/usr/local/bin/svnlook log -t $TXN $REPOS`;
 
 sub fail {
     my $message = shift;
@@ -21,7 +22,7 @@ Illegal checkin to $REPOS:
 $logmsg
 $message
 Log message must start with one or more names of Item
-topics in the Bugs web
+topics in the Tasks web
 eg. Item12345: Item12346: example commit log
 The topics *must* exist.
 --------------------------------------------------------------
@@ -36,8 +37,8 @@ my @items;
 $logmsg =~ s/\b(Item\d+):/push(@items, $1); '';/gem;
 foreach my $item ( @items ) {
     fail "Bug item $item does not exist"
-      unless( -f "data/Bugs/$item.txt" );
-    open(F, "<data/Bugs/$item.txt") || die "Cannot open $item";
+      unless( -f "$twikiDataDir/Tasks/$item.txt" );
+    open(F, "<$twikiDataDir/Tasks/$item.txt") || die "Cannot open $item";
     my $text = <F>;
     my $state = "Closed";
     if( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {

@@ -44,7 +44,7 @@ use Carp;
 my $sendmail = "/usr/sbin/sendmail";
 
 # Svnlook path.
-my $svnlook = "/usr/bin/svnlook";
+my $svnlook = "/usr/local/bin/svnlook";
 
 # By default, when a file is deleted from the repository, svnlook diff
 # prints the entire contents of the file.  If you want to save space

@@ -3,5 +3,5 @@
 # PRE-COMMIT HOOK
 # See pre-commit.tmpl for help
 
-cd /home/twiki4/twikisvn/core
-[ -f tools/develop/pre-commit.pl ] && perl tools/develop/pre-commit.pl $* MAIN
+cd /home/svn/supportscripts
+[ -f pre-commit.pl ] && perl pre-commit.pl $* MAIN

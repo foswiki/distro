@@ -9,6 +9,6 @@ then
 fi
 
 # Please change paths according to your setup
-/usr/bin/svn log file://$REPOS -r $REV:$REV2 -v --xml > /tmp/svnlog.xml
-/usr/bin/xsltproc $REPOS/hooks/svnlog.xslt /tmp/svnlog.xml > ~twiki4/public_html/pub/svn2rss.xml
+/usr/local/bin/svn log file://$REPOS -r $REV:$REV2 -v --xml > /tmp/svnlog.xml
+/usr/bin/xsltproc $REPOS/hooks/svnlog.xslt /tmp/svnlog.xml > /home/twikifork.org/pub/svn2rss.xml
 chmod 777 /tmp/svnlog.xml

@@ -14,8 +14,10 @@ REV="$2"
 
 cd $REPOS/hooks
 
-author=`/usr/bin/svnlook author -r $REV $REPOS`
+author=`/usr/local/bin/svnlook author -r $REV $REPOS`
 #./commit-email.pl --from develop@develop.twiki.org -s "[SVN] $author" "$REPOS" "$REV" sven-twiki@home.org.au
-./commit-email.pl --from develop@develop.twiki.org -s "[SVN] $author" "$REPOS" "$REV" twiki-dev@lists.sourceforge.net
-./rssfeed.sh "$REPOS" "$REV" &
+#./commit-email.pl --from develop@develop.twiki.org -s "[SVN] $author" "$REPOS" "$REV" twiki-dev@lists.sourceforge.net
 
+/usr/local/share/subversion/hook-scripts/commit-email.pl --from svn@nextwiki.org -s "[SVN] $author" "$REPOS" "$REV" nextwiki-svn@lists.sourceforge.net
+/home/svn/supportscripts/twitter.pl
+./rssfeed.sh "$REPOS" "$REV" &
