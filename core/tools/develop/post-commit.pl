@@ -9,8 +9,18 @@
 use strict;
 
 my $REPOS = $ARGV[0];
-my $first = `cat $ENV{HOME}/lastupdate`;
-chomp($first);
+my $BUGS = '/home/twikifork.org/data/Tasks';
+my $SUPPORT = '/home/svn';
+
+my $verbose = 0; # 1 to debug
+
+my $first = 1;
+if (open(F, "$SUPPORT/lastupdate")) {
+    local $/ = "\n";
+    $first = <F>;
+    chomp($first);
+    close(F);
+}
 my $last = $ARGV[1] || `/usr/local/bin/svnlook youngest $REPOS`;
 chomp($last);
 #my $BRANCH = $ARGV[2]; # Not used
@@ -20,6 +30,7 @@ die unless $last;
 
 $first ||= ($last-1);
 
+print "F:$first L:$last\n" if $verbose;
 my @changes;
 for (my $i = $first + 1; $i <= $last; $i++) {
     push( @changes,
@@ -28,6 +39,7 @@ for (my $i = $first + 1; $i <= $last; $i++) {
 #           grep { /twiki\/branches\/$BRANCH/ }
             split(/\n/, `/usr/local/bin/svnlook changed -r $i $REPOS` ));
 }
+print scalar(@changes)," changes\n" if $verbose;
 exit 0 unless scalar( @changes );
 
 sub _add {
@@ -42,7 +54,7 @@ sub _add {
 }
 
 # Don't know where STDERR goes, so send it somewhere we can read it
-open(STDERR, ">>$ENV{HOME}/logs/post-commit.log") || die $!;
+open(STDERR, ">>$SUPPORT/logs/post-commit.log") || die $!;
 print STDERR "Post-Commit $first..$last in $REPOS\n";
 $/ = undef;
 
@@ -56,7 +68,7 @@ for my $rev ($first..$last) {
     }
 
     foreach my $item (@list) {
-        my $fi = "data/Bugs/$item.txt";
+        my $fi = "$BUGS/$item.txt";
         my $changed = 0;
 
         open(F, "<$fi") || next;
@@ -87,12 +99,12 @@ for my $rev ($first..$last) {
 }
 
 # Create the flag that tells the cron job to update from the repository
-open(F, ">>$ENV{HOME}/svncommit") || die "Failed to write $ENV{HOME}/svncommit: $!";
+open(F, ">>$SUPPORT/svncommit") || die "Failed to write $SUPPORT/svncommit: $!";
 print F join(" ", @changes);
 close(F);
 
 # Create the flag for this script
-open(F, ">$ENV{HOME}/lastupdate") || die $!;
+open(F, ">$SUPPORT/lastupdate") || die $!;
 print F "$last\n";
 close(F);
 

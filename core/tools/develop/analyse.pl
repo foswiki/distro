@@ -2,70 +2,39 @@
 use strict;
 use Data::Dumper;
 
-my $REPOS = '/home/svn/repos';
-my $BUGS = '/home/twiki4/twikisvn/core/data/Bugs';
-my $MANIFEST = '/home/twiki4/twikisvn/core/lib/MANIFEST';
+my $REPOS = '/home/svn/nextwiki';
+my $BUGS = '/home/twikifork.org/data/Tasks';
+my $MANIFEST = '/home/twikifork.org/lib/MANIFEST';
+
+# First determine what releases we know about, and the checkin number for that release
 my $verbose = 0;
 my $releases;
 foreach my $release (
     split("\n",
-          `svn ls --verbose http://svn.twiki.org/svn/twiki/tags`)) {
-    if ($release =~ s/^\s*(\d+).*TWikiRelease(\d\d)x(\d\d)x(\d\d)\/$//) {
+          `svn ls --verbose http://svn.nextwiki.org/tags`)) {
+    if ($release =~ s/^\s*(\d+).*Release(\d\d)x(\d\d)x(\d\d)\/$//) {
         $releases->{0+$2}->{0+$3}->{0+$4} = $1;
     }
 }
 
 my @a = sort { $a <=> $b } keys(%$releases);
-my $major = pop(@a);
+my $major = pop(@a) || 0;
 my @a = sort { $a <=> $b } keys(%{$releases->{$major}});
-my $minor = pop(@a);
+my $minor = pop(@a) || 0;
 my @a = sort { $a <=> $b } keys(%{$releases->{$major}->{$minor}});
-my $patch = pop(@a);
+my $patch = pop(@a) || 0;
 my $patchcin = $releases->{$major}->{$minor}->{$patch};
 my $minorcin = $releases->{$major}->{$minor}->{0};
 my $majorcin = $releases->{$major}->{0}->{0};
 
-if ($verbose) {
-    print "Last release $major/$majorcin.$minor/$minorcin.$patch/$patchcin\n";
-}
-
-my %rename = (
-    peterthoeny => "PeterThoeny",
-    pthoeny => "PeterThoeny",
-    thoeny => "PeterThoeny",
-    svenud => "SvenDowideit",
-    sdowideit => "SvenDowideit",
-    rdonkin => "RichardDonkin",
-    wbniv => "WillNorris",
-    mrjc => "MartinCleaver",
-    aclemens => "ArthurClemens",
-    maphew => "MattWilkie",
-    ethermage => "WalterMundt",
-    wmundt => "WalterMundt",
-    sterbini => "AndreaSterbini",
-    soronthar => "RafaelAlvarez",
-    terceiro => "AntonioTerceiro",
-    crawfordcurrie => "CrawfordCurrie",
-    talintj => "JohnTalintyre",
-    dabright => "DavidBright",
-    nicholaslee => "NicholasLee",
-    cvs2svn => "SvenDowideit",
-    omeldahl => "OleCMeldahl",
-    'alex-kane' => 'AlexKane',
-    brianspinar => "BrianSpinar",
-    rellery => "RichardEllery",
-    rohde2 => "DanielRohde",
-    wadeturland => "WadeTurland",
-    pklausner => "PeterKlausner",
-    andreabacco => "AndreaBacco",
-   );
+print "Last release $major($majorcin).$minor($minorcin).$patch($patchcin)\n" if $verbose;
 
 my $coreExt = join ('|',
                     map { $_ =~ s/^.*\///; $_ }
                       split("\n", `grep '!include ' $MANIFEST`));
-print "$coreExt\n";
+print "SCAN $coreExt" if $verbose;
 
-# First load and update WhoDunnit.dat, the list of checkers-in for each rev
+# First load and update WhoDunnit.sid2cin, the list of checkers-in for each rev
 my $topSid = `svnlook youngest $REPOS`;
 my $maxSid = 0;
 my %sid2who;
@@ -94,8 +63,8 @@ if ($maxSid < $topSid) {
 }
 print "\n" if $verbose;
 
-# Now determine which bug(s) are closed, and what checkins contributed
-# have to do this every time, as the bugs web changes constantly
+# Now determine which bug(s) are closed, and what checkins contributed.
+# Have to do this every time, as the bugs web changes constantly
 my %zappedBy;
 my %reportedBy;
 my %contributedBy;
@@ -117,10 +86,12 @@ foreach my $item (sort { $a <=> $b }
              $field{Extension} =~ /\b($coreExt)\b/)) {
         foreach my $cin (split(/\s+/, $field{Checkins})) {
             $cin =~ s/^\w+://; # remove interwiki thingy
-            #print "$cin Zapped by $sid2who{$cin}\n";
             my $who = $sid2who{$cin};
-            $zappedBy{$who}{$item} = $cin;
-            $contributedBy{$who}{$item} = 1;
+            if ($who) {
+                print "$cin zapped by $who\n" if $verbose;
+                $zappedBy{$who}{$item} = $cin;
+                $contributedBy{$who}{$item} = 1;
+            }
         }
         if ($field{ReportedBy} =~ /Main\.(.*)$/) {
             $reportedBy{$1}++;
@@ -153,38 +124,38 @@ foreach my $zapper (keys %zappedBy) {
 print "\n" if $verbose;
 open(F, ">$BUGS/HallOfFame.txt") || die $!;
 print F <<HEADING;
-The following tables show contributions to the TWiki core.
-The tables are refreshed once a week
+The following tables show contributions to the core.
+The tables are refreshed regularly
 by a cron job. *THIS TOPIC IS AUTO_GENERATED*. Do not attempt to edit it!
 %TOC%
 ---+ Bug Zapping Summary
 This table shows the top 5 most active contributors to the
-TWiki core in different timeframes.
+core and standard extensions in different timeframes.
 
 The count is of the number of closed and waiting for release bugs
 (not enhancements) where a checkin
 was done by the person (i.e. they contributed to the fix).
 %STARTINCLUDE%
 | Top 5 bug zappers since the last: ||||||
-| *Patch release* || *Minor release* || *Major release* ||
+| *Patch release ($patch)* || *Minor release ($minor)* || *Major release ($major)* ||
 | _Who_ | _Fixes_ | _Who_ | _Fixes_ | _Who_ | _Fixes_ |
 HEADING
 my @pzs = sort { $patchc{$b} <=> $patchc{$a} } keys %patchc;
 my @mzs = sort { $minorc{$b} <=> $minorc{$a} } keys %minorc;
 my @Mzs = sort { $majorc{$b} <=> $majorc{$a} } keys %majorc;
 for my $n (0..4) {
-    if ($n < scalar(@pzs)) {
-        print F "| [[TWiki:Main.$pzs[$n]][$pzs[$n]]] | $patchc{$pzs[$n]} ";
+    if ($n < scalar(@pzs) && $pzs[$n]) {
+        print F "| [[Main.$pzs[$n]][$pzs[$n]]] | $patchc{$pzs[$n]} ";
     } else {
         print F "| | ";
     }
-    if ($n < scalar(@mzs)) {
-        print F "| [[TWiki:Main.$mzs[$n]][$mzs[$n]]] | $minorc{$mzs[$n]} ";
+    if ($n < scalar(@mzs) && $mzs[$n]) {
+        print F "| [[Main.$mzs[$n]][$mzs[$n]]] | $minorc{$mzs[$n]} ";
     } else {
         print F "| | ";
     }
-    if ($n < scalar(@Mzs)) {
-        print F "| [[TWiki:Main.$Mzs[$n]][$Mzs[$n]]] | $majorc{$Mzs[$n]} |\n";
+    if ($n < scalar(@Mzs) && $Mzs[$n]) {
+        print F "| [[Main.$Mzs[$n]][$Mzs[$n]]] | $majorc{$Mzs[$n]} |\n";
     } else {
         print F "| | |\n";
     }
@@ -200,7 +171,7 @@ of this database.
 STUFF
 foreach my $zapper (sort { $counts{$b} <=> $counts{$a} } keys %counts) {
     next unless $zapper;
-    print F "| [[TWiki:Main.$zapper][$zapper]] | $reportedBy{$zapper} | $counts{$zapper} |\n";
+    print F "| [[Main.$zapper][$zapper]] | $reportedBy{$zapper} | $counts{$zapper} |\n";
 }
 
 print F <<STUFF;
@@ -216,24 +187,22 @@ foreach my $contributor (keys %contributedBy) {
 }
 foreach my $zapper (sort { $dumps{$b} <=> $dumps{$a} } keys %dumps) {
     next unless $zapper;
-    print F "| [[TWiki:Main.$zapper][$zapper]] | $dumps{$zapper} |\n";
+    print F "| [[Main.$zapper][$zapper]] | $dumps{$zapper} |\n";
 }
 
 print F <<STUFF;
 ---+ Everyone who ever checked in anything
 For completeness, here's a full list of everyone who has ever
-contributed a checkin (all time contributions) since TWiki started using
-revision control.
+contributed a checkin (all time contributions).
 | *Who* | *Checkins* |
 STUFF
 my %sins;
 foreach my $who (values %sid2who) {
-    $who = $rename{$who} || $who;
     $sins{$who}++;
 }
 
 foreach my $zapper (sort { $sins{$b} <=> $sins{$a} } keys %sins) {
-    print F "| [[TWiki:Main.$zapper][$zapper]] | $sins{$zapper} |\n";
+    print F "| [[Main.$zapper][$zapper]] | $sins{$zapper} |\n";
 }
 
 close(F);
