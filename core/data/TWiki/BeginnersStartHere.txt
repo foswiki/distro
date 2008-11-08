@@ -337,5 +337,5 @@ There are many other plugins, see http://TWiki.org/cgi-bin/view/Plugins
    * The latest version of this presentation is available at TWiki:%WEB%.%TOPIC%, where you can also provide feedback
 %SLIDESHOWEND%
 
-__Related topics:__ WelcomeGuest, TWikiTutorial, ATasteOfTWikiTemplate
+__Related topics:__ WelcomeGuest, TWikiTutorial
 

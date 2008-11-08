@@ -6,7 +6,7 @@ _Documentation for TWiki users._
 
    * *TWiki Quick Start*
       * WelcomeGuest: A fast track intro covering all the basics
-      * ATasteOfTWiki: A short introduction training course for beginners
+      * BeginnersStartHere: A short introduction training course for beginners
       * TWikiRegistration: Sign up so you can edit pages and select options
 
    * *One-Page Primers*

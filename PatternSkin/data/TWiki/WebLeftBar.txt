@@ -13,7 +13,7 @@
    * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
 
    * <b>%MAKETEXT{"User Reference"}%</b>
-   * ATasteOfTWiki
+   * BeginnersStartHere
    * TextFormattingRules
    * TWikiVariables
    * FormattedSearch
