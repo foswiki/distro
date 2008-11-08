@@ -179,7 +179,8 @@ sub renderIconList
     $theParams =~ s/%ATTACHURL%/$attachUrl/go;
     $theParams =~ s/%WEB%/$installWeb/go;
     $theParams =~ s/%MAINWEB%/TWiki::Func::getMainWebname()/geo;
-    $theParams =~ s/%TWIKIWEB%/TWiki::Func::getTwikiWebname()/geo;
+    $theParams =~ s/%TWIKIWEB%/TWiki::Func::getTwikiWebname()/geo;  # deprecated
+    $theParams =~ s/%SYSTEMWEB%/TWiki::Func::getTwikiWebname()/geo;
     my ( $showLead, $width, $height, $iconSp, $iconT, $iconI, $iconL, $iconImg )
        = split( /, */, $theParams );
     $width   = 16 unless( $width );

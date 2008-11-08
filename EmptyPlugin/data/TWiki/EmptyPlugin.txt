@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 14040 $"}%
 ---+ Empty TWiki Plugin
 
-This is an empty Plugin you can use as a template to build your own %TWIKIWEB%.TWikiPlugins. This Plugin does nothing, but is ready to be used.
+This is an empty Plugin you can use as a template to build your own %SYSTEMWEB%.TWikiPlugins. This Plugin does nothing, but is ready to be used.
 
 To create your own Plugin:
 
    * Copy file ==TWiki/Plugins/EmptyPlugin.pm== to ==&lt;name&gt;Plugin.pm== and customize the plugin.
-   * Create a  ==&lt;name&gt;Plugin== topic in the %TWIKIWEB% web. Do so by visiting http://TWiki.org/cgi-bin/view/Plugins/PluginPackage#NewPlugin and starting a new topic to get the default plugin topic text (don't save the topic). Customize your plugin topic to your needs.
-   * See details in %TWIKIWEB%.TWikiPlugins.
+   * Create a  ==&lt;name&gt;Plugin== topic in the %SYSTEMWEB% web. Do so by visiting http://TWiki.org/cgi-bin/view/Plugins/PluginPackage#NewPlugin and starting a new topic to get the default plugin topic text (don't save the topic). Customize your plugin topic to your needs.
+   * See details in %SYSTEMWEB%.TWikiPlugins.
 
 ---++ Syntax Rules
 
@@ -18,7 +18,7 @@ To create your own Plugin:
 Plugin settings are stored as preferences variables. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>EMPTYPLUGIN_SHORTDESCRIPTION%==
 
-   * One line description, is shown in the %TWIKIWEB%.TextFormattingRules topic:
+   * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
       * Set SHORTDESCRIPTION = Empty Plugin used as a template for new Plugins
 
    * Your own setting, for example:
@@ -34,7 +34,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>E
 ---++ Plugin Info
 
 |  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie |
-|  Copyright: | &copy; 2001-2007, %TWIKIWEB%.TWikiContributor |
+|  Copyright: | &copy; 2001-2007, %SYSTEMWEB%.TWikiContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
@@ -45,11 +45,11 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>E
 |  27 Feb 2001: | Initial version |
 |  TWiki Dependency: | $TWiki::Plugins::VERSION 1.1 |
 |  Dependencies: | %$DEPENDENCIES |
-|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle 99%, %TWIKIWEB%.FormattedSearch 99%, %TOPIC% 99% |
+|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle 99%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 99% |
 |  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPlugins, %TWIKIWEB%.DeveloperDocumentationCategory, %TWIKIWEB%.AdminDocumentationCategory, %TWIKIWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.TWikiPlugins, %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.TWikiPreferences
 
--- %TWIKIWEB%.TWikiContributor - 01 Feb 2006
+-- %SYSTEMWEB%.TWikiContributor - 01 Feb 2006

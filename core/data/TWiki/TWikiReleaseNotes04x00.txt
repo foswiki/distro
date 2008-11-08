@@ -242,7 +242,7 @@ of hierarchical webs, preferences are now evaluated in the following order:
    1 Session
    1 User
    1 Local Site (as set in {LocalSitePreferences}, typically =%<nop>MAINWEB%.TWikiPreferences))
-   1 Default (as set in {SitePrefsTopic}, typically =%<nop>TWIKIWEB%.TWikiPreferences))
+   1 Default (as set in {SitePrefsTopic}, typically =%<nop>SYSTEMWEB%.TWikiPreferences))
 This is a change from previous versions, where the User preferences were evaluated between the topic and the web.
 
 Note that a user can still dictate preference values that can't be overridden by the topic or the web
@@ -268,7 +268,7 @@ Out of the box, TWiki is configured to easily customise the =favicon.ico= for ea
       * <nop>Set FAVICON = %PUBURLPATH%/%WEB%/WebPreferences/favicon.ico
 
 To provide a single, site-wide =favicon.ico=, hardcode a specific web, for example:
-      * <nop>Set FAVICON = %PUBURLPATH%/%TWIKIWEB%/WebPreferences/favicon.ico
+      * <nop>Set FAVICON = %PUBURLPATH%/%SYSTEMWEB%/WebPreferences/favicon.ico
 
 ---++++ =FORCENEWREVISIONCHECKBOX=
 
@@ -276,7 +276,7 @@ Normally, if you make another edit within a one hour period (was =$editLockTime=
 
 The "Force New Revision" checkbox is a way to force it to create a separate revision each time you save.
 
-The [[%TWIKIWEB%.TWikiPreferences]] variable =FORCENEWREVISIONCHECKBOX= controls whether this is checked by default or not.
+The [[%SYSTEMWEB%.TWikiPreferences]] variable =FORCENEWREVISIONCHECKBOX= controls whether this is checked by default or not.
 
 On a related note, you can force __every__ save to be a new revision number by editing =lib/TWiki.cfg= and setting =={ReplaceIfEditedAgainWithin}== to 0.
 
@@ -300,7 +300,7 @@ These variables are now more closely associated with =WIKITOOLNAME=.  If you cha
 
 The =FINALPREFERENCES= setting prevents particular preference settings from being over-ridden at a lower level. The hierarchy of how =FINALPREFERENCES= settings are applied has been clarified/formalized as reflected in the following chart:
 | *Level* | *Set By* | *Local site examples* |
-| default site | !%TWIKIWEB%.TWikiPreferences or !%WIKIPREFSTOPIC%  | %TWIKIWEB%.%WIKIPREFSTOPIC% |
+| default site | !%SYSTEMWEB%.TWikiPreferences or !%WIKIPREFSTOPIC%  | %SYSTEMWEB%.%WIKIPREFSTOPIC% |
 | local site | !%MAINWEB%.TWikiPreferences or !%LOCALSITEPREFS%  | %LOCALSITEPREFS% |
 | web | !WebPreferences  | %WEB%.%WEBPREFSTOPIC% |
 | user | In one's user topic  | %WIKIUSERNAME% |
@@ -476,7 +476,7 @@ See TWikiSkins for more information.
 ---+++ Supporting web names that are !WikiWords
 Although web names have been [[TWiki:Codev.WebNameAsWikiName][permitted to be WikiWords]] since the TWiki:Codev.CairoRelease, the base templates have been [[TWiki:Codev.DefaultTemplatesSupportWebNameAsWikiWord][fixed]] for Dakar.
 
-Skins should be upgraded if they have standalone =%<nop>WEB%= variables; only standalone =%<nop>WEB%= text that potentially could be turned into a link (because of a WikiWord) needs to be escaped. Same for =%<nop>MAINWEB%= and =%<nop>TWIKIWEB%=.
+Skins should be upgraded if they have standalone =%<nop>WEB%= variables; only standalone =%<nop>WEB%= text that potentially could be turned into a link (because of a WikiWord) needs to be escaped. Same for =%<nop>MAINWEB%= and =%<nop>SYSTEMWEB%=.
 
 Examples:
 
@@ -547,7 +547,7 @@ The following fixes have been addressed in this release:
 | [[%BUGS%/Item1574][Item1574]] | Net.pm: Tidying up e-mail split |
 | [[%BUGS%/Item1574][Item1574]] | Net.pm: Split only on , not on spaces when sending e-mail |
 | [[%BUGS%/Item1572][Item1572]] | made  optional - thus removing the horrible slowdown it causes from the main loop |
-| [[%BUGS%/Item663][Item663]] | Fix %<nop>MAINWEB%.TWikiPreferences to %<nop>LOCALSITEPREFS%; remove %<nop>TWIKIWEB% prefix where not needed |
+| [[%BUGS%/Item663][Item663]] | Fix %<nop>MAINWEB%.TWikiPreferences to %<nop>LOCALSITEPREFS%; remove %<nop>SYSTEMWEB% prefix where not needed |
 | [[%BUGS%/Item663][Item663]] | TWiki.org doc merge: GNU patch requirement |
 | [[%BUGS%/Item240][Item240]] | layout of more screen; added line "Current parent" with 2 searches inside IF - must be a more efficient way but how? |
 | [[%BUGS%/Item240][Item240]] | just to be sure: replacing MAKETEXT text with English, to be translated later. |

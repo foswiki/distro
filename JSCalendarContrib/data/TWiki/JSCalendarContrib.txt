@@ -25,17 +25,17 @@ This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCale
 You can also use the calendar directly in your own hand-built forms, without
 having to write any code. Just add this inline in the topic text:
 <verbatim>
-%INCLUDE{"%TWIKIWEB%/JSCalendarContribInline"}%
+%INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
 </verbatim>
 Then, to display a calendar icon next to a text input field:
 <verbatim>
 <input type="text" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%TWIKIWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 </verbatim>
 If the contrib is installed, you will see such a field here:
-%INCLUDE{"%TWIKIWEB%/JSCalendarContribInline"}%
+%INCLUDE{"%SYSTEMWEB%/JSCalendarContribInline"}%
 <input type="text" id="cal_val_here" />
-<input type="image" src="%PUBURL%/%TWIKIWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
+<input type="image" src="%PUBURL%/%SYSTEMWEB%/JSCalendarContrib/img.gif" onclick="javascript: return showCalendar('cal_val_here','%e %B %Y')" />
 
 <!--
    * Set SHORTDESCRIPTION = [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons.
@@ -75,7 +75,7 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences
 
 %META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%

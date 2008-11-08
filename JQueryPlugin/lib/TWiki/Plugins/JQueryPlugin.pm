@@ -33,7 +33,7 @@ $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for TWiki';
 $NO_PREFS_IN_TOPIC = 1;
 
 $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
+<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
 <script type="text/javascript">
 var twiki;
 if (!twiki) {
@@ -41,7 +41,7 @@ if (!twiki) {
 }
 twiki.pubUrl = "%PUBURL%";
 twiki.pubUrlPath = '%PUBURLPATH%';
-twiki.twikiWebName = '%TWIKIWEB%';
+twiki.twikiWebName = '%SYSTEMWEB%';
 twiki.mainWebName = '%MAINWEB%';
 twiki.wikiName = '%WIKINAME%';
 twiki.loginName = '%USERNAME%';
@@ -50,7 +50,7 @@ twiki.serverTime = '%SERVERTIME%';
 twiki.ImagePluginEnabled = %IF{"context ImagePluginEnabled" then="true" else="false"}%;
 twiki.MathModePluginEnabled = %IF{"context MathModePluginEnabled" then="true" else="false"}%;
 </script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery-all.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.js"></script>
 <script type="text/javascript">
 ChiliBook.recipeFolder = twiki.pubUrlPath+'/'+twiki.twikiWebName+'/JQueryPlugin/chili/';
 ChiliBook.automaticSelector = 'pre';
@@ -141,7 +141,7 @@ sub handleJQueryScript {
   my $scriptFileName = $params->{_DEFAULT};
   return '' unless $scriptFileName;
   $scriptFileName .= '.js' unless $scriptFileName =~ /\.js$/;
-  return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/$scriptFileName\"></script>";
+  return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$scriptFileName\"></script>";
 }
 
 ###############################################################################
@@ -151,7 +151,7 @@ sub handleJQueryStyle {
   my $styleFileName = $params->{_DEFAULT};
   return '' unless $styleFileName;
   $styleFileName .= '.css' unless $styleFileName =~ /\.css$/;
-  return "<style type='text/css'>\@import url('%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/$styleFileName');</style>";
+  return "<style type='text/css'>\@import url('%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$styleFileName');</style>";
 }
 
 ###############################################################################
@@ -161,15 +161,15 @@ sub handleJQueryTheme {
   my $themeName = $params->{_DEFAULT};
   return '' unless $themeName;
 
-  return "<style type='text/css'>\@import url(\"%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/themes/$themeName/$themeName.all.css\");</style>";
+  return "<style type='text/css'>\@import url(\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/$themeName.all.css\");</style>";
 }
 
 ###############################################################################
 sub handleJQueryImagesUrlPath {
   my ($session, $params, $theTopic, $theWeb) = @_;   
   my $image = $params->{_DEFAULT};
-  return "%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/images/$image" if defined $image;
-  return "%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/images";
+  return "%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/$image" if defined $image;
+  return "%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images";
 }
 
 1;

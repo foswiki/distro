@@ -3,7 +3,7 @@
 
 ---+!! Templates for CommentPlugin
 
-See [[%TWIKIWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] for help.
+See [[%SYSTEMWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] for help.
 
 While this topic can be viewed as a TWiki topic, it is used by the CommentPlugin as a template file - see TWikiTemplates. The important content in here is in the verbatim blocks. The rest of the topic is just comments.
 
@@ -11,7 +11,7 @@ While this topic can be viewed as a TWiki topic, it is used by the CommentPlugin
 
 <div class="twikiBroadcastMessage" style="background-color:#ffc;">WARNING: THIS FILE WILL BE OVERWRITTEN WHEN YOU UPGRADE THE COMMENT PLUGIN</div>
 
-Put your local templates into %TWIKIWEB%.UserCommentsTemplate (create if it does not exist yet). *Local templates defined in that topic will override templates defined below.*
+Put your local templates into %SYSTEMWEB%.UserCommentsTemplate (create if it does not exist yet). *Local templates defined in that topic will override templates defined below.*
 
 %TOC{title="Table of Contents"}%
 

@@ -1348,11 +1348,11 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 "Въведете вашето TWiki.LoginName. (Обикновено Първото име и фмилията слети, "
 "без паузи и точки с първите букви главни, например !JohnSmith, Освен ако не "
-"сте избрали друго). Посетете %TWIKIWEB%.TWikiRegistration ако нямате такова."
+"сте избрали друго). Посетете %SYSTEMWEB%.TWikiRegistration ако нямате такова."
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"

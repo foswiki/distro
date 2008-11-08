@@ -6,16 +6,16 @@ Displays a rotating "TWiki Tip of the Day" to help familiarize new users with TW
 %TOC%
 
 ---++ Summary of Contents
-	* Set on =TWikiTip= topics providing brief lessons on TWiki features. See %TWIKIWEB%.TWikiTips.
-	* Set of topics for creating and managing =TWikiTipXXX= topics. See %TWIKIWEB%.TWikiTipsOfTheDayAdmin.
+	* Set on =TWikiTip= topics providing brief lessons on TWiki features. See %SYSTEMWEB%.TWikiTips.
+	* Set of topics for creating and managing =TWikiTipXXX= topics. See %SYSTEMWEB%.TWikiTipsOfTheDayAdmin.
 
 ---++ Detailed Documentation
-	* See %TWIKIWEB%.TWikiTipsOfTheDayAdmin for instructions on managing and displaying tips.
-	* See %TWIKIWEB%.TWikiTipsOfTheDayAddNew for instructions for adding new custom tips.
+	* See %SYSTEMWEB%.TWikiTipsOfTheDayAdmin for instructions on managing and displaying tips.
+	* See %SYSTEMWEB%.TWikiTipsOfTheDayAddNew for instructions for adding new custom tips.
 
 ---++ Settings
 
-This extension requires no settings.  See %TWIKIWEB%.TWikiTipsOfTheDayAdmin for administration details.
+This extension requires no settings.  See %SYSTEMWEB%.TWikiTipsOfTheDayAdmin for administration details.
 
 	* One line description:
 	* Set SHORTDESCRIPTION = Displays rotating list of "TWiki Tip-of-the-day"
@@ -51,6 +51,6 @@ __Note:__ You do not need to install anything on the browser to use this contrib
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences
 
 -- TWiki:Main.PeterThoeny - 2007-01-04

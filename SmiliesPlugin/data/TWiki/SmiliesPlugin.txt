@@ -40,11 +40,11 @@ Here is the list of smilies supported by this plugin. To add others, attach new 
 Plugin settings are stored as preferences variables. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
-	* One line description, shown in the %TWIKIWEB%.TextFormattingRules topic:
+	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
 	* Set SHORTDESCRIPTION = Render smilies as icons, like :-) for =&nbsp;:-)= or :eek: for =&nbsp;:eek:=
 
 	* The name of the topic containig your Smilies. Default: ==%WEB%.SmiliesPlugin==
-	* #Set TOPIC = %TWIKIWEB%.SmiliesPlugin
+	* #Set TOPIC = %SYSTEMWEB%.SmiliesPlugin
 
 	* The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). Default: ==&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;==
 <verbatim>
@@ -86,12 +86,12 @@ This plugin is installed by default with a TWiki release. You should not need to
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.0 |
-|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle 96%, %TWIKIWEB%.FormattedSearch 98%, SmiliesPlugin 96% |
+|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle 96%, %SYSTEMWEB%.FormattedSearch 98%, SmiliesPlugin 96% |
 |  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins
 
 %META:FILEATTACHMENT{name="biggrin.gif" attr="h" comment="" date="1071216488" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\biggrin.gif" size="152" user="TWikiContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="confused.gif" attr="h" comment="" date="1071216502" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\confused.gif" size="110" user="TWikiContributor" version="1.1"}%

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="TWikiContributor" date="1186040402" format="1.1" reprev="1.2" version="$Rev$"}%
-<script language="javascript" src="%PUBURL%/%TWIKIWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/TWikiJavascripts/twiki_edit.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditContrib/edit.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/NatEditContrib/edit.js"></script>
 
 <script language="javascript">
 function testSingleNumberedBullet1() {
@@ -209,7 +209,7 @@ var areas = document.getElementsByTagName('textarea');
 txtarea = areas[0];
 </script>
 
-*[[%PUBURL%/%TWIKIWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/%TOPIC%][Run all tests]]*
+*[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/%TOPIC%][Run all tests]]*
 
 <a href="javascript:testStartLineNumberedBullet1()" ><span>testStartLineNumberedBullet1</span></a>
 <a href="javascript:testStartLineNumberedBullet2()" ><span>testStartLineNumberedBullet2</span></a>

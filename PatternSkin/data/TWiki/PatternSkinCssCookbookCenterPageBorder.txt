@@ -9,7 +9,7 @@ This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURL%/centerpageborder.css
 </verbatim>
-You can write this line in %TWIKIWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
 </div>
 
 Add the dynamic variable link to the logo image to the topic text:
@@ -20,7 +20,7 @@ background-image:url("%ATTACHURLPATH%/gradient_page.gif");
 background-repeat:repeat-x;
 }
 #patternPageShadow {
-background-image:url("%PUBURLPATH%/%TWIKIWEB%/PatternSkin/striped_pageshadow.gif");
+background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gif");
 }
 </style>
 </verbatim>
@@ -43,7 +43,7 @@ background-image:url("%ATTACHURLPATH%/gradient_page.gif");
 background-repeat:repeat-x;
 }
 #patternPageShadow {
-background-image:url("%PUBURLPATH%/%TWIKIWEB%/PatternSkin/striped_pageshadow.gif");
+background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gif");
 }</style>
 
 %META:FILEATTACHMENT{name="centerpageborder.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="TWikiContributor" version=""}%

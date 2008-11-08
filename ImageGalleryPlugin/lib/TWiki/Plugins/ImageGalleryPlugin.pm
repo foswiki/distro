@@ -53,7 +53,7 @@ sub commonTagsHandler {
     # add css definitions, deliberately NOT using addToHEAD()
     my $link = 
       '<link rel="stylesheet" '.
-      'href="%PUBURL%/%TWIKIWEB%/ImageGalleryPlugin/style.css" '.
+      'href="%PUBURL%/%SYSTEMWEB%/ImageGalleryPlugin/style.css" '.
       'type="text/css" media="all" />';
 
     if ($_[0] =~ s/<head>(.*?[\r\n]+)/<head>$1$link\n/o) {

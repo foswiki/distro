@@ -8,7 +8,7 @@ Interactive [[WebSearch][search]] is a keyword search by default. For example, t
 
 More [[SearchHelp][search help]]
 
-[[%TWIKIWEB%.TWikiTipsOfTheDay][See More Tips...]]
+[[%SYSTEMWEB%.TWikiTipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PeterThoeny - 06 Feb 2005
 

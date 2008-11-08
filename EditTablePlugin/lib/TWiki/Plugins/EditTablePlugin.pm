@@ -42,7 +42,7 @@ $encodeStart = '--EditTableEncodeStart--';
 $encodeEnd   = '--EditTableEncodeEnd--';
 %editMode    = ( 'NONE', 0, 'EDIT', 1 );
 %saveMode    = ( 'NONE', 0, 'SAVE', 1, 'SAVEQUIET', 2 );
-$ASSET_URL   = '%PUBURL%/%TWIKIWEB%/EditTablePlugin';
+$ASSET_URL   = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
 
 sub initPlugin {
     ( $topic, $web, $user ) = @_;
@@ -143,7 +143,7 @@ sub addViewModeHeadersToHead {
 
     my $header = <<'EOF';
 <style type="text/css" media="all">
-@import url("%PUBURL%/%TWIKIWEB%/EditTablePlugin/edittable.css");
+@import url("%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.css");
 </style>
 EOF
     TWiki::Func::addToHEAD( 'EDITTABLEPLUGIN', $header );
@@ -175,9 +175,9 @@ sub addEditModeHeadersToHead {
       . $ASSET_URL . '" />';
     $header .= <<'EOF';
 <style type="text/css" media="all">
-@import url("%PUBURL%/%TWIKIWEB%/EditTablePlugin/edittable.css");
+@import url("%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.css");
 </style>
-<script type="text/javascript" src="%PUBURL%/%TWIKIWEB%/EditTablePlugin/edittable.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/EditTablePlugin/edittable.js"></script>
 EOF
 
     TWiki::Func::addToHEAD( 'EDITTABLEPLUGIN', $header );

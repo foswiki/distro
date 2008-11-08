@@ -139,7 +139,7 @@ HERE
     # Add the Javascript for the editor. When it starts up the editor will
     # use a REST call to the WysiwygPlugin tml2html REST handler to convert
     # the textarea content from TML to HTML.
-    my $pluginURL = '%PUBURL%/%TWIKIWEB%/TinyMCEPlugin';
+    my $pluginURL = '%PUBURL%/%SYSTEMWEB%/TinyMCEPlugin';
     my $tmceURL = $pluginURL.'/tinymce/jscripts/tiny_mce';
     # expand and URL-encode the init string
     my $metainit = TWiki::Func::expandCommonVariables($init);
@@ -155,7 +155,7 @@ HERE
     unless ($behaving) {
         TWiki::Func::addToHEAD(
             'BEHAVIOURCONTRIB',
-            '<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/BehaviourContrib/behaviour.js"></script>');
+            '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>');
     }
     TWiki::Func::addToHEAD('tinyMCE', <<SCRIPT);
 <meta name="TINYMCEPLUGIN_INIT" content="$metainit" />

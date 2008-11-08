@@ -6,7 +6,7 @@ TWiki Tips are tips and hints contributed by TWiki users. Use this form to searc
 <form action="%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%">
 Search (perl regular expression): <input name="searchfor" type="text" value="%URLPARAM{"searchfor" default="Enter search keywords here"}%" size="100" />
 </form>
-%SEARCH{ "%URLPARAM{"searchfor" default="search results go here"}%" topic="TWiki*Tip*" type="keyword" web="%TWIKIWEB%, %MAINWEB%" format="	* [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()	$summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
+%SEARCH{ "%URLPARAM{"searchfor" default="search results go here"}%" topic="TWiki*Tip*" type="keyword" web="%SYSTEMWEB%, %MAINWEB%" format="	* [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()	$summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
 
 Total: %CALC{$GET(total)}% tips
 

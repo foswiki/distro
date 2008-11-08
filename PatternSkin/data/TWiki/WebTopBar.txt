@@ -8,5 +8,5 @@
    </form>
    * <form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch"><input type="text" class="twikiInputField" id="quickSearchBox" name="search" value="" size="18" /><input type="hidden" name="scope" value="all" /><input type="hidden" name="web" value="%BASEWEB%" /><noscript>&nbsp;<input type="submit" size="5" class="twikiButton" name="submit" value="%MAKETEXT{"Search"}%" />&nbsp;</noscript>
    </form>
-   * %INCLUDE{%TWIKIWEB%.LanguageSelector}%
+   * %INCLUDE{%SYSTEMWEB%.LanguageSelector}%
 </noautolink></td></tr></table>

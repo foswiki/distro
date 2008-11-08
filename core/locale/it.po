@@ -1341,11 +1341,11 @@ msgstr "Inserisci l'utente Amministratore o effettua il login come in %1"
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 "Digita il tuo TWiki.LoginName.  (Tipicamente Nome e Cognome senza spazi, "
 "punti, con le iniziali maiuscole, es. MarioRossi, salvo scelta diversa). "
-"Visita%TWIKIWEB%.TWikiRegistration se non ne hai uno."
+"Visita%SYSTEMWEB%.TWikiRegistration se non ne hai uno."
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"

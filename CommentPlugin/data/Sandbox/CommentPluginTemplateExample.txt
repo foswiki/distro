@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="TWikiContributor" date="1165176010" format="1.1" reprev="1.1" version="1.1"}%
 ---+!! Template Example
 
-Example template topic for [[%TWIKIWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+Example template topic for [[%SYSTEMWEB%.CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
 
 
 <verbatim>
@@ -36,5 +36,5 @@ Example template topic for [[%TWIKIWEB%.CommentPluginExamples#TemplateTopic][Com
 
 Include generic comment templates:
 <verbatim>
-%TMPL:INCLUDE{"%TWIKIWEB%.CommentPlugin"}%
+%TMPL:INCLUDE{"%SYSTEMWEB%.CommentPlugin"}%
 </verbatim>

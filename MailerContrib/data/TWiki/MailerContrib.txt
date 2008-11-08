@@ -32,15 +32,15 @@ This script is designed to be run from =cron= (or an equivalent off-line job sch
 The script collates the changes emails so that each subscriber only receives one changes notification for all changes in all webs in the TWiki. Furthermore, users can elect to receive just summaries of changes, or the entire content of topics that have changed.
 
 Each web can optionally contain a topic called <nop>%NOTIFYTOPIC%.
-<!-- Included by %TWIKIWEB%.WebChangesAlert -->
+<!-- Included by %SYSTEMWEB%.WebChangesAlert -->
 %STARTINCLUDE%
-Users subscribe to email notifications using their [[%TWIKIWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
+Users subscribe to email notifications using their [[%SYSTEMWEB%.WikiName][WikiName]] or an alternative email address, and can specify the webs/topics they wish to track, Whole groups of users can also be subscribed for notification.
 
 The general format of a subscription is:
 
 _three spaces_ =*= _subscriber_ [ =:= _topics_ ]
 
-Where _subscriber_ can be a [[%TWIKIWEB%.WikiName][WikiName]], an E-mail address, or a
+Where _subscriber_ can be a [[%SYSTEMWEB%.WikiName][WikiName]], an E-mail address, or a
 group name. If _subscriber_ contains any characters that are not legal in
 an email address, then it must be enclosed in 'single' or "double" quotes.
 

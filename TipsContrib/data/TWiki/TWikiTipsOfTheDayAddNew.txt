@@ -17,13 +17,13 @@ Custom tips are located in the %MAINWEB% web. You can add custom tips that are s
 -->
 <input type="hidden" name="topic" value="%CALC{$GET(ctopic)}%" />
 <input type="hidden" name="onlynewtopic" value="on" />
-<input type="hidden" name="templatetopic" value="%TWIKIWEB%.TWikiTipsOfTheDayTemplate" />
+<input type="hidden" name="templatetopic" value="%SYSTEMWEB%.TWikiTipsOfTheDayTemplate" />
 New Custom Tip: <nop>%CALC{$GET(ctopic)}% <input type="submit" value="Create" />
 </form>
 
 ---++ Add an Official TWiki Tip
 
-Official TWiki tips are located in the %TWIKIWEB% web. Please do not submit new tips on your local TWiki installation since they will get lost on a TWiki upgrade. Visit TWiki:TWiki.TWikiTipsOfTheDayAddNew to contribute official TWiki tips.
+Official TWiki tips are located in the %SYSTEMWEB% web. Please do not submit new tips on your local TWiki installation since they will get lost on a TWiki upgrade. Visit TWiki:TWiki.TWikiTipsOfTheDayAddNew to contribute official TWiki tips.
 <form name="new" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/">
 <!--
 | Last topic:	  | %CALC{$SET(ttopic, %SEARCH{ "TWikiTip[0-9]" scope="topic" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ttopic)}% |

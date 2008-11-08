@@ -88,7 +88,7 @@ For a full explanation of the available options, and guidance on reconfiguring T
    theme_advanced_resizing : true,
    theme_advanced_path: false,
    theme_advanced_statusbar_location : "bottom",
-   content_css : "%PUBURLPATH%/%TWIKIWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%TWIKIWEB%/TWikiTemplates/base.css,%TWIKISTYLEURL%,%TWIKICOLORSURL%"
+   content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/TWikiTemplates/base.css,%TWIKISTYLEURL%,%TWIKICOLORSURL%"
 </verbatim>
    * Additional settings for specific browsers.
       * Warning: if you enable =paste_auto_cleanup_on_paste then it automatically implies =past_use_dialog= on all non-MSIE browsers.
@@ -103,7 +103,7 @@ You can override these settings in the same way as any other TWiki variable, by 
    * Some browsers don't support !TinyMCE. You can prevent the editor from
      being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror|Opera)=.   
 
-%INCLUDE{"%TWIKIWEB%.WysiwygPluginSettings"}%
+%INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 
 #InstallingOnOldTWikis
 ---++ Configuring the buttons on TWiki < 4.2.0

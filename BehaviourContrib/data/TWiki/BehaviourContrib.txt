@@ -62,7 +62,7 @@ Include the javascript file:
 
 <blockquote>
 <verbatim>
-<script type="text/javascript" src="%PUBURL%/%TWIKIWEB%/BehaviourContrib/behaviour.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>
 </verbatim>
 </blockquote>
 
@@ -110,7 +110,7 @@ Behaviour.register(myrules);
 
 
 ---+++ Example
-If we have a 'normal' link to TWiki Web hometopic: [[%TWIKIWEB%.%HOMETOPIC%][TWiki Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
+If we have a 'normal' link to TWiki Web hometopic: [[%SYSTEMWEB%.%HOMETOPIC%][TWiki Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
 
 <blockquote>
 <verbatim>
@@ -290,7 +290,7 @@ You can also set the global TWiki variable BEHAVIOURCONTRIB_DEBUG to 1 to make t
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences
 
 %META:FILEATTACHMENT{name="behaviour.js" attr="" autoattached="1" comment="" date="1162075796" path="behaviour.compressed.js" size="2902" user="UnknownUser" version=""}%
 

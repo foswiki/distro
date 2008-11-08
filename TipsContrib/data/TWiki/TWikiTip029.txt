@@ -16,7 +16,7 @@ __See also:__
 	* WebRssBase - help on TWiki RSS news feeds
 	* TWiki:Codev/TWikiSyndication - TWiki RSS news feed documentation
 
-[[%TWIKIWEB%.TWikiTipsOfTheDay][See More Tips...]]
+[[%SYSTEMWEB%.TWikiTipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PeterThoeny - 06 Feb 2005
 

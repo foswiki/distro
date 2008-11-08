@@ -445,7 +445,7 @@ Conventions for Syntax:
 
 #FuncPROPERSPACE
 ---+++ PROPERSPACE( text ) -- properly space out <nop>WikiWords
-	* Properly spaces out %TWIKIWEB%.WikiWords preceeded by white space, parenthesis, or ==][==. Words listed in the DONTSPACE %TWIKIWEB%.%WIKIPREFSTOPIC% variable or DONTSPACE Plugins setting are excluded
+	* Properly spaces out %SYSTEMWEB%.WikiWords preceeded by white space, parenthesis, or ==][==. Words listed in the DONTSPACE %SYSTEMWEB%.%WIKIPREFSTOPIC% variable or DONTSPACE Plugins setting are excluded
 	* Syntax: ==$PROPERSPACE( text )==
 	* Example: Assuming DONTSPACE contains <nop>MacDonald: ==%<nop>CALC{"$PROPERSPACE(Old <nop>MacDonald had a <nop>ServerFarm, <nop>EeEyeEeEyeOh)"}%== returns ==Old <nop>MacDonald had a Server Farm, Ee Eye Ee Eye Oh==
 	* Related: =[[#FuncLOWER][$LOWER()]]=, =[[#FuncPROPER][$PROPER()]]=, =[[#FuncTRIM][$TRIM()]]=, =[[#FuncUPPER][$UPPER()]]=
@@ -493,7 +493,7 @@ Conventions for Syntax:
 
 #FuncSEARCH
 ---+++ SEARCH( string, text, start ) -- search a string within a text
-	* Finds one text =string=, within another =text=, and returns the number of the starting position of =string=, from the first character of =text=. This search is a %TWIKIWEB%.RegularExpression search; use =$FIND()= for non-regular expression searching. Starting position is 1; a 0 is returned if nothing is matched
+	* Finds one text =string=, within another =text=, and returns the number of the starting position of =string=, from the first character of =text=. This search is a %SYSTEMWEB%.RegularExpression search; use =$FIND()= for non-regular expression searching. Starting position is 1; a 0 is returned if nothing is matched
 	* Syntax: ==$SEARCH( string, text, _start_ )==
 	* Example: ==%<nop>CALC{"$SEARCH([uy], fluffy)"}%== returns ==3==
 	* Example: ==%<nop>CALC{"$SEARCH([uy], fluffy, 3)"}%== returns ==6==
@@ -535,7 +535,7 @@ Conventions for Syntax:
 
 #FuncSUBSTITUTE
 ---+++ SUBSTITUTE( text, old, new, instance, option ) -- substitute text
-	* Substitutes =new= text for =old= text in a =text= string. =instance= specifies which occurance of =old= you want to replace. If you specify =instance=, only that instance is replaced. Otherwise, every occurance is changed to the new text. A literal search is performed by default; a %TWIKIWEB%.RegularExpression search if the =option= is set to ==r==
+	* Substitutes =new= text for =old= text in a =text= string. =instance= specifies which occurance of =old= you want to replace. If you specify =instance=, only that instance is replaced. Otherwise, every occurance is changed to the new text. A literal search is performed by default; a %SYSTEMWEB%.RegularExpression search if the =option= is set to ==r==
 	* Syntax: ==$SUBSTITUTE( text, old, _new_, _instance_, _option_ )==
 	* Example: ==%<nop>CALC{"$SUBSTITUTE(Good morning, morning, day)"}%== returns ==Good day==
 	* Example: ==%<nop>CALC{"$SUBSTITUTE(Q2-2002,2,3)"}%== returns ==Q3-3003==
@@ -637,11 +637,11 @@ Conventions for Syntax:
 
 ---+++ Can I use CALC in a formatted search?
 
-Specifically, how can I output some conditional text in a %TWIKIWEB%.FormattedSearch?
+Specifically, how can I output some conditional text in a %SYSTEMWEB%.FormattedSearch?
 
-You need to escape the CALC so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALC{...}%= with =$percnt=. For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>TWIKIWEB%/TWikiDocGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>TWIKIWEB%/TWikiDocGraphics/choice-no.gif)= in the =format=""= parameter, write this:
+You need to escape the CALC so that it executes once per search hit. This can be done by escaping the =%= signs of =%<nop>CALC{...}%= with =$percnt=. For example, to execute =$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/TWikiDocGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/TWikiDocGraphics/choice-no.gif)= in the =format=""= parameter, write this:
 
-=%<nop>SEARCH{ .... format="| $topic | $percntCALC{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>TWIKIWEB%/TWikiDocGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>TWIKIWEB%/TWikiDocGraphics/choice-no.gif)}$percnt |" }%=
+=%<nop>SEARCH{ .... format="| $topic | $percntCALC{$IF($EXACT($formfield(Tested), Yes), %<nop>PUBURL%/%<nop>SYSTEMWEB%/TWikiDocGraphics/choice-yes.gif, %<nop>PUBURL%/%<nop>SYSTEMWEB%/TWikiDocGraphics/choice-no.gif)}$percnt |" }%=
 
 ---+++ How can I easily repeat a formula in a table?
 
@@ -684,7 +684,7 @@ Above table is created manually. Another Plugin could build the table dynamicall
 Plugin settings are stored as preferences variables. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SPREADSHEETPLUGIN_SHORTDESCRIPTION%==
 
-	* One line description, is shown in the %TWIKIWEB%.TextFormattingRules topic:
+	* One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
 		* Set SHORTDESCRIPTION = Add spreadsheet calculation like ="$SUM( $ABOVE() )"= to TWiki tables and other topic text
 
 	* Debug plugin: (See output in =data/debug.txt=)
@@ -694,7 +694,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 		* Set SKIPINCLUDE = 1
 
 <noautolink>
-	* [[%TWIKIWEB%.WikiWord][WikiWords]] to exclude from being spaced out by the ==$PROPERSPACE(text)== function. This comma delimited list can be overloaded by a DONTSPACE preferences variable:
+	* [[%SYSTEMWEB%.WikiWord][WikiWords]] to exclude from being spaced out by the ==$PROPERSPACE(text)== function. This comma delimited list can be overloaded by a DONTSPACE preferences variable:
 		* Set DONTSPACE = CodeWarrior, MacDonald, McIntosh, RedHat, SuSE
 </noautolink>
 
@@ -721,7 +721,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  13 Oct 2007: | Added $FORMATTIMEDIFF() |
 |  09 Sep 2007: | Enhanced documentation for $EVAL() and $INT() |
-|  02 Jun 2007: | Added %TWIKIWEB%.VarCALC to have =%<nop>CALC{}%= listed in %TWIKIWEB%.TWikiVariables |
+|  02 Jun 2007: | Added %SYSTEMWEB%.VarCALC to have =%<nop>CALC{}%= listed in %SYSTEMWEB%.TWikiVariables |
 |  14 Apr 2007: | Fixing bug in $EXISTS() that required full =web.topic= instead of just =topic= |
 |  11 Mar 2007: | Fixing bug in $VALUE() and $INT(), introduced by version 09 Mar 2007 |
 |  09 Mar 2007: | Added $EXP(), $LN(), $LOG(), $PI(), $SQRT(); fixed $ROUND() bug, contributed by TWiki:Main/SergejZnamenskij |
@@ -760,14 +760,14 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
 |  CPAN Dependencies: | none |
-|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle 99%, %TWIKIWEB%.FormattedSearch 99%, %TOPIC% 95% |
+|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle 99%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 95% |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.000 and up |
 |  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins, %TWIKIWEB%.VarCALC
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins, %SYSTEMWEB%.VarCALC
 
 -- TWiki:Main/PeterThoeny - 13 Oct 2007
 

@@ -94,7 +94,7 @@ The flow of control is as follows:
 
 ---+++ Other techniques
 ---++++ Asynchronous saves
-Editors can use =XmlHttpRequest= to perform saves, by POSTing to the TWiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %TWIKIWEB%.TWikiScripts for details of the other parameters to the =save= script.
+Editors can use =XmlHttpRequest= to perform saves, by POSTing to the TWiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %SYSTEMWEB%.TWikiScripts for details of the other parameters to the =save= script.
 
 Once the save script has completed it responds with a redirect, either to an Oops page if the save failed, or to the appropriate post-save URL (usually a =view=). The editor must be ready to handle this redirect.
 
@@ -125,7 +125,7 @@ Converts the TML text to HTML. =topic= *must* be specified. The response is a =t
 ---++ Plugin Configuration Settings
 
 ---+++ Translator control
-%INCLUDE{"%TWIKIWEB%.WysiwygPluginSettings"}%
+%INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 
 *Implementors note* if you are using your own before/after edit handlers, you can call =TWiki::Plugins::WysiwygPlugin::isWysiwygEditable()= to check these controls.
 
@@ -191,7 +191,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Feedback: | TWiki:Plugins/%TOPIC%Dev |
 |  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 

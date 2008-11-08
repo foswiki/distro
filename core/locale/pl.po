@@ -211,7 +211,7 @@ msgstr "(wpisz =all=, aby wyświetlić wyniki dla wszystkich stron)"
 #: data/Sandbox/WebHome.txt:9
 msgid "(Use a topic name in TWiki.WikiNotation)"
 msgstr ""
-"(wpisz nazwę nowej strony w formacie [[%TWIKIWEB%.WikiNotation][WikiWord]])"
+"(wpisz nazwę nowej strony w formacie [[%SYSTEMWEB%.WikiNotation][WikiWord]])"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -1352,12 +1352,12 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 "Wprowadź nazwę swojego konta w formacie TWiki.LoginName. Zwykle nazwa konta "
 "ma postać: ImieNazwisko - bez spacji i kropek. Imię i nazwisko są pisane "
 "wielką literą, np. JanKowalski. Jeśli jeszcze nie masz konta, to przejdź na "
-"stronę %TWIKIWEB%.TWikiRegistration"
+"stronę %SYSTEMWEB%.TWikiRegistration"
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"

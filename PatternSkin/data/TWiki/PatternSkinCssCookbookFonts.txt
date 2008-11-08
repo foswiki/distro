@@ -9,7 +9,7 @@ This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURL%/fonts.css
 </verbatim>
-You can write this line in %TWIKIWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
 </div>
 
 %META:FILEATTACHMENT{name="fonts.css" attachment="fonts.css" attr="" comment="" date="1129333615" path="fonts.css" size="240" stream="fonts.css" user="TWikiContributor" version="1"}%

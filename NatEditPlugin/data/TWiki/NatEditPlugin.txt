@@ -71,7 +71,7 @@ There is a small set of browser based unit tests defined in
 NatEditPluginJSUnitTests that can be run as a problem diagnosing tool. These
 require the installation of TWiki:Plugins.JSUnitContrib, and then can be run
 from
-*[[%PUBURL%/%TWIKIWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/NatEditPluginJSUnitTests][Run all tests]]*
+*[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/NatEditPluginJSUnitTests][Run all tests]]*
 
 Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 

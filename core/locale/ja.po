@@ -1309,11 +1309,11 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 " TWiki.LoginName (典型的な書き方　名字＋名前、スペース無し、ピリオド無し、頭"
 "文字を大文字にする。例えば: OdaNobunaga 他の名称を選択した場合を除く)をご入力"
-"ください。 まだ登録していない場合は %TWIKIWEB%.TWikiRegistration にアクセスし"
+"ください。 まだ登録していない場合は %SYSTEMWEB%.TWikiRegistration にアクセスし"
 "てください"
 
 #: templates/messages.tmpl:233
@@ -2154,7 +2154,7 @@ msgid ""
 "more, study the TWikiTutorial, which is accessible from the same link."
 msgstr ""
 "%1を読んで、このコラボレーションプラットフォームを大まかに理解してください。"
-"もっと沢山見たい場合は、%TWIKIWEB%.TWikiTutorialを参照してください。"
+"もっと沢山見たい場合は、%SYSTEMWEB%.TWikiTutorialを参照してください。"
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27
 msgid "Read new revision help text in new window"

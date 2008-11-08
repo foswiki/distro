@@ -596,7 +596,7 @@ __Major New Features__
    * *26 Sep 2000* - TWiki:Main.AlWilliams, TWiki:Main.PeterThoeny
       * Fixed TWiki:Codev/UppercaseAttachments bug and added =png= image support. 
    * *26 Sep 2000* - TWiki:Main.HaroldGottschalk, TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny
-      * Allow nesting of variables, i.e. =%<nop>INCLUDE{"%<nop>TWIKIWEB%.TWikiWebsTable"}%=. More in TWiki:Codev/BetterTWikiTagTemplateProcessing. 
+      * Allow nesting of variables, i.e. =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.TWikiWebsTable"}%=. More in TWiki:Codev/BetterTWikiTagTemplateProcessing. 
    * *20 Sep 2000* - TWiki:Main.ManpreetSingh
       * New -q switch in =mailnotify= to suppress all normal output. 
    * *19 Sep 2000* - TWiki:Main.PeterThoeny

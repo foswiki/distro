@@ -405,7 +405,7 @@ sub test_webDotUserName {
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
    2. everyone else is DENIED
-\t* Set ALLOWTOPICVIEW = MrYellow,%USERSWEB%.MrOrange,Nosuchweb.MrGreen,%MAINWEB%.MrBlue,%TWIKIWEB%.MrWhite
+\t* Set ALLOWTOPICVIEW = MrYellow,%USERSWEB%.MrOrange,Nosuchweb.MrGreen,%MAINWEB%.MrBlue,%SYSTEMWEB%.MrWhite
 THIS
                                 , undef);
     $this->{twiki}->finish();

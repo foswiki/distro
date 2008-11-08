@@ -1375,11 +1375,11 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 "Введите Ваше [[TWiki.LoginName][ИмяПользователя]]. (Обычно имя и фамилия, "
 "без пробелов, без точек, начиная с прописной буквы, например: ВасилийПупкин "
-"или иначе). Посетите [[%TWIKIWEB%.TWikiRegistration][Регистрация]] если Вы "
+"или иначе). Посетите [[%SYSTEMWEB%.TWikiRegistration][Регистрация]] если Вы "
 "ещё не зарегистрированы."
 
 #: templates/messages.tmpl:233

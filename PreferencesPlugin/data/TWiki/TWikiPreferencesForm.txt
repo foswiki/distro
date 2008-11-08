@@ -10,7 +10,7 @@
 | EDITBOXWIDTH | text | 30 | 70 | Horizontal size of text edit box. | S |
 | EDITBOXHEIGHT | text | 30 | 15 | Vertical size of text edit box. | S |
 | EDITBOXSTYLE | text | 30 | width: 99% | CSS style | S |
-| PREVIEWBGIMAGE | text | 30 | %PUBURLPATH%/%TWIKIWEB%/PreviewBackground/preview2bg.gif | Image URL | S |
+| PREVIEWBGIMAGE | text | 30 | %PUBURLPATH%/%SYSTEMWEB%/PreviewBackground/preview2bg.gif | Image URL | S |
 | FORCENEWREVISIONCHECKBOX | select | 1 | , checked="checked" | Select checked to enable | S |
 | DONTNOTIFYCHECKBOX | select | 1 | ,checked="checked" | Select checked to enable | S |
 | ATTACHLINKBOX | select | 1 | ,checked="checked" | Select checked to enable | S |
@@ -21,10 +21,10 @@
 | WEBLOGOIMG | text | 30 | %PUBURL%/%BASEWEB%/%WEBPREFSTOPIC%/%WEBLOGONAME% | URL of a logo image | S |
 | WEBLOGOURL | text | 30 | %SCRIPTURL%/view%SCRIPTSUFFIX%/%BASEWEB%/%HOMETOPIC% | URL under the logo | S |
 | WEBLOGOALT | text | 30 | Home | Logo tooltip text of the logo | S |
-| WIKILOGOIMG | text | 30 | %PUBURL%/%TWIKIWEB%/TWikiLogos/horzTWiki.gif | URL of a logo image | S |
+| WIKILOGOIMG | text | 30 | %PUBURL%/%SYSTEMWEB%/TWikiLogos/horzTWiki.gif | URL of a logo image | S |
 | WIKILOGOURL | text | 30 | http://TWiki.org/ | URL under the logo| S |
 | WIKILOGOALT | text | 30 | Powered by TWiki | Logo tooltip text of the logo | S |
-| WIKIWEBLIST | textarea | | [[%MAINWEB%.%HOMETOPIC%][%MAINWEB%]] %SEP% [[%TWIKIWEB%.%HOMETOPIC%][%TWIKIWEB%]] %SEP% [[Sandbox.%HOMETOPIC%][Sandbox]] | | S |
+| WIKIWEBLIST | textarea | | [[%MAINWEB%.%HOMETOPIC%][%MAINWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[Sandbox.%HOMETOPIC%][Sandbox]] | | S |
 | ATTACHFILESIZELIMIT | text | 30 | 3000 | Maximum size of attachments in KB, 0 for no limit | S |
 | BROADCASTMESSAGE | textarea| |  | Broadcast message on every page, for skins that support it. | S |
 | SEARCHDEFAULTTTYPE | select | 1 | keyword,literal,regex | Default type for search | S |
@@ -37,8 +37,8 @@
 | HTTP_EQUIV_ON_PREVIEW| textarea | 30x1 | =  | http-equiv== meta tags for ==preview== script | S |
 | SKIN | text | 30 | pattern | Skin overriding the default TWiki templates. | S |
 | WEBTOPICLIST | textarea | 40x3 | [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" /> | Usually a list of topics | S |
-| TWIKILAYOUTURL | text | 30 | %PUBURL%/%TWIKIWEB%/PatternSkin/layout.css | URL of a CSS | S |
-| TWIKISTYLEURL | text | 30 | %PUBURL%/%TWIKIWEB%/PatternSkin/style.css | URL of a CSS | S |
+| TWIKILAYOUTURL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css | URL of a CSS | S |
+| TWIKISTYLEURL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/style.css | URL of a CSS | S |
 | USERLAYOUTURL | text | 30 |  | URL of a CSS | S |
 | USERSTYLEURL | text | 30 |  | URL of a CSS | S |
 | DS_THEME | text | 30 | gray | Theme: (gray, monochrome, tabstyle | S |

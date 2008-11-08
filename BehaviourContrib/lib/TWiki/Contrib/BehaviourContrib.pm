@@ -22,7 +22,7 @@ sub commonTagsHandler {
 =cut
 
 sub addHEAD {
-    my $base = '%PUBURLPATH%/%TWIKIWEB%/BehaviourContrib';
+    my $base = '%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib';
     my $USE_SRC =
       TWiki::Func::getPreferencesValue('BEHAVIOURCONTRIB_DEBUG') ?
           '_src' : '';

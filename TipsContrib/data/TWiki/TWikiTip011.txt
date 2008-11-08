@@ -6,7 +6,7 @@ To include the contents of a web page or TWiki topic, use =%<nop>INCLUDE{"page"}
 
 Examples:
 	* =%<nop>INCLUDE{"http://www.google.com/"}%=
-	* =%<nop>INCLUDE{"%TWIKIWEB%.WebHome"}%=
+	* =%<nop>INCLUDE{"%SYSTEMWEB%.WebHome"}%=
 	* =%<nop>INCLUDE{"WebHome"}%=
 
 [[TWikiTipsOfTheDay][See More Tips...]]

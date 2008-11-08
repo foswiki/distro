@@ -9,7 +9,7 @@ This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURL%/centerpage.css
 </verbatim>
-You can write this line in %TWIKIWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
 </div>
 
 

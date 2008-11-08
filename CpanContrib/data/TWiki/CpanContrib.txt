@@ -395,6 +395,6 @@ __Note:__ You do not need to install anything on the browser to use this contrib
       * Set ATTACHFILESIZELIMIT = 22000
 -->
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences
 
 -- TWiki:Main/WillNorris - %$DATE%

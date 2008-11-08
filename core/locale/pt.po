@@ -213,7 +213,7 @@ msgstr "(=all= para mostrar todos os tópicos)"
 
 #: data/Sandbox/WebHome.txt:9
 msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(Use [[%TWIKIWEB%.WikiNotation][Notação Wiki]] para um nome de tópico)"
+msgstr "(Use [[%SYSTEMWEB%.WikiNotation][Notação Wiki]] para um nome de tópico)"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -275,11 +275,11 @@ msgstr "(editar)"
 
 #: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
 msgid "(how you log in) LoginName:"
-msgstr "(como você se autentica) [[%TWIKIWEB%.LoginName][Nome de Usuário]]:"
+msgstr "(como você se autentica) [[%SYSTEMWEB%.LoginName][Nome de Usuário]]:"
 
 #: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
-msgstr "(identifica você aos outros) [[%TWIKIWEB%.WikiName][NomeWiki]]:"
+msgstr "(identifica você aos outros) [[%SYSTEMWEB%.WikiName][NomeWiki]]:"
 
 #: templates/login.tmpl:4
 msgid "(login)"
@@ -656,7 +656,7 @@ msgid ""
 "Alternatively hit back to go back to TWiki.TWikiRegistration and choose a "
 "different username."
 msgstr ""
-"Alternativamente, clique em Voltar pra retornar à [[%TWIKIWEB%."
+"Alternativamente, clique em Voltar pra retornar à [[%SYSTEMWEB%."
 "TWikiRegistration][Página de Registro]] e escolher um nome de usuário "
 "diferente."
 
@@ -1112,7 +1112,7 @@ msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
 msgstr ""
-"Criar seu tópico pessoal no %1 usando seu [[%TWIKIWEB%.WikiName][NomeWiki]] "
+"Criar seu tópico pessoal no %1 usando seu [[%SYSTEMWEB%.WikiName][NomeWiki]] "
 "como nome do tópico, e adicionar os dados que você forneceu ao tópico."
 
 #: templates/messages.tmpl:341
@@ -1345,11 +1345,11 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
-"Digite seu [[%TWIKIWEB%.LoginName][Nome de Usuário]]. (Normalmente seu "
+"Digite seu [[%SYSTEMWEB%.LoginName][Nome de Usuário]]. (Normalmente seu "
 "Primeiro e Último nomes, sem espaços entre eles, sem pontuação e com as "
-"iniciais maiúsculas, p.ex.: !JoseDaSilva). Visite a [[%TWIKIWEB%."
+"iniciais maiúsculas, p.ex.: !JoseDaSilva). Visite a [[%SYSTEMWEB%."
 "TWikiRegistration][página de registro]] se você ainda não é um usuário "
 "cadastrado."
 
@@ -1416,7 +1416,7 @@ msgid ""
 "using your WikiName."
 msgstr ""
 "Finalizar a criação da sua conta, de modo que possa começar a editar páginas "
-"usando seu [[%TWIKIWEB%.WikiName][NomeWiki]]."
+"usando seu [[%SYSTEMWEB%.WikiName][NomeWiki]]."
 
 #: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
 msgid "First Name:"
@@ -2986,7 +2986,7 @@ msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
 msgstr ""
-"Para editar páginas nesse [[%TWIKIWEB%.TWikiSite][SítioTWiki]], você precisa "
+"Para editar páginas nesse [[%SYSTEMWEB%.TWikiSite][SítioTWiki]], você precisa "
 "ter um nome de usuário e uma senha registrados."
 
 #: templates/oopsleaseconflict.tmpl:20

@@ -201,7 +201,7 @@ user sets.
 
 ---++ Deprecation Notices
 
-The %<nop>MAINWEB% and %<nop>TWIKIWEB% variables have been deprecated. For compatibility reasons they are unlikely to ever be removed completely, but you should use the %<nop>USERSWEB% and %<nop>SYSTEMWEB% variables instead.
+The %<nop>MAINWEB% and %<nop>SYSTEMWEB% variables have been deprecated. For compatibility reasons they are unlikely to ever be removed completely, but you should use the %<nop>USERSWEB% and %<nop>SYSTEMWEB% variables instead.
 
 In Func getOopsUrl and permissionsSet have been declared deprecated. There is no plan to remove them yet.
 

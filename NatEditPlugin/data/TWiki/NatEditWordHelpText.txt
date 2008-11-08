@@ -5,7 +5,7 @@ Help text for the NatEditPlugin editor
 
 %STARTINCLUDE%
 <font color="#333333" size="-1">
-%INCLUDE{"%TWIKIWEB%.WikiSyntaxSummary"}%
+%INCLUDE{"%SYSTEMWEB%.WikiSyntaxSummary"}%
 </font> 
 ---+++ %MAKETEXT{"Plugins"}%
 <table cellpadding="10">
@@ -19,12 +19,12 @@ Help text for the NatEditPlugin editor
 <table cellpadding="10">
 <tr>
 <td valign="top">
-   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/GoodStyle" target="_blank">%MAKETEXT{"GoodStyle"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
-   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/TWikiVariables" target="_blank">%MAKETEXT{"Variables"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/TWikiForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%TWIKIWEB%/IncludeTopicsAndWebPages" target="_blank">%MAKETEXT{"Including"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/GoodStyle" target="_blank">%MAKETEXT{"GoodStyle"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TWikiVariables" target="_blank">%MAKETEXT{"Variables"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TWikiForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/IncludeTopicsAndWebPages" target="_blank">%MAKETEXT{"Including"}%</a>
 </td>
 </tr>
 </table>

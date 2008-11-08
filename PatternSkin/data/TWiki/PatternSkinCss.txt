@@ -6,10 +6,10 @@ This page is a reference for all CSS classes used in PatternSkin.
 %TOC{title="Page contents:"}%
 
 !PatternSkin uses 4 stylesheets:
-   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/layout.css][layout.css]]: positioning of block elements on the page
-   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/style.css][style.css]]: margins, paddings, borders, font sizes
-   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/colors.css][colors.css]]: text colors, background colors, border colors
-   * [[%PUBURLPATH%/%TWIKIWEB%/PatternSkin/print.css][print.css]]: optimalizations for printed page
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css][layout.css]]: positioning of block elements on the page
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css][style.css]]: margins, paddings, borders, font sizes
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css][colors.css]]: text colors, background colors, border colors
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/print.css][print.css]]: optimalizations for printed page
    
 If you want to learn how to create your own look or skin based on !PatternSkin, read further in PatternSkin.
 
@@ -54,7 +54,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
       * #patternMain - center area
       * #patternMainContents - holder of patternTop, patternTopic, twikiForm, twikiAttachments, etc.
       * #patternTopBar - top bar area
-      * #patternTopBarContents - header art / logo; contains topic %TWIKIWEB%.WebTopBar
+      * #patternTopBarContents - header art / logo; contains topic %SYSTEMWEB%.WebTopBar
       * #patternBottomBar - bottom bar area
       * #patternBottomBarContents - copyright
 
@@ -62,7 +62,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 
    * View
       * .patternContent - container around .patternTopic in =view.pattern.tmpl= only; to be able to give .twikiAttachments and .twikiForm a different appearance when they are not enclosed by it, for example the personal data form on the user pages (where the user form is positioned outside, above the topic text)
-      * .patternTopBarLogo - logo position in patternTopBar (topic %TWIKIWEB%.WebTopBar)
+      * .patternTopBarLogo - logo position in patternTopBar (topic %SYSTEMWEB%.WebTopBar)
       * .patternTopBarOverlay - striped white image background
       * .patternTopic - TWiki topic text
       * .patternTop - area at top of topic text, with patternHomePath, revision and action buttons

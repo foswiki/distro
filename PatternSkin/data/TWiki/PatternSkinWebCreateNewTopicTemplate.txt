@@ -4,8 +4,8 @@
 %{"hide page top controls"}%
 %TMPL:DEF{"top"}%%TMPL:END%
 
-%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURL%/%TWIKIWEB%/TWikiJavascripts/twikiString.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/TWikiJavascripts/unicode_chars.js"></script>
+%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiString.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/unicode_chars.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 function openTemplateWindow () {
@@ -13,7 +13,7 @@ function openTemplateWindow () {
 		"%SCRIPTURL{view}%/",
 			{
     			topic:"WebTemplateTopics",
-    			web:"%TWIKIWEB%",
+    			web:"%SYSTEMWEB%",
     			template:"viewplain",
     			attributes:"resizable=1,scrollbars=1,status=1,toolbar=1",
     			urlparams:"web=%BASEWEB%"
@@ -31,7 +31,7 @@ var URL_PICK_PARENT = "%URLPARAM{"pickparent"}%";
 var URL_TEMPLATE = "%URLPARAM{"template"}%";
 //]]>
 </script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/PatternSkin/webtopiccreator.js"></script>%TMPL:END%
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/webtopiccreator.js"></script>%TMPL:END%
 
 %TMPL:DEF{"formstartstep"}%%TMPL:P{"formstart"}%
 <div class="twikiFormSteps">%TMPL:END%

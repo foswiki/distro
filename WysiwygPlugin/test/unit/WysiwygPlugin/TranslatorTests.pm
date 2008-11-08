@@ -579,8 +579,8 @@ EVERYWHERE
       {
           exec => $ROUNDTRIP,
           name => 'SYSTEMWEBvar',
-          html => "${protecton}%TWIKIWEB%${protectoff}",
-          tml => '%TWIKIWEB%',
+          html => "${protecton}%SYSTEMWEB%${protectoff}",
+          tml => '%SYSTEMWEB%',
       },
       {
           exec => $ROUNDTRIP,
@@ -957,8 +957,8 @@ HERE
       {
           exec => $ROUNDTRIP,
           name => 'twikiWebSnarf',
-          html => $linkon.'[[%TWIKIWEB%.TopicName][bah]]'.$linkoff,
-          tml  => '[[%TWIKIWEB%.TopicName][bah]]',
+          html => $linkon.'[[%SYSTEMWEB%.TopicName][bah]]'.$linkoff,
+          tml  => '[[%SYSTEMWEB%.TopicName][bah]]',
       },
       {
           exec => $ROUNDTRIP,

@@ -1,5 +1,5 @@
 <div class="patternMetaMenu"><ul>
 <li><form name="jumpForm" action="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%"><input id="jumpFormField" type="text" class="twikiInputField patternFormFieldDefaultColor" name="topic" size="14" value="%MAKETEXT{"Jump"}%" onfocus="clearDefaultandCSS(this);" onblur="setDefaultText(this);" /></form></li>
 <li><form name="quickSearchForm" action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch">%IF{" '%URLPARAM{"search" encode="entity" scope="topic"}%' = '' " then="<input type=\"text\" class=\"twikiInputField patternFormFieldDefaultColor\" name=\"search\" value=\"%MAKETEXT{"Search"}%\" size=\"14\" onfocus=\"clearDefaultandCSS(this);\" onblur=\"setDefaultText(this);\" />" else="<input type=\"text\" class=\"twikiInputField\" name=\"search\" value=\"%URLPARAM{ "search" encode="entity" scope="topic" }%\" size=\"14\" />"}%</form></li>
-<li>%INCLUDE{%TWIKIWEB%.LanguageSelector}%</li></ul>
+<li>%INCLUDE{%SYSTEMWEB%.LanguageSelector}%</li></ul>
 </div>

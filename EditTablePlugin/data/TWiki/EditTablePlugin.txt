@@ -14,7 +14,7 @@ Multiple tables per topic are editable, but only one at a time can be edited.
 ---++ Per Table Settings
 
 Add a =%<nop>EDITTABLE{...}%= variable just before an existing table to make it editable, or add the variable anywhere in a topic to start a new table.
-%INCLUDE{"%TWIKIWEB%.VarEDITTABLE" section="edittable_attributes"}%
+%INCLUDE{"%SYSTEMWEB%.VarEDITTABLE" section="edittable_attributes"}%
 
 ---+++ Using TWiki Variables in the Format Parameter
 
@@ -22,7 +22,7 @@ By default, variables in =&lt;initial value&gt;= (of text input field) and =&lt;
 
 Any TWiki variable inside a table cell will be preserved. For instance, =%<nop>TOPIC%= will not get expanded to the current topic name.
 
-The format tokens are the same as with %TWIKIWEB%.FormattedSearch:
+The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 
 | *Escape:* | *Expands To:* |
 | =$n= or =$n()= | New line. Use =$n()= if followed by alphanumeric character, e.g. write =Foo$n()Bar= instead of =Foo$nBar= |
@@ -82,18 +82,18 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 <table cellspacing="0" id="default" cellpadding="0" class="twikiTable" rules="rows" border="1">
 	<thead>
 	<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol0 twikiFirstCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%TWIKIWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=0;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Nr<input type="hidden" name="etcell1x1" value="*Nr*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol1"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%TWIKIWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=1;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Text field<input type="hidden" name="etcell1x2" value="*Text field*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol2"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%TWIKIWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=2;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Drop down<input type="hidden" name="etcell1x3" value="*Drop down*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol3"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%TWIKIWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=3;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Mood<input type="hidden" name="etcell1x4" value="*Mood*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol4 twikiLastCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%TWIKIWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=4;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Timestamp<input type="hidden" name="etcell1x5" value="*Timestamp*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol0 twikiFirstCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=0;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Nr<input type="hidden" name="etcell1x1" value="*Nr*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol1"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=1;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Text field<input type="hidden" name="etcell1x2" value="*Text field*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol2"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=2;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Drop down<input type="hidden" name="etcell1x3" value="*Drop down*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol3"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=3;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Mood<input type="hidden" name="etcell1x4" value="*Mood*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol4 twikiLastCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=4;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Timestamp<input type="hidden" name="etcell1x5" value="*Timestamp*" /></font></a> </th>
 	</tr>
 	</thead>
 	<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol1"> <input class="twikiInputField editTableInput" type="text" name="etcell2x2" size="20" value="hello table" /> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol2"> <select class="twikiSelect" name="etcell2x3" size="1"> <option selected="selected">one</option> <option>two</option> <option>three</option> <option>four</option></select> </td>
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol3"> <input type="radio" name="etcell2x4" value=":-)" checked="checked" /> <img src="%PUBURL%/%TWIKIWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell2x4" value=":-I" /> <img src="%PUBURL%/%TWIKIWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell2x4" value=":-(" /> <img src="%PUBURL%/%TWIKIWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
+		<td bgcolor="#ffffff" valign="top" class="twikiTableCol3"> <input type="radio" name="etcell2x4" value=":-)" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell2x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell2x4" value=":-(" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol4 twikiLastCol"> 26 Jun 2002 12:30<input type="hidden" name="etcell2x5" value="26 Jun 2002 12:30" /> </td>
 	</tr>
 	<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
@@ -101,7 +101,7 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol1 twikiLast"> <input class="twikiInputField editTableInput" type="text" name="etcell3x2" size="20" value="" /> </td>
 
 		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol2 twikiLast"> <select class="twikiSelect" name="etcell3x3" size="1"> <option>one</option> <option selected="selected">two</option> <option>three</option> <option>four</option></select> </td>
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol3 twikiLast"> <input type="radio" name="etcell3x4" value=":-)" /> <img src="%PUBURL%/%TWIKIWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell3x4" value=":-I" /> <img src="%PUBURL%/%TWIKIWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell3x4" value=":-(" checked="checked" /> <img src="%PUBURL%/%TWIKIWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
+		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol3 twikiLast"> <input type="radio" name="etcell3x4" value=":-)" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell3x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell3x4" value=":-(" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
 		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol4 twikiLastCol twikiLast"> 27 Jun 2002 12:40<input type="hidden" name="etcell3x5" value="27 Jun 2002 12:40" /> </td>
 	</tr></table>
 <input type="hidden" name="etrows" value="3" />
@@ -151,7 +151,7 @@ Table in edit mode:
 Plugin settings are stored as preferences variables. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>EDITTABLEPLUGIN_SHORTDESCRIPTION%==
 
-   * One line description, shown in the %TWIKIWEB%.TextFormattingRules topic:
+   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
       * Set SHORTDESCRIPTION = Edit TWiki tables using edit fields, date pickers and drop down boxes
 
    * Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
@@ -197,7 +197,7 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
    * Alternatively,
       * Manually resolve the dependencies listed below.
       %$DEPENDENCIES%
-   * The Plugin depends on the =viewauth= script to authenticate the user. As described in %TWIKIWEB%.TWikiAccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
+   * The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.TWikiAccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
    * (Dakar) Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
    * Test if the Plugin is correctly installed:
       * Check above example if there is an *[&nbsp;Edit&nbsp;table&nbsp;]* button below the table in above example
@@ -226,7 +226,7 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 |  16 Dec 2007: | 4.6: Kenneth Lavrsen: The plugin prevents TablePlugin from initsorting the table being edited. This is done by temporarily appending the attribute disableallsort="on" to the TABLE tag of a table being edited. Additionally all header sorting is disabled while editing a table by setting a hidden formfield =sort= to "off". Disabling sorting while editing is needed now that the EditTablePlugin supports moving rows up and down. |
 |  01 Dec 2007: | 4.3: Arthur Clemens: added support for TablePlugin =headerrows= and =footerrows=; updated edit button |
 |  16 Oct 2007: | 4.2: Arthur Clemens: refactoring, bug fixes. |
-|  07 Oct 2007: | 15182: PTh: Added %TWIKIWEB%.VarEDITTABLE to have it listed in %TWIKIWEB%.TWikiVariables |
+|  07 Oct 2007: | 15182: PTh: Added %SYSTEMWEB%.VarEDITTABLE to have it listed in %SYSTEMWEB%.TWikiVariables |
 |  15 Mar 2007: | Arthur Clemens: Fixed eating of double newlines; icons for javascript buttons and interface improvements. By default the javascript interface is turned off, set =JAVASCRIPTINTERFACE= to use it in edit mode. |
 |  05 Mar 2007: | Byron Darrah: Added ability to dynamically move and delete rows. |
 |  12 Oct 2006: | <a rel="nofollow" href="http://develop.twiki.org/~develop/cgi-bin/view/Bugs/Item2982">Item2982</a> Use default date format from JSCalendarContrib |

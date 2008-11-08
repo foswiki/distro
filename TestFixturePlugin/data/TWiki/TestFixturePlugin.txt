@@ -70,6 +70,6 @@ Some notes about the comparison process:
 |  Dependencies: | HTML::Diff |
 |  Perl Version: | 5.8 |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins
 
 -- TWiki:Main/CrawfordCurrie - 8 Nov 2004

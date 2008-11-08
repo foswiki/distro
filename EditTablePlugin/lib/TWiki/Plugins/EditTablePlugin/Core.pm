@@ -939,8 +939,8 @@ sub viewEditCell {
         $img = '';
         if ( $value =~ s/(.+),\s*(.+)/$1/o ) {
             $img = $2;
-            $img =~ s|%ATTACHURL%|%PUBURL%/%TWIKIWEB%/EditTablePlugin|o;
-            $img =~ s|%WEB%|%TWIKIWEB%|o;
+            $img =~ s|%ATTACHURL%|%PUBURL%/%SYSTEMWEB%/EditTablePlugin|o;
+            $img =~ s|%WEB%|%SYSTEMWEB%|o;
         }
     }
     if ($img) {

@@ -1342,11 +1342,11 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 "Brug dit TWiki brugernavn. (Typisk fornavn og efternavn, uden mellemrum, "
 "uden punktum, store begyndelsesbogstaver. Fx !JohnSmith, med mindre du "
-"har valgt noget andet). Gå til %TWIKIWEB%.TWikiRegistration hvis du ikke "
+"har valgt noget andet). Gå til %SYSTEMWEB%.TWikiRegistration hvis du ikke "
 "har et brugernavn"
 
 #: templates/messages.tmpl:233

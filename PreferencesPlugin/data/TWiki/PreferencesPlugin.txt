@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="TWikiContributor" date="1115527529" format="1.0" version="$Rev$"}%
 ---+!! <nop>%TOPIC%
 
-Allows editing of preferences using fields predefined in a %TWIKIWEB%.TWikiForms. However, the edit fields are inlined in the text, similar to how tables are edited in TWiki:Plugins/EditTablePlugin.
+Allows editing of preferences using fields predefined in a %SYSTEMWEB%.TWikiForms. However, the edit fields are inlined in the text, similar to how tables are edited in TWiki:Plugins/EditTablePlugin.
 
 %TOC%
 
@@ -12,17 +12,17 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 ---++ Syntax Rules
 
 	* =%<nop>EDITPREFERENCES{ "= _topic_ =" }%=
-		* _topic_ references a [[%TWIKIWEB%.TWikiForms][TWikiForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
+		* _topic_ references a [[%SYSTEMWEB%.TWikiForms][TWikiForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
 		* If a preference setting is not mentioned in the form referenced by _topic_, a text input box of the specified length is provided.
-		* Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %TWIKIWEB%.TWikiForms.
+		* Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %SYSTEMWEB%.TWikiForms.
    * =%<nop>EDITPREFERENCES%=
       * Edit existing preferences in the topic using a simple text field.
 ---++ Examples
 	* =%<nop>EDITPREFERENCES%= 
-	* =%<nop>EDITPREFERENCES{ "%<nop>TWIKIWEB%.TWikiPreferencesForm" }%= 
+	* =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.TWikiPreferencesForm" }%= 
 
 ---++ Plugin Settings
-	* One line description, shown in the %TWIKIWEB%.TextFormattingRules topic:
+	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
 		* Set SHORTDESCRIPTION = Allows editing of preferences using fields predefined in a form
 
 ---++ Plugin Installation Instructions
@@ -47,11 +47,11 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  Other Dependencies: | none |
 |  Perl Version: | 5.005 |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  TWiki:Plugins/Benchmark: | %TWIKIWEB%.GoodStyle nn%, %TWIKIWEB%.FormattedSearch nn%, %TOPIC% nn% |
+|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle nn%, %SYSTEMWEB%.FormattedSearch nn%, %TOPIC% nn% |
 |  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiForms
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiForms
 
 

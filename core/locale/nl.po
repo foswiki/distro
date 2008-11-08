@@ -210,7 +210,7 @@ msgstr "(=all= om alle pagina&#39;s te tonen)"
 
 #: data/Sandbox/WebHome.txt:9
 msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(Gebruik een paginanaam in [[%TWIKIWEB%.WikiNotation][Wikinotatie]])"
+msgstr "(Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]])"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -1336,11 +1336,11 @@ msgstr "Vul de TWikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
-"Vul je [[%TWIKIWEB%.LoginName][login naam]] in. (Gebruikelijk Voornaam "
+"Vul je [[%SYSTEMWEB%.LoginName][login naam]] in. (Gebruikelijk Voornaam "
 "Achternaam zonder spatie, zonder punten en met hoofdletters, bijvoorbeeld !"
-"JanDevries, tenzij je bewust anders kiest). Ga naar de [[%TWIKIWEB%."
+"JanDevries, tenzij je bewust anders kiest). Ga naar de [[%SYSTEMWEB%."
 "TWikiRegistration][registratiepagina]] als je geen login hebt."
 
 #: templates/messages.tmpl:233

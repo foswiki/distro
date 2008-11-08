@@ -9,7 +9,7 @@ This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL=%ATTACHURL%/notopbar.css
 </verbatim>
-You can write this line in %TWIKIWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
+You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in your user topic or on a single page.
 </div>
 
 Add the dynamic variable link to the logo image to the topic text:

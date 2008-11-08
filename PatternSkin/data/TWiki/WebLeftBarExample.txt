@@ -8,6 +8,6 @@
    * *%MAKETEXT{"Webs"}%*
 %WEBLIST{"      * [[$name.%HOMETOPIC%][$name]]" separator=""}%
 <div class="patternLeftBarPersonal">
-%INCLUDE{"%MAINWEB%.%WIKINAME%LeftBar" warn="<a href=\"%SCRIPTURLPATH{"edit"}%/%MAINWEB%/%WIKINAME%LeftBar?templatetopic=%TWIKIWEB%.WebLeftBarPersonalTemplate\">%MAKETEXT{"Create personal sidebar"}%</a>"}%
+%INCLUDE{"%MAINWEB%.%WIKINAME%LeftBar" warn="<a href=\"%SCRIPTURLPATH{"edit"}%/%MAINWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate\">%MAKETEXT{"Create personal sidebar"}%</a>"}%
 </div>
 

@@ -8,7 +8,7 @@ Gives extra control of table display:
 	* Changing background color and text color for data cells - colors can _alternate_
 	* Table attributes can be set and overridden in this order:
 		* Default =TABLEATTRIBUTES= Plugin setting in this topic.
-		* A =TABLEATTRIBUTES= preferences setting on site-level (%TWIKIWEB%.TWikiPreferences) or web-level (any WebPreferences), e.g.
+		* A =TABLEATTRIBUTES= preferences setting on site-level (%SYSTEMWEB%.TWikiPreferences) or web-level (any WebPreferences), e.g.
 			* =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
 		* Before a table using =%<nop>TABLE{...}%=
    * Row spans
@@ -43,7 +43,7 @@ Table cells with a single caret indicate follow-up rows of multi-row spans. For 
 Plugin settings are stored as preferences variables. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
-	* One line description, shown in the %TWIKIWEB%.TextFormattingRules topic:
+	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
 		* Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns
 
 	* Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
@@ -59,7 +59,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 ---++ Table Attributes
 
 Attributes are defined as a =TABLEATTRIBUTES= Plugin setting in this topic, a =TABLEATTRIBUTES= preferences setting, or on line before the table using =%<nop>TABLE{...}%=:
-%INCLUDE{"%TWIKIWEB%.VarTABLE" section="table_attributes"}%
+%INCLUDE{"%SYSTEMWEB%.VarTABLE" section="table_attributes"}%
 
 The =%<nop>TABLE{...}%= settings override =TABLEATTRIBUTES= preferences settings, which override the =TABLEATTRIBUTES= Plugin settings. 
 
@@ -137,9 +137,9 @@ This plugin is pre-installed with your TWiki release. You should not have to ins
 |  16 Dec 2007 | 1.030: Kenneth Lavrsen: Fixed the problem of tables being sorted by by TablePlugin while the table is being edited by plugins such as EditTablePlugin. This required adding a new attribute =disableallsort= so plugins such as EditTablePlugin can temporarily disable all sorting for a table. Additionally the CGI variable (URL parameter or hidden formfield) =sort= can be set to "off" which disables all header sorting in the topic. This is used by plugins such as EditTablePlugin to disable the sorting by clicking header fields during editing of tables. Ref: TWikibug:Item5135 and TWikibug:Item2690. |
 |  03 Dec 2007 | Arthur Clemens: Fixed rendering and order of html elements =thead=, =tfoot= and =tbody=; corrected =id= parameter. |
 |  24 Nov 2007 | Arthur Clemens: Fixed sorting of columns with only icons; also removed TWiki formatting before sorting. |
-|  06 Oct 2007 | 15180: PTh: Added %TWIKIWEB%.VarTABLE to have it listed in %TWIKIWEB%.TWikiVariables |
+|  06 Oct 2007 | 15180: PTh: Added %SYSTEMWEB%.VarTABLE to have it listed in %SYSTEMWEB%.TWikiVariables |
 |  27 Jun 2007 | 1.024 - 1.027 Various small bug fixes. |
-|  24 Jun 2007 | 1.023: Arthur Clemens: Inline styles are now written to the head; updated default sort icons (from %TWIKIWEB%.TWikiDocGraphics). |
+|  24 Jun 2007 | 1.023: Arthur Clemens: Inline styles are now written to the head; updated default sort icons (from %SYSTEMWEB%.TWikiDocGraphics). |
 |  23 Jun 2007 | 1.022: Arthur Clemens: Fixed styling of param =tablerules= on Internet Explorer. |
 |  23 May 2007 | 1.021: Michael Daum: Fixed css attribute priority to cooperate nicely with skin themes. |
 |  27 Dec 2006 | 1.020: Kenneth Lavrsen: Fixed initsort so all tables can be initsorted and not only the first. When you sort a table by clicking on the header of a column the table gets sorted accordingly. When you click the header of another table the previously sorted table goes back being sorted as specified by initsort. |
@@ -174,4 +174,4 @@ This plugin is pre-installed with your TWiki release. You should not have to ins
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins, %TWIKIWEB%.StandardColors
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins, %SYSTEMWEB%.StandardColors

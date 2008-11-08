@@ -1270,10 +1270,10 @@ msgstr "输入TWiki管理员用户名或登录为 %1 组"
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"TWIKIWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.TWikiRegistration if you do not have one."
 msgstr ""
 "输入你的TWiki.LoginName (典型的写法姓＋名，没有空格，没有点. 首字母大写，例"
-"如: CheDong 除非您另外选择了其他名称) 如果您没有注册请访问 %TWIKIWEB%."
+"如: CheDong 除非您另外选择了其他名称) 如果您没有注册请访问 %SYSTEMWEB%."
 "TWikiRegistration "
 
 #: templates/messages.tmpl:233
@@ -2087,7 +2087,7 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TWikiTutorial, which is accessible from the same link."
 msgstr ""
-"看一下%1，对这个协同平台的有一个大概的了解，更多可以参考%TWIKIWEB%."
+"看一下%1，对这个协同平台的有一个大概的了解，更多可以参考%SYSTEMWEB%."
 "TWikiTutorial."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

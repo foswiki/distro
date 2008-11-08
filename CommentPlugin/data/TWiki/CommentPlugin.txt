@@ -31,7 +31,7 @@ Inserts an edit box into the page that allows users to type in and save comments
 ---++ Syntax
 #StandardAttrs
 Write =%<nop>COMMENT{<i>attributes</i>}%= anywhere in a TWiki topic.
-%INCLUDE{"%TWIKIWEB%.VarCOMMENT" section="comment_attributes"}%
+%INCLUDE{"%SYSTEMWEB%.VarCOMMENT" section="comment_attributes"}%
 (See also [[#MoreAttrs][additional attributes]])
 
 ---+++ Positioning the comment
@@ -49,7 +49,7 @@ The =target= attribute may specify a web, and may also specify an anchor within 
 <verbatim>
 %COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
-This uses a standard TWiki in-topic anchor as the insertion location. See %TWIKIWEB%.TextFormattingRules for more about TWiki anchors.
+This uses a standard TWiki in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about TWiki anchors.
 
 ---++++ Location relative to an arbitrary text string
 Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
@@ -90,20 +90,20 @@ Your local installation may add more template types as well - see [[#TemPlates][
 ---++ Customisation
 Customisation of the comment plugin requires
 	* familiarity with HTML forms
-	* some familiarity with the [[%TWIKIWEB%.TWikiTemplates][TWiki templating language]].
+	* some familiarity with the [[%SYSTEMWEB%.TWikiTemplates][TWiki templating language]].
 
 To define a comment type, you have to provide two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
 
 The plugin picks up these template definitions from a standard TWiki template file, =templates/comments.tmpl=. This allows different templates to be defined for different TWiki skins.
 
 ---+++ Defining custom templates
-By default, =templates/comments.tmpl= includes the topic %TWIKIWEB%.CommentPluginTemplate, which contains all the shipped standard templates and in turn includes %TWIKIWEB%.<nop>UserCommentsTemplate that can include non-standard customisations.
+By default, =templates/comments.tmpl= includes the topic %SYSTEMWEB%.CommentPluginTemplate, which contains all the shipped standard templates and in turn includes %SYSTEMWEB%.<nop>UserCommentsTemplate that can include non-standard customisations.
 
 This allows for several levels of customisation:
    1 To *override all default templates, everywhere*, change =comments.tmpl= to include a different topic (this customisation will be lost next time you upgrade, though).
-   1 To add *site-wide local template customisations*, add them to %TWIKIWEB%.UserCommentsTemplate (create if it does not exist yet). You can redefine the standard templates here if you want, and your definitions will override the standard definitions.
-   1 To override templates on a *web-by-web basis*, add a topic =UserCommentsTemplate= to the web (this will replace %TWIKIWEB%.<nop>UserCommentsTemplate)
-   1 To override templates *for a specific skin*, add them to %TWIKIWEB%.<nop>UserComments&lt;Skin&gt;Template (where &lt;Skin&gt; is the name of the skin with the first letter capitalised, e.g. Pattern)
+   1 To add *site-wide local template customisations*, add them to %SYSTEMWEB%.UserCommentsTemplate (create if it does not exist yet). You can redefine the standard templates here if you want, and your definitions will override the standard definitions.
+   1 To override templates on a *web-by-web basis*, add a topic =UserCommentsTemplate= to the web (this will replace %SYSTEMWEB%.<nop>UserCommentsTemplate)
+   1 To override templates *for a specific skin*, add them to %SYSTEMWEB%.<nop>UserComments&lt;Skin&gt;Template (where &lt;Skin&gt; is the name of the skin with the first letter capitalised, e.g. Pattern)
 
 You can also define a *comment template in a topic*, by passing the topic location with =templatetopic=. For example:
 <blockquote>
@@ -214,19 +214,19 @@ Note that these position tags are obviously mutually exclusive. If you define mo
 
 	 | =%<nop>COMMENTPROMPT%= | Use with a custom form. If present, the comment prompt will be positioned here. |
 	 
-All the usual TWikiVariables that can be used in a topic template can also be used in an =OUTPUT= template. See %TWIKIWEB%.TWikiVariables for details.
+All the usual TWikiVariables that can be used in a topic template can also be used in an =OUTPUT= template. See %SYSTEMWEB%.TWikiVariables for details.
 
 ---++ Settings
 <!-- required for compatibility
 		* Set SHORTDESCRIPTION = Allows users to quickly post comments to a page without an edit/preview/save cycle.
-	* Name of file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %TWIKIWEB%.CommentPluginTemplate
+	* Name of file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate
 		* Set TEMPLATES = comments
 	* Default template type (if not present, defaults to "below")
 		* Set DEFAULT_TYPE = above
 -->
 Two TWiki Preference variables are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |
-| =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %TWIKIWEB%.CommentPluginTemplate, which in turn includes %TWIKIWEB%.UserCommentsTemplate. |
+| =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
 | =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
 These can be set in !TWikiPreferences, in !WebPreferences or in individual topics.
 
@@ -285,6 +285,6 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  Plugin Home: | TWiki:Plugins/%TOPIC% |
 |  Feedback: | TWiki:Plugins/%TOPIC%Dev |
 
-__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins
 
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
