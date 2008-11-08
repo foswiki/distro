@@ -210,9 +210,7 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 
 ---++ Plugin Info
 
-|  Plugin Author: | Arthur Clemens |
-|  Copyright: | &copy; 2008, Arthur Clemens | 
-|  Based on: | TWiki:Plugins.EditTablePlugin &copy; 2002-2008, TWiki:Main.PeterThoeny and TWiki Contributors |
+|  Copyright: | &copy; 2002-2007 TWiki Contributors, TWiki:Main.PeterThoeny; &copy; 2008, Arthur Clemens | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 4.9 (01 Nov 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
