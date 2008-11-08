@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1208648630" format="1.1" version="$Rev: 16166 $"}%
+%META:TOPICINFO{author="TWikiContributor" date="1208648630" format="1.1" version="$Rev: 16704 $"}%
 %STARTINCLUDE%
 ---+ TWiki Plugins
 
@@ -25,7 +25,7 @@ __Relevant links on TWiki.org:__
    * TWiki:Plugins.PluginBrainstorming - open forum for new plugin ideas
    * TWiki:Plugins.PluginPackageHowTo - template to create a new plugin package
 
-__See other types of extensions:__ TWikiAddOns, TWikiContribs, TWikiSkins
+__See other types of extensions:__ ContributedAddOns, TWikiContribs, TWikiSkins
 
 #InstallPlugin
 ---++ Installing Plugins
@@ -289,7 +289,7 @@ Some TWiki extensions have setup requirements that are best integrated into =con
 =Config.spec= files are read during TWiki configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/TWiki/Plugins/BathPlugin/Config.spec=.
 
 ---+++ Structure of a <code>Config.spec</code> file
-The =Config.spec= file for an extension starts with the extension announcing what it is:
+The =Config.spec= file for a plugin starts with the plugin announcing what it is:
 <verbatim>
 # ---+ BathPlugin
 # This plugin senses the level of water in your bath, and ensures the plug
@@ -303,20 +303,20 @@ $TWiki::cfg{BathPlugin}{PlugType} = 'Plastic';
 
 # **NUMBER**
 # Enter the chain length in cm
-$TWiki::cfg{BathPlugin}{ChainLength} = 30;
+$TWiki::cfg{BathPlugin}{ChainLength} = '30';
 
 # **BOOLEAN EXPERT**
-# Set this option to 0 to disable the water temperature alarm
-$TWiki::cfg{BathPlugin}{TempSensorEnabled} = 1;
+# Turn this option off to disable the water temperature alarm
+$TWiki::cfg{BathPlugin}{TempSensorEnabled} = '1';
 </verbatim>
-The type (e.g. =**SELECT**= ) tells =configure= to how to prompt for the value. It also tells =configure= how to do some basic checking on the value you actually enter. All the comments between the type and the configuration item are taken as part of the description. The configuration item itself defines the default value for the configuration item. The above spec defines the configuration items =$TWiki::cfg{BathPlugin}{PlugType}=, =$TWiki::cfg{BathPlugin}{ChainLength}=, and =$TWiki::cfg{BathPlugin}{TempSensorEnabled}= for use in your plugin. For example,
+The type (e.g. =**SELECT**= ) tells =configure= to how to prompt for the value. It also tells configure how to do some basic checking on the value you actually enter. All the comments between the type and the configuration item are taken as part of the description. The configuration item itself defines the default value for the configuration item. The above spec defines the configuration items =$TWiki::cfg{BathPlugin}{PlugType}=, =$TWiki::cfg{BathPlugin}{ChainLength}=, and =$TWiki::cfg{BathPlugin}{TempSensorEnabled}= for use in your plugin. For example,
 <verbatim>
 if( $TWiki::cfg{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
     die "The bathwater is too hot for comfort";
 }
 </verbatim>
 
-The config.spec file is read by =configure=, which then writes =LocalSite.cfg= with the values chosen by the local site admin.
+The config.spec file is read by configure, and =configure= then writes =LocalSite.cfg= with the values chosen by the local site admin.
 
 A range of types are available for use in =Config.spec= files:
 
@@ -342,16 +342,7 @@ All types can be followed by a comma-separated list of _attributes_.
 
 See =lib/TWiki.spec= for many more examples.
 
-=Config.spec= files for non-plugin extensions are stored under the =Contrib= directory instead of the =Plugins= directory.
-
-Note that from TWiki 5.0 onwards, CGI scripts (in the TWiki =bin= directory) provided by extensions must also have an entry in the =Config.spec= file. This entry looks like this (example taken from Publish<nop>Contrib)
-
-<verbatim>
-# **PERL H**
-# Bin script registration - do not modify
-$TWiki::cfg{SwitchBoard}{publish} = [ "TWiki::Contrib::Publish", "publish", { publishing => 1 } ];
-</verbatim>
-=PERL= specifies a perl data structure, and =H= a hidden setting (it won't appear in =configure=). The first field of the data value specifies the class where the function that implements the script can be found. The second field specifies the name of the function, which must be the same as the name of the script. The third parameter is a hash of initial context settings for the script.
+=Config.spec= files are also used for other (non-plugin) extensions. in this case they are stored under the =Contrib= directory instead of the =Plugins= directory.
 
 TWiki:TWiki/SpecifyingConfigurationItemsForExtensions has supplemental documentation on configure settings.
 
@@ -398,6 +389,4 @@ If the currently-running TWiki version is 1.1 _or later_, then the _handler will
 
 %STOPINCLUDE%
 __Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:TWiki.TWikiPluginsSupplement
-
--- __Contributors:__ TWiki:Main.PeterThoeny, TWiki:Main.AndreaSterbini, TWiki:Main.MikeMannix, TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki:Main.WillNorris
 

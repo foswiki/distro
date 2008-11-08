@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1168078214" format="1.1" version="$Rev: 13239 $"}%
+%META:TOPICINFO{author="TWikiContributor" date="1168078214" format="1.1" version="$Rev: 14760 $"}%
 ---+!! TWiki Reference Manual (%WIKIVERSION%)
 
 This page contains all documentation topics as one long, complete reference sheet.
@@ -73,7 +73,7 @@ __Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, TWikiEnhancem
 [[#PageTop][Back to top]]
 
 -----
-%INCLUDE{"TWikiAddOns"}%
+%INCLUDE{"ContributedAddOns"}%
 
 [[#PageTop][Back to top]]
 

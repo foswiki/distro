@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1168736701" format="1.1" version="$Rev: 15050 $"}%
+%META:TOPICINFO{author="TWikiContributor" date="1168736701" format="1.1" version="$Rev: 16565 $"}%
 %STARTINCLUDE%
 ---+ TWiki Skins
 
@@ -21,7 +21,7 @@ __Relevant links on TWiki.org:__
    * TWiki:Plugins.SkinBrainstorming - open forum for new skin ideas
    * TWiki:Plugins.SkinPackageHowTo - template to create a new skin package
 
-__See other types of extensions:__ TWikiAddOns, TWikiContribs, TWikiPlugins
+__See other types of extensions:__ ContributedAddOns, TWikiContribs, TWikiPlugins
 
 ---++ Changing the default TWiki skin
 
@@ -249,4 +249,3 @@ Skin names starting with =rss= also have a special meaning; if one or more of th
 
 __Related Topics:__ TWikiSkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory, TWiki:TWiki.TWikiSkinsSupplement
 
--- __Contributors:__ TWiki:Main.PeterThoeny, TWiki:Main.MikeMannix, TWiki:Main.CrawfordCurrie

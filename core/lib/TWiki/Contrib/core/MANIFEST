@@ -86,17 +86,18 @@ data/Sandbox/WebSearch.txt 0644
 data/Sandbox/WebSearchAdvanced.txt 0644
 data/Sandbox/WebStatistics.txt 0644
 data/Sandbox/WebTopicList.txt 0644
-data/TWiki/ATasteOfTWiki.txt 0644
 data/TWiki/AccessKeys.txt 0644
 data/TWiki/AdminDocumentationCategory.txt 0644
 data/TWiki/AdminSkillsAssumptions.txt 0644
 data/TWiki/AdminToolsCategory.txt 0644
 data/TWiki/AnApplicationWithWikiForm.txt 0644
 data/TWiki/AppendixEncodeURLsWithUTF8.txt 0644
+data/TWiki/BeginnersStartHere.txt 0644
 data/TWiki/BookView.txt 0644
 data/TWiki/BumpyWord.txt 0644
 data/TWiki/CategoryCategory.txt 0644
 data/TWiki/ClassMethod.txt 0644
+data/TWiki/ContributedAddOns.txt 0644
 data/TWiki/DeleteOrRenameATopic.txt 0644
 data/TWiki/DeleteOrRenameAnAttachment.txt 0644
 data/TWiki/DeveloperDocumentationCategory.txt 0644
@@ -144,7 +145,6 @@ data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
-data/TWiki/TWikiAddOns.txt 0644
 data/TWiki/TWikiContribs.txt 0644
 data/TWiki/TWikiContributor.txt 0644
 data/TWiki/TWikiCss.txt 0644
