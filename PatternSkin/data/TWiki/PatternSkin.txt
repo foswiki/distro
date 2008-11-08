@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1160971176" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="TWikiContributor" date="1224099309" format="1.1" reprev="1.1" version="1.1"}%
 %STARTINCLUDE%
 <!--
    * Set SHORTDESCRIPTION = <nop>PatternSkin provides a CSS based default look and feel for TWiki - flexible and <nop>W3C-compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment
@@ -82,8 +82,8 @@ For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Re
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" height="130" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
-|  Skin Author: | TWiki:Main/ArthurClemens |
-|  Skin Version: | 03 Aug 2008 (v3.0.1) | 
+|  Copyright: | &copy; 2004-2008 ArthurClemens |
+|  Skin Version: | 08 Nov 2008 (v3.0.2) | 
 |  History: | <!-- specify latest version first -->&nbsp; |
 |  03 Aug 2008: | v.3.0.1 - TWiki 4.2.1 (Edinburgh) RELEASE VERSION |
 |  13 Jul 2007: | v.3.0.0 - TWiki 4.2.0 (Edinburgh) RELEASE VERSION |
@@ -130,3 +130,32 @@ Other skins:
 
 Leave remarks, suggestions and other feedback in TWiki:Plugins.PatternSkinDev.
 
+%META:FILEATTACHMENT{name="bg_outer_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_outer_gradient.gif" size="356" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bullet-toc.gif" attr="" autoattached="1" comment="" date="1221992216" path="bullet-toc.gif" size="54" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="TWiki_header.gif" attr="" autoattached="1" comment="" date="1221992216" path="TWiki_header.gif" size="16562" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="background_input.gif" attr="" autoattached="1" comment="" date="1221992216" path="background_input.gif" size="55" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="button_font_selector.gif" attr="" autoattached="1" comment="" date="1221992216" path="button_font_selector.gif" size="831" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="layout.css" attr="" autoattached="1" comment="" date="1221992216" path="layout.css" size="4198" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bullet-personal_sidebar.gif" attr="" autoattached="1" comment="" date="1221992216" path="bullet-personal_sidebar.gif" size="51" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="background_submit.gif" attr="" autoattached="1" comment="" date="1221992216" path="background_submit.gif" size="158" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="border_sidebar_personal.gif" attr="" autoattached="1" comment="" date="1221992216" path="border_sidebar_personal.gif" size="47" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bullet-lock.gif" attr="" autoattached="1" comment="" date="1221992216" path="bullet-lock.gif" size="281" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="form_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="form_gradient.gif" size="173" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="pattern_edit.js" attr="" autoattached="1" comment="" date="1221992216" path="pattern_edit.js" size="3854" version=""}%
+%META:FILEATTACHMENT{name="background_button.gif" attr="" autoattached="1" comment="" date="1221992216" path="background_button.gif" size="104" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bg_action_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_action_gradient.gif" size="866" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="patternskin_screenshot.jpg" attr="" autoattached="1" comment="" date="1221992216" path="patternskin_screenshot.jpg" size="54937" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="patternskin_screenshot_full.png" attr="" autoattached="1" comment="" date="1221992216" path="patternskin_screenshot_full.png" size="131008" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bg_buttoncancel_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_buttoncancel_gradient.gif" size="1544" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bg_button_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_button_gradient.gif" size="1449" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="print.css" attr="" autoattached="1" comment="" date="1221992216" path="print.css" size="3081" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="style.css" attr="" autoattached="1" comment="" date="1221992216" path="style.css" size="20812" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bg_button_small_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_button_small_gradient.gif" size="1327" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="pattern.js" attr="" autoattached="1" comment="" date="1221992216" path="pattern.js" size="3450" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="colors.css" attr="" autoattached="1" comment="" date="1221992216" path="colors.css" size="17603" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="bg_submit_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_submit_gradient.gif" size="1472" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="button_arrow.gif" attr="" autoattached="1" comment="" date="1221992216" path="button_arrow.gif" size="1297" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="background_action.gif" attr="" autoattached="1" comment="" date="1221992216" path="background_action.gif" size="229" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="background_alert.gif" attr="" autoattached="1" comment="" date="1221992216" path="background_alert.gif" size="1195" version=""}%
+%META:FILEATTACHMENT{name="webtopiccreator.js" attr="" autoattached="1" comment="" date="1221992216" path="webtopiccreator.js" size="4652" version=""}%
+%META:FILEATTACHMENT{name="background_form_element.gif" attr="" autoattached="1" comment="" date="1221992216" path="background_form_element.gif" size="70" user="TWikiContributor" version=""}%
