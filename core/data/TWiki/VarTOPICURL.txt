@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1160971176" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiPreferences"}%
+%META:TOPICPARENT{name="DefaultPreferences!"}%
 #VarTOPICURL
 ---+++ TOPICURL -- shortcut to viewing the current topic
    * This variable always expands to an url pointing to the current base topic.
-   * Type: Preference variable - TWikiRenderingShortcut.
+   * Type: ShortcutMacro
    * Current value: TOPICURL = %TOPICURL%

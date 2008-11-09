@@ -115,7 +115,7 @@ When a query is applied to a topic, the goal is to reduce to a TRUE or FALSE val
 A query matches if the query returns one or more values when it is applied to the topic. So if I have a very simple query, such as ="attachments"=, then this will return TRUE for all topics that have one or more attachments. If I write ="attachments[size>1024 AND name ~ '*.gif']"= then it will return TRUE for all topics that have at least one attachment larger than 1024 bytes with a name ending in =.gif=.
 
 ---++ Gotcha
-   * Remember that in the query language, TWiki topic names are _constants_. You cannot write =Main.UserTopic/UserForm.firstName= because =Main.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='Main.UserTopic'/UserForm.firstName=
+   * Remember that in the query language, topic names are _constants_. You cannot write =%USERSWEB%.UserTopic/UserForm.firstName= because =%USERSWEB%.UserTopic= will be interpreted as a form field name. If you want to refer to topics you *must* enclose the topic name in quotes i.e. ='%USERSWEB%.UserTopic'/UserForm.firstName=
 
 ---++ Examples
 

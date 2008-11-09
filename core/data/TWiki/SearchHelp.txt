@@ -17,7 +17,7 @@ By default searches are keyword based like in a typical search engine:
    * Specify a minus sign to *exclude* a word, like =soap -shampoo=
    * Use double quotes if you want to search for a leading minus sign, like ="-nowarn"=
    * *Stop words* are excluded from a keyword search:
-      * Stop words are common words and characters such as ="how"= and ="where"=, defined in the SEARCHSTOPWORDS setting in the TWikiPreferences
+      * Stop words are common words and characters such as ="how"= and ="where"=, defined in the SEARCHSTOPWORDS setting in the DefaultPreferences
       * If you want to search for a word in the stop word list, prefix the word with a plus sign
    * *Example:* To search for all topics that contain ="SOAP"=, ="WSDL"=, a literal ="web service"=, but not ="shampoo"=,%BR% enter this: =soap +wsdl "web service" -shampoo=
 
@@ -34,7 +34,7 @@ You can embed a nicely [[FormattedSearch][formatted search]] in a topic by using
 
 ---++ Search Preferences
 
-TWikiPreferences defines these search preferences:
+!DefaultPreferences defines these search preferences:
 
    * =SEARCHDEFAULTTTYPE=: Default search type for search forms which calls the =search= script
       * Currently =%SEARCHDEFAULTTTYPE%=

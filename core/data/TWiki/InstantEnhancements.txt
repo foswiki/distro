@@ -48,7 +48,7 @@ Without explaining what WEBTOPICLIST is, just try it:
 
 ---+++ Simple way to create %RED% colored text %ENDCOLOR% and graphics
 
-This should be enabled, see the "Miscellaneous Settings" in the TWikiPreferences, . If not, look at TWiki:TWiki/TWikiPreferences. Look for variables RED, BLUE etc (which define HTML tag FONT). To copy/paste the variables defining the colors you need to see the source text, but =Edit= is disabled. Instead, go to =More= and view the topic in ==raw== format.
+This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferences, . If not, look at TWiki:TWiki/DefaultPreferences. Look for variables RED, BLUE etc (which define HTML tag FONT). To copy/paste the variables defining the colors you need to see the source text, but =Edit= is disabled. Instead, go to =More= and view the topic in ==raw== format.
 
 ---+++ EZ Graphic Icons to Highlight Text
 

@@ -156,7 +156,7 @@ This is a manual process where you have more control over the rendering of the i
 -----
 ---+++ Can I write colored text?
 
-TWikiPreferences defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
+DefaultPreferences! defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
 
    * __You enter:__ =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= <p /> 
      __Result:__ %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR%
@@ -169,4 +169,4 @@ The code is the _hexadecimal RGB color code_, which is simply Red, Green and Blu
 
 -----
 %STOPINCLUDE%
--- __Contributors:__ TWiki:Main.PeterThoeny,  TWiki:Main.MikeMannix
+

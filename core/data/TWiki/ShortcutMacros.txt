@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1160951440" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="DefaultPreferences"}%
+---+ Shortcuts
+
+_Easy ways to save some typing_
+
+Some macros are just shortcuts for longer sequences of characters, to either save typing or to easily allow line breaks in format strings and the like. These macros are not intended to be customized, though there's nothing stopping you from doing so.
+
+*The following variables are classified as rendering shortcuts:*
+%SEARCH{ "Type:.*ShortcutMacro" type="regex" topic="Var*" 
+format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+.*?-- ([^\n\r]*).*) %$pattern(.*?\-\++ *([^ ]*).*)%" nonoise="on" }%
+
+__See also:__
+   * TWikiVariables - an alphabetical list of all variables
+   * DefaultPreferences#RenderingShortcuts - where shortcuts are defined 
+   * TWikiShorthand - summary of the TWiki markup language

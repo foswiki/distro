@@ -36,7 +36,7 @@ Unlike predefined variables, preferences variables can be defined by the user in
 
 ---+++ Setting Preferences Variables
 You can set variables in all the following places:
-   1 local site level in [[%SYSTEMWEB%.TWikiPreferences][%SYSTEMWEB%.TWikiPreferences]]
+   1 local site level in [[%SYSTEMWEB%.DefaultPreferences][%SYSTEMWEB%.DefaultPreferences]]
    1 plugin topics (see TWikiPlugins)
    1 local site level in [[%LOCALSITEPREFS%][%LOCALSITEPREFS%]]
    1 user level in individual user topics in %USERSWEB% web
@@ -90,7 +90,7 @@ Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to 
 
 ---+++ Frequently Used Preferences Variables
 
-The following preferences variables are frequently used. They are defined in TWikiPreferences#Miscellaneous_Settings:
+The following preferences variables are frequently used. They are defined in DefaultPreferences#Miscellaneous_Settings:
    * =%<nop>BR%= - line break
    * =%<nop>BULLET%= - bullet sign
    * =%<nop>BB%= - line break and bullet combined
@@ -108,7 +108,7 @@ The following preferences variables are frequently used. They are defined in TWi
    * =%<nop>X%= - %X% Alert icon
    * =%<nop>Y%= - %Y% Done icon
 
-There are additional useful preferences variables defined in TWikiPreferences, in [[%LOCALSITEPREFS%]], and in WebPreferences of every web.
+!There are additional useful preferences variables defined in DefaultPreferences, in [[%LOCALSITEPREFS%]], and in WebPreferences of every web.
 
 #PreDef
 ---++ Predefined Variables

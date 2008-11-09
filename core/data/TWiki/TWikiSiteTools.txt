@@ -125,15 +125,15 @@ TWiki generates monthly log files which are used by the statistics script
 
 Outgoing mail is required for TWikiRegistration and for [[#WebNotify][recent changes alert]].
 
-TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== variable in TWikiPreferences.
+TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== variable in DefaultPreferences.
 
-The notify e-mail uses the default =changes.tmpl= template, or a skin if activated in the TWikiPreferences.
+The notify e-mail uses the default =changes.tmpl= template, or a skin if activated in the DefaultPreferences.
 
 mailnotify also relies on two hidden files in each =twiki/data/Web= directory: =.changes= and =.mailnotify.= Make sure both are writable by your web server process. =.changes= contains a list of changes; go ahead and make this empty. =.mailnotify= contains a timestamp of the last time notification was done.
 
 You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= module is not installed. Set the program path in =={MailProgram}== in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
-   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting ==SMTPMAILHOST== in TWikiPreferences to an empty value.
+!   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting ==SMTPMAILHOST== in DefaultPreferences to an empty value.
 
    * %T% You can set a separate ==SMTPSENDERHOST== variable to define the mail sender host (some SMTP installations require this).
 
@@ -165,4 +165,4 @@ The crontab command is used to schedule commands to be executed periodically.
 __Related Topics:__ AdminDocumentationCategory, AdminToolsCategory
 
 %STOPINCLUDE%
--- __Contributors:__ TWiki:Main.MikeMannix, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie, TWiki:Main.KennethLavrsen, TWiki:Main.SvenDowideit
+

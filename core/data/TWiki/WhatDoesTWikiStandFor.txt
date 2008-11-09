@@ -6,7 +6,7 @@ What does the "T" in TWiki stand for?
 
 ---++ Answer:
 
-TWiki is short for <nop>TakeFive Wiki, the name of the company where its founder [[TWiki:Main.PeterThoeny][Peter Thoeny]] worked. Peter first named the platform <nop>T5Wiki, then shortened it to TWiki (pronounced _twee-kee_).
+TWiki is short for <nop>TakeFive Wiki, the name of the company where its founder Peter Thoeny worked. Peter first named the platform <nop>T5Wiki, then shortened it to TWiki (pronounced _twee-kee_).
 
 It was later discovered that Twiki is also the name of an AI robot that co-starred in the [[http://www.buck-rogers.com/][Buck Rogers]] movie and TV series from 1979.
 

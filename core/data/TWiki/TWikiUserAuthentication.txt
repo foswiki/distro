@@ -224,5 +224,3 @@ See TWiki:TWiki.SecuringTWikiSite for more information.
 
 %STOPINCLUDE%
 __Related Topics:__ AdminDocumentationCategory, TWikiAccessControl, TWiki:TWiki.TWikiUserAuthenticationSupplement, TWiki:TWiki.SecuringTWikiSite
-
--- __Contributors:__ TWiki:Main.PeterThoeny, TWiki:Main.MikeMannix, TWiki:Main.CrawfordCurrie, TWiki:Main.SvenDowideit

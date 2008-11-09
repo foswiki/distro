@@ -134,7 +134,7 @@ A wide range of standard styles are used in the TWiki core code and topics, and 
 
 ---+++ TWiki Styles in topics
 
-|.twikiBroadcastMessage  |%SYSTEMWEB%.TWikiPreferences  |
+|.twikiBroadcastMessage  |%SYSTEMWEB%.DefaultPreferences!  |
 |#twikiSearchTable  |%SYSTEMWEB%.WebSearch, %SYSTEMWEB%.WebSearchAdvanced  |
 
 ---+++ TWiki Styles in Skins

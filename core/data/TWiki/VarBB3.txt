@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1160951440" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="!ProjectContributor" date="1160951440" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="VarBB"}%
 #VarBB3
 ---+++ BB3 -- level 3 bullet with line break
    * Line break and bullet, level 3.
-   * Type: Preference variable - TWikiRenderingShortcut.
+   * Type: ShortcutMacro
    * Current value: BB3 = %BB3%
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarVBAR][VBAR]]

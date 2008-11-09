@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1152047754" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiPreferences"}%
+%META:TOPICPARENT{name="DefaultPreferences!"}%
 #VarN
 ---+++ N -- "new" icon
-   * Type: Preference variable - TWikiRenderingShortcut.
+   * Type: ShortcutMacro
    * Current value: N = %N%
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarH][H]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarI][I]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICON][ICON]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarM][M]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarP][P]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarQ][Q]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarS][S]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarT][T]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarU][U]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarX][X]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarY][Y]]

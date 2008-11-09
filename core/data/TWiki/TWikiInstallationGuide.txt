@@ -6,7 +6,7 @@
 
 If you are upgrading from a previous version of TWiki, you probably want to read =TWikiUpgradeGuide= instead.
 
-Both this document and the !TWikiUpgradeGuide are also available in the root of the distribution as HTML files. For this reason links to pages inside your own TWiki are written like =TWiki.WebHome= and not like live web links.
+Both this document and the !TWikiUpgradeGuide are also available in the root of the distribution as HTML files. For this reason links to pages inside your own TWiki are written like =%SYSTEMWEB%.WebHome= and not like live web links.
 
 %TOC%
 
@@ -88,7 +88,7 @@ Once you have TWiki installed and running, you might consider the following opti
 #AuthenticationOfUsers
 ---++ Enable Authentication of Users
 
-This step provides for site access control and user activity tracking on your TWiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for TWiki and is suitable for public web sites. For information about other setups, see =TWiki.TWikiUserAuthentication=, and TWiki:TWiki.TWikiUserAuthenticationSupplement.
+This step provides for site access control and user activity tracking on your TWiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for TWiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.TWikiUserAuthentication=, and TWiki:TWiki.TWikiUserAuthenticationSupplement.
 
 These are the steps for enabling "Template Login" which asks for a username and password in a web page, and processes them using the Apache 'htpasswd' password manager. Users can log in and log out.
 
@@ -96,11 +96,11 @@ These are the steps for enabling "Template Login" which asks for a username and 
       1 Select =TWiki::LoginManager::TemplateLogin= for ={LoginManager}=.
       1 Select =TWiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Save your =configure= settings.
-      1 Register yourself using the =TWiki.TWikiRegistration= topic.<br />
+      1 Register yourself using the =%SYSTEMWEB%.TWikiRegistration= topic.<br />
      %H% Check that the password manager recognizes the new user. Check that a new line with the username and encrypted password is added to the =data/.htpasswd= file. If not, you probably got a path wrong, or the permissions may not allow the webserver user to write to that file.
    1 Edit a topic (by clicking on the =Edit= link at beginning or end of topic) to check if authentication works.
 
-You are strongly encouraged to read =TWiki.TWikiUserAuthentication=, TWiki:TWiki.TWikiUserAuthenticationSupplement, and TWiki:TWiki.SecuringTWikiSite for further information about managing users and security of your TWiki site.
+You are strongly encouraged to read =%SYSTEMWEB%.TWikiUserAuthentication=, TWiki:TWiki.TWikiUserAuthenticationSupplement, and TWiki:TWiki.SecuringTWikiSite for further information about managing users and security of your TWiki site.
 
 *Note!* The other =LoginManager= option =TWiki::LoginManager::ApacheLogin= uses a basic Apache type authentication where the browser itself prompts you for username and password. Most will find the !TemplateLogin looking nicer. But !ApacheLogin is required when you use Apache authentication methods like mod_ldap where all authentication is handled by an Apache module and not by the TWiki perl code. When you use !ApacheLogin the apache configuration must be set up to require authentication of the some but not all the scripts in the bin directory. This section in the Apache config (or .htaccess) controls this
 
@@ -115,10 +115,10 @@ The TWiki:TWiki.ApacheConfigGenerator includes this section when you choose _Apa
 #DefineAdminUser   
 ---++ Define the Administrator User(s)
 
-Administrators have read and write access to any topic in TWiki, irrespectively of TWiki access controls. When you install TWiki one of the first things you will want to do is define yourself as an administrator. You become an administrator simply by adding yourself to the =TWikiAdminGroup=. It is the WikiName and not the login name you add to the group. Editing the =Main.TWikiAdminGroup= topic requires that you are an administrator. So to add the first administrator you need to login using the internal TWiki admin user login and the password you defined in configure.
+Administrators have read and write access to any topic, irrespectively of TWiki access controls. When you install TWiki one of the first things you will want to do is define yourself as an administrator. You become an administrator simply by adding yourself to the =TWikiAdminGroup=. It is the WikiName and not the login name you add to the group. Editing the =%USERSWEB%.AdminGroup= topic requires that you are an administrator. So to add the first administrator you need to login using the internal TWiki admin user login and the password you defined in configure.
 
-   * Navigate to the =Main.TWikiAdminGroup= topic
-   * Follow carefully the steps =Main.TWikiAdminGroup= of how to become an admin
+   * Navigate to the =%USERSWEB%.AdminGroup= topic
+   * Follow carefully the steps =%USERSWEB%.TWikiAdminGroup= of how to become an admin
    * Note that if you use _ApacheLogin_ you have to be registered and logged in before you use the _internal admin login_
 
 #SetPreferences
@@ -126,17 +126,17 @@ Administrators have read and write access to any topic in TWiki, irrespectively 
 
 Preferences for customizing many aspects of TWiki are set simply by editing a special topic with TWiki.
 
-   * =TWiki.TWikiPreferences=. Read through it and identify any additional settings or changes you think you might need. You can edit the settings in =TWiki.TWikiPreferences= but these will be overwritten when you later upgrade to a newer TWiki version. Instead copy any settings or variables that you want to customize from =TWiki.TWikiPreferences= and paste them into =Main.TWikiPreferences=.  When you later upgrade TWiki simply avoid overwriting the =data/Main/TWikiPreferences.txt= file and all your settings will be kept. Settings in =Main.TWikiPreferences= overrides settings in both =TWiki.TWikiPreferences= and any settings defined in Plugin topics. See notes at top of =TWiki.TWikiPreferences= for more information.
+   * =%SYSTEMWEB%.DefaultPreferences=. Read through it and identify any additional settings or changes you think you might need. You can edit the settings in =%SYSTEMWEB%.DefaultPreferences= but these will be overwritten when you later upgrade to a newer TWiki version. Instead copy any settings or variables that you want to customize from =%SYSTEMWEB%.DefaultPreferences= and paste them into =%USERSWEB%.SitePreferences=.  When you later upgrade TWiki simply avoid overwriting the =data/%SYSTEMWEB%/DefaultPreferences.txt= file and all your settings will be kept. Settings in =%USERSWEB%.SitePreferences= overrides settings in both =%SYSTEMWEB%.DefaultPreferences= and any settings defined in Plugin topics. See notes at top of =%SYSTEMWEB%.DefaultPreferences= for more information.
 
 ---++ Enable Email Notification
 
-Each TWiki web has an automatic email notification service that sends you an email with links to all of the topics modified since the last alert. To enable this service:
+Each web has an automatic email notification service that sends you an email with links to all of the topics modified since the last alert. To enable this service:
    1 Confirm the Mail and Proxies settings in the Configure interface.
-   1 Setup a cron job (or equivalent) to call the =tools/mailnotify= script as described in the =TWiki.MailerContrib= topic.
+   1 Setup a cron job (or equivalent) to call the =tools/mailnotify= script as described in the =%SYSTEMWEB%.MailerContrib= topic.
 
 ---++ Enable !WebStatistics
 
-You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. For information on setting up this feature, see the =TWiki.TWikiSiteTools= topic.
+You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. For information on setting up this feature, see the =%SYSTEMWEB%.TWikiSiteTools= topic.
 
 ---++ Automate removal of expired sessions and lease files
 
@@ -149,17 +149,17 @@ TWiki now supports displaying of national (non-ascii) characters and presentatio
 #TailorUsersTopic
 ---++ Tailor New Users Home Topic
 
-When a new users registers on your TWiki, a home topic is created for them based on the =TWiki.NewUserTemplate= topic (and its =TWiki.UserForm=). It contains additional resources you can use to:
+When a new users registers on your TWiki, a home topic is created for them based on the =%SYSTEMWEB%.NewUserTemplate= topic (and its =%SYSTEMWEB%.UserForm=). It contains additional resources you can use to:
    * Localise the user topic.
    * Add a default ALLOWTOPICCHANGE so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public TWiki to prevent spam.
-   * Add and remove fields defined in the =TWiki.UserForm=
+   * Add and remove fields defined in the =%SYSTEMWEB%.UserForm=
 
-If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. TWiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the TWiki web. By creating a =Main.NewUserTemplate= and its =Main.UserForm= you will not loose your tailorings next time you upgrade TWiki.
+If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. TWiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the TWiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade TWiki.
 
-If you added or removed fields from the user form you may also need to tailor =TWiki.TWikiRegistration=.
+If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.TWikiRegistration=.
 
 ---++ Install Plugins
-TWiki:Plugins is an extensive library of Plugins for TWiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the TWiki distribution. For more information on these, see =TWiki.InstalledPlugins=.
+TWiki:Plugins is an extensive library of Plugins for TWiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the TWiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.
 
 You activate installed plugin in the _Plugins_ section of =configure=. In this section you also find a _Find More Extensions_ button which opens an application which can install additional plugins from the TWiki.org website. If you are behind a firewall or your server has no access to the Internet it is also possible to install plugins manually. Manual installation instructions for the plugins can be found in the plugin topics on TWiki.org. Additional documenation on TWiki plugins can be found at TWiki:TWiki.TWikiPluginsSupplement.
 
@@ -167,7 +167,7 @@ Some plugins require that you define their settings in =configure=. You fill fin
 
 ---++ Customize Your TWiki!
 
-The real power of TWiki lies in it's flexibility to be customized to meet your needs. You can with small means change the looks of the default skin (called !PatternSkin) by reading the =TWiki.PatternSkinCustomization=
+The real power of TWiki lies in it's flexibility to be customized to meet your needs. You can with small means change the looks of the default skin (called !PatternSkin) by reading the =%SYSTEMWEB%.PatternSkinCustomization=
 
 At the official TWiki website you can find more resources. A good place to start for exploring what's possible is <a href="http://twiki.org/cgi-bin/view/TWiki/TWikiAdminCookBook" title="'TWiki/TWikiAdminCookBook' on TWiki.org">TWiki:TWiki.TWikiAdminCookBook</a> which offers tips and tricks for customizing your TWiki site. Many of these are appropriate to implement immediately after installing TWiki and before adding content so now's a good time to look at these.
 
@@ -175,9 +175,9 @@ At the official TWiki website you can find more resources. A good place to start
 
 Some pages are meant to be customized after choice of authentication. If you do not use the internal TWiki password manager the topics that contains the features for changing and resetting passwords and changing the email address should be changed to a note describing how to perform these tasks in your organization. The topics are:
 
-   * =TWiki.ChangePassword=
-   * =TWiki.ResetPassword=
-   * =TWiki.ChangeEmailAddress=
+   * =%SYSTEMWEB%.ChangePassword=
+   * =%SYSTEMWEB%.ResetPassword=
+   * =%SYSTEMWEB%.ChangeEmailAddress=
    
 ---++ WYSIWYG vs Raw Edit
 
@@ -194,9 +194,9 @@ In the bottom of each topic you will find a default copyright messages saying "C
 
 You change the copy right statement globally by taking these steps.
 
-   * Copy the setting WEBCOPYRIGHT from =TWiki.TWikiPreferences= to =Main.TWikiPreferences= and alter the copied text to your need.
-   * You can create a unique message for each web by adding the WEBCOPYRIGHT setting to =WebPreferences= in each web. E.g. adding a confidencial classification to a very restricted web.
-   * The WEBCOPYRIGHT in =TWiki.WebPreferences= covers the documentation that comes with TWiki and is covered by the original TWiki Copyright and GPL License. You will normally leave this unchanged.
+   * Copy the setting WEBCOPYRIGHT from =System.DefaultPreferences= to =%USERSWEB%.SitePreferences= and alter the copied text to your need.
+   * You can create a unique message for each web by adding the WEBCOPYRIGHT setting to =WebPreferences= in each web. E.g. adding a confident!ial classification to a very restricted web.
+   * The WEBCOPYRIGHT in =%SYSTEMWEB%.WebPreferences= covers the documentation that comes with TWiki and is covered by the original TWiki Copyright and GPL License. You will normally leave this unchanged.
 
 ---++ Troubleshooting
 

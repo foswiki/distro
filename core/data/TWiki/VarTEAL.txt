@@ -1,9 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1160971176" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiPreferences"}%
+%META:TOPICPARENT{name="DefaultPreferences"}%
 #VarTEAL
 ---+++ TEAL -- start teal colored text
-   * =TEAL= is one of the rendering shortcut settings predefined in TWikiPreferences.  See the section [[TWikiPreferences#RenderingShortcuts][rendering shortcut settings]] in that topic for a complete list of colors.
+   * =TEAL= is one of the shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.
    * Syntax: =%<nop>TEAL% teal text %<nop>ENDCOLOR%=
    * Expands to: %TEAL% teal text %ENDCOLOR%
    * __Note:__ =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[TWikiPreferences#RenderingShortcuts][TWikiPreferences]], StandardColors
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors

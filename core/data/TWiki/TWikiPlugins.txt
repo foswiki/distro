@@ -49,7 +49,7 @@ The performance of the system depends to some extent on the number of plugins in
 
 %T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% TWiki variable.
 
-Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>TWikiPreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
+Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
 <pre>
    * <nop>Set DISABLEDPLUGINS = SpreadSheetPlugin, EditTablePlugin
 </pre>
@@ -207,7 +207,7 @@ Check the plugins web on TWiki.org for the latest plugin doc topic template. Her
 
 *Plugin Settings:* &lt;<i>Description and settings for custom plugin %<nop>VARIABLES%, and those required by TWiki.</i>&gt;"
 
-   * *Plugins Preferences* &lt;<i>If user settings are needed, explain... Entering values works exactly like %SYSTEMWEB%.TWikiPreferences and WebPreferences: six (6) spaces and then:</i>&gt;"
+   * *Plugins Preferences* &lt;<i>If user settings are needed, explain... Entering values works exactly like %SYSTEM!WEB%.DefaultPreferences and WebPreferences: six (6) spaces and then:</i>&gt;"
       * *Set &lt;<i>EXAMPLE = value added</i>&gt;*
 
 *Plugin Installation Instructions:* &lt;<i>Step-by-step set-up guide, user help, whatever it takes to install and run, goes here.</i>&gt;"

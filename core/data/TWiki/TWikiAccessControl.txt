@@ -253,4 +253,3 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
 
 __Related Topics:__ AdminDocumentationCategory, TWikiUserAuthentication, TWiki:TWiki.TWikiAccessControlSupplement
 
--- __Contributors:__ TWiki:Main.PeterThoeny, TWiki:Main.MikeMannix, TWiki:Main.CrawfordCurrie

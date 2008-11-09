@@ -124,7 +124,7 @@ Which expands to this: (here limited to all Z* users because TWiki.org has so ma
 <input type="submit" value="Go" />
 </form>
 
-This searches all topics in the Main web that contain "Name", "Email" and "Country" bullets. Alternatively, do a %SYSTEMWEB%.FormattedSearch with =multiple="on"= on the [[%USERSWEB%.TWikiUsers]] topic.
+This searches all topics in the %USERSWEB% web that contain "Name", "Email" and "Country" bullets. Alternatively, do a %SYSTEMWEB%.FormattedSearch with =multiple="on"= on the [[%USERSWEB%.TWikiUsers]] topic.
 
 ---+++ Solution 2: As Solution 1, but with possibility for multi-selecting usernames
 
@@ -242,7 +242,7 @@ How to find and display public webs in a drop down list box.
 
 ---+++ Solution
 
-_Thanks to TWiki:Main.PeterThoeny for these solutions._
+_Thanks to Peter Thoeny for these solutions._
 
 <verbatim>
 <form>
@@ -404,4 +404,3 @@ Moved topics: %SEARCH{ "%META\:TOPICMOVED" type="regex" format="$topic, " nosear
 
 __Related Topics:__ UserDocumentationCategory, SearchHelp, TWikiVariables#VarSEARCH, FormattedSearch, RegularExpression
 
--- __Contributors:__ TWiki:Main.AntonAylward, TWiki:Main.ArthurClemens, TWiki:Main.JosMaccabiani, TWiki:Main.PeterThoeny, TWiki:Main.SueLocke

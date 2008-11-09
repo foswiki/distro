@@ -18,7 +18,7 @@
    * *Managing pages:* Individual [[TWikiTopics][pages]] can be renamed, moved and deleted through the browser.
    * *Managing users:* Web-based [[TWikiRegistration][user registration]] and [[ChangePassword][change of password]].
    * *Statistics:* Create statistics of TWiki webs. Find out most popular pages and top contributors.
-   * *Preferences:* Three levels of preferences: TWikiPreferences for site-level, WebPreferences for each web, and user level preferences.
+   * *Preferences:* Three levels of preferences: DefaultPreferences for site-level, WebPreferences for each web, and user level preferences.
    * *[[SimultaneousEdits][simultaneous page editing]]:* 
    * *Referred-By:* Find the pages that contain links to a topic.
 

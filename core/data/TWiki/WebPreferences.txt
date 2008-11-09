@@ -7,7 +7,7 @@ The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%
 
 ---++ Web Preferences Settings
 
-These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiPreferences#DefaultWebPreferences][full list of defaults with explanation]].
+These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
 
    * Web settings:
       * Set WEBTOPICLIST = [[WelcomeGuest][Welcome]] %SEP% [[TWikiRegistration][Register]] %SEP% [[WebChanges][Changes]] %SEP% [[WebTopicList][Topics]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
@@ -29,7 +29,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiP
       * WebTopicEditTemplate: Site-level default topic template
 
    * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.TWikiForms][TWikiForms]] for more information.
-      * Set WEBFORMS = TWikiPreferencesForm
+      * Set WEBFORMS = DefaultPreferencesForm
 
    * Copyright notice for the TWiki web.
       * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://twiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-badge-88x31.gif" alt="This site is powered by the TWiki collaboration platform" width="88" height="31" title="This site is powered by the TWiki collaboration platform" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then="<br /> __Note:__ Please contribute updates to this topic on TWiki.org at TWiki:TWiki.%BASETOPIC%"}%

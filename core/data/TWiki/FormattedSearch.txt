@@ -202,5 +202,3 @@ Result:
 %SEARCH{ search="%URLPARAM{"q"}%" format="   * $web.$topic: %BR% $summary" nosearch="on" }%
 
 __Related Topics:__ UserDocumentationCategory, SearchHelp, TWikiVariables#VarSEARCH, SearchPatternCookbook, RegularExpression
-
--- __Contributors:__ TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie

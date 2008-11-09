@@ -71,7 +71,7 @@ Field values can also be set using the result of expanding other TWiki variables
 =%<nop>SEARCH{"Office$" scope="topic" web="%<nop>USERSWEB%" nonoise="on" type="regex" format="$web.$topic" separator=", " }%=
 </blockquote>
 
-When used in the value field of the form definition, this will find all topic names in the Main web which end in "Office" and use them as the legal field values.
+When used in the value field of the form definition, this will find all topic names in the %USERSWEB% web which end in "Office" and use them as the legal field values.
 
 #EnablingForms
 ---++ Enabling Forms by Web

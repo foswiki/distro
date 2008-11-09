@@ -55,12 +55,12 @@ To create a subweb named =Bar= inside a web named =Foo=, use =Foo/Bar= or =Foo.B
 
 ---+++ Subweb Preferences are Inherited
 
-The preferences of a subweb are inherited from the parent web and overridden locally.  Preferences are ultimately inherited from the [[%SYSTEMWEB%.TWikiPreferences]] topic.
+The preferences of a subweb are inherited from the parent web and overridden locally.  Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
 
 *Example Preference Inheritance for =Sandbox/TestWeb/SubWeb.SubWebTopic= topic:*
 
-   1. =%SYSTEMWEB%.TWikiPreferences= site-wide preferences
-   2. =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SYSTEMWEB%.TWikiPreferences=
+   1. =%SYSTEMWEB%.DefaultPreferences= site-wide preferences
+   2. =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SYSTEMWEB%.DefaultPreferences=
    3. =Sandbox/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox.%WEBPREFSTOPIC%=
    4. =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%= 
    5. =Sandbox/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= 
@@ -79,7 +79,7 @@ Rename a web via the Tools section in each %WEBPREFSTOPIC% topic.  You may delet
 You may only rename a web if you have the following permissions
    * You must be allowed to rename and changes topics in the web you want to rename
    * You must be allowed to rename topics in the parent web of the web you want to rename
-   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.TWikiPreferences]].
+!   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.DefaultPreferences]].
    * If you move the web to another parent web you must be allowed to create and change topics in the new parent web.
    
 When you rename a web TWiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the TWiki installation it is generally best to let an administrator rename webs to avoid too many broken links. 

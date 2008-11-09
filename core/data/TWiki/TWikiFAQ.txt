@@ -33,4 +33,3 @@ Other places where you can find answers to your questions:
    * TextFormattingFAQ: Answers to frequently asked questions about text styling in TWiki
    * If you can't find an answer, ask a question - post it in the TWiki:Support web
 
--- __Contributors:__ TWiki:Main.PeterThoeny, TWiki:Main.MikeMannix, TWiki:Main.CrawfordCurrie

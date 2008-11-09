@@ -342,7 +342,7 @@ There are several other ways to put an image in a topic.
 
 Shorthand notation:
 <blockquote>
-In [[%USERSWEB%.TWikiPreferences]] set a variable to an ICON, for example:
+In [[%USERSWEB%.DefaultPreferences!]] set a variable to an ICON, for example:
 
 =<nop>   * Set H = %<nop>ICON{help}%=
 
@@ -374,7 +374,7 @@ and that will get rendered as: %ICONURL{"toggleopen"}%
 
 __Related Topics:__ TWikiSkins, DeveloperDocumentationCategory, AdminDocumentationCategory
 
-__Contributors:__ Most icons on this page were originally designed by TWiki:Main.PeterThoeny. Many icons were recreated by TWiki:Main.ArthurClemens.
+__Contributors:__ Most icons on this page were originally designed by Peter Thoeny. Many icons were recreated by Arthur Clemens.
 
 %META:FILEATTACHMENT{name="addon.gif" attr="" comment="" date="1169565034" path="addon.gif" size="370" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="air.gif" attr="" comment="" date="1169565034" path="air.gif" size="356" user="ProjectContributor" version=""}%

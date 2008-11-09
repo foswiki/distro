@@ -103,7 +103,7 @@ For example, to create a customisation of pattern skin, where you _only_ want to
 </verbatim>
 and then set =SKIN=yourlocal,pattern=.
 
-Because ClassicSkin and the default templates use the same Template definition names, you can over-ride the edit links in them (or any skin derived from them) using the same =view.yourlocal.tmpl= (just set SKIN=yourlocal,classic either in %USERSWEB%.TWikiPreferences for globally, or a Web's <nop>Webname.<nop>WebPreferences for a particular web) 
+Because ClassicSkin and the default templates use the same Template definition names, you can over-ride the edit links in them (or any skin derived from them) using the same =view.yourlocal.tmpl= (just set SKIN=yourlocal,classic either in %USERSWEB%.DefaultPreferences for globally, or a Web's <nop>Webname.<nop>WebPreferences for a particular web) 
 
 ---++ Variables in Skins
 
