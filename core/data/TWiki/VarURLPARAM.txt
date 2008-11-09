@@ -18,7 +18,7 @@
    * __%X% Notes:__
       * URL parameters passed into HTML form fields must be entity [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarENCODE][ENCODEd]].
       * Double quotes in URL parameters must be escaped when passed into other TWiki variables.%BR% Example: =%<nop>SEARCH{ "%<nop>URLPARAM{ "search" encode="quotes" }%" noheader="on" }%=
-      * When used in a template topic, this variable will be expanded when the template is used to create a new topic. See TWikiTemplates#TemplateTopicsVars for details.
+      * When used in a template topic, this variable will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
       * Watch out for TWiki internal parameters, such as =rev=, =skin=, =template=, =topic=, =web=; they have a special meaning in TWiki. Common parameters and view script specific parameters are documented at TWikiScripts.
       * If you have =%<nop>URLPARAM{= in the value of a URL parameter, it will be modified to =%&lt;nop&gt;URLPARAM{=. This is to prevent an infinite loop during expansion.
       * There is a risk that this variable could be misused for cross-site scripting.

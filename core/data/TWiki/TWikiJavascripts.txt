@@ -1,10 +1,10 @@
----+ TWiki Javascripts
+---+ Javascripts
 
-This topic contains javascript files that are included by TWiki templates, and may be used by skin templates and in topics.
+This topic contains javascript files that are included by presentation templates, and may be used by skin templates and in topics.
 
-__Related Topics:__ TWikiTemplates, TWikiSkins
+__Related Topics:__ PresentationTemplates, [[Skins]]
 
-	* Set ALLOWTOPICCHANGE = %USERSWEB%.TWikiAdminGroup
+	* Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 	
 %META:FILEATTACHMENT{name="twiki.js" attr="" autoattached="1" comment="" date="1130980328" path="twiki.js" size="2920" user="UnknownUser" version=""}%
 %META:FILEATTACHMENT{name="twiki_settings.js" attr="" autoattached="1" comment="" date="1130979890" path="twiki_settings.js" size="982" user="UnknownUser" version=""}%

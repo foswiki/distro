@@ -13,7 +13,7 @@ By adding form-based input to freeform content, you can structure topics with un
 Typical steps to build an application based on TWiki forms:
    1. Define a form template
    1. Enable the form for a web
-   1. Add the form to a [[TWikiTemplates#Template_Topics][template topic]]
+   1. Add the form to a [[TemplateTopics][template topic]]
    1. Build an HTML form to create new topics based on that template topic
    1. Build a FormattedSearch to list topics that share the same form
 
@@ -86,7 +86,7 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== variable in W
 
 ---++ Adding a form to a topic
 
-   * Edit the topic and follow the "Add form" button to add a Form. This is typically done to a [[TWikiTemplates#TemplateTopic][template topic]], either to the =WebTopicEditTemplate= topic in a web, or a new topic that serves as an application specific template topic. Initial Form values can be set there.
+   * Edit the topic and follow the "Add form" button to add a Form. This is typically done to a [[TemplateTopics][template topic]], either to the =WebTopicEditTemplate= topic in a web, or a new topic that serves as an application specific template topic. Initial Form values can be set there.
 
    * Additionally a new topic can be given a Form using the =formtemplate= parameter in the (edit or save) URL.  Initial values can then be provided in the URLs or as form values:
       * other than checkboxes: ==name==, ex: ==?BugPriority=1==
@@ -100,7 +100,7 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== variable in W
        <input type="submit" class="twikiSubmit" value="Create" />
     </form>
        </verbatim>
-   * __%T% Tip:__ For TWiki applications you can [[TWikiTemplates#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
+   * __%T% Tip:__ For TWiki applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
 
    * __%X% Note:__ Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
 
@@ -201,7 +201,7 @@ Types with names like this can both take multiple values.
 
 ---++ Hints and Tips
 ---+++ Build an HTML form to create new Form-based topics
-   * New topics with a form are created by simple HTML forms asking for a topic name. For example, you can have a =<nop>SubmitExpenseReport= topic where you can create new expense reports, a =<nop>SubmitVacationRequest= topic, and so on. These can specify the required template topic with its associated form. [[TWikiTemplates#TemplateTopics][Template topics]] has more.
+   * New topics with a form are created by simple HTML forms asking for a topic name. For example, you can have a =<nop>SubmitExpenseReport= topic where you can create new expense reports, a =<nop>SubmitVacationRequest= topic, and so on. These can specify the required template topic with its associated form. [[TemplateTopics][Template topics]] has more.
 A Form Template specifies the fields in a form. A Form Template is simply a page containing a TWiki table, where each row of the table specifies one form field.
 #UsingFormData
 ---+++ Searching for Form Data
@@ -223,4 +223,4 @@ Searching forms this way is obviously pretty inefficient, but it's easy to do. I
 
 %STOPINCLUDE%
 
-__Related Topics:__ UserDocumentationCategory, TWikiTemplates
+__Related Topics:__ UserDocumentationCategory, TemplateTopics
