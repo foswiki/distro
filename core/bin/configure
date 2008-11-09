@@ -382,10 +382,15 @@ my @meta = (
    );
 
 # Generate standard page header
+my $onload = "";
+if (!TWiki::Configure::UI::authorised()) {
+	$onload = "document.forms.twiki_configure.cfgAccess.focus()";
+}
 my $hdr = CGI::start_html(
     -title => 'TWiki Configuration',
     -head => \@meta,
-    -class => 'patternNoViewPage');
+    -class => 'patternNoViewPage',
+    -onLoad => $onload);
 
 # XML header confuses IE, so strip it out. This is fixed in CGI.pm 3.06
 # (and IE 7, but who's counting?)

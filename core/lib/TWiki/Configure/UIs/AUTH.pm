@@ -36,7 +36,7 @@ sub ui {
     my $scriptName = pop(@script);
     $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
 
-    $output .= CGI::start_form( { action => $scriptName, method => 'post' } );
+    $output .= CGI::start_form( { name => 'twiki_configure', action => $scriptName, method => 'post' } );
 
     # Pass URL params through, except those below
     foreach my $param ( $TWiki::query->param ) {
