@@ -1,0 +1,106 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15508 $"}%
+#TemplateTopics
+---++ Template Topics
+
+Template Topics are topics that define the default text for _new_ topics. There are four types of template topic:
+
+| *Topic Name:* | *What it is:* |
+| WebTopicViewTemplate | Alert page shown when you try to view a nonexistent topic. This page is usually used as a prompt to help you create a new topic. |
+| WebTopicNonWikiTemplate | Alert page shown when you try to view a nonexistent topic with a non-WikiName. Again, this page is used as a prompt to help you create the new topic. |
+| WebTopicEditTemplate | Default text used in a new topic. |
+| &lt;MyCustomNamed&gt;Template | Whenever you create a topic ending in the word "Template", it is automatically added to the list of available template topics in the "Use Template" drop down field on the !WebCreateNewTopic page. |
+
+When you create a new topic using the =edit= script, the system locates a template topic according to the following search order:
+   1 A topic name specified by the =templatetopic= CGI parameter
+      * if no web is specified, the current web is searched first and then the %SYSTEMWEB% web
+   1 <nop>WebTopicEditTemplate in the current web
+   1 <nop>WebTopicEditTemplate in the %SYSTEMWEB% web
+
+#TemplateTopicsVars
+---+++ Variable Expansion
+
+When the following variables are used in a template topic, they automatically get expanded when new topic is created based on it:
+
+| *Variable:* | *Description:* |
+| =%<nop>DATE%= | Signature format date. See VarDATE |
+| =%<nop>GMTIME%= | Date/time. See VarGMTIME |
+| =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME2 |
+| =%<nop>NOP%= | A no-operation variable that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
+| =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
+| =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
+| =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME2 |
+| =%<nop>USERNAME%= | Login name of user who is instantiating the new topic, e.g. %USERNAME% |
+| =%<nop>URLPARAM{"name"}%= | Value of a named URL parameter |
+| =%<nop>WIKINAME%= | WikiName of user who is instantiating the new topic, e.g. <nop>%WIKINAME% |
+| =%<nop>WIKIUSERNAME%= | User name of user who is instantiating the new tpoic, e.g. <nop>%WIKIUSERNAME% |
+
+=%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= markers are used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. For example, you might want to write in the template topic:
+<pre>
+%<nop>STARTSECTION{type="templateonly"}%
+This template topic can only be changed by:
+   * Set <nop>ALLOWTOPICCHANGE = <nop>%USERSWEB%.AdminGroup
+%<nop>ENDSECTION{type="templateonly"}%
+</pre>
+This will restrict who can edit the template topic, but will get removed when a new topic based on that template topic is created.
+
+=%<nop>NOP%= can be used to prevent expansion of [[macros]] that would otherwise be expanded during topic creation e.g.i escape =%<nop>SERVERTIME%= with =%<nop>SER%<nop>NOP%VERTIME%=.
+
+All other variables are unchanged, e.g. are carried over "as is" into the new topic.
+
+---+++ Specifying a Form
+When you create a new topic based on a template topic, you often want the new topic to have a form attached to it. You can attach a form to the template topic, in which case it will automatically be copied into the new topic.
+
+Sometimes this isn't quite what you want, as it copies all the existing data from the template topic into the new topic. To avoid this and use the default values specified in the form definition instead, you can use the =formtemplate= parameter to the =edit= script to specify the name of a form to attach.
+
+See CommandAndCgiScripts for information about this, and all the other parameters to =edit=.
+
+#AutomaticallyGeneratedTopicname
+---+++ Automatically Generated Topic Names
+
+For some applications it is useful to be able to automatically generate unique topicnames, such as !BugID0001, !BugID0002, etc. You can add =AUTOINC&lt;n&gt;= to the topic name in the edit and save scripts, and it will be replaced with an auto-incremented number on topic save. =&lt;n&gt;= is a number starting from 0, and may include leading zeros. Leading zeros are used to zero-pad numbers so that auto-incremented topic names can sort properly. Deleted topics are not re-used to ensure uniqueness of topic names. That is, the auto-incremented number is always higher than the existing ones, even if there are gaps in the number sequence.
+
+*Examples:*
+   * =BugAUTOINC0= - creates topic names =Bug0=, =Bug1=, =Bug2=, ... (does not sort properly)
+   * =ItemAUTOINC0000= - creates topic names =Item0000=, =Item0001=, =Item0002=, ... (sorts properly up to 9999)
+   * =DocIDAUTOINC10001= - start with =DocID10001=, =DocID10002=, ... (sorts properly up to 99999; auto-links)
+
+Example link to create a new topic:%BR%
+<verbatim>
+[[%SCRIPTURLPATH{edit}%/%WEB%/BugIDAUTOINC00001?templatetopic=BugTemplate;topicparent=%TOPIC%;t=%SERVERTIME{"$day$hour$min$sec"}%][Create new item]]
+</verbatim>
+
+---+++ Template Topics in Action
+
+Here is an example for creating new topics (in the Sandbox web) based on a specific template topic and form:
+
+<form name="new" action="%SCRIPTURLPATH{edit}%/Sandbox/">
+   * New example topic: 
+     <input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="twikiSubmit" value="Create" />
+     <input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
+     <input type="hidden" name="topicparent" value="%TOPIC%" />
+     <input type="hidden" name="onlywikiname" value="on" />
+     <input type="hidden" name="onlynewtopic" value="on" />
+</form>
+
+The above form asks for a topic name. A hidden input tag named ==templatetopic== specifies ExampleTopicTemplate as the template topic to use. Here is the HTML source of the form:
+
+<pre>
+&lt;form name="new" action="%<nop>SCRIPTURLPATH{edit}%/Sandbox/"&gt;
+   * New example topic: 
+     &lt;input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" /&gt;
+     &lt;input type="hidden" name="templatetopic" value="ExampleTopicTemplate" /&gt;
+     &lt;input type="hidden" name="topicparent" value="%<nop>TOPIC%" /&gt;
+     &lt;input type="hidden" name="onlywikiname" value="on" /&gt;
+     &lt;input type="hidden" name="onlynewtopic" value="on" /&gt;
+     &lt;input type="submit" class="twikiSubmit" value="Create" /&gt;
+&lt;/form&gt;
+</pre>
+
+See CommandAndCgiScripts#edit for details of the parameters that the =edit= script understands.
+
+%T% *TIP:* You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= variables in your template topics to include the signature of the person creating a new topic. The variables are expanded into fixed text when a new topic is created. The standard signature is: <br />
+==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==
+
+---+++ Using Absolute vs Relative URLs in Templates
+
+When you use [[Macros]] such as %<nop>PUBURL% and %<nop>PUBURLPATH% in template topics you should be aware that using %<nop>PUBURL% instead of %<nop>PUBURLPATH% puts absolute URLs in the produced HTML. This means that when a user saves a page in HTML and emails the file to someone outside a company firewall, the receiver has a severe problem viewing it. It is therefore recommended always to use the %<nop>PUBURLPATH% to refer to images, CSS, Javascript files etc so links become relative. This way browsers just give up right away and show a usable html file.

@@ -29,14 +29,14 @@
 # You can alter the most recent revision of a topic using 
 # /edit/web/topic?cmd=repRev
 #    * use only as a last resort, as history is altered
-#    * you must be in TWikiAdminGroup
+#    * you must be in AdminGroup
 #    * you will be presented with normal edit box, but this will also
 #      include meta information, modify this with extreme care
 #
 # You can delete the most recent revision of a topic using
 # /edit/web/topic?cmd=delRev
 #    * use only as a last resort, as history is lost
-#    * you must be in TWikiAdminGroup
+#    * you must be in AdminGroup
 #    * fill in some dummy text in the edit box
 #    * ignore preview output
 #    * when you press save, last revision will be deleted
@@ -327,10 +327,10 @@ $TWiki::cfg{AdminUserWikiName} = 'TWikiAdminUser';
 # on =save= and ALWAYS have edit powers. See TWiki.TWikiDocumentation
 # for an explanation of twiki groups. This user will also run all the
 # standard cron jobs, such as statistics and mail notification.
-# The default value "TWikiAdminGroup" is used everywhere in TWiki to
+# The default value "AdminGroup" is used everywhere in TWiki to
 # protect important settings so you would need a really special reason to
 # change this setting.
-$TWiki::cfg{SuperAdminGroup} = 'TWikiAdminGroup';
+$TWiki::cfg{SuperAdminGroup} = 'AdminGroup';
 
 # **STRING 20 EXPERT**
 # Name of topic in the {UsersWebName} web where registered users
@@ -1113,7 +1113,7 @@ $TWiki::cfg{SiteWebTopicName} = '';
 # use TWiki and *manually* rename the existing topic.</b>
 # (i.e. don't change it unless you are <b>certain</b> that you know what
 # you are doing!)
-$TWiki::cfg{SitePrefsTopicName} = 'TWikiPreferences';
+$TWiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 
 # **STRING 40 EXPERT**
 # Web.TopicName of the site-level local preferences topic. If this topic
@@ -1122,7 +1122,7 @@ $TWiki::cfg{SitePrefsTopicName} = 'TWikiPreferences';
 # You are <b>strongly</b> recommended to keep all your local changes in
 # a {LocalSitePreferences} topic rather than changing TWikiPreferences,
 # as it will make upgrading a lot easier.
-$TWiki::cfg{LocalSitePreferences} = 'Main.TWikiPreferences';
+$TWiki::cfg{LocalSitePreferences} = 'Main.SitePreferences';
 
 # **STRING 20 EXPERT**
 # Name of main topic in a web.
