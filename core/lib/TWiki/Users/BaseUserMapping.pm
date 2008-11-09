@@ -32,7 +32,7 @@ prefix 'BaseUserMapping_'.
    * TWikiAdmin - uses the password that was set in Configure (IF its not null)
    * TWikiGuest
    * UnknownUser
-   * TWikiContributor - 1 Jan 2005
+   * ProjectContributor - 1 Jan 2005
    * TWikiRegistrationAgent - 1 Jan 2005
 
 ---+++ Groups
@@ -68,28 +68,28 @@ sub new {
         $TWiki::cfg{AdminUserLogin}   => $this->{mapping_id} . '333',
         $TWiki::cfg{DefaultUserLogin} => $this->{mapping_id} . '666',
         unknown                       => $this->{mapping_id} . '999',
-        TWikiContributor              => $this->{mapping_id} . '111',
+        ProjectContributor            => $this->{mapping_id} . '111',
         TWikiRegistrationAgent        => $this->{mapping_id} . '222'
     };
     $this->{U2L} = {
         $this->{mapping_id} . '333' => $TWiki::cfg{AdminUserLogin},
         $this->{mapping_id} . '666' => $TWiki::cfg{DefaultUserLogin},
         $this->{mapping_id} . '999' => 'unknown',
-        $this->{mapping_id} . '111' => 'TWikiContributor',
+        $this->{mapping_id} . '111' => 'ProjectContributor',
         $this->{mapping_id} . '222' => 'TWikiRegistrationAgent'
     };
     $this->{U2W} = {
         $this->{mapping_id} . '333' => $TWiki::cfg{AdminUserWikiName},
         $this->{mapping_id} . '666' => $TWiki::cfg{DefaultUserWikiName},
         $this->{mapping_id} . '999' => 'UnknownUser',
-        $this->{mapping_id} . '111' => 'TWikiContributor',
+        $this->{mapping_id} . '111' => 'ProjectContributor',
         $this->{mapping_id} . '222' => 'TWikiRegistrationAgent'
     };
     $this->{W2U} = {
         $TWiki::cfg{AdminUserWikiName}   => $this->{mapping_id} . '333',
         $TWiki::cfg{DefaultUserWikiName} => $this->{mapping_id} . '666',
         UnknownUser                      => $this->{mapping_id} . '999',
-        TWikiContributor                 => $this->{mapping_id} . '111',
+        ProjectContributor               => $this->{mapping_id} . '111',
         TWikiRegistrationAgent           => $this->{mapping_id} . '222'
     };
     $this->{U2E} =

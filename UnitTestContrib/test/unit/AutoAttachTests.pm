@@ -56,7 +56,7 @@ sub addMissingAttachment {
                              path    => $file,
                              size    => 2000000,
                              date    => 2000000,
-                             user    => "TWikiContributor",
+                             user    => "ProjectContributor",
                              comment => $comment,
                              attr    => ''
                         }

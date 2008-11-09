@@ -2,7 +2,9 @@
 #
 # Build for TWiki
 # Crawford Currie & Sven Dowideit
-# Copyright (C) TWikiContributors, 2005
+# Copyright (C) 2006-2008 ProjectContributors. All rights reserved.
+# ProjectContributors are listed in the AUTHORS file in the root of
+# the distribution.
 
 use strict;
 
@@ -183,7 +185,7 @@ sub _checkInFile {
         my $cmd = 'perl -pi -e \'s/^(%META:TOPICINFO{.*version=)\"[^\"]*\"(.*)$/$1\"'.($currentRevision+1).'\"$2/\' '.$new.'/'.$file;
         `$cmd`;
         # create rcs file
-        `ci -u -mbuildrelease -wTWikiContributor -t-buildrelease $new/$file 2>&1`;
+        `ci -u -mbuildrelease -wProjectContributor -t-buildrelease $new/$file 2>&1`;
     }
 
     #only do a checkin, if the files are different (fake the rev number to be the same)
@@ -197,7 +199,7 @@ sub _checkInFile {
 	    my $cmd = 'perl -pi -e \'s/^(%META:TOPICINFO{.*version=)\"[^\"]*\"(.*)$/$1\"'.($currentRevision+1).'\"$2/\' '.$new.'/'.$file;
 	    `$cmd`;
 	    #check in
-    	`ci -mbuildrelease -wTWikiContributor -t-new-topic $new/$file 2>&1`;
+    	`ci -mbuildrelease -wProjectContributor -t-new-topic $new/$file 2>&1`;
     	#get a copy of the latest revsion, no lock
     	`co -u -M $new/$file 2>&1`;
     	print "\n";
@@ -238,7 +240,7 @@ sub stage_gendocs {
     print "Building automatic documentation to $this->{tmpDir}...";
     print `perl $this->{basedir}/tools/gendocs.pl -debug -root $this->{tmpDir}`;
     $this->cp( "$this->{tmpDir}/AUTHORS",
-               "$this->{tmpDir}/pub/TWiki/TWikiContributor/AUTHORS" );
+               "$this->{tmpDir}/pub/TWiki/ProjectContributor/AUTHORS" );
 
     for my $script qw( view rdiff ) {
         $this->cp( "$this->{tmpDir}/bin/$script",

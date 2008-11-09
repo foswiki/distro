@@ -107,7 +107,7 @@ while ($newWebs < $opts{webs}) {
         open(TOPIC, ">data/$web/$topic.txt") || die $!;
         my $t = time();
         print TOPIC <<FLUFF;
-%META:TOPICINFO{author="TWikiContributor" date="$t" format="1.1" version="1"}%
+%META:TOPICINFO{author="ProjectContributor" date="$t" format="1.1" version="1"}%
 FLUFF
         print TOPIC getWords($opts{size});
         close(TOPIC);

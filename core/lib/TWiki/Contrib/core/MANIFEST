@@ -56,8 +56,8 @@ bin/upload 0555
 bin/view 0555
 bin/viewauth 0555
 bin/viewfile 0555
+data/Main/ProjectContributor.txt 0644
 data/Main/TWikiAdminUser.txt 0644
-data/Main/TWikiContributor.txt 0644
 data/Main/TWikiGroups.txt 0644
 data/Main/TWikiGuest.txt 0644
 data/Main/TWikiPreferences.txt 0644
@@ -129,6 +129,7 @@ data/TWiki/PeterThoeny.txt 0644
 data/TWiki/PlainSkin.txt 0644
 data/TWiki/PreviewBackground.txt 0644
 data/TWiki/PrintSkin.txt 0644
+data/TWiki/ProjectContributor.txt 0644
 data/TWiki/QuietSave.txt 0644
 data/TWiki/QuerySearch.txt 0644
 data/TWiki/RegistrationApprovals.txt 0644
@@ -145,7 +146,6 @@ data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
-data/TWiki/TWikiContributor.txt 0644
 data/TWiki/TWikiCss.txt 0644
 data/TWiki/TWikiDocGraphics.txt 0644
 data/TWiki/TWikiDocumentation.txt 0644

@@ -6,7 +6,9 @@
 # run other tests
 # build a release tarball & upload...
 # Sven Dowideit
-# Copyright (C) TWikiContributors, 2005
+# Copyright (C) 2006-2008 ProjectContributors. All rights reserved.
+# ProjectContributors are listed in the AUTHORS file in the root of
+# the distribution.
 #
 # If you are Sven (used by Sven's automated nightly build system) - call with perl ./buildTWikiRelease.pl -sven
 # everyone else, can just run perl ./buildTWikiRelease.pl
@@ -82,7 +84,7 @@ chdir($twikihome);
 `perlcritic  --severity 5 --statistics --top 20 lib/  2>&1 > $twikihome/TWiki-PerlCritic.log`;
 `perlcritic  --severity 5 --statistics --top 20 bin/ 2>&1 >> $twikihome/TWiki-PerlCritic.log`;
 #`cd tools; perl check_manifest.pl`;
-#`cd data; grep '%META:TOPICINFO{' */*.txt | grep -v TestCases | grep -v 'author="TWikiContributor".*version="\$Rev'`;
+#`cd data; grep '%META:TOPICINFO{' */*.txt | grep -v TestCases | grep -v 'author="ProjectContributor".*version="\$Rev'`;
 
 #TODO: #  fix up release notes with new changelogs - see
 #

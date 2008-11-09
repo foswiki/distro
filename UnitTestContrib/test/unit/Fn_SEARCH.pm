@@ -529,7 +529,7 @@ sub set_up_for_formatted_search {
     my $this = shift;
 
 	my $text = <<'HERE';
-%META:TOPICINFO{author="TWikiContributor" date="1169714817" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1169714817" format="1.1" version="1.2"}%
 %META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
 !MichaelAnchor and !AnnaAnchor lived in Skagen in !DenmarkEurope!. There is a very nice museum you can visit!
 

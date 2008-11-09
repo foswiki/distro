@@ -1,7 +1,9 @@
 #!/usr/bin/perl -w
 # Script for TWiki Collaboration Platform, http://TWiki.org/
 #
-# Copyright (C) 2006-2008 TWikiContributors. All rights reserved.
+# Copyright (C) 2006-2008 ProjectContributors. All rights reserved.
+# ProjectContributors are listed in the AUTHORS file in the root of
+# the distribution.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

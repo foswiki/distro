@@ -33,7 +33,7 @@ sub set_up {
                       comment=>"Too",
                       path=>'anuvver path',
                       size=>'100',
-                      user=>'TWikiContributor',
+                      user=>'ProjectContributor',
                       rev=>'105',
                       date=>'99',
                   });

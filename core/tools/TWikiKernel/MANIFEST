@@ -33,8 +33,8 @@ bin/LocalLib.cfg.txt 440
 COPYING 0440
 COPYRIGHT 0440
 data/Main/NobodyGroup.txt 0660
+data/Main/ProjectContributor.txt 0660
 data/Main/TWikiAdminGroup.txt 0660
-data/Main/TWikiContributor.txt 0660
 data/Main/TWikiGroupTemplate.txt 0660
 data/Main/TWikiGroups.txt 0660
 data/Main/TWikiGuest.txt 0660
@@ -116,6 +116,7 @@ data/TWiki/PeterThoeny.txt 0660
 data/TWiki/PlainSkin.txt 0660
 data/TWiki/PreviewBackground.txt 0660
 data/TWiki/PrintSkin.txt 0660
+data/TWiki/ProjectContributor.txt 0660
 data/TWiki/QuietSave.txt 0660
 data/TWiki/RegistrationApprovals.txt 0660
 data/TWiki/RegularExpression.txt 0660
@@ -133,7 +134,6 @@ data/TWiki/StartingPoints.txt 0660
 data/TWiki/StaticMethod.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiAccessControl.txt 0660
-data/TWiki/TWikiContributor.txt 0660
 data/TWiki/TWikiCss.txt 0660
 data/TWiki/TWikiDocGraphics.txt 0660
 data/TWiki/TWikiDocumentation.txt 0660
