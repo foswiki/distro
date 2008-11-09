@@ -21,7 +21,7 @@ __Relevant links on TWiki.org:__
    * TWiki:Plugins.SkinBrainstorming - open forum for new skin ideas
    * TWiki:Plugins.SkinPackageHowTo - template to create a new skin package
 
-__See other types of extensions:__ ContributedAddOns, TWikiContribs, TWikiPlugins
+__See other types of extensions:__ ContributedAddOns, WikiContribs, TWikiPlugins
 
 ---++ Changing the default TWiki skin
 

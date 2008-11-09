@@ -145,7 +145,6 @@ data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
-data/TWiki/TWikiContribs.txt 0644
 data/TWiki/TWikiContributor.txt 0644
 data/TWiki/TWikiCss.txt 0644
 data/TWiki/TWikiDocGraphics.txt 0644
@@ -352,6 +351,7 @@ data/TWiki/WebTopicViewTemplate.txt 0644
 data/TWiki/WelcomeGuest.txt 0644
 data/TWiki/WhatDoesTWikiStandFor.txt 0644
 data/TWiki/WhatIsWikiWiki.txt 0644
+data/TWiki/WikiContribs.txt 0644
 data/TWiki/WikiCulture.txt 0644
 data/TWiki/WikiName.txt 0644
 data/TWiki/WikiNotation.txt 0644
