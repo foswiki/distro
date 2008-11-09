@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
 ---+ Main Features of TWiki
 
    * *Any web browser:* Edit existing pages or create new pages by using any web browser. There is no need to upload pages.

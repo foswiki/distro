@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1173426057" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1173426057" format="1.1" version="$Rev$"}%
 ---+!! TWiki Release 4.0 (Dakar)
 
 _Note: This is the release note for the previous major release version 4.0.X. It is included with 4.1.X because it contains valuable information for people upgrading from earlier versions. Both for the admin and the users. See TWikiReleaseNotes04x01 for the 4.1.X release notes_

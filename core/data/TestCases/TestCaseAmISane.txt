@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111930902" format="1.0" version="$Rev: 3150 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 3150 $"}%
 
 
 Description: Manual trivial fast sanity checks for script functions. Do them in order, from the top down, as the save tests rely on eachother.
@@ -26,6 +26,6 @@ Description: Manual trivial fast sanity checks for script functions. Do them in 
 | =view= | Create non-existant (should redirect to create screen, which is an =oops= test) | <a href="%SCRIPTURLPATH%/view%SCRIPTSUFFIX%/%WEB%/DontCreateThisTopic">click here</a> |
 | =viewfile= | Click on the links to =viewfile= the images | <a href="%SCRIPTURLPATH%/viewfile%SCRIPTSUFFIX%/%WEB%/%TOPIC%?filename=volcano.jpg&rev=1">revision 1</a> <a href="%SCRIPTURLPATH%/viewfile/%SCRIPTSUFFIX%/%WEB%/%TOPIC%?filename=volcano.jpg&rev=2">revision2</a> |
 
-%META:FILEATTACHMENT{name="volcano.jpg" attachment="volcano.jpg" attr="" comment="" date="1102080112" path="volcano.jpg" size="2637" tmpFilename="/usr/tmp/CGItemp3319" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="volcano.jpg" attachment="volcano.jpg" attr="" comment="" date="1102080112" path="volcano.jpg" size="2637" tmpFilename="/usr/tmp/CGItemp3319" user="ProjectContributor" version="1"}%
 
 http://localhost/DEVELOP/bin/rename/TestCases/QuickScriptsCheck?newweb=Trash&nonwikiword=on&currentwebonly=on

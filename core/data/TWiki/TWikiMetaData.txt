@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1168737391" format="1.1" version="$Rev: 13271 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1168737391" format="1.1" version="$Rev: 13271 $"}%
 %STARTINCLUDE%
 #TWikiMetaData
 ---+ TWiki Meta Data

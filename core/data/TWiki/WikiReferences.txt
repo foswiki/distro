@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1186906075" format="1.1" version="$Rev: 13018 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1186906075" format="1.1" version="$Rev: 13018 $"}%
 %META:TOPICPARENT{name="TWikiSite"}%
 ---+!! References on Wiki and Collaboration
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 12314 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 12314 $"}%
 ---++ Time Specifications
 TWiki recognises the following formats for date/time strings. For all strings the time is optional.
    * 31 Dec 2001 - 23:59

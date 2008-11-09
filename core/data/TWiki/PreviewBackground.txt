@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 7118 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 7118 $"}%
 ---+ Background Image for Preview
 
 Preview looks like the real page, but the links lead to an oops dialog warning users of not-yet-saved topics. In addition, a background with a "PREVIEW" watermark is shown to have visual clue that you are previewing a topic. You can change the background image by specifying the name of an attached background image file in the PREVIEWBGIMAGE variable in the %WIKIPREFSTOPIC%.
@@ -11,7 +11,7 @@ Remarks:
 __Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
 
 
-%META:FILEATTACHMENT{name="blankltgraybg.gif" attr="" comment="Blank white background" date="970534080" path="D:\Data\Temp\blankltgraybg.gif" size="878" user="TWikiContributor" version=""}%
-%META:FILEATTACHMENT{name="blankwhitebg.gif" attr="" comment="Blank white background" date="970534080" path="D:\Data\Temp\blankwhitebg.gif" size="878" user="TWikiContributor" version=""}%
-%META:FILEATTACHMENT{name="previewbg.gif" attr="" comment="Slanted PREVIEW watermark" date="970533960" path="D:\Data\Temp\previewbg.gif" size="1821" user="TWikiContributor" version=""}%
-%META:FILEATTACHMENT{name="preview2bg.gif" attr="" comment="Slanted PREVIEW, 3D" date="1030259095" path="preview2bg.gif" size="1881" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="blankltgraybg.gif" attr="" comment="Blank white background" date="970534080" path="D:\Data\Temp\blankltgraybg.gif" size="878" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="blankwhitebg.gif" attr="" comment="Blank white background" date="970534080" path="D:\Data\Temp\blankwhitebg.gif" size="878" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="previewbg.gif" attr="" comment="Slanted PREVIEW watermark" date="970533960" path="D:\Data\Temp\previewbg.gif" size="1821" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="preview2bg.gif" attr="" comment="Slanted PREVIEW, 3D" date="1030259095" path="preview2bg.gif" size="1881" user="ProjectContributor" version="1.1"}%

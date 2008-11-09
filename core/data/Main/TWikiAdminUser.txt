@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111931141" format="1.0" version="$Rev: 14936 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 14936 $"}%
 ---+ TWiki Administrator User
 
 The %TOPIC% has been added to TWiki 4.2.0 to make it possible to login without needing to create a TWiki User,

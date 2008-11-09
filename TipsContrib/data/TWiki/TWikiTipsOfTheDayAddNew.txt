@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1163619832" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TWikiTipsOfTheDayAdmin"}%
 ---+ Add New TWiki Tip Of The Day
 

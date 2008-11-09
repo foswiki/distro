@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1129333294" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1129333294" format="1.1" version="$Rev$"}%
 
 ---+!! PatternSkinCssCookbook Recipe: Hide the left bar
 
@@ -11,4 +11,4 @@ You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in y
 </div>
 
 
-%META:FILEATTACHMENT{name="hideleftbar.css" attr="" autoattached="1" comment="css to hide the left bar" date="1129323328" path="hideleftbar_Dakar.css" size="112" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="hideleftbar.css" attr="" autoattached="1" comment="css to hide the left bar" date="1129323328" path="hideleftbar_Dakar.css" size="112" user="ProjectContributor" version=""}%

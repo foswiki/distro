@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 8441 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 8441 $"}%
 An ObjectMethod is a method that must be called relative to a previous constructed object of the class type. For example:
 
 ---+ package Telecoms

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1199519964" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1199519964" format="1.1" version="1.2"}%
 This is a short introductory training course for TWiki beginners.
 
 %SLIDESHOWSTART%

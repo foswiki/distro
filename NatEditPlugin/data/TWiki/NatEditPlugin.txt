@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1209484064" format="1.1" reprev="1.2" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1209484064" format="1.1" reprev="1.2" version="$Rev$"}%
 ---+!! Natural Edit Plugin
 <!--
 
@@ -128,5 +128,5 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 
 -- TWiki:Main.MichaelDaum - 16 Jul 2008
 
-%META:FILEATTACHMENT{name="wikiringlogo40x40.png" attr="h" autoattached="1" comment="" date="1207667571" path="wikiringlogo40x40.png" size="2571" user="TWikiContributor" version="1"}%
-%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="wikiringlogo40x40.png" attr="h" autoattached="1" comment="" date="1207667571" path="wikiringlogo40x40.png" size="2571" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1107727656" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107727656" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
 ---+ <nop>RSS news feed of topic changes
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1144607735" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1144607735" format="1.1" version="1.1"}%
 ---+ !CompareRevisionsAddOn Plugin
 
 This is an helper plugin for the CompareRevisionsAddOn on TWiki 4.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1144943989" format="1.1" version="$Rev: 15952 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1144943989" format="1.1" version="$Rev: 15952 $"}%
 ---+ History Plugin
 
 This plugin shows a complete or partial history of a document. The output can arbitrarily be formatted. An example for a Wikipedia-like history is included.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1167874036" format="1.0" version="$Rev: 15355 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1167874036" format="1.0" version="$Rev: 15355 $"}%
 %META:TOPICPARENT{name="WebSearch"}%
 ---+ %MAKETEXT{"Advanced Search"}%
 

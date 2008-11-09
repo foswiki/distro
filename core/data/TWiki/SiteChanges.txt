@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1163619832" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev$"}%
 ---++ %URLPARAM{"limit" default="25"}% most recent topic changes in %URLPARAM{"web" default="all"}% webs
 
 %TABLE{sort="on" initsort="1" initdirection="up"}%

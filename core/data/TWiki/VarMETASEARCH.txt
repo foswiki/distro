@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TWikiVariables"}%
 #VarMETASEARCH
 ---+++ METASEARCH -- special search of meta data
@@ -22,7 +22,7 @@
 %STOPINCLUDE%
 
 __Related Topics:__ UserDocumentationCategory
-%META:TOPICINFO{author="TWikiContributor" date="1130377817" format="1.1" version="$Rev: 8869 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1130377817" format="1.1" version="$Rev: 8869 $"}%
 %META:TOPICPARENT{name="TWikiVariables"}%
 __Note:__ This topic is included by TWikiVariables
 

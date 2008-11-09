@@ -20,4 +20,4 @@ Here is a changed paragraph. Lorem Ipsum dolor sit amet, conecteur adipiscing fe
 
 Here is a paragraph. Pellentesque velit. Aliquam era volutpat. Duis sagittis nibh sed justo.
 
--- Main.TWikiContributor
+-- Main.ProjectContributor

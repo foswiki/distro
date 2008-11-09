@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1112002813" format="1.0" version="$Rev: 7031 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1112002813" format="1.0" version="$Rev: 7031 $"}%
 ---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
 
 ---++ %MAKETEXT{"Available Information"}%

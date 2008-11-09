@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1191744279" format="1.1" version="$Rev: 17303 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191744279" format="1.1" version="$Rev: 17303 $"}%
 ---+!! Edit Table Plugin
 
 Edit TWiki tables in place, using edit fields and drop down boxes, without having to edit the complete topic. 
@@ -262,15 +262,15 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1071283396" path="EditTablePluginCalendarExample.gif" size="7823" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1077050633" path="ScreenshotEditCell1.gif" size="2017" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="Screenshot" date="1077050702" path="ScreenshotEditCell2.gif" size="3199" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="img.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1077813483" path="img.gif" size="145" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1077813470" path="menuarrow.gif" size="68" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="Edit table image button" date="1077933805" path="edittable.gif" size="298" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="Javascript button: move row" date="1077933805" path="btn_move.gif" size="298" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="btn_target.gif" attr="h" comment="Javascript button: move target (animated)" date="1077933805" path="btn_target.gif" size="298" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="Javascript button: delete row" date="1077933805" path="btn_delete.gif" size="298" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="Javascript button: delete (disabled)" date="1077933805" path="btn_delete_disabled.gif" size="298" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="Plugin Style Sheet" date="1077933805" path="edittable.css" size="298" user="TWikiContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="Javascript for table editing without page refresh" date="1077933805" path="edittable.js" size="298" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1071283396" path="EditTablePluginCalendarExample.gif" size="7823" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1077050633" path="ScreenshotEditCell1.gif" size="2017" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="ScreenshotEditCell2.gif" attr="h" comment="Screenshot" date="1077050702" path="ScreenshotEditCell2.gif" size="3199" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="img.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1077813483" path="img.gif" size="145" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1077813470" path="menuarrow.gif" size="68" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="Edit table image button" date="1077933805" path="edittable.gif" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="Javascript button: move row" date="1077933805" path="btn_move.gif" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="btn_target.gif" attr="h" comment="Javascript button: move target (animated)" date="1077933805" path="btn_target.gif" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="Javascript button: delete row" date="1077933805" path="btn_delete.gif" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="Javascript button: delete (disabled)" date="1077933805" path="btn_delete_disabled.gif" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="edittable.css" attr="h" comment="Plugin Style Sheet" date="1077933805" path="edittable.css" size="298" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="edittable.js" attr="h" comment="Javascript for table editing without page refresh" date="1077933805" path="edittable.js" size="298" user="ProjectContributor" version="1.1"}%

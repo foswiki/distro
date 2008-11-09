@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1173426057" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1173426057" format="1.1" version="$Rev$"}%
 ---+!! TWiki Release 4.1.2 (Edinburgh), %$DATE%
 
 _Note: This is the release note for the previous major release version 4.1.X. This note and the TWikiReleaseNotes04x00 are included with 4.2.X because they contain valuable information for people upgrading from earlier versions. Both for the admin and the users. See TWikiReleaseNotes04x02 for the 4.2.X release notes_

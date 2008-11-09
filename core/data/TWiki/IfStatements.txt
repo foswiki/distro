@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1183830381" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1183830381" format="1.1" version="$Rev$"}%
 ---+ IF Statements
 
 The =%<nop>IF%= construct gives TWiki the power to include content in topics based on the value of simple expressions.

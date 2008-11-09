@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1130024123" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1130024123" format="1.1" version="$Rev$"}%
 
 ---+!! PatternSkinCssCookbook Recipe: Hide the top bar
 
@@ -33,4 +33,4 @@ You can always write a =&lt;style>= in a topic - all current browsers support th
 </style>
 
 
-%META:FILEATTACHMENT{name="notopbar.css" attachment="notopbar.css" attr="" comment="" date="1130024123" path="notopbar.css" size="395" stream="notopbar.css" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="notopbar.css" attachment="notopbar.css" attr="" comment="" date="1130024123" path="notopbar.css" size="395" stream="notopbar.css" user="ProjectContributor" version="1"}%

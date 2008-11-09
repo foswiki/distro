@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1165176010" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1165176010" format="1.1" reprev="1.1" version="1.1"}%
 ---+!! Comments
 
 Example comment topic for [[%SYSTEMWEB%.CommentPluginExamples#return][CommentPluginExamples - "return"]]
@@ -8,9 +8,9 @@ Example comment topic for [[%SYSTEMWEB%.CommentPluginExamples#return][CommentPlu
 
 Target comment output 1
 
--- Main.TWikiContributor - 03 Dec 2006
+-- Main.ProjectContributor - 03 Dec 2006
 
 
 Target comment output 2
 
--- Main.TWikiContributor - 03 Dec 2006
+-- Main.ProjectContributor - 03 Dec 2006

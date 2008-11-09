@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1117992408" format="1.0" version="$Rev: 13647 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1117992408" format="1.0" version="$Rev: 13647 $"}%
 
 Description: Automated search function tests.
 
@@ -59,9 +59,9 @@ Same as last test
 ---+ Topic search with two webs specified, all summary fields disabled
 ---++ Expected
 <!-- expected expand rex TWOWEBS -->
-<div class="patternSearchResult"><div class="twikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/TWikiContributor" class="twikiLink">TWikiContributor</a></div><div class="twikiRight twikiSRRev"><span class="twikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/twikiTopRow--><div class="twikiBottomRow"><div class="twikiSummary twikiGrayText"></div><!--/twikiSummary-->
+<div class="patternSearchResult"><div class="twikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor" class="twikiLink">ProjectContributor</a></div><div class="twikiRight twikiSRRev"><span class="twikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/twikiTopRow--><div class="twikiBottomRow"><div class="twikiSummary twikiGrayText"></div><!--/twikiSummary-->
 </div><!--/twikiBottomRow--></div><!--/patternSearchResult-->
-<div class="patternSearchResult"><div class="twikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TWiki/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/TWikiContributor" class="twikiLink">TWikiContributor</a></div><div class="twikiRight twikiSRRev"><span class="twikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TWiki/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/twikiTopRow--><div class="twikiBottomRow"><div class="twikiSummary twikiGrayText"></div><!--/twikiSummary-->
+<div class="patternSearchResult"><div class="twikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TWiki/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor" class="twikiLink">ProjectContributor</a></div><div class="twikiRight twikiSRRev"><span class="twikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TWiki/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/twikiTopRow--><div class="twikiBottomRow"><div class="twikiSummary twikiGrayText"></div><!--/twikiSummary-->
 </div><!--/twikiBottomRow--></div><!--/patternSearchResult-->
 <!-- /expected -->
 ---++ Actual

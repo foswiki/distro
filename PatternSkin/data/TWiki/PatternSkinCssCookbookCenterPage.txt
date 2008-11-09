@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1129333294" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1129333294" format="1.1" version="$Rev$"}%
 
 ---+!! PatternSkinCssCookbook Recipe: Center the page
 
@@ -13,4 +13,4 @@ You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in y
 </div>
 
 
-%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%

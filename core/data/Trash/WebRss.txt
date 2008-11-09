@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111938186" format="1.0" version="$Rev: 8256 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111938186" format="1.0" version="$Rev: 8256 $"}%
 <channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
 %IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
   <link>%SCRIPTURL{"view"}%/%WEB%</link>

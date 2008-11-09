@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1172730733" format="1.1" version="$Rev: 15648 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1172730733" format="1.1" version="$Rev: 15648 $"}%
 ---+!! <nop>%WEB% Web Preferences
 
 The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the __site-level preferences__ in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by __user preferences__ (your personal topic, eg: [[%USERSWEB%.%WIKINAME%][%WIKINAME%]] in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
@@ -39,5 +39,5 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiP
 
 %INCLUDE{"%SYSTEMWEB%.WebPreferencesHelp"}%
 
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="" date="1126793019" path="logo.png" size="3362" user="TWikiContributor" version=""}%
-%META:FILEATTACHMENT{name="favicon.ico" attr="" comment="" date="1125867877" path="favicon.ico" size="1750" user="TWikiContributor" version=""}%
+%META:FILEATTACHMENT{name="logo.gif" attr="" comment="" date="1126793019" path="logo.png" size="3362" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="favicon.ico" attr="" comment="" date="1125867877" path="favicon.ico" size="1750" user="ProjectContributor" version=""}%

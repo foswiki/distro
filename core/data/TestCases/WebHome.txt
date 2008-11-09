@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111930902" format="1.0" version="$Rev: 14439 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 14439 $"}%
 ---+ !TestCases Web
 
 If you are here, you want to test this version of TWiki. This web is held in the TWiki Subversion repository, so:
@@ -6,7 +6,7 @@ If you are here, you want to test this version of TWiki. This web is held in the
    1 New topics must be manually added to the Subversion repository.
       * Only check in =.txt= files. You must _not_ check in ,v files. Topic histories will be maintained in Subversion.
    1 If you use TWiki to edit topics (_not_ recommended) you must:
-      * Manually maintain the =META:TOPICINFO= of all topics in this web so that the =author= is =TWikiContributor= and the =version= is the SVN keyword =$<nop>Rev$=. _Do not_ allow TWiki to overwrite this info.
+      * Manually maintain the =META:TOPICINFO= of all topics in this web so that the =author= is =ProjectContributor= and the =version= is the SVN keyword =$<nop>Rev$=. _Do not_ allow TWiki to overwrite this info.
       * Remove all ctrl+M's before checking in.
 
 The integration testcases are an important assistant to TWiki testing. However they should _not_ be regarded as the only required testing; manual testing, by a user interacting with TWiki, is also key, as are unit tests.

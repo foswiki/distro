@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1183913691" format="1.1" reprev="1." version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1183913691" format="1.1" reprev="1." version="1.1"}%
 ---+!! !Behaviour Javascript framework Contrib
 
 This contrib packages the third-party =Behaviour= Javascript event library, available from http://bennolan.com/behaviour/.

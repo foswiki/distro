@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 6899 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 6899 $"}%
 Like Save but does not e-mail people on the WebNotify notification list - same effect as checking "Minor changes, don't notify".
 
 __Related Topics:__ UserDocumentationCategory

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1168735492" format="1.1" version="$Rev: 12524 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1168735492" format="1.1" version="$Rev: 12524 $"}%
 %META:TOPICPARENT{name="TWikiVariables"}%
 %STARTINCLUDE%
 ---+ Query Search

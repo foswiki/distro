@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 5385 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 5385 $"}%
 TWiki is a Wiki Wiki clone and has its root in JOS Wiki.
 
    * TWiki's home is at http://TWiki.org/

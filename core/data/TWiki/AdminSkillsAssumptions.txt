@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1176947074" format="1.1" version="$Rev: 11940 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1176947074" format="1.1" version="$Rev: 11940 $"}%
 %META:TOPICPARENT{name="TWikiInstallationGuide"}%
 ---+ Administrator Skills Assumptions
 

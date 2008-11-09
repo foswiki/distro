@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 15171 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 15171 $"}%
 ---+++ Web Changes Notification Service
 
 Each TWiki web has an automatic e-mail notification service that sends you an e-mail with links to all of the topics modified since the last alert. 

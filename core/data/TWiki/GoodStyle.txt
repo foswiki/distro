@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1174436429" format="1.1" version="$Rev: 11678 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1174436429" format="1.1" version="$Rev: 11678 $"}%
 ---+ <nop>GoodStyle Collaboration Tips
 
    * TWiki has a very simple *[[TWikiShorthand][text formatting shorthand]]*. In any case, you won't go wrong if you simply:

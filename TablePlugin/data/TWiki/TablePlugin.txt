@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1191730164" format="1.0" version="$Rev: 16047 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.0" version="$Rev: 16047 $"}%
 ---+ Table Plugin
 
 Gives extra control of table display:

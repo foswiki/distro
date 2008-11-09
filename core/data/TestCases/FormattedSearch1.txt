@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1169730364" format="1.1" version="1.4"}%
+%META:TOPICINFO{author="ProjectContributor" date="1169730364" format="1.1" version="1.4"}%
 %META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
 Michael Anchor is a famous Danish painter. He never painted $web, $n, $nop, $quot, $percnt or $dollar.
 

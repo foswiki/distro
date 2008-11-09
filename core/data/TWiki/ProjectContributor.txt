@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1127386324" format="1.1" version="$Rev: 6517 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1127386324" format="1.1" version="$Rev: 6517 $"}%
 <!--
 Try and make sure robots don't spam contributor names
    * Set HTTP_EQUIV_ON_VIEW = <meta name="robots" content="noindex,nofollow" />
@@ -16,4 +16,4 @@ __Disclaimer:__ TWiki gets installed on many public web sites. The TWiki contrib
 
 __Releated Topics:__ %SYSTEMWEB%.TWikiHistory, and the List of Production Releases in TWiki:Codev/TWikiReleases
 
-%META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS~" size="117" user="TWikiContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS~" size="117" user="ProjectContributor" version="1.1"}%

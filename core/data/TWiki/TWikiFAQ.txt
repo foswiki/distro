@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1163619832" format="1.0" version="$Rev: 10463 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 10463 $"}%
 ---+ Frequently Asked Questions About TWiki
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. To see how it's done, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][view the source of this topic]].

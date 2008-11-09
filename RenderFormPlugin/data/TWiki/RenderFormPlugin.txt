@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1222960273" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1222960273" format="1.1" version="$Rev$"}%
 ---+!! <nop>%TOPIC%
 The RenderFormPlugin handles the tag %<nop>RENDERFORM{...}%. The tag will be replaced by a form that is defined and looks like TWiki.TWikiForms. It helps you to create a new topic with TWiki.TWikiForms or to edit or view  existing topic form data. The form data can be changed without pushing the topic edit button. The tag can be used at any topic to show, edit or create TWiki.TWikiForms data from any other topic.
 

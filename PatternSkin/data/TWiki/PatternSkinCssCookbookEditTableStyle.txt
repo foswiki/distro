@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1134249079" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1134249079" format="1.1" version="$Rev$"}%
 
 ---+!! PatternSkinCssCookbook Recipe: [[TWiki:Plugins.EditTablePlugin][EditTable]] style
 
@@ -25,4 +25,4 @@ You can write this line in %SYSTEMWEB%.TWikiPreferences, in WebPreferences, in y
 
 
 
-%META:FILEATTACHMENT{name="edittable.css" attachment="edittable.css" attr="" comment="" date="1134249078" path="edittable.css" size="388" stream="edittable.css" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="edittable.css" attachment="edittable.css" attr="" comment="" date="1134249078" path="edittable.css" size="388" stream="edittable.css" user="ProjectContributor" version="1"}%

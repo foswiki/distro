@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1107567082" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107567082" format="1.0" version="$Rev$"}%
 ---+ TWiki Tips Of The Day
 
 These are all tips of the day. They are located in the %SYSTEMWEB% web (official TWiki tips) and %MAINWEB% web (custom tips).

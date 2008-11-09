@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1170597947" format="1.0" version="$Rev: 15788 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1170597947" format="1.0" version="$Rev: 15788 $"}%
 
 ---+!! Comment Plugin
 
@@ -280,7 +280,7 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
 |  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
 |  4745 | 06 Mar 2002 initial commit |
-|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 TWiki:TWiki.TWikiContributor |
+|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 TWiki:TWiki.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Home: | TWiki:Plugins/%TOPIC% |
 |  Feedback: | TWiki:Plugins/%TOPIC%Dev |

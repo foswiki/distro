@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1215477335" format="1.1" version="$Rev: 15474 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1215477335" format="1.1" version="$Rev: 15474 $"}%
 ---+ TWiki Logos 
 
 The official TWiki logo is a big "T" in a speech bubble conveying "working together", and has a "collaborate with TWiki" tag line.
@@ -87,7 +87,7 @@ You may NOT use any original artwork from TWiki.org, nor make or use modified ve
    * You may use the 'collaborate with TWiki' logo on a Web site that is powered by the TWiki collaboration platform.
    * You may use the 'collaborate with TWiki' logo in product description and promotional material IF and ONLY IF such use can in no way be interpreted as anything other than an attribution. Using the TWiki name and artwork in a manner that implies endorsement of a product or service is not allowed.
 
-TWiki<sup>&reg;</sup> is a registered trademarks of TWiki founder [[http://twiki.org/cgi-bin/view/Main/PeterThoeny][Peter Thoeny]], [[http://twiki.net/][TWIKI.NET]]. The TWiki logo and the "Collaborate with TWiki" tagline are trademarks of Peter Thoeny. The TWiki logo is Copyright 2005 by TWiki:Main.PeterThoeny, TWiki:Main.ArthurClemens and TWikiContributors.
+TWiki<sup>&reg;</sup> is a registered trademarks of TWiki founder [[http://twiki.org/cgi-bin/view/Main/PeterThoeny][Peter Thoeny]], [[http://twiki.net/][TWIKI.NET]]. The TWiki logo and the "Collaborate with TWiki" tagline are trademarks of Peter Thoeny. The TWiki logo is Copyright 2005 by TWiki:Main.PeterThoeny, TWiki:Main.ArthurClemens and ProjectContributors.
 
 ---++ Background and Feedback
 

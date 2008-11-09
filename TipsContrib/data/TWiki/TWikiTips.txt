@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1119349748" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1119349748" format="1.0" version="$Rev$"}%
 ---+ TWiki Tips
 
 TWiki Tips are tips and hints contributed by TWiki users. Use this form to search for tips. You can contribute new tips [[TWikiTipsOfTheDayAddNew][here]].

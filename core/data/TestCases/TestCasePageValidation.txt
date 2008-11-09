@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1130275816" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1130275816" format="1.1" version="1.1"}%
 ---+!! !TestCase Page Validation
 
 Description: A list of templates, with automatic testing on the [[http://validator.w3.org/][W3C validation service]] - page will take long to load!
@@ -106,4 +106,4 @@ view.print.pattern.tmpl
 view.plain.pattern.tmpl
 -->
 
-%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1130354471" path="favicon.ico" size="3638" stream="favicon.ico" user="TWikiContributor" version="1"}%
+%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1130354471" path="favicon.ico" size="3638" stream="favicon.ico" user="ProjectContributor" version="1"}%

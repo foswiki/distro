@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1167969723" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1167969723" format="1.0" version="$Rev$"}%
 ---+!! Tips Contrib Package
 
 Displays a rotating "TWiki Tip of the Day" to help familiarize new users with TWiki features. Includes an application for creating custom tips for local installation.

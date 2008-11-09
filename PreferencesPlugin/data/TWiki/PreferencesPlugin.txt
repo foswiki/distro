@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1115527529" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1115527529" format="1.0" version="$Rev$"}%
 ---+!! <nop>%TOPIC%
 
 Allows editing of preferences using fields predefined in a %SYSTEMWEB%.TWikiForms. However, the edit fields are inlined in the text, similar to how tables are edited in TWiki:Plugins/EditTablePlugin.

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1191133909" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191133909" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TWikiVariables"}%
 #VarSLIDESHOWEND
 ---+++ SLIDESHOWEND -- end slideshow

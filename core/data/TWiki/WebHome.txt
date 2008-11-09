@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
 <div style="float:right;width:255px;padding:1em;text-align:center;">
 <a href="http://twiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-logo-235x67-t.gif" style="margin:.3em 0;" width="235" height="67" alt="Collaborate with TWiki -- visit TWiki.org" title="Collaborate with TWiki -- visit TWiki.org" border="0" /></a>
 <br />The official TWiki<sup>&reg;</sup> site is <a href="http://twiki.org"><span class="twikiLinkLabel">twiki.org</span></a>

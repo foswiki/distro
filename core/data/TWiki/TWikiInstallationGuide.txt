@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1187845362" format="1.1" version="$Rev: 15965 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1187845362" format="1.1" version="$Rev: 15965 $"}%
 %STARTINCLUDE%
 ---+ TWiki Installation Guide
 

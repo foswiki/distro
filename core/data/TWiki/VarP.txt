@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1152044726" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1152044726" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TWikiPreferences"}%
 #VarP
 ---+++ P -- pencil icon

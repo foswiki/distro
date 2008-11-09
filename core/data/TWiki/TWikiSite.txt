@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1215477251" format="1.1" version="$Rev: 15474 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1215477251" format="1.1" version="$Rev: 15474 $"}%
 ---++ TWiki is a Web-based collaboration platform
    * A TWiki site is an easy-to-use, full-featured open communications environment:
       * people anywhere on the Web or on an intranet can meet

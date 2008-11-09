@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 4516 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 4516 $"}%
 %META:TOPICPARENT{name="ClassMethod"}%
 A StaticMethod is a method in a package that can be called without reference to an object of the package type. For example,
 

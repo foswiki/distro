@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="TWikiContributor" date="1176025210" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="ProjectContributor" date="1176025210" format="1.1" reprev="1.1" version="1.1"}%
 %META:TOPICPARENT{name="CommentPluginTemplate"}%
-   * Top comment output 2 -- Main.TWikiContributor - 26 Nov 2006
-   * Top comment output 1 -- Main.TWikiContributor - 26 Nov 2006
+   * Top comment output 2 -- Main.ProjectContributor - 26 Nov 2006
+   * Top comment output 1 -- Main.ProjectContributor - 26 Nov 2006
 
 ---+!! CommentPlugin examples
 
@@ -15,13 +15,13 @@
 
 Default comment output 1
 
--- Main.TWikiContributor - 26 Nov 2006
+-- Main.ProjectContributor - 26 Nov 2006
 
 
 
 Default comment output 2
 
--- Main.TWikiContributor - 26 Nov 2006
+-- Main.ProjectContributor - 26 Nov 2006
 
 %COMMENT{}%
 
@@ -48,12 +48,12 @@ Default comment output 2
 
 Above comment output 1
 
--- Main.TWikiContributor - 26 Nov 2006
+-- Main.ProjectContributor - 26 Nov 2006
 
 
 Above comment output 2
 
--- Main.TWikiContributor - 26 Nov 2006
+-- Main.ProjectContributor - 26 Nov 2006
 %COMMENT{type="above"}%
 
 
@@ -62,8 +62,8 @@ Above comment output 2
 ---+++ =below=
 
 %COMMENT{type="below"}%
-   * Below comment output 2 -- Main.TWikiContributor - 26 Nov 2006
-   * Below comment output 1 -- Main.TWikiContributor - 26 Nov 2006
+   * Below comment output 2 -- Main.ProjectContributor - 26 Nov 2006
+   * Below comment output 1 -- Main.ProjectContributor - 26 Nov 2006
 
 
 
@@ -84,12 +84,12 @@ Example with =inputsize="20"=:
 
 Threadmode comment output 1
 
--- Main.TWikiContributor - 26 Nov 2006
+-- Main.ProjectContributor - 26 Nov 2006
 
 
 Threadmode comment output 2
 
--- Main.TWikiContributor - 26 Nov 2006
+-- Main.ProjectContributor - 26 Nov 2006
 %COMMENT{type="threadmode"}%
 
 
@@ -99,12 +99,12 @@ Threadmode comment output 2
 
 %COMMENT{type="belowthreadmode"}%
 
----++++ Main.TWikiContributor - 26 Nov 2006 - 12:09
+---++++ Main.ProjectContributor - 26 Nov 2006 - 12:09
 
 Belowthreadmode comment output 2
 
 
----++++ Main.TWikiContributor - 26 Nov 2006 - 12:09
+---++++ Main.ProjectContributor - 26 Nov 2006 - 12:09
 
 Belowthreadmode comment output 1
 
@@ -114,16 +114,16 @@ Belowthreadmode comment output 1
 ---+++ =tableprepend=
 
 %COMMENT{type="tableprepend"}%
-| Tablepreprend comment output 2 | Main.TWikiContributor | 26 Nov 2006 - 11:03 |
-| Tablepreprend comment output 1 | Main.TWikiContributor | 26 Nov 2006 - 11:02 |
+| Tablepreprend comment output 2 | Main.ProjectContributor | 26 Nov 2006 - 11:03 |
+| Tablepreprend comment output 1 | Main.ProjectContributor | 26 Nov 2006 - 11:02 |
 
 
 
 
 ---+++ =tableappend=
 
-| Tableappend comment output 1 | Main.TWikiContributor | 26 Nov 2006 - 10:38 |
-| Tableappend comment output 2 | Main.TWikiContributor | 26 Nov 2006 - 10:39 |
+| Tableappend comment output 1 | Main.ProjectContributor | 26 Nov 2006 - 10:38 |
+| Tableappend comment output 2 | Main.ProjectContributor | 26 Nov 2006 - 10:39 |
 %COMMENT{type="tableappend"}%
 
 
@@ -131,8 +131,8 @@ Belowthreadmode comment output 1
 
 ---+++ =after=
 
-   * After comment output 1 -- Main.TWikiContributor - 26 Nov 2006
-   * After comment output 2 -- Main.TWikiContributor - 26 Nov 2006
+   * After comment output 1 -- Main.ProjectContributor - 26 Nov 2006
+   * After comment output 2 -- Main.ProjectContributor - 26 Nov 2006
 %COMMENT{type="after"}%
 
 
@@ -142,13 +142,13 @@ Belowthreadmode comment output 1
 
 (requires TWiki:Plugins/ActionTrackerPlugin)
 
-%ACTION{ due="1-Dec-2007" creator="Main.TWikiContributor" uid="000001" state="open" created="26-Nov-2006" who="Main.TWikiContributor" }% <<EOF
+%ACTION{ due="1-Dec-2007" creator="Main.ProjectContributor" uid="000001" state="open" created="26-Nov-2006" who="Main.ProjectContributor" }% <<EOF
 Action comment output 1
-- Created by Main.TWikiContributor, 26 Nov 2006 - 10:58
+- Created by Main.ProjectContributor, 26 Nov 2006 - 10:58
 EOF
-%ACTION{ due="1-Jan-2008" creator="Main.TWikiContributor" uid="000003" state="open" created="26-Nov-2006" who="Main.TWikiContributor" }% <<EOF
+%ACTION{ due="1-Jan-2008" creator="Main.ProjectContributor" uid="000003" state="open" created="26-Nov-2006" who="Main.ProjectContributor" }% <<EOF
 Action comment output 2
-- Created by Main.TWikiContributor, 26 Nov 2006 - 10:58
+- Created by Main.ProjectContributor, 26 Nov 2006 - 10:58
 EOF
 %COMMENT{type="action"}%
 
@@ -157,8 +157,8 @@ EOF
 
 ---+++ =table=
 
-| 1 Dec 2007 | Main.TWikiContributor | Athens |
-| 1 Jan 2008 | Main.TWikiContributor | Beijing |
+| 1 Dec 2007 | Main.ProjectContributor | Athens |
+| 1 Jan 2008 | Main.ProjectContributor | Beijing |
 %COMMENT{type="table"}%
 
 
@@ -167,11 +167,11 @@ EOF
 ---+++ =toctalk=
 
 
----++++ 26 Nov 2006 - 00:45 Main.TWikiContributor: Toctalk output summary 1
+---++++ 26 Nov 2006 - 00:45 Main.ProjectContributor: Toctalk output summary 1
 Toctalk output message 1
 
 
----++++ 26 Nov 2006 - 11:09 Main.TWikiContributor: Toctalk output summary 2
+---++++ 26 Nov 2006 - 11:09 Main.ProjectContributor: Toctalk output summary 2
 Toctalk output message 2
 
 %COMMENT{type="toctalk"}%
@@ -236,7 +236,7 @@ Example of a form definition in a topic. The comment template is located in Sand
 
 
 #CommentDate1176024819
-Main.TWikiContributor - 08 Apr 2007:
+Main.ProjectContributor - 08 Apr 2007:
 
 templatetopic example comment output 1
 
@@ -244,5 +244,5 @@ templatetopic example comment output 1
 %COMMENT{noform="on" type="example" templatetopic="Sandbox.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
 
 ---
-   * Bottom comment output 1 -- Main.TWikiContributor - 26 Nov 2006
-   * Bottom comment output 2 -- Main.TWikiContributor - 26 Nov 2006
+   * Bottom comment output 1 -- Main.ProjectContributor - 26 Nov 2006
+   * Bottom comment output 2 -- Main.ProjectContributor - 26 Nov 2006

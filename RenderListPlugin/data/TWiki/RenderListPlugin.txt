@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1191140874" format="1.1" version="$Rev: 14713 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191140874" format="1.1" version="$Rev: 14713 $"}%
 ---+ Render List Plugin
 
 Render bullet lists in a variety of formats

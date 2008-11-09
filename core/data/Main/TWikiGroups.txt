@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111931141" format="1.0" version="$Rev: 15171 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15171 $"}%
 ---+ TWiki Groups
 
 These groups can be used to define fine grained [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]] in <nop>%WIKITOOLNAME%:

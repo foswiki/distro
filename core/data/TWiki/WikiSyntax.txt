@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1111929255" format="1.0" version="$Rev: 13239 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13239 $"}%
 ---+ TWiki Shorthand Basics
 
 If you can enter text, you're ready for TWiki. With a few simple, intuitive TextFormattingRules, you'll be able to use plain text to create well-styled postings, instantly. Here's a fast-track guide to shorthand basics...

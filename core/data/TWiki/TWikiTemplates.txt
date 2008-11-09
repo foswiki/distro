@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiContributor" date="1210999363" format="1.1" version="$Rev: 16186 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1210999363" format="1.1" version="$Rev: 16186 $"}%
 %STARTINCLUDE%
 ---+ TWiki Templates
 
