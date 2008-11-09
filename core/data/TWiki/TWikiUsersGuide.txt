@@ -12,7 +12,6 @@ _Documentation for TWiki users._
    * *One-Page Primers*
       * TWikiSite: Ultra-compact, 2-minute TWiki primer
       * TWikiTutorial: A compact, 20-minute TWiki primer<p />
-      * TWikiTopics: Customize, rename, move, or delete TWiki topics
       * SearchHelp: Tips and help on search
       * GoodStyle: Working tips for an open collaboration environment
       * TWikiShorthand: All of the TWiki shorthand basics

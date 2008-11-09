@@ -30,9 +30,6 @@
 
    * WelcomeGuest is a fast track guide to TWiki
    * TWikiSite provides a basic big picture overview of the TWiki platform
-   * TWikiTopics is a quick and concentrated look at the TWiki core
-   * TWikiPlannedFeatures lists approved additions to future TWiki versions.
-   * TWikiEnhancementRequests is the place to add your new feature requests.
    * [[%HOMETOPIC%][TWiki Documentation]]: a compact User's Guide and an in-depth Reference Manual.
    * TWikiHistory puts TWiki development on a timeline
    * WikiCulture looks at the unique type of collaboration Wiki systems offer.

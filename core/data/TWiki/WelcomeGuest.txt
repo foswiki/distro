@@ -9,8 +9,8 @@ Welcome to <nop>%WIKITOOLNAME%! This is a TWikiSite (pronounced _twee-kee site_)
 
 ---++ What's in a TWiki?
 
-   * *Webs:* A TWikiSite is divided into webs, each one represents an area for collaboration. This site has the following webs: %WEBLIST{ format="[[$name.%HOMETOPIC%][$name]]" separator=", " }%
-   * *Topics:* Each web is made up of hyperlinked [[TWikiTopics][topics]] that appear in your browser.
+   * See TopicsAndWebs for a concentrated introduction
+
 
 ---++ Some things to do
 

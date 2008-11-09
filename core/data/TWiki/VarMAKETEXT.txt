@@ -16,7 +16,7 @@
         <em> %MAKETEXT{"If you have any questions, please contact [_1]." args="%WIKIWEBMASTER%"}% </em>
       * =%<nop>MAKETEXT{"Did you want to [<nop>[<nop>[<nop>_1]<nop>]<nop>[reset [_2]'s password]<nop>]<nop>?" args="%<nop>SYSTEMWEB%.ResetPassword,%<nop>WIKIUSERNAME%"}%=
         %BR% expands to %BR%
-        <em> %MAKETEXT{"Did you want to [[[_1]][reset [_2]'s password]]?" args="TWiki.ResetPassword,%WIKIUSERNAME%"}% </em>
+        <em> %MAKETEXT{"Did you want to [[[_1]][reset [_2]'s password]]?" args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"}% </em>
    * __Notes:__
       * TWiki will translate the =string= to the current user's language _only_
         if it has such string in its translation table for that language.

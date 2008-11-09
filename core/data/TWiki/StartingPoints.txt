@@ -10,7 +10,6 @@ Don't let the reams of documentation fool you, it all boils down to: wiki means 
    * WebChanges: Newest topic changes in the <nop>%WEB% web
    * TWikiFAQ: Common questions about TWiki use
 
-   * TWikiTopics: Customize, rename, move, or delete TWiki topics
    * GoodStyle: Things to consider when changing text
    * TWikiShorthand: Easy to learn rules for editing text
    * TextFormattingRules: The complete set of text formatting rules 
