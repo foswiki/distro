@@ -34,7 +34,7 @@ The =Trash= web should be be cleared periodically, by archiving (saving) the tex
 
 ---++ Redirecting from an Old Topic
 
-You can use TWikiMetaData to place a command in the %SYSTEMWEB%.WebTopicViewTemplate and %SYSTEMWEB%.WebTopicNonWikiTemplate that will indicate that a topic has been moved by searching for the tag %<nop>META:TOPICMOVED{...}%. Customize something like this:
+You can use MetaData to place a command in the %SYSTEMWEB%.WebTopicViewTemplate and %SYSTEMWEB%.WebTopicNonWikiTemplate that will indicate that a topic has been moved by searching for the tag %<nop>META:TOPICMOVED{...}%. Customize something like this:
 
 <blockquote>
 <verbatim>
@@ -45,7 +45,7 @@ title="This topic used to exist and was moved to: "}%
 
 ---++ How Rename/Move Works
 
-   1. %<nop>SEARCH%, with a special template, finds and displays all occurrences of the topic name in other topics, site-wide. These referring links are by default automatically changed to the new topic and/or web name. This includes relevant TWikiMetaData definitions.
+   1. %<nop>SEARCH%, with a special template, finds and displays all occurrences of the topic name in other topics, site-wide. These referring links are by default automatically changed to the new topic and/or web name. This includes relevant MetaData definitions.
       * User can omit one or more topics from the update list by unchecking them.
       * =&lt;pre&gt;= and =&lt;verbatim&gt;= are honoured - no changes are made to text within these areas.
    2. The topic is moved (if locks allow).

@@ -31,7 +31,7 @@ TWiki default ships with the skin PatternSkin activated. You can set the skin fo
 
 You may want to define your own skin, for example to comply with corporate web guidelines, or because you have a aesthetic vision that you want to share. There are a couple of places you an start doing this.
 
-The [[presentation templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in TWiki topics - see TWikiTemplates for details.
+The [[presentation templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in TWiki topics - see PresentationTemplates for details.
 
 To start creating a new skin, copy the default presentation templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as TWiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
 

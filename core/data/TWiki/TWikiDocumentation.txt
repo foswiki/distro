@@ -72,7 +72,7 @@ __Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, TWikiEnhancem
 [[#PageTop][Back to top]]
 
 -----
-%INCLUDE{"TWikiMetaData"}%
+%INCLUDE{"MetaData"}%
 
 [[#PageTop][Back to top]]
 

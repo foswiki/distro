@@ -21,7 +21,7 @@ Manual sections in separate pages:
    1. [[TWikiForms][TWiki Forms]]
    1. [[Presentation Templates]]
    1. [[TWikiSkins][TWiki Skins (visual layout)]]
-   1. [[TWikiMetaData][TWiki MetaData]]
+   1. [[MetaData]]
    1. [[ContributedAddOns][Contributed Add-Ons]]
    1. [[WikiContribs][Wiki Contribs]]
    1. [[TWikiPlugins][TWiki Plugins]]
