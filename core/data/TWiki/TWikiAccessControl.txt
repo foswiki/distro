@@ -4,7 +4,7 @@
 
 _Restricting read and write access to topics and webs, by Users and groups_
 
-TWiki Access Control allows you restrict access to single topics and entire webs, by individual user and by user Groups. Access control, combined with TWikiUserAuthentication, lets you easily create and manage an extremely flexible, fine-grained privilege system.
+TWiki Access Control allows you restrict access to single topics and entire webs, by individual user and by user Groups. Access control, combined with UserAuthentication, lets you easily create and manage an extremely flexible, fine-grained privilege system.
 
 __%T% Tip:__ TWiki:TWiki.TWikiAccessControlSupplement on TWiki.org has additional documentation on access control.
 
@@ -30,7 +30,7 @@ __Note:__ Above table comes from SitePermissions
 
 ---++ Authentication vs. Access Control
 
-*Authentication:* Identifies who a user is based on a login procedure. See TWikiUserAuthentication.
+*Authentication:* Identifies who a user is based on a login procedure. See UserAuthentication.
 
 *Access control:* Restrict access to content based on users and groups once a user is identified.
 
@@ -205,7 +205,7 @@ __%X% Note:__ Obfuscating a web without view access control is *very* insecure, 
 
 ---+++ Restrict Access to Whole TWiki Site
 
-For a firewalled TWiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your TWiki. In this case, enable [[TWikiUserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =twiki/bin= and =twiki/pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
+For a firewalled TWiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your TWiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =twiki/bin= and =twiki/pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
 
 <verbatim>
 <FilesMatch ".*">
@@ -219,7 +219,7 @@ __Note:__ With this configuration, someone with access to the site needs to regi
 
 ---+++ Authenticate all Webs and Restrict Selected Webs
 
-Use the following setup to authenticate users for topic viewing in all webs and to restrict access to selected webs. Requires TWikiUserAuthentication to be enabled.
+Use the following setup to authenticate users for topic viewing in all webs and to restrict access to selected webs. Requires UserAuthentication to be enabled.
 
    1. Set =require valid-user= on your =view= script in .htaccess or the appropriate Apache .conf file. As of 4.x, this looks like: =FilesMatch "(attach|edit|manage|rename|save|view|upload|mail|logon|.*auth).*"= (normally =view= is not in that list).
    1. *Restrict* view access to selected Users and Groups. Set one or both of these variables in its %WEBPREFSTOPIC% topic:
@@ -230,7 +230,7 @@ Use the following setup to authenticate users for topic viewing in all webs and 
 
 ---+++ Authenticate and Restrict Selected Webs Only
 
-Use the following setup to provide unrestricted viewing access to open webs, with authentication only on selected webs. Requires TWikiUserAuthentication to be enabled.
+Use the following setup to provide unrestricted viewing access to open webs, with authentication only on selected webs. Requires UserAuthentication to be enabled.
 
    1. *Restrict* view access to selected Users and Groups. Set one or both of these variables in its %WEBPREFSTOPIC% topic:
       * ==Set <nop>DENYWEBVIEW = &lt; list of Users and Groups &gt;==
@@ -251,5 +251,5 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, TWikiUserAuthentication, TWiki:TWiki.TWikiAccessControlSupplement
+__Related Topics:__ AdminDocumentationCategory, UserAuthentication, TWiki:TWiki.TWikiAccessControlSupplement
 

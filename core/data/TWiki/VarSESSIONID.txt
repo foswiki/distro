@@ -4,5 +4,5 @@
 ---+++ SESSIONID -- unique ID for this session
    * Syntax: =%<nop>SESSIONID%=
    * Expand to: <tt>%SESSIONID%</tt>
-   * Related: TWikiUserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSION_VARIABLE][SESSION_VARIABLE]]
+   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSION_VARIABLE][SESSION_VARIABLE]]
 

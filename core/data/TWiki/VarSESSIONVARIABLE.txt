@@ -6,5 +6,5 @@
    * Syntax: =%<nop>SESSION_VARIABLE{"name" set="value"}%=
    * Syntax: =%<nop>SESSION_VARIABLE{"name" clear=""}%=
    * %H% Hint: The users ID is in the =AUTHUSER= session variable, and is read-only
-   * Related: TWikiUserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGOUT][LOGOUT]]
+   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSESSIONVAR][SESSIONVAR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarLOGOUT][LOGOUT]]
 

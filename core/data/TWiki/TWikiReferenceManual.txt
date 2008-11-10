@@ -11,7 +11,7 @@ Manual sections in separate pages:
    1. [[TWikiSystemRequirements][TWiki System Requirements]]
    1. [[TWikiInstallationGuide][TWiki Installation Guide]]
    1. [[TWikiUpgradeGuide][TWiki Upgrade Guide]]
-   1. [[TWikiUserAuthentication][TWiki User Authentication]]
+   1. [[UserAuthentication][TWiki User Authentication]]
    1. [[TWikiAccessControl][TWiki Access Control]]
    1. [[TextFormattingRules][Text Formatting Rules]]
    1. [[TWikiVariables][TWiki Variables]]

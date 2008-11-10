@@ -23,7 +23,7 @@ __Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, TWikiEnhancem
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiUserAuthentication"}%
+%INCLUDE{"UserAuthentication"}%
 
 [[#PageTop][Back to top]]
 

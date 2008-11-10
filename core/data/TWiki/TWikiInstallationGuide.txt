@@ -88,7 +88,7 @@ Once you have TWiki installed and running, you might consider the following opti
 #AuthenticationOfUsers
 ---++ Enable Authentication of Users
 
-This step provides for site access control and user activity tracking on your TWiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for TWiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.TWikiUserAuthentication=, and TWiki:TWiki.TWikiUserAuthenticationSupplement.
+This step provides for site access control and user activity tracking on your TWiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for TWiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.UserAuthentication=, and TWiki:TWiki.UserAuthenticationSupplement.
 
 These are the steps for enabling "Template Login" which asks for a username and password in a web page, and processes them using the Apache 'htpasswd' password manager. Users can log in and log out.
 
@@ -100,7 +100,7 @@ These are the steps for enabling "Template Login" which asks for a username and 
      %H% Check that the password manager recognizes the new user. Check that a new line with the username and encrypted password is added to the =data/.htpasswd= file. If not, you probably got a path wrong, or the permissions may not allow the webserver user to write to that file.
    1 Edit a topic (by clicking on the =Edit= link at beginning or end of topic) to check if authentication works.
 
-You are strongly encouraged to read =%SYSTEMWEB%.TWikiUserAuthentication=, TWiki:TWiki.TWikiUserAuthenticationSupplement, and TWiki:TWiki.SecuringTWikiSite for further information about managing users and security of your TWiki site.
+You are strongly encouraged to read =%SYSTEMWEB%.UserAuthentication=, TWiki:TWiki.UserAuthenticationSupplement, and TWiki:TWiki.SecuringTWikiSite for further information about managing users and security of your TWiki site.
 
 *Note!* The other =LoginManager= option =TWiki::LoginManager::ApacheLogin= uses a basic Apache type authentication where the browser itself prompts you for username and password. Most will find the !TemplateLogin looking nicer. But !ApacheLogin is required when you use Apache authentication methods like mod_ldap where all authentication is handled by an Apache module and not by the TWiki perl code. When you use !ApacheLogin the apache configuration must be set up to require authentication of the some but not all the scripts in the bin directory. This section in the Apache config (or .htaccess) controls this
 
