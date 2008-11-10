@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15508 $"}%
 %STARTINCLUDE%
----+ Presentation Templates
+---+ Skin Templates
 
 _Definition of the templates used to render output_ 
 
@@ -8,16 +8,14 @@ _Definition of the templates used to render output_
 
 ---++ Overview
 
-_Presentation Templates_ are plain text with embedded _template macros_ that describe
+_Skin Templates_ are plain text with embedded _template macros_ that describe
 how to compose blocks of text together, to create something new.
 
 #HtmlTemplates
-Presentation templates are used composing the output from all actions, like view, edit, and preview.
+Skin templates are used composing the output from all actions, like view, edit, and preview.
 This allows you to change the look and feel of all pages by editing just a few template files.
 
-Presentation templates are also used in the definition of [[Skins]].
-
-Presentation templates are usually stored as text files with the extension
+Skin templates are usually stored as text files with the extension
 =.tmpl=, though can also come from topic text in some limited circumstances.
 They are usually HTML with embedded _template macros_.
 The macros are expanded when we wants to generate output,
@@ -33,7 +31,7 @@ such as a user interface screen.
       * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
       * ==%<nop>{...}%==: is a comment.
    * Two-pass processing lets you use a variable before or after declaring it.
-   * PresentationTemplates and [[Skins]] work transparently and interchangeably. For example, you can create a skin that overloads only the =twiki.tmpl= master presentation template, like =twiki.print.tmpl=, that redefines the header and footer.
+   * For example, you can create a skin that overloads only the =twiki.tmpl= master skin template, like =twiki.print.tmpl=, that redefines the header and footer.
    * %H% Use of template macros is optional: templates work without them.
    * %X% *NOTE:* Most template macros work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
 
@@ -55,18 +53,18 @@ They are used to support a limited form of "if" condition that you can use to se
 When the "inactive" context is set, then this will expand the "link_inactive" TMPL:DEF; otherwise it will expand the "link_active" TMPL:DEF.
 See IfStatements for details of supported context identifiers.
 
----+++ Finding Presentation Templates
+---+++ Finding Skin Templates
 
-The presentation templates shipped with a release are stored in the twiki/templates directory.
-As an example, ==twiki/templates/view.tmpl== is the default presentation template file for the ==twiki/bin/view== script. 
+The skin templates shipped with a release are stored in the twiki/templates directory.
+As an example, ==twiki/templates/view.tmpl== is the default skin template file for the ==twiki/bin/view== script. 
 
 You can save templates in other directories as long as they are listed in the ={TemplatePath}= configuration setting.
 The ={TemplatePath}= is defined in the Miscellaneous section of the [[%SCRIPTURLPATH{configure}%][configure]] page.
 
-You can also save presentation templates in user topics (_IF_ there is no possible template match in the =templates= directory).
+You can also save skin templates in user topics (_IF_ there is no possible template match in the =templates= directory).
 The ={TemplatePath}= configuration setting defines which topics will be accepted as templates.
 
-Presentation Templates that are included with an explicit ='.tmpl'= extension are looked for only in the =templates/= directory.
+Skin templates that are included with an explicit ='.tmpl'= extension are looked for only in the =templates/= directory.
 For instance =%TMPL:INCLUDE{"example.tmpl"}%= will only return =templates/example.tmpl=, regardless of ={TemplatePath}= and SKIN settings.
 
 The out-of-the-box setting of ={TemplatePath}= supports the following search order to determine which template file or topic to use for a particular script or =%TMPL:INCLUDE{"script"}%= statement.
@@ -105,7 +103,7 @@ For example, the =example= template file will be searched for in the following p
    I. =%SYSTEMWEB%.PatternSkinExampleTemplate=
    I. =%SYSTEMWEB%.ExampleTemplate=
 
-Template names are usually derived from the name of the currently executing script; however it is also possible to override these settings in the =view= and =edit= scripts, for example when a topic-specific template is required. Two preference variables can be used to override the presentation templates used:
+Template names are usually derived from the name of the currently executing script; however it is also possible to override these settings in the =view= and =edit= scripts, for example when a topic-specific template is required. Two preference variables can be used to override the skin templates used:
    * =VIEW_TEMPLATE= sets the template to be used for viewing a topic
    * =EDIT_TEMPLATE= sets the template for editing a topic.
 If these preferences are set locally (using _Local_ instead of _Set_) for a topic, in WebPreferences, in [[%LOCALSITEPREFS%]], or [[%SYSTEMWEB%.DefaultPreferences]] (using _Set_), the indicated templates will be chosen for =view= and =edit= respectively. The template search order is as specified above.

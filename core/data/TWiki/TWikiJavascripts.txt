@@ -1,8 +1,8 @@
 ---+ Javascripts
 
-This topic contains javascript files that are included by presentation templates, and may be used by skin templates and in topics.
+This topic contains javascript files that are included by skin templates, and may be used by skin templates and in topics.
 
-__Related Topics:__ PresentationTemplates, [[Skins]]
+__Related Topics:__ SkinTemplates, [[Skins]]
 
 	* Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 	

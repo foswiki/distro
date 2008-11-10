@@ -8,7 +8,7 @@ _Skins overlay regular templates to give different looks and feels to TWiki scre
 
 ---++ Overview
 
-TWiki uses [[presentation templates]] as the basis of all the screens it uses to interact with users. Each screen has an associated template file that contains the basic layout of the screen. This is then filled in by the code to generate what you see in the browser.
+TWiki uses [[skin templates]] as the basis of all the screens it uses to interact with users. Each screen has an associated template file that contains the basic layout of the screen. This is then filled in by the code to generate what you see in the browser.
 
 TWiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. TWiki also includes support for _skins_ that can be selected to give different, more sophisticated, look and feels. A default TWiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a TWiki installation to give more options. To see how TWiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
 
@@ -31,9 +31,9 @@ TWiki default ships with the skin PatternSkin activated. You can set the skin fo
 
 You may want to define your own skin, for example to comply with corporate web guidelines, or because you have a aesthetic vision that you want to share. There are a couple of places you an start doing this.
 
-The [[presentation templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in TWiki topics - see PresentationTemplates for details.
+The [[skin templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in TWiki topics - see SkinTemplates for details.
 
-To start creating a new skin, copy the default presentation templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as TWiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
+To start creating a new skin, copy the default skin templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as TWiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
 
 If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook.
 
@@ -181,7 +181,7 @@ CSS files are gererally attachments to the skin topic that are included in the t
 ---++ Attachment Tables
 Controlling the look and feel of attachment tables is a little bit more complex than for the rest of a skin. By default, the attachment table is a standard TWiki table, and the look is controlled in the same way as other tables. In a very few cases you may want to change the _content_ of the table as well.
 
-The format of standard attachment tables is defined through the use of special _TWiki template macros_ which by default, are defined in the =attachtables.tmpl= template using the =%TMPL:DEF= macro syntax described in PresentationTemplates. These macros are:
+The format of standard attachment tables is defined through the use of special _TWiki template macros_ which by default, are defined in the =attachtables.tmpl= template using the =%TMPL:DEF= macro syntax described in SkinTemplates. These macros are:
 | *Macro* | *Description* |
 | =ATTACH:files:header= | Standard title bar |
 | =ATTACH:files:row= | Standard row |
@@ -220,7 +220,7 @@ You can try out all installed skins in the TWikiSkinBrowser.
 
 TWiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of TWikiVariables and URL parameters.
 
-TWiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in PresentationTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
+TWiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
 
 The basic skin is defined by a =SKIN= setting:
 

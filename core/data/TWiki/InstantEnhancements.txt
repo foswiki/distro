@@ -35,7 +35,7 @@ It's just as easy to refine later on, so you're not locked in, just looking bett
 
 ---+++ Set Page Background Color 
 
-Without getting into the [[presentation templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to new variable. First, define a new preferences variable in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
+Without getting into the [[skin templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to new variable. First, define a new preferences variable in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
 
 ---+++ Titles-Only Topic List - !WebTopicList
 
@@ -173,7 +173,7 @@ With a simple one or two-line default topic form available for every topic  - in
 ---
 ---++ Add Your Favorite <nop>JavaScript Features
 
-You're no doubt familiar or better with HTML, JS, and "webmastering". Without getting into the [[presentation templates]] system yet, you can easily edit the ==view.pattern.tmpl== (if you are using default pattern skin) (in the =templates= directory) for some dramatic effects. The top of the template is mostly regular HTML with some variables. Open up some space in the ==&lt;head&gt;== area, and you can drop in reliable <nop>JavaScripts - a pop-up window script, for example - or tag it as an external script.
+You're no doubt familiar or better with HTML, JS, and "webmastering". Without getting into the [[skin templates]] system yet, you can easily edit the ==view.pattern.tmpl== (if you are using default pattern skin) (in the =templates= directory) for some dramatic effects. The top of the template is mostly regular HTML with some variables. Open up some space in the ==&lt;head&gt;== area, and you can drop in reliable <nop>JavaScripts - a pop-up window script, for example - or tag it as an external script.
 
    * %T% Obviously, you can do the same - place a link to an external stylesheet as well. If you set values for standard HTML tags, you can control a good deal of the type size, style and color with out adding CSS tags. __example__
 
