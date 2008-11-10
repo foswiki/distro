@@ -1481,6 +1481,18 @@ sub new {
         $topic = $2 unless $topic;
         $web =~ s/\./\//go;
         $web =~ s/\/$//o;
+
+	if ($url =~ /viewfile/) {
+		if ($pathInfo=~ /\/(.*?\/)(.*?)\/(.*?\.*?)$/) {
+			my $webtmp	= $1;
+			my $topictmp	= $2;
+			my $filetmp	= $3;
+			if (-f $TWiki::cfg{PubDir}."/$webtmp$topictmp/$filetmp") {
+				$web	= $webtmp;
+				$topic	= $topictmp;
+			}
+		}
+	}
     }
     elsif ( $pathInfo =~ /\/(.*)/ ) {
 
