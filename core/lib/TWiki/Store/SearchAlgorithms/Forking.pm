@@ -100,9 +100,15 @@ sub search {
         # and 1 otherwise. But the exit status is 2 if an error occurred,
         # unless the -q or --quiet or --silent option is used and a selected
         # line is found."
-        throw Error::Simple("$program Grep for '$searchString' returned error")
-          if $exit > 1;
-        $matches .= $m unless $exit;
+        if ($exit > 1) {
+            #TODO: need to work out a way to alert the admin there is a problem, without
+            #      filling up the log files with repeated SEARCH's
+            
+            # NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
+            #       or a file it does not have permission to open, so throwing here gives wrong search results.
+            # throw Error::Simple("$program Grep for '$searchString' returned error")
+        }
+        $matches .= $m;
         @set = splice( @take, 0, $maxTopicsInSet );
     }
     my %seen;
