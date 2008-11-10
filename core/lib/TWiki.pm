@@ -1259,10 +1259,14 @@ sub getIconUrl {
     my ( $this, $absolute, $iconName ) = @_;
 
     my $iconTopic = $this->{prefs}->getPreferencesValue('ICONTOPIC');
-    my ( $web, $topic ) =
-      $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-    $iconName =~ s/^.*\.(.*?)$/$1/;
-    return $this->getPubUrl( $absolute, $web, $topic, $iconName . '.gif' );
+    if (defined($iconTopic)) {
+        my ( $web, $topic ) =
+            $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
+        $iconName =~ s/^.*\.(.*?)$/$1/;
+        return $this->getPubUrl( $absolute, $web, $topic, $iconName . '.gif' );
+    } ele {
+        return '';
+    }
 }
 
 =pod
@@ -1282,19 +1286,23 @@ sub mapToIconFileName {
 
     unless ( $this->{_ICONMAP} ) {
         my $iconTopic = $this->{prefs}->getPreferencesValue('ICONTOPIC');
-        my ( $web, $topic ) =
-          $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
-        local $/ = undef;
-        try {
-            my $icons =
-              $this->{store}
-              ->getAttachmentStream( undef, $web, $topic, '_filetypes.txt' );
-            %{ $this->{_ICONMAP} } = split( /\s+/, <$icons> );
-            close($icons);
+        if (defined($iconTopic)) {
+            my ( $web, $topic ) =
+              $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
+            local $/ = undef;
+            try {
+                my $icons =
+                  $this->{store}
+                  ->getAttachmentStream( undef, $web, $topic, '_filetypes.txt' );
+                %{ $this->{_ICONMAP} } = split( /\s+/, <$icons> );
+                close($icons);
+            }
+            catch Error::Simple with {
+                %{ $this->{_ICONMAP} } = ();
+            };
+        } else {
+            return $default || $fileName;
         }
-        catch Error::Simple with {
-            %{ $this->{_ICONMAP} } = ();
-        };
     }
 
     return $this->{_ICONMAP}->{$fileExt} || $default || 'else';

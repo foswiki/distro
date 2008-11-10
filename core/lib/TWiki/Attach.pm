@@ -194,6 +194,9 @@ sub _expandAttrs {
     }
     elsif ( $attr eq 'ICON' ) {
         my $picked = $this->{session}->mapToIconFileName($file);
+        if (!defined($picked) || ($picked eq '')) {
+            return '';
+        }
         my $url = $this->{session}->getIconUrl( 0, $picked );
         return CGI::img(
             {
