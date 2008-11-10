@@ -47,7 +47,7 @@ our $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = 'TWiki-4';
+our $RELEASE = 'NextWiki-1';
 
 our $SHORTDESCRIPTION =
   'Automate build process for Plugins, Add-ons and Contrib modules';
@@ -1327,15 +1327,15 @@ END
 
         last if ask( "Is that correct? Answer 'n' to change", 1 );
         print
-"Enter the name of the TWiki web that contains the target repository\n";
+"Enter the name of the web that contains the target repository\n";
         $this->{UPLOADTARGETWEB} = prompt( "Web", $this->{UPLOADTARGETWEB} );
-        print "Enter the full URL path to the TWiki pub directory\n";
+        print "Enter the full URL path to the pub directory\n";
         $this->{UPLOADTARGETPUB} = prompt( "PubDir", $this->{UPLOADTARGETPUB} );
-        print "Enter the full URL path to the TWiki bin directory\n";
+        print "Enter the full URL path to the bin directory\n";
         $this->{UPLOADTARGETSCRIPT} =
           prompt( "Scripts", $this->{UPLOADTARGETSCRIPT} );
         print
-"Enter the file suffix used on scripts in the TWiki bin directory (enter 'none' for none)\n";
+"Enter the file suffix used on scripts in the bin directory (enter 'none' for none)\n";
         $this->{UPLOADTARGETSUFFIX} =
           prompt( "Suffix", $this->{UPLOADTARGETSUFFIX} );
         $this->{UPLOADTARGETSUFFIX} = ''
@@ -1475,7 +1475,7 @@ automatically generated from Subversion. Do not edit it! Your edits
 will be lost the next time the topic is uploaded!
 
 If you want to report an error in the topic, please raise a report at
-http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/$this->{project}
+http://nextwiki.org/view/Tasks/$this->{project}
 -->
 EXTRA
     print "Saving $topic\n";
@@ -2048,15 +2048,15 @@ sub _addDep {
 
 1;
 __DATA__
-You do not need to install anything in the browser to use this extension. The following instructions are for the administrator who installs the extension on the server where TWiki is running.
+You do not need to install anything in the browser to use this extension. The following instructions are for the administrator who installs the extension on the server.
 
-Like many other TWiki extensions, this module is shipped with a fully
+Like many other extensions, this module is shipped with a fully
 automatic installer script written using the Build<nop>Contrib.
    * If you have TWiki 4.2 or later, you can install from the =configure= interface (Go to Plugins->Find More Extensions)
-      * See the [[http://twiki.org/cgi-bin/view/Plugins/BuildContribInstallationSupplement][installation supplement]] on TWiki.org for more information.
+      * See the [[http://nextwiki.org/Extensions/BuildContribInstallationSupplement][installation supplement]] on TWiki.org for more information.
    * If you have any problems, then you can still install manually from the command-line:
       1 Download one of the =.zip= or =.tgz= archives
-      1 Unpack the archive in the root directory of your TWiki installation.
+      1 Unpack the archive in the root directory of your installation.
       1 Run the installer script ( =perl &lt;module&gt;_installer= )
       1 Run =configure= and enable the module, if it is a plugin.
       1 Repeat for any missing dependencies.
@@ -2065,4 +2065,4 @@ automatic installer script written using the Build<nop>Contrib.
       1 Check in any installed files that have existing =,v= files in your existing install (take care *not* to lock the files when you check in)
       1 Manually edit !LocalSite.cfg to set any configuration variables.
 
-%IF{"defined 'SYSTEMWEB'" else="<div class='twikiAlert'>%X% WARNING: SYSTEMWEB is not defined in this TWiki. Please add these definitions to your %MAINWEB%.TWikiPreferences, if they are not already there:<br><pre>   * <nop>Set SYSTEMWEB = %<nop>SYSTEMWEB%<br>   * <nop>Set USERSWEB = %<nop>MAINWEB%</pre></div>"}%
+%IF{"defined 'SYSTEMWEB'" else="<div class='twikiAlert'>%X% WARNING: SYSTEMWEB is not defined. Please add these definitions to your %MAINWEB%.TWikiPreferences, if they are not already there:<br><pre>   * <nop>Set SYSTEMWEB = %<nop>TWIKIWEB%<br>   * <nop>Set USERSWEB = %<nop>MAINWEB%</pre></div>"}%

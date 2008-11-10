@@ -2,8 +2,8 @@
 #
 # Install script for %$MODULE%
 #
-# Copyright (C) 2004-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root of
+# Copyright (C) 2004-2007 NextWiki Contributors. All Rights Reserved.
+# NextWiki Contributors are listed in the AUTHORS file in the root of
 # this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
@@ -18,7 +18,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 #
-# Author: Crawford Currie http://wikiring.com
+# Author: Crawford Currie http://c-dot.co.uk
 #
 # NOTE TO THE DEVELOPER: THIS FILE IS GENERATED AUTOMATICALLY
 # BY THE BUILD PROCESS DO NOT EDIT IT - IT WILL BE OVERWRITTEN
@@ -62,20 +62,14 @@ undef $/;
 my @DATA = split( /<<<< (.*?) >>>>\s*\n/, <DATA> );
 shift @DATA;    # remove empty first element
 
-unless ( my $return = do 'tools/extender.pl' ) {
-
-    # Do could read tools/extender.pl but not compile it
-    die <<MESSAGE if $@;
+unless ( do 'tools/extender.pl' ) {
+    my $file_error = $!;
+    my $compile_error = $@;
+    my $wd;
+    eval { use Cwd; $wd = Cwd::cwd() };
+    my $message = <<MESSAGE;
 ************************************************************
-Could not parse tools/extender.pl: $@
-************************************************************
-MESSAGE
-
-    # Do cannot read tools/extender.pl
-    die <<MESSAGE unless defined $return;
-************************************************************
-Could not load installer script from tools/extender.pl:
-$!
+Could not load installer script from tools/extender.pl
 
 If this is a TWiki release prior to 4.2, please download the
 latest version of the script from:
@@ -89,16 +83,10 @@ If this is TWiki 4.2 or later, the script is missing from
 your installation, or may be broken.
 ************************************************************
 MESSAGE
-
-    # tools/extender.pl didn't return 1;
-    die <<MESSAGE unless $return;
-************************************************************
-Couldn't run tools/extender.pl. It returned $return.
-
-Maybe the module you're trying to install doesn't ensure
-a safe return code with "1;" at the end.
-************************************************************
-MESSAGE
+    $message .= "Working directory was: $wd\n" if $wd;
+    $message .= "File error was: $file_error\n" if $file_error;
+    $message .= "Compile error was: $compile_error\n" if $compile_error;
+    die $message;
 }
 
 sub preuninstall {
