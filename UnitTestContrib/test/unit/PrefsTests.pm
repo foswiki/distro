@@ -29,7 +29,7 @@ sub set_up {
     $original = $TWiki::cfg{SystemWebName};
 
     $TWiki::cfg{SystemWebName} = $testSysWeb;
-    $TWiki::cfg{LocalSitePreferences} = "$this->{users_web}.TWikiPreferences";
+    $TWiki::cfg{LocalSitePreferences} = "$this->{users_web}.SitePreferences";
 
     $twiki = $this->{twiki};
 

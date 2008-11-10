@@ -34,11 +34,11 @@ COPYING 0440
 COPYRIGHT 0440
 data/Main/NobodyGroup.txt 0660
 data/Main/ProjectContributor.txt 0660
+data/Main/SitePreferences.txt 0660
 data/Main/TWikiAdminGroup.txt 0660
 data/Main/TWikiGroupTemplate.txt 0660
 data/Main/TWikiGroups.txt 0660
 data/Main/TWikiGuest.txt 0660
-data/Main/TWikiPreferences.txt 0660
 data/Main/TWikiRegistrationAgent.txt 0660
 data/Main/TWikiUsers.txt 0660
 data/Main/UnknownUser.txt 0660
@@ -88,6 +88,7 @@ data/TWiki/ClassMethod.txt 0660
 data/TWiki/DakarReleaseNotes.txt 0660
 data/TWiki/DeleteOrRenameATopic.txt 0660
 data/TWiki/DeleteOrRenameAnAttachment.txt 0660
+data/TWiki/DefaultPreferences.txt 0660
 data/TWiki/DeveloperDocumentationCategory.txt 0660
 data/TWiki/DontNotify.txt 0660
 data/TWiki/EditDoesNotIncreaseTheRevision.txt 0660
@@ -150,7 +151,6 @@ data/TWiki/TWikiLogos.txt 0660
 data/TWiki/TWikiMetaData.txt 0660
 data/TWiki/TWikiPlannedFeatures.txt 0660
 data/TWiki/TWikiPlugins.txt 0660
-data/TWiki/TWikiPreferences.txt 0660
 data/TWiki/TWikiReferenceManual.txt 0660
 data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660

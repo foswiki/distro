@@ -47,7 +47,7 @@ jquery.natedit docu
 ---++ Configuration
 *PatternSkin:* %BR%
 To enable the <nop>NatEditPlugin add the identifier =natedit= to the =SKIN= 
-variable in %MAINWEB%.TWikiPreferences or WebPreferences, e.g.
+variable in %USERSWEB%.SitePreferences or WebPreferences, e.g.
 <pre>
    * <!-- -->Set SKIN = natedit,pattern
 </pre>

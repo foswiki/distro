@@ -171,7 +171,7 @@ The plugin interprets a couple of [[%SYSTEMWEB%.TWikiVariables][preferences]], i
 | =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =off=. |
 Also, the plugin can be selectively disabled using
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
-These preferences can be defined in %MAINWEB%.TWikiPreferences, in !WebPreferences for an individual web, or in the topic.
+These preferences can be defined in %USERSWEB%.SitePreferences, in !WebPreferences for an individual web, or in the topic.
 
 ---++ Relationships
 ---+++ !EditTablePlugin

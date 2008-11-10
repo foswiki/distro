@@ -67,11 +67,11 @@ rm /etc/twiki/*~
 
 db_get twiki/wikiwebmaster
 # do rcs checkout first?
-#TODO: these settings should move to Main.TWikiPreferences
-if [ ! -e /var/lib/twiki/data/TWiki/TWikiPreferences.txt ]; then
-	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/twiki/data/TWiki/TWikiPreferences.txt
+#TODO: these settings should move to Main.SitePreferences
+if [ ! -e /var/lib/twiki/data/TWiki/DefaultPreferences.txt ]; then
+	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/twiki/data/TWiki/DefaultPreferences.txt
 	#force default to use sendmail by setting SMTPMAILHOST to blank
-	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/twiki/data/TWiki/TWikiPreferences.txt
+	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/twiki/data/TWiki/DefaultPreferences.txt
 fi
 
 # user + password authorized to run configure script

@@ -21,7 +21,7 @@ $PROTOCOL = qr/^(file|ftp|gopher|https?|irc|news|nntp|telnet|mailto):/;
 
 our (%KNOWN_COLOUR);
 
-# Colours with colour settings in TWikiPreferences. WTF does TWiki see
+# Colours with colour settings in DefaultPreferences. WTF does TWiki see
 # fit to *redefine* the standard colors? e.g. ORANGE below is *not* orange.
 # For goodness sakes!
 %KNOWN_COLOUR = (

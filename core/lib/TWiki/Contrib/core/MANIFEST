@@ -57,10 +57,10 @@ bin/view 0555
 bin/viewauth 0555
 bin/viewfile 0555
 data/Main/ProjectContributor.txt 0644
+data/Main/SitePreferences.txt 0644
 data/Main/TWikiAdminUser.txt 0644
 data/Main/TWikiGroups.txt 0644
 data/Main/TWikiGuest.txt 0644
-data/Main/TWikiPreferences.txt 0644
 data/Main/UnknownUser.txt 0644
 data/Main/WebAtom.txt 0644
 data/Main/WebChanges.txt 0644
@@ -98,6 +98,7 @@ data/TWiki/BumpyWord.txt 0644
 data/TWiki/CategoryCategory.txt 0644
 data/TWiki/ClassMethod.txt 0644
 data/TWiki/ContributedAddOns.txt 0644
+data/TWiki/DefaultPreferences.txt 0644
 data/TWiki/DeleteOrRenameATopic.txt 0644
 data/TWiki/DeleteOrRenameAnAttachment.txt 0644
 data/TWiki/DeveloperDocumentationCategory.txt 0644
@@ -163,7 +164,6 @@ data/TWiki/TWikiLogos.txt 0644
 data/TWiki/TWikiMetaData.txt 0644
 data/TWiki/TWikiPlannedFeatures.txt 0644
 data/TWiki/TWikiPlugins.txt 0644
-data/TWiki/TWikiPreferences.txt 0644
 data/TWiki/TWikiReferenceManual.txt 0644
 data/TWiki/TWikiReleaseNotes04x00.txt 0644
 data/TWiki/TWikiReleaseNotes04x01.txt 0644

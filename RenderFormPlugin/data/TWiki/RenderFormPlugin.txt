@@ -179,7 +179,7 @@ Usage: =%<nop>RENDERFORM{"&lt;form definition&gt;" ... layout="&lt;layout topic&
 ---++ Plugin Settings
 
 Plugin settings are stored as preferences variables. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;ATTRIBUTENAME&gt;%== to your Main.TWikiPreferences topic, i.e. ==%<nop>RENDERFORM_SHORTDESCRIPTION%==
+a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;ATTRIBUTENAME&gt;%== to your %USERSWEB%.SitePreferences topic, i.e. ==%<nop>RENDERFORM_SHORTDESCRIPTION%==
 
 You can also use template based preferences, just write ==RENDERFORM_TEMPLATE_&lt;templatename&gt;_&lt;ATTRIBUTENAME&gt;==.
 

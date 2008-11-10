@@ -61,7 +61,7 @@ sub experiment {
     my ( $install, $skin ) = @_;
 
     $skin = "" unless $skin;
-    my $url = "$server/$install/bin/view/TWiki/TWikiPreferences";
+    my $url = "$server/$install/bin/view/TWiki/DefaultPreferences";
     print "*** Getting plugins for $install\n" if $debug;
     my $plugins = `wget -O - $url 2>&1 | grep 'Currently activated plugins:' | sed -e 's/^.*: //'`;
     $plugins =~ s/<[^>]*>//g;
