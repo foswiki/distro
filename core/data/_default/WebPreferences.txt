@@ -8,7 +8,7 @@ The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%
 
 ---++ Web Preferences Settings
 
-These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiPreferences#DefaultWebPreferences][full list of defaults with explanation]]. Many of the settings below are commented out. Remove the # sign to enable a local customisation.
+These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]]. Many of the settings below are commented out. Remove the # sign to enable a local customisation.
 
    * List of topics of the <nop>%WEB% web:
       * #Set WEBTOPICLIST = %WEBTOPICLIST%

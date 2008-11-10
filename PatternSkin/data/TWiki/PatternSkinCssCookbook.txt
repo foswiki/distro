@@ -21,7 +21,7 @@ Have a look at PatternSkinColorSettings.
 ---+++ When you need lots of graphic changes: Rewriting CSS
    * Create a new topic that will contain your new CSS files
    * Attach 3 new style sheets to the topic
-   * Point the CSS variables in [[%SYSTEMWEB%.TWikiPreferences]] to your new files:
+   * Point the CSS variables in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files:
 <pre>
       * <nop>Set TWIKILAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set TWIKISTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
@@ -33,7 +33,7 @@ With CSS you cannot remove already defined classes, you can only add to it, or o
 Overriding default CSS is done with 3 variables: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
-   * Point the CSS variables in [[%SYSTEMWEB%.TWikiPreferences]] to your new files (below the =TWIKIXXXURL= variables):
+   * Point the CSS variables in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =TWIKIXXXURL= variables):
 <pre>
       * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
@@ -44,8 +44,8 @@ Overriding default CSS is done with 3 variables: =USERLAYOUTURL=, =USERSTYLEURL=
       * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
  </pre>
 
-Instead of setting these variables in [[%SYSTEMWEB%.TWikiPreferences]], you can set these in your home topic, or in any other topic. Setting style URL variables in:
-   * [[%SYSTEMWEB%.TWikiPreferences]]: the style is visible for all users, site-wide
+Instead of setting these variables in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]], you can set these in your home topic, or in any other topic. Setting style URL variables in:
+   * [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]]: the style is visible for all users, site-wide
    * WebPreferences: the style is visible for all users in one web
    * Home topic: the style is visible for that one user when viewing the site
    * Some other topic: the style is only visible in that one topic

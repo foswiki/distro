@@ -228,7 +228,7 @@ Two TWiki Preference variables are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |
 | =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
 | =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
-These can be set in !TWikiPreferences, in !WebPreferences or in individual topics.
+These can be set in !%SYSTEMWEB%.DefaultPreferences, !%USERSWEB%.SitePreferences, in !WebPreferences, or in individual topics.
 
 #Installation
 ---++ Plugin Installation Instructions
@@ -285,6 +285,6 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  Plugin Home: | TWiki:Plugins/%TOPIC% |
 |  Feedback: | TWiki:Plugins/%TOPIC%Dev |
 
-__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.TWikiPlugins
 
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%

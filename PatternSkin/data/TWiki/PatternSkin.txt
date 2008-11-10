@@ -62,7 +62,7 @@ Check these variables here:
    * TWIKICOLORSURL = %TWIKICOLORSURL%
    * SKIN = %SKIN%
 
-If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing files, check in %SYSTEMWEB%.TWikiPreferences that the following variables do exist and that they are set to on:
+If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following variables do exist and that they are set to on:
 <pre>
    * %<nop>SYSTEMWEB%.PatternSkin settings:
       * <nop>Set TWIKILAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/layout.css

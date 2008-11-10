@@ -276,7 +276,7 @@ Normally, if you make another edit within a one hour period (was =$editLockTime=
 
 The "Force New Revision" checkbox is a way to force it to create a separate revision each time you save.
 
-The [[%SYSTEMWEB%.TWikiPreferences]] variable =FORCENEWREVISIONCHECKBOX= controls whether this is checked by default or not.
+The [[%SYSTEMWEB%.DefaultPreferences]] variable =FORCENEWREVISIONCHECKBOX= controls whether this is checked by default or not.
 
 On a related note, you can force __every__ save to be a new revision number by editing =lib/TWiki.cfg= and setting =={ReplaceIfEditedAgainWithin}== to 0.
 
@@ -300,8 +300,8 @@ These variables are now more closely associated with =WIKITOOLNAME=.  If you cha
 
 The =FINALPREFERENCES= setting prevents particular preference settings from being over-ridden at a lower level. The hierarchy of how =FINALPREFERENCES= settings are applied has been clarified/formalized as reflected in the following chart:
 | *Level* | *Set By* | *Local site examples* |
-| default site | !%SYSTEMWEB%.TWikiPreferences or !%WIKIPREFSTOPIC%  | %SYSTEMWEB%.%WIKIPREFSTOPIC% |
-| local site | !%MAINWEB%.TWikiPreferences or !%LOCALSITEPREFS%  | %LOCALSITEPREFS% |
+| default site | !%SYSTEMWEB%.DefaultPreferences or !%WIKIPREFSTOPIC%  | %SYSTEMWEB%.%WIKIPREFSTOPIC% |
+| local site | !%USERSWEB%.SitePreferences or !%LOCALSITEPREFS%  | %LOCALSITEPREFS% |
 | web | !WebPreferences  | %WEB%.%WEBPREFSTOPIC% |
 | user | In one's user topic  | %WIKIUSERNAME% |
 | topic | "Edit topic preferences settings" under "More topic actions"  | %WEB%.%TOPIC% |

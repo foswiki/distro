@@ -463,7 +463,7 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  6026 | TWikibug:Item229   added support for sub-headings in =configure=. Added support for adding comments to LocalSite.cfg to BuildContrib. Can now create sections in =configure= for individual plugins. |
 |  5960 | TWikibug:Item181   new version, supports DEVELOP and Cairo, and adds support for attachments (you can now mail attachments to topics) |
 
-__Related Topics:__ %SYSTEMWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 -- TWiki:Main/CrawfordCurrie - %$DATE% %BR%
 
