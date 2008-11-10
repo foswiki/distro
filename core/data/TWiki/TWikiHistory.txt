@@ -132,7 +132,7 @@ __New Features and Enhancements of TWiki Release 4.1__
    * *Miscellaneous Feature Enhancements*
       * Change in WikiWord definition: Numbers are treated as lower case letters, e.g. !Y2K is now a !WikiWord.
       * Configurable template load path. Advanced feature for those that work with customized templates.
-      * Added %<nop>VBAR% to TWikiPreferences for vertical bar symbol.
+      * Added %<nop>VBAR% to !TWikiPreferences for vertical bar symbol.
       * On topic creation, force initial letter of topic name to be upper case.
       * Allow date format in form fields.
       * Enhance REVINFO{} variable with same date qualifiers as GMTIME{}.
@@ -606,7 +606,7 @@ __Major New Features__
    * *19 Aug 2000* - TWiki:Main.PeterThoeny
       * Ref-By link searches all webs (not just the current web.) 
    * *16 Aug 2000* - TWiki:Main.PeterThoeny
-      * New TWikiPreferences variables =%<nop>HTTP_EQUIV_ON_VIEW%= , =%<nop>HTTP_EQUIV_ON_EDIT%= and =%<nop>HTTP_EQUIV_ON_PREVIEW%= that define the =&lt;meta http-equiv="..."&gt;= meta tags for the TWiki templates. This can be used for example to set a document expiration time. 
+      * New !TWikiPreferences variables =%<nop>HTTP_EQUIV_ON_VIEW%= , =%<nop>HTTP_EQUIV_ON_EDIT%= and =%<nop>HTTP_EQUIV_ON_PREVIEW%= that define the =&lt;meta http-equiv="..."&gt;= meta tags for the TWiki templates. This can be used for example to set a document expiration time. 
    * *29 Jul 2000* - TWiki:Main.PeterThoeny
       * New variables =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= . More in TWikiVariables. 
    * *23 Jul 2000* - TWiki:Main.PeterThoeny
@@ -647,7 +647,7 @@ __Major New Features__
    * *25 Feb 2000* - TWiki:Main.PeterThoeny
       * New preference variables =%<nop>EDITBOXWIDTH%= and =%<nop>EDITBOXHEIGHT%= to specify the edit box size. 
    * *25 Feb 2000* - TWiki:Main.PeterThoeny
-      * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.TWikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.  
+      * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (!TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.TWikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.  
    * *11 Feb 2000* - TWiki:Main.PeterThoeny
       * New variable =%<nop>SCRIPTSUFFIX%= / $scriptSuffix containing an optional file extension of the TWiki Perl script. Templates have been changed to use this variable. This allows you to rename the Perl script files to have a file extension like for example ".cgi". 
    * *11 Feb 2000* - TWiki:Main.PeterThoeny

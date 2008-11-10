@@ -35,7 +35,7 @@ Let's say you want to simplify the bottom toolbar and remove all links except fo
    %TMPL:INCLUDE{"view"}%
    %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim></blockquote>
    1 For testing, view any topic and append to the topic name: =?cover=myskin=. You should see an effect now.
-   1 To make the changes visible on all pages, go to [[Main.TWikiPreferences]] (to keep %WIKIPREFSTOPIC% intact) and write:
+   1 To make the changes visible on all pages, go to [[%USERSWEB%.SitePreferences]] (to keep %WIKIPREFSTOPIC% intact) and write:
 <blockquote><pre>
    * <nop>Set COVER = myskin
 </pre>

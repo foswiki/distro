@@ -19,7 +19,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
       * Edit existing preferences in the topic using a simple text field.
 ---++ Examples
 	* =%<nop>EDITPREFERENCES%= 
-	* =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.TWikiPreferencesForm" }%= 
+	* =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.DefaultPreferencesForm" }%= 
 
 ---++ Plugin Settings
 	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:

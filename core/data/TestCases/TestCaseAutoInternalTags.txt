@@ -75,7 +75,7 @@ Designed by: Crawford Currie
  </tr>
  <tr>
   <td>WIKIPREFSTOPIC</td>
-  <td><!-- expected sexteen -->WIKIPREFSTOPIC TWikiPreferences<!-- /expected --></td>
+  <td><!-- expected sexteen -->WIKIPREFSTOPIC DefaultPreferences<!-- /expected --></td>
   <td><!-- actual -->WIKIPREFSTOPIC <nop>%WIKIPREFSTOPIC%<!-- /actual --></td>
  </tr>
  <tr>

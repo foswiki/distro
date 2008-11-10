@@ -6,7 +6,7 @@ Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When thi
 
 ---++!! Usage
 ---+++!! Step 1
-Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%MAINWEB%.TWikiPreferences]] put: <verbatim>
+Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] put: <verbatim>
    * Set USERCOLORSURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme-colors.css
 </verbatim>
 

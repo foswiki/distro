@@ -70,7 +70,7 @@ The main steps are:
       * SmiliesPlugin - Did you add your own smileys? No real changes were made to the smilies topic October 2005 so you can just leave this topic as it is.
       * TablePlugin - Set TABLEATTRIBUTES   
    * Remember that a plugin must be activated in [[%SCRIPTURLPATH{"configure"}%][configure]].
-   * To avoid having to re-apply plugin settings each time you upgrade a plugin or TWiki itself, define the altered plugin settings in =Main.TWikiPreferences= instead
+   * To avoid having to re-apply plugin settings each time you upgrade a plugin or TWiki itself, define the altered plugin settings in =%USERSWEB%.SitePreferences= instead
 
 ---+++ Copy your old webs to new TWiki
 
@@ -104,7 +104,7 @@ The main steps are:
    
 ---+++ Apply Preferences From Old Installation
 
-   * Transfer any customized and local settings from [[%SYSTEMWEB%.DefaultPreferences]] to the topic pointed at by {LocalSitePreferences} ([[%LOCALSITEPREFS%]]). Per default this is =Main.TWikiPreferences=. This avoids having to write over files in the distribution on a later upgrade.
+   * Transfer any customized and local settings from [[%SYSTEMWEB%.DefaultPreferences]] to the topic pointed at by {LocalSitePreferences} ([[%LOCALSITEPREFS%]]). Per default this is =%USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.
    * If you changed any of the topics in the original TWiki distribution, you will have to transfer your changes to the new install manually. There is no simple way to do this, though a suggestion is to use 'diff' to find changed files in the =data/TWiki= of the old and new TWiki installation, and transfer the changes into the new TWiki install. If you can run a GUI on your server, you may find that using a visual diff tool like !WinMerge, meld, kdiff3, xxdiff, etc. is helpful.
    * Compare the =WebPreferences= topics in the old TWiki Installation with the default from the new TWiki installation and add any new Preferences that may be relevant.
    * Compare the =WebLeftBar= topics in the old TWiki Installation with the default from the new TWiki installation and add any new feature that you desire.
@@ -126,9 +126,9 @@ TWiki4's PatternSkin introduces the use of the favicon feature which most browse
 In TWiki4 it is assumed that each web has a favicon.ico file attached to the !WebPreferences topic. When you upgrade from Cairo to TWiki4 you do not have this file and you will get flooded with errors the error log of your web server. There are two solutions to this.
 
    * Attach a favicon.ico file to !WebPreferences in each web.
-   * Preferred: Change the setting of the location of favicon.ico in !TWikiPreferences so all webs use the favicon.ico from the TWiki web. This is the fastest and easiest solution.
+   * Preferred: Change the setting of the location of favicon.ico in !%SYSTEMWEB%.DefaultPreferences or !%USERSWEB%.SitePreferences so all webs use the favicon.ico from the TWiki web. This is the fastest and easiest solution.
 
-To change the location of favicon.ico in !TWikiPreferences to the TWiki web add this line to Main.TWikiPreferences
+To change the location of favicon.ico to the TWiki web add this line to %USERSWEB%.SitePreferences
 
 <verbatim>
    * Set FAVICON = %PUBURLPATH%/%SYSTEMWEB%/%WEBPREFSTOPIC%/favicon.ico

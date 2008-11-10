@@ -10,7 +10,7 @@ If the plugin detects an excluded construct in the topic, it will refuse to allo
 
 If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of TWiki variables that do *not* block edits. this is done in the *global* TWiki variable =WYSIWYG_EDITABLE_CALLS=, which should be a list of TWiki variable names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
 
-You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %MAINWEB%.TWikiPreferences, or in %WEBPREFSTOPIC% for each web.
+You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
 
 You can define the global variable =WYSIWYGPLUGIN_STICKYBITS= to stop the
 plugin from ever trying to convert specific HTML tags into

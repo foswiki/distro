@@ -70,7 +70,7 @@ If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing f
       * <nop>Set TWIKICOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/colors.css
 </pre>
 
-*NOTE:* customization of these values should be done in [[%USERSWEB%.TWikiPreferences]]
+*NOTE:* customization of these values should be done in [[%USERSWEB%.SitePreferences]]
 
 If this still does not work, contact the administrator who installs skins.
 

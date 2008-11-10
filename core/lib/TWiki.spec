@@ -1013,8 +1013,8 @@ $TWiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 # Mail host for outgoing mail. This is only used if Net::SMTP is installed.
 # Examples: mail.your.company
 # <b>CAUTION</b> This setting can be overridden by a setting of SMTPMAILHOST
-# in TWikiPreferences. Make sure you delete that setting if you are using a
-# TWikiPreferences topic from a previous release of TWiki. To disable all
+# in SitePreferences. Make sure you delete that setting if you are using a
+# SitePreferences topic from a previous release of TWiki. To disable all
 # outgoing mail from TWiki leave both this field and the MailProgram field
 # above blank.
 $TWiki::cfg{SMTP}{MAILHOST} = '';
@@ -1024,8 +1024,8 @@ $TWiki::cfg{SMTP}{MAILHOST} = '';
 # requires that you identify the server sending mail. If not set, 
 # Net::SMTP will guess it for you. Example: twiki.your.company.
 # <b>CAUTION</b> This setting can be overridden by a setting of SMTPSENDERHOST
-# in TWikiPreferences. Make sure you delete that setting if you are using a
-# TWikiPreferences topic from a previous release of TWiki.
+# in SitePreferences. Make sure you delete that setting if you are using a
+# SitePreferences topic from a previous release of TWiki.
 $TWiki::cfg{SMTP}{SENDERHOST} = '';
 
 # **STRING 30**
@@ -1056,16 +1056,16 @@ $TWiki::cfg{SMTP}{Debug} = 0;
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. (e.g. proxy.your.company).
 # <b>CAUTION</b> This setting can be overridden by a PROXYHOST setting
-# in TWikiPreferences. Make sure you delete the setting from there if
-# you are using a TWikiPreferences topic from a previous release of TWiki.
+# in SitePreferences. Make sure you delete the setting from there if
+# you are using a SitePreferences topic from a previous release of TWiki.
 $TWiki::cfg{PROXY}{HOST} = '';
 
 # **STRING 30 EXPERT**
 # Some environments require outbound HTTP traffic to go through a proxy
 # server. Set the port number here (e.g: 8080).
 # <b>CAUTION</b> This setting can be overridden by a PROXYPORT setting
-# in TWikiPreferences. Make sure you delete the setting from there if you
-# are using a TWikiPreferences topic from a previous release of TWiki.
+# in SitePreferences. Make sure you delete the setting from there if you
+# are using a SitePreferences topic from a previous release of TWiki.
 $TWiki::cfg{PROXY}{PORT} = '';
 
 #---+ Miscellaneous settings
@@ -1120,7 +1120,7 @@ $TWiki::cfg{SitePrefsTopicName} = 'DefaultPreferences';
 # exists, any settings in it will <b>override</b> settings in
 # {SitePrefsTopicName}.<br />
 # You are <b>strongly</b> recommended to keep all your local changes in
-# a {LocalSitePreferences} topic rather than changing TWikiPreferences,
+# a {LocalSitePreferences} topic rather than changing DefaultPreferences,
 # as it will make upgrading a lot easier.
 $TWiki::cfg{LocalSitePreferences} = 'Main.SitePreferences';
 
