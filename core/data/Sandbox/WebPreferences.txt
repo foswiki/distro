@@ -7,7 +7,7 @@ The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%
 
 ---++ Web Preferences Settings
 
-These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiPreferences#DefaultWebPreferences][full list of defaults with explanation]].
+These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
 
    * Web Settings:
       * Set WEBBGCOLOR = #B9DAFF

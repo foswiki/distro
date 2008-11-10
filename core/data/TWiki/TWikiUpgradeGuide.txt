@@ -104,7 +104,7 @@ The main steps are:
    
 ---+++ Apply Preferences From Old Installation
 
-   * Transfer any customized and local settings from [[%SYSTEMWEB%.TWikiPreferences]] to the topic pointed at by {LocalSitePreferences} ([[%LOCALSITEPREFS%]]). Per default this is =Main.TWikiPreferences=. This avoids having to write over files in the distribution on a later upgrade.
+   * Transfer any customized and local settings from [[%SYSTEMWEB%.DefaultPreferences]] to the topic pointed at by {LocalSitePreferences} ([[%LOCALSITEPREFS%]]). Per default this is =Main.TWikiPreferences=. This avoids having to write over files in the distribution on a later upgrade.
    * If you changed any of the topics in the original TWiki distribution, you will have to transfer your changes to the new install manually. There is no simple way to do this, though a suggestion is to use 'diff' to find changed files in the =data/TWiki= of the old and new TWiki installation, and transfer the changes into the new TWiki install. If you can run a GUI on your server, you may find that using a visual diff tool like !WinMerge, meld, kdiff3, xxdiff, etc. is helpful.
    * Compare the =WebPreferences= topics in the old TWiki Installation with the default from the new TWiki installation and add any new Preferences that may be relevant.
    * Compare the =WebLeftBar= topics in the old TWiki Installation with the default from the new TWiki installation and add any new feature that you desire.

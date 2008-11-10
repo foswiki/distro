@@ -191,7 +191,7 @@ Many thanks to the following sponsors for supporting this work:
 |  Feedback: | TWiki:Plugins/%TOPIC%Dev |
 |  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.TWikiPreferences, %SYSTEMWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.TWikiPlugins
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 

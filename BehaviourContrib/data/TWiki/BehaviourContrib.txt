@@ -290,7 +290,7 @@ You can also set the global TWiki variable BEHAVIOURCONTRIB_DEBUG to 1 to make t
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.TWikiPreferences
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 %META:FILEATTACHMENT{name="behaviour.js" attr="" autoattached="1" comment="" date="1162075796" path="behaviour.compressed.js" size="2902" user="UnknownUser" version=""}%
 

@@ -8,7 +8,7 @@ The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%
 
 ---++ Web Preferences Settings
 
-These settings override the defaults for this web only. See [[%SYSTEMWEB%.TWikiPreferences#DefaultWebPreferences][full list of defaults with explanation]].
+These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
 
    * Web settings:
       * Set WEBTOPICLIST = [[%WIKIUSERSTOPIC%][Users]] %SEP% [[TWikiGroups][Groups]] %SEP% [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
