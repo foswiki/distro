@@ -20,4 +20,4 @@ See %SYSTEMWEB%.TWikiSkinBrowser for an overview of the installed Skins.
 
 __Note:__ The diagnostics are provided by the =%<nop>FAILEDPLUGINS%= variable
 
-__Related Topics:__ TWikiPlugins, %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, TWikiSkinBrowser
+__Related Topics:__ [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, TWikiSkinBrowser

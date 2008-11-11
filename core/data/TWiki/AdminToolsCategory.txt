@@ -51,7 +51,7 @@ Manage whole <b>TWiki</b> site from one screen.
 ---++ Plugins
 Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][configure]].
 %PLUGINDESCRIPTIONS%
-see also: TWikiPlugins
+see also: [[Plugins]]
 
 ---++ TWiki Version
    * TWiki engine: %WIKIVERSION%

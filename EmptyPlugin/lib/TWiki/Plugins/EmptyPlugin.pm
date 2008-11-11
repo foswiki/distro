@@ -24,7 +24,7 @@
 
 This is an empty TWiki plugin. It is a fully defined plugin, but is
 disabled by default in a TWiki installation. Use it as a template
-for your own plugins; see TWiki.TWikiPlugins for details.
+for your own plugins; see %SYSTEMWEB%.Plugins for details.
 
 This version of the !EmptyPlugin documents the handlers supported
 by revision 1.2 of the Plugins API. See the documentation of =TWiki::Func=
@@ -46,11 +46,11 @@ plugin.
 __NOTE:__ When developing a plugin it is important to remember that
 TWiki is tolerant of plugins that do not compile. In this case,
 the failure will be silent but the plugin will not be available.
-See %SYSTEMWEB%.TWikiPlugins#FAILEDPLUGINS for error messages.
+See [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]] for error messages.
 
 __NOTE:__ Defining deprecated handlers will cause the handlers to be 
-listed in %SYSTEMWEB%.TWikiPlugins#FAILEDPLUGINS. See
-%SYSTEMWEB%.TWikiPlugins#Handlig_deprecated_functions
+listed in [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]]. See
+[[%SYSTEMWEB%.Plugins#Handlig_deprecated_functions]]
 for information on regarding deprecated handlers that are defined for
 compatibility with older TWiki versions.
 
@@ -148,7 +148,7 @@ sub initPlugin {
     # Set plugin preferences in LocalSite.cfg, like this:
     # $TWiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} = 1;
     # Always provide a default in case the setting is not defined in
-    # LocalSite.cfg. See TWiki.TWikiPlugins for help in adding your plugin
+    # LocalSite.cfg. See %SYSTEMWEB%.Plugins for help in adding your plugin
     # configuration to the =configure= interface.
     my $setting = $TWiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} || 0;
     $debug = $TWiki::cfg{Plugins}{EmptyPlugin}{Debug} || 0;

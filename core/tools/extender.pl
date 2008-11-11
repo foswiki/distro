@@ -108,7 +108,7 @@ BEGIN {
 
     if( &$check_perl_module( 'LWP' )) {
         $lwp = new LWP::UserAgent();
-        $lwp->agent("TWikiPluginsInstaller");
+        $lwp->agent("PluginsInstaller");
         $lwp->env_proxy();
     }
     &$check_perl_module( 'CPAN' );

@@ -9,7 +9,7 @@
 
 _Official list of stable TWiki functions for Plugin developers_
 
-This module defines official functions that [[%SYSTEMWEB%.TWikiPlugins][Plugins]]
+This module defines official functions that [[%SYSTEMWEB%.Plugins][Plugins]]
 can use to interact with the TWiki engine and content.
 
 Refer to TWiki.EmptyPlugin and lib/TWiki/Plugins/EmptyPlugin.pm for a template Plugin and documentation on how to write a Plugin.

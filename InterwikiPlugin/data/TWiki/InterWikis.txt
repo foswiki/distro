@@ -64,4 +64,4 @@ Whenever you write ==ExternalSite:Page== it will be linked automatically to the 
 
 __Note:__ This topic configures the InterwikiPlugin.
 
-__Related Topics:__ TWikiPlugins, UserDocumentationCategory, AdminDocumentationCategory
+__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], UserDocumentationCategory, AdminDocumentationCategory

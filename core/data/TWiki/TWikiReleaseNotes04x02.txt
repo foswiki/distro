@@ -467,7 +467,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item3570][Item3570]] | Usability: Time consuming to create new topic |
 | [[%BUGS%/Item3567][Item3567]] | TablePlugin: css attributes priority of site/web preferences too agressive |
 | [[%BUGS%/Item3486][Item3486]] | Possible to create topics with unsupported characters |
-| [[%BUGS%/Item3463][Item3463]] | Document how to use .spec files for plugin setting in TWiki.TWikiPlugins |
+| [[%BUGS%/Item3463][Item3463]] | Document how to use .spec files for plugin setting in !TWiki.TWikiPlugins |
 | [[%BUGS%/Item3456][Item3456]] | Doc is unclear that Space In Path Causes Error |
 | [[%BUGS%/Item3438][Item3438]] | !UnprocessedBulkRegistrationLog is improperly formatted |
 | [[%BUGS%/Item3375][Item3375]] | Refactor object names for clarity |

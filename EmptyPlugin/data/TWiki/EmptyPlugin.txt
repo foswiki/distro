@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 14040 $"}%
 ---+ Empty TWiki Plugin
 
-This is an empty Plugin you can use as a template to build your own %SYSTEMWEB%.TWikiPlugins. This Plugin does nothing, but is ready to be used.
+This is an empty Plugin you can use as a template to build your own [[%SYSTEMWEB%.Plugins][Plugins]]. This Plugin does nothing, but is ready to be used.
 
 To create your own Plugin:
 
    * Copy file ==TWiki/Plugins/EmptyPlugin.pm== to ==&lt;name&gt;Plugin.pm== and customize the plugin.
    * Create a  ==&lt;name&gt;Plugin== topic in the %SYSTEMWEB% web. Do so by visiting http://TWiki.org/cgi-bin/view/Plugins/PluginPackage#NewPlugin and starting a new topic to get the default plugin topic text (don't save the topic). Customize your plugin topic to your needs.
-   * See details in %SYSTEMWEB%.TWikiPlugins.
+   * See details in [[%SYSTEMWEB%.Plugins][Plugins]].
 
 ---++ Syntax Rules
 
@@ -50,6 +50,6 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>E
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.TWikiPlugins, %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 -- %SYSTEMWEB%.ProjectContributor - 01 Feb 2006

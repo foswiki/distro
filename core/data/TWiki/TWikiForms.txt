@@ -194,7 +194,7 @@ For example:
    * The ==Values== column *must be empty* in the referring form definition.
  
 ---++ Extending the range of form data types
-You can extend the range of data types accepted by forms by using TWikiPlugins. All such extended data types are single-valued (can only have one value) with the following exceptions:
+You can extend the range of data types accepted by forms by using [[Plugins]]. All such extended data types are single-valued (can only have one value) with the following exceptions:
    * any type name starting with =checkbox=
    * any type name with =+multi= anywhere in the name
 Types with names like this can both take multiple values.

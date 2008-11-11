@@ -207,7 +207,7 @@ The =rest= script assumes that it will be called with URL in the form:
 
 =http://my.host/bin/rest/&lt;subject&gt;/&lt;verb&gt;=
 
-where =&lt;subject&gt;= must be the WikiWord name of one of the installed TWikiPlugins, and the =&lt;verb&gt;= is the alias for the function registered using the =TWiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function.
+where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =TWiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function.
 
 =&lt;subject&gt;= and =&lt;verb&gt;= are checked for illegal characters exactly in the same way as the web and topic names.
 

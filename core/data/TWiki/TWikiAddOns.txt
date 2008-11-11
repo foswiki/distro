@@ -16,7 +16,7 @@ __Relevant links on TWiki.org:__
    * TWiki:Plugins.AddOnBrainstorming - open forum for new add-on script ideas
    * TWiki:Plugins.AddOnPackageHowTo - instructions and template to create a new add-on topic
 
-__See other types of extensions:__ WikiContribs, TWikiPlugins, TWikiSkins
+__See other types of extensions:__ WikiContribs, [[Plugins]], TWikiSkins
 
 ---++ Add-Ons Installed on this TWiki
 
@@ -32,5 +32,5 @@ __See other types of extensions:__ WikiContribs, TWikiPlugins, TWikiSkins
    * Visit TWiki:Plugins.AddOnPackageHowTo and follow the instructions.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:TWiki.TWikiPluginsSupplement
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:Support.PluginsSupplement
 

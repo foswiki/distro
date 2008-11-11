@@ -91,7 +91,7 @@ This plugin is installed by default with a TWiki release. You should not need to
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.TWikiPlugins
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
 %META:FILEATTACHMENT{name="biggrin.gif" attr="h" comment="" date="1071216488" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\biggrin.gif" size="152" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="confused.gif" attr="h" comment="" date="1071216502" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\confused.gif" size="110" user="ProjectContributor" version="1.1"}%

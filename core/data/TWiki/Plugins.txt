@@ -19,7 +19,7 @@ Everything to do with TWiki plugins - demos, new releases, downloads, developmen
 TWiki plugins are developed and contributed by interested members of the community. Plugins are provided on an 'as is' basis; they are not a part of TWiki, but are independently developed and maintained.
 
 __Relevant links on TWiki.org:__
-   * TWiki:TWiki.TWikiPluginsSupplement - __%T% tip:__ supplemental documentation on TWiki plugins
+   * TWiki:Support.PluginsSupplement - __%T% tip:__ supplemental documentation on plugins
    * TWiki:Plugins.PluginPackage - list of all contributed plugin packages
    * TWiki:Plugins.PluginDevelopment - discussion and feedback on contributed plugins
    * TWiki:Plugins.PluginBrainstorming - open forum for new plugin ideas
@@ -360,7 +360,7 @@ The plugin interface (TWikiFuncDotPm functions and plugin handlers) evolve over 
 Organizations typically do not upgrade to the latest TWiki for many months. However, many administrators still would like to install the latest versions of a plugin on their older TWiki installation. This need is fulfilled if plugins are maintained in a compatible manner. 
 
 __%T% Tip:__ Plugins can be written to be compatible with older and newer TWiki releases. This can be done also for plugins using unofficial TWiki internal functions of an earlier release that no longer work on the latest TWiki codebase. 
-Here is an example; the TWiki:TWiki.TWikiPluginsSupplement#MaintainPlugins has more details.
+Here is an example; the TWiki:Support.PluginsSupplement has more details.
 
 <verbatim>
     if( $TWiki::Plugins::VERSION >= 1.1 ) {
@@ -388,5 +388,5 @@ $TWikiCompatibility{endRenderingHandler} = 1.1;
 If the currently-running TWiki version is 1.1 _or later_, then the _handler will not be called_ and _the warning will not be issued_. TWiki with versions of =TWiki::Plugins= before 1.1 will still call the handler as required.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:TWiki.TWikiPluginsSupplement
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:Support.PluginsSupplement
 

@@ -16,7 +16,7 @@ __Relevant links on TWiki.org:__
    * TWiki:Plugins.ContribBrainstorming - open forum for new contrib ideas
    * TWiki:Plugins.ContribPackageHowTo - instructions and template to create a new contrib package
 
-__See other types of extensions:__ ContributedAddOns, TWikiPlugins, TWikiSkins
+__See other types of extensions:__ ContributedAddOns, [[Plugins]], TWikiSkins
 
 ---++ TWiki Contribs Installed on this TWiki
 
@@ -32,4 +32,4 @@ __See other types of extensions:__ ContributedAddOns, TWikiPlugins, TWikiSkins
    * Visit TWiki:Plugins.ContribPackageHowTo and follow the instructions.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:TWiki.TWikiPluginsSupplement
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:Support.PluginsSupplement

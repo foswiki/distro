@@ -87,7 +87,7 @@ __Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, TWikiEnhancem
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiPlugins"}%
+%INCLUDE{"Plugins"}%
 
 [[#PageTop][Back to top]]
 

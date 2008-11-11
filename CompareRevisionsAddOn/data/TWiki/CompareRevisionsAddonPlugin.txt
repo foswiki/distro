@@ -37,4 +37,4 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOnDev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOnAppraisal |
 
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.TWikiPlugins
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]

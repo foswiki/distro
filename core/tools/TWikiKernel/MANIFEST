@@ -115,6 +115,7 @@ data/TWiki/NewUserTemplate.txt 0660
 data/TWiki/ObjectMethod.txt 0660
 data/TWiki/PeterThoeny.txt 0660
 data/TWiki/PlainSkin.txt 0660
+data/TWiki/Plugins.txt 0660
 data/TWiki/PreviewBackground.txt 0660
 data/TWiki/PrintSkin.txt 0660
 data/TWiki/ProjectContributor.txt 0660
@@ -150,7 +151,6 @@ data/TWiki/TWikiJavascripts.txt 0660
 data/TWiki/TWikiLogos.txt 0660
 data/TWiki/TWikiMetaData.txt 0660
 data/TWiki/TWikiPlannedFeatures.txt 0660
-data/TWiki/TWikiPlugins.txt 0660
 data/TWiki/TWikiReferenceManual.txt 0660
 data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660
