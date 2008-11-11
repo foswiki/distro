@@ -24,7 +24,11 @@
 # BY THE BUILD PROCESS DO NOT EDIT IT - IT WILL BE OVERWRITTEN
 #
 use strict;
+use warnings;
 require 5.008;
+
+use File::Spec;
+use Cwd;
 
 =pod
 
@@ -62,31 +66,56 @@ undef $/;
 my @DATA = split( /<<<< (.*?) >>>>\s*\n/, <DATA> );
 shift @DATA;    # remove empty first element
 
-unless ( do 'tools/extender.pl' ) {
-    my $file_error = $!;
-    my $compile_error = $@;
-    my $wd;
-    eval { use Cwd; $wd = Cwd::cwd() };
+# Establish where we are
+my @path = ( 'tools', 'extender.pl' );
+my $wd = Cwd::cwd();
+$wd =~ /^(.*)$/;    # untaint
+unshift( @path, $1 ) if $1;
+my $script = File::Spec->catfile(@path);
+
+unless ( do $script ) {
     my $message = <<MESSAGE;
 ************************************************************
-Could not load installer script from tools/extender.pl
-
-If this is a TWiki release prior to 4.2, please download the
-latest version of the script from:
-
-http://twiki.org/cgi-bin/view/Codev/ExtenderScript
-
-and place it in the 'tools' directory below your installation
-root (create the directory if necessary).
-
-If this is TWiki 4.2 or later, the script is missing from
-your installation, or may be broken.
+Could not load $script
+MESSAGE
+    if ($!) {
+        $message .= "There was a file error: $!\n";
+    }
+    elsif ($@) {
+        $message .= "There was a compile error: $@\n";
+    }
+    else {
+        $message .= "An unspecified error occurred\n";
+    }
+    $message .= <<MESSAGE;
+(if this is a TWiki release prior to 4.2, you can download this
+ file from: http://twiki.org/cgi-bin/view/Codev/ExtenderScript
+ and place it in
+ $wd/tools
+ Create the directory if necessary).
 ************************************************************
 MESSAGE
-    $message .= "Working directory was: $wd\n" if $wd;
-    $message .= "File error was: $file_error\n" if $file_error;
-    $message .= "Compile error was: $compile_error\n" if $compile_error;
-    die $message;
+
+    # Try again, using open. This cures some uncooperative platforms.
+    if ( open( F, '<', $script ) ) {
+        local $/;
+        my $data = <F>;
+        close(F);
+        $data =~ /^(.*)$/s;    # untaint
+        eval $1;
+        if ($@) {
+            $message .= "Error when trying to eval the file content: $@\n";
+        }
+        else {
+            print STDERR
+              "'do $script failed, but install was able to proceed: $message";
+            undef $message;
+        }
+    }
+    else {
+        $message .= "Could not open file using open() either: $!\n";
+    }
+    die $message if $message;
 }
 
 sub preuninstall {
