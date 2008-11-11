@@ -1,15 +1,24 @@
 <!-- template: form.natedit.tmpl -->
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
 
-%TMPL:DEF{"mandatory"}%<span class="twikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% %TMPL:END%
+%TMPL:DEF{"mandatory"}%<div class='twikiFormLegend' id="twikiFormMandatory"><span class="twikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% </div>%TMPL:END%
 
 %TMPL:DEF{"repeatedformrows"}% %REPEAT%
-<tr><th align="right">%ROWTITLE%%ROWEXTRA%</th><td align="left">%ROWVALUE%</td></tr>%REPEAT%<tr><th align="left" colspan="2">%ROWVALUE%</th></tr>%REPEAT% %TMPL:END%
+<div class="twikiFormStep">
+<h3 >%ROWTITLE%%ROWEXTRA%:</h3>
+%ROWVALUE%
+</div>
+%REPEAT%
+<div class="twikiFormStep">
+%ROWVALUE%
+</div>
+%REPEAT%%TMPL:END%
 
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
 %TAB{"Form" after="fixHeightOfPane()"}%
-<div class="twikiForm twikiEditForm"><table class="twikiFormTable">
-<tr>
-<th class="twikiFormTableHRow" colspan="2">%FORMTITLE%%TMPL:P{"changeform"}%</th>
-</tr>%TMPL:P{"repeatedformrows"}%</table>%TMPL:P{"formtail"}%</div>
+<div class="twikiFormSteps twikiEditForm">
+<h2 >%FORMTITLE%%TMPL:P{"changeform"}%</h2>
+%TMPL:P{"repeatedformrows"}%
+%TMPL:P{"formtail"}%
+</div>
 %ENDTAB%

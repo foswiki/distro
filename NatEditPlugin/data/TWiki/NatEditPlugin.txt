@@ -15,14 +15,14 @@
 <table style="float:right">
 <tr>
   <td><img src="%ATTACHURLPATH%/wikiringlogo40x40.png"></td>
-  <td><a href="http://wikiring.de" title="Make your Wiki ring!" style="text-decoration:none">
+  <td><a href="http://wikiring.com" title="Make your Wiki ring!" style="text-decoration:none">
       Powered by <br /> <nop>WikiRing Consultants </a>
   </td>
 </tr>
 </table>
 
 ---++ Description
-The <nop>NatEdit is an wiki editor that helps in learning the <nop>TWikiMarkup
+The <nop>NatEdit is an wiki editor that helps in learning the TML
 Language by providing a GUI. By design, this is not a wysiwyg editor that tries
 to generate the correct TML in the background. Instead, the user is still in
 charge of writing correct wiki markup but with a bit more of assistance as a
@@ -78,13 +78,14 @@ Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 ---++ Plugin Info
 Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIKI.NET]]
 
-|  Author: | TWiki:Main/MichaelDaum |
+|  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v2.12 |
+|  Version: | v3.01 |
 |  Change History: | |
+|  11 Nov 2008 | usability improvements on topic forms |
 |  16 Jul 2008 | fixed calculation of tab height; removed =topicinfo= makro as it is in conflict with <nop>PatternSkin |
-|  03 Jul 2008 | improved skin to ease integration into <nop>TWikiApplication |
+|  03 Jul 2008 | improved skin to ease integration into <nop>WikiApplication |
 |  29 Apr 2008 | added workaround for regression error in IE6+7's textarea; \
                  be backwards compatible to legacy pattern skins |
 |  17 Jan 2008 | reimplemented as jquery.natedit plugin; \
@@ -122,11 +123,8 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  31 Mar 2007 | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | - |
-|  Plugin Home: | TWiki:Plugins/%TOPIC% |
-|  Feedback: | TWiki:Plugins/%TOPIC%Dev |
-|  Appraisal: | TWiki:Plugins/%TOPIC%Appraisal |
-
--- TWiki:Main.MichaelDaum - 16 Jul 2008
+|  Plugin Home: | http://nextwiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://nextwiki.org/Extensions/%TOPIC%Dev |
 
 %META:FILEATTACHMENT{name="wikiringlogo40x40.png" attr="h" autoattached="1" comment="" date="1207667571" path="wikiringlogo40x40.png" size="2571" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%

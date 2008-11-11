@@ -22,4 +22,3 @@ function submitEditForm(script, action) {
   document.EditForm.elements['action_' + action].value = 'foobar';
   document.EditForm.submit();
 }
-
