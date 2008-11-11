@@ -1,6 +1,8 @@
+#!/usr/bin/perl 
 # Analyse who fixed what
 use strict;
 use Data::Dumper;
+use List::Util;
 
 my $REPOS = '/home/svn/nextwiki';
 my $BUGS = '/home/twikifork.org/data/Tasks';
@@ -161,6 +163,13 @@ for my $n (0..4) {
     }
 
 }
+print F '| total | '.
+	List::Util::sum(values(%patchc)).
+	' | total | '.
+	List::Util::sum(values(%minorc)).
+	' | total | '.
+	List::Util::sum(values(%majorc)).
+	" |\n";
 print F "%STOPINCLUDE%\n";
 
 print F <<STUFF;
