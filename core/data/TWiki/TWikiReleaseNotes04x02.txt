@@ -414,7 +414,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item3803][Item3803]] | %!USERINFO{format="$groups"}% crashes |
 | [[%BUGS%/Item3796][Item3796]] | Javascript: ensuring variables are local |
 | [[%BUGS%/Item3790][Item3790]] | Web statistic severely broken |
-| [[%BUGS%/Item3787][Item3787]] | TWiki.TWikiDocumentation jumps to top at double click |
+| [[%BUGS%/Item3787][Item3787]] | !TWiki.TWikiDocumentation jumps to top at double click |
 | [[%BUGS%/Item3784][Item3784]] | Rename across webs bugs |
 | [[%BUGS%/Item3783][Item3783]] | Pattern skin small template refactoring |
 | [[%BUGS%/Item3780][Item3780]] | Add Sanitize Attachment Name to TWiki::Func |
@@ -640,7 +640,7 @@ The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5636][Item5636]] | Main Web preferences lists nonexistant topic in WEBFORM |
 | [[%BUGS%/Item5633][Item5633]] | Documentation mistakes in TWikiFuncDotPm/saveTopic |
 | [[%BUGS%/Item5632][Item5632]] | moveAttachment creates duplicates when topic/web are the same as the source |
-| [[%BUGS%/Item5631][Item5631]] | WebStatistics topic was linking to the massive TWikiDocumentation topic |
+| [[%BUGS%/Item5631][Item5631]] | WebStatistics topic was linking to the massive !TWikiDocumentation topic |
 | [[%BUGS%/Item5630][Item5630]] | spooling erra's in the WebNotify topics  |
 | [[%BUGS%/Item5629][Item5629]] | registration email does not explicitly tell the user what their login is. |
 | [[%BUGS%/Item5627][Item5627]] | Image and Attachment references are trashed when using short URLs |
@@ -695,7 +695,7 @@ The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5430][Item5430]] | reset password message has some errors |
 | [[%BUGS%/Item5428][Item5428]] | Topic save error with form does not remove nop |
 | [[%BUGS%/Item5426][Item5426]] | RSS feeds failing due to newlines at top of page. |
-| [[%BUGS%/Item5418][Item5418]] | readme.txt refers to missing 'install instructions' TWikiDocumentation.html |
+| [[%BUGS%/Item5418][Item5418]] | readme.txt refers to missing 'install instructions' !TWikiDocumentation.html |
 | [[%BUGS%/Item5412][Item5412]] | "You are trying to templatetopic a topic that does not exist" makes no sense |
 | [[%BUGS%/Item5410][Item5410]] | WebSearchAdvanced does not regex search when you select that it should |
 | [[%BUGS%/Item5405][Item5405]] | !TWikiHierarchicalNavigation seach broken |

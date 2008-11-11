@@ -123,7 +123,7 @@ sub stage_gendocs {
                    "$this->{tmpDir}/bin/${script}auth" );
     }
 
-    print `cd $this->{basedir}/bin ; ./view TWiki.TWikiDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiDocumentation.html`;
+    print `cd $this->{basedir}/bin ; ./view TWiki.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.TWikiHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiHistory.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.DakarReleaseNotes skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/DakarReleaseNotes.html`;
 

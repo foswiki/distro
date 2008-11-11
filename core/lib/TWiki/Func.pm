@@ -4,7 +4,7 @@
 
 ---+ package TWiki::Func
 
-<!-- STARTINCLUDE required for huge TWikiDocumentation topic -->
+<!-- STARTINCLUDE required for huge CompleteDocumentation topic -->
 %STARTINCLUDE%
 
 _Official list of stable TWiki functions for Plugin developers_

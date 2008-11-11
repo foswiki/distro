@@ -137,7 +137,7 @@ RCS revision control automatically saves all topic changes. To look at earlier v
    1 Return to the most recent version of the topic and select =Edit= from the topic commands.
    1 Either paste in the portion of the topic you wish to reclaimed or replace the entire text with the text you copied from the earlier version.
    1 Save the topic.
-See: [[TWikiDocumentation#Managing_Topics][ManagingTopics]] for more details.
+See: [[CompleteDocumentation#Managing_Topics][ManagingTopics]] for more details.
 
 ---
 __Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

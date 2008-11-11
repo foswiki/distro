@@ -5,7 +5,7 @@
 _Documentation for webmasters, system administrators, project managers, team leaders, and all other users of the TWiki Enterprise Collaboration Platform._
 
 All manual sections in one big page:
-   * [[TWikiDocumentation][TWiki Documentation]] (1MB size, 175 printed pages)
+   * [[CompleteDocumentation][Complete Documentation]] (1MB size, almost 200 printed pages)
 
 Manual sections in separate pages:
    1. [[TWikiSystemRequirements][TWiki System Requirements]]

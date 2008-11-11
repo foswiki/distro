@@ -324,7 +324,7 @@ $TWiki::cfg{AdminUserWikiName} = 'TWikiAdminUser';
 
 # **STRING 20 EXPERT**
 # Group of users that can use special action=repRev and action=delRev
-# on =save= and ALWAYS have edit powers. See TWiki.TWikiDocumentation
+# on =save= and ALWAYS have edit powers. See %SYSTEMWEB%.CompleteDocumentation
 # for an explanation of twiki groups. This user will also run all the
 # standard cron jobs, such as statistics and mail notification.
 # The default value "AdminGroup" is used everywhere in TWiki to

@@ -657,7 +657,7 @@ __Major New Features__
    * *07 Feb 2000* - TWiki:Main.PeterThoeny
       * Inline search. New variable =%<nop>SEARCH{"str" ...}%= to show a search result embedded in a topic text. TWikiVariables has more on the syntax. Inline search combined with the category table feature can be used for example to create a simple bug tracking system. 
    * *04 Feb 2000* - TWiki:Main.PeterThoeny
-      * Access statistics. Each web has a WebStatistics topic that shows monthy statistics with number of topic views and changes, most popular topics, and top contributors. (It needs to be enabled, TWikiDocumentation has more.) 
+      * Access statistics. Each web has a WebStatistics topic that shows monthy statistics with number of topic views and changes, most popular topics, and top contributors. (It needs to be enabled, CompleteDocumentation has more.) 
    * *29 Jan 2000* - TWiki:Main.PeterThoeny
       * Fixed bug where TWiki would not initialize correctly under certain circumstances, i.e. when running it under mod_perl. Sub =initialize= in =wiki.pm= did not handle =$thePathInfo= correctly. 
    * *24 Jan 2000* - TWiki:Main.PeterThoeny
@@ -716,7 +716,7 @@ __Major New Features__
    * *08 Dec 1998* - TWiki:Main.PeterThoeny
       * Signature is shown below the text area when editing a topic. Use this to easily copy & paste your signature into the text. 
    * *07 Dec 1998* - TWiki:Main.PeterThoeny
-      * Possible to add a category table to a TWiki topic. This permits storing and searching for more structured information. Editing a topic shows a HTML form with the usual text area and a table with selectors, checkboxes, radio buttons and text fields. TWikiDocumentation has more on setup. The TWiki.Know web uses this category table to set classification, platform and OS version.  
+      * Possible to add a category table to a TWiki topic. This permits storing and searching for more structured information. Editing a topic shows a HTML form with the usual text area and a table with selectors, checkboxes, radio buttons and text fields. CompleteDocumentation has more on setup. The TWiki.Know web uses this category table to set classification, platform and OS version.  
    * *18 Nov 1998* - TWiki:Main.PeterThoeny
       * Internal log of topic save actions to the file <code>data/logYYYYMM.txt</code>, where <code>YYYYMM</code> the year and month in numeric format is. Intended for auditing only, not accessible from the web. 
    * *10 Nov 1998* - TWiki:Main.PeterThoeny
@@ -772,6 +772,6 @@ The typical TWiki development flow...
    * TWiki:Codev.DocRequest: request for documentation
    * TWiki:Codev.DocsToDo: feature documentation pending
    * TWiki:Codev.FeatureDocumented: documented feature
-   * TWikiDocumentation: reference manual for the latest TWiki
+   * ReferenceManual: reference manual for the latest TWiki
 
 __Related Topics:__ DeveloperDocumentationCategory

@@ -41,14 +41,14 @@ File Attachments can be used to archive data, or to create powerful customized g
    * Click on the file in the [[#FileAttachmentTable][File Attachment table]].
 #AttachmentAccess
 
-   * %X% _NOTE:_ There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[TWikiDocumentation#TWikiAccessControl][access restrictions]] for each.
+   * %X% _NOTE:_ There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[CompleteDocumentation#TWikiAccessControl][access restrictions]] for each.
 
 ---++ Moving Attachment Files
 
 An attachment can be moved between topics. 
    * Click ==Manage== on the Attachment to be moved.
    * On the control screen, select the new web and/or topic.
-   * Click ==Move==. The attachment and its version history are moved. The original location is stored as [[TWikiDocumentation#Meta_Data_Definition][topic Meta Data]].
+   * Click ==Move==. The attachment and its version history are moved. The original location is stored as [[CompleteDocumentation#Meta_Data_Definition][topic Meta Data]].
 
 ---++ Deleting Attachments
 

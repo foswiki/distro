@@ -98,6 +98,7 @@ data/TWiki/BumpyWord.txt 0644
 data/TWiki/CascadingStyleSheets.txt 0660
 data/TWiki/CategoryCategory.txt 0644
 data/TWiki/ClassMethod.txt 0644
+data/TWiki/CompleteDocumentation.txt 0644
 data/TWiki/Contribs.txt 0644
 data/TWiki/ContributedAddOns.txt 0644
 data/TWiki/DefaultPreferences.txt 0644
@@ -152,7 +153,6 @@ data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
-data/TWiki/TWikiDocumentation.txt 0644
 data/TWiki/TWikiDownload.txt 0644
 data/TWiki/TWikiEditingShorthand.txt 0644
 data/TWiki/TWikiEnhancementRequests.txt 0644
