@@ -150,6 +150,6 @@ A wide range of standard styles are used in the TWiki core code and topics, and 
 
 Practical introduction to CSS: http://www.w3.org/Style/LieBos2e/enter/
 
-__Related Topics:__ TWikiSkins, PatternSkin, DeveloperDocumentationCategory, AdminDocumentationCategory
+__Related Topics:__ [[Skins]], PatternSkin, DeveloperDocumentationCategory, AdminDocumentationCategory
 
 %STOPINCLUDE%

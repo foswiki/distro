@@ -90,7 +90,7 @@ You %IF{"'%USERNAME%' ingroup 'TWikiAdminGroup'" then="are an admin" else="are a
 
 *Configuration items* are defined in [[%SCRIPTURLPATH{"configure"}%][configure]]. You cannot see the value of a configuration item, you can only see if the item is set or not.
 
-*Context identifiers* are used in TWiki to label various stages of the rendering process. They are especially useful for [[TWikiSkins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
+*Context identifiers* are used in TWiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
 | *id* | *context* |
 | absolute_urls | Set if absolute URLs are required |
 | attach | in attach script (see TWikiScripts) |

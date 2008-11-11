@@ -30,8 +30,8 @@ All the scripts accept a number of common parameters. The first two components o
 | *Parameter* | *Description* | *Default* |
 | =topic= | If this is set to a URL, TWiki will immediately redirect to that URL. Otherwise it overrides the URL and is taken as the topic name (you can pass Web.<nop>TopicName) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
-| =skin= | Overrides the default skin path (see TWikiSkins) | |
-| =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see TWikiSkins) | |
+| =skin= | Overrides the default skin path (see [[Skins]]) | |
+| =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | |
 | =t= | While the =t= parameter is not actively used by any scripts, it is used throughout the links like =edit= to ensure that the browser doesn't cache the reply. | generally set to current time |
 
 ---+++ =attach=

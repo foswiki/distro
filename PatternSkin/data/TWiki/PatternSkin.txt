@@ -50,7 +50,7 @@ The original Photoshop files of the skin graphics (mainly background images) are
    * Download the ZIP file from the Skin Home page (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory
    * Test if installed: %SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=pattern
-   * For skin activation see %SYSTEMWEB%.TWikiSkins
+   * For skin activation see [[%SYSTEMWEB.Skins]]
 
 ---+++ Troubleshooting
 
@@ -123,7 +123,7 @@ For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Re
    * %SYSTEMWEB%.AdminDocumentationCategory
 
 Other skins:
-   * %SYSTEMWEB%.TWikiSkins
+   * [[%SYSTEMWEB.Skins]]
    * %SYSTEMWEB%.TWikiSkinBrowser
 
 ---++ Feedback

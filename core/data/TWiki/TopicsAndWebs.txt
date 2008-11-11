@@ -45,7 +45,7 @@ A TWiki topic is a rich information unit. *Each* topic has:
 
 Features that can be used by topics and sites include:
 
-   * [[%SYSTEMWEB%.TWikiSkins][TWiki Skins]] to customize the look of headers and footers when topics are converted to Web pages for display:
+   * [[Skins]] to customize the look of headers and footers when topics are converted to Web pages for display:
       * default and user selectable per session
       * fully configurable look and feel
       * apply skins across an entire TWiki web, or to a single displayed page

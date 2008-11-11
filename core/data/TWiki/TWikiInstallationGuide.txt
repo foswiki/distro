@@ -83,7 +83,7 @@ The TWiki:TWiki.ApacheConfigGenerator as well as the example =twiki_httpd_conf.t
 
 ---++ Next Steps
 
-Once you have TWiki installed and running, you might consider the following optional steps for setting up and customizing your TWiki site. Many of the references below refer to topics within your TWiki installation. For example, =TWiki.TWikiSkins= refers to the =TWikiSkins= topic in your TWiki web. Easy way to jump directly to view the pages is to open your own TWiki in your browser and write =TWiki.TWikiSkins= in the Jump test box to the right in the top bar and hit Enter. You can find these topics in the on-line reference copy at the official TWiki website: [[TWiki:TWiki04x02.WebHome][TWiki Release 4.2]]
+Once you have TWiki installed and running, you might consider the following optional steps for setting up and customizing your TWiki site. Many of the references below refer to topics within your TWiki installation. For example, =[[%SYSTEMWEB.Skins][Skins]]= refers to the =Skins= topic in your TWiki web. Easy way to jump directly to view the pages is to open your own TWiki in your browser and write =[[%SYSTEMWEB.Skins]]= in the Jump test box to the right in the top bar and hit Enter. You can find these topics in the on-line reference copy at the official TWiki website: [[TWiki:TWiki04x02.WebHome][TWiki Release 4.2]]
 
 #AuthenticationOfUsers
 ---++ Enable Authentication of Users

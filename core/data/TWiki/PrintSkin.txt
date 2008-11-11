@@ -23,7 +23,7 @@ This skin is part of every TWiki distribution.
 
 __Note:__ The Description, Screenshot and Base Name rows are needed by the %SYSTEMWEB%.TWikiSkinBrowser
 
-__Related topic:__ %SYSTEMWEB%.TWikiSkins, %SYSTEMWEB%.TWikiSkinBrowser, %SYSTEMWEB%.UserDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory
+__Related topic:__ [[%SYSTEMWEB.Skins][Skins]], %SYSTEMWEB%.TWikiSkinBrowser, %SYSTEMWEB%.UserDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory
 
 
 %META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1090916727" path="C:\Data\Temp\screenshot.gif" size="4040" user="ProjectContributor" version="1.1"}%

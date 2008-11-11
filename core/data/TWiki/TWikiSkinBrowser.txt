@@ -1,8 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 10463 $"}%
-%META:TOPICPARENT{name="TWikiSkins"}%
 ---+ TWiki Skin Browser
 
-You can try out the TWikiSkins currently installed on this system:
+You can try out the [[Skins]] currently installed on this system:
 
 <div class="skinstable">
 %SEARCH{ "Skin$" scope="topic" type="regex" nosearch="on" nototal="on" expandvariables="on" format="| $pattern(.*\| *Screenshot\:[^\|]*\|([^\|]*).*) | *[[$topic]]*: $pattern(.*\| *Description\:[^\|]*\|([^\|]*).*)<br /><br />[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=$pattern(.*\| *Base Name\:[^\|]*\| *(\w*).*)][preview with this topic]] |" }%
@@ -11,9 +10,9 @@ You can try out the TWikiSkins currently installed on this system:
 .skinstable td {border-top:2px solid #444; padding:0.75em 0.5em;}
 </style>
 
-__Tip:__ Additional skins can be downloaded from TWiki:Plugins.SkinPackage
+__Tip:__ Additional skins can be downloaded from TWiki:Extensions.SkinPackage
 
-__Note:__ TWikiSkins describes how to install and activate a skin
+__Note:__ [[Skins]] describes how to install and activate a skin
 
-__Related Topics:__ TWikiSkins, AdminDocumentationCategory, UserDocumentationCategory
+__Related Topics:__ [[Skins]], AdminDocumentationCategory, UserDocumentationCategory
 

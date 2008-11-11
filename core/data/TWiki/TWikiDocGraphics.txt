@@ -372,7 +372,7 @@ To get the full URL of the icon, use [[VarICONURL][ICONURL]]:
 and that will get rendered as: %ICONURL{"toggleopen"}%
 </blockquote>
 
-__Related Topics:__ TWikiSkins, DeveloperDocumentationCategory, AdminDocumentationCategory
+__Related Topics:__ [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
 
 __Contributors:__ Most icons on this page were originally designed by Peter Thoeny. Many icons were recreated by Arthur Clemens.
 

@@ -89,7 +89,7 @@ Files attached to a topic are displayed in a directory table, displayed at the b
 
 ---++ File Attachment Controls
 
-Clicking on a ==Manage== link takes you to a new page that looks a bit like this (depending on what [[TWikiSkins][skin]] is selected):
+Clicking on a ==Manage== link takes you to a new page that looks a bit like this (depending on what [[Skins][skin]] is selected):
 
 <div class="twikiFormSteps">
 <div class="twikiFormStep">

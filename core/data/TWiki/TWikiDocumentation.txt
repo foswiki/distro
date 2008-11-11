@@ -67,7 +67,7 @@ __Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, TWikiEnhancem
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiSkins"}%
+%INCLUDE{"Skins"}%
 
 [[#PageTop][Back to top]]
 
