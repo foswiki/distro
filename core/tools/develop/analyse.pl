@@ -7,13 +7,15 @@ use List::Util;
 my $REPOS = '/home/svn/nextwiki';
 my $BUGS = '/home/twikifork.org/data/Tasks';
 my $MANIFEST = '/home/twikifork.org/lib/MANIFEST';
+my $svn = '/usr/local/bin/svn';
+my $svnlook = '/usr/local/bin/svnlook';
 
 # First determine what releases we know about, and the checkin number for that release
 my $verbose = 0;
 my $releases;
 foreach my $release (
     split("\n",
-          `svn ls --verbose http://svn.nextwiki.org/tags`)) {
+          `$svn ls --verbose http://svn.nextwiki.org/tags`)) {
     if ($release =~ s/^\s*(\d+).*Release(\d\d)x(\d\d)x(\d\d)\/$//) {
         $releases->{0+$2}->{0+$3}->{0+$4} = $1;
     }
@@ -28,7 +30,7 @@ my $patch = pop(@a) || 0;
 my $patchcin = $releases->{$major}->{$minor}->{$patch};
 my $minorcin = $releases->{$major}->{$minor}->{0};
 my $majorcin = $releases->{$major}->{0}->{0};
-my $repositoryRevision = `svnlook youngest $REPOS`;
+my $repositoryRevision = `$svnlook youngest $REPOS`;
 
 print "Last release $major($majorcin).$minor($minorcin).$patch($patchcin)\n" if $verbose;
 
@@ -38,7 +40,7 @@ my $coreExt = join ('|',
 print "SCAN $coreExt" if $verbose;
 
 # First load and update WhoDunnit.sid2cin, the list of checkers-in for each rev
-my $topSid = `svnlook youngest $REPOS`;
+my $topSid = `$svnlook youngest $REPOS`;
 my $maxSid = 0;
 my %sid2who;
 if (open(F, "<WhoDunnit.sid2cin")) {
@@ -56,7 +58,7 @@ if ($maxSid < $topSid) {
     print "Refreshing $maxSid..$topSid\n" if $verbose;
     open(F, ">>WhoDunnit.sid2cin") || die $!;
     for ($maxSid..$topSid) {
-        my $who = `svnlook author -r $_ $REPOS`;
+        my $who = `$svnlook author -r $_ $REPOS`;
         chomp($who);
         $sid2who{$_} = $who;
         print F "$who $_\n";
