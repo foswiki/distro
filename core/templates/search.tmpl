@@ -9,17 +9,17 @@
 
 %TMPL:DEF{"searched"}%%MAKETEXT{"Searched:"}% <b> %SEARCHSTRING% </b>%TMPL:END%
 
-%TMPL:DEF{"header"}%<div class="patternSearchResult">
+%TMPL:DEF{"header"}%<div class="twikiSearchResult">
 <div class="twikiTopRow" style="backgroundcolor:%WEBBGCOLOR%;">
 <div class="twikiLeft"><b>%MAKETEXT{"Topics in [_1] web" args="<nop>%WEB%"}%</b></div>
 <div class="twikiRight twikiSRAuthor"><b>%MAKETEXT{"Changed"}%</b></div>
 <div class="twikiRight twikiSRRev"><b>%MAKETEXT{"Changed by"}%</div>
 <br class="twikiClear" /></div><!--/twikiTopRow-->
-</div><!--/patternSearchResult-->%TMPL:END%
+</div><!--/twikiSearchResult-->%TMPL:END%
 
 %TMPL:DEF{"count"}%</table><br clear="all" /> %BR% Number of topics: <b>%NTOPICS%</b>%TMPL:END%
 
-%TMPL:DEF{"result"}%<div class="patternSearchResult">
+%TMPL:DEF{"result"}%<div class="twikiSearchResult">
 <div class="twikiTopRow">
 <div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div>
 <div class="twikiRight twikiSRAuthor"> %AUTHOR%</div>
@@ -28,7 +28,7 @@
 <div class="twikiBottomRow">
 <div class="twikiSummary twikiGrayText">%TEXTHEAD%</div><!--/twikiSummary-->
 </div><!--/twikiBottomRow-->
-</div><!--/patternSearchResult-->%TMPL:END%
+</div><!--/twikiSearchResult-->%TMPL:END%
 
 
 %TMPL:DEF{"content"}%%SPLIT%%TMPL:P{"searched"}%%SPLIT%%TMPL:P{"header"}%%REPEAT%%TMPL:P{"result"}%%REPEAT%%SPLIT%%TMPL:P{"count"}%%SPLIT%%TMPL:END%

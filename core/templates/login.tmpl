@@ -24,7 +24,7 @@
 %IF{"defined NOTE AND $NOTE != ''" then='---+++ %NOTE%'}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="twikiNotification twikiAlert twikiUnvisited patternLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
+%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="twikiNotification twikiAlert twikiUnvisited twikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
 
 %TMPL:DEF{"error"}%%MAKETEXT{"Error: [_1]" args="%ERROR%"}%%TMPL:END%
 
