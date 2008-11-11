@@ -25,7 +25,7 @@ __Relevant links on TWiki.org:__
    * TWiki:Plugins.PluginBrainstorming - open forum for new plugin ideas
    * TWiki:Plugins.PluginPackageHowTo - template to create a new plugin package
 
-__See other types of extensions:__ ContributedAddOns, WikiContribs, TWikiSkins
+__See other types of extensions:__ ContributedAddOns, [[Contribs]], TWikiSkins
 
 #InstallPlugin
 ---++ Installing Plugins

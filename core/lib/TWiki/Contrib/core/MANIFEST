@@ -97,6 +97,7 @@ data/TWiki/BookView.txt 0644
 data/TWiki/BumpyWord.txt 0644
 data/TWiki/CategoryCategory.txt 0644
 data/TWiki/ClassMethod.txt 0644
+data/TWiki/Contribs.txt 0644
 data/TWiki/ContributedAddOns.txt 0644
 data/TWiki/DefaultPreferences.txt 0644
 data/TWiki/DeleteOrRenameATopic.txt 0644
@@ -351,7 +352,6 @@ data/TWiki/WebTopicViewTemplate.txt 0644
 data/TWiki/WelcomeGuest.txt 0644
 data/TWiki/WhatDoesTWikiStandFor.txt 0644
 data/TWiki/WhatIsWikiWiki.txt 0644
-data/TWiki/WikiContribs.txt 0644
 data/TWiki/WikiCulture.txt 0644
 data/TWiki/WikiName.txt 0644
 data/TWiki/WikiNotation.txt 0644
