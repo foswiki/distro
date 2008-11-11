@@ -2,11 +2,11 @@
 %META:TOPICPARENT{name="TWikiVariables"}%
 #VarICONURLPATH
 ---+++ ICONURLPATH{"name"} -- URL path of small documentation graphic or icon
-   * Generates the URL path of a TWikiDocGraphics image, typically used in an HTML img tag. Specify image name or full filename (see [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICON][ICON]] for details on filenames.)
+   * Generates the URL path of a DocumentGraphics image, typically used in an HTML img tag. Specify image name or full filename (see [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICON][ICON]] for details on filenames.)
    * Syntax: =%<nop>ICONURLPATH{"name"}%=
    * Examples:
       * =%<nop>ICONURLPATH{"locktopic"}%= returns %ICONURLPATH{"locktopic"}%
       * =%<nop>ICONURLPATH{"eggysmell.xml"}%= returns %ICONURLPATH{"eggysmell.xml"}%
       * =%<nop>ICONURLPATH{"/doc/xhtml.xsl"}%= returns %ICONURLPATH{"/doc/xhtml.xsl"}%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICON][ICON]], %WIKIPREFSTOPIC%, FileAttachments, TWikiDocGraphics
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarICON][ICON]], %WIKIPREFSTOPIC%, FileAttachments, DocumentGraphics
 

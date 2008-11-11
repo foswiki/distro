@@ -137,13 +137,13 @@ SOURCE
  <span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><img src="
 RESULT1
  
-     $result .= "$pubUrlTWikiWeb/TWikiDocGraphics/toggleopen-small.gif";
+     $result .= "$pubUrlTWikiWeb/DocumentGraphics/toggleopen-small.gif";
      
 $result .= <<RESULT2;
 " border="0" alt="" /><span class="twikiLinkLabel twikiUnvisited">Show...</span></a> </span> <span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><img src="
 RESULT2
 
-     $result .= "$pubUrlTWikiWeb/TWikiDocGraphics/toggleclose-small.gif";
+     $result .= "$pubUrlTWikiWeb/DocumentGraphics/toggleclose-small.gif";
 
 $result .= <<RESULT3;
 " border="0" alt="" /><span class="twikiLinkLabel twikiUnvisited">Hide</span></a> </span>  </div><!--/twistyPlugin twikiMakeVisibleInline--> <div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">
@@ -215,13 +215,13 @@ SOURCE
  <span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited"><img src="
 RESULT1
 
-    $result .= "$pubUrlTWikiWeb/TWikiDocGraphics/choice-yes.gif";
+    $result .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
 
     $result .= <<RESULT2;
 " alt="DONE" title="DONE" width="16" height="16" border="0" /></span></a> </span> <span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited"><img src="
 RESULT2
 
-    $result .= "$pubUrlTWikiWeb/TWikiDocGraphics/choice-yes.gif";
+    $result .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
 
     $result .= <<RESULT3;
 " alt="DONE" title="DONE" width="16" height="16" border="0" /></span></a> </span>  </span><!--/twistyPlugin twikiMakeVisibleInline--> <span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">content</span></span>

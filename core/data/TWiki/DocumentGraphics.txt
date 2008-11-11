@@ -353,9 +353,9 @@ For extended use, check out TWiki:Plugins.SmiliesPlugin that uses a different sh
 
 Full path:
 <blockquote>
-In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/TWikiDocGraphics/help.gif= to show %PUBURL%/%SYSTEMWEB%/TWikiDocGraphics/help.gif
+In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/help.gif= to show %PUBURL%/%SYSTEMWEB%/DocumentGraphics/help.gif
 
-You are not restricted to use the !TWikiDocGraphics topic - in a similar way you can show attached images by replacing =TWikiDocGraphics= with the topic name.
+You are not restricted to use the !DocumentGraphics topic - in a similar way you can show attached images by replacing =DocumentGraphics= with the topic name.
 </blockquote>
 
 To create an image with a link, write:

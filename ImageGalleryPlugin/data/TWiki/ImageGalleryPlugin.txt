@@ -31,8 +31,8 @@ The image gallery is highly customizable using cascading stylesheets and html fo
 below).
 
 ---++ Example
-%IMAGEGALLERY{"%SYSTEMWEB%.TWikiDocGraphics" columns="3" limit="12" exclude="arrow" sort="name"}%
-There are %NRIMAGES{"%SYSTEMWEB%.TWikiDocGraphics"}% images at %SYSTEMWEB%.TWikiDocGraphics.
+%IMAGEGALLERY{"%SYSTEMWEB%.DocumentGraphics" columns="3" limit="12" exclude="arrow" sort="name"}%
+There are %NRIMAGES{"%SYSTEMWEB%.DocumentGraphics"}% images at %SYSTEMWEB%.DocumentGraphics.
 
 ---++ Syntax
 ---+++ Arguments

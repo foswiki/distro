@@ -54,7 +54,7 @@ This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferenc
 
 Icons can do a lot to enhance scannability of topics. For instance, on *HELP* pages, most people tend to jump around looking for answers rather than reading through - icons help point out the most important bits.
 
-TWikiDocGraphics has a whole collection of ready icon images. You can use these images in any topic by referring to their name. For example, !TWikiDocGraphics has an image attachment called =days.gif=. To show this image in a topic, write =%<nop>ICON{"days"}%= to get %ICON{"days"}%.
+DocumentGraphics has a whole collection of ready icon images. You can use these images in any topic by referring to their name. For example, !DocumentGraphics has an image attachment called =days.gif=. To show this image in a topic, write =%<nop>ICON{"days"}%= to get %ICON{"days"}%.
 
 *Creating image variables*
 
@@ -71,9 +71,9 @@ Or if you have a custom image to use, attach this to [[%LOCALSITEPREFS%]] and wr
    * Set DOWN = <img src="%ATTACHURL%/my_image.gif" border="0" alt="DOWN" width="16" height="16" />
 </verbatim>
 
-Most images in TWikiDocGraphics are 16 x 16 pixels.
+Most images in DocumentGraphics are 16 x 16 pixels.
 
-   * __Related:__ There are other approaches for creating more extensive TWiki icon libraries. This is a simply and quick way to get started. See TWikiDocGraphics for more info.
+   * __Related:__ There are other approaches for creating more extensive TWiki icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
 
 ---+++ Use TOC variable to create table of content
 

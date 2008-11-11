@@ -729,7 +729,7 @@ sub generateEditButtons {
           name => 'erp_save',
           value => $NOISY_SAVE,
           title => $NOISY_SAVE,
-          src => '%PUBURLPATH%/TWiki/TWikiDocGraphics/save.gif'
+          src => '%PUBURLPATH%/TWiki/DocumentGraphics/save.gif'
          }, '');
     if ($attrs->{quietsave}) {
         $buttons .= CGI::image_button({
@@ -743,7 +743,7 @@ sub generateEditButtons {
         name => 'erp_cancel',
         value => $CANCEL_ROW,
         title => $CANCEL_ROW,
-        src => '%PUBURLPATH%/TWiki/TWikiDocGraphics/stop.gif',
+        src => '%PUBURLPATH%/TWiki/DocumentGraphics/stop.gif',
     }, '');
 
     if ($this->{attrs}->{changerows}) {
@@ -754,7 +754,7 @@ sub generateEditButtons {
                     name => 'erp_upRow',
                     value => $UP_ROW,
                     title => $UP_ROW,
-                    src => '%PUBURLPATH%/TWiki/TWikiDocGraphics/arrowup.gif'
+                    src => '%PUBURLPATH%/TWiki/DocumentGraphics/arrowup.gif'
                    }, '');
             }
             if (!$bottomRow) {
@@ -762,7 +762,7 @@ sub generateEditButtons {
                     name => 'erp_downRow',
                     value => $DOWN_ROW,
                     title => $DOWN_ROW,
-                    src => '%PUBURLPATH%/TWiki/TWikiDocGraphics/arrowdown.gif'
+                    src => '%PUBURLPATH%/TWiki/DocumentGraphics/arrowdown.gif'
                    }, '');
             }
         }
@@ -770,7 +770,7 @@ sub generateEditButtons {
             name => 'erp_addRow',
             value => $ADD_ROW,
             title => $ADD_ROW,
-            src => '%PUBURLPATH%/TWiki/TWikiDocGraphics/plus.gif'
+            src => '%PUBURLPATH%/TWiki/DocumentGraphics/plus.gif'
            }, '');
 
         $buttons .= CGI::image_button({
@@ -778,7 +778,7 @@ sub generateEditButtons {
             class => 'EditRowPluginDiscardAction',
             value => $DELETE_ROW,
             title => $DELETE_ROW,
-            src => '%PUBURLPATH%/TWiki/TWikiDocGraphics/minus.gif'
+            src => '%PUBURLPATH%/TWiki/DocumentGraphics/minus.gif'
            }, '');
     }
     return $buttons;

@@ -40,6 +40,6 @@ Manual sections in separate pages:
    * TWiki:TWiki.TWikiAdminCookBook: Some tips that can be applied *before installation*
    * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).
    * AdminToolsCategory: Topics an admin typically needs, all in one page
-   * TWikiDocGraphics: Collection of useful icons for TWiki applications
+   * DocumentGraphics: Collection of useful icons for TWiki applications
 
 __Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory, DeveloperDocumentationCategory

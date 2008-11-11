@@ -66,7 +66,7 @@ BEGIN {
     $iconUrl =
         TWiki::Func::getPubUrlPath() . '/'
       . TWiki::Func::getTwikiWebname()
-      . '/TWikiDocGraphics/';
+      . '/DocumentGraphics/';
     $unsortEnabled        = 1;    # if true, table columns can be unsorted
     $didWriteDefaultStyle = 0;
     my %defaultCssAttrs = ();

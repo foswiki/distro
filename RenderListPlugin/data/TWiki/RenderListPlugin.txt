@@ -41,7 +41,7 @@ Render bullet lists in a variety of formats
       * Use one of the existing icons: %ATTACHURL%/globe.gif =globe.gif=, %ATTACHURL%/home.gif =home.gif=, %ATTACHURL%/virtualhome.gif =virtualhome.gif=, %ATTACHURL%/group.gif =group.gif=, %ATTACHURL%/persons.gif =persons.gif=, %ATTACHURL%/virtualpersons.gif =virtualpersons.gif=, %ATTACHURL%/person.gif =person.gif=, %ATTACHURL%/virtualperson.gif =virtualperson.gif=, %ATTACHURL%/email.gif =email.gif=, %ATTACHURL%/trend.gif =trend.gif=, %ATTACHURL%/folder.gif =folder.gif=, %ATTACHURL%/folders.gif =folders.gif=, %ATTACHURL%/file.gif =file.gif=, %ATTACHURL%/files.gif =files.gif=, %ATTACHURL%/doc.gif =doc.gif=, %ATTACHURL%/image.gif =image.gif=, %ATTACHURL%/pdf.gif =pdf.gif=, %ATTACHURL%/ppt.gif =ppt.gif=, %ATTACHURL%/sound.gif =sound.gif=, %ATTACHURL%/xls.gif =xls.gif=, %ATTACHURL%/zip.gif =zip.gif=, %ATTACHURL%/see.gif =see.gif=
       * Refer to an attached icon at the beginning of the bullet with:
          * =icon:myicon Followed by normal bullet text=
-      * Any %SYSTEMWEB%.TWikiDocGraphics icon can be used as well:
+      * Any %SYSTEMWEB%.DocumentGraphics icon can be used as well:
          * =%<nop>ICON{name}% Followed by normal bullet text=
 
 ---++ Examples
@@ -361,7 +361,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  15 Jan 2008: | 2.0: Kenneth Lavrsen. No more reporting warnings in the error log when a render list starts at deeper level than 1 | 
 |  30 Sep 2007: | Added %SYSTEMWEB%.VarRENDERLIST to have it listed in %SYSTEMWEB%.TWikiVariables |
-|  23 Sep 2006: | Support for img tag and image URL after =icon:= (suggested by TWiki:Main.JanFilipsky); support for %SYSTEMWEB%.TWikiDocGraphics icons, such as =%<nop>ICON{folder}%= instead of =icon:folder=; added files.gif and folders.gif (contributed by TWiki:Main.SteveHobbs) |
+|  23 Sep 2006: | Support for img tag and image URL after =icon:= (suggested by TWiki:Main.JanFilipsky); support for %SYSTEMWEB%.DocumentGraphics icons, such as =%<nop>ICON{folder}%= instead of =icon:folder=; added files.gif and folders.gif (contributed by TWiki:Main.SteveHobbs) |
 |  25 Apr 2006: | SVN sync, Cairo + Dakar compatibility |
 |  14 Apr 2006: | [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00][TWikiRelease04x00]] compatibility update |
 |  21 Nov 2004: | Added benchmarks (no code changes) |

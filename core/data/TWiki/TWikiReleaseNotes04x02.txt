@@ -35,7 +35,7 @@ TWiki 4.2.2 is shipped with
       * New WYSIWYG editor based on !TinyMCE replaces the Kupu based editor. See below.
       * New "Restore topic" feature has been added to the _More Topic Actions_ menu. You can now much more easily restore an older version of a topic including the values a topic form.
       * Attachment comments no longer has a limit to the length of the text.
-      * The viewfile script now accepts similar simple URL path as used to access a topic. E.g. =http:<nop>//example.com/twiki/bin/viewfile/TWiki/TWikiDocGraphics/addon.gif= means the same as =http<nop>://example.com/twiki/bin/viewfile/TWiki/TWikiDocGraphics?filename=addon.gif=. This make it simpler to use command line tools like =wget= in Linux to download attachments.
+      * The viewfile script now accepts similar simple URL path as used to access a topic. E.g. =http:<nop>//example.com/twiki/bin/viewfile/TWiki/DocumentGraphics/addon.gif= means the same as =http<nop>://example.com/twiki/bin/viewfile/TWiki/DocumentGraphics?filename=addon.gif=. This make it simpler to use command line tools like =wget= in Linux to download attachments.
 
    * *Application Platform Enhancements*
       * Enhancements to IF: allows, ingroup, istopic, and isweb
@@ -550,7 +550,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4075][Item4075]] | Enhance MailerContrib To Allow Exclusion Of Webs |
 | [[%BUGS%/Item4069][Item4069]] | Normalise =viewfile= so it is able to use path syntax as well as the ?filename= syntax. |
 | [[%BUGS%/Item4046][Item4046]] | PatternSkin: Add RSS feed icon to !WebLeftBar |
-| [[%BUGS%/Item4044][Item4044]] | Add RSS feed icon to !TWikiDocGraphics |
+| [[%BUGS%/Item4044][Item4044]] | Add RSS feed icon to !DocumentGraphics |
 | [[%BUGS%/Item4041][Item4041]] | Extend SEARCH to allow SQL-type queries over form fields |
 | [[%BUGS%/Item3988][Item3988]] | Japanese translation |
 | [[%BUGS%/Item3854][Item3854]] | show subwebs="" in WEBLIST relative to a web |

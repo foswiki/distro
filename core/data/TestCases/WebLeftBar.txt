@@ -6,9 +6,9 @@
 
 %INCLUDE{CreateNewTestCaseForm}%
 
-<img src="%PUBURL%/TWiki/TWikiDocGraphics/recentchanges.gif" /> [[%SCRIPTURL{"changes"}%/%WEB%/][Changes]]<br/>
-<img src="%PUBURL%/TWiki/TWikiDocGraphics/home.gif" /> [[%HOMETOPIC%][%WEB%]] &middot; [[WebTopicList][Topics]]<br/>
-<img src="%PUBURL%/TWiki/TWikiDocGraphics/home.gif" /> [[TWiki.%HOMETOPIC%][TWiki]]
+<img src="%PUBURL%/TWiki/DocumentGraphics/recentchanges.gif" /> [[%SCRIPTURL{"changes"}%/%WEB%/][Changes]]<br/>
+<img src="%PUBURL%/TWiki/DocumentGraphics/home.gif" /> [[%HOMETOPIC%][%WEB%]] &middot; [[WebTopicList][Topics]]<br/>
+<img src="%PUBURL%/TWiki/DocumentGraphics/home.gif" /> [[TWiki.%HOMETOPIC%][TWiki]]
 
    * *Admin topics*
 %SEARCH{"^Web.+" type="regex" scope="topic" nosearch="on" nototal="on" format="   * $topic"}%

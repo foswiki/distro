@@ -203,7 +203,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---+++ Skin icons
 
    * Topic containing the icon graphics library. Icons can easily be rendered with =%<nop>ICON{name}%=.
-      * Set ICONTOPIC = %SYSTEMWEB%.TWikiDocGraphics
+      * Set ICONTOPIC = %SYSTEMWEB%.DocumentGraphics
 
 ---+++ Legacy support
    * Support for legacy "EDITTOPIC", used to be hard-coded, now replaced by TMPL:P conditional instantiation

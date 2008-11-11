@@ -13,7 +13,7 @@ go to *[[TWikiVariables]]*
 
 TWiki Variables are fully expanded _before_ any of the TWiki text formatting rules are applied.
 
-*Documentation Graphics:* There are many graphics available to use in your topics. Use =%<nop>ICON{"help"}%=, =%<nop>ICON{"tip"}%=, and =%<nop>ICON{"warning"}%= to get: %H%, %T%, and %X%, respectively. TWikiDocGraphics lists them all.
+*Documentation Graphics:* There are many graphics available to use in your topics. Use =%<nop>ICON{"help"}%=, =%<nop>ICON{"tip"}%=, and =%<nop>ICON{"warning"}%= to get: %H%, %T%, and %X%, respectively. DocumentGraphics lists them all.
 
 %ICON{"tip"}% To "escape" a variable, prefix it with an exclamation mark. Write: =!%<nop>SOMEVARIABLE%= to get: !%SOMEVARIABLE%.
 %STOPINCLUDE%
