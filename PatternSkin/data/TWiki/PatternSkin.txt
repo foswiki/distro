@@ -101,7 +101,7 @@ For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Re
 
 ---++ Related topics
 
-   * %SYSTEMWEB%.TWikiCss
+   * %SYSTEMWEB%.CascadingStyleSheets
    * %SYSTEMWEB%.PatternSkinCss
    * %SYSTEMWEB%.PatternSkinCssCookbook
    * %SYSTEMWEB%.PatternSkinCssCookbookCenterPage

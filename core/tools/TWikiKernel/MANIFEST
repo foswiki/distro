@@ -82,6 +82,7 @@ data/TWiki/BookView.txt 0660
 data/TWiki/BulkRegistration.txt 0660
 data/TWiki/BulkResetPassword.txt 0660
 data/TWiki/BumpyWord.txt 0660
+data/TWiki/CascadingStyleSheets.txt 0660
 data/TWiki/CategoryCategory.txt 0660
 data/TWiki/ChangePassword.txt 0660
 data/TWiki/ClassMethod.txt 0660
@@ -136,7 +137,6 @@ data/TWiki/StartingPoints.txt 0660
 data/TWiki/StaticMethod.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiAccessControl.txt 0660
-data/TWiki/TWikiCss.txt 0660
 data/TWiki/TWikiDocGraphics.txt 0660
 data/TWiki/TWikiDocumentation.txt 0660
 data/TWiki/TWikiDownload.txt 0660

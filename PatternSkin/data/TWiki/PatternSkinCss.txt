@@ -16,7 +16,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---++ Naming conventions
 
    * All !PatternSkin specific classes have the prefix =pattern=: patternEditPage, patternTopicAction, etcetera. 
-   * TWiki specific classes (emitted by the TWiki engine) have the prefix =twiki=: twikiButton, twikiToc, etcetera. See for a complete list TWikiCss.
+   * TWiki specific classes (emitted by the TWiki engine) have the prefix =twiki=: twikiButton, twikiToc, etcetera. See for a complete list CascadingStyleSheets.
    * Positional containers are referred by id, for instance =#patternLeftBar=.
 
 ---++ Namespaces

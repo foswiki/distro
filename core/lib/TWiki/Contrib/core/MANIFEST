@@ -95,6 +95,7 @@ data/TWiki/AppendixEncodeURLsWithUTF8.txt 0644
 data/TWiki/BeginnersStartHere.txt 0644
 data/TWiki/BookView.txt 0644
 data/TWiki/BumpyWord.txt 0644
+data/TWiki/CascadingStyleSheets.txt 0660
 data/TWiki/CategoryCategory.txt 0644
 data/TWiki/ClassMethod.txt 0644
 data/TWiki/Contribs.txt 0644
@@ -149,7 +150,6 @@ data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
-data/TWiki/TWikiCss.txt 0644
 data/TWiki/TWikiDocGraphics.txt 0644
 data/TWiki/TWikiDocumentation.txt 0644
 data/TWiki/TWikiDownload.txt 0644
