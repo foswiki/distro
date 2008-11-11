@@ -28,6 +28,7 @@ my $patch = pop(@a) || 0;
 my $patchcin = $releases->{$major}->{$minor}->{$patch};
 my $minorcin = $releases->{$major}->{$minor}->{0};
 my $majorcin = $releases->{$major}->{0}->{0};
+my $repositoryRevision = `svnlook youngest $REPOS`;
 
 print "Last release $major($majorcin).$minor($minorcin).$patch($patchcin)\n" if $verbose;
 
@@ -213,5 +214,8 @@ foreach my $who (values %sid2who) {
 foreach my $zapper (sort { $sins{$b} <=> $sins{$a} } keys %sins) {
     print F "| [[Main.$zapper][$zapper]] | $sins{$zapper} |\n";
 }
+print F '| total | '.List::Util::sum(values(%sins))." |\n";
+
+print F "\n\nSubversion repository Revision: $repositoryRevision\n";
 
 close(F);
