@@ -36,7 +36,7 @@ for (my $i = $first + 1; $i <= $last; $i++) {
     push( @changes,
 # No filter since change to /trunk/
 #          map { s/^.*?$BRANCH\///; $_ }
-#           grep { /twiki\/branches\/$BRANCH/ }
+#           grep { /branches\/$BRANCH/ }
             split(/\n/, `/usr/local/bin/svnlook changed -r $i $REPOS` ));
 }
 print scalar(@changes)," changes\n" if $verbose;
@@ -45,10 +45,10 @@ exit 0 unless scalar( @changes );
 sub _add {
     my( $cur, $rev, $changed ) = @_;
     my %curr = map { $_ => 1 } grep { /^\d+$/ }
-      map { s/^(TWikirev:|Rev:)//i; $_ } split(/\s+/, $cur);
+      map { s/^(TWikirev|Nextwikirev|Rev)://i; $_ } split(/\s+/, $cur);
     $curr{$rev} = 1;
     my @list = sort { $a <=> $b } keys %curr; # numeric sort
-    my $new = join(" ", map { "TWikirev:$_" } @list);
+    my $new = join(" ", map { "Nextwikirev:$_" } @list);
     $$changed = 1 if $cur ne $new;
     return $new;
 }
