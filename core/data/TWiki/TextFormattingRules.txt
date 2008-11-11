@@ -1,15 +1,15 @@
 %META:TOPICINFO{author="ProjectContributor" date="1141756708" format="1.1" version="$Rev: 13903 $"}%
 %STARTINCLUDE%
----+ TWiki Text Formatting
+---+ Text Formatting
 
 Working in TWiki is as easy as typing in text. You don't need to know HTML, though you can use it if you prefer. Links to topics are created automatically when you enter WikiWords. And TWiki shorthand gives you all the power of HTML with a simple coding system that takes no time to learn. It's all laid out below.
 
 %TOC{depth="4"}%
 
-#TWikiShorthand
----++ TWiki Editing Shorthand
+#EditingShorthand
+---++ Editing Shorthand
 
-%INCLUDE{"TWikiEditingShorthand"}%
+%INCLUDE{"EditingShorthand"}%
 
 ---++ Using HTML
 
