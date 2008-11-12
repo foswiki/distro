@@ -130,6 +130,7 @@ data/TWiki/ProjectContributor.txt 0660
 data/TWiki/QuietSave.txt 0660
 data/TWiki/RegistrationApprovals.txt 0660
 data/TWiki/RegularExpression.txt 0660
+data/TWiki/ReleaseHistory.txt 0660
 data/TWiki/RenameWeb.txt 0660
 data/TWiki/ResetPassword.txt 0660
 data/TWiki/SearchDoesNotWork.txt 0660
@@ -146,7 +147,6 @@ data/TWiki/StaticMethod.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiAccessControl.txt 0660
 data/TWiki/TWikiForms.txt 0660
-data/TWiki/TWikiHistory.txt 0660
 data/TWiki/TWikiInstallationGuide.txt 0660
 data/TWiki/TWikiJavascripts.txt 0660
 data/TWiki/TWikiLogos.txt 0660

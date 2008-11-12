@@ -32,7 +32,7 @@ Manual sections in separate pages:
    1. [[ManagingWebs][Managing Webs]]
    1. [[ManagingUsers][Managing Users]]
    * *Appendices*
-      * [[TWikiHistory][A: TWiki Development Timeline]]
+      * [[ReleaseHistory][A: Development Timeline]]
       * [[AppendixEncodeURLsWithUTF8][B: Encode URLs With UTF8]]
       * [[CascadingStyleSheets][C: Cascading Style Sheets]]
 

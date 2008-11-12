@@ -2,7 +2,7 @@
    * Please bring your enhancement requests to TWiki:Codev.FeatureEnhancementRequest
 
 __Related Topics:__
-   * TWikiHistory has a list of added features in TWiki.
+   * ReleaseHistory has a list of added features in TWiki.
    * TWikiPlannedFeatures has a list of planned features.
    * CompleteDocumentation is the implementation documentation. 
 

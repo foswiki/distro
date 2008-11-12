@@ -146,6 +146,7 @@ data/TWiki/QuietSave.txt 0644
 data/TWiki/QuerySearch.txt 0644
 data/TWiki/RegistrationApprovals.txt 0644
 data/TWiki/RegularExpression.txt 0644
+data/TWiki/ReleaseHistory.txt 0644
 data/TWiki/RenameWeb.txt 0644
 data/TWiki/SearchDoesNotWork.txt 0644
 data/TWiki/SearchHelp.txt 0644
@@ -160,7 +161,6 @@ data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
 data/TWiki/TWikiForms.txt 0644
-data/TWiki/TWikiHistory.txt 0644
 data/TWiki/TWikiInstallationGuide.txt 0644
 data/TWiki/TWikiJavascripts.txt 0644
 data/TWiki/TWikiLogos.txt 0644

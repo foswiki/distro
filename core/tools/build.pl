@@ -251,7 +251,7 @@ sub stage_gendocs {
     #SMELL: these should probably abort the build if they return errors / oopies
 #replaced by the simpler INSTALL.html
 #    print `cd $this->{basedir}/bin ; ./view TWiki.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.TWikiHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiHistory.html`;
+    print `cd $this->{basedir}/bin ; ./view TWiki.ReleaseHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.TWikiReleaseNotes04x02 skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiReleaseNotes04x02.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.TWikiUpgradeGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiUpgradeGuide.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.TWikiInstallationGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;

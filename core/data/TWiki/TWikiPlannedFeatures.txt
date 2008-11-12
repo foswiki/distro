@@ -2,7 +2,7 @@
    * Features requested, planned or under construction are listed at the TWiki development home TWiki:Codev.WebHome
 
 *Related Topics*
-   * TWikiHistory has a list of added features in TWiki.
+   * ReleaseHistory has a list of added features in TWiki.
    * CompleteDocumentation is the implementation documentation. 
    * EnhancementRequests is the place where you can see how to add your enhancement requests. 
 

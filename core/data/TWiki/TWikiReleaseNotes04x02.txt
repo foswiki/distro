@@ -766,4 +766,4 @@ None!
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs
 -->
-__Related Topic:__ TWikiHistory
+__Related Topic:__ ReleaseHistory

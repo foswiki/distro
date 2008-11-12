@@ -5,7 +5,7 @@ This page contains all documentation topics as one long, complete reference shee
 
 %TOC{ depth="2" }%
 
-__Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, EnhancementRequests, UserDocumentationCategory, AdminDocumentationCategory
+__Related Topics:__ TWikiSite, ReleaseHistory, TWikiPlannedFeatures, EnhancementRequests, UserDocumentationCategory, AdminDocumentationCategory
 
 ------
 %INCLUDE{"TWikiSystemRequirements"}%
@@ -122,7 +122,7 @@ __Related Topics:__ TWikiSite, TWikiHistory, TWikiPlannedFeatures, EnhancementRe
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiHistory"}%
+%INCLUDE{"ReleaseHistory"}%
 
 [[#PageTop][Back to top]]
 
