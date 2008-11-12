@@ -4,6 +4,6 @@
 *Related Topics*
    * TWikiHistory has a list of added features in TWiki.
    * CompleteDocumentation is the implementation documentation. 
-   * TWikiEnhancementRequests is the place where you can add your enhancement requests. 
+   * EnhancementRequests is the place where you can see how to add your enhancement requests. 
 
 
