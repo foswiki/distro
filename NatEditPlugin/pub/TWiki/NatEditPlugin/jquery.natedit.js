@@ -533,6 +533,7 @@ $.natedit = {
 
     // get new window height
     var windowHeight = $(window).height();
+    var bottomHeight = $('.natEditBottomBar').outerHeight({margin:true});
     if (!windowHeight) {
       windowHeight = window.innerHeight;
     }
@@ -541,7 +542,7 @@ $.natedit = {
     var offset = $textarea.offset({scroll:false});
     //writeDebug("offset="+offset.top);
 
-    var newHeight = windowHeight-offset.top-90;
+    var newHeight = windowHeight-offset.top-bottomHeight*2;
     //writeDebug("newHeight="+newHeight);
 
     $textarea.height(newHeight);
@@ -643,8 +644,5 @@ $(function() {
     if (savetext) {
       $("#topic").val(savetext);
     }
-
-    window.setTimeout(fixHeightOfPane, 1);
   }
 });
-
