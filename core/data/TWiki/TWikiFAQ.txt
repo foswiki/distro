@@ -11,13 +11,13 @@ __NOTE:__ The most recent version of this FAQ is at TWiki:TWiki/TWikiFAQ.
 
 %X% __NOTE:__ 
 These topics are for frequently asked questions __including__ answers; please ask support questions in the TWiki:Support web.
-New FAQ topics are based on the TWikiFaqTemplate.
+New FAQ topics are based on the FaqTemplate.
 
 <form action="%SCRIPTURL{"edit"}%/%WEB%/">
 New FAQ topic: &nbsp; (Use a name in WikiNotation) <br />
 <input type="text" name="topic" size="32" />
 <input type="hidden" name="onlywikiname" value="on" />
-<input type="hidden" name="templatetopic" value="TWikiFaqTemplate" />
+<input type="hidden" name="templatetopic" value="FaqTemplate" />
 <input type="hidden" name="topicparent" value="%TOPIC%" />
 <input type="submit" class="twikiSubmit" value="Create Topic" />
 </form>

@@ -98,6 +98,7 @@ data/TWiki/DownloadSources.txt 0660
 data/TWiki/EditDoesNotIncreaseTheRevision.txt 0660
 data/TWiki/EnhancementRequests.txt 0660
 data/TWiki/ExampleTopicTemplate.txt 0660
+data/TWiki/FaqTemplate.txt 0660
 data/TWiki/FileAttachment.txt 0660
 data/TWiki/FileAttribute.txt 0660
 data/TWiki/ForceNewRevision.txt 0660
@@ -143,7 +144,6 @@ data/TWiki/StaticMethod.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiAccessControl.txt 0660
 data/TWiki/TWikiFAQ.txt 0660
-data/TWiki/TWikiFaqTemplate.txt 0660
 data/TWiki/TWikiForms.txt 0660
 data/TWiki/TWikiGlossary.txt 0660
 data/TWiki/TWikiHistory.txt 0660

@@ -22,7 +22,7 @@ The following is the code source of TWikiFAQ:
 New FAQ topic: &nbsp; (Use a name in TWiki.WikiNotation) <br />
 <input type="text" name="topic" size="32" />&nbsp;<input type="submit" class="twikiSubmit" value="Create Topic" />
 <input type="hidden" name="onlywikiname" value="on" />
-<input type="hidden" name="templatetopic" value="TWikiFaqTemplate" />
+<input type="hidden" name="templatetopic" value="FaqTemplate" />
 <input type="hidden" name="topicparent" value="%TOPIC%" />
 <br />
 </form>

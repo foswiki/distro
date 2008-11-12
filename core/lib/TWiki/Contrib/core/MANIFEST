@@ -112,6 +112,7 @@ data/TWiki/EditDoesNotIncreaseTheRevision.txt 0644
 data/TWiki/EditingShorthand.txt 0644
 data/TWiki/EnhancementRequests.txt 0644
 data/TWiki/ExampleTopicTemplate.txt 0644
+data/TWiki/FaqTemplate.txt 0660
 data/TWiki/FormatTokens.txt 0644
 data/TWiki/FileAttachment.txt 0644
 data/TWiki/FileAttribute.txt 0644
@@ -157,7 +158,6 @@ data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
 data/TWiki/TWikiFAQ.txt 0644
-data/TWiki/TWikiFaqTemplate.txt 0644
 data/TWiki/TWikiForms.txt 0644
 data/TWiki/TWikiGlossary.txt 0644
 data/TWiki/TWikiHistory.txt 0644
