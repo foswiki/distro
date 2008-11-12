@@ -1,9 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13239 $"}%
 %META:TOPICPARENT{name="WebHome"}%
 %STARTINCLUDE%
----+ TWiki Glossary
-
-_Simple glossary of TWiki terms_
+---+ Glossary of Terms
 
 | *Term* | *Definition* |
 | Attachment: | Any type of file that is uploaded via browser and attached to a _topic_, where it can be viewed and downloaded. [[FileAttachments][Details...]] |

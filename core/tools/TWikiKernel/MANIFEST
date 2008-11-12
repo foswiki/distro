@@ -104,6 +104,7 @@ data/TWiki/FileAttribute.txt 0660
 data/TWiki/ForceNewRevision.txt 0660
 data/TWiki/FormattedSearch.txt 0660
 data/TWiki/FrequentlyAskedQuestions.txt 0660
+data/TWiki/GlossaryOfTerms.txt 0660
 data/TWiki/GnuGeneralPublicLicense.txt 0660
 data/TWiki/GoBox.txt 0660
 data/TWiki/GoodStyle.txt 0660
@@ -145,7 +146,6 @@ data/TWiki/StaticMethod.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiAccessControl.txt 0660
 data/TWiki/TWikiForms.txt 0660
-data/TWiki/TWikiGlossary.txt 0660
 data/TWiki/TWikiHistory.txt 0660
 data/TWiki/TWikiInstallationGuide.txt 0660
 data/TWiki/TWikiJavascripts.txt 0660

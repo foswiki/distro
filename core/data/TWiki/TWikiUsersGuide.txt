@@ -19,7 +19,7 @@ _Documentation for TWiki users._
       * TWikiVariables: How to easily embed text, graphics, dynamic content
       * FileAttachments: Browser-upload files for distribution or display
       * WebChangesAlert: Get e-mail alerts linking to the latest page changes
-      * TWikiGlossary: A simple glossary of TWiki terms
+      * GlossaryOfTerms: A simple glossary of terms
 
    * *Help FAQs*
       * FrequentlyAskedQuestions: The first things people ask about TWiki
