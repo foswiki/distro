@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 11170 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 Everybody can edit any page, this is scary. Doesn't that lead to chaos?
@@ -18,9 +18,9 @@ TWiki is one of many WikiWikiClones, the first one was built by Ward Cunningham.
 
 (quoted from _WhyWikiWorks_ at Ward's original Wiki system, the Portland Pattern Repository, Wiki:WhyWikiWorks)
 
-__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, TWikiFAQ, WhatIsWikiWiki, WabiSabi, TWikiAccessControl
+__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions, WhatIsWikiWiki, WabiSabi, TWikiAccessControl
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 
 

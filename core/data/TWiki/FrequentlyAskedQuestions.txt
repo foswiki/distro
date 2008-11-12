@@ -3,9 +3,7 @@
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. To see how it's done, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][view the source of this topic]].
 
-%SEARCH{ "Back to\:__ TWikiFAQ" casesensitive="on" type="regex" nosearch="on" nototal="on" format="   * $pattern(.*---\+\+ FAQ:\s*([^\n]*).*) [[$topic][Answer]]"}%
-
-__NOTE:__ The most recent version of this FAQ is at TWiki:TWiki/TWikiFAQ.
+%SEARCH{ "Back to\:__ FrequentlyAskedQuestions" casesensitive="on" type="regex" nosearch="on" nototal="on" format="   * $pattern(.*---\+\+ FAQ:\s*([^\n]*).*) [[$topic][Answer]]"}%
 
 ---++ Submit a new FAQ
 

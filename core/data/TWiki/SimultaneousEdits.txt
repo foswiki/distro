@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 11170 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 What happens if two of us try to edit the same topic simultaneously?
@@ -10,7 +10,7 @@ TWiki allows multiple simultaneous edits of the same topic, and then merges the 
 
 TWiki will warn if you attempt to edit a topic that someone else is editing. It will also warn if a merge was required during a save.
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 
 __Related Topics:__ UserDocumentationCategory

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1160971176" format="1.0" version="$Rev: 8023 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 What does the "T" in TWiki stand for?
@@ -10,6 +10,6 @@ TWiki is short for <nop>TakeFive Wiki, the name of the company where its founder
 
 It was later discovered that Twiki is also the name of an AI robot that co-starred in the [[http://www.buck-rogers.com/][Buck Rogers]] movie and TV series from 1979.
 
-__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, TWikiFAQ
+__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions

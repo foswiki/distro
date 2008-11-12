@@ -21,8 +21,8 @@ _Documentation for TWiki users._
       * WebChangesAlert: Get e-mail alerts linking to the latest page changes
       * TWikiGlossary: A simple glossary of TWiki terms
 
-   * *TWiki Help FAQs*
-      * TWikiFAQ: The first things people ask about TWiki
+   * *Help FAQs*
+      * FrequentlyAskedQuestions: The first things people ask about TWiki
       * TextFormattingFAQ: Common how-to questions about posting in TWiki  
       * Frequent users should also browse the full [[TWikiReferenceManual][Reference Manual]]!
 

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 4516 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 
@@ -8,6 +8,6 @@
 
 
 
-__Back to:%NOP%__ TWikiFAQ
+__Back to:%NOP%__ FrequentlyAskedQuestions
 
 -- %WIKIUSERNAME% - %DATE% <br />

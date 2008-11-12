@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1191273326" format="1.1" version="$Rev: 13602 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 Why does the topic revision not increase when I edit a topic?
@@ -9,7 +9,7 @@ Why does the topic revision not increase when I edit a topic?
 The same topic revision will be used when you save a topic again within a certain time frame (one hour by default, configurable with configure item ={ReplaceIfEditedAgainWithin}=). This is to prevent unnecessary topic 
 revisions when you do several edit cycles in a row. Note that a new revision __is__ created if another person edits the same topic, regardless of the time.
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 
 __Related Topics:__ UserDocumentationCategory

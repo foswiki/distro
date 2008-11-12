@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 11170 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 TWiki has a GPL (GNU General Public License). What is GPL?
@@ -12,7 +12,7 @@ TWiki is distributed under the GNU General Public License, see DownloadSources. 
    * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
    * See the GNU General Public License for more details, published at http://www.gnu.org/copyleft/gpl.html
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 __Related Topics:__ UserDocumentationCategory
 

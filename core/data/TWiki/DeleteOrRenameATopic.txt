@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 11170 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 How do I delete or rename a topic?
@@ -16,7 +16,7 @@ __NOTE:__ The configuration of your site and your own access permissions determi
 
 Note for site administrators: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =/twiki/data/Trash=.
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 
 __Related Topics:__ UserDocumentationCategory

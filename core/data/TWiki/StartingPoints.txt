@@ -8,7 +8,7 @@ Don't let the reams of documentation fool you, it all boils down to: wiki means 
    * %HOMETOPIC%: Entry point for this TWiki web.
    * TWikiSite: Explains what a TWiki site is
    * WebChanges: Newest topic changes in the <nop>%WEB% web
-   * TWikiFAQ: Common questions about TWiki use
+   * FrequentlyAskedQuestions: Common questions about how to use the program
 
    * GoodStyle: Things to consider when changing text
    * TWikiShorthand: Easy to learn rules for editing text

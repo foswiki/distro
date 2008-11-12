@@ -108,11 +108,11 @@ To get this:
 
 *Write this:*
 
-=%<nop>SEARCH{ "__Back to\:__ <nop>TWikiFAQ" scope="text" type="regex" nosearch="on" nototal="on" header="TWiki FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
+=%<nop>SEARCH{ "__Back to\:__ <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="TWiki FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
 
 *To get this:*
 
-%SEARCH{ "__Back to\:__ TWikiFAQ" scope="text" type="regex" nosearch="on" nototal="on" header="TWiki FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
+%SEARCH{ "__Back to\:__ FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="TWiki FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
 
 
 ---+++ Nested Search

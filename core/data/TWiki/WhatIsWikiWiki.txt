@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 11170 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 So what is this <nop>WikiWiki thing exactly? 
@@ -8,9 +8,9 @@ So what is this <nop>WikiWiki thing exactly?
 
 A set of pages of information that are open and free for anyone to edit as they wish. They are stored in a server and managed using some software. The system creates cross-reference hyperlinks between pages automatically.
 
-__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, TWikiFAQ, WikiCulture, WabiSabi
+__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions, WikiCulture, WabiSabi
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 
 

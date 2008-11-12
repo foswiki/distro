@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 4516 $"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
 How do I delete or rename a file attachment?
@@ -14,7 +14,7 @@ __NOTE:__ The configuration of your site and your own access permissions determi
 
 Note for system administrators: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic, then with file-level access, delete the file attachment and its =,v= repository file manually from =twiki/pub/Trash/TrashAttachment=.
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 
 __Related Topics:__ UserDocumentationCategory

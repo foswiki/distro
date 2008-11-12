@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiFAQ"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 How can I create a simple [[TWikiForms][TWiki Form]] based application?
 
@@ -15,7 +15,7 @@ How can I create a simple [[TWikiForms][TWiki Form]] based application?
 
 For more information follow the links...
 
-The following is the code source of TWikiFAQ:
+The following is the code source of FrequentlyAskedQuestions:
 
 <verbatim>
 <form action="%SCRIPTURLPATH{edit}%/%WEB%/">
@@ -32,12 +32,12 @@ New FAQ topic: &nbsp; (Use a name in TWiki.WikiNotation) <br />
 
 And the =SEARCH= function:
 <verbatim>
-%SEARCH{ "Back to\:__ TWikiFAQ" casesensitive="on" type="regex" nosearch="on" nototal="on"}%
+%SEARCH{ "Back to\:__ FrequentlyAskedQuestions" casesensitive="on" type="regex" nosearch="on" nototal="on"}%
 </verbatim>
 
 
 
-__Back to:__ TWikiFAQ
+__Back to:__ FrequentlyAskedQuestions
 
 __Related Topics:__ UserDocumentationCategory
 
