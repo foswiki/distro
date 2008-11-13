@@ -803,15 +803,14 @@ Did you remember to install UnitTestContrib?
 MESSY
         return;
     }
-    my $inc = join( ' -I', @INC );
+    my @inc = map { ('-I', $_) } @INC;
     my $testdir = $tests;
     $testdir =~ s/\/[^\/]*$//;
     print "Running tests in $tests\n";
     $this->pushd($testdir);
     $this->{-v} = 1;    # to get the command printed
-    $this->sys_action( 'perl', '-w', '-I', $inc, $testrunner, $tests );
+    $this->sys_action( 'perl', '-w', @inc, $testrunner, $tests );
     $this->popd();
-    shift(@INC);
 }
 
 =begin twiki
