@@ -49,7 +49,7 @@ TWiki Installation, Support
 
 It is important to follow the installation instructions in
 INSTALL.html located in the distribution, also at
-http://twiki.org/cgi-bin/view/TWiki/TWikiInstallationGuide
+http://twiki.org/cgi-bin/view/System/InstallationGuide
 
 Important note: Once you installed TWiki on your own system, 
 make sure to add yourself to the list of TWikiInstallations 

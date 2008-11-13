@@ -13,7 +13,7 @@ __Related Topics:__ TWikiSite, ReleaseHistory, TWikiPlannedFeatures, Enhancement
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiInstallationGuide"}%
+%INCLUDE{"InstallationGuide"}%
 
 [[#PageTop][Back to top]]
 

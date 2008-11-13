@@ -128,6 +128,7 @@ data/TWiki/HierarchicalNavigation.txt 0644
 data/TWiki/HierarchicalNavigationChildExample.txt 0644
 data/TWiki/IfStatements.txt 0644
 data/TWiki/IncludeTopicsAndWebPages.txt 0644
+data/TWiki/InstallationGuide.txt 0660
 data/TWiki/InstalledPlugins.txt 0644
 data/TWiki/InstantEnhancements.txt 0644
 data/TWiki/LanguageSelector.txt 0644
@@ -160,7 +161,6 @@ data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
 data/TWiki/TWikiAccessControl.txt 0644
-data/TWiki/TWikiInstallationGuide.txt 0644
 data/TWiki/TWikiJavascripts.txt 0644
 data/TWiki/TWikiLogos.txt 0644
 data/TWiki/TWikiMetaData.txt 0644

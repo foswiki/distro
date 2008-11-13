@@ -68,7 +68,7 @@ all of the plugins checked into SVN)
 #ClientRequirements
 ---++ Client Requirements
 
-The TWiki [[TWikiInstallationGuide][standard installation]] has relatively low browser requirements:
+The TWiki [[InstallationGuide][standard installation]] has relatively low browser requirements:
 
    * HTML 3.2 compliant
    * Cookies, if persistent sessions are required

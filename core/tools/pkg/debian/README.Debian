@@ -18,7 +18,7 @@ additional configuration steps are required from the administrator,
 considering the versatile nature of TWiki. Most of them are described
 in TWiki's standard documentation available in the 'TWiki' wiki/web
 installed by default (see
-http://localhost/cgi-bin/twiki/view/TWiki/TWikiInstallationGuide#Next_Steps
+http://localhost/cgi-bin/twiki/view/TWiki/InstallationGuide#Next_Steps
 for a start).
 
 Access to the 'configure' script is protected with an authentified

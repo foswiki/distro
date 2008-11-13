@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1176947074" format="1.1" version="$Rev: 11940 $"}%
-%META:TOPICPARENT{name="TWikiInstallationGuide"}%
+%META:TOPICPARENT{name="InstallationGuide"}%
 ---+ Administrator Skills Assumptions
 
 __Note:__ If you aren't already fairly well-skilled in Linux/Unix/Windows, Apache, and so on, consider using TWiki:Codev.TWikiVMDebianStable - this can be installed on Windows or Linux, and makes it possible to get a working TWiki system within 5 minutes (after a fairly big download), ready to use from your browser.  This is ideal for personal use or evaluations - if you decide to go for production use then these !AdminSkillsAssumptions apply to some degree, but you are starting from a working system.
@@ -13,7 +13,7 @@ If you need to install TWiki you'll need to either have or learn the following s
 
 Installing TWiki is *not* recommended for people who only know HTML and web design, unless they are willing to learn the above, or team up with someone who can handle the installation.
 
-Although the TWikiInstallationGuide is quite complete, there will on occasion be parts that don't work in your local environment (particularly with TWiki:Codev/TWikiOnWebHostingSites, which are sometimes challenging even for those with good OS and web server skills).
+Although the InstallationGuide is quite complete, there will on occasion be parts that don't work in your local environment (particularly with TWiki:Codev/TWikiOnWebHostingSites, which are sometimes challenging even for those with good OS and web server skills).
 
 There are many excellent resources for learning how to administer your OS and web server, including books, web sites, web forums, IM and e-mail lists.   The TWiki:Support web must *not* be depended on as a resource for this purpose - in other words, it is not there to answer basic questions about operating system and web server administration.  Asking and answering questions is time consuming for all concerned and is best used for specific _TWiki related_ issues, rather than helping you learn the OS and web server.
 
