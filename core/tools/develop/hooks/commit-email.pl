@@ -363,6 +363,7 @@ if (@mods)
     push(@body, "Modified:\n");
     push(@body, map { "   $_\n" } @mods);
   }
+push(@body, "\n");
 push(@body, map { /[\r\n]+$/ ? $_ : "$_\n" } @difflines);
 
 # Go through each project and see if there are any matches for this
