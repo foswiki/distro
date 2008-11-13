@@ -162,7 +162,10 @@ MESS
         # interaction if the script ignores -a. At the moment it
         # will just hang :-(
         chdir( $this->{root} );
-        unshift( @ARGV, '-a' );
+        unshift( @ARGV, '-a' ); # don't prompt
+        unshift(@ARGV, '-d'); # yes, you can download
+        # Note: -r not passed to the script, so it will _not_ try to
+        # re-use existing archives found on disc to resolve dependencies.
         print "<pre>\n";
         eval {
             no warnings 'redefine';

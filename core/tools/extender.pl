@@ -36,6 +36,8 @@ use File::Path;
 no warnings 'redefine';
 
 my $noconfirm = 0;
+my $downloadOK = 0;
+my $reuseOK = 0;
 my $inactive = 0;
 my $twiki;
 my $twiki4OrMore;
@@ -235,9 +237,11 @@ DONE
         my $pack = $1;
         my $packname = $2;
         $packname .= $pack if( $pack eq 'Contrib' && $packname !~ /Contrib$/);
-        my $reply = ask('Would you like me to try to download and install the latest version of '.$packname.' from twiki.org?');
-        if( $reply ) {
-            return installPackage( $packname );
+        if (!$noconfirm || ($noconfirm && $downloadOK)) {
+            my $reply = ask('Would you like me to try to download and install the latest version of '.$packname.' from twiki.org?');
+            if( $reply ) {
+                return installPackage( $packname );
+            }
         }
         return 0;
     }
@@ -483,23 +487,25 @@ sub getComponent {
 
     # Look for the archive.
     require Config;
-    foreach my $dir ($installationRoot,
-                     $installationRoot.'/twikiplugins/'.$module,
-                     split($Config::Config{path_sep},
-                           $ENV{TWIKI_PACKAGES} || '')) {
-        foreach my $type ( @$types ) { # .tgz preferred
-            $f = $dir.'/'.$module.$type;
-            if( -e $f ) {
-                my @st = stat($f);
-                my $credate = localtime($st[9]);
-                print <<HERE;
+    if (!$noconfirm || ($noconfirm && $reuseOK)) {
+        foreach my $dir ($installationRoot,
+                         $installationRoot.'/twikiplugins/'.$module,
+                         split($Config::Config{path_sep},
+                               $ENV{TWIKI_PACKAGES} || '')) {
+            foreach my $type ( @$types ) { # .tgz preferred
+                $f = $dir.'/'.$module.$type;
+                if( -e $f ) {
+                    my @st = stat($f);
+                    my $credate = localtime($st[9]);
+                    print <<HERE;
 $f exists on this machine; would you like me to use it?
 It was created on $credate.
 If not, I will try to download a new one.
 HERE
-                if (ask("Use existing $f?")) {
-                    print "Got a local $what from $f\n";
-                    return $f;
+                    if (ask("Use existing $f?")) {
+                        print "Got a local $what from $f\n";
+                        return $f;
+                    }
                 }
             }
         }
@@ -680,7 +686,6 @@ sub untar {
 
     eval 'use Archive::Tar';
     unless ( $@ ) {
-print STDERR `pwd;ls`;
         my $tar = Archive::Tar->new( $archive, $compressed );
         unless ( $tar ) {
             print STDERR "Could not open tar file $archive\n";
@@ -873,8 +878,8 @@ DONE
 
 sub usage {
     print STDERR <<DONE;
-Usage: ${MODULE}_installer -an install
-       ${MODULE}_installer -an uninstall
+Usage: ${MODULE}_installer -a -n -d -r install
+       ${MODULE}_installer -a -n uninstall
        ${MODULE}_installer manifest
        ${MODULE}_installer dependencies
 
@@ -889,8 +894,10 @@ $MODULE even if they have been locally modified.
 
 -a means don't prompt for confirmation before resolving
    dependencies
+-d means auto-download if -a (no effect if not -a)
+-r means reuse packages on disc if -a (no effect if not -a)
 -n means don't write any files into my current install, just
-   tell me what you would do
+   tell me what you would have done
 
 manifest will generate a list of the files in the package on
 standard output. The list is generated in the same format as
@@ -995,6 +1002,10 @@ sub install {
     while ( $n < scalar( @ARGV ) ) {
         if( $ARGV[$n] eq '-a' ) {
             $noconfirm = 1;
+        } elsif( $ARGV[$n] eq '-d' ) {
+            $downloadOK = 1;
+        } elsif( $ARGV[$n] eq '-r' ) {
+            $reuseOK = 1;
         } elsif( $ARGV[$n] eq '-n' ) {
             $inactive = 1;
         } elsif( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
