@@ -337,7 +337,13 @@ my @body;
 push(@body, "Author: $author\n");
 push(@body, "Date: $date\n");
 push(@body, "New Revision: $rev\n");
-push(@body, "Trac url: http://develop.twiki.org/trac/changeset/$rev\n");
+push(@body, "Trac url: http://trac.nextwiki.org/changeset/$rev\n");
+push(@body, "Log:\n");
+for( @log ) {
+    s#\b(Item\d+)#http://nextwiki.org/Tasks/$1 #g;
+}
+push(@body, @log);
+push(@body, "\n");
 push(@body, "\n");
 if (@adds)
   {
@@ -357,9 +363,6 @@ if (@mods)
     push(@body, "Modified:\n");
     push(@body, map { "   $_\n" } @mods);
   }
-push(@body, "Log:\n");
-push(@body, @log);
-push(@body, "\n");
 push(@body, map { /[\r\n]+$/ ? $_ : "$_\n" } @difflines);
 
 # Go through each project and see if there are any matches for this
