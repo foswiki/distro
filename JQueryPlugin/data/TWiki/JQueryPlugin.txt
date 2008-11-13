@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1224177960" format="1.1" reprev="1.1" version="$Rev$"}%
 ---+!! %TOPIC%
 <!--
-   * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for TWiki
+   * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for <nop>NextWiki
 -->
 %SHORTDESCRIPTION%
 
@@ -25,7 +25,7 @@ HTML documents, handle events, perform animations, and add Ajax interactions to
 your web pages."
 </blockquote>
 
-See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by TWiki.
+See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by <nop>NextWiki.
 
 ---++ Included libraries
    1 [[http://docs.jquery.com][jquery]]: the core  
@@ -50,6 +50,7 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/][jquery.tooltip]]: create customizable tooltips   
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-treeview/][jquery.treeview]] create a leightweight and unobtrusive expanding and collapsing treeview control   
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-validation/][jquery.validate]]: client-side form validation   
+   1 [[http://zeroedandnoughted.wordpress.com/2008/05/01/jquery-plugin-to-emulate-shake-on-login-failure-in-osx-login-box/][jquery.shake]]: osx login box animation
    1 ui.accordion   
    1 ui.datepicker   
    1 ui.dialog   
@@ -78,13 +79,11 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
 
 
 ---++ Themes
-
 The following themes are provided:
    * =flora= theme
    * =ogray= theme (outdated)
 
 ---++ Examples
-
    * Sandbox.PluginTestJQueryPlugin.txt 	 	
    * Sandbox.JQueryPluginExamples.txt
 
@@ -95,11 +94,14 @@ The following themes are provided:
 %$MANIFEST%
 
 ---++ Plugin Info
-|  Plugin Author(s): | TWiki:Main/MichaelDaum |
+|  Plugin Author(s): | Michael Daum |
 |  Copyright: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v0.92 |
+|  Plugin Version: | v1.00 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  13 Nov 2008: | added automaxexpand for TABPANES ;\ 
+                  added jquery.shake plugin; \
+                  reworked BUTTON tag |
 |  15 Oct 2008: | added jquery.autocomplete, jquery.cycle |
 |  20 Jul 2008: | added jquery.form, jquery.maskedinput, jquery.validate |
 |  15 Jul 2008: | updated to ui-1.5.2; added async treeview; added async options to tabpane |
@@ -115,9 +117,8 @@ The following themes are provided:
 |  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |
 |  12 Jul 2007: | initial package containing jQuery-1.1.3.1 |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/JQueryPlugin |
-|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/JQueryPluginDev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/JQueryPluginAppraisal |
+|  Plugin Home: | http://nextwiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://nextwiki.org/Extensions/%TOPIC%Dev |
 
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add

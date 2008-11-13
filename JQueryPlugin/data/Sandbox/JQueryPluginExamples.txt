@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1224177924" format="1.1" reprev="1.4" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1226589672" format="1.1" reprev="1.5" version="$Rev$"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>TWikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
@@ -6,12 +6,12 @@ Demo of the <nop>TWikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
 %TOC%
 
 ---++ Buttons
-%BUTTON{bg="bluish" text="bluish"}%
-%BUTTON{bg="pinkish" text="pinkish"}%
-%BUTTON{bg="greenish" text="greenish"}%
-%BUTTON{style="background-color:orange;color:white;" text="orange"}%
+%BUTTON{"%MAKETEXT{"OK"}%" icon="tick" onclick="alert($(this).text());"}%
+%BUTTON{"%MAKETEXT{"Cancel"}%" icon="cross"}%
+%BUTTON{"%MAKETEXT{"Info"}%" icon="information"}%
+%BUTTON{"%MAKETEXT{"Add"}%" icon="add"}%
+%BUTTON{"%MAKETEXT{"Delete"}%" icon="delete"}%
 %CLEAR%
-
 
 ---++ Toggles
 %TOGGLE{target="#lorem_area" text="$percntX$percnt Slide" effect="slide"}%
@@ -308,13 +308,15 @@ $(".pics").cycle({fx:'scrollLeft'});
 </script>
 
 ---++ Code highlightning
-%JQSCRIPT{"jquery.chili"}%
 <verbatim class="html">
-<script type="text/javascript" src="SOMEWHERE_ELSE/jquery.js"></script> 
-<script type="text/javaScript" src="SOMEWHERE/jquery.chili-2.2.js"></script> 
-<script type="text/javascript"> 
-  ChiliBook.recipeFolder = "SOMEWHERE/";  
-</script> 
+<html>
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <font size="24px">Hello World</font>
+  </body>
+</html>
 </verbatim>
 
 %META:FILEATTACHMENT{name="beach1.jpg" attachment="beach1.jpg" attr="" comment="" date="1224090781" path="beach1.jpg" size="20327" stream="IO::File=GLOB(0x8e9d47c)" tmpFilename="/var/tmp/CGItemp27605" user="ProjectContributor" version="1"}%

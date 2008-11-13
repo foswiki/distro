@@ -1,6 +1,4 @@
-# Plugin for TWiki Collaboration Platform, http://TWiki.org/
-#
-# Copyright (C) 2006-2007 Michael Daum http://wikiring.de
+# Copyright (C) 2006-2008 Michael Daum, http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,15 +30,18 @@ sub handleTabPane {
 
   my $tpId = 'jqTabPane'.($tabPaneCounter++);
   my $select = $params->{select} || '';
+  my $autoMaxExpand = $params->{automaxexpand} || 'off';
 
   $select =~ s/[^\d]//go;
   $select ||= 1;
+
+  $autoMaxExpand = ($autoMaxExpand eq 'on')?'true':'false';
 
 
   TWiki::Func::addToHEAD($tpId, <<"EOS");
 <script type="text/javascript">
 jQuery(function(\$) {
-  \$("#$tpId").tabpane({select:$select});
+  \$("#$tpId").tabpane({select:$select, autoMaxExpand:$autoMaxExpand});
 });
 </script>
 EOS
@@ -118,6 +119,70 @@ sub handleToggle {
 
 ###############################################################################
 sub handleButton {
+  my ($session, $params, $theTopic, $theWeb) = @_;
+
+  my $theText = $params->{_DEFAULT} || $params->{text} || 'Button';
+  my $theHref = $params->{href} || 'javascript:void(0);';
+  my $theOnClick = $params->{onclick};
+  my $theOnMouseOver = $params->{onmouseover};
+  my $theOnMouseOut = $params->{onmouseout};
+  my $theOnFocus = $params->{onfocus};
+  my $theTitle = $params->{title};
+  my $theIconName = $params->{icon} || '';
+  my $theAccessKey = $params->{accesskey};
+  my $theId = $params->{id};
+  my $theBg = $params->{bg} || '';
+  my $theClass = $params->{class} || '';
+  my $theTarget = $params->{target};
+
+  my $theIcon;
+  $theIcon = getIconUrlPath($theWeb, $theTopic, $theIconName) if $theIconName;
+  if ($theIcon) {
+    $theText = 
+      "<span class='jqButtonIcon' style='background-image:url($theIcon)'>$theText</span>";
+  }
+  $theText = "<span> $theText </span>";
+
+  if ($theTarget) {
+    my $url;
+
+    if ($theTarget =~ /$TWiki::regex{webNameRegex}\.$TWiki::regex{wikiWordRegex}/) {
+      my ($web, $topic) = TWiki::Func::normalizeWebTopicName($theWeb, $theTarget);
+      $url = TWiki::Func::getViewUrl($web, $topic);
+    } else {
+      $url = $theTarget;
+    }
+    $theOnClick .= ";window.location.href='$url';";
+  }
+
+  my $result = "<a class='jqButton $theBg $theClass' href='$theHref'";
+  $result .= " accesskey='$theAccessKey' " if defined $theAccessKey;
+  $result .= " id='$theId' " if defined $theId;
+  $result .= " title='$theTitle' " if defined $theTitle;
+  $result .= " onclick=\"$theOnClick\" " if defined $theOnClick;
+  $result .= " onmouseover=\"$theOnMouseOver\" " if defined $theOnMouseOver;
+  $result .= " onmouseout=\"$theOnMouseOut\" " if defined $theOnMouseOut;
+  $result .= " onfocus=\"$theOnFocus\" " if defined $theOnFocus;
+
+  $result .= ">$theText</a>";
+
+  return $result;
+}
+
+###############################################################################
+sub getIconUrlPath {
+  my ($web, $topic, $iconName) = @_;
+
+  return '' unless $iconName;
+
+  my $iconWeb = TWiki::Func::getTwikiWebname();
+  $iconName =~ s/^.*\.(.*?)$/$1/;
+
+  return TWiki::Func::getPubUrlPath().'/'.$iconWeb.'/JQueryPlugin/'.$iconName.'.png';
+}
+
+###############################################################################
+sub handleButtonOLD {
   my ($session, $params, $theTopic, $theWeb) = @_;
 
   my $theText = $params->{_DEFAULT} || $params->{text} || 'Button';

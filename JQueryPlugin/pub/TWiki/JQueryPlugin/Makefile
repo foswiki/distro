@@ -23,6 +23,7 @@ TARGET= \
   jquery.maskedinput.js.gz \
   jquery.rating.css.gz \
   jquery.rating.js.gz \
+  jquery.shake.js.gz \
   jquery.spinner.js.gz \
   jquery.superfish.css.gz \
   jquery.superfish.js.gz \

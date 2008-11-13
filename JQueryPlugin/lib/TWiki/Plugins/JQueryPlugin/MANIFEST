@@ -8,7 +8,18 @@ lib/TWiki/Plugins/JQueryPlugin.pm 0644
 pub/Sandbox/JQueryPluginExamples/beach1.jpg 0644
 pub/Sandbox/JQueryPluginExamples/beach2.jpg 0644
 pub/Sandbox/JQueryPluginExamples/beach3.jpg 0644
-pub/TWiki/JQueryPlugin/button1.png 0644
+pub/TWiki/JQueryPlugin/accept.png 0644
+pub/TWiki/JQueryPlugin/add.png 0644
+pub/TWiki/JQueryPlugin/application_form_add.png 0644
+pub/TWiki/JQueryPlugin/application_form.png 0644
+pub/TWiki/JQueryPlugin/btn_cyan_left.gif 0644
+pub/TWiki/JQueryPlugin/btn_cyan_right.gif 0644
+pub/TWiki/JQueryPlugin/btn_green_left.gif 0644
+pub/TWiki/JQueryPlugin/btn_green_right.gif 0644
+pub/TWiki/JQueryPlugin/btn_left.gif 0644
+pub/TWiki/JQueryPlugin/btn_red_left.gif 0644
+pub/TWiki/JQueryPlugin/btn_red_right.gif 0644
+pub/TWiki/JQueryPlugin/btn_right.gif 0644
 pub/TWiki/JQueryPlugin/chili/cplusplus.js 0644
 pub/TWiki/JQueryPlugin/chili/csharp.js 0644
 pub/TWiki/JQueryPlugin/chili/css.js 0644
@@ -22,7 +33,10 @@ pub/TWiki/JQueryPlugin/chili/php-f.js 0644
 pub/TWiki/JQueryPlugin/chili/php.js 0644
 pub/TWiki/JQueryPlugin/chili/recipes.js 0644
 pub/TWiki/JQueryPlugin/chili/tml.js 0644
+pub/TWiki/JQueryPlugin/cross.png 0644
 pub/TWiki/JQueryPlugin/delete.gif 0644
+pub/TWiki/JQueryPlugin/delete.png 0644
+pub/TWiki/JQueryPlugin/disk.png 0644
 pub/TWiki/JQueryPlugin/effects.blind.js 0644
 pub/TWiki/JQueryPlugin/effects.blind.js.gz 0644
 pub/TWiki/JQueryPlugin/effects.blind.uncompressed.js 0644
@@ -62,6 +76,7 @@ pub/TWiki/JQueryPlugin/effects.slide.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/effects.transfer.js 0644
 pub/TWiki/JQueryPlugin/effects.transfer.js.gz 0644
 pub/TWiki/JQueryPlugin/effects.transfer.uncompressed.js 0644
+pub/TWiki/JQueryPlugin/eye.png 0644
 pub/TWiki/JQueryPlugin/i18n/ui.datepicker-am.js 0644
 pub/TWiki/JQueryPlugin/i18n/ui.datepicker-ar.js 0644
 pub/TWiki/JQueryPlugin/i18n/ui.datepicker-bg.js 0644
@@ -115,6 +130,7 @@ pub/TWiki/JQueryPlugin/images/treeview-gray.gif 0644
 pub/TWiki/JQueryPlugin/images/treeview-gray-line.gif 0644
 pub/TWiki/JQueryPlugin/images/treeview-red.gif 0644
 pub/TWiki/JQueryPlugin/images/treeview-red-line.gif 0644
+pub/TWiki/JQueryPlugin/information.png 0644
 pub/TWiki/JQueryPlugin/jquery-all.css 0644
 pub/TWiki/JQueryPlugin/jquery-all.css.gz 0644
 pub/TWiki/JQueryPlugin/jquery-all.js 0644
@@ -165,6 +181,8 @@ pub/TWiki/JQueryPlugin/jquery.rating.js 0644
 pub/TWiki/JQueryPlugin/jquery.rating.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.rating.uncompressed.css 0644
 pub/TWiki/JQueryPlugin/jquery.rating.uncompressed.js 0644
+pub/TWiki/JQueryPlugin/jquery.shake.js.gz 0644
+pub/TWiki/JQueryPlugin/jquery.shake.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.shrinkurls.js 0644
 pub/TWiki/JQueryPlugin/jquery.shrinkurls.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.spinner.js 0644
@@ -312,6 +330,9 @@ pub/TWiki/JQueryPlugin/themes/ogray/ogray.tabs.css 0644
 pub/TWiki/JQueryPlugin/themes/ogray/ogray.toasterLite.css 0644
 pub/TWiki/JQueryPlugin/themes/ogray/ogray.toolbar.css 0644
 pub/TWiki/JQueryPlugin/themes/ui.datepicker.css 0644
+pub/TWiki/JQueryPlugin/tick.png 0644
+pub/TWiki/JQueryPlugin/tooltip-bubble.png 0644
+pub/TWiki/JQueryPlugin/tooltip-bubble-reverse.png 0644
 pub/TWiki/JQueryPlugin/ui.accordion.js 0644
 pub/TWiki/JQueryPlugin/ui.accordion.js.gz 0644
 pub/TWiki/JQueryPlugin/ui.accordion.uncompressed.js 0644

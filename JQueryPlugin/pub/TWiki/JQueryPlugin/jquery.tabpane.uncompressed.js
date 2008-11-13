@@ -50,6 +50,11 @@
       });
       switchTab(currentTabId, currentTabId, thisOpts);
 
+      /* establish auto max expand */
+      if (thisOpts.autoMaxExpand) {
+        window.setTimeout(autoMaxExpand, 1);
+      }
+
       $(".jqTabGroup li > a", this).click(function() {
         $(this).blur();
         var newTabId = $(this).attr('data');
@@ -128,6 +133,21 @@
     }
   };
 
+
+  /*************************************************************************
+   * adjust height of pane to window height
+   */
+  function autoMaxExpand() {
+    //writeDebug("called autoMaxExpand");
+    fixHeightOfPane();
+    window.setTimeout(function() {
+      $(window).one("resize", function() {
+        autoMaxExpand()
+      });
+    }, 100); 
+  }
+  
+
   /***************************************************************************
    * plugin defaults
    */
@@ -158,7 +178,7 @@ function fixHeightOfPane() {
 
     var paneTop = paneOffset.top;
     if (bottomBarHeight < 0) {
-      bottomBarHeight = $(".natEditBottomBar").height();
+      bottomBarHeight = $('.natEditBottomBar').outerHeight({margin:true});
     }
     //alert("container="+$container.parent().attr('id')+" paneTop="+paneTop+" bottomBarHeight="+bottomBarHeight);
 
@@ -166,7 +186,7 @@ function fixHeightOfPane() {
     if (!windowHeight) {
       windowHeight = window.innerHeight; // woops, jquery, whats up, i.e. for konqueror
     }
-    var height = windowHeight-paneTop-bottomBarHeight-70;
+    var height = windowHeight-paneTop-bottomBarHeight-50;
 
     var newTabSelector;
     if (typeof(newTab) == 'undefined') {

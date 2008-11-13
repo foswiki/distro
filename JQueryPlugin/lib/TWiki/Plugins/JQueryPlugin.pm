@@ -1,5 +1,3 @@
-# Plugin for TWiki Enterprise Collaboration Platform, http://TWiki.org/
-#
 # Copyright (c) 2007-2008 Michael Daum, http://michaeldaumconsulting.com
 # 
 # and TWiki Contributors. All Rights Reserved. TWiki Contributors
@@ -28,8 +26,8 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '0.92'; 
-$SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for TWiki';
+$RELEASE = '1.00'; 
+$SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for NextWiki';
 $NO_PREFS_IN_TOPIC = 1;
 
 $header = <<'HERE';
@@ -131,7 +129,7 @@ sub handleEndTabPane {
 
 ###############################################################################
 sub handleClear {
-  return '<br clear="all" />';
+  return "<span class='twikiClear'></span>";
 }
 
 ###############################################################################
