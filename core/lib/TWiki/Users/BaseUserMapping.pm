@@ -97,7 +97,10 @@ sub new {
     $this->{L2P} = { $TWiki::cfg{AdminUserLogin} => $TWiki::cfg{Password} };
 
     $this->{GROUPS} = {
-        $TWiki::cfg{SuperAdminGroup} => [ $this->{mapping_id} . '333' ],
+        $TWiki::cfg{SuperAdminGroup} => [
+            $this->{mapping_id} . '333',
+            $this->{mapping_id} . '222'     #so registration can still take place on an otherwise locked down USERSWEB
+        ],
         TWikiBaseGroup               => [
             $this->{mapping_id} . '333',
             $this->{mapping_id} . '666',
