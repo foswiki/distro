@@ -63,7 +63,7 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  06 Sep 2007 | Bugs:Item4030 Added doc for using the calendar in user forms |
 |  13603 | Bugs:Item2982 cleaned up the interface to the contrib, re-added a date rendering function with a more generic interface |
 |  11594 | Allow format to be configured. |
-|  11415 | Add a =renderFormFieldForEditHandler= so other plugins can forward to this handler to add the date field to the TWikiForms. (TWiki:Main.ThomasWeigert) |
+|  11415 | Add a =renderFormFieldForEditHandler= so other plugins can forward to this handler to add the date field to the DataForms. (TWiki:Main.ThomasWeigert) |
 |  10247 | Bugs:Item2054 put the calendar at z-index 2000, way above pattern skin divs. |
 |  6634 | Bugs:Item453  removed EditTablePlugins private copy of the Mishoo JS calendar, and made sure it works with JSCalendarContrib. Improved the documentation of the JSCalendar while I was there. |
 |  6626 | Bugs:Item468  updated docs for Dakar release |

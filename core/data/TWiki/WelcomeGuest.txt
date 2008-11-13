@@ -17,7 +17,7 @@ Welcome to <nop>%WIKITOOLNAME%! This is a TWikiSite (pronounced _twee-kee site_)
    * *Browse.* This is a site like other sites. Read and follow interesting links.
    * *Write.* Speak your mind! From your browser you can change or add to anything you see in a TWiki topic. Use regular text or TWikiShorthand.
    * *Experiment.*  Edit your personal page or visit the Sandbox.%HOMETOPIC% web.
-   * *Organize.* You can learn to use TWikiForms and [[FormattedSearch]]es to include topic information - for example, classify pages by subject, status, or date.
+   * *Organize.* You can learn to use DataForms and [[FormattedSearch]]es to include topic information - for example, classify pages by subject, status, or date.
    * *Learn more.* Some good places to start:
       * TWikiTutorial is a 20-minute tour of TWiki essentials. 
       * BeginnersStartHere is a short introduction training course for beginners. 

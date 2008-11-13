@@ -5,7 +5,7 @@
 
 | *Term* | *Definition* |
 | Attachment: | Any type of file that is uploaded via browser and attached to a _topic_, where it can be viewed and downloaded. [[FileAttachments][Details...]] |
-| Form: | Web form at the bottom of a page that can be filled in with additional info and classification for the particular topic [[TWikiForms][Details...]] |
+| Data Form: | Web form at the bottom of a page that can be filled in with additional info and classification for the particular topic [[DataForms][Details...]] |
 | Page: | A regular Web page. A page in TWiki is composed of the _template/skin_ decoration and _topic_ content. |
 | Plugin: | Prepackaged server-side extension that adds all sorts of additional functions, seamlessly integrated into TWiki. [[Plugins][Details...]] |
 | Plugin API: | The standard interface for creating TWiki _Plugins_ and add-on programs that ensure a perfect integration. [[TWikiFuncDotPm][Details...]] |

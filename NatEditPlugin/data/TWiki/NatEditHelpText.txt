@@ -14,7 +14,7 @@ Help text for the NatEditPlugin editor
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TWikiVariables" target="_blank">%MAKETEXT{"Variables"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TWikiForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/DataForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/IncludeTopicsAndWebPages" target="_blank">%MAKETEXT{"Including"}%</a>
 ---+++ %MAKETEXT{"Plugins"}%
 %STARTSUBST{pattern="(%SYSTEMWEB%)\.(\w+)\b" format="<a target='_blank' href='%SCRIPTURLPATH{view}%/$1/$2'>$2</a>"}%

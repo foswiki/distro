@@ -18,7 +18,7 @@ Manual sections in separate pages:
    1. [[Template Topics]]
    1. [[FormattedSearch][Formatted Search]]
    1. [[FileAttachment][File Attachment]]
-   1. [[TWikiForms][TWiki Forms]]
+   1. [[DataForms][Data Forms]]
    1. [[Skin Templates]]
    1. [[Skins][Skins (visual layout)]]
    1. [[MetaData]]

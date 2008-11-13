@@ -28,7 +28,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
    * Default template for *new topics* for this web:
       * WebTopicEditTemplate: Site-level default topic template
 
-   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.TWikiForms][TWikiForms]] for more information.
+   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
       * Set WEBFORMS = DefaultPreferencesForm
 
    * Copyright notice for the TWiki web.

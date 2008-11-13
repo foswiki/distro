@@ -126,7 +126,7 @@ You can use [[TemplateTopics#TemplateVariables][template variables]], TWikiVaria
 | =%<nop>TOPIC%= | The name of the current topic. |
 | =%<nop>WEBTOPICLIST%= | Common links of current web, defined in the WebPreferences. It includes a [[#GoBox][Go box]] |
 | =%<nop>TEXT%= | The topic text, e.g. the content that can be edited |
-| =%<nop>META{"form"}%= | [[TWikiForms][TWikiForm]], if any |
+| =%<nop>META{"form"}%= | [[DataForms][DataForm]], if any |
 | =%<nop>META{"attachments"}%= | FileAttachment table |
 | =%<nop>META{"parent"}%= | The topic parent |
 | =%<nop>EDITTOPIC%= | Edit link |

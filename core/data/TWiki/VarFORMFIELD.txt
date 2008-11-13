@@ -5,7 +5,7 @@
    * Syntax: =%<nop>FORMFIELD{"fieldname"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
-     | ="fieldname"= | The name of a [[TWikiForms][TWiki form]] field | required |
+     | ="fieldname"= | The name of a [[DataForms][Data form]] field | required |
      | =topic="..."= | Topic where form data is located. May be of the form =Web.<nop>TopicName= | Current topic |
      | =format="..."= | Format string. =$value= expands to the field value, and =$title= expands to the fieldname (also expands $name, $attributes, $type, $size and $definingTopic) | ="$value"= |
      | =default="..."= | Text shown when no value is defined for the field | =""= |

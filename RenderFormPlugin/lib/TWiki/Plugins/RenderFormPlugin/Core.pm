@@ -17,7 +17,7 @@ sub _initDefaults {
 
 	%defaults = 
 		( 
-			form => undef,			## TWikiForms definition
+			form => undef,			## DataForms definition
 			_DEFAULT => undef,		## same as form
 			topic => undef, 		## default %TOPIC%XXXXXXXXXXX
 			script => 'save',
@@ -171,7 +171,7 @@ sub render {
 
 	my $topic = defined $options{topic} ? $options{topic} : $theTopic.'XXXXXXXXXX';
 
-	my ($defsRef,$attrRef,$mandRef,$titlRef)  = _readTWikiFormsDef($theWeb);
+	my ($defsRef,$attrRef,$mandRef,$titlRef)  = _readDataFormsDef($theWeb);
 
 	_readTopicFormData($attrRef, $topic, $theWeb) if $options{mode} ne 'create';
 
@@ -593,7 +593,7 @@ sub _getWebAndTopic {
 		
 }
 # =========================
-sub _readTWikiFormsDef {
+sub _readDataFormsDef {
 	my ($theWeb) = @_;
 
 	my ($web,$topic) = _getWebAndTopic($options{form}, $theWeb);

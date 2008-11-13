@@ -167,7 +167,7 @@ If you'd like to have the same customised logo for all the webs, make these chan
 ----
 ---++ Customize Topic Classification Forms
 
-With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with TWikiForms, without having to read up about them first. %X% __(add the corresponding search per category - copy a default and change)__
+With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with DataForms, without having to read up about them first. %X% __(add the corresponding search per category - copy a default and change)__
 
 
 ---

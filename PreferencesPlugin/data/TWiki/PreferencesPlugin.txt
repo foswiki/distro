@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1115527529" format="1.0" version="$Rev$"}%
 ---+!! <nop>%TOPIC%
 
-Allows editing of preferences using fields predefined in a %SYSTEMWEB%.TWikiForms. However, the edit fields are inlined in the text, similar to how tables are edited in TWiki:Plugins/EditTablePlugin.
+Allows editing of preferences using fields predefined in a %SYSTEMWEB%.DataForms. However, the edit fields are inlined in the text, similar to how tables are edited in TWiki:Plugins/EditTablePlugin.
 
 %TOC%
 
@@ -12,9 +12,9 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 ---++ Syntax Rules
 
 	* =%<nop>EDITPREFERENCES{ "= _topic_ =" }%=
-		* _topic_ references a [[%SYSTEMWEB%.TWikiForms][TWikiForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
+		* _topic_ references a [[%SYSTEMWEB%.DataForms][DataForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
 		* If a preference setting is not mentioned in the form referenced by _topic_, a text input box of the specified length is provided.
-		* Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %SYSTEMWEB%.TWikiForms.
+		* Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %SYSTEMWEB%.DataForms.
    * =%<nop>EDITPREFERENCES%=
       * Edit existing preferences in the topic using a simple text field.
 ---++ Examples
@@ -52,6 +52,6 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.TWikiForms
+__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.DataForms
 
 

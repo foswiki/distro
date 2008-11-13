@@ -1,10 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1222960273" format="1.1" version="$Rev$"}%
 ---+!! <nop>%TOPIC%
-The RenderFormPlugin handles the tag %<nop>RENDERFORM{...}%. The tag will be replaced by a form that is defined and looks like TWiki.TWikiForms. It helps you to create a new topic with TWiki.TWikiForms or to edit or view  existing topic form data. The form data can be changed without pushing the topic edit button. The tag can be used at any topic to show, edit or create TWiki.TWikiForms data from any other topic.
+The RenderFormPlugin handles the tag %<nop>RENDERFORM{...}%. The tag will be replaced by a form that is defined and looks like %SYSTEMWEB%.DataForms. It helps you to create a new topic with %SYSTEMWEB%.DataForms or to edit or view  existing topic form data. The form data can be changed without pushing the topic edit button. The tag can be used at any topic to show, edit or create %SYSTEMWEB%.DataForms data from any other topic.
 
 Features:
    * easy to use: 1. define a form, 2. put the %<nop>RENDERFORM{...}% tag on a topic (you do not need to register a form or edit a page to add the form to a topic)
-   * supports all form field types of TWiki.TWikiForms (text, textarea, checkbox, checkbox+buttons , date, select, select+multi, radio, label) 
+   * supports all form field types of %SYSTEMWEB%.DataForms (text, textarea, checkbox, checkbox+buttons , date, select, select+multi, radio, label) 
    * supports 3 modes (=mode= option): create (default), edit, view (default if a topic exists)
    * mode switching: edit to view and view to edit 
    * simple !JavaScript based form field validator for mandatory fields
@@ -25,12 +25,12 @@ Features:
 
 ---++ Quick Start Guide
 
-   1 Create a new topic (e.g. Sandbox.TestForm) for your TWiki.TWikiForms definition and put the following to the new topic (%X% TWiki.EditTablePlugin required):
+   1 Create a new topic (e.g. Sandbox.TestForm) for your %SYSTEMWEB%.DataForms definition and put the following to the new topic (%X% TWiki.EditTablePlugin required):
      <verbatim>
 %EDITTABLE{format="|text,20,|select,1,label,text,textarea,select,select+multi,checkbox,checkbox+buttons,radio,date|text,6,1|text,50|text,20|text,5,|"}%
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
      </verbatim>
-   1 Add some new rows to your TWiki.TWikiForms definition by editing the definition table.
+   1 Add some new rows to your %SYSTEMWEB%.DataForms definition by editing the definition table.
    1 Create a new topic (e.g. Sandbox.MyTestTopic) and put the following to this new topic:
      <verbatim>
 %RENDERFORM{"MyTestForm")%
@@ -100,7 +100,7 @@ Details:
 | *Attribute* | *Description* | *Default / Example* |
 | =dateformat= | overwrites the JSCALENDARDATEFORMAT preference for date fields | dateformat="%d %b %Y" |
 | =donotnotify= | disables notifications | undefined / donotnotify="on" |
-| =form= | (required attribute) a name of a topic with a TWiki.TWikiForms definition | undefined / form="MyTestForm" |
+| =form= | (required attribute) a name of a topic with a %SYSTEMWEB%.DataForms definition | undefined / form="MyTestForm" |
 | =hidden= | a comma separated list of form field names to hide in all modes | undefined / hidden="Field1,Field2" |
 | =hideheader= | if set, disables the form header | hideheader="no" |
 | =layout= | a topic with a layout (see [[#RenderFormPluginFormLayout][Form Layout]] section); syntax: layout="&lt;topic&gt;#&lt;layout name&gt;"; if layout name is omitted a default layout will be taken | undefined / layout="TestFormLayout#test1" |
@@ -184,7 +184,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;ATTRIBUTENAME&gt;%== to your %
 You can also use template based preferences, just write ==RENDERFORM_TEMPLATE_&lt;templatename&gt;_&lt;ATTRIBUTENAME&gt;==.
 
    * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
-      * Set SHORTDESCRIPTION = Create new topics with simple forms like TWiki.TWikiForms.
+      * Set SHORTDESCRIPTION = Create new topics with simple forms like %SYSTEMWEB%.DataForms.
    * Debug plugin: (See output in =data/debug.txt=)
       * Set DEBUG = 0
 

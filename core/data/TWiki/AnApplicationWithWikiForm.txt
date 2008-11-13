@@ -1,15 +1,15 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
-How can I create a simple [[TWikiForms][TWiki Form]] based application?
+How can I create a simple [[DataForms][Data Form]] based application?
 
 
 ---++ Answer:
 
-   1 Create a TWiki Form and define fields (see TWikiForms for details)
+   1 Create a TWiki Form and define fields (see DataForms for details)
    1 Add the form in the list of Web Forms. Set the variable WEBFORMS in WebPreferences
    1 Create a Template Topic
-   1 In edit mode add the [[TWikiForms][TWiki Form]] you defined to the Template Topic using the "Add Form" button
+   1 In edit mode add the [[DataForms][Data Form]] you defined to the Template Topic using the "Add Form" button
    1 Create a HTML Form with necessary fields
    1 Define =SEARCH= function for listing items (see VarSEARCH for details)
 

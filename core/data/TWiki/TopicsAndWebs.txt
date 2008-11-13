@@ -63,10 +63,10 @@ Features that can be used by topics and sites include:
    * formatted search
       * embedded searches of topics, data and meta-data, optional regular expressions
       * custom formatting for outputting lists or tables, optional layout, headings, summary, etc.
-   * variables
+   * macros
       * similar to a command line context with site wide and locally defined variables
       * over-ride topic, TWiki web or site
-   * [[%SYSTEMWEB%.TWikiForms][forms]]
+   * [[%SYSTEMWEB%.DataForms][forms]]
       * store database-style info alongside the free-form topic content
       * accesses meta-data
       * use text fields and boxes, radio buttons, pulldown selector menus, checkboxes

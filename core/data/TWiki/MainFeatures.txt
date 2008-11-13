@@ -8,7 +8,7 @@
    * *Webs:* Pages are grouped into [[%SYSTEMWEB%.SiteMap][TWiki webs]] (or collections). This allows you to set up separate collaboration groups.
    * *Search:* [[WebSearch][Full text search]] with/without regular expressions. See a sample [[%SCRIPTURLPATH{"search"}%/TWiki/?scope=text&search=learn][search result]].
    * *E-mail notification:* Get [[WebChangesAlert][automatically notified]] when something has changed in a TWiki web.
-   * *Structured content:* Use TWikiForms to classify and categorize unstructured web pages and to create simple workflow systems.
+   * *Structured content:* Use DataForms to classify and categorize unstructured web pages and to create simple workflow systems.
    * *File attachments:* [[FileAttachment][Upload]] and download any file as an attachment to a page by using your browser. This is similar to file attachments in an e-mail, but it happens on web pages.
    * *Revision control:* All changes to pages and attachments are tracked. Retrieve previous page revisions; compare differences; find out who changed what and when.
    * *Access control:* Define groups and impose fine-grained read and write [[TWikiAccessControl][access restrictions]] based on groups and users.

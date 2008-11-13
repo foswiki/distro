@@ -3,7 +3,7 @@
 #MetaData
 ---+ Meta Data
 
-_Additional topic data, program-generated or from TWikiForms, is stored embedded in the topic text using =META:= tags_
+_Additional topic data, program-generated or from DataForms, is stored embedded in the topic text using =META:= tags_
 
 %TOC%
 
@@ -11,9 +11,9 @@ _Additional topic data, program-generated or from TWikiForms, is stored embedded
 
 By default, topics are stored in files on disk, in a really simple and obvious directory structure. The big advantage of this approach is that it makes it really easy to manipulate topics from outside, and is also very safe; there are no complex binary indexes to maintain, and moving a topic from one installation to another is as simple as copying a couple of text files.
 
-To keep eveything together in one place, meta-data (program-generated or from TWikiForms) is embedded directly in topics. It does this using =META:= tags.
+To keep eveything together in one place, meta-data (program-generated or from DataForms) is embedded directly in topics. It does this using =META:= tags.
 
-=META:= data includes program-generated info like FileAttachment and topic movement data, and user-defined TWikiForms info.
+=META:= data includes program-generated info like FileAttachment and topic movement data, and user-defined DataForms info.
 
 ---++ Meta Data Syntax
 
@@ -98,15 +98,15 @@ Extra fields that are added if an attachment is moved:
 ---+++ META:FORM
 
 | *Key*   | *Comment* |
-| name    | A topic name - the topic represents one of the TWikiForms.  Can optionally include the web name (i.e., web.topic), but doesn't normally |
+| name    | A topic name - the topic represents one of the DataForms.  Can optionally include the web name (i.e., web.topic), but doesn't normally |
 
 ---+++ META:FIELD
 
 Should only be present if there is a META:FORM entry.  Note that this data is used when viewing a topic, the form template definition is not read.
 
 | *Key*   | *Name*   |
-| name    | Ties to entry in TWikiForms template, is title with all bar alphanumerics and . removed |
-| title   | Full text from TWikiForms template |
+| name    | Ties to entry in DataForms template, is title with all bar alphanumerics and . removed |
+| title   | Full text from DataForms template |
 | value   | Value user has supplied via form |
 
 ---+++ Recommended Sequence
@@ -142,7 +142,7 @@ For details, see VarFORMFIELD.
 Current support covers:
 
 | *Variable usage:*   | *Comment:*  |
-| =%<nop>META{"form"}%= | Show form data, see TWikiForms. |
+| =%<nop>META{"form"}%= | Show form data, see DataForms. |
 | =%<nop>META{"formfield"}%= | Show form field value. Parameter: ==name="field_name"==. Example:%BR% =%<nop>META{ "formfield" name="TopicClassification" }%= |
 | =%<nop>META{"attachments"}%= | Show attachments, except for hidden ones. Options: <br /> \
     ==all="on"==: Show all attachments, including hidden ones. |

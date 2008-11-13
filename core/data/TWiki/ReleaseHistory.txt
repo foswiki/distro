@@ -240,7 +240,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | Named include sections | [[TWiki:Main.RafaelAlvarez][RafaelAlvarez]] |
 | [[TWiki:Codev.AllowDynamicTopicNameCreation][Create topic names with consecutive numbers]] | [[http://www.home.org.au][Sven Dowideit]] |
 | [[TWiki:Codev.ParameterizedIncludes][Parameterized includes]] | [[http://c-dot.co.uk][Crawford Currie]] |
-| [[TWiki:Codev.DynamicFormOptionDefinitions][Dynamic form option definitions]] of TWikiForms with FormattedSearch | [[TWiki:Main.MartinCleaver][MartinCleaver]] |
+| [[TWiki:Codev.DynamicFormOptionDefinitions][Dynamic form option definitions]] of DataForms with FormattedSearch | [[TWiki:Main.MartinCleaver][MartinCleaver]] |
 | SEARCH enhancements with new parameters =excludeweb=, =newline=, =noempty=, =nofinalnewline=, =nonoise=, =recurse=, =zeroresults= | [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.ArthurClemens][ArthurClemens]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | FormattedSearch enhancements with =$changes=, =$count=, =$formfield(name, 30, ...)=, =$summary(expandvar)=, =$summary(noheaders)=, =$summary(showvarnames)= | [[TWiki:Main.ColasNahaboo][ColasNahaboo]], [[http://c-dot.co.uk][Crawford Currie]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]] |
 | New TWikiVariables [[TWikiVariables#VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[TWikiVariables#VarALLVARIABLES][ALLVARIABLES]], [[TWikiVariables#VarAUTHREALM][AUTHREALM]], [[TWikiVariables#VarEMAILS][EMAILS]], [[TWikiVariables#VarFAILEDPLUGINS][FAILEDPLUGINS]], [[TWikiVariables#VarHTTP][HTTP]], [[TWikiVariables#VarHTTPS][HTTPS]], [[TWikiVariables#VarICONURL][ICONURL]], [[TWikiVariables#VarICONURLPATH][ICONURLPATH]], [[TWikiVariables#VarIF][IF]], [[TWikiVariables#VarLANGUAGES][LANGUAGES]], [[TWikiVariables#VarLOCALSITEPREFS][LOCALSITEPREFS]], [[TWikiVariables#VarLOGIN][LOGIN]], [[TWikiVariables#VarLOGOUT][LOGOUT]], [[TWikiVariables#VarMAKETEXT][MAKETEXT]], [[TWikiVariables#VarMETA][META]], [[TWikiVariables#VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[TWikiVariables#VarQUERYSTRING][QUERYSTRING]], [[TWikiVariables#VarSTARTSECTION][STARTSECTION]]/[[TWikiVariables#VarENDSECTION][ENDSECTION]], [[TWikiVariables#VarSESSION_VARIABLE][SESSION_VARIABLE]], [[TWikiVariables#VarSESSIONID][SESSIONID]], [[TWikiVariables#VarSESSIONVAR][SESSIONVAR]], [[TWikiVariables#VarSPACEOUT][SPACEOUT]], [[TWikiVariables#VarUSERLANGUAGE][USERLANGUAGE]], [[TWikiVariables#VarWIKIHOMEURL][WIKIHOMEURL]] | [[TWiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.GregAbbas][GregAbbas]], [[TWiki:Main.PeterThoeny][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]], [[TWiki:Main.WillNorris][WillNorris]] and many more |
@@ -525,7 +525,7 @@ __Major New Features__
    * *21 Aug 2001* - TWiki:Main.PeterThoeny
       * Convert to XHTML 1.0 function: first step to XHTML-ifying TWiki
    * *26 Jun 2001* - TWiki:Main.JohnTalintyre
-      * Category information to forms using the TWikiMetaData format, see TWikiForms
+      * Category information to forms using the TWikiMetaData format, see !TWikiForms
    * *07 Jun 2001* - TWiki:Main.PeterThoeny
       * New topic templates as topics instead of templates. Customize by editing the topic. Retired =notedited.tmpl=, =notext.tmpl= and =notwiki.tmpl= templates. More in TWikiTemplates. 
    * *07 Jun 2001* - TWiki:Main.PeterThoeny
