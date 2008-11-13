@@ -181,6 +181,7 @@ pub/TWiki/JQueryPlugin/jquery.rating.js 0644
 pub/TWiki/JQueryPlugin/jquery.rating.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.rating.uncompressed.css 0644
 pub/TWiki/JQueryPlugin/jquery.rating.uncompressed.js 0644
+pub/TWiki/JQueryPlugin/jquery.shake.js 0644
 pub/TWiki/JQueryPlugin/jquery.shake.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.shake.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.shrinkurls.js 0644
@@ -367,6 +368,7 @@ pub/TWiki/JQueryPlugin/ui.sortable.js 0644
 pub/TWiki/JQueryPlugin/ui.sortable.js.gz 0644
 pub/TWiki/JQueryPlugin/ui.sortable.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/ui.tabs.js 0644
+pub/TWiki/JQueryPlugin/ui.tabs.js.gz 0644
 pub/TWiki/JQueryPlugin/ui.tabs.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/wikiringlogo40x40.png 0644
 tools/minifycss 0755

@@ -1,45 +1,45 @@
 TWIKIROOT=~/twiki/trunk/core
 TARGET= \
-  effects.blind.js.gz \
-  effects.bounce.js.gz \
-  effects.clip.js.gz \
-  effects.core.js.gz \
-  effects.drop.js.gz \
-  effects.explode.js.gz \
-  effects.fold.js.gz \
-  effects.highlight.js.gz \
-  effects.pulsate.js.gz \
-  effects.scale.js.gz \
-  effects.shake.js.gz \
-  effects.slide.js.gz \
-  effects.transfer.js.gz \
-  jquery-all.css.gz \
-  jquery-all.js.gz \
-  jquery.autocomplete.js.gz \
-  jquery.cycle.js.gz \
-  jquery.cycle.trans.js.gz \
-  jquery.debug.js.gz \
-  jquery.form.js.gz \
-  jquery.maskedinput.js.gz \
-  jquery.rating.css.gz \
-  jquery.rating.js.gz \
-  jquery.shake.js.gz \
-  jquery.spinner.js.gz \
-  jquery.superfish.css.gz \
-  jquery.superfish.js.gz \
-  jquery.validate.additional-methods.js.gz \
-  jquery.validate.js.gz \
-  ui.accordion.js.gz \
-  ui.core.js.gz \
-  ui.datepicker.js.gz \
-  ui.dialog.js.gz \
-  ui.draggable.js.gz \
-  ui.droppable.js.gz \
-  ui.mouse.js.gz \
-  ui.resizable.js.gz \
-  ui.selectable.js.gz \
-  ui.slider.js.gz \
-  ui.sortable.js.gz \
+  effects.blind.js \
+  effects.bounce.js \
+  effects.clip.js \
+  effects.core.js \
+  effects.drop.js \
+  effects.explode.js \
+  effects.fold.js \
+  effects.highlight.js \
+  effects.pulsate.js \
+  effects.scale.js \
+  effects.shake.js \
+  effects.slide.js \
+  effects.transfer.js \
+  jquery-all.css \
+  jquery-all.js \
+  jquery.autocomplete.js \
+  jquery.cycle.js \
+  jquery.cycle.trans.js \
+  jquery.debug.js \
+  jquery.form.js \
+  jquery.maskedinput.js \
+  jquery.rating.css \
+  jquery.rating.js \
+  jquery.shake.js \
+  jquery.spinner.js \
+  jquery.superfish.css \
+  jquery.superfish.js \
+  jquery.validate.additional-methods.js \
+  jquery.validate.js \
+  ui.accordion.js \
+  ui.core.js \
+  ui.datepicker.js \
+  ui.dialog.js \
+  ui.draggable.js \
+  ui.droppable.js \
+  ui.mouse.js \
+  ui.resizable.js \
+  ui.selectable.js \
+  ui.slider.js \
+  ui.sortable.js \
   ui.tabs.js
 
 
@@ -50,9 +50,7 @@ GZIP=gzip
 
 .SUFFIXES: .js .css
 
-all: $(TARGET)
-clean: 
-	rm -f $(TARGET)
+all: $(TARGET) $(TARGET:.js=.js.gz)
 
 JS_VALIDATE_SOURCE=\
   jquery.validate.uncompressed.js \

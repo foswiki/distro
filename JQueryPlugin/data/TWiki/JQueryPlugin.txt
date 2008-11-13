@@ -97,7 +97,7 @@ The following themes are provided:
 |  Plugin Author(s): | Michael Daum |
 |  Copyright: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.00 |
+|  Plugin Version: | v1.01 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  13 Nov 2008: | added automaxexpand for TABPANES ;\ 
                   added jquery.shake plugin; \
