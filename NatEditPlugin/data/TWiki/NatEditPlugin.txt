@@ -31,7 +31,7 @@ but will not get in your way once you are aware of wiki markup.
 
 <nop>NatEdit is implemented as a jquery plugin, called =jquery.natedit=,
 and thus heavily depends on javascript. Hence browsers without javascript are not supported. 
-You will need to install the TWiki:Plugins/JQueryPlugin to use <nop>NatEdit.
+You will need to install the <nop>JQueryPlugin to use <nop>NatEdit.
 
 Caution:
 Unlikely previous versions (pre 2.0), 
@@ -53,7 +53,7 @@ variable in %USERSWEB%.SitePreferences or WebPreferences, e.g.
 </pre>
 
 *NatSkin:* %BR%
-No extra configuration steps are needed in case you are using TWiki:Plugins/NatSkin.
+No extra configuration steps are needed in case you are using <nop>NatSkin.
 <nop>NatEditPlugin is the default editor for <nop>NatSkin, that is the normal
 <pre>
    * <!-- -->Set SKIN = nat
@@ -69,7 +69,7 @@ is sufficient.
 ---++ <nop>JSUnitContrib based Unit tests
 There is a small set of browser based unit tests defined in
 NatEditPluginJSUnitTests that can be run as a problem diagnosing tool. These
-require the installation of TWiki:Plugins.JSUnitContrib, and then can be run
+require the installation of <nop>JSUnitContrib, and then can be run
 from
 *[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%WEB%/NatEditPluginJSUnitTests][Run all tests]]*
 
@@ -81,8 +81,9 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v3.02 |
+|  Version: | v3.10 |
 |  Change History: | |
+|  13 Nov 2008 | using new BUTTONs from <nop>JQueryPlugin |
 |  12 Nov 2008 | fixing calculation of bottom bar, using new automaxexpand feature of tabpane widget |
 |  11 Nov 2008 | usability improvements on topic forms |
 |  16 Jul 2008 | fixed calculation of tab height; removed =topicinfo= makro as it is in conflict with <nop>PatternSkin |
@@ -92,7 +93,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  17 Jan 2008 | reimplemented as jquery.natedit plugin; \
                  using a tabbed interface now; \
                  new default button design |
-|  03 Jan 2008 | added =beforeSubmitHandler= to give TWiki:Plugins/EditChapterPlugin a chance to hook in |
+|  03 Jan 2008 | added =beforeSubmitHandler= to give <nop>EditChapterPlugin a chance to hook in |
 |  13 Nov 2007 | fixed calculation of textarea offset while autoresizing it to window height, \
                  fixed initialization not to use Behaviour anymore, \
                  fixed autohide/showing of word toolbar together with tinymce |
@@ -104,13 +105,13 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  04 Aug 2007 | added Word theme \
                  added bullet and numbered lists buttons & Javascript \
                  added create Table button and Javascript \
-                 work done by TWiki:Main.SvenDowideit [[http://DistributedINFORMATION.com][DistributedINFORMATION]] for [[http://twiki.net][TWIKI.NET]]  |
+                 work done by Sveni Dowideit [[http://DistributedINFORMATION.com][DistributedINFORMATION]] for [[http://twiki.net][TWIKI.NET]]  |
 |  21 May 2007 | fixed display of toolbar buttons |
 |  01 May 2007 | made natedit themable |
 |  27 Apr 2007 | made all button output configurable; \
                  standardized their defaults; \
                  fixed javascript in preview mode; \
-                 added support for TWiki:Plugins/RevCommentPlugin; \
+                 added support for <nop>RevCommentPlugin; \
                  added monospace button; reworked some of the icons |
 |  23 Apr 2007 | fixed IE freezing on resizing the edit window |
 |  05 Apr 2007 | added support for <nop>EditContrib and =editform= |

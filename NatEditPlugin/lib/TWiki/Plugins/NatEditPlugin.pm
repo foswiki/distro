@@ -1,5 +1,3 @@
-# Plugin for TWiki Collaboration Platform, http://TWiki.org/
-#
 # Copyright (C) 2007-2008 Michael Daum http://michaeldaumconsulting.com
 #
 # based on NatEditPlugin:
@@ -27,7 +25,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = 'v3.02';
+$RELEASE = 'v3.10';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
@@ -84,7 +82,7 @@ sub initPlugin {
 # to render the FORMFIELDS. but this is not what we need here at all. infact
 # we need an empty addform.nat.tmp to switch off this feature of FORMFIELDS
 sub handleFORMBUTTON {
-  my ($session, $params) = @_;
+  my ($session, $params, $theTopic, $theWeb) = @_;
 
   my $saveCmd = '';
   my $request = TWiki::Func::getCgiQuery();
@@ -94,7 +92,7 @@ sub handleFORMBUTTON {
   my $form = $request->param('formtemplate') || '';
 
   unless ($form) {
-    my ($meta, $dumy) = TWiki::Func::readTopic($baseWeb, $baseTopic);
+    my ($meta, $dumy) = TWiki::Func::readTopic($theWeb, $theTopic);
     my $formMeta = $meta->get('FORM'); 
     $form = $formMeta->{"name"} if $formMeta;
   }
@@ -113,19 +111,22 @@ sub handleFORMBUTTON {
 
   if ($form) {
     $actionText = $session->{i18n}->maketext("Change form");
-    $actionTitle = $session->{i18n}->maketext("Change the current form of <nop>[_1]", "$baseWeb.$baseTopic");
-  } elsif (TWiki::Func::getPreferencesValue('WEBFORMS', $baseWeb)) {
+    $actionTitle = $session->{i18n}->maketext("Change the current form of <nop>[_1]", "$theWeb.$theTopic");
+  } elsif (TWiki::Func::getPreferencesValue('WEBFORMS', $theWeb)) {
     $actionText = $session->{i18n}->maketext("Add form");
-    $actionTitle = $session->{i18n}->maketext("Add a new form to <nop>[_1]", "$baseWeb.$baseTopic");
+    $actionTitle = $session->{i18n}->maketext("Add a new form to <nop>[_1]", "$theWeb.$theTopic");
   } else {
     return '';
   }
   
   my $theFormat = $params->{_DEFAULT} || $params->{format} || '$link';
   $theFormat =~ s/\$link/<a href='\$url' accesskey='f' title='\$title'><span>\$acton<\/span><\/a>/g;
-  $theFormat =~ s/\$url/javascript:submitEditForm('save', '$action');/g;
+  $theFormat =~ s/\$url/javascript:\$script/g;
+  $theFormat =~ s/\$script/submitEditForm('save', '$action');/g;
   $theFormat =~ s/\$title/$actionTitle/g;
   $theFormat =~ s/\$action/$actionText/g;
+  $theFormat = TWiki::Func::expandCommonVariables($theFormat, $theTopic, $theWeb)
+    if escapeParameter($theFormat);
 
   return $theFormat;
 }
@@ -211,14 +212,14 @@ sub beforeSaveHandler {
 ###############################################################################
 # taken from TWiki::UI::ChangeForm and leveraged to normal formatting standards
 sub handleNATFORMLIST {
-  my ($session, $params) = @_;
+  my ($session, $params, $theTopic, $theWeb) = @_;
 
   my $theFormat = $params->{_DEFAULT} || $params->{format} 
     || '<label><input type="radio" name="formtemplate" id="formtemplateelem$index" $checked value="$name">'.
        '&nbsp;$formTopic</input></label>';
 
-  my $theWeb = $params->{web} || $baseWeb;
-  my $theTopic = $params->{topic} || $baseTopic;
+  $theWeb = $params->{web} if defined $params->{web};
+  $theTopic = $params->{topic} if defined $params->{topic};
   my $theSeparator = $params->{separator};
   my $theHeader = $params->{header} || '';
   my $theFooter = $params->{footer} || '';
@@ -229,7 +230,7 @@ sub handleNATFORMLIST {
   $theSeparator = '<br />' unless defined $theSeparator;
 
   unless ($theSelected) {
-    my ($meta) = TWiki::Func::readTopic($baseWeb, $baseTopic);
+    my ($meta) = TWiki::Func::readTopic($theWeb, $theTopic);
     my $form = $meta->get( 'FORM' );
     $theSelected = $form->{name} if $form;
   }

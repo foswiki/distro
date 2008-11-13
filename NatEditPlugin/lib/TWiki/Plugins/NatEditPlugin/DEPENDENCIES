@@ -1,1 +1,1 @@
-TWiki::Plugins::JQueryPlugin,>=0.90,perl,Required. Download from the TWiki:Plugins/JQueryPlugin add-on. 
+TWiki::Plugins::JQueryPlugin,>=1.00,perl,Required.
