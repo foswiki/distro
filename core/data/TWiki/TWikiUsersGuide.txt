@@ -24,7 +24,7 @@ _Documentation for TWiki users._
    * *Help FAQs*
       * FrequentlyAskedQuestions: The first things people ask about TWiki
       * TextFormattingFAQ: Common how-to questions about posting in TWiki  
-      * Frequent users should also browse the full [[TWikiReferenceManual][Reference Manual]]!
+      * Frequent users should also browse the full [[ReferenceManual][Reference Manual]]!
 
 
    * *Help on InstalledPlugins*

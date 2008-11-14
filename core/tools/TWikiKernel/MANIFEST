@@ -131,6 +131,7 @@ data/TWiki/PreviewBackground.txt 0660
 data/TWiki/PrintSkin.txt 0660
 data/TWiki/ProjectContributor.txt 0660
 data/TWiki/QuietSave.txt 0660
+data/TWiki/ReferenceManual.txt 0660
 data/TWiki/RegistrationApprovals.txt 0660
 data/TWiki/RegularExpression.txt 0660
 data/TWiki/ReleaseHistory.txt 0660
@@ -151,7 +152,6 @@ data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiJavascripts.txt 0660
 data/TWiki/TWikiLogos.txt 0660
 data/TWiki/TWikiMetaData.txt 0660
-data/TWiki/TWikiReferenceManual.txt 0660
 data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660
 data/TWiki/TWikiShorthand.txt 0660

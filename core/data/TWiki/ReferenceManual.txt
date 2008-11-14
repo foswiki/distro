@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1168078377" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ TWiki Reference Manual
+---+ Reference Manual
 
 _Documentation for webmasters, system administrators, project managers, team leaders, and all other users of the TWiki Enterprise Collaboration Platform._
 

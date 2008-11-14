@@ -17,7 +17,7 @@ TWiki is a flexible, powerful, secure, yet simple web-based collaboration platfo
    * [[TWikiTutorial][Tutorial]] - 20 minutes TWiki tutorial
    * [[TWikiUsersGuide][User's Guide]] - documentation for TWiki users
    * [[FrequentlyAskedQuestions][Frequently Asked Questions]] - about TWiki
-   * [[TWikiReferenceManual][Reference Manual]] - documentation for system administrators
+   * [[ReferenceManual][Reference Manual]] - documentation for system administrators
    * [[AdminToolsCategory][Admin Tools]] - manage the TWiki site
    * [[TWikiReleaseNotes04x02][TWiki-4.2 Release Notes]] - describes what's new in this release
 
