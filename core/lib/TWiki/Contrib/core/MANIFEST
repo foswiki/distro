@@ -178,7 +178,6 @@ data/TWiki/TWikiTemplates.txt 0644
 data/TWiki/TWikiTopics.txt 0644
 data/TWiki/TWikiUpgradeGuide.txt 0644
 data/TWiki/TWikiUserAuthentication.txt 0644
-data/TWiki/TWikiUsersGuide.txt 0644
 data/TWiki/TWikiVariables.txt 0644
 data/TWiki/TWikiVariablesQuickStart.txt 0644
 data/TWiki/TWikiWebsTable.txt 0644
@@ -189,6 +188,7 @@ data/TWiki/TextFormattingRules.txt 0644
 data/TWiki/TimBernersLee.txt 0644
 data/TWiki/TimeSpecifications.txt 0644
 data/TWiki/UserDocumentationCategory.txt 0644
+data/TWiki/UsersGuide.txt 0644
 data/TWiki/UserToolsCategory.txt 0644
 data/TWiki/UsingHTML.txt 0644
 data/TWiki/VarACTIVATEDPLUGINS.txt 0644

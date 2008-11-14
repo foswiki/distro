@@ -169,7 +169,6 @@ data/TWiki/TWikiUpgradeTo01Feb2003.txt 0660
 data/TWiki/TWikiUpgradeTo01May2000.txt 0660
 data/TWiki/TWikiUpgradeToCairo.txt 0660
 data/TWiki/TWikiUserAuthentication.txt 0660
-data/TWiki/TWikiUsersGuide.txt 0660
 data/TWiki/TWikiVariables.txt 0660
 data/TWiki/TWikiVariablesAtoM.txt 0660
 data/TWiki/TWikiVariablesNtoZ.txt 0660
@@ -182,6 +181,7 @@ data/TWiki/TimBernersLee.txt 0660
 data/TWiki/TimeInterval.txt 0660
 data/TWiki/UserDocumentationCategory.txt 0660
 data/TWiki/UserForm.txt 0660
+data/TWiki/UsersGuide.txt 0660
 data/TWiki/UserToolsCategory.txt 0660
 data/TWiki/WabiSabi.txt 0660
 data/TWiki/WebChanges.txt 0660
