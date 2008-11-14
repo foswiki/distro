@@ -1,9 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 5385 $"}%
-   * Please bring your enhancement requests to TWiki:Codev.FeatureEnhancementRequest
+   * Please bring your enhancement requests to TWiki:Development.FeatureEnhancementRequest
 
 __Related Topics:__
    * ReleaseHistory has a list of added features in TWiki.
-   * TWikiPlannedFeatures has a list of planned features.
    * CompleteDocumentation is the implementation documentation. 
 
 
