@@ -1,5 +1,3 @@
-# Plugin for TWiki Enterprise Collaboration Platform, http://TWiki.org/
-#
 # Copyright (C) 2002-2003 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
 # Copyright (C) 2005-2008 Michael Daum http://michaeldaumconsulting.com
 #
@@ -25,7 +23,7 @@ use vars qw(
     );
 
 $VERSION = '$Rev: 17034 $';
-$RELEASE = '3.72';
+$RELEASE = '4.00-pre1';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';
 

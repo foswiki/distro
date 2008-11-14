@@ -1,6 +1,3 @@
-#
-# TWiki WikiClone ($wikiversion has version info)
-#
 # Copyright (C) 2002-2003 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
 # Copyright (C) 2005-2008 Michael Daum http://michaeldaumconsulting.com
 #
@@ -175,8 +172,7 @@ sub init {
   $this->{minheight} = $this->{maxheight} if $this->{minheight} > $this->{maxheight};
   $this->{minwidth} = $params->{minwidth} || 0;
   $this->{minwidth} = $this->{maxwidth} if $this->{minwidth} > $this->{maxwidth};
-  $this->{format} = $params->{format} || 
-      '<a href="$origurl"><img src="$imageurl" title="$comment" width="$width" height="$height"/></a>';
+  $this->{format} = $params->{format};
   $this->{title} = $params->{title} || ' $comment ($imgnr/$nrimgs)&nbsp;$reddot';
   $this->{doTitles} = ($this->{title} eq 'off')?0:1;
   $this->{thumbtitle} = $params->{thumbtitle} || ' $comment $reddot';
@@ -266,24 +262,32 @@ sub render {
       $this->{info}{thumbheight}{value} ne $this->{thumbheight} ||
       join(', ', $this->{info}{topics}{value}) ne join(', ', @{$this->{topics}});
 
-  my $result = "<div class=\"igp\"><a name=\"igp$this->{id}\"></a>";
+  my $result;
 
   # get filename query string
   my $filename = $this->{query}->param("filename");
   my $id = $this->{query}->param("id") || '';
 
-  if ($id eq $this->{id} && $filename) {
-    # picture mode
-    $result .= $this->renderImage($filename);
+  if ($this->{format}) {
+    $result = $this->renderFormatted();
   } else {
-    # thumbnails mode
-    $result .= $this->renderThumbnails();
+    $result = "<div class=\"igp\"><a name=\"igp$this->{id}\"></a>";
+    if ($id eq $this->{id} && $filename) {
+      # picture mode
+      $result .= $this->renderImage($filename);
+    } else {
+      # thumbnails mode
+      $result .= $this->renderThumbnails();
+    }
+    $result .= "</div>\n";
+    $result = '<noautolink>'.$result.'</noautolink>';
   }
 
-  $result .= "</div>\n";
 
   $this->writeInfo();
-  return '<noautolink>'.$result.'</noautolink>';
+
+  #writeDebug("result=$result");
+  return $result;
 }
 
 # =========================
@@ -367,8 +371,9 @@ sub renderImage {
   $result .= "<table class=\"igpPictureTable\">\n";
 
   # img
+  my $imgFormat = '<a href="$origurl"><img src="$imageurl" title="$comment" width="$width" height="$height"/></a>';
   $result .= "<tr><td class=\"igpPicture\">" 
-    . $this->replaceVars($this->{format}, $thisImg);
+    . $this->replaceVars($imgFormat, $thisImg);
 
   # navi
   $result .= "<tr><td class=\"igpNavi\"><div class=\"igpNaviContents\">";
@@ -415,18 +420,65 @@ sub renderImage {
 }
 
 # =========================
-sub renderThumbnails {
-
+sub renderFormatted {
   my $this = shift;
-
-  #writeDebug("renderThumbnails()");
+  
+  writeDebug("renderFormatted()");
 
   if (!@{$this->{images}}) {
     return renderError($this->{warn}); 
   }
 
   my $maxCols = $this->{columns};
-  my $result = "<div class=\"igpThumbNails\"><table class=\"igpThumbNailsTable\"><tr>\n";
+  my $header = $this->{header} || '';
+  my $footer = $this->{footer} || '';
+  my $format = $this->{format} || '   * $imageurl';
+  my $separator = $this->{separator};
+
+  $separator = "\n" unless defined $separator;
+  my @result;
+
+  my $imageNr = 0;
+  my @rowOfImages = ();
+  my $skip = $this->{skip};
+  foreach my $image (@{$this->{images}}) {
+
+    $skip--;
+    next if $skip >= 0;
+    last if $this->{limit} && $imageNr >= $this->{limit};
+    $imageNr++;
+
+    $this->computeImageSize($image);
+    if (!$this->createImg($image)) {
+      return renderError($this->{errorMsg});
+    }
+    if (!$this->createImg($image, 1)) {
+      return renderError($this->{errorMsg});
+    }
+
+
+    my $line = $this->replaceVars($format, $image);
+    $line =~ s/\$index/$imageNr/g;
+    push @result, $line;
+    
+
+  }
+  return $header.join($separator, @result).$footer;
+}
+
+# =========================
+sub renderThumbnails {
+
+  my $this = shift;
+
+  writeDebug("renderThumbnails()");
+
+  if (!@{$this->{images}}) {
+    return renderError($this->{warn}); 
+  }
+
+  my $maxCols = $this->{columns};
+  my $result = "<div class='igpThumbNails'><table class='igpThumbNailsTable'><tr>";
   my $imageNr = 0;
   my @rowOfImages = ();
   my $skip = $this->{skip};
@@ -757,9 +809,9 @@ sub replaceVars {
     $format =~ s/\$size/$image->{size}/gos;
     $format =~ s/\$wikiusername/$image->{user}/gos;
     $format =~ s/\$username/TWiki::Func::wikiToUserName($image->{user})/geos;
-    $format =~ s,\$thumburl,$this->{imagesPubUrl}/thumb_$imageName,gos;
-    $format =~ s,\$imageurl,$this->{imagesPubUrl}/$imageName,gos;
-    $format =~ s,\$origurl,$image->{IGP_url},gos;
+    $format =~ s/\$thumburl/$this->{imagesPubUrl}\/thumb_$imageName/gos;
+    $format =~ s/\$imageurl/$this->{imagesPubUrl}\/$imageName/gos;
+    $format =~ s/\$origurl/$image->{IGP_url}/gos;
     $format =~ s/\$web/$image->{IGP_web}/gos;
     $format =~ s/\$topic/$image->{IGP_topic}/gos;
 
@@ -981,7 +1033,5 @@ sub writeDebug {
   #TWiki::Func::writeDebug("ImageGalleryPlugin - $_[0]");
   print STDERR "ImageGalleryPlugin - $_[0]\n" if DEBUG;
 }
-
-
 
 1;
