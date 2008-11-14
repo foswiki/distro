@@ -20,7 +20,7 @@ sub set_up {
     $TWiki::cfg{EnableHierarchicalWebs} = 1;
     $TWiki::cfg{Htpasswd}{FileName} = '$TWiki::cfg{TempfileDir}/junkpasswd';
     $TWiki::cfg{PasswordManager} = 'TWiki::Users::HtPasswdUser';
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TWikiUserMapping';
+    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
     $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::TemplateLogin';   
     $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
 

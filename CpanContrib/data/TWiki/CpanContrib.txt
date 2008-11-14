@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiUserMapping_WillNorris" date="1178955051" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="TopicUserMapping_WillNorris" date="1178955051" format="1.1" version="1.2"}%
 ---+!! CpanContrib Contrib Package
 
 Provides pure-perl and precompiled CPAN modules in a handy bundle

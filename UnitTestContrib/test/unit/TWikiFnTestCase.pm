@@ -43,7 +43,7 @@ sub set_up {
     $TWiki::cfg{Register}{AllowLoginName} = 1;
     $TWiki::cfg{Htpasswd}{FileName} = "$TWiki::cfg{WorkingDir}/htpasswd";
     $TWiki::cfg{PasswordManager} = 'TWiki::Users::HtPasswdUser';
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TWikiUserMapping';
+    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
     $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::TemplateLogin';
     $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
     $TWiki::cfg{RenderLoggedInButUnknownUsers} = 0;

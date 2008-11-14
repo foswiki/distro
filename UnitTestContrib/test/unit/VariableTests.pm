@@ -113,7 +113,7 @@ scum
 ScumBag
 $this->{users_web}.ScumBag
 scum, $this->{users_web}.ScumBag, scumbag\@example.com
-${TWiki::Users::TWikiUserMapping::TWIKI_USER_MAPPING_ID}scum,scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
+${TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID}scum,scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
 BaseUserMapping_666,,guest,TWikiGuest,$this->{users_web}.TWikiGuest
 END
     $this->annotate("TWiki::cfg{Register}{AllowLoginName} == ".$TWiki::cfg{Register}{AllowLoginName});

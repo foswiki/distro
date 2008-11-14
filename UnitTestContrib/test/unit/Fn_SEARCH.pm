@@ -569,7 +569,7 @@ sub verify_formatted_search_summary_with_exclamation_marks {
 sub set_up_for_queries {
     my $this = shift;
     my $text = <<'HERE';
-%META:TOPICINFO{author="TWikiUserMapping_guest" date="1178612772" format="1.1" version="1.1"}%
+%META:TOPICINFO{author="TopicUserMapping_guest" date="1178612772" format="1.1" version="1.1"}%
 %META:TOPICPARENT{name="WebHome"}%
 something before. Another
 This is QueryTopic FURTLE
@@ -579,7 +579,7 @@ somethig after
 %META:FIELD{name="Field2" attributes="" title="Another Field" value="2"}%
 %META:FIELD{name="Firstname" attributes="" title="First Name" value="Emma"}%
 %META:FIELD{name="Lastname" attributes="" title="First Name" value="Peel"}%
-%META:TOPICMOVED{by="TWikiUserMapping_guest" date="1176311052" from="Sandbox.TestETP" to="Sandbox.TestEarlyTimeProtocol"}%
+%META:TOPICMOVED{by="TopicUserMapping_guest" date="1176311052" from="Sandbox.TestETP" to="Sandbox.TestEarlyTimeProtocol"}%
 %META:FILEATTACHMENT{name="README" comment="Blah Blah" date="1157965062" size="5504"}%
 HERE
     $this->{twiki}->{store}->saveTopic(
@@ -587,7 +587,7 @@ HERE
         'QueryTopic', $text);
 
     $text = <<'HERE';
-%META:TOPICINFO{author="TWikiUserMapping_guest" date="12" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="TopicUserMapping_guest" date="12" format="1.1" version="1.2"}%
 first line
 This is QueryTopicTwo SMONG
 third line
@@ -793,7 +793,7 @@ sub benchmarktest_largeQuery {
         my $vD = ($n == 1) ? 'A' : 'B';
         my $vE = ($n == 2) ? 'A' : 'B';
         my $text = <<HERE;
-%META:TOPICINFO{author="TWikiUserMapping_guest" date="12" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="TopicUserMapping_guest" date="12" format="1.1" version="1.2"}%
 ---+ Progressive Sexuality
 A Symbol Interpreted In American Architecture. Meta-Physics Of Marxism & Poverty In The American Landscape. Exploration Of Crime In Mexican Sculptures: A Study Seen In American Literature. Brief Survey Of Suicide In Italian Art: The Big Picture. Special Studies In Bisexual Female Architecture. Brief Survey Of Suicide In Polytheistic Literature: Analysis, Analysis, and Critical Thinking. Radical Paganism: Modern Theories. Liberal Mexican Religion In The Modern Age. Selected Topics In Global Warming: $vD Policy In Modern America. Survey Of The Aesthetic Minority Revolution In The American Landscape. Populist Perspectives: Myth & Reality. Ethnicity In Modern America: The Bisexual Latino Condition. Postmodern Marxism In Modern America. Female Literature As A Progressive Genre. Horror & Life In Recent Times. The Universe Of Female Values In The Postmodern Era.
 
