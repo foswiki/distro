@@ -53,6 +53,7 @@ They are used to support a limited form of "if" condition that you can use to se
 When the "inactive" context is set, then this will expand the "link_inactive" TMPL:DEF; otherwise it will expand the "link_active" TMPL:DEF.
 See IfStatements for details of supported context identifiers.
 
+#FindingTemplates
 ---+++ Finding Skin Templates
 
 The skin templates shipped with a release are stored in the twiki/templates directory.

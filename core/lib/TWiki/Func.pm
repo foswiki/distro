@@ -1908,7 +1908,7 @@ sub moveAttachment {
 
 ---+++ readTemplate( $name, $skin ) -> $text
 
-Read a template or skin. Embedded [[%SYSTEMWEB%.TWikiTemplates][template directives]] get expanded
+Read a template or skin. Embedded [[%SYSTEMWEB%.SkinTemplates][template directives]] get expanded
    * =$name= - Template name, e.g. ='view'=
    * =$skin= - Comma-separated list of skin names, optional, e.g. ='print'=
 Return: =$text=    Template text
@@ -1938,7 +1938,7 @@ Return: expanded template text (what's left after removal of all %TMPL:DEF% stat
 Reads a template and extracts template definitions, adding them to the
 list of loaded templates, overwriting any previous definition.
 
-How TWiki searches for templates is described in TWikiTemplates.
+How TWiki searches for templates is described in SkinTemplates.
 
 If template text is found, extracts include statements and fully expands them.
 

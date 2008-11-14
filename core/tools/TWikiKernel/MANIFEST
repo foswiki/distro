@@ -146,9 +146,11 @@ data/TWiki/SiteChanges.txt 0660
 data/TWiki/SiteMap.txt 0660
 data/TWiki/SitePermissions.txt 0660
 data/TWiki/Skins.txt 0660
+data/TWiki/SkinTemplates.txt 0660
 data/TWiki/StandardColors.txt 0660
 data/TWiki/StartingPoints.txt 0660
 data/TWiki/StaticMethod.txt 0660
+data/TWiki/TemplatesTopics.txt 0660
 data/TWiki/TwentyMinuteTutorial.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiJavascripts.txt 0660
@@ -160,7 +162,6 @@ data/TWiki/TWikiSite.txt 0660
 data/TWiki/TWikiSiteTools.txt 0660
 data/TWiki/TWikiSkinBrowser.txt 0660
 data/TWiki/TWikiSystemRequirements.txt 0660
-data/TWiki/TWikiTemplates.txt 0660
 data/TWiki/TWikiTopics.txt 0660
 data/TWiki/TWikiUpgradeGuide.txt 0660
 data/TWiki/TWikiUpgradeTo01Dec2000.txt 0660
@@ -571,7 +572,6 @@ pub/TWiki/ProjectLogos/T-logo-88x31-t.gif 0660
 pub/TWiki/ProjectLogos/T-logo-88x31.png 0660
 pub/TWiki/ProjectLogos/T-logo.svg 0660
 pub/TWiki/ProjectLogos/favicon.ico 0660
-pub/TWiki/TWikiTemplates/testscreen.gif 0660
 pub/TWiki/TWikiJavascripts/twiki.js 0660
 pub/TWiki/TWikiJavascripts/twiki_attach.js 0660
 pub/TWiki/TWikiJavascripts/twiki_edit.js 0660

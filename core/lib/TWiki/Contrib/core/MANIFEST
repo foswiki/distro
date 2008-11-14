@@ -161,9 +161,11 @@ data/TWiki/SiteChanges.txt 0644
 data/TWiki/SiteMap.txt 0644
 data/TWiki/SitePermissions.txt 0644
 data/TWiki/Skins.txt 0660
+data/TWiki/SkinTemplates.txt 0644
 data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
+data/TWiki/TemplatesTopics.txt 0644
 data/TWiki/TwentyMinuteTutorial.txt 0644
 data/TWiki/TWikiJavascripts.txt 0644
 data/TWiki/TWikiMetaData.txt 0644
@@ -174,7 +176,6 @@ data/TWiki/TWikiSite.txt 0644
 data/TWiki/TWikiSiteTools.txt 0644
 data/TWiki/TWikiSkinBrowser.txt 0644
 data/TWiki/TWikiSystemRequirements.txt 0644
-data/TWiki/TWikiTemplates.txt 0644
 data/TWiki/TWikiTopics.txt 0644
 data/TWiki/TWikiUpgradeGuide.txt 0644
 data/TWiki/TWikiUserAuthentication.txt 0644
@@ -993,12 +994,11 @@ pub/TWiki/TWikiJavascripts/twiki_renamebase.js 0644
 #pub/TWiki/TWikiJavascripts/twiki_renamedelete.js 0644
 pub/TWiki/TWikiJavascripts/twikiuiToggle.js 0644
 pub/TWiki/TWikiJavascripts/unicode_chars.js 0644
-pub/TWiki/TWikiTemplates/base.css 0644
-pub/TWiki/TWikiTemplates/default.css 0644
-pub/TWiki/TWikiTemplates/oopsmore_diff_debug.gif 0644
-pub/TWiki/TWikiTemplates/oopsmore_diff_sequential.gif 0644
-pub/TWiki/TWikiTemplates/oopsmore_diff_sidebyside.gif 0644
-pub/TWiki/TWikiTemplates/testscreen.gif 0644
+pub/TWiki/SkinTemplates/base.css 0644
+pub/TWiki/SkinTemplates/default.css 0644
+pub/TWiki/SkinTemplates/oopsmore_diff_debug.gif 0644
+pub/TWiki/SkinTemplates/oopsmore_diff_sequential.gif 0644
+pub/TWiki/SkinTemplates/oopsmore_diff_sidebyside.gif 0644
 pub/TWiki/WabiSabi/wabisabi.gif 0644
 pub/TWiki/WebPreferences/Dakar.gif 0644
 pub/TWiki/WebPreferences/favicon.ico 0644

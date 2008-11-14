@@ -91,7 +91,7 @@ TWiki's Registration can send 3 emails who's output is governed by templates:
    2 User registration notification - =templates/registernotify.tmpl=
    3 Email to notify the TWiki admin of registration - =templates/registernotifyadmin.tmpl=
 
-As these are TWikiTemplates, they can be customized and selected using the SKIN path setting.
+As these are SkinTemplates, they can be customized and selected using the SKIN path setting.
 Because there are default tmpl files in the =templates= dir, this cannot use Template topics.
 
 These template files have a specific format that matches the raw format of emails sent via SMTP,

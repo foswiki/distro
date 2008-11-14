@@ -90,7 +90,7 @@ Your local installation may add more template types as well - see [[#TemPlates][
 ---++ Customisation
 Customisation of the comment plugin requires
 	* familiarity with HTML forms
-	* some familiarity with the [[%SYSTEMWEB%.TWikiTemplates][TWiki templating language]].
+	* some familiarity with the [[%SYSTEMWEB%.SkinTemplates][Skin Templates]].
 
 To define a comment type, you have to provide two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
 
@@ -115,8 +115,7 @@ You can also define a *comment template in a topic*, by passing the topic locati
 </blockquote>
 
 
-%X% Templates are picked up by following the [[TWikiTemplates#Finding_Templates][standard TWiki rules]] for locating template files. Note that you can use =%TMPL:INCLUDE= to include other files of templates. %BR%
-%X% Note that from TWiki release 4.1.0 leading and trailing whitespace is no longer stripped. This means that when you upgrade to TWiki 4.1.X you may need to remove the first line break in your custom comment templates. See TWiki.TWikiReleaseNotes04x01 for more information.
+%X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates. %BR%
 
 ---+++ Customisation example
 Provide both a =PROMPT= and an =OUTPUT= definition:
@@ -265,7 +264,7 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  11118 | TWikibug:Item2322 removed span tag around oneliner bullet output |
 |  8788 | TWikibug:Item1465  Item1577: reverted 8433 to fix inclusion of correct user templates |
 |  8787 | TWikibug:Item1573  renamed standard templates topic to avoid naming clash on Windows, where filenames are case-insensitive |
-|  8433 | TWikibug:Item1465  Fix 'TWiki.' to '%TWIKIWEB%.'; also fixed include 'UserComments' to 'UserCommentsTemplate' (at least that is what the doc suggests) |
+|  8433 | TWikibug:Item1465  Fix 'TWiki.' to '%SYSTEMWEB%.'; also fixed include 'UserComments' to 'UserCommentsTemplate' (at least that is what the doc suggests) |
 |  7427 | TWikibug:Item845  removed duplicate date in default comments; stick with server time |
 |  7251 | TWikibug:Item810  fix for user template inclusion; reorganised templates to make customisation easier |
 |  5906 | TWikibug:Item143  apache warning from comment plugin when !CommentsTmpl.txt not found |

@@ -155,7 +155,7 @@ See the [[http://twiki.org/cgi-bin/view/Codev/WhatVersionsOfPerlAreSupported][Wh
 
 ---+++ Template spec changed
 
-Until TWiki 4.0.5 TWiki.TWikiTemplates the text inside template definition blocks (anything between %<nop>TMPL:DEF{"block"}% and %<nop>TMPL:END% was stripped of leading and trailing white space incl new lines.
+Until TWiki 4.0.5 !SkinTemplates (formerly !TWikiTemplates) the text inside template definition blocks (anything between %<nop>TMPL:DEF{"block"}% and %<nop>TMPL:END% was stripped of leading and trailing white space incl new lines.
 
 This caused a lot of problems for skin developers when you wanted a newline before or after the block text.
 
