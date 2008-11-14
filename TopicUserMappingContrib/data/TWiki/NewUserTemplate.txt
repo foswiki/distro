@@ -1,0 +1,106 @@
+%META:TOPICINFO{author="ProjectContributor" date="1167346194" format="1.0" version="$Rev: 16686 $"}%
+%SPLIT%
+   * %KEY%: %VALUE%%SPLIT%
+
+---++ My Links
+
+   * [[%SYSTEMWEB%.BeginnersStartHere][BeginnersStartHere]] - view a short introductory presentation on TWiki for beginners
+   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - starting points on TWiki
+   * [[%SYSTEMWEB%.UsersGuide][UsersGuide]] - complete TWiki documentation, Quick Start to Reference
+   * [[Sandbox.%HOMETOPIC%][%HOMETOPIC%]] - try out TWiki on your own
+   * [[Sandbox.%TOPIC%Sandbox][%TOPIC%Sandbox]] - just for me
+   * 
+   * 
+
+---++ My Personal Data
+
+Note: if personal data is being stored using a secret database, then it is only visible to the user and to administrators.
+
+| E-mail | %USERIN%NOP%FO{"%TOPIC%" format="$emails"}% |
+
+---++ My Personal Preferences
+
+Uncomment preferences variables to activate them (remove the #-sign). Help and details on preferences variables are available in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]].
+
+   * Show tool-tip topic info on mouse-over of [[%SYSTEMWEB%.WikiWord][WikiWord]] links, on or off:
+      * #Set LINKTOOLTIPINFO = off
+
+---++ Related Topics
+
+   * [[%SYSTEMWEB%.ChangePassword][ChangePassword]] for changing your password
+   * [[%SYSTEMWEB%.ChangeEmailAddress][ChangeEmailAddress]] for changing your email address
+   * [[%MAINWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] has a list of other TWiki users
+   * [[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]] is a list of TWiki user documentation
+   * [[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]] lists all TWiki user tools
+
+%STARTSECTION{type="templateonly"}%
+----
+Notes to TWiki Administrator:
+
+Anything inside this "templateonly" section will not be copied to the home topic of the new user. It is a resource for the administrator to tailor the users home topic.
+
+On public TWiki's on the Internet user topics are often subject to spam so you may want to limit editing to the user himself. You can do this by moving these two lines to the Personal Preferences section above. Remove the small # in front of the "Set".
+   * Write protect your home page: (set it to your [[%SYSTEMWEB%.WikiName][WikiName]])
+      * #Set ALLOWTOPICCHANGE = %WIKIUSERNAME%
+
+The default topic text above is for English speaking users. If you have a multilingual wiki community you can replace the "My Links", "Personal Preferences" and "Related Topics" sections above with the localized text below. Text enclosed in %MAKETEXT will be shown in the language selected by the user. Please note that the %MAKETEXT can be quite intimidating to new users. Consider translating above text to your own language if your community uses a non-English language. (Remove all text from =%<nop>STARTSECTION{type="templateonly"}%= to =%<nop>ENDSECTION{type="templateonly"}%= when you are done)
+
+Text for multilingual wiki community, copy from here to %<nop>ENDSECTION{type="templateonly"}%
+
+<!--
+   NOTE:
+
+   Text enclosed in '%MAKETEXT' below will be shown in your selected language 
+   when you view the topic.
+
+   When you edit this topic for your own purposes, you are advised not to
+   touch the MAKETEXT calls. If you want to change the text of one of the
+   MAKETEXTed strings, just delete the call completely and replace it with
+   your own text e.g. instead of:
+      ---++ %MAKETEXT{"Personal Preferences"}%
+   write:
+      ---++ My Own Setup
+-->
+---++ %MAKETEXT{"My Links"}%
+
+   * %MAKETEXT{"[_1] - view a short introductory presentation on TWiki for beginners" args="[[%SYSTEMWEB%.BeginnersStartHere][BeginnersStartHere]]"}%
+   * %MAKETEXT{"[_1] - starting points on TWiki" args="[[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]]"}%
+   * %MAKETEXT{"[_1] - complete TWiki documentation, Quick Start to Reference" args="[[%SYSTEMWEB%.UsersGuide][UsersGuide]]"}%
+   * %MAKETEXT{"[_1] - try out TWiki on your own" args="[[Sandbox.%HOMETOPIC%][%HOMETOPIC%]]"}%
+   * %MAKETEXT{"[_1] - just for me" args="[[Sandbox.%TOPIC%Sandbox][%TOPIC%Sandbox]]"}%
+   * 
+   * 
+
+---++ %MAKETEXT{"Personal Preferences"}%
+
+%MAKETEXT{"Uncomment preferences variables to activate them (remove the #-sign). Help and details on preferences variables are available in [_1]." args="[[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]]"}%
+
+   * %MAKETEXT{"Show tool-tip topic info on mouse-over of [_1] links, on or off:" args="[[%SYSTEMWEB%.WikiWord][WikiWord]]"}%
+      * #Set LINKTOOLTIPINFO = off
+
+---++ %MAKETEXT{"Related Topics"}%
+
+   * %MAKETEXT{"[_1] for changing your password" args="[[%SYSTEMWEB%.ChangePassword][ChangePassword]]"}%
+   * %MAKETEXT{"[_1] for changing your email address" args="[[%SYSTEMWEB%.ChangeEmailAddress][ChangeEmailAddress]]"}%
+   * %MAKETEXT{"[_1] has a list of other TWiki users" args="[[%MAINWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]]"}%
+   * %MAKETEXT{"[_1] is a list of TWiki user documentation" args="[[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]]"}%
+   * %MAKETEXT{"[_1] lists all TWiki user tools" args="[[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]]"}%
+
+%ENDSECTION{type="templateonly"}%
+%META:FORM{name="%SYSTEMWEB%.UserForm"}%
+%META:FIELD{name="FirstName" attributes="" title="<nop>FirstName" value=""}%
+%META:FIELD{name="LastName" attributes="" title="<nop>LastName" value=""}%
+%META:FIELD{name="OrganisationName" attributes="" title="<nop>OrganisationName" value=""}%
+%META:FIELD{name="OrganisationURL" attributes="" title="<nop>OrganisationURL" value=""}%
+%META:FIELD{name="Profession" attributes="" title="Profession" value=""}%
+%META:FIELD{name="Country" attributes="" title="Country" value=""}%
+%META:FIELD{name="State" attributes="" title="State" value=""}%
+%META:FIELD{name="Address" attributes="" title="Address" value=""}%
+%META:FIELD{name="Location" attributes="" title="Location" value=""}%
+%META:FIELD{name="Telephone" attributes="" title="Telephone" value=""}%
+%META:FIELD{name="VoIP" attributes="" title="<nop>VoIP" value=""}%
+%META:FIELD{name="InstantMessagingIM" attributes="" title="<nop>InstantMessaging (IM)" value=""}%
+%META:FIELD{name="Email" attributes="" title="Email" value=""}%
+%META:FIELD{name="HomePage" attributes="" title="<nop>HomePage" value=""}%
+%META:FIELD{name="Comment" attributes="" title="Comment" value=""}%
+%META:PREFERENCE{name="VIEW_TEMPLATE" title="VIEW_TEMPLATE" type="Local" value="UserView"}%

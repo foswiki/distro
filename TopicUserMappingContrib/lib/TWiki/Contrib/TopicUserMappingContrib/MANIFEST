@@ -1,0 +1,33 @@
+# Release manifest for TWikiUserMappingContrib
+data/TWiki/TWikiUserMappingContrib.txt 0644 Documentation
+lib/TWiki/Contrib/TWikiUserMappingContrib.pm 0444 Perl module
+lib/TWiki/Users/TWikiUserMapping.pm 0444 Perl module
+
+# Topic based Usermapping topics
+data/Main/RegistrationAgent.txt 0644
+data/Main/UserListByPhotograph.txt 0644
+data/Main/UserListHeader.txt 0644
+data/Main/NobodyGroup.txt 0644
+data/Main/UserList.txt 0644
+data/Main/UserListByDateJoined.txt 0644
+data/Main/TWikiAdminGroup.txt 0644 TWiki compatible admin group
+data/Main/AdminGroup.txt 0644
+data/Main/UserHomepageHeader.txt 0644
+data/Main/UserListByLocation.txt 0644
+data/Main/TWikiGroupTemplate.txt 0644
+
+data/TWiki/TWikiRegistration.txt 0644
+data/TWiki/TWikiUsersTemplate.txt 0644 Default template for a new TWikiUsers topic
+data/TWiki/ChangeEmailAddress.txt 0644
+data/TWiki/BulkResetPassword.txt 0644
+data/TWiki/TWikiUserSetting.txt 0644
+data/TWiki/UserForm.txt 0644 Default form attached to a user topic
+data/TWiki/NewUserTemplate.txt 0644 Default new user topic template
+data/TWiki/ResetPassword.txt 0644
+data/TWiki/ChangePassword.txt 0644
+data/TWiki/BulkRegistration.txt 0644
+data/TWiki/LoginName.txt 0644
+data/TWiki/UserToolsCategory.txt 0644
+data/TWiki/ManagingUsers.txt 0644
+
+tools/upgrade_emails.pl 0444 Upgrade emails in topics to password database

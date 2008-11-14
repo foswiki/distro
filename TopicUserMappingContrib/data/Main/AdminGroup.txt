@@ -1,0 +1,30 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15508 $"}%
+---+ Administrator Group
+
+
+   * Member list (comma-separated list):
+      * Set GROUP = 
+   * Persons/group who can change the list:
+      * Set ALLOWTOPICCHANGE = AdminGroup
+
+%INCLUDE{"%USERSWEB%.AdminUser" section="sudo_login"}%
+
+%IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="<!--"}%
+<sticky><div style="background-color:yellow"></sticky>
+__How to add the first administrator__ %BR%
+If you haven't previously set up an administrator, follow these steps:
+   1 Authenticate as the internal administrator:
+      * %ADMINLOGIN%
+   1 Edit this topic
+   1 Insert the wikinames of admin users in the Administrator Group by listing them in the GROUP setting %BR% (example =* Set GROUP = <nop>JohnSmith, <nop>JamesBond=)
+   1 Save this topic
+   1 [[%LOGOUTURL%][Logout]] from the Internal AdminUser
+   1 Verify that new members show up properly in the group listing at [[%USERSWEB%.Groups]]
+   1 Make sure always to keep this topic write protected by keeping the already defined ALLOWTOPICCHANGE setting
+   1 The ALLOWTOPICHANGE and ALLOWTOPICRENAME settings in [[%SYSTEMWEB%.DefaultPreferences]] and [[%LOCALSITEPREFS%]] have already been set to this group (<nop>AdminGroup), restricting edit of site-wide preferences to the TWiki Administrator Group
+<sticky></div></sticky>
+%IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
+
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[TWikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+
+

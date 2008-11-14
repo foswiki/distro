@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 13685 $"}%
+---+ User List sorted by date joined / updated
+
+%INCLUDE{"UserListHeader"}%
+
+%TABLE{initsort="1" initdirection="up"}%
+%SEARCH{"form.name~'*UserForm'" type="query" header="| *Date joined* | *Last updated* | *FirstName* | *LastName* | *Organization* | *Country* |" format="| $createdate | $date | [[$topic][$formfield(FirstName)]] | [[$topic][$formfield(LastName)]] | $formfield(OrganisationName) | $formfield(Country) |" excludetopic="Web*, *Template" nosearch="on"}%

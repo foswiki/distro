@@ -1,0 +1,34 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 14048 $"}%
+---+ User Form
+
+__Note:__ This is a maintenance topic, used by the TWiki administrator.
+
+This form defines the form of the home pages of registered TWiki users listed
+in %MAINWEB%.%WIKIUSERSTOPIC%. *Do not edit this topic* - if you want to customise the
+user form, then:
+   1 Take a copy of this topic and save it to %MAINWEB%.<nop>UserForm
+   1 Customise %MAINWEB%.<nop>UserForm
+   1 Take a copy of NewUserTemplate and save it to %MAINWEB%.<nop>NewUserTemplate
+   1 Modify %MAINWEB%.<nop>NewUserTemplate and change the form to select your new user form.
+
+|*Name*  |*Type*  |*Size*  |*Values*  |*Tooltip message*  |*Attributes*  |
+| <nop>FirstName | text | 40 | | | |
+| <nop>LastName | text | 40 | | | |
+| <nop>OrganisationName | text | 40 | | | |
+| <nop>OrganisationURL | text | 40 | | | |
+| Profession | text | 40 | | | |
+| Country | text | 40 | | | |
+| State | text | 40 | | | |
+| Address | text | 40 | | | |
+| Location | text | 40 | | | |
+| Telephone | text | 40 | | | |
+| <nop>VoIP | text | 40 | | | |
+| <nop>InstantMessaging (IM) | textarea | 50x4 | | (One account per line, if several) | |
+| Email | text | 40 | | | |
+| <nop>HomePage | text | 40 | | | |
+| Comment | textarea | 50x6 | | | |
+
+__%X% Note:__ Please keep the %SYSTEMWEB%.TWikiRegistration form and this form definition in sync. When you update this form you need to edit/save the %SYSTEMWEB%.NewUserTemplate topic. This ensures that the fields are in the right order.
+
+__Related topics:__ %MAINWEB%.%WIKIUSERSTOPIC%, %MAINWEB%.UserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %MAINWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.TWikiRegistration
+

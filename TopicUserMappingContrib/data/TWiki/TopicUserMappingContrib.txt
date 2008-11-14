@@ -1,0 +1,73 @@
+---+!! !TWikiUserMappingContrib
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = Traditional <nop>TWikiTopic  based mapping and user management
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+The _User Mapping Manager_ interface provides services for mapping between a 'user identity' as used when talking to an external authentication provider,
+an internal TWiki canonical user ID, and the displayed name used to identify the user in TWiki. 
+This is the default <nop>TWikiUserMapping in which user information is stored in TWiki topics - one per user, and then any mapping needed is done using the
+<nop>TWikiUsers topic in the %MAINWEB%.
+
+see [[http://twiki.org/cgi-bin/view/Codev/SimplifiedUserMappingCodeInterface][SimplifiedUserMappingCodeInterface]] on TWiki.org for a more detailed discussion
+of the concepts.
+
+It includes the topics that are used when registering and managing users and groups via TWiki, in TWikiTopics.
+
+it includes:
+   * Registration and user management topics
+      * TWiki.ikiRegistration
+      * TWiki.ResetPassword
+      * TWiki.ChangePassword           
+      * TWiki.ChangeEmailAddress       
+      * TWiki.BulkRegistration         
+      * TWiki.BulkResetPassword        
+   * Documentation topics
+      * TWiki.ManagingUsers            
+      * TWiki.UserToolsCategory
+      * TWiki.LoginName                
+   * default groups and user
+      * Main.NobodyGroup
+      * Main.TWikiAdminGroup
+      * Main.RegistrationAgent    
+   * User lists
+      * Main.UserList                  
+      * Main.UserListHeader            
+      * Main.UserListByDateJoined      
+      * Main.UserListByLocation        
+      * Main.UserListByPhotograph      
+   * User and Group template files
+      * TWiki.NewUserTemplate
+      * TWiki.UserForm
+      * TWiki.TWikiUsersTemplate
+      * Main.UserHomepageHeader        
+      * TWiki.TWikiUserSetting
+      * Main.TWikiGroupTemplate        
+
+If you are developing a non-TWiki based User mapper, you might like to consider removeing or replacing the files installed by this Contrib.
+
+---++ Settings
+The TWikiUserMappingContrib specific settings have not yet been moved out of the standard TWiki.spec. This will be done in a future release.
+
+---++ Installation Instructions
+
+It's a part of the default distribution of the TWiki Core.
+
+---++ Contrib Info
+
+|  Contrib Author(s): | Copyright (C) 2007 Sven Dowideit, SvenDowideit@WikiRing.com and TWiki Contributors. |
+|  Contrib Version: | 4.2.1 |
+|  Copyright: | &copy; |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
+|  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Contrib Home: | http://twiki.org/cgi-bin/view/Plugins/TWikiUserMappingContrib |
+|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/TWikiUserMappingContribDev |
+|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/TWikiUserMappingContribAppraisal |
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->

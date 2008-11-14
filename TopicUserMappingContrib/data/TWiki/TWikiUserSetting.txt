@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="ProjectContributor" date="1187649998" format="1.1" version="1.2"}%
+---+++ User Settings -- preference variables customizable by users
+Some of the preferences are explicitly intended to be customized by TWiki users, though a default is provided in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]], and a site customisation can take place in [[%LOCALSITEPREFS%]].
+
+Users can customize these variables by assigning them values. Example:
+<verbatim>
+   * Set LINKTOOLTIPINFO = off
+</verbatim>
+
+
+*The following variables are classified as user settings:*
+
+%SEARCH{"TWikiUserSetting" type="regex" topic="Var*" format="   * $topic" nonoise="on"}%
+
+*See also:*
+   * TWikiVariables - an alphabetical list of all variables
+   * %SYSTEMWEB%.DefaultPreferences and [[%LOCALSITEPREFS%]] - where user shortcuts are defined
