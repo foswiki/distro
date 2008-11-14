@@ -19,7 +19,7 @@ TWiki is a flexible, powerful, secure, yet simple web-based collaboration platfo
    * [[FrequentlyAskedQuestions][Frequently Asked Questions]] - about TWiki
    * [[ReferenceManual][Reference Manual]] - documentation for system administrators
    * [[AdminToolsCategory][Admin Tools]] - manage the TWiki site
-   * [[TWikiReleaseNotes04x02][TWiki-4.2 Release Notes]] - describes what's new in this release
+   * [[ReleaseNotes01x00][Release Notes for 1.0]] - describes what's new in this release
 
 ---++ <nop>%WEB% Web Utilities
 <form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>

@@ -252,10 +252,10 @@ sub stage_gendocs {
 #replaced by the simpler INSTALL.html
 #    print `cd $this->{basedir}/bin ; ./view TWiki.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.ReleaseHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.TWikiReleaseNotes04x02 skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiReleaseNotes04x02.html`;
+    print `cd $this->{basedir}/bin ; ./view TWiki.ReleaseNotes01x00 skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x00.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.TWikiUpgradeGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiUpgradeGuide.html`;
     print `cd $this->{basedir}/bin ; ./view TWiki.InstallationGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
-    $this->filter_txt("$this->{tmpDir}/TWikiReleaseNotes04x02.html", "$this->{tmpDir}/TWikiReleaseNotes04x02.html");
+    $this->filter_txt("$this->{tmpDir}/ReleaseNotes01x00.html", "$this->{tmpDir}/ReleaseNotes01x00.html");
     print "Automatic documentation built\n";
 }
 

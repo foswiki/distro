@@ -86,7 +86,7 @@ If you find an omission please fix it at TWiki:TWiki.TWikiHistory. For the full 
 
 __Note:__ Order of contributors under "Spec and code", "Templates and skins" and "Documentation" is based on number of SVN file changes for core and default extensions from March 2007 (svn rev:13046) to Jan 2008 (svn rev:16210). (Details at TWikibug:TWiki420SvnLog). Order of contributors under "Testing and bug fixing" is based on Bugs web statistics from 2007-03 to 2007-12. Order of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2007-02 to 2007-12.
 
-See more details on the TWiki 4.2 release at TWikiReleaseNotes04x02.
+
 
 #EdinburghRelease
 ---++ TWiki Release 4.1 (Edinburgh), 16 Jan 2007
