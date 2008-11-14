@@ -152,7 +152,7 @@ The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses 
 
 ---++ Site Permissions
 
-   * TWikiAccessControl describes how to restrict read and write access to topics and webs, by users and groups
+   * AccessControl describes how to restrict read and write access to topics and webs, by users and groups
    * SitePermissions lists the permissions settings of the webs on this TWiki site
 
 ---++ Help with crontab

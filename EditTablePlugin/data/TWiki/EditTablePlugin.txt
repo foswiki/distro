@@ -197,7 +197,7 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
    * Alternatively,
       * Manually resolve the dependencies listed below.
       %$DEPENDENCIES%
-   * The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.TWikiAccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
+   * The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.AccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
    * (Dakar) Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
    * Test if the Plugin is correctly installed:
       * Check above example if there is an *[&nbsp;Edit&nbsp;table&nbsp;]* button below the table in above example

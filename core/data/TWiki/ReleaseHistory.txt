@@ -537,7 +537,7 @@ __Major New Features__
    * *01 Jun 2001* - TWiki:Main.KlausWriessnegger, TWiki:Main.AndreaSterbini
       * Forms to change/reset/install passwords, see ChangePassword &amp; ResetPassword
    * *01 May 2001* - TWiki:Main.AndreaSterbini
-      * The %MAINWEB%.TWikiAdminGroup (or other group) can be enabled as a [[TWikiAccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics. 
+      * The %MAINWEB%.TWikiAdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics. 
    * *01 May 2001* - TWiki:Main.JohnTalintyre
       * Meta information format, see TWikiMetaData
    * *01 May 2001* - TWiki:Main.JohnTalintyre
@@ -575,7 +575,7 @@ __Major New Features__
    * *07 Jan 2001* - TWiki:Main.StanleyKnutson
       * Better error handling when saving a topic. 
    * *05 Jan 2001* - TWiki:Main.PeterThoeny
-      * View authorization based on groups. Define who is allowed to see a TWiki web. More in TWikiAccessControl and TWiki:Codev/AuthenticationBasedOnGroups. 
+      * View authorization based on groups. Define who is allowed to see a TWiki web. More in AccessControl and TWiki:Codev/AuthenticationBasedOnGroups. 
    * *05 Dec 2000* - TWiki:Main.PeterThoeny
       * Improved include handling. Infinite recursion of includes are prevented; new variables =%<nop>BASEWEB%=, =%<nop>INCLUDINGWEB%=, =%<nop>BASETOPIC%= and =%<nop>INCLUDINGTOPIC%= to have more control over include handling. More in TWikiVariables and TWiki:Codev/IncludeHandlingImprovements. 
    * *03 Dec 2000* - TWiki:Main.PeterThoeny
@@ -590,7 +590,7 @@ __Major New Features__
    * *01 Nov 2000* - TWiki:Main.PeterThoeny
       * Added a "Cancel" link in edit that releases the edit lock. 
    * *23 Oct 2000* - TWiki:Main.PeterThoeny
-      * Authorization based on groups. Define fine graned control who is allowed to change or create topics. More in TWikiAccessControl and TWiki:Codev/AuthenticationBasedOnGroups. 
+      * Authorization based on groups. Define fine graned control who is allowed to change or create topics. More in AccessControl and TWiki:Codev/AuthenticationBasedOnGroups. 
    * *05 Oct 2000* - TWiki:Main.PeterThoeny
       * Remember user by IP address so that =view= "knows" the user once authenticated in =edit=. More in TWikiUserAuthentication. 
    * *26 Sep 2000* - TWiki:Main.AlWilliams, TWiki:Main.PeterThoeny

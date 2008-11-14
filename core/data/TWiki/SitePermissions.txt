@@ -13,6 +13,6 @@ __Please Note:__
 
 %STOPINCLUDE%
 
-See TWikiAccessControl for details 
+See AccessControl for details 
 
 __Related Topics:__ SiteMap, UserDocumentationCategory, AdminDocumentationCategory, AdminToolsCategory

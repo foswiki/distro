@@ -344,7 +344,7 @@ which shows the topic as plain text; useful for those who want to download plain
 Using =skin=text= this way is *DEPRECATED*, use =raw=text= instead.
 
 ---+++ =viewfile=
-Used for viewing attachments. Normally, a site will publish the attachments (=pub=) directory using a URL. However if it contains sensitive information, you will want to protect attachments using TWikiAccessControls. In this case, you can use the =viewfile= script to give access to attachments while still checking access controls.
+Used for viewing attachments. Normally, a site will publish the attachments (=pub=) directory using a URL. However if it contains sensitive information, you will want to protect attachments using [[AccessControl][AccessControls]]. In this case, you can use the =viewfile= script to give access to attachments while still checking access controls.
 
 | *Parameter* | *Description* | *Default* |
 | =filename= | name of attachment | |

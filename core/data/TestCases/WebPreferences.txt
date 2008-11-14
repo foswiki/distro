@@ -31,7 +31,7 @@ __Preferences:__
 		* %SYSTEMWEB%.DataForms: How to enable form(s)
 		* Set WEBFORMS = ThisForm, FormattedSearchForm
 
-	* Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See %SYSTEMWEB%.TWikiAccessControl)
+	* Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See %SYSTEMWEB%.AccessControl)
 		* #Set DENYWEBVIEW = 
 		* #Set ALLOWWEBVIEW = 
 		* #Set DENYWEBCHANGE = 
@@ -65,7 +65,7 @@ __Related Topics:__
 	* %SYSTEMWEB%.%WIKIPREFSTOPIC% has site-level preferences.
 	* %USERSWEB%.%WIKIUSERSTOPIC% has a list of user topics. User topics can have optional user preferences.
 	* %SYSTEMWEB%.TWikiVariables has a list of common =%<nop>VARIABLES%=.
-	* %SYSTEMWEB%.TWikiAccessControl explains how to restrict access by users or groups.
+	* %SYSTEMWEB%.AccessControl explains how to restrict access by users or groups.
 
 __Tools:__
 %INCLUDE{"TWiki.RenameWeb"}%

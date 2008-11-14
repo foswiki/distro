@@ -41,7 +41,7 @@ File Attachments can be used to archive data, or to create powerful customized g
    * Click on the file in the [[#FileAttachmentTable][File Attachment table]].
 #AttachmentAccess
 
-   * %X% _NOTE:_ There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[CompleteDocumentation#TWikiAccessControl][access restrictions]] for each.
+   * %X% _NOTE:_ There is no access control on individual attachments. If you need control over single files, create a separate topic per file and set topic-level [[CompleteDocumentation#AccessControl][access restrictions]] for each.
 
 ---++ Moving Attachment Files
 

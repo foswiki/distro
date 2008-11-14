@@ -12,7 +12,7 @@
    * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]], [[%LOCALSITEPREFS%]] - site-level preferences
    * [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] - list of user topics. User topics can have optional user preferences
    * [[%SYSTEMWEB%.TWikiVariables][TWikiVariables]] - list of common =%<nop>VARIABLES%=
-   * [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]] - explains how to restrict access by users or groups
+   * [[%SYSTEMWEB%.AccessControl][AccessControl]] - explains how to restrict access by users or groups
 
 ---++ Tools
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%

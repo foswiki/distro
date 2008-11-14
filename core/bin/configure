@@ -575,7 +575,7 @@ browse to the TWiki WebHome</a>.
        sections on <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/TWikiUserAuthentication">
  authentication</a>
        and
-       <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/TWikiAccessControl">
+       <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/AccessControl">
         access control</a>, and the
        <a rel="nofollow" href="#" onclick="foldBlock('SecuritySetup'); return false;">Security Setup</a>
        section below.

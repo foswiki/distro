@@ -86,6 +86,7 @@ data/Sandbox/WebSearch.txt 0644
 data/Sandbox/WebSearchAdvanced.txt 0644
 data/Sandbox/WebStatistics.txt 0644
 data/Sandbox/WebTopicList.txt 0644
+data/TWiki/AccessControl.txt 0660
 data/TWiki/AccessKeys.txt 0644
 data/TWiki/AdminDocumentationCategory.txt 0644
 data/TWiki/AdminSkillsAssumptions.txt 0644
@@ -160,7 +161,6 @@ data/TWiki/Skins.txt 0660
 data/TWiki/StandardColors.txt 0644
 data/TWiki/StartingPoints.txt 0644
 data/TWiki/StaticMethod.txt 0644
-data/TWiki/TWikiAccessControl.txt 0644
 data/TWiki/TWikiJavascripts.txt 0644
 data/TWiki/TWikiLogos.txt 0644
 data/TWiki/TWikiMetaData.txt 0644

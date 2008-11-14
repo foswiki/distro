@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15171 $"}%
 ---+ TWiki Groups
 
-These groups can be used to define fine grained [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]] in <nop>%WIKITOOLNAME%:
+These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%:
 
 %GROUPS%
 
@@ -26,4 +26,4 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.TWikiAccessControl
    * Content does not get lost because topics are under revision control.
    * A topic revision can be undone by a member of the [[%USERSWEB%.TWikiAdminGroup][TWikiAdminGroup]] if necesssary.
 
-__Related topics:__ [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
+__Related topics:__ [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]

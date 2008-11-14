@@ -75,7 +75,7 @@ You can also set preferences variables on a topic by clicking the link =Edit top
 
 ---+++ Access Control Variables
 
-These are special types of preferences variables to control access to content. TWikiAccessControl explains these security settings in detail.
+These are special types of preferences variables to control access to content. AccessControl explains these security settings in detail.
 
 ---+++ Local values for variables
 Certain topics (a users home topic, web site and default preferences topics) have a problem; variables defined in those topics can have two meanings. For example, consider a user topic. A user may want to use a double-height edit box when they are editing their home topic - but *only* when editing their home topic. The rest of the time, they want to have a normal edit box. This separation is achieved using =Local= in place of =Set= in the variable definition. For example, if the user sets the following in their home topic:

@@ -28,7 +28,7 @@ __Related Topics:__ TWikiSite, ReleaseHistory, TWikiPlannedFeatures, Enhancement
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiAccessControl"}%
+%INCLUDE{"AccessControl"}%
 
 [[#PageTop][Back to top]]
 

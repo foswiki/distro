@@ -20,7 +20,7 @@ A TWiki topic is a rich information unit. *Each* topic has:
       * include links to other topics, URLs, Web sites, files, images, sounds, or anything else you can put on a regular Web page
       * handy pop-up quick reference 
       * do all of this through whatever web browser you are familiar with
-   * [[%SYSTEMWEB%.TWikiAccessControl][access control]]
+   * [[%SYSTEMWEB%.AccessControl][access control]]
       * independently determine who can see, edit, rename, move or delete topics
       * set permissions by individual users and user groups
       * over-ride topic, TWiki web or site

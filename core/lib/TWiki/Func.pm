@@ -1079,7 +1079,7 @@ sub eachGroupMember {
 ---+++ checkAccessPermission( $type, $id, $text, $topic, $web, $meta ) -> $boolean
 
 Check access permission for a topic based on the
-[[%SYSTEMWEB%.TWikiAccessControl]] rules
+[[%SYSTEMWEB%.AccessControl]] rules
    * =$type=     - Access type, required, e.g. ='VIEW'=, ='CHANGE'=.
    * =$id=  - WikiName of remote user, required, e.g. ="PeterThoeny"=. From
      TWiki 4.2.1, $id may also be a login name.

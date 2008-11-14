@@ -82,9 +82,9 @@ Template Login asks for a username and password in a web page, and processes the
    1 *Edit the %USERSWEB%.TWikiAdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
     <br /> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.
 
-TWikiAccessControl has more information on setting up access controls.
+AccessControl has more information on setting up access controls.
 
-%X% At this time TWikiAccessControls cannot control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up in the webserver to allow open access you may want to add =.htaccess= files in there to restrict access.
+%X% At this time AccessControls cannot control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up in the webserver to allow open access you may want to add =.htaccess= files in there to restrict access.
 
 %T% You can create a custom version of the TWikiRegistration form by copying the topic, and then deleting or adding input tags in your copy. The =name=""= parameter of the input tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly. Do *not* modify the version of TWikiRegistration shipped with %WIKITOOLNAME%, as your changes will be overwritten next time you upgrade.
 
@@ -110,7 +110,7 @@ You can use any other Apache authentication module that sets REMOTE_USER.
    1 Use [[%SCRIPTURLPATH{"configure"}%#LoginManager][configure]] to select the =TWiki::LoginManager::ApacheLogin= login manager.
    1 Use [[%SCRIPTURLPATH{"configure"}%#PasswordManager][configure]] to set up %WIKITOOLNAME% to create the right kind of =.htpasswd= entries.
    1 Create a =.htaccess= file in the =twiki/bin= directory.<br />%H% There is an template for this file in =twiki/bin/.htaccess.txt= that you can copy and change. The comments in the file explain what need to be done.<br />%H% If you got it right, the browser should now ask for login name and password when you click on the <u>Edit</u>. If =.htaccess= does not have the desired effect, you may need to "AllowOverride All" for the directory in =httpd.conf= (if you have root access; otherwise, e-mail web server support)
-    <br /> %X% At this time TWikiAccessControls do not control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up to allow open access you may want to add =.htaccess= files in there as well to restrict access 
+    <br /> %X% At this time AccessControls do not control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up to allow open access you may want to add =.htaccess= files in there as well to restrict access 
    1 You can create a custom version of the TWikiRegistration form by copying the default topic, and then deleting or adding input tags in your copy. The =name=""= parameter of the input tags must start with: ="Twk0..."= (if this is an optional entry), or ="Twk1..."= (if this is a required entry). This ensures that the fields are carried over into the user home page correctly. Do *not* modify the version of TWikiRegistration shipped with %WIKITOOLNAME%, as your changes will be overwritten next time you upgrade.
     <br />The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same variables get expanded as in the [[template topics]]. You can create a custom new user home page by creating the [[%USERSWEB%.NewUserTemplate][%USERSWEB%.NewUserTemplate]] topic, which will then override the default.
    1 Register yourself in the TWikiRegistration topic.
@@ -118,7 +118,7 @@ You can use any other Apache authentication module that sets REMOTE_USER.
    1 Create a new topic to check if authentication works.
    1 *Edit the %USERSWEB%.TWikiAdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
     <br /> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.
-TWikiAccessControl has more information on setting up access controls.
+AccessControl has more information on setting up access controls.
 
 ---++++ Logons via bin/logon
 
@@ -227,4 +227,4 @@ Finally, it would be really neat if someone was to work out how to use certifica
 See TWiki:TWiki.SecuringTWikiSite for more information.
 
 %STOPINCLUDE%
-__Related Topics:__ AdminDocumentationCategory, TWikiAccessControl, TWiki:TWiki.UserAuthenticationSupplement, TWiki:TWiki.SecuringTWikiSite
+__Related Topics:__ AdminDocumentationCategory, AccessControl, TWiki:TWiki.UserAuthenticationSupplement, TWiki:TWiki.SecuringTWikiSite

@@ -42,7 +42,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
 
-   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) __Note__ it is much better to use TWikiAccessControls in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
+   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) __Note__ it is much better to use [[AccessControl][AccessControls]] in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
       * Set NOSEARCHALL = 
    * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and acronyms (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
       * Set NOAUTOLINK = 
@@ -355,7 +355,7 @@ never be attempted set or altered in any preference topic or topic settings.
    * %WEBPREFSTOPIC% has preferences of the <nop>%WEB% web.
    * User topics in %USERSWEB% can have optional user preferences.
    * %SYSTEMWEB%.TWikiVariables has a list of common =%<nop>VARIABLES%=.
-   * %SYSTEMWEB%.TWikiAccessControl explains how to restrict access by users or groups.
+   * %SYSTEMWEB%.AccessControl explains how to restrict access by users or groups.
    * TWiki:Plugins.PreferencesPlugin makes editing preferences a snap.
 
 __Note__: Can't edit?

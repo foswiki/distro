@@ -48,7 +48,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
    * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
       * Set WEBFORMS =
 
-   * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.TWikiAccessControl][TWikiAccessControl]]).
+   * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]).
       * Set DENYWEBVIEW = 
       * Set ALLOWWEBVIEW = 
       * Set DENYWEBCHANGE = 

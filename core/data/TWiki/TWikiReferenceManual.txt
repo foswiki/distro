@@ -12,7 +12,7 @@ Manual sections in separate pages:
    1. [[InstallationGuide][Installation Guide]]
    1. [[TWikiUpgradeGuide][Upgrade Guide]]
    1. [[UserAuthentication][User Authentication]]
-   1. [[TWikiAccessControl][Access Control]]
+   1. [[AccessControl][Access Control]]
    1. [[TextFormattingRules][Formatting Rules]]
    1. [[TWikiVariables][TWiki Variables]]
    1. [[Template Topics]]

@@ -70,6 +70,7 @@ data/Sandbox/WebSearchAdvanced.txt 0660
 data/Sandbox/WebStatistics.txt 0660
 data/Sandbox/WebTopicCreator.txt 0660
 data/Sandbox/WebTopicList.txt 0660
+data/TWiki/AccessControl.txt 0660
 data/TWiki/AccessKeys.txt 0660
 data/TWiki/BeginnersStartHere.txt 0660
 data/TWiki/BeginnersStartHereTemplate.txt 0660
@@ -147,7 +148,6 @@ data/TWiki/StandardColors.txt 0660
 data/TWiki/StartingPoints.txt 0660
 data/TWiki/StaticMethod.txt 0660
 data/TWiki/TWiki.txt 0660
-data/TWiki/TWikiAccessControl.txt 0660
 data/TWiki/TWikiJavascripts.txt 0660
 data/TWiki/TWikiLogos.txt 0660
 data/TWiki/TWikiMetaData.txt 0660

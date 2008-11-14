@@ -60,7 +60,7 @@ When you type a !WikiWord, you establish a hyperlink. It's as easy as that.
 
 When you write the name of a topic, it becomes a link. There are more ways
 
-   * To write a custom *link label*, use bracket notation: =[<nop>[TWikiAccessControl][access control]]= - this becomes: [[TWikiAccessControl][access control]]
+   * To write a custom *link label*, use bracket notation: =[<nop>[AccessControl][access control]]= - this becomes: [[AccessControl][access control]]
    * To link to a topic in *another web*, write: =Sandbox.WebSearch= - this becomes: Sandbox.WebSearch
    * To link to a topic in *another subweb* write: =Sandbox.Subweb.WebSearch=.
    * To show the web name in the link use bracket notation: =[<nop>[Sandbox.%HOMETOPIC%]]= - this becomes: [[Sandbox.%HOMETOPIC%]]

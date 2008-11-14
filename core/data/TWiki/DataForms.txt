@@ -170,7 +170,7 @@ For example, a simple form just supporting entry of a name and a date would look
       * The FormatTokens can be used to prevent expansion of other characters.
 *General Notes:*
    * The topic definition is not read when a topic is viewed.
-   * Form definition topics can be protected in the usual manner, using  TWikiAccessControl, to limit who can change the form template and/or individual value lists. Note that view access is required to be able to edit topics that use the form definition, though view access to the form definition is _not_ required to view a topic where the form has been used.
+   * Form definition topics can be protected in the usual manner, using  AccessControl, to limit who can change the form template and/or individual value lists. Note that view access is required to be able to edit topics that use the form definition, though view access to the form definition is _not_ required to view a topic where the form has been used.
 
 ---+++ Values in Other Topics
 As described above, you can also retrieve possible values for select, checkbox or radio types from other topics. For example, if you have a rows defined like this:
