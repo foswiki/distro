@@ -138,8 +138,8 @@ To place an image on any topic, there are two ways of including inline images.
 
 This is a simple and automatic way of including inline images. Simply write the URL of the image file, this will create the inline image for you. __NOTE:__ The images must be [[#ImgUpload][accessible]] as a URL.
 
-   * __You enter:__ <code> %<nop>PUBURL%/%SYSTEMWEB%/TWikiLogos/T-logo-80x15.gif logo.</code> <br />
-     __Result:__ %PUBURL%/%SYSTEMWEB%/TWikiLogos/T-logo-80x15.gif logo.
+   * __You enter:__ <code> %<nop>PUBURL%/%SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif logo.</code> <br />
+     __Result:__ %PUBURL%/%SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif logo.
 
 #ImgUpload
 You can upload images directly to your server with FTP access. You can also [[FileAttachment][attach]] image files to a topic - you could even create a dedicated image topic, like =ImageLibrary= - and then link to the images directly:
@@ -150,8 +150,8 @@ You can upload images directly to your server with FTP access. You can also [[Fi
 
 This is a manual process where you have more control over the rendering of the image. Use the &lt;img&gt; tag of HTML to include GIF, JPG and PNG files. __Note:__ The rendering of the topic is faster if you include the =width= and =height= parameters that have the actual image size. http://www.htmlhelp.com/reference/wilbur/special/img.html has more on inline images.
 
-   * __You enter:__ <code> &lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-logo-80x15.gif" width="80" height="15" border="0" alt="logo" /&gt; logo.</code><br />
-    __Result:__ <br /> <img src="%PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-logo-80x15.gif" width="80" height="15" border="0" alt="logo" /> logo.
+   * __You enter:__ <code> &lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif" width="80" height="15" border="0" alt="logo" /&gt; logo.</code><br />
+    __Result:__ <br /> <img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif" width="80" height="15" border="0" alt="logo" /> logo.
 
 -----
 ---+++ Can I write colored text?

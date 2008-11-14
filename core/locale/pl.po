@@ -2214,10 +2214,10 @@ msgstr "edycja"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Przejdź na stronę %1 w celu zapoznania się z platformą TWiki. Więcej "
-"informacji jest dostępnych na stronie TWikiTutorial."
+"informacji jest dostępnych na stronie TwentyMinuteTutorial."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27
 msgid "Read new revision help text in new window"

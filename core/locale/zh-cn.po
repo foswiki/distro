@@ -2085,10 +2085,10 @@ msgstr "(编辑)"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "看一下%1，对这个协同平台的有一个大概的了解，更多可以参考%SYSTEMWEB%."
-"TWikiTutorial."
+"TwentyMinuteTutorial."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27
 msgid "Read new revision help text in new window"

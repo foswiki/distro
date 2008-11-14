@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
 <div style="float:right;width:255px;padding:1em;text-align:center;">
-<a href="http://twiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/TWikiLogos/T-logo-235x67-t.gif" style="margin:.3em 0;" width="235" height="67" alt="Collaborate with TWiki -- visit TWiki.org" title="Collaborate with TWiki -- visit TWiki.org" border="0" /></a>
+<a href="http://twiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/T-logo-235x67-t.gif" style="margin:.3em 0;" width="235" height="67" alt="Collaborate with TWiki -- visit TWiki.org" title="Collaborate with TWiki -- visit TWiki.org" border="0" /></a>
 <br />The official TWiki<sup>&reg;</sup> site is <a href="http://twiki.org"><span class="twikiLinkLabel">twiki.org</span></a>
 </div>
 ---+!! Welcome to the %WEB% Web
@@ -14,7 +14,7 @@ TWiki is a flexible, powerful, secure, yet simple web-based collaboration platfo
 ---++ TWiki Documentation and Configuration
 <div style="float:right;width:255px;padding:1em;">%INCLUDE{ "TWikiTipsOfTheDayInclude" warn="off" }%</div>
    * [[WelcomeGuest][Welcome Guest]] - look here first
-   * [[TWikiTutorial][Tutorial]] - 20 minutes TWiki tutorial
+   * [[TwentyMinuteTutorial][Tutorial]] - 20 minute tutorial
    * [[TWikiUsersGuide][User's Guide]] - documentation for TWiki users
    * [[FrequentlyAskedQuestions][Frequently Asked Questions]] - about TWiki
    * [[ReferenceManual][Reference Manual]] - documentation for system administrators
@@ -34,7 +34,7 @@ TWiki is a flexible, powerful, secure, yet simple web-based collaboration platfo
 
 ---++ Disclaimer
 
-   * TWiki<sup>&reg;</sup> is a registered trademarks of TWiki founder [[http://twiki.org/cgi-bin/view/Main/PeterThoeny][Peter Thoeny]], [[http://twiki.net/][TWIKI.NET]]. The [[TWikiLogos][TWiki logo]] and the "Collaborate with TWiki" tagline are trademarks of Peter Thoeny.
+   * TWiki<sup>&reg;</sup> is a registered trademarks of TWiki founder [[http://twiki.org/cgi-bin/view/Main/PeterThoeny][Peter Thoeny]], [[http://twiki.net/][TWIKI.NET]]. The [[ProjectLogos][TWiki logo]] and the "Collaborate with TWiki" tagline are trademarks of Peter Thoeny.
    * Twiki (with a lower case "w") is a robot character from the _Buck Rogers&trade; in the 25th Century_ TV series. TWiki (with an upper case "W") is not affiliated with the Dille Family Trust, the registered trademark owner of the _Buck Rogers_ name.
    * TWiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]].
    * Get the latest version from [[http://TWiki.org/download.html][TWiki.org downloads]].

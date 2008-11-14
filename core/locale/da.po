@@ -2199,10 +2199,10 @@ msgstr "Rå editéring"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Siden %1 giver dig et et hurtigt overblik over e-samarbejds-platformen. For "
-"at få en dybere indsigt i systemet kan du læse siden TWikiTutorial, som kan "
+"at få en dybere indsigt i systemet kan du læse siden TwentyMinuteTutorial, som kan "
 "nås fra samme link."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

@@ -2195,10 +2195,10 @@ msgstr "Editar modo texto"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Leia %1 para obter uma visão geral rápida sobre essa plataforma de "
-"colaboração. Para aprender mais, leia o TWikiTutorial, que é acessível a "
+"colaboração. Para aprender mais, leia o TwentyMinuteTutorial, que é acessível a "
 "partir do mesmo link."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

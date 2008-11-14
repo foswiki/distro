@@ -2230,10 +2230,10 @@ msgstr "Modifier le code source"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Lisez %1 pour un aperçu rapide de ce logiciel collaboratif. Pour en "
-"apprendre plus, lisez le tutoriel (TWikiTutorial), qui est disponible sur la "
+"apprendre plus, lisez le tutoriel (TwentyMinuteTutorial), qui est disponible sur la "
 "même page."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

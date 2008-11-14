@@ -2208,10 +2208,10 @@ msgstr "Останньому хто редагував"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Прочитайте %1 щоб отримати оглядове уявлення про цю платформу для "
-"організації спільної роботи. Щоб дізнатися більше, вивчіть TWikiTutorial, "
+"організації спільної роботи. Щоб дізнатися більше, вивчіть TwentyMinuteTutorial, "
 "доступний за тим же посиланням."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

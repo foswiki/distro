@@ -2037,7 +2037,7 @@ msgstr "Viimeisin muokkaaja"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

@@ -37,9 +37,9 @@ To start creating a new skin, copy the default skin templates (like =view.tmpl=)
 
 If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook.
 
-For your own TWiki skin you are encouraged to show a small 80x31 pixel <a href="http://twiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/TWikiLogos/T-logo-80x15.gif" alt="This site is powered by the TWiki collaboration platform" width="80" height="15" title="This site is powered by the TWiki collaboration platform" border="0" /></a> logo at the bottom of your skin:
+For your own TWiki skin you are encouraged to show a small 80x31 pixel <a href="http://twiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif" alt="This site is powered by the TWiki collaboration platform" width="80" height="15" title="This site is powered by the TWiki collaboration platform" border="0" /></a> logo at the bottom of your skin:
 
-=&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/TWikiLogos/T-logo-80x15.gif" alt="This site is powered by the TWiki collaboration platform" width="80" height="15" title="This site is powered by the TWiki collaboration platform" border="0" /&gt;&lt;/a&gt;=
+=&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif" alt="This site is powered by the TWiki collaboration platform" width="80" height="15" title="This site is powered by the TWiki collaboration platform" border="0" /&gt;&lt;/a&gt;=
 
 The standard TWiki skins show the logo in the =%<nop>WEBCOPYRIGHT%= variable.
 

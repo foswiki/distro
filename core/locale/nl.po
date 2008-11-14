@@ -2199,10 +2199,10 @@ msgstr "Brontekst bewerken"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Lees %1 om een snel overzicht te krijgen van dit samenwerkingsplatform. Voor "
-"meer informatie, bestudeer de TWikiTutorial, die toegankelijk is via "
+"meer informatie, bestudeer de TwentyMinuteTutorial, die toegankelijk is via "
 "dezelfde link."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27

@@ -21,7 +21,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
       * __Note:__ This setting is automatically configured when you create a web
 
    * Image, URL and alternate tooltip text of web's logo.%BR%
-     __Note:__ Don't add your own local logos to the [[%SYSTEMWEB%.TWikiLogos][TWikiLogos]] topic; create your own logos topic instead.
+     __Note:__ Don't add your own local logos to the [[%SYSTEMWEB%.ProjectLogos][ProjectLogos]] topic; create your own logos topic instead.
       * #Set WEBLOGOIMG = %WEBLOGOIMG%
       * #Set WEBLOGOURL = %WEBLOGOURL%
       * #Set WEBLOGOALT = %WEBLOGOALT%

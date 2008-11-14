@@ -4,7 +4,7 @@ Welcome to <nop>%WIKITOOLNAME%. This page assumes that you are a new user to <no
 Don't let the reams of documentation fool you, it all boils down to: wiki means "quick" in Hawaiian, and you can contribute to any page by clicking on the *edit* link. That's all, really. :) 
 
    * WelcomeGuest: A brief intro for first-time visitors
-   * *[[TWikiTutorial]]*: A compact, 20-minute TWiki primer
+   * *[[TwentyMinuteTutorial]]*: A compact, 20-minute primer
    * %HOMETOPIC%: Entry point for this TWiki web.
    * TWikiSite: Explains what a TWiki site is
    * WebChanges: Newest topic changes in the <nop>%WEB% web

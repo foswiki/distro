@@ -2167,10 +2167,10 @@ msgstr "Redigera källtext"
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:10
 msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
-"more, study the TWikiTutorial, which is accessible from the same link."
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Läs %1 för en överblick om sammarbetsplattformen. För djupare insikt kan du "
-"läsa TWikiTutorial som kan nås från samma länk."
+"läsa TwentyMinuteTutorial som kan nås från samma länk."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27
 msgid "Read new revision help text in new window"

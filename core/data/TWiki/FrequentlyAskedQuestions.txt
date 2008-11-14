@@ -25,7 +25,7 @@ New FAQ topic: &nbsp; (Use a name in WikiNotation) <br />
 Other places where you can find answers to your questions:
 
    * CompleteDocumentation: All you need to know to install and configure TWiki
-   * TWikiTutorial: Get a jump start on using TWiki 
+   * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text
    * WikiSyntax, TextFormattingRules: A quick one-two guide to TWiki shorthand basics
    * TextFormattingFAQ: Answers to frequently asked questions about text styling in TWiki

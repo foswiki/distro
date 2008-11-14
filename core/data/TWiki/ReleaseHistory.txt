@@ -260,7 +260,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | TWiki:Codev.DevelopBranch , [[http://develop.twiki.org/~develop/cgi-bin/view/Bugs][DEVELOP branch Bugs system]] | [[http://www.home.org.au][Sven Dowideit]] |
 | *Documentation, logo artwork, skins:*  ||
 | Documentation | [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]] and others |
-| Design of TWikiLogos with big "T" in a speech bubble | [[TWiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.PeterThoeny][Peter Thoeny]] |
+| Design of [[ProjectLogos][TWikiLogos]] with big "T" in a speech bubble | [[TWiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.PeterThoeny][Peter Thoeny]] |
 | Improved templates and PatternSkin | [[TWiki:Main.ArthurClemens][ArthurClemens]] |
 
 See more details at TWikiReleaseNotes04x00

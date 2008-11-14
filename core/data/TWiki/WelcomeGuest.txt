@@ -19,7 +19,7 @@ Welcome to <nop>%WIKITOOLNAME%! This is a TWikiSite (pronounced _twee-kee site_)
    * *Experiment.*  Edit your personal page or visit the Sandbox.%HOMETOPIC% web.
    * *Organize.* You can learn to use DataForms and [[FormattedSearch]]es to include topic information - for example, classify pages by subject, status, or date.
    * *Learn more.* Some good places to start:
-      * TWikiTutorial is a 20-minute tour of TWiki essentials. 
+      * TwentyMinuteTutorial is a 20-minute tour of the essentials of this wiki. 
       * BeginnersStartHere is a short introduction training course for beginners. 
       * WikiReferences links to selected articles and books about wiki technology and online collaboration.
       * WikiSyntax - simple syntax for edits
