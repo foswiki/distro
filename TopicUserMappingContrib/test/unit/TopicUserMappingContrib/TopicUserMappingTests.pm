@@ -1,43 +1,43 @@
 use strict;
 
-package TWikiUserMappingTests;
+package TopicUserMappingTests;
 
-# Some basic tests for TWiki::Users::TWikiUserMapping
+# Some basic tests for TWiki::Users::TopicUserMapping
 #
 # The tests are performed using the APIs published by the facade class,
-# TWiki:Users, not the actual TWiki::Users::TWikiuserMapping
+# TWiki:Users, not the actual TWiki::Users::TopicUserMapping
 
 use base qw(TWikiTestCase);
 
 use TWiki;
 use TWiki::Users;
-use TWiki::Users::TWikiUserMapping;
+use TWiki::Users::TopicUserMapping;
 use Error qw( :try );
 
 my $twiki;
 my $saveTopic;
 my $ttpath;
 
-my $testSysWeb    = 'TemporaryTWikiUserMappingTestsSystemWeb';
-my $testNormalWeb = "TemporaryTWikiUserMappingTestsNormalWeb";
-my $testUsersWeb  = "TemporaryTWikiUserMappingTestsUsersWeb";
+my $testSysWeb    = 'TemporaryTopicUserMappingTestsSystemWeb';
+my $testNormalWeb = "TemporaryTopicUserMappingTestsNormalWeb";
+my $testUsersWeb  = "TemporaryTopicUserMappingTestsUsersWeb";
 my $testUser;
 
 sub fixture_groups {
-    return ( [ 'NormalTWikiUserMapping', 'NamedTWikiUserMapping', ] );
+    return ( [ 'NormalTopicUserMapping', 'NamedTopicUserMapping', ] );
 }
 
-sub NormalTWikiUserMapping {
+sub NormalTopicUserMapping {
     my $this = shift;
-    $TWiki::Users::TWikiUserMapping::TWIKI_USER_MAPPING_ID = '';
+    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
 }
 
-sub NamedTWikiUserMapping {
+sub NamedTopicUserMapping {
     my $this = shift;
 
     # Set a mapping ID for purposes of testing named mappings
-    $TWiki::Users::TWikiUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
+    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
 }
 
@@ -57,7 +57,7 @@ sub set_up_for_verify {
     $TWiki::cfg{UsersWebName}         = $testUsersWeb;
     $TWiki::cfg{SystemWebName}        = $testSysWeb;
     $TWiki::cfg{LocalSitePreferences} = "$testUsersWeb.SitePreferences";
-    $TWiki::cfg{UserMappingManager}   = 'TWiki::Users::TWikiUserMapping';
+    $TWiki::cfg{UserMappingManager}   = 'TWiki::Users::TopicUserMapping';
     $TWiki::cfg{Register}{AllowLoginName}            = 1;
     $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
 

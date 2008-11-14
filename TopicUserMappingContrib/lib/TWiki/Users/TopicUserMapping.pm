@@ -19,7 +19,7 @@
 
 =begin twiki
 
----+ package TWiki::Users::TWikiUserMapping
+---+ package TWiki::Users::TopicUserMapping
 
 The User mapping is the process by which TWiki maps from a username (a login name)
 to a wikiname and back. It is also where groups are defined.
@@ -39,7 +39,7 @@ Subclasses should be named 'XxxxUserMapping' so that configure can find them.
 
 =cut
 
-package TWiki::Users::TWikiUserMapping;
+package TWiki::Users::TopicUserMapping;
 use base 'TWiki::UserMapping';
 
 use strict;
@@ -47,7 +47,7 @@ use Assert;
 use Error qw( :try );
 
 #use Monitor;
-#Monitor::MonitorMethod('TWiki::Users::TWikiUserMapping');
+#Monitor::MonitorMethod('TWiki::Users::TopicUserMapping');
 
 =begin twiki
 
@@ -83,7 +83,7 @@ sub new {
         && ( $TWiki::cfg{PasswordManager} ne 'none' ) )
     {
         $session->writeWarning(
-'TWikiUserMapping has TURNED OFF EnableNewUserRegistration, because the password file is read only.'
+'TopicUserMapping has TURNED OFF EnableNewUserRegistration, because the password file is read only.'
         );
         $TWiki::cfg{Register}{EnableNewUserRegistration} = 0;
     }
@@ -143,8 +143,8 @@ The user can be identified by any of $cUID, $login or $wikiname. Any of
 these parameters may be undef, and they should be tested in order; cUID
 first, then login, then wikiname. This mapping is special - for backwards
 compatibility, it assumes responsibility for _all_ non BaseMapping users.
-If you're needing to mix the TWikiuserMapping with other mappings,
-define $this->{mapping_id} = 'TWikiUserMapping_';
+If you're needing to mix the TopicUserMapping with other mappings,
+define $this->{mapping_id} = 'TopicUserMapping_';
 
 =cut
 
@@ -158,7 +158,7 @@ sub handlesUser {
     }
     else {
 
-        # Used when (if) TWikiUserMapping is subclassed
+        # Used when (if) TopicUserMapping is subclassed
         return 1 if ( defined $cUID && $cUID =~ /^($this->{mapping_id})/ );
     }
 
@@ -338,7 +338,7 @@ sub addUser {
     }
     else {
         ( $meta, $text ) = $store->readTopic( undef, $TWiki::cfg{SystemWebName},
-            'TWikiUsersTemplate' );
+            'UsersTemplate' );
     }
 
     my $result = '';
@@ -1050,7 +1050,7 @@ sub _collateGroups {
 # get a list of groups defined in this TWiki
 sub _getListOfGroups {
     my $this = shift;
-    ASSERT( ref($this) eq 'TWiki::Users::TWikiUserMapping' ) if DEBUG;
+    ASSERT( ref($this) eq 'TWiki::Users::TopicUserMapping' ) if DEBUG;
 
     unless ( $this->{groupsList} ) {
         my $users = $this->{session}->{users};

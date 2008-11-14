@@ -1,8 +1,8 @@
-package TWikiUserMappingContribSuite;
+package TopicUserMappingContribSuite;
 use base 'Unit::TestSuite';
 
 sub include_tests {
-    return qw(TWikiUserMappingContribTests TWikiUserMappingTests);
+    return qw(TopicUserMappingContribTests TopicUserMappingTests);
 }
 
 1;

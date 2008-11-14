@@ -1,13 +1,13 @@
 use strict;
 
 #
-# Tests the TWikiUserMappingContrib, including dealing with legacy login
+# Tests the TopicUserMappingContrib, including dealing with legacy login
 # names and wiki names stored in topics, in TOPICINFO and FILEATTACHMENT
 # meta-data.
 #
 # Only works with the RCS store.
 #
-package TWikiUserMappingContribTests;
+package TopicUserMappingContribTests;
 
 use base qw( TWikiFnTestCase );
 
@@ -23,25 +23,25 @@ some text that is there.
 THIS
 
 sub new {
-    my $self = shift()->SUPER::new( 'TWikiuserMappingContribTests', @_ );
+    my $self = shift()->SUPER::new( 'TopicUserMappingContribTests', @_ );
     return $self;
 }
 
 sub fixture_groups {
-    return ( [ 'NormalTWikiUserMapping', 'NamedTWikiUserMapping', ] );
+    return ( [ 'NormalTopicUserMapping', 'NamedTopicUserMapping', ] );
 }
 
-sub NormalTWikiUserMapping {
+sub NormalTopicUserMapping {
     my $this = shift;
-    $TWiki::Users::TWikiUserMapping::TWIKI_USER_MAPPING_ID = '';
+    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
 }
 
-sub NamedTWikiUserMapping {
+sub NamedTopicUserMapping {
     my $this = shift;
 
     # Set a mapping ID for purposes of testing named mappings
-    $TWiki::Users::TWikiUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
+    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
 }
 
@@ -63,7 +63,7 @@ sub set_up_for_verify {
 
     #default settings
     $TWiki::cfg{LoginManager}       = 'TWiki::LoginManager::TemplateLogin';
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TWikiUserMapping';
+    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
     $TWiki::cfg{UseClientSessions}  = 1;
     $TWiki::cfg{PasswordManager}    = "TWiki::Users::HtPasswdUser";
     $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
@@ -115,9 +115,9 @@ sub set_up_user {
     $this->{user_id}      = $user_id;
 }
 
-#TODO: add tests for when you're not using TWikiUserMapping at all...
+#TODO: add tests for when you're not using TopicUserMapping at all...
 #New 4.2 cUID based topics
-sub verify_WikiNameTWikiUserMapping {
+sub verify_WikiNameTopicUserMapping {
     my $this = shift;
     $this->setup_new_session();
     $this->set_up_user();
@@ -125,7 +125,7 @@ sub verify_WikiNameTWikiUserMapping {
         $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
-sub verify_LoginNameTWikiUserMapping {
+sub verify_LoginNameTopicUserMapping {
     my $this = shift;
     $TWiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
@@ -264,7 +264,7 @@ sub std_tests {
     my $output = <<'THIS';
 <div class="twikiAttachments">
 | *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
-| <img width="16" alt="png" align="top" src="%PUBURLPATH%/TWiki/DocumentGraphics/png.gif" height="16" border="0" /><span class="twikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%">home.org.au.png</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="twikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTWikiuserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
+| <img width="16" alt="png" align="top" src="%PUBURLPATH%/TWiki/DocumentGraphics/png.gif" height="16" border="0" /><span class="twikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%">home.org.au.png</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="twikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
 </div>
 THIS
     $output =~ s/UUUUUUUUUU/$displayedName/e;

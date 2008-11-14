@@ -1,7 +1,8 @@
-# Release manifest for TWikiUserMappingContrib
-data/TWiki/TWikiUserMappingContrib.txt 0644 Documentation
-lib/TWiki/Contrib/TWikiUserMappingContrib.pm 0444 Perl module
-lib/TWiki/Users/TWikiUserMapping.pm 0444 Perl module
+# Release manifest for TopicUserMappingContrib
+data/TWiki/TopicUserMappingContrib.txt 0644 Documentation
+lib/TWiki/Contrib/TopicUserMappingContrib.pm 0444 Perl module
+lib/TWiki/Users/TopicUserMapping.pm 0444 Perl module
+lib/TWiki/Contrib/TopicUserMappingContrib/Config.spec
 
 # Topic based Usermapping topics
 data/Main/RegistrationAgent.txt 0644
@@ -17,7 +18,7 @@ data/Main/UserListByLocation.txt 0644
 data/Main/TWikiGroupTemplate.txt 0644
 
 data/TWiki/TWikiRegistration.txt 0644
-data/TWiki/TWikiUsersTemplate.txt 0644 Default template for a new TWikiUsers topic
+data/TWiki/UsersTemplate.txt 0644 Default template for a new TWikiUsers topic
 data/TWiki/ChangeEmailAddress.txt 0644
 data/TWiki/BulkResetPassword.txt 0644
 data/TWiki/TWikiUserSetting.txt 0644

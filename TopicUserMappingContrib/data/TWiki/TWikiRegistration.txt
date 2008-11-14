@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1216489724" format="1.0" version="$Rev: 15549 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1216489724" format="1.0" version="$Rev: 17064 $"}%
 ---+ %MAKETEXT{"Registration"}%
 
 %IF{"context registration_supported" 

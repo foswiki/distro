@@ -17,7 +17,7 @@ BEGIN {
 };
 
 use TWiki;
-use TWiki::Users::TWikiUserMapping; # required to get email addresses
+use TWiki::Users::TopicUserMapping; # required to get email addresses
 
 my $twiki = new TWiki();
 
@@ -61,7 +61,7 @@ foreach my $line ( split( /\r?\n/, $text )) {
                     print "Already have an address for $id\n";
                 } else {
                     # Get emails *from the TWiki user mapping manager*
-                    @em = TWiki::Users::TWikiUserMapping::mapper_getEmails(
+                    @em = TWiki::Users::TopicUserMapping::mapper_getEmails(
                         $twiki, $cUID);
                     if( scalar( @em )) {
                         print "Secreting $id: ",join(';',@em),"\n";
