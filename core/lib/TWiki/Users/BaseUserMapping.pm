@@ -33,7 +33,7 @@ prefix 'BaseUserMapping_'.
    * TWikiGuest
    * UnknownUser
    * ProjectContributor - 1 Jan 2005
-   * TWikiRegistrationAgent - 1 Jan 2005
+   * RegistrationAgent - 1 Jan 2005
 
 ---+++ Groups
    * $TWiki::cfg{SuperAdminGroup}
@@ -69,28 +69,28 @@ sub new {
         $TWiki::cfg{DefaultUserLogin} => $this->{mapping_id} . '666',
         unknown                       => $this->{mapping_id} . '999',
         ProjectContributor            => $this->{mapping_id} . '111',
-        TWikiRegistrationAgent        => $this->{mapping_id} . '222'
+        RegistrationAgent        => $this->{mapping_id} . '222'
     };
     $this->{U2L} = {
         $this->{mapping_id} . '333' => $TWiki::cfg{AdminUserLogin},
         $this->{mapping_id} . '666' => $TWiki::cfg{DefaultUserLogin},
         $this->{mapping_id} . '999' => 'unknown',
         $this->{mapping_id} . '111' => 'ProjectContributor',
-        $this->{mapping_id} . '222' => 'TWikiRegistrationAgent'
+        $this->{mapping_id} . '222' => 'RegistrationAgent'
     };
     $this->{U2W} = {
         $this->{mapping_id} . '333' => $TWiki::cfg{AdminUserWikiName},
         $this->{mapping_id} . '666' => $TWiki::cfg{DefaultUserWikiName},
         $this->{mapping_id} . '999' => 'UnknownUser',
         $this->{mapping_id} . '111' => 'ProjectContributor',
-        $this->{mapping_id} . '222' => 'TWikiRegistrationAgent'
+        $this->{mapping_id} . '222' => 'RegistrationAgent'
     };
     $this->{W2U} = {
         $TWiki::cfg{AdminUserWikiName}   => $this->{mapping_id} . '333',
         $TWiki::cfg{DefaultUserWikiName} => $this->{mapping_id} . '666',
         UnknownUser                      => $this->{mapping_id} . '999',
         ProjectContributor               => $this->{mapping_id} . '111',
-        TWikiRegistrationAgent           => $this->{mapping_id} . '222'
+        RegistrationAgent           => $this->{mapping_id} . '222'
     };
     $this->{U2E} =
       { $this->{mapping_id} . '333' => $TWiki::cfg{WebMasterEmail} };

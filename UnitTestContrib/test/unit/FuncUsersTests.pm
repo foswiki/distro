@@ -195,9 +195,9 @@ sub verify_eachUser {
 
     my @correctList;
     if ($TWiki::cfg{UserMappingManager} eq 'TWiki::Users::BaseUserMapping') {
-         @correctList = qw/ProjectContributor TWikiGuest TWikiRegistrationAgent UnknownUser/;
+         @correctList = qw/ProjectContributor TWikiGuest RegistrationAgent UnknownUser/;
     } else {
-         @correctList = qw/ProjectContributor TWikiGuest TWikiRegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ/;
+         @correctList = qw/ProjectContributor TWikiGuest RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ/;
          if ($TWiki::cfg{Register}{AllowLoginName} == 1) {
              push @correctList, 'ScumBag';      # this user is created in the base class with the assumption of AllowLoginName 
          } else {

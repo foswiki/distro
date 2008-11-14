@@ -45,7 +45,7 @@ require TWiki;
 require TWiki::OopsException;
 require TWiki::Sandbox;
 
-my $agent = 'TWikiRegistrationAgent';
+my $agent = 'RegistrationAgent';
 
 # Keys from the user data that should *not* be included in
 # the user topic.

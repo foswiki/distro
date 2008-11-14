@@ -101,9 +101,6 @@ If your site allows hierarchical webs, then access to sub-webs is determined fro
 
 Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the parent web (or ROOTCHANGE for [[#RootWebs][root webs]]). Renaming is additionally restricted by the setting of WEBRENAME in the web itself.
 
-__Note:__  If you restrict access to the %USERSWEB%, make sure to add the =TWikiRegistrationAgent= so that users can register. Example:
-      * ==Set <nop>ALLOWWEBCHANGE = !TWikiAdminGroup, !TWikiRegistrationAgent==
-
 __Note:__  For Web level access rights Setting any of these settings to an empty value has the same effect as not setting them at all. Please note that the documentation of TWiki 4.0 and earlier versions of TWiki 4.1 did not reflect the actual implementation, e.g. an empty ALLOWWEBVIEW does _not_ prevent anyone from viewing the web, and an an empty DENYWEBVIEW does _not_ allow all to view the web.
 
 ---+++ Controlling access to a Topic

@@ -428,7 +428,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item3760][Item3760]] | With rename topic, topic texts are changed as well |
 | [[%BUGS%/Item3759][Item3759]] | MailerContrib not mailing groups |
 | [[%BUGS%/Item3758][Item3758]] | Remark "There is no size limit for uploaded files." is not relevant to users |
-| [[%BUGS%/Item3756][Item3756]] | TWikiRegistrationAgent produces wrongly formated entries |
+| [[%BUGS%/Item3756][Item3756]] | RegistrationAgent produces wrongly formated entries |
 | [[%BUGS%/Item3755][Item3755]] | Need to document parameterized include |
 | [[%BUGS%/Item3752][Item3752]] | Doc fix to !AdminSkillsAssumptions |
 | [[%BUGS%/Item3748][Item3748]] | EXTEND.pm fails to move directories across filesystems |

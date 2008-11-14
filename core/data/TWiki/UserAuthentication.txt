@@ -52,8 +52,6 @@ New user registration uses the password manager to set and change passwords and 
 
 The registration process is also responsible for creating user topics, and setting up the mapping information used by the User Mapping support.
 
-__%X% Note:__ You *must* allow the pseudo-user !TWikiRegistrationAgent to ALLOWWEBCHANGE in your =%USERSWEB%= web. If you block this user, then new users will see errors when they try to register.
-
 #LoginManagement
 ---++ Login Management
 
