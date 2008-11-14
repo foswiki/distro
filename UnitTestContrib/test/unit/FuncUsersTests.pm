@@ -274,7 +274,9 @@ sub verify_isAnAdmin {
         $u =~ /.*\.(.*)/;
         $TWiki::Plugins::SESSION->{user} = $u;
         my $sadmin = TWiki::Func::isAnAdmin($u);
-        if ($u eq $TWiki::cfg{AdminUserWikiName} || $u eq 'UserA') {
+        if ($u eq $TWiki::cfg{AdminUserWikiName} || 
+	    $u eq 'RegistrationAgent' ||
+	    $u eq 'UserA') {
 	        $this->assert($sadmin, $u);
         } else {
 	        $this->assert(!$sadmin, $u);
