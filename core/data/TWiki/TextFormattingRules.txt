@@ -35,9 +35,9 @@ Being able to create links without any special formatting is a core TWiki featur
    * =[<nop>[Square bracket rules]]= let you easily create [[#SquareBrackets][non-WikiWord links]].
       * You can also write =[<nop>[http://yahoo.com Yahoo home page]]= as an easier way of doing external links with descriptive text for the link, such as [[http://yahoo.com/ Yahoo home page]].
 
----++ TWiki Variables
+---++ Macros
 
-%INCLUDE{"TWikiVariablesQuickStart"}%
+%INCLUDE{"MacrosQuickStart"}%
 
 ---++ <nop>TWikiPlugin Formatting Extensions
 
