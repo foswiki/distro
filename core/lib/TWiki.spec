@@ -369,7 +369,7 @@ $TWiki::cfg{AuthRealm} =
 # two mappings are available, though other mappings *may* be installed to
 # support authentication providers.
 # <ol><li>
-#  TWiki::Users::TWikiUserMapping - uses TWiki user and group topics to
+#  TWiki::Users::TopicUserMapping - uses TWiki user and group topics to
 #  determine user information, and group memberships.
 # </li><li>
 #  TWiki::Users::BaseUserMapping - has only 2 users, {TWikiAdminUser} and
@@ -377,7 +377,7 @@ $TWiki::cfg{AuthRealm} =
 #  configure script. <b>Does not support User registration</b>, and
 #  only works with TemplateLogin.
 # </li></ol>
-$TWiki::cfg{UserMappingManager} = 'TWiki::Users::TWikiUserMapping';
+$TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
 
 #---++ Registration
 # **BOOLEAN**

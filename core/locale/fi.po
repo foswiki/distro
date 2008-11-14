@@ -47,23 +47,23 @@ msgstr "%1"
 msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Rekisteröinti %2 (%3)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:68
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:68
 msgid "%1 - complete TWiki documentation, Quick Start to Reference"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:70
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:70
 msgid "%1 - just for me"
 msgstr "%1 - vain minulle"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:67
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:67
 msgid "%1 - starting points on TWiki"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:69
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:69
 msgid "%1 - try out TWiki on your own"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:66
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:66
 msgid "%1 - view a short introductory presentation on TWiki for beginners"
 msgstr ""
 
@@ -85,18 +85,18 @@ msgstr "%1 Verkko"
 msgid "%1 Web Home"
 msgstr "%1 Verkkokoti"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:84
 msgid "%1 for changing your email address"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:83
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:83
 msgid "%1 for changing your password"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:47
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:37
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:85
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:38
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:47
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:37
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:85
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:38
 msgid "%1 has a list of other TWiki users"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr ""
 msgid "%1 home"
 msgstr "%1 koti"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:86
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:86
 msgid "%1 is a list of TWiki user documentation"
 msgstr ""
 
@@ -143,7 +143,7 @@ msgstr ""
 msgid "%1 is the default topic for deleted attachments."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:87
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:87
 msgid "%1 lists all TWiki user tools"
 msgstr ""
 
@@ -269,11 +269,11 @@ msgstr "(muokkaa tekstiä)"
 msgid "(edit)"
 msgstr "(muokkaa)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(kuinka kirjaudut sisään) Käyttäjätunnus:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(identifioi sinut toisille) WikiNimi:"
 
@@ -308,7 +308,7 @@ msgstr ""
 msgid "(oops)"
 msgstr "(oho)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
 msgid "(optional)"
 msgstr ""
 
@@ -380,7 +380,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -544,7 +544,7 @@ msgstr "Lisää lomake"
 msgid "Add row"
 msgstr "Lisää lomake"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr ""
 
@@ -568,17 +568,17 @@ msgstr ""
 msgid "Advanced search"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:20
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:20
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:12
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:12
 msgid "After submitting this form your password will be changed."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:15
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, "
 "*system-generated* password, and a link to a page where you can change it."
@@ -788,7 +788,7 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:2
 msgid "Change Password"
 msgstr "Muuta salasana"
 
@@ -821,7 +821,7 @@ msgstr ""
 msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:30
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:30
 msgid "Change password"
 msgstr "Muuta salasana"
 
@@ -909,7 +909,7 @@ msgstr ""
 msgid "Comment"
 msgstr "Kommentti"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
 msgid "Comments:"
 msgstr "Kommentit:"
 
@@ -971,7 +971,7 @@ msgstr "Ei voitu suorittaa hakua. Virhe oli: %1"
 msgid "Could not save %1."
 msgstr "Ei voitu tallentaa %1."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
 msgid "Country:"
 msgstr "Maa:"
 
@@ -1024,7 +1024,7 @@ msgstr "Luo aihe"
 msgid "Create this topic"
 msgstr "Luo tämä aihe"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1043,7 +1043,7 @@ msgstr "Nykyinen sijainti:"
 msgid "Current parent:"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:23
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:23
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
@@ -1165,7 +1165,7 @@ msgid ""
 "notify your %2 administrator."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
 msgid "E-mail address:"
 msgstr "Sähköpostiosoite:"
 
@@ -1290,10 +1290,10 @@ msgstr "Virheet"
 msgid "Failed to include URL %1"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:21
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr ""
 
@@ -1307,13 +1307,13 @@ msgstr ""
 msgid "Find topics that link to %1 ..."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
 msgid "First Name:"
 msgstr "Etunimi:"
 
@@ -1321,7 +1321,7 @@ msgstr "Etunimi:"
 msgid "Force new revision"
 msgstr "Pakota uusi versio"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:5
 msgid "Forgotten your password?"
 msgstr "Unohditko salasanasi?"
 
@@ -1464,14 +1464,14 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 
 #: templates/login.tmpl:74
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:46
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:36
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:39
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:46
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:36
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:39
 msgid "If you have any questions, please contact %1"
 msgstr ""
 
@@ -1499,13 +1499,13 @@ msgstr "Jos haluat luoda aiheen"
 msgid "If you would like to create this web"
 msgstr "Jos haluat luoda tämän verkon"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:13
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:11
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:11
 msgid ""
 "If your user topic is not protected from changes by other people, and you "
 "don't register an e-mail address using this form, then your user account "
@@ -1601,7 +1601,7 @@ msgstr ""
 msgid "Jump"
 msgstr "Hyppää"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
 msgid "Last Name:"
 msgstr "Sukunimi:"
 
@@ -1736,7 +1736,7 @@ msgstr "Siirrä aihe verkkoon:"
 msgid "Move/Rename"
 msgstr "Siirrä/nimeä uudelleen"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:64
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:64
 msgid "My Links"
 msgstr "Minun linkkini"
 
@@ -1756,7 +1756,7 @@ msgstr ""
 msgid "New User Registration not supported"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:35
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:35
 msgid "New e-mails (space-separated list)"
 msgstr ""
 
@@ -1769,7 +1769,7 @@ msgstr ""
 msgid "New parent web:"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:24
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:24
 msgid "New password"
 msgstr "Uusi salasana"
 
@@ -1817,7 +1817,7 @@ msgstr ""
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
 msgid "Note:"
 msgstr "Huomaa:"
 
@@ -1854,7 +1854,7 @@ msgstr "OK"
 msgid "Older revision:"
 msgstr "Vanhempi versio:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 
@@ -1879,15 +1879,15 @@ msgstr ""
 msgid "Optionally enter a different topic name:"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "Organisaation URL:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
 msgid "Organisation name:"
 msgstr "Organisaation nimi:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
 msgid "Other Country"
 msgstr "Toinen maa"
 
@@ -1895,13 +1895,13 @@ msgstr "Toinen maa"
 msgid "Other search options:"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:5
 msgid "Otherwise, use this form to get a new one e-mailed to you."
 msgstr ""
 
 #: templates/login.tmpl:58
 #: twikiplugins/PatternSkin/data/TWiki/PatternSkinElements.txt:188
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:34
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:34
 msgid "Password"
 msgstr "Salasana"
 
@@ -1921,8 +1921,8 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr "Salasanat eivät täsmää"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:60
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:74
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:60
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:74
 msgid "Personal Preferences"
 msgstr ""
 
@@ -2063,11 +2063,11 @@ msgstr "Päivitä"
 msgid "Register"
 msgstr "Rekisteröidy"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
 msgid "Registration"
 msgstr "Rekisteröinti"
 
@@ -2079,17 +2079,17 @@ msgstr "Rekisteröintikoodeja voidaan käyttää vain kerran."
 msgid "Regular expression search"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:81
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:81
 msgid "Related Topics"
 msgstr ""
 
 #: data/Sandbox/WebNotify.txt:10 data/Trash/WebNotify.txt:9
 #: data/_default/WebNotify.txt:8 templates/messages.tmpl:465
 #: templates/messages.tmpl:472
-#: twikiplugins/TWikiUserMappingContrib/data/Main/TWikiGroupTemplate.txt:10
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:52
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:42
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:43
+#: twikiplugins/TopicUserMappingContrib/data/Main/TWikiGroupTemplate.txt:10
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:52
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:42
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:43
 msgid "Related topics:"
 msgstr ""
 
@@ -2107,7 +2107,7 @@ msgid ""
 "reflected there as well."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:5
 msgid "Remember your password?"
 msgstr ""
 
@@ -2157,11 +2157,11 @@ msgstr "Nimeä uudelleen/siirrä/poista verkko..."
 msgid "Replace form..."
 msgstr "Korvaa lomake..."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:3
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:3
 msgid "Reset Password"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:32
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:32
 msgid "Reset password"
 msgstr ""
 
@@ -2192,11 +2192,11 @@ msgstr ""
 msgid "Return to %1."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:25
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:25
 msgid "Retype new password"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
 msgid "Retype password:"
 msgstr ""
 
@@ -2339,7 +2339,7 @@ msgstr ""
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr ""
 
@@ -2364,7 +2364,7 @@ msgstr ""
 msgid "Show help"
 msgstr "Näytä ohje"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:78
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:78
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr ""
 
@@ -2420,15 +2420,15 @@ msgid ""
 "work on, what help they'd like, etc."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/BulkRegistration.txt:83
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/BulkResetPassword.txt:17
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:21
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:13
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:16
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/BulkRegistration.txt:83
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/BulkResetPassword.txt:17
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:21
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:16
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 
@@ -2448,7 +2448,7 @@ msgid "Statistics"
 msgstr "Tilastot"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
 msgid "Submit"
 msgstr ""
 
@@ -2669,7 +2669,7 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr ""
 
@@ -2681,7 +2681,7 @@ msgstr ""
 msgid "This could be for several reasons:"
 msgstr "Tämä voi johtua useasta syystä:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:5
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered e-mails are used by TWiki for sending you e-mails, include "
@@ -2752,7 +2752,7 @@ msgid ""
 "especially if you made any changes to form fields."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -2763,7 +2763,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Muokataksesi kuitenkin aihetta, klikkaa "
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr ""
 
@@ -2871,7 +2871,7 @@ msgstr ""
 msgid "Try Again"
 msgstr "Yritä uudelleen"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:76
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:76
 msgid ""
 "Uncomment preferences variables to activate them (remove the #-sign). Help "
 "and details on preferences variables are available in %1."
@@ -2911,8 +2911,8 @@ msgstr ""
 msgid "Uploaded file is too big"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:5
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:5
 msgid "Use %1 instead."
 msgstr ""
 
@@ -3036,7 +3036,7 @@ msgstr "Verkot"
 msgid "Welcome to the %1 web"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3164,7 +3164,7 @@ msgid ""
 "the form presented to you when this e-mail was sent, or by visiting %2"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:7
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:7
 msgid ""
 "You really ought to register a valid e-mail address. If TWiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
@@ -3180,9 +3180,9 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:33
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:22
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:27
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:33
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:22
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:27
 msgid "Your %1.LoginName"
 msgstr ""
 
@@ -3204,7 +3204,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
 msgid "Your password:"
 msgstr "Salasanasi:"
 
@@ -3485,7 +3485,7 @@ msgstr ""
 msgid "view"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:22
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:22
 msgid ""
 "you *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "

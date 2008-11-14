@@ -19,7 +19,7 @@ It is highly recommended to upgrade TWiki 4.2.x to 4.2.2. Users will find the 4.
 TWiki 4.2.2 is shipped with
 
    * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TWikiUserMappingContrib, !TwistyContrib
+   * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib, !TwistyContrib
    * *Skins:* !ClassicSkin, !PatternSkin
 
 ---++ New Features Highlights
@@ -51,7 +51,7 @@ TWiki 4.2.2 is shipped with
    * *Miscellaneous Feature Enhancements*
       * Many new functions in the API for plugin developers.
       * Table of Content (TOC) feature enhanced 
-      * User Mapping (mapping between login name and !WikiName) code has been extended to allow pluggable modules to integrate with all sorts of alternative authentication and Management schemes. For normal cases you use the default !TWikiUserMapping which is using the !Main.TWikiUsers topic to map between login and !WikiName. A new !BaseUserMapping is provided for TWikis where you only have guests and an administrator. In this case you use the login and password given in configure to login as an admin.
+      * User Mapping (mapping between login name and !WikiName) code has been extended to allow pluggable modules to integrate with all sorts of alternative authentication and Management schemes. For normal cases you use the default !TopicUserMapping which is using the !Main.TWikiUsers topic to map between login and !WikiName. A new !BaseUserMapping is provided for TWikis where you only have guests and an administrator. In this case you use the login and password given in configure to login as an admin.
 
 ---++ Important Changes since 4.2.1
 This is a fast trip bug fix for issues found during upgrades from 4.2.0 to 4.2.1.
@@ -215,7 +215,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5252][Item5252]] | RenderListPlugin produces warnings with list with no level 1 bullets |
 | [[%BUGS%/Item5246][Item5246]] | When using SERVERTIME with $week in template TWIki fails on missing CPAN lib dependency |
 | [[%BUGS%/Item5245][Item5245]] | adding missing docs for NEWLINKFORMAT - introduced in 2006 |
-| [[%BUGS%/Item5226][Item5226]] | TWikiUserMapping speed re-enhancements |
+| [[%BUGS%/Item5226][Item5226]] | TopicUserMapping speed re-enhancements |
 | [[%BUGS%/Item5210][Item5210]] | EDITTABLE with a simple text input in which the user has put %BR gets trunkated at the first BR |
 | [[%BUGS%/Item5123][Item5123]] | missing fetchUsers method in Password.pm |
 | [[%BUGS%/Item5121][Item5121]] | Performance: Copy hash |
@@ -266,7 +266,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4718][Item4718]] | Improve the installation doc for how to setup apache config for configure |
 | [[%BUGS%/Item4713][Item4713]] | Repackage native search as a conrib, remove from 4.2 |
 | [[%BUGS%/Item4702][Item4702]] | Lighter top bar background image |
-| [[%BUGS%/Item4694][Item4694]] | Standard user topics of !TWikiUserMapping are referenced, but not defined |
+| [[%BUGS%/Item4694][Item4694]] | Standard user topics of !TopicUserMapping are referenced, but not defined |
 | [[%BUGS%/Item4692][Item4692]] | Forking search algorithm throws error if topic is nonexistent |
 | [[%BUGS%/Item4680][Item4680]] | Print view seems weird in both pattern skin and default skin |
 | [[%BUGS%/Item4677][Item4677]] | Search results now have empty line (= html P) between search header and results list |
@@ -661,7 +661,7 @@ The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5554][Item5554]] | Missuse of sort and loops |
 | [[%BUGS%/Item5547][Item5547]] | "action" parameter for "edit" script fail in 4.2 |
 | [[%BUGS%/Item5542][Item5542]] | After you enable {UserInterfaceInternationalisation} first view shows an error |
-| [[%BUGS%/Item5540][Item5540]] | TWikiUserMapping: single character erroneously reported as a group |
+| [[%BUGS%/Item5540][Item5540]] | TopicUserMapping: single character erroneously reported as a group |
 | [[%BUGS%/Item5536][Item5536]] | robots.txt is missing some obvious scripts - like login |
 | [[%BUGS%/Item5535][Item5535]] | IF{"$BANNER" does not really work. |
 | [[%BUGS%/Item5534][Item5534]] | missing contexts for several bin scripts |

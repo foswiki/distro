@@ -28,7 +28,7 @@ behaviour.
 User mapping is the process by which TWiki maps from a username (a login name)
 to a display name and back. It is also where groups are maintained.
 
-See TWiki::Users::BaseUserMapping and TWiki::Users::TWikiUserMapping for
+See TWiki::Users::BaseUserMapping and TWiki::Users::TopicUserMapping for
 the default implementations of this interface.
 
 If you want to write a user mapper, you will need to implement the methods
@@ -39,7 +39,7 @@ _canonical user id_. This user id is composed from a prefix that defines
 the mapper in use (something like 'BaseUserMapping_' or 'LdapUserMapping_')
 and a unique user id that the mapper uses to identify the user.
 
-The null prefix is reserver for the TWikiUserMapping for compatibility
+The null prefix is reserver for the TopicUserMapping for compatibility
 with old TWiki releases.
 
 __Note:__ in all the following documentation, =$cUID= refers to a

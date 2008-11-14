@@ -55,24 +55,24 @@ msgstr ""
 msgid "%1 - Registration for %2 (%3)"
 msgstr "%1 - Регистрация для %2 (%3)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:68
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:68
 msgid "%1 - complete TWiki documentation, Quick Start to Reference"
 msgstr ""
 "%1 - полная документация по TWiki, быстрый переход к справочной информации"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:70
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:70
 msgid "%1 - just for me"
 msgstr "%1 - только для меня"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:67
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:67
 msgid "%1 - starting points on TWiki"
 msgstr "%1 - первое знакомство с TWiki"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:69
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:69
 msgid "%1 - try out TWiki on your own"
 msgstr "%1 - попробуйте TWiki самостоятельно"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:66
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:66
 msgid "%1 - view a short introductory presentation on TWiki for beginners"
 msgstr "%1 - посмотреть короткую вводную презентацию по TWiki для начинающих"
 
@@ -94,18 +94,18 @@ msgstr "Раздел %1"
 msgid "%1 Web Home"
 msgstr "%1 Главная страница раздела"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:84
 msgid "%1 for changing your email address"
 msgstr "%1 чтобы сменить адреса электронной почты"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:83
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:83
 msgid "%1 for changing your password"
 msgstr "%1 для смены вашего пароля"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:47
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:37
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:85
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:38
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:47
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:37
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:85
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:38
 msgid "%1 has a list of other TWiki users"
 msgstr "%1 содержит список других пользователей TWiki"
 
@@ -126,7 +126,7 @@ msgstr "%1 зарегистрирован с адресом электронно
 msgid "%1 home"
 msgstr "дом %1"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:86
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:86
 msgid "%1 is a list of TWiki user documentation"
 msgstr "%1 - список пользовательской документации по TWiki "
 
@@ -154,7 +154,7 @@ msgstr "%1 входит как минимум в одну группу и не �
 msgid "%1 is the default topic for deleted attachments."
 msgstr "%1 - страница по умолчанию для удаленных файлов"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:87
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:87
 msgid "%1 lists all TWiki user tools"
 msgstr "%1 список пользовательского инструментария TWiki"
 
@@ -283,11 +283,11 @@ msgstr "(редактировать текст)"
 msgid "(edit)"
 msgstr "(редактировать)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(вводится при входе) ИмяПользователя:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(как Вас видят другие пользователи) ВикиИмя:"
 
@@ -322,7 +322,7 @@ msgstr "(пусто/ничего)"
 msgid "(oops)"
 msgstr "(ой)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
 msgid "(optional)"
 msgstr "(не обязательно)"
 
@@ -401,7 +401,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Помощь по форматированию:*"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -608,7 +608,7 @@ msgstr "Добавить форму"
 msgid "Add row"
 msgstr "Добавить форму"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "Добавит Ваше имя к списку пользователей темы %1 раздела %2."
 
@@ -632,7 +632,7 @@ msgstr "Расширенный писк"
 msgid "Advanced search"
 msgstr "Расширенный писк"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:20
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:20
 msgid ""
 "After submitting this form your e-mail will be changed, and you will be "
 "returned to this form."
@@ -640,11 +640,11 @@ msgstr ""
 "После отправки этой формы адрес Вашей электронной почты будет изменен, а "
 "затем Вы будете возвращены к этой же форме."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:12
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:12
 msgid "After submitting this form your password will be changed."
 msgstr "После отправки этой формы Ваш пароль будет изменен."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:15
 msgid ""
 "After submitting this form, you will receive an e-mail with your new, "
 "*system-generated* password, and a link to a page where you can change it."
@@ -876,7 +876,7 @@ msgstr "С учётом регистра"
 msgid "Categories"
 msgstr "Категории"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:2
 msgid "Change Password"
 msgstr "Сменить  пароль"
 
@@ -913,7 +913,7 @@ msgid "Change links in topics that refer to %1 in the %2 Web:"
 msgstr ""
 "Изменить ссылки на страницах тем, которые ссылаются на %1 в разделе %2:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:30
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:30
 msgid "Change password"
 msgstr "Сменить пароль"
 
@@ -1012,7 +1012,7 @@ msgstr "Цвет %1 имеет неправильный формат"
 msgid "Comment"
 msgstr "Комментарий"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
 msgid "Comments:"
 msgstr "Комментарии:"
 
@@ -1076,7 +1076,7 @@ msgstr ""
 msgid "Could not save %1."
 msgstr "Не удалось сохранить %1."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
 msgid "Country:"
 msgstr "Страна:"
 
@@ -1130,7 +1130,7 @@ msgstr "Создать эту тему"
 msgid "Create this topic"
 msgstr "Создать эту тему"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1151,7 +1151,7 @@ msgstr "Текущее размещение:"
 msgid "Current parent:"
 msgstr "Текущий родитель:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:23
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:23
 msgid "Current password"
 msgstr "Текущий пароль"
 
@@ -1285,7 +1285,7 @@ msgstr ""
 "Во время сохранения %1 система управления версиями обнаружила ошибку. "
 "Пожалуйста, известите об этом Вашего администратора %2."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
 msgid "E-mail address:"
 msgstr "Адрес электронной почты:"
 
@@ -1423,10 +1423,10 @@ msgstr "Ошибки"
 msgid "Failed to include URL %1"
 msgstr "Не удается присоединить URL %1"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:21
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "Помеченные %1 поля обязательны для заполнения"
 
@@ -1440,7 +1440,7 @@ msgstr "Файл был загружен с другим именем"
 msgid "Find topics that link to %1 ..."
 msgstr "Найти темы, ссылающиеся на %1 ..."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1448,7 +1448,7 @@ msgstr ""
 "Завершит создание учётной записи, после чего Вы сможете редактировать "
 "страницы, используя своё [[WikiName][ВикиИмя]]."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
 msgid "First Name:"
 msgstr "Имя:"
 
@@ -1456,7 +1456,7 @@ msgstr "Имя:"
 msgid "Force new revision"
 msgstr "Создать новую редакцию"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:5
 msgid "Forgotten your password?"
 msgstr "Забыли пароль?"
 
@@ -1628,16 +1628,16 @@ msgstr ""
 "используя Ваш адрес электронной почты: %3. Сообщите, пожалуйста, %4 если это "
 "не Вы."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 "Если у Вас есть вопросы по регистрации, отправьте сообщение по электронной "
 "почте: %1"
 
 #: templates/login.tmpl:74
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:46
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:36
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:39
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:46
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:36
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:39
 #, fuzzy
 msgid "If you have any questions, please contact %1"
 msgstr "Если у Вас есть какие-либо вопросы, пожалуйста, пишите %1."
@@ -1670,7 +1670,7 @@ msgstr "Если Вы хотите создать тему"
 msgid "If you would like to create this web"
 msgstr "Если Вы хотите создать этот раздел"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:13
 msgid ""
 "If your old e-mail addresses are all invalid (you can't receive mail there "
 "any more) and you have forgotten your password, please contact %1 for help."
@@ -1679,7 +1679,7 @@ msgstr ""
 "получать на него почту) и Вы забыли свой пароль, пожалуйста, свяжитесь %1 "
 "для того, чтобы получить помощь."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:11
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:11
 msgid ""
 "If your user topic is not protected from changes by other people, and you "
 "don't register an e-mail address using this form, then your user account "
@@ -1802,7 +1802,7 @@ msgstr ""
 msgid "Jump"
 msgstr "Перейти"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
 msgid "Last Name:"
 msgstr "Фамилия:"
 
@@ -1941,7 +1941,7 @@ msgstr "Переместить тему в раздел:"
 msgid "Move/Rename"
 msgstr "Переименовать"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:64
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:64
 msgid "My Links"
 msgstr "Мои ссылки"
 
@@ -1961,7 +1961,7 @@ msgstr ""
 msgid "New User Registration not supported"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:35
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:35
 msgid "New e-mails (space-separated list)"
 msgstr "Новые адреса электронной почты (список разделенный пробелами)"
 
@@ -1974,7 +1974,7 @@ msgstr "Новые или измененные темы в %1, после %2:"
 msgid "New parent web:"
 msgstr "Новый родительский раздел:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:24
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:24
 msgid "New password"
 msgstr "Новый пароль"
 
@@ -2025,7 +2025,7 @@ msgstr ""
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
 msgid "Note:"
 msgstr "Примечание:"
 
@@ -2062,7 +2062,7 @@ msgstr "OK"
 msgid "Older revision:"
 msgstr "Старшая редакция:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 "Однажды зарегистрировавшись, Вы сможете заходить используя Ваши %1 и пароль."
@@ -2088,15 +2088,15 @@ msgstr "Измените название темы, если это необхо
 msgid "Optionally enter a different topic name:"
 msgstr "Введите иное название темы, если это необходимо:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "URL организации:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
 msgid "Organisation name:"
 msgstr "Название организации:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
 msgid "Other Country"
 msgstr "Другая страна"
 
@@ -2104,7 +2104,7 @@ msgstr "Другая страна"
 msgid "Other search options:"
 msgstr "Другие параметры поиска:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:5
 msgid "Otherwise, use this form to get a new one e-mailed to you."
 msgstr ""
 "В противном случае, воспользуйтесь этой формой, чтобы получить новый пароль "
@@ -2112,7 +2112,7 @@ msgstr ""
 
 #: templates/login.tmpl:58
 #: twikiplugins/PatternSkin/data/TWiki/PatternSkinElements.txt:188
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:34
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:34
 msgid "Password"
 msgstr "Пароль"
 
@@ -2132,8 +2132,8 @@ msgstr "Не удалось сбросить пароль"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:60
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:74
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:60
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:74
 msgid "Personal Preferences"
 msgstr "Личные Параметры"
 
@@ -2294,13 +2294,13 @@ msgstr ""
 msgid "Register"
 msgstr "Зарегистрироваться"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr ""
 "Зарегистрированные пользователи могут [[%1][изменять]] и [[%2][сбрасывать]] "
 "свои пароли."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
 msgid "Registration"
 msgstr "Регистрация"
 
@@ -2312,17 +2312,17 @@ msgstr "Регистрационные коды могут быть исполь
 msgid "Regular expression search"
 msgstr "С использованием регулярных выражений"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:81
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:81
 msgid "Related Topics"
 msgstr "Связанные темы"
 
 #: data/Sandbox/WebNotify.txt:10 data/Trash/WebNotify.txt:9
 #: data/_default/WebNotify.txt:8 templates/messages.tmpl:465
 #: templates/messages.tmpl:472
-#: twikiplugins/TWikiUserMappingContrib/data/Main/TWikiGroupTemplate.txt:10
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:52
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:42
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:43
+#: twikiplugins/TopicUserMappingContrib/data/Main/TWikiGroupTemplate.txt:10
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:52
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:42
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:43
 msgid "Related topics:"
 msgstr "Связанные темы:"
 
@@ -2343,7 +2343,7 @@ msgstr ""
 "странице, если Вы хотите, чтобы другим пользователям стали доступны сведения "
 "об изменениях адреса Вашей электронной почты."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:5
 msgid "Remember your password?"
 msgstr "Напомнить Ваш пароль?"
 
@@ -2394,11 +2394,11 @@ msgstr "Переименовать/переместить/удалить раз�
 msgid "Replace form..."
 msgstr "Заменить форму...."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:3
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:3
 msgid "Reset Password"
 msgstr "Сбросить Пароль"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:32
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:32
 msgid "Reset password"
 msgstr "Сбросить пароль"
 
@@ -2433,11 +2433,11 @@ msgstr "Результаты по разделу \"%1\"."
 msgid "Return to %1."
 msgstr "Вернуться к %1."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:25
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:25
 msgid "Retype new password"
 msgstr "Введите новый пароль повторно"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
 msgid "Retype password:"
 msgstr "Введите пароль повторно:"
 
@@ -2595,7 +2595,7 @@ msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Выделите, скопируйте и вставьте Вашу подпись под сделанной Вами записью"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Отправит подтверждение Вашей регистрации по электронной почте."
 
@@ -2621,7 +2621,7 @@ msgstr "Установить нового родителя для темы"
 msgid "Show help"
 msgstr "Показать подсказку"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:78
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:78
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "Показывать подсказки при наведении мыши на %1 ссылки, вкл. или выкл.:"
 
@@ -2684,15 +2684,15 @@ msgstr ""
 "Некоторые люди преобразуют это в персональный портал избранных ссылок, с "
 "которыми они работают, которые им удобны, и так далее."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr ""
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/BulkRegistration.txt:83
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/BulkResetPassword.txt:17
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:21
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:13
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:16
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/BulkRegistration.txt:83
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/BulkResetPassword.txt:17
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:21
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:16
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 
@@ -2712,7 +2712,7 @@ msgid "Statistics"
 msgstr "Статистика"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
 msgid "Submit"
 msgstr "Применить"
 
@@ -2964,7 +2964,7 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Здесь должна быть строка, включающая %1, ищите %2 (или %3)"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr ""
 
@@ -2976,7 +2976,7 @@ msgstr "Это может быть автоматически обновлено
 msgid "This could be for several reasons:"
 msgstr "Это могло произойти по следующим причинам:"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:5
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered e-mails are used by TWiki for sending you e-mails, include "
@@ -3069,7 +3069,7 @@ msgstr ""
 "страницу, чтобы убедиться, что все в порядке, особенно если Вы вносили любые "
 "изменения в поля форм. "
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -3082,7 +3082,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Если Вы настаиваете на редактировании страницы, нажмите "
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr "Для регистрации нового пользователя, просто заполните следующую форму:"
 
@@ -3197,7 +3197,7 @@ msgstr "Всего совпадений"
 msgid "Try Again"
 msgstr "Попробовать еще раз"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/NewUserTemplate.txt:76
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/NewUserTemplate.txt:76
 msgid ""
 "Uncomment preferences variables to activate them (remove the #-sign). Help "
 "and details on preferences variables are available in %1."
@@ -3240,8 +3240,8 @@ msgstr "Загруженный файл %1 превысил допустимые
 msgid "Uploaded file is too big"
 msgstr "Загружаемый файл слишком большой"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:5
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:5
 msgid "Use %1 instead."
 msgstr "Тогда воспользуйтесь [[%1][Изменить пароль]]. "
 
@@ -3371,7 +3371,7 @@ msgstr "Разделы"
 msgid "Welcome to the %1 web"
 msgstr "Добро пожаловать в раздел %1"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3532,7 +3532,7 @@ msgstr ""
 "сделать это, введя %1 в форму, представленную Вам при отправке данного "
 "сообщения, или перейдя по ссылке %2"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:7
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:7
 msgid ""
 "You really ought to register a valid e-mail address. If TWiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
@@ -3552,9 +3552,9 @@ msgstr ""
 msgid "You will probably have to ask your administrator, %1, to do this."
 msgstr "Возможно Вы должны попросить администратора, %1, сделать это."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:33
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ChangePassword.txt:22
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:27
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:33
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:22
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:27
 msgid "Your %1.LoginName"
 msgstr "Ваше [[%1.LoginName][ИмяПользователя]]"
 
@@ -3583,7 +3583,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Ваш пароль изменен на %1."
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
 msgid "Your password:"
 msgstr "Ваш пароль:"
 
@@ -3893,7 +3893,7 @@ msgstr "value='Сохранить' accesskey='s"
 msgid "view"
 msgstr "Просмотреть"
 
-#: twikiplugins/TWikiUserMappingContrib/data/TWiki/ResetPassword.txt:22
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:22
 msgid ""
 "you *must* have at least one valid registered e-mail to be able to reset "
 "your password. If none of your registered e-mail addresses is valid, and you "

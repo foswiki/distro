@@ -127,7 +127,7 @@ sub new {
     $this->{basemapping} = $implBaseUserMappingManager->new($session);
 
     my $implUserMappingManager = $TWiki::cfg{UserMappingManager};
-    $implUserMappingManager = 'TWiki::Users::TWikiUserMapping'
+    $implUserMappingManager = 'TWiki::Users::TopicUserMapping'
       if ( $implUserMappingManager eq 'none' );
 
     if ( $implUserMappingManager eq 'TWiki::Users::BaseUserMapping' ) {
@@ -458,7 +458,7 @@ sub getCanonicalUserID {
             # Finally see if it's a valid user wikiname
 
             # Strip users web id (legacy, probably specific to
-            # TWikiUserMappingContrib but may be used by other mappers
+            # TopicUserMappingContrib but may be used by other mappers
             # that support user topics)
             my ( $dummy, $nid ) =
               $this->{session}->normalizeWebTopicName( '', $identifier );

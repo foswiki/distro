@@ -74,7 +74,7 @@ sub finish {
 returns true if the password database is not currently modifyable
 also needs to call
 $this->{session}->enter_context('passwords_modifyable');
-if you want to be able to use the existing TWikiUserMappingContrib ChangePassword topics
+if you want to be able to use the existing TopicUserMappingContrib ChangePassword topics
 
 =cut
 

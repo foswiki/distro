@@ -1189,7 +1189,7 @@ sub _validateRegistration {
     }
 
     # Check if the login name is already registered
-    # luckily, we're only considering TWikiUserMapping cfg's
+    # luckily, we're only considering TopicUserMapping cfg's
     # there are several possible interpretations of 'already registered'
     # --- For setups with a PasswordManager...
     # on twiki.org, (allowloginname=off) means that if the user has an
