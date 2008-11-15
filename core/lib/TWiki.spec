@@ -306,7 +306,7 @@ $TWiki::cfg{DefaultUserLogin} = 'guest';
 
 # **STRING 20 EXPERT**
 # Guest user's wiki name. You are recommended not to change this.
-$TWiki::cfg{DefaultUserWikiName} = 'TWikiGuest';
+$TWiki::cfg{DefaultUserWikiName} = 'WikiGuest';
 
 # **STRING 20 EXPERT**
 # An internal admin user login name (matched with the configure password, if set)
@@ -372,8 +372,8 @@ $TWiki::cfg{AuthRealm} =
 #  TWiki::Users::TopicUserMapping - uses TWiki user and group topics to
 #  determine user information, and group memberships.
 # </li><li>
-#  TWiki::Users::BaseUserMapping - has only 2 users, {TWikiAdminUser} and
-#  {TWikiGuestUser}, with the Admins login and password being set from this
+#  TWiki::Users::BaseUserMapping - has only pseudo users such as {TWikiAdminUser} and
+#  {DefaultUserWikiName}, with the Admins login and password being set from this
 #  configure script. <b>Does not support User registration</b>, and
 #  only works with TemplateLogin.
 # </li></ol>
