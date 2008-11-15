@@ -36,7 +36,7 @@ data/Main/NobodyGroup.txt 0660
 data/Main/ProjectContributor.txt 0660
 data/Main/SitePreferences.txt 0660
 data/Main/AdminGroup.txt 0660
-data/Main/TWikiGroupTemplate.txt 0660
+data/Main/GroupTemplate.txt 0660
 data/Main/TWikiGroups.txt 0660
 data/Main/WikiGuest.txt 0660
 data/Main/RegistrationAgent.txt 0660

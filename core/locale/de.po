@@ -2260,7 +2260,7 @@ msgstr "Verwandte Topics"
 #: data/_default/WebNotify.txt:8
 #: templates/messages.tmpl:465
 #: templates/messages.tmpl:472
-#: twikiplugins/TopicUserMappingContrib/data/Main/TWikiGroupTemplate.txt:10
+#: twikiplugins/TopicUserMappingContrib/data/Main/GroupTemplate.txt:10
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:52
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:42
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:43

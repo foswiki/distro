@@ -15,7 +15,7 @@ data/Main/AdminGroup.txt 0644 TWiki compatible admin group
 data/Main/AdminGroup.txt 0644
 data/Main/UserHomepageHeader.txt 0644
 data/Main/UserListByLocation.txt 0644
-data/Main/TWikiGroupTemplate.txt 0644
+data/Main/GroupTemplate.txt 0644
 
 data/TWiki/TWikiRegistration.txt 0644
 data/TWiki/UsersTemplate.txt 0644 Default template for a new WikiUsers topic
