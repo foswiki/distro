@@ -15,7 +15,7 @@
    * <b>%MAKETEXT{"User Reference"}%</b>
    * BeginnersStartHere
    * TextFormattingRules
-   * TWikiVariables
+   * [[%SYSTEMWEB%.Macros][Macros]]
    * FormattedSearch
    * QuerySearch
    * DocumentGraphics

@@ -3,7 +3,7 @@
 
 These quick enhancements are aimed at improving and customising your TWiki.  New TWiki site administrators are especially encouraged to review this document for ideas before deploying a new TWikiSite. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
 
-Many of these tips are based on setting some special TWikiVariables.
+Many of these tips are based on setting some special [[Macros]].
 
 %S% We recommend implementing at least __some__ of these enhancements __right after installation__ to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
 
@@ -14,7 +14,7 @@ This may spark your imagination to *really* customize your site so that it's opt
 ---
 ---++ Tips using TWiki Variables
 
-TWikiVariables are a great resource to customize your site. You need to know the variable name and decide where to put it.
+[[Macros]] are a great resource to customize your site. You need to know the variable name and decide where to put it.
 
 ---+++ Change Colors of Page Header/Footer
 
@@ -135,7 +135,7 @@ __Here's a list of topics I've been involved in recently:__
 </verbatim>
 *End Copy*
 
-The SEARCH variable has many more formatting options, see TWikiVariables.
+The SEARCH variable has many more formatting options, see [[Macros]].
 
 ---+++ Recently changed pages 
 Here are the last 15 changed pages, formatted into a neat table.

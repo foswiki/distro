@@ -9,7 +9,7 @@ Some variables can take arguments in curly braces - for example, =%<nop>INCLUDE{
 
 Many TWiki variables are built-in, and others are predefined for your convenience. You can also define your own
 TWiki Variables at the entire site, individual web, or individual topic level. For more information,
-go to *[[TWikiVariables]]*
+go to *[[Macros]]*
 
 TWiki Variables are fully expanded _before_ any of the TWiki text formatting rules are applied.
 

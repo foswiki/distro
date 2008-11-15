@@ -26,11 +26,11 @@ WebHome
 ---+++ WW web.topic
 
 <verbatim>
-TWiki.TWikiVariables
+%SYSTEMWEB%.DefaultPreferences
 </verbatim>
 
-   * Core spaced out word: %SPACEOUT{"TWikiVariables"}%
-   * Plugin spaced out: TWiki.TWikiVariables
+   * Core spaced out word: %SPACEOUT{"DefaultPreferences"}%
+   * Plugin spaced out: %SYSTEMWEB%.DefaultPreferences
       * Testing if the T and W don't show a gap
    * Expected: <a href="#">TWiki Variables</a>
 

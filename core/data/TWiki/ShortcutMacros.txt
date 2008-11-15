@@ -11,6 +11,6 @@ Some macros are just shortcuts for longer sequences of characters, to either sav
 format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+.*?-- ([^\n\r]*).*) %$pattern(.*?\-\++ *([^ ]*).*)%" nonoise="on" }%
 
 __See also:__
-   * TWikiVariables - an alphabetical list of all variables
+   * [[%SYSTEMWEB%.Macros][Macros]] - an alphabetical list of all variables
    * DefaultPreferences#RenderingShortcuts - where shortcuts are defined 
    * TWikiShorthand - summary of the TWiki markup language

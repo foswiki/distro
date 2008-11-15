@@ -226,7 +226,7 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 |  16 Dec 2007: | 4.6: Kenneth Lavrsen: The plugin prevents TablePlugin from initsorting the table being edited. This is done by temporarily appending the attribute disableallsort="on" to the TABLE tag of a table being edited. Additionally all header sorting is disabled while editing a table by setting a hidden formfield =sort= to "off". Disabling sorting while editing is needed now that the EditTablePlugin supports moving rows up and down. |
 |  01 Dec 2007: | 4.3: Arthur Clemens: added support for TablePlugin =headerrows= and =footerrows=; updated edit button |
 |  16 Oct 2007: | 4.2: Arthur Clemens: refactoring, bug fixes. |
-|  07 Oct 2007: | 15182: PTh: Added %SYSTEMWEB%.VarEDITTABLE to have it listed in %SYSTEMWEB%.TWikiVariables |
+|  07 Oct 2007: | 15182: PTh: Added !VarEDITTABLE to have it listed in !TWikiVariables |
 |  15 Mar 2007: | Arthur Clemens: Fixed eating of double newlines; icons for javascript buttons and interface improvements. By default the javascript interface is turned off, set =JAVASCRIPTINTERFACE= to use it in edit mode. |
 |  05 Mar 2007: | Byron Darrah: Added ability to dynamically move and delete rows. |
 |  12 Oct 2006: | <a rel="nofollow" href="http://develop.twiki.org/~develop/cgi-bin/view/Bugs/Item2982">Item2982</a> Use default date format from JSCalendarContrib |

@@ -15,7 +15,7 @@ Don't let the reams of documentation fool you, it all boils down to: wiki means 
    * TextFormattingRules: The complete set of text formatting rules 
    * TextFormattingFAQ: Common how-to questions about posting in TWiki
 
-   * TWikiVariables: How to easily embed text, graphics, dynamic content 
+   * [[%SYSTEMWEB%.Macros][Macros]]: How to easily embed text, graphics, dynamic content 
 
    * MainFeatures: The main features of the TWiki collaboration platform
    * FileAttachments: Browser-upload files for distribution or display

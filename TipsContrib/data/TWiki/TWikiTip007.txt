@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
 ---+ Linking to a file attachment
 
-One can create a link to a file attachment using one of the following TWikiVariables, =%<nop>ATTACHURL%= or =%<nop>PUBURL%=.
+One can create a link to a file attachment using one of the following [[Macros]], =%<nop>ATTACHURL%= or =%<nop>PUBURL%=.
 
 =%<nop>ATTACHURL%= is the full URL for attachments in the current topic. For example:
 

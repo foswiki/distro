@@ -16,7 +16,7 @@ _Documentation for TWiki users._
       * GoodStyle: Working tips for an open collaboration environment
       * TWikiShorthand: All of the TWiki shorthand basics
       * TextFormattingRules: Scan all TWiki text formatting rules on one page
-      * TWikiVariables: How to easily embed text, graphics, dynamic content
+      * [[%SYSTEMWEB%.Macros][Macros]]: How to easily embed text, graphics, dynamic content
       * FileAttachments: Browser-upload files for distribution or display
       * WebChangesAlert: Get e-mail alerts linking to the latest page changes
       * GlossaryOfTerms: A simple glossary of terms
