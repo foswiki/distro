@@ -44,7 +44,7 @@ it includes:
       * TWiki.UserForm
       * TWiki.UsersTemplate
       * Main.UserHomepageHeader        
-      * TWiki.WikiUsersetting
+      * TWiki.UserSetting
       * Main.TWikiGroupTemplate        
 
 If you are developing a non-TWiki based User mapper, you might like to consider removeing or replacing the files installed by this Contrib.
