@@ -568,7 +568,7 @@ sub test_VariablePlaceholdersEdit {
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlTWikiWeb =
       TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
-    my $userName = $this->{users_web} . '.' . 'TWikiGuest';
+    my $userName = $this->{users_web} . '.' . 'WikiGuest';
 
     my $text = <<INPUT;
 %EDITTABLE{format="| text, 30, \$percntY\$percnt | text, 30, \$percntTOPIC\$percnt |"}%

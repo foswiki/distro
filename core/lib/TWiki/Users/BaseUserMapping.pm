@@ -30,7 +30,7 @@ prefix 'BaseUserMapping_'.
 
 ---++ Users
    * $TWiki::cfg{AdminUserLogin} - TWikiAdmin - uses the password that was set in Configure (IF its not null)
-   * $TWiki::cfg{DefaultUserLogin} - TWikiGuest
+   * $TWiki::cfg{DefaultUserLogin} - WikiGuest
    * UnknownUser
    * ProjectContributor - 1 Jan 2005
    * $TWiki::cfg{Register}{RegistrationAgentWikiName} - RegistrationAgent - 1 Jan 2005

@@ -280,7 +280,7 @@ sub test_42 {
     $this->simpleTest(
         test => "'"
           . TWiki::Func::getWikiName( $this->{twiki}->{user} )
-          . "' ingroup 'TWikiGuest'",
+          . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -293,7 +293,7 @@ sub test_42a {
           . TWiki::Func::wikiToUserName(
             TWiki::Func::getWikiName( $this->{twiki}->{user} )
           )
-          . "' ingroup 'TWikiGuest'",
+          . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -302,7 +302,7 @@ sub test_42a {
 sub test_42b {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $this->{twiki}->{user} . "' ingroup 'TWikiGuest'",
+        test => "'" . $this->{twiki}->{user} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -420,7 +420,7 @@ sub test_45b {
 sub test_46 {
     my $this = shift;
     $this->simpleTest(
-        test => "'%USERNAME%' ingroup 'TWikiGuest'",
+        test => "'%USERNAME%' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -456,7 +456,7 @@ sub test_49 {
 sub test_50 {
     my $this = shift;
     $this->simpleTest(
-        test => "'%USERINFO{format=\"\$username\"}%' ingroup 'TWikiGuest'",
+        test => "'%USERINFO{format=\"\$username\"}%' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -494,7 +494,7 @@ sub test_53 {
 sub test_54 {
     my $this = shift;
     $this->simpleTest(
-        test => "'%USERINFO{format=\"\$wikiname\"}%' ingroup 'TWikiGuest'",
+        test => "'%USERINFO{format=\"\$wikiname\"}%' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -532,7 +532,7 @@ sub test_57 {
 sub test_58 {
     my $this = shift;
     $this->simpleTest(
-        test => "'%USERINFO{format=\"\$wikiusername\"}%' ingroup 'TWikiGuest'",
+        test => "'%USERINFO{format=\"\$wikiusername\"}%' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -572,7 +572,7 @@ sub test_62 {
     $this->simpleTest(
         test => "'"
           . TWiki::Func::getWikiName( $this->{twiki}->{user} )
-          . "' ingroup 'TWikiGuest'",
+          . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -615,7 +615,7 @@ sub test_65 {
 sub test_66 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserWikiName} . "' ingroup 'TWikiGuest'",
+        test => "'" . $TWiki::cfg{AdminUserWikiName} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -658,7 +658,7 @@ sub test_70 {
     $this->simpleTest(
         test => "'"
           . $TWiki::cfg{DefaultUserWikiName}
-          . "' ingroup 'TWikiGuest'",
+          . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -699,7 +699,7 @@ sub test_73 {
 sub test_74 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'TWikiGuest'",
+        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -740,7 +740,7 @@ sub test_77 {
 sub test_78 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'TWikiGuest'",
+        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -781,7 +781,7 @@ sub test_81 {
 sub test_82 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'TWikiGuest'",
+        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -822,7 +822,7 @@ sub test_85 {
 sub test_86 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'TWikiGuest'",
+        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );

@@ -12,14 +12,14 @@ Look in %MAINWEB%.TWikiUsers - if your name is followed by a dash and a word, us
 
 e.g.
 
-   * !TWikiGuest - guest - 05 Sep 2004
+   * !WikiGuest - guest - 05 Sep 2004
 
-Would mean that !TWikiGuest would log in using the login name 'guest'
+Would mean that !WikiGuest would log in using the login name 'guest'
 
 If, on the other hand, if your entry is like this:
 
-   * !TWikiGuest - 05 Sep 2004
+   * !WikiGuest - 05 Sep 2004
 
-Then you would log in using your WikiName, in this case 'TWikiGuest'
+Then you would log in using your WikiName, in this case 'WikiGuest'
 
 __Related Topics for Administrators:__ ManagingUsers, UserDocumentationCategory

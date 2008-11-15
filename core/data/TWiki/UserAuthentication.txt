@@ -60,7 +60,7 @@ Login management controls the way users have to log in. There are three basic op
 #NoLogin
 ---+++ No Login (select =none=)
 
-Does exactly what it says on the tin. Forget about authentication to make your site completely public - anyone can browse and edit freely, in classic Wiki style. All visitors are given the %USERSWEB%.TWikiGuest default identity, so you can't track individual user activity.
+Does exactly what it says on the tin. Forget about authentication to make your site completely public - anyone can browse and edit freely, in classic Wiki style. All visitors are given the %USERSWEB%.WikiGuest default identity, so you can't track individual user activity.
 
 __%X% Note:__ This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.
 

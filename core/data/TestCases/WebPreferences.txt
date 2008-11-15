@@ -6,7 +6,7 @@
 
 	* Set BROADCASTMESSAGE = NOTE: This is the <nop>TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web, you can only create new topics. Any topics you _do_ create that are not checked into subversion may be deleted by anyone, at any time.
 
-The following settings are __web preferences__ of the <nop>%WEB% web. These preferences overwrite the __site-level preferences__ in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overwritten by __user preferences__ (your personal topic, i.e. %USERSWEB%.TWikiGuest in the %USERSWEB% web)
+The following settings are __web preferences__ of the <nop>%WEB% web. These preferences overwrite the __site-level preferences__ in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overwritten by __user preferences__ (your personal topic, i.e. %USERSWEB%.WikiGuest in the %USERSWEB% web)
 
 __Preferences:__
 

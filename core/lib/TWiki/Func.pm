@@ -880,7 +880,7 @@ sub wikinameToEmails {
 
 ---+++ isGuest( ) -> $boolean
 
-Test if logged in user is a guest (TWikiGuest)
+Test if logged in user is a guest (WikiGuest)
 
 *Since:* TWiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
@@ -2070,7 +2070,7 @@ Expand all common =%<nop>VARIABLES%=
    * =$topic= - Current topic name, e.g. ='WebNotify'=
    * =$web=   - Web name, optional, e.g. ='Main'=. The current web is taken if missing
    * =$meta=  - topic meta-data to use while expanding (Since TWiki::Plugins::VERSION 1.2)
-Return: =$text=     Expanded text, e.g. ='Current user is <nop>TWikiGuest'=
+Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
 
 *Since:* TWiki::Plugins::VERSION 1.000 (7 Dec 2002)
 

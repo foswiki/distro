@@ -6,7 +6,7 @@
 -->
 %SHORTDESCRIPTION%
 
-Example (only works if plugin is installed, and you are logged in (not %MAINWEB%.TWikiGuest)): %SUBSCRIBE%
+Example (only works if plugin is installed, and you are logged in (not %MAINWEB%.WikiGuest)): %SUBSCRIBE%
 
 ---++ Usage
 %INCLUDE{"VarSUBSCRIBE" section="subscribe_attributes"}%

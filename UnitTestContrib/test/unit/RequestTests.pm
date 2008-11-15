@@ -155,7 +155,7 @@ sub test_remoteAddress {
 sub test_remoteUser {
     my $this = shift;
     my $req = new TWiki::Request("");
-    foreach (qw(TWikiGuest guest foo bar Baz)) {
+    foreach (qw(WikiGuest guest foo bar Baz)) {
         $req->remoteUser($_);
         $this->assert_str_equals($_, $req->remoteUser, 'Wrong remoteUser value');
     }

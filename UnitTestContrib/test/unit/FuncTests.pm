@@ -667,7 +667,7 @@ sub test_eachChangeSince {
     $change = $it->next();
     $this->assert_str_equals("PiggleNut", $change->{topic});
     $this->assert_equals(2, $change->{revision});
-    $this->assert_equals('TWikiGuest', $change->{user});
+    $this->assert_equals('WikiGuest', $change->{user});
     $this->assert($it->hasNext());
     $change = $it->next();
     $this->assert_str_equals("ClutterBuck", $change->{topic});
@@ -681,7 +681,7 @@ sub test_eachChangeSince {
     $change = $it->next();
     $this->assert_str_equals("ClutterBuck", $change->{topic});
     $this->assert_equals(1, $change->{revision});
-    $this->assert_equals('TWikiGuest', $change->{user});
+    $this->assert_equals('WikiGuest', $change->{user});
     $this->assert(!$it->hasNext());
 
     $it = TWiki::Func::eachChangeSince($this->{test_web}, $mid);
@@ -689,7 +689,7 @@ sub test_eachChangeSince {
     $change = $it->next();
     $this->assert_str_equals("PiggleNut", $change->{topic});
     $this->assert_equals(2, $change->{revision});
-    $this->assert_equals('TWikiGuest', $change->{user});
+    $this->assert_equals('WikiGuest', $change->{user});
     $change = $it->next();
     $this->assert_str_equals("ClutterBuck", $change->{topic});
     $this->assert_equals(2, $change->{revision});

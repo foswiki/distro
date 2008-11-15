@@ -65,7 +65,7 @@ my $prereq = {
     'LWP::UserAgent' => { },
     'Getopt::Long' => { },
     'Pod::Usage' => { },
-    'LWP::UserAgent::TWiki::TWikiGuest' => { },
+    'LWP::UserAgent::TWiki::WikiGuest' => { },
 
     'WWW::Mechanize::TWiki' => { version => '0.08' },
     'WWW::Mechanize' => { },

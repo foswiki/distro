@@ -21,7 +21,7 @@ sub set_up {
     $this->{twiki}->{store}->saveTopic(
         $this->{test_user_cuid}, $this->{users_web},
         "GropeGroup",
-        "   * Set GROUP = ScumBag,TWikiGuest\n");
+        "   * Set GROUP = ScumBag,WikiGuest\n");
     $this->{twiki}->{store}->saveTopic(
         $this->{test_user_cuid}, $this->{test_web},
         "GlumDrop", "Burble\n");
@@ -67,7 +67,7 @@ sub test_thisWebVars {
     }
 }
 
-#the following 2 return with reasonable looking non-0, but with TWikiGuest as author - perhaps there's a bigger bug out there.
+#the following 2 return with reasonable looking non-0, but with WikiGuest as author - perhaps there's a bigger bug out there.
 sub BROKENtest_thisTopicVars {
     my $this = shift;
 

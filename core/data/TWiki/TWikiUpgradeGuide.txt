@@ -136,9 +136,9 @@ To change the location of favicon.ico to the TWiki web add this line to %USERSWE
 
 ---+++ !TWikiUsers topic in Main web
 
-Your Cairo [[Main.TWikiUsers][Main.TWikiUsers]] topic will work in TWiki4 but you will need to ensure that these 4 users from the default TWiki4 version of !TWikiUsers are copied to the existing !TWikiUsers topic. !TWikiGuest is probably already there but the others are new
+Your Cairo [[Main.TWikiUsers][Main.TWikiUsers]] topic will work in TWiki4 but you will need to ensure that these 4 users from the default TWiki4 version of !TWikiUsers are copied to the existing !TWikiUsers topic. !WikiGuest is probably already there but the others are new
    * *ProjectContributor* - placeholder for a TWiki developer, and is used in TWiki documentation
-   * *TWikiGuest* - guest user, used as a fallback if the user can't be identified
+   * *WikiGuest* - guest user, used as a fallback if the user can't be identified
    * *RegistrationAgent* - special user used during the new user registration process
    * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
 

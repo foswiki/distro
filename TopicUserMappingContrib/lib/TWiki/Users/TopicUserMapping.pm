@@ -1110,8 +1110,8 @@ sub _loadMapping {
 
             # Get the WikiNames and userids, and build hashes in both directions
             # This matches:
-            #   * TWikiGuest - guest - 10 Mar 2005
-            #   * TWikiGuest - 10 Mar 2005
+            #   * WikiGuest - guest - 10 Mar 2005
+            #   * WikiGuest - 10 Mar 2005
             $text =~
 s/^\s*\* (?:$TWiki::regex{webNameRegex}\.)?($TWiki::regex{wikiWordRegex})\s*(?:-\s*(\S+)\s*)?-.*$/(_cacheUser( $this, $1, $2)||'')/gome;
         }

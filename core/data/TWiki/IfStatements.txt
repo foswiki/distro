@@ -30,7 +30,7 @@ __Examples:__
 
 2. Compare TWiki variable
 <verbatim>
-You are %IF{ "$ WIKINAME='TWikiGuest' and not defined 'OPEN_DAY'" then="not" }% allowed to
+You are %IF{ "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'" then="not" }% allowed to
 %IF{ "context view" then="view" else="edit"}% this TWiki today.
 </verbatim>
 

@@ -42,8 +42,8 @@ sub analyseLogFile {
 			$pos->{total_number_of_requests}++;
 			
 			
-			if ( $user =~ /TWikiGuest/ ) {
-				$pos->{total_number_of_twikiguest_requests}++;
+			if ( $user =~ /WikiGuest/ ) {
+				$pos->{total_number_of_WikiGuest_requests}++;
 			}
 			if ( $oper =~ /view/ ) {
 				$pos->{total_number_of_views}++;
@@ -70,7 +70,7 @@ sub analyseLogFile {
         $log =~ s/%DATE%/$logTime/go;
 	my $total_number_of_requests = 0;
 	my $total_number_of_views = 0;
-	my $total_number_of_twikiguest_requests = 0;
+	my $total_number_of_WikiGuest_requests = 0;
 
 	my %pos;
 	if (-e 'twiki_seek.cfg' ) {
@@ -104,7 +104,7 @@ sub analyseLogFile {
 	   $timeRegex = $timeRegex.'^$)';
 	   
 #reset the important vars	   
-$pos{total_number_of_twikiguest_requests} = 0;
+$pos{total_number_of_WikiGuest_requests} = 0;
 $pos{total_number_of_requests} = 0;
 $pos{total_number_of_views} = 0;	   
 $pos{total_number_of_nonviews} = 0;	   
@@ -126,10 +126,10 @@ $pos{total_number_of_edits} = 0;
 
 
 
-#number of TWikiGuest requests
-print $pos{total_number_of_twikiguest_requests}."\n";
+#number of WikiGuest requests
+print $pos{total_number_of_WikiGuest_requests}."\n";
 #number of registered user requests
-print ($pos{total_number_of_requests}-$pos{total_number_of_twikiguest_requests});
+print ($pos{total_number_of_requests}-$pos{total_number_of_WikiGuest_requests});
 print "\n";
 #total number of views
 print $pos{total_number_of_views}."\n";

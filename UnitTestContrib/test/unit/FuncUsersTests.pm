@@ -195,9 +195,9 @@ sub verify_eachUser {
 
     my @correctList;
     if ($TWiki::cfg{UserMappingManager} eq 'TWiki::Users::BaseUserMapping') {
-         @correctList = qw/ProjectContributor TWikiGuest RegistrationAgent UnknownUser/;
+         @correctList = qw/ProjectContributor WikiGuest RegistrationAgent UnknownUser/;
     } else {
-         @correctList = qw/ProjectContributor TWikiGuest RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ/;
+         @correctList = qw/ProjectContributor WikiGuest RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ/;
          if ($TWiki::cfg{Register}{AllowLoginName} == 1) {
              push @correctList, 'ScumBag';      # this user is created in the base class with the assumption of AllowLoginName 
          } else {
@@ -326,7 +326,7 @@ sub verify_eachMembership {
     }
     $this->assert_str_equals('AandCGroup,BandCGroup', sort join(',', @list));
     
-    $it = TWiki::Func::eachMembership('TWikiGuest');
+    $it = TWiki::Func::eachMembership('WikiGuest');
     @list = ();
     while ($it->hasNext()) {
         my $g = $it->next();

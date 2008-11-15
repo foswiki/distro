@@ -16,11 +16,11 @@ Example:
 
 To space out WikiWords, write: 
 
-=%<nop>CALC{"$PROPERSPACE(<nop>TWikiGuest)"}%= 
+=%<nop>CALC{"$PROPERSPACE(<nop>WikiGuest)"}%= 
 
 to get:
 
-=%CALC{"$PROPERSPACE(TWikiGuest)"}%=
+=%CALC{"$PROPERSPACE(WikiGuest)"}%=
 
 [[SpreadSheetPlugin][More Information...]]
 

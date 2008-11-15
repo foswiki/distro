@@ -58,9 +58,9 @@ my $aurl; # Holds the %ATTACHURL%
 my $surl;# Holds the %SCRIPTURL%
 
 my $testtmpl1 = <<'HERE';
-%META:TOPICINFO{author="TWikiGuest" date="1124568292" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="WikiGuest" date="1124568292" format="1.1" version="1.2"}%
 
--- Main.TWikiGuest - 20 Aug 2005
+-- Main.WikiGuest - 20 Aug 2005
 
 %META:FORM{name="$testform"}%
 %META:FIELD{name="IssueName" attributes="M" title="Issue Name" value="_An issue_"}%
@@ -87,7 +87,7 @@ my $testform1 = <<'HERE';
 HERE
 
 my $testtext1 = <<'HERE';
-%META:TOPICINFO{author="TWikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="WikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
 Needs the following
    * TestFormInitFormA - Form to be attached
 Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edit</a>
@@ -95,7 +95,7 @@ Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edi
 HERE
 
 my $testtext2 = <<'HERE';
-%META:TOPICINFO{author="TWikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="WikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
 Needs the following
    * TestFormInitFormA - Form to be attached
 Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edit</a>
@@ -111,7 +111,7 @@ Then call <a href="%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%?formtemplate=$testform">Edi
 HERE
 
 my $testtext3 = <<'HERE';
-%META:TOPICINFO{author="TWikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
+%META:TOPICINFO{author="WikiGuest" date="1159721050" format="1.1" reprev="1.3" version="1.3"}%
 ...no text...
 %META:FORM{name="InitTestForm"}%
 %META:FIELD{name="IssueName" attributes="M" title="Issue Name" value="My first defect"}%

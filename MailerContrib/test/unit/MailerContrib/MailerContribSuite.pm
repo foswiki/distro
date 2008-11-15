@@ -80,7 +80,7 @@ sub set_up {
 
         # traditional subscriptions
         {
-            entry     => "$this->{users_web}.TWikiGuest - example\@example.com",
+            entry     => "$this->{users_web}.WikiGuest - example\@example.com",
             email     => "example\@example.com",
             topicsout => ""
         },

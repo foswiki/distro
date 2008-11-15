@@ -38,7 +38,7 @@ data/Main/SitePreferences.txt 0660
 data/Main/TWikiAdminGroup.txt 0660
 data/Main/TWikiGroupTemplate.txt 0660
 data/Main/TWikiGroups.txt 0660
-data/Main/TWikiGuest.txt 0660
+data/Main/WikiGuest.txt 0660
 data/Main/RegistrationAgent.txt 0660
 data/Main/TWikiUsers.txt 0660
 data/Main/UnknownUser.txt 0660

@@ -247,7 +247,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4854][Item4854]] | EditTablePlugin: undefined textarea size gives error in log |
 | [[%BUGS%/Item4848][Item4848]] | !EditTablePlugin textarea bug! |
 | [[%BUGS%/Item4846][Item4846]] | Installation process SNAFU if you don't set a configure PW |
-| [[%BUGS%/Item4819][Item4819]] | viewauth redirect loops to death when Main and TWiki webs both are view denied for !TWikiGuest |
+| [[%BUGS%/Item4819][Item4819]] | viewauth redirect loops to death when Main and TWiki webs both are view denied for !WikiGuest |
 | [[%BUGS%/Item4816][Item4816]] | !EditPreferences of !Main.TWikiPreferences broken |
 | [[%BUGS%/Item4807][Item4807]] | swap twikistyle and defaultstyle definitions |
 | [[%BUGS%/Item4797][Item4797]] | Online installer not resolving dependencies |

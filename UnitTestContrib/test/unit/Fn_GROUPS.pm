@@ -20,7 +20,7 @@ sub set_up {
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{users_web},
         "GropeGroup",
-        "   * Set GROUP = ScumBag,TWikiGuest\n");
+        "   * Set GROUP = ScumBag,WikiGuest\n");
 }
 
 sub test_basic {
@@ -31,8 +31,8 @@ sub test_basic {
     $this->assert_str_equals(<<HUMPH, "$ui\n");
 | *Group* | *Members* |
 | <nop>AdminGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
-| <nop>TWikiBaseGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.TWikiGuest][TWikiGuest]] [[TemporaryGROUPSUsersWeb.UnknownUser][UnknownUser]] [[TemporaryGROUPSUsersWeb.ProjectContributor][ProjectContributor]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
-| [[TemporaryGROUPSUsersWeb.GropeGroup][GropeGroup]] | [[TemporaryGROUPSUsersWeb.ScumBag][ScumBag]] [[TemporaryGROUPSUsersWeb.TWikiGuest][TWikiGuest]] |
+| <nop>TWikiBaseGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.WikiGuest][WikiGuest]] [[TemporaryGROUPSUsersWeb.UnknownUser][UnknownUser]] [[TemporaryGROUPSUsersWeb.ProjectContributor][ProjectContributor]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
+| [[TemporaryGROUPSUsersWeb.GropeGroup][GropeGroup]] | [[TemporaryGROUPSUsersWeb.ScumBag][ScumBag]] [[TemporaryGROUPSUsersWeb.WikiGuest][WikiGuest]] |
 HUMPH
 }
 

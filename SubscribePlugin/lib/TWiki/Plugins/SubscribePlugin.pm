@@ -167,4 +167,4 @@ This plugin supports a subscription button that, when embedded in a topic,
 will add the clicker to the WebNotify for that topic. It uses the API
 published by the MailerContrib to manage the subscriptions in WebNotify.
 
-TWikiGuest cannot be subscribed, only logged-in users.
+WikiGuest cannot be subscribed, only logged-in users.
