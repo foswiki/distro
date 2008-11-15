@@ -15,7 +15,7 @@ use TWiki::LoginManager;
 use TWiki::UI::View;
 use TWiki::UI::Edit;
 
-my $agent = 'RegistrationAgent';
+my $agent = $TWiki::cfg{Register}{RegistrationAgentWikiName};
 my $userLogin;
 my $userWikiName;
 my $user_id;

@@ -87,7 +87,6 @@ sub setup_new_session() {
 sub set_up_user {
     my $this = shift;
 
-    my $agent = 'RegistrationAgent';
     my $userLogin;
     my $userWikiName;
     my $user_id;
@@ -289,7 +288,7 @@ sub verify_BaseMapping_handleUser {
         $basemapping->handlesUser( undef, $TWiki::cfg{DefaultUserLogin} ) );
     $this->assert( $basemapping->handlesUser( undef, 'unknown' ) );
     $this->assert( $basemapping->handlesUser( undef, 'ProjectContributor' ) );
-    $this->assert( $basemapping->handlesUser( undef, 'RegistrationAgent' ) );
+    $this->assert( $basemapping->handlesUser( undef, $TWiki::cfg{Register}{RegistrationAgentWikiName} ) );
 
     $this->assert(
         $basemapping->handlesUser(
@@ -305,7 +304,7 @@ sub verify_BaseMapping_handleUser {
     $this->assert(
         $basemapping->handlesUser( undef, undef, 'ProjectContributor' ) );
     $this->assert(
-        $basemapping->handlesUser( undef, undef, 'RegistrationAgent' ) );
+        $basemapping->handlesUser( undef, undef, $TWiki::cfg{Register}{RegistrationAgentWikiName} ) );
 
     $this->assert(
         $basemapping->handlesUser(
@@ -328,7 +327,7 @@ sub verify_BaseMapping_handleUser {
     );
     $this->assert(
         $basemapping->handlesUser(
-            undef, 'RegistrationAgent', 'RegistrationAgent'
+            undef, $TWiki::cfg{Register}{RegistrationAgentWikiName}, $TWiki::cfg{Register}{RegistrationAgentWikiName}
         )
     );
 

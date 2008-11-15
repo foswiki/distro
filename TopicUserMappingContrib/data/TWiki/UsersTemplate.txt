@@ -49,4 +49,4 @@ __%X% Note:__ There are four default system users:
    * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
 
 __Access Control:__
-   * Set ALLOWTOPICCHANGE = TWikiAdminGroup, RegistrationAgent
+   * Set ALLOWTOPICCHANGE = TWikiAdminGroup

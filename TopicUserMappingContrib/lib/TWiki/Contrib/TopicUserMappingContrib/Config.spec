@@ -14,3 +14,7 @@ $TWiki::cfg{Register}{HidePasswd} = $TRUE;
 # Whether registrations must be verified by the user following
 # a link sent in an email to the user's registered email address
 $TWiki::cfg{Register}{NeedVerification} = $FALSE;
+
+# **STRING 20 EXPERT**
+# The internal user that creates user topics on new registrations. You are recommended not to change this.
+$TWiki::cfg{Register}{RegistrationAgentWikiName} = 'RegistrationAgent';

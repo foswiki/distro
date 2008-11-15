@@ -45,8 +45,6 @@ require TWiki;
 require TWiki::OopsException;
 require TWiki::Sandbox;
 
-my $agent = 'RegistrationAgent';
-
 # Keys from the user data that should *not* be included in
 # the user topic.
 my %SKIPKEYS = (
@@ -1000,7 +998,7 @@ sub _writeRegistrationDetailsToTopic {
     $meta->put( 'TOPICPARENT', { 'name' => $TWiki::cfg{UsersTopicName} } );
 
     $session->{store}->saveTopic(
-        $session->{users}->getCanonicalUserID($agent),
+        $session->{users}->getCanonicalUserID($TWiki::cfg{Register}{RegistrationAgentWikiName}),
         $TWiki::cfg{UsersWebName},
         $user, $text, $meta
     );

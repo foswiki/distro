@@ -173,7 +173,7 @@ sub verify_AddUsers {
     my $this = shift;
     my $ttpath =
 "$TWiki::cfg{DataDir}/$TWiki::cfg{UsersWebName}/$TWiki::cfg{UsersTopicName}.txt";
-    my $me = "RegistrationAgent";
+    my $me = $TWiki::cfg{Register}{RegistrationAgentWikiName};
 
     open( F, ">$ttpath" ) || $this->assert( 0, "open $ttpath failed" );
     print F $initial;
@@ -203,7 +203,7 @@ sub verify_AddUsers {
 sub verify_Load {
     my $this = shift;
 
-    my $me = "RegistrationAgent";
+    my $me = $TWiki::cfg{Register}{RegistrationAgentWikiName};
     $ttpath =
 "$TWiki::cfg{DataDir}/$TWiki::cfg{UsersWebName}/$TWiki::cfg{UsersTopicName}.txt";
 
@@ -254,7 +254,7 @@ sub verify_Load {
 
 sub groupFix {
     my $this = shift;
-    my $me   = "RegistrationAgent";
+    my $me   = $TWiki::cfg{Register}{RegistrationAgentWikiName};
     $twiki->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
     $twiki->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
     $twiki->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );
