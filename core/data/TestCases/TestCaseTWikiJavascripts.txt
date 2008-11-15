@@ -1,18 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 7490 $"}%
 
----+!! Unit tests for !TWikiJavascripts
+---+!! Unit tests for !JavascriptFiles
 
 These tests require TWiki:Plugins.JSUnitContrib to run.
 
 *[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%][Run tests]]*
 
 <script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikilib.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikilib.js"></script>
 
 %TOC%
 
 ---++ twiki.Array
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiArray.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiArray.js"></script>
 
 ---+++ twiki.Array.remove
 
@@ -114,7 +114,7 @@ These tests require TWiki:Plugins.JSUnitContrib to run.
 
 
 ---++ twiki.Form
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiForm.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiForm.js"></script>
 
 <form id="testForm" name="testForm">
 
@@ -231,7 +231,7 @@ These tests require TWiki:Plugins.JSUnitContrib to run.
 
 ---++ twiki.HTML
 
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiHTML.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiHTML.js"></script>
 
 
 ---+++ twiki.HTML.setHtmlOfElementWithId
@@ -565,7 +565,7 @@ These tests require TWiki:Plugins.JSUnitContrib to run.
 
 
 ---++ twiki.Window
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiWindow.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiWindow.js"></script>
 
 ---+++ twiki.Window.openPopup
 
@@ -624,7 +624,7 @@ These tests require TWiki:Plugins.JSUnitContrib to run.
 </script>
 
 ---++ twiki.Event
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiEvent.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiEvent.js"></script>
 
 ---+++ twiki.Event.addLoadEvent
 
@@ -666,7 +666,7 @@ twiki.Event.addLoadEvent("createTextNode");
 </script>
 
 ---++ twiki.Function
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiFunction.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiFunction.js"></script>
 
 ---+++ twiki.Function.extendClass
 <script language="javascript">
@@ -700,13 +700,13 @@ twiki.Event.addLoadEvent("createTextNode");
 
 
 ---++ twiki.Pref
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiPref.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiPref.js"></script>
 
 ---+++ twiki.Pref.setCookie, twiki.Pref.getCookie
 <script language="javascript">
 /*<![CDATA[*/
     function testGetSetCookieWithValidArgs() {
-    	var name = "TestCaseTWikiJavascriptsCookie1"; 
+    	var name = "TestCaseJavascriptFilesCookie1"; 
     	var value = "delightful";
     	var expiryDate = new Date();
     	expiryDate.setDate(expiryDate.getDate() + 1);
@@ -724,7 +724,7 @@ twiki.Event.addLoadEvent("createTextNode");
 <script language="javascript">
 /*<![CDATA[*/
     function testDeleteCookieWithValidArgs() {
-    	var name = "TestCaseTWikiJavascriptsCookie2"; 
+    	var name = "TestCaseJavascriptFilesCookie2"; 
     	var value = "enchanting";
     	var expiryDate = new Date();
     	expiryDate.setDate(expiryDate.getDate() + 1);
@@ -738,7 +738,7 @@ twiki.Event.addLoadEvent("createTextNode");
     }
     
     function testDeleteCookieWithInValidArgs() {
-    	var name = "TestCaseTWikiJavascriptsCookie3"; 
+    	var name = "TestCaseJavascriptFilesCookie3"; 
     	var value = "heavenly";
     	var expiryDate = new Date();
     	expiryDate.setDate(expiryDate.getDate() + 1);
@@ -758,7 +758,7 @@ twiki.Event.addLoadEvent("createTextNode");
 <script language="javascript">
 /*<![CDATA[*/
     function testSetPrefWithValidArgs() {
-    	var prefName = "TestCaseTWikiJavascriptsPref1";
+    	var prefName = "TestCaseJavascriptFilesPref1";
     	var value = "a battuta";
 		twiki.Pref.setPref(prefName, value);
 		var retrievedValue = twiki.Pref.getPref(prefName);
@@ -772,7 +772,7 @@ twiki.Event.addLoadEvent("createTextNode");
 <script language="javascript">
 /*<![CDATA[*/
 	function testGetPrefListWithValidArgs() {
-		var prefName = "TestCaseTWikiJavascriptsPref2";
+		var prefName = "TestCaseJavascriptFilesPref2";
     	var value = "a capella";
 		twiki.Pref.setPref(prefName, value);
 		var prefList = twiki.Pref.getPrefList();
@@ -784,7 +784,7 @@ twiki.Event.addLoadEvent("createTextNode");
 </script>
 
 ---++ twiki.CSS
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiCSS.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiCSS.js"></script>
 
 ---+++ twiki.CSS.removeClass, twiki.CSS.getClassList
 
@@ -875,7 +875,7 @@ twiki.Event.addLoadEvent("createTextNode");
 
 
 ---++ twiki.String
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiString.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiString.js"></script>
 
 ---+++ twiki.String.isWikiWord
 <script language="javascript">
@@ -1074,7 +1074,7 @@ twiki.Event.addLoadEvent("createTextNode");
 
 
 ---++ twiki.String (unicode chars)
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiStringUnicodeChars.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiStringUnicodeChars.js"></script>
 
 ---+++ twiki.String.makeWikiWord
 <script language="javascript">

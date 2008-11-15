@@ -38,7 +38,7 @@ var dom = (document.getElementById) ? true : false;
 
 // More international characters in unicode_chars.js
 // Import file when international support is needed:
-// <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/unicode_chars.js"></script>
+// <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/unicode_chars.js"></script>
 // unicode_chars.js will overwrite the regexes below
 
 // Info on unicode: http://www.fileformat.info/info/unicode/

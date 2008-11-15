@@ -5,8 +5,8 @@
 
 %TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
 
-%TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twikiPref.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/twiki_edit.js"></script>
+%TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/twikiPref.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/twiki_edit.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
 <script>
 twiki.Event.addLoadEvent(initForm);

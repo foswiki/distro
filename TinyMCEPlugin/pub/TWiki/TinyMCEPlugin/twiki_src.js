@@ -65,7 +65,7 @@ function initTextAreaStyles() {
 
 /**
 Disables the use of ESCAPE in the edit box, because some browsers will interpret this as cancel and will remove all changes.
-Copied from TWiki.TWikiJavascripts/twiki_edit.js because it is used in
+Copied from TWiki.JavascriptFiles/twiki_edit.js because it is used in
 pickaxe mode.
 */
 function handleKeyDown(e) {
@@ -78,7 +78,7 @@ function handleKeyDown(e) {
 
 /**
 Provided for use by editors that need to validate form elements before
-navigating away. Duplicated from TWikiJavascripts/twiki_edit.js to resolve Item5514
+navigating away. Duplicated from JavascriptFiles/twiki_edit.js to resolve Item5514
 */
 function validateTWikiMandatoryFields(event) {
     if (twiki.Pref.validateSuppressed) {
@@ -119,7 +119,7 @@ function validateTWikiMandatoryFields(event) {
 /**
 Used to dynamically set validation suppression, depending on which submit
 button is pressed (i.e. call this n 'Cancel').
-Duplicated from TWikiJavascripts/twiki_edit.js to resolve Item5514
+Duplicated from JavascriptFiles/twiki_edit.js to resolve Item5514
 */
 function suppressTWikiSaveValidation() {
     twiki.Pref.validateSuppressed = true;

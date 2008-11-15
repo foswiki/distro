@@ -4,8 +4,8 @@
 %{"hide page top controls"}%
 %TMPL:DEF{"top"}%%TMPL:END%
 
-%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiString.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TWikiJavascripts/unicode_chars.js"></script>
+%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiString.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/unicode_chars.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 function openTemplateWindow () {

@@ -111,9 +111,9 @@ sub _addHeader {
 @import url("%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.css");
 </style>
 <script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js'></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikilib.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiPref.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TWikiJavascripts/twikiCSS.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikilib.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiPref.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiCSS.js"></script>
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.compressed.js"></script>
 <script type="text/javascript">
 // <![CDATA[

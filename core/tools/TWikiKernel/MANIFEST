@@ -116,6 +116,7 @@ data/TWiki/IncludeTopicsAndWebPages.txt 0660
 data/TWiki/InstallationGuide.txt 0660
 data/TWiki/InstalledPlugins.txt 0660
 data/TWiki/InstantEnhancements.txt 0660
+data/TWiki/JavascriptFiles.txt 0660
 data/TWiki/LoginName.txt 0660
 data/TWiki/Macros.txt 0660
 data/TWiki/MainFeatures.txt 0660
@@ -154,7 +155,6 @@ data/TWiki/StaticMethod.txt 0660
 data/TWiki/TemplatesTopics.txt 0660
 data/TWiki/TwentyMinuteTutorial.txt 0660
 data/TWiki/TWiki.txt 0660
-data/TWiki/TWikiJavascripts.txt 0660
 data/TWiki/TWikiMetaData.txt 0660
 data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660
@@ -527,6 +527,11 @@ pub/TWiki/BeginnersStartHere/SAP_logo.gif 0660
 pub/TWiki/BeginnersStartHere/Motorola_logo.gif 0660
 pub/TWiki/FileAttachment/Sample.txt 0660
 pub/TWiki/FileAttachment/Smile.gif 0660
+pub/TWiki/JavascriptFiles/twiki.js 0660
+pub/TWiki/JavascriptFiles/twiki_attach.js 0660
+pub/TWiki/JavascriptFiles/twiki_edit.js 0660
+pub/TWiki/JavascriptFiles/twiki_renamebase.js 0660
+pub/TWiki/JavascriptFiles/twiki_renamedelete.js 0660
 pub/TWiki/PlainSkin/fullscreen.gif 0660
 pub/TWiki/PlainSkin/screenshot.gif 0660
 pub/TWiki/PreviewBackground/blankltgraybg.gif 0660
@@ -570,11 +575,6 @@ pub/TWiki/ProjectLogos/T-logo-88x31-t.gif 0660
 pub/TWiki/ProjectLogos/T-logo-88x31.png 0660
 pub/TWiki/ProjectLogos/T-logo.svg 0660
 pub/TWiki/ProjectLogos/favicon.ico 0660
-pub/TWiki/TWikiJavascripts/twiki.js 0660
-pub/TWiki/TWikiJavascripts/twiki_attach.js 0660
-pub/TWiki/TWikiJavascripts/twiki_edit.js 0660
-pub/TWiki/TWikiJavascripts/twiki_renamebase.js 0660
-pub/TWiki/TWikiJavascripts/twiki_renamedelete.js 0660
 pub/TWiki/WabiSabi/wabisabi.gif 0660
 pub/TWiki/WebPreferences/favicon.ico 0660
 pub/TWiki/WebPreferences/logo.gif 0660
