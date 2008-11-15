@@ -1,10 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarWIKIHOMEURL
 ---+++ WIKIHOMEURL -- site home URL
    * Syntax =%<nop>WIKIHOMEURL%=
    * Expands to =%WIKIHOMEURL%=
    * Defined in %SYSTEMWEB%!.DefaultPreferences and normally per default set to =%<nop>SCRIPTURLPATH{"view"}%=
    * __%X% Note:__ For the top bar logo URL use =%<nop>WIKILOGOURL%= defined in WebPreferences instead.
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarVarWIKITOOLNAME][WIKITOOLNAME]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVarWIKITOOLNAME][WIKITOOLNAME]]
 

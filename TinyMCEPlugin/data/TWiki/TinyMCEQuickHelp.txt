@@ -33,7 +33,7 @@
 <ul>
 <li> Just type it in. When the topic is saved, what you type will be saved just as you wrote it.  </li>
 <li> If any part of your variable parameters is sensitive to spacing, then select the entire TWiki variable and assign the ==PROTECTED== style to it before you save. </li></ul>
-<span class="twikiUnvisited">[[%SYSTEMWEB%.TWikiVariables][More on TWiki variables]]</span>
+<span class="twikiUnvisited">[[%SYSTEMWEB%.Macros][More on Macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
 <ul>

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1217292809" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarEDITACTION
 ---+++ EDITACTION -- Selects an edit template
 

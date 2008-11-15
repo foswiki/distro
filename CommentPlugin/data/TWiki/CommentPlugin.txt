@@ -213,7 +213,7 @@ Note that these position tags are obviously mutually exclusive. If you define mo
 
 	 | =%<nop>COMMENTPROMPT%= | Use with a custom form. If present, the comment prompt will be positioned here. |
 	 
-All the usual TWikiVariables that can be used in a topic template can also be used in an =OUTPUT= template. See %SYSTEMWEB%.TWikiVariables for details.
+All the usual [[%SYSTEMWEB%.Macros][Macros]] that can be used in a topic template can also be used in an =OUTPUT= template. See [[%SYSTEMWEB%.Macros][Macros]] for details.
 
 ---++ Settings
 <!-- required for compatibility

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1158898025" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarREVINFO2
 ---+++ REVINFO{"format"} -- formatted revision information of topic
    * Syntax: =%<nop>REVINFO{"format"}%=
@@ -20,6 +20,6 @@
      | =$date= | Revision date. Actual date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]] | =21 Sep 2006= |
      | =$time= | Revision time | =23:24:25= |
      | =$iso= | Revision date in ISO date format | =2006-09-22T06:24:25Z= |
-     | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarGMTIME2][GMTIME{"format"}]] | |
+     | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME2][GMTIME{"format"}]] | |
    * Example: =%<nop>REVINFO{"$date - $wikiusername" rev="1.1"}%= returns revision info of first revision
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarGMTIME2][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarREVINFO][REVINFO]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME2][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]]

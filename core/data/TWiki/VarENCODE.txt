@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167874036" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarENCODE
 ---+++ ENCODE{"string"} -- encodes a string to HTML entities
    * Encode "special" characters to HTML numeric entities. Encoded characters are:
@@ -18,5 +18,5 @@
    * __%X% Note:__ Values of HTML input fields must be entity encoded.%BR% Example: =&lt;input type="text" name="address" value="%<nop>ENCODE{ "any text" type="entity" }%" /&gt;=
    * __%X% Note:__ Double quotes in strings must be escaped when passed into other TWiki variables.%BR% Example: =%<nop>SEARCH{ "%<nop>ENCODE{ "string with "quotes"" type="quotes" }%" noheader="on" }%=
 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarURLPARAM][URLPARAM]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarURLPARAM][URLPARAM]]
 

@@ -15,7 +15,7 @@ Create a separator - a horizontal rule - by entering three dashes at the beginni
 ---+++ How do I create a heading?
 
 You can create six sizes of headings - &lt;h1&gt;...&lt;h6&gt; in HTML - by typing, from the beginning of a line, three dashes (-), from one to six plus signs (+), a space, and your heading text. The FAQ questions on this page are created with: =---+++ Have a question?=.
-   * You can insert a nested table of contents, generated from headings, by placing =%<nop>TOC%= wherever you like on a page (see %SYSTEMWEB%.TWikiVariables for more =%<nop>TOC%= options).
+   * You can insert a nested table of contents, generated from headings, by placing =%<nop>TOC%= wherever you like on a page (see [[Macros]] for more =%<nop>TOC%= options).
 
 -----
 #TextEnclosed

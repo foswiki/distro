@@ -153,7 +153,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Plugin Version: | 02 Aug 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  02 Aug 2008: | Fixed corruption of preview |
-|  29 Sep 2007: | Added %SYSTEMWEB%.VarSLIDESHOWSTART and %SYSTEMWEB%.VarSLIDESHOWEND to have them listed in %SYSTEMWEB%.TWikiVariables |
+|  29 Sep 2007: | Added %SYSTEMWEB%.VarSLIDESHOWSTART and %SYSTEMWEB%.VarSLIDESHOWEND to have them listed in %SYSTEMWEB%.Macros |
 |  12 Feb 2007: | fixed construction of view urls (TWiki:Main/MichaelDaum) |
 |  19 Nov 2006: | 12011: Preserve URL parameters in slideshow (suggested by TWiki:Main/ThomasWeigert); changed logo in default template to T-logo; fixed warning errors introduced by 1.005 |
 |  16 Mar 2005: | 1.005 Crawford Currie prepped for Dakar, and fixed multiple evaluation bug |

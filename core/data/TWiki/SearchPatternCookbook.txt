@@ -402,5 +402,5 @@ to get this (limited to 10 results):
 
 Moved topics: %SEARCH{ "%META\:TOPICMOVED" type="regex" format="$topic, " nosearch="on" noheader="on" nosummary="on" limit="10"}%
 
-__Related Topics:__ UserDocumentationCategory, SearchHelp, TWikiVariables#VarSEARCH, FormattedSearch, RegularExpression
+__Related Topics:__ UserDocumentationCategory, SearchHelp, [[Macros]], FormattedSearch, RegularExpression
 

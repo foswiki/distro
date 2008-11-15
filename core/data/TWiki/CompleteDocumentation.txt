@@ -38,7 +38,7 @@ __Related Topics:__ TWikiSite, ReleaseHistory, EnhancementRequests, UserDocument
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiVariables"}%
+%INCLUDE{"Macros"}%
 
 [[#PageTop][Back to top]]
 

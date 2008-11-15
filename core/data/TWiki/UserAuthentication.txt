@@ -131,7 +131,7 @@ The ==bin/logon== script enables this. If you are using Apache Login, the ==bin/
 
 You don't _have_ to enable sessions to support logins in %WIKITOOLNAME%. However it is *strongly* recommended. %WIKITOOLNAME% needs some way to remember the fact that you logged in from a particular browser, and it uses sessions to do this. If you don;t enable sessions, %WIKITOOLNAME% will try hard to remember you, but due to limitations in the browsers it may also forget you (and then suddenly remember you again later!). So for the best user experience, you should enable sessions.
 
-There are a number of TWikiVariables available that you can use to interrogate your current session. You can even add your own session variables to the %WIKITOOLNAME% cookie. Session variables are referred to as "sticky" variables.
+There are a number of [[%SYSTEMWEB%.Macros][Macros]] available that you can use to interrogate your current session. You can even add your own session variables to the %WIKITOOLNAME% cookie. Session variables are referred to as "sticky" variables.
 
 ---+++ Getting, Setting, and Clearing Session Variables
 

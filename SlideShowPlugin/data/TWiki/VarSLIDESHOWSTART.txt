@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1191133809" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarSLIDESHOWSTART
 ---+++ SLIDESHOWSTART -- convert a topic with headings into a slideshow
    * The =%<nop>SLIDESHOWSTART%= variable is handled by the SlideShowPlugin

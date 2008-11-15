@@ -360,7 +360,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Plugin Version: | 15 Jan 2008 (2.0) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  15 Jan 2008: | 2.0: Kenneth Lavrsen. No more reporting warnings in the error log when a render list starts at deeper level than 1 | 
-|  30 Sep 2007: | Added %SYSTEMWEB%.VarRENDERLIST to have it listed in %SYSTEMWEB%.TWikiVariables |
+|  30 Sep 2007: | Added %SYSTEMWEB%.VarRENDERLIST to have it listed in [[%SYSTEMWEB%.Macros][Macros]] |
 |  23 Sep 2006: | Support for img tag and image URL after =icon:= (suggested by TWiki:Main.JanFilipsky); support for %SYSTEMWEB%.DocumentGraphics icons, such as =%<nop>ICON{folder}%= instead of =icon:folder=; added files.gif and folders.gif (contributed by TWiki:Main.SteveHobbs) |
 |  25 Apr 2006: | SVN sync, Cairo + Dakar compatibility |
 |  14 Apr 2006: | [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00][TWikiRelease04x00]] compatibility update |

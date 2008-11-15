@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarNOP
 ---+++ NOP -- template text not to be expanded in instantiated topics
    * Syntax: =%<nop>NOP%=
@@ -8,5 +8,5 @@
    * Syntax: =%<nop>NOP{...}%= *deprecated*
       * In normal topic text, expands to whatever is in the curly braces (if anything).
       * __%X% Note:__ This is deprecated. Do not use it. Use =%<nop>STARTSECTION{type="templateonly"}%= .. =%<nop>ENDSECTION{type="templateonly"}%= instead (see TemplateTopics for more details).
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSTARTSECTION][STARTSECTION]], TemplateTopics
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], TemplateTopics
 

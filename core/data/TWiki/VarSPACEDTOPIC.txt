@@ -1,10 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarSPACEDTOPIC
 ---+++ SPACEDTOPIC -- topic name, spaced and URL-encoded *deprecated*
    * The current topic name with added URL-encoded spaces, for use in regular expressions that search for backlinks to the current topic
    * Syntax: =%<nop>SPACEDTOPIC%=
    * Expands to: =%SPACEDTOPIC%=
    * __%X% Note:__ This is a deprecated variable. It can be duplicated with =%<nop>ENCODE{%<nop>SPACEOUT{"%<nop>TOPIC%" separator=" *"}%}%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSPACEOUT][SPACEOUT]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarTOPIC][TOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarENCODE][ENCODE]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSPACEOUT][SPACEOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]]
 

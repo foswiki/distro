@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarINCLUDE
 ---+++ QUERYPARAMS -- show paramaters to the query
    * Expands the parameters to the query that was used to display the page.
@@ -16,4 +16,4 @@
 
    * Example:
       * =%<nop>QUERYPARAMS{format="&lt;input type='hidden' name='$name' value='$value' encoding="entity" />"}%=
-   * See also [[VarQUERYSTRING][QUERYSTRING]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarURLPARAM][URLPARAM]]
+   * See also [[VarQUERYSTRING][QUERYSTRING]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarURLPARAM][URLPARAM]]

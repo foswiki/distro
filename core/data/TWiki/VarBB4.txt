@@ -5,4 +5,4 @@
    * Line break and bullet, level 4.
    * Type: ShortcutMacro
    * Current value: BB4 = %BB4%
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarVBAR][VBAR]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBULLET][BULLET]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVBAR][VBAR]]

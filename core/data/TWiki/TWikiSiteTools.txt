@@ -13,7 +13,7 @@ TWiki Site Tools include utilities for navigating, searching and keeping up with
 
 Each TWiki web has an automatic e-mail alert service that sends a list of recent changes on a preset schedule, like once a day. Users can subscribe and unsubscribe using %NOTIFYTOPIC% in each web. The Perl script =mailnotify= is called by a background process at regular intervals. The script sends an automated e-mail to subscribed users if topics were changed in a web since the script was last run.
 
-   * You can create a WebNotify link using TWikiVariables with ==%<nop>NOTIFYTOPIC%==
+   * You can create a WebNotify link using [[%SYSTEMWEB%.Macros][Macros]] with ==%<nop>NOTIFYTOPIC%==
 
 %INCLUDE{"WebChangesAlert"}%
 
@@ -29,7 +29,7 @@ WebSearch is an extremely fast and flexible search facility, part of the core TW
    * index-style A-Z alphabetical listing sorted topic title
    * many more
 
-See also: SearchHelp for help; TWikiVariables and FormattedSearch for including hard-coded searches in text.
+See also: SearchHelp for help; [[%SYSTEMWEB%.Macros][Macros]] and FormattedSearch for including hard-coded searches in text.
 
 #WebChanges
 ---++ <nop>WebChanges - what's new
@@ -64,7 +64,7 @@ WebIndex lists all web topics in alphabetical order, with the first couple of li
 
 You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. Compiled as a running total on a monthly basis. Includes totals for Topic Views, Topic Saves, Attachment Uploads, Most Popular Topics with number of views, and Top Contributors showing total of saves and attachment uploads. Previous months are saved.
 
-   * You can create a WebStatistics link using TWikiVariables with ==%<nop>STATISTICSTOPIC%==
+   * You can create a WebStatistics link using [[%SYSTEMWEB%.Macros][Macros]] with ==%<nop>STATISTICSTOPIC%==
 
 ---+++ Configuring for automatic operation
 

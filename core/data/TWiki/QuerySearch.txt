@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1168735492" format="1.1" version="$Rev: 12524 $"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
 ---+ Query Search
 

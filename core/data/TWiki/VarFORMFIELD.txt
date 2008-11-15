@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarFORMFIELD
 ---+++ FORMFIELD{"fieldname"} -- renders a field in the form attached to some topic
    * Syntax: =%<nop>FORMFIELD{"fieldname"}%=
@@ -11,5 +11,5 @@
      | =default="..."= | Text shown when no value is defined for the field | =""= |
      | =alttext="..."= | Text shown when field is not found in the form | =""= |
    * Example: =%<nop>FORMFIELD{"<nop>ProjectName" topic="Projects.<nop>SushiProject" default="(not set)" alttext="<nop>ProjectName field found"}%= 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
 

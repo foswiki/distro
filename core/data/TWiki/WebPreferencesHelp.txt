@@ -3,7 +3,7 @@
       * S<nop>et WEBBGCOLOR = #FFFFC0
    * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
       * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser
-   * Preferences are used as [[%SYSTEMWEB%.TWikiVariables][TWikiVariables]] by enclosing the name in percent signs. Example:
+   * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs. Example:
       * When you write variable =%WEB<nop>BGCOLOR%= , it gets expanded to =%WEBBGCOLOR%=
    * The sequential order of the preference settings is significant. Define preferences that use other preferences first, i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= variable.
    * You can introduce your own preferences variables and use them in your topics and templates.
@@ -11,7 +11,7 @@
 ---++ Related Topics
    * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]], [[%LOCALSITEPREFS%]] - site-level preferences
    * [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] - list of user topics. User topics can have optional user preferences
-   * [[%SYSTEMWEB%.TWikiVariables][TWikiVariables]] - list of common =%<nop>VARIABLES%=
+   * [[%SYSTEMWEB%.Macros][Macros]] - list of common Macros
    * [[%SYSTEMWEB%.AccessControl][AccessControl]] - explains how to restrict access by users or groups
 
 ---++ Tools

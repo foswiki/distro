@@ -1,9 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarREVINFO
 ---+++ REVINFO -- revision information of current topic
    * Syntax: =%<nop>REVINFO%=
    * Expands to: <code>%REVINFO%</code>
    * Date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]] 
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarREVINFO2][REVINFO{"format"}]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO2][REVINFO{"format"}]]
 

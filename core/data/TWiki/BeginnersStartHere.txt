@@ -219,7 +219,7 @@ TWiki understands pages in plain text just fine, but you can %RED% __jazz__ %END
    * An ordinary URL pasted into text will appear as a link - http://www.google.com
       * You can also prettify URLs using square brackets:
          * <code>[<nop>[http://www.google.com/][Google]]</code> appears as [[http://www.google.com/][Google]]
-   * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See %SYSTEMWEB%.TWikiVariables for full details.
+   * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[Macros]] for full details.
 
 ---++ More formatting
    * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.TextFormattingFAQ

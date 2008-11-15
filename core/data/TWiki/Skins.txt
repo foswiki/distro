@@ -107,7 +107,7 @@ Because ClassicSkin and the default templates use the same Template definition n
 
 ---++ Variables in Skins
 
-You can use [[TemplateTopics#TemplateVariables][template variables]], TWikiVariables, and other predefined variables to compose your skins. Some commonly used variables in skins:
+You can use [[TemplateTopics#TemplateVariables][template variables]], [[Macros]], and other predefined variables to compose your skins. Some commonly used variables in skins:
 
 | *Variable:* | *Expanded to:* |
 | =%<nop>WEBLOGONAME%= | Filename of web logo |
@@ -218,7 +218,7 @@ You can try out all installed skins in the TWikiSkinBrowser.
 
 ---++ Activating Skins
 
-TWiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of TWikiVariables and URL parameters.
+TWiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[Macros]] and URL parameters.
 
 TWiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
 

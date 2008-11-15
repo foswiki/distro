@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarTABLE
 ---+++ TABLE{ _attributes_ } -- control attributes of tables and sorting of table columns
    * The =%<nop>TABLE{}%= variable is handled by the TablePlugin

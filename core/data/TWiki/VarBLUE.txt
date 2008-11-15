@@ -6,4 +6,4 @@
    * Syntax: =%<nop>BLUE% blue text %<nop>ENDCOLOR%=
    * Expands to: %BLUE% blue text %ENDCOLOR%
    * __Note:__ =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDCOLOR][ENDCOLOR]], [[DefaultPreferences#RenderingShortcuts][DefaultPreferences]], StandardColors

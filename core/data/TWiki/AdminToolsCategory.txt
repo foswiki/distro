@@ -3,7 +3,7 @@
 Manage whole <b>TWiki</b> site from one screen.
 
    * %ICON{help}% Documentation: [[ReferenceManual][Reference Manual]]
-   * %ICON{wrench}% [[TWikiSiteTools][Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[TWikiVariables][Variables]], [[DocumentGraphics][Doc Graphics]]
+   * %ICON{wrench}% [[TWikiSiteTools][Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]]
    * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[TWikiRegistration][Register]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]], YouAreHere
    * %ICON{folder}% Webs:

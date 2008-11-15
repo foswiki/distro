@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarMETASEARCH
 ---+++ METASEARCH -- special search of meta data
    * Syntax: =%<nop>METASEARCH{...}%=
@@ -8,23 +8,23 @@
      | =type="topicmoved"= | What sort of search is required? <br /> ="topicmoved"= if search for a topic that may have been moved <br /> ="parent"= if searching for topics that have a specific parent i.e. its children <br /> ="field"= if searching for topics that have a particular form field value (use the =name= and =value= parameters to specify which field to search) | Required |
      | =web="%<nop>WEB%"= | Wiki web to search: A web, a list of webs separated by whitespace, or =all= webs. | Current web |
      | =topic="%<nop>TOPIC%"= | The topic the search relates to, for =topicmoved= and =parent= searches | All topics in a web |
-     | =name= | form field to search, for =field= type searches. May be a regular expression (see [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]]). | |
-     | =value= | form field value, for =field= type searches. May be a regular expression (see [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]]). | |
+     | =name= | form field to search, for =field= type searches. May be a regular expression (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]). | |
+     | =value= | form field value, for =field= type searches. May be a regular expression (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]). | |
      | =title="Title"= | Text that is prefixed to any search results | empty |
-     | =format="..."= | Custom format results. Supports same format strings as [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]]. See *[[FormattedSearch]]* for usage, variables &amp; examples | Results in table |
+     | =format="..."= | Custom format results. Supports same format strings as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]. See *[[FormattedSearch]]* for usage, variables &amp; examples | Results in table |
      | =default="none"= | Default text shown if no search hit | Empty |
    * Example: =%<nop>METASEARCH{type="topicmoved" web="%<nop>WEB%" topic="%<nop>TOPIC%" title="This topic used to exist and was moved to: "}%=
    * Example: You may want to use this in WebTopicViewTemplate and WebTopicNonWikiTemplate:<br /> =%<nop>METASEARCH{type="parent" web="%<nop>WEB%" topic="%<nop>TOPIC%" title="Children: "}%=
    * Example: =%<nop>METASEARCH{type="field" name="Country" value="China"}%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarMETA][META]]
-   * __%X% Note:__ METASEARCH is deprecated in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETA][META]]
+   * __%X% Note:__ METASEARCH is deprecated in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.
 
 %STOPINCLUDE%
 
 __Related Topics:__ UserDocumentationCategory
 %META:TOPICINFO{author="ProjectContributor" date="1130377817" format="1.1" version="$Rev: 8869 $"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
-__Note:__ This topic is included by TWikiVariables
+%META:TOPICPARENT{name="Macros"}%
+__Note:__ This topic is included by [[Macros]]
 
 -----
 %STARTSECTION{type="include"}%

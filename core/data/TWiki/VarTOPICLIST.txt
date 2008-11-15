@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiVariables"}%
+%META:TOPICPARENT{name="Macros"}%
 #VarTOPICLIST
 ---+++ TOPICLIST{"format"} -- topic index of a web
    * List of all topics in a web. The "format" defines the format of one topic item. It may include variables: The =$topic= variable gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
@@ -16,5 +16,5 @@
    * Example: =%<nop>TOPICLIST{separator=", "}%= creates a comma separated list of all topics
    * Example: =%<nop>TOPICLIST{" &lt;option&gt;$topic&lt;/option&gt;"}%= creates an option list (for drop down menus)
    * Example: =&lt;select&gt;%<nop>TOPICLIST{" &lt;option $marker value='$topic'&gt;$topic&lt;/option&gt;" separator=" " selection="%<nop>TOPIC%"}%&lt;/select&gt;= creates an option list of web topics with the current topic selected
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarWEBLIST][WEBLIST]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
 
