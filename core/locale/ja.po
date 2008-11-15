@@ -1419,10 +1419,10 @@ msgstr ""
 
 #: templates/settings.tmpl:26
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
-"<a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"<a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>トピックの構成設定</a>に関するヘルプを獲得します。"
 
 #: data/TWiki/WebSearch.txt:5 data/TWiki/WebSearchAdvanced.txt:5
@@ -3728,11 +3728,11 @@ msgstr ""
 #~ msgstr "%1の中の全てのトピック"
 
 #~ msgid ""
-#~ "Please see <a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
 #~ "information about attaching files."
 #~ msgstr ""
-#~ "<a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "<a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>添付ファイル</a> を参照すると、"
 #~ "もっと多くの添付ファイル関連情報が提供されます。"
 

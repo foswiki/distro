@@ -133,6 +133,7 @@ data/TWiki/InstallationGuide.txt 0660
 data/TWiki/InstalledPlugins.txt 0644
 data/TWiki/InstantEnhancements.txt 0644
 data/TWiki/LanguageSelector.txt 0644
+data/TWiki/Macros.txt 0644
 data/TWiki/MacrosQuickStart.txt 0644
 data/TWiki/MainFeatures.txt 0644
 data/TWiki/ManagingTopics.txt 0644
@@ -180,7 +181,6 @@ data/TWiki/TWikiSystemRequirements.txt 0644
 data/TWiki/TWikiTopics.txt 0644
 data/TWiki/TWikiUpgradeGuide.txt 0644
 data/TWiki/TWikiUserAuthentication.txt 0644
-data/TWiki/TWikiVariables.txt 0644
 data/TWiki/TWikiWebsTable.txt 0644
 data/TWiki/TemplateWeb.txt 0644
 data/TWiki/TextEditor.txt 0644

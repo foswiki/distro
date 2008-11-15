@@ -1453,10 +1453,10 @@ msgstr ""
 
 #: templates/settings.tmpl:26
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
-"Obtenga ayuda en <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Obtenga ayuda en <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Ajustar preferencias de temas</a>."
 
 #: data/TWiki/WebSearch.txt:5 data/TWiki/WebSearchAdvanced.txt:5
@@ -3862,11 +3862,11 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "Please see <a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
 #~ "information about attaching files."
 #~ msgstr ""
-#~ "*Ayuda:*Por favor vea <a target='TWikiVariables' onclick=\"return "
+#~ "*Ayuda:*Por favor vea <a target='Macros' onclick=\"return "
 #~ "launchWindow('%1','FileAttachment')\" href='' "
 #~ "rel='nofollow'>FileAttachment</a> para mayor información de como adjuntar "
 #~ "ficheros."

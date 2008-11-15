@@ -1339,7 +1339,7 @@ msgstr ""
 
 #: templates/settings.tmpl:26
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
 

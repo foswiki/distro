@@ -1433,10 +1433,10 @@ msgstr ""
 
 #: templates/settings.tmpl:26
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
-"Hjälp om <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Hjälp om <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>att göra inställningar för en sida</a>."
 
 #: data/TWiki/WebSearch.txt:5 data/TWiki/WebSearchAdvanced.txt:5

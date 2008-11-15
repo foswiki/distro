@@ -562,12 +562,12 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 ---+++ Expected
 <!-- expected expand -->
 <span class="twikiNewLink">AnchorLink#AnchorName<a href="%SCRIPTURLPATH{"edit"}%/TestCases/AnchorLink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
-<a class="twikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/TWiki/TWikiVariables#VarWEBLIST">TWikiVariables#VarWEBLIST</a>
+<a class="twikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/Macros#VarWEBLIST">Macros#VarWEBLIST</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
 AnchorLink#AnchorName
-TWiki.TWikiVariables#VarWEBLIST
+%SYSTEMWEB%.Macros#VarWEBLIST
 <!-- /actual -->
 
 ---++ Link at end of topic

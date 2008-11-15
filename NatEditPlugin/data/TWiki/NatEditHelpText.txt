@@ -12,7 +12,7 @@ Help text for the NatEditPlugin editor
 ---+++ %MAKETEXT{"Documentation"}%
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/GoodStyle" target="_blank">%MAKETEXT{"GoodStyle"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules" target="_blank">%MAKETEXT{"TextFormatting"}%</a> 
-   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TWikiVariables" target="_blank">%MAKETEXT{"Variables"}%</a>
+   * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/Macros" target="_blank">%MAKETEXT{"Macros"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/FormattedSearch" target="_blank">%MAKETEXT{"Formatted Search"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/DataForms" target="_blank">%MAKETEXT{"Form based input"}%</a>
    * <a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/IncludeTopicsAndWebPages" target="_blank">%MAKETEXT{"Including"}%</a>

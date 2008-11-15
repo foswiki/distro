@@ -1462,11 +1462,11 @@ msgstr ""
 #: templates/settings.tmpl:26
 #, fuzzy
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
-"Помощ относно <a target='TWikiVariables' onclick=\"return launchWindow('%"
-"1','TWikiVariables')\" href='%2' rel='nofollow'>Настройии на страницата</a>."
+"Помощ относно <a target='Macros' onclick=\"return launchWindow('%"
+"1','Macros')\" href='%2' rel='nofollow'>Настройии на страницата</a>."
 
 #: data/TWiki/WebSearch.txt:5 data/TWiki/WebSearchAdvanced.txt:5
 msgid "Get notified on changes on this search"
@@ -3671,11 +3671,11 @@ msgstr ""
 #~ msgstr "&WYSIWYG"
 
 #~ msgid ""
-#~ "Please see <a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
 #~ "information about attaching files."
 #~ msgstr ""
-#~ "Моля вижте <a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "Моля вижте <a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> за "
 #~ "повече информация относно прикрепване на файлове."
 

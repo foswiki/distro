@@ -1376,10 +1376,10 @@ msgstr ""
 
 #: templates/settings.tmpl:26
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
 msgstr ""
-"获得关于<a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"获得关于<a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>设置主题配置</a>的帮助."
 
 #: data/TWiki/WebSearch.txt:5 data/TWiki/WebSearchAdvanced.txt:5
@@ -3624,11 +3624,11 @@ msgstr ""
 #~ msgstr "可视化编辑"
 
 #~ msgid ""
-#~ "Please see <a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
 #~ "information about attaching files."
 #~ msgstr ""
-#~ "请参考<a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "请参考<a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>文件附件</a>条目，获得更多关"
 #~ "于文件附件的信息。"
 

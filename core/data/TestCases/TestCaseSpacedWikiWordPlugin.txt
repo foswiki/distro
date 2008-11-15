@@ -32,7 +32,7 @@ WebHome
    * Core spaced out word: %SPACEOUT{"DefaultPreferences"}%
    * Plugin spaced out: %SYSTEMWEB%.DefaultPreferences
       * Testing if the T and W don't show a gap
-   * Expected: <a href="#">TWiki Variables</a>
+   * Expected: <a href="#">Default Preferences</a>
 
 ---+++ WW Bracket notation, no link label
 

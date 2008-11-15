@@ -1453,9 +1453,9 @@ msgstr "Hilfe für das <a target='ManagingWebs' class='twikiPopUp' href='%1' "
 
 #: templates/settings.tmpl:26
 msgid ""
-"Get help on <a target='TWikiVariables' class='twikiPopUp' href='%1' "
+"Get help on <a target='Macros' class='twikiPopUp' href='%1' "
 "rel='nofollow'>Setting topic preferences</a>."
-msgstr "Hilfe zum Konfigurieren von <a target='TWikiVariables' class='twikiPopUp' "
+msgstr "Hilfe zum Konfigurieren von <a target='Macros' class='twikiPopUp' "
 "href='%1' rel='nofollow'>Topic Einstellungen</a>."
 
 #: data/TWiki/WebSearch.txt:5
@@ -3836,11 +3836,11 @@ msgstr "Sie *müssen* zumindest eine gültige E-Mail registriert haben, um ihr "
 #~ msgstr "&WYSIWYG"
 
 #~ msgid ""
-#~ "Please see <a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
 #~ "information about attaching files."
 #~ msgstr "Für mehr Informationen über den Umgang mit Dateianhängen lesen Sie bitte "
-#~ "<a target='TWikiVariables' onclick=\"return launchWindow('%"
+#~ "<a target='Macros' onclick=\"return launchWindow('%"
 #~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a>."
 
 #~ msgid "WYSIWYG"

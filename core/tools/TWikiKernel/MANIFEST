@@ -117,6 +117,7 @@ data/TWiki/InstallationGuide.txt 0660
 data/TWiki/InstalledPlugins.txt 0660
 data/TWiki/InstantEnhancements.txt 0660
 data/TWiki/LoginName.txt 0660
+data/TWiki/Macros.txt 0660
 data/TWiki/MainFeatures.txt 0660
 data/TWiki/ManagingTopics.txt 0660
 data/TWiki/ManagingUsers.txt 0660
@@ -170,9 +171,6 @@ data/TWiki/TWikiUpgradeTo01Feb2003.txt 0660
 data/TWiki/TWikiUpgradeTo01May2000.txt 0660
 data/TWiki/TWikiUpgradeToCairo.txt 0660
 data/TWiki/TWikiUserAuthentication.txt 0660
-data/TWiki/TWikiVariables.txt 0660
-data/TWiki/TWikiVariablesAtoM.txt 0660
-data/TWiki/TWikiVariablesNtoZ.txt 0660
 data/TWiki/TWikiWebsTable.txt 0660
 data/TWiki/TemplateWeb.txt 0660
 data/TWiki/TextEditor.txt 0660

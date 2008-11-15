@@ -2218,8 +2218,8 @@ expanded in new content.
 
 The expanded variables are:
    * =%<nop>DATE%= Signature-format date
-   * =%<nop>SERVERTIME%= See TWikiVariables
-   * =%<nop>GMTIME%= See TWikiVariables
+   * =%<nop>SERVERTIME%= See [[Macros]]
+   * =%<nop>GMTIME%= See [[Macros]]
    * =%<nop>USERNAME%= Base login name
    * =%<nop>WIKINAME%= Wiki name
    * =%<nop>WIKIUSERNAME%= Wiki name with prepended web
