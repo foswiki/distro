@@ -64,11 +64,11 @@ Parameters:
       * =date, &lt;size&gt;, &lt;initial value&gt;, &lt;DHTML date format&gt;= Date. Initial value and date format are both optional.
    * ==changerows== - Rows can be added and removed if ="on"=. Rows can be
      added but not removed if ="add"=. Defaults to the value of the
-     [[%SYSTEMWEB%.TWikiVariables][preference]] =CHANGEROWS=, or =off= if it isn't set.
+     [[%SYSTEMWEB%.Macros][preference]] =CHANGEROWS=, or =off= if it isn't set.
    * ==disable== - By default, the plugin shows both full table and individual row editing controls. You can choose to disable one or both of these modes using the =disable= parameter, by setting it to =row= or =full= (or =row,full= to disable all editing and just leave sorting). If full table editing is disabled, but =changerows= is =on=, then the <img src="%ATTACHURLPATH%/edittable.gif" /> (edit table) button will be replaced with a <img src="%ATTACHURLPATH%/addrow.gif" /> (add row) button. Defaults to the value of the
-     [[%SYSTEMWEB%.TWikiVariables][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
+     [[%SYSTEMWEB%.Macros][preference]] =EDITROWPLUGIN_DISABLE=, or =none= if it isn't set.
    * ==quietsave== - Quiet Save button is shown if ="on"=. Defaults to the
-     value of the [[%SYSTEMWEB%.TWikiVariables][preference]] =QUIETSAVE=, or =off= if it
+     value of the [[%SYSTEMWEB%.Macros][preference]] =QUIETSAVE=, or =off= if it
      isn't set.
    * ==include== -
      Name of another topic defining the EDITTABLE parameters. The first
@@ -166,7 +166,7 @@ then="enabled in this TWiki. Click on the buttons to try it out."}%
 <img src="%ATTACHURLPATH%/example5.gif" alt='Example 4'/>
 
 ---++ Preferences
-The plugin interprets a couple of [[%SYSTEMWEB%.TWikiVariables][preferences]], in common with the !EditTablePlugin.
+The plugin interprets a couple of [[%SYSTEMWEB%.Macros][preferences]], in common with the !EditTablePlugin.
 | =QUIETSAVE= | Gives a default value for the =quietsave= parameter. Default is =off=. |
 | =CHANGEROWS= | Gives a default value for the =changerows= parameter. Default is =off=. |
 Also, the plugin can be selectively disabled using
