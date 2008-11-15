@@ -230,7 +230,7 @@ sub verify_eachGroupTraditional {
     if ($TWiki::cfg{UserMappingManager} eq 'TWiki::Users::BaseUserMapping') {
          @correctList = qw/AdminGroup TWikiBaseGroup/;
     } else {
-         @correctList = qw/AdminGroup AandBGroup AandCGroup BandCGroup ScumGroup AdminGroup TWikiBaseGroup/;
+         @correctList = qw/AandBGroup AandCGroup BandCGroup ScumGroup AdminGroup TWikiBaseGroup/;
     }
     my $correct = join(',', sort @correctList);
     $this->assert_str_equals($correct, $ulist);
