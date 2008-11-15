@@ -310,7 +310,7 @@ $TWiki::cfg{DefaultUserWikiName} = 'WikiGuest';
 
 # **STRING 20 EXPERT**
 # An internal admin user login name (matched with the configure password, if set)
-# which can be used as a temporary Admin login (see: Main.WikiAdminUser).
+# which can be used as a temporary Admin login (see: Main.AdminUser).
 # This login name is additionally required by the install script for some addons
 # and plugins, usually to gain write access to the TWiki web.
 # If you change this you risk making topics uneditable.
@@ -319,8 +319,8 @@ $TWiki::cfg{AdminUserLogin} = 'admin';
 # **STRING 20 EXPERT**
 # An admin user WikiName what is displayed for actions done by the AdminUserLogin
 # You should normally not need to change this. (you will need to move the 
-# %USERSWEB%.WikiAdminUser topic to match)
-$TWiki::cfg{AdminUserWikiName} = 'WikiAdminUser';
+# %USERSWEB%.AdminUser topic to match)
+$TWiki::cfg{AdminUserWikiName} = 'AdminUser';
 
 # **STRING 20 EXPERT**
 # Group of users that can use special action=repRev and action=delRev
@@ -372,7 +372,7 @@ $TWiki::cfg{AuthRealm} =
 #  TWiki::Users::TopicUserMapping - uses TWiki user and group topics to
 #  determine user information, and group memberships.
 # </li><li>
-#  TWiki::Users::BaseUserMapping - has only pseudo users such as {WikiAdminUser} and
+#  TWiki::Users::BaseUserMapping - has only pseudo users such as {AdminUser} and
 #  {DefaultUserWikiName}, with the Admins login and password being set from this
 #  configure script. <b>Does not support User registration</b>, and
 #  only works with TemplateLogin.

@@ -14,7 +14,7 @@ change to Admin User (and back to your user) only when you need to.
    * Logout from Administrator:
       * click the [[%LOGOUTURL%][Logout link]]
 
-__%X% NOTE:__ If you lock yourself out of <nop>WikiAdminUser during setup activities or have forgotten the configure password,
+__%X% NOTE:__ If you lock yourself out of <nop>AdminUser during setup activities or have forgotten the configure password,
 you can unset the configure password by editing the =lib/LocalSite.cfg= file and deleting the line that starts
 with =$TWiki::cfg{Password}= and then set it again by saving your settings in =configure=.
 %ENDSECTION{"sudo_login"}%
