@@ -1,10 +1,12 @@
 %META:TOPICINFO{author="ProjectContributor" date="1177803014" format="1.1" version="$Rev: 13239 $"}%
 %STARTINCLUDE%
----+ TWiki Site Tools
+---+ Site Tools
 
 _Utilities for searching, navigation, and monitoring site activity_
 
-TWiki Site Tools include utilities for navigating, searching and keeping up with site activity. Preferences can be configured by web or site-wide. You are currently in the *%SYSTEMWEB%* web. In particular, TWiki provides two highly configurable, automated site monitoring tools, *<nop>WebNotify*, to e-mail alerts when topics are edited, and *<nop>WebStatistics*, to generate detailed activity reports.
+Site Tools include utilities for navigating, searching and keeping up with site activity.
+
+In particular, you have two highly configurable, automated site monitoring tools, *<nop>WebNotify*, to e-mail alerts when topics are edited, and *<nop>WebStatistics*, to generate detailed activity reports.
 
 %TOC%
 
@@ -19,6 +21,7 @@ TWiki Site Tools include utilities for navigating, searching and keeping up with
 WebSearch is a flexible search facility, part of the core feature set. WebSearchAdvanced offers more options, including:
    * topic title or full-text search
    * regular expressions
+   * query search over form data
    * search within web or site-wide
    * index-style A-Z alphabetical listing sorted topic title
    * many more
@@ -41,7 +44,7 @@ limit="50" }%
 #WebRssAndAtom
 ---++ <nop>WebRss and <nop>WebAtom - news feeds on recent changes
 
-You can point your news reader at WebRss and WebAtom to find out what is new in a TWiki web. WebRssBase and WebAtomBase have the details. Like WebChanges, this is based on a =%<nop>SEARCH{}%=.
+You can point your news reader at WebRss and WebAtom to find out what is new in a web. WebRssBase and WebAtomBase have the details. Like WebChanges, this is based on a =%<nop>SEARCH{}%=.
 
 #WebIndex
 ---++ <nop>WebIndex - list of topics
@@ -65,19 +68,19 @@ You can generate a listing manually, or on an automated schedule, of visits to i
    * You can automatically generate usage statistics for all webs. To enable this:
       * Make sure configure settings *{Log}{view}*, *{Log}{save}* and *{Log}{upload} in are set in [[%SCRIPTURLPATH{"configure"}%][configure]]. This will generate log file entries (see below).
       * The WebStatistics topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
-      * Call the =twiki/bin/statistics= script from a cron job, once a day is recommended. This will update the WebStatistics topics in all webs.
-      * __Attention:__ The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/twiki/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
-      * There is a workaround in case you can't run the script as user =nobody= : Run the utility =twiki/tools/geturl.pl= in your cron job and specify the URL of the =twiki/bin/statistics= script as a parameter. Example: %BR% =0 0 * * * (cd /path/to/twiki/tools; ./geturl.pl mydomain.com /urlpath/to/twiki/bin/statistics &gt;/dev/null 2&gt;&amp;1)= 
-      * __NOTE:__ =geturl.pl= will do a TWiki CGI request as the <nop>WikiGuest user, so if you use this workaround, the !WebStatistics topics you are updating will have to be writable by <nop>WikiGuest.
+      * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the WebStatistics topics in all webs.
+      * __Attention:__ The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
+      * There is a workaround in case you can't run the script as user =nobody= : Run the utility =tools/geturl.pl= in your cron job and specify the URL of the =bin/statistics= script as a parameter. Example: %BR% =0 0 * * * (cd /path/to/tools; ./geturl.pl mydomain.com /urlpath/to/bin/statistics &gt;/dev/null 2&gt;&amp;1)= 
+      * __NOTE:__ =geturl.pl= will do a CGI request as the <nop>WikiGuest user, so if you use this workaround, the !WebStatistics topics you are updating will have to be writable by <nop>WikiGuest.
 
 When running from the command line or a cron job, you can pass parameters to the script like this:
 <verbatim>
-./statistics -logdate 200605 -webs TWiki,Sandbox
+./statistics -logdate 200605 -webs Userweb,Sandbox
 </verbatim>
 
 ---+++ Generating statistics manually by URL
 
-   * The =twiki/bin/statistics= script can also be executed as a CGI script, just enter the URL in your browser. Examples:
+   * The =bin/statistics= script can also be executed as a CGI script, just enter the URL in your browser. Examples:
       * Update current month for all webs you have access to: %BR% =%SCRIPTURLPATH{statistics}%=
       * Update current month for %USERSWEB% web only: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%=
       * Update %SERVERTIME{$month $year}% for %USERSWEB% web: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%?logdate=%SERVERTIME{$year$mo}%=
@@ -89,7 +92,7 @@ When running from the command line or a cron job, you can pass parameters to the
 TWiki generates monthly log files which are used by the statistics script
    * The log file is defined by the *{LogFileName}* setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
    * The file name is =log&lt;year&gt;&lt;month&gt;.txt=
-   * Example path name: =twiki/logs/log%SERVERTIME{$year$mo}%.txt=
+   * Example path name: =logs/log%SERVERTIME{$year$mo}%.txt=
    * Each access gets logged as: %BR%
      =| &lt;time&gt; | &lt;wikiusername&gt; | &lt;action&gt; | &lt;web&gt;.&lt;topic&gt; | &lt;extra info&gt; | &lt;IP address&gt; |=
    * Example log entry: %BR%
@@ -123,7 +126,7 @@ TWiki will use the ==Net::SMTP== module if it is installed on your system. Set t
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
-mailnotify also relies on two hidden files in each =twiki/data/Web= directory: =.changes= and =.mailnotify.= Make sure both are writable by your web server process. =.changes= contains a list of changes; go ahead and make this empty. =.mailnotify= contains a timestamp of the last time notification was done.
+mailnotify also relies on two hidden files in each =data/Web= directory: =.changes= and =.mailnotify.= Make sure both are writable by your web server process. =.changes= contains a list of changes; go ahead and make this empty. =.mailnotify= contains a timestamp of the last time notification was done.
 
 You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= module is not installed. Set the program path in =={MailProgram}== in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
@@ -136,7 +139,7 @@ You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= m
 *For Unix platforms:* Edit the =cron= table so that =mailnotify= is called in an interval of your choice. Please consult =man crontab= of how to modify the table that schedules program execution at certain intervals. Example:
 <pre>
 % crontab -e
-0 1 * * * (cd /path/to/twiki/bin; ./mailnotify -q)
+0 1 * * * (cd /path/to/bin; ./mailnotify -q)
 </pre>
 The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses all normal output.
 

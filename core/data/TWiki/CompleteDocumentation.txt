@@ -102,7 +102,7 @@ __Related Topics:__ TWikiSite, ReleaseHistory, EnhancementRequests, UserDocument
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiSiteTools"}%
+%INCLUDE{"SiteTools"}%
 
 [[#PageTop][Back to top]]
 
