@@ -39,7 +39,7 @@ __Preferences:__
 		* #Set DENYWEBRENAME = 
 		* #Set ALLOWWEBRENAME = 
 
-	* Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., %USERSWEB%.WikiAdminGroup)
+	* Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., %USERSWEB%.AdminGroup)
 		* #Set ALLOWTOPICCHANGE = 
 		* #Set ALLOWTOPICRENAME = 
 

@@ -4,7 +4,7 @@
 The %TOPIC% has been added to TWiki 4.2.0 to make it possible to login without needing to create a TWiki User,
 or to temporarily login as %TOPIC% using the password set in configure, and then log back out to the same User and Group as before.
 
-This means it is no longer necessary to add yourself to the WikiAdminGroup, and you will be able to quicky
+This means it is no longer necessary to add yourself to the AdminGroup, and you will be able to quicky
 change to Admin User (and back to your user) only when you need to.
 
 %STARTSECTION{"sudo_login"}%
@@ -24,7 +24,7 @@ with =$TWiki::cfg{Password}= and then set it again by saving your settings in =c
    * a configure password (otherwise the Admin login is automatically disabled.)
    * If your TWiki is configured to use !ApacheLoginManager, you will need to log in as a valid user first.
    
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[WikiAdminGroup]], [[TWikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[TWikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 ---
 
 

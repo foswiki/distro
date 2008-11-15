@@ -103,11 +103,11 @@ msgstr "Konfiguration für die Admin-Benutzer-Registrierung erforderlich"
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
 "Nachdem Sie sich selbst einen Benutzer angelegt haben, editieren Sie Main."
-"WikiAdminGroup, um die Admin-Privilegien auf diesen Benutzer zu beschränken."
+"AdminGroup, um die Admin-Privilegien auf diesen Benutzer zu beschränken."
 
 #. Type: string
 #. Description

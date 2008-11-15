@@ -114,11 +114,11 @@ msgstr "நிர்வாகி பயனர் பதிவு வடிவம
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
 "நீங்கள் ஒரு பயனரை உருவாக்கிய பின் அந்த பயனருக்கு நிர்வாகி அனுமதிகளை கட்டுப் படுத்த Main."
-"WikiAdminGroup ஐ திருத்தவும்."
+"AdminGroup ஐ திருத்தவும்."
 
 #. Type: string
 #. Description

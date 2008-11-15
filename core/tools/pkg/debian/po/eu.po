@@ -99,10 +99,10 @@ msgstr "Kudeatzaile erabiltzaile harpidetza konfigurazioa beharrezkoa"
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
-"Zure erabiltzailea sortu ondoren, Main.WikiAdminGroup editatu kudeaketa "
+"Zure erabiltzailea sortu ondoren, Main.AdminGroup editatu kudeaketa "
 "baimenak erabiltzaile horri mugatzeko."
 
 #. Type: string

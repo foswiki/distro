@@ -148,7 +148,7 @@ Your Wiki Admin
 %MAKETEXT{"Submitted content:"}%
 %FORMDATA%
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.WikiAdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%
 </verbatim>
    * __remember to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.__
 

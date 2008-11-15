@@ -118,10 +118,10 @@ msgstr "Configuratie van de Beheerder-registratie is verplicht"
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
-"Eens u een gebruiker heeft aangemaakt dient u de Main.WikiAdminGroup aan te "
+"Eens u een gebruiker heeft aangemaakt dient u de Main.AdminGroup aan te "
 "passen om Beheerdersrechten te beperken tot die gebruiker."
 
 #. Type: string

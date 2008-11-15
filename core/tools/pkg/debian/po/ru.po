@@ -103,11 +103,11 @@ msgstr "Требуется настройка зарегистрированно
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
 "После того как создадите себя как пользователя, отредактируйте Main."
-"WikiAdminGroup, чтобы ограничить административные привилегии этого "
+"AdminGroup, чтобы ограничить административные привилегии этого "
 "пользователя."
 
 #. Type: string

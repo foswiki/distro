@@ -4,7 +4,7 @@
    * Member list:
       * Set GROUP = 
    * Persons/group who can change the list:
-      * Set ALLOWTOPICCHANGE = WikiAdminGroup
+      * Set ALLOWTOPICCHANGE = AdminGroup
 
 Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.DefaultPreferences][DefaultPreferences]] - put !NobodyGroup as the only group allowed to rename a topic and it can't be renamed.
 

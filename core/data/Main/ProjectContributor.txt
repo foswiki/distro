@@ -5,5 +5,5 @@ Not an actual user of this site, but a person devoting some of his/her time to c
 
 __Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]]
 
-%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="WikiAdminGroup"}%
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 

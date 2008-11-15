@@ -1011,7 +1011,7 @@ Use it as follows:
     my $iterator = TWiki::Func::eachGroup();
     while ($it->hasNext()) {
         my $group = $it->next();
-        # $group is a group name e.g. WikiAdminGroup
+        # $group is a group name e.g. AdminGroup
     }
 </verbatim>
 

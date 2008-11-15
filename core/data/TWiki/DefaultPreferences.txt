@@ -138,7 +138,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * #Set BROADCASTMESSAGE = *NOTE:* Edit and Attach will be disabled today between 05:00 PM and 06:00 PM PDT (00:00 to 01:00 GMT) for a scheduled <nop>%WIKITOOLNAME% maintenance.
 
    * Users or groups allowed to [[%SYSTEMWEB%.ManagingWebs][create new top-level webs]]: (ex: %USERSWEB%.WebCreatorsGroup). If set to nothing, only administrators will be able to do this.
-      * Set ALLOWROOTCHANGE = %USERSWEB%.WikiAdminGroup
+      * Set ALLOWROOTCHANGE = %USERSWEB%.AdminGroup
 
 ---+++ Search Settings
 
@@ -329,8 +329,8 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Access Control Settings
 
    * No-one (except admins) should change this topic
-      * Set ALLOWTOPICCHANGE = %USERSWEB%.WikiAdminGroup
-      * Set ALLOWTOPICRENAME = %USERSWEB%.WikiAdminGroup
+      * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+      * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
 
 ---++ Creating New Preference Variables
  

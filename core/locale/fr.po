@@ -819,7 +819,7 @@ msgid ""
 "in WebPreferences."
 msgstr ""
 "Par défaut, la consultation du web Trash est réservée aux administrateurs et "
-"administratrices de ce TWiki, qui sont membres du %MAINWEB%.WikiAdminGroup. "
+"administratrices de ce TWiki, qui sont membres du %MAINWEB%.AdminGroup. "
 "Si vous souhaitez désactiver cette restriction, enlevez la ligne "
 "=ALLOWWEBVIEW= de la page WebPreferences."
 

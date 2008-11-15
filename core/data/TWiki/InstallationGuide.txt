@@ -115,10 +115,10 @@ The TWiki:TWiki.ApacheConfigGenerator includes this section when you choose _Apa
 #DefineAdminUser   
 ---++ Define the Administrator User(s)
 
-Administrators have read and write access to any topic, irrespectively of TWiki access controls. When you install TWiki one of the first things you will want to do is define yourself as an administrator. You become an administrator simply by adding yourself to the =WikiAdminGroup=. It is the WikiName and not the login name you add to the group. Editing the =%USERSWEB%.AdminGroup= topic requires that you are an administrator. So to add the first administrator you need to login using the internal Wiki admin user login and the password you defined in configure.
+Administrators have read and write access to any topic, irrespectively of TWiki access controls. When you install TWiki one of the first things you will want to do is define yourself as an administrator. You become an administrator simply by adding yourself to the =AdminGroup=. It is the WikiName and not the login name you add to the group. Editing the =%USERSWEB%.AdminGroup= topic requires that you are an administrator. So to add the first administrator you need to login using the internal Wiki admin user login and the password you defined in configure.
 
    * Navigate to the =%USERSWEB%.AdminGroup= topic
-   * Follow carefully the steps =%USERSWEB%.WikiAdminGroup= of how to become an admin
+   * Follow carefully the steps =%USERSWEB%.AdminGroup= of how to become an admin
    * Note that if you use _ApacheLogin_ you have to be registered and logged in before you use the _internal admin login_
 
 #SetPreferences

@@ -100,10 +100,10 @@ msgstr "Registrering for administrativ bruker må settes opp"
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
-"Når du har opprettet en bruker for deg selv, så rediger Main.WikiAdminGroup "
+"Når du har opprettet en bruker for deg selv, så rediger Main.AdminGroup "
 "for å gi administrasjonsrettigheter bare til den brukeren."
 
 #. Type: string

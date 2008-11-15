@@ -76,9 +76,9 @@ msgstr "Cần thiết cấu hình kiểu đăng ký người dùng quản trị"
 #.Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
-msgstr "Sau khi bạn tạo người dùng mình, sửa Main.WikiAdminGroup để giới hạn quyền hạn quản trị chỉ cho người dùng đó."
+msgstr "Sau khi bạn tạo người dùng mình, sửa Main.AdminGroup để giới hạn quyền hạn quản trị chỉ cho người dùng đó."
 
 #~ msgid "http://localhost/"
 #~ msgstr "http://localhost/"
@@ -93,7 +93,7 @@ msgstr "Sau khi bạn tạo người dùng mình, sửa Main.WikiAdminGroup đ�
 #~ "the users are created manually by the administrator use TWiki RenameTopic "
 #~ "to rename the TWikiRegistration to TWikiRegistrationPub, and "
 #~ "TWikiRegistrationDefault to TWikiRegistration. IMPORTANT: After you have "
-#~ "created yourself a user, edit the Main.WikiAdminGroup to restrict Admin "
+#~ "created yourself a user, edit the Main.AdminGroup to restrict Admin "
 #~ "privileges"
 #~ msgstr "Bản cài đặt TWiki Debian mặc định được cấu hình để tự động tạo người dùng "
 #~ "mới khi người ấy đăng ký. Cách này không phải bảo mật như TWiki mặc định, "
@@ -103,5 +103,5 @@ msgstr "Sau khi bạn tạo người dùng mình, sửa Main.WikiAdminGroup đ�
 #~ "thành TWikiRegistrationPub (đang ký công TWiki), và "
 #~ "TWikiRegistrationDefault (đang ký TWiki mặc định) thành TWikiRegistration "
 #~ "(đang ký TWiki). QUAN TRỌNG: sau khi bạn đã tạo người dùng cho chính bạn, "
-#~ "hãy hiệu chỉnh Main.WikiAdminGroup (chính: nhóm quản lý TWiki) để giới "
+#~ "hãy hiệu chỉnh Main.AdminGroup (chính: nhóm quản lý TWiki) để giới "
 #~ "hạn quyền truy cập quản lý."

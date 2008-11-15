@@ -122,10 +122,10 @@ msgstr "Configuração de Usuário Administrador necessária"
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.WikiAdminGroup to "
+"After you have created yourself a user, edit the Main.AdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
-"Depois de criar um usuário para você, edite o Main.WikiAdminGroup para "
+"Depois de criar um usuário para você, edite o Main.AdminGroup para "
 "restringir os privilégios de administrador para esse usuário."
 
 #. Type: string

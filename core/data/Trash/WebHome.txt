@@ -4,7 +4,7 @@
 %RED%
 %MAKETEXT{"Security Note:"}%
 %ENDCOLOR%
-%MAKETEXT{"By default, viewing the Trash web is restricted to [_1]. If you would like to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction in WebPreferences." args="%USERSWEB%.WikiAdminGroup"}%
+%MAKETEXT{"By default, viewing the Trash web is restricted to [_1]. If you would like to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction in WebPreferences." args="%USERSWEB%.AdminGroup"}%
 
 %SEARCH{".*" web="%INCLUDINGWEB%" type="regex" nototal="on" nosearch="on" order="modified" limit="15"}%
 [[WebChanges][%MAKETEXT{"more..."}%]]
