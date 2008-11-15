@@ -11,7 +11,7 @@ data/Main/UserListHeader.txt 0644
 data/Main/NobodyGroup.txt 0644
 data/Main/UserList.txt 0644
 data/Main/UserListByDateJoined.txt 0644
-data/Main/TWikiAdminGroup.txt 0644 TWiki compatible admin group
+data/Main/WikiAdminGroup.txt 0644 TWiki compatible admin group
 data/Main/AdminGroup.txt 0644
 data/Main/UserHomepageHeader.txt 0644
 data/Main/UserListByLocation.txt 0644

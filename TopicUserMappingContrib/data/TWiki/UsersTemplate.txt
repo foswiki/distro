@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="TWikiAdminGroup" date="1178574333" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="WikiAdminGroup" date="1178574333" format="1.1" reprev="1.2" version="1.2"}%
 ---+ List of <nop>%WIKITOOLNAME% users
 
 Below is a list of users with accounts. If you want to edit topics or see protected areas of the site then you can get added to the list by registering: fill out the form in %SYSTEMWEB%.TWikiRegistration. 
@@ -49,4 +49,4 @@ __%X% Note:__ There are four default system users:
    * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
 
 __Access Control:__
-   * Set ALLOWTOPICCHANGE = TWikiAdminGroup
+   * Set ALLOWTOPICCHANGE = WikiAdminGroup

@@ -36,4 +36,4 @@
 </form>
 
 
-   * Set ALLOWTOPICCHANGE = Main.TWikiAdminGroup
+   * Set ALLOWTOPICCHANGE = Main.WikiAdminGroup

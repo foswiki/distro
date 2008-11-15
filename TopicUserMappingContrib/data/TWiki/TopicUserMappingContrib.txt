@@ -31,7 +31,7 @@ it includes:
       * TWiki.LoginName                
    * default groups and user
       * Main.NobodyGroup
-      * Main.TWikiAdminGroup
+      * Main.WikiAdminGroup
       * Main.RegistrationAgent    
    * User lists
       * Main.UserList                  

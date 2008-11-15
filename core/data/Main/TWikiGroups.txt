@@ -24,6 +24,6 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
 *IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
    * There is enough peer pressure to post only appropriate content.
    * Content does not get lost because topics are under revision control.
-   * A topic revision can be undone by a member of the [[%USERSWEB%.TWikiAdminGroup][TWikiAdminGroup]] if necesssary.
+   * A topic revision can be undone by a member of the [[%USERSWEB%.WikiAdminGroup][WikiAdminGroup]] if necesssary.
 
 __Related topics:__ [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]

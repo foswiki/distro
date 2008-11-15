@@ -213,7 +213,7 @@ sub verify_eachGroupTraditional {
     my $this = shift;
     my @list;
 
-    $TWiki::cfg{SuperAdminGroup} = 'TWikiAdminGroup';
+    $TWiki::cfg{SuperAdminGroup} = 'WikiAdminGroup';
     # Force a re-read
     $this->{twiki}->finish();
     $this->{twiki} = new TWiki();
@@ -228,9 +228,9 @@ sub verify_eachGroupTraditional {
     my $ulist = join(',', sort @list);
     my @correctList;
     if ($TWiki::cfg{UserMappingManager} eq 'TWiki::Users::BaseUserMapping') {
-         @correctList = qw/TWikiAdminGroup TWikiBaseGroup/;
+         @correctList = qw/WikiAdminGroup TWikiBaseGroup/;
     } else {
-         @correctList = qw/AdminGroup AandBGroup AandCGroup BandCGroup ScumGroup TWikiAdminGroup TWikiBaseGroup/;
+         @correctList = qw/AdminGroup AandBGroup AandCGroup BandCGroup ScumGroup WikiAdminGroup TWikiBaseGroup/;
     }
     my $correct = join(',', sort @correctList);
     $this->assert_str_equals($correct, $ulist);

@@ -418,7 +418,7 @@ TWiki&trade; is a trademark of Peter Thoeny.
 |  8585 | TWikibug:Item1527   BuildContrib: Remember original filedates for pub files |
 |  8584 | TWikibug:Item1527   BuildContrib: Oops, some (very few) plugins are not ActionTrackerPlugin :-) |
 |  8583 | TWikibug:Item1527   Generated install scripts now really attaches files in pub to topics (means less of these couldn't update history error messages) |
-|  8581 | TWikibug:Item1527   BuildContrib: Execute topic saves in the TWiki web as TWikiAdminGroup by default |
+|  8581 | TWikibug:Item1527   BuildContrib: Execute topic saves in the TWiki web as WikiAdminGroup by default |
 |  8365 | TWikibug:Item1347   made build.pl tidy up it's mess; and switched buildcontrib over to using push and pop on dirs instead of cd, so we don;t get lost so easily. Oh, and corrected the permissions on the generated viewauth and rdiffauth files |
 |  8359 | TWikibug:Item1393   For release topic name, removed upper case change of suffix. E.g. 'TWiki-4.0.0-beta6' becomes 'TWikiRelease04x00x00beta06' |
 |  8346 | TWikibug:Item1393   added final parameter to build.pl (release name) and added processing to derive topic name from release id. |

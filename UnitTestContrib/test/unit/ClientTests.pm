@@ -26,7 +26,7 @@ sub set_up {
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{test_web},
         $this->{test_topic}, <<CONSTRAINT);
-   * Set ALLOWTOPICCHANGE = TWikiAdminGroup
+   * Set ALLOWTOPICCHANGE = WikiAdminGroup
 CONSTRAINT
 }
 

@@ -99,10 +99,10 @@ msgstr "Precísase de configurar o rexistro do usuario administrador"
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.TWikiAdminGroup to "
+"After you have created yourself a user, edit the Main.WikiAdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
-"Despois de ter creado un usuario, edite Main.TWikiAdminGroup para restrinxir "
+"Despois de ter creado un usuario, edite Main.WikiAdminGroup para restrinxir "
 "os privilexios de administración a ese usuario."
 
 #. Type: string

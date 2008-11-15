@@ -15,7 +15,7 @@ Open, freeform editing is the essence of WikiCulture - what makes TWiki differen
    * *Peer influence* is enough to ensure that only relevant content is posted.
    * *Peer editing* - the ability for anyone to rearrange all content on a page - keeps topics focused.
    * In TWiki, content is transparently preserved under *revision control*:
-      * Edits can be undone by the administrator (per default a member of %USERSWEB%.TWikiAdminGroup; see [[#ManagingGroups]]).
+      * Edits can be undone by the administrator (per default a member of %USERSWEB%.WikiAdminGroup; see [[#ManagingGroups]]).
       * Users are encouraged to edit and refactor (condense a long topic), since there's a safety net.
 As a *collaboration guideline*:
    * Create broad-based Groups (for more and varied input), and...
@@ -66,9 +66,9 @@ __%X% Note:__ TWiki has strict formatting rules. Make sure you have three spaces
 #SuperAdminGroup
 ---+++ The Super Admin Group
 
-A number of TWiki functions (for example, renaming webs) are only available to administrators. Administrators are simply users who belong to the *SuperAdminGroup*. This is a standard user group, the name of which is defined by {SuperAdminGroup} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default name of this group is the =TWikiAdminGroup=. The system administrator may have chosen a different name for this group if your local TWiki uses an alternate group mapping manager but for simplicity we will use the default name !TWikiAdminGroup in the rest of this topic.
+A number of TWiki functions (for example, renaming webs) are only available to administrators. Administrators are simply users who belong to the *SuperAdminGroup*. This is a standard user group, the name of which is defined by {SuperAdminGroup} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default name of this group is the =WikiAdminGroup=. The system administrator may have chosen a different name for this group if your local TWiki uses an alternate group mapping manager but for simplicity we will use the default name !WikiAdminGroup in the rest of this topic.
 
-You can create new administrators simply by adding them to the %USERSWEB%.TWikiAdminGroup topic. For example,
+You can create new administrators simply by adding them to the %USERSWEB%.WikiAdminGroup topic. For example,
    * ==Set <nop>GROUP = <nop>%USERSWEB%.ElizabethWindsor, <nop>%USERSWEB%.TonyBlair==
 A member of the Super Admin Group has unrestricted access throughout the TWiki, so only trusted staff should be added to this group.
 

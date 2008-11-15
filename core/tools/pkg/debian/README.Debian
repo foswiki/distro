@@ -36,7 +36,7 @@ ATTENTION :
 
 Note that you should create yourself (inside TWiki, with it's user
 registration mechanism) a TWiki user account, and add it
-Main.TWikiAdminGroup to restrict Admin privileges to that user.
+Main.WikiAdminGroup to restrict Admin privileges to that user.
 
 The procedure for doing so is described in the TWiki documentation.
 

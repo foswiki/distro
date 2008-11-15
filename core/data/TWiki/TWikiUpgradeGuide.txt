@@ -245,7 +245,7 @@ Take care for that change if you run your own routine to delete obsolete session
    
 ---+++ New Internal Admin Login
 
-TWiki 4.2 introduces a new _Internal Admin Login_ feature which uses "admin" (configurable) as username and the password used for configure to become temporary administrator. When you do a new installation you need to use this feature as !Main.TWikiAdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. From configure there is a link to the !TWikiAdminGroup topic and on !TWikiAdminGroup the step by step instructions are written in a yellow box. Our advice is not to remove this help text in case you need it later.
+TWiki 4.2 introduces a new _Internal Admin Login_ feature which uses "admin" (configurable) as username and the password used for configure to become temporary administrator. When you do a new installation you need to use this feature as !Main.WikiAdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. From configure there is a link to the !WikiAdminGroup topic and on !WikiAdminGroup the step by step instructions are written in a yellow box. Our advice is not to remove this help text in case you need it later.
 
 %STOPINCLUDE%
 

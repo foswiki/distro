@@ -537,7 +537,7 @@ __Major New Features__
    * *01 Jun 2001* - TWiki:Main.KlausWriessnegger, TWiki:Main.AndreaSterbini
       * Forms to change/reset/install passwords, see ChangePassword &amp; ResetPassword
    * *01 May 2001* - TWiki:Main.AndreaSterbini
-      * The %MAINWEB%.TWikiAdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics. 
+      * The %MAINWEB%.WikiAdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics. 
    * *01 May 2001* - TWiki:Main.JohnTalintyre
       * Meta information format, see TWikiMetaData
    * *01 May 2001* - TWiki:Main.JohnTalintyre

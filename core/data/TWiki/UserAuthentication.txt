@@ -77,7 +77,7 @@ Template Login asks for a username and password in a web page, and processes the
    1 Register yourself in the TWikiRegistration topic.
     <br /> %H% Check that the password manager recognises the new user. If you are using =.htpasswd= files, check that a new line with the username and encrypted password is added to the =.htpasswd= file. If not, you probably got a path wrong, or the permissions may not allow the webserver user to write to that file.
    1 Create a new topic to check if authentication works.
-   1 *Edit the %USERSWEB%.TWikiAdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
+   1 *Edit the %USERSWEB%.WikiAdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
     <br /> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.
 
 AccessControl has more information on setting up access controls.
@@ -114,7 +114,7 @@ You can use any other Apache authentication module that sets REMOTE_USER.
    1 Register yourself in the TWikiRegistration topic.
     <br /> %H% Check that a new line with the username and encrypted password is added to the =.htpasswd= file. If not, you may have got a path wrong, or the permissions may not allow the webserver user to write to that file.
    1 Create a new topic to check if authentication works.
-   1 *Edit the %USERSWEB%.TWikiAdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
+   1 *Edit the %USERSWEB%.WikiAdminGroup topic in the %USERSWEB% web to include users with system administrator status.*
     <br /> %X% *This is a very important step*, as users in this group can access _all_ topics, independent of %WIKITOOLNAME% access controls.
 AccessControl has more information on setting up access controls.
 

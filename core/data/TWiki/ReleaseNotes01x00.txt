@@ -161,8 +161,8 @@ Note: Remember to restrict access to this new directory when you upgrade.
 ---+++ New Internal Admin Login
 
 TWiki 4.2 introduces a new _Internal Admin Login_ feature which uses "admin" (configurable) as username and the password from configure to become temporary administrator. 
-When you do a new installation you need to use this feature as !Main.TWikiAdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. 
-From configure there is a link to the !TWikiAdminGroup topic and on !TWikiAdminGroup the step by step instructions are written in a yellow box. 
+When you do a new installation you need to use this feature as !Main.WikiAdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. 
+From configure there is a link to the !WikiAdminGroup topic and on !WikiAdminGroup the step by step instructions are written in a yellow box. 
 
 ---+++ Rearchitected User Mapping system (a transperant change for end users)
 
@@ -496,7 +496,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item2326][Item2326]] | Remove the secret NEWTOPICLINKSYMBOL (was missing docs for =NEWTOPIC*= ) |
 | [[%BUGS%/Item2244][Item2244]] | Documented METASEARCH parameter defaults are not the actual defaults |
 | [[%BUGS%/Item2221][Item2221]] | .changes is hardcoded to 500 entries, affecting WebStatistics and MailerContrib |
-| [[%BUGS%/Item2108][Item2108]] | Better installation doc for !TWikiAdminGroup |
+| [[%BUGS%/Item2108][Item2108]] | Better installation doc for !WikiAdminGroup |
 | [[%BUGS%/Item2032][Item2032]] | Some UTF8 characters in form values broken (CGI.pm interaction) |
 | [[%BUGS%/Item2005][Item2005]] | Cannot change configure password without making other changes |
 | [[%BUGS%/Item1993][Item1993]] | IE eats newlines |

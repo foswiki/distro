@@ -5,7 +5,7 @@
    * Member list (comma-separated list):
       * Set GROUP = 
    * Persons/group who can change the list:
-      * Set ALLOWTOPICCHANGE = TWikiAdminGroup
+      * Set ALLOWTOPICCHANGE = WikiAdminGroup
 
 %INCLUDE{"%MAINWEB%.TWikiAdminUser" section="sudo_login"}%
 
@@ -21,7 +21,7 @@ If you haven't previously set up an administrator, follow these steps:
    1 [[%LOGOUTURL%][Logout]] from the Internal TWikiAdminUser
    1 Verify that new members show up properly in the group listing at %MAINWEB%.TWikiGroups
    1 Make sure always to keep this topic write protected by keeping the already defined ALLOWTOPICCHANGE setting
-   1 The ALLOWTOPICHANGE and ALLOWTOPICRENAME settings in [[%SYSTEMWEB%.DefaultPreferences]] and [[%USERSWEB%.SitePreferences]] have already been set to this group (<nop>TWikiAdminGroup), restricting edit of site-wide preferences to the TWiki Administrator Group
+   1 The ALLOWTOPICHANGE and ALLOWTOPICRENAME settings in [[%SYSTEMWEB%.DefaultPreferences]] and [[%USERSWEB%.SitePreferences]] have already been set to this group (<nop>WikiAdminGroup), restricting edit of site-wide preferences to the TWiki Administrator Group
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 

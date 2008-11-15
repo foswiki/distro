@@ -106,11 +106,11 @@ msgstr "Trebuie să configurați utilizatorul care administrează înregistrări
 #. Description
 #: ../templates:4001
 msgid ""
-"After you have created yourself a user, edit the Main.TWikiAdminGroup to "
+"After you have created yourself a user, edit the Main.WikiAdminGroup to "
 "restrict Admin privileges to that user."
 msgstr ""
 "După ce ați creat un utilizator pentru dumneavoastră, editați Main."
-"TWikiAdminGroup pentru a acorda privilegii de administrare doar acelui "
+"WikiAdminGroup pentru a acorda privilegii de administrare doar acelui "
 "utilizator."
 
 #. Type: string
