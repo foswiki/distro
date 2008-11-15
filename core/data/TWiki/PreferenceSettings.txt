@@ -1,0 +1,19 @@
+---++ Help on Preferences
+   * A _preference setting_ lets you define a simple [[macro]] that can be expanded in your output.
+   * A preference setting looks like this: <br /> =3 or 6 spaces * Set NAME = value= <br /> Example:
+      * S<nop>et WEBBGCOLOR = #FFFFC0
+   * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
+      * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser
+   * Macros defined using preference settings are expanded by enclosing the name in percent signs. Example:
+      * When you write =%WEB<nop>BGCOLOR%=, it gets expanded to =%WEBBGCOLOR%=
+   * The sequential order of the preference settings is significant. i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= setting.
+   * You can introduce your own preference settings and use them in your topics and templates.
+   * Preferences can be defined in a number of places:
+      1 %SYSTEMWEB%.DefaultPreferences
+      1 %USERSWEB%.SitePreferences
+      1 Parent webs !WebPreferences
+      1 !WebPreferences
+      1 In user topics
+      1 In Plugin documentation topics
+      1 In topics
+   * Preference settings can be _finalised_, which means they can't be redefined
