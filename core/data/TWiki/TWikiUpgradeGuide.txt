@@ -21,7 +21,7 @@ TWiki-4.0.0 was a major new release. TWiki-4.1.0 was a minor release without dra
 
 ---++ Major Changes Compared to TWiki Release 01-Sep-2004 and TWiki Release 4.0.0
 
-See ReleaseNotes01x01
+See ReleaseNotes01x00
 
 
 #ManualUpgradeProcedure
