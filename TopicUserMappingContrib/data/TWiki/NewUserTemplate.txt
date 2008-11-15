@@ -20,7 +20,7 @@ Note: if personal data is being stored using a secret database, then it is only 
 
 ---++ My Personal Preferences
 
-Uncomment preferences variables to activate them (remove the #-sign). Help and details on preferences variables are available in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]].
+Uncomment preference settings to activate them (remove the #-sign). Help and details on preference settings are available in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]].
 
    * Show tool-tip topic info on mouse-over of [[%SYSTEMWEB%.WikiWord][WikiWord]] links, on or off:
       * #Set LINKTOOLTIPINFO = off
@@ -73,7 +73,7 @@ Text for multilingual wiki community, copy from here to %<nop>ENDSECTION{type="t
 
 ---++ %MAKETEXT{"Personal Preferences"}%
 
-%MAKETEXT{"Uncomment preferences variables to activate them (remove the #-sign). Help and details on preferences variables are available in [_1]." args="[[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]]"}%
+%MAKETEXT{"Uncomment preference settings to activate them (remove the #-sign). Help and details on preference settings are available in [_1]." args="[[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]]"}%
 
    * %MAKETEXT{"Show tool-tip topic info on mouse-over of [_1] links, on or off:" args="[[%SYSTEMWEB%.WikiWord][WikiWord]]"}%
       * #Set LINKTOOLTIPINFO = off

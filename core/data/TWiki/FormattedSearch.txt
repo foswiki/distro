@@ -5,7 +5,7 @@
 
 _Inline search feature allows flexible formatting of search result_
 
-The default output format of a =[[VarSEARCH][%<nop>SEARCH{...}%]]= is a table consisting of topic names and topic summaries. Use the =format="..."= parameter to customize the search result. The format parameter typically defines a bullet or a table row containing variables, such as =%<nop>SEARCH{ "food" format="| $topic | $summary |" }%=. See =[[VarSEARCH][%<nop>SEARCH{...}%]]= for other search parameters, such as =separator=""=.
+The default output format of a =[[VarSEARCH][%<nop>SEARCH{...}%]]= is a table consisting of topic names and topic summaries. Use the =format="..."= parameter to customize the search result. The format parameter typically defines a bullet or a table row containing macros, such as =%<nop>SEARCH{ "food" format="| $topic | $summary |" }%=. See =[[VarSEARCH][%<nop>SEARCH{...}%]]= for other search parameters, such as =separator=""=.
 
 %TOC%
 
@@ -17,7 +17,7 @@ Two parameters can be used to specify a customized search result:
 
 Use the header parameter to specify the header of a search result. It should correspond to the format of the format parameter. This parameter is optional. <br /> Example: =header="| <nop>*Topic:*<nop> | <nop>*Summary:*<nop> |"=
 
-Variables that can be used in the header string:
+Format tokens that can be used in the header string:
 
 | *Name:* | *Expands To:* |
 | =$web= | Name of the web |
@@ -28,7 +28,7 @@ Variables that can be used in the header string:
 Use the format parameter to specify the format of one search hit.
 <br /> Example: =format="| $topic | $summary |"=
 
-Variables that can be used in the format string:
+Format tokens that can be used in the format string:
 
 | *Name:* | *Expands To:* |
 | =$web= | Name of the web |
@@ -52,7 +52,7 @@ Variables that can be used in the format string:
 | =$createwikiusername= | Wiki user name of topic revision 1, e.g. =%USERSWEB%.<nop>JohnSmith= |
 | =$summary= | Topic summary, just the plain text, all formatting and line breaks removed; up to 162 characters |
 | =$summary(50)= | Topic summary, up to 50 characters shown |
-| =$summary(showvarnames)= | Topic summary, with =%<nop>ALLTWIKI{...}%= variables shown as =ALLTWIKI{...}= |
+| =$summary(showvarnames)= | Topic summary, with =%<nop>ALLTWIKI{...}%= macros shown as =ALLTWIKI{...}= |
 | =$summary(noheader)= | Topic summary, with leading =---+ headers= removed%BR% __Note:__ The tokens can be combined, for example =$summary(100, showvarnames, noheader)= |
 | =$changes= | Summary of changes between latest rev and previous rev |
 | =$changes(n)= | Summary of changes between latest rev and rev n |

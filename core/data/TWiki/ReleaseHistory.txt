@@ -486,7 +486,7 @@ __Major New Features__
    * *12 Jun 2002* - TWiki:Main.PeterThoeny
       * New =%<nop>WIKITOOLNAME%= variable in %WIKIPREFSTOPIC%; replacing =$wikiToolName= in TWiki.cfg
    * *31 May 2002* - TWiki:Main.PeterThoeny
-      * New =%<nop>EDITBOXSTYLE%= preferences variable which sets the edit box width automatically to the window width
+      * New =%<nop>EDITBOXSTYLE%= preferences setting which sets the edit box width automatically to the window width
    * *17 May 2002* - TWiki:Main.PeterThoeny
       * New =%<nop>URLENCODE{}%= variable to encodes a string for using in a URL parameter, e.g. =%<nop>URLENCODE{"spaced name"}%= returns =spaced%20name=
    * *17 May 2002* - TWiki:Main.PeterThoeny
@@ -606,7 +606,7 @@ __Major New Features__
    * *19 Aug 2000* - TWiki:Main.PeterThoeny
       * Ref-By link searches all webs (not just the current web.) 
    * *16 Aug 2000* - TWiki:Main.PeterThoeny
-      * New !TWikiPreferences variables =%<nop>HTTP_EQUIV_ON_VIEW%= , =%<nop>HTTP_EQUIV_ON_EDIT%= and =%<nop>HTTP_EQUIV_ON_PREVIEW%= that define the =&lt;meta http-equiv="..."&gt;= meta tags for the TWiki templates. This can be used for example to set a document expiration time. 
+      * New !TWikiPreferences settings =%<nop>HTTP_EQUIV_ON_VIEW%= , =%<nop>HTTP_EQUIV_ON_EDIT%= and =%<nop>HTTP_EQUIV_ON_PREVIEW%= that define the =&lt;meta http-equiv="..."&gt;= meta tags for the TWiki templates. This can be used for example to set a document expiration time. 
    * *29 Jul 2000* - TWiki:Main.PeterThoeny
       * New variables =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= . More in TWikiVariables. 
    * *23 Jul 2000* - TWiki:Main.PeterThoeny
@@ -641,11 +641,11 @@ __Major New Features__
    * *21 Apr 2000* - TWiki:Main.JohnAltstadt, TWiki:Main.PeterThoeny
       * TWikiRegistration is done separately for Intranet use (depends on remote_user) or Internet use (depends on .htpasswd file). 
    * *20 Mar 2000* - TWiki:Main.PeterThoeny
-      * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference variable =%<nop>ATTACHLINKBOX%= controls the default state of the __link__ check box in the attach file page. 
+      * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference setting =%<nop>ATTACHLINKBOX%= controls the default state of the __link__ check box in the attach file page. 
    * *11 Mar 2000* - TWiki:Main.PeterThoeny
       * Better security with taint checking ( =Perl -T= option ) 
    * *25 Feb 2000* - TWiki:Main.PeterThoeny
-      * New preference variables =%<nop>EDITBOXWIDTH%= and =%<nop>EDITBOXHEIGHT%= to specify the edit box size. 
+      * New preference settings =%<nop>EDITBOXWIDTH%= and =%<nop>EDITBOXHEIGHT%= to specify the edit box size. 
    * *25 Feb 2000* - TWiki:Main.PeterThoeny
       * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (!TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.WikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.  
    * *11 Feb 2000* - TWiki:Main.PeterThoeny

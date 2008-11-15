@@ -15,9 +15,9 @@
 <ul>
     <li> ==Normal== - Normal text style </li>
     <li> ==Heading 1-6== - Headings; 1 is largest </li>
-    <li> ==VERBATIM== - Text is shown in monospace with line breaks. Wraps &lt;verbatim&gt; tags around the selected text. No TWiki variables are interpreted inside verbatim tags. </li>
+    <li> ==VERBATIM== - Text is shown in monospace with line breaks. Wraps &lt;verbatim&gt; tags around the selected text. No macros are interpreted inside verbatim tags. </li>
     <li> ==LITERAL== - Styled content is saved exactly as it appears in the editor. Saves the selected content as raw HTML and wraps it in &lt;literal> tags. </li>
-    <li> ==Protect on save== - Prevent any change to the selected text when the edit is saved. Use this to save advanced TWiki variables where you do not want the Wysiwyg editor to modify the text during save. </li>
+    <li> ==Protect on save== - Prevent any change to the selected text when the edit is saved. Use this to save advanced macros where you do not want the Wysiwyg editor to modify the text during save. </li>
     <li> ==Protect forever== - Content is saved exactly as it is typed, and the protection is still there in future edit sessions. Content is wrapped in &lt;sticky&gt; tags. </li>
    </ul>
 </td>
@@ -33,7 +33,7 @@
 <ul>
 <li> Just type it in. When the topic is saved, what you type will be saved just as you wrote it.  </li>
 <li> If any part of your variable parameters is sensitive to spacing, then select the entire TWiki variable and assign the ==PROTECTED== style to it before you save. </li></ul>
-<span class="twikiUnvisited">[[%SYSTEMWEB%.Macros][More on Macros]]</span>
+<span class="twikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
 <ul>

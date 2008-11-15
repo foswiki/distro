@@ -5,12 +5,12 @@
    * Syntax: =%<nop>REVINFO{"format"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |
-     | ="format"= | Format of revision information, see supported variables below | ="r1.$rev - $date - $wikiusername"= |
+     | ="format"= | Format of revision information, see supported formatting tokens below | ="r1.$rev - $date - $wikiusername"= |
      | =web="..."= | Name of web | Current web |
      | =topic="..."= | Topic name | Current topic |
      | =rev="1.5"= | Specific revison number | Latest revision |
-   * Supported variables in format:
-     | *Variable:* | *Unit:* | *Example* |
+   * Supported formatting tokens:
+     | *Token:* | *Unit:* | *Example* |
      | =$web= | Name of web | Current web |
      | =$topic= | Topic name | Current topic |
      | =$rev= | Revison number. Prefix =r1.= to get the usual =r1.5= format | =5= |

@@ -4,9 +4,9 @@
    * A preferences setting can be disabled with a # sign. Remove the # sign to enable a local customisation. Example:%BR%
       * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs. Example:
-      * When you write variable =%WEB<nop>BGCOLOR%= , it gets expanded to =%WEBBGCOLOR%=
+      * When you write =%WEB<nop>BGCOLOR%= , it gets expanded to =%WEBBGCOLOR%=
    * The sequential order of the preference settings is significant. Define preferences that use other preferences first, i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= variable.
-   * You can introduce your own preferences variables and use them in your topics and templates.
+   * You can introduce your own preference settings and use them in your topics and templates.
 
 ---++ Related Topics
    * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]], [[%LOCALSITEPREFS%]] - site-level preferences

@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarTOPICLIST
 ---+++ TOPICLIST{"format"} -- topic index of a web
-   * List of all topics in a web. The "format" defines the format of one topic item. It may include variables: The =$topic= variable gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
+   * List of all topics in a web. The "format" defines the format of one topic item. It may include formatting tokens: The =$topic= token gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
    * Syntax: =%<nop>TOPICLIST{"format" ...}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |

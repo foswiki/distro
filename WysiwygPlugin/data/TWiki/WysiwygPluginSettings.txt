@@ -1,14 +1,14 @@
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
-The *global* TWiki Variable =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
+The *global* preference setting =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
    * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
-   * =variables= - simple variables (e.g. =%<nop>VAR%=) or 
-   * =calls= - TWiki variables with parameters e.g. =%<nop>VARIABLE{...}%=
+   * =variables= - simple macros (e.g. =%<nop>VAR%=) or 
+   * =calls= - macros with parameters e.g. =%<nop>VARIABLE{...}%=
    * =pre= blocks (=&lt;pre&gt;=)
    * HTML =comments= (=&lt;!--= ... =--&gt;=)
 If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
 
-If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of TWiki variables that do *not* block edits. this is done in the *global* TWiki variable =WYSIWYG_EDITABLE_CALLS=, which should be a list of TWiki variable names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
+If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* preference setting =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
 
 You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
 

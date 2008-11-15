@@ -11,7 +11,7 @@ Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%S
 </verbatim>
 
 ---+++!! Step 2
-Edit this topic, and change the color variables as you like.
+Edit this topic, and change the color preference settings as you like.
 
 ---+++!! Step 3
 Save the topic. This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme-colors.css][attachment]] to topic [[PatternSkin]].
@@ -20,7 +20,7 @@ Save the topic. This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/the
 
 %ICON{"info"}% For more help on customizing styles, see [[PatternSkinCustomization]].
 
----++!! Color variables
+---++!! Color preference settings
 %TOC%
 
 ---++ Logical groupings
@@ -182,7 +182,7 @@ Save the topic. This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/the
 ---++++ FORM_HEADER_TEXT Header text on form background
    * Set FORM_HEADER_TEXT = #036
 
-<!-- END OF COLOR VARIABLES -->
+<!-- END OF COLOR PREFERENCES -->
 
 Do not change the text below this line unless you know what you are doing!
 ---

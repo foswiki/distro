@@ -201,7 +201,7 @@ user sets.
 
 ---++ Deprecation Notices
 
-The %<nop>MAINWEB% and %<nop>SYSTEMWEB% variables have been deprecated. For compatibility reasons they are unlikely to ever be removed completely, but you should use the %<nop>USERSWEB% and %<nop>SYSTEMWEB% variables instead.
+The %<nop>MAINWEB% and %<nop>SYSTEMWEB% macros have been deprecated. For compatibility reasons they are unlikely to ever be removed completely, but you should use the %<nop>USERSWEB% and %<nop>SYSTEMWEB% macros instead.
 
 In Func getOopsUrl and permissionsSet have been declared deprecated. There is no plan to remove them yet.
 
@@ -386,7 +386,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item3911][Item3911]] | default preview tmpl has major bug in release value="%REDIRECTTO"  |
 | [[%BUGS%/Item3909][Item3909]] | Pattern skin template documentation update |
 | [[%BUGS%/Item3902][Item3902]] | Reset Password is broken in MAIN branch |
-| [[%BUGS%/Item3900][Item3900]] | New CARET preferences variable |
+| [[%BUGS%/Item3900][Item3900]] | New CARET preferences setting |
 | [[%BUGS%/Item3897][Item3897]] | Fix sanitizeAttachmentName |
 | [[%BUGS%/Item3895][Item3895]] | Structure the TWiki version number to make accessible from plugins (code included) |
 | [[%BUGS%/Item3892][Item3892]] | Do not automatically lock user homepages when this is not set in !NewUserTemplate |

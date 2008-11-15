@@ -65,7 +65,7 @@ You can also retrieve possible values for =select=, =checkbox= or =radio= types 
      | Public FAQ |
 </blockquote>
 
-Field values can also be set using the result of expanding other TWiki variables. For example,
+Field values can also be set using the result of expanding other macros. For example,
 
 <blockquote>
 =%<nop>SEARCH{"Office$" scope="topic" web="%<nop>USERSWEB%" nonoise="on" type="regex" format="$web.$topic" separator=", " }%=
@@ -76,7 +76,7 @@ When used in the value field of the form definition, this will find all topic na
 #EnablingForms
 ---++ Enabling Forms by Web
 
-Forms have to be enabled for each individual web. The ==WEBFORMS== variable in WebPreferences is optional and defines a list of possible form templates.
+Forms have to be enabled for each individual web. The ==WEBFORMS== setting in WebPreferences is optional and defines a list of possible form templates.
 <blockquote>
 *Example:*
    * <nop>Set WEBFORMS = <nop>BugForm, <nop>FeatureForm, Books.<nop>BookLoanForm
@@ -164,9 +164,9 @@ For example, a simple form just supporting entry of a name and a date would look
    * The field value will be used to initialize a field when a form is created, unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form template.
    * Leading and trailing spaces are _not_ significant.
    * Field values can also be generated through a %SYSTEMWEB%.FormattedSearch, which must yield a suitable table as the result.
-   * Variables in the initial values of a form definition get expanded when the form definition is loaded.
+   * Macros in the initial values of a form definition get expanded when the form definition is loaded.
       * If you want to use a =|= character in the initial values field, you have to precede it with a backslash, thus: =\|=.
-      * You can use =&lt;nop>= to prevent TWiki variables from being expanded.
+      * You can use =&lt;nop>= to prevent macros from being expanded.
       * The FormatTokens can be used to prevent expansion of other characters.
 *General Notes:*
    * The topic definition is not read when a topic is viewed.
@@ -205,7 +205,7 @@ Types with names like this can both take multiple values.
 A Form Template specifies the fields in a form. A Form Template is simply a page containing a TWiki table, where each row of the table specifies one form field.
 #UsingFormData
 ---+++ Searching for Form Data
-TWiki Forms accept user-input data, stored as MetaData. Meta data also contains program-generated info about changes, attachments, etc. To find, format and display form and other meta data, see MetaData, ==FORMFIELD==, ==SEARCH== and ==METASEARCH== variables in [[%SYSTEMWEB%.Macros][Macros]], and [[FormattedSearch][TWiki Formatted Search]].
+Data Forms accept user-input data, stored as MetaData. Meta data also contains program-generated info about changes, attachments, etc. To find, format and display form and other meta data, see MetaData, ==FORMFIELD==, ==SEARCH== and ==METASEARCH== in [[%SYSTEMWEB%.Macros][Macros]], and [[FormattedSearch][TWiki Formatted Search]].
 
 <blockquote>
 *Example* %BR%

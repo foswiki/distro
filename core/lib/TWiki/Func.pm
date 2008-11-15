@@ -22,13 +22,10 @@ Deprecated functions will still work in older code, though they should
 _not_ be called in new Plugins and should be replaced in older Plugins
 as soon as possible.
 
-The version of the TWiki::Func module is defined by the VERSION number of the
-TWiki::Plugins module, currently %PLUGINVERSION%. This can be shown
-by the =%<nop>PLUGINVERSION%= TWiki variable, and accessed in code using
-=$TWiki::Plugins::VERSION=. The 'Since' field in the function
-documentation refers to =$TWiki::Plugins::VERSION=.
+The compatibility history of this module is given by the VERSION number
+of the TWiki::Plugins module.
 
-Notes on use of =$TWiki::Plugins::VERSION= (from 1.2 forwards):
+Notes on use of =$TWiki::Plugins::VERSION= (from TWiki 1.2 forwards):
    * If the *major* version (e.g. =1.=) is the same then any plugin coded
      to use any *earlier* revision of the =1.= API will still work. No
      function has been removed from the interface, nor has any API published
@@ -1131,7 +1128,7 @@ sub checkAccessPermission {
 
 =pod
 
----+++ getListOfWebs( $filter ) -> @webs
+---+++ getListOfWebs( $filter [, $web] ) -> @webs
 
    * =$filter= - spec of web types to recover
 Gets a list of webs, filtered according to the spec in the $filter,
@@ -1141,6 +1138,7 @@ which may include one of:
 =$filter= may also contain the word 'public' which will further filter
 out webs that have NOSEARCHALL set on them.
 'allowed' filters out webs the current user can't read.
+   * =$web= - (since NextWiki 1.0.0) name of web to get list of subwebs for. Defaults to the root.
 
 For example, the deprecated getPublicWebList function can be duplicated
 as follows:
@@ -1153,9 +1151,8 @@ as follows:
 =cut
 
 sub getListOfWebs {
-    my $filter = shift;
     ASSERT($TWiki::Plugins::SESSION) if DEBUG;
-    return $TWiki::Plugins::SESSION->{store}->getListOfWebs($filter);
+    return $TWiki::Plugins::SESSION->{store}->getListOfWebs(@_);
 }
 
 =pod
@@ -1790,13 +1787,13 @@ sub readAttachment {
 
 =pod
 
----+++ saveAttachment( $web, $topic, $attachment, $opts )
+---+++ saveAttachment( $web, $topic, $attachment, \%opts )
 
    * =$web= - web for topic
    * =$topic= - topic to atach to
    * =$attachment= - name of the attachment
-   * =$opts= - Ref to hash of options
-=$opts= may include:
+   * =\%opts= - Ref to hash of options
+=\%opts= may include:
 | =dontlog= | don't log this change in twiki log |
 | =comment= | comment for save |
 | =hide= | if the attachment is to be hidden in normal topic view |

@@ -17,11 +17,11 @@ When you create a new topic using the =edit= script, the system locates a templa
    1 <nop>WebTopicEditTemplate in the %SYSTEMWEB% web
 
 #TemplateTopicsVars
----+++ Variable Expansion
+---+++ Macro Expansion
 
-When the following variables are used in a template topic, they automatically get expanded when new topic is created based on it:
+When the following macros are used in a template topic, they automatically get expanded when new topic is created based on it:
 
-| *Variable:* | *Description:* |
+| *Macro:* | *Description:* |
 | =%<nop>DATE%= | Signature format date. See VarDATE |
 | =%<nop>GMTIME%= | Date/time. See VarGMTIME |
 | =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME2 |
@@ -45,7 +45,7 @@ This will restrict who can edit the template topic, but will get removed when a 
 
 =%<nop>NOP%= can be used to prevent expansion of [[macros]] that would otherwise be expanded during topic creation e.g.i escape =%<nop>SERVERTIME%= with =%<nop>SER%<nop>NOP%VERTIME%=.
 
-All other variables are unchanged, e.g. are carried over "as is" into the new topic.
+All other macros are unchanged, e.g. are carried over "as is" into the new topic.
 
 ---+++ Specifying a Form
 When you create a new topic based on a template topic, you often want the new topic to have a form attached to it. You can attach a form to the template topic, in which case it will automatically be copied into the new topic.
@@ -98,7 +98,7 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
 
 See CommandAndCgiScripts#edit for details of the parameters that the =edit= script understands.
 
-%T% *TIP:* You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= variables in your template topics to include the signature of the person creating a new topic. The variables are expanded into fixed text when a new topic is created. The standard signature is: <br />
+%T% *TIP:* You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The variables are expanded into fixed text when a new topic is created. The standard signature is: <br />
 ==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==
 
 ---+++ Using Absolute vs Relative URLs in Templates

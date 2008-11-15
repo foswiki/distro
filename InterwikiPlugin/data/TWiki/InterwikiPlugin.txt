@@ -13,13 +13,13 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
    * Add and edit aliases in %SYSTEMWEB%.InterWikis.
    * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
    * Site aliases must start with an upper case letter and may contain alphanumeric letters.
-   * The URL and Tooltip Text may contain optional ==$page== variables; the variable gets expanded to the page name.
+   * The URL and Tooltip Text may contain optional ==$page== fromatting tokens; the token gets expanded to the page name.
    * %H% For TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>TWikisite:Webname/<nop>SomePage==
       * TWiki:Plugins/InterwikiPlugin or TWiki:Plugins.InterwikiPlugin
 
 ---++ <nop>%TOPIC% Settings
 
-Plugin settings are stored as Preferences variables. To reference
+Plugin settings are stored as preference settings. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
    * One-line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
@@ -28,7 +28,8 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
    * Link rules topic name: (default is %SYSTEMWEB%.InterWikis)
       * Set RULESTOPIC = 
 
-   * Inter-link format, with variables:
+   * Inter-link format, with formatting tokens:
+     | *Token* | *Meaning* |
      | $site | Site alias |
      | $page | Page (part after colon) |
      | $url | Site URL (might contain $page) |

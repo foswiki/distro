@@ -69,7 +69,7 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
       1. ==Attach== file: =Sample.txt=
       1. ==Edit== topic and write text: =%<nop>INCLUDE{"%<nop>ATTACHURL%/Sample.txt"}%=
          * Content of attached file is shown inlined.
-         * Read more about INCLUDE in [[VarINCLUDE][TWiki<nop>Variables]]
+         * [[VarINCLUDE][Read more about INCLUDE]].
 
    * GIF, JPG and PNG images can be attached and shown embedded in a topic. Example:
       1. ==Attach== file: =Smile.gif=

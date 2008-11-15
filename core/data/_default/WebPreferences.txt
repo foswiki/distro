@@ -27,7 +27,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
       * #Set WEBLOGOALT = %WEBLOGOALT%
 
    * List this web in the [[%SYSTEMWEB%.SiteMap][SiteMap]]. If you want the web listed, then set SITEMAPLIST to =on=, do not set NOSEARCHALL, and add the "what" and "use to..." description for the site map. Use links that include the name of the web, i.e. <nop>%WEB%.Topic links.%BR%
-      __Note:__ Unlike other variables, the setting of SITEMAPLIST is *not* inherited from parent webs. It has to be set in *every* web that is to be listed in the [[%SYSTEMWEB%.SiteMap][SiteMap]] %BR%
+      __Note:__ Unlike other settings, SITEMAPLIST is *not* inherited from parent webs. It has to be set in *every* web that is to be listed in the [[%SYSTEMWEB%.SiteMap][SiteMap]] %BR%
       * Set SITEMAPLIST = on
       * Set SITEMAPWHAT = 
       * Set SITEMAPUSETO = 

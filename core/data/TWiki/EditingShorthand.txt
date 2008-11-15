@@ -142,7 +142,7 @@ _this does not _
  *Verbatim Text:* %BR%
  Surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags.%BR%
 %T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR%
-__%X% NOTE:__ Preferences variables (* Set NAME = value) are set within verbatim tags.
+__%X% NOTE:__ Preferences settings (* Set NAME = value) are set within verbatim tags.
 </td><td>
 <verbatim>
 <verbatim>
@@ -461,7 +461,7 @@ a@b.com
  *Experts* surround anything that must be output literally in the HTML code, without the application of
  TWiki shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags. %X% any HTML
  within literal tags *must* be well formed i.e. all tags must be properly closed before
- the end of the literal block. %I% TWiki Variables are expanded within literal blocks.
+ the end of the literal block. %I% Macros are expanded within literal blocks.
 </td><td>
 <pre>
 &lt;literal&gt;

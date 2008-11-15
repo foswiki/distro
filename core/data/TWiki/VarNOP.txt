@@ -3,7 +3,7 @@
 #VarNOP
 ---+++ NOP -- template text not to be expanded in instantiated topics
    * Syntax: =%<nop>NOP%=
-      * In normal topic text, expands to &lt;nop>, which prevents expansion of adjacent variables and wikiwords
+      * In normal topic text, expands to &lt;nop>, which prevents expansion of adjacent macros and wikiwords
       * When the topic containing this is used as a template for another topic, it is removed.
    * Syntax: =%<nop>NOP{...}%= *deprecated*
       * In normal topic text, expands to whatever is in the curly braces (if anything).

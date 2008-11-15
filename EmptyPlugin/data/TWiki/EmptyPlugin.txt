@@ -15,7 +15,7 @@ To create your own Plugin:
 
 ---++ Plugin Settings
 
-Plugin settings are stored as preferences variables. To reference
+Plugin settings are stored as preference settings. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>EMPTYPLUGIN_SHORTDESCRIPTION%==
 
    * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:

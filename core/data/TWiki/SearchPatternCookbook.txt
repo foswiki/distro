@@ -173,7 +173,7 @@ How to get to the parent of the current topic to display on the page?
 
 ---+++ Solution 1: Using META
 
-Since TWiki 4.0 you can now use the META variable:
+Since TWiki 4.0 you can now use the META macro:
 
 =%<nop>META{ "parent" dontrecurse="on" }%=
 
@@ -270,7 +270,7 @@ Public webs of TWiki.
 
 ---+++ Alternative solution
 
-This result can also be accomplished with the %<nop>WEBLIST% variable.
+This result can also be accomplished with the %<nop>WEBLIST% macro.
 
 <form>
 <select name="topic">

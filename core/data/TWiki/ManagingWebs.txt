@@ -92,7 +92,7 @@ If anyone is editing a topic which requires updating, or which lives in the web 
 
 It is possible, though not recommended, to change the names of the webs in the distribution.
 
-If you plan to rename the %USERSWEB% web, remember that TWiki stores user topics in this web. That means that every WikiName signature - =%USERSWEB%.<nop>SomeUserName= - points to it and would need updating (unless the variable, =%<nop>USERSWEB%.<nop>SomeUserName=, is used throughout). This potentially large change can be performed automatically if you rename the web from the Tools section of %WEBPREFSTOPIC%, as described above.
+If you plan to rename the %USERSWEB% web, remember that TWiki stores user topics in this web. That means that every WikiName signature - =%USERSWEB%.<nop>SomeUserName= - points to it and would need updating (unless the macro style =%<nop>USERSWEB%.<nop>SomeUserName=, is used throughout). This potentially large change can be performed automatically if you rename the web from the Tools section of %WEBPREFSTOPIC%, as described above.
 
 %X% If you want to rename the %SYSTEMWEB% or %USERSWEB% webs, remember they are referred to in the TWiki configuration. You will need to change the ={SystemWebName}=, ={UsersWebName}= and/or ={LocalSitePreferences}= settings in the configuration using the [[%SCRIPTURL{configure}%][configure]] interface.
 

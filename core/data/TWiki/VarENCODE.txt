@@ -16,7 +16,7 @@
      | =type="url"= | Encode special characters for URL parameter use, like a double quote into =%22= | (this is the default) |
    * Example: =%<nop>ENCODE{"spaced name"}%= expands to =%ENCODE{"spaced name"}%=
    * __%X% Note:__ Values of HTML input fields must be entity encoded.%BR% Example: =&lt;input type="text" name="address" value="%<nop>ENCODE{ "any text" type="entity" }%" /&gt;=
-   * __%X% Note:__ Double quotes in strings must be escaped when passed into other TWiki variables.%BR% Example: =%<nop>SEARCH{ "%<nop>ENCODE{ "string with "quotes"" type="quotes" }%" noheader="on" }%=
+   * __%X% Note:__ Double quotes in strings must be escaped when passed into other macros.%BR% Example: =%<nop>SEARCH{ "%<nop>ENCODE{ "string with "quotes"" type="quotes" }%" noheader="on" }%=
 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarURLPARAM][URLPARAM]]
 

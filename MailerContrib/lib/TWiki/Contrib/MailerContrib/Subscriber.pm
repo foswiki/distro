@@ -266,7 +266,9 @@ sub stringify {
     $unsubs = " - $unsubs" if $unsubs;
 
     my $name = $this->{name};
-    if ($name !~ /^($TWiki::regex{wikiWordRegex}|$TWiki::cfg{MailerContrib}{EmailFilterIn})$/) {
+    if ($name =~ /^$TWiki::regex{wikiWordRegex}$/) {
+        $name = '%USERSWEB%.'.$name;
+    } elsif ($name !~ /^$TWiki::cfg{MailerContrib}{EmailFilterIn})$/) {
         $name = $name =~ /'/ ? '"'.$name.'"' : "'$name'";
     }
     return "   * " . $name . ": " .

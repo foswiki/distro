@@ -2,6 +2,6 @@
 %META:TOPICPARENT{name="DefaultPreferences!"}%
 #VarTOPICURL
 ---+++ TOPICURL -- shortcut to viewing the current topic
-   * This variable always expands to an url pointing to the current base topic.
+   * This macro always expands to an url pointing to the current base topic.
    * Type: ShortcutMacro
    * Current value: TOPICURL = %TOPICURL%

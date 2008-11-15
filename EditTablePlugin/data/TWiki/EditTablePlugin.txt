@@ -16,11 +16,11 @@ Multiple tables per topic are editable, but only one at a time can be edited.
 Add a =%<nop>EDITTABLE{...}%= variable just before an existing table to make it editable, or add the variable anywhere in a topic to start a new table.
 %INCLUDE{"%SYSTEMWEB%.VarEDITTABLE" section="edittable_attributes"}%
 
----+++ Using TWiki Variables in the Format Parameter
+---+++ Using Macros in the Format Parameter
 
-By default, variables in =&lt;initial value&gt;= (of text input field) and =&lt;label text&gt;= (of fixed label) get expanded when a new row is added. This can be used for example to add a timestamp to a label. You can escape characters with format tokens if you do not want that.
+By default, macros in =&lt;initial value&gt;= (of text input field) and =&lt;label text&gt;= (of fixed label) get expanded when a new row is added. This can be used for example to add a timestamp to a label. You can escape characters with format tokens if you do not want that.
 
-Any TWiki variable inside a table cell will be preserved. For instance, =%<nop>TOPIC%= will not get expanded to the current topic name.
+Any macro inside a table cell will be preserved. For instance, =%<nop>TOPIC%= will not get expanded to the current topic name.
 
 The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 
@@ -148,7 +148,7 @@ Table in edit mode:
 
 ---++ Plugin Settings
 
-Plugin settings are stored as preferences variables. To reference
+Plugin settings are stored as preference settings. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>EDITTABLEPLUGIN_SHORTDESCRIPTION%==
 
    * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:

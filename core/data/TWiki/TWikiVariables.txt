@@ -91,7 +91,7 @@ Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to 
 
 ---+++ Frequently Used Preferences macros
 
-The following preferences macros are frequently used. They are defined in DefaultPreferences#Miscellaneous_Settings:
+The following macros are frequently used in topic content. They are defined in DefaultPreferences#Miscellaneous_Settings:
    * =%<nop>BR%= - line break
    * =%<nop>BULLET%= - bullet sign
    * =%<nop>BB%= - line break and bullet combined

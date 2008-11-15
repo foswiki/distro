@@ -15,7 +15,7 @@ A TWiki topic is a rich information unit. *Each* topic has:
    * content
       * edited by simply clicking the [[#PageBottom][edit link]]
       * enter plain text, leaving a blank space between paragraphs like e-mail (all you need)
-      * enter simple TWiki shorthand to represent complex HTML and special TWiki variables
+      * enter simple TWiki shorthand to represent complex HTML and special macros
       * enter HTML if you are familiar with it
       * include links to other topics, URLs, Web sites, files, images, sounds, or anything else you can put on a regular Web page
       * handy pop-up quick reference 

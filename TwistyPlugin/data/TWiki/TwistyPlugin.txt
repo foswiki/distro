@@ -157,7 +157,7 @@ my customer list
 %ENDTWISTY%
 </verbatim>
 
-Note that =id= sets a sitewide cookie. To create a unique id, add topic or web variables:
+Note that =id= sets a sitewide cookie. To create a unique id, add topic or web macros:
 <verbatim>
 id="%WEB%_%TOPIC%_currentCustomerList"
 </verbatim>
@@ -364,7 +364,7 @@ When you want to use links, write:
 
 
 ---++ Special syntax: format tokens
-If you use TWiki variables inside TWISTY parameters chances are it will mess up the variable, or the rendered html. Use format tokens to 'delay' rendering of these variables until the Twisty parameters are parsed.
+If you use macros inside TWISTY parameters chances are it will mess up the variable, or the rendered html. Use format tokens to 'delay' rendering of these variables until the Twisty parameters are parsed.
 
 The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 
@@ -542,7 +542,7 @@ Major features are:
 #PluginSettings
 ---++ Plugin Settings
 
-Plugin settings are stored as preferences variables. To reference
+Plugin settings are stored as preference settings. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>TWISTYPLUGIN_SHORTDESCRIPTION%==
 
    * Set TWISTYSHOWLINK = %MAKETEXT{"More..."}%

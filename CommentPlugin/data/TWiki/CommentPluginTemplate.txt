@@ -5,7 +5,7 @@
 
 See [[%SYSTEMWEB%.CommentPlugin#Customisation][CommentPlugin: Customisation]] for help.
 
-While this topic can be viewed as a TWiki topic, it is used by the CommentPlugin as a template file. The syntax is the same as used for the templates used for presentation in skins - see SkinTemplates. The important content in here is in the verbatim blocks. The rest of the topic is just comments.
+While this topic can be viewed as a topic, it is used by the CommentPlugin as a template file. The syntax is the same as used for the templates used for presentation in skins - see SkinTemplates. The important content in here is in the verbatim blocks. The rest of the topic is just comments.
 
 %ICON{"hand"}% See CommentPluginExamples to view rendered templates
 

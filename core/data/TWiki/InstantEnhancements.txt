@@ -12,13 +12,13 @@ This may spark your imagination to *really* customize your site so that it's opt
 %TOC%
 
 ---
----++ Tips using TWiki Variables
+---++ Tips using Preference Settings
 
-[[Macros]] are a great resource to customize your site. You need to know the variable name and decide where to put it.
+Preference settings can be redefined and are a great resource to customize your site. You need to know the preference name and decide where to put it.
 
 ---+++ Change Colors of Page Header/Footer
 
-Incredibly obvious, maybe, but some TWiki site admins don't get around to changing the default web colors right off, whether they like them or not. Simply changing the defaults will make a huge difference in the overall look. 
+Incredibly obvious, maybe, but some site admins don't get around to changing the default web colors right off, whether they like them or not. Simply changing the defaults will make a huge difference in the overall look. 
 
 *What we are doing*
 
@@ -28,14 +28,14 @@ We want to set variable WEBBGCOLOR in topic WebPreferences to one of the Standar
 
    1 Pick color code from company or product references, the StandardColors table (recommended for 8-bit client compatibility), or some other color reference. 
    2 Go to WebPreferences in each web, and edit the topic.
-   3 Set your preferred WEBBGCOLOR preferences variable, and save the topic.
+   3 Set your preferred WEBBGCOLOR preference setting, and save the topic.
    4 %X% Add a new line immediately after the color code. If there is (invisible) space after the color code, the page header might get strange colors (e.g. black).
 
 It's just as easy to refine later on, so you're not locked in, just looking better.
 
 ---+++ Set Page Background Color 
 
-Without getting into the [[skin templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to new variable. First, define a new preferences variable in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
+Without getting into the [[skin templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to a new setting. First, define a new preference setting in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
 
 ---+++ Titles-Only Topic List - !WebTopicList
 
@@ -48,7 +48,7 @@ Without explaining what WEBTOPICLIST is, just try it:
 
 ---+++ Simple way to create %RED% colored text %ENDCOLOR% and graphics
 
-This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferences, . If not, look at TWiki:TWiki/DefaultPreferences. Look for variables RED, BLUE etc (which define HTML tag FONT). To copy/paste the variables defining the colors you need to see the source text, but =Edit= is disabled. Instead, go to =More= and view the topic in ==raw== format.
+This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferences. If not, look at TWiki:TWiki/DefaultPreferences. Look for the settings RED, BLUE etc (which define HTML tag FONT). To copy/paste the definitions of the colors you need to see the source text, but =Edit= is disabled. Instead, view the topic in ==raw== format (if your skin has no button for this, type "?raw=on" at the end of the URL).
 
 ---+++ EZ Graphic Icons to Highlight Text
 
@@ -56,13 +56,13 @@ Icons can do a lot to enhance scannability of topics. For instance, on *HELP* pa
 
 DocumentGraphics has a whole collection of ready icon images. You can use these images in any topic by referring to their name. For example, !DocumentGraphics has an image attachment called =days.gif=. To show this image in a topic, write =%<nop>ICON{"days"}%= to get %ICON{"days"}%.
 
-*Creating image variables*
+*Creating image macros*
 
-You may find it easier to write shorthand graphic notation. You can create your own image variables by defining them in a preference topic (most likely [[%USERSWEB%.%WIKIPREFSTOPIC%]].)
+You may find it easier to write shorthand graphic notation. You can create your own image macros by defining them in a preference topic (most likely [[%USERSWEB%.%WIKIPREFSTOPIC%]].)
 
 A variable name may be one letter, like =Y=, or may be longer like =HELP=, =WARN= etc. You can also add your own images, e.g. a =NEW=, or a =ASK= to ask question.
 
-For instance, if we want to write =%<nop>DOWN%= instead of =%<nop>ICON{"arrowbdown"}%=, define the new variable like this:
+For instance, if we want to write =%<nop>DOWN%= instead of =%<nop>ICON{"arrowbdown"}%=, define the new macro like this:
 <verbatim>
    * Set DOWN = %ICON{"arrowbdown"}%
 </verbatim>
@@ -75,7 +75,7 @@ Most images in DocumentGraphics are 16 x 16 pixels.
 
    * __Related:__ There are other approaches for creating more extensive TWiki icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
 
----+++ Use TOC variable to create table of content
+---+++ Use TOC macro to create table of content
 
 TOC is Table-Of-Content, generated automagically from headers (defined like that: ==---++== , see TWikiShorthand).
 
@@ -159,7 +159,7 @@ When you're creating main gateway pages, you may want to temporarily (or permane
 If you want to change the logo per TWiki web, simply attach a new logo.gif to the web's <nop>WebPreferences, and change the logo's filename by overriding the name using WEBLOGONAME in <nop>WebPreferences:  
    * =Set WEBLOGONAME = filename.gif=
 
-Other cusomtisations are possible using =WEBLOGOIMG=, =WEBLOGOURL=, and =WEBLOGOALT= (they mirror the =WIKILOGO*= TWiki variables, but are applied to each web, rather than to the %<nop>WIKITOOLNAME%-based references)
+Other cusomtisations are possible using =WEBLOGOIMG=, =WEBLOGOURL=, and =WEBLOGOALT= (they mirror the =WIKILOGO*= macros, but are applied to each web, rather than to the %<nop>WIKITOOLNAME%-based references)
 
 If you'd like to have the same customised logo for all the webs, make these changes in %LOCALSITEPREFS% instead of each web's <nop>WebPreferences, e.g.,
    * =Set WEBLOGOIMG = %<nop>PUBURLPATH%/%USERSWEB%/WebPreferences/mylogo.gif=
@@ -173,7 +173,7 @@ With a simple one or two-line default topic form available for every topic  - in
 ---
 ---++ Add Your Favorite <nop>JavaScript Features
 
-You're no doubt familiar or better with HTML, JS, and "webmastering". Without getting into the [[skin templates]] system yet, you can easily edit the ==view.pattern.tmpl== (if you are using default pattern skin) (in the =templates= directory) for some dramatic effects. The top of the template is mostly regular HTML with some variables. Open up some space in the ==&lt;head&gt;== area, and you can drop in reliable <nop>JavaScripts - a pop-up window script, for example - or tag it as an external script.
+You're no doubt familiar or better with HTML, JS, and "webmastering". Without getting into the [[skin templates]] system yet, you can easily edit the ==view.pattern.tmpl== (if you are using default pattern skin) (in the =templates= directory) for some dramatic effects. The top of the template is mostly regular HTML with some macros. Open up some space in the ==&lt;head&gt;== area, and you can drop in reliable <nop>JavaScripts - a pop-up window script, for example - or tag it as an external script.
 
    * %T% Obviously, you can do the same - place a link to an external stylesheet as well. If you set values for standard HTML tags, you can control a good deal of the type size, style and color with out adding CSS tags. __example__
 

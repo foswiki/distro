@@ -41,13 +41,13 @@ Each plugin has a standard release topic, located in the TWiki:Plugins web at TW
 
 The recommended approach to testing new plugins before making them public is to create a second local TWiki installation, and test the plugin there. You can allow selected users access to the test area. Once you are satisfied that it won't compromise your main installation, you can install it there as well.
 
-InstalledPlugins shows which plugins are: 1) installed, 2) loading properly, and 3) what TWiki:Codev.PluginHandlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= variable can be used to debug failures. You may also want to check your webserver error log and the various TWiki log files.
+InstalledPlugins shows which plugins are: 1) installed, 2) loading properly, and 3) what TWiki:Codev.PluginHandlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various TWiki log files.
 
 ---+++ Some Notes on Plugin Performance
 
 The performance of the system depends to some extent on the number of plugins installed and on the plugin implementation. Some plugins impose no measurable performance decrease, some do. For example, a Plugin might use many Perl libraries that need to be initialized with each page view (unless you run mod_perl). You can only really tell the performance impact by installing the plugin and by measuring the performance with and without the new plugin. Use the TWiki:Plugins.PluginBenchmarkAddOn, or test manually with the Apache =ab= utility. Example on Unix:%BR% =time wget -qO /dev/null <nop>%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/AbcPlugin=
 
-%T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% TWiki variable.
+%T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% setting.
 
 Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
 <pre>
@@ -65,23 +65,23 @@ Plugins can be enabled and disabled with the [[%SCRIPTURLPATH{configure}%][confi
 
 ---+++ Plugin Evaluation Order
 
-By default, TWiki executes plugins in alphabetical order on plugin name. It is possible to change the order, for example to evaluate database variables before the spreadsheet CALCs. This can be done with ={PluginsOrder}= in the plugins section of [[%SCRIPTURLPATH{configure}%][configure]].
+By default, plugins are executed in alphabetical order on plugin name. It is possible to change the order, for example to evaluate database macros before the spreadsheet CALCs. This can be done with ={PluginsOrder}= in the plugins section of [[%SCRIPTURLPATH{configure}%][configure]].
 
 ---+++ Plugin-Specific Settings
 
-Some plugins are configured with plugin preferences variables, newer plugins with configure variables.
+Some plugins are configured with plugin preference settings, newer plugins with =configure= settings.
 
-Configure variables are accessible though the [[%SCRIPTURLPATH{"configure"}%][configure]] interface. 
+=configure= settings are accessible though the [[%SCRIPTURLPATH{"configure"}%][configure]] interface. 
 
-Plugin preferences variables are defined in the plugin topic and can be overloaded. The SHORTDESCRIPTION preferences variable is always present, it is needed for the TWiki:Plugins repository on twiki.org. Example preferences variable defined in the TablePlugin topic:
+Plugin preference settings are defined in the plugin topic and can be overloaded. The SHORTDESCRIPTION setting is always present, it is needed for the automation in the extensions repository. Example preference settings defined in the TablePlugin topic:
 
    * =Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns=
  
-Preferences variables of active plugins can be retrieved anywhere in TWiki with =%&lt;pluginname&gt;_&lt;var&gt;%=, such as =%<nop>TABLEPLUGIN_SHORTDESCRIPTION%=. They can also be redefined with the =%&lt;pluginname&gt;_&lt;var&gt;%= setting at a lower level in the [[%LOCALSITEPREFS%]] or at the web level. For an easier upgrade it is recommended to customize plugin preferences variables in <nop>%LOCALSITEPREFS% only.
+Preference settings of active plugins can be retrieved anywhere in TWiki with =%&lt;pluginname&gt;_&lt;var&gt;%=, such as =%<nop>TABLEPLUGIN_SHORTDESCRIPTION%=. They can also be redefined with the =%&lt;pluginname&gt;_&lt;var&gt;%= setting at a lower level in the [[%LOCALSITEPREFS%]] or at the web level. For an easier upgrade it is recommended to customize plugin preference settings in <nop>%LOCALSITEPREFS% only.
 
 ---+++ Listing Active Plugins
 
-Plugin status variables let you list all active plugins wherever needed.
+Plugin status macros let you list all active plugins wherever needed.
 
 This site is running TWiki version *%WIKIVERSION%*, plugin API version
 *%PLUGINVERSION{}%*
@@ -284,9 +284,9 @@ Recommendation for file names in plugin attachment area:
 
 #ConfigSpec
 ---++ Integrating with <code>configure</code>
-Some TWiki extensions have setup requirements that are best integrated into =configure= rather than trying to use TWiki preferences variables. These extensions use =Config.spec= files to publish their configuration requirements.
+Some extensions have setup requirements that are best integrated into =configure= rather than trying to use preference settings. These extensions use =Config.spec= files to publish their configuration requirements.
 
-=Config.spec= files are read during TWiki configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/TWiki/Plugins/BathPlugin/Config.spec=.
+=Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/TWiki/Plugins/BathPlugin/Config.spec=.
 
 ---+++ Structure of a <code>Config.spec</code> file
 The =Config.spec= file for a plugin starts with the plugin announcing what it is:

@@ -25,7 +25,7 @@ __See other types of extensions:__ ContributedAddOns, [[Contribs]], [[Plugins]]
 
 ---++ Changing the default TWiki skin
 
-TWiki default ships with the skin PatternSkin activated. You can set the skin for the whole site, a single web or topic, or for each user individually, by setting the SKIN variable to the name of a skin. If the skin you select doesn't exist, then TWiki will pick up the default templates.
+%WIKITOOLNAME% by default ships with the skin PatternSkin activated. You can set the skin for the whole site, a single web or topic, or for each user individually, by setting the SKIN setting to the name of a skin. If the skin you select doesn't exist, then %WIKITOOLNAME% will pick up the default templates.
 
 ---++ Defining Skins
 
@@ -41,7 +41,7 @@ For your own TWiki skin you are encouraged to show a small 80x31 pixel <a href="
 
 =&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif" alt="This site is powered by the TWiki collaboration platform" width="80" height="15" title="This site is powered by the TWiki collaboration platform" border="0" /&gt;&lt;/a&gt;=
 
-The standard TWiki skins show the logo in the =%<nop>WEBCOPYRIGHT%= variable.
+The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 
 __%X% Note:__ Two skin names have _reserved_ meanings; =text= skin, and skin names starting with =rss= have [[#HardCodedSkins][hard-coded meanings]].
 
@@ -105,11 +105,11 @@ and then set =SKIN=yourlocal,pattern=.
 
 Because ClassicSkin and the default templates use the same Template definition names, you can over-ride the edit links in them (or any skin derived from them) using the same =view.yourlocal.tmpl= (just set SKIN=yourlocal,classic either in %USERSWEB%.DefaultPreferences for globally, or a Web's <nop>Webname.<nop>WebPreferences for a particular web) 
 
----++ Variables in Skins
+---++ Settings in Skins
 
-You can use [[TemplateTopics#TemplateVariables][template variables]], [[Macros]], and other predefined variables to compose your skins. Some commonly used variables in skins:
+You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[macros]], and other predefined settings in your skins. Some commonly used macros in skins:
 
-| *Variable:* | *Expanded to:* |
+| *Macro:* | *Expanded to:* |
 | =%<nop>WEBLOGONAME%= | Filename of web logo |
 | =%<nop>WEBLOGOIMG%= | Image URL of web logo |
 | =%<nop>WEBLOGOURL%= | Link of web logo |

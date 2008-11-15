@@ -30,7 +30,7 @@ If you can enter text, you're ready for TWiki. With a few simple, intuitive Text
    * To create a numbered list:
       1 Start items in a *numbered list* with =[space][space][space][1][space]=.
       1 The "1" (or *any number*) will be replaced by the correct number, in order.
-      1 To add a new paragraph without restarting list numbering, use the %<nop>BR% variable, like below:%BR% Text added (in new paragraph)
+      1 To add a new paragraph without restarting list numbering, use the %<nop>BR% macro, like below:%BR% Text added (in new paragraph)
       1 and list numbering continues.
 
    * Always start *counting* spaces for bullets and such from the beginning of a new line.

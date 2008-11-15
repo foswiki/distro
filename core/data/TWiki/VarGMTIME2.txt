@@ -4,8 +4,8 @@
 
 ---+++ GMTIME{"format"} -- formatted GM time
    * Syntax: =%<nop>GMTIME{"format"}%=
-   * Supported variables:
-     | *Variable:* | *Unit:* | *Example* |
+   * Supported special format tokens:
+     | *Token:* | *Unit:* | *Example* |
      | =$seconds= | seconds | 59 |
      | =$minutes= | minutes | 59 |
      | =$hours= | hours | 23 |
@@ -22,8 +22,8 @@
      | =$rcs= | RCS format timestamp | %GMTIME{"$rcs"}% |
      | =$http= | E-mail & http format timestamp | %GMTIME{"$http"}% |
      | =$epoch= | Number of seconds since 00:00 on 1st January, 1970 | %GMTIME{"$epoch"}% |
-   * Variables can be shortened to 3 characters
+   * Tokens can be shortened to 3 characters
    * Example: =%<nop>GMTIME{"$day $month, $year - $hour:$min:$sec"}%= expands to =%GMTIME{"$day $month, $year - $hour:$min:$sec"}%=
-   * __%X% Note:__ When used in a template topic, this variable will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
+   * __%X% Note:__ When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarDISPLAYTIME][DISPLAYTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO2][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]
 

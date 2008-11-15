@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
 ---+ Creating a Table of Contents
 
-The [[%SYSTEMWEB%.Macros][Macros]] =%<nop>TOC%= will automatically create a table of contents for a topic based on the headers of the topic. To exclude a heading from a =%<nop>TOC%= add =!!= to the end of the syntax for a header, e.g. write =---+!!= for a =---+= heading.
+=%<nop>TOC%= will automatically create a table of contents for a topic based on the headers of the topic. To exclude a heading from a =%<nop>TOC%= add =!!= to the end of the syntax for a header, e.g. write =---+!!= for a =---+= heading.
 
 [[TWikiTipsOfTheDay][See More Tips...]]
 

@@ -152,8 +152,8 @@ then the template will be expanded as
 &lt;textarea rows="3" cols="75" value="Rubbish">
 </pre>
 
----++++ Special variables
-As well as support for all the usual TWiki variables in templates, the following special variables are supported in the =PROMPT= definition:
+---++++ Special macros
+As well as support for all the usual macros in templates, the following special macros are supported in the =PROMPT= definition:
 	 | *Variable* | *Description* |
 	 | =%<nop>DISABLED%= | Set to 'disabled' when you cannot comment (e.g. in preview mode). |
 	 | =%<nop>MESSAGE%= | The text specified by =default=. This may be overridden by a helpful message when the prompt is DISABLED. |
@@ -201,7 +201,7 @@ Example comment:
 </verbatim>
 
 ---+++ The =OUTPUT= template
-The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual TWiki variables are available in the =PROMPT= definition, but note that they get expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
+The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition, but note that they get expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
 
 There are also four position tags that are used to indicate where the comment should be placed, relative to the =location= defined in the =%COMMENT= tag:
 
@@ -213,7 +213,7 @@ Note that these position tags are obviously mutually exclusive. If you define mo
 
 	 | =%<nop>COMMENTPROMPT%= | Use with a custom form. If present, the comment prompt will be positioned here. |
 	 
-All the usual [[%SYSTEMWEB%.Macros][Macros]] that can be used in a topic template can also be used in an =OUTPUT= template. See [[%SYSTEMWEB%.Macros][Macros]] for details.
+All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in a topic template can also be used in an =OUTPUT= template.
 
 ---++ Settings
 <!-- required for compatibility
@@ -223,7 +223,7 @@ All the usual [[%SYSTEMWEB%.Macros][Macros]] that can be used in a topic templat
 	* Default template type (if not present, defaults to "below")
 		* Set DEFAULT_TYPE = above
 -->
-Two TWiki Preference variables are recognised by the CommentPlugin:
+Two preference settings are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |
 | =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
 | =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
