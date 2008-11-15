@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarSLIDESHOWEND
 ---+++ SLIDESHOWEND -- end slideshow
-   * The =%<nop>SLIDESHOWEND%= variable is handled by the SlideShowPlugin
+   * The =%<nop>SLIDESHOWEND%= macro is handled by the SlideShowPlugin
    * Syntax: =%<nop>SLIDESHOWEND%=
    * Example: See SLIDESHOWSTART
    * Related: [[#VarSLIDESHOWSTART][SLIDESHOWSTART]], SlideShowPlugin

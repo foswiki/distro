@@ -30,7 +30,7 @@ such as a user interface screen.
       * ==%<nop>TMPL:END%==: Ends a block definition.
       * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
       * ==%<nop>{...}%==: is a comment.
-   * Two-pass processing lets you use a variable before or after declaring it.
+   * Two-pass processing lets you use a defined block before or after declaring it.
    * For example, you can create a skin that overloads only the =twiki.tmpl= master skin template, like =twiki.print.tmpl=, that redefines the header and footer.
    * %H% Use of template macros is optional: templates work without them.
    * %X% *NOTE:* Most template macros work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
@@ -125,7 +125,7 @@ The default ={TemplatePath}= will not give you the desired result if you put the
 
 ==twiki.tmpl== is the default master template. It defines the following sections.
 
-| *Template variable:* | *Defines:* |
+| *Template directive:* | *Defines:* |
 | =%<nop>TMPL:DEF{"sep"}%= | "&#124;" separator |
 | =%<nop>TMPL:DEF{"htmldoctype"}%= | Start of all HTML pages |
 | =%<nop>TMPL:DEF{"standardheader"}%= | Standard header (ex: view, index, search)  |

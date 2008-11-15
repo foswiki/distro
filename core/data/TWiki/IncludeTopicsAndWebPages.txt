@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
----+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Variable
+---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
-Use the =%<nop>INCLUDE{...}%= variable to embed the content of another topic or web page inside a TWiki topic. The whole content or only parts of a page can be included. If needed, set a proxy server in %WIKIPREFSTOPIC%.
+Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a TWiki topic. The whole content or only parts of a page can be included. If needed, set a proxy server in %WIKIPREFSTOPIC%.
 
 %TOC%
 
@@ -11,7 +11,7 @@ Use the =%<nop>INCLUDE{...}%= variable to embed the content of another topic or 
 
 The =pattern= parameter is optional and allows you to extract some parts of a web page. Specify a %SYSTEMWEB%.RegularExpression that scans from start (='^'=) to end and contains the text you want to keep in parenthesis, e.g., =pattern="^.*?(from here.*?to here).*"=. You need to make sure that the integrity of a web page is not compromised; for example, if you include a table, make sure to include everything including the table end tag.
 
-The example parameters PARAMETER1 and PARAMETER2 will be defined as a variable within the scope of the included topic. The example parameters shown will result in %PARAMETER1% and %PARAMETER2% being defined within the included topic.
+The example parameters PARAMETER1 and PARAMETER2 will be defined as macros within the scope of the included topic. The example parameters shown will result in %PARAMETER1% and %PARAMETER2% being defined within the included topic.
 
 VarINCLUDE explains the other parameters.
 

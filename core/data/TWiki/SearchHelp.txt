@@ -30,7 +30,7 @@ Regular expression search searches for a set of regular expression patterns:
 
 ---++ Formatted Searches
 
-You can embed a nicely [[FormattedSearch][formatted search]] in a topic by using the =%<nop>SEARCH{}%= variable described in VarSEARCH.
+You can embed a nicely [[FormattedSearch][formatted search]] in a topic by using the =%<nop>SEARCH{}%= macro described in VarSEARCH.
 
 ---++ Search Preferences
 
@@ -38,7 +38,7 @@ You can embed a nicely [[FormattedSearch][formatted search]] in a topic by using
 
    * =SEARCHDEFAULTTTYPE=: Default search type for search forms which calls the =search= script
       * Currently =%SEARCHDEFAULTTTYPE%=
-   * =SEARCHVARDEFAULTTYPE=: Default search type for =%<nop>SEARCH{}= variable 
+   * =SEARCHVARDEFAULTTYPE=: Default search type for =%<nop>SEARCH{}= macro 
       * Currenty =%SEARCHVARDEFAULTTYPE%=
    * =SEARCHSTOPWORDS=: List of stop words (common words and characters to exclude from a keyword search)
       * Currently =%SEARCHSTOPWORDS%=

@@ -5,7 +5,7 @@ Allows editing of preferences using fields predefined in a %SYSTEMWEB%.DataForms
 
 %TOC%
 
-Insert the =%<nop>EDITPREFERENCES%= variable (see below) anywhere in your topic. It will be replaced by a button that allows editing each preference in its predefined input format (or a text box, when no format is defined for this preference).
+Insert the =%<nop>EDITPREFERENCES%= preference (see below) anywhere in your topic. It will be replaced by a button that allows editing each preference in its predefined input format (or a text box, when no format is defined for this preference).
 
 In edit mode, the edit button is replaced by Save and Cancel buttons, with their obvious meanings.
 

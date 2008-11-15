@@ -32,7 +32,7 @@ The formula next to "Total" is ==%<nop>CALC{"$SUM( $ABOVE() )"}%==. <br /> (you 
 
 ---++ Syntax Rules
 
-The action of this Plugin is triggered by the ==%<nop>CALC{"..."}%== variable, which gets rendered according to the built-in function(s) found between the quotes.
+The action of this Plugin is triggered by the ==%<nop>CALC{"..."}%== macro, which gets rendered according to the built-in function(s) found between the quotes.
 
 	* Built-in function are of format ==$FUNCNAME(parameter)==
 	* Functions may be nested, e.g. ==%<nop>CALC{"$SUM( R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0) )"}%==

@@ -22,7 +22,7 @@ Incredibly obvious, maybe, but some site admins don't get around to changing the
 
 *What we are doing*
 
-We want to set variable WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of preference setting for each TWiki Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
+We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of preference setting for each TWiki Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
 
 *How to do it*
 
@@ -44,7 +44,7 @@ WebTopicList is a __good first navigation tool for new users,__ a fast-loading l
 Without explaining what WEBTOPICLIST is, just try it: 
 
    1 Go to WebPreferences in each web, and edit the topic.
-   2 In WEBTOPICLIST variable, replace =WebIndex= with =WebTopicList=, and save.
+   2 In the WEBTOPICLIST setting, replace =WebIndex= with =WebTopicList=, and save.
 
 ---+++ Simple way to create %RED% colored text %ENDCOLOR% and graphics
 
@@ -60,7 +60,7 @@ DocumentGraphics has a whole collection of ready icon images. You can use these 
 
 You may find it easier to write shorthand graphic notation. You can create your own image macros by defining them in a preference topic (most likely [[%USERSWEB%.%WIKIPREFSTOPIC%]].)
 
-A variable name may be one letter, like =Y=, or may be longer like =HELP=, =WARN= etc. You can also add your own images, e.g. a =NEW=, or a =ASK= to ask question.
+A macro name may be one letter, like =Y=, or may be longer like =HELP=, =WARN= etc. You can also add your own images, e.g. a =NEW=, or a =ASK= to ask question.
 
 For instance, if we want to write =%<nop>DOWN%= instead of =%<nop>ICON{"arrowbdown"}%=, define the new macro like this:
 <verbatim>
@@ -79,7 +79,7 @@ Most images in DocumentGraphics are 16 x 16 pixels.
 
 TOC is Table-Of-Content, generated automagically from headers (defined like that: ==---++== , see TWikiShorthand).
 
-For example, you may want to put all your custom variables in [[%LOCALSITEPREFS%]] right on top of the page, and generate table of contents, like:
+For example, you may want to put all your custom settings in [[%LOCALSITEPREFS%]] right on top of the page, and generate table of contents, like:
 
    * Preferences for easy creating nice pages 
       * Graphics icons in text 
@@ -135,7 +135,7 @@ __Here's a list of topics I've been involved in recently:__
 </verbatim>
 *End Copy*
 
-The SEARCH variable has many more formatting options, see [[Macros]].
+The SEARCH macro has many more formatting options, see [[Macros]].
 
 ---+++ Recently changed pages 
 Here are the last 15 changed pages, formatted into a neat table.

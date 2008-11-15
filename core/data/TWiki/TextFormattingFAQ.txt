@@ -70,7 +70,7 @@ This text will keep its format as it is:
 
 The =pre= tag is standard HTML; =verbatim= is a special TWiki tag that forces text to fixed font mode, and also prevents other tags and TWiki shortcuts from being expanded.
 
-__NOTE:__ VARIABLES are still Set within verbatim tags (this is a historical peculiarity)
+__NOTE:__ preference settings are still Set within verbatim tags (this is a historical peculiarity)
 
 __NOTE:__ The =verbatim= opening and closing tags are converted into =pre= tags; any HTML attributes (e.g., =class=, =id=) in the opening =verbatim= tag are included in the corresponding =pre= tag.
 

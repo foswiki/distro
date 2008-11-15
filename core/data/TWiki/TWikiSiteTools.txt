@@ -69,7 +69,7 @@ You can generate a listing manually, or on an automated schedule, of visits to i
 ---+++ Configuring for automatic operation
 
    * You can automatically generate usage statistics for all webs. To enable this:
-      * Make sure variable *{Log}{view}*, *{Log}{save}* and *{Log}{upload} in are set in [[%SCRIPTURLPATH{"configure"}%][configure]]. This will generate log file entries (see below).
+      * Make sure configure settings *{Log}{view}*, *{Log}{save}* and *{Log}{upload} in are set in [[%SCRIPTURLPATH{"configure"}%][configure]]. This will generate log file entries (see below).
       * The WebStatistics topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
       * Call the =twiki/bin/statistics= script from a cron job, once a day is recommended. This will update the WebStatistics topics in all webs.
       * __Attention:__ The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/twiki/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
@@ -125,7 +125,7 @@ TWiki generates monthly log files which are used by the statistics script
 
 Outgoing mail is required for TWikiRegistration and for [[#WebNotify][recent changes alert]].
 
-TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== variable in DefaultPreferences.
+TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== preference setting in DefaultPreferences.
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated in the DefaultPreferences.
 
@@ -135,7 +135,7 @@ You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= m
 
 !   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting ==SMTPMAILHOST== in DefaultPreferences to an empty value.
 
-   * %T% You can set a separate ==SMTPSENDERHOST== variable to define the mail sender host (some SMTP installations require this).
+   * %T% You can set a separate ==SMTPSENDERHOST== preference setting to define the mail sender host (some SMTP installations require this).
 
 ---+++ Setting the automatic e-mail schedule
 

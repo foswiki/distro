@@ -25,7 +25,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>DATE%= | Signature format date. See VarDATE |
 | =%<nop>GMTIME%= | Date/time. See VarGMTIME |
 | =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME2 |
-| =%<nop>NOP%= | A no-operation variable that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
+| =%<nop>NOP%= | A no-operation macro that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
 | =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
 | =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME2 |
@@ -98,7 +98,7 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
 
 See CommandAndCgiScripts#edit for details of the parameters that the =edit= script understands.
 
-%T% *TIP:* You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The variables are expanded into fixed text when a new topic is created. The standard signature is: <br />
+%T% *TIP:* You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
 ==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==
 
 ---+++ Using Absolute vs Relative URLs in Templates

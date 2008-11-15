@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
 ---+ Inline search
 
-To embed a search in a topic, use the =%<nop>SEARCH{ &lt;parameters&gt; }%= TWiki Variable. The search variable is used by many TWiki based applications.
+To embed a search in a topic, use the =%<nop>SEARCH{ &lt;parameters&gt; }%= macro. The search macro is used by many TWiki based applications.
 
 [[Macros#VarSEARCH][More Information...]]
 

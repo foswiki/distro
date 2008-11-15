@@ -22,17 +22,17 @@
    </ul>
 </td>
 <td rowspan="4" class="secondaryTextcolumn">
-*Setting a TWiki variable*
+*Defining Preference Settings/Macros*
 <ol>
  <li> Create a list item using the toolbar button</li>
  <li> In the list item, type =Set NAME = value= </li>
  <li> Select the value, and assign the ==Protect on save== style to it (only required if the value contains any TWiki Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
  </li>
 </ol>
-*Using a TWiki Variable*
+*Using a Macro*
 <ul>
 <li> Just type it in. When the topic is saved, what you type will be saved just as you wrote it.  </li>
-<li> If any part of your variable parameters is sensitive to spacing, then select the entire TWiki variable and assign the ==PROTECTED== style to it before you save. </li></ul>
+<li> If any part of your macro parameters is sensitive to spacing, then select the entire macro and assign the ==PROTECTED== style to it before you save. </li></ul>
 <span class="twikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*

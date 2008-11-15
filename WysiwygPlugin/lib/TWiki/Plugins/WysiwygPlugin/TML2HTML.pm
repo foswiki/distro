@@ -47,7 +47,7 @@ my $TT2 = chr(2);
 # HTML elements that are palatable to editors. Other HTML tags will be
 # rendered in 'protected' regions to prevent the WYSIWYG editor mussing
 # them up. Note that A is specifically excluded from this list because it
-# is common for href attributes to contain TWiki variables. Users should
+# is common for href attributes to contain macros. Users should
 # be encouraged to use square bracket formulations for links instead.
 my @PALATABLE_TAGS = qw(
 ABBR ACRONYM ADDRESS B BDO BIG BLOCKQUOTE BR CAPTION CENTER CITE CODE COL
@@ -80,8 +80,8 @@ Convert a block of TML text into HTML.
 Options:
    * getViewUrl is a reference to a method:<br>
      getViewUrl($web,$topic) -> $url (where $topic may include an anchor)
-   * markVars is true if we are to expand TWiki variables to spans.
-     It should be false otherwise (TWiki variables will be left as text).
+   * markVars is true if we are to expand macros to spans.
+     It should be false otherwise (macros will be left as text).
 
 =cut
 
@@ -147,8 +147,8 @@ sub _dropIn {
     use strict 'refs';
 }
 
-# Parse and convert twiki variables. If we are not using span markers
-# for variables, we have to change the percent signs into entities
+# Parse and convert macros. If we are not using span markers
+# for macros, we have to change the percent signs into entities
 # to prevent internal tags being expanded by TWiki during rendering.
 # It's assumed that the editor will have the common sense to convert
 # them back to characters when editing.
@@ -477,7 +477,7 @@ sub _protectVerbatimChars {
 
 sub _takeOutIMGTag {
     my ($this, $text) = @_;
-    # Expand selected TWiki variables in IMG tags so that images appear in the
+    # Expand selected macros in IMG tags so that images appear in the
     # editor as images
     $text =~ s/(<img [^>]*\bsrc=)(["'])(.*?)\2/$1.$2.$this->_expandURL($3).$2/gie;
     # Take out mce_src - it just causes problems.

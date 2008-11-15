@@ -38,7 +38,7 @@
  *Headings:* %BR%
 Three or more dashes at the beginning of a line, followed by plus signs and the heading text. One plus creates a top level heading, two pluses a second level heading, etc. The maximum heading depth is 6.
 
-You can create a table of contents with the [[VarTOC][%<nop>TOC%]] variable. If you want to *exclude* a heading from the TOC, put =!!= after the =---+=.
+You can create a table of contents with the [[VarTOC][%<nop>TOC%]] macro. If you want to *exclude* a heading from the TOC, put =!!= after the =---+=.
 
 %X% Empty headings are allowed, but won't appear in the table of contents.
 </td><td>

@@ -28,7 +28,7 @@
 | ATTACHFILESIZELIMIT | text | 30 | 3000 | Maximum size of attachments in KB, 0 for no limit | S |
 | BROADCASTMESSAGE | textarea| |  | Broadcast message on every page, for skins that support it. | S |
 | SEARCHDEFAULTTTYPE | select | 1 | keyword,literal,regex | Default type for search | S |
-| SEARCHVARDEFAULTTYPE | select | 1 | keyword,literal,regex | Default for =%<nop>SEARCH{}%= variable | S |
+| SEARCHVARDEFAULTTYPE | select | 1 | keyword,literal,regex | Default for =%<nop>SEARCH{}%= macro | S |
 | SEARCHSTOPWORDS | textarea | | a, all, am, an, and, any, as, at, b, be, by, c, d, e, for, from, g, h, how, i, i'm, i.e., in, is, isn't, it, it's, its, j, k, l, m, n, o, of, on, or, p, q, r, s, t, that, that's, the, this, to, u, v, w, was, wasn't, what, what's, when, where, who, who's, will, with, x, y, z | Stop words, e.g., common words and characters to exclude from a keyword search | S |
 | WIKIWEBMASTER | text | 30 | webmaster@example.com | Wiki administrator e-mail address | S |
 | WIKIWEBMASTERNAME | text | 30 | Wiki Administrator | Wiki administrator name (first name and last name, e.g. =Fred Smith=) | S |

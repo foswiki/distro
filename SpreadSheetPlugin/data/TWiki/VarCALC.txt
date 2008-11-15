@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarCALC
 ---+++ CALC{"formula"} -- add spreadsheet calculations to tables and outside tables
-	* The =%<nop>CALC{"formula"}%= variable is handled by the SpreadSheetPlugin. There are around 80 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.
+	* The =%<nop>CALC{"formula"}%= macro is handled by the SpreadSheetPlugin. There are around 80 formulae, such as =$ABS()=, =$EXACT()=, =$EXISTS()=, =$GET()/$SET()=, =$IF()=, =$LOG()=, =$LOWER()=, =$PERCENTILE()=, =$TIME()=, =$VALUE()=.
 	* Syntax: =%<nop>CALC{"formula"}%=
 	* Examples:
 		* =%<nop>CALC{"$SUM($ABOVE())"}%= returns the sum of all cells above the current cell

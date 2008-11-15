@@ -30,7 +30,7 @@
       * translatable string starting with underscores (<code>_</code>) are reserved. You
         *cannot* use translatable phrases starting with an underscore.
       * Make sure that the translatable string is _constant_. Specially, do *not*
-        include <code>%<nop>VARIABLES%</code> inside the translatable strings
+        include <code>%<nop>MACROS%</code> inside the translatable strings
         (since they will get expanded *before* the <code>%<nop>MAKETEXT{...}%</code>
         itself is handled).
 

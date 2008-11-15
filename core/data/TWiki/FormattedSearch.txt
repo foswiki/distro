@@ -179,7 +179,7 @@ This requires the TWiki:Plugins.SpreadSheetPlugin. The following example shows a
 
 ---+++ Embedding search forms to return a formatted result
 
-Use an HTML form and an embedded formatted search on the same topic. You can link them together with an =%<nop>URLPARAM{"..."}%= variable. Example:
+Use an HTML form and an embedded formatted search on the same topic. You can link them together with an =%<nop>URLPARAM{"..."}%= macro. Example:
 
 *Write this:*
 

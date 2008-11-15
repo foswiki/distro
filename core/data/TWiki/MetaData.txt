@@ -56,7 +56,7 @@ The current version of Meta Data is 1.0, with support for the following syntax.
 
 ---+++ META:TOPICMOVED
 
-This is optional, exists if topic has ever been moved.  If a topic is moved more than once, only the most recent META:TOPICMOVED meta variable exists in the topic, older ones are to be found in the rcs history.
+This is optional, exists if topic has ever been moved.  If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic, older ones are to be found in the rcs history.
 
 =%<nop>META:TOPICMOVED{from="Codev.OldName" to="Codev.NewName" by="talintj" date="976762680"}%=
 
@@ -133,15 +133,15 @@ When viewing a topic the ==Raw Text== link can be clicked to show the text of a 
 #MetaDataRendering
 ---++ Rendering Meta Data
 
-Meta Data is rendered with the %<nop>META% variable. This is mostly used in the =view=, =preview= and =edit= scripts.
+Meta Data is rendered with the %<nop>META% macro. This is mostly used in the =view=, =preview= and =edit= scripts.
 
-You can render form fields in topic text by using the FORMFIELD variable. Example:%BR%
+You can render form fields in topic text by using the FORMFIELD macro. Example:%BR%
 =%<nop>FORMFIELD{"TopicClassification"}%= %BR%
 For details, see VarFORMFIELD.
 
 Current support covers:
 
-| *Variable usage:*   | *Comment:*  |
+| *Macro usage:*   | *Comment:*  |
 | =%<nop>META{"form"}%= | Show form data, see DataForms. |
 | =%<nop>META{"formfield"}%= | Show form field value. Parameter: ==name="field_name"==. Example:%BR% =%<nop>META{ "formfield" name="TopicClassification" }%= |
 | =%<nop>META{"attachments"}%= | Show attachments, except for hidden ones. Options: <br /> \

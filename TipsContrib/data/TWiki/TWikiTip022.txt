@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
 ---+ Edit tables with !EditTablePlugin
  
-The EditTablePlugin allows you to edit TWiki tables using edit fields and drop down boxes. Tables have an [ Edit table ] button if preceeded by an =%<nop>EDITTABLE{...}%= variable. Each column can be a text field, a drop down box, a date field, etc. Multiple tables per topic are editable, but only one at a time can be edited.
+The EditTablePlugin allows you to edit tables using edit fields and drop down boxes. Tables have an [ Edit table ] button if preceeded by an =%<nop>EDITTABLE{...}%= macro. Each column can be a text field, a drop down box, a date field, etc. Multiple tables per topic are editable, but only one at a time can be edited.
 
 Example:
 

@@ -97,9 +97,9 @@ For a full explanation of the available options, and guidance on reconfiguring T
       * Set INIT_GECKO = 
       * Set INIT_SAFARI = 
 
-You can override these settings in the same way as any other TWiki variable, by setting e.g. =TINYMCEPLUGIN_INIT= in the site, web or topic preferences. You are *not* recommended to edit the setting here.
+You can override these settings in the same way as any other preference setting, by setting e.g. =TINYMCEPLUGIN_INIT= in the site, web or topic preferences. You are *not* recommended to edit the setting here.
 
-   * You can *disable* the plugin in any web or topic, or for any specific user, by setting the =TINYMCEPLUGIN_DISABLE= variable to 1.
+   * You can *disable* the plugin in any web or topic, or for any specific user, by setting the =TINYMCEPLUGIN_DISABLE= preference to 1.
    * Some browsers don't support !TinyMCE. You can prevent the editor from
      being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror|Opera)=.   
 

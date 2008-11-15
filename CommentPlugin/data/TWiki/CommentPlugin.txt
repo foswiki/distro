@@ -154,7 +154,7 @@ then the template will be expanded as
 
 ---++++ Special macros
 As well as support for all the usual macros in templates, the following special macros are supported in the =PROMPT= definition:
-	 | *Variable* | *Description* |
+	 | *Macro* | *Description* |
 	 | =%<nop>DISABLED%= | Set to 'disabled' when you cannot comment (e.g. in preview mode). |
 	 | =%<nop>MESSAGE%= | The text specified by =default=. This may be overridden by a helpful message when the prompt is DISABLED. |
 

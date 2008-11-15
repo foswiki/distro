@@ -5,6 +5,6 @@
    * Syntax: =%<nop>SERVERTIME%=
    * Expands to: =%SERVERTIME%=
    * Date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]]
-   * __%X% Note:__ When used in a template topic, this variable will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
+   * __%X% Note:__ When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarDISPLAYTIME][DISPLAYTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME2][SERVERTIME{"format"}]]
 

@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarRENDERLIST
 ---+++ RENDERLIST -- render bullet lists in a variety of formats
-   * The =%<nop>RENDERLIST%= variable is handled by the RenderListPlugin
+   * The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
    * Syntax: =%<nop>RENDERLIST%=
    * Syntax: =%<nop>RENDERLIST{ "org" focus="Sales.WestCoastTeam" }%=
    * Example:%BR%

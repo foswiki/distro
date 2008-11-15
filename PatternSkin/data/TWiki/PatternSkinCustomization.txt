@@ -163,7 +163,7 @@ To search a couple of webs, for instance the webs Main and TWiki, write:
 </verbatim>
 </blockquote>
 
-See also: [[TWiki.VarSEARCH][Search variable]]
+See also: [[TWiki.VarSEARCH][Search macro]]
 
 #TopBarChangeHeight
 ---+++ I want to change the height of the top bar
@@ -196,7 +196,7 @@ Create a new stylesheet with above definition in it, attach it to a topic and po
 
 ---+++ I want to set or change the top background image
 
-The image at the top is called "header art" - commonly the top image found on blog sites. The image that is displayed by default is set by the variable =WEBHEADERART=, defined in [[%WIKIPREFSTOPIC%]].
+The image at the top is called "header art" - commonly the top image found on blog sites. The image that is displayed by default is set by the preference =WEBHEADERART=, defined in [[%WIKIPREFSTOPIC%]].
 
 Redefine your custom preference settings in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
 <blockquote><pre>
@@ -204,7 +204,7 @@ Redefine your custom preference settings in [[%LOCALSITEPREFS%]] (to keep %WIKIP
    * <nop>Set WEBHEADERBGCOLOR = somehexcolor (no quotes, for example: #ffffff)
 </pre></blockquote>
 
-You can also set =WEBHEADERART= per web, by defining the variable in the Web's !WebPreferences.
+You can also set =WEBHEADERART= per web, by setting the preference in the Web's !WebPreferences.
 
 ---+++ I want to have the web color in the top bar
 
@@ -355,7 +355,7 @@ Create a new skin by creating a file =view.myskin.tmpl= in the =templates= direc
 %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"history_history_link"}%%TMPL:END%
 </verbatim></blockquote>
 
-View any topic with =?skin=myskin,pattern=, or set the =SKIN= variable to =myskin,pattern=.
+View any topic with =?skin=myskin,pattern=, or set the =SKIN= preference to =myskin,pattern=.
 
 This will remove the Edit and Attach buttons, and place a History button at the top.
 

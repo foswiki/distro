@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarTABLE
 ---+++ TABLE{ _attributes_ } -- control attributes of tables and sorting of table columns
-   * The =%<nop>TABLE{}%= variable is handled by the TablePlugin
+   * The =%<nop>TABLE{}%= macro is handled by the TablePlugin
    * Syntax: =%<nop>TABLE{ _attributes_ }%=
 %STARTSECTION{"table_attributes"}%
    * Supported attributes:

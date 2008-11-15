@@ -43,7 +43,7 @@ If you can enter text, you're ready for TWiki. With a few simple, intuitive Text
      =<b>&lt;verbatim&gt;</b>= %BR%
      =unformatted text!= %BR%
      =<b>&lt;/verbatim&gt;</b>= %BR%%BR%
-     __%X% NOTE:__ VARIABLES can be set within verbatim tags, that is, they are not disabled
+     __%X% NOTE:__ preferences can still be set within verbatim tags, that is, they are not disabled. This is a historical peculiarity.
 
    * Use ==&lt;literal&gt;== to enclose anything that TWiki must not touch under any circumstances, such as in-line HTML code.
 

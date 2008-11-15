@@ -2,8 +2,8 @@
 %STARTINCLUDE%
 The *global* preference setting =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
    * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
-   * =variables= - simple macros (e.g. =%<nop>VAR%=) or 
-   * =calls= - macros with parameters e.g. =%<nop>VARIABLE{...}%=
+   * =macros= - simple macros (e.g. =%<nop>VAR%=) or 
+   * =calls= - macros with parameters e.g. =%<nop>MACRO{...}%=
    * =pre= blocks (=&lt;pre&gt;=)
    * HTML =comments= (=&lt;!--= ... =--&gt;=)
 If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
@@ -12,13 +12,13 @@ If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of m
 
 You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
 
-You can define the global variable =WYSIWYGPLUGIN_STICKYBITS= to stop the
+You can define the global preference =WYSIWYGPLUGIN_STICKYBITS= to stop the
 plugin from ever trying to convert specific HTML tags into
 HTML when certain specific attributes are present on the tag. This is most
 useful when you have styling or alignment information in tags that must be
 preserved.
 
-This variable is used to tell the translator which attributes, when present
+This preference setting is used to tell the translator which attributes, when present
 on a tag, make it "stick" i.e. block conversion. For example, setting it to
 =table=background,lang;tr=valign= will stop the translator from trying to
 handle any =table= tag that has =background= or =lang= attributes, and any
@@ -26,7 +26,7 @@ handle any =table= tag that has =background= or =lang= attributes, and any
 
 You can use perl regular expressions to match tag and attribute names, so =.*=id,on.*= will ensure that any tag with an =on*= event handler is kept as HTML.
 
-The default setting for this variable is:
+The default setting for this preference is:
 <verbatim>
     .*=id,lang,title,dir,on.*;
     A=accesskey,coords,shape,target;

@@ -33,7 +33,7 @@ With CSS you cannot remove already defined classes, you can only add to it, or o
 Overriding default CSS is done with 3 preference settings: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
-   * Point the CSS preference settings in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =TWIKIXXXURL= variables):
+   * Point the CSS preference settings in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =TWIKIXXXURL= preferences):
 <pre>
       * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
@@ -44,7 +44,7 @@ Overriding default CSS is done with 3 preference settings: =USERLAYOUTURL=, =USE
       * Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
  </pre>
 
-Instead of setting these preferences in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]], you can set these in your home topic, or in any other topic. Setting style URL variables in:
+Instead of setting these preferences in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]], you can set these in your home topic, or in any other topic. Setting style URL preferences in:
    * [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]]: the style is visible for all users, site-wide
    * WebPreferences: the style is visible for all users in one web
    * Home topic: the style is visible for that one user when viewing the site

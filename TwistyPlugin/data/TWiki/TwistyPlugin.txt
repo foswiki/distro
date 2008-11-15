@@ -364,7 +364,7 @@ When you want to use links, write:
 
 
 ---++ Special syntax: format tokens
-If you use macros inside TWISTY parameters chances are it will mess up the variable, or the rendered html. Use format tokens to 'delay' rendering of these variables until the Twisty parameters are parsed.
+If you use other macros inside TWISTY parameters chances are it will mess up the macro, or the rendered html. Use format tokens to 'delay' rendering of these variables until the Twisty parameters are parsed.
 
 The format tokens are the same as with %SYSTEMWEB%.FormattedSearch:
 

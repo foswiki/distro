@@ -191,7 +191,7 @@ Examples: Topic A includes topic B
 
 ---+++ Obfuscating Webs
 
-Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by enabling the ==NOSEARCHALL== variable in %WEBPREFSTOPIC%:
+Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by enabling the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%:
    * ==Set <nop>NOSEARCHALL = on==
 
 This setup can be useful to hide a new web until content its ready for deployment, or to hide view access restricted webs.

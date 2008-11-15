@@ -5,7 +5,7 @@
       * #Set DENYWEBCHANGE = %USERSWEB%.UnknownUser
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs. Example:
       * When you write =%WEB<nop>BGCOLOR%= , it gets expanded to =%WEBBGCOLOR%=
-   * The sequential order of the preference settings is significant. Define preferences that use other preferences first, i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= variable.
+   * The sequential order of the preference settings is significant. Define preferences that use other preferences first, i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= setting.
    * You can introduce your own preference settings and use them in your topics and templates.
 
 ---++ Related Topics

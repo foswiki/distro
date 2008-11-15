@@ -351,7 +351,7 @@ sub getViewUrl {
 # in URLs only
 use vars qw( @VARS );
 
-# The set of variables that get "special treatment" in URLs
+# The set of macros that get "special treatment" in URLs
 @VARS = (
     '%ATTACHURL%',
     '%ATTACHURLPATH%',
@@ -512,9 +512,9 @@ sub notWysiwygEditable {
         #print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n";
         return "Text contains calls";
     }
-    if( $exclusions =~ /variables/ && $_[0] =~ /%([A-Z_]+)%/s ) {
-        #print STDERR "$exclusions WYSIWYG_DEBUG: has variables $1\n";
-        return "Text contains variables";
+    if( $exclusions =~ /(macros|variables)/ && $_[0] =~ /%([A-Z_]+)%/s ) {
+        #print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n";
+        return "Text contains macros";
     }
     if( $exclusions =~ /html/ &&
           $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/ ) {

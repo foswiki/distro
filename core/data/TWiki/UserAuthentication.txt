@@ -14,7 +14,7 @@ Authentication isn't just to do with [[access control]]. %WIKITOOLNAME% uses aut
 
 %WIKITOOLNAME% authentication is very flexible, and can either stand alone or integrate with existing authentication schemes. You can set up %WIKITOOLNAME% to require authentication for every access, or only for changes. Authentication is also essential for access control.
 
-*Quick Authentication Test* - Use the %<nop>USERINFO% variable to return your current identity:
+*Quick Authentication Test* - Use the %<nop>USERINFO% macro to return your current identity:
    * You are %USERINFO% 
 
 %WIKITOOLNAME% user authentication is split into four sections; password management, user mapping, user registration, and login management. Password management deals with how users personal data is stored. Registration deals with how new users are added to the wiki. Login management deals with how users log in.
@@ -131,7 +131,7 @@ The ==bin/logon== script enables this. If you are using Apache Login, the ==bin/
 
 You don't _have_ to enable sessions to support logins in %WIKITOOLNAME%. However it is *strongly* recommended. %WIKITOOLNAME% needs some way to remember the fact that you logged in from a particular browser, and it uses sessions to do this. If you don;t enable sessions, %WIKITOOLNAME% will try hard to remember you, but due to limitations in the browsers it may also forget you (and then suddenly remember you again later!). So for the best user experience, you should enable sessions.
 
-There are a number of [[%SYSTEMWEB%.Macros][Macros]] available that you can use to interrogate your current session. You can even add your own session variables to the %WIKITOOLNAME% cookie. Session variables are referred to as "sticky" variables.
+There are a number of [[%SYSTEMWEB%.Macros][macros]] available that you can use to interrogate your current session. You can even add your own session variables to the %WIKITOOLNAME% cookie. Session variables are referred to as "sticky" variables.
 
 ---+++ Getting, Setting, and Clearing Session Variables
 
@@ -160,7 +160,7 @@ This section applies only if you are using authentication with existing login na
 
 <nop>%WIKITOOLNAME% internally manages two usernames: Login Username and TWiki Username.
 
-   * *Login Username:* When you login to the intranet, you use your existing login username, ex: ==pthoeny==. This name is normally passed to TWiki by the ==REMOTE_USER== environment variable, and used internally. Login Usernames are maintained by your system administrator.
+   * *Login Username:* When you login to the intranet, you use your existing login username. This name is normally passed to TWiki by the ==REMOTE_USER== environment variable, and used internally. Login Usernames are maintained by your system administrator.
 
    * *TWiki Username:* Your name in WikiNotation, ex: ==PeterThoeny==, is recorded when you register using TWikiRegistration; doing so also generates a personal home page in the %USERSWEB% web.
 

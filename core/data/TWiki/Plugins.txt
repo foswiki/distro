@@ -138,7 +138,7 @@ To eliminate the incompatibility problems that are bound to arise from active op
       * The plugin initialization code does not register a plugin that returns 0 (or that has no =initPlugin= handler).
 
    * =$TWiki::Plugins::VERSION= in the =TWiki::Plugins= module contains the TWiki plugin API version, currently *%PLUGINVERSION{}%*.
-      * You can also use the =[[VarPLUGINVERSION][%<nop>PLUGINVERSION{}%]]= variable to query the plugin API version or the version of installed plugins.
+      * You can also use the =[[VarPLUGINVERSION][%<nop>PLUGINVERSION{}%]]= macro to query the plugin API version or the version of installed plugins.
 
 ---+++ Security
 
@@ -205,7 +205,7 @@ Check the plugins web on TWiki.org for the latest plugin doc topic template. Her
 
 *Example:* &lt;<i>Include an example of the plugin in action. Possibly include a static HTML version of the example to compare if the installation was a success!</i>&gt;"
 
-*Plugin Settings:* &lt;<i>Description and settings for custom plugin %<nop>VARIABLES%, and those required by TWiki.</i>&gt;"
+*Plugin Settings:* &lt;<i>Description and settings for custom plugin settings, and those required by TWiki.</i>&gt;"
 
    * *Plugins Preferences* &lt;<i>If user settings are needed, explain... Entering values works exactly like %SYSTEM!WEB%.DefaultPreferences and WebPreferences: six (6) spaces and then:</i>&gt;"
       * *Set &lt;<i>EXAMPLE = value added</i>&gt;*

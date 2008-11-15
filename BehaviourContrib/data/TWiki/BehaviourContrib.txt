@@ -272,7 +272,7 @@ For details see the Behaviour website.
 ---++ Contrib Settings
    * Set SHORTDESCRIPTION = =Behaviour= Javascript event library to create javascript based interactions that degrade well when javascript is not available
 
-You can also set the global TWiki variable BEHAVIOURCONTRIB_DEBUG to 1 to make the contrib use uncompressed javascript sources, in the event of problems.
+You can also set the global preference setting BEHAVIOURCONTRIB_DEBUG to 1 to make the contrib use uncompressed javascript sources, in the event of problems.
 
 ---++ Contrib Info
 |  Author: | TWiki:Main.ArthurClemens |

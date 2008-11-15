@@ -342,13 +342,13 @@ There are several other ways to put an image in a topic.
 
 Shorthand notation:
 <blockquote>
-In [[%USERSWEB%.DefaultPreferences!]] set a variable to an ICON, for example:
+In [[%USERSWEB%.DefaultPreferences!]] set a macro for an ICON, for example:
 
 =<nop>   * Set H = %<nop>ICON{help}%=
 
 Now you can use the icon by writing =%<nop>H%=
 
-For extended use, check out TWiki:Plugins.SmiliesPlugin that uses a different short hand than =<nop>%VARIABLES%=.
+For extended use, check out TWiki:Plugins.SmiliesPlugin that uses a different short hand than =<nop>%MACROS%=.
 </blockquote>
 
 Full path:

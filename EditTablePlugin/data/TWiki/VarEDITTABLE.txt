@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarEDITTABLE
 ---+++ EDITTABLE{ _attributes_ } -- edit TWiki tables using edit fields and other input fields
-   * The =%<nop>EDITTABLE{}%= variable is handled by the EditTablePlugin
+   * The =%<nop>EDITTABLE{}%= macro is handled by the EditTablePlugin
    * Syntax: =%<nop>EDITTABLE{ _attributes_ }%=
 %STARTSECTION{"edittable_attributes"}%
    * Supported attributes:

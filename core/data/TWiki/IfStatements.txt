@@ -7,7 +7,7 @@ The =%<nop>IF%= construct gives TWiki the power to include content in topics bas
 
 In the example above, if CONDITION evaluates to TRUE, then THEN will be included in the topic; otherwise ELSE will be included.
 
-Note that because of the way TWiki evaluates, then whatever is in the THEN and ELSE parameters will already have been expanded by the time the condition is actually evaluated. The standard FormatTokens can be used in the THEN and ELSE parameters when you need to delay evaluation of (for example) a TWiki variable.
+Note that because of the way TWiki evaluates, then whatever is in the THEN and ELSE parameters will already have been expanded by the time the condition is actually evaluated. The standard FormatTokens can be used in the THEN and ELSE parameters when you need to delay evaluation of (for example) a macro.
 
 The basic syntax of a condition is the same as [[QuerySearch][the syntax used for queries]], with the addition of the following special operators:
 
@@ -18,17 +18,17 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | ingroup | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a login name or a wikiname. |
 | defined | True if a preference setting or url parameter of this name is defined. |
 | isempty | True if a preference setting, url parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) || $x='')= |
-| $ | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. Built-in macros, settings and user-defined preference settings are supported. You can pass a limited subset of parameters to macros by enclosing the variable name in single quotes; for example, =$ 'VARIABLE{value}'=. The ='VARIABLE{value}'= string may *not* contain quotes (' or "). |
-| {X} | expands to the value of the configuration variable {X} - for example, ={ScriptUrlPath}= |
+| $ | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. Built-in macros, system preference settings and user-defined preference settings are supported. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
+| {X} | expands to the value of the =configure= setting {X} - for example, ={ScriptUrlPath}= |
 
 __Examples:__
 
-1. TWiki variable defined or not
+1. Macro defined or not
 <verbatim>
 %IF{"defined 'WIKINAME'" then="WIKINAME is defined" else="WIKINAME is not defined"}%
 </verbatim>
 
-2. Compare TWiki variable
+2. Compare macro definition
 <verbatim>
 You are %IF{ "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'" then="not" }% allowed to
 %IF{ "context view" then="view" else="edit"}% this TWiki today.

@@ -77,7 +77,7 @@ Comments, signed and dated, added immediately before anchor
 
 
 ---++++ bulletabove
-Bullet item added immediately before anchor. The input field width is passed with variable =inputsize=, for example:
+Bullet item added immediately before anchor. The input field width is passed with parameter =inputsize=, for example:
 <blockquote><verbatim>
 %COMMENT{type="bulletabove" inputsize="20"}%
 </verbatim></blockquote>

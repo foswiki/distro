@@ -3,7 +3,7 @@
 
 Edit TWiki tables in place, using edit fields and drop down boxes, without having to edit the complete topic. 
 
-Simply add an *[&nbsp;Edit&nbsp;table&nbsp;]* button to an existing table by writing =%<nop>EDITTABLE{}%= directly above the table. This can be added to tables that are formatted with TablePlugin: add the =EDITTABLE= variable just above or below the =TABLE= tag. It can also be used without any =TABLE= tag.
+Simply add an *[&nbsp;Edit&nbsp;table&nbsp;]* button to an existing table by writing =%<nop>EDITTABLE{}%= directly above the table. This can be added to tables that are formatted with TablePlugin: add the =EDITTABLE= macro just above or below the =TABLE= tag. It can also be used without any =TABLE= tag.
 
 Customize entry fields by specifying the format: use a text field, a drop down box, a date field, radio buttons or checkboxes.
 
@@ -13,7 +13,7 @@ Multiple tables per topic are editable, but only one at a time can be edited.
 
 ---++ Per Table Settings
 
-Add a =%<nop>EDITTABLE{...}%= variable just before an existing table to make it editable, or add the variable anywhere in a topic to start a new table.
+Add a =%<nop>EDITTABLE{...}%= macro just before an existing table to make it editable, or add the variable anywhere in a topic to start a new table.
 %INCLUDE{"%SYSTEMWEB%.VarEDITTABLE" section="edittable_attributes"}%
 
 ---+++ Using Macros in the Format Parameter
@@ -42,11 +42,11 @@ The =date= field type allows one to choose a date with a popup calendar. Popup c
 
 ---++ Per Cell Settings
 
-An individual edit field type can be defined for each table cell. Place an =%<nop>EDITCELL{ "type, ..." }%= variable at the end of the cell content. This is useful to override the per column =%<nop>EDITTABLE{ format="..." }%= settings, or to create tables with key/value rows. All edit field types of the =format="..."= parameter are supported. For example, to define a text field, type: =| cell content %<nop>EDITCELL{ "text, 20" }% |=
+An individual edit field type can be defined for each table cell. Place an =%<nop>EDITCELL{ "type, ..." }%= macro at the end of the cell content. This is useful to override the per column =%<nop>EDITTABLE{ format="..." }%= settings, or to create tables with key/value rows. All edit field types of the =format="..."= parameter are supported. For example, to define a text field, type: =| cell content %<nop>EDITCELL{ "text, 20" }% |=
 
 It is also possible to place the edit button inside a cell instead of default location below the table. Type =| %<nop>EDITCELL{ "editbutton, 1, Edit this table" }% |= to show a button, or =| %<nop>EDITCELL{ "editbutton, 1, Edit table, Image-URL" }% |= to show a button image with alternate text.
 
-__Note:__ The =%<nop>EDITCELL{ }%=variable cannot be used by itself; place an =%<nop>EDITTABLE{ }%=variable at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= variables.
+__Note:__ The =%<nop>EDITCELL{ }%= macro cannot be used by itself; place an =%<nop>EDITTABLE{ }%=variable at the beginning of a table where you want to use =%<nop>EDITCELL{ }%= variables.
 
 ---++ Table Buttons
 
