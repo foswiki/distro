@@ -5,7 +5,7 @@
 
 
 <div class="twikiNotification">
----+++ TWiki admins
+---+++ Wiki admins
 
 Please replace all web's !WebTopicCreator topic contents with this text:
 

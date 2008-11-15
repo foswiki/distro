@@ -320,7 +320,7 @@ BEGIN {
     $functionTags{STATISTICSTOPIC}   = sub { $TWiki::cfg{Stats}{TopicName} };
     $functionTags{SYSTEMWEB}         = sub { $TWiki::cfg{SystemWebName} };
     $functionTags{TRASHWEB}          = sub { $TWiki::cfg{TrashWebName} };
-    $functionTags{TWIKIADMINLOGIN}   = sub { $TWiki::cfg{AdminUserLogin} };
+    $functionTags{WIKIADMINLOGIN}   = sub { $TWiki::cfg{AdminUserLogin} };
     $functionTags{USERSWEB}          = sub { $TWiki::cfg{UsersWebName} };
     $functionTags{WEBPREFSTOPIC}     = sub { $TWiki::cfg{WebPrefsTopicName} };
     $functionTags{WIKIPREFSTOPIC}    = sub { $TWiki::cfg{SitePrefsTopicName} };

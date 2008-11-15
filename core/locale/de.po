@@ -609,7 +609,7 @@ msgstr "Administrative Pflege"
 
 #: templates/login.sudo.tmpl:3
 msgid "Admin TWiki User Authentication"
-msgstr "TWiki Admin Benutzer Authentifizierung"
+msgstr "Wiki Admin Benutzer Authentifizierung"
 
 #: data/TWiki/WebSearchAdvanced.txt:3
 msgid "Advanced Search"
@@ -1340,7 +1340,7 @@ msgstr "Geben Sie einen neuen Benutzernamen und ein Passwort ein, um Ihre Identi
 "zu wechseln"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr "Bitte geben Sie den Administrator Benutzernamen oder den Login aus %1 ein"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
@@ -2106,8 +2106,8 @@ msgid "Please contact %1."
 msgstr "Bitte benachrichtigen Sie %1."
 
 #: templates/login.sudo.tmpl:7
-msgid "Please enter the TWiki admin password"
-msgstr "Bitte geben Sie das TWiki Admin Passwort ein"
+msgid "Please enter the Wiki admin password"
+msgstr "Bitte geben Sie das Wiki Admin Passwort ein"
 
 #: templates/login.tmpl:14
 msgid "Please enter your username and password"
@@ -3418,9 +3418,9 @@ msgstr "Sie wurden *nicht* registriert."
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
-msgstr "Eventuell bekommen Sie ihren TWiki Administrator dazu Änderungen an den "
+msgstr "Eventuell bekommen Sie ihren Wiki Administrator dazu Änderungen an den "
 "Einstellungen vorzunehmen, die besser für ihre Umgebung passen."
 
 #: templates/messages.tmpl:520
@@ -3519,10 +3519,10 @@ msgstr "Ihre Signatur zum Kopieren/Einfügen"
 
 #: templates/messages.tmpl:178
 msgid ""
-"Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"Your system may not support changing passwords through Wiki. Check with "
+"your Wiki administrator."
 msgstr "Dieses System unterstützt möglicherweise das Ändern von Passwörtern durch "
-"TWiki nicht. Erkundigen Sie sich bitte beim Administrator."
+"Wiki nicht. Erkundigen Sie sich bitte beim Administrator."
 
 #: templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."

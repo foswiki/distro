@@ -180,7 +180,7 @@ msgstr "&Afbreken"
 
 #: twikiplugins/PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
 msgid "&Edit text"
-msgstr "Tekst &bewerken"
+msgstr "Tekst b&ewerken"
 
 #: templates/twiki.tmpl:101
 #: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
@@ -1329,8 +1329,8 @@ msgstr ""
 "veranderen"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
-msgstr "Vul de TWikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
+msgstr "Vul de Wikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
@@ -2106,8 +2106,8 @@ msgid "Please contact %1."
 msgstr "Neem contact op met %1."
 
 #: templates/login.sudo.tmpl:7
-msgid "Please enter the TWiki admin password"
-msgstr "TWiki beheerder login"
+msgid "Please enter the Wiki admin password"
+msgstr "Wiki beheerder login"
 
 #: templates/login.tmpl:14
 msgid "Please enter your username and password"
@@ -3429,10 +3429,10 @@ msgstr "Je bent *niet* geregistreerd"
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Je zou je TWiki beheerder zover kunnen krijgen om de instellingen te "
+"Je zou je Wiki beheerder zover kunnen krijgen om de instellingen te "
 "veranderen als ze niet van toepassing zijn op jouw omgeving."
 
 #: templates/messages.tmpl:520
@@ -3534,10 +3534,10 @@ msgstr "Je signatuur om te kopiëren/plakken:"
 #: templates/messages.tmpl:178
 msgid ""
 "Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"your Wiki administrator."
 msgstr ""
 "Het is mogelijk dat je systeem het veranderen van wachtwoorden via TWiki "
-"niet ondersteunt. Controleer dit bij je TWikibeheerder."
+"niet ondersteunt. Controleer dit bij je Wikibeheerder."
 
 #: templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
@@ -3814,3 +3814,4 @@ msgstr ""
 "wachtwoord opnieuw te kunnen instellen. Als geen van je geregistreerde e-"
 "mailadressen geldig zijn, en je je wachtwoord bent vergeten, neem dan "
 "contact op met %1."
+

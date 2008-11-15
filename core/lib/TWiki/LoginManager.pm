@@ -100,7 +100,7 @@ sub makeLoginManager {
     #user is trying to sudo login - use BaseUserMapping
     if ( $twiki->{request}->param('sudo') ) {
 
-        #promote / login to internal twiki admin
+        #promote / login to internal wiki admin
         $twiki->enterContext('sudo_login');
     }
 

@@ -30,8 +30,8 @@
 | SEARCHDEFAULTTTYPE | select | 1 | keyword,literal,regex | Default type for search | S |
 | SEARCHVARDEFAULTTYPE | select | 1 | keyword,literal,regex | Default for =%<nop>SEARCH{}%= variable | S |
 | SEARCHSTOPWORDS | textarea | | a, all, am, an, and, any, as, at, b, be, by, c, d, e, for, from, g, h, how, i, i'm, i.e., in, is, isn't, it, it's, its, j, k, l, m, n, o, of, on, or, p, q, r, s, t, that, that's, the, this, to, u, v, w, was, wasn't, what, what's, when, where, who, who's, will, with, x, y, z | Stop words, e.g., common words and characters to exclude from a keyword search | S |
-| WIKIWEBMASTER | text | 30 | webmaster@example.com | TWiki administrator e-mail address | S |
-| WIKIWEBMASTERNAME | text | 30 | TWiki Administrator | TWiki administrator name (first name and last name, e.g. =Fred Smith=) | S |
+| WIKIWEBMASTER | text | 30 | webmaster@example.com | Wiki administrator e-mail address | S |
+| WIKIWEBMASTERNAME | text | 30 | Wiki Administrator | Wiki administrator name (first name and last name, e.g. =Fred Smith=) | S |
 | HTTP_EQUIV_ON_VIEW| textarea | 30x1 | <link rel='alternate' type='application/rss+xml' title='RSS Feed' href='%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/WebRss' /> | http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts | S |
 | HTTP_EQUIV_ON_EDIT| textarea | 30x1 | =  | http-equiv== meta tags for ==edit== script | S |
 | HTTP_EQUIV_ON_PREVIEW| textarea | 30x1 | =  | http-equiv== meta tags for ==preview== script | S |

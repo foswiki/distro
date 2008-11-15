@@ -1340,7 +1340,7 @@ msgstr ""
 "Въведете ново потребителско име и парола, за да промените идентичността си"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
@@ -2082,7 +2082,7 @@ msgid "Please contact %1."
 msgstr ""
 
 #: templates/login.sudo.tmpl:7
-msgid "Please enter the TWiki admin password"
+msgid "Please enter the Wiki admin password"
 msgstr ""
 
 #: templates/login.tmpl:14
@@ -3296,7 +3296,7 @@ msgstr ""
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
 
@@ -3383,7 +3383,7 @@ msgstr "Вашият подпис за copy/paste:"
 #: templates/messages.tmpl:178
 msgid ""
 "Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"your Wiki administrator."
 msgstr ""
 
 #: templates/messages.tmpl:11

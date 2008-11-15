@@ -29,7 +29,7 @@ No registration - this is a read only usermapper. It uses the mapper
 prefix 'BaseUserMapping_'.
 
 ---++ Users
-   * $TWiki::cfg{AdminUserLogin} - TWikiAdmin - uses the password that was set in Configure (IF its not null)
+   * $TWiki::cfg{AdminUserLogin} - WikiAdmin - uses the password that was set in Configure (IF its not null)
    * $TWiki::cfg{DefaultUserLogin} - WikiGuest
    * UnknownUser
    * ProjectContributor - 1 Jan 2005

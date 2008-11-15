@@ -21,7 +21,7 @@ If you haven't previously set up an administrator, follow these steps:
    1 [[%LOGOUTURL%][Logout]] from the Internal AdminUser
    1 Verify that new members show up properly in the group listing at [[%USERSWEB%.Groups]]
    1 Make sure always to keep this topic write protected by keeping the already defined ALLOWTOPICCHANGE setting
-   1 The ALLOWTOPICHANGE and ALLOWTOPICRENAME settings in [[%SYSTEMWEB%.DefaultPreferences]] and [[%LOCALSITEPREFS%]] have already been set to this group (<nop>AdminGroup), restricting edit of site-wide preferences to the TWiki Administrator Group
+   1 The ALLOWTOPICHANGE and ALLOWTOPICRENAME settings in [[%SYSTEMWEB%.DefaultPreferences]] and [[%LOCALSITEPREFS%]] have already been set to this group (<nop>AdminGroup), restricting edit of site-wide preferences to the Wiki Administrator Group
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 

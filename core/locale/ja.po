@@ -1302,7 +1302,7 @@ msgid "Enter a new username and password to change identity"
 msgstr "新しいユーザー名とパスワードを入力してアイデンティティを変更します"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
@@ -2061,8 +2061,8 @@ msgid "Please contact %1."
 msgstr " %1 までご連絡ください。"
 
 #: templates/login.sudo.tmpl:7
-msgid "Please enter the TWiki admin password"
-msgstr "TWiki adminのパスワードをご入力ください:"
+msgid "Please enter the Wiki admin password"
+msgstr "Wiki adminのパスワードをご入力ください:"
 
 #: templates/login.tmpl:14
 msgid "Please enter your username and password"
@@ -3339,10 +3339,10 @@ msgstr "*ま *登録していません"
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"環境設定に不具合がある場合は、Twikiの管理者に変更してもらうことができます。"
+"環境設定に不具合がある場合は、Wikiの管理者に変更してもらうことができます。"
 
 #: templates/messages.tmpl:520
 msgid ""
@@ -3437,10 +3437,10 @@ msgstr "あなたの複製/貼り付けのためのシグネチャー"
 #: templates/messages.tmpl:178
 msgid ""
 "Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"your Wiki administrator."
 msgstr ""
 "お使いのシステムはTwikiを使ってパスワードを変更することをサポートしないかもし"
-"れません。Twiki管理者にご連絡ください。"
+"れません。Wiki管理者にご連絡ください。"
 
 #: templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."

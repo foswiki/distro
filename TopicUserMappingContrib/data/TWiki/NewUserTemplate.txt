@@ -35,7 +35,7 @@ Uncomment preferences variables to activate them (remove the #-sign). Help and d
 
 %STARTSECTION{type="templateonly"}%
 ----
-Notes to TWiki Administrator:
+Notes to Wiki Administrator:
 
 Anything inside this "templateonly" section will not be copied to the home topic of the new user. It is a resource for the administrator to tailor the users home topic.
 

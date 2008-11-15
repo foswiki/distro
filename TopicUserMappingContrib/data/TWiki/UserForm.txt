@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 15569 $"}%
 ---+ User Form
 
-__Note:__ This is a maintenance topic, used by the TWiki administrator.
+__Note:__ This is a maintenance topic, used by the Wiki administrator.
 
 This form defines the form of the home pages of registered TWiki users listed
 in %MAINWEB%.%WIKIUSERSTOPIC%. *Do not edit this topic* - if you want to customise the

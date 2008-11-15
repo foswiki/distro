@@ -235,7 +235,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | [[TWiki:Codev.TipOfTheDayFeatureRequest][Tip of the Day box in TWiki Home]] | [[TWiki:Main.PaulineCheung][PaulineCheung]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.AntonAylward][AntonAylward]] |
 | [[WebAtomBase][ATOM feeds]] | [[http://www.structuredwikis.com/][Peter Thoeny]] |
 | [[TWiki:Codev.ForceNewRevisionCheckBox]["Force New Revision" check box for topic save]] | [[TWiki:Main.WillNorris][WillNorris]] |
-| *New features for TWiki administrators and wiki application developers*  ||
+| *New features for Wiki administrators and wiki application developers*  ||
 | Improved preferences handling | [[TWiki:Main.ThomasWeigert][ThomasWeigert]], [[http://c-dot.co.uk][Crawford Currie]] |
 | Named include sections | [[TWiki:Main.RafaelAlvarez][RafaelAlvarez]] |
 | [[TWiki:Codev.AllowDynamicTopicNameCreation][Create topic names with consecutive numbers]] | [[http://www.home.org.au][Sven Dowideit]] |

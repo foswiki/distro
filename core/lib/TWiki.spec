@@ -310,7 +310,7 @@ $TWiki::cfg{DefaultUserWikiName} = 'WikiGuest';
 
 # **STRING 20 EXPERT**
 # An internal admin user login name (matched with the configure password, if set)
-# which can be used as a temporary Admin login (see: Main.TWikiAdminUser).
+# which can be used as a temporary Admin login (see: Main.WikiAdminUser).
 # This login name is additionally required by the install script for some addons
 # and plugins, usually to gain write access to the TWiki web.
 # If you change this you risk making topics uneditable.
@@ -319,8 +319,8 @@ $TWiki::cfg{AdminUserLogin} = 'admin';
 # **STRING 20 EXPERT**
 # An admin user WikiName what is displayed for actions done by the AdminUserLogin
 # You should normally not need to change this. (you will need to move the 
-# %USERSWEB%.TWikiAdminUser topic to match)
-$TWiki::cfg{AdminUserWikiName} = 'TWikiAdminUser';
+# %USERSWEB%.WikiAdminUser topic to match)
+$TWiki::cfg{AdminUserWikiName} = 'WikiAdminUser';
 
 # **STRING 20 EXPERT**
 # Group of users that can use special action=repRev and action=delRev
@@ -372,7 +372,7 @@ $TWiki::cfg{AuthRealm} =
 #  TWiki::Users::TopicUserMapping - uses TWiki user and group topics to
 #  determine user information, and group memberships.
 # </li><li>
-#  TWiki::Users::BaseUserMapping - has only pseudo users such as {TWikiAdminUser} and
+#  TWiki::Users::BaseUserMapping - has only pseudo users such as {WikiAdminUser} and
 #  {DefaultUserWikiName}, with the Admins login and password being set from this
 #  configure script. <b>Does not support User registration</b>, and
 #  only works with TemplateLogin.
@@ -974,15 +974,15 @@ $TWiki::cfg{UsersWebName} = 'Main';
 $TWiki::cfg{EnableEmail} = $TRUE;
 
 # **STRING 30**
-# TWiki administrator's e-mail address e.g. <code>webmaster@example.com</code>
+# Wiki administrator's e-mail address e.g. <code>webmaster@example.com</code>
 # (used in <code>%WIKIWEBMASTER%</code>)
 # NOTE: must be a single valid email address
 $TWiki::cfg{WebMasterEmail} = '';
 
 # **STRING 30**
-# TWiki administrator's name address, for use in mails (first name and
+# Wiki administrator's name address, for use in mails (first name and
 # last name, e.g. =Fred Smith=) (used in %WIKIWEBMASTERNAME%)
-$TWiki::cfg{WebMasterName} = 'TWiki Administrator';
+$TWiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **COMMAND**
 # Mail program. If Net::SMTP is installed, it will be used in preference. 

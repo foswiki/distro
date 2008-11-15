@@ -89,7 +89,7 @@ The existence of the <nop>UserName topic should also prevent that user name from
 TWiki's Registration can send 3 emails who's output is governed by templates:
    1 User registration confirmation - =templates/registerconfirm.tmpl=
    2 User registration notification - =templates/registernotify.tmpl=
-   3 Email to notify the TWiki admin of registration - =templates/registernotifyadmin.tmpl=
+   3 Email to notify the Wiki admin of registration - =templates/registernotifyadmin.tmpl=
 
 As these are SkinTemplates, they can be customized and selected using the SKIN path setting.
 Because there are default tmpl files in the =templates= dir, this cannot use Template topics.
@@ -138,7 +138,7 @@ Welcome to %WIKITOOLNAME%.
 
 Regards
 %WIKIWEBMASTERNAME%
-Your TWiki Admin
+Your Wiki Admin
 
 
 %MAKETEXT{"Note:"}%

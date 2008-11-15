@@ -37,7 +37,7 @@ Manual sections in separate pages:
       * [[CascadingStyleSheets][C: Cascading Style Sheets]]
 
  %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own TWiki site. See also other enhancement pages: 
-   * TWiki:TWiki.TWikiAdminCookBook: Some tips that can be applied *before installation*
+   * TWiki:TWiki.WikiAdminCookBook: Some tips that can be applied *before installation*
    * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).
    * AdminToolsCategory: Topics an admin typically needs, all in one page
    * DocumentGraphics: Collection of useful icons for TWiki applications

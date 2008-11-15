@@ -321,7 +321,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * User-friendly synonyms for system webs
       * Set DOCWEB = %SYSTEMWEB%
       
-   * show extra help for !ApacheLogin users for Main.TWikiAdminUser login
+   * show extra help for !ApacheLogin users for Main.WikiAdminUser login
       * Set ADMINLOGIN = %IF{"{LoginManager} = 'TWiki::LoginManager::ApacheLogin' AND NOT context authenticated"
         then="TWiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
         else="[[%SCRIPTURL{login}%?sudo=sudo;origurl=%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%][internal admin login]] (use the username suggested and the password set in configure)."}%
@@ -340,7 +340,7 @@ You can introduce new VARIABLES and use them in your topics and templates. There
    * Preferences are used as %SYSTEMWEB%.TWikiVariables by enclosing the name in percent signs: ==%==. Example:
       * When you write variable ==%WEB<nop>BGCOLOR%==, it gets expanded to =%WEBBGCOLOR%= .
 
-   * %X% The sequential order of the preference settings is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the TWiki administrator e-mail address.
+   * %X% The sequential order of the preference settings is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
    * %X% In order to protect your custom variables from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that custom variables are defined in [[%USERSWEB%.%TOPIC%]].
 
 ---++ Protected System Settings

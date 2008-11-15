@@ -1368,7 +1368,7 @@ msgid "Enter a new username and password to change identity"
 msgstr "Введите новые имя пользователя и пароль для изменения идентификации:"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
@@ -2161,7 +2161,7 @@ msgstr "Пожалуйста, свяжитесь с %1."
 
 #: templates/login.sudo.tmpl:7
 #, fuzzy
-msgid "Please enter the TWiki admin password"
+msgid "Please enter the Wiki admin password"
 msgstr "Пожалуйста, введите имя пользователя и пароль:"
 
 #: templates/login.tmpl:14
@@ -2268,7 +2268,7 @@ msgid ""
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
 "Прочтите %1 чтобы получить обзорное представление об этой платформе для "
-"организации совместной работы. Чтобы узнать больше, изучите TwentyMinutesTutorial, "
+"организации совместной работы. Чтобы узнать больше, изучите TwentyMinuteTutorial, "
 "доступный по той же ссылке."
 
 #: twikiplugins/PatternSkin/templates/edit.pattern.tmpl:27
@@ -3504,10 +3504,10 @@ msgstr "Вы *не* были зарегистрированы."
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Вы можете попробовать попросить Вашего администратора TWiki изменить "
+"Вы можете попробовать попросить Вашего администратора Wiki изменить "
 "настройки если они не подходят Вашему окружению."
 
 #: templates/messages.tmpl:520
@@ -3612,10 +3612,10 @@ msgstr "Ваша подпись для копирования/вставки:"
 #: templates/messages.tmpl:178
 msgid ""
 "Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"your Wiki administrator."
 msgstr ""
 "Ваша система возможно не поддерживает смену паролей через TWiki. Свяжитесь с "
-"администратором TWiki."
+"администратором Wiki."
 
 #: templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."

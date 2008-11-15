@@ -1334,9 +1334,9 @@ msgid "Enter a new username and password to change identity"
 msgstr "Angiv et nyt brugernavn og password for at skifte identitet:"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
-"Brug den TWiki Administrator-bruger eller det login som er benyttet i %1"
+"Brug den Wiki Administrator-bruger eller det login som er benyttet i %1"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
@@ -2104,8 +2104,8 @@ msgid "Please contact %1."
 msgstr "Kontakt venligst %1."
 
 #: templates/login.sudo.tmpl:7
-msgid "Please enter the TWiki admin password"
-msgstr "Indtast TWiki administrator-passwordet"
+msgid "Please enter the Wiki admin password"
+msgstr "Indtast Wiki administrator-passwordet"
 
 #: templates/login.tmpl:14
 msgid "Please enter your username and password"
@@ -3422,7 +3422,7 @@ msgstr "Du er *ikke* blevet registreret."
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
 "Du kan muligvis overtale din TWiki-administrator til at opdatere de aktuelle "
@@ -3531,10 +3531,10 @@ msgstr "Din signatur (til copy/paste):"
 #: templates/messages.tmpl:178
 msgid ""
 "Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"your Wiki administrator."
 msgstr ""
 "Dette system understøtter muligvis ikke skift af passwords gennem TWiki. "
-"Tjek med din TWiki administrator."
+"Tjek med din Wiki administrator."
 
 #: templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."

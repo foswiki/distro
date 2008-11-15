@@ -160,7 +160,7 @@ When the User information is stored in a UserForm (as is default in Dakar) then 
 
 In the above example:
    * ==META:FORM.*[U]serForm== will search for all topics with a UserForm attached - change this if you have a different form where userdata is stored. Please note that this search does not actually extract anything from the form - it just uses it to identify the appropriate pages
-   * ==excludetopic="Test*, TWiki*"== allows to skip all topics starting with Test and TWiki, such as !TestUser or !TWikiAdmin. Use this if you have any special users who you do not want appearing in this list
+   * ==excludetopic="Test*, TWiki*"== allows to skip all topics starting with Test and TWiki, such as !TestUser or !WikiAdmin. Use this if you have any special users who you do not want appearing in this list
 
 
 <!-- ============================== -->

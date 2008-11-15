@@ -1336,9 +1336,9 @@ msgid "Enter a new username and password to change identity"
 msgstr "Digite um novo nome de usuário e senha para trocar de identidade"
 
 #: templates/login.sudo.tmpl:18
-msgid "Enter the TWiki Administrator user or login as set in %1"
+msgid "Enter the Wiki Administrator user or login as set in %1"
 msgstr ""
-"Informe o usuário Administrador do TWiki ou faça login tal como definido em %"
+"Informe o usuário Administrador do Wiki ou faça login tal como definido em %"
 "1"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
@@ -2101,8 +2101,8 @@ msgid "Please contact %1."
 msgstr "Por favor, contate %1."
 
 #: templates/login.sudo.tmpl:7
-msgid "Please enter the TWiki admin password"
-msgstr "Por favor, digite a senha de Administrador do TWiki"
+msgid "Please enter the Wiki admin password"
+msgstr "Por favor, digite a senha de Administrador do Wiki"
 
 #: templates/login.tmpl:14
 msgid "Please enter your username and password"
@@ -3409,10 +3409,10 @@ msgstr "Você *não* está registrado"
 
 #: templates/messages.tmpl:357
 msgid ""
-"You may be able to get your TWiki administrator to change the settings if "
+"You may be able to get your Wiki administrator to change the settings if "
 "they are inappropriate for your environment."
 msgstr ""
-"Você pode fazer com que o administrador do TWiki altere-os se eles não forem "
+"Você pode fazer com que o administrador do Wiki altere-os se eles não forem "
 "apropriados para o seu ambiente."
 
 #: templates/messages.tmpl:520
@@ -3517,10 +3517,10 @@ msgstr "Sua assinatura pra copiar e colar:"
 #: templates/messages.tmpl:178
 msgid ""
 "Your system may not support changing passwords through TWiki. Check with "
-"your TWiki administrator."
+"your Wiki administrator."
 msgstr ""
 "Seu sistema talvez não suporte mudanças de senhas no TWiki. Verifique isso "
-"com o Administrador do TWiki. "
+"com o Administrador do Wiki. "
 
 #: templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."

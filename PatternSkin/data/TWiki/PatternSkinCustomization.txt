@@ -316,7 +316,7 @@ In the user page of %MAINWEB%.WikiGuest, set the cover to
    * <nop>Set COVER = customer
 </pre></blockquote>
 
-By default this topic is editable only by TWiki admins.
+By default this topic is editable only by Wiki admins.
 
 ---+++ I want to remove the History button from the bottom
 
