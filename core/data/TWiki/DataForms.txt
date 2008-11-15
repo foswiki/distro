@@ -204,20 +204,9 @@ Types with names like this can both take multiple values.
    * New topics with a form are created by simple HTML forms asking for a topic name. For example, you can have a =<nop>SubmitExpenseReport= topic where you can create new expense reports, a =<nop>SubmitVacationRequest= topic, and so on. These can specify the required template topic with its associated form. [[TemplateTopics][Template topics]] has more.
 A Form Template specifies the fields in a form. A Form Template is simply a page containing a TWiki table, where each row of the table specifies one form field.
 #UsingFormData
----+++ Searching for Form Data
-Data Forms accept user-input data, stored as MetaData. Meta data also contains program-generated info about changes, attachments, etc. To find, format and display form and other meta data, see MetaData, ==FORMFIELD==, ==SEARCH== and ==METASEARCH== in [[%SYSTEMWEB%.Macros][Macros]], and [[FormattedSearch][TWiki Formatted Search]].
+---+++ Searching in Form Data
+The best way to search in form data is using the structured query language in the SEARCH macro. See QuerySearch for more information.
 
-<blockquote>
-*Example* %BR%
-TWiki users often want to have an overview of topics they contributed to. With the ==$formfield== parameter it is easy to display the value of a classification field next to the topic link:
-<verbatim>
-| *Topic* | *Classification* |
-%SEARCH{"%USERSWEB%.UserName" scope="text" nosearch="on" nototal="on" order="modified" reverse="on"
-format="|<b>[[$web.$topic][$topic]]</b> |<nop>$formfield(TopicClassification) |" web="Sandbox"}%
-</verbatim>
-</blockquote> 
-
-Searching forms this way is obviously pretty inefficient, but it's easy to do. If you want better performance, take a look at some of the structured wiki extensions that support higher performance searching e.g. TWiki:Plugins.DBCachePlugin.
 ---+++ Gotcha!
    * Some browsers may strip linefeeds from =text= fields when a topic is saved. If you need linefeeds in a field, make sure it is a =textarea=.
 

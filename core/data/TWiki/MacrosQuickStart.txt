@@ -3,13 +3,12 @@
 
 %STARTINCLUDE%
 
-Macros are names enclosed in percent signs that are that are expanded to some other text when the topic
-is displayed. For example, =%<nop>TOPIC%= is expanded to %TOPIC%.
+Macros are names enclosed in percent signs that are that are expanded to some other text when the topic is displayed. For example, =%<nop>TOPIC%= is expanded to %TOPIC%.
+
 Some macros can take arguments in curly braces - for example, =%<nop>INCLUDE{"OtherTopic" ARG="arg"}%=.
 
-Many macro definitions are built-in, and others (preference settings) are predefined for your convenience. You can also define your own
-preference settings at the entire site, individual web, or individual topic level. For more information,
-go to *[[Macros]]*
+Many macro definitions are built-in, and others ([[%SYSTEMWEB%.PreferenceSettings][preference settings]]) are predefined for your convenience. You can also define your own
+[[%SYSTEMWEB%.PreferenceSettings][preference settings]] at the entire site, individual web, or individual topic level. For more information, see *[[Macros]]*
 
 Macros are fully expanded _before_ any of the TWiki text formatting rules are applied.
 

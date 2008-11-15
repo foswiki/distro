@@ -121,4 +121,9 @@ __Related web sites:__
    * http://www.triplecode.com/munsell/ - color picker based on how people _perceive_ colors
    * http://www.cloford.com/resources/colours/websafe2.htm - Web-safe colors
 
+#ShortCuts
+---+ Shortcut macros for colors
+%SEARCH{ "parent.name='StandardColors'" type="query" topic="Var*" 
+format="   * $percnt<nop>$pattern(.*?\-\++ *([^ ]*).*)$percnt $percnt$pattern(.*?\-\++ *([^ ]*).*)$percnt Lorem ipsum.... $percntENDCOLOR$percnt $percnt<nop>ENDCOLOR$percnt" nonoise="on" }%
+
 __Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

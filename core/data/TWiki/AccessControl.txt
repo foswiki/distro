@@ -234,7 +234,7 @@ Use the following setup to provide unrestricted viewing access to open webs, wit
 
 ---+++ Hide Control Settings
 
-__%T% Tip:__ To hide access control settings from normal browser viewing, you can put them into the _topic preference settings_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
+__%T% Tip:__ To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 

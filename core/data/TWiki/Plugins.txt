@@ -69,15 +69,15 @@ By default, plugins are executed in alphabetical order on plugin name. It is pos
 
 ---+++ Plugin-Specific Settings
 
-Some plugins are configured with plugin preference settings, newer plugins with =configure= settings.
+Some plugins are configured with plugin [[%SYSTEMWEB%.PreferenceSettings][preference settings]], newer plugins with =configure= settings.
 
 =configure= settings are accessible though the [[%SCRIPTURLPATH{"configure"}%][configure]] interface. 
 
-Plugin preference settings are defined in the plugin topic and can be overloaded. The SHORTDESCRIPTION setting is always present, it is needed for the automation in the extensions repository. Example preference settings defined in the TablePlugin topic:
+Plugin [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are defined in the plugin topic and can be overloaded. The SHORTDESCRIPTION setting is always present, it is needed for the automation in the extensions repository. Example preference settings defined in the TablePlugin topic:
 
    * =Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns=
  
-Preference settings of active plugins can be retrieved anywhere in TWiki with =%&lt;pluginname&gt;_&lt;var&gt;%=, such as =%<nop>TABLEPLUGIN_SHORTDESCRIPTION%=. They can also be redefined with the =%&lt;pluginname&gt;_&lt;var&gt;%= setting at a lower level in the [[%LOCALSITEPREFS%]] or at the web level. For an easier upgrade it is recommended to customize plugin preference settings in <nop>%LOCALSITEPREFS% only.
+[[Preference settings]] of active plugins can be retrieved anywhere in TWiki with =%&lt;pluginname&gt;_&lt;var&gt;%=, such as =%<nop>TABLEPLUGIN_SHORTDESCRIPTION%=. They can also be redefined with the =%&lt;pluginname&gt;_&lt;var&gt;%= setting at a lower level in the [[%LOCALSITEPREFS%]] or at the web level. For an easier upgrade it is recommended to customize plugin preference settings in <nop>%LOCALSITEPREFS% only.
 
 ---+++ Listing Active Plugins
 
@@ -207,8 +207,7 @@ Check the plugins web on TWiki.org for the latest plugin doc topic template. Her
 
 *Plugin Settings:* &lt;<i>Description and settings for custom plugin settings, and those required by TWiki.</i>&gt;"
 
-   * *Plugins Preferences* &lt;<i>If user settings are needed, explain... Entering values works exactly like %SYSTEM!WEB%.DefaultPreferences and WebPreferences: six (6) spaces and then:</i>&gt;"
-      * *Set &lt;<i>EXAMPLE = value added</i>&gt;*
+   * *Plugins Preferences* &lt;<i>If user settings are needed, link to [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and explain the role of the plugin name prefix
 
 *Plugin Installation Instructions:* &lt;<i>Step-by-step set-up guide, user help, whatever it takes to install and run, goes here.</i>&gt;"
 
@@ -284,7 +283,7 @@ Recommendation for file names in plugin attachment area:
 
 #ConfigSpec
 ---++ Integrating with <code>configure</code>
-Some extensions have setup requirements that are best integrated into =configure= rather than trying to use preference settings. These extensions use =Config.spec= files to publish their configuration requirements.
+Some extensions have setup requirements that are best integrated into =configure= rather than trying to use [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. These extensions use =Config.spec= files to publish their configuration requirements.
 
 =Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/TWiki/Plugins/BathPlugin/Config.spec=.
 

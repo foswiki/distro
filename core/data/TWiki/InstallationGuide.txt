@@ -126,7 +126,7 @@ Administrators have read and write access to any topic, irrespectively of TWiki 
 
 Preferences for customizing many aspects of TWiki are set simply by editing a special topic with TWiki.
 
-   * =%SYSTEMWEB%.DefaultPreferences=. Read through it and identify any additional settings or changes you think you might need. You can edit the settings in =%SYSTEMWEB%.DefaultPreferences= but these will be overwritten when you later upgrade to a newer TWiki version. Instead copy any settings that you want to customize from =%SYSTEMWEB%.DefaultPreferences= and paste them into =%USERSWEB%.SitePreferences=.  When you later upgrade TWiki simply avoid overwriting the =data/%SYSTEMWEB%/DefaultPreferences.txt= file and all your settings will be kept. Settings in =%USERSWEB%.SitePreferences= overrides settings in both =%SYSTEMWEB%.DefaultPreferences= and any settings defined in Plugin topics. See notes at top of =%SYSTEMWEB%.DefaultPreferences= for more information.
+   * =%SYSTEMWEB%.DefaultPreferences=. Read through it and identify any additional settings or changes you think you might need. Do not edit the settings in =%SYSTEMWEB%.DefaultPreferences= because these will be overwritten when you later upgrade to a newer TWiki version. Instead copy any settings that you want to customize from =%SYSTEMWEB%.DefaultPreferences= and paste them into =%USERSWEB%.SitePreferences=.  When you later upgrade TWiki simply avoid overwriting the =data/%SYSTEMWEB%/DefaultPreferences.txt= file and all your settings will be kept. Settings in =%USERSWEB%.SitePreferences= overrides settings in both =%SYSTEMWEB%.DefaultPreferences= and any settings defined in Plugin topics. See notes at top of =%SYSTEMWEB%.DefaultPreferences= for more information.
 
 ---++ Enable Email Notification
 

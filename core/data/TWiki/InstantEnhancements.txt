@@ -3,7 +3,7 @@
 
 These quick enhancements are aimed at improving and customising your TWiki.  New TWiki site administrators are especially encouraged to review this document for ideas before deploying a new TWikiSite. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
 
-Many of these tips are based on setting some special [[Macros]].
+Many of these tips are based on setting some special [[WebPreferencesHelp][preferences]].
 
 %S% We recommend implementing at least __some__ of these enhancements __right after installation__ to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
 
@@ -22,20 +22,20 @@ Incredibly obvious, maybe, but some site admins don't get around to changing the
 
 *What we are doing*
 
-We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of preference setting for each TWiki Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
+We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of [[preference setting]] for each TWiki Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
 
 *How to do it*
 
    1 Pick color code from company or product references, the StandardColors table (recommended for 8-bit client compatibility), or some other color reference. 
    2 Go to WebPreferences in each web, and edit the topic.
-   3 Set your preferred WEBBGCOLOR preference setting, and save the topic.
+   3 Set your preferred WEBBGCOLOR [[%SYSTEMWEB%.PreferenceSettings][preference settings]], and save the topic.
    4 %X% Add a new line immediately after the color code. If there is (invisible) space after the color code, the page header might get strange colors (e.g. black).
 
 It's just as easy to refine later on, so you're not locked in, just looking better.
 
 ---+++ Set Page Background Color 
 
-Without getting into the [[skin templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to a new setting. First, define a new preference setting in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
+Without getting into the [[skin templates]] system yet, you can easily edit the ==view.tmpl== (in the =templates= directory). In the HTML at the top, the body tag has the page background hardcoded to white ==bgcolor="#ffffff"==. You can change that color value to a new setting. First, define a new[[%SYSTEMWEB%.PreferenceSettings][preference setting]] in the site-level [[%LOCALSITEPREFS%]], e.g. =* Set =PAGEBGCOLOR = #d0d0d0=, then edit the ==view.tmpl== template file and change ==bgcolor="#ffffff"== to ==bgcolor="%<nop>PAGEBGCOLOR%"==. If you want, you can set the page background color individually per web, simple add a =* Set =PAGEBGCOLOR = #d0d0d0= bullet to the WebPreferences to overload the site-level preferences. (Without font color control, you'll have to stick to light colors.)
 
 ---+++ Titles-Only Topic List - !WebTopicList
 
@@ -135,7 +135,7 @@ __Here's a list of topics I've been involved in recently:__
 </verbatim>
 *End Copy*
 
-The SEARCH macro has many more formatting options, see [[Macros]].
+The [[VarSEARCH][SEARCH macro]] has many more formatting options.
 
 ---+++ Recently changed pages 
 Here are the last 15 changed pages, formatted into a neat table.

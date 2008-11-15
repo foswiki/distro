@@ -59,7 +59,7 @@ The main difference between invoking this script and using WebChanges is that We
 The =edit= script understands the following parameters, typically supplied by HTML input fields:
 
 | *Parameter* | *Description* | *Default* |
-| =action= | Optional. Use the editaction template instead of the standard edit. If action=text, then hide the form. If action=form hide the normal text area and only edit the form. You can change the Edit/Edit Raw buttons to always append the action parameter in skins like Pattern and Classic by setting the topic or preference setting [[VarEDITACTION][EDITACTION]] to the value =text= or =form=. To edit the topic once the EDITACTION is defined as form simply remove the action=form from the browser URL of the edit script and reload the edit window | |
+| =action= | Optional. Use the editaction template instead of the standard edit. If action=text, then hide the form. If action=form hide the normal text area and only edit the form. You can change the Edit/Edit Raw buttons to always append the action parameter in skins like Pattern and Classic by setting the topic or [[preference setting]] [[VarEDITACTION][EDITACTION]] to the value =text= or =form=. To edit the topic once the EDITACTION is defined as form simply remove the action=form from the browser URL of the edit script and reload the edit window | |
 | =onlynewtopic= | If set, error if topic already exists | |
 | =onlywikiname= | If set, error if topic name is not a WikiWord | |
 | =templatetopic= | The name of the template topic, copied to get the initial content (new topic _only_) | |

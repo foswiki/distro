@@ -82,7 +82,7 @@ This text is not part of the slideshow
 
 ---++ <nop>%TOPIC% Global Settings
 
-Plugin settings are stored as preference settings. To reference a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SLIDESHOWPLUGIN_SHORTDESCRIPTION%==
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SLIDESHOWPLUGIN_SHORTDESCRIPTION%==
 
    * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
       * Set SHORTDESCRIPTION = Create web based presentations based on topics with headings.

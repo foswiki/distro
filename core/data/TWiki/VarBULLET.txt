@@ -1,8 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1176595670" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="DefaultPreferences!"}%
+%META:TOPICPARENT{name="ShortcutMacros"}%
 #VarBULLET
 
 ---+++ BULLET -- bullet character
-   * Type: ShortcutMacro
    * Current value: BULLET = %BULLET%
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBR][BR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB][BB]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB2][BB2]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB3][BB3]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarBB4][BB4]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarCARET][CARET]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVBAR][VBAR]]

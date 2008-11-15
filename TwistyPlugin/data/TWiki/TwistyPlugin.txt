@@ -537,12 +537,12 @@ Major features are:
    * Provides a convenience syntax to define Twisty areas
    * Automatically generates ids
    * Automatically fills in default values
-   * Global preference settings can be set in this topic or locally in individual topics
+   * Global [[%SYSTEMWEB%.PreferenceSettings][preference settings]] can be set in this topic or locally in individual topics
 
 #PluginSettings
 ---++ Plugin Settings
 
-Plugin settings are stored as preference settings. To reference
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>TWISTYPLUGIN_SHORTDESCRIPTION%==
 
    * Set TWISTYSHOWLINK = %MAKETEXT{"More..."}%

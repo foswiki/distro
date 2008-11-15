@@ -68,7 +68,7 @@ These logos are based on master artwork [[%ATTACHURL%/T-logo.svg][T-logo.svg]] a
 
 ---++ Logo Customization
 
-TWiki is shipped with the official TWiki logo in the banner. Site owners may replace the banner logo with their own logo. The logo can be changed in the =WIKILOGOIMG= setting (site-wide in DefaultPreferences, or per web in WebPreferences of any web).
+The logo can be changed by redefining the =WIKILOGOIMG= [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
 If you use the official TWiki.org artwork on your own site you can link back to TWiki.org. Use this HTML (with any logo file on this page):
 

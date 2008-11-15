@@ -20,7 +20,7 @@ Note: if personal data is being stored using a secret database, then it is only 
 
 ---++ My Personal Preferences
 
-Uncomment preference settings to activate them (remove the #-sign). Help and details on preference settings are available in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]].
+Uncomment [[%SYSTEMWEB%.PreferenceSettings][preference settings]] to activate them (remove the #-sign). Help and details on preference settings are available in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]].
 
    * Show tool-tip topic info on mouse-over of [[%SYSTEMWEB%.WikiWord][WikiWord]] links, on or off:
       * #Set LINKTOOLTIPINFO = off

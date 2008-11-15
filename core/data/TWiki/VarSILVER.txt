@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1160971176" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="DefaultPreferences!"}%
+%META:TOPICPARENT{name="StandardColors!"}%
 #VarSILVER
 ---+++ SILVER -- start silver colored text
    * =SILVER= is one of the shortcut macros predefined in DefaultPreferences.  See the section [[DefaultPreferences#RenderingShortcuts][shortcut macros]] in that topic for a complete list of colors.

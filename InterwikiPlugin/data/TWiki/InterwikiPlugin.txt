@@ -19,7 +19,7 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
 
 ---++ <nop>%TOPIC% Settings
 
-Plugin settings are stored as preference settings. To reference
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
    * One-line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
@@ -84,6 +84,6 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.InterWikis
+__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %USERSWEB%.SitePreferences, %SYSTEMWEB%.InterWikis
 
 -- TWiki:Main.PeterThoeny - 25 Nov 2007

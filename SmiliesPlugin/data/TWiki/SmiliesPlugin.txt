@@ -37,7 +37,7 @@ Here is the list of smilies supported by this plugin. To add others, attach new 
 
 ---++ <nop>%TOPIC% Global Settings
 
-Plugin settings are stored as preference settings. To reference
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
 	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:

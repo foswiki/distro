@@ -21,7 +21,7 @@ File Attachments can be used to archive data, or to create powerful customized g
 ---+++ Web Authoring
 
    * Through your Web browser, you can easily upload graphics (or sound files, or anything else you want to link to on a page) and place them on a single page, or use them across a web, or site-wide.
-      * __NOTE:__ You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files can't be managed using browser-based Attachment controls. You can use your browser to create [[%SYSTEMWEB%.Macros][Macros]] shortcuts, like this %<nop>H% = %H%.
+      * __NOTE:__ You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files can't be managed using browser-based Attachment controls. You can also create [[%SYSTEMWEB%.Macros][macro shortcuts]], like this %<nop>H% = %H%.
 
 ---++ Uploading Files
 
@@ -29,7 +29,7 @@ File Attachments can be used to archive data, or to create powerful customized g
       * __NOTE:__ The topic must already exist. It is a two step process if you want to attach a file to a non-existing topic; first create the topic, then add the file attachment.
       * Any type of file can be uploaded. Some files that might pose a security risk are renamed, ex: =*.php= files are renamed to =*.php.txt= so that no one can place code that would be read in a .php file. 
       * The previous upload path is retained for convenience. In case you make some changes to the local file and want to upload it, again you can copy the previous upload path into the Local file field.
-      * TWiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= preference setting, currently set at %ATTACHFILESIZELIMIT% KB.
+      * TWiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= [[%SYSTEMWEB%.PreferenceSettings][preference settings]], currently set at %ATTACHFILESIZELIMIT% KB.
          * %X% It's not recommended to upload files greater than a few hundred K through a browser. Large files can be extremely slow-loading, and often time out. Use an FTP site for large file uploads.
    * Automatic attachments:
       * When enabled, all files in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an 'Attach' link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.

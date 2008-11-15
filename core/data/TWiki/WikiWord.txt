@@ -77,7 +77,7 @@ When you write the name of a topic, it becomes a link. There are more ways
       * To create a topic about the the *Bread Slicer 1.2* product, use =BreadSlicer1dot2= or =BreadSlicer1pt2=, but not =BreadSlicer1.2=.
       * Numbers are considered lowercase which makes =Year2K= and =Y2K= !WikiWords but not =Y2000= and =Y2k=.
    * Turn acronyms into !WikiWords, i.e. take =FaqIndex= for a "FAQ index" topic.
-   * It is possible to turn off the auto-linking of !WikiWords and to rely only on the bracket notation. See NOAUTOLINK setting in DefaultPreferences!#Default_Web_Preferences.
+   * It is possible to turn off the auto-linking of !WikiWords and to rely only on the bracket notation using the NOAUTOLINK [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
    * %X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =Sandbox.%HOMETOPIC%= becomes Sandbox.%HOMETOPIC%.
    * %X% Dots (.) are used as seperators between webs, subwebs, and topics. It is not possible to use dots in topic names. TWiki does not attempt to guess if a dot could be part of a topic name.
 

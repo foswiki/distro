@@ -96,9 +96,9 @@ view
 ---+++ How can I change the web logo?
 
 By default the logo at the top left of each web points to the image with name =logo.gif= that is attached to each web's WebPreferences. <br />
-The preference settings that cause this behavior are defined in [[%WIKIPREFSTOPIC%]].
+The [[%SYSTEMWEB%.PreferenceSettings][preference settings]] that cause this behavior are defined in [[%WIKIPREFSTOPIC%]].
 
-Redefine your custom preference settings in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
+Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
 <blockquote><pre>
    * Set <nop>WEBLOGONAME = logo.gif
    * Set <nop>WEBLOGOIMG = %<nop>PUBURLPATH%/%<nop>BASEWEB%/%<nop>WEBPREFSTOPIC%/%<nop>WEBLOGONAME%
@@ -125,7 +125,7 @@ There are 2 ways to change the logo in a web:
 
 ---+++ How do I set a site-wide logo?
 
-There are a bunch of site-wide logo preference settings in [[%LOCALSITEPREFS%]]: =WIKILOGOIMG=, =WIKILOGOURL= and =WIKILOGOALT=.
+There are a bunch of site-wide logo [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]]: =WIKILOGOIMG=, =WIKILOGOURL= and =WIKILOGOALT=.
 To change only the web logo image to site-wide, in [[%LOCALSITEPREFS%]] set:
 <blockquote><pre>
    * Set <nop>WEBLOGOIMG = %<nop>WIKILOGOIMG%
@@ -198,7 +198,7 @@ Create a new stylesheet with above definition in it, attach it to a topic and po
 
 The image at the top is called "header art" - commonly the top image found on blog sites. The image that is displayed by default is set by the preference =WEBHEADERART=, defined in [[%WIKIPREFSTOPIC%]].
 
-Redefine your custom preference settings in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
+Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
 <blockquote><pre>
    * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/PatternSkin/TWiki_header.gif
    * <nop>Set WEBHEADERBGCOLOR = somehexcolor (no quotes, for example: #ffffff)

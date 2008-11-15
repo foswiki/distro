@@ -125,7 +125,7 @@ A query matches if the query returns one or more values when it is applied to th
    * =(Firstname='Emma' OR Firstname='John') AND Lastname='Peel'= - shortcut form of the previous query
    * =History<nop>Form[name='Age'].value>2= - true if the topic has a =HistoryForm=, and the form has a field called =Age= with a value > 2
    * =History<nop>Form.Age > 2= - shortcut for the previous query
-   * =preferences[name='FaveColour' AND value='Tangerine']= - true if the topic has the given preference setting and value
+   * =preferences[name='FaveColour' AND value='Tangerine']= - true if the topic has the given [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and value
    * =Person/(ClothesForm[name='Headgear'].value ~ '*Bowler*' AND attachments[name~'*hat.gif' AND date < d2n('2007-01-01')])= - true if the form attached to the topic has a field called =Person= that has a value that is the name of a topic, and that topic contains the form =ClothesForm=, with a field called =Headgear=, and the value of that field contains the string ='Bowler'=, and the topic also has at least one attachment that has a name matching =*hat.gif= and a date before 1st Jan 2007. (Phew!)
 
 ---+++ Search examples

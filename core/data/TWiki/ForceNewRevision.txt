@@ -3,7 +3,7 @@ Normally, if you make subsequent edits within a one hour period (configuration i
 
 The "Force New Revision" checkbox is a way to force it to create a separate revision each time you save.
 
-The [[%SYSTEMWEB%.DefaultPreferences!]] setting =FORCENEWREVISIONCHECKBOX= controls whether this is checked by default or not.
+The [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =FORCENEWREVISIONCHECKBOX= controls whether this is checked by default or not.
 
 On a related note, you can force __every__ save to be a new revision number by setting =ReplaceIfEditedAgainWithin= to 0.
 

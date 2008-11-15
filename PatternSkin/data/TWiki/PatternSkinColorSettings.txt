@@ -11,7 +11,7 @@ Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%S
 </verbatim>
 
 ---+++!! Step 2
-Edit this topic, and change the color preference settings as you like.
+Edit this topic, and change the color [[%SYSTEMWEB%.PreferenceSettings][preference settings]] as you like.
 
 ---+++!! Step 3
 Save the topic. This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme-colors.css][attachment]] to topic [[PatternSkin]].

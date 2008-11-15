@@ -1,7 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1152044726" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="DefaultPreferences"}%
+%META:TOPICPARENT{name="ShortcutMacros"}%
 #VarP
 ---+++ P -- pencil icon
-   * Type: ShortcutMacro
    * Current value: P = %P%
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarH][H]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarI][I]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarM][M]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarN][N]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarQ][Q]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarS][S]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarT][T]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarU][U]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarX][X]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarY][Y]]

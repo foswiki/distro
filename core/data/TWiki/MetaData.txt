@@ -17,7 +17,7 @@ To keep eveything together in one place, meta-data (program-generated or from Da
 
 ---++ Meta Data Syntax
 
-   * Format is the same as in [[%SYSTEMWEB%.Macros][Macros]], except all fields have a key.
+   * Format is the same as in [[%SYSTEMWEB%.Macros][macros]], except all fields have a key.
       * =%<nop>META:&lt;type&gt;{key1="value1" key2="value2" ...}%=
 
    * Order of fields within the meta-data is not defined, except that if there is a field with key =name=, this appears first for easier searching (note the order of the data themselves is defined).

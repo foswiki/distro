@@ -12,13 +12,13 @@
    * *File attachments:* [[FileAttachment][Upload]] and download any file as an attachment to a page by using your browser. This is similar to file attachments in an e-mail, but it happens on web pages.
    * *Revision control:* All changes to pages and attachments are tracked. Retrieve previous page revisions; compare differences; find out who changed what and when.
    * *Access control:* Define groups and impose fine-grained read and write [[AccessControl][access restrictions]] based on groups and users.
-   * *Macros:* Use [[Macros]] to dynamically compose your pages. This allows you for example to dynamically build a table of contents, include other pages, or show a search result embedded in a page.
+   * *Macros:* Use [[macros]] to dynamically compose your pages. This allows you for example to include other pages, or show a search result embedded in a page.
    * *TWiki plugins:* Easily install program enhancements using external [[Plugins][plug-in modules]]. Developers can create plug-ins in Perl using the TWiki Plugin API.
    * *Templates and skins:* A flexible [[SkinTemplates][templating system]] separates program logic and presentation. [[Skins]] overwrite template headers and footers; page content is unaffected.
    * *Managing pages:* Individual pages can be renamed, moved and deleted through the browser.
    * *Managing users:* Web-based [[TWikiRegistration][user registration]] and [[ChangePassword][change of password]].
    * *Statistics:* Create statistics of TWiki webs. Find out most popular pages and top contributors.
-   * *Preferences:* Three levels of preferences: DefaultPreferences for site-level, WebPreferences for each web, and user level preferences.
+   * *Preferences:* Multiple levels of preferences: DefaultPreferences for site-level, WebPreferences for each web, user level preferences, individual topics etc.
    * *[[SimultaneousEdits][simultaneous page editing]]:* 
    * *Referred-By:* Find the pages that contain links to a topic.
 

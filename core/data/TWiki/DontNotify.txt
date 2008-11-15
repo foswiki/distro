@@ -3,8 +3,7 @@ Use the "Minor changes, don't notify" checkbox in preview in case you only make 
 
 __Note:__ No new revision is created in case you save the same topic again within a certain time frame (default is one hour). You only need to checkmark the "Minor change, don't notify" checkbox once within this time frame, because subsequent save operations do not notify users.
 
-__Note:__ The initial state of the checkbox can be set to on with the =DONTNOTIFYCHECKBOX= preference setting. See DefaultPreferences for more.
-
+__Note:__ The initial state of the checkbox can be set to on with the =DONTNOTIFYCHECKBOX= [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
 __Related Topics:__ UserDocumentationCategory
 

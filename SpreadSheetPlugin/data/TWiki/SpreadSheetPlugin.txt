@@ -681,7 +681,7 @@ Above table is created manually. Another Plugin could build the table dynamicall
 
 ---++ Plugin Settings
 
-Plugin settings are stored as preference settings. To reference
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SPREADSHEETPLUGIN_SHORTDESCRIPTION%==
 
 	* One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
@@ -694,7 +694,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 		* Set SKIPINCLUDE = 1
 
 <noautolink>
-	* [[%SYSTEMWEB%.WikiWord][WikiWords]] to exclude from being spaced out by the ==$PROPERSPACE(text)== function. This comma delimited list can be overloaded by a DONTSPACE preference setting:
+	* [[%SYSTEMWEB%.WikiWord][WikiWords]] to exclude from being spaced out by the ==$PROPERSPACE(text)== function. This comma delimited list can be overloaded by a DONTSPACE [[%SYSTEMWEB%.PreferenceSettings][preference setting]]:
 		* Set DONTSPACE = CodeWarrior, MacDonald, McIntosh, RedHat, SuSE
 </noautolink>
 

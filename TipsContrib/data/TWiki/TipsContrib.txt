@@ -51,6 +51,6 @@ __Note:__ You do not need to install anything on the browser to use this contrib
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+__Related Topics:__ %USERSWEB%.SitePreferences
 
 -- TWiki:Main.PeterThoeny - 2007-01-04

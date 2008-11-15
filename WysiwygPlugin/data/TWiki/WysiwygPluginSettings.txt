@@ -1,6 +1,6 @@
 ---+ Settings for WysiwygPlugin that are common to most editor integrations
 %STARTINCLUDE%
-The *global* preference setting =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
+The *global* [[preference setting]] =WYSIWYG_EXCLUDE= can be set to make the plugin sensitive to what is in a topic, before allowing it to be edited. You can set it up to veto an edit if the topic contains:
    * =html= - HTML tags (e.g. =&lt;div&gt;=, not including &lt;br&gt;), or 
    * =macros= - simple macros (e.g. =%<nop>VAR%=) or 
    * =calls= - macros with parameters e.g. =%<nop>MACRO{...}%=
@@ -8,7 +8,7 @@ The *global* preference setting =WYSIWYG_EXCLUDE= can be set to make the plugin 
    * HTML =comments= (=&lt;!--= ... =--&gt;=)
 If the plugin detects an excluded construct in the topic, it will refuse to allow the edit and will redirect to the default editor.
 
-If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* preference setting =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
+If you excluded =calls= in =WYSIWYG_EXCLUDE=, you can still define a subset of macros that do *not* block edits. this is done in the *global* [[preference setting]] =WYSIWYG_EDITABLE_CALLS=, which should be a list of macro names separated by vertical bars, with no spaces, e.g: =* Set WYSIWYG_EDITABLE_CALLS = COMMENT|CALENDAR|INCLUDE=
 
 You should set =WYSIWYG_EXCLUDE= and =WYSIWYG_EDITABLE_CALLS= in %USERSWEB%.SitePreferences, or in %WEBPREFSTOPIC% for each web.
 
@@ -18,7 +18,7 @@ HTML when certain specific attributes are present on the tag. This is most
 useful when you have styling or alignment information in tags that must be
 preserved.
 
-This preference setting is used to tell the translator which attributes, when present
+This [[preference setting]] is used to tell the translator which attributes, when present
 on a tag, make it "stick" i.e. block conversion. For example, setting it to
 =table=background,lang;tr=valign= will stop the translator from trying to
 handle any =table= tag that has =background= or =lang= attributes, and any

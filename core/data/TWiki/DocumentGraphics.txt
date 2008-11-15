@@ -342,7 +342,7 @@ There are several other ways to put an image in a topic.
 
 Shorthand notation:
 <blockquote>
-In [[%USERSWEB%.DefaultPreferences!]] set a macro for an ICON, for example:
+In [[%USERSWEB%.SitePreferences!]] set a macro for an ICON, for example:
 
 =<nop>   * Set H = %<nop>ICON{help}%=
 

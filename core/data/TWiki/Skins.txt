@@ -103,7 +103,7 @@ For example, to create a customisation of pattern skin, where you _only_ want to
 </verbatim>
 and then set =SKIN=yourlocal,pattern=.
 
-Because ClassicSkin and the default templates use the same Template definition names, you can over-ride the edit links in them (or any skin derived from them) using the same =view.yourlocal.tmpl= (just set SKIN=yourlocal,classic either in %USERSWEB%.DefaultPreferences for globally, or a Web's <nop>Webname.<nop>WebPreferences for a particular web) 
+Because ClassicSkin and the default templates use the same Template definition names, you can over-ride the edit links in them (or any skin derived from them) using the same =view.yourlocal.tmpl= (just set SKIN=yourlocal,classic either in %USERSWEB%.SitePreferences for globally, or a Web's <nop>Webname.<nop>WebPreferences for a particular web) 
 
 ---++ Settings in Skins
 
@@ -218,7 +218,7 @@ You can try out all installed skins in the TWikiSkinBrowser.
 
 ---++ Activating Skins
 
-TWiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[Macros]] and URL parameters.
+TWiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[macros]] and URL parameters.
 
 TWiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
 

@@ -8,7 +8,7 @@ Gives extra control of table display:
 	* Changing background color and text color for data cells - colors can _alternate_
 	* Table attributes can be set and overridden in this order:
 		* Default =TABLEATTRIBUTES= Plugin setting in this topic.
-		* A =TABLEATTRIBUTES= preferences setting on site-level (%SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences) or web-level (any WebPreferences), e.g.
+		* A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences) or web-level (any WebPreferences), e.g.
 			* =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
 		* Before a table using =%<nop>TABLE{...}%=
    * Row spans
@@ -40,7 +40,7 @@ Table cells with a single caret indicate follow-up rows of multi-row spans. For 
 
 ---++ <nop>%TOPIC% Global Settings
 
-Plugin settings are stored as preference settings. To reference
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
 	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
@@ -174,4 +174,4 @@ This plugin is pre-installed with your TWiki release. You should not have to ins
 |  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
 |  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.StandardColors
+__Related Topics:__ %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.StandardColors

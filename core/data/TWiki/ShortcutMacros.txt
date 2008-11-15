@@ -7,10 +7,11 @@ _Easy ways to save some typing_
 Some macros are just shortcuts for longer sequences of characters, to either save typing or to easily allow line breaks in format strings and the like. These macros are not intended to be customized, though there's nothing stopping you from doing so.
 
 *The following settings are classified as rendering shortcuts:*
-%SEARCH{ "Type:.*ShortcutMacro" type="regex" topic="Var*" 
+%SEARCH{ "parent.name='ShortcutMacros'" type="query" topic="Var*" 
 format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+.*?-- ([^\n\r]*).*) %$pattern(.*?\-\++ *([^ ]*).*)%" nonoise="on" }%
 
 __See also:__
-   * [[%SYSTEMWEB%.Macros][Macros]] - an alphabetical list of all macros
+   * [[Macros]] - an alphabetical list of all macros
    * DefaultPreferences#RenderingShortcuts - where shortcuts are defined 
    * TWikiShorthand - summary of the TWiki markup language
+   * [[StandardColors#ShortCuts]] - shortcuts for some standard colours

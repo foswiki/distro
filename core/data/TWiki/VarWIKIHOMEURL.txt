@@ -4,7 +4,7 @@
 ---+++ WIKIHOMEURL -- site home URL
    * Syntax =%<nop>WIKIHOMEURL%=
    * Expands to =%WIKIHOMEURL%=
-   * Defined in %SYSTEMWEB%!.DefaultPreferences and normally per default set to =%<nop>SCRIPTURLPATH{"view"}%=
+   * Normally by default set to =%<nop>SCRIPTURLPATH{"view"}%=
    * __%X% Note:__ For the top bar logo URL use =%<nop>WIKILOGOURL%= defined in WebPreferences instead.
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVarWIKITOOLNAME][WIKITOOLNAME]]
 

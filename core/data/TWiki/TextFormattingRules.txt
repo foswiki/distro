@@ -46,7 +46,7 @@ Plugins can extend the functionality of TWiki into many other areas. There are a
 Currently enabled plugins on this TWiki installation, as listed by =%<nop>PLUGINDESCRIPTIONS%=:
 %PLUGINDESCRIPTIONS%
 
-Check on current Plugin status and settings for this site in DefaultPreferences.
+Check on current Plugin status and settings for this site in [[%SYSTEMWEB%.Plugins]].
 
 ---++ Common Editing Errors
 

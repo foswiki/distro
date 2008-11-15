@@ -21,7 +21,7 @@ Have a look at PatternSkinColorSettings.
 ---+++ When you need lots of graphic changes: Rewriting CSS
    * Create a new topic that will contain your new CSS files
    * Attach 3 new style sheets to the topic
-   * Point the CSS preference settings in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files:
+   * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files:
 <pre>
       * <nop>Set TWIKILAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set TWIKISTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css
@@ -30,10 +30,10 @@ Have a look at PatternSkinColorSettings.
 
 ---+++ When you need to make small adjustments: Adding to existing CSS
 With CSS you cannot remove already defined classes, you can only add to it, or overwrite existing styles. <br />
-Overriding default CSS is done with 3 preference settings: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
+Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preference settings]]: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
-   * Point the CSS preference settings in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =TWIKIXXXURL= preferences):
+   * Point the CSS [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] to your new files (below the =TWIKIXXXURL= preferences):
 <pre>
       * <nop>Set USERLAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/layout.css
       * <nop>Set USERSTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/YourNewTopic/style.css

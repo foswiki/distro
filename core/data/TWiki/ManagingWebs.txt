@@ -17,7 +17,7 @@ There are two methods used to create a new web.  First you can use a specially d
 
 The second method is to use an existing web as a template web.  This may be useful if you already have a web that you would like to use as a starting point.  Only topics that have names beginning with *Web...* (like "%HOMETOPIC%", "%NOTIFYTOPIC%", etc.) are copied.
 
-In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. Any [[%SYSTEMWEB%.Macros][Macros]] defined in the form below will automatically be set in the !WebPreferences of the new web.
+In either case you will want to be sure to verify that your new web has all the custom modifications that you desire. Any [[macros]] defined in the form below will automatically be set in the !WebPreferences of the new web.
 
 #CreateNewWeb
 ---++ Adding a New Web
@@ -55,15 +55,16 @@ To create a subweb named =Bar= inside a web named =Foo=, use =Foo/Bar= or =Foo.B
 
 ---+++ Subweb Preferences are Inherited
 
-The preferences of a subweb are inherited from the parent web and overridden locally.  Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
+The [[preference settings]] of a subweb are inherited from the parent web and overridden locally.  Preferences are ultimately inherited from the [[%SYSTEMWEB%.DefaultPreferences]] topic.
 
 *Example Preference Inheritance for =Sandbox/TestWeb/SubWeb.SubWebTopic= topic:*
 
-   1. =%SYSTEMWEB%.DefaultPreferences= site-wide preferences
-   2. =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%SYSTEMWEB%.DefaultPreferences=
-   3. =Sandbox/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox.%WEBPREFSTOPIC%=
-   4. =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%= 
-   5. =Sandbox/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= 
+   1 =%SYSTEMWEB%.DefaultPreferences= default settings
+   1 =%USERSWEB%.SitePreferences= site-wide settings inherits from and overrides settings in =%SYSTEMWEB%.DefaultPreferences=
+   1 =Sandbox.%WEBPREFSTOPIC%= inherits from and overrides settings in =%USERSWEB%.SitePreferences=
+   1 =Sandbox/TestWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox.%WEBPREFSTOPIC%=
+   1 =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= inherits from and overrides settings in =Sandbox/TestWeb.%WEBPREFSTOPIC%= 
+   1 =Sandbox/TestWeb/SubWeb.SubWebTopic= inherits from and overrides settings in =Sandbox/TestWeb/SubWeb.%WEBPREFSTOPIC%= 
 
 ---+++ Navigation
 
@@ -79,7 +80,7 @@ Rename a web via the Tools section in each %WEBPREFSTOPIC% topic.  You may delet
 You may only rename a web if you have the following permissions
    * You must be allowed to rename and changes topics in the web you want to rename
    * You must be allowed to rename topics in the parent web of the web you want to rename
-!   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.DefaultPreferences]].
+!   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.SitePreferences]].
    * If you move the web to another parent web you must be allowed to create and change topics in the new parent web.
    
 When you rename a web TWiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the TWiki installation it is generally best to let an administrator rename webs to avoid too many broken links. 

@@ -11,18 +11,12 @@ TWiki Site Tools include utilities for navigating, searching and keeping up with
 #WebNotify
 ---++ <nop>WebNotify - recent changes alert
 
-Each TWiki web has an automatic e-mail alert service that sends a list of recent changes on a preset schedule, like once a day. Users can subscribe and unsubscribe using %NOTIFYTOPIC% in each web. The Perl script =mailnotify= is called by a background process at regular intervals. The script sends an automated e-mail to subscribed users if topics were changed in a web since the script was last run.
-
-   * You can create a WebNotify link using [[%SYSTEMWEB%.Macros][Macros]] with ==%<nop>NOTIFYTOPIC%==
-
 %INCLUDE{"WebChangesAlert"}%
-
-You can also use =%<nop>USERSWEB%= instead of =Main=, but this is not necessary even if you have renamed the main web by configuring ={MainWebName}= in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
 #WebSearch
 ---++ <nop>WebSearch - search TWiki site
 
-WebSearch is an extremely fast and flexible search facility, part of the core TWiki feature set. WebSearchAdvanced offers more options, including:
+WebSearch is a flexible search facility, part of the core feature set. WebSearchAdvanced offers more options, including:
    * topic title or full-text search
    * regular expressions
    * search within web or site-wide
@@ -64,7 +58,7 @@ WebIndex lists all web topics in alphabetical order, with the first couple of li
 
 You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. Compiled as a running total on a monthly basis. Includes totals for Topic Views, Topic Saves, Attachment Uploads, Most Popular Topics with number of views, and Top Contributors showing total of saves and attachment uploads. Previous months are saved.
 
-   * You can create a WebStatistics link using [[%SYSTEMWEB%.Macros][Macros]] with ==%<nop>STATISTICSTOPIC%==
+   * You can create a WebStatistics link using ==%<nop>STATISTICSTOPIC%==
 
 ---+++ Configuring for automatic operation
 
@@ -125,17 +119,17 @@ TWiki generates monthly log files which are used by the statistics script
 
 Outgoing mail is required for TWikiRegistration and for [[#WebNotify][recent changes alert]].
 
-TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== preference setting in DefaultPreferences.
+TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[preference setting]].
 
-The notify e-mail uses the default =changes.tmpl= template, or a skin if activated in the DefaultPreferences.
+The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
 mailnotify also relies on two hidden files in each =twiki/data/Web= directory: =.changes= and =.mailnotify.= Make sure both are writable by your web server process. =.changes= contains a list of changes; go ahead and make this empty. =.mailnotify= contains a timestamp of the last time notification was done.
 
 You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= module is not installed. Set the program path in =={MailProgram}== in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
-!   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting ==SMTPMAILHOST== in DefaultPreferences to an empty value.
+!   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to an empty value.
 
-   * %T% You can set a separate ==SMTPSENDERHOST== preference setting to define the mail sender host (some SMTP installations require this).
+   * %T% You can set a separate ==SMTPSENDERHOST== [[preference setting]] to define the mail sender host (some SMTP installations require this).
 
 ---+++ Setting the automatic e-mail schedule
 
