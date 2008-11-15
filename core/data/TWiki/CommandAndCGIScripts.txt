@@ -1,10 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1168672578" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
----+ TWiki CGI and Command Line Scripts
+---+ CGI and Command Line Scripts
 
-_Programs on the TWiki server performing actions such as rendering, saving and renaming topics._
+_Programs on the server performing actions such as rendering, saving and renaming topics._
 
-The TWiki scripts are located in the =twiki/bin= and =twiki/tools= directories. This topic describes the interfaces to some of those scripts. All scripts in the =twiki/bin= directory can be called from the CGI ([[http://en.wikipedia.org/wiki/Common_Gateway_Interface][Common Gateway Interface]]) environment or from the command line. The scripts in the =twiki/tools= directory can only be called from the command line.
+These scripts are located in the =bin= and =tools= directories. This topic describes the interfaces to some of those scripts. All scripts in the =twiki/bin= directory can be called from the CGI ([[http://en.wikipedia.org/wiki/Common_Gateway_Interface][Common Gateway Interface]]) environment or from the command line. The scripts in the =twiki/tools= directory can only be called from the command line.
 
 %TOC%
 
@@ -13,7 +13,7 @@ Details on CGI scripts located in the =twiki/bin= directory.
 
 ---+++ General Information
 ---++++ CGI environment
-In the CGI environment parameters are passed to the scripts via the URL and URL parameters. Environment variables are also used to determine the user performing the action. If the environment is not set up, the default TWiki user is used (usually =guest=).
+In the CGI environment parameters are passed to the scripts via the URL and URL parameters. Environment variables are also used to determine the user performing the action. If the environment is not set up, the default user is used (usually =guest=).
 ---++++ Command-line
 You *must* be have the =twiki/bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
 
@@ -28,7 +28,7 @@ All parameters require a value, even if that is the empty string.
 All the scripts accept a number of common parameters. The first two components of the URL after the script name are taken as the web and the topic, respectively. Standard URL parameters are:
 
 | *Parameter* | *Description* | *Default* |
-| =topic= | If this is set to a URL, TWiki will immediately redirect to that URL. Otherwise it overrides the URL and is taken as the topic name (you can pass Web.<nop>TopicName) | |
+| =topic= | If this is set to a URL, %WIKITOOLNAME% will immediately redirect to that URL. Otherwise it overrides the URL and is taken as the topic name (you can pass Web.<nop>TopicName) | |
 | =user= | Command-line only; set the name of the user performing the action. Note: this usage is inherently insecure, as it bypasses webserver login constraints. For this reason only authorised users should be allowed to execute scripts from the command line. | |
 | =skin= | Overrides the default skin path (see [[Skins]]) | |
 | =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | |
@@ -53,7 +53,7 @@ The main difference between invoking this script and using WebChanges is that We
 *NOTE*: The result from =changes= script and the topic WebChanges can be different, if the =changes= file is deleted from a web. In particular, in new installations the =changes= script will return no results while the WebChanges topic will.
 
 ---+++ =configure=
-=configure= is the browser script used for inspection and configuration of the TWiki configuration. None of the parameters to this script are useable for any purpose except =configure=. See [[%SCRIPTURLPATH{"configure"}%][configure]].
+=configure= is the browser script used for inspection of, and cahnges to, the site configuration. None of the parameters to this script are useable for any purpose except =configure=. See [[%SCRIPTURLPATH{"configure"}%][configure]].
 
 ---+++ =edit=
 The =edit= script understands the following parameters, typically supplied by HTML input fields:
@@ -77,7 +77,7 @@ Form field values are passed in parameters named 'field' - for example, if I hav
 NOTE: most skins support the definition of =EDIT_SKIN=, which is used as the value of the =cover= parameter in =edit= URLs. This allows you to override the default edit skin on a web, topic or user basis.
 
 ---+++ =login=
-Used for logging in when TWiki login is being used (e.g !TemplateLoginManager).
+Used for logging in with !TemplateLoginManager.
 | *Parameter* | *Description* | *Default* |
 | =origurl= | URL that was being accessed when an access violation occurred. the login process will redirect to this URL if it is successful | none |
 | =username= | username of user logging in | none |
@@ -158,7 +158,7 @@ The =oops= script supports the following parameters:
 This script is _deprecated_. Its functions are covered by the =save= script.
 
 ---+++ =rdiff=
-Renders the differences between version of a TWiki topic
+Renders the differences between version of a topic
 
 | *Parameter* | *Description* | *Default* |
 | rev1 | the higher revision | |
@@ -189,7 +189,7 @@ Used for renaming topics.
 | =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
 
 ---+++ =rest=
-This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other TWiki scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =TWiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
+This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =TWiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
 
 The =rest= script supports the following parameters:
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you need to pass a username and password to the server. The =username= and =password= parameters are used for this purpose. |
@@ -199,7 +199,7 @@ The =rest= script supports the following parameters:
 
 The function is free to use any other query parameters for its own purposes.
 
-%X% The =rest= script should *always* require authentication in any TWiki that has logins. Otherwise there is a risk of opening up major security holes. So make sure you add it to the list of authenticated scripts if you are using =ApacheLogin=.
+%X% The =rest= script should *always* require authentication in any site that has logins. Otherwise there is a risk of opening up major security holes. So make sure you add it to the list of authenticated scripts if you are using =ApacheLogin=.
 
 ---++++ Invocation Examples
 
@@ -235,7 +235,7 @@ The =save= script performs a range of save-related functions, as selected by the
 | =dontnotify= | if defined, suppress change notification | |
 | =templatetopic= | Name of a topic to use as a template for the text and form (new topic _only_) | |
 | =text= | New text of the topic | |
-| =forcenewrevision= | if set, forces a revision even if TWiki thinks one isn't needed | |
+| =forcenewrevision= | if set, forces a revision even if %WIKITOOLNAME% thinks one isn't needed | |
 | =topicparent= | If 'none' remove any current topic parent. If the name of a topic, set the topic parent to this. | |
 | =formtemplate= | if defined, use the named template for the form (will remove the form is set to 'none') | |
 | =editaction= | When action is =checkpoint=, =add form= or =replace form...=, this is used as the =action= parameter to the =edit= script that is redirected to after the save is complete. | |
@@ -304,13 +304,13 @@ Refresh the WebStatistics topics in range of webs.
 
 for example:
    1 from browser %SCRIPTURL{"statistics"}% updates _all user webs_
-   2 from browser %SCRIPTURL{"statistics"}%?webs=TWiki,Main,Sandbox updates _TWiki,Main,Sandbox_
+   2 from browser %SCRIPTURL{"statistics"}%?webs=Userweb,Sandbox updates _Userweb,Sandbox_
    3 from browser %SCRIPTURL{"statistics"}%/%WEB% updates %WEB%
    4 from command line twiki/bin/statistics updates _all user webs_
-   5 from command line twiki/bin/statistics -webs=TWiki,Main,Sandbox updates _TWiki,Main,Sandbox_
+   5 from command line twiki/bin/statistics -webs=Userweb,Sandbox updates _Userweb,Sandbox_
    6 from command line twiki/bin/statistics %WEB%.<nop>WebHome updates %WEB%
 
-see TWikiSiteTools#WebStatistics_site_statistics for updating statistics using cron.
+see SiteTools#WebStatistics_site_statistics for updating statistics using cron.
 
 ---+++ =upload=
 Uploads an attachment to a topic. The HTTP request is expected to be in =multipart/form-data= format.
@@ -335,10 +335,10 @@ Used for viewing topics.
 | =section= | Allows to view only a part of the topic delimited by a named section (see %SYSTEMWEB%.VarSTARTSECTION). If the given section is not present, no topic content is displayed. | |
 | =contenttype= | Allows you to specify a different *Content-Type:* (e.g. =contenttype=text/plain=) | |
 | =rev= | Revision to view (e.g. =rev=45=) | |
-| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a TWiki Application. | |
+| =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 | =topic= | redirects (at the beging of the cgi script running) to show the spcified Web.Topic, or, redirects to a URL, if allowed by {AllowRedirectUrl} and {PermittedRedirectHostUrls} | |
 
-%X% For historical reasons, the view script has a special interpretation of the =text= skin. In earlier TWiki versions the =skin=text= parameter was used like this:
+%X% For historical reasons, the view script has a special interpretation of the =text= skin. In TWiki < 4.0 the =skin=text= parameter was used like this:
 =http<nop>://.../view/MyWeb/MyTopic?skin=text&contenttype=text/plain&raw=on=
 which shows the topic as plain text; useful for those who want to download plain text for the topic.
 Using =skin=text= this way is *DEPRECATED*, use =raw=text= instead.
@@ -357,22 +357,20 @@ to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname
 Details on command line scripts located in the =twiki/tools= directory.
 
 ---+++ =geturl.pl=
-This is a very simple script to get the content of a web site. It is marked as _deprecated_ and might be removed (or enhanced) in a future TWiki release. Its functions are covered by the standard =wget= and =curl= commands.
+This is a very simple script to get the content of a web site. It is marked as _deprecated_ and might be removed (or enhanced) in a future release. Its functions are covered by the standard =wget= and =curl= commands.
    * Usage:    =geturl.pl &lt;host&gt; &lt;path&gt; [&lt;port&gt; [&lt;header&gt;]]=
    * Example:  =geturl.pl some.domain /some/dir/file.html 80=
    * Will get: =http://some.domain:80/some/dir/file.html=
 
 ---+++ =rewriteshebang.pl=
-Simple script to rewrite the =#!/usr/bin/perl= shebang lines specific to your local Perl installation. It will rewrite the first line of all your TWiki cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
+Simple script to rewrite the =#!/usr/bin/perl= shebang lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
 
 ---+++ =tick_twiki.pl=
-This script executes a number of non-essential regular administration tasks that will help keep your TWiki healthy and happy, such as removing expired sessions and lease files.
+This script executes a number of non-essential regular administration tasks that will help keep your site healthy and happy, such as removing expired sessions and lease files.
 
 It is intended to be run as a cron job or a scheduled task once a week. Example crontab entry:%BR%
 =0 0 * * 0 cd /usr/twiki/bin && perl ../tools/tick_twiki.pl=
 
 __Note:__ The script has to be run by a user who can write files created by the webserver user.
-
-
 
 __Related Topics:__ AdminDocumentationCategory, DeveloperDocumentationCategory
