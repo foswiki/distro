@@ -14,5 +14,5 @@ Users can customize these variables by assigning them values. Example:
 %SEARCH{"UserSetting" type="regex" topic="Var*" format="   * $topic" nonoise="on"}%
 
 *See also:*
-   * TWikiVariables - an alphabetical list of all variables
+   * [[%SYSTEMWEB%.Macros][Macros]] - an alphabetical list of all variables
    * DefaultPreferences and [[%LOCALSITEPREFS%]] - where user shortcuts are defined

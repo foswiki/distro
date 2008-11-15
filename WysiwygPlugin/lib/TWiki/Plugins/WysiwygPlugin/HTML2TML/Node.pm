@@ -970,7 +970,7 @@ sub _verbatim {
     return ($flags, "<$tag$p>$text</$tag>");
 }
 
-# pseudo-tags that may leak through in TWikiVariables
+# pseudo-tags that may leak through in Macros
 # We have to handle this to avoid a matching close tag </nop>
 sub _handleNOP {
     my( $this, $options ) = @_;

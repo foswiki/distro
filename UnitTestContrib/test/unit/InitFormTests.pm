@@ -15,7 +15,7 @@ The order of priority of field initialization should be as follows: For a given 
    * If there is an initialization value defined in the formtemplate, that value should be taken, else 
    * The field value should be empty. 
 
-There is some question as to what should happen to TWiki.TWikiVariables. 
+There is some question as to what should happen to [[%SYSTEMWEB%.Macros][Macros]].
    * Of course the text is taken literally (i.e., variables are not expanded) when it is in the existing form of the topic being edited
    * When values are taken from a template topic, embedded variables are not expanded.
    * However, variables in values copied from a form are expanded.
