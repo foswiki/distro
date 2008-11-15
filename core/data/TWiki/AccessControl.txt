@@ -51,7 +51,7 @@ The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated 
 
 The following describes the standard TWiki support for groups. Your local TWiki may have an alternate group mapping manager installed. Check with your Wiki administrator if you are in doubt.
 
-Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.TWikiGroups and enter the name of the new group ending in ==Group== into the "new group" form field. This will create a new group topic with two important settings:
+Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.WikiGroups and enter the name of the new group ending in ==Group== into the "new group" form field. This will create a new group topic with two important settings:
    * ==Set <nop>GROUP = &lt; list of Users and/or Groups &gt;==
    * ==Set <nop>ALLOWTOPICCHANGE = &lt; list of Users and/or Groups &gt;==
 

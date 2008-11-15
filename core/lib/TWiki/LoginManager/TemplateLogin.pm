@@ -124,7 +124,7 @@ login cookie being preserved across browser sessions.
 The password handler is expected to return a perl true value if the password
 is valid. This return value is stored in a session variable called
 VALIDATION. This is so that password handlers can return extra information
-about the user, such as a list of TWiki groups stored in a separate
+about the user, such as a list of Wiki groups stored in a separate
 database, that can then be displayed by referring to
 %<nop>SESSION_VARIABLE{"VALIDATION"}%
 

@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="TWikiVariables"}%
 #VarUSERSWEB
 ---+++ USERSWEB -- name of users web
-   * The web containing individual user topics, %USERSWEB%.TWikiGroups, and customised site-wide preferences.
+   * The web containing individual user topics, %USERSWEB%.WikiGroups, and customised site-wide preferences.
    * Syntax: =%<nop>USERSWEB%=
    * Expands to: =%USERSWEB%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='TWikiVariables'" then="#"}%VarSYSTEMWEB][SYSTEMWEB]]

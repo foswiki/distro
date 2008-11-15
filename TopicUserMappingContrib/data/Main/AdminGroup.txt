@@ -25,6 +25,6 @@ If you haven't previously set up an administrator, follow these steps:
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[TWikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 
 

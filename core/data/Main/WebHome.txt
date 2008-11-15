@@ -14,7 +14,7 @@ and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of you
    * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
    * [[%SYSTEMWEB%.TWikiRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
    * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site
-   * [[TWikiGroups]] - list of groups used for access control
+   * [[WikiGroups]] - list of groups used for access control
    * <input class="twikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="twikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
    * [[WebTopicList]] - all topics in alphabetical order
    * [[WebChanges]] - recent topic changes in this web

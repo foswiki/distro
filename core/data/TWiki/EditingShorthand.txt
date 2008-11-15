@@ -375,7 +375,7 @@ escaped:
 
 [[wiki syntax]]
 
-[[%USERSWEB%.TWiki groups]]
+[[%USERSWEB%.Wiki groups]]
 
 escaped:
 ![[wiki syntax]]

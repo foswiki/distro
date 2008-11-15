@@ -24,7 +24,7 @@ To edit topics, you need to have a TWiki account.
 
 ---++ 4. Check out TWiki users, groups.
    * Go to the %USERSWEB%.%WIKIUSERSTOPIC% topic; it has a list of all users of TWiki. Your WikiName will be in this list after you register.
-   * Go to the %USERSWEB%.TWikiGroups topic in the %USERSWEB% web; it has a list of groups which can be used to define fine grained AccessControl in TWiki.
+   * Go to the %USERSWEB%.WikiGroups topic in the %USERSWEB% web; it has a list of groups which can be used to define fine grained AccessControl in TWiki.
 
 ---++ 5. Test the page controls...
 The color-coded control strips at the top and/or bottom of the page has a collection of action links. Different skins show different links, but most will have some or all of::

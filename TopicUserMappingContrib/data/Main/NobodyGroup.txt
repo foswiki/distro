@@ -8,4 +8,4 @@
 
 Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.DefaultPreferences][DefaultPreferences]] - put !NobodyGroup as the only group allowed to rename a topic and it can't be renamed.
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[TWikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]

@@ -24,7 +24,7 @@ with =$TWiki::cfg{Password}= and then set it again by saving your settings in =c
    * a configure password (otherwise the Admin login is automatically disabled.)
    * If your TWiki is configured to use !ApacheLoginManager, you will need to log in as a valid user first.
    
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[TWikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 ---
 
 
