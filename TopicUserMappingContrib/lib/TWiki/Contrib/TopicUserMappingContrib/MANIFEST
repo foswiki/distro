@@ -21,7 +21,7 @@ data/TWiki/TWikiRegistration.txt 0644
 data/TWiki/UsersTemplate.txt 0644 Default template for a new WikiUsers topic
 data/TWiki/ChangeEmailAddress.txt 0644
 data/TWiki/BulkResetPassword.txt 0644
-data/TWiki/WikiUsersetting.txt 0644
+data/TWiki/WikiUserSetting.txt 0644
 data/TWiki/UserForm.txt 0644 Default form attached to a user topic
 data/TWiki/NewUserTemplate.txt 0644 Default new user topic template
 data/TWiki/ResetPassword.txt 0644
