@@ -8,7 +8,7 @@ This page contains all documentation topics as one long, complete reference shee
 __Related Topics:__ TWikiSite, ReleaseHistory, EnhancementRequests, UserDocumentationCategory, AdminDocumentationCategory
 
 ------
-%INCLUDE{"TWikiSystemRequirements"}%
+%INCLUDE{"SystemRequirements"}%
 
 [[#PageTop][Back to top]]
 
