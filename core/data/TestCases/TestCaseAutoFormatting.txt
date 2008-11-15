@@ -353,7 +353,7 @@ a@b.com
 <!-- expected expand WIKIWORDS -->
 <a class="twikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences">WebPreferences</a>
 <p />
-<a class="twikiLink" href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/TWikiUsers">TWikiUsers</a>
+<a class="twikiLink" href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%WIKIUSERSTOPIC%</a>
 <p />
 <span class="twikiNewLink">CompleteAndUtterNothing<a href="%SCRIPTURLPATH{"edit"}%/TestCases/CompleteAndUtterNothing?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
 <p />
@@ -368,7 +368,7 @@ a@b.com
 <!-- actual -->
 WebPreferences
 
-%USERSWEB%.TWikiUsers
+%USERSWEB%.%WIKIUSERSTOPIC%
 
 CompleteAndUtterNothing
 
@@ -385,7 +385,7 @@ LinkBoxes
 <!-- expected expand SQUABS -->
 <span class="twikiNewLink">wiki syntax<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">?</a></span>
 <p />
-<a class="twikiLink" href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/TWikiUsers">%USERSWEB%.TWiki users</a>
+<a class="twikiLink" href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
 <p />
 escaped:
 [<nop>[wiki syntax]]
@@ -398,7 +398,7 @@ escaped:
 <!-- actual -->
 [[wiki syntax]]
 
-[[%USERSWEB%.TWiki users]]
+[[%USERSWEB%.Wiki users]]
 
 escaped:
 ![[wiki syntax]]

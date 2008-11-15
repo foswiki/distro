@@ -124,7 +124,7 @@ Which expands to this: (here limited to all Z* users because TWiki.org has so ma
 <input type="submit" value="Go" />
 </form>
 
-This searches all topics in the %USERSWEB% web that contain "Name", "Email" and "Country" bullets. Alternatively, do a %SYSTEMWEB%.FormattedSearch with =multiple="on"= on the [[%USERSWEB%.TWikiUsers]] topic.
+This searches all topics in the %USERSWEB% web that contain "Name", "Email" and "Country" bullets. Alternatively, do a %SYSTEMWEB%.FormattedSearch with =multiple="on"= on the [[%USERSWEB%.WikiUsers]] topic.
 
 ---+++ Solution 2: As Solution 1, but with possibility for multi-selecting usernames
 

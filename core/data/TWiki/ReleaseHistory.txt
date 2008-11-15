@@ -13,7 +13,7 @@ __New Features and Enhancements of TWiki Release 4.2__
 
    * *Easier Installation and Upgrade*
       * New Internal Admin Login feature
-      * The !Main.TWikiUsers topic is no longer distributed as a default topic in Main web
+      * The !Main.WikiUsers topic is no longer distributed as a default topic in Main web
       * A new directory =working= which per default is located in the TWiki root which contains registration_approvals, tmp, and work_areas
       * Configure can now authenticate when connecting to local plugins repository.
 
@@ -35,7 +35,7 @@ __New Features and Enhancements of TWiki Release 4.2__
       * Many new functions in the API for plugin developers
       * Table of Content (TOC) feature enhanced
       * re-architected Pluggable user mapping (between login name and !WikiName) to integrate with alternative authentication and Management schemes
-      * Topic based User management has been extracted into a separately update-able package (!TWikiUsersContrib)
+      * Topic based User management has been extracted into a separately update-able package (!WikiUsersContrib)
 
    * *Enhancements of Pre-installed Plugins*
       * CommentPlugin: New =templatetopic= parameter to point to custom comment template topic
@@ -647,7 +647,7 @@ __Major New Features__
    * *25 Feb 2000* - TWiki:Main.PeterThoeny
       * New preference variables =%<nop>EDITBOXWIDTH%= and =%<nop>EDITBOXHEIGHT%= to specify the edit box size. 
    * *25 Feb 2000* - TWiki:Main.PeterThoeny
-      * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (!TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.TWikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.  
+      * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (!TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.WikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.  
    * *11 Feb 2000* - TWiki:Main.PeterThoeny
       * New variable =%<nop>SCRIPTSUFFIX%= / $scriptSuffix containing an optional file extension of the TWiki Perl script. Templates have been changed to use this variable. This allows you to rename the Perl script files to have a file extension like for example ".cgi". 
    * *11 Feb 2000* - TWiki:Main.PeterThoeny
@@ -750,7 +750,7 @@ __Major New Features__
    * *28 Jul 1998* - TWiki:Main.PeterThoeny
       * Added TWiki variables, enclosed in % signs =%<nop>TOPIC%= (Topic name), =%<nop>WEB%= (web name), =%<nop>SCRIPTURL%= (script URL), =%<nop>DATE%= (current date), =%<nop>WIKIWEBMASTER%= (Wiki webmaster address), =%<nop>WIKIVERSION%= (Wiki version), =%<nop>USERNAME%= (user name), =%<nop>WIKIUSERNAME%= (Wiki user name). 
    * *28 Jul 1998* - TWiki:Main.PeterThoeny
-      * Topic WebChanges shows Wiki username instead of Intranet username, e.g. =PeterThoeny= instead of =thoeny= in case the Wiki username exists. Implementation Automatic lookup of Wiki username in topic Main.TWikiUsers. 
+      * Topic WebChanges shows Wiki username instead of Intranet username, e.g. =PeterThoeny= instead of =thoeny= in case the Wiki username exists. Implementation Automatic lookup of Wiki username in topic Main.WikiUsers. 
    * *28 Jul 1998* - TWiki:Main.PeterThoeny
       * Topic index. (Technically speaking a simple '.*' search on topic names.)  
    * *28 Jul 1998* - TWiki:Main.PeterThoeny

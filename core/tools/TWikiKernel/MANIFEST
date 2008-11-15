@@ -40,7 +40,7 @@ data/Main/TWikiGroupTemplate.txt 0660
 data/Main/TWikiGroups.txt 0660
 data/Main/WikiGuest.txt 0660
 data/Main/RegistrationAgent.txt 0660
-data/Main/TWikiUsers.txt 0660
+data/Main/WikiUsers.txt 0660
 data/Main/UnknownUser.txt 0660
 data/Main/UserForm.txt 0660
 data/Main/UserList.txt 0660

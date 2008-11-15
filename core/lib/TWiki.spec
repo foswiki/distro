@@ -337,7 +337,7 @@ $TWiki::cfg{SuperAdminGroup} = 'AdminGroup';
 # are listed. Automatically maintained by the standard
 # registration scripts. <b>If you change this setting you will have to
 # use TWiki to manually rename the existing topic</b>
-$TWiki::cfg{UsersTopicName} = 'TWikiUsers';
+$TWiki::cfg{UsersTopicName} = 'WikiUsers';
 
 # **STRING 100 EXPERT**
 # Comma-separated list of scripts that require the user to authenticate.

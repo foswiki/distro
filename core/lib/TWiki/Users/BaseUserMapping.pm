@@ -364,7 +364,7 @@ sub findUserByWikiName {
     }
     else {
 
-        # Add additional mappings defined in TWikiUsers
+        # Add additional mappings defined in WikiUsers
         if ( $this->{W2U}->{$wn} ) {
             push( @users, $this->{W2U}->{$wn} );
         }

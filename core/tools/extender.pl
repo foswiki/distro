@@ -137,7 +137,7 @@ sub remap {
         $file =~ s#^data/(TWiki|Main)/TWikiPreferences\.txt(.*)$#data/$1/$cfg{SitePrefsTopicName}.txt$2#;
     }
     if (defined $cfg{UsersTopicName}) {
-        $file =~ s#(Main)/TWikiUsers\.txt(.*)$#$1/$cfg{UsersTopicName}.txt$2#;
+        $file =~ s#(Main)/WikiUsers\.txt(.*)$#$1/$cfg{UsersTopicName}.txt$2#;
     }
     foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
         if (defined $cfg{$w}) {

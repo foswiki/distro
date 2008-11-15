@@ -1415,8 +1415,8 @@ sub test_4061 {
                                       ]
                          });
 
-    # Make TWikiUsers read-only
-    chmod(0444, "$TWiki::cfg{DataDir}/$this->{users_web}/TWikiUsers.txt");
+    # Make WikiUsers read-only
+    chmod(0444, "$TWiki::cfg{DataDir}/$this->{users_web}/$TWiki::cfg{UsersTopicName}.txt");
 
     $query->path_info( "/$this->{users_web}/TWikiRegistration" );
     $this->{twiki}->finish();
@@ -1454,7 +1454,7 @@ sub test_4061 {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     } finally {
-        chmod(0777, "$TWiki::cfg{DataDir}/$this->{users_web}/TWikiUsers.txt");
+        chmod(0777, "$TWiki::cfg{DataDir}/$this->{users_web}/$TWiki::cfg{UsersTopicName}.txt");
     };
 }
 
@@ -1523,7 +1523,7 @@ sub verify_resetEmailOkay {
 }
 
 #test for http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/Item3400
-sub verify_resetPassword_NoTWikiUsersEntry {
+sub verify_resetPassword_NoWikiUsersEntry {
     my $this = shift;
 
     ## Need to create an account (else oopsnotwikiuser)
@@ -1531,7 +1531,7 @@ sub verify_resetPassword_NoTWikiUsersEntry {
 
     $this->registerAccount();
     
-    #Remove the TWikiUsers entry - by deleting it :)
+    #Remove the WikiUsers entry - by deleting it :)
     $this->{twiki}->{store}->moveTopic(
         $TWiki::cfg{UsersWebName}, $TWiki::cfg{UsersTopicName}, 
         $TWiki::cfg{UsersWebName}, $TWiki::cfg{UsersTopicName}.'DELETED',

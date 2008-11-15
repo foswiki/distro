@@ -75,7 +75,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
             
 ---++ Default User Settings
 
-%X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.TWikiUsers
+%X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers
 
    * Show tool-tip topic info on mouse-over of WikiWord links. Setting can be on, off, or customized. An empty setting or off setting disables the tool-tips (for better performance). The setting can contain $summary to show the topic summary, $date for the last change date, $rev for the revision, $username for the login name of the last editor, $wikiname for the <nop>WikiName, $wikiusername for <nop>%USERSWEB%.WikiName, $topic for the topic name, and $web for the web name
       * Set LINKTOOLTIPINFO = off

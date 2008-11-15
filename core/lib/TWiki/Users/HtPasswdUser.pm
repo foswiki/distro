@@ -23,7 +23,7 @@
 
 Support for htpasswd and htdigest format password files.
 
-Subclass of [[TWikiUsersPasswordDotPm][ =TWiki::Users::Password= ]].
+Subclass of [[WikiUsersPasswordDotPm][ =TWiki::Users::Password= ]].
 See documentation of that class for descriptions of the methods of this class.
 
 =cut

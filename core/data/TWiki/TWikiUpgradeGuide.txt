@@ -84,7 +84,7 @@ The main steps are:
 ---+++ Copy Users And Their Topics From Main Web
 
    * Copy all the topics from the Main web and corresponding pub/Main directories from the old TWiki to the new TWiki but do not overwrite any of the new topics already inside the new Main directory!
-   * Manually merge all the users from the old =Main.TWikiUsers= topic to the new TWiki. If you upgrade from Cairo you can simply use the old file and add the missing new system users to the list of users. If you upgrade from TWiki-4.0.X simply use the old topic. Starting from 4.2.0 TWiki no longer ships with a =Main.TWikiUsers= topic. When you register the first user TWiki now checks for an existing =Main.TWikiUsers= and if it does not exist it gets created.
+   * Manually merge all the users from the old =Main.WikiUsers= topic to the new TWiki. If you upgrade from Cairo you can simply use the old file and add the missing new system users to the list of users. If you upgrade from TWiki-4.0.X simply use the old topic. Starting from 4.2.0 TWiki no longer ships with a =Main.WikiUsers= topic. When you register the first user TWiki now checks for an existing =Main.WikiUsers= and if it does not exist it gets created.
    * If you use =data/.htpasswd= for authentication copy this file from the old TWiki to the new.
       * If you upgrade from Cairo and you are using the Htpasswd login manager, then note that email addresses for users have moved out of user topics and into the password file. There is a script that performs this extra upgrade step for you - see =tools/upgrade_emails.pl=.
    * The old sandbox web may have a lot of useful topic and users may use it actively for drafts. Manually select the topics (remember the corresponding pub directories) from the old Sandbox web and copy them to the new TWiki. Decide if you want to overwrite the sandbox homepage and left menu bar or keep the new.
@@ -134,9 +134,9 @@ To change the location of favicon.ico to the TWiki web add this line to %USERSWE
    * Set FAVICON = %PUBURLPATH%/%SYSTEMWEB%/%WEBPREFSTOPIC%/favicon.ico
 </verbatim>
 
----+++ !TWikiUsers topic in Main web
+---+++ !WikiUsers topic in Main web
 
-Your Cairo [[Main.TWikiUsers][Main.TWikiUsers]] topic will work in TWiki4 but you will need to ensure that these 4 users from the default TWiki4 version of !TWikiUsers are copied to the existing !TWikiUsers topic. !WikiGuest is probably already there but the others are new
+Your Cairo [[Main.WikiUsers][Main.WikiUsers]] topic will work in TWiki4 but you will need to ensure that these 4 users from the default TWiki4 version of !WikiUsers are copied to the existing !WikiUsers topic. !WikiGuest is probably already there but the others are new
    * *ProjectContributor* - placeholder for a TWiki developer, and is used in TWiki documentation
    * *WikiGuest* - guest user, used as a fallback if the user can't be identified
    * *RegistrationAgent* - special user used during the new user registration process
@@ -220,14 +220,14 @@ The =NewUserTemplate= was located in the TWiki web and the =UserForm= in the Mai
 
 From 4.2.0 the =UserForm= and =NewUserTemplate= are distributed in the TWiki web. If you create the two in the Main web the Main web version will be used instead. So if you tailor the user topic format or the form then you should always copy the two files to the Main web and modify the ones in the Main web. When you later upgrade TWiki your tailored template and form will not be overwritten.
 
----+++ !TWikiUsers no longer distributed
+---+++ !WikiUsers no longer distributed
 
-The =Main.TWikiUsers= topic contains all the registered users. It is a topic you do not want to overwrite when you upgrade TWiki.
+The =Main.WikiUsers= topic contains all the registered users. It is a topic you do not want to overwrite when you upgrade TWiki.
 
-From 4.2.0 this file is no longer included in the TWiki distribution. When you register the first time TWiki creates the =Main.TWikiUsers= topic in the Main web if it does not exist already. This means that you can now upgrade TWiki without risk of overwriting the important =TWikiUsers= topic.
+From 4.2.0 this file is no longer included in the TWiki distribution. When you register the first time TWiki creates the =Main.WikiUsers= topic in the Main web if it does not exist already. This means that you can now upgrade TWiki without risk of overwriting the important =WikiUsers= topic.
 
    * For new installers this makes no difference at all
-   * For upgraders this is one less problem to worry about as your important !Main.TWikiUsers topic now no longer gets overwritten when upgrading.
+   * For upgraders this is one less problem to worry about as your important !Main.WikiUsers topic now no longer gets overwritten when upgrading.
    
 ---+++ New =working= directory
 

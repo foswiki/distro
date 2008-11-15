@@ -31,11 +31,11 @@ use Error qw( :try );
 
 Password manager that uses Apache::HtPasswd to manage users and passwords.
 
-Subclass of [[TWikiUsersPasswordDotPm][ =TWiki::Users::Password= ]].
+Subclass of [[WikiUsersPasswordDotPm][ =TWiki::Users::Password= ]].
 See documentation of that class for descriptions of the methods of this class.
 
 Duplicates functionality of
-[[TWikiUsersHtPasswdUserDotPm][ =TWiki::Users::HtPasswdUser=]];
+[[WikiUsersHtPasswdUserDotPm][ =TWiki::Users::HtPasswdUser=]];
 provided mainly as an example of how to write a new password manager.
 
 =cut

@@ -2,7 +2,7 @@
 # Create a large set of users and populate groups with them
 # (group size 10000/5000/2500/..)
 
-#warning: does not add users to Main.TWikiUsers topic     *FIXED*
+#warning: does not add users to Main.WikiUsers topic     *FIXED*
 #warning: does not add users and user info to htpasswd file     *FIXED*
 #warning: uses out dated email storage method     *FIXED*
 #warning: presumes that AllowLoginName is off
@@ -10,7 +10,7 @@
 
 undef $/;
 open( PWD, ">>data/BIGGROUPS_htpasswd" ) || die $!;
-open( TWUSER, ">>data/Main/TWikiUsers.txt" ) || die $!;
+open( TWUSER, ">>data/Main/WikiUsers.txt" ) || die $!;
 for my $user ( 1 .. 10000 ) {
     my $username = "TestUser$user";
     open( U, ">data/Main/$username.txt" ) || die $!;

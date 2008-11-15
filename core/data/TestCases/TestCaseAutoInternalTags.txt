@@ -70,7 +70,7 @@ Designed by: Crawford Currie
  </tr>
  <tr>
   <td>WIKIUSERSTOPIC</td>
-  <td><!-- expected viftene -->WIKIUSERSTOPIC TWikiUsers<!-- /expected --></td>
+  <td><!-- expected viftene -->WIKIUSERSTOPIC WikiUsers<!-- /expected --></td>
   <td><!-- actual -->WIKIUSERSTOPIC <nop>%WIKIUSERSTOPIC%<!-- /actual --></td>
  </tr>
  <tr>

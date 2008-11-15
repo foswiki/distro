@@ -11,7 +11,7 @@ Users can customize these variables by assigning them values. Example:
 
 *The following variables are classified as user settings:*
 
-%SEARCH{"TWikiUserSetting" type="regex" topic="Var*" format="   * $topic" nonoise="on"}%
+%SEARCH{"WikiUsersetting" type="regex" topic="Var*" format="   * $topic" nonoise="on"}%
 
 *See also:*
    * TWikiVariables - an alphabetical list of all variables

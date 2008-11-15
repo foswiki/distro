@@ -26,7 +26,7 @@ to a wikiname and back. It is also where groups are defined.
 
 By default TWiki maintains user topics and group topics in the %MAINWEB% that
 define users and group. These topics are
-   * !TWikiUsers - stores a mapping from usernames to TWiki names
+   * !WikiUsers - stores a mapping from usernames to TWiki names
    * !WikiName - for each user, stores info about the user
    * !GroupNameGroup - for each group, a topic ending with "Group" stores a list of users who are part of that group.
 
@@ -229,14 +229,14 @@ sub getLoginName {
     return $cUID;
 }
 
-# test if the login is in the TWikiUsers topic, or in the password file
+# test if the login is in the WikiUsers topic, or in the password file
 # depending on the AllowLoginNames setting
 sub _userReallyExists {
     my ( $this, $login ) = @_;
 
     if ( $TWiki::cfg{Register}{AllowLoginName} ) {
 
-        # need to use the TWikiUsers file
+        # need to use the WikiUsers file
         _loadMapping($this);
         return 1 if ( defined( $this->{L2U}->{$login} ) );
     }
@@ -270,7 +270,7 @@ throws an Error::Simple
 
 Add a user to the persistant mapping that maps from usernames to wikinames
 and vice-versa. The default implementation uses a special topic called
-"TWikiUsers" in the users web. Subclasses will provide other implementations
+"WikiUsers" in the users web. Subclasses will provide other implementations
 (usually stubs if they have other ways of mapping usernames to wikinames).
 Names must be acceptable to $TWiki::cfg{NameFilter}
 $login must *always* be specified. $wikiname may be undef, in which case
@@ -931,7 +931,7 @@ sub findUserByWikiName {
     }
     elsif ( $TWiki::cfg{Register}{AllowLoginName} ) {
 
-        # Add additional mappings defined in TWikiUsers
+        # Add additional mappings defined in WikiUsers
         _loadMapping($this);
         if ( $this->{W2U}->{$wn} ) {
 

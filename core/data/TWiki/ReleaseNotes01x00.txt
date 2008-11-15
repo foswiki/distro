@@ -26,7 +26,7 @@ TWiki 4.2.2 is shipped with
 
    * *Easier Installation and Upgrade*
       * New Internal Admin Login feature. See below.
-      * The !Main.TWikiUsers topic is no longer distributed as a default topic in Main. See below. 
+      * The !Main.WikiUsers topic is no longer distributed as a default topic in Main. See below. 
       * A new directory =working= which per default is located in the twiki root which contains registration_approvals, tmp, and work_areas. See below
       * !ResetPassword, !ChangePassword, !ChangeEmailAddress, and !TWikiRegistration no longer contains yellow text that you have to remove.
       * Configure can now authenticate when connecting to local plugins repository.
@@ -51,7 +51,7 @@ TWiki 4.2.2 is shipped with
    * *Miscellaneous Feature Enhancements*
       * Many new functions in the API for plugin developers.
       * Table of Content (TOC) feature enhanced 
-      * User Mapping (mapping between login name and !WikiName) code has been extended to allow pluggable modules to integrate with all sorts of alternative authentication and Management schemes. For normal cases you use the default !TopicUserMapping which is using the !Main.TWikiUsers topic to map between login and !WikiName. A new !BaseUserMapping is provided for TWikis where you only have guests and an administrator. In this case you use the login and password given in configure to login as an admin.
+      * User Mapping (mapping between login name and !WikiName) code has been extended to allow pluggable modules to integrate with all sorts of alternative authentication and Management schemes. For normal cases you use the default !TopicUserMapping which is using the !Main.WikiUsers topic to map between login and !WikiName. A new !BaseUserMapping is provided for TWikis where you only have guests and an administrator. In this case you use the login and password given in configure to login as an admin.
 
 ---++ Important Changes since 4.2.1
 This is a fast trip bug fix for issues found during upgrades from 4.2.0 to 4.2.1.
@@ -139,14 +139,14 @@ The =NewUserTemplate= was located in the TWiki web and the =UserForm= in the Mai
 
 From 4.2.0 the =UserForm= and =NewUserTemplate= are distributed in the TWiki web. If you create the two in the Main web the Main web version will be used instead. So if you tailor the user topic format or the form then you should always copy the two files to the Main web and modify the ones in the Main web. When you later upgrade TWiki your tailored template and form will not be overwritten.
 
----+++ !TWikiUsers no longer distributed
+---+++ !WikiUsers no longer distributed
 
-The =Main.TWikiUsers= topic contains all the registered users. It is a topic you do not want to overwrite when you upgrade TWiki.
+The =Main.WikiUsers= topic contains all the registered users. It is a topic you do not want to overwrite when you upgrade TWiki.
 
-From 4.2.0 this file is no longer included in the TWiki distribution. When you register the first time TWiki creates the =Main.TWikiUsers= topic in the Main web if it does not exist already. This means that you can now upgrade TWiki without risk of overwriting the important =TWikiUsers= topic.
+From 4.2.0 this file is no longer included in the TWiki distribution. When you register the first time TWiki creates the =Main.WikiUsers= topic in the Main web if it does not exist already. This means that you can now upgrade TWiki without risk of overwriting the important =WikiUsers= topic.
 
    * For new installers this makes no difference at all
-   * For upgraders this is one less problem to worry about as your important !Main.TWikiUsers topic now no longer gets overwritten when upgrading.
+   * For upgraders this is one less problem to worry about as your important !Main.WikiUsers topic now no longer gets overwritten when upgrading.
    
 ---+++ New =working= directory
 
@@ -279,7 +279,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4661][Item4661]] | renaming a topic destroys full qualified topic names |
 | [[%BUGS%/Item4659][Item4659]] | Change the strategy of protecting again html attach spam to not harm Wysiwyg editor |
 | [[%BUGS%/Item4658][Item4658]] | remove use of undefined variable un utf8 code |
-| [[%BUGS%/Item4605][Item4605]] | User shown as Unknown User (Login ID) when author is not in TWikiUsers. Bad feature |
+| [[%BUGS%/Item4605][Item4605]] | User shown as Unknown User (Login ID) when author is not in WikiUsers. Bad feature |
 | [[%BUGS%/Item4590][Item4590]] | Rename "Checkpoint" to "Save and Continue" |
 | [[%BUGS%/Item4585][Item4585]] | configure generates apache errors |
 | [[%BUGS%/Item4576][Item4576]] | Improve how emailing is enabled and disabled in TWiki especially for registration |
@@ -545,7 +545,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4142][Item4142]] | Template unification |
 | [[%BUGS%/Item4140][Item4140]] | Support standard escapes in IF statements |
 | [[%BUGS%/Item4139][Item4139]] | Configurable date format to enable 2007-05-25 format. |
-| [[%BUGS%/Item4120][Item4120]] | !Main.TWikiUsers no longer in distribution but gets created from template if non existing |
+| [[%BUGS%/Item4120][Item4120]] | !Main.WikiUsers no longer in distribution but gets created from template if non existing |
 | [[%BUGS%/Item4087][Item4087]] | PatternSkin: visual update to form elements |
 | [[%BUGS%/Item4075][Item4075]] | Enhance MailerContrib To Allow Exclusion Of Webs |
 | [[%BUGS%/Item4069][Item4069]] | Normalise =viewfile= so it is able to use path syntax as well as the ?filename= syntax. |
@@ -691,7 +691,7 @@ The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5447][Item5447]] | If =manage= requires login, impossible to change password |
 | [[%BUGS%/Item5443][Item5443]] | Searches order="editby" are sorted by login ID (cUID) instead of WikiName making result look random |
 | [[%BUGS%/Item5432][Item5432]] | Image links inserted with Manage Attachment only work with lower case file extension |
-| [[%BUGS%/Item5431][Item5431]] | Register.pm redirects to TWikiUsers topic on error, even though that topic may not exist |
+| [[%BUGS%/Item5431][Item5431]] | Register.pm redirects to WikiUsers topic on error, even though that topic may not exist |
 | [[%BUGS%/Item5430][Item5430]] | reset password message has some errors |
 | [[%BUGS%/Item5428][Item5428]] | Topic save error with form does not remove nop |
 | [[%BUGS%/Item5426][Item5426]] | RSS feeds failing due to newlines at top of page. |

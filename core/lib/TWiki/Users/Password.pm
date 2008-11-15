@@ -266,7 +266,7 @@ sub canFetchUsers {
 ---++ ObjectMethod fetchUsers() -> new TWiki::ListIterator(\@users)
 
 returns a TWikiIterator of loginnames from the password source. If AllowLoginNames is false
-this is used to remove the need for a TWikiUsers topic.
+this is used to remove the need for a WikiUsers topic.
 
 =cut
 
