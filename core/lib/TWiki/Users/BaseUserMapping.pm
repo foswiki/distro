@@ -62,6 +62,7 @@ sub new {
     my ( $class, $session ) = @_;
 
     my $this = $class->SUPER::new( $session, 'BaseUserMapping_' );
+    $TWiki::cfg{Register}{RegistrationAgentWikiName} |= 'RegistrationAgent';
 
     # set up our users
     $this->{L2U} = {
