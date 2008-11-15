@@ -12,7 +12,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
    * Web settings:
       * Set WEBTOPICLIST = [[WelcomeGuest][Welcome]] %SEP% [[TWikiRegistration][Register]] %SEP% [[WebChanges][Changes]] %SEP% [[WebTopicList][Topics]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
       * Set WEBBGCOLOR = #FFD8AA
-      * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/%WEBPREFSTOPIC%/Dakar.gif
+      * #Set WEBHEADERART = 
       * Set SITEMAPLIST = on
       * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.TWikiRegistration][Registration]], and other %WEB%.StartingPoints; TWiki history &amp; Wiki style; All the docs...
       * Set SITEMAPUSETO = ...discover TWiki details, and how to start your own site.
