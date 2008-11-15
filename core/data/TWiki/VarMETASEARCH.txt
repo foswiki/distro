@@ -21,7 +21,6 @@
 
 %STOPINCLUDE%
 
-__Related Topics:__ UserDocumentationCategory
 %META:TOPICINFO{author="ProjectContributor" date="1130377817" format="1.1" version="$Rev: 8869 $"}%
 %META:TOPICPARENT{name="Macros"}%
 __Note:__ This topic is included by [[Macros]]
