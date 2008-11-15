@@ -8,7 +8,7 @@ corresponding form definition. So when you attach a new form to a topic, this
 plugin will enable the corresponding view/edit template automatically.  This
 comes in very handy for applications where users create new topics
 without the help of a topic creator wizard, e.g. creating a new topic for a yet
-non-existing <nop>TWikiWord. Together with the appropriate application
+non-existing <nop>WikiWord. Together with the appropriate application
 settings, this plugin will then assure that the data the user enters is handled
 appropriately during view and edit.
 
@@ -17,10 +17,10 @@ There are two modes on how the name of the template is derived:
    1 =section=.
 
 ---+++ Mode "exist"
-A topic that has a =MyForm= <nop>TWikiForm attached to it, will be displayed
+A topic that has a =MyForm= <nop>WikiForm attached to it, will be displayed
 using the view template =MyViewTemplate= and editted using the =MyEditTempalte=
 if they exist. The template name is derived by stripping off the suffix
-=...Form= from the form name and appending =...View=. The TWiki engine will
+=...Form= from the form name and appending =...View=. The Wiki engine will
 then use the template name =MyView= to search for the correct template along
 the template search path, for example using a topic =MyViewTemplate=. Remember
 the engine appends yet another =...Template= to the name for templates stored
@@ -39,7 +39,7 @@ You can override this behaviour in =configure=.
 
 ---++ Plugin Installation Instructions
 
-   * Just download the zip or tgz and unzip it into your twiki directory.
+   * Just download the zip or tgz and unzip it into your wiki directory.
    * Plugin configuration is done via =configure=.
      | *File:* | *Description:* |
 %$MANIFEST%
@@ -50,10 +50,12 @@ You can override this behaviour in =configure=.
    * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
 -->
 |  Plugin Author: | TWiki:Main.OliverKrueger |
-|  Copyright: | &copy; 2007, !KontextWork, Germany |
+|  Copyright: | &copy; 2008, Oliver Krueger |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 11 Jul 2008 |
+|  Contributors: TWiki:Main.MichaelDaum | 
+|  Plugin Version: | 15 Nov 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Nov 2008: | Item196: minor doc changes |
 |  11 Jul 2008: | Item5770: try to derive the EDIT_TEMPLATE of a new topic using the <nop>WebTopicEditTemplate (MD) |
 |  03 Jul 2008: | Item5747: fixed normalizing web part of form names (MD) |
 |  13 Nov 2007: | added EDIT_TEMPLATE, speed improvements, docu (MD) |
@@ -65,8 +67,5 @@ You can override this behaviour in =configure=.
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.005 |
-|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
-|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
-|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+|  Plugin Home: | http://www.nextwiki.org/Extensions/%TOPIC% |
 
--- TWiki:Main/MichaelDaum - 11 Jul 2008

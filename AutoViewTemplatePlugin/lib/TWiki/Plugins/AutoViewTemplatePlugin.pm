@@ -1,13 +1,13 @@
-# Plugin for TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Plugin for a software formerly known as TWiki<tm> 
 #
-# Copyright (C) 2007 Oliver Krueger <ok@kontextwork.de>, KontextWork
+# Copyright (C) 2008 Oliver Krueger <oliver@wiki-one.net>
 # All Rights Reserved.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# This piece of software is licensed under the GPL.
+# This piece of software is licensed under the GPLv2.
 
 package TWiki::Plugins::AutoViewTemplatePlugin;
 
@@ -34,8 +34,8 @@ sub initPlugin {
     }
 
     # get configuration
-    $debug = $TWiki::cfg{Plugins}{AutoViewTemplatePlugin}{Debug}    || 0;
-    $mode = $TWiki::cfg{Plugins}{AutoViewTemplatePlugin}{Mode}     || "exist";
+    $debug = $TWiki::cfg{Plugins}{AutoViewTemplatePlugin}{Debug}       || 0;
+    $mode = $TWiki::cfg{Plugins}{AutoViewTemplatePlugin}{Mode}         || "exist";
     $override = $TWiki::cfg{Plugins}{AutoViewTemplatePlugin}{Override} || 0;    
 
     # is this an edit action?
@@ -106,9 +106,9 @@ sub initPlugin {
 }
 
 sub _getTemplateFromSectionInclude {
-	my $formName = $_[0];
-	my $topic    = $_[1];
-	my $web      = $_[2];
+    my $formName = $_[0];
+    my $topic    = $_[1];
+    my $web      = $_[2];
 
     TWiki::Func::writeDebug("- ${pluginName}: called _getTemplateFromSectionInclude($formName, $topic, $web)") if $debug;
 	
@@ -127,9 +127,9 @@ sub _getTemplateFromSectionInclude {
 
 # replaces Web.MyForm with Web.MyViewTemplate and returns Web.MyViewTemplate if it exists otherwise nothing
 sub _getTemplateFromTemplateExistence {
-	my $formName = $_[0];
-	my $topic    = $_[1];
-	my $web      = $_[2];
+    my $formName = $_[0];
+    my $topic    = $_[1];
+    my $web      = $_[2];
 	
     TWiki::Func::writeDebug("- ${pluginName}: called _getTemplateFromTemplateExistence($formName, $topic, $web)") if $debug;
     my ($templateWeb, $templateTopic) = TWiki::Func::normalizeWebTopicName($web, $formName);
