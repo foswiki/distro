@@ -271,11 +271,11 @@ msgstr "(redigera text)"
 msgid "(edit)"
 msgstr "(redigera)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(Ditt inloggingsnamn) LoginName:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(det namn som syns för andra) WikiName:"
 
@@ -309,7 +309,7 @@ msgstr "(ingen)"
 msgid "(oops)"
 msgstr "(varning)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "(optional)"
 msgstr "(frivilligt)"
 
@@ -385,7 +385,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Hjälp om textformatering*"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -582,7 +582,7 @@ msgstr "Lägg till formulär"
 msgid "Add row"
 msgstr "Lägg till rad"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr ""
 "Lägg till ditt namn på listan över användare på sidan %1 i avdelningen %2."
@@ -637,11 +637,11 @@ msgstr "Tillåt ord som inte är <nop>WikiOrd på nya sidor"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.TWikiRegistration and choose a "
+"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
 "different username."
 msgstr ""
 "Alternativt kan du använda \"Tilbaka\"-knappen i din webbläsare, för att gå "
-"tilbake till TWiki.TWikiRegistration och välja ett nytt användarnamn."
+"tilbake till TWiki.UserRegistration och välja ett nytt användarnamn."
 
 #: templates/messages.tmpl:243
 msgid ""
@@ -968,7 +968,7 @@ msgstr "Färgen %1 har ogiltigt format"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "Comments:"
 msgstr "Kommentarer:"
 
@@ -1033,7 +1033,7 @@ msgstr "Kunde inte utföra sökningen. Felet var: %1"
 msgid "Could not save %1."
 msgstr "Kunde inte spara %1."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:125
 msgid "Country:"
 msgstr "Land:"
 
@@ -1086,7 +1086,7 @@ msgstr "Skapa sidan"
 msgid "Create this topic"
 msgstr "Skapa denna sida"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1238,7 +1238,7 @@ msgstr ""
 "Vid försök att spara %1 upptäcktes ett fel i versionskontrollsystemet. "
 "Informera din %2-administratör."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:109
 msgid "E-mail address:"
 msgstr "E-postadress:"
 
@@ -1324,11 +1324,11 @@ msgstr "Skriv in administratörsanvändarnamn eller inloggning angiven i %1"
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"SYSTEMWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
 "Ange ditt användarnamn (normalt på formen FornamnEfternamn utan mellanslag "
 "och punkter men med stora initialbokstäver, t ex !SvenJohansson). Besök %"
-"SYSTEMWEB%.TWikiRegistration om du inte har ett användarnamn."
+"SYSTEMWEB%.UserRegistration om du inte har ett användarnamn."
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"
@@ -1373,7 +1373,7 @@ msgstr "Kunde inte inkludera URLen %1"
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "Fel markerade med %1 är obligatoriska"
 
@@ -1387,7 +1387,7 @@ msgstr "Filen har laddats upp under annat namn"
 msgid "Find topics that link to %1 ..."
 msgstr "Hitta sidor som refererar till %1 ..."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1395,7 +1395,7 @@ msgstr ""
 "Slutföra att skapa ditt konto, så att du kan börja redigera sidor med ditt "
 "[[WikiName][WikiNamn]]."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:93
 msgid "First Name:"
 msgstr "Förnamn:"
 
@@ -1560,7 +1560,7 @@ msgstr ""
 "Om du fått detta brev av misstag: En person (%1) har försökt registrera sig "
 "på '%2' med din e-postadress, %3. Kontakta %4 om detta är fel."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Eventuella frågor om registreringen skickas till %1."
 
@@ -1720,7 +1720,7 @@ msgstr ""
 msgid "Jump"
 msgstr "Hoppa"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:97
 msgid "Last Name:"
 msgstr "Efternamn:"
 
@@ -1938,7 +1938,7 @@ msgstr ""
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Note:"
 msgstr "Observera:"
 
@@ -1975,7 +1975,7 @@ msgstr "OK"
 msgid "Older revision:"
 msgstr "Tidligere version:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr "När du registrerat dig kan du logga in med ditt %1 och lösenord."
 
@@ -2002,15 +2002,15 @@ msgstr "Nytt namn på sidan (frivilligt):"
 msgid "Optionally enter a different topic name:"
 msgstr "Mata in ett nytt sidnamn (frivilligt):"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "Organisationens <br />hemsida:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:119
 msgid "Organisation name:"
 msgstr "Organisationsnamn:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:271
 msgid "Other Country"
 msgstr "Annat land"
 
@@ -2195,12 +2195,12 @@ msgstr "Uppdatera"
 msgid "Register"
 msgstr "Registrera dig"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr ""
 "Registrerade användare kan [[%1][byta]] och [[%2][nollställa]] sina lösenord."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:2
 msgid "Registration"
 msgstr "Registrering"
 
@@ -2331,7 +2331,7 @@ msgstr "Åter till %1."
 msgid "Retype new password"
 msgstr "Skriv det nya lösenordet igen"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:115
 msgid "Retype password:"
 msgstr "Skriv lösenordet igen:"
 
@@ -2480,7 +2480,7 @@ msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Välj texten i fältet och kopiera din signatur till botten av ditt inlägg"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Sänd bekräftelse per e-post om din registrering."
 
@@ -2571,7 +2571,7 @@ msgstr ""
 "Vissa använder det till en personlig portal med favoritlänkar, vad de "
 "arbetar med, vad de vill hjälpa till med etc."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr "Tyvärr, registreringen är tillfälligt avstängd"
 
@@ -2601,7 +2601,7 @@ msgid "Statistics"
 msgstr "Statistik"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:297
 msgid "Submit"
 msgstr "Skicka"
 
@@ -2848,7 +2848,7 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Det bör finnas en rad som innehåller %1, se efter %2 (eller %3)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr "Denna TWiki stöder _inte_ registrering av nya användare"
 
@@ -2948,7 +2948,7 @@ msgstr ""
 "slogs samman, men annan data som formulärfält kan ha skrivits över. "
 "Kontrollera att sidan är korrekt, speciellt om du ändrade formulärfält."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -2960,7 +2960,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "För att ändå redigera sidan, klicka "
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr "Fyll i detta formulär för att registrera dig som användare:"
 
@@ -3243,7 +3243,7 @@ msgstr "Avdelningar"
 msgid "Welcome to the %1 web"
 msgstr "Välkommen till avdelning %1"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3447,7 +3447,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Ditt lösenord ändrades till %1."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:114
 msgid "Your password:"
 msgstr "Ditt lösenord:"
 

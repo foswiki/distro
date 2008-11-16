@@ -95,7 +95,7 @@ Details
 
 Your site may be vulnerable if:
 
-   1. If you have ErrorDocument 401 set to point to the TWikiRegistration topic
+   1. If you have ErrorDocument 401 set to point to the UserRegistration topic
       (or any other TWiki topic) and 
    2. You are using ApacheLogin with TWiki-4.0 and have sessions enabled, or
       you are using an earlier TWiki version with SessionPlugin, and 
@@ -111,7 +111,7 @@ vulnerable as follows:
    4. If apache re-prompts, enter the same username and password again
    5. Click "Cancel" 
 
-If your site is vulnerable you will be redirected to the TWikiRegistration
+If your site is vulnerable you will be redirected to the UserRegistration
 topic with the valid user apparently logged in (the name appears in the left
 bar).
 
@@ -126,7 +126,7 @@ Hotfix
 
 Delete the ErrorDocument line in the Apache configuration (httpd.conf or
 .htaccess), or (preferred) change it to point to a static HTML page. This page
-can safely contain a link to the TWikiRegistration page. For example,
+can safely contain a link to the UserRegistration page. For example,
 
 <html>
 <title>Failed login</title>
@@ -136,7 +136,7 @@ can safely contain a link to the TWikiRegistration page. For example,
 Your login attempt failed.
 <p />
 Do you want to
-<a href="/cgi-bin/view/TWiki/TWikiRegistration">register in TWiki</a>?
+<a href="/cgi-bin/view/TWiki/UserRegistration">register in TWiki</a>?
 </body>
 </html>
 

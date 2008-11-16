@@ -360,7 +360,7 @@ $TWiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiff
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
 $TWiki::cfg{AuthRealm} =
-'Enter your TWiki.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit TWiki.TWikiRegistration if you do not have one.';
+'Enter your Login Name. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit TWiki.UserRegistration if you do not have one.';
 
 #---++ User Mapping
 # **SELECTCLASS TWiki::Users::*UserMapping**

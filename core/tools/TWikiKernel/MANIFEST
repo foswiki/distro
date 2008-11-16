@@ -158,7 +158,6 @@ data/TWiki/TemplatesTopics.txt 0660
 data/TWiki/TwentyMinuteTutorial.txt 0660
 data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiMetaData.txt 0660
-data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660
 data/TWiki/TWikiSite.txt 0660
 data/TWiki/TWikiSiteTools.txt 0660
@@ -179,6 +178,7 @@ data/TWiki/TimeInterval.txt 0660
 data/TWiki/UpgradeGuide.txt 0660
 data/TWiki/UserDocumentationCategory.txt 0660
 data/TWiki/UserForm.txt 0660
+data/TWiki/UserRegistration.txt 0660
 data/TWiki/UsersGuide.txt 0660
 data/TWiki/UserToolsCategory.txt 0660
 data/TWiki/WabiSabi.txt 0660

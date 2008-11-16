@@ -12,7 +12,7 @@ and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of you
 ---++ <nop>%WEB% Web Utilities
 <form action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch">
    * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
-   * [[%SYSTEMWEB%.TWikiRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
+   * [[%SYSTEMWEB%.UserRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
    * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site
    * [[WikiGroups]] - list of groups used for access control
    * <input class="twikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="twikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]

@@ -5,5 +5,5 @@ This is a subscription service to be automatically notified by e-mail when topic
 
 %INCLUDE{"%SYSTEMWEB%.WebChangesAlert"}%
 
-__Related topics:__ [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%USERSWEB%.%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]]
+__Related topics:__ [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%USERSWEB%.%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 

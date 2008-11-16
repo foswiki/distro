@@ -28,7 +28,7 @@ TWiki 4.2.2 is shipped with
       * New Internal Admin Login feature. See below.
       * The !Main.WikiUsers topic is no longer distributed as a default topic in Main. See below. 
       * A new directory =working= which per default is located in the twiki root which contains registration_approvals, tmp, and work_areas. See below
-      * !ResetPassword, !ChangePassword, !ChangeEmailAddress, and !TWikiRegistration no longer contains yellow text that you have to remove.
+      * !ResetPassword, !ChangePassword, !ChangeEmailAddress, and !UserRegistration no longer contains yellow text that you have to remove.
       * Configure can now authenticate when connecting to local plugins repository.
 
    * *Usability Enhancements*
@@ -340,7 +340,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4193][Item4193]] | Show and hide WYSIWYG buttons based on COMPOSER setting |
 | [[%BUGS%/Item4173][Item4173]] | GROUPS variable kills server if there is a large group |
 | [[%BUGS%/Item4166][Item4166]] | TwistyPlugin: wrong use of plugin handlers |
-| [[%BUGS%/Item4158][Item4158]] | TWikiRegistration does not pass on multiple checkbox element values to UserForm. |
+| [[%BUGS%/Item4158][Item4158]] | !TWikiRegistration does not pass on multiple checkbox element values to UserForm. |
 | [[%BUGS%/Item4157][Item4157]] | tick_twiki.pl broken |
 | [[%BUGS%/Item4156][Item4156]] | Fixing twiki cgi for logging in |
 | [[%BUGS%/Item4151][Item4151]] | Javascript: twiki object overwritten |

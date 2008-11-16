@@ -362,7 +362,7 @@ sub registerAndNext {
 
 ---++ StaticMethod register($session)
 
-This is called through: TWikiRegistration -> RegisterCgiScript -> here
+This is called through: UserRegistration -> RegisterCgiScript -> here
 
 =cut
 

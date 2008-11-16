@@ -582,7 +582,7 @@ browse to the TWiki WebHome</a>.
       </li>
      </ul>
     </li>
-    <li><b>To become an administrator</b> you need to first <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/TWikiRegistration">
+    <li><b>To become an administrator</b> you need to first <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/UserRegistration">
 register</a> as a normal user first and then add your wikiname to the <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{UsersWebName}/$TWiki::cfg{SuperAdminGroup}">
  $TWiki::cfg{SuperAdminGroup}</a> (follow the text in yellow).
     </li>

@@ -96,7 +96,7 @@ These are the steps for enabling "Template Login" which asks for a username and 
       1 Select =TWiki::LoginManager::TemplateLogin= for ={LoginManager}=.
       1 Select =TWiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Save your =configure= settings.
-      1 Register yourself using the =%SYSTEMWEB%.TWikiRegistration= topic.<br />
+      1 Register yourself using the =%SYSTEMWEB%.UserRegistration= topic.<br />
      %H% Check that the password manager recognizes the new user. Check that a new line with the username and encrypted password is added to the =data/.htpasswd= file. If not, you probably got a path wrong, or the permissions may not allow the webserver user to write to that file.
    1 Edit a topic (by clicking on the =Edit= link at beginning or end of topic) to check if authentication works.
 
@@ -156,7 +156,7 @@ When a new users registers on your TWiki, a home topic is created for them based
 
 If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. TWiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the TWiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade TWiki.
 
-If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.TWikiRegistration=.
+If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.UserRegistration=.
 
 ---++ Install Plugins
 TWiki:Plugins is an extensive library of Plugins for TWiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the TWiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.

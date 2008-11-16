@@ -28,7 +28,7 @@ user form, then:
 | <nop>HomePage | text | 40 | | | |
 | Comment | textarea | 50x6 | | | |
 
-__%X% Note:__ Please keep the %SYSTEMWEB%.TWikiRegistration form and this form definition in sync. When you update this form you need to edit/save the %SYSTEMWEB%.NewUserTemplate topic. This ensures that the fields are in the right order.
+__%X% Note:__ Please keep the %SYSTEMWEB%.UserRegistration form and this form definition in sync. When you update this form you need to edit/save the %SYSTEMWEB%.NewUserTemplate topic. This ensures that the fields are in the right order.
 
-__Related topics:__ %MAINWEB%.%WIKIUSERSTOPIC%, %MAINWEB%.UserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %MAINWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.TWikiRegistration
+__Related topics:__ %MAINWEB%.%WIKIUSERSTOPIC%, %MAINWEB%.UserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %MAINWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
 

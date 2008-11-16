@@ -10,11 +10,11 @@ The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%
 These [[%SYSTEMWEB%.PreferenceSettings][preference settings]] override the defaults for this web and it's subwebs only.
 
    * Web settings:
-      * Set WEBTOPICLIST = [[WelcomeGuest][Welcome]] %SEP% [[TWikiRegistration][Register]] %SEP% [[WebChanges][Changes]] %SEP% [[WebTopicList][Topics]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
+      * Set WEBTOPICLIST = [[WelcomeGuest][Welcome]] %SEP% [[UserRegistration][Register]] %SEP% [[WebChanges][Changes]] %SEP% [[WebTopicList][Topics]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
       * Set WEBBGCOLOR = #FFD8AA
       * #Set WEBHEADERART = 
       * Set SITEMAPLIST = on
-      * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.TWikiRegistration][Registration]], and other %WEB%.StartingPoints; TWiki history &amp; Wiki style; All the docs...
+      * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.UserRegistration][Registration]], and other %WEB%.StartingPoints; TWiki history &amp; Wiki style; All the docs...
       * Set SITEMAPUSETO = ...discover TWiki details, and how to start your own site.
       * Hide Table of Contents if the topic is included
          * Set TOC_HIDE_IF_INCLUDED = on

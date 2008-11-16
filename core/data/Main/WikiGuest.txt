@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1123211354" format="1.1" version="$Rev: 15171 $"}%
 ---+ The <nop>WikiGuest User
 
-A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]] and create your own page.
+A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in [[%SYSTEMWEB%.UserRegistration][UserRegistration]] and create your own page.
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%

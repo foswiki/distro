@@ -639,7 +639,7 @@ __Major New Features__
    * *21 Apr 2000* - TWiki:Main.PeterThoeny
       * New TWikiVariables =%<nop>HTTP_HOST%= , =%<nop>REMOTE_ADDR%= , =%<nop>REMOTE_PORT%= and =%<nop>REMOTE_USER%= . 
    * *21 Apr 2000* - TWiki:Main.JohnAltstadt, TWiki:Main.PeterThoeny
-      * TWikiRegistration is done separately for Intranet use (depends on remote_user) or Internet use (depends on .htpasswd file). 
+      * !TWikiRegistration is done separately for Intranet use (depends on remote_user) or Internet use (depends on .htpasswd file). 
    * *20 Mar 2000* - TWiki:Main.PeterThoeny
       * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference setting =%<nop>ATTACHLINKBOX%= controls the default state of the __link__ check box in the attach file page. 
    * *11 Mar 2000* - TWiki:Main.PeterThoeny
@@ -674,7 +674,7 @@ __Major New Features__
    * *08 Aug 1999* - TWiki:Main.PeterThoeny
       * New text formatting rule for creating tables. Text gets rendered as a table if enclosed in " " vertical bars. Example line as it is written and how it shows up  
    * *03 Aug 1999* - TWiki:Main.PeterThoeny
-      * Online registration of new user using web form in TWikiRegistration. Authentication of users. 
+      * Online registration of new user using web form in !TWikiRegistration. Authentication of users. 
    * *22 Jul 1999* - TWiki:Main.PeterThoeny
       * Flags =$doLogTopic*= in wikicfg.pm to selectively log topic view, edit, save, rdiff, attach, search and changes to monthly log file. 
    * *21 Jul 1999* - TWiki:Main.PeterThoeny

@@ -20,7 +20,7 @@ configuration.
 You don't have to have user home pages in TWiki for Authentication to
 work - see TWikiUserAuthentication for details.
 
-   * TWikiRegistration is used when you want new users to individually
+   * UserRegistration is used when you want new users to individually
      register with TWiki by filling out a form
    * You can create a custom versions of %SYSTEMWEB%.NewUserTemplate and
      %SYSTEMWEB%.UserForm

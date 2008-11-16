@@ -12,5 +12,5 @@ The part between the horizontal rules gets included at the top of every [[%WIKIU
 %STOPINCLUDE%
 -----
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserForm][UserForm]], [[%SYSTEMWEB%.NewUserTemplate][NewUserTemplate]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]], [[%SYSTEMWEB%.DataForms][DataForms]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserForm][UserForm]], [[%SYSTEMWEB%.NewUserTemplate][NewUserTemplate]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]], [[%SYSTEMWEB%.DataForms][DataForms]]
 

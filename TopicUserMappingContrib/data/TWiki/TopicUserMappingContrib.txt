@@ -19,33 +19,33 @@ It includes the topics that are used when registering and managing users and gro
 
 it includes:
    * Registration and user management topics
-      * TWiki.TWikiRegistration
-      * TWiki.ResetPassword
-      * TWiki.ChangePassword           
-      * TWiki.ChangeEmailAddress       
-      * TWiki.BulkRegistration         
-      * TWiki.BulkResetPassword        
+      * %SYSTEMWEB%.UserRegistration
+      * %SYSTEMWEB%.ResetPassword
+      * %SYSTEMWEB%.ChangePassword           
+      * %SYSTEMWEB%.ChangeEmailAddress       
+      * %SYSTEMWEB%.BulkRegistration         
+      * %SYSTEMWEB%.BulkResetPassword        
    * Documentation topics
-      * TWiki.ManagingUsers            
-      * TWiki.UserToolsCategory
-      * TWiki.LoginName                
+      * %SYSTEMWEB%.ManagingUsers            
+      * %SYSTEMWEB%.UserToolsCategory
+      * %SYSTEMWEB%.LoginName                
    * default groups and user
-      * Main.NobodyGroup
-      * Main.AdminGroup
-      * Main.RegistrationAgent    
+      * %USERSWEB%.NobodyGroup
+      * %USERSWEB%.AdminGroup
+      * %USERSWEB%.RegistrationAgent    
    * User lists
-      * Main.UserList                  
-      * Main.UserListHeader            
-      * Main.UserListByDateJoined      
-      * Main.UserListByLocation        
-      * Main.UserListByPhotograph      
+      * %USERSWEB%.UserList                  
+      * %USERSWEB%.UserListHeader            
+      * %USERSWEB%.UserListByDateJoined      
+      * %USERSWEB%.UserListByLocation        
+      * %USERSWEB%.UserListByPhotograph      
    * User and Group template files
-      * TWiki.NewUserTemplate
-      * TWiki.UserForm
-      * TWiki.UsersTemplate
-      * Main.UserHomepageHeader        
-      * TWiki.UserSetting
-      * Main.GroupTemplate        
+      * %SYSTEMWEB%.NewUserTemplate
+      * %SYSTEMWEB%.UserForm
+      * %SYSTEMWEB%.UsersTemplate
+      * %USERSWEB%.UserHomepageHeader        
+      * %SYSTEMWEB%.UserSetting
+      * %USERSWEB%.GroupTemplate        
 
 If you are developing a non-TWiki based User mapper, you might like to consider removeing or replacing the files installed by this Contrib.
 

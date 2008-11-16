@@ -3,7 +3,7 @@
 
 !UnknownUser is a reserved name in TWiki. If the !UnknownUser appears, it is probably because author information for a topic could not be recovered, perhaps because a topic has been modified by a non-TWiki tool.
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]]
+__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 

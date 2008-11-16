@@ -273,11 +273,11 @@ msgstr "(edycja tekstu)"
 msgid "(edit)"
 msgstr "(edycja)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(nazwa konta użytkownika) NazwaKonta:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(służy do identyfikacji) WikiName"
 
@@ -312,7 +312,7 @@ msgstr "(brak)"
 msgid "(oops)"
 msgstr "(oops)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "(optional)"
 msgstr "(opcjonalnie)"
 
@@ -392,7 +392,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Pomoc do zasad formatowania:*"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -595,7 +595,7 @@ msgstr "Dodaj formularz"
 msgid "Add row"
 msgstr "Dodaj formularz"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "Je naam toevoegen aan de lijst van gebruikers in pagina %1 in %2 web."
 
@@ -651,10 +651,10 @@ msgstr ""
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.TWikiRegistration and choose a "
+"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Można także wrócić na stronę TWiki.TWikiRegistration i podać inną nazwę "
+"Można także wrócić na stronę TWiki.UserRegistration i podać inną nazwę "
 "konta użytkownika."
 
 #: templates/messages.tmpl:243
@@ -989,7 +989,7 @@ msgstr "Format zapisu koloru %1 jest nieprawidłowy"
 msgid "Comment"
 msgstr "Komentarz"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "Comments:"
 msgstr "Komentarze:"
 
@@ -1053,7 +1053,7 @@ msgstr ""
 msgid "Could not save %1."
 msgstr "Nie można zapisać strony: %1."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:125
 msgid "Country:"
 msgstr "Państwo:"
 
@@ -1107,7 +1107,7 @@ msgstr "Utwórz tę stronę"
 msgid "Create this topic"
 msgstr "Utwórz tę stronę"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1262,7 +1262,7 @@ msgstr ""
 "Podczas zapisywania strony %1 wystąpił błąd w systemie kontroli wersji. "
 "Powiadom administratora %2."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:109
 msgid "E-mail address:"
 msgstr "Adres email:"
 
@@ -1352,12 +1352,12 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"SYSTEMWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
 "Wprowadź nazwę swojego konta w formacie TWiki.LoginName. Zwykle nazwa konta "
 "ma postać: ImieNazwisko - bez spacji i kropek. Imię i nazwisko są pisane "
 "wielką literą, np. JanKowalski. Jeśli jeszcze nie masz konta, to przejdź na "
-"stronę %SYSTEMWEB%.TWikiRegistration"
+"stronę %SYSTEMWEB%.UserRegistration"
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"
@@ -1403,7 +1403,7 @@ msgstr "Nie udało się dołączyć następującego adresu URL: %1"
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "Pola oznaczone za pomocą %1 są wymagane"
 
@@ -1417,7 +1417,7 @@ msgstr "Plik załadowano i zapisano pod inną nazwą"
 msgid "Find topics that link to %1 ..."
 msgstr "Wyszukaj strony z odwołaniami do %1 ..."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1425,7 +1425,7 @@ msgstr ""
 "Zakończono tworzenie konta użytkownika. Możesz teraz edytować strony TWiki "
 "podając przy logowaniu nazwę konta."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:93
 msgid "First Name:"
 msgstr "Imię:"
 
@@ -1596,7 +1596,7 @@ msgstr ""
 "dokonywaniu rejestracji na stronie %2, podał Twój adres email: %3. Powiadom "
 "administratora: %4."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Pytania dotyczące rejestracji należy kierować do: %1."
 
@@ -1763,7 +1763,7 @@ msgstr ""
 msgid "Jump"
 msgstr "Skocz do"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:97
 msgid "Last Name:"
 msgstr "Nazwisko:"
 
@@ -1986,7 +1986,7 @@ msgstr ""
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Note:"
 msgstr "Uwaga:"
 
@@ -2023,7 +2023,7 @@ msgstr "OK"
 msgid "Older revision:"
 msgstr "Wersja:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 "Po zarejestrowaniu i utworzeniu konta użytkownika można się logować do TWiki."
@@ -2049,15 +2049,15 @@ msgstr "Dodatkowo zmień nazwę strony:"
 msgid "Optionally enter a different topic name:"
 msgstr "Można podać nazwę innej strony:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "Adres URL organizacji:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:119
 msgid "Organisation name:"
 msgstr "Nazwa organizacji:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:271
 msgid "Other Country"
 msgstr "Inny kraj"
 
@@ -2242,13 +2242,13 @@ msgstr "Odśwież"
 msgid "Register"
 msgstr "Zarejestruj się"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr ""
 "Zarejestrowani użytkownicy mogą [[%1][zmieniać]] oraz [[%2][resetować]] "
 "hasło."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:2
 msgid "Registration"
 msgstr "Rejestracja"
 
@@ -2381,7 +2381,7 @@ msgstr "Powrót do: %1."
 msgid "Retype new password"
 msgstr "Wpisz hasło ponownie"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:115
 msgid "Retype password:"
 msgstr "Wpisz hasło ponownie:"
 
@@ -2538,7 +2538,7 @@ msgstr ""
 "Pod wpisem zamieść swój podpis, który poniżej możesz zaznaczyć, skopiować i "
 "wkleić"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Zostanie wysłany list z potwierdzeniem twojej rejestracji."
 
@@ -2627,7 +2627,7 @@ msgstr ""
 "Niektórzy zmieniają ją w stronę domową zawierającą ulubione skróty, "
 "informacje o realizowanych projektach, prośbę o pomoc itd."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr ""
 
@@ -2655,7 +2655,7 @@ msgid "Statistics"
 msgstr "Statystyki"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:297
 msgid "Submit"
 msgstr "Prześlij"
 
@@ -2896,7 +2896,7 @@ msgstr "Wystąpił problem przy dodawaniu nowego użytkownika do bazy haseł."
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Należy podać linię zawierającą %1; zobacz także: %2 (lub %3)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr ""
 
@@ -3000,7 +3000,7 @@ msgstr ""
 "zmiany. Po zapisaniu sprawdź zawartość strony, zwłaszcza, jeśli dokonałeś "
 "zmian w formularzach."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -3011,7 +3011,7 @@ msgstr "Aby móc edytować strony, musisz mieć swoje konto i hasło."
 msgid "To edit the topic anyway, click "
 msgstr "Aby mimo wszystko przeprowadzić edycję strony, kliknij "
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr "Wypełnij poniższy formularz, aby się zarejestrować:"
 
@@ -3305,7 +3305,7 @@ msgstr "Działy"
 msgid "Welcome to the %1 web"
 msgstr "Witamy w dziale %1"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3514,7 +3514,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Twoje hasło zostało zmienione. Nowe hasło, to: %1."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:114
 msgid "Your password:"
 msgstr "Hasło:"
 
@@ -4724,10 +4724,10 @@ msgstr ""
 #~ msgstr "Pasek boczny z prawej strony"
 
 #~ msgid ""
-#~ "Simply fill out the *[[%1][TWikiRegistration]]* form. It only takes a "
+#~ "Simply fill out the *[[%1][UserRegistration]]* form. It only takes a "
 #~ "minute."
 #~ msgstr ""
-#~ "Po prostu wypełnij formularz na stronie *[[%1][TWikiRegistration]]*. Nie "
+#~ "Po prostu wypełnij formularz na stronie *[[%1][UserRegistration]]*. Nie "
 #~ "zajmie to więcej niż kilka minut."
 
 #~ msgid "SitePreferences"

@@ -7,5 +7,5 @@
 
 %INCLUDE{"%SYSTEMWEB%.WebChangesAlert"}%
 
-__%MAKETEXT{"Related topics:"}%__ [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%SYSTEMWEB%.TWikiRegistration][TWikiRegistration]]
+__%MAKETEXT{"Related topics:"}%__ [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 

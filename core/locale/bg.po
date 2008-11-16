@@ -273,11 +273,11 @@ msgstr "(редакция на текста)"
 msgid "(edit)"
 msgstr "(редакция)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(име за вход) ИмеЗаВход :"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(име, видимо в сайта) WikiName :"
 
@@ -312,7 +312,7 @@ msgstr "(нищо)"
 msgid "(oops)"
 msgstr "(опаа)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "(optional)"
 msgstr "(незадължително)"
 
@@ -388,7 +388,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Как да форматирате*"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -596,7 +596,7 @@ msgstr "Добавяне на форма"
 msgid "Add row"
 msgstr "Добавяне на форма"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr ""
 "Добавете вашето име към списъка от потребители на страница %1, в раздел %2."
@@ -651,10 +651,10 @@ msgstr "Разреши не-<nop>WikiWord в името на новата стр
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.TWikiRegistration and choose a "
+"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Също така може да отидете на TWiki.TWikiRegistration и да изберете различно "
+"Също така може да отидете на TWiki.UserRegistration и да изберете различно "
 "потребителско име."
 
 #: templates/messages.tmpl:243
@@ -987,7 +987,7 @@ msgstr "Цвета %1 е с невалиден формат"
 msgid "Comment"
 msgstr "Коментар"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "Comments:"
 msgstr "Коментари:"
 
@@ -1052,7 +1052,7 @@ msgstr "Търсенето е невъзможно. Грешката беше: %
 msgid "Could not save %1."
 msgstr "Неуспешен запис на %1."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:125
 msgid "Country:"
 msgstr "Страна:"
 
@@ -1105,7 +1105,7 @@ msgstr "Създаване на Страницата"
 msgid "Create this topic"
 msgstr "Създаване на тази Страница"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1258,7 +1258,7 @@ msgstr ""
 "При записа на %1 бе открита грешка от системата за контрол на версиите. "
 "Моля, уведомете вашия %2 администратор."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:109
 msgid "E-mail address:"
 msgstr "E-mail адрес:"
 
@@ -1348,11 +1348,11 @@ msgstr ""
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"SYSTEMWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
 "Въведете вашето TWiki.LoginName. (Обикновено Първото име и фмилията слети, "
 "без паузи и точки с първите букви главни, например !JohnSmith, Освен ако не "
-"сте избрали друго). Посетете %SYSTEMWEB%.TWikiRegistration ако нямате такова."
+"сте избрали друго). Посетете %SYSTEMWEB%.UserRegistration ако нямате такова."
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"
@@ -1397,7 +1397,7 @@ msgstr "Неуспешно включване на URL %1"
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "Полетата, маркирани с %1 са задължителни"
 
@@ -1411,7 +1411,7 @@ msgstr "Файлът бе качен с различно име"
 msgid "Find topics that link to %1 ..."
 msgstr "Намери страници, които имат връзки към %1 ..."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1419,7 +1419,7 @@ msgstr ""
 "Завърши процедурата по създаването на сметката и вие ще можете да "
 "модифицирате страници, като ползвате вашето <nop>[[WikiName][WikiИме]]."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:93
 msgid "First Name:"
 msgstr "Име:"
 
@@ -1588,7 +1588,7 @@ msgid ""
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr ""
 
@@ -1733,7 +1733,7 @@ msgstr ""
 msgid "Jump"
 msgstr "Скок!"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:97
 msgid "Last Name:"
 msgstr "Фамилия:"
 
@@ -1949,7 +1949,7 @@ msgstr ""
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Note:"
 msgstr "Забележка:"
 
@@ -1986,7 +1986,7 @@ msgstr "Добре"
 msgid "Older revision:"
 msgstr "По-стара версия"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 "След като сте регистриран можете да влезете, използвайки вашето %1 и парола."
@@ -2012,15 +2012,15 @@ msgstr "Може да промените името на страницата:"
 msgid "Optionally enter a different topic name:"
 msgstr "Може да въведете различно име на страница:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "URL на организацията:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:119
 msgid "Organisation name:"
 msgstr "Име на организацията"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:271
 msgid "Other Country"
 msgstr "Друга страна"
 
@@ -2196,13 +2196,13 @@ msgstr "Презареждане"
 msgid "Register"
 msgstr "Регистрация"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr ""
 "Регистрираните потребители могат да [[%1][променят]] и [[%2][нулират]] "
 "паролите си."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:2
 msgid "Registration"
 msgstr "Регистрация"
 
@@ -2333,7 +2333,7 @@ msgstr "Върнете се към %1."
 msgid "Retype new password"
 msgstr "Въведете пак новата парола:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:115
 msgid "Retype password:"
 msgstr "Въведете паролата отново:"
 
@@ -2482,7 +2482,7 @@ msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr ""
 "Изберете копирайте и вмъкнете подписа си в дъното на въведеното от вас."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Изпращане на потвърждение за регистрацията по e-mail."
 
@@ -2563,7 +2563,7 @@ msgid ""
 "work on, what help they'd like, etc."
 msgstr ""
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr ""
 
@@ -2591,7 +2591,7 @@ msgid "Statistics"
 msgstr "Статистика"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:297
 msgid "Submit"
 msgstr ""
 
@@ -2814,7 +2814,7 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr ""
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr ""
 
@@ -2897,7 +2897,7 @@ msgid ""
 "especially if you made any changes to form fields."
 msgstr ""
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -2910,7 +2910,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "За да редактирате страницата, щракнете "
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr "За да се регистрирате, е достатъчно да попълните този формуляр."
 
@@ -3184,7 +3184,7 @@ msgstr "Раздели"
 msgid "Welcome to the %1 web"
 msgstr ""
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3357,7 +3357,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr ""
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:114
 msgid "Your password:"
 msgstr "Вашата парола:"
 

@@ -16,7 +16,7 @@
    * *TWiki plugins:* Easily install program enhancements using external [[Plugins][plug-in modules]]. Developers can create plug-ins in Perl using the TWiki Plugin API.
    * *Templates and skins:* A flexible [[SkinTemplates][templating system]] separates program logic and presentation. [[Skins]] overwrite template headers and footers; page content is unaffected.
    * *Managing pages:* Individual pages can be renamed, moved and deleted through the browser.
-   * *Managing users:* Web-based [[TWikiRegistration][user registration]] and [[ChangePassword][change of password]].
+   * *Managing users:* Web-based [[UserRegistration][user registration]] and [[ChangePassword][change of password]].
    * *Statistics:* Create statistics of TWiki webs. Find out most popular pages and top contributors.
    * *Preferences:* Multiple levels of preferences: DefaultPreferences for site-level, WebPreferences for each web, user level preferences, individual topics etc.
    * *[[SimultaneousEdits][simultaneous page editing]]:* 

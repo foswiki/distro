@@ -272,11 +272,11 @@ msgstr "(文本编辑)"
 msgid "(edit)"
 msgstr "(编辑)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(如何登录) LoginName:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(将您和其他人区别开) WikiName:"
 
@@ -310,7 +310,7 @@ msgstr "(无)"
 msgid "(oops)"
 msgstr "(哎)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "(optional)"
 msgstr "（可选）"
 
@@ -384,7 +384,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*格式帮助：*"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -563,7 +563,7 @@ msgstr "添加表单"
 msgid "Add row"
 msgstr "添加行"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "将您的名字添加到%2目录%1主题的用户列表中。"
 
@@ -615,9 +615,9 @@ msgstr "允许使用非<nop>WikiWord 作为新主题名称"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.TWikiRegistration and choose a "
+"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
 "different username."
-msgstr "另外，也可以点击“返回”回到 TWiki.TWikiRegistration 选择另外一个用户名 "
+msgstr "另外，也可以点击“返回”回到 TWiki.UserRegistration 选择另外一个用户名 "
 
 #: templates/messages.tmpl:243
 msgid ""
@@ -934,7 +934,7 @@ msgstr "颜色 %1包含非法的格式"
 msgid "Comment"
 msgstr "评论"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "Comments:"
 msgstr "评论:"
 
@@ -995,7 +995,7 @@ msgstr "无法搜索，错误： %1"
 msgid "Could not save %1."
 msgstr "无法保存%1"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:125
 msgid "Country:"
 msgstr "国家:"
 
@@ -1048,7 +1048,7 @@ msgstr "创建主题"
 msgid "Create this topic"
 msgstr "创建这个主题"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1188,7 +1188,7 @@ msgid ""
 "notify your %2 administrator."
 msgstr "在保存%1期间，发现一个版本控制错误 请通知%2管理员"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:109
 msgid "E-mail address:"
 msgstr "电子邮件地址："
 
@@ -1270,11 +1270,11 @@ msgstr "输入Wiki管理员用户名或登录为 %1 组"
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"SYSTEMWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
 "输入你的TWiki.LoginName (典型的写法姓＋名，没有空格，没有点. 首字母大写，例"
 "如: CheDong 除非您另外选择了其他名称) 如果您没有注册请访问 %SYSTEMWEB%."
-"TWikiRegistration "
+"UserRegistration "
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"
@@ -1318,7 +1318,7 @@ msgstr "包含URL %1 失败"
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "标记为%1的字段必填"
 
@@ -1332,13 +1332,13 @@ msgstr "文件已经用其他名称上传"
 msgid "Find topics that link to %1 ..."
 msgstr "找到链接到%1的主题..."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
 msgstr "创建您的帐号完成，您可以开始使用您的WikiName编辑页面"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:93
 msgid "First Name:"
 msgstr "姓："
 
@@ -1496,7 +1496,7 @@ msgstr ""
 "如果您错误的收到这封邮件：某人( %1 )已经在 %2 网站上用电子邮件地址 %3 注册了 "
 "请联系 %4 说明。"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "如果您有任何关于注册的问题请发送邮件给 %1。"
 
@@ -1647,7 +1647,7 @@ msgstr ""
 msgid "Jump"
 msgstr "跳转"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:97
 msgid "Last Name:"
 msgstr "名："
 
@@ -1863,7 +1863,7 @@ msgstr "主题：任何引用此附件的URL都将断掉"
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Note:"
 msgstr "注意:"
 
@@ -1900,7 +1900,7 @@ msgstr "OK"
 msgid "Older revision:"
 msgstr "旧版本"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr "注册后您可以使用%1和密码登录"
 
@@ -1926,15 +1926,15 @@ msgstr "更改的主题"
 msgid "Optionally enter a different topic name:"
 msgstr "或者输入一个不同的主题名称："
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "组织链接："
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:119
 msgid "Organisation name:"
 msgstr "组织名称："
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:271
 msgid "Other Country"
 msgstr "其他国家"
 
@@ -2113,11 +2113,11 @@ msgstr "刷新"
 msgid "Register"
 msgstr "注册"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr "注册用户可以[[%1][修改密码]] 和[[%2][重设密码]]"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:2
 msgid "Registration"
 msgstr "注册"
 
@@ -2246,7 +2246,7 @@ msgstr "回到%1"
 msgid "Retype new password"
 msgstr "重新输入新密码"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:115
 msgid "Retype password:"
 msgstr "重新输入密码:"
 
@@ -2389,7 +2389,7 @@ msgstr "选择一个父主题："
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "选择/复制/粘贴您的签名文字到条目的底部"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "通过电子邮件发送您的注册确认。"
 
@@ -2474,7 +2474,7 @@ msgid ""
 "work on, what help they'd like, etc."
 msgstr "某些用户将个人么户变成一个收藏链接： 他们正在工作的和喜欢的"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr "抱歉，注册已经暂时禁用"
 
@@ -2502,7 +2502,7 @@ msgid "Statistics"
 msgstr "统计"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:297
 msgid "Submit"
 msgstr "提交"
 
@@ -2729,7 +2729,7 @@ msgstr "在添加您的用户名到密码系统的时候出错。"
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "必须包含一行包含 %1 参考%2(或%3) "
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr "这个TWiki_不_支持新用户注册"
 
@@ -2818,7 +2818,7 @@ msgstr ""
 "您的修改已经和版本%1的合并，文本字段被合并，但其他数据：如表单字段也许被其他"
 "用户覆盖，如果您修改了表单字段，请检查数据确认。"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -2829,7 +2829,7 @@ msgstr "为了编辑这个TWikiSite页面，您必须注册用户名和密码."
 msgid "To edit the topic anyway, click "
 msgstr "一定要编辑这个主题，请按"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr "为了注册为新用户，请填写以下表格"
 
@@ -3102,7 +3102,7 @@ msgstr "目录"
 msgid "Welcome to the %1 web"
 msgstr "欢迎来到%1目录"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3290,7 +3290,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "您的密码已经被改成 %1"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:114
 msgid "Your password:"
 msgstr "您的密码:"
 

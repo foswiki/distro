@@ -120,7 +120,7 @@ TWiki generates monthly log files which are used by the statistics script
 
 ---+++ Configuring outgoing mail
 
-Outgoing mail is required for TWikiRegistration and for [[#WebNotify][recent changes alert]].
+Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
 
 TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[preference setting]].
 

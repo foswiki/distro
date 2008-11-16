@@ -37,7 +37,7 @@ HERE
 my $testtext1 = <<'HERE';
 %META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 4579 $"}%
 
-A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.TWikiRegistration and create your own page.
+A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
 %META:FORM{name="TestForm1"}%
 %META:FIELD{name="Select" attributes="" title="Select" value="Value_2"}%
@@ -50,7 +50,7 @@ HERE
 
 my $testtext_nometa = <<'HERE';
 
-A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.TWikiRegistration and create your own page.
+A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
 HERE
 

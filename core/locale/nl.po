@@ -270,11 +270,11 @@ msgstr "(tekst bewerken)"
 msgid "(edit)"
 msgstr "(bewerken)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:105
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:105
 msgid "(how you log in) LoginName:"
 msgstr "(hoe je inlogt) Login-naam:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:100
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:100
 msgid "(identifies you to others) WikiName:"
 msgstr "(zo zien anderen jou) Wiki-naam:"
 
@@ -308,7 +308,7 @@ msgstr "(geen)"
 msgid "(oops)"
 msgstr "(melding)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "(optional)"
 msgstr "(optioneel)"
 
@@ -384,7 +384,7 @@ msgstr ""
 msgid "*Formatting help:*"
 msgstr "*Opmaakhulp:*"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:15
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:15
 msgid ""
 "*Important:* the information provided in this form will be stored in a "
 "database on the TWiki server. This database is accessible to anyone who can "
@@ -588,7 +588,7 @@ msgstr "Formulier toevoegen"
 msgid "Add row"
 msgstr "Rij erbij"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:285
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:285
 msgid "Add your name to the list of users in the %1 topic in the %2 web."
 msgstr "Je naam toevoegen aan de lijst van gebruikers in pagina %1 in %2 web."
 
@@ -643,10 +643,10 @@ msgstr "Een niet-<nop>WikiWord mag worden gebruikt als paginanaam"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.TWikiRegistration and choose a "
+"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Of klik op Terug naar TWiki.TWikiRegistration en kies een andere "
+"Of klik op Terug naar TWiki.UserRegistration en kies een andere "
 "gebruikersnaam."
 
 #: templates/messages.tmpl:243
@@ -979,7 +979,7 @@ msgstr "Kleur %1 heeft een ongeldig formaat"
 msgid "Comment"
 msgstr "Toelichting"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:276
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:276
 msgid "Comments:"
 msgstr "Opmerkingen:"
 
@@ -1044,7 +1044,7 @@ msgstr "Kon geen zoekactie uitvoeren. Foutmelding was: %1"
 msgid "Could not save %1."
 msgstr "Kon %1 niet bewaren."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:125
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:125
 msgid "Country:"
 msgstr "Land:"
 
@@ -1097,7 +1097,7 @@ msgstr "Maak deze pagina aan"
 msgid "Create this topic"
 msgstr "Maak deze pagina aan"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:284
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:284
 msgid ""
 "Create your personal %1 topic using your WikiName as topic name, and add the "
 "data you submitted to the topic."
@@ -1249,7 +1249,7 @@ msgstr ""
 "Tijdens het bewaren van %1 is een fout opgetreden in het "
 "versiebeheersysteem. Stel je %2 beheerder op de hoogte."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:109
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:109
 msgid "E-mail address:"
 msgstr "E-mailadres:"
 
@@ -1336,12 +1336,12 @@ msgstr "Vul de Wikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
 msgid ""
 "Enter your TWiki.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
-"SYSTEMWEB%.TWikiRegistration if you do not have one."
+"SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
 "Vul je [[%SYSTEMWEB%.LoginName][login naam]] in. (Gebruikelijk Voornaam "
 "Achternaam zonder spatie, zonder punten en met hoofdletters, bijvoorbeeld !"
 "JanDevries, tenzij je bewust anders kiest). Ga naar de [[%SYSTEMWEB%."
-"TWikiRegistration][registratiepagina]] als je geen login hebt."
+"UserRegistration][registratiepagina]] als je geen login hebt."
 
 #: templates/messages.tmpl:233
 msgid "Error registering new user"
@@ -1387,7 +1387,7 @@ msgstr "Opnemen van URL %1 is niet gelukt"
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangeEmailAddress.txt:32
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ChangePassword.txt:21
 #: twikiplugins/TopicUserMappingContrib/data/TWiki/ResetPassword.txt:26
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:90
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:90
 msgid "Fields marked %1 are required"
 msgstr "Velden gemarkeerde met %1 zijn verplicht"
 
@@ -1401,7 +1401,7 @@ msgstr "Het bestand is geupload met een andere naam"
 msgid "Find topics that link to %1 ..."
 msgstr "Pagina's die verwijzen naar %1 ..."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:283
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:283
 msgid ""
 "Finish creating an account for you, so that you can start editing pages "
 "using your WikiName."
@@ -1409,7 +1409,7 @@ msgstr ""
 "De account aanmaken afronden, zodat je kan beginnen met het bewerken van "
 "pagina&#39;s met gebruik van je [[WikiName][Wikinaam]]."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:93
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:93
 msgid "First Name:"
 msgstr "Voornaam:"
 
@@ -1581,7 +1581,7 @@ msgstr ""
 "geregistreerd op de %2 site met gebruik van je e-mailadres %3. Neem contact "
 "op met %4 als dit niet juist is."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:303
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
 msgstr "Bij vragen over registratie kun je een e-mail sturen aan %1."
 
@@ -1749,7 +1749,7 @@ msgstr ""
 msgid "Jump"
 msgstr "Direct naar pagina"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:97
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:97
 msgid "Last Name:"
 msgstr "Achternaam:"
 
@@ -1967,7 +1967,7 @@ msgstr ""
 #: templates/registerconfirm.tmpl:13 templates/registernotify.tmpl:22
 #: twikiplugins/ClassicSkin/templates/registerconfirm.classic.tmpl:13
 #: twikiplugins/ClassicSkin/templates/registernotify.classic.tmpl:22
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Note:"
 msgstr "Opmerking:"
 
@@ -2004,7 +2004,7 @@ msgstr "OK"
 msgid "Older revision:"
 msgstr "Oudere revisie"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:291
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:291
 msgid "Once registered you can login using your %1 and password."
 msgstr ""
 "Wanneer je geregistreerd bent kun je inloggen met gebruik van je %1 en "
@@ -2034,15 +2034,15 @@ msgstr "Verander eventueel de paginanaam:"
 msgid "Optionally enter a different topic name:"
 msgstr "Voer eventueel een andere paginanaam in:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:122
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:122
 msgid "Organisation URL:"
 msgstr "URL van organisatie:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:119
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:119
 msgid "Organisation name:"
 msgstr "Naam van organisatie:"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:271
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:271
 msgid "Other Country"
 msgstr "Ander land"
 
@@ -2228,13 +2228,13 @@ msgstr "Verversen"
 msgid "Register"
 msgstr "Meld je aan"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:13
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:13
 msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
 msgstr ""
 "Geregistreerde gebruikers kunnen hun wachtwoorden [[%1][veranderen]] and [[%"
 "2][opnieuw instellen]]."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:2
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:2
 msgid "Registration"
 msgstr "Registreren"
 
@@ -2365,7 +2365,7 @@ msgstr "Ga terug naar %1."
 msgid "Retype new password"
 msgstr "Typ wachtwoord opnieuw"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:115
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:115
 msgid "Retype password:"
 msgstr "Typ wachtwoord opnieuw:"
 
@@ -2513,7 +2513,7 @@ msgstr "Selecteer bovenliggende pagina:"
 msgid "Select, copy and paste your signature text to the bottom of your entry"
 msgstr "Kopieer en plak je signatuur onderaan je toevoeging"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:286
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
 msgstr "Een bevestiging van je registratie versturen per e-mail."
 
@@ -2604,7 +2604,7 @@ msgstr ""
 "Sommige personen maken dit hun persoonlijke _portal_ met hun favoriete "
 "links, werk en hobbies, welke hulp ze zouden willen krijgen, etcetera."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid "Sorry, Registration has been temporarily disabled"
 msgstr "Sorry, registratie is tijdelijk gedeactiveerd"
 
@@ -2634,7 +2634,7 @@ msgid "Statistics"
 msgstr "Statistieken"
 
 #: templates/messages.tmpl:199 templates/messages.tmpl:305
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:297
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:297
 msgid "Submit"
 msgstr "Versturen"
 
@@ -2892,7 +2892,7 @@ msgstr ""
 msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Er zou een regel moeten zijn die %1 bevat; kijk uit naar %2 (of %3)"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:6
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:6
 msgid "This TWiki does _not_ support new User Registration"
 msgstr "Deze TWiki ondersteunt _geen_ registratie van nieuwe gebruikers"
 
@@ -2997,7 +2997,7 @@ msgstr ""
 "andere gebruikers. Controleer de pagina of deze in orde is, in het bijzonder "
 "als je veranderingen hebt gedaan in formuliervelden."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:5
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:5
 msgid ""
 "To edit pages on this TWikiSite, you must have a registered user name and "
 "password."
@@ -3010,7 +3010,7 @@ msgstr ""
 msgid "To edit the topic anyway, click "
 msgstr "Om de pagina toch te bewerken, klik "
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:84
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:84
 msgid "To register as a new user, simply fill out this form:"
 msgstr "Om te registreren als nieuwe gebruiker vul je dit formulier in:"
 
@@ -3299,7 +3299,7 @@ msgstr "Webs"
 msgid "Welcome to the %1 web"
 msgstr "Welkom in het %1 web"
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:282
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:282
 msgid ""
 "When %1 receives the form, it will mail an account activation code to the e-"
 "mail address you gave above. Enter that activation code in the following "
@@ -3506,7 +3506,7 @@ msgstr ""
 msgid "Your password has been changed to %1."
 msgstr "Je wachtwoord is veranderd in %1."
 
-#: twikiplugins/TopicUserMappingContrib/data/TWiki/TWikiRegistration.txt:114
+#: twikiplugins/TopicUserMappingContrib/data/TWiki/UserRegistration.txt:114
 msgid "Your password:"
 msgstr "Je wachtwoord:"
 

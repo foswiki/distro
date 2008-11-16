@@ -38,7 +38,7 @@ Access control is based on the familiar concept of Users and Groups. Users are d
 
 ---+++ Managing Users
 
-A user can create an account in TWikiRegistration. The following actions are performed:
+A user can create an account in UserRegistration. The following actions are performed:
    * WikiName and encrypted password are recorded using the password manager if authentication is enabled.
    * A confirmation e-mail is sent to the user.
    * A user home page with the WikiName of the user is created in the %USERSWEB% web.

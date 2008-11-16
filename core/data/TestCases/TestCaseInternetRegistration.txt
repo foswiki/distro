@@ -6,7 +6,7 @@ Description: Intranet Registration manual tests
 ---++ Preconditions
 	1 The WikiName is not registered
 	2 The LoginName is not used
-	3 The Wiki is set up with the intranet version of <strike>TWiki.TWikiRegistrationRemoteName</strike> [[TWiki.TWikiRegistration]]
+	3 The Wiki is set up with the intranet version of [[%SYSTEMWEB.UserRegistration]]
 
 ---++ Test cases
 
