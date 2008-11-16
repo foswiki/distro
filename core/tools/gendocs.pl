@@ -83,8 +83,7 @@ sub eachfile {
 
     return unless ( $file =~ /\.pm$/ );
 
-    my $count = `egrep -c '^=pod' $pmfile`;
-    return unless $count > 0;
+    # Babar: Removed optimisation on =pod as this parses the file twice
 
     my $package = $dir;
     $package =~ s!.*/lib/?!!;
@@ -109,8 +108,10 @@ sub eachfile {
     my $packageName = "";
     my %spec;
     my $line;
+    my $howSmelly = 0;
 
     while( $line = <PMFILE>) {
+        $howSmelly++ if $Config->{smells} && $line =~ /(SMELL|FIXME|TODO)/;
         if( $line =~ /^=(begin|pod)/) {
             $inPod = 1;
         } elsif ($line =~ /^=cut/) {
@@ -151,10 +152,7 @@ sub eachfile {
     }
     close(PMFILE);
 
-    my $howSmelly = "";
     if ( $Config->{smells} ) {
-        $howSmelly = `egrep -c '(SMELL|FIXME|TODO)' $pmfile`;
-        chomp($howSmelly);
         $smells += $howSmelly;
         if( $howSmelly) {
             $howSmelly = "\n\nThis package has smell factor of *$howSmelly*\n";
