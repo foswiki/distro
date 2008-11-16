@@ -164,7 +164,6 @@ data/TWiki/TWikiSiteTools.txt 0660
 data/TWiki/TWikiSkinBrowser.txt 0660
 data/TWiki/TWikiSystemRequirements.txt 0660
 data/TWiki/TWikiTopics.txt 0660
-data/TWiki/TWikiUpgradeGuide.txt 0660
 data/TWiki/TWikiUpgradeTo01Dec2000.txt 0660
 data/TWiki/TWikiUpgradeTo01Dec2001.txt 0660
 data/TWiki/TWikiUpgradeTo01Feb2003.txt 0660
@@ -178,6 +177,7 @@ data/TWiki/TextFormattingFAQ.txt 0660
 data/TWiki/TextFormattingRules.txt 0660
 data/TWiki/TimBernersLee.txt 0660
 data/TWiki/TimeInterval.txt 0660
+data/TWiki/UpgradeGuide.txt 0660
 data/TWiki/UserDocumentationCategory.txt 0660
 data/TWiki/UserForm.txt 0660
 data/TWiki/UsersGuide.txt 0660

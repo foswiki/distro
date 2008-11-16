@@ -10,7 +10,7 @@ All manual sections in one big page:
 Manual sections in separate pages:
    1. [[TWikiSystemRequirements][System Requirements]]
    1. [[InstallationGuide][Installation Guide]]
-   1. [[TWikiUpgradeGuide][Upgrade Guide]]
+   1. [[UpgradeGuide][Upgrade Guide]]
    1. [[UserAuthentication][User Authentication]]
    1. [[AccessControl][Access Control]]
    1. [[TextFormattingRules][Formatting Rules]]

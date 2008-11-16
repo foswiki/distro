@@ -4,9 +4,9 @@
 
 *The following is installation instructions for the TWiki 4.2 production release on an Apache web server on Linux.* Visit TWiki:TWiki.InstallingTWiki for the latest updates to this guide and supplemental information for installing or upgrading TWiki, including notes on installing TWiki on different platforms, environments and web hosting sites.
 
-If you are upgrading from a previous version of TWiki, you probably want to read =TWikiUpgradeGuide= instead.
+If you are upgrading from a previous version of TWiki, you probably want to read =UpgradeGuide= instead.
 
-Both this document and the !TWikiUpgradeGuide are also available in the root of the distribution as HTML files. For this reason links to pages inside your own TWiki are written like =%SYSTEMWEB%.WebHome= and not like live web links.
+Both this document and the !UpgradeGuide are also available in the root of the distribution as HTML files. For this reason links to pages inside your own TWiki are written like =%SYSTEMWEB%.WebHome= and not like live web links.
 
 %TOC%
 
@@ -20,7 +20,7 @@ While this installation guide specifically describes installation on an Apache w
 
 If you are installing TWiki without Unix/Linux root (administrator) priviledges (for example, on a hosted domain), see "Notes on Installing TWiki on Non-Root Account" below for supplemental instructions to the basic steps presented below.
 
-If you are upgrading from an earlier major version of TWiki such as Cairo (TWiki 3) you will need the information found in TWiki:TWiki.TWikiUpgradeGuide.  There is also a static HTML =TWikiUpgradeGuide.html= included in the root of your TWiki distribution.
+If you are upgrading from an earlier major version of TWiki such as Cairo (TWiki 3) you will need the information found in TWiki:TWiki.UpgradeGuide.  There is also a static HTML =UpgradeGuide.html= included in the root of your TWiki distribution.
 
 Upgrading from a recent TWiki4 release is much simpler. Upgraders from earlier TWiki4 versions can follow the steps described in TWiki:TWiki.UpgradingTWiki04x00PatchReleases to ensure a safe upgrade without accidently overwriting customizations.
 

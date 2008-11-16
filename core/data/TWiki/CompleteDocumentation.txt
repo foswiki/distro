@@ -18,7 +18,7 @@ __Related Topics:__ TWikiSite, ReleaseHistory, EnhancementRequests, UserDocument
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiUpgradeGuide"}%
+%INCLUDE{"UpgradeGuide"}%
 
 [[#PageTop][Back to top]]
 
