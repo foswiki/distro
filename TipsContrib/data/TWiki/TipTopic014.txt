@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107570696" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ File attachments
 
 One can attach files to any topic. The action of attaching a file to a topic is similar to attaching a file to an e-mail. The link to attach a file is located at the end of the topic. 
@@ -13,7 +13,7 @@ Features:
 
 [[FileAttachment][More Information...]]
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 30 Jan 2005
 

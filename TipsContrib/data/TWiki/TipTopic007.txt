@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107569291" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Linking to a file attachment
 
 One can create a link to a file attachment using one of the =%<nop>ATTACHURL%= or =%<nop>PUBURL%= macros.
@@ -12,7 +12,7 @@ To link to a file attachment in another topic, use the =%<nop>PUBURL%= macro.  F
 
 =%<nop>PUBURL%/%<nop>WEB%/OtherTopic/image.gif=
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 29 Jan 2005
 

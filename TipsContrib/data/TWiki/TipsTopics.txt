@@ -1,14 +1,14 @@
 %META:TOPICINFO{author="ProjectContributor" date="1119349748" format="1.0" version="$Rev$"}%
----+ TWiki Tips
+---+ Tips
 
-TWiki Tips are tips and hints contributed by TWiki users. Use this form to search for tips. You can contribute new tips [[TWikiTipsOfTheDayAddNew][here]].
+Tips are tips and hints contributed by users. Use this form to search for tips. You can contribute new tips [[TipsOfTheDayAddNew][here]].
 
 <form action="%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%">
 Search (perl regular expression): <input name="searchfor" type="text" value="%URLPARAM{"searchfor" default="Enter search keywords here"}%" size="100" />
 </form>
-%SEARCH{ "%URLPARAM{"searchfor" default="search results go here"}%" topic="TWiki*Tip*" type="keyword" web="%SYSTEMWEB%, %MAINWEB%" format="	* [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()	$summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
+%SEARCH{ "%URLPARAM{"searchfor" default="search results go here"}%" topic="*TipTopic*" type="keyword" web="%SYSTEMWEB%, %MAINWEB%" format="	* [[$web.$topic][$pattern(.*?\-\-\-\+([^\n\r]+).*)]]:$n()	$summary(noheader, 100)$n()$percntCALC{$SETM(total, +1)}$percnt"}%
 
 Total: %CALC{$GET(total)}% tips
 
-__See also:__ [[TWikiTipsOfTheDayAdmin][TWiki Tips Of The Day Administration]]
+__See also:__ [[TipsOfTheDayAdmin][Tips Of The Day Administration]]
 

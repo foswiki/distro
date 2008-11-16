@@ -1,30 +1,30 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167969723" format="1.0" version="$Rev$"}%
 ---+!! Tips Contrib Package
 
-Displays a rotating "TWiki Tip of the Day" to help familiarize new users with TWiki features. Includes an application for creating custom tips for local installation.
+Displays a rotating "Tip of the Day" to help familiarize new users with TWiki features. Includes an application for creating custom tips for local installation.
 
 %TOC%
 
 ---++ Summary of Contents
-	* Set on =TWikiTip= topics providing brief lessons on TWiki features. See %SYSTEMWEB%.TWikiTips.
-	* Set of topics for creating and managing =TWikiTipXXX= topics. See %SYSTEMWEB%.TWikiTipsOfTheDayAdmin.
+	* Set on =TipTopic= topics providing brief lessons on TWiki features. See %SYSTEMWEB%.TipsTopics.
+	* Set of topics for creating and managing =TipTopicXXX= topics. See %SYSTEMWEB%.TipsOfTheDayAdmin.
 
 ---++ Detailed Documentation
-	* See %SYSTEMWEB%.TWikiTipsOfTheDayAdmin for instructions on managing and displaying tips.
-	* See %SYSTEMWEB%.TWikiTipsOfTheDayAddNew for instructions for adding new custom tips.
+	* See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
+	* See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
 
 ---++ Settings
 
-This extension requires no settings.  See %SYSTEMWEB%.TWikiTipsOfTheDayAdmin for administration details.
+This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for administration details.
 
 	* One line description:
-	* Set SHORTDESCRIPTION = Displays rotating list of "TWiki Tip-of-the-day"
+	* Set SHORTDESCRIPTION = Displays rotating list of "Tip-of-the-day"
 
 ---++ CSS used by !TipsContrib
 
 	* .tipsOfTheDay - overall container
 	* .tipsOfTheDayContents - container for tipsOfTheDayHeader and tipsOfTheDayText
-	* strong.tipsOfTheDayHeader - header that says "TWiki Tip of the Day"
+	* strong.tipsOfTheDayHeader - header that says "Tip of the Day"
 	* .tipsOfTheDayText - the tip; contains title and tip summary and link "Read on"
 	* .tipsOfTheDayTitle - title of the tip; the link to the tip topic
 

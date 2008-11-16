@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107572937" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !SpreadSheetPlugin for dynamic content
 
 Over 60 formulae are available through the SpreadSheetPlugin.
@@ -24,7 +24,7 @@ to get:
 
 [[SpreadSheetPlugin][More Information...]]
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 01 Feb 2005
 

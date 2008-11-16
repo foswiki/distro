@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167690020" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Preference settings
 
 TWiki has four levels of preferences settings:
@@ -13,6 +13,6 @@ TWiki has four levels of preferences settings:
 
 Preferences can be overridden by the next level down.
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 30 Jan 2005

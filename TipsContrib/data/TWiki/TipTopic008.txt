@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107569481" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Escaping TWiki rendering
 
 Use the verbatim tag to surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags. Each tag must be on a line by itself. 
@@ -13,7 +13,7 @@ For Example:
 &lt;/verbatim&gt;
 </pre>
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 29 Jan 2005
 

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107571231" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Commenting with hidden text
 
 To hide sections of a TWiki topic, use HTML comments. 
@@ -17,7 +17,7 @@ Example spanning multiple lines:
 </verbatim>
 
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 29 Jan 2005
 

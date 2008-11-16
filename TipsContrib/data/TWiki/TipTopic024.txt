@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107572800" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Comment box with !CommentPlugin 
 
 The CommentPlugin allows users to quickly post comments to a page without an edit/preview/save cycle. 
@@ -13,7 +13,7 @@ Example:
 
 [[CommentPlugin][More Information...]]
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 29 Jan 2005
 

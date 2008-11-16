@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107573206" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !SlideShowPlugin for presentations
 
 Use the SlideShowPlugin to convert a topic with headings and bullets into a slideshow presentation.
@@ -8,7 +8,7 @@ This Plugin is useful for organizations that already have lots of content in TWi
 
 [[SlideShowPlugin][More Information...]]
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 01 Feb 2005
 

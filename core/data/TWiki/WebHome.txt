@@ -12,7 +12,7 @@ This site is running TWiki version *%WIKIVERSION%*, Plugin API version *%PLUGINV
 TWiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use TWiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
 
 ---++ TWiki Documentation and Configuration
-<div style="float:right;width:255px;padding:1em;">%INCLUDE{ "TWikiTipsOfTheDayInclude" warn="off" }%</div>
+<div style="float:right;width:255px;padding:1em;">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
    * [[WelcomeGuest][Welcome Guest]] - look here first
    * [[TwentyMinuteTutorial][Tutorial]] - 20 minute tutorial
    * [[UsersGuide][User's Guide]] - documentation for TWiki users

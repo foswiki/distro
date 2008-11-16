@@ -1,12 +1,12 @@
 %META:TOPICINFO{author="ProjectContributor" date="1107571474" format="1.0" version="$Rev$"}%
-%META:TOPICPARENT{name="TWikiTipsOfTheDay"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !InterwikiPlugin links
 
 The InterwikiPlugin automatically links =ExternalSite:Page= text to external sites based on aliases defined in the InterWikis topic. This enables people to "shortcut" long URLs.
 
 [[InterwikiPlugin][More information...]]
 
-[[TWikiTipsOfTheDay][See More Tips...]]
+[[TipsOfTheDay][See More Tips...]]
 
 -- TWiki:Main.PaulineCheung - 29 Jan 2005
 
