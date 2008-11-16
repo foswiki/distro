@@ -51,9 +51,9 @@ Go to the [[Sandbox.%HOMETOPIC%][Sandbox]]. This is the sandbox web, where you c
       1. Type some text, basically, like you write an e-mail.
       1. A signature with your name is already entered by default. __NOTE:__ The =%USERSWEB%.= in front of your name means that you have a link from the current web to your personal topic located in the %USERSWEB% web.
       1. Preview and save the topic...
-   * Learn about text formatting. You can enter text in !TWikiShorthand, a very simple markup language. Follow the TWikiShorthand link to see how, then:
+   * Learn about text formatting. You can enter text in !ShortHand, a very simple markup language. Follow the ShortHand link to see how, then:
       1. Go back to your sandbox topic end edit it.
-      2. Enter some text in TWikiShorthand: *bold* text, _italic_ text, __bold italic__ text, a bullet list, tables, paragraphs, etc. __Hint:__ If you need help, click on the TextFormattingRules link located below the text box in edit mode.
+      2. Enter some text in ShortHand: *bold* text, _italic_ text, __bold italic__ text, a bullet list, tables, paragraphs, etc. __Hint:__ If you need help, click on the TextFormattingRules link located below the text box in edit mode.
       3. Preview and save the topic.
 
 ---++ 7. Use your browser to upload files as page attachments...

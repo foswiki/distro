@@ -13,5 +13,5 @@ format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+
 __See also:__
    * [[Macros]] - an alphabetical list of all macros
    * DefaultPreferences#RenderingShortcuts - where shortcuts are defined 
-   * TWikiShorthand - summary of the TWiki markup language
+   * ShortHand - summary of the topic markup language
    * [[StandardColors#ShortCuts]] - shortcuts for some standard colours

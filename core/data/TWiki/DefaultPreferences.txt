@@ -335,7 +335,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Creating New Preference Settings
  
 You can introduce new [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the TWiki engine (Perl scripts).
-   * A preference is defined in a TWikiShorthand bullet item: ==[3 spaces] * [space] Set NAME = value== <br /> Example (as a nested bullet item, indented 6 spaces):
+   * A preference is defined in a ShortHand bullet item: ==[3 spaces] * [space] Set NAME = value== <br /> Example (as a nested bullet item, indented 6 spaces):
       * S<nop>et WEBBGCOLOR = #FFFFC0
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs: ==%==. Example:
       * When you write ==%WEB<nop>BGCOLOR%==, it gets expanded to =%WEBBGCOLOR%= .

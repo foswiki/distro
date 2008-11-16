@@ -161,6 +161,7 @@ data/TWiki/RenameWeb.txt 0644
 data/TWiki/SearchDoesNotWork.txt 0644
 data/TWiki/SearchHelp.txt 0644
 data/TWiki/SearchPatternCookbook.txt 0644
+data/TWiki/ShortHand.txt 0644
 data/TWiki/SimultaneousEdits.txt 0644
 data/TWiki/SiteChanges.txt 0644
 data/TWiki/SiteMap.txt 0644
@@ -175,7 +176,6 @@ data/TWiki/TwentyMinuteTutorial.txt 0644
 data/TWiki/TWikiMetaData.txt 0644
 data/TWiki/TWikiRenderingShortcut.txt 0644
 data/TWiki/TWikiScripts.txt 0644
-data/TWiki/TWikiShorthand.txt 0644
 data/TWiki/TWikiSite.txt 0644
 data/TWiki/TWikiSiteTools.txt 0644
 data/TWiki/TWikiSkinBrowser.txt 0644

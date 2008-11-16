@@ -143,6 +143,7 @@ data/TWiki/ResetPassword.txt 0660
 data/TWiki/SearchDoesNotWork.txt 0660
 data/TWiki/SearchPatternCookbook.txt 0660
 data/TWiki/SearchHelp.txt 0660
+data/TWiki/ShortHand.txt 0660
 data/TWiki/SimultaneousEdits.txt 0660
 data/TWiki/SiteChanges.txt 0660
 data/TWiki/SiteMap.txt 0660
@@ -158,7 +159,6 @@ data/TWiki/TWiki.txt 0660
 data/TWiki/TWikiMetaData.txt 0660
 data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660
-data/TWiki/TWikiShorthand.txt 0660
 data/TWiki/TWikiSite.txt 0660
 data/TWiki/TWikiSiteTools.txt 0660
 data/TWiki/TWikiSkinBrowser.txt 0660

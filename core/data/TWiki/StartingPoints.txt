@@ -11,7 +11,7 @@ Don't let the reams of documentation fool you, it all boils down to: wiki means 
    * FrequentlyAskedQuestions: Common questions about how to use the program
 
    * GoodStyle: Things to consider when changing text
-   * TWikiShorthand: Easy to learn rules for editing text
+   * ShortHand: Easy to learn rules for editing text
    * TextFormattingRules: The complete set of text formatting rules 
    * TextFormattingFAQ: Common how-to questions about posting in TWiki
 

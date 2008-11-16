@@ -14,7 +14,7 @@ _Documentation for TWiki users._
       * TwentyMinuteTutorial: A compact, 20-minute primer<p />
       * SearchHelp: Tips and help on search
       * GoodStyle: Working tips for an open collaboration environment
-      * TWikiShorthand: All of the TWiki shorthand basics
+      * ShortHand: All of the shorthand basics
       * TextFormattingRules: Scan all TWiki text formatting rules on one page
       * [[%SYSTEMWEB%.Macros][Macros]]: How to easily embed text, graphics, dynamic content
       * FileAttachments: Browser-upload files for distribution or display
