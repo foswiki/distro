@@ -11,7 +11,7 @@
 # list) to be set to point at the build system and any required dependencies.
 # Usage: ./build.pl [-n] [-v] [target]
 # where [target] is the optional build target (build, test,
-# install, release, uninstall), test is the default.`
+# install, release, uninstall), test is the default.
 # Two command-line options are supported:
 # -n Don't actually do anything, just print commands
 # -v Be verbose
