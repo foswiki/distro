@@ -170,7 +170,6 @@ data/TWiki/TWikiUpgradeTo01Feb2003.txt 0660
 data/TWiki/TWikiUpgradeTo01May2000.txt 0660
 data/TWiki/TWikiUpgradeToCairo.txt 0660
 data/TWiki/TWikiUserAuthentication.txt 0660
-data/TWiki/TWikiWebsTable.txt 0660
 data/TWiki/TemplateWeb.txt 0660
 data/TWiki/TextEditor.txt 0660
 data/TWiki/TextFormattingFAQ.txt 0660
@@ -195,6 +194,7 @@ data/TWiki/WebRssBase.txt 0660
 data/TWiki/WebSearch.txt 0660
 data/TWiki/WebSearchAdvanced.txt 0660
 data/TWiki/WebSiteTools.txt 0660
+data/TWiki/WebsTable.txt 0660
 data/TWiki/WebStatistics.txt 0660
 data/TWiki/WebTopicCreator.txt 0660
 data/TWiki/WebTopicEditTemplate.txt 0660

@@ -1,2 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
-%INCLUDE{"%SYSTEMWEB%.SiteMap"}% <font size="-2">(included from %SYSTEMWEB%.SiteMap; change %INCLUDINGWEB%.%INCLUDINGTOPIC% to include from <nop>SiteMap instead of <nop>TWikiWebsTable)</font>

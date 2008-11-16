@@ -182,7 +182,6 @@ data/TWiki/TWikiSkinBrowser.txt 0644
 data/TWiki/TWikiSystemRequirements.txt 0644
 data/TWiki/TWikiTopics.txt 0644
 data/TWiki/TWikiUserAuthentication.txt 0644
-data/TWiki/TWikiWebsTable.txt 0644
 data/TWiki/TemplateWeb.txt 0644
 data/TWiki/TextEditor.txt 0644
 data/TWiki/TextFormattingFAQ.txt 0644
@@ -341,6 +340,7 @@ data/TWiki/WebRssBase.txt 0644
 data/TWiki/WebSearch.txt 0644
 data/TWiki/WebSearchAdvanced.txt 0644
 data/TWiki/WebSiteTools.txt 0644
+data/TWiki/WebsTable.txt 0644
 data/TWiki/WebStatistics.txt 0644
 data/TWiki/WebTemplateTopics.txt 0644
 data/TWiki/WebTopicCreator.txt 0644
