@@ -52,7 +52,7 @@ You can override this behaviour in =configure=.
 |  Plugin Author: | TWiki:Main.OliverKrueger |
 |  Copyright: | &copy; 2008, Oliver Krueger |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Contributors: TWiki:Main.MichaelDaum | 
+|  Contributors: | TWiki:Main.MichaelDaum | 
 |  Plugin Version: | 15 Nov 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  15 Nov 2008: | Item196: minor doc changes |
