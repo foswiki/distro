@@ -10,9 +10,15 @@
 # The script will return a non-zero exist code if it thinks there are any
 # problems.
 #
+use File::Find;
+use strict;
+
 my $trace = 0;
-my @files = grep { !m#/CPAN/# } split(/\n/, `find ./TWiki -name '*.pm' -print`);
-my @modules = @files;
+my (@files, @modules);
+File::Find::find( sub { /\.pm\z/ && !m#/CPAN/#
+			  && push( @files, $File::Find::name )
+			  && push( @modules, $File::Find::name )
+			}, './TWiki' );
 @modules = sort { length($a) < length($b) }
   map { s/\.pm$//; s#^\./##; s#/#::#g; $_ } @modules;
 my $re = '('.join('|', @modules).')';
