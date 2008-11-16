@@ -166,6 +166,7 @@ data/TWiki/SimultaneousEdits.txt 0644
 data/TWiki/SiteChanges.txt 0644
 data/TWiki/SiteMap.txt 0644
 data/TWiki/SitePermissions.txt 0644
+data/TWiki/SkinBrowser.txt 0644
 data/TWiki/Skins.txt 0644
 data/TWiki/SkinTemplates.txt 0644
 data/TWiki/StandardColors.txt 0644
@@ -178,7 +179,6 @@ data/TWiki/TWikiRenderingShortcut.txt 0644
 data/TWiki/TWikiScripts.txt 0644
 data/TWiki/TWikiSite.txt 0644
 data/TWiki/TWikiSiteTools.txt 0644
-data/TWiki/TWikiSkinBrowser.txt 0644
 data/TWiki/TWikiSystemRequirements.txt 0644
 data/TWiki/TWikiTopics.txt 0644
 data/TWiki/TWikiUserAuthentication.txt 0644

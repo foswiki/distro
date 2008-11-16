@@ -41,7 +41,7 @@ The [[InstallationGuide][standard installation]] has relatively low browser requ
 
 CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6, 7, Safari 3.0, and recent Mozilla based browsers (such as Firefox).
 
-You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.TWikiSkinBrowser and more at TWiki:Plugins.SkinPackage.
+You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at TWiki:Plugins.SkinPackage.
 
 ---++ Important note about Plugins
 

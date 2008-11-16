@@ -182,7 +182,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Skin overriding the default TWiki templates: (can be overwritten by WebPreferences and user preferences) 
       * Set SKIN = pattern
 
-   * __Note:__ See TWikiSkinBrowser for currently installed skins
+   * __Note:__ See SkinBrowser for currently installed skins
 
 ---+++ PatternSkin
 

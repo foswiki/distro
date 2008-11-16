@@ -295,7 +295,7 @@ The TWiki standard installation has relatively low browser requirements:
 
 CSS and Javascript are used in most skins, although there is a low-fat skin (Classic skin) available that minimises these requirements. Some skins will require more recent releases of browsers. The default skin (Pattern) is tested on IE 6, Safari, and Mozilla 5.0 based browsers (such as Firefox).
 
-You can easily select a balance of browser capability versus look and feel. Try the installed skins at =TWiki/TWikiSkinBrowser= and more at TWiki:Plugins.SkinPackage.
+You can easily select a balance of browser capability versus look and feel. Try the installed skins at =TWiki/SkinBrowser= and more at TWiki:Plugins.SkinPackage.
 
 ---+++ Important note about TWiki Plugins
 

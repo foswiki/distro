@@ -148,6 +148,7 @@ data/TWiki/SimultaneousEdits.txt 0660
 data/TWiki/SiteChanges.txt 0660
 data/TWiki/SiteMap.txt 0660
 data/TWiki/SitePermissions.txt 0660
+data/TWiki/SkinBrowser.txt 0660
 data/TWiki/Skins.txt 0660
 data/TWiki/SkinTemplates.txt 0660
 data/TWiki/StandardColors.txt 0660
@@ -161,7 +162,6 @@ data/TWiki/TWikiRegistration.txt 0660
 data/TWiki/TWikiScripts.txt 0660
 data/TWiki/TWikiSite.txt 0660
 data/TWiki/TWikiSiteTools.txt 0660
-data/TWiki/TWikiSkinBrowser.txt 0660
 data/TWiki/TWikiSystemRequirements.txt 0660
 data/TWiki/TWikiTopics.txt 0660
 data/TWiki/TWikiUpgradeTo01Dec2000.txt 0660

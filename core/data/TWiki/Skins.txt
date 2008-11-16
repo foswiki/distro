@@ -214,7 +214,7 @@ See TWiki:Plugins/SkinPackagingHowTo and TWiki:Plugins/SkinDeveloperFAQ
 
 ---++ Browsing Installed Skins
 
-You can try out all installed skins in the TWikiSkinBrowser.
+You can try out all installed skins in the SkinBrowser.
 
 ---++ Activating Skins
 
@@ -247,5 +247,5 @@ The =text= skin is reserved for TWiki internal use.
 
 Skin names starting with =rss= also have a special meaning; if one or more of the skins in the skin path starts with 'rss' then 8-bit characters will be encoded as XML entities in the output, and the =content-type= header will be forced to =text/xml=.
 
-__Related Topics:__ TWikiSkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory, TWiki:Support.SkinsSupplement
+__Related Topics:__ SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory, TWiki:Support.SkinsSupplement
 

@@ -10,7 +10,7 @@ Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"
 
 ---++ All Contrib Modules
 This list includs Plugins, some some of which may be disabed in configure, or due to other reasons.
-See %SYSTEMWEB%.TWikiSkinBrowser for an overview of the installed Skins.
+See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
 
 %SEARCH{ ".+(Contrib|AddOn|Plugin|Skin)$" type="regex" scope="topic" nonoise="on" format="   * [[$topic]]" }%
 
@@ -20,4 +20,4 @@ See %SYSTEMWEB%.TWikiSkinBrowser for an overview of the installed Skins.
 
 __Note:__ The diagnostics are provided by the =%<nop>FAILEDPLUGINS%= macro
 
-__Related Topics:__ [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, TWikiSkinBrowser
+__Related Topics:__ [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, SkinBrowser

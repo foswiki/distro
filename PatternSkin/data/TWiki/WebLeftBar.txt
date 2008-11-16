@@ -19,7 +19,7 @@
    * FormattedSearch
    * QuerySearch
    * DocumentGraphics
-   * TWikiSkinBrowser
+   * SkinBrowser
    * InstalledPlugins
 
    * <b>%MAKETEXT{"Admin Maintenance"}%</b>

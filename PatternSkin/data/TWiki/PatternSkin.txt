@@ -124,7 +124,7 @@ For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Re
 
 Other skins:
    * [[%SYSTEMWEB.Skins]]
-   * %SYSTEMWEB%.TWikiSkinBrowser
+   * %SYSTEMWEB%.SkinBrowser
 
 ---++ Feedback
 
