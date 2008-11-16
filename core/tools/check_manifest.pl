@@ -2,6 +2,7 @@
 
 # cruise back up the tree until we find lib and data subdirs
 require Cwd;
+use File::Find;
 
 my @cwd = split(/[\/\\]/, Cwd::getcwd());
 my $root;
@@ -29,16 +30,19 @@ print "The ",join(',', @skip)," directories are *not* scanned.\n";
 
 my $manifest = 'lib/MANIFEST';
 unless (-f $manifest) {
-    $manifest = `find $root/lib/TWiki -name 'MANIFEST' -print`;
-    chomp $manifest;
+    File::Find::find( sub { /^MANIFEST\z/ && ( $manifest = $File::Find::name )
+			  }, "$root/lib/TWiki" );
 }
 die "No such MANIFEST $manifest" unless -e $manifest;
 
 my %man;
 
-map{ s/ .*//; $man{$_} = 1; }
-  grep { !/^!include/  }
-  split(/\n/, `cat $manifest` );
+open MAN, "< $manifest" or die "Can't open $manifest for reading: $!";
+while( <MAN> ) {
+    next if /^!include/;
+    $man{$1} = 1 if /^(\S+)\s+\d+$/;
+  }
+close MAN;
 
 my @lost;
 my $sk = join('|', @skip);
