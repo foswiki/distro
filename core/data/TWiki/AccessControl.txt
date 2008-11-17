@@ -216,12 +216,15 @@ __Note:__ With this configuration, someone with access to the site needs to regi
 
 Use the following setup to authenticate users for topic viewing in all webs and to restrict access to selected webs. Requires UserAuthentication to be enabled.
 
-   1. Set =require valid-user= on your =view= script in .htaccess or the appropriate Apache .conf file. As of 4.x, this looks like: =FilesMatch "(attach|edit|manage|rename|save|view|upload|mail|logon|.*auth).*"= (normally =view= is not in that list).
+   1 The simple way is to add this to =%WEBPREFSTOPIC%= in all webs.
+      * ==Set <nop>DENYWEBVIEW = WikiGuest==
    1. *Restrict* view access to selected Users and Groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
-      * ==Set <nop>DENYWEBVIEW = &lt; list of Users and Groups &gt;==
       * ==Set <nop>ALLOWWEBVIEW = &lt; list of Users and Groups &gt;==
       * __Note:__ =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
-   1. If you still want public users to be able to register automatically follow TWiki:TWiki.RegisterOnViewRestrictedSite.
+
+In rare cases it may be required to authenticate the view script. This can in some cases have a dramatic performance hit because the webserver must re-authenticate for every page view.
+
+   1. Set =require valid-user= on your =view= script in .htaccess or the appropriate Apache .conf file. This looks like: =FilesMatch "(attach|edit|manage|rename|save|view|upload|mail|logon|.*auth).*"= (normally =view= is not in that list).
 
 ---+++ Authenticate and Restrict Selected Webs Only
 

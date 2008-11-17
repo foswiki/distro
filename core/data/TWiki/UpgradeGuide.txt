@@ -13,7 +13,6 @@ TWiki-4.0.0 was a major new release. TWiki-4.1.0 was a minor release without dra
 ---++ Upgrade Requirements
 
    * Please review the AdminSkillsAssumptions before you upgrade TWiki
-   * Review TWiki:TWiki.TWikiUpgradeTo04x02 for latest information and experience notes.
    * To upgrade from a release prior to TWiki Release 01-Sep-2004, start with TWiki:TWiki.UpgradingTWiki on TWiki.org
    * To upgrade from a standard TWiki Release 01-Sep-2004 to the latest TWiki-4.X Production Release, follow the instructions below
    * Once the upgrade has been applied, an existing earlier installation will still be able to read all the topics, but should not be used to write. Make sure you take a backup!
@@ -47,10 +46,12 @@ The main steps are:
       * You can also choose to start with a fresh configuration and walk through all the settings using your old !LocalSite.cfg as a reference. This way you will not have old obsolete settings in the new !LocalSite.cfg.
       * If at any time during the installation you want to start over from fresh all you need to do is delete the =lib/LocalSite.cfg= file and re-run configure.
    * Additional resources
-      * TWiki:TWiki.UpgradingTWiki04x00PatchReleases
-      * TWiki:TWiki.InstallingTWiki#OtherPlatforms
-      * TWiki:TWiki.ApacheConfigGenerator
-      * TWiki:TWiki.SettingFileAccessRightsLinuxUnix
+      * TWiki:Support.UpgradingFromOlderTWikiReleases
+      * TWiki:Support.UpgradingFromTWiki4x2Releases
+      * TWiki:Support.UpgradingPatchReleases
+      * TWiki:Support.InstallingOnSpecificPlatforms
+      * TWiki:Support.ApacheConfigGenerator
+      * TWiki:Support.SettingFileAccessRightsLinuxUnix
       * If you upgrade from an older TWiki your =lib/TWiki.cfg= from the old TWiki installation is a good resource for some of the settings you will need but you cannot reuse the old TWiki.cfg.
    * Make sure you have a working basic TWiki before you continue
 

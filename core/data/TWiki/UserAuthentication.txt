@@ -222,7 +222,7 @@ Template Login degrades to url re-writing when you use a client like dillo that 
 
 Finally, it would be really neat if someone was to work out how to use certificates to identify users.....
 
-See TWiki:TWiki.SecuringTWikiSite for more information.
+See TWiki:Support.SecuringTWikiSite for more information.
 
 %STOPINCLUDE%
-__Related Topics:__ AdminDocumentationCategory, AccessControl, TWiki:TWiki.UserAuthenticationSupplement, TWiki:TWiki.SecuringTWikiSite
+__Related Topics:__ AdminDocumentationCategory, AccessControl, TWiki:Support.UserAuthenticationSupplement, TWiki:Support.SecuringTWikiSite
