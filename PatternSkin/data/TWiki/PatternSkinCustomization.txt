@@ -144,7 +144,7 @@ Change the table style in topic %TWIKIWEB%.WebTopBar. The default top padding is
 ---+++ The search box won't find topics in other webs
 
 
-In TWiki.WebTopBar you can find the line:
+In %SYSTEMWEB%.WebTopBar you can find the line:
 <verbatim>
 <input type="hidden" name="web" value="%BASEWEB%" />
 </verbatim>
@@ -163,7 +163,7 @@ To search a couple of webs, for instance the webs Main and TWiki, write:
 </verbatim>
 </blockquote>
 
-See also: [[TWiki.VarSEARCH][Search macro]]
+See also: [[%SYSTEMWEB%.VarSEARCH][Search macro]]
 
 #TopBarChangeHeight
 ---+++ I want to change the height of the top bar
