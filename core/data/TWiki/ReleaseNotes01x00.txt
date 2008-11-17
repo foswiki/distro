@@ -290,7 +290,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4508][Item4508]] | !ResetPassword, !ChangePassword, !ChangeEmailAddress, !TWikiRegistration needs to be hacked after each upgrade |
 | [[%BUGS%/Item4505][Item4505]] | User registration states incorrect user name |
 | [[%BUGS%/Item4493][Item4493]] | Inline rdiff between rev 0 and rev 1 is empty |
-| [[%BUGS%/Item4487][Item4487]] | As described in TWiki.TWikiScripts auth protect rest |
+| [[%BUGS%/Item4487][Item4487]] | As described in !TWiki.TWikiScripts auth protect rest |
 | [[%BUGS%/Item4476][Item4476]] | Missing error message when registration mail fails to be sent |
 | [[%BUGS%/Item4459][Item4459]] | TemplateLogin messages not translated |
 | [[%BUGS%/Item4458][Item4458]] | Topic newsletter notifications in MailerContrib fail |
@@ -367,7 +367,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4034][Item4034]] | Topic rename: error in javascript so select all does not work |
 | [[%BUGS%/Item4028][Item4028]] | Authenticated twice; garbled !CommentPlugin text |
 | [[%BUGS%/Item4023][Item4023]] | configure link for 'Expert mode' missing t= parameter to prevent caching |
-| [[%BUGS%/Item4019][Item4019]] | Remove preferences edit button from TWiki.TWikiPreferences |
+| [[%BUGS%/Item4019][Item4019]] | Remove preferences edit button from !TWiki.TWikiPreferences |
 | [[%BUGS%/Item4006][Item4006]] | More options: do not show "View previous topic revision" when there is no previous version |
 | [[%BUGS%/Item3991][Item3991]] | Add =spaceOutWikiWord= to Func |
 | [[%BUGS%/Item3989][Item3989]] | Problematic Values for FINALPREFERENCES in Distribution |
@@ -399,7 +399,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item3864][Item3864]] | =renderWikiWordHandler= is not documented |
 | [[%BUGS%/Item3862][Item3862]] | Parameter passed to preRenderingHandler incorrect |
 | [[%BUGS%/Item3853][Item3853]] | WEBLIST docco spelling error (selection=) |
-| [[%BUGS%/Item3835][Item3835]] | TWiki.TWikiSiteTools mentions geturl.pl, but does not point out the authentication problems with it |
+| [[%BUGS%/Item3835][Item3835]] | !TWiki.TWikiSiteTools mentions geturl.pl, but does not point out the authentication problems with it |
 | [[%BUGS%/Item3834][Item3834]] | USERINFO{format="$groups"} always returns webDotWikiName identifiers |
 | [[%BUGS%/Item3833][Item3833]] | Cannot move attachment to topic with non-wikiword name |
 | [[%BUGS%/Item3832][Item3832]] | bracket links are not updated during page renames |
@@ -601,7 +601,7 @@ The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5823][Item5823]] | Adding MD5 Password Feature |
 | [[%BUGS%/Item5819][Item5819]] | Document that 4.2.1 with Wysiwyg will no longer work with Perl 5.6 |
 | [[%BUGS%/Item5810][Item5810]] | %IF in a set statement fails |
-| [[%BUGS%/Item5808][Item5808]] | TWiki.InstalledPlugins lists Contribs and AddOns but no Skins |
+| [[%BUGS%/Item5808][Item5808]] | !TWiki.InstalledPlugins lists Contribs and AddOns but no Skins |
 | [[%BUGS%/Item5798][Item5798]] | urlHost field initialized too late in TWiki::new |
 | [[%BUGS%/Item5796][Item5796]] | SubscribePlugin and perl 5.8.4 exposes a taint issue in the latest MailerContrib |
 | [[%BUGS%/Item5794][Item5794]] | potential dataloss bug in EditTablePlugin 4.8.2 |

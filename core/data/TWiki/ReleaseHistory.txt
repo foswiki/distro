@@ -82,7 +82,7 @@ Many thanks also to the contributors in the following areas:
    * *Customer support:* TWiki:Main.PeterThoeny, TWiki:Main.ArthurClemens, TWiki:Main.CrawfordCurrie, TWiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg <!-- Support web -->
    * *System administration:* TWiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie
 
-If you find an omission please fix it at TWiki:TWiki.TWikiHistory. For the full list of contributors see ProjectContributor. 
+If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
 
 __Note:__ Order of contributors under "Spec and code", "Templates and skins" and "Documentation" is based on number of SVN file changes for core and default extensions from March 2007 (svn rev:13046) to Jan 2008 (svn rev:16210). (Details at TWikibug:TWiki420SvnLog). Order of contributors under "Testing and bug fixing" is based on Bugs web statistics from 2007-03 to 2007-12. Order of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2007-02 to 2007-12.
 
@@ -181,7 +181,7 @@ Although many more people have been involved in creating TWiki-4.1, special than
    * *Customer support:* TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki:Main.SteffenPoulsen, TWiki:Main.SteveStark, TWiki:Main.MichaelDaum
    * *System administration:* TWiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie
 
-If you find an omission please fix it at TWiki:TWiki.TWikiHistory. For the full list of contributors see ProjectContributor. 
+If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
 
 __Note:__ Sequence of contributors under "Spec, code, testing", "Templates and skins" and "Documentation" is based on number of SVN check-ins for core and default extensions from 2006-02 to 2006-12. Sequence of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2006-02 to 2006-12.
 
@@ -202,7 +202,7 @@ __Major New Features__
    * WYSIWYG editor (beta)
    * Hierarchical sub-webs (beta)
 
-Many, many people worked on TWiki-4.0.0. The credits in the table below only list the people who worked on individual enhancements. If you find an omission please fix it at TWiki:TWiki.%TOPIC%. There were many other contributors; for a full list, visit ProjectContributor.
+Many, many people worked on TWiki-4.0.0. The credits in the table below only list the people who worked on individual enhancements. If you find an omission please fix it at TWiki:System.%TOPIC%. There were many other contributors; for a full list, visit ProjectContributor.
 
 Most of the redesign, refactoring and new documentation work in Dakar release was done by [[http://c-dot.co.uk][Crawford Currie]]. [[http://kamaelia.org/Michael.html][Michael Sparks]] provided ideas and proof of concept for several improvements. Other people who gave _large_ amounts of their time and patience to less sexy aspects of the work, such as testing, infrastructure and documentation, are [[TWiki:Main.AntonAylward][AntonAylward]], [[TWiki:Main.KennethLavrsen][KennethLavrsen]], [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[TWiki:Main.MichaelDaum][MichaelDaum]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.SteffenPoulsen][SteffenPoulsen]], [[http://www.home.org.au][Sven Dowideit]], [[TWiki:Main.WillNorris][WillNorris]].
 
