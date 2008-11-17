@@ -294,11 +294,11 @@ ACTUAL
 sub test_wikiWordInsideSquabbedLink {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="twikiLink" href="$this->{sup}/TWiki/WebRssBase">TWiki.WebRss <nop>Base</a>
+<a class="twikiLink" href="$this->{sup}/System/WebRssBase">System.WebRss <nop>Base</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[TWiki.WebRss Base]]
+[[system.WebRss Base]]
 ACTUAL
     $this->do_test($expected, $actual);
 }

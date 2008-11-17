@@ -164,7 +164,7 @@ HERE
 <script language="javascript" type="text/javascript" src="$pluginURL/twiki$USE_SRC.js"></script>
 SCRIPT
 
-    # See TWiki.IfStatements for a description of this context id.
+    # See %SYSTEMWEB%.IfStatements for a description of this context id.
     TWiki::Func::getContext()->{textareas_hijacked} = 1;
 }
 

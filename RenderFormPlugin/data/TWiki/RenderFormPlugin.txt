@@ -25,7 +25,7 @@ Features:
 
 ---++ Quick Start Guide
 
-   1 Create a new topic (e.g. Sandbox.TestForm) for your %SYSTEMWEB%.DataForms definition and put the following to the new topic (%X% TWiki.EditTablePlugin required):
+   1 Create a new topic (e.g. Sandbox.TestForm) for your %SYSTEMWEB%.DataForms definition and put the following to the new topic (%X% %SYSTEMWEB%.EditTablePlugin required):
      <verbatim>
 %EDITTABLE{format="|text,20,|select,1,label,text,textarea,select,select+multi,checkbox,checkbox+buttons,radio,date|text,6,1|text,50|text,20|text,5,|"}%
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
@@ -106,7 +106,7 @@ Details:
 | =layout= | a topic with a layout (see [[#RenderFormPluginFormLayout][Form Layout]] section); syntax: layout="&lt;topic&gt;#&lt;layout name&gt;"; if layout name is omitted a default layout will be taken | undefined / layout="TestFormLayout#test1" |
 | =mode= | render mode of the form, allowed values: create (default), edit, view (default if =topic= exists) | mode="create" |
 | =onlynewtopic= | disables overwrite of existing topics | onlynewtopic="on" |
-| =onlywikiname= | disallows the usage of non-[[TWiki.WikiWords]] for topic names | onlywikiname="on" |
+| =onlywikiname= | disallows the usage of non-[[%SYSTEMWEB%.WikiWords]] for topic names | onlywikiname="on" |
 | =order= | changes the display order of form fields; order value is a comma separated list of field names; if the order list is incomplete all missing and unhidden form fields will be added; there are special values for order: [:alpha:], [:dalpha:], [:num:] and [:dnum:], e.g. order="[:alpha:]" to sort all fields alphanumerical | undefined / order="Field1, Field2" |
 | =script= | changes the behavior of edit/create modes; allowed values: save - saves the form data; edit - edit the resulting topic | script="save" | 
 | =template= | a template name for predefined attributes | undefined / template="helpdesk" |
@@ -171,7 +171,7 @@ Usage: =%<nop>RENDERFORM{"&lt;form definition&gt;" ... layout="&lt;layout topic&
 %INCLUDE{"RenderFormPluginExampleForm"}%
 
 #RenderFormExamples
-%RENDERFORM{"TWiki.RenderFormPluginExampleForm" topic="Sandbox.%TOPIC%XXXXXXXXXX"}%
+%RENDERFORM{"%SYSTEMWEB%.RenderFormPluginExampleForm" topic="Sandbox.%TOPIC%XXXXXXXXXX"}%
 
 | *Topic* | *Date* |
 %SEARCH{search="RenderFormPlugin\d+" web="Sandbox" type="regex" scope="topic" nonoise="on" format="| <a href=\"%TOPIC%?rfp_topic=$web.$topic#RenderFormExamples\">$topic</a> | $date |"}%

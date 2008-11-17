@@ -54,7 +54,7 @@ sub test_webExpansion {
 $includedTopic 6
 7 ($includedTopic)
 8 #$includedTopic
-9 [[TWiki.$includedTopic]]
+9 [[system.$includedTopic]]
 10 [[$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
 THIS
@@ -80,7 +80,7 @@ THIS
 $this->{other_web}.$includedTopic 6
 7 ($this->{other_web}.$includedTopic)
 8 #$includedTopic
-9 [[TWiki.$includedTopic]]
+9 [[system.$includedTopic]]
 10 [[$this->{other_web}.$includedTopic][$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
 THIS

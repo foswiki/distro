@@ -5,5 +5,5 @@
    * The =%<nop>RENDERLIST%= variable is handled by the RenderFormPlugin
    * Syntax: =%<nop>RENDERFORM{ "ATWikiFormDefinition"}%=
    * Example:%BR%
-     =%<nop>RENDERLIST{ "TWiki.HelpDeskForm" }%= %BR%
+     =%<nop>RENDERLIST{ "%SYSTEMWEB%.HelpDeskForm" }%= %BR%
    * Related: DataForms

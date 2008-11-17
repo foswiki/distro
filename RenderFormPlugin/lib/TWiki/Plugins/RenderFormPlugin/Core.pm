@@ -37,8 +37,8 @@ sub _initDefaults {
 			order => undef,
 			text => undef,
 			missingparamsmsg => '%RED% Sorry, missing required parameters: %MISSINGPARAMSLIST% %ENDCOLOR% <br/> Required parameters are %REQUIREDPARAMSLIST%',
-			unknownparamsmsg => '%RED% Sorry, some parameters are unknown: %UNKNOWNPARAMSLIST% %ENDCOLOR% <br/> Allowed parameters are (see TWiki.RenderFormPlugin topic for more details): %KNOWNPARAMSLIST%',
-			invalidparamsmsg => '%RED% Sorry, some parameters are invalid for: %INVALIDPARAMSLIST% %ENDCOLOR% <br/> Valid parameters are (see TWiki.RenderFormPlugin topic for more details): %VALIDPARAMSLIST%',
+			unknownparamsmsg => '%RED% Sorry, some parameters are unknown: %UNKNOWNPARAMSLIST% %ENDCOLOR% <br/> Allowed parameters are (see %SYSTEMWEB%.RenderFormPlugin topic for more details): %KNOWNPARAMSLIST%',
+			invalidparamsmsg => '%RED% Sorry, some parameters are invalid for: %INVALIDPARAMSLIST% %ENDCOLOR% <br/> Valid parameters are (see %SYSTEMWEB%.RenderFormPlugin topic for more details): %VALIDPARAMSLIST%',
 			layout => undef,
 			fieldmarker => '@',
 		);
