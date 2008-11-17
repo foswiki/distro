@@ -250,11 +250,11 @@ sub stage_gendocs {
 
     #SMELL: these should probably abort the build if they return errors / oopies
 #replaced by the simpler INSTALL.html
-#    print `cd $this->{basedir}/bin ; ./view TWiki.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.ReleaseHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.ReleaseNotes01x00 skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x00.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.UpgradeGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/UpgradeGuide.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.InstallationGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
+#    print `cd $this->{basedir}/bin ; ./view System.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
+    print `cd $this->{basedir}/bin ; ./view System.ReleaseHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseHistory.html`;
+    print `cd $this->{basedir}/bin ; ./view System.ReleaseNotes01x00 skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/ReleaseNotes01x00.html`;
+    print `cd $this->{basedir}/bin ; ./view System.UpgradeGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/UpgradeGuide.html`;
+    print `cd $this->{basedir}/bin ; ./view System.InstallationGuide skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/INSTALL.html`;
     $this->filter_txt("$this->{tmpDir}/ReleaseNotes01x00.html", "$this->{tmpDir}/ReleaseNotes01x00.html");
     print "Automatic documentation built\n";
 }

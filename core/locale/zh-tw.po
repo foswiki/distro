@@ -211,8 +211,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=所有= 顯示所有主題)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(在 TWiki.WikiNotation 使用一個主題名)"
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "(在 System.WikiNotation 使用一個主題名)"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -615,10 +615,10 @@ msgstr "允許使用非<nop>WikiWord 作為新主題名稱"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
-"另外，也可以點擊\"返回\"回到 TWiki.UserRegistration 選擇另外一個用戶名 "
+"另外，也可以點擊\"返回\"回到 System.UserRegistration 選擇另外一個用戶名 "
 
 #: templates/messages.tmpl:243
 msgid ""
@@ -1269,11 +1269,11 @@ msgstr "輸入Wiki管理員用戶名或登錄為 %1 組"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
-"輸入你的TWiki.LoginName (典型的寫法姓＋名，沒有空格，沒有點. 首字母大寫，例"
+"輸入你的System.LoginName (典型的寫法姓＋名，沒有空格，沒有點. 首字母大寫，例"
 "如: CheDong 除非您另外選擇了其他名稱) 如果您沒有註冊請訪問 %SYSTEMWEB%."
 "UserRegistration "
 

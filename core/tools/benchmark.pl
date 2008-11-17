@@ -9,7 +9,7 @@ use strict;
 # where <version> is the diretcory name for that version e.g. "beta20040816"
 # or "beijing"
 # Requires a test page; for standard benchmarks this should be
-# TWiki.WhatIsWikiWiki.
+# System.WhatIsWikiWiki.
 # For benchmarking other functions, pick an appropriate page. It is best if all
 # installations are running off the same data and pub areas.
 # CONFIGURE THE FOLLOWING FOR YOUR LOCAL INSTALLATION

@@ -53,7 +53,7 @@ $Config->{outweb} ||= $Config->{web} . 'testcases';
 ################################################################################
 
 # unless webExists({ web => $Config->{outweb} })
-$destMech->view( "TWiki.ManagingWebs" );
+$destMech->view( "System.ManagingWebs" );
 $destMech->submit_form(
 	form_name => 'admin',
 	fields => {

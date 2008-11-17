@@ -209,7 +209,7 @@ msgid "(=all= to show all topics)"
 msgstr "(wpisz =all=, aby wyświetlić wyniki dla wszystkich stron)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
+msgid "(Use a topic name in System.WikiNotation)"
 msgstr ""
 "(wpisz nazwę nowej strony w formacie [[%SYSTEMWEB%.WikiNotation][WikiWord]])"
 
@@ -651,10 +651,10 @@ msgstr ""
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Można także wrócić na stronę TWiki.UserRegistration i podać inną nazwę "
+"Można także wrócić na stronę System.UserRegistration i podać inną nazwę "
 "konta użytkownika."
 
 #: templates/messages.tmpl:243
@@ -1350,11 +1350,11 @@ msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
-"Wprowadź nazwę swojego konta w formacie TWiki.LoginName. Zwykle nazwa konta "
+"Wprowadź nazwę swojego konta w formacie System.LoginName. Zwykle nazwa konta "
 "ma postać: ImieNazwisko - bez spacji i kropek. Imię i nazwisko są pisane "
 "wielką literą, np. JanKowalski. Jeśli jeszcze nie masz konta, to przejdź na "
 "stronę %SYSTEMWEB%.UserRegistration"

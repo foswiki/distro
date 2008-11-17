@@ -4,7 +4,7 @@ LinkAtStart
 <span class="twikiNewLink">LinkAtStart<a href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtStart?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic" >?</a></span>
 <!-- /expected -->
 
-Description: Simple formatting, as described in TWiki.TextFormattingRules
+Description: Simple formatting, as described in %SYSTEMWEB%.TextFormattingRules
 
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
 

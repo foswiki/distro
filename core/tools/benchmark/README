@@ -13,7 +13,7 @@ Core code benchmarks for TWiki.
      directory of the installation and rename it 'benchmark'. Code released
      after Cairo can use the cairo benchmark script.
    * Requires a test page in the same place on all the installations; for
-     standard benchmarks this should be TWiki.WhatIsWikiWiki.
+     standard benchmarks this should be System.WhatIsWikiWiki.
 For examining performance of other functions of TWiki, then pick an appropriate
 page that exercises those aspects as much as possible. It is wise to stick
 to pages in TWiki web as far as possible, as they tend to have been around

@@ -219,8 +219,8 @@ msgid "(=all= to show all topics)"
 msgstr "(введите =all= для вывода без ограничений)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(Используйте имя темы в TWiki.WikiNotation)"
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "(Используйте имя темы в System.WikiNotation)"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -663,10 +663,10 @@ msgstr "Разрешить не <nop>ВикиСлово для названия 
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Вы также можете вернуться к TWiki.UserRegistration и выбрать другое имя "
+"Вы также можете вернуться к System.UserRegistration и выбрать другое имя "
 "пользователя "
 
 #: templates/messages.tmpl:243
@@ -1373,11 +1373,11 @@ msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
-"Введите Ваше [[TWiki.LoginName][ИмяПользователя]]. (Обычно имя и фамилия, "
+"Введите Ваше [[System.LoginName][ИмяПользователя]]. (Обычно имя и фамилия, "
 "без пробелов, без точек, начиная с прописной буквы, например: ВасилийПупкин "
 "или иначе). Посетите [[%SYSTEMWEB%.UserRegistration][Регистрация]] если Вы "
 "ещё не зарегистрированы."

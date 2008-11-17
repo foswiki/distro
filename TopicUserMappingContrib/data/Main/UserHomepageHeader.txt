@@ -3,7 +3,7 @@
 
 __Note:__ This is a maintenance topic, used by the Wiki administrator.
 
-The part between the horizontal rules gets included at the top of every [[%WIKIUSERSTOPIC%]] homepage. The header can be customized to the needs of your organization. For example, show all frequently used fields from the [[%SYSTEMWEB%.UserForm][UserForm]] on top, followed by a personalized portal. The portal can pull content from other places, such as headline news by department, a list of current projects, etc. The TWiki:TWiki.UserHomepageSupplement has some additional documentation and ideas on customizing the homepages.
+The part between the horizontal rules gets included at the top of every [[%WIKIUSERSTOPIC%]] homepage. The header can be customized to the needs of your organization. For example, show all frequently used fields from the [[%SYSTEMWEB%.UserForm][UserForm]] on top, followed by a personalized portal. The portal can pull content from other places, such as headline news by department, a list of current projects, etc.
 
 -----
 %STARTINCLUDE%

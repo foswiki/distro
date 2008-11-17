@@ -212,7 +212,7 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= para mostrar todos os tópicos)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
+msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(Use [[%SYSTEMWEB%.WikiNotation][Notação Wiki]] para um nome de tópico)"
 
 #: templates/messages.tmpl:156
@@ -653,7 +653,7 @@ msgstr "Permitir algo que não seja uma <nop>PalavraWiki como novo nome do tópi
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
 "Alternativamente, clique em Voltar pra retornar à [[%SYSTEMWEB%."
@@ -1343,7 +1343,7 @@ msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""

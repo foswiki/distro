@@ -209,7 +209,7 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= om alle pagina&#39;s te tonen)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
+msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]])"
 
 #: templates/messages.tmpl:156
@@ -643,10 +643,10 @@ msgstr "Een niet-<nop>WikiWord mag worden gebruikt als paginanaam"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Of klik op Terug naar TWiki.UserRegistration en kies een andere "
+"Of klik op Terug naar System.UserRegistration en kies een andere "
 "gebruikersnaam."
 
 #: templates/messages.tmpl:243
@@ -1334,7 +1334,7 @@ msgstr "Vul de Wikibeheerder-gebruikersnaam in of log in zoals bepaald in %1"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""

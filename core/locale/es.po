@@ -212,8 +212,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= para mostrar todos los temas)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(Utilice un nombre de tema en TWiki.WikiNotation)"
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "(Utilice un nombre de tema en System.WikiNotation)"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -646,10 +646,10 @@ msgstr "Permitir una palabra que no es un <nop>WikiWord para el nombre del tema 
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Alternativamente oprima atrás para volver a TWiki.UserRegistration y escoja "
+"Alternativamente oprima atrás para volver a System.UserRegistration y escoja "
 "un nombre de usuario diferente."
 
 #: templates/messages.tmpl:243
@@ -1341,11 +1341,11 @@ msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
-"Introduzca su TWiki.LoginName. (Generalmente nombre y apellido, sin espacio, "
+"Introduzca su System.LoginName. (Generalmente nombre y apellido, sin espacio, "
 "sin puntos, con la primera letra en mayúscula, e.g. !JohnSmith, al menos que "
 "lo escogió diferentemente). Visite %SYSTEMWEB%.UserRegistration si no tiene "
 "ninguno."

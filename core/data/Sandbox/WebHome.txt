@@ -6,7 +6,7 @@
 ---++ %MAKETEXT{"Test Topics"}%
 
 <form action='%SCRIPTURLPATH{"edit"}%/%WEB%/'> 
-%ICON{"newtopic"}% %MAKETEXT{"Create a new document by name:"}% %MAKETEXT{"(Use a topic name in TWiki.WikiNotation)"}% <br /> 
+%ICON{"newtopic"}% %MAKETEXT{"Create a new document by name:"}% %MAKETEXT{"(Use a topic name in System.WikiNotation)"}% <br /> 
 <input class="twikiInputField" type="text" name="topic" size="32" />&nbsp;<input type="submit" class="twikiSubmit" value='%MAKETEXT{"Create by Name"}%' />
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="onlynewtopic" value="on" />

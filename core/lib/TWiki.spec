@@ -102,7 +102,7 @@ $TWiki::cfg{PermittedRedirectHostUrls} = '';
 # directory e.g. <code>/twiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
 # <p />
-# See http://twiki.org/cgi-bin/view/TWiki.ShorterUrlCookbook for more information on setting up
+# See http://twiki.org/cgi-bin/view/Support.ShorterUrlCookbook for more information on setting up
 # TWiki to use shorter script URLs.
 # $TWiki::cfg{ScriptUrlPath} = '/twiki/bin';
 
@@ -203,7 +203,7 @@ $TWiki::cfg{SafeEnvPath} = '';
 # Client sessions are not required for logins to work, but TWiki will not
 # be able to remember logged-in users consistently.
 #
-# See TWiki.TWikiUserAuthentication for a full discussion of the pros and
+# See System.TWikiUserAuthentication for a full discussion of the pros and
 # cons of using persistent sessions. Session files are stored in the
 # <tt>{WorkingDir}/tmp</tt> directory.
 $TWiki::cfg{UseClientSessions} = 1;
@@ -360,7 +360,8 @@ $TWiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiff
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
 $TWiki::cfg{AuthRealm} =
-'Enter your Login Name. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit TWiki.UserRegistration if you do not have one.';
+'Enter your System.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). 
+Visit System.UserRegistration if you do not have one.';
 
 #---++ User Mapping
 # **SELECTCLASS TWiki::Users::*UserMapping**
@@ -944,8 +945,7 @@ $TWiki::cfg{RCS}{FgrepCmd} = '/bin/grep -F %CS{|-i}% %DET{|-l}% -H -- %TOKEN|U% 
 # **BOOLEAN**
 # Set to enable hierarchical webs. Without this setting, TWiki will only
 # allow a single level of webs. If you set this, you can use
-# multiple levels, like a directory tree, i.e. webs within webs. See
-# TWiki.MultiLevelWikiWebs for more details.
+# multiple levels, like a directory tree, i.e. webs within webs.
 $TWiki::cfg{EnableHierarchicalWebs} = 1;
 
 # **STRING 20 EXPERT**

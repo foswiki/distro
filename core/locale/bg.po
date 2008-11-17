@@ -212,8 +212,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=всички= за показване на всички страници)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(За име на страница използвайте TWiki.WikiНотацията)"
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "(За име на страница използвайте System.WikiНотацията)"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -651,10 +651,10 @@ msgstr "Разреши не-<nop>WikiWord в името на новата стр
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
-"Също така може да отидете на TWiki.UserRegistration и да изберете различно "
+"Също така може да отидете на System.UserRegistration и да изберете различно "
 "потребителско име."
 
 #: templates/messages.tmpl:243
@@ -1346,11 +1346,11 @@ msgstr ""
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 #, fuzzy
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
-"Въведете вашето TWiki.LoginName. (Обикновено Първото име и фмилията слети, "
+"Въведете вашето System.LoginName. (Обикновено Първото име и фмилията слети, "
 "без паузи и точки с първите букви главни, например !JohnSmith, Освен ако не "
 "сте избрали друго). Посетете %SYSTEMWEB%.UserRegistration ако нямате такова."
 

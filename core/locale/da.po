@@ -212,8 +212,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=all= for at vise alle sider)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(Brug et sidenavn i TWiki.WikiNotation)"
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "(Brug et sidenavn i System.WikiNotation)"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -650,11 +650,11 @@ msgstr "Tillad et ikke-WikiWord som nyt sidenavn"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
 "Alternativt kan du bruge \"Tilbage\"-knappen i din browser, til at gå "
-"tilbage til TWiki.UserRegistration og vælge et nyt brugernavn."
+"tilbage til System.UserRegistration og vælge et nyt brugernavn."
 
 #: templates/messages.tmpl:243
 msgid ""
@@ -1340,7 +1340,7 @@ msgstr ""
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""

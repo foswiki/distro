@@ -123,9 +123,9 @@ sub stage_gendocs {
                    "$this->{tmpDir}/bin/${script}auth" );
     }
 
-    print `cd $this->{basedir}/bin ; ./view TWiki.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.TWikiHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiHistory.html`;
-    print `cd $this->{basedir}/bin ; ./view TWiki.DakarReleaseNotes skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/DakarReleaseNotes.html`;
+    print `cd $this->{basedir}/bin ; ./view System.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
+    print `cd $this->{basedir}/bin ; ./view System.TWikiHistory skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/TWikiHistory.html`;
+    print `cd $this->{basedir}/bin ; ./view System.DakarReleaseNotes skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/DakarReleaseNotes.html`;
 
     print "Automatic documentation built\n";
 }

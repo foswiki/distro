@@ -212,8 +212,8 @@ msgid "(=all= to show all topics)"
 msgstr "(=Tuttol= per visualizzare tutte le pagine)"
 
 #: data/Sandbox/WebHome.txt:9
-msgid "(Use a topic name in TWiki.WikiNotation)"
-msgstr "(Usa un nomepagina in [[TWiki.WikiNotation][notazione TWiki]])"
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "(Usa un nomepagina in [[System.WikiNotation][notazione TWiki]])"
 
 #: templates/messages.tmpl:156
 msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
@@ -647,7 +647,7 @@ msgstr "Permetti non<nop>WikiWord come nome della nuova pagina"
 
 #: templates/messages.tmpl:256
 msgid ""
-"Alternatively hit back to go back to TWiki.UserRegistration and choose a "
+"Alternatively hit back to go back to System.UserRegistration and choose a "
 "different username."
 msgstr ""
 "In alternativa premi INDIETRO per ritornare a Wiki.UserRegistration  e "
@@ -1339,11 +1339,11 @@ msgstr "Inserisci l'utente Amministratore o effettua il login come in %1"
 
 #: twikiplugins/ClassicSkin/templates/login.classic.tmpl:21
 msgid ""
-"Enter your TWiki.LoginName. (Typically First name and last name, no space, "
+"Enter your System.LoginName. (Typically First name and last name, no space, "
 "no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit %"
 "SYSTEMWEB%.UserRegistration if you do not have one."
 msgstr ""
-"Digita il tuo TWiki.LoginName.  (Tipicamente Nome e Cognome senza spazi, "
+"Digita il tuo System.LoginName.  (Tipicamente Nome e Cognome senza spazi, "
 "punti, con le iniziali maiuscole, es. MarioRossi, salvo scelta diversa). "
 "Visita%SYSTEMWEB%.UserRegistration se non ne hai uno."
 
