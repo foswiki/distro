@@ -19,7 +19,7 @@
 # As per the GPL, removal of this notice is prohibited.
 #
 # Allow sorting of tables, plus setting of background colour for
-# headings and data cells. See TWiki.TablePlugin for details of use
+# headings and data cells. See %SYSTEMWEB%.TablePlugin for details of use
 
 use strict;
 

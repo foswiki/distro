@@ -4190,7 +4190,7 @@ sub RELATIVETOPICPATH {
         $theRelativePath = $topic;    #including dot
     }
 
-    # replace dot by slash is not necessary; TWiki.MyTopic is a valid url
+    # replace dot by slash is not necessary; System.MyTopic is a valid url
     # add ../ if not already present to make a relative file reference
     if ( $theRelativePath !~ m!^../! ) {
         $theRelativePath = "../$theRelativePath";
