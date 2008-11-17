@@ -549,7 +549,7 @@ sub sysCommand {
         $data ||= '';
         print STDERR $cmd, ' -> ', $data, "\n";
     }
-    return wantarray ? ( $data, $exit ) : $data;
+    return ( $data, $exit );
 }
 
 1;
