@@ -1,12 +1,12 @@
 %TMPL:DEF{"previewtoolbar"}%<!-- previewtoolbar.natedit.tmpl -->
 <div class="natEditBottomBar" style="position:static;margin-bottom:25px;">
 <ul>
-%TMPL:P{"savebutton"}%<!-- -->
-%TMPL:P{"checkpointbutton"}%
-%TMPL:P{"editbutton"}%<!-- -->
-%TMPL:P{"cancelbutton"}%<!-- -->
-%TMPL:P{"forcenewrevision"}%<!-- -->
+%TMPL:P{"savebutton"}%<!-- savebutton// -->
+%TMPL:P{"checkpointbutton"}%<!-- checkpointbutton// -->
+%TMPL:P{"editbutton"}%<!-- editbutton// -->
+%TMPL:P{"cancelbutton"}%<!-- cancelbutton// -->
+%TMPL:P{"forcenewrevision"}%<!-- forcenewrevision// -->
 </ul>
 </div>%TMPL:END%
-%TMPL:DEF{"editbutton"}%<li class="natEditEditButton"><a accesskey="e" href="javascript:history.back()" title="%MAKETEXT{"Continue editing"}%"><span>%MAKETEXT{"Edit"}%</span></a></li>%TMPL:END%
+%TMPL:DEF{"editbutton"}%<li class="natEditEditButton">%BUTTON{"%MAKETEXT{"Edit"}%" accesskey="e" icon="pencil" onclick="history.back()" title="%MAKETEXT{"Continue editing"}%"}%</li>%TMPL:END%
 

@@ -18,7 +18,7 @@
 
 %TMPL:DEF{"formstart"}%<!-- formstart -->
 <div class="natEdit">
-<form name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">
+<form id="EditForm" name="EditForm" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">
 <input type="hidden" name="action_addform" value="" />
 <input type="hidden" name="action_cancel" value="" />
 <input type="hidden" name="action_checkpoint" value="" />
@@ -43,7 +43,7 @@
 <!-- //formstart -->%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<!-- textarea -->
-<textarea id="topic" class="natEditTextArea natedit" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
+<textarea id="topic" class="twikiTextarea natEditTextArea natedit" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
 <!-- //textarea -->%TMPL:END%
 
 

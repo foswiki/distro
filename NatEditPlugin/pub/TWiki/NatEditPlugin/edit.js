@@ -10,15 +10,35 @@ function submitEditForm(script, action) {
   if (typeof(beforeSubmitHandler) != 'undefined') {
     beforeSubmitHandler(script, action);
   }
+  var editForm = $("#EditForm");
   if (action == 'add form') {
-    document.EditForm.elements['submitChangeForm'].value = action;
+    editForm.find("input[name='submitChangeForm']").val(action);
   }
-  document.EditForm.elements['action_preview'].value = '';
-  document.EditForm.elements['action_save'].value = '';
-  document.EditForm.elements['action_checkpoint'].value = '';
-  document.EditForm.elements['action_addform'].value = '';
-  document.EditForm.elements['action_replaceform'].value = '';
-  document.EditForm.elements['action_cancel'].value = '';
-  document.EditForm.elements['action_' + action].value = 'foobar';
-  document.EditForm.submit();
+  editForm.find("input[name='action_preview']").val('');
+  editForm.find("input[name='action_save']").val('');
+  editForm.find("input[name='action_checkpoint']").val('');
+  editForm.find("input[name='action_addform']").val('');
+  editForm.find("input[name='action_replaceform']").val('');
+  editForm.find("input[name='action_cancel']").val('');
+  editForm.find("input[name='action_"+action+"']").val('foobar');
+  editForm.submit();
 }
+
+$(function() {
+  window.setTimeout(function() {
+    var foundMce = $(".mceEditor").length;
+    if (foundMce) {
+      $(".natEditToolBar").hide();
+    }
+    /*
+    if (TWikiTiny) {
+      TWikiTiny['switchToRaw'] = function (inst) {
+        alert("switch to raw");
+        TWikiTiny.switchToRaw(inst);
+        $(".natEditToolBar").show();
+      };
+      alert("switchtoraw="+TWikiTiny['switchToRaw']);
+    }
+    */
+  }, 1);
+});

@@ -81,8 +81,10 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v3.10 |
+|  Version: | v3.20 |
 |  Change History: | |
+|  18 Nov 2008 | fixing form data being nulled on preview; \
+                 using jquery to submit the data |
 |  13 Nov 2008 | using new BUTTONs from <nop>JQueryPlugin |
 |  12 Nov 2008 | fixing calculation of bottom bar, using new automaxexpand feature of tabpane widget |
 |  11 Nov 2008 | usability improvements on topic forms |
@@ -125,8 +127,8 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  31 Mar 2007 | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | - |
-|  Plugin Home: | http://nextwiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://nextwiki.org/Extensions/%TOPIC%Dev |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
 %META:FILEATTACHMENT{name="wikiringlogo40x40.png" attr="h" autoattached="1" comment="" date="1207667571" path="wikiringlogo40x40.png" size="2571" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%
