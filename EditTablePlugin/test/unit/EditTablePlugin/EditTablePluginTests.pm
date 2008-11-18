@@ -69,8 +69,8 @@ sub test_viewSimple {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
@@ -83,7 +83,7 @@ SOMETHING <a name="edittable1"></a>
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <input type="hidden" name="etrows" value="0" />
-<input class="editTableEditImageButton" type="image" src="$pubUrlTWikiWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
 END
@@ -103,8 +103,8 @@ sub test_viewEditButton {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
@@ -138,8 +138,8 @@ sub test_editSimple {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -162,7 +162,7 @@ SOMETHING <a name="edittable1"></a>
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <input type="hidden" name="etrows" value="0" />
-<input class="editTableEditImageButton" type="image" src="$pubUrlTWikiWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 </form>
 </div><!-- /editTable -->
 EXPECTED
@@ -181,7 +181,7 @@ sub test_editFormat {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb = TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb = TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 SOMETHING %EDITTABLE{format="| row, -1 | text, 10, init | textarea, 3x10, init | select, 3, option 1, option 2, option 3 | radio, 3, A, B, C, D, E | checkbox, 3, A, B, C, D, E | label, 0, LABEL | date,11,,%d %b %Y |"}%
@@ -209,7 +209,7 @@ SOMETHING <noautolink>
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
-|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="twikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="twikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<input type="text" name="etcell1x8"  size="11" class="twikiInputField editTableInput" id="idetcell1x8" /><span class="twikiMakeVisible"><input type="image" name="calendar" src="$pubUrlTWikiWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span> |
+|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="twikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="twikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<input type="text" name="etcell1x8"  size="11" class="twikiInputField editTableInput" id="idetcell1x8" /><span class="twikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span> |
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
@@ -230,8 +230,8 @@ sub test_editAddRow {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{format="| row, -1 | text, 10, init|"}%
@@ -391,8 +391,8 @@ sub test_SelectBox {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -456,8 +456,7 @@ sub test_VariableExpansionInCheckboxAndRadioButtons {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubPathSystemWeb = TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -487,8 +486,8 @@ INPUT
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubUrlTWikiWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubUrlTWikiWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img src="$pubUrlTWikiWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img src="$pubUrlTWikiWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
 		</tr>
 	</tbody>
 </table>
@@ -522,8 +521,8 @@ sub test_VariablePlaceholdersView {
     my $viewUrl = TWiki::Func::getScriptUrlPath()
       . "/view/$webName/$topicName"
       ;    # heck, how can I do this otherwise? I need the relative path
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $text = <<INPUT;
 %EDITTABLE{format="| text, 30, %Y% | text, 30, %TOPIC% |"}%
@@ -549,12 +548,12 @@ INPUT
 	</tbody>
 </table>
 <input type="hidden" name="etrows" value="1" />
-<input class="editTableEditImageButton" type="image" src="$pubUrlTWikiWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /></form>
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /></form>
 </div><!-- /editTable -->
 END
 
     $expected =~ s/%PUBURLPATH%/$TWiki::cfg{PubUrlPath}/e;
-    $expected =~ s/%SYSTEMWEB%/TWiki/g;
+    $expected =~ s/%SYSTEMWEB%/$TWiki::cfg{SystemWebName}/g;
 
     $this->do_testHtmlOutput( $expected, $result, 1 );
 }
@@ -566,8 +565,8 @@ sub test_VariablePlaceholdersEdit {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
     my $userName = $this->{users_web} . '.' . 'WikiGuest';
 
     my $text = <<INPUT;
@@ -624,8 +623,8 @@ sub test_saveNoFormat {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{}%
@@ -686,8 +685,8 @@ sub test_saveWithHeaderAndFooter {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %TABLE{columnwidths="80,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%%EDITTABLE{format="|text,10|text,10|text,3|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%
@@ -763,8 +762,8 @@ sub test_keepSpacesInEmptyCellsWithTexts {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{format="|text,40|text,10|"}% 
 | *Milestone* | *Plan* |
@@ -821,8 +820,8 @@ sub test_keepSpacesInEmptyCellsWithDates {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{format="|text,40|date,10,,%d %b %Y|date,10,,%d %b %Y|date,10,,%d %b %Y|"}% 
 %TABLE{columnwidths="300,130,130,130" dataalign="left,center,center,center" tablerules="all"}%
@@ -884,8 +883,8 @@ sub test_addSpacesToEmptyCells {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{format="|text,40|text,10|"}% 
 || X |
@@ -940,8 +939,8 @@ sub test_TMLFormattingInsideCell {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{}%
@@ -966,7 +965,7 @@ INPUT
 		</tr>
 	</tbody></table>
 <input type="hidden" name="etrows" value="1" />
-<input class="editTableEditImageButton" type="image" src="$pubUrlTWikiWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 NEWEXPECTED
 
@@ -979,8 +978,8 @@ sub test_keepStars {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{}%
 | * <small>Name of the client (prefilled)</small> |
@@ -1033,8 +1032,8 @@ sub test_lineBreaksInsideInputField {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{ changerows="off" quietsave="off"  }%
 | <small><table><tr><td>TD...Technical Documentation <br />TM...Translation Management <br />PC...Product Catalogs </td><td>PS...Processes and Systems <br />FM...Feedback Management <br />KL...Knowledge Logistics</td></tr></table></small> |
@@ -1086,8 +1085,8 @@ sub test_buttonRowAtTop {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
@@ -1097,7 +1096,7 @@ sub test_buttonRowAtTop {
 <a name="edittable1"></a>
 <div class="editTable">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
-<input class="editTableEditImageButton" type="image" src="$pubUrlTWikiWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <input type="hidden" name="etrows" value="0" />
@@ -1116,8 +1115,8 @@ sub test_buttonRowAtTop_edit {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -1165,8 +1164,8 @@ sub test_save_with_verbatim {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlTWikiWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb =
+      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{}%
