@@ -1,4 +1,4 @@
-# Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2000-2001 Andrea Sterbini, a.sterbini@flashnet.it
 # Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org

@@ -1,4 +1,4 @@
-# Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002 John Talintyre, john.talintyre@btinternet.com
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org

@@ -1,4 +1,4 @@
-# Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2004-2007 TWiki Contributors.
 # All Rights Reserved. TWiki Contributors

@@ -1,4 +1,4 @@
-# Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2007 Sven Dowideit, SvenDowideit@distributedINFORMATION.com
 # and TWiki Contributors. All Rights Reserved. TWiki Contributors
