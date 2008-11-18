@@ -26,7 +26,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '1.01'; 
+$RELEASE = '1.10'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for NextWiki';
 $NO_PREFS_IN_TOPIC = 1;
 

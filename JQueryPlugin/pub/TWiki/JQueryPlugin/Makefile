@@ -29,6 +29,8 @@ TARGET= \
   jquery.superfish.js \
   jquery.validate.additional-methods.js \
   jquery.validate.js \
+  jquery.wikiword.js \
+  jquery.ifixpng.js \
   ui.accordion.js \
   ui.core.js \
   ui.datepicker.js \
@@ -50,7 +52,7 @@ GZIP=gzip
 
 .SUFFIXES: .js .css
 
-all: $(TARGET) $(TARGET:.js=.js.gz)
+all: $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz)
 
 JS_VALIDATE_SOURCE=\
   jquery.validate.uncompressed.js \
@@ -58,19 +60,19 @@ JS_VALIDATE_SOURCE=\
 
 JS_SOURCES=\
   jquery.js \
-  jquery.metadata.js \
+  jquery.bgiframe.js \
+  jquery.chili.js \
   jquery.easing.js \
   jquery.hoverIntent.js \
-  jquery.bgiframe.js \
-  jquery.shrinkurls.js \
   jquery.innerfade.js \
-  jquery.tooltip.js \
+  jquery.metadata.js \
   jquery.nifty.js \
-  jquery.treeview.js \
-  jquery.treeview.async.js \
-  jquery.twiki.js \
+  jquery.shrinkurls.js \
   jquery.tabpane.js \
-  jquery.chili.js
+  jquery.tooltip.js \
+  jquery.treeview.async.js \
+  jquery.treeview.js \
+  jquery.twiki.js
 
 CSS_SOURCES=\
   jquery.nifty.css \
@@ -81,7 +83,6 @@ CSS_SOURCES=\
 jquery-all.js: $(JS_SOURCES) Makefile
 	@echo creating $@
 	@$(MINIFYJS) $(JS_SOURCES) > $@
-
 
 jquery-all.css: $(CSS_SOURCES) 
 	@echo creating $@

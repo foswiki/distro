@@ -16,7 +16,11 @@ package TWiki::Plugins::JQueryPlugin::Core;
 use strict;
 use constant DEBUG => 0; # toggle me
 
-use vars qw($tabPaneCounter $tabCounter);
+use vars qw($tabPaneCounter $tabCounter $jqueryFormHeader);
+
+$jqueryFormHeader=<<'HERE';
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.form.js"></script>
+HERE
 
 ###############################################################################
 sub init {
@@ -121,8 +125,8 @@ sub handleToggle {
 sub handleButton {
   my ($session, $params, $theTopic, $theWeb) = @_;
 
-  my $theText = $params->{_DEFAULT} || $params->{text} || 'Button';
-  my $theHref = $params->{href} || 'javascript:void(0);';
+  my $theText = $params->{_DEFAULT} || $params->{value} || $params->{text} || 'Button';
+  my $theHref = $params->{href} || '#';
   my $theOnClick = $params->{onclick};
   my $theOnMouseOver = $params->{onmouseover};
   my $theOnMouseOut = $params->{onmouseout};
@@ -133,7 +137,9 @@ sub handleButton {
   my $theId = $params->{id};
   my $theBg = $params->{bg} || '';
   my $theClass = $params->{class} || '';
+  my $theStyle = $params->{style} || '';
   my $theTarget = $params->{target};
+  my $theType = $params->{type} || 'button';
 
   my $theIcon;
   $theIcon = getIconUrlPath($theWeb, $theTopic, $theIconName) if $theIconName;
@@ -146,13 +152,27 @@ sub handleButton {
   if ($theTarget) {
     my $url;
 
-    if ($theTarget =~ /$TWiki::regex{webNameRegex}\.$TWiki::regex{wikiWordRegex}/) {
+    my $topicNameRegex = qr/[$TWiki::regex{upperAlphaNum}]+[$TWiki::regex{lowerAlphaNum}]+[$TWiki::regex{upperAlpha}]+[$TWiki::regex{mixedAlphaNum}]*/o;
+    if ($theTarget =~ /$TWiki::regex{webNameRegex}\.$topicNameRegex/) {
       my ($web, $topic) = TWiki::Func::normalizeWebTopicName($theWeb, $theTarget);
       $url = TWiki::Func::getViewUrl($web, $topic);
     } else {
       $url = $theTarget;
     }
     $theOnClick .= ";window.location.href='$url';";
+  }
+
+  if ($theType eq 'submit') {
+    $theOnClick="\$(this).parents('form:first').submit();";
+  }
+
+  if ($theType eq 'reset') {
+    $theOnClick="\$(this).parents('form:first').resetForm();";
+    TWiki::Func::addToHEAD('jquery.form', $jqueryFormHeader);
+  }
+  if ($theType eq 'clear') {
+    $theOnClick="\$(this).parents('form:first').clearForm();";
+    TWiki::Func::addToHEAD('jquery.form', $jqueryFormHeader);
   }
 
   my $result = "<a class='jqButton $theBg $theClass' href='$theHref'";
@@ -163,6 +183,7 @@ sub handleButton {
   $result .= " onmouseover=\"$theOnMouseOver\" " if defined $theOnMouseOver;
   $result .= " onmouseout=\"$theOnMouseOut\" " if defined $theOnMouseOut;
   $result .= " onfocus=\"$theOnFocus\" " if defined $theOnFocus;
+  $result .= " style='$theStyle' " if defined $theStyle;
 
   $result .= ">$theText</a>";
 
@@ -179,59 +200,6 @@ sub getIconUrlPath {
   $iconName =~ s/^.*\.(.*?)$/$1/;
 
   return TWiki::Func::getPubUrlPath().'/'.$iconWeb.'/JQueryPlugin/'.$iconName.'.png';
-}
-
-###############################################################################
-sub handleButtonOLD {
-  my ($session, $params, $theTopic, $theWeb) = @_;
-
-  my $theText = $params->{_DEFAULT} || $params->{text} || 'Button';
-  my $theBackground = $params->{bg} || '';
-  my $theForeground = $params->{fg} || '';
-  my $theStyle = $params->{style} || '';
-  my $theSize = $params->{size} || '100%';
-  my $theHref = $params->{href} || 'javascript:void(0);';
-  my $theTitle = $params->{title};
-  my $theOnClick = $params->{onclick};
-  my $theOnMouseOver = $params->{onmouseover};
-  my $theOnMouseOut = $params->{onmouseout};
-  my $theOnFocus = $params->{onfocus};
-
-  $theBackground = '#2ae' if $theBackground eq 'bluish';
-  $theBackground = '#9d4' if $theBackground eq 'greenish';
-  $theBackground = '#e1a' if $theBackground eq 'pinkish';
-
-  $theSize = '80%' if $theSize eq 'tiny';
-  $theSize = '90%' if $theSize eq 'small';
-  $theSize = '150%' if $theSize eq 'big';
-  $theSize = '200%' if $theSize eq 'large';
-
-  $theBackground = 'background-color:'.$theBackground.'; ' 
-    if $theBackground;
-
-  $theForeground = 'color:'.$theForeground.'; '
-    if $theForeground;
-
-  my $result = 
-    '<a class="jqButton" '.
-    'href="'.$theHref.'" '.
-    'style="'.
-      $theBackground.
-      $theForeground.
-      'font-size:'.$theSize.'; '.
-      'line-height:normal; '.
-      $theStyle.
-    '"';
-  $result .= ' title="'.$theTitle.'" ' if defined $theTitle;
-  $result .= ' onclick="'.$theOnClick.'" ' if defined $theOnClick;
-  $result .= ' onmouseover="'.$theOnMouseOver.'" ' if defined $theOnMouseOver;
-  $result .= ' onmouseout="'.$theOnMouseOut.'" ' if defined $theOnMouseOut;
-  $result .= ' onfocus="'.$theOnFocus.'" ' if defined $theOnFocus;
-  $result .= '><i></i><span><span></span><i></i>'.
-    expandVariables($theText,$theWeb, $theTopic).
-    '</span></a>';
-
-  return $result;
 }
 
 ###############################################################################

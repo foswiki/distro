@@ -115,6 +115,7 @@ pub/TWiki/JQueryPlugin/images/file.gif 0644
 pub/TWiki/JQueryPlugin/images/folder-closed.gif 0644
 pub/TWiki/JQueryPlugin/images/folder.gif 0644
 pub/TWiki/JQueryPlugin/images/minus.gif 0644
+pub/TWiki/JQueryPlugin/images/pixel.gif 0644
 pub/TWiki/JQueryPlugin/images/plus.gif 0644
 pub/TWiki/JQueryPlugin/images/spinner_arrows.gif 0644
 pub/TWiki/JQueryPlugin/images/spinner_big.png 0644
@@ -164,6 +165,9 @@ pub/TWiki/JQueryPlugin/jquery.form.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.form.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.hoverIntent.js 0644
 pub/TWiki/JQueryPlugin/jquery.hoverIntent.uncompressed.js 0644
+pub/TWiki/JQueryPlugin/jquery.ifixpng.js 0644
+pub/TWiki/JQueryPlugin/jquery.ifixpng.js.gz 0644
+pub/TWiki/JQueryPlugin/jquery.ifixpng.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.innerfade.js 0644
 pub/TWiki/JQueryPlugin/jquery.innerfade.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.js 0644
@@ -216,6 +220,8 @@ pub/TWiki/JQueryPlugin/jquery.validate.js 0644
 pub/TWiki/JQueryPlugin/jquery.validate.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.validate.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.wikiword.js 0644
+pub/TWiki/JQueryPlugin/jquery.wikiword.js.gz 0644
+pub/TWiki/JQueryPlugin/jquery.wikiword.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/Makefile 0644
 pub/TWiki/JQueryPlugin/MenuArrow.gif 0644
 pub/TWiki/JQueryPlugin/shade1.png 0644

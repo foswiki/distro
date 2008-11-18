@@ -1,7 +1,7 @@
 /* buttons */
 .jqButton:hover,
 .jqButton {
-  background-color:inherit;
+  background-color:transparent;
   background-image:url(btn_right.gif);
   background-position:top right;
   background-repeat:no-repeat;
@@ -28,6 +28,7 @@
   line-height:23px;
   padding:0px 8px;
   margin:0px 3px 0px 0px;
+  /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
 .jqButton .jqButtonIcon {
@@ -41,21 +42,6 @@
 .jqButton.red span { background-image:url(btn_red_left.gif); }
 .jqButton.green { background-image:url(btn_green_right.gif); }
 .jqButton.green span { background-image:url(btn_green_left.gif); }
-
-/* IE compensation */
-* html .jqButton span, * html .jqButton i {
-  background-image: none;
-  cursor: pointer;
- }
-* html .jqButton { border: 3px double #aaa; }
-* html .jqButton.blue { border-color: #2ae; }
-* html .jqButton.green { border-color: #9d4; }
-* html .jqButton.pink { border-color: #e1a; }
-* html .jqButton:hover { border-color: #a00; }
-
-.jqButtonHolder {
-  /*margin-bottom:-0.5em; to compensate the br added automatically */
-}
 
 /* rounded cornders */
 .jqRounded div {

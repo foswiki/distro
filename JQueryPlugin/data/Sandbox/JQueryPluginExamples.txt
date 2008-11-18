@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1226589672" format="1.1" reprev="1.5" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1227031715" format="1.1" reprev="1.6" version="$Rev$"}%
 ---+!! %TOPIC%
 
 Demo of the <nop>TWikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
