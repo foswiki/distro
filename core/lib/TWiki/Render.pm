@@ -1151,9 +1151,9 @@ s/<(\w+(:\w+)?(\s+.*?|\/)?)>/{$TWiki::TranslationToken$1}$TWiki::TranslationToke
     $text =~ s/{$TWiki::TranslationToken/</go;
     $text =~ s/}$TWiki::TranslationToken/>/go;
 
-    # standard URI
+    # standard URI - don't modify if url(http://as) form
     $text =~
-s/(^|[-*\s(|])($TWiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;:)<|]))/$1._externalLink( $this,$2)/geo;
+s/(^|(?<!url)[-*\s(|])($TWiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;:)<|]))/$1._externalLink( $this,$2)/geo;
 
     # other entities
     $text =~ s/&(\w+);/$TWiki::TranslationToken$1;/g;              # "&abc;"
