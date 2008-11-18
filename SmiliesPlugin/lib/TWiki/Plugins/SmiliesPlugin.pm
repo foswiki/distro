@@ -75,7 +75,7 @@ sub initPlugin {
     $allPattern =~ s/\|$//o;
     $allPattern .= ")";
     $smiliesPubUrl =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() .
+      TWiki::Func::getPubUrlPath() .
           "/$installWeb/SmiliesPlugin";
 
     # Initialization OK
