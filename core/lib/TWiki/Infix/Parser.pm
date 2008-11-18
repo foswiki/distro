@@ -305,7 +305,7 @@ sub _apply {
 
 __DATA__
 
-Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
+Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://TWiki.org/
 
 Copyright (C) 2005-2007 TWiki Contributors. All Rights Reserved.
 TWiki Contributors are listed in the AUTHORS file in the root of

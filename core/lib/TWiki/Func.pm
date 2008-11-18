@@ -3101,7 +3101,7 @@ sub checkDependencies {
 
 __DATA__
 
-Module of TWiki Enterprise Collaboration Platform, http://TWiki.org/
+Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://TWiki.org/
 
 Copyright (C) 2000-2007 Peter Thoeny, peter@thoeny.org
 and TWiki Contributors. All Rights Reserved. TWiki Contributors
