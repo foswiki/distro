@@ -8,7 +8,7 @@ A Query object is a representation of a query over the TWiki database.
 
 Fields are given by name, and values by strings or numbers. Strings should always be surrounded by 'single-quotes'. Numbers can be signed integers or decimals. Single quotes in values may be escaped using backslash (\).
 
-See TWiki.QuerySearch for details of the query language. At the time of writing
+See %SYSTEMWEB%.QuerySearch for details of the query language. At the time of writing
 only a subset of the entire query language is supported, for use in searching.
 
 A query object implements the =evaluate= method as its general
