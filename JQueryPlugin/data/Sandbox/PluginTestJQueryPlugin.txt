@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1212763293" format="1.1" version="$Rev$"}%
----+!! Examples for TWiki.JQueryPlugin
+---+!! Examples for %SYSTEMWEB%.JQueryPlugin
 
 %TOC%
 
