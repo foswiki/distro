@@ -27,8 +27,18 @@ Being able to create links without any special formatting is a core TWiki featur
 
 ---+++ External Links
 
-   * =http://...=, =https://...=, =ftp://...=, =gopher://...=, =news://...=, =file://...=, =telnet://...=
-     and =mailto:...@...= are linked automatically.
+   * Protocols matching the configuration parameter =LinkProtocolPattern=, which by default is set to =(file|ftp|gopher|https|http|irc|mailto|news|nntp|telnet)=, are linked automatically. You might change this setting to add more protocols (such as smb). Thus, all lines containing:
+      * =file://...=
+      * =ftp://...=
+      * =gopher://...=
+      * =https://...=
+      * =http://...=
+      * =irc://...=
+      * =mailto:...@...=
+      * =news://...=
+      * =nntp://...=
+      * =telnet://...=
+   are linked automatically.
 
    * E-mail addresses like =name@domain.com= are linked automatically.
 
