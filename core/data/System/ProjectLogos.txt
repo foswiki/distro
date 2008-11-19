@@ -8,58 +8,12 @@ The official TWiki logo is a big "T" in a speech bubble conveying "working toget
 %STARTINCLUDE%
 <table cellpadding="5"><tr><td valign="top">
     
-=T-logo-169x130-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-169x130-t.gif" alt="T-logo, no text, transparent bg, 169x130" />
+=smallPowered.gif=: <br />
+    <img src="%ATTACHURLPATH%/smallPowered.gif" />
 
-=T-logo-87x67-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-87x67-t.gif" alt="T-logo, no text, transparent bg, 87x68" />
+=large.gif=: <br />
+    <img src="%ATTACHURLPATH%/large.gif" />
 
-=T-logo-65x50-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-65x50-t.gif" alt="T-logo, no text, transparent bg, 65x50" />
-
-=T-logo-58x45-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-58x45-t.gif" alt="T-logo, no text, transparent bg, 58x50" />
-
-=T-logo-52x40-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-52x40-t.gif" alt="T-logo, no text, transparent bg, 52x40" />
-
-=T-logo-46x35-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-46x35-t.gif" alt="T-logo, no text, transparent bg, 46x35" />
-
-=T-logo-34x26-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-34x26-t.gif" alt="T-logo, no text, transparent bg, 34x26" />
-
-=T-logo-16x16-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-16x16-t.gif" alt="T-logo, transparent bg, 16x16" />
-
-</td><td>&nbsp;</td><td valign="top">
-
-=T-logo-456x130-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-456x130-t.gif" alt="T-logo, transparent bg, 456x130" />
-    
-=T-logo-235x67-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-235x67-t.gif" alt="T-logo, transparent bg, 235x67" />
-    
-=T-logo-175x50-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-175x50-t.gif" alt="T-logo, transparent bg, 175x50" />
-
-=T-logo-158x45-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-158x45-t.gif" alt="T-logo, transparent bg, 158x45" />
-
-=T-logo-140x40-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-140x40-t.gif" alt="T-logo, transparent bg, 158x45"  />
-
-=T-logo-124x35-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-124x35-t.gif" alt="T-logo, transparent bg, 124x35"  />
-
-=T-logo-88x31-t.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-88x31-t.gif" alt="T-logo, transparent bg, 88x31"  />
-
-=T-logo-80x15.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-logo-80x15.gif" alt="T-logo, 80x15" />
-    
-=T-badge-88x31.gif=: <br />
-    <img src="%ATTACHURLPATH%/T-badge-88x31.gif" alt="T-badge, 88x31" />
 
 </td></tr></table>
 %STOPINCLUDE%

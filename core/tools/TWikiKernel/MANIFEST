@@ -26,8 +26,8 @@ bin/view 0550
 bin/viewfile 0550
 bin/logos/favicon.ico 0660
 bin/logos/info.gif 0660
-bin/logos/T-logo-140x40-t.gif 0660
-bin/logos/T-logo34x26-t.gif 0660
+bin/logos/logo140x40.gif 0660
+bin/logos/logo34x26.gif 0660
 bin/logos/warning.gif 0660
 bin/LocalLib.cfg.txt 440
 COPYING 0440

@@ -118,9 +118,9 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WIKITOOLNAME = TWiki
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in !WebPreferences for individual webs by defining these settings there.
-      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/T-logo-140x40-t.gif
-      * Set WIKILOGOURL = http://TWiki.org/
-      * Set WIKILOGOALT = Powered by <nop>%WIKITOOLNAME%
+      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/banner.gif
+      * Set WIKILOGOURL = http://Foswiki.org/
+      * Set WIKILOGOALT = Powered by Foswiki
 
    * Home page of this site
       * Set WIKIHOMEURL = %SCRIPTURLPATH{"view"}%
