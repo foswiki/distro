@@ -20,9 +20,9 @@ This skin has been used to show topics in a pop-up window; this has been replace
 |  04 Jan 2006: | Dakar update (v8096) |
 |  27 Jul 2004: | Initial version (v1.000) |
 |  Dependencies: |  |
-|  Skin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
-|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
-|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+|  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 __Note:__ The Description, Screenshot and Base Name rows are needed by the %SYSTEMWEB%.SkinBrowser
 

@@ -71,9 +71,9 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  5039 | Split from !SharedCode |
 |  27 Dec 2005 | updated to calendar version 1.0; set style for Safari to win2k-1|
 |  14 Aug 2004 | Separated out from !SharedCode module |
-|  Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
-|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
-|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 __Related Topics:__ %USERSWEB%.SitePreferences
 

@@ -95,9 +95,9 @@ For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Re
 |  28 Aug 2004: | v.1.0.9 - TWiki 3.0 (Cairo) RELEASE VERSION |
 |  08 Aug 2004: | Initial version (v1.0.0) |
 |  Dependencies: | TWiki:Plugins/TwistyContrib (automatically supported by Dakar) |
-|  Skin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
-|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev | %STOPINCLUDE%
-|  Download: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev | %STOPINCLUDE%
+|  Download: | http://foswiki.org/Extensions/%TOPIC% |
 
 ---++ Related topics
 

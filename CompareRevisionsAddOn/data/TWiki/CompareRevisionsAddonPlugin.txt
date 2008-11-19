@@ -33,8 +33,8 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  Other Dependencies: | none |
 |  Perl Version: | 5.0 |
 |  TWiki:Plugins/Benchmark: |  |
-|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOn |
-|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOnDev |
-|  Appraisal: | http://TWiki.org/cgi-bin/view/Plugins/CompareRevisionsAddOnAppraisal |
+|  Plugin Home: | http://foswiki.org/Extensions/CompareRevisionsAddOn |
+|  Feedback: | http://foswiki.org/Extensions/CompareRevisionsAddOnDev |
+|  Appraisal: | http://foswiki.org/Extensions/CompareRevisionsAddOnAppraisal |
 
 __Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
