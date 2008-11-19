@@ -2,7 +2,7 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
+# as published by the Free Software Foundation; either version 3
 # of the License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -15,34 +15,6 @@
 
 ---+ package TWiki::Plugins::TWikiCompatibilityPlugin
 
-To interact with TWiki use ONLY the official API functions
-in the TWiki::Func module. Do not reference any functions or
-variables elsewhere in TWiki, as these are subject to change
-without prior warning, and your plugin may suddenly stop
-working.
-
-For increased performance, all handlers except initPlugin are
-disabled below. *To enable a handler* remove the leading DISABLE_ from
-the function name. For efficiency and clarity, you should comment out or
-delete the whole of handlers you don't use before you release your
-plugin.
-
-__NOTE:__ When developing a plugin it is important to remember that
-TWiki is tolerant of plugins that do not compile. In this case,
-the failure will be silent but the plugin will not be available.
-See [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]] for error messages.
-
-__NOTE:__ Defining deprecated handlers will cause the handlers to be 
-listed in [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]]. See
-[[%SYSTEMWEB%.Plugins#Handlig_deprecated_functions]]
-for information on regarding deprecated handlers that are defined for
-compatibility with older TWiki versions.
-
-__NOTE:__ When writing handlers, keep in mind that these may be invoked
-on included topics. For example, if a plugin generates links to the current
-topic, these need to be generated before the afterCommonTagsHandler is run,
-as at that point in the rendering loop we have lost the information that we
-the text had been included from another topic.
 
 =cut
 
@@ -54,35 +26,11 @@ use strict;
 
 require TWiki::Func;    # The plugins API
 require TWiki::Plugins; # For the API version
-
-# $VERSION is referred to by TWiki, and is the only global variable that
-# *must* exist in this package.
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
-
-# This should always be $Rev$ so that TWiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
 $VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = 'TWiki-4.2';
-
-# Short description of this plugin
-# One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
+$RELEASE = 'Foswiki-1.0';
 $SHORTDESCRIPTION = 'add TWiki personality to Foswiki';
-
-# You must set $NO_PREFS_IN_TOPIC to 0 if you want your plugin to use preferences
-# stored in the plugin topic. This default is required for compatibility with
-# older plugins, but imposes a significant performance penalty, and
-# is not recommended. Instead, use $TWiki::cfg entries set in LocalSite.cfg, or
-# if you want the users to be able to change settings, then use standard TWiki
-# preferences that can be defined in your %USERSWEB%.SitePreferences and overridden
-# at the web and topic level.
 $NO_PREFS_IN_TOPIC = 1;
-
-# Name of this Plugin, only used in this module
 $pluginName = 'TWikiCompatibilityPlugin';
 
 =pod
@@ -92,28 +40,6 @@ $pluginName = 'TWikiCompatibilityPlugin';
    * =$web= - the name of the web in the current CGI query
    * =$user= - the login name of the user
    * =$installWeb= - the name of the web the plugin is installed in
-
-REQUIRED
-
-Called to initialise the plugin. If everything is OK, should return
-a non-zero value. On non-fatal failure, should write a message
-using TWiki::Func::writeWarning and return 0. In this case
-%FAILEDPLUGINS% will indicate which plugins failed.
-
-In the case of a catastrophic failure that will prevent the whole
-installation from working safely, this handler may use 'die', which
-will be trapped and reported in the browser.
-
-You may also call =TWiki::Func::registerTagHandler= here to register
-a function to handle variables that have standard TWiki syntax - for example,
-=%MYTAG{"my param" myarg="My Arg"}%. You can also override internal
-TWiki variable handling functions this way, though this practice is unsupported
-and highly dangerous!
-
-__Note:__ Please align variables names with the Plugin name, e.g. if 
-your Plugin is called FooBarPlugin, name variables FOOBAR and/or 
-FOOBARSOMETHING. This avoids namespace issues.
-
 
 =cut
 
@@ -126,27 +52,12 @@ sub initPlugin {
         return 0;
     }
 
-    # Example code of how to get a preference value, register a variable handler
-    # and register a RESTHandler. (remove code you do not need)
-
-    # Set plugin preferences in LocalSite.cfg, like this:
-    # $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{ExampleSetting} = 1;
-    # Always provide a default in case the setting is not defined in
-    # LocalSite.cfg. See %SYSTEMWEB%.Plugins for help in adding your plugin
-    # configuration to the =configure= interface.
     my $setting = $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{ExampleSetting} || 0;
     $debug = $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Debug} || 0;
 
-    # register the _EXAMPLETAG function to handle %EXAMPLETAG{...}%
-    # This will be called whenever %EXAMPLETAG% or %EXAMPLETAG{...}% is
-    # seen in the topic text.
     TWiki::Func::registerTagHandler( 'EXAMPLETAG', \&_EXAMPLETAG );
-
-    # Allow a sub to be called from the REST interface 
-    # using the provided alias
     TWiki::Func::registerRESTHandler('example', \&restExample);
 
-    # Plugin correctly initialized
     return 1;
 }
 
@@ -173,15 +84,30 @@ sub _EXAMPLETAG {
 
 ---++ earlyInitPlugin()
 
-This handler is called before any other handler, and before it has been
-determined if the plugin is enabled or not. Use it with great care!
+If the TWiki web does not exist, change the request to the %SYSTEMWEB%
 
-If it returns a non-null error string, the plugin will be disabled.
+This may not be enough for Plugins that do have intopic preferences.
 
 =cut
 
-sub DISABLE_earlyInitPlugin {
-    return undef;
+sub earlyInitPlugin {
+    if (($TWiki::Plugins::SESSION->{webName} eq 'TWiki') &&
+            (!TWiki::Func::webExists($TWiki::Plugins::SESSION->{webName}))) {
+        my $TWikiWebTopicNameConversion = $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion};
+        $TWiki::Plugins::SESSION->{webName} = $TWiki::cfg{SystemWebName};
+        if (defined($TWikiWebTopicNameConversion->{$TWiki::Plugins::SESSION->{topicName}})) {
+            $TWiki::Plugins::SESSION->{topicName} =
+                    $TWikiWebTopicNameConversion->{$TWiki::Plugins::SESSION->{topicName}};
+        }
+    }
+    my $MainWebTopicNameConversion = $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion};
+    if (($TWiki::Plugins::SESSION->{webName} eq 'Main') &&
+            (defined($MainWebTopicNameConversion->{$TWiki::Plugins::SESSION->{topicName}}))) {
+        $TWiki::Plugins::SESSION->{topicName} =
+            $MainWebTopicNameConversion->{$TWiki::Plugins::SESSION->{topicName}};
+    }
+    
+    return;
 }
 
 =pod

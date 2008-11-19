@@ -8,8 +8,9 @@ One line description, required for extensions repository catalog.
 %TOC%
 
 ---++ Usage
+Automaticalle maps requests for legacy TWiki web topics to Foswiki free topics as per
+[[http://foswiki.org/Development/TopicNameMappingTable][TopicNameMappingTable]].
 
----++ Examples
 
 ---++ Installation Instructions
 
