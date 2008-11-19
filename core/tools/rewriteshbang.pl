@@ -1,6 +1,6 @@
 #! perl -w
 #
-# TWiki Collaboration Platform, http://TWiki.org/
+# Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2005-2007 TWiki Contributors.
 # All Rights Reserved. TWiki Contributors are listed in

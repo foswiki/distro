@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# Script for TWiki Collaboration Platform, http://TWiki.org/
+# Script for Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2006-2008 ProjectContributors. All rights reserved.
 # ProjectContributors are listed in the AUTHORS file in the root of
@@ -242,7 +242,7 @@ data/TWiki/%$MODULE%.txt 0644 Documentation
 lib/TWiki/%$STUBS%/%$MODULE%.pm 0644 Perl module
 
 <<<< PLUGIN_HEADER >>>>
-# %$TYPE% for TWiki Collaboration Platform, http://TWiki.org/
+# %$TYPE% for Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -260,7 +260,7 @@ lib/TWiki/%$STUBS%/%$MODULE%.pm 0644 Perl module
 ---+ package TWiki::Plugins::%$MODULE%
 
 <<<< PM >>>>
-# %$TYPE% for TWiki Collaboration Platform, http://TWiki.org/
+# %$TYPE% for Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
