@@ -182,7 +182,7 @@ BEGIN {
     # DO NOT CHANGE THE FORMAT OF $VERSION
     # Automatically expanded on checkin of this module
     $VERSION = '$Date: 2008-10-22T09:44:10.938397Z $ $Rev: 16166 $ ';
-    $RELEASE = 'TWiki-5.0.0';
+    $RELEASE = 'Foswiki-2.0.0';
     $VERSION =~ s/^.*?\((.*)\).*: (\d+) .*?$/$RELEASE, $1, build $2/;
 
     # Default handlers for different %TAGS%
