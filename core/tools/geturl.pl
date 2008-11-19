@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Simple utility to fetch an HTML page from a server
-# (Utility for TWiki Enterprise Collaboration Platform, http://TWiki.org/)
+# (Utility for Foswiki - The Free Open Source Wiki, http://foswiki.org/)
 #
 # Copyright (C) 1999 Jon Udell, BYTE
 # Copyright (C) 2000-2007 Peter Thoeny, peter@thoeny.org

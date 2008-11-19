@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2006 SvenDowideit@wikiring.com
 # and TWiki Contributors.

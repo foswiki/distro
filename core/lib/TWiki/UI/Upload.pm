@@ -1,4 +1,4 @@
-# TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
 # and TWiki Contributors. All Rights Reserved. TWiki Contributors

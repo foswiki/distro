@@ -1,4 +1,4 @@
-# TWiki Enterprise Collaboration Platform, http://TWiki.org/
+# Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2000-2006 TWiki Contributors.
 #
