@@ -14,7 +14,7 @@ A form definition consists of a Foswiki::Form object, which has a list
 of field definitions. Each field definition is an object of a type
 derived from Foswiki::Form::FieldDefinition. These objects are responsible
 for the actual syntax and semantics of the field type. Form definitions
-are parsed from TWiki tables, and the types are mapped by name to a
+are parsed from Foswiki tables, and the types are mapped by name to a
 class declared in Foswiki::Form::* - for example, the =text= type is mapped
 to =Foswiki::Form::Text= and the =checkbox= type to =Foswiki::Form::Checkbox=.
 

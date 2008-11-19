@@ -41,7 +41,7 @@ require CGI;
    * =$brev= - rev for $b (string)
    * =$b= - second ('new') string
    * =$sep= = separator, string RE e.g. '.*?\n' for lines
-   * =$session= - TWiki object
+   * =$session= - Foswiki object
    * =$info= - data block passed to plugins merge handler. Conventionally this will identify the source of the text being merged (the source form field, or undef for the body text)
 
 Perform a merge of two versions of the same text, using
@@ -298,7 +298,7 @@ sub _equal {
    * =$crev= - rev no for second derivative string (id)
    * =$c= - second derivative string
    * =$sep= = separator, string RE e.g. '.*?\n' for lines
-   * =$session= - TWiki object
+   * =$session= - Foswiki object
    * =$info= - data block passed to plugins merge handler. Conventionally this will identify the source of the text being merged (the source form field, or undef for the body text)
 
 Perform a merge of two versions (b and c) of the same text, using

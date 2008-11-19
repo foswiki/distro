@@ -69,10 +69,10 @@ Convert string date/time string to seconds since epoch (1970-01-01T00:00:00Z).
 
 Handles the following formats:
 
-Default TWiki format
+Default Foswiki format
    * 31 Dec 2001 - 23:59
 
-TWiki format without time (defaults to 00:00)
+Foswiki format without time (defaults to 00:00)
    * 31 Dec 2001
 
 Date seperated by '/', '.' or '-', time with '.' or ':'
@@ -112,7 +112,7 @@ sub parseTime {
         $tzadj = -Time::Local::timelocal( 0, 0, 0, 1, 0, 70 );
     }
 
-    # try "31 Dec 2001 - 23:59"  (TWiki date)
+    # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
     if ( $date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
         my $year = $3;
@@ -194,7 +194,7 @@ sub formatTime {
     my ( $epochSeconds, $formatString, $outputTimeZone ) = @_;
     my $value = $epochSeconds;
 
-    # use default TWiki format "31 Dec 1999 - 23:59" unless specified
+    # use default Foswiki format "31 Dec 1999 - 23:59" unless specified
     $formatString   ||= $Foswiki::cfg{DefaultDateFormat} . ' - $hour:$min';
     $outputTimeZone ||= $Foswiki::cfg{DisplayTimeValues};
 

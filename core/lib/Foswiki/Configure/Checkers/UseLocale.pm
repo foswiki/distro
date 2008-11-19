@@ -109,8 +109,8 @@ HERE
 
     # Warn against Perl 5.6 or lower for UTF-8
     if ( $] < 5.008 ) {
-        $n .= $this->WARN( "Perl 5.8 is required if you are using TWiki's",
-            "experimental UTF-8 support\n" );
+        $n .= $this->WARN( "Perl 5.8 is required if you are using Foswiki",
+            " experimental UTF-8 support\n" );
     }
 
     # Check for 'useperlio' in Config on Perl 5.8 or higher - required
@@ -126,7 +126,7 @@ HERE
 This version of Perl was not compiled to use PerlIO by default ('useperlio'
 not set in Config.pm, see <i>Perl's Unicode Model</i> in 'perldoc
 perluniintro') - re-compilation of Perl will be required before it can be
-used to enable TWiki's experimental UTF-8 support.
+used to enable Foswiki's experimental UTF-8 support.
 HERE
         );
     }
@@ -144,7 +144,7 @@ HERE
             <<HERE
 This version of Perl was not compiled with locale support ('d_setlocale' not
 set in Config.pm) - re-compilation of Perl will be required before it can be
-used to support TWiki internationalisation.
+used to support internationalisation.
 HERE
         );
     }

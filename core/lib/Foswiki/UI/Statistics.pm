@@ -83,11 +83,11 @@ sub statistics {
         # running from CGI
         $session->generateHTTPHeaders();
         $session->{response}->body(
-            CGI::start_html( -title => 'TWiki: Create Usage Statistics' ) );
+            CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
     }
 
     # Initial messages
-    _printMsg( $session, 'TWiki: Create Usage Statistics' );
+    _printMsg( $session, 'Foswiki: Create Usage Statistics' );
     _printMsg( $session, '!Do not interrupt this script!' );
     _printMsg( $session, '(Please wait until page download has finished)' );
 
@@ -120,7 +120,7 @@ sub statistics {
 
     # Copy the log file to temp file, since analysis could take some time
 
-    # FIXME move the temp dir stuff to TWiki.cfg
+    # FIXME: use the working dir
     my $tmpDir;
     if ( $Foswiki::cfg{OS} eq 'UNIX' ) {
         $tmpDir = $ENV{'TEMP'} || "/tmp";

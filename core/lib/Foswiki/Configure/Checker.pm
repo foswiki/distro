@@ -144,7 +144,7 @@ sub checkCanCreateFile {
 
 # Since Windows (without Cygwin) makes it hard to capture stderr
 # ('2>&1' works only on Win2000 or higher), and Windows will usually have
-# GNU tools in any case (installed for TWiki since there's no built-in
+# GNU tools in any case (installed for Foswiki since there's no built-in
 # diff, grep, patch, etc), we only check for these tools on Unix/Linux
 # and Cygwin.
 sub checkGnuProgram {
@@ -342,7 +342,7 @@ sub checkRCSProgram {
     if ($err) {
         $mess .= $this->ERROR(
             $err . <<HERE
-TWiki will probably not work with this RCS setup. Either correct the setup, or
+Foswiki will probably not work with this RCS setup. Either correct the setup, or
 switch to RcsLite. To enable RCSLite you need to change the setting of
 {StoreImpl} to 'RcsLite'.
 HERE

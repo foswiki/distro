@@ -27,7 +27,7 @@
 
 This module consists of just a single subroutine =readConfig=.  It allows to
 safely modify configuration variables _for one single run_ without affecting
-normal TWiki operation.
+normal Foswiki operation.
 
 =cut
 
@@ -39,13 +39,13 @@ our $TRUE = 1;
 
 ---++ StaticMethod readConfig()
 
-In normal TWiki operations as a web server this routine is called by the
+In normal Foswiki operations as a web server this routine is called by the
 =BEGIN= block of =Foswiki.pm=.  However, when benchmarking/debugging it can be
 replaced by custom code which sets the configuration hash.  To prevent us from
 overriding the custom code again, we use an "unconfigurable" key
 =$cfg{ConfigurationFinished}= as an indicator.
 
-Note that this method is called by TWiki and configure, and *only* reads
+Note that this method is called by Foswiki and configure, and *only* reads
 Foswiki.spec= to get defaults. Other spec files (those for extensions) are
 *not* read.
 
@@ -88,7 +88,7 @@ GOLLYGOSH
     foreach my $var qw( DataDir DefaultUrlHost PubUrlPath WorkingDir
       PubDir TemplateDir ScriptUrlPath LocalesDir ) {
 
-        # We can't do this, because it prevents TWiki being run without
+        # We can't do this, because it prevents Foswiki being run without
         # a LocalSite.cfg, which we don't want
         # die "$var must be defined in LocalSite.cfg"
         #  unless( defined $Foswiki::cfg{$var} );
@@ -120,7 +120,7 @@ sub expand {
 
 ---++ StaticMethod expandValue($string) -> $boolean
 
-Expands references to TWiki configuration items which occur in the
+Expands references to Foswiki configuration items which occur in the
 value of other configuration items.  Use expand($hashref) if the item
 is not a plain scalar.
 
@@ -137,7 +137,7 @@ sub expandValue {
 
 ---++ StaticMethod readDefaults() -> \@errors
 
-This is only called by =configure= to initialise the TWiki config hash with
+This is only called by =configure= to initialise the Foswiki config hash with
 default values from the .spec files.
 
 Normally all configuration values come from LocalSite.cfg. However when

@@ -434,7 +434,7 @@ sub _requireVerification {
     }
     else {
         my $err = $session->i18n->maketext(
-            'Email has been disabled for this TWiki installation');
+            'Email has been disabled for this Foswiki installation');
 
         throw Foswiki::OopsException(
             'attention',
@@ -472,7 +472,7 @@ sub resetPassword {
 
     unless ( $Foswiki::cfg{EnableEmail} ) {
         my $err = $session->i18n->maketext(
-            'Email has been disabled for this TWiki installation');
+            'Email has been disabled for this Foswiki installation');
         throw Foswiki::OopsException(
             'attention',
             topic  => $Foswiki::cfg{HomeTopicName},

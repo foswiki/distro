@@ -58,8 +58,8 @@ HERE
 
     # Check for unusable multi-byte encodings as site character set
     # - anything that enables a single ASCII character such as '[' to be
-    # matched within a multi-byte character cannot be used for TWiki.
-    # Refuse to work with character sets that allow TWiki syntax
+    # matched within a multi-byte character cannot be used for Foswiki.
+    # Refuse to work with character sets that allow Foswiki syntax
     # to be recognised within multi-byte characters.
     # FIXME: match other problematic multi-byte character sets
     if (   $Foswiki::cfg{UseLocale}

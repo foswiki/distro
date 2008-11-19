@@ -26,8 +26,8 @@ This object provides an interface to the outside world. All calls to
 system functions, or handling of file names, should be brokered by
 this object.
 
-NOTE: TWiki creates a singleton sandbox that is *shared* by all TWiki
-runs under a single mod_perl instance. If any TWiki run modifies the
+NOTE: Foswiki creates a singleton sandbox that is *shared* by all Foswiki
+runs under a single mod_perl instance. If any Foswiki run modifies the
 sandbox, that modification will carry over in to subsequent runs.
 Be very, very careful!
 
@@ -355,7 +355,7 @@ sub _buildCommandLine {
 sub _safeDie {
     print STDERR $_[0];
     die
-"TWiki experienced a fatal error. Please check your webserver error logs for details.";
+'Foswiki experienced a fatal error. Please check your webserver error logs for details.';
 }
 
 =pod

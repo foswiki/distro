@@ -23,9 +23,9 @@
 ---+ package Foswiki::Store::RcsWrap
 
 This package does not publish any methods. It implements the
-virtual methods of the [[TWikiStoreRcsFileDotPm][Foswiki::Store::RcsFile]] superclass.
+virtual methods of the =Foswiki::Store::RcsFile= superclass.
 
-Wrapper around the RCS commands required by TWiki.
+Wrapper around the RCS commands required by Foswiki.
 There is one of these object for each file stored under RCS.
 
 =cut

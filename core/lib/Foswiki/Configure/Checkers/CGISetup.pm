@@ -54,7 +54,7 @@ sub ui {
 You are running <tt>configure</tt> with <tt>mod_perl</tt>. This
 is risky because mod_perl will remember old values of configuration
 variables. You are *highly* recommended not to run configure under
-mod_perl (though the rest of TWiki can be run with mod_perl, of course)
+mod_perl (though the rest of Foswiki can be run with mod_perl, of course)
 HERE
     }
 
@@ -101,10 +101,10 @@ HERE
     if ( $] < 5.006 ) {
         $n .= $this->WARN(<<HERE);
 Perl version is older than 5.6.0.
-TWiki has only been successfully tested on Perl 5.6.X and 5.8.X,
+Foswiki has only been successfully tested on Perl 5.6.X and 5.8.X,
 and there have been reports that it does not run on 5.5.
-You will need to upgrade Perl libraries and tweak the TWiki
-code to make TWiki work on older versions of Perl
+You will need to upgrade Perl libraries and tweak the Foswiki
+code to make Foswiki work on older versions of Perl
 HERE
     }
 
@@ -147,7 +147,7 @@ HERE
     # Perl @INC (lib path)
     $block .= $this->setting( '@INC library path',
         join( CGI::br(), @INC ) . $this->NOTE(<<HERE) );
-This is the Perl library path, used to load TWiki modules,
+This is the Perl library path, used to load Foswiki modules,
 third-party modules used by some plugins, and Perl built-in modules.
 HERE
 
@@ -176,7 +176,7 @@ HERE
         $mess =
           'Foswiki.pm (Version: <strong>' . $Foswiki::VERSION . '</strong>) found';
     }
-    $block .= $this->setting( 'TWiki module in @INC path', $mess );
+    $block .= $this->setting( 'Foswiki module in @INC path', $mess );
 
     # Check that each of the required Perl modules can be loaded, and
     # print its version number.
@@ -240,7 +240,7 @@ HERE
         # and Bugs:Item82)
         $n .= $this->ERROR(<<HERE);
 Version $Foswiki::cfg{DETECTED}{ModPerlVersion} of mod_perl is known to have major bugs that prevent
-its use with TWiki. 1.99_12 or higher is recommended.
+its use with Foswiki. 1.99_12 or higher is recommended.
 HERE
     }
     $block .= $this->setting( 'mod_perl', $n );
@@ -258,7 +258,7 @@ HERE
     $block .= $this->setting( 'Original PATH',
         $Foswiki::cfg{DETECTED}{originalPath} . $this->NOTE(<<HERE) );
 This is the PATH value passed in from the web server to this
-script - it is reset by TWiki scripts to the PATH below, and
+script - it is reset by Foswiki scripts to the PATH below, and
 is provided here for comparison purposes only.
 HERE
 
@@ -305,7 +305,7 @@ HERE
     return $dir . CGI::br() . $errs;
 }
 
-# The perl modules that are required by TWiki.
+# The perl modules that are required by Foswiki.
 sub _loadDEPENDENCIES {
     my $this = shift;
 

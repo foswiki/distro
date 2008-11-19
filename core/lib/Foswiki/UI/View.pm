@@ -291,7 +291,7 @@ sub view {
     # as header, the text after is inserted as footer. If there is a
     # %STARTTEXT% tag present, the header text between %STARTTEXT% and
     # %TEXT is rendered together, as is the footer text between %TEXT%
-    # and %ENDTEXT%, if present. This allows correct handling of TWiki
+    # and %ENDTEXT%, if present. This allows correct handling of Foswiki
     # markup in header or footer if those do require examination of the
     # topic text to work correctly (e.g., %TOC%).
     # Note: This feature is experimental and may be replaced by an

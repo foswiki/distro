@@ -25,7 +25,7 @@ use Assert;
 
 ---+ package Foswiki::Compatibility
 
-Support for compatibility with old TWiki versions. Packaged
+Support for compatibility with old versions. Packaged
 separately because 99.999999% of the time this won't be needed.
 
 =cut

@@ -3,9 +3,9 @@ package Foswiki;
 
 =pod
 
----+ package TWiki
+---+ package Foswiki
 
-TWiki operates by creating a singleton object (known as the Session
+Foswiki operates by creating a singleton object (known as the Session
 object) that acts as a point of reference for all the different
 modules in the system. This package is the class for this singleton,
 and also contains the vast bulk of the basic constants and the per-
@@ -30,7 +30,7 @@ with CGI accelerators such as mod_perl.
                         Only required to support {GetScriptUrlFromCgi} and
                         not consistently used. Avoid.
    * =security=         Foswiki::Access singleton
-   * =SESSION_TAGS=     Hash of TWiki variables whose value is specific to
+   * =SESSION_TAGS=     Hash of preference settings whose value is specific to
                         the current request.
    * =store=            Foswiki::Store singleton
    * =topicName=        Name of topic found in URL path or =topic= URL
@@ -87,7 +87,7 @@ use vars qw(
 
 # Token character that must not occur in any normal text - converted
 # to a flag character if it ever does occur (very unlikely)
-# TWiki uses $TranslationToken to mark points in the text. This is
+# Foswiki uses $TranslationToken to mark points in the text. This is
 # normally \0, which is not a useful character in any 8-bit character
 # set we can find, nor in UTF-8. But if you *do* encounter problems
 # with it, the workaround is to change $TranslationToken to something
@@ -99,13 +99,13 @@ $TranslationToken = "\0";
 
 =pod
 
----++ StaticMethod getTWikiLibDir() -> $path
+---++ StaticMethod getLibDir() -> $path
 
 Returns the full path of the directory containing Foswiki.pm
 
 =cut
 
-sub getTWikiLibDir {
+sub getLibDir {
     if ($twikiLibDir) {
         return $twikiLibDir;
     }
@@ -123,7 +123,7 @@ sub getTWikiLibDir {
     # fix path relative to location of called script
     if ( $twikiLibDir =~ /^\./ ) {
         print STDERR
-"WARNING: TWiki lib path $twikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
+"WARNING: Foswiki lib path $twikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
         my $bin;
 
  # TSA SMELL : Should not assume environment variables and get data from request
@@ -355,7 +355,7 @@ BEGIN {
         require POSIX;
         import POSIX qw( locale_h LC_CTYPE LC_COLLATE );
 
-        # SMELL: mod_perl compatibility note: If TWiki is running under Apache,
+        # SMELL: mod_perl compatibility note: If Foswiki is running under Apache,
         # won't this play with the Apache process's locale settings too?
         # What effects would this have?
         setlocale( &LC_CTYPE,   $Foswiki::cfg{Site}{Locale} );
@@ -387,7 +387,7 @@ BEGIN {
     {
 
         # No locales needed/working, or Perl 5.005, so just use
-        # any additional national characters defined in TWiki.cfg
+        # any additional national characters defined in LocalSite.cfg
         $regex{upperAlpha} = 'A-Z' . $Foswiki::cfg{UpperNational};
         $regex{lowerAlpha} = 'a-z' . $Foswiki::cfg{LowerNational};
         $regex{numeric}    = '\d';
@@ -422,7 +422,7 @@ BEGIN {
     # '---++!! Header' or '---++ Header %NOTOC% ^top'
     $regex{headerPatternNoTOC} = '(\!\!+|%NOTOC%)';
 
-    # TWiki concept regexes
+    # Foswiki concept regexes
     $regex{wikiWordRegex} =
 qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mixedAlphaNum}]*/o;
     $regex{webNameBaseRegex} =
@@ -510,7 +510,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
       unless defined $Foswiki::cfg{ForceUnsafeRegexes};
 
     # initialize lib directory early because of later 'cd's
-    getTWikiLibDir();
+    getLibDir();
 
     # initialize the runtime engine
     if ( !defined $Foswiki::cfg{Engine} ) {
@@ -566,7 +566,7 @@ sub UTF82SiteCharSet {
 
         # We still don't have Codev.UnicodeSupport
         $this->writeWarning( 'UTF-8 not yet supported as site charset -'
-              . 'TWiki is likely to have problems' );
+              . 'Foswiki is likely to have problems' );
         return $text;
     }
 
@@ -1114,13 +1114,13 @@ sub getSkin {
 
 ---++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
 
-Returns the URL to a TWiki script, providing the web and topic as
+Returns the URL to a Foswiki script, providing the web and topic as
 "path info" parameters.  The result looks something like this:
 "http://host/twiki/bin/$script/$web/$topic".
    * =...= - an arbitrary number of name,value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor. e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
 
 If $absolute is set, generates an absolute URL. $absolute is advisory only;
-TWiki can decide to generate absolute URLs (for example when run from the
+Foswiki can decide to generate absolute URLs (for example when run from the
 command-line) even when relative URLs have been requested.
 
 The default script url is taken from {ScriptUrlPath}, unless there is
@@ -1166,7 +1166,7 @@ sub getScriptUrl {
     if ( $absolute && $url !~ /^[a-z]+:/ ) {
 
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
-        # "absolute URI". TWiki bastardises this definition by assuming
+        # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
         $url = $this->{urlHost} . $url;
     }
@@ -1209,7 +1209,7 @@ sub _make_params {
 
 Composes a pub url. If $absolute is set, returns an absolute URL.
 If $absolute is set, generates an absolute URL. $absolute is advisory only;
-TWiki can decide to generate absolute URLs (for example when run from the
+Foswiki can decide to generate absolute URLs (for example when run from the
 command-line) even when relative URLs have been requested.
 
 $web, $topic and $attachment are optional. A partial URL path will be
@@ -1230,7 +1230,7 @@ sub getPubUrl {
     if ( $absolute && $url !~ /^[a-z]+:/ ) {
 
         # See http://www.ietf.org/rfc/rfc2396.txt for the definition of
-        # "absolute URI". TWiki bastardises this definition by assuming
+        # "absolute URI". Foswiki bastardises this definition by assuming
         # that all relative URLs lack the <authority> component as well.
         $url = $this->{urlHost} . $url;
     }
@@ -1320,7 +1320,7 @@ sub mapToIconFileName {
 
 Normalize a Web<nop>.<nop>TopicName
 
-See TWikiFuncDotPm for a full specification of the expansion (not duplicated
+See =Foswiki::Func= for a full specification of the expansion (not duplicated
 here)
 
 *WARNING* if there is no web specification (in the web or topic parameters)
@@ -1354,7 +1354,7 @@ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/_expandTagOnTopicRendering( $this,$1)||''
 
 ---++ ClassMethod new( $loginName, $query, \%initialContext )
 
-Constructs a new TWiki object. Parameters are taken from the query object.
+Constructs a new Foswiki object. Parameters are taken from the query object.
 
    * =$loginName= is the login username (*not* the wikiname) of the user you
      want to be logged-in if none is available from a session or browser.
@@ -1414,7 +1414,7 @@ sub new {
     # Make %ENV safer, preventing hijack of the search path
     # SMELL: can this be done in a BEGIN block? Or is the environment
     # set per-query?
-    # Item4382: Default $ENV{PATH} must be untainted because TWiki runs
+    # TWikibug:Item4382: Default $ENV{PATH} must be untainted because Foswiki runs
     # with use strict and calling external programs that writes on the disk
     # will fail unless Perl seens it as set to safe value.
     if ( $Foswiki::cfg{SafeEnvPath} ) {
@@ -1539,7 +1539,7 @@ sub new {
         $this->{topicName} = $topicNameTemp;
     }
 
-    # Item3270 - here's the appropriate place to enforce TWiki spec:
+    # Item3270 - here's the appropriate place to enforce Foswiki spec:
     # All topic name sources are evaluated, site charset applied
     # SMELL: This untaint unchecked is duplicate of one just above
     $this->{topicName} =
@@ -1598,7 +1598,7 @@ sub new {
  # SMELL: Every place should localize it before use, so it's not necessary here.
     $Foswiki::Plugins::SESSION = $this;
 
-    Monitor::MARK("TWiki session created");
+    Monitor::MARK("Foswiki session created");
 
     return $this;
 }
@@ -2112,7 +2112,7 @@ sub _includeUrl {
 #    * $args  : 'Topic' [web='Web'] [depth='N']
 # Return value: $tableOfContents
 # Handles %<nop>TOC{...}% syntax.  Creates a table of contents
-# using TWiki bulleted
+# using Foswiki bulleted
 # list markup, linked to the section headings of a topic. A section heading is
 # entered in one of the following forms:
 #    * $headingPatternSp : \t++... spaces section heading
@@ -2328,7 +2328,7 @@ sub inlineAlert {
     }
     else {
         $text =
-            CGI::h1('TWiki Installation Error')
+            CGI::h1('Foswiki Installation Error')
           . 'Template "'
           . $template
           . '" not found.'
@@ -2550,7 +2550,7 @@ sub expandVariablesOnTopicCreation {
 ---++ StaticMethod entityEncode( $text, $extras ) -> $encodedText
 
 Escape special characters to HTML numeric entities. This is *not* a generic
-encoding, it is tuned specifically for use in TWiki.
+encoding, it is tuned specifically for use in Foswiki.
 
 HTML4.0 spec:
 "Certain characters in HTML are reserved for use as markup and must be
@@ -2567,7 +2567,7 @@ with some keyboards..."
 This method encodes HTML special and any non-printable ascii
 characters (except for \n and \r) using numeric entities.
 
-FURTHER this method also encodes characters that are special in TWiki
+FURTHER this method also encodes characters that are special in Foswiki
 meta-language.
 
 $extras is an optional param that may be used to include *additional*
@@ -2627,7 +2627,7 @@ site character set through URL encoding.
 
 In two cases, no URL encoding is needed:  For EBCDIC mainframes, we assume that 
 site charset URLs will be translated (outbound and inbound) by the web server to/from an
-EBCDIC character set. For sites running in UTF-8, there's no need for TWiki to
+EBCDIC character set. For sites running in UTF-8, there's no need for Foswiki to
 do anything since all URLs and attachment filenames are already in UTF-8.
 
 =cut
@@ -2808,7 +2808,7 @@ sub expandAllTags {
     $this->{SESSION_TAGS}{WEB}   = $memWeb;
 }
 
-# Process TWiki %TAGS{}% by parsing the input tokenised into
+# Process Foswiki %TAGS{}% by parsing the input tokenised into
 # % separated sections. The parser is a simple stack-based parse,
 # sufficient to ensure nesting of tags is correct, but no more
 # than that.
@@ -3094,7 +3094,7 @@ sub registerTagHandler {
 ---++ StaticMethod registerRESTHandler( $subject, $verb, \&fn )
 
 Adds a function to the dispatch table of the REST interface 
-for a given subject. See TWikiScripts#rest for more info.
+for a given subject. See System.CommandAndCGIScripts#rest for more info.
 
    * =$subject= - The subject under which the function will be registered.
    * =$verb= - The verb under which the function will be registered.
@@ -3105,7 +3105,7 @@ The handler function must be of the form:
 sub handler(\%session,$subject,$verb) -> $text
 </verbatim>
 where:
-   * =\%session= - a reference to the TWiki session object (may be ignored)
+   * =\%session= - a reference to the Foswiki session object (may be ignored)
    * =$subject= - The invoked subject (may be ignored)
    * =$verb= - The invoked verb (may be ignored)
 
@@ -3189,7 +3189,7 @@ sub handleCommonTags {
 
     $this->renderer->putBackBlocks( \$text, $verbatim, 'verbatim' );
 
-    # TWiki Plugin Hook (for cache Plugins only)
+    # Foswiki Plugin Hook (for cache Plugins only)
     $this->{plugins}
       ->dispatch( 'afterCommonTagsHandler', $text, $theTopic, $theWeb, $meta );
 
@@ -3202,14 +3202,14 @@ sub handleCommonTags {
 
 Add =$html= to the HEAD tag of the page currently being generated.
 
-Note that TWiki variables may be used in the HEAD. They will be expanded
+Note that macros may be used in the HEAD. They will be expanded
 according to normal variable expansion rules.
 
 ---+++ =%<nop>ADDTOHEAD%=
 You can write =%ADDTOHEAD{...}%= in a topic or template. This variable accepts the following parameters:
    * =_DEFAULT= optional, id of the head block. Used to generate a comment in the output HTML.
    * =text= optional, text to use for the head block. Mutually exclusive with =topic=.
-   * =topic= optional, full TWiki path name of a topic that contains the full text to use for the head block. Mutually exclusive with =text=. Example: =topic="%WEB%.MyTopic"=.
+   * =topic= optional, full Foswiki path name of a topic that contains the full text to use for the head block. Mutually exclusive with =text=. Example: =topic="%WEB%.MyTopic"=.
    * =requires= optional, comma-separated list of id's of other head blocks this one depends on.
 =%<nop>ADDTOHEAD%= expands in-place to the empty string, unless there is an error in which case the variable expands to an error string.
 
@@ -3240,7 +3240,7 @@ sub ADDTOHEAD {
 sub addToHEAD {
     my ( $this, $tag, $header, $requires ) = @_;
 
-    # Expand TWiki variables in the header
+    # Expand macros in the header
     $header =
       $this->handleCommonTags( $header, $this->{webName}, $this->{topicName} );
 
@@ -3331,7 +3331,7 @@ sub RENDERHEAD {
 Return value: ( $topicName, $webName, $Foswiki::cfg{ScriptUrlPath}, $userName, $Foswiki::cfg{DataDir} )
 
 Static method to construct a new singleton session instance.
-It creates a new TWiki and sets the Plugins $SESSION variable to
+It creates a new Foswiki and sets the Plugins $SESSION variable to
 point to it, so that Foswiki::Func methods will work.
 
 This method is *DEPRECATED* but is maintained for script compatibility.
@@ -3358,7 +3358,7 @@ sub initialize {
     # query.
     if ( $theUrl && $theUrl ne $query->url() ) {
         die
-'Sorry, this version of TWiki does not support the url parameter to Foswiki::initialize being different to the url in the query';
+'Sorry, this version of Foswiki does not support the url parameter to Foswiki::initialize being different to the url in the query';
     }
     my $twiki = new Foswiki( $theRemoteUser, $query );
 
@@ -3748,30 +3748,30 @@ sub HTTPS {
 }
 
 #deprecated functionality, now implemented using %ENV%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki 2.0
 sub HTTP_HOST_deprecated {
     return $_[0]->{request}->header('Host') || '';
 }
 
 #deprecated functionality, now implemented using %ENV%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki 2.0
 sub REMOTE_ADDR_deprecated {
     return $_[0]->{request}->remoteAddress() || '';
 }
 
 #deprecated functionality, now implemented using %ENV%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki 2.0
 sub REMOTE_PORT_deprecated {
 
     # CGI/1.1 (RFC 3875) doesn't specify REMOTE_PORT,
     # but some webservers implement it. However, since
-    # it's not RFC compliant, TWiki should not rely on
+    # it's not RFC compliant, Foswiki should not rely on
     # it. So we get more portability.
     return '';
 }
 
 #deprecated functionality, now implemented using %ENV%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki
 sub REMOTE_USER_deprecated {
     return $_[0]->{request}->remoteUser() || '';
 }
@@ -4129,7 +4129,7 @@ sub INTURLENCODE_deprecated {
 # and is maintained only for backward compatibility.
 # Spacing of WikiWords is now done with %SPACEOUT%
 # (and the private routine _SPACEOUT).
-# Move to compatibility module in TWiki5
+# Move to compatibility module in Foswiki 2.0
 sub SPACEDTOPIC_deprecated {
     my ( $this, $params, $theTopic ) = @_;
     my $topic = spaceOutWikiWord($theTopic);
@@ -4380,7 +4380,7 @@ sub SEP {
 }
 
 #deprecated functionality, now implemented using %USERINFO%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki 2.0
 sub WIKINAME_deprecated {
     my ( $this, $params ) = @_;
 
@@ -4391,7 +4391,7 @@ sub WIKINAME_deprecated {
 }
 
 #deprecated functionality, now implemented using %USERINFO%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki 2.0
 sub USERNAME_deprecated {
     my ( $this, $params ) = @_;
 
@@ -4402,7 +4402,7 @@ sub USERNAME_deprecated {
 }
 
 #deprecated functionality, now implemented using %USERINFO%
-#move to compatibility plugin in TWiki5
+#move to compatibility plugin in Foswiki 2.0
 sub WIKIUSERNAME_deprecated {
     my ( $this, $params ) = @_;
 

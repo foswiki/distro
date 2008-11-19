@@ -65,7 +65,7 @@ The last step in Foswiki::new is to find the user, using whatever user mapping m
 
 ---++ ObjectData =twiki=
 
-The TWiki object this login manager is attached to.
+The Foswiki object this login manager is attached to.
 
 =cut
 
@@ -270,7 +270,7 @@ Set up appropriate session variables in the twiki object and return
 the login name.
 
 $defaultUser is a username to use if one is not available from other
-sources. The username passed when you create a TWiki instance is
+sources. The username passed when you create a Foswiki instance is
 passed in here.
 
 =cut
@@ -369,10 +369,10 @@ sub loadSession {
     }
     else {
 
-        # Use remote user provided from "new TWiki" call. This is mainly
+        # Use remote user provided from "new Foswiki" call. This is mainly
         # for testing.
         $authUser = $defaultUser;
-        _trace( $this, "TWiki object says user is $authUser" ) if $authUser;
+        _trace( $this, "Foswiki object says user is $authUser" ) if $authUser;
     }
 
     $authUser ||= $defaultUser;

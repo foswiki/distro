@@ -26,7 +26,7 @@
 ---+ package Foswiki::Attrs
 
 Class of attribute sets, designed for parsing and storing attribute values
-from a TWiki tag e.g. =%<nop>TAG{"joe" fred="bad" joe="mad"}%=
+from a macro e.g. =%<nop>MACRO{"joe" fred="bad" joe="mad"}%=
 
 An attribute set is a hash containing an entry for each parameter. The
 default parameter (unnamed quoted string) is named <code>_<nop>DEFAULT</code> in the hash.
@@ -35,7 +35,7 @@ Attributes declared later in the string will override those of the same
 name defined earlier. The one exception to this is the _DEFAULT key, where
 the _first_ instance is always taken.
 
-As well as the default TWiki syntax (parameter values double-quoted)
+As well as the default Foswiki syntax (parameter values double-quoted)
 this class also parses single-quoted values, unquoted spaceless
 values, spaces around the =, and commas as well as spaces separating values.
 The extended syntax has to be enabled by passing the =$friendly= parameter
@@ -59,7 +59,7 @@ $RAWKEY     = '_RAW';
 ---++ ClassMethod new ($string, $friendly) => \%attrsObjectRef
 
    * =$string= - String containing attribute specification
-   * =$friendly= - if true, the parse will be according to the extended syntax pioneered by the original Contrib::Attrs. Otherwise it will be strict as per traditional TWiki syntax.
+   * =$friendly= - if true, the parse will be according to the extended syntax pioneered by the original Contrib::Attrs. Otherwise it will be strict as per traditional syntax.
 
 Parse a standard attribute string containing name=value pairs and create a new
 attributes object. The value may be a word or a quoted string. If there is an

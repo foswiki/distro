@@ -39,7 +39,7 @@ use Assert;
 ---++ ClassMethod new( $session ) -> $object
 
 Constructs a new password handler of this type, referring to $session
-for any required TWiki services.
+for any required Foswiki services.
 
 =cut
 
@@ -192,7 +192,7 @@ Determines if this manager can store and retrieve emails. The password
 manager is used in preference to the user mapping manager for storing
 emails, on the basis that emails need to be secure, and the password
 database is the most secure place. If a password manager does not
-manage emails, then TWiki will fall back to using the user mapping
+manage emails, then Foswiki will fall back to using the user mapping
 manager (which by default will store emails in user topics)
 
 The default ('none') password manager does *not* manage emails.
@@ -265,7 +265,7 @@ sub canFetchUsers {
 
 ---++ ObjectMethod fetchUsers() -> new Foswiki::ListIterator(\@users)
 
-returns a TWikiIterator of loginnames from the password source. If AllowLoginNames is false
+returns an Iterator of loginnames from the password source. If AllowLoginNames is false
 this is used to remove the need for a WikiUsers topic.
 
 =cut

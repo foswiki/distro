@@ -46,7 +46,7 @@ sub ui {
         }
     }
 
-    # Put in a link to the front page of the TWiki
+    # Put in a link to the front page of the Foswiki
     my $url =
 "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/";
     return
@@ -58,7 +58,7 @@ sub ui {
           . ( ( $this->{changed} == 1 ) ? '' : 's' )
           . '.' )
       . CGI::p()
-      . CGI::a( { href => $url }, "Go to the TWiki front page" ) . " or ";
+      . CGI::a( { href => $url }, "Go to the Foswiki front page" ) . " or ";
 }
 
 # Listener for when a saved configuration item is changed.

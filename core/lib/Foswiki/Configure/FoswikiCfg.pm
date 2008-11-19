@@ -297,7 +297,7 @@ sub save {
 
         # If not found on the path, park it beside Foswiki.spec
         $lsc = Foswiki::findFileOnPath('Foswiki.spec') || '';
-        $lsc =~ s/TWiki\.spec/LocalSite.cfg/;
+        $lsc =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
 
     if ( open( F, '<' . $lsc ) ) {
@@ -307,7 +307,7 @@ sub save {
     }
     else {
         $this->{content} = <<'HERE';
-# Local site settings for TWiki. This file is managed by the 'configure'
+# Local site settings for Foswiki. This file is managed by the 'configure'
 # CGI script, though you can also make (careful!) manual changes with a
 # text editor.
 HERE

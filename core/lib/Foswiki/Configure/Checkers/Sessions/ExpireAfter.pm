@@ -30,7 +30,7 @@ sub check {
     my $e = '';
     if ( $Foswiki::cfg{Sessions}{ExpireAfter} < 0 ) {
         $e .= $this->WARN(<<'MESSAGE');
-TWiki will *not* clean up sessions automatically. Make sure you
+Foswiki will *not* clean up sessions automatically. Make sure you
 have a cron job running.
 MESSAGE
     }

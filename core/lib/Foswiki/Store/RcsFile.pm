@@ -1115,7 +1115,7 @@ sub _constructAttributesForAutoAttached {
         size    => $stat->[7],
         date    => $stat->[9],
 
-#        user    => 'UnknownUser',  #safer _not_ to default - TWiki will fill it in when it needs to
+#        user    => 'UnknownUser',  #safer _not_ to default - Foswiki will fill it in when it needs to
         comment      => '',
         attr         => '',
         autoattached => '1'

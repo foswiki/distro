@@ -512,7 +512,7 @@ sub searchWeb {
     # Invalid template?
     if ( !$tmplTail ) {
         my $mess =
-            CGI::h1('TWiki Installation Error')
+            CGI::h1('Foswiki Installation Error')
           . 'Incorrect format of '
           . $template
           . ' template (missing sections? There should be 4 %SPLIT% tags)';

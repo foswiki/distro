@@ -27,7 +27,7 @@
 
 ---+!! package Foswiki::Engine
 
-The engine class is a singleton that implements details about TWiki's
+The engine class is a singleton that implements details about Foswiki's
 execution mode. This is the base class and implements basic behavior.
 
 Each engine should inherits from this and overload methods necessary
@@ -72,7 +72,7 @@ sub new {
 
 ---++ ObjectMethod run()
 
-Start point to TWiki Runtime Engines.
+Start point to Runtime Engines.
 
 =cut
 
@@ -138,7 +138,7 @@ sub prepare {
 
             # tell the browser where to look for more help
             my $text =
-'TWiki detected an internal error - please check your TWiki logs and webserver logs for more information.'
+'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
               . "\n\n";
             $mess =~ s/ at .*$//s;
 

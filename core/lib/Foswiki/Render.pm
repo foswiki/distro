@@ -5,7 +5,7 @@ package Foswiki::Render;
 
 ---+ package Foswiki::Render
 
-This module provides most of the actual HTML rendering code in TWiki.
+This module provides most of the actual HTML rendering code in Foswiki.
 
 =cut
 
@@ -729,7 +729,7 @@ sub _renderNonExistingWikiWord {
     return $ans;
 }
 
-# _handleWikiWord is called by the TWiki Render routine when it sees a
+# _handleWikiWord is called by the Foswiki Render routine when it sees a
 # wiki word that needs linking.
 # Handle the various link constructions. e.g.:
 # WikiWord
@@ -936,7 +936,7 @@ sub renderFORMFIELD {
 
         # if null format explicitly set, return empty
         # SMELL: it's not clear what this does; the implication
-        # is that it does something that violates TWiki tag syntax,
+        # is that it does something that violates Foswiki tag syntax,
         # so I've had to comment it out....
         # return '' if ( $args =~ m/format\s*=/o);
         # Otherwise default to value
@@ -1098,7 +1098,7 @@ sub getRenderedVersion {
     if ( $plugins->haveHandlerFor('outsidePREHandler') ) {
 
         # DEPRECATED - this is the one call preventing
-        # effective optimisation of the TWiki ML processing loop,
+        # effective optimisation of the TML processing loop,
         # as it exposes the concept of a 'line loop' to plugins,
         # but HTML is not a line-oriented language (though TML is).
         # But without it, a lot of processing could be moved
@@ -1381,9 +1381,9 @@ sub _filterScript {
 
 ---++ ObjectMethod TML2PlainText( $text, $web, $topic, $opts ) -> $plainText
 
-Clean up TWiki text for display as plain text without pushing it
+Clean up TML for display as plain text without pushing it
 through the full rendering pipeline. Intended for generation of
-topic and change summaries. Adds nop tags to prevent TWiki 
+topic and change summaries. Adds nop tags to prevent
 subsequent rendering; nops get removed at the very end.
 
 Defuses TML.
@@ -1617,7 +1617,7 @@ Return value: $text with blocks removed
 
 Searches through $text and extracts blocks delimited by a tag, appending each
 onto the end of the @buffer and replacing with a token
-string which is not affected by TWiki rendering.  The text after these
+string which is not affected by TML rendering.  The text after these
 substitutions is returned.
 
 Parameters to the open tag are recorded.
@@ -2009,7 +2009,7 @@ sub forEachLine {
       * =interweb= - if true, then fully web-qualified references are required.
       * =grep= - if true, generate a GNU-grep compatible RE instead of the
         default Perl RE.
-      * =url= - if set, generates an expression that will match a TWiki
+      * =url= - if set, generates an expression that will match a Foswiki
         URL that points to the web/topic, instead of the default which
         matches topic links in plain text.
 Generate a regular expression that can be used to match references to the
@@ -2151,7 +2151,7 @@ sub replaceTopicReferences {
 
     ASSERT( defined $args->{inWeb} ) if DEBUG;
 
-    # Do the traditional TWiki topic references first
+    # Do the traditional Foswiki topic references first
     my $oldTopic = $args->{oldTopic};
     my $newTopic = $args->{newTopic};
     my $repl     = $newTopic;

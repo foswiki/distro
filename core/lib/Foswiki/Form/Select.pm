@@ -28,7 +28,7 @@ sub new {
 
 ---++ getDefaultValue() -> $value
 The default for a select is always the empty string, as there is no way in
-TWiki form definitions to indicate selected values. This defers the decision
+Foswiki form definitions to indicate selected values. This defers the decision
 on a value to the browser.
 
 =cut

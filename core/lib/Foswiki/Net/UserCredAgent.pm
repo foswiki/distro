@@ -17,7 +17,7 @@
 # As per the GPL, removal of this notice is prohibited.
 
 # LWP::UserAgent subclass used to pass in username and password,
-# and use the TWiki proxy setup
+# and use the Foswiki proxy setup
 
 package Foswiki::Net::UserCredAgent;
 use base 'LWP::UserAgent';

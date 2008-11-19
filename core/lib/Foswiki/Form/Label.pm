@@ -11,7 +11,7 @@ sub isEditable {
 sub renderForEdit {
     my ( $this, $web, $topic, $value ) = @_;
 
-    # Changing labels through the URL is a feature for TWiki applications,
+    # Changing labels through the URL is a feature for Foswiki applications,
     # even though it's not accessible for standard edits. Some contribs
     # may want to override this to make labels editable.
     my $session = $this->{session};

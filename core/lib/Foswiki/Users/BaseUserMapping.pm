@@ -21,7 +21,7 @@
 
 ---+ package Foswiki::Users::BaseUserMapping
 
-User mapping is the process by which TWiki maps from a username (a login name)
+User mapping is the process by which Foswiki maps from a username (a login name)
 to a display name and back. It is also where groups are maintained.
 
 The BaseMapper provides support for a small number of predefined users.
@@ -37,7 +37,7 @@ prefix 'BaseUserMapping_'.
 
 ---+++ Groups
    * $Foswiki::cfg{SuperAdminGroup}
-   * TWikiBaseGroup
+   * BaseGroup
 
 =cut
 
@@ -57,7 +57,7 @@ Construct the BaseUserMapping object
 =cut
 
 # Constructs a new user mapping handler of this type, referring to $session
-# for any required TWiki services.
+# for any required Foswiki services.
 sub new {
     my ( $class, $session ) = @_;
 
@@ -102,7 +102,7 @@ sub new {
             $this->{mapping_id} . '333',
             $this->{mapping_id} . '222'     #so registration can still take place on an otherwise locked down USERSWEB
         ],
-        TWikiBaseGroup               => [
+        BaseGroup               => [
             $this->{mapping_id} . '333',
             $this->{mapping_id} . '666',
             $this->{mapping_id} . '999',
@@ -371,7 +371,7 @@ sub findUserByWikiName {
         elsif ( $this->{L2U}->{$wn} ) {
 
             # The wikiname is also a login name for the purposes of this
-            # mapping. We have to do this because TWiki defines access controls
+            # mapping. We have to do this because Foswiki defines access controls
             # in terms of mapped users, and if a wikiname is *missing* from the
             # mapping there is "no such user".
             push( @users, $this->{L2U}->{$wn} );

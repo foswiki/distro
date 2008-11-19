@@ -7,16 +7,16 @@
 <!-- STARTINCLUDE required for huge CompleteDocumentation topic -->
 %STARTINCLUDE%
 
-_Official list of stable TWiki functions for Plugin developers_
+_Official list of stable Foswiki functions for Plugin developers_
 
 This module defines official functions that [[%SYSTEMWEB%.Plugins][Plugins]]
-can use to interact with the TWiki engine and content.
+can use to interact with the Foswiki engine and content.
 
-Refer to TWiki.EmptyPlugin and lib/Foswiki/Plugins/EmptyPlugin.pm for a template Plugin and documentation on how to write a Plugin.
+Refer to lib/Foswiki/Plugins/EmptyPlugin.pm for a template Plugin and documentation on how to write a Plugin.
 
 Plugins should *only* use functions published in this module. If you use
-functions in other TWiki libraries you might create a security hole and
-you will probably need to change your Plugin when you upgrade TWiki.
+functions in other Foswiki libraries you might create a security hole and
+you will probably need to change your Plugin when you upgrade Foswiki.
 
 Deprecated functions will still work in older code, though they should
 _not_ be called in new Plugins and should be replaced in older Plugins
@@ -25,7 +25,7 @@ as soon as possible.
 The compatibility history of this module is given by the VERSION number
 of the Foswiki::Plugins module.
 
-Notes on use of =$Foswiki::Plugins::VERSION= (from TWiki 1.2 forwards):
+Notes on use of =$Foswiki::Plugins::VERSION=:
    * If the *major* version (e.g. =1.=) is the same then any plugin coded
      to use any *earlier* revision of the =1.= API will still work. No
      function has been removed from the interface, nor has any API published
@@ -328,7 +328,7 @@ Get a hash of context identifiers representing the currently active
 context.
 
 The context is a set of identifiers that are set
-during specific phases of TWiki processing. For example, each of
+during specific phases of processing. For example, each of
 the standard scripts in the 'bin' directory each has a context
 identifier - the view script has 'view', the edit script has 'edit'
 etc. So you can easily tell what 'type' of script your Plugin is
@@ -379,7 +379,7 @@ sub getContext {
 ---+++ pushTopicContext($web, $topic)
    * =$web= - new web
    * =$topic= - new topic
-Change the TWiki context so it behaves as if it was processing =$web.$topic=
+Change the Foswiki context so it behaves as if it was processing =$web.$topic=
 from now on. All the preferences will be reset to those of the new topic.
 Note that if the new topic is not readable by the logged in user due to
 access control considerations, there will *not* be an exception. It is the
@@ -419,7 +419,7 @@ sub pushTopicContext {
 
 ---+++ popTopicContext()
 
-Returns the TWiki context to the state it was in before the
+Returns the Foswiki context to the state it was in before the
 =pushTopicContext= was called.
 
 *Since:* Foswiki::Plugins::VERSION 1.2
@@ -446,7 +446,7 @@ sub popTopicContext {
 
 ---+++ getPreferencesValue( $key, $web ) -> $value
 
-Get a preferences value from TWiki or from a Plugin
+Get a preferences value from Foswiki or from a Plugin
    * =$key= - Preferences key
    * =$web= - Name of web, optional. Current web if not specified; does not apply to settings of Plugin topics
 Return: =$value=  Preferences value; empty string if not set
@@ -462,7 +462,7 @@ Return: =$value=  Preferences value; empty string if not set
       * WebPreferences topic has: =* Set WEBBGCOLOR = #FFFFC0=
       * =my $webColor = Foswiki::Func::getPreferencesValue( 'WEBBGCOLOR', 'Sandbox' );=
 
-*NOTE:* As of TWiki4.1, if =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
 preferences set in the plugin topic will be ignored.
 
 =cut
@@ -491,7 +491,7 @@ __Note__: This function will will *only* work when called from the Plugin.pm fil
 
 *Since:* Foswiki::Plugins::VERSION 1.021 (27 Mar 2004)
 
-*NOTE:* As of TWiki4.1, if =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
 preferences set in the plugin topic will be ignored.
 
 =cut
@@ -509,7 +509,7 @@ sub getPluginPreferencesValue {
 
 ---+++ getPreferencesFlag( $key, $web ) -> $value
 
-Get a preferences flag from TWiki or from a Plugin
+Get a preferences flag from Foswiki or from a Plugin
    * =$key= - Preferences key
    * =$web= - Name of web, optional. Current web if not specified; does not apply to settings of Plugin topics
 Return: =$value=  Preferences flag ='1'= (if set), or ="0"= (for preferences values ="off"=, ="no"= and ="0"=)
@@ -521,7 +521,7 @@ Return: =$value=  Preferences flag ='1'= (if set), or ="0"= (for preferences val
       * Use ="MYPLUGIN_SHOWHELP"= for =$key=
       * =my $showHelp = Foswiki::Func::getPreferencesFlag( "MYPLUGIN_SHOWHELP" );=
 
-*NOTE:* As of TWiki4.1, if =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
 preferences set in the plugin topic will be ignored.
 
 =cut
@@ -545,7 +545,7 @@ __Note__: This function will will *only* work when called from the Plugin.pm fil
 
 *Since:* Foswiki::Plugins::VERSION 1.021 (27 Mar 2004)
 
-*NOTE:* As of TWiki4.1, if =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
+*NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
 preferences set in the plugin topic will be ignored.
 
 =cut
@@ -578,54 +578,6 @@ sub setPreferencesValue {
 
 =pod
 
----+++ getWikiToolName( ) -> $name
-
-Get toolname as defined in TWiki.cfg
-
-Return: =$name= Name of tool, e.g. ='TWiki'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (27 Feb 2001)
-
-=cut
-
-sub getWikiToolName {
-    return $Foswiki::cfg{WikiToolName};
-}
-
-=pod
-
----+++ getMainWebname( ) -> $name
-
-Get name of Main web as defined in TWiki.cfg
-
-Return: =$name= Name, e.g. ='Main'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (27 Feb 2001)
-
-=cut
-
-sub getMainWebname {
-    return $Foswiki::cfg{UsersWebName};
-}
-
-=pod
-
----+++ getTwikiWebname( ) -> $name
-
-Get name of TWiki documentation web as defined in TWiki.cfg
-
-Return: =$name= Name, e.g. ='TWiki'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (27 Feb 2001)
-
-=cut
-
-sub getTwikiWebname {
-    return $Foswiki::cfg{SystemWebName};
-}
-
-=pod
-
 ---++ User Handling and Access Control
 ---+++ getDefaultUserName( ) -> $loginName
 Get default user name as defined in the configuration as =DefaultUserLogin=
@@ -645,7 +597,7 @@ sub getDefaultUserName {
 ---+++ getCanonicalUserID( $user ) -> $cUID
    * =$user= can be a login, wikiname or web.wikiname
 Return the cUID of the specified user. A cUID is a unique identifier which
-is assigned by TWiki for each user.
+is assigned by Foswiki for each user.
 BEWARE: While the default TopicUserMapping uses a cUID that looks like a user's
 LoginName, some characters are modified to make them compatible with rcs.
 Other usermappings may use other conventions - the !JoomlaUserMapping
@@ -775,7 +727,7 @@ sub wikiToUserName {
 
 ---+++ userToWikiName( $loginName, $dontAddWeb ) -> $wikiName
 Translate a login name to a Wiki name
-   * =$loginName=  - Login name, e.g. ='jdoe'=. Since TWiki 4.2.1 this may
+   * =$loginName=  - Login name, e.g. ='jdoe'=. This may
      also be a wiki name. This will normally be transparent, but may be
      relevant if you have login names that are also valid wiki names.
    * =$dontAddWeb= - Do not add web prefix if ="1"=
@@ -844,7 +796,7 @@ sub emailToWikiNames {
 Returns the registered email addresses of the named user. If $user is
 undef, returns the registered email addresses for the logged-in user.
 
-Since TWiki 4.2.1, $user may also be a login name, or the name of a group.
+$user may also be a login name, or the name of a group.
 
 *Since:* Foswiki::Plugins::VERSION 1.2
 
@@ -1028,7 +980,7 @@ sub eachGroup {
 
 ---+++ isGroup( $group ) -> $boolean
 
-Checks if =$group= is the name of a group known to TWiki.
+Checks if =$group= is the name of a user group.
 
 =cut
 
@@ -1078,15 +1030,15 @@ sub eachGroupMember {
 Check access permission for a topic based on the
 [[%SYSTEMWEB%.AccessControl]] rules
    * =$type=     - Access type, required, e.g. ='VIEW'=, ='CHANGE'=.
-   * =$id=  - WikiName of remote user, required, e.g. ="PeterThoeny"=. From
-     TWiki 4.2.1, $id may also be a login name.
+   * =$id=  - WikiName of remote user, required, e.g. ="RickShaw"=.
+     $id may also be a login name.
      If =$id= is '', 0 or =undef= then access is *always permitted*.
    * =$text=     - Topic text, optional. If 'perl false' (undef, 0 or ''),
      topic =$web.$topic= is consulted. =$text= may optionally contain embedded
      =%META:PREFERENCE= tags. Provide this parameter if:
       1 You are setting different access controls in the text to those defined
       in the stored topic,
-      1 You already have the topic text in hand, and want to help TWiki avoid
+      1 You already have the topic text in hand, and want to help avoid
         having to read it again,
       1 You are providing a =$meta= parameter.
    * =$topic=    - Topic name, required, e.g. ='PrivateStuff'=
@@ -1099,7 +1051,7 @@ Check access permission for a topic based on the
 A perl true result indicates that access is permitted.
 
 *Note* the weird parameter order is due to compatibility constraints with
-earlier TWiki releases.
+earlier releases.
 
 *Tip* if you want, you can use this method to check your own access control types. For example, if you:
    * Set ALLOWTOPICSPIN = IncyWincy
@@ -1935,7 +1887,7 @@ Return: expanded template text (what's left after removal of all %TMPL:DEF% stat
 Reads a template and extracts template definitions, adding them to the
 list of loaded templates, overwriting any previous definition.
 
-How TWiki searches for templates is described in SkinTemplates.
+How Foswiki searches for templates is described in SkinTemplates.
 
 If template text is found, extracts include statements and fully expands them.
 
@@ -1957,7 +1909,7 @@ Return: the text of the expanded template
 *Since:* Foswiki::Plugins::VERSION 1.1
 
 A template is defined using a %TMPL:DEF% statement in a template
-file. See the documentation on TWiki templates for more information.
+file. See the documentation on Foswiki templates for more information.
 
 =cut
 
@@ -2001,7 +1953,7 @@ Nothing more should be printed to STDOUT after this method has been called.
 
 The =$passthru= parameter allows you to pass the parameters that were passed
 to the current query on to the target URL, as long as it is another URL on the
-same TWiki installation. If =$passthru= is set to a true value, then TWiki
+same installation. If =$passthru= is set to a true value, then Foswiki
 will save the current URL parameters, and then try to restore them on the
 other side of the redirect. Parameters are stored on the server in a cache
 file.
@@ -2017,7 +1969,7 @@ Foswiki::Func::redirectCgiQuery(
   undef, Foswiki::Func::getScriptUrl($web, $topic, 'edit'), 1);
 </verbatim>
 =$passthru= does nothing if =$url= does not point to a script in the current
-TWiki installation.
+Foswiki installation.
 
 *Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
@@ -2038,8 +1990,8 @@ This is useful for Plugins that want to include some javascript custom css.
    * =$id= - Unique ID to prevent the same HTML from being duplicated. Plugins should use a prefix to prevent name clashes (e.g EDITTABLEPLUGIN_JSCALENDAR)
    * =$header= - the HTML to be added to the <head> section. The HTML must be valid in a HEAD tag - no checks are performed.
    * =requires= optional, comma-separated list of id's of other head blocks this one depends on.
-   
-All TWiki variables present in =$header= will be expanded before being inserted into the =<head>= section.
+
+All macros present in =$header= will be expanded before being inserted into the =<head>= section.
 
 Note that this is _not_ the same as the HTTP header, which is modified through the Plugins =modifyHeaderHandler=.
 
@@ -2088,7 +2040,7 @@ sub expandCommonVariables {
 
 ---+++ renderText( $text, $web ) -> $text
 
-Render text from TWiki markup into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]]
+Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]]
    * =$text= - Text to render, e.g. ='*bold* text and =fixed font='=
    * =$web=  - Web name, optional, e.g. ='Main'=. The current web is taken if missing
 Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
@@ -2109,7 +2061,7 @@ sub renderText {
 ---+++ internalLink( $pre, $web, $topic, $label, $anchor, $createLink ) -> $text
 
 Render topic name and link label into an XHTML link. Normally you do not need to call this funtion, it is called internally by =renderText()=
-   * =$pre=        - Text occuring before the TWiki link syntax, optional
+   * =$pre=        - Text occuring before the link syntax, optional
    * =$web=        - Web name, required, e.g. ='Main'=
    * =$topic=      - Topic name to link to, required, e.g. ='WebNotify'=
    * =$label=      - Link label, required. Usually the same as =$topic=, e.g. ='notify'=
@@ -2181,7 +2133,7 @@ be comma-separated.
 *Deprecated* in favour of wikinameToEmails, because this function only
 returns a single email address, where a user may in fact have several.
 
-Since TWiki 4.2.1, $wikiName may also be a login name.
+$wikiName may also be a login name.
 
 =cut
 
@@ -2237,7 +2189,7 @@ sub expandVariablesOnTopicCreation {
 
 ---++ Special handlers
 
-Special handlers can be defined to make functions in plugins behave as if they were built-in to TWiki.
+Special handlers can be defined to make functions in plugins behave as if they were built-in.
 
 =cut
 
@@ -2247,10 +2199,10 @@ Special handlers can be defined to make functions in plugins behave as if they w
 
 Should only be called from initPlugin.
 
-Register a function to handle a simple variable. Handles both %<nop>VAR% and %<nop>VAR{...}%. Registered variables are treated the same as TWiki internal variables, and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
+Register a function to handle a simple variable. Handles both %<nop>VAR% and %<nop>VAR{...}%. Registered variables are treated the same as internal macros, and are expanded at the same time. This is a _lot_ more efficient than using the =commonTagsHandler=.
    * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
    * =\&fn= - Reference to the handler function.
-   * =$syntax= can be 'classic' (the default) or 'context-free'. 'classic' syntax is appropriate where you want the variable to support classic TWiki syntax i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. If your variable will only use named parameters, you can use 'context-free' syntax, which supports a more relaxed syntax. For example, %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
+   * =$syntax= can be 'classic' (the default) or 'context-free'. 'classic' syntax is appropriate where you want the variable to support classic syntax i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. If your variable will only use named parameters, you can use 'context-free' syntax, which supports a more relaxed syntax. For example, %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
 
 *Since:* Foswiki::Plugins::VERSION 1.1
 
@@ -2259,7 +2211,7 @@ The variable handler function must be of the form:
 sub handler(\%session, \%params, $topic, $web)
 </verbatim>
 where:
-   * =\%session= - a reference to the TWiki session object (may be ignored)
+   * =\%session= - a reference to the session object (may be ignored)
    * =\%params= - a reference to a Foswiki::Attrs object containing parameters. This can be used as a simple hash that maps parameter names to values, with _DEFAULT being the name for the default parameter.
    * =$topic= - name of the topic in the query
    * =$web= - name of the web in the query
@@ -2283,7 +2235,7 @@ sub boo {
 would let you do this:
 =%<nop>EXEC{"ps -Af" silent="on"}%=
 
-Registered tags differ from tags implemented using the old TWiki approach (text substitution in =commonTagsHandler=) in the following ways:
+Registered tags differ from tags implemented using the old approach (text substitution in =commonTagsHandler=) in the following ways:
    * registered tags are evaluated at the same time as system tags, such as %SERVERTIME. =commonTagsHandler= is only called later, when all system tags have already been expanded (though they are expanded _again_ after =commonTagsHandler= returns).
    * registered tag names can only contain alphanumerics and _ (underscore)
    * registering a tag =FRED= defines both =%<nop>FRED{...}%= *and also* =%FRED%=.
@@ -2327,7 +2279,7 @@ The handler function must be of the form:
 sub handler(\%session)
 </verbatim>
 where:
-   * =\%session= - a reference to the TWiki session object (may be ignored)
+   * =\%session= - a reference to the Foswiki session object (may be ignored)
 
 From the REST interface, the name of the plugin must be used
 as the subject of the invokation.
@@ -2378,19 +2330,19 @@ sub registerRESTHandler {
 
 ---+++ decodeFormatTokens($str) -> $unencodedString
 
-TWiki has an informal standard set of tokens used in =format=
+Foswiki has an informal standard set of tokens used in =format=
 parameters that are used to block evaluation of paramater strings.
 For example, if you were to write
 
 =%<nop>MYTAG{format="%<nop>WURBLE%"}%=
 
 then %<nop>WURBLE would be expanded *before* %<NOP>MYTAG is evaluated. To avoid
-this TWiki uses escapes in the format string. For example:
+this Foswiki uses escapes in the format string. For example:
 
 =%<nop>MYTAG{format="$percntWURBLE$percnt"}%=
 
 This lets you enter arbitrary strings into parameters without worrying that
-TWiki will expand them before your plugin gets a chance to deal with them
+Foswiki will expand them before your plugin gets a chance to deal with them
 properly. Once you have processed your tag, you will want to expand these
 tokens to their proper value. That's what this function does.
 
@@ -2467,7 +2419,7 @@ sub searchInWebContent {
 ---+++ getWorkArea( $pluginName ) -> $directorypath
 
 Gets a private directory for Plugin use. The Plugin is entirely responsible
-for managing this directory; TWiki will not read from it, or write to it.
+for managing this directory; Foswiki will not read from it, or write to it.
 
 The directory is guaranteed to exist, and to be writable by the webserver
 user. By default it will *not* be web accessible.
@@ -2545,17 +2497,17 @@ sub saveFile {
 
 ---+++ getRegularExpression( $name ) -> $expr
 
-Retrieves a TWiki predefined regular expression or character class.
+Retrieves a Foswiki predefined regular expression or character class.
    * =$name= - Name of the expression to retrieve.  See notes below
 Return: String or precompiled regular expression matching as described below.
 
 *Since:* Foswiki::Plugins::VERSION 1.020 (9 Feb 2004)
 
-__Note:__ TWiki internally precompiles several regular expressions to
+__Note:__ Foswiki internally precompiles several regular expressions to
 represent various string entities in an <nop>I18N-compatible manner. Plugins
 authors are encouraged to use these in matching where appropriate. The
 following are guaranteed to be present. Others may exist, but their use
-is unsupported and they may be removed in future TWiki versions.
+is unsupported and they may be removed in future Foswiki versions.
 
 In the table below, the expression marked type 'String' are intended for
 use within character classes (i.e. for use within square brackets inside
@@ -2619,8 +2571,8 @@ Note that hierarchical web names (Web.SubWeb) are only available if hierarchical
 The symbols %<nop>USERSWEB%, %<nop>SYSTEMWEB% and %<nop>DOCWEB% can be used in the input to represent the web names set in $cfg{UsersWebName} and $cfg{SystemWebName}. For example:
 | *Input*                               | *Return* |
 | <tt>( '%<nop>USERSWEB%', 'Topic' )</tt>     | <tt>( 'Main', 'Topic' ) </tt>  |
-| <tt>( '%<nop>SYSTEMWEB%', 'Topic' )</tt>    | <tt>( 'TWiki', 'Topic' ) </tt>  |
-| <tt>( '', '%<nop>DOCWEB%.Topic' )</tt>    | <tt>( 'TWiki', 'Topic' ) </tt>  |
+| <tt>( '%<nop>SYSTEMWEB%', 'Topic' )</tt>    | <tt>( 'System', 'Topic' ) </tt>  |
+| <tt>( '', '%<nop>DOCWEB%.Topic' )</tt>    | <tt>( 'System', 'Topic' ) </tt>  |
 
 =cut
 
@@ -2832,17 +2784,17 @@ sub extractNameValuePair {
 
 ---++ Deprecated functions
 
-From time-to-time, the TWiki developers will add new functions to the interface (either to TWikiFuncDotPm, or new handlers). Sometimes these improvements mean that old functions have to be deprecated to keep the code manageable. When this happens, the deprecated functions will be supported in the interface for at least one more TWiki release, and probably longer, though this cannot be guaranteed.
+From time-to-time, the Foswiki developers will add new functions to the interface (either to =Foswiki::Func=, or new handlers). Sometimes these improvements mean that old functions have to be deprecated to keep the code manageable. When this happens, the deprecated functions will be supported in the interface for at least one more release, and probably longer, though this cannot be guaranteed.
 
-Updated plugins may still need to define deprecated handlers for compatibility with old TWiki versions. In this case, the plugin package that defines old handlers can suppress the warnings in %<nop>FAILEDPLUGINS%.
+Updated plugins may still need to define deprecated handlers for compatibility with old Foswiki versions. In this case, the plugin package that defines old handlers can suppress the warnings in %<nop>FAILEDPLUGINS%.
 
 This is done by defining a map from the handler name to the =Foswiki::Plugins= version _in which the handler was first deprecated_. For example, if we need to define the =endRenderingHandler= for compatibility with =Foswiki::Plugins= versions before 1.1, we would add this to the plugin:
 <verbatim>
 package Foswiki::Plugins::SinkPlugin;
-use vars qw( %TWikiCompatibility );
-$TWikiCompatibility{endRenderingHandler} = 1.1;
+use vars qw( %FoswikiCompatibility );
+$FoswikiCompatibility{endRenderingHandler} = 1.1;
 </verbatim>
-If the currently-running TWiki version is 1.1 _or later_, then the _handler will not be called_ and _the warning will not be issued_. TWiki with versions of =Foswiki::Plugins= before 1.1 will still call the handler as required.
+If the currently-running code version is 1.1 _or later_, then the _handler will not be called_ and _the warning will not be issued_. TWiki with versions of =Foswiki::Plugins= before 1.1 will still call the handler as required.
 
 The following functions are retained for compatibility only. You should
 stop using them as soon as possible.
@@ -2853,7 +2805,7 @@ Get script URL path
 
 *DEPRECATED* since 1.1 - use =getScriptUrl= instead.
 
-Return: =$path= URL path of TWiki scripts, e.g. ="/cgi-bin"=
+Return: =$path= URL path of bin scripts, e.g. ="/cgi-bin"=
 
 *WARNING:* you are strongly recommended *not* to use this function, as the
 {ScriptUrlPaths} URL rewriting rules will not apply to urls generated
@@ -2868,6 +2820,37 @@ sub getScriptUrlPath {
     return $Foswiki::Plugins::SESSION->getScriptUrl( 0, '' );
 }
 
+
+=pod
+
+---+++ getWikiToolName( ) -> $name
+
+*DEPRECATED* in Foswiki; use $Foswiki::cfg{WikiToolName} instead
+
+=cut
+
+sub getWikiToolName { return $Foswiki::cfg{WikiToolName}; }
+
+=pod
+
+---+++ getMainWebname( ) -> $name
+
+*DEPRECATED* in Foswiki; use $Foswiki::cfg{UsersWebName} instead
+
+=cut
+
+sub getMainWebname { return $Foswiki::cfg{UsersWebName}; }
+
+=pod
+
+---+++ getTwikiWebname( ) -> $name
+
+*DEPRECATED* in Foswiki; use $Foswiki::cfg{SystemWebName} instead
+
+=cut
+
+sub getTwikiWebname { return $Foswiki::cfg{SystemWebName}; }
+
 =pod
 
 ---+++ getOopsUrl( $web, $topic, $template, $param1, $param2, $param3, $param4 ) -> $url
@@ -2879,7 +2862,7 @@ Compose fully qualified 'oops' dialog URL
    * =$param1= ... =$param4= - Parameter values for %<nop>PARAM1% ... %<nop>PARAMn% variables in template, optional
 Return: =$url=                     URL, e.g. ="http://example.com:80/cgi-bin/oops.pl/ Main/WebNotify?template=oopslocked&amp;param1=joe"=
 
-*DEPRECATED* since 1.1, the recommended approach is to throw an [[TWikiOopsExceptionDotPm][oops exception]].
+*DEPRECATED* since 1.1, the recommended approach is to throw an oops exception.
 <verbatim>
    use Error qw( :try );
 
@@ -2963,9 +2946,9 @@ sub permissionsSet {
 
 *DEPRECATED* since 1.1 - use =getListOfWebs= instead.
 
-Get list of all public webs, e.g. all webs that do not have the =NOSEARCHALL= flag set in the WebPreferences
+Get list of all public webs, e.g. all webs *and subwebs* that do not have the =NOSEARCHALL= flag set in the WebPreferences
 
-Return: =@webs= List of all public webs, e.g. =( 'Main',  'Know', 'TWiki' )=
+Return: =@webs= List of all public webs *and subwebs*
 
 *Since:* Foswiki::Plugins::VERSION 1.000 (07 Dec 2002)
 
@@ -3008,14 +2991,6 @@ sub formatGmTime {
 
 *DEPRECATED* since 1.1 - use the "Webs, Topics and Attachments" functions to manipulate topics instead
 
-Get data directory (topic file root)
-
-Return: =$dir= Data directory, e.g. ='/twiki/data'=
-
-This function violates store encapsulation and is therefore *deprecated*.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (07 Dec 2002)
-
 =cut
 
 sub getDataDir {
@@ -3028,73 +3003,13 @@ sub getDataDir {
 
 *DEPRECATED* since 1.1 - use the "Webs, Topics and Attachments" functions to manipulateattachments instead
 
-Get pub directory (file attachment root). Attachments are in =$dir/Web/TopicName=
-
-Return: =$dir= Pub directory, e.g. ='/htdocs/twiki/pub'=
-
-This function violates store encapsulation and is therefore *deprecated*.
-
-Use =readAttachment= and =saveAttachment= instead.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (07 Dec 2002)
-
 =cut
 
-sub getPubDir {
-    return $Foswiki::cfg{PubDir};
-}
+sub getPubDir { return $Foswiki::cfg{PubDir}; }
 
-=pod
-
----+++ checkDependencies( $moduleName, $dependenciesRef ) -> $error
-
-*DEPRECATED* since 1.1 - use TWiki:Plugins.BuildContrib and define DEPENDENCIES that can be statically
-evaluated at install time instead. It is a lot more efficient.
-
-*Since:* Foswiki::Plugins::VERSION 1.025 (01 Aug 2004)
-
-=cut
-
+# Removed; it was never used
 sub checkDependencies {
-    my ( $context, $deps ) = @_;
-    my $report = '';
-    my $depsOK = 1;
-    foreach my $dep (@$deps) {
-        my ( $ok, $ver ) = ( 1, 0 );
-        my $msg   = '';
-        my $const = '';
-
-        eval "require $dep->{package}";
-        if ($@) {
-            $msg .= "it could not be found: $@";
-            $ok = 0;
-        }
-        else {
-            if ( defined( $dep->{constraint} ) ) {
-                $const = $dep->{constraint};
-                eval "\$ver = \$$dep->{package}::VERSION;";
-                if ($@) {
-                    $msg .= "the VERSION of the package could not be found: $@";
-                    $ok = 0;
-                }
-                else {
-                    eval "\$ok = ( \$ver $const )";
-                    if ( $@ || !$ok ) {
-                        $msg .= " $ver is currently installed: $@";
-                        $ok = 0;
-                    }
-                }
-            }
-        }
-        unless ($ok) {
-            $report .=
-"WARNING: $dep->{package}$const is required for $context, but $msg\n";
-            $depsOK = 0;
-        }
-    }
-    return undef if ($depsOK);
-
-    return $report;
+    die "checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
 }
 
 1;
@@ -3119,186 +3034,3 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 As per the GPL, removal of this notice is prohibited.
-
----++ API History
-
----+++ twiki-20010901-release (Athens)
-$Foswiki::Plugins::VERSION 1.000
----++++ EmptyPlugin.pm
-   * =commonTagsHandler($text, $topic, $web)=
-   * =endRenderingHandler($text)=
-   * =outsidePREHandler($text)=
-   * =insidePREHandler($text)=
-   * =startRenderingHandler($text, $web)=
----++++ Func.pm
-   * =checkAccessPermission($type, $login, $topicText, $topicName, $webName) -> $boolean=
-   * =expandCommonVariables($text, $topic, $web) -> $text=
-   * =extractNameValuePair($attrs, $name) -> $value=
-   * =formatGmTime($time) -> $text=
-   * =getCgiQuery() -> $query=
-   * =getDataDir() -> $dir=
-   * =getDefaultUserName() -> $loginName=
-   * =getMainWebname() -> $name=
-   * =getOopsUrl($web, $topic, $template, @theParams) -> $url=
-   * =getPreferencesFlag($key) -> $boolean=
-   * =getPreferencesValue($key, $web) -> $value=
-   * =getPublicWebList() -> @webs=
-   * =getPubDir() -> $dir=
-   * =getPubUrlPath() -> $path=
-   * =getRevisionInfo($webName, $topic, $rev, $attachment) -> ($date, $user, $rev, $comment)=
-   * =getScriptUrl($web, $topic, $script) -> $url=
-   * =getScriptUrlPath() -> $path=
-   * =getSessionValue($key) -> $value=
-   * =getSkin() -> $skin=
-   * =getTopicList($web) -> @topics=
-   * =getTwikiWebname() -> $name=
-   * =getUrlHost() -> $host=
-   * =getViewUrl($web, $topic) -> $url=
-   * =getWikiName() -> $wikiName=
-   * =getWikiUserName($text) -> $wikiName=
-   * =getWikiToolName() -> $name=
-   * =internalLink($preamble, $web, $topic, $linkText, $anchor, $createLink) -> $text=
-   * =isGuest() -> $boolean=
-   * =permissionsSet($web) -> $boolean=
-   * =readFile($filename) -> $text=
-   * =readTemplate($name, $skin) -> $text=
-   * =readTopic($webName, $topic) -> ($meta, $text)=
-   * =redirectCgiQuery($query, $url)=
-   * =renderText($text, $web) -> $text=
-   * =saveFile($filename, $text)=
-   * =setSessionValue($key, $value)=
-   * =topicExists($web, $topic) -> $boolean=
-   * =userToWikiName($user, $dontAddWeb) -> $wikiName=
-   * =webExists($web) -> $boolean=
-   * =wikiToUserName($wiki) -> $loginName=
-   * =writeDebug($text)=
-   * =writeHeader($query)=
-   * =writeWarning($text)=
-
----+++ TWikiRelease01Feb2003 (Beijing)
-$Foswiki::Plugins::VERSION 1.010
----++++ EmptyPlugin.pm
-   * =afterEditHandler($text, $topic, $web)=
-   * =beforeEditHandler($text, $topic, $web)=
-   * =beforeSaveHandler($text, $topic, $web)=
-   * =initializeUserHandler($loginName, $url, $pathInfo)=
-   * =redirectCgiQueryHandler($query, $url)=
-   * =registrationHandler($web, $wikiName, $loginName)=
-   * =writeHeaderHandler($query)=
----++++ Func.pm
-   * =checkTopicEditLock($web, $topic) ->($oopsUrl, $loginName, $unlockTime)=
-   * =readTopicText($web, $topic, $rev, $ignorePermissions) -> $text=
-   * =saveTopicText($web, $topic, $text, $ignorePermissions, $dontNotify) -> $oopsUrl=
-   * =setTopicEditLock($web, $topic, $lock) -> $oopsUrl=
-
----+++ twiki-20040902-release (Cairo)
-$Foswiki::Plugins::VERSION 1.025
----++++ EmptyPlugin.pm
-   * =afterCommonTagsHandler($text, $topic, $web)=
-   * =afterSaveHandler($text, $topic, $web, $error)=
-   * =beforeCommonTagsHandler($text, $topic, $web)=
-   * =earlyInitPlugin()=
----++++ Func.pm
-   * =afterAttachmentSaveHandler(\%attrHash, $topic, $web, $error)=
-   * =beforeAttachmentSaveHandler(\%attrHash, $topic, $web)=
-   * =checkDependencies($moduleName, $dependenciesRef) -> $error=
-   * =extractParameters($attr) -> %params=
-   * =formatTime($time, $format, $timezone) -> $text=
-   * =getPluginPreferencesFlag($key) -> $boolean=
-   * =getPluginPreferencesValue($key) -> $value=
-   * =getRegularExpression($regexName) -> $pattern=
-
----+++ TWikiRelease04x00x00 (Dakar)
-$Foswiki::Plugins::VERSION 1.1
----++++ EmptyPlugin.pm
-   * =mergeHandler($diff, $old, $new, \%info) -> $text=
-   * =modifyHeaderHandler(\%headers, $query)=
-   * =postRenderingHandler($text)=
-   * =preRenderingHandler($text, \%map)=
-   * =renderFormFieldForEditHandler($name, $type, $size, $value, $attributes, $possibleValues) -> $html=
-   * =renderWikiWordHandler($linkText, $hasExplicitLinkLabel, $web, $topic) -> $linkText=
-
-   * <strike> =endRenderingHandler($text)= </strike>
-   * <strike> =startRenderingHandler($text, $web)= </strike>
----++++ Func.pm
-   * =addToHEAD($id, $header)=
-   * =attachmentExists($web, $topic, $attachment) -> $boolean=
-   * =clearSessionValue($key) -> $boolean=
-   * =checkDependencies($moduleName, $dependenciesRef) -> $error=
-   * =createWeb($newWeb, $baseWeb, $opts)=
-   * =expandTemplate($def ) -> $string=
-   * =expandVariablesOnTopicCreation($text) -> $text=
-   * =getContext() -> \%hash=
-   * =getListOfWebs($filter) -> @webs=
-   * =getScriptUrl($web, $topic, $script, @params) -> $url=
-   * =getRevisionAtTime($web, $topic, $time) -> $rev=
-   * =getWorkArea($pluginName) -> $directorypath=
-   * =isValidWikiWord($text) -> $boolean=
-   * =loadTemplate($name, $skin, $web) -> $text=
-   * =moveAttachment($web, $topic, $attachment, $newWeb, $newTopic, $newAttachment)=
-   * =moveTopic($web, $topic, $newWeb, $newTopic)=
-   * =moveWeb($oldName, $newName)=
-   * =normalizeWebTopicName($web, $topic) ->($web, $topic)=
-   * =readAttachment($web, $topic, $name, $rev) -> $data=
-   * =registerRESTHandler($alias, \&fn,)=
-   * =registerTagHandler($var, \&fn, $syntax)=
-   * =saveAttachment($web, $topic, $attachment, $opts)=
-   * =saveTopic($web, $topic, $meta, $text, $options) -> $error=
-   * =searchInWebContent($searchString, $web, \@topics, \%options) -> \%map=
-   * =sendEmail($text, $retries) -> $error=
-   * =wikiToEmail($wikiName) -> $email=
-   * =writeHeader($query, $contentLength)=
-
-   * <strike> =checkDependencies($moduleName, $dependenciesRef) -> $error= </strike>
-   * <strike> =formatGmTime($time, $format) -> $text= </strike>
-   * <strike> =getDataDir() -> $dir= </strike>
-   * <strike> =getOopsUrl( $web, $topic, $template, @params ) -> $url= </strike>
-   * <strike> =getPubDir() -> $dir= </strike>
-   * <strike> =getPublicWebList() -> @webs= </strike>
-   * <strike> =getScriptUrlPath() -> $path= </strike>
-
----+++ TWikiRelease04x00x01
-$Foswiki::Plugins::VERSION 1.1
----++++ EmptyPlugin.pm
-   * =afterSaveHandler($text, $topic, $web, $error, $meta)=
-   * =beforeSaveHandler($text, $topic, $web, $meta)=
----++++ Func.pm
-
----+++ TWikiRelease04x01x00
-$Foswiki::Plugins::VERSION 1.11
----++++ EmptyPlugin.pm
-   * =afterRenameHandler($oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic, $newAttachment)=
----++++ Func.pm
-No changes
-
----+++ TWikiRelease04x02x00
-$Foswiki::Plugins::VERSION 1.2
----++++ EmptyPlugin.pm
-   * =afterCommonTagsHandler($text, $topic, $web, $meta)=
-   * =beforeCommonTagsHandler($text, $topic, $web, $meta)=
-   * =commonTagsHandler($text, $topic, $web, $included, $meta)=
----++++ Func.pm
-   * =decodeFormatTokens($str) -> $unencodedString=
-   * =eachChangeSince($web, $time) -> $iterator=
-   * =eachGroup() -> $iterator=
-   * =eachGroupMember($group) -> $iterator=
-   * =eachMembership($wikiname) -> $iterator=
-   * =eachUser() -> $iterator=
-   * =emailToWikiNames($email, $dontAddWeb) -> @wikiNames=
-   * =expandCommonVariables($text, $topic, $web, $meta) -> $text=
-   * =getCanonicalUserID( $user ) -> $cUID=
-   * =getExternalResource($url) -> $response=
-   * =getSessionKeys() -> @keys=
-   * =isAnAdmin($login) -> $boolean=
-   * =isGroup($group) -> $boolean=
-   * =isGroupMember($group, $login) -> $boolean=
-   * =isTrue($value, $default) -> $boolean=
-   * =popTopicContext()=
-   * =pushTopicContext($web, $topic)=
-   * =sanitizeAttachmentName($fname) -> ($fileName, $origName)=
-   * =setPreferencesValue($name, $val)=
-   * =spaceOutWikiWord($word, $sep) -> $text=
-   * =wikiNameToEmails($wikiname) -> @emails=
-   * <strike> =permissionsSet($web) -> $boolean= </strike>
-   * <strike> =getOopsUrl( $web, $topic, $template, $param1, $param2, $param3, $param4 ) -> $url= </strike>
-

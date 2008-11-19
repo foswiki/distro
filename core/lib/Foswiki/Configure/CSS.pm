@@ -12,7 +12,7 @@ sub css {
 1;
 __DATA__
 
-/* TWiki base CSS */
+/* Foswiki base CSS */
 
 .twikiMakeVisible,
 .twikiMakeVisibleInline,
@@ -95,7 +95,7 @@ Parts of these notes are
 (c) Big John @ www.positioniseverything.net and (c) Paul O'Brien @ www.pmob.co.uk, all of whom contributed significantly to the design of
 the css and html code.
 
-Reworked for TWiki: (c) Arthur Clemens @ visiblearea.com
+Reworked for Foswiki: (c) Arthur Clemens @ visiblearea.com
 */
 
 html, body {
@@ -439,7 +439,7 @@ img {
 }
 
 /*	-----------------------------------------------------------
-	TWiki styles
+	Foswiki styles
 	-----------------------------------------------------------	*/
 
 #twikiLogin {
@@ -1339,7 +1339,7 @@ a:hover.twistyTrigger {
 }
 
 /*	-----------------------------------------------------------
-	TWiki styles
+	Foswiki styles
 	-----------------------------------------------------------	*/
 
 .twikiGrayText {

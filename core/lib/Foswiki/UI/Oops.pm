@@ -115,7 +115,7 @@ sub oops {
     if ( !$tmplData ) {
         $tmplData =
             CGI::start_html()
-          . CGI::h1('TWiki Installation Error')
+          . CGI::h1('Foswiki Installation Error')
           . 'Template "'
           . $tmplName
           . '" not found.'

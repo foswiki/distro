@@ -28,7 +28,7 @@ my %headNames = (
     description      => 'Description',
     version          => 'Most Recent Version',
     installedVersion => 'Installed Version',
-    testedOn         => 'Tested On TWiki',
+    testedOn         => 'Tested On Foswiki',
     testedOnOS       => 'Tested On OS',
     install          => 'Action',
 );
@@ -158,7 +158,7 @@ sub ui {
     );
     my $page = <<INTRO;
 To install an extension from this page, click on the link in the 'Action' column.<p />Note that the webserver user has to be able to
-write files everywhere in your TWiki installation. Otherwise you may see
+write files everywhere in your Foswiki installation. Otherwise you may see
 'No permission to write' errors during extension installation.
 INTRO
     $page .= CGI::table( { class => 'twikiForm' }, $table );

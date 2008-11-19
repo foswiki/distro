@@ -22,10 +22,10 @@
 ---+ package Foswiki::UserMapping
 
 This is a virtual base class (a.k.a an interface) for all user mappers. It is
-*not* useable as a mapping in TWiki - use the BaseUserMapping for default
+*not* useable as a mapping in Foswiki - use the BaseUserMapping for default
 behaviour.
 
-User mapping is the process by which TWiki maps from a username (a login name)
+User mapping is the process by which Foswiki maps from a username (a login name)
 to a display name and back. It is also where groups are maintained.
 
 See Foswiki::Users::BaseUserMapping and Foswiki::Users::TopicUserMapping for
@@ -40,7 +40,7 @@ the mapper in use (something like 'BaseUserMapping_' or 'LdapUserMapping_')
 and a unique user id that the mapper uses to identify the user.
 
 The null prefix is reserver for the TopicUserMapping for compatibility
-with old TWiki releases.
+with old Foswiki releases.
 
 __Note:__ in all the following documentation, =$cUID= refers to a
 *canonical user id*.

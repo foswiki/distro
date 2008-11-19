@@ -74,7 +74,7 @@ use vars qw( @registrableHandlers %deprecated );
 
 ---++ ClassMethod new( $session, $name )
 
-   * =$session= - TWiki object
+   * =$session= - Foswiki object
    * =$name= - name of the plugin e.g. MyPlugin
 
 =cut
@@ -251,7 +251,7 @@ sub registerHandlers {
         return;
     }
 
-    my $compat = eval '\%' . $p . '::TWikiCompatibility';
+    my $compat = eval '\%' . $p . '::FoswikiCompatibility';
     foreach my $h (@registrableHandlers) {
         my $sub = $p . '::' . $h;
         if ( defined(&$sub) ) {

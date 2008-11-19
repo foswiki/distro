@@ -27,17 +27,17 @@ and Password modules. The rest of the core should *only* use the methods
 of this package, and should *never* call the mapping or password managers
 directly.
 
-TWiki uses the concept of a _login name_ which is used to authenticate a
+Foswiki uses the concept of a _login name_ which is used to authenticate a
 user. A login name maps to a _wiki name_ that is used to identify the user
 for display. Each login name is unique to a single user, though several
 login names may map to the same wiki name.
 
-Using this module (and the associated plug-in user mapper) TWiki supports
+Using this module (and the associated plug-in user mapper) Foswiki supports
 the concept of _groups_. Groups are sets of login names that are treated
 equally for the purposes of access control. Group names do not have to be
 wiki names, though it is helpful for display if they are.
 
-Internally in the code TWiki uses something referred to as a _canonical user
+Internally in the code Foswiki uses something referred to as a _canonical user
 id_ or just _user id_. The user id is also used externally to uniquely identify
 the user when (for example) recording topic histories. The user id is *usually*
 just the login name, but it doesn't need to be. It just has to be a unique
@@ -49,10 +49,10 @@ core code should never use anything *but* a canonical user id to refer
 to a user.
 
 *Terminology*
-   * A *login name* is the name used to log in to TWiki. Each login name is
+   * A *login name* is the name used to log in to Foswiki. Each login name is
      assumed to be unique to a human. The Password module is responsible for
      authenticating and manipulating login names.
-   * A *canonical user id* is an internal TWiki representation of a user. Each
+   * A *canonical user id* is an internal Foswiki representation of a user. Each
      canonical user id maps 1:1 to a login name.
    * A *wikiname* is how a user is displayed. Many user ids may map to a
      single wikiname. The user mapping module is responsible for mapping
@@ -336,7 +336,7 @@ sub randomPassword {
      to provide it.
    * =$password= - password. If undef, a password will be generated.
 
-Add a new TWiki user identity, returning the canonical user id for the new
+Add a new Foswiki user identity, returning the canonical user id for the new
 user. Used ONLY for user registration.
 
 The user is added to the password system (if there is one, and if it accepts
@@ -347,7 +347,7 @@ existing user, and no password is given, a random password is generated.
 $login can be undef; $wikiname must always have a value.
 
 The return value is the canonical user id that is used
-by TWiki to identify the user.
+by Foswiki to identify the user.
 
 =cut
 
@@ -402,7 +402,7 @@ sub mapLogin2cUID {
 
 ---++ ObjectMethod getCanonicalUserID( $identifier ) -> $cUID
 
-Works out the TWiki canonical user identifier for the user who either
+Works out the Foswiki canonical user identifier for the user who either
 (1) logs in with the login name $identifier or (2) has the wikiname
 $identifier.
 

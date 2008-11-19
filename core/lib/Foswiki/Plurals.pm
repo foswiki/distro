@@ -44,7 +44,7 @@ Returns undef if no singular form exists, otherwise returns the
 singular form of the topic
 
 I18N - Only apply plural processing if site language is English, or
-if a built-in English-language web (Main, TWiki or Plugins).  Plurals
+if a built-in English-language web.  Plurals
 apply to names ending in 's', where topic doesn't exist with plural
 name.
 

@@ -21,7 +21,7 @@
 
 ---+ package Foswiki::Templates
 
-Support for the TWiki template language.
+Support for Skin Template directives
 
 =cut
 
@@ -57,7 +57,7 @@ require Foswiki::Attrs;
 ---++ ClassMethod new ( $session )
 
 Constructor. Creates a new template database object.
-   * $session - session (TWiki) object
+   * $session - session (Foswiki) object
 
 =cut
 

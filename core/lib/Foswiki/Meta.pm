@@ -4,9 +4,9 @@
 
 ---+ package Foswiki::Meta
 
-All TWiki topics have *data* (text) and *meta-data* (information about the
+All topics have *data* (text) and *meta-data* (information about the
 topic). Meta-data includes information such as file attachments, form fields,
-topic parentage etc. When TWiki loads a topic from the store, it represents
+topic parentage etc. When Foswiki loads a topic from the store, it represents
 the meta-data in the topic using an object of this class.
 
 A meta-data object is a hash of different types of meta-data (keyed on
@@ -49,7 +49,7 @@ use Assert;
 =pod
 
 ---++ ClassMethod new($session, $web, $topic, $text)
-   * =$session= - a TWiki object (e.g. =$Foswiki::Plugins::SESSION)
+   * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION)
    * =$web=, =$topic= - the topic that the metadata relates to
 Construct a new, empty object to contain meta-data for the given topic.
    * $text - optional raw text to convert to meta-data form
@@ -777,7 +777,7 @@ sub _writeTypes {
     return $text;
 }
 
-# Note: not published as part of the interface; private to TWiki
+# Note: not published as part of the interface; private to Foswiki
 # Add TOPICINFO type data to the object, as specified by the parameters.
 #    * =$rev= - the revision number
 #    * =$time= - the time stamp

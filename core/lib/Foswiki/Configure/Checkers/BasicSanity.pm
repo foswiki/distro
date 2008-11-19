@@ -43,7 +43,7 @@ sub ui {
     $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('LocalSite.cfg');
     unless ( $this->{LocalSiteDotCfg} ) {
         $this->{LocalSiteDotCfg} = Foswiki::findFileOnPath('Foswiki.spec') || '';
-        $this->{LocalSiteDotCfg} =~ s/TWiki\.spec/LocalSite.cfg/;
+        $this->{LocalSiteDotCfg} =~ s/Foswiki\.spec/LocalSite.cfg/;
     }
 
     # Get default settings by reading .spec files

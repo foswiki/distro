@@ -8,7 +8,7 @@ Object that brokers access to network resources.
 
 =cut
 
-# This module is used by configure, and as such must *not* 'use TWiki',
+# This module is used by configure, and as such must *not* 'use Foswiki',
 # or any other module that uses it. Always run configure to test after
 # changing the module.
 
@@ -149,7 +149,7 @@ sub getExternalResource {
             $req .= "Authorization: Basic $base64";
         }
 
-        # SMELL: Reference to TWiki variables used for compatibility
+        # SMELL: Reference to Foswiki variables used for compatibility
         my ( $proxyHost, $proxyPort );
         if ( $this->{session} && $this->{session}->{prefs} ) {
             my $prefs = $this->{session}->{prefs};
@@ -338,7 +338,7 @@ sub sendEmail {
             $e = join( "\n", grep( /^ERROR/, split( /\n/, $e ) ) );
 
             unless ( $e =~ /^ERROR/ ) {
-                $e = "Mail could not be sent - see TWiki warning log.";
+                $e = "Mail could not be sent - see Foswiki warning log.";
             }
             $errors .= $e . "\n";
             sleep($back_off);

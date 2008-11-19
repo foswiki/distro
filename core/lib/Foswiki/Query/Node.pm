@@ -4,7 +4,7 @@
 
 ---+ package Foswiki::Query
 
-A Query object is a representation of a query over the TWiki database.
+A Query object is a representation of a query over the Foswiki database.
 
 Fields are given by name, and values by strings or numbers. Strings should always be surrounded by 'single-quotes'. Numbers can be signed integers or decimals. Single quotes in values may be escaped using backslash (\).
 

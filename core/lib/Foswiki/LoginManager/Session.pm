@@ -22,7 +22,7 @@
 ---+!! package Foswiki::LoginManager::Session
 
 Class to provide CGI::Session like infra-structure, compatible with
-TWiki Runtime Engine mechanisms other than CGI.
+Runtime Engine mechanisms other than CGI.
 
 It inherits from CGI::Session and redefine methods that uses %ENV directly,
 replacing by calls to Foswiki::Request object, that is passed to constructor.

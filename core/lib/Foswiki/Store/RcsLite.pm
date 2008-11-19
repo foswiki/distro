@@ -23,12 +23,12 @@
 ---+ package Foswiki::Store::RcsLite
 
 This package does not publish any methods. It implements the virtual
-methods of the [[TWikiStoreRcsFileDotPm][Foswiki::Store::RcsFile]] superclass.
+methods of the =Foswiki::Store::RcsFile= superclass.
 
 Simple replacement for RCS.  Doesn't support:
    * branches
    * locking
-Neither of which are used (or needed) by TWiki.
+Neither of which are used (or needed) by Foswiki.
 
 This module doesn't know anything about the content of the topic
 

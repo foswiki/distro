@@ -21,7 +21,7 @@
 
 ---+ package Foswiki::I18N::Extract
 
-Support translatable strings extraction from TWiki topics and templates.
+Support translatable strings extraction from Foswiki topics and templates.
 Depends on Locale::Maketext::Extract (part of CPAN::Locale::Maketext::Lexicon).
 
 =cut
@@ -45,7 +45,7 @@ BEGIN {
 ---++ ClassMethod new ( $session ) -> $extract
 
 Constructor. Creates a fresh new Extract object. A $session object, instance of
-the TWiki class, is optional: if it's available, it'll be used for printing
+the Foswiki class, is optional: if it's available, it'll be used for printing
 warnings.
 
 =cut
@@ -88,7 +88,7 @@ sub extract {
     my $line;
     my $doublequoted = '"(\\\"|[^"])*"';
 
-    # TWiki's %MAKETEXT{...}% into topics and templates :
+    # Foswiki's %MAKETEXT{...}% into topics and templates :
     $line = 1;
     pos($_) = 0;
     my @_lines = split( /\n/, $_ );
@@ -101,7 +101,7 @@ sub extract {
         $line++;
     }
 
- # TWiki's %MAKETEXT{...}% inside a search format would look like this:
+ # Foswiki's %MAKETEXT{...}% inside a search format would look like this:
  # %SEARCH{... format=" ... $percntMAKETEXT{\"...\" args=\"\"}$percnt ..." ...}%
  #
  # XXX: the regex down there matches a sequence formed be an escaped double

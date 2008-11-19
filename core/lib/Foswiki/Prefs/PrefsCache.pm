@@ -176,7 +176,7 @@ be parsed to extract meta-data.
 
 =cut
 
-# Note: this is required because TWiki stores access control
+# Note: this is required because Foswiki stores access control
 # information in topic text. Useful because you get a complete
 # audit trail of access control settings for free.
 

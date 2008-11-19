@@ -32,9 +32,9 @@ handler calls to registered plugins.
 
 =pod
 
-Note that as of version 1.026 of this module, TWiki internal
+Note that as of version 1.026 of this module, Foswiki internal
 methods are _no longer available_ to plugins. Any calls to
-TWiki internal methods must be replaced by calls via the
+Foswiki internal methods must be replaced by calls via the
 =$SESSION= object in this package, or via the Func package.
 For example, the call:
 
@@ -53,7 +53,7 @@ should be replaced with
 =my $pref = $Foswiki::Plugins::SESSION->writeWarning($message);=
 
 Methods in other modules such as Store must be accessed through
-the relevant TWiki sub-object, for example
+the relevant Foswiki sub-object, for example
 
 =Foswiki::Store::saveTopic(...)=
 
@@ -61,10 +61,10 @@ should be replaced with
 
 =$Foswiki::Plugins::SESSION->{store}->saveTopic(...)=
 
-Note that calling TWiki internal methods is very very bad practice,
+Note that calling Foswiki internal methods is very very bad practice,
 and should be avoided wherever practical.
 
-The developers of TWiki reserve the right to change internal
+The developers of Foswiki reserve the right to change internal
 methods without warning, unless those methods are clearly
 marked as PUBLIC. PUBLIC methods are part of the core specification
 of a module and can be trusted.
@@ -91,12 +91,12 @@ if you have a recent enough version.
 
 ---++ PUBLIC $SESSION
 
-This is a reference to the TWiki session object. It can be used in
-plugins to get at the methods of the TWiki kernel.
+This is a reference to the Foswiki session object. It can be used in
+plugins to get at the methods of the Foswiki kernel.
 
 You are _highly_ recommended to only use the methods in the
-[[TWikiFuncDotPm][Func]] interface, unless you have no other choice,
-as kernel methods may change between TWiki releases.
+=Foswiki::Func interface, unless you have no other choice,
+as kernel methods may change between Foswiki releases.
 
 =cut
 

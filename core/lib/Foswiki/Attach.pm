@@ -311,8 +311,8 @@ sub getAttachmentLink {
         # The pixel size calculation is done for performance reasons
         # Some browsers wait with rendering a page until the size of
         # embedded images is known, e.g. after all images of a page are
-        # downloaded. When you upload an image to TWiki and checkmark
-        # the link checkbox, TWiki will generate the width and height
+        # downloaded. When you upload an image to Foswiki and checkmark
+        # the link checkbox, Foswiki will generate the width and height
         # img parameters, speeding up the page rendering.
         my $stream =
           $store->getAttachmentStream( $user, $web, $topic, $attName );

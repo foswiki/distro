@@ -101,7 +101,7 @@ HERE
   things to your server.
  </li>
  <li>
-  If you are running TWiki on a public website, you are
+  If you are running Foswiki on a public website, you are
   <strong>strongly</strong> advised to totally disable saving from
   <code>configure</code> by making <code>lib/LocalSite.cfg</code> readonly once
   you are happy with your configuration.

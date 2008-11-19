@@ -161,7 +161,7 @@ sub readTopic {
         #test if the attachment filenam would need sanitizing, if so, ignore it.
             if ( $fileName ne $origName ) {
                 $this->{session}->writeWarning(
-"AutoAttachPubFiles ignoring $origName, in $web.$topic - not a valid TWiki Attachment filename"
+"AutoAttachPubFiles ignoring $origName, in $web.$topic - not a valid Attachment filename"
                 );
             }
             else {
@@ -764,7 +764,7 @@ Return list with: ( last update date, last user id, =
 | $comment | WHAT COMMENT? |
 e.g. =( 1234561, 'phoeny', 5, 'no comment' )
 
-NOTE NOTE NOTE if you are working within the TWiki code DO NOT USE THIS
+NOTE NOTE NOTE if you are working within the Foswiki code DO NOT USE THIS
 FUNCTION FOR GETTING REVISION INFO OF TOPICS - use
 Foswiki::Meta::getRevisionInfo instead. This is essential to allow clean
 transition to a topic object model later, and avoids the risk of confusion
@@ -795,7 +795,7 @@ is chosen to avoid problems with parsing the attribute values, while
 minimising the number of characters encoded so searches can still work
 (fairly) sensibly.
 
-The encoding has to be exported because TWiki (and plugins) use
+The encoding has to be exported because Foswiki (and plugins) use
 encoded field data in other places e.g. RDiff, mainly as a shorthand
 for the properly parsed meta object. Some day we may be able to
 eliminate that....
@@ -815,7 +815,7 @@ sub dataEncode {
 
 Decode escapes in a string that was encoded using dataEncode
 
-The encoding has to be exported because TWiki (and plugins) use
+The encoding has to be exported because Foswiki (and plugins) use
 encoded field data in other places e.g. RDiff, mainly as a shorthand
 for the properly parsed meta object. Some day we may be able to
 eliminate that....
@@ -1412,7 +1412,7 @@ Test if topic exists
  Warning: topicExists does not call
      ( $web, $topic ) =
        $this->{session}->normalizeWebTopicName( $web, $topic );
- for you (it'd make TWiki even slower) so make sure you do so.
+ for you (it'd make Foswiki even slower) so make sure you do so.
  
 =cut
 

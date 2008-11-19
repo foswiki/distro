@@ -14,7 +14,7 @@ sub check {
     my $perl5shell = $ENV{PERL5SHELL} || '';
     my $n = $perl5shell . $this->NOTE(<<HERE);
 This environment variable is used by Win32 Perls to run
-commands from TWiki scripts - it determines which shell program is used to run
+commands from Foswiki scripts - it determines which shell program is used to run
 commands that use 'pipes'.  Examples of shell programs are cmd.exe,
 command.com (aka 'DOS Prompt'), and Cygwin's 'bash'
 (<strong>recommended</strong> if Cygwin is installed).
@@ -28,7 +28,7 @@ HERE
 
     if ($isActivePerl) {
         $n .= $this->WARN(<<HERE);
-ActiveState Perl on IIS does not support safe pipes, which is the mechanism used by TWiki to prevent a range
+ActiveState Perl on IIS does not support safe pipes, which is the mechanism used by Foswiki to prevent a range
 of attacks aimed at arbitrary command execution on the server. You are <b>highly</b> recommended not to use this
 particular configuration on a public server (one exposed to the internet)
 HERE

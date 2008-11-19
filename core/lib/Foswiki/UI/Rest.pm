@@ -46,7 +46,7 @@ sub rest {
 
     # Must define topic param in the query to avoid plugins being
     # passed the path_info when the are initialised. We can't affect
-    # the path_info, but we *can* persuade TWiki to ignore it.
+    # the path_info, but we *can* persuade Foswiki to ignore it.
     my $topic = $query->param('topic');
     if ($topic) {
         unless ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
@@ -107,7 +107,7 @@ sub rest {
 
     unless ( $pathInfo =~ /\/(.*?)[\.\/](.*?)([\.\/].*?)*$/ ) {
 
-        #TWiki rest invocations are defined as having a subject (pluginName)
+        # Foswiki rest invocations are defined as having a subject (pluginName)
         # and verb (restHandler in that plugin)
         my $res = $twiki->{response};
         $res->header(

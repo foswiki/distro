@@ -154,7 +154,7 @@ sub handleRequest {
 
 ---++ StaticMethod execute($req, $sub, %initialContext) -> $res
 
-Creates a TWiki session object with %initalContext and calls
+Creates a Foswiki session object with %initalContext and calls
 $sub method. Returns the Foswiki::Response object generated
 
 =cut
@@ -240,7 +240,7 @@ sub execute {
 
                 # tell the browser where to look for more help
                 my $text =
-'TWiki detected an internal error - please check your TWiki logs and webserver logs for more information.'
+'Foswiki detected an internal error - please check your Foswiki logs and webserver logs for more information.'
                   . "\n\n";
                 $mess =~ s/ at .*$//s;
 
@@ -281,7 +281,7 @@ sub execute {
 ---++ StaticMethod logon($session)
 
 Handler to "logon" action.
-   * =$session= is a TWiki session object
+   * =$session= is a Foswiki session object
 
 =cut
 
@@ -393,7 +393,7 @@ sub checkAccess {
 
 ---++ StaticMethod readTemplateTopic( $session, $theTopicName ) -> ( $meta, $text )
 
-Read a topic from the TWiki web, or if that fails from the current
+Read a topic from the Foswiki web, or if that fails from the current
 web.
 
 =cut
@@ -419,9 +419,9 @@ sub readTemplateTopic {
 
 ---++ StaticMethod run( $method )
 
-Supported for bin scripts that were written for TWiki < 5.0. The
+Supported for bin scripts that were written for Foswiki < 2.0. The
 parameter is a function reference to the UI method to call, and is ignored
-in TWiki >= 5.0, where it should be replaced by a Config.spec entry such as:
+in Foswiki >= 2.0, where it should be replaced by a Config.spec entry such as:
 
 # **PERL H**
 # Bin script registration - do not modify

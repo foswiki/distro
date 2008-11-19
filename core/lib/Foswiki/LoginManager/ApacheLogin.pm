@@ -26,14 +26,14 @@
 ---+ package Foswiki::LoginManager::ApacheLogin
 
 This is login manager that you can specify in the security setup section of
-[[%SCRIPTURL{"configure"}%][configure]]. It instructs TWiki to
+[[%SCRIPTURL{"configure"}%][configure]]. It instructs Foswiki to
 cooperate with your web server (typically Apache) to require authentication
 information (username & password) from users. It requires that you configure
 your web server to demand authentication for scripts named "login" and anything
 ending in "auth". The latter should be symlinks to existing scripts; e.g.,
 =viewauth -> view=, =editauth -> edit=, and so on.
 
-See also TWikiUserAuthentication.
+See also UserAuthentication.
 
 Subclass of Foswiki::LoginManager; see that class for documentation of the
 methods of this class.
