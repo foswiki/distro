@@ -85,7 +85,7 @@ $M3 = chr(7);
 
 =pod
 
----++ StaticMethod makeLoginManager( $twiki ) -> $Foswiki::LoginManager
+---++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
 
 Factory method, used to generate a new Foswiki::LoginManager object
 for the given session.
@@ -93,19 +93,19 @@ for the given session.
 =cut
 
 sub makeLoginManager {
-    my $twiki = shift;
+    my $session = shift;
 
-    ASSERT( $twiki->isa('Foswiki') ) if DEBUG;
+    ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
     #user is trying to sudo login - use BaseUserMapping
-    if ( $twiki->{request}->param('sudo') ) {
+    if ( $session->{request}->param('sudo') ) {
 
         #promote / login to internal wiki admin
-        $twiki->enterContext('sudo_login');
+        $session->enterContext('sudo_login');
     }
 
     if ( $Foswiki::cfg{UseClientSessions}
-        && !$twiki->inContext('command_line') )
+        && !$session->inContext('command_line') )
     {
 
         my $use = 'use Foswiki::LoginManager::Session';
@@ -129,20 +129,20 @@ sub makeLoginManager {
     if ( $Foswiki::cfg{LoginManager} eq 'none' ) {
 
         # No login manager; just use default behaviours
-        $mgr = new Foswiki::LoginManager($twiki);
+        $mgr = new Foswiki::LoginManager($session);
     }
     else {
 
         # Rename from old "Client" to new "LoginManager" - see Bugs:Item3375
         $Foswiki::cfg{LoginManager} =~ s/::Client::/::LoginManager::/;
         my $loginManager = $Foswiki::cfg{LoginManager};
-        if ( $twiki->inContext('sudo_login') )
+        if ( $session->inContext('sudo_login') )
         {    #TODO: move selection into BaseUserMapper
             $loginManager = 'Foswiki::LoginManager::TemplateLogin';
         }
         eval "require $loginManager";
         die $@ if $@;
-        $mgr = $loginManager->new($twiki);
+        $mgr = $loginManager->new($session);
     }
     return $mgr;
 }
@@ -157,10 +157,13 @@ Construct the user management object
 
 # protected: Construct new client object.
 sub new {
-    my ( $class, $twiki ) = @_;
-    my $this = bless( { twiki => $twiki }, $class );
+    my ( $class, $session ) = @_;
+    my $this = bless( {
+        session => $session,
+        twiki => $session, # backwards compatibility
+    }, $class );
 
-    $twiki->leaveContext('can_login');
+    $session->leaveContext('can_login');
     $this->{_cookies} = [];
     map { $this->{_authScripts}{$_} = 1; }
       split( /[\s,]+/, $Foswiki::cfg{AuthScripts} );
@@ -195,7 +198,7 @@ sub finish {
     undef $this->{_cgisession};
     undef $this->{_haveCookie};
     undef $this->{_MYSCRIPTURL};
-    undef $this->{twiki};
+    undef $this->{session};
 }
 
 =pod
@@ -233,7 +236,7 @@ else {
 sub _IP2SID {
     my ( $this, $sid ) = @_;
 
-    my $ip = $this->{twiki}->{request}->address;
+    my $ip = $this->{session}->{request}->address;
 
     return undef unless $ip;    # no IP address, can't map
 
@@ -277,7 +280,7 @@ passed in here.
 
 sub loadSession {
     my ( $this, $defaultUser ) = @_;
-    my $twiki = $this->{twiki};
+    my $session = $this->{session};
 
     # Try and get the user from the webserver
     my $authUser = $this->getUser($this) || $defaultUser;
@@ -288,9 +291,9 @@ sub loadSession {
         return $authUser;
     }
 
-    return $authUser if $twiki->inContext('command_line');
+    return $authUser if $session->inContext('command_line');
 
-    my $query = $twiki->{request};
+    my $query = $session->{request};
 
     $this->{_haveCookie} = $query->header('Cookie');
 
@@ -386,7 +389,7 @@ sub loadSession {
 
         if ($sudoUser) {
             _trace( $this, "User is logging out to $sudoUser" );
-            $twiki->writeLog( 'sudo logout', '', 'from ' . ( $authUser || '' ),
+            $session->writeLog( 'sudo logout', '', 'from ' . ( $authUser || '' ),
                 $sudoUser );
             $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
             $authUser = $sudoUser;
@@ -405,8 +408,8 @@ sub loadSession {
     $query->delete('logout');
     $this->userLoggedIn($authUser);
 
-    $twiki->{SESSION_TAGS}{SESSIONID}  = $this->{_cgisession}->id();
-    $twiki->{SESSION_TAGS}{SESSIONVAR} = $Foswiki::LoginManager::Session::NAME;
+    $session->{SESSION_TAGS}{SESSIONID}  = $this->{_cgisession}->id();
+    $session->{SESSION_TAGS}{SESSIONVAR} = $Foswiki::LoginManager::Session::NAME;
 
     return $authUser;
 }
@@ -425,20 +428,20 @@ sub checkAccess {
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
     my $this  = shift;
-    my $twiki = $this->{twiki};
+    my $session = $this->{session};
 
-    return undef if $twiki->inContext('command_line');
+    return undef if $session->inContext('command_line');
 
-    unless ( $twiki->inContext('authenticated')
+    unless ( $session->inContext('authenticated')
         || $Foswiki::cfg{LoginManager} eq 'none' )
     {
-        my $script = $twiki->{request}->action;
+        my $script = $session->{request}->action;
 
         if ( defined $script && $this->{_authScripts}{$script} ) {
-            my $topic = $twiki->{topicName};
-            my $web   = $twiki->{webName};
+            my $topic = $session->{topicName};
+            my $web   = $session->{webName};
             require Foswiki::AccessControlException;
-            throw Foswiki::AccessControlException( $script, $twiki->{user}, $web,
+            throw Foswiki::AccessControlException( $script, $session->{user}, $web,
                 $topic, 'authentication required' );
         }
     }
@@ -524,15 +527,15 @@ for instance,
 sub userLoggedIn {
     my ( $this, $authUser, $wikiName ) = @_;
 
-    my $twiki = $this->{twiki};
-    return undef if $twiki->inContext('command_line');
+    my $session = $this->{session};
+    return undef if $session->inContext('command_line');
 
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
         # create new session if necessary
         unless ( $this->{_cgisession} ) {
             $this->{_cgisession} =
-              Foswiki::LoginManager::Session->new( undef, $twiki->{request},
+              Foswiki::LoginManager::Session->new( undef, $session->{request},
                 { Directory => "$Foswiki::cfg{WorkingDir}/tmp" } );
             die Foswiki::LoginManager::Session->errstr()
               unless $this->{_cgisession};
@@ -542,24 +545,24 @@ sub userLoggedIn {
         _trace( $this, "Session is authenticated" );
         _trace( $this,
                 'converting from '
-              . ( $twiki->{remoteUser} || 'undef' ) . ' to '
+              . ( $session->{remoteUser} || 'undef' ) . ' to '
               . $authUser );
 
 #TODO: right now anyone that makes a template login url can log in multiple times - should i forbid it
         if ( $Foswiki::cfg{UseClientSessions} ) {
-            if ( defined( $twiki->{remoteUser} )
-                && $twiki->inContext('sudo_login') )
+            if ( defined( $session->{remoteUser} )
+                && $session->inContext('sudo_login') )
             {
-                $twiki->writeLog( 'sudo login', '',
-                    'from ' . ( $twiki->{remoteUser} || '' ), $authUser );
+                $session->writeLog( 'sudo login', '',
+                    'from ' . ( $session->{remoteUser} || '' ), $authUser );
                 $this->{_cgisession}
-                  ->param( 'SUDOFROMAUTHUSER', $twiki->{remoteUser} );
+                  ->param( 'SUDOFROMAUTHUSER', $session->{remoteUser} );
             }
 
 #TODO: these are bare login's, so if and when there are multiple usermappings, this would need to include cUID..
             $this->{_cgisession}->param( 'AUTHUSER', $authUser );
         }
-        $twiki->enterContext('authenticated');
+        $session->enterContext('authenticated');
     }
     else {
         _trace( $this, "Session is NOT authenticated" );
@@ -567,7 +570,7 @@ sub userLoggedIn {
         # if we are not authenticated, expire any existing session
         $this->{_cgisession}->clear( ['AUTHUSER'] )
           if ( $Foswiki::cfg{UseClientSessions} );
-        $twiki->leaveContext('authenticated');
+        $session->leaveContext('authenticated');
     }
     if ( $Foswiki::cfg{UseClientSessions} ) {
 
@@ -592,7 +595,7 @@ sub _myScriptURLRE {
 
     my $s = $this->{_MYSCRIPTURL};
     unless ($s) {
-        $s = quotemeta( $this->{twiki}->getScriptUrl( 1, $M1, $M2, $M3 ) );
+        $s = quotemeta( $this->{session}->getScriptUrl( 1, $M1, $M2, $M3 ) );
         $s =~ s@\\$M1@[^/]*?@go;
         $s =~ s@\\$M2@[^/]*?@go;
         $s =~ s@\\$M3@[^#\?/]*@go;
@@ -696,7 +699,7 @@ sub endRenderingHandler {
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
     my $this = shift;
-    return undef if $this->{twiki}->inContext('command_line');
+    return undef if $this->{session}->inContext('command_line');
 
     # If cookies are not turned on and transparent CGI session IDs are,
     # grab every URL that is an internal link and pass a CGI variable
@@ -776,7 +779,7 @@ sub addCookie {
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
     my ( $this, $c ) = @_;
-    return undef if $this->{twiki}->inContext('command_line');
+    return undef if $this->{session}->inContext('command_line');
     ASSERT( $c->isa('CGI::Cookie') ) if DEBUG;
 
     push( @{ $this->{_cookies} }, $c );
@@ -797,7 +800,7 @@ sub modifyHeader {
     return unless $this->{_cgisession};
     return if $Foswiki::cfg{Sessions}{MapIP2SID};
 
-    my $response = $this->{twiki}->{response};
+    my $response = $this->{session}->{response};
     _pushCookie($this);
     $response->cookies( $this->{_cookies} );
 }
@@ -835,11 +838,11 @@ sub redirectCgiQuery {
 
     if ( $Foswiki::cfg{Sessions}{MapIP2SID} ) {
         _trace( $this, "Redirect to $url WITHOUT cookie" );
-        $this->{twiki}->{response}->redirect( -url => $url );
+        $this->{session}->{response}->redirect( -url => $url );
     }
     else {
         _trace( $this, "Redirect to $url with cookie" );
-        $this->{twiki}->{response}
+        $this->{session}->{response}
           ->redirect( -url => $url, -cookie => $this->{_cookies} );
     }
 
@@ -984,15 +987,15 @@ sub getUser {
 
 sub _LOGIN {
 
-    #my( $twiki, $params, $topic, $web ) = @_;
-    my $twiki = shift;
-    my $this  = $twiki->{users}->{loginManager};
+    #my( $session, $params, $topic, $web ) = @_;
+    my $session = shift;
+    my $this  = $session->{users}->{loginManager};
 
-    return '' if $twiki->inContext('authenticated');
+    return '' if $session->inContext('authenticated');
 
     my $url = $this->loginUrl();
     if ($url) {
-        my $text = $twiki->templates->expandTemplate('LOG_IN');
+        my $text = $session->templates->expandTemplate('LOG_IN');
         return CGI::a( { href => $url }, $text );
     }
     return '';
@@ -1006,13 +1009,13 @@ sub _LOGIN {
 =cut
 
 sub _LOGOUTURL {
-    my ( $twiki, $params, $topic, $web ) = @_;
-    my $this = $twiki->{users}->{loginManager};
+    my ( $session, $params, $topic, $web ) = @_;
+    my $this = $session->{users}->{loginManager};
 
-    return $twiki->getScriptUrl(
+    return $session->getScriptUrl(
         0, 'view',
-        $twiki->{SESSION_TAGS}{BASEWEB},
-        $twiki->{SESSION_TAGS}{BASETOPIC},
+        $session->{SESSION_TAGS}{BASEWEB},
+        $session->{SESSION_TAGS}{BASETOPIC},
         'logout' => 1
     );
 }
@@ -1025,14 +1028,14 @@ sub _LOGOUTURL {
 =cut
 
 sub _LOGOUT {
-    my ( $twiki, $params, $topic, $web ) = @_;
-    my $this = $twiki->{users}->{loginManager};
+    my ( $session, $params, $topic, $web ) = @_;
+    my $this = $session->{users}->{loginManager};
 
-    return '' unless $twiki->inContext('authenticated');
+    return '' unless $session->inContext('authenticated');
 
     my $url = _LOGOUTURL(@_);
     if ($url) {
-        my $text = $twiki->templates->expandTemplate('LOG_OUT');
+        my $text = $session->templates->expandTemplate('LOG_OUT');
         return CGI::a( { href => $url }, $text );
     }
     return '';
@@ -1046,10 +1049,10 @@ sub _LOGOUT {
 =cut
 
 sub _AUTHENTICATED {
-    my ( $twiki, $params ) = @_;
-    my $this = $twiki->{users}->{loginManager};
+    my ( $session, $params ) = @_;
+    my $this = $session->{users}->{loginManager};
 
-    if ( $twiki->inContext('authenticated') ) {
+    if ( $session->inContext('authenticated') ) {
         return $params->{then} || 1;
     }
     else {
@@ -1064,9 +1067,9 @@ sub _AUTHENTICATED {
 =cut
 
 sub _CANLOGIN {
-    my ( $twiki, $params ) = @_;
-    my $this = $twiki->{users}->{loginManager};
-    if ( $twiki->inContext('can_login') ) {
+    my ( $session, $params ) = @_;
+    my $this = $session->{users}->{loginManager};
+    if ( $session->inContext('can_login') ) {
         return $params->{then} || 1;
     }
     else {
@@ -1081,8 +1084,8 @@ sub _CANLOGIN {
 =cut
 
 sub _SESSION_VARIABLE {
-    my ( $twiki, $params ) = @_;
-    my $this = $twiki->{users}->{loginManager};
+    my ( $session, $params ) = @_;
+    my $this = $session->{users}->{loginManager};
     my $name = $params->{_DEFAULT};
 
     if ( defined( $params->{set} ) ) {
@@ -1106,8 +1109,8 @@ sub _SESSION_VARIABLE {
 =cut
 
 sub _LOGINURL {
-    my ( $twiki, $params ) = @_;
-    my $this = $twiki->{users}->{loginManager};
+    my ( $session, $params ) = @_;
+    my $this = $session->{users}->{loginManager};
     return $this->loginUrl();
 }
 
@@ -1122,9 +1125,9 @@ sub _dispLogon {
 
     return '' unless $this->{_cgisession};
 
-    my $twiki     = $this->{twiki};
-    my $topic     = $twiki->{topicName};
-    my $web       = $twiki->{webName};
+    my $session     = $this->{session};
+    my $topic     = $session->{topicName};
+    my $web       = $session->{webName};
     my $sessionId = $this->{_cgisession}->id();
 
     my $urlToUse = $this->loginUrl();
@@ -1133,7 +1136,7 @@ sub _dispLogon {
         $urlToUse = _rewriteURL( $this, $urlToUse );
     }
 
-    my $text = $twiki->templates->expandTemplate('LOG_IN');
+    my $text = $session->templates->expandTemplate('LOG_IN');
     return CGI::a( { class => 'twikiAlert', href => $urlToUse }, $text );
 }
 
@@ -1148,9 +1151,9 @@ TODO: what does it do?
 
 sub _skinSelect {
     my $this  = shift;
-    my $twiki = $this->{twiki};
-    my $skins = $twiki->{prefs}->getPreferencesValue('SKINS');
-    my $skin  = $twiki->getSkin();
+    my $session = $this->{session};
+    my $skins = $session->{prefs}->getPreferencesValue('SKINS');
+    my $skin  = $session->getSkin();
     my @skins = split( /,/, $skins );
     unshift( @skins, 'default' );
     my $options = '';

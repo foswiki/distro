@@ -57,6 +57,7 @@ Construct the ApacheLogin object
 sub new {
     my ( $class, $session ) = @_;
     my $this = $class->SUPER::new($session);
+
     $session->enterContext('can_login');
 
     # Can't logout, though
@@ -75,53 +76,26 @@ Triggered on auth fail
 
 sub forceAuthentication {
     my $this  = shift;
-    my $twiki = $this->{twiki};
-    my $query = $twiki->{request};
+    my $session = $this->{session};
+    my $query = $session->{request};
 
     # See if there is an 'auth' version
     # of this script, may be a result of not being logged in.
-    my $scriptName = $twiki->{request}->action();
-    my $newAction  = $scriptName . 'auth' . $Foswiki::cfg{ScriptSuffix};
+    my $newAction  = $query->action() . 'auth';
 
     if ( !$query->remote_user() && exists $Foswiki::cfg{SwitchBoard}{$newAction} )
     {
-
         # Assemble the new URL using the host, the changed script name,
-        # the path info, and the query string.  All three query
-        # variables are in the list of the canonical request meta
-        # variables in CGI 1.1 (also provided by Foswiki::Request).
-        my $url = $query->request_uri();
-        if ( $url && $url =~ m!(.*/$scriptName)([^?]*)! ) {
-
-            # $url should not contain query string as it gets appended
-            # in Foswiki::redirect. Script gets 'auth' appended.
-            $url = "$twiki->{urlHost}${1}auth$2";
-        }
-        else {
-            if ( $twiki->{request}->action !~ /auth$/ ) {
-                $url =
-                  $twiki->{urlHost} . '/' . $twiki->{request}->action . 'auth';
-            }
-            else {
-
-                # If SCRIPT_NAME does not contain the script name
-                # the last hope is to try building up the URL using
-                # the SCRIPT_FILENAME.
-                $url =
-                    $twiki->{urlHost}
-                  . $twiki->{scriptUrlPath} . '/'
-                  . $scriptName . 'auth'
-                  . $Foswiki::cfg{ScriptSuffix};
-            }
-            if ( $query->path_info() ) {
-                $url .= '/'
-                  unless $url =~ m#/$# || $query->path_info() =~ m#^/#;
-                $url .= $query->path_info();
-            }
+        # and the path info.
+        my $url = $session->getScriptUrl( 1, $newAction );
+        if ( $query->path_info() ) {
+            $url .= '/'
+              unless $url =~ m#/$# || $query->path_info() =~ m#^/#;
+            $url .= $query->path_info();
         }
 
         # Redirect with passthrough so we don't lose the original query params
-        $twiki->redirect( $url, 1 );
+        $session->redirect( $url, 1 );
         return 1;
     }
     return undef;
@@ -138,15 +112,15 @@ Content of a login link
 
 sub loginUrl {
     my $this  = shift;
-    my $twiki = $this->{twiki};
-    my $topic = $twiki->{topicName};
-    my $web   = $twiki->{webName};
-    return $twiki->getScriptUrl( 0, 'logon', $web, $topic, @_ );
+    my $session = $this->{session};
+    my $topic = $session->{topicName};
+    my $web   = $session->{webName};
+    return $session->getScriptUrl( 0, 'logon', $web, $topic, @_ );
 }
 
 =pod
 
----++ ObjectMethod login( $query, $twiki )
+---++ ObjectMethod login( $query, $session )
 
 this allows the login and logon cgi-scripts to use the same code. 
 all a logon does, is re-direct to viewauth, and apache then figures out 
@@ -155,18 +129,18 @@ if it needs to challenge the user
 =cut
 
 sub login {
-    my ( $this, $query, $twikiSession ) = @_;
+    my ( $this, $query, $session ) = @_;
 
-    my $url = $twikiSession->getScriptUrl(
+    my $url = $session->getScriptUrl(
         0, 'viewauth',
-        $twikiSession->{webName},
-        $twikiSession->{topicName},
+        $session->{webName},
+        $session->{topicName},
         t => time()
     );
 
     $url .= ( ';' . $query->query_string() ) if $query->query_string();
 
-    $twikiSession->redirect( $url, 1 );
+    $session->redirect( $url, 1 );
 }
 
 =pod
@@ -180,7 +154,7 @@ returns the userLogin if stored in the apache CGI query (ie session)
 sub getUser {
     my $this = shift;
 
-    my $query = $this->{twiki}->{request};
+    my $query = $this->{session}->{request};
     my $authUser;
 
     # Ignore remote user if we got here via an error

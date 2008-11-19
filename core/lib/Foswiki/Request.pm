@@ -1,7 +1,7 @@
 # Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-# and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
+# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #

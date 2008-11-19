@@ -18,19 +18,17 @@ The official TWiki logo is a big "T" in a speech bubble conveying "working toget
 </td></tr></table>
 %STOPINCLUDE%
 
-These logos are based on master artwork [[%ATTACHURL%/T-logo.svg][T-logo.svg]] and [[%ATTACHURL%/T-logo-3640x1038-b.png][T-logo-3640x1038-b.png]].
-
 ---++ Logo Customization
 
 The logo can be changed by redefining the =WIKILOGOIMG= [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
 If you use the official TWiki.org artwork on your own site you can link back to TWiki.org. Use this HTML (with any logo file on this page):
 
-=&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/T-logo-140x40-t.gif" alt="This site is powered by the TWiki collaboration platform" title="This site is powered by the TWiki collaboration platform" border="0" /&gt;&lt;/a&gt;=
+=&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/smallPowered.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /&gt;&lt;/a&gt;=
 
-If you create your own TWiki skin you are encouraged to add the small 80x31 pixel TWiki logo at the bottom of your skin:
+If you create your own skin you are encouraged to add the small 80x31 pixel logo at the bottom of your skin:
 
-=&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/T-logo-80x15.gif" alt="This site is powered by the TWiki collaboration platform" width="80" height="15" title="This site is powered by the TWiki collaboration platform" border="0" /&gt;&lt;/a&gt;=
+=&lt;a href="http://twiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/smallPowered.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /&gt;&lt;/a&gt;=
 
 ---++ Right to use Trademarked Artwork
 
