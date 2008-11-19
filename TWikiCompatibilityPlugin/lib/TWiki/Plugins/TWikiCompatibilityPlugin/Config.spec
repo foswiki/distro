@@ -1,7 +1,7 @@
 # ---+ Extensions
 # ---++ TWikiCompatibilityPlugin
 # **PERL**
-# a hash mapping TWiki's TWiki web topics to Fosiki's topics
+# a hash mapping TWiki's TWiki web topics to Foswiki's topics
 $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = {
     'ATasteOfTWiki' => 'BeginnersStartHere',
     'TWikiAccessControl' => 'AccessControl',
@@ -53,7 +53,7 @@ $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = {
     'TWikiRegistrationAgent' => 'RegistrationAgent',
 };
 # **PERL**
-# a hash mapping TWiki's Main web topics to Fosiki's topics
+# a hash mapping TWiki's Main web topics to Foswiki's topics
 $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion} = {
     'TWikiAdminGroup' => 'AdminGroup',
     'TWikiGroupTemplate' => 'GroupTemplate',
