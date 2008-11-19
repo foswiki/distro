@@ -1,16 +1,16 @@
-Copyright and License of TWiki
-------------------------------
+Copyright and License of Foswiki
+--------------------------------
 
-TWiki (TM) is copyright as described in the file COPYRIGHT
+Foswiki is copyright as described in the file COPYRIGHT
 accompanying this notice.
 
-TWiki is open source software; you can redistribute it 
+Foswiki is open source software; you can redistribute it 
 and/or modify it under the terms of the GNU General Public 
 License as published by the Free Software Foundation; 
 either version 2 of the License, or (at your option) any 
 later version. We would appreciate it if redistributions of 
-TWiki and its clones retain this file in its entire form,
-thus acknowledging the origin of TWiki and the thousands
+Foswiki and its clones retain this file in its entire form,
+thus acknowledging the origin of Foswiki and the thousands
 of hours the contributors put into creating this software.
 
 This program is distributed in the hope that it will be 
@@ -21,8 +21,6 @@ details, for your convenience attached below, also
 published at http://www.gnu.org/copyleft/gpl.html
 
 --
-Peter Thoeny, Peter@Thoeny.org, http://TWiki.org/
-
 
 -----( http://www.gnu.org/copyleft/gpl.html )------------------------------
 

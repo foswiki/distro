@@ -1,15 +1,19 @@
-TWiki (TM) was written by Peter Thoeny, based on parts of Ward Cunningham's
-original Wiki and Jos Wiki, and has been further developed by Peter and other
-TWiki contributors.
+Foswiki is a development of the Foswiki community.
 
-TWiki (TM) is copyright as described in the file COPYRIGHT in the root of
+Foswiki is based on TWiki (TM), which was written by Peter Thoeny, who
+based his work on Jos Wiki and parts of Ward Cunningham's original Wiki.
+Over the years TWiki has been maintained, extended and rewritten
+by TWiki contributors, whos names are included below. TWiki is a trademark
+of Peter Thoeny.
+
+Foswiki is copyright as described in the file COPYRIGHT in the root of
 this distribution and is licensed under the terms of the GNU General Public
 License as described in the file LICENSE accompanying this notice. The people
 listed below are identified as joint copyright owners.
 
-A TWiki contributor is defined as a person who has contributed:
-   * significant amounts of code that was taken into the TWiki distribution, or
-   * considerably to the TWiki documentation.
+A Foswiki contributor is defined as a person who has contributed:
+   * significant amounts of code that was taken into the Foswiki distribution, or
+   * considerably to the Foswiki documentation.
 
 This document identifies these people as authors of TWiki.
 

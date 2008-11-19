@@ -16,6 +16,7 @@
 !include ../TipsContrib/lib/Foswiki/Contrib/TipsContrib
 !include ../TinyMCEPlugin/lib/Foswiki/Plugins/TinyMCEPlugin
 !include ../TopicUserMappingContrib/lib/Foswiki/Contrib/TopicUserMappingContrib
+!include ../TWikiCompatibilityPlugin/lib/TWiki/Plugins/TWikiCompatibilityPlugin
 !include ../TwistyContrib/lib/Foswiki/Contrib/TwistyContrib
 !include ../TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin
 !include ../WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin
