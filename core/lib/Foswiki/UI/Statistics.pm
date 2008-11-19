@@ -289,9 +289,10 @@ sub _collectLogData {
         next if ( $opName && $opName =~ /(changepasswd)/ );
 
 # .+ is used because topics name can contain stuff like !, (, ), =, -, _ and they should have stats anyway
-        if (   $opName
-            && $webTopic =~
-/(^$Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}$|$Foswiki::regex{abbrevRegex}|.+)/
+        if ( $webTopic
+               && $opName
+                 && $webTopic =~
+                   /(^$Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}$|$Foswiki::regex{abbrevRegex}|.+)/
           )
         {
             my $webName   = $1;
