@@ -3,9 +3,9 @@ use strict;
 # Pathologically simple test case.
 package ExampleTests;
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
-use TWiki;
+use Foswiki;
 
 sub set_up {
     # Set up test fixture; e.g. create webs, topics

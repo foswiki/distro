@@ -2,7 +2,7 @@ use strict;
 
 package AccessControlTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 sub new {
     my $class = shift;
@@ -10,8 +10,8 @@ sub new {
     return $self;
 }
 
-use TWiki;
-use TWiki::Access;
+use Foswiki;
+use Foswiki::Access;
 
 my $testTopic = "TemporaryTestTopic";
 my $currUser;
@@ -25,12 +25,12 @@ my $MrYellow;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
-    $currUser = $TWiki::cfg{DefaultUserLogin};
+    $currUser = $Foswiki::cfg{DefaultUserLogin};
     $this->{twiki}->{store}->saveTopic($this->{twiki}->{user},
-                               $TWiki::cfg{UsersWebName},
-                               $TWiki::cfg{DefaultUserWikiName},'');
+                               $Foswiki::cfg{UsersWebName},
+                               $Foswiki::cfg{DefaultUserWikiName},'');
     $this->registerUser(
         'white', 'Mr', "White", 'white@example.com');
     $MrWhite = $this->{twiki}->{users}->getCanonicalUserID('white');
@@ -86,7 +86,7 @@ If DENYTOPIC is set to a list of wikinames
 THIS
                                 , undef);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrYellow);
@@ -106,7 +106,7 @@ If DENYTOPIC is set to empty ( i.e. Set DENYTOPIC = )
 THIS
                                 , undef);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrYellow);
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
@@ -125,7 +125,7 @@ If ALLOWTOPIC is set
 THIS
                                 , undef);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrYellow);
@@ -145,21 +145,21 @@ THIS
                                 , undef);
     my $topicquery = new Unit::Request( "" );
     $topicquery->path_info("/$this->{test_web}/$testTopic");
-    # renew TWiki, so WebPreferences gets re-read
+    # renew Foswiki, so WebPreferences gets re-read
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(undef, $topicquery);
+    $this->{twiki} = new Foswiki(undef, $topicquery);
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(undef, $topicquery);
+    $this->{twiki} = new Foswiki(undef, $topicquery);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(undef, $topicquery);
+    $this->{twiki} = new Foswiki(undef, $topicquery);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrYellow);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(undef, $topicquery);
+    $this->{twiki} = new Foswiki(undef, $topicquery);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrWhite);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(undef, $topicquery);
+    $this->{twiki} = new Foswiki(undef, $topicquery);
     $this->DENIED($this->{test_web},$testTopic,"view",$MrBlue);
 }
 
@@ -173,21 +173,21 @@ If ALLOWTOPIC is set
 \t* Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
                                 , undef);
-    # renew TWiki, so WebPreferences gets re-read
+    # renew Foswiki, so WebPreferences gets re-read
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrYellow);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrWhite);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"view",$MrBlue);
 }
 
@@ -201,36 +201,36 @@ If ALLOWTOPIC is set
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="%25USERSWEB%25.MrOrange MrYellow"}%
 THIS
                                 , undef);
-    # renew TWiki, so WebPreferences gets re-read
+    # renew Foswiki, so WebPreferences gets re-read
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrYellow);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrWhite);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->DENIED($this->{test_web},$testTopic,"view",$MrBlue);
 }
 
 sub test_denyweb {
     my $this = shift;
-    $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $TWiki::cfg{WebPrefsTopicName},
+    $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName},
                                 <<THIS
 If DENYWEB is set to a list of wikiname
     * people in the list are DENIED access
 \t* Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
 THIS
                                 , undef);
-    # renew TWiki, so WebPreferences gets re-read
+    # renew Foswiki, so WebPreferences gets re-read
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic,
                                 "Null points");
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrOrange);
@@ -243,7 +243,7 @@ THIS
 sub test_allow_web {
     my $this = shift;
     $this->{twiki}->{store}->saveTopic(
-        $currUser, $this->{test_web}, $TWiki::cfg{WebPrefsTopicName},
+        $currUser, $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName},
         <<THIS
 If ALLOWWEB is set to a list of wikinames
     * people in the list will be PERMITTED
@@ -251,9 +251,9 @@ If ALLOWWEB is set to a list of wikinames
 \t* Set ALLOWWEBVIEW = MrGreen MrYellow MrWhite
 THIS
                                 , undef);
-    # renew TWiki, so WebPreferences gets re-read
+    # renew Foswiki, so WebPreferences gets re-read
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic,
                                 "Null points");
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrOrange);
@@ -293,7 +293,7 @@ sub test_SetInText {
 
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, 'Empty');
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
     my $text = <<THIS;
 \t* Set ALLOWTOPICVIEW = %USERSWEB%.MrGreen
@@ -306,8 +306,8 @@ sub test_setInMETA {
 
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, 'Empty');
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
-    my $meta = new TWiki::Meta($this->{twiki},$this->{test_web},$testTopic);
+    $this->{twiki} = new Foswiki();
+    my $meta = new Foswiki::Meta($this->{twiki},$this->{test_web},$testTopic);
     my $args =
       {
           name =>  'ALLOWTOPICVIEW',
@@ -324,8 +324,8 @@ sub test_setInSetAndMETA {
 
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, 'Empty');
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
-    my $meta = new TWiki::Meta($this->{twiki},$this->{test_web},$testTopic);
+    $this->{twiki} = new Foswiki();
+    my $meta = new Foswiki::Meta($this->{twiki},$this->{test_web},$testTopic);
     my $args =
       {
           name =>  'ALLOWTOPICVIEW',
@@ -345,7 +345,7 @@ sub test_setInEmbedAndNoMETA {
 
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, 'Empty');
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     my $text = <<THIS;
 %META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="%25USERSWEB%25.MrGreen"}%
 THIS
@@ -357,8 +357,8 @@ sub test_setInEmbedAndMETA {
 
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, 'Empty');
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
-    my $meta = new TWiki::Meta($this->{twiki},$this->{test_web},$testTopic);
+    $this->{twiki} = new Foswiki();
+    my $meta = new Foswiki::Meta($this->{twiki},$this->{test_web},$testTopic);
     my $args =
       {
           name =>  'ALLOWTOPICVIEW',
@@ -377,21 +377,21 @@ sub test_hierarchical_subweb_controls_Item2815 {
     my $this = shift;
     my $subweb = "$this->{test_web}.SubWeb";
 
-    $TWiki::cfg{EnableHierarchicalWebs} = 1;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     $this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $subweb);
     $this->{twiki}->{store}->saveTopic( $currUser, $this->{test_web}, $testTopic, "Nowt");
     $this->{twiki}->{store}->saveTopic(
-        $currUser, $this->{test_web}, $TWiki::cfg{WebPrefsTopicName},
+        $currUser, $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName},
         <<THIS, undef);
 \t* Set ALLOWWEBVIEW = MrGreen
 THIS
     $this->{twiki}->{store}->saveTopic(
-        $currUser, $subweb, $TWiki::cfg{WebPrefsTopicName},
+        $currUser, $subweb, $Foswiki::cfg{WebPrefsTopicName},
         <<THIS, undef);
 \t* Set ALLOWWEBVIEW = MrOrange
 THIS
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($subweb,$testTopic,"VIEW",$MrOrange);
     $this->DENIED($subweb,$testTopic,"VIEW",$MrGreen);
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrGreen);
@@ -409,7 +409,7 @@ If ALLOWTOPIC is set
 THIS
                                 , undef);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrOrange);
     $this->DENIED($this->{test_web},$testTopic,"VIEW",$MrGreen);
     $this->PERMITTED($this->{test_web},$testTopic,"VIEW",$MrYellow);

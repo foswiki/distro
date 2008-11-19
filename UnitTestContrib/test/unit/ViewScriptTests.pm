@@ -2,11 +2,11 @@ use strict;
 
 package ViewScriptTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
-use TWiki::UI::View;
+use Foswiki;
+use Foswiki::UI::View;
 use Error qw( :try );
 
 my $twiki;
@@ -79,8 +79,8 @@ sub setup_view {
         template => [ $tmpl ],
     });
     $query->path_info( "/$web/$topic" );
-    $twiki = new TWiki( $this->{test_user_login}, $query );
-    my ($text, $result) = $this->capture( \&TWiki::UI::View::view, $twiki);
+    $twiki = new Foswiki( $this->{test_user_login}, $query );
+    my ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $twiki);
     $twiki->finish();
     $text =~ s/\r//g;
     $text =~ s/^.*?\n\n+//s; # remove CGI header

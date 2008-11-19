@@ -45,12 +45,12 @@ use strict;
 # start coding....
 #
 package PluginHandlerTests;
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
+use Foswiki;
 use Error qw( :try );
-use TWiki::Plugin;
+use Foswiki::Plugin;
 use Symbol qw(delete_package);
 
 my $systemWeb = "TemporaryPluginHandlersSystemWeb";
@@ -65,24 +65,25 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     # Disable all plugins
-    foreach my $key (keys %{$TWiki::cfg{Plugins}}) {
-        $TWiki::cfg{Plugins}{$key}{Enabled} = 0;
+    foreach my $key (keys %{$Foswiki::cfg{Plugins}}) {
+        next unless ref($Foswiki::cfg{Plugins}{$key}) eq 'HASH';
+        $Foswiki::cfg{Plugins}{$key}{Enabled} = 0;
     }
     # Locate the code
     my $found;
     foreach my $inc (@INC) {
-        if (-e "$inc/TWiki/Plugins/EmptyPlugin.pm") {
+        if (-e "$inc/Foswiki/Plugins/EmptyPlugin.pm") {
             # Found it
             $found = $inc;
             last;
         }
     }
     die "Can't find code" unless $found;
-    $this->{code_root} = "$found/TWiki/Plugins/";
+    $this->{code_root} = "$found/Foswiki/Plugins/";
     $this->{twiki}->{store}->createWeb($this->{twiki}->{user},
                                        $systemWeb,
-                                       $TWiki::cfg{SystemWebName});
-    $TWiki::cfg{SystemWebName} = $systemWeb;
+                                       $Foswiki::cfg{SystemWebName});
+    $Foswiki::cfg{SystemWebName} = $systemWeb;
 }
 
 sub tear_down {
@@ -90,7 +91,7 @@ sub tear_down {
 
     $this->removeWebFixture($this->{twiki}, $systemWeb);
     unlink($this->{plugin_pm});
-    Symbol::delete_package("TWiki::Plugins::$this->{plugin_name}");
+    Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
     $this->SUPER::tear_down();
 }
 
@@ -104,7 +105,7 @@ sub makePlugin {
     $this->{plugin_pm} = $this->{code_root}.$this->{plugin_name}.".pm";
 
     $code = <<HERE;
-package TWiki::Plugins::$this->{plugin_name};
+package Foswiki::Plugins::$this->{plugin_name};
 
 use vars qw( \$called \$tester \$VERSION );
 \$called = {};
@@ -124,27 +125,29 @@ HERE
     close(F);
     try {
         $this->{twiki}->{store}->saveTopic(
-            $this->{twiki}->{users}->findUserByWikiName($TWiki::cfg{AdminUserWikiName})->[0],
-            $TWiki::cfg{SystemWebName},
+            $this->{twiki}->{users}->findUserByWikiName($Foswiki::cfg{AdminUserWikiName})->[0],
+            $Foswiki::cfg{SystemWebName},
             $this->{plugin_name}, <<'EOF');
    * Set PLUGINVAR = Blah
 EOF
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         $this->assert(0,shift->stringify());
     } catch Error::Simple with {
         $this->assert(0,shift->stringify());
     };
-    $TWiki::cfg{Plugins}{$this->{plugin_name}}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{$this->{plugin_name}}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{$this->{plugin_name}}{Module} =
+        "Foswiki::Plugins::$this->{plugin_name}";
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(); # default user
-    eval "\$TWiki::Plugins::$this->{plugin_name}::tester = \$this;";
+    $this->{twiki} = new Foswiki(); # default user
+    eval "\$Foswiki::Plugins::$this->{plugin_name}::tester = \$this;";
     $this->checkCalls(1, 'initPlugin');
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $Foswiki::Plugins::SESSION = $this->{twiki};
 }
 
 sub checkCalls {
     my ($this, $number, $name) = @_;
-    my $saw = eval "\$TWiki::Plugins::$this->{plugin_name}::called->{$name} || 0";
+    my $saw = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{$name} || 0";
     $this->assert_equals(
         $number, $saw, "calls($name) $saw != $number ".join(' ',caller));
 }
@@ -157,7 +160,7 @@ sub beforeCommonTagsHandler {
     $tester->assert_str_equals('Zero', $_[0], "ONE $_[0]");
     $tester->assert_str_equals('Tropic', $_[1], "TWO $_[1]");
     $tester->assert_str_equals('Werb', $_[2], "THREE $_[2]");
-    $tester->assert($_[3]->isa('TWiki::Meta'), "FOUR $_[3]");
+    $tester->assert($_[3]->isa('Foswiki::Meta'), "FOUR $_[3]");
     $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
     $_[0] = 'One';
     $called->{beforeCommonTagsHandler}++;
@@ -167,7 +170,7 @@ sub commonTagsHandler {
     $tester->assert_str_equals('One', $_[0]);
     $tester->assert_str_equals('Tropic', $_[1]);
     $tester->assert_str_equals('Werb', $_[2]);
-    $tester->assert($_[4]->isa('TWiki::Meta'), "OUCH $_[4]");
+    $tester->assert($_[4]->isa('Foswiki::Meta'), "OUCH $_[4]");
     $tester->assert_str_equals('Wibble', $_[4]->get('WIBBLE')->{wibble});
     $_[0] = 'Two';
     $called->{commonTagsHandler}++;
@@ -177,7 +180,7 @@ sub afterCommonTagsHandler {
     $tester->assert_str_equals('Two', $_[0]);
     $tester->assert_str_equals('Tropic', $_[1]);
     $tester->assert_str_equals('Werb', $_[2]);
-    $tester->assert($_[3]->isa('TWiki::Meta'));
+    $tester->assert($_[3]->isa('Foswiki::Meta'));
     $tester->assert_str_equals('Wibble', $_[3]->get('WIBBLE')->{wibble});
     $_[0] = 'Zero';
     $called->{afterCommonTagsHandler}++;
@@ -185,9 +188,9 @@ sub afterCommonTagsHandler {
 HERE
     # Crude test to ensure all handlers are called, and in the right order.
     # Doesn't verify that they are called at the right time
-    my $meta = new TWiki::Meta($this->{twiki}, "Werb", "Tropic");
+    my $meta = new Foswiki::Meta($this->{twiki}, "Werb", "Tropic");
     $meta->put('WIBBLE', { wibble => 'Wibble' } );
-    TWiki::Func::expandCommonVariables("Zero", "Tropic", "Werb", $meta);
+    Foswiki::Func::expandCommonVariables("Zero", "Tropic", "Werb", $meta);
     $this->checkCalls(1, 'beforeCommonTagsHandler');
     $this->checkCalls(1, 'commonTagsHandler');
     $this->checkCalls(1, 'afterCommonTagsHandler');
@@ -211,11 +214,11 @@ sub initializeUserHandler {
     die "$called->{initializeUserHandler}" unless !$called->{initializeUserHandler};
     $called->{initializeUserHandler}++;
     my $ru = $_[0] || 'undef';
-    die "RU $ru" unless $ru eq ($TWiki::Plugins::SESSION->{remoteUser}||'undef');
+    die "RU $ru" unless $ru eq ($Foswiki::Plugins::SESSION->{remoteUser}||'undef');
     my $url = $_[1] || 'undef';
-    die "URL $url" unless $url eq (TWiki::Func::getCgiQuery()->url() || undef);
+    die "URL $url" unless $url eq (Foswiki::Func::getCgiQuery()->url() || undef);
     my $path = $_[2] || 'undef';
-    die "PATH $path" unless $path eq (TWiki::Func::getCgiQuery->path_info() || 'undef');
+    die "PATH $path" unless $path eq (Foswiki::Func::getCgiQuery->path_info() || 'undef');
 }
 HERE
     $this->checkCalls(1, 'earlyInitPlugin');
@@ -244,8 +247,8 @@ sub startRenderingHandler {
     $called->{startRenderingHandler}++;
     $tester->assert_str_equals("Gruntfos", $_[1]);
     $tester->assert_str_equals("WebHome", $_[2]);
-    $text =~ s/\d+${TWiki::TranslationToken}--/NUMBERx--/g;
-    $text =~ s/${TWiki::TranslationToken}/x/g;
+    $text =~ s/\d+${Foswiki::TranslationToken}--/NUMBERx--/g;
+    $text =~ s/${Foswiki::TranslationToken}/x/g;
     $tester->assert_str_equals(<<INNER, $text);
 <!--xliteralNUMBERx-->
 <!--xverbatimNUMBERx-->
@@ -263,8 +266,8 @@ INNER
 sub preRenderingHandler {
     my ($text, $removed ) = @_;
     $called->{preRenderingHandler}++;
-    $text =~ s/\d+${TWiki::TranslationToken}--/NUMBERx--/g;
-    $text =~ s/${TWiki::TranslationToken}/x/g;
+    $text =~ s/\d+${Foswiki::TranslationToken}--/NUMBERx--/g;
+    $text =~ s/${Foswiki::TranslationToken}/x/g;
     $tester->assert_str_equals(<<INNER, $text);
 startRenderingHandler
 <!--xliteralNUMBERx-->
@@ -303,8 +306,8 @@ INNER
 sub endRenderingHandler {
     my ( $text ) = @_;
     $text =~ s/^\n//s;
-    $text =~ s/\d+${TWiki::TranslationToken}--/NUMBERx--/g;
-    $text =~ s/${TWiki::TranslationToken}/x/g;
+    $text =~ s/\d+${Foswiki::TranslationToken}--/NUMBERx--/g;
+    $text =~ s/${Foswiki::TranslationToken}/x/g;
     $tester->assert_str_equals(<<INNER, $text);
 preRenderingHandler
 startRenderingHandler
@@ -355,8 +358,8 @@ INNER
 # Should only be called on one line
 sub insidePREHandler {
     my( $text ) = @_;
-    $text =~ s/\d+${TWiki::TranslationToken}--/NUMBERx--/g;
-    $text =~ s/${TWiki::TranslationToken}/x/g;
+    $text =~ s/\d+${Foswiki::TranslationToken}--/NUMBERx--/g;
+    $text =~ s/${Foswiki::TranslationToken}/x/g;
     push(@PluginHandlerTests::iprelines, $text);
     $called->{insidePREHandler}++;
 }
@@ -365,8 +368,8 @@ sub insidePREHandler {
 # called on
 sub outsidePREHandler {
     my( $text ) = @_;
-    $text =~ s/\d+${TWiki::TranslationToken}--/NUMBERx--/g;
-    $text =~ s/${TWiki::TranslationToken}/x/g;
+    $text =~ s/\d+${Foswiki::TranslationToken}--/NUMBERx--/g;
+    $text =~ s/${Foswiki::TranslationToken}/x/g;
     push(@PluginHandlerTests::oprelines, $text);
     $called->{outsidePREHandler}++;
 }
@@ -393,7 +396,7 @@ TEXTAREA
 HERE
     @oprelines = ();
     @iprelines = ();
-    my $out = TWiki::Func::renderText($text, "Gruntfos")."\n";
+    my $out = Foswiki::Func::renderText($text, "Gruntfos")."\n";
     $this->assert_str_equals(<<HERE, $out);
 postRenderingHandler
 endRenderingHandler

@@ -4,11 +4,11 @@ use base qw(Unit::TestCase);
 use strict;
 use warnings;
 
-use TWiki::Response;
+use Foswiki::Response;
 
 sub test_empty_new {
     my $this = shift;
-    my $res = new TWiki::Response;
+    my $res = new Foswiki::Response;
 
     $this->assert_null($res->status, 'Non-empty initial status');
     $this->assert_null($res->body,   'Non-empty initial body');
@@ -24,7 +24,7 @@ sub test_empty_new {
 
 sub test_status {
     my $this = shift;
-    my $res = new TWiki::Response;
+    my $res = new Foswiki::Response;
 
     my @status = (200, 302, 401, 402, '404 not found', 500);
     foreach (@status) {
@@ -37,7 +37,7 @@ sub test_status {
 
 sub test_charset {
     my $this = shift;
-    my $res = new TWiki::Response;
+    my $res = new Foswiki::Response;
 
     foreach (qw(utf8 iso-8859-1 iso-8859-15 utf16)) {
         $res->charset($_);
@@ -47,7 +47,7 @@ sub test_charset {
 
 sub test_headers {
     my $this = shift;
-    my $res  = new TWiki::Response;
+    my $res  = new Foswiki::Response;
 
     my %hdr = (
         'CoNtEnT-tYpE' => 'text/plain; charset=utf8',
@@ -126,7 +126,7 @@ sub test_headers {
 
 sub test_cookie {
     my $this = shift;
-    my $res  = new TWiki::Response('');
+    my $res  = new Foswiki::Response('');
     require CGI::Cookie;
     my $c1 = new CGI::Cookie(
         -name   => 'TWIKISID',
@@ -140,7 +140,7 @@ sub test_cookie {
 
 sub test_body {
     my $this   = shift;
-    my $res    = new TWiki::Response('');
+    my $res    = new Foswiki::Response('');
     my $length = int( rand( 2**20 ) );
     my $body;
     for ( my $i = 0 ; $i < $length ; $i++ ) {
@@ -158,7 +158,7 @@ sub test_body {
 sub test_redirect {
     my $this = shift;
 
-    my $res = new TWiki::Response('');
+    my $res = new Foswiki::Response('');
     my ( $uri, $status ) = ();
     $uri = 'http://foo.bar';
     $res->redirect($uri);
@@ -173,7 +173,7 @@ sub test_redirect {
         'Wrong generated Status code'
     );
 
-    $res    = new TWiki::Response('');
+    $res    = new Foswiki::Response('');
     $uri    = 'http://bar.foo.baz/path/to/script/path/info';
     $status = '301 Moved Permanently';
     require CGI::Cookie;
@@ -202,7 +202,7 @@ sub test_redirect {
 
 sub test_header {
     my $this = shift;
-    my $res  = new TWiki::Response('');
+    my $res  = new Foswiki::Response('');
 
     my $cookie = CGI::Cookie->new(
         -name    => 'Foo',

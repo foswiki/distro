@@ -2,18 +2,18 @@ use strict;
 
 # Test cases:
 # 1) Autoattach = off. Save a topic referring to an attachmentMissing that does not exist.
-# 2) Add attachmentAdded into the attachment area for that topic, circumventing TWiki
+# 2) Add attachmentAdded into the attachment area for that topic, circumventing Foswiki
 # 3) Turn autoattach = on. Ask for the list of attachments. attachmentAdded should appear. attachmentMissing should not.
 
 package AutoAttachTests;
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
-use TWiki::Meta;
+use Foswiki;
+use Foswiki::Meta;
 use Error qw( :try );
-use TWiki::UI::Save;
-use TWiki::OopsException;
+use Foswiki::UI::Save;
+use Foswiki::OopsException;
 use Devel::Symdump;
 
 sub new {
@@ -71,7 +71,7 @@ sub addMissingAttachment {
 sub sneakAttachmentsAddedToTopic {
     my $this = shift;
     my ($topic, @filenames) = @_;
-    my $dir = $TWiki::cfg{PubDir};
+    my $dir = $Foswiki::cfg{PubDir};
     $dir = "$dir/$this->{test_web}/$topic";
     #print STDERR "DEBUG: dir=$dir\n";
 
@@ -93,16 +93,16 @@ sub test_no_autoattach {
 }
 
 sub test_autoattach {
-#   print "Default AutoAttachPubFiles = $TWiki::cfg{AutoAttachPubFiles}\n";
-    $TWiki::cfg{AutoAttachPubFiles} = 1;
-#   print "AutoAttachPubFiles now = $TWiki::cfg{AutoAttachPubFiles}\n";
+#   print "Default AutoAttachPubFiles = $Foswiki::cfg{AutoAttachPubFiles}\n";
+    $Foswiki::cfg{AutoAttachPubFiles} = 1;
+#   print "AutoAttachPubFiles now = $Foswiki::cfg{AutoAttachPubFiles}\n";
 
     my $this = shift; 
     my $topic = "UnitTest1";
     $this->set_up_topic($topic);
     $this->verify_normal_attachment($topic, "afile.txt");
     $this->verify_normal_attachment($topic, "bfile.txt");
-    $this->addMissingAttachment($topic, 'bogusAttachment.txt', "I'm a figment of TWiki's imagination");
+    $this->addMissingAttachment($topic, 'bogusAttachment.txt', "I'm a figment of Foswiki's imagination");
     $this->addMissingAttachment($topic, 'ressurectedComment.txt', 'ressurected attachment comment');
     $this->sneakAttachmentsAddedToTopic($topic, 'sneakedfile1.txt','sneakedfile2.txt', 'commavfilesshouldbeignored2.txt,v','_hiddenAttachment.txt', 'ressurectedComment.txt');
 
@@ -168,7 +168,7 @@ sub verify_normal_attachment {
 
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, $topic));
 
-    open( FILE, ">$TWiki::cfg{TempfileDir}/$attachment" );
+    open( FILE, ">$Foswiki::cfg{TempfileDir}/$attachment" );
     print FILE "Test attachment\n";
     close(FILE);
 
@@ -178,9 +178,9 @@ sub verify_normal_attachment {
 
     $this->{twiki}->{store}->saveAttachment(
         $this->{test_web}, $topic, $attachment, $this->{test_user_wikiname},
-        { file => "$TWiki::cfg{TempfileDir}/$attachment", comment => 'comment 1' } );
+        { file => "$Foswiki::cfg{TempfileDir}/$attachment", comment => 'comment 1' } );
 
-    unlink "$TWiki::cfg{TempfileDir}/$attachment";
+    unlink "$Foswiki::cfg{TempfileDir}/$attachment";
 
     # Check revision number
     my $rev = $this->{twiki}->{store}->getRevisionNumber(

@@ -20,23 +20,23 @@ There is some question as to what should happen to [[%SYSTEMWEB%.Macros][Macros]
    * When values are taken from a template topic, embedded variables are not expanded.
    * However, variables in values copied from a form are expanded.
 
-The latter serves to, e.g., create timestamps when expanding =%<nop>SERVERTIME{"$day $mon $year $hour:$min"}%=. But there is currently now way of getting a variable unexpanded, so that it could be expanded later, from the form or template. (Note that TWiki:Plugins.EditTablePlugin allows the use of escapes, such as =$percnt=, =$dollar=, or =$nop= to prevent expansion.)
+The latter serves to, e.g., create timestamps when expanding =%<nop>SERVERTIME{"$day $mon $year $hour:$min"}%=. But there is currently now way of getting a variable unexpanded, so that it could be expanded later, from the form or template. (Note that EditTablePlugin allows the use of escapes, such as =$percnt=, =$dollar=, or =$nop= to prevent expansion.)
 
 Secondly, it is maybe somewhat unintuitive that when text is taken from a template it is expanded.
 
 Note further that a template is not used when an existing topic is edited, even if there is no form attached to that topic.
 
-The testcases below assume that the correct interpretation is the one used in TWiki:Plugins.EditTablePlugin.
+The testcases below assume that the correct interpretation is the one used in EditTablePlugin.
 
 =cut
 
 
-use base qw( TWikiTestCase );
+use base qw( FoswikiTestCase );
 use Error qw( :try );
 
-use TWiki;
-use TWiki::UI::Edit;
-use TWiki::Form;
+use Foswiki;
+use Foswiki::UI::Edit;
+use Foswiki::Form;
 use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
@@ -136,7 +136,7 @@ sub set_up {
     $this->SUPER::set_up();
 
     my $query = new Unit::Request();
-    $this->{twiki}    = new TWiki( undef, $query );
+    $this->{twiki}    = new Foswiki( undef, $query );
     $this->{request}  = $query;
     $this->{response} = new Unit::Response();
     $user = $this->{twiki}->{user};
@@ -146,13 +146,13 @@ sub set_up {
 
     $this->{twiki}->{store}->createWeb( $user, $testweb );
 
-    $TWiki::Plugins::SESSION = $this->{twiki};
-    TWiki::Func::saveTopicText( $testweb, $testtopic1,      $testtext1, 1, 1 );
-    TWiki::Func::saveTopicText( $testweb, $testtopic2,      $testtext2, 1, 1 );
-    TWiki::Func::saveTopicText( $testweb, $testtopic3,      $testtext3, 1, 1 );
-    TWiki::Func::saveTopicText( $testweb, $testform,        $testform1, 1, 1 );
-    TWiki::Func::saveTopicText( $testweb, $testtmpl,        $testtmpl1, 1, 1 );
-    TWiki::Func::saveTopicText( $testweb, "MyeditTemplate", $edittmpl1, 1, 1 );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+    Foswiki::Func::saveTopicText( $testweb, $testtopic1,      $testtext1, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testtopic2,      $testtext2, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testtopic3,      $testtext3, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testform,        $testform1, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testtmpl,        $testtmpl1, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, "MyeditTemplate", $edittmpl1, 1, 1 );
     $this->{twiki}->enterContext('edit');
 }
 
@@ -179,8 +179,8 @@ sub setup_formtests {
   $this->{twiki}->{topicName} = $topic;
   my $render = $this->{twiki}->renderer;
 
-  use TWiki::Attrs;
-  my $attr = new TWiki::Attrs( $params );
+  use Foswiki::Attrs;
+  my $attr = new Foswiki::Attrs( $params );
   foreach my $k ( keys %$attr ) {
     next if $k eq '_RAW';
     $this->{request}->param( -name=>$k, -value=>$attr->{$k});
@@ -188,7 +188,7 @@ sub setup_formtests {
 
   # Now generate the form. We pass a template which throws everything away
   # but the form to allow for simpler analysis.
-  my ( $text, $tmpl ) = TWiki::UI::Edit::init_edit( $this->{twiki}, 'myedit' );
+  my ( $text, $tmpl ) = Foswiki::UI::Edit::init_edit( $this->{twiki}, 'myedit' );
 
   return $tmpl;
 
@@ -331,7 +331,7 @@ Simple description of problem</textarea>', get_formfield(2, $text));
 
 # Purpose:  Just edit the form topic, do not provide any init values
 # Verifies: All values are kept intact, in particular:
-#              * No expansion of TWiki variables (%SCRIPTURL%)
+#              * No expansion of Foswiki variables (%SCRIPTURL%)
 #              * No expansion if $percnt
 sub test_dont_expand_on_edit {
     my $this = shift;

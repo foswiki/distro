@@ -4,9 +4,9 @@ use strict;
 
 package Fn_VAR;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -31,7 +31,7 @@ SPLOT
 SPLOT
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
     $result = $this->{twiki}->handleCommonTags("%VAR{\"VAR\"}%", $this->{test_web}, $this->{test_topic});
     $this->assert_equals("", $result);

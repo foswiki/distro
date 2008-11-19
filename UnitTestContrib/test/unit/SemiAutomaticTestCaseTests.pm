@@ -2,23 +2,23 @@ use strict;
 
 package SemiAutomaticTestCaseTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
-use TWiki::UI::View;
+use Foswiki;
+use Foswiki::UI::View;
 use Error qw( :try );
 
 sub list_tests {
     my ($this, $suite) = @_;
     my @set = $this->SUPER::list_tests(@_);
 
-    my $twiki = new TWiki();
+    my $twiki = new Foswiki();
     unless( $twiki->{store}->webExists('TestCases')) {
         print STDERR "Cannot run semi-automatic test cases; TestCases web not found";
         return;
     }
-    eval "use TWiki::Plugins::TestFixturePlugin";
+    eval "use Foswiki::Plugins::TestFixturePlugin";
     if ($@) {
         print STDERR "Cannot run semi-automatic test cases; could not find TestFixturePlugin";
         $twiki->finish();
@@ -43,17 +43,17 @@ sub run_testcase {
         debugenableplugins=>'TestFixturePlugin,InterwikiPlugin',
         skin=>'pattern'});
     $query->path_info( "/TestCases/$testcase" );
-    $TWiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
-    my $twiki = new TWiki( $this->{test_user_login}, $query );
+    $Foswiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
+    my $twiki = new Foswiki( $this->{test_user_login}, $query );
     $twiki->{store}->saveTopic(
         $twiki->{user}, $this->{users_web}, 'ProjectContributor', 'none');
-    my ($text, $result) = $this->capture( \&TWiki::UI::View::view, $twiki);
+    my ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $twiki);
     unless( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
         open(F,">${testcase}_run.html");
         print F $text;
         close F;
         $query->delete('test');
-        ($text, $result) = $this->capture( \&TWiki::UI::View::view, $twiki);
+        ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $twiki);
         open(F,">${testcase}.html");
         print F $text;
         close F;

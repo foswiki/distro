@@ -1,26 +1,26 @@
 package ExceptionTests;
-use base TWikiTestCase;
+use base FoswikiTestCase;
 
 use strict;
 
 use Error qw( :try );
-use TWiki::OopsException;
-use TWiki::UI::Oops;
+use Foswiki::OopsException;
+use Foswiki::UI::Oops;
 
 # Check an OopsException with one non-array parameter
 sub test_simpleOopsException {
     my $this = shift;
     try {
-        throw TWiki::OopsException(
+        throw Foswiki::OopsException(
             'templatename',
             web => 'webname',
             topic => 'topicname',
             def => 'defname',
             keep => 1,
             params => 'phlegm');
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert($e->isa('TWiki::OopsException'));
+        $this->assert($e->isa('Foswiki::OopsException'));
         $this->assert_str_equals('webname', $e->{web});
         $this->assert_str_equals('topicname', $e->{topic});
         $this->assert_str_equals('defname', $e->{def});
@@ -36,14 +36,14 @@ sub test_simpleOopsException {
 sub test_multiparamOopsException {
     my $this = shift;
     try {
-        throw TWiki::OopsException(
+        throw Foswiki::OopsException(
             'templatename',
             web => 'webname',
             topic => 'topicname',
             params => [ 'phlegm', '<pus>' ]);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert($e->isa('TWiki::OopsException'));
+        $this->assert($e->isa('Foswiki::OopsException'));
         $this->assert_str_equals('webname', $e->{web});
         $this->assert_str_equals('topicname', $e->{topic});
         $this->assert_str_equals('templatename', $e->{template});
@@ -55,7 +55,7 @@ sub test_multiparamOopsException {
 
 sub upchuck {
     my $session = shift;
-    my $e = new TWiki::OopsException(
+    my $e = new Foswiki::OopsException(
             'templatename',
             web => 'webname',
             topic => 'topicname',
@@ -65,7 +65,7 @@ sub upchuck {
 
 sub test_redirectOopsException {
     my $this = shift;
-    my $t = new TWiki();
+    my $t = new Foswiki();
     my ($output, $result) = $this->capture(\&upchuck, $t);
     $t->finish();
     $this->assert_matches(qr/^Status: 302.*$/m, $output);
@@ -74,7 +74,7 @@ sub test_redirectOopsException {
 
 sub test_AccessControlException {
     my $this = shift;
-    my $ace = new TWiki::AccessControlException(
+    my $ace = new Foswiki::AccessControlException(
         'FRY',
         'burger',
         'Spiders',
@@ -95,8 +95,8 @@ sub test_oopsScript {
         param3 => 'snot@dot.dat',
         param4 => 'phlegm',
         param5 => "the cat\nsat on\nthe rat"});
-    my $session = new TWiki(undef, $query);
-    my ($output, $result) = $this->capture(\&TWiki::UI::Oops::oops, $session,
+    my $session = new Foswiki(undef, $query);
+    my ($output, $result) = $this->capture(\&Foswiki::UI::Oops::oops, $session,
                    "Flum", "DeDum", $query, 0);
     $this->assert_matches(qr/^phlegm$/m, $output);
     $this->assert_matches(qr/^&#60;pus&#62;$/m, $output);

@@ -12,12 +12,12 @@ propagated into the TOC.
 =cut
 
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
 use strict;
-use TWiki;
-use TWiki::UI::Edit;
-use TWiki::Form;
+use Foswiki;
+use Foswiki::UI::Edit;
+use Foswiki::Form;
 use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
@@ -62,7 +62,7 @@ sub set_up {
     $this->SUPER::set_up();
     
     my $query = new Unit::Request();
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
     $this->{request}  = $query;
     $this->{response} = new Unit::Response;
     $user = $twiki->{user};
@@ -72,7 +72,7 @@ sub set_up {
     $twiki->{store}->createWeb($user, $testweb);
 
 
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
 }
 
 sub tear_down {
@@ -89,8 +89,8 @@ sub setup_TOCtests {
   $twiki->{topicName} = $topic;
   my $render = $twiki->renderer;
 
-  use TWiki::Attrs;
-  my $attr = new TWiki::Attrs( $params );
+  use Foswiki::Attrs;
+  my $attr = new Foswiki::Attrs( $params );
   foreach my $k ( keys %$attr ) {
     next if $k eq '_RAW';
     $this->{request}->param( -name=>$k, -value=>$attr->{$k});

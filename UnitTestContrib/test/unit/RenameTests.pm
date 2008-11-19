@@ -2,11 +2,11 @@ use strict;
 
 package RenameTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
-use TWiki::UI::Manage;
+use Foswiki;
+use Foswiki::UI::Manage;
 use Error ':try';
 
 my $notawwtopic1 = "random";
@@ -25,14 +25,14 @@ sub set_up {
     $this->SUPER::set_up();
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki(
+    $this->{twiki} = new Foswiki(
         $this->{test_user_login}, new Unit::Request({topic=>"/$this->{test_web}/OldTopic"}));
 
     $this->{new_web} = $this->{test_web}.'New';
     $this->{twiki}->{store}->createWeb(
         $this->{twiki}->{user}, $this->{new_web});
 
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $Foswiki::Plugins::SESSION = $this->{twiki};
 
     my $originaltext = <<THIS;
 1 $this->{test_web}.OldTopic
@@ -68,7 +68,7 @@ THIS
 
     foreach my $topic ('OldTopic', 'OtherTopic', 'random',
                        'Random', 'ranDom' ) {
-        my $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $topic);
+        my $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $topic);
         $meta->putKeyed( 'FIELD', {name=>$this->{test_web},
                                    value=>$this->{test_web}} );
         $meta->putKeyed( 'FIELD', {name=>"$this->{test_web}.OldTopic",
@@ -85,7 +85,7 @@ THIS
             $originaltext, $meta );
     }
 
-    my $meta = new TWiki::Meta($this->{twiki}, $this->{new_web}, 'OtherTopic');
+    my $meta = new Foswiki::Meta($this->{twiki}, $this->{new_web}, 'OtherTopic');
     $meta->putKeyed( 'FIELD', {name=>$this->{test_web},
                           value=>$this->{test_web}} );
     $meta->putKeyed( 'FIELD', {name=>"$this->{test_web}.OldTopic",
@@ -103,7 +103,7 @@ THIS
 
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{new_web},
-        $TWiki::cfg{HomeTopicName}, 'junk' );
+        $Foswiki::cfg{HomeTopicName}, 'junk' );
 }
 
 sub tear_down {
@@ -128,7 +128,7 @@ sub check {
 sub checkReferringTopics {
     my ($this, $web, $topic, $all, $expected, $forgiving) = @_;
 
-    my $refs = TWiki::UI::Manage::getReferringTopics(
+    my $refs = Foswiki::UI::Manage::getReferringTopics(
         $this->{twiki}, $web, $topic, $all);
     $this->assert_str_equals('HASH', ref($refs));
 
@@ -318,9 +318,9 @@ sub test_rename_oldwebnewtopic {
     $this->{twiki}->finish();
     # The topic in the path should not matter
     $query->path_info( "/$this->{test_web}/SanityCheck" );
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
-    $this->capture(\&TWiki::UI::Manage::rename, $this->{twiki} );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $this->capture(\&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     $this->assert( $this->{twiki}->{store}->topicExists(
         $this->{test_web}, 'NewTopic' ));
@@ -437,9 +437,9 @@ sub test_rename_newweboldtopic {
 
     $query->path_info("/$this->{test_web}" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
-    $this->capture( \&TWiki::UI::Manage::rename, $this->{twiki} );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $this->capture( \&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     $this->assert( $this->{twiki}->{store}->topicExists(
         $this->{new_web}, 'OldTopic' ));
@@ -551,7 +551,7 @@ THIS
 #    * In the new topic, the initial letter is changed to upper case
 sub test_rename_from_lowercase {
     my $this       =  shift;
-    my $meta       =  new TWiki::Meta(
+    my $meta       =  new Foswiki::Meta(
         $this->{twiki}, $this->{test_web}, 'lowercase');
     my $topictext  =  <<THIS;
 One lowercase
@@ -571,11 +571,11 @@ THIS
 
     $query->path_info("/$this->{test_web}" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
     my ($text,$result) =
-      $this->capture( \&TWiki::UI::Manage::rename, $this->{twiki} );
-    my $ext = $TWiki::cfg{ScriptSuffix};
+      $this->capture( \&Foswiki::UI::Manage::rename, $this->{twiki} );
+    my $ext = $Foswiki::cfg{ScriptSuffix};
     $this->assert_matches(qr/^Status:\s+302/s,$text);
     $this->assert_matches(qr([lL]ocation:\s+\S+?/view$ext/$this->{test_web}/UpperCase)s,$text);
     $this->check($this->{test_web}, 'UpperCase', $meta, <<THIS, 100);
@@ -587,7 +587,7 @@ THIS
 
 sub test_accessRenameRestrictedTopic {
     my $this       =  shift;
-    my $meta       =  new TWiki::Meta(
+    my $meta       =  new Foswiki::Meta(
         $this->{twiki}, $this->{test_web}, 'OldTopic');
     my $topictext  =  "   * Set ALLOWTOPICRENAME = GungaDin\n";
     $this->{twiki}->{store}->saveTopic(
@@ -602,24 +602,24 @@ sub test_accessRenameRestrictedTopic {
 
     $query->path_info("/$this->{test_web}" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
     try {
-        my ($text,$result) = TWiki::UI::Manage::rename( $this->{twiki} );
+        my ($text,$result) = Foswiki::UI::Manage::rename( $this->{twiki} );
         $this->assert(0);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         $this->assert_str_equals("OopsException(accessdenied/topic_access web=>$this->{test_web} topic=>OldTopic params=>[RENAME,access not allowed on topic])", shift->stringify());
     }
 }
 
 sub test_accessRenameRestrictedWeb {
     my $this       =  shift;
-    my $meta       =  new TWiki::Meta(
-        $this->{twiki}, $this->{test_web}, $TWiki::cfg{WebPrefsTopicName});
+    my $meta       =  new Foswiki::Meta(
+        $this->{twiki}, $this->{test_web}, $Foswiki::cfg{WebPrefsTopicName});
     my $topictext  =  "   * Set ALLOWWEBRENAME = GungaDin\n";
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{test_web},
-        $TWiki::cfg{WebPrefsTopicName}, $topictext, $meta );
+        $Foswiki::cfg{WebPrefsTopicName}, $topictext, $meta );
     my $query = new Unit::Request({
                          action   => 'rename',
                          topic    => 'OldTopic',
@@ -629,12 +629,12 @@ sub test_accessRenameRestrictedWeb {
 
     $query->path_info("/$this->{test_web}" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
     try {
-        my ($text,$result) = TWiki::UI::Manage::rename( $this->{twiki} );
+        my ($text,$result) = Foswiki::UI::Manage::rename( $this->{twiki} );
         $this->assert(0);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         $this->assert_str_equals("OopsException(accessdenied/topic_access web=>$this->{test_web} topic=>OldTopic params=>[RENAME,access not allowed on web])", shift->stringify());
     }
 }
@@ -656,9 +656,9 @@ sub test_leaseReleasemeLetMeGo {
 
     $query->path_info("/$this->{test_web}" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
-    $this->capture(\&TWiki::UI::Manage::rename, $this->{twiki} );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $this->capture(\&Foswiki::UI::Manage::rename, $this->{twiki} );
 
     my $lease = $this->{twiki}->{store}->getLease(
         $this->{test_web}, 'OldTopic');

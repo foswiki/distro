@@ -2,12 +2,12 @@ use strict;
 
 package UploadScriptTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
+use Foswiki;
 use Unit::Request;
-use TWiki::UI::Upload;
+use Foswiki::UI::Upload;
 use CGI;
 use Error qw( :try );
 
@@ -46,12 +46,12 @@ sub do_upload {
     my $fh = Fh->new($fn, $tmpfile->as_string, 0);
     print $fh $data;
     seek($fh,0,0);
-    my ( $release ) = $TWiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
+    my ( $release ) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
     if ( $release >= 5 ) {
         $query->param( -name => 'filepath', -value => $fn );
         my %uploads = ();
-        require TWiki::Request::Upload;
-        $uploads{$fh} = new TWiki::Request::Upload(
+        require Foswiki::Request::Upload;
+        $uploads{$fh} = new Foswiki::Request::Upload(
             headers => {},
             tmpname => $tmpfile->as_string
         );
@@ -71,9 +71,9 @@ sub do_upload {
     seek($stream,0,0);
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
 
-    my ($text, $result) = $this->capture( \&TWiki::UI::Upload::upload, $this->{twiki});
+    my ($text, $result) = $this->capture( \&Foswiki::UI::Upload::upload, $this->{twiki});
     return $text;
 }
 
@@ -89,9 +89,9 @@ sub test_simple_upload {
         changeproperties => 0,
        );
     $this->assert($result =~ /^OK/, $result);
-    $this->assert(open(F, "<$TWiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappadoodle.txt"));
+    $this->assert(open(F, "<$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/Flappadoodle.txt"));
     $this->assert_str_equals("BLAH", <F>);
-    my ($meta, $text) = TWiki::Func::readTopic($this->{test_web},
+    my ($meta, $text) = Foswiki::Func::readTopic($this->{test_web},
                                                $this->{test_topic});
 
     # Check the meta
@@ -110,10 +110,10 @@ sub test_oversized_upload {
     my $query = new Unit::Request(\%args);
     $query->path_info( "/$this->{test_web}/$this->{test_topic}" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
     my $data = '00000000000000000000000000000000000000';
-    my $sz = TWiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') * 1024;
+    my $sz = Foswiki::Func::getPreferencesValue('ATTACHFILESIZELIMIT') * 1024;
     $data .= $data while length($data) <= $sz;
     try {
         $this->do_upload(
@@ -124,7 +124,7 @@ sub test_oversized_upload {
             createlink => 0,
             changeproperties => 0);
         $this->assert(0);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("oversized_upload", $e->{def});
     };
@@ -143,7 +143,7 @@ sub test_zerosized_upload {
             createlink => 0,
             changeproperties => 0);
         $this->assert(0);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("zero_size_upload", $e->{def});
     };
@@ -170,7 +170,7 @@ sub test_propschanges {
         createlink => 1,
         changeproperties => 1);
     $this->assert($result =~ /^OK/, $result);
-    my ($meta, $text) = TWiki::Func::readTopic($this->{test_web},
+    my ($meta, $text) = Foswiki::Func::readTopic($this->{test_web},
                                                $this->{test_topic});
 
     # Check the link was created

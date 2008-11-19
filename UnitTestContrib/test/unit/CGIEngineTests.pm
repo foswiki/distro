@@ -8,18 +8,18 @@ use strict;
 use warnings;
 
 BEGIN {
-    $TWiki::cfg{Engine} = 'TWiki::Engine::CGI';
+    $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
 }
 
-use TWiki;
-use TWiki::Response;
-use TWiki::UI;
+use Foswiki;
+use Foswiki::Response;
+use Foswiki::UI;
 
 use File::Temp;
 use Storable qw(freeze thaw);
 use Data::Dumper;
 
-$TWiki::cfg{SwitchBoard}{test} = [ 'TWiki::UI::Test', 'test', { test => 1 } ];
+$Foswiki::cfg{SwitchBoard}{test} = [ 'Foswiki::UI::Test', 'test', { test => 1 } ];
 
 sub cgi_env {
     return (
@@ -41,15 +41,15 @@ sub test_bli {
     local %ENV;
 
     %ENV = cgi_env;
-    my $res = new TWiki::Response();
+    my $res = new Foswiki::Response();
     $res->header(-type => 'text/plain', charset => 'iso8859-1');
     $res->body("Teste!\n");
-    $ENV{QUERY_STRING} = 'desired_test_response='.TWiki::urlEncode(freeze($res));
+    $ENV{QUERY_STRING} = 'desired_test_response='.Foswiki::urlEncode(freeze($res));
     my $out = '';
     open my $stdout, '>&', \*STDOUT;
     close STDOUT;
     open STDOUT, '>', \$out;
-    $TWiki::engine->run();
+    $Foswiki::engine->run();
     open STDOUT, '>&', $stdout;
     $out =~ /(?:\r?\n){2}(.*)/s;
     #print STDERR Dumper(thaw($1));

@@ -19,7 +19,7 @@ sub _findRelativeTo {
 }
 
 BEGIN {
-	$TWiki::cfg{Engine} = 'TWiki::Engine::CGI';
+	$Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
     # root the tree
     my $here = Cwd::abs_path;
 
@@ -43,7 +43,7 @@ BEGIN {
 };
 
 use strict;
-use TWiki;   # If you take this out then TestRunner.pl will fail on IndigoPerl
+use Foswiki;   # If you take this out then TestRunner.pl will fail on IndigoPerl
 use Unit::TestRunner;
 
 my %options;
@@ -86,14 +86,14 @@ if ($ENV{TWIKI_ASSERTS}) {
 
 if ($options{-clean}) {
     require File::Path;
-    my @x = glob "$TWiki::cfg{DataDir}/Temp*";
+    my @x = glob "$Foswiki::cfg{DataDir}/Temp*";
     File::Path::rmtree([@x]) if scalar(@x);
-    @x = glob "$TWiki::cfg{PubDir}/Temp*";
+    @x = glob "$Foswiki::cfg{PubDir}/Temp*";
     File::Path::rmtree([@x]) if scalar(@x);
 }
 
-testForFiles($TWiki::cfg{DataDir}.'/Temp*');
-testForFiles($TWiki::cfg{PubDir}.'/Temp*');
+testForFiles($Foswiki::cfg{DataDir}.'/Temp*');
+testForFiles($Foswiki::cfg{PubDir}.'/Temp*');
 
 my $testrunner = Unit::TestRunner->new();
 my $exit = $testrunner->start(@ARGV);

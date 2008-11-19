@@ -2,9 +2,9 @@
 require 5.006;
 package StoreTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
-use TWiki;
+use Foswiki;
 use strict;
 use Assert;
 use Error qw( :try );
@@ -33,9 +33,9 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-#    $this->{twiki} = new TWiki($this->{test_user_login});
+#    $this->{twiki} = new Foswiki($this->{test_user_login});
 	
-    open( FILE, ">$TWiki::cfg{TempfileDir}/testfile.gif" );
+    open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
     print FILE "one two three";
     close(FILE);
 
@@ -45,10 +45,10 @@ sub tear_down {
     my $this = shift;
 
     $this->removeWebFixture($this->{twiki}, $web)
-      if( -e "$TWiki::cfg{DataDir}/$web");
+      if( -e "$Foswiki::cfg{DataDir}/$web");
 
-    unlink("$TWiki::cfg{TempfileDir}/testfile.gif");
-    unlink "$TWiki::cfg{DataDir}/$web/.changes";
+    unlink("$Foswiki::cfg{TempfileDir}/testfile.gif");
+    unlink "$Foswiki::cfg{DataDir}/$web/.changes";
 
     #$this->{twiki}->finish();
     $this->SUPER::tear_down();
@@ -130,7 +130,7 @@ sub test_CreateSimpleMetaTopic {
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
 	my $text = '';
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
 	$this->assert( $this->{twiki}->{store}->topicExists($web, $topic) );
 	
@@ -155,7 +155,7 @@ sub test_CreateSimpleCompoundTopic {
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
 	my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
     $meta->{_text} = $text;
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
 	$this->assert( $this->{twiki}->{store}->topicExists($web, $topic) );
@@ -180,7 +180,7 @@ sub test_getRevisionInfo {
 	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
 	$this->assert( $this->{twiki}->{store}->webExists($web) );
 	my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
 
 	$this->assert_equals(1, $this->{twiki}->{store}->getRevisionNumber($web, $topic));
@@ -208,7 +208,7 @@ sub test_moveTopic {
 	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
 	$this->assert( $this->{twiki}->{store}->webExists($web) );
 	my $text = "This is some test text\n   * some list\n   * content\n :) :)";
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
 
 	$text = "This is some test text\n   * some list\n   * $topic\n   * content\n :) :)";
@@ -230,7 +230,7 @@ sub test_leases {
     my $this = shift;
 
 	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-    my $testtopic = $TWiki::cfg{HomeTopicName};
+    my $testtopic = $Foswiki::cfg{HomeTopicName};
 
     my $lease = $this->{twiki}->{store}->getLease($web, $testtopic);
     $this->assert_null($lease);
@@ -264,7 +264,7 @@ sub beforeSaveHandler {
     }
 }
 
-use TWiki::Plugin;
+use Foswiki::Plugin;
 
 sub test_beforeSaveHandlerChangeText {
     my $this = shift;
@@ -279,10 +279,10 @@ sub test_beforeSaveHandlerChangeText {
 	
     # inject a handler directly into the plugins object
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeSaveHandler}},
-        new TWiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
 
 	my $text = 'CHANGETEXT';
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
     $meta->putKeyed( "FIELD", $args );
 
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
@@ -314,10 +314,10 @@ sub test_beforeSaveHandlerChangeMeta {
 	
     # inject a handler directly into the plugins object
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeSaveHandler}},
-        new TWiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
 
 	my $text = 'CHANGEMETA';
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
     $meta->putKeyed( "FIELD", $args );
 
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
@@ -347,10 +347,10 @@ sub test_beforeSaveHandlerChangeBoth {
 	
     # inject a handler directly into the plugins object
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeSaveHandler}},
-        new TWiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
 
 	my $text = 'CHANGEMETA CHANGETEXT';
-	my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
     $meta->putKeyed( "FIELD", $args );
 
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
@@ -410,13 +410,13 @@ sub test_attachmentSaveHandlers {
 
     # SMELL: assumed implementation
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeAttachmentSaveHandler}},
-        new TWiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{afterAttachmentSaveHandler}},
-        new TWiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
 
     $this->{twiki}->{store}->saveAttachment(
         $web, $topic, "testfile.gif", $this->{test_user_login},
-        { file => "$TWiki::cfg{TempfileDir}/testfile.gif",
+        { file => "$Foswiki::cfg{TempfileDir}/testfile.gif",
           comment => "a comment" } );
 
     my $text = $this->{twiki}->{store}->readAttachment(
@@ -430,7 +430,7 @@ sub test_attachmentSaveHandlers {
 sub test_eachChange {
     my $this = shift;
     $this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web);
-    $TWiki::cfg{Store}{RememberChangesFor} = 5; # very bad memory
+    $Foswiki::cfg{Store}{RememberChangesFor} = 5; # very bad memory
     sleep(1);
     my $start = time();
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user}, $web, "ClutterBuck",

@@ -3,14 +3,14 @@ use strict;
 # tests for the correct expansion of REVINFO
 
 package Fn_REVINFO;
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
 use strict;
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
-    $TWiki::cfg{Register}{AllowLoginName} =  1;
+    $Foswiki::cfg{Register}{AllowLoginName} =  1;
     my $self = shift()->SUPER::new('REVINFO', @_);
     return $self;
 }
@@ -32,7 +32,7 @@ sub test_basic {
 
     my $ui = $this->{twiki}->handleCommonTags(
         '%REVINFO%', $this->{test_web}, $this->{test_topic});
-    my $guest = TWiki::Func::getWikiName();
+    my $guest = Foswiki::Func::getWikiName();
     unless ($ui =~ /^r1 - \d+ \w+ \d+ - \d+:\d+:\d+ - $this->{users_web}\.$guest$/) {
         $this->assert(0, $ui);
     }
@@ -125,12 +125,12 @@ sub test_compatibility1 {
     # The wikiname must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if ($TWiki::cfg{StoreImpl} ne 'RcsLite' &&
-          $TWiki::cfg{StoreImpl} ne 'RcsWrap') {
+    if ($Foswiki::cfg{StoreImpl} ne 'RcsLite' &&
+          $Foswiki::cfg{StoreImpl} ne 'RcsWrap') {
         return;
     }
     $this->assert(open(
-        F, '>', "$TWiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"));
+        F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"));
     print F <<'HERE';
 %META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev: 16686 $"}%
 HERE
@@ -148,12 +148,12 @@ sub test_compatibility2 {
     # The login must be for a user who is in WikiUsers.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if ($TWiki::cfg{StoreImpl} ne 'RcsLite' &&
-          $TWiki::cfg{StoreImpl} ne 'RcsWrap') {
+    if ($Foswiki::cfg{StoreImpl} ne 'RcsLite' &&
+          $Foswiki::cfg{StoreImpl} ne 'RcsWrap') {
         return;
     }
     $this->assert(open(
-        F, '>', "$TWiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"));
+        F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"));
     print F <<'HERE';
 %META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev: 16686 $"}%
 HERE
@@ -171,22 +171,22 @@ sub test_5873 {
     # The login must be for a user who does not exist.
     # This test is specific to the "traditional" text database implementation,
     # either RcsWrap or RcsLite.
-    if ($TWiki::cfg{StoreImpl} ne 'RcsLite' &&
-          $TWiki::cfg{StoreImpl} ne 'RcsWrap') {
+    if ($Foswiki::cfg{StoreImpl} ne 'RcsLite' &&
+          $Foswiki::cfg{StoreImpl} ne 'RcsWrap') {
         return;
     }
     $this->assert(open(
-        F, '>', "$TWiki::cfg{DataDir}/$this->{test_web}/GeeWillikins.txt"));
+        F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/GeeWillikins.txt"));
     print F <<'HERE';
 %META:TOPICINFO{author="eltonjohn" date="1120846368" format="1.1" version="$Rev: 16686 $"}%
 HERE
     close(F);
-    $TWiki::cfg{RenderLoggedInButUnknownUsers} = 0;
+    $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 0;
     my $ui = $this->{twiki}->handleCommonTags(
         '%REVINFO{format="$username $wikiname $wikiusername"}%',
         $this->{test_web}, 'GeeWillikins');
     $this->assert_str_equals("eltonjohn eltonjohn eltonjohn", $ui);
-    $TWiki::cfg{RenderLoggedInButUnknownUsers} = 1;
+    $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
     $ui = $this->{twiki}->handleCommonTags(
         '%REVINFO{format="$username $wikiname $wikiusername"}%',
         $this->{test_web}, 'GeeWillikins');

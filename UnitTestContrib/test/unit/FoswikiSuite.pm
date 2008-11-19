@@ -1,7 +1,7 @@
 # Run _all_ test suites in the current directory (core and plugins)
 require 5.006;
 
-package TWikiSuite;
+package FoswikiSuite;
 use base 'Unit::TestSuite';
 
 use strict;

@@ -2,11 +2,11 @@ use strict;
 
 package RenderFormTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
 
-use TWiki::Meta;
+use Foswiki::Meta;
 use File::Temp;
 
 my $testtopic1 = "TestTopic1";
@@ -16,13 +16,13 @@ use vars qw( $codedir );
 BEGIN {
     # create a fabby little type, just to make sure it gets called
     $codedir = File::Temp::tempdir( CLEANUP => 1 );
-    mkdir("$codedir/TWiki") || die $!;
-    mkdir("$codedir/TWiki/Form") || die $!;
-    open(F, ">$codedir/TWiki/Form/Nuffin.pm") || die $!;
+    mkdir("$codedir/System") || die $!;
+    mkdir("$codedir/Foswiki/Form") || die $!;
+    open(F, ">$codedir/Foswiki/Form/Nuffin.pm") || die $!;
 
     my $code = <<CODE;
-package TWiki::Form::Nuffin;
-use base 'TWiki::Form::FieldDefinition';
+package Foswiki::Form::Nuffin;
+use base 'Foswiki::Form::FieldDefinition';
 
 sub renderForEdit {
     return ('EXTRA', 'SWEET');
@@ -44,11 +44,11 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    TWiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef, <<HERE );
+    Foswiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef, <<HERE );
    * Set WEBFORMS = InitializationForm
 HERE
 
-    my $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $testtopic1);
+    my $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $testtopic1);
     $meta->put('FORM', { name=>"InitializationForm" });
     $meta->putKeyed(
         'FIELD',
@@ -87,9 +87,9 @@ HERE
         { name=>"Anothertopic",
           attributes=>"", title=>"Another topic", value=>"GRRR "});
 
-    TWiki::Func::saveTopic( $this->{test_web}, $testtopic1, $meta, 'TT1' );
+    Foswiki::Func::saveTopic( $this->{test_web}, $testtopic1, $meta, 'TT1' );
 
-    $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $testtopic2);
+    $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $testtopic2);
     $meta->put('FORM', { name=>"InitializationForm",
                      });
     $meta->putKeyed(
@@ -128,12 +128,12 @@ HERE
         'FIELD',
         { name=>"Anothertopic",
           attributes=>"", title=>"Another topic", value=>"GRRR "});
-    TWiki::Func::saveTopic( $this->{test_web}, $testtopic2, $meta, 'TT2' );
+    Foswiki::Func::saveTopic( $this->{test_web}, $testtopic2, $meta, 'TT2' );
 }
 
 sub setForm {
     my $this = shift;
-    TWiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef, <<HERE );
+    Foswiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef, <<HERE );
 | *Name*            | *Type*       | *Size* | *Values*      |
 | Issue Name        | text         | 40     |               |
 | State             | radio        |        | none          |
@@ -230,7 +230,7 @@ sub test_render_for_edit {
     $this->setForm();
     my ($meta, $text) =
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
-    my $formDef = new TWiki::Form(
+    my $formDef = new Foswiki::Form(
         $this->{twiki}, $this->{test_web}, "InitializationForm" );
     my $res = $formDef->renderForEdit($this->{test_web}, $testtopic1, $meta);
 
@@ -345,7 +345,7 @@ sub test_render_hidden {
     $this->setForm();
     my ($meta, $text) =
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
-    my $formDef = new TWiki::Form(
+    my $formDef = new Foswiki::Form(
         $this->{twiki}, $this->{test_web}, "InitializationForm" );
     my $res = $formDef->renderHidden($meta);
     $this->assert_html_equals(<<'HERE', $res);

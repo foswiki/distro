@@ -83,8 +83,8 @@ sub forceAuthentication {
     # of this script, may be a result of not being logged in.
     my $newAction  = $query->action() . 'auth';
 
-    if ( !$query->remote_user() && exists $Foswiki::cfg{SwitchBoard}{$newAction} )
-    {
+    if ( !$query->remote_user() &&
+           exists $Foswiki::cfg{SwitchBoard}{$newAction} ) {
         # Assemble the new URL using the host, the changed script name,
         # and the path info.
         my $url = $session->getScriptUrl( 1, $newAction );

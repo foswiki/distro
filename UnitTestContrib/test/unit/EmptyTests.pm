@@ -4,9 +4,9 @@ use strict;
 
 package EmptyTests;
 
-use base qw( TWikiTestCase );
+use base qw( FoswikiTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 my $topicquery;
@@ -16,12 +16,12 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    # You can now safely modify $TWiki::cfg
+    # You can now safely modify $Foswiki::cfg
 
     $topicquery = new Unit::Request( '' );
     $topicquery->path_info( '/TestCases/WebHome' );
     try {
-        $this->{twiki} = new TWiki( 'AdminUser' || '' );
+        $this->{twiki} = new Foswiki( 'AdminUser' || '' );
         my $user = $this->{twiki}->{user};
 
         # You can create webs here; don't forget to tear them down
@@ -36,14 +36,14 @@ sub set_up {
         $this->{twiki}->{store}->createWeb(
             $user,
             "Temporarytwikiweb",
-            "TWiki");
+            "System");
 
         # Create a topic like this:
 
         # Note: if you are going to manipulate users, you need
         # to make sure you fixture protects things like .htpasswd
 
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         die "???" unless $e;
         $this->assert( 0, $e->stringify() );

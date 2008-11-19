@@ -5,9 +5,9 @@ use strict;
 
 package Fn_SEARCH;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -35,7 +35,7 @@ sub set_up {
 sub fixture_groups {
     my (%salgs, %qalgs);
     foreach my $dir (@INC) {
-        if (opendir(D, "$dir/TWiki/Store/SearchAlgorithms")) {
+        if (opendir(D, "$dir/Foswiki/Store/SearchAlgorithms")) {
             foreach my $alg (readdir D) {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
@@ -43,7 +43,7 @@ sub fixture_groups {
             }
             closedir(D);
         }
-        if (opendir(D, "$dir/TWiki/Store/QueryAlgorithms")) {
+        if (opendir(D, "$dir/Foswiki/Store/QueryAlgorithms")) {
             foreach my $alg (readdir D) {
                 next unless $alg =~ /^(.*)\.pm$/;
                 $alg = $1;
@@ -59,8 +59,8 @@ sub fixture_groups {
         next if (defined(&$fn));
         eval <<SUB;
 sub $fn {
-require TWiki::Store::SearchAlgorithms::$alg;
-\$TWiki::cfg{RCS}{SearchAlgorithm} = 'TWiki::Store::SearchAlgorithms::$alg'; }
+require Foswiki::Store::SearchAlgorithms::$alg;
+\$Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::$alg'; }
 SUB
         die $@ if $@;
     }
@@ -70,8 +70,8 @@ SUB
         next if (defined(&$fn));
         eval <<SUB;
 sub $fn {
-require TWiki::Store::QueryAlgorithms::$alg;
-\$TWiki::cfg{RCS}{QueryAlgorithm} = 'TWiki::Store::QueryAlgorithms::$alg'; }
+require Foswiki::Store::QueryAlgorithms::$alg;
+\$Foswiki::cfg{RCS}{QueryAlgorithm} = 'Foswiki::Store::QueryAlgorithms::$alg'; }
 SUB
         die $@ if $@;
     }
@@ -610,9 +610,9 @@ HERE
     my $query = new Unit::Request("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    $this->{twiki} = new TWiki(undef, $query);
+    $this->{twiki} = new Foswiki(undef, $query);
     $this->assert_str_equals($this->{test_web}, $this->{twiki}->{webName});
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $Foswiki::Plugins::SESSION = $this->{twiki};
 }
 
 # NOTE: most query ops are tested in Fn_IF.pm, and are not re-tested here

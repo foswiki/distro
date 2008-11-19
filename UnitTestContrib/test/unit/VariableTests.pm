@@ -1,13 +1,13 @@
 use strict;
 
-# tests for the correct expansion of programmed TWiki variables (*not* TWikiFns, which
+# tests for the correct expansion of programmed variables (*not* FoswikiFns, which
 # should have their own individual testcase)
 
 package VariableTests;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub set_up {
@@ -18,7 +18,7 @@ sub set_up {
     my $query = new Unit::Request("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki('scum', $query);
+    $this->{twiki} = new Foswiki('scum', $query);
 }
 
 sub new {
@@ -97,7 +97,7 @@ END
 
 sub test_userExpansions {
     my $this = shift;
-    $TWiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
 
     my $text = <<'END';
 %USERNAME%
@@ -113,10 +113,10 @@ scum
 ScumBag
 $this->{users_web}.ScumBag
 scum, $this->{users_web}.ScumBag, scumbag\@example.com
-${TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID}scum,scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
+${Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID}scum,scumbag\@example.com,scum,ScumBag,$this->{users_web}.ScumBag
 BaseUserMapping_666,,guest,WikiGuest,$this->{users_web}.WikiGuest
 END
-    $this->annotate("TWiki::cfg{Register}{AllowLoginName} == ".$TWiki::cfg{Register}{AllowLoginName});
+    $this->annotate("Foswiki::cfg{Register}{AllowLoginName} == ".$Foswiki::cfg{Register}{AllowLoginName});
     $this->assert_str_equals($xpect, $result);
 }
 

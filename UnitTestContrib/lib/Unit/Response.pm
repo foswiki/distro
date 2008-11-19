@@ -4,31 +4,31 @@ use strict;
 use vars qw($res);
 
 BEGIN {
-    use TWiki;
+    use Foswiki;
     use CGI;
-    my ($release) = $TWiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
+    my ($release) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
     no warnings qw(redefine);
-    if ( $release >= 5 ) {
-        require TWiki::Response;
-        import TWiki::Response;
-        @Unit::Response::ISA = qw(TWiki::Response);
-        my $twiki_new = \&TWiki::new;
-        *TWiki::new =
+    if ( $release >= 2 ) {
+        require Foswiki::Response;
+        import Foswiki::Response;
+        @Unit::Response::ISA = qw(Foswiki::Response);
+        my $twiki_new = \&Foswiki::new;
+        *Foswiki::new =
           sub { my $t = $twiki_new->(@_); $res = $t->{response}; return $t };
     }
     else {
         @Unit::Response::ISA = qw(CGI);
         *charset = sub { shift; CGI::charset(@_) };
-        my $twiki_new = \&TWiki::new;
-        *TWiki::new =
+        my $twiki_new = \&Foswiki::new;
+        *Foswiki::new =
           sub { my $t = $twiki_new->(@_); $res = $t->{cgiQuery}; return $t };
     }
-    my $twiki_finish = \&TWiki::finish;
-    *TWiki::finish = sub { $twiki_finish->(@_); $res = undef; };
+    my $twiki_finish = \&Foswiki::finish;
+    *Foswiki::finish = sub { $twiki_finish->(@_); $res = undef; };
 }
 
 sub new {
-    die "You must call Unit::Response::new() *after* TWiki::new()\n"
+    die "You must call Unit::Response::new() *after* Foswiki::new()\n"
       unless defined $res;
     bless $res, __PACKAGE__ unless $res->isa(__PACKAGE__);
     return $res;

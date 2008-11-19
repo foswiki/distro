@@ -1,9 +1,9 @@
 use strict;
 
 package HierarchicalWebsTests;
-use base qw( TWikiTestCase );
+use base qw( FoswikiTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 # Make sure it's a wikiname so we can check squab handling
@@ -17,33 +17,33 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $TWiki::cfg{EnableHierarchicalWebs} = 1;
-    $TWiki::cfg{Htpasswd}{FileName} = '$TWiki::cfg{TempfileDir}/junkpasswd';
-    $TWiki::cfg{PasswordManager} = 'TWiki::Users::HtPasswdUser';
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
-    $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::TemplateLogin';   
-    $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+    $Foswiki::cfg{Htpasswd}{FileName} = '$Foswiki::cfg{TempfileDir}/junkpasswd';
+    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';   
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
 
     try {
-        $this->{twiki} = new TWiki('AdminUser');
+        $this->{twiki} = new Foswiki('AdminUser');
 
         $this->{twiki}->{store}->createWeb( $this->{twiki}->{user}, $testWeb );
         $this->assert( $this->{twiki}->{store}->webExists( $testWeb ) );
         $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
                                     $testWeb,
-                                    $TWiki::cfg{HomeTopicName},
+                                    $Foswiki::cfg{HomeTopicName},
                                     "SMELL" );
         $this->assert( $this->{twiki}->{store}->topicExists(
-            $testWeb, $TWiki::cfg{HomeTopicName} ) );
+            $testWeb, $Foswiki::cfg{HomeTopicName} ) );
 
         $this->{twiki}->{store}->createWeb( $this->{twiki}->{user}, $testWebSubWebPath );
         $this->assert( $this->{twiki}->{store}->webExists( $testWebSubWebPath ) );
         $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
                                     $testWebSubWebPath,
-                                    $TWiki::cfg{HomeTopicName},
+                                    $Foswiki::cfg{HomeTopicName},
                                     "SMELL" );
         $this->assert( $this->{twiki}->{store}->topicExists(
-            $testWebSubWebPath, $TWiki::cfg{HomeTopicName} ) );
+            $testWebSubWebPath, $Foswiki::cfg{HomeTopicName} ) );
 
     } catch Error::Simple with {
         $this->assert(0,shift->stringify()||'');
@@ -53,7 +53,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
 
-    unlink $TWiki::cfg{Htpasswd}{FileName};
+    unlink $Foswiki::cfg{Htpasswd}{FileName};
     $this->{twiki}->{store}->removeWeb(undef, $testWebSubWebPath);
     $this->{twiki}->{store}->removeWeb(undef, $testWeb);
     $this->{twiki}->finish();
@@ -70,7 +70,7 @@ sub test_createSubSubWeb {
     my $this = shift;
     $this->{twiki}->finish();
 
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     my $user = $this->{twiki}->{user};
 
     my $webTest = 'Item0';
@@ -89,7 +89,7 @@ sub test_createSubSubWeb {
 sub test_createSubWebTopic {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     my $user = $this->{twiki}->{user};
 
     $this->{twiki}->{store}->saveTopic(
@@ -103,7 +103,7 @@ sub test_createSubWebTopic {
 sub test_include_subweb_non_wikiword_topic {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     my $user = $this->{twiki}->{user};
 
     my $baseTopic = 'IncludeSubWebNonWikiWordTopic';
@@ -141,7 +141,7 @@ __TOPIC__
 sub test_create_subweb_with_same_name_as_a_topic {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     my $user = $this->{twiki}->{user};
 
     my $testTopic = 'SubWeb';
@@ -176,7 +176,7 @@ sub test_create_subweb_with_same_name_as_a_topic {
 sub test_url_parameters {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     my $user = $this->{twiki}->{user};
 
     my $topicquery;
@@ -188,7 +188,7 @@ sub test_url_parameters {
 	} );
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $topicquery );
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $topicquery );
 
     # Item3243:  PTh and haj suggested to change the spec
     $this->assert_str_equals($testWeb, $this->{twiki}->{webName});
@@ -205,7 +205,7 @@ sub test_url_parameters {
 	} );
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $topicquery );
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $topicquery );
 
     $this->assert_str_equals($testWeb, $this->{twiki}->{webName});
     $this->assert_str_equals($testWebSubWeb, $this->{twiki}->{topicName});
@@ -217,7 +217,7 @@ sub test_url_parameters {
 	} );
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $topicquery );
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $topicquery );
 
     $this->assert_str_equals($testWebSubWebPath, $this->{twiki}->{webName});
     $this->assert_str_equals('NonExistant', $this->{twiki}->{topicName});
@@ -234,12 +234,12 @@ sub test_squab_simple {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     my $text = "[[$testWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<span class="twikiNewLink">$testWeb<a.*href=".*edit$TWiki::cfg{ScriptSuffix}/$testWeb/$testWeb\?topicparent=$testWeb.NonExistant"!, $text);
+    $this->assert_matches(qr!<span class="twikiNewLink">$testWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWeb\?topicparent=$testWeb.NonExistant"!, $text);
 }
 
 # Check expansion of [[SubWeb]] in TestWeb/NonExistant.
@@ -252,12 +252,12 @@ sub test_squab_subweb {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     my $text = "[[$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<span class="twikiNewLink">$testWebSubWeb<a.*href=".*edit$TWiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
+    $this->assert_matches(qr!<span class="twikiNewLink">$testWebSubWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
 }
 
 # Check expansion of [[TestWeb.SubWeb]] in TestWeb/NonExistant.
@@ -269,12 +269,12 @@ sub test_squab_subweb_full_path {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     my $text = "[[$testWeb.$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<span class="twikiNewLink">$testWeb.$testWebSubWeb<a.*href=".*edit$TWiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
+    $this->assert_matches(qr!<span class="twikiNewLink">$testWeb.$testWebSubWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
 }
 
 # Check expansion of [[SubWeb]] in TestWeb/NonExistant.
@@ -286,7 +286,7 @@ sub test_squab_subweb_wih_topic {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     $this->{twiki}->{store}->saveTopic($this->{twiki}->{user}, $testWeb, $testWebSubWeb, "");
     $this->assert($this->{twiki}->{store}->topicExists($testWeb, $testWebSubWeb));
@@ -294,7 +294,7 @@ sub test_squab_subweb_wih_topic {
     my $text = "[[$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<a href=".*view$TWiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="twikiLink">$testWebSubWeb</a>!, $text);
+    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="twikiLink">$testWebSubWeb</a>!, $text);
 }
 
 # Check expansion of [[TestWeb.SubWeb]] in TestWeb/NonExistant.
@@ -306,7 +306,7 @@ sub test_squab_full_path_with_topic {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     $this->{twiki}->{store}->saveTopic($this->{twiki}->{user}, $testWeb, $testWebSubWeb, "");
     $this->assert($this->{twiki}->{store}->topicExists($testWeb, $testWebSubWeb));
@@ -314,7 +314,7 @@ sub test_squab_full_path_with_topic {
     my $text = "[[$testWeb.$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<a href=".*view$TWiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="twikiLink">$testWeb.$testWebSubWeb</a>!, $text);
+    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="twikiLink">$testWeb.$testWebSubWeb</a>!, $text);
 }
 
 # Check expansion of [[TestWeb.SubWeb.WebHome]] in TestWeb/NonExistant.
@@ -326,7 +326,7 @@ sub test_squab_path_to_topic_in_subweb {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/NonExistant");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     $this->{twiki}->{store}->saveTopic($this->{twiki}->{user}, $testWeb, $testWebSubWeb, "");
     $this->assert($this->{twiki}->{store}->topicExists($testWeb, $testWebSubWeb));
@@ -334,7 +334,7 @@ sub test_squab_path_to_topic_in_subweb {
     my $text = "[[$testWeb.$testWebSubWeb.WebHome]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<a href=".*view$TWiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$TWiki::cfg{HomeTopicName}" class="twikiLink">$testWeb.$testWebSubWeb.$TWiki::cfg{HomeTopicName}</a>!, $text);
+    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$Foswiki::cfg{HomeTopicName}" class="twikiLink">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!, $text);
 
 }
 
@@ -345,11 +345,11 @@ sub test_WEBLIST_all {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/WebHome");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     my $text = ' %WEBLIST{format="$name" separator=", "}% ';
     $text = $this->{twiki}->handleCommonTags($text, $testWeb, 'WebHome');
-    foreach my $web ('HierarchicalWebsTestsTestWeb', 'HierarchicalWebsTestsTestWeb/SubWeb', 'Main', 'Sandbox', 'TWiki', 'TestCases') {
+    foreach my $web ('HierarchicalWebsTestsTestWeb', 'HierarchicalWebsTestsTestWeb/SubWeb', 'Main', 'Sandbox', 'System', 'TestCases') {
         $this->assert_matches(qr!\b$web\b!, $text);
     }
 }
@@ -360,7 +360,7 @@ sub test_WEBLIST_relative {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/WebHome");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     my $text = ' %WEBLIST{format="$name" separator=", " subwebs="'.$testWeb.'"}% ';
     $text = $this->{twiki}->handleCommonTags($text, $testWeb, 'WebHome');
@@ -373,7 +373,7 @@ sub test_WEBLIST_end {
     my $query = new Unit::Request("");
     $query->path_info("/$testWeb/WebHome");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserName}, $query);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserName}, $query);
 
     my $text = ' %WEBLIST{format="$name" separator=", " subwebs="'.$testWebSubWebPath.'"}% ';
     $text = $this->{twiki}->handleCommonTags($text, $testWeb, 'WebHome');

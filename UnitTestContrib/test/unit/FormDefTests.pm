@@ -2,10 +2,10 @@
 # Tests for form def parser
 package FormDefTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
-use TWiki;
-use TWiki::Form;
+use Foswiki;
+use Foswiki::Form;
 use strict;
 use Assert;
 use Error qw( :try );
@@ -18,7 +18,7 @@ sub test_minimalForm {
 | *Name* | *Type* | *Size* |
 | Date | date | 30 |
 FORM
-    my $def = TWiki::Form->new($this->{twiki}, $this->{test_web}, 'TestForm');
+    my $def = Foswiki::Form->new($this->{twiki}, $this->{test_web}, 'TestForm');
 
     $this->assert_equals(1, scalar @{$def->getFields()});
     my $f = $def->getField('Date');
@@ -41,7 +41,7 @@ sub test_allCols {
 | Select     | select   | 2..4   | a,b,c   | Tippity   | M            |
 | Checky Egg | checkbox | 1      | 1,2,3,4   | Blip      |              |
 FORM
-    my $def = new TWiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
+    my $def = new Foswiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
 
     $this->assert_equals(2, scalar @{$def->getFields()});
     my $f = $def->getField('Select');
@@ -81,7 +81,7 @@ FORM
 | RowName |
 | Age |
 FORM
-    my $def = new TWiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
+    my $def = new Foswiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
 
     $this->assert_equals(1, scalar @{$def->getFields()});
     my $f = $def->getField('ValsElsewhere');
@@ -110,7 +110,7 @@ FORM
 | RowName |
 | Age |
 FORM
-    my $def = new TWiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
+    my $def = new Foswiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
 
     $this->assert_equals(1, scalar @{$def->getFields()});
     my $f = $def->getField('ValsElsewhere');
@@ -138,7 +138,7 @@ FORM
         $this->{twiki}->{user}, $this->{test_web}, 'SplodgeTwo', <<FORM);
 | Beauty |
 FORM
-    my $def = new TWiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
+    my $def = new Foswiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
 
     $this->assert_equals(1, scalar @{$def->getFields()});
     my $f = $def->getField('Ecks');
@@ -163,7 +163,7 @@ FORM
 %META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
 FORM
 
-    my $def = new TWiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
+    my $def = new Foswiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
 
     my $f = $def->getField('Ecks');
     $this->assert_str_equals(
@@ -185,7 +185,7 @@ FORM
     my ($meta, $text) =
       $this->{twiki}->{store}->readTopic(
           undef, $this->{test_web}, 'SplodgeOne');
-    my $form = new TWiki::Form(
+    my $form = new Foswiki::Form(
         $this->{twiki}, $this->{test_web}, 'NonExistantForm', $meta);
     my $f = $form->getField('Ecks');
     $this->assert_str_equals('', $f->getDefaultValue());

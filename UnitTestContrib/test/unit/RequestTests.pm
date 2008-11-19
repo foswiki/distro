@@ -4,20 +4,20 @@ use base qw(Unit::TestCase);
 use strict;
 use warnings;
 
-use TWiki::Request;
-use TWiki::Request::Upload;
+use Foswiki::Request;
+use Foswiki::Request::Upload;
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    $TWiki::cfg{ScriptUrlPath} = '/twiki/bin';
-    delete $TWiki::cfg{ScriptUrlPaths};
+    $Foswiki::cfg{ScriptUrlPath} = '/twiki/bin';
+    delete $Foswiki::cfg{ScriptUrlPaths};
 }
 
 # Test default empty constructor
 sub test_empty_new {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
 
     $this->assert_str_equals('', $req->action, '$req->action() not empty');
     $this->assert_str_equals('', $req->pathInfo, '$req->pathInfo() not empty');
@@ -52,7 +52,7 @@ sub test_new_from_hash {
         'undef'     => undef,
         multi_undef => [],
     );
-    my $req = new TWiki::Request(\%init);
+    my $req = new Foswiki::Request(\%init);
     $this->assert_str_equals(5, scalar $req->param(), 'Wrong number of parameteres');
     $this->assert_str_equals('s1', $req->param('simple'), 'Wrong parameter value');
     $this->assert_str_equals('s2', $req->param('simple2'), 'Wrong parameter value');
@@ -80,7 +80,7 @@ undef=
 EOF
 );
     seek($tmp, 0, 0);
-    my $req = new TWiki::Request($tmp);
+    my $req = new Foswiki::Request($tmp);
     $this->assert_str_equals(4, scalar $req->param(), 'Wrong number of parameters');
     $this->assert_str_equals('s1', $req->param('simple'), 'Wrong parameter value');
     $this->assert_str_equals('s2', $req->param('simple2'), 'Wrong parameter value');
@@ -93,7 +93,7 @@ EOF
 
 sub test_action {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(view edit save upload preview rdiff)) {
         $this->assert_str_not_equals($_, $req->action, 'Wrong initial "action" value');
         $req->action($_);
@@ -104,7 +104,7 @@ sub test_action {
 
 sub test_method {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(GET HEAD POST)) {
         $this->assert_str_not_equals($_, $req->method || '', 'Wrong initial "method" value');
         $req->method($_);
@@ -114,7 +114,7 @@ sub test_method {
 
 sub test_pathInfo {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(/ /abc /abc/ /abc/def /abc/def/), '') {
         $this->assert_str_not_equals($_, $req->pathInfo, 'Wrong initial "pathInfo" value');
         $req->pathInfo($_);
@@ -124,7 +124,7 @@ sub test_pathInfo {
 
 sub test_protocol {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     $req->secure(0);
     $this->assert_str_equals('http', $req->protocol, 'Wrong protocol');
     $this->assert_num_equals(0, $req->secure, 'Wrong secure flag');
@@ -135,7 +135,7 @@ sub test_protocol {
 
 sub test_uri {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(/ /abc/def /abc/ /Web/Topic?a=b&b=c), '') {
         $this->assert_str_not_equals($_, $req->uri, 'Wrong initial "uri" value');
         $req->uri($_);
@@ -145,7 +145,7 @@ sub test_uri {
 
 sub test_remoteAddress {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(127.0.0.1 10.1.1.1 192.168.0.1)) {
         $req->remoteAddress($_);
         $this->assert_str_equals($_, $req->remoteAddress, 'Wrong remoteAddress value');
@@ -154,7 +154,7 @@ sub test_remoteAddress {
 
 sub test_remoteUser {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(WikiGuest guest foo bar Baz)) {
         $req->remoteUser($_);
         $this->assert_str_equals($_, $req->remoteUser, 'Wrong remoteUser value');
@@ -163,7 +163,7 @@ sub test_remoteUser {
 
 sub test_serverPort {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     foreach (qw(80 443 8080)) {
         $req->serverPort($_);
         $this->assert_num_equals($_, $req->serverPort, 'Wrong serverPort value');
@@ -172,7 +172,7 @@ sub test_serverPort {
 
 sub test_queryString {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
     $req->param( -name => 'simple1', -value => 's1' );
     $this->assert_equals( 'simple1=s1', $req->query_string,
         'Wrong query string' );
@@ -186,7 +186,7 @@ sub test_queryString {
 
 sub perform_url_test {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
     my ( $secure, $host, $action, $path ) = @_;
     $req->secure($secure);
     $req->header( Host => $host );
@@ -199,7 +199,7 @@ sub perform_url_test {
     $base .= '://' . $host;
     $this->assert_str_equals( $base, $req->url( -base => 1 ),
         'Wrong BASE url' );
-    my $absolute .= $TWiki::cfg{ScriptUrlPath} . "/$action";
+    my $absolute .= $Foswiki::cfg{ScriptUrlPath} . "/$action";
     $this->assert_str_equals( $base . $absolute, $req->url, 'Wrong FULL url' );
     $this->assert_str_equals( $absolute,
         $req->url( -absolute => 1, 'Wrong ABSOLUTE url' ) );
@@ -267,7 +267,7 @@ sub test_url {
 
 sub test_query_param {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
     
     $req->queryParam( -name => 'q1', -value => 'v1' );
     my @result = $req->param('q1');
@@ -293,7 +293,7 @@ sub test_query_param {
     @result = $req->queryParam('nonexistent');
     $this->assert_num_equals(0, scalar @result, 'wrong parameter name from queryParam()');
 
-    $req = new TWiki::Request("");
+    $req = new Foswiki::Request("");
     $req->method('POST');
     $req->queryParam( -name => 'q1', -value => 'v1' );
     @result = $req->param('q1');
@@ -302,7 +302,7 @@ sub test_query_param {
 
 sub test_body_param {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
     
     $req->bodyParam( -name => 'q1', -value => 'v1' );
     my @result = $req->param('q1');
@@ -331,7 +331,7 @@ sub test_body_param {
 
 sub test_cookies {
     my $this    = shift;
-    my $req     = new TWiki::Request("");
+    my $req     = new Foswiki::Request("");
     my %cookies = ();
     $cookies{c1} = $req->cookie( -name => 'c1', -value => 'value1' );
     $this->assert(
@@ -388,7 +388,7 @@ sub test_cookies {
 
 sub test_delete {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
 
     $req->param( -name => 'q2', -values => [qw(v1 v2)] );
     $req->param( -name => 'q1', -value  => 'v1' );
@@ -403,7 +403,7 @@ sub test_delete {
         'Content-Disposition' => 'form-data; name="file"; filename="Temp.txt"'
     );
     $req->param( file => "Temp.txt" );
-    $uploads{"Temp.txt"} = new TWiki::Request::Upload(
+    $uploads{"Temp.txt"} = new Foswiki::Request::Upload(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
@@ -433,7 +433,7 @@ sub test_delete {
 
 sub test_delete_all {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
 
     $req->param( -name => 'q2', -values => [qw(v1 v2)] );
     $req->param( -name => 'q1', -value  => 'v1' );
@@ -447,7 +447,7 @@ sub test_delete_all {
         'Content-Disposition' => 'form-data; name="file"; filename="Temp.txt"'
     );
     $req->param( file => "Temp.txt" );
-    $uploads{"Temp.txt"} = new TWiki::Request::Upload(
+    $uploads{"Temp.txt"} = new Foswiki::Request::Upload(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
@@ -467,7 +467,7 @@ sub test_delete_all {
     $req->param( -name => 'q3', -value  => 'v3' );
     $tmp = File::Temp->new( UNLINK => 0 );
     $req->param( file => "Temp.txt" );
-    $uploads{"Temp.txt"} = new TWiki::Request::Upload(
+    $uploads{"Temp.txt"} = new Foswiki::Request::Upload(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
@@ -480,7 +480,7 @@ sub test_delete_all {
 
 sub test_header {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
     
     $req->header( 'h-1' => 'v1' );
     my @result = $req->header('H-1');
@@ -510,7 +510,7 @@ sub test_header {
 
 sub test_save {
     my $this = shift;
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     $req->param(-name => 'simple', -value => 's1');
     $req->param(-name => 'simple2', -value => 's2');
     $req->param(-name => 'multi', -value => [qw(m1 m2)]);
@@ -544,7 +544,7 @@ undef=
 EOF
 );
     seek($tmp, 0, 0);
-    my $req = new TWiki::Request("");
+    my $req = new Foswiki::Request("");
     $req->load($tmp);
     $this->assert_str_equals(4, scalar $req->param(), 'Wrong number of parameters');
     $this->assert_str_equals('s1', $req->param('simple'), 'Wrong parameter value');
@@ -558,7 +558,7 @@ EOF
 
 sub test_upload {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
 
     require File::Temp;
     my $tmp = File::Temp->new( UNLINK => 1 );
@@ -573,7 +573,7 @@ EOF
         'Content-Disposition' => 'form-data; name="file"; filename="Temp.txt"'
     );
     $req->param( file => "Temp.txt" );
-    $uploads{"Temp.txt"} = new TWiki::Request::Upload(
+    $uploads{"Temp.txt"} = new Foswiki::Request::Upload(
         headers => {%headers},
         tmpname => $tmp->filename,
     );
@@ -597,7 +597,7 @@ EOF
 
 sub test_accessors {
     my $this = shift;
-    my $req  = new TWiki::Request("");
+    my $req  = new Foswiki::Request("");
 
     my $accept =
       'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';

@@ -1,21 +1,21 @@
 #
 # Currently a mostly empty test package; waiting for someone with an interest
 # in UTF-8 to develop some meaningful tests. Specifically, manipulation of
-# $TWiki::cfg{Site}{CharSet}
-# $TWiki::cfg{UseLocale}
-# $TWiki::cfg{Site}{Locale}
-# $TWiki::cfg{Site}{Lang}
-# $TWiki::cfg{Site}{FullLang}
-# $TWiki::cfg{Site}{LocaleRegexes}
+# $Foswiki::cfg{Site}{CharSet}
+# $Foswiki::cfg{UseLocale}
+# $Foswiki::cfg{Site}{Locale}
+# $Foswiki::cfg{Site}{Lang}
+# $Foswiki::cfg{Site}{FullLang}
+# $Foswiki::cfg{Site}{LocaleRegexes}
 # to provide coverage of all the options (bearing in mind that you are going
-# to have to work out how to re-initialise TWiki for each test)
+# to have to work out how to re-initialise Foswiki for each test)
 #
 package UTF8Tests;
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
 use strict;
 
-use TWiki;
+use Foswiki;
 
 sub set_up {
 }
@@ -31,13 +31,13 @@ sub DISABLEtest_urlEncodeDecode {
     for (my $i = 0; $i < 256; $i++) {
         $s .= chr($i);
     }
-    $t = TWiki::urlEncode($s);
-    $this->assert($s eq TWiki::urlDecode($t));
+    $t = Foswiki::urlEncode($s);
+    $this->assert($s eq Foswiki::urlDecode($t));
 
-    $s = TWiki::urlDecode('%u7FFF%uA1EE');
+    $s = Foswiki::urlDecode('%u7FFF%uA1EE');
     $this->assert_equals(chr(0x7FFF).chr(0xA1EE), $s);
 
-    $s = TWiki::urlDecode('%ACTION{}%');
+    $s = Foswiki::urlDecode('%ACTION{}%');
     $this->assert_equals(chr(0xAC).'TION{}%', $s);
 }
 
@@ -323,7 +323,7 @@ sub segfaulting_urlDecode {
     $text =~ s/%([\da-f]{2})/chr(hex($1))/gei;
     $text =~ s/%u([\da-f]{4})/chr(hex($1))/gei; 
 
-    my $t = TWiki::UTF82SiteCharSet( $text ); 
+    my $t = Foswiki::UTF82SiteCharSet( $text ); 
 
     $text = $t if ( $t ); 
 

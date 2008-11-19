@@ -4,9 +4,9 @@ use strict;
 
 package Fn_SCRIPTURL;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -17,17 +17,17 @@ sub new {
 sub test_SCRIPTURL {
     my $this = shift;
 
-    $TWiki::cfg{ScriptUrlPaths}{snarf} = "sausages";
-    undef $TWiki::cfg{ScriptUrlPaths}{view};
-    $TWiki::cfg{ScriptSuffix} = ".dot";
+    $Foswiki::cfg{ScriptUrlPaths}{snarf} = "sausages";
+    undef $Foswiki::cfg{ScriptUrlPaths}{view};
+    $Foswiki::cfg{ScriptSuffix} = ".dot";
 
     my $result = $this->{twiki}->handleCommonTags("%SCRIPTURL%", $this->{test_web}, $this->{test_topic});
     $this->assert_str_equals(
-        "$TWiki::cfg{DefaultUrlHost}$TWiki::cfg{ScriptUrlPath}", $result);
+        "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}", $result);
 
     $result = $this->{twiki}->handleCommonTags(
         "%SCRIPTURLPATH{view}%", $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals("$TWiki::cfg{ScriptUrlPath}/view.dot", $result);
+    $this->assert_str_equals("$Foswiki::cfg{ScriptUrlPath}/view.dot", $result);
 
     $result = $this->{twiki}->handleCommonTags(
         "%SCRIPTURLPATH{snarf}%", $this->{test_web}, $this->{test_topic});

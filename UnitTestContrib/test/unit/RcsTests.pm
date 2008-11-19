@@ -2,17 +2,17 @@ require 5.006;
 
 package RcsTests;
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 use strict 'vars';
 sub new {
     my $self = shift()->SUPER::new(@_);
     return $self;
 }
 
-use TWiki;
-use TWiki::Store;
-use TWiki::Store::RcsLite;
-use TWiki::Store::RcsWrap;
+use Foswiki;
+use Foswiki::Store;
+use Foswiki::Store::RcsLite;
+use Foswiki::Store::RcsWrap;
 use File::Path;
 
 my $testWeb = "TestRcsWebTests";
@@ -24,14 +24,14 @@ my $class;
 
 sub RcsLite {
     my $this = shift;
-    $TWiki::cfg{StoreImpl} = 'RcsLite';
-    $class = 'TWiki::Store::RcsLite';
+    $Foswiki::cfg{StoreImpl} = 'RcsLite';
+    $class = 'Foswiki::Store::RcsLite';
 }
 
 sub RcsWrap {
     my $this = shift;
-    $TWiki::cfg{StoreImpl} = 'RcsWrap';
-    $class = 'TWiki::Store::RcsWrap';
+    $Foswiki::cfg{StoreImpl} = 'RcsWrap';
+    $class = 'Foswiki::Store::RcsWrap';
 }
 
 sub fixture_groups {
@@ -50,35 +50,35 @@ sub fixture_groups {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    die unless (defined $TWiki::cfg{PubUrlPath});
-    die unless (defined $TWiki::cfg{ScriptSuffix});
-    $TWiki::cfg{Register}{AllowLoginName}    =  1;
-    $twiki = new TWiki();
+    die unless (defined $Foswiki::cfg{PubUrlPath});
+    die unless (defined $Foswiki::cfg{ScriptSuffix});
+    $Foswiki::cfg{Register}{AllowLoginName}    =  1;
+    $twiki = new Foswiki();
     $twiki->{sandbox}->{TRACE} = 0;
     # Switch off pipes to maximise debug opportunities
     # The following setting is for debugging and disabled
     # since it makes so much noise that normal tests drown
     # Note enabling these makes later test cases fail when
-    # run as TWikiSuite
+    # run as FoswikiSuite
     #$twiki->{sandbox}->{REAL_SAFE_PIPE_OPEN} = 0;
     #$twiki->{sandbox}->{EMULATED_SAFE_PIPE_OPEN} = 0;
 
-    $TWiki::cfg{WarningFileName} = "$TWiki::cfg{TempfileDir}/junk";
+    $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
     die unless $twiki;
     die unless $twiki->{prefs};
-    File::Path::mkpath("$TWiki::cfg{DataDir}/$testWeb");
-    File::Path::mkpath("$TWiki::cfg{PubDir}/$testWeb");
-    $this->assert(open(F, ">$TWiki::cfg{TempfileDir}/itme3122"), $!);
+    File::Path::mkpath("$Foswiki::cfg{DataDir}/$testWeb");
+    File::Path::mkpath("$Foswiki::cfg{PubDir}/$testWeb");
+    $this->assert(open(F, ">$Foswiki::cfg{TempfileDir}/itme3122"), $!);
     print F "old";
     $this->assert(close(F), $!);
 }
 
 sub tear_down {
     my $this = shift;
-    unlink $TWiki::cfg{WarningFileName};
-    unlink "$TWiki::cfg{TempfileDir}/itme3122";
-    File::Path::rmtree("$TWiki::cfg{DataDir}/$testWeb");
-    File::Path::rmtree("$TWiki::cfg{PubDir}/$testWeb");
+    unlink $Foswiki::cfg{WarningFileName};
+    unlink "$Foswiki::cfg{TempfileDir}/itme3122";
+    File::Path::rmtree("$Foswiki::cfg{DataDir}/$testWeb");
+    File::Path::rmtree("$Foswiki::cfg{PubDir}/$testWeb");
     $twiki->finish();
     $this->SUPER::tear_down();
 }
@@ -87,7 +87,7 @@ sub tear_down {
 sub test_mktmp {
     # this is only used on WINDOWS so needs a special test
     my $this = shift;
-    my $tmpfile = TWiki::Store::RcsFile::mkTmpFilename();
+    my $tmpfile = Foswiki::Store::RcsFile::mkTmpFilename();
     $this->assert(!-e $tmpfile);
 }
 
@@ -148,7 +148,7 @@ sub verify_RcsWrapOnly_ciLocked {
     my $this = shift;
     my $topic = "CiTestLockedTempDeleteMeItsOk";
     # create the fixture
-    my $rcs = TWiki::Store::RcsWrap->new( $twiki, $testWeb, $topic, "" );
+    my $rcs = Foswiki::Store::RcsWrap->new( $twiki, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "Shooby Dooby", "original", "BungditDin" );
     # hack the lock
     my $vfile = $rcs->{file}.",v";
@@ -386,7 +386,7 @@ sub checkDifferences {
     my $diff = $rcs->revisionDiff( 1, 2 );
 
     # apply the differences to the text of topic 1
-    my $data = TWiki::Store::RcsLite::_split( $from );
+    my $data = Foswiki::Store::RcsLite::_split( $from );
     my $l = 0;
     #print "\nStart: ",join('\n',@$data),"\n";
     foreach my $e ( @$diff ) {
@@ -481,7 +481,7 @@ sub verify_RevInfo {
 
     ($rev, $date, $user, $comment) = $rcs->getRevisionInfo(3);
     $this->assert_equals(1, $rev);
-    $this->assert_str_equals($twiki->{users}->getCanonicalUserID($TWiki::cfg{DefaultUserLogin}), $user);
+    $this->assert_str_equals($twiki->{users}->getCanonicalUserID($Foswiki::cfg{DefaultUserLogin}), $user);
     $this->assert_str_equals('Default revision information', $comment);
 }
 
@@ -490,7 +490,7 @@ sub verify_RevInfo {
 sub verify_MissingVrestoreRev {
     my( $this ) = @_;
 
-    my $file = "$TWiki::cfg{DataDir}/$testWeb/MissingV.txt";
+    my $file = "$Foswiki::cfg{DataDir}/$testWeb/MissingV.txt";
 
     open(F, ">$file") || die;
     print F "Rev 1\n";
@@ -523,7 +523,7 @@ sub verify_MissingVrestoreRev {
 sub verify_MissingVrepRev {
     my( $this ) = @_;
 
-    my $file = "$TWiki::cfg{DataDir}/$testWeb/MissingV.txt";
+    my $file = "$Foswiki::cfg{DataDir}/$testWeb/MissingV.txt";
 
     open(F, ">$file") || die;
     print F "Rev 1\n";
@@ -554,7 +554,7 @@ sub verify_MissingVrepRev {
 sub verify_MissingVdelRev {
     my( $this ) = @_;
 
-    my $file = "$TWiki::cfg{DataDir}/$testWeb/MissingV.txt";
+    my $file = "$Foswiki::cfg{DataDir}/$testWeb/MissingV.txt";
 
     open(F, ">$file") || die;
     print F "Rev 1";
@@ -627,7 +627,7 @@ A
 F
 B
 HERE
-    my $file = "$TWiki::cfg{DataDir}/$testWeb/Item2957.txt";
+    my $file = "$Foswiki::cfg{DataDir}/$testWeb/Item2957.txt";
     open(F, ">$file") || die;
     print F $rev1;
     close(F);
@@ -639,7 +639,7 @@ HERE
 
     $rcs = $class->new( $twiki, $testWeb, 'Item2957', '' );
     my $text = $rcs->getRevision(1);
-    if ($TWiki::cfg{OS} eq 'WINDOWS') {
+    if ($Foswiki::cfg{OS} eq 'WINDOWS') {
         $text =~ s/\r\n/\n/sg;
     }
     $this->assert_equals($rev1, $text);
@@ -660,7 +660,7 @@ sub verify_Item3122 {
     $this->assert_equals("new", $text);
     $rcs = $class->new( $twiki, $testWeb, 'Item3122', 'itme3122' );
     my $fh;
-    $this->assert(open($fh, "<$TWiki::cfg{TempfileDir}/itme3122"), $!);
+    $this->assert(open($fh, "<$Foswiki::cfg{TempfileDir}/itme3122"), $!);
     $rcs->addRevisionFromStream($fh, "more", "idiot", time());
     close($fh);
     $text = $rcs->getRevision(1);

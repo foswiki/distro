@@ -4,9 +4,9 @@ use strict;
 
 package Fn_GROUPS;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -31,7 +31,7 @@ sub test_basic {
     $this->assert_str_equals(<<HUMPH, "$ui\n");
 | *Group* | *Members* |
 | <nop>AdminGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
-| <nop>TWikiBaseGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.WikiGuest][WikiGuest]] [[TemporaryGROUPSUsersWeb.UnknownUser][UnknownUser]] [[TemporaryGROUPSUsersWeb.ProjectContributor][ProjectContributor]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
+| <nop>BaseGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.WikiGuest][WikiGuest]] [[TemporaryGROUPSUsersWeb.UnknownUser][UnknownUser]] [[TemporaryGROUPSUsersWeb.ProjectContributor][ProjectContributor]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
 | [[TemporaryGROUPSUsersWeb.GropeGroup][GropeGroup]] | [[TemporaryGROUPSUsersWeb.ScumBag][ScumBag]] [[TemporaryGROUPSUsersWeb.WikiGuest][WikiGuest]] |
 HUMPH
 }

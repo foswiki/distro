@@ -1,10 +1,10 @@
-# tests for TWiki::Time
+# tests for Foswiki::Time
 
 package TimeTests;
-use base qw( TWikiTestCase );
+use base qw( FoswikiTestCase );
 
 use strict;
-use TWiki::Time;
+use Foswiki::Time;
 require POSIX;
 use Time::Local;
 
@@ -41,13 +41,13 @@ sub checkTime {
     $Y -= 1900;
     $M--;
     my $gmt = timegm($s, $m, $h, $D, $M, $Y);
-    my $tt = TWiki::Time::parseTime($str, $dl);
+    my $tt = Foswiki::Time::parseTime($str, $dl);
     $this->assert_equals($gmt, $tt,
                          showTime($tt).' != '.showTime($gmt).
                            ' '.join(' ', caller));
 }
 
-sub test_parseTimeTWiki {
+sub test_parseTimeFoswiki {
     my $this = shift;
     $this->checkTime(0, 1, 18, 10, 12, 2001, "10 Dec 2001 - 18:01");
     $this->checkTime(0, 0, 0, 10, 12, 2001, "10 Dec 2001");

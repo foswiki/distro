@@ -4,9 +4,9 @@ use strict;
 
 package AddToHeadTests;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -70,7 +70,7 @@ sub testFuncSimple {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    TWiki::Func::addToHEAD("first", "QQQ");
+    Foswiki::Func::addToHEAD("first", "QQQ");
     my $raw_tag  = '%RENDERHEAD%';
     my $expected = "<!-- first --> QQQ";
     my $result =
@@ -83,9 +83,9 @@ sub testFuncRequires {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    TWiki::Func::addToHEAD("first", "QQQ FIRST");
-    TWiki::Func::addToHEAD("second", "QQQ SECOND", "third");
-    TWiki::Func::addToHEAD("third", "QQQ THIRD");
+    Foswiki::Func::addToHEAD("first", "QQQ FIRST");
+    Foswiki::Func::addToHEAD("second", "QQQ SECOND", "third");
+    Foswiki::Func::addToHEAD("third", "QQQ THIRD");
     my $raw_tag  = '%RENDERHEAD%';
     my $expected = "<!-- first --> QQQ FIRST"
         . "\n<!-- third --> QQQ THIRD"
@@ -106,7 +106,7 @@ sub testFuncStyle {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    TWiki::Func::addToHEAD('PATTERN_STYLE','<link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />');
+    Foswiki::Func::addToHEAD('PATTERN_STYLE','<link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />');
     my $raw_tag  = '%RENDERHEAD%';
     my $expected = '<!-- PATTERN_STYLE --> <link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />';
     my $result =

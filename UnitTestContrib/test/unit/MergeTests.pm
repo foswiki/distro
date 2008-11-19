@@ -4,14 +4,14 @@ require 5.006;
 
 package MergeTests;
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
-use TWiki;
+use Foswiki;
 use strict;
 use Assert;
 use Error qw( :try );
 
-use TWiki::Merge;
+use Foswiki::Merge;
 
 #-----------------------------------------------------------------------------
 
@@ -51,13 +51,13 @@ sub set_up {
     }
 }
 
-my $session = new TWiki();
+my $session = new Foswiki();
 $session->{plugins} = new HackJob();
 $info = { argle => "bargle" };
 
 sub _merge3 {
     my ( $ia, $ib, $ic ) = @_;
-    return TWiki::Merge::merge3(
+    return Foswiki::Merge::merge3(
         'a', $ia,
         'b', $ib,
         'c', $ic,
@@ -69,7 +69,7 @@ sub _merge3 {
 sub _merge2 {
     my( $ia, $ib ) = @_;
 
-    return TWiki::Merge::merge2(
+    return Foswiki::Merge::merge2(
         'a', $ia,
         'b', $ib,
         ' ',
@@ -222,7 +222,7 @@ New text in version "b".<br>
 Very nice.<br>
 EOF
 
-    $d = TWiki::Merge::merge3("r1", $a, "r2", $b, "r3", $c, '\n',
+    $d = Foswiki::Merge::merge3("r1", $a, "r2", $b, "r3", $c, '\n',
                              $session, $info);
     $this->assert_str_equals( $e, $d );
 
@@ -244,7 +244,7 @@ Alternatively, new text in version "c".<br>
 Very nice.<br>
 EOF
 
-    $d = TWiki::Merge::merge3("r1", $a, "r2", $b, "r3", $c, '\n',
+    $d = Foswiki::Merge::merge3("r1", $a, "r2", $b, "r3", $c, '\n',
                               $session, $info);
     $this->assert_str_equals( $e, $d );
 }

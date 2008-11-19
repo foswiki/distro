@@ -1,4 +1,4 @@
-package TWiki::UI::Test;
+package Foswiki::UI::Test;
 
 use strict;
 use Storable qw(thaw freeze);

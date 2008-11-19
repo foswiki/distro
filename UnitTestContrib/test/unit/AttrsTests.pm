@@ -2,9 +2,9 @@ use strict;
 
 package AttrsTests;
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
-use TWiki::Attrs;
+use Foswiki::Attrs;
 
 sub new {
 	my $self = shift()->SUPER::new(@_);
@@ -14,30 +14,30 @@ sub new {
 sub test_isEmpty {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new(undef, 1);
+	my $attrs = Foswiki::Attrs->new(undef, 1);
 	$this->assert($attrs->isEmpty());
-	$attrs = TWiki::Attrs->new("", 1);
+	$attrs = Foswiki::Attrs->new("", 1);
 	$this->assert($attrs->isEmpty());
-	$attrs = TWiki::Attrs->new(" \t  \n\t", 1);
+	$attrs = Foswiki::Attrs->new(" \t  \n\t", 1);
 	$this->assert($attrs->isEmpty());
 }
 
 sub test_boolean {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("a", 1);
+	my $attrs = Foswiki::Attrs->new("a", 1);
 	$this->assert(!$attrs->isEmpty());
 	$this->assert_not_null($attrs->{"a"});
 	$this->assert_str_equals("1", $attrs->{"a"});
 
-	$attrs = TWiki::Attrs->new("a12g b987", 1);
+	$attrs = Foswiki::Attrs->new("a12g b987", 1);
 	$this->assert_not_null($attrs->remove("a12g"));
 	$this->assert_null($attrs->{"a12g"});
 	$this->assert_not_null($attrs->remove("b987"));
 	$this->assert_null($attrs->{"b987"});
 	$this->assert($attrs->isEmpty(), "Fail ".$attrs->stringify());
 
-	$attrs = TWiki::Attrs->new("Acid AnhydrousCopperSulphate='white' X", 1);
+	$attrs = Foswiki::Attrs->new("Acid AnhydrousCopperSulphate='white' X", 1);
 	$this->assert_not_null($attrs->remove("Acid"));
 	$this->assert_not_null($attrs->remove("X"));
 	$this->assert_str_equals('white',$attrs->remove("AnhydrousCopperSulphate"));
@@ -47,13 +47,13 @@ sub test_boolean {
 sub test_default {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("\"wibble\"", 1);
+	my $attrs = Foswiki::Attrs->new("\"wibble\"", 1);
 	$this->assert(!$attrs->isEmpty());
 	$this->assert_str_equals("wibble", $attrs->remove("_DEFAULT"));
 	$this->assert_null($attrs->{"_DEFAULT"});
 	$this->assert($attrs->isEmpty());
 
-	$attrs = TWiki::Attrs->new("\"wibble\" \"fleegle\"", 1);
+	$attrs = Foswiki::Attrs->new("\"wibble\" \"fleegle\"", 1);
 	$this->assert_str_equals("wibble", $attrs->remove("_DEFAULT"));
 	$this->assert($attrs->isEmpty());
 }
@@ -61,7 +61,7 @@ sub test_default {
 sub test_unquoted {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("var1=val1 var2= val2, var3 = 3 var4 =val4", 1);
+	my $attrs = Foswiki::Attrs->new("var1=val1 var2= val2, var3 = 3 var4 =val4", 1);
 	$this->assert_str_equals("val1", $attrs->remove("var1"));
 	$this->assert_str_equals("val2", $attrs->remove("var2"));
 	$this->assert_str_equals("3", $attrs->remove("var3"));
@@ -72,7 +72,7 @@ sub test_unquoted {
 sub test_escapes {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("var1=\\\"val1 var2= \\\'val2, var3 = 3 var4 =val4", 1);
+	my $attrs = Foswiki::Attrs->new("var1=\\\"val1 var2= \\\'val2, var3 = 3 var4 =val4", 1);
 	$this->assert_str_equals("\"val1", $attrs->remove("var1"));
 	$this->assert_str_equals("\'val2", $attrs->remove("var2"));
 	$this->assert_str_equals("3", $attrs->remove("var3"));
@@ -83,7 +83,7 @@ sub test_escapes {
 sub test_doubleQuoted {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("var1 =\"val 1\", var2= \"val 2\" \" default \" var3 = \" val 3 \"", 1);
+	my $attrs = Foswiki::Attrs->new("var1 =\"val 1\", var2= \"val 2\" \" default \" var3 = \" val 3 \"", 1);
 	$this->assert_str_equals("val 1", $attrs->remove("var1"));
 	$this->assert_str_equals("val 2", $attrs->remove("var2"));
 	$this->assert_str_equals(" val 3 ", $attrs->remove("var3"));
@@ -94,7 +94,7 @@ sub test_doubleQuoted {
 sub test_singleQuoted {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("var1 ='val 1', var2= 'val 2' ' default ' var3 = ' val 3 '", 1);
+	my $attrs = Foswiki::Attrs->new("var1 ='val 1', var2= 'val 2' ' default ' var3 = ' val 3 '", 1);
 	$this->assert_str_equals("val 1", $attrs->remove("var1"));
 	$this->assert_str_equals("val 2", $attrs->remove("var2"));
 	$this->assert_str_equals(" val 3 ", $attrs->remove("var3"));
@@ -105,12 +105,12 @@ sub test_singleQuoted {
 sub test_mixedQuotes {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("a ='\"', b=\"'\" \"'\"", 1);
+	my $attrs = Foswiki::Attrs->new("a ='\"', b=\"'\" \"'\"", 1);
 	$this->assert_str_equals("\"", $attrs->remove("a"));
 	$this->assert_str_equals("'", $attrs->remove("b"));
 	$this->assert_str_equals("'", $attrs->remove("_DEFAULT"));
 	$this->assert($attrs->isEmpty());
-	$attrs = TWiki::Attrs->new("'\"'", 1);
+	$attrs = Foswiki::Attrs->new("'\"'", 1);
 	$this->assert_str_equals("\"", $attrs->remove("_DEFAULT"));
 	$this->assert($attrs->isEmpty());
 }
@@ -118,9 +118,9 @@ sub test_mixedQuotes {
 sub test_toString {
 	my $this = shift;
 
-	my $attrs = TWiki::Attrs->new("a ='\"', b=\"'\" \"'\"", 1);
+	my $attrs = Foswiki::Attrs->new("a ='\"', b=\"'\" \"'\"", 1);
 	my $s = $attrs->stringify();
-	$attrs = TWiki::Attrs->new($attrs->stringify(), 1);
+	$attrs = Foswiki::Attrs->new($attrs->stringify(), 1);
 	$this->assert_str_equals("\"", $attrs->remove("a"));
 	$this->assert_str_equals("'", $attrs->remove("b"));
 	$this->assert_str_equals("'", $attrs->remove("_DEFAULT"));
@@ -132,7 +132,7 @@ sub test_extractValue1 {
 
     my $s = '"abc def="ghi" jkl" def="mno" pqr=" stu="vwx""';
     $this->assert_str_equals('abc def="ghi" jkl',
-                             TWiki::Attrs::extractValue($s));
+                             Foswiki::Attrs::extractValue($s));
 }
 
 sub test_extractValue2{
@@ -140,7 +140,7 @@ sub test_extractValue2{
 
     my $s = '"abc def="ghi" jkl" def="mno" pqr=" stu="vwx""';
     $this->assert_str_equals('ghi',
-                             TWiki::Attrs::extractValue($s, "def"));
+                             Foswiki::Attrs::extractValue($s, "def"));
 }
 
 sub test_extractValue3 {
@@ -148,7 +148,7 @@ sub test_extractValue3 {
 
     my $s = '"abc def="ghi" jkl" def="mno" pqr=" stu="vwx""';
     $this->assert_str_equals('',
-                             TWiki::Attrs::extractValue($s, "jkl"));
+                             Foswiki::Attrs::extractValue($s, "jkl"));
 }
 
 sub test_extractValue4 {
@@ -156,7 +156,7 @@ sub test_extractValue4 {
 
     my $s = '"abc def="ghi" jkl" def="mno" pqr=" stu="vwx""';
     $this->assert_str_equals(' stu=',
-                             TWiki::Attrs::extractValue($s, 'pqr'));
+                             Foswiki::Attrs::extractValue($s, 'pqr'));
 }
 
 sub test_extractValue5 {
@@ -164,7 +164,7 @@ sub test_extractValue5 {
 
     my $s = '"abc def="ghi" jkl" def="mno" pqr=" stu="vwx""';
     $this->assert_str_equals('vwx',
-                             TWiki::Attrs::extractValue($s, 'stu'));
+                             Foswiki::Attrs::extractValue($s, 'stu'));
 }
 
 sub extractParameters {
@@ -216,7 +216,7 @@ sub huey {
 sub check_string {
     my( $this, $s ) = @_;
 
-    my $new = new TWiki::Attrs($s,0);
+    my $new = new Foswiki::Attrs($s,0);
     my %old = extractParameters($s);
 
     foreach my $key( keys %old  ) {
@@ -252,11 +252,11 @@ sub test_compatibility4 {
 sub test_compatibility5 {
     my $this = shift;
     my $s = "\nBarf";
-    my $new = new TWiki::Attrs($s,0);
+    my $new = new Foswiki::Attrs($s,0);
     $s = "Barf\n";
-    $new = new TWiki::Attrs($s,0);
+    $new = new Foswiki::Attrs($s,0);
     $s = "\n";
-    $new = new TWiki::Attrs($s,0);
+    $new = new Foswiki::Attrs($s,0);
     $s = "\"The\nCat\" format=\"Shat\nOn\nThe\nMat\"";
     $this->check_string( $s );
 }
@@ -264,7 +264,7 @@ sub test_compatibility5 {
 sub test_raw {
     my $this = shift;
     my $s = "   Barf";
-    my $new = new TWiki::Attrs($s,0);
+    my $new = new Foswiki::Attrs($s,0);
     $this->assert_str_equals($s, $new->{_RAW});
 }
 

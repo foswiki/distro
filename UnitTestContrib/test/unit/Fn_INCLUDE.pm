@@ -4,9 +4,9 @@ use strict;
 
 package Fn_INCLUDE;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -54,7 +54,7 @@ sub test_webExpansion {
 $includedTopic 6
 7 ($includedTopic)
 8 #$includedTopic
-9 [[system.$includedTopic]]
+9 [[System.$includedTopic]]
 10 [[$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
 THIS
@@ -80,7 +80,7 @@ THIS
 $this->{other_web}.$includedTopic 6
 7 ($this->{other_web}.$includedTopic)
 8 #$includedTopic
-9 [[system.$includedTopic]]
+9 [[System.$includedTopic]]
 10 [[$this->{other_web}.$includedTopic][$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
 THIS

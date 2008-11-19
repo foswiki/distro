@@ -4,9 +4,9 @@ use strict;
 
 package Fn_IF;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -58,7 +58,7 @@ sub test_8 {
     my $this = shift;
     $this->simpleTest(
         test => '$ WIKINAME = \''
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} ) . "'",
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} ) . "'",
         then => 1,
         else => 0
     );
@@ -68,7 +68,7 @@ sub test_8a {
     my $this = shift;
     $this->simpleTest(
         test => '$ \'WIKINAME\' = \''
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} ) . "'",
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} ) . "'",
         then => 1,
         else => 0
     );
@@ -190,7 +190,7 @@ sub test_28 {
 sub test_29 {
     my $this = shift;
     $this->simpleTest(
-        test => "\$PUBURLPATH='" . $TWiki::cfg{PubUrlPath} . "'",
+        test => "\$PUBURLPATH='" . $Foswiki::cfg{PubUrlPath} . "'",
         then => 1,
         else => 0
     );
@@ -199,7 +199,7 @@ sub test_29 {
 sub test_29a {
     my $this = shift;
     $this->simpleTest(
-        test => "\$'PUBURLPATH'='" . $TWiki::cfg{PubUrlPath} . "'",
+        test => "\$'PUBURLPATH'='" . $Foswiki::cfg{PubUrlPath} . "'",
         then => 1,
         else => 0
     );
@@ -234,7 +234,7 @@ sub test_35 {
     my $this = shift;
     $this->simpleTest(
         test => "d2n('2007-03-26')="
-          . TWiki::Time::parseTime( '2007-03-26', 1 ),
+          . Foswiki::Time::parseTime( '2007-03-26', 1 ),
         then => 1,
         else => 0
     );
@@ -279,7 +279,7 @@ sub test_42 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -290,8 +290,8 @@ sub test_42a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::wikiToUserName(
-            TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::wikiToUserName(
+            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           )
           . "' ingroup 'WikiGuest'",
         then => 0,
@@ -313,7 +313,7 @@ sub test_43 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -324,8 +324,8 @@ sub test_43a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::wikiToUserName(
-            TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::wikiToUserName(
+            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
@@ -349,10 +349,10 @@ sub test_44 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::wikiToUserName(
-            TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::wikiToUserName(
+            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           )
-          . "' ingroup '$TWiki::cfg{SuperAdminGroup}'",
+          . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
     );
@@ -362,8 +362,8 @@ sub test_44a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
-          . "' ingroup '$TWiki::cfg{SuperAdminGroup}'",
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
     );
@@ -374,7 +374,7 @@ sub test_44b {
     $this->simpleTest(
         test => "'"
           . $this->{twiki}->{user}
-          . "' ingroup '$TWiki::cfg{SuperAdminGroup}'",
+          . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
     );
@@ -385,8 +385,8 @@ sub test_45 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::wikiToUserName(
-            TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::wikiToUserName(
+            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           )
           . "' ingroup 'GropeGroup'",
         then => 1,
@@ -398,7 +398,7 @@ sub test_45a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
@@ -438,7 +438,7 @@ sub test_47 {
 sub test_48 {
     my $this = shift;
     $this->simpleTest(
-        test => "'%USERNAME%' ingroup '$TWiki::cfg{SuperAdminGroup}'",
+        test => "'%USERNAME%' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
     );
@@ -476,7 +476,7 @@ sub test52_ {
     my $this = shift;
     $this->simpleTest(
         test => "'%USERINFO{format=\"\$username\"}%' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -514,7 +514,7 @@ sub test_56 {
     my $this = shift;
     $this->simpleTest(
         test => "'%USERINFO{format=\"\$wikiname\"}%' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -552,7 +552,7 @@ sub test_60 {
     my $this = shift;
     $this->simpleTest(
         test => "'%USERINFO{format=\"\$wikiusername\"}%' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -571,7 +571,7 @@ sub test_62 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -582,7 +582,7 @@ sub test_63 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -593,9 +593,9 @@ sub test_64 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -605,7 +605,7 @@ sub test_65 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
           . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
@@ -615,7 +615,7 @@ sub test_65 {
 sub test_66 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserWikiName} . "' ingroup 'WikiGuest'",
+        test => "'" . $Foswiki::cfg{AdminUserWikiName} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -625,7 +625,7 @@ sub test_67 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{AdminUserWikiName}
+          . $Foswiki::cfg{AdminUserWikiName}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -636,9 +636,9 @@ sub test_68 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{AdminUserWikiName}
+          . $Foswiki::cfg{AdminUserWikiName}
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 1,
         else => 0
     );
@@ -647,7 +647,7 @@ sub test_68 {
 sub test_69 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserWikiName} . "' ingroup 'GropeGroup'",
+        test => "'" . $Foswiki::cfg{AdminUserWikiName} . "' ingroup 'GropeGroup'",
         then => 0,
         else => 1
     );
@@ -657,7 +657,7 @@ sub test_70 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserWikiName}
+          . $Foswiki::cfg{DefaultUserWikiName}
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -668,7 +668,7 @@ sub test_71 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserWikiName}
+          . $Foswiki::cfg{DefaultUserWikiName}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -679,9 +679,9 @@ sub test_72 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserWikiName}
+          . $Foswiki::cfg{DefaultUserWikiName}
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -690,7 +690,7 @@ sub test_72 {
 sub test_73 {
     my $this = shift;
     $this->simpleTest(
-        test => "'$TWiki::cfg{DefaultUserWikiName}' ingroup 'GropeGroup'",
+        test => "'$Foswiki::cfg{DefaultUserWikiName}' ingroup 'GropeGroup'",
         then => 1,
         else => 0
     );
@@ -699,7 +699,7 @@ sub test_73 {
 sub test_74 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'WikiGuest'",
+        test => "'" . $Foswiki::cfg{AdminUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -709,7 +709,7 @@ sub test_75 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{AdminUserLogin}
+          . $Foswiki::cfg{AdminUserLogin}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -720,9 +720,9 @@ sub test_76 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{AdminUserLogin}
+          . $Foswiki::cfg{AdminUserLogin}
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 1,
         else => 0
     );
@@ -731,7 +731,7 @@ sub test_76 {
 sub test_77 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'GropeGroup'",
+        test => "'" . $Foswiki::cfg{AdminUserLogin} . "' ingroup 'GropeGroup'",
         then => 0,
         else => 1
     );
@@ -740,7 +740,7 @@ sub test_77 {
 sub test_78 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'WikiGuest'",
+        test => "'" . $Foswiki::cfg{DefaultUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -750,7 +750,7 @@ sub test_79 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserLogin}
+          . $Foswiki::cfg{DefaultUserLogin}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -761,9 +761,9 @@ sub test_80 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserLogin}
+          . $Foswiki::cfg{DefaultUserLogin}
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -772,7 +772,7 @@ sub test_80 {
 sub test_81 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'GropeGroup'",
+        test => "'" . $Foswiki::cfg{DefaultUserLogin} . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
     );
@@ -781,7 +781,7 @@ sub test_81 {
 sub test_82 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'WikiGuest'",
+        test => "'" . $Foswiki::cfg{AdminUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -791,7 +791,7 @@ sub test_83 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{AdminUserLogin}
+          . $Foswiki::cfg{AdminUserLogin}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -802,9 +802,9 @@ sub test_84 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{AdminUserLogin}
+          . $Foswiki::cfg{AdminUserLogin}
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 1,
         else => 0
     );
@@ -813,7 +813,7 @@ sub test_84 {
 sub test_85 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{AdminUserLogin} . "' ingroup 'GropeGroup'",
+        test => "'" . $Foswiki::cfg{AdminUserLogin} . "' ingroup 'GropeGroup'",
         then => 0,
         else => 1
     );
@@ -822,7 +822,7 @@ sub test_85 {
 sub test_86 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'WikiGuest'",
+        test => "'" . $Foswiki::cfg{DefaultUserLogin} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -832,7 +832,7 @@ sub test_87 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserLogin}
+          . $Foswiki::cfg{DefaultUserLogin}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -843,9 +843,9 @@ sub test_88 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $TWiki::cfg{DefaultUserLogin}
+          . $Foswiki::cfg{DefaultUserLogin}
           . "' ingroup '"
-          . $TWiki::cfg{SuperAdminGroup} . "'",
+          . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
         else => 1
     );
@@ -854,7 +854,7 @@ sub test_88 {
 sub test_89 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $TWiki::cfg{DefaultUserLogin} . "' ingroup 'GropeGroup'",
+        test => "'" . $Foswiki::cfg{DefaultUserLogin} . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
     );
@@ -862,7 +862,7 @@ sub test_89 {
 
 sub test_90 {
     my $this = shift;
-    $this->simpleTest( test => "isweb 'TWiki'", then => 1, else => 0 );
+    $this->simpleTest( test => "isweb 'System'", then => 1, else => 0 );
 }
 
 sub test_91 {
@@ -872,7 +872,7 @@ sub test_91 {
 
 sub test_92 {
     my $this = shift;
-    $this->simpleTest( test => "istopic \$'TWiki'", then => 0, else => 1 );
+    $this->simpleTest( test => "istopic \$'System'", then => 0, else => 1 );
 }
 
 sub test_93 {
@@ -934,7 +934,7 @@ sub set_up {
         $this->{users_web},
         "GropeGroup",
         "   * Set GROUP = "
-          . TWiki::Func::getWikiName( $this->{twiki}->{user} ) . "\n"
+          . Foswiki::Func::getWikiName( $this->{twiki}->{user} ) . "\n"
     );
 
     # Create WebHome topic to trap existance errors related to
@@ -950,8 +950,8 @@ sub set_up {
 sub simpleTest {
     my ( $this, %test ) = @_;
     $this->{twiki}->enterContext('test');
-    $TWiki::cfg{Fnargle} = 'Fleeble';
-    $TWiki::cfg{A}{B} = 'C';
+    $Foswiki::cfg{Fnargle} = 'Fleeble';
+    $Foswiki::cfg{A}{B} = 'C';
     $this->{request}->param('notempty','v');
     $this->{request}->param('empty','');
     $this->{request}->param('notempty','v');
@@ -962,7 +962,7 @@ sub simpleTest {
     $this->{twiki}->{SESSION_TAGS}{'SEMPTY'}='';
 
     my $meta =
-      new TWiki::Meta( $this->{twiki}, $this->{test_web}, $this->{test_topic} );
+      new Foswiki::Meta( $this->{twiki}, $this->{test_web}, $this->{test_topic} );
     my $text = '%IF{"'
       . $test{test}
       . '" then="'
@@ -1037,7 +1037,7 @@ PONG
 
 sub test_ALLOWS_and_EXISTS {
     my $this = shift;
-    my $wn   = TWiki::Func::getWikiName( $this->{twiki}->{user} );
+    my $wn   = Foswiki::Func::getWikiName( $this->{twiki}->{user} );
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $this->{test_web}, "DeadDog",
         <<PONG);
@@ -1183,7 +1183,7 @@ PONG
     );
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
     $this->{twiki}->{webName} = $this->{test_web};    # hack
 
     foreach my $test (@tests) {
@@ -1230,7 +1230,7 @@ PONG
     $this->assert(
         $this->{twiki}->{store}->topicExists( $this->{test_web}, $topicName ) );
 
-#TODO: these need to be moved into Fn_META and then implemented (its a really simple change in TWiki.pm
+#TODO: these need to be moved into Fn_META and then implemented (its a really simple change in Foswiki.pm
 #    $this->assert_str_equals(
 #        $this->{twiki}->handleCommonTags(
 #            '%META{"info.rev"}%', $this->{test_web}, $topicName

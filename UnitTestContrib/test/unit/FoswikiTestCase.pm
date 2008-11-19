@@ -1,18 +1,18 @@
 #
-# Base class of all TWiki tests. Establishes base paths and adds
+# Base class of all Foswiki tests. Establishes base paths and adds
 # some useful functionality such as comparing HTML
 #
 # The basic strategy in all unit tests is to never write to normal
-# TWiki data areas; only ever write to temporary test areas. If you
+# Foswiki data areas; only ever write to temporary test areas. If you
 # have to create a test fixture that duplicates an existing area,
 # you can always create a new web based on that web.
 #
-package TWikiTestCase;
+package FoswikiTestCase;
 use base 'Unit::TestCase';
 
 use Data::Dumper;
 
-use TWiki;
+use Foswiki;
 use Unit::Request;
 use Unit::Response;
 use strict;
@@ -43,28 +43,28 @@ sub new {
 sub onceOnlyChecks {
     return if $didOnlyOnceChecks;
 
-    # Make sure we can create directories in $TWiki::cfg{DataDir}, otherwise
+    # Make sure we can create directories in $Foswiki::cfg{DataDir}, otherwise
     # the tests will mysteriously fail.
-    my $t = "$TWiki::cfg{DataDir}/UnitTestCheckDir";
+    my $t = "$Foswiki::cfg{DataDir}/UnitTestCheckDir";
     if (-e $t) {
         rmdir($t) || die "Could not remove old $t: $!";
     }
     mkdir($t)
       || die "Could not create $t: $!\nUser running tests ".
-        "has to be able to create directories in $TWiki::cfg{DataDir}";
+        "has to be able to create directories in $Foswiki::cfg{DataDir}";
     rmdir($t) || die "Could not remove $t: $!";
 
-    # Make sure we can disallow write permissions. TWiki tests should
+    # Make sure we can disallow write permissions. Foswiki tests should
     # always be run as a non-admin user, so that they can test scenarios
     # where access permissions are denied.
-    $t = "$TWiki::cfg{DataDir}/UnitTestCheckFile";
+    $t = "$Foswiki::cfg{DataDir}/UnitTestCheckFile";
     if (-e $t) {
         unlink($t)
           || die "Could not remove old $t: $!";
     }
     open(F, '>', $t)
       || die "Could not create $t: $!\nUser running tests ".
-        "has to be able to create files in $TWiki::cfg{DataDir}";
+        "has to be able to create files in $Foswiki::cfg{DataDir}";
     print F "Blah";
     close(F);
     chmod(0444, $t)
@@ -86,7 +86,7 @@ sub onceOnlyChecks {
 }
 
 use Cwd;
-# Use this to save the TWiki cfg to a backing store during start_up
+# Use this to save the Foswiki cfg to a backing store during start_up
 # so it can be temporarily changed during tests.
 sub set_up {
     my $this = shift;
@@ -99,24 +99,24 @@ sub set_up {
         $this->{__EnvSafe}->{$sym} = $ENV{$sym};
     }
 
-    # force a read of $TWiki::cfg
+    # force a read of $Foswiki::cfg
 	my $query = new Unit::Request();
-    my $tmp = new TWiki(undef, $query);
+    my $tmp = new Foswiki(undef, $query);
     # This needs to be a deep copy
-    $this->{__TWikiSafe} = Data::Dumper->Dump([\%TWiki::cfg], ['*TWiki::cfg']);
+    $this->{__FoswikiSafe} = Data::Dumper->Dump([\%Foswiki::cfg], ['*Foswiki::cfg']);
     $tmp->finish();
 
-    $TWiki::cfg{WorkingDir} = File::Temp::tempdir( CLEANUP => $cleanup );
-    mkdir("$TWiki::cfg{WorkingDir}/tmp");
-    mkdir("$TWiki::cfg{WorkingDir}/registration_approvals");
-    mkdir("$TWiki::cfg{WorkingDir}/work_areas");
+    $Foswiki::cfg{WorkingDir} = File::Temp::tempdir( CLEANUP => $cleanup );
+    mkdir("$Foswiki::cfg{WorkingDir}/tmp");
+    mkdir("$Foswiki::cfg{WorkingDir}/registration_approvals");
+    mkdir("$Foswiki::cfg{WorkingDir}/work_areas");
 
     # Move logging into a temporary directory
-    $TWiki::cfg{LogFileName} = "$TWiki::cfg{TempfileDir}/TWikiTestCase.log";
-    $TWiki::cfg{WarningFileName} = "$TWiki::cfg{TempfileDir}/TWikiTestCase.warn";
-    $TWiki::cfg{AdminUserWikiName} = 'AdminUser';
-    $TWiki::cfg{AdminUserLogin} = 'root';
-    $TWiki::cfg{SuperAdminGroup} = 'AdminGroup';
+    $Foswiki::cfg{LogFileName} = "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.log";
+    $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/FoswikiTestCase.warn";
+    $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
+    $Foswiki::cfg{AdminUserLogin} = 'root';
+    $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 
     onceOnlyChecks();
 
@@ -124,8 +124,9 @@ sub set_up {
     # in lib/MANIFEST) are enabled, but they are *all* enabled.
 
     # First disable all plugins
-    foreach my $k (keys %{$TWiki::cfg{Plugins}}) {
-        $TWiki::cfg{Plugins}{$k}{Enabled} = 0;
+    foreach my $k (keys %{$Foswiki::cfg{Plugins}}) {
+        next unless ref($Foswiki::cfg{Plugins}{$k}) eq 'HASH';
+        $Foswiki::cfg{Plugins}{$k}{Enabled} = 0;
     }
     # then reenable only those listed in MANIFEST
     if ($ENV{TWIKI_HOME} && -e "$ENV{TWIKI_HOME}/lib/MANIFEST") {
@@ -136,20 +137,20 @@ sub set_up {
     local $/ = "\n";
     while (<F>) {
         if (/^!include .*?([^\/]+Plugin)$/) {
-            $TWiki::cfg{Plugins}{$1}{Enabled} = 1;
+            $Foswiki::cfg{Plugins}{$1}{Enabled} = 1;
         }
     }
     close(F);
 }
 
-# Restores TWiki::cfg and %ENV from backup
+# Restores Foswiki::cfg and %ENV from backup
 sub tear_down {
     my $this = shift;
     $this->{twiki}->finish() if $this->{twiki};
     eval {
-	File::Path::rmtree($TWiki::cfg{WorkingDir});
+	File::Path::rmtree($Foswiki::cfg{WorkingDir});
     };
-    %TWiki::cfg = eval $this->{__TWikiSafe};
+    %Foswiki::cfg = eval $this->{__FoswikiSafe};
     foreach my $sym (keys %ENV) {
         unless( defined( $this->{__EnvSafe}->{$sym} )) {
             delete $ENV{$sym};

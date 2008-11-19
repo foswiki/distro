@@ -1,11 +1,11 @@
 use strict;
 
 package SaveScriptTests;
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
-use TWiki;
-use TWiki::UI::Save;
+use Foswiki;
+use Foswiki::UI::Save;
 use Error qw( :try );
 
 my $testform1 = <<'HERE';
@@ -37,7 +37,7 @@ HERE
 my $testtext1 = <<'HERE';
 %META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 4579 $"}%
 
-A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
+A guest of this Foswiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
 %META:FORM{name="TestForm1"}%
 %META:FIELD{name="Select" attributes="" title="Select" value="Value_2"}%
@@ -50,7 +50,7 @@ HERE
 
 my $testtext_nometa = <<'HERE';
 
-A guest of this TWiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
+A guest of this Foswiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
 HERE
 
@@ -93,11 +93,11 @@ sub set_up {
 
 	$this->{twiki}->{store}->saveTopic(
         $this->{test_user_2_login}, $this->{test_web},
-        $TWiki::cfg{WebPrefsTopicName}, <<CONTENT);
+        $Foswiki::cfg{WebPrefsTopicName}, <<CONTENT);
    * Set WEBFORMS = TestForm1,TestForm2,TestForm3,TestForm4
 CONTENT
 
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $Foswiki::Plugins::SESSION = $this->{twiki};
 }
 
 # AUTOINC
@@ -109,12 +109,12 @@ sub test_AUTOINC {
     });
     $query->path_info( '/' . $this->{test_web}.'.TestAutoAUTOINC00' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t eq 'TestAuto00') {
@@ -125,8 +125,8 @@ sub test_AUTOINC {
     }
     $this->assert($seen);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t =~ /^TestAuto0[01]$/) {
@@ -148,12 +148,12 @@ sub test_XXXXXXXXXX {
     });
     $query->path_info( '/' . $this->{test_web}.'.TestTopicXXXXXXXXXX' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t eq 'TestTopic0') {
@@ -164,8 +164,8 @@ sub test_XXXXXXXXXX {
     }
     $this->assert($seen);
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t =~ /^TestTopic[01]$/) {
@@ -188,12 +188,12 @@ sub test_XXXXXXXXX {
     $this->assert(
         !$this->{twiki}->{store}->topicExists($this->{test_web},'TestTopic0'));
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert(!$this->{twiki}->{store}->topicExists($this->{test_web},'TestTopic0'));
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
@@ -215,12 +215,12 @@ sub test_XXXXXXXXXXX {
     });
     $query->path_info("/$this->{test_web}/TestTopicXXXXXXXXXXX");
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         $old{$t} = 1;
     }
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my $seen = 0;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
         if($t eq 'TestTopic0') {
@@ -239,8 +239,8 @@ sub test_emptySave {
         topic => [ $this->{test_web}.'.EmptyTestSaveScriptTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
                                                   'EmptyTestSaveScriptTopic');
     $this->assert_matches(qr/^\s*$/, $text);
@@ -255,8 +255,8 @@ sub test_simpleTextSave {
         topic => [ $this->{test_web}.'.DeleteTestSaveScriptTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
                                                  'DeleteTestSaveScriptTopic');
     $this->assert_matches(qr/CORRECT/, $text);
@@ -271,16 +271,16 @@ sub test_templateTopicTextSave {
         topic => [ $this->{test_web}.'.TemplateTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
         templatetopic => [ 'TemplateTopic' ],
         action => [ 'save' ],
         topic => [ $this->{test_web}.'.TemplateTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopic');
     $this->assert_matches(qr/Template Topic/, $text);
     $this->assert_null($meta->get('FORM'));
@@ -295,16 +295,16 @@ sub test_prevTopicTextSave {
                          topic => [ $this->{test_web}.'.PrevTopicTextSave' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
                          text => [ 'CORRECT' ],
                          action => [ 'save' ],
                          topic => [ $this->{test_web}.'.PrevTopicTextSave' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicTextSave');
     $this->assert_matches(qr/CORRECT/, $text);
     $this->assert_null($meta->get('FORM'));
@@ -319,15 +319,15 @@ sub test_prevTopicEmptyTextSave {
                          topic => [ $this->{test_web}.'.PrevTopicEmptyTextSave' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
                          action => [ 'save' ],
                          topic => [ $this->{test_web}.'.PrevTopicEmptyTextSave' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicEmptyTextSave');
     $this->assert_matches(qr/^\s*CORRECT\s*$/, $text);
     $this->assert_null($meta->get('FORM'));
@@ -344,8 +344,8 @@ sub test_simpleFormSave {
                          topic => [ $this->{test_web}.'.SimpleFormSave' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave');
     $this->assert_matches(qr/^CORRECT\s*$/, $text);
@@ -367,8 +367,8 @@ sub test_templateTopicFormSave {
                          topic => [ $this->{test_web}.'.TemplateTopic' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
 
     my($xmeta, $xtext) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopic');
     $query = new Unit::Request({
@@ -377,8 +377,8 @@ sub test_templateTopicFormSave {
                          topic => [ $this->{test_web}.'.TemplateTopicAgain' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
                                                   'TemplateTopicAgain');
     $this->assert_matches(qr/Template Topic/, $text);
@@ -401,8 +401,8 @@ sub test_prevTopicFormSave {
                          topic => [ $this->{test_web}.'.PrevTopicFormSave' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $query = new Unit::Request({
                       action => [ 'save' ],
                       'Textfield' =>
@@ -410,8 +410,8 @@ sub test_prevTopicFormSave {
                       topic => [ $this->{test_web}.'.PrevTopicFormSave' ]
                      });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicFormSave');
     $this->assert_matches(qr/Template Topic/, $text);
     $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
@@ -433,8 +433,8 @@ sub test_simpleFormSave1 {
 			 topic  => [ $this->{test_web}.'.SimpleFormTopic' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormTopic'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormTopic');
     $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
@@ -447,9 +447,9 @@ sub test_simpleFormSave1 {
 sub test_simpleFormSave2 {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
-    my $oldmeta = new TWiki::Meta( $this->{twiki}, $this->{test_web}, 'SimpleFormSave2');
+    my $oldmeta = new Foswiki::Meta( $this->{twiki}, $this->{test_web}, 'SimpleFormSave2');
     my $oldtext = $testtext1;
     $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
     $this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $this->{test_web}, 'SimpleFormSave2',
@@ -466,8 +466,8 @@ sub test_simpleFormSave2 {
 			 topic  => [ $this->{test_web}.'.SimpleFormSave2' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave2'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave2');
     $this->assert_str_equals('TestForm3', $meta->get('FORM')->{name});
@@ -480,9 +480,9 @@ sub test_simpleFormSave2 {
 sub test_simpleFormSave3 {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
-    my $oldmeta = new TWiki::Meta(
+    my $oldmeta = new Foswiki::Meta(
         $this->{twiki}, $this->{test_web}, 'SimpleFormSave3');
     my $oldtext = $testtext1;
     $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
@@ -502,8 +502,8 @@ sub test_simpleFormSave3 {
             topic  => [ $this->{test_web}.'.SimpleFormSave3' ]
            });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave3'));
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave3');
     $this->assert($meta);
@@ -516,7 +516,7 @@ sub test_simpleFormSave3 {
 sub test_templateTopicWithMeta {
     my $this = shift;
 
-    TWiki::Func::saveTopicText($this->{test_web},"TemplateTopic",$testtext1);
+    Foswiki::Func::saveTopicText($this->{test_web},"TemplateTopic",$testtext1);
     my $query = new Unit::Request(
         {
             templatetopic => [ 'TemplateTopic' ],
@@ -524,8 +524,8 @@ sub test_templateTopicWithMeta {
             topic => [ $this->{test_web}.'.TemplateTopicWithMeta' ]
            });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki} );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopicWithMeta');
     my $pref = $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' );
     $this->assert_not_null($pref);
@@ -537,10 +537,10 @@ sub test_templateTopicWithMeta {
 sub test_merge {
     my $this = shift;
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
+    $this->{twiki} = new Foswiki();
 
     # Set up the original topic that the two edits started on
-    my $oldmeta = new TWiki::Meta(
+    my $oldmeta = new Foswiki::Meta(
         $this->{twiki}, $this->{test_web}, 'MergeSave');
     my $oldtext = $testtext1;
     $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
@@ -578,8 +578,8 @@ GUMP
            });
     # Do the save
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query1);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query1);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     my( $r1Date, $r1Auth, $r1Rev ) = $meta->getRevisionInfo();
 
     #print STDERR "First edit saved as ${r1Rev}_$r1Date\n";
@@ -606,10 +606,10 @@ GUMP
            });
     # Do the save. This time we expect a merge exception
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_2_login}, $query2);
+    $this->{twiki} = new Foswiki( $this->{test_user_2_login}, $query2);
     try {
-        $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
-    } catch TWiki::OopsException with {
+        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals('merge_notice', $e->{def});
     } otherwise {
@@ -660,8 +660,8 @@ sub test_restoreRevision {
         topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     
     # retrieve revision number
     my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
@@ -684,8 +684,8 @@ sub test_restoreRevision {
 			 topic  => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
                         });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
 
     ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
     ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
@@ -701,8 +701,8 @@ sub test_restoreRevision {
         topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
     ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
     $original = "${orgRev}_$orgDate";
@@ -719,8 +719,8 @@ sub test_restoreRevision {
         topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
        });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
     ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
     $original = "${orgRev}_$orgDate";
@@ -745,12 +745,12 @@ sub test_1897 {
     my $this = shift;
 
     # make sure we have time to complete the test
-    $TWiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
+    $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki($this->{test_user_login});
+    $this->{twiki} = new Foswiki($this->{test_user_login});
 
-    my $oldmeta = new TWiki::Meta(
+    my $oldmeta = new Foswiki::Meta(
         $this->{twiki}, $this->{test_web}, 'MergeSave');
     my $oldtext = $testtext1;
     my $query;
@@ -779,8 +779,8 @@ sub test_1897 {
             topic  => [ $this->{test_web}.'.MergeSave' ]
            });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query);
-    $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
+    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
 
     # make sure it's still rev 1 as expected
     ($meta, $text) = $this->{twiki}->{store}->readTopic(
@@ -798,10 +798,10 @@ sub test_1897 {
             topic  => [ $this->{test_web}.'.MergeSave' ]
            });
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $this->{test_user_2_login}, $query);
+    $this->{twiki} = new Foswiki( $this->{test_user_2_login}, $query);
     try {
-        $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
-    } catch TWiki::OopsException with {
+        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals('merge_notice', $e->{def});
     } otherwise {
@@ -823,10 +823,10 @@ sub test_missingTemplateTopic {
         action => [ 'save' ],
         topic => [ $this->{test_web}.'.FlibbleDeDib' ]
        });
-    $this->{twiki} = new TWiki( $this->{test_user_login}, $query );
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     try {
-        $this->capture( \&TWiki::UI::Save::save, $this->{twiki});
-    } catch TWiki::OopsException with {
+        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals('no_such_topic_template', $e->{def});
     } otherwise {

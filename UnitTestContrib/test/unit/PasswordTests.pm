@@ -2,10 +2,10 @@ use strict;
 
 package PasswordTests;
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
-use TWiki;
-use TWiki::Users::HtPasswdUser;
+use Foswiki;
+use Foswiki::Users::HtPasswdUser;
 
 sub new {
 	my $self = shift()->SUPER::new(@_);
@@ -17,16 +17,16 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $this->{twiki} = new TWiki();
-    $TWiki::cfg{Htpasswd}{FileName} = "$TWiki::cfg{TempfileDir}/junkpasswd";
-    open(F, ">$TWiki::cfg{Htpasswd}{FileName}") || die $!;
+    $this->{twiki} = new Foswiki();
+    $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
+    open(F, ">$Foswiki::cfg{Htpasswd}{FileName}") || die $!;
     print F "";
     close F;
 }
 
 sub tear_down {
     my $this = shift;
-    unlink $TWiki::cfg{Htpasswd}{FileName};
+    unlink $Foswiki::cfg{Htpasswd}{FileName};
     $this->{twiki}->finish();
     $this->SUPER::tear_down();
 }
@@ -142,16 +142,16 @@ sub doTests {
 
 sub TODO_test_htpasswd_plain {
     my $this = shift;
-    $TWiki::cfg{Htpasswd}{Encoding} = 'plain';
-    my $impl = new TWiki::Users::HtPasswdUser($this->{twiki});
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
     $this->doTests($impl, 1);
 }
 
 sub TODO_test_htpasswd_md5 {
     my $this = shift;
-    $TWiki::cfg{Htpasswd}{Encoding} = 'md5';
-    my $impl = new TWiki::Users::HtPasswdUser($this->{twiki});
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
     $this->doTests($impl, 1);
 }
@@ -159,8 +159,8 @@ sub TODO_test_htpasswd_md5 {
 
 sub test_htpasswd_crypt_md5 {
     my $this = shift;
-    $TWiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
-    my $impl = new TWiki::Users::HtPasswdUser($this->{twiki});
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
     $this->doTests($impl, 1);
 }
@@ -183,8 +183,8 @@ sub test_htpasswd_sha1 {
         return;
     }
 
-    $TWiki::cfg{Htpasswd}{Encoding} = 'sha1';
-    my $impl = new TWiki::Users::HtPasswdUser($this->{twiki});
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
     $this->doTests($impl,0);
 }
@@ -199,15 +199,15 @@ sub detest_htpasswd_md5 {
         return;
     }
 
-    $TWiki::cfg{Htpasswd}{Encoding} = 'md5';
-    my $impl = new TWiki::Users::HtPasswdUser($this->{twiki});
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->doTests($impl,0);
 }
 
 sub detest_htpasswd_plain {
     my $this = shift;
-    $TWiki::cfg{Htpasswd}{Encoding} = 'sha1';
-    my $impl = new TWiki::Users::HtPasswdUser($this->{twiki});
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
 
     $this->doTests($impl, 0);
 }
@@ -215,7 +215,7 @@ sub detest_htpasswd_plain {
 sub test_htpasswd_apache {
     my $this = shift;
 
-    eval "use TWiki::Users::ApacheHtpasswdUser";
+    eval "use Foswiki::Users::ApacheHtpasswdUser";
     if( $@ ) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
@@ -223,9 +223,9 @@ sub test_htpasswd_apache {
         return;
     }
 
-    my $impl = TWiki::Users::ApacheHtpasswdUser->new($this->{twiki});
+    my $impl = Foswiki::Users::ApacheHtpasswdUser->new($this->{twiki});
     # apache doesn't create the file, so need to init it
-    open(F,">$TWiki::cfg{Htpasswd}{FileName}");
+    open(F,">$Foswiki::cfg{Htpasswd}{FileName}");
     close(F);
 
     # otherwise it should work the same as htpasswd (without salt)

@@ -282,7 +282,7 @@ sub capture {
     my $response = undef;
     my @params = @_;
     my $result;
-    my ( $release ) = $TWiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
+    my ( $release ) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
 
     {
         local *STDOUT;
@@ -293,12 +293,12 @@ sub capture {
     
     if ( $release >= 5 ) {
         $response =
-          UNIVERSAL::isa( $params[0], 'TWiki' )
+          UNIVERSAL::isa( $params[0], 'Foswiki' )
           ? $params[0]->{response}
-          : $TWiki::Plugins::SESSION->{response};
+          : $Foswiki::Plugins::SESSION->{response};
 
         # Capture headers
-        TWiki::Engine->finalizeCookies($response);
+        Foswiki::Engine->finalizeCookies($response);
         foreach my $header ( keys %{ $response->headers } ) {
             $text .= $header . ': ' . $_ . "\x0D\x0A"
               foreach $response->getHeader($header);

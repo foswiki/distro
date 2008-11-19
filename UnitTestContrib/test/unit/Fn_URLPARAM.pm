@@ -3,7 +3,7 @@
 # Author: Koen Martens
 #
 package Fn_URLPARAM;
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
 use strict;
 

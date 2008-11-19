@@ -1,10 +1,10 @@
 package QueryTests;
-use base 'TWikiFnTestCase';
+use base 'FoswikiFnTestCase';
 
-use TWiki::Query::Parser;
-use TWiki::Query::HoistREs;
-use TWiki::Query::Node;
-use TWiki::Meta;
+use Foswiki::Query::Parser;
+use Foswiki::Query::HoistREs;
+use Foswiki::Query::Node;
+use Foswiki::Meta;
 use strict;
 
 sub new {
@@ -16,7 +16,7 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    my $meta = new TWiki::Meta($this->{twiki}, 'Web', 'Topic');
+    my $meta = new Foswiki::Meta($this->{twiki}, 'Web', 'Topic');
     $meta->putKeyed('FILEATTACHMENT',
                     { name=>"att1.dat",
                       attr=>"H",
@@ -70,19 +70,19 @@ sub set_up {
 
 sub check {
     my ( $this, $s, $r ) = @_;
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
     my $meta = $this->{meta};
     my $val = $query->evaluate( tom=>$meta, data=>$meta );
     if(ref($r)) {
         $this->assert_deep_equals(
             $r, $val,
-            "Expected $r, got ".TWiki::Query::Node::toString($val)." for $s in ".
+            "Expected $r, got ".Foswiki::Query::Node::toString($val)." for $s in ".
            join(' ', caller));
     } else {
         $this->assert_str_equals(
             $r, $val,
-            "Expected $r, got ".TWiki::Query::Node::toString($val)." for $s in ".
+            "Expected $r, got ".Foswiki::Query::Node::toString($val)." for $s in ".
            join(' ', caller));
     }
 }
@@ -177,7 +177,7 @@ sub test_string_bops {
 
 sub test_num_uops {
     my $this = shift;
-    $this->check("d2n '".TWiki::Time::formatTime(0,'$iso')."'", 0);
+    $this->check("d2n '".Foswiki::Time::formatTime(0,'$iso')."'", 0);
     $this->check("length attachments", 2);
     $this->check("length META:PREFERENCE", 5);
 }
@@ -244,10 +244,10 @@ sub test_brackets {
 sub test_hoistSimple {
     my $this = shift;
     my $s = "number=99";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query ) || 'undef';
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query ) || 'undef';
     #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals('^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
                             join(';', @filter));
@@ -258,10 +258,10 @@ sub test_hoistSimple {
 sub test_hoistSimple2 {
     my $this = shift;
     my $s = "99=number";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query ) || 'undef';
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query ) || 'undef';
     #print STDERR "HoistS ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals('^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
                             join(';', @filter));
@@ -272,10 +272,10 @@ sub test_hoistSimple2 {
 sub test_hoistCompound {
     my $this = shift;
     my $s = "number=99 AND string='String' and (moved.by='AlbertCamus' OR moved.by ~ '*bert*')";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query );
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query );
     #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals('^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
                              $filter[0]);
@@ -290,10 +290,10 @@ sub test_hoistCompound {
 sub test_hoistCompound2 {
     my $this = shift;
     my $s = "(moved.by='AlbertCamus' OR moved.by ~ '*bert*') AND number=99 AND string='String'";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query );
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query );
     #print STDERR "HoistC ",$query->stringify()," -> /",join(';', @filter),"/\n";
     $this->assert_str_equals('^%META:TOPICMOVED{.*\bby=\"AlbertCamus\"|^%META:TOPICMOVED{.*\bby=\".*bert.*\"',
                              $filter[0]);
@@ -308,10 +308,10 @@ sub test_hoistCompound2 {
 sub test_hoistAlias {
     my $this = shift;
     my $s = "info.date=12345";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query ) || 'undef';
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query ) || 'undef';
     $this->assert_str_equals('^%META:TOPICINFO{.*\bdate=\"12345\"',
                              join(';', @filter));
     my $meta = $this->{meta};
@@ -321,10 +321,10 @@ sub test_hoistAlias {
 sub test_hoistFormField {
     my $this = shift;
     my $s = "TestForm.number=99";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query ) || 'undef';
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query ) || 'undef';
     $this->assert_str_equals('^%META:FIELD{name=\"number\".*\bvalue=\"99\"',
                              join(';', @filter));
     my $meta = $this->{meta};
@@ -334,10 +334,10 @@ sub test_hoistFormField {
 sub test_hoistText {
     my $this = shift;
     my $s = "text ~ '*Green*'";
-    my $queryParser = new TWiki::Query::Parser();
+    my $queryParser = new Foswiki::Query::Parser();
     my $query = $queryParser->parse($s);
-    require TWiki::Query::HoistREs;
-    my @filter = TWiki::Query::HoistREs::hoist( $query ) || 'undef';
+    require Foswiki::Query::HoistREs;
+    my @filter = Foswiki::Query::HoistREs::hoist( $query ) || 'undef';
     $this->assert_str_equals('.*Green.*',
                              join(';', @filter));
     my $meta = $this->{meta};

@@ -13,14 +13,14 @@ package RegisterTests;
 #Uncomment to isolate 
 #our @TESTS = qw(notest_registerVerifyOk); #notest_UnregisteredUser);
 
-# Note that the TWikiFnTestCase needs to use the registration code to work,
+# Note that the FoswikiFnTestCase needs to use the registration code to work,
 # so this is a bit arse before tit. However we need some pre-registered users
 # for this to work sensibly, so we just have to bite the bullet.
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
 use diagnostics;
-use TWiki::UI::Register;
+use Foswiki::UI::Register;
 use Data::Dumper;
 use FileHandle;
 use Error qw( :try );
@@ -70,7 +70,7 @@ EOF
         # them where necessary (e.g. for bulk registration)
         $this->{twiki}->{store}->saveTopic($this->{twiki}->{user},
                                      $this->{users_web},
-                                     $TWiki::cfg{SuperAdminGroup}, <<EOF);
+                                     $Foswiki::cfg{SuperAdminGroup}, <<EOF);
    * Set GROUP = $this->{test_user_wikiname}
 EOF
 
@@ -87,11 +87,11 @@ EOF
 
         $this->{twiki}->{store}->createWeb($this->{twiki}->{user},
                                      $systemWeb,
-                                     $TWiki::cfg{SystemWebName});
-        $TWiki::cfg{SystemWebName} = $systemWeb;
-        $TWiki::cfg{EnableEmail} = 1;
+                                     $Foswiki::cfg{SystemWebName});
+        $Foswiki::cfg{SystemWebName} = $systemWeb;
+        $Foswiki::cfg{EnableEmail} = 1;
 
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         $this->assert(0,shift->stringify());
     } catch Error::Simple with {
         $this->assert(0,shift->stringify());
@@ -99,7 +99,7 @@ EOF
 
     $Error::Debug = 1;
 
-    @TWikiFnTestCase::mails = ();
+    @FoswikiFnTestCase::mails = ();
 }
 
 sub tear_down {
@@ -126,29 +126,29 @@ sub registerAccount {
            });
 
     try {
-        TWiki::UI::Register::complete( $this->{twiki} );
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::complete( $this->{twiki} );
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},
                                  $e->stringify());
         $this->assert_str_equals("thanks", $e->{def}, $e->stringify());
-        $this->assert_equals(2, scalar(@TWikiFnTestCase::mails));
+        $this->assert_equals(2, scalar(@FoswikiFnTestCase::mails));
         my $done = '';
-        foreach my $mail ( @TWikiFnTestCase::mails ) {
+        foreach my $mail ( @FoswikiFnTestCase::mails ) {
             if( $mail =~ /^Subject:.*Registration for/m ) {
                 if( $mail =~ /^To: .*\b$this->{new_user_email}\b/m ) {
                     $this->assert(!$done, $done."\n---------\n".$mail);
                     $done = $mail;
                 } else {
-                    $this->assert_matches(qr/To: $TWiki::cfg{WebMasterName} <$TWiki::cfg{WebMasterEmail}>/, $mail );
+                    $this->assert_matches(qr/To: $Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/, $mail );
                 }
             } else {
                 $this->assert(0, $mail);
             }
         }
         $this->assert($done);
-        @TWikiFnTestCase::mails = ();
-    } catch TWiki::AccessControlException with {
+        @FoswikiFnTestCase::mails = ();
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -157,51 +157,51 @@ sub registerAccount {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    $this->assert($this->{twiki}->{store}->topicExists($TWiki::cfg{UsersWebName}, $this->{new_user_wikiname}));
+    $this->assert($this->{twiki}->{store}->topicExists($Foswiki::cfg{UsersWebName}, $this->{new_user_wikiname}));
 }
 ###################################
 #verify tests
 
 sub AllowLoginName {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 1;
+    $Foswiki::cfg{Register}{AllowLoginName} = 1;
 }
 sub DontAllowLoginName {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 0;
+    $Foswiki::cfg{Register}{AllowLoginName} = 0;
     $this->{new_user_login}  = $this->{new_user_wikiname};
     #$this->{test_user_login} = $this->{test_user_wikiname};
 }
 
 sub TemplateLoginManager {
-    $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::TemplateLogin';
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 }
 
 sub ApacheLoginManager {
-    $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::ApacheLogin';
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::ApacheLogin';
 }
 
 sub NoLoginManager {
-    $TWiki::cfg{LoginManager} = 'TWiki::LoginManager';
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager';
 }
 
 sub HtPasswdManager {
-    $TWiki::cfg{PasswordManager} = 'TWiki::Users::HtPasswdUser';
+    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
 }
 sub NonePasswdManager {
-    $TWiki::cfg{PasswordManager} = 'none';
+    $Foswiki::cfg{PasswordManager} = 'none';
 }
 
 
 sub BaseUserMapping {
     my $this = shift;
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::BaseUserMapping';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::BaseUserMapping';
     $this->set_up_for_verify();
 }
 
 sub TopicUserMapping {
     my $this = shift;
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
     $this->set_up_for_verify();
 }
 
@@ -233,28 +233,28 @@ sub set_up_for_verify {
     my $this = shift;
     
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $this->{twiki} = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{twiki};
 
-    @TWikiFntestCase::mails = ();
+    @FoswikiFntestCase::mails = ();
 }
 
 ###################################
 sub verify_userTopicWithPMWithoutForm {
     my $this = shift;
-    $this->assert(!$this->{twiki}->{store}->topicExists($TWiki::cfg{UsersWebName},
+    $this->assert(!$this->{twiki}->{store}->topicExists($Foswiki::cfg{UsersWebName},
                                     $this->{new_user_wikiname}),
                                     "cannot re-register user who's topic exists");
     $this->registerAccount();
     my( $meta, $text ) = $this->{twiki}->{store}->readTopic(
-        undef, $TWiki::cfg{UsersWebName}, $this->{new_user_wikiname});
+        undef, $Foswiki::cfg{UsersWebName}, $this->{new_user_wikiname});
     $this->assert($text !~ /Ignore this%/, $text);
     $this->assert($text =~ s/But not this//,$text);
     $this->assert($text =~ s/^\s*\* First Name: $this->{new_user_fname}$//m,$text);
     $this->assert($text =~ s/^\s*\* Last Name: $this->{new_user_sname}$//m,$text);
     $this->assert($text =~ s/^\s*\* Comment:\s*$//m,$text);
     $this->assert($text =~ s/^\s*\* Name: $this->{new_user_fullname}$//m,$text);
-    $this->assert($text =~ s/$TWiki::cfg{UsersWebName}\.$this->{new_user_wikiname}//,$text);
+    $this->assert($text =~ s/$Foswiki::cfg{UsersWebName}\.$this->{new_user_wikiname}//,$text);
     $this->assert($text =~ s/$this->{new_user_wikiname}//,$text);
     $this->assert_matches(qr/\s*AFTER\s*/, $text);
 }
@@ -263,13 +263,13 @@ sub verify_userTopicWithoutPMWithoutForm {
     my $this = shift;
     # Switch off the password manager to force email to be written to user
     # topic
-    $TWiki::cfg{PasswordManager} = 'none';
-    $this->assert(!$this->{twiki}->{store}->topicExists($TWiki::cfg{UsersWebName},
+    $Foswiki::cfg{PasswordManager} = 'none';
+    $this->assert(!$this->{twiki}->{store}->topicExists($Foswiki::cfg{UsersWebName},
                                     $this->{new_user_wikiname}),
                                     "cannot re-register user who's topic exists");
     $this->registerAccount();
     my( $meta, $text ) = $this->{twiki}->{store}->readTopic(
-        undef, $TWiki::cfg{UsersWebName}, $this->{new_user_wikiname});
+        undef, $Foswiki::cfg{UsersWebName}, $this->{new_user_wikiname});
     $this->assert($text !~ /Ignore this%/, $text);
     $this->assert($text =~ s/But not this//,$text);
     $this->assert($text =~ s/^\s*\* First Name: $this->{new_user_fname}$//m,$text);
@@ -277,7 +277,7 @@ sub verify_userTopicWithoutPMWithoutForm {
     $this->assert($text =~ s/^\s*\* Comment:\s*$//m,$text);
     $this->assert($text =~ s/^\s*\* Name: $this->{new_user_fullname}$//m,$text);
     $this->assert($text =~ s/^\s*\* Email: $this->{new_user_email}$//m,$text);
-    $this->assert($text =~ s/$TWiki::cfg{UsersWebName}\.$this->{new_user_wikiname}//,$text);
+    $this->assert($text =~ s/$Foswiki::cfg{UsersWebName}\.$this->{new_user_wikiname}//,$text);
     $this->assert($text =~ s/$this->{new_user_wikiname}//,$text);
     $this->assert_matches(qr/\s*AFTER\s*/, $text);
 }
@@ -286,10 +286,10 @@ sub verify_userTopicWithoutPMWithForm {
     my $this = shift;
     # Switch off the password manager to force email to be written to user
     # topic
-    $TWiki::cfg{PasswordManager} = 'none';
+    $Foswiki::cfg{PasswordManager} = 'none';
 
     # Change the new user topic to include the form
-    my $m = new TWiki::Meta($this->{twiki}, $this->{users_web},
+    my $m = new Foswiki::Meta($this->{twiki}, $this->{users_web},
                             'NewUserTemplate' );
     $m->put('FORM', { name => "$this->{users_web}.UserForm" });
     $m->putKeyed('FIELD', {
@@ -333,7 +333,7 @@ EOF
     $this->registerAccount();
     
     my( $meta, $text ) = $this->{twiki}->{store}->readTopic(
-        undef, $TWiki::cfg{UsersWebName}, $this->{new_user_wikiname});
+        undef, $Foswiki::cfg{UsersWebName}, $this->{new_user_wikiname});
 
     $this->assert_str_equals(
         $this->{new_user_fname},
@@ -353,7 +353,7 @@ sub verify_userTopicWithPMWithForm {
     my $this = shift;
 
     # Change the new user topic to include the form
-    my $m = new TWiki::Meta($this->{twiki}, $this->{users_web}, 'NewUserTemplate' );
+    my $m = new Foswiki::Meta($this->{twiki}, $this->{users_web}, 'NewUserTemplate' );
     $m->put('FORM', { name => "$this->{users_web}.UserForm" });
     $m->putKeyed('FIELD', {
                               name => 'FirstName',
@@ -394,7 +394,7 @@ EOF
 
     $this->registerAccount();
     my( $meta, $text ) = $this->{twiki}->{store}->readTopic(
-        undef, $TWiki::cfg{UsersWebName}, $this->{new_user_wikiname});
+        undef, $Foswiki::cfg{UsersWebName}, $this->{new_user_wikiname});
 	$this->assert_not_null($meta->get('FORM'));
     $this->assert_str_equals("$this->{users_web}.UserForm", $meta->get('FORM')->{name});
     $this->assert_str_equals(
@@ -411,7 +411,7 @@ EOF
 #Assumes the verification code is $this->{twiki}->{DebugVerificationCode}
 sub registerVerifyOk {
     my $this = shift;
-    $TWiki::cfg{Register}{NeedVerification}  =  1;
+    $Foswiki::cfg{Register}{NeedVerification}  =  1;
     my $query = new Unit::Request ({
                           'TopicName' => [
                                           'UserRegistration'
@@ -444,19 +444,19 @@ sub registerVerifyOk {
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
         $this->assert_str_equals("confirm", $e->{def}, $e->stringify());
         my $encodedTestUserEmail =
-          TWiki::entityEncode($this->{new_user_email});
+          Foswiki::entityEncode($this->{new_user_email});
         $this->assert_matches(qr/$encodedTestUserEmail/, $e->stringify());
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -476,24 +476,24 @@ sub registerVerifyOk {
                       });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin},$query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin},$query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::verifyEmailAddress($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::verifyEmailAddress($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
 
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert( 0, $e->stringify );
     } catch Error::Simple with {
         $this->assert(0, shift->stringify());
     };
-    $this->assert_equals(1, scalar(@TWikiFnTestCase::mails));
+    $this->assert_equals(1, scalar(@FoswikiFnTestCase::mails));
     my $done = '';
-    foreach my $mail ( @TWikiFnTestCase::mails ) {
+    foreach my $mail ( @FoswikiFnTestCase::mails ) {
         if( $mail =~ /Your verification code is /m ) {
             $this->assert(!$done, $done."\n---------\n".$mail);
             $done = $mail;
@@ -502,13 +502,13 @@ sub registerVerifyOk {
         }
     }
     $this->assert($done);
-    @TWikiFnTestCase::mails = ();
+    @FoswikiFnTestCase::mails = ();
 }
 
 #Register a user, then give a bad verification code. It should barf.
 sub verify_registerBadVerify {
     my $this = shift;
-    $TWiki::cfg{Register}{NeedVerification}  =  1;
+    $Foswiki::cfg{Register}{NeedVerification}  =  1;
     my $query = new Unit::Request ({
                           'TopicName' => [
                                           'UserRegistration'
@@ -540,18 +540,18 @@ sub verify_registerBadVerify {
                          });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         my $encodedTestUserEmail =
-          TWiki::entityEncode($this->{new_user_email});
+          Foswiki::entityEncode($this->{new_user_email});
         $this->assert_matches(qr/$encodedTestUserEmail/, $e->stringify());
         $this->assert_str_equals("attention", $e->{template});
         $this->assert_str_equals("confirm", $e->{def});
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -572,16 +572,16 @@ sub verify_registerBadVerify {
     });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::verifyEmailAddress($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::verifyEmailAddress($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
 
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention",$e->{template}, $e->stringify());
         $this->assert_str_equals("bad_ver_code",$e->{def}, $e->stringify());
@@ -590,9 +590,9 @@ sub verify_registerBadVerify {
     } otherwise {
         $this->assert(0, "Expected a redirect" );
     };
-    $this->assert_equals(1, scalar(@TWikiFnTestCase::mails));
-    my $mess = $TWikiFnTestCase::mails[0];
-    $this->assert_matches(qr/From: $TWiki::cfg{WebMasterName} <$TWiki::cfg{WebMasterEmail}>/,$mess);
+    $this->assert_equals(1, scalar(@FoswikiFnTestCase::mails));
+    my $mess = $FoswikiFnTestCase::mails[0];
+    $this->assert_matches(qr/From: $Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,$mess);
     $this->assert_matches(qr/To: .*\b$this->{new_user_email}\b/,$mess);
     # check the verification code
     $this->assert_matches(qr/'$code'/,$mess);
@@ -600,10 +600,10 @@ sub verify_registerBadVerify {
 
 
 # Register a user with verification explicitly switched off
-# (SUPER's tear_down will take care for re-installing %TWiki::cfg)
+# (SUPER's tear_down will take care for re-installing %Foswiki::cfg)
 sub verify_registerNoVerifyOk {
     my $this = shift;
-    $TWiki::cfg{Register}{NeedVerification}  =  0;
+    $Foswiki::cfg{Register}{NeedVerification}  =  0;
     my $query = new Unit::Request ({
                           'TopicName' => [
                                           'UserRegistration'
@@ -636,33 +636,33 @@ sub verify_registerNoVerifyOk {
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},
                                  $e->stringify());
         $this->assert_str_equals("thanks", $e->{def}, $e->stringify());
-        $this->assert_equals(2, scalar(@TWikiFnTestCase::mails));
+        $this->assert_equals(2, scalar(@FoswikiFnTestCase::mails));
         my $done = '';
-        foreach my $mail ( @TWikiFnTestCase::mails ) {
+        foreach my $mail ( @FoswikiFnTestCase::mails ) {
             if( $mail =~ /^Subject:.*Registration for/m ) {
                 if( $mail =~ /^To: .*\b$this->{new_user_email}\b/m ) {
                     $this->assert(!$done, $done."\n---------\n".$mail);
                     $done = $mail;
                 } else {
-                    $this->assert_matches(qr/To: $TWiki::cfg{WebMasterName} <$TWiki::cfg{WebMasterEmail}>/, $mail );
+                    $this->assert_matches(qr/To: $Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/, $mail );
                 }
             } else {
                 $this->assert(0, $mail);
             }
         }
         $this->assert($done);
-        @TWikiFnTestCase::mails = ();
-    } catch TWiki::AccessControlException with {
+        @FoswikiFnTestCase::mails = ();
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -677,10 +677,10 @@ sub verify_registerNoVerifyOk {
 # Register a user with a password which is too short - must be rejected
 sub verify_rejectShortPassword {
     my $this = shift;
-    $TWiki::cfg{Register}{NeedVerification}  =  0;
-    $TWiki::cfg{MinPasswordLength}           =  6;
-    $TWiki::cfg{PasswordManager}             =  'TWiki::Users::HtPasswdUser';
-    $TWiki::cfg{Register}{AllowLoginName}    =  0;
+    $Foswiki::cfg{Register}{NeedVerification}  =  0;
+    $Foswiki::cfg{MinPasswordLength}           =  6;
+    $Foswiki::cfg{PasswordManager}             =  'Foswiki::Users::HtPasswdUser';
+    $Foswiki::cfg{Register}{AllowLoginName}    =  0;
     my $query = new Unit::Request ({
                           'TopicName'     => ['UserRegistration'],
                           'Twk1Email'     => [$this->{new_user_email}],
@@ -697,18 +697,18 @@ sub verify_rejectShortPassword {
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("bad_password", $e->{def}, $e->stringify());
-        $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
-        @TWikiFnTestCase::mails = ();
-    } catch TWiki::AccessControlException with {
+        $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
+        @FoswikiFnTestCase::mails = ();
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -722,10 +722,10 @@ sub verify_rejectShortPassword {
 # Register a user with a password which is too short
 sub verify_shortPassword {
     my $this = shift;
-    $TWiki::cfg{Register}{NeedVerification}  =  0;
-    $TWiki::cfg{MinPasswordLength}           =  6;
-    $TWiki::cfg{PasswordManager}             =  'TWiki::Users::HtPasswdUser';
-    $TWiki::cfg{Register}{AllowLoginName}    =  1;
+    $Foswiki::cfg{Register}{NeedVerification}  =  0;
+    $Foswiki::cfg{MinPasswordLength}           =  6;
+    $Foswiki::cfg{PasswordManager}             =  'Foswiki::Users::HtPasswdUser';
+    $Foswiki::cfg{Register}{AllowLoginName}    =  1;
     my $query = new Unit::Request(
         {
             'TopicName'     => ['UserRegistration'],
@@ -743,21 +743,21 @@ sub verify_shortPassword {
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
+        Foswiki::UI::Register::register_cgi($this->{twiki});
         my $cUID = $this->{twiki}->{users}->getCanonicalUserID($this->{new_user_login});
         $this->assert($this->{twiki}->{users}->userExists($cUID), "new user created");
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("bad_password", $e->{def}, $e->stringify());
-        $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
-        # don't check the TWikiFnTestCase::mails in this test case - this is done elsewhere
-        @TWikiFnTestCase::mails = ();
-    } catch TWiki::AccessControlException with {
+        $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
+        # don't check the FoswikiFnTestCase::mails in this test case - this is done elsewhere
+        @FoswikiFnTestCase::mails = ();
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -777,7 +777,7 @@ sub verify_duplicateActivation {
     my $this = shift;
 
     # Start similar to registration with verification
-    $TWiki::cfg{Register}{NeedVerification}  =  1;
+    $Foswiki::cfg{Register}{NeedVerification}  =  1;
     my $query = new Unit::Request ({'TopicName'     => ['UserRegistration'],
                           'Twk1Email'     => [$this->{new_user_email}],
                           'Twk1WikiName'  => [$this->{new_user_wikiname}],
@@ -788,18 +788,18 @@ sub verify_duplicateActivation {
                           'action'        => ['register'],
                       });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
-    $this->{twiki} = TWiki->new($TWiki::cfg{DefaultUserName}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
         $this->assert_str_equals("confirm", $e->{def}, $e->stringify());
         my $encodedTestUserEmail =
-          TWiki::entityEncode($this->{new_user_email});
+          Foswiki::entityEncode($this->{new_user_email});
         $this->assert_matches(qr/$encodedTestUserEmail/, $e->stringify());
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -816,15 +816,15 @@ sub verify_duplicateActivation {
                         'action' => ['verify'],
                     });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
-    $this->{twiki} = TWiki->new($TWiki::cfg{DefaultUserName},$query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName},$query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("thanks", $e->{def}, $e->stringify());
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -835,21 +835,21 @@ sub verify_duplicateActivation {
     $this->{twiki}->finish();
 
     # and now for something completely different: Do it all over again
-    @TWikiFnTestCase::mails = ();
+    @FoswikiFnTestCase::mails = ();
     $query = new Unit::Request ({'code'   => [$code],
                         'action' => ['verify'],
                     });
     $query->path_info( "/$this->{users_web}/UserRegistration" );
-    $this->{twiki} = TWiki->new($TWiki::cfg{DefaultUserName},$query);
+    $this->{twiki} = Foswiki->new($Foswiki::cfg{DefaultUserName},$query);
     $this->{twiki}->net->setMailHandler(\&sentMail);
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("duplicate_activation", $e->{def}, $e->stringify());
-        $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
-    } catch TWiki::AccessControlException with {
+        $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -857,7 +857,7 @@ sub verify_duplicateActivation {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    @TWikiFnTestCase::mails = ();
+    @FoswikiFnTestCase::mails = ();
 }
 
 
@@ -895,15 +895,15 @@ sub verify_resetPasswordOkay {
 
     $query->path_info( '/'.$this->{users_web}.'/WebHome' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::resetPassword($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::resetPassword($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("reset_ok", $e->{def}, $e->stringify());
@@ -912,9 +912,9 @@ sub verify_resetPasswordOkay {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    $this->assert_equals(1, scalar(@TWikiFnTestCase::mails));
-    my $mess = $TWikiFnTestCase::mails[0];
-    $this->assert_matches(qr/From: $TWiki::cfg{WebMasterName} <$TWiki::cfg{WebMasterEmail}>/,$mess);
+    $this->assert_equals(1, scalar(@FoswikiFnTestCase::mails));
+    my $mess = $FoswikiFnTestCase::mails[0];
+    $this->assert_matches(qr/From: $Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,$mess);
     $this->assert_matches(qr/To: .*\b$this->{new_user_email}/,$mess);
 
     #lets make sure the password actually was reset
@@ -943,16 +943,16 @@ sub verify_resetPasswordNoSuchUser {
 
     $query->path_info( '/.'.$this->{users_web}.'/WebHome' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::resetPassword($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::resetPassword($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
 
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("reset_bad", $e->{def}, $e->stringify());
@@ -961,7 +961,7 @@ sub verify_resetPasswordNoSuchUser {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
+    $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
 }
 
 
@@ -985,18 +985,18 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
 
     $query->path_info( '/.'.$this->{users_web}.'/WebHome' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::resetPassword($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::resetPassword($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
 
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_matches(qr/$TWiki::cfg{SuperAdminGroup}/,
+        $this->assert_matches(qr/$Foswiki::cfg{SuperAdminGroup}/,
                               $e->stringify());
         $this->assert_str_equals('accessdenied', $e->{template});
         $this->assert_str_equals('only_group', $e->{def});
@@ -1005,7 +1005,7 @@ sub verify_resetPasswordNeedPrivilegeForMultipleReset {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
+    $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
 }
 
 # This test make sure that the system can't reset passwords
@@ -1029,19 +1029,19 @@ sub verify_resetPasswordNoPassword {
                          });
 
     $query->path_info( '/'.$this->{users_web}.'/WebHome' );
-    unlink $TWiki::cfg{Htpasswd}{FileName};
+    unlink $Foswiki::cfg{Htpasswd}{FileName};
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::resetPassword($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::resetPassword($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
 
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("reset_bad", $e->{def}, $e->stringify());
@@ -1051,8 +1051,8 @@ sub verify_resetPasswordNoPassword {
         $this->assert(0, "expected an oops redirect");
     };
     # If the user is not in htpasswd, there's can't be an email
-    $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
-    @TWikiFnTestCase::mails = ();
+    $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
+    @FoswikiFnTestCase::mails = ();
 }
 
 =pod
@@ -1071,26 +1071,26 @@ sub verify_UnregisteredUser {
                 WikiName => "GitWit"
                };
 
-    my $file = TWiki::UI::Register::_codeFile( $regSave->{VerificationCode} );
+    my $file = Foswiki::UI::Register::_codeFile( $regSave->{VerificationCode} );
     $this->assert(open( F, ">$file" ));
     print F Data::Dumper->Dump( [ $regSave, undef ], [ 'data', 'form' ] );
     close F;
 
-    my $result2 = TWiki::UI::Register::_loadPendingRegistration($session, "GitWit.0");
+    my $result2 = Foswiki::UI::Register::_loadPendingRegistration($session, "GitWit.0");
     $this->assert_deep_equals($result2, $regSave);
 
     try {
         # this is a deliberate attempt to reload an already used token.
         # this should fail!
-        TWiki::UI::Register::_clearPendingRegistrationsForUser("GitWit.0");
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::_clearPendingRegistrationsForUser("GitWit.0");
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_matches(qr/has no file/, $e->stringify());
     } catch Error::Simple with {
         $this->assert(0, shift->stringify());
     };
     # $this->assert_null( UnregisteredUser::reloadUserContext($code));
-    $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
+    $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
 }
 
 sub verify_missingElements {
@@ -1099,8 +1099,8 @@ sub verify_missingElements {
     my @required = ("one","two","six");
 
 
-    $this->assert_deep_equals([TWiki::UI::Register::_missingElements(\@present, \@required)], ["six"]);
-    $this->assert_deep_equals( [TWiki::UI::Register::_missingElements(\@present, \@present)], []);
+    $this->assert_deep_equals([Foswiki::UI::Register::_missingElements(\@present, \@required)], ["six"]);
+    $this->assert_deep_equals( [Foswiki::UI::Register::_missingElements(\@present, \@present)], []);
 }
 
 sub verify_bulkRegister {
@@ -1116,7 +1116,7 @@ EOM
     my $regTopic = 'UnprocessedRegistrations2';
     
     my $logTopic = 'UnprocessedRegistrations2Log';
-    my $file = $TWiki::cfg{DataDir}.'/'.$this->{test_web}.'/'.$regTopic.'.txt';
+    my $file = $Foswiki::cfg{DataDir}.'/'.$this->{test_web}.'/'.$regTopic.'.txt';
     my $fh = new FileHandle;
     
     die "Can't write $file" unless ($fh->open(">$file"));
@@ -1137,13 +1137,13 @@ EOM
 
     $query->path_info( "/$this->{test_web}/$regTopic" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{SuperAdminGroup}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{SuperAdminGroup}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     $this->{twiki}->{topicName} = $regTopic;
     $this->{twiki}->{webName} = $this->{test_web};
     try {
-        $this->capture( \&TWiki::UI::Register::bulkRegister, $this->{twiki});
-    } catch TWiki::OopsException with {
+        $this->capture( \&Foswiki::UI::Register::bulkRegister, $this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert(0, $e->stringify()." UNEXPECTED");
 
@@ -1151,14 +1151,14 @@ EOM
         my $e = shift;
         $this->assert(0, $e->stringify);
 
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
 
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
+    $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
 }
 
 sub verify_buildRegistrationEmail {
@@ -1219,10 +1219,10 @@ sub verify_buildRegistrationEmail {
 
 
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin});
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin});
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
-    my $actual = TWiki::UI::Register::_buildConfirmationEmail
+    my $actual = Foswiki::UI::Register::_buildConfirmationEmail
        ($this->{twiki},
         \%data,
         "%FIRSTLASTNAME% - %WIKINAME% - %EMAILADDRESS%\n\n%FORMDATA%",0);
@@ -1240,7 +1240,7 @@ sub verify_buildRegistrationEmail {
     $this->assert($actual =~ /^\s*\*\s*Name:\s*$this->{new_user_fullname}$/,
                   $actual);
 
-    $this->assert_equals(0, scalar(@TWikiFnTestCase::mails));
+    $this->assert_equals(0, scalar(@FoswikiFnTestCase::mails));
 }
 
 
@@ -1261,8 +1261,8 @@ sub visible {
 
 sub verify_disabled_registration {
     my $this = shift;
-    $TWiki::cfg{Register}{EnableNewUserRegistration} = 0;
-    $TWiki::cfg{Register}{NeedVerification}  =  0;
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 0;
+    $Foswiki::cfg{Register}{NeedVerification}  =  0;
     my $query = new Unit::Request ({
                           'TopicName' => [
                                           'UserRegistration'
@@ -1295,12 +1295,12 @@ sub verify_disabled_registration {
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});    
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});    
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},
                                  $e->stringify());
@@ -1319,15 +1319,15 @@ sub verify_disabled_registration {
 # {Register}{AllowLoginName} = 0
 # {Register}{NeedVerification} = 0
 # {Register}{EnableNewUserRegistration} = 1
-# {LoginManager} = 'TWiki::LoginManager::TemplateLogin'
-# {PasswordManager} = 'TWiki::Users::HtPasswdUser'
+# {LoginManager} = 'Foswiki::LoginManager::TemplateLogin'
+# {PasswordManager} = 'Foswiki::Users::HtPasswdUser'
 sub test_3951 {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 0;
-    $TWiki::cfg{Register}{NeedVerification} = 0;
-    $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::TemplateLogin';
-    $TWiki::cfg{PasswordManager} = 'TWiki::Users::HtPasswdUser';
+    $Foswiki::cfg{Register}{AllowLoginName} = 0;
+    $Foswiki::cfg{Register}{NeedVerification} = 0;
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
+    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = new Unit::Request ({
                           'TopicName' => [
                                           'UserRegistration'
@@ -1357,19 +1357,19 @@ sub test_3951 {
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
         $this->assert_str_equals("thanks", $e->{def}, $e->stringify());
         my $encodedTestUserEmail =
-          TWiki::entityEncode($this->{new_user_email});
+          Foswiki::entityEncode($this->{new_user_email});
         $this->assert_matches(qr/$encodedTestUserEmail/, $e->stringify());
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -1383,11 +1383,11 @@ sub test_3951 {
 #  them to the mapping"
 sub test_4061 {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 0;
-    $TWiki::cfg{Register}{NeedVerification} = 0;
-    $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $TWiki::cfg{LoginManager} = 'TWiki::LoginManager::TemplateLogin';
-    $TWiki::cfg{PasswordManager} = 'TWiki::Users::HtPasswdUser';
+    $Foswiki::cfg{Register}{AllowLoginName} = 0;
+    $Foswiki::cfg{Register}{NeedVerification} = 0;
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
+    $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
+    $Foswiki::cfg{PasswordManager} = 'Foswiki::Users::HtPasswdUser';
     my $query = new Unit::Request ({
                           'TopicName' => [
                                           'UserRegistration'
@@ -1416,37 +1416,37 @@ sub test_4061 {
                          });
 
     # Make WikiUsers read-only
-    chmod(0444, "$TWiki::cfg{DataDir}/$this->{users_web}/$TWiki::cfg{UsersTopicName}.txt");
+    chmod(0444, "$Foswiki::cfg{DataDir}/$this->{users_web}/$Foswiki::cfg{UsersTopicName}.txt");
 
     $query->path_info( "/$this->{users_web}/UserRegistration" );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
-    $this->assert(open(F, "<", $TWiki::cfg{Htpasswd}{FileName}));
+    $this->assert(open(F, "<", $Foswiki::cfg{Htpasswd}{FileName}));
     local $/;
     my $before = <F>;
     close(F);
 
     try {
-        TWiki::UI::Register::register_cgi($this->{twiki});
-    } catch TWiki::OopsException with {
+        Foswiki::UI::Register::register_cgi($this->{twiki});
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template},$e->stringify());
         $this->assert_str_equals("problem_adding", $e->{def}, $e->stringify());
 
         # Verify that they have not been added to .htpasswd
-        $this->assert(open(F, "<", $TWiki::cfg{Htpasswd}{FileName}));
+        $this->assert(open(F, "<", $Foswiki::cfg{Htpasswd}{FileName}));
         local $/;
         my $stuff = <F>;
         close(F);
         $this->assert_str_equals($before, $stuff);
 
         # Verify they have no user topic
-        $this->assert(!TWiki::Func::topicExists(
+        $this->assert(!Foswiki::Func::topicExists(
             $this->{users_web}, $this->{new_user_wikiname}));
 
-    } catch TWiki::AccessControlException with {
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
     } catch Error::Simple with {
@@ -1454,7 +1454,7 @@ sub test_4061 {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     } finally {
-        chmod(0777, "$TWiki::cfg{DataDir}/$this->{users_web}/$TWiki::cfg{UsersTopicName}.txt");
+        chmod(0777, "$Foswiki::cfg{DataDir}/$this->{users_web}/$Foswiki::cfg{UsersTopicName}.txt");
     };
 }
 
@@ -1500,14 +1500,14 @@ sub verify_resetEmailOkay {
 
     $query->path_info( '/'.$this->{users_web}.'/WebHome' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki($this->{new_user_login}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki($this->{new_user_login}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
     try {
-        TWiki::UI::Register::changePassword($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::changePassword($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("email_changed", $e->{def}, $e->stringify());
@@ -1533,15 +1533,15 @@ sub verify_resetPassword_NoWikiUsersEntry {
     
     #Remove the WikiUsers entry - by deleting it :)
     $this->{twiki}->{store}->moveTopic(
-        $TWiki::cfg{UsersWebName}, $TWiki::cfg{UsersTopicName}, 
-        $TWiki::cfg{UsersWebName}, $TWiki::cfg{UsersTopicName}.'DELETED',
-        TWiki::Func::getCanonicalUserID($TWiki::cfg{AdminUserLogin}) );
+        $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName}, 
+        $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName}.'DELETED',
+        Foswiki::Func::getCanonicalUserID($Foswiki::cfg{AdminUserLogin}) );
     #force a reload to unload existing user caches, and then restart as guest
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki();
-    $TWiki::Plugins::SESSION = $this->{twiki}; 
+    $this->{twiki} = new Foswiki();
+    $Foswiki::Plugins::SESSION = $this->{twiki}; 
     
-    $this->assert(!TWiki::Func::topicExists($TWiki::cfg{UsersWebName}, $TWiki::cfg{UsersTopicName}));   
+    $this->assert(!Foswiki::Func::topicExists($Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName}));   
     
     my $cUID = $this->{twiki}->{users}->getCanonicalUserID($this->{new_user_login});
     $this->assert($this->{twiki}->{users}->userExists($cUID), " $cUID does not exist?");
@@ -1568,15 +1568,15 @@ sub verify_resetPassword_NoWikiUsersEntry {
 
     $query->path_info( '/'.$this->{users_web}.'/WebHome' );
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( $TWiki::cfg{DefaultUserLogin}, $query);
-    $this->{twiki}->net->setMailHandler(\&TWikiFnTestCase::sentMail);
+    $this->{twiki} = new Foswiki( $Foswiki::cfg{DefaultUserLogin}, $query);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
 
     try {
-        TWiki::UI::Register::resetPassword($this->{twiki});
-    } catch TWiki::AccessControlException with {
+        Foswiki::UI::Register::resetPassword($this->{twiki});
+    } catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert(0, $e->stringify);
-    } catch TWiki::OopsException with {
+    } catch Foswiki::OopsException with {
         my $e = shift;
         $this->assert_str_equals("attention", $e->{template}, $e->stringify());
         $this->assert_str_equals("reset_ok", $e->{def}, $e->stringify());
@@ -1585,9 +1585,9 @@ sub verify_resetPassword_NoWikiUsersEntry {
     } otherwise {
         $this->assert(0, "expected an oops redirect");
     };
-    $this->assert_equals(1, scalar(@TWikiFnTestCase::mails));
-    my $mess = $TWikiFnTestCase::mails[0];
-    $this->assert_matches(qr/From: $TWiki::cfg{WebMasterName} <$TWiki::cfg{WebMasterEmail}>/,$mess);
+    $this->assert_equals(1, scalar(@FoswikiFnTestCase::mails));
+    my $mess = $FoswikiFnTestCase::mails[0];
+    $this->assert_matches(qr/From: $Foswiki::cfg{WebMasterName} <$Foswiki::cfg{WebMasterEmail}>/,$mess);
     $this->assert_matches(qr/To: .*\b$this->{new_user_email}/,$mess);
 
     #lets make sure the password actually was reset

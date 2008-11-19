@@ -2,12 +2,12 @@ use strict;
 
 package ViewParamSectionTests;
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
 use strict;
 
-use TWiki;
-use TWiki::UI::View;
+use Foswiki;
+use Foswiki::UI::View;
 use Unit::Request;
 use Unit::Response;
 
@@ -24,7 +24,7 @@ sub set_up {
 
     $this->SUPER::set_up();
     my $query = new Unit::Request();
-    $twiki = TWiki->new( undef, $query );
+    $twiki = Foswiki->new( undef, $query );
     $this->{request}  = $query;
     $this->{response} = new Unit::Response();
 }
@@ -46,7 +46,7 @@ sub _viewSection {
     $this->{request}->path_info('TestCases/IncludeFixtures');
 
     $this->{request}->param('-name'=>'section','-value'=>$section);
-    my ($text,$result)  =  $this->capture( \&TWiki::UI::View::view, $twiki);
+    my ($text,$result)  =  $this->capture( \&Foswiki::UI::View::view, $twiki);
     $text =~ s/(.*?)\r?\n\r?\n//s;
 
     return ($text);

@@ -1,4 +1,4 @@
-# Contrib for Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Contrib for Foswiki Collaboration Platform, http://Foswiki.org/
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -11,7 +11,7 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package TWiki::Contrib::UnitTestContrib;
+package Foswiki::Contrib::UnitTestContrib;
 
 use strict;
 

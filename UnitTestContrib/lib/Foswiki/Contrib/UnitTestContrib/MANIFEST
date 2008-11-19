@@ -1,5 +1,5 @@
-lib/TWiki/Contrib/UnitTestContrib.pm 0644
-lib/TWiki/UI/Test.pm 0644
+lib/Foswiki/Contrib/UnitTestContrib.pm 0644
+lib/Foswiki/UI/Test.pm 0644
 lib/Unit/Eavesdrop.pm 0644
 lib/Unit/HTMLDiffer.pm 0644
 lib/Unit/Request.pm 0644
@@ -54,9 +54,9 @@ test/unit/SemiAutomaticTestCaseTests.pm 0644
 test/unit/StoreSmokeTests.pm 0644
 test/unit/StoreTests.pm 0644
 test/unit/TOCTests.pm 0644
-test/unit/TWikiFnTestCase.pm 0644
-test/unit/TWikiSuite.pm 0644
-test/unit/TWikiTestCase.pm 0644
+test/unit/FoswikiFnTestCase.pm 0644
+test/unit/FoswikiSuite.pm 0644
+test/unit/FoswikiTestCase.pm 0644
 test/unit/TemplatesTests.pm 0644
 test/unit/TimeTests.pm 0644
 test/unit/UploadScriptTests.pm 0644
@@ -64,6 +64,6 @@ test/unit/UTF8Tests.pm 0644
 test/unit/VariableTests.pm 0644
 test/unit/ViewParamSectionTests.pm 0755
 test/unit/ViewScriptTests.pm 0644
-pub/TWiki/UnitTestContrib/wikiringlogo20x20.png 0660
-pub/TWiki/UnitTestContrib/logo.gif 0660
-data/TWiki/UnitTestContrib.txt 0660
+pub/Foswiki/UnitTestContrib/wikiringlogo20x20.png 0660
+pub/Foswiki/UnitTestContrib/logo.gif 0660
+data/Foswiki/UnitTestContrib.txt 0660

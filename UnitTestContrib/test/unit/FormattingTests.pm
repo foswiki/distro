@@ -4,9 +4,9 @@ use strict;
 
 package FormattingTests;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 sub new {
@@ -27,13 +27,13 @@ sub set_up {
         'Underscore_topic', "BLEEGLE");
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{test_web},
-        $TWiki::cfg{HomeTopicName}, "BLEEGLE");
+        $Foswiki::cfg{HomeTopicName}, "BLEEGLE");
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{test_web},
         'Numeric1Wikiword', "BLEEGLE");
-    $TWiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
-    $TWiki::cfg{AntiSpam}{EmailPadding} = 'STUFFED';
-    $TWiki::cfg{AllowInlineScript} = 1;
+    $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
+    $Foswiki::cfg{AntiSpam}{EmailPadding} = 'STUFFED';
+    $Foswiki::cfg{AllowInlineScript} = 1;
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
@@ -66,11 +66,11 @@ ACTUAL
 sub test_simpleWikiword {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="twikiCurrentWebHomeLink twikiLink" href="$this->{sup}/$this->{test_web}/$TWiki::cfg{HomeTopicName}">$TWiki::cfg{HomeTopicName}</a>
+<a class="twikiCurrentWebHomeLink twikiLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-$TWiki::cfg{HomeTopicName}
+$Foswiki::cfg{HomeTopicName}
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -79,11 +79,11 @@ ACTUAL
 sub test_squabbedWikiword {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="twikiCurrentWebHomeLink twikiLink" href="$this->{sup}/$this->{test_web}/$TWiki::cfg{HomeTopicName}">$TWiki::cfg{HomeTopicName}</a>
+<a class="twikiCurrentWebHomeLink twikiLink" href="$this->{sup}/$this->{test_web}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$TWiki::cfg{HomeTopicName}]]
+[[$Foswiki::cfg{HomeTopicName}]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -92,11 +92,11 @@ ACTUAL
 sub test_squabbedWebWikiword {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="twikiLink" href="$this->{sup}/$TWiki::cfg{SystemWebName}/$TWiki::cfg{HomeTopicName}">$TWiki::cfg{SystemWebName}.$TWiki::cfg{HomeTopicName}</a>
+<a class="twikiLink" href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$TWiki::cfg{SystemWebName}.$TWiki::cfg{HomeTopicName}]]
+[[$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -105,11 +105,11 @@ ACTUAL
 sub test_squabbedWebWikiWordAltText {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="twikiLink" href="$this->{sup}/$TWiki::cfg{SystemWebName}/$TWiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
+<a class="twikiLink" href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$TWiki::cfg{SystemWebName}.$TWiki::cfg{HomeTopicName}][Alt TextAlt]]
+[[$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}][Alt TextAlt]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -118,11 +118,11 @@ ACTUAL
 sub test_squabbedUrlAltTextOldUndocumentedUse {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a href="$this->{sup}/$TWiki::cfg{SystemWebName}/$TWiki::cfg{HomeTopicName}" target="_top">Alt <nop>TextAlt</a>
+<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}" target="_top">Alt <nop>TextAlt</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[$this->{sup}/$TWiki::cfg{SystemWebName}/$TWiki::cfg{HomeTopicName} Alt TextAlt]]
+[[$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName} Alt TextAlt]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -130,11 +130,11 @@ ACTUAL
 sub test_escapedWikiWord {
     my $this = shift;
     my $expected = <<EXPECTED;
-<nop>$TWiki::cfg{HomeTopicName}
+<nop>$Foswiki::cfg{HomeTopicName}
 EXPECTED
 
     my $actual = <<ACTUAL;
-!$TWiki::cfg{HomeTopicName}
+!$Foswiki::cfg{HomeTopicName}
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -142,11 +142,11 @@ ACTUAL
 sub test_escapedSquab {
     my $this = shift;
     my $expected = <<EXPECTED;
-[<nop>[$TWiki::cfg{SystemWebName}.$TWiki::cfg{HomeTopicName}]]
+[<nop>[$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}]]
 EXPECTED
 
     my $actual = <<ACTUAL;
-![[$TWiki::cfg{SystemWebName}.$TWiki::cfg{HomeTopicName}]]
+![[$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -154,11 +154,11 @@ ACTUAL
 sub test_noppedSquab {
     my $this = shift;
     my $expected = <<EXPECTED;
-[<nop>[$this->{test_web}.$TWiki::cfg{HomeTopicName}]]
+[<nop>[$this->{test_web}.$Foswiki::cfg{HomeTopicName}]]
 EXPECTED
 
     my $actual = <<ACTUAL;
-[<nop>[$this->{test_web}.$TWiki::cfg{HomeTopicName}]]
+[<nop>[$this->{test_web}.$Foswiki::cfg{HomeTopicName}]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -298,7 +298,7 @@ sub test_wikiWordInsideSquabbedLink {
 EXPECTED
 
     my $actual = <<ACTUAL;
-[[system.WebRss Base]]
+[[System.WebRss Base]]
 ACTUAL
     $this->do_test($expected, $actual);
 }
@@ -534,7 +534,7 @@ ACTUAL
 
 sub test_Item3431a {
     my $this = shift;
-    $TWiki::cfg{AllowInlineScript} = 1;
+    $Foswiki::cfg{AllowInlineScript} = 1;
     my $expected = <<EXPECTED;
 <script>
 your words
@@ -548,7 +548,7 @@ your words
 ACTUAL
     $this->do_test($expected, $actual);
 
-    $TWiki::cfg{AllowInlineScript} = 0;
+    $Foswiki::cfg{AllowInlineScript} = 0;
     $expected = <<EXPECTED;
 <!-- <script> is not allowed on this site -->
 EXPECTED
@@ -580,7 +580,7 @@ ACTUAL
 
 sub test_mailWithoutMailto {
     my $this = shift;
-    $TWiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
     my $expected = <<EXPECTED;
 <a href="mailto:pitiful\@exampleSTUFFED.com">mailto:pitiful\@exampleSTUFFED.com</a>
 EXPECTED
@@ -593,7 +593,7 @@ ACTUAL
 
 sub test_protocols {
     my $this = shift;
-    $TWiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
     my %urls = (
         'file://fnurfle' => 0,
         'ftp://bleem@snot.grumph:flibble' => 0,
@@ -627,7 +627,7 @@ ACTUAL
     }
 
     # mailto URL in double squabs
-    $TWiki::cfg{AntiSpam}{HideUserDetails} = 0;
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 0;
     my $expected = <<EXPECTED;
 <a href="mailto:flip\@exampleSTUFFED.com">Oh smeg</a>
 EXPECTED
@@ -636,7 +636,7 @@ EXPECTED
 ACTUAL
     $this->do_test($expected, $actual);
 
-    $TWiki::cfg{AntiSpam}{HideUserDetails} = 1;
+    $Foswiki::cfg{AntiSpam}{HideUserDetails} = 1;
     $expected = <<EXPECTED;
 <a href="mailto:flip\@exampleSTUFFED.com">Oh smeg</a>
 EXPECTED
