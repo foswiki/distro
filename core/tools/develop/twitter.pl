@@ -6,10 +6,10 @@ use Net::Twitter;
 my $twit = Net::Twitter->new(
 		username=>"nextwiki", 
 		password=>"yo?udidwh#at",
-		clientname=>'Nextwiki'
+		clientname=>'Foswiki'
 	);
 
-my $cmd = '/usr/local/bin/svn log -r HEAD http://svn.nextwiki.org';
+my $cmd = '/usr/local/bin/svn log -r HEAD http://svn.foswiki.org';
 
 my $svnOutput = `$cmd`;
 my ($header, $info, $empty, $data) = split(/\n/, $svnOutput);

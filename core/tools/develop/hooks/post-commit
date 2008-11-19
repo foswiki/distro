@@ -6,18 +6,10 @@
 REPOS="$1"
 REV="$2"
 
-# These are done in a cron job to avoid problems with file ownerships
-#cd /home/develop/twikisvn/core
-#[ -f tools/develop/post-commit.pl ] && perl tools/develop/post-commit.pl "$REPOS" "$REV" DEVELOP
-#cd /home/twiki4/twikisvn/core
-#[ -f tools/develop/post-commit.pl ] && perl tools/develop/post-commit.pl "$REPOS" "$REV" TWikiRelease04x00
-
 cd $REPOS/hooks
 
 author=`/usr/local/bin/svnlook author -r $REV $REPOS`
-#./commit-email.pl --from develop@develop.twiki.org -s "[SVN] $author" "$REPOS" "$REV" sven-twiki@home.org.au
-#./commit-email.pl --from develop@develop.twiki.org -s "[SVN] $author" "$REPOS" "$REV" twiki-dev@lists.sourceforge.net
 
-./commit-email.pl --from svn@nextwiki.org -s "[SVN] $author" "$REPOS" "$REV" nextwiki-svn@lists.sourceforge.net
+./commit-email.pl --from svn@foswiki.org -s "[SVN] $author" "$REPOS" "$REV" nextwiki-svn@lists.sourceforge.net
 /home/svn/supportscripts/twitter.pl
 ./rssfeed.sh "$REPOS" "$REV" &

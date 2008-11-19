@@ -15,7 +15,7 @@ my $verbose = 0;
 my $releases;
 foreach my $release (
     split("\n",
-          `$svn ls --verbose http://svn.nextwiki.org/tags`)) {
+          `$svn ls --verbose http://svn.foswiki.org/tags`)) {
     if ($release =~ s/^\s*(\d+).*Release(\d\d)x(\d\d)x(\d\d)\/$//) {
         $releases->{0+$2}->{0+$3}->{0+$4} = $1;
     }
