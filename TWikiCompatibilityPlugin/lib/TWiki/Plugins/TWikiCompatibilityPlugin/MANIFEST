@@ -1,0 +1,4 @@
+# Release manifest for TWikiCompatibilityPlugin
+data/TWiki/TWikiCompatibilityPlugin.txt 0644 Documentation
+lib/TWiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
+

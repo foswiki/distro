@@ -1,0 +1,35 @@
+---+!! !TWikiCompatibilityPlugin
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = add TWiki personality to Foswiki
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+---++ Usage
+
+---++ Examples
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Plugin Info
+
+Many thanks to the following sponsors for supporting this work:
+   * Acknowledge any sponsors here
+
+|  Plugin Author(s): | |
+|  Copyright: | &copy; |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Plugin Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Plugin Home: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPlugin |
+|  Feedback: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPluginDev |
+|  Appraisal: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPluginAppraisal |
+
+__Related Topics:__ %SYSTEMWEB%.TWikiPlugins, %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
