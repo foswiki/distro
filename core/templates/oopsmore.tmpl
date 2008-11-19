@@ -34,6 +34,20 @@
 
 
 
+%TMPL:DEF{"copytopic"}%---+++ %MAKETEXT{"Copy topic"}%
+<form action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/">
+   * Copy %TOPIC% to new topic named: <br />
+        <input type="text" name="topic" value="%TOPIC%Copy" size="36">
+        <input type="hidden" name="onlynewtopic" value="on">
+        <input type="hidden" name="templatetopic" value="%TOPIC%">
+   * then
+        <input type="submit" class='twikiButton' value="Clone">, edit and save the new topic<br />
+        __Note:__ Topic text and form content, but excluding attachments is cloned
+</form>
+%TMPL:END%
+
+
+
 %TMPL:DEF{"backlinks"}%---++ %MAKETEXT{"Backlinks"}%
    * <b><a href="%SCRIPTURLPATH{"oops"}%/%WEB%/%TOPIC%?template=backlinksallwebs" title="%MAKETEXT{"Search all webs for topics that link to here"}%" accesskey="l">%MAKETEXT{"Find topics that link to [_1] ..." args="<nop>%TOPIC%"}%</a></b>,
      %MAKETEXT{"<em>in all public webs</em>"}%
@@ -119,6 +133,7 @@ table.twikiDiffOptions img {
 %TMPL:P{"revision"}%
 %TMPL:P{"settings"}%
 %TMPL:P{"delete"}%
+%TMPL:P{"copytopic"}%
 %TMPL:P{"rename"}%
 %TMPL:P{"setparent"}%
 %TMPL:P{"childtopics"}%
