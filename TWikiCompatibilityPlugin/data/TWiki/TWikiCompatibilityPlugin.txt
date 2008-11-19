@@ -11,6 +11,8 @@ One line description, required for extensions repository catalog.
 Automaticalle maps requests for legacy TWiki web topics to Foswiki free topics as per
 [[http://foswiki.org/Development/TopicNameMappingTable][TopicNameMappingTable]].
 
+Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings required.
+
 
 ---++ Installation Instructions
 

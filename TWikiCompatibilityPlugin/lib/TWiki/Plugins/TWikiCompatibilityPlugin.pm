@@ -107,6 +107,11 @@ sub earlyInitPlugin {
             $MainWebTopicNameConversion->{$TWiki::Plugins::SESSION->{topicName}};
     }
     
+    #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
+    #TODO: should we test for existance and other things?
+    TWiki::Func::setPreferencesValue('TWIKIWEB', 'SYSTEMWEB');
+    TWiki::Func::setPreferencesValue('MAINWEB', 'USERSWEB');
+    
     return;
 }
 
