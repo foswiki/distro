@@ -2,16 +2,16 @@ use strict;
 
 package TopicUserMappingTests;
 
-# Some basic tests for TWiki::Users::TopicUserMapping
+# Some basic tests for Foswiki::Users::TopicUserMapping
 #
 # The tests are performed using the APIs published by the facade class,
-# TWiki:Users, not the actual TWiki::Users::TopicUserMapping
+# TWiki:Users, not the actual Foswiki::Users::TopicUserMapping
 
 use base qw(TWikiTestCase);
 
-use TWiki;
-use TWiki::Users;
-use TWiki::Users::TopicUserMapping;
+use Foswiki;
+use Foswiki::Users;
+use Foswiki::Users::TopicUserMapping;
 use Error qw( :try );
 
 my $twiki;
@@ -29,7 +29,7 @@ sub fixture_groups {
 
 sub NormalTopicUserMapping {
     my $this = shift;
-    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
+    $Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
 }
 
@@ -37,7 +37,7 @@ sub NamedTopicUserMapping {
     my $this = shift;
 
     # Set a mapping ID for purposes of testing named mappings
-    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
+    $Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
 }
 
@@ -52,24 +52,24 @@ sub set_up_for_verify {
 
     $this->SUPER::set_up();
 
-    my $original = $TWiki::cfg{SystemWebName};
-    $TWiki::cfg{Htpasswd}{FileName}   = "$TWiki::cfg{TempfileDir}/junkhtpasswd";
-    $TWiki::cfg{UsersWebName}         = $testUsersWeb;
-    $TWiki::cfg{SystemWebName}        = $testSysWeb;
-    $TWiki::cfg{LocalSitePreferences} = "$testUsersWeb.SitePreferences";
-    $TWiki::cfg{UserMappingManager}   = 'TWiki::Users::TopicUserMapping';
-    $TWiki::cfg{Register}{AllowLoginName}            = 1;
-    $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
+    my $original = $Foswiki::cfg{SystemWebName};
+    $Foswiki::cfg{Htpasswd}{FileName}   = "$Foswiki::cfg{TempfileDir}/junkhtpasswd";
+    $Foswiki::cfg{UsersWebName}         = $testUsersWeb;
+    $Foswiki::cfg{SystemWebName}        = $testSysWeb;
+    $Foswiki::cfg{LocalSitePreferences} = "$testUsersWeb.SitePreferences";
+    $Foswiki::cfg{UserMappingManager}   = 'Foswiki::Users::TopicUserMapping';
+    $Foswiki::cfg{Register}{AllowLoginName}            = 1;
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
 
     try {
-        $twiki = new TWiki( $TWiki::cfg{AdminUserLogin} );
+        $twiki = new Foswiki( $Foswiki::cfg{AdminUserLogin} );
         $twiki->{store}->createWeb( $twiki->{user}, $testUsersWeb );
 
         # the group is recursive to force a recursion block
         $twiki->{store}->saveTopic(
             $twiki->{user}, $testUsersWeb,
-            $TWiki::cfg{SuperAdminGroup},
-            "   * Set GROUP = $TWiki::cfg{SuperAdminGroup}\n"
+            $Foswiki::cfg{SuperAdminGroup},
+            "   * Set GROUP = $Foswiki::cfg{SuperAdminGroup}\n"
         );
 
         $twiki->{store}->createWeb( $twiki->{user}, $testSysWeb, $original );
@@ -78,13 +78,13 @@ sub set_up_for_verify {
 
         $twiki->{store}->copyTopic(
             $twiki->{user},                  $original,
-            $TWiki::cfg{SitePrefsTopicName}, $testSysWeb,
-            $TWiki::cfg{SitePrefsTopicName}
+            $Foswiki::cfg{SitePrefsTopicName}, $testSysWeb,
+            $Foswiki::cfg{SitePrefsTopicName}
         );
 
         $testUser = $this->createFakeUser($twiki);
     }
-    catch TWiki::AccessControlException with {
+    catch Foswiki::AccessControlException with {
         my $e = shift;
         $this->assert( 0, $e->stringify() );
     }
@@ -99,7 +99,7 @@ sub tear_down {
     $this->removeWebFixture( $twiki, $testUsersWeb );
     $this->removeWebFixture( $twiki, $testSysWeb );
     $this->removeWebFixture( $twiki, $testNormalWeb );
-    unlink $TWiki::cfg{Htpasswd}{FileName};
+    unlink $Foswiki::cfg{Htpasswd}{FileName};
     $twiki->finish();
     $this->SUPER::tear_down();
 }
@@ -146,24 +146,24 @@ THIS
 
 sub createFakeUser {
     my ( $this, $twiki, $text, $name ) = @_;
-    $this->assert( $twiki->{store}->webExists( $TWiki::cfg{UsersWebName} ) );
+    $this->assert( $twiki->{store}->webExists( $Foswiki::cfg{UsersWebName} ) );
     $name ||= '';
     my $base = "TemporaryTestUser" . $name;
     my $i    = 0;
     while (
-        $twiki->{store}->topicExists( $TWiki::cfg{UsersWebName}, $base . $i ) )
+        $twiki->{store}->topicExists( $Foswiki::cfg{UsersWebName}, $base . $i ) )
     {
         $i++;
     }
     $text ||= '';
-    my $meta = new TWiki::Meta( $twiki, $TWiki::cfg{UsersWebName}, $base . $i );
+    my $meta = new Foswiki::Meta( $twiki, $Foswiki::cfg{UsersWebName}, $base . $i );
     $meta->put(
         "TOPICPARENT",
         {
-            name => $TWiki::cfg{UsersWebName} . '.' . $TWiki::cfg{HomeTopicName}
+            name => $Foswiki::cfg{UsersWebName} . '.' . $Foswiki::cfg{HomeTopicName}
         }
     );
-    $twiki->{store}->saveTopic( $twiki->{user}, $TWiki::cfg{UsersWebName},
+    $twiki->{store}->saveTopic( $twiki->{user}, $Foswiki::cfg{UsersWebName},
         $base . $i, $text, $meta );
     push( @{ $this->{fake_users} }, $base . $i );
     return $base . $i;
@@ -172,8 +172,8 @@ sub createFakeUser {
 sub verify_AddUsers {
     my $this = shift;
     my $ttpath =
-"$TWiki::cfg{DataDir}/$TWiki::cfg{UsersWebName}/$TWiki::cfg{UsersTopicName}.txt";
-    my $me = $TWiki::cfg{Register}{RegistrationAgentWikiName};
+"$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
+    my $me = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
 
     open( F, ">$ttpath" ) || $this->assert( 0, "open $ttpath failed" );
     print F $initial;
@@ -203,9 +203,9 @@ sub verify_AddUsers {
 sub verify_Load {
     my $this = shift;
 
-    my $me = $TWiki::cfg{Register}{RegistrationAgentWikiName};
+    my $me = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
     $ttpath =
-"$TWiki::cfg{DataDir}/$TWiki::cfg{UsersWebName}/$TWiki::cfg{UsersTopicName}.txt";
+"$Foswiki::cfg{DataDir}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{UsersTopicName}.txt";
 
     open( F, ">$ttpath" ) || $this->assert( 0, "open $ttpath failed" );
     print F $initial;
@@ -223,7 +223,7 @@ sub verify_Load {
 
     # find a nonexistent user to force a cache read
     $twiki->finish();
-    $twiki = new TWiki();
+    $twiki = new Foswiki();
     my $n = $twiki->{users}->{mapping}->login2cUID("auser");
     $this->assert_str_equals( $n,          $auser_id );
     $this->assert_str_equals( "AaronUser", $twiki->{users}->getWikiName($n) );
@@ -254,7 +254,7 @@ sub verify_Load {
 
 sub groupFix {
     my $this = shift;
-    my $me   = $TWiki::cfg{Register}{RegistrationAgentWikiName};
+    my $me   = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
     $twiki->{users}->{mapping}->addUser( "auser", "AaronUser",    $me );
     $twiki->{users}->{mapping}->addUser( "guser", "GeorgeUser",   $me );
     $twiki->{users}->{mapping}->addUser( "zuser", "ZebediahUser", $me );

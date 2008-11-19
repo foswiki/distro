@@ -50,6 +50,11 @@ use Assert;
 use Error qw( :try );
 use CGI;    # Always required to get html generation tags;
 
+BEGIN { $Package::Alias::BRAVE = 1 }
+use Package::Alias
+  'TWiki::Plugins' => 'Foswiki::Plugins',
+  'TWiki::Func' => 'Foswiki::Func';
+
 use Foswiki::Response;
 use Foswiki::Request;
 

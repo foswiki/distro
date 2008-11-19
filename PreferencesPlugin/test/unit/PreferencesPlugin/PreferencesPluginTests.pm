@@ -7,14 +7,14 @@ use base qw(TWikiFnTestCase);
 use strict;
 use Unit::Request;
 use Unit::Response;
-use TWiki;
+use Foswiki;
 
 sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
 
-    $TWiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
 }
 
 sub test_edit_simple {
@@ -27,13 +27,13 @@ sub test_edit_simple {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    my $twiki = new TWiki(undef, $query);
-    $TWiki::Plugins::SESSION = $twiki;
-    my $result = TWiki::Func::expandCommonVariables(
+    my $twiki = new Foswiki(undef, $query);
+    $Foswiki::Plugins::SESSION = $twiki;
+    my $result = Foswiki::Func::expandCommonVariables(
         $text, $this->{test_topic}, $this->{test_web}, undef);
     $this->assert($result =~ s/^.*(<form [^<]*name=[\"\']editpreferences[\"\'])/$1/si, $result);
     $this->assert($result =~ s/(<\/form>).*$/$1/);
-    my $viewUrl = TWiki::Func::getScriptUrl(
+    my $viewUrl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, 'viewauth');
     $this->assert_html_equals(<<HTML, $result);
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
@@ -63,11 +63,11 @@ Normal text outside form
    * Set HIDDENSETTING = hidden
 -->
 HERE
-    my $twiki = new TWiki(undef, $query);
-    $TWiki::Plugins::SESSION = $twiki;
-    my $result = TWiki::Func::expandCommonVariables(
+    my $twiki = new Foswiki(undef, $query);
+    $Foswiki::Plugins::SESSION = $twiki;
+    my $result = Foswiki::Func::expandCommonVariables(
         $text, $this->{test_topic}, $this->{test_web}, undef);
-    my $viewUrl = TWiki::Func::getScriptUrl(
+    my $viewUrl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, 'viewauth');
     $this->assert_html_equals(<<HTML, $result);
 <!-- Comment should be outside form -->
@@ -96,26 +96,26 @@ sub test_save {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic},
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic},
                             undef, $input );
 
-    my $twiki = new TWiki(undef, $query);
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki(undef, $query);
+    $Foswiki::Plugins::SESSION = $twiki;
 
     # This will attempt to redirect, so must capture
     my ($result, $ecode) = $this->capture(
         sub {
             $twiki->{response}->body(
-                TWiki::Func::expandCommonVariables(
+                Foswiki::Func::expandCommonVariables(
                 $input, $this->{test_topic}, $this->{test_web}, undef)
             );
         });
     $this->assert($result =~ /Status: 302/);
-    my $viewUrl = TWiki::Func::getScriptUrl(
+    my $viewUrl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, 'view');
     $this->assert_matches(qr/Location: $viewUrl\n/s, $result);
     my ($meta, $text) =
-      TWiki::Func::readTopic($this->{test_web}, $this->{test_topic});
+      Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
     $this->assert_str_equals(<<HERE, $text);
    * Set FLEEGLE = flurb
 %EDITPREFERENCES%
@@ -130,13 +130,13 @@ sub test_view {
    * Set FLEEGLE = floon
 %EDITPREFERENCES%
 HERE
-    my $twiki = new TWiki();
-    $TWiki::Plugins::SESSION = $twiki;
-    my $result = TWiki::Func::expandCommonVariables(
+    my $twiki = new Foswiki();
+    $Foswiki::Plugins::SESSION = $twiki;
+    my $result = Foswiki::Func::expandCommonVariables(
         $text, $this->{test_topic}, $this->{test_web}, undef);
     $this->assert($result =~ s/^.*(<form [^<]*name=[\"\']editpreferences[\"\'])/$1/si, $result);
     $this->assert($result =~ s/(<\/form>).*$/$1/);
-    my $viewUrl = TWiki::Func::getScriptUrl(
+    my $viewUrl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, 'viewauth');
     $this->assert_html_equals(<<HTML, $result);
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">

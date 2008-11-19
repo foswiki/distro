@@ -1,0 +1,13 @@
+data/System/TwistyPlugin.txt 0644
+lib/Foswiki/Plugins/TwistyPlugin.pm 0444
+
+templates/twistyplugin.tmpl 0444
+
+
+templates/twistyplugin.dojo.tmpl 0444
+pub/System/TwistyPlugin/twistie.dojo.js 0644
+
+
+templates/twistyplugin.jquery.tmpl 0444
+pub/System/TwistyPlugin/twistie.jquery.css 0644
+pub/System/TwistyPlugin/twistie.jquery.js 0644

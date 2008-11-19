@@ -1,5 +1,5 @@
 # Copyright (C) 2005 ILOG http://www.ilog.fr
-# and TWiki Contributors. All Rights Reserved. TWiki Contributors
+# and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
@@ -24,8 +24,8 @@ use strict;
 
 use Unit::Request;
 use Unit::Response;
-use TWiki;
-use TWiki::Plugins::WysiwygPlugin;
+use Foswiki;
+use Foswiki::Plugins::WysiwygPlugin;
 
 use Carp;
 
@@ -39,12 +39,12 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $TWiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
     $WC::encoding = undef;
     $WC::safe_entities = undef;
-    $TWiki::cfg{Site}{CharSet} = undef;
-    $TWiki::cfg{Site}{Locale} = undef;
-    $TWiki::cfg{Site}{UseLocale} = 0;
+    $Foswiki::cfg{Site}{CharSet} = undef;
+    $Foswiki::cfg{Site}{Locale} = undef;
+    $Foswiki::cfg{Site}{UseLocale} = 0;
 }
 
 sub tear_down {
@@ -70,7 +70,7 @@ sub anal {
 sub save_test {
     my ($this, $charset, $firstchar, $lastchar) = @_;
 
-    $TWiki::cfg{Site}{CharSet} = $charset;
+    $Foswiki::cfg{Site}{CharSet} = $charset;
 
     my @test;
     for (my $i = $firstchar; $i <= $lastchar; $i++) {
@@ -87,17 +87,17 @@ sub save_test {
     $query->path_info("/$this->{test_web}/WysiwygPluginTest" );
     $query->param(text => $t);
 
-    $TWiki::Plugins::SESSION = new TWiki('guest', $query );
+    $Foswiki::Plugins::SESSION = new Foswiki('guest', $query );
 	# charset definition affects output, so it is a response method and
 	# can only be adjusted after creating session object.
-	$TWiki::Plugins::SESSION->{response}->charset($charset) if $charset;
+	$Foswiki::Plugins::SESSION->{response}->charset($charset) if $charset;
 
-    require TWiki::UI::Save;
+    require Foswiki::UI::Save;
     my ($dummy, $result) =
-      $this->capture( \&TWiki::UI::Save::save, $TWiki::Plugins::SESSION);
+      $this->capture( \&Foswiki::UI::Save::save, $Foswiki::Plugins::SESSION);
 
     $this->assert(!$result, $result);
-    my ($meta, $out) = TWiki::Func::readTopic(
+    my ($meta, $out) = Foswiki::Func::readTopic(
         $this->{test_web}, 'WysiwygPluginTest');
 
     $out =~ s/\s*$//s;
@@ -109,7 +109,7 @@ sub TML2HTML_test {
     my ($this, $charset, $firstchar, $lastchar) = @_;
 
     # Is this enough? Regexes are inited before we get here, aren't they?
-    $TWiki::cfg{Site}{CharSet} = $charset;
+    $Foswiki::cfg{Site}{CharSet} = $charset;
 
     my @test;
     for (my $i = $firstchar; $i <= $lastchar; $i++) {
@@ -122,11 +122,11 @@ sub TML2HTML_test {
         'text' => [ Encode::encode_utf8($text) ],
     });
 
-    my $twiki = new TWiki('guest', $query );
+    my $twiki = new Foswiki('guest', $query );
 	$twiki->{response}->charset($charset) if $charset;
 
     my ($out, $result) = $this->capture(
-        \&TWiki::Plugins::WysiwygPlugin::_restTML2HTML,
+        \&Foswiki::Plugins::WysiwygPlugin::_restTML2HTML,
         $twiki, undef, undef, $twiki->{response});
 
     $this->assert(!$result, $result);
@@ -136,11 +136,11 @@ sub TML2HTML_test {
 
     $out = Encode::decode_utf8($out);
 
-    my $id = "<!--$TWiki::Plugins::WysiwygPlugin::SECRET_ID-->";
+    my $id = "<!--$Foswiki::Plugins::WysiwygPlugin::SECRET_ID-->";
     $this->assert($out =~ s/^\s*$id<p>\s*//s, anal($out));
     $out =~ s/\s*<\/p>\s*$//s;
 
-    require TWiki::Plugins::WysiwygPlugin::Constants;
+    require Foswiki::Plugins::WysiwygPlugin::Constants;
     WC::mapUnicode2HighBit($out);
 
     $this->assert($text eq $out, "'".anal($out)."' !=\n'".anal($text)."'");
@@ -150,7 +150,7 @@ sub HTML2TML_test {
     my ($this, $charset, $firstchar, $lastchar) = @_;
 
     # Is this enough? Regexes are inited before we get here, aren't they?
-    $TWiki::cfg{Site}{CharSet} = $charset;
+    $Foswiki::cfg{Site}{CharSet} = $charset;
 
     my @test;
     for (my $i = $firstchar; $i <= $lastchar; $i++) {
@@ -163,11 +163,11 @@ sub HTML2TML_test {
         'text' => [ Encode::encode_utf8($text) ],
     });
 
-    my $twiki = new TWiki('guest', $query );
+    my $twiki = new Foswiki('guest', $query );
 	$twiki->{response}->charset($charset) if $charset;
 
     my ($out, $result) = $this->capture(
-        \&TWiki::Plugins::WysiwygPlugin::_restHTML2TML,
+        \&Foswiki::Plugins::WysiwygPlugin::_restHTML2TML,
         $twiki, undef, undef, $twiki->{response});
 
     $this->assert(!$result, $result);
@@ -178,7 +178,7 @@ sub HTML2TML_test {
 
     $out = Encode::decode_utf8($out);
 
-    require TWiki::Plugins::WysiwygPlugin::Constants;
+    require Foswiki::Plugins::WysiwygPlugin::Constants;
     WC::mapUnicode2HighBit($out);
 
     $out =~ s/\s*$//s;

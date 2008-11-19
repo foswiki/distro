@@ -1,5 +1,5 @@
 # Copyright (C) 2005 ILOG http://www.ilog.fr
-# and TWiki Contributors. All Rights Reserved. TWiki Contributors
+# and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
@@ -29,9 +29,9 @@ use base qw(TWikiTestCase);
 
 use strict;
 
-require TWiki::Plugins::WysiwygPlugin;
-require TWiki::Plugins::WysiwygPlugin::TML2HTML;
-require TWiki::Plugins::WysiwygPlugin::HTML2TML;
+require Foswiki::Plugins::WysiwygPlugin;
+require Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+require Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
 # Bits for test type
                         # Fields in test records:
@@ -1711,7 +1711,7 @@ sub gen_file_tests {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    $TWiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
 
     my $query;
     eval {
@@ -1723,8 +1723,8 @@ sub set_up {
         $query = new CGI("");
     }
     $query->path_info("/Current/TestTopic");
-    $this->{twiki} = new TWiki(undef, $query);
-    $TWiki::Plugins::SESSION = $this->{twiki};
+    $this->{twiki} = new Foswiki(undef, $query);
+    $Foswiki::Plugins::SESSION = $this->{twiki};
 }
 
 use HTML::Diff;
@@ -1745,13 +1745,13 @@ sub compareTML_HTML {
     my $finaltml = $args->{finaltml}||''; $finaltml =~ s/%!page!%/$page/g;
     my $tml = $args->{tml}||''; $tml =~ s/%!page!%/$page/g;
 
-    my $txer = new TWiki::Plugins::WysiwygPlugin::TML2HTML();
+    my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     my $tx = $txer->convert(
         $tml,
         {
             web => 'Current', topic => 'TestTopic',
-            getViewUrl => \&TWiki::Plugins::WysiwygPlugin::getViewUrl,
-            expandVarsInURL => \&TWiki::Plugins::WysiwygPlugin::expandVarsInURL,
+            getViewUrl => \&Foswiki::Plugins::WysiwygPlugin::getViewUrl,
+            expandVarsInURL => \&Foswiki::Plugins::WysiwygPlugin::expandVarsInURL,
         });
 
     $this->assert_html_equals($html, $tx);
@@ -1765,22 +1765,22 @@ sub compareRoundTrip {
     my $tml = $args->{tml}||'';
     $tml =~ s/%!page!%/$page/g;
 
-    my $txer = new TWiki::Plugins::WysiwygPlugin::TML2HTML();
+    my $txer = new Foswiki::Plugins::WysiwygPlugin::TML2HTML();
     my $html = $txer->convert(
         $tml,
         {
             web => 'Current', topic => 'TestTopic',
-            getViewUrl => \&TWiki::Plugins::WysiwygPlugin::getViewUrl,
-            expandVarsInURL => \&TWiki::Plugins::WysiwygPlugin::expandVarsInURL,
+            getViewUrl => \&Foswiki::Plugins::WysiwygPlugin::getViewUrl,
+            expandVarsInURL => \&Foswiki::Plugins::WysiwygPlugin::expandVarsInURL,
         });
 
-    $txer = new TWiki::Plugins::WysiwygPlugin::HTML2TML();
+    $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     my $tx = $txer->convert(
         $html,
         {
             web => 'Current', topic => 'TestTopic',
             convertImage => \&convertImage,
-            rewriteURL => \&TWiki::Plugins::WysiwygPlugin::postConvertURL,
+            rewriteURL => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
         });
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
@@ -1799,13 +1799,13 @@ sub compareHTML_TML {
     my $finaltml = $args->{finaltml} || $tml;
     $finaltml =~ s/%!page!%/$page/g;
 
-    my $txer = new TWiki::Plugins::WysiwygPlugin::HTML2TML();
+    my $txer = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
     my $tx = $txer->convert(
         $html,
         {
             web => 'Current', topic => 'TestTopic',
             convertImage => \&convertImage,
-            rewriteURL => \&TWiki::Plugins::WysiwygPlugin::postConvertURL,
+            rewriteURL => \&Foswiki::Plugins::WysiwygPlugin::postConvertURL,
         });
     $this->_assert_tml_equals($finaltml, $tx, $args->{name});
 }

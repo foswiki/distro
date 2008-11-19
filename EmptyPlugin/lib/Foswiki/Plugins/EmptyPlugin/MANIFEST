@@ -1,0 +1,3 @@
+data/System/EmptyPlugin.txt 0644 Plugin doc page
+lib/Foswiki/Plugins/EmptyPlugin.pm 0444 Plugin Perl module
+data/Sandbox/PluginTestEmptyPlugin.txt 0644 Plugin examples

@@ -6,7 +6,7 @@ package TwistyPluginTests;
 
 use base qw( TWikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTwistyFormattingTestWeb';
 
@@ -118,7 +118,7 @@ RESULT
 
 sub test_TWISTY_with_icons {
     my $this = shift;
-    my $pubUrlTWikiWeb = TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlTWikiWeb = Foswiki::Func::getPubUrlPath() . '/TWiki';
 
     my $source = <<SOURCE;
 %TWISTY{
@@ -204,7 +204,7 @@ RESULT
 
 sub test_TWISTY_escaped_variable {
     my $this = shift;
-    my $pubUrlTWikiWeb = TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlTWikiWeb = Foswiki::Func::getPubUrlPath() . '/TWiki';
 
     my $source = <<SOURCE;
 %TWISTY{link="\$percntY\$percnt"}%content%ENDTWISTY%

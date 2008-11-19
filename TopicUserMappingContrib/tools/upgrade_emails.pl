@@ -16,12 +16,12 @@ BEGIN {
     require 'setlib.cfg';
 };
 
-use TWiki;
-use TWiki::Users::TopicUserMapping; # required to get email addresses
+use Foswiki;
+use Foswiki::Users::TopicUserMapping; # required to get email addresses
 
-my $twiki = new TWiki();
+my $twiki = new Foswiki();
 
-my $admin_email = $TWiki::cfg{WebMasterEmail} || 'webmaster@example.com';
+my $admin_email = $Foswiki::cfg{WebMasterEmail} || 'webmaster@example.com';
 $/ = "\n";
 
 print <<HERE;
@@ -40,13 +40,13 @@ while (1) {
 
 my ($meta, $text) =
   $twiki->{store}->readTopic(
-      undef, $TWiki::cfg{UsersWebName}, $TWiki::cfg{UsersTopicName} );
+      undef, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
 
 my $users = $twiki->{users};
 
 foreach my $line ( split( /\r?\n/, $text )) {
-    if( $line =~ /^\s*\* ($TWiki::regex{webNameRegex}\.)?(\w+)\s*(?:-\s*(\S+)\s*)?-\s*\d+ \w+ \d+\s*$/o ) {
-        my $web = $1 || $TWiki::cfg{UsersWebName};
+    if( $line =~ /^\s*\* ($Foswiki::regex{webNameRegex}\.)?(\w+)\s*(?:-\s*(\S+)\s*)?-\s*\d+ \w+ \d+\s*$/o ) {
+        my $web = $1 || $Foswiki::cfg{UsersWebName};
         my $wn = $2 || '';	# WikiName
         my $un = $3 || $wn;	# userid
         my $id = ($un eq $wn) ? $wn : "$un:$wn";
@@ -61,7 +61,7 @@ foreach my $line ( split( /\r?\n/, $text )) {
                     print "Already have an address for $id\n";
                 } else {
                     # Get emails *from the TWiki user mapping manager*
-                    @em = TWiki::Users::TopicUserMapping::mapper_getEmails(
+                    @em = Foswiki::Users::TopicUserMapping::mapper_getEmails(
                         $twiki, $cUID);
                     if( scalar( @em )) {
                         print "Secreting $id: ",join(';',@em),"\n";

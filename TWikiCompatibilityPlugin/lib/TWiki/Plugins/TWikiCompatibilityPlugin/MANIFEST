@@ -2,4 +2,5 @@
 data/TWiki/TWikiCompatibilityPlugin.txt 0644 Documentation
 lib/TWiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
 lib/TWiki/Plugins/TWikiCompatibilityPlugin/Configu.spec configuration defaults
-
+lib/TWiki/Plugins.pm 0644 Perl module
+lib/TWiki/Func.pm 0644 Perl module

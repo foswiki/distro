@@ -1,0 +1,14 @@
+lib/Foswiki/Plugins/WysiwygPlugin/Constants.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/WC.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Base.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Leaf.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/HTML2TML.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin.pm 0444 Perl module
+lib/Foswiki/Plugins/WysiwygPlugin/TML2HTML.pm 0444 Perl module
+data/System/WysiwygPlugin.txt 0644 Documentation and settings
+data/System/WysiwygPluginSettings.txt 0644 Documentation and settings
+data/System/WysiwygPluginTopicLister.txt 0644 Special AJAX topic
+tools/html2tml.pl 0555 Stand-alone convertor script
+tools/tml2html.pl 0555 Stand-alone convertor script
+pub/System/WysiwygPlugin/wikiringlogo20x20.png 0660

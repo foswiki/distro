@@ -7,10 +7,10 @@ use base qw(TWikiFnTestCase);
 use strict;
 use Unit::Request;
 use Unit::Response;
-use TWiki;
-use TWiki::UI::Save;
-use TWiki::Plugins::CommentPlugin;
-use TWiki::Plugins::CommentPlugin::Comment;
+use Foswiki;
+use Foswiki::UI::Save;
+use Foswiki::Plugins::CommentPlugin;
+use Foswiki::Plugins::CommentPlugin::Comment;
 use CGI;
 
 # Set up the test fixture
@@ -33,7 +33,7 @@ sub tear_down {
 
 sub writeTopic {
     my( $this, $web, $topic, $text ) = @_;
-    my $meta = new TWiki::Meta($this->{twiki}, $web, $topic);
+    my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $web, $topic, $text, $meta );
 }
@@ -68,7 +68,7 @@ sub inputTest {
         $sattrs .= '"';
     }
 
-    my $url = "$TWiki::cfg{DefaultUrlHost}$TWiki::cfg{ScriptUrlPath}/save$TWiki::cfg{ScriptSuffix}/$web/$topic";
+    my $url = "$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/save$Foswiki::cfg{ScriptSuffix}/$web/$topic";
 
     if ( $location ) {
         $sattrs .= ' location="'.$location.'"';
@@ -102,7 +102,7 @@ HERE
     $this->writeTopic($web, $topic, $sample);
     my $pidx = $eidx;
     my $html =
-      TWiki::Plugins::CommentPlugin::Comment::_handleInput(
+      Foswiki::Plugins::CommentPlugin::Comment::_handleInput(
           $sattrs,
           $this->{test_web},
           $this->{test_topic},
@@ -195,13 +195,13 @@ HERE
         $query->param(-name=>'comment_index', -value=>$eidx);
     }
 
-    my $session = new TWiki( $TWiki::cfg{DefaultUserLoginName}, $query);
+    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query);
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&TWiki::UI::Save::save, $session );
+    $this->capture(\&Foswiki::UI::Save::save, $session );
 
-    $text = TWiki::Func::readTopicText($web, $topic);
+    $text = Foswiki::Func::readTopicText($web, $topic);
     $this->assert_matches(qr/$comm/, $text, "$web.$topic: $text");
 
     my $refexpr;
@@ -277,7 +277,7 @@ sub test_reverseCompat {
 
     my $pidx = 0;
     my $html =
-      TWiki::Plugins::CommentPlugin::Comment::_handleInput
+      Foswiki::Plugins::CommentPlugin::Comment::_handleInput
           ("rows=99 cols=104 mode=after button=HoHo id=sausage",,
            $this->{test_topic},
            $this->{test_web},
@@ -295,7 +295,7 @@ sub test_locationOverridesAnchor {
     my $this = shift;
     my $pidx = 0;
     my $html =
-      TWiki::Plugins::CommentPlugin::Comment::_handleInput
+      Foswiki::Plugins::CommentPlugin::Comment::_handleInput
           ("target=\"$this->{test_web}.ATopic#AAnchor\" location=\"AnRE\"",
            $this->{test_topic},
            $this->{test_web},
@@ -317,7 +317,7 @@ HERE
     $this->writeTopic($this->{test_web}, $this->{test_topic}, $sample);
     my $pidx = 0;
     my $html =
-      TWiki::Plugins::CommentPlugin::Comment::_handleInput(
+      Foswiki::Plugins::CommentPlugin::Comment::_handleInput(
           'nopost="on"',
           $this->{test_web},
           $this->{test_topic},
@@ -338,13 +338,13 @@ HERE
                         });
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = new TWiki( $TWiki::cfg{DefaultUserLoginName}, $query);
+    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query);
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&TWiki::UI::Save::save, $session );
+    $this->capture(\&Foswiki::UI::Save::save, $session );
 
-    $text = TWiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
+    $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
     $this->assert_str_equals($sample, $text);
@@ -361,7 +361,7 @@ HERE
     $this->writeTopic($this->{test_web}, $this->{test_topic}, $sample);
     my $pidx = 99;
     my $html =
-      TWiki::Plugins::CommentPlugin::Comment::_handleInput(
+      Foswiki::Plugins::CommentPlugin::Comment::_handleInput(
           'remove="on"',
           $this->{test_web},
           $this->{test_topic},
@@ -383,13 +383,13 @@ HERE
                         });
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    my $session = new TWiki( $TWiki::cfg{DefaultUserLoginName}, $query);
+    my $session = new Foswiki( $Foswiki::cfg{DefaultUserLoginName}, $query);
     my $text = "Ignore this text";
 
     # invoke the save handler
-    $this->capture(\&TWiki::UI::Save::save, $session );
+    $this->capture(\&Foswiki::UI::Save::save, $session );
 
-    $text = TWiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
+    $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
     $this->assert_str_equals(<<HERE,
@@ -410,7 +410,7 @@ HERE
     $this->writeTopic($this->{test_web}, $this->{test_topic}, $sample);
     my $pidx = 99;
     my $html =
-      TWiki::Plugins::CommentPlugin::Comment::_handleInput(
+      Foswiki::Plugins::CommentPlugin::Comment::_handleInput(
           'default="wibble"',
           $this->{test_web},
           $this->{test_topic},

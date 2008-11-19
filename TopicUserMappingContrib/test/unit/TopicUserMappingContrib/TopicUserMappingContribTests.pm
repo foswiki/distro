@@ -13,7 +13,7 @@ use base qw( TWikiFnTestCase );
 
 use Unit::Request;
 use Unit::Response;
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 
 my $TopicTemplate = <<'THIS';
@@ -33,7 +33,7 @@ sub fixture_groups {
 
 sub NormalTopicUserMapping {
     my $this = shift;
-    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
+    $Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = '';
     $this->set_up_for_verify();
 }
 
@@ -41,7 +41,7 @@ sub NamedTopicUserMapping {
     my $this = shift;
 
     # Set a mapping ID for purposes of testing named mappings
-    $TWiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
+    $Foswiki::Users::TopicUserMapping::TWIKI_USER_MAPPING_ID = 'TestMapping_';
     $this->set_up_for_verify();
 }
 
@@ -57,18 +57,18 @@ sub set_up_for_verify {
     $this->SUPER::set_up();
 
     $this->assert(
-        $TWiki::cfg{StoreImpl} =~ /^Rcs/,
+        $Foswiki::cfg{StoreImpl} =~ /^Rcs/,
         "Test does not run with non-RCS store"
     );
 
     #default settings
-    $TWiki::cfg{LoginManager}       = 'TWiki::LoginManager::TemplateLogin';
-    $TWiki::cfg{UserMappingManager} = 'TWiki::Users::TopicUserMapping';
-    $TWiki::cfg{UseClientSessions}  = 1;
-    $TWiki::cfg{PasswordManager}    = "TWiki::Users::HtPasswdUser";
-    $TWiki::cfg{Register}{EnableNewUserRegistration} = 1;
-    $TWiki::cfg{Register}{AllowLoginName}            = 0;
-    $TWiki::cfg{DisplayTimeValues}                   = 'gmtime';
+    $Foswiki::cfg{LoginManager}       = 'Foswiki::LoginManager::TemplateLogin';
+    $Foswiki::cfg{UserMappingManager} = 'Foswiki::Users::TopicUserMapping';
+    $Foswiki::cfg{UseClientSessions}  = 1;
+    $Foswiki::cfg{PasswordManager}    = "Foswiki::Users::HtPasswdUser";
+    $Foswiki::cfg{Register}{EnableNewUserRegistration} = 1;
+    $Foswiki::cfg{Register}{AllowLoginName}            = 0;
+    $Foswiki::cfg{DisplayTimeValues}                   = 'gmtime';
 }
 
 sub setup_new_session() {
@@ -81,7 +81,7 @@ sub setup_new_session() {
 
     # close this TWiki session - its using the wrong mapper and login
     $this->{twiki}->finish();
-    $this->{twiki} = new TWiki( undef, $query );
+    $this->{twiki} = new Foswiki( undef, $query );
 }
 
 sub set_up_user {
@@ -94,7 +94,7 @@ sub set_up_user {
     if ( $this->{twiki}->{users}->supportsRegistration() ) {
         $userWikiName = 'JoeDoe';
         $userLogin    = $userWikiName;
-        $userLogin    = 'joe' if ( $TWiki::cfg{Register}{AllowLoginName} );
+        $userLogin    = 'joe' if ( $Foswiki::cfg{Register}{AllowLoginName} );
         $user_id =
           $this->{twiki}->{users}
           ->addUser( $userLogin, $userWikiName, 'secrect_password',
@@ -104,7 +104,7 @@ sub set_up_user {
         );
     }
     else {
-        $userLogin    = $TWiki::cfg{AdminUserLogin};
+        $userLogin    = $Foswiki::cfg{AdminUserLogin};
         $user_id      = $this->{twiki}->{users}->getCanonicalUserID($userLogin);
         $userWikiName = $this->{twiki}->{users}->getWikiName($user_id);
         $this->annotate("no rego support (using admin)\n");
@@ -126,7 +126,7 @@ sub verify_WikiNameTopicUserMapping {
 
 sub verify_LoginNameTopicUserMapping {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 1;
+    $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{user_id},
@@ -136,7 +136,7 @@ sub verify_LoginNameTopicUserMapping {
 #legacy topic forms
 sub verify_valid_login_no_Mapper_in_cUID {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 1;
+    $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userLogin},
@@ -145,7 +145,7 @@ sub verify_valid_login_no_Mapper_in_cUID {
 
 sub verify_valid_wikiname_no_Mapper_in_cUID {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 1;
+    $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userWikiName},
@@ -154,7 +154,7 @@ sub verify_valid_wikiname_no_Mapper_in_cUID {
 
 sub verify_web_and_wikiname_no_Mapper_in_cUID {
     my $this = shift;
-    $TWiki::cfg{Register}{AllowLoginName} = 1;
+    $Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests(
@@ -166,7 +166,7 @@ sub verify_web_and_wikiname_no_Mapper_in_cUID {
 sub verify_valid_login_no_Mapper_in_cUID_NOAllowLoginName {
     my $this = shift;
 
-    #$TWiki::cfg{Register}{AllowLoginName} = 1;
+    #$Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userLogin},
@@ -176,7 +176,7 @@ sub verify_valid_login_no_Mapper_in_cUID_NOAllowLoginName {
 sub verify_valid_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
     my $this = shift;
 
-    #$TWiki::cfg{Register}{AllowLoginName} = 1;
+    #$Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userWikiName},
@@ -186,7 +186,7 @@ sub verify_valid_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
 sub verify_web_and_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
     my $this = shift;
 
-    #$TWiki::cfg{Register}{AllowLoginName} = 1;
+    #$Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests(
@@ -199,7 +199,7 @@ sub verify_web_and_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
 sub TODOtest_non_existantIser {
     my $this = shift;
 
-    #$TWiki::cfg{Register}{AllowLoginName} = 1;
+    #$Foswiki::cfg{Register}{AllowLoginName} = 1;
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( 'nonexistantUser', $this->{users_web} . '.UnknownUser' );
@@ -263,12 +263,12 @@ sub std_tests {
     my $output = <<'THIS';
 <div class="twikiAttachments">
 | *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
-| <img width="16" alt="png" align="top" src="%PUBURLPATH%/TWiki/DocumentGraphics/png.gif" height="16" border="0" /><span class="twikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%">home.org.au.png</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="twikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
+| <img width="16" alt="png" align="top" src="%PUBURLPATH%/Foswiki/DocumentGraphics/png.gif" height="16" border="0" /><span class="twikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%">home.org.au.png</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="twikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
 </div>
 THIS
     $output =~ s/UUUUUUUUUU/$displayedName/e;
-    $output =~ s/%PUBURLPATH%/$TWiki::cfg{PubUrlPath}/e;
-    $output =~ s/%EXPANDEDPUBURL%/$TWiki::cfg{PubUrlPath}/e;
+    $output =~ s/%PUBURLPATH%/$Foswiki::cfg{PubUrlPath}/e;
+    $output =~ s/%EXPANDEDPUBURL%/$Foswiki::cfg{PubUrlPath}/e;
     $this->assert_str_equals( $output, $renderedMeta . "\n" );
 
     #see if leases and locks have similar issues
@@ -283,39 +283,39 @@ sub verify_BaseMapping_handleUser {
     $this->assert( !$basemapping->handlesUser() );
 
     $this->assert(
-        $basemapping->handlesUser( undef, $TWiki::cfg{AdminUserLogin} ) );
+        $basemapping->handlesUser( undef, $Foswiki::cfg{AdminUserLogin} ) );
     $this->assert(
-        $basemapping->handlesUser( undef, $TWiki::cfg{DefaultUserLogin} ) );
+        $basemapping->handlesUser( undef, $Foswiki::cfg{DefaultUserLogin} ) );
     $this->assert( $basemapping->handlesUser( undef, 'unknown' ) );
     $this->assert( $basemapping->handlesUser( undef, 'ProjectContributor' ) );
-    $this->assert( $basemapping->handlesUser( undef, $TWiki::cfg{Register}{RegistrationAgentWikiName} ) );
+    $this->assert( $basemapping->handlesUser( undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName} ) );
 
     $this->assert(
         $basemapping->handlesUser(
-            undef, undef, $TWiki::cfg{AdminUserWikiName}
+            undef, undef, $Foswiki::cfg{AdminUserWikiName}
         )
     );
     $this->assert(
         $basemapping->handlesUser(
-            undef, undef, $TWiki::cfg{DefaultUserWikiName}
+            undef, undef, $Foswiki::cfg{DefaultUserWikiName}
         )
     );
     $this->assert( $basemapping->handlesUser( undef, undef, 'UnknownUser' ) );
     $this->assert(
         $basemapping->handlesUser( undef, undef, 'ProjectContributor' ) );
     $this->assert(
-        $basemapping->handlesUser( undef, undef, $TWiki::cfg{Register}{RegistrationAgentWikiName} ) );
+        $basemapping->handlesUser( undef, undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName} ) );
 
     $this->assert(
         $basemapping->handlesUser(
-            undef, $TWiki::cfg{AdminUserLogin},
-            $TWiki::cfg{AdminUserWikiName}
+            undef, $Foswiki::cfg{AdminUserLogin},
+            $Foswiki::cfg{AdminUserWikiName}
         )
     );
     $this->assert(
         $basemapping->handlesUser(
-            undef, $TWiki::cfg{DefaultUserLogin},
-            $TWiki::cfg{DefaultUserWikiName}
+            undef, $Foswiki::cfg{DefaultUserLogin},
+            $Foswiki::cfg{DefaultUserWikiName}
         )
     );
     $this->assert(
@@ -327,7 +327,7 @@ sub verify_BaseMapping_handleUser {
     );
     $this->assert(
         $basemapping->handlesUser(
-            undef, $TWiki::cfg{Register}{RegistrationAgentWikiName}, $TWiki::cfg{Register}{RegistrationAgentWikiName}
+            undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName}, $Foswiki::cfg{Register}{RegistrationAgentWikiName}
         )
     );
 

@@ -6,10 +6,10 @@
 
 BEGIN { do '../bin/setlib.cfg'; }
 
-use TWiki::Plugins::WysiwygPlugin::HTML2TML;
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
-use TWiki::Plugins::WysiwygPlugin::TML2HTML;
-my $html2tml = new TWiki::Plugins::WysiwygPlugin::HTML2TML();
+use Foswiki::Plugins::WysiwygPlugin::TML2HTML;
+my $html2tml = new Foswiki::Plugins::WysiwygPlugin::HTML2TML();
 undef $/;
 my $html = <>;
 my $tml = $html2tml->convert( $html, { very_clean=>1 } );
