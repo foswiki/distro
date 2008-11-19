@@ -1,8 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 14617 $"}%
 <channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
 %IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
   <link>%SCRIPTURL{"view"}%/%WEB%</link>
-  <description>The Documentation Web of TWiki. TWiki is an Enterprise Collaboration Platform.</description>
+  <description>The Documentation Web of Foswiki. Foswiki is the Free Open Source Wiki.</description>
 %INCLUDE{"%SYSTEMWEB%.WebRssBase"}%<!--
    * Set SKIN = rss
 -->

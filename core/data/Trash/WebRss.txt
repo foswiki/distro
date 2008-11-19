@@ -2,7 +2,7 @@
 <channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
 %IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
   <link>%SCRIPTURL{"view"}%/%WEB%</link>
-  <description>%MAKETEXT{"The [_1] web of TWiki. TWiki is a Web-Based Collaboration Platform for the Enterprise." args="<nop>%WEB%"}%</description>
+  <description>%MAKETEXT{"The [_1] web of TWiki. Foswiki is the Free Open Source Wiki." args="<nop>%WEB%"}%</description>
 %INCLUDE{"%SYSTEMWEB%.WebRssBase"}%<!--
    * Set SKIN = rss
 -->
