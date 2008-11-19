@@ -59,7 +59,7 @@ $Config->{contrib} ||= [ qw( DistributionContrib ) ];	#+ AttrsContrib DBCacheCon
 $Config->{addon} ||= [ qw( GetAWebAddOn ) ];			#+ ???
 die "twikiplugins doesn't exist" unless -d $Config->{twikiplugins};
 $Config->{_installer}->{TWikiReleases} =
-	( $Config->{_installer}->{dir} = "$Config->{twikiplugins}/lib/TWiki/Contrib/TWikiInstallerContrib/" )
+	( $Config->{_installer}->{dir} = "$Config->{twikiplugins}/lib/Foswiki/Contrib/TWikiInstallerContrib/" )
 	. "/downloads/releases/";
 print Dumper( $Config ) if $Config->{debug};
 

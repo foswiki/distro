@@ -47,9 +47,9 @@ foreach my $e ( grep { -d "$pr/$_" && !/^\./ } sort readdir D) {
 sub build {
     my( $name, $inDir ) = @_;
 
-    return 0 unless -f "$pr/$name/lib/TWiki/$inDir/$name/build.pl";
+    return 0 unless -f "$pr/$name/lib/Foswiki/$inDir/$name/build.pl";
 
-    print STDERR `perl $pr/$name/lib/TWiki/$inDir/$name/build.pl release`;
+    print STDERR `perl $pr/$name/lib/Foswiki/$inDir/$name/build.pl release`;
 
     return 0 unless -f "$pr/$name/$name.tgz";
 
@@ -113,6 +113,6 @@ if ( $upload_files )
 	print STDERR 'Upload of $e.tgz failed ', $response->request->uri,
 	' -- ', $response->status_line, "\n", 'Aborting',"\n", $response->as_string
 	    unless $response->is_redirect &&
-	    $response->headers->header('Location') =~ /view([\.\w]*)\/Plugins\/TWiki/;
+	    $response->headers->header('Location') =~ /view([\.\w]*)\/Plugins\/Foswiki/;
     }
 }

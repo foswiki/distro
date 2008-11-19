@@ -164,7 +164,7 @@ sub formatTime
     } elsif ( $formatString =~ /http|email/i ) {
         # HTTP header format, e.g. "Thu, 23 Jul 1998 07:21:56 EST"
  	    # - based on RFC 2616/1123 and HTTP::Date; also used
-        # by TWiki::Net for Date header in emails.
+        # by Foswiki::Net for Date header in emails.
         $formatString = "\$wday, \$day \$month \$year \$hour:\$min:\$sec \$tz";
     } elsif ( $formatString =~ /iso/i ) {
         # ISO Format, see spec at http://www.w3.org/TR/NOTE-datetime

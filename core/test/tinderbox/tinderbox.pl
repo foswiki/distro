@@ -65,7 +65,7 @@ my $prereq = {
     'LWP::UserAgent' => { },
     'Getopt::Long' => { },
     'Pod::Usage' => { },
-    'LWP::UserAgent::TWiki::WikiGuest' => { },
+    'LWP::UserAgent::Foswiki::WikiGuest' => { },
 
     'WWW::Mechanize::TWiki' => { version => '0.08' },
     'WWW::Mechanize' => { },
@@ -100,12 +100,12 @@ my ( $svnRev ) = ( ( grep { /^Revision:\s+(\d+)$/ } @svnInfo )[0] ) =~ /(\d+)$/;
 print "Updating SVN\n" if $Config->{verbose};
 system( 'bash' => '-c' => "cd ../.. && svn update" ) == 0 or die $!;
 print "Building a new TWikiKernel\n" if $Config->{verbose};
-system( '../../tools/distro/build-twiki-kernel.pl', '--nochangelog', '--nogendocs', '--notar', '--outputdir' => "$TWIKIDEV/$BRANCH/twikiplugins/TWikiInstallerContrib/lib/TWiki/Contrib/TWikiInstallerContrib/downloads/kernels/" ) == 0 or die $!;
+system( '../../tools/distro/build-twiki-kernel.pl', '--nochangelog', '--nogendocs', '--notar', '--outputdir' => "$TWIKIDEV/$BRANCH/twikiplugins/TWikiInstallerContrib/lib/Foswiki/Contrib/TWikiInstallerContrib/downloads/kernels/" ) == 0 or die $!;
 
 ################################################################################
 # build a new distribution
 print "Building a distribution\n" if $Config->{verbose};
-system( 'bash' => '-c' => "cd $TWIKIDEV/$BRANCH/twikiplugins/TWikiInstallerContrib/lib/TWiki/Contrib/TWikiInstallerContrib/ && make MakeFor=twiki.org PUBLISH_TO=wnorris\@develop.twiki.org:/home/wnorris/public_html/ distro publish" );
+system( 'bash' => '-c' => "cd $TWIKIDEV/$BRANCH/twikiplugins/TWikiInstallerContrib/lib/Foswiki/Contrib/TWikiInstallerContrib/ && make MakeFor=twiki.org PUBLISH_TO=wnorris\@develop.twiki.org:/home/wnorris/public_html/ distro publish" );
 
 ################################################################################
 # install the distribution
@@ -116,7 +116,7 @@ my $ADMIN = 'WillNorris';
 
 print "Installing to $SERVER_NAME\n" if $Config->{verbose};
 # TODO: look into usefulness of --plugin=TWikiReleaseTrackerPlugin --contrib=DistributionContrib for testing purposes
-system( 'bash' => '-c' => qq{$TWIKIDEV/$BRANCH/twikiplugins/TWikiInstallerContrib/lib/TWiki/Contrib/TWikiInstallerContrib/bin/install-remote-twiki.pl --force --report --verbose --debug --install_account=$DHACCOUNT --administrator=$ADMIN --install_host=$SERVER_NAME --install_dir=/home/$DHACCOUNT/$SERVER_NAME --kernel=LATEST --addon=GetAWebAddOn --scriptsuffix=.cgi --cgiurl=http://$SERVER_NAME/cgi-bin} ) == 0 or die $!;
+system( 'bash' => '-c' => qq{$TWIKIDEV/$BRANCH/twikiplugins/TWikiInstallerContrib/lib/Foswiki/Contrib/TWikiInstallerContrib/bin/install-remote-twiki.pl --force --report --verbose --debug --install_account=$DHACCOUNT --administrator=$ADMIN --install_host=$SERVER_NAME --install_dir=/home/$DHACCOUNT/$SERVER_NAME --kernel=LATEST --addon=GetAWebAddOn --scriptsuffix=.cgi --cgiurl=http://$SERVER_NAME/cgi-bin} ) == 0 or die $!;
 
 ################################################################################
 

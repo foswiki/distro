@@ -24,7 +24,7 @@ BEGIN {
     unshift @INC, '../lib/';
 
 }
-use TWiki;
+use Foswiki;
 
 {
     # Read entire file from STDIN
@@ -40,10 +40,10 @@ use TWiki;
     $topichtml =~ s|<img.*?>||g;
     
     # Changes all links to attachments to twiki.org
-    $topichtml =~ s|$TWiki::cfg{DefaultUrlHost}$TWiki::cfg{PubUrlPath}/*|http://twiki.org/p/pub/|g;
+    $topichtml =~ s|$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/*|http://twiki.org/p/pub/|g;
 
     # Changes all links to topics to twiki.org
-    $topichtml =~ s|($TWiki::cfg{DefaultUrlHost}$TWiki::cfg{ScriptUrlPath})/*|http://twiki.org/cgi-bin/|g;
+    $topichtml =~ s|($Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath})/*|http://twiki.org/cgi-bin/|g;
     
     #This URL param is not wanted when we link to twiki.org 
     $topichtml =~ s/href="\?skin=plain#/href="#/g;

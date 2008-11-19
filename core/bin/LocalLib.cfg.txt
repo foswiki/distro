@@ -18,7 +18,7 @@ use vars qw( $twikiLibPath $CPANBASE );
 #$ENV{TWIKI_ASSERTS} = 1;
 #$ENV{TWIKI_MONITOR} = 1;
 
-# -------------- Path to lib directory containing TWiki.pm. 
+# -------------- Path to lib directory containing Foswiki.pm. 
 #
 # REQUIRED
 # The absolute path to the 'lib' directory in your installation..

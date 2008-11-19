@@ -2,7 +2,7 @@
 #
 # Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2000-2007 TWiki Contributors.
+# Copyright (C) 2000-2007 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 #
-# Configuration script for TWiki. Once you have a basic webserver
+# Configuration script for Foswiki. Once you have a basic webserver
 # configuration that lets you access this script, the rest of the
 # configuration process is done from here.
 #
@@ -42,16 +42,16 @@
 # Model
 # The Model consists of a simple node tree, where each node represents a
 # structural element in the *presentation* of the configuration (this may
-# not be consistent with the structure of $TWiki:cfg, so beware). Each
+# not be consistent with the structure of $Foswiki:cfg, so beware). Each
 # leaf node has an associated Type (in the Types subdirectory) that has
 # collected model and view behaviours for the basic types.
 # The Model is independent of the language used to represent the
-# configuration. There is one parser/generator provided, TWikiCfg, but it
+# configuration. There is one parser/generator provided, FoswikiCfg, but it
 # would be trivial to add others.
 #
 # The View is a DOM document, generated as HTML by a set of UI classes.
 # Because of some convoluted history, there are actually three sets of classes
-# that generate views. They are all subclasses of TWiki::Configure::UI
+# that generate views. They are all subclasses of Foswiki::Configure::UI
 #    UIs - are top-level and pluggable UI components. All the main screens are
 #          implemented here.
 #    Checkers - are specialised UIs designed to give checking support for
@@ -94,18 +94,18 @@ $SIG{'__WARN__'} = sub { die @_ };
 eval 'require 5.00503';
 die $@ if $@;
 
-# We warn against running TWiki on an older Perl version then 5.8.4
+# We warn against running Foswiki on an older Perl version then 5.8.4
 # but we will not let configure die in this situation. The user
-# may have updated many libraries and tweaked TWiki so let us give
+# may have updated many libraries and tweaked Foswiki so let us give
 # him a chance.
 my $perlversion = $];
 if ($perlversion < 5.006) {
     print STDERR <<HERE;
 Your perl version is older than 5.6.0.
-TWiki has only been successfully tested on Perl 5.6.X and 5.8.X,
+Foswiki has only been successfully tested on Perl 5.6.X and 5.8.X,
 and there have been reports that it does not run on 5.5.
-Running TWiki with an older Perl version requires upgrading of modules and
-tweaking of the TWiki code.
+Running Foswiki with an older Perl version requires upgrading of modules and
+tweaking of the Foswiki code.
 HERE
 }
 
@@ -193,7 +193,7 @@ foreach my $module ('FindBin',
 #$SIG{__DIE__} = sub { Carp::confess( $_[0] || '' ) };
 
 ###########################################################
-# Establish the path to the TWiki library
+# Establish the path to the Foswiki library
 
 # Set the working dir to the bin dir
 no warnings;
@@ -217,7 +217,7 @@ if ($@) {
     # No joy. Remember the failure so we can report it later.
     $localLibFailure = $@;
     # Stick the root/lib on the path; there's a high probability we'll be
-    # able to find the bits of TWiki::Configure that way. We will report
+    # able to find the bits of Foswiki::Configure that way. We will report
     # the setlib error later.
     unshift(@INC, File::Spec->catfile(@root, 'lib'));
 }
@@ -229,24 +229,24 @@ foreach my $module (
     'Data::Dumper',
     'File::Copy',
     'File::Temp',
-    'TWiki::Configure::Checker',
-    'TWiki::Configure::CSS',
-    'TWiki::Configure::Item',
-    'TWiki::Configure::JS',
-    'TWiki::Configure::Load',
-    'TWiki::Configure::Pluggable',
-    'TWiki::Configure::Root',
-    'TWiki::Configure::Section',
-    'TWiki::Configure::Type',
-    'TWiki::Configure::Types::BOOLEAN',
-    'TWiki::Configure::Types::NUMBER',
-    'TWiki::Configure::Types::SELECT',
-    'TWiki::Configure::Types::STRING',
-    'TWiki::Configure::TWikiCfg',
-    'TWiki::Configure::UI',
-    'TWiki::Configure::UIs::Section',
-    'TWiki::Configure::Value',
-    'TWiki::Configure::Valuer',
+    'Foswiki::Configure::Checker',
+    'Foswiki::Configure::CSS',
+    'Foswiki::Configure::Item',
+    'Foswiki::Configure::JS',
+    'Foswiki::Configure::Load',
+    'Foswiki::Configure::Pluggable',
+    'Foswiki::Configure::Root',
+    'Foswiki::Configure::Section',
+    'Foswiki::Configure::Type',
+    'Foswiki::Configure::Types::BOOLEAN',
+    'Foswiki::Configure::Types::NUMBER',
+    'Foswiki::Configure::Types::SELECT',
+    'Foswiki::Configure::Types::STRING',
+    'Foswiki::Configure::FoswikiCfg',
+    'Foswiki::Configure::UI',
+    'Foswiki::Configure::UIs::Section',
+    'Foswiki::Configure::Value',
+    'Foswiki::Configure::Valuer',
    ) {
     _loadBasicModule($module);
 }
@@ -257,24 +257,24 @@ $| = 1;                  # no buffering on STDOUT
 # From this point on we shouldn't have any more "fatal" (to configure)
 # errors, so we can report errors in the browser (i.e. without using die)
 
-# We are configuring $TWiki::cfg, so we need to be in package TWiki from
+# We are configuring $Foswiki::cfg, so we need to be in package Foswiki from
 # now on.
-package TWiki;
+package Foswiki;
 
-# We keep the actual config, and the default from TWiki.cfg, separate
+# We keep the actual config, and the default from Foswiki.spec, separate
 use vars qw( %cfg $defaultCfg );
 
-# Declared in TWiki to support checkers
+# Declared in Foswiki to support checkers
 use vars qw( $query );
 
-# 'constants' used in TWiki.cfg
+# 'constants' used in Foswiki.spec
 use vars qw( $TRUE $FALSE );
 $TRUE = 1;
 $FALSE = 0;
 
 # Remember what we detected previously, for use by Checkers
 if( $scriptName =~ /(\.\w+)$/ ) {
-    $TWiki::cfg{DETECTED}{ScriptExtension} = $1;
+    $Foswiki::cfg{DETECTED}{ScriptExtension} = $1;
 }
 
 # very basic tool
@@ -292,34 +292,34 @@ sub findFileOnPath {
 }
 
 ###########################################################
-# Grope the OS. This duplicates a bit of code in TWiki.pm,
+# Grope the OS. This duplicates a bit of code in Foswiki.pm,
 # but it has to be duplicated because we don't want to deal
-# with loading TWiki just yet.
+# with loading Foswiki just yet.
 
-unless( $TWiki::cfg{DetailedOS} ) {
-    $TWiki::cfg{DetailedOS} = $^O;
-    unless( $TWiki::cfg{DetailedOS} ) {
+unless( $Foswiki::cfg{DetailedOS} ) {
+    $Foswiki::cfg{DetailedOS} = $^O;
+    unless( $Foswiki::cfg{DetailedOS} ) {
         require Config;
-        $TWiki::cfg{DetailedOS} = $Config::Config{osname};
+        $Foswiki::cfg{DetailedOS} = $Config::Config{osname};
     }
 }
-unless( $TWiki::cfg{OS} ) {
-    if ($TWiki::cfg{DetailedOS} =~ /darwin/i) { # MacOS X
-        $TWiki::cfg{OS} = 'UNIX';
-    } elsif ($TWiki::cfg{DetailedOS} =~ /Win/i) {
-        $TWiki::cfg{OS} = 'WINDOWS';
-    } elsif ($TWiki::cfg{DetailedOS} =~ /vms/i) {
-        $TWiki::cfg{OS} = 'VMS';
-    } elsif ($TWiki::cfg{DetailedOS} =~ /bsdos/i) {
-        $TWiki::cfg{OS} = 'UNIX';
-    } elsif ($TWiki::cfg{DetailedOS} =~ /dos/i) {
-        $TWiki::cfg{OS} = 'DOS';
-    } elsif ($TWiki::cfg{DetailedOS} =~ /^MacOS$/i) { # MacOS 9 or earlier
-        $TWiki::cfg{OS} = 'MACINTOSH';
-    } elsif ($TWiki::cfg{DetailedOS} =~ /os2/i) {
-        $TWiki::cfg{OS} = 'OS2';
+unless( $Foswiki::cfg{OS} ) {
+    if ($Foswiki::cfg{DetailedOS} =~ /darwin/i) { # MacOS X
+        $Foswiki::cfg{OS} = 'UNIX';
+    } elsif ($Foswiki::cfg{DetailedOS} =~ /Win/i) {
+        $Foswiki::cfg{OS} = 'WINDOWS';
+    } elsif ($Foswiki::cfg{DetailedOS} =~ /vms/i) {
+        $Foswiki::cfg{OS} = 'VMS';
+    } elsif ($Foswiki::cfg{DetailedOS} =~ /bsdos/i) {
+        $Foswiki::cfg{OS} = 'UNIX';
+    } elsif ($Foswiki::cfg{DetailedOS} =~ /dos/i) {
+        $Foswiki::cfg{OS} = 'DOS';
+    } elsif ($Foswiki::cfg{DetailedOS} =~ /^MacOS$/i) { # MacOS 9 or earlier
+        $Foswiki::cfg{OS} = 'MACINTOSH';
+    } elsif ($Foswiki::cfg{DetailedOS} =~ /os2/i) {
+        $Foswiki::cfg{OS} = 'OS2';
     } else {
-        $TWiki::cfg{OS} = 'UNIX';
+        $Foswiki::cfg{OS} = 'UNIX';
     }
 }
 
@@ -337,8 +337,8 @@ if( $action eq 'image' ) {
     $image = $1;
     if( (defined($image)) && 
         (($image eq 'favicon.ico') ||
-        ($image eq 'T-logo34x26-t.gif') ||
-        ($image eq 'T-logo-140x40-t.gif') ||
+        ($image eq 'logo22x26.gif') ||
+        ($image eq 'logo140x40.gif') ||
         ($image eq 'warning.gif') ||
         ($image eq 'info.gif')) ) {
         #ignore $query->param('type') and set it using our special knowledge
@@ -374,16 +374,16 @@ my @meta = (
           -href=>$scriptName.'?action=image;image=favicon.ico;type=image/x-icon',
           -type=>'image/x-icon' } ),
     CGI::script( { language => 'JavaScript',
-                   type => 'text/javascript' }, TWiki::Configure::JS::js1() ),
-    CGI::style( { -type=>'text/css' }, TWiki::Configure::CSS::css()),
+                   type => 'text/javascript' }, Foswiki::Configure::JS::js1() ),
+    CGI::style( { -type=>'text/css' }, Foswiki::Configure::CSS::css()),
     CGI::script( { language => 'JavaScript',
                    type => 'text/javascript' },
-                 TWiki::Configure::JS::js2() ),
+                 Foswiki::Configure::JS::js2() ),
    );
 
 # Generate standard page header
 my $hdr = CGI::start_html(
-    -title => 'TWiki Configuration',
+    -title => 'Foswiki Configuration',
     -head => \@meta,
     -class => 'patternNoViewPage');
 
@@ -405,11 +405,11 @@ print <<'HERE';
 HERE
 
 # use this script recursively to serve the icon image
-print CGI::img({src=>$scriptName.'?action=image;image=T-logo-140x40-t.gif;type=image/gif', class=>'logo', alt=>'TWiki', width=>'140', height=>'40'});
+print CGI::img({src=>$scriptName.'?action=image;image=logo140x40.gif;type=image/gif', class=>'logo', alt=>'Foswiki', width=>'140', height=>'40'});
 
-my $stub = new TWiki::Configure::Item();
-# This call will define $TWiki::defaultCfg by loading .spec files
-my $sanityUI = TWiki::Configure::UI::loadChecker('BasicSanity', $stub);
+my $stub = new Foswiki::Configure::Item();
+# This call will define $Foswiki::defaultCfg by loading .spec files
+my $sanityUI = Foswiki::Configure::UI::loadChecker('BasicSanity', $stub);
 my ($sanityStatement, $badLSC) = $sanityUI->ui();
 
 # This is the dispatcher; $action is the name of the action to perform,
@@ -457,7 +457,7 @@ print CGI::end_html(),"\n";
 
 sub _checkLoadUI {
     my ($uiname, $root) = @_;
-    my $ui = TWiki::Configure::UI::loadUI($uiname, $root);
+    my $ui = Foswiki::Configure::UI::loadUI($uiname, $root);
     unless ($ui) {
         print "Could not load $uiname UI. Error was: <pre>$@</pre>";
         if ($@ =~ /Can't locate (\S+)/) {
@@ -471,15 +471,15 @@ HERE
 
 # Action invoked by 'Next' button on the main screen
 sub _actionNext {
-    my $valuer = new TWiki::Configure::Valuer(
-        $TWiki::defaultCfg, \%TWiki::cfg);
+    my $valuer = new Foswiki::Configure::Valuer(
+        $Foswiki::defaultCfg, \%Foswiki::cfg);
     my %updated;
-    my $modified = $valuer->loadCGIParams($TWiki::query, \%updated);
+    my $modified = $valuer->loadCGIParams($Foswiki::query, \%updated);
 
     # create the root of the UI
-    my $root = new TWiki::Configure::Root();
+    my $root = new Foswiki::Configure::Root();
     my $ui;
-    if (!TWiki::Configure::UI::authorised()) {
+    if (!Foswiki::Configure::UI::authorised()) {
         print CGI::h2('Authorisation is required to save.');
         print CGI::div($modified.' configuration item'.
                          ($modified==1?' was':'s were').' changed');
@@ -491,7 +491,7 @@ sub _actionNext {
         print $ui->ui(1, 'Save');
     } else {
         # Load the specs from the .spec files and generate the UI template
-        TWiki::Configure::TWikiCfg::load($root, 1);
+        Foswiki::Configure::FoswikiCfg::load($root, 1);
 
         $ui = _checkLoadUI('UPDATE', $root);
         return 1 unless $ui;
@@ -502,8 +502,8 @@ sub _actionNext {
 
 # Invoked by "find more extensions" button in the Extensions section
 sub _actionFindMoreExtensions {
-    my $root = new TWiki::Configure::Root();
-    print CGI::h1( 'Find TWiki Extensions');
+    my $root = new Foswiki::Configure::Root();
+    print CGI::h1( 'Find Foswiki Extensions');
     print '<div class="patternContent"><div class="patternTopic">';
 
     my $ui = _checkLoadUI('EXTENSIONS',$root);
@@ -515,9 +515,9 @@ sub _actionFindMoreExtensions {
 
 # Invoked when an extension is to be installed
 sub _actionInstallExtension {
-    my $root = new TWiki::Configure::Root();
+    my $root = new Foswiki::Configure::Root();
     my $ui;
-    if (!TWiki::Configure::UI::authorised()) {
+    if (!Foswiki::Configure::UI::authorised()) {
         $ui = _checkLoadUI('AUTH', $root);
         return 1 unless $ui;
         print $ui->ui(0, 'Install '.($query->param('extension')||''));
@@ -532,76 +532,67 @@ sub _actionInstallExtension {
 # This is the default screen
 sub _actionConfigure {
 
-    $TWiki::Configure::UI::toterrors = 0;
-    $TWiki::Configure::UI::totwarnings = 0;
+    $Foswiki::Configure::UI::toterrors = 0;
+    $Foswiki::Configure::UI::totwarnings = 0;
 
     print CGI::h1( 'Configuration');
     print $sanityStatement;
 
     # The first three sections go without a root
-    my $stub = new TWiki::Configure::Item();
-    my $eui = TWiki::Configure::UI::loadChecker('Environment', $stub);
+    my $stub = new Foswiki::Configure::Item();
+    my $eui = Foswiki::Configure::UI::loadChecker('Environment', $stub);
 
     # See if this platform has special detection or checking requirements
     # (most don't)
-    $stub = new TWiki::Configure::Item();
-    my $osui = TWiki::Configure::UI::loadChecker(
+    $stub = new Foswiki::Configure::Item();
+    my $osui = Foswiki::Configure::UI::loadChecker(
         $Config::Config{osname}, $stub);
 
-    $stub = new TWiki::Configure::Item();
-    my $cgiui = TWiki::Configure::UI::loadChecker('CGISetup', $stub);
+    $stub = new Foswiki::Configure::Item();
+    my $cgiui = Foswiki::Configure::UI::loadChecker('CGISetup', $stub);
 
     # Use a separate root for the _saveable_ sections
-    my $root = new TWiki::Configure::Root();
-    my $valuer = new TWiki::Configure::Valuer(
-        $TWiki::defaultCfg, \%TWiki::cfg);
+    my $root = new Foswiki::Configure::Root();
+    my $valuer = new Foswiki::Configure::Valuer(
+        $Foswiki::defaultCfg, \%Foswiki::cfg);
     # Load the config structures.
-    TWiki::Configure::TWikiCfg::load($root, !$badLSC);
+    Foswiki::Configure::FoswikiCfg::load($root, !$badLSC);
 
     if (!$badLSC) {
         print <<HERE;
 <div class="patternContent">
  <div class="patternTopic">
-  <p><strong>Use this page to set the configuration options for TWiki.
+  <p><strong>Use this page to set the configuration options for Foswiki.
   Fill in the settings, and then press 'Next'.</strong></p>
   <div class="explanation">
    <ul>
-    <li><b>If your TWiki site is already working</b>, continue to
-     <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/WebHome">
-browse to the TWiki WebHome</a>.
+    <li><b>If your Foswiki site is already working</b>, continue to
+     <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome">
+browse to the Foswiki WebHome</a>.
      <ul>
       <li>You will now need to consider how you are going to manage
        authentication and access control. See the reference manual
-       sections on <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/TWikiUserAuthentication">
+       sections on <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/UserAuthentication">
  authentication</a>
        and
-       <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/AccessControl">
+       <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/AccessControl">
         access control</a>, and the
        <a rel="nofollow" href="#" onclick="foldBlock('SecuritySetup'); return false;">Security Setup</a>
        section below.
       </li>
      </ul>
     </li>
-    <li><b>To become an administrator</b> you need to first <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/UserRegistration">
-register</a> as a normal user first and then add your wikiname to the <a rel="nofollow" href="$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{UsersWebName}/$TWiki::cfg{SuperAdminGroup}">
- $TWiki::cfg{SuperAdminGroup}</a> (follow the text in yellow).
+    <li><b>To become an administrator</b> you need to first <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/UserRegistration">
+register</a> as a normal user first and then add your wikiname to the <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{SuperAdminGroup}">
+ $Foswiki::cfg{SuperAdminGroup}</a> (follow the text in yellow).
     </li>
     <li>
      <b>If you are on a non-standard platform or environment</b> there are a lot of
-     <a href="http://twiki.org/cgi-bin/view/TWiki/SupplementalDocument">supplemental documents</a>
-     on TWiki.org describing how to
-     <a href="http://twiki.org/cgi-bin/view/TWiki/InstallingTWiki">install</a>,
-     <a href="http://twiki.org/cgi-bin/view/TWiki/UpgradingTWiki">upgrade</a>, 
-     <a href="http://twiki.org/cgi-bin/view/TWiki/InternationalizationSupplement">internationalize</a> and 
-     <a href="http://twiki.org/cgi-bin/view/TWiki/SecuringTWikiSite">secure</a>
-     your installation.
+     <a href="http://foswiki.org/Support/SupplementalDocuments">supplemental documents</a> on Foswiki.org
     </li>
     <li>
       <b>If you get stuck</b> there is a lot of support available at the
-      <a href="http://twiki.org/cgi-bin/view/Support/WebHome">TWiki:Support</a>
-      forum and on
-      <a href="http://twiki.org/cgi-bin/view/Codev/TWikiIRC">TWikiIRC</a>
-      (irc.freenode.net, channel #twiki).
+      <a href="http://foswiki.org/Support/WebHome">Support forum</a>.
      </li>
     </ul>
    </div>
@@ -670,12 +661,12 @@ HERE
 
     print "</div><!-- options -->\n";
 
-    if ($TWiki::Configure::UI::toterrors ||
-          $TWiki::Configure::UI::totwarnings) {
-        my $mess = 'Total: '.$TWiki::Configure::UI::toterrors.' error'.
-          ($TWiki::Configure::UI::toterrors==1?'':'s').', '.
-            $TWiki::Configure::UI::totwarnings.' warning'.
-              ($TWiki::Configure::UI::totwarnings==1?'':'s');
+    if ($Foswiki::Configure::UI::toterrors ||
+          $Foswiki::Configure::UI::totwarnings) {
+        my $mess = 'Total: '.$Foswiki::Configure::UI::toterrors.' error'.
+          ($Foswiki::Configure::UI::toterrors==1?'':'s').', '.
+            $Foswiki::Configure::UI::totwarnings.' warning'.
+              ($Foswiki::Configure::UI::totwarnings==1?'':'s');
         print CGI::div($mess);
     }
 
@@ -684,7 +675,7 @@ HERE
                              -value=>'Next',
                              -accesskey=>'N'));
 
-    print "<a href=\"$TWiki::cfg{ScriptUrlPath}/view$TWiki::cfg{ScriptSuffix}/$TWiki::cfg{SystemWebName}/WebHome\">Cancel and return to TWiki WebHome</a>";
+    print "<a href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome\">Cancel and return to Foswiki WebHome</a>";
 
     print CGI::end_form();
 

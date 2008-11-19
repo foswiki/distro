@@ -33,7 +33,7 @@ foreach my $line ( split ( /\n/, `cd $bin && dprofpp -O 1000 -U -q 2>&1` )) {
 }
 
 @profiles = reverse sort { $a->{calls} <=> $b->{calls} } grep {
-    $_->{name} =~ /^TWiki::/ && $_->{name} !~ /BEGIN$/ } @profiles;
+    $_->{name} =~ /^Foswiki::/ && $_->{name} !~ /BEGIN$/ } @profiles;
 
 foreach my $prof ( @profiles ) {
     print $prof->{name}," ", $prof->{calls},"\n";

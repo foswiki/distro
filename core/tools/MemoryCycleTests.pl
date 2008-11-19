@@ -3,7 +3,7 @@
 # Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2006 SvenDowideit@wikiring.com
-# and TWiki Contributors.
+# and Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,21 +40,21 @@ BEGIN {
     }
 }
 
-use TWiki;
-use TWiki::UI::View;
+use Foswiki;
+use Foswiki::UI::View;
 
 {
-    my $twiki = new TWiki();
-    $TWiki::Plugins::SESSION = $twiki;
-    monitor('TWiki' => \$TWiki::Plugins::SESSION );
+    my $twiki = new Foswiki();
+    $Foswiki::Plugins::SESSION = $twiki;
+    monitor('TWiki' => \$Foswiki::Plugins::SESSION );
 
-    TWiki::UI::run( \&TWiki::UI::View::view );
+    Foswiki::UI::run( \&Foswiki::UI::View::view );
     
-    #NOTE that TWiki::finish() is hiding many circular references by foricbly clearing
+    #NOTE that Foswiki::finish() is hiding many circular references by foricbly clearing
     #them with the %$this = (); its worth commenting out this line once in a while to 
     #see if its gettign worse (56 are found as of Jun2006)
     
-    print_circular_ref(\$TWiki::Plugins::SESSION );
+    print_circular_ref(\$Foswiki::Plugins::SESSION );
 }
 
 1;

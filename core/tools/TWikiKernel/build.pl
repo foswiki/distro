@@ -27,12 +27,12 @@ BEGIN {
     }
 }
 
-use TWiki::Contrib::Build;
+use Foswiki::Contrib::Build;
 
 # Declare our build package
 package TWikiBuild;
 
-@TWikiBuild::ISA = ( "TWiki::Contrib::Build" );
+@TWikiBuild::ISA = ( "Foswiki::Contrib::Build" );
 
 sub new {
     my $class = shift;
@@ -116,7 +116,7 @@ sub stage_gendocs {
     $this->cp( "$this->{tmpDir}/AUTHORS",
                "$this->{tmpDir}/pub/Main/ProjectContributor/AUTHORS" );
     $this->cp( "$this->{tmpDir}/AUTHORS",
-               "$this->{tmpDir}/pub/TWiki/ProjectContributor/AUTHORS" );
+               "$this->{tmpDir}/pub/Foswiki/ProjectContributor/AUTHORS" );
 
     for my $script qw( view rdiff ) {
         $this->cp( "$this->{tmpDir}/bin/$script",

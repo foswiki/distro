@@ -27,12 +27,12 @@ BEGIN {
     }
 }
 
-use TWiki::Contrib::Build;
+use Foswiki::Contrib::Build;
 
 # Declare our build package
 package TWikiBuild;
 
-@TWikiBuild::ISA = ( "TWiki::Contrib::Build" );
+@TWikiBuild::ISA = ( "Foswiki::Contrib::Build" );
 
 sub new {
     my $class = shift;
@@ -61,8 +61,8 @@ The unit tests are a critical part of the release process, as they
 establish the correct baseline functionality. If a unit test fails,
 any release package generated from that code is USELESS.
 
-If you provide a release name, TWiki.pm will be automatically edited
-to insert the new name of the release. The updated TWiki.pm will be
+If you provide a release name, Foswiki.pm will be automatically edited
+to insert the new name of the release. The updated Foswiki.pm will be
 checked in before the build starts.
 
 The release *must* be named according to the standard scheme i.e
@@ -95,33 +95,33 @@ END
 
     unless ($autoBuild) {
     if( $name ||
-          TWiki::Contrib::Build::ask("Do you want to name this release?",
+          Foswiki::Contrib::Build::ask("Do you want to name this release?",
                                      'n')) {
             while( $name !~ /^\d\.\d+\.\d+(-\w+)?$/ ) {
                 $name =
-                  TWiki::Contrib::Build::prompt(
+                  Foswiki::Contrib::Build::prompt(
                       "Enter name of this release: ", $name);
             }
             # SMELL: should really check that the name actually *follows* the
             # last name generated
             $name = 'TWiki-'.$name;
-            open(PM, "<../lib/TWiki.pm") || die $!;
+            open(PM, "<../lib/Foswiki.pm") || die $!;
             local $/ = undef;
             my $content = <PM>;
             close(PM);
             $content =~ /\$RELEASE\s*=\s*'(.*?)'/;
             $content =~ s/(\$RELEASE\s*=\s*').*?(')/$1$name$2/;
-            open(PM, ">../lib/TWiki.pm") || die $!;
+            open(PM, ">../lib/Foswiki.pm") || die $!;
             print PM $content;
             close(PM);
             # Note; the commit is unconditional, because we *must* update
-            # TWiki.pm before building.
+            # Foswiki.pm before building.
             my $tim = 'BUILD '.$name.' at '.gmtime().' GMT';
-            my $cmd = "svn propset LASTBUILD '$tim' ../lib/TWiki.pm";
+            my $cmd = "svn propset LASTBUILD '$tim' ../lib/Foswiki.pm";
             print `$cmd`;
             #print "$cmd\n";
             die $@ if $@;
-            $cmd = "svn commit -m 'Item000: $tim' ../lib/TWiki.pm";
+            $cmd = "svn commit -m 'Item000: $tim' ../lib/Foswiki.pm";
             print `$cmd`;
             #print "$cmd\n";
             die $@ if $@;
@@ -240,7 +240,7 @@ sub stage_gendocs {
     print "Building automatic documentation to $this->{tmpDir}...";
     print `perl $this->{basedir}/tools/gendocs.pl -debug -root $this->{tmpDir}`;
     $this->cp( "$this->{tmpDir}/AUTHORS",
-               "$this->{tmpDir}/pub/TWiki/ProjectContributor/AUTHORS" );
+               "$this->{tmpDir}/pub/Foswiki/ProjectContributor/AUTHORS" );
 
     for my $script qw( view rdiff ) {
         $this->cp( "$this->{tmpDir}/bin/$script",
@@ -296,9 +296,9 @@ my $build = new TWikiBuild();
 $build->build($build->{target});
 
 
-#returns the version number portion in the $RELEASE line in TWiki.pm
+#returns the version number portion in the $RELEASE line in Foswiki.pm
 sub getCurrentTWikiRELEASE {
-        open(PM, "<../lib/TWiki.pm") || die $!;
+        open(PM, "<../lib/Foswiki.pm") || die $!;
         local $/ = undef;
         my $content = <PM>;
         close(PM);

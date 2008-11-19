@@ -45,7 +45,7 @@ my $debug           = 0;
 # howbad - {module|token}
 # illmod - {module}{illegal token}{file} - illegal token context
 # illtok - {illegal token}{module} - illegal token context
-# funcsyms - {TWiki::Func symbol} - symbols in Func
+# funcsyms - {Foswiki::Func symbol} - symbols in Func
 # suspect - {module}{file}{code fragment} - suspect code
 # handlers - {token}{module} handler defined by module
 my %data;
@@ -60,7 +60,7 @@ sub analyseConformance {
     }
 
     # Build list of functions in Func.pm
-    my $text = `cat lib/TWiki/Func.pm`;
+    my $text = `cat lib/Foswiki/Func.pm`;
     foreach my $line ( split( /\n/, $text ) ) {
         if ( $line =~ /^sub ({^_]\w+)/ ) {
             $data{funcsyms}{$1} = 1;
@@ -68,10 +68,10 @@ sub analyseConformance {
     }
 
     unshift(@INC, "lib");
-    eval "use TWiki::Plugin";
+    eval "use Foswiki::Plugin";
     unless ($@ ) {
-        map { $handlers{$_} = $TWiki::Plugin::deprecated{$_} ? 1 : 0 }
-          @TWiki::Plugin::registrableHandlers;
+        map { $handlers{$_} = $Foswiki::Plugin::deprecated{$_} ? 1 : 0 }
+          @Foswiki::Plugin::registrableHandlers;
     };
 
     my $module;
@@ -133,7 +133,7 @@ sub generateReport {
     }
 
     if ( $illegalCallsReport ne "" ) {
-        print "\n---++ Calls to TWiki symbols not published through TWiki::Func\n";
+        print "\n---++ Calls to TWiki symbols not published through Foswiki::Func\n";
         print TABLE( THR( "Symbol", "Calls", "Callers" ), $illegalCallsReport );
     }
 
@@ -213,7 +213,7 @@ sub generateReport {
     }
 }
 
-# Find occurences of TWiki functions not from TWiki::Func in the module.
+# Find occurences of TWiki functions not from Foswiki::Func in the module.
 # Also analyse module for questionable code use.
 sub analyseCode {
     my ( $module, $data ) = @_;
@@ -229,7 +229,7 @@ sub analyseCode {
         foreach my $file ( grep( !/\/(test|fixtures)\//, @files ) ) {
             $file =~ s/^\.\///o;
             my $r = "twikiplugins/$module/$file";
-            my @finds = split( /\n/, `grep "TWiki::" $r` );
+            my @finds = split( /\n/, `grep "Foswiki::" $r` );
             my $find;
             foreach $find (@finds) {
                 next if $find =~ /COMPATIBILITY/;
@@ -239,9 +239,9 @@ sub analyseCode {
                 next if $find =~ /^package TWiki/;
                 while ( $find =~ s/\b(TWiki(::(\w+))+)[^\w:]//o ) {
                     my $token = $1;
-                    if ($token !~ /TWiki::Func/o
-                          && $token !~ /TWiki::(Plugins|Contrib|Attrs|Time|Sandbox|Meta|Net)/
-                            && $token !~ /TWiki::(regex|cfg)/ ) {
+                    if ($token !~ /Foswiki::Func/o
+                          && $token !~ /Foswiki::(Plugins|Contrib|Attrs|Time|Sandbox|Meta|Net)/
+                            && $token !~ /Foswiki::(regex|cfg)/ ) {
                         # Index twice, by module and by token
                         $data->{illmod}{$module}{$token}{$file}++;
                         $data->{illtok}{$token}{$module}++;
@@ -254,7 +254,7 @@ sub analyseCode {
                             $data->{howbad}{$module}++;
                             $data->{howbad}{$token}++;
                         }
-                    } elsif ( $token =~ /TWiki::Func::(\w+)\b/o ) {
+                    } elsif ( $token =~ /Foswiki::Func::(\w+)\b/o ) {
                         $token = $1;
                         if ( defined( $data->{funcsyms}{$token} ) ) {
                             $data->{funcsyms}{$token}++;

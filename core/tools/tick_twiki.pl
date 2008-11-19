@@ -2,8 +2,8 @@
 #
 # Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2005-2007 TWiki Contributors.
-# All Rights Reserved. TWiki Contributors are listed in
+# Copyright (C) 2005-2007 Foswiki Contributors.
+# All Rights Reserved. Foswiki Contributors are listed in
 # the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #
@@ -44,15 +44,15 @@ BEGIN {
 # to -36000 or 36000 it will expire sessions that have not been used for
 # more than 100 hours,
 
-use TWiki::LoginManager;
-TWiki::LoginManager::expireDeadSessions();
+use Foswiki::LoginManager;
+Foswiki::LoginManager::expireDeadSessions();
 
 # This will remove topic leases that have expired. Topic leases may be
 # left behind when users edit a topic and then navigate away without
 # cancelling the edit.
 
-use TWiki;
-my $twiki = new TWiki();
+use Foswiki;
+my $twiki = new Foswiki();
 my $store = $twiki->{store};
 my $now = time();
 foreach my $web ( $store->getListOfWebs()) {

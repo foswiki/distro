@@ -3,7 +3,7 @@
 # Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-# and TWiki Contributors.
+# and Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ use warnings;
 
 BEGIN {
     if ( defined $ENV{GATEWAY_INTERFACE} ) {
-        $TWiki::cfg{Engine} = 'TWiki::Engine::CGI';
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
         use CGI::Carp qw(fatalsToBrowser);
         $SIG{__DIE__} = \&CGI::Carp::confess;
     }
@@ -36,6 +36,6 @@ BEGIN {
     require 'setlib.cfg';
 }
 
-use TWiki;
-use TWiki::UI;
-$TWiki::engine->run();
+use Foswiki;
+use Foswiki::UI;
+$Foswiki::engine->run();

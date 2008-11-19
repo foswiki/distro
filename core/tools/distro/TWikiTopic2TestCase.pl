@@ -12,7 +12,7 @@ use Pod::Usage;
 use File::Basename;
 use URI;
 use Cwd qw( cwd );
-use LWP::UserAgent::TWiki::WikiGuest;
+use LWP::UserAgent::Foswiki::WikiGuest;
 use WWW::Mechanize::TWiki 0.05;
 
 my $Config = {
@@ -123,7 +123,7 @@ __TEMPLATE__
     $destMech->click_button( value => 'Save' );
     
     # attachments
-    my $uaAttachment = LWP::UserAgent::TWiki::WikiGuest->new( agent => $Config->{agent} ) or die $!;
+    my $uaAttachment = LWP::UserAgent::Foswiki::WikiGuest->new( agent => $Config->{agent} ) or die $!;
     my @attachments = $srcMech->getAttachmentsList( $topic );
     foreach my $attachment ( @attachments )
     {

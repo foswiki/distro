@@ -60,7 +60,8 @@ sub usage {
  Usage: pseudo-install.pl -felc [all|default|<module>...]
     -f[orce] - force an action to complete even if there are warnings
     -e[nable] - automatically enable installed plugins in LocalSite.cfg
-              (only if there is no existing configuration setting)
+                (default)
+    -m[anual] - no not automatically enable installed plugins in LocalSite.cfg
     -l[ink] - create links $linkByDefault
     -c[opy] - copy instead of linking $copyByDefault
     -u[ninstall] - self explanatory (doesn't remove dirs)
@@ -108,7 +109,15 @@ sub installModule {
         return;
     }
 
-    my $manifest = findRelativeTo("$moduleDir/lib/TWiki/$subdir/$module/",'MANIFEST');
+    my $manifest = findRelativeTo("$moduleDir/lib/Foswiki/$subdir/$module/",
+                                  'MANIFEST');
+    my $libDir = "Foswiki";
+
+    if (!-e $manifest) {
+        $manifest = findRelativeTo("$moduleDir/lib/TWiki/$subdir/$module/",
+                                   'MANIFEST');
+        $libDir = "TWiki";
+    }
 
     if( -e "$manifest" ) {
         open( F, "<$manifest" ) || die $!;
@@ -123,6 +132,7 @@ sub installModule {
         }
         close(F);
     } else {
+        $libDir = undef;
         print STDERR "---> No MANIFEST in $module (at $manifest)\n";
     }
     if( -d "$moduleDir/test/unit/$module" ) {
@@ -133,6 +143,7 @@ sub installModule {
         }
         closedir(D);
     }
+    return $libDir;
 }
 
 sub copy_in {
@@ -237,34 +248,41 @@ sub uninstall {
 }
 
 sub enablePlugin {
-    my ($module, $installing) = @_;
+    my ($module, $installing, $libDir) = @_;
     my $cfg = '';
+    print "Updating LocalSite.cfg\n";
     if (open(F, "<lib/LocalSite.cfg")) {
         local $/;
         $cfg = <F>;
         $cfg =~ s/\r//g;
     }
-    if ($cfg =~ s/\$TWiki::cfg{Plugins}{$module}{Enabled}\s*=\s*(\d+)[\s;]+//s) {
-        # Already enabled/disabled
-        return if ($installing); # installing, keep the old setting
-        # otherwise uninstalling, remove the old value
-    } elsif (!$installing) {
-        # Not there and we don't want to enable it
-        return;
+    my $changed = 0;
+    if ($cfg =~
+          s/\$Foswiki::cfg{Plugins}{$module}{Enabled}\s*=\s*(\d+)[\s;]+//sg) {
+        $cfg =~ s/\$Foswiki::cfg{Plugins}{$module}{Module}\s*=.*?;\s*//sg;
+        # Removed old setting
+        $changed = 1;
     }
     if ($installing) {
-        $cfg = "\$TWiki::cfg{Plugins}{$module}{Enabled} = 1;\n".$cfg;
+        $cfg = "\$Foswiki::cfg{Plugins}{$module}{Enabled} = 1;\n".
+               "\$Foswiki::cfg{Plugins}{$module}{Module} = '${libDir}::Plugins::$module';\n".
+                 $cfg;
+          $changed = 1;
     }
-    if (open(F, ">lib/LocalSite.cfg")) {
-        print F $cfg;
-        close(F);
-        print(($installing ? 'En' : 'Dis'),"abled $module in LocalSite.cfg\n");
-    } else {
-        print STDERR "WARNING: failed to write lib/LocalSite.cfg\n";
+
+    if ($changed) {
+        if (open(F, ">lib/LocalSite.cfg")) {
+            print F $cfg;
+            close(F);
+            print(($installing ? 'En' : 'Dis'),
+                  "abled $module in LocalSite.cfg\n");
+        } else {
+            print STDERR "WARNING: failed to write lib/LocalSite.cfg\n";
+        }
     }
 }
 
-my $autoenable = 0;
+my $autoenable = 1;
 my $installing = 1;
 $install = $CAN_LINK ? \&just_link : \&copy_in;
 
@@ -280,6 +298,8 @@ while (scalar(@ARGV) && $ARGV[0] =~ /^-/) {
         $install = \&uninstall;
         $installing = 0;
     } elsif ($arg =~ /^-e/) {
+        $autoenable = 1;
+    } elsif ($arg =~ /^-m/) {
         $autoenable = 1;
     }
 }
@@ -312,9 +332,9 @@ print(($installing ? 'I' : 'Uni'), "nstalling extensions: ",
       join(", ", @modules), "\n");
 
 foreach my $module (@modules) {
-    installModule($module);
+    my $libDir = installModule($module);
     if ((!$installing || $autoenable) && $module =~ /Plugin$/) {
-        enablePlugin($module, $installing);
+        enablePlugin($module, $installing, $libDir);
     }
 }
 

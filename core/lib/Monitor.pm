@@ -10,12 +10,12 @@ Monitor::MARK("Another event");
 or, to monitor all the calls to a module
 
 use Monitor;
-Monitor::MonitorMethod('TWiki::Users');
+Monitor::MonitorMethod('Foswiki::Users');
 
 or a function
 
 use Monitor;
-Monitor::MonitorMethod('TWiki::Users', 'getCanonicalUserID');
+Monitor::MonitorMethod('Foswiki::Users', 'getCanonicalUserID');
 
 Then set the environment variable TWIKI_MONITOR to a perl true value, and
 run the script from the command line e.g:

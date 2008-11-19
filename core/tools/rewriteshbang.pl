@@ -2,8 +2,8 @@
 #
 # Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2005-2007 TWiki Contributors.
-# All Rights Reserved. TWiki Contributors are listed in
+# Copyright (C) 2005-2007 Foswiki Contributors.
+# All Rights Reserved. Foswiki Contributors are listed in
 # the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
 #

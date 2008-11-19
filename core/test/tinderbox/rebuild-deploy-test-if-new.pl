@@ -86,7 +86,7 @@ if ( $Config->{force} || $newVersionAvailable )
 	throw Error::Simple( 'build error' ) if $?;
 
 	# SMELL
-	my $wikiPage = LWP::Simple::get( 'http://tinderbox.wbniv.wikihosting.com/cgi-bin/twiki/view.cgi/TWiki/WebHome' );
+	my $wikiPage = LWP::Simple::get( 'http://tinderbox.wbniv.wikihosting.com/cgi-bin/twiki/view.cgi/Foswiki/WebHome' );
 	throw Error::Simple( 'installation error' ) unless ( $wikiPage || '' ) =~ /build\s+$rev/i;
 
 	# mark build complete

@@ -1,7 +1,7 @@
 # Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 1999-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root of
+# Copyright (C) 1999-2007 Foswiki Contributors. All Rights Reserved.
+# Foswiki Contributors are listed in the AUTHORS file in the root of
 # this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@
 # It is invoked from the individual installer scripts shipped with
 # extensions, and should not be run directly.
 #
-package TWiki::Extender;
+package Foswiki::Extender;
 use strict;
 
 use Cwd;
@@ -75,23 +75,23 @@ BEGIN {
     require 'setlib.cfg';
 
     # See if we can make a TWiki. If we can, then we can save topic
-    # and attachment histories. Key off TWiki::Merge because it was
+    # and attachment histories. Key off Foswiki::Merge because it was
     # added in Dakar.
-    if( &$check_perl_module( 'TWiki::Merge' )) {
+    if( &$check_perl_module( 'Foswiki::Merge' )) {
         eval {
-            require TWiki;
+            require Foswiki;
             # We have to get the admin user, as a guest user may be blocked.
             # TWiki 4.2 has AdminUserLogin; for earlier releases, we need to
             # do something a bit different.
-            my $user = $TWiki::cfg{AdminUserLogin} || 'admin';
-            $twiki = new TWiki($user);
-            # Compatibility with 4.0 <= TWiki::VERSION < 4.2
+            my $user = $Foswiki::cfg{AdminUserLogin} || 'admin';
+            $twiki = new Foswiki($user);
+            # Compatibility with 4.0 <= Foswiki::VERSION < 4.2
             if ($twiki->{users}->can('findUser')) {
-                $TWiki::Plugins::SESSION = $twiki;
+                $Foswiki::Plugins::SESSION = $twiki;
                 $twiki->{user} =
                   $twiki->{users}->findUser(
-                      $TWiki::cfg{AdminUserWikiName},
-                      $TWiki::cfg{AdminUserWikiName});
+                      $Foswiki::cfg{AdminUserWikiName},
+                      $Foswiki::cfg{AdminUserWikiName});
             }
             chdir($installationRoot);
             $twiki4OrMore = 1;
@@ -122,7 +122,7 @@ BEGIN {
 Given a "canonical" path, convert it using the remappings in LocalSite.cfg to a site-
 specific path. For example, if a site defines:
 <verbatim>
-$TWiki::cfg{UsersWebName} = 'Users';
+$Foswiki::cfg{UsersWebName} = 'Users';
 </verbatim>
 then this function will convert =data/Main/Burble.txt= to =data/Users/Burble.txt=.
 
@@ -233,7 +233,7 @@ But when I tried to find it I got this error:
 $msg
 DONE
 
-    if( $dep->{name} =~ m/^TWiki::(Contrib|Plugins)::(\w*)/ ) {
+    if( $dep->{name} =~ m/^Foswiki::(Contrib|Plugins)::(\w*)/ ) {
         my $pack = $1;
         my $packname = $2;
         $packname .= $pack if( $pack eq 'Contrib' && $packname !~ /Contrib$/);
@@ -357,9 +357,9 @@ sub prompt {
 # then if that fails, the Cairo name (if any).
 # Example:
 # =getConfig("Name")=
-# will get the value of =$TWiki::cfg{Name}=.
+# will get the value of =$Foswiki::cfg{Name}=.
 # =getConfig("MyPlugin", "Name")=
-# will get the value of =$TWiki::cfg{Name}=.
+# will get the value of =$Foswiki::cfg{Name}=.
 # =getConfig("HomeTopicName", undef, '$mainTopicname')=
 # will get the name of the WebHome topic on Dakar and Cairo.
 #
@@ -368,11 +368,11 @@ sub prompt {
 sub getConfig {
     my( $major, $minor, $cairo ) = @_;
 
-    if( $minor && defined $TWiki::cfg{$major}{$minor} ) {
-        return getTWikiCfg("{$major}{$minor}");
+    if( $minor && defined $Foswiki::cfg{$major}{$minor} ) {
+        return getFoswikiCfg("{$major}{$minor}");
     }
-    if (!$minor && defined $TWiki::cfg{$major}) {
-        return getTWikiCfg("{$minor}");
+    if (!$minor && defined $Foswiki::cfg{$major}) {
+        return getFoswikiCfg("{$minor}");
     }
 
     if( defined $cairo ) {
@@ -408,16 +408,16 @@ sub commentConfig {
 #    * =...= list of minorkey=>value pairs
 # Set the given configuration variables in LocalSite.cfg. =$value= must be
 # complete with all syntactic sugar, including quotes.
-# The valued are written to $TWiki::cfg{major key}{setting} if a major
-# key is given (recommended, use the plugin name) or $TWiki::cfg{setting} otherwise. Example:
+# The valued are written to $Foswiki::cfg{major key}{setting} if a major
+# key is given (recommended, use the plugin name) or $Foswiki::cfg{setting} otherwise. Example:
 # <verbatim>
 # setConfig( 'CarsPlugin', Name=>"'Mercedes'" };
 # setConfig( Tools => "qw(hammer saw screwdriver)" };
 # </verbatim>
 # will write
 # <verbatim>
-# $TWiki::cfg{CarsPlugin}{Best} = 'Mercedes';
-# $TWiki::cfg{Tools} = qw(hammer saw screwdriver);
+# $Foswiki::cfg{CarsPlugin}{Best} = 'Mercedes';
+# $Foswiki::cfg{Tools} = qw(hammer saw screwdriver);
 # </verbatim>
 
 sub setConfig {
@@ -439,9 +439,9 @@ sub setConfig {
         # kill the old settings (and previous comment) if any are there
         foreach my $setting ( keys %keys ) {
             if( $key ) {
-                $txt =~ s/(# \*\*.*?\n(#.*?\n))?\$TWiki::cfg{$key}{$setting}\s*=.*;\r?\n//s;
+                $txt =~ s/(# \*\*.*?\n(#.*?\n))?\$Foswiki::cfg{$key}{$setting}\s*=.*;\r?\n//s;
             } else {
-                $txt =~ s/(# \*\*.*?\n(#.*?\n))?\$TWiki::cfg{$setting}\s*=.*;\r?\n//s;
+                $txt =~ s/(# \*\*.*?\n(#.*?\n))?\$Foswiki::cfg{$setting}\s*=.*;\r?\n//s;
             }
         }
     }
@@ -451,9 +451,9 @@ sub setConfig {
     print F $txt if $txt;
     foreach my $setting ( keys %keys ) {
         if( defined $key ) {
-            print F '$TWiki::cfg{'.$key.'}{'.$setting.'} = ';
+            print F '$Foswiki::cfg{'.$key.'}{'.$setting.'} = ';
         } else {
-            print F '$TWiki::cfg{'.$setting.'} = ';
+            print F '$Foswiki::cfg{'.$setting.'} = ';
         }
         print F $keys{$setting}, ";\n";
     }
@@ -728,7 +728,7 @@ sub checkin {
 
     if( $twiki ) {
         if( $file ) {
-            my $origfile = $TWiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
+            my $origfile = $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
             print "Add attachment $origfile\n";
             return 1 if ($inactive);
             print <<DONE;
@@ -749,7 +749,7 @@ DONE
             File::Copy::copy($origfile, $tmpfilename) ||
               die "$origfile could not be copied to tmp dir ($tmpfilename): $!";
             eval {
-                TWiki::Func::saveAttachment(
+                Foswiki::Func::saveAttachment(
                     $web, $topic, $file,
                     { comment => 'Saved by install script',
                       file => $tmpfilename,
@@ -767,8 +767,8 @@ DONE
             # read the topic to recover meta-data
             eval {
                 my( $meta, $text ) =
-                  TWiki::Func::readTopic( $web, $topic );
-                TWiki::Func::saveTopic(
+                  Foswiki::Func::readTopic( $web, $topic );
+                Foswiki::Func::saveTopic(
                     $web, $topic, $meta, $text,
                     { comment => 'Saved by install script' } );
             };
@@ -795,13 +795,13 @@ sub _uninstall {
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if( $reply ) {
-        TWiki::preuninstall();
+        Foswiki::preuninstall();
         foreach $file ( keys %$MANIFEST ) {
             if( -e $file ) {
                 unlink( $file );
             }
         }
-        TWiki::postuninstall();
+        Foswiki::postuninstall();
         print "### $MODULE uninstalled ###\n";
     }
     return 1;
@@ -928,12 +928,12 @@ sub _install {
 
     my $path = $MODULE;
 
-    if ($path !~ /^TWiki::/) {
+    if ($path !~ /^Foswiki::/) {
         my $type = 'Contrib';
         if ($path =~ /Plugin$/) {
             $type = 'Plugins';
         }
-        $path = 'TWiki::'.$type.'::'.$rootModule;
+        $path = 'Foswiki::'.$type.'::'.$rootModule;
     }
 
     eval 'use '.$path;
@@ -956,7 +956,7 @@ DONE
         print STDERR "Unable to locate suitable archive for install";
         return 0;
     }
-    TWiki::preinstall();
+    Foswiki::preinstall();
     my $tmpdir = unpackArchive( $archive );
     print "Archive unpacked\n";
     return 0 unless $tmpdir;
@@ -965,7 +965,7 @@ DONE
     print "\n### $MODULE installed";
     print ' with ',$unsatisfied.' unsatisfied dependencies' if ( $unsatisfied );
     print " ###\n";
-    TWiki::postinstall();
+    Foswiki::postinstall();
 
     print "\n### Installation finished ###\n";
     return ($unsatisfied ? 0 : 1);

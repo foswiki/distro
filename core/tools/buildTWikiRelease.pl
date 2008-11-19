@@ -89,8 +89,8 @@ chdir($twikihome);
 #TODO: #  fix up release notes with new changelogs - see
 #
 #    * http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ReleaseNotesTml?type=patch
-#        * Note that the release note is edited by editing the topic data/TWiki/TWikiReleaseNotes04x00. The build script creates a file in the root of the zip called TWikiReleaseNotes04x00? .html, and the build script needs your Twiki to be running to look up the release note topic and show it with the simple text skin.
-#            * Note - from 4.1 we need to call this data/TWiki/TWikiReleaseNotes04x01 
+#        * Note that the release note is edited by editing the topic data/Foswiki/TWikiReleaseNotes04x00. The build script creates a file in the root of the zip called TWikiReleaseNotes04x00? .html, and the build script needs your Twiki to be running to look up the release note topic and show it with the simple text skin.
+#            * Note - from 4.1 we need to call this data/Foswiki/TWikiReleaseNotes04x01 
 #
 #
 
@@ -122,11 +122,11 @@ if ($SvensAutomatedBuilds) {
 sub getLocalSite {
    my $twikidir = shift;
 
-#   open(TS, "$twikidir/lib/TWiki.spec");
+#   open(TS, "$twikidir/lib/Foswiki.spec");
 #   local $/ = undef;
 #   my $localsite = <TS>;
 #   close(TS);
-   my $localsite = `grep 'TWiki::cfg' $twikidir/lib/TWiki.spec`;
+   my $localsite = `grep 'Foswiki::cfg' $twikidir/lib/Foswiki.spec`;
 
    $localsite =~ s|/home/httpd/twiki|$twikidir|g;
    $localsite =~ s|# \$TWiki|\$TWiki|g;
