@@ -1376,6 +1376,7 @@ sub new {
     $query ||= new Foswiki::Request();
     my $this = bless( {}, $class );
     $this->{request}  = $query;
+    $this->{cgiQuery}  = $query; # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
 
     # Tell Foswiki::Response which charset we are using if not default

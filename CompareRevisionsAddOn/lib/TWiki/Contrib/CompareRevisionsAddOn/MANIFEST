@@ -5,6 +5,7 @@ data/TWiki/CompareRevisionsAddOn.txt 0644
 data/TWiki/CompareRevisionsAddonPlugin.txt 0644
 lib/TWiki/Plugins/CompareRevisionsAddonPlugin.pm 0444
 lib/TWiki/Contrib/CompareRevisionsAddOn/Compare.pm 0444
+lib/TWiki/Contrib/CompareRevisionsAddOn/Config.spec 0444
 pub/TWiki/CompareRevisionsAddOn/interweave.png 0644
 pub/TWiki/CompareRevisionsAddOn/sidebyside.png 0644
 templates/compare.tmpl 0444

@@ -139,7 +139,7 @@ sub compare {
     $tmpl = TWiki::Func::renderText( $tmpl, $webName );
 	$tmpl =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois
       ;
-      
+
     my (
         $tmpl_before, $tmpl_us, $tmpl_u, $tmpl_c,
         $tmpl_a,      $tmpl_d,  $tmpl_after
@@ -154,7 +154,7 @@ sub compare {
 
     # Start the output
 
-    print $query->header;
+    print CGI::header();
     print $tmpl_before;
 
     # Compare the trees
@@ -285,7 +285,7 @@ sub compare {
       ;    # remove <nop> and <noautolink> tags
 
     print $tmpl_after;
-    print $query->end_html;
+    print CGI::end_html;
 
 }
 

@@ -14,6 +14,7 @@ our $VERSION = 1.2;
 
     sub TIESCALAR { return bless({}, shift) }
     sub FETCH { return $Foswiki::Plugins::SESSION; }
+    sub STORE { } # no way, Jose!
 };
 
 tie($SESSION, 'TWiki::Plugins::SESSION_TIE');
