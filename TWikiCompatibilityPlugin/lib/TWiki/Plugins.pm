@@ -10,6 +10,7 @@ our $VERSION = 1.026;
     package TWiki::Plugins::SESSION_TIE;
     use base 'Tie::Scalar';
 
+    sub TIESCALAR { return bless({}, shift) }
     sub FETCH { return $Foswiki::Plugins::SESSION; }
 };
 

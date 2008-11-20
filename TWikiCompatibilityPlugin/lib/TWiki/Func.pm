@@ -111,10 +111,10 @@ __DATA__
 
 Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2000-2007 Peter Thoeny, peter@thoeny.org
-and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
-NOTE: Please extend that file, not this notice.
+# Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+#
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
