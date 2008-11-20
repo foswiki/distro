@@ -13,6 +13,8 @@ Automaticalle maps requests for legacy TWiki web topics to Foswiki free topics a
 
 Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings required.
 
+---+++ TODO:
+   1 pub file redirection - will probably have to be a final regex in postRendering
 
 ---++ Installation Instructions
 
@@ -23,9 +25,9 @@ Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings requi
 Many thanks to the following sponsors for supporting this work:
    * Acknowledge any sponsors here
 
-|  Plugin Author(s): | |
-|  Copyright: | &copy; |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Plugin Author(s): | SvenDowideit |
+|  Copyright: | &copy; SvenDowideit@fosiki.com |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL3 (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
