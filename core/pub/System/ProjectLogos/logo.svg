@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="fos.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/crawford/logos/fos.png"
+   inkscape:export-xdpi="300.01999"
+   inkscape:export-ydpi="300.01999">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="284.2026"
+     inkscape:cy="240.27602"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1229"
+     inkscape:window-height="930"
+     inkscape:window-x="0"
+     inkscape:window-y="27">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3167"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#006f1f;fill-opacity:0.29460581;fill-rule:nonzero;stroke:#000000;stroke-width:14.76720333;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.90041492"
+       id="path3155"
+       sodipodi:cx="336.78571"
+       sodipodi:cy="432.00504"
+       sodipodi:rx="38.214287"
+       sodipodi:ry="42.5"
+       d="M 374.99999,432.00504 A 38.214287,42.5 0 1 1 298.57142,432.00504 A 38.214287,42.5 0 1 1 374.99999,432.00504 z"
+       transform="matrix(1.3590734,0,0,1.2679988,-320.298,381.94194)"
+       inkscape:export-filename="/home/crawford/logos/logo140x40.png"
+       inkscape:export-xdpi="20.102102"
+       inkscape:export-ydpi="20.102102" />
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3.54330707;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 96.385637,901.54806 C 82.708023,928.90333 82.708023,928.90333 96.385637,956.25857 C 82.708023,956.25857 82.708023,956.25857 69.030409,942.58095 C 69.030409,983.61379 58.451623,961.92191 55.352795,956.25857 C 55.352795,915.22566 51.078541,897.27379 55.352795,901.54806 C 69.030409,928.90333 69.030409,915.22566 96.385637,901.54806 z"
+       id="path3165"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-filename="/home/crawford/logos/logo140x40.png"
+       inkscape:export-xdpi="20.102102"
+       inkscape:export-ydpi="20.102102" />
+    <path
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:10.79341698;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 164.7737,887.87044 C 137.41848,874.19282 110.06325,901.54806 137.41848,928.90333 C 164.7737,956.25857 137.41848,983.61379 110.06325,969.93617"
+       id="path3169"
+       sodipodi:nodetypes="csc"
+       inkscape:export-filename="/home/crawford/logos/logo140x40.png"
+       inkscape:export-xdpi="20.102102"
+       inkscape:export-ydpi="20.102102" />
+    <path
+       id="path3176"
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:17.90464401;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 27.997568,1024.6467 C 69.030409,1065.6795 82.708023,983.61379 55.352795,928.90333 C 29.27596,876.74958 55.352795,792.12714 96.385637,833.15998 C 69.030409,833.15998 29.27596,876.74958 55.352795,928.90333 C 82.708023,983.61379 55.352795,1024.6467 27.997568,1024.6467 z"
+       sodipodi:nodetypes="cscsc"
+       inkscape:export-filename="/home/crawford/logos/logo140x40.png"
+       inkscape:export-xdpi="20.102102"
+       inkscape:export-ydpi="20.102102" />
+    <text
+       xml:space="preserve"
+       style="font-size:137.87042236px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:OpenSymbol"
+       x="221.98274"
+       y="970.79712"
+       id="text3235"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0203122,0.9800922)"
+       inkscape:export-filename="/home/crawford/logos/logo140x40.png"
+       inkscape:export-xdpi="20.102102"
+       inkscape:export-ydpi="20.102102"><tspan
+         sodipodi:role="line"
+         id="tspan3237"
+         x="221.98274"
+         y="970.79712">Foswiki</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:31.63923645px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#eb0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:OpenSymbol;-inkscape-font-specification:OpenSymbol Bold"
+       x="261.80524"
+       y="966.75409"
+       id="text3239"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/home/crawford/logos/logo140x40.png"
+       inkscape:export-xdpi="20.102102"
+       inkscape:export-ydpi="20.102102"
+       transform="scale(0.9638389,1.0375177)"><tspan
+         sodipodi:role="line"
+         x="261.80524"
+         y="966.75409"
+         id="tspan3243"
+         style="font-size:31.63923645px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#eb0000;fill-opacity:1;font-family:OpenSymbol;-inkscape-font-specification:OpenSymbol Bold">Where community <tspan
+   style="font-size:31.63923645px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:OpenSymbol;-inkscape-font-specification:OpenSymbol Bold Italic"
+   id="tspan3281">matters</tspan></tspan></text>
+  </g>
+</svg>

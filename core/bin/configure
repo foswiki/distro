@@ -337,8 +337,7 @@ if( $action eq 'image' ) {
     $image = $1;
     if( (defined($image)) && 
         (($image eq 'favicon.ico') ||
-        ($image eq 'logo22x26.gif') ||
-        ($image eq 'logo140x40.gif') ||
+        ($image eq 'banner.gif') ||
         ($image eq 'warning.gif') ||
         ($image eq 'info.gif')) ) {
         #ignore $query->param('type') and set it using our special knowledge
@@ -405,7 +404,7 @@ print <<'HERE';
 HERE
 
 # use this script recursively to serve the icon image
-print CGI::img({src=>$scriptName.'?action=image;image=logo140x40.gif;type=image/gif', class=>'logo', alt=>'Foswiki', width=>'140', height=>'40'});
+print CGI::img({src=>$scriptName.'?action=image;image=banner.gif;type=image/gif', class=>'logo', alt=>'Foswiki'});
 
 my $stub = new Foswiki::Configure::Item();
 # This call will define $Foswiki::defaultCfg by loading .spec files
