@@ -76,8 +76,6 @@ package Foswiki::Plugins;
 use strict;
 use Assert;
 
-use Package::Alias 'TWiki::Plugins' => 'Foswiki::Plugins';
-
 require Foswiki::Plugin;
 
 use vars qw ( $VERSION $SESSION $inited );

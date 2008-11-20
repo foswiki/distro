@@ -10,7 +10,7 @@ use FindBin;
 
 our $install;
 our $basedir;
-our @twikiplugins_path;
+our @extensions_path;
 our $CAN_LINK;
 our $force;
 our $parentdir;
@@ -18,11 +18,11 @@ our $parentdir;
 BEGIN {
     $basedir = $FindBin::Bin; # core dir
     $parentdir = "$basedir/..";
-    my $path = $ENV{TWIKI_EXTENSIONS} || '';
+    my $path = $ENV{FOSWIKI_EXTENSIONS} || '';
     $path .= $Config::Config{path_sep}."$basedir/twikiplugins"
       .$Config::Config{path_sep}.'.'
       .$Config::Config{path_sep}.$parentdir;
-    @twikiplugins_path =
+    @extensions_path =
       grep(-d $_, split(/$Config::Config{path_sep}/, $path));
 
     my $n = 0;
@@ -53,11 +53,10 @@ sub usage {
  more useable development environment.
 
  It picks up the extensions to be installed from a path defined in the
- environment variable TWIKI_EXTENSIONS, or if it is not defined,
- from the twikiplugins directory in the current checkout, or from the
- parent directory of the current checkout.
+ environment variable FOSWIKI_EXTENSIONS, or if it is not defined,
+ from the parent directory of the current checkout.
 
- Usage: pseudo-install.pl -felc [all|default|<module>...]
+ Usage: pseudo-install.pl -felc [all|default|developer|<module>...]
     -f[orce] - force an action to complete even if there are warnings
     -e[nable] - automatically enable installed plugins in LocalSite.cfg
                 (default)
@@ -67,6 +66,7 @@ sub usage {
     -u[ninstall] - self explanatory (doesn't remove dirs)
     all - install all extensions
     default - install extensions listed in lib/MANIFEST
+    developer - default + key developer environment
     <module>... one or more extensions to install
 
  Example:
@@ -96,7 +96,7 @@ sub installModule {
     $subdir = 'Tags' if $module =~ /Tag$/;
     my $moduleDir;
 
-    foreach my $dir (@twikiplugins_path) {
+    foreach my $dir (@extensions_path) {
         if (-d "$dir/$module/") {
             $moduleDir = "$dir/$module";
             last;
@@ -210,6 +210,13 @@ sub just_link {
         } elsif( -e "$path$c" ) {
             print STDERR "ERROR $path$c is in the way\n";
             last;
+        } elsif ( $c eq 'TWiki') {
+            # Special case
+            $path .= "$c/";
+            if (!mkdir("$path$c")) {
+                print STDERR "Could not mkdir $path\n";
+                last;
+            };
         } else {
             my $tgt = _cleanPath("$base$path$c");
             if (-e $tgt) {
@@ -312,7 +319,7 @@ unless (scalar(@ARGV)) {
 my @modules;
 
 if ($ARGV[0] eq "all") {
-    foreach my $dir (@twikiplugins_path) {
+    foreach my $dir (@extensions_path) {
         opendir(D, $dir) || next;
         push(@modules, grep(/(Tag|Plugin|Contrib|Skin|AddOn)$/, readdir(D)));
         closedir( D );
@@ -324,6 +331,16 @@ if ($ARGV[0] eq "all") {
       map { /(\w+)$/; $1 }
         grep { /^!include/ } <F>;
     close(F);
+} elsif ($ARGV[0] eq "developer") {
+    open(F, "<", "lib/MANIFEST") || die "Could not open MANIFEST: $!";
+    local $/ = "\n";
+    @modules =
+      map { /(\w+)$/; $1 }
+        grep { /^!include/ } <F>;
+    close(F);
+    push(@modules, 'BuildContrib');
+    push(@modules, 'TestFixturePlugin');
+    push(@modules, 'UnitTestContrib');
 } else {
     @modules = @ARGV;
 }

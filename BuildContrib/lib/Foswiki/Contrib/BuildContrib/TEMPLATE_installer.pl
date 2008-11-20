@@ -2,8 +2,8 @@
 #
 # Install script for %$MODULE%
 #
-# Copyright (C) 2004-2007 NextWiki Contributors. All Rights Reserved.
-# NextWiki Contributors are listed in the AUTHORS file in the root of
+# Copyright (C) 2004-2007 Foswiki Contributors. All Rights Reserved.
+# Foswiki Contributors are listed in the AUTHORS file in the root of
 # this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
@@ -54,9 +54,9 @@ Refer to the documentation of =configure=
 
 =cut
 
-# This is all done in package TWiki so that reading LocalSite.cfg and TWiki.cfg
+# This is all done in package Foswiki so that reading LocalSite.cfg and Foswiki.cfg
 # will put the config vars into the right namespace.
-package TWiki;
+package Foswiki;
 
 # The root of package URLs
 my $PACKAGES_URL = '%$UPLOADTARGETPUB%/%$UPLOADTARGETWEB%';
@@ -138,7 +138,7 @@ sub postinstall {
     # %$POSTINSTALL%;
 }
 
-TWiki::Extender::install( $PACKAGES_URL, '%$MODULE%', '%$ROOTMODULE%', @DATA );
+Foswiki::Extender::install( $PACKAGES_URL, '%$MODULE%', '%$ROOTMODULE%', @DATA );
 
 1;
 

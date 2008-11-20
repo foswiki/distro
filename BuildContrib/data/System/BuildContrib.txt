@@ -1,4 +1,4 @@
----+!! NextWiki Developer Environment
+---+!! Foswiki Developer Environment
 <div style="float:right">
 <a href="http://wikiring.com"><img src="%ATTACHURLPATH%/logo.gif" title="WikiRing: Professional Wiki Innovation and Support" /></a>
 </div>
@@ -20,8 +20,8 @@ Automates build and packaging process, including installer generation, for exten
 
 !BuildContrib can be used to create a build script for your extension.
 It is inspired by the Java ANT build tool developed by the Apache project,
-but is targeted specifically at building NextWiki (and TWiki&trade;) extensions. It is also
-used for NextWiki release builds. The advantage of using !BuildContrib is that it
+but is targeted specifically at building Foswiki (and TWiki&trade;) extensions. It is also
+used for Foswiki release builds. The advantage of using !BuildContrib is that it
 dictates a standard structure and build procedure, which makes your extension
 easier for you, and others, to build and maintain.
 
@@ -61,7 +61,7 @@ The build module assumes:
       * usually - but not always - a subversion checkout area.
 
 ---++ Standard directory structure
-!BuildContrib is used to build the NextWiki core, as well as most extensions. This
+!BuildContrib is used to build the Foswiki core, as well as most extensions. This
 document will focus on its use for building extensions. See the
 =tools/build.pl= file in a subversion checkout for information on building
 the core.
@@ -73,7 +73,7 @@ This directory is called the _root directory_ for the extension.
 The standard directory structure under a root directory mirrors a standard
 installation tree. Every plugin has some _key files_:
    * =lib/=
-      * =TWiki/=
+      * =Foswiki/=
          * =Plugins/=
             * <code><i>name</i>.pm</code> - code file for the plugin, usually derived
               from !EmptyPlugin
@@ -86,21 +86,21 @@ installation tree. Every plugin has some _key files_:
                * =DEPENDENCIES= - list of modules this extension depends on
                * =Config.spec= - =configure= setup for this extension
    * =data/=
-      * =TWiki/=
+      * =System/=
          * <code><i>name</i>.txt</code> - your plugin/contrib topic
    * =test/=
       * =unit/=
          * <code><i>name</i>/</code> - directory containing unit tests for the
            extension
    * =pub/=
-      * =TWiki/=
+      * =System/=
          * <code><i>name</i>/</code> - directory where all your images, css, and Javascript files should go
-Contribs are held in the =lib/TWiki/Contrib= directory instead of =lib/TWiki/Plugins= but otherwise in exactly work the same way.
+Contribs are held in the =lib/TWiki/Contrib= directory instead of =lib/Foswiki/Plugins= but otherwise in exactly work the same way.
 
-Other directories normally found in a NextWiki installation may also exist under
+Other directories normally found in a Foswiki installation may also exist under
 a root directory e.g. =bin=, =templates= etc.
 
-While development in a subversion checkout is *strongly* recommended, it is also possible to develop in a normal TWiki install. To do this, simply install the !BuildContrib.
+While development in a subversion checkout is *strongly* recommended, it is also possible to develop in a normal Foswiki install. To do this, simply install the !BuildContrib.
 
 ---++ Setting up for Development
 The first thing to do is to either
@@ -113,16 +113,16 @@ Now install the !BuildContrib. In a subversion checkout, =cd= to the installatio
 
 ---+++ Environment Variables
 
-Your build script has to know how to find the NextWiki libraries, so it can
-pick up the components of the build system. Set =TWIKI_LIBS= (which is a
+Your build script has to know how to find the Foswiki libraries, so it can
+pick up the components of the build system. Set =FOSWIKI_LIBS= (which is a
 path, same as =PERL5LIB=) to point to your =lib= directory in your development
-NextWiki. =$TWIKI_LIBS= is used to extend @INC _for the duration of the build
+Foswiki. =$FOSWIKI_LIBS= is used to extend @INC _for the duration of the build
 only_, so it won't mask problems during testing.
 
-The approach we _recommend_ is to set =TWIKI_LIBS= in your login script (e.g. =.login=, =.csh=, =.profile= depending on what shell you prefer).
+The approach we _recommend_ is to set =FOSWIKI_LIBS= in your login script (e.g. =.login=, =.csh=, =.profile= depending on what shell you prefer).
 
 <blockquote style="background-color: #ddf">
-*EXPERTS* =build.pl= does *not* read =bin/setlib.cfg=. It uses =$TWIKI_LIBS= only to find the modules for the !BuildContrib.
+*EXPERTS* =build.pl= does *not* read =bin/setlib.cfg=. It uses =$FOSWIKI_LIBS= only to find the modules for the !BuildContrib.
 </blockquote>
 
 ---++ Build script
@@ -153,8 +153,6 @@ The targets you will normally use are:
 
 The default target is =test=. The !BuildContrib is designed so that most common behaviour is catered for. It is also easy to _override_ any of the default targets in your =build.pl= and add extra behaviours.
 
-Note that there is a shortcut script, =twikiplugins/build.pl=, that can be very helpful when you are building several extensions in one session. Run the script without parameters for documentation.
-
 ---+++ The =build= target
 Does nothing by default. This is the first target executed, and can be overridden by your build.pl to do something unusual - for example, executing an ANT file to build some Java.
 
@@ -167,7 +165,7 @@ Uses CPAN:JavaScript::Minifier and CPAN:CSS::Minifier to perform the compression
 
 ---+++ The =tidy= target
 This target runs Perl::Tidy (with default formatting options) over your
-source code. This reformats the code consistently with the NextWiki
+source code. This reformats the code consistently with the Foswiki
 coding standards.
 
 ---+++ The =test= target
@@ -202,8 +200,8 @@ If the path contains spaces it must be enclosed in double-quotes.
 Each file path has an optional octal permissions mask and a description.
 For example,
 <verbatim>
-data/TWiki/BathPlugin.txt 0664 Plugin description topic
-lib/TWiki/Plugins/BathPlugin.pm 0444 Plugin code module
+data/System/BathPlugin.txt 0664 Plugin description topic
+lib/Foswiki/Plugins/BathPlugin.pm 0444 Plugin code module
 </verbatim>
 If no permissions are given, permissions are guessed from the permissions on
 the file in the source tree. These permissions are used by the installer
@@ -225,14 +223,14 @@ Do *not* include:
    * =build.pl=, =MANIFEST=, or any other side file used by the build process.
    * unit tests
 
-MANIFESTs can also include other extensions that have been packages using
+MANIFESTs can also include other extensions that have been packaged using
 !BuildContrib. For example,
 <verbatim>
-!include twikiplugins/WysiwygPlugin/lib/TWiki/Plugins/WysiwygPlugin
+!include WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin
 </verbatim>
 This will include the !WysiwygPlugin in the release package.
 
-Note that there is a script in the NextWiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into Subversion.
+Note that there is a script in the Foswiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into Subversion.
 
 ---++ DEPENDENCIES
 The =DEPENDENCIES= file specifies dependencies on other extensions and
@@ -247,14 +245,14 @@ where
    * description is a short description of the module and where to get it.
 The installer script written by the build process uses the dependency type
 to decide how to install dependant modules. 'cpan' means 'get the module
-from CPAN' and 'perl' means 'get the module from the Plugins web on NextWiki.org'
-(or whatever other repositories the admin has specified using =$TWIKI_PACKAGES=
+from CPAN' and 'perl' means 'get the module from the Plugins web on Foswiki.org'
+(or whatever other repositories the admin has specified using =$FOSWIKI_PACKAGES=
 or =$PLUGINS_URL=).
 
 ---+++ Calculating DEPENDENCIES
 When your module (the _depender_) depends on another module (a _dependee_), it is important to think carefully about what version of the dependee your module requires.
 
-When you are working with NextWiki modules (such as contribs and plugins) you should list the version number of the module that you tested with. Normally you will want to use a <code>&gt;</code> condition, so that more recent versions will also work. If a dependency on a NextWiki module fails (because the module isn't installed, for example) then the installer script will pull *the latest version* of the module from NextWiki.org, whether that is the required version or not. This is a limitation of the way plugins are stored on NextWiki.org.
+When you are working with Foswiki modules (such as contribs and plugins) you should list the version number of the module that you tested with. Normally you will want to use a <code>&gt;</code> condition, so that more recent versions will also work. If a dependency on a Foswiki module fails (because the module isn't installed, for example) then the installer script will pull *the latest version* of the module from Foswiki.org, whether that is the required version or not. This is a limitation of the way plugins are stored on Foswiki.org.
 
 When you are working with CPAN modules, you need to take account of the fact that there are *two types* of CPAN modules; _built-ins_ and _add-ons_.
 
@@ -275,7 +273,7 @@ versions of other modules. For example,
 <verbatim>
 File::Munge,>0,cpan,...
 ONLYIF ($File::Munge::VERSION < 1.025)
-TWiki::FixOldFileFind, >=1.000, perl, Optional, only required if we have an old version of File::Munge.
+MyPackage::FixOldFileFind, >=1.000, perl, Optional, only required if we have an old version of File::Munge.
 </verbatim>
 The =ONLYIF= only applies to the next dependency in the file.
 
@@ -285,9 +283,9 @@ The easiest way to write a new build script is to use the
    1 Create your plugin source tree
       * =perl create_new_extension.pl BathPlugin=
       * if you are working in a Subversion checkout, move the directory just created up one level to be at the same level as =core=.
-   1 Edit =lib/TWiki/Plugins/BathPlugin.pm= as required to create your
+   1 Edit =lib/Foswiki/Plugins/BathPlugin.pm= as required to create your
      plugin functionality
-   1 Edit =lib/TWiki/Plugins/BathPlugin/MANIFEST= and make sure it lists
+   1 Edit =lib/Foswiki/Plugins/BathPlugin/MANIFEST= and make sure it lists
      all the files you want to include in the release package
 During development we recommend you use the =pseudo-install.pl= script to
 soft-link your development code into your dev install. This script uses the
@@ -309,7 +307,7 @@ You can extend this script by providing =PREINSTALL=, =POSTINSTALL=,
 =PREUNINSTALL=, and/or =POSTUNINSTALL= files in the module directory.
 These optional files are embedded into the template install script
 at the appropriate stage of the installation. Read
-=lib/TWiki/Contrib/BuildContrib/TEMPLATE_installer.pl= (in the !BuildContrib)
+=lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl= (in the !BuildContrib)
 to see how they fit in. The POD comments in that module indicate the functions
 that are most likely to be useful to anyone writing a script extension.
 
@@ -329,21 +327,21 @@ Tests are run using
 ---++ Building a release
 When you are almost ready to release, you should 
    1 Build a release package and installer
-      * =cd twikiplugins/BathPlugin/lib/TWiki/Plugins/BathPlugin=
+      * =cd BathPlugin/lib/TWiki/Plugins/BathPlugin=
       * =perl build.pl release=
    1 Remove the softlinked version from your dev install
       * =cd= _dev install_
       * =perl pseudo-install.pl -uninstall BathPlugin=
    1 Install the release package you just built:
       * =cd= _dev install_
-      * =perl twikiplugins/BathPlugin/BathPlugin_installer=
+      * =perl BathPlugin/BathPlugin_installer=
    1 Test.
 
 ---+++ Token expansion
 The =release= target automatically expands certain tokens in =.txt= files
 and in the installer script. The following tokens are supported:
    * =%$<nop>MANIFEST%= - table of files in MANIFEST
-   * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/TWiki/ThsiTopic.txt' => 0664, 'lib/TWiki/Plugins/BlahPlugin.pm' => 0775
+   * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/System/ThsiTopic.txt' => 0664, 'lib/TWiki/Plugins/BlahPlugin.pm' => 0775
    * =%$<nop>DEPENDENCIES%= - list of dependencies from DEPENDENCIES
    * =%$<nop>VERSION%= value of $VERSION
    * =%$<nop>DATE%= - local date
@@ -362,9 +360,9 @@ TODO: add code sample here?
 ---++ Upload
 When you are happy the release package is built correctly, you can
 upload it.
-   * =cd twikiplugins/BathPlugin/lib/TWiki/Plugins/BathPlugin=
+   * =cd BathPlugin/lib/TWiki/Plugins/BathPlugin=
    * =perl build.pl upload=
-By default the =upload= target will upload to NextWiki.org. You will be prompted
+By default the =upload= target will upload to Foswiki.org. You will be prompted
 to enter an alternate upload target, should you require it (e.g. to upload to
 private corporate repository). The upload updates the topic and any associated
 Var topics published by the extension, and uploads zip, tgz, md5 and installer
@@ -376,8 +374,8 @@ functioning of the extensions installer in =configure=.
 
 The installer script shipped with the package is very simple. By default all
 it does is to check the dependencies you list, and if necessary download and
-install any missing NextWiki and CPAN modules. Other dependencies are simply
-checked. In TWiki-4.0 and later releases, topics shipped with the
+install any missing Foswiki and CPAN modules. Other dependencies are simply
+checked. Topics shipped with the
 module are automatically merged into any existing local copies, ensuring
 histories are preserved.
 
@@ -388,12 +386,12 @@ If you want your installer to do anything else then you will need to write a [[#
 -->
 
 ---++ Installation Instructions
-You are strongly recommended to use this Contrib to help split your code development away from your live NextWiki environment, as described [[#DevelopmentModel][above]].
+You are strongly recommended to use this Contrib to help split your code development away from your live Foswiki environment, as described [[#DevelopmentModel][above]].
 
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Contrib Info
-Another great NextWiki/TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
 
 TWiki&trade; is a trademark of Peter Thoeny.
 

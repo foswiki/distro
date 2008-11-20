@@ -12,17 +12,17 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 #
-package TWiki::Contrib::Build;
+package Foswiki::Contrib::Build;
 
-use TWiki::Contrib::BuildContrib::BaseBuild;
+use Foswiki::Contrib::BuildContrib::BaseBuild;
 use Error qw(:try);
 use CGI qw(:any);
 
-=begin twiki
+=begin foswiki
 
----++ Package TWiki::Contrib::Build
+---++ Package Foswiki::Contrib::Build
 
-This is a base class used for making build scripts for TWiki packages.
+This is a base class used for making build scripts for Foswiki packages.
 
 ---+++ Methods
 
@@ -47,19 +47,21 @@ our $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = 'NextWiki-1';
+our $RELEASE = 'Foswiki-1';
 
 our $SHORTDESCRIPTION =
   'Automate build process for Plugins, Add-ons and Contrib modules';
 
-my $TWIKIORGPUB    = 'http://nextwiki.org/pub';
-my $TWIKIORGSCRIPT = 'http://nextwiki.org/bin';
-my $TWIKIORGSUFFIX = '';
-my $TWIKIORGBUGS   = 'http://nextwiki.org/Tasks';
-my $TWIKIORGEXTENSIONSWEB = "Extensions";
+my $UPLOADSITEPUB    = 'http://foswiki.org/pub';
+my $UPLOADSITESCRIPT = 'http://foswiki.org/bin';
+my $UPLOADSITESUFFIX = '';
+my $UPLOADSITEBUGS   = 'http://foswiki.org/Tasks';
+my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
+
+my $targetProject = 'Foswiki';# May change to 'TWiki'
 
 my $collector;           # general purpose handle for collecting stuff
 
@@ -95,17 +97,22 @@ BEGIN {
     $buildpldir = File::Spec->rel2abs($buildpldir);
 
     # Find the lib root
-    $libpath = _findRelativeTo( $buildpldir, 'lib/TWiki' );
-    die 'Could not find lib/TWiki' unless $libpath;
+    $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
+    unless ($libpath) {
+        $libpath = _findRelativeTo( $buildpldir, 'lib/TWiki' );
+        $targetProject = 'TWiki';
+    }
+    die 'Could not find lib/Foswiki or lib/TWiki' unless $libpath;
     $libpath =~ s#/[^/]*$##;
 
     $basedir = $libpath;
     $basedir =~ s#/[^/]*$##;
 
-    if ( $ENV{TWIKI_LIBS} ) {
+    my $env = $ENV{uc($targetProject).'_LIBS'};
+    if ( $env ) {
         my %known;
         map { $known{$_} = 1 } split( /:/, @INC );
-        foreach my $pc ( reverse split( /:/, $ENV{TWIKI_LIBS} ) ) {
+        foreach my $pc ( reverse split( /:/, $env ) ) {
             unless ( $known{$pc} ) {
                 unshift( @INC, $pc );
             }
@@ -116,7 +123,7 @@ BEGIN {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ new($project)
 | $project | Name of plugin, addon, contrib or skin |
@@ -133,7 +140,7 @@ sub new {
     my $this = bless( {}, $class );
 
     # Constants with internet paths
-    $this->{BUGSURL} = $TWIKIORGBUGS;
+    $this->{BUGSURL} = $UPLOADSITEBUGS;
 
     $this->{project} = $project;
     $this->{target}  = 'test';
@@ -159,17 +166,17 @@ sub new {
 
     $this->{basedir} = $basedir;
 
-    # The following paths are all relative to the root of the twiki
+    # The following paths are all relative to the root of the 
     # installation
 
     #SMELL: Hardcoded project classification
     # where the sub-modules live
     $this->{libdir} = $libpath;
     if ( $this->{project} =~ /Plugin$/ ) {
-        $this->{libdir} .= '/TWiki/Plugins';
+        $this->{libdir} .= "/$targetProject/Plugins";
     }
     elsif ( $this->{project} =~ /(Contrib|Skin)$/ ) {
-        $this->{libdir} .= '/TWiki/Contrib';
+        $this->{libdir} .= "/$targetProject/Contrib";
     }
 
     # the .pm module
@@ -177,28 +184,29 @@ sub new {
     $this->{pm} = $this->{libdir} . '/' . $this->{ROOTMODULE} . '.pm';
 
     my $stubpath = $this->{pm};
-    $stubpath =~ s/.*[\\\/](TWiki[\\\/].*)\.pm/$1/;
+    $stubpath =~ s/.*[\\\/]($targetProject[\\\/].*)\.pm/$1/;
     $stubpath =~ s/[\\\/]/::/g;
 
     # where data files live
-    $this->{data_twiki} = 'data/TWiki';
+    $this->{data_systemdir} =
+      ($targetProject eq 'TWiki') ? 'data/TWiki' : 'data/System';
 
     # the root of the name of data files
-    $this->{data_twiki_module} = $this->{data_twiki} . '/' . $this->{project};
+    $this->{topic_root} = $this->{data_systemdir} . '/' . $this->{project};
 
     ##############################################################
     # Read the manifest
 
     my $manifest = _findRelativeTo( $buildpldir, 'MANIFEST' );
     if (!defined($manifest)) {
-        #the twiki core MANIFEST is in the lib dir, not the tools dir
+        #the core MANIFEST is in the lib dir, not the tools dir
         $manifest = _findRelativeTo( $libpath, 'MANIFEST' );
     }
     ( $this->{files}, $this->{other_modules} ) =
-      TWiki::Contrib::BuildContrib::BaseBuild::readManifest( $this->{basedir},
+      Foswiki::Contrib::BuildContrib::BaseBuild::readManifest( $this->{basedir},
         '', $manifest, sub { exit(1) } );
 
-    # Generate a TWiki table representing the manifest contents
+    # Generate a table representing the manifest contents
     # and a hash table representing the files
     my $mantable  = '';
     my $rawman    = '';
@@ -220,7 +228,7 @@ sub new {
 
     my $dependancies = _findRelativeTo( $buildpldir, 'DEPENDENCIES' );
     if (!defined($dependancies)) {
-        #the twiki core DEPENDENCIES is in the lib dir, not the tools dir
+        #the core DEPENDENCIES is in the lib dir, not the tools dir
         $dependancies = _findRelativeTo( $libpath, 'DEPENDENCIES' );
     }
     $this->_loadDependenciesFrom($dependancies);
@@ -296,13 +304,13 @@ sub new {
         $this->{UPLOADTARGETWEB}    = $rep->{web};
     }
     else {
-        $this->{UPLOADTARGETPUB} = $TWIKIORGPUB
+        $this->{UPLOADTARGETPUB} = $UPLOADSITEPUB
           unless defined $this->{UPLOADTARGETPUB};
-        $this->{UPLOADTARGETSCRIPT} = $TWIKIORGSCRIPT
+        $this->{UPLOADTARGETSCRIPT} = $UPLOADSITESCRIPT
           unless defined $this->{UPLOADTARGETSCRIPT};
-        $this->{UPLOADTARGETSUFFIX} = $TWIKIORGSUFFIX
+        $this->{UPLOADTARGETSUFFIX} = $UPLOADSITESUFFIX
           unless defined $this->{UPLOADTARGETSUFFIX};
-        $this->{UPLOADTARGETWEB} = $TWIKIORGEXTENSIONSWEB
+        $this->{UPLOADTARGETWEB} = $UPLOADSITEEXTENSIONSWEB
           unless defined $this->{UPLOADTARGETWEB};
     }
 
@@ -503,7 +511,7 @@ sub prompt {
     return $reply;
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ pushd($dir)
   Change to the given directory
@@ -522,7 +530,7 @@ sub pushd {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ popd()
   Pop a dir level, previously pushed by pushd
@@ -543,7 +551,7 @@ sub popd {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ rm($file)
 Remove the given file (or directory)
@@ -566,7 +574,7 @@ sub rm {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ makepath($to)
 Make a directory and all directories leading to it.
@@ -579,7 +587,7 @@ sub makepath {
     File::Path::mkpath( $to, { verbose => $this->{-v} } );
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ cp($from, $to)
 Copy a single file from - to. Will automatically make intervening
@@ -616,7 +624,7 @@ sub cp {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ prot($perms, $file)
 Set permissions on a file. Permissions should be expressed using POSIX
@@ -631,7 +639,7 @@ sub prot {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ sys_action(@params)
 Perform a "system" command.
@@ -655,7 +663,7 @@ sub sys_action {
     return $output;
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ perl_action($cmd)
 Perform a "perl" command.
@@ -674,7 +682,7 @@ sub perl_action {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_build
 Basic build target.
@@ -685,7 +693,7 @@ sub target_build {
     my $this = shift;
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_compress
 Compress Javascript and CSS files
@@ -714,7 +722,7 @@ sub target_compress {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_tidy
 Reformat .pm and .pl files using perltidy default options
@@ -761,7 +769,7 @@ sub _isPerl {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_test
 Basic CPAN:Test::Unit test target, runs <project>Suite.
@@ -813,7 +821,7 @@ MESSY
     $this->popd();
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ filter_txt
 Expands tokens.
@@ -833,7 +841,7 @@ sub filter_txt {
     close(IF);
 
     # Replace the SVN revision with rev 1.
-    # In TWiki builds this gets replaced by latest revision later.
+    # In release builds this gets replaced by latest revision later.
     $text =~ s/^(%META:TOPICINFO{.*)\$Rev:.*\$(.*}%)$/${1}1$2/m;
     $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
 
@@ -860,7 +868,7 @@ sub _expand {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ build_js
 Uses JavaScript::Minifier to optimise javascripts
@@ -903,7 +911,7 @@ sub build_js {
     return 1;
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ build_css
 Uses CSS::Minifier to optimise CSS files
@@ -946,7 +954,7 @@ sub build_css {
     return 1;
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ filter_pm($from, $to)
 Filters expanding SVN rev number with correct version from repository
@@ -973,7 +981,7 @@ sub filter_pm {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_release
 Release target, builds release zip by creating a full release directory
@@ -999,7 +1007,7 @@ sub target_release {
     $this->build('archive');
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_stage
 stages all the files to be in the release in a tmpDir, ready for target_archive
@@ -1028,8 +1036,8 @@ sub target_stage {
             }
         }
     }
-    if ( -e $this->{tmpDir} . '/' . $this->{data_twiki_module} . '.txt' ) {
-        $this->cp( $this->{tmpDir} . '/' . $this->{data_twiki_module} . '.txt',
+    if ( -e $this->{tmpDir} . '/' . $this->{topic_root} . '.txt' ) {
+        $this->cp( $this->{tmpDir} . '/' . $this->{topic_root} . '.txt',
             $this->{basedir} . '/' . $project . '.txt' );
     }
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
@@ -1039,12 +1047,12 @@ sub target_stage {
         foreach my $module ( @{ $this->{other_modules} } ) {
             print STDERR "Installing $module in $this->{tmpDir}\n";
             print
-`export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install`;
+`export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install`;
         }
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_archive
 Makes zip and tgz archives of the files in tmpDir. Also copies the installer.
@@ -1118,7 +1126,7 @@ sub target_archive {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ copy_fileset
 Copy all files in a file set from on directory root to another.
@@ -1145,7 +1153,7 @@ sub copy_fileset {
     die 'Files left uncopied' if ($uncopied);
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ apply_perms
 Apply perms to a fileset
@@ -1163,10 +1171,10 @@ sub apply_perms {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_handsoff_install
-Install target, installs to local twiki pointed at by TWIKI_HOME.
+Install target, installs to local install pointed at by FOSWIKI_HOME.
 
 Does not run the installer script.
 
@@ -1176,21 +1184,21 @@ sub target_handsoff_install {
     my $this = shift;
     $this->build('release');
 
-    my $twiki = $ENV{TWIKI_HOME};
-    die 'TWIKI_HOME not set' unless $twiki;
-    $this->pushd($twiki);
+    my $home = $ENV{FOSWIKI_HOME};
+    die 'FOSWIKI_HOME not set' unless $home;
+    $this->pushd($home);
     $this->sys_action( 'tar', 'zxpf',
         $this->{basedir} . '/' . $this->{project} . '.tgz' );
 
     # kill off the module installer
-    $this->rm( $twiki . '/' . $this->{project} . '_installer' );
+    $this->rm( $home . '/' . $this->{project} . '_installer' );
     $this->popd();
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_install
-Install target, installs to local twiki pointed at by TWIKI_HOME.
+Install target, installs to local twiki pointed at by FOSWIKI_HOME.
 
 Uses the installer script written by target_installer
 
@@ -1202,10 +1210,10 @@ sub target_install {
     $this->sys_action( 'perl', $this->{project} . '_installer', 'install' );
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_uninstall
-Uninstall target, uninstall from local twiki pointed at by TWIKI_HOME.
+Uninstall target, uninstall from local twiki pointed at by FOSWIKI_HOME.
 
 Uses the installer script written by target_installer
 
@@ -1213,16 +1221,16 @@ Uses the installer script written by target_installer
 
 sub target_uninstall {
     my $this  = shift;
-    my $twiki = $ENV{TWIKI_HOME};
-    die 'TWIKI_HOME not set' unless $twiki;
-    $this->pushd($twiki);
+    my $home = $ENV{FOSWIKI_HOME};
+    die 'FOSWIKI_HOME not set' unless $home;
+    $this->pushd($home);
     $this->sys_action( 'perl', $this->{project} . '_installer', 'uninstall' );
     $this->popd();
 }
 
 {
 
-    package TWiki::Contrib::Build::UserAgent;
+    package Foswiki::Contrib::Build::UserAgent;
     use base qw(LWP::UserAgent);
 
     sub new {
@@ -1295,7 +1303,7 @@ sub _getTopicName {
     return $topicname;
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_upload
 Upload to a repository. Prompts for username and password. Uploads the zip and
@@ -1350,7 +1358,7 @@ END
 
     $this->build('release');
     my $userAgent =
-      new TWiki::Contrib::Build::UserAgent( $this->{UPLOADTARGETSCRIPT},
+      new Foswiki::Contrib::Build::UserAgent( $this->{UPLOADTARGETSCRIPT},
         $this );
     $userAgent->agent( 'ContribBuild/' . $VERSION . ' ' );
 
@@ -1392,11 +1400,6 @@ END
           . $to . '.txt' . "\n";
         $newform{'text'} = <IN_FILE>;
         close(IN_FILE);
-
-        # Hack to avoid revisions being overwritten on twiki.org.
-        # Can be removed when twiki.org is upgraded to 4.1.0.
-        # Item3216, Item3454
-        $newform{'text'} =~ s/^%META:TOPICINFO{.*}%$//m;
     }
     else {
         print STDERR 'Failed to open base topic: ' . $!;
@@ -1409,10 +1412,10 @@ END
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
 
     # Upload any 'Var*.txt' topics published by the extension
-    my $dataDir = $this->{basedir} . '/data/TWiki';
+    my $dataDir = $this->{basedir} . '/data/System';
     if ( opendir( DIR, $dataDir ) ) {
         foreach my $f ( grep( /^Var\w+\.txt$/, readdir DIR ) ) {
-            if ( open( IN_FILE, '<' . $this->{basedir} . '/data/TWiki/' . $f ) )
+            if ( open( IN_FILE, '<' . $this->{basedir} . '/data/System/' . $f ) )
             {
                 %newform = ( text => <IN_FILE> );
                 close(IN_FILE);
@@ -1444,7 +1447,7 @@ END
             my $attrs = $1 || '';
 
             $this->_uploadAttachment( $userAgent, $user, $pass, $name,
-                $this->{basedir} . '/pub/TWiki/' . $this->{project} . '/' . $name,
+                $this->{basedir} . '/pub/System/' . $this->{project} . '/' . $name,
                 $comment, $attrs =~ /h/ ? 1 : 0 );
             $uploaded{$name} = 1;
         }
@@ -1474,7 +1477,7 @@ automatically generated from Subversion. Do not edit it! Your edits
 will be lost the next time the topic is uploaded!
 
 If you want to report an error in the topic, please raise a report at
-http://nextwiki.org/view/Tasks/$this->{project}
+http://foswiki.org/view/Tasks/$this->{project}
 -->
 EXTRA
     print "Saving $topic\n";
@@ -1555,7 +1558,7 @@ sub _unhtml {
 # automatically if =%$POD%= is used in a .txt file. POD documentation
 # is intended for use by developers only.
 
-# POD text in =.pm= files should use TWiki syntax or HTML. Packages should be
+# POD text in =.pm= files should use TML syntax or HTML. Packages should be
 # introduced with a level 1 header, ---+, and each method in the package by
 # a level 2 header, ---++. Make sure you document any global variables used
 # by the module.
@@ -1587,14 +1590,14 @@ sub target_POD {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_POD
 
 Print POD documentation. This target does not modify any files, it simply
-prints the (TWiki format) POD.
+prints the (TML format) POD.
 
-POD text in =.pm= files should use TWiki syntax or HTML. Packages should be
+POD text in =.pm= files should use TML syntax or HTML. Packages should be
 introduced with a level 1 header, ---+, and each method in the package by
 a level 2 header, ---++. Make sure you document any global variables used
 by the module.
@@ -1607,12 +1610,12 @@ sub target_pod {
     print $this->{POD} . "\n";
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_installer
 
 Write an install/uninstall script that checks dependencies, and optionally
-downloads and installs required zips from twiki.org.
+downloads and installs required zips from foswiki.org.
 
 The install script is templated from =contrib/TEMPLATE_installer= and
 is always named =module_installer= (where module is your module). It is
@@ -1621,12 +1624,12 @@ It will automatically be added to the manifest if it doesn't appear in
 MANIFEST.
 
 The install script works using the dependency type and version fields.
-It will try to download from twiki.org to satisfy any missing dependencies.
+It will try to download from foswiki.org to satisfy any missing dependencies.
 Downloaded modules are automatically installed.
 
 Note that the dependencies will only work if the module depended on follows
 the naming standards for zips i.e. it must be attached to the topic in
-twiki.org and have the same name as the topic, and must be a zip file.
+foswiki.org and have the same name as the topic, and must be a zip file.
 
 Dependencies on CPAN modules are also checked (type perl) but no attempt
 is made to install them.
@@ -1667,7 +1670,7 @@ sub target_installer {
         my $dir = `dirname $d`;
         chop($dir);
         my $file =
-          $dir . '/lib/TWiki/Contrib/BuildContrib/TEMPLATE_installer.pl';
+          $dir . '/lib/Foswiki/Contrib/BuildContrib/TEMPLATE_installer.pl';
         if ( -f $file ) {
             $template = $file;
             last;
@@ -1711,7 +1714,7 @@ sub target_installer {
     $this->cp( $installScript, "$installScript.pl" );
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ build($target)
 Build the given target
@@ -1737,7 +1740,7 @@ sub build {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_manifest
 Generate and print to STDOUT a rough guess at the MANIFEST listing
@@ -1780,7 +1783,7 @@ sub target_manifest {
 }
 
 sub _manicollect {
-    if (/^(CVS|\.svn|twikiplugins)$/) {
+    if (/^(CVS|\.svn)$/) {
         $File::Find::prune = 1;
     }
     elsif (!-d 
@@ -1797,7 +1800,7 @@ sub _manicollect {
     }
 }
 
-=begin twiki
+=begin foswiki
 
 #HistoryTarget
 Updates the history in the plugin/contrib topic from the subversion checkin history.
@@ -1811,7 +1814,7 @@ This target works in the current checkout area; it still requires a checkin of t
 sub target_history {
     my $this = shift;
 
-    my $f = $this->{basedir} . '/' . $this->{data_twiki_module} . '.txt';
+    my $f = $this->{basedir} . '/' . $this->{topic_root} . '.txt';
 
     my $cmd = "cd $this->{basedir} && svn status";
     print STDERR "Checking status using $cmd\n";
@@ -1946,7 +1949,7 @@ sub target_history {
     print join( "\n", map { "|  $_->[0] | $_->[1] |" } @history );
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ target_dependencies
 
@@ -1965,9 +1968,19 @@ sub target_dependencies {
     eval 'use B::PerlReq';
     die "B::PerlReq is required for 'dependencies': $@" if $@;
 
-    foreach my $m
-      qw(strict vars diagnostics base bytes constant integer locale overload warnings Assert TWiki)
-    {
+    foreach my $m (
+        'strict',
+        'vars',
+        'diagnostics',
+        'base',
+        'bytes',
+        'constant',
+        'integer',
+        'locale',
+        'overload',
+        'warnings',
+        'Assert',
+        $targetProject ) {
         $this->{satisfied}{$m} = 1;
     }
 
@@ -2052,7 +2065,7 @@ You do not need to install anything in the browser to use this extension. The fo
 Like many other extensions, this module is shipped with a fully
 automatic installer script written using the Build<nop>Contrib.
    * If you have TWiki 4.2 or later, you can install from the =configure= interface (Go to Plugins->Find More Extensions)
-      * See the [[http://nextwiki.org/Extensions/BuildContribInstallationSupplement][installation supplement]] on TWiki.org for more information.
+      * See the [[http://foswiki.org/Extensions/BuildContribInstallationSupplement][installation supplement]] on TWiki.org for more information.
    * If you have any problems, then you can still install manually from the command-line:
       1 Download one of the =.zip= or =.tgz= archives
       1 Unpack the archive in the root directory of your installation.

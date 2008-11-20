@@ -12,13 +12,13 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 #
-package TWiki::Contrib::BuildContrib::BaseBuild;
+package Foswiki::Contrib::BuildContrib::BaseBuild;
 
 use strict;
 
-=begin twiki
+=begin foswiki
 
----++ Package TWiki::Contrib::BuildContrib::BaseBuild
+---++ Package Foswiki::Contrib::BuildContrib::BaseBuild
 
 This is a class used to provide all the services required for
 Build implementations.
@@ -30,7 +30,7 @@ Build implementations.
 
 my $NL = "\n";
 
-=begin twiki
+=begin foswiki
 
 ---++++ readManifest($baseDir,$path,$file,$manifest,$noManifestFileHook) => \@files
 
@@ -45,7 +45,7 @@ The manifest file consists of a list of file paths, each relative to the
 root of the installation. Wildcards may NOT be used. Each file has an
 optional octal permissions mask and a description; for example,
 <verbatim>
-data/TWiki/MyPlugin.txt 0664 Plugin description topic
+data/System/MyPlugin.txt 0664 Plugin description topic
 </verbatim>
 If no permissions are given, permissions are guessed from the permissions
 on the file in the source tree.
@@ -125,7 +125,7 @@ print STDERR "---- $baseDir, $path, $file\n";
     return ( \@files, \@otherModules );
 }
 
-=begin twiki
+=begin foswiki
 
 ---++++ findInINC($fileName) => $path
 
