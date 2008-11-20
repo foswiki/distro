@@ -774,4 +774,3 @@ The typical TWiki development flow...
    * TWiki:Codev.FeatureDocumented: documented feature
    * ReferenceManual: reference manual for the latest TWiki
 
-__Related Topics:__ DeveloperDocumentationCategory

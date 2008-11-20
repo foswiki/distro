@@ -25,7 +25,7 @@ Once a user is logged on, they can be remembered using a _Client Session_ stored
 
 Please note FileAttachments are not protected by %WIKITOOLNAME% User Authentication. 
 
-__%T% Tip:__ NextWiki:Support.UserAuthenticationFAQ on TWiki.org has supplemental documentation on user authentication.
+__%T% Tip:__ Foswiki:Support.UserAuthenticationFAQ on TWiki.org has supplemental documentation on user authentication.
 
 #PasswordManagement
 ---++ Password Management

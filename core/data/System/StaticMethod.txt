@@ -11,4 +11,4 @@ my $colour = Telecoms::defaultColour()
 
 </verbatim>
 
-__Related Topics:__ ClassMethod, ObjectMethod, DeveloperDocumentationCategory
+__Related Topics:__ ClassMethod, ObjectMethod

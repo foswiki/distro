@@ -41,4 +41,4 @@ Manual sections in separate pages:
    * AdminToolsCategory: Topics an admin typically needs, all in one page
    * DocumentGraphics: Collection of useful icons for TWiki applications
 
-__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory, DeveloperDocumentationCategory
+__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

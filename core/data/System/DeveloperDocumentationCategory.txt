@@ -1,4 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1122325570" format="1.1" version="$Rev$"}%
----+ A List of TWiki Developer Documentation
+---+ Developer Documentation
 
-%SEARCH{"%TOPIC%" excludetopic="%TOPIC%" nonoise="on" format="   * $web.$topic$n      * $summary(100, noheader)"}%
+%SEARCH{"%TOPIC%" excludetopic="%TOPIC%,WebLeftBar" nonoise="on" format="   * [[$web.$topic][%SPACEOUT{"$topic"}%]]$n      * $summary(100, noheader)"}%
+
+More in-depth developer documentation can be found in the [[Foswiki:Support.SupplementalDocuments][supplemental documentation]].
+
+Really detailed documentation, includigng how to get started as a core developer, can be found on the [[Foswiki:Development.WebHome][Foswiki developer site]].

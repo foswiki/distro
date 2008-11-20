@@ -1,35 +1,37 @@
 %META:TOPICINFO{author="ProjectContributor" date="1168077071" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
----+ TWiki Contribs
+---+ Foswiki Contribs
 
-_Reusable code that may be used over several plugins and add-ons._
+_Extensions that sit close to the core, or provide services for other extensions_
 
 %TOC%
 
 ---++ Overview
 
-TWiki contribs extend the functionality of TWiki, typically used by plugins and add-ons. They may also provide alternative implementations for sections of the TWiki core e.g. user management, or when an extension just can't be implemented as a plugin because it requires very close access to TWiki internals.
+Foswiki contribs extend the functionality of Foswiki, in a lower-level way than plugins and add-ons. They may also provide alternative implementations for sections of the Foswiki core e.g. user management, or when an extension just can't be implemented as a plugin because it requires very close access to Foswiki internals.
 
-__Relevant links on TWiki.org:__
-   * TWiki:Plugins.ContribPackage - list of all contributed contrib packages
-   * TWiki:Plugins.ContribDevelopment - discussion and feedback on contributed packages
-   * TWiki:Plugins.ContribBrainstorming - open forum for new contrib ideas
-   * TWiki:Plugins.ContribPackageHowTo - instructions and template to create a new contrib package
+An example is the MailerContrib, which implements mail notification of topics changes.
+
+__Relevant links on Foswiki.org:__
+   * Foswiki:Extensions.ContribPackage - list of all contributed contrib packages
+   * Foswiki:Extensions.ContribDevelopment - discussion and feedback on contributed packages
+   * Foswiki:Extensions.ContribBrainstorming - open forum for new contrib ideas
+   * Foswiki:Extensions.ContribPackageHowTo - instructions and template to create a new contrib package
 
 __See other types of extensions:__ ContributedAddOns, [[Plugins]], [[Skins]]
 
----++ TWiki Contribs Installed on this TWiki
+---++ Foswiki Contribs Installed on this site
 
 %SEARCH{ "Contrib" scope="topic" topic="*Contrib" nosearch="on" format="   * <b>[[$topic]]</b>: <nop>$pattern(.*?\*\sSet\sSHORTDESCRIPTION\s\=([^\n\r]*).*) <span style=\"color: gray\">- version $pattern(.*?Version\:?\s*\|([^\n\r\|]*)\|.*)</span> <br /> <span style=\"color: gray; font-size: 80%\"> Author: $pattern(.*?\sAuthors?:\s*\|\s*(.*?)\s*\|.*) - last modified: r$rev - [[%SCRIPTURL{rdiff}%/$web/$topic][$date]] - $wikiusername </span>" }%
 
 ---++ Installing Contribs
 
-   * Download an add-on from TWiki:Plugins.ContribPackage.
+   * Download an add-on from Foswiki:Extensions.ContribPackage.
    * Follow the installation instructions in the contrib topic.
 
 ---++ Creating new Contribs
 
-   * Visit TWiki:Plugins.ContribPackageHowTo and follow the instructions.
+   * Visit Foswiki:Extensions.ContribPackageHowTo and follow the instructions.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, TWiki:Support.PluginsSupplement
+__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, Foswiki:Support.PluginsSupplement
