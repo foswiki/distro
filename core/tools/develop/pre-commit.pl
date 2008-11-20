@@ -10,7 +10,7 @@ use strict;
 
 my $REPOS = $ARGV[0];
 my $TXN = $ARGV[1];
-my $twikiDataDir = '/home/twikifork.org/data';
+my $twikiDataDir = '/home/foswiki.org/data';
 
 my $logmsg = `/usr/local/bin/svnlook log -t $TXN $REPOS`;
 
