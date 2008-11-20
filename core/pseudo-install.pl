@@ -210,11 +210,12 @@ sub just_link {
         } elsif( -e "$path$c" ) {
             print STDERR "ERROR $path$c is in the way\n";
             last;
-        } elsif ( $c eq 'TWiki') {
+        } elsif ( $c eq 'TWiki' ) {
             # Special case
             $path .= "$c/";
-            if (!mkdir("$path$c")) {
-                print STDERR "Could not mkdir $path\n";
+            print STDERR "mkdir $path\n";
+            if (!mkdir(_cleanPath($path))) {
+                print STDERR "Could not mkdir $path: $!\n";
                 last;
             };
         } else {
