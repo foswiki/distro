@@ -3,7 +3,7 @@ package TWiki::Plugins;
 use Foswiki::Plugins;
 
 # Compatible version of TWiki::Plugins
-our $VERSION = 1.026;
+our $VERSION = '1.2';
 
 # Access to $TWiki::Plugins::SESSION is via a tie to $Foswiki::Plugins::SESSION
 {
@@ -14,6 +14,6 @@ our $VERSION = 1.026;
     sub FETCH { return $Foswiki::Plugins::SESSION; }
 };
 
-tie($TWiki::Plugins::SESSION, 'TWiki::Plugins::SESSION_TIE');
+#tie($SESSION, 'TWiki::Plugins::SESSION_TIE');
 
 1;
