@@ -81,6 +81,9 @@ GOLLYGOSH
       expand( \%Foswiki::cfg );
 
     $Foswiki::cfg{ConfigurationFinished} = 1;
+
+    # Alias TWiki cfg to Foswiki cfg for plugins and contribs
+    *{'TWiki::cfg'} = *{'Foswiki::cfg'};
 }
 
 sub expand {

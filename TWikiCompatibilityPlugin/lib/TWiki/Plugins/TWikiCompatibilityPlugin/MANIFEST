@@ -5,6 +5,9 @@ lib/TWiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
 lib/TWiki/Plugins/TWikiCompatibilityPlugin/Config.spec configuration defaults
 lib/TWiki/Plugins.pm 0644 Perl module
 lib/TWiki/Func.pm 0644 Perl module
+lib/TWiki/TWiki.pm 0644 Perl module
+lib/TWiki/UI.pm 0644 Perl module
 lib/TWiki/Attrs.pm 0644 Perl module
 lib/TWiki/Sandbox.pm 0644 Perl module
 lib/TWiki/Prefs.pm 0644 Perl module
+

@@ -7,6 +7,8 @@ use strict;
 
 use Foswiki::Func;
 
+use TWiki::Plugins;
+
 sub getSkin { Foswiki::Func::getSkin(@_) }
 sub getUrlHost { Foswiki::Func::getUrlHost(@_) }
 sub getScriptUrl { Foswiki::Func::getScriptUrl(@_) }

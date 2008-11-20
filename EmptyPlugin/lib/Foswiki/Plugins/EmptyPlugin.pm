@@ -1,29 +1,11 @@
-# Plugin for Foswiki - The Free Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
-# Copyright (C) 2001-2006 Peter Thoeny, peter@thoeny.org
-# and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# For licensing info read LICENSE file in the TWiki root.
+# See bottom of file for default license and copyright information
 
 =pod
 
 ---+ package EmptyPlugin
 
-This is an empty TWiki plugin. It is a fully defined plugin, but is
-disabled by default in a TWiki installation. Use it as a template
+This is an empty Foswiki plugin. It is a fully defined plugin, but is
+disabled by default in a Foswiki installation. Use it as a template
 for your own plugins; see %SYSTEMWEB%.Plugins for details.
 
 This version of the !EmptyPlugin documents the handlers supported
@@ -31,9 +13,9 @@ by revision 1.2 of the Plugins API. See the documentation of =Foswiki::Func=
 for more information about what this revision number means, and how a
 plugin can check it.
 
-__NOTE:__ To interact with TWiki use ONLY the official API functions
+__NOTE:__ To interact with Foswiki use ONLY the official API functions
 in the Foswiki::Func module. Do not reference any functions or
-variables elsewhere in TWiki, as these are subject to change
+variables elsewhere in Foswiki, as these are subject to change
 without prior warning, and your plugin may suddenly stop
 working.
 
@@ -44,7 +26,7 @@ delete the whole of handlers you don't use before you release your
 plugin.
 
 __NOTE:__ When developing a plugin it is important to remember that
-TWiki is tolerant of plugins that do not compile. In this case,
+Foswiki is tolerant of plugins that do not compile. In this case,
 the failure will be silent but the plugin will not be available.
 See [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]] for error messages.
 
@@ -52,7 +34,7 @@ __NOTE:__ Defining deprecated handlers will cause the handlers to be
 listed in [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]]. See
 [[%SYSTEMWEB%.Plugins#Handlig_deprecated_functions]]
 for information on regarding deprecated handlers that are defined for
-compatibility with older TWiki versions.
+compatibility with older Foswiki versions.
 
 __NOTE:__ When writing handlers, keep in mind that these may be invoked
 on included topics. For example, if a plugin generates links to the current
@@ -71,11 +53,11 @@ use strict;
 require Foswiki::Func;    # The plugins API
 require Foswiki::Plugins; # For the API version
 
-# $VERSION is referred to by TWiki, and is the only global variable that
+# $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package.
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
 
-# This should always be $Rev$ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev$';
@@ -83,7 +65,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = 'TWiki-4.2';
+$RELEASE = 'Foswiki-4.2';
 
 # Short description of this plugin
 # One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
@@ -93,7 +75,7 @@ $SHORTDESCRIPTION = 'Empty Plugin used as a template for new Plugins';
 # stored in the plugin topic. This default is required for compatibility with
 # older plugins, but imposes a significant performance penalty, and
 # is not recommended. Instead, use $Foswiki::cfg entries set in LocalSite.cfg, or
-# if you want the users to be able to change settings, then use standard TWiki
+# if you want the users to be able to change settings, then use standard Foswiki
 # preferences that can be defined in your %USERSWEB%.SitePreferences and overridden
 # at the web and topic level.
 $NO_PREFS_IN_TOPIC = 1;
@@ -121,9 +103,9 @@ installation from working safely, this handler may use 'die', which
 will be trapped and reported in the browser.
 
 You may also call =Foswiki::Func::registerTagHandler= here to register
-a function to handle variables that have standard TWiki syntax - for example,
+a function to handle variables that have standard Foswiki syntax - for example,
 =%MYTAG{"my param" myarg="My Arg"}%. You can also override internal
-TWiki variable handling functions this way, though this practice is unsupported
+Foswiki variable handling functions this way, though this practice is unsupported
 and highly dangerous!
 
 __Note:__ Please align variables names with the Plugin name, e.g. if 
@@ -170,7 +152,7 @@ sub initPlugin {
 # You would have one of these for each variable you want to process.
 sub _EXAMPLETAG {
     my($session, $params, $theTopic, $theWeb) = @_;
-    # $session  - a reference to the TWiki session object (if you don't know
+    # $session  - a reference to the Foswiki session object (if you don't know
     #             what this is, just ignore it)
     # $params=  - a reference to a Foswiki::Attrs object containing parameters.
     #             This can be used as a simple hash that maps parameter names
@@ -206,7 +188,7 @@ sub DISABLE_earlyInitPlugin {
    * =$loginName= - login name recovered from $ENV{REMOTE_USER}
    * =$url= - request url
    * =$pathInfo= - pathinfo from the CGI query
-Allows a plugin to set the username. Normally TWiki gets the username
+Allows a plugin to set the username. Normally Foswiki gets the username
 from the login manager. This handler gives you a chance to override the
 login manager.
 
@@ -232,7 +214,7 @@ sub DISABLE_initializeUserHandler {
    * =$wikiName= - users wiki name
    * =$loginName= - users login name
 
-Called when a new user registers with this TWiki.
+Called when a new user registers with this Foswiki.
 
 *Since:* Foswiki::Plugins::VERSION = '1.010'
 
@@ -261,7 +243,7 @@ For variables with trivial syntax it is far more efficient to use
 =Foswiki::Func::registerTagHandler= (see =initPlugin=).
 
 Plugins that have to parse the entire topic content should implement
-this function. Internal TWiki
+this function. Internal Foswiki
 variables (and any variables declared using =Foswiki::Func::registerTagHandler=)
 are expanded _before_, and then again _after_, this function is called
 to ensure all %<nop>TAGS% are expanded.
@@ -301,7 +283,7 @@ sub DISABLE_commonTagsHandler {
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
    * =$meta= - meta-data object for the topic MAY BE =undef=
-This handler is called before TWiki does any expansion of it's own
+This handler is called before Foswiki does any expansion of it's own
 internal variables. It is designed for use by cache plugins. Note that
 when this handler is called, &lt;verbatim> blocks are still present
 in the text.
@@ -331,7 +313,7 @@ sub DISABLE_beforeCommonTagsHandler {
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
    * =$meta= - meta-data object for the topic MAY BE =undef=
-This handler is after TWiki has completed expansion of %TAGS%.
+This handler is after Foswiki has completed expansion of %TAGS%.
 It is designed for use by cache plugins. Note that when this handler
 is called, &lt;verbatim> blocks are present in the text.
 
@@ -357,7 +339,7 @@ sub DISABLE_afterCommonTagsHandler {
    * =$text= - text, with the head, verbatim and pre blocks replaced with placeholders
    * =\%removed= - reference to a hash that maps the placeholders to the removed blocks.
 
-Handler called immediately before TWiki syntax structures (such as lists) are
+Handler called immediately before Foswiki syntax structures (such as lists) are
 processed, but after all variables have been expanded. Use this handler to 
 process special syntax only recognised by your plugin.
 
@@ -680,7 +662,7 @@ sub DISABLE_modifyHeaderHandler {
    * =$query= - the CGI query
    * =$url= - the URL to redirect to
 
-This handler can be used to replace TWiki's internal redirect function.
+This handler can be used to replace Foswiki's internal redirect function.
 
 If this handler is defined in more than one plugin, only the handler
 in the earliest plugin in the INSTALLEDPLUGINS list will be called. All
@@ -718,11 +700,11 @@ continues by considering the built-in types.
 
 *Since:* Foswiki::Plugins::VERSION 1.1
 
-Note that since TWiki-4.2, you can also extend the range of available
+Note that you can also extend the range of available
 types by providing a subclass of =Foswiki::Form::FieldDefinition= to implement
-the new type (see =Foswiki::Plugins.JSCalendarContrib= and
-=Foswiki::Plugins.RatingContrib= for examples). This is the preferred way to
-extend the form field types, but does not work for TWiki < 4.2.
+the new type (see =Foswiki::Extensions.JSCalendarContrib= and
+=Foswiki::Extensions.RatingContrib= for examples). This is the preferred way to
+extend the form field types.
 
 =cut
 
@@ -735,7 +717,7 @@ sub DISABLE_renderFormFieldForEditHandler {
    * =$linkText= - the text for the link i.e. for =[<nop>[Link][blah blah]]=
      it's =blah blah=, for =BlahBlah= it's =BlahBlah=, and for [[Blah Blah]] it's =Blah Blah=.
    * =$hasExplicitLinkLabel= - true if the link is of the form =[<nop>[Link][blah blah]]= (false if it's ==<nop>[Blah]] or =BlahBlah=)
-   * =$web=, =$topic= - specify the topic being rendered (only since TWiki 4.2)
+   * =$web=, =$topic= - specify the topic being rendered
 
 Called during rendering, this handler allows the plugin a chance to change
 the rendering of labels used for links.
@@ -756,7 +738,7 @@ sub DISABLE_renderWikiWordHandler {
 ---++ completePageHandler($html, $httpHeaders)
 
 This handler is called on the ingredients of every page that is
-output by the standard TWiki scripts. It is designed primarily for use by
+output by the standard CGI scripts. It is designed primarily for use by
 cache and security plugins.
    * =$html= - the body of the page (normally &lt;html>..$lt;/html>)
    * =$httpHeaders= - the HTTP headers. Note that the headers do not contain
@@ -777,7 +759,7 @@ sub DISABLE_completePageHandler {
 ---++ restExample($session) -> $text
 
 This is an example of a sub to be called by the =rest= script. The parameter is:
-   * =$session= - The TWiki object associated to this session.
+   * =$session= - The Foswiki object associated to this session.
 
 Additional parameters can be recovered via de query object in the $session.
 
@@ -793,3 +775,30 @@ sub restExample {
 }
 
 1;
+__DATA__
+This copyright information applies to the EmptyPlugin:
+
+# Plugin for Foswiki - The Free Open Source Wiki, http://foswiki.org/
+#
+# EmptyPlugin is Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+# Additional copyrights apply to some or all of the code as follows:
+# Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
+# Copyright (C) 2001-2006 Peter Thoeny, peter@thoeny.org
+# and TWiki Contributors. All Rights Reserved. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+
+This license applies to EmptyPlugin *and also to any derivatives*
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# For licensing info read LICENSE file in the Foswiki root.
