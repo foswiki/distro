@@ -15,7 +15,17 @@ A Foswiki contributor is defined as a person who has contributed:
    * significant amounts of code that was taken into the Foswiki distribution, or
    * considerably to the Foswiki documentation.
 
-This document identifies these people as authors of TWiki.
+The following people are identified as authors of Foswiki:
+| *Name*               | *Contact*                      | *Country*   |
+| Crawford Currie      | http://c-dot.co.uk             | UK          |
+| Gilmar Santos Jr     | Foswiki:Main.GilmarSantosJr    | Brazil      |
+| Kenneth Lavrsen      | http://www.lavrsen.dk          | Denmark     |
+| Sebastien Klus       |                                |             |
+| Sven Dowideit        | Foswiki:Main.SvenDowideit      | Australia   |
+| Will Norris          | Foswiki:Main.WillNorris        | Mexico      |
+
+As stated Foswiki is based on TWiki. This document identifies the following
+people as authors of TWiki.
 
 | *Name*               | *Contact*                      | *Country*   |
 | Adam Theo            | TWiki:Main.AdamTheo            | USA         |

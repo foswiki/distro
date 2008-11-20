@@ -594,8 +594,15 @@ __DATA__
 
 Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
+# Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+#
+# Additional copyrights apply to some or all of the code in this
+# file as follows:
+#
 Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
-and Foswiki Contributors. All Rights Reserved. Foswiki Contributors
+and TWiki Contributors. All Rights Reserved. TWiki Contributors
 are listed in the AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

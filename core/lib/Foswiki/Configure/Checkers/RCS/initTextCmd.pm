@@ -1,7 +1,29 @@
+# See bottom of file for license and copyright information
+package Foswiki::Configure::Checkers::RCS::initTextCmd;
+use base 'Foswiki::Configure::Checker';
+
+use strict;
+
+sub check {
+    my $this = shift;
+    return $this->checkRCSProgram('initTextCmd');
+}
+
+1;
+__DATA__
 #
 # Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2000-2006 Foswiki Contributors.
+# Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
+# Foswiki Contributors are listed in the AUTHORS file in the root
+# of this distribution. NOTE: Please extend that file, not this notice.
+#
+# Additional copyrights apply to some or all of the code in this
+# file as follows:
+#
+# Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
+# TWiki Contributors are listed in the AUTHORS file in the root
+# of this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -14,14 +36,3 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
 # As per the GPL, removal of this notice is prohibited.
-package Foswiki::Configure::Checkers::RCS::initTextCmd;
-use base 'Foswiki::Configure::Checker';
-
-use strict;
-
-sub check {
-    my $this = shift;
-    return $this->checkRCSProgram('initTextCmd');
-}
-
-1;
