@@ -360,8 +360,7 @@ $Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdi
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
 $Foswiki::cfg{AuthRealm} =
-'Enter your System.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). 
-Visit System.UserRegistration if you do not have one.';
+'Enter your System.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit System.UserRegistration if you do not have one.';
 
 #---++ User Mapping
 # **SELECTCLASS Foswiki::Users::*UserMapping**
@@ -1237,8 +1236,7 @@ $Foswiki::cfg{PluginsOrder} = 'SpreadSheetPlugin';
 # <li><i>puburl</i> is the root of a download URL
 # </ul>
 # For example,<code>
-# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);
-# wikiring.com=(http://wikiring.com/bin/view/Extensions/,http://wikiring.com/bin/viewfile/Extensions/)</code><p />
-$Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/cgi-bin/view/Extensions/,http://foswiki.org/pub/Plugins/)';
-
+# foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Plugins/);
+# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);</code><p />
+$Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Plugins/)';
 1;
