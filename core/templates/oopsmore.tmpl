@@ -16,6 +16,19 @@
 
 
 
+%TMPL:DEF{"copy"}%---++ %MAKETEXT{"Copy topic"}%
+%MAKETEXT{"Copy text and form data to a new topic (no attachments will be copied though)."}%
+
+<form action="%SCRIPTURL{edit}%/%WEB%/">
+%MAKETEXT{"Name of copy:"}% <input type="text" name="topic" class="twikiInputField" value="%TOPIC%Copy" size="30"> <input type="submit" class="twikiButton" value="Clone" /> <span class="twikiGrayText">%MAKETEXT{"You will be able to review the copied topic before saving"}%</span>
+<input type="hidden" name="onlynewtopic" value="on" />
+<input type="hidden" name="templatetopic" value="%TOPIC%" />
+<input type="hidden" name="nowysiwyg" value="1" />
+</form>
+%TMPL:END%
+
+
+
 %TMPL:DEF{"delete"}%---++ %MAKETEXT{"Delete topic"}%
    * <b><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?newweb=%TRASHWEB%&amp;nonwikiword=on" rel='nofollow'>%MAKETEXT{"Delete topic..."}%</a></b>
      %MAKETEXT{"scans links in _all public webs_"}% *%MAKETEXT{"(recommended)"}%*
@@ -30,20 +43,6 @@
      %MAKETEXT{"scans links in _all public webs_"}% *%MAKETEXT{"(recommended)"}%*
    * <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?currentwebonly=on" rel='nofollow'>%MAKETEXT{"Rename/move topic..."}%</a>
      %MAKETEXT{"scans links in _[_1] web_ only" args="%WEB%"}%
-%TMPL:END%
-
-
-
-%TMPL:DEF{"copytopic"}%---+++ %MAKETEXT{"Copy topic"}%
-<form action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/">
-   * Copy %TOPIC% to new topic named: <br />
-        <input type="text" name="topic" value="%TOPIC%Copy" size="36">
-        <input type="hidden" name="onlynewtopic" value="on">
-        <input type="hidden" name="templatetopic" value="%TOPIC%">
-   * then
-        <input type="submit" class='twikiButton' value="Clone">, edit and save the new topic<br />
-        __Note:__ Topic text and form content, but excluding attachments is cloned
-</form>
 %TMPL:END%
 
 
@@ -66,7 +65,7 @@
 </div>
 <div class="twikiFormStep">
 ---+++!! %MAKETEXT{"Select topic parent:"}%
-<p>%IF{"defined pickparent" then="<select name='topicparent' size='10' class='twikiSelect' tabindex='12'>$percntTOPICLIST{$quot<option $marker value='$name'>$name</option>$quot separator=$quot$quot selection=$quot$percntMETASEARCH{type=$quotparent$quot}$percnt}$percnt<option value=$quotnone$quot>$percntMAKETEXT{$quot(no parent, orphaned topic)$quot}$percnt</option></select>" else="<input type='text' name='topicparent' size='40' class='twikiInputField' />&nbsp;<a href='$percntSCRIPTURLPATH{oops}$percnt/$percntWEB$percnt/$percntTOPIC$percnt?template=oopsmore;$percntQUERYSTRING$percnt;pickparent=1#SetParent'>%MAKETEXT{"Pick from a list"}%</a>"}%</p>
+<p>%IF{"defined pickparent" then="<select name='topicparent' size='10' class='twikiSelect' tabindex='12'>$percntTOPICLIST{$quot<option $marker value='$name'>$name</option>$quot separator=$quot$quot selection=$quot$percntMETASEARCH{type=$quotparent$quot}$percnt}$percnt<option value=$quotnone$quot>$percntMAKETEXT{$quot(no parent, orphaned topic)$quot}$percnt</option></select>" else="<input type='text' name='topicparent' size='30' class='twikiInputField' />&nbsp;<a href='$percntSCRIPTURLPATH{oops}$percnt/$percntWEB$percnt/$percntTOPIC$percnt?template=oopsmore;$percntQUERYSTRING$percnt;pickparent=1#SetParent'>%MAKETEXT{"Pick from a list"}%</a>"}%</p>
 </div>
 <div class="twikiFormStep twikiLast">
 <input type='submit' class='twikiButton' value='%MAKETEXT{"Set new parent"}%' />
@@ -132,8 +131,8 @@ table.twikiDiffOptions img {
 %TMPL:DEF{"message"}%
 %TMPL:P{"revision"}%
 %TMPL:P{"settings"}%
+%TMPL:P{"copy"}%
 %TMPL:P{"delete"}%
-%TMPL:P{"copytopic"}%
 %TMPL:P{"rename"}%
 %TMPL:P{"setparent"}%
 %TMPL:P{"childtopics"}%
