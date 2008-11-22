@@ -97,4 +97,56 @@ sub test_parseTimeLocal {
     $this->checkTime(46, 25, 14, 7, 11, 2006, "2006-11-07T14:25:46Z", 1);
 }
 
+sub test_checkInterval {
+    my $this = shift;
+
+    my $basetime = 1000000000;
+    my $start = Foswiki::Time::formatTime($basetime, 'iso');
+    my $end = Foswiki::Time::formatTime($basetime+500000, 'iso');
+    my $gap = 31556925+2592000+604800+86400+3600+60+1;
+    my $gap2 = 2*31556925+2*2592000+2*604800+2*86400+2*3600+2*60+2;
+
+    my $interval = "$start/$end";
+    my ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_equals($basetime, $s);
+    $this->assert_equals($basetime+500000, $e);
+
+    $interval = "$start/P1y1m1w1d1h1M1s";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_equals($basetime, $s);
+    $this->assert_equals($basetime+$gap, $e);
+
+    $interval = "$start/P2s2M2h2d2w2m2y";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_equals($basetime, $s);
+    $this->assert_equals($basetime+$gap2, $e);
+    $interval = "$start/P1y1m1w1d1h1M1s";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_equals($basetime, $s);
+    $this->assert_equals($basetime+$gap, $e);
+
+    $interval = "$start/P2s2M2h2d2w2m2y";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_equals($basetime, $s);
+    $this->assert_equals($basetime+$gap2, $e);
+
+    $interval = "P1y1m1w1d1h1M1s/$start";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_equals($basetime-$gap, $s);
+    $this->assert_equals($basetime, $e);
+
+    $interval = "2006/2007";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_str_equals("2006-01-01T00:00:00Z",
+                             Foswiki::Time::formatTime($s, 'iso'));
+    $this->assert_str_equals("2007-12-31T23:59:59Z",
+                             Foswiki::Time::formatTime($e, 'iso'));
+    $interval = "2006/2007-02";
+    ($s, $e) = Foswiki::Time::parseInterval($interval);
+    $this->assert_str_equals("2006-01-01T00:00:00Z",
+                             Foswiki::Time::formatTime($s, 'iso'));
+    $this->assert_str_equals("2007-02-28T23:59:59Z",
+                             Foswiki::Time::formatTime($e, 'iso'));
+}
+
 1;
