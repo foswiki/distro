@@ -27,7 +27,7 @@ sub string2value {
 sub equals {
     my ( $this, $val, $def ) = @_;
 
-    return $val + 1 == $def + 1;
+    return ( $val || 0 ) == ( $def || 0 );
 }
 
 1;
