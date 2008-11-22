@@ -31,9 +31,10 @@ $twikiLibPath = "/absolute/path/to/your/lib";
 # If you need to use perl modules that are not installed in the standard
 # directories (e.g. you have downloaded extra modules for use with plugins)
 # then you can add the absolute paths to those modules below. You can list
-# as many directories as you want, separated by commas.
+# as many directories as you want, each directory within quotes, and 
+# directories separated by commas.
 
-# @localPerlLibPath = ( '/path/to/dir' );
+# @localPerlLibPath = ( '/path/to/dir', '/path/to/another/dir' );
 
 # http://www.perl.com/pub/a/2002/04/10/mod_perl.html?page=3 has good advice
 # on installing CPAN modules without superuser privileges.
