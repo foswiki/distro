@@ -12,11 +12,11 @@ $build = new TWiki::Contrib::Build('EditRowPlugin');
 # This can be any web on any accessible TWiki installation.
 
 # name of web to upload to
-$build->{UPLOADTARGETWEB} = 'Plugins';
+$build->{UPLOADTARGETWEB} = 'Extensions';
 # Full URL of pub directory
-$build->{UPLOADTARGETPUB} = 'http://twiki.org/p/pub';
+$build->{UPLOADTARGETPUB} = 'http://foswiki.org/pub';
 # Full URL of bin directory
-$build->{UPLOADTARGETSCRIPT} = 'http://twiki.org/cgi-bin';
+$build->{UPLOADTARGETSCRIPT} = 'http://foswiki.org/bin';
 # Script extension
 $build->{UPLOADTARGETSUFFIX} = '';
 
