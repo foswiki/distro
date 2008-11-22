@@ -409,7 +409,7 @@ sub parseInterval {
     }
 
     if (!defined($start)) {
-        $start = $end - _parseDuration( $first );
+        $start = ($end || 0) - _parseDuration( $first );
     }
     if (!defined($end)) {
         $end = $start + _parseDuration( $last );
