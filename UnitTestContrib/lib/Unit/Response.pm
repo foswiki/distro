@@ -1,4 +1,5 @@
 package Unit::Response;
+use base 'Foswiki::Response';
 use strict;
 
 use vars qw($res);
@@ -6,25 +7,12 @@ use vars qw($res);
 BEGIN {
     use Foswiki;
     use CGI;
-    my ($release) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
     no warnings qw(redefine);
-    if ( $release >= 2 ) {
-        require Foswiki::Response;
-        import Foswiki::Response;
-        @Unit::Response::ISA = qw(Foswiki::Response);
-        my $twiki_new = \&Foswiki::new;
-        *Foswiki::new =
-          sub { my $t = $twiki_new->(@_); $res = $t->{response}; return $t };
-    }
-    else {
-        @Unit::Response::ISA = qw(CGI);
-        *charset = sub { shift; CGI::charset(@_) };
-        my $twiki_new = \&Foswiki::new;
-        *Foswiki::new =
-          sub { my $t = $twiki_new->(@_); $res = $t->{cgiQuery}; return $t };
-    }
-    my $twiki_finish = \&Foswiki::finish;
-    *Foswiki::finish = sub { $twiki_finish->(@_); $res = undef; };
+    my $_new = \&Foswiki::new;
+    *Foswiki::new =
+      sub { my $t = $_new->(@_); $res = $t->{response}; return $t };
+    my $_finish = \&Foswiki::finish;
+    *Foswiki::finish = sub { $_finish->(@_); $res = undef; };
 }
 
 sub new {
