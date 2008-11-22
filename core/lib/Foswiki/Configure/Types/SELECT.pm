@@ -18,7 +18,7 @@ sub prompt {
         $sopts .= '<option selected="selected">' . $value . '</option>';
     }
     foreach my $opt ( split( /,\s*/, $opts ) ) {
-        if ( $opt ne $value ) {
+        if ( defined($value) && $opt ne $value ) {
             $sopts .= '<option>' . $opt . '</option>';
         }
     }
