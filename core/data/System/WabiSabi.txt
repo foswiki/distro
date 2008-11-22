@@ -21,6 +21,6 @@ Material characteristics of wabi-sabi:
 
 For more about wabi-sabi, see http://www.art.unt.edu/ntieva/artcurr/asian/wabisabi.html
 
-__Related Topics:__ WikiCulture, TWikiSite
+__Related Topics:__ WikiCulture
 
 %META:FILEATTACHMENT{name="wabisabi.gif" attr="h" comment="Wabi Sabi" date="984123900" path="C:\DATA\wabisabi.gif" size="994" user="ProjectContributor" version=""}%

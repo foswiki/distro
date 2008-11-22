@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 5385 $"}%
-   * Please bring your enhancement requests to TWiki:Development.FeatureProposals
+   * Please bring your enhancement requests to Foswiki:Development.FeatureProposals
 
 __Related Topics:__
-   * ReleaseHistory has a list of added features in TWiki.
+   * ReleaseHistory has a list of added features in Foswiki.
    * CompleteDocumentation is the implementation documentation. 
 
 

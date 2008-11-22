@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1222844046" format="1.1" version="$Rev: 16040 $"}%
----+!! TWiki Documentation Graphics and Filetype icons
+---+!! Documentation Graphics and Filetype icons
 
-This is the TWiki icon library. The graphics can be used in topics and by web applications. 
+This is the Foswiki icon library. The graphics can be used in topics and by web applications. 
 
 %TOC{title="Contents:"}%
 
@@ -239,7 +239,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | <img src="%ATTACHURLPATH%/web-bg.gif" alt="Web" title="Web" />  | =web-bg.gif= | Web background, used in %SYSTEMWEB%.WebLeftBarWebsList | =%<nop>ICON{web-bg}%= |
 | <img src="%ATTACHURLPATH%/web-bg-small.gif" alt="Web" title="Web" />  | =web-bg-small.gif= | Web background, 13x13 | =&lt;img src="%<nop>ICONURL{web-bg-small}%" width="13" height="13" alt="Web" border="0" /&gt;= |
 
----+++ %ICON{twiki}% TWiki icons
+---+++ %ICON{twiki}% Foswiki icons
 
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *&nbsp;* | *File Name* | *Description* | *Write...* |
@@ -252,7 +252,6 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | <img src="%ATTACHURLPATH%/searchpackage.gif" alt="Search package" title="Search package" />  | =searchpackage.gif= | Search package | =%<nop>ICON{searchpackage}%= |
 | <img src="%ATTACHURLPATH%/searchtag.gif" alt="Search tag" title="Search tag" />  | =searchtag.gif= | Search tag | =%<nop>ICON{searchtag}%= |
 | <img src="%ATTACHURLPATH%/skin.gif" alt="Skin" title="Skin" />  | =skin.gif= | Skin | =%<nop>ICON{skin}%= |
-| <img src="%ATTACHURLPATH%/twiki.gif" alt="TWiki" title="TWiki" />  | =twiki.gif= | TWiki logo | =%<nop>ICON{twiki}%= |
 
 ---+++ %ICON{line_ur}% Block graphics
 
@@ -348,7 +347,7 @@ In [[%USERSWEB%.SitePreferences!]] set a macro for an ICON, for example:
 
 Now you can use the icon by writing =%<nop>H%=
 
-For extended use, check out TWiki:Plugins.SmiliesPlugin that uses a different short hand than =<nop>%MACROS%=.
+For extended use, check out Foswiki:Extensions.SmiliesPlugin that uses a different short hand than =<nop>%MACROS%=.
 </blockquote>
 
 Full path:

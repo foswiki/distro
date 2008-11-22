@@ -1,38 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1186906075" format="1.1" version="$Rev: 13018 $"}%
-%META:TOPICPARENT{name="TWikiSite"}%
+%META:TOPICPARENT{name="SiteMap"}%
 ---+!! References on Wiki and Collaboration
 
 Some useful articles and books around collaboration and the Wiki technology in particular. 
 
 %TOC%
 
----++ Wiki Technology and TWiki
-
-   * Book: Wikis for Dummies; by Dan Woods and Peter Thoeny; Whiley; ISBN:9780470043998
+---++ Wiki Technology
 
    * Book: The Wiki Way, Quick Collaboration on the Web; by Bo Leuf and Ward Cunningham; Addison-Wesley Pub Co; ISBN:020171499X
 
    * Book: Wiki: Web Collaboration; by Anja Ebersbach, Markus Glaser, Richard Heigl; Springer; ISBN:3540259953. The book is about TWiki and <nop>MediaWiki; [[http://www.springerlink.com/content/978-3-540-29267-8/][Free eBook]] is available; German version is "[[http://www.wiki-tools.de/][WikiTools: Kooperation im Web]]".
 
-   * Presentation: Wiki Collaboration and Wiki Applications for the Enterprise; by Peter Thoeny; !LinuxWorld; 11 Aug 2005; http://TWiki.org/cgi-bin/view/Codev/TWikiPresentation11Aug2005
-
-   * Article: Team Builder - the TWiki wiki and the enterprise; by Peter Thoeny; Linux-Magazine UK; 05 May 2005; http://www.linux-magazine.com/issue/55
-
-   * Article: 'Wiki' May Alter How Employees Work Together; by Kara Swisher; Wall Street Journal; 29 Jul 2004; http://online.wsj.com/article/0,,SB109105974578777189,00.html (subscription required)
-
-   * Article: Something Wiki This Way Comes: They're Web sites anyone can edit -- and they could transform Corporate America; by Rob Hof; !BusinessWeek; 07 Jun 2004; http://www.businessweek.com/magazine/content/04_23/b3886138.htm
-
-   * Article: Wiki Time; by Jeremy Zawodny; Linux Magazine; 01 Dec 2002 - http://www.linux-mag.com/2002-12/lamp_01.html
-
-   * Article: Corporate Collaboration With TWiki; by Peter Thoeny; Web Techniques Magazine; December 2000; http://www.webtechniques.com/archives/2000/12/thoeny/
-
-   * Article: Mr. TWiki's Collaboration Software; by Nancy Cohen; Open Magazine; 01 Aug 2002; http://www.open-mag.com/features/Vol_36/twiki/twiki.htm
-
-   * Article: Tool of the Month: TWiki; by Joe "Zonker" Brockmeier; <nop>UnixReview.com; January 2002; http://www.unixreview.com/documents/s=1820/uni1011715271489/0201j.htm
-
-   * Directory: Google.com &gt; Computers &gt; Software &gt; Groupware &gt; Wiki; http://directory.google.com/Top/Computers/Software/Groupware/Wiki/
-
-   * See also TWiki:Codev.TWikiInTheNews and TWiki:Codev.WikiInTheNews
+   * Book: Wikis for Dummies; by Dan Woods and Peter Thoeny; Whiley; ISBN:9780470043998
 
 ---++ Collaboration and Knowledge Management
 

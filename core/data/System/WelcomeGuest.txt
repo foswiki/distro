@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1212529094" format="1.1" version="$Rev: 16876 $"}%
 ---+!! Welcome, %WIKIUSERNAME%!
 
-Welcome to <nop>%WIKITOOLNAME%! This is a TWikiSite (pronounced _twee-kee site_), a meeting place to work on common interests. Anyone can contribute using any web browser. <nop>%WIKITOOLNAME% looks like a normal web site... except that it encourages contribution and *editing* of pages, questions, answers, comments and updates.
+Welcome to <nop>%WIKITOOLNAME%! This is a Foswiki, a dynamic website and public whiteboard. Anyone can contribute using any web browser. <nop>%WIKITOOLNAME% looks like a normal web site... except that it encourages contribution and *editing* of pages, questions, answers, comments and updates.
 
-"Wiki" systems are fundamentally editable web pages.  It's a fun and useful way of communicating asynchronously over the web for many existing intranet and public Internet sites.  TWiki is simple to learn and use.  It aims to provide a transparent way for you to publish and exchange your ideas with others over the web.
+"Wiki" systems are fundamentally editable web pages.  It's a fun and useful way of communicating asynchronously over the web for many existing intranet and public Internet sites.  Foswiki is simple to learn and use.  It aims to provide a transparent way for you to publish and exchange your ideas with others over the web.
 
 %TOC%
 
----++ What's in a TWiki?
+---++ What's in a Foswiki?
 
    * See TopicsAndWebs for a concentrated introduction
 
@@ -15,7 +15,7 @@ Welcome to <nop>%WIKITOOLNAME%! This is a TWikiSite (pronounced _twee-kee site_)
 ---++ Some things to do
 
    * *Browse.* This is a site like other sites. Read and follow interesting links.
-   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a TWiki topic. Use regular text or ShortHand.
+   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a Foswiki topic. Use regular text or ShortHand.
    * *Experiment.*  Edit your personal page or visit the Sandbox.%HOMETOPIC% web.
    * *Organize.* You can learn to use DataForms and [[FormattedSearch]]es to include topic information - for example, classify pages by subject, status, or date.
    * *Learn more.* Some good places to start:

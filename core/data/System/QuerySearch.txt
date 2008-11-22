@@ -77,7 +77,7 @@ This plan is referenced using a simple syntax:
 | =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X= | =attachments[3]= |
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
 
-Note: at some point TWiki may support multiple forms in the same topic. For this reason you are recommended *not* to use the =fields= shortcut when accessing form fields, but always use the name of the form instead.
+Note: at some point Foswiki may support multiple forms in the same topic. For this reason you are recommended *not* to use the =fields= shortcut when accessing form fields, but always use the name of the form instead.
 
 There is a shortcut for accessing form fields. If you use the name of a field (for example, =LastName=) in the query without a . before it, that is taken to mean "the value of the field named this". This works if and only if the field name isn't the same as of the top level entry names or their aliases described above. For example, the following expressions will all evaluate to the same thing:
    * =PersonForm[name='Lastname'].value=
@@ -101,7 +101,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | <code>&lt;=</code> | &lte; |
 | =lc(x)= | Converts x to lower case, Use for caseless comparisons. |
 | =uc(x)= | Converts x to UPPER CASE. Use for caseless comparisons. |
-| =d2n(x)= | Converts a date (expressed in [[TimeSpecifications][one of the formats that TWiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside TWiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If you have date fields in your forms, note that they are *not* stored in TWiki's internal format, but are stored as text strings. You should still use =d2n= to convert them to numbers for comparisons, though. |
+| =d2n(x)= | Converts a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If you have date fields in your forms, note that they are *not* stored in TWiki's internal format, but are stored as text strings. You should still use =d2n= to convert them to numbers for comparisons, though. |
 | =NOT= | Invert the result of the subquery |
 | =AND= | Combine two subqueries |
 | =OR= | Combine two subqueries |

@@ -5,7 +5,7 @@ This page contains all documentation topics as one long, complete reference shee
 
 %TOC{ depth="2" }%
 
-__Related Topics:__ TWikiSite, ReleaseHistory, EnhancementRequests, UserDocumentationCategory, AdminDocumentationCategory
+__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
 
 ------
 %INCLUDE{"SystemRequirements"}%
@@ -92,7 +92,7 @@ __Related Topics:__ TWikiSite, ReleaseHistory, EnhancementRequests, UserDocument
 [[#PageTop][Back to top]]
 
 ------
-%INCLUDE{"TWikiFuncDotPm"}%
+%INCLUDE{"FoswikiFuncDotPm"}%
 
 [[#PageTop][Back to top]]
 

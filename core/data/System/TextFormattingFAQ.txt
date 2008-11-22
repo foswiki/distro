@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1197351701" format="1.1" version="$Rev: 14446 $"}%
 ---++ Text Formatting FAQ
 
-The most frequently asked questions about text formatting are answered. Also, TextFormattingRules contains the complete TWiki shorthand system on one quick reference page.
+The most frequently asked questions about text formatting are answered. Also, TextFormattingRules contains the complete TML shorthand system on one quick reference page.
 
 %TOC%
 
@@ -21,7 +21,7 @@ You can create six sizes of headings - &lt;h1&gt;...&lt;h6&gt; in HTML - by typi
 #TextEnclosed
 ---+++ Text enclosed in angle brackets like &lt;filename&gt; is not displayed. How can I show it as it is?
 
-TWiki interprets text as HTML, and the '&lt;' and '&gt;' characters define where HTML commands start and end. Text _inside_ angle brackets is treated as HTML, and ignored if it doesn't actually do anything - either way, the brackets and its contents are not displayed.
+Foswiki interprets text as HTML, and the '&lt;' and '&gt;' characters define where HTML commands start and end. Text _inside_ angle brackets is treated as HTML, and ignored if it doesn't actually do anything - either way, the brackets and its contents are not displayed.
 
 If you want to display angle brackets, enter them as HTML codes instead of typing them in directly:
    * =&amp;lt;= = =&lt;= <br />
@@ -33,7 +33,7 @@ If you want to display angle brackets, enter them as HTML codes instead of typin
 ---
 ---+++ Some words appear highlighted, with a "?" link at the end. How can I prevent that?
 
-A question mark after a word is a link to a topic that doesn't yet exist - click it to create the new page. This is a TWiki feature - typing a MeaningfulTitle in a comment is an invitation for someone else to add a new branch to the topic.  
+A question mark after a word is a link to a topic that doesn't yet exist - click it to create the new page. This is a Foswiki feature - typing a MeaningfulTitle in a comment is an invitation for someone else to add a new branch to the topic.  
 
 To prevent auto-linking - say you want to enter a word like <nop>JavaScript - prefix the WikiStyleWord with an exclamation point: 
 
@@ -58,7 +58,7 @@ The quickest way is to enclose the text in equal signs:
 #VerbatimText
 ---+++ Text I enter gets wrapped around. How can I keep the formatting as it is?
 
-TWiki interprets text as HTML, so you can use the =preformatted= HTML option to keep the new line of text as is. Enclose the text in &lt;pre&gt; &lt;/pre&gt;, or in TWiki's own &lt;verbatim&gt; &lt;/verbatim&gt; tag:
+Foswiki interprets text as HTML, so you can use the =preformatted= HTML option to keep the new line of text as is. Enclose the text in &lt;pre&gt; &lt;/pre&gt;, or in Foswiki's own &lt;verbatim&gt; &lt;/verbatim&gt; tag:
 <pre>
 This text will keep its format as it is:
 &lt;verbatim&gt;
@@ -68,7 +68,7 @@ This text will keep its format as it is:
 &lt;/verbatim&gt;
 </pre>
 
-The =pre= tag is standard HTML; =verbatim= is a special TWiki tag that forces text to fixed font mode, and also prevents other tags and TWiki shortcuts from being expanded.
+The =pre= tag is standard HTML; =verbatim= is a special Foswiki tag that forces text to fixed font mode, and also prevents macros from being expanded.
 
 __NOTE:__ [[%SYSTEMWEB%.PreferenceSettings][preference settings]] still work within verbatim tags (this is a historical peculiarity)
 

@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1159249788" format="1.1" version="$Rev: 15598 $"}%
 ---+ Installed Plugins
-Plugins are mainly user-contributed add-ons that enhance and extend TWiki features and capabilities. A limited number of plugins are included in the core TWiki distribution - and any of those can be removed - while the rest are optional, available from TWiki:Plugins.PluginPackage.
+Plugins are (mainly user-contributed) add-ons that enhance and extend Foswiki features and capabilities. A limited number of plugins are included in the core distribution - and any of those can be removed - while the rest are optional, available from Foswiki:Extensions.WebHome.
 
-Here is a list of the plugins currently installed and enabled on this TWiki site:
+Here is a list of the plugins currently installed and enabled on this site:
 
 %PLUGINDESCRIPTIONS%
 

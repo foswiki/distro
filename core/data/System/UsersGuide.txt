@@ -1,29 +1,29 @@
 %META:TOPICINFO{author="ProjectContributor" date="1120842601" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
----+ TWiki User's Guide
+---+ User's Guide
 
-_Documentation for TWiki users._
+_Documentation for users._
 
-   * *TWiki Quick Start*
+   * *Quick Start*
       * WelcomeGuest: A fast track intro covering all the basics
       * BeginnersStartHere: A short introduction training course for beginners
       * UserRegistration: Sign up so you can edit pages and select options
 
    * *One-Page Primers*
-      * TWikiSite: Ultra-compact, 2-minute TWiki primer
+      * TWikiSite: Ultra-compact, 2-minute primer
       * TwentyMinuteTutorial: A compact, 20-minute primer<p />
       * SearchHelp: Tips and help on search
       * GoodStyle: Working tips for an open collaboration environment
       * ShortHand: All of the shorthand basics
-      * TextFormattingRules: Scan all TWiki text formatting rules on one page
+      * TextFormattingRules: Scan all text formatting rules on one page
       * [[%SYSTEMWEB%.Macros][Macros]]: How to easily embed text, graphics, dynamic content
       * FileAttachments: Browser-upload files for distribution or display
       * WebChangesAlert: Get e-mail alerts linking to the latest page changes
       * GlossaryOfTerms: A simple glossary of terms
 
    * *Help FAQs*
-      * FrequentlyAskedQuestions: The first things people ask about TWiki
-      * TextFormattingFAQ: Common how-to questions about posting in TWiki  
+      * FrequentlyAskedQuestions: The first things people ask
+      * TextFormattingFAQ: Common how-to questions about posting  
       * Frequent users should also browse the full [[ReferenceManual][Reference Manual]]!
 
 

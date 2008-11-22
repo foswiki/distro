@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1177881299" format="1.1" version="$Rev: 13239 $"}%
 %STARTINCLUDE%
----+ TWiki Forms
+---+ Data Forms
 
-_Add structure to content with forms attached to twiki topics. TWiki forms (with form fields) and formatted search are the base for building database applications._
+_Add structure to content with forms attached to topics. Data forms (with form fields) and formatted search are the base for building database applications._
 
 %TOC%
 
@@ -10,7 +10,7 @@ _Add structure to content with forms attached to twiki topics. TWiki forms (with
 
 By adding form-based input to freeform content, you can structure topics with unlimited, easily searchable categories. A form is enabled for a web and can be added to a topic. The form data is shown in tabular format when the topic is viewed, and can be changed in edit mode using edit fields, radio buttons, check boxes and list boxes. Many different form types can be defined in a web, though a topic can only have one form attached to it at a time.
 
-Typical steps to build an application based on TWiki forms:
+Typical steps to build an application based on Foswiki forms:
    1. Define a form template
    1. Enable the form for a web
    1. Add the form to a [[TemplateTopics][template topic]]
@@ -18,9 +18,9 @@ Typical steps to build an application based on TWiki forms:
    1. Build a FormattedSearch to list topics that share the same form
 
 ---++ Defining a Form
-A Form Template specifies the fields in a form. A Form Template is simply a page containing a TWiki table, where each row of the table specifies one form field.
+A Form Template specifies the fields in a form. A Form Template is simply a page containing a Foswiki table, where each row of the table specifies one form field.
    1. Create a new topic with your form name: ==<nop>YourForm==, ==<nop>ExpenseReportForm==, ==<nop>InfoCategoryForm==, ==<nop>RecordReviewForm==, whatever you need.
-   1. Create a TWiki table, with each column representing one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes== _(see sample below)_.
+   1. Create a TML table, with each column representing one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes== _(see sample below)_.
    1. For each field, fill in a new line; for the type of field, select from the list.
    1. Save the topic _(you can later choose to [[#EnablingForms][enable/disable]] individual forms)_.
 
@@ -100,12 +100,12 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
        <input type="submit" class="twikiSubmit" value="Create" />
     </form>
        </verbatim>
-   * __%T% Tip:__ For TWiki applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
+   * __%T% Tip:__ For Wiki Applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
 
    * __%X% Note:__ Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
 
 ---++ Changing a form
-   * You can change a form definition, and TWiki will try to make sure you don't lose any data from the topics that use that form. 
+   * You can change a form definition, and Foswiki will try to make sure you don't lose any data from the topics that use that form. 
 
    * If you change the form definition, the changes will not take affect in a topic that uses that form until you edit and save it.
 
@@ -113,12 +113,12 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
 
    * If you delete a field from the form, or change a field name, then the data will not be visible when you edit the topic (the changed form definition will be used). *If you save the topic, the old data will be lost* (though thanks to revision control, you can always see it in older versions of the topic)
 
-   * If two people edit the same topic containing a form at exactly the same time, and both change fields in the form, TWiki will try to merge the changes so that no data is lost.
+   * If two people edit the same topic containing a form at exactly the same time, and both change fields in the form, Foswiki will try to merge the changes so that no data is lost.
 
 #FormStructure
 ---++ Structure of a Form Template
 
-A Form Template specifies the fields in a form. A Form Template is simply a page containing a TWiki table, where each row of the table specifies one form field.
+A Form Template specifies the fields in a form. A Form Template is simply a page containing a TML table, where each row of the table specifies one form field.
 
 Each *column* of the table is one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes==.
 
@@ -155,7 +155,7 @@ For example, a simple form just supporting entry of a name and a date would look
 </verbatim>
 *Field Name Notes:*
    * Field names have to be unique.
-   * A very few field names are reserved. If you try to use one of these names, TWiki will automatically append an underscore to the name when the form is used.
+   * A very few field names are reserved. If you try to use one of these names, Foswiki will automatically append an underscore to the name when the form is used.
    * You can space out the title of the field, and it will still find the topic e.g. =Aeroplane Manufacturers= is equivalent to =AeroplaneManufacturers=.
    * If a =label= field has no name, it will *not* be shown when the form is *viewed*, only when it is *edited*.
    * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use  ==[<nop>[...]]== links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field. 
@@ -178,7 +178,7 @@ As described above, you can also retrieve possible values for select, checkbox o
 | *Name*                 | *Type* | *Size* |
 | AeroplaneManufacturers | select |        |
 </verbatim>
-the TWiki will look for the topic !AeroplaneManufacturers to get the possible values for the =select=.
+the Foswiki will look for the topic !AeroplaneManufacturers to get the possible values for the =select=.
 
 The !AeroplaneManufacturers topic must contain a table, where each row of the table describes a possible value. The table only requires one column, ==Name==. Other columns may be present, but are ignored.
 
@@ -202,7 +202,7 @@ Types with names like this can both take multiple values.
 ---++ Hints and Tips
 ---+++ Build an HTML form to create new Form-based topics
    * New topics with a form are created by simple HTML forms asking for a topic name. For example, you can have a =<nop>SubmitExpenseReport= topic where you can create new expense reports, a =<nop>SubmitVacationRequest= topic, and so on. These can specify the required template topic with its associated form. [[TemplateTopics][Template topics]] has more.
-A Form Template specifies the fields in a form. A Form Template is simply a page containing a TWiki table, where each row of the table specifies one form field.
+A Form Template specifies the fields in a form. A Form Template is simply a page containing a Foswiki table, where each row of the table specifies one form field.
 #UsingFormData
 ---+++ Searching in Form Data
 The best way to search in form data is using the structured query language in the SEARCH macro. See QuerySearch for more information.

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1208655647" format="1.1" version="$Rev: 15961 $"}%
 ---+ <nop>%WIKITOOLNAME% Site Map
 %STARTINCLUDE%
-| *TWiki Web* | *Description of Web* | *Used to...* | *Links* |
+| *Web* | *Description of Web* | *Used to...* | *Links* |
 %SEARCH{ "\* Set SITEMAPLIST \= on" type="regex" web="%MAINWEB%, %SYSTEMWEB%, all" topic="%WEBPREFSTOPIC%" nototal="on" nosearch="on" format="| <div style=\"white-space: nowrap\"><span style=\"background-color:$pattern(.*?\* Set WEBBGCOLOR\s*=\s*([^\s]*).*)\"><img src=\"%ICONURL{blank-bg}%\" alt=\"Web color\" width=\"16\" height=\"16\" border=\"0\" /></span> <b>[[$web.%HOMETOPIC%][$web]]</b></div> |$pattern(.*?\* Set SITEMAPWHAT\s*=([^\n\r]*).*)  |$pattern(.*?\* Set SITEMAPUSETO\s*=([^\n\r]*).*)  | <div style=\"white-space: nowrap\">[[$web.%HOMETOPIC%][<img src=\"%ICONURL{home}%\" alt=\"Home of $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.WebSearch][<img src=\"%ICONURL{searchtopic}%\" alt=\"Search $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.WebChanges][<img src=\"%ICONURL{recentchanges}%\" alt=\"Recent changes in the $web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.%NOTIFYTOPIC%][<img src=\"%ICONURL{notify}%\" alt=\"Get notified of changes to the $web web\" width=\"16\" height=\"16\" border=\"0\" />]]</div> |" }%
 | You can use color coding by web for identification and reference. This table is updated automatically based on <nop>WebPreferences settings of the individual webs. Contact %WIKIWEBMASTER% if you need a separate collaboration web for your team. See also %SYSTEMWEB%.AdminToolsCategory. ||||
 

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSCRIPTURL
----+++ SCRIPTURL -- base URL of TWiki scripts
+---+++ SCRIPTURL -- base URL of scripts
    * Syntax: =%<nop>SCRIPTURL%=
    * Expands to: =%SCRIPTURL%=
    * __Note:__ The =edit= script should always be used in conjunction with =?t=%<nop>GMTIME{"$epoch"}%= to ensure pages about to be edited are not cached in the browser

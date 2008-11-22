@@ -189,7 +189,7 @@ Used for renaming topics.
 | =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
 
 ---+++ =rest=
-This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =TWiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
+This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =Foswiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
 
 The =rest= script supports the following parameters:
 | =username= | If =TemplateLogin=, or a similar login manager not embedded in the web server, is used, then you need to pass a username and password to the server. The =username= and =password= parameters are used for this purpose. |
@@ -207,7 +207,7 @@ The =rest= script assumes that it will be called with URL in the form:
 
 =http://my.host/bin/rest/&lt;subject&gt;/&lt;verb&gt;=
 
-where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =TWiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function.
+where =&lt;subject&gt;= must be the WikiWord name of one of the installed [[Plugins]], and the =&lt;verb&gt;= is the alias for the function registered using the =Foswiki::Func::registerRESTHandler= method. The =&lt;subject&gt;= and =&lt;verb&gt;= are then used to lookup and call the registered function.
 
 =&lt;subject&gt;= and =&lt;verb&gt;= are checked for illegal characters exactly in the same way as the web and topic names.
 
@@ -338,10 +338,7 @@ Used for viewing topics.
 | =template= | Allows you to specify a different skin template, overriding the 'view' template the view script would normally use. The default template is =view=. For example, you could specify [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit][%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?template=edit]]. This is mainly useful when you have specialised templates for a Wiki Application. | |
 | =topic= | redirects (at the beging of the cgi script running) to show the spcified Web.Topic, or, redirects to a URL, if allowed by {AllowRedirectUrl} and {PermittedRedirectHostUrls} | |
 
-%X% For historical reasons, the view script has a special interpretation of the =text= skin. In TWiki < 4.0 the =skin=text= parameter was used like this:
-=http<nop>://.../view/MyWeb/MyTopic?skin=text&contenttype=text/plain&raw=on=
-which shows the topic as plain text; useful for those who want to download plain text for the topic.
-Using =skin=text= this way is *DEPRECATED*, use =raw=text= instead.
+%X% For historical reasons, the view script has a special interpretation of the =text= skin. This skin cannot be redefined.
 
 ---+++ =viewfile=
 Used for viewing attachments. Normally, a site will publish the attachments (=pub=) directory using a URL. However if it contains sensitive information, you will want to protect attachments using [[AccessControl][AccessControls]]. In this case, you can use the =viewfile= script to give access to attachments while still checking access controls.

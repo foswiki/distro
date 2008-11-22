@@ -5,7 +5,7 @@
    * Encode "special" characters to HTML numeric entities. Encoded characters are:
       * all non-printable ASCII characters below space, except newline (="\n"=) and linefeed (="\r"=)
       * HTML special characters ="<"=, =">"=, ="&"=, single quote (='=) and double quote (="=)
-      * TWiki special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
+      * TML special characters ="%"=, ="["=, ="]"=, ="@"=, ="_"=, ="*"=, ="="= and ="|"=
    * Syntax: =%<nop>ENCODE{"string"}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |

@@ -8,7 +8,7 @@ All manual sections in one big page:
    * [[CompleteDocumentation][Complete Documentation]] (1MB size, almost 200 printed pages)
 
 Manual sections in separate pages:
-   1. [[TWikiSystemRequirements][System Requirements]]
+   1. [[System Requirements]]
    1. [[InstallationGuide][Installation Guide]]
    1. [[UpgradeGuide][Upgrade Guide]]
    1. [[UserAuthentication][User Authentication]]
@@ -25,20 +25,20 @@ Manual sections in separate pages:
    1. [[ContributedAddOns][Contributed Add-Ons]]
    1. [[Contribs][Contribs]]
    1. [[Plugins][Plugins]]
-   1. [[TWikiFuncDotPm][TWiki::Func Module]]
-   1. [[TWikiScripts][TWiki CGI and Command Line Scripts]]
-   1. [[TWikiSiteTools][TWiki Site Tools]] 
-   1. [[ManagingTopics][Managing Topics]] 
-   1. [[ManagingWebs][Managing Webs]]
-   1. [[ManagingUsers][Managing Users]]
+   1. [[FoswikiFuncDotPm][Foswiki::Func Module]]
+   1. [[CommandAndCGIScripts][CGI and Command Line Scripts]]
+   1. [[Site Tools]] 
+   1. [[Managing Topics]] 
+   1. [[Managing Webs]]
+   1. [[Managing Users]]
    * *Appendices*
       * [[ReleaseHistory][A: Development Timeline]]
       * [[AppendixEncodeURLsWithUTF8][B: Encode URLs With UTF8]]
       * [[CascadingStyleSheets][C: Cascading Style Sheets]]
 
- %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own TWiki site. See also other enhancement pages: 
+ %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own site. See also other enhancement pages: 
    * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).
    * AdminToolsCategory: Topics an admin typically needs, all in one page
-   * DocumentGraphics: Collection of useful icons for TWiki applications
+   * DocumentGraphics: Collection of useful icons
 
 __Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory

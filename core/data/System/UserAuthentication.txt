@@ -25,8 +25,6 @@ Once a user is logged on, they can be remembered using a _Client Session_ stored
 
 Please note FileAttachments are not protected by %WIKITOOLNAME% User Authentication. 
 
-__%T% Tip:__ Foswiki:Support.UserAuthenticationFAQ on TWiki.org has supplemental documentation on user authentication.
-
 #PasswordManagement
 ---++ Password Management
 
@@ -65,13 +63,13 @@ Does exactly what it says on the tin. Forget about authentication to make your s
 __%X% Note:__ This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.
 
 #TemplateLogin
----+++ Template Login (select =TWiki::LoginManager::TemplateLogin=)
+---+++ Template Login (select =Foswiki::LoginManager::TemplateLogin=)
 
 Template Login asks for a username and password in a web page, and processes them using whatever Password Manager you choose. Users can log in and log out. Client Sessions are used to remember users. Users can choose to have their session remembered so they will automatically be logged in the next time they start their browser.
 
 ---++++ Enabling Template Login
    1 Use the [[%SCRIPTURLPATH{"configure"}%][configure]] interface to
-      1 select the =TWiki::LoginManager::TemplateLogin= login manager (on the Security Settings pane).
+      1 select the =Foswiki::LoginManager::TemplateLogin= login manager (on the Security Settings pane).
       1 select the appropriate password manager for your system, or provide your own.
       1 %H% there is also an EXPERT configure setting ={TemplateLogin}{PreventBrowserRememberingPassword}= that you can set to prevent Browsers from remembering username and passwords if you are concerned about public terminal usage.
    1 Register yourself in the UserRegistration topic.
@@ -89,7 +87,7 @@ AccessControl has more information on setting up access controls.
 %T% The default new user template page is in [[%SYSTEMWEB%.NewUserTemplate][%SYSTEMWEB%.NewUserTemplate]]. The same macros get expanded as in the [[template topics]]. You can create a custom new user home page by creating the [[%USERSWEB%.NewUserTemplate][%USERSWEB%.NewUserTemplate]] topic, which will then override the default.
 
 #ApacheLogin
----+++ Apache Login (select =TWiki::LoginManager::ApacheLogin=)
+---+++ Apache Login (select =Foswiki::LoginManager::ApacheLogin=)
 
 Using this method %WIKITOOLNAME% does not authenticate users internally. Instead it depends on the =REMOTE_USER= environment variable, which is set when you enable authentication in the webserver.
 
@@ -105,7 +103,7 @@ The same private =.htpasswd= file used in %WIKITOOLNAME% Template Login can be u
 
 ---++++ Enabling Apache Login using =mod_auth=
 You can use any other Apache authentication module that sets REMOTE_USER.
-   1 Use [[%SCRIPTURLPATH{"configure"}%#LoginManager][configure]] to select the =TWiki::LoginManager::ApacheLogin= login manager.
+   1 Use [[%SCRIPTURLPATH{"configure"}%#LoginManager][configure]] to select the =Foswiki::LoginManager::ApacheLogin= login manager.
    1 Use [[%SCRIPTURLPATH{"configure"}%#PasswordManager][configure]] to set up %WIKITOOLNAME% to create the right kind of =.htpasswd= entries.
    1 Create a =.htaccess= file in the =twiki/bin= directory.<br />%H% There is an template for this file in =twiki/bin/.htaccess.txt= that you can copy and change. The comments in the file explain what need to be done.<br />%H% If you got it right, the browser should now ask for login name and password when you click on the <u>Edit</u>. If =.htaccess= does not have the desired effect, you may need to "AllowOverride All" for the directory in =httpd.conf= (if you have root access; otherwise, e-mail web server support)
     <br /> %X% At this time AccessControls do not control access to files in the =pub= area, unless they are only accessed through the =viewfile= script. If your =pub= directory is set up to allow open access you may want to add =.htaccess= files in there as well to restrict access 
@@ -158,13 +156,13 @@ For a number of reasons, it may not be possible to use cookies. In this case, %W
 
 This section applies only if you are using authentication with existing login names (i.e. mapping from login names to WikiNames).
 
-<nop>%WIKITOOLNAME% internally manages two usernames: Login Username and TWiki Username.
+<nop>%WIKITOOLNAME% internally manages two usernames: Login Username and Foswiki Username.
 
-   * *Login Username:* When you login to the intranet, you use your existing login username. This name is normally passed to TWiki by the ==REMOTE_USER== environment variable, and used internally. Login Usernames are maintained by your system administrator.
+   * *Login Username:* When you login to the intranet, you use your existing login username. This name is normally passed to Foswiki by the ==REMOTE_USER== environment variable, and used internally. Login Usernames are maintained by your system administrator.
 
-   * *TWiki Username:* Your name in WikiNotation, ex: ==PeterThoeny==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
+   * *Foswiki Username:* Your name in WikiNotation, ex: ==JohnSmith==, is recorded when you register using UserRegistration; doing so also generates a personal home page in the %USERSWEB% web.
 
-TWiki can automatically map an Intranet (Login) Username to a TWiki Username if the {AllowLoginName} is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default is to use your WikiName as a login name.
+Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the {AllowLoginName} is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default is to use your WikiName as a login name.
 
 <blockquote>
 __NOTE:__ *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
@@ -176,15 +174,15 @@ This points ==<nop>WikiUsername== to the %USERSWEB% web, where user home pages a
 
 If your {PasswordManager} supports password changing, you can change and reset passwords using forms on regular pages.
 
-   * The ChangePassword form ( ==TWiki/ChangePassword== )
-   * The ResetPassword form ( ==TWiki/ResetPassword== )
+   * The ChangePassword form ( ==Foswiki/ChangePassword== )
+   * The ResetPassword form ( ==Foswiki/ResetPassword== )
 
 #ChangingEmails
 ---++ Changing E-mail Addresses
 
 If the active {PasswordManager} supports storage and retrieval of user e-mail addresses, you can change your e-mail using a regular page. As shipped, this is true only for the Apache 'htpasswd' password manager.
 
-   * The ChangeEmailAddress form ( ==TWiki/ChangeEmailAddress== )
+   * The ChangeEmailAddress form ( ==Foswiki/ChangeEmailAddress== )
 
 #IndividualScripts
 ---++ Controlling access to individual scripts
@@ -194,25 +192,25 @@ You may want to add or remove scripts from the list of scripts that require auth
 #HowTo
 ---++ How to choose an authentication method
 
-One of the key features of TWiki is that it is possible to add HTML to topics. No authentication method is 100% secure on a website where end users can add HTML, as there is always a risk that a malicious user can add code to a topic that gathers user information, such as session IDs. The TWiki developers have been forced to make certain tradeoffs, in the pursuit of efficiency, that may be exploited by a hacker.
+One of the key features of Foswiki is that it is possible to add HTML to topics. No authentication method is 100% secure on a website where end users can add HTML, as there is always a risk that a malicious user can add code to a topic that gathers user information, such as session IDs. The Foswiki developers have been forced to make certain tradeoffs, in the pursuit of efficiency, that may be exploited by a hacker.
 
 This section discusses some of the known risks. You can be sure that any potential hackers have read this section as well!
 
-At one extreme, the most secure method is to use TWiki via SSL (Secure Sockets Layer), with a login manager installed and Client Sessions turned *off*.
+At one extreme, the most secure method is to use Foswiki via SSL (Secure Sockets Layer), with a login manager installed and Client Sessions turned *off*.
 
-Using TWiki with sessions turned off is a pain, though, as with all the login managers there are occasions where TWiki will forget who you are. The best user experience is achieved with sessions turned *on*.
+Using Foswiki with sessions turned off is a pain, though, as with all the login managers there are occasions where Foswiki will forget who you are. The best user experience is achieved with sessions turned *on*.
 
-As soon as you allow the server to maintain information about a logged-in user, you open a door to potential attacks. There are a variety of ways a malicious user can pervert TWiki to obtain another users session ID, the most common of which is known as a [[http://www.perl.com/pub/a/2002/02/20/css.html][cross-site scripting]] attack. Once a hacker has an SID they can pretend to be that user.
+As soon as you allow the server to maintain information about a logged-in user, you open a door to potential attacks. There are a variety of ways a malicious user can pervert Foswiki to obtain another users session ID, the most common of which is known as a [[http://www.perl.com/pub/a/2002/02/20/css.html][cross-site scripting]] attack. Once a hacker has an SID they can pretend to be that user.
 
-To help prevent these sorts of attacks, TWiki supports *IP matching*, which ensures that the IP address of the user requesting a specific session is the same as the IP address of the user who created the session. This works well as long as IP addresses are unique to each client, and as long as the IP address of the client can't be faked.
+To help prevent these sorts of attacks, Foswiki supports *IP matching*, which ensures that the IP address of the user requesting a specific session is the same as the IP address of the user who created the session. This works well as long as IP addresses are unique to each client, and as long as the IP address of the client can't be faked.
 
-Session IDs are usually stored by TWiki in cookies, which are stored in the client browser. Cookies work well, but not all environments or users permit cookies to be stored in browsers. So TWiki also supports two other methods of determining the session ID. The first method uses the client IP address to determine the session ID. The second uses a rewriting method that rewrites local URLs in TWiki pages to include the session ID in the URL. 
+Session IDs are usually stored by Foswiki in cookies, which are stored in the client browser. Cookies work well, but not all environments or users permit cookies to be stored in browsers. So Foswiki also supports two other methods of determining the session ID. The first method uses the client IP address to determine the session ID. The second uses a rewriting method that rewrites local URLs in Foswiki pages to include the session ID in the URL. 
 
 The first method works well as long as IP addresses are *unique* to each individual client, and client IP addresses can't be faked by a hacker. If IP addresses are unique and can't be faked, it is almost as secure as cookies + IP matching, so it ranks as the *fourth most secure method*.
 
 If you have to turn IP matching off, and cookies can't be relied on, then you may have to rely on the second method, URL rewriting. This method exposes the session IDs very publicly, so should be regarded as "rather dodgy".
 
-Most TWiki sites don't use SSL, so, as is the case with *most* sites that don't use SSL, there is always a possibility that a password could be picked out of the aether. Browsers do not encrypt passwords sent over non-SSL links, so using Apache Login is no more secure than Template Login.
+Most Foswiki sites don't use SSL, so, as is the case with *most* sites that don't use SSL, there is always a possibility that a password could be picked out of the aether. Browsers do not encrypt passwords sent over non-SSL links, so using Apache Login is no more secure than Template Login.
 
 Of the two shipped login managers, Apache Login is probably the most useful. It lets you do this sort of thing:
 <tt>wget --http-user=RogerRabbit --http-password=i'mnottelling <nop>http://www.example.com/bin/save/Sandbox/StuffAUTOINC0?text=hohoho,%20this%20is%20interesting</tt>
@@ -222,7 +220,7 @@ Template Login degrades to url re-writing when you use a client like dillo that 
 
 Finally, it would be really neat if someone was to work out how to use certificates to identify users.....
 
-See TWiki:Support.SecuringTWikiSite for more information.
+See Foswiki:Support.SupplementalDocumentation for more information.
 
 %STOPINCLUDE%
-__Related Topics:__ AdminDocumentationCategory, AccessControl, TWiki:Support.UserAuthenticationSupplement, TWiki:Support.SecuringTWikiSite
+__Related Topics:__ AdminDocumentationCategory, AccessControl

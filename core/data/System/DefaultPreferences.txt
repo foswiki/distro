@@ -1,7 +1,7 @@
 !%META:TOPICINFO{author="ProjectContributor" date="1176595196" format="1.1" version="$Rev: 15706 $"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
-This topic defines __site-level__ settings that apply to all users and webs on this TWikiSite.
+This topic defines __site-level__ settings that apply to all users and webs on this site.
 
 __%X% Note:__ This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
 
@@ -37,7 +37,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set SITEMAPUSETO = ...to do something.
 
    * Copyright notice:
-      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://twiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
+      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
 
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
@@ -112,10 +112,10 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$name" alt="$name" $size />
 </verbatim>
 
----++ TWiki Platform Settings
+---++ Platform Settings
 
-   * TWiki site name:
-      * Set WIKITOOLNAME = TWiki
+   * Site name:
+      * Set WIKITOOLNAME = Foswiki
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in !WebPreferences for individual webs by defining these settings there.
       * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/banner.gif
@@ -163,7 +163,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---+++ HTTP-<nop>EQUIV Settings
 
-   * %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems (e.g. TWiki:Codev.BackFromPreviewLosesText or TWiki:Codev.RefreshEditPage). These settings do not affect proxy caches.
+   * %T% *NOTE:* Changing cache behaviour with these settings should not be necessary and may cause cache-related problems. These settings do not affect proxy caches.
    * *NOTE:* The current values of these preferences are not displayed in view mode (values are <code>&lt;link&gt;</code>-tags).
 
    * ==http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts:
@@ -179,14 +179,14 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---++ Skin Settings
 
-   * Skin overriding the default TWiki templates: (can be overwritten by WebPreferences and user preferences) 
+   * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences) 
       * Set SKIN = pattern
 
    * __Note:__ See SkinBrowser for currently installed skins
 
 ---+++ PatternSkin
 
-   * Default TWiki styles       
+   * Default styles       
       * Set TWIKILAYOUTURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css
       * Set TWIKISTYLEURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css
       * Set TWIKICOLORSURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css
@@ -244,10 +244,10 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set BB3 = <br />&nbsp;&nbsp;&nbsp;&nbsp;&#8226;
       * Set BB4 = <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8226;
 
-   * __Hint:__ Above shortcuts are useful in TWiki tables where you cannot use newlines
+   * __Hint:__ Above shortcuts are useful in tables where you cannot use newlines
 
 #DocGraphics
-   * Macros for graphics used in TWiki documentation - view all images in %ICONTOPIC%:
+   * Macros for graphics used in documentation - view all images in %ICONTOPIC%:
       * Set H = <img src="%ICONURLPATH{help}%" alt="HELP" title="HELP" width="16" height="16" border="0" />
       * Set I = <img src="%ICONURLPATH{tip}%" alt="IDEA!" title="IDEA!" width="16" height="16" border="0" />
       * Set M = <img src="%ICONURLPATH{arrowright}%" alt="MOVED TO..." title="MOVED TO..." width="16" height="16" border="0" />
@@ -322,8 +322,8 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set DOCWEB = %SYSTEMWEB%
       
    * show extra help for !ApacheLogin users for Main.AdminUser login
-      * Set ADMINLOGIN = %IF{"{LoginManager} = 'TWiki::LoginManager::ApacheLogin' AND NOT context authenticated"
-        then="TWiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
+      * Set ADMINLOGIN = %IF{"{LoginManager} = Foswiki::LoginManager::ApacheLogin' AND NOT context authenticated"
+        then="Foswiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
         else="[[%SCRIPTURL{login}%?sudo=sudo;origurl=%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%][internal admin login]] (use the username suggested and the password set in configure)."}%
 
 ---++ Access Control Settings
@@ -334,7 +334,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---++ Creating New Preference Settings
  
-You can introduce new [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the TWiki engine (Perl scripts).
+You can introduce new [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the Foswiki engine (Perl scripts).
    * A preference is defined in a ShortHand bullet item: ==[3 spaces] * [space] Set NAME = value== <br /> Example (as a nested bullet item, indented 6 spaces):
       * S<nop>et WEBBGCOLOR = #FFFFC0
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs: ==%==. Example:
@@ -356,7 +356,7 @@ never be attempted set or altered in any preference topic or topic settings.
    * User topics in %USERSWEB% can have optional user preferences.
    * [[%SYSTEMWEB%.Macros][Macros]] has a list of common =%<nop>MACROS%=.
    * %SYSTEMWEB%.AccessControl explains how to restrict access by users or groups.
-   * TWiki:Plugins.PreferencesPlugin makes editing preferences a snap.
+   * Foswiki:Extensions.PreferencesPlugin makes editing preferences a snap.
 
 __Note__: Can't edit?
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][View raw topic]]

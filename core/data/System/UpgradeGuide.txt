@@ -50,7 +50,7 @@ The main steps are:
       * TWiki:Support.UpgradingFromTWiki4x2Releases
       * TWiki:Support.UpgradingPatchReleases
       * TWiki:Support.InstallingOnSpecificPlatforms
-      * TWiki:Support.ApacheConfigGenerator
+      * Foswiki:Support.ApacheConfigGenerator
       * TWiki:Support.SettingFileAccessRightsLinuxUnix
       * If you upgrade from an older TWiki your =lib/TWiki.cfg= from the old TWiki installation is a good resource for some of the settings you will need but you cannot reuse the old TWiki.cfg.
    * Make sure you have a working basic TWiki before you continue
@@ -250,4 +250,4 @@ TWiki 4.2 introduces a new _Internal Admin Login_ feature which uses "admin" (co
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, TWiki:TWiki.UpgradingTWiki, TWiki:TWiki.UpgradingTWiki04x00PatchReleases, TWiki:TWiki.InstallingTWiki#OtherPlatforms, TWiki:TWiki.ApacheConfigGenerator, TWiki:TWiki.SettingFileAccessRightsLinuxUnix
+__Related Topics:__ AdminDocumentationCategory, TWiki:TWiki.UpgradingTWiki, TWiki:TWiki.UpgradingTWiki04x00PatchReleases, TWiki:TWiki.InstallingTWiki#OtherPlatforms, Foswiki:Support.ApacheConfigGenerator, TWiki:TWiki.SettingFileAccessRightsLinuxUnix

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1192723275" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSCRIPTURLPATH
----+++ SCRIPTURLPATH -- base URL path of TWiki scripts
+---+++ SCRIPTURLPATH -- base URL path of scripts
    * As =%<nop>SCRIPTURL%=, but doesn't include the protocol and host part of the URL
    * Syntax: =%<nop>SCRIPTURLPATH%=
    * Expands to: =%SCRIPTURLPATH%=

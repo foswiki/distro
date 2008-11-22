@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 13096 $"}%
----+!! Instant TWiki Site Enhancements
+---+!! Instant Site Enhancements
 
-These quick enhancements are aimed at improving and customising your TWiki.  New TWiki site administrators are especially encouraged to review this document for ideas before deploying a new TWikiSite. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
+These quick enhancements are aimed at improving and customising your TWiki.  New site administrators are especially encouraged to review this document for ideas before deploying a new site. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
 
 Many of these tips are based on setting some special [[WebPreferencesHelp][preferences]].
 
 %S% We recommend implementing at least __some__ of these enhancements __right after installation__ to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
 
-This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips are listed in TWiki:Support.AdministratorsCookBook.
+This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips can be found in Foswiki:Support.SupplementalDocumentation.
 
 %TOC%
 
@@ -22,7 +22,7 @@ Incredibly obvious, maybe, but some site admins don't get around to changing the
 
 *What we are doing*
 
-We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of [[preference setting]] for each TWiki Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
+We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of [[preference setting]] for each Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
 
 *How to do it*
 
@@ -48,7 +48,7 @@ Without explaining what WEBTOPICLIST is, just try it:
 
 ---+++ Simple way to create %RED% colored text %ENDCOLOR% and graphics
 
-This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferences. If not, look at TWiki:TWiki/DefaultPreferences. Look for the settings RED, BLUE etc (which define HTML tag FONT). To copy/paste the definitions of the colors you need to see the source text, but =Edit= is disabled. Instead, view the topic in ==raw== format (if your skin has no button for this, type "?raw=on" at the end of the URL).
+This should be enabled, see the "Miscellaneous Settings" in the DefaultPreferences. Look for the settings RED, BLUE etc (which define HTML tag FONT). To copy/paste the definitions of the colors you need to see the source text, but =Edit= is disabled. Instead, view the topic in ==raw== format (if your skin has no button for this, type "?raw=on" at the end of the URL).
 
 ---+++ EZ Graphic Icons to Highlight Text
 
@@ -73,7 +73,7 @@ Or if you have a custom image to use, attach this to [[%LOCALSITEPREFS%]] and wr
 
 Most images in DocumentGraphics are 16 x 16 pixels.
 
-   * __Related:__ There are other approaches for creating more extensive TWiki icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
+   * __Related:__ There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
 
 ---+++ Use TOC macro to create table of content
 
@@ -96,19 +96,19 @@ Non-admin users wil be interested only in first part, non-system preferences.
 ---
 ---++ Personal Productivity - Tools and Tips for Working Faster
 
-Although this area applies to all TWiki setups, the initial focus is on TWiki site managers working on a Linux/Apache TWiki site, from a Windows local PC. The assumption being: if you're working with Linux as your desktop, you're probably a programmer or system admin and have these basics handled!
+Although this area applies to all setups, the initial focus is on site managers working on a Linux/Apache site, from a Windows local PC. The assumption being: if you're working with Linux as your desktop, you're probably a programmer or system admin and have these basics handled!
 
 ---+++ Use your favorite text editor for major edits
 
-When you have a fair bit of TWiki formatting work - for example, compiling new info pages from various cut'n'paste sources, editing multiple TWiki topics or contributed material - it's often easier to use a real *[[TextEditor]]* instead of the browser's text edit box.  There are several methods for doing this.  For Windows, there are several well-recommended text editors.
+When you have a fair bit of formatting work - for example, compiling new info pages from various cut'n'paste sources, editing multiple topics or contributed material - it's often easier to use a real *[[TextEditor]]* instead of the browser's text edit box.  There are several methods for doing this.  For Windows, there are several well-recommended text editors.
 
-__Windows&nbsp;Example:__ [[http://textpad.com][TextPad]] is a low-cost, top flight Windows program, with an extended trial period. You can download from a well-stocked library of user-contributed macros, dictionaries, and syntax and clip files. You can also easily create a TWiki clip collection that allows you to format text with TWiki code: select a text string and click for bold, italic, links, bullet lists - just like a regular HTML editor - and also insert blocks of TWiki code, use simple or regex search and replace, more.
+__Windows&nbsp;Example:__ [[http://textpad.com][TextPad]] is a low-cost, top flight Windows program, with an extended trial period. You can download from a well-stocked library of user-contributed macros, dictionaries, and syntax and clip files. You can also easily create a clip collection that allows you to format text with TML code: select a text string and click for bold, italic, links, bullet lists - just like a regular HTML editor - and also insert blocks of TML code, use simple or regex search and replace, more.
 
 __Copy&nbsp;&amp;&nbsp;Paste:__ Using the web window this can work very well.  System differences may present difficulties with this method but it is simple and reliable in most cases.
 
-__Browser&nbsp;Integration:__ Some web browsers can be configured to automatically use an external editor.  See your browser documentation for details.  Such a configuration and a small tool for Linux is described in an example on TWiki.org. TWiki:Codev/EditDaemonWithGVimIntegration
+__Browser&nbsp;Integration:__ Some web browsers can be configured to automatically use an external editor.  See your browser documentation for details.
 
-__Alternate&nbsp;Browser:__ While your main browser might not have the features for TWiki topic editing, another one might.
+__Alternate&nbsp;Browser:__ While your main browser might not have the features for topic editing, another one might.
    * An example on the Linux platform is the =w3m= pager/browser for Linux.  This is a text based version similar to =lynx= but it includes text editor features and a configurable command set to act like =lynx= if you are more accustomed to it.
 
 ---++ Ready to use SEARCH 
@@ -121,16 +121,9 @@ Here's how you can create your own personal directory of topics you've contribut
 <verbatim>
 __Here's a list of topics I've been involved in recently:__
 
----++++ Codev
+---++++ Project Web
 
-%SEARCH{ "%TOPIC%" web="Codev" scope="text" nosearch="on" nosummary="on" noheader="on" nototal="on" order="modified" reverse="on" limit="20"}%
----++++ Support
-
-%SEARCH{ "%TOPIC%" web="Support" scope="text" nosearch="on" nosummary="on" noheader="on" nototal="on" order="modified" reverse="on" limit="20"}%
-
----++++ TWiki
-
-%SEARCH{ "%TOPIC%" web="TWiki" scope="text" nosearch="on" nosummary="on" noheader="on" nototal="on" order="modified" reverse="on" limit="10"}%
+%SEARCH{ "%TOPIC%" web="Project" scope="text" nosearch="on" nosummary="on" noheader="on" nototal="on" order="modified" reverse="on" limit="20"}%
 
 </verbatim>
 *End Copy*
@@ -156,7 +149,7 @@ When you're creating main gateway pages, you may want to temporarily (or permane
 ---
 ---++ Change the Default Logo
 
-If you want to change the logo per TWiki web, simply attach a new logo.gif to the web's <nop>WebPreferences, and change the logo's filename by overriding the name using WEBLOGONAME in <nop>WebPreferences:  
+If you want to change the logo per web, simply attach a new logo.gif to the web's <nop>WebPreferences, and change the logo's filename by overriding the name using WEBLOGONAME in <nop>WebPreferences:  
    * =Set WEBLOGONAME = filename.gif=
 
 Other cusomtisations are possible using =WEBLOGOIMG=, =WEBLOGOURL=, and =WEBLOGOALT= (they mirror the =WIKILOGO*= macros, but are applied to each web, rather than to the %<nop>WIKITOOLNAME%-based references)
@@ -185,8 +178,6 @@ You're no doubt familiar or better with HTML, JS, and "webmastering". Without ge
 Customize the contents of the WebLeftBar for each web to include important topics for that web, or to link to an important topic for the overall site. Each web has its own WebLeftBar page. (This is specific to the PatternSkin.) 
 
 ----
-%T% __NOTE:__ Feel free to add your own tips to TWiki:%WEB%.%TOPIC% as quick notes at the end of the list, following the existing format!
 
 __Related Topics:__ AdminDocumentationCategory
 
--- __Contributors:__ TWiki:Main.GrantBow, TWiki:Main.LynnwoodBrown, TWiki:Main.MikeMannix, TWiki:Main.PeterMasiar, TWiki:Main.PeterThoeny, TWiki:Main.MattWilkie, TWiki:Main.AmandaSmith

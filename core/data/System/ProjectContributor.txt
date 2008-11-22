@@ -4,16 +4,12 @@ Try and make sure robots don't spam contributor names
    * Set HTTP_EQUIV_ON_VIEW = <meta name="robots" content="noindex,nofollow" />
 -->
 
----+ TWiki Contributor
+---+ Project Contributor
 
 %INCLUDE{"%ATTACHURL%/AUTHORS"}%
 
-On a personal note, I would like to take this opportunity to express my sincere appreciation and thanks to all who contributed ideas, code, fixes and documentation and anything else to the Open Source TWiki project. -- TWiki:Main.PeterThoeny
- 
-__Note:__ Please contact us at http://TWiki.org if you contributed to TWiki and your name is not on this list!
+__Note:__ Please contact us at http://foswiki.org if you contributed to Foswiki and your name is not on this list!
 
-__Disclaimer:__ TWiki gets installed on many public web sites. The TWiki contributors are not affiliated in any way with those sites.
-
-__Releated Topics:__ %SYSTEMWEB%.ReleaseHistory, and the List of Production Releases in TWiki:Codev/TWikiReleases
+__Disclaimer:__ Foswiki gets installed on many public web sites. The Foswiki contributors are not affiliated in any way with those sites.
 
 %META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS~" size="117" user="ProjectContributor" version="1.1"}%

@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1176595977" format="1.1" version="$Rev$"}%
----++ TWiki Editing Shorthand
+---++ Editing Shorthand
 
 %STARTINCLUDE%
 
@@ -335,7 +335,7 @@ Sandbox.%HOMETOPIC%
 <tr valign="top">
 <td>
  *Anchors:* %BR%
- You can define a reference inside a TWiki topic (called an anchor name) and link to that. To __define__ an anchor write =#AnchorName= at the beginning of a line. The anchor name must be a WikiWord of no more than 32 characters. To __link to__ an anchor name use the =[<nop>[MyTopic#MyAnchor]]= syntax. You can omit the topic name if you want to link within the same topic.
+ You can define a reference inside a topic (called an anchor name) and link to that. To __define__ an anchor write =#AnchorName= at the beginning of a line. The anchor name must be a WikiWord of no more than 32 characters. To __link to__ an anchor name use the =[<nop>[MyTopic#MyAnchor]]= syntax. You can omit the topic name if you want to link within the same topic.
 </td><td>
 <verbatim>
 [[WikiWord#NotThere]]
@@ -384,7 +384,7 @@ escaped:
 <tr valign="top">
 <td>
  *Specific Links:* %BR%
- You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiSyntax) and URLs (e.g. http://TWiki.org/) are both supported.
+ You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiSyntax) and URLs (e.g. http://foswiki.org/) are both supported.
 The rules described under __Forced Links__ apply for internal link references.
  %BR% %T% Anchor names can be added as well, to create a link to a specific place in a topic.
 </td><td>
@@ -457,9 +457,9 @@ a@b.com
 <tr>
 <td>
  *Literal content:* %BR%
- TWiki generates HTML code from TWiki shorthand.
+ Foswiki generates HTML code from TML shorthand.
  *Experts* surround anything that must be output literally in the HTML code, without the application of
- TWiki shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags. %X% any HTML
+ shorthand rules, with =&lt;literal&gt;..&lt;/literal&gt;= tags. %X% any HTML
  within literal tags *must* be well formed i.e. all tags must be properly closed before
  the end of the literal block. %I% Macros are expanded within literal blocks.
 </td><td>

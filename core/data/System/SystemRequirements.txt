@@ -4,18 +4,18 @@
 
 _Server and client requirements_
 
-Low client and server base requirements are core features that keep TWiki widely deployable, particularly across a range of browser platforms and versions.  Many extensions exist which enhance and expand TWiki's capabilities; they may have additional requirements.
+Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions.  Many extensions exist which enhance and expand TWiki's capabilities; they may have additional requirements.
 
 %TOC%
 
 ---++ Server Requirements
 
 The code is written in Perl 5, and uses a number of shell commands from perl.
-The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Revision Control System)]], a GNU Free Software package. TWiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
+The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Revision Control System)]], a GNU Free Software package. Foswiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
 
 | *Resource* | *Required Server Environment *<nop>* |
 | Perl | 5.6.1 or higher (5.8.4 or higher is recommended) |
-| RCS | 5.7 or higher (including GNU =diff=) %BR% Optional, TWiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
+| RCS | 5.7 or higher (including GNU =diff=) %BR% Optional, Foswiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
 | GNU =diff= | GNU =diff= 2.7 or higher is required when not using the all-Perl <nop>RcsLite.  %BR% Install on PATH if not included with RCS (check version with =diff -v=)  %BR% Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
 | GNU =patch= | For upgrades only: GNU =patch= is required when patching the code using patches in diff format submitted by the community. |
 | GNU =fgrep=, =egrep= | Modify command line parameters in configure if you use non-GNU grep programs |
@@ -41,7 +41,7 @@ The [[InstallationGuide][standard installation]] has relatively low browser requ
 
 CSS and Javascript are used in most skins. Some skins will require more recent releases of browsers. The default skin is tested on IE 6, 7, Safari 3.0, and recent Mozilla based browsers (such as Firefox).
 
-You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at TWiki:Plugins.SkinPackage.
+You can easily select a balance of browser capability versus look and feel. Try the installed skins at %SYSTEMWEB%.SkinBrowser and more at Foswiki:Extensions.SkinPackage.
 
 ---++ Important note about Plugins
 

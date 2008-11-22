@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
 %META:TOPICPARENT{name="WebHome"}%
----+!! TWiki Topics
+---+!! Topics
 %TOC%
 
-The basic building block of a TWiki site is called a __topic__, identified by a unique, hopefully descriptive, %SYSTEMWEB%.WikiWord title. It may seem easier just to call them pages, but specifically a topic is the content of a page.  The distinction seems small but will become more important as your skill using TWiki increases.  TWikiSites are built using topics.
+The basic building block of a Foswiki site is called a __topic__, identified by a unique, hopefully descriptive, %SYSTEMWEB%.WikiWord title. It may seem easier just to call them pages, but specifically a topic is the content of a page.  The distinction seems small but will become more important as your skill using Foswiki increases.
 
 ---++ Characteristics
 
-A TWiki topic is a rich information unit. *Each* topic has:
+A topic is a rich information unit. *Each* topic has:
 
    * name
       * instantly identify what the topic is about
@@ -15,7 +15,7 @@ A TWiki topic is a rich information unit. *Each* topic has:
    * content
       * edited by simply clicking the [[#PageBottom][edit link]]
       * enter plain text, leaving a blank space between paragraphs like e-mail (all you need)
-      * enter simple TWiki shorthand to represent complex HTML and special macros
+      * enter simple shorthand to represent complex HTML and special macros
       * enter HTML if you are familiar with it
       * include links to other topics, URLs, Web sites, files, images, sounds, or anything else you can put on a regular Web page
       * handy pop-up quick reference 
@@ -23,14 +23,14 @@ A TWiki topic is a rich information unit. *Each* topic has:
    * [[%SYSTEMWEB%.AccessControl][access control]]
       * independently determine who can see, edit, rename, move or delete topics
       * set permissions by individual users and user groups
-      * over-ride topic, TWiki web or site
+      * over-ride topic, web or site
    * revision control
       * topic changes are automatically saved
       * efficiently stores every change made to the original version
       * lets you compare and retrieve changes between any two versions, or review them all
       * displays any previous version as a regular Web page or as raw topic text
-   * TWiki web
-      * a TWiki organizational unit to which the topic belongs
+   * web
+      * an organizational unit (collection) to which the topic belongs
       * relevant when searching for a topic, referencing it or typing in its URL
    * meta-data
       * hidden contextual data stored within each topic.
@@ -48,7 +48,7 @@ Features that can be used by topics and sites include:
    * [[Skins]] to customize the look of headers and footers when topics are converted to Web pages for display:
       * default and user selectable per session
       * fully configurable look and feel
-      * apply skins across an entire TWiki web, or to a single displayed page
+      * apply skins across an entire web, or to a single displayed page
       * use included skins and easily create new ones
       * try the ==Printable== skin below: stripped down headers and footers suitable for clean hard copy 
    * plug-ins
@@ -57,7 +57,7 @@ Features that can be used by topics and sites include:
    * add-ons
       * enhanced capability without an interface to users
    * FileAttachment 
-      * upload files through your browser to the TWiki server
+      * upload files through your browser to the server
       * attach any type of file (documents, images, applications) for viewing online, storage or sharing downloads with others
       * upload revisions of existing files with automatic backup of all previous revisions
    * formatted search
@@ -65,7 +65,7 @@ Features that can be used by topics and sites include:
       * custom formatting for outputting lists or tables, optional layout, headings, summary, etc.
    * macros
       * site wide and locally defined macros
-      * over-ride topic, TWiki web or site
+      * over-ride topic, web or site
    * [[%SYSTEMWEB%.DataForms][forms]]
       * store database-style info alongside the free-form topic content
       * accesses meta-data
@@ -73,16 +73,16 @@ Features that can be used by topics and sites include:
       * create your own forms to tag topics to later search, sort and display
    * [[#RenamingTopics][renaming, moving, and deleting]]
       * rename a topic and automatically update all of the links to it, site-wide
-      * move a topic from one TWiki web to another
+      * move a topic from one web to another
       * safely delete a topic to a special Trash web (invisible, but recoverable from the Web server if necessary)
    * many more features... 
  
-The configuration of your TWiki site, skins and your personal user account can modify the way these features are used and presented to you.
+The configuration of your site, skins and your personal user account can modify the way these features are used and presented to you.
 
 #EditingPages
 ---++ Creating and editing topics
 
-A primary purpose of TWiki is to make it incredibly easy for you to add and edit information on existing topics, create new topics, and link between TWiki topics.
+A primary purpose of Foswiki is to make it incredibly easy for you to add and edit information on existing topics, create new topics, and link between TWiki topics.
 
    * *To modify a topic*: click the ==Edit== link in the toolbar at the bottom left of every page (using the Default skin). An editing window appears. Type away. Use the GoodStyle and TextFormattingRules links to get pop-up window help.
       * Click ==Preview Changes== to see how your edit looks.
@@ -91,7 +91,7 @@ A primary purpose of TWiki is to make it incredibly easy for you to add and edit
    * *To add a new topic*: the simplest way is to type a new WikiName in an existing topic, while you're in edit mode. When the topic is saved, the new name will appear highlighted, with a *?* at the end: click the *?* and a new edit window appears. Enter, preview and save as usual. The new topic now exists.
       * Go back to the topic where you started, and you'll see the *?* has disappeared, and your WikiWord name is now a regular link. Type it anywhere on any topic in that web, and it will be turned into a link.
       * %H% *One little links rule: each topic, and its WikiWord link, belong to one unique web only.* To link _between_ webs, you must first enter the topic's web name. <br />
-         __Example:__ This is %TOPIC%, in the ==TWiki== web, so that's all you need to type on any topic in this web. But to link to <nop>%TOPIC% from a topic in the ==%USERSWEB%== web, you have to type ==%SYSTEMWEB%.<nop>%TOPIC%== - ==Webname.<nop>TopicName==. It's easy.
+         __Example:__ This is %TOPIC%, in the ==%WEB%== web, so that's all you need to type on any topic in this web. But to link to <nop>%TOPIC% from a topic in the ==%USERSWEB%== web, you have to type ==%SYSTEMWEB%.<nop>%TOPIC%== - ==Webname.<nop>TopicName==. It's easy.
 
 Another way to add a topic is to type a new topic name in the Go box or an unknown topic URL.  You can type in either a WikiName to create the topic in the current web or <nop>Web.TopicName to create a topic in a different web than the current page.  Topics created with the Go box or URLs do not have parent meta-data defined.
 
@@ -101,16 +101,16 @@ Another way to add a topic is to type a new topic name in the Go box or an unkno
 
 The color-coded toolbar at the bottom of every topic displays a series of links, including:
    * ==Attach== - pops a new screen for FileAttachments
-   * ==Backlinks== - displays all the TWiki topics with links to the current topic
+   * ==Backlinks== - displays all the topics with links to the current topic
    * ==History== - generates a page showing every change made to the current topic, with names, dates, and changes made (diffs)
    * ==r3 &gt; r2 &gt; r1== - view most recent revision and changes
    * ==More== - opens up a new screen containing additional controls 
 
-It looks complicated, but the basics you need to begin with are very simple to use.  The flexible and optional features are ready when you care to learn about them - the only way to confuse yourself or your site set-up and users is by using features you really don't need.  Unlike the usual expensive, complex collaboration and project management packages, TWiki is fully functional and effective just by typing in text and making WikiWord links.  All the additional features are there, but only if you need them!
+It looks complicated, but the basics you need to begin with are very simple to use.  The flexible and optional features are ready when you care to learn about them - the only way to confuse yourself or your site set-up and users is by using features you really don't need.  Unlike the usual expensive, complex collaboration and project management packages, Foswiki is fully functional and effective just by typing in text and making WikiWord links.  All the additional features are there, but only if you need them!
 
    * Some controls are self-explanatory and also include instructions and help links.
    * *Experiment*. You can always ==Cancel== an edit or (using revision control) go Back whenever you like.
-   * Get *in-depth info* from the [[%SYSTEMWEB%.%HOMETOPIC%][complete documentation]], including the User's Guide, Configuration Manual and TWiki Reference. 
+   * Get *in-depth info* from the [[%SYSTEMWEB%.%HOMETOPIC%][complete documentation]], including the User's Guide, Configuration Manual and Foswiki Reference. 
 
 #RenamingTopics
 ---++ Renaming, moving or deleting topics

@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarICONURL
 ---+++ ICONURL{"name"} -- URL of small documentation graphic or icon
-   * Generates the full URL of a DocumentGraphics image, which TWiki renders as an image. The related =%<nop>ICON{"name"}%= generates the full HTML img tag. Specify image name or full filename (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]] for details on filenames.)
+   * Generates the full URL of a DocumentGraphics image, which Foswiki renders as an image. The related =%<nop>ICON{"name"}%= generates the full HTML img tag. Specify image name or full filename (see [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICON][ICON]] for details on filenames.)
    * Syntax: =%<nop>ICONURL{"name"}%=
    * Examples:
       * =%<nop>ICONURL{"arrowbright"}%= returns <nop>%ICONURL{"arrowbright"}%

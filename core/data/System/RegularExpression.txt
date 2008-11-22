@@ -21,13 +21,13 @@ REs are similar to (but more poweful than) the "wildcards" used in the command-l
 | =[^0-9a-zA-Z]= | Matches any symbol (but not a number or a letter) |
 | =[A-Z][A-Z]*= | Matches one or more uppercase letters |
 | =[0-9]{3}-[0-9]{2}-[0-9]{4}= | US social security number, e.g. *123-45-6789* |
-| =PNG;Chart= | Search for topics containing the words *PNG* _and_ *Chart*. The =";"= _and_ separator is TWiki-specific and is not a regular expression; it is a useful facility that is enabled when regular expression searching is enabled. |
+| =PNG;Chart= | Search for topics containing the words *PNG* _and_ *Chart*. The =";"= _and_ separator is Foswiki-specific and is not a regular expression; it is a useful facility that is enabled when regular expression searching is enabled. |
 
 ---++ Searches with "and" combinations
 
-   * TWiki extends the regular expressions with an _and_ search. The delimiter is a semicolon =;=. Example search for "form" _and_ "template": =form;template=
+   * Foswiki extends the regular expressions with an _and_ search. The delimiter is a semicolon =;=. Example search for "form" _and_ "template": =form;template=
 
-   * Use Google if your TWiki site is public. Example search for "form" _and_ "template" at TWiki.org: =site:twiki.org +form +template=
+   * Use Google if your Foswiki site is public.
 
 ---++ Advanced
 

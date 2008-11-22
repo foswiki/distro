@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1174436429" format="1.1" version="$Rev: 11678 $"}%
 ---+ <nop>GoodStyle Collaboration Tips
 
-   * TWiki has a very simple *[[ShortHand][text formatting shorthand]]*. In any case, you won't go wrong if you simply:
+   * Foswiki has a very simple *[[ShortHand][text formatting shorthand]]*. In any case, you won't go wrong if you simply:
       * start each line without spaces
       * separate paragraphs with a blank line 
 
@@ -32,7 +32,7 @@
 
    * For *external site links*, you can type URLs directly into the text - =http://etcete.ra/...= - it'll be clear to anyone where they're headed on click. 
 
-   * TWiki is intended for world-wide use, and an internationally understood date format like ==01 Sep %SERVERTIME{$year}%== or ==%SERVERTIME{$year}%-09-01== is preferred. It's clearer than the xx/xx/xx format, where a date like 9/1/01 can mean either Jan or Sep, depending on the local conventions of the readers. For months, use the first three letters: Jan, Feb, Mar, Apr,...
+   * Foswiki is intended for world-wide use, and an internationally understood date format like ==01 Sep %SERVERTIME{$year}%== or ==%SERVERTIME{$year}%-09-01== is preferred. It's clearer than the xx/xx/xx format, where a date like 9/1/01 can mean either Jan or Sep, depending on the local conventions of the readers. For months, use the first three letters: Jan, Feb, Mar, Apr,...
 
    * *TIP:* Check the source when you want to find out how something is formatted: click ==Edit== on the lower toolbar. To see earlier versions, click ==More==, then check ==Raw text format== and click ==View revision==. A bit of HTML experience can't hurt, but you'll soon see with ShortHand how far that is from necessary. 
 

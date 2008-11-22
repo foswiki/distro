@@ -16,7 +16,7 @@ In particular, you have two highly configurable, automated site monitoring tools
 %INCLUDE{"WebChangesAlert"}%
 
 #WebSearch
----++ <nop>WebSearch - search TWiki site
+---++ <nop>WebSearch - search the site
 
 WebSearch is a flexible search facility, part of the core feature set. WebSearchAdvanced offers more options, including:
    * topic title or full-text search
@@ -89,7 +89,7 @@ When running from the command line or a cron job, you can pass parameters to the
 #LogFiles
 ---++ Log Files
 
-TWiki generates monthly log files which are used by the statistics script
+Foswiki generates monthly log files which are used by the statistics script
    * The log file is defined by the *{LogFileName}* setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
    * The file name is =log&lt;year&gt;&lt;month&gt;.txt=
    * Example path name: =logs/log%SERVERTIME{$year$mo}%.txt=
@@ -122,7 +122,7 @@ TWiki generates monthly log files which are used by the statistics script
 
 Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
 
-TWiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[preference setting]].
+Foswiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[preference setting]].
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
@@ -150,7 +150,7 @@ The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses 
 ---++ Site Permissions
 
    * AccessControl describes how to restrict read and write access to topics and webs, by users and groups
-   * SitePermissions lists the permissions settings of the webs on this TWiki site
+   * SitePermissions lists the permissions settings of the webs on this site
 
 ---++ Help with crontab
 

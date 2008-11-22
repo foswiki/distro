@@ -8,7 +8,7 @@ So what is this <nop>WikiWiki thing exactly?
 
 A set of pages of information that are open and free for anyone to edit as they wish. They are stored in a server and managed using some software. The system creates cross-reference hyperlinks between pages automatically.
 
-__Related topics:__ TWikiSite, WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions, WikiCulture, WabiSabi
+__Related topics:__ WelcomeGuest, GoodStyle, WikiSyntax, FrequentlyAskedQuestions, WikiCulture, WabiSabi
 
 __Back to:__ FrequentlyAskedQuestions
 

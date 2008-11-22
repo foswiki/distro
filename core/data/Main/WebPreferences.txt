@@ -14,7 +14,7 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
       * Set WEBTOPICLIST = [[%WIKIUSERSTOPIC%][Users]] %SEP% [[WikiGroups][Groups]] %SEP% [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
       * Set WEBBGCOLOR = #FFEFA6
       * Set SITEMAPWHAT = Welcome to <nop>%WIKITOOLNAME%... [[%WEB%.%WIKIUSERSTOPIC%][Users]], [[%WEB%.WikiGroups][Groups]]
-      * Set SITEMAPUSETO = ...see who is registered on this TWiki
+      * Set SITEMAPUSETO = ...see who is registered on this site
       * Set SITEMAPLIST = on
 
    * Default template for *new topics* for this web:

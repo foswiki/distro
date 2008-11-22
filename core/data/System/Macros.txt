@@ -7,7 +7,7 @@ _Special text strings expand on the fly to display user data or system info_
 
 Macros are text strings - =%<nop>MACRONAME%= or =%<nop>MACRONAME{ parameter="value" }%= - that expand into content whenever a topic is rendered for viewing. There are two types of macros:
    1 Preference settings: Can be defined and changed by the user
-   1 Predefined macros: Defined by the TWiki system or by Plugins (for example, the SpreadSheetPlugin introduces a =%<nop>CALC{}%= macro)
+   1 Predefined macros: Defined by the system or by Plugins (for example, the SpreadSheetPlugin introduces a =%<nop>CALC{}%= macro)
 
 %TOC%
 
@@ -50,9 +50,9 @@ You can set macros in all the following places:
 
 Settings at higher-numbered levels override settings of the same macro at lower numbered levels, unless the macro was included in the setting of FINALPREFERENCES at a lower-numbered level, in which case it is locked at the value it has at that level.
 
-If you are setting a preference and using it in the same topic, note that TWiki reads all the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] from the saved version of the topic before it displays anything.  This means you can use a macro anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
+If you are setting a preference and using it in the same topic, note that Foswiki reads all the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] from the saved version of the topic before it displays anything.  This means you can use a macro anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
 
-The syntax for setting macros is the same anywhere in TWiki (on its own TWiki bullet line, including nested bullets): <br /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
+The syntax for setting macros is the same anywhere: <br /> =[multiple of 3 spaces] * [space] Set [space] MACRONAME [space] = [space] value=
 <blockquote>
 *Examples:*
    * ==<nop>Set MACRONAME = value==
@@ -95,13 +95,13 @@ Use this powerful feature with great care! =%<nop>ALLVARIABLES%= can be used to 
 #PreDef
 ---++ Predefined Macros
 
-Most predefined macros return values that were either set in the configuration when TWiki was installed, or taken from server info (such as current username, or date and time). Some, like =%<nop>SEARCH%=, are powerful and general tools.
+Most predefined macros return values that were either set in the configuration when Foswiki was installed, or taken from server info (such as current username, or date and time). Some, like =%<nop>SEARCH%=, are powerful and general tools.
 
    * %X% Predefined macros can be overridden by [[%SYSTEMWEB%.PreferenceSettings][preference settings]] (except TOPIC and WEB)
    * %X% Plugins may extend the set of predefined macros (see individual Plugins topics for details)
    * %T% *Take the time to thoroughly read through ALL preference macros.* If you actively configure your site, review macros periodically. They cover a wide range of functions, and it can be easy to miss the one perfect macro for something you have in mind. For example, see =%<nop>INCLUDINGTOPIC%=, =%<nop>INCLUDE%=, and the mighty =%<nop>SEARCH%=.
 
-This version of TWiki - %WIKIVERSION% - predefines the following macros:
+This version of Foswiki - %WIKIVERSION% - predefines the following macros:
 
 %SEARCH{
     "^Var[A-Z_0-9]+$"

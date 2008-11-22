@@ -3,7 +3,7 @@
 
 The print skin, useful to print pages with a small header and footer. Other skins, such as PatternSkin, may introduce their own print skin.
 
-This skin is part of every TWiki distribution.
+This skin is part of every distribution.
 
 ---++ Skin Info
 

@@ -9,7 +9,7 @@ _Browser-based rename, move, and delete for individual topics_
 
 ---++ Overview
 
-You can use browser-based controls to change a topic's name, move it to another TWiki web, or delete it to a hidden =Trash= web.
+You can use browser-based controls to change a topic's name, move it to another web, or delete it to a hidden =Trash= web.
 
 ---++ How to Rename/Move/Delete a Topic
 
@@ -68,12 +68,12 @@ Consider carefully whether to make browser-based *Rename/Move/Delete* widely ava
    * When referring links are updated, the modified topics appear in WebChanges, creating the impression that editorial changes were made. This can undermine the usefulness of WebChanges.
    * Due to [[#RenameLimitations][current limitations]], fairly heavy use of Rename/Move/Delete functions can lead to an accumulation of minor technical problems (ex: broken links) and usability issues (ex: user confusion). If Rename... is used heavily, these negatives will obviously increase, in number and effect.
 
-Ultimately, the size, objectives, and policies of your TWiki site, the real-world behavior of your user group, and most importantly, the initial TWiki site management leadership, will determine the most effective implementation of this feature, and the success of the site overall.
+Ultimately, the size, objectives, and policies of your site, the real-world behavior of your user group, and most importantly, the initial TWiki site management leadership, will determine the most effective implementation of this feature, and the success of the site overall.
 
 #RenameLimitations
 ---++ Known Issues
 
-*Rename/Move* is fairly complicated due to the dynamic generation of links. Ideally, it would be possible to run the required part of rendering in a way that would allow identification of the text to be changed. Unfortunately, these hooks don't exist in TWiki at present.  Instead, %<nop>SEARCH% is used with a special template to show the text to be changed, and the selected topics are then altered. One drawback is that =search= can show matches that will not be updated due to case differences. Other mismatches with actual rendered output are also possible as the approaches are so different.
+*Rename/Move* is fairly complicated due to the dynamic generation of links. Ideally, it would be possible to run the required part of rendering in a way that would allow identification of the text to be changed. Unfortunately, these hooks don't exist at present.  Instead, %<nop>SEARCH% is used with a special template to show the text to be changed, and the selected topics are then altered. One drawback is that =search= can show matches that will not be updated due to case differences. Other mismatches with actual rendered output are also possible as the approaches are so different.
 
 The following shows some limitations of square bracket processing.
 

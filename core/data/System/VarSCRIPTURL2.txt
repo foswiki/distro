@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSCRIPTURL2
----+++ SCRIPTURL{"script"} -- URL of TWiki script
+---+++ SCRIPTURL{"script"} -- URL of script
    * Syntax: =%<nop>SCRIPTURL{"script"}%=
    * Expands to: =%SCRIPTURL{"script"}%=
    * Example: To get the authenticated version of the current topic you can write  =%<nop>SCRIPTURL{"viewauth"}%/%<nop>WEB%/%<nop>TOPIC%= which expands to =%SCRIPTURL{"viewauth"}%/%WEB%/%INCLUDINGTOPIC%=

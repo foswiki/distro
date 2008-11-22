@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 10463 $"}%
----+ Frequently Asked Questions About TWiki
+---+ Frequently Asked Questions
 
 This is a real FAQ, and also a demo of an easily implemented knowledge-base solution. To see how it's done, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?raw=on][view the source of this topic]].
 
@@ -8,7 +8,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 ---++ Submit a new FAQ
 
 %X% __NOTE:__ 
-These topics are for frequently asked questions __including__ answers; please ask support questions in the TWiki:Support web.
+These topics are for frequently asked questions __including__ answers; please ask support questions in the Foswiki:Support web.
 New FAQ topics are based on the FaqTemplate.
 
 <form action="%SCRIPTURL{"edit"}%/%WEB%/">
@@ -24,10 +24,10 @@ New FAQ topic: &nbsp; (Use a name in WikiNotation) <br />
 
 Other places where you can find answers to your questions:
 
-   * CompleteDocumentation: All you need to know to install and configure TWiki
+   * CompleteDocumentation: All you need to know to install and configure Foswiki
    * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text
-   * WikiSyntax, TextFormattingRules: A quick one-two guide to TWiki shorthand basics
-   * TextFormattingFAQ: Answers to frequently asked questions about text styling in TWiki
-   * If you can't find an answer, ask a question - post it in the TWiki:Support web
+   * WikiSyntax, TextFormattingRules: A quick one-two guide to Foswiki shorthand basics
+   * TextFormattingFAQ: Answers to frequently asked questions about text styling in Foswiki
+   * If you can't find an answer, ask a question - post it in the Foswiki:Support web
 

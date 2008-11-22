@@ -6,7 +6,7 @@ How can I create a simple [[DataForms][Data Form]] based application?
 
 ---++ Answer:
 
-   1 Create a TWiki Form and define fields (see DataForms for details)
+   1 Create a [[data form]] and define fields
    1 Add the form in the list of Web Forms. Set the preference WEBFORMS in WebPreferences
    1 Create a Template Topic
    1 In edit mode add the [[DataForms][Data Form]] you defined to the Template Topic using the "Add Form" button
@@ -41,4 +41,3 @@ __Back to:__ FrequentlyAskedQuestions
 
 __Related Topics:__ UserDocumentationCategory
 
--- __Contributors:__ TWiki:Main.MiyokoTakushima - 18 Oct 2004

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1197443560" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarMAKETEXT
----+++ MAKETEXT -- creates text using TWiki's <nop>I18N infrastructure
+---+++ MAKETEXT -- creates text using Foswiki's <nop>I18N infrastructure
    * Syntax: =%<nop>MAKETEXT{"string" args="..."}%=
    * Supported parameters:
      | *Parameter* | *Description* | *Default* |
@@ -18,7 +18,7 @@
         %BR% expands to %BR%
         <em> %MAKETEXT{"Did you want to [[[_1]][reset [_2]'s password]]?" args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"}% </em>
    * __Notes:__
-      * TWiki will translate the =string= to the current user's language _only_
+      * Foswiki will translate the =string= to the current user's language _only_
         if it has such string in its translation table for that language.
       * Amperstands (<code>&amp;</code>) followed by one letter (one of a...z, A...Z)
         (say, =X=) in the translatable string will be translated to 

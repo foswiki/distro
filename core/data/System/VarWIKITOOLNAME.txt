@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarWIKITOOLNAME
----+++ WIKITOOLNAME -- name of your TWiki site
+---+++ WIKITOOLNAME -- name of your site
    * Syntax: =%<nop>WIKITOOLNAME%=
    * Expands to: =%WIKITOOLNAME%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIHOMEURL][WIKIHOMEURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIVERSION][WIKIVERSION]]

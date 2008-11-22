@@ -14,15 +14,15 @@ These [[%SYSTEMWEB%.PreferenceSettings][preference settings]] override the defau
       * Set WEBBGCOLOR = #FFD8AA
       * #Set WEBHEADERART = 
       * Set SITEMAPLIST = on
-      * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.UserRegistration][Registration]], and other %WEB%.StartingPoints; TWiki history &amp; Wiki style; All the docs...
-      * Set SITEMAPUSETO = ...discover TWiki details, and how to start your own site.
+      * Set SITEMAPWHAT = [[%WEB%.WelcomeGuest][Welcome]], [[%WEB%.UserRegistration][Registration]], and other %WEB%.StartingPoints; Foswiki history &amp; Wiki style; All the docs...
+      * Set SITEMAPUSETO = ...discover Foswiki details, and how to start your own site.
       * Hide Table of Contents if the topic is included
          * Set TOC_HIDE_IF_INCLUDED = on
       * Set default Table of Contents title
          * Set TOC_TITLE = On this page:
       * The first header level to appear in the TOC:
          * Set TOC_MIN_DEPTH = 2
-      * Use auto linking for the TWiki documentation pages:
+      * Use auto linking for the Foswiki documentation pages:
          * Set NOAUTOLINK = 0
 
    * Default template for *new topics* for this web:
@@ -32,7 +32,7 @@ These [[%SYSTEMWEB%.PreferenceSettings][preference settings]] override the defau
       * Set WEBFORMS = DefaultPreferencesForm
 
    * Copyright notice for the web.
-      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://twiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
+      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
 
    * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See %SYSTEMWEB%.AccessControl).
       * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup

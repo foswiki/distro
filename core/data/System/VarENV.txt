@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarENV
 ---+++ ENV{"varname"} -- inspect the value of an environment variable
-   * Returns the current value of the environment variable in the CGI (Common Gateway Interface) environment. This is the environment that the TWiki scripts run in on the web server.
+   * Returns the current value of the environment variable in the CGI (Common Gateway Interface) environment. This is the environment that the CommandAndCGIScripts are running in.
    * __Note:__ For security reasons, only those environment variables whose names match the regular expression in ={AccessibleENV}= in the *Security Settings/Miscellaneous* section of =configure= can be displayed. Any other variable will just be shown as an empty string, irrespective of its real value.
    * Example: =%<nop>ENV{MOD_PERL}%= displays as: %ENV{MOD_PERL}%
    * If an environment variable is undefined (as against being set to the empty string) it will be returned as =not set=.

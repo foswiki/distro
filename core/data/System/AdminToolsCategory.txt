@@ -1,9 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.1" version="$Rev $"}%
 ---+ Admin tools
-Manage whole <b>TWiki</b> site from one screen.
+Manage your whole site from one screen.
 
    * %ICON{help}% Documentation: [[ReferenceManual][Reference Manual]]
-   * %ICON{wrench}% [[TWikiSiteTools][Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]]
+   * %ICON{wrench}% [[Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]]
    * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]], YouAreHere
    * %ICON{folder}% Webs:
@@ -53,10 +53,8 @@ Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"
 %PLUGINDESCRIPTIONS%
 see also: [[Plugins]]
 
----++ TWiki Version
-   * TWiki engine: %WIKIVERSION%
+---++ Version
+   * Engine: %WIKIVERSION%
    * Plugin API: %PLUGINVERSION{}%
-
-
 
 __Related Topics:__ AdminDocumentationCategory

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 14936 $"}%
 ---+ Wiki Administrator User
 
-The %TOPIC% has been added to TWiki 4.2.0 to make it possible to login without needing to create a TWiki User,
+The %TOPIC% allows you to login without needing to register a user,
 or to temporarily login as %TOPIC% using the password set in configure, and then log back out to the same User and Group as before.
 
 This means it is no longer necessary to add yourself to the AdminGroup, and you will be able to quicky
@@ -16,13 +16,13 @@ change to Admin User (and back to your user) only when you need to.
 
 __%X% NOTE:__ If you lock yourself out of <nop>AdminUser during setup activities or have forgotten the configure password,
 you can unset the configure password by editing the =lib/LocalSite.cfg= file and deleting the line that starts
-with =$TWiki::cfg{Password}= and then set it again by saving your settings in =configure=.
+with =Foswiki::cfg{Password}= and then set it again by saving your settings in =configure=.
 %ENDSECTION{"sudo_login"}%
 
 ---+++ Prerequisites
    * =Security Setup : Sessions : {UserClientSession}= needs to be enabled in configure
    * a configure password (otherwise the Admin login is automatically disabled.)
-   * If your TWiki is configured to use !ApacheLoginManager, you will need to log in as a valid user first.
+   * If your Foswiki is configured to use !ApacheLoginManager, you will need to log in as a valid user first.
    
 __Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 ---

@@ -1,9 +1,9 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarLANGUAGES
----+++ LANGUAGES -- list available TWiki languages
-   * List the languages available (as =PO= files) to TWiki.
-     Those are the languages in which TWiki's user interface is available.
+---+++ LANGUAGES -- list available languages
+   * List the languages available (as =PO= files).
+     These are the languages in which the user interface is available.
    * Syntax: =%<nop>LANGUAGES{...}%=
    * Supported parameters:
      | *Parameter:* | *Description:* | *Default:* |

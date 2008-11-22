@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 12314 $"}%
 ---++ Time Specifications
-TWiki recognises the following formats for date/time strings. For all strings the time is optional.
+Foswiki recognises the following formats for date/time strings. For all strings the time is optional.
    * 31 Dec 2001 - 23:59
    * 2001/12/31 23:59:59
    * 2001.12.31.23.59.59
@@ -14,7 +14,7 @@ in hh:mm format. For example:
 
 ---++ Time Intervals
 
-Some features of TWiki, such as searches, permit the specification of _time intervals_. A time interval is a period of time, such as "1337 to 1451" (the Hundred Years War) or "9th February 2005 to 26th March 2005" (the Christian season of Lent).
+Some features of Foswiki, such as searches, permit the specification of _time intervals_. A time interval is a period of time, such as "1337 to 1451" (the Hundred Years War) or "9th February 2005 to 26th March 2005" (the Christian season of Lent).
 
 The recognised format is a [[#RestrictedInterpretation][restricted]] interpretation of the [[http://www.iso.ch/iso/en/prods-services/popstds/datesandtime.html][ISO standard 8601]].
 
@@ -50,7 +50,7 @@ If only one date is specified (e.g. the interval string is =1999=) it will be tr
 | *You write* | *You mean* |
 | =2003=                   | the whole year 2003 |
 | =2003-03-28T/2003-05-15= | from March 28th to May 15th of the year 2003 |
-| =P3w/$today=             | three weeks until today |
+| =P3w/$today=             | three weeks before today |
 | 2003-12-12               | 12th Dec 2003, from 0:00 to 23:59:59 |
 | 2003                     | any time in the year 2003 |
 | 2003/P20w                | the first 20 weeks of the year 2003 |
@@ -65,4 +65,4 @@ Further examples can be seen [[http://www.iso.ch/iso/en/prods-services/popstds/d
 #RestrictedInterpretation
 ---+++ Limitations
 
-If you are entering a date at both ends of the time interval string, the end date must include all leading fields, even if these are the same as in the start date. This limitation forms a proper restriction to the ISO8601 standard. i.e. ISO8601 specifies that =2003-12-12/14= means 12th Dec 2003 00:00 to 14th Dec 2003 23:59:59. However this shorthand is not supported by TWiki and must be written as =2003-12-12/2003-12-14=
+If you are entering a date at both ends of the time interval string, the end date must include all leading fields, even if these are the same as in the start date. This limitation forms a proper restriction to the ISO8601 standard. i.e. ISO8601 specifies that =2003-12-12/14= means 12th Dec 2003 00:00 to 14th Dec 2003 23:59:59. However this shorthand is not supported by Foswiki and must be written as =2003-12-12/2003-12-14=

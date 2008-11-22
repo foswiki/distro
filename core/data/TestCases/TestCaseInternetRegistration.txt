@@ -20,7 +20,7 @@ Description: Intranet Registration manual tests
 
 ---+++ step 2: 
 	1 Your email arrives  
-	2 Click on the link in the email - it takes you to twiki/bin/register?action=verify&code=TestuserToo.XXXX where XXXX is a randomPassword
+	2 Click on the link in the email - it takes you to bin/register?action=verify&code=TestuserToo.XXXX where XXXX is a randomPassword
 
 If you get the right activation code you are taken to oopsregthanks
 

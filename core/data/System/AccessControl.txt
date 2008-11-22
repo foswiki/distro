@@ -11,17 +11,17 @@ Access Control allows you restrict access to single topics and entire webs, by i
 #ImportantConsideration
 ---++ An Important Control Consideration
 
-Open, freeform editing is the essence of WikiCulture - what makes TWiki different and often more effective than other collaboration tools. For that reason, it is strongly recommended that decisions to restrict read or write access to a web or a topic are made with great care - the more restrictions, the less Wiki in the mix. Experience shows that _unrestricted write access_ works very well because:
+Open, freeform editing is the essence of WikiCulture - what makes Foswiki different and often more effective than other collaboration tools. For that reason, it is strongly recommended that decisions to restrict read or write access to a web or a topic are made with great care - the more restrictions, the less Wiki in the mix. Experience shows that _unrestricted write access_ works very well because:
    * *Peer influence* is enough to ensure that only relevant content is posted.
    * *Peer editing* - the ability for anyone to rearrange all content on a page - keeps topics focused.
-   * In TWiki, content is transparently preserved under *revision control*:
+   * In Foswiki, content is transparently preserved under *revision control*:
       * Edits can be undone by the administrator (per default a member of %USERSWEB%.AdminGroup; see [[#ManagingGroups]]).
       * Users are encouraged to edit and refactor (condense a long topic), since there's a safety net.
 As a *collaboration guideline*:
    * Create broad-based Groups (for more and varied input), and...
    * Avoid creating view-only Users (if you can read it, you should be able to contribute to it).
 
----++ Permissions settings of the webs on this TWiki site
+---++ Permissions settings of the webs on this Foswiki site
 %INCLUDE{SitePermissions}%
 
 __Note:__ Above table comes from SitePermissions
@@ -49,7 +49,7 @@ The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated 
 #ManagingGroups
 ---+++ Managing Groups
 
-The following describes the standard TWiki support for groups. Your local TWiki may have an alternate group mapping manager installed. Check with your Wiki administrator if you are in doubt.
+The following describes the standard Foswiki support for groups. Your local Foswiki may have an alternate group mapping manager installed. Check with your Wiki administrator if you are in doubt.
 
 Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.WikiGroups and enter the name of the new group ending in ==Group== into the "new group" form field. This will create a new group topic with two important settings:
    * ==Set <nop>GROUP = &lt; list of Users and/or Groups &gt;==
@@ -61,16 +61,16 @@ The GROUP setting is a comma-separated list of users and/or other groups. Exampl
 The ALLOWTOPICCHANGE setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
 
-__%X% Note:__ TWiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
+__%X% Note:__ Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
 
 #SuperAdminGroup
 ---+++ The Super Admin Group
 
-A number of TWiki functions (for example, renaming webs) are only available to administrators. Administrators are simply users who belong to the *SuperAdminGroup*. This is a standard user group, the name of which is defined by {SuperAdminGroup} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default name of this group is the =AdminGroup=. The system administrator may have chosen a different name for this group if your local TWiki uses an alternate group mapping manager but for simplicity we will use the default name !AdminGroup in the rest of this topic.
+A number of Foswiki functions (for example, renaming webs) are only available to administrators. Administrators are simply users who belong to the *SuperAdminGroup*. This is a standard user group, the name of which is defined by {SuperAdminGroup} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default name of this group is the =AdminGroup=. The system administrator may have chosen a different name for this group if your local Foswiki uses an alternate group mapping manager but for simplicity we will use the default name !AdminGroup in the rest of this topic.
 
 You can create new administrators simply by adding them to the %USERSWEB%.AdminGroup topic. For example,
    * ==Set <nop>GROUP = <nop>%USERSWEB%.ElizabethWindsor, <nop>%USERSWEB%.TonyBlair==
-A member of the Super Admin Group has unrestricted access throughout the TWiki, so only trusted staff should be added to this group.
+A member of the Super Admin Group has unrestricted access throughout the Foswiki, so only trusted staff should be added to this group.
 
 ---++ Restricting Access
 
@@ -101,8 +101,6 @@ If your site allows hierarchical webs, then access to sub-webs is determined fro
 
 Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the parent web (or ROOTCHANGE for [[#RootWebs][root webs]]). Renaming is additionally restricted by the setting of WEBRENAME in the web itself.
 
-__Note:__  For Web level access rights Setting any of these settings to an empty value has the same effect as not setting them at all. Please note that the documentation of TWiki 4.0 and earlier versions of TWiki 4.1 did not reflect the actual implementation, e.g. an empty ALLOWWEBVIEW does _not_ prevent anyone from viewing the web, and an an empty DENYWEBVIEW does _not_ allow all to view the web.
-
 ---+++ Controlling access to a Topic
 
    * You can define these settings in any topic, preferable towards the end of the topic:
@@ -119,28 +117,28 @@ Remember when opening up access to specific topics within a restricted web that 
 
    * ==Set <nop>ALLOWTOPICVIEW = <nop>== <br />This means the same as not setting it at all. (This was documented wrong in versions 4.0.X, 4.1.0 and 4.1.1)
 
-   * ==Set <nop>DENYTOPICVIEW = <nop>== <br />Since TWiki 4.0 this means _do not deny anyone the right to view this topic_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.
+   * ==Set <nop>DENYTOPICVIEW = <nop>== <br />This means _do not deny anyone the right to view this topic_. If DENYTOPICVIEW is set to an empty value anyone has access even if ALLOWTOPICVIEW or ALLOWWEBVIEW is defined. This allows you to have very restrictive default access rights to an entire web and still allow individual topics to have more open access.
 
 The same rules apply to ALLOWTOPICCHANGE/DENYTOPICCHANGE and APPLYTOPICRENAME/DENYTOPICRENAME. Setting ALLOWTOPICCHANGE or ALLOWTOPICRENAME to en empty value means the same as not defining it. Setting DENYTOPICCHANGE or DENYTOPICRENAME to an empty value means that anyone can edit or rename the topic.
 
 %X% If the same setting is defined multiple times the last one overrides the previous. They are not OR'ed together.
 
-%X% _The setting to an empty has caused confusion and great debate and it has been decided that the empty setting syntax will be replaced by something which is easier to understand in a later version of TWiki. A method to upgrade will be provided. Please read the release notes carefully when you upgrade._
+%X% _The setting to an empty has caused confusion and great debate and it has been decided that the empty setting syntax will be replaced by something which is easier to understand in a later version of Foswiki. A method to upgrade will be provided. Please read the release notes carefully when you upgrade._
 
-See "How TWiki evaluates ALLOW/DENY settings" below for more on how ALLOW and DENY interacts.
+See "How Foswiki evaluates ALLOW/DENY settings" below for more on how ALLOW and DENY interacts.
 
 ---+++ Controlling access to Attachments
 
-Attachments are referred to directly, and are not normally indirected via TWiki scripts. This means that the above instructions for access control will _not_ apply to attachments. It is possible that someone may inadvertently publicise a URL that they expected to be access-controlled.
+Attachments are referred to directly, and are not normally indirected via Foswiki scripts. This means that the above instructions for access control will _not_ apply to attachments. It is possible that someone may inadvertently publicise a URL that they expected to be access-controlled.
 
-The easiest way to apply the same access control rules for attachments as apply to topics is to use the Apache =mod_rewrite= module, and configure your webserver to redirect accesses to attachments to the TWiki =viewfile= script. For example,
+The easiest way to apply the same access control rules for attachments as apply to topics is to use the Apache =mod_rewrite= module, and configure your webserver to redirect accesses to attachments to the Foswiki =viewfile= script. For example,
 
 <verbatim>
     ScriptAlias /twiki/bin/ /filesystem/path/to/twiki/bin/
     Alias /twiki/pub/       /filesystem/path/to/twiki/pub/
 
     RewriteEngine on
-    RewriteCond %{REQUEST_URI} !^/+twiki/+pub/+TWiki/+.+
+    RewriteCond %{REQUEST_URI} !^/+twiki/+pub/+Foswiki/+.+
     RewriteRule ^/+twiki/+pub/+([^/]+)/+((([^/]+)/+)+)(.+) /twiki/bin/viewfile/$1/$4?filename=$5 [L,PT]
 </verbatim>
 
@@ -157,9 +155,9 @@ Top level webs are a special case, because they don't have a parent web with a %
       * ==Set <nop>ALLOWROOTCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
 Note that you do *not* require =ROOTCHANGE= access to rename an existing top-level web. You just need =WEBCHANGE= in the web itself.
 
----+++ How TWiki evaluates ALLOW/DENY settings
+---+++ How Foswiki evaluates ALLOW/DENY settings
 
-When deciding whether to grant access, TWiki evaluates the following rules in order (read from the top of the list; if the logic arrives at *PERMITTED* or *DENIED* that applies immediately and no more rules are applied). You need to read the rules bearing in mind that VIEW, CHANGE and RENAME access may be granted/denied separately.
+When deciding whether to grant access, Foswiki evaluates the following rules in order (read from the top of the list; if the logic arrives at *PERMITTED* or *DENIED* that applies immediately and no more rules are applied). You need to read the rules bearing in mind that VIEW, CHANGE and RENAME access may be granted/denied separately.
 
    1 If the user is an [[#SuperAdminGroup][administrator]]
       * access is *PERMITTED*.
@@ -198,9 +196,9 @@ This setup can be useful to hide a new web until content its ready for deploymen
 
 __%X% Note:__ Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.
 
----+++ Restrict Access to Whole TWiki Site
+---+++ Restrict Access to Whole Foswiki Site
 
-For a firewalled TWiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your TWiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =twiki/bin= and =twiki/pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
+For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =twiki/bin= and =twiki/pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
 
 <verbatim>
 <FilesMatch ".*">

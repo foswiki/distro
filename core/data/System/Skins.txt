@@ -2,28 +2,25 @@
 %STARTINCLUDE%
 ---+ Skins
 
-_Skins overlay regular templates to give different looks and feels to TWiki screens._
+_Skins overlay regular templates to give different looks and feels to Foswiki screens._
 
 %TOC%
 
 ---++ Overview
 
-TWiki uses [[skin templates]] as the basis of all the screens it uses to interact with users. Each screen has an associated template file that contains the basic layout of the screen. This is then filled in by the code to generate what you see in the browser.
+Foswiki uses [[skin templates]] as the basis of all the screens it uses to interact with users. Each screen has an associated template file that contains the basic layout of the screen. This is then filled in by the code to generate what you see in the browser.
 
-TWiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. TWiki also includes support for _skins_ that can be selected to give different, more sophisticated, look and feels. A default TWiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a TWiki installation to give more options. To see how TWiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
+Foswiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. Foswiki also includes support for _skins_ that can be selected to give different, more sophisticated, look and feels. A default Foswiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a Foswiki installation to give more options. To see how Foswiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
 
 Topic text is not affected by the choice of skin, though a skin can be defined to use a CSS (Cascading Style Sheet), which can sometimes give a radically different appearance to the text.
 
-__Relevant links on TWiki.org:__
+__Relevant links__
    * TWiki:Support.SkinsSupplement - __%T% tip:__ supplemental documentation on skins
-   * TWiki:Plugins.SkinPackage - list of all contributed skin packages
-   * TWiki:Plugins.SkinDevelopment - discussion and feedback on contributed skins
-   * TWiki:Plugins.SkinBrainstorming - open forum for new skin ideas
-   * TWiki:Plugins.SkinPackageHowTo - template to create a new skin package
+   * Foswiki:Extensions.SkinPackage - list of all contributed skin packages
 
 __See other types of extensions:__ ContributedAddOns, [[Contribs]], [[Plugins]]
 
----++ Changing the default TWiki skin
+---++ Changing the default skin
 
 %WIKITOOLNAME% by default ships with the skin PatternSkin activated. You can set the skin for the whole site, a single web or topic, or for each user individually, by setting the SKIN setting to the name of a skin. If the skin you select doesn't exist, then %WIKITOOLNAME% will pick up the default templates.
 
@@ -31,9 +28,9 @@ __See other types of extensions:__ ContributedAddOns, [[Contribs]], [[Plugins]]
 
 You may want to define your own skin, for example to comply with corporate web guidelines, or because you have a aesthetic vision that you want to share. There are a couple of places you an start doing this.
 
-The [[skin templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in TWiki topics - see SkinTemplates for details.
+The [[skin templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in Foswiki topics - see SkinTemplates for details.
 
-To start creating a new skin, copy the default skin templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as TWiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
+To start creating a new skin, copy the default skin templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as Foswiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
 
 If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook.
 
@@ -45,7 +42,7 @@ The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 
 __%X% Note:__ Two skin names have _reserved_ meanings; =text= skin, and skin names starting with =rss= have [[#HardCodedSkins][hard-coded meanings]].
 
-The following template files are used for TWiki screens, and are referenced in the TWiki core code. If a skin doesn't define its own version of a template file, then TWiki will fall back to the next skin in the skin path, or finally, to the default version of the template file.
+The following template files are used for Foswiki screens, and are referenced in the Foswiki core code. If a skin doesn't define its own version of a template file, then Foswiki will fall back to the next skin in the skin path, or finally, to the default version of the template file.
 
 (Certain template files are expected to provide certain TMPL:DEFs - these are listed in sub-bullets)
    * =addform= - used to select a new form for a topic
@@ -118,8 +115,8 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 | =%<nop>WIKILOGOIMG%= | Image URL of page logo |
 | =%<nop>WIKILOGOALT%= | Alt text of page logo |
 | =%<nop>WEBBGCOLOR%= | Web-specific background color, defined in the WebPreferences |
-| =%<nop>WIKITOOLNAME%= | The name of your TWiki site |
-| =%<nop>SCRIPTURL%= | The script URL of TWiki |
+| =%<nop>WIKITOOLNAME%= | The name of your Foswiki site |
+| =%<nop>SCRIPTURL%= | The script URL of Foswiki |
 | =%<nop>SCRIPTURLPATH%= | The script URL path |
 | =%<nop>SCRIPTSUFFIX%= | The script suffix, ex: =.pl=, =.cgi= |
 | =%<nop>WEB%= | The name of the current web. |
@@ -152,7 +149,7 @@ Navigate:
 </td><td>
 <select name="sel" onchange="this.form.topic.value=this.options[this.selectedIndex].value; this.form.submit()">
 <option selected="selected" value="">...</option>
-<option value="http://twiki.org/">Intranet home</option>
+<option value="http://foswiki.org/">Intranet home</option>
 <option value="%USERSWEB%.%WIKIUSERSTOPIC%">Employee index</option>
 <option value="%USERSWEB%.%HOMETOPIC%">%USERSWEB% web</option>
 <option value="%SYSTEMWEB%.%HOMETOPIC%">%SYSTEMWEB% web</option>
@@ -172,16 +169,16 @@ __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscella
 
 CSS files are gererally attachments to the skin topic that are included in the the skin templates - in the case of PatternSkin in the template =styles.pattern.tmpl=.
 
-   * To see how CSS is used in the default TWiki skin, see: PatternSkin
+   * To see how CSS is used in the default Foswiki skin, see: PatternSkin
    * If you write a complete new skin, this is the syntax to use in a template file:
 <verbatim>
 <style type='text/css' media='all'>@import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');</style>
 </verbatim>
 
 ---++ Attachment Tables
-Controlling the look and feel of attachment tables is a little bit more complex than for the rest of a skin. By default, the attachment table is a standard TWiki table, and the look is controlled in the same way as other tables. In a very few cases you may want to change the _content_ of the table as well.
+Controlling the look and feel of attachment tables is a little bit more complex than for the rest of a skin. By default, the attachment table is a standard Foswiki table, and the look is controlled in the same way as other tables. In a very few cases you may want to change the _content_ of the table as well.
 
-The format of standard attachment tables is defined through the use of special _TWiki template macros_ which by default, are defined in the =attachtables.tmpl= template using the =%TMPL:DEF= macro syntax described in SkinTemplates. These macros are:
+The format of standard attachment tables is defined through the use of special _template directives_ which by default, are defined in the =attachtables.tmpl= template using the =%TMPL:DEF= directive syntax described in SkinTemplates. These macros are:
 | *Macro* | *Description* |
 | =ATTACH:files:header= | Standard title bar |
 | =ATTACH:files:row= | Standard row |
@@ -218,9 +215,9 @@ You can try out all installed skins in the SkinBrowser.
 
 ---++ Activating Skins
 
-TWiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[macros]] and URL parameters.
+Foswiki uses a _skin search path_, which lets you combine skins additively. The skin path is defined using a combination of [[macros]] and URL parameters.
 
-TWiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
+Foswiki works by asking for a template for a particular function - for example, 'view'. The detail of how templates are searched for is described in SkinTemplates, but in summary, the templates directory is searched for a file called <code>view.</code><i>skin</i><code>.tmpl</code>, where _skin_ is the name of the skin e.g. =pattern=. If no template is found, then the fallback is to use =view.tmpl=. Each skin on the path is searched for in turn. For example, if you have set the skin path to =local,pattern= then =view.local.tmpl= will be searched for first, then =view.pattern.tmpl= and finally =view.tmpl=.
 
 The basic skin is defined by a =SKIN= setting:
 
@@ -243,9 +240,9 @@ The full skin path is built up as follows: =SKIN= setting (or =?skin= if it is s
 #HardCodedSkins
 ---++ Hard-Coded Skins
 
-The =text= skin is reserved for TWiki internal use.
+The =text= skin is reserved for Foswiki internal use.
 
 Skin names starting with =rss= also have a special meaning; if one or more of the skins in the skin path starts with 'rss' then 8-bit characters will be encoded as XML entities in the output, and the =content-type= header will be forced to =text/xml=.
 
-__Related Topics:__ SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory, TWiki:Support.SkinsSupplement
+__Related Topics:__ SkinBrowser, AdminDocumentationCategory, DeveloperDocumentationCategory
 

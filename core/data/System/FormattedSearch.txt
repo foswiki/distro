@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1168735492" format="1.1" version="$Rev: 13239 $"}%
 %META:TOPICPARENT{name="Macros"}%
 %STARTINCLUDE%
----+ TWiki Formatted Search
+---+ Formatted Search
 
 _Inline search feature allows flexible formatting of search result_
 
@@ -108,11 +108,11 @@ To get this:
 
 *Write this:*
 
-=%<nop>SEARCH{ "__Back to\:__ <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="TWiki FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
+=%<nop>SEARCH{ "__Back to\:__ <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
 
 *To get this:*
 
-%SEARCH{ "__Back to\:__ FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="TWiki FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
+%SEARCH{ "__Back to\:__ FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
 
 
 ---+++ Nested Search
@@ -159,7 +159,7 @@ A regular expression search is flexible, but there are limitations. For example,
    1. If needed, format and output the result
    1. Else supress the search hit
 
-This requires the TWiki:Plugins.SpreadSheetPlugin. The following example shows all topics that are up to exactly one week old.
+This requires the Foswiki:Extensions.SpreadSheetPlugin. The following example shows all topics that are up to exactly one week old.
 
 *Write this:*
 
@@ -169,7 +169,7 @@ This requires the TWiki:Plugins.SpreadSheetPlugin. The following example shows a
    * The first line sets the =weekold= variable to the serialized date of exactly one week ago
    * The SEARCH has a deferred CALC. The =$percnt= makes sure that the CALC gets executed once for each search hit
    * The CALC compares the date of the topic with the =weekold= date
-   * If topic is older, a =&lt;nop&gt;= is returned, which gets removed at the end of the TWiki rendering process
+   * If topic is older, a =&lt;nop&gt;= is returned, which gets removed at the end of the rendering process
    * Otherwise, the search hit is formatted and returned
 
 *To get this:*

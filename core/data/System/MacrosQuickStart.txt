@@ -10,7 +10,7 @@ Some macros can take arguments in curly braces - for example, =%<nop>INCLUDE{"Ot
 Many macro definitions are built-in, and others ([[%SYSTEMWEB%.PreferenceSettings][preference settings]]) are predefined for your convenience. You can also define your own
 [[%SYSTEMWEB%.PreferenceSettings][preference settings]] at the entire site, individual web, or individual topic level. For more information, see *[[Macros]]*
 
-Macros are fully expanded _before_ any of the TWiki text formatting rules are applied.
+Macros are fully expanded _before_ any of the text formatting rules are applied.
 
 *Documentation Graphics:* There are many graphics available to use in your topics. Use =%<nop>ICON{"help"}%=, =%<nop>ICON{"tip"}%=, and =%<nop>ICON{"warning"}%= to get: %H%, %T%, and %X%, respectively. DocumentGraphics lists them all.
 

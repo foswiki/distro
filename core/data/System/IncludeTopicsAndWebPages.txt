@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
 ---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
 
-Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a TWiki topic. The whole content or only parts of a page can be included. If needed, set a proxy server in %WIKIPREFSTOPIC%.
+Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a topic. The whole content or only parts of a page can be included. If needed, set a proxy server in %WIKIPREFSTOPIC%.
 
 %TOC%
 
@@ -19,7 +19,7 @@ __Note:__ All text of a topic is included unless it contains a =%<nop>STARTINCLU
 
 ---++ Usage Examples
 
----+++ 1. Display regression test results in a TWiki page
+---+++ 1. Display regression test results
 <pre>
   &lt;pre&gt;
   %<nop>INCLUDE{"http://domain/~qa/v1.1/REDTest.log.txt"}%
@@ -32,7 +32,7 @@ __Note:__ All text of a topic is included unless it contains a =%<nop>STARTINCLU
   %<nop>INCLUDE{"http://www.google.com/robots.txt"}%
 </pre>
 
----+++ 3. Display the current time in Tokyo in a TWiki page
+---+++ 3. Display the current time in Tokyo
 
    * You type:
       * ==Tokyo: %<nop>INCLUDE{"http://TWiki.org/cgi-bin/xtra/tzdate?tz=Asia/Tokyo" pattern="^.*&lt;\!--tzdate:date--&gt;(.*?)&lt;\!--/tzdate:date--&gt;.*"}%==

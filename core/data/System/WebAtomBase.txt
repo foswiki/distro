@@ -3,13 +3,12 @@
 
 ---++ Find out What's New
 
-There are several ways to find out what's new in each TWiki web:
+There are several ways to find out what's new in each web:
    1. Visit WebChanges to see recent changes
    1. Subscribed in WebNotify get notified of recent changes by e-mail
-   1. Use a news readers such as TWiki:Plugins/HeadlinesPlugin to display the recent changes
+   1. Use a news readers such as Foswiki:Extensions.HeadlinesPlugin to display the recent changes
       * The source can be a RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
-      * Learn more on RSS at WebRssBase and TWiki:Codev/TWikiSyndication
-      * Learn more on ATOM at TWiki:Codev/AtomSyndication
+      * Learn more at WebRssBase and Foswiki::Support.SupplementalDocumentation
 
 ---++ ATOM Feed Usage
 
@@ -19,7 +18,7 @@ There are several ways to find out what's new in each TWiki web:
 
 ---++ ATOM Feed Internals
 
-Each web has a WebAtom topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the ATOM feed and generates an WebAtom 1.0 feed for TWiki:Codev/AtomSyndication.
+Each web has a WebAtom topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the ATOM feed and generates an WebAtom 1.0 feed.
 
 The WebAtom topic in each web contains the following text:
 
@@ -46,5 +45,5 @@ Below part is included by each <nop>WebAtom topic:
 </verbatim>
 -----
 
-__See also__: WebRssBase, TWiki:Codev/AtomSyndication 
+__See also__: WebRssBase
 

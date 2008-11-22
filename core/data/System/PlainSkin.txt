@@ -3,7 +3,7 @@
 
 The plain skin is used to get the rendered topic text without any page decoration such as side, top or bottom bars. The text is shown without any markup styles. It can be used to display topic content inside an [[http://www.htmlhelp.com/reference/html40/special/iframe.html][IFRAME]].
 
-This skin is part of every TWiki distribution.
+This skin is part of every distribution.
 
 This skin has been used to show topics in a pop-up window; this has been replaced with template =viewplain=.
 
@@ -14,7 +14,7 @@ This skin has been used to show topics in a pop-up window; this has been replace
 |  Screenshot: | <a href="%ATTACHURL%/fullscreen.gif"><img src="%ATTACHURL%/screenshot.gif" alt="Click for full screen image" width="600" height="130" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=plain][Preview with this topic]] |
 |  Base Name: | plain |
-|  Skin Author: | TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie |
+|  Skin Author: | TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie |
 |  Skin Version: | 04 Jan 2006 (v8096) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  04 Jan 2006: | Dakar update (v8096) |

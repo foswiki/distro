@@ -6,7 +6,7 @@ How do I delete or rename a file attachment?
 
 ---++ Answer:
 
-You can move and delete attachments directly from your browser. Moving lets you transfer an attachment from one topic to another. The soft delete moves an attachment to the special ==TrashAttachment== topic in the ==Trash== web, where it's hidden but can be "undeleted" with system administrator access. Please note that you cannot rename an attachment in the current TWiki release.
+You can move and delete attachments directly from your browser. Moving lets you transfer an attachment from one topic to another. The soft delete moves an attachment to the special ==TrashAttachment== topic in the ==Trash== web, where it's hidden but can be "undeleted" with system administrator access. Please note that you cannot rename an attachment in the current Foswiki release.
 
 Click on ==action== on the file in the FileAttachment table, then in the *Update attachment* screen choose ==[Move attachment]==, and make your changes to that screen.
 

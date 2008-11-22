@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1187845362" format="1.1" version="$Rev: 15965 $"}%
 %STARTINCLUDE%
----+ TWiki Installation Guide
+---+ Installation Guide
 
 *The following is installation instructions for the TWiki 4.2 production release on an Apache web server on Linux.* Visit TWiki:Support.SupplementalDocuments for supplemental information for installing or upgrading TWiki, including notes on installing TWiki on different platforms, environments and web hosting sites.
 
@@ -14,7 +14,7 @@ Both this document and the !UpgradeGuide are also available in the root of the d
 
 Before attempting to install TWiki, you are encouraged to review the TWiki:System.AdminSkillsAssumptions. This guide assumes the person installing TWiki has, at a minimum, basic knowledge of server administration on the system on which TWiki is to be installed. While it is possible to install TWiki with FTP access alone (for example, on a hosted site), it is tricky and may require additional support from your hosting service (for example, in setting file ownership and installing missing perl CPAN libraries).
 
-To help setup a correct Apache configuration, you are very much encouraged to use the automatic tool TWiki:Support.ApacheConfigGenerator which generates the contents for an Apache config file for TWiki based on your inputs.
+To help setup a correct Apache configuration, you are very much encouraged to use the automatic tool Foswiki:Support.ApacheConfigGenerator which generates the contents for an Apache config file for TWiki based on your inputs.
 
 While this installation guide specifically describes installation on an Apache web server on Linux, TWiki should be fine with any web server and OS that meet the system requirements (see below). For additional notes on installing TWiki on other systems, see TWiki:Support.SupplementalDocuments.
 
@@ -55,14 +55,14 @@ If you need help, ask a question in the TWiki:Support web or on TWiki:Codev.TWik
       * .htaccess file: This should only be used when you cannot use a config file. Performance is slowed down because Apache has to look through _all_ directories in search for possible .htaccess files each time someone views a page in TWiki. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo priviledges.
    1 *Configure the webserver*
       * Unless you are an Apache expert setting up the webserver can be quite difficult. But TWiki has three resources that make setting up Apache easier.
-         * The best and easiest way is to use webpage TWiki:Support.ApacheConfigGenerator which contains a tool that can generate a safe and working config file for TWiki on Apache.
+         * The best and easiest way is to use webpage Foswiki:Support.ApacheConfigGenerator which contains a tool that can generate a safe and working config file for TWiki on Apache.
          * In the root of the twiki installation you find an example config file =twiki_httpd_conf.txt=
          * In the root of the twiki installation and in the =twiki/bin= directory you find example =.htaccess= files you can copy and modify. The files contains help text explaining how to set them up. In =twiki/bin= you find =.htaccess.txt= which can be copied to =.htaccess= and defined access to the CGI scripts. In the root of TWiki you find =pub-htaccess.txt= which you can copy to =pub/.htaccess=, =subdir-htaccess.txt= which you can copy to all directories as =.htaccess= except bin and pub, and you find =root-htaccess.txt= which you can copy to =.htaccess= in the twiki root directory. But again only use .htaccess files if you do not have root priviledges.
       * If you are unsure about how to do this on your system, see TWiki:Support.SupplementalDucuments for links to information about various server setups.
       * *Note!* When you use config files you need to restart Apache each time you change a setting to make the new setting active.
    1 *Protect the configure script*
-      * You should never leave the =configure= script open to the public. Limit access to the =twiki/bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The TWiki:Support.ApacheConfigGenerator lets you setup who has access to the configure script. Also the example twiki-httpd-conf.txt and bin/.htaccess.txt files includes the needed setting to protect the configure script.
-      * If you limit the access to a particular user then you need to setup a .htpasswd file that contains the user name and password that Apache will authenticate against. Per default both TWiki:Support.ApacheConfigGenerator and the example config files and .htaccess files uses =twiki/data/.htpasswd= but this file does not exist until you have TWiki running and have registered the first user. You therefore have two options. Either limit the access to localhost or an IP address, or make a .htpasswd file. To make a .htpasswd file change directory to =twiki/data= and issue the command =htpasswd -c .htpasswd username= and enter your password when asked. The username must match the =Require user username= directive in the Apache config file or .htaccess file. Do not use a username you will later use to register in TWiki because TWiki will then claim that you are already registered.
+      * You should never leave the =configure= script open to the public. Limit access to the =twiki/bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the configure script. Also the example twiki-httpd-conf.txt and bin/.htaccess.txt files includes the needed setting to protect the configure script.
+      * If you limit the access to a particular user then you need to setup a .htpasswd file that contains the user name and password that Apache will authenticate against. Per default both Foswiki:Support.ApacheConfigGenerator and the example config files and .htaccess files uses =twiki/data/.htpasswd= but this file does not exist until you have TWiki running and have registered the first user. You therefore have two options. Either limit the access to localhost or an IP address, or make a .htpasswd file. To make a .htpasswd file change directory to =twiki/data= and issue the command =htpasswd -c .htpasswd username= and enter your password when asked. The username must match the =Require user username= directive in the Apache config file or .htaccess file. Do not use a username you will later use to register in TWiki because TWiki will then claim that you are already registered.
    1 *Run the =configure= script* from your browser (enter =http://yourdomain/twiki/bin/configure= into your browser address bar)
       * Resolve any errors or warnings it tells you about.
       * *Note!* When you run =configure= for the first time, you can only edit the section =General Path Settings=. Save these settings, and then return to =configure= to continue configuration.
@@ -79,7 +79,7 @@ Before you continue any further there are some basic and very important security
    * Make sure that you deny access to all other twiki directories than the =bin= and =pub= directories. When you have access to the Apache config files the =twiki_httpd_conf.txt= file mentioned above also contains protection of these directories.<br />
      For those that do not have access to the Apache config files a sample =subdir-htaccess.txt= file can be copied as =.htaccess= to the data, lib, locale, templates, tools and working directories.
 
-The TWiki:Support.ApacheConfigGenerator as well as the example =twiki_httpd_conf.txt= and example =htaccess.txt= files include the needed settings that protect against all 3 security elements.
+The Foswiki:Support.ApacheConfigGenerator as well as the example =twiki_httpd_conf.txt= and example =htaccess.txt= files include the needed settings that protect against all 3 security elements.
 
 ---++ Next Steps
 
@@ -110,7 +110,7 @@ You are strongly encouraged to read =%SYSTEMWEB%.UserAuthentication=, TWiki:Supp
 </FilesMatch>
 </verbatim>
 
-The TWiki:Support.ApacheConfigGenerator includes this section when you choose _ApacheLogin_. In the example =twiki_httpd_conf.txt= and =bin/.htaccess.txt= files this section is commented out with #. Uncomment the section when you use _ApacheLogin_. It is important that this section is commented out or removed when you use _TemplateLogin_.
+The Foswiki:Support.ApacheConfigGenerator includes this section when you choose _ApacheLogin_. In the example =twiki_httpd_conf.txt= and =bin/.htaccess.txt= files this section is commented out with #. Uncomment the section when you use _ApacheLogin_. It is important that this section is commented out or removed when you use _TemplateLogin_.
 
 #DefineAdminUser   
 ---++ Define the Administrator User(s)

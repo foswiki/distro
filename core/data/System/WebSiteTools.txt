@@ -13,7 +13,7 @@
 </form>
 %STOPINCLUDE%
 ---
-   * The list above provides the TWikiSiteTools used to navigate, search and maintain a particular web. It is included within other topics using the following directive: <p />
+   * The list above provides the SiteTools used to navigate, search and maintain a particular web. It is included within other topics using the following directive: <p />
      =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.WebSiteTools"}%=
 
    * [[%SCRIPTURLPATH{"search"}%/%WEB%?scope=text&amp;web=all&amp;regex=on&amp;search=INCLUDE.*WebSiteTools&amp;casesensitive=on&amp;nosummary=on&amp;nototal=on][List]] all topics which include this <nop>WebSiteTools topic.

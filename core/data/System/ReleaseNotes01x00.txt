@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1177700623" format="1.1" version="$Rev$"}%
----+!! TWiki Release 4.2.2 (Freetown), %$DATE%
+---+!! Foswiki Release 1.0.0, %$DATE%
 
 %TOC%
 

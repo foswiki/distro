@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarSYSTEMWEB
----+++ SYSTEMWEB -- name of TWiki documentation web
+---+++ SYSTEMWEB -- name of documentation web
    * The web containing all documentation and default [[%SYSTEMWEB%.PreferenceSettings][preference settings]]
    * Syntax: =%<nop>SYSTEMWEB%=
    * Expands to: =%SYSTEMWEB%=

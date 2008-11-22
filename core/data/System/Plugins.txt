@@ -18,7 +18,7 @@ Everything to do with Foswiki plugins - demos, new releases, downloads, developm
 
 Foswiki plugins are developed and contributed by interested members of the community. Plugins are provided on an 'as is' basis; they are not a part of Foswiki, but are independently developed and maintained.
 
-Most TWiki&trade; plugins can also be used with Foswiki if the TWikiCompatibilityPlugin is installed.
+Most TWiki<sup>&reg;</sup> plugins can also be used with Foswiki if the TWikiCompatibilityPlugin is installed.
 
 __See other types of extensions:__ ContributedAddOns, [[Contribs]], [[Skins]]
 

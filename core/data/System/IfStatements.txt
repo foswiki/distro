@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1183830381" format="1.1" version="$Rev$"}%
 ---+ IF Statements
 
-The =%<nop>IF%= construct gives TWiki the power to include content in topics based on the value of simple expressions.
+The =%<nop>IF%= construct gives Foswiki the power to include content in topics based on the value of simple expressions.
 
 =%<nop>IF{"CONDITION" then="THEN" else="ELSE"}%=
 
 In the example above, if CONDITION evaluates to TRUE, then THEN will be included in the topic; otherwise ELSE will be included.
 
-Note that because of the way TWiki evaluates, then whatever is in the THEN and ELSE parameters will already have been expanded by the time the condition is actually evaluated. The standard FormatTokens can be used in the THEN and ELSE parameters when you need to delay evaluation of (for example) a macro.
+Note that because of the way Foswiki evaluates, then whatever is in the THEN and ELSE parameters will already have been expanded by the time the condition is actually evaluated. The standard FormatTokens can be used in the THEN and ELSE parameters when you need to delay evaluation of (for example) a macro.
 
 The basic syntax of a condition is the same as [[QuerySearch][the syntax used for queries]], with the addition of the following special operators:
 
@@ -31,7 +31,7 @@ __Examples:__
 2. Compare macro definition
 <verbatim>
 You are %IF{ "$ WIKINAME='WikiGuest' and not defined 'OPEN_DAY'" then="not" }% allowed to
-%IF{ "context view" then="view" else="edit"}% this TWiki today.
+%IF{ "context view" then="view" else="edit"}% this Foswiki today.
 </verbatim>
 
 3. URL parameter
@@ -90,39 +90,39 @@ You %IF{"'%USERNAME%' ingroup 'AdminGroup'" then="are an admin" else="are a norm
 
 *Configuration items* are defined in [[%SCRIPTURLPATH{"configure"}%][configure]]. You cannot see the value of a configuration item, you can only see if the item is set or not.
 
-*Context identifiers* are used in TWiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
+*Context identifiers* are used in Foswiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
 | *id* | *context* |
 | absolute_urls | Set if absolute URLs are required |
-| attach | in attach script (see TWikiScripts) |
+| attach | in attach script (see CommandAndCGIScripts) |
 | authenticated | a user is authenticated |
 | body_text  | when the body text is being processed in a view (useful in plugin handlers) |
 | can_login | current environment supports login |
-| changes | in changes script (see TWikiScripts) |
+| changes | in changes script (see CommandAndCGIScripts) |
 | command_line | the running script was run from the command line, and not from CGI |
-| diff | in rdiff script (see TWikiScripts) |
-| edit | in edit script (see TWikiScripts) |
+| diff | in rdiff script (see CommandAndCGIScripts) |
+| edit | in edit script (see CommandAndCGIScripts) |
 | footer_text | when the footer text is being processed in a view (useful in plugin handlers) |
 | header_text | when the header text is being processed in a view (useful in plugin handlers) |
 | i18n_enabled | when user interface <nop>I18N support is enabled (i.e., user can choose the language for UI) |
 | inactive | if active links such as 'edit' and 'attach' should be disabled |
-| login & logon | in login / logon script (see TWikiScripts) |
-| manage | in manage script (see TWikiScripts) |
+| login & logon | in login / logon script (see CommandAndCGIScripts) |
+| manage | in manage script (see CommandAndCGIScripts) |
 | mirror | if this is a mirror |
 | new_topic | if the topic doesn't already exist |
-| oops | in oops script (see TWikiScripts) |
-| preview | in preview script (see TWikiScripts) |
-| register | in register script (see TWikiScripts) |
-| rename | in rename script (see TWikiScripts) |
-| resetpasswd | in resetpasswd script (see TWikiScripts) |
+| oops | in oops script (see CommandAndCGIScripts) |
+| preview | in preview script (see CommandAndCGIScripts) |
+| register | in register script (see CommandAndCGIScripts) |
+| rename | in rename script (see CommandAndCGIScripts) |
+| resetpasswd | in resetpasswd script (see CommandAndCGIScripts) |
 | rss | if this is an RSS skin rendering |
-| save | in save script (see TWikiScripts) |
-| search | in search script (see TWikiScripts) |
-| statistics | in statistics script (see TWikiScripts) |
+| save | in save script (see CommandAndCGIScripts) |
+| search | in search script (see CommandAndCGIScripts) |
+| statistics | in statistics script (see CommandAndCGIScripts) |
 | textareas_hijacked | provided for use by editors that highjack textareas, and want to signal this fact. This is used by skins, for example, so they can suppress extra controls when textareas have been hijacked. |
-| upload | in upload script (see TWikiScripts) |
-| view | in view script (see TWikiScripts) |
-| viewfile | in viewfile script (see TWikiScripts) |
-| rest | in rest script (see TWikiScripts) |
+| upload | in upload script (see CommandAndCGIScripts) |
+| view | in view script (see CommandAndCGIScripts) |
+| viewfile | in viewfile script (see CommandAndCGIScripts) |
+| rest | in rest script (see CommandAndCGIScripts) |
 | registration_supported | registration is supported by the current UserMapper |
 | registration_enabled | set if ={Register}{EnableNewUserRegistration}= is on, and registrationis supported |
 | passwords_modifyable | set if the password manager support changing the password / email |

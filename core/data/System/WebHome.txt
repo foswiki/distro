@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
 <div style="float:right;width:255px;padding:1em;text-align:center;">
 <a href="http://twiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/large.gif" style="margin:.3em 0;" alt="Visit Foswiki.org" title="Visit Foswiki.org" border="0" /></a>
-<br />The main Foswiki<sup>&reg;</sup> site is <a href="http://twiki.org"><span class="twikiLinkLabel">foswiki.org</span></a>
+<br />The main Foswiki site is <a href="http://foswiki.org"><span class="twikiLinkLabel">foswiki.org</span></a>
 </div>
 ---+!! Welcome to the %WEB% Web
 

@@ -1,8 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13239 $"}%
 %STARTINCLUDE%
----+ 20-Minute TWiki Tutorial
+---+ 20-Minute Tutorial
 
-This step-by-step, hands-on tutorial gets you up to speed with all the TWikiSite basics, in _mere minutes_...
+This step-by-step, hands-on tutorial gets you up to speed with all the basics, in _mere minutes_...
 
 %TOC%
 
@@ -10,21 +10,21 @@ This step-by-step, hands-on tutorial gets you up to speed with all the TWikiSite
 Open two browser windows, so that you can follow these steps in one window, while trying things out in the other.
 
 ---++ 2. Take a quick tour...
-A TWikiSite is divided into webs; each one usually represents one area of collaboration. You can navigate the webs from the upper right corner of each web page.
+A Foswiki site is divided into webs; each one usually represents one area of collaboration. You can navigate the webs from the upper right corner of each web page.
    * Each web has hyperlinked topics, displayed as pages in your browser. 
    * The home page in each web is the %HOMETOPIC% topic.
-   * To browse a TWiki web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together. 
+   * To browse a web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together. 
    * Follow the WikiWord link and learn what it is.
    * If you know the name of a topic, you can jump directly to it by typing its name into the *Go* field on the top of the page. Type =WebSearch= to jump to the search page. __Hint:__ Do not confuse the *Go* field with search.
-   * You can search each TWiki web. Enter a search string in the %HOMETOPIC% topic or the WebSearch topic accessible from the =Search= link on each topic. TWiki searches for an exact match; optionally, you can also use RegularExpressions.
+   * You can search each web. Enter a search string in the %HOMETOPIC% topic or the WebSearch topic accessible from the =Search= link on each topic. TWiki searches for an exact match; optionally, you can also use RegularExpressions.
 
 ---++ 3. Open a private account...
-To edit topics, you need to have a TWiki account.
-   * Go to the UserRegistration page to create your TWiki account. Fill in a couple of lines and you're set!
+To edit topics, you need to have a login account.
+   * Depending on how your site is configured, you may already be authorised. Ask your system administrator. If not, Go to the UserRegistration page to create your account.
 
 ---++ 4. Check out TWiki users, groups.
-   * Go to the %USERSWEB%.%WIKIUSERSTOPIC% topic; it has a list of all users of TWiki. Your WikiName will be in this list after you register.
-   * Go to the %USERSWEB%.WikiGroups topic in the %USERSWEB% web; it has a list of groups which can be used to define fine grained AccessControl in TWiki.
+   * Go to the %USERSWEB%.%WIKIUSERSTOPIC% topic; it has a list of all users. Your WikiName will be in this list after you register.
+   * Go to the %USERSWEB%.WikiGroups topic in the %USERSWEB% web; it has a list of groups which can be used to define fine grained AccessControl.
 
 ---++ 5. Test the page controls...
 The color-coded control strips at the top and/or bottom of the page has a collection of action links. Different skins show different links, but most will have some or all of::
@@ -68,14 +68,14 @@ You can attach _any_ type of file to a topic - documents, images, programs, what
    * If you have a GIF, JPG or PNG image of yourself, your cat, your sprawling family estate...why not upload it now to personalize your account page %WIKIUSERNAME%?
 
 ---++ 8. Get e-mail alerts whenever pages are changed...
-%NOTIFYTOPIC% is a subscription service that automatically notifies you by e-mail when topics change in a TWiki web. This is a convenience service - for many people, checking e-mail is easier than checking the Web.
-   * If you're using TWiki to collaborate on a project, it's important to know when anyone on your team posts an update. If you're following a specific discussion, it's convenient to know when there's new input.
+%NOTIFYTOPIC% is a subscription service that automatically notifies you by e-mail when topics change in a web. This is a convenience service - for many people, checking e-mail is easier than checking the Web.
+   * If you're using Foswiki to collaborate on a project, it's important to know when anyone on your team posts an update. If you're following a specific discussion, it's convenient to know when there's new input.
    * Alerts are e-mailed as links to individual topics that've been changed in a set period: each day, every hour, whatever is configured for your system.
-   * It's strongly recommended that you try out the service by subscribing to each TWiki web that's relevant to you. You can subscribe and unsubscribe instantly, on a per web basis using %NOTIFYTOPIC%. 
+   * It's strongly recommended that you try out the service by subscribing to each web that's relevant to you. You can subscribe and unsubscribe instantly, on a per web basis using %NOTIFYTOPIC%. 
 
-That's it! You're now equipped with all the TWiki essentials. You are ready to roll.
+That's it! You're now equipped with all the essentials. You are ready to roll.
 
-__NOTE:__ When first using TWiki, it will probably seem strange to be able to change other people's postings - we're used to _separating_ individual messages, with  e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and copy-and-paste from them if you want to undo any changes. After a short while, TWiki-style free-form communication becomes second-nature. You'll expect it everywhere!
+__NOTE:__ When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to _separating_ individual messages, with  e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and copy-and-paste from them if you want to undo any changes. After a short while, TWiki-style free-form communication becomes second-nature. You'll expect it everywhere!
 
 __Related Topics:__ UserDocumentationCategory
 

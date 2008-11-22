@@ -1,13 +1,13 @@
 %META:TOPICINFO{author="ProjectContributor" date="1120846368" format="1.1" version="$Rev: 15171 $"}%
 ---+!! Welcome to the <nop>%USERSWEB% web 
-Congratulations, you have finished installing TWiki.
+Congratulations, you have finished installing Foswiki.
 
-This site is running TWiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
 
-To learn more about TWiki, visit the [[%SYSTEMWEB%.WebHome][TWiki web]]. Please ensure that the read/write
+To learn more about Foswiki, visit the [[%SYSTEMWEB%.WebHome][%SYSTEMWEB% web]]. Please ensure that the read/write
 permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.DefaultPreferences]] 
 and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of your new
-%IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="TWiki"}% site. 
+%IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
 
 ---++ <nop>%WEB% Web Utilities
 <form action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch">

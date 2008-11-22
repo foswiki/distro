@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1122323947" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="BookView"}%
----+ A List of TWiki User Documentation
+---+ A List of User Documentation
 
 %SEARCH{"%TOPIC%" excludetopic="%TOPIC%,WebLeftBar" nonoise="on" format="   * [[$web.$topic][$percntSPACEOUT{$quot$topic$quot}$percnt]]$n      * $summary(100, noheader)"}%
