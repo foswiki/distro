@@ -105,7 +105,7 @@ function setEditBoxFontStyle(inFontStyle) {
 
 // Provided for use by editors that need to validate form elements before
 // navigating away
-function validateTWikiMandatoryFields(event) {
+function validateMandatoryFields(event) {
     if (twiki.Pref.validateSuppressed) {
         return true;
     }
@@ -143,6 +143,6 @@ function validateTWikiMandatoryFields(event) {
 
 // Used to dynamically set validation suppression, depending on which submit
 // button is pressed (i.e. call this n 'Cancel').
-function suppressTWikiSaveValidation() {
+function suppressSaveValidation() {
     twiki.Pref.validateSuppressed = true;
 }
