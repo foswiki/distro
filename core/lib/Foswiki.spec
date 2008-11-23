@@ -13,7 +13,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 #
-# This configuration file is held in 'twiki/lib' directory. You can edit
+# This configuration file is held in 'foswiki/lib' directory. You can edit
 # this file directly to set your configuration, but it's much MUCH better
 # to leave this file untouched and create a new file called "LocalSite.cfg"
 # That way, there is no risk of your local settings being overwritten when
@@ -87,7 +87,7 @@ my $OS = $Foswiki::cfg{OS} || '';
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
 # **STRING**
-# If your host has aliases (such as both www.twiki.org and twiki.org, and some IP addresses)
+# If your host has aliases (such as both www.foswiki.org and foswiki.org, and some IP addresses)
 # you need to list them to tell Foswiki that redirecting to them is OK. Foswiki uses redirection
 # as part of its normal mode of operation when it changes between editing and viewing.
 # The security setting {AllowRedirectUrl} is per default disabled making redirecting to other
@@ -99,36 +99,36 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **PATH M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
-# directory e.g. <code>/twiki/bin</code><br />
+# directory e.g. <code>/foswiki/bin</code><br />
 # Do <b>not</b> include a trailing /.
 # <p />
-# See http://twiki.org/cgi-bin/view/Support.ShorterUrlCookbook for more information on setting up
+# See http://foswiki.org/Support.ShorterUrlCookbook for more information on setting up
 # Foswiki to use shorter script URLs.
-# $Foswiki::cfg{ScriptUrlPath} = '/twiki/bin';
+# $Foswiki::cfg{ScriptUrlPath} = '/foswiki/bin';
 
 # **URLPATH M**
-# Attachments URL path e.g. /twiki/pub
+# Attachments URL path e.g. /foswiki/pub
 # <p /><b>Security Note:</b> files in this directory are *not*
 # protected by Foswiki access controls. If you require access controls, you
 # will have to use webserver controls (e.g. .htaccess on Apache)
-# $Foswiki::cfg{PubUrlPath} = '/twiki/pub';
+# $Foswiki::cfg{PubUrlPath} = '/foswiki/pub';
 
 # **PATH M**
-# Attachments store (file path, not URL), must match /twiki/pub e.g.
-# /usr/local/twiki/pub
-# $Foswiki::cfg{PubDir} = '/home/httpd/twiki/pub';
+# Attachments store (file path, not URL), must match /foswiki/pub e.g.
+# /usr/local/foswiki/pub
+# $Foswiki::cfg{PubDir} = '/home/httpd/foswiki/pub';
 
 # **PATH M**
-# Template directory e.g. /usr/local/twiki/templates
-# $Foswiki::cfg{TemplateDir} = '/home/httpd/twiki/templates';
+# Template directory e.g. /usr/local/foswiki/templates
+# $Foswiki::cfg{TemplateDir} = '/home/httpd/foswiki/templates';
 
 # **PATH M**
-# Topic files store (file path, not URL) e.g. /usr/local/twiki/data
-# $Foswiki::cfg{DataDir} = '/home/httpd/twiki/data';
+# Topic files store (file path, not URL) e.g. /usr/local/foswiki/data
+# $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
 # **PATH M**
-# Translation files directory (file path, not URL) e.g. /usr/local/twiki/locales
-# $Foswiki::cfg{LocalesDir} = '/home/httpd/twiki/po';
+# Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locales
+# $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/po';
 
 # **PATH M**
 # Directory where Foswiki stores files that are required for the management
@@ -152,7 +152,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # default Foswiki registration process to store registrations that are pending
 # verification.</li>
 # </ul>
-# $Foswiki::cfg{WorkingDir} = '/home/httpd/twiki/working';
+# $Foswiki::cfg{WorkingDir} = '/home/httpd/foswiki/working';
 
 # **STRING 10**
 # Suffix of Foswiki CGI scripts (e.g. .cgi or .pl). You may need to set this
@@ -220,7 +220,7 @@ $Foswiki::cfg{UseClientSessions} = 1;
 # to a negative number, which will mean that Foswiki won't try to clean
 # up expired sessions using CGI processes. Instead you should use a cron
 # job to clean up expired sessions. The standard maintenance cron script
-# <tt>tools/tick_twiki.pl</tt> includes this function.
+# <tt>tools/tick_foswiki.pl</tt> includes this function.
 $Foswiki::cfg{Sessions}{ExpireAfter} = 21600;
 
 # **NUMBER EXPERT**
@@ -504,7 +504,7 @@ $Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
 $Foswiki::cfg{ForceUnsafeRegexes} = $FALSE;
 
 # **BOOLEAN EXPERT**
-# Build the path to /twiki/bin from the URL that was used to get this
+# Build the path to /foswiki/bin from the URL that was used to get this
 # far. This can be useful when rewriting rules or redirection are used
 # to shorten URLs. Note that displayed links are incorrect after failed
 # authentication if this is set, so unless you really know what you are
@@ -522,7 +522,7 @@ $Foswiki::cfg{DrainStdin} = $FALSE;
 
 # **BOOLEAN EXPERT**
 # Remove port number from URL. If set, and a URL is given with a port
-# number e.g. http://my.server.com:8080/twiki/bin/view, this will strip
+# number e.g. http://my.server.com:8080/foswiki/bin/view, this will strip
 # off the port number before using the url in links.
 $Foswiki::cfg{RemovePortNumber}  = $FALSE;
 
@@ -550,9 +550,9 @@ $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD
 # Standard Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
-# public (internet) sites are strongly recommended to investigate the
-# <a href="http://twiki.org/cgi-bin/view/Plugins/BlackListPlugin">
-# BlackListPlugin </a>
+# public (internet) sites are strongly recommended to install 
+# <a href="http://foswiki.org/Extensions/AntiSpamPlugin">
+# AntiSpamPlugin </a>
 
 # **STRING 50**
 # Text added to email addresses to prevent spambots from grabbing
@@ -916,7 +916,7 @@ $Foswiki::cfg{RCS}{delRevCmd} =
 # if you find searches run very slowly, you may want to try a different
 # algorithm, which may work better on your configuration.
 # Note that there is an alternative algorithm available from
-# http://twiki.org/cgi-bin/view/Plugins/NativeSearchContrib, that often
+# http://foswiki.org/Extensions/NativeSearchContrib, that often
 # gives better performance with mod_perl and Speedy CGI.
 $Foswiki::cfg{RCS}{SearchAlgorithm} = 'Foswiki::Store::SearchAlgorithms::Forking';
 
@@ -1006,7 +1006,7 @@ $Foswiki::cfg{SMTP}{MAILHOST} = '';
 # **STRING 30**
 # Mail domain sending mail, required if you are using Net::SMTP. SMTP
 # requires that you identify the server sending mail. If not set, 
-# Net::SMTP will guess it for you. Example: twiki.your.company.
+# Net::SMTP will guess it for you. Example: foswiki.your.company.
 # <b>CAUTION</b> This setting can be overridden by a setting of SMTPSENDERHOST
 # in SitePreferences. Make sure you delete that setting if you are using a
 # SitePreferences topic from a previous release of Foswiki.
@@ -1220,8 +1220,7 @@ $Foswiki::cfg{PluginsOrder} = 'SpreadSheetPlugin';
 # extensions repository:
 # <ol>
 # <li>Create a Foswiki web to contain the repository</li>
-# <li>Copy the <tt>FastReport</tt> page from <a href="http://twiki.org/cgi-bin/view/Plugins/FastReport?raw=on">Foswiki:Extensions.FastReport</a> to your new web</li>
-# <li> Copy the <tt>PackageForm</tt> page from <a href="http://twiki.org/cgi-bin/view/Plugins/PackageForm?raw=on">Foswiki:Extensions.PackageForm</a> to your new web</li>
+# <li>Copy the <tt>FastReport</tt> page from <a href="http://foswiki.org/Extensions/FastReport?raw=on">Foswiki:Extensions.FastReport</a> to your new web</li>
 # <li> Set the <tt>WEBFORMS</tt> variable in WebPreferences to <tt>PackageForm</tt></li>
 # </ol>
 # The page for each extension must have the Foswiki form <tt>PackageForm</tt>,
@@ -1236,7 +1235,7 @@ $Foswiki::cfg{PluginsOrder} = 'SpreadSheetPlugin';
 # <li><i>puburl</i> is the root of a download URL
 # </ul>
 # For example,<code>
-# foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Plugins/);
+# foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);
 # twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);</code><p />
-$Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Plugins/)';
+$Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
 1;
