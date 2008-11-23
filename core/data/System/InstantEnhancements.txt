@@ -7,7 +7,7 @@ Many of these tips are based on setting some special [[WebPreferencesHelp][prefe
 
 %S% We recommend implementing at least __some__ of these enhancements __right after installation__ to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
 
-This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips can be found in Foswiki:Support.SupplementalDocumentation.
+This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips can be found in Foswiki:Support.SupplementalDocuments.
 
 %TOC%
 

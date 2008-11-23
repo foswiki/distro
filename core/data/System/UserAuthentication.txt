@@ -220,7 +220,7 @@ Template Login degrades to url re-writing when you use a client like dillo that 
 
 Finally, it would be really neat if someone was to work out how to use certificates to identify users.....
 
-See Foswiki:Support.SupplementalDocumentation for more information.
+See Foswiki:Support.SupplementalDocuments for more information.
 
 %STOPINCLUDE%
 __Related Topics:__ AdminDocumentationCategory, AccessControl

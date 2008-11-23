@@ -1,9 +1,9 @@
 # Sample '.htaccess' file for 'pub' subdirectory
 
-# Controls access to TWiki 'pub' subdirectory - copy this into 'pub', 
+# Controls access to Foswiki 'pub' subdirectory - copy this into 'pub', 
 # naming it '.htaccess', to have Apache use it.
 
-# This is useful if you install TWiki on a web host, or an intranet host
+# This is useful if you install Foswiki on a web host, or an intranet host
 # where you can't edit the Apache http.conf file.  If you can edit the
 # http.conf file, just set the 'Allow from all' there (or locate these
 # directories outside the Web-visible directory tree.)
@@ -20,7 +20,7 @@ Allow from all
 Options None
 
 # We need to protect the entire pub directory tree against any kind of script execution
-# TWiki has a renaming protection scheme that alters certain file names to prevent
+# Foswiki has a renaming protection scheme that alters certain file names to prevent
 # script execution but it may not be 100% safe only to rely on this. The safest
 # protection is to disabled all scripting.
 

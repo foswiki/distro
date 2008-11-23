@@ -2,17 +2,17 @@
 %STARTINCLUDE%
 ---+ Installation Guide
 
-*The following is installation instructions for the TWiki 4.2 production release on an Apache web server on Linux.* Visit TWiki:Support.SupplementalDocuments for supplemental information for installing or upgrading TWiki, including notes on installing TWiki on different platforms, environments and web hosting sites.
+*The following is installation instructions for the Foswiki 1.0.0 production release on an Apache web server on Linux.* Visit Foswiki:Support.SupplementalDocuments for supplemental information for installing Foswiki or upgrading from TWiki, including notes on installing Foswiki on different platforms, environments and web hosting sites.
 
-If you are upgrading from a previous version of TWiki, you probably want to read =UpgradeGuide= instead.
+If you are upgrading from TWiki, you are recommended to upgrade your TWiki to at least version 4.2.1 for upgrading to Foswiki.
 
-Both this document and the !UpgradeGuide are also available in the root of the distribution as HTML files. For this reason links to pages inside your own TWiki are written like =%SYSTEMWEB%.WebHome= and not like live web links.
+These installation instructions are also available online by following links from Foswiki:Support.Foswiki01x00x00.
 
 %TOC%
 
----++ Preparing to install TWiki
+---++ Preparing to install
 
-Before attempting to install TWiki, you are encouraged to review the TWiki:System.AdminSkillsAssumptions. This guide assumes the person installing TWiki has, at a minimum, basic knowledge of server administration on the system on which TWiki is to be installed. While it is possible to install TWiki with FTP access alone (for example, on a hosted site), it is tricky and may require additional support from your hosting service (for example, in setting file ownership and installing missing perl CPAN libraries).
+Before attempting to install Foswiki, you are encouraged to review the Foswiki:System.AdminSkillsAssumptions. This guide assumes the person installing TWiki has, at a minimum, basic knowledge of server administration on the system on which TWiki is to be installed. While it is possible to install TWiki with FTP access alone (for example, on a hosted site), it is tricky and may require additional support from your hosting service (for example, in setting file ownership and installing missing perl CPAN libraries).
 
 To help setup a correct Apache configuration, you are very much encouraged to use the automatic tool Foswiki:Support.ApacheConfigGenerator which generates the contents for an Apache config file for TWiki based on your inputs.
 
@@ -290,7 +290,7 @@ The TWiki standard installation has relatively low browser requirements:
 
 CSS and Javascript are used in most skins, although there is a low-fat skin (Classic skin) available that minimises these requirements. Some skins will require more recent releases of browsers. The default skin (Pattern) is tested on IE 6, Safari, and Mozilla 5.0 based browsers (such as Firefox).
 
-You can easily select a balance of browser capability versus look and feel. Try the installed skins at =TWiki/SkinBrowser= and more at TWiki:Plugins.SkinPackage.
+You can easily select a balance of browser capability versus look and feel. Try the installed skins in the [[skin browser]] and more at Foswiki:Extensions.SkinPackage.
 
 ---+++ Important note about TWiki Plugins
 

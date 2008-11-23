@@ -1,11 +1,11 @@
-# Example httpd.conf file for TWiki.
+# Example httpd.conf file for Foswiki.
 #
 # You are recommended to take a copy of this file and edit
 # the paths to match your installation. Then add:
 # include "/home/httpd/twiki/twiki_httpd.conf"
 # to the end of your main httpd.conf file.
 #
-# See also http://twiki.org/cgi-bin/view/TWiki.ApacheConfigGenerator
+# See also http://foswiki.org/Support/ApacheConfigGenerator
 # that helps you configure Apache
 
 # The first parameter will be part of the URL to your installation e.g.
@@ -24,28 +24,28 @@ ScriptAlias /twiki/bin/ "/home/httpd/twiki/bin/"
 Alias /twiki/ "/home/httpd/twiki/"
 
 # Block access to typical spam related attachments (.htm and .html files)
-# Except the TWiki directory which is read only and does have attached html files.
-# You should uncomment the two lines below if the TWiki is on the public Internet
+# Except the Foswiki directory which is read only and does have attached html files.
+# You should uncomment the two lines below if the Foswiki is on the public Internet
 #SetEnvIf Request_URI "twiki/pub/.*\.[hH][tT][mM]?$" blockAccess
-#SetEnvIf Request_URI "twiki/pub/TWiki/.*\.[hH][tT][mM]?$" !blockAccess
+#SetEnvIf Request_URI "twiki/pub/Foswiki/.*\.[hH][tT][mM]?$" !blockAccess
 
 # We set an environment variable called blockAccess.
 #
-# Setting a BrowserMatchNoCase to ^$ is important. It prevents TWiki from
-# including its own topics as URLs and also prevents other TWikis from
+# Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
+# including its own topics as URLs and also prevents other Foswikis from
 # doing the same. This is important to prevent the most obvious
 # Denial of Service attacks.
 #
 # You can expand this by adding more BrowserMatchNoCase statements to
-# block evil browser agents trying the impossible task of mirroring a TWiki.
-# http://twiki.org/cgi-bin/view/TWiki.ApacheConfigGenerator has a good list
+# block evil browser agents trying the impossible task of mirroring a Foswiki.
+# http://foswiki.org/Support/ApacheConfigGenerator has a good list
 # of bad spiders to block.
 #
 # Example:
 # BrowserMatchNoCase ^SiteSucker blockAccess
 BrowserMatchNoCase ^$ blockAccess
 
-# This specifies the options on the TWiki scripts directory. The ExecCGI
+# This specifies the options on the Foswiki scripts directory. The ExecCGI
 # and SetHandler tell apache that it contains scripts. "Allow from all"
 # lets any IP address access this URL.
 
@@ -59,20 +59,20 @@ BrowserMatchNoCase ^$ blockAccess
 	Options ExecCGI FollowSymLinks
 	SetHandler cgi-script
 
-	# Password file for TWiki users
+	# Password file for Foswiki users
 	AuthUserFile /home/httpd/twiki/data/.htpasswd
 	AuthName 'Enter your WikiName: (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
 	AuthType Basic
 	
 	# File to return on access control error (e.g. wrong password)
 	# By convention this is the UserRegistration page, that allows users
-	# to register with the TWiki. Apache requires this to be a *local* path.
-	# Comment this out if you setup TWiki to completely deny access to WikiGuest
+	# to register with the Foswiki. Apache requires this to be a *local* path.
+	# Comment this out if you setup Foswiki to completely deny access to WikiGuest
 	# in all webs or change the path to a static html page.
-	ErrorDocument 401 /twiki/bin/view/TWiki/UserRegistration
+	ErrorDocument 401 /twiki/bin/view/Foswiki/UserRegistration
 	# Alternatively if your users are all known to be registered you may want
 	# to redirect them to the ResetPassword page.
-	# ErrorDocument 401 /twiki/bin/view/TWiki/ResetPassword
+	# ErrorDocument 401 /twiki/bin/view/Foswiki/ResetPassword
 
 # Limit access to configure to specific IP addresses and or users.
 # Make sure configure is not open to the general public.
@@ -89,7 +89,7 @@ BrowserMatchNoCase ^$ blockAccess
 	Satisfy Any
 </FilesMatch>
 
-# When using Apache type login the following defines the TWiki scripts
+# When using Apache type login the following defines the Foswiki scripts
 # that makes Apache ask the browser to authenticate. It is correct that
 # scripts such as view, resetpasswd & passwd are not authenticated.
 # (un-comment to activate)
@@ -105,7 +105,7 @@ BrowserMatchNoCase ^$ blockAccess
 # user installing a .htaccess file that overrides these options.
 # Finally all execution of PHP and other scripts is disabled.
 
-# Note that files in pub are *not* protected by TWiki Access Controls,
+# Note that files in pub are *not* protected by Foswiki Access Controls,
 # so if you want to control access to files attached to topics, you may
 # need to add your own .htaccess files to subdirectories of pub. See the
 # Apache documentation on .htaccess for more info.

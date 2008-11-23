@@ -1,5 +1,5 @@
 
-The twiki/tools/pkg directory is intended to include scripts and configuration information for distribution of the TWiki.
+The tools/pkg directory is intended to include scripts and configuration information.
 
 We currently have:
 

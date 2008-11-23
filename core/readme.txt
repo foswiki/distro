@@ -47,35 +47,26 @@ Foswiki Installation, Support
 ---------------------------
 
 It is important to follow the installation instructions in
-INSTALL.html located in the distribution, also at
-http://twiki.org/cgi-bin/view/System/InstallationGuide
-
-Important note: Once you installed Foswiki on your own system, 
-make sure to add yourself to the list of FoswikiInstallations 
-at http://twiki.org/cgi-bin/view/Main/FoswikiInstallation . 
-This helps in getting more exposure --> attracts more 
-developers --> results in a better product.
+INSTALL.html located in the distribution
 
 Foswiki is free software and does not include any support. There
-is a Foswiki web for support questions, run by Foswiki users for
-Foswiki users. Visit http://twiki.org/cgi-bin/view/Support/WebHome
+is a site support questions, run by Foswiki users for
+Foswiki users. Visit http://foswiki.org/Support/WebHome
 if you have any installation questions or questions about Foswiki
-deployment; please do not contact the developers directly.
+deployment; please do not contact the developers directly. You
+can also get support from fellow users on the IRC channel #foswiki
 
 
 Foswiki News, Development and Deployment
 --------------------------------------
 
 You can always find out the latest news at the Foswiki home 
-page at http://twiki.org/ .
+page at http://foswiki.org/ .
 
 The place to collaborate on further Foswiki development is at
-http://twiki.org/cgi-bin/view/Codev/WebHome . ReadmeFirst tells
-you how to collaborate. Subscribe in WebNotify to stay up to 
-date on latest development issues.
+http://foswiki.org .
 
 Good luck with your collaboration effort and with Foswiki.
-Happy collaboration and twiki'ing.
 
 Best regards,
 

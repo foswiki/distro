@@ -121,7 +121,6 @@ Foswiki:Codev/StepByStepRenderingOrder helps you decide which rendering handler 
    * Keep the main plugin package as small as possible; create other packages that are loaded if and only if they are used. For example, create sub-packages of !BathPlugin in =lib/Foswiki/Plugins/BathPlugin/=.
    * Avoid using preferences in the plugin topic; set =$NO_PREFS_IN_TOPIC= if you possibly can, as that will stop Foswiki from reading the plugin topic for every page. Use [[#ConfigSpec][Config.spec]] instead. 
    * Use registered tag handlers
-   * [[#MeasurePerformance][Measure the performance]] to see the difference
 
 ---+++ Version Detection
 
@@ -140,8 +139,8 @@ To eliminate the incompatibility problems that are bound to arise from active op
    * Badly written plugins can open huge security holes in Foswiki. This is especially true if care isn't taken to prevent execution of arbitrary commands on the server.
    * Don't allow sensitive configuration data to be edited by users. it is better to add sensitive configuration options to the =%Foswiki::cfg= hash than adding it as preferences in the plugin topic.
       * [[#ConfigSpec][Integrating with <code>configure</code>]] describes the steps
-      * Foswiki:Plugins.MailInContrib has an example
-      * Foswiki:Plugins.BuildContrib can help you with this
+      * Foswiki:Extensions.MailInContrib has an example
+      * Foswiki:Extensions.BuildContrib can help you with this
    * Always use the Foswiki::Sandbox to execute commands.
    * Always audit the plugins you install, and make sure you are happy with the level of security provided. While every effort is made to monitor plugin authors activities, at the end of the day they are uncontrolled user contributions.
 
@@ -162,7 +161,7 @@ In particular, files that should be web-accessible (graphics, Java applets ...) 
 
 The plugin API handles the details of connecting your Perl module with main Foswiki code. When you're familiar with the [[#PluginAPI][Plugin API]], you're ready to develop plugins.
 
-_The Foswiki:Plugins.BuildContrib module provides a lot of support for plugins development, including a plugin creator, automatic publishing support, and automatic installation script writer. If you plan on writing more than one plugin, you probably need it_.
+_The Foswiki:Extensions.BuildContrib module provides a lot of support for plugins development, including a plugin creator, automatic publishing support, and automatic installation script writer. If you plan on writing more than one plugin, you probably need it_.
 
 ---+++ Creating the Perl Module 
 
@@ -189,7 +188,6 @@ The plugin documentation topic contains usage instructions and version details. 
       * paste &amp; save new plugin topic on your site
    1. *Customize* your plugin topic.
       * Important: In case you plan to publish your plugin on Foswiki.org, use Interwiki names for author names and links to Foswiki.org topics, such as Foswiki:Main/%WIKINAME%. This is important because links should work properly in a plugin topic installed on any Foswiki, not just on Foswiki.org.
-   1. *Document* the performance data you gathered while [[#MeasurePerformance][measuring the performance]]
    1. *Save* your topic, for use in [[#CreatePluginPackage][packaging]] and [[#PublishPlugin][publishing]] your plugin.
 
 <blockquote style="background-color:#f5f5f5">
@@ -212,7 +210,7 @@ Check the plugins web on Foswiki.org for the latest plugin doc topic template. H
 #CreatePluginPackage
 ---+++ Packaging for Distribution
 
-The Foswiki:Plugins.BuildContrib is a powerful build environment that is used by the Foswiki project to build Foswiki itself, as well as many of the plugins. You don't *have* to use it, but it is highly recommended!
+The Foswiki:Extensions.BuildContrib is a powerful build environment that is used by the Foswiki project to build Foswiki itself, as well as many of the plugins. You don't *have* to use it, but it is highly recommended!
 
 If you don't want (or can't) use the !BuildContrib, then a minimum plugin release consists of a Perl module with a WikiName that ends in =Plugin=, ex: =MyFirstPlugin.pm=, and a documentation page with the same name(=MyFirstPlugin.txt=).
 
@@ -224,13 +222,6 @@ If you don't want (or can't) use the !BuildContrib, then a minimum plugin releas
       * =lib/Foswiki/Plugins/MyFirstPlugin.pm=
       * =data/Foswiki/MyFirstPlugin.txt=
       * =pub/Foswiki/MyFirstPlugin/uparrow.gif=
-
-#MeasurePerformance
----+++ Measuring and Improving the Plugin Performance
-
-A high quality plugin performs well. You can use the Foswiki:Plugins.PluginBenchmarkAddOn to measure your Foswiki:Plugins.PluginBenchmarks. The data is needed as part of the Documentation Topic.
-
-See also [[#FastPluginHints][Hints on Writing Fast Plugins]].
 
 #PublishPlugin
 ---+++ Publishing for Public Use

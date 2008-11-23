@@ -1,6 +1,6 @@
 # Sample Root '.htaccess' file
 
-# Controls access to TWiki 'root' directory (parent of the 'bin' directory)
+# Controls access to Foswiki 'root' directory (parent of the 'bin' directory)
 # - rename this file to '.htaccess' to have Apache use it.
 
 # Turn off directory indexing in this and sub directories

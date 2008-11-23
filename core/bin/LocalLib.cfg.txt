@@ -10,7 +10,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# LocalLib.cfg: local path settings for TWiki
+# LocalLib.cfg: local path settings for Foswiki
 
 use vars qw( $twikiLibPath $CPANBASE );
 
