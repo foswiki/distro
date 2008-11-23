@@ -11,17 +11,11 @@
 # to have to work out how to re-initialise Foswiki for each test)
 #
 package UTF8Tests;
-use base qw(FoswikiTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
 
 use Foswiki;
-
-sub set_up {
-}
-
-sub tear_down {
-}
 
 sub DISABLEtest_urlEncodeDecode {
     my $this = shift;
@@ -314,16 +308,16 @@ zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 
 EOS
 
-    my $t = segfaulting_urlDecode($s);
+    my $t = $this->segfaulting_urlDecode($s);
 }
 
 sub segfaulting_urlDecode {
-    my $text = shift;
+    my ($this, $text) = @_;
 
     $text =~ s/%([\da-f]{2})/chr(hex($1))/gei;
     $text =~ s/%u([\da-f]{4})/chr(hex($1))/gei; 
 
-    my $t = Foswiki::UTF82SiteCharSet( $text ); 
+    my $t = $this->{twiki}->UTF82SiteCharSet( $text ); 
 
     $text = $t if ( $t ); 
 
