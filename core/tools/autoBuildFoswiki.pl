@@ -7,8 +7,8 @@
 # build a release tarball & upload...
 # Sven Dowideit Copyright (C) 2006-2008 All rights reserved.
 #
-# If you are Sven (used by Sven's automated nightly build system) - call with perl ./buildTWikiRelease.pl -sven
-# everyone else, can just run perl ./buildTWikiRelease.pl
+# If you are Sven (used by Sven's automated nightly build system) - call with perl autoBuildFoswiki.pl -sven
+# everyone else, can just run perl autoBuildFoswiki.pl
 #
 #
 
@@ -20,23 +20,23 @@ if ( grep('-sven', @ARGV) ) {
 
 
 
-my $twikiBranch = 'trunk';
+my $foswikiBranch = 'trunk';
 
-unless ( -e $twikiBranch ) {
+unless ( -e $foswikiBranch ) {
    print STDERR "doing a fresh checkout\n";
-   `svn co http://svn.foswiki.org/$twikiBranch > Foswiki-svn.log`;
-   chdir($twikiBranch.'/core');
+   `svn co http://svn.foswiki.org/$foswikiBranch > Foswiki-svn.log`;
+   chdir($foswikiBranch.'/core');
 } else {
 #TODO: should really do an svn revert..
    print STDERR "using existing checkout, removing ? files";
-   chdir($twikiBranch);
+   chdir($foswikiBranch);
    `svn status | grep ? | sed 's/?/rm -r/' | sh > Foswiki-svn.log`;
    `svn up >> Foswiki-svn.log`;
    chdir('core');
 }
 
-my $twikihome = `pwd`;
-chomp($twikihome);
+my $foswikihome = `pwd`;
+chomp($foswikihome);
 
 `mkdir working/tmp`;
 `chmod 777 working/tmp`;
@@ -45,8 +45,8 @@ chomp($twikihome);
 `chmod -R 777 data pub`;
 
 #TODO: replace this code with 'configure' from comandline
-my $localsite = getLocalSite($twikihome);
-open(LS, ">$twikihome/lib/LocalSite.cfg");
+my $localsite = getLocalSite($foswikihome);
+open(LS, ">$foswikihome/lib/LocalSite.cfg");
 print LS $localsite;
 close(LS);
 
@@ -58,34 +58,34 @@ close(LS);
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
-my $unitTests = "export FOSWIKI_LIBS=; export FOSWIKI_HOME=$twikihome;perl ../bin/TestRunner.pl -clean FoswikiSuite.pm 2>&1 > $twikihome/Foswiki-UnitTests.log";
+my $unitTests = "export FOSWIKI_LIBS=; export FOSWIKI_HOME=$foswikihome;perl ../bin/TestRunner.pl -clean FoswikiSuite.pm 2>&1 > $foswikihome/Foswiki-UnitTests.log";
 my $return = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ($errorcode == 0) {
-    open(UNIT, "$twikihome/Foswiki-UnitTests.log");
+    open(UNIT, "$foswikihome/Foswiki-UnitTests.log");
     local $/ = undef;
     my $unittestErrors = <UNIT>;
     close(UNIT);
     
-    chdir($twikihome);
+    chdir($foswikihome);
     if ($SvensAutomatedBuilds) {
-    	`scp Foswiki* distributedinformation\@distributedinformation.com:~/www/Foswiki_$twikiBranch/`;
-    	sendEmail('foswiki-svn@lists.sourceforge.net', "Subject: Foswiki $twikiBranch has Unit test FAILURES\n\n see http://fosiki.com/Foswiki_$twikiBranch/ for output files.\n".$unittestErrors);
+    	`scp Foswiki* distributedinformation\@distributedinformation.com:~/www/Foswiki_$foswikiBranch/`;
+    	sendEmail('foswiki-svn@lists.sourceforge.net', "Subject: Foswiki $foswikiBranch has Unit test FAILURES\n\n see http://fosiki.com/Foswiki_$foswikiBranch/ for output files.\n".$unittestErrors);
     }
     die "\n\n$errorcode: unit test failures - need to fix them first\n" 
 }
 
-chdir($twikihome);
+chdir($foswikihome);
 #TODO: add a performance BM & compare to something golden.
-`perl tools/MemoryCycleTests.pl > $twikihome/Foswiki-MemoryCycleTests.log 2>&1`;
-`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 lib/  > $twikihome/Foswiki-PerlCritic.log 2>&1`;
-`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 bin/ >> $twikihome/Foswiki-PerlCritic.log 2>&1`;
+`perl tools/MemoryCycleTests.pl > $foswikihome/Foswiki-MemoryCycleTests.log 2>&1`;
+`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 lib/  > $foswikihome/Foswiki-PerlCritic.log 2>&1`;
+`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 bin/ >> $foswikihome/Foswiki-PerlCritic.log 2>&1`;
 #`cd tools; perl check_manifest.pl`;
 #`cd data; grep '%META:TOPICINFO{' */*.txt | grep -v TestCases | grep -v 'author="ProjectContributor".*version="\$Rev'`;
 
 #TODO: #  fix up release notes with new changelogs - see
 #
-#    * http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ReleaseNotesTml?type=patch
+#    * http://foswiki.org/Tasks/ReleaseNotesTml?type=patch
 #        * Note that the release note is edited by editing the topic data/Foswiki/FoswikiReleaseNotes04x00. The build script creates a file in the root of the zip called FoswikiReleaseNotes04x00? .html, and the build script needs your Twiki to be running to look up the release note topic and show it with the simple text skin.
 #            * Note - from 4.1 we need to call this data/Foswiki/FoswikiReleaseNotes04x01 
 #
@@ -103,29 +103,29 @@ print "\n\n ready to build release\n";
 #      * Note: if you specify a release name the script will attempt to commit to svn 
 `perl pseudo-install.pl BuildContrib`;
 chdir('lib');
-`perl ../tools/build.pl release -auto > $twikihome/Foswiki-build.log 2>&1`;
+`perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
-chdir($twikihome);
+chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
 	#push the files to my server - http://fosiki.com/
-	`scp Foswiki* distributedinformation\@fosiki.com:~/www/Foswiki_$twikiBranch/` ;
+	`scp Foswiki* distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	my $buildOutput = `ls -alh *auto*`;
 	$buildOutput .= "\n";
-	$buildOutput .= `grep 'All tests passed' $twikihome/Foswiki-UnitTests.log`;
-	sendEmail('Builds@fosiki.com', "Subject: Foswiki $twikiBranch built OK\n\n see http://fosiki.com/Foswiki_$twikiBranch/ for output files.\n".$buildOutput);
+	$buildOutput .= `grep 'All tests passed' $foswikihome/Foswiki-UnitTests.log`;
+	sendEmail('Builds@fosiki.com', "Subject: Foswiki $foswikiBranch built OK\n\n see http://fosiki.com/Foswiki_$foswikiBranch/ for output files.\n".$buildOutput);
 }
 
 
 sub getLocalSite {
-   my $twikidir = shift;
+   my $foswikidir = shift;
 
-#   open(TS, "$twikidir/lib/Foswiki.spec");
+#   open(TS, "$foswikidir/lib/Foswiki.spec");
 #   local $/ = undef;
 #   my $localsite = <TS>;
 #   close(TS);
-   my $localsite = `grep 'Foswiki::cfg' $twikidir/lib/Foswiki.spec`;
+   my $localsite = `grep 'Foswiki::cfg' $foswikidir/lib/Foswiki.spec`;
 
-   $localsite =~ s|/home/httpd/twiki|$twikidir|g;
+   $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
    $localsite =~ s|# \$Foswiki|\$Foswiki|g;
 
    return $localsite;
