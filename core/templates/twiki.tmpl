@@ -4,11 +4,11 @@
 %TMPL:DEF{"LOG_IN"}%Log In%TMPL:END%
 %TMPL:DEF{"LOG_OUT"}%Log Out%TMPL:END%
 
-%TMPL:DEF{"nonwikiwordwarning"}%<p><input type="checkbox" id="nonwikiword" name="nonwikiword" %NONWIKIWORDFLAG% /><label for="nonwikiword">%MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label><br />%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%
+%TMPL:DEF{"nonwikiwordwarning"}%<p><input type="checkbox" id="nonwikiword" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% /><label for="nonwikiword">%MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label><br />%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%
 
 %TMPL:DEF{"nonwikiwordhelp"}% %MAKETEXT{"It's usually best to choose a <a target='WikiWord' class='twikiPopUp' href='[_1]' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WikiWord"}%%TMPL:END%
 
-%TMPL:DEF{"nonwikiwordallowed"}%<input type="hidden" name="nonwikiword" value="on" />%TMPL:END%
+%TMPL:DEF{"nonwikiwordallowed"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword" default="on"}%" />%TMPL:END%
 
 %TMPL:DEF{"nonwikiword"}%%IF{"$HIDE_NON_WIKI_WORD_WARNINGS!='on'" then="$percntTMPL:P{$quotnonwikiwordwarning$quot}$percnt" else="$percntTMPL:P{$quotnonwikiwordallowed$quot}$percnt"}%%TMPL:END%
 

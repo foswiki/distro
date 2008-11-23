@@ -300,7 +300,6 @@ sub rename {
     my $breakLock   = $query->param('breaklock');
 
     my $confirm          = $query->param('confirm');
-    my $nonWikiWordParam = $query->param('nonwikiword') || '';
     my $store            = $session->{store};
 
     $newTopic =~ s/\s//go;
@@ -327,7 +326,7 @@ sub rename {
     }
 
     if ($newTopic) {
-        if ( !_isValidTopicName( $newTopic, $nonWikiWordParam ) ) {
+        if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
             throw Foswiki::OopsException(
                 'attention',
                 web    => $oldWeb,
@@ -406,7 +405,7 @@ sub rename {
         Foswiki::UI::checkAccess( $session, $oldWeb, $oldTopic, 'VIEW',
             $session->{user} );
         _newTopicScreen( $session, $oldWeb, $oldTopic, $newWeb, $newTopic,
-            $attachment, $confirm, $nonWikiWordParam );
+            $attachment, $confirm );
         return;
     }
 
@@ -540,11 +539,10 @@ sub _copyTopic {
 
     my $oldWeb           = $session->{webName};
     my $oldTopic         = $session->{topicName};
-    my $nonWikiWordParam = $query->param('nonwikiword') || '';
 
     if ($newTopic) {
         # topic must be valid
-        if ( !_isValidTopicName( $newTopic, $nonWikiWordParam ) ) {
+        if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
             throw Foswiki::OopsException(
                 'attention',
                 web    => $oldWeb,
@@ -628,7 +626,6 @@ sub _renameweb {
     my $lockFailure        = '';
     my $breakLock          = $query->param('breaklock');
     my $confirm            = $query->param('confirm') || '';
-    my $doAllowNonWikiWord = $query->param('nonwikiword') || '';
     my $store              = $session->{store};
 
     Foswiki::UI::checkWebExists( $session, $oldWeb,
@@ -1011,7 +1008,7 @@ sub move {
 # Display screen so user can decide on new web and topic.
 sub _newTopicScreen {
     my ( $session, $oldWeb, $oldTopic, $newWeb, $newTopic, $attachment,
-        $confirm, $doAllowNonWikiWord )
+        $confirm )
       = @_;
 
     my $query          = $session->{request};
@@ -1022,8 +1019,6 @@ sub _newTopicScreen {
 
     $newTopic = $oldTopic unless ($newTopic);
     $newWeb   = $oldWeb   unless ($newWeb);
-    my $nonWikiWordFlag = '';
-    $nonWikiWordFlag = 'checked="checked"' if ($doAllowNonWikiWord);
 
     if ($attachment) {
         $tmpl =
@@ -1057,7 +1052,6 @@ sub _newTopicScreen {
 
     $tmpl =~ s/%NEW_WEB%/$newWeb/go;
     $tmpl =~ s/%NEW_TOPIC%/$newTopic/go;
-    $tmpl =~ s/%NONWIKIWORDFLAG%/$nonWikiWordFlag/go;
 
     if ( !$attachment ) {
         my $refs;
