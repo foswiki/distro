@@ -56,7 +56,7 @@ sub usage {
  environment variable FOSWIKI_EXTENSIONS, or if it is not defined,
  from the parent directory of the current checkout.
 
- Usage: pseudo-install.pl -felc [all|default|developer|<module>...]
+ Usage: pseudo-install.pl -[feA][l|c|u] [all|default|developer|<module>...]
     -f[orce] - force an action to complete even if there are warnings
     -e[nable] - automatically enable installed plugins in LocalSite.cfg
                 (default)
@@ -68,9 +68,21 @@ sub usage {
     default - install extensions listed in lib/MANIFEST
     developer - default + key developer environment
     <module>... one or more extensions to install
+    -[A]utoconf - make a simplistic LocalSite.cfg, using just the defaults in lib/Foswiki.spec
 
  Example:
-    perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
+    softlink and enable FirstPlugin and SomeContrib
+        perl pseudo-install.pl -force -enable -link FirstPlugin SomeContrib
+    
+    
+    check out a new trunk, create a default LocalSite.cfg, install and enable
+    all the plugins for the default distribution (and then run the unit tests)
+        svn co http://svn.fosiki.org/trunk
+        cd trunk/core
+        ./pseudo-install -A developer
+        cd test/unit
+        ../bin/TestRunner -clean FoswikiSuite.pm
+
 EOM
 
 }
@@ -255,6 +267,30 @@ sub uninstall {
     }
 }
 
+sub Autoconf {
+    my( $moduleDir, $dir, $file ) = @_;
+    
+    my $foswikidir = $basedir;
+    my $localSiteCfg = $foswikidir.'/lib/LocalSite.cfg';
+    if ($force || (! -e $localSiteCfg)) {
+        my $localsite = `grep 'Foswiki::cfg' $foswikidir/lib/Foswiki.spec`;
+        
+        $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
+        # single # seems to denote an important param that needs to be set
+        $localsite =~ s|# \$Foswiki|\$Foswiki|g;
+        
+        if (open(LS, '>', $localSiteCfg)) {
+            print LS $localsite;
+            close(LS);
+            print STDERR "wrote simple config to $localSiteCfg\n\n";
+        } else {
+            print STDERR "ERROR: failed to write to $localSiteCfg\n\n";
+        }
+    } else {
+        print "ERROR: won't overwrite $localSiteCfg without -force\n\n";
+    }
+}
+
 sub enablePlugin {
     my ($module, $installing, $libDir) = @_;
     my $cfg = '';
@@ -292,6 +328,7 @@ sub enablePlugin {
 
 my $autoenable = 1;
 my $installing = 1;
+my $autoconf = 0;
 $install = $CAN_LINK ? \&just_link : \&copy_in;
 
 while (scalar(@ARGV) && $ARGV[0] =~ /^-/) {
@@ -309,7 +346,14 @@ while (scalar(@ARGV) && $ARGV[0] =~ /^-/) {
         $autoenable = 1;
     } elsif ($arg =~ /^-m/) {
         $autoenable = 1;
+    } elsif ($arg =~ /^-A/) {
+        $autoconf = 1;
     }
+}
+
+if ($autoconf) {
+    Autoconf();
+    exit 1 unless (scalar(@ARGV));   
 }
 
 unless (scalar(@ARGV)) {
