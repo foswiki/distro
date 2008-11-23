@@ -2,30 +2,39 @@ package Unit::Response;
 use base 'Foswiki::Response';
 use strict;
 
-use vars qw($res);
+our $response; # for proper finalization
 
 BEGIN {
     use Foswiki;
     use CGI;
-    no warnings qw(redefine);
     my $_new = \&Foswiki::new;
+    no warnings 'redefine';
     *Foswiki::new =
-      sub { my $t = $_new->(@_); $res = $t->{response}; return $t };
+      sub {
+          my $t = $_new->(@_);
+          $response = $t->{response};
+          return $t;
+      };
     my $_finish = \&Foswiki::finish;
-    *Foswiki::finish = sub { $_finish->(@_); $res = undef; };
+    *Foswiki::finish =
+      sub {
+          $_finish->(@_);
+          undef $response;
+      };
+    use warnings 'redefine';
 }
 
 sub new {
     die "You must call Unit::Response::new() *after* Foswiki::new()\n"
-      unless defined $res;
-    bless $res, __PACKAGE__ unless $res->isa(__PACKAGE__);
-    return $res;
+      unless defined $response;
+    bless( $response, __PACKAGE__ ) unless $response->isa(__PACKAGE__);
+    return $response;
 }
 
 sub DESTROY {
     my $this = shift;
-    $res = undef;
-    bless $this, $Unit::Response::ISA[0];
+    undef $response;
+    bless( $this, $Unit::Response::ISA[0] );
 }
 
 1;

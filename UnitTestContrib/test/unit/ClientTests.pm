@@ -171,13 +171,15 @@ sub verify_sudo_login {
     $query->path_info( "/$this->{test_web}/$this->{test_topic}" );
 
     $this->{twiki} = new Foswiki(undef, $query);
-    my ($text, $result) = $this->capture(
-        sub {
-            my $session = shift;
-            $session->{users}->{loginManager}->login(
-                $query, $session);
-        }, $this->{twiki});
-    $this->assert($text =~ /Status: 302/, $text);
+    $this->{twiki}->{users}->{loginManager}->login( $query, $this->{twiki});
+    my $script = $Foswiki::cfg{LoginManager} =~ /Apache/ ? 'viewauth' : 'view';
+    my $surly = $this->{twiki}->getScriptUrl(
+        0, $script, $this->{test_web},$this->{test_topic});
+    $this->assert_matches(qr/^302/,
+       $this->{twiki}->{response}->status());
+    $this->assert_matches(
+        qr/^$surly/,
+        $this->{twiki}->{response}->headers()->{Location});
 }
 
 1;
