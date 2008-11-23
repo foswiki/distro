@@ -1,0 +1,73 @@
+/* View mode */
+.editTable {
+	padding-bottom:1em;
+}
+.editTableEdit .twikiTable {
+	margin:5px 0;
+}
+.editTableInnerTable table,
+.editTableInnerTable th,
+.editTableInnerTable td {
+	border:none;
+	padding-top:0;
+}
+.editTableEditImageButton {
+	margin:3px 0;
+}
+
+/* Edit mode */
+.editTableInput,
+.editTableTextarea {
+	font-family:monospace;
+}
+.editTableActionButton {
+	margin:0 2px 2px 0;
+	cursor:pointer;
+}
+.editTableActionCell {
+	vertical-align:middle;
+}
+.editTableActionCell a:hover {
+	background:none;
+}
+.editTableActionSelectedCell {
+	background-color:#069;
+}
+.twikiTableEven textarea,
+.twikiTableEven .editTableTextarea,
+.twikiTableEven input {
+	background-color:#f5f5f5;
+}
+.twikiTableOdd textarea,
+.twikiTableOdd .editTableTextarea,
+.twikiTableOdd input {
+	background-color:#ffffff;
+}
+.editTableCalendarButton {
+	margin:0 2px;
+}
+.editTableRowSeparator {
+	padding:0;
+	margin:0;
+	line-height:1px;
+	border:none;
+	background-color:#fff;
+	height:4px;
+	cursor:default;
+}
+.editTableRowSeparatorHover {
+	background-color:#069;
+	cursor:move;
+}
+.editTableMoveMode .editTableActionCell img {
+	visibility:hidden;
+}
+.editTableMoveMode .editTableActionSelectedCell img {
+	visibility:visible;
+}
+.editTableMoveMode .editTableRowSeparator {
+	/**/
+}
+.editTableMoveMode .editTableRowSeparator {
+	background-image:url(separator_bg_anim.gif);
+}
