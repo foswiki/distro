@@ -79,8 +79,16 @@ sub setup_view {
         template => [ $tmpl ],
     });
     $query->path_info( "/$web/$topic" );
+    $query->method('POST');
     $twiki = new Foswiki( $this->{test_user_login}, $query );
-    my ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $twiki);
+    my ($text, $result) = $this->capture( 
+        sub {
+            Foswiki::UI::View::view( $twiki);
+            $Foswiki::engine->finalize(
+                $twiki->{response},
+                $twiki->{request});
+        });
+
     $twiki->finish();
     $text =~ s/\r//g;
     $text =~ s/^.*?\n\n+//s; # remove CGI header
