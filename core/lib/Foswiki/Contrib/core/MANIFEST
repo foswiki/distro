@@ -1,26 +1,5 @@
-#DO NOT UNCOMMENT THE INCLUDES - this is a _just_ the core directory, and will be build up into the final 
-#release package elsewhere.
-#!include BehaviourContrib/lib/Foswiki/Contrib/BehaviourContrib
-#!include ClassicSkin/lib/Foswiki/Contrib/ClassicSkin
-#!include CommentPlugin/lib/Foswiki/Plugins/CommentPlugin
-#!include EditTablePlugin/lib/Foswiki/Plugins/EditTablePlugin
-#!include EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin
-#!include InterwikiPlugin/lib/Foswiki/Plugins/InterwikiPlugin
-#!include JSCalendarContrib/lib/Foswiki/Contrib/JSCalendarContrib
-#!include MailerContrib/lib/Foswiki/Contrib/MailerContrib
-#!include PatternSkin/lib/Foswiki/Contrib/PatternSkin
-#!include PreferencesPlugin/lib/Foswiki/Plugins/PreferencesPlugin
-#!include RenderListPlugin/lib/Foswiki/Plugins/RenderListPlugin
-#!include SlideShowPlugin/lib/Foswiki/Plugins/SlideShowPlugin
-#!include SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin
-#!include SpreadSheetPlugin/lib/Foswiki/Plugins/SpreadSheetPlugin
-#!include TablePlugin/lib/Foswiki/Plugins/TablePlugin
-#!include TipsContrib/lib/Foswiki/Contrib/TipsContrib
-#!include TinyMCEPlugin/lib/Foswiki/Plugins/TinyMCEPlugin
-#!include TopicUserMappingContrib/lib/Foswiki/Contrib/TopicUserMappingContrib
-#!include TwistyContrib/lib/Foswiki/Contrib/TwistyContrib
-#!include TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin
-#!include WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin
+#this is a _just_ the core directory, and will be build up into the final 
+#release package from trunk/core/lib/MANIFEST using INCLUDES
 AUTHORS 0444
 COPYING 0444
 COPYRIGHT 0444
