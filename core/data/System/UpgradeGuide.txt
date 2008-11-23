@@ -13,7 +13,6 @@ TWiki-4.0.0 was a major new release. TWiki-4.1.0 was a minor release without dra
 ---++ Upgrade Requirements
 
    * Please review the AdminSkillsAssumptions before you upgrade TWiki
-   * To upgrade from a release prior to TWiki Release 01-Sep-2004, start with TWiki:TWiki.UpgradingTWiki on TWiki.org
    * To upgrade from a standard TWiki Release 01-Sep-2004 to the latest TWiki-4.X Production Release, follow the instructions below
    * Once the upgrade has been applied, an existing earlier installation will still be able to read all the topics, but should not be used to write. Make sure you take a backup!
    * Not all Plugins written for TWiki Release 01-Sep-2004 are fully supported with 4.X. Make sure the Plugins you use can be upgraded as well!
@@ -99,7 +98,6 @@ The main steps are:
    * Add Logos, update top bar and left bar as required.
    * Apply any desired changes to style sheets and templates. The default PatternSkin has been totally rewritten since Cairo and once more in 4.0.2. Since then changes to PatternSkin have been minor and you may be able to carry over most simpler tailorings directly from 4.0.2-4.0.5.
    * Additional resources:
-      * TWiki:TWiki.UpgradingTWiki04x00PatchReleases
       * PatternSkinCustomization
       * PatternSkinCssCookbook      
    
@@ -250,4 +248,4 @@ TWiki 4.2 introduces a new _Internal Admin Login_ feature which uses "admin" (co
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, TWiki:TWiki.UpgradingTWiki, TWiki:TWiki.UpgradingTWiki04x00PatchReleases, TWiki:TWiki.InstallingTWiki#OtherPlatforms, Foswiki:Support.ApacheConfigGenerator, TWiki:TWiki.SettingFileAccessRightsLinuxUnix
+__Related Topics:__ AdminDocumentationCategory, Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix

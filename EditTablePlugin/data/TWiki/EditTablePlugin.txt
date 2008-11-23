@@ -72,7 +72,7 @@ Line before table: =%<nop>EDITTABLE{ format="| row, -1 | text, 20, init | select
 | 1 | hello table | one | :-) | 26 Jun 2002 12:30 |
 | 2 |  | two | :-( | 27 Jun 2002 12:40 |
 
-%RED% __Note:__ Please do not save this example table! Use TWiki:Sandbox.EditTablePluginTesting if you want to try out this Plugin %ENDCOLOR%
+%RED% __Note:__ Please do not save this example table! Use Foswiki:Sandbox.EditTablePluginTesting if you want to try out this Plugin %ENDCOLOR%
 
 If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* button above; if you were to click on it (please don't, use TWiki:Sandbox.EditTablePluginTesting for testing) you get this form:
 
