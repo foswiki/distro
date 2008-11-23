@@ -211,6 +211,7 @@ $scriptName =~ s/.*[\/\\]//;  # Fix for Item3511, on Win XP
 # Paths from LocalLib.cfg (preferred)
 use vars qw( $twikiLibPath @localPerlLibPath );
 
+use lib '.';
 eval 'require "setlib.cfg"';
 
 if ($@) {
