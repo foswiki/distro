@@ -15,7 +15,7 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
    * Site aliases must start with an upper case letter and may contain alphanumeric letters.
    * The URL and Tooltip Text may contain optional ==$page== fromatting tokens; the token gets expanded to the page name.
    * %H% For TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>TWikisite:Webname/<nop>SomePage==
-      * TWiki:Plugins/InterwikiPlugin or TWiki:Plugins.InterwikiPlugin
+      * Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 
 ---++ <nop>%TOPIC% Settings
 
@@ -41,7 +41,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 %X% *NOTE:* This Plugin is included in the TWiki distribution package. You do not need to install it unless you want to upgrade to a newer version.
 
-   * *Download* the ZIP file from the TWiki:Plugins web (see below)
+   * *Download* the ZIP file from the Foswiki:Extensions web (see below)
    * *Unzip* ==%TOPIC%.zip== in your TWiki installation directory. Content:
      | *File:* | *Description:* |
      | ==data/TWiki/%TOPIC%.txt== | Plugin topic |
@@ -79,7 +79,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.0 |
-|  [[TWiki:Plugins/Benchmark][Benchmarks]]: | %SYSTEMWEB%.GoodStyle 100%, %SYSTEMWEB%.FormattedSearch 98%, %TOPIC% 98% |
+|  [[Foswiki:Extensions/Benchmark][Benchmarks]]: | %SYSTEMWEB%.GoodStyle 100%, %SYSTEMWEB%.FormattedSearch 98%, %TOPIC% 98% |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |

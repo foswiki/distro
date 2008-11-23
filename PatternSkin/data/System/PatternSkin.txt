@@ -74,7 +74,7 @@ If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing f
 
 If this still does not work, contact the administrator who installs skins.
 
-For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Report bugs in the [[TWiki:Support/WebHome][Support web]].
+For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDev. Report bugs in the [[TWiki:Support/WebHome][Support web]].
 
 ---++ Skin Info
 
@@ -94,7 +94,7 @@ For further troubleshooting and feedback, go to TWiki:Plugins/PatternSkinDev. Re
 |  31 Jan 2006: | v.2.0.0 - TWiki 4.0.0 (Dakar) RELEASE VERSION |
 |  28 Aug 2004: | v.1.0.9 - TWiki 3.0 (Cairo) RELEASE VERSION |
 |  08 Aug 2004: | Initial version (v1.0.0) |
-|  Dependencies: | TWiki:Plugins/TwistyContrib (automatically supported by Dakar) |
+|  Dependencies: | Foswiki:Extensions/TwistyContrib (automatically supported by Dakar) |
 |  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev | %STOPINCLUDE%
 |  Download: | http://foswiki.org/Extensions/%TOPIC% |
@@ -128,7 +128,7 @@ Other skins:
 
 ---++ Feedback
 
-Leave remarks, suggestions and other feedback in TWiki:Plugins.PatternSkinDev.
+Leave remarks, suggestions and other feedback in Foswiki:Extensions.PatternSkinDev.
 
 %META:FILEATTACHMENT{name="bg_outer_gradient.gif" attr="" autoattached="1" comment="" date="1221992216" path="bg_outer_gradient.gif" size="356" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="bullet-toc.gif" attr="" autoattached="1" comment="" date="1221992216" path="bullet-toc.gif" size="54" user="ProjectContributor" version=""}%

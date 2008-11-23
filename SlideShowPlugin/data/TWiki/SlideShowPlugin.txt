@@ -7,7 +7,7 @@ This plugin converts a topic with headings into a slideshow.
 
 ---++ Introduction
 
-There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in TWiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of TWiki and other plugins like TWiki:Plugins/ChartPlugin, TWiki:Plugins/GaugePlugin, TWiki:Plugins/SpreadSheetPlugin, TWiki:Plugins/TWikiDrawPlugin can be used to create appealing presentations.
+There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in TWiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of TWiki and other plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/TWikiDrawPlugin can be used to create appealing presentations.
 
 Any topic with headings can be converted into a slideshow. Each slide starts with a ="---++"= heading. There are two modes to view a topic:
 
@@ -166,7 +166,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.005 |
-|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle 98%, %SYSTEMWEB%.FormattedSearch 99%, SlideShowPlugin 99% |
+|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 98%, %SYSTEMWEB%.FormattedSearch 99%, SlideShowPlugin 99% |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |

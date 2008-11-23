@@ -32,7 +32,7 @@ Test files are built by deriving a class from =Unit::TestCase=. This is usually 
 
 TWikiSuite automatically includes any Plugin tests it can find in subdirectories below =test/unit=. This is helpful when you want to test a plugin in context with all the other core unit tests.
 
-One test file, =SemiAutomaticTestCaseTests.pm=, reads the semi-automatic tests from the !TestCases web stored in subversion. It will not run if it can't find the !TestCases web, or if the TWiki:Plugins.TestFixturePlugin is not installed.
+One test file, =SemiAutomaticTestCaseTests.pm=, reads the semi-automatic tests from the !TestCases web stored in subversion. It will not run if it can't find the !TestCases web, or if the Foswiki:Extensions.TestFixturePlugin is not installed.
 
 ---++ Installation Instructions
 

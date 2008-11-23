@@ -159,7 +159,7 @@ If you choose to tailor anything you are strongly adviced to copy =NewUserTempla
 If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.UserRegistration=.
 
 ---++ Install Plugins
-TWiki:Plugins is an extensive library of Plugins for TWiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the TWiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.
+Foswiki:Extensions is an extensive library of Plugins for TWiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the TWiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.
 
 You activate installed plugin in the _Plugins_ section of =configure=. In this section you also find a _Find More Extensions_ button which opens an application which can install additional plugins from the TWiki.org website. If you are behind a firewall or your server has no access to the Internet it is also possible to install plugins manually. Manual installation instructions for the plugins can be found in the plugin topics on TWiki.org. Additional documenation on TWiki plugins can be found at TWiki:Support.PluginsSupplement.
 

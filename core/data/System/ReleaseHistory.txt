@@ -115,7 +115,7 @@ __New Features and Enhancements of TWiki Release 4.1__
       * The =topic= URL parameter also respects the ={AllowRedirectUrl}= configure flag so redirects to URLs can be disabled which could be abused for phishing attacks.
       * The view script supports a =section= URL parameter to view just a named section within a topic. Useful for simple AJAX type applications.
       * New plugin handler for content move.
-      * Enhancements for Ajax based applications with TWiki:Plugins/YahooUserInterfaceContrib and TWiki:Plugins.TWikiAjaxContrib (available at twiki.org).
+      * Enhancements for Ajax based applications with Foswiki:Extensions/YahooUserInterfaceContrib and Foswiki:Extensions.TWikiAjaxContrib (available at twiki.org).
 
    * *Search Enhancements*
       * METASEARCH handles a format parameter like SEARCH.
@@ -137,7 +137,7 @@ __New Features and Enhancements of TWiki Release 4.1__
       * Allow date format in form fields.
       * Enhance REVINFO{} variable with same date qualifiers as GMTIME{}.
       * WebTopicCreator - adding ability to select a template from any topic name ending in ...Template
-      * Functionality of TWiki:Plugins.DateFieldPlugin merged into core
+      * Functionality of Foswiki:Extensions.DateFieldPlugin merged into core
 
    * *Enhancements of Pre-installed Plugins*
       * CommentPlugin: Supports removal of comment prompt after a comment is made.

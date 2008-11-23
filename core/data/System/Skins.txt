@@ -207,7 +207,7 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 
 ---++ Packaging and Publishing Skins
 
-See TWiki:Plugins/SkinPackagingHowTo and TWiki:Plugins/SkinDeveloperFAQ
+See Foswiki:Extensions/SkinPackagingHowTo and Foswiki:Extensions/SkinDeveloperFAQ
 
 ---++ Browsing Installed Skins
 

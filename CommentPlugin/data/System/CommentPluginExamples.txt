@@ -140,7 +140,7 @@ Belowthreadmode comment output 1
 
 ---+++ =action=
 
-(requires TWiki:Plugins/ActionTrackerPlugin)
+(requires Foswiki:Extensions/ActionTrackerPlugin)
 
 %ACTION{ due="1-Dec-2007" creator="Main.ProjectContributor" uid="000001" state="open" created="26-Nov-2006" who="Main.ProjectContributor" }% <<EOF
 Action comment output 1

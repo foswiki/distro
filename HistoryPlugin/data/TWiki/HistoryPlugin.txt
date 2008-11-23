@@ -7,9 +7,9 @@ Since TWiki 4.0.3 - when using PatternSkin enabling the !HistoryPlugin changes t
 
 With older versions of TWiki you will need to tweak the templates.
 
-If [[TWiki:Plugins.CompareRevisionsAddOn][CompareRevisionsAddOn]] is installed and activated the "History" user interface will allow you to choose how the changes are rendered (interweaved vs side-by-side, and context).
+If [[Foswiki:Extensions.CompareRevisionsAddOn][CompareRevisionsAddOn]] is installed and activated the "History" user interface will allow you to choose how the changes are rendered (interweaved vs side-by-side, and context).
 
-If [[TWiki:Plugins.RevCommentPlugin][RevCommentPlugin]] is installed and activated the "History" page will show the comments entered for each revision.
+If [[Foswiki:Extensions.RevCommentPlugin][RevCommentPlugin]] is installed and activated the "History" page will show the comments entered for each revision.
 
 This plugins is designed to work together with !CompareRevisionsAddOn and !RevCommentPlugin but works well on its own or with just one of the two other plugins.
 
@@ -88,7 +88,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.005 |
-|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle 100%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 97% |
+|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 100%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 97% |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |

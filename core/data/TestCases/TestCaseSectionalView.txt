@@ -9,7 +9,7 @@ allowed (which it isn't, per default).
 
 %X% *Update:* This test topic is semi-obsolete as there exists a unit
 test now: =test/unit/ViewParamSection.pm= .  This unit test needs the
-"beta quality" TWiki:Plugins.CliRunnerContrib, so it is not yet part
+"beta quality" Foswiki:Extensions.CliRunnerContrib, so it is not yet part
 of the standard suite.
 
 Additional Test Topic: IncludeFixtures, as stolen from TestCaseSectionalInclude.

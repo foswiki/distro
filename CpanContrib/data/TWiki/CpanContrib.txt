@@ -303,7 +303,7 @@ In order build the CpanContrib package, each of the CPAN modules
 	perl build.pl release
 </verbatim>
 as usual, results in the following files: =CpanContrib.tgz=, =CpanContrib.zip=, and =CpanContrib.md5=
-See TWiki:Plugins.BuildContrib for additional info on ... 
+See Foswiki:Extensions.BuildContrib for additional info on ... 
 
 
 ---+++ Refreshing CPAN modules on a site with CpanContrib already installed
@@ -359,7 +359,7 @@ http://cpan.org and stores those files locally in a =MIRROR/MINICPAN/= directory
 Settings are stored as preferences variables. To reference a setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, e.g. ==%<nop>CPANCONTRIB_STUB%==
 
    * One line des<cription:
-      * Set SHORTDESCRIPTION = Bundled Prebuilt CPAN Modules for twiki.org current TWiki:Codev.TWikiRelease and all [[http://twiki.org twiki.org]] TWiki:Plugins modules
+      * Set SHORTDESCRIPTION = Bundled Prebuilt CPAN Modules for twiki.org current TWiki:Codev.TWikiRelease and all [[http://twiki.org twiki.org]] Foswiki:Extensions modules
 
    * Name of the perl package
       * Set STUB = %$STUB%

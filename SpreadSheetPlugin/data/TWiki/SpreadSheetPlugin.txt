@@ -760,7 +760,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
 |  CPAN Dependencies: | none |
-|  TWiki:Plugins/Benchmark: | %SYSTEMWEB%.GoodStyle 99%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 95% |
+|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 99%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 95% |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.000 and up |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |

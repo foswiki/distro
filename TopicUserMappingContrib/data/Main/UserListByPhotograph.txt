@@ -5,4 +5,4 @@
 
 %IMAGEGALLERY{thumbtitle="[[$topic]]" topics="%SEARCH{"META:FORM.name.*[U]serForm\"" type="regex" nonoise="on" separator="," format="$topic"}%" size="large" title="[[$topic]]"}%
 
-If TWiki:Plugins.ImageGalleryPlugin is installed this page will show photos and names of all registered users. 
+If Foswiki:Extensions.ImageGalleryPlugin is installed this page will show photos and names of all registered users. 

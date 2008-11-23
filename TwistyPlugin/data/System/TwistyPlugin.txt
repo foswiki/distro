@@ -530,7 +530,7 @@ This is useful if both the show and the hide button take the same arguments.
 
 ---++ The Fine Print
 
-!TwistyPlugin is a convenience plugin for TWiki:Plugins.TwistyContrib.
+!TwistyPlugin is a convenience plugin for Foswiki:Extensions.TwistyContrib.
 
 Major features are:
    * When active, the Twisty !JavaScript library is included in every topic

@@ -32,7 +32,7 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.0 |
-|  TWiki:Plugins/Benchmark: |  |
+|  Foswiki:Extensions/Benchmark: |  |
 |  Plugin Home: | http://foswiki.org/Extensions/CompareRevisionsAddOn |
 |  Feedback: | http://foswiki.org/Extensions/CompareRevisionsAddOnDev |
 |  Appraisal: | http://foswiki.org/Extensions/CompareRevisionsAddOnAppraisal |

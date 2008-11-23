@@ -10,7 +10,7 @@ One line description, required for extensions repository catalog.
 %TOC%
 This is an integration of the <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. This is great little editor, fast and highly functional, and supporting a wide range of browsers, including Firefox, IE and Safari. At the time of writing it doesn't work with Opera or Konqueror.
 
-The integration uses the TWiki:Plugins.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
+The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
 Unlike the other editor integrations in TWiki, which install "Word in a Browser" style editors, this plugin is able to swap out the _standard_ text areas in an edit and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
 
@@ -107,7 +107,7 @@ You can override these settings in the same way as any other [[%SYSTEMWEB%.Prefe
 
 #InstallingOnOldTWikis
 ---++ Configuring the buttons on TWiki < 4.2.0
-When installed on TWiki versions before 4.2.0, this plugin *replaces* the old textarea editor with the !TinyMCE editor. The shock of this change can be too much for some older contributors, so we have written instructions for reconfiguring your templates in TWiki:Plugins.TinyMCEFrequentlyAskedQuestions.
+When installed on TWiki versions before 4.2.0, this plugin *replaces* the old textarea editor with the !TinyMCE editor. The shock of this change can be too much for some older contributors, so we have written instructions for reconfiguring your templates in Foswiki:Extensions.TinyMCEFrequentlyAskedQuestions.
 
 ---++ Plugin Info
 

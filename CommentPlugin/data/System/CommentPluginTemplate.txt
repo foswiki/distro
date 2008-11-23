@@ -196,7 +196,7 @@ Comments, signed and dated, added at end of table above the anchor/location/COMM
 
 ---++++ action
 Action added to action table directly above comment box
-(requires TWiki:Plugins/ActionTrackerPlugin)
+(requires Foswiki:Extensions/ActionTrackerPlugin)
 <verbatim>
 %TMPL:DEF{PROMPT:action}%
 

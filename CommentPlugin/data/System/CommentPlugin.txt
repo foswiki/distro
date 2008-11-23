@@ -242,7 +242,7 @@ These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in indiv
 	* Use =configure= to enable the plugin
 
 Note that if you want to use the =action= template then you must also:
-   1 Install the TWiki:Plugins/ActionTrackerPlugin;
+   1 Install the Foswiki:Extensions/ActionTrackerPlugin;
    1 Put the !CommentPlugin *before* the !ActionTrackerPlugin in the ={PluginsOrder}= configuration option (in =configure=)
 
 ---++ Plugin Info
@@ -281,8 +281,8 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  4745 | 06 Mar 2002 initial commit |
 |  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 TWiki:System.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Home: | TWiki:Plugins/%TOPIC% |
-|  Feedback: | TWiki:Plugins/%TOPIC%Dev |
+|  Plugin Home: | Foswiki:Extensions/%TOPIC% |
+|  Feedback: | Foswiki:Extensions/%TOPIC%Dev |
 
 __Related Topics:__ %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
