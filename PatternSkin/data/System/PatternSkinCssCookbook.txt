@@ -2,7 +2,7 @@
 
 ---+!! %SYSTEMWEB%.PatternSkin CSS Cookbook
 
-*Questions and answers on how to customize the default look of TWiki for your own needs, using style sheets.* For configuring page elements, see PatternSkinCustomization.
+*Questions and answers on how to customize the default look of Foswiki for your own needs, using style sheets.* For configuring page elements, see PatternSkinCustomization.
 
 %TOC%
 
@@ -13,7 +13,7 @@
    * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css][style.css]] - fonts, sizes, margins and paddings
    * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css][colors.css]] - border colors, text colors and background colors
 
-When customizing your TWiki installation, you can either choose to completely rewrite all css styles, or to selectively override some styles. The latter option is by far less time consuming, but all depends on your graphical wishes.
+When customizing your Foswiki installation, you can either choose to completely rewrite all css styles, or to selectively override some styles. The latter option is by far less time consuming, but all depends on your graphical wishes.
 
 ---+++ Changing the color scheme
 Have a look at PatternSkinColorSettings.
@@ -50,7 +50,7 @@ Instead of setting these preferences in [[%SYSTEMWEB%.DefaultPreferences]] or [[
    * Home topic: the style is visible for that one user when viewing the site
    * Some other topic: the style is only visible in that one topic
 
-User styles are always loaded after TWiki styles.
+User styles are always loaded after Foswiki styles.
 
 The rest of this topic shows examples of small CSS changes.
 

@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1224099309" format="1.1" reprev="1.1" version="1.1"}%
 %STARTINCLUDE%
 <!--
-   * Set SHORTDESCRIPTION = <nop>PatternSkin provides a CSS based default look and feel for TWiki - flexible and <nop>W3C-compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment
+   * Set SHORTDESCRIPTION = <nop>PatternSkin provides a CSS based default look and feel - flexible and <nop>W3C-compliant. Its layout and color scheme are designed to provide a nice, clean and productive editing environment
 -->
 ---+!! Pattern skin
 
@@ -43,9 +43,9 @@ The original Photoshop files of the skin graphics (mainly background images) are
 
 ---++ Installation
 
-*Note:* You do not need to install anything on the browser to use this skin. The following instructions are for the administrator who installs the skin on the server where TWiki is running.
+*Note:* You do not need to install anything on the browser to use this skin. The following instructions are for the administrator who installs the skin on the server where Foswiki is running.
 
-*Note 2:* !PatternSkin is included with TWiki by default. Use the following instructions only if you are upgrading !PatternSkin.
+*Note 2:* !PatternSkin is included with Foswiki by default. Use the following instructions only if you are upgrading !PatternSkin.
 
    * Download the ZIP file from the Skin Home page (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory
@@ -78,12 +78,12 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 
 ---++ Skin Info
 
-|  Description: | TWiki's default skin; CSS based, flexible and <nop>W3C-compliant |
+|  Description: | Foswiki's default skin; CSS based, flexible and <nop>W3C-compliant |
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" height="130" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
 |  Copyright: | &copy; 2004-2008 ArthurClemens |
-|  Skin Version: | 08 Nov 2008 (v3.0.2) | 
+|  Skin Version: | 23 Nov 2008 (v3.0.3) | 
 |  History: | <!-- specify latest version first -->&nbsp; |
 |  03 Aug 2008: | v.3.0.1 - TWiki 4.2.1 (Edinburgh) RELEASE VERSION |
 |  13 Jul 2007: | v.3.0.0 - TWiki 4.2.0 (Edinburgh) RELEASE VERSION |

@@ -2,7 +2,7 @@
 
 ---+!! %TWIKIWEB%.PatternSkin Customization
 
-*Guidelines how to create and customize page templates.* For styling your TWiki using stylesheets, see PatternSkinCssCookbook.
+*Guidelines how to create and customize page templates.* For styling your Foswiki using stylesheets, see PatternSkinCssCookbook.
 
 %TOC%
 
@@ -22,7 +22,7 @@ Which approach is best?
 
 To change templates you will need shell access. If you don't have this read on below in [[#TopicTemplates][The topic template approach]].
 
-The quickest way to change the view template would be to simply change the text in the template. A safer way -  strongly recommended, because it will survive a TWiki update - is to create your own custom skin. That may sound like an awful lot of work, but in reality a skin may be as much as 1 file that consists of only a few lines of code.
+The quickest way to change the view template would be to simply change the text in the template. A safer way -  strongly recommended, because it will survive a Foswiki update - is to create your own custom skin. That may sound like an awful lot of work, but in reality a skin may be as much as 1 file that consists of only a few lines of code.
 
 *Example* %BR%
 Let's say you want to simplify the bottom toolbar and remove all links except for "More topic actions". You would need to target =%<nop>TMPL:DEF{"topicactionbuttons"}%=, which is located in =view.pattern.tmpl=.
@@ -156,10 +156,10 @@ To search all webs, write:
 </verbatim>
 </blockquote>
 
-To search a couple of webs, for instance the webs Main and TWiki, write:
+To search a couple of webs, for instance the webs Main and System, write:
 <blockquote>
 <verbatim>
-<input type="hidden" name="web" value="Main,TWiki" />
+<input type="hidden" name="web" value="Main,System" />
 </verbatim>
 </blockquote>
 
@@ -302,7 +302,7 @@ And change the number from 12em to a different value (3 occurrences).
 
 ---+++ I want to hide the edit buttons from certain users
 
-It may defy the wiki-ness of your TWiki installation, but in certain circumstances it could be useful to hide the edit buttons from users that are not logged in, for instance for clients that have gotten viewing rights only.
+It may defy the wiki-ness of your Foswiki installation, but in certain circumstances it could be useful to hide the edit buttons from users that are not logged in, for instance for clients that have gotten viewing rights only.
 
 Using either a template or a topic template, 'empty' =top:toolbarbuttons= and =topicaction= by writing:
 <blockquote><pre>
