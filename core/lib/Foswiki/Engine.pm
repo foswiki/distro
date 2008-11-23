@@ -404,7 +404,9 @@ Should send $buffer to client.
 
 =cut
 
-sub write { }
+sub write {
+    ASSERT('Pure virtual method - should never be called');
+}
 
 1;
 __DATA__

@@ -78,20 +78,24 @@ use vars qw( @registrableHandlers %deprecated );
 
 =pod
 
----++ ClassMethod new( $session, $name )
+---++ ClassMethod new( $session, $name, [, $module] )
 
    * =$session= - Foswiki object
    * =$name= - name of the plugin e.g. MyPlugin
-
+   * =$module= - name of implementing package; optional, used for tests.
+     Normally =load= is used to discover the module from the config.
 =cut
 
 sub new {
-    my ( $class, $session, $name ) = @_;
+    my ( $class, $session, $name, $module ) = @_;
     my $this = bless( { session => $session }, $class );
 
     require Foswiki::Sandbox;
     $name = Foswiki::Sandbox::untaintUnchecked($name);
     $this->{name}   = $name   || '';
+    if ( defined($module) ) {
+        $this->{module} = $module; # otherwise use discovery
+    }
 
     return $this;
 }
