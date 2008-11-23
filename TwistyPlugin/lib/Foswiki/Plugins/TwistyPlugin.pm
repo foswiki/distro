@@ -18,7 +18,7 @@
 
 ---+ package TwistyPlugin
 
-Convenience plugin for TWiki:Plugins.TwistyContrib.
+Convenience plugin for Foswiki:Extensions.TwistyContrib.
 It has two major features:
    * When active, the Twisty javascript library is included in every topic.
    * Provides a convenience syntax to define twisty areas.
