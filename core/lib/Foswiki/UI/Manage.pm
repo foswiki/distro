@@ -61,8 +61,8 @@ sub manage {
     elsif ( $action eq 'restoreRevision' ) {
         _restoreRevision($session);
     }
-    elsif ( $action eq 'copy' ) {
-        _copyTopic($session);
+    elsif ( $action eq 'create' ) {
+        _createTopic($session);
     }
     elsif ($action) {
         throw Foswiki::OopsException(
@@ -299,12 +299,8 @@ sub rename {
     my $lockFailure = '';
     my $breakLock   = $query->param('breaklock');
 
-    my $confirm          = $query->param('confirm');
-    my $store            = $session->{store};
-
-    $newTopic =~ s/\s//go;
-    $newTopic =~ s/$Foswiki::cfg{NameFilter}//go;
-    $newTopic = ucfirst $newTopic;    # Item3270
+    my $confirm = $query->param('confirm');
+    my $store   = $session->{store};
 
     $attachment ||= '';
 
@@ -326,6 +322,7 @@ sub rename {
     }
 
     if ($newTopic) {
+        $newTopic = _safeTopicName($newTopic);
         if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
             throw Foswiki::OopsException(
                 'attention',
@@ -335,7 +332,6 @@ sub rename {
                 params => [$newTopic]
             );
         }
-        $newTopic = _safeTopicName($newTopic);
     }
 
     if ($attachment) {
@@ -404,8 +400,10 @@ sub rename {
         # Must be able to view the source to rename it
         Foswiki::UI::checkAccess( $session, $oldWeb, $oldTopic, 'VIEW',
             $session->{user} );
-        _newTopicScreen( $session, $oldWeb, $oldTopic, $newWeb, $newTopic,
-            $attachment, $confirm );
+        _newTopicScreen(
+            $session,  $oldWeb,     $oldTopic, $newWeb,
+            $newTopic, $attachment, $confirm
+        );
         return;
     }
 
@@ -512,19 +510,27 @@ sub _safeTopicName {
 
 =pod
 
----++ StaticMethod _copyTopic()
+---++ StaticMethod _createTopic()
 
-Copies a topic to new topic with name passed in query param 'newtopic'.
-Redirects to edit screen.
+Creates a topic to new topic with name passed in query param 'topic'.
+Creates an exception when the topic name is not valid; the topic name does not have to be a WikiWord if parameter 'nonwikiword' is set to 'on'.
+Redirects to the edit screen.
+
+Copy an existing topic using:
+	<form action="%SCRIPTURL{manage}%/%WEB%/">
+	<input type="text" name="topic" class="twikiInputField" value="%TOPIC%Copy" size="30">
+	<input type="hidden" name="action" value="create" />
+	<input type="hidden" name="templatetopic" value="%TOPIC%" />
+	...
+	</form>
 
 =cut
 
-
-sub _copyTopic {
+sub _createTopic {
     my ($session) = @_;
 
     my $query = $session->{request};
-    my $newTopic = $query->param('newtopic') || '';
+    my $newTopic = $query->param('topic') || '';
 
     # topic must not be empty
     if ( !$newTopic ) {
@@ -537,23 +543,24 @@ sub _copyTopic {
         );
     }
 
-    my $oldWeb           = $session->{webName};
-    my $oldTopic         = $session->{topicName};
+    my $oldWeb   = $session->{webName};
+    my $oldTopic = $session->{topicName};
 
-    if ($newTopic) {
-        # topic must be valid
-        if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $oldWeb,
-                topic  => $oldTopic,
-                def    => 'not_wikiword',
-                params => [$newTopic]
-            );
-        }
-        $newTopic = _safeTopicName($newTopic);
+    Foswiki::UI::checkAccess( $session, $oldWeb, $newTopic, 'CHANGE',
+        $session->{user} );
+
+    # topic must be valid
+    if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $oldWeb,
+            topic  => $oldTopic,
+            def    => 'not_wikiword',
+            params => [$newTopic]
+        );
     }
-    
+    $newTopic = _safeTopicName($newTopic);
+
     # untaint new topic name
     use Foswiki::Sandbox;
     $session->{topicName} = Foswiki::Sandbox::untaintUnchecked($newTopic);
@@ -623,10 +630,10 @@ sub _renameweb {
     }
 
     my $newTopic;
-    my $lockFailure        = '';
-    my $breakLock          = $query->param('breaklock');
-    my $confirm            = $query->param('confirm') || '';
-    my $store              = $session->{store};
+    my $lockFailure = '';
+    my $breakLock   = $query->param('breaklock');
+    my $confirm     = $query->param('confirm') || '';
+    my $store       = $session->{store};
 
     Foswiki::UI::checkWebExists( $session, $oldWeb,
         $Foswiki::cfg{WebPrefsTopicName}, 'rename' );
@@ -1007,9 +1014,10 @@ sub move {
 
 # Display screen so user can decide on new web and topic.
 sub _newTopicScreen {
-    my ( $session, $oldWeb, $oldTopic, $newWeb, $newTopic, $attachment,
-        $confirm )
-      = @_;
+    my (
+        $session,  $oldWeb,     $oldTopic, $newWeb,
+        $newTopic, $attachment, $confirm
+    ) = @_;
 
     my $query          = $session->{request};
     my $tmplname       = $query->param('template') || '';
