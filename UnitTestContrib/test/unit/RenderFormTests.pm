@@ -16,7 +16,7 @@ use vars qw( $codedir );
 BEGIN {
     # create a fabby little type, just to make sure it gets called
     $codedir = File::Temp::tempdir( CLEANUP => 1 );
-    mkdir("$codedir/System") || die $!;
+    mkdir("$codedir/Foswiki") || die $!;
     mkdir("$codedir/Foswiki/Form") || die $!;
     open(F, ">$codedir/Foswiki/Form/Nuffin.pm") || die $!;
 

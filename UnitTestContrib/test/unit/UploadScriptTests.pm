@@ -41,39 +41,35 @@ sub do_upload {
         $args{$k} = [ $v ];
     }
     my $query = new Unit::Request(\%args);
+    $query->method('POST');
     $query->path_info( "/$this->{test_web}/$this->{test_topic}" );
     my $tmpfile = new CGITempFile(0);
     my $fh = Fh->new($fn, $tmpfile->as_string, 0);
     print $fh $data;
     seek($fh,0,0);
-    my ( $release ) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
-    if ( $release >= 5 ) {
-        $query->param( -name => 'filepath', -value => $fn );
-        my %uploads = ();
-        require Foswiki::Request::Upload;
-        $uploads{$fh} = new Foswiki::Request::Upload(
-            headers => {},
-            tmpname => $tmpfile->as_string
-        );
-        $query->uploads( \%uploads );
-    }
-    else {
-        $query->{'.tmpfiles'}->{$$fh} = {
-            hndl => $fh,
-            name => $tmpfile,
-            info => {},
-        };
-        push( @{ $query->{'filepath'} }, $fh );
-        $query->param( 'filepath', $fh );
-    }
+    $query->param( -name => 'filepath', -value => $fn );
+    my %uploads = ();
+    require Foswiki::Request::Upload;
+    $uploads{$fh} = new Foswiki::Request::Upload(
+        headers => {},
+        tmpname => $tmpfile->as_string
+       );
+    $query->uploads( \%uploads );
 
     my $stream = $query->upload( 'filepath' );
+    $this->assert($stream);
     seek($stream,0,0);
 
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
 
-    my ($text, $result) = $this->capture( \&Foswiki::UI::Upload::upload, $this->{twiki});
+    my ($text, $result) = $this->capture(
+        sub {
+            Foswiki::UI::Upload::upload( $this->{twiki} );
+            $Foswiki::engine->finalize(
+                $this->{twiki}->{response},
+                $this->{twiki}->{request});
+        });
     return $text;
 }
 
