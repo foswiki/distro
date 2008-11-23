@@ -19,8 +19,10 @@
 %TMPL:DEF{"copy"}%---++ %MAKETEXT{"Copy topic"}%
 %MAKETEXT{"Copy text and form data to a new topic (no attachments will be copied though)."}%
 
-<form action="%SCRIPTURL{edit}%/%WEB%/">
-%MAKETEXT{"Name of copy:"}% <input type="text" name="topic" class="twikiInputField" value="%TOPIC%Copy" size="30"> <input type="submit" class="twikiButton" value="Clone" /> <span class="twikiGrayText">%MAKETEXT{"You will be able to review the copied topic before saving"}%</span>
+<form action="%SCRIPTURL{manage}%/%WEB%/">
+%MAKETEXT{"Name of copy:"}% <input type="text" name="newtopic" class="twikiInputField" value="%TOPIC%Copy" size="30"> <input type="submit" class="twikiButton" value="Clone" /> <span class="twikiGrayText">%MAKETEXT{"You will be able to review the copied topic before saving"}%</span>
+%TMPL:P{"nonwikiword"}%
+<input type="hidden" name="action" value="copy" />
 <input type="hidden" name="onlynewtopic" value="on" />
 <input type="hidden" name="templatetopic" value="%TOPIC%" />
 <input type="hidden" name="nowysiwyg" value="1" />

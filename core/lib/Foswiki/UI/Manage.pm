@@ -61,6 +61,9 @@ sub manage {
     elsif ( $action eq 'restoreRevision' ) {
         _restoreRevision($session);
     }
+    elsif ( $action eq 'copy' ) {
+        _copyTopic($session);
+    }
     elsif ($action) {
         throw Foswiki::OopsException(
             'attention',
@@ -296,9 +299,9 @@ sub rename {
     my $lockFailure = '';
     my $breakLock   = $query->param('breaklock');
 
-    my $confirm            = $query->param('confirm');
-    my $doAllowNonWikiWord = $query->param('nonwikiword') || '';
-    my $store              = $session->{store};
+    my $confirm          = $query->param('confirm');
+    my $nonWikiWordParam = $query->param('nonwikiword') || '';
+    my $store            = $session->{store};
 
     $newTopic =~ s/\s//go;
     $newTopic =~ s/$Foswiki::cfg{NameFilter}//go;
@@ -323,8 +326,8 @@ sub rename {
         $oldTopic = lcfirst $oldTopic;
     }
 
-    if ( $newTopic && !Foswiki::isValidWikiWord($newTopic) ) {
-        unless ($doAllowNonWikiWord) {
+    if ($newTopic) {
+        if ( !_isValidTopicName( $newTopic, $nonWikiWordParam ) ) {
             throw Foswiki::OopsException(
                 'attention',
                 web    => $oldWeb,
@@ -333,11 +336,7 @@ sub rename {
                 params => [$newTopic]
             );
         }
-
-        # Filter out dangerous characters (. and / may cause
-        # issues with pathnames
-        $newTopic =~ s![./]!_!g;
-        $newTopic =~ s/($Foswiki::cfg{NameFilter})//go;
+        $newTopic = _safeTopicName($newTopic);
     }
 
     if ($attachment) {
@@ -407,7 +406,7 @@ sub rename {
         Foswiki::UI::checkAccess( $session, $oldWeb, $oldTopic, 'VIEW',
             $session->{user} );
         _newTopicScreen( $session, $oldWeb, $oldTopic, $newWeb, $newTopic,
-            $attachment, $confirm, $doAllowNonWikiWord );
+            $attachment, $confirm, $nonWikiWordParam );
         return;
     }
 
@@ -467,6 +466,102 @@ sub rename {
 
     #follow redirectto=
     $session->redirect( $new_url, undef, 1 );
+}
+
+=pod
+
+---++ StaticMethod _isValidTopicName( $topic, $nonWikiWordParam ) -> $boolean
+
+Checks whether a topic name is valid. This may depend on the setting of session param 'nonwikiword'.
+
+Usage:
+	my $isValidName = _isValidTopicName( $newTopic, $query->param('nonwikiword') );
+
+=cut
+
+sub _isValidTopicName {
+    my ( $topic, $nonWikiWordParam ) = @_;
+
+    my $nonWikiWord = $nonWikiWordParam || 0;
+    my $doAllowNonWikiWord = Foswiki::isTrue($nonWikiWord);
+
+    return 0 if !$topic;
+    return 0 if ( !Foswiki::isValidTopicName($topic) && !$doAllowNonWikiWord );
+    return 1 if ( Foswiki::isValidTopicName($topic) );
+
+    return 1;
+}
+
+=pod
+
+---++ StaticMethod _safeTopicName( $topic ) -> $topic
+
+Filter out dangerous characters . and / may cause issues with pathnames.
+        
+=cut
+
+sub _safeTopicName {
+    my ($topic) = @_;
+
+    $topic =~ s/\s//go;
+    $topic = ucfirst $topic;    # Item3270
+    $topic =~ s![./]!_!g;
+    $topic =~ s/($Foswiki::cfg{NameFilter})//go;
+
+    return $topic;
+}
+
+=pod
+
+---++ StaticMethod _copyTopic()
+
+Copies a topic to new topic with name passed in query param 'newtopic'.
+Redirects to edit screen.
+
+=cut
+
+
+sub _copyTopic {
+    my ($session) = @_;
+
+    my $query = $session->{request};
+    my $newTopic = $query->param('newtopic') || '';
+
+    # topic must not be empty
+    if ( !$newTopic ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => undef,
+            topic  => $newTopic,
+            def    => 'empty_topic_name',
+            params => undef
+        );
+    }
+
+    my $oldWeb           = $session->{webName};
+    my $oldTopic         = $session->{topicName};
+    my $nonWikiWordParam = $query->param('nonwikiword') || '';
+
+    if ($newTopic) {
+        # topic must be valid
+        if ( !_isValidTopicName( $newTopic, $nonWikiWordParam ) ) {
+            throw Foswiki::OopsException(
+                'attention',
+                web    => $oldWeb,
+                topic  => $oldTopic,
+                def    => 'not_wikiword',
+                params => [$newTopic]
+            );
+        }
+        $newTopic = _safeTopicName($newTopic);
+    }
+    
+    # untaint new topic name
+    use Foswiki::Sandbox;
+    $session->{topicName} = Foswiki::Sandbox::untaintUnchecked($newTopic);
+
+    require Foswiki::UI::Edit;
+    Foswiki::UI::Edit::edit($session);
 }
 
 #| =skin= | skin(s) to use |
@@ -1224,7 +1319,8 @@ sub _newWebScreen {
     $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
 
     $tmpl =
-      $session->handleCommonTags( $tmpl, $oldWeb, $Foswiki::cfg{HomeTopicName} );
+      $session->handleCommonTags( $tmpl, $oldWeb,
+        $Foswiki::cfg{HomeTopicName} );
     $tmpl =
       $session->renderer->getRenderedVersion( $tmpl, $oldWeb,
         $Foswiki::cfg{HomeTopicName} );
@@ -1340,7 +1436,7 @@ sub _updateReferringTopics {
                 $text = $renderer->forEachLine( $text,
                     \&Foswiki::Render::replaceTopicReferences, $options );
                 $meta->forEachSelectedValue(
-                    qw/^(FIELD|FORM|TOPICPARENT)$/,          undef,
+                    qw/^(FIELD|FORM|TOPICPARENT)$/,            undef,
                     \&Foswiki::Render::replaceTopicReferences, $options
                 );
 
@@ -1385,7 +1481,7 @@ sub _updateWebReferringTopics {
                 $text = $renderer->forEachLine( $text,
                     \&Foswiki::Render::replaceWebReferences, $options );
                 $meta->forEachSelectedValue(
-                    qw/^(FIELD|FORM|TOPICPARENT)$/,        undef,
+                    qw/^(FIELD|FORM|TOPICPARENT)$/,          undef,
                     \&Foswiki::Render::replaceWebReferences, $options
                 );
 

@@ -87,6 +87,14 @@
 ---+++ %MAKETEXT{"New topic name [_1] is not a [_2]" args="\"<nop>%PARAM1%\", %SYSTEMWEB%.WikiWord"}%
 %MAKETEXT{"Please go back in your browser and choose a topic name that is a [_1].WikiWord or check the allow non-Wiki Word box" args="%SYSTEMWEB%"}%
 %TMPL:END%
+
+%TMPL:DEF{"empty_topic_name"}%
+---++ %MAKETEXT{"You must pass a topic name."}%
+%MAKETEXT{"The name of the topic must not be empty." args="%PARAM1%"}%
+
+%MAKETEXT{"Please go back in your browser and try again."}%
+%TMPL:END%
+
 %TMPL:DEF{"rename_err"}%
 %MAKETEXT{"During rename of topic [_1] to [_2] an error ([_3]) was found. Please notify your [_4] administrator."  args="<nop>%WEB%.<nop>%TOPIC%,<nop>%PARAM2%,%PARAM1%,%WIKITOOLNAME%"}%
 %TMPL:END%
