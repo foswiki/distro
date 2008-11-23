@@ -51,6 +51,17 @@ hr {
 pre {
     width:100%;
     margin:1em 0; /* Win IE tries to make this bigger otherwise */
+    border-style:solid;
+    border-width:1px;
+    padding:1em;
+}
+pre, code, tt {
+	line-height:1.25em;
+    font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
+    font-size:86%;
+}
+code, tt {
+	padding:.15em;
 }
 /* IE behavior for pre is defined in css.pattern.tmpl in conditional comment */
 html>body pre { /* hide from IE */
@@ -79,9 +90,9 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
 	line-height:1em;
 }
-h1 { font-size:215%; }
+h1 { font-size:190%; }
 h2 { font-size:153%; }
-h3 { font-size:133%; font-weight:bold; }
+h3 { font-size:133%; }
 h4 { font-size:122%; font-weight:bold; }
 h5 { font-size:110%; font-weight:bold; }
 h6 { font-size:95%; font-weight:bold; }
@@ -539,7 +550,7 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 	padding:1em;
 	margin:0;
 	border-style:solid;
-	border-width:4px;
+	border-width:2px;
 }
 .twikiHelp ul {
 	margin:0;
@@ -673,6 +684,7 @@ a.twikiLinkInHeaderRight {
 #patternLeftBarContents a:visited {
 	text-decoration:none;
 }
+/*
 #patternLeftBarContents .patternLeftBarPersonal a:link,
 #patternLeftBarContents .patternLeftBarPersonal a:visited {
 	text-decoration:underline;
@@ -684,6 +696,7 @@ a.twikiLinkInHeaderRight {
 #patternLeftBarContents .patternLeftBarPersonal ul a:hover {
 	text-decoration:underline;
 }
+*/
 #patternLeftBarContents ul {
 	padding:0;
 	margin:0;
@@ -707,6 +720,14 @@ a.twikiLinkInHeaderRight {
 	border-style:none none solid none;
 	border-width:1px;
 }
+/*
+#patternLeftBarContents ul li a:link,
+#patternLeftBarContents ul li a:visited {
+	display:block;
+	margin:0 -1em 0 -1em;
+	padding:.2em 1em;
+}
+*/
 .patternWebIndicator a {
 	font-size:1.1em;
 	font-weight:bold;
@@ -988,7 +1009,7 @@ h4.patternSearchResultsHeader {
 	font-weight:bold;
 }	
 .twikiEditboxStyleMono {
-	font-family:"Courier New", courier, monaco, monospace;
+	font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
 }
 .twikiEditboxStyleProportional {
 	font-family:arial, verdana, sans-serif;

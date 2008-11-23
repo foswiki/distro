@@ -5,18 +5,25 @@ Use this topic to change the color settings of %SYSTEMWEB%.PatternSkin. When thi
 <nop>AttachContentPlugin is %IF{"context AttachContentPluginEnabled" then="" else="*not* "}%installed.
 
 ---++!! Usage
+
+<div class="twikiFormSteps">
+<div class="twikiFormStep">
 ---+++!! Step 1
-Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%SYSTEMWEB%.DefaultPreferences]] or [[%USERSWEB%.SitePreferences]] put: <verbatim>
+Let %SYSTEMWEB%.PatternSkin point to the custom-made colors style sheet. In [[%USERSWEB%.SitePreferences]] copy this line: <verbatim>
    * Set USERCOLORSURL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme-colors.css
 </verbatim>
-
+</div>
+<div class="twikiFormStep">
 ---+++!! Step 2
-Edit this topic, and change the color [[%SYSTEMWEB%.PreferenceSettings][preference settings]] as you like.
-
+Edit this topic, and change the color as you like.
+</div>
+<div class="twikiFormStep">
 ---+++!! Step 3
 Save the topic. This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme-colors.css][attachment]] to topic [[PatternSkin]].
 
 %IF{"context AttachContentPluginEnabled" then='<div class="twikiHelp"><a href="%SCRIPTURL{save}%/%WEB%/%TOPIC%?action_save=1" class="twikiButton">Update the <nop>CSS file for this page now</a></div>'}%
+</div>
+</div>
 
 %ICON{"info"}% For more help on customizing styles, see [[PatternSkinCustomization]].
 
@@ -26,161 +33,161 @@ Save the topic. This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/the
 ---++ Logical groupings
 ---+++ Text
 ---++++ MAIN_TEXT_COLOR Main text color
-   * Set MAIN_TEXT_COLOR = #000
+   * Local MAIN_TEXT_COLOR = #000
 ---++++ MAIN_BACKGROUND_COLOR Main background color
-   * Set MAIN_BACKGROUND_COLOR = #fff
+   * Local MAIN_BACKGROUND_COLOR = #fff
 ---++++ LIGHT_ON_DARK_TEXT_COLOR Light on dark text color
-   * Set LIGHT_ON_DARK_TEXT_COLOR = #fff
+   * Local LIGHT_ON_DARK_TEXT_COLOR = #fff
 ---++++ GRAYED_TEXT_COLOR
-   * Set GRAYED_TEXT_COLOR = #777
+   * Local GRAYED_TEXT_COLOR = #777
 ---++++ GENERAL_TEXT General text (if not set in MAIN_BACKGROUND_COLOR) (black)
-   * Set GENERAL_TEXT = #000
+   * Local GENERAL_TEXT = #000
+---++++ H1_HEADER_TEXT Header text
+   * Local H1_HEADER_TEXT = #900
 ---++++ HEADER_TEXT Header text
-   * Set HEADER_TEXT = #630000
+   * Local HEADER_TEXT = #f46100
 ---++++ CODE_TEXT Code text, left bar text and links
-   * Set CODE_TEXT = #7A4707
+   * Local CODE_TEXT = #333
 ---++++ MUTED_TEXT Muted text (dark gray)
-   * Set MUTED_TEXT = %GRAYED_TEXT_COLOR%
+   * Local MUTED_TEXT = %GRAYED_TEXT_COLOR%
 ---++++ GRAYED_OUT_TEXT Grayed out text
-   * Set GRAYED_OUT_TEXT = %GRAYED_TEXT_COLOR%
+   * Local GRAYED_OUT_TEXT = %GRAYED_TEXT_COLOR%
 
 ---+++ Links
 ---++++ LINK_TEXT_NORMAL Link normal text
-   * Set LINK_TEXT_NORMAL = #4571d0
+   * Local LINK_TEXT_NORMAL = #4571d0
 ---++++ LINK_BACKGROUND_NORMAL Link normal background
-   * Set LINK_BACKGROUND_NORMAL =
+   * Local LINK_BACKGROUND_NORMAL =
 ---++++ LINK_TEXT_NORMAL_VISITED Link normal text visited
-   * Set LINK_TEXT_NORMAL_VISITED = #666
+   * Local LINK_TEXT_NORMAL_VISITED = #666
 ---++++ LINK_TEXT_ACTION_BUTTON Link text red (same as LINK_BACKGROUND_HOVER)
-   * Set LINK_TEXT_ACTION_BUTTON = #be000a
+   * Local LINK_TEXT_ACTION_BUTTON = #0055b5
 ---++++ LINK_TEXT_HOVER Link hover text
-   * Set LINK_TEXT_HOVER = #fff
+   * Local LINK_TEXT_HOVER = #fff
 ---++++ LINK_BACKGROUND_HOVER Link background hover
-   * Set LINK_BACKGROUND_HOVER = #ce000f
+   * Local LINK_BACKGROUND_HOVER = #0055b5
 ---++++ SIDE_BAR_LINK_TEXT Side bar link text
-   * Set SIDE_BAR_LINK_TEXT = #444
+   * Local SIDE_BAR_LINK_TEXT = #444
 
 ---+++ Disabled
 ---++++ DISABLED_BORDER Disabled border
-   * Set DISABLED_BORDER = #e0e0e0
+   * Local DISABLED_BORDER = #e0e0e0
 ---++++ DISABLED_TEXT Disabled text
-   * Set DISABLED_TEXT = #aaa
+   * Local DISABLED_TEXT = #aaa
 ---++++ DISABLED_BACKGROUND Disabled background
-   * Set DISABLED_BACKGROUND = #fafaf8
+   * Local DISABLED_BACKGROUND = #fafaf8
 ---++++ BUTTON_BORDERS_DISABLED Disabled button borders
-   * Set BUTTON_BORDERS_DISABLED = #fff #ccc #ccc #fff
+   * Local BUTTON_BORDERS_DISABLED = #fff #ccc #ccc #fff
 
 ---+++ 'New'
 ---++++ NEW_TEXT New text (green)
-   * Set NEW_TEXT = #049804
+   * Local NEW_TEXT = #049804
 ---++++ NEW_BACKGROUND New background (light green)
-   * Set NEW_BACKGROUND = #ECFADC
+   * Local NEW_BACKGROUND = #ECFADC
 
 ---+++ Alert
 ---++++ ALERT_TEXT Alert text (red)
-   * Set ALERT_TEXT = #f00
+   * Local ALERT_TEXT = #f00
 ---++++ ALERT_TEXT_MUTED Muted alert text (dark red)
-   * Set ALERT_TEXT_MUTED = #900
+   * Local ALERT_TEXT_MUTED = #900
 ---++++ ALERT_BORDER Alert border
-   * Set ALERT_BORDER = #f00
+   * Local ALERT_BORDER = #f00
 
 ---+++ Buttons
 ---++++ BUTTON_TEXT Button text color (dark gray)
-   * Set BUTTON_TEXT = #000
+   * Local BUTTON_TEXT = #000
 ---++++ BUTTON_BORDERS Button borders
-   * Set BUTTON_BORDERS = #fff #888 #888 #fff
+   * Local BUTTON_BORDERS = #fff #888 #888 #fff
 ---++++ BUTTON_BACKGROUND Button background
-   * Set BUTTON_BACKGROUND = #e2e3e3
+   * Local BUTTON_BACKGROUND = #e2e3e3
 ---++++ BUTTON_CANCEL_BACKGROUND Cancel button background
-   * Set BUTTON_CANCEL_BACKGROUND = #f2d5d0
+   * Local BUTTON_CANCEL_BACKGROUND = #f2d5d0
 ---++++ SUBMIT_BUTTON_BACKGROUND Submit button background
-   * Set SUBMIT_BUTTON_BACKGROUND = #06c
+   * Local SUBMIT_BUTTON_BACKGROUND = #06c
 ---++++ SUBMIT_BUTTON_BORDER_TEXT Submit button text color
-   * Set SUBMIT_BUTTON_BORDER_TEXT = #fff
+   * Local SUBMIT_BUTTON_BORDER_TEXT = #fff
 ---++++ SELECT_BORDER Select border
-   * Set SELECT_BORDER = #888
+   * Local SELECT_BORDER = #888
 
 ---+++ Background colors
 ---++++ GENERAL_BACKGROUND General background color (if not set in MAIN_BACKGROUND_COLOR) (white)
-   * Set GENERAL_BACKGROUND = #fff
----++++ SIDE_BAR_BACKGROUND Side bar background
-   * Set SIDE_BAR_BACKGROUND = #f6f6f6
+   * Local GENERAL_BACKGROUND = #fff
 ---++++ NEUTRAL_BACKGROUND
-   * Set NEUTRAL_BACKGROUND = #fdfaf1
+   * Local NEUTRAL_BACKGROUND = #fefcf8
+---++++ SIDE_BAR_BACKGROUND Side bar background
+   * Local SIDE_BAR_BACKGROUND = %NEUTRAL_BACKGROUND%
 ---++++ TOP_BAR_BACKGROUND Top bar background
-   * Set TOP_BAR_BACKGROUND = #fefcf7
+   * Local TOP_BAR_BACKGROUND = #fefcf7
 ---++++ ATTACHMENT_AND_FORM_BACKGROUND Attachment, form
-   * Set ATTACHMENT_AND_FORM_BACKGROUND = #f6f6f6
+   * Local ATTACHMENT_AND_FORM_BACKGROUND = #f5f5f5
 ---++++ TOPIC_ACTION_BACKGROUND Topic action row
-   * Set TOPIC_ACTION_BACKGROUND = %ATTACHMENT_AND_FORM_BACKGROUND%
----++++ HEADER_BACKGROUND h2, h3
-   * Set HEADER_BACKGROUND = %TOPIC_ACTION_BACKGROUND%
+   * Local TOPIC_ACTION_BACKGROUND = %ATTACHMENT_AND_FORM_BACKGROUND%
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
-   * Set DIFF_HEADER_BACKGROUND = #ccc
+   * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
-   * Set NOTIFICATION_BACKGROUND = #ffe67b
+   * Local NOTIFICATION_BACKGROUND = #fff0c4
 ---++++ INFO_BACKGROUND
-   * Set INFO_BACKGROUND = %NOTIFICATION_BACKGROUND%
+   * Local INFO_BACKGROUND = #edf6fe
 
 ---+++ Border colors
 ---++++ NEUTRAL_BORDER Info (light gray)
-   * Set NEUTRAL_BORDER = #ddd
+   * Local NEUTRAL_BORDER = #ddd
 ---++++ SEPARATOR_BORDER
-   * Set SEPARATOR_BORDER = #e2e2e2
+   * Local SEPARATOR_BORDER = #e2e2e2
 ---++++ MINOR_SEPARATOR_BORDER Header H3..H6 bottom
-   * Set MINOR_SEPARATOR_BORDER = %SEPARATOR_BORDER%
+   * Local MINOR_SEPARATOR_BORDER = %SEPARATOR_BORDER%
 ---++++ LAYOUT_ELEMENT_BORDER Main layout elements (neutral tone)
-   * Set LAYOUT_ELEMENT_BORDER = #dadada
+   * Local LAYOUT_ELEMENT_BORDER = #dadada
 ---++++ IMAGE_BORDER Image border
-   * Set IMAGE_BORDER = #eee
+   * Local IMAGE_BORDER = #eee
 ---++++ FORM_STEP_BORDER Form step border
-   * Set FORM_STEP_BORDER = %SEPARATOR_BORDER%
+   * Local FORM_STEP_BORDER = %SEPARATOR_BORDER%
 ---++++ NOTIFICATION_BORDER Broadcast message
-   * Set NOTIFICATION_BORDER = #ffdf4c
+   * Local NOTIFICATION_BORDER = #ffdf4c
 
 ---++++ Table colors
 ---+++++ TABLE_DATA_BACKGROUND Table data background
-   * Set TABLE_DATA_BACKGROUND = #f0f6f9
+   * Local TABLE_DATA_BACKGROUND = #f0f6f9
 ---+++++ TABLE_HEADER_BACKGROUND Table header background
-   * Set TABLE_HEADER_BACKGROUND = #6b7f93
+   * Local TABLE_HEADER_BACKGROUND = #6b7f93
 ---+++++ TABLE_SELECTED_COLUMN_HEADER_BACKGROUND Sorted table column accent background
-   * Set TABLE_SELECTED_COLUMN_HEADER_BACKGROUND = #345
+   * Local TABLE_SELECTED_COLUMN_HEADER_BACKGROUND = #345
 ---+++++ TABLE_DATA_ODD_BACKGROUND Table data background (odd row)
-   * Set TABLE_DATA_ODD_BACKGROUND = #f0f6fb
+   * Local TABLE_DATA_ODD_BACKGROUND = #f0f6fb
 ---+++++ TABLE_DATA_EVEN_BACKGROUND Table data background (even row)
-   * Set TABLE_DATA_EVEN_BACKGROUND = #ffffff
+   * Local TABLE_DATA_EVEN_BACKGROUND = #ffffff
 ---+++++ TABLE_DATA_ODD_SELECTED_BACKGROUND Table data background (odd row, selected column)
-   * Set TABLE_DATA_ODD_SELECTED_BACKGROUND = #dce7ee
+   * Local TABLE_DATA_ODD_SELECTED_BACKGROUND = #dce7ee
 ---+++++ TABLE_DATA_EVEN_SELECTED_BACKGROUND Table data background (even row, selected column)
-   * Set TABLE_DATA_EVEN_SELECTED_BACKGROUND = #f5f5f5
+   * Local TABLE_DATA_EVEN_SELECTED_BACKGROUND = #f5f5f5
 ---+++++ TABLE_DATA_MIX_BACKGROUND Table data background (mix between even and odd)
-   * Set TABLE_DATA_MIX_BACKGROUND = #f7fafc
+   * Local TABLE_DATA_MIX_BACKGROUND = #f7fafc
 ---++++ TABLE_BORDER Table border, sup (light neutral tone)
-   * Set TABLE_BORDER = #e2e2e2
+   * Local TABLE_BORDER = #e2e2e2
 ---++++ LINK_TEXT_NORMAL_TABLE_HEADER Table header link text
-   * Set LINK_TEXT_NORMAL_TABLE_HEADER = #fff
+   * Local LINK_TEXT_NORMAL_TABLE_HEADER = #fff
 ---++++ LINK_TEXT_NORMAL_BORDER_TABLE_HEADER Table header link border
-   * Set LINK_TEXT_NORMAL_BORDER_TABLE_HEADER = #bbb
+   * Local LINK_TEXT_NORMAL_BORDER_TABLE_HEADER = #bbb
 ---++++ LINK_TEXT_SORTED_TABLE_HEADER Sorted table header link text
-   * Set LINK_TEXT_SORTED_TABLE_HEADER = #fff
+   * Local LINK_TEXT_SORTED_TABLE_HEADER = #fff
 ---++++ LINK_TEXT_HOVER_TABLE_HEADER Table header link hover text
-   * Set LINK_TEXT_HOVER_TABLE_HEADER = #fff
+   * Local LINK_TEXT_HOVER_TABLE_HEADER = #fff
 ---++++ LINK_BORDER_TABLE_SELECTED_COLUMN_HEADER Link border in selected column header
-   * Set LINK_BORDER_TABLE_SELECTED_COLUMN_HEADER = #999
+   * Local LINK_BORDER_TABLE_SELECTED_COLUMN_HEADER = #999
 
 ---+++ Forms
 ---++++ INPUT_FIELD_BORDERS Input field borders
-   * Set INPUT_FIELD_BORDERS = #bbb #f2f2f2 #f2f2f2 #bbb
+   * Local INPUT_FIELD_BORDERS = #bbb #f2f2f2 #f2f2f2 #bbb
 ---++++ FORM_INPUT_BORDER Textarea, input and select (darker gray)
-   * Set FORM_INPUT_BORDER = #aaa
+   * Local FORM_INPUT_BORDER = #aaa
 ---++++ FORM_BORDER Form (same as twikiTable border)
-   * Set FORM_BORDER = #cfcfcf
+   * Local FORM_BORDER = #cfcfcf
 ---++++ ACTIVE_FORM_BACKGROUND Edit form, form steps
-   * Set ACTIVE_FORM_BACKGROUND = #fbfbfb
+   * Local ACTIVE_FORM_BACKGROUND = #fbfbfb
 ---++++ FORMFIELD_ACTIVE Active form field
-   * Set FORMFIELD_ACTIVE = #ffffe0
+   * Local FORMFIELD_ACTIVE = #ffffe0
 ---++++ FORM_HEADER_TEXT Header text on form background
-   * Set FORM_HEADER_TEXT = #036
+   * Local FORM_HEADER_TEXT = %H1_HEADER_TEXT%
 
 <!-- END OF COLOR PREFERENCES -->
 
@@ -235,6 +242,10 @@ hr {
 pre, code, tt {
    color:%CODE_TEXT%;
 }
+pre {
+   background:%NEUTRAL_BACKGROUND%;
+   border-color:%NEUTRAL_BORDER%;
+}
 blockquote {
    background-color:%ACTIVE_FORM_BACKGROUND%;
    border-color:%ACTIVE_FORM_BACKGROUND% %ACTIVE_FORM_BACKGROUND% %ACTIVE_FORM_BACKGROUND% %NEUTRAL_BORDER%;
@@ -243,11 +254,13 @@ blockquote {
 blockquote h2 {
    background:none;
 }
-h1, h2, h3, h4, h5, h6 {
+h1 {
+   color:%H1_HEADER_TEXT%;
+}
+h2, h3, h4, h5, h6 {
    color:%HEADER_TEXT%;
 }
 h2 {
-   background-color:%HEADER_BACKGROUND%;
    border-color:%MINOR_SEPARATOR_BORDER%;
 }
 h3, h4, h5, h6 {
@@ -515,9 +528,6 @@ table.twikiFormTable th.twikiFormTableHRow font {
 }
 .twikiHelp {
    background-color:%INFO_BACKGROUND%;
-}
-.twikiHelp {
-   background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
    border-color:%SEPARATOR_BORDER%;
 }
 .twikiBroadcastMessage b,
@@ -785,11 +795,6 @@ tr.twikiDiffDebug .twikiDiffUnchangedText {
 /* IMAGES */
 /* image positions are set here as well as these are dependent on the image */
 
-h2,
-.patternTopicAction {
-   background-image:url(bg_action_gradient.gif);
-   background-repeat:repeat-x;
-}
 .twikiToc li {
    background-image:url(bullet-toc.gif);
    background-repeat:no-repeat;
@@ -803,12 +808,6 @@ h2,
 }
 .patternPrintPage #patternOuter {
    background:#fff; /* white - do not change */
-}
-.twikiPageForm table,
-table#twikiSearchTable td.twikiFirstRow {
-   background-image:url(form_gradient.gif);
-   background-repeat:repeat-x;
-   background-color:#f5f5f5;
 }
 .twikiSubmit,
 .twikiSubmitDisabled {
@@ -982,11 +981,6 @@ a.twikiButton:active {
 }
 .patternButtonShrink:active {
    background-position:16px -84px;
-}
-.twikiBroadcastMessage,
-.twikiNotification {
-   background-image:url(background_alert.gif);
-   background-repeat:repeat-x;
 }
 
 /* common settings */
