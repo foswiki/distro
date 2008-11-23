@@ -51,9 +51,7 @@ print LS $localsite;
 close(LS);
 
 
-`perl pseudo-install.pl default`;
-`perl pseudo-install.pl UnitTestContrib`; # required for all testcases
-`perl pseudo-install.pl TestFixturePlugin`; # required for semi-auto testcases to run
+`perl pseudo-install.pl developer`;
 
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
@@ -94,14 +92,13 @@ chdir($foswikihome);
 print "\n\n ready to build release\n";
 
 #TODO: clean the setup again
-#   1.  Install default plugins (hard copy)
-#      * perl pseudo-install.pl default to install the plugins specified in MANIFEST 
+#   1.  Install developer plugins (hard copy)
+#      * perl pseudo-install.pl developer to install the plugins specified in MANIFEST 
 #   2. use the configure script to make your system basically functional
 #      * ensure that your apache has sufficient file and directory permissions for data and pub 
 #   3. cd tools
 #   4. perl build.pl release
 #      * Note: if you specify a release name the script will attempt to commit to svn 
-`perl pseudo-install.pl BuildContrib`;
 chdir('lib');
 `perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
