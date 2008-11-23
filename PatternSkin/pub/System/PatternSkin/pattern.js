@@ -104,7 +104,7 @@ var patternRules = {
 };
 Behaviour.register(patternRules);
 
-var initForm; // in case initForm is not defined (f.e. when TinyMCE is used and twiki_edit.js is not loaded
+var initForm; // in case initForm is not defined (f.e. when TinyMCE is used and foswiki_edit.js is not loaded
 var TEXT_JUMP = twiki.getMetaTag('TEXT_JUMP');
 var TEXT_SEARCH = twiki.getMetaTag('TEXT_SEARCH');
 var TEXT_NUM_TOPICS = twiki.getMetaTag('TEXT_NUM_TOPICS');

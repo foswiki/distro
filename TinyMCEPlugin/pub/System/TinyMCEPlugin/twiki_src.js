@@ -23,14 +23,14 @@ TWikiTiny.install();
 var IFRAME_ID = 'mce_editor_0';
 
 /**
-   Overrides changeEditBox in twiki_edit.js.
+   Overrides changeEditBox in foswiki_edit.js.
 */
 function changeEditBox(inDirection) {
 	return false;
 }
 
 /**
-   Overrides setEditBoxHeight in twiki_edit.js.
+   Overrides setEditBoxHeight in foswiki_edit.js.
 */
 function setEditBoxHeight(inRowCount) {}
 
@@ -65,7 +65,7 @@ function initTextAreaStyles() {
 
 /**
 Disables the use of ESCAPE in the edit box, because some browsers will interpret this as cancel and will remove all changes.
-Copied from %SYSTEMWEB%.JavascriptFiles/twiki_edit.js because it is used in
+Copied from %SYSTEMWEB%.JavascriptFiles/foswiki_edit.js because it is used in
 pickaxe mode.
 */
 function handleKeyDown(e) {
@@ -78,9 +78,9 @@ function handleKeyDown(e) {
 
 /**
 Provided for use by editors that need to validate form elements before
-navigating away. Duplicated from JavascriptFiles/twiki_edit.js to resolve Item5514
+navigating away. Duplicated from JavascriptFiles/foswiki_edit.js to resolve Item5514
 */
-function validateTWikiMandatoryFields(event) {
+function validateMandatoryFields(event) {
     if (twiki.Pref.validateSuppressed) {
         return true;
     }
@@ -119,8 +119,8 @@ function validateTWikiMandatoryFields(event) {
 /**
 Used to dynamically set validation suppression, depending on which submit
 button is pressed (i.e. call this n 'Cancel').
-Duplicated from JavascriptFiles/twiki_edit.js to resolve Item5514
+Duplicated from JavascriptFiles/foswiki_edit.js to resolve Item5514
 */
-function suppressTWikiSaveValidation() {
+function suppressSaveValidation() {
     twiki.Pref.validateSuppressed = true;
 }

@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1186040402" format="1.1" reprev="1.2" version="$Rev$"}%
 <script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/twiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/NatEditContrib/edit.js"></script>
 
 <script language="javascript">

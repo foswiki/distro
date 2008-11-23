@@ -6,7 +6,7 @@
 %TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
 
 %TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/twikiPref.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/twiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
 <script>
 twiki.Event.addLoadEvent(initForm);
@@ -21,7 +21,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 
 
 %TMPL:DEF{"formstart"}%<div class="twikiFormHolder" id="formHolder">
-<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" onsubmit="return validateTWikiMandatoryFields(event)">%TMPL:END%
+<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" onsubmit="return validateMandatoryFields(event)">%TMPL:END%
 
 
 %TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='twikiEditComment twikiInputField' type='text' style='width:50%' name='comment' id='comment' /> <a target='RevComment' class='twikiPopUp' href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/RevComment' rel='nofollow'>%MAKETEXT{"help"}%</a></div><!--/revComment-->" else=""}%%TMPL:END%
@@ -44,7 +44,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 
 %TMPL:DEF{"button_preview"}%<input type="submit" class="twikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% onclick="enableTWikiMandatoryChecks()" />%TMPL:END%
 
-%TMPL:DEF{"button_cancel"}%<input type="submit" class="twikiButton twikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressTWikiSaveValidation()" />%TMPL:END%
+%TMPL:DEF{"button_cancel"}%<input type="submit" class="twikiButton twikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressSaveValidation()" />%TMPL:END%
 
 
 %TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp twikiGrayText">%TMPL:P{"accesskeys_help"}%</div><!--/patternSaveHelp-->%TMPL:END%
