@@ -27,7 +27,7 @@ my $twikiBranch = 'trunk';
 
 unless ( -e $twikiBranch ) {
    print STDERR "doing a fresh checkout\n";
-   `svn co http://svn.twiki.org/svn/twiki/$twikiBranch > TWiki-svn.log`;
+   `svn co http://svn.foswiki.org/$twikiBranch > TWiki-svn.log`;
    chdir($twikiBranch.'/core');
 } else {
 #TODO: should really do an svn revert..
@@ -61,7 +61,7 @@ close(LS);
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
-my $unitTests = "export TWIKI_LIBS=; export TWIKI_HOME=$twikihome;perl ../bin/TestRunner.pl -clean TWikiSuite.pm 2>&1 > $twikihome/TWiki-UnitTests.log";
+my $unitTests = "export FOSWIKI_LIBS=; export FOSWIKI_HOME=$twikihome;perl ../bin/TestRunner.pl -clean TWikiSuite.pm 2>&1 > $twikihome/TWiki-UnitTests.log";
 my $return = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ($errorcode == 0) {
@@ -72,17 +72,17 @@ unless ($errorcode == 0) {
     
     chdir($twikihome);
     if ($SvensAutomatedBuilds) {
-    	`scp TWiki* distributedinformation\@distributedinformation.com:/home/distributedinformation/www/TWikiBuilds`;
-    	sendEmail('twiki-dev@lists.sourceforge.net', "Subject: TWiki $twikiBranch branch has Unit test FAILURES\n\n see http://distributedinformation.com/TWikiBuilds/ for output files.\n".$unittestErrors);
+    	`scp TWiki* distributedinformation\@distributedinformation.com:~/www/Foswiki_$twikiBranch/`;
+    	sendEmail('foswiki-svn@lists.sourceforge.net', "Subject: Foswiki $twikiBranch has Unit test FAILURES\n\n see http://fosiki.com/Foswiki_$twikiBranch/ for output files.\n".$unittestErrors);
     }
     die "\n\n$errorcode: unit test failures - need to fix them first\n" 
 }
 
 chdir($twikihome);
 #TODO: add a performance BM & compare to something golden.
-`perl tools/MemoryCycleTests.pl 2>&1 > $twikihome/TWiki-MemoryCycleTests.log`;
-`perlcritic  --severity 5 --statistics --top 20 lib/  2>&1 > $twikihome/TWiki-PerlCritic.log`;
-`perlcritic  --severity 5 --statistics --top 20 bin/ 2>&1 >> $twikihome/TWiki-PerlCritic.log`;
+`perl tools/MemoryCycleTests.pl > $twikihome/TWiki-MemoryCycleTests.log 2>&1`;
+`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 lib/  > $twikihome/TWiki-PerlCritic.log 2>&1`;
+`/usr/local/bin/perlcritic --severity 5 --statistics --top 20 bin/ >> $twikihome/TWiki-PerlCritic.log 2>&1`;
 #`cd tools; perl check_manifest.pl`;
 #`cd data; grep '%META:TOPICINFO{' */*.txt | grep -v TestCases | grep -v 'author="ProjectContributor".*version="\$Rev'`;
 
@@ -106,16 +106,16 @@ print "\n\n ready to build release\n";
 #      * Note: if you specify a release name the script will attempt to commit to svn 
 `perl pseudo-install.pl BuildContrib`;
 chdir('lib');
-`perl ../tools/build.pl release -auto 2>&1 > $twikihome/TWiki-build.log`;
+`perl ../tools/build.pl release -auto > $twikihome/TWiki-build.log 2>&1`;
 
 chdir($twikihome);
 if ($SvensAutomatedBuilds) {
-	#push the files to my server - http://distributedinformation.com/TWikiBuilds/
-	`scp TWiki* distributedinformation\@distributedinformation.com:/home/distributedinformation/www/TWikiBuilds` ;
+	#push the files to my server - http://fosiki.com/TWikiBuilds/
+	`scp TWiki* distributedinformation\@fosiki.com:~/www/Foswiki_$twikiBranch/` ;
 	my $buildOutput = `ls -alh *auto*`;
 	$buildOutput .= "\n";
 	$buildOutput .= `grep 'All tests passed' $twikihome/TWiki-UnitTests.log`;
-	sendEmail('Builds@distributedINFORMATION.com', "Subject: TWiki $twikiBranch built OK\n\n see http://distributedinformation.com/TWikiBuilds/ for output files.\n".$buildOutput);
+	sendEmail('Builds@fosiki.com', "Subject: TWiki $twikiBranch built OK\n\n see http://fosiki.com/TWikiBuilds/ for output files.\n".$buildOutput);
 }
 
 
