@@ -262,13 +262,13 @@ sub prepareUploads { }
 Finalizes the request by calling many methods to send response to client and 
 take any appropriate finalize actions, such as delete temporary files.
    * =$res= is the Foswiki::Response object
-   * =$req= it the Foswiki::Request object. Needed to finalizeUploads
+   * =$req= it the Foswiki::Request object.
 
 =cut
 
 sub finalize {
     my ( $this, $res, $req ) = @_;
-    $this->finalizeUploads($req);
+    $this->finalizeUploads($res, $req);
     $this->finalizeHeaders( $res, $req );
     $this->finalizeBody($res);
 }

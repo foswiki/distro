@@ -166,7 +166,7 @@ sub prepareUploads {
 }
 
 sub finalizeUploads {
-    my ( $this, $req ) = @_;
+    my ( $this, $res, $req ) = @_;
 
     $req->delete($_) foreach keys %{ $req->uploads };
     undef $this->{cgi};
