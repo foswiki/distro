@@ -15,7 +15,7 @@ Foswiki ships with a default set of template files that give a very basic, CSS-t
 Topic text is not affected by the choice of skin, though a skin can be defined to use a CSS (Cascading Style Sheet), which can sometimes give a radically different appearance to the text.
 
 __Relevant links__
-   * TWiki:Support.SkinsSupplement - __%T% tip:__ supplemental documentation on skins
+   * Foswiki:Support.Extension - Index page for support resources related to skins.
    * Foswiki:Extensions.SkinPackage - list of all contributed skin packages
 
 __See other types of extensions:__ ContributedAddOns, [[Contribs]], [[Plugins]]

@@ -4,36 +4,34 @@
 
 *The following is installation instructions for the Foswiki 1.0.0 production release on an Apache web server on Linux.* Visit Foswiki:Support.SupplementalDocuments for supplemental information for installing Foswiki or upgrading from TWiki, including notes on installing Foswiki on different platforms, environments and web hosting sites.
 
-If you are upgrading from TWiki, you are recommended to upgrade your TWiki to at least version 4.2.1 for upgrading to Foswiki.
-
 These installation instructions are also available online by following links from Foswiki:Support.Foswiki01x00x00.
 
 %TOC%
 
 ---++ Preparing to install
 
-Before attempting to install Foswiki, you are encouraged to review the Foswiki:System.AdminSkillsAssumptions. This guide assumes the person installing TWiki has, at a minimum, basic knowledge of server administration on the system on which TWiki is to be installed. While it is possible to install TWiki with FTP access alone (for example, on a hosted site), it is tricky and may require additional support from your hosting service (for example, in setting file ownership and installing missing perl CPAN libraries).
+Before attempting to install Foswiki, you are encouraged to review the Foswiki:System.AdminSkillsAssumptions. This guide assumes the person installing Foswiki has, at a minimum, basic knowledge of server administration on the system on which Foswiki is to be installed. While it is possible to install Foswiki with FTP access alone (for example, on a hosted site), it is tricky and may require additional support from your hosting service (for example, in setting file ownership and installing missing perl CPAN libraries).
 
-To help setup a correct Apache configuration, you are very much encouraged to use the automatic tool Foswiki:Support.ApacheConfigGenerator which generates the contents for an Apache config file for TWiki based on your inputs.
+To help setup a correct Apache configuration, you are very much encouraged to use the automatic tool Foswiki:Support.ApacheConfigGenerator which generates the contents for an Apache config file for Foswiki based on your inputs.
 
-While this installation guide specifically describes installation on an Apache web server on Linux, TWiki should be fine with any web server and OS that meet the system requirements (see below). For additional notes on installing TWiki on other systems, see TWiki:Support.SupplementalDocuments.
+While this installation guide specifically describes installation on an Apache web server on Linux, Foswiki should be fine with any web server and OS that meet the system requirements (see below). For additional notes on installing Foswiki on other systems, see Foswiki:Support.SupplementalDocuments.
 
-If you are installing TWiki without Unix/Linux root (administrator) priviledges (for example, on a hosted domain), see "Notes on Installing TWiki on Non-Root Account" below for supplemental instructions to the basic steps presented below.
+If you are installing Foswiki without Unix/Linux root (administrator) priviledges (for example, on a hosted domain), see "Notes on Installing Foswiki on Non-Root Account" below for supplemental instructions to the basic steps presented below.
 
-If you are upgrading from an earlier major version of TWiki such as Cairo (TWiki 3) you will need the information found in TWiki:System.UpgradeGuide.  There is also a static HTML =UpgradeGuide.html= included in the root of your TWiki distribution.
+If you are upgrading from an earlier major version of Foswiki or from an old TWiki such as Cairo (TWiki 3) you will need the information found in Foswiki:System.UpgradeGuide.  There is also a static HTML =UpgradeGuide.html= included in the root of your Foswiki distribution.
 
-Upgrading from a recent TWiki4 release is much simpler. Upgraders from earlier TWiki4 versions can follow the steps described in TWiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidently overwriting customizations.
+Upgrading from a recent TWiki4 release is much simpler. Upgraders from earlier TWiki4 versions can follow the steps described in Foswiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidently overwriting customizations.
 
-One of the more difficult tasks is installation of addition !CPAN libraries. See TWiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
+One of the more difficult tasks is installation of addition !CPAN libraries. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
 
-If you need help, ask a question in the TWiki:Support web or on TWiki:Codev.TWikiIRC (irc.freenode.net, channel #twiki) 
+If you need help, ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki) 
 
 #StandardInstallation
 ---++ Basic Installation
 
-   1 *Download* the TWiki distribution from http://TWiki.org/download.html.
+   1 *Download* the Foswiki distribution from http://TWiki.org/download.html.
    1 *Make a directory* for the installation and *unpack the distribution* in it. In the rest of this document we assume this directory is called =twiki=.
-      * *Note!* that TWiki does not allow spaces in the directory names. Especially on Windows make sure to use a directory path without spaces.
+      * *Note!* that Foswiki does not allow spaces in the directory names. Especially on Windows make sure to use a directory path without spaces.
    1 *Setup access file and directory rights* to enable the webserver user (the user Apache runs the CGI scripts as) to read and write inside the twiki directory.
       * *Warning!* Do not just just run a =chmod -R 770 twiki=. The access rules have different meaning for files and directories. This is the most common mistake installers make.
       * The distribution tgz has the file and directory access rights setup to work with a reasonable security level that will work for all types of installations including shared hosting.
@@ -41,8 +39,8 @@ If you need help, ask a question in the TWiki:Support web or on TWiki:Codev.TWik
          * !RedHat, Fedora, !CentOS, Gentoo, Mandriva : =chown -R apache:apache /path/to/twiki=
          * debian/Ubuntu/Kubunto : =chown -R www-data:www-data /path/to/twiki=
          * Suse : =chown -R wwwrun:www /path/to/twiki=
-      * If you mistakenly change the access rights in a way that makes TWiki stop working, simply run the script found at TWiki:Support.SettingFileAccessRightsLinuxUnix to set the access right of the entire TWiki tree back to the distributed defaults.
-      * It is possible to define tighter access rules than the ones given by default after the installation is complete. But how tight they should be depends on your distribution and local needs. Typically you may want to limit all access from world if the webserver machine has login access for other users than root and the web server administrator. For a dedicated web server made just for running TWiki with limited login access the default access rights have a good safety level.
+      * If you mistakenly change the access rights in a way that makes Foswiki stop working, simply run the script found at Foswiki:Support.SettingFileAccessRightsLinuxUnix to set the access right of the entire Foswiki tree back to the distributed defaults.
+      * It is possible to define tighter access rules than the ones given by default after the installation is complete. But how tight they should be depends on your distribution and local needs. Typically you may want to limit all access from world if the webserver machine has login access for other users than root and the web server administrator. For a dedicated web server made just for running Foswiki with limited login access the default access rights have a good safety level.
    1 *Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system.
       * The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script in the =twiki/bin= directory.
       * Some systems require a special extension on perl scripts (e.g. =.cgi= or =.pl=). This is normally only needed under Windows and only where perl scripts are only recognized by file extension. Linux and Unix users should normally never need to do this. If necessary, rename all files in =twiki/bin=  (i.e. rename =view= to =view.pl= etc). If you do this, make sure you set the =ScriptSuffix= option in =configure= (Step 6).
@@ -51,31 +49,31 @@ If you need help, ask a question in the TWiki:Support web or on TWiki:Codev.TWik
       * The file =twiki/bin/LocalLib.cfg= must contain a setting for =$twikiLibPath=, which must point to the absolute file path of your =twiki/lib= e.g. =/var/www/twiki/lib=.<br />
       * If you need to install additional [[http://cpan.perl.org/][CPAN]] modules, but can't update the main Perl installation files on the server, you can set =$CPANBASE= to point to your personal [[http://cpan.perl.org/][CPAN]] install. Don't forget that the webserver user has to be able to read those files as well.
    1 *Choose best configuration method* for your webserver. There are two ways to configure Apache: config file included from httpd.conf or .htaccess files
-      * Apache config file: The recommended method is using a config file. With a config file you can put the entire TWiki configuration in ONE file (typically named =twiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However using a config file requires that you can restart Apache which again means that you need root or sudo access to stop and start Apache. The TWiki apache config file is included from the main Apache config file http.conf. Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: /etc/httpd/conf.d). If you use a virtual host setup in Apache you should include the twiki.conf file from inside the desired virtual host config in your Apache configuration.
-      * .htaccess file: This should only be used when you cannot use a config file. Performance is slowed down because Apache has to look through _all_ directories in search for possible .htaccess files each time someone views a page in TWiki. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo priviledges.
+      * Apache config file: The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =twiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However using a config file requires that you can restart Apache which again means that you need root or sudo access to stop and start Apache. The Foswiki apache config file is included from the main Apache config file http.conf. Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: /etc/httpd/conf.d). If you use a virtual host setup in Apache you should include the twiki.conf file from inside the desired virtual host config in your Apache configuration.
+      * .htaccess file: This should only be used when you cannot use a config file. Performance is slowed down because Apache has to look through _all_ directories in search for possible .htaccess files each time someone views a page in Foswiki. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo priviledges.
    1 *Configure the webserver*
-      * Unless you are an Apache expert setting up the webserver can be quite difficult. But TWiki has three resources that make setting up Apache easier.
-         * The best and easiest way is to use webpage Foswiki:Support.ApacheConfigGenerator which contains a tool that can generate a safe and working config file for TWiki on Apache.
+      * Unless you are an Apache expert setting up the webserver can be quite difficult. But Foswiki has three resources that make setting up Apache easier.
+         * The best and easiest way is to use webpage Foswiki:Support.ApacheConfigGenerator which contains a tool that can generate a safe and working config file for Foswiki on Apache.
          * In the root of the twiki installation you find an example config file =twiki_httpd_conf.txt=
-         * In the root of the twiki installation and in the =twiki/bin= directory you find example =.htaccess= files you can copy and modify. The files contains help text explaining how to set them up. In =twiki/bin= you find =.htaccess.txt= which can be copied to =.htaccess= and defined access to the CGI scripts. In the root of TWiki you find =pub-htaccess.txt= which you can copy to =pub/.htaccess=, =subdir-htaccess.txt= which you can copy to all directories as =.htaccess= except bin and pub, and you find =root-htaccess.txt= which you can copy to =.htaccess= in the twiki root directory. But again only use .htaccess files if you do not have root priviledges.
-      * If you are unsure about how to do this on your system, see TWiki:Support.SupplementalDucuments for links to information about various server setups.
+         * In the root of the twiki installation and in the =twiki/bin= directory you find example =.htaccess= files you can copy and modify. The files contains help text explaining how to set them up. In =twiki/bin= you find =.htaccess.txt= which can be copied to =.htaccess= and defined access to the CGI scripts. In the root of Foswiki you find =pub-htaccess.txt= which you can copy to =pub/.htaccess=, =subdir-htaccess.txt= which you can copy to all directories as =.htaccess= except bin and pub, and you find =root-htaccess.txt= which you can copy to =.htaccess= in the twiki root directory. But again only use .htaccess files if you do not have root priviledges.
+      * If you are unsure about how to do this on your system, see Foswiki:Support.SupplementalDucuments for links to information about various server setups.
       * *Note!* When you use config files you need to restart Apache each time you change a setting to make the new setting active.
    1 *Protect the configure script*
       * You should never leave the =configure= script open to the public. Limit access to the =twiki/bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the configure script. Also the example twiki-httpd-conf.txt and bin/.htaccess.txt files includes the needed setting to protect the configure script.
-      * If you limit the access to a particular user then you need to setup a .htpasswd file that contains the user name and password that Apache will authenticate against. Per default both Foswiki:Support.ApacheConfigGenerator and the example config files and .htaccess files uses =twiki/data/.htpasswd= but this file does not exist until you have TWiki running and have registered the first user. You therefore have two options. Either limit the access to localhost or an IP address, or make a .htpasswd file. To make a .htpasswd file change directory to =twiki/data= and issue the command =htpasswd -c .htpasswd username= and enter your password when asked. The username must match the =Require user username= directive in the Apache config file or .htaccess file. Do not use a username you will later use to register in TWiki because TWiki will then claim that you are already registered.
+      * If you limit the access to a particular user then you need to setup a .htpasswd file that contains the user name and password that Apache will authenticate against. Per default both Foswiki:Support.ApacheConfigGenerator and the example config files and .htaccess files uses =twiki/data/.htpasswd= but this file does not exist until you have Foswiki running and have registered the first user. You therefore have two options. Either limit the access to localhost or an IP address, or make a .htpasswd file. To make a .htpasswd file change directory to =twiki/data= and issue the command =htpasswd -c .htpasswd username= and enter your password when asked. The username must match the =Require user username= directive in the Apache config file or .htaccess file. Do not use a username you will later use to register in Foswiki because Foswiki will then claim that you are already registered.
    1 *Run the =configure= script* from your browser (enter =http://yourdomain/twiki/bin/configure= into your browser address bar)
       * Resolve any errors or warnings it tells you about.
       * *Note!* When you run =configure= for the first time, you can only edit the section =General Path Settings=. Save these settings, and then return to =configure= to continue configuration.
       * If your webserver can be accessed by more than one domain name make sure to add the additional alternative URLs to ={PermittedRedirectHostUrls}=
-      * When you return to configure you now need to setup _Mail and Proxies_. Especially the ={WebMasterEmail}=, and ={SMTP}{MAILHOST}= must be defined to enable TWiki to send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable mailing or want to enable it later you can uncheck ={EnableEmail}=.
+      * When you return to configure you now need to setup _Mail and Proxies_. Especially the ={WebMasterEmail}=, and ={SMTP}{MAILHOST}= must be defined to enable Foswiki to send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable mailing or want to enable it later you can uncheck ={EnableEmail}=.
 
-You now have a basic, unauthenticated installation running. At this point you can just point your Web browser at =http://yourdomain.com/twiki/bin/view= and start TWiki-ing away!
+You now have a basic, unauthenticated installation running. At this point you can just point your Web browser at =http://yourdomain.com/twiki/bin/view= and start Foswiki-ing away!
 
 ---++ Important Server Security Settings
 Before you continue any further there are some basic and very important security settings you have to make sure are set correctly.
 
    * As already described above you should protect the configure script from general access. The configure script is designed for use by administrators only and should be restricted to invocation by them only, by using the basic Apache authentication. Because of this there has not been put much effort into hardening the script. The configure script cannot save any settings once the password has been saved the first time, but the script could still be vulnerable to specially crafted field values and the script reveals many details about the webserver that you should not display in public.
-   * You absolutely must turn off any kind of PHP, Perl, Python, Server Side Includes etc in the =pub= directory. TWiki has some built-in protection which renames files with dangerous filenames by appending .txt to the filename. But this is a secondary security measure. The essential action that you must take is to turn off any possible execution of any of the attached files.<br /> Most Linux distributions have a default Apache installation which has PHP and server side include (SSI) enabled.
+   * You absolutely must turn off any kind of PHP, Perl, Python, Server Side Includes etc in the =pub= directory. Foswiki has some built-in protection which renames files with dangerous filenames by appending .txt to the filename. But this is a secondary security measure. The essential action that you must take is to turn off any possible execution of any of the attached files.<br /> Most Linux distributions have a default Apache installation which has PHP and server side include (SSI) enabled.
    * Make sure that you deny access to all other twiki directories than the =bin= and =pub= directories. When you have access to the Apache config files the =twiki_httpd_conf.txt= file mentioned above also contains protection of these directories.<br />
      For those that do not have access to the Apache config files a sample =subdir-htaccess.txt= file can be copied as =.htaccess= to the data, lib, locale, templates, tools and working directories.
 
@@ -83,26 +81,27 @@ The Foswiki:Support.ApacheConfigGenerator as well as the example =twiki_httpd_co
 
 ---++ Next Steps
 
-Once you have TWiki installed and running, you might consider the following optional steps for setting up and customizing your TWiki site. Many of the references below refer to topics within your TWiki installation. For example, =[[%SYSTEMWEB.Skins][Skins]]= refers to the =Skins= topic in your TWiki web. Easy way to jump directly to view the pages is to open your own TWiki in your browser and write =[[%SYSTEMWEB.Skins]]= in the Jump test box to the right in the top bar and hit Enter. You can find these topics in the on-line reference copy at the official TWiki website: [[TWiki:TWiki04x02.WebHome][TWiki Release 4.2]]
+Once you have Foswiki installed and running, you might consider the following optional steps for setting up and customizing your Foswiki site. Many of the references below refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB.Skins][Skins]]= refers to the =Skins= topic in your Foswiki web. Easy way to jump directly to view the pages is to open your own Foswiki in your browser and write =[[%SYSTEMWEB.Skins]]= in the Jump test box to the right in the top bar and hit Enter. You can find these topics in the on-line reference copy at the official Foswiki website: [[Foswiki:System.WebHome][System web at Foswiki]]
 
 #AuthenticationOfUsers
 ---++ Enable Authentication of Users
 
-This step provides for site access control and user activity tracking on your TWiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for TWiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.UserAuthentication=, and TWiki:Support.UserAuthenticationSupplement.
+This step provides for site access control and user activity tracking on your Foswiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for Foswiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.UserAuthentication=, and Foswiki:Support.UserAuthenticationSupplement.
 
-These are the steps for enabling "Template Login" which asks for a username and password in a web page, and processes them using the Apache 'htpasswd' password manager. Users can log in and log out.
+These are the steps for enabling "Template Login" which asks for a username and password in a web page, and processes them using the Apache 'htpasswd' password manager. Users can log in and log out. Users are listed in a topic =%SYSTEMWEB%/WikiUsers=
 
    1 Under the =Security Settings= pane of =configure= :
-      1 Select =TWiki::LoginManager::TemplateLogin= for ={LoginManager}=.
-      1 Select =TWiki::Users::HtPasswdUser= for ={PasswordManager}=.
+      1 Select =Foswiki::LoginManager::TemplateLogin= for ={LoginManager}=.
+      1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
+      1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your =configure= settings.
       1 Register yourself using the =%SYSTEMWEB%.UserRegistration= topic.<br />
      %H% Check that the password manager recognizes the new user. Check that a new line with the username and encrypted password is added to the =data/.htpasswd= file. If not, you probably got a path wrong, or the permissions may not allow the webserver user to write to that file.
    1 Edit a topic (by clicking on the =Edit= link at beginning or end of topic) to check if authentication works.
 
-You are strongly encouraged to read =%SYSTEMWEB%.UserAuthentication=, TWiki:Support.UserAuthenticationSupplement for further information about managing users and security of your TWiki site.
+You are strongly encouraged to read =%SYSTEMWEB%.UserAuthentication=, Foswiki:Support.UserAuthenticationSupplement for further information about managing users and security of your Foswiki site.
 
-*Note!* The other =LoginManager= option =TWiki::LoginManager::ApacheLogin= uses a basic Apache type authentication where the browser itself prompts you for username and password. Most will find the !TemplateLogin looking nicer. But !ApacheLogin is required when you use Apache authentication methods like mod_ldap where all authentication is handled by an Apache module and not by the TWiki perl code. When you use !ApacheLogin the apache configuration must be set up to require authentication of the some but not all the scripts in the bin directory. This section in the Apache config (or .htaccess) controls this
+*Note!* The other =LoginManager= option =Foswiki::LoginManager::ApacheLogin= uses a basic Apache type authentication where the browser itself prompts you for username and password. Most will find the !TemplateLogin looking nicer. But !ApacheLogin is required when you use Apache authentication methods like mod_ldap where all authentication is handled by an Apache module and not by the Foswiki perl code. When you use !ApacheLogin the apache configuration must be set up to require authentication of the some but not all the scripts in the bin directory. This section in the Apache config (or .htaccess) controls this
 
 <verbatim>
 <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
@@ -115,18 +114,18 @@ The Foswiki:Support.ApacheConfigGenerator includes this section when you choose 
 #DefineAdminUser   
 ---++ Define the Administrator User(s)
 
-Administrators have read and write access to any topic, irrespectively of TWiki access controls. When you install TWiki one of the first things you will want to do is define yourself as an administrator. You become an administrator simply by adding yourself to the =AdminGroup=. It is the WikiName and not the login name you add to the group. Editing the =%USERSWEB%.AdminGroup= topic requires that you are an administrator. So to add the first administrator you need to login using the internal Wiki admin user login and the password you defined in configure.
+Administrators have read and write access to any topic, irrespectively of Foswiki access controls. When you install Foswiki one of the first things you will want to do is define yourself as an administrator. You become an administrator simply by adding yourself to the =AdminGroup=. It is the WikiName and not the login name you add to the group. Editing the =%USERSWEB%.AdminGroup= topic requires that you are an administrator. So to add the first administrator you need to login using the internal Wiki admin user login and the password you defined in configure.
 
    * Navigate to the =%USERSWEB%.AdminGroup= topic
    * Follow carefully the steps =%USERSWEB%.AdminGroup= of how to become an admin
    * Note that if you use _ApacheLogin_ you have to be registered and logged in before you use the _internal admin login_
 
 #SetPreferences
----++ Set TWiki Preferences
+---++ Set Foswiki Preferences
 
-Preferences for customizing many aspects of TWiki are set simply by editing a special topic with TWiki.
+Preferences for customizing many aspects of Foswiki are set simply by editing a special topic with Foswiki.
 
-   * =%SYSTEMWEB%.DefaultPreferences=. Read through it and identify any additional settings or changes you think you might need. Do not edit the settings in =%SYSTEMWEB%.DefaultPreferences= because these will be overwritten when you later upgrade to a newer TWiki version. Instead copy any settings that you want to customize from =%SYSTEMWEB%.DefaultPreferences= and paste them into =%USERSWEB%.SitePreferences=.  When you later upgrade TWiki simply avoid overwriting the =data/%SYSTEMWEB%/DefaultPreferences.txt= file and all your settings will be kept. Settings in =%USERSWEB%.SitePreferences= overrides settings in both =%SYSTEMWEB%.DefaultPreferences= and any settings defined in Plugin topics. See notes at top of =%SYSTEMWEB%.DefaultPreferences= for more information.
+   * =%SYSTEMWEB%.DefaultPreferences=. Read through it and identify any additional settings or changes you think you might need. Do not edit the settings in =%SYSTEMWEB%.DefaultPreferences= because these will be overwritten when you later upgrade to a newer Foswiki version. Instead copy any settings that you want to customize from =%SYSTEMWEB%.DefaultPreferences= and paste them into =%USERSWEB%.SitePreferences=.  When you later upgrade Foswiki simply avoid overwriting the =data/%SYSTEMWEB%/DefaultPreferences.txt= file and all your settings will be kept. Settings in =%USERSWEB%.SitePreferences= overrides settings in both =%SYSTEMWEB%.DefaultPreferences= and any settings defined in Plugin topics. See notes at top of =%SYSTEMWEB%.DefaultPreferences= for more information.
 
 ---++ Enable Email Notification
 
@@ -136,44 +135,44 @@ Each web has an automatic email notification service that sends you an email wit
 
 ---++ Enable !WebStatistics
 
-You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. For information on setting up this feature, see the =%SYSTEMWEB%.TWikiSiteTools= topic.
+You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. For information on setting up this feature, see the =%SYSTEMWEB%.SiteTools= topic.
 
 ---++ Automate removal of expired sessions and lease files
 
-Per default TWiki cleans out expired session and lease files each time any topic is viewed. This however cost performance. It is an advantage to define a negative value in =configure= for {Sessions}{ExpireAfter} and install let cron run the =tools/tick_twiki.pl= script. Read The topic =TWikiScripts#tick_twiki_pl= for details how to do this.
+Per default Foswiki cleans out expired session and lease files each time any topic is viewed. This however cost performance. It is an advantage to define a negative value in =configure= for {Sessions}{ExpireAfter} and install let cron run the =tools/tick_twiki.pl= script. Read The topic =CommandAndCGIScripts#tick_twiki_pl= for details how to do this.
 
 ---++ Enable Localisation
 
-TWiki now supports displaying of national (non-ascii) characters and presentation of basic interface elements in different languages. To enable these features, see the =Localisation= section of =configure=. For more information about these features, see TWiki:Support.InternationalizationSupplement.
+Foswiki now supports displaying of national (non-ascii) characters and presentation of basic interface elements in different languages. To enable these features, see the =Localisation= section of =configure=. For more information about these features, see Foswiki:Support.InternationalizationSupplement.
 
 #TailorUsersTopic
 ---++ Tailor New Users Home Topic
 
-When a new users registers on your TWiki, a home topic is created for them based on the =%SYSTEMWEB%.NewUserTemplate= topic (and its =%SYSTEMWEB%.UserForm=). It contains additional resources you can use to:
+When a new users registers on your Foswiki, a home topic is created for them based on the =%SYSTEMWEB%.NewUserTemplate= topic (and its =%SYSTEMWEB%.UserForm=). It contains additional resources you can use to:
    * Localise the user topic.
-   * Add a default ALLOWTOPICCHANGE so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public TWiki to prevent spam.
+   * Add a default ALLOWTOPICCHANGE so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public Foswiki to prevent spam.
    * Add and remove fields defined in the =%SYSTEMWEB%.UserForm=
 
-If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. TWiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the TWiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade TWiki.
+If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. Foswiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the Foswiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade Foswiki.
 
 If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.UserRegistration=.
 
 ---++ Install Plugins
-Foswiki:Extensions is an extensive library of Plugins for TWiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the TWiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.
+Foswiki:Extensions is an extensive library of Plugins for Foswiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.
 
-You activate installed plugin in the _Plugins_ section of =configure=. In this section you also find a _Find More Extensions_ button which opens an application which can install additional plugins from the TWiki.org website. If you are behind a firewall or your server has no access to the Internet it is also possible to install plugins manually. Manual installation instructions for the plugins can be found in the plugin topics on TWiki.org. Additional documenation on TWiki plugins can be found at TWiki:Support.PluginsSupplement.
+You activate installed plugin in the _Plugins_ section of =configure=. In this section you also find a _Find More Extensions_ button which opens an application which can install additional plugins from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet it is also possible to install plugins manually. Manual installation instructions for the plugins can be found in the plugin topics on foswiki.org. Additional documenation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 Some plugins require that you define their settings in =configure=. You fill find these under the _Extensions_ section of configure.
 
----++ Customize Your TWiki!
+---++ Customize Your Foswiki!
 
-The real power of TWiki lies in it's flexibility to be customized to meet your needs. You can with small means change the looks of the default skin (called !PatternSkin) by reading the =%SYSTEMWEB%.PatternSkinCustomization=
+The real power of Foswiki lies in it's flexibility to be customized to meet your needs. You can with small means change the looks of the default skin (called !PatternSkin) by reading the =%SYSTEMWEB%.PatternSkinCustomization=
 
-At the official TWiki website you can find more resources. A good place to start for exploring what's possible is TWiki:Support.AdministratorsCookBook which offers tips and tricks for customizing your TWiki site. Many of these are appropriate to implement immediately after installing TWiki and before adding content so now's a good time to look at these.
+At the official Foswiki website you can find more resources. A good place to start for exploring what's possible is Foswiki:Support.AdministratorsCookBook which offers tips and tricks for customizing your Foswiki site. Many of these are appropriate to implement immediately after installing Foswiki and before adding content so now's a good time to look at these.
 
 ---++ Customization of Special Pages
 
-Some pages are meant to be customized after choice of authentication. If you do not use the internal TWiki password manager the topics that contains the features for changing and resetting passwords and changing the email address should be changed to a note describing how to perform these tasks in your organization. The topics are:
+Some pages are meant to be customized after choice of authentication. If you do not use the internal Foswiki password manager the topics that contains the features for changing and resetting passwords and changing the email address should be changed to a note describing how to perform these tasks in your organization. The topics are:
 
    * =%SYSTEMWEB%.ChangePassword=
    * =%SYSTEMWEB%.ResetPassword=
@@ -181,61 +180,61 @@ Some pages are meant to be customized after choice of authentication. If you do 
    
 ---++ WYSIWYG vs Raw Edit
 
-From TWiki release 4.2.0 the WYSIWYG editor has been replaced by a much better and more powerful editor and it was decided that WYSIWYG would be the default edit mode. An Edit Raw link is available for those that have a need or preference for this mode.
+From TWiki release 4.2.0 and continuing with Foswiki 1.0.0 the WYSIWYG editor has been replaced by a much better and more powerful editor and it was decided that WYSIWYG would be the default edit mode. An Edit Raw link is available for those that have a need or preference for this mode.
 
-However you may prefer to have the same user interface as in TWiki 4.1 where _Edit_ was the raw text editor and you had a WYSIWYG button. You can modify the templates that define the buttons by following the description on TWiki:Codev.TWikiRawEditDefault04x02.
+However you may prefer to have the same user interface as in TWiki 4.1 where _Edit_ was the raw text editor and you had a WYSIWYG button. You can modify the templates that define the buttons by following the description on Foswiki:Support.FaqHowToMakeRawEditDefault.
    
 ---++ Copyright, License and Classification Statements
 
 In the bottom of each topic you will find a default copyright messages saying "Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." It is a setting WEBCOPYRIGHT that defines this. This is often not adequate.
 
-   * If your TWiki is used in a commercial application without public access you should replace this by your normal copyright notice. You should also consider adding classifications (e.g. For Internal Use Only) so people do not have to add this manually to every new topic.
-   * If your TWiki is public with public access you need to decide which copyright and license the contributions should be covered by. For open source type applications licenses such as <a href="http://www.gnu.org/licenses/fdl.html">the GNU Free Documentation License</a>, <a href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>, and <a href="http://creativecommons.org/licenses/">Creative Commons license</a> are possible licenses to consider. Remember that once people have started contributing it is difficult and not correct to change or impose licenses on existing contributions.
+   * If your Foswiki is used in a commercial application without public access you should replace this by your normal copyright notice. You should also consider adding classifications (e.g. For Internal Use Only) so people do not have to add this manually to every new topic.
+   * If your Foswiki is public with public access you need to decide which copyright and license the contributions should be covered by. For open source type applications licenses such as <a href="http://www.gnu.org/licenses/fdl.html">the GNU Free Documentation License</a>, <a href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>, and <a href="http://creativecommons.org/licenses/">Creative Commons license</a> are possible licenses to consider. Remember that once people have started contributing it is difficult and not correct to change or impose licenses on existing contributions.
 
 You change the copy right statement globally by taking these steps.
 
    * Copy the setting WEBCOPYRIGHT from =System.DefaultPreferences= to =%USERSWEB%.SitePreferences= and alter the copied text to your need.
    * You can create a unique message for each web by adding the WEBCOPYRIGHT setting to =WebPreferences= in each web. E.g. adding a confident!ial classification to a very restricted web.
-   * The WEBCOPYRIGHT in =%SYSTEMWEB%.WebPreferences= covers the documentation that comes with TWiki and is covered by the original TWiki Copyright and GPL License. You will normally leave this unchanged.
+   * The WEBCOPYRIGHT in =%SYSTEMWEB%.WebPreferences= covers the documentation that comes with Foswiki and is covered by the original Foswiki Copyright and GPL License. You will normally leave this unchanged.
 
 ---++ Troubleshooting
 
 The first step is to re-run the =configure= script and make sure you have resolved all errors, and are satisfied that you understand any warnings.
 
-Failing that consult the resources you can find in TWiki:Support.SupplementalDocuments and TWiki:Support.AskedQuestions.
+Failing that consult the resources you can find in Foswiki:Support.SupplementalDocuments and Foswiki:Support.AskedQuestions.
 
-If you need help, ask a question in the TWiki:Support web or on TWiki:Codev/TWikiIRC (irc.freenode.net, channel #twiki)
+If you need help, ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki)
 
 ---++ Appendices
 
 
 #SystemRequirements
----++ TWiki System Requirements
+---++ Foswiki System Requirements
 
-Low client and server base requirements are core features that keep TWiki widely deployable, particularly across a range of browser platforms and versions. 
+Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions. 
 
 ---+++ Server Requirements
 
-TWiki is written in Perl 5, uses a number of shell commands, and requires <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. TWiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
+Foswiki is written in Perl 5, uses a number of shell commands, and requires <a href="http://www.gnu.org/software/rcs/rcs.html" rel="nofollow" target="_top">RCS (Revision Control System)</a>, a GNU Free Software package. Foswiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
 
 
 | *Resource* | *Required Server Environment* |
-| Perl | 5.8.4 or higher is recommended. TWiki will run in perl 5.6.1 but only with Wysiwyg editor disabled. Wysiwyg requires unicode support which is provided by perl 5.8.1 and forward. |
-| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional, TWiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
+| Perl | 5.8.4 or higher is recommended. Foswiki will run in perl 5.6.1 but only with Wysiwyg editor disabled. Wysiwyg requires unicode support which is provided by perl 5.8.1 and forward. |
+| RCS | 5.7 or higher (including GNU =diff=) <br /> Optional, Foswiki includes a pure perl implementation of RCS that can be used instead (although it's slower) |
 | GNU =diff= | GNU =diff= 2.7 or higher is required when not using the all-Perl RcsLite.  <br /> Install on PATH if not included with RCS (check version with =diff -v=)  <br /> Must be the version used by RCS, to avoid problems with binary attachments - RCS may have hard-coded path to =diff= |
 | Other external programs | =fgrep, egrep= |
 | Cron/scheduler | &#8226; Unix: =cron= <br />&#8226; Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
-| Web server | Apache is well supported; for information on other servers, See TWiki:Support.InstallingOnSpecificPlatforms. |
+| Web server | Apache is well supported; for information on other servers, See Foswiki:Support.InstallingOnSpecificPlatforms. |
 
 ---+++ Required CPAN Modules
 
 Most of the !CPAN libraries listesd below are part of a standard Perl installation so you most likely have them all!
 
-See TWiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries
+See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries
 
 
 
-The following Perl <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> modules are used by TWiki:
+The following Perl <a href="http://cpan.perl.org/" rel="nofollow" target="_top">CPAN</a> modules are used by Foswiki
 
 | *Module* | *Preferred version* |
 | Algorithm::Diff (included) | &nbsp; |
@@ -255,9 +254,9 @@ The following Perl <a href="http://cpan.perl.org/" rel="nofollow" target="_top">
 
 ---+++ Optional CPAN Modules
 
-The following Perl modules may be used by TWiki:
+The following Perl modules may be used by Foswiki:
 
-See TWiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries
+See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries
 
 | *Module* | *Preferred version* | *Description* |
 | Archive::Tar | &nbsp; | May be required by the Extensions Installer in configure if command line tar or unzip is not available |
@@ -283,7 +282,7 @@ perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 #ClientRequirements
 ---+++ Client Requirements
 
-The TWiki standard installation has relatively low browser requirements:
+The Foswiki standard installation has relatively low browser requirements:
 
    * HTML 3.2 compliant
    * Cookies, if persistent sessions are required
@@ -292,35 +291,35 @@ CSS and Javascript are used in most skins, although there is a low-fat skin (Cla
 
 You can easily select a balance of browser capability versus look and feel. Try the installed skins in the [[skin browser]] and more at Foswiki:Extensions.SkinPackage.
 
----+++ Important note about TWiki Plugins
+---+++ Important note about Foswiki Plugins
 
    * Plugins can require just about anything -  browser-specific functions, stylesheets (CSS), Java applets, cookies, specific Perl modules,... - check the individual Plugin specs.
-      * __%T% Note:__ Plugins included in the TWiki distribution do not add requirements, except for the CommentPlugin which requires Perl 5.6.1.
+      * __%T% Note:__ Plugins included in the Foswiki distribution do not add requirements, except for the CommentPlugin which requires Perl 5.6.1.
 
 #NonRootInstallNotes
----++ Notes on Installing TWiki on Non-Root Account
+---++ Notes on Installing Foswiki on Non-Root Account
 
-The following supplemental notes to the <a href="#StandardInstallation" class="twikiAnchorLink">Basic Installation</a> instructions apply to installing TWiki on a system where you don't have Unix/Linux root (administrator) privileges, for example, on a hosted Web account or an intranet server administered by someone else.
+The following supplemental notes to the <a href="#StandardInstallation" class="twikiAnchorLink">Basic Installation</a> instructions apply to installing Foswiki on a system where you don't have Unix/Linux root (administrator) privileges, for example, on a hosted Web account or an intranet server administered by someone else.
 
 Referring to the <a href="#StandardInstallation" class="twikiAnchorLink">Basic Installation</a> steps presented above:
 
-   * *Step 2:* If you cannot unpack the TWiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows:
+   * *Step 2:* If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows:
       * Using the table below, create a directory structure on your host server
-      * Upload the TWiki files by FTP (transfer as text except for the image files in =pub= directory.)
+      * Upload the Foswiki files by FTP (transfer as text except for the image files in =pub= directory.)
       * __Note:__ Don't worry if you are not able to put the twiki/lib directory at the same level as the =twiki/bin= directory (e.g. because CGI bin directories can't be under your home directory and you don't have root access). You can create this directory elsewhere and configure the =twiki/bin/setlib.cfg= file (done in Step 2).
 
 <blockquote>
 
-| *TWiki dir:* | *What it is:* | *Where to copy:* | *Example:* |
-| =twiki= | start-up pages | root TWiki dir | =/home/smith/twiki/= |
-| =twiki/bin= | CGI bin | CGI-enabled dir | =/home/smith/twiki/bin= |
-| =twiki/lib= | library files | same level as =twiki/bin= | =/home/smith/twiki/lib= |
-| =twiki/locale= | language files | dir secure from public access | =/home/smith/twiki/locale= |
-| =twiki/pub= | public files | htdoc enabled dir | =/home/smith/twiki/pub= |
-| =twiki/data= | topic data | dir secure from public access | =/home/smith/twiki/data= |
-| =twiki/templates= | web templates | dir secure from public access | =/home/smith/twiki/templates= |
-| =twiki/tools= | TWiki utlilities | dir secure from public access | =/home/smith/twiki/tools= |
-| =twiki/working= | Temporary and internal files | dir secure from public access | =/home/smith/twiki/working= |
+| *Foswiki dir:* | *What it is:* | *Where to copy:* | *Example:* |
+| =foswiki= | start-up pages | root Foswiki dir | =/home/smith/foswiki/= |
+| =foswiki/bin= | CGI bin | CGI-enabled dir | =/home/smith/twiki/bin= |
+| =foswiki/lib= | library files | same level as =twiki/bin= | =/home/smith/foswiki/lib= |
+| =foswiki/locale= | language files | dir secure from public access | =/home/smith/foswiki/locale= |
+| =foswiki/pub= | public files | htdoc enabled dir | =/home/smith/foswiki/pub= |
+| =foswiki/data= | topic data | dir secure from public access | =/home/smith/foswiki/data= |
+| =foswiki/templates= | web templates | dir secure from public access | =/home/smith/foswiki/templates= |
+| =foswiki/tools= | Foswiki utlilities | dir secure from public access | =/home/smith/foswiki/tools= |
+| =foswiki/working= | Temporary and internal files | dir secure from public access | =/home/smith/foswiki/working= |
 
 </blockquote>
 
@@ -328,25 +327,25 @@ Referring to the <a href="#StandardInstallation" class="twikiAnchorLink">Basic I
       * =chmod -R 755 pub=
       * =chmod 644 `find pub -type f -print`=
       * In addition, you should create a =.htaccess= file in the pub directory, using the template included in the root level of the distribution entitled =pub-htaccess.txt=.
-      * Note: This setup does not provide for absolute security for TWiki attachments. For more information, see TWiki:Support.SecuringYourSite.
+      * Note: This setup does not provide for absolute security for Foswiki attachments. For more information, see Foswiki:Support.SecuringYourSite.
 
    * *Step 6:* In order to run the configure script, create a file called =.htaccess= in the bin directory that includes the following single line: =SetHandler cgi-script= . This informs the server to treat all the perl scripts in the bin directory as scripts.
 
-For additional information about installing TWiki on a hosted accounts, see TWiki:Support.InstallingOnSharedHosts
+For additional information about installing Foswiki on a hosted accounts, see Foswiki:Support.InstallingOnSharedHosts
 
 ---++ Installing Manually Without Configure
 
-It is highly recommended to use run configure from the browser when setting up TWiki. Configure does a lot of the hard work for you.
+It is highly recommended to use run configure from the browser when setting up Foswiki. Configure does a lot of the hard work for you.
 
 But there may be instances where you do not want to use configure or where configure simply won't run because of a missing dependency.
 
 The manual steps you have to take are:
 
-   * Copy the file =lib/TWiki.spec= to =lib/LocalSite.cfg=
-   * Remove the comment # in front of =$TWiki::cfg{DefaultUrlHost}=, =$TWiki::cfg{ScriptUrlPath}=, =$TWiki::cfg{PubUrlPath}=, =$TWiki::cfg{PubDir}=, =$TWiki::cfg{TemplateDir}=, =$TWiki::cfg{DataDir}=, =$TWiki::cfg{LocalesDir}=, and =$TWiki::cfg{OS}= and make sure these settings have the correct values.
-   * Make sure to define at least these settings: =$TWiki::cfg{LoginManager}=, =$TWiki::cfg{WebMasterEmail}=, =$TWiki::cfg{SMTP}{MAILHOST}=, =$TWiki::cfg{SMTP}{SENDERHOST}=. 
+   * Copy the file =lib/Foswiki.spec= to =lib/LocalSite.cfg=
+   * Remove the comment # in front of =$Foswiki::cfg{DefaultUrlHost}=, =$Foswiki::cfg{ScriptUrlPath}=, =$Foswiki::cfg{PubUrlPath}=, =$Foswiki::cfg{PubDir}=, =$Foswiki::cfg{TemplateDir}=, =$Foswiki::cfg{DataDir}=, =$Foswiki::cfg{LocalesDir}=, and =$Foswiki::cfg{OS}= and make sure these settings have the correct values.
+   * Make sure to define at least these settings: =$Foswiki::cfg{LoginManager}=, =$Foswiki::cfg{WebMasterEmail}=, =$Foswiki::cfg{SMTP}{MAILHOST}=, =$Foswiki::cfg{SMTP}{SENDERHOST}=. 
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, TWiki:Support.SupplementalDocuments
+__Related Topics:__ AdminDocumentationCategory, Foswiki:Support.SupplementalDocuments
 

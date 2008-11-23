@@ -74,7 +74,7 @@ If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing f
 
 If this still does not work, contact the administrator who installs skins.
 
-For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDev. Report bugs in the [[TWiki:Support/WebHome][Support web]].
+For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDev. Report bugs in the [[Foswiki:Tasks.WebHome][Foswiki Tasks web]].
 
 ---++ Skin Info
 

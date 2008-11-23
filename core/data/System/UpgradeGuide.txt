@@ -46,12 +46,12 @@ The main steps are:
       * You can also choose to start with a fresh configuration and walk through all the settings using your old !LocalSite.cfg as a reference. This way you will not have old obsolete settings in the new !LocalSite.cfg.
       * If at any time during the installation you want to start over from fresh all you need to do is delete the =lib/LocalSite.cfg= file and re-run configure.
    * Additional resources
-      * TWiki:Support.UpgradingFromOlderTWikiReleases
-      * TWiki:Support.UpgradingFromTWiki4x2Releases
-      * TWiki:Support.UpgradingPatchReleases
-      * TWiki:Support.InstallingOnSpecificPlatforms
+      * Foswiki:Support.UpgradingFromOlderTWikiReleases - upgrading TWiki from older TWiki releases
+      * Foswiki:Support.UpgradingFromTWiki4x2Releases - upgrading from TWiki4.2.X to Nextwiki
+      * Foswiki:Support.UpgradingPatchReleases - upgrading releases where only last digit in the version changed 
+      * Foswiki:Support.InstallingOnSpecificPlatforms
       * Foswiki:Support.ApacheConfigGenerator
-      * TWiki:Support.SettingFileAccessRightsLinuxUnix
+      * Foswiki:Support.SettingFileAccessRightsLinuxUnix
       * If you upgrade from an older TWiki your =lib/TWiki.cfg= from the old TWiki installation is a good resource for some of the settings you will need but you cannot reuse the old TWiki.cfg.
    * Make sure you have a working basic TWiki before you continue
 

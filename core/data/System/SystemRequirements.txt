@@ -20,7 +20,7 @@ The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Re
 | GNU =patch= | For upgrades only: GNU =patch= is required when patching the code using patches in diff format submitted by the community. |
 | GNU =fgrep=, =egrep= | Modify command line parameters in configure if you use non-GNU grep programs |
 | Cron/scheduler | %BULLET% Unix: =cron= %BB% Windows: =cron= equivalents <!-- SMELL: Macintosh version? --> |
-| Web server | Apache is well supported; see TWiki:Support.InstallingOnSpecificPlatforms for alternative options. |
+| Web server | Apache is well supported; see Foswiki:Support.InstallingOnSpecificPlatforms for alternative options. |
 
 ---+++ Perl Modules
 A complete list of the required and optional Perl modules can be found in =lib/DEPENDENCIES=.
