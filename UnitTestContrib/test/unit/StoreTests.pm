@@ -278,8 +278,11 @@ sub test_beforeSaveHandlerChangeText {
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
     # inject a handler directly into the plugins object
+    my $fake = new Foswiki::Plugin(
+        $this->{twiki}, "StoreTestPlugin", __PACKAGE__);
+    $fake->{module} = __PACKAGE__;
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeSaveHandler}},
-        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        $fake);
 
 	my $text = 'CHANGETEXT';
 	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
@@ -313,8 +316,10 @@ sub test_beforeSaveHandlerChangeMeta {
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
     # inject a handler directly into the plugins object
+    my $fake = new Foswiki::Plugin(
+        $this->{twiki}, "StoreTestPlugin", __PACKAGE__);
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeSaveHandler}},
-        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        $fake);
 
 	my $text = 'CHANGEMETA';
 	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
@@ -347,7 +352,7 @@ sub test_beforeSaveHandlerChangeBoth {
 	
     # inject a handler directly into the plugins object
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeSaveHandler}},
-        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", __PACKAGE__));
 
 	my $text = 'CHANGEMETA CHANGETEXT';
 	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
@@ -410,9 +415,9 @@ sub test_attachmentSaveHandlers {
 
     # SMELL: assumed implementation
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{beforeAttachmentSaveHandler}},
-        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", __PACKAGE__));
     push(@{$this->{twiki}->{plugins}->{registeredHandlers}{afterAttachmentSaveHandler}},
-        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", 'StoreTests'));
+        new Foswiki::Plugin($this->{twiki}, "StoreTestPlugin", __PACKAGE__));
 
     $this->{twiki}->{store}->saveAttachment(
         $web, $topic, "testfile.gif", $this->{test_user_login},
