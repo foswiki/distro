@@ -129,7 +129,7 @@ sub getLocalSite {
    my $localsite = `grep 'Foswiki::cfg' $twikidir/lib/Foswiki.spec`;
 
    $localsite =~ s|/home/httpd/twiki|$twikidir|g;
-   $localsite =~ s|# \$TWiki|\$TWiki|g;
+   $localsite =~ s|# \$Foswiki|\$Foswiki|g;
 
    return $localsite;
 }
