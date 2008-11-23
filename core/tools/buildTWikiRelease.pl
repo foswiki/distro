@@ -58,7 +58,7 @@ close(LS);
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
-my $unitTests = "export FOSWIKI_LIBS=; export FOSWIKI_HOME=$twikihome;perl ../bin/TestRunner.pl -clean TWikiSuite.pm 2>&1 > $twikihome/Foswiki-UnitTests.log";
+my $unitTests = "export FOSWIKI_LIBS=; export FOSWIKI_HOME=$twikihome;perl ../bin/TestRunner.pl -clean FoswikiSuite.pm 2>&1 > $twikihome/Foswiki-UnitTests.log";
 my $return = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ($errorcode == 0) {
@@ -86,8 +86,8 @@ chdir($twikihome);
 #TODO: #  fix up release notes with new changelogs - see
 #
 #    * http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs/ReleaseNotesTml?type=patch
-#        * Note that the release note is edited by editing the topic data/Foswiki/TWikiReleaseNotes04x00. The build script creates a file in the root of the zip called TWikiReleaseNotes04x00? .html, and the build script needs your Twiki to be running to look up the release note topic and show it with the simple text skin.
-#            * Note - from 4.1 we need to call this data/Foswiki/TWikiReleaseNotes04x01 
+#        * Note that the release note is edited by editing the topic data/Foswiki/FoswikiReleaseNotes04x00. The build script creates a file in the root of the zip called FoswikiReleaseNotes04x00? .html, and the build script needs your Twiki to be running to look up the release note topic and show it with the simple text skin.
+#            * Note - from 4.1 we need to call this data/Foswiki/FoswikiReleaseNotes04x01 
 #
 #
 
