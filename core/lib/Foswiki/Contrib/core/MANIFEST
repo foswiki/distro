@@ -29,7 +29,6 @@ bin/save 0555
 bin/search 0555
 bin/setlib.cfg 0444
 bin/statistics 0555
-bin/twiki_cgi.pl 0555
 bin/upload 0555
 bin/view 0555
 bin/viewauth 0555
@@ -152,10 +151,10 @@ data/System/StaticMethod.txt 0644
 data/System/TemplateTopics.txt 0644
 data/System/TwentyMinuteTutorial.txt 0644
 data/System/MetaData.txt 0644
-data/System/TWikiRenderingShortcut.txt 0644
-data/System/TWikiScripts.txt 0644
+data/System/ShortcutMacros.txt 0644
+data/System/CommandAndCGIScripts.txt 0644
 data/System/TWikiSite.txt 0644
-data/System/TWikiSiteTools.txt 0644
+data/System/SiteTools.txt 0644
 data/System/TWikiSystemRequirements.txt 0644
 data/System/TWikiTopics.txt 0644
 data/System/TWikiUserAuthentication.txt 0644
@@ -1026,7 +1025,6 @@ tools/extender.pl 0444
 tools/geturl.pl 0555
 tools/rewriteshbang.pl 0555
 tools/tick_twiki.pl 0555
-tools/upgrade_emails.pl 0555
 twiki_httpd_conf.txt 0444
 working/tmp/README 0444
 working/registration_approvals/README 0444

@@ -89,6 +89,16 @@ sub _findRelativeTo {
         return $found if -e $found;
         pop(@path);
     }
+    #try legacy TWiki Contrib
+    $startdir =~ s/Foswiki/TWiki/g;
+    @path = split( /\/+/, $startdir );
+
+    #try a legacy TWiki contrib path.
+    while ( scalar(@path) > 0 ) {
+        my $found = join( '/', @path ) . '/' . $name;
+        return $found if -e $found;
+        pop(@path);
+    }
     return undef;
 }
 
@@ -1046,8 +1056,10 @@ sub target_stage {
         my $libs = join( ':', @INC );
         foreach my $module ( @{ $this->{other_modules} } ) {
             print STDERR "Installing $module in $this->{tmpDir}\n";
-            print
-`export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install`;
+            #SMELL: uses legacy TWIKI_ exports
+            my $cmd = "export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install";
+            #print STDERR "running $cmd \n";
+            print `$cmd`;
         }
     }
 }

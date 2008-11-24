@@ -59,33 +59,27 @@ This may not be enough for Plugins that do have in topic preferences.
 =cut
 
 sub earlyInitPlugin {
-
-=pod
-
-Commented out because it redirects requests to value plugin topics for TWiki plugins, which are still in TWiki web - CDot
-
-    if (($Foswiki::Plugins::SESSION->{webName} eq 'TWiki') &&
-            (!Foswiki::Func::webExists($Foswiki::Plugins::SESSION->{webName}))) {
+    my $session = $Foswiki::Plugins::SESSION;
+    if (($session->{webName} eq 'TWiki') &&
+            (!Foswiki::Func::webExists($session->{webName}))) {
         my $TWikiWebTopicNameConversion = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion};
-        $Foswiki::Plugins::SESSION->{webName} = $Foswiki::cfg{SystemWebName};
-        if (defined($TWikiWebTopicNameConversion->{$Foswiki::Plugins::SESSION->{topicName}})) {
-            $Foswiki::Plugins::SESSION->{topicName} =
-                    $TWikiWebTopicNameConversion->{$Foswiki::Plugins::SESSION->{topicName}};
+        $session->{webName} = $Foswiki::cfg{SystemWebName};
+        if (defined($TWikiWebTopicNameConversion->{$session->{topicName}})) {
+            $session->{topicName} =
+                    $TWikiWebTopicNameConversion->{$session->{topicName}};
         }
     }
     my $MainWebTopicNameConversion = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion};
-    if (($Foswiki::Plugins::SESSION->{webName} eq 'Main') &&
-            (defined($MainWebTopicNameConversion->{$Foswiki::Plugins::SESSION->{topicName}}))) {
-        $Foswiki::Plugins::SESSION->{topicName} =
-            $MainWebTopicNameConversion->{$Foswiki::Plugins::SESSION->{topicName}};
+    if (($session->{webName} eq 'Main') &&
+            (defined($MainWebTopicNameConversion->{$session->{topicName}}))) {
+        $session->{topicName} =
+            $MainWebTopicNameConversion->{$session->{topicName}};
     }
     
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
     Foswiki::Func::setPreferencesValue('TWIKIWEB', 'SYSTEMWEB');
     Foswiki::Func::setPreferencesValue('MAINWEB', 'USERSWEB');
-
-=cut
 
     return;
 }
