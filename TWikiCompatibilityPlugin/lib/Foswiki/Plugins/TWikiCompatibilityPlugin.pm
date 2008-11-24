@@ -59,6 +59,9 @@ This may not be enough for Plugins that do have in topic preferences.
 =cut
 
 sub earlyInitPlugin {
+
+=pod 
+
     my $session = $Foswiki::Plugins::SESSION;
     if (($session->{webName} eq 'TWiki') &&
             (!Foswiki::Func::webExists($session->{webName}))) {
@@ -75,6 +78,8 @@ sub earlyInitPlugin {
         $session->{topicName} =
             $MainWebTopicNameConversion->{$session->{topicName}};
     }
+
+=end
     
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
