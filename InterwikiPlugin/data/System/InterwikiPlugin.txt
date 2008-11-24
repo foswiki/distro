@@ -44,9 +44,9 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
    * *Download* the ZIP file from the Foswiki:Extensions web (see below)
    * *Unzip* ==%TOPIC%.zip== in your TWiki installation directory. Content:
      | *File:* | *Description:* |
-     | ==data/TWiki/%TOPIC%.txt== | Plugin topic |
+     | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==data/TWiki/InterWikis.txt== | Link rules topic for inter-site links |
-     | ==lib/TWiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
+     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
    * *Test:* If the Plugin is correctly installed, this Wiki:InterWiki link should point to http://c2.com/cgi/wiki?InterWiki topic - try it out.
 
 ---++ Plugin Info

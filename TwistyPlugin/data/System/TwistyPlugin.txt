@@ -567,10 +567,10 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
    | ==data/TWiki/BehaviourContrib.txt== |  |
    | ==data/TWiki/TwistyContrib.txt== |  |
    | ==data/TWiki/TwistyPlugin.txt== |  |
-   | ==lib/TWiki/Contrib/BehaviourContrib.pm== |  |
-   | ==lib/TWiki/Contrib/TwistyBundleTWiki04x02.pm== |  |
-   | ==lib/TWiki/Contrib/TwistyContrib.pm== |  |
-   | ==lib/TWiki/Plugins/TwistyPlugin.pm== |  |
+   | ==lib/Foswiki/Contrib/BehaviourContrib.pm== |  |
+   | ==lib/Foswiki/Contrib/TwistyBundleTWiki04x02.pm== |  |
+   | ==lib/Foswiki/Contrib/TwistyContrib.pm== |  |
+   | ==lib/Foswiki/Plugins/TwistyPlugin.pm== |  |
    | ==pub/TWiki/BehaviourContrib/behaviour.compressed.js== |  |
    | ==pub/TWiki/BehaviourContrib/behaviour.compressed_src.js== |  |
    | ==pub/TWiki/BehaviourContrib/behaviour.js== |  |

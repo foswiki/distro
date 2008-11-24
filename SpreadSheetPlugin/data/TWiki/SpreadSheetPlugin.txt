@@ -706,9 +706,9 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 	* Download the ZIP file from the <nop>%TOPIC% home
 	* Unzip ==SpreadSheetPlugin.zip== in your twiki installation directory. Content:
 	  | *File:* | *Description:* |
-	  | ==data/TWiki/%TOPIC%.txt== | Plugin topic |
-	  | ==data/TWiki/%TOPIC%.txt,v== | Plugin topic repository |
-	  | ==lib/TWiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
+	  | ==data/System/%TOPIC%.txt== | Plugin topic |
+	  | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
+	  | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
 	* TWiki 4 and up: Visit =configure= in your TWiki installation, and enable the Plugin in the {Plugins} section.
 	* Test if the "Total" in the first table in this topic is correct.
 

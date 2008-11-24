@@ -138,9 +138,9 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
    * Download the ZIP file from the Plugin Home (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
      | *File:* | *Description:* |
-     | ==data/TWiki/%TOPIC%.txt== | Plugin topic |
-     | ==lib/TWiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==lib/TWiki/Plugins/%TOPIC%/SlideShow.pm== | Plugin Perl module |
+     | ==data/System/%TOPIC%.txt== | Plugin topic |
+     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
+     | ==lib/Foswiki/Plugins/%TOPIC%/SlideShow.pm== | Plugin Perl module |
      | ==pub/TWiki/*.gif== | Various button image files |
    * TWiki 4.0 and up: Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script, and enable the plugin in the {Plugins} section.
    * Test above example if the installation was successful.
