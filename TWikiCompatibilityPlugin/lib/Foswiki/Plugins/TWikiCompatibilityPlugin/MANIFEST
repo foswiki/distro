@@ -1,14 +1,14 @@
 # Release manifest for TWikiCompatibilityPlugin
-data/Foswiki/WebPreferences.txt 0644 Documentation
+data/TWiki/WebPreferences.txt 0644 Documentation
 data/Foswiki/TWikiCompatibilityPlugin.txt 0644 Documentation
 templates/twiki.tmpl 0644 compatibility template
 lib/Foswiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
 lib/Foswiki/Plugins/TWikiCompatibilityPlugin/Config.spec configuration defaults
-lib/Foswiki/Plugins.pm 0644 Perl module
-lib/Foswiki/Func.pm 0644 Perl module
-lib/Foswiki.pm 0644 Perl module
-lib/Foswiki/UI.pm 0644 Perl module
-lib/Foswiki/Attrs.pm 0644 Perl module
-lib/Foswiki/Sandbox.pm 0644 Perl module
-lib/Foswiki/Prefs.pm 0644 Perl module
+lib/TWiki/Plugins.pm 0644 Perl module
+lib/TWiki/Func.pm 0644 Perl module
+lib/TWiki.pm 0644 Perl module
+lib/TWiki/UI.pm 0644 Perl module
+lib/TWiki/Attrs.pm 0644 Perl module
+lib/TWiki/Sandbox.pm 0644 Perl module
+lib/TWiki/Prefs.pm 0644 Perl module
 
