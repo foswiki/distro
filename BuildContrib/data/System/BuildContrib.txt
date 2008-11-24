@@ -20,7 +20,7 @@ Automates build and packaging process, including installer generation, for exten
 
 !BuildContrib can be used to create a build script for your extension.
 It is inspired by the Java ANT build tool developed by the Apache project,
-but is targeted specifically at building Foswiki (and TWiki&trade;) extensions. It is also
+but is targeted specifically at building Foswiki (and TWiki<sup>&reg;</sup>) extensions. It is also
 used for Foswiki release builds. The advantage of using !BuildContrib is that it
 dictates a standard structure and build procedure, which makes your extension
 easier for you, and others, to build and maintain.
@@ -393,7 +393,7 @@ You are strongly recommended to use this Contrib to help split your code develop
 ---++ Contrib Info
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
 
-TWiki&trade; is a trademark of Peter Thoeny.
+TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.
 
 |  Authors: | Crawford Currie |
 |  Copyright &copy;: | 2004-2008, Crawford Currie http://c-dot.co.uk |
