@@ -11,7 +11,7 @@ use strict;
 BEGIN {
     use File::Spec;
 
-    unshift @INC, split(/:/, $ENV{TWIKI_LIBS} || '../lib' );
+    unshift @INC, split(/:/, $ENV{FOSWIKI_LIBS} || '../lib' );
 
     # designed to be run within a SVN checkout area
     my @path = split( /\/+/, File::Spec->rel2abs($0) );
@@ -78,20 +78,31 @@ to the script e.g. perl build.pl release 4.6.5)
 
 I'm now looking in the tags for the designation of the *last* release....
 END
-    my @olds = sort grep { /^TWikiRelease\d+x\d+x\d+$/ }
-      split('/\n', `svn ls http://svn.twiki.org/svn/twiki/tags`);
-    my $lastName = pop(@olds);
-    my $last = $lastName;
-    $last =~ s/TWikiRelease//;
-    $last =~ s/^0+//;
-    $last =~ s/x0+(\d)/x$1/g;
-    $last =~ s/x/./g;
-    print <<END;
+    my @olds = sort grep { /^FoswikiRelease\d+x\d+x\d+$/ }
+      split('/\n', `svn ls http://svn.foswiki.org/tags`);
+      
+    my $lastName = 'Foswiki';
+    my $last;  #leave undefiend to stop us from later trying an unsucceful svn co
+    if (scalar(@olds)) {
+	my $lastName = pop(@olds);
+	my $last = $lastName;
+	$last =~ s/FoswikiRelease//;
+	$last =~ s/^0+//;
+	$last =~ s/x0+(\d)/x$1/g;
+	$last =~ s/x/./g;
+	print <<END;
 
 I have detected that the last release was $last. I will automatically
 generate histories for any data or pub files that changed since then.
 
 END
+    } else {
+	print <<END;
+	
+Impressive. This must be the first ever release of Foswiki. Good luck :)
+
+END
+    }
 
     unless ($autoBuild) {
     if( $name ||
@@ -262,6 +273,8 @@ sub stage_gendocs {
 sub stage_rcsfiles() {
     my $this = shift;
 
+    return unless (defined($this->{last}));
+
     # svn co cairo to a new dir
     #foreach file in data|pub in tmpDir, cp ,v file from svnCo 
     #do a ci
@@ -274,7 +287,7 @@ sub stage_rcsfiles() {
     $this->makepath($lastReleaseDir);
     $this->pushd($lastReleaseDir);
     print "Checking out release $this->{last} to $lastReleaseDir\n";
-    `svn co http://svn.twiki.org/svn/twiki/tags/$this->{lastName}/ .`;
+    `svn co http://svn.foswiki.org/tags/$this->{lastName}/ .`;
     $this->popd();
     print "Creating ,v files.\n";
     $this->_checkInDir( $lastReleaseDir, $this->{tmpDir}, 'data',

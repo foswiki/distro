@@ -1027,7 +1027,7 @@ stages all the files to be in the release in a tmpDir, ready for target_archive
 sub target_stage {
     my $this    = shift;
     my $project = $this->{project};
-
+    
     $this->{tmpDir} = File::Temp::tempdir( CLEANUP => 1 );
     File::Path::mkpath( $this->{tmpDir} );
 
@@ -1055,10 +1055,13 @@ sub target_stage {
     if ( $this->{other_modules} ) {
         my $libs = join( ':', @INC );
         foreach my $module ( @{ $this->{other_modules} } ) {
+
+            die "$basedir / $module does not exist, cannot build $module\n" unless (-e "$basedir/$module");
+            
             print STDERR "Installing $module in $this->{tmpDir}\n";
             #SMELL: uses legacy TWIKI_ exports
             my $cmd = "export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install";
-            #print STDERR "running $cmd \n";
+            #print STDERR "***** running $cmd \n";
             print `$cmd`;
         }
     }
