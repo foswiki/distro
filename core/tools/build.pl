@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# Build for TWiki
+# Build for Foswiki
 # Crawford Currie & Sven Dowideit
 # Copyright (C) 2006-2008 ProjectContributors. All rights reserved.
 # ProjectContributors are listed in the AUTHORS file in the root of
@@ -30,9 +30,9 @@ BEGIN {
 use Foswiki::Contrib::Build;
 
 # Declare our build package
-package TWikiBuild;
+package FoswikiBuild;
 
-@TWikiBuild::ISA = ( "Foswiki::Contrib::Build" );
+@FoswikiBuild::ISA = ( "Foswiki::Contrib::Build" );
 
 sub new {
     my $class = shift;
@@ -45,14 +45,14 @@ sub new {
 		#build a name from major.minor.patch.-auto.svnrev
 		my $rev=`svn info ..`;
 		$rev =~ /Revision: (\d*)/m;
-		$name = 'TWiki-'.getCurrentTWikiRELEASE().'-auto'.$1;
+		$name = 'Foswiki-'.getCurrentFoswikiRELEASE().'-auto'.$1;
 		$autoBuild = 1;
 	}
     }
 
 print <<END;
 
-You are about to build TWiki. If you are not building a release, for
+You are about to build Foswiki. If you are not building a release, for
 example you are building a package just for your own testing purposes,
 then you can leave it unnamed.
 
@@ -104,7 +104,7 @@ END
             }
             # SMELL: should really check that the name actually *follows* the
             # last name generated
-            $name = 'TWiki-'.$name;
+            $name = 'Foswiki-'.$name;
             open(PM, "<../lib/Foswiki.pm") || die $!;
             local $/ = undef;
             my $content = <PM>;
@@ -126,11 +126,11 @@ END
             #print "$cmd\n";
             die $@ if $@;
         } else {
-            $name = 'TWiki';
+            $name = 'Foswiki';
         }
     }
 
-    my $this = $class->SUPER::new( $name, "TWiki" );
+    my $this = $class->SUPER::new( $name, "Foswiki" );
     $this->{last} = $last;
     $this->{lastName} = $lastName;
     return $this;
@@ -290,19 +290,19 @@ sub stage_rcsfiles() {
 }
 
 # Create the build object
-my $build = new TWikiBuild();
+my $build = new FoswikiBuild();
 
 # Build the target on the command line, or the default target
 $build->build($build->{target});
 
 
 #returns the version number portion in the $RELEASE line in Foswiki.pm
-sub getCurrentTWikiRELEASE {
+sub getCurrentFoswikiRELEASE {
         open(PM, "<../lib/Foswiki.pm") || die $!;
         local $/ = undef;
         my $content = <PM>;
         close(PM);
-        $content =~ /\$RELEASE\s*=\s*'TWiki-(.*?)'/;
+        $content =~ /\$RELEASE\s*=\s*'Foswiki-(.*?)'/;
 	return $1;
 }
 

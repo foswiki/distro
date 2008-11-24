@@ -921,8 +921,8 @@ pub/System/JavascriptFiles/twikiString.js 0644
 pub/System/JavascriptFiles/twikiStringUnicodeChars.js 0644
 pub/System/JavascriptFiles/twikiStyles.js 0644
 pub/System/JavascriptFiles/twikiWindow.js 0644
-pub/System/JavascriptFiles/twiki_edit.js 0644
-pub/System/JavascriptFiles/twiki_renamebase.js 0644
+pub/System/JavascriptFiles/foswiki_edit.js 0644
+pub/System/JavascriptFiles/foswiki_renamebase.js 0644
 pub/System/JavascriptFiles/twikiuiToggle.js 0644
 pub/System/JavascriptFiles/unicode_chars.js 0644
 pub/System/PlainSkin/fullscreen.gif 0644
@@ -1024,7 +1024,7 @@ tools/extender.pl 0444
 tools/geturl.pl 0555
 tools/rewriteshbang.pl 0555
 tools/tick_twiki.pl 0555
-twiki_httpd_conf.txt 0444
+foswiki_httpd_conf.txt 0444
 working/tmp/README 0444
 working/registration_approvals/README 0444
 working/.htaccess 0660

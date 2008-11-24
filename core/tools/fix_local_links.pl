@@ -19,7 +19,9 @@ use strict;
 BEGIN {
     use File::Spec;
 
-    unshift @INC, split( /:/, $ENV{TWIKI_LIBS} );
+    my $LIB_ENV = $ENV{FOSWIKI_LIBS} || $ENV{TWIKI_LIBS} || '';
+
+    unshift @INC, split( /:/, $LIB_ENV );
     unshift @INC, '../lib/CPAN/lib/';
     unshift @INC, '../lib/';
 

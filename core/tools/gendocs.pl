@@ -167,7 +167,7 @@ sub eachfile {
         $text =~ s/!!!$method!!!/$spec{$method}/;
     }
 
-    open(F, ">$Config->{root}/data/Foswiki/$topic.txt") || die $!;
+    open(F, ">$Config->{root}/data/Foswiki/$topic.txt") || die "$! : $Config->{root}/data/Foswiki/$topic.txt \n";
     print F $text;
     close F;
 }
