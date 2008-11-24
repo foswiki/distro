@@ -6,5 +6,5 @@ __Related Topics:__ SkinTemplates, [[Skins]]
 
 	* Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 	
-%META:FILEATTACHMENT{name="twiki.js" attr="" autoattached="1" comment="" date="1130980328" path="twiki.js" size="2920" user="UnknownUser" version=""}%
+%META:FILEATTACHMENT{name="foswiki.js" attr="" autoattached="1" comment="" date="1130980328" path="foswiki.js" size="2920" user="UnknownUser" version=""}%
 %META:FILEATTACHMENT{name="twiki_settings.js" attr="" autoattached="1" comment="" date="1130979890" path="twiki_settings.js" size="982" user="UnknownUser" version=""}%

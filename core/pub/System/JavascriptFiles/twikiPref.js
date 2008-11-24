@@ -14,7 +14,7 @@ if (twiki == undefined) var twiki = {};
 
 twiki.Pref = {
 	
-	TWIKI_PREF_COOKIE_NAME:"TWIKIPREF",
+	TWIKI_PREF_COOKIE_NAME:"FOSWIKIPREF",
 	/**
 	Separates key-value pairs
 	*/
@@ -84,7 +84,7 @@ twiki.Pref = {
 	},
 	
 	/**
-	To write a TWiki preference cookie (TWIKIPREF), use twiki.Pref.setPref.
+	To write a TWiki preference cookie (FOSWIKIPREF), use twiki.Pref.setPref.
 	
 	Retrieves the value of the cookie specified by "name".
 	@param inName : (String) identifier name of the cookie

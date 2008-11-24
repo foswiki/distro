@@ -111,7 +111,7 @@ sub _addHeader {
 @import url("%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.css");
 </style>
 <script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js'></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikilib.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js"></script>
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiPref.js"></script>
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiCSS.js"></script>
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.compressed.js"></script>
@@ -377,7 +377,7 @@ sub _createHtmlProperties {
 
 =pod
 
-Reads a setting from the TWIKIPREF cookie.
+Reads a setting from the FOSWIKIPREF cookie.
 Returns:
    * 1 if the cookie has been set (meaning: show content)
    * 0 if the cookie is '0' (meaning: hide content)
@@ -392,7 +392,7 @@ sub _readCookie {
 
     # which state do we use?
     my $cgi    = new CGI;
-    my $cookie = $cgi->cookie('TWIKIPREF');
+    my $cookie = $cgi->cookie('FOSWIKIPREF');
     my $tag    = $idTag;
     $tag =~ s/^(.*)(hide|show|toggle)$/$1/go;
     my $key = $TWISTYPLUGIN_COOKIE_PREFIX . $tag;

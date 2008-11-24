@@ -6,27 +6,7 @@
 // manipulating rows within a table.
 // 
 // Small refactoring by Arthur Clemens
-// TODO: all functions should be moved from global space to a twiki.EditTable object
-
-/**
-Code from TWiki 4.2 to make this plugin compatible with earlier versions.
-*/
-var twiki;
-if (!twiki) twiki = {};
-twiki.getMetaTag = function(inKey) {
-    if (twiki.metaTags == null || twiki.metaTags.length == 0) {
-        var head = document.getElementsByTagName("META");
-        head = head[0].parentNode.childNodes;
-        twiki.metaTags = new Array();
-        for (var i = 0; i < head.length; i++) {
-            if (head[i].tagName != null &&
-                head[i].tagName.toUpperCase() == 'META') {
-                twiki.metaTags[head[i].name] = head[i].content;
-            }
-        }
-    }
-    return twiki.metaTags[inKey];
-};
+// TODO: all functions should be moved from global space to a foswiki.EditTable object
 
 /**
 
@@ -874,12 +854,12 @@ function updateRowlabels(rownum, delta) {
 Grabs the values from <meta> tags and inits the table with the table id and topic url.
 */
 function init() {
-    var noJavascript = twiki.getMetaTag('EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE_EditTableId');
+    var noJavascript = foswiki.getMetaTag('EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE_EditTableId');
 	if (noJavascript) return;
-    var currentFormName = twiki.getMetaTag('EDITTABLEPLUGIN_FormName');
-    var url = twiki.getMetaTag('EDITTABLEPLUGIN_EditTableUrl');
-    var headerRows = parseInt(twiki.getMetaTag('EDITTABLEPLUGIN_headerRows'));
-    var footerRows = parseInt(twiki.getMetaTag('EDITTABLEPLUGIN_footerRows'));
+    var currentFormName = foswiki.getMetaTag('EDITTABLEPLUGIN_FormName');
+    var url = foswiki.getMetaTag('EDITTABLEPLUGIN_EditTableUrl');
+    var headerRows = parseInt(foswiki.getMetaTag('EDITTABLEPLUGIN_headerRows'));
+    var footerRows = parseInt(foswiki.getMetaTag('EDITTABLEPLUGIN_footerRows'));
     edittableInit(currentFormName, url, headerRows, footerRows);
 }
 

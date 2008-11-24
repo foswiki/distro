@@ -1,7 +1,9 @@
 /*
-This collection of javascript functions is deprecated.
-Use the new TWiki library classes instead:
-twikilib.js
+
+THIS COLLECTION OF JAVASCRIPT FUNCTIONS IS DEPRECATED!
+
+Use the Foswiki library classes instead:
+foswikilib.js
 twikiArray.js
 twikiCSS.js
 twikiEvent.js
@@ -20,7 +22,7 @@ var POPUP_WINDOW_WIDTH = 500;
 var POPUP_WINDOW_HEIGHT = 480;
 var POPUP_ATTRIBUTES = "titlebar=0,resizable,scrollbars";
 
-var TWIKI_PREF_COOKIE_NAME = "TWIKIPREF";
+var TWIKI_PREF_COOKIE_NAME = "FOSWIKIPREF";
 var COOKIE_PREF_SEPARATOR = "|"; // separates key-value pairs
 var COOKIE_PREF_VALUE_SEPARATOR = "="; // separates key from value
 var COOKIE_EXPIRY_TIME = 365 * 24 * 60 * 60 * 1000; // one year from now

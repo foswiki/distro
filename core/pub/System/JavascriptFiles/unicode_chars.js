@@ -1,5 +1,5 @@
 /*
-Unicode characters for international WikiWord support. Importing this file will overwrite the regexes in twiki.js.
+Unicode characters for international WikiWord support. Importing this file will overwrite the regexes in foswiki.js.
 */
 
 /* Unicode Character Category 'Letter, Lowercase' */

@@ -103,7 +103,7 @@ hideimgright="%ICONURLPATH{toggleclose-small}%"
 
 
 ---+++ Make it remember
-To store the last state in a TWIKIPREF cookie, add the parameter =remember="on"=.%BR%
+To store the last state in a FOSWIKIPREF cookie, add the parameter =remember="on"=.%BR%
 To test this, reload the page after toggling.
 
 <verbatim>
@@ -124,7 +124,7 @@ remember="on"
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 
-If a Twisty state has been stored in a TWIKIPREF cookie before, it can be cleared by using =remember="off"=:
+If a Twisty state has been stored in a FOSWIKIPREF cookie before, it can be cleared by using =remember="off"=:
 
 <verbatim>
 %TWISTY{
@@ -552,7 +552,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
    * Set TWISTYMODE = 
       * Either =div= or =span=; =span= if nothing set
    * Set TWISTYREMEMBER = 
-      * Either =on= or =off=; default is not specified. If set to =on= all Twisty states will be stored in a TWIKIPREF cookie; if set to =off= the TWIKIPREF cookie will be cleared
+      * Either =on= or =off=; default is not specified. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared
 
    * Set SHORTDESCRIPTION = Twisty section !JavaScript library to open/close content dynamically
    * Set DEBUG = 0

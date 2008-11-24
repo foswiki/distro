@@ -110,8 +110,8 @@ twiki.Window = {
 // Unfortunate global function required because so many translated
 // strings use it
 function launchWindow(inWeb, inTopic) {
-    var scripturlpath = twiki.getMetaTag('SCRIPTURLPATH');
-    var scriptsuffix = twiki.getMetaTag('SCRIPTSUFFIX');
+    var scripturlpath = foswiki.getMetaTag('SCRIPTURLPATH');
+    var scriptsuffix = foswiki.getMetaTag('SCRIPTSUFFIX');
     twiki.Window.openPopup(scripturlpath+'/view'+
                            scriptsuffix+'/',
                            { web:inWeb, topic:inTopic,
