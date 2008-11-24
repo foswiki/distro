@@ -1008,7 +1008,7 @@ templates/searchbookview.tmpl 0444
 templates/searchformat.tmpl 0444
 templates/searchmeta.tmpl 0444
 templates/settings.tmpl 0444
-templates/twiki.tmpl 0444
+templates/foswiki.tmpl 0444
 templates/view.plain.tmpl 0444
 templates/view.print.tmpl 0444
 templates/view.xml.tmpl 0444

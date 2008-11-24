@@ -173,7 +173,7 @@ msgstr "%1 w celu rozpoczęcia pracy w nowym dziale"
 msgid "%1 topic does not exist"
 msgstr "strona %1 nie istnieje"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "&Cancel"
 msgstr "&Rezygnacja"
 
@@ -181,8 +181,8 @@ msgstr "&Rezygnacja"
 msgid "&Edit text"
 msgstr "&Edycja tekstu"
 
-#: templates/twiki.tmpl:101
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
+#: templates/foswiki.tmpl:101
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:158
 msgid "&History"
 msgstr "&Wersje"
 
@@ -644,7 +644,7 @@ msgstr ""
 msgid "All public webs"
 msgstr "we wszystkich działach"
 
-#: templates/twiki.tmpl:7
+#: templates/foswiki.tmpl:7
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr ""
 "Zezwolenie na tworzenie stron o nazwach nie będących w formacie <nop>WikiWord"
@@ -774,7 +774,7 @@ msgstr "Dopuszczalne szablony formularzy"
 msgid "Available templates in %1 Web:"
 msgstr "Dopuszczalne szablony formularzy"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Back to topic"
 msgstr "Wróć do:"
 
@@ -827,8 +827,8 @@ msgstr "Nie można odnaleźć użytkownika: %1"
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "Brak adresu email użytkownika %1 (wymagany do zresetowania hasła)"
 
-#: templates/twiki.tmpl:79
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:67
+#: templates/foswiki.tmpl:79
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:67
 #: twikiplugins/EditTablePlugin/data/TWiki/EditTablePlugin.txt:176
 msgid "Cancel"
 msgstr "Rezygnacja"
@@ -1335,7 +1335,7 @@ msgstr ""
 msgid "Email has been disabled for this TWiki installation"
 msgstr ""
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Enlarge edit box"
 msgstr "Powiększ okienko edycyjne"
 
@@ -1478,8 +1478,8 @@ msgstr ""
 msgid "Get notified on changes on this search"
 msgstr ""
 
-#: templates/twiki.tmpl:81
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:69
+#: templates/foswiki.tmpl:81
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:69
 msgid "Go back"
 msgstr "Powrót"
 
@@ -1504,8 +1504,8 @@ msgstr "Grupy"
 msgid "Hello %1"
 msgstr "Witaj %1"
 
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #, fuzzy
 msgid "Hello %1!"
 msgstr "Witaj %1"
@@ -1732,7 +1732,7 @@ msgstr ""
 "Dane formularza mogą zostać zapisane przez użytkownika %1, ale należy się z "
 "nim w tym celu skontaktować."
 
-#: templates/twiki.tmpl:9
+#: templates/foswiki.tmpl:9
 #, fuzzy
 msgid ""
 "It's usually best to choose a <a target='WikiWord' class='twikiPopUp' href='%"
@@ -1759,7 +1759,7 @@ msgstr ""
 #: data/TWiki/WebTopicViewTemplate.txt:11
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarSearch.txt:2
 #: twikiplugins/PatternSkin/data/TWiki/WebTopBar.txt:7
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:37
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:37
 msgid "Jump"
 msgstr "Skocz do"
 
@@ -1812,11 +1812,11 @@ msgstr "Utwórz listę stron, których nazwa zaczyna się na literę:"
 msgid "Local customisations of site-wide preferences"
 msgstr "%1 w celu skonfigurowania działu"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:6
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:6
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:7
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:7
 msgid "Log Out"
 msgstr "Wyloguj"
 
@@ -1846,7 +1846,7 @@ msgstr "Nie wypełniono pól"
 msgid "Missing action command"
 msgstr "Nie podano polecenia"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:40
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:40
 msgid "Modify search"
 msgstr "Zmień"
 
@@ -2007,15 +2007,15 @@ msgstr "Powiadomienia"
 
 #: templates/search.text.tmpl:15 templates/searchformat.tmpl:10
 #: twikiplugins/PatternSkin/templates/searchbase.pattern.tmpl:5
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:39
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:39
 msgid "Number of topics:"
 msgstr "Liczba stron:"
 
 #: templates/messages.tmpl:173 templates/messages.tmpl:180
 #: templates/oopsaccessdenied.tmpl:7 templates/oopssaveerr.tmpl:14
-#: templates/twiki.tmpl:80
+#: templates/foswiki.tmpl:80
 #: twikiplugins/ClassicSkin/templates/oopsaccessdenied.classic.tmpl:6
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:68
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:68
 msgid "OK"
 msgstr "OK"
 
@@ -2236,8 +2236,8 @@ msgstr "Strony zmieniane ostatnio"
 msgid "Refresh"
 msgstr "Odśwież"
 
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarLogin.txt:3
 msgid "Register"
 msgstr "Zarejestruj się"
@@ -2442,7 +2442,7 @@ msgstr "Zapisz jako:"
 #: twikiplugins/PatternSkin/data/TWiki/WebTopBar.txt:9
 #: twikiplugins/PatternSkin/data/Trash/WebLeftBar.txt:5
 #: twikiplugins/PatternSkin/data/_default/WebLeftBar.txt:6
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:38
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:38
 msgid "Search"
 msgstr "Wyszukaj"
 
@@ -2568,7 +2568,7 @@ msgstr "Pomoc"
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "Włącz wyświetlanie podpowiedzi dla skrótów %1:"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Shrink edit box"
 msgstr "Zmniejsz okienko edycyjne"
 
@@ -2675,7 +2675,7 @@ msgstr "Subskrybuj/nie subskrybuj:"
 msgid "Summaries"
 msgstr "podsumowań"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Switch to monotype or propotional font"
 msgstr ""
 
@@ -3256,8 +3256,8 @@ msgstr "Wyświetl formularze"
 msgid "View topic"
 msgstr "Wyświetl stronę"
 
-#: templates/twiki.tmpl:101
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
+#: templates/foswiki.tmpl:101
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:158
 msgid "View total topic history"
 msgstr "Historia strony"
 
@@ -3603,7 +3603,7 @@ msgstr "Brak dostępu"
 msgid "access not allowed on web"
 msgstr "Brak dostępu"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "accesskey='c'"
 msgstr "accesskey='r'"
 
@@ -3681,8 +3681,8 @@ msgstr "teraz %1"
 #: templates/preview.tmpl:18 templates/rename.tmpl:20
 #: templates/renameconfirm.tmpl:29 templates/renamedelete.tmpl:34
 #: templates/renameweb.tmpl:33 templates/renamewebconfirm.tmpl:16
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarLogin.txt:3
 #: twikiplugins/PatternSkin/templates/attachagain.pattern.tmpl:24
 #: twikiplugins/PatternSkin/templates/attachagain.pattern.tmpl:28

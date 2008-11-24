@@ -176,7 +176,7 @@ msgstr "%1 开始在新目录上工作"
 msgid "%1 topic does not exist"
 msgstr "%1 主题不存在"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "&Cancel"
 msgstr "放弃"
 
@@ -184,8 +184,8 @@ msgstr "放弃"
 msgid "&Edit text"
 msgstr "文本编辑"
 
-#: templates/twiki.tmpl:101
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
+#: templates/foswiki.tmpl:101
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:158
 msgid "&History"
 msgstr "历史"
 
@@ -609,7 +609,7 @@ msgstr ""
 msgid "All public webs"
 msgstr "所有的公开目录"
 
-#: templates/twiki.tmpl:7
+#: templates/foswiki.tmpl:7
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "允许使用非<nop>WikiWord 作为新主题名称"
 
@@ -729,7 +729,7 @@ msgstr "可用的表单模板"
 msgid "Available templates in %1 Web:"
 msgstr " %1目录可用的表单模板"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Back to topic"
 msgstr "回到主题"
 
@@ -781,8 +781,8 @@ msgstr "无法找到用户%1"
 msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr "无法获得 %1 的电子邮件地址(用于密码重置) "
 
-#: templates/twiki.tmpl:79
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:67
+#: templates/foswiki.tmpl:79
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:67
 #: twikiplugins/EditTablePlugin/data/TWiki/EditTablePlugin.txt:176
 msgid "Cancel"
 msgstr "取消"
@@ -1254,7 +1254,7 @@ msgstr "由于没有提供文件名称或您上传的文件 %1 没有内容。�
 msgid "Email has been disabled for this TWiki installation"
 msgstr "本TWiki服务已经禁用了邮件"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Enlarge edit box"
 msgstr "扩大编辑框"
 
@@ -1386,8 +1386,8 @@ msgstr ""
 msgid "Get notified on changes on this search"
 msgstr "获得此搜索的修改通知"
 
-#: templates/twiki.tmpl:81
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:69
+#: templates/foswiki.tmpl:81
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:69
 msgid "Go back"
 msgstr "返回"
 
@@ -1412,8 +1412,8 @@ msgstr "群组"
 msgid "Hello %1"
 msgstr "您好 %1"
 
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 msgid "Hello %1!"
 msgstr "您好 %1！"
 
@@ -1620,7 +1620,7 @@ msgstr ""
 "候保存，您的修改将和他们的合并，，没有任何数据会丢失。但是表单数据无法简单地"
 "合并，所以在这种情况下建议您先和 %1 联系。"
 
-#: templates/twiki.tmpl:9
+#: templates/foswiki.tmpl:9
 msgid ""
 "It's usually best to choose a <a target='WikiWord' class='twikiPopUp' href='%"
 "1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
@@ -1643,7 +1643,7 @@ msgstr ""
 #: data/TWiki/WebTopicViewTemplate.txt:11
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarSearch.txt:2
 #: twikiplugins/PatternSkin/data/TWiki/WebTopBar.txt:7
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:37
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:37
 msgid "Jump"
 msgstr "跳转"
 
@@ -1694,11 +1694,11 @@ msgstr "列出所有以某个字母开头的:"
 msgid "Local customisations of site-wide preferences"
 msgstr "定制网站范围属性"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:6
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:6
 msgid "Log In"
 msgstr "登录"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:7
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:7
 msgid "Log Out"
 msgstr "登出"
 
@@ -1728,7 +1728,7 @@ msgstr "缺少多个字段"
 msgid "Missing action command"
 msgstr "缺少操作命令"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:40
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:40
 msgid "Modify search"
 msgstr "修改搜索:"
 
@@ -1884,15 +1884,15 @@ msgstr "布告"
 
 #: templates/search.text.tmpl:15 templates/searchformat.tmpl:10
 #: twikiplugins/PatternSkin/templates/searchbase.pattern.tmpl:5
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:39
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:39
 msgid "Number of topics:"
 msgstr "主题数量:"
 
 #: templates/messages.tmpl:173 templates/messages.tmpl:180
 #: templates/oopsaccessdenied.tmpl:7 templates/oopssaveerr.tmpl:14
-#: templates/twiki.tmpl:80
+#: templates/foswiki.tmpl:80
 #: twikiplugins/ClassicSkin/templates/oopsaccessdenied.classic.tmpl:6
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:68
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:68
 msgid "OK"
 msgstr "OK"
 
@@ -2107,8 +2107,8 @@ msgstr "最新更改的主题"
 msgid "Refresh"
 msgstr "刷新"
 
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarLogin.txt:3
 msgid "Register"
 msgstr "注册"
@@ -2300,7 +2300,7 @@ msgstr "保存到:"
 #: twikiplugins/PatternSkin/data/TWiki/WebTopBar.txt:9
 #: twikiplugins/PatternSkin/data/Trash/WebLeftBar.txt:5
 #: twikiplugins/PatternSkin/data/_default/WebLeftBar.txt:6
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:38
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:38
 msgid "Search"
 msgstr "搜索"
 
@@ -2418,7 +2418,7 @@ msgstr "显示帮助"
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "在鼠标移动到 %1 链接上时显示帮助提示：打开或关闭"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Shrink edit box"
 msgstr "缩小编辑框"
 
@@ -2522,7 +2522,7 @@ msgstr "订阅/退订"
 msgid "Summaries"
 msgstr "摘要"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Switch to monotype or propotional font"
 msgstr "切换到等宽或合适的字体"
 
@@ -3055,8 +3055,8 @@ msgstr "查看模板"
 msgid "View topic"
 msgstr "查看主题"
 
-#: templates/twiki.tmpl:101
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
+#: templates/foswiki.tmpl:101
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:158
 msgid "View total topic history"
 msgstr "主题完整修订历史"
 
@@ -3373,7 +3373,7 @@ msgstr "不允许访问主题"
 msgid "access not allowed on web"
 msgstr "不允许访问目录"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "accesskey='c'"
 msgstr "访问快捷键='c'"
 
@@ -3450,8 +3450,8 @@ msgstr "现在 %1"
 #: templates/preview.tmpl:18 templates/rename.tmpl:20
 #: templates/renameconfirm.tmpl:29 templates/renamedelete.tmpl:34
 #: templates/renameweb.tmpl:33 templates/renamewebconfirm.tmpl:16
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarLogin.txt:3
 #: twikiplugins/PatternSkin/templates/attachagain.pattern.tmpl:24
 #: twikiplugins/PatternSkin/templates/attachagain.pattern.tmpl:28

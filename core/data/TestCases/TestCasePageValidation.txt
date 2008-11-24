@@ -100,7 +100,7 @@ searchbookview.pattern.tmpl
 searchformat.pattern.tmpl
 searchmeta.pattern.tmpl
 settings.pattern.tmpl
-twiki.pattern.tmpl
+foswiki.pattern.tmpl
 view.pattern.tmpl
 view.print.pattern.tmpl
 view.plain.pattern.tmpl

@@ -82,9 +82,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 
 ---+++ Styles in Templates
 
-|.twikiPage  |twiki.tmpl  |
-|.twikiMiddleContainer  |twiki.tmpl  |
-|.twikiMain  |twiki.tmpl  |
+|.twikiPage  |foswiki.tmpl  |
+|.twikiMiddleContainer  |foswiki.tmpl  |
+|.twikiMain  |foswiki.tmpl  |
 |.twikiFormTable  |formtables.tmpl, form.tmpl  |
 |.twikiFormTableHRow  |formtables.tmpl, form.tmpl  |
 |.twikiFormTableRow  |formtables.tmpl  |

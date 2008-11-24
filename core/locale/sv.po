@@ -175,7 +175,7 @@ msgstr "%1 för att börja arbeta med den nya avdelningen"
 msgid "%1 topic does not exist"
 msgstr "sidan %1 finns inte"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "&Cancel"
 msgstr "Avbryt (&C)"
 
@@ -183,8 +183,8 @@ msgstr "Avbryt (&C)"
 msgid "&Edit text"
 msgstr "Redig&era text"
 
-#: templates/twiki.tmpl:101
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
+#: templates/foswiki.tmpl:101
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:158
 msgid "&History"
 msgstr "&Historik"
 
@@ -631,7 +631,7 @@ msgstr ""
 msgid "All public webs"
 msgstr "Alla publika avdelningar"
 
-#: templates/twiki.tmpl:7
+#: templates/foswiki.tmpl:7
 msgid "Allow non <nop>WikiWord for the new topic name"
 msgstr "Tillåt ord som inte är <nop>WikiOrd på nya sidor"
 
@@ -756,7 +756,7 @@ msgstr "Tillgängliga formulärmallar"
 msgid "Available templates in %1 Web:"
 msgstr "Tillgängliga mallar i avdelning %1:"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "Back to topic"
 msgstr "Tillbaka till sidan"
 
@@ -812,8 +812,8 @@ msgid "Can't get an e-mail address for %1 (required for password reset)"
 msgstr ""
 "Hittar inte e-postadressen för %1 (nödvändig för lösenordsnollställning)"
 
-#: templates/twiki.tmpl:79
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:67
+#: templates/foswiki.tmpl:79
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:67
 #: twikiplugins/EditTablePlugin/data/TWiki/EditTablePlugin.txt:176
 msgid "Cancel"
 msgstr "Avbryt"
@@ -1308,7 +1308,7 @@ msgstr ""
 msgid "Email has been disabled for this TWiki installation"
 msgstr "E-post avstängt för den här TWiki-installationen"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Enlarge edit box"
 msgstr "Förstora redigeringsruta"
 
@@ -1443,8 +1443,8 @@ msgstr ""
 msgid "Get notified on changes on this search"
 msgstr "Bli informerad om ändringar i den här sökningen"
 
-#: templates/twiki.tmpl:81
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:69
+#: templates/foswiki.tmpl:81
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:69
 msgid "Go back"
 msgstr "Gå tillbaka"
 
@@ -1469,8 +1469,8 @@ msgstr "Grupper"
 msgid "Hello %1"
 msgstr "Hej %1"
 
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 msgid "Hello %1!"
 msgstr "Hej %1!"
 
@@ -1692,7 +1692,7 @@ msgstr ""
 "Formulärdata kan dock inte slås samman på enkelt sätt så kolla med %1 först "
 "i detta fall."
 
-#: templates/twiki.tmpl:9
+#: templates/foswiki.tmpl:9
 msgid ""
 "It's usually best to choose a <a target='WikiWord' class='twikiPopUp' href='%"
 "1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic "
@@ -1716,7 +1716,7 @@ msgstr ""
 #: data/TWiki/WebTopicViewTemplate.txt:11
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarSearch.txt:2
 #: twikiplugins/PatternSkin/data/TWiki/WebTopBar.txt:7
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:37
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:37
 msgid "Jump"
 msgstr "Hoppa"
 
@@ -1767,11 +1767,11 @@ msgstr "Visa alla sidor som börjar med bokstaven: "
 msgid "Local customisations of site-wide preferences"
 msgstr "Lokala anpassningar av inställningar som gäller hela webbplatsen"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:6
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:6
 msgid "Log In"
 msgstr "Logga in"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:7
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:7
 msgid "Log Out"
 msgstr "Logga ut"
 
@@ -1801,7 +1801,7 @@ msgstr "Fält som saknas"
 msgid "Missing action command"
 msgstr "Tangentbordskommandon som saknas"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:40
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:40
 msgid "Modify search"
 msgstr "Anpassa sökning"
 
@@ -1959,15 +1959,15 @@ msgstr "Meddelanden"
 
 #: templates/search.text.tmpl:15 templates/searchformat.tmpl:10
 #: twikiplugins/PatternSkin/templates/searchbase.pattern.tmpl:5
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:39
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:39
 msgid "Number of topics:"
 msgstr "Antal sidor:"
 
 #: templates/messages.tmpl:173 templates/messages.tmpl:180
 #: templates/oopsaccessdenied.tmpl:7 templates/oopssaveerr.tmpl:14
-#: templates/twiki.tmpl:80
+#: templates/foswiki.tmpl:80
 #: twikiplugins/ClassicSkin/templates/oopsaccessdenied.classic.tmpl:6
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:68
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:68
 msgid "OK"
 msgstr "OK"
 
@@ -2189,8 +2189,8 @@ msgstr "Senast ändrade sidor"
 msgid "Refresh"
 msgstr "Uppdatera"
 
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarLogin.txt:3
 msgid "Register"
 msgstr "Registrera dig"
@@ -2388,7 +2388,7 @@ msgstr "Sparat i:"
 #: twikiplugins/PatternSkin/data/TWiki/WebTopBar.txt:9
 #: twikiplugins/PatternSkin/data/Trash/WebLeftBar.txt:5
 #: twikiplugins/PatternSkin/data/_default/WebLeftBar.txt:6
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:38
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:38
 msgid "Search"
 msgstr "Sök"
 
@@ -2509,7 +2509,7 @@ msgstr "Visa hjälp"
 msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
 msgstr "Visa hjälpinformation när du för musen över %1-länkar, på eller av.)"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Shrink edit box"
 msgstr "Minska redigeringsrutan"
 
@@ -2621,7 +2621,7 @@ msgstr "Prenumerera / avprenumerera i:"
 msgid "Summaries"
 msgstr "Sammanställningar"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:79
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:79
 msgid "Switch to monotype or propotional font"
 msgstr "Ändra till typsnitt med fast eller proportionell bredd"
 
@@ -3193,8 +3193,8 @@ msgstr "Visa mallar"
 msgid "View topic"
 msgstr "Visa sida"
 
-#: templates/twiki.tmpl:101
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:158
+#: templates/foswiki.tmpl:101
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:158
 msgid "View total topic history"
 msgstr "Visa komplett historik för sidan"
 
@@ -3538,7 +3538,7 @@ msgstr "ingen åtkomst till sidan"
 msgid "access not allowed on web"
 msgstr "ingen åtkomst till avdelningen"
 
-#: twikiplugins/PatternSkin/templates/twiki.pattern.tmpl:11
+#: twikiplugins/PatternSkin/templates/foswiki.pattern.tmpl:11
 msgid "accesskey='c'"
 msgstr "accesskey='c'"
 
@@ -3615,8 +3615,8 @@ msgstr "nu %1"
 #: templates/preview.tmpl:18 templates/rename.tmpl:20
 #: templates/renameconfirm.tmpl:29 templates/renamedelete.tmpl:34
 #: templates/renameweb.tmpl:33 templates/renamewebconfirm.tmpl:16
-#: templates/twiki.tmpl:105
-#: twikiplugins/ClassicSkin/templates/twiki.classic.tmpl:9
+#: templates/foswiki.tmpl:105
+#: twikiplugins/ClassicSkin/templates/foswiki.classic.tmpl:9
 #: twikiplugins/PatternSkin/data/TWiki/WebLeftBarLogin.txt:3
 #: twikiplugins/PatternSkin/templates/attachagain.pattern.tmpl:24
 #: twikiplugins/PatternSkin/templates/attachagain.pattern.tmpl:28

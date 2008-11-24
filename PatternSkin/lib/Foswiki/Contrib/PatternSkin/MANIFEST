@@ -102,7 +102,7 @@ templates/searchbookview.pattern.tmpl 0444
 templates/searchformat.pattern.tmpl 0444
 templates/searchmeta.pattern.tmpl 0444
 templates/settings.pattern.tmpl 0444
-templates/twiki.pattern.tmpl 0444
+templates/foswiki.pattern.tmpl 0444
 templates/view.pattern.tmpl 0444
 templates/viewbottombar.pattern.tmpl 0444
 templates/viewleftbar.pattern.tmpl 0444

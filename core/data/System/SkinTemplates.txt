@@ -31,7 +31,7 @@ such as a user interface screen.
       * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
       * ==%<nop>{...}%==: is a comment.
    * Two-pass processing lets you use a defined block before or after declaring it.
-   * For example, you can create a skin that overloads only the =twiki.tmpl= master skin template, like =twiki.print.tmpl=, that redefines the header and footer.
+   * For example, you can create a skin that overloads only the =foswiki.tmpl= master skin template, like =foswiki.print.tmpl=, that redefines the header and footer.
    * %H% Use of template macros is optional: templates work without them.
    * %X% *NOTE:* Most template macros work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
 
@@ -111,7 +111,7 @@ If these preferences are set locally (using _Local_ instead of _Set_) for a topi
 
 ---+++ TMPL:INCLUDE recursion for piecewise customisation, or mixing in new features
 
-If there is recursion in the TMPL:INCLUDE chain (eg twiki.classic.tmpl contains =%<nop>TMPL:INCLUDE{"twiki"}%=, the templating system will include the next twiki.SKIN in the skin path. 
+If there is recursion in the TMPL:INCLUDE chain (eg foswiki.classic.tmpl contains =%<nop>TMPL:INCLUDE{"twiki"}%=, the templating system will include the next twiki.SKIN in the skin path. 
 For example, to create a customisation of pattern skin, where you _only_ want to over-ride the breadcrumbs for the view script, you can create only a view.yourlocal.tmpl:
 <verbatim>
 %TMPL:INCLUDE{"view"}%
@@ -123,7 +123,7 @@ The default ={TemplatePath}= will not give you the desired result if you put the
 
 ---+++ Default master template
 
-==twiki.tmpl== is the default master template. It defines the following sections.
+==foswiki.tmpl== is the default master template. It defines the following sections.
 
 | *Template directive:* | *Defines:* |
 | =%<nop>TMPL:DEF{"sep"}%= | "&#124;" separator |

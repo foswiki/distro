@@ -527,7 +527,7 @@ __Major New Features__
    * *26 Jun 2001* - TWiki:Main.JohnTalintyre
       * Category information to forms using the TWikiMetaData format, see !TWikiForms
    * *07 Jun 2001* - TWiki:Main.PeterThoeny
-      * New topic templates as topics instead of templates. Customize by editing the topic. Retired =notedited.tmpl=, =notext.tmpl= and =notwiki.tmpl= templates. More in TWikiTemplates. 
+      * New topic templates as topics instead of templates. Customize by editing the topic. Retired =notedited.tmpl=, =notext.tmpl= and =nofoswiki.tmpl= templates. More in TWikiTemplates. 
    * *07 Jun 2001* - TWiki:Main.PeterThoeny
       * New =%<nop>TOPICLIST{"format"}%= and =%<nop>WEBLIST{"format"}%= variables to get a formatted topic index and web index, respectively. More in TWikiVariables. 
    * *01 Jun 2001* - TWiki:Main.PeterThoeny
@@ -744,7 +744,7 @@ __Major New Features__
    * *04 Aug 1998* - TWiki:Main.PeterThoeny
       * Separate templates for text of non existing topic and default text of new topic. (template file templates/Web/notedited.tmpl) 
    * *04 Aug 1998* - TWiki:Main.PeterThoeny
-      * Warn user if new topic name is not a valid Wiki name. (template file templates/Web/notwiki.tmpl) 
+      * Warn user if new topic name is not a valid Wiki name. (template file templates/Web/nofoswiki.tmpl) 
    * *31 Jul 1998* - TWiki:Main.PeterThoeny
       * Support for quoted text with a '>' at the beginning of the line. 
    * *28 Jul 1998* - TWiki:Main.PeterThoeny

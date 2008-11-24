@@ -85,13 +85,13 @@ The following template files are used for Foswiki screens, and are referenced in
    * =view= - used by the =view= CGI script
    * =viewprint= - used to create the printable view
    
-=twiki.tmpl= is a master template conventionally used by other templates, but not used directly by code.
+=foswiki.tmpl= is a master template conventionally used by other templates, but not used directly by code.
 
 __%X% Note:__ Make sure templates do not end with a newline. Any newline will expand to an empty =&lt;p /&gt;= in the generated html. It will produce invalid html, and may break the page layout. 
 
 ---+++ Partial customisation, or adding in new features to an existing skin
 
-You can use recusion in the TMPL:INCLUDE chain (eg twiki.classic.tmpl contains =%<nop>TMPL:INCLUDE{"twiki"}%=, the templating system will include the next twiki.SKIN in the skin path. 
+You can use recusion in the TMPL:INCLUDE chain (eg foswiki.classic.tmpl contains =%<nop>TMPL:INCLUDE{"twiki"}%=, the templating system will include the next twiki.SKIN in the skin path. 
 For example, to create a customisation of pattern skin, where you _only_ want to remove the edit & WYSIWYG buttons from view page, you create only a =view.yourlocal.tmpl=:
 <verbatim>
 %TMPL:INCLUDE{"view"}%

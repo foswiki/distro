@@ -127,8 +127,8 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # $Foswiki::cfg{DataDir} = '/home/httpd/foswiki/data';
 
 # **PATH M**
-# Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locales
-# $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/po';
+# Translation files directory (file path, not URL) e.g. /usr/local/foswiki/locale
+# $Foswiki::cfg{LocalesDir} = '/home/httpd/foswiki/locale';
 
 # **PATH M**
 # Directory where Foswiki stores files that are required for the management

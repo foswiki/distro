@@ -53,7 +53,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=pod
 
 ---++ ObjectMethod finish()
 Break circular references.

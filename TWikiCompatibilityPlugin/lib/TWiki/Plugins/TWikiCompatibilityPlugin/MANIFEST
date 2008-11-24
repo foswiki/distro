@@ -1,6 +1,7 @@
 # Release manifest for TWikiCompatibilityPlugin
 data/TWiki/WebPreferences.txt 0644 Documentation
 data/TWiki/TWikiCompatibilityPlugin.txt 0644 Documentation
+templates/twiki.tmpl 0644 compatibility template
 lib/TWiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
 lib/TWiki/Plugins/TWikiCompatibilityPlugin/Config.spec configuration defaults
 lib/TWiki/Plugins.pm 0644 Perl module
