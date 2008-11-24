@@ -1,18 +1,18 @@
 #!/usr/bin/perl
 #
-# Script to extract strings from TWiki sources and templates
+# Script to extract strings from Foswiki sources and templates
 
 use strict;
 
 # force the use from the root
--d 'bin' and -d "lib" and -d 'tools' and -d 'templates' or die("You may only run this utility from the root directory of TWiki sources!");
+-d 'bin' and -d "lib" and -d 'tools' and -d 'templates' or die("You may only run this utility from the root directory of Foswiki sources!");
 
 use File::Spec;
 
 my $cwd = `pwd` ;
 chomp($cwd);
 unshift(@INC, File::Spec->catfile($cwd, 'lib')); 
-eval "use TWiki::I18N::Extract";
+eval "use Foswiki::I18N::Extract";
 die($@) if $@;
 eval "use Locale::Maketext::Lexicon";
 die($@) if $@;
@@ -24,7 +24,7 @@ die('The msgmerge command is required, it must be in your path. Try installing G
 
 # config
 my $localesDir = "locale";
-my $potfile = "${localesDir}/TWiki.pot";
+my $potfile = "${localesDir}/Foswiki.pot";
 my $newpotfile = $potfile . '.new';
 
 # extract strings from the source code and append to the new potfile
@@ -71,7 +71,7 @@ sub extract {
     my ($target, @sources) = @_;
     print "I: Extracting strings into $target.\n";
 
-    my $extractor = new TWiki::I18N::Extract;
+    my $extractor = new Foswiki::I18N::Extract;
     die("Could not create an extractor. Is Locale::Maketext installed? (see above messages)") unless $extractor;
 
     my $progress = undef;

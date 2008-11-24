@@ -153,11 +153,10 @@ data/System/TwentyMinuteTutorial.txt 0644
 data/System/MetaData.txt 0644
 data/System/ShortcutMacros.txt 0644
 data/System/CommandAndCGIScripts.txt 0644
-data/System/TWikiSite.txt 0644
 data/System/SiteTools.txt 0644
-data/System/TWikiSystemRequirements.txt 0644
-data/System/TWikiTopics.txt 0644
-data/System/TWikiUserAuthentication.txt 0644
+data/System/SystemRequirements.txt 0644
+data/System/TopicsAndWebs.txt 0644
+data/System/UserAuthentication.txt 0644
 data/System/TemplateWeb.txt 0644
 data/System/TextEditor.txt 0644
 data/System/TextFormattingFAQ.txt 0644
