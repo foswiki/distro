@@ -192,6 +192,7 @@ BEGIN {
         ALLVARIABLES      => \&ALLVARIABLES,
         ATTACHURL         => \&ATTACHURL,
         ATTACHURLPATH     => \&ATTACHURLPATH,
+        COREPOD           => \&COREPOD,
         DATE              => \&DATE,
         DISPLAYTIME       => \&DISPLAYTIME,
         ENCODE            => \&ENCODE,
@@ -3552,11 +3553,17 @@ sub INCLUDE {
     my $warn = $params->remove('warn')
       || $this->{prefs}->getPreferencesValue('INCLUDEWARNING');
 
-    if ( $path =~ /^https?\:/ ) {
+    if ( $path =~ /^https?:/ ) {
 
         # include web page
-        return _includeUrl( $this, $path, $pattern, $includingWeb,
+        return $this->_includeUrl( $path, $pattern, $includingWeb,
             $includingTopic, $raw, $params, $warn );
+    }
+
+    if ( $path =~ s/^doc:// ) {
+
+        # include web page
+        return $this->_includeCodeDoc( $path, $pattern, $params );
     }
 
     $path =~ s/$Foswiki::cfg{NameFilter}//go;    # zap anything suspicious
@@ -4504,6 +4511,58 @@ sub GROUPS {
     }
 
     return '| *Group* | *Members* |' . "\n" . join( "\n", sort @table );
+}
+
+# Include embedded doc in a core module
+sub _includeCodeDoc {
+    my ( $this, $class, $pattern, $params ) = @_;
+
+    return '' unless $class && $class =~ /^Foswiki/;
+    $class =~ s/[^\w:]//g;
+
+    my $pmfile;
+    $class =~ s#::#/#g;
+    foreach my $inc (@INC) {
+        if ( -f "$inc/$class.pm" ) {
+            $pmfile = "$inc/$class.pm";
+            last;
+        }
+    }
+    return '' unless $pmfile;
+
+    open( PMFILE, '<', $pmfile ) || return '';
+    my $inPod = 0;
+    my $pod = '';
+    local $/ = "\n";
+    while ( my $line = <PMFILE> ) {
+        if ( $line =~ /^=(begin|pod)/ ) {
+            $inPod = 1;
+        }
+        elsif ( $line =~ /^=cut/ ) {
+            $inPod = 0;
+        }
+        elsif ($inPod) {
+            $pod .= $line;
+        }
+    }
+    close(PMFILE);
+
+    $pod =~ s/.*?%STARTINCLUDE%//s;
+    $pod =~ s/%STOPINCLUDE%.*//s;
+
+    $pod = applyPatternToIncludedText( $pod, $pattern ) if ($pattern);
+
+    # Adjust the root heading level
+    if ( $params->{level} ) {
+        my $minhead = '+' x 100;
+        $pod =~ s/^---(\++)/
+          $minhead = $1 if length($1) < length($minhead); "---$1"/gem;
+        return $pod if length($minhead) == 100;
+        my $newroot = '+' x $params->{level};
+        $minhead =~ s/\+/\\+/g;
+        $pod =~ s/^---$minhead/---$newroot/gm;
+    }
+    return $pod;
 }
 
 1;

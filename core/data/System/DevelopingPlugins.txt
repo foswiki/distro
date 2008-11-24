@@ -1,0 +1,288 @@
+---+ Developing Plugins
+
+Foswiki has a large number of internal (perl code) interfaces that give access to all the internal functionality. However in general it's a bad idea to use these interfaces to extend Foswiki, because that would result in your code breaking every time the core changes.
+
+To address this problem Foswiki provides a number of Application Program Interfaces (APIs) that allow you to extend Foswiki in a robust way.
+
+The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in %SYSTEMWEB%.EmptyPlugin and =lib/Foswiki/Plugins/EmptyPlugin.pm=.
+
+To be robust plugins must avoid using any unpublished functionality from the Foswiki core. Functionality that is available to plugins consists of the following perl packages. Click on the name of the packge to see the full documentation.
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::EmptyPlugin][Foswiki::Plugins::EmptyPlugin]]= - template plugin for you to use as a starting point for your own plugins.
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - bridge to core functions. This is the package you will use most.
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Meta][Foswiki::Meta]]= - topic meta-data
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]]= - special exception for invoking the 'oops' script
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]]= - access control exception
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]]= - parser and storage object for macro parameters
+In addition the following global variables may be referred to:
+   * =$Foswiki::Plugins::VERSION= - API version number
+   * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
+   * =$Foswiki::cfg= - reference to configuration hash
+   * =$Foswiki::sandbox= - reference to the static sandbox object (type =Foswiki::Sandbox=), used for calling external programs.
+%I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.
+
+---+++ Predefined Hooks
+
+Plugins 'listen' to events happening in the core by registering an interest in those events. They do this using 'plugin handlers'. these are simply functions with a particular name that, if they exist in your plugin, will be called by the core.
+
+Foswiki:Development.StepByStepRenderingOrder helps you decide which rendering handler to use. See EmptyPlugin for a full list of the handlers that are defined.
+
+#FastPluginHints
+---+++ Hints on Writing Fast Plugins
+
+   * Delay initialization as late as possible. For example, if your plugin is a simple syntax processor, you might delay loading extra Perl modules until you actually see the syntax in the text.
+      * For example, use an =eval= block like this:%BR%
+        =eval { require IPC::Run }= %BR%
+        =return "&lt;font color=\"red\"&gt;SamplePlugin: Can't load required modules ($@)&lt;/font&gt;" if $@;=
+   * Keep the main plugin package as small as possible; create other packages that are loaded if and only if they are used. For example, create sub-packages of !BathPlugin in =lib/Foswiki/Plugins/BathPlugin/=.
+   * Avoid using preferences in the plugin topic; set =$NO_PREFS_IN_TOPIC= if you possibly can, as that will stop Foswiki from reading the plugin topic for every page. Use [[#ConfigSpec][Config.spec]] instead. 
+   * Use registered tag handlers
+
+---+++ Version Detection
+
+To eliminate the incompatibility problems that are bound to arise from active open plugin development, a plugin versioning system is provided for automatic compatibility checking.
+
+   * All plugin packages require a =$VERSION= variable. This should be an integer, or a subversion version id.
+
+   * The =initPlugin= handler should check all dependencies and return 1 if the initialization is OK or 0 if something went wrong.
+      * The plugin initialization code does not register a plugin that returns 0 (or that has no =initPlugin= handler).
+
+   * =$Foswiki::Plugins::VERSION= in the =Foswiki::Plugins= module contains the Foswiki plugin API version, currently *%PLUGINVERSION{}%*.
+      * You can also use the =[[VarPLUGINVERSION][%<nop>PLUGINVERSION{}%]]= macro to query the plugin API version or the version of installed plugins.
+
+---+++ Security
+
+   * Badly written plugins can open huge security holes in Foswiki. This is especially true if care isn't taken to prevent execution of arbitrary commands on the server.
+   * Don't allow sensitive configuration data to be edited by users. it is better to add sensitive configuration options to the =%Foswiki::cfg= hash than adding it as preferences in the plugin topic.
+      * [[#ConfigSpec][Integrating with <code>configure</code>]] describes the steps
+      * Foswiki:Extensions.MailInContrib has an example
+      * Foswiki:Extensions.BuildContrib can help you with this
+   * Always use the Foswiki::Sandbox to execute commands.
+   * Always audit the plugins you install, and make sure you are happy with the level of security provided. While every effort is made to monitor plugin authors activities, at the end of the day they are uncontrolled user contributions.
+
+#CreatePlugins
+---++ Creating Plugins
+
+With a reasonable knowledge of the Perl scripting language, you can create new plugins or modify and extend existing ones. Basic plug-in architecture uses an Application Programming Interface (API), a set of software instructions that allow external code to interact with the main program. The [[#PluginAPI][Foswiki Plugin API]] provides the programming interface for Foswiki.
+
+---+++ Anatomy of a Plugin
+
+A (very) basic Foswiki plugin consists of two files:
+
+   * a Perl module, e.g. =MyFirstPlugin.pm=
+   * a documentation topic, e.g. =MyFirstPlugin.txt=
+
+The Perl module can be a block of code that talks to with Foswiki alone, or it can include other elements, like other Perl modules (including other plugins), graphics, Foswiki templates, external applications (ex: a Java applet), or just about anything else it can call.
+In particular, files that should be web-accessible (graphics, Java applets ...) are best placed as attachments of the =MyFirstPlugin= topic. Other needed Perl code is best placed in a =lib/Foswiki/Plugins/MyFirstPlugin/= directory.
+
+The plugin API handles the details of connecting your Perl module with main Foswiki code. When you're familiar with the [[#PluginAPI][Plugin API]], you're ready to develop plugins.
+
+_The Foswiki:Extensions.BuildContrib module provides a lot of support for plugins development, including a plugin creator, automatic publishing support, and automatic installation script writer. If you plan on writing more than one plugin, you probably need it_.
+
+---+++ Creating the Perl Module 
+
+Copy file =lib/Foswiki/Plugins/EmptyPlugin.pm= to =&lt;name&gt;Plugin.pm=. The =EmptyPlugin.pm= module contains mostly empty functions, so it does nothing, but it's ready to be used. Customize it. Refer to the [[#PluginAPI][Plugin API]] specs for more information.
+
+If your plugin uses its own modules and objects, you must include the name of the plugin in the package name. For example, write =Package <nop>MyFirstPlugin::Attrs;= instead of just =Package Attrs;=. Then call it using:
+<pre>
+use Foswiki::Plugins::MyFirstPlugin::Attrs;
+$var = MyFirstPlugin::Attrs->new();
+</pre>
+
+#CreatePluginTopic
+---+++ Writing the Documentation Topic
+
+The plugin documentation topic contains usage instructions and version details. It serves the plugin files as %SYSTEMWEB%.FileAttachments for downloading. (The doc topic is also included _in_ the [[#CreatePluginPackage][distribution package]].) To create a documentation topic:
+
+   1. *Copy* the plugin topic template from Foswiki.org. To copy the text, go to Foswiki:Plugins/PluginPackage and:
+      * enter the plugin name in the "How to Create a Plugin" section
+      * click Create
+      * select all in the Edit box &amp; copy 
+      * Cancel the edit
+      * go back to your site to the %SYSTEMWEB% web
+      * In the GoBox enter your plugin name, for example =MyFirstPlugin=, press enter and create the new topic
+      * paste &amp; save new plugin topic on your site
+   1. *Customize* your plugin topic.
+      * Important: In case you plan to publish your plugin on Foswiki.org, use Interwiki names for author names and links to Foswiki.org topics, such as Foswiki:Main/%WIKINAME%. This is important because links should work properly in a plugin topic installed on any Foswiki, not just on Foswiki.org.
+   1. *Save* your topic, for use in [[#CreatePluginPackage][packaging]] and [[#PublishPlugin][publishing]] your plugin.
+
+<blockquote style="background-color:#f5f5f5">
+*OUTLINE: Doc Topic Contents* <br />
+Check the plugins web on Foswiki.org for the latest plugin doc topic template. Here's a quick overview of what's covered:
+
+*Syntax Rules:* &lt;<i>Describe any special text formatting that will be rendered.</i>&gt;" 
+
+*Example:* &lt;<i>Include an example of the plugin in action. Possibly include a static HTML version of the example to compare if the installation was a success!</i>&gt;"
+
+*Plugin Settings:* &lt;<i>Description and settings for custom plugin settings, and those required by Foswiki.</i>&gt;"
+
+   * *Plugins Preferences* &lt;<i>If user settings are needed, link to [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and explain the role of the plugin name prefix</i>
+
+*Plugin Installation Instructions:* &lt;<i>Step-by-step set-up guide, user help, whatever it takes to install and run, goes here.</i>&gt;"
+
+*Plugin Info:* &lt;<i>Version, credits, history, requirements - entered in a form, displayed as a table. Both are automatically generated when you create or edit a page in the Foswiki:Plugins web.</i>&gt;
+</blockquote>
+
+#CreatePluginPackage
+---+++ Packaging for Distribution
+
+The Foswiki:Extensions.BuildContrib is a powerful build environment that is used by the Foswiki project to build Foswiki itself, as well as many of the plugins. You don't *have* to use it, but it is highly recommended!
+
+If you don't want (or can't) use the !BuildContrib, then a minimum plugin release consists of a Perl module with a WikiName that ends in =Plugin=, ex: =MyFirstPlugin.pm=, and a documentation page with the same name(=MyFirstPlugin.txt=).
+
+   1. Distribute the plugin files in a directory structure that mirrors Foswiki. If your plugin uses additional files, include them all:
+      * =lib/Foswiki/Plugins/MyFirstPlugin.pm=
+      * =data/Foswiki/MyFirstPlugin.txt=
+      * =pub/Foswiki/MyFirstPlugin/uparrow.gif= [a required graphic]
+   2. Create a zip archive with the plugin name (=MyFirstPlugin.zip=) and add the entire directory structure from Step 1. The archive should look like this:
+      * =lib/Foswiki/Plugins/MyFirstPlugin.pm=
+      * =data/Foswiki/MyFirstPlugin.txt=
+      * =pub/Foswiki/MyFirstPlugin/uparrow.gif=
+
+#PublishPlugin
+---+++ Publishing for Public Use
+
+You can release your tested, packaged plugin to the Foswiki community through the Foswiki:Plugins web. All plugins submitted to Foswiki.org are available for download and further development in Foswiki:Plugins/PluginPackage.
+
+Publish your plugin by following these steps:
+   1. *Post* the plugin documentation topic in the Foswiki:Plugins/PluginPackage:
+      * enter the plugin name in the "How to Create a Plugin" section, for example =MyFirstPlugin=
+      * paste in the topic text from [[#CreatePluginTopic][Writing the Documentation Topic]] and save
+   1. *Attach* the distribution zip file to the topic, ex: =MyFirstPlugin.zip=
+   1. *Link* from the doc page to a new, blank page named after the plugin, and ending in =Dev=, ex: =MyFirstPluginDev=. This is the discussion page for future development. (User support for plugins is handled in Foswiki:Support.)
+   1. *Put* the plugin into the SVN repository, see Foswiki:Plugins/ReadmeFirst (optional)
+
+%N% Once you have done the above steps once, you can use the !BuildContrib to upload updates to your plugin.
+
+Thank you very much for sharing your plugin with the Foswiki community :-)
+
+#RecommendedStorageOfPluginData
+---++ Recommended Storage of Plugin Specific Data
+
+Plugins sometimes need to store data. This can be plugin internal data such as cache data, or data generated for browser consumption such as images. Plugins should store data using FoswikiFuncDotPm functions that support saving and loading of topics and attachments.
+
+---+++ Plugin Internal Data
+
+You can create a plugin "work area" using the =Foswiki::Func::getWorkArea()= function, which gives you a persistent directory where you can store data files. By default they will not be web accessible. The directory is guaranteed to exist, and to be writable by the webserver user. For convenience, =Foswiki::Func::storeFile()= and =Foswiki::Func::readFile()= are provided to persistently store and retrieve simple data in this area.
+
+---+++ Web Accessible Data
+
+__Topic-specific data__ such as generated images can be stored in the topic's attachment area, which is web accessible. Use the =Foswiki::Func::saveAttachment()= function to store the data.
+
+Recommendation for file name:
+   * Prefix the filename with an underscore (the leading underscore avoids a name clash with files attached to the same topic)
+   * Identify where the attachment originated from, typically by including the plugin name in the file name
+   * Use only alphanumeric characters, underscores, dashes and periods to avoid platform dependency issues and URL issues
+   * Example: =_GaugePlugin_img123.gif=
+
+__Web specific data__ can be stored in the plugin's attachment area, which is web accessible. Use the =Foswiki::Func::saveAttachment()= function to store the data.
+
+Recommendation for file names in plugin attachment area:
+   * Prefix the filename with an underscore
+   * Include the name of the web in the filename
+   * Use only alphanumeric characters, underscores, dashes and periods to avoid platform dependency issues and URL issues
+   * Example: =_Main_roundedge-ul.gif=
+
+#ConfigSpec
+---++ Integrating with <code>configure</code>
+Some extensions have setup requirements that are best integrated into =configure= rather than trying to use [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. These extensions use =Config.spec= files to publish their configuration requirements.
+
+=Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/Foswiki/Plugins/BathPlugin/Config.spec=.
+
+---+++ Structure of a <code>Config.spec</code> file
+The =Config.spec= file for a plugin starts with the plugin announcing what it is:
+<verbatim>
+# ---+ BathPlugin
+# This plugin senses the level of water in your bath, and ensures the plug
+# is not removed while the water is still warm.
+</verbatim> 
+This is followed by one or more configuration items. Each configuration item has a _type_, a _description_ and a _default_. For example:
+<verbatim>
+# **SELECT Plastic,Rubber,Metal**
+# Select the plug type
+$Foswiki::cfg{BathPlugin}{PlugType} = 'Plastic';
+
+# **NUMBER**
+# Enter the chain length in cm
+$Foswiki::cfg{BathPlugin}{ChainLength} = '30';
+
+# **BOOLEAN EXPERT**
+# Turn this option off to disable the water temperature alarm
+$Foswiki::cfg{BathPlugin}{TempSensorEnabled} = '1';
+</verbatim>
+The type (e.g. =**SELECT**= ) tells =configure= to how to prompt for the value. It also tells configure how to do some basic checking on the value you actually enter. All the comments between the type and the configuration item are taken as part of the description. The configuration item itself defines the default value for the configuration item. The above spec defines the configuration items =$Foswiki::cfg{BathPlugin}{PlugType}=, =$Foswiki::cfg{BathPlugin}{ChainLength}=, and =$Foswiki::cfg{BathPlugin}{TempSensorEnabled}= for use in your plugin. For example,
+<verbatim>
+if( $Foswiki::cfg{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
+    die "The bathwater is too hot for comfort";
+}
+</verbatim>
+
+The config.spec file is read by configure, and =configure= then writes =LocalSite.cfg= with the values chosen by the local site admin.
+
+A range of types are available for use in =Config.spec= files:
+
+| BOOLEAN | A true/false value, represented as a checkbox |
+| COMMAND _length_ | A shell command |
+| LANGUAGE | A language (selected from ={LocalesDir}= |
+| NUMBER | A number |
+| OCTAL | An octal number |
+| PASSWORD _length_ | A password (input is hidden) |
+| PATH _length_ | A file path |
+| PERL | A perl structure, consisting of arrays and hashes |
+| REGEX _length_ | A perl regular expression |
+| SELECT _choices_ | Pick one of a range of choices |
+| SELECTCLASS _root_ | Select a perl package (class) |
+| STRING _length_ | A string |
+| URL _length_ | A url |
+| URLPATH _length_ | A relative URL path |
+
+All types can be followed by a comma-separated list of _attributes_.
+| EXPERT | means this an expert option |
+| M | means the setting is mandatory (may not be empty) |
+| H | means the option is not visible in =configure= |
+
+See =lib/Foswiki.spec= for many more examples.
+
+=Config.spec= files are also used for other (non-plugin) extensions. in this case they are stored under the =Contrib= directory instead of the =Plugins= directory.
+
+Foswiki:Foswiki/SpecifyingConfigurationItemsForExtensions has supplemental documentation on configure settings.
+
+#MaintainPlugins
+---++ Maintaining Plugins
+
+---+++ Discussions and Feedback on Plugins
+
+Each published plugin has a plugin development topic on Foswiki.org. Plugin development topics are named after your plugin and end in =Dev=, such as =MyFirstPluginDev=. The plugin development topic is a great resource to discuss feature enhancements and to get feedback from the Foswiki community.
+
+---+++ Maintaining Compatibility with Earlier Foswiki Versions
+
+The plugin interface (FoswikiFuncDotPm functions and plugin handlers) evolve over time. Foswiki introduces new API functions to address the needs of plugin authors. Plugins using unofficial Foswiki internal functions may no longer work on a Foswiki upgrade.
+
+Organizations typically do not upgrade to the latest Foswiki for many months. However, many administrators still would like to install the latest versions of a plugin on their older Foswiki installation. This need is fulfilled if plugins are maintained in a compatible manner. 
+
+__%T% Tip:__ Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
+Here is an example; the Foswiki:Support.PluginsSupplement has more details.
+
+<verbatim>
+    if( $Foswiki::Plugins::VERSION >= 1.1 ) {
+        @webs = Foswiki::Func::getListOfWebs( 'user,public' );
+    } else {
+        @webs = Foswiki::Func::getPublicWebList( );
+    }
+</verbatim>
+
+---+++ Handling deprecated functions
+
+From time-to-time, the Foswiki developers will add new functions to the interface (either to FoswikiFuncDotPm, or new handlers). Sometimes these improvements mean that old functions have to be deprecated to keep the code manageable. When this happens, the deprecated functions will be supported in the interface for at least one more Foswiki release, and probably longer, though this cannot be guaranteed.
+
+When a plugin defines deprecated handlers, a warning will be shown in the list generated by %<nop>FAILEDPLUGINS%. Admins who see these warnings should check Foswiki.org and if necessary, contact the plugin author, for an updated version of the plugin.
+
+Updated plugins may still need to define deprecated handlers for compatibility with old Foswiki versions. In this case, the plugin package that defines old handlers can suppress the warnings in %<nop>FAILEDPLUGINS%.
+
+This is done by defining a map from the handler name to the =Foswiki::Plugins= version _in which the handler was first deprecated_. For example, if we need to define the =endRenderingHandler= for compatibility with =Foswiki::Plugins= versions before 1.1, we would add this to the plugin:
+
+<verbatim>
+package Foswiki::Plugins::SinkPlugin;
+use vars qw( %FoswikiCompatibility );
+$FoswikiCompatibility{endRenderingHandler} = 1.1;
+</verbatim>
+If the currently-running Foswiki version is 1.1 _or later_, then the _handler will not be called_ and _the warning will not be issued_. Foswiki with versions of =Foswiki::Plugins= before 1.1 will still call the handler as required.

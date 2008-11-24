@@ -1,17 +1,18 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 14040 $"}%
----+ Empty TWiki Plugin
+---+ Empty Plugin
 
 This is an empty Plugin you can use as a template to build your own [[%SYSTEMWEB%.Plugins][Plugins]]. This Plugin does nothing, but is ready to be used.
 
 To create your own Plugin:
 
-   * Copy file ==TWiki/Plugins/EmptyPlugin.pm== to ==&lt;name&gt;Plugin.pm== and customize the plugin.
+   * Copy file ==lib/Foswiki/Plugins/EmptyPlugin.pm== to ==lib/Foswiki/Plugins/&lt;name&gt;Plugin.pm==.
    * Create a  ==&lt;name&gt;Plugin== topic in the %SYSTEMWEB% web. Do so by visiting http://foswiki.org/Extensions/PluginPackage#NewPlugin and starting a new topic to get the default plugin topic text (don't save the topic). Customize your plugin topic to your needs.
-   * See details in [[%SYSTEMWEB%.Plugins][Plugins]].
+   * See details in [[%SYSTEMWEB%.DevelopingPlugins][DevelopingPlugins]].
 
----++ Syntax Rules
+---++ Plugin Handlers
+The following plugin handlers are defined.
 
-(none)
+%INCLUDE{"pod:Foswiki::Plugins::EmptyPlugin" level="3"}%
 
 ---++ Plugin Settings
 
@@ -21,35 +22,12 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>E
    * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
       * Set SHORTDESCRIPTION = Empty Plugin used as a template for new Plugins
 
-   * Your own setting, for example:
-      * Set EXAMPLE = got it!
-
-   * Debug plugin: ( TWiki sets =$debug= in your plugin. See output in =data/debug.txt=.)
-      * Set DEBUG = 0
-
----++ Plugin Installation Instructions
-
-   * This plugin is preinstalled, you do not need to install it.
-
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie |
-|  Copyright: | &copy; 2001-2007, %SYSTEMWEB%.ProjectContributor |
+|  Plugin Author: | Foswiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie |
+|  Copyright: | &copy; 2008, Foswiki Contributors<br>&copy; 2001-2007, TWiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | %$VERSION% |
-|  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  20 May 2007 | Added renderWikiWordHandler |
-|  01 Feb 2006: | Dakar changes |
-|  21 Mar 2004: | Added afterSaveHandler |
-|  14 Jul 2001: | Changed to plug&amp;play |
-|  27 Feb 2001: | Initial version |
-|  TWiki Dependency: | $TWiki::Plugins::VERSION 1.1 |
-|  Dependencies: | %$DEPENDENCIES |
-|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 99%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 99% |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
-__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
--- %SYSTEMWEB%.ProjectContributor - 01 Feb 2006
+

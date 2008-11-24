@@ -24,6 +24,7 @@ throw Foswiki::OopsException( 'bathplugin',
                             web => $web,
                             topic => $topic,
                             params => [ 'bigtoe', 'hot tap' ] );
+</verbatim>
 
 =cut
 

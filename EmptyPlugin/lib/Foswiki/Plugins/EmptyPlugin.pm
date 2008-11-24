@@ -36,6 +36,10 @@ listed in [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]]. See
 for information on regarding deprecated handlers that are defined for
 compatibility with older Foswiki versions.
 
+__BNOTE:__ All but the initPlugin are disabled. To enable a callback, remove =DISABLE_= from the function name.
+
+%STARTINCLUDE%
+
 __NOTE:__ When writing handlers, keep in mind that these may be invoked
 on included topics. For example, if a plugin generates links to the current
 topic, these need to be generated before the afterCommonTagsHandler is run,
@@ -96,7 +100,7 @@ REQUIRED
 Called to initialise the plugin. If everything is OK, should return
 a non-zero value. On non-fatal failure, should write a message
 using Foswiki::Func::writeWarning and return 0. In this case
-%FAILEDPLUGINS% will indicate which plugins failed.
+%<nop>FAILEDPLUGINS% will indicate which plugins failed.
 
 In the case of a catastrophic failure that will prevent the whole
 installation from working safely, this handler may use 'die', which
@@ -104,7 +108,7 @@ will be trapped and reported in the browser.
 
 You may also call =Foswiki::Func::registerTagHandler= here to register
 a function to handle variables that have standard Foswiki syntax - for example,
-=%MYTAG{"my param" myarg="My Arg"}%. You can also override internal
+=%<nop>MYTAG{"my param" myarg="My Arg"}%. You can also override internal
 Foswiki variable handling functions this way, though this practice is unsupported
 and highly dangerous!
 
@@ -354,6 +358,7 @@ passed to the tag (usually empty) e.g. for
 <pre class='slobadob'>
 XYZ
 </pre>
+</verbatim>
 the map will contain:
 <pre>
 $removed->{'pre1'}{text}:   XYZ
