@@ -13,13 +13,13 @@
 
 =pod
 
----+ package TWiki::Plugins::TWikiCompatibilityPlugin
+---+ package Foswiki::Plugins::TWikiCompatibilityPlugin
 
 
 =cut
 
 
-package TWiki::Plugins::TWikiCompatibilityPlugin;
+package Foswiki::Plugins::TWikiCompatibilityPlugin;
 
 # Always use strict to enforce variable scoping
 use strict;

@@ -2,7 +2,7 @@
 # ---++ TWikiCompatibilityPlugin
 # **PERL**
 # a hash mapping TWiki's TWiki web topics to Foswiki's topics
-$TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = {
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = {
     'ATasteOfTWiki' => 'BeginnersStartHere',
     'TWikiAccessControl' => 'AccessControl',
     'TWikiAddOns' => 'ContributedAddOns',
@@ -54,7 +54,7 @@ $TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = {
 };
 # **PERL**
 # a hash mapping TWiki's Main web topics to Foswiki's topics
-$TWiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion} = {
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion} = {
     'TWikiAdminGroup' => 'AdminGroup',
     'TWikiGroupTemplate' => 'GroupTemplate',
     'TWikiPreferences' => 'SitePreferences',
