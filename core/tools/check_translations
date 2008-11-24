@@ -5,11 +5,11 @@ use strict;
 my $use = <<EOF
 Use:
   \$ tools/check_translations
-    Outputs TWiki translation status in TWikiML format, suitable for inclusion in a TWiki topic.
+    Outputs translation status in Foswiki ML format, suitable for inclusion in a topic.
   \$ tools/check_translations --raw
-    Outputs TWiki translation status in raw gettext's msgfmt output format (old style)
+    Outputs translation status in raw gettext's msgfmt output format (old style)
   \$ tools/check_translations --upload
-    Generates the same output when called without parameters, then uploads it to the Codev.TWikiTranslationStatus at TWiki.org. You'll be asked for your WikiName and password.
+    Generates the same output when called without parameters, then uploads it to Development.FoswikiTranslationStatus at foswiki.org. You'll be asked for your WikiName and password.
 EOF
 ;
 
@@ -37,7 +37,7 @@ sub list_translators {
       }
       if ($line =~ m/^#\s*(TWiki:Main\/\w*),/) {
         my $topic = $1;
-        $topic =~ s#TWiki:#http://twiki.org/cgi-bin/view/#;
+        $topic =~ s#TWiki:#http://www.fowswiki.org/bin/view/#;
         print "  $topic\n";
       }
     }
@@ -123,14 +123,14 @@ EOF
 ;
 
   my $ua = LWP::UserAgent->new;
-  $ua->agent("TWiki check_translations Script");
-  my $req = POST 'http://twiki.org/cgi-bin/save/Codev/TWikiTranslationStatus', [ text => $text ];
+  $ua->agent("Foswiki check_translations Script");
+  my $req = POST 'http://www.foswiki.org/bin/save/Development/FoswikiTranslationStatus', [ text => $text ];
   $req->authorization_basic($wikiname, $password);
   my $resp = $ua->request($req);
   if ($resp->is_redirect) {
-    print "I: Translation status successfully uploaded to twiki.org!\n";
+    print "I: Translation status successfully uploaded to Foswiki.org!\n";
   } else {
-    print "E: Translation status not uploaded to twiki.org. Did you type your correct WikiName and password?\n";
+    print "E: Translation status not uploaded to Foswiki.org. Did you type your correct WikiName and password?\n";
     print $resp->content;
   }
 } else {
