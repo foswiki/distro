@@ -1,6 +1,6 @@
 # Release manifest for TWikiCompatibilityPlugin
 data/TWiki/WebPreferences.txt 0644 Documentation
-data/Foswiki/TWikiCompatibilityPlugin.txt 0644 Documentation
+data/System/TWikiCompatibilityPlugin.txt 0644 Documentation
 templates/twiki.tmpl 0644 compatibility template
 lib/Foswiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
 lib/Foswiki/Plugins/TWikiCompatibilityPlugin/Config.spec configuration defaults
