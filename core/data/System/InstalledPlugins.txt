@@ -12,7 +12,7 @@ Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"
 This list includs Plugins, some some of which may be disabed in configure, or due to other reasons.
 See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
 
-%SEARCH{ ".+(Contrib|AddOn|Plugin|Skin)$" type="regex" scope="topic" nonoise="on" format="   * [[$topic]]" }%
+%SEARCH{ ".+(Contrib|AddOn|Plugin|Skin)$" web="%SYSTEMWEB%,TWiki" type="regex" scope="topic" nonoise="on" format="   * [[$web.$topic][$topic]]" }%
 
 
 ---++ Plugin Diagnostics 
