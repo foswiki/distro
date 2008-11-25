@@ -168,7 +168,6 @@ data/System/TimeSpecifications.txt 0644
 data/System/UpgradeGuide.txt 0644
 data/System/UserDocumentationCategory.txt 0644
 data/System/UsersGuide.txt 0644
-data/System/UserToolsCategory.txt 0644
 data/System/UsingHTML.txt 0644
 data/System/VarACTIVATEDPLUGINS.txt 0644
 data/System/VarALLVARIABLES.txt 0644
@@ -910,7 +909,6 @@ pub/System/DocumentGraphics/xsl.gif 0644
 pub/System/DocumentGraphics/zip.gif 0644
 pub/System/FileAttachment/Sample.txt 0644
 pub/System/FileAttachment/Smile.gif 0644
-pub/System/JavascriptFiles/twiki.compressed.js 0644
 pub/System/JavascriptFiles/twikiCSS.js 0644
 pub/System/JavascriptFiles/twikiArray.js 0644
 pub/System/JavascriptFiles/twikiEvent.js 0644
