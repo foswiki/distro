@@ -442,6 +442,8 @@ sub viewfile {
     }
     else {
         $fileName = pop(@path);
+        $topic = pop(@path);
+        $webName = join('/', @path);
     }
     if ( !$fileName ) {
         throw Foswiki::OopsException(
