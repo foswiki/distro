@@ -13,8 +13,8 @@ Allow from all
 
 # Deny people from looking at the index
 # Bare in mind that this is largely inadequate
-# See http://twiki.org/cgi-bin/view/Codev/SecuringAttachments
-# and http://develop.twiki.org/~develop/cgi-bin/view/Bugs/Item610
+# See http://foswiki.org/System/AccessControl#Controlling_access_to_Attachment
+# and http://foswiki.org/Tasks/Item610
 # If you think you have a solution it is in your best interests to share it 
 # so others can test your idea.
 Options None
@@ -39,7 +39,7 @@ AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
 
 #add an Expires header that is sufficiently in the future that the browser does not even ask if its uptodate
 # reducing the load on the server significantly
-#IF you can, you should enable this - it _will_ improve your twiki experience, even if you set it to under one day.
+#IF you can, you should enable this - it _will_ improve your foswiki experience, even if you set it to under one day.
 #LoadModule expires_module libexec/httpd/mod_expires.so
 #AddModule mod_expires.c
 #<ifmodule mod_expires.c>
