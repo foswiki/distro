@@ -87,7 +87,23 @@ sub finish {
 sub _getHandler {
     my ( $this, $web, $topic, $attachment ) = @_;
 
-    return $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
+    my $handler = $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
+    return $handler;
+    
+    #CompatibilityHack
+    if ((defined($topic)) && (!$handler->storedDataExists())) {
+        if (!$attachment) {
+#print STDERR "getHandler, trying TWiki.$topic\n";
+            my $tryhandler = $this->{IMPL}->new( $this->{session}, 'TWiki', $topic );
+            $handler = $tryhandler if ($tryhandler->storedDataExists());
+        } else {
+            my $tryhandler = $this->{IMPL}->new( $this->{session}, 'TWiki', $topic, $attachment);
+#print STDERR "$handler->{file} wasn't there, trying $tryhandler->{file} \n";
+            $handler = $tryhandler if ($tryhandler->storedDataExists());  
+        }
+    }
+    
+    return $handler;
 }
 
 =pod

@@ -398,7 +398,9 @@ if the main file revision is required.
 =cut
 
 sub getRevision {
-    my ($this) = @_;
+    my $this = shift;
+    ASSERT( defined($this->{file}) ) if DEBUG;
+
     return readFile( $this, $this->{file} );
 }
 
@@ -412,6 +414,8 @@ Establishes if there is stored data associated with this handler.
 
 sub storedDataExists {
     my $this = shift;
+    ASSERT( defined($this->{file}) ) if DEBUG;
+    
     return -e $this->{file};
 }
 

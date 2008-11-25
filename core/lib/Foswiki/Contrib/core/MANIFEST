@@ -509,6 +509,7 @@ lib/Foswiki/I18N.pm 0444
 lib/Foswiki/I18N/Extract.pm 0444
 lib/Foswiki/I18N/Fallback.pm 0444
 lib/Foswiki/If/Node.pm 0444
+lib/Foswiki/If/OP_isempty.pm 0444
 lib/Foswiki/If/OP_isweb.pm 0444
 lib/Foswiki/If/OP_istopic.pm 0444
 lib/Foswiki/If/OP_dollar.pm 0444
@@ -909,10 +910,8 @@ pub/System/DocumentGraphics/xsl.gif 0644
 pub/System/DocumentGraphics/zip.gif 0644
 pub/System/FileAttachment/Sample.txt 0644
 pub/System/FileAttachment/Smile.gif 0644
-pub/System/JavascriptFiles/twiki.js 0644
 pub/System/JavascriptFiles/twiki.compressed.js 0644
 pub/System/JavascriptFiles/twikiCSS.js 0644
-pub/System/JavascriptFiles/twikilib.js 0644
 pub/System/JavascriptFiles/twikiArray.js 0644
 pub/System/JavascriptFiles/twikiEvent.js 0644
 pub/System/JavascriptFiles/twikiForm.js 0644
@@ -923,6 +922,8 @@ pub/System/JavascriptFiles/twikiString.js 0644
 pub/System/JavascriptFiles/twikiStringUnicodeChars.js 0644
 pub/System/JavascriptFiles/twikiStyles.js 0644
 pub/System/JavascriptFiles/twikiWindow.js 0644
+pub/System/JavascriptFiles/foswiki.js 0644
+pub/System/JavascriptFiles/foswikilib.js 0644
 pub/System/JavascriptFiles/foswiki_edit.js 0644
 pub/System/JavascriptFiles/foswiki_renamebase.js 0644
 pub/System/JavascriptFiles/twikiuiToggle.js 0644
