@@ -210,7 +210,7 @@ __Note:__ The Plugin uses base settings like date format, language and style fro
 
 ---++ Plugin Info
 
-|  Copyright: | &copy; 2008, Arthur Clemens and Foswiki Contributors; &copy; 2002-2007 TWiki Contributors, TWiki:Main.PeterThoeny  | 
+|  Copyright: | &copy; 2008, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 4.10 (23 Nov 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
