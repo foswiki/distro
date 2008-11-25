@@ -461,7 +461,6 @@ sub viewfile {
     unless ( $fileName
         && $session->{store}->attachmentExists( $webName, $topic, $fileName ) )
     {
-die "attachment? $webName, $topic, $fileName\n";
         throw Foswiki::OopsException(
             'attention',
             def    => 'no_such_attachment',
