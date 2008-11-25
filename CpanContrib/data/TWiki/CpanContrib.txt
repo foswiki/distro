@@ -13,7 +13,7 @@ Proin ligula quam, vulputate et, laoreet vel, porttitor at, metus. Aliquam biben
 
 ---++ Included CPAN Modules in package
 
-This TWiki Contrib provides locally-installable versions of the following CPAN modules:
+This Foswiki Contrib provides locally-installable versions of the following CPAN modules:
 
 <table><caption align="bottom">Included CPAN Modules (240 installed)</caption> <tr valign="top"><td>
    * [[CPAN:Algorithm::Annotate]]
@@ -271,7 +271,7 @@ Proin ligula quam, vulputate et, laoreet vel, porttitor at, metus. Aliquam biben
 </tr>
 <tr valign="top"><td>
 
-You can also build the CpanContrib without a full TWiki SVN checkout...
+You can also build the CpanContrib without a full Foswiki SVN checkout...
 
 <verbatim>
 	SVN=http://svn.twiki.org/svn/twiki/branches/MAIN
@@ -299,7 +299,7 @@ Proin ligula quam, vulputate et, laoreet vel, porttitor at, metus. Aliquam biben
 
 In order build the CpanContrib package, each of the CPAN modules 
 <verbatim>
-	cd lib/TWiki/Contrib/CpanContrib
+	cd lib/Foswiki/Contrib/CpanContrib
 	perl build.pl release
 </verbatim>
 as usual, results in the following files: =CpanContrib.tgz=, =CpanContrib.zip=, and =CpanContrib.md5=
@@ -311,8 +311,8 @@ See Foswiki:Extensions.BuildContrib for additional info on ...
 These steps can also be followed on a site that already has CpanContrib installed to refresh the CPAN modules.
 
 <verbatim>
-	$TWIKI/tools/install-cpan.pl --baselibdir=$TWIKI/lib/CPAN/ </dev/null \
-		`perl -e "require qq{$TWIKI/lib/TWiki/Contrib/CpanContrib/CPAN}; print join( ' ', @CPAN )"`
+	$FOSWIKI/tools/install-cpan.pl --baselibdir=$TWIKI/lib/CPAN/ </dev/null \
+		`perl -e "require qq{$FOSWIKI/lib/Foswiki/Contrib/CpanContrib/CPAN}; print join( ' ', @CPAN )"`
 </verbatim>
 
 
@@ -329,7 +329,7 @@ These steps can also be followed on a site that already has CpanContrib installe
 
 ---+++ Installing individual CPAN modules
 
-The CpanContrib is also useful outside of the scope of TWiki as it provides a way to reliably install CPAN
+The CpanContrib is also useful outside of the scope of Foswiki as it provides a way to reliably install CPAN
 modules locally.
 
 <pre>
@@ -359,7 +359,7 @@ http://cpan.org and stores those files locally in a =MIRROR/MINICPAN/= directory
 Settings are stored as preferences variables. To reference a setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, e.g. ==%<nop>CPANCONTRIB_STUB%==
 
    * One line des<cription:
-      * Set SHORTDESCRIPTION = Bundled Prebuilt CPAN Modules for twiki.org current TWiki:Codev.TWikiRelease and all [[http://twiki.org twiki.org]] Foswiki:Extensions modules
+      * Set SHORTDESCRIPTION = Bundled Prebuilt CPAN Modules for Foswiki's Foswiki:Extensions modules
 
    * Name of the perl package
       * Set STUB = %$STUB%
@@ -367,7 +367,7 @@ Settings are stored as preferences variables. To reference a setting write ==%<n
 
 ---++ Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where TWiki is running.
+__Note:__ You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where Foswiki is running.
 
    * Download the ZIP file from the Plugin web (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
@@ -381,7 +381,7 @@ __Note:__ You do not need to install anything on the browser to use this contrib
 
 ---++ Contrib Info
 
-|  Author: | TWiki:Main.WillNorris |
+|  Author: | Foswiki:Main.WillNorris |
 |  Copyright &copy;: |  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Dependencies: | %$DEPENDENCIES% |
@@ -397,4 +397,4 @@ __Note:__ You do not need to install anything on the browser to use this contrib
 
 __Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
--- TWiki:Main/WillNorris - %$DATE%
+-- Foswiki:Main/WillNorris - %$DATE%
