@@ -11,36 +11,36 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 %TOC%
 
----++ twiki.Array
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiArray.js"></script>
+---++ foswiki.Array
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiArray.js"></script>
 
----+++ twiki.Array.remove
+---+++ foswiki.Array.remove
 
 <script language="javascript">
 /*<![CDATA[*/
     function testRemoveWithValidArgs() {
     	var list = ["a", "b", "c"];
-    	twiki.Array.remove(list, "b");
+    	foswiki.Array.remove(list, "b");
         assertEquals("Remove object 1 from list", "ac", list.join(""));
-        twiki.Array.remove(list, "a");
+        foswiki.Array.remove(list, "a");
         assertEquals("Remove object 2 from list", "c", list.join(""));
-        twiki.Array.remove(list, "c");
+        foswiki.Array.remove(list, "c");
         assertEquals("Remove object 3 from list", "", list.join(""));
     }
     function testRemoveWithInvalidArgs() {
     	var list = ["a", "b", "c"];
-        assertNull("A null argument should result in null", twiki.Array.remove(list, null));
-        twiki.Array.remove(list, null);
+        assertNull("A null argument should result in null", foswiki.Array.remove(list, null));
+        foswiki.Array.remove(list, null);
         assertEquals("A null argument should result in no objects removed", "abc", list.join(""));
     }
     function testRemoveWithUndefinedValue() {
     	var list = ["a", "b", "c"];
-        assertNull("An undefined argument should result in null", twiki.Array.remove(list, JSUNIT_UNDEFINED_VALUE));
+        assertNull("An undefined argument should result in null", foswiki.Array.remove(list, JSUNIT_UNDEFINED_VALUE));
     }
 /*]]>*/
 </script>
 
----+++ twiki.Array.convertArgumentsToArray
+---+++ foswiki.Array.convertArgumentsToArray
 
 <script language="javascript">
 /*<![CDATA[*/
@@ -49,28 +49,28 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 	}
     function testConvertArgumentsToArrayWithValidArgs() {
     	var args = returnArguments("a", "b", "c");
-    	var argsArray = twiki.Array.convertArgumentsToArray(args);
+    	var argsArray = foswiki.Array.convertArgumentsToArray(args);
     	assertEquals("Convert valid arguments", "abc", argsArray.join(""));
-    	var argsArray = twiki.Array.convertArgumentsToArray(args,1);
+    	var argsArray = foswiki.Array.convertArgumentsToArray(args,1);
     	assertEquals("Convert valid arguments with starting point", "bc", argsArray.join(""));
     }
     function testConvertArgumentsToArrayWithInValidArgs() {
     	{
 			var args = returnArguments();
-			var list = twiki.Array.convertArgumentsToArray(args);
+			var list = foswiki.Array.convertArgumentsToArray(args);
 			assertNull("Empty args list should result in null", list);
 		}
 		{
 			var args = returnArguments("a", "b", "c");
-			var list = twiki.Array.convertArgumentsToArray(args,3);
+			var list = foswiki.Array.convertArgumentsToArray(args,3);
 			assertNull("Start beyond bounds should result in null", list);
 		}
 		{
-	    	assertNull("No args should result in null", twiki.Array.convertArgumentsToArray());
+	    	assertNull("No args should result in null", foswiki.Array.convertArgumentsToArray());
     	}
     	{
 			var args = returnArguments("a", "b", "c");
-			var list = twiki.Array.convertArgumentsToArray(args,"a");
+			var list = foswiki.Array.convertArgumentsToArray(args,"a");
 			assertNull("String input as start should result in null", list);
 		}
     }
@@ -78,7 +78,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*]]>*/
 </script>
 
----+++ twiki.Array.indexOf
+---+++ foswiki.Array.indexOf
 
 <script language="javascript">
 /*<![CDATA[*/
@@ -87,24 +87,24 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     	var array = ["a", "b", "b", "c"];
     	var index;
     	
-    	index = twiki.Array.indexOf(array, "a");
+    	index = foswiki.Array.indexOf(array, "a");
     	assertEquals("testIndexOfWithValidArgs 1", 0, index);
 
-    	index = twiki.Array.indexOf(array, "b");
+    	index = foswiki.Array.indexOf(array, "b");
     	assertEquals("testIndexOfWithValidArgs 2", 1, index);
     	
-    	index = twiki.Array.indexOf(array, "c");
+    	index = foswiki.Array.indexOf(array, "c");
     	assertEquals("testIndexOfWithValidArgs 3", 3, index);
     	
-    	index = twiki.Array.indexOf(array, "d");
+    	index = foswiki.Array.indexOf(array, "d");
     	assertEquals("testIndexOfWithValidArgs 4", -1, index);
     	
     	var emptyArray = [];
-    	index = twiki.Array.indexOf(emptyArray, "a");
+    	index = foswiki.Array.indexOf(emptyArray, "a");
     	assertEquals("Empty array input should result in -1", -1, index);
     }
     function testIndexOfWithInvalidArgs() {
-    	index = twiki.Array.indexOf(null, "a");
+    	index = foswiki.Array.indexOf(null, "a");
     	assertNull("No array input should result in null", index);
     }
 /*]]>*/
@@ -148,7 +148,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 <option value="audi">Audi</option>
 </select>
 
-<!-- select multile -->
+<!-- select multiple -->
 <select name="testSelectMultiple" size="5" multiple> 
 <option>[New Genre]</option> 
 <option selected="selected">Industrial</option> 
@@ -204,30 +204,6 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 </script>
 
 
----+++ twiki.Form.makeSafeForTableEntry
-
-<script language="javascript">
-/*<![CDATA[*/
-
-    function testMakeSafeForTableEntry() {
-    	{
-    		var form = document.getElementById('testForm');
-    		var formElem = document.getElementById('testInput');
-    		var testValue = "1111|2222";
-    		formElem.value = testValue;
-    		assertEquals("Before make safe", formElem.value, testValue);
-			var EXPECTED = "1111/2222 ";
-			
-			twiki.Form.makeSafeForTableEntry( form );
-			assertEquals("Before make safe", formElem.value, EXPECTED);
-
-		}
-    }
-
-/*]]>*/
-</script>
-
-
 
 ---++ twiki.HTML
 
@@ -241,7 +217,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 <script language="javascript">
 /*<![CDATA[*/
     function testSetHtmlOfElementWithIdWithValidArgs() {
-    	var html = "<span style=\"color:#00f\">Blue text<\/span>";
+    	var html = "<span class=\"blue\">Blue text<\/span>";
 		var elem = twiki.HTML.setHtmlOfElementWithId(
 			"testSetHtmlOfElementWithId",
 			html
@@ -280,7 +256,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 <script language="javascript">
 /*<![CDATA[*/
     function testSetHtmlOfElementWithValidArgs() {
-    	var html = "<span style=\"color:#00f\">Blue text<\/span>";
+    	var html = "<span class=\"blue\">Blue text<\/span>";
     	var elem = document.getElementById("setHtmlOfElement");
 		var newElem = twiki.HTML.setHtmlOfElement(
 			elem,
@@ -303,7 +279,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 	}
 	
 	function testSetHtmlOfElementWithInvalidArgs() {
-		var html = "<span style=\"color:#00f\">Blue text<\/span>";
+		var html = "<span class=\"blue\">Blue text<\/span>";
 		var newElem = twiki.HTML.setHtmlOfElement(
 			null,
 			html
@@ -1069,6 +1045,21 @@ twiki.Event.addLoadEvent("createTextNode");
 	function testmakeWikiWordWithUndefinedValue() {
 		assertNull("An undefined argument should result in null:", twiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
 	}
+/*]]>*/
+</script>
+
+---+++ twiki.String.makeSafeForTableEntry
+
+<script language="javascript">
+/*<![CDATA[*/
+
+    function testMakeSafeForTableEntry() {
+		var rawValue = "1111|2222";
+		var newValue = twiki.String.makeSafeForTableEntry( rawValue );
+		var EXPECTED = '1111/2222 ';
+		assertEquals("Safe string", newValue, EXPECTED);
+    }
+
 /*]]>*/
 </script>
 

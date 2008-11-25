@@ -4,7 +4,7 @@ THIS COLLECTION OF JAVASCRIPT FUNCTIONS IS DEPRECATED!
 
 Use the Foswiki library classes instead:
 foswikilib.js
-twikiArray.js
+foswikiArray.js
 twikiCSS.js
 twikiEvent.js
 twikiForm.js
@@ -166,7 +166,7 @@ function setClassList(element, classlist) {
 
 // Determine the first index of a string in an array.
 // Return -1 if the string is not found.
-// WATCH OUT: the refactored function in twiki.Array returns null with an
+// WATCH OUT: the refactored function in foswiki.Array returns null with an
 // invalid array, but CSS class manipulation functions still rely on a 
 // return value of -1
 function indexOf(inElement, inArray) {
