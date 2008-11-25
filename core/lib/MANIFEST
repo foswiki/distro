@@ -18,5 +18,5 @@
 !include ../TwistyContrib/lib/Foswiki/Contrib/TwistyContrib
 !include ../TwistyPlugin/lib/Foswiki/Plugins/TwistyPlugin
 !include ../WysiwygPlugin/lib/Foswiki/Plugins/WysiwygPlugin
-!include ../TWikiCompatibilityPlugin/lib/TWiki/Plugins/TWikiCompatibilityPlugin
+!include ../TWikiCompatibilityPlugin/lib/Foswiki/Plugins/TWikiCompatibilityPlugin
 !include ../core/lib/Foswiki/Contrib/core
