@@ -82,7 +82,7 @@ sub earlyInitPlugin {
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
     Foswiki::Func::setPreferencesValue('TWIKIWEB', 'TWiki');
-    Foswiki::Func::setPreferencesValue('MAINWEB', 'USERSWEB');
+    Foswiki::Func::setPreferencesValue('MAINWEB', '%USERSWEB%');
 
     return;
 }
