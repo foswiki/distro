@@ -139,7 +139,7 @@ The easiest way to apply the same access control rules for attachments as apply 
 
     RewriteEngine on
     RewriteCond %{REQUEST_URI} !^/+twiki/+pub/+Foswiki/+.+
-    RewriteRule ^/+twiki/+pub/+([^/]+)/+((([^/]+)/+)+)(.+) /twiki/bin/viewfile/$1/$4?filename=$5 [L,PT]
+    RewriteRule ^/+twiki/+pub/+([^/]+)((/+([^/]+))+)/+(.+) /twiki/bin/viewfile/$1/$2?filename=$5 [L,PT]
 </verbatim>
 
 That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support.
