@@ -200,7 +200,7 @@ The image at the top is called "header art" - commonly the top image found on bl
 
 Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
 <blockquote><pre>
-   * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/PatternSkin/TWiki_header.gif
+   * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/PatternSkin/Foswiki_header.gif
    * <nop>Set WEBHEADERBGCOLOR = somehexcolor (no quotes, for example: #ffffff)
 </pre></blockquote>
 

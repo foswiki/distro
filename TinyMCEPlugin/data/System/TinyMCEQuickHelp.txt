@@ -26,7 +26,7 @@
 <ol>
  <li> Create a list item using the toolbar button</li>
  <li> In the list item, type =Set NAME = value= </li>
- <li> Select the value, and assign the ==Protect on save== style to it (only required if the value contains any TWiki Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
+ <li> Select the value, and assign the ==Protect on save== style to it (only required if the value contains any Foswiki Topic Markup Language or if you style it e.g. to add bold, or if it's sensitive to the number of spaces)
  </li>
 </ol>
 *Using a Macro*
@@ -52,7 +52,7 @@
 <td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/link.gif" alt="link" />
    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/unlink.gif" alt="unlink" /></td>
 <td class="textcolumn"><ul>
-    <li> Links can either point to a URL or to the name of a TWiki topic. For example =http://twiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.</li>
+    <li> Links can either point to a URL or to the name of a Foswiki topic. For example =http://twiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.</li>
    </ul></td>
 </tr>
 <tr>

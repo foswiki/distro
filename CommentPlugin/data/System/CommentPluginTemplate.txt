@@ -218,7 +218,7 @@ Action added to action table directly above comment box
 
 
 ---++++ table
-Tablerows adding on end - TWiki:Main/FranzJosefSilli
+Tablerows adding on end
 <verbatim>
 %TMPL:DEF{PROMPT:table}%
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
@@ -238,7 +238,7 @@ Tablerows adding on end - TWiki:Main/FranzJosefSilli
 
 
 ---++++ toctalk
-Talk using TOC adding on end - TWiki:Main/FranzJosefSilli
+Talk using TOC adding on end
 <verbatim>
 %TMPL:DEF{PROMPT:toctalk}%
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
@@ -261,7 +261,7 @@ Talk using TOC adding on end - TWiki:Main/FranzJosefSilli
 
 
 ---++++ bookmark
-Create a list of annotated bookmarks - TWiki:Main/FranzJosefSilli
+Create a list of annotated bookmarks
 <verbatim>
 %TMPL:DEF{PROMPT:bookmark}%
 %TABLE{databg="#ffffff" tableborder="0" cellborder="0"}%
@@ -282,7 +282,7 @@ Create a list of annotated bookmarks - TWiki:Main/FranzJosefSilli
 
 
 ---++++ return
-Post to a different topic and return to here. The comment =target= is set in the =PROMPT=. In the form below the =redirectto= is set to the current (including) topic. %RED% Available with TWiki 4.1. %ENDCOLOR%
+Post to a different topic and return to here. The comment =target= is set in the =PROMPT=. In the form below the =redirectto= is set to the current (including) topic.
 
 <verbatim>
 %TMPL:DEF{returnpromptbox}%

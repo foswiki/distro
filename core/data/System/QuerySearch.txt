@@ -101,7 +101,7 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | <code>&lt;=</code> | &lte; |
 | =lc(x)= | Converts x to lower case, Use for caseless comparisons. |
 | =uc(x)= | Converts x to UPPER CASE. Use for caseless comparisons. |
-| =d2n(x)= | Converts a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If you have date fields in your forms, note that they are *not* stored in TWiki's internal format, but are stored as text strings. You should still use =d2n= to convert them to numbers for comparisons, though. |
+| =d2n(x)= | Converts a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If you have date fields in your forms, note that they are *not* stored in Foswiki's internal format, but are stored as text strings. You should still use =d2n= to convert them to numbers for comparisons, though. |
 | =NOT= | Invert the result of the subquery |
 | =AND= | Combine two subqueries |
 | =OR= | Combine two subqueries |

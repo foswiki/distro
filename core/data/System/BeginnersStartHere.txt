@@ -226,7 +226,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * Attachments are files which have been uploaded and attached to a Foswiki page using the 'Attach' function in the footer.
 <table border="0" cellspacing="2" cellpadding="1" bgcolor="white">
  <tr>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99">Attachment</font> <img src="http://TWiki.org/p/pub/TWiki/TablePlugin/diamond.gif" border="0" alt="sort" /></a></th>
+  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99">Attachment</font></a></th>
   <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Action</font></a> </th>
   <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Size</font></a> </th>
   <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Date</font></a> </th>
@@ -235,7 +235,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
  </tr>
  <tr>
   <td valign="top" bgcolor="#F8F8F8">
-   <img src="http://TWiki.org/p/pub/icn/zip.gif" width="16" height="16" align="top" alt="" border="0" />
+   %ICON{"gif"}%
    <font color="black"><a href="none">myco.gif</a></font>
   </td>
   <td align="center" valign="top" bgcolor="#F8F8F8">
