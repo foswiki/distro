@@ -60,16 +60,15 @@ This may not be enough for Plugins that do have in topic preferences.
 
 sub earlyInitPlugin {
 
-=pod 
-
     my $session = $Foswiki::Plugins::SESSION;
     if (($session->{webName} eq 'TWiki') &&
-            (!Foswiki::Func::webExists($session->{webName}))) {
+            (!Foswiki::Func::topicExists($session->{webName}, $session->{topicName}))) {
         my $TWikiWebTopicNameConversion = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion};
         $session->{webName} = $Foswiki::cfg{SystemWebName};
         if (defined($TWikiWebTopicNameConversion->{$session->{topicName}})) {
             $session->{topicName} =
                     $TWikiWebTopicNameConversion->{$session->{topicName}};
+#print STDERR "converted to $session->{topicName}";
         }
     }
     my $MainWebTopicNameConversion = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion};
@@ -77,13 +76,12 @@ sub earlyInitPlugin {
             (defined($MainWebTopicNameConversion->{$session->{topicName}}))) {
         $session->{topicName} =
             $MainWebTopicNameConversion->{$session->{topicName}};
+#print STDERR "converted to $session->{topicName}";
     }
 
-=end
-    
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
-    Foswiki::Func::setPreferencesValue('TWIKIWEB', 'SYSTEMWEB');
+    Foswiki::Func::setPreferencesValue('TWIKIWEB', 'TWiki');
     Foswiki::Func::setPreferencesValue('MAINWEB', 'USERSWEB');
 
     return;
