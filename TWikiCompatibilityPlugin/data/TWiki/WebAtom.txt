@@ -1,0 +1,6 @@
+%META:TOPICINFO{author="ProjectContributor" date="1138082878" format="1.0" version="$Rev: 8264 $"}%
+<title>%WIKITOOLNAME%'s <nop>%WEB% web</title>
+<subtitle>%MAKETEXT{"The [_1] web of Foswiki, the Free open Source Wiki." args="<nop>%WEB%"}%</subtitle>
+%INCLUDE{"%SYSTEMWEB%.WebAtomBase"}% <!--
+   * Set SKIN = rssatom
+-->

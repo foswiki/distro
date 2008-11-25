@@ -12,3 +12,16 @@ lib/TWiki/Attrs.pm 0644 Perl module
 lib/TWiki/Sandbox.pm 0644 Perl module
 lib/TWiki/Prefs.pm 0644 Perl module
 
+#make TWiki a real web
+data/TWiki/WebSearch.txt  0644 make it a valid web
+data/TWiki/WebIndex.txt  0644 make it a valid web
+data/TWiki/WebRss.txt  0644 make it a valid web
+data/TWiki/WebChanges.txt  0644 make it a valid web
+data/TWiki/WebHome.txt  0644 make it a valid web
+data/TWiki/WebNotify.txt  0644 make it a valid web
+data/TWiki/WebStatistics.txt  0644 make it a valid web
+data/TWiki/WebTopicList.txt  0644 make it a valid web
+data/TWiki/WebSearchAdvanced.txt  0644 make it a valid web
+data/TWiki/WebCreateNewTopic.txt  0644 make it a valid web
+data/TWiki/WebLeftBar.txt  0644 make it a valid web
+data/TWiki/WebAtom.txt  0644 make it a valid web

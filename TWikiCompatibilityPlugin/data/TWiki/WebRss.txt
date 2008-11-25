@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1112002813" format="1.0" version="$Rev: 13096 $"}%
+<channel rdf:about="%SCRIPTURL{"view"}%/%WEB%">
+%IF{ "$'URLPARAM{search}'!=''" then="<title><nop>%WIKITOOLNAME% search results for <nop>%URLPARAM{search}%</title>" else="<title><nop>%WIKITOOLNAME%'s <nop>%WEB% web</title>"}%
+  <link>%SCRIPTURL{"view"}%/%WEB%</link>
+  <description>%MAKETEXT{"The [_1] web of Foswiki, the Free Open Source Wiki." args="<nop>%WEB%"}%</description>
+%INCLUDE{"%SYSTEMWEB%.WebRssBase"}%<!--
+   * Set SKIN = rss
+-->
