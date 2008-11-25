@@ -25,7 +25,6 @@ Disallow: /bin/search
 Disallow: /bin/setlib.cfg
 Disallow: /bin/statistics
 Disallow: /bin/testenv
-Disallow: /bin/twiki
 Disallow: /bin/upload
 Disallow: /bin/viewauth
 Disallow: /bin/viewfile
