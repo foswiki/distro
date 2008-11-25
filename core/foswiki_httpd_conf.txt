@@ -2,32 +2,32 @@
 #
 # You are recommended to take a copy of this file and edit
 # the paths to match your installation. Then add:
-# include "/home/httpd/twiki/twiki_httpd.conf"
+# include "/home/httpd/foswiki/foswiki_httpd.conf"
 # to the end of your main httpd.conf file.
 #
 # See also http://foswiki.org/Support/ApacheConfigGenerator
 # that helps you configure Apache
 
 # The first parameter will be part of the URL to your installation e.g.
-# http://example.com/twiki/bin/view/...
+# http://example.com/foswiki/bin/view/...
 # The second parameter must point to the physical path on your disk. Be
 # careful not to lose any trailing /'s.
 
 #### Change the _second_ path to match your local installation
-ScriptAlias /twiki/bin/ "/home/httpd/twiki/bin/"
+ScriptAlias /foswiki/bin/ "/home/httpd/foswiki/bin/"
 
-# This defines a url that points to the root of the twiki installation. It is
+# This defines a url that points to the root of the foswiki installation. It is
 # used to access files in the pub directory (attachments etc)
 # It must come _after_ the ScriptAlias.
 
 #### Change the path to match your local installation
-Alias /twiki/ "/home/httpd/twiki/"
+Alias /foswiki/ "/home/httpd/foswiki/"
 
 # Block access to typical spam related attachments (.htm and .html files)
 # Except the Foswiki directory which is read only and does have attached html files.
 # You should uncomment the two lines below if the Foswiki is on the public Internet
-#SetEnvIf Request_URI "twiki/pub/.*\.[hH][tT][mM]?$" blockAccess
-#SetEnvIf Request_URI "twiki/pub/Foswiki/.*\.[hH][tT][mM]?$" !blockAccess
+#SetEnvIf Request_URI "foswiki/pub/.*\.[hH][tT][mM]?$" blockAccess
+#SetEnvIf Request_URI "foswiki/pub/Foswiki/.*\.[hH][tT][mM]?$" !blockAccess
 
 # We set an environment variable called blockAccess.
 #
@@ -50,7 +50,7 @@ BrowserMatchNoCase ^$ blockAccess
 # lets any IP address access this URL.
 
 #### Change the path to match your local installation
-<Directory "/home/httpd/twiki/bin">
+<Directory "/home/httpd/foswiki/bin">
 	AllowOverride None
 	Order Allow,Deny
 	Allow from all
@@ -60,7 +60,7 @@ BrowserMatchNoCase ^$ blockAccess
 	SetHandler cgi-script
 
 	# Password file for Foswiki users
-	AuthUserFile /home/httpd/twiki/data/.htpasswd
+	AuthUserFile /home/httpd/foswiki/data/.htpasswd
 	AuthName 'Enter your WikiName: (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
 	AuthType Basic
 	
@@ -69,10 +69,10 @@ BrowserMatchNoCase ^$ blockAccess
 	# to register with the Foswiki. Apache requires this to be a *local* path.
 	# Comment this out if you setup Foswiki to completely deny access to WikiGuest
 	# in all webs or change the path to a static html page.
-	ErrorDocument 401 /twiki/bin/view/Foswiki/UserRegistration
+	ErrorDocument 401 /foswiki/bin/view/Foswiki/UserRegistration
 	# Alternatively if your users are all known to be registered you may want
 	# to redirect them to the ResetPassword page.
-	# ErrorDocument 401 /twiki/bin/view/Foswiki/ResetPassword
+	# ErrorDocument 401 /foswiki/bin/view/Foswiki/ResetPassword
 
 # Limit access to configure to specific IP addresses and or users.
 # Make sure configure is not open to the general public.
@@ -111,7 +111,7 @@ BrowserMatchNoCase ^$ blockAccess
 # Apache documentation on .htaccess for more info.
 
 #### Change the path to match your local installation
-<Directory "/home/httpd/twiki/pub">
+<Directory "/home/httpd/foswiki/pub">
     #if you are using an svn checkout an pseudo-install.pl, you will need to enable symlinks
     #Options FollowSymLinks
 	Options None
@@ -136,26 +136,26 @@ BrowserMatchNoCase ^$ blockAccess
 # that they are *not* visible as URLs, so we set them as =deny from all=.
 
 #### Change the paths to match your local installation
-<Directory "/home/httpd/twiki/data">
+<Directory "/home/httpd/foswiki/data">
 	deny from all
 </Directory>
 
-<Directory "/home/httpd/twiki/templates">
+<Directory "/home/httpd/foswiki/templates">
 	deny from all
 </Directory>
 
-<Directory "/home/httpd/twiki/lib">
+<Directory "/home/httpd/foswiki/lib">
 	deny from all
 </Directory>
 
-<Directory "/home/httpd/twiki/tools">
+<Directory "/home/httpd/foswiki/tools">
 	deny from all
 </Directory>
 
-<Directory "/home/httpd/twiki/locale">
+<Directory "/home/httpd/foswiki/locale">
 	deny from all
 </Directory>
 
-<Directory "/home/httpd/twiki/working">
+<Directory "/home/httpd/foswiki/working">
 	deny from all
 </Directory>
