@@ -16,14 +16,14 @@
 | ATTACHLINKBOX | select | 1 | ,checked="checked" | Select checked to enable | S |
 | ATTACHEDFILELINKFORMAT | text | 30 | \t* [[%ATTACHURL%/$name][$name]]: $comment | Text | S |
 | ATTACHEDIMAGEFORMAT | textarea | | \t* $comment: <br /><img src="%ATTACHURLPATH%/$name" alt="$comment" $size /> | Text | S |
-| WIKITOOLNAME | text | 30 | TWiki | Site name | S |
+| WIKITOOLNAME | text | 30 | Foswiki | Site name | S |
 | WEBLOGONAME | text | 30 | banner.gif | Filename of a logo image | S |
 | WEBLOGOIMG | text | 30 | %PUBURL%/%BASEWEB%/%WEBPREFSTOPIC%/%WEBLOGONAME% | URL of a logo image | S |
 | WEBLOGOURL | text | 30 | %SCRIPTURL%/view%SCRIPTSUFFIX%/%BASEWEB%/%HOMETOPIC% | URL under the logo | S |
 | WEBLOGOALT | text | 30 | Home | Logo tooltip text of the logo | S |
 | WIKILOGOIMG | text | 30 | %PUBURL%/%SYSTEMWEB%/ProjectLogos/horzTWiki.gif | URL of a logo image | S |
 | WIKILOGOURL | text | 30 | http://Foswiki.org/ | URL under the logo| S |
-| WIKILOGOALT | text | 30 | Powered by TWiki | Logo tooltip text of the logo | S |
+| WIKILOGOALT | text | 30 | Powered by Foswiki | Logo tooltip text of the logo | S |
 | WIKIWEBLIST | textarea | | [[%MAINWEB%.%HOMETOPIC%][%MAINWEB%]] %SEP% [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]] %SEP% [[Sandbox.%HOMETOPIC%][Sandbox]] | | S |
 | ATTACHFILESIZELIMIT | text | 30 | 3000 | Maximum size of attachments in KB, 0 for no limit | S |
 | BROADCASTMESSAGE | textarea| |  | Broadcast message on every page, for skins that support it. | S |
@@ -35,7 +35,7 @@
 | HTTP_EQUIV_ON_VIEW| textarea | 30x1 | <link rel='alternate' type='application/rss+xml' title='RSS Feed' href='%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/WebRss' /> | http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts | S |
 | HTTP_EQUIV_ON_EDIT| textarea | 30x1 | =  | http-equiv== meta tags for ==edit== script | S |
 | HTTP_EQUIV_ON_PREVIEW| textarea | 30x1 | =  | http-equiv== meta tags for ==preview== script | S |
-| SKIN | text | 30 | pattern | Skin overriding the default TWiki templates. | S |
+| SKIN | text | 30 | pattern | Skin overriding the default Foswiki templates. | S |
 | WEBTOPICLIST | textarea | 40x3 | [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" /> | Usually a list of topics | S |
 | TWIKILAYOUTURL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css | URL of a CSS | S |
 | TWIKISTYLEURL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/style.css | URL of a CSS | S |

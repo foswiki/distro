@@ -563,40 +563,40 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
    | *File:* | *Description:* |
    | ==TwistyBundleTWiki04x02_installer== |  |
    | ==TwistyBundleTWiki04x02_installer.pl== |  |
-   | ==data/TWiki/TwistyBundleTWiki04x02.txt== |  |
-   | ==data/TWiki/BehaviourContrib.txt== |  |
-   | ==data/TWiki/TwistyContrib.txt== |  |
-   | ==data/TWiki/TwistyPlugin.txt== |  |
+   | ==data/System/TwistyBundleTWiki04x02.txt== |  |
+   | ==data/System/BehaviourContrib.txt== |  |
+   | ==data/System/TwistyContrib.txt== |  |
+   | ==data/System/TwistyPlugin.txt== |  |
    | ==lib/Foswiki/Contrib/BehaviourContrib.pm== |  |
    | ==lib/Foswiki/Contrib/TwistyBundleTWiki04x02.pm== |  |
    | ==lib/Foswiki/Contrib/TwistyContrib.pm== |  |
    | ==lib/Foswiki/Plugins/TwistyPlugin.pm== |  |
-   | ==pub/TWiki/BehaviourContrib/behaviour.compressed.js== |  |
-   | ==pub/TWiki/BehaviourContrib/behaviour.compressed_src.js== |  |
-   | ==pub/TWiki/BehaviourContrib/behaviour.js== |  |
-   | ==pub/TWiki/BehaviourContrib/behaviour_src.js== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/cssQuery-p.js== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/src/cssQuery-level2.js== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/src/cssQuery-level3.js== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/src/cssQuery-standard.js== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/src/cssQuery.js== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/src/test.html== |  |
-   | ==pub/TWiki/BehaviourContrib/cssQuery/test.html== |  |
-   | ==pub/TWiki/TwistyContrib/twist.compressed.js== |  |
-   | ==pub/TWiki/TwistyContrib/twist.compressed_src.js== |  |
-   | ==pub/TWiki/TwistyContrib/twist.css== |  |
-   | ==pub/TWiki/TwistyContrib/twist.js== |  |
-   | ==pub/TWiki/TwistyContrib/twist_src.js== |  |
+   | ==pub/System/BehaviourContrib/behaviour.compressed.js== |  |
+   | ==pub/System/BehaviourContrib/behaviour.compressed_src.js== |  |
+   | ==pub/System/BehaviourContrib/behaviour.js== |  |
+   | ==pub/System/BehaviourContrib/behaviour_src.js== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/cssQuery-p.js== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery-level2.js== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery-level3.js== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery-standard.js== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery.js== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/src/test.html== |  |
+   | ==pub/System/BehaviourContrib/cssQuery/test.html== |  |
+   | ==pub/System/TwistyContrib/twist.compressed.js== |  |
+   | ==pub/System/TwistyContrib/twist.compressed_src.js== |  |
+   | ==pub/System/TwistyContrib/twist.css== |  |
+   | ==pub/System/TwistyContrib/twist.js== |  |
+   | ==pub/System/TwistyContrib/twist_src.js== |  |
 
-   * Optionally, if it exists, run ==%TOPIC%_installer== to automatically check and install other TWiki modules that this module depends on. You can also do this step manually.
+   * Optionally, if it exists, run ==%TOPIC%_installer== to automatically check and install other Foswiki modules that this module depends on. You can also do this step manually.
    * Alternatively, manually make sure the dependencies listed in the table below are resolved.
    None
-   * Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
 
 
 ---++ Plugin Info
 
-|  Authors: | TWiki:Main.RafaelAlvarez, TWiki:Main.ArthurClemens |
+|  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.ArthurClemens |
 |  Copyright &copy;: | 2005 Rafael Alvarez; 2006-2008 Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Dependencies: | None |

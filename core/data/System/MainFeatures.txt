@@ -13,7 +13,7 @@
    * *Revision control:* All changes to pages and attachments are tracked. Retrieve previous page revisions; compare differences; find out who changed what and when.
    * *Access control:* Define groups and impose fine-grained read and write [[AccessControl][access restrictions]] based on groups and users.
    * *Macros:* Use [[macros]] to dynamically compose your pages. This allows you for example to include other pages, or show a search result embedded in a page.
-   * *Plugins:* Easily install program enhancements using external [[Plugins][plug-in modules]]. Developers can create plug-ins in Perl using the TWiki Plugin API.
+   * *Plugins:* Easily install program enhancements using external [[Plugins][plug-in modules]]. Developers can create plug-ins in Perl using the Foswiki Plugin API.
    * *Templates and skins:* A flexible [[SkinTemplates][templating system]] separates program logic and presentation. [[Skins]] overwrite template headers and footers; page content is unaffected.
    * *Managing pages:* Individual pages can be renamed, moved and deleted through the browser.
    * *Managing users:* Web-based [[UserRegistration][user registration]] and [[ChangePassword][change of password]].

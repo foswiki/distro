@@ -65,7 +65,7 @@ It's a part of the default distribution of the Foswiki Core.
 
 ---++ Contrib Info
 
-|  Contrib Author(s): | Copyright (C) 2007 Sven Dowideit, SvenDowideit@WikiRing.com and TWiki Contributors. |
+|  Contrib Author(s): | Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
 |  Contrib Version: | 4.2.1 |
 |  Copyright: | &copy; |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
