@@ -57,28 +57,47 @@ twiki.TwistyPlugin = new function () {
 	*/
 	this._update = function (ref, inMaySave) {
 		var showControl = ref.show;
+
 		var hideControl = ref.hide;
+
 		var contentElem = ref.toggle;
 		
 		//can implement Micha's animation using
 		//dojo.anim("thinger", { width: 500, height: 500 }, 500);
 		
+
 		if (ref.state == twiki.TwistyPlugin.CONTENT_SHOWN) {
+
 			// show content
+
 			dojo.addClass(showControl, 'twistyHidden');	// hide 'show'
+
 			dojo.removeClass(hideControl, 'twistyHidden'); // show 'hide'
+
 			dojo.removeClass(contentElem, 'twistyHidden'); // show content
+
 		} else {
+
 			// hide content
+
 			dojo.removeClass(showControl, 'twistyHidden'); // show 'show'	
+
 			dojo.addClass(hideControl, 'twistyHidden'); // hide 'hide'
+
 			dojo.addClass(contentElem, 'twistyHidden'); // hide content
+
 		}
+
 		if (inMaySave && ref.saveSetting) {
+
 	        twiki.Pref.setPref(twiki.TwistyPlugin.COOKIE_PREFIX + ref.name, ref.state);
+
 		}
+
 		if (ref.clearSetting) {
+
 	        twiki.Pref.setPref(twiki.TwistyPlugin.COOKIE_PREFIX + ref.name, "");
+
 		}
 	}
 	
@@ -156,11 +175,16 @@ twiki.TwistyPlugin.init = function(e) {
 	// else register
 	ref = this._register(e);
 	
-	//twiki.CSS.replaceClass(e, "twistyMakeHidden", "twistyHidden");
+	//foswiki.CSS.replaceClass(e, "twistyMakeHidden", "twistyHidden");
+
 	dojo.removeClass(e, "twikiMakeVisible");
+
 	dojo.removeClass(e, "twikiMakeVisibleBlock");
+
 	dojo.removeClass(e, "twikiMakeVisibleInline");
+
 	dojo.removeClass(e, "twikiMakeHidden");
+
 
 	
 	if (ref.show && ref.hide && ref.toggle) {

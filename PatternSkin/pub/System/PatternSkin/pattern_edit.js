@@ -28,11 +28,11 @@ Pattern.Edit = {
 		var toggleCssClassName = (newPref == Pattern.Edit.EDITBOX_FONTSTYLE_MONO) ? Pattern.Edit.EDITBOX_FONTSTYLE_MONO_CLASSNAME : Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL_CLASSNAME;		
 			
 		if (inButtonState && inButtonState == 'over') {
-			if (twiki.CSS.hasClass(el, prefCssClassName)) twiki.CSS.removeClass(el, prefCssClassName);
-			if (!twiki.CSS.hasClass(el, toggleCssClassName)) twiki.CSS.addClass(el, toggleCssClassName);
+			if (foswiki.CSS.hasClass(el, prefCssClassName)) foswiki.CSS.removeClass(el, prefCssClassName);
+			if (!foswiki.CSS.hasClass(el, toggleCssClassName)) foswiki.CSS.addClass(el, toggleCssClassName);
 		} else if (inButtonState && inButtonState == 'out') {
-			if (twiki.CSS.hasClass(el, toggleCssClassName)) twiki.CSS.removeClass(el, toggleCssClassName);
-			if (!twiki.CSS.hasClass(el, prefCssClassName)) twiki.CSS.addClass(el, prefCssClassName);
+			if (foswiki.CSS.hasClass(el, toggleCssClassName)) foswiki.CSS.removeClass(el, toggleCssClassName);
+			if (!foswiki.CSS.hasClass(el, prefCssClassName)) foswiki.CSS.addClass(el, prefCssClassName);
 		}
 		
 		if (inShouldUpdateEditBox) {
@@ -44,12 +44,12 @@ Pattern.Edit = {
 	
 	setEditBoxFontStyle:function(inFontStyle) {
 		if (inFontStyle == Pattern.Edit.EDITBOX_FONTSTYLE_MONO) {
-			twiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE, EDITBOX_FONTSTYLE_MONO_STYLE);
+			foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE, EDITBOX_FONTSTYLE_MONO_STYLE);
 			twiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
 			return;
 		}
 		if (inFontStyle == Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL) {
-			twiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_MONO_STYLE, EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
+			foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_MONO_STYLE, EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
 			twiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
 			return;
 		}

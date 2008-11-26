@@ -1,5 +1,5 @@
 /**
-Requires twikiCSS.js and foswikiString.js
+Requires foswikiCSS.js and foswikiString.js
 */
 
 if (twiki == undefined) var twiki = {};
@@ -198,8 +198,8 @@ twiki.Form = {
 		if (el.FP_defaultValue == el.value) {
 			el.value = "";
 		}
-		twiki.CSS.addClass(el, "twikiInputFieldFocus");
-		twiki.CSS.removeClass(el, "twikiInputFieldBeforeFocus");
+		foswiki.CSS.addClass(el, "twikiInputFieldFocus");
+		foswiki.CSS.removeClass(el, "twikiInputFieldBeforeFocus");
 	},
 	
 	/**
@@ -210,7 +210,7 @@ twiki.Form = {
 		if (!el.value && el.FP_defaultValue) {
 			twiki.Form._setDefaultStyle(el);
 		}
-		twiki.CSS.removeClass(el, "twikiInputFieldFocus");
+		foswiki.CSS.removeClass(el, "twikiInputFieldFocus");
 	},
 	
 	/**
@@ -219,7 +219,7 @@ twiki.Form = {
 	*/
 	_setDefaultStyle:function(el) {
 		el.value = el.FP_defaultValue;
-		twiki.CSS.addClass(el, "twikiInputFieldBeforeFocus");
+		foswiki.CSS.addClass(el, "twikiInputFieldBeforeFocus");
 	}
 	
 };

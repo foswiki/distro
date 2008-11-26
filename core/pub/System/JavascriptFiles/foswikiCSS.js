@@ -1,5 +1,5 @@
-if (twiki == undefined) var twiki = {};
-twiki.CSS = {
+if (foswiki == undefined) var foswiki = {};
+foswiki.CSS = {
 
 	/**
 	Remove the given class from an element, if it is there.
@@ -8,12 +8,12 @@ twiki.CSS = {
 	*/
 	removeClass:function(el, inClassName) {
 		if (!el) return;
-		var classes = twiki.CSS.getClassList(el);
+		var classes = foswiki.CSS.getClassList(el);
 		if (!classes) return;
-		var index = twiki.CSS._indexOf(classes, inClassName);
+		var index = foswiki.CSS._indexOf(classes, inClassName);
 		if (index >= 0) {
 			classes.splice(index,1);
-			twiki.CSS.setClassList(el, classes);
+			foswiki.CSS.setClassList(el, classes);
 		}
 	},
 	
@@ -24,11 +24,11 @@ twiki.CSS = {
 	*/
 	addClass:function(el, inClassName) {
 		if (!el) return;
-		var classes = twiki.CSS.getClassList(el);
+		var classes = foswiki.CSS.getClassList(el);
 		if (!classes) return;
-		if (twiki.CSS._indexOf(classes, inClassName) < 0) {
+		if (foswiki.CSS._indexOf(classes, inClassName) < 0) {
 			classes[classes.length] = inClassName;
-			twiki.CSS.setClassList(el,classes);
+			foswiki.CSS.setClassList(el,classes);
 		}
 	},
 	
@@ -41,8 +41,8 @@ twiki.CSS = {
 	*/
 	replaceClass:function(el, inOldClass, inNewClass) {
 		if (!el) return;
-		twiki.CSS.removeClass(el, inOldClass);
-		twiki.CSS.addClass(el, inNewClass);
+		foswiki.CSS.removeClass(el, inOldClass);
+		foswiki.CSS.addClass(el, inNewClass);
 	},
 	
 	/**
@@ -76,8 +76,8 @@ twiki.CSS = {
 	hasClass:function(el, inClassName) {
 		if (!el) return;
 		if (el.className) {
-			var classes = twiki.CSS.getClassList(el);
-			if (classes) return (twiki.CSS._indexOf(classes, inClassName) >= 0);
+			var classes = foswiki.CSS.getClassList(el);
+			if (classes) return (foswiki.CSS._indexOf(classes, inClassName) >= 0);
 			return false;
 		}
 	},

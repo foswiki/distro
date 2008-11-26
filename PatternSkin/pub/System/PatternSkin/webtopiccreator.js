@@ -81,7 +81,7 @@ function canSubmit(inForm, inShouldConvertInput) {
 	*/
 	var wikiWordName = noSpaceName;
 	if (!userAllowsNonWikiWord) {
-		wikiWordName = removeSpacesAndPunctuation(twiki.String.capitalize(inputForTopicName));
+		wikiWordName = removeSpacesAndPunctuation(foswiki.String.capitalize(inputForTopicName));
 	}
 	if (userAllowsNonWikiWord) {
 		wikiWordName = removeSpacesAndPunctuation(capitalizeSentence(inputForTopicName));
@@ -104,7 +104,7 @@ function canSubmit(inForm, inShouldConvertInput) {
 		twiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
 	}
 	
-	if (twiki.String.isWikiWord(wikiWordName) || userAllowsNonWikiWord) {
+	if (foswiki.String.isWikiWord(wikiWordName) || userAllowsNonWikiWord) {
 		enableSubmit(inForm.submit);
 		return true;
 	} else {
@@ -113,7 +113,7 @@ function canSubmit(inForm, inShouldConvertInput) {
 	}
 }
 function removeSpacesAndPunctuation (inText) {
-	return twiki.String.removePunctuation(twiki.String.removeSpaces(inText));
+	return foswiki.String.removePunctuation(foswiki.String.removeSpaces(inText));
 }
 function capitalizeSentence (inText) {
 	return inText.substr(0,1).toUpperCase() + inText.substr(1);
@@ -123,12 +123,12 @@ function capitalizeSentence (inText) {
 */
 function enableSubmit(inButton) {
 	if (!inButton) return;
-	twiki.CSS.removeClass(inButton, "twikiSubmitDisabled");
+	foswiki.CSS.removeClass(inButton, "twikiSubmitDisabled");
 	inButton.disabled = false;
 }
 function disableSubmit(inButton) {
 	if (!inButton) return;
-	twiki.CSS.addClass(inButton, "twikiSubmitDisabled");
+	foswiki.CSS.addClass(inButton, "twikiSubmitDisabled");
 	inButton.disabled = true;
 }
 function passFormValuesToNewLocation (inUrl) {

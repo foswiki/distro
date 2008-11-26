@@ -5,7 +5,7 @@ THIS COLLECTION OF JAVASCRIPT FUNCTIONS IS DEPRECATED!
 Use the Foswiki library classes instead:
 foswikilib.js
 foswikiArray.js
-twikiCSS.js
+foswikiCSS.js
 twikiEvent.js
 twikiForm.js
 twikiFunction.js
