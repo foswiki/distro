@@ -473,6 +473,7 @@ WARN
 
     if ( $saveaction eq 'checkpoint' ) {
         $query->param( -name => 'dontnotify', -value => 'checked' );
+        my $edittemplate = $query->param( 'template' );
         my $editURL = $session->getScriptUrl( 1, $edit, $web, $topic );
         $redirecturl = $editURL . '?t=' . time();
         $redirecturl .= '&redirectto=' . $query->param('redirectto')
@@ -480,6 +481,8 @@ WARN
 
         # select the appropriate edit template
         $redirecturl .= '&action=' . $editaction if $editaction;
+        $redirecturl .= '&template=' . $edittemplate if $edittemplate;
+
         $redirecturl .= '&skin=' . $query->param('skin')
           if $query->param('skin');
         $redirecturl .= '&cover=' . $query->param('cover')
