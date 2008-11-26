@@ -49,6 +49,11 @@ sub preview {
       $session->{prefs}->getPreferencesValue('VIEW_TEMPLATE')
       || 'preview';
     my $tmpl = $session->templates->readTemplate( $template, $skin );
+
+    if ( !$tmpl && $template ne 'preview' ) {
+        $tmpl = $session->templates->readTemplate( 'preview', $skin );
+    }
+
     if ( $saveOpts->{minor} ) {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/go;
     }
