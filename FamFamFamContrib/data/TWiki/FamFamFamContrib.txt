@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1223909088" format="1.1" version="$Rev$"}%
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
