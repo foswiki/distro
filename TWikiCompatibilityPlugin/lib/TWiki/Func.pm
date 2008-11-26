@@ -34,6 +34,7 @@ sub getPluginPreferencesValue {
 }
 
 sub getPluginPreferencesFlag {
+    my $key = shift;
     my $package = caller;
     $package =~ s/.*:://;    # strip off TWiki::Plugins:: prefix
     return Foswiki::Func::getPreferencesFlag("\U$package\E_$key");
