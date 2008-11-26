@@ -11,12 +11,21 @@ use Foswiki::Configure::Load;
 sub check {
     my $this = shift;
 
-    my $logFile = $Foswiki::cfg{LogFileName} || "";
-    $logFile =~ s/%DATE%/DATE/;
-    Foswiki::Configure::Load::expandValue($logFile);
-    my $e = $this->checkCanCreateFile($logFile);
-    $e = $this->ERROR($e) if $e;
-    return $e;
+    if (   $Foswiki::cfg{LogFileName}
+        && $Foswiki::cfg{LogFileName}!~/^NOT SET/ )
+    {
+        my $logFile = $Foswiki::cfg{LogFileName} || "";
+        $logFile =~ s/%DATE%/DATE/;
+        Foswiki::Configure::Load::expandValue($logFile);
+        my $e = $this->checkCanCreateFile($logFile);
+        $e = $this->ERROR($e) if $e;
+        return $e;
+    }
+    else {
+        $Foswiki::cfg{LogFileName} =~ s/^NOT SET/$Foswiki::cfg{DataDir}/g;
+        return $this->guessed(0);
+    }
+    return '';
 }
 
 1;
