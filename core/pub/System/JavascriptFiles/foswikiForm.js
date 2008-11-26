@@ -2,7 +2,7 @@
 Requires foswikiCSS.js and foswikiString.js
 */
 
-if (foswiki == undefined) var foswiki = {};
+var foswiki; if (foswiki == undefined) foswiki = {};
 foswiki.Form = {
 	
 	/*

@@ -94,7 +94,7 @@ var patternRules = {
 	},
 	'.twikiPopUp':function(el) {
 		el.onclick = function() {
-			twiki.Window.openPopup(el.href, {template:"viewplain"});
+			foswiki.Window.openPopup(el.href, {template:"viewplain"});
 			return false;
 		}
 	},

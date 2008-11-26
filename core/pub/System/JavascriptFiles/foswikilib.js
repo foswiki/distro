@@ -1,5 +1,5 @@
-// FosWiki namespace
-if (foswiki == undefined) var foswiki = {};
+// Foswiki namespace
+var foswiki; if (foswiki == undefined) foswiki = {};
 
 foswiki.getMetaTag = function(inKey) {
     if (foswiki.metaTags == null || foswiki.metaTags.length == 0) {

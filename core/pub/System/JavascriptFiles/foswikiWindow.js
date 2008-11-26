@@ -1,5 +1,5 @@
-if (twiki == undefined) var twiki = {};
-twiki.Window = {
+var foswiki; if (foswiki == undefined) foswiki = {};
+foswiki.Window = {
 	
 	POPUP_WINDOW_WIDTH : 600,
 	POPUP_WINDOW_HEIGHT : 480,
@@ -23,7 +23,7 @@ twiki.Window = {
 	@param inAltWindow : (Window) Window where url is loaded into if no pop-up could be created. The original window contents is replaced with the passed url (plus optionally web, topic, skin path)
 	@use
 	<pre>
-	var window = twiki.Window.openPopup(
+	var window = foswiki.Window.openPopup(
 		"%SCRIPTURL{view}%/",
 			{
     			topic:"WebChanges",
@@ -42,9 +42,9 @@ twiki.Window = {
 		var windowAttributes = [];
 		
 		// set default values, may be overridden below
-		var width = twiki.Window.POPUP_WINDOW_WIDTH;
-		var height = twiki.Window.POPUP_WINDOW_HEIGHT;
-		var attributes = twiki.Window.POPUP_ATTRIBUTES;
+		var width = foswiki.Window.POPUP_WINDOW_WIDTH;
+		var height = foswiki.Window.POPUP_WINDOW_HEIGHT;
+		var attributes = foswiki.Window.POPUP_ATTRIBUTES;
 		
 		if (inOptions) {
 			var pathElements = [];
@@ -112,7 +112,7 @@ twiki.Window = {
 function launchWindow(inWeb, inTopic) {
     var scripturlpath = foswiki.getMetaTag('SCRIPTURLPATH');
     var scriptsuffix = foswiki.getMetaTag('SCRIPTSUFFIX');
-    twiki.Window.openPopup(scripturlpath+'/view'+
+    foswiki.Window.openPopup(scripturlpath+'/view'+
                            scriptsuffix+'/',
                            { web:inWeb, topic:inTopic,
                                    template:"viewplain" } );

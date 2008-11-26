@@ -11,7 +11,7 @@ foswikiForm.js
 foswikiHTML.js
 foswikiPref.js
 foswikiString.js, foswikiStringUnicodeChars.js
-twikiWindow.js
+foswikiWindow.js
 
 When converting to the new classes: some functions may have changed name or parameters.
 

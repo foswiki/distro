@@ -10,8 +10,7 @@ Refactored for Foswiki by Arthur Clemens 2006.
 /**
 The preferred way for reading and writing cookies is using getPref and setPref, otherwise the limit of 20 cookies per domain is reached soon. See http://foswiki.org/Support/DataStorageInUserCookie
 */
-if (foswiki == undefined) var foswiki = {};
-
+var foswiki; if (foswiki == undefined) foswiki = {};
 foswiki.Pref = {
 	
 	FOSWIKI_PREF_COOKIE_NAME:"FOSWIKIPREF",

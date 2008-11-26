@@ -9,7 +9,7 @@
 <script type="text/javascript">
 //<![CDATA[
 function openTemplateWindow () {
-	var window = twiki.Window.openPopup(
+	var window = foswiki.Window.openPopup(
 		"%SCRIPTURL{view}%/",
 			{
     			topic:"WebTemplateTopics",
