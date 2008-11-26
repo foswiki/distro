@@ -934,9 +934,9 @@ pub/System/PreviewBackground/preview2bg.gif 0644
 pub/System/PreviewBackground/previewbg.gif 0644
 pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
-pub/System/ProjectLogos/smallPowered.gif 0644
-pub/System/ProjectLogos/large.gif 0644
-pub/System/ProjectLogos/banner.gif 0644
+pub/System/ProjectLogos/foswiki-logo-slogan.png 0644
+pub/System/ProjectLogos/foswiki-logo.png 0644
+pub/System/ProjectLogos/foswiki-badge.png 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/SkinTemplates/base.css 0644
 pub/System/SkinTemplates/default.css 0644
