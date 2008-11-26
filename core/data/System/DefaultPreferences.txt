@@ -37,7 +37,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set SITEMAPUSETO = ...to do something.
 
    * Copyright notice:
-      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
+      * Set WEBCOPYRIGHT = %MAKETEXT{"Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then="<br /> __Note:__ Please contribute updates to this topic on TWiki.org at TWiki:TWiki.%BASETOPIC%"}%
 
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
@@ -118,9 +118,9 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WIKITOOLNAME = Foswiki
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in !WebPreferences for individual webs by defining these settings there.
-      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/banner.gif
-      * Set WIKILOGOURL = http://Foswiki.org/
-      * Set WIKILOGOALT = Powered by Foswiki
+      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
+      * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
+      * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
    * Home page of this site
       * Set WIKIHOMEURL = %SCRIPTURLPATH{"view"}%
