@@ -6,7 +6,7 @@ package TWiki::Func;
 use strict;
 
 use Foswiki::Func;
-
+use Foswiki::Plugins;
 use TWiki::Plugins;
 
 sub getSkin { Foswiki::Func::getSkin(@_) }
@@ -24,8 +24,13 @@ sub getContext { Foswiki::Func::getContext(@_) }
 sub pushTopicContext { Foswiki::Func::pushTopicContext(@_) }
 sub popTopicContext { Foswiki::Func::popTopicContext(@_) }
 sub getPreferencesValue { Foswiki::Func::getPreferencesValue(@_) }
-sub getPluginPreferencesValue { Foswiki::Func::getPluginPreferencesValue(@_) }
 sub getPreferencesFlag { Foswiki::Func::getPreferencesFlag(@_) }
+sub getPluginPreferencesValue {
+    my ($key) = @_;
+    my $package = caller;
+    $package =~ s/.*:://; # strip off TWiki::Plugins:: prefix
+    return $Foswiki::Plugins::SESSION->{prefs}->getPreferencesValue("\U$package\E_$key");
+}
 sub getPluginPreferencesFlag { Foswiki::Func::getPluginPreferencesFlag(@_) }
 sub setPreferencesValue { Foswiki::Func::setPreferencesValue(@_) }
 sub getDefaultUserName { Foswiki::Func::getDefaultUserName(@_) }
