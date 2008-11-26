@@ -39,8 +39,6 @@ sub findRepositories {
         my $replist = '';
         $replist .= $Foswiki::cfg{ExtensionsRepositories}
           if defined $Foswiki::cfg{ExtensionsRepositories};
-        $replist .= "$ENV{TWIKI_REPOSITORIES};"    # DEPRECATED
-          if defined $ENV{TWIKI_REPOSITORIES};     # DEPRECATED
         $replist = ";$replist;";
         while (
             $replist =~ s/[;\s]+(.*?)=\((.*?),(.*?)(?:,(.*?),(.*?))?\)\s*;/;/ )

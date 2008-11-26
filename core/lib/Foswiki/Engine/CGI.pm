@@ -94,15 +94,15 @@ sub preparePath {
     $cgiScriptName =~ s/.*?(\w+)(\.\w+)?$/$1/;
 
     my $action;
-    if ( exists $ENV{TWIKI_ACTION} ) {
+    if ( exists $ENV{FOSWIKI_ACTION} ) {
 
-        # This handles scripts that have set $TWIKI_ACTION
-        $action = $ENV{TWIKI_ACTION};
+        # This handles scripts that have set $FOSWIKI_ACTION
+        $action = $ENV{FOSWIKI_ACTION};
     }
     elsif ( exists $Foswiki::cfg{SwitchBoard}{$cgiScriptName} ) {
 
         # This handles other named CGI scripts that have a switchboard entry
-        # but haven't set $TWIKI_ACTION (old-style run scripts)
+        # but haven't set $FOSWIKI_ACTION (old-style run scripts)
         $action = $cgiScriptName;
     }
     elsif ( length $pathInfo > 1 ) {

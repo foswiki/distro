@@ -19,7 +19,7 @@ use strict;
 use Error qw( :try );
 
 BEGIN {
-    push( @INC, "$ENV{TWIKI_HOME}/lib" ) if defined($ENV{TWIKI_HOME});
+    push( @INC, "$ENV{FOSWIKI_HOME}/lib" ) if defined($ENV{FOSWIKI_HOME});
     unshift @INC, '../../bin'; # SMELL: dodgy
     require 'setlib.cfg';
     $SIG{__DIE__} = sub { Carp::confess $_[0] };
@@ -29,9 +29,9 @@ our $didOnlyOnceChecks = 0;
 
 # Temporary directory to store work files in (sessions, logs etc).
 # Will be cleaned up after running the tests unless the environment
-# variable TWIKI_DEBUG_KEEP is true
+# variable FOSWIKI_DEBUG_KEEP is true
 use File::Temp;
-my $cleanup  =  $ENV{TWIKI_DEBUG_KEEP} ? 0 : 1;
+my $cleanup  =  $ENV{FOSWIKI_DEBUG_KEEP} ? 0 : 1;
 
 sub new {
     my $class = shift;
@@ -129,8 +129,8 @@ sub set_up {
         $Foswiki::cfg{Plugins}{$k}{Enabled} = 0;
     }
     # then reenable only those listed in MANIFEST
-    if ($ENV{TWIKI_HOME} && -e "$ENV{TWIKI_HOME}/lib/MANIFEST") {
-        open(F, "$ENV{TWIKI_HOME}/lib/MANIFEST") || die $!;
+    if ($ENV{FOSWIKI_HOME} && -e "$ENV{FOSWIKI_HOME}/lib/MANIFEST") {
+        open(F, "$ENV{FOSWIKI_HOME}/lib/MANIFEST") || die $!;
     } else {
         open(F, "../../lib/MANIFEST") || die $!;
     }

@@ -170,7 +170,7 @@ BEGIN {
         # is another way to install this handler without enabling
         # ASSERTs
         # ASSERTS are turned on by defining the environment variable
-        # TWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
+        # FOSWIKI_ASSERTS. If ASSERTs are off, this is assumed to be a
         # production environment, and no stack traces or paths are
         # output to the browser.
         $SIG{'__WARN__'} = sub { die @_ };
@@ -329,11 +329,6 @@ BEGIN {
     $functionTags{WIKIUSERSTOPIC}    = sub { $Foswiki::cfg{UsersTopicName} };
     $functionTags{WIKIWEBMASTER}     = sub { $Foswiki::cfg{WebMasterEmail} };
     $functionTags{WIKIWEBMASTERNAME} = sub { $Foswiki::cfg{WebMasterName} };
-
-    # Compatibility synonyms, deprecated in 4.2 but still used throughout
-    # the documentation.
-    $functionTags{MAINWEB}  = $functionTags{USERSWEB};
-    $functionTags{TWIKIWEB} = $functionTags{SYSTEMWEB};
 
     # locale setup
     #

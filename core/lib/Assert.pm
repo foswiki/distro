@@ -13,8 +13,9 @@ require 5.006;
 #  4. Added UNTAINTED
 #
 # Usage is as for Carp::Assert except that you have to explicitly
-# enable asserts using the environment variable "TWIKI_ASSERTS"
-# add ENV{TWIKI_ASSERTS} = 1; to you bin/setlib.cfg or bin/LocalLib.cfg
+# enable asserts using the environment variable ENV{FOSWIKI_ASSERTS}
+# (or ENV{TWIKI_ASSERTS})
+# add ENV{FOSWIKI_ASSERTS} = 1; to you bin/setlib.cfg or bin/LocalLib.cfg
 
 use strict;
 
@@ -32,14 +33,14 @@ BEGIN {
 sub ASSERTS_ON()  { 1 }    # CONSTANT
 sub ASSERTS_OFF() { 0 }    # CONSTANT
 
-# Export the proper DEBUG flag if TWIKI_ASSERTS is set,
+# Export the proper DEBUG flag if FOSWIKI_ASSERTS is set,
 # otherwise export noop versions of our routines
 sub noop { }
 
 sub import {
     no warnings 'redefine';
     no strict 'refs';
-    if ( $ENV{TWIKI_ASSERTS} ) {
+    if ( $ENV{FOSWIKI_ASSERTS} || $ENV{TWIKI_ASSERTS} ) {
         *DEBUG = *ASSERTS_ON;
         Assert->export_to_level( 1, @_ );
     }

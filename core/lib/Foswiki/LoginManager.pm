@@ -31,7 +31,7 @@ Slightly later in Foswiki::new, loginManager->loadSession is called.
    1 Calls loginManager->getUser to get the username *before* the session is created
       * Foswiki::LoginManager::ApacheLogin looks at REMOTE_USER (only for authenticated scripts)
       * Foswiki::LoginManager::TemplateLogin just returns undef
-   1 reads the TWIKISID cookie to get the SID (or the TWIKISID parameters in the CGI query if cookies aren't available, or IP2SID mapping if that's enabled).
+   1 reads the FOSWIKISID cookie to get the SID (or the FOSWIKISID parameters in the CGI query if cookies aren't available, or IP2SID mapping if that's enabled).
    1 Creates the CGI::Session object, and the session is thereby read.
    1 If the username still isn't known, reads it from the cookie. Thus Foswiki::LoginManager::ApacheLogin overrides the cookie using REMOTE_USER, and Foswiki::LoginManager::TemplateLogin *always* uses the session.
 
@@ -94,10 +94,10 @@ sub makeLoginManager {
         if ( $Foswiki::LoginManager::Session::VERSION eq "4.10" ) {
 
             # 4.10 is broken; see Item1989
-            $Foswiki::LoginManager::Session::NAME = 'TWIKISID';
+            $Foswiki::LoginManager::Session::NAME = 'FOSWIKISID';
         }
         else {
-            Foswiki::LoginManager::Session->name('TWIKISID');
+            Foswiki::LoginManager::Session->name('FOSWIKISID');
         }
     }
 

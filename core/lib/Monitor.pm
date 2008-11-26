@@ -17,7 +17,7 @@ or a function
 use Monitor;
 Monitor::MonitorMethod('Foswiki::Users', 'getCanonicalUserID');
 
-Then set the environment variable TWIKI_MONITOR to a perl true value, and
+Then set the environment variable FOSWIKI_MONITOR to a perl true value, and
 run the script from the command line e.g:
 $ cd bin
 $ ./view -topic Myweb/MyTestTopic
@@ -70,7 +70,7 @@ sub mark {
 
 BEGIN {
     my $caller = caller;
-    if ( $ENV{TWIKI_MONITOR} ) {
+    if ( $ENV{FOSWIKI_MONITOR} ) {
         require Benchmark;
         import Benchmark ':hireswallclock';
         die $@ if $@;
@@ -93,7 +93,7 @@ sub tidytime {
 }
 
 sub END {
-    return unless ( $ENV{TWIKI_MONITOR} );
+    return unless ( $ENV{FOSWIKI_MONITOR} );
     MARK('END');
     my $lastbm;
     my $firstbm;

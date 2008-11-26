@@ -32,7 +32,7 @@ require TWiki::Plugins::TestFixturePlugin::HTMLDiffer;
 #   called TestFixturePlugin.txt
 #
 # DO NOT USE THIS PLUGIN IN A USER INSTALLATION. IT IS DESIGNED FOR
-# TWIKI CORE TESTING ONLY!!!
+# FOSWIKI CORE TESTING ONLY!!!
 #
 # The idea is that topics contain blocks marked by <!-- expected -->
 # and <!-- actual --> tags. These blocks are compared in the

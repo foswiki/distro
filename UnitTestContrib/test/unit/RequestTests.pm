@@ -98,7 +98,7 @@ sub test_action {
         $this->assert_str_not_equals($_, $req->action, 'Wrong initial "action" value');
         $req->action($_);
         $this->assert_str_equals($_, $req->action, 'Wrong action value');
-        $this->assert_str_equals($_, $ENV{TWIKI_ACTION}, 'Wrong TWIKI_ACTION environment');
+        $this->assert_str_equals($_, $ENV{FOSWIKI_ACTION}, 'Wrong FOSWIKI_ACTION environment');
     }
 }
 

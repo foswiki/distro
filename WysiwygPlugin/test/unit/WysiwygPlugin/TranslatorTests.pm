@@ -20,7 +20,7 @@
 # so that the round trip can be verified in as many cases as possible.
 # Readers are invited to add more testcases.
 #
-# The tests require TWIKI_LIBS to include a pointer to the lib
+# The tests require FOSWIKI_LIBS to include a pointer to the lib
 # directory of a TWiki installation, so it can pick up the bits
 # of TWiki it needs to include.
 #

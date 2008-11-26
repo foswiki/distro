@@ -29,7 +29,7 @@ sub include_tests {
     my $read_manifest = 0;
     my $home = "../..";
     unless (-e "$home/lib/MANIFEST") {
-        $home = $ENV{TWIKI_HOME};
+        $home = $ENV{FOSWIKI_HOME};
     }
     require Cwd;
     $home = Cwd::abs_path($home);

@@ -123,7 +123,7 @@ Gets/Sets action requested (view, edit, save, ...)
 sub action {
     return @_ == 1
       ? $_[0]->{action}
-      : ( $ENV{TWIKI_ACTION} = $_[0]->{action} = $_[1] );
+      : ( $ENV{FOSWIKI_ACTION} = $_[0]->{action} = $_[1] );
 }
 
 =begin twiki

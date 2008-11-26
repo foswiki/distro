@@ -55,7 +55,7 @@ sub test_headers {
         'Connection'   => 'Close',
         'f-o-o-bar'    => 'baz',
         'Set-COOKIe'   => [
-            'TWIKISID=4ed0fb8647881e17852dff882f0cfaa7; path=/',
+            'FOSWIKISID=4ed0fb8647881e17852dff882f0cfaa7; path=/',
             'SID=8f3d9cb028e4f7dabe435bcfc4905cda; path=/'
         ],
     );
@@ -88,7 +88,7 @@ sub test_headers {
     my @cookies = $res->getHeader('Set-Cookie');
     $this->assert_deep_equals(
         [
-            'TWIKISID=4ed0fb8647881e17852dff882f0cfaa7; path=/',
+            'FOSWIKISID=4ed0fb8647881e17852dff882f0cfaa7; path=/',
             'SID=8f3d9cb028e4f7dabe435bcfc4905cda; path=/'
         ],
         \@cookies,
@@ -129,7 +129,7 @@ sub test_cookie {
     my $res  = new Foswiki::Response('');
     require CGI::Cookie;
     my $c1 = new CGI::Cookie(
-        -name   => 'TWIKISID',
+        -name   => 'FOSWIKISID',
         -value  => '80eaee753351a6d4d050320ce4d60822',
         -domain => 'localhost'
     );

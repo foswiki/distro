@@ -75,8 +75,8 @@ sub prepareHeaders {
 
 sub preparePath {
     my ( $this, $req ) = @_;
-    $req->action( $ENV{TWIKI_ACTION} );
-    delete $ENV{TWIKI_ACTION};
+    $req->action( $ENV{FOSWIKI_ACTION} );
+    delete $ENV{FOSWIKI_ACTION};
     if ( exists $this->{path_info} ) {
         $req->pathInfo( $this->{path_info} );
         delete $this->{path_info};
