@@ -582,6 +582,7 @@ a.twikiLinkInHeaderRight {
 #twikiLogo img {
 	margin:0;
 	padding:0;
+        border:0px;
 }
 .twikiNoBreak {
 	white-space:nowrap;
@@ -743,6 +744,9 @@ html>body #patternLeftBarContents li { /* Mozilla */
 }
 
 /* form options in top bar */
+.patternMetaMenu {
+        padding-top:12px;
+}
 .patternMetaMenu input,
 .patternMetaMenu select,
 .patternMetaMenu select option {
