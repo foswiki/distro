@@ -26,6 +26,13 @@ sub ui {
     Foswiki::Configure::FoswikiCfg::save( $root, $valuer, $this );
 
     if ( $this->{log} && defined( $Foswiki::cfg{ConfigurationLogName} ) ) {
+	# configuration variable may be coming from POST, and might thus
+	# be tainted, we must be able to trust that the adminstrator has
+	# input a proper path and therefore untaint rigourously
+	# NOTE: this assumes configure is properly hardened through the web
+	# server as instructed in the fine manual!
+	$Foswiki::cfg{ConfigurationLogName} =~ /^(.*)$/;
+	$Foswiki::cfg{ConfigurationLogName} = $1;
         if ( open( F, '>>', $Foswiki::cfg{ConfigurationLogName} ) ) {
             print F $this->{log};
             close(F);
