@@ -7,7 +7,7 @@ foswikilib.js
 foswikiArray.js
 foswikiCSS.js
 foswikiEvent.js
-twikiForm.js
+foswikiForm.js
 twikiFunction.js
 twikiHTML.js
 twikiPref.js

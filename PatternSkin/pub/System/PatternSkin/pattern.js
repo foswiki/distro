@@ -60,21 +60,21 @@ var patternRules = {
 		Pattern.createTwikiActionFormStepSign(el);
 	},
 	'#jumpFormField' : function(el) {
-		twiki.Form.initBeforeFocusText(el,TEXT_JUMP);
+		foswiki.Form.initBeforeFocusText(el,TEXT_JUMP);
 		el.onfocus = function() {
-			twiki.Form.clearBeforeFocusText(this);
+			foswiki.Form.clearBeforeFocusText(this);
 		}
 		el.onblur = function() {
-			twiki.Form.restoreBeforeFocusText(this);
+			foswiki.Form.restoreBeforeFocusText(this);
 		}
 	},
 	'#quickSearchBox' : function(el) {
-		twiki.Form.initBeforeFocusText(el,TEXT_SEARCH);
+		foswiki.Form.initBeforeFocusText(el,TEXT_SEARCH);
 		el.onfocus = function() {
-			twiki.Form.clearBeforeFocusText(this);
+			foswiki.Form.clearBeforeFocusText(this);
 		}
 		el.onblur = function() {
-			twiki.Form.restoreBeforeFocusText(this);
+			foswiki.Form.restoreBeforeFocusText(this);
 		}
 	},
 	'#tabletwikiAttachmentsTable' : function(el) {

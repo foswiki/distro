@@ -2,8 +2,8 @@
 Requires foswikiCSS.js and foswikiString.js
 */
 
-if (twiki == undefined) var twiki = {};
-twiki.Form = {
+if (foswiki == undefined) var foswiki = {};
+foswiki.Form = {
 	
 	/*
 	Original js filename: formdata2querystring.js
@@ -19,7 +19,7 @@ twiki.Form = {
 
 	Version 1.3
 	
-	Changes for TWiki:
+	Changes for Foswiki:
 	Added KEYVALUEPAIR_DELIMITER and documentation by Arthur Clemens, 2006
 	*/
 	
@@ -34,7 +34,7 @@ twiki.Form = {
 	@returns Query-string formatted String of variable-value pairs
 	@example
 	<code>
-	var queryString = twiki.Form.formData2QueryString(
+	var queryString = foswiki.Form.formData2QueryString(
 		document.getElementById('myForm'),
 		{collapseMulti:true}
 	);
@@ -60,7 +60,7 @@ twiki.Form = {
 					str += formElem.name
 						+ '='
 						+ encodeURI(formElem.value)
-						+ twiki.Form.KEYVALUEPAIR_DELIMITER;
+						+ foswiki.Form.KEYVALUEPAIR_DELIMITER;
 					break;
 				
 				// Multi-option select
@@ -83,12 +83,12 @@ twiki.Form = {
 								str += formElem.name
 									+ '='
 									+ encodeURI(currOpt.text)
-									+ twiki.Form.KEYVALUEPAIR_DELIMITER;
+									+ foswiki.Form.KEYVALUEPAIR_DELIMITER;
 							}
 						}
 					}
 					if (opts.collapseMulti) {
-						str += twiki.Form.KEYVALUEPAIR_DELIMITER;
+						str += foswiki.Form.KEYVALUEPAIR_DELIMITER;
 					}
 					break;
 				
@@ -98,7 +98,7 @@ twiki.Form = {
 						str += formElem.name
 							+ '='
 							+ encodeURI(formElem.value)
-							+ twiki.Form.KEYVALUEPAIR_DELIMITER;
+							+ foswiki.Form.KEYVALUEPAIR_DELIMITER;
 					}
 					break;
 				
@@ -120,7 +120,7 @@ twiki.Form = {
 							+ '='
 							+ encodeURI(formElem.value);
 						}
-						str += twiki.Form.KEYVALUEPAIR_DELIMITER;
+						str += foswiki.Form.KEYVALUEPAIR_DELIMITER;
 						lastElemName = formElem.name;
 					}
 					break;
@@ -133,7 +133,7 @@ twiki.Form = {
 	},
 	
 	/**
-	Makes form field values safe to insert in a TWiki table. Any table-breaking characters are replaced.
+	Makes form field values safe to insert in a Foswiki table. Any table-breaking characters are replaced.
 	@param inForm: (String) the form to make safe
 	*/
 	makeSafeForTableEntry:function(inForm) {
@@ -170,7 +170,7 @@ twiki.Form = {
 	*/
 	setFocus:function(inFormName, inInputFieldName) {
 		try {
-			var el = twiki.Form.getFormElement(inFormName, inInputFieldName);
+			var el = foswiki.Form.getFormElement(inFormName, inInputFieldName);
 			el.focus();
 		} catch (er) {}
 	},
@@ -183,7 +183,7 @@ twiki.Form = {
 	initBeforeFocusText:function(el, inText) {
 		el.FP_defaultValue = inText;
 		if (!el.value || el.value == inText) {
-			twiki.Form._setDefaultStyle(el);
+			foswiki.Form._setDefaultStyle(el);
 		}
 	},
 	
@@ -208,7 +208,7 @@ twiki.Form = {
 	*/
 	restoreBeforeFocusText:function(el) {
 		if (!el.value && el.FP_defaultValue) {
-			twiki.Form._setDefaultStyle(el);
+			foswiki.Form._setDefaultStyle(el);
 		}
 		foswiki.CSS.removeClass(el, "twikiInputFieldFocus");
 	},

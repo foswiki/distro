@@ -113,8 +113,8 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 
 
----++ twiki.Form
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiForm.js"></script>
+---++ foswiki.Form
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiForm.js"></script>
 
 <form id="testForm" name="testForm">
 
@@ -157,27 +157,27 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 </form>
 
----+++ twiki.Form.formData2QueryString
+---+++ foswiki.Form.formData2QueryString
 
 <script language="javascript">
 /*<![CDATA[*/
 
     function testFormData2QueryStringWithValidArgs() {
     	{
-			var queryString = twiki.Form.formData2QueryString(
+			var queryString = foswiki.Form.formData2QueryString(
 				document.getElementById('testForm')
 			);
 			assertEquals("Form values not collapsed", "testInput=TESTTEXT;testPwd=secret;testRadio=text;testCbNoSearch=on;testCbNoSummary=on;testHidden=classic;testTextArea=COMMENTSTEXT;testSelect=fiat;testSelectMultiple=Industrial;testSelectMultiple=Rock", queryString);
 		}
 		{
-			var queryString = twiki.Form.formData2QueryString(
+			var queryString = foswiki.Form.formData2QueryString(
 				document.getElementById('testForm'),
 				{collapseMulti:false}
 			);
 			assertEquals("Form values; collapsed false", "testInput=TESTTEXT;testPwd=secret;testRadio=text;testCbNoSearch=on;testCbNoSummary=on;testHidden=classic;testTextArea=COMMENTSTEXT;testSelect=fiat;testSelectMultiple=Industrial;testSelectMultiple=Rock", queryString);
 		}
 		{
-			var queryString = twiki.Form.formData2QueryString(
+			var queryString = foswiki.Form.formData2QueryString(
 				document.getElementById('testForm'),
 				{collapseMulti:true}
 			);
@@ -188,11 +188,11 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 	function testFormData2QueryStringWithInvalidArgs() {
     	{
     		var formElem = document.getElementById('doesNotExist');
-			var queryString = twiki.Form.formData2QueryString(formElem);
+			var queryString = foswiki.Form.formData2QueryString(formElem);
 			assertNull("Non-existing form should return null", queryString);
 		}
 		{
-			var queryString = twiki.Form.formData2QueryString(
+			var queryString = foswiki.Form.formData2QueryString(
 				document.getElementById('testForm'),
 				{bla:true}
 			);
