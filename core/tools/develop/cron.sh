@@ -26,6 +26,12 @@ mv Foswiki.pm.new Foswiki.pm
 cd ../data
 for f in /home/foswiki.org/data/*; do
     if [ -d $f -a ! -e `basename $f` ]; then
-        ln -s $f     
+        ln -s $f
+    fi
+done
+cd ../pub
+for f in /home/foswiki.org/pub/*; do
+    if [ -d $f -a ! -e `basename $f` ]; then
+        ln -s $f
     fi
 done
