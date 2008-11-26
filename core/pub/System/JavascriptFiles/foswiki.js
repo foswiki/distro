@@ -8,7 +8,6 @@ foswikiArray.js
 foswikiCSS.js
 foswikiEvent.js
 foswikiForm.js
-twikiFunction.js
 twikiHTML.js
 twikiPref.js
 foswikiString.js, foswikiStringUnicodeChars.js
