@@ -642,10 +642,10 @@ foswiki.Event.addLoadEvent("createTextNode");
 </script>
 
 
----++ twiki.Pref
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiPref.js"></script>
+---++ foswiki.Pref
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
 
----+++ twiki.Pref.setCookie, twiki.Pref.getCookie
+---+++ foswiki.Pref.setCookie, foswiki.Pref.getCookie
 <script language="javascript">
 /*<![CDATA[*/
     function testGetSetCookieWithValidArgs() {
@@ -655,14 +655,14 @@ foswiki.Event.addLoadEvent("createTextNode");
     	expiryDate.setDate(expiryDate.getDate() + 1);
 		var path = null;
 		var domain = null;
-    	twiki.Pref.setCookie(name, value, expiryDate, path, domain);
-    	var cookie = twiki.Pref.getCookie(name);
+    	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
+    	var cookie = foswiki.Pref.getCookie(name);
     	assertEquals("Cookie ", value, cookie);
     }
 /*]]>*/
 </script>
     
----+++ twiki.Pref.deleteCookie
+---+++ foswiki.Pref.deleteCookie
 
 <script language="javascript">
 /*<![CDATA[*/
@@ -673,10 +673,10 @@ foswiki.Event.addLoadEvent("createTextNode");
     	expiryDate.setDate(expiryDate.getDate() + 1);
 		var path = null;
 		var domain = null;
-    	twiki.Pref.setCookie(name, value, expiryDate, path, domain);
-    	var cookie = twiki.Pref.getCookie(name);
-    	twiki.Pref.deleteCookie(name, path, domain);
-    	var deletedCookie = twiki.Pref.getCookie(name);
+    	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
+    	var cookie = foswiki.Pref.getCookie(name);
+    	foswiki.Pref.deleteCookie(name, path, domain);
+    	var deletedCookie = foswiki.Pref.getCookie(name);
     	assertNull("Deleted cookie", deletedCookie);
     }
     
@@ -687,39 +687,39 @@ foswiki.Event.addLoadEvent("createTextNode");
     	expiryDate.setDate(expiryDate.getDate() + 1);
 		var path = "/";
 		var domain = "twiki4.visiblearea.com";
-    	twiki.Pref.setCookie(name, value, expiryDate, path, domain);
-    	var cookie = twiki.Pref.getCookie(name);
-    	twiki.Pref.deleteCookie(name, path);
-    	var notDeletedCookie = twiki.Pref.getCookie(name);
+    	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
+    	var cookie = foswiki.Pref.getCookie(name);
+    	foswiki.Pref.deleteCookie(name, path);
+    	var notDeletedCookie = foswiki.Pref.getCookie(name);
     	assertEquals("Not deleted cookie ", cookie, notDeletedCookie);
     }
 /*]]>*/
 </script>
 
----+++ twiki.Pref.setPref, twiki.Pref.getPref
+---+++ foswiki.Pref.setPref, foswiki.Pref.getPref
 
 <script language="javascript">
 /*<![CDATA[*/
     function testSetPrefWithValidArgs() {
     	var prefName = "TestCaseJavascriptFilesPref1";
     	var value = "a battuta";
-		twiki.Pref.setPref(prefName, value);
-		var retrievedValue = twiki.Pref.getPref(prefName);
+		foswiki.Pref.setPref(prefName, value);
+		var retrievedValue = foswiki.Pref.getPref(prefName);
 		assertEquals("Set pref ", retrievedValue, value);
 	}
 /*]]>*/
 </script>
 
----+++ twiki.Pref.getPrefList, twiki.Pref.getPrefValueFromPrefList
+---+++ foswiki.Pref.getPrefList, foswiki.Pref.getPrefValueFromPrefList
 
 <script language="javascript">
 /*<![CDATA[*/
 	function testGetPrefListWithValidArgs() {
 		var prefName = "TestCaseJavascriptFilesPref2";
     	var value = "a capella";
-		twiki.Pref.setPref(prefName, value);
-		var prefList = twiki.Pref.getPrefList();
-		var retrievedValue = twiki.Pref.getPrefValueFromPrefList(prefName, prefList);
+		foswiki.Pref.setPref(prefName, value);
+		var prefList = foswiki.Pref.getPrefList();
+		var retrievedValue = foswiki.Pref.getPrefValueFromPrefList(prefName, prefList);
 		assertEquals("Pref from prefList", retrievedValue, value);
 		
 	}

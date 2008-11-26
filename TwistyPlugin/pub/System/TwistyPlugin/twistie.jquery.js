@@ -82,10 +82,10 @@ twiki.JQueryTwistyPlugin = new function () {
                         $(contentElem).addClass("twistyHidden");
 		}
 		if (inMaySave && ref.saveSetting) {
-	        twiki.Pref.setPref(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, ref.state);
+	        foswiki.Pref.setPref(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, ref.state);
 		}
 		if (ref.clearSetting) {
-	        twiki.Pref.setPref(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, "");
+	        foswiki.Pref.setPref(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, "");
 		}
 	}
 	
@@ -186,9 +186,9 @@ twiki.JQueryTwistyPlugin.init = function(e) {
 
 		if (twiki.JQueryTwistyPlugin.prefList == null) {
 			// cache complete cookie string
-			twiki.JQueryTwistyPlugin.prefList = twiki.Pref.getPrefList();
+			twiki.JQueryTwistyPlugin.prefList = foswiki.Pref.getPrefList();
 		}
-		var cookie = twiki.Pref.getPrefValueFromPrefList(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, twiki.JQueryTwistyPlugin.prefList);
+		var cookie = foswiki.Pref.getPrefValueFromPrefList(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, twiki.JQueryTwistyPlugin.prefList);
 		if (ref.firstStartHidden) ref.state = twiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
 		if (ref.firstStartShown) ref.state = twiki.JQueryTwistyPlugin.CONTENT_SHOWN;
 		// cookie setting may override  firstStartHidden and firstStartShown

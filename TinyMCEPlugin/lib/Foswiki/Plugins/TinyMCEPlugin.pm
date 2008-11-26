@@ -160,8 +160,8 @@ HERE
     Foswiki::Func::addToHEAD('tinyMCE', <<SCRIPT);
 <meta name="TINYMCEPLUGIN_INIT" content="$metainit" />
 <script language="javascript" type="text/javascript" src="$tmceURL/tiny_mce$USE_SRC.js"></script>
-<script language="javascript" type="text/javascript" src="$pluginURL/twiki_tiny$USE_SRC.js"></script>
-<script language="javascript" type="text/javascript" src="$pluginURL/twiki$USE_SRC.js"></script>
+<script language="javascript" type="text/javascript" src="$pluginURL/foswiki_tiny$USE_SRC.js"></script>
+<script language="javascript" type="text/javascript" src="$pluginURL/foswiki$USE_SRC.js"></script>
 SCRIPT
 
     # See %SYSTEMWEB%.IfStatements for a description of this context id.

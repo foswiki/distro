@@ -23,7 +23,7 @@ function initForm() {
 Sets the height of the edit box to height read from cookie.
 */
 function initTextAreaHeight() {
-	var pref = twiki.Pref.getPref(PREF_NAME + EDITBOX_PREF_ROWS_ID);
+	var pref = foswiki.Pref.getPref(PREF_NAME + EDITBOX_PREF_ROWS_ID);
 	if (!pref) return;
 	setEditBoxHeight( parseInt(pref) );
 }
@@ -47,7 +47,7 @@ function initTextAreaStyles() {}
 Sets the font style (monospace or proportional space) of the edit box to style read from cookie.
 */
 function initTextAreaFontStyle() {
-	var pref  = twiki.Pref.getPref(PREF_NAME + EDITBOX_PREF_FONTSTYLE_ID);
+	var pref  = foswiki.Pref.getPref(PREF_NAME + EDITBOX_PREF_FONTSTYLE_ID);
 	if (!pref) return;
 	setEditBoxFontStyle( pref );
 }
@@ -74,7 +74,7 @@ function changeEditBox(inDirection) {
 	rowCount += (inDirection * EDITBOX_CHANGE_STEP_SIZE);
 	rowCount = (rowCount < EDITBOX_MIN_ROWCOUNT) ? EDITBOX_MIN_ROWCOUNT : rowCount;
 	setEditBoxHeight(rowCount);
-	twiki.Pref.setPref(PREF_NAME + EDITBOX_PREF_ROWS_ID, rowCount);
+	foswiki.Pref.setPref(PREF_NAME + EDITBOX_PREF_ROWS_ID, rowCount);
 	return false;
 }
 
@@ -93,12 +93,12 @@ param inFontStyle: either EDITBOX_FONTSTYLE_MONO or EDITBOX_FONTSTYLE_PROPORTION
 function setEditBoxFontStyle(inFontStyle) {
 	if (inFontStyle == EDITBOX_FONTSTYLE_MONO) {
 		foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE, EDITBOX_FONTSTYLE_MONO_STYLE);
-		twiki.Pref.setPref(PREF_NAME + EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
+		foswiki.Pref.setPref(PREF_NAME + EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
 		return;
 	}
 	if (inFontStyle == EDITBOX_FONTSTYLE_PROPORTIONAL) {
 		foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_MONO_STYLE, EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
-		twiki.Pref.setPref(PREF_NAME + EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
+		foswiki.Pref.setPref(PREF_NAME + EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
 		return;
 	}
 }
@@ -106,7 +106,7 @@ function setEditBoxFontStyle(inFontStyle) {
 // Provided for use by editors that need to validate form elements before
 // navigating away
 function validateMandatoryFields(event) {
-    if (twiki.Pref.validateSuppressed) {
+    if (foswiki.Pref.validateSuppressed) {
         return true;
     }
     var ok = true;
@@ -144,5 +144,5 @@ function validateMandatoryFields(event) {
 // Used to dynamically set validation suppression, depending on which submit
 // button is pressed (i.e. call this n 'Cancel').
 function suppressSaveValidation() {
-    twiki.Pref.validateSuppressed = true;
+    foswiki.Pref.validateSuppressed = true;
 }

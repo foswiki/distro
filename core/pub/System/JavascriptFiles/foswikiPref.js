@@ -4,17 +4,17 @@ Cookie Functions -- "Night of the Living Cookie" Version (25-Jul-96)
 Written by:  Bill Dortch, hIdaho Design <bdortch@hidaho.com>
 The following functions are released to the public domain.
 
-Refactored for TWiki by Arthur Clemens 2006.
+Refactored for Foswiki by Arthur Clemens 2006.
 */
 
 /**
-The preferred way for reading and writing cookies is using getPref and setPref, otherwise the limit of 20 cookies per domain is reached soon. See http://twiki.org/cgi-bin/view/TWiki/TWikiSettingsCookie.
+The preferred way for reading and writing cookies is using getPref and setPref, otherwise the limit of 20 cookies per domain is reached soon. See http://foswiki.org/Support/DataStorageInUserCookie
 */
-if (twiki == undefined) var twiki = {};
+if (foswiki == undefined) var foswiki = {};
 
-twiki.Pref = {
+foswiki.Pref = {
 	
-	TWIKI_PREF_COOKIE_NAME:"FOSWIKIPREF",
+	FOSWIKI_PREF_COOKIE_NAME:"FOSWIKIPREF",
 	/**
 	Separates key-value pairs
 	*/
@@ -29,25 +29,25 @@ twiki.Pref = {
 	COOKIE_EXPIRY_TIME:365 * 24 * 60 * 60 * 1000,
 
 	/**
-	Writes a TWiki preference value. If the TWiki preference of given name already exists, a new value is written. If the preference name is new, a new preference is created.
+	Writes data to a user cookie, using key-value notation. If the key already exists, the value is overwritten. If the key is new, a new key/value pair is created.
 	Characters '|' and '=' are reserved as separators.
 	@param inPrefName : (String) name of the preference to write, for instance 'SHOWATTACHMENTS'
 	@param inPrefValue : (String) stringified value to write, for instance '1'
 	*/
 	setPref:function(inPrefName, inPrefValue) {
-		var prefName = twiki.Pref._getSafeString(inPrefName);
-		var prefValue = (isNaN(inPrefValue)) ? twiki.Pref._getSafeString(inPrefValue) : inPrefValue;
-		var cookieString = twiki.Pref._getPrefCookie();
-		var prefs = cookieString.split(twiki.Pref.COOKIE_PREF_SEPARATOR);
-		var index = twiki.Pref._getKeyValueLoc(prefs, prefName);
+		var prefName = foswiki.Pref._getSafeString(inPrefName);
+		var prefValue = (isNaN(inPrefValue)) ? foswiki.Pref._getSafeString(inPrefValue) : inPrefValue;
+		var cookieString = foswiki.Pref._getPrefCookie();
+		var prefs = cookieString.split(foswiki.Pref.COOKIE_PREF_SEPARATOR);
+		var index = foswiki.Pref._getKeyValueLoc(prefs, prefName);
 		if (index != -1) {
 			// updating this entry is done by removing the existing entry from the array and then pushing the new key-value onto it
 			prefs.splice(index, 1);
 		}
 		// else not found, so don't remove an existing entry
-		var keyvalueString = prefName + twiki.Pref.COOKIE_PREF_VALUE_SEPARATOR + prefValue;
+		var keyvalueString = prefName + foswiki.Pref.COOKIE_PREF_VALUE_SEPARATOR + prefValue;
 		prefs.push(keyvalueString);
-		twiki.Pref._writePrefValues(prefs);
+		foswiki.Pref._writePrefValues(prefs);
 	},
 	
 	/**
@@ -57,8 +57,8 @@ twiki.Pref = {
 	@return The value of the preference; an empty string when no value is found.
 	*/
 	getPref:function(inPrefName) {
-		var prefName = twiki.Pref._getSafeString(inPrefName);
-		return twiki.Pref.getPrefValueFromPrefList(prefName, twiki.Pref.getPrefList());
+		var prefName = foswiki.Pref._getSafeString(inPrefName);
+		return foswiki.Pref.getPrefValueFromPrefList(prefName, foswiki.Pref.getPrefList());
 	},
 	
 	/**
@@ -68,7 +68,7 @@ twiki.Pref = {
 	@return The value of the preference; an empty string when no value is found.
 	*/
 	getPrefValueFromPrefList:function(inPrefName, inPrefList) {
-		var keyvalue = twiki.Pref._getKeyValue(inPrefList, inPrefName);
+		var keyvalue = foswiki.Pref._getKeyValue(inPrefList, inPrefName);
 		if (keyvalue != null) return keyvalue[1];
 		return '';
 	},
@@ -78,14 +78,12 @@ twiki.Pref = {
 	@return An Array of key-value pair pref values; null if no value has been set before.
 	*/
 	getPrefList:function() {
-		var cookieString = twiki.Pref._getPrefCookie();
+		var cookieString = foswiki.Pref._getPrefCookie();
 		if (!cookieString) return null;
-		return cookieString.split(twiki.Pref.COOKIE_PREF_SEPARATOR);
+		return cookieString.split(foswiki.Pref.COOKIE_PREF_SEPARATOR);
 	},
 	
-	/**
-	To write a TWiki preference cookie (FOSWIKIPREF), use twiki.Pref.setPref.
-	
+	/**	
 	Retrieves the value of the cookie specified by "name".
 	@param inName : (String) identifier name of the cookie
 	@return (String) the cookie value; null if no cookie with name inName has been set.
@@ -98,7 +96,7 @@ twiki.Pref = {
 		while (i < clen) {
 			var j = i + alen;
 			if (document.cookie.substring(i, j) == arg) {
-				return twiki.Pref._getCookieVal(j);
+				return foswiki.Pref._getCookieVal(j);
 			}
 			i = document.cookie.indexOf(" ", i) + 1;
 			if (i == 0) break; 
@@ -117,11 +115,11 @@ twiki.Pref = {
 	@use
 	To call setCookie using name, value and path, write:
 	<pre>
-	twiki.Pref.setCookie ("myCookieName", "myCookieValue", null, "/");
+	foswiki.Pref.setCookie ("myCookieName", "myCookieValue", null, "/");
 	</pre>	
 	To set a secure cookie for path "/myPath", that expires after the current session, write:
 	<pre>
-	twiki.Pref.setCookie ("myCookieName", "myCookieValue", null, "/myPath", null, true);
+	foswiki.Pref.setCookie ("myCookieName", "myCookieValue", null, "/myPath", null, true);
 	</pre>
 	*/
 	setCookie:function(inName, inValue, inExpires, inPath, inDomain, inUsesSecure) {
@@ -140,7 +138,7 @@ twiki.Pref = {
 	@param inDomain : (String) The domain for which the cookie is valid. This MUST be the same as the domain used to create the cookie, or null/omitted if no domain was specified when creating the cookie.
 	*/
 	deleteCookie:function(inName, inPath, inDomain) {
-		if (twiki.Pref.getCookie(inName)) {
+		if (foswiki.Pref.getCookie(inName)) {
 			document.cookie = inName + "=" + ((inPath) ? "; path=" + inPath : "") + ((inDomain) ? "; domain=" + inDomain : "") + "; expires=Thu, 01-Jan-70 00:00:01 GMT";
 		}
 	},
@@ -157,7 +155,7 @@ twiki.Pref = {
 		if (!inKeyValues) return null;
 		var i = inKeyValues.length;
 		while (i--) {
-			var keyvalue = inKeyValues[i].split(twiki.Pref.COOKIE_PREF_VALUE_SEPARATOR);
+			var keyvalue = inKeyValues[i].split(foswiki.Pref.COOKIE_PREF_VALUE_SEPARATOR);
 			if (keyvalue[0] == inKey) return keyvalue;	
 		}
 		return null;
@@ -173,7 +171,7 @@ twiki.Pref = {
 		if (!inKeyValues) return null;
 		var i = inKeyValues.length;
 		while (i--) {
-			var keyvalue = inKeyValues[i].split(twiki.Pref.COOKIE_PREF_VALUE_SEPARATOR);
+			var keyvalue = inKeyValues[i].split(foswiki.Pref.COOKIE_PREF_VALUE_SEPARATOR);
 			if (keyvalue[0] == inKey) return i;	
 		}
 		return -1;
@@ -184,19 +182,19 @@ twiki.Pref = {
 	@param inValues: (Array) an array with key-value tuples
 	*/
 	_writePrefValues:function(inValues) {
-		var cookieString = (inValues != null) ? inValues.join(twiki.Pref.COOKIE_PREF_SEPARATOR) : '';
+		var cookieString = (inValues != null) ? inValues.join(foswiki.Pref.COOKIE_PREF_SEPARATOR) : '';
 		var expiryDate = new Date ();
-		twiki.Pref._fixCookieDate (expiryDate); // Correct for Mac date bug - call only once for given Date object!
-		expiryDate.setTime (expiryDate.getTime() + twiki.Pref.COOKIE_EXPIRY_TIME);
-		twiki.Pref.setCookie(twiki.Pref.TWIKI_PREF_COOKIE_NAME, cookieString, expiryDate, '/');
+		foswiki.Pref._fixCookieDate (expiryDate); // Correct for Mac date bug - call only once for given Date object!
+		expiryDate.setTime (expiryDate.getTime() + foswiki.Pref.COOKIE_EXPIRY_TIME);
+		foswiki.Pref.setCookie(foswiki.Pref.FOSWIKI_PREF_COOKIE_NAME, cookieString, expiryDate, '/');
 	},
 	
 	/**
-	Gets the TWiki pref cookie; creates a new cookie if it does not exist.
-	@return The TWiki pref cookie.
+	Gets the FOSWIKI_PREF_COOKIE_NAME cookie; creates a new cookie if it does not exist.
+	@return The pref cookie.
 	*/
 	_getPrefCookie:function() {
-		var cookieString = twiki.Pref.getCookie(twiki.Pref.TWIKI_PREF_COOKIE_NAME);
+		var cookieString = foswiki.Pref.getCookie(foswiki.Pref.FOSWIKI_PREF_COOKIE_NAME);
 		if (cookieString == undefined) {
 			cookieString = "";
 		}

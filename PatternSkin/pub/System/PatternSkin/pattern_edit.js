@@ -14,7 +14,7 @@ Pattern.Edit = {
 	buttons:{"font":null,"enlarge":null, "shrink":null},
 	
 	setFontStyleState:function(el, inShouldUpdateEditBox, inButtonState) {			
-		var pref  = twiki.Pref.getPref(Pattern.Edit.EDIT_PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID);
+		var pref  = foswiki.Pref.getPref(Pattern.Edit.EDIT_PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID);
 
 		if (!pref || (pref != Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL && pref != Pattern.Edit.EDITBOX_FONTSTYLE_MONO)) pref = Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL;
 	
@@ -45,12 +45,12 @@ Pattern.Edit = {
 	setEditBoxFontStyle:function(inFontStyle) {
 		if (inFontStyle == Pattern.Edit.EDITBOX_FONTSTYLE_MONO) {
 			foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE, EDITBOX_FONTSTYLE_MONO_STYLE);
-			twiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
+			foswiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
 			return;
 		}
 		if (inFontStyle == Pattern.Edit.EDITBOX_FONTSTYLE_PROPORTIONAL) {
 			foswiki.CSS.replaceClass(document.getElementById(EDITBOX_ID), EDITBOX_FONTSTYLE_MONO_STYLE, EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE);
-			twiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
+			foswiki.Pref.setPref(PREF_NAME + Pattern.Edit.EDITBOX_PREF_FONTSTYLE_ID, inFontStyle);
 			return;
 		}
 	},

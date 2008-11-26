@@ -9,7 +9,7 @@ foswikiCSS.js
 foswikiEvent.js
 foswikiForm.js
 foswikiHTML.js
-twikiPref.js
+foswikiPref.js
 foswikiString.js, foswikiStringUnicodeChars.js
 twikiWindow.js
 
@@ -21,7 +21,7 @@ var POPUP_WINDOW_WIDTH = 500;
 var POPUP_WINDOW_HEIGHT = 480;
 var POPUP_ATTRIBUTES = "titlebar=0,resizable,scrollbars";
 
-var TWIKI_PREF_COOKIE_NAME = "FOSWIKIPREF";
+var FOSWIKI_PREF_COOKIE_NAME = "FOSWIKIPREF";
 var COOKIE_PREF_SEPARATOR = "|"; // separates key-value pairs
 var COOKIE_PREF_VALUE_SEPARATOR = "="; // separates key from value
 var COOKIE_EXPIRY_TIME = 365 * 24 * 60 * 60 * 1000; // one year from now
@@ -454,7 +454,7 @@ function _writePrefValues (inValues) {
 	var expiryDate = new Date ();
 	FixCookieDate (expiryDate); // Correct for Mac date bug - call only once for given Date object!
 	expiryDate.setTime (expiryDate.getTime() + COOKIE_EXPIRY_TIME);
-	SetCookie(TWIKI_PREF_COOKIE_NAME, cookieString, expiryDate, '/');
+	SetCookie(FOSWIKI_PREF_COOKIE_NAME, cookieString, expiryDate, '/');
 }
 
 /**
@@ -462,7 +462,7 @@ Gets the TWiki pref cookie; creates a new cookie if it does not exist.
 @return The TWiki pref cookie.
 */
 function _getPrefCookie () {
-	var cookieString = GetCookie(TWIKI_PREF_COOKIE_NAME);
+	var cookieString = GetCookie(FOSWIKI_PREF_COOKIE_NAME);
 	if (cookieString == undefined) {
 		cookieString = "";
 	}

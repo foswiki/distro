@@ -81,7 +81,7 @@ Provided for use by editors that need to validate form elements before
 navigating away. Duplicated from JavascriptFiles/foswiki_edit.js to resolve Item5514
 */
 function validateMandatoryFields(event) {
-    if (twiki.Pref.validateSuppressed) {
+    if (foswiki.Pref.validateSuppressed) {
         return true;
     }
     var ok = true;
@@ -122,5 +122,5 @@ button is pressed (i.e. call this n 'Cancel').
 Duplicated from JavascriptFiles/foswiki_edit.js to resolve Item5514
 */
 function suppressSaveValidation() {
-    twiki.Pref.validateSuppressed = true;
+    foswiki.Pref.validateSuppressed = true;
 }
