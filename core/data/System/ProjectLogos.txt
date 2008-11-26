@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1215477335" format="1.1" version="$Rev: 15474 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1227691994" format="1.1" reprev="1.2" version="1.2"}%
 ---+ Logos 
 
 The official Foswiki logo is attached to this page.
@@ -6,23 +6,13 @@ The official Foswiki logo is attached to this page.
 ---++ Logo Artwork
 
 %STARTINCLUDE%
-<table cellpadding="5"><tr><td valign="top">
-    
-=smallPowered.gif=: <br />
-    <img src="%ATTACHURLPATH%/smallPowered.gif" />
+<img src="%ATTACHURLPATH%/foswiki-logo-slogan.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
-=large.gif=: <br />
-    <img src="%ATTACHURLPATH%/large.gif" />
+<img src="%ATTACHURLPATH%/foswiki-logo.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
-=banner.gif=: <br />
-    <img src="%ATTACHURLPATH%/banner.gif" />
 
-=badge.gif=: <br />
-    <img src="%ATTACHURLPATH%/badge.gif" />
+<img src="%ATTACHURLPATH%/foswiki-badge.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
-There is also an SVG file.
-
-</td></tr></table>
 %STOPINCLUDE%
 
 ---++ Logo Customization
@@ -42,5 +32,7 @@ The logo artwork of Foswiki.org should be used "as is" in order to get consisten
 You may NOT use any original artwork from Foswiki.org, nor make or use modified versions of such artwork, except under the following conditions:
    * You may use the Foswiki artwork on a web site, in product description and promotional material IF and ONLY IF such use can in no way be interpreted as anything other than an attribution. Using the Foswiki name and artwork in a manner that implies endorsement of a product or service is not allowed.
 
-%STOPINCLUDE%
 
+%META:FILEATTACHMENT{name="foswiki-logo-slogan.png" attachment="foswiki-logo-slogan.png" attr="" comment="" date="1227691967" path="foswiki-logo-slogan.png" size="8967" stream="IO::File=GLOB(0x948bfa4)" tmpFilename="/tmp/EjtcDwyRwS" user="ProjectContributor" version="3"}%
+%META:FILEATTACHMENT{name="foswiki-badge.png" attachment="foswiki-badge.png" attr="" comment="" date="1227691956" path="foswiki-badge.png" size="4807" stream="IO::File=GLOB(0x9494014)" tmpFilename="/tmp/B5uA2toSKg" user="ProjectContributor" version="2"}%
+%META:FILEATTACHMENT{name="foswiki-logo.png" attachment="foswiki-logo.png" attr="" comment="" date="1227691994" path="foswiki-logo.png" size="7537" stream="IO::File=GLOB(0x9494bc8)" tmpFilename="/tmp/SJ8x5Btee3" user="ProjectContributor" version="2"}%
