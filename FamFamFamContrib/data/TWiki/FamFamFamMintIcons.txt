@@ -5,26 +5,28 @@
 ---++ Source
 These Icons come from http://www.famfamfam.com/lab/icons/mint/
 
-[[%PUBURLPATH%/TWiki/FamFamFamMintIcons/readme.txt][readme]]
+[[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/readme.txt][readme]]
 
 
 ---++ Icons
 
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/application.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/arrow_right_grey.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/arrow_right_peppermint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/arrow_right_spearmint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/arrow_right_white.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/disk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/help.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/image_peppermint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/image_spearmint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/page_peppermint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/page.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/page_spearmint_down.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/page_spearmint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/page_spearmint_up.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/search.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/sound_grey.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/sound_spearmint.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/sound_white.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/application.png" alt="application.png" title="application.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_grey.png" alt="arrow_right_grey.png" title="arrow_right_grey.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_peppermint.png" alt="arrow_right_peppermint.png" title="arrow_right_peppermint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_spearmint.png" alt="arrow_right_spearmint.png" title="arrow_right_spearmint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/arrow_right_white.png" alt="arrow_right_white.png" title="arrow_right_white.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/disk.png" alt="disk.png" title="disk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/help.png" alt="help.png" title="help.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/image_peppermint.png" alt="image_peppermint.png" title="image_peppermint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/image_spearmint.png" alt="image_spearmint.png" title="image_spearmint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_peppermint.png" alt="page_peppermint.png" title="page_peppermint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page.png" alt="page.png" title="page.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint_down.png" alt="page_spearmint_down.png" title="page_spearmint_down.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint.png" alt="page_spearmint.png" title="page_spearmint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/page_spearmint_up.png" alt="page_spearmint_up.png" title="page_spearmint_up.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/search.png" alt="search.png" title="search.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png" alt="sound_grey.png" title="sound_grey.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_spearmint.png" alt="sound_spearmint.png" title="sound_spearmint.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_white.png" alt="sound_white.png" title="sound_white.png" />
+
+See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamSilkIcons

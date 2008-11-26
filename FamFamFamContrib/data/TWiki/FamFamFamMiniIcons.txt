@@ -7,152 +7,153 @@ The flag icon filenames follow the ISO 3166-1 alpha-2 country codes.
 ---++ Source
 These Icons come from These Icons come from http://www.famfamfam.com/lab/icons/flags/
 
-[[%PUBURLPATH%/TWiki/FamFamFamMiniIcons/readme.txt][readme]]
+[[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/readme.txt][readme]]
 
 ---++ Icons
 
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_back.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_forward.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_go.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_paste.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_print.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_refresh_blue.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_refresh.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_save.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/action_stop.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/application_dreamweaver.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/application_firefox.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/application_flash.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/arrow_down.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/arrow_left.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/arrow_right.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/arrow_up.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/box.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/calendar.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/comment_blue.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/comment_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/comment.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/comment_new.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/comment_yellow.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/copy.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/cut.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/date_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/date.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/date_new.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/file_acrobat.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/file_font.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/file_font_truetype.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/flag_blue.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/flag_green.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/flag_orange.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/flag_red.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/flag_white.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/folder_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/folder.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/folder_images.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/folder_lock.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/folder_new.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/folder_page.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_accept.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_airmail.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_alert.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_attachment.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_clock.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_component.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_download.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_email.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_extension.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_favourites.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_get_world.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_history.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_home.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_info.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_key.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_link.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_mail.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_monitor_mac.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_monitor_pc.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_network.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_package_get.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_package.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_package_open.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_padlock.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_security.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_settings.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_user.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_wand.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_world_dynamic.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/icon_world.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/image.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/image_new.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/interface_browser.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/interface_dialog.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/interface_installer.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_comments.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_components.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_errors.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_extensions.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_images.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_keys.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_links.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_packages.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_security.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_settings.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_users.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/list_world.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/note_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/note.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/note_new.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_alert.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_attachment.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_bookmark.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_boy.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_code.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_colors.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_component.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_cross.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_deny.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_down.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_dynamic.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_edit.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_extension.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_favourites.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_find.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_flash.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_girl.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_html.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_java.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_key.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_left.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_link.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_lock.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_new.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_next.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_package.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_php.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_prev.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_refresh.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_right.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_script.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_security.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_settings.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_sound.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_tag_blue.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_tag_red.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_text_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_text.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_tick.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_tree.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_up.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_url.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_user_dark.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_user.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_user_light.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_video.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/page_wizard.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/table_delete.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/table.gif" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/tables.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_back.gif" alt="action_back.gif" title="action_back.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_forward.gif" alt="action_forward.gif" title="action_forward.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_go.gif" alt="action_go.gif" title="action_go.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_paste.gif" alt="action_paste.gif" title="action_paste.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_print.gif" alt="action_print.gif" title="action_print.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_refresh_blue.gif" alt="action_refresh_blue.gif" title="action_refresh_blue.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_refresh.gif" alt="action_refresh.gif" title="action_refresh.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_save.gif" alt="action_save.gif" title="action_save.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/action_stop.gif" alt="action_stop.gif" title="action_stop.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/application_dreamweaver.gif" alt="application_dreamweaver.gif" title="application_dreamweaver.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/application_firefox.gif" alt="application_firefox.gif" title="application_firefox.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/application_flash.gif" alt="application_flash.gif" title="application_flash.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/arrow_down.gif" alt="arrow_down.gif" title="arrow_down.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/arrow_left.gif" alt="arrow_left.gif" title="arrow_left.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/arrow_right.gif" alt="arrow_right.gif" title="arrow_right.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/arrow_up.gif" alt="arrow_up.gif" title="arrow_up.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/box.gif" alt="box.gif" title="box.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/calendar.gif" alt="calendar.gif" title="calendar.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/comment_blue.gif" alt="comment_blue.gif" title="comment_blue.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/comment_delete.gif" alt="comment_delete.gif" title="comment_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/comment.gif" alt="comment.gif" title="comment.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/comment_new.gif" alt="comment_new.gif" title="comment_new.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/comment_yellow.gif" alt="comment_yellow.gif" title="comment_yellow.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/copy.gif" alt="copy.gif" title="copy.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/cut.gif" alt="cut.gif" title="cut.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/date_delete.gif" alt="date_delete.gif" title="date_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/date.gif" alt="date.gif" title="date.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/date_new.gif" alt="date_new.gif" title="date_new.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/file_acrobat.gif" alt="file_acrobat.gif" title="file_acrobat.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/file_font.gif" alt="file_font.gif" title="file_font.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/file_font_truetype.gif" alt="file_font_truetype.gif" title="file_font_truetype.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/flag_blue.gif" alt="flag_blue.gif" title="flag_blue.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/flag_green.gif" alt="flag_green.gif" title="flag_green.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/flag_orange.gif" alt="flag_orange.gif" title="flag_orange.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/flag_red.gif" alt="flag_red.gif" title="flag_red.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/flag_white.gif" alt="flag_white.gif" title="flag_white.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/folder_delete.gif" alt="folder_delete.gif" title="folder_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/folder.gif" alt="folder.gif" title="folder.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/folder_images.gif" alt="folder_images.gif" title="folder_images.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/folder_lock.gif" alt="folder_lock.gif" title="folder_lock.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/folder_new.gif" alt="folder_new.gif" title="folder_new.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/folder_page.gif" alt="folder_page.gif" title="folder_page.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_accept.gif" alt="icon_accept.gif" title="icon_accept.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_airmail.gif" alt="icon_airmail.gif" title="icon_airmail.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_alert.gif" alt="icon_alert.gif" title="icon_alert.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_attachment.gif" alt="icon_attachment.gif" title="icon_attachment.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_clock.gif" alt="icon_clock.gif" title="icon_clock.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_component.gif" alt="icon_component.gif" title="icon_component.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_download.gif" alt="icon_download.gif" title="icon_download.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_email.gif" alt="icon_email.gif" title="icon_email.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_extension.gif" alt="icon_extension.gif" title="icon_extension.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_favourites.gif" alt="icon_favourites.gif" title="icon_favourites.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_get_world.gif" alt="icon_get_world.gif" title="icon_get_world.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_history.gif" alt="icon_history.gif" title="icon_history.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_home.gif" alt="icon_home.gif" title="icon_home.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_info.gif" alt="icon_info.gif" title="icon_info.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_key.gif" alt="icon_key.gif" title="icon_key.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_link.gif" alt="icon_link.gif" title="icon_link.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_mail.gif" alt="icon_mail.gif" title="icon_mail.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_monitor_mac.gif" alt="icon_monitor_mac.gif" title="icon_monitor_mac.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_monitor_pc.gif" alt="icon_monitor_pc.gif" title="icon_monitor_pc.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_network.gif" alt="icon_network.gif" title="icon_network.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_package_get.gif" alt="icon_package_get.gif" title="icon_package_get.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_package.gif" alt="icon_package.gif" title="icon_package.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_package_open.gif" alt="icon_package_open.gif" title="icon_package_open.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_padlock.gif" alt="icon_padlock.gif" title="icon_padlock.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_security.gif" alt="icon_security.gif" title="icon_security.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_settings.gif" alt="icon_settings.gif" title="icon_settings.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_user.gif" alt="icon_user.gif" title="icon_user.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_wand.gif" alt="icon_wand.gif" title="icon_wand.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_world_dynamic.gif" alt="icon_world_dynamic.gif" title="icon_world_dynamic.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/icon_world.gif" alt="icon_world.gif" title="icon_world.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/image.gif" alt="image.gif" title="image.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/image_new.gif" alt="image_new.gif" title="image_new.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/interface_browser.gif" alt="interface_browser.gif" title="interface_browser.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/interface_dialog.gif" alt="interface_dialog.gif" title="interface_dialog.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/interface_installer.gif" alt="interface_installer.gif" title="interface_installer.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_comments.gif" alt="list_comments.gif" title="list_comments.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_components.gif" alt="list_components.gif" title="list_components.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_errors.gif" alt="list_errors.gif" title="list_errors.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_extensions.gif" alt="list_extensions.gif" title="list_extensions.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_images.gif" alt="list_images.gif" title="list_images.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_keys.gif" alt="list_keys.gif" title="list_keys.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_links.gif" alt="list_links.gif" title="list_links.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_packages.gif" alt="list_packages.gif" title="list_packages.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_security.gif" alt="list_security.gif" title="list_security.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_settings.gif" alt="list_settings.gif" title="list_settings.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_users.gif" alt="list_users.gif" title="list_users.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/list_world.gif" alt="list_world.gif" title="list_world.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/note_delete.gif" alt="note_delete.gif" title="note_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/note.gif" alt="note.gif" title="note.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/note_new.gif" alt="note_new.gif" title="note_new.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_alert.gif" alt="page_alert.gif" title="page_alert.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_attachment.gif" alt="page_attachment.gif" title="page_attachment.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_bookmark.gif" alt="page_bookmark.gif" title="page_bookmark.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_boy.gif" alt="page_boy.gif" title="page_boy.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_code.gif" alt="page_code.gif" title="page_code.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_colors.gif" alt="page_colors.gif" title="page_colors.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_component.gif" alt="page_component.gif" title="page_component.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_cross.gif" alt="page_cross.gif" title="page_cross.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_delete.gif" alt="page_delete.gif" title="page_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_deny.gif" alt="page_deny.gif" title="page_deny.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_down.gif" alt="page_down.gif" title="page_down.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_dynamic.gif" alt="page_dynamic.gif" title="page_dynamic.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_edit.gif" alt="page_edit.gif" title="page_edit.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_extension.gif" alt="page_extension.gif" title="page_extension.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_favourites.gif" alt="page_favourites.gif" title="page_favourites.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_find.gif" alt="page_find.gif" title="page_find.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_flash.gif" alt="page_flash.gif" title="page_flash.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page.gif" alt="page.gif" title="page.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_girl.gif" alt="page_girl.gif" title="page_girl.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_html.gif" alt="page_html.gif" title="page_html.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_java.gif" alt="page_java.gif" title="page_java.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_key.gif" alt="page_key.gif" title="page_key.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_left.gif" alt="page_left.gif" title="page_left.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_link.gif" alt="page_link.gif" title="page_link.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_lock.gif" alt="page_lock.gif" title="page_lock.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_new.gif" alt="page_new.gif" title="page_new.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_next.gif" alt="page_next.gif" title="page_next.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_package.gif" alt="page_package.gif" title="page_package.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_php.gif" alt="page_php.gif" title="page_php.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_prev.gif" alt="page_prev.gif" title="page_prev.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_refresh.gif" alt="page_refresh.gif" title="page_refresh.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_right.gif" alt="page_right.gif" title="page_right.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_script.gif" alt="page_script.gif" title="page_script.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_security.gif" alt="page_security.gif" title="page_security.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_settings.gif" alt="page_settings.gif" title="page_settings.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_sound.gif" alt="page_sound.gif" title="page_sound.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_tag_blue.gif" alt="page_tag_blue.gif" title="page_tag_blue.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_tag_red.gif" alt="page_tag_red.gif" title="page_tag_red.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_text_delete.gif" alt="page_text_delete.gif" title="page_text_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_text.gif" alt="page_text.gif" title="page_text.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_tick.gif" alt="page_tick.gif" title="page_tick.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_tree.gif" alt="page_tree.gif" title="page_tree.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_up.gif" alt="page_up.gif" title="page_up.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_url.gif" alt="page_url.gif" title="page_url.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_user_dark.gif" alt="page_user_dark.gif" title="page_user_dark.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_user.gif" alt="page_user.gif" title="page_user.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_user_light.gif" alt="page_user_light.gif" title="page_user_light.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_video.gif" alt="page_video.gif" title="page_video.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/page_wizard.gif" alt="page_wizard.gif" title="page_wizard.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/table_delete.gif" alt="table_delete.gif" title="table_delete.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/table.gif" alt="table.gif" title="table.gif" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/tables.gif" alt="tables.gif" title="tables.gif" />
 
+See also: FamFamFamContrib, FamFamFamFlagIcons, FamFamFamMintIcons, FamFamFamSilkIcons

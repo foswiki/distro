@@ -1,22 +1,14 @@
 # Release manifest for FamFamFamContrib
 data/TWiki/FamFamFamContrib.txt 0644 Documentation
 lib/TWiki/Contrib/FamFamFamContrib.pm 0644 Perl module
-
 data/TWiki/FamFamFamFlagIcons.txt
 data/TWiki/FamFamFamSilkIcons.txt
 data/TWiki/FamFamFamMintIcons.txt
 data/TWiki/FamFamFamMiniIcons.txt
-
-
 pub/TWiki/FamFamFamContrib/silk-preview.jpg
 pub/TWiki/FamFamFamContrib/mint-preview.jpg
 pub/TWiki/FamFamFamContrib/flags-preview.jpg
 pub/TWiki/FamFamFamContrib/mini-preview.jpg
-
-
-pub
-pub/TWiki
-pub/TWiki/FamFamFamFlagIcons
 pub/TWiki/FamFamFamFlagIcons/ad.png
 pub/TWiki/FamFamFamFlagIcons/ae.png
 pub/TWiki/FamFamFamFlagIcons/af.png
@@ -265,7 +257,6 @@ pub/TWiki/FamFamFamFlagIcons/yt.png
 pub/TWiki/FamFamFamFlagIcons/za.png
 pub/TWiki/FamFamFamFlagIcons/zm.png
 pub/TWiki/FamFamFamFlagIcons/zw.png
-pub/TWiki/FamFamFamMiniIcons
 pub/TWiki/FamFamFamMiniIcons/action_back.gif
 pub/TWiki/FamFamFamMiniIcons/action_forward.gif
 pub/TWiki/FamFamFamMiniIcons/action_go.gif
@@ -411,7 +402,6 @@ pub/TWiki/FamFamFamMiniIcons/readme.txt
 pub/TWiki/FamFamFamMiniIcons/table_delete.gif
 pub/TWiki/FamFamFamMiniIcons/table.gif
 pub/TWiki/FamFamFamMiniIcons/tables.gif
-pub/TWiki/FamFamFamMintIcons
 pub/TWiki/FamFamFamMintIcons/application.png
 pub/TWiki/FamFamFamMintIcons/arrow_right_grey.png
 pub/TWiki/FamFamFamMintIcons/arrow_right_peppermint.png
@@ -431,7 +421,6 @@ pub/TWiki/FamFamFamMintIcons/search.png
 pub/TWiki/FamFamFamMintIcons/sound_grey.png
 pub/TWiki/FamFamFamMintIcons/sound_spearmint.png
 pub/TWiki/FamFamFamMintIcons/sound_white.png
-pub/TWiki/FamFamFamSilkIcons
 pub/TWiki/FamFamFamSilkIcons/accept.png
 pub/TWiki/FamFamFamSilkIcons/add.png
 pub/TWiki/FamFamFamSilkIcons/anchor.png
@@ -1434,3 +1423,4 @@ pub/TWiki/FamFamFamSilkIcons/xhtml_valid.png
 pub/TWiki/FamFamFamSilkIcons/zoom_in.png
 pub/TWiki/FamFamFamSilkIcons/zoom_out.png
 pub/TWiki/FamFamFamSilkIcons/zoom.png
+pub/TWiki/FamFamFamSilkIcons/index_abc.png

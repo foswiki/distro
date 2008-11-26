@@ -1,4 +1,3 @@
-
 ---+!! !FamFamFamContrib
 <!--
 One line description, required for extensions repository catalog.
@@ -16,18 +15,21 @@ At this point, the only way to access these Icons is using the url - see below.
 
 ---++ Examples (if installed)
 
-   * <img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/au.png" /> (=&lt;img src="%<nop>PUBURLPATH%/TWiki/FamFamFamFlagIcons/au.png" /&gt;=)
-   * <img src="%PUBURLPATH%/TWiki/FamFamFamSilkIcons/bug_link.png" /> (=&lt;img src="%<nop>PUBURLPATH%/TWiki/FamFamFamSilkIcons/bug_link.png" /&gt;=)
-   * <img src="%PUBURLPATH%/TWiki/FamFamFamSilkIcons/arrow_up.png" /> (=&lt;img src="%<nop>PUBURLPATH%/TWiki/FamFamFamSilkIcons/arrow_up.png" /&gt;=)
-   * <img src="%PUBURLPATH%/TWiki/FamFamFamMiniIcons/arrow_up.gif" /> (=&lt;img src="%<nop>PUBURLPATH%/TWiki/FamFamFamMiniIcons/arrow_up.gif" /&gt;=)
-   * <img src="%PUBURLPATH%/TWiki/FamFamFamMintIcons/sound_grey.png" /> (=&lt;img src="%<nop>PUBURLPATH%/TWiki/FamFamFamMintIcons/sound_grey.png" /&gt;=)
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" alt="au.png" title="au.png" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" /&gt;=)
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/bug_link.png" alt="bug_link.png" title="bug_link.png" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/bug_link.png" /&gt;=)
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_up.png" alt="arrow_up.png" title="arrow_up.png" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_up.png" /&gt;=)
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/arrow_up.gif" alt="arrow_up.gif" title="arrow_up.gif" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamMiniIcons/arrow_up.gif" /&gt;=)
+   * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png" alt="sound_grey.ong" title="sound_grey.ong" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamMintIcons/sound_grey.png" /&gt;=)
    
 ---+++ Flags preview FamFamFamFlagIcons
 <img src="%ATTACHURLPATH%/flags-preview.jpg" alt="flags-preview.jpg" width='320' height='120' />
+
 ---+++ Mini preview FamFamFamMiniIcons
 <img src="%ATTACHURLPATH%/mini-preview.jpg" alt="mini-preview.jpg" width='320' height='120' />
+
 ---+++ Mint preview FamFamFamMintIcons  
 <img src="%ATTACHURLPATH%/mint-preview.jpg" alt="mint-preview.jpg" width='320' height='120' />
+
 ---+++ Silk preview FamFamFamSilkIcons
 <img src="%ATTACHURLPATH%/silk-preview.jpg" alt="silk-preview.jpg" width='320' height='240' />
 
@@ -39,22 +41,22 @@ At this point, the only way to access these Icons is using the url - see below.
 
 
 |  Icons Creator: | Icons by Mark James http://www.famfamfam.com |
-|  Contrib Author(s): | TWiki packaging by TWiki:Main.SvenDowideit - SvenDowideit@distributedINFORMATION.com a [[http://WikiRing.com][WikiRing]] founding partner |
+|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@distributedINFORMATION.com a [[http://WikiRing.com][WikiRing]] founding partner |
 |  Copyright: | &copy; Mark James http://www.famfamfam.com |
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  26 Nov 20078: | compatibility Foswiki |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Contrib Home: | http://twiki.org/cgi-bin/view/Plugins/FamFamFamContrib |
-|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/FamFamFamContribDev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/FamFamFamContribAppraisal |
+|  Contrib Home: | http://foswiki.org/Extensions/FamFamFamContrib |
+|  Feedback: | http://foswiki.org/Extensions/FamFamFamContribDev |
 
 __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
 
 
-%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="" comment="Silk icons preview" date="1205882801" path="silk-preview.jpg" size="13799"  user="BaseUserMapping_333" version="1"}%
-%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="" comment="Mint icons preview" date="1205882801" path="mint-preview.jpg" size="13799"  user="BaseUserMapping_333" version="1"}%
-%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="" comment="Flags icons preview" date="1205882801" path="flags-preview.jpg" size="13799"  user="BaseUserMapping_333" version="1"}%
-%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="" comment="Mini icons preview" date="1205882801" path="mini-preview.jpg" size="13799"  user="BaseUserMapping_333" version="1"}%
+%META:FILEATTACHMENT{name="silk-preview.jpg" attachment="silk-preview.jpg" attr="" comment="Silk icons preview" date="1205882801" path="silk-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mint-preview.jpg" attachment="mint-preview.jpg" attr="" comment="Mint icons preview" date="1205882801" path="mint-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="flags-preview.jpg" attachment="flags-preview.jpg" attr="" comment="Flags icons preview" date="1205882801" path="flags-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="mini-preview.jpg" attachment="mini-preview.jpg" attr="" comment="Mini icons preview" date="1205882801" path="mini-preview.jpg" size="13799"  user="ProjectContributor" version="1"}%

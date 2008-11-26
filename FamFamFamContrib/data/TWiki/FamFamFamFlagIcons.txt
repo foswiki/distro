@@ -8,256 +8,256 @@ The flag icon filenames follow the ISO 3166-1 alpha-2 country codes.
 These Icons come from http://www.famfamfam.com/lab/icons/flags/
 
 
-[[%PUBURLPATH%/TWiki/FamFamFamFlagIcons/readme.txt][readme]]
+[[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/readme.txt][readme]]
 
 ---++ Icons
 
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ad.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ae.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/af.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ag.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ai.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/al.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/am.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/an.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ao.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ar.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/as.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/at.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/au.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/aw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ax.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/az.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ba.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bb.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bd.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/be.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bh.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bi.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bj.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bo.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/br.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bs.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bv.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/by.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/bz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ca.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/catalonia.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cd.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ch.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ci.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ck.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cl.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/co.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cs.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cv.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cx.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cy.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/cz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/de.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/dj.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/dk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/dm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/do.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/dz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ec.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ee.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/eg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/eh.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/england.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/er.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/es.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/et.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/europeanunion.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fam.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fi.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fj.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fo.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/fr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ga.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gb.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gd.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ge.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gh.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gi.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gl.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gp.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gq.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gs.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/gy.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/hk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/hm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/hn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/hr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ht.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/hu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/id.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ie.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/il.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/in.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/io.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/iq.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ir.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/is.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/it.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/jm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/jo.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/jp.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ke.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kh.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ki.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/km.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kp.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ky.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/kz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/la.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lb.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/li.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ls.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/lv.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ly.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ma.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/md.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/me.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mh.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ml.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mo.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mp.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mq.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ms.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mv.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mx.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/my.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/mz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/na.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/nc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ne.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/nf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ng.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ni.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/nl.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/no.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/np.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/nr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/nu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/nz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/om.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pa.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pe.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ph.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pl.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ps.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/pw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/py.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/qa.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/re.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ro.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/rs.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ru.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/rw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sa.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sb.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/scotland.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sd.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/se.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sh.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/si.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sj.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sl.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/so.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/st.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sv.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sy.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/sz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/td.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/th.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tj.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tk.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tl.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/to.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tr.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tv.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tw.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/tz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ua.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ug.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/um.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/us.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/uy.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/uz.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/va.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/vc.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ve.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/vg.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/vi.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/vn.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/vu.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/wales.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/wf.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ws.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/ye.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/yt.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/za.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/zm.png" />
-<img src="%PUBURLPATH%/TWiki/FamFamFamFlagIcons/zw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ad.png" alt="ad.png" title="ad.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ae.png" alt="ae.png" title="ae.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/af.png" alt="af.png" title="af.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ag.png" alt="ag.png" title="ag.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ai.png" alt="ai.png" title="ai.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/al.png" alt="al.png" title="al.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/am.png" alt="am.png" title="am.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/an.png" alt="an.png" title="an.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ao.png" alt="ao.png" title="ao.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ar.png" alt="ar.png" title="ar.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/as.png" alt="as.png" title="as.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/at.png" alt="at.png" title="at.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" alt="au.png" title="au.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/aw.png" alt="aw.png" title="aw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ax.png" alt="ax.png" title="ax.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/az.png" alt="az.png" title="az.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ba.png" alt="ba.png" title="ba.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bb.png" alt="bb.png" title="bb.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bd.png" alt="bd.png" title="bd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/be.png" alt="be.png" title="be.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bf.png" alt="bf.png" title="bf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bg.png" alt="bg.png" title="bg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bh.png" alt="bh.png" title="bh.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bi.png" alt="bi.png" title="bi.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bj.png" alt="bj.png" title="bj.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bm.png" alt="bm.png" title="bm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bn.png" alt="bn.png" title="bn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bo.png" alt="bo.png" title="bo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/br.png" alt="br.png" title="br.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bs.png" alt="bs.png" title="bs.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bt.png" alt="bt.png" title="bt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bv.png" alt="bv.png" title="bv.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bw.png" alt="bw.png" title="bw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/by.png" alt="by.png" title="by.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/bz.png" alt="bz.png" title="bz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ca.png" alt="ca.png" title="ca.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/catalonia.png" alt="catalonia.png" title="catalonia.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cc.png" alt="cc.png" title="cc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cd.png" alt="cd.png" title="cd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cf.png" alt="cf.png" title="cf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cg.png" alt="cg.png" title="cg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ch.png" alt="ch.png" title="ch.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ci.png" alt="ci.png" title="ci.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ck.png" alt="ck.png" title="ck.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cl.png" alt="cl.png" title="cl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cm.png" alt="cm.png" title="cm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cn.png" alt="cn.png" title="cn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/co.png" alt="co.png" title="co.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cr.png" alt="cr.png" title="cr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cs.png" alt="cs.png" title="cs.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cu.png" alt="cu.png" title="cu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cv.png" alt="cv.png" title="cv.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cx.png" alt="cx.png" title="cx.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cy.png" alt="cy.png" title="cy.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/cz.png" alt="cz.png" title="cz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/de.png" alt="de.png" title="de.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/dj.png" alt="dj.png" title="dj.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/dk.png" alt="dk.png" title="dk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/dm.png" alt="dm.png" title="dm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/do.png" alt="do.png" title="do.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/dz.png" alt="dz.png" title="dz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ec.png" alt="ec.png" title="ec.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ee.png" alt="ee.png" title="ee.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/eg.png" alt="eg.png" title="eg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/eh.png" alt="eh.png" title="eh.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/england.png" alt="england.png" title="england.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/er.png" alt="er.png" title="er.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/es.png" alt="es.png" title="es.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/et.png" alt="et.png" title="et.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/europeanunion.png" alt="europeanunion.png" title="europeanunion.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fam.png" alt="fam.png" title="fam.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fi.png" alt="fi.png" title="fi.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fj.png" alt="fj.png" title="fj.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fk.png" alt="fk.png" title="fk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fm.png" alt="fm.png" title="fm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fo.png" alt="fo.png" title="fo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/fr.png" alt="fr.png" title="fr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ga.png" alt="ga.png" title="ga.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gb.png" alt="gb.png" title="gb.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gd.png" alt="gd.png" title="gd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ge.png" alt="ge.png" title="ge.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gf.png" alt="gf.png" title="gf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gh.png" alt="gh.png" title="gh.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gi.png" alt="gi.png" title="gi.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gl.png" alt="gl.png" title="gl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gm.png" alt="gm.png" title="gm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gn.png" alt="gn.png" title="gn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gp.png" alt="gp.png" title="gp.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gq.png" alt="gq.png" title="gq.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gr.png" alt="gr.png" title="gr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gs.png" alt="gs.png" title="gs.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gt.png" alt="gt.png" title="gt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gu.png" alt="gu.png" title="gu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gw.png" alt="gw.png" title="gw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/gy.png" alt="gy.png" title="gy.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/hk.png" alt="hk.png" title="hk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/hm.png" alt="hm.png" title="hm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/hn.png" alt="hn.png" title="hn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/hr.png" alt="hr.png" title="hr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ht.png" alt="ht.png" title="ht.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/hu.png" alt="hu.png" title="hu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/id.png" alt="id.png" title="id.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ie.png" alt="ie.png" title="ie.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/il.png" alt="il.png" title="il.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/in.png" alt="in.png" title="in.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/io.png" alt="io.png" title="io.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/iq.png" alt="iq.png" title="iq.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ir.png" alt="ir.png" title="ir.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/is.png" alt="is.png" title="is.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/it.png" alt="it.png" title="it.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/jm.png" alt="jm.png" title="jm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/jo.png" alt="jo.png" title="jo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/jp.png" alt="jp.png" title="jp.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ke.png" alt="ke.png" title="ke.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kg.png" alt="kg.png" title="kg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kh.png" alt="kh.png" title="kh.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ki.png" alt="ki.png" title="ki.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/km.png" alt="km.png" title="km.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kn.png" alt="kn.png" title="kn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kp.png" alt="kp.png" title="kp.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kr.png" alt="kr.png" title="kr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kw.png" alt="kw.png" title="kw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ky.png" alt="ky.png" title="ky.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/kz.png" alt="kz.png" title="kz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/la.png" alt="la.png" title="la.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lb.png" alt="lb.png" title="lb.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lc.png" alt="lc.png" title="lc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/li.png" alt="li.png" title="li.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lk.png" alt="lk.png" title="lk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lr.png" alt="lr.png" title="lr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ls.png" alt="ls.png" title="ls.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lt.png" alt="lt.png" title="lt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lu.png" alt="lu.png" title="lu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/lv.png" alt="lv.png" title="lv.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ly.png" alt="ly.png" title="ly.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ma.png" alt="ma.png" title="ma.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mc.png" alt="mc.png" title="mc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/md.png" alt="md.png" title="md.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/me.png" alt="me.png" title="me.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mg.png" alt="mg.png" title="mg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mh.png" alt="mh.png" title="mh.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mk.png" alt="mk.png" title="mk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ml.png" alt="ml.png" title="ml.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mm.png" alt="mm.png" title="mm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mn.png" alt="mn.png" title="mn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mo.png" alt="mo.png" title="mo.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mp.png" alt="mp.png" title="mp.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mq.png" alt="mq.png" title="mq.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mr.png" alt="mr.png" title="mr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ms.png" alt="ms.png" title="ms.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mt.png" alt="mt.png" title="mt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mu.png" alt="mu.png" title="mu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mv.png" alt="mv.png" title="mv.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mw.png" alt="mw.png" title="mw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mx.png" alt="mx.png" title="mx.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/my.png" alt="my.png" title="my.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/mz.png" alt="mz.png" title="mz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/na.png" alt="na.png" title="na.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/nc.png" alt="nc.png" title="nc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ne.png" alt="ne.png" title="ne.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/nf.png" alt="nf.png" title="nf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ng.png" alt="ng.png" title="ng.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ni.png" alt="ni.png" title="ni.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/nl.png" alt="nl.png" title="nl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/no.png" alt="no.png" title="no.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/np.png" alt="np.png" title="np.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/nr.png" alt="nr.png" title="nr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/nu.png" alt="nu.png" title="nu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/nz.png" alt="nz.png" title="nz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/om.png" alt="om.png" title="om.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pa.png" alt="pa.png" title="pa.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pe.png" alt="pe.png" title="pe.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pf.png" alt="pf.png" title="pf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pg.png" alt="pg.png" title="pg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ph.png" alt="ph.png" title="ph.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pk.png" alt="pk.png" title="pk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pl.png" alt="pl.png" title="pl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pm.png" alt="pm.png" title="pm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pn.png" alt="pn.png" title="pn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pr.png" alt="pr.png" title="pr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ps.png" alt="ps.png" title="ps.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pt.png" alt="pt.png" title="pt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/pw.png" alt="pw.png" title="pw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/py.png" alt="py.png" title="py.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/qa.png" alt="qa.png" title="qa.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/re.png" alt="re.png" title="re.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ro.png" alt="ro.png" title="ro.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/rs.png" alt="rs.png" title="rs.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ru.png" alt="ru.png" title="ru.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/rw.png" alt="rw.png" title="rw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sa.png" alt="sa.png" title="sa.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sb.png" alt="sb.png" title="sb.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/scotland.png" alt="scotland.png" title="scotland.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sc.png" alt="sc.png" title="sc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sd.png" alt="sd.png" title="sd.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/se.png" alt="se.png" title="se.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sg.png" alt="sg.png" title="sg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sh.png" alt="sh.png" title="sh.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/si.png" alt="si.png" title="si.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sj.png" alt="sj.png" title="sj.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sk.png" alt="sk.png" title="sk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sl.png" alt="sl.png" title="sl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sm.png" alt="sm.png" title="sm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sn.png" alt="sn.png" title="sn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/so.png" alt="so.png" title="so.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sr.png" alt="sr.png" title="sr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/st.png" alt="st.png" title="st.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sv.png" alt="sv.png" title="sv.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sy.png" alt="sy.png" title="sy.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/sz.png" alt="sz.png" title="sz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tc.png" alt="tc.png" title="tc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/td.png" alt="td.png" title="td.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tf.png" alt="tf.png" title="tf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tg.png" alt="tg.png" title="tg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/th.png" alt="th.png" title="th.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tj.png" alt="tj.png" title="tj.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tk.png" alt="tk.png" title="tk.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tl.png" alt="tl.png" title="tl.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tm.png" alt="tm.png" title="tm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tn.png" alt="tn.png" title="tn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/to.png" alt="to.png" title="to.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tr.png" alt="tr.png" title="tr.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tt.png" alt="tt.png" title="tt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tv.png" alt="tv.png" title="tv.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tw.png" alt="tw.png" title="tw.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/tz.png" alt="tz.png" title="tz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ua.png" alt="ua.png" title="ua.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ug.png" alt="ug.png" title="ug.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/um.png" alt="um.png" title="um.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/us.png" alt="us.png" title="us.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/uy.png" alt="uy.png" title="uy.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/uz.png" alt="uz.png" title="uz.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/va.png" alt="va.png" title="va.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/vc.png" alt="vc.png" title="vc.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ve.png" alt="ve.png" title="ve.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/vg.png" alt="vg.png" title="vg.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/vi.png" alt="vi.png" title="vi.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/vn.png" alt="vn.png" title="vn.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/vu.png" alt="vu.png" title="vu.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/wales.png" alt="wales.png" title="wales.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/wf.png" alt="wf.png" title="wf.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ws.png" alt="ws.png" title="ws.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/ye.png" alt="ye.png" title="ye.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/yt.png" alt="yt.png" title="yt.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/za.png" alt="za.png" title="za.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/zm.png" alt="zm.png" title="zm.png" />
+<img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/zw.png" alt="zw.png" title="zw.png" />
 
-
+See also: FamFamFamContrib, FamFamFamMiniIcons, FamFamFamMintIcons, FamFamFamSilkIcons
