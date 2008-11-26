@@ -1,5 +1,5 @@
 /**
-Requires twikiCSS.js and twikiString.js
+Requires twikiCSS.js and foswikiString.js
 */
 
 if (twiki == undefined) var twiki = {};
@@ -147,7 +147,7 @@ twiki.Form = {
 				case 'text':
 				case 'password':
 				case 'textarea':
-					formElem.value = twiki.String.makeTextSafeForTableEntry(formElem.value);
+					formElem.value = foswiki.String.makeTextSafeForTableEntry(formElem.value);
 					break;
 			}
 		}

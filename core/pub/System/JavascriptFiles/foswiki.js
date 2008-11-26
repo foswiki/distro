@@ -11,7 +11,7 @@ twikiForm.js
 twikiFunction.js
 twikiHTML.js
 twikiPref.js
-twikiString.js, twikiStringUnicodeChars.js
+foswikiString.js, foswikiStringUnicodeChars.js
 twikiWindow.js
 
 When converting to the new classes: some functions may have changed name or parameters.

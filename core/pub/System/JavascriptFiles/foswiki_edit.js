@@ -110,7 +110,7 @@ function validateMandatoryFields(event) {
         return true;
     }
     var ok = true;
-    var els = twiki.getElementsByClassName(document, 'select',
+    var els = foswiki.getElementsByClassName(document, 'select',
                                                'twikiMandatory');
     for (var j = 0; j < els.length; j++) {
         var one = false;
@@ -128,7 +128,7 @@ function validateMandatoryFields(event) {
     }
     var taglist = new Array('input', 'textarea');
     for (var i = 0; i < taglist.length; i++) {
-        els = twiki.getElementsByClassName(document, taglist[i],
+        els = foswiki.getElementsByClassName(document, taglist[i],
                                                'twikiMandatory');
         for (var j = 0; j < els.length; j++) {
             if (els[j].value == null || els[j].value.length == 0) {

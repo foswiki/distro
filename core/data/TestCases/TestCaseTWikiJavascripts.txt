@@ -850,34 +850,34 @@ twiki.Event.addLoadEvent("createTextNode");
 </script>
 
 
----++ twiki.String
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiString.js"></script>
+---++ foswiki.String
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js"></script>
 
----+++ twiki.String.isWikiWord
+---+++ foswiki.String.isWikiWord
 <script language="javascript">
 /*<![CDATA[*/
     function testIsWikiWordWithValidArgs() {
-    	assertTrue("WikiWord", twiki.String.isWikiWord("WikiWord"));
-    	assertFalse("ABC", twiki.String.isWikiWord("ABC"));
-    	assertTrue("ThisIsAWikiWord", twiki.String.isWikiWord("ThisIsAWikiWord"));
-    	assertTrue("ThisIsAWikiWord123", twiki.String.isWikiWord("ThisIsAWikiWord123"));
-    	assertFalse("123", twiki.String.isWikiWord("123"));
-    	assertFalse("No Wikiword", twiki.String.isWikiWord("No Wikiword"));
+    	assertTrue("WikiWord", foswiki.String.isWikiWord("WikiWord"));
+    	assertFalse("ABC", foswiki.String.isWikiWord("ABC"));
+    	assertTrue("ThisIsAWikiWord", foswiki.String.isWikiWord("ThisIsAWikiWord"));
+    	assertTrue("ThisIsAWikiWord123", foswiki.String.isWikiWord("ThisIsAWikiWord123"));
+    	assertFalse("123", foswiki.String.isWikiWord("123"));
+    	assertFalse("No Wikiword", foswiki.String.isWikiWord("No Wikiword"));
     }
     
     function testIsWikiWordWithInvalidArgs() {
-    	assertFalse("Invalid wiki word", twiki.String.isWikiWord(" "));
-    	assertFalse("Invalid wiki word", twiki.String.isWikiWord("_"));
-    	assertFalse("Invalid wiki word", twiki.String.isWikiWord(0));
-    	assertFalse("Invalid wiki word", twiki.String.isWikiWord(null));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord(" "));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord("_"));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord(0));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord(null));
 	}
 	function testIsWikiWordWithUndefinedValue() {
-		assertFalse("An undefined argument should result in false", twiki.String.isWikiWord(JSUNIT_UNDEFINED_VALUE));
+		assertFalse("An undefined argument should result in false", foswiki.String.isWikiWord(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>
 
----+++ twiki.String.capitalize
+---+++ foswiki.String.capitalize
 <script language="javascript">
 /*<![CDATA[*/
     function testCapitalizeWordsWithValidArgs() {
@@ -885,64 +885,64 @@ twiki.Event.addLoadEvent("createTextNode");
     	
     	text = "abc";
     	expected = "Abc";
-    	result = twiki.String.capitalize(text);
+    	result = foswiki.String.capitalize(text);
     	assertEquals("Capitalized text:", result, expected);
     	
     	text = "abc def";
     	expected = "Abc Def";
-    	result = twiki.String.capitalize(text);
+    	result = foswiki.String.capitalize(text);
     	assertEquals("Capitalized text:", result, expected);
     	
     	text = "abc 123";
     	expected = "Abc 123";
-    	result = twiki.String.capitalize(text);
+    	result = foswiki.String.capitalize(text);
     	assertEquals("Capitalized text:", result, expected);
     }
 	function testCapitalizeWordsWithInvalidArgs() {
-    	assertNull("Invalid capitalized text:", twiki.String.capitalize(null));
-    	assertNull("Invalid capitalized text:", twiki.String.capitalize(0));
+    	assertNull("Invalid capitalized text:", foswiki.String.capitalize(null));
+    	assertNull("Invalid capitalized text:", foswiki.String.capitalize(0));
 	}
 	function testCapitalizedWordsWithUndefinedValue() {
-		assertNull("An undefined argument should result in null:", twiki.String.capitalize(JSUNIT_UNDEFINED_VALUE));
+		assertNull("An undefined argument should result in null:", foswiki.String.capitalize(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>
 
----+++ twiki.String.isBoolean
+---+++ foswiki.String.isBoolean
 <script language="javascript">
 /*<![CDATA[*/
     function testIsBooleanWithValidArgs() {
     	var text;
     	
     	text = "1";
-    	assertTrue("isBoolean:", twiki.String.isBoolean(text));
+    	assertTrue("isBoolean:", foswiki.String.isBoolean(text));
     	
     	text = "0";
-    	assertFalse("isBoolean:", twiki.String.isBoolean(text));
+    	assertFalse("isBoolean:", foswiki.String.isBoolean(text));
     	
     	text = "2";
-    	assertFalse("isBoolean:", twiki.String.isBoolean(text));
+    	assertFalse("isBoolean:", foswiki.String.isBoolean(text));
     	
     	text = "on";
-    	assertTrue("isBoolean:", twiki.String.isBoolean(text));
+    	assertTrue("isBoolean:", foswiki.String.isBoolean(text));
     	
     	text = "true";
-    	assertTrue("isBoolean:", twiki.String.isBoolean(text));
+    	assertTrue("isBoolean:", foswiki.String.isBoolean(text));
     	
     	text = "1.1";
-    	assertFalse("isBoolean:", twiki.String.isBoolean(text));
+    	assertFalse("isBoolean:", foswiki.String.isBoolean(text));
     }
     function testIsBooleanWithInvalidArgs() {
-    	assertFalse("Invalid capitalized text:", twiki.String.isBoolean(null));
-    	assertFalse("Invalid capitalized text:", twiki.String.isBoolean(0));
+    	assertFalse("Invalid capitalized text:", foswiki.String.isBoolean(null));
+    	assertFalse("Invalid capitalized text:", foswiki.String.isBoolean(0));
 	}
 	function testIsBooleanWithUndefinedValue() {
-		assertFalse("An undefined argument should result in false", twiki.String.isBoolean(JSUNIT_UNDEFINED_VALUE));
+		assertFalse("An undefined argument should result in false", foswiki.String.isBoolean(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>
 
----+++ twiki.String.removeSpaces
+---+++ foswiki.String.removeSpaces
 <script language="javascript">
 /*<![CDATA[*/
     function testRemoveSpacesWithValidArgs() {
@@ -950,36 +950,36 @@ twiki.Event.addLoadEvent("createTextNode");
     	
     	text = "abc";
     	expected = "abc";
-    	result = twiki.String.removeSpaces(text);
+    	result = foswiki.String.removeSpaces(text);
     	assertEquals("Removed spaces:", result, expected);
     	
     	text = "abc def";
     	expected = "abcdef";
-    	result = twiki.String.removeSpaces(text);
+    	result = foswiki.String.removeSpaces(text);
     	assertEquals("Removed spaces:", result, expected);
     	
     	text = "abc 123";
     	expected = "abc123";
-    	result = twiki.String.removeSpaces(text);
+    	result = foswiki.String.removeSpaces(text);
     	assertEquals("Removed spaces:", result, expected);
     	
     	text = "A Handy Dictionary";
     	expected = "AHandyDictionary";
-    	result = twiki.String.removeSpaces(text);
+    	result = foswiki.String.removeSpaces(text);
     	assertEquals("Removed spaces:", result, expected);	
     }
     function testRemoveSpacesWithInvalidArgs() {
-    	assertNull("An invalid argument should result in null:", twiki.String.removeSpaces(null));
-    	assertNull("An invalid argument should result in null:", twiki.String.removeSpaces(0));
+    	assertNull("An invalid argument should result in null:", foswiki.String.removeSpaces(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.removeSpaces(0));
 	}
 	function testRemoveSpacesWithUndefinedValue() {
-		assertNull("An undefined argument should result in null:", twiki.String.removeSpaces(JSUNIT_UNDEFINED_VALUE));
+		assertNull("An undefined argument should result in null:", foswiki.String.removeSpaces(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>
 
 
----+++ twiki.String.removePunctuation
+---+++ foswiki.String.removePunctuation
 <script language="javascript">
 /*<![CDATA[*/
     function testRemovePunctuationWithValidArgs() {
@@ -987,37 +987,37 @@ twiki.Event.addLoadEvent("createTextNode");
     	
     	text = "a b c,";
     	expected = "abc";
-    	result = twiki.String.removePunctuation(text);
+    	result = foswiki.String.removePunctuation(text);
     	assertEquals("Removed punctuation:", result, expected);
     	
     	text = ",abc, def,";
     	expected = "abcdef";
-    	result = twiki.String.removePunctuation(text);
+    	result = foswiki.String.removePunctuation(text);
     	assertEquals("Removed punctuation:", result, expected);
     	
     	text = "abc !@#$%&*()_+-={}[]:;\"'|\<,>.?/123";
     	expected = "abc123";
-    	result = twiki.String.removePunctuation(text);
+    	result = foswiki.String.removePunctuation(text);
     	assertEquals("Removed punctuation:", result, expected);
     	
     	text = "___";
     	expected = "";
-    	result = twiki.String.removePunctuation(text);
+    	result = foswiki.String.removePunctuation(text);
     	assertEquals("Removed punctuation:", result, expected);	
     }
     function testRemovePunctuationWithInvalidArgs() {
-    	assertNull("An invalid argument should result in null:", twiki.String.removePunctuation(null));
-    	assertNull("An invalid argument should result in null:", twiki.String.removePunctuation(0));
+    	assertNull("An invalid argument should result in null:", foswiki.String.removePunctuation(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.removePunctuation(0));
 	}
 	function testRemovePunctuationWithUndefinedValue() {
-		assertNull("An undefined argument should result in null:", twiki.String.removePunctuation(JSUNIT_UNDEFINED_VALUE));
+		assertNull("An undefined argument should result in null:", foswiki.String.removePunctuation(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>
 
 
 
----+++ twiki.String.makeWikiWord
+---+++ foswiki.String.makeWikiWord
 <script language="javascript">
 /*<![CDATA[*/
     function testMakeWikiWordWithValidArgs() {
@@ -1025,37 +1025,37 @@ twiki.Event.addLoadEvent("createTextNode");
     	
     	text = "abc";
     	expected = "Abc";
-    	result = twiki.String.makeWikiWord(text);
+    	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
     	text = "wiki word";
     	expected = "WikiWord";
-    	result = twiki.String.makeWikiWord(text);
+    	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
     	text = "abc !@#$%&*()_+-={}[]:;\"'|\<,>.?/123";
     	expected = "Abc123";
-    	result = twiki.String.makeWikiWord(text);
+    	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     }
     function testMakeWikiWordWithInvalidArgs() {
-    	assertNull("An invalid argument should result in null:", twiki.String.makeWikiWord(null));
-    	assertNull("An invalid argument should result in null:", twiki.String.makeWikiWord(0));
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(0));
 	}
 	function testmakeWikiWordWithUndefinedValue() {
-		assertNull("An undefined argument should result in null:", twiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
+		assertNull("An undefined argument should result in null:", foswiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>
 
----+++ twiki.String.makeSafeForTableEntry
+---+++ foswiki.String.makeSafeForTableEntry
 
 <script language="javascript">
 /*<![CDATA[*/
 
     function testMakeSafeForTableEntry() {
 		var rawValue = "1111|2222";
-		var newValue = twiki.String.makeSafeForTableEntry( rawValue );
+		var newValue = foswiki.String.makeSafeForTableEntry( rawValue );
 		var EXPECTED = '1111/2222 ';
 		assertEquals("Safe string", newValue, EXPECTED);
     }
@@ -1064,30 +1064,30 @@ twiki.Event.addLoadEvent("createTextNode");
 </script>
 
 
----++ twiki.String (unicode chars)
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiStringUnicodeChars.js"></script>
+---++ foswiki.String (unicode chars)
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiStringUnicodeChars.js"></script>
 
----+++ twiki.String.makeWikiWord
+---+++ foswiki.String.makeWikiWord
 <script language="javascript">
 /*<![CDATA[*/
     function testMakeWikiWord_UniCode_WithValidArgs() {
     	var text, result, expected;
     	
-    	twiki.StringConstants.getInstance().init();
+    	foswiki.StringConstants.getInstance().init();
 
     	text = "abc";
     	expected = "Abc";
-    	result = twiki.String.makeWikiWord(text);
+    	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
     	text = "wiki word";
     	expected = "WikiWord";
-    	result = twiki.String.makeWikiWord(text);
+    	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
     	text = "abc !@#$%&*()_+-={}[]:;\"'|\<,>.?/123";
     	expected = "Abc123";
-    	result = twiki.String.makeWikiWord(text);
+    	result = foswiki.String.makeWikiWord(text);
     	assertEquals("makeWikiWord:", result, expected);
     	
     	/*
@@ -1097,11 +1097,11 @@ twiki.Event.addLoadEvent("createTextNode");
 
     }
     function testMakeWikiWord_UniCode_WithInvalidArgs() {
-    	assertNull("An invalid argument should result in null:", twiki.String.makeWikiWord(null));
-    	assertNull("An invalid argument should result in null:", twiki.String.makeWikiWord(0));
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(0));
 	}
 	function testmakeWikiWord_UniCode_WithUndefinedValue() {
-		assertNull("An undefined argument should result in null:", twiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
+		assertNull("An undefined argument should result in null:", foswiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
 	}
 /*]]>*/
 </script>

@@ -2,8 +2,8 @@
 Array utility functions.
 */
 
-if (twiki == undefined) var twiki = {};
-twiki.Array = {
+if (foswiki == undefined) var foswiki = {};
+foswiki.Array = {
 
 	/**
 	Removes an object from an Array.
@@ -28,7 +28,7 @@ twiki.Array = {
 	The following code creates an Array of all arguments passed after inName:
 	<pre>
 	function releaseProps(inName) {
-		var properties = twiki.Array.convertArgumentsToArray(arguments, 1);
+		var properties = foswiki.Array.convertArgumentsToArray(arguments, 1);
 		if (!properties) return;
 		_releaseProps(inName, properties);
 	}
