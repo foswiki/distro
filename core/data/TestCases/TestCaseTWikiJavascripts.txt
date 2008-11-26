@@ -599,32 +599,32 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*]]>*/
 </script>
 
----++ twiki.Event
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiEvent.js"></script>
+---++ foswiki.Event
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiEvent.js"></script>
 
----+++ twiki.Event.addLoadEvent
+---+++ foswiki.Event.addLoadEvent
 
 <div id="testAddLoadEventContainer">Here goes...</div>
 
 <script language="javascript">
 /*<![CDATA[*/
-twiki.Event.addLoadEvent(
+foswiki.Event.addLoadEvent(
 	function() {
 		document.body.style.backgroundColor = '#ffc';
 	});
 
-twiki.Event.addLoadEvent(
+foswiki.Event.addLoadEvent(
 	function() {
 		document.getElementById("testAddLoadEventContainer").appendChild(document.createTextNode(' monkeys!'));
 	});
 
-twiki.Event.addLoadEvent(
+foswiki.Event.addLoadEvent(
 	function() {
 		document.getElementById("testAddLoadEventContainer").appendChild(document.createTextNode('Hungry'));
 	},
 	true);
 
-twiki.Event.addLoadEvent("createTextNode");
+foswiki.Event.addLoadEvent("createTextNode");
 	
     function testAddLoadEventWithValidArgs() {
     	

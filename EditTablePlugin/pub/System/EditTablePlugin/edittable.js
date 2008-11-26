@@ -864,7 +864,7 @@ function init() {
 }
 
 /**
-Copied from twikiEvent.js.
+Copied from foswikiEvent.js.
 */
 function addLoadEvent(inFunction, inDoPrepend) {
     if (typeof(inFunction) != "function") {

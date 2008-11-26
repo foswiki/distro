@@ -81,7 +81,7 @@ var patternRules = {
 		Pattern.setAttachmentCount(el);
 	},
 	'body.patternEditPage' : function(el) {
-		twiki.Event.addLoadEvent(initForm, false); // call after Behaviour
+		foswiki.Event.addLoadEvent(initForm, false); // call after Behaviour
 	},
 	'.twikiSearchResultCount' : function(el) {
 		Pattern.addSearchResultsCounter(el);

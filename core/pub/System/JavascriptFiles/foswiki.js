@@ -6,7 +6,7 @@ Use the Foswiki library classes instead:
 foswikilib.js
 foswikiArray.js
 foswikiCSS.js
-twikiEvent.js
+foswikiEvent.js
 twikiForm.js
 twikiFunction.js
 twikiHTML.js

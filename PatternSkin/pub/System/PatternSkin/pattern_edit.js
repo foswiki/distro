@@ -104,4 +104,4 @@ function patternInitTextArea() {
 	Pattern.Edit.initTextAreaStyles(["font", "enlarge", "shrink"]);
 }
 
-twiki.Event.addLoadEvent(patternInitTextArea, false);
+foswiki.Event.addLoadEvent(patternInitTextArea, false);
