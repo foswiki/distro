@@ -2,15 +2,10 @@
 BEGIN {
     unshift @INC, split( /:/, $ENV{TWIKI_LIBS} );
 }
-use TWiki::Contrib::Build;
+use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new TWiki::Contrib::Build('FamFamFamContrib');
-
-# (Optional) Set the details of the repository for uploads.
-# This can be any web on any accessible TWiki installation.
-# These defaults will be used when expanding tokens in .txt
-# files, but be warned, they can be overridden at upload time!
+$build = new Foswiki::Contrib::Build('FamFamFamContrib');
 
 # name of web to upload to
 $build->{UPLOADTARGETWEB} = 'Extensions';
