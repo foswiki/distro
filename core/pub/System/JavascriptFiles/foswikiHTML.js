@@ -1,8 +1,8 @@
 /**
 HTML utility functions.
 */
-if (twiki == undefined) var twiki = {};
-twiki.HTML = {
+if (foswiki == undefined) var foswiki = {};
+foswiki.HTML = {
 
 	/**
 	Writes HTML to an HTMLElement.
@@ -12,7 +12,7 @@ twiki.HTML = {
 	*/
 	setHtmlOfElementWithId:function(inId, inHtml) {
 		var elem = document.getElementById(inId);
-		return twiki.HTML.setHtmlOfElement(elem, inHtml);
+		return foswiki.HTML.setHtmlOfElement(elem, inHtml);
 	},
 	
 	/**
@@ -34,7 +34,7 @@ twiki.HTML = {
 	*/
 	getHtmlOfElementWithId:function(inId) {
 		var elem = document.getElementById(inId);
-		return twiki.HTML.getHtmlOfElement(elem);
+		return foswiki.HTML.getHtmlOfElement(elem);
 	},
 	
 	/**
@@ -54,7 +54,7 @@ twiki.HTML = {
 	*/
 	clearElementWithId:function(inId) {
 		var elem = document.getElementById(inId);
-		return twiki.HTML.clearElement(elem);
+		return foswiki.HTML.clearElement(elem);
 	},
 	
 	/**
@@ -63,7 +63,7 @@ twiki.HTML = {
 	*/
 	clearElement:function(el) {
 		if (!el) return null;
-		twiki.HTML.setHtmlOfElement(el, "");
+		foswiki.HTML.setHtmlOfElement(el, "");
 		return el;
 	},
 	
@@ -72,7 +72,7 @@ twiki.HTML = {
 	*/
 	deleteElementWithId:function(inId) {
 		var elem = document.getElementById(inId);
-		return twiki.HTML.deleteElement(elem);
+		return foswiki.HTML.deleteElement(elem);
 	},
 	
 	/**
@@ -93,7 +93,7 @@ twiki.HTML = {
 	@return The new HTMLElement
 	@use
 	<pre>
-	twiki.HTML.insertAfterElement(
+	foswiki.HTML.insertAfterElement(
     		document.getElementById('title'),
     		'div',
     		'<strong>not published</strong>',
@@ -109,7 +109,7 @@ twiki.HTML = {
 	*/
 	insertAfterElement:function(el, inType, inHtmlContents, inAttributes) {
 		if (!el || !inType) return null;
-		var newElement = twiki.HTML._createElementWithTypeAndContents(
+		var newElement = foswiki.HTML._createElementWithTypeAndContents(
 			inType,
 			inHtmlContents,
 			inAttributes
@@ -131,7 +131,7 @@ twiki.HTML = {
 	*/
 	insertBeforeElement:function(el, inType, inHtmlContents, inAttributes) {
 		if (!el || !inType) return null;
-		var newElement = twiki.HTML._createElementWithTypeAndContents(
+		var newElement = foswiki.HTML._createElementWithTypeAndContents(
 			inType,
 			inHtmlContents,
 			inAttributes
@@ -153,7 +153,7 @@ twiki.HTML = {
 	*/
 	replaceElement:function(el, inType, inHtmlContents, inAttributes) {
 		if (!el || !inType) return null;
-		var newElement = twiki.HTML._createElementWithTypeAndContents(
+		var newElement = foswiki.HTML._createElementWithTypeAndContents(
 			inType,
 			inHtmlContents,
 			inAttributes
@@ -176,7 +176,7 @@ twiki.HTML = {
 			newElement.innerHTML = inHtmlContents;
 		}
 		if (inAttributes != undefined) {
-			twiki.HTML.setElementAttributes(newElement, inAttributes);
+			foswiki.HTML.setElementAttributes(newElement, inAttributes);
 		}
 		return newElement;
 	},
@@ -200,7 +200,7 @@ twiki.HTML = {
 				"margin":"0 0 1em 0"
     		}
     	};
-	twiki.HTML.setNodeAttributesInList(nodeList, attributes);
+	foswiki.HTML.setNodeAttributesInList(nodeList, attributes);
 	</pre>
 	*/
 	setNodeAttributesInList:function (inNodeList, inAttributes) {
@@ -208,7 +208,7 @@ twiki.HTML = {
 		var i, ilen = inNodeList.length;
 		for (i=0; i<ilen; ++i) {
 			var elem = inNodeList[i];
-			twiki.HTML.setElementAttributes(elem, inAttributes);
+			foswiki.HTML.setElementAttributes(elem, inAttributes);
 		}
 	},
 	

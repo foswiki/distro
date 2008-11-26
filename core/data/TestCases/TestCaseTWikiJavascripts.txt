@@ -205,12 +205,12 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 
 
----++ twiki.HTML
+---++ foswiki.HTML
 
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiHTML.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiHTML.js"></script>
 
 
----+++ twiki.HTML.setHtmlOfElementWithId
+---+++ foswiki.HTML.setHtmlOfElementWithId
 
 <div id="testSetHtmlOfElementWithId"></div>
 
@@ -218,12 +218,12 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*<![CDATA[*/
     function testSetHtmlOfElementWithIdWithValidArgs() {
     	var html = "<span class=\"blue\">Blue text<\/span>";
-		var elem = twiki.HTML.setHtmlOfElementWithId(
+		var elem = foswiki.HTML.setHtmlOfElementWithId(
 			"testSetHtmlOfElementWithId",
 			html
 		);
 		
-		var result = twiki.HTML.getHtmlOfElementWithId("testSetHtmlOfElementWithId");
+		var result = foswiki.HTML.getHtmlOfElementWithId("testSetHtmlOfElementWithId");
     	assertEquals(
     		"Result setHtmlOfElementWithId",
     		html.toLowerCase().replace(/\s*/g,''),
@@ -239,7 +239,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 	
 	function testSetHtmlOfElementWithIdWithInvalidArgs() {
 		var html = "<span style=\"color:#00f\">Blue text<\/span>";
-		var newElem = twiki.HTML.setHtmlOfElementWithId(
+		var newElem = foswiki.HTML.setHtmlOfElementWithId(
 			"doesNotExist",
 			html
 		);
@@ -249,7 +249,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
  /*]]>*/
 </script>
 
----+++ twiki.HTML.setHtmlOfElement
+---+++ foswiki.HTML.setHtmlOfElement
 
 <div id="setHtmlOfElement"></div>
 
@@ -258,12 +258,12 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     function testSetHtmlOfElementWithValidArgs() {
     	var html = "<span class=\"blue\">Blue text<\/span>";
     	var elem = document.getElementById("setHtmlOfElement");
-		var newElem = twiki.HTML.setHtmlOfElement(
+		var newElem = foswiki.HTML.setHtmlOfElement(
 			elem,
 			html
 		);
 		
-		var result = twiki.HTML.getHtmlOfElementWithId("setHtmlOfElement");
+		var result = foswiki.HTML.getHtmlOfElementWithId("setHtmlOfElement");
     	assertEquals(
     		"Result setHtmlOfElement",
     		html.toLowerCase().replace(/\s*/g,''),
@@ -280,7 +280,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 	
 	function testSetHtmlOfElementWithInvalidArgs() {
 		var html = "<span class=\"blue\">Blue text<\/span>";
-		var newElem = twiki.HTML.setHtmlOfElement(
+		var newElem = foswiki.HTML.setHtmlOfElement(
 			null,
 			html
 		);
@@ -290,14 +290,14 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
  /*]]>*/
 </script>
 
----+++ twiki.HTML.getHtmlOfElementWithId
+---+++ foswiki.HTML.getHtmlOfElementWithId
 
 <div id="testgetHtmlOfElementIdContainer">***HtmlOfElementWithId***</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testGetHtmlOfElementWithIdWithValidArgs() {
-    	var result = twiki.HTML.getHtmlOfElementWithId("testgetHtmlOfElementIdContainer");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testgetHtmlOfElementIdContainer");
     	assertEquals(
     		"Result html of element with id",
     		'***HtmlOfElementWithId***',
@@ -307,14 +307,14 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*]]>*/
 </script>
 
----+++ twiki.HTML.getHtmlOfElement
+---+++ foswiki.HTML.getHtmlOfElement
 
 <div id="testgetHtmlOfElementContainer">+++HtmlOfElement+++</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testGetHtmlOfElementWithIdWithValidArgs() {
-    	var result = twiki.HTML.getHtmlOfElementWithId("testgetHtmlOfElementContainer");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testgetHtmlOfElementContainer");
     	assertEquals(
     		"Result html of element",
     		'+++HtmlOfElement+++',
@@ -325,16 +325,16 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 </script>
 
 
----+++ twiki.HTML.clearElementWithId
+---+++ foswiki.HTML.clearElementWithId
 
 <div id="testclearElementWithIdContainer">***clearElementWithId text***</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testClearElementWithIdWithValidArgs() {
-    	var elem = twiki.HTML.clearElementWithId("testclearElementWithIdContainer");
+    	var elem = foswiki.HTML.clearElementWithId("testclearElementWithIdContainer");
     	
-    	var result = twiki.HTML.getHtmlOfElementWithId("testclearElementWithIdContainer");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testclearElementWithIdContainer");
     	assertEquals(
     		"Result html of clear element with id",
     		'',
@@ -350,7 +350,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*]]>*/
 </script>
 
----+++ twiki.HTML.clearElement
+---+++ foswiki.HTML.clearElement
 
 <div id="testclearElementContainer">***clearElement text***</div>
 
@@ -358,9 +358,9 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*<![CDATA[*/
     function testClearElementWithValidArgs() {
     	var elem = document.getElementById("testclearElementContainer");
-    	var newElem = twiki.HTML.clearElement(elem);
+    	var newElem = foswiki.HTML.clearElement(elem);
     	
-    	var result = twiki.HTML.getHtmlOfElementWithId("testclearElementContainer");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testclearElementContainer");
     	assertEquals(
     		"Result html of clear element",
     		'',
@@ -378,7 +378,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 
 
----+++ twiki.HTML.insertAfterElement
+---+++ foswiki.HTML.insertAfterElement
 
 <div id="testInsertAfter">insert after this div...</div>
 
@@ -386,7 +386,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*<![CDATA[*/
     function testInsertAfterWithValidArgs() {
     	var html = "<strong>RESULT INSERT AFTER</strong>";
-    	var newElem = twiki.HTML.insertAfterElement(
+    	var newElem = foswiki.HTML.insertAfterElement(
     		document.getElementById('testInsertAfter'),
     		'div',
     		html,
@@ -395,7 +395,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     			"style":"color:red"
     		}
     	);
-    	var result = twiki.HTML.getHtmlOfElementWithId("testInsertAfterResult");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testInsertAfterResult");
     	assertEquals(
     		"Result insert after",
     		html.toLowerCase().replace(/\s*/g,''),
@@ -410,7 +410,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     }
     
     function testInsertAfterWithInvalidArgs() {
-    	var newElem = twiki.HTML.insertAfterElement(
+    	var newElem = foswiki.HTML.insertAfterElement(
     		document.getElementById('doesNotExist')
     	);
     	assertNull("testInsertAfterWithValidArgs - Non-existing element should return null", newElem);
@@ -418,7 +418,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
  /*]]>*/
 </script>
 
----+++ twiki.HTML.insertBeforeElement
+---+++ foswiki.HTML.insertBeforeElement
 
 <div id="testInsertBefore">insert before this div...</div>
 
@@ -426,7 +426,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*<![CDATA[*/
     function testInsertBeforeWithValidArgs() {
     	var html = '<strong>RESULT INSERT BEFORE</strong>';
-    	var newElem = twiki.HTML.insertBeforeElement(
+    	var newElem = foswiki.HTML.insertBeforeElement(
     		document.getElementById('testInsertBefore'),
     		'div',
     		html,
@@ -434,7 +434,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     			"id":"testInsertBeforeResult"
     		}
     	);
-    	var result = twiki.HTML.getHtmlOfElementWithId("testInsertBeforeResult");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testInsertBeforeResult");
     	assertEquals(
     		"Result insert before",
     		html.toLowerCase().replace(/\s*/g,''),
@@ -449,7 +449,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     }
     
     function testInsertBeforeWithInvalidArgs() {
-    	var newElem = twiki.HTML.insertBeforeElement(
+    	var newElem = foswiki.HTML.insertBeforeElement(
     		document.getElementById('doesNotExist')
     	);
     	assertNull("testInsertBeforeWithInvalidArgs - Non-existing element should return null", newElem);
@@ -457,7 +457,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*]]>*/
 </script>
 
----+++ twiki.HTML.replaceElement
+---+++ foswiki.HTML.replaceElement
 
 <div id="testReplace">replace this div...</div>
 
@@ -465,7 +465,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*<![CDATA[*/
     function testReplaceWithValidArgs() {
     	var html = '<strong>RESULT REPLACE</strong>';
-    	var newElem = twiki.HTML.replaceElement(
+    	var newElem = foswiki.HTML.replaceElement(
     		document.getElementById('testReplace'),
     		'div',
     		html,
@@ -474,7 +474,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     		}
     		
     	);
-    	var result = twiki.HTML.getHtmlOfElementWithId("resultReplaced");
+    	var result = foswiki.HTML.getHtmlOfElementWithId("resultReplaced");
     	assertEquals(
     		"Result replaced",
     		html.toLowerCase().replace(/\s*/g,''),
@@ -489,7 +489,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     }
     
     function testReplaceWithInvalidArgs() {
-    	var newElem = twiki.HTML.replaceElement(
+    	var newElem = foswiki.HTML.replaceElement(
     		document.getElementById('doesNotExist')
     	);
     	assertNull("testReplaceWithInvalidArgs - Non-existing element should return null", newElem);
@@ -497,7 +497,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 /*]]>*/
 </script>
 
----+++ twiki.HTML.setNodeAttributesInList
+---+++ foswiki.HTML.setNodeAttributesInList
 
 <div id="setNodeAttributesInListContainer">
 <ul>
@@ -522,7 +522,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 					"margin":"0 0 1em 0"
     			}
     	};
-    	twiki.HTML.setNodeAttributesInList(nodeList, attributes);
+    	foswiki.HTML.setNodeAttributesInList(nodeList, attributes);
     	
     	// test first element
     	var elem = nodeList[0];

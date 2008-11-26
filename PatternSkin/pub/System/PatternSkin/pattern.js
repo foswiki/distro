@@ -5,7 +5,7 @@ var Pattern = {
 	
 	createTwikiActionFormStepSign:function(el) {
 		var sign = '&#9658;';
-		var newEl = twiki.HTML.insertBeforeElement(
+		var newEl = foswiki.HTML.insertBeforeElement(
 			el,
 			'span',
 			sign
@@ -32,7 +32,7 @@ var Pattern = {
 	},
 	
 	addSearchResultsCounter:function(el) {
-		var count = twiki.HTML.getHtmlOfElement(el);
+		var count = foswiki.HTML.getHtmlOfElement(el);
 		Pattern.searchResultsCount += parseInt(count);
 	},
 	
@@ -40,7 +40,7 @@ var Pattern = {
 		// write result count
 		if (Pattern.searchResultsCount >= 10) {
 			var text = " " + TEXT_NUM_TOPICS + " <b>" + Pattern.searchResultsCount + " <\/b>";
-			twiki.HTML.setHtmlOfElement(el, text);			
+			foswiki.HTML.setHtmlOfElement(el, text);			
 		}		
 	},
 	
@@ -49,7 +49,7 @@ var Pattern = {
 		if (linkContainer != null) {
 			if (Pattern.searchResultsCount > 0) {
 				var linkText=' <a href="#" onclick="location.hash=\'twikiSearchForm\'; return false;"><span class="twikiLinkLabel twikiSmallish">' + TEXT_MODIFY_SEARCH + '</span></a>';
-					twiki.HTML.setHtmlOfElement(linkContainer, linkText);
+					foswiki.HTML.setHtmlOfElement(linkContainer, linkText);
 			}
 		}
 	}

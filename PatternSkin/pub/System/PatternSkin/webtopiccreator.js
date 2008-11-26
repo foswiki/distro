@@ -62,7 +62,7 @@ function canSubmit(inForm, inShouldConvertInput) {
 	if (inputForTopicName.length == 0) {
 		disableSubmit(inForm.submit);
 		/* Update feedback field */
-		twiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
+		foswiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
 		return false;
 	}
 	
@@ -99,9 +99,9 @@ function canSubmit(inForm, inShouldConvertInput) {
 	if (wikiWordName != inputForTopicName) {
 		feedbackHeader = "<strong>" + TEXT_FEEDBACK_HEADER + "</strong>";
 		feedbackText = feedbackHeader + wikiWordName;
-		twiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", feedbackText);
+		foswiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", feedbackText);
 	} else {
-		twiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
+		foswiki.HTML.setHtmlOfElementWithId("webTopicCreatorFeedback", "");
 	}
 	
 	if (foswiki.String.isWikiWord(wikiWordName) || userAllowsNonWikiWord) {
