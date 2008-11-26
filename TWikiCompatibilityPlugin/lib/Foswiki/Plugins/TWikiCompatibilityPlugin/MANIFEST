@@ -1,5 +1,4 @@
 # Release manifest for TWikiCompatibilityPlugin
-data/TWiki/WebPreferences.txt 0644 Documentation
 data/System/TWikiCompatibilityPlugin.txt 0644 Documentation
 templates/twiki.tmpl 0644 compatibility template
 lib/Foswiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
@@ -13,6 +12,7 @@ lib/TWiki/Sandbox.pm 0644 Perl module
 lib/TWiki/Prefs.pm 0644 Perl module
 
 #make TWiki a real web
+data/TWiki/WebPreferences.txt 0644 make it a valid web
 data/TWiki/WebSearch.txt  0644 make it a valid web
 data/TWiki/WebIndex.txt  0644 make it a valid web
 data/TWiki/WebRss.txt  0644 make it a valid web
