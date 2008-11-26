@@ -679,21 +679,13 @@ sub writeCompletePage {
 
 =pod
 
----++ ObjectMethod generateHTTPHeaders( $query, $pageType, $contentType, $contentLength ) -> $header
+---++ ObjectMethod generateHTTPHeaders( $query, $pageType, $contentType ) -> $header
 
 All parameters are optional.
 
    * =$query= CGI query object | Session CGI query (there is no good reason to set this)
    * =$pageType= - May be "edit", which will cause headers to be generated that force caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused data loss with IE5 and IE6.
    * =$contentType= - page content type | text/html
-   * =$contentLength= - content-length | no content-length will be set if this is undefined, as required by HTTP1.1
-
-Implements the post-Dec2001 release plugin API, which requires the
-writeHeaderHandler in plugin to return a string of HTTP headers, CR/LF
-delimited. Filters any illegal headers. Plugin headers will override
-core settings.
-
-Does *not* add a =Content-length= header.
 
 =cut
 

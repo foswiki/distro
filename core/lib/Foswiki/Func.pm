@@ -7,19 +7,20 @@
 <!-- STARTINCLUDE required for huge CompleteDocumentation topic -->
 %STARTINCLUDE%
 
-_Official list of stable Foswiki functions for Plugin developers_
+_Official Foswiki interface for Plugin developers_
 
-This module defines official functions that [[%SYSTEMWEB%.Plugins][Plugins]]
+This module defines the interfaces that [[%SYSTEMWEB%.Plugins][Plugins]]
 can use to interact with the Foswiki engine and content.
 
-Refer to lib/Foswiki/Plugins/EmptyPlugin.pm for a template Plugin and documentation on how to write a Plugin.
+Refer to =lib/Foswiki/Plugins/EmptyPlugin.pm= for a template Plugin
+and starter documentation on how to write a Plugin.
 
-Plugins should *only* use functions published in this module. If you use
+Plugins should *only* use functions described here. If you use
 functions in other Foswiki libraries you might create a security hole and
-you will probably need to change your Plugin when you upgrade Foswiki.
+you will probably need to change your plugin when you upgrade Foswiki.
 
 Deprecated functions will still work in older code, though they should
-_not_ be called in new Plugins and should be replaced in older Plugins
+_not_ be called in new plugins and should be replaced in older plugins
 as soon as possible.
 
 The compatibility history of this module is given by the VERSION number
@@ -31,7 +32,7 @@ Notes on use of =$Foswiki::Plugins::VERSION=:
      function has been removed from the interface, nor has any API published
      in that version changed in such a way as to *require* plugins to be
      recoded.
-   * If the *minor* version (e.g. 1.1) is incremented there may be changes
+   * If the *minor* version (e.g. =1.1.=) is incremented there may be changes
      in the API that may help improve the coding of some plugins - for
      example, new interfaces giving access to previously hidden core functions.
      In addition, *deprecation* of functions in the interface trigger a minor
@@ -41,11 +42,9 @@ Notes on use of =$Foswiki::Plugins::VERSION=:
      as the addition of parameters to the existing functions, or addition of
      utility functions that are unlikely to require significant changes to
      existing plugins.
-   * =Foswiki::Plugins::VERSION= also applies to the plugin handlers. The
+   * =$Foswiki::Plugins::VERSION= also applies to the plugin handlers. The
      handlers are documented in the !EmptyPlugin, and that module indicates
      what version of =Foswiki::Plugins::VERSION= it relates to.
-A full history of the changes to this API can be found at the end of this
-topic.
 
 =cut
 
@@ -1920,21 +1919,17 @@ sub expandTemplate {
 
 =pod
 
----+++ writeHeader( $query, $contentLength )
+---+++ writeHeader()
 
-Prints a basic content-type HTML header for text/html to standard out
-   * =$query= - CGI query object. If not given, the default CGI query will be used (optional, in most cases you should _not_ pass this parameter)
-   * =$contentLength= - Length of content (optional, in most cases you should _not_ pass this parameter)
-Return:             none
+Prints a basic content-type HTML header for text/html to standard out.
 
 *Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
 sub writeHeader {
-    my ( $query, $len ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    $Foswiki::Plugins::SESSION->generateHTTPHeaders($query);
+    $Foswiki::Plugins::SESSION->generateHTTPHeaders();
 }
 
 =pod

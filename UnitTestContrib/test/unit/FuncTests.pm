@@ -589,7 +589,7 @@ sub test_isTrue {
     $this->assert_equals(0, Foswiki::Func::isTrue('off', 'bad'));
     $this->assert_equals(0, Foswiki::Func::isTrue('no', 'bad'));
     $this->assert_equals(0, Foswiki::Func::isTrue('false', 'bad'));
-    
+
     $this->assert_equals(0, Foswiki::Func::isTrue('Off', 'bad'));
     $this->assert_equals(0, Foswiki::Func::isTrue('No', 'bad'));
     $this->assert_equals(0, Foswiki::Func::isTrue('False', 'bad'));
@@ -756,6 +756,20 @@ HERE
     $this->assert(Foswiki::Func::setPreferencesValue("PSIBG", "KJHD"));
     $this->assert_str_equals("KJHD", Foswiki::Func::getPreferencesValue("PSIBG"));
 
+}
+
+sub test_getPluginPreferences {
+    my $this = shift;
+    my $pvar = "PSIBG";
+    my $var = uc(__PACKAGE__)."_$pvar";
+    $this->assert_null(Foswiki::Func::getPreferencesValue($var));
+    $this->assert_null(Foswiki::Func::getPreferencesValue($pvar));
+    $this->assert(Foswiki::Func::setPreferencesValue($var, "on"));
+    $this->assert_str_equals("on", Foswiki::Func::getPluginPreferencesValue($pvar));
+    $this->assert(Foswiki::Func::getPluginPreferencesFlag($pvar));
+    $this->assert(Foswiki::Func::setPreferencesValue($var, "off"));
+    $this->assert_str_equals("off", Foswiki::Func::getPluginPreferencesValue($pvar));
+    $this->assert(!Foswiki::Func::getPluginPreferencesFlag($pvar));
 }
 
 1;

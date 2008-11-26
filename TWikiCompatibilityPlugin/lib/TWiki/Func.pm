@@ -25,13 +25,20 @@ sub pushTopicContext { Foswiki::Func::pushTopicContext(@_) }
 sub popTopicContext { Foswiki::Func::popTopicContext(@_) }
 sub getPreferencesValue { Foswiki::Func::getPreferencesValue(@_) }
 sub getPreferencesFlag { Foswiki::Func::getPreferencesFlag(@_) }
+
 sub getPluginPreferencesValue {
-    my ($key) = @_;
+    my $key = shift;
     my $package = caller;
-    $package =~ s/.*:://; # strip off TWiki::Plugins:: prefix
-    return $Foswiki::Plugins::SESSION->{prefs}->getPreferencesValue("\U$package\E_$key");
+    $package =~ s/.*:://;    # strip off TWiki::Plugins:: prefix
+    return Foswiki::Func::getPreferencesValue("\U$package\E_$key");
 }
-sub getPluginPreferencesFlag { Foswiki::Func::getPluginPreferencesFlag(@_) }
+
+sub getPluginPreferencesFlag {
+    my $package = caller;
+    $package =~ s/.*:://;    # strip off TWiki::Plugins:: prefix
+    return Foswiki::Func::getPreferencesFlag("\U$package\E_$key");
+}
+
 sub setPreferencesValue { Foswiki::Func::setPreferencesValue(@_) }
 sub getDefaultUserName { Foswiki::Func::getDefaultUserName(@_) }
 sub getCanonicalUserID { Foswiki::Func::getCanonicalUserID(@_) }
@@ -73,7 +80,26 @@ sub moveAttachment { Foswiki::Func::moveAttachment(@_) }
 sub readTemplate { Foswiki::Func::readTemplate(@_) }
 sub loadTemplate { Foswiki::Func::loadTemplate(@_) }
 sub expandTemplate { Foswiki::Func::expandTemplate(@_) }
-sub writeHeader { Foswiki::Func::writeHeader(@_) }
+
+# The following parameters were previously supported on this function but have
+# been deprecated and are ignored.
+#    * =$query= - *DEPRECATED* CGI query object.
+#    * =$length= - *DEPRECATED* The content length
+sub writeHeader {
+    my ($query, $length) = @_;
+    if ($query && $query != $TWiki::Plugins::SESSION->{response}) {
+        $Foswiki::Plugins::SESSION->writeWarning(join(' ', caller).<<MESS;
+ called TWiki::Func::writeHeader called with a query parameter that does not match the current query. This could result in unpredictable behaviour.
+MESS
+    }
+    if ($length) {
+        $Foswiki::Plugins::SESSION->writeWarning(join(' ', caller).<<MESS;
+ called TWiki::Func::writeHeader with a length parameter. This parameter is deprecated, and will be ignored.
+MESS
+    }
+    Foswiki::Func::writeHeader();
+}
+
 sub redirectCgiQuery { Foswiki::Func::redirectCgiQuery(@_) }
 sub addToHEAD { Foswiki::Func::addToHEAD(@_) }
 sub expandCommonVariables { Foswiki::Func::expandCommonVariables(@_) }

@@ -50,6 +50,8 @@ sub preview {
       || 'preview';
     my $tmpl = $session->templates->readTemplate( $template, $skin );
 
+    # if a VIEW_TEMPLATE is set, but does not exist or is not readable,
+    # revert to 'preview' template (same code as View.pm)
     if ( !$tmpl && $template ne 'preview' ) {
         $tmpl = $session->templates->readTemplate( 'preview', $skin );
     }
