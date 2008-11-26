@@ -88,12 +88,12 @@ sub expandTemplate { Foswiki::Func::expandTemplate(@_) }
 sub writeHeader {
     my ($query, $length) = @_;
     if ($query && $query != $TWiki::Plugins::SESSION->{response}) {
-        $Foswiki::Plugins::SESSION->writeWarning(join(' ', caller).<<MESS;
+        $Foswiki::Plugins::SESSION->writeWarning(join(' ', caller).<<MESS);
  called TWiki::Func::writeHeader called with a query parameter that does not match the current query. This could result in unpredictable behaviour.
 MESS
     }
     if ($length) {
-        $Foswiki::Plugins::SESSION->writeWarning(join(' ', caller).<<MESS;
+        $Foswiki::Plugins::SESSION->writeWarning(join(' ', caller).<<MESS);
  called TWiki::Func::writeHeader with a length parameter. This parameter is deprecated, and will be ignored.
 MESS
     }
