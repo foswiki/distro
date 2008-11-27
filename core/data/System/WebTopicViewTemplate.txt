@@ -16,7 +16,7 @@
 </div>
 
 ---+++ %MAKETEXT{"Do you wish to navigate quickly to a similar topic?"}%
-%SEARCH{ "META.TOPICMOVED.*from\=\"%BASEWEB%.%BASETOPIC%\"" nosearch="on" nototal="on" type="regex" format="<img src=\"%ICONURL{arrowbright}%\" width=\"16\" height=\"16\" alt=\"\" border=\"0\" /> $percntRED% $percntMAKETEXT{\"This topic has moved to [_1].\" args=\"[[$web.$topic]]\"}$percnt $percntENDCOLOR%" }%
+%SEARCH{ "moved.from='%BASEWEB%.%BASETOPIC%'" nosearch="on" nototal="on" type="query" format="<img src=\"%ICONURL{arrowbright}%\" width=\"16\" height=\"16\" alt=\"\" border=\"0\" /> $percntRED% $percntMAKETEXT{\"This topic has moved to [_1].\" args=\"[[$web.$topic]]\"}$percnt $percntENDCOLOR%" }%
 
 %MAKETEXT{"Similar topics in this web (if any):"}%%BR%
 %IF{ "defined topic" then="%SEARCH" else="<!--" }%{ "%BASETOPIC%" limit="16" scope="topic" web="%BASEWEB%" nosearch="on" nototal="on" noheader="on" order="modified" reverse="on" header=""  %IF{ "defined topic" then="}" else="-->" }%%IF{ "defined topic" then="%" }%

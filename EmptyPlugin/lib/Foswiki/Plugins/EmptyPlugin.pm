@@ -770,6 +770,9 @@ Additional parameters can be recovered via de query object in the $session.
 
 For more information, check %SYSTEMWEB%.CommandAndCGIScripts#rest
 
+For information about handling error returns from REST handlers, see
+Foswiki::Support.Faq1
+
 *Since:* Foswiki::Plugins::VERSION 1.1
 
 =cut

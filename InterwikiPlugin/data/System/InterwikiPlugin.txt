@@ -14,7 +14,7 @@ The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on ali
    * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
    * Site aliases must start with an upper case letter and may contain alphanumeric letters.
    * The URL and Tooltip Text may contain optional ==$page== fromatting tokens; the token gets expanded to the page name.
-   * %H% For TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>TWikisite:Webname/<nop>SomePage==
+   * %H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswikisite:Webname/<nop>SomePage==
       * Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
 
 ---++ <nop>%TOPIC% Settings
@@ -39,14 +39,8 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 ---++ Plugin Installation Instructions
 
-%X% *NOTE:* This Plugin is included in the TWiki distribution package. You do not need to install it unless you want to upgrade to a newer version.
+%$INSTALLATION_INSTRUCTIONS%
 
-   * *Download* the ZIP file from the Foswiki:Extensions web (see below)
-   * *Unzip* ==%TOPIC%.zip== in your TWiki installation directory. Content:
-     | *File:* | *Description:* |
-     | ==data/System/%TOPIC%.txt== | Plugin topic |
-     | ==data/TWiki/InterWikis.txt== | Link rules topic for inter-site links |
-     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
    * *Test:* If the Plugin is correctly installed, this Wiki:InterWiki link should point to http://c2.com/cgi/wiki?InterWiki topic - try it out.
 
 ---++ Plugin Info

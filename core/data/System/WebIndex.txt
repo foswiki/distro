@@ -1,4 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 10464 $"}%
-%SEARCH{"\.*" scope="topic" type="regex" nosearch="on"}%
+%SEARCH{"'1'" scope="topic" type="query" nosearch="on"}%
 
 %MAKETEXT{"See also the faster [_1]" args="[[%BASEWEB%.WebTopicList][WebTopicList]]"}%

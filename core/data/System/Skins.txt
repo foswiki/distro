@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1168736701" format="1.1" version="$Rev: 16565 $"}%
 %STARTINCLUDE%
----+ Skins
+---+ Foswiki Skins
 
 _Skins overlay regular templates to give different looks and feels to Foswiki screens._
 

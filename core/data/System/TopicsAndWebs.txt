@@ -82,7 +82,7 @@ The configuration of your site, skins and your personal user account can modify 
 #EditingPages
 ---++ Creating and editing topics
 
-A primary purpose of Foswiki is to make it incredibly easy for you to add and edit information on existing topics, create new topics, and link between TWiki topics.
+A primary purpose of Foswiki is to make it incredibly easy for you to add and edit information on existing topics, create new topics, and link between Foswiki topics.
 
    * *To modify a topic*: click the ==Edit== link in the toolbar at the bottom left of every page (using the Default skin). An editing window appears. Type away. Use the GoodStyle and TextFormattingRules links to get pop-up window help.
       * Click ==Preview Changes== to see how your edit looks.

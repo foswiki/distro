@@ -8,8 +8,6 @@ There are several ways to find out what's new in each web:
    1. Subscribed in WebNotify get notified of recent changes by e-mail
    1. Use a news readers such as Foswiki:Extensions/HeadlinesPlugin to display the recent changes
       * The source can be a RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
-      * Learn more on RSS at TWiki:Codev/TWikiSyndication
-      * Learn more on ATOM at WebAtomBase and TWiki:Codev/AtomSyndication
 
 ---++ RSS Feed Usage
 
@@ -19,7 +17,7 @@ There are several ways to find out what's new in each web:
 
 ---++ RSS Feed Internals
 
-Each web has a WebRss topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the RSS feed and generates an RSS 1.0 feed for TWiki:Codev/TWikiSyndication.
+Each web has a WebRss topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the RSS feed and generates an RSS 1.0 feed.
 
 The WebRss topic in each web contains the following text:
 
@@ -28,7 +26,7 @@ The WebRss topic in each web contains the following text:
 &lt;channel rdf:about="%<nop>SCRIPTURL{"view"}%/%<nop>INCLUDINGWEB%">
   &lt;title>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>INCLUDINGWEB% web&lt;/title>
   &lt;link>%<nop>SCRIPTURL{"view"}%/%<nop>INCLUDINGWEB%&lt;/link>
-  &lt;description>(the description of the web). TWiki is a Web-Based Collaboration Platform for the Enterprise.&lt;/description>
+  &lt;description>(the description of the web). Foswiki, the Free and Open-Source Wiki.&lt;/description>
 %<nop>INCLUDE{"%SYSTEMWEB%.WebRssBase"}% &lt;!--
    * Set <nop>SKIN = rss
 -->
@@ -63,5 +61,5 @@ Below part is included by each <nop>WebRss topic:
 </verbatim>
 -----
 
-__See also__: WebAtomBase, TWiki:Codev/RichSiteSummary, TWiki:Codev/TWikiSyndication 
+__See also__: WebAtomBase
 

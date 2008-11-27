@@ -20,7 +20,7 @@ If you are installing Foswiki without Unix/Linux root (administrator) priviledge
 
 If you are upgrading from an earlier major version of Foswiki or from an old TWiki such as Cairo (TWiki 3) you will need the information found in Foswiki:System.UpgradeGuide.  There is also a static HTML =UpgradeGuide.html= included in the root of your Foswiki distribution.
 
-Upgrading from a recent TWiki4 release is much simpler. Upgraders from earlier TWiki4 versions can follow the steps described in Foswiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidently overwriting customizations.
+Upgrading from a recent TWiki4 release is much simpler. Follow the steps described in Foswiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidently overwriting customizations.
 
 One of the more difficult tasks is installation of addition !CPAN libraries. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
 
@@ -29,7 +29,7 @@ If you need help, ask a question in the Foswiki:Support web or on Foswiki:Commun
 #StandardInstallation
 ---++ Basic Installation
 
-   1 *Download* the Foswiki distribution from http://TWiki.org/download.html.
+   1 *Download* the Foswiki distribution from http://foswiki.org/download.html.
    1 *Make a directory* for the installation and *unpack the distribution* in it. In the rest of this document we assume this directory is called =twiki=.
       * *Note!* that Foswiki does not allow spaces in the directory names. Especially on Windows make sure to use a directory path without spaces.
    1 *Setup access file and directory rights* to enable the webserver user (the user Apache runs the CGI scripts as) to read and write inside the twiki directory.
@@ -158,9 +158,9 @@ If you choose to tailor anything you are strongly adviced to copy =NewUserTempla
 If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.UserRegistration=.
 
 ---++ Install Plugins
-Foswiki:Extensions is an extensive library of Plugins for Foswiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution. For more information on these, see =%SYSTEMWEB%.InstalledPlugins=.
+Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki, that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution.
 
-You activate installed plugin in the _Plugins_ section of =configure=. In this section you also find a _Find More Extensions_ button which opens an application which can install additional plugins from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet it is also possible to install plugins manually. Manual installation instructions for the plugins can be found in the plugin topics on foswiki.org. Additional documenation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
+You activate installed plugins in the _Plugins_ section of =configure=. In this section you also find a _Find More Extensions_ button which opens an application which can install additional plugins from the foswiki.org website. If you are behind a firewall or your server has no access to the Internet it is also possible to install plugins manually. Manual installation instructions for the plugins can be found in the plugin topics on foswiki.org. Additional documenation on Foswiki plugins can be found at Foswiki:Support.PluginsSupplement.
 
 Some plugins require that you define their settings in =configure=. You fill find these under the _Extensions_ section of configure.
 
@@ -180,7 +180,7 @@ Some pages are meant to be customized after choice of authentication. If you do 
    
 ---++ WYSIWYG vs Raw Edit
 
-From TWiki release 4.2.0 and continuing with Foswiki 1.0.0 the WYSIWYG editor has been replaced by a much better and more powerful editor and it was decided that WYSIWYG would be the default edit mode. An Edit Raw link is available for those that have a need or preference for this mode.
+From TWiki release 4.2.0 and continuing with Foswiki 1.0.0 it was decided that WYSIWYG would be the default edit mode. An Edit Raw link is available for those that have a need or preference for this mode.
 
 However you may prefer to have the same user interface as in TWiki 4.1 where _Edit_ was the raw text editor and you had a WYSIWYG button. You can modify the templates that define the buttons by following the description on Foswiki:Support.FaqHowToMakeRawEditDefault.
    

@@ -110,7 +110,7 @@ Behaviour.register(myrules);
 
 
 ---+++ Example
-If we have a 'normal' link to TWiki Web hometopic: [[%SYSTEMWEB%.%HOMETOPIC%][TWiki Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
+If we have a 'normal' link to a web hometopic: [[%SYSTEMWEB%.%HOMETOPIC%][Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
 
 <blockquote>
 <verbatim>
@@ -275,8 +275,8 @@ For details see the Behaviour website.
 You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference settings]] BEHAVIOURCONTRIB_DEBUG to 1 to make the contrib use uncompressed javascript sources, in the event of problems.
 
 ---++ Contrib Info
-|  Author: | TWiki:Main.ArthurClemens |
-|  Copyright: | Code: =behaviour.js= version 1.1 - Copyright (c) Ben Nolan and Simon Willison. TWiki distribution and updates/additions: TWiki:Main.ArthurClemens. |
+|  Author: | Foswiki:Main.ArthurClemens |
+|  Copyright: | Code: =behaviour.js= version 1.1 - Copyright (c) Ben Nolan and Simon Willison. TWiki distribution and updates/additions: Foswiki:Main.ArthurClemens. |
 |  License: | BSD |
 |  Version: | %$VERSION% |
 |  Dependencies: | %$DEPENDENCIES% |

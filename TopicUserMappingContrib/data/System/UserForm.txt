@@ -3,7 +3,7 @@
 
 __Note:__ This is a maintenance topic, used by the Wiki administrator.
 
-This form defines the form of the home pages of registered TWiki users listed
+This form defines the form of the home pages of registered users listed
 in %USERSWEB%.%WIKIUSERSTOPIC%. *Do not edit this topic* - if you want to customise the
 user form, then:
    1 Take a copy of this topic and save it to %USERSWEB%.<nop>UserForm

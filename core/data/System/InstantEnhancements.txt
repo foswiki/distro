@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 13096 $"}%
 ---+!! Instant Site Enhancements
 
-These quick enhancements are aimed at improving and customising your TWiki.  New site administrators are especially encouraged to review this document for ideas before deploying a new site. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
+These quick enhancements are aimed at improving and customising your Foswiki.  New site administrators are especially encouraged to review this document for ideas before deploying a new site. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.
 
 Many of these tips are based on setting some special [[WebPreferencesHelp][preferences]].
 
@@ -135,7 +135,7 @@ Here are the last 15 changed pages, formatted into a neat table.
 
 <verbatim>
 <table>
-%SEARCH{ "\.*" scope="topic" type="regex" nosearch="on" nototal="on" order="modified" reverse="on"  format="<tr><td>  [[$topic][$topic]] </td><td>  $wikiusername  </td><td> $date  </td></tr>" limit="15" }%
+%SEARCH{ "'1'" scope="topic" type="query" nosearch="on" nototal="on" order="modified" reverse="on"  format="<tr><td>  [[$topic][$topic]] </td><td>  $wikiusername  </td><td> $date  </td></tr>" limit="15" }%
 </table>
 </verbatim>
 

@@ -19,7 +19,7 @@
       * URL parameters passed into HTML form fields must be entity [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODEd]].
       * Double quotes in URL parameters must be escaped when passed into other macros.%BR% Example: =%<nop>SEARCH{ "%<nop>URLPARAM{ "search" encode="quotes" }%" noheader="on" }%=
       * When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
-      * Watch out for internal parameters, such as =rev=, =skin=, =template=, =topic=, =web=; they have a special meaning in TWiki. Common parameters and view script specific parameters are documented at TWikiScripts.
+      * Watch out for internal parameters, such as =rev=, =skin=, =template=, =topic=, =web=; they have a special meaning in Foswiki. Common parameters and view script specific parameters are documented at CommandAndCGIScripts.
       * If you have =%<nop>URLPARAM{= in the value of a URL parameter, it will be modified to =%&lt;nop&gt;URLPARAM{=. This is to prevent an infinite loop during expansion.
       * There is a risk that this macro could be misused for cross-site scripting.
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENCODE][ENCODE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], FormattedSearch, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarQUERYSTRING][QUERYSTRING]]

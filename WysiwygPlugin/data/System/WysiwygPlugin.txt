@@ -5,40 +5,40 @@
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 %SHORTDESCRIPTION%
 
-Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TWiki translator script. For WYSIWYG editing in TWiki, you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
+Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML (topic markup language) translator script. For WYSIWYG editing in Foswiki and TWiki, you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
 
-This plugin provides a generic framework that supports editing of TWiki topics using any browser-based HTML editor. It works by transforming TML (TWiki Meta Language) into HTML for the editor, and then transforming HTML back into TML on save.
+This plugin provides a generic framework that supports editing of topics using any browser-based HTML editor. It works by transforming TML into HTML for the editor, and then transforming HTML back into TML on save.
 
 %TOC%
 
 ---++ Features
 	* Supports the input of malformed HTML
-	* Full round-trip (TML -> XHTML -> TWiki syntax)
+	* Full round-trip (TML -> XHTML -> TML)
 	* Framework is editor-agnostic
 
 ---++ Details
 ---+++ What's in the package
 The package includes the following pieces:
-	* TML (TWiki syntax) to HTML translator
+	* TML (topic markup language) to HTML translator
 	* HTML to TML translator (with stand-alone script)
-	* Generic TWiki plugin for automating the translation during editing
+	* Generic plugin for automating the translation during editing
 
 ---+++ How it works
-The plugin works by translating the topic text into HTML when someone edits a topic. The HTML is then fed to the WYSIWYG editor. On save, the edited HTML is run through the reverse translation before saving to the topic. TWiki syntax is used in preference to HTML in the stored topic wherever possible, though HTML may be used if the translator can't find a suitable TML equivalent..
+The plugin works by translating the topic text into HTML when someone edits a topic. The HTML is then fed to the WYSIWYG editor. On save, the edited HTML is run through the reverse translation before saving to the topic. TML is used in preference to HTML in the stored topic wherever possible, though HTML may be used if the translator can't find a suitable TML equivalent..
 
-The default rendering that TWiki uses to generate HTML for display in browsers is 'lossy' - information in the TWiki syntax is lost in the HTML output, and a round-trip (recovering the original TWiki syntax from the HTML) is impossible. To solve this problem the plugin instead uses its own translation of TWiki syntax to XHTML. The generated XHTML is annotated with CSS classes that support the accurate recovery of the original TWiki syntax.
+The default rendering that Foswiki uses to generate HTML for display in browsers is 'lossy' - information in the TML is lost in the HTML output, and a round-trip (recovering the original TML from the HTML) is impossible. To solve this problem the plugin instead uses its own translation of TML to XHTML. The generated XHTML is annotated with CSS classes that support the accurate recovery of the original TML.
 
-_Before you ask the obvious question, yes, the translator *could* be used to replace the TWiki rendering pipeline for generating HTML pages. In fact, the translator is taken almost directly from the implementation of the rendering pipeline for the TWiki-4 release_
+_Before you ask the obvious question, yes, the translator *could* be used to replace the Foswiki rendering pipeline for generating HTML pages. In fact, the translator is taken almost directly from the implementation of the rendering pipeline for the TWiki-4 release_
 
-Translation of the HTML back to TWiki syntax uses the CPAN:HTML::Parser. This parser is used in preference to a more modern XML parser, because the WYSIWYG editor may not generate fully compliant XHTML. A strict parser would risk losing content. CPAN:HTML::Parser is better at handling malformed HTML.
+Translation of the HTML back to TML uses the CPAN:HTML::Parser. This parser is used in preference to a more modern XML parser, because the WYSIWYG editor may not generate fully compliant XHTML. A strict parser would risk losing content. CPAN:HTML::Parser is better at handling malformed HTML.
 
-There is also the advantage that the translator can be used to *import* HTML from other sources - for example, existing web pages. Due to the simple nature of TWiki syntax and the potential complexity of web pages, this translation is often lossy - i.e there will be HTML features that can be entered by editors that will be lost in this translation step. This is especially noticeable with HTML tables.
+There is also the advantage that the translator can be used to *import* HTML from other sources - for example, existing web pages. Due to the simple nature of TML and the potential complexity of web pages, this translation is often lossy - i.e there will be HTML features that can be entered by editors that will be lost in this translation step. This is especially noticeable with HTML tables.
 
 ---+++ Using the translators from Perl scripts
 
 Both translators can be used directly from Perl scripts, for example to build your own stand-alone translators.
 
-A stand-alone convertor script for HTML to TWiki is included in the installation. It can be found in =tools/html2tml.pl=.
+A stand-alone convertor script for HTML to TML is included in the installation. It can be found in =tools/html2tml.pl=.
 
 ---+++ Integrating a HTML Editor
 The plugin can be used to integrate an HTML editor in a number of different ways.
@@ -51,9 +51,9 @@ The plugin can be used to integrate an HTML editor in a number of different ways
 This is the technique used by WYSIWYG editors that can sit on top of HTML
 textareas, such as !TinyMCE. The topic content is pre-converted to HTML before inclusion in the standard edit template. These editors use plugins that have a =beforeEditHandler= and an =afterEditHandler=. These handlers are responsible for the conversion of topic text to HTML, and post-conversion of HTML back to TML.
    1 User hits "edit".
-   1 Editor-specific plugin =beforeEditHandler= converts topic content to HTML by calling =TWiki::Plugins::WysiwygPlugin::TranslateTML2HTML=.
+   1 Editor-specific plugin =beforeEditHandler= converts topic content to HTML by calling =Foswiki::Plugins::WysiwygPlugin::TranslateTML2HTML=.
    1 User edits and saves
-   1 Editor-specific plugin =afterEditHandler= converts HTML back to TML by calling =TWiki::Plugins::WysiwygPlugin::TranslateHTML2TML=.
+   1 Editor-specific plugin =afterEditHandler= converts HTML back to TML by calling =Foswiki::Plugins::WysiwygPlugin::TranslateHTML2TML=.
    * !WysiwygPlugin should *not* be enabled in =configure=.
    * =WYSIWYGPLUGIN_WYSIWYGSKIN= should *not* be set.
    * Your plugin should set the =textareas_hijacked= context id, to signal to skins to suppress their textarea manipulation functions.
@@ -84,7 +84,7 @@ The flow of control is as follows:
    1 As _Generating content directly in a specialised edit template_
    1 As _Generating content directly in a specialised edit template_
    1 When the document loads in the browser, the JS editor invokes a content URL (using an =IFRAME= or a =XmlHttpRequest=) to obtain the HTML document to be edited
-      * The content URL is just a TWiki =view= URL with the =wysiwyg_edit=
+      * The content URL is just a Foswiki =view= URL with the =wysiwyg_edit=
         parameter set.
       * The !WysiwygPlugin recognises the =wysiwyg_edit= parameter and uses the
         TML2HTML translator to prepare the text, which is then returned
@@ -94,12 +94,12 @@ The flow of control is as follows:
 
 ---+++ Other techniques
 ---++++ Asynchronous saves
-Editors can use =XmlHttpRequest= to perform saves, by POSTing to the TWiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %SYSTEMWEB%.TWikiScripts for details of the other parameters to the =save= script.
+Editors can use =XmlHttpRequest= to perform saves, by POSTing to the Foswiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %SYSTEMWEB%.TWikiScripts for details of the other parameters to the =save= script.
 
 Once the save script has completed it responds with a redirect, either to an Oops page if the save failed, or to the appropriate post-save URL (usually a =view=). The editor must be ready to handle this redirect.
 
 ---++++ Handling Attachments
-Attachment uploads can be handled by URL requests from the editor template to the TWiki
+Attachment uploads can be handled by URL requests from the editor template to the Foswiki
 =upload= script. The =upload= script normally redirects to the containing topic; a behaviour that you usually don't want in an editor! There are two ways to handle this:
    * If the uploads are done in an =IFRAME= or via =XmlHttpRequest=, then the
      302 redirect at the end of the upload can simply be ignored.
@@ -127,7 +127,7 @@ Converts the TML text to HTML. =topic= *must* be specified. The response is a =t
 ---+++ Translator control
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 
-*Implementors note* if you are using your own before/after edit handlers, you can call =TWiki::Plugins::WysiwygPlugin::isWysiwygEditable()= to check these controls.
+*Implementors note* if you are using your own before/after edit handlers, you can call =Foswiki::Plugins::WysiwygPlugin::isWysiwygEditable()= to check these controls.
 
 ---++ Known issues
 
@@ -137,7 +137,7 @@ WysiwygPlugin is incompatible with plugins that expand non-standard syntax e.g. 
 Plugins that extend the syntax using macros, such as =%MYMACRO%=, should work fine.
 
 ---+++ Overlapping styles
-Because TWiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formating in the original TWiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
+Because Foswiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formating in the original TWiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
 <verbatim>
 *bold _bold-italic* italic_
 </verbatim>
@@ -149,7 +149,7 @@ which gets translated back to TML as
 <verbatim>
 *bold _bold-italic_* _italic_
 </verbatim>
-which is correct by construction, but does not render correctly in TWiki. This problem is unfortunately unavoidable due to the way TWiki syntax works.
+which is correct by construction, but does not render correctly in Foswiki. This problem is unfortunately unavoidable due to the way TML works.
 
 ---++ Plugin Info
 
@@ -160,7 +160,7 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.carrier.com][Carrier Corporation]]
    * [[http://twiki.net][TWIKI.NET]]
 
-|  Plugin Author(s): | TWiki:Main.CrawfordCurrie http://www.c-dot.co.uk |
+|  Plugin Author(s): | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk |
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr |
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |

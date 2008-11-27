@@ -16,13 +16,13 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * To browse a web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together. 
    * Follow the WikiWord link and learn what it is.
    * If you know the name of a topic, you can jump directly to it by typing its name into the *Go* field on the top of the page. Type =WebSearch= to jump to the search page. __Hint:__ Do not confuse the *Go* field with search.
-   * You can search each web. Enter a search string in the %HOMETOPIC% topic or the WebSearch topic accessible from the =Search= link on each topic. TWiki searches for an exact match; optionally, you can also use RegularExpressions.
+   * You can search each web. Enter a search string in the %HOMETOPIC% topic or the WebSearch topic accessible from the =Search= link on each topic. Foswiki searches for an exact match; optionally, you can also use RegularExpressions.
 
 ---++ 3. Open a private account...
 To edit topics, you need to have a login account.
    * Depending on how your site is configured, you may already be authorised. Ask your system administrator. If not, Go to the UserRegistration page to create your account.
 
----++ 4. Check out TWiki users, groups.
+---++ 4. Check out users, groups.
    * Go to the %USERSWEB%.%WIKIUSERSTOPIC% topic; it has a list of all users. Your WikiName will be in this list after you register.
    * Go to the %USERSWEB%.WikiGroups topic in the %USERSWEB% web; it has a list of groups which can be used to define fine grained AccessControl.
 
@@ -75,7 +75,7 @@ You can attach _any_ type of file to a topic - documents, images, programs, what
 
 That's it! You're now equipped with all the essentials. You are ready to roll.
 
-__NOTE:__ When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to _separating_ individual messages, with  e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and copy-and-paste from them if you want to undo any changes. After a short while, TWiki-style free-form communication becomes second-nature. You'll expect it everywhere!
+__NOTE:__ When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to _separating_ individual messages, with  e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and copy-and-paste from them if you want to undo any changes. After a short while, wiki-style free-form communication becomes second-nature. You'll expect it everywhere!
 
 __Related Topics:__ UserDocumentationCategory
 

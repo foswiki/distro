@@ -1,14 +1,14 @@
 %META:TOPICINFO{author="ProjectContributor" date="1208648630" format="1.1" version="$Rev: 16704 $"}%
 %STARTINCLUDE%
----+ Plugins
+---+ Foswiki Plugins
 
-_Add functionality to Foswiki with readily available plugins_
+_Add functionality to Foswiki with plugins_
 
 %TOC%
 
 ---++ Overview
 
-You can add plugins to extend Foswiki functionality, without altering the core code. A plug-in approach lets you:
+You can add plugins to extend Foswiki functionality without altering the core code. A plug-in approach lets you:
 
    * add virtually unlimited features while keeping the main Foswiki code compact and efficient;
    * heavily customize an installation and still do clean updates to new versions of Foswiki;
@@ -18,7 +18,7 @@ Everything to do with Foswiki plugins - demos, new releases, downloads, developm
 
 Foswiki plugins are developed and contributed by interested members of the community. Plugins are provided on an 'as is' basis; they are not a part of Foswiki, but are independently developed and maintained.
 
-Most TWiki<sup>&reg;</sup> plugins can also be used with Foswiki if the TWikiCompatibilityPlugin is installed.
+Most [[http://twiki.org/cgi-bin/view/Plugins/WebHome][TWiki<sup>&reg;</sup> plugins]] can also be used with Foswiki if the TWikiCompatibilityPlugin is installed (it is by default).
 
 __See other types of extensions:__ [[Contribs]], [[Skins]]
 
@@ -43,7 +43,7 @@ Each plugin has a standard release topic, located in the Foswiki:Extensions web 
 
 The recommended approach to testing new plugins before making them public is to create a second local Foswiki installation, and test the plugin there. You can allow selected users access to the test area. Once you are satisfied that it won't compromise your main installation, you can install it there as well.
 
-InstalledPlugins shows which plugins are: 1) installed, 2) loading properly, and 3) what plugin handlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various Foswiki log files.
+The [[plugins]] page shows which plugins are: 1) installed, 2) loading properly, and 3) what plugin handlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various Foswiki log files.
 
 ---+++ Some Notes on Plugin Performance
 
@@ -107,7 +107,7 @@ Each plugin has a standard release topic, located in the Foswiki:Extensions web 
 
 The recommended approach to testing new plugins before making them public is to create a second local Foswiki installation, and test the plugin there. You can allow selected users access to the test area. Once you are satisfied that it won't compromise your main installation, you can install it there as well.
 
-InstalledPlugins shows which plugins are: 1) installed, 2) loading properly, and 3) what plugin handlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various Foswiki log files.
+The [[plugins]] page shows which plugins are: 1) installed, 2) loading properly, and 3) what plugin handlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various Foswiki log files.
 
 ---+++ Some Notes on Plugin Performance
 

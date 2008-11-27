@@ -145,7 +145,7 @@ The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses 
 
 *For ISP installations:* Many ISPs don't allow hosted accounts direct cron access, as it's often used for things that can heavily load the server. Workaround scripts are available.
 
-*On Windows:* You can use a scheduled task if you have administrative privileges. TWiki:Codev/CronTabWin is a free scheduler for Windows.
+*On Windows:* You can use a scheduled task if you have administrative privileges.
 
 ---++ Site Permissions
 

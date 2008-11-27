@@ -20,7 +20,7 @@
    * QuerySearch
    * DocumentGraphics
    * SkinBrowser
-   * InstalledPlugins
+   * [[Plugins]]
 
    * <b>%MAKETEXT{"Admin Maintenance"}%</b>
    * [[ReferenceManual][Reference Manual]]

@@ -4,7 +4,7 @@
 
 _Server and client requirements_
 
-Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions.  Many extensions exist which enhance and expand TWiki's capabilities; they may have additional requirements.
+Low client and server base requirements are core features that keep Foswiki widely deployable, particularly across a range of browser platforms and versions.  Many extensions exist which enhance and expand Foswiki's capabilities; they may have additional requirements.
 
 %TOC%
 

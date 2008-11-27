@@ -6,7 +6,8 @@
 %ENDCOLOR%
 %MAKETEXT{"By default, viewing the Trash web is restricted to [_1]. If you would like to allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction in WebPreferences." args="%USERSWEB%.AdminGroup"}%
 
-%SEARCH{".*" web="%INCLUDINGWEB%" type="regex" nototal="on" nosearch="on" order="modified" limit="15"}%
+Last 15 changes in this web:
+%SEARCH{"'1'='1'" type="query" nototal="on" nosearch="on" reverse="on" order="modified" limit="15"}%
 [[WebChanges][%MAKETEXT{"more..."}%]]
 
 ---++ <nop>%WEB% Web Utilities

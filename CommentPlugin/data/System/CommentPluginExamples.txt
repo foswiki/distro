@@ -181,15 +181,15 @@ Toctalk output message 2
 
 ---+++ =bookmark=
 
-   * [[http://twiki.org][Bookmark output link label]] %IF{" '' = '' " then="" else="- "}%
-   * [[http://twiki.org][TWiki]] %IF{" 'Bookmark output comment' = '' " then="" else="- "}%Bookmark output comment
+   * [[http://foswiki.org][Bookmark output link label]] %IF{" '' = '' " then="" else="- "}%
+   * [[http://foswiki.org][Foswiki]] %IF{" 'Bookmark output comment' = '' " then="" else="- "}%Bookmark output comment
 %COMMENT{type="bookmark"}%
 
 
 
 
 ---+++ =return=
-Post to a different topic and return to here. In this example comments are written to [[%COMMENT_TOPIC%]]. %RED% Available with TWiki 4.1. %ENDCOLOR%
+Post to a different topic and return to here. In this example comments are written to [[%COMMENT_TOPIC%]].
 
 <!--
    * Set COMMENT_TOPIC = Sandbox.CommentPluginExampleComments
