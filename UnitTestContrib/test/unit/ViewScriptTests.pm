@@ -41,6 +41,7 @@ pretemplate%STARTTEXT%pre%ENDTEXT%posttemplate
 HERE
 
 sub new {
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     my $self = shift()->SUPER::new("ViewScript", @_);
     return $self;
 }
@@ -69,6 +70,29 @@ sub set_up {
     $twiki->{store}->saveTopic(
         $this->{test_user_wikiname}, $this->{test_web}, 'ViewfiveTemplate',
         $templateTopicContent5, undef );
+
+    #set up nested web $this->{test_web}/Nest
+    $this->{test_subweb} = $this->{test_web}.'/Nest';
+    my $topic = 'TestTopic1';
+
+    try {
+        $this->{twiki} = new Foswiki('AdminUser');
+
+        $this->{twiki}->{store}->createWeb( $this->{twiki}->{user}, $this->{test_subweb} );
+        $this->assert( $this->{twiki}->{store}->webExists( $this->{test_subweb} ) );
+        $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
+                                    $this->{test_subweb},
+                                    $Foswiki::cfg{HomeTopicName},
+                                    "SMELL" );
+        $this->assert( $this->{twiki}->{store}->topicExists(
+            $this->{test_subweb}, $Foswiki::cfg{HomeTopicName} ) );
+
+    } catch Error::Simple with {
+        $this->assert(0,shift->stringify()||'');
+    };
+    $twiki->{store}->saveTopic(
+        $this->{test_user_wikiname}, $this->{test_subweb}, $topic,
+        'nested topci1 text', undef );
 }
 
 sub setup_view {
@@ -179,6 +203,65 @@ sub test_urlparsing {
     $this->urltest('/Sandbox//?topic=System.WebChanges', 'System', 'WebChanges');
 
 #nested
+#    $this->urltest($this->{test_subweb}, $this->{test_subweb}, 'WebHome');
+#    $this->urltest('/'.$this->{test_subweb}, $this->{test_subweb}, 'WebHome');
+#    $this->urltest('/'.$this->{test_subweb}.'/', $this->{test_subweb}, 'WebHome');
+#    $this->urltest('//'.$this->{test_subweb}, $this->{test_subweb}, 'WebHome');
+#    $this->urltest('///'.$this->{test_subweb}, $this->{test_subweb}, 'WebHome');
+#    $this->urltest('/'.$this->{test_subweb}.'$this->{test_subweb}//', $this->{test_subweb}, 'WebHome');
+#    $this->urltest('/'.$this->{test_subweb}.'///', $this->{test_subweb}, 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebHome', $this->{test_subweb}, 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'//WebHome', $this->{test_subweb}, 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebHome/', $this->{test_subweb}, 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebHome//', $this->{test_subweb}, 'WebHome');
+
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'//WebIndex', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'///WebIndex', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex///', $this->{test_subweb}, 'WebIndex');
+
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex?asd=w', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'//WebIndex?asd=qwe', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?asd=qwe', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?asd=ewr', $this->{test_subweb}, 'WebIndex');
+
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'//WebIndex?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+
+#    $this->urltest('/'.$this->{test_subweb}.'?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+#    $this->urltest('/'.$this->{test_subweb}.'/?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+#    $this->urltest('/'.$this->{test_subweb}.'//?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'//WebIndex?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?topic=System.WebChanges', 'System', 'WebChanges');
+
+    $this->urltest('/'.$this->{test_subweb}.'?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'//?topic=System.WebChanges', 'System', 'WebChanges');
+
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'//WebIndex?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+
+    $this->urltest('/'.$this->{test_subweb}.'?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'//?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+
+    $this->urltest('/System/WebIndex?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/System//WebIndex?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/System/WebIndex/?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/System/WebIndex//?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+
+    $this->urltest('/System?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/System/?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/System//?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
 #invalid..
 
 }
