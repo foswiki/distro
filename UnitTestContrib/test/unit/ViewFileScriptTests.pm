@@ -109,11 +109,7 @@ sub sneakAttachmentsToTopic {
 
 sub viewfile {
     my ( $this, $url ) = @_;
-    my $query = new Unit::Request({
-#        webName => [ $this->{test_web} ],
-#        topicName => [ 'TestTopic1' ],
-#        template => [ $tmpl ],
-    });
+    my $query = new Unit::Request({});
     $query->setUrl( $url );
     $query->method('GET');
     $twiki = new Foswiki( $this->{test_user_login}, $query );

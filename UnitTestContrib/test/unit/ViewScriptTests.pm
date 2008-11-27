@@ -81,7 +81,7 @@ sub setup_view {
     $query->path_info( "/$web/$topic" );
     $query->method('POST');
     $twiki = new Foswiki( $this->{test_user_login}, $query );
-    my ($text, $result) = $this->capture( 
+    my ($text, $result) = $this->capture(
         sub {
             Foswiki::UI::View::view( $twiki);
             $Foswiki::engine->finalize(
@@ -118,6 +118,34 @@ postposttemplate', $text);
 
     $text = $this->setup_view( $this->{test_web}, 'TestTopic1', 'viewfive' );
     $this->assert_equals('pretemplateposttemplate', $text);
+}
+
+sub urltest {
+    my ($this, $url, $web, $topic) = @_;
+    my $query = new Unit::Request({});
+    $query->setUrl( $url );
+    $query->method('GET');
+    my $twiki = new Foswiki( $this->{test_user_login}, $query );
+    $this->assert_equals($web, $twiki->{webName});
+    $this->assert_equals($topic, $twiki->{topicName});
+
+    $twiki->finish();
+}
+sub test_urlparsing {
+    my $this = shift;
+
+    $this->urltest('', $this->{users_web}, 'WebHome');
+    $this->urltest('/', $this->{users_web}, 'WebHome');
+#    $this->urltest('Sandbox', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox/', 'Sandbox', 'WebHome');
+#    $this->urltest('//Sandbox', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox//', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox/WebHome', 'Sandbox', 'WebHome');
+#    $this->urltest('/Sandbox//WebHome', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox/WebHome/', 'Sandbox', 'WebHome');
+#    $this->urltest('/Sandbox/WebHome//', 'Sandbox', 'WebHome');
+
 }
 
 1;
