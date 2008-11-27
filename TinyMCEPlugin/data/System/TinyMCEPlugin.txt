@@ -12,19 +12,19 @@ This is an integration of the <a href="http://tinymce.moxiecode.com?id=powered_b
 
 The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
 
-Unlike the other editor integrations in TWiki, which install "Word in a Browser" style editors, this plugin is able to swap out the _standard_ text areas in an edit and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
+Unlike the other editor integrations in Foswiki, which install "Word in a Browser" style editors, this plugin is able to swap out the _standard_ text areas in an edit and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
 
-The editor automatically "switches itself off" (i.e. reverts to the old text-only window) when editing topics that contain TWiki content it can't handle, such as complex macros.
+The editor automatically "switches itself off" (i.e. reverts to the old text-only window) when editing topics that contain Foswiki content it can't handle, such as complex macros.
 
 ---++ Editor Notes
-The editor uses a translator module to convert from TWiki markup language (TML) to HTML and back. The translator converts special macros - such as %<nop>MACROS% - to plain text, and encloses them within HTML spans using a special style called =WYSIWYG_PROTECTED=. In this way the editor can detect text that is not meant to be HTML formatted. This style is _also_ used to protect special text you enter into the editor from being interpreted when the topic is translated back into TML. If you want to add any special features that are sensitive to formatting, such as =Set= statements, then you have to format those regions using 'Protect on save' or 'Protect forever'.
+The editor uses a translator module to convert from Foswiki Topic Markup Language (TML) to HTML and back. The translator converts special macros - such as %<nop>MACROS% - to plain text, and encloses them within HTML spans using a special style called =WYSIWYG_PROTECTED=. In this way the editor can detect text that is not meant to be HTML formatted. This style is _also_ used to protect special text you enter into the editor from being interpreted when the topic is translated back into TML. If you want to add any special features that are sensitive to formatting, such as =Set= statements, then you have to format those regions using 'Protect on save' or 'Protect forever'.
 
 ---++ Installation Instructions
 
 __NOTES:__
-   * This plugin comes pre-installed on TWiki 4.2.X. You should only need to re-install if there is an upgrade to the plugin.
-   * It requires the very latest revision of WysiwygPlugin. It will *not* work with the version shipped with TWiki 4.1.2.
-   * When installed, it *replaces* the old "textarea" editor. If you want to maintain access to the old editor from the standard screens, follow the instructions under [[#InstallingOnOldTWikis][Configuring the buttons on TWiki < 4.2.0]].
+   * This plugin comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the plugin.
+   * It requires the very latest revision of WysiwygPlugin.
+   * When installed, it *replaces* the old "textarea" editor. The default Foswiki skin provides access to the plain text editor by adding a Raw Edit link at the bottom of the page.
 
 First follow the installation instructions to install the Plugin:
 
@@ -49,7 +49,7 @@ For a full explanation of the available options, and guidance on reconfiguring T
    convert_urls : true,
    relative_urls : false,
    remove_script_host : false,
-   setupcontent_callback : TWikiTiny.setUpContent,
+   setupcontent_callback : FoswikiTiny.setUpContent,
    urlconverter_callback : "TWikiTiny.convertLink",
    hide_instance_callback : TWikiTiny.switchToRaw,
    show_instance_callback : TWikiTiny.switchToWYSIWYG,
@@ -105,15 +105,15 @@ You can override these settings in the same way as any other [[%SYSTEMWEB%.Prefe
 
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
 
-#InstallingOnOldTWikis
----++ Configuring the buttons on TWiki < 4.2.0
-When installed on TWiki versions before 4.2.0, this plugin *replaces* the old textarea editor with the !TinyMCE editor. The shock of this change can be too much for some older contributors, so we have written instructions for reconfiguring your templates in Foswiki:Extensions.TinyMCEFrequentlyAskedQuestions.
+---++ Frequently Asked Questions
+
+The topic TinyMCEFrequentlyAskedQuestions contains more help with things like: "How do I configure the buttons in my skin?", "How do I disable the WYSIWYG?" etc.
 
 ---++ Plugin Info
 
-Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Plugin Author(s): | TWiki:Main.CrawfordCurrie |
+|  Plugin Author(s): | Foswiki:Main.CrawfordCurrie |
 |  Plugin Version: | 03 Aug 2008 %$VERSION% |
 |  Copyright: | &copy; 2007-2008 Crawford Currie http://c-dot.co.uk |
 |             | This package also includes the complete sources for version 2.1.1.1 of the !TinyMCE editor |

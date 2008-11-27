@@ -1,6 +1,7 @@
 # Release manifest for TinyMCEPlugin
 data/System/TinyMCEPlugin.txt 0644
 data/System/TinyMCEQuickHelp.txt 0644
+data/System/TinyMCEFrequentlyAskedQuestions.txt 0644
 lib/Foswiki/Plugins/TinyMCEPlugin.pm 0644
 pub/System/TinyMCEPlugin/wikiringlogo20x20.png 0644
 pub/System/TinyMCEQuickHelp/Format_Drop_Down.gif 0644
