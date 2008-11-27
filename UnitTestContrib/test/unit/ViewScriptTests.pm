@@ -139,12 +139,12 @@ sub test_urlparsing {
 #    $this->urltest('Sandbox', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/', 'Sandbox', 'WebHome');
-#    $this->urltest('//Sandbox', 'Sandbox', 'WebHome');
+    $this->urltest('//Sandbox', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox//', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/WebHome', 'Sandbox', 'WebHome');
-#    $this->urltest('/Sandbox//WebHome', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox//WebHome', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/WebHome/', 'Sandbox', 'WebHome');
-#    $this->urltest('/Sandbox/WebHome//', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox/WebHome//', 'Sandbox', 'WebHome');
 
 }
 
