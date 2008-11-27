@@ -479,8 +479,8 @@ pub/System/TinyMCEPlugin/tinymce.gif 0644
 pub/System/TinyMCEPlugin/screenshot.gif 0644
 pub/System/TinyMCEPlugin/wysiwyg.css 0644
 pub/System/TinyMCEPlugin/verbatim.gif 0644
-pub/System/TinyMCEPlugin/twiki_src.js 0644
-pub/System/TinyMCEPlugin/twiki_tiny.js 0644
-pub/System/TinyMCEPlugin/twiki_tiny_src.js 0644
-pub/System/TinyMCEPlugin/twiki.js 0644
+pub/System/TinyMCEPlugin/foswiki_src.js 0644
+pub/System/TinyMCEPlugin/foswiki_tiny.js 0644
+pub/System/TinyMCEPlugin/foswiki_tiny_src.js 0644
+pub/System/TinyMCEPlugin/foswiki.js 0644
 pub/System/TinyMCEPlugin/wikiringlogo20x20.png 0660
