@@ -111,7 +111,7 @@ Information for programmers.
 
 
 ---++ Plugin Installation Instructions
-This plugin is pre-installed with your TWiki release. You should not have to install it other than to do an upgrade.
+This plugin is pre-installed with your Foswiki release. You should not have to install it other than to do an upgrade.
 
 	* Download the ZIP file from the Plugin web (see below)
 	* Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
@@ -119,7 +119,7 @@ This plugin is pre-installed with your TWiki release. You should not have to ins
 	  | ==data/System/%TOPIC%.txt== | Plugin topic |
 	  | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
 	  | ==lib/Foswiki/Plugins/%TOPIC%/Core.pm== | Plugin Perl module |
-	* (Dakar) Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+	* Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
 	* Test if the plugin is correctly installed:
 		* Check above example if the table renders as expected
 		* Try click on heading to sort.  Other tables should also be sortable
@@ -127,7 +127,7 @@ This plugin is pre-installed with your TWiki release. You should not have to ins
 ---++ Plugin Info
 
 |  Plugin Author: | TWiki:Main/JohnTalintyre, TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2001-2008, TWiki:Main/JohnTalintyre, Peter@Thoeny.org ([[http://www.twiki.net/][TWIKI.NET]]), TWiki Contributors |
+|  Copyright: | &copy; 2001-2008, TWiki:Main/JohnTalintyre, Peter@Thoeny.org ([[http://www.twiki.net/][TWIKI.NET]]), TWiki Contributors; &copy; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 1.036 (01 Oct 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |

@@ -4,9 +4,9 @@ use strict;
 
 package TablePluginTests;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
-use TWiki;
+use Foswiki;
 use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebTableFormatting';
 
@@ -20,9 +20,9 @@ sub set_up {
 
     $this->SUPER::set_up();
 #    $this->{sup} = $this->{twiki}->getScriptUrl(0, 'view');
-    $TWiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
-    $TWiki::cfg{AntiSpam}{EmailPadding} = 'STUFFED';
-    $TWiki::cfg{AllowInlineScript} = 1;
+    $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
+    $Foswiki::cfg{AntiSpam}{EmailPadding} = 'STUFFED';
+    $Foswiki::cfg{AllowInlineScript} = 1;
     $ENV{SCRIPT_NAME} = ''; #  required by fake sort URLs in expected text
 }
 
@@ -245,7 +245,7 @@ sub test_sort_size {
 
     my $cgi = $this->{request};
     my $url = $cgi->url(-absolute => 1);
-    my $pubUrlTWikiWeb = TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
     
     my $actual = <<ACTUAL;
 %TABLE{initsort="3" initdirection="up"}%
@@ -270,7 +270,7 @@ ACTUAL
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
 			<th bgcolor="#687684" valign="top" class="twikiTableCol0 twikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Title</font></a> </th>
 			<th bgcolor="#687684" valign="top" class="twikiTableCol1"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Date</font></a> </th>
-			<th bgcolor="#334455" valign="top" class="twikiTableCol2 twikiSortedDescendingCol twikiSortedCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Size</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlTWikiWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
+			<th bgcolor="#334455" valign="top" class="twikiTableCol2 twikiSortedDescendingCol twikiSortedCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Size</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
 			<th bgcolor="#687684" valign="top" class="twikiTableCol3 twikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Span date</font></a> </th>
 		</tr>
 	</thead>
@@ -323,7 +323,7 @@ sub test_sort_dateWithHtml {
 
     my $cgi = $this->{request};
     my $url = $cgi->url(-absolute => 1);
-    my $pubUrlTWikiWeb = TWiki::Func::getPubUrlPath() . '/TWiki';
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
     
     my $actual = <<ACTUAL;
 %TABLE{initsort="4" initdirection="up"}%
@@ -349,7 +349,7 @@ ACTUAL
 			<th bgcolor="#687684" valign="top" class="twikiTableCol0 twikiFirstCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=0;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Title</font></a> </th>
 			<th bgcolor="#687684" valign="top" class="twikiTableCol1"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Date</font></a> </th>
 			<th bgcolor="#687684" valign="top" class="twikiTableCol2"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Size</font></a> </th>
-			<th bgcolor="#334455" valign="top" class="twikiTableCol3 twikiSortedDescendingCol twikiSortedCol twikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Span date</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlTWikiWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
+			<th bgcolor="#334455" valign="top" class="twikiTableCol3 twikiSortedDescendingCol twikiSortedCol twikiLastCol"> <a rel="nofollow" href="$url/$TEST_WEB_NAME/TestTopicTableFormatting?sortcol=3;table=1;up=2#sorted_table" title="Sort by this column"><font color="#ffffff">Span date</font></a><span class="tableSortIcon tableSortDown"><img width="11" alt="Sorted descending" src="$pubUrlSystemWeb/DocumentGraphics/tablesortdown.gif" title="Sorted descending" height="13" border="0" /></span> </th>
 		</tr>
 	</thead>
 	<tbody>
