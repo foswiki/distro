@@ -488,8 +488,6 @@ sub viewfile {
       $session->{store}
       ->readAttachment( $session->{user}, $webName, $topic, $fileName, $rev );
 
-print STDERR "\tFILE contains : $fileContent\n";
-
     my $type   = _suffixToMimeType( $session, $fileName );
     my $length = length($fileContent);
     my $dispo  = 'inline;filename=' . $fileName;
