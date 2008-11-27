@@ -3,6 +3,7 @@
 # Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
 # Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
 # Copyright (C) 2005-2006 TWiki Contributors
+# Copyright (C) 2008 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +21,7 @@
 
 use strict;
 
-package TWiki::Plugins::TablePlugin::Core;
+package Foswiki::Plugins::TablePlugin::Core;
 
 use Time::Local;
 
@@ -64,8 +65,8 @@ BEGIN {
     # the maximum number of columns we will handle
     $maxSortCols = 10000;
     $iconUrl =
-        TWiki::Func::getPubUrlPath() . '/'
-      . TWiki::Func::getTwikiWebname()
+        Foswiki::Func::getPubUrlPath() . '/'
+      . Foswiki::Func::getTwikiWebname()
       . '/DocumentGraphics/';
     $unsortEnabled        = 1;    # if true, table columns can be unsorted
     $didWriteDefaultStyle = 0;
@@ -103,8 +104,8 @@ sub _setDefaults {
 
     # Preferences setting
     # It seems overkill to redo this every time!
-    my %pluginParams   = TWiki::Func::extractParameters($pluginAttrs);
-    my %prefsParams    = TWiki::Func::extractParameters($prefsAttrs);
+    my %pluginParams   = Foswiki::Func::extractParameters($pluginAttrs);
+    my %prefsParams    = Foswiki::Func::extractParameters($prefsAttrs);
     my %combinedParams = ( %pluginParams, %prefsParams );
     _parseParameters( 1, 'default', %combinedParams );
 }
@@ -147,7 +148,7 @@ sub _parseParameters {
     
     # If EditTablePlugin is installed and we are editing a table, the CGI
     # parameter 'sort' is defined as "off" to disable all header sorting ((Item5135)
-    my $cgi = TWiki::Func::getCgiQuery();
+    my $cgi = Foswiki::Func::getCgiQuery();
     $tmp = $cgi->param('sort');
     if ( defined $tmp && $tmp =~ /^off$/oi ) {
         undef $sortAllTables;
@@ -723,7 +724,7 @@ sub _processTableRow {
     }
     push @curTable, \@row;
     return $currTablePre
-      . '<nop>';    # Avoid TWiki converting empty lines to new paras
+      . '<nop>';    # Avoid Foswiki converting empty lines to new paras
 }
 
 # Determine whether to generate sorting headers for this table. The header
@@ -1229,7 +1230,7 @@ sub _writeStyleToHead {
     my $style = join( "\n", @styles );
     my $header =
       '<style type="text/css" media="all">' . "\n" . $style . "\n" . '</style>';
-    TWiki::Func::addToHEAD( 'TABLEPLUGIN_' . $id, $header );
+    Foswiki::Func::addToHEAD( 'TABLEPLUGIN_' . $id, $header );
 }
 
 sub emitTable {
@@ -1687,13 +1688,13 @@ sub emitTable {
 sub handler {
     ### my ( $text, $removed ) = @_;
 
-    unless ($TWiki::Plugins::TablePlugin::initialised) {
+    unless ($Foswiki::Plugins::TablePlugin::initialised) {
         $insideTABLE = 0;
         $tableCount  = 0;
 
         $twoCol = 1;
 
-        my $cgi = TWiki::Func::getCgiQuery();
+        my $cgi = Foswiki::Func::getCgiQuery();
         return unless $cgi;
 
         # Copy existing values
@@ -1718,7 +1719,7 @@ sub handler {
 
         $sortTablesInText = 0;
         $sortAttachments  = 0;
-        my $tmp = TWiki::Func::getPreferencesValue('TABLEPLUGIN_SORT');
+        my $tmp = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT');
         if ( !$tmp || $tmp =~ /^all$/oi ) {
             $sortTablesInText = 1;
             $sortAttachments  = 1;
@@ -1728,11 +1729,11 @@ sub handler {
         }
 
         $pluginAttrs =
-          TWiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
-        $prefsAttrs = TWiki::Func::getPreferencesValue('TABLEATTRIBUTES');
+          Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
+        $prefsAttrs = Foswiki::Func::getPreferencesValue('TABLEATTRIBUTES');
         _setDefaults();
 
-        $TWiki::Plugins::TablePlugin::initialised = 1;
+        $Foswiki::Plugins::TablePlugin::initialised = 1;
     }
 
     undef $initSort;
@@ -1744,7 +1745,7 @@ sub handler {
     my @lines = split( /\r?\n/, $_[0] );
     for (@lines) {
         if (
-s/%TABLE(?:{(.*?)})?%/_parseParameters(1,undef,TWiki::Func::extractParameters($1))/se
+s/%TABLE(?:{(.*?)})?%/_parseParameters(1,undef,Foswiki::Func::extractParameters($1))/se
           )
         {
             $acceptable = 1;

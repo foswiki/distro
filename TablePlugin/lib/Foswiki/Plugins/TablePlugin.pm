@@ -3,6 +3,7 @@
 # Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
 # Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
 # Copyright (C) 2005-2007 TWiki Contributors
+# Copyright (C) 2008 Foswiki Contributors.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,14 +24,14 @@
 
 use strict;
 
-package TWiki::Plugins::TablePlugin;
+package Foswiki::Plugins::TablePlugin;
 
-require TWiki::Func;    # The plugins API
-require TWiki::Plugins; # For the API version
+require Foswiki::Func;    # The plugins API
+require Foswiki::Plugins; # For the API version
 
 use vars qw( $topic $installWeb $VERSION $RELEASE $initialised );
 
-# This should always be $Rev: 16047 $ so that TWiki can determine the checked-in
+# This should always be $Rev: 16047 $ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev: 16047 $';
@@ -45,12 +46,12 @@ sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.026 ) {
-        TWiki::Func::writeWarning( 'Version mismatch between TablePlugin and Plugins.pm' );
+    if( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning( 'Version mismatch between TablePlugin and Plugins.pm' );
         return 0;
     }
 
-    my $cgi = TWiki::Func::getCgiQuery();
+    my $cgi = Foswiki::Func::getCgiQuery();
     return 0 unless $cgi;
 
     $initialised = 0;
@@ -61,13 +62,13 @@ sub initPlugin {
 sub preRenderingHandler {
     ### my ( $text, $removed ) = @_;
 
-    my $sort = TWiki::Func::getPreferencesValue( 'TABLEPLUGIN_SORT' );
+    my $sort = Foswiki::Func::getPreferencesValue( 'TABLEPLUGIN_SORT' );
     return unless ($sort && $sort =~ /^(all|attachments)$/) ||
       $_[0] =~ /%TABLE{.*?}%/;
 
     # on-demand inclusion
-    require TWiki::Plugins::TablePlugin::Core;
-    TWiki::Plugins::TablePlugin::Core::handler( @_ );
+    require Foswiki::Plugins::TablePlugin::Core;
+    Foswiki::Plugins::TablePlugin::Core::handler( @_ );
 }
 
 1;
