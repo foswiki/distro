@@ -90,7 +90,7 @@ sub _findRelativeTo {
         pop(@path);
     }
     #try legacy TWiki Contrib
-    $startdir =~ s/Foswiki/TWiki/g;
+    $startdir =~ s/\/Foswiki\//\/TWiki\//g;
     @path = split( /\/+/, $startdir );
 
     #try a legacy TWiki contrib path.
