@@ -29,7 +29,7 @@ Uncomment [[%SYSTEMWEB%.PreferenceSettings][preference settings]] to activate th
 
    * [[%SYSTEMWEB%.ChangePassword][ChangePassword]] for changing your password
    * [[%SYSTEMWEB%.ChangeEmailAddress][ChangeEmailAddress]] for changing your email address
-   * [[%MAINWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] has a list of other TWiki users
+   * [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] has a list of other TWiki users
    * [[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]] is a list of TWiki user documentation
    * [[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]] lists all TWiki user tools
 
@@ -82,7 +82,7 @@ Text for multilingual wiki community, copy from here to %<nop>ENDSECTION{type="t
 
    * %MAKETEXT{"[_1] for changing your password" args="[[%SYSTEMWEB%.ChangePassword][ChangePassword]]"}%
    * %MAKETEXT{"[_1] for changing your email address" args="[[%SYSTEMWEB%.ChangeEmailAddress][ChangeEmailAddress]]"}%
-   * %MAKETEXT{"[_1] has a list of other TWiki users" args="[[%MAINWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]]"}%
+   * %MAKETEXT{"[_1] has a list of other TWiki users" args="[[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]]"}%
    * %MAKETEXT{"[_1] is a list of TWiki user documentation" args="[[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]]"}%
    * %MAKETEXT{"[_1] lists all TWiki user tools" args="[[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]]"}%
 

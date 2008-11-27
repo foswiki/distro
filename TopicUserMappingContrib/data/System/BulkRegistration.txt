@@ -22,7 +22,7 @@ Below are the details.
 
 ---++ Settings
    * Define where to pick up the table of users to register
-      * Set REGISTERTOPIC = %MAINWEB%.UnprocessedRegistrations
+      * Set REGISTERTOPIC = %USERSWEB%.UnprocessedRegistrations
    * Use this to define where to log the bulk registration process. It needs
      to be a topic name in this web.
       * Set LOGTOPIC = %REGISTERTOPIC%Log

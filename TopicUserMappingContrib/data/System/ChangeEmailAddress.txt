@@ -44,7 +44,7 @@ Registered e-mail addresses for currently logged in user (=%USERINFO{format="$wi
 
 <div class="twikiHelp">
    * %ICON{info}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%WIKIWEBMASTER%"}%
-   * %ICON{info}% %MAKETEXT{"[_1] has a list of other TWiki users" args="%MAINWEB%.%WIKIUSERSTOPIC%"}%
+   * %ICON{info}% %MAKETEXT{"[_1] has a list of other TWiki users" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
 </div>
 
 %STOPINCLUDE%

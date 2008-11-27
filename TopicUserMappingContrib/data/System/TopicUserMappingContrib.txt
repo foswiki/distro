@@ -10,7 +10,7 @@ One line description, required for extensions repository catalog.
 The _User Mapping Manager_ interface provides services for mapping between a 'user identity' as used when talking to an external authentication provider,
 an internal canonical user ID, and the displayed name used to identify the user in topics. 
 This is the default <nop>TopicUserMapping in which user information is stored in topics - one per user, and then any mapping needed is done using the
-<nop>WikiUsers topic in the %MAINWEB%.
+<nop>WikiUsers topic in the %USERSWEB%.
 
 See [[http://twiki.org/cgi-bin/view/Codev/SimplifiedUserMappingCodeInterface][SimplifiedUserMappingCodeInterface]] for a more detailed discussion
 of the concepts.
