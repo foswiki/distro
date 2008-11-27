@@ -1188,16 +1188,30 @@ $Foswiki::cfg{Operators}{If} = [ 'Foswiki::If::OP_allows', 'Foswiki::If::OP_defi
 # modules that match the Foswiki standard e.g. Foswiki/Plugins/MyPlugin.pm
 # or the TWiki standard i.e. TWiki/Plugins/YourPlugin.pm
 $Foswiki::cfg{Plugins}{PreferencesPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{PreferencesPlugin}{Module} = 'Foswiki::Plugins::PreferencesPlugin';
 $Foswiki::cfg{Plugins}{SmiliesPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{SmiliesPlugin}{Module} = 'TWiki::Plugins::SmiliesPlugin';
 $Foswiki::cfg{Plugins}{CommentPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{CommentPlugin}{Module} = 'Foswiki::Plugins::CommentPlugin';
 $Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{SpreadSheetPlugin}{Module} = 'TWiki::Plugins::SpreadSheetPlugin';
 $Foswiki::cfg{Plugins}{InterwikiPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{InterwikiPlugin}{Module} = 'Foswiki::Plugins::InterwikiPlugin';
 $Foswiki::cfg{Plugins}{TablePlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{TablePlugin}{Module} = 'TWiki::Plugins::TablePlugin';
 $Foswiki::cfg{Plugins}{EditTablePlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{EditTablePlugin}{Module} = 'TWiki::Plugins::EditTablePlugin';
 $Foswiki::cfg{Plugins}{SlideShowPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{SlideShowPlugin}{Module} = 'TWiki::Plugins::SlideShowPlugin';
 $Foswiki::cfg{Plugins}{TwistyPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{TwistyPlugin}{Module} = 'Foswiki::Plugins::TwistyPlugin';
 $Foswiki::cfg{Plugins}{TinyMCEPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} = 'Foswiki::Plugins::TinyMCEPlugin';
 $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'TWiki::Plugins::TWikiCompatibilityPlugin';
+
 # **PERL H**
 # Search path (web names) for plugin topics. Note that the session web
 # is always searched last.
