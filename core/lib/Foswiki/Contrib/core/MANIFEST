@@ -913,7 +913,6 @@ pub/System/JavascriptFiles/foswikiCSS.js 0644
 pub/System/JavascriptFiles/foswikiArray.js 0644
 pub/System/JavascriptFiles/foswikiEvent.js 0644
 pub/System/JavascriptFiles/foswikiForm.js 0644
-pub/System/JavascriptFiles/foswikiFunction.js 0644
 pub/System/JavascriptFiles/foswikiHTML.js 0644
 pub/System/JavascriptFiles/foswikiPref.js 0644
 pub/System/JavascriptFiles/foswikiString.js 0644
@@ -924,7 +923,6 @@ pub/System/JavascriptFiles/foswiki.js 0644
 pub/System/JavascriptFiles/foswikilib.js 0644
 pub/System/JavascriptFiles/foswiki_edit.js 0644
 pub/System/JavascriptFiles/foswiki_renamebase.js 0644
-pub/System/JavascriptFiles/foswikiuiToggle.js 0644
 pub/System/JavascriptFiles/unicode_chars.js 0644
 pub/System/PlainSkin/fullscreen.gif 0644
 pub/System/PlainSkin/screenshot.gif 0644
