@@ -303,6 +303,23 @@ sub redirect {
     $this->header(@headers);
 }
 
+=begin twiki
+
+---++ ObjectMethod appendToBody(...)
+
+Append join(' ',@_) to the end of the output. The output may be flushed
+immediately (e.g. in the case of a chunked response) or may be cached
+and written later.
+
+=cut
+
+# Apache2::RequestRec calls this "print"
+sub appendToBody {
+    my $this = shift;
+
+    $this->body( $this->body().join(' ', @_));
+}
+
 1;
 __DATA__
 # Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
