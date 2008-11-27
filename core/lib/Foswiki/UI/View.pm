@@ -434,16 +434,23 @@ sub viewfile {
     my $topic   = $session->{topicName};
     my $webName = $session->{webName};
 
-    my @path = split( '/', $query->path_info() );
-    shift(@path) unless $path[0];
     my $fileName;
     if ( defined( $query->param('filename') ) ) {
         $fileName = $query->param('filename');
     }
     else {
-        $fileName = pop(@path);
-        $topic = pop(@path);
-        $webName = join('/', @path);
+        my $pathInfo = $query->path_info();
+        $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
+        my @path = split( '/', $pathInfo );
+        shift(@path) unless ($path[0]);   #remove leading empty string
+
+        #work out the web, topic and filename
+        $webName = shift(@path);
+        while (($path[0]) && (TWiki::Func::webExists("$webName/".$path[0]))) {
+            $webName .= '/'.shift(@path);
+        }
+        $topic = shift(@path);
+        $fileName = join('/', @path);
     }
     if ( !$fileName ) {
         throw Foswiki::OopsException(
@@ -455,7 +462,11 @@ sub viewfile {
         );
     }
 
-    $fileName = Foswiki::Sandbox::sanitizeAttachmentName($fileName);
+    #print STDERR "\t web($webName), topic($topic), file($fileName)\n";
+
+    #you can't remove the /'s from the filename, as there are directories below the pub/web/topic
+    #$fileName = Foswiki::Sandbox::sanitizeAttachmentName($fileName);
+    $fileName = Foswiki::Sandbox::normalizeFileName($fileName);
 
     my $rev = $session->{store}->cleanUpRevID( $query->param('rev') );
     unless ( $fileName
@@ -476,6 +487,8 @@ sub viewfile {
     my $fileContent =
       $session->{store}
       ->readAttachment( $session->{user}, $webName, $topic, $fileName, $rev );
+
+print STDERR "\tFILE contains : $fileContent\n";
 
     my $type   = _suffixToMimeType( $session, $fileName );
     my $length = length($fileContent);

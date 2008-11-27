@@ -463,17 +463,17 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
     # at http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt.
     $regex{validUtf8CharRegex} = qr{
                 # Single byte - ASCII
-                [\x00-\x7F] 
+                [\x00-\x7F]
                 |
 
                 # 2 bytes
-                [\xC2-\xDF][\x80-\xBF] 
+                [\xC2-\xDF][\x80-\xBF]
                 |
 
                 # 3 bytes
 
                     # Avoid illegal codepoints - negative lookahead
-                    (?!\xEF\xBF[\xBE\xBF])    
+                    (?!\xEF\xBF[\xBE\xBF])
 
                     # Match valid codepoints
                     (?:
@@ -484,7 +484,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
                     [\x80-\xBF]
                 |
 
-                # 4 bytes 
+                # 4 bytes
                     (?:
                     ([\xF0][\x90-\xBF])|
                     ([\xF1-\xF3][\x80-\xBF])|
@@ -550,7 +550,7 @@ sub UTF82SiteCharSet {
 
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
-            $this->writeWarning( 'UTF-8 not remotely supported on Perl ' 
+            $this->writeWarning( 'UTF-8 not remotely supported on Perl '
                   . $]
                   . ' - use Perl 5.8 or higher..' );
         }
@@ -567,7 +567,7 @@ sub UTF82SiteCharSet {
 
         # ISO-8859-1 maps onto first 256 codepoints of Unicode
         # (conversion from 'perldoc perluniintro')
-        $text =~ s/ ([\xC2\xC3]) ([\x80-\xBF]) / 
+        $text =~ s/ ([\xC2\xC3]) ([\x80-\xBF]) /
           chr( ord($1) << 6 & 0xC0 | ord($2) & 0x3F )
             /egx;
     }
@@ -906,7 +906,7 @@ sub redirect {
             template => 'oopsaccessdenied',
             def      => 'topic_access',
             param1   => 'redirect',
-            param2   => 'unsafe redirect to ' 
+            param2   => 'unsafe redirect to '
               . $url
               . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls}"'
               . $Foswiki::cfg{DefaultUrlHost} . '"'
@@ -1470,6 +1470,7 @@ sub new {
     }
 
     my $pathInfo = $query->path_info();
+    $pathInfo =~ s|/$||;    #trailing / does not mean WebHome
 
     # Get the web and topic names from PATH_INFO
     if ( $pathInfo =~ /\/((?:.*[\.\/])+)(.*)/ ) {
@@ -1479,18 +1480,6 @@ sub new {
         $topic = $2 unless $topic;
         $web =~ s/\./\//go;
         $web =~ s/\/$//o;
-
-	if ($url =~ /viewfile/) {
-		if ($pathInfo=~ /\/(.*?\/)(.*?)\/(.*?\.*?)$/) {
-			my $webtmp	= $1;
-			my $topictmp	= $2;
-			my $filetmp	= $3;
-			if (-f $Foswiki::cfg{PubDir}."/$webtmp$topictmp/$filetmp") {
-				$web	= $webtmp;
-				$topic	= $topictmp;
-			}
-		}
-	}
     }
     elsif ( $pathInfo =~ /\/(.*)/ ) {
 
@@ -2501,7 +2490,7 @@ sub expandVariablesOnTopicCreation {
                   substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                 expandAllTags( $this, \$etext, $theTopic, $theWeb );
                 $ntext =
-                    substr( $ntext, 0, $s->{start} ) 
+                    substr( $ntext, 0, $s->{start} )
                   . $etext
                   . substr( $ntext, $s->{end}, length($ntext) );
             }
@@ -2597,7 +2586,7 @@ sub entityDecode {
 For attachments, URL-encode specially to 'freeze' any characters >127 in the
 site charset (e.g. ISO-8859-1 or KOI8-R), by doing URL encoding into native
 charset ($siteCharset) - used when generating attachment URLs, to enable the
-web server to serve attachments, including images, directly.  
+web server to serve attachments, including images, directly.
 
 This encoding is required to handle the cases of:
 
@@ -2607,9 +2596,9 @@ This encoding is required to handle the cases of:
 
 The aim is to prevent the browser from converting a site charset URL in the web
 page to a UTF-8 URL, which is the default.  Hence we 'freeze' the URL into the
-site character set through URL encoding. 
+site character set through URL encoding.
 
-In two cases, no URL encoding is needed:  For EBCDIC mainframes, we assume that 
+In two cases, no URL encoding is needed:  For EBCDIC mainframes, we assume that
 site charset URLs will be translated (outbound and inbound) by the web server to/from an
 EBCDIC character set. For sites running in UTF-8, there's no need for Foswiki to
 do anything since all URLs and attachment filenames are already in UTF-8.
@@ -2659,7 +2648,7 @@ Reserved characters are $&+,/:;=?@ - these are _also_ encoded by
 this method.
 
 This URL-encoding handles all character encodings including ISO-8859-*,
-KOI8-R, EUC-* and UTF-8. 
+KOI8-R, EUC-* and UTF-8.
 
 This may not handle EBCDIC properly, as it generates an EBCDIC URL-encoded
 URL, but mainframe web servers seem to translate this outbound before it hits browser
@@ -3077,7 +3066,7 @@ sub registerTagHandler {
 
 ---++ StaticMethod registerRESTHandler( $subject, $verb, \&fn )
 
-Adds a function to the dispatch table of the REST interface 
+Adds a function to the dispatch table of the REST interface
 for a given subject. See System.CommandAndCGIScripts#rest for more info.
 
    * =$subject= - The subject under which the function will be registered.
