@@ -262,6 +262,8 @@ sub test_urlparsing {
     $this->urltest('/System?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
     $this->urltest('/System/?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
     $this->urltest('/System//?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
+#nonexistant webs
+#noneexistant topics
 #invalid..
 
 }
