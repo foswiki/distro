@@ -140,11 +140,46 @@ sub test_urlparsing {
     $this->urltest('/Sandbox', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/', 'Sandbox', 'WebHome');
     $this->urltest('//Sandbox', 'Sandbox', 'WebHome');
+    $this->urltest('///Sandbox', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox//', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox///', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/WebHome', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox//WebHome', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/WebHome/', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/WebHome//', 'Sandbox', 'WebHome');
+
+    $this->urltest('/Sandbox/WebIndex', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox//WebIndex', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox///WebIndex', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex/', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex//', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex///', 'Sandbox', 'WebIndex');
+
+    $this->urltest('/Sandbox/WebIndex?asd=w', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox//WebIndex?asd=qwe', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex/?asd=qwe', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex//?asd=ewr', 'Sandbox', 'WebIndex');
+
+    $this->urltest('/Sandbox/WebIndex?topic=WebChanges', 'Sandbox', 'WebChanges');
+    $this->urltest('/Sandbox//WebIndex?topic=WebChanges', 'Sandbox', 'WebChanges');
+    $this->urltest('/Sandbox/WebIndex/?topic=WebChanges', 'Sandbox', 'WebChanges');
+    $this->urltest('/Sandbox/WebIndex//?topic=WebChanges', 'Sandbox', 'WebChanges');
+
+    $this->urltest('/Sandbox?topic=WebChanges', 'Sandbox', 'WebChanges');
+    $this->urltest('/Sandbox/?topic=WebChanges', 'Sandbox', 'WebChanges');
+    $this->urltest('/Sandbox//?topic=WebChanges', 'Sandbox', 'WebChanges');
+
+    $this->urltest('/Sandbox/WebIndex?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/Sandbox//WebIndex?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/Sandbox/WebIndex/?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/Sandbox/WebIndex//?topic=System.WebChanges', 'System', 'WebChanges');
+
+    $this->urltest('/Sandbox?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/Sandbox/?topic=System.WebChanges', 'System', 'WebChanges');
+    $this->urltest('/Sandbox//?topic=System.WebChanges', 'System', 'WebChanges');
+
+#nested
+#invalid..
 
 }
 
