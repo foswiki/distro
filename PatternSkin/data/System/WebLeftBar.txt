@@ -27,7 +27,7 @@
    * AdminToolsCategory
    * InterWikis
    * ManagingWebs
-   * TWikiSiteTools
+   * SiteTools
    * %WIKIPREFSTOPIC%
    * %WEBPREFSTOPIC%
 
