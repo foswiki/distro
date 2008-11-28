@@ -1222,7 +1222,7 @@ $Foswiki::cfg{Plugins}{WebSearchPath} = '$Foswiki::cfg{SystemWebName},TWiki';
 # will change the execution order of plugins so the listed subset of plugins
 # are executed first. The default execution order is alphabetical on plugin
 # name.
-$Foswiki::cfg{PluginsOrder} = 'SpreadSheetPlugin';
+$Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 
 #---+ Extensions
 # *FINDEXTENSIONS*
