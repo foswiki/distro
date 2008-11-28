@@ -326,7 +326,7 @@ sub enablePlugin {
     }
 }
 
-my $autoenable = 1;
+my $autoenable = 0;
 my $installing = 1;
 my $autoconf = 0;
 $install = $CAN_LINK ? \&just_link : \&copy_in;
@@ -345,7 +345,7 @@ while (scalar(@ARGV) && $ARGV[0] =~ /^-/) {
     } elsif ($arg =~ /^-e/) {
         $autoenable = 1;
     } elsif ($arg =~ /^-m/) {
-        $autoenable = 1;
+        $autoenable = 0;
     } elsif ($arg =~ /^-A/) {
         $autoconf = 1;
     }

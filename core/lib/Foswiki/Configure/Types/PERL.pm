@@ -69,7 +69,7 @@ sub string2value {
         die
 "Parse of structured value failed at: $s\nPlease go back and check it.";
     }
-    $val =~ /(.*)/;    # parsed, so safe to untaint
+    $val =~ /(.*)/s;    # parsed, so safe to untaint
     return eval $1;
 }
 
