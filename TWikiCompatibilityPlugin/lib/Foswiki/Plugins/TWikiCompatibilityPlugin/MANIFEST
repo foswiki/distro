@@ -10,6 +10,9 @@ lib/TWiki/UI.pm 0644 Perl module
 lib/TWiki/Attrs.pm 0644 Perl module
 lib/TWiki/Sandbox.pm 0644 Perl module
 lib/TWiki/Prefs.pm 0644 Perl module
+lib/TWiki/Meta.pm 0644 Perl module
+lib/TWiki/OopsException.pm 0644 Perl module
+lib/TWiki/Time.pm 0644 Perl module
 
 #make TWiki a real web
 data/TWiki/WebPreferences.txt 0644 make it a valid web

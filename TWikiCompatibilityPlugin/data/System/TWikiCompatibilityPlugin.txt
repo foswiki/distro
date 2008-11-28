@@ -25,7 +25,7 @@ Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings requi
 Many thanks to the following sponsors for supporting this work:
    * Acknowledge any sponsors here
 
-|  Plugin Author(s): | SvenDowideit |
+|  Plugin Author(s): | Sven Dowideit, Michael Daum, Crawford Currie |
 |  Copyright: | &copy; SvenDowideit@fosiki.com |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL3 (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |
