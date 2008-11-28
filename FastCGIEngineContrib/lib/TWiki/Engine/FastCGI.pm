@@ -1,4 +1,4 @@
-# Runtime Engine of Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Runtime Engine of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2007-2008 TWiki Contributors. All Rights Reserved. 
 # TWiki Contributors are listed in the AUTHORS file in the root of 
