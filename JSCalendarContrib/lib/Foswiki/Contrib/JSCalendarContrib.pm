@@ -1,4 +1,4 @@
-=begin twiki
+=begin TML
 
 Read [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] or
 [[%ATTACHURL%][visit the demo page]] for detailed information on using the
@@ -52,7 +52,7 @@ my %w = (
     Y => 4,	# year including the century ( ex. 1979 )
 );
 
-=begin twiki
+=begin TML
 
 ---+++ Foswiki::Contrib::JSCalendarContrib::renderDateForEdit($name, $value, $format [, \%cssClass]) -> $html
 
@@ -107,7 +107,7 @@ sub renderDateForEdit {
           -align => 'middle');
 }
 
-=begin twiki
+=begin TML
 
 ---+++ Foswiki::Contrib::JSCalendarContrib::addHEAD($setup)
 

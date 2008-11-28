@@ -67,7 +67,7 @@ sub getOptions {
     return $vals;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.

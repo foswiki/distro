@@ -1,6 +1,6 @@
 # See bottom of file for copyright and license details
 
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::Query::OP_ob
 

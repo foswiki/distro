@@ -78,7 +78,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.
@@ -810,7 +810,7 @@ sub addTOPICINFO {
     $this->put( 'TOPICINFO', \%options );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod getMetaFor() -> $meta
 

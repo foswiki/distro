@@ -26,7 +26,7 @@ sub new {
     return shift->SUPER::new(@_);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.

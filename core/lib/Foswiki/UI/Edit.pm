@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright details
 package Foswiki::UI::Edit;
 
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::UI::Edit
 

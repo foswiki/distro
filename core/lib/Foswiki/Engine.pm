@@ -18,7 +18,7 @@ use Error qw( :try );
 use Assert;
 use Scalar::Util;
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod CRLF() -> $crfl
 
@@ -29,7 +29,7 @@ children objects.
 
 sub CRLF { "\x0D\x0A" }
 
-=begin twiki
+=begin TML
 
 ---++ ClassMethod new() -> $engine
 
@@ -44,7 +44,7 @@ sub new {
     return bless $this, $class;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod run()
 
@@ -61,7 +61,7 @@ sub run {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepare() -> $req
 
@@ -129,7 +129,7 @@ sub prepare {
     return $req;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareConnection( $req )
 
@@ -142,7 +142,7 @@ Should fill remoteAddr, method and secure fields of =$req= object.
 
 sub prepareConnection { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareQueryParameters( $req, $queryString )
 
@@ -169,7 +169,7 @@ sub prepareQueryParameters {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareHeaders( $req )
 
@@ -182,7 +182,7 @@ Should fill $req's headers and remoteUser fields.
 
 sub prepareHeaders { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod preparePath( $req )
 
@@ -195,7 +195,7 @@ Should fill $req's uri and pathInfo fields.
 
 sub preparePath { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareCookies( $req )
 
@@ -215,7 +215,7 @@ sub prepareCookies {
       if $req->header('Cookie');
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareBody( $req )
 
@@ -228,7 +228,7 @@ Should perform any initialization tasks related to body processing.
 
 sub prepareBody { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareBodyParameters( $req )
 
@@ -241,7 +241,7 @@ Should fill $req's body parameters.
 
 sub prepareBodyParameters { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareUploads( $req )
 
@@ -255,7 +255,7 @@ parameter names and values Foswiki::Request::Upload objects.
 
 sub prepareUploads { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finalize($res, $req)
 
@@ -273,7 +273,7 @@ sub finalize {
     $this->finalizeBody($res);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finalizeUploads( $res, $req )
 
@@ -287,7 +287,7 @@ Should delete any temp files created in preparation phase.
 
 sub finalizeUploads { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finalizeError( $res )
 
@@ -303,7 +303,7 @@ sub finalizeError {
     $this->finalizeBody($res);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finalizeHeaders( $res, $req )
 
@@ -326,7 +326,7 @@ sub finalizeHeaders {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finalizeCookies( $res )
 
@@ -349,7 +349,7 @@ sub finalizeCookies {
       foreach $res->cookies;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finalizeBody( $res )
 
@@ -379,7 +379,7 @@ sub finalizeBody {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod prepareWrite( $res )
 
@@ -393,7 +393,7 @@ That's ok if none needed ;-)
 
 sub prepareWrite { }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod write( $buffer )
 

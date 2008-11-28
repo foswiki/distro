@@ -60,7 +60,7 @@ use Error;
 use IO::File;
 use CGI::Util qw(rearrange);
 
-=begin twiki
+=begin TML
 
 ---++ ClassMethod new([$initializer])
 
@@ -112,7 +112,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod action() -> $action
 
@@ -126,7 +126,7 @@ sub action {
       : ( $ENV{FOSWIKI_ACTION} = $_[0]->{action} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod method( [ $method ] ) -> $method
 
@@ -138,7 +138,7 @@ sub method {
     return @_ == 1 ? $_[0]->{method} : ( $_[0]->{method} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod pathInfo( [ $path ] ) -> $path
 
@@ -156,7 +156,7 @@ sub pathInfo {
     return @_ == 1 ? $_[0]->{path_info} : ( $_[0]->{path_info} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod protocol() -> $protocol
 
@@ -169,7 +169,7 @@ sub protocol {
     return $_[0]->secure ? 'https' : 'http';
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod uri( [$uri] ) -> $uri
 
@@ -181,7 +181,7 @@ sub uri {
     return @_ == 1 ? $_[0]->{uri} : ( $_[0]->{uri} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod queryString() -> $query_string
 
@@ -205,7 +205,7 @@ sub queryString {
     return join( ';', @params );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod url( [-full     => 1,
                          -base     => 1,
@@ -265,7 +265,7 @@ sub url {
     return $url;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod secure( [$secure] ) -> $secure
 
@@ -277,7 +277,7 @@ sub secure {
     return @_ == 1 ? $_[0]->{secure} : ( $_[0]->{secure} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod remoteAddress( [$ip] ) -> $ip
 
@@ -295,7 +295,7 @@ sub remoteAddress {
       : ( $_[0]->{remote_address} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod remoteUser( [$userName] ) -> $userName
 
@@ -311,7 +311,7 @@ sub remoteUser {
     return @_ == 1 ? $_[0]->{remote_user} : ( $_[0]->{remote_user} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod serverPort( [$userName] ) -> $userName
 
@@ -327,7 +327,7 @@ sub serverPort {
     return @_ == 1 ? $_[0]->{server_port} : ( $_[0]->{server_port} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod queryParam( [-name => $name, -value => $value             |
                                 -name => $name, -values => [ $v1, $v2, ... ] |
@@ -348,7 +348,7 @@ sub queryParam {
     return $this->param(@_);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod bodyParam( [-name => $name, -value => $value             |
                                -name => $name, -values => [ $v1, $v2, ... ] |
@@ -383,7 +383,7 @@ sub bodyParam {
     return $this->param( $key, @values );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod param( [-name => $name, -value => $value             |
                            -name => $name, -values => [ $v1, $v2, ... ] |
@@ -424,7 +424,7 @@ sub param {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod cookie($name [, $value, $path, $secure, $expires]) -> $value
 
@@ -459,7 +459,7 @@ sub cookie {
     );
 }
 
-=begin twiki
+=begin TML
 
 ObjectMethod cookies( \%cookies ) -> $hashref
 
@@ -472,7 +472,7 @@ sub cookies {
     return @_ == 1 ? $_[0]->{cookies} : ( $_[0]->{cookies} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod delete( @paramNames )
 
@@ -497,7 +497,7 @@ sub delete {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod deleteAll()
 
@@ -514,7 +514,7 @@ sub deleteAll {
     $this->delete( $this->param() );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod header([-name => $name, -value  => $value            |
                            -name => $name, -values => [ $v1, $v2, ... ] |
@@ -565,7 +565,7 @@ sub header {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod save( $fh )
 
@@ -587,7 +587,7 @@ sub save {
     print $fh "=\n";
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod load( $fh )
 
@@ -619,7 +619,7 @@ sub load {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod upload( $name ) -> $handle
 
@@ -634,7 +634,7 @@ sub upload {
     return defined $upload ? $upload->handle : undef;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod uploadInfo( $fname ) -> $headers
 
@@ -647,7 +647,7 @@ sub uploadInfo {
     return $_[0]->{uploads}{ $_[1] }->uploadInfo;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod tmpFileName( $fname ) -> $tmpFileName
 
@@ -664,7 +664,7 @@ sub tmpFileName {
       : undef;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod uploads( [ \%uploads ] ) -> $hashref
 
@@ -682,7 +682,7 @@ sub uploads {
 # content_length
 # content_type
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod http( [$header] ) -> $value DEPRECATED
 
@@ -706,7 +706,7 @@ sub http {
     return $this->header();
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod https( [$name] ) -> $value || $secure DEPRECATED
 
@@ -723,7 +723,7 @@ sub https {
     return !defined $p || $p =~ /^https$/i ? $this->secure : $this->http($p);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod userAgent() -> $userAgent;
 
@@ -737,7 +737,7 @@ Convenience method to get User-Agent string.
 
 sub userAgent { shift->header('User-Agent') }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod referer()
 

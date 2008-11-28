@@ -1,6 +1,6 @@
 # See bottom of file for copyright and license details
 
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::If::OP_ingroup
 
@@ -71,7 +71,7 @@ As per the GPL, removal of this notice is prohibited.
 Author: Crawford Currie http://c-dot.co.uk
 # See bottom of file for copyright and license details
 
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::If::OP_ingroup
 
@@ -138,7 +138,7 @@ As per the GPL, removal of this notice is prohibited.
 Author: Crawford Currie http://c-dot.co.uk
 # See bottom of file for copyright and license details
 
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::If::OP_ingroup
 

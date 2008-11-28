@@ -75,7 +75,7 @@ sub TRACE_PASSTHRU {
     0;
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod handleRequest($req) -> $res
 
@@ -121,7 +121,7 @@ sub handleRequest {
     return $res;
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod execute($req, $sub, %initialContext) -> $res
 
@@ -247,7 +247,7 @@ sub execute {
     return $res;
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod logon($session)
 
@@ -261,7 +261,7 @@ sub logon {
     $session->{users}->{loginManager}->login( $session->{request}, $session );
 }
 
-=pod twiki
+=pod TML
 
 ---++ StaticMethod checkWebExists( $session, $web, $topic, $op )
 
@@ -309,7 +309,7 @@ sub checkTopicExists {
     }
 }
 
-=pod twiki
+=pod TML
 
 ---++ StaticMethod checkMirror( $session, $web, $topic )
 
@@ -331,7 +331,7 @@ sub checkMirror {
         "This is a mirror site $mirrorSiteName, $mirrorViewURL");
 }
 
-=pod twiki
+=pod TML
 
 ---++ StaticMethod checkAccess( $web, $topic, $mode, $user )
 

@@ -15,7 +15,7 @@ use base 'Foswiki::Form::FieldDefinition';
 use strict;
 use Assert;
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.

@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=pod twiki
+=pod TML
 
 ---+ package Foswiki::EngineException
 

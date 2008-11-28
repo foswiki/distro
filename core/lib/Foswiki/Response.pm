@@ -19,7 +19,7 @@ use strict;
 use Assert;
 use CGI::Util qw(rearrange expires);
 
-=begin twiki
+=begin TML
 
 ---++ ClassMethod new() -> $response
 
@@ -40,7 +40,7 @@ sub new {
     return bless $this, $class;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod status( $status ) -> $status
 
@@ -57,7 +57,7 @@ sub status {
     return $this->{status};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod charset([$charset]) -> $charset
 
@@ -70,7 +70,7 @@ sub charset {
     return @_ == 1 ? $_[0]->{charset} : ( $_[0]->{charset} = $_[1] );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod header(-type       => $type,
                           -status     => $status,
@@ -157,7 +157,7 @@ sub header {
     $this->{headers}->{'Content-Type'} = $type if $type ne '';
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod headers( { ... } ) -> $headersHashRef
 
@@ -179,7 +179,7 @@ sub headers {
     return $this->{headers};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod getHeader( [ $name ] ) -> $value
 
@@ -197,7 +197,7 @@ sub getHeader {
     return ref $value ? @$value : ($value);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod deleteHeader($h1, $h2, ...)
 
@@ -213,7 +213,7 @@ sub deleteHeader {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod pushHeader( $name, $value )
 
@@ -239,7 +239,7 @@ sub pushHeader {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod cookies( [ \@cookies ] ) -> @cookies
 
@@ -253,7 +253,7 @@ sub cookies {
     return @_ == 1 ? @{ $_[0]->{cookies} } : @{ $_[0]->{cookies} = $_[1] };
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod body( [ $body ] ) -> $body
 
@@ -273,7 +273,7 @@ sub body {
     return $this->{body};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod redirect( $uri, $status, $cookies |
                              -Location => $uri, 
@@ -303,7 +303,7 @@ sub redirect {
     $this->header(@headers);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod appendToBody(...)
 

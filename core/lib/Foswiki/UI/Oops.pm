@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::UI::Oops
 

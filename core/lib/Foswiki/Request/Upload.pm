@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=begin twiki
+=begin TML
 
 ---+!! package Foswiki::Request::Upload
 
@@ -13,7 +13,7 @@ package Foswiki::Request::Upload;
 use strict;
 use IO::File;
 
-=begin twiki
+=begin TML
 
 ---++ ClassMethod new()
 
@@ -31,7 +31,7 @@ sub new {
     return bless $this, $class;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 
@@ -51,7 +51,7 @@ sub finish {
     undef $this->{tmpname};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod uploadInfo() -> $headers
 
@@ -64,7 +64,7 @@ sub uploadInfo {
     return $_[0]->{headers};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod handle() -> ( $fh )
 
@@ -78,7 +78,7 @@ sub handle {
     return $fh;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod tmpFileName() -> ( $tmpName )
 

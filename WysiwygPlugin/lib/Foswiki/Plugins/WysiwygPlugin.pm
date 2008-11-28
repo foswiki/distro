@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=begin twiki
+=begin TML
 
 ---+ package WysiwygPlugin
 
@@ -467,7 +467,7 @@ sub _dropBack {
     return $text;
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod notWysiwygEditable($text) -> $boolean
 Determine if the given =$text= is WYSIWYG editable, based on the topic content

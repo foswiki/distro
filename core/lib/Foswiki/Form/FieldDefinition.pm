@@ -42,7 +42,7 @@ sub new {
     return bless( \%attrs, $class );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.

@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::Users::HtPasswdUser
 
@@ -46,7 +46,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.

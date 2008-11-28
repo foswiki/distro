@@ -1577,7 +1577,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod renderer()
 Get a reference to the renderer object. Done lazily because not everyone
@@ -1597,7 +1597,7 @@ sub renderer {
     return $this->{renderer};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod attach()
 Get a reference to the attach object. Done lazily because not everyone
@@ -1615,7 +1615,7 @@ sub attach {
     return $this->{attach};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod templates()
 Get a reference to the templates object. Done lazily because not everyone
@@ -1633,7 +1633,7 @@ sub templates {
     return $this->{templates};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod i18n()
 Get a reference to the i18n object. Done lazily because not everyone
@@ -1654,7 +1654,7 @@ sub i18n {
     return $this->{i18n};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod search()
 Get a reference to the search object. Done lazily because not everyone
@@ -1672,7 +1672,7 @@ sub search {
     return $this->{search};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod security()
 Get a reference to the security object. Done lazily because not everyone
@@ -1690,7 +1690,7 @@ sub security {
     return $this->{security};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod net()
 Get a reference to the net object. Done lazily because not everyone
@@ -1708,7 +1708,7 @@ sub net {
     return $this->{net};
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.

@@ -23,7 +23,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::Users::TopicUserMapping
 
@@ -55,7 +55,7 @@ use Error qw( :try );
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users::TopicUserMapping');
 
-=begin twiki
+=begin TML
 
 ---++ ClassMethod new ($session, $impl)
 
@@ -105,7 +105,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.
@@ -127,7 +127,7 @@ sub finish {
     $this->SUPER::finish();
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod supportsRegistration () -> false
 return 1 if the UserMapper supports registration (ie can create new users)
@@ -138,7 +138,7 @@ sub supportsRegistration {
     return 1;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod handlesUser ( $cUID, $login, $wikiname) -> $boolean
 
@@ -180,7 +180,7 @@ sub handlesUser {
     return 0;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod login2cUID ($login, $dontcheck) -> $cUID
 
@@ -204,7 +204,7 @@ sub login2cUID {
     return $this->{mapping_id} . Foswiki::Users::mapLogin2cUID($login);
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod getLoginName ($cUID) -> login
 
@@ -268,7 +268,7 @@ sub _userReallyExists {
     return 0;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod addUser ($login, $wikiname, $password, $emails) -> $cUID
 
@@ -448,7 +448,7 @@ sub addUser {
     return $user;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod removeUser( $cUID ) -> $boolean
 
@@ -467,7 +467,7 @@ sub removeUser {
     # needs someone to implement it
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod getWikiName ($cUID) -> $wikiname
 
@@ -506,7 +506,7 @@ sub getWikiName {
     return $wikiname;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod userExists($cUID) -> $boolean
 
@@ -551,7 +551,7 @@ sub userExists {
     return 0;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod eachUser () -> Foswiki::ListIterator of cUIDs
 
@@ -583,7 +583,7 @@ sub eachUser {
 
 my %expanding;
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod eachGroupMember ($group) ->  listIterator of cUIDs
 
@@ -627,7 +627,7 @@ sub eachGroupMember {
     return new Foswiki::ListIterator( $this->{eachGroupMember}->{$group} );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod isGroup ($user) -> boolean
 
@@ -644,7 +644,7 @@ sub isGroup {
     return $user =~ /Group$/;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod eachGroup () -> ListIterator of groupnames
 
@@ -659,7 +659,7 @@ sub eachGroup {
     return new Foswiki::ListIterator( \@{ $this->{groupsList} } );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod eachMembership ($cUID) -> ListIterator of groups this user is in
 
@@ -679,7 +679,7 @@ sub eachMembership {
     return $it;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod isAdmin( $cUID ) -> $boolean
 
@@ -705,7 +705,7 @@ sub isAdmin {
     return $isAdmin;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod findUserByEmail( $email ) -> \@cUIDs
    * =$email= - email address to look up
@@ -748,7 +748,7 @@ sub findUserByEmail {
     return \@users;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod getEmails($name) -> @emailAddress
 
@@ -807,7 +807,7 @@ sub getEmails {
     return keys %emails;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod setEmails($cUID, @emails) -> boolean
 
@@ -829,7 +829,7 @@ sub setEmails {
     }
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod mapper_getEmails($session, $user)
 
@@ -871,7 +871,7 @@ sub mapper_getEmails {
     return @addresses;
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod mapper_setEmails ($session, $user, @emails)
 
@@ -916,7 +916,7 @@ sub mapper_setEmails {
       ->saveTopic( $cUID, $Foswiki::cfg{UsersWebName}, $user, $text, $meta );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod findUserByWikiName ($wikiname) -> list of cUIDs associated with that wikiname
 
@@ -966,7 +966,7 @@ sub findUserByWikiName {
     return \@users;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod checkPassword( $login, $password ) -> $boolean
 
@@ -981,7 +981,7 @@ sub checkPassword {
     return $this->{passwords}->checkPassword( $login, $pw );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod setPassword( $cUID, $newPassU, $oldPassU ) -> $boolean
 
@@ -1010,7 +1010,7 @@ sub setPassword {
       ->setPassword( $this->getLoginName($user), $newPassU, $oldPassU );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod passwordError( ) -> $string
 

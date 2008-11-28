@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=begin twiki
+=begin TML
 
 ---+ package Foswiki::UserMapping
 
@@ -54,7 +54,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.
@@ -113,7 +113,7 @@ sub handlesUser {
     return 0;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod login2cUID($login, $dontcheck) -> cUID
 

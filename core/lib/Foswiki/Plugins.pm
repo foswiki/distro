@@ -118,7 +118,7 @@ sub new {
     return $this;
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.
@@ -325,7 +325,7 @@ sub addListener {
     push( @{ $this->{registeredHandlers}{$c} }, $h );
 }
 
-=begin twiki
+=begin TML
 
 ---++ ObjectMethod dispatch( $handlerName, ...)
 Dispatch the given handler, passing on ... in the parameter vector
