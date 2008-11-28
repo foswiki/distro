@@ -114,7 +114,7 @@ sub finish {
     my $this = shift;
 
     undef $this->{name};
-    undef $this->{installWeb};
+    undef $this->{topicWeb};
     undef $this->{module};
     undef $this->{errors};
     undef $this->{disabled};
@@ -128,7 +128,6 @@ sub finish {
 sub load {
     my ($this) = @_;
     my $p = $Foswiki::cfg{Plugins}{$this->{name}}{Module};
-    $this->{installWeb} = $Foswiki::cfg{SystemWebName};
 
     if (defined $p) {
         eval "use $p";
@@ -149,23 +148,10 @@ sub load {
 
     my $noTopic = eval '$' . $p . '::NO_PREFS_IN_TOPIC';
     $this->{no_topic} = $noTopic;
-    $this->{installWeb} = undef; # not known yet
+    $this->{topicWeb} = undef; # not known yet
 
-    # Find the plugin topic, if required
-    if ($noTopic) {
-        $this->{installWeb} = $Foswiki::cfg{SystemWebName};
-    } else  {
-        my $store = $this->{session}->{store};
-
-        foreach my $web (split(/[, ]+/,
-                               $Foswiki::cfg{Plugins}{WebSearchPath}),
-                         $this->{session}->{webName}) {
-            if ( $store->topicExists( $web, $this->{name} ) ) {
-                $this->{installWeb} = $web;
-                last;
-            }
-        }
-        if (!$this->{installWeb}) {
+    unless ($noTopic) {
+        if (!$this->topicWeb()) {
             # not found
             push(
                 @{ $this->{errors} },
@@ -174,7 +160,6 @@ sub load {
                   . ', no plugin topic'
             );
             $noTopic = 1;
-            $this->{installWeb} = $Foswiki::cfg{SystemWebName};
         }
     }
 
@@ -229,7 +214,7 @@ sub registerSettings {
 
     my $prefs = $this->{session}->{prefs};
     if ( !$this->{no_topic} ) {
-        $prefs->pushPreferences( $this->{installWeb}, $this->{name}, 'PLUGIN',
+        $prefs->pushPreferences( $this->{topicWeb}, $this->{name}, 'PLUGIN',
             uc( $this->{name} ) . '_' );
     }
 }
@@ -248,7 +233,7 @@ sub registerHandlers {
         $Foswiki::Plugins::SESSION->{topicName},
         $Foswiki::Plugins::SESSION->{webName},
         $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
-        $this->{installWeb}
+        $this->{topicWeb}
     );
     use strict 'refs';
 
@@ -328,12 +313,41 @@ sub getDescription {
     $version =~ s/\$Rev: (\d+) \$/$1/g;
     $version = $release . ', ' . $version if $release;
 
-    my $result = ' ' . $this->{installWeb} . '.' . $this->{name} . ' ';
+    my $web = $this->topicWeb();
+    my $result = ' ' . ($web ? "$web." : '!') . $this->{name} . ' ';
     $result .=
       CGI::span( { class => 'twikiGrayText twikiSmall' },
         '(' . $version . ')' );
     $result .= ': ' . $this->{description};
     return $result;
+}
+
+=begin TML
+
+---++ ObjectMethod topicWeb() -> $webname
+
+Find the web that has the topic for this plugin by searching the
+{Plugins}{WebSearchPath}
+
+=cut
+
+sub topicWeb {
+    my $this = shift;
+
+    unless ( $this->{topicWeb}) {
+        # Find the plugin topic, if required
+        my $store = $this->{session}->{store};
+
+        foreach my $web (split(/[, ]+/,
+                               $Foswiki::cfg{Plugins}{WebSearchPath}),
+                         $this->{session}->{webName}) {
+            if ( $store->topicExists( $web, $this->{name} ) ) {
+                $this->{topicWeb} = $web;
+                last;
+            }
+        }
+    }
+    return $this->{topicWeb};
 }
 
 1;

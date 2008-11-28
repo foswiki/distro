@@ -392,11 +392,11 @@ sub _handleFAILEDPLUGINS {
         else {
             $td = CGI::td('none');
         }
-die "BALLS $plugin->{name}" unless $plugin->{installWeb};
+        my $web = $plugin->topicWeb();
         $text .= CGI::Tr(
             { valign => 'top' },
             CGI::td(
-                ' ' . $plugin->{installWeb} . '.' . $plugin->{name} . ' '
+                ' ' . ($web ? "$web." : '!').$plugin->{name}.' '
               )
               . $td
         );
