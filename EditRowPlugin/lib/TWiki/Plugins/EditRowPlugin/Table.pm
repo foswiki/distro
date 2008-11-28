@@ -436,7 +436,7 @@ sub renderForDisplay {
               CGI::img({
                   -name => "erp_edit_$this->{number}",
                   -border => 0,
-                  -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.gif',
+                  -src => '%PUBURLPATH%/TWiki/EditRowPlugin/edittable.gif',
                   -title => $title,
               });
             my $url;
@@ -465,7 +465,7 @@ sub renderForDisplay {
             my $button = CGI::img({
                 -name => "erp_edit_$this->{number}",
                 -border => 0,
-                -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.gif',
+                -src => '%PUBURLPATH%/TWiki/EditRowPlugin/addrow.gif',
                 -title => $title,
                }, '');
             my $url;
@@ -736,7 +736,7 @@ sub generateEditButtons {
             name => 'erp_quietSave',
             value => $QUIET_SAVE,
             title => $QUIET_SAVE,
-            src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
+            src => '%PUBURLPATH%/TWiki/EditRowPlugin/quiet.gif'
            }, '');
     }
     $buttons .= CGI::image_button({
