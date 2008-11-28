@@ -4,13 +4,13 @@ use strict;
 
 package EditTablePluginTests;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase );
 
 use strict;
-use TWiki::UI::Save;
+use Foswiki::UI::Save;
 use Error qw( :try );
-use TWiki::Plugins::EditTablePlugin;
-use TWiki::Plugins::EditTablePlugin::Core;
+use Foswiki::Plugins::EditTablePlugin;
+use Foswiki::Plugins::EditTablePlugin::Core;
 
 sub new {
     my $self = shift()->SUPER::new( 'EditTableFunctions', @_ );
@@ -23,9 +23,9 @@ sub set_up {
     $this->SUPER::set_up();
 
     #    $this->{sup} = $this->{twiki}->getScriptUrl(0, 'view');
-    $TWiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
-    $TWiki::cfg{AllowInlineScript} = 0;
-    $TWiki::cfg{TablePlugin}{Attributes} = 'tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
+    $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
+    $Foswiki::cfg{AllowInlineScript} = 0;
+    $Foswiki::cfg{TablePlugin}{Attributes} = 'tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#252b37" headerbg="#d8dde4" headerbgsorted="#ced4dd" headercolor="#252b37" databg="#ffffff,#f2f3f6" databgsorted="#f3f5f7,#e7e9ee" tablerules="cols"';
 
     $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
 }
@@ -40,7 +40,7 @@ sub do_testHtmlOutput {
 
     if ($doRender) {
         $actual =
-          TWiki::Func::expandCommonVariables( $actual, $webName, $topicName );
+          Foswiki::Func::expandCommonVariables( $actual, $webName, $topicName );
         $actual =
           $session->renderer->getRenderedVersion( $actual, $webName,
             $topicName );
@@ -68,9 +68,9 @@ sub test_viewSimple {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
@@ -102,9 +102,9 @@ sub test_viewEditButton {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
@@ -137,9 +137,9 @@ sub test_editSimple {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -153,7 +153,7 @@ SOMETHING %EDITTABLE{}%
 INPUT
 
     my $result =
-      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+      Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
 
     my $expected = <<EXPECTED;
 SOMETHING <a name="edittable1"></a>
@@ -180,8 +180,8 @@ sub test_editFormat {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubUrlSystemWeb = TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 SOMETHING %EDITTABLE{format="| row, -1 | text, 10, init | textarea, 3x10, init | select, 3, option 1, option 2, option 3 | radio, 3, A, B, C, D, E | checkbox, 3, A, B, C, D, E | label, 0, LABEL | date,11,,%d %b %Y |"}%
@@ -196,11 +196,11 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
 
     my $result =
-      TWiki::Func::expandCommonVariables( $input, $this->{test_topic},
+      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
         $this->{test_web}, undef );
 
     my $expected = <<EXPECTED;
@@ -229,9 +229,9 @@ sub test_editAddRow {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{format="| row, -1 | text, 10, init|"}%
@@ -247,11 +247,11 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
 
     my $result =
-      TWiki::Func::expandCommonVariables( $input, $this->{test_topic},
+      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
         $this->{test_web}, undef );
 
     my $expected = <<EXPECTED;
@@ -288,11 +288,11 @@ EXPECTED
 
     $query->path_info("/$webName/$topicName");
 
-    $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
 
     $result =
-      TWiki::Func::expandCommonVariables( $input, $this->{test_topic},
+      Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
         $this->{test_web}, undef );
 
     $expected = <<EXPECTED;
@@ -349,22 +349,22 @@ EXPECTED
     );
     $query->path_info("/$webName/$topicName");
 
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(TWiki::Func::expandCommonVariables( $input,
+            $response->body(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
     $this->assert( $saveResult =~ /Status: 302/ );
 
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
 
     $expected = <<NEWEXPECTED;
 %EDITTABLE{format="| row, -1 | text, 10, init|"}%
@@ -390,9 +390,9 @@ sub test_SelectBox {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -407,10 +407,10 @@ sub test_SelectBox {
 | c | c | c | c |
 INPUT
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     my $result =
-      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+      Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
 
     my $expected = <<END;
 <noautolink>
@@ -455,8 +455,8 @@ sub test_VariableExpansionInCheckboxAndRadioButtons {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $pubPathSystemWeb = TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubPathSystemWeb = Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -470,10 +470,10 @@ sub test_VariableExpansionInCheckboxAndRadioButtons {
 %EDITTABLE{format="| radio, 1, :skull:, :cool: | checkbox, 1, :skull:, :cool: |"}%
 INPUT
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     my $result =
-      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+      Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
 
     my $expected = <<END;
 <noautolink>
@@ -517,12 +517,12 @@ sub test_VariablePlaceholdersView {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $viewUrl = TWiki::Func::getScriptUrlPath()
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $viewUrl = Foswiki::Func::getScriptUrlPath()
       . "/view/$webName/$topicName"
       ;    # heck, how can I do this otherwise? I need the relative path
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $text = <<INPUT;
 %EDITTABLE{format="| text, 30, %Y% | text, 30, %TOPIC% |"}%
@@ -530,7 +530,7 @@ sub test_VariablePlaceholdersView {
 INPUT
 
     my $result =
-      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+      Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
 
     my $expected = <<END;
 <a name="edittable1"></a>
@@ -552,8 +552,8 @@ INPUT
 </div><!-- /editTable -->
 END
 
-    $expected =~ s/%PUBURLPATH%/$TWiki::cfg{PubUrlPath}/e;
-    $expected =~ s/%SYSTEMWEB%/$TWiki::cfg{SystemWebName}/g;
+    $expected =~ s/%PUBURLPATH%/$Foswiki::cfg{PubUrlPath}/e;
+    $expected =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/g;
 
     $this->do_testHtmlOutput( $expected, $result, 1 );
 }
@@ -564,9 +564,9 @@ sub test_VariablePlaceholdersEdit {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
     my $userName = $this->{users_web} . '.' . 'WikiGuest';
 
     my $text = <<INPUT;
@@ -581,10 +581,10 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     my $result =
-      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+      Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
 
     my $expected = <<END;
 <noautolink>
@@ -622,14 +622,14 @@ sub test_saveNoFormat {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{}%
 | *URL* | *Name* | *By* | *Comment* |
-| http://twiki.org | TWiki | me | dodo |
+| http://twiki.org | Foswiki | me | dodo |
 INPUT
     my $query = new Unit::Request(
         {
@@ -640,8 +640,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
 
     $query = new Unit::Request(
         {
@@ -652,26 +652,26 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body( TWiki::Func::expandCommonVariables( $input,
+            $response->body( Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
 
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
 
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{}%
 | *URL* | *Name* | *By* | *Comment* |
-| http://twiki.org | TWiki | me | dodo |
+| http://twiki.org | Foswiki | me | dodo |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
@@ -684,9 +684,9 @@ sub test_saveWithHeaderAndFooter {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %TABLE{columnwidths="80,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%%EDITTABLE{format="|text,10|text,10|text,3|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%
@@ -706,8 +706,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
 
     $query = new Unit::Request(
         {
@@ -719,21 +719,21 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body( TWiki::Func::expandCommonVariables( $input,
+            $response->body( Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
 
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
 
     my $expected = <<NEWEXPECTED;
 %TABLE{columnwidths="80,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%%EDITTABLE{format="|text,10|text,10|text,3|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%
@@ -761,9 +761,9 @@ sub test_keepSpacesInEmptyCellsWithTexts {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{format="|text,40|text,10|"}% 
 | *Milestone* | *Plan* |
@@ -777,8 +777,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     $query = new Unit::Request(
         {
             etsave    => ['on'],
@@ -786,18 +786,18 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(TWiki::Func::expandCommonVariables( $input,
+            $response->body(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{format="|text,40|text,10|"}% 
 | *Milestone* | *Plan* |
@@ -819,9 +819,9 @@ sub test_keepSpacesInEmptyCellsWithDates {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{format="|text,40|date,10,,%d %b %Y|date,10,,%d %b %Y|date,10,,%d %b %Y|"}% 
 %TABLE{columnwidths="300,130,130,130" dataalign="left,center,center,center" tablerules="all"}%
@@ -836,8 +836,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     $query = new Unit::Request(
         {
             etsave    => ['on'],
@@ -845,18 +845,18 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(TWiki::Func::expandCommonVariables( $input,
+            $response->body(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{format="|text,40|date,10,,%d %b %Y|date,10,,%d %b %Y|date,10,,%d %b %Y|"}% 
 %TABLE{columnwidths="300,130,130,130" dataalign="left,center,center,center" tablerules="all"}%
@@ -882,9 +882,9 @@ sub test_addSpacesToEmptyCells {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{format="|text,40|text,10|"}% 
 || X |
@@ -897,8 +897,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     $query = new Unit::Request(
         {
             etsave    => ['on'],
@@ -906,18 +906,18 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(TWiki::Func::expandCommonVariables( $input,
+            $response->body(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{format="|text,40|text,10|"}% 
 | | X |
@@ -938,9 +938,9 @@ sub test_TMLFormattingInsideCell {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{}%
@@ -948,7 +948,7 @@ sub test_TMLFormattingInsideCell {
 INPUT
 
     my $result =
-      TWiki::Func::expandCommonVariables( $input, $topicName,
+      Foswiki::Func::expandCommonVariables( $input, $topicName,
         $webName, undef );
         
     my $expected = <<NEWEXPECTED;
@@ -977,9 +977,9 @@ sub test_keepStars {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{}%
 | * <small>Name of the client (prefilled)</small> |
@@ -991,8 +991,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     $query = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1000,18 +1000,18 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(TWiki::Func::expandCommonVariables( $input,
+            $response->body(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{}%
 | * <small>Name of the client (prefilled)</small> |
@@ -1031,9 +1031,9 @@ sub test_lineBreaksInsideInputField {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
     my $input = <<INPUT;
 %EDITTABLE{ changerows="off" quietsave="off"  }%
 | <small><table><tr><td>TD...Technical Documentation <br />TM...Translation Management <br />PC...Product Catalogs </td><td>PS...Processes and Systems <br />FM...Feedback Management <br />KL...Knowledge Logistics</td></tr></table></small> |
@@ -1045,8 +1045,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     $query = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1054,18 +1054,18 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(TWiki::Func::expandCommonVariables( $input,
+            $response->body(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{ changerows="off" quietsave="off"  }%
 | <small><table><tr><td>TD...Technical Documentation <br />TM...Translation Management <br />PC...Product Catalogs </td><td>PS...Processes and Systems <br />FM...Feedback Management <br />KL...Knowledge Logistics</td></tr></table></small> |
@@ -1084,9 +1084,9 @@ sub test_buttonRowAtTop {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
@@ -1114,9 +1114,9 @@ sub test_buttonRowAtTop_edit {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $query = new Unit::Request(
         {
@@ -1131,10 +1131,10 @@ INPUT
 
 	$query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
     my $result =
-      TWiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
+      Foswiki::Func::expandCommonVariables( $text, $topicName, $webName, undef );
 
     my $expected = <<EXPECTED;
 SOMETHING 
@@ -1163,9 +1163,9 @@ sub test_save_with_verbatim {
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
-      TWiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $pubUrlSystemWeb =
-      TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath() . '/' . $TWiki::cfg{SystemWebName};
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
     my $input = <<INPUT;
 %EDITTABLE{}%
@@ -1181,8 +1181,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new TWiki( undef, $query );
-    $TWiki::Plugins::SESSION = $twiki;
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
 
     $query = new Unit::Request(
         {
@@ -1193,21 +1193,21 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    TWiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new TWiki( undef, $query );
+    $twiki = new Foswiki( undef, $query );
 	my $response = new Unit::Response;
-    $TWiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $twiki;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body( TWiki::Func::expandCommonVariables( $input,
+            $response->body( Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
 
-    my ( $meta, $newtext ) = TWiki::Func::readTopic( $webName, $topicName );
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
 
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{}%
