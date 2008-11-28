@@ -134,10 +134,13 @@ Construct the user management object
 # protected: Construct new client object.
 sub new {
     my ( $class, $session ) = @_;
-    my $this = bless( {
-        session => $session,
-        twiki => $session, # backwards compatibility
-    }, $class );
+    my $this = bless(
+        {
+            session => $session,
+            twiki   => $session,    # backwards compatibility
+        },
+        $class
+    );
 
     $session->leaveContext('can_login');
     $this->{_cookies} = [];
@@ -365,8 +368,8 @@ sub loadSession {
 
         if ($sudoUser) {
             _trace( $this, "User is logging out to $sudoUser" );
-            $session->writeLog( 'sudo logout', '', 'from ' . ( $authUser || '' ),
-                $sudoUser );
+            $session->writeLog( 'sudo logout', '',
+                'from ' . ( $authUser || '' ), $sudoUser );
             $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
             $authUser = $sudoUser;
         }
@@ -384,8 +387,9 @@ sub loadSession {
     $query->delete('logout');
     $this->userLoggedIn($authUser);
 
-    $session->{SESSION_TAGS}{SESSIONID}  = $this->{_cgisession}->id();
-    $session->{SESSION_TAGS}{SESSIONVAR} = $Foswiki::LoginManager::Session::NAME;
+    $session->{SESSION_TAGS}{SESSIONID} = $this->{_cgisession}->id();
+    $session->{SESSION_TAGS}{SESSIONVAR} =
+      $Foswiki::LoginManager::Session::NAME;
 
     return $authUser;
 }
@@ -403,7 +407,7 @@ sub checkAccess {
 
     return unless ( $Foswiki::cfg{UseClientSessions} );
 
-    my $this  = shift;
+    my $this    = shift;
     my $session = $this->{session};
 
     return undef if $session->inContext('command_line');
@@ -417,8 +421,8 @@ sub checkAccess {
             my $topic = $session->{topicName};
             my $web   = $session->{webName};
             require Foswiki::AccessControlException;
-            throw Foswiki::AccessControlException( $script, $session->{user}, $web,
-                $topic, 'authentication required' );
+            throw Foswiki::AccessControlException( $script, $session->{user},
+                $web, $topic, 'authentication required' );
         }
     }
 }
@@ -467,17 +471,17 @@ sub expireDeadSessions {
     opendir( D, "$Foswiki::cfg{WorkingDir}/tmp" ) || return;
     foreach my $file ( grep { /^(passthru|cgisess)_[0-9a-f]{32}/ } readdir(D) )
     {
-        $file =
-          Foswiki::Sandbox::untaintUnchecked("$Foswiki::cfg{WorkingDir}/tmp/$file");
+        $file = Foswiki::Sandbox::untaintUnchecked(
+            "$Foswiki::cfg{WorkingDir}/tmp/$file");
         my @stat = stat($file);
 
-    # CGI::Session updates the session file each time a browser views a
-    # topic setting the access and expiry time as values in the file. This
-    # also sets the mtime (modification time) for the file which is all we need.
-    # We know that the expiry time is mtime + $Foswiki::cfg{Sessions}{ExpireAfter}
-    # so we do not need to waste execution time opening and reading the file.
-    # We just check the mtime. mtime is confirmed set in both Windows and Linux
-    # As a fallback we also check ctime. Files are deleted when they expire.
+  # CGI::Session updates the session file each time a browser views a
+  # topic setting the access and expiry time as values in the file. This
+  # also sets the mtime (modification time) for the file which is all we need.
+  # We know that the expiry time is mtime + $Foswiki::cfg{Sessions}{ExpireAfter}
+  # so we do not need to waste execution time opening and reading the file.
+  # We just check the mtime. mtime is confirmed set in both Windows and Linux
+  # As a fallback we also check ctime. Files are deleted when they expire.
         my $lat = $stat[9] || $stat[10] || 0;
         unlink $file if ( $time - $lat >= $exp );
         next;
@@ -612,20 +616,20 @@ sub _rewriteURL {
     # URL, it must be an internal URL and therefore needs the session.
     if ( $url !~ /:/ || $url =~ /^$s/ ) {
 
-        # strip off existing params
-        my $params = "?$Foswiki::LoginManager::Session::NAME=$sessionId";
-        if ( $url =~ s/\?(.*)$// ) {
-            $params .= ';' . $1;
-        }
-
         # strip off the anchor
         my $anchor = '';
         if ( $url =~ s/(#.*)// ) {
             $anchor = $1;
         }
 
+        # strip off existing params
+        my $params = "?$Foswiki::LoginManager::Session::NAME=$sessionId";
+        if ( $url =~ s/\?(.*)$// ) {
+            $params .= ';' . $1;
+        }
+
         # rebuild the URL
-        $url .= $anchor . $params;
+        $url .= $params . $anchor;
     }    # otherwise leave it untouched
 
     return $url;
@@ -797,7 +801,8 @@ sub redirectCgiQuery {
 
     if ( $this->{_cgisession} ) {
         $url = _rewriteURL( $this, $url )
-          unless ( !$Foswiki::cfg{Sessions}{IDsInURLs} || $this->{_haveCookie} );
+          unless ( !$Foswiki::cfg{Sessions}{IDsInURLs}
+            || $this->{_haveCookie} );
 
         # This usually won't be important, but just in case they haven't
         # yet received the cookie and happen to be redirecting, be sure
@@ -965,7 +970,7 @@ sub _LOGIN {
 
     #my( $session, $params, $topic, $web ) = @_;
     my $session = shift;
-    my $this  = $session->{users}->{loginManager};
+    my $this    = $session->{users}->{loginManager};
 
     return '' if $session->inContext('authenticated');
 
@@ -1101,7 +1106,7 @@ sub _dispLogon {
 
     return '' unless $this->{_cgisession};
 
-    my $session     = $this->{session};
+    my $session   = $this->{session};
     my $topic     = $session->{topicName};
     my $web       = $session->{webName};
     my $sessionId = $this->{_cgisession}->id();
@@ -1126,11 +1131,11 @@ TODO: what does it do?
 =cut
 
 sub _skinSelect {
-    my $this  = shift;
+    my $this    = shift;
     my $session = $this->{session};
-    my $skins = $session->{prefs}->getPreferencesValue('SKINS');
-    my $skin  = $session->getSkin();
-    my @skins = split( /,/, $skins );
+    my $skins   = $session->{prefs}->getPreferencesValue('SKINS');
+    my $skin    = $session->getSkin();
+    my @skins   = split( /,/, $skins );
     unshift( @skins, 'default' );
     my $options = '';
     foreach my $askin (@skins) {
