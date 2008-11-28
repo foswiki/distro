@@ -1,8 +1,6 @@
-
 %TMPL:INCLUDE{twistyplugin}%
 
-%TMPL:DEF{twisty:header}%
-<style type="text/css" media="all">
+%TMPL:DEF{twisty:header}%DOJO<style type="text/css" media="all">
 @import url("%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.css");
 </style>
 <!-- style type="text/css">
@@ -12,11 +10,6 @@
 -->
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/DojoToolkitContrib/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin/twistie.dojo.js"></script>
-<script type="text/javascript">
-// <![CDATA[
-var styleText = '<style type="text/css" media="all">.twikiMakeVisible{display:inline;}.twikiMakeVisibleInline{display:inline;}.twikiMakeVisibleBlock{display:block;}.twikiMakeHidden{display:none;}</style>';
-document.write(styleText);
-// ]]>
-</script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/TwistyPlugin/twisty.dojo.js"></script>
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiStyles.js"></script>
 %TMPL:END%

@@ -6,9 +6,8 @@ http://alex.dojotoolkit.org/shrinksafe/
 /**
 Singleton class.
 */
-var twiki;
-if (!twiki) twiki = {};
-twiki.JQueryTwistyPlugin = new function () {
+var foswiki; if (!foswiki) foswiki = {};
+foswiki.JQueryTwistyPlugin = new function () {
 
 	var self = this;
 
@@ -45,21 +44,21 @@ twiki.JQueryTwistyPlugin = new function () {
 	*/
 	this._toggleTwisty = function (ref) {
 		if (!ref) return;
-		ref.state = (ref.state == twiki.JQueryTwistyPlugin.CONTENT_HIDDEN) ? twiki.JQueryTwistyPlugin.CONTENT_SHOWN : twiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
+		ref.state = (ref.state == foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN) ? foswiki.JQueryTwistyPlugin.CONTENT_SHOWN : foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
 		self._update(ref, true);
 	}
 	
 	/**
 	Updates the states of UI trinity 'show', 'hide' and 'content'.
 	Saves new state in a cookie if one of the elements has CSS class 'twistyRememberSetting'.
-	@param ref : (Object) twiki.JQueryTwistyPlugin.Storage object
+	@param ref : (Object) foswiki.JQueryTwistyPlugin.Storage object
 	@privileged
 	*/
 	this._update = function (ref, inMaySave) {
 		var showControl = ref.show;
 		var hideControl = ref.hide;
 		var contentElem = ref.toggle;
-		if (ref.state == twiki.JQueryTwistyPlugin.CONTENT_SHOWN) {
+		if (ref.state == foswiki.JQueryTwistyPlugin.CONTENT_SHOWN) {
 			// show content
                         if (inMaySave) {
                           $(contentElem).slideDown({easing:'easeInOutQuad', duration:300});
@@ -82,10 +81,10 @@ twiki.JQueryTwistyPlugin = new function () {
                         $(contentElem).addClass("twistyHidden");
 		}
 		if (inMaySave && ref.saveSetting) {
-	        foswiki.Pref.setPref(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, ref.state);
+	        foswiki.Pref.setPref(foswiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, ref.state);
 		}
 		if (ref.clearSetting) {
-	        foswiki.Pref.setPref(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, "");
+	        foswiki.Pref.setPref(foswiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, "");
 		}
 	}
 	
@@ -99,7 +98,7 @@ twiki.JQueryTwistyPlugin = new function () {
 		var name = self._getName(e);
 		var ref = self._storage[name];
 		if (!ref) {
-			ref = new twiki.JQueryTwistyPlugin.Storage();
+			ref = new foswiki.JQueryTwistyPlugin.Storage();
 		}
                 var classValue = $(e).attr('class');
 		if (classValue.match(/\btwistyRememberSetting\b/)) 
@@ -132,7 +131,7 @@ twiki.JQueryTwistyPlugin = new function () {
 	}
 	
 	/**
-	Key-value set of twiki.JQueryTwistyPlugin.Storage objects. The value is accessed by twisty id identifier name.
+	Key-value set of foswiki.JQueryTwistyPlugin.Storage objects. The value is accessed by twisty id identifier name.
 	@example var ref = self._storage["demo"];
 	@privileged
 	*/
@@ -142,23 +141,23 @@ twiki.JQueryTwistyPlugin = new function () {
 /**
 Public constants.
 */
-twiki.JQueryTwistyPlugin.CONTENT_HIDDEN = 0;
-twiki.JQueryTwistyPlugin.CONTENT_SHOWN = 1;
-twiki.JQueryTwistyPlugin.COOKIE_PREFIX = "JQueryTwistyPlugin_";
+foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN = 0;
+foswiki.JQueryTwistyPlugin.CONTENT_SHOWN = 1;
+foswiki.JQueryTwistyPlugin.COOKIE_PREFIX = "JQueryTwistyPlugin_";
 
 /**
-The cached full TWiki cookie string so the data has to be read only once during init.
+The cached full preference cookie string so the data has to be read only once during init.
 */
-twiki.JQueryTwistyPlugin.prefList;
+foswiki.JQueryTwistyPlugin.prefList;
 
 /**
 Initializes a twisty HTML element (either show control, hide control or content 'toggle') by registering and setting the visible state.
 Calls _register() and _update().
 @public
 @param inId : (String) id of HTMLElement
-@return The stored twiki.JQueryTwistyPlugin.Storage object.
+@return The stored foswiki.JQueryTwistyPlugin.Storage object.
 */
-twiki.JQueryTwistyPlugin.init = function(e) {
+foswiki.JQueryTwistyPlugin.init = function(e) {
 	if (!e) return;
 
 	// check if already inited
@@ -174,36 +173,36 @@ twiki.JQueryTwistyPlugin.init = function(e) {
 
                 var classValue = $(e).attr('class');
 		if (classValue.match(/\btwistyInited1\b/)) {
-			ref.state = twiki.JQueryTwistyPlugin.CONTENT_SHOWN
+			ref.state = foswiki.JQueryTwistyPlugin.CONTENT_SHOWN
 			this._update(ref, false);
 			return ref;
 		}
 		if (classValue.match(/\btwistyInited0\b/)) {
-			ref.state = twiki.JQueryTwistyPlugin.CONTENT_HIDDEN
+			ref.state = foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN
 			this._update(ref, false);
 			return ref;
 		}
 
-		if (twiki.JQueryTwistyPlugin.prefList == null) {
+		if (foswiki.JQueryTwistyPlugin.prefList == null) {
 			// cache complete cookie string
-			twiki.JQueryTwistyPlugin.prefList = foswiki.Pref.getPrefList();
+			foswiki.JQueryTwistyPlugin.prefList = foswiki.Pref.getPrefList();
 		}
-		var cookie = foswiki.Pref.getPrefValueFromPrefList(twiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, twiki.JQueryTwistyPlugin.prefList);
-		if (ref.firstStartHidden) ref.state = twiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
-		if (ref.firstStartShown) ref.state = twiki.JQueryTwistyPlugin.CONTENT_SHOWN;
+		var cookie = foswiki.Pref.getPrefValueFromPrefList(foswiki.JQueryTwistyPlugin.COOKIE_PREFIX + ref.name, foswiki.JQueryTwistyPlugin.prefList);
+		if (ref.firstStartHidden) ref.state = foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
+		if (ref.firstStartShown) ref.state = foswiki.JQueryTwistyPlugin.CONTENT_SHOWN;
 		// cookie setting may override  firstStartHidden and firstStartShown
-		if (cookie && cookie == "0") ref.state = twiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
-		if (cookie && cookie == "1") ref.state = twiki.JQueryTwistyPlugin.CONTENT_SHOWN;
+		if (cookie && cookie == "0") ref.state = foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
+		if (cookie && cookie == "1") ref.state = foswiki.JQueryTwistyPlugin.CONTENT_SHOWN;
 		// startHidden and startShown may override cookie
-		if (ref.startHidden) ref.state = twiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
-		if (ref.startShown) ref.state = twiki.JQueryTwistyPlugin.CONTENT_SHOWN;
+		if (ref.startHidden) ref.state = foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN;
+		if (ref.startShown) ref.state = foswiki.JQueryTwistyPlugin.CONTENT_SHOWN;
 
 		this._update(ref, false);
 	}
 	return ref;	
 }
 
-twiki.JQueryTwistyPlugin.toggleAll = function(inState) {
+foswiki.JQueryTwistyPlugin.toggleAll = function(inState) {
 	var i;
 	for (var i in this._storage) {
 		var e = this._storage[i];
@@ -215,9 +214,9 @@ twiki.JQueryTwistyPlugin.toggleAll = function(inState) {
 /**
 Storage container for properties of a twisty HTML element: show control, hide control or toggle content.
 */
-twiki.JQueryTwistyPlugin.Storage = function () {
+foswiki.JQueryTwistyPlugin.Storage = function () {
 	this.name;										// String
-	this.state = twiki.JQueryTwistyPlugin.CONTENT_HIDDEN;	// Number
+	this.state = foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN;	// Number
 	this.hide;										// HTMLElement
 	this.show;										// HTMLElement
 	this.toggle;									// HTMLElement (content element)
@@ -237,12 +236,12 @@ $(function() {
     removeClass("twistyMakeHidden twikiMakeHidden twikiMakeVisible twikiMakeVisibleBlock twikiMakeVisibleInline").
     addClass("twistyHidden").
     each(function() {
-      twiki.JQueryTwistyPlugin.init(this);
+      foswiki.JQueryTwistyPlugin.init(this);
     });
   $(".twistyExpandAll").click(function() {
-    twiki.JQueryTwistyPlugin.toggleAll(twiki.JQueryTwistyPlugin.CONTENT_SHOWN);
+    foswiki.JQueryTwistyPlugin.toggleAll(foswiki.JQueryTwistyPlugin.CONTENT_SHOWN);
   });
   $(".twistyCollapseAll").click(function() {
-    twiki.JQueryTwistyPlugin.toggleAll(twiki.JQueryTwistyPlugin.CONTENT_HIDDEN);
+    foswiki.JQueryTwistyPlugin.toggleAll(foswiki.JQueryTwistyPlugin.CONTENT_HIDDEN);
   });
 });

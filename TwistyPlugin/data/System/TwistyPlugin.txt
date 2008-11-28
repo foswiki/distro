@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1195487956" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1195487956" format="1.1" version="1.1"}%
 ---+!! <nop>%TOPIC%
 
 *A "twisty" is an interface toggle control to show and hide content.*
@@ -308,25 +308,23 @@ To be able to use header tags like =&lt;h2>=, use the properties =prefix= and =s
 
 <verbatim>
 %TWISTY{
-prefix="<h4>!!"
+prefix="<h4>"
 mode="div"
-link="Header"
+link="Twisty Header"
 showimgleft="%ICONURLPATH{toggleopen}%"
 hideimgleft="%ICONURLPATH{toggleclose}%"
 suffix="</h4>"
 }%
-my twisty content
+%GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
 </verbatim>
-
-Add the =!!= to prevent the twisty header appear in the table of contents when you use =%<nop>TOC%=.
 
 Will create:
 
 %TWISTY{
-prefix="<h4>!!"
+prefix="<h4>"
 mode="div"
-link="Header"
+link="Twisty Header"
 showimgleft="%ICONURLPATH{toggleopen}%"
 hideimgleft="%ICONURLPATH{toggleclose}%"
 suffix="</h4>"
@@ -398,7 +396,7 @@ hideimgleft="%ICONURLPATH{toggleclose-small}%"
 my twisty content
 %ENDTWISTY%
 
-Or a more complex example using %SYSTEMWEB%.SpreadsheetPlugin; do not write:
+Or a more complex example using %SYSTEMWEB%.SpreadSheetPlugin; do not write:
 
 <verbatim>
 link="Count: (%CALC{"$GET(infoCount)"}%)"
@@ -528,16 +526,17 @@ This is useful if both the show and the hide button take the same arguments.
    * Related: [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
 </div>
 
----++ The Fine Print
+---++ Working with other Javascript libraries
 
-!TwistyPlugin is a convenience plugin for Foswiki:Extensions.TwistyContrib.
-
-Major features are:
-   * When active, the Twisty !JavaScript library is included in every topic
-   * Provides a convenience syntax to define Twisty areas
-   * Automatically generates ids
-   * Automatically fills in default values
-   * Global [[%SYSTEMWEB%.PreferenceSettings][preference settings]] can be set in this topic or locally in individual topics
+If you want to use a different Javascript library than the default Foswiki Javascripts, add to the skin path:
+   * =jquery= to use [[http://jquery.com/][JQuery]] 
+      * For example, append to the url: =?skin=jquery,nat= %BR%
+      or write: =Set SKIN = jquery,nat=
+      * For this, Foswiki:Extensions/JQueryPlugin needs to be installed
+   * =dojo= to use [[http://jquery.com/][JQuery]] 
+      * For example, append to the url: =?skin=dojo,pattern= %BR%
+      or write: =Set SKIN = dojo,pattern=
+      * For this, Foswiki:Extensions/DojoToolkitContrib needs to be installed
 
 #PluginSettings
 ---++ Plugin Settings
@@ -559,49 +558,25 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
    
 ---++ Plugin Installation Instructions
    * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your root ($TWIKI_ROOT) directory. Content:
-   | *File:* | *Description:* |
-   | ==TwistyBundleTWiki04x02_installer== |  |
-   | ==TwistyBundleTWiki04x02_installer.pl== |  |
-   | ==data/System/TwistyBundleTWiki04x02.txt== |  |
-   | ==data/System/BehaviourContrib.txt== |  |
-   | ==data/System/TwistyContrib.txt== |  |
-   | ==data/System/TwistyPlugin.txt== |  |
-   | ==lib/Foswiki/Contrib/BehaviourContrib.pm== |  |
-   | ==lib/Foswiki/Contrib/TwistyBundleTWiki04x02.pm== |  |
-   | ==lib/Foswiki/Contrib/TwistyContrib.pm== |  |
-   | ==lib/Foswiki/Plugins/TwistyPlugin.pm== |  |
-   | ==pub/System/BehaviourContrib/behaviour.compressed.js== |  |
-   | ==pub/System/BehaviourContrib/behaviour.compressed_src.js== |  |
-   | ==pub/System/BehaviourContrib/behaviour.js== |  |
-   | ==pub/System/BehaviourContrib/behaviour_src.js== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/cssQuery-p.js== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery-level2.js== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery-level3.js== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery-standard.js== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/src/cssQuery.js== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/src/test.html== |  |
-   | ==pub/System/BehaviourContrib/cssQuery/test.html== |  |
-   | ==pub/System/TwistyContrib/twist.compressed.js== |  |
-   | ==pub/System/TwistyContrib/twist.compressed_src.js== |  |
-   | ==pub/System/TwistyContrib/twist.css== |  |
-   | ==pub/System/TwistyContrib/twist.js== |  |
-   | ==pub/System/TwistyContrib/twist_src.js== |  |
+   * Unzip it in your twiki installation directory. Content: 
+     | *File:* | *Description:* |
+%$MANIFEST%
 
    * Optionally, if it exists, run ==%TOPIC%_installer== to automatically check and install other Foswiki modules that this module depends on. You can also do this step manually.
    * Alternatively, manually make sure the dependencies listed in the table below are resolved.
-   None
+%$DEPENDECIES%
    * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
 
 
 ---++ Plugin Info
 
-|  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.ArthurClemens |
-|  Copyright &copy;: | 2005 Rafael Alvarez; 2006-2008 Arthur Clemens |
+|  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
+|  Copyright &copy;: | Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Dependencies: | None |
-|  Plugin&nbsp;Version: | 10 Oct 2008 (version 1.4.12) |
+|  Plugin&nbsp;Version: | 27 Nov 2008 (version 1.5) |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
 |  08 Oct 2008 | 1.4.11, 1.4.12 It is now possible to have a twisty on the same line without a linebreak. |
 |  03 Aug 2008 | 1.4.10 TWiki 4.2.1 release version |
 |  13 Dec 2007 | 1.4.9 fix to the loading order of javascript files in head |

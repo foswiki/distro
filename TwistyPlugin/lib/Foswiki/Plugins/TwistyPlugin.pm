@@ -1,6 +1,8 @@
 # Plugin for Foswiki - The Free Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2005 Rafael Alvarez, soronthar@sourceforge.net
+# Copyright (C) Michael Daum
+# Copyright (C) Arthur Clemens, arthur@visiblearea.com
+# Copyright (C) Rafael Alvarez, soronthar@sourceforge.net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +20,6 @@
 
 ---+ package TwistyPlugin
 
-Convenience plugin for Foswiki:Extensions.TwistyContrib.
-It has two major features:
-   * When active, the Twisty javascript library is included in every topic.
-   * Provides a convenience syntax to define twisty areas.
-
 =cut
 
 package Foswiki::Plugins::TwistyPlugin;
@@ -32,23 +29,22 @@ use CGI::Cookie;
 use strict;
 
 use vars
-  qw( $VERSION $RELEASE $pluginName $debug @modes $doneHeader $twistyCount
-  $prefMode $prefShowLink $prefHideLink $prefRemember
-  $defaultMode $defaultShowLink $defaultHideLink $defaultRemember );
+  qw( $VERSION $RELEASE $pluginName @modes $doneHeader $doneDefaults $twistyCount
+  $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-# This should always be $Rev: 15653 (19 Nov 2007) $ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that TWiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
-$VERSION = '$Rev: 15653 (19 Nov 2007) $';
+$VERSION = '$Rev$';
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.4.12';
+$RELEASE = '1.5';
 
 $pluginName = 'TwistyPlugin';
 
-my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyContrib_";
+my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
 my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
 my $TWISTYPLUGIN_CONTENT_SHOWN  = 1;
 
@@ -63,25 +59,9 @@ sub initPlugin {
         return 0;
     }
 
-    _setDefaults();
-
-    $debug = Foswiki::Func::getPluginPreferencesFlag("DEBUG");
-
-    $doneHeader  = 0;
-    $twistyCount = 0;
-
-    $prefMode = Foswiki::Func::getPreferencesValue('TWISTYMODE')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYMODE')
-      || $defaultMode;
-    $prefShowLink = Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
-      || $defaultShowLink;
-    $prefHideLink = Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYHIDELINK')
-      || $defaultHideLink;
-    $prefRemember = Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
-      || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')
-      || $defaultRemember;
+    $doneDefaults = 0;
+    $doneHeader   = 0;
+    $twistyCount  = 0;
 
     Foswiki::Func::registerTagHandler( 'TWISTYSHOW',      \&_TWISTYSHOW );
     Foswiki::Func::registerTagHandler( 'TWISTYHIDE',      \&_TWISTYHIDE );
@@ -95,63 +75,68 @@ sub initPlugin {
 }
 
 sub _setDefaults {
-    $defaultMode     = 'span';
-    $defaultShowLink = '';
-    $defaultHideLink = '';
-    $defaultRemember =
-      '';    # do not default to 'off' or all cookies will be cleared!
+    return if $doneDefaults;
+    $doneDefaults = 1;
+
+    $prefMode =
+         Foswiki::Func::getPreferencesValue('TWISTYMODE')
+      || Foswiki::Func::getPluginPreferencesValue('TWISTYMODE')
+      || 'span';
+    $prefShowLink =
+         Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
+      || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
+      || '';
+    $prefHideLink =
+         Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
+      || Foswiki::Func::getPluginPreferencesValue('TWISTYHIDELINK')
+      || '';
+    $prefRemember =
+         Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
+      || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')
+      || '';
+
 }
 
 sub _addHeader {
     return if $doneHeader;
     $doneHeader = 1;
 
-    my $header .= <<'EOF';
-<style type="text/css" media="all">
-@import url("%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.css");
-</style>
-<script type='text/javascript' src='%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js'></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiCSS.js"></script>
-<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/TwistyContrib/twist.compressed.js"></script>
-<script type="text/javascript">
-// <![CDATA[
-var styleText = '<style type="text/css" media="all">.twikiMakeVisible{display:inline;}.twikiMakeVisibleInline{display:inline;}.twikiMakeVisibleBlock{display:block;}.twikiMakeHidden{display:none;}</style>';
-document.write(styleText);
-// ]]>
-</script>
-EOF
-
-    Foswiki::Func::addToHEAD( 'TWISTYPLUGIN_TWISTY', $header );
+    Foswiki::Func::loadTemplate( lc($pluginName) );
+    my $header = Foswiki::Func::expandTemplate('twisty:header');
+    Foswiki::Func::addToHEAD( $pluginName, $header );
 }
 
 sub _TWISTYSHOW {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
-    my $mode = $params->{'mode'} || $prefMode;
+    _setDefaults();
 
+    my $mode = $params->{'mode'} || $prefMode;
     my $btn = _twistyBtn( 'show', @_ );
-    return _decodeFormatTokens( _wrapInButtonHtml( $btn, $mode ) );
+    return Foswiki::Func::decodeFormatTokens(
+        _wrapInButtonHtml( $btn, $mode ) );
 }
 
 sub _TWISTYHIDE {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
+    _setDefaults();
     my $mode = $params->{'mode'} || $prefMode;
-
     my $btn = _twistyBtn( 'hide', @_ );
-    return _decodeFormatTokens( _wrapInButtonHtml( $btn, $mode ) );
+    return Foswiki::Func::decodeFormatTokens(
+        _wrapInButtonHtml( $btn, $mode ) );
 }
 
 sub _TWISTYBUTTON {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
-    my $mode = $params->{'mode'} || $prefMode;
+    _setDefaults();
 
+    my $mode = $params->{'mode'} || $prefMode;
     my $btnShow = _twistyBtn( 'show', @_ );
     my $btnHide = _twistyBtn( 'hide', @_ );
     my $prefix = $params->{'prefix'} || '';
     my $suffix = $params->{'suffix'} || '';
-    my $btn = $prefix . ' ' . $btnShow . $btnHide . ' ' . $suffix;
-    return _decodeFormatTokens( _wrapInButtonHtml( $btn, $mode ) );
+    my $btn    = $prefix . $btnShow . $btnHide . $suffix;
+    return Foswiki::Func::decodeFormatTokens(
+        _wrapInButtonHtml( $btn, $mode ) );
 }
 
 sub _TWISTY {
@@ -163,7 +148,7 @@ sub _TWISTY {
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
     }
-    return _TWISTYBUTTON(@_) . ' ' . _TWISTYTOGGLE(@_);
+    return _TWISTYBUTTON(@_) . _TWISTYTOGGLE(@_);
 }
 
 sub _TWISTYTOGGLE {
@@ -172,8 +157,9 @@ sub _TWISTYTOGGLE {
     if ( !defined $id || $id eq '' ) {
         return '';
     }
+    _setDefaults();
     my $idTag = $id . 'toggle';
-    my $mode  = $params->{'mode'} || $prefMode;
+    my $mode = $params->{'mode'} || $prefMode;
     unshift @modes, $mode;
 
     my $isTrigger = 0;
@@ -183,19 +169,25 @@ sub _TWISTYTOGGLE {
         $cookieState );
     my $props = @propList ? " " . join( " ", @propList ) : '';
     my $modeTag = '<' . $mode . $props . '>';
-    return _decodeFormatTokens( _wrapInContentHtmlOpen( $mode ) . $modeTag );
+    return Foswiki::Func::decodeFormatTokens(
+        _wrapInContentHtmlOpen($mode) . $modeTag );
 }
 
 sub _ENDTWISTYTOGGLE {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
     my $mode = shift @modes;
+
+    return
+"<span class='twikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</span>"
+      unless $mode;
+
     my $modeTag = ($mode) ? '</' . $mode . '>' : '';
-    return $modeTag . _wrapInContentHtmlClose( $mode );
+    return $modeTag . _wrapInContentHtmlClose($mode);
 }
 
 sub _createId {
     my ( $rawId, $theWeb, $theTopic ) = @_;
-    
+
     if ( !defined $rawId || $rawId eq '' ) {
         return 'twistyId' . $theWeb . $theTopic . $twistyCount;
     }
@@ -232,13 +224,16 @@ sub _twistyBtn {
         $link = $defaultLink || '';
     }
 
-    my $img = $params->{ $twistyControlState . 'img' }
+    my $img =
+         $params->{ $twistyControlState . 'img' }
       || $params->{'img'}
       || '';
-    my $imgright = $params->{ $twistyControlState . 'imgright' }
+    my $imgright =
+         $params->{ $twistyControlState . 'imgright' }
       || $params->{'imgright'}
       || '';
-    my $imgleft = $params->{ $twistyControlState . 'imgleft' }
+    my $imgleft =
+         $params->{ $twistyControlState . 'imgleft' }
       || $params->{'imgleft'}
       || '';
     $img      =~ s/['\"]//go;
@@ -261,7 +256,7 @@ sub _twistyBtn {
       . $link
       . '</span>'
       . $imgTag
-      . $imgRightTag . '</a>' . ' ';
+      . $imgRightTag . '</a>';
 
     my $isTrigger = 1;
     my $props     = '';
@@ -273,7 +268,7 @@ sub _twistyBtn {
             $isTrigger, $cookieState );
         $props = @propList ? " " . join( " ", @propList ) : '';
     }
-    my $triggerTag = '<span' . $props . '>' . $imgLinkTag . '</span>' . ' ';
+    my $triggerTag = '<span' . $props . '>' . $imgLinkTag . '</span>';
     return $triggerTag;
 }
 
@@ -295,6 +290,8 @@ sub _createHtmlProperties {
     $startHidden = 1 if ( $start eq 'hide' );
     my $startShown;
     $startShown = 1 if ( $start eq 'show' );
+
+    _setDefaults();
     my $remember = $params->{'remember'} || $prefRemember;
     my $noscript = $params->{'noscript'} || '';
     my $noscriptHide;
@@ -305,10 +302,10 @@ sub _createHtmlProperties {
     push( @classList, $class ) if $class && !$isTrigger;
     push( @classList, 'twistyRememberSetting' ) if ( $remember eq 'on' );
     push( @classList, 'twistyForgetSetting' )   if ( $remember eq 'off' );
-    push( @classList, 'twistyStartHide' )      if $startHidden;
-    push( @classList, 'twistyStartShow' )      if $startShown;
-    push( @classList, 'twistyFirstStartHide' ) if $firstStartHidden;
-    push( @classList, 'twistyFirstStartShow' ) if $firstStartShown;
+    push( @classList, 'twistyStartHide' )       if $startHidden;
+    push( @classList, 'twistyStartShow' )       if $startShown;
+    push( @classList, 'twistyFirstStartHide' )  if $firstStartHidden;
+    push( @classList, 'twistyFirstStartShow' )  if $firstStartShown;
 
     # Mimic the rules in twist.js, function _update()
     my $state = '';
@@ -410,54 +407,28 @@ sub _readCookie {
 
 sub _wrapInButtonHtml {
     my ( $text, $mode ) = @_;
-    return _wrapInContainerHideIfNoJavascripOpen($mode) . "\n" . $text
+    return _wrapInContainerHideIfNoJavascripOpen($mode) . $text
       . _wrapInContainerDivIfNoJavascripClose($mode);
 }
 
 sub _wrapInContentHtmlOpen {
-    my ($mode) = shift;
+    my ($mode) = @_;
     return "<$mode class=\"twistyPlugin\">";
 }
 
 sub _wrapInContentHtmlClose {
-    my ($mode) = shift;
-    return "</$mode>\n<!--/twistyPlugin-->";
+    my ($mode) = @_;
+    return "</$mode><!--/twistyPlugin-->";
 }
 
 sub _wrapInContainerHideIfNoJavascripOpen {
-    my ($mode) = shift;
+    my ($mode) = @_;
     return '<' . $mode . ' class="twistyPlugin twikiMakeVisibleInline">';
 }
 
 sub _wrapInContainerDivIfNoJavascripClose {
-    my ($mode) = shift;
+    my ($mode) = @_;
     return '</' . $mode . '><!--/twistyPlugin twikiMakeVisibleInline-->';
-}
-
-sub _decodeFormatTokens {
-    my $text = shift;
-    return
-      defined(&Foswiki::Func::decodeFormatTokens)
-      ? Foswiki::Func::decodeFormatTokens($text)
-      : _expandStandardEscapes($text);
-}
-
-=pod
-
-For TWiki versions that do not implement Foswiki::Func::decodeFormatTokens.
-
-=cut
-
-sub _expandStandardEscapes {
-    my $text = shift;
-    $text =~ s/\$n\(\)/\n/gos;    # expand '$n()' to new line
-    my $alpha = Foswiki::Func::getRegularExpression('mixedAlpha');
-    $text =~ s/\$n([^$alpha]|$)/\n$1/gos;    # expand '$n' to new line
-    $text =~ s/\$nop(\(\))?//gos;      # remove filler, useful for nested search
-    $text =~ s/\$quot(\(\))?/\"/gos;   # expand double quote
-    $text =~ s/\$percnt(\(\))?/\%/gos; # expand percent
-    $text =~ s/\$dollar(\(\))?/\$/gos; # expand dollar
-    return $text;
 }
 
 1;
