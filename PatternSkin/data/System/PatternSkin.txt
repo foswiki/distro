@@ -57,17 +57,17 @@ The original Photoshop files of the skin graphics (mainly background images) are
 If you have set the SKIN [[preference setting]] to =pattern= and you still don't see the layout as on the <a href="%ATTACHURL%/patternskin_screenshot_full.png">screenshot</a>, a few settings in may have been disabled.
 
 Check these [[%SYSTEMWEB%.PreferenceSettings][preference settings]] here:
-   * TWIKILAYOUTURL = %TWIKILAYOUTURL%
-   * TWIKISTYLEURL = %TWIKISTYLEURL%
-   * TWIKICOLORSURL = %TWIKICOLORSURL%
+   * FOSWIKI_LAYOUT_URL = %FOSWIKI_LAYOUT_URL%
+   * FOSWIKI_STYLE_URL = %FOSWIKI_STYLE_URL%
+   * FOSWIKI_COLORS_URL = %FOSWIKI_COLORS_URL%
    * SKIN = %SKIN%
 
-If TWIKILAYOUTURL or TWIKISTYLEURL don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following preferences do exist and that they are set to on:
+If FOSWIKI_LAYOUT_URL or FOSWIKI_STYLE_URL don't give a value or point to non-existing files, check in %SYSTEMWEB%.DefaultPreferences and in %USERSWEB%.SitePreferences that the following preferences do exist and that they are set to on:
 <pre>
    * %<nop>SYSTEMWEB%.PatternSkin settings:
-      * <nop>Set TWIKILAYOUTURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/layout.css
-      * <nop>Set TWIKISTYLEURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/style.css
-      * <nop>Set TWIKICOLORSURL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/colors.css
+      * <nop>Set FOSWIKI_LAYOUT_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/layout.css
+      * <nop>Set FOSWIKI_STYLE_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/style.css
+      * <nop>Set FOSWIKI_COLORS_URL = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/colors.css
 </pre>
 
 *NOTE:* customization of these values should be done in [[%USERSWEB%.SitePreferences]]

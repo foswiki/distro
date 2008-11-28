@@ -582,7 +582,7 @@ a.twikiLinkInHeaderRight {
 #twikiLogo img {
 	margin:0;
 	padding:0;
-        border:0px;
+    border:0px;
 }
 .twikiNoBreak {
 	white-space:nowrap;
@@ -612,7 +612,6 @@ a.twikiLinkInHeaderRight {
 	border-width:1px 0 0 0;
 	border-style:solid;
 }
-#patternBottomBarContents {}
 #patternWebBottomBar {
 	font-size:94%; /*S2*/
 	line-height:125%;

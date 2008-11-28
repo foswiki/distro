@@ -12,9 +12,9 @@
 %TMPL:P{"leftbardimensions"}%
 </style>
 <style type="text/css" media="all">
-%IF{ "$ TWIKILAYOUTURL" then="@import url('%TWIKILAYOUTURL%');"}%
-%IF{ "$ TWIKISTYLEURL"  then="@import url('%TWIKISTYLEURL%');"}%
-%IF{ "$ TWIKICOLORSURL" then="@import url('%TWIKICOLORSURL%');"}%
+%IF{ "$ FOSWIKI_LAYOUT_URL" then="@import url('%FOSWIKI_LAYOUT_URL%');"}%
+%IF{ "$ FOSWIKI_STYLE_URL"  then="@import url('%FOSWIKI_STYLE_URL%');"}%
+%IF{ "$ FOSWIKI_COLORS_URL" then="@import url('%FOSWIKI_COLORS_URL%');"}%
 </style>
 %TMPL:P{"styles:skin"}%%TMPL:P{"styles:dynamic"}%<style type="text/css" media="all">
 %IF{ "$ USERLAYOUTURL" then="@import url('%USERLAYOUTURL%');"}%

@@ -37,8 +37,8 @@
 | HTTP_EQUIV_ON_PREVIEW| textarea | 30x1 | =  | http-equiv== meta tags for ==preview== script | S |
 | SKIN | text | 30 | pattern | Skin overriding the default Foswiki templates. | S |
 | WEBTOPICLIST | textarea | 40x3 | [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" /> | Usually a list of topics | S |
-| TWIKILAYOUTURL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css | URL of a CSS | S |
-| TWIKISTYLEURL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/style.css | URL of a CSS | S |
+| FOSWIKI_LAYOUT_URL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css | URL of a CSS | S |
+| FOSWIKI_STYLE_URL | text | 30 | %PUBURL%/%SYSTEMWEB%/PatternSkin/style.css | URL of a CSS | S |
 | USERLAYOUTURL | text | 30 |  | URL of a CSS | S |
 | USERSTYLEURL | text | 30 |  | URL of a CSS | S |
 | DS_THEME | text | 30 | gray | Theme: (gray, monochrome, tabstyle | S |
