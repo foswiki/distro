@@ -65,20 +65,18 @@ use vars qw( %cfg );
 # perl -e 'use AutoSplit; autosplit("Foswiki.pm", "auto")'
 
 # Other computed constants
-use vars qw(
-  $TranslationToken
-  $twikiLibDir
-  %regex
-  %functionTags
-  %contextFreeSyntax
-  %restDispatch
-  $VERSION $RELEASE
-  $TRUE
-  $FALSE
-  $sandbox
-  $engine
-  $ifParser
-);
+our $twikiLibDir;
+our %regex;
+our %functionTags;
+our %contextFreeSyntax;
+our %restDispatch;
+our $VERSION;
+our $RELEASE;
+our $TRUE = 1;
+our $FALSE = 0;
+our $sandbox;
+our $engine;
+our $ifParser;
 
 # Token character that must not occur in any normal text - converted
 # to a flag character if it ever does occur (very unlikely)
@@ -90,7 +88,7 @@ use vars qw(
 # muRfleFli5ble8leep (do *not* use punctuation characters or whitspace
 # in the string!)
 # See Codev.NationalCharTokenClash for more.
-$TranslationToken = "\0";
+our $TranslationToken = "\0";
 
 =begin TML
 
@@ -158,9 +156,6 @@ BEGIN {
     require Monitor;
     require Foswiki::Sandbox;                  # system command sandbox
     require Foswiki::Configure::Load;          # read configuration files
-
-    $TRUE  = 1;
-    $FALSE = 0;
 
     if (DEBUG) {
 
@@ -1848,47 +1843,6 @@ sub _writeReport {
     }
 }
 
-sub _removeNewlines {
-    my ($theTag) = @_;
-    $theTag =~ s/[\r\n]+/ /gs;
-    return $theTag;
-}
-
-# Convert relative URLs to absolute URIs
-sub _rewriteURLInInclude {
-    my ( $theHost, $theAbsPath, $url ) = @_;
-
-    # leave out an eventual final non-directory component from the absolute path
-    $theAbsPath =~ s/(.*?)[^\/]*$/$1/;
-
-    if ( $url =~ /^\// ) {
-
-        # fix absolute URL
-        $url = $theHost . $url;
-    }
-    elsif ( $url =~ /^\./ ) {
-
-        # fix relative URL
-        $url = $theHost . $theAbsPath . '/' . $url;
-    }
-    elsif ( $url =~ /^$regex{linkProtocolPattern}:/o ) {
-
-        # full qualified URL, do nothing
-    }
-    elsif ( $url =~ /^#/ ) {
-
-        # anchor. This needs to be left relative to the including topic
-        # so do nothing
-    }
-    elsif ($url) {
-
-        # FIXME: is this test enough to detect relative URLs?
-        $url = $theHost . $theAbsPath . '/' . $url;
-    }
-
-    return $url;
-}
-
 # Add a web reference to a [[...][...]] link in an included topic
 sub _fixIncludeLink {
     my ( $web, $link, $label ) = @_;
@@ -1935,32 +1889,6 @@ sub _fixupIncludedTopic {
     return $text;
 }
 
-# Clean-up HTML text so that it can be shown embedded in a topic
-sub _cleanupIncludedHTML {
-    my ( $text, $host, $path, $options ) = @_;
-
-    # FIXME: Make aware of <base> tag
-
-    $text =~ s/^.*?<\/head>//is
-      unless ( $options->{disableremoveheaders} );    # remove all HEAD
-    $text =~ s/<script.*?<\/script>//gis
-      unless ( $options->{disableremovescript} );     # remove all SCRIPTs
-    $text =~ s/^.*?<body[^>]*>//is
-      unless ( $options->{disableremovebody} );       # remove all to <BODY>
-    $text =~ s/(?:\n)<\/body>.*//is
-      unless ( $options->{disableremovebody} );       # remove </BODY>
-    $text =~ s/(?:\n)<\/html>.*//is
-      unless ( $options->{disableremoveheaders} );    # remove </HTML>
-    $text =~ s/(<[^>]*>)/_removeNewlines($1)/ges
-      unless ( $options->{disablecompresstags} )
-      ;    # replace newlines in html tags with space
-    $text =~
-s/(\s(?:href|src|action)=(["']))(.*?)\2/$1._rewriteURLInInclude( $host, $path, $3 ).$2/geois
-      unless ( $options->{disablerewriteurls} );
-
-    return $text;
-}
-
 =begin TML
 
 ---++ StaticMethod applyPatternToIncludedText( $text, $pattern ) -> $text
@@ -1976,100 +1904,6 @@ sub applyPatternToIncludedText {
     $thePattern = Foswiki::Sandbox::untaintUnchecked($thePattern);
     $theText = '' unless ( $theText =~ s/$thePattern/$1/is );
     return $theText;
-}
-
-# Fetch content from a URL for inclusion by an INCLUDE
-sub _includeUrl {
-    my ( $this, $url, $pattern, $web, $topic, $raw, $options, $warn ) = @_;
-    my $text = '';
-
-    # For speed, read file directly if URL matches an attachment directory
-    if ( $url =~
-/^$this->{urlHost}$Foswiki::cfg{PubUrlPath}\/($regex{webNameRegex})\/([^\/\.]+)\/([^\/]+)$/
-      )
-    {
-        my $incWeb   = $1;
-        my $incTopic = $2;
-        my $incAtt   = $3;
-
-        # FIXME: Check for MIME type, not file suffix
-        if ( $incAtt =~ m/\.(txt|html?)$/i ) {
-            unless (
-                $this->{store}->attachmentExists( $incWeb, $incTopic, $incAtt )
-              )
-            {
-                return _includeWarning( $this, $warn, 'bad_attachment', $url );
-            }
-            if ( $incWeb ne $web || $incTopic ne $topic ) {
-
-                # CODE_SMELL: Does not account for not yet authenticated user
-                unless (
-                    $this->security->checkAccessPermission(
-                        'VIEW',    $this->{user}, undef, undef,
-                        $incTopic, $incWeb
-                    )
-                  )
-                {
-                    return _includeWarning( $this, $warn, 'access_denied',
-                        "$incWeb.$incTopic" );
-                }
-            }
-            $text =
-              $this->{store}
-              ->readAttachment( undef, $incWeb, $incTopic, $incAtt );
-            $text =
-              _cleanupIncludedHTML( $text, $this->{urlHost},
-                $Foswiki::cfg{PubUrlPath}, $options )
-              unless $raw;
-            $text = applyPatternToIncludedText( $text, $pattern )
-              if ($pattern);
-            $text = "<literal>\n" . $text . "\n</literal>"
-              if ( $options->{literal} );
-            return $text;
-        }
-
-        # fall through; try to include file over http based on MIME setting
-    }
-
-    return _includeWarning( $this, $warn, 'urls_not_allowed' )
-      unless $Foswiki::cfg{INCLUDE}{AllowURLs};
-
-    # SMELL: should use the URI module from CPAN to parse the URL
-    # SMELL: but additional CPAN adds to code bloat
-    unless ( $url =~ m!^https?:! ) {
-        $text = _includeWarning( $this, $warn, 'bad_protocol', $url );
-        return $text;
-    }
-
-    my $response = $this->net->getExternalResource($url);
-    if ( !$response->is_error() ) {
-        my $contentType = $response->header('content-type');
-        $text = $response->content();
-        if ( $contentType =~ /^text\/html/ ) {
-            if ( !$raw ) {
-                $url =~ m!^([a-z]+:/*[^/]*)(/[^#?]*)!;
-                $text = _cleanupIncludedHTML( $text, $1, $2, $options );
-            }
-        }
-        elsif ( $contentType =~ /^text\/(plain|css)/ ) {
-
-            # do nothing
-        }
-        else {
-            $text =
-              _includeWarning( $this, $warn, 'bad_content', $contentType );
-        }
-        $text = applyPatternToIncludedText( $text, $pattern ) if ($pattern);
-        $text = "<literal>\n" . $text . "\n</literal>"
-          if ( $options->{literal} );
-    }
-    else {
-        $text =
-          _includeWarning( $this, $warn, 'geturl_failed',
-            $url . ' ' . $response->message() );
-    }
-
-    return $text;
 }
 
 #
@@ -3519,56 +3353,54 @@ sub INCLUDE {
     my $args = $params->stringify();
 
     # Remove params, so they don't get expanded in the included page
-    my $path    = $params->remove('_DEFAULT') || '';
-    my $pattern = $params->remove('pattern');
-    my $rev     = $params->remove('rev');
-    my $section = $params->remove('section');
-    undef $section
-      if ( defined($section) && $section eq '' )
-      ;    #no sense in considering an empty string as an unfindable section
-    my $raw = $params->remove('raw') || '';
-    my $warn = $params->remove('warn')
-      || $this->{prefs}->getPreferencesValue('INCLUDEWARNING');
-
-    if ( $path =~ /^https?:/ ) {
-
-        # include web page
-        return $this->_includeUrl( $path, $pattern, $includingWeb,
-            $includingTopic, $raw, $params, $warn );
+    my %control;
+    for my $p qw(_DEFAULT pattern rev section raw warn) {
+        $control{$p} = $params->remove($p);
+    }
+    # no sense in considering an empty string as an unfindable section
+    delete $control{section} if (
+        defined($control{section}) && $control{section} eq '' );
+    $control{raw} ||= '';
+    $control{warn} ||= $this->{prefs}->getPreferencesValue('INCLUDEWARNING');
+    $control{inWeb} = $includingWeb;
+    $control{inTopic} = $includingTopic;
+    if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
+        my $handler = $1;
+        eval 'use Foswiki::IncludeHandlers::'.$handler;
+        die $@ if ($@);
+        unless ($@) {
+            $handler = 'Foswiki::IncludeHandlers::'.$handler;
+            return $handler->INCLUDE($this, \%control, $params);
+        }
     }
 
-    if ( $path =~ s/^doc:// ) {
-
-        # include web page
-        return $this->_includeCodeDoc( $path, $pattern, $params );
-    }
-
-    $path =~ s/$Foswiki::cfg{NameFilter}//go;    # zap anything suspicious
+    # No protocol handler; must be a topic references
+    $control{_DEFAULT} =~ s/$Foswiki::cfg{NameFilter}//go;    # zap anything suspicious
     if ( $Foswiki::cfg{DenyDotDotInclude} ) {
 
         # Filter out '..' from filename, this is to
         # prevent includes of '../../file'
-        $path =~ s/\.+/\./g;
+        $control{_DEFAULT} =~ s/\.+/\./g;
     }
     else {
 
         # danger, could include .htpasswd with relative path
-        $path =~ s/passwd//gi;                 # filter out passwd filename
+        $control{_DEFAULT} =~ s/passwd//gi;                 # filter out passwd filename
     }
 
     # make sure we have something to include. If we don't do this, then
     # normalizeWebTopicName will default to WebHome. Item2209.
-    unless ($path) {
+    unless ($control{_DEFAULT}) {
 
         # SMELL: could do with a different message here, but don't want to
         # add one right now because translators are already working
-        return _includeWarning( $this, $warn, 'topic_not_found', '""', '""' );
+        return _includeWarning( $this, $control{warn}, 'topic_not_found', '""', '""' );
     }
 
     my $text = '';
     my $meta = '';
     my $includedWeb;
-    my $includedTopic = $path;
+    my $includedTopic = $control{_DEFAULT};
     $includedTopic =~ s/\.txt$//;    # strip optional (undocumented) .txt
 
     ( $includedWeb, $includedTopic ) =
@@ -3576,7 +3408,7 @@ sub INCLUDE {
 
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
-        return _includeWarning( $this, $warn, 'topic_not_found', $includedWeb,
+        return _includeWarning( $this, $control{warn}, 'topic_not_found', $includedWeb,
             $includedTopic );
     }
 
@@ -3587,7 +3419,7 @@ sub INCLUDE {
     my $count = grep( $key, keys %{ $this->{_INCLUDES} } );
     $key .= $args;
     if ( $this->{_INCLUDES}->{$key} || $count > 99 ) {
-        return _includeWarning( $this, $warn, 'already_included',
+        return _includeWarning( $this, $control{warn}, 'already_included',
             "$includedWeb.$includedTopic", '' );
     }
 
@@ -3604,7 +3436,7 @@ sub INCLUDE {
     }
 
     ( $meta, $text ) =
-      $this->{store}->readTopic( undef, $includedWeb, $includedTopic, $rev );
+      $this->{store}->readTopic( undef, $includedWeb, $includedTopic, $control{rev} );
 
     # Simplify leading, and remove trailing, newlines. If we don't remove
     # trailing, it becomes impossible to %INCLUDE a topic into a table.
@@ -3618,7 +3450,7 @@ sub INCLUDE {
         )
       )
     {
-        if ( isTrue($warn) ) {
+        if ( isTrue($control{warn}) ) {
             return $this->inlineAlert( 'alerts', 'access_denied',
                 "[[$includedWeb.$includedTopic]]" );
         }    # else fail silently
@@ -3627,7 +3459,7 @@ sub INCLUDE {
 
     # remove everything before and after the default include block unless
     # a section is explicitly defined
-    if ( !$section ) {
+    if ( !$control{section} ) {
         $text =~ s/.*?%STARTINCLUDE%//s;
         $text =~ s/%STOPINCLUDE%.*//s;
     }
@@ -3635,21 +3467,21 @@ sub INCLUDE {
     # handle sections
     my ( $ntext, $sections ) = parseSections($text);
 
-    my $interesting = ( defined $section );
+    my $interesting = ( defined $control{section} );
     if ( $interesting || scalar(@$sections) ) {
 
         # Rebuild the text from the interesting sections
         $text = '';
         foreach my $s (@$sections) {
-            if (   $section
+            if (   $control{section}
                 && $s->{type} eq 'section'
-                && $s->{name} eq $section )
+                && $s->{name} eq $control{section} )
             {
                 $text .= substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                 $interesting = 1;
                 last;
             }
-            elsif ( $s->{type} eq 'include' && !$section ) {
+            elsif ( $s->{type} eq 'include' && !$control{section} ) {
                 $text .= substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                 $interesting = 1;
             }
@@ -3659,7 +3491,7 @@ sub INCLUDE {
     # If there were no interesting sections, restore the whole text
     $text = $ntext unless $interesting;
 
-    $text = applyPatternToIncludedText( $text, $pattern ) if ($pattern);
+    $text = applyPatternToIncludedText( $text, $control{pattern} ) if ($control{pattern});
 
     # Do not show TOC in included topic if TOC_HIDE_IF_INCLUDED
     # preference has been set
@@ -4488,58 +4320,6 @@ sub GROUPS {
     }
 
     return '| *Group* | *Members* |' . "\n" . join( "\n", sort @table );
-}
-
-# Include embedded doc in a core module
-sub _includeCodeDoc {
-    my ( $this, $class, $pattern, $params ) = @_;
-
-    return '' unless $class && $class =~ /^Foswiki/;
-    $class =~ s/[^\w:]//g;
-
-    my $pmfile;
-    $class =~ s#::#/#g;
-    foreach my $inc (@INC) {
-        if ( -f "$inc/$class.pm" ) {
-            $pmfile = "$inc/$class.pm";
-            last;
-        }
-    }
-    return '' unless $pmfile;
-
-    open( PMFILE, '<', $pmfile ) || return '';
-    my $inPod = 0;
-    my $pod = '';
-    local $/ = "\n";
-    while ( my $line = <PMFILE> ) {
-        if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
-            $inPod = 1;
-        }
-        elsif ( $line =~ /^=cut/ ) {
-            $inPod = 0;
-        }
-        elsif ($inPod) {
-            $pod .= $line;
-        }
-    }
-    close(PMFILE);
-
-    $pod =~ s/.*?%STARTINCLUDE%//s;
-    $pod =~ s/%STOPINCLUDE%.*//s;
-
-    $pod = applyPatternToIncludedText( $pod, $pattern ) if ($pattern);
-
-    # Adjust the root heading level
-    if ( $params->{level} ) {
-        my $minhead = '+' x 100;
-        $pod =~ s/^---(\++)/
-          $minhead = $1 if length($1) < length($minhead); "---$1"/gem;
-        return $pod if length($minhead) == 100;
-        my $newroot = '+' x $params->{level};
-        $minhead =~ s/\+/\\+/g;
-        $pod =~ s/^---$minhead/---$newroot/gm;
-    }
-    return $pod;
 }
 
 1;
