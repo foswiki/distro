@@ -17,7 +17,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-=begin twiki
+=begin TML
 
 ---+!! package TWiki::Engine::FastCGI
 
@@ -93,7 +93,7 @@ sub fork {
     fork && exit;
 }
 
-=begin twiki
+=begin TML
 
 ---++ StaticMethod detach()
 
