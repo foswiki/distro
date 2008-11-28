@@ -452,7 +452,8 @@ sub _handleACTIVATEDPLUGINS {
     my $text = '';
     foreach my $plugin ( @{ $this->{plugins} } ) {
         unless ( $plugin->{disabled} ) {
-            $text .= "$plugin->{installWeb}.$plugin->{name}, ";
+            my $web = $plugin->topicWeb();
+            $text .= ($web ? "$web." : '!')."$plugin->{name}, ";
         }
     }
     $text =~ s/\,\s*$//o;

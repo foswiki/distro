@@ -133,7 +133,7 @@ $sub method. Returns the Foswiki::Response object generated
 sub execute {
     my ( $req, $sub, %initialContext ) = @_;
 
-    my $cache = $req->param('twiki_redirect_cache');
+    my $cache = $req->param('foswiki_redirect_cache');
 
 # Never trust input data from a query. We will only accept an MD5 32 character string
     if ( $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
@@ -154,7 +154,7 @@ sub execute {
             $req->load( \*F );
             close(F);
             unlink($passthruFilename);
-            $req->delete('twiki_redirect_cache');
+            $req->delete('foswiki_redirect_cache');
             print STDERR "Passthru: Loaded and unlinked $passthruFilename\n"
               if TRACE_PASSTHRU;
         }

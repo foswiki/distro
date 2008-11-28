@@ -65,7 +65,7 @@ use vars qw( %cfg );
 # perl -e 'use AutoSplit; autosplit("Foswiki.pm", "auto")'
 
 # Other computed constants
-our $twikiLibDir;
+our $foswikiLibDir;
 our %regex;
 our %functionTags;
 our %contextFreeSyntax;
@@ -90,33 +90,16 @@ our $ifParser;
 # See Codev.NationalCharTokenClash for more.
 our $TranslationToken = "\0";
 
-=begin TML
+# Returns the full path of the directory containing Foswiki.pm
+sub _getLibDir {
+    return $foswikiLibDir if $foswikiLibDir;
 
----++ StaticMethod getLibDir() -> $path
-
-Returns the full path of the directory containing Foswiki.pm
-
-=cut
-
-sub getLibDir {
-    if ($twikiLibDir) {
-        return $twikiLibDir;
-    }
-
-    # FIXME: Should just use $INC{"Foswiki.pm"} to get path used to load this
-    # module.
-    my $dir = '';
-    foreach $dir (@INC) {
-        if ( $dir && -e "$dir/Foswiki.pm" ) {
-            $twikiLibDir = $dir;
-            last;
-        }
-    }
+    $foswikiLibDir = $INC{'Foswiki.pm'};
 
     # fix path relative to location of called script
-    if ( $twikiLibDir =~ /^\./ ) {
+    if ( $foswikiLibDir =~ /^\./ ) {
         print STDERR
-"WARNING: Foswiki lib path $twikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
+"WARNING: Foswiki lib path $foswikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
         my $bin;
 
  # TSA SMELL : Should not assume environment variables and get data from request
@@ -139,17 +122,17 @@ sub getLibDir {
             import Cwd qw( cwd );
             $bin = cwd();
         }
-        $twikiLibDir = "$bin/$twikiLibDir/";
+        $foswikiLibDir = "$bin/$foswikiLibDir/";
 
         # normalize "/../" and "/./"
-        while ( $twikiLibDir =~ s|([\\/])[^\\/]+[\\/]\.\.[\\/]|$1| ) {
+        while ( $foswikiLibDir =~ s|([\\/])[^\\/]+[\\/]\.\.[\\/]|$1| ) {
         }
-        $twikiLibDir =~ s|([\\/])\.[\\/]|$1|g;
+        $foswikiLibDir =~ s|([\\/])\.[\\/]|$1|g;
     }
-    $twikiLibDir =~ s|([\\/])[\\/]*|$1|g;    # reduce "//" to "/"
-    $twikiLibDir =~ s|[\\/]$||;              # cut trailing "/"
+    $foswikiLibDir =~ s|([\\/])[\\/]*|$1|g;    # reduce "//" to "/"
+    $foswikiLibDir =~ s|[\\/]$||;              # cut trailing "/"
 
-    return $twikiLibDir;
+    return $foswikiLibDir;
 }
 
 BEGIN {
@@ -496,7 +479,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
       unless defined $Foswiki::cfg{ForceUnsafeRegexes};
 
     # initialize lib directory early because of later 'cd's
-    getLibDir();
+    _getLibDir();
 
     # initialize the runtime engine
     if ( !defined $Foswiki::cfg{Engine} ) {
@@ -811,7 +794,7 @@ sub _getRedirectUrl {
 
 ---++ ObjectMethod redirect( $url, $passthrough, $action_redirectto )
 
-   * $url - url or twikitopic to redirect to
+   * $url - url or topic to redirect to
    * $passthrough - (optional) parameter to **FILLMEIN**
    * $action_redirectto - (optional) redirect to where ?redirectto=
      points to (if it's valid)
@@ -938,7 +921,7 @@ sub cacheQuery {
     return '' unless ( scalar( $query->param() ) );
 
     # Don't double-cache
-    return '' if ( $query->param('twiki_redirect_cache') );
+    return '' if ( $query->param('foswiki_redirect_cache') );
 
     require Digest::MD5;
     my $md5 = new Digest::MD5();
@@ -954,7 +937,7 @@ sub cacheQuery {
 "Unable to open $Foswiki::cfg{WorkingDir}/tmp for write; check the setting of {WorkingDir} in configure, and check file permissions: $!";
     $query->save( \*F );
     close(F);
-    return 'twiki_redirect_cache=' . $uid;
+    return 'foswiki_redirect_cache=' . $uid;
 }
 
 =begin TML
@@ -1094,7 +1077,7 @@ sub getSkin {
 
 Returns the URL to a Foswiki script, providing the web and topic as
 "path info" parameters.  The result looks something like this:
-"http://host/twiki/bin/$script/$web/$topic".
+"http://host/foswiki/bin/$script/$web/$topic".
    * =...= - an arbitrary number of name,value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor. e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
 
 If $absolute is set, generates an absolute URL. $absolute is advisory only;
@@ -3168,14 +3151,14 @@ sub initialize {
         die
 'Sorry, this version of Foswiki does not support the url parameter to Foswiki::initialize being different to the url in the query';
     }
-    my $twiki = new Foswiki( $theRemoteUser, $query );
+    my $session = new Foswiki( $theRemoteUser, $query );
 
     # Force the new session into the plugins context.
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $session;
 
     return (
-        $twiki->{topicName}, $twiki->{webName}, $twiki->{scriptUrlPath},
-        $twiki->{userName},  $Foswiki::cfg{DataDir}
+        $session->{topicName}, $session->{webName}, $session->{scriptUrlPath},
+        $session->{userName},  $Foswiki::cfg{DataDir}
     );
 }
 
@@ -3630,7 +3613,7 @@ sub DISPLAYTIME {
 
 #| $web | web and  |
 #| $topic | topic to display the name for |
-#| $formatString | twiki format string (like in search) |
+#| $formatString | format string (like in search) |
 sub REVINFO {
     my ( $this, $params, $theTopic, $theWeb ) = @_;
     my $format = $params->{_DEFAULT} || $params->{format};
