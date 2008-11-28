@@ -142,7 +142,7 @@ sub _subscribe {
 1;
 __END__
 
-Plugin for Foswiki - The Free Open Source Wiki, http://foswiki.org/
+Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 Copyright (C) 2007 Crawford Currie http://c-dot.co.uk
 and TWiki Contributors. All Rights Reserved. TWiki Contributors

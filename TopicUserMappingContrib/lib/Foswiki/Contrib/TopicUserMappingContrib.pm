@@ -1,4 +1,4 @@
-# Contrib for Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Contrib for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

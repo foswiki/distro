@@ -470,7 +470,7 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
 1;
 __DATA__
 
-Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
 # Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.

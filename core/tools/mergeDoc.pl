@@ -1,6 +1,6 @@
 #!/usr/bin/perl;
 #
-# Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2007 Foswiki Contributors.
 #

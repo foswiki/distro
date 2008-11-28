@@ -127,7 +127,7 @@ HERE
 1;
 __DATA__
 #
-# Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2008 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root

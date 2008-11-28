@@ -1,4 +1,4 @@
-# Configuration file of Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Configuration file of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
 # and Foswiki Contributors. All Rights Reserved. Foswiki Contributors

@@ -1,4 +1,4 @@
-# Users Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
+# Users Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 # See bottom of file for license and copyright information
 =begin TML
 

@@ -455,7 +455,7 @@ sub _parseDuration {
 
 1;
 __DATA__
-# Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.

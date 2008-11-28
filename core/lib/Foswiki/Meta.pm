@@ -857,7 +857,7 @@ sub getMetaFor {
 
 __DATA__
 
-Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
+Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
 # Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.

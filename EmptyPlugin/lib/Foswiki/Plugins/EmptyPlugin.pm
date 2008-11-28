@@ -786,7 +786,7 @@ sub restExample {
 __DATA__
 This copyright information applies to the EmptyPlugin:
 
-# Plugin for Foswiki - The Free Open Source Wiki, http://foswiki.org/
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # EmptyPlugin is Copyright (C) 2008 Foswiki Contributors. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.

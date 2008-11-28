@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
 <div style="float:right;margin:1em 0em 1em;padding:0.5em;text-align:center">
-<a style="background:transparent" href="http://foswiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-slogan.png" alt="Foswiki - The free and Open Source Wiki" title="Foswiki - The free and Open Source Wiki" border="0" /></a>
+<a style="background:transparent" href="http://foswiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-slogan.png" alt="Foswiki - The Free and Open Source Wiki" title="Foswiki - The Free and Open Source Wiki" border="0" /></a>
 <br />Come to <a href="http://foswiki.org"><span class="twikiLinkLabel">foswiki.org</span></a>.
 </div>
 ---+!! Welcome to the %WEB% Web
