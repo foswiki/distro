@@ -84,6 +84,11 @@ sub earlyInitPlugin {
     Foswiki::Func::setPreferencesValue('TWIKIWEB', 'TWiki');
     Foswiki::Func::setPreferencesValue('MAINWEB', '%USERSWEB%');
 
+    # Load TWiki::Func and TWiki::Plugins, for badly written plugins
+    # which rely on them being there without using them first
+    use TWiki::Func;
+    use TWiki::Plugins;
+
     return;
 }
 
