@@ -1,4 +1,4 @@
-/* Simple CSS demonstrating use of css to theme the default TWiki templates.
+/* Simple CSS demonstrating use of css to theme the default Foswiki templates.
  * Note to installers; do *not* modify this file, and don't assume it will
  * remain unchanged in the future. If you want to create your own themed
  * CSS, then create your own skin that overrides %TMPL:DEF{"templatestyle"}%
