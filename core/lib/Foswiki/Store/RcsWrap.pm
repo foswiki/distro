@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Store::RcsWrap
 
@@ -347,7 +347,7 @@ sub revisionDiff {
     return parseRevisionDiff($tmp);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod parseRevisionDiff( $text ) -> \@diffArray
 

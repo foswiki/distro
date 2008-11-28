@@ -11,7 +11,7 @@
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Plugins::TWikiCompatibilityPlugin
 
@@ -33,7 +33,7 @@ $SHORTDESCRIPTION = 'add TWiki personality to Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 $pluginName = 'TWikiCompatibilityPlugin';
 
-=pod
+=begin TML
 
 ---++ initPlugin($topic, $web, $user, $installWeb) -> $boolean
    * =$topic= - the name of the topic in the current CGI query
@@ -48,7 +48,7 @@ sub initPlugin {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ earlyInitPlugin()
 

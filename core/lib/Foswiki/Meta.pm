@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Meta
 
@@ -36,7 +36,25 @@ Pictorially,
       * [1] -> { name => '...' ... }
 
 As well as the meta-data, the object also stores the web name, topic
-name and remaining text after meta-data extraction.
+name and topic text.
+
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
+_not_ be called in new plugins and should be replaced in older plugins
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
+
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
 
 =cut
 
@@ -46,17 +64,20 @@ use strict;
 use Error qw(:try);
 use Assert;
 
-=pod
+our $VERSION = '$Rev$';
 
----++ ClassMethod new($session, $web, $topic, $text)
+=begin TML
+
+---++ ClassMethod new($session, $web, $topic)
    * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION)
    * =$web=, =$topic= - the topic that the metadata relates to
 Construct a new, empty object to contain meta-data for the given topic.
-   * $text - optional raw text to convert to meta-data form
+
 =cut
 
 sub new {
     my ( $class, $session, $web, $topic, $text ) = @_;
+    # $text - optional raw text to convert to meta-data form
     my $this = bless( { _session => $session }, $class );
 
     # Note: internal fields are prepended with _. All uppercase
@@ -81,7 +102,7 @@ sub new {
 =begin TML
 
 ---++ ObjectMethod finish()
-Break circular references.
+Clean up the object, releasing any memory stored in it.
 
 =cut
 
@@ -96,11 +117,11 @@ sub finish {
     undef $this->{_session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod session()
 
-Get the session
+Get the session associated with the object when it was created.
 
 =cut
 
@@ -108,31 +129,37 @@ sub session {
     return $_[0]->{_session};
 }
 
-=pod
+=begin TML
 
----++ ObjectMethod web()
-
-Get the web name
+---++ ObjectMethod web([$name])
+   * =$name= - optional, change the web name in the object
+      * *Since* 28 Nov 2008
+Get/set the web name associated with the object.
 
 =cut
 
 sub web {
+    my ($this, $web) = @_;
+    $this->{_web} = $web if defined $web;
     return $_[0]->{_web};
 }
 
-=pod
+=begin TML
 
----++ ObjectMethod topic()
-
-Get the topic name
+---++ ObjectMethod topic([$name])
+   * =$name= - optional, change the topic name in the object
+      * *Since* 28 Nov 2008
+Get/set the topic name associated with the object.
 
 =cut
 
 sub topic {
-    return $_[0]->{_topic};
+    my ($this, $topic) = @_;
+    $this->{_topic} = $topic if defined $topic;
+    return $this->{_topic};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod text([$text]) -> $text
 
@@ -149,7 +176,7 @@ sub text {
     return $this->{_text};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod put($type, \%args)
 
@@ -177,7 +204,7 @@ sub put {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod putKeyed($type, \%args)
 
@@ -214,7 +241,7 @@ sub putKeyed {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod putAll
 
@@ -237,7 +264,7 @@ sub putAll {
     $this->{$type} = \@array;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod get( $type, $key ) -> \%hash
 
@@ -275,7 +302,7 @@ sub get {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod find (  $type  ) -> @values
 
@@ -303,7 +330,7 @@ sub find {
     return @items;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod remove($type, $key)
 
@@ -340,7 +367,7 @@ sub remove {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod copyFrom( $otherMeta, $type, $nameFilter )
 
@@ -381,7 +408,7 @@ sub copyFrom {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod count($type) -> $integer
 
@@ -398,7 +425,7 @@ sub count {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionInfo($fromrev) -> ( $date, $author, $rev, $comment )
 
@@ -436,7 +463,7 @@ sub getRevisionInfo {
     return ( $date, $author, $rev, $comment );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod merge( $otherMeta, $formDef )
 
@@ -494,7 +521,7 @@ sub merge {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify( $types ) -> $string
 
@@ -530,7 +557,7 @@ sub stringify {
     return $s;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod forEachSelectedValue( $types, $keys, \&fn, \%options )
 
@@ -567,7 +594,7 @@ sub forEachSelectedValue {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getParent() -> $parent
 
@@ -587,7 +614,7 @@ sub getParent {
     return $value;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getFormName() -> $formname
 
@@ -605,7 +632,7 @@ sub getFormName {
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderFormForDisplay() -> $html
 
@@ -638,7 +665,7 @@ sub renderFormForDisplay {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderFormFieldForDisplay($name, $format, $attrs) -> $text
 
@@ -687,7 +714,7 @@ sub renderFormFieldForDisplay {
     return $format;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getEmbeddedStoreForm() -> $text
 
@@ -810,19 +837,14 @@ sub addTOPICINFO {
     $this->put( 'TOPICINFO', \%options );
 }
 
-=begin TML
-
----++ ObjectMethod getMetaFor() -> $meta
-
-This method will load (or otherwise fetch) the meta-data for a named web/topic.
-The request might be satisfied by a read from the store, or it might be
-satisfied from a cache. The caller doesn't care.
-
-This is an object method rather than a static method because it depends on
-the implementation of Meta - it might be this base class, or it might be a
-caching subclass, for example.
-
-=cut
+# This method will load (or otherwise fetch) the meta-data for a named
+# web/topic.
+# The request might be satisfied by a read from the store, or it might be
+# satisfied from a cache. The caller doesn't care.
+#
+# This is an object method rather than a static method because it depends on
+# the implementation of Meta - it might be this base class, or it might be a
+# caching subclass, for example.
 
 sub getMetaFor {
     my ( $this, $web, $topic ) = @_;

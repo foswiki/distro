@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=pod
+=begin TML
 
 ---+!! package Foswiki::UI
 
@@ -261,7 +261,7 @@ sub logon {
     $session->{users}->{loginManager}->login( $session->{request}, $session );
 }
 
-=pod TML
+=begin TML
 
 ---++ StaticMethod checkWebExists( $session, $web, $topic, $op )
 
@@ -285,7 +285,7 @@ sub checkWebExists {
     }
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod topicExists( $session, $web, $topic, $op ) => boolean
 
@@ -309,7 +309,7 @@ sub checkTopicExists {
     }
 }
 
-=pod TML
+=begin TML
 
 ---++ StaticMethod checkMirror( $session, $web, $topic )
 
@@ -360,7 +360,7 @@ sub checkAccess {
     }
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod readTemplateTopic( $session, $theTopicName ) -> ( $meta, $text )
 
@@ -386,7 +386,7 @@ sub readTemplateTopic {
       ->readTopic( $session->{user}, $web, $theTopicName, undef );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod run( $method )
 

@@ -13,8 +13,9 @@ To be robust plugins must avoid using any unpublished functionality from the Fos
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]]= - special exception for invoking the 'oops' script
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]]= - access control exception
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]]= - parser and storage object for macro parameters
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Time][Foswiki::Time]]= - time parsing and formatting
 In addition the following global variables may be referred to:
-   * =$Foswiki::Plugins::VERSION= - API version number
+   * =$Foswiki::Plugins::VERSION= - plugin handler API version number
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
    * =$Foswiki::cfg= - reference to configuration hash
    * =$Foswiki::sandbox= - reference to the static sandbox object (type =Foswiki::Sandbox=), used for calling external programs.

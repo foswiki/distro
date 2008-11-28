@@ -1,6 +1,6 @@
 # See bottom of file for copyright and license details
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Query
 
@@ -27,7 +27,7 @@ use Error qw( :try );
 # 1 for debug
 sub MONITOR_EVAL { 0 }
 
-=pod
+=begin TML
 
 ---++ PUBLIC $aliases
 A hash mapping short aliases for META: entry names. For example, this hash

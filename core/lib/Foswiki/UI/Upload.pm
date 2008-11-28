@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=pod
+=begin TML
 
 ---+ package Foswiki::UI::Upload
 
@@ -18,7 +18,7 @@ require Foswiki::UI;
 require Foswiki::Sandbox;
 require Foswiki::OopsException;
 
-=pod
+=begin TML
 
 ---++ StaticMethod attach( $session )
 
@@ -109,7 +109,7 @@ sub attach {
     $session->writeCompletePage($tmpl);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod upload( $session )
 

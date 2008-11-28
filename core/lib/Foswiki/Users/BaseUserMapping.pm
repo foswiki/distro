@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Users::BaseUserMapping
 
@@ -31,7 +31,7 @@ use strict;
 use Assert;
 use Error;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session)
 
@@ -97,7 +97,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.
@@ -119,7 +119,7 @@ sub finish {
     $this->SUPER::finish();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loginTemplateName () -> templateFile
 
@@ -131,7 +131,7 @@ sub loginTemplateName {
     return 'login.sudo';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod handlesUser ( $cUID, $login, $wikiname) -> $boolean
 
@@ -152,7 +152,7 @@ sub handlesUser {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod login2cUID ($login) -> $cUID
 
@@ -173,7 +173,7 @@ sub login2cUID {
     #return shift @list;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLoginName ($cUID) -> login
 
@@ -187,7 +187,7 @@ sub getLoginName {
     return $this->{U2L}{$user};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getWikiName ($cUID) -> wikiname
 
@@ -200,7 +200,7 @@ sub getWikiName {
     return $this->{U2W}->{$cUID} || getLoginName( $this, $cUID );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod userExists( $user ) -> $boolean
 
@@ -213,7 +213,7 @@ sub userExists {
     return $this->{U2L}{$cUID};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachUser () -> listIterator of cUIDs
 
@@ -229,7 +229,7 @@ sub eachUser {
     return new Foswiki::ListIterator( \@list );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachGroupMember ($group) ->  listIterator of cUIDs
 
@@ -252,7 +252,7 @@ sub eachGroupMember {
     return new Foswiki::ListIterator($members);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isGroup ($name) -> boolean
 
@@ -267,7 +267,7 @@ sub isGroup {
     return ( $this->{GROUPS}->{$name} );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachGroup () -> ListIterator of groupnames
 
@@ -283,7 +283,7 @@ sub eachGroup {
     return new Foswiki::ListIterator( \@groups );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachMembership ($cUID) -> ListIterator of groups this user is in
 
@@ -301,7 +301,7 @@ sub eachMembership {
     return $it;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isAdmin( $cUID ) -> $boolean
 
@@ -315,7 +315,7 @@ sub isAdmin {
     return $this->isInGroup( $cUID, $Foswiki::cfg{SuperAdminGroup} );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getEmails($name) -> @emailAddress
 
@@ -330,7 +330,7 @@ sub getEmails {
     return $this->{U2E}{$user} || ();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod findUserByWikiName ($wikiname) -> list of cUIDs associated with that wikiname
 
@@ -363,7 +363,7 @@ sub findUserByWikiName {
     return \@users;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod checkPassword( $login, $passwordU ) -> $boolean
 
@@ -389,7 +389,7 @@ sub checkPassword {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setPassword( $cUID, $newPassU, $oldPassU ) -> $boolean
 
@@ -411,7 +411,7 @@ sub setPassword {
         'cannot change user passwords using Foswiki::BaseUserMapping');
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod passwordError( ) -> $string
 

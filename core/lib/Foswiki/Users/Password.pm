@@ -17,7 +17,7 @@ package Foswiki::Users::Password;
 use strict;
 use Assert;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $session ) -> $object
 
@@ -50,7 +50,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readOnly(  ) -> boolean
 
@@ -65,7 +65,7 @@ sub readOnly {
     return 1;    #there _is_ no password file.
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod fetchPass( $login ) -> $passwordE
 
@@ -81,7 +81,7 @@ sub fetchPass {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod checkPassword( $login, $passwordU ) -> $boolean
 
@@ -97,7 +97,7 @@ sub checkPassword {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeUser( $login ) -> $boolean
 
@@ -111,7 +111,7 @@ sub removeUser {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setPassword( $login, $newPassU, $oldPassU ) -> $boolean
 
@@ -133,7 +133,7 @@ sub setPassword {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ encrypt( $login, $passwordU, $fresh ) -> $passwordE
 
@@ -153,7 +153,7 @@ sub encrypt {
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod error() -> $string
 
@@ -168,7 +168,7 @@ sub error {
     return $this->{error};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isManagingEmails() -> $boolean
 Determines if this manager can store and retrieve emails. The password
@@ -186,7 +186,7 @@ sub isManagingEmails {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getEmails($login) -> @emails
 Fetch the email address(es) for the given login. Default
@@ -199,7 +199,7 @@ sub getEmails {
     ASSERT( 0, "should never be called" ) if DEBUG;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setEmails($login, @emails) -> $boolean
 Set the email address(es) for the given login name. Returns true if
@@ -214,7 +214,7 @@ sub setEmails {
     ASSERT( 0, "should never be called" ) if DEBUG;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod findUserByEmail($email) -> \@users
 Returns an array of login names that relate to a email address.
@@ -231,7 +231,7 @@ sub findUserByEmail {
     ASSERT( 0, "should never be called" ) if DEBUG;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod canFetchUsers() -> boolean
 
@@ -244,7 +244,7 @@ sub canFetchUsers {
     return;
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod fetchUsers() -> new Foswiki::ListIterator(\@users)
 

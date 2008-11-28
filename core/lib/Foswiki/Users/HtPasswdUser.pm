@@ -62,7 +62,7 @@ sub finish {
     undef $this->{passworddata};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readOnly(  ) -> boolean
 

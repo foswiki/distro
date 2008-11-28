@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=pod TML
+=begin TML
 
 ---+ package Foswiki::EngineException
 
@@ -15,7 +15,7 @@ use base 'Error';
 
 use strict;
 
-=pod
+=begin TML
 
 ---+ ClassMethod new( $status, $reason [, $response] )
 
@@ -38,7 +38,7 @@ sub new {
     );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify() -> $string
 

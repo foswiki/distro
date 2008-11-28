@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Plugins
 
@@ -12,7 +12,7 @@ handler calls to registered plugins.
 
 =cut
 
-=pod
+=begin TML
 
 Note that as of version 1.026 of this module, Foswiki internal
 methods are _no longer available_ to plugins. Any calls to
@@ -62,7 +62,7 @@ require Foswiki::Plugin;
 
 use vars qw ( $VERSION $SESSION $inited );
 
-=pod
+=begin TML
 
 ---++ PUBLIC constant $VERSION
 
@@ -92,7 +92,7 @@ my %onlyOnceHandlers = (
     renderWikiWordHandler         => 1,
 );
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $session )
 
@@ -138,7 +138,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod load($allDisabled) -> $loginName
 
@@ -227,7 +227,7 @@ sub load {
     return $user;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod settings()
 
@@ -246,7 +246,7 @@ sub settings {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod enable()
 
@@ -283,7 +283,7 @@ sub enable {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getPluginVersion() -> $number
 
@@ -306,7 +306,7 @@ sub getPluginVersion {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addListener( $command, $handler )
 
@@ -353,7 +353,7 @@ sub dispatch {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod haveHandlerFor( $handlerName ) -> $boolean
 

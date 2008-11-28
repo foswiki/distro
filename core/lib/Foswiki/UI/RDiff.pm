@@ -425,7 +425,7 @@ sub _renderRevisionDiff {
     );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod diff( $session, $web, $topic, $query )
 

@@ -1,6 +1,6 @@
 # See bottom of file for copyright and license details
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Query::Parser
 

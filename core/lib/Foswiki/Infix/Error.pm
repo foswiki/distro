@@ -1,5 +1,5 @@
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Infix::Error
 

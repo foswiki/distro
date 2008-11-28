@@ -1,6 +1,6 @@
 # Users Module of Foswiki - The Free Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 # See bottom of file for license and copyright information
-=pod
+=begin TML
 
 ---+ package Foswiki::Users
 This package provides services for the lookup and manipulation of login and
@@ -79,7 +79,7 @@ BEGIN {
     srand( time() ^ ( $$ + ( $$ << 15 ) ) );
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session)
 Construct the user management object that is the facade to the BaseUserMapping
@@ -172,7 +172,7 @@ sub finish {
 
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loginTemplateName () -> templateFile
 
@@ -216,7 +216,7 @@ sub _getMapping {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod supportsRegistration () -> boolean
 
@@ -229,7 +229,7 @@ sub supportsRegistration {
     return $this->{mapping}->supportsRegistration();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod initialiseUser ($login) -> $cUID
 
@@ -290,7 +290,7 @@ sub initialiseUser {
 # global used by test harness to give predictable results
 use vars qw( $password );
 
-=pod
+=begin TML
 
 ---++ randomPassword()
 Static function that returns a random password. This function is not used
@@ -310,7 +310,7 @@ sub randomPassword {
       );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addUser($login, $wikiname, $password, $emails) -> $cUID
 
@@ -356,7 +356,7 @@ sub addUser {
     return $cUID;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod mapLogin2cUID( $login ) -> $cUID
 
@@ -382,7 +382,7 @@ sub mapLogin2cUID {
     return $cUID;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getCanonicalUserID( $identifier ) -> $cUID
 
@@ -455,7 +455,7 @@ sub getCanonicalUserID {
     return $cUID;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod findUserByWikiName( $wn ) -> \@users
    * =$wn= - wikiname to look up
@@ -476,7 +476,7 @@ sub findUserByWikiName {
     return $mapping->findUserByWikiName($wn);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod findUserByEmail( $email ) -> \@users
    * =$email= - email address to look up
@@ -495,7 +495,7 @@ sub findUserByEmail {
     return $users;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getEmails($name) -> @emailAddress
 
@@ -520,7 +520,7 @@ sub getEmails {
     return $this->_getMapping($name)->getEmails($name);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setEmails($cUID, @emails)
 
@@ -537,7 +537,7 @@ sub setEmails {
     return $this->_getMapping($cUID)->setEmails( $cUID, @emails );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isAdmin( $cUID ) -> $boolean
 
@@ -569,7 +569,7 @@ sub isAdmin {
     return $this->{isAdmin}->{$cUID};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isInList( $cUID, $list ) -> $boolean
 
@@ -606,7 +606,7 @@ sub isInList {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLoginName($cUID) -> $login
 
@@ -636,7 +636,7 @@ sub getLoginName {
     return $login;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getWikiName($cUID) -> $wikiName
 
@@ -676,7 +676,7 @@ sub getWikiName {
     return $this->{cUID2WikiName}->{$cUID};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod webDotWikiName($cUID) -> $webDotWiki
 
@@ -690,7 +690,7 @@ sub webDotWikiName {
     return $Foswiki::cfg{UsersWebName} . '.' . $this->getWikiName($cUID);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod userExists($cUID) -> $boolean
 
@@ -704,7 +704,7 @@ sub userExists {
     return $this->_getMapping($cUID)->userExists($cUID);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachUser() -> Foswiki::Iterator of cUIDs
 
@@ -733,7 +733,7 @@ sub eachUser {
     return shift->{mapping}->eachUser(@_);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachGroup() ->  Foswiki::ListIterator of groupnames
 
@@ -748,7 +748,7 @@ sub eachGroup {
     return new Foswiki::AggregateIterator( \@list, 1 );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachGroupMember($group) -> $iterator
 
@@ -770,7 +770,7 @@ sub eachGroupMember {
     return new Foswiki::AggregateIterator( \@list, 1 );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isGroup($name) -> boolean
 
@@ -786,7 +786,7 @@ sub isGroup {
       || ( $this->{mapping}->isGroup(@_) );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isInGroup( $cUID, $group ) -> $boolean
 
@@ -809,7 +809,7 @@ sub isInGroup {
       if ( $otherMapping ne $mapping );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachMembership($cUID) -> $iterator
 
@@ -845,7 +845,7 @@ sub eachMembership {
     return new Foswiki::AggregateIterator( \@list, 1 );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod checkLogin( $login, $passwordU ) -> $boolean
 
@@ -867,7 +867,7 @@ sub checkPassword {
     return $mapping->checkPassword( $login, $pw );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setPassword( $cUID, $newPassU, $oldPassU ) -> $boolean
 
@@ -889,7 +889,7 @@ sub setPassword {
       ->setPassword( $this->getLoginName($cUID), $newPassU, $oldPassU );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod passwordError() -> $string
 
@@ -905,7 +905,7 @@ sub passwordError {
     return $this->_getMapping()->passwordError();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeUser( $cUID ) -> $boolean
 

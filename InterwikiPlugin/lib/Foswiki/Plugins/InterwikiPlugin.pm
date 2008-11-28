@@ -15,7 +15,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Plugins::InterwikiPlugin
 

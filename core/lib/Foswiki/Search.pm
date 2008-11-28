@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search;
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Search
 
@@ -30,7 +30,7 @@ BEGIN {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session)
 
@@ -60,7 +60,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod getTextPattern (  $text, $pattern  )
 
@@ -304,7 +304,7 @@ sub _makeTopicPattern {
     return '^(' . join( '|', @arr ) . ')$';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod searchWeb (...)
 
@@ -1172,7 +1172,7 @@ sub _getTextAndMeta {
     return ( $meta, $text );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod displayFormField( $meta, $args ) -> $text
 

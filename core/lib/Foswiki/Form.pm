@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright details
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Form
 
@@ -41,7 +41,7 @@ my %reservedFieldNames = map { $_ => 1 }
   forcenewrevision formtemplate onlynewtopic onlywikiname
   originalrev skin templatetopic text topic topicparent user );
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ( $session, $web, $form, \@def )
 
@@ -128,7 +128,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod fieldTitle2FieldName($title) -> $name
 Chop out all except A-Za-z0-9_. from a field name to create a
@@ -308,7 +308,7 @@ sub _link {
     return $link;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderForEdit( $web, $topic, $meta ) -> $html
 
@@ -411,7 +411,7 @@ sub renderForEdit {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderHidden( $meta ) -> $html
 
@@ -433,7 +433,7 @@ sub renderHidden {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getFieldValuesFromQuery($query, $metaObject) -> ( $seen, \@missing )
 
@@ -477,7 +477,7 @@ sub getFieldValuesFromQuery {
     return ( $seen, \@missing );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isTextMergeable( $name ) -> $boolean
 
@@ -501,7 +501,7 @@ sub isTextMergeable {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getField( $name ) -> $fieldDefinition
 
@@ -520,7 +520,7 @@ sub getField {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getFields() -> \@fields
 

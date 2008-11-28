@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::UI::Register
 
@@ -28,7 +28,7 @@ my %SKIPKEYS = (
     'Email'     => 1
 );
 
-=pod
+=begin TML
 
 ---++ StaticMethod register_cgi( $session )
 
@@ -106,7 +106,7 @@ sub register_cgi {
 my $b1 = "\t* ";
 my $b2 = "\t$b1";
 
-=pod
+=begin TML
 
 ---++ StaticMethod bulkRegister($session)
 
@@ -308,7 +308,7 @@ sub _makeFormFieldOrderMatch {
     return \@form;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod registerAndNext($session) 
 
@@ -331,7 +331,7 @@ sub registerAndNext {
     }
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod register($session)
 
@@ -427,7 +427,7 @@ sub _requireVerification {
     );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod resetPassword($session)
 
@@ -601,7 +601,7 @@ sub _resetUsersPassword {
     return $sent;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod changePassword( $session )
 
@@ -752,7 +752,7 @@ sub changePassword {
     );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod verifyEmailAddress($session)
 

@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 use strict;
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Prefs
 
@@ -28,7 +28,7 @@ use Assert;
 
 require Foswiki::Prefs::PrefsCache;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $session [, $cache] )
 
@@ -83,7 +83,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod pushPreferences( $web, $topic, $type, $prefix )
    * =$web= - web to read from
@@ -112,7 +112,7 @@ sub pushPreferences {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod pushWebPreferences( $web )
 
@@ -133,7 +133,7 @@ sub pushWebPreferences {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod pushGlobalPreferences()
 Add global preferences to this preferences stack.
@@ -161,7 +161,7 @@ sub pushGlobalPreferencesSiteSpecific {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod pushPreferencesValues( $type, \%values )
 Push a new preference level using type and values given
@@ -189,7 +189,7 @@ sub pushPreferenceValues {
     $req->finalise($this);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod mark()
 Return a marker representing the current top of the preferences
@@ -203,7 +203,7 @@ sub mark {
     return scalar( @{ $this->{PREFS} } );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod restore( $mark )
 Resets the preferences stack to the given mark, to recover after a topic
@@ -217,7 +217,7 @@ sub restore {
     splice( @{ $this->{PREFS} }, $where );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getPreferencesValue( $key ) -> $value
    * =$key - key to look up
@@ -243,7 +243,7 @@ sub getPreferencesValue {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isFinalised( $key )
 Return true if $key is finalised somewhere in the prefs stack
@@ -260,7 +260,7 @@ sub isFinalised {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getTopicPreferencesValue( $key, $web, $topic ) -> $value
 
@@ -285,7 +285,7 @@ sub getTopicPreferencesValue {
     return $this->{TOPICS}{$wtn}->{values}{$key};
 }
 
-=pod
+=begin TML
 
 ---++ getTextPreferencesValue( $key, $text, $meta, $web, $topic ) -> $value
 Get a preference value from the settings in the text (and/or optional $meta).
@@ -304,7 +304,7 @@ sub getTextPreferencesValue {
     return $cache->{values}{$key};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getWebPreferencesValue( $key, $web ) -> $value
 
@@ -333,7 +333,7 @@ sub getWebPreferencesValue {
     return $this->{WEBS}{$wtn}->getPreferencesValue($key);
 }
 
-=pod
+=begin TML
 
 ---+++ setPreferencesValue($name, $val)
 
@@ -351,7 +351,7 @@ sub setPreferencesValue {
     return $top->insert( 'Set', $name, $value );
 }
 
-=pod
+=begin TML
 
 ---++ObjectMethod stringify() -> $text
 

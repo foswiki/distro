@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=pod
+=begin TML
 
 ---+ package Foswiki::AggregateIterator
 
@@ -11,7 +11,7 @@ package Foswiki::AggregateIterator;
 
 use strict;
 
-=pod
+=begin TML
 
 ---++ new(\@list, $unique)
 
@@ -41,7 +41,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ hasNext() -> $boolean
 
@@ -92,7 +92,7 @@ sub unique {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ next() -> $data
 

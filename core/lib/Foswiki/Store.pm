@@ -44,7 +44,7 @@ BEGIN {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new($session)
 
@@ -90,7 +90,7 @@ sub _getHandler {
     return $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readTopic($user, $web, $topic, $version) -> ($metaObject, $text)
 
@@ -159,7 +159,7 @@ sub readTopic {
     return ( $meta, $meta->text() );
 }
 
-=pod 
+=begin TML 
 
 ---++ ObjectMethod _findAttachments($session, $web, $topic, $knownAttachments) -> @attachmentsFoundInPub
 
@@ -222,7 +222,7 @@ sub _findAttachments {
     return @deindexedBecauseMetaDoesnotIndexAttachments;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readTopicRaw( $user, $web, $topic, $version ) ->  $topicText
 
@@ -282,7 +282,7 @@ sub readTopicRaw {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod moveAttachment( $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic, $newAttachment, $user  )
 
@@ -381,7 +381,7 @@ sub moveAttachment {
         $newWeb, $newTopic, $newAttachment );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getAttachmentStream( $user, $web, $topic, $attName ) -> \*STREAM
 
@@ -419,7 +419,7 @@ sub getAttachmentStream {
     return $handler->getStream();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getAttachmentList($web, $topic)
 
@@ -434,7 +434,7 @@ sub getAttachmentList {
     return $handler->getAttachmentList( $web, $topic );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod attachmentExists( $web, $topic, $att ) -> $boolean
 
@@ -449,7 +449,7 @@ sub attachmentExists {
     return $handler->storedDataExists();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _removeAutoAttachmentsFromMeta
 
@@ -465,7 +465,7 @@ sub _removeAutoAttachmentsFromMeta {
     return $meta;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod moveTopic(  $oldWeb, $oldTopic, $newWeb, $newTopic, $user )
 
@@ -546,7 +546,7 @@ sub moveTopic {
         $newTopic, '' );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod moveWeb( $oldWeb, $newWeb, $user )
 
@@ -602,7 +602,7 @@ sub moveWeb {
       ->dispatch( 'afterRenameHandler', $oldWeb, '', '', $newWeb, '', '' );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readAttachment( $user, $web, $topic, $attachment, $theRev  ) -> $text
 
@@ -636,7 +636,7 @@ sub readAttachment {
     return $handler->getRevision($theRev);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionNumber ( $web, $topic, $attachment  ) -> $integer
 
@@ -656,7 +656,7 @@ sub getRevisionNumber {
     return $handler->numRevisions();
 }
 
-=pod
+=begin TML
 
 ---+++ ObjectMethod getWorkArea( $key ) -> $directorypath
 
@@ -672,7 +672,7 @@ sub getWorkArea {
     return $handler->getWorkArea($key);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionDiff ( $user, $web, $topic, $rev1, $rev2, $contextLines  ) -> \@diffArray
 
@@ -731,7 +731,7 @@ sub getRevisionDiff {
     return $rcs->revisionDiff( $rev1, $rev2, $contextLines );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionInfo($web, $topic, $rev, $attachment) -> ( $date, $user, $rev, $comment )
 
@@ -769,7 +769,7 @@ sub getRevisionInfo {
     return ( $date, $user, $rev, $comment );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod dataEncode( $uncoded ) -> $coded
 
@@ -792,7 +792,7 @@ sub dataEncode {
     return $datum;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod dataDecode( $encoded ) -> $decoded
 
@@ -848,7 +848,7 @@ sub _singleKey {
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod saveTopic( $user, $web, $topic, $text, $meta, $options  )
 
@@ -939,7 +939,7 @@ sub saveTopic {
     throw $error if $error;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod saveAttachment ($web, $topic, $attachment, $user, $opts )
 
@@ -1166,7 +1166,7 @@ sub _noHandlersSave {
     };
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod repRev( $user, $web, $topic, $text, $meta, $options )
 
@@ -1246,7 +1246,7 @@ sub repRev {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod delRev( $user, $web, $topic, $text, $meta, $options )
 
@@ -1294,7 +1294,7 @@ sub delRev {
     );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod lockTopic( $web, $topic )
 
@@ -1342,7 +1342,7 @@ sub lockTopic {
     $handler->setLock( 1, $locker );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod unlockTopic( $user, $web, $topic )
 
@@ -1364,7 +1364,7 @@ sub unlockTopic {
     $handler->setLock( 0, $user );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod webExists( $web ) -> $boolean
 
@@ -1384,7 +1384,7 @@ sub webExists {
     return $handler->storedDataExists();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod topicExists( $web, $topic ) -> $boolean
 
@@ -1510,7 +1510,7 @@ sub extractMetaData {
     return $meta;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getTopicParent (  $web, $topic  ) -> $string
 
@@ -1548,7 +1548,7 @@ sub getTopicParent {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getTopicLatestRevTime (  $web, $topic  ) -> $epochSecs
 
@@ -1565,7 +1565,7 @@ sub getTopicLatestRevTime {
     return $handler->getLatestRevisionTime();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachChange( $web, $time ) -> $iterator
 
@@ -1585,7 +1585,7 @@ sub eachChange {
     return $handler->eachChange($time);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getTopicNames( $web ) -> @topics
 
@@ -1604,7 +1604,7 @@ sub getTopicNames {
     return $handler->getTopicNames();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getListOfWebs( $filter ) -> @webNames
 
@@ -1689,7 +1689,7 @@ sub _getSubWebs {
     return @webList;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod createWeb( $user, $newWeb, $baseWeb, $opts )
 
@@ -1756,7 +1756,7 @@ sub createWeb {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeWeb( $user, $web )
 
@@ -1784,7 +1784,7 @@ sub removeWeb {
     $handler->removeWeb();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getDebugText($meta, $text) -> $text
 
@@ -1800,7 +1800,7 @@ sub getDebugText {
     return $meta->getEmbeddedStoreForm();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod cleanUpRevID( $rev ) -> $integer
 
@@ -1823,7 +1823,7 @@ sub cleanUpRevID {
     return Foswiki::Sandbox::untaintUnchecked($rev);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod copyTopic($user, $fromweb, $fromtopic, $toweb, $totopic)
 
@@ -1842,7 +1842,7 @@ sub copyTopic {
     $handler->copyTopic( $toWeb, $toTopic );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod searchMetaData($params) -> $text
 
@@ -1934,7 +1934,7 @@ sub searchMetaData {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod searchInWebMetaData($query, $web, \@topics) -> \%matches
 
@@ -1965,7 +1965,7 @@ sub _collate {
     $$ref .= join( ' ', @_ );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
 
@@ -1998,7 +1998,7 @@ sub searchInWebContent {
     return $handler->searchInWebContent( $searchString, $topics, $options );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionAtTime( $web, $topic, $time ) -> $rev
 
@@ -2019,7 +2019,7 @@ sub getRevisionAtTime {
     return $handler->getRevisionAtTime($time);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLease( $web, $topic ) -> $lease
 
@@ -2043,7 +2043,7 @@ sub getLease {
     return $lease;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setLease( $web, $topic, $user, $length )
 
@@ -2070,7 +2070,7 @@ sub setLease {
     $handler->setLease($lease);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod clearLease( $web, $topic )
 
@@ -2087,7 +2087,7 @@ sub clearLease {
     $handler->setLease(undef);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeSpuriousLeases( $web )
 

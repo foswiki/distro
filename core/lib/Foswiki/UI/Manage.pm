@@ -19,7 +19,7 @@ require Foswiki::UI;
 require Foswiki::OopsException;
 require Foswiki::Sandbox;
 
-=pod
+=begin TML
 
 ---++ StaticMethod manage( $session )
 
@@ -244,7 +244,7 @@ sub _createWeb {
     );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod rename( $session )
 
@@ -465,7 +465,7 @@ sub rename {
     $session->redirect( $new_url, undef, 1 );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod _isValidTopicName( $topic, $nonWikiWordParam ) -> $boolean
 
@@ -489,7 +489,7 @@ sub _isValidTopicName {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod _safeTopicName( $topic ) -> $topic
 
@@ -508,7 +508,7 @@ sub _safeTopicName {
     return $topic;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod _createTopic()
 
@@ -916,7 +916,7 @@ sub _renameweb {
     $session->redirect($new_url);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod move($session, $oldWeb, $oldTopic, $newWeb, $newTopic, $attachment, \@refs )
 
@@ -1342,7 +1342,7 @@ sub _getReferringTopicsListFromURL {
     return \@result;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod getReferringTopics($session, $web, $topic, $allWebs) -> \%matches
 

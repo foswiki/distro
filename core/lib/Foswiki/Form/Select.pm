@@ -24,7 +24,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ getDefaultValue() -> $value
 The default for a select is always the empty string, as there is no way in

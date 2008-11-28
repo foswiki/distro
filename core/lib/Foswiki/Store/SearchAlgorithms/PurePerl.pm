@@ -2,7 +2,7 @@
 
 package Foswiki::Store::SearchAlgorithms::PurePerl;
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Store::SearchAlgorithms::PurePerl
 

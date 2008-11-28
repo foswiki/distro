@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Attrs
 
@@ -20,48 +20,52 @@ values, spaces around the =, and commas as well as spaces separating values.
 The extended syntax has to be enabled by passing the =$friendly= parameter
 to =new=.
 
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
+_not_ be called in new plugins and should be replaced in older plugins
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
+
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
+
 =cut
+
+# THIS PACKAGE IS PART OF THE PUBLISHED API USED BY EXTENSION AUTHORS.
+# DO NOT CHANGE THE EXISTING APIS (well thought out extensions are OK)
+# AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::Attrs;
 
 use strict;
 use Assert;
 
-use vars qw( $ERRORKEY $DEFAULTKEY $RAWKEY );
+our $VERSION = '$Rev$';
 
-$ERRORKEY   = '_ERROR';
-$DEFAULTKEY = '_DEFAULT';
-$RAWKEY     = '_RAW';
+our $ERRORKEY   = '_ERROR';
+our $DEFAULTKEY = '_DEFAULT';
+our $RAWKEY     = '_RAW';
 
-=pod
+=begin TML
 
----++ ClassMethod new ($string, $friendly) => \%attrsObjectRef
+---++ ClassMethod new ($string) => \%attrsObjectRef
 
    * =$string= - String containing attribute specification
-   * =$friendly= - if true, the parse will be according to the extended syntax pioneered by the original Contrib::Attrs. Otherwise it will be strict as per traditional syntax.
 
 Parse a standard attribute string containing name=value pairs and create a new
 attributes object. The value may be a word or a quoted string. If there is an
 error during parsing, the parse will complete but $attrs->{_ERROR} will be
 set in the new object. $attrs->{_RAW} will always contain the full unprocessed
 $string.
-
-Extended syntax example:
-<verbatim>
-my $attrs = new Foswiki::Attrs('the="time \\"has come", "the walrus" said to=speak of=\'many \\'things\', 1);
-</verbatim>
-In this example:
-   * =the= will be =time "has come=
-   * <code>_<nop>_<nop>default__</code> will be =the walrus=
-   * =said= will be =on=
-   * =to= will be =speak=
-   * =of= will be =many 'things=
-
-Only " and ' are escaped.
-
-Traditional syntax is as old TWiki, except that the whole string is parsed
-(the old parser would only recognise default values in position 1, nowhere
-else)
 
 =cut
 
@@ -141,7 +145,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isEmpty() -> boolean
 
@@ -158,7 +162,7 @@ sub isEmpty {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod remove($key) -> $value
 
@@ -175,7 +179,7 @@ sub remove {
     return $val;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify() -> $string
 

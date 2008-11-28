@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
-=pod TML
+
+=begin TML
 
 ---+ package Foswiki::AccessControlException
 
@@ -17,14 +18,38 @@ The exception may be thrown by plugins. If a plugin throws the exception, it
 will normally be caught and the browser redirected to a login screen (if the
 user is not logged in) or reported (if they are and just don't have access).
 
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
+_not_ be called in new plugins and should be replaced in older plugins
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
+
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
+
 =cut
+
+# THIS PACKAGE IS PART OF THE PUBLISHED API USED BY EXTENSION AUTHORS.
+# DO NOT CHANGE THE EXISTING APIS (well thought out extensions are OK)
+# AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::AccessControlException;
 use base 'Error';
 
 use strict;
 
-=pod
+our $VERSION = '$Rev$';
+
+=begin TML
 
 ---+ ClassMethod new($mode, $user, $web, $topic, $reason)
 
@@ -51,7 +76,7 @@ sub new {
     );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify() -> $string
 

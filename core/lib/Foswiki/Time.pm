@@ -1,18 +1,42 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Time
 
 Time handling functions.
 
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
+_not_ be called in new plugins and should be replaced in older plugins
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
+
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
+
 =cut
+
+# THIS PACKAGE IS PART OF THE PUBLISHED API USED BY EXTENSION AUTHORS.
+# DO NOT CHANGE THE EXISTING APIS (well thought out extensions are OK)
+# AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::Time;
 
 use strict;
 
 require Foswiki;
+
+our $VERSION = '$Rev$'; # Subversion rev number
 
 # Constants
 use vars qw( @ISOMONTH @WEEKDAY @MONTHLENS %MON2NUM );
@@ -42,7 +66,7 @@ use vars qw( @ISOMONTH @WEEKDAY @MONTHLENS %MON2NUM );
     dec => 11
 );
 
-=pod
+=begin TML
 
 ---++ StaticMethod parseTime( $szDate, $defaultLocal ) -> $iSecs
 
@@ -57,7 +81,7 @@ Default Foswiki format
 Foswiki format without time (defaults to 00:00)
    * 31 Dec 2001
 
-Date seperated by '/', '.' or '-', time with '.' or ':'
+Date separated by '/', '.' or '-', time with '.' or ':'
 Date and time separated by ' ', '.' and/or '-'
    * 2001/12/31 23:59:59
    * 2001.12.31.23.59.59
@@ -144,7 +168,7 @@ sub parseTime {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod formatTime ($epochSeconds, $formatString, $outputTimeZone) -> $value
 
@@ -258,7 +282,7 @@ sub _weekNumber {
       sprintf( '%.0f', ( $nextThursday - $firstFourth ) / ( 7 * 86400 ) ) + 1;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod formatDelta( $s ) -> $string
 
@@ -321,7 +345,7 @@ sub formatDelta {
     return $str;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod parseInterval( $szInterval ) -> [$iSecs, $iSecs]
 
@@ -361,10 +385,9 @@ timezone is optional. Default is local time.
 
 If the format is not recognised, will return empty interval [0,0].
 
-TODO: timezone
-      testing, especially on non valid strings
-
 =cut
+
+# TODO: timezone testing, especially on non valid strings
 
 sub parseInterval {
     my ($interval) = @_;

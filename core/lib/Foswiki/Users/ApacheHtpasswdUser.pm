@@ -8,7 +8,7 @@ use strict;
 use Foswiki::Users::Password;
 use Error qw( :try );
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Users::ApacheHtpasswdUser
 
@@ -49,7 +49,7 @@ sub finish {
     undef $this->{apache};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readOnly(  ) -> boolean
 

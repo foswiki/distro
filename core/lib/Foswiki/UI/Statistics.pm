@@ -29,7 +29,7 @@ BEGIN {
     }
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod statistics( $session )
 

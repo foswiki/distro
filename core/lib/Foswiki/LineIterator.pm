@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::LineIterator
 
@@ -12,7 +12,7 @@ package Foswiki::LineIterator;
 
 use strict;
 
-=pod
+=begin TML
 
 ---++ new( $file )
 
@@ -46,7 +46,7 @@ sub _DESTROY {
     }
 }
 
-=pod
+=begin TML
 
 ---++ hasNext() -> $boolean
 
@@ -65,7 +65,7 @@ sub hasNext {
     return defined( $this->{nextLine} );
 }
 
-=pod
+=begin TML
 
 ---++ next() -> $data
 

@@ -4,7 +4,7 @@ package Foswiki::Store::SearchAlgorithms::Forking;
 
 use strict;
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Store::SearchAlgorithms::Forking
 

@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Merge
 
@@ -15,7 +15,7 @@ use Assert;
 
 require CGI;
 
-=pod
+=begin TML
 
 ---++ StaticMethod merge2( $arev, $a, $brev, $b, $sep, $session, $info )
 
@@ -181,7 +181,7 @@ sub _change {
     }
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod simpleMerge( $a, $b, $sep ) -> \@arr
 
@@ -269,7 +269,7 @@ sub _equal {
     return $a eq $b;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod merge3( $arev, $a, $brev, $b, $crev, $c, $sep,
                           $session, $info )

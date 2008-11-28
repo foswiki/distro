@@ -46,7 +46,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---+++ getExternalResource( $url ) -> $response
 
@@ -273,7 +273,7 @@ sub _installMailHandler {
     $this->setMailHandler($handler) if $handler;
 }
 
-=pod
+=begin TML
 
 ---++ setMailHandler( \&fn )
 
@@ -291,7 +291,7 @@ sub setMailHandler {
     $this->{mailHandler} = $fnref;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod sendEmail ( $text, $retries ) -> $error
 

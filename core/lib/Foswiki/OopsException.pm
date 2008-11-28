@@ -1,7 +1,10 @@
 # See bottom of file for license and copyright information
-=pod TML
+
+=begin TML
 
 ---+ package Foswiki::OopsException
+
+API version $Rev$ $Date$
 
 Exception used to raise a request to redirect to an Oops URL.
 
@@ -26,7 +29,29 @@ throw Foswiki::OopsException( 'bathplugin',
                             params => [ 'bigtoe', 'hot tap' ] );
 </verbatim>
 
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
+_not_ be called in new plugins and should be replaced in older plugins
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
+
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
+
 =cut
+
+# THIS PACKAGE IS PART OF THE PUBLISHED API USED BY EXTENSION AUTHORS.
+# DO NOT CHANGE THE EXISTING APIS (well thought out extensions are OK)
+# AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::OopsException;
 use base 'Error';
@@ -35,7 +60,9 @@ use strict;
 use Error;
 use Assert;
 
-=pod
+our $VERSION = '$Rev';
+
+=begin TML
 
 ---++ ClassMethod new( $template, ...)
    * =template= is the name of an oops template. e.g. 'bathplugin' refers to =templates/oopsbathplugin.tmpl=
@@ -75,7 +102,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify( [$session] ) -> $string
 
@@ -118,7 +145,7 @@ sub stringify {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod redirect( $twiki )
 

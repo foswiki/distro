@@ -16,7 +16,7 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 
-=pod
+=begin TML
 
 ---+ package TwistyPlugin
 
@@ -372,7 +372,7 @@ sub _createHtmlProperties {
     return @propList;
 }
 
-=pod
+=begin TML
 
 Reads a setting from the FOSWIKIPREF cookie.
 Returns:

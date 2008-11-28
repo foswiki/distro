@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki;
 
-=pod
+=begin TML
 
 ---+ package Foswiki
 
@@ -92,7 +92,7 @@ use vars qw(
 # See Codev.NationalCharTokenClash for more.
 $TranslationToken = "\0";
 
-=pod
+=begin TML
 
 ---++ StaticMethod getLibDir() -> $path
 
@@ -525,7 +525,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
     Monitor::MARK('Static configuration loaded');
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod UTF82SiteCharSet( $utf8 ) -> $ascii
 
@@ -625,7 +625,7 @@ sub UTF82SiteCharSet {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod writeCompletePage( $text, $pageType, $contentType )
 
@@ -672,7 +672,7 @@ sub writeCompletePage {
     $this->{response}->body($text);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod generateHTTPHeaders( $query, $pageType, $contentType ) -> $header
 
@@ -748,7 +748,7 @@ sub generateHTTPHeaders {
     $this->{response}->headers($hopts);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod isRedirectSafe($redirect) => $ok
 
@@ -812,7 +812,7 @@ sub _getRedirectUrl {
     return $redirecturl;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod redirect( $url, $passthrough, $action_redirectto )
 
@@ -922,7 +922,7 @@ sub redirect {
     return !$this->{users}->{loginManager}->redirectCgiQuery( $query, $url );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod cacheQuery() -> $queryString
 
@@ -962,7 +962,7 @@ sub cacheQuery {
     return 'twiki_redirect_cache=' . $uid;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod isValidWikiWord( $name ) -> $boolean
 
@@ -975,7 +975,7 @@ sub isValidWikiWord {
     return ( $name =~ m/^$regex{wikiWordRegex}$/o );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod isValidTopicName( $name ) -> $boolean
 
@@ -989,7 +989,7 @@ sub isValidTopicName {
     return isValidWikiWord(@_) || isValidAbbrev(@_);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod isValidAbbrev( $name ) -> $boolean
 
@@ -1002,7 +1002,7 @@ sub isValidAbbrev {
     return ( $name =~ m/^$regex{abbrevRegex}$/o );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod isValidWebName( $name, $system ) -> $boolean
 
@@ -1022,7 +1022,7 @@ sub isValidWebName {
     return ( $name =~ m/^$regex{webNameRegex}$/o );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readOnlyMirrorWeb( $theWeb ) -> ( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote )
 
@@ -1064,7 +1064,7 @@ sub readOnlyMirrorWeb {
     return @mirrorInfo;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getSkin () -> $string
 
@@ -1093,7 +1093,7 @@ sub getSkin {
     return $skinpath;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getScriptUrl( $absolute, $script, $web, $topic, ... ) -> $scriptURL
 
@@ -1186,7 +1186,7 @@ sub _make_params {
     return $url;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getPubUrl($absolute, $web, $topic, $attachment) -> $url
 
@@ -1236,7 +1236,7 @@ sub getPubUrl {
     return $url;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getIconUrl( $absolute, $iconName ) -> $iconURL
 
@@ -1258,7 +1258,7 @@ sub getIconUrl {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod mapToIconFileName( $fileName, $default ) -> $fileName
 
@@ -1297,7 +1297,7 @@ sub mapToIconFileName {
     return $this->{_ICONMAP}->{$fileExt} || $default || 'else';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod normalizeWebTopicName( $theWeb, $theTopic ) -> ( $theWeb, $theTopic )
 
@@ -1333,7 +1333,7 @@ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/_expandTagOnTopicRendering( $this,$1)||''
     return ( $web, $topic );
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $loginName, $query, \%initialContext )
 
@@ -1753,7 +1753,7 @@ sub finish {
     undef $this->{evaluating_if};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod writeLog( $action, $webTopic, $extra, $user )
 
@@ -1794,7 +1794,7 @@ sub writeLog {
     _writeReport( $this, $Foswiki::cfg{LogFileName}, $text );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod writeWarning( $text )
 
@@ -1809,7 +1809,7 @@ sub writeWarning {
     _writeReport( $this, $Foswiki::cfg{WarningFileName}, @_ );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod writeDebug( $text )
 
@@ -1961,7 +1961,7 @@ s/(\s(?:href|src|action)=(["']))(.*?)\2/$1._rewriteURLInInclude( $host, $path, $
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod applyPatternToIncludedText( $text, $pattern ) -> $text
 
@@ -2268,7 +2268,7 @@ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod inlineAlert($template, $def, ... ) -> $string
 
@@ -2313,7 +2313,7 @@ sub inlineAlert {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod parseSections($text) -> ($string,$sectionlistref)
 
@@ -2420,7 +2420,7 @@ sub parseSections {
     return ( $ntext, \@list );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod expandVariablesOnTopicCreation ( $text, $user, $web, $topic ) -> $text
 
@@ -2519,7 +2519,7 @@ sub expandVariablesOnTopicCreation {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod entityEncode( $text, $extras ) -> $encodedText
 
@@ -2564,7 +2564,7 @@ sub entityEncode {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod entityDecode ( $encodedText ) -> $text
 
@@ -2580,7 +2580,7 @@ sub entityDecode {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod urlEncodeAttachment ( $text )
 
@@ -2628,7 +2628,7 @@ sub urlEncodeAttachment {
     return urlEncode($text);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod urlEncode( $string ) -> encoded string
 
@@ -2665,7 +2665,7 @@ sub urlEncode {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod urlDecode( $string ) -> decoded string
 
@@ -2681,7 +2681,7 @@ sub urlDecode {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod isTrue( $value, $default ) -> $boolean
 
@@ -2709,7 +2709,7 @@ sub isTrue {
     return ($value) ? 1 : 0;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod spaceOutWikiWord( $word, $sep ) -> $string
 
@@ -2727,7 +2727,7 @@ s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/go;
     return $word;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod expandAllTags(\$text, $topic, $web, $meta)
 Expands variables by replacing the variables with their
@@ -2986,7 +2986,7 @@ sub _expandTagOnTopicCreation {
     return _expandTagOnTopicRendering( $this, @_ );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod enterContext( $id, $val )
 
@@ -3015,7 +3015,7 @@ sub enterContext {
     $this->{context}->{$id} = $val;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod leaveContext( $id )
 
@@ -3031,7 +3031,7 @@ sub leaveContext {
     return $res;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod inContext( $id )
 
@@ -3045,7 +3045,7 @@ sub inContext {
     return $this->{context}->{$id};
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod registerTagHandler( $tag, $fnref )
 
@@ -3063,7 +3063,7 @@ sub registerTagHandler {
     }
 }
 
-=pod=
+=begin TML=
 
 ---++ StaticMethod registerRESTHandler( $subject, $verb, \&fn )
 
@@ -3092,7 +3092,7 @@ sub registerRESTHandler {
     $restDispatch{$subject}{$verb} = \&$fnref;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod handleCommonTags( $text, $web, $topic, $meta ) -> $text
 
@@ -3170,7 +3170,7 @@ sub handleCommonTags {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod ADDTOHEAD( $args )
 
@@ -3281,7 +3281,7 @@ sub _genHeaders {
     return join( "\n", map { "<!-- $_->{tag} --> $_->{header}" } @total );
 }
 
-=pod
+=begin TML
 
 ---+++ %<nop}RENDERHEAD%
 =%RENDERHEAD%= should be written where you want the sorted head tags to be generated. This will normally be in a template. The variable expands to a sorted list of the head blocks added up to the point the RENDERHEAD variable is expanded. Each expanded head block is preceded by an HTML comment that records the ID of the head block.
@@ -3298,7 +3298,7 @@ sub RENDERHEAD {
     return _genHeaders($this);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod initialize( $pathInfo, $remoteUser, $topic, $url, $query ) -> ($topicName, $webName, $scriptUrlPath, $userName, $dataDir)
 
@@ -3345,7 +3345,7 @@ sub initialize {
     );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod readFile( $filename ) -> $text
 
@@ -3368,7 +3368,7 @@ sub readFile {
     return $data;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod expandStandardEscapes($str) -> $unescapedStr
 
@@ -4512,7 +4512,7 @@ sub _includeCodeDoc {
     my $pod = '';
     local $/ = "\n";
     while ( my $line = <PMFILE> ) {
-        if ( $line =~ /^=(begin|pod)/ ) {
+        if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
         }
         elsif ( $line =~ /^=cut/ ) {

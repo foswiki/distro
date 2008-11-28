@@ -1,5 +1,5 @@
 # See bottom of file for license and copyright information
-=pod
+=begin TML
 
 ---+ package Foswiki::Plurals
 
@@ -11,7 +11,7 @@ package Foswiki::Plurals;
 
 use strict;
 
-=pod
+=begin TML
 
 ---++ StaticMethod singularForm($web, $pluralForm) -> $singularForm
 

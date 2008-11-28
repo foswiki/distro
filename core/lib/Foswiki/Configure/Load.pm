@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Configure::Load
 
@@ -16,7 +16,7 @@ package Foswiki::Configure::Load;
 
 our $TRUE = 1;
 
-=pod
+=begin TML
 
 ---++ StaticMethod readConfig()
 
@@ -100,7 +100,7 @@ sub expand {
     }
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod expandValue($string) -> $boolean
 
@@ -117,7 +117,7 @@ sub expandValue {
     $_[0] =~ s/(\$Foswiki::cfg{[[A-Za-z0-9{}]+})/eval $1||'undef'/ge;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod readDefaults() -> \@errors
 

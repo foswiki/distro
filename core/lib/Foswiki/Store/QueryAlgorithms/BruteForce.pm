@@ -1,6 +1,6 @@
 # Please see the bottom of this file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Store::QueryAlgorithms::BruteForce
 

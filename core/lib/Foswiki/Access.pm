@@ -23,7 +23,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Access
 
@@ -39,7 +39,7 @@ use Assert;
 # Enable this for debug. Done as a sub to allow perl to optimise it out.
 sub MONITOR { 0 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new($session)
 
@@ -70,7 +70,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getReason() -> $string
 
@@ -85,7 +85,7 @@ sub getReason {
     return $this->{failure};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod checkAccessPermission( $action, $user, $text, $meta, $topic, $web ) -> $boolean
 

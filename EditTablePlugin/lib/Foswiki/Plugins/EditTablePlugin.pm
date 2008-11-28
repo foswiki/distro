@@ -130,7 +130,7 @@ sub decodeFormatTokens {
     $_[0] =~ s/\$dollar(\(\))?/\$/gos; # expand dollar
 }
 
-=pod
+=begin TML
 
 Style sheet for table in view mode
 
@@ -149,7 +149,7 @@ EOF
     Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN', $header );
 }
 
-=pod
+=begin TML
 
 Style sheet and javascript for table in edit mode
 

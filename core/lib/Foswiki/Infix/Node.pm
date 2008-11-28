@@ -1,5 +1,5 @@
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Infix::Node
 
@@ -21,7 +21,7 @@ $NAME   = 1;
 $NUMBER = 2;
 $STRING = 3;
 
-=pod
+=begin TML
 
 ---++ ClassMethod newNode( $o, @p ) -> \$if
 
@@ -38,7 +38,7 @@ sub newNode {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod newLeaf( $val, $type ) -> \$if
 
@@ -51,7 +51,7 @@ sub newLeaf {
     return newNode( $class, $type, $val );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod evaluate(...) -> $result
 

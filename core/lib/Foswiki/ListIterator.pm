@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::ListIterator
 
@@ -12,7 +12,7 @@ package Foswiki::ListIterator;
 
 use strict;
 
-=pod
+=begin TML
 
 ---++ new(\@list)
 
@@ -37,7 +37,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ hasNext() -> $boolean
 
@@ -67,7 +67,7 @@ sub hasNext {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ next() -> $data
 

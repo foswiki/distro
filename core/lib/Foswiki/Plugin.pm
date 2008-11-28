@@ -76,7 +76,7 @@ use vars qw( @registrableHandlers %deprecated );
     writeHeaderHandler    => 1,
 );
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $session, $name, [, $module] )
 

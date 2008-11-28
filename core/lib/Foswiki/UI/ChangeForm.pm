@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::UI::ChangeForm
 
@@ -16,7 +16,7 @@ use Assert;
 
 require Foswiki;
 
-=pod
+=begin TML
 
 ---+ ClassMethod generate( $session, $theWeb, $theTopic, $editaction )
 

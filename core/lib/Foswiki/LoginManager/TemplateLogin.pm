@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::LoginManager::TemplateLogin
 
@@ -20,7 +20,7 @@ use base 'Foswiki::LoginManager';
 use strict;
 use Assert;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session, $impl)
 
@@ -41,7 +41,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod forceAuthentication () -> boolean
 
@@ -69,7 +69,7 @@ sub forceAuthentication {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loginUrl () -> $loginUrl
 
@@ -87,7 +87,7 @@ sub loginUrl {
         origurl => $session->{request}->uri );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod login( $query, $session )
 

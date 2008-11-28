@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::UI::Save
 
@@ -329,7 +329,7 @@ sub buildNewTopic {
     return ( $newMeta, $newText, $saveOpts, $merged );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod save($session)
 

@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::LoginManager
 
@@ -59,7 +59,7 @@ $M1 = chr(5);
 $M2 = chr(6);
 $M3 = chr(7);
 
-=pod
+=begin TML
 
 ---++ StaticMethod makeLoginManager( $session ) -> $Foswiki::LoginManager
 
@@ -123,7 +123,7 @@ sub makeLoginManager {
     return $mgr;
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session, $impl)
 
@@ -177,7 +177,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod _real_trace ($session, $impl)
 
@@ -200,7 +200,7 @@ else {
     *_trace = sub { undef };
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod _IP2SID ($session, $impl)
 
@@ -240,7 +240,7 @@ sub _IP2SID {
     return $sid;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loadSession($defaultUser) -> $login
 
@@ -390,7 +390,7 @@ sub loadSession {
     return $authUser;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod checkAccess()
 
@@ -423,7 +423,7 @@ sub checkAccess {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod complete()
 
@@ -447,7 +447,7 @@ sub complete {
     expireDeadSessions();
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod expireDeadSessions()
 
@@ -485,7 +485,7 @@ sub expireDeadSessions {
     closedir D;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod userLoggedIn( $login, $wikiname)
 
@@ -557,7 +557,7 @@ sub userLoggedIn {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _myScriptURLRE ($thisl)
 
@@ -589,7 +589,7 @@ sub _myScriptURLRE {
     return $s;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _rewriteURL ($thisl)
 
@@ -631,7 +631,7 @@ sub _rewriteURL {
     return $url;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _rewriteFORM ($thisl)
 
@@ -659,7 +659,7 @@ sub _rewriteFORM {
     return $url . $rest;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod endRenderingHandler()
 
@@ -705,7 +705,7 @@ s/(<form[^>]*(?<=\s)(?:action)=(["']))(.*?)(\2[^>]*>)/$1._rewriteFORM( $this,$3,
     $_[0] =~ s/%SKINSELECT%/_skinSelect( $this )/geo;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _pushCookie ($thisl)
 
@@ -742,7 +742,7 @@ sub _pushCookie {
     $this->addCookie($cookie);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addCookie($c)
 
@@ -761,7 +761,7 @@ sub addCookie {
     push( @{ $this->{_cookies} }, $c );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod modifyHeader( \%header )
 
@@ -781,7 +781,7 @@ sub modifyHeader {
     $response->cookies( $this->{_cookies} );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod redirectCgiQuery( $url )
 
@@ -825,7 +825,7 @@ sub redirectCgiQuery {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getSessionValues() -> \%values
 
@@ -841,7 +841,7 @@ sub getSessionValues {
     return $this->{_cgisession}->param_hashref();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getSessionValue( $name ) -> $value
 
@@ -856,7 +856,7 @@ sub getSessionValue {
     return $this->{_cgisession}->param($key);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setSessionValue( $name, $value )
 
@@ -879,7 +879,7 @@ sub setSessionValue {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod clearSessionValue( $name ) -> $boolean
 
@@ -904,7 +904,7 @@ sub clearSessionValue {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod forceAuthentication() -> boolean
 
@@ -923,7 +923,7 @@ sub forceAuthentication {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loginUrl( ... ) -> $url
 
@@ -938,7 +938,7 @@ sub loginUrl {
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getUser()
 
@@ -954,7 +954,7 @@ sub getUser {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _LOGIN ($thisl)
 
@@ -977,7 +977,7 @@ sub _LOGIN {
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _LOGOUTURL ($thisl)
 
@@ -996,7 +996,7 @@ sub _LOGOUTURL {
     );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _LOGOUT ($thisl)
 
@@ -1017,7 +1017,7 @@ sub _LOGOUT {
     return '';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _AUTHENTICATED ($thisl)
 
@@ -1036,7 +1036,7 @@ sub _AUTHENTICATED {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _CANLOGIN ($thisl)
 
@@ -1053,7 +1053,7 @@ sub _CANLOGIN {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _SESSION_VARIABLE ($thisl)
 
@@ -1077,7 +1077,7 @@ sub _SESSION_VARIABLE {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _LOGINURL ($thisl)
 
@@ -1090,7 +1090,7 @@ sub _LOGINURL {
     return $this->loginUrl();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod _dispLogon ($thisl)
 
@@ -1116,7 +1116,7 @@ sub _dispLogon {
     return CGI::a( { class => 'twikiAlert', href => $urlToUse }, $text );
 }
 
-=pod
+=begin TML
 
 ---++ PrivateMethod _skinSelect ()
 

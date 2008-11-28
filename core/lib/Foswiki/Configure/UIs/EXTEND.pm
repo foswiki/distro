@@ -259,7 +259,7 @@ sub _listDir {
     return @names;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod _unpackArchive($archive [,$dir] )
 Unpack an archive. The unpacking method is determined from the file

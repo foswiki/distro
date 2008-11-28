@@ -18,7 +18,7 @@ package Foswiki::Attach;
 use strict;
 use Assert;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new($session)
 
@@ -48,7 +48,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderMetaData( $web, $topic, $meta, $args ) -> $text
 
@@ -100,7 +100,7 @@ sub renderMetaData {
     return $title . $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod formatVersions ( $web, $topic, $attrs ) -> $text
 
@@ -258,7 +258,7 @@ sub _expandAttrs {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getAttachmentLink( $user, $web, $topic, $name, $meta ) -> $html
 

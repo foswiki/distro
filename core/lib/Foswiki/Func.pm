@@ -1,52 +1,50 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Func
 
-<!-- STARTINCLUDE required for huge CompleteDocumentation topic -->
-%STARTINCLUDE%
+_Interface for Foswiki extensions developers_
 
-_Official Foswiki interface for Plugin developers_
-
-This module defines the interfaces that [[%SYSTEMWEB%.Plugins][Plugins]]
+This module defines the main interfaces that extensions
 can use to interact with the Foswiki engine and content.
 
 Refer to =lib/Foswiki/Plugins/EmptyPlugin.pm= for a template Plugin
 and starter documentation on how to write a Plugin.
 
-Plugins should *only* use functions described here. If you use
-functions in other Foswiki libraries you might create a security hole and
+Plugins should *only* call methods in packages documented in
+System.DevelopingPlugins. If you use
+functions in other Foswiki libraries you risk creating a security hole, and
 you will probably need to change your plugin when you upgrade Foswiki.
 
-Deprecated functions will still work in older code, though they should
+%TOC%
+
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
 _not_ be called in new plugins and should be replaced in older plugins
-as soon as possible.
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
 
-The compatibility history of this module is given by the VERSION number
-of the Foswiki::Plugins module.
-
-Notes on use of =$Foswiki::Plugins::VERSION=:
-   * If the *major* version (e.g. =1.=) is the same then any plugin coded
-     to use any *earlier* revision of the =1.= API will still work. No
-     function has been removed from the interface, nor has any API published
-     in that version changed in such a way as to *require* plugins to be
-     recoded.
-   * If the *minor* version (e.g. =1.1.=) is incremented there may be changes
-     in the API that may help improve the coding of some plugins - for
-     example, new interfaces giving access to previously hidden core functions.
-     In addition, *deprecation* of functions in the interface trigger a minor
-     version increment. Note that deprecated functions are not _removed_, they
-     are merely frozen, and plugin authors are recommended to stop using them.
-   * Any additional digits in the version number relate to minor changes, such
-     as the addition of parameters to the existing functions, or addition of
-     utility functions that are unlikely to require significant changes to
-     existing plugins.
-   * =$Foswiki::Plugins::VERSION= also applies to the plugin handlers. The
-     handlers are documented in the !EmptyPlugin, and that module indicates
-     what version of =Foswiki::Plugins::VERSION= it relates to.
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
 
 =cut
+
+# THIS PACKAGE IS PART OF THE PUBLISHED API USED BY EXTENSION AUTHORS.
+# DO NOT CHANGE THE EXISTING APIS (well thought out extensions are OK)
+# AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
+#
+# Deprecated functions should not be removed, but should be moved to to the
+# deprecated functions section.
 
 package Foswiki::Func;
 
@@ -57,21 +55,19 @@ use Assert;
 require Foswiki;
 require Foswiki::Plugins;
 
-=pod
+=begin TML
 
 ---++ Environment
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ getSkin( ) -> $skin
 
 Get the skin path, set by the =SKIN= and =COVER= preferences variables or the =skin= and =cover= CGI parameters
 
 Return: =$skin= Comma-separated list of skins, e.g. ='gnu,tartan'=. Empty string if none.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (29 Jul 2001)
 
 =cut
 
@@ -81,15 +77,13 @@ sub getSkin {
     return $Foswiki::Plugins::SESSION->getSkin();
 }
 
-=pod
+=begin TML
 
 ---+++ getUrlHost( ) -> $host
 
 Get protocol, domain and optional port of script URL
 
 Return: =$host= URL host, e.g. ="http://example.com:80"=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -99,7 +93,7 @@ sub getUrlHost {
     return $Foswiki::Plugins::SESSION->{urlHost};
 }
 
-=pod
+=begin TML
 
 ---+++ getScriptUrl( $web, $topic, $script, ... ) -> $url
 
@@ -110,8 +104,6 @@ Compose fully qualified URL
    * =...= - an arbitrary number of name=>value parameter pairs that will be url-encoded and added to the url. The special parameter name '#' is reserved for specifying an anchor. e.g. <tt>getScriptUrl('x','y','view','#'=>'XXX',a=>1,b=>2)</tt> will give <tt>.../view/x/y?a=1&b=2#XXX</tt>
 
 Return: =$url=       URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -125,7 +117,7 @@ sub getScriptUrl {
         @_ );
 }
 
-=pod
+=begin TML
 
 ---+++ getViewUrl( $web, $topic ) -> $url
 
@@ -133,8 +125,6 @@ Compose fully qualified view URL
    * =$web=   - Web name, e.g. ='Main'=. The current web is taken if empty
    * =$topic= - Topic name, e.g. ='WebNotify'=
 Return: =$url=      URL, e.g. ="http://example.com:80/cgi-bin/view.pl/Main/WebNotify"=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -146,7 +136,7 @@ sub getViewUrl {
     return getScriptUrl( $web, $topic, 'view' );
 }
 
-=pod
+=begin TML
 
 ---+++ getPubUrlPath( ) -> $path
 
@@ -154,15 +144,13 @@ Get pub URL path
 
 Return: =$path= URL path of pub directory, e.g. ="/pub"=
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (14 Jul 2001)
-
 =cut
 
 sub getPubUrlPath {
     return $Foswiki::cfg{PubUrlPath};
 }
 
-=pod
+=begin TML
 
 ---+++ getExternalResource( $url ) -> $response
 
@@ -209,8 +197,6 @@ if (!$response->is_error() && $response->isa('HTTP::Response')) {
 }
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub getExternalResource {
@@ -221,15 +207,13 @@ sub getExternalResource {
     return $Foswiki::Plugins::SESSION->net->getExternalResource($url);
 }
 
-=pod
+=begin TML
 
 ---+++ getCgiQuery( ) -> $query
 
 Get CGI query object. Important: Plugins cannot assume that scripts run under CGI, Plugins must always test if the CGI query object is set
 
 Return: =$query= CGI query object; or 0 if script is called as a shell script
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -238,15 +222,13 @@ sub getCgiQuery {
     return $Foswiki::Plugins::SESSION->{request};
 }
 
-=pod
+=begin TML
 
 ---+++ getSessionKeys() -> @keys
 Get a list of all the names of session variables. The list is unsorted.
 
 Session keys are stored and retrieved using =setSessionValue= and
 =getSessionValue=.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -257,15 +239,13 @@ sub getSessionKeys {
     return keys %{$hash};
 }
 
-=pod
+=begin TML
 
 ---+++ getSessionValue( $key ) -> $value
 
 Get a session value from the client session module
    * =$key= - Session key
 Return: =$value=  Value associated with key; empty string if not set
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (27 Feb 200)
 
 =cut
 
@@ -278,7 +258,7 @@ sub getSessionValue {
       ->getSessionValue(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ setSessionValue( $key, $value ) -> $boolean
 
@@ -286,8 +266,6 @@ Set a session value.
    * =$key=   - Session key
    * =$value= - Value associated with key
 Return: true if function succeeded
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (17 Aug 2001)
 
 =cut
 
@@ -299,7 +277,7 @@ sub setSessionValue {
     $Foswiki::Plugins::SESSION->{users}->{loginManager}->setSessionValue(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ clearSessionValue( $key ) -> $boolean
 
@@ -307,8 +285,6 @@ Clear a session value that was set using =setSessionValue=.
    * =$key= - name of value stored in session to be cleared. Note that
    you *cannot* clear =AUTHUSER=.
 Return: true if the session value was cleared
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 =cut
 
@@ -319,7 +295,7 @@ sub clearSessionValue {
       ->clearSessionValue(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ getContext() -> \%hash
 
@@ -364,8 +340,6 @@ __Note__: *all* plugins have an *automatically generated* context identifier
 if they are installed and initialised. For example, if the FirstPlugin is
 working, the context ID 'FirstPlugin' will be set.
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub getContext {
@@ -373,7 +347,7 @@ sub getContext {
     return $Foswiki::Plugins::SESSION->{context};
 }
 
-=pod
+=begin TML
 
 ---+++ pushTopicContext($web, $topic)
    * =$web= - new web
@@ -390,8 +364,6 @@ It is the duty of the caller to restore the original context by calling
 Note that this call does *not* re-initialise plugins, so if you have used
 global variables to remember the web and topic in =initPlugin=, then those
 values will be unchanged.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -414,14 +386,12 @@ sub pushTopicContext {
         $twiki->{users}->{loginManager}->getSessionValues() );
 }
 
-=pod
+=begin TML
 
 ---+++ popTopicContext()
 
 Returns the Foswiki context to the state it was in before the
 =pushTopicContext= was called.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -435,13 +405,13 @@ sub popTopicContext {
     $twiki->{topicName} = $old->{topic};
 }
 
-=pod
+=begin TML
 
 ---++ Preferences
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ getPreferencesValue( $key, $web ) -> $value
 
@@ -449,8 +419,6 @@ Get a preferences value from Foswiki or from a Plugin
    * =$key= - Preferences key
    * =$web= - Name of web, optional. Current web if not specified; does not apply to settings of Plugin topics
 Return: =$value=  Preferences value; empty string if not set
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
    * Example for Plugin setting:
       * MyPlugin topic has: =* Set COLOR = red=
@@ -478,7 +446,7 @@ sub getPreferencesValue {
     }
 }
 
-=pod
+=begin TML
 
 ---+++ getPluginPreferencesValue( $key ) -> $value
 
@@ -487,8 +455,6 @@ Get a preferences value from your Plugin
 Return: =$value=  Preferences value; empty string if not set
 
 __Note__: This function will will *only* work when called from the Plugin.pm file itself. it *will not work* if called from a sub-package (e.g. Foswiki::Plugins::MyPlugin::MyModule)
-
-*Since:* Foswiki::Plugins::VERSION 1.021 (27 Mar 2004)
 
 *NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
 preferences set in the plugin topic will be ignored.
@@ -504,7 +470,7 @@ sub getPluginPreferencesValue {
       ->getPreferencesValue("\U$package\E_$key");
 }
 
-=pod
+=begin TML
 
 ---+++ getPreferencesFlag( $key, $web ) -> $value
 
@@ -512,8 +478,6 @@ Get a preferences flag from Foswiki or from a Plugin
    * =$key= - Preferences key
    * =$web= - Name of web, optional. Current web if not specified; does not apply to settings of Plugin topics
 Return: =$value=  Preferences flag ='1'= (if set), or ="0"= (for preferences values ="off"=, ="no"= and ="0"=)
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
    * Example for Plugin setting:
       * MyPlugin topic has: =* Set SHOWHELP = off=
@@ -532,7 +496,7 @@ sub getPreferencesFlag {
     return Foswiki::isTrue($t);
 }
 
-=pod
+=begin TML
 
 ---+++ getPluginPreferencesFlag( $key ) -> $boolean
 
@@ -541,8 +505,6 @@ Get a preferences flag from your Plugin
 Return: false for preferences values ="off"=, ="no"= and ="0"=, or values not set at all. True otherwise.
 
 __Note__: This function will will *only* work when called from the Plugin.pm file itself. it *will not work* if called from a sub-package (e.g. Foswiki::Plugins::MyPlugin::MyModule)
-
-*Since:* Foswiki::Plugins::VERSION 1.021 (27 Mar 2004)
 
 *NOTE:* If =$NO_PREFS_IN_TOPIC= is enabled in the plugin, then
 preferences set in the plugin topic will be ignored.
@@ -556,7 +518,7 @@ sub getPluginPreferencesFlag {
     return getPreferencesFlag("\U$package\E_$key");
 }
 
-=pod
+=begin TML
 
 ---+++ setPreferencesValue($name, $val)
 
@@ -575,7 +537,7 @@ sub setPreferencesValue {
     return $Foswiki::Plugins::SESSION->{prefs}->setPreferencesValue(@_);
 }
 
-=pod
+=begin TML
 
 ---++ User Handling and Access Control
 ---+++ getDefaultUserName( ) -> $loginName
@@ -583,15 +545,13 @@ Get default user name as defined in the configuration as =DefaultUserLogin=
 
 Return: =$loginName= Default user name, e.g. ='guest'=
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
-
 =cut
 
 sub getDefaultUserName {
     return $Foswiki::cfg{DefaultUserLogin};
 }
 
-=pod
+=begin TML
 
 ---+++ getCanonicalUserID( $user ) -> $cUID
    * =$user= can be a login, wikiname or web.wikiname
@@ -607,8 +567,6 @@ If $user is undefined, it assumes the currently logged-in user.
 Return: =$cUID=, an internal unique and portable escaped identifier for
 registered users. This may be autogenerated for an authenticated but
 unregistered user.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -632,7 +590,7 @@ sub getCanonicalUserID {
     return $cUID;
 }
 
-=pod
+=begin TML
 
 ---+++ getWikiName( $user ) -> $wikiName
 
@@ -642,8 +600,6 @@ if $user is undefined Get Wiki name of logged in user
    * $user can be a cUID, login, wikiname or web.wikiname
 
 Return: =$wikiName= Wiki Name, e.g. ='JohnDoe'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -659,7 +615,7 @@ sub getWikiName {
     return $Foswiki::Plugins::SESSION->{users}->getWikiName($cUID);
 }
 
-=pod 
+=begin TML 
  
 ---+++ getWikiUserName( $user ) -> $wikiName
 
@@ -669,8 +625,6 @@ if $user is undefined Get Wiki name of logged in user
    * $user can be a cUID, login, wikiname or web.wikiname
 
 Return: =$wikiName= Wiki Name, e.g. ="Main.JohnDoe"=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -686,12 +640,12 @@ sub getWikiUserName {
     return $Foswiki::Plugins::SESSION->{users}->webDotWikiName($cUID);
 }
 
-=pod
+=begin TML
 
 ---+++ wikiToUserName( $id ) -> $loginName
 Translate a Wiki name to a login name.
    * =$id= - Wiki name, e.g. ='Main.JohnDoe'= or ='JohnDoe'=.
-     Since TWiki 4.2.1, $id may also be a login name. This will normally
+     $id may also be a login name. This will normally
      be transparent, but should be borne in mind if you have login names
      that are also legal wiki names.
 
@@ -703,8 +657,6 @@ This function will only return the *first* login name that maps to the
 wikiname.
 
 returns undef if the WikiName is not found.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut 
 
@@ -722,7 +674,7 @@ sub wikiToUserName {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---+++ userToWikiName( $loginName, $dontAddWeb ) -> $wikiName
 Translate a login name to a Wiki name
@@ -734,8 +686,6 @@ Return: =$wikiName=      Wiki name of user, e.g. ='Main.JohnDoe'= or ='JohnDoe'=
 
 userToWikiName will always return a name. If the user does not
 exist in the mapping, the $loginName parameter is returned. (backward compatibility)
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -754,7 +704,7 @@ sub userToWikiName {
     return $users->webDotWikiName($user);
 }
 
-=pod
+=begin TML
 
 ---+++ emailToWikiNames( $email, $dontAddWeb ) -> @wikiNames
    * =$email= - email address to look up
@@ -762,8 +712,6 @@ sub userToWikiName {
 Find the wikinames of all users who have the given email address as their
 registered address. Since several users could register with the same email
 address, this returns a list of wikinames rather than a single wikiname.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -788,7 +736,7 @@ sub emailToWikiNames {
     return sort keys %matches;
 }
 
-=pod
+=begin TML
 
 ---+++ wikinameToEmails( $user ) -> @emails
    * =$user= - wikiname of user to look up
@@ -796,8 +744,6 @@ Returns the registered email addresses of the named user. If $user is
 undef, returns the registered email addresses for the logged-in user.
 
 $user may also be a login name, or the name of a group.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -824,13 +770,11 @@ sub wikinameToEmails {
     }
 }
 
-=pod
+=begin TML
 
 ---+++ isGuest( ) -> $boolean
 
 Test if logged in user is a guest (WikiGuest)
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -840,15 +784,13 @@ sub isGuest {
       ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
 }
 
-=pod
+=begin TML
 
 ---+++ isAnAdmin( $id ) -> $boolean
 
 Find out if the user is an admin or not. If the user is not given,
 the currently logged-in user is assumed.
    * $id can be either a login name or a WikiName
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -858,7 +800,7 @@ sub isAnAdmin {
       ->isAdmin( getCanonicalUserID($user) );
 }
 
-=pod
+=begin TML
 
 ---+++ isGroupMember( $group, $id ) -> $boolean
 
@@ -871,8 +813,6 @@ if( Foswiki::Func::isGroupMember( "HesperionXXGroup", "jordi" )) {
 If =$user= is =undef=, it defaults to the currently logged-in user.
 
    * $id can be a login name or a WikiName
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -893,7 +833,7 @@ sub isGroupMember {
     return $users->isInGroup( $user, $group );
 }
 
-=pod
+=begin TML
 
 ---+++ eachUser() -> $iterator
 Get an iterator over the list of all the registered users *not* including
@@ -910,8 +850,6 @@ Use it as follows:
 
 *WARNING* on large sites, this could be a long list!
 
-*Since:* Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub eachUser {
@@ -922,14 +860,12 @@ sub eachUser {
     return $it;
 }
 
-=pod
+=begin TML
 
 ---+++ eachMembership($id) -> $iterator
    * =$id= - WikiName or login name of the user.
      If =$id= is =undef=, defaults to the currently logged-in user.
 Get an iterator over the names of all groups that the user is a member of.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -949,7 +885,7 @@ sub eachMembership {
     return $users->eachMembership($user);
 }
 
-=pod
+=begin TML
 
 ---+++ eachGroup() -> $iterator
 Get an iterator over all groups.
@@ -965,8 +901,6 @@ Use it as follows:
 
 *WARNING* on large sites, this could be a long list!
 
-*Since:* Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub eachGroup {
@@ -975,7 +909,7 @@ sub eachGroup {
     return $it;
 }
 
-=pod
+=begin TML
 
 ---+++ isGroup( $group ) -> $boolean
 
@@ -989,7 +923,7 @@ sub isGroup {
     return $Foswiki::Plugins::SESSION->{users}->isGroup($group);
 }
 
-=pod
+=begin TML
 
 ---+++ eachGroupMember($group) -> $iterator
 Get an iterator over all the members of the named group. Returns undef if
@@ -1006,8 +940,6 @@ Use it as follows:
 
 *WARNING* on large sites, this could be a long list!
 
-*Since:* Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub eachGroupMember {
@@ -1022,7 +954,7 @@ sub eachGroupMember {
     return $it;
 }
 
-=pod
+=begin TML
 
 ---+++ checkAccessPermission( $type, $id, $text, $topic, $web, $meta ) -> $boolean
 
@@ -1056,8 +988,6 @@ earlier releases.
    * Set ALLOWTOPICSPIN = IncyWincy
 in =ThatWeb.ThisTopic=, then a call to =checkAccessPermissions('SPIN', 'IncyWincy', undef, 'ThisTopic', 'ThatWeb', undef)= will return =true=.
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (27 Feb 2001)
-
 =cut
 
 sub checkAccessPermission {
@@ -1071,13 +1001,13 @@ sub checkAccessPermission {
         $cUID, $text, $meta, $topic, $web );
 }
 
-=pod
+=begin TML
 
 ---++ Webs, Topics and Attachments
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ getListOfWebs( $filter [, $web] ) -> @webs
 
@@ -1097,8 +1027,6 @@ as follows:
    my @webs = Foswiki::Func::getListOfWebs( "user,public" );
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub getListOfWebs {
@@ -1106,14 +1034,12 @@ sub getListOfWebs {
     return $Foswiki::Plugins::SESSION->{store}->getListOfWebs(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ webExists( $web ) -> $boolean
 
 Test if web exists
    * =$web= - Web name, required, e.g. ='Sandbox'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (14 Jul 2001)
 
 =cut
 
@@ -1124,7 +1050,7 @@ sub webExists {
     return $Foswiki::Plugins::SESSION->{store}->webExists(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ createWeb( $newWeb, $baseWeb, $opts )
 
@@ -1150,8 +1076,6 @@ try {
 };
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub createWeb {
@@ -1160,7 +1084,7 @@ sub createWeb {
       ->createWeb( $Foswiki::Plugins::SESSION->{user}, @_ );
 }
 
-=pod
+=begin TML
 
 ---+++ moveWeb( $oldName, $newName )
 
@@ -1188,8 +1112,6 @@ To delete a web, move it to a subweb of =Trash=
 Foswiki::Func::moveWeb( "Deadweb", "Trash.Deadweb" );
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub moveWeb {
@@ -1199,7 +1121,7 @@ sub moveWeb {
 
 }
 
-=pod
+=begin TML
 
 ---+++ eachChangeSince($web, $time) -> $iterator
 
@@ -1236,15 +1158,13 @@ sub eachChangeSince {
     return $iterator;
 }
 
-=pod
+=begin TML
 
 ---+++ getTopicList( $web ) -> @topics
 
 Get list of all topics in a web
    * =$web= - Web name, required, e.g. ='Sandbox'=
 Return: =@topics= Topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -1255,7 +1175,7 @@ sub getTopicList {
     return $Foswiki::Plugins::SESSION->{store}->getTopicNames(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ topicExists( $web, $topic ) -> $boolean
 
@@ -1267,8 +1187,6 @@ $web and $topic are parsed as described in the documentation for =normalizeWebTo
 Specifically, the %USERSWEB% is used if $web is not specified and $topic has no web specifier.
 To get an expected behaviour it is recommened to specify the current web for $web; don't leave it empty.
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (14 Jul 2001)
-
 =cut
 
 sub topicExists {
@@ -1277,7 +1195,7 @@ sub topicExists {
     return $Foswiki::Plugins::SESSION->{store}->topicExists( $web, $topic );
 }
 
-=pod
+=begin TML
 
 ---+++ checkTopicEditLock( $web, $topic, $script ) -> ( $oopsUrl, $loginName, $unlockTime )
 
@@ -1286,8 +1204,6 @@ Check if a lease has been taken by some other user.
    * =$topic= Topic name, e.g. ="MyTopic"=, or ="Main.MyTopic"=
 Return: =( $oopsUrl, $loginName, $unlockTime )= - The =$oopsUrl= for calling redirectCgiQuery(), user's =$loginName=, and estimated =$unlockTime= in minutes, or ( '', '', 0 ) if no lease exists.
    * =$script= The script to invoke when continuing with the edit
-
-*Since:* Foswiki::Plugins::VERSION 1.010 (31 Dec 2002)
 
 =cut
 
@@ -1326,7 +1242,7 @@ sub checkTopicEditLock {
     return ( '', '', 0 );
 }
 
-=pod
+=begin TML
 
 ---+++ setTopicEditLock( $web, $topic, $lock )
 
@@ -1341,8 +1257,6 @@ always takes out a lease.
 
 It is *impossible* to fully lock a topic. Concurrent changes will be
 merged.
-
-*Since:* Foswiki::Plugins::VERSION 1.010 (31 Dec 2002)
 
 =cut
 
@@ -1361,7 +1275,7 @@ sub setTopicEditLock {
     return '';
 }
 
-=pod
+=begin TML
 
 ---+++ saveTopic( $web, $topic, $meta, $text, $options ) -> $error
 
@@ -1375,8 +1289,6 @@ sub setTopicEditLock {
      | =forcenewrevision= | force the save to increment the revision counter |
      | =minor= | True if this is a minor change, and is not to be notified |
 Return: error message or undef.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (29 Jul 2001)
 
 For example,
 <verbatim>
@@ -1400,7 +1312,7 @@ sub saveTopic {
 
 }
 
-=pod
+=begin TML
 
 ---+++ saveTopicText( $web, $topic, $text, $ignorePermissions, $dontNotify ) -> $oopsUrl
 
@@ -1413,8 +1325,6 @@ Save topic text, typically obtained by readTopicText(). Topic data usually inclu
 Return: =$oopsUrl=               Empty string if OK; the =$oopsUrl= for calling redirectCgiQuery() in case of error
 
 This method is a lot less efficient and much more dangerous than =saveTopic=.
-
-*Since:* Foswiki::Plugins::VERSION 1.010 (31 Dec 2002)
 
 <verbatim>
 my $text = Foswiki::Func::readTopicText( $web, $topic );
@@ -1490,7 +1400,7 @@ sub saveTopicText {
     return '';
 }
 
-=pod
+=begin TML
 
 ---+++ moveTopic( $web, $topic, $newWeb, $newTopic )
 
@@ -1505,8 +1415,6 @@ to $topic.
 The destination topic must not already exist.
 
 Rename a topic to the $Foswiki::cfg{TrashWebName} to delete it.
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 <verbatim>
 use Error qw( :try );
@@ -1538,7 +1446,7 @@ sub moveTopic {
         $Foswiki::Plugins::SESSION->{user} );
 }
 
-=pod
+=begin TML
 
 ---+++ getRevisionInfo($web, $topic, $rev, $attachment ) -> ( $date, $user, $rev, $comment ) 
 
@@ -1557,8 +1465,6 @@ NOTE: if you are trying to get revision info for a topic, use
 =$meta->getRevisionInfo= instead if you can - it is significantly
 more efficient.
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (29 Jul 2001)
-
 =cut
 
 sub getRevisionInfo {
@@ -1569,7 +1475,7 @@ sub getRevisionInfo {
     return ( $date, $user, $rev, $comment );
 }
 
-=pod
+=begin TML
 
 ---+++ getRevisionAtTime( $web, $topic, $time ) -> $rev
 
@@ -1580,8 +1486,6 @@ Get the revision number of a topic at a specific time.
 Return: Single-digit revision number, or undef if it couldn't be determined
 (either because the topic isn't that old, or there was a problem)
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub getRevisionAtTime {
@@ -1589,7 +1493,7 @@ sub getRevisionAtTime {
     return $Foswiki::Plugins::SESSION->{store}->getRevisionAtTime(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ readTopic( $web, $topic, $rev ) -> ( $meta, $text )
 
@@ -1607,8 +1511,6 @@ This method *ignores* topic access permissions. You should be careful to use
 =checkAccessPermissions= to ensure the current user has read access to the
 topic.
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
-
 =cut
 
 sub readTopic {
@@ -1619,7 +1521,7 @@ sub readTopic {
     return $Foswiki::Plugins::SESSION->{store}->readTopic( undef, @_ );
 }
 
-=pod
+=begin TML
 
 ---+++ readTopicText( $web, $topic, $rev, $ignorePermissions ) -> $text
 
@@ -1631,8 +1533,6 @@ Read topic text, including meta data
 Return: =$text=                  Topic text with embedded meta data; an oops URL for calling redirectCgiQuery() is returned in case of an error
 
 This method is more efficient than =readTopic=, but returns meta-data embedded in the text. Plugins authors must be very careful to avoid damaging meta-data. You are recommended to use readTopic instead, which is a lot safer.
-
-*Since:* Foswiki::Plugins::VERSION 1.010 (31 Dec 2002)
 
 =cut
 
@@ -1664,7 +1564,7 @@ sub readTopicText {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---+++ attachmentExists( $web, $topic, $attachment ) -> $boolean
 
@@ -1673,8 +1573,6 @@ Test if attachment exists
    * =$topic= - Topic name, required, e.g. =TokyoOffice=, or =Main.TokyoOffice=
    * =$attachment= - attachment name, e.g.=logo.gif=
 $web and $topic are parsed as described in the documentation for =normalizeWebTopicName=.
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 =cut
 
@@ -1688,7 +1586,7 @@ sub attachmentExists {
       ->attachmentExists( $web, $topic, $attachment );
 }
 
-=pod
+=begin TML
 
 ---+++ readAttachment( $web, $topic, $name, $rev ) -> $data
 
@@ -1718,8 +1616,6 @@ foreach my $a ( @attachments ) {
 }
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub readAttachment {
@@ -1736,7 +1632,7 @@ sub readAttachment {
     return $result;
 }
 
-=pod
+=begin TML
 
 ---+++ saveAttachment( $web, $topic, $attachment, \%opts )
 
@@ -1769,8 +1665,6 @@ Save an attachment to the store for a topic. On success, returns undef. If there
    };
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub saveAttachment {
@@ -1789,7 +1683,7 @@ sub saveAttachment {
     return $result;
 }
 
-=pod
+=begin TML
 
 ---+++ moveAttachment( $web, $topic, $attachment, $newWeb, $newTopic, $newAttachment )
 
@@ -1825,8 +1719,6 @@ try {
 };
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub moveAttachment {
@@ -1846,13 +1738,13 @@ sub moveAttachment {
         $newAttachment, $Foswiki::Plugins::SESSION->{user} );
 }
 
-=pod
+=begin TML
 
 ---++ Assembling Pages
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ readTemplate( $name, $skin ) -> $text
 
@@ -1860,8 +1752,6 @@ Read a template or skin. Embedded [[%SYSTEMWEB%.SkinTemplates][template directiv
    * =$name= - Template name, e.g. ='view'=
    * =$skin= - Comma-separated list of skin names, optional, e.g. ='print'=
 Return: =$text=    Template text
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -1872,7 +1762,7 @@ sub readTemplate {
     return $Foswiki::Plugins::SESSION->templates->readTemplate(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ loadTemplate ( $name, $skin, $web ) -> $text
 
@@ -1880,8 +1770,6 @@ sub readTemplate {
    * =$skin= - comma-separated list of skins to use (default: current skin)
    * =$web= - the web to look in for topics that contain templates (default: current web)
 Return: expanded template text (what's left after removal of all %TMPL:DEF% statements)
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 Reads a template and extracts template definitions, adding them to the
 list of loaded templates, overwriting any previous definition.
@@ -1897,15 +1785,13 @@ sub loadTemplate {
     return $Foswiki::Plugins::SESSION->templates->readTemplate(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ expandTemplate( $def  ) -> $string
 
 Do a %TMPL:P{$def}%, only expanding the template (not expanding any variables other than %TMPL)
    * =$def= - template name
 Return: the text of the expanded template
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 A template is defined using a %TMPL:DEF% statement in a template
 file. See the documentation on Foswiki templates for more information.
@@ -1917,13 +1803,11 @@ sub expandTemplate {
     return $Foswiki::Plugins::SESSION->templates->expandTemplate(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ writeHeader()
 
 Prints a basic content-type HTML header for text/html to standard out.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -1932,7 +1816,7 @@ sub writeHeader {
     $Foswiki::Plugins::SESSION->generateHTTPHeaders();
 }
 
-=pod
+=begin TML
 
 ---+++ redirectCgiQuery( $query, $url, $passthru )
 
@@ -1966,8 +1850,6 @@ Foswiki::Func::redirectCgiQuery(
 =$passthru= does nothing if =$url= does not point to a script in the current
 Foswiki installation.
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
-
 =cut
 
 sub redirectCgiQuery {
@@ -1976,7 +1858,7 @@ sub redirectCgiQuery {
     return $Foswiki::Plugins::SESSION->redirect( $url, $passthru );
 }
 
-=pod
+=begin TML
 
 ---+++ addToHEAD( $id, $header, $requires )
 
@@ -1990,9 +1872,7 @@ All macros present in =$header= will be expanded before being inserted into the 
 
 Note that this is _not_ the same as the HTTP header, which is modified through the Plugins =modifyHeaderHandler=.
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
-example:
+Example:
 <verbatim>
 Foswiki::Func::addToHEAD('PATTERN_STYLE','<link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="%PUBURL%/Foswiki/PatternSkin/layout.css" media="all" />');
 </verbatim>
@@ -2005,7 +1885,7 @@ sub addToHEAD {
     $Foswiki::Plugins::SESSION->addToHEAD(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ expandCommonVariables( $text, $topic, $web, $meta ) -> $text
 
@@ -2013,10 +1893,8 @@ Expand all common =%<nop>VARIABLES%=
    * =$text=  - Text with variables to expand, e.g. ='Current user is %<nop>WIKIUSER%'=
    * =$topic= - Current topic name, e.g. ='WebNotify'=
    * =$web=   - Web name, optional, e.g. ='Main'=. The current web is taken if missing
-   * =$meta=  - topic meta-data to use while expanding (Since Foswiki::Plugins::VERSION 1.2)
+   * =$meta=  - topic meta-data to use while expanding
 Return: =$text=     Expanded text, e.g. ='Current user is <nop>WikiGuest'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 See also: expandVariablesOnTopicCreation
 
@@ -2031,7 +1909,7 @@ sub expandCommonVariables {
         $meta );
 }
 
-=pod
+=begin TML
 
 ---+++ renderText( $text, $web ) -> $text
 
@@ -2039,8 +1917,6 @@ Render text from TML into XHTML as defined in [[%SYSTEMWEB%.TextFormattingRules]
    * =$text= - Text to render, e.g. ='*bold* text and =fixed font='=
    * =$web=  - Web name, optional, e.g. ='Main'=. The current web is taken if missing
 Return: =$text=    XHTML text, e.g. ='&lt;b>bold&lt;/b> and &lt;code>fixed font&lt;/code>'=
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -2051,7 +1927,7 @@ sub renderText {
     return $Foswiki::Plugins::SESSION->renderer->getRenderedVersion(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ internalLink( $pre, $web, $topic, $label, $anchor, $createLink ) -> $text
 
@@ -2064,8 +1940,6 @@ Render topic name and link label into an XHTML link. Normally you do not need to
    * =$createLink= - Set to ='1'= to add question linked mark after topic name if topic does not exist;<br /> set to ='0'= to suppress link for non-existing topics
 Return: =$text=          XHTML anchor, e.g. ='&lt;a href='/cgi-bin/view/Main/WebNotify#Jump'>notify&lt;/a>'=
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
-
 =cut
 
 sub internalLink {
@@ -2076,7 +1950,7 @@ sub internalLink {
     return $pre . $Foswiki::Plugins::SESSION->renderer->internalLink(@_);
 }
 
-=pod
+=begin TML
 
 ---++ E-mail
 
@@ -2103,8 +1977,6 @@ A. Peasant
 </verbatim>
 Leave a blank line between the last header field and the message body.
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub sendEmail {
@@ -2114,48 +1986,19 @@ sub sendEmail {
     return $Foswiki::Plugins::SESSION->net->sendEmail(@_);
 }
 
-=pod
-
----+++ wikiToEmail( $wikiName ) -> $email
-
-   * =$wikiname= - wiki name of the user
-Get the e-mail address(es) of the named user. If the user has multiple
-e-mail addresses (for example, the user is a group), then the list will
-be comma-separated.
-
-*Since:* Foswiki::Plugins::VERSION 1.1
-
-*Deprecated* in favour of wikinameToEmails, because this function only
-returns a single email address, where a user may in fact have several.
-
-$wikiName may also be a login name.
-
-=cut
-
-sub wikiToEmail {
-    my ($user) = @_;
-    my @emails = wikinameToEmails($user);
-    if ( scalar(@emails) ) {
-        return $emails[0];
-    }
-    return '';
-}
-
-=pod
+=begin TML
 
 ---++ Creating New Topics
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ expandVariablesOnTopicCreation ( $text ) -> $text
 
 Expand the limited set of variables that are always expanded during topic creation
    * =$text= - the text to process
 Return: text with variables expanded
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 Expands only the variables expected in templates that must be statically
 expanded in new content.
@@ -2180,7 +2023,7 @@ sub expandVariablesOnTopicCreation {
         $Foswiki::Plugins::SESSION->{user} );
 }
 
-=pod
+=begin TML
 
 ---++ Special handlers
 
@@ -2188,7 +2031,7 @@ Special handlers can be defined to make functions in plugins behave as if they w
 
 =cut
 
-=pod=
+=begin TML=
 
 ---+++ registerTagHandler( $var, \&fn, $syntax )
 
@@ -2198,8 +2041,6 @@ Register a function to handle a simple variable. Handles both %<nop>VAR% and %<n
    * =$var= - The name of the variable, i.e. the 'MYVAR' part of %<nop>MYVAR%. The variable name *must* match /^[A-Z][A-Z0-9_]*$/ or it won't work.
    * =\&fn= - Reference to the handler function.
    * =$syntax= can be 'classic' (the default) or 'context-free'. 'classic' syntax is appropriate where you want the variable to support classic syntax i.e. to accept the standard =%<nop>MYVAR{ "unnamed" param1="value1" param2="value2" }%= syntax, as well as an unquoted default parameter, such as =%<nop>MYVAR{unquoted parameter}%=. If your variable will only use named parameters, you can use 'context-free' syntax, which supports a more relaxed syntax. For example, %MYVAR{param1=value1, value 2, param3="value 3", param4='value 5"}%
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 The variable handler function must be of the form:
 <verbatim>
@@ -2257,7 +2098,7 @@ sub registerTagHandler {
     );
 }
 
-=pod=
+=begin TML=
 
 ---+++ registerRESTHandler( $alias, \&fn, )
 
@@ -2266,8 +2107,6 @@ Should only be called from initPlugin.
 Adds a function to the dispatch table of the REST interface 
    * =$alias= - The name .
    * =\&fn= - Reference to the function.
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 The handler function must be of the form:
 <verbatim>
@@ -2321,7 +2160,7 @@ sub registerRESTHandler {
     );
 }
 
-=pod
+=begin TML
 
 ---+++ decodeFormatTokens($str) -> $unencodedString
 
@@ -2351,21 +2190,19 @@ tokens to their proper value. That's what this function does.
 Note thath $quot, $percnt and $dollar all work *even if they are followed by
 alphanumeric characters*. You have been warned!
 
-*Since:* Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub decodeFormatTokens {
     return Foswiki::expandStandardEscapes(@_);
 }
 
-=pod
+=begin TML
 
 ---++ Searching
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
 
@@ -2392,8 +2229,6 @@ foreach my $topic (keys %$result ) {
       ...etc
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.1
-
 =cut
 
 sub searchInWebContent {
@@ -2403,13 +2238,13 @@ sub searchInWebContent {
     return $Foswiki::Plugins::SESSION->{store}->searchInWebContent(@_);
 }
 
-=pod
+=begin TML
 
 ---++ Plugin-specific file handling
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ getWorkArea( $pluginName ) -> $directorypath
 
@@ -2422,8 +2257,6 @@ user. By default it will *not* be web accessible.
 The directory and it's contents are permanent, so Plugins must be careful
 to keep their areas tidy.
 
-*Since:* Foswiki::Plugins::VERSION 1.1 (Dec 2005)
-
 =cut
 
 sub getWorkArea {
@@ -2432,7 +2265,7 @@ sub getWorkArea {
     return $Foswiki::Plugins::SESSION->{store}->getWorkArea($plugin);
 }
 
-=pod
+=begin TML
 
 ---+++ readFile( $filename ) -> $text
 
@@ -2441,8 +2274,6 @@ Read file, low level. Used for Plugin workarea.
 Return: =$text= Content of file, empty if not found
 
 __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (07 Dec 2002)
 
 =cut
 
@@ -2457,7 +2288,7 @@ sub readFile {
     return $data;
 }
 
-=pod
+=begin TML
 
 ---+++ saveFile( $filename, $text )
 
@@ -2467,8 +2298,6 @@ Save file, low level. Used for Plugin workarea.
 Return:                none
 
 __NOTE:__ Use this function only for the Plugin workarea, *not* for topics and attachments. Use the appropriate functions to manipulate topics and attachments.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (07 Dec 2002)
 
 =cut
 
@@ -2482,21 +2311,19 @@ sub saveFile {
     close(FILE);
 }
 
-=pod
+=begin TML
 
 ---++ General Utilities
 
 =cut
 
-=pod
+=begin TML
 
 ---+++ getRegularExpression( $name ) -> $expr
 
 Retrieves a Foswiki predefined regular expression or character class.
    * =$name= - Name of the expression to retrieve.  See notes below
 Return: String or precompiled regular expression matching as described below.
-
-*Since:* Foswiki::Plugins::VERSION 1.020 (9 Feb 2004)
 
 __Note:__ Foswiki internally precompiles several regular expressions to
 represent various string entities in an <nop>I18N-compatible manner. Plugins
@@ -2540,7 +2367,7 @@ sub getRegularExpression {
     return $Foswiki::regex{$regexName};
 }
 
-=pod
+=begin TML
 
 ---+++ normalizeWebTopicName($web, $topic) -> ($web, $topic)
 
@@ -2548,8 +2375,6 @@ Parse a web and topic name, supplying defaults as appropriate.
    * =$web= - Web name, identifying variable, or empty string
    * =$topic= - Topic name, may be a web.topic string, required.
 Return: the parsed Web/Topic pair
-
-*Since:* Foswiki::Plugins::VERSION 1.1
 
 | *Input*                               | *Return*  |
 | <tt>( 'Web', 'Topic' ) </tt>          | <tt>( 'Web', 'Topic' ) </tt>  |
@@ -2578,7 +2403,7 @@ sub normalizeWebTopicName {
     return $Foswiki::Plugins::SESSION->normalizeWebTopicName(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ StaticMethod sanitizeAttachmentName($fname) -> ($fileName, $origName)
 
@@ -2589,8 +2414,6 @@ the sanitised name together with the basename before sanitisation.
 Sanitation includes filtering illegal characters and mapping client
 file names to legal server names.
 
-*Since:* Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub sanitizeAttachmentName {
@@ -2598,14 +2421,12 @@ sub sanitizeAttachmentName {
     return Foswiki::Sandbox::sanitizeAttachmentName(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ spaceOutWikiWord( $word, $sep ) -> $text
 
 Spaces out a wiki word by inserting a string (default: one space) between each word component.
 With parameter $sep any string may be used as separator between the word components; if $sep is undefined it defaults to a space.
-
-*Since:* Foswiki::Plugins::VERSION 1.2
 
 =cut
 
@@ -2615,15 +2436,13 @@ sub spaceOutWikiWord {
     return Foswiki::spaceOutWikiWord(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ writeWarning( $text )
 
 Log Warning that may require admin intervention to data/warning.txt
    * =$text= - Text to write; timestamp gets added
 Return:            none
-
-*Since:* Foswiki::Plugins::VERSION 1.020 (16 Feb 2004)
 
 =cut
 
@@ -2636,15 +2455,13 @@ sub writeWarning {
         "(" . caller() . ") " . $message );
 }
 
-=pod
+=begin TML
 
 ---+++ writeDebug( $text )
 
 Log debug message to data/debug.txt
    * =$text= - Text to write; timestamp gets added
 Return:            none
-
-*Since:* Foswiki::Plugins::VERSION 1.020 (16 Feb 2004)
 
 =cut
 
@@ -2655,29 +2472,7 @@ sub writeDebug {
     return $Foswiki::Plugins::SESSION->writeDebug(@_);
 }
 
-=pod
-
----+++ formatTime( $time, $format, $timezone ) -> $text
-
-Format the time in seconds into the desired time string
-   * =$time=     - Time in epoc seconds
-   * =$format=   - Format type, optional. Default e.g. ='31 Dec 2002 - 19:30'=. Can be ='$iso'= (e.g. ='2002-12-31T19:30Z'=), ='$rcs'= (e.g. ='2001/12/31 23:59:59'=, ='$http'= for HTTP header format (e.g. ='Thu, 23 Jul 1998 07:21:56 GMT'=), or any string with tokens ='$seconds, $minutes, $hours, $day, $wday, $month, $mo, $year, $ye, $tz'= for seconds, minutes, hours, day of month, day of week, 3 letter month, 2 digit month, 4 digit year, 2 digit year, timezone string, respectively
-   * =$timezone= - either not defined (uses the displaytime setting), 'gmtime', or 'servertime'
-Return: =$text=        Formatted time string
-| Note:                  | if you used the removed formatGmTime, add a third parameter 'gmtime' |
-
-*Since:* Foswiki::Plugins::VERSION 1.020 (26 Feb 2004)
-
-=cut
-
-sub formatTime {
-
-    #   my ( $epSecs, $format, $timezone ) = @_;
-    require Foswiki::Time;
-    return Foswiki::Time::formatTime(@_);
-}
-
-=pod
+=begin TML
 
 ---+++ isTrue( $value, $default ) -> $boolean
 
@@ -2689,8 +2484,6 @@ trailing spaces in =$value= are ignored.
 If the value is undef, then =$default= is returned. If =$default= is
 not specified it is taken as 0.
 
-*Since:* $Foswiki::Plugins::VERSION 1.2
-
 =cut
 
 sub isTrue {
@@ -2700,14 +2493,12 @@ sub isTrue {
     return Foswiki::isTrue(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ isValidWikiWord ( $text ) -> $boolean
 
 Check for a valid WikiWord or WikiName
    * =$text= - Word to test
-
-*Since:* Foswiki::Plugins::VERSION 1.100 (Dec 2005)
 
 =cut
 
@@ -2715,15 +2506,13 @@ sub isValidWikiWord {
     return Foswiki::isValidWikiWord(@_);
 }
 
-=pod
+=begin TML
 
 ---+++ extractParameters($attr ) -> %params
 
 Extract all parameters from a variable string and returns a hash of parameters
    * =$attr= - Attribute string
 Return: =%params=  Hash containing all parameters. The nameless parameter is stored in key =_DEFAULT=
-
-*Since:* Foswiki::Plugins::VERSION 1.025 (26 Aug 2004)
 
    * Example:
       * Variable: =%<nop>TEST{ 'nameless' name1="val1" name2="val2" }%=
@@ -2748,7 +2537,7 @@ sub extractParameters {
     return %$params;
 }
 
-=pod
+=begin TML
 
 ---+++ extractNameValuePair( $attr, $name ) -> $value
 
@@ -2757,8 +2546,6 @@ Extract a named or unnamed value from a variable parameter string
    * =$attr= - Attribute string
    * =$name= - Name, optional
 Return: =$value=   Extracted value
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
    * Example:
       * Variable: =%<nop>TEST{ 'nameless' name1="val1" name2="val2" }%=
@@ -2775,7 +2562,7 @@ sub extractNameValuePair {
     return Foswiki::Attrs::extractValue(@_);
 }
 
-=pod
+=begin TML
 
 ---++ Deprecated functions
 
@@ -2798,15 +2585,13 @@ stop using them as soon as possible.
 
 Get script URL path
 
-*DEPRECATED* since 1.1 - use =getScriptUrl= instead.
+*Deprecated* 28 Nov 2008 - use =getScriptUrl= instead.
 
 Return: =$path= URL path of bin scripts, e.g. ="/cgi-bin"=
 
 *WARNING:* you are strongly recommended *not* to use this function, as the
 {ScriptUrlPaths} URL rewriting rules will not apply to urls generated
 using it.
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
 
 =cut
 
@@ -2816,37 +2601,37 @@ sub getScriptUrlPath {
 }
 
 
-=pod
+=begin TML
 
 ---+++ getWikiToolName( ) -> $name
 
-*DEPRECATED* in Foswiki; use $Foswiki::cfg{WikiToolName} instead
+*Deprecated* 28 Nov 2008 in Foswiki; use $Foswiki::cfg{WikiToolName} instead
 
 =cut
 
 sub getWikiToolName { return $Foswiki::cfg{WikiToolName}; }
 
-=pod
+=begin TML
 
 ---+++ getMainWebname( ) -> $name
 
-*DEPRECATED* in Foswiki; use $Foswiki::cfg{UsersWebName} instead
+*Deprecated* 28 Nov 2008 in Foswiki; use $Foswiki::cfg{UsersWebName} instead
 
 =cut
 
 sub getMainWebname { return $Foswiki::cfg{UsersWebName}; }
 
-=pod
+=begin TML
 
 ---+++ getTwikiWebname( ) -> $name
 
-*DEPRECATED* in Foswiki; use $Foswiki::cfg{SystemWebName} instead
+*Deprecated* 28 Nov 2008 in Foswiki; use $Foswiki::cfg{SystemWebName} instead
 
 =cut
 
 sub getTwikiWebname { return $Foswiki::cfg{SystemWebName}; }
 
-=pod
+=begin TML
 
 ---+++ getOopsUrl( $web, $topic, $template, $param1, $param2, $param3, $param4 ) -> $url
 
@@ -2857,7 +2642,7 @@ Compose fully qualified 'oops' dialog URL
    * =$param1= ... =$param4= - Parameter values for %<nop>PARAM1% ... %<nop>PARAMn% variables in template, optional
 Return: =$url=                     URL, e.g. ="http://example.com:80/cgi-bin/oops.pl/ Main/WebNotify?template=oopslocked&amp;param1=joe"=
 
-*DEPRECATED* since 1.1, the recommended approach is to throw an oops exception.
+*Deprecated* 28 Nov 2008, the recommended approach is to throw an oops exception.
 <verbatim>
    use Error qw( :try );
 
@@ -2879,8 +2664,6 @@ then you can use =getScriptUrl= instead:
    return 0;
 </verbatim>
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
-
 =cut
 
 sub getOopsUrl {
@@ -2895,7 +2678,32 @@ sub getOopsUrl {
     );
 }
 
-=pod
+=begin TML
+
+---+++ wikiToEmail( $wikiName ) -> $email
+
+   * =$wikiname= - wiki name of the user
+Get the e-mail address(es) of the named user. If the user has multiple
+e-mail addresses (for example, the user is a group), then the list will
+be comma-separated.
+
+*Deprecated* 28 Nov 2008 in favour of wikinameToEmails, because this function only
+returns a single email address, where a user may in fact have several.
+
+$wikiName may also be a login name.
+
+=cut
+
+sub wikiToEmail {
+    my ($user) = @_;
+    my @emails = wikinameToEmails($user);
+    if ( scalar(@emails) ) {
+        return $emails[0];
+    }
+    return '';
+}
+
+=begin TML
 
 ---+++ permissionsSet( $web ) -> $boolean
 
@@ -2903,9 +2711,7 @@ Test if any access restrictions are set for this web, ignoring settings on
 individual pages
    * =$web= - Web name, required, e.g. ='Sandbox'=
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (27 Feb 2001)
-
-*DEPRECATED* since 1.2 - use =getPreferencesValue= instead to determine
+*Deprecated* 28 Nov 2008 - use =getPreferencesValue= instead to determine
 what permissions are set on the web, for example:
 <verbatim>
 foreach my $type qw( ALLOW DENY ) {
@@ -2935,17 +2741,15 @@ sub permissionsSet {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---+++ getPublicWebList( ) -> @webs
 
-*DEPRECATED* since 1.1 - use =getListOfWebs= instead.
+*Deprecated* 28 Nov 2008 - use =getListOfWebs= instead.
 
 Get list of all public webs, e.g. all webs *and subwebs* that do not have the =NOSEARCHALL= flag set in the WebPreferences
 
 Return: =@webs= List of all public webs *and subwebs*
-
-*Since:* Foswiki::Plugins::VERSION 1.000 (07 Dec 2002)
 
 =cut
 
@@ -2954,37 +2758,53 @@ sub getPublicWebList {
     return $Foswiki::Plugins::SESSION->{store}->getListOfWebs("user,public");
 }
 
-=pod
+=begin TML
+
+---+++ formatTime( $time, $format, $timezone ) -> $text
+
+*Deprecated* 28 Nov 2008 - use =Foswiki::Time::formatTime= instead (it has an identical interface).
+
+Format the time in seconds into the desired time string
+   * =$time=     - Time in epoch seconds
+   * =$format=   - Format type, optional. Default e.g. ='31 Dec 2002 - 19:30'=. Can be ='$iso'= (e.g. ='2002-12-31T19:30Z'=), ='$rcs'= (e.g. ='2001/12/31 23:59:59'=, ='$http'= for HTTP header format (e.g. ='Thu, 23 Jul 1998 07:21:56 GMT'=), or any string with tokens ='$seconds, $minutes, $hours, $day, $wday, $month, $mo, $year, $ye, $tz'= for seconds, minutes, hours, day of month, day of week, 3 letter month, 2 digit month, 4 digit year, 2 digit year, timezone string, respectively
+   * =$timezone= - either not defined (uses the displaytime setting), 'gmtime', or 'servertime'
+Return: =$text=        Formatted time string
+| Note:                  | if you used the removed formatGmTime, add a third parameter 'gmtime' |
+
+=cut
+
+sub formatTime {
+
+    #   my ( $epSecs, $format, $timezone ) = @_;
+    require Foswiki::Time;
+    return Foswiki::Time::formatTime(@_);
+}
+
+=begin TML
 
 ---+++ formatGmTime( $time, $format ) -> $text
 
-*DEPRECATED* since 1.1 - use =formatTime= instead.
+*Deprecated* 28 Nov 2008 - use =Foswiki::Time::formatTime= instead.
 
 Format the time to GM time
    * =$time=   - Time in epoc seconds
    * =$format= - Format type, optional. Default e.g. ='31 Dec 2002 - 19:30'=, can be ='iso'= (e.g. ='2002-12-31T19:30Z'=), ='rcs'= (e.g. ='2001/12/31 23:59:59'=, ='http'= for HTTP header format (e.g. ='Thu, 23 Jul 1998 07:21:56 GMT'=)
 Return: =$text=      Formatted time string
 
-*Since:* Foswiki::Plugins::VERSION 1.000 (7 Dec 2002)
-
 =cut
 
 sub formatGmTime {
 
     #   my ( $epSecs, $format ) = @_;
-
-# FIXME: Write warning based on flag (disabled for now); indicate who is calling this function
-    ## writeWarning( 'deprecated use of Func::formatGmTime' );
-
     require Foswiki::Time;
     return Foswiki::Time::formatTime( @_, 'gmtime' );
 }
 
-=pod
+=begin TML
 
 ---+++ getDataDir( ) -> $dir
 
-*DEPRECATED* since 1.1 - use the "Webs, Topics and Attachments" functions to manipulate topics instead
+*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions to manipulate topics instead
 
 =cut
 
@@ -2992,11 +2812,11 @@ sub getDataDir {
     return $Foswiki::cfg{DataDir};
 }
 
-=pod
+=begin TML
 
 ---+++ getPubDir( ) -> $dir
 
-*DEPRECATED* since 1.1 - use the "Webs, Topics and Attachments" functions to manipulateattachments instead
+*Deprecated* 28 Nov 2008 - use the "Webs, Topics and Attachments" functions to manipulateattachments instead
 
 =cut
 

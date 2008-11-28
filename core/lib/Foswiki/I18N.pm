@@ -17,7 +17,7 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-=pod
+=begin TML
 
 ---+ package Foswiki::I18N
 
@@ -32,7 +32,7 @@ use Assert;
 
 use vars qw( $initialised @initErrors );
 
-=pod
+=begin TML
 
 ---++ ClassMethod available_languages
 
@@ -118,7 +118,7 @@ BEGIN {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ( $session )
 
@@ -212,7 +212,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod maketext( $text ) -> $translation
 
@@ -254,7 +254,7 @@ sub maketext {
     return $result;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod language() -> $language_tag
 
@@ -270,7 +270,7 @@ sub language {
     return $this->language_tag();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod enabled_languages() -> %languages
 
@@ -322,7 +322,7 @@ sub _discover_languages {
 
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod fromSiteCharSet ( $text ) -> $encoded
 
@@ -386,7 +386,7 @@ sub fromSiteCharSet {
     }
 }
 
-=pod
+=begin TML
 
 
 ---++ ObjectMethod toSiteCharSet ( $encoded ) -> $text

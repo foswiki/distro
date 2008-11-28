@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::UI::View
 
@@ -19,7 +19,7 @@ require Foswiki::UI;
 require Foswiki::Sandbox;
 require Foswiki::OopsException;
 
-=pod
+=begin TML
 
 ---++ StaticMethod view( $session )
 
@@ -412,7 +412,7 @@ sub _prepare {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod viewfile( $session, $web, $topic, $query )
 

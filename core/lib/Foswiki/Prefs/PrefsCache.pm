@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
-=pod
+
+=begin TML
 
 ---+ package Foswiki::Prefs::PrefsCache
 
@@ -32,7 +33,7 @@ require Foswiki::Prefs::Parser;
 
 use vars qw( $parser );
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $prefs, $parent, $type, $web, $topic, $prefix )
 
@@ -95,7 +96,7 @@ sub finish {
     undef $this->{SetHere};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod finalise( $parent )
 
@@ -120,7 +121,7 @@ sub finalise {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loadPrefsFromTopic( $web, $topic, $keyPrefix )
 
@@ -147,7 +148,7 @@ sub loadPrefsFromTopic {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loadPrefsFromText( $text, $meta, $web, $topic )
 
@@ -178,7 +179,7 @@ sub loadPrefsFromText {
     $parser->parseMeta( $meta, $this, '' );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod insert($type, $key, $val) -> $boolean
 
@@ -213,7 +214,7 @@ sub insert {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify($html, \%shown) -> $text
 

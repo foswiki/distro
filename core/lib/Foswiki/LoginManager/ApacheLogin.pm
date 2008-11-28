@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::LoginManager::ApacheLogin
 
@@ -25,7 +25,7 @@ use base 'Foswiki::LoginManager';
 use strict;
 use Assert;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session)
 
@@ -44,7 +44,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod forceAuthentication () -> boolean
 
@@ -80,7 +80,7 @@ sub forceAuthentication {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loginUrl () -> $loginUrl
 
@@ -97,7 +97,7 @@ sub loginUrl {
     return $session->getScriptUrl( 0, 'logon', $web, $topic, @_ );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod login( $query, $session )
 
@@ -122,7 +122,7 @@ sub login {
     $session->redirect( $url, 1 );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getUser () -> $authUser
 

@@ -14,7 +14,7 @@ use Assert;
 
 require Foswiki;
 
-=pod
+=begin TML
 
 ---++ StaticMethod oops_cgi($session)
 
@@ -37,7 +37,7 @@ sub oops_cgi {
     oops( $session, $web, $topic, $query, 0 );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod oops($session, $web, $topic, $query, $keep)
 

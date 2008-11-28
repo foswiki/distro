@@ -3,7 +3,7 @@ package Foswiki::Compatibility;
 
 use Assert;
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Compatibility
 
@@ -103,7 +103,7 @@ sub _upgradeCategoryItem {
     return ( $catname, $catmodifier, $catvalue );
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod upgradeCategoryTable( $session, $web, $topic, $meta, $text ) -> $text
 
@@ -257,7 +257,7 @@ sub _getOldAttachAttr {
         $fileComment );
 }
 
-=pod
+=begin TML
 
 ---++ migrateToFileAttachmentMacro ( $session, $meta, $text  ) -> $text
 
@@ -317,7 +317,7 @@ sub migrateToFileAttachmentMacro {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ upgradeFrom1v0beta ( $session, $meta  ) -> $text
 

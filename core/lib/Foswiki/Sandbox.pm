@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Sandbox
 
@@ -32,7 +32,7 @@ sub TRACE { 0 }
 # output goes only to web server error log - otherwise it might give
 # useful debugging information to someone developing an exploit.
 
-=pod
+=begin TML
 
 ---++ ClassMethod new( $os, $realOS )
 
@@ -90,7 +90,7 @@ sub finish {
     my $this = shift;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod untaintUnchecked ( $string ) -> $untainted
 
@@ -111,7 +111,7 @@ sub untaintUnchecked {
     return $string;    # Can't happen.
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod normalizeFileName( $string ) -> $filename
 
@@ -158,7 +158,7 @@ sub normalizeFileName {
     return untaintUnchecked($string);
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod sanitizeAttachmentName($fname) -> ($fileName, $origName)
 
@@ -340,7 +340,7 @@ sub _safeDie {
 'Foswiki experienced a fatal error. Please check your webserver error logs for details.';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod sysCommand( $template, @params ) -> ( $data, $exit )
 

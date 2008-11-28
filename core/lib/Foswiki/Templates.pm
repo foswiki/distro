@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Templates
 
@@ -8,7 +8,7 @@ Support for Skin Template directives
 
 =cut
 
-=pod
+=begin TML
 
 The following tokens are supported by this language:
 
@@ -35,7 +35,7 @@ use Assert;
 
 require Foswiki::Attrs;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ( $session )
 
@@ -53,7 +53,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod finish()
 Break circular references.
@@ -69,7 +69,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod haveTemplate( $name ) -> $boolean
 
@@ -97,7 +97,7 @@ sub _expandTrivialTemplate {
     return $this->tmplP($attrs);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod expandTemplate( $params ) -> $string
 
@@ -118,7 +118,7 @@ sub expandTemplate {
     return $value;
 }
 
-=pod
+=begin TML
 
 ---+ ObjectMethod tmplP( $attrs ) -> $string
 
@@ -172,7 +172,7 @@ sub tmplP {
     return $val;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod readTemplate ( $name, $skins, $web ) -> $text
 

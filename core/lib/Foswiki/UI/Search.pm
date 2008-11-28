@@ -13,7 +13,7 @@ use strict;
 
 require Foswiki;
 
-=pod
+=begin TML
 
 ---++ StaticMethod search( $session )
 

@@ -1,6 +1,6 @@
 # See bottom of file for default license and copyright information
 
-=pod
+=begin TML
 
 ---+ package EmptyPlugin
 
@@ -87,7 +87,7 @@ $NO_PREFS_IN_TOPIC = 1;
 # Name of this Plugin, only used in this module
 $pluginName = 'EmptyPlugin';
 
-=pod
+=begin TML
 
 ---++ initPlugin($topic, $web, $user, $installWeb) -> $boolean
    * =$topic= - the name of the topic in the current CGI query
@@ -171,7 +171,7 @@ sub _EXAMPLETAG {
     # $params->{sideorder} will be 'onions'
 }
 
-=pod
+=begin TML
 
 ---++ earlyInitPlugin()
 
@@ -186,7 +186,7 @@ sub DISABLE_earlyInitPlugin {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ initializeUserHandler( $loginName, $url, $pathInfo )
    * =$loginName= - login name recovered from $ENV{REMOTE_USER}
@@ -211,7 +211,7 @@ sub DISABLE_initializeUserHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::initializeUserHandler( $_[0], $_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ registrationHandler($web, $wikiName, $loginName )
    * =$web= - the name of the web in the current CGI query
@@ -231,7 +231,7 @@ sub DISABLE_registrationHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::registrationHandler( $_[0], $_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ commonTagsHandler($text, $topic, $web, $included, $meta )
    * =$text= - text to be processed
@@ -280,7 +280,7 @@ sub DISABLE_commonTagsHandler {
     # $_[0] =~ s/%XYZ{(.*?)}%/&handleXyz($1)/ge;
 }
 
-=pod
+=begin TML
 
 ---++ beforeCommonTagsHandler($text, $topic, $web, $meta )
    * =$text= - text to be processed
@@ -310,7 +310,7 @@ sub DISABLE_beforeCommonTagsHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::beforeCommonTagsHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ afterCommonTagsHandler($text, $topic, $web, $meta )
    * =$text= - text to be processed
@@ -337,7 +337,7 @@ sub DISABLE_afterCommonTagsHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::afterCommonTagsHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ preRenderingHandler( $text, \%map )
    * =$text= - text, with the head, verbatim and pre blocks replaced with placeholders
@@ -390,7 +390,7 @@ sub DISABLE_preRenderingHandler {
     #my( $text, $pMap ) = @_;
 }
 
-=pod
+=begin TML
 
 ---++ postRenderingHandler( $text )
    * =$text= - the text that has just been rendered. May be modified in place.
@@ -410,7 +410,7 @@ sub DISABLE_postRenderingHandler {
     #my $text = shift;
 }
 
-=pod
+=begin TML
 
 ---++ beforeEditHandler($text, $topic, $web )
    * =$text= - text that will be edited
@@ -433,7 +433,7 @@ sub DISABLE_beforeEditHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::beforeEditHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ afterEditHandler($text, $topic, $web, $meta )
    * =$text= - text that is being previewed
@@ -459,7 +459,7 @@ sub DISABLE_afterEditHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::afterEditHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ beforeSaveHandler($text, $topic, $web, $meta )
    * =$text= - text _with embedded meta-data tags_
@@ -487,7 +487,7 @@ sub DISABLE_beforeSaveHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::beforeSaveHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ afterSaveHandler($text, $topic, $web, $error, $meta )
    * =$text= - the text of the topic _excluding meta-data tags_
@@ -512,7 +512,7 @@ sub DISABLE_afterSaveHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::afterSaveHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ afterRenameHandler( $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic, $newAttachment )
 
@@ -537,7 +537,7 @@ sub DISABLE_afterRenameHandler {
                              "$_[0].$_[1] $_[2] -> $_[3].$_[4] $_[5] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ beforeAttachmentSaveHandler(\%attrHash, $topic, $web )
    * =\%attrHash= - reference to hash of attachment attribute values
@@ -562,7 +562,7 @@ sub DISABLE_beforeAttachmentSaveHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::beforeAttachmentSaveHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ afterAttachmentSaveHandler(\%attrHash, $topic, $web, $error )
    * =\%attrHash= - reference to hash of attachment attribute values
@@ -585,7 +585,7 @@ sub DISABLE_afterAttachmentSaveHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::afterAttachmentSaveHandler( $_[2].$_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ mergeHandler( $diff, $old, $new, \%info ) -> $text
 Try to resolve a difference encountered during merge. The =differences= 
@@ -634,7 +634,7 @@ required to resolve concurrent edits on a topic.
 sub DISABLE_mergeHandler {
 }
 
-=pod
+=begin TML
 
 ---++ modifyHeaderHandler( \%headers, $query )
    * =\%headers= - reference to a hash of existing header values
@@ -661,7 +661,7 @@ sub DISABLE_modifyHeaderHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::modifyHeaderHandler()" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ redirectCgiQueryHandler($query, $url )
    * =$query= - the CGI query
@@ -684,7 +684,7 @@ sub DISABLE_redirectCgiQueryHandler {
     Foswiki::Func::writeDebug( "- ${pluginName}::redirectCgiQueryHandler( query, $_[1] )" ) if $debug;
 }
 
-=pod
+=begin TML
 
 ---++ renderFormFieldForEditHandler($name, $type, $size, $value, $attributes, $possibleValues) -> $html
 
@@ -716,7 +716,7 @@ extend the form field types.
 sub DISABLE_renderFormFieldForEditHandler {
 }
 
-=pod
+=begin TML
 
 ---++ renderWikiWordHandler($linkText, $hasExplicitLinkLabel, $web, $topic) -> $linkText
    * =$linkText= - the text for the link i.e. for =[<nop>[Link][blah blah]]=
@@ -738,7 +738,7 @@ sub DISABLE_renderWikiWordHandler {
     return $linkText;
 }
 
-=pod
+=begin TML
 
 ---++ completePageHandler($html, $httpHeaders)
 
@@ -759,7 +759,7 @@ sub DISABLE_completePageHandler {
     # modify $_[0] or $_[1] if you must change the HTML or headers
 }
 
-=pod
+=begin TML
 
 ---++ restExample($session) -> $text
 

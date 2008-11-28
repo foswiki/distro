@@ -1,5 +1,6 @@
 # See bottom of file for license and copyright information
-=pod
+
+=begin TML
 
 ---+ UNPUBLISHED package Foswiki::Prefs::Parser
 
@@ -21,7 +22,7 @@ require Foswiki;
 
 my $settingPrefPrefix = 'PREFERENCE_';
 
-=pod
+=begin TML
 
 ---++ ClassMethod new() -> topic parser object
 
@@ -33,7 +34,7 @@ sub new {
     return bless {}, $_[0];
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod parseText( $text, $prefs )
 
@@ -74,7 +75,7 @@ sub parseText {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod parseMeta( $metaObject, $prefs )
 

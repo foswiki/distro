@@ -34,7 +34,7 @@ package Foswiki::UserMapping;
 use Assert;
 use Error;
 
-=pod
+=begin TML
 
 ---++ PROTECTED ClassMethod new ($session, $mapping_id)
 
@@ -67,7 +67,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod loginTemplateName () -> $templateFile
 
@@ -82,7 +82,7 @@ sub loginTemplateName {
     return 'login';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod supportsRegistration() -> $boolean
 
@@ -96,7 +96,7 @@ sub supportsRegistration {
     return 0;    # NO, we don't
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod handlesUser ( $cUID, $login, $wikiname) -> $boolean
 
@@ -138,7 +138,7 @@ sub login2cUID {
     ASSERT( 0, 'Must be implemented' );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLoginName ($cUID) -> login
 
@@ -153,7 +153,7 @@ sub getLoginName {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addUser ($login, $wikiname, $password, $emails) -> $cUID
 
@@ -183,7 +183,7 @@ sub addUser {
     throw Error::Simple('Failed to add user: adding users is not supported');
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeUser( $cUID ) -> $boolean
 
@@ -196,7 +196,7 @@ sub removeUser {
     throw Error::Simple('Failed to remove user: user removal is not supported');
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getWikiName ($cUID) -> $wikiname
 
@@ -211,7 +211,7 @@ sub getWikiName {
     return $cUID;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod userExists($cUID) -> $boolean
 
@@ -226,7 +226,7 @@ sub userExists {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachUser () -> Foswiki::ListIterator of cUIDs
 
@@ -241,7 +241,7 @@ sub eachUser {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachGroupMember ($group) ->  Foswiki::ListIterator of cUIDs
 
@@ -260,7 +260,7 @@ sub eachGroupMember {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isGroup ($name) -> boolean
 
@@ -276,7 +276,7 @@ sub isGroup {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachGroup () -> Foswiki::ListIterator of groupnames
 
@@ -290,7 +290,7 @@ sub eachGroup {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachMembership($cUID) -> Foswiki::ListIterator of groups this user is in
 
@@ -304,7 +304,7 @@ sub eachMembership {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isAdmin( $cUID ) -> $boolean
 
@@ -316,7 +316,7 @@ sub isAdmin {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isInGroup ($cUID, $group) -> $bool
 
@@ -344,7 +344,7 @@ sub isInGroup {
     return 0;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod findUserByEmail( $email ) -> \@users
    * =$email= - email address to look up
@@ -357,7 +357,7 @@ sub findUserByEmail {
     return [];
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getEmails($name) -> @emailAddress
 
@@ -372,7 +372,7 @@ sub getEmails {
     return ();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setEmails($cUID, @emails)
 
@@ -383,7 +383,7 @@ Set the email address(es) for the given user.
 sub setEmails {
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod findUserByWikiName ($wikiname) -> list of cUIDs associated with that wikiname
    * =$wikiname= - wikiname to look up
@@ -401,7 +401,7 @@ sub findUserByWikiName {
     ASSERT(0);
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod checkPassword( $login, $passwordU ) -> $boolean
 
@@ -419,7 +419,7 @@ sub checkPassword {
     return 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setPassword( $cUID, $newPassU, $oldPassU ) -> $boolean
 
@@ -441,7 +441,7 @@ sub setPassword {
     return undef;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod passwordError( ) -> $string
 

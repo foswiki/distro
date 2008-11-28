@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::I18N::Extract
 
@@ -23,7 +23,7 @@ BEGIN {
 
 ##########################################################
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ( $session ) -> $extract
 
@@ -47,7 +47,7 @@ sub new {
     return bless( $self, $class );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod extract ( $file , $text )
 

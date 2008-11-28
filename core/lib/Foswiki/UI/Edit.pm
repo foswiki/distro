@@ -17,7 +17,7 @@ require Foswiki;
 require Foswiki::UI;
 require Foswiki::OopsException;
 
-=pod
+=begin TML
 
 ---++ StaticMethod edit( $session )
 

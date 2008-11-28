@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright information
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Store::RcsFile
 
@@ -29,7 +29,7 @@ require File::Basename;
 require Foswiki::Store;
 require Foswiki::Sandbox;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new($session, $web, $topic, $attachment)
 
@@ -153,7 +153,7 @@ sub _controlFileName {
     return $fn;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionInfo($version) -> ($rev, $date, $user, $comment)
 
@@ -178,7 +178,7 @@ sub getRevisionInfo {
     );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLatestRevision() -> $text
 
@@ -191,7 +191,7 @@ sub getLatestRevision {
     return readFile( $this, $this->{file} );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLatestRevisionTime() -> $text
 
@@ -204,7 +204,7 @@ sub getLatestRevisionTime {
     return $e[9] || 0;
 }
 
-=pod
+=begin TML
 
 ---+++ ObjectMethod getWorkArea( $key ) -> $directorypath
 
@@ -234,7 +234,7 @@ ERROR
     return $dir;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getTopicNames() -> @topics
 
@@ -259,7 +259,7 @@ sub getTopicNames {
     return @topicList;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getWebNames() -> @webs
 
@@ -282,7 +282,7 @@ sub getWebNames {
     return ();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
 
@@ -327,7 +327,7 @@ sub searchInWebContent {
     use strict 'refs';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod searchInWebMetaData($query, \@topics) -> \%matches
 
@@ -360,7 +360,7 @@ sub searchInWebMetaData {
     use strict 'refs';
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod moveWeb(  $newWeb )
 
@@ -384,7 +384,7 @@ sub moveWeb {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevision($version) -> $text
 
@@ -404,7 +404,7 @@ sub getRevision {
     return readFile( $this, $this->{file} );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod storedDataExists() -> $boolean
 
@@ -419,7 +419,7 @@ sub storedDataExists {
     return -e $this->{file};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getTimestamp() -> $integer
 
@@ -439,7 +439,7 @@ sub getTimestamp {
     return $date;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod restoreLatestRevision( $user )
 
@@ -464,7 +464,7 @@ sub restoreLatestRevision {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeWeb( $web )
 
@@ -488,7 +488,7 @@ sub removeWeb {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod moveTopic( $newWeb, $newTopic )
 
@@ -523,7 +523,7 @@ sub moveTopic {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod copyTopic( $newWeb, $newTopic )
 
@@ -566,7 +566,7 @@ sub copyTopic {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod moveAttachment( $newWeb, $newTopic, $newAttachment )
 
@@ -591,7 +591,7 @@ sub moveAttachment {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod copyAttachment( $newWeb, $newTopic )
 
@@ -619,7 +619,7 @@ sub copyAttachment {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isAsciiDefault (   ) -> $boolean
 
@@ -632,7 +632,7 @@ sub isAsciiDefault {
     return ( $this->{attachment} =~ /$Foswiki::cfg{RCS}{asciiFileSuffixes}/ );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setLock($lock, $user)
 
@@ -663,7 +663,7 @@ sub setLock {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod isLocked( ) -> ($user, $time)
 
@@ -682,7 +682,7 @@ sub isLocked {
     return ( undef, undef );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod setLease( $lease )
 
@@ -707,7 +707,7 @@ sub setLease {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getLease() -> $lease
 
@@ -727,7 +727,7 @@ sub getLease {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod removeSpuriousLeases( $web )
 
@@ -931,7 +931,7 @@ sub _rmtree {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getStream() -> \*STREAM
 
@@ -949,7 +949,7 @@ sub getStream {
     return $strm;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod numRevisions() -> $integer
 
@@ -962,7 +962,7 @@ as a nonexistent file, returns 0.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod initBinary()
 
@@ -974,7 +974,7 @@ Must be provided by subclasses.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod initText()
 
@@ -986,7 +986,7 @@ Must be provided by subclasses.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addRevisionFromText($text, $comment, $user, $date)
 
@@ -998,7 +998,7 @@ Add new revision. Replace file with text.
 
 *Virtual method* - must be implemented by subclasses
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addRevisionFromStream($fh, $comment, $user, $date)
 
@@ -1012,7 +1012,7 @@ Add new revision. Replace file with contents of stream.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod replaceRevision($text, $comment, $user, $date)
 
@@ -1026,7 +1026,7 @@ Replace the top revision.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod deleteRevision()
 
@@ -1036,7 +1036,7 @@ Delete the last revision - do nothing if there is only one revision
 
 =cut to implementation
 
-=pod
+=begin TML
 
 ---++ ObjectMethod revisionDiff (   $rev1, $rev2, $contextLines  ) -> \@diffArray
 
@@ -1047,7 +1047,7 @@ Return reference to an array of [ diffType, $right, $left ]
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevision($version) -> $text
 
@@ -1057,7 +1057,7 @@ Get the text for a given revision. The version number must be an integer.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRevisionAtTime($time) -> $rev
 
@@ -1068,7 +1068,7 @@ given epoch-secs time, or undef it none could be found.
 
 =cut
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getAttachmentAttributes($web, $topic, $attachment)
 
@@ -1115,7 +1115,7 @@ sub _constructAttributesForAutoAttached {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getAttachmentList($web, $topic)
 
@@ -1147,7 +1147,7 @@ sub dirForTopicAttachments {
     return $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod stringify()
 
@@ -1174,7 +1174,7 @@ sub hidePath {
     return $erf;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod recordChange($user, $rev, $more)
 Record that the file changed
@@ -1212,7 +1212,7 @@ sub recordChange {
     return;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod eachChange($since) -> $iterator
 

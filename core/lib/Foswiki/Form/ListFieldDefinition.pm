@@ -1,6 +1,6 @@
 # See bottom of file for license and copyright details
 
-=pod
+=begin TML
 
 ---++ package Foswiki::Form::ListFieldDefinition
 Form field definitions that accept lists of values in the field definition.

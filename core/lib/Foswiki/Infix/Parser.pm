@@ -1,6 +1,6 @@
 # See bottom of file for copyright and license details
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Infix::Parser
 
@@ -22,7 +22,7 @@ require Foswiki::Infix::Node;
 # Set to 1 for debug
 sub MONITOR_PARSER { 0 }
 
-=pod
+=begin TML
 
 ---++ new($client_class, \%options) -> parser object
 
@@ -88,7 +88,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod addOperator(\%oper)
 Add an operator to the parser.
@@ -173,7 +173,7 @@ sub _initialise {
     $this->{initialised} = 1;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod parse($string) -> $parseTree
 Parses =$string=, calling =newLeaf= and =newNode= in the client class

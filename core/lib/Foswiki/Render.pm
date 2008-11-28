@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Render;
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Render
 
@@ -52,7 +52,7 @@ BEGIN {
     }
 }
 
-=pod
+=begin TML
 
 ---++ ClassMethod new ($session)
 
@@ -98,7 +98,7 @@ sub _newLinkFormat {
     return $this->{NEWLINKFORMAT};
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderParent($web, $topic, $meta, $params) -> $text
 
@@ -156,7 +156,7 @@ sub renderParent {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderMoved($web, $topic, $meta, $params) -> $text
 
@@ -404,7 +404,7 @@ sub _makeAnchorHeading {
     return $html;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod makeAnchorName($anchorName, $compatibilityMode) -> $anchorName
 
@@ -478,7 +478,7 @@ sub _eraseAnchorNameMemory {
     %anchornames = ();
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod makeUniqueAnchorName($web, $topic, $anchorName, $compatibility) -> $anchorName
 
@@ -560,7 +560,7 @@ sub _linkToolTipInfo {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod internalLink ( $theWeb, $theTopic, $theLinkText, $theAnchor, $doLink, $doKeepWeb, $hasExplicitLinkLabel ) -> $html
 
@@ -914,7 +914,7 @@ sub _mailLink {
     return _externalLink( $this, $url, $text );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderFORMFIELD ( %params, $topic, $web ) -> $html
 
@@ -1011,7 +1011,7 @@ sub renderFORMFIELD {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod getRenderedVersion ( $text, $theWeb, $theTopic ) -> $html
 
@@ -1345,7 +1345,7 @@ s/$STARTWW(?:($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod verbatimCallBack
 
@@ -1377,7 +1377,7 @@ sub _filterScript {
     return CGI::comment('<script> is not allowed on this site');
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod TML2PlainText( $text, $web, $topic, $opts ) -> $plainText
 
@@ -1459,7 +1459,7 @@ s/$STARTWW(($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}|$Fos
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod protectPlainText($text) -> $tml
 
@@ -1499,7 +1499,7 @@ s/((($Foswiki::regex{webNameRegex})\.)?($Foswiki::regex{wikiWordRegex}|$Foswiki:
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod makeTopicSummary (  $theText, $theTopic, $theWeb, $theFlags ) -> $tml
 
@@ -1605,7 +1605,7 @@ s/<!--$Foswiki::TranslationToken$placeholder$Foswiki::TranslationToken-->/$val/;
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod takeOutBlocks( \$text, $tag, \%map ) -> $text
 
@@ -1686,7 +1686,7 @@ sub takeOutBlocks {
     return $out;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod putBackBlocks( \$text, \%map, $tag, $newtag, $callBack ) -> $text
 
@@ -1740,7 +1740,7 @@ s(<!--$Foswiki::TranslationToken$placeholder$Foswiki::TranslationToken-->)
     }
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderRevisionInfo($web, $topic, $meta, $rev, $format) -> $string
 
@@ -1840,7 +1840,7 @@ s/\$date/Foswiki::Time::formatTime( $date, $Foswiki::cfg{DefaultDateFormat} )/ge
     return $value;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod summariseChanges($user, $web, $topic, $orev, $nrev, $tml) -> $text
 
@@ -1940,7 +1940,7 @@ sub summariseChanges {
     return $summary;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod forEachLine( $text, \&fn, \%options ) -> $newText
 
@@ -1999,7 +1999,7 @@ sub forEachLine {
     return $newText;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod getReferenceRE($web, $topic, %options) -> $re
 
@@ -2124,7 +2124,7 @@ sub getReferenceRE {
     return $re;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod replaceTopicReferences( $text, \%options ) -> $text
 
@@ -2192,7 +2192,7 @@ sub _doReplace {
     return $repl;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod replaceWebReferences( $text, \%options ) -> $text
 
@@ -2228,7 +2228,7 @@ sub replaceWebReferences {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod replaceWebInternalReferences( \$text, \%meta, $oldWeb, $oldTopic )
 
@@ -2299,7 +2299,7 @@ sub _replaceInternalRefs {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod breakName( $text, $args) -> $text
 
@@ -2339,7 +2339,7 @@ sub breakName {
     return $text;
 }
 
-=pod
+=begin TML
 
 ---++ StaticMethod protectFormFieldValue($value, $attrs) -> $html
 

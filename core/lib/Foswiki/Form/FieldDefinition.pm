@@ -1,7 +1,7 @@
 # See bottom of file for license and copyright details
 # base class for all form field types
 
-=pod
+=begin TML
 
 ---+ package Foswiki::Form::FieldDefinition
 
@@ -18,7 +18,7 @@ package Foswiki::Form::FieldDefinition;
 use strict;
 use Assert;
 
-=pod
+=begin TML
 
 ---++ ClassMethod new(%...)
 
@@ -62,7 +62,7 @@ sub finish {
     undef $this->{session};
 }
 
-=pod
+=begin TML
 
 ---++ isEditable() -> $boolean
 
@@ -73,7 +73,7 @@ to redefine this.
 
 sub isEditable { 1 }
 
-=pod
+=begin TML
 
 ---++ isMultiValued() -> $boolean
 
@@ -84,7 +84,7 @@ Subclasses may need to redefine this.
 
 sub isMultiValued { 0 }
 
-=pod
+=begin TML
 
 ---++ isTextMergeable() -> $boolean
 
@@ -95,7 +95,7 @@ Is this field type mergeable using a conventional text merge?
 # can't merge multi-valued fields (select+multi, checkbox)
 sub isTextMergeable { return !shift->isMultiValued() }
 
-=pod
+=begin TML
 
 ---++ isMandatory() -> $boolean
 
@@ -105,7 +105,7 @@ Is this field mandatory (required)?
 
 sub isMandatory { return shift->{attributes} =~ /M/ }
 
-=pod
+=begin TML
 
 ---++ renderForEdit( $web, $topic, $value ) -> ($col0html, $col1html)
    =$web= - the web containing the topic being edited
@@ -133,7 +133,7 @@ sub renderForEdit {
     );
 }
 
-=pod
+=begin TML
 
 ---++ cssClasses(@classes) -> $classes
 Construct a list of the CSS classes for the form field. Adds additional
@@ -150,7 +150,7 @@ sub cssClasses {
     return join( ' ', @_ );
 }
 
-=pod
+=begin TML
 
 ---++ getDefaultValue() -> $value
 Try and get a sensible default value for the field from the
@@ -171,7 +171,7 @@ sub getDefaultValue {
     return $value;
 }
 
-=pod
+=begin TML
 
 ---++ renderHidden($meta) -> $html
 Render the form in =$meta= as a set of hidden fields.
@@ -207,7 +207,7 @@ sub renderHidden {
     return CGI::hidden( -name => $this->{name}, -default => \@values );
 }
 
-=pod
+=begin TML
 
 ---++ populateMetaDataFromQuery( $query, $meta, $old ) -> ($bValid, $bPresent)
 
@@ -309,7 +309,7 @@ sub populateMetaFromQueryData {
     return ( 1, $bPresent );
 }
 
-=pod
+=begin TML
 
 ---++ ObjectMethod renderForDisplay($format, $attrs) -> $html
 
