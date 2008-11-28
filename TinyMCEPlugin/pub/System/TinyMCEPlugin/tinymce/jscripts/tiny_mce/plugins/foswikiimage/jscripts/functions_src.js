@@ -1,4 +1,4 @@
-/* Functions for the twikiimage plugin popup */
+/* Functions for the foswikiimage plugin popup */
 
 var preloadImg = null;
 var orgImageWidth, orgImageHeight;
@@ -21,7 +21,7 @@ function preinit() {
 
 function pubURL(url, node, on_save) {
 	return eval("tinyMCEPopup.windowOpener."
-                + tinyMCE.settings['twikipuburl_callback']
+                + tinyMCE.settings['foswikipuburl_callback']
                 + "(url, node, on_save);");
 }
 
@@ -76,21 +76,21 @@ function init() {
 		document.getElementById("imagelistoutcontainer").innerHTML = html;
 
 	// Src browser
-	html = getBrowserHTML('srcbrowser','src','image','twikiimage');
+	html = getBrowserHTML('srcbrowser','src','image','foswikiimage');
 	document.getElementById("srcbrowsercontainer").innerHTML = html;
 
 	// Over browser
 	html = getBrowserHTML('oversrcbrowser', 'onmouseoversrc', 'image',
-                          'twikiimage');
+                          'foswikiimage');
 	document.getElementById("onmouseoversrccontainer").innerHTML = html;
 
 	// Out browser
 	html = getBrowserHTML('outsrcbrowser', 'onmouseoutsrc',
-                          'image', 'twikiimage');
+                          'image', 'foswikiimage');
 	document.getElementById("onmouseoutsrccontainer").innerHTML = html;
 
 	// Longdesc browser
-	html = getBrowserHTML('longdescbrowser','longdesc','file','twikiimage');
+	html = getBrowserHTML('longdescbrowser','longdesc','file','foswikiimage');
 	document.getElementById("longdesccontainer").innerHTML = html;
 
 	// Resize some elements
@@ -171,7 +171,7 @@ function init() {
 			selectByValue(formObj, 'align', getStyle(
                               elm, 'align', 'cssFloat'));
 
-		addClassesToList('classlist', 'twikiimage_styles');
+		addClassesToList('classlist', 'foswikiimage_styles');
 
 		selectByValue(formObj, 'classlist', tinyMCE.getAttrib(elm, 'class'));
 		selectByValue(formObj, 'imagelistsrc', src);
@@ -184,10 +184,10 @@ function init() {
 
 		window.focus();
 	} else
-		addClassesToList('classlist', 'twikiimage_styles');
+		addClassesToList('classlist', 'foswikiimage_styles');
 
 	// If option enabled default contrain proportions to checked
-	if (tinyMCE.getParam("twikiimage_constrain_proportions", true))
+	if (tinyMCE.getParam("foswikiimage_constrain_proportions", true))
 		formObj.constrain.checked = true;
 
 	// Check swap image if valid data
@@ -299,7 +299,7 @@ function insertAction() {
 
 	if (tinyMCE.getParam("accessibility_warnings")) {
 		if (formObj.alt.value == "" &&
-            !confirm(tinyMCE.getLang('lang_twikiimage_missing_alt', '', true)))
+            !confirm(tinyMCE.getLang('lang_foswikiimage_missing_alt', '', true)))
 			return;
 	}
 
@@ -499,7 +499,7 @@ function showPreviewImage(src, start) {
 	var elm = document.getElementById('prev');
 	var src = pubURL(src, null, false);
 
-	if (!start && tinyMCE.getParam("twikiimage_update_dimensions_onchange",
+	if (!start && tinyMCE.getParam("foswikiimage_update_dimensions_onchange",
                                    true))
 		resetImageData();
 

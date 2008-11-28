@@ -2,7 +2,7 @@ var preloadImg=null;var orgImageWidth,orgImageHeight;function preinit(){tinyMCE.
 url=tinyMCE.documentBasePath+"/"+url;document.write('<sc'+'ript language="javascript" type="text/javascript" src="'
 +url+'"></sc'+'ript>');}}
 function pubURL(url,node,on_save){return eval("tinyMCEPopup.windowOpener."
-+tinyMCE.settings['twikipuburl_callback']
++tinyMCE.settings['foswikipuburl_callback']
 +"(url, node, on_save);");}
 function getImageSrc(str){var pos=-1;if(!str)
 return"";if((pos=str.indexOf('this.src='))!=-1){var src=str.substring(pos+10);src=src.substring(0,src.indexOf('\''));if(tinyMCE.getParam('convert_urls'))
@@ -14,7 +14,7 @@ document.getElementById("imagelistsrccontainer").innerHTML=html;html=getImageLis
 document.getElementById("imagelistoverrow").style.display='none';else
 document.getElementById("imagelistovercontainer").innerHTML=html;html=getImageListHTML('imagelistout','onmouseoutsrc');if(html=="")
 document.getElementById("imagelistoutrow").style.display='none';else
-document.getElementById("imagelistoutcontainer").innerHTML=html;html=getBrowserHTML('srcbrowser','src','image','twikiimage');document.getElementById("srcbrowsercontainer").innerHTML=html;html=getBrowserHTML('oversrcbrowser','onmouseoversrc','image','twikiimage');document.getElementById("onmouseoversrccontainer").innerHTML=html;html=getBrowserHTML('outsrcbrowser','onmouseoutsrc','image','twikiimage');document.getElementById("onmouseoutsrccontainer").innerHTML=html;html=getBrowserHTML('longdescbrowser','longdesc','file','twikiimage');document.getElementById("longdesccontainer").innerHTML=html;if(isVisible('srcbrowser'))
+document.getElementById("imagelistoutcontainer").innerHTML=html;html=getBrowserHTML('srcbrowser','src','image','foswikiimage');document.getElementById("srcbrowsercontainer").innerHTML=html;html=getBrowserHTML('oversrcbrowser','onmouseoversrc','image','foswikiimage');document.getElementById("onmouseoversrccontainer").innerHTML=html;html=getBrowserHTML('outsrcbrowser','onmouseoutsrc','image','foswikiimage');document.getElementById("onmouseoutsrccontainer").innerHTML=html;html=getBrowserHTML('longdescbrowser','longdesc','file','foswikiimage');document.getElementById("longdesccontainer").innerHTML=html;if(isVisible('srcbrowser'))
 document.getElementById('src').style.width='260px';if(isVisible('oversrcbrowser'))
 document.getElementById('onmouseoversrc').style.width='260px';if(isVisible('outsrcbrowser'))
 document.getElementById('onmouseoutsrc').style.width='260px';if(isVisible('longdescbrowser'))
@@ -26,8 +26,8 @@ onmouseoversrc=pubURL(onmouseoversrc,elm,true);if(onmouseoutsrc!=""&&tinyMCE.get
 onmouseoutsrc=pubURL(onmouseoutsrc,elm,true);var style=tinyMCE.parseStyle(tinyMCE.getAttrib(elm,"style"));orgImageWidth=trimSize(getStyle(elm,'width'))
 orgImageHeight=trimSize(getStyle(elm,'height'));formObj.src.value=src;formObj.alt.value=tinyMCE.getAttrib(elm,'alt');formObj.title.value=tinyMCE.getAttrib(elm,'title');formObj.border.value=trimSize(getStyle(elm,'border','borderWidth'));formObj.vspace.value=tinyMCE.getAttrib(elm,'vspace');formObj.hspace.value=tinyMCE.getAttrib(elm,'hspace');formObj.width.value=orgImageWidth;formObj.height.value=orgImageHeight;formObj.onmouseoversrc.value=onmouseoversrc;formObj.onmouseoutsrc.value=onmouseoutsrc;formObj.id.value=tinyMCE.getAttrib(elm,'id');formObj.dir.value=tinyMCE.getAttrib(elm,'dir');formObj.lang.value=tinyMCE.getAttrib(elm,'lang');formObj.longdesc.value=tinyMCE.getAttrib(elm,'longdesc');formObj.usemap.value=tinyMCE.getAttrib(elm,'usemap');formObj.style.value=tinyMCE.serializeStyle(style);if(tinyMCE.isMSIE)
 selectByValue(formObj,'align',getStyle(elm,'align','styleFloat'));else
-selectByValue(formObj,'align',getStyle(elm,'align','cssFloat'));addClassesToList('classlist','twikiimage_styles');selectByValue(formObj,'classlist',tinyMCE.getAttrib(elm,'class'));selectByValue(formObj,'imagelistsrc',src);selectByValue(formObj,'imagelistover',onmouseoversrc);selectByValue(formObj,'imagelistout',onmouseoutsrc);updateStyle();showPreviewImage(src,true);changeAppearance();window.focus();}else
-addClassesToList('classlist','twikiimage_styles');if(tinyMCE.getParam("twikiimage_constrain_proportions",true))
+selectByValue(formObj,'align',getStyle(elm,'align','cssFloat'));addClassesToList('classlist','foswikiimage_styles');selectByValue(formObj,'classlist',tinyMCE.getAttrib(elm,'class'));selectByValue(formObj,'imagelistsrc',src);selectByValue(formObj,'imagelistover',onmouseoversrc);selectByValue(formObj,'imagelistout',onmouseoutsrc);updateStyle();showPreviewImage(src,true);changeAppearance();window.focus();}else
+addClassesToList('classlist','foswikiimage_styles');if(tinyMCE.getParam("foswikiimage_constrain_proportions",true))
 formObj.constrain.checked=true;if(formObj.onmouseoversrc.value!=""||formObj.onmouseoutsrc.value!="")
 setSwapImageDisabled(false);else
 setSwapImageDisabled(true);}
@@ -48,7 +48,7 @@ value=valueElm.value;}
 if(value=="")
 return"";value=value.replace(/&/g,'&amp;');value=value.replace(/\"/g,'&quot;');value=value.replace(/</g,'&lt;');value=value.replace(/>/g,'&gt;');return' '+attrib+'="'+value+'"';}
 function insertAction(){var inst=tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));var elm=inst.getFocusElement();var formObj=document.forms[0];var src=pubURL(formObj.src.value,tinyMCE.imgElement);var onmouseoversrc=formObj.onmouseoversrc.value;var onmouseoutsrc=formObj.onmouseoutsrc.value;if(!AutoValidator.validate(formObj)){alert(tinyMCE.getLang('lang_invalid_data'));return false;}
-if(tinyMCE.getParam("accessibility_warnings")){if(formObj.alt.value==""&&!confirm(tinyMCE.getLang('lang_twikiimage_missing_alt','',true)))
+if(tinyMCE.getParam("accessibility_warnings")){if(formObj.alt.value==""&&!confirm(tinyMCE.getLang('lang_foswikiimage_missing_alt','',true)))
 return;}
 if(onmouseoversrc&&onmouseoversrc!="")
 onmouseoversrc="this.src='"+
@@ -78,7 +78,7 @@ function changeWidth(){var formObj=document.forms[0];if(!formObj.constrain.check
 if(formObj.width.value==""||formObj.height.value=="")
 return;var temp=(parseInt(formObj.height.value)/parseInt(preloadImg.height))*preloadImg.width;formObj.width.value=temp.toFixed(0);updateStyle();}
 function onSelectMainImage(target_form_element,name,value){var formObj=document.forms[0];formObj.alt.value=name;formObj.title.value=name;resetImageData();showPreviewImage(formObj.elements[target_form_element].value,false);}
-function showPreviewImage(src,start){var formObj=document.forms[0];selectByValue(document.forms[0],'imagelistsrc',src);var elm=document.getElementById('prev');var src=pubURL(src,null,false);if(!start&&tinyMCE.getParam("twikiimage_update_dimensions_onchange",true))
+function showPreviewImage(src,start){var formObj=document.forms[0];selectByValue(document.forms[0],'imagelistsrc',src);var elm=document.getElementById('prev');var src=pubURL(src,null,false);if(!start&&tinyMCE.getParam("foswikiimage_update_dimensions_onchange",true))
 resetImageData();if(src=="")
 elm.innerHTML="";else
 elm.innerHTML='<img id="previewImg" src="'+src

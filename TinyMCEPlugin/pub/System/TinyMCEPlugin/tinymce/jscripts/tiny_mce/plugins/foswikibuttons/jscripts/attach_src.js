@@ -6,7 +6,7 @@
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version. For
-  more details read LICENSE in the root of the TWiki distribution.
+  more details read LICENSE in the root of the Foswiki distribution.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,8 +22,8 @@ function initAttachDialog() {
 // wrong place in Safari otherwise
 function getAttachInfo() {
     // Work out the rest URL from the location
-    var scripturl = TWikiTiny.getTWikiVar("SCRIPTURL");
-    var suffix = TWikiTiny.getTWikiVar("SCRIPTSUFFIX");
+    var scripturl = FoswikiTiny.getFoswikiVar("SCRIPTURL");
+    var suffix = FoswikiTiny.getFoswikiVar("SCRIPTSUFFIX");
     if (suffix == null) suffix = '';
     var url = scripturl + "/rest" + suffix + "/WysiwygPlugin/attachments";
 
@@ -34,8 +34,8 @@ function getAttachInfo() {
     request.setRequestHeader(
         "Content-type", "application/x-www-form-urlencoded");
 
-    var path = TWikiTiny.getTWikiVar("WEB") + '.' 
-        + TWikiTiny.getTWikiVar("TOPIC");
+    var path = FoswikiTiny.getFoswikiVar("WEB") + '.' 
+        + FoswikiTiny.getFoswikiVar("TOPIC");
     var params = "nocache=" + encodeURIComponent((new Date()).getTime())
         + "&topic=" + encodeURIComponent(path);
     
@@ -78,7 +78,7 @@ function insertLink() {
 	var inst = tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));
     var select = document.getElementById("attachments_select");
     var filename = select.value;
-    var url = TWikiTiny.getTWikiVar("ATTACHURL") + '/' + filename;
+    var url = FoswikiTiny.getFoswikiVar("ATTACHURL") + '/' + filename;
     var tmp = filename.lastIndexOf(".");
     if (tmp >= 0)
         tmp = filename.substring(tmp + 1, filename.length).toLowerCase();

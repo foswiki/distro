@@ -1163,7 +1163,7 @@ TinyMCE_Engine.prototype = {
 
 				// Fixes odd MSIE bug where drag/droping elements in a iframe with height 100% breaks
 				// This logic forces the width/height to be in pixels while the user is drag/dropping
-// NOTE: Disabled for TWiki; identified as the source of Item4506
+// NOTE: Disabled for Foswiki; identified as the source of Item4506
 //				if (tinyMCE.isRealIE) {
 //					var ife = tinyMCE.selectedInstance.iframeElement;
 //

@@ -6,7 +6,7 @@
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version. For
-  more details read LICENSE in the root of the TWiki distribution.
+  more details read LICENSE in the root of the Foswiki distribution.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,9 +15,9 @@
   As per the GPL, removal of this notice is prohibited.
 */
 
-// Top level setup for tiny MCE editor. Requires tiny_mce.js and twiki_tiny.js
+// Top level setup for tiny MCE editor. Requires tiny_mce.js and foswiki_tiny.js
 
-TWikiTiny.install();
+FoswikiTiny.install();
 
 // Setup the standard edit screen for use with TMCE
 var IFRAME_ID = 'mce_editor_0';
@@ -85,8 +85,8 @@ function validateMandatoryFields(event) {
         return true;
     }
     var ok = true;
-    var els = twiki.getElementsByClassName(document, 'select',
-                                               'twikiMandatory');
+    var els = foswiki.getElementsByClassName(document, 'select',
+                                               'foswikiMandatory');
     for (var j = 0; j < els.length; j++) {
         var one = false;
         for (var k = 0; k < els[j].options.length; k++) {
@@ -103,8 +103,8 @@ function validateMandatoryFields(event) {
     }
     var taglist = new Array('input', 'textarea');
     for (var i = 0; i < taglist.length; i++) {
-        els = twiki.getElementsByClassName(document, taglist[i],
-                                               'twikiMandatory');
+        els = foswiki.getElementsByClassName(document, taglist[i],
+                                               'foswikiMandatory');
         for (var j = 0; j < els.length; j++) {
             if (els[j].value == null || els[j].value.length == 0) {
                 alert("The required form field '" + els[j].name +

@@ -281,30 +281,30 @@ pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/images/templ
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/jscripts/template.js 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/langs/en.js 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/template/template.htm 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/attach.htm
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/editor_plugin.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/editor_plugin_src.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/images/attach.gif 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/images/hide.gif 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/images/tt.gif 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/langs/en.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/jscripts/attach.js 
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/jscripts/attach_src.js 
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/jscripts/colour.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/jscripts/colour_src.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/images/colour.gif 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/css/popup.css 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/css/popup_src.css 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/colours.htm 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/css/advimage.css 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/editor_plugin.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/editor_plugin_src.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/image.htm 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/images/sample.gif 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/jscripts/functions.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/jscripts/functions_src.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/langs/en.js 0644
-pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikiimage/readme.txt 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/attach.htm
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/editor_plugin.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/editor_plugin_src.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/images/attach.gif 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/images/hide.gif 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/images/tt.gif 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/langs/en.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/jscripts/attach.js 
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/jscripts/attach_src.js 
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/jscripts/colour.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/jscripts/colour_src.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/images/colour.gif 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/css/popup.css 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/css/popup_src.css 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/colours.htm 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/css/advimage.css 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/editor_plugin.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/editor_plugin_src.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/image.htm 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/images/sample.gif 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/jscripts/functions.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/jscripts/functions_src.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/langs/en.js 0644
+pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikiimage/readme.txt 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/visualchars/editor_plugin.js 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/visualchars/editor_plugin_src.js 0644
 pub/System/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/visualchars/images/visualchars.gif 0644

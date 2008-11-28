@@ -1,6 +1,6 @@
 #package Foswiki::Plugins::WysiwygPlugin::Constants;
 # Use s simpler-named namespace for constants to improve code readability
-package WC;
+package Foswiki::Plugins::WysiwygPlugin::Constants;
 
 use strict;
 
@@ -300,5 +300,9 @@ sub chCodes {
     }
     return $s;
 }
+
+# Create shorter alias for other modules
+no strict 'refs';
+*{'WC::'} = \*{'Foswiki::Plugins::WysiwygPlugin::Constants::'};
 
 1;

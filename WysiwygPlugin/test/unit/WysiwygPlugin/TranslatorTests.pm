@@ -25,7 +25,7 @@
 # of TWiki it needs to include.
 #
 package TranslatorTests;
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
 use strict;
 
@@ -57,7 +57,7 @@ my $nop = "$protecton<nop>$protectoff";
 # exec => 1 to test TML -> HTML, 2 to test HTML -> TML, 3 to
 # test both, anything else to skin the test.
 # name => identifier (used to compose the testcase function name)
-# tml => source TWiki meta-language
+# tml => source topic meta-language
 # html => expected html from expanding tml
 # finaltml => optional expected tml from translating html. If not there,
 # will use tml. Only use where round-trip can't be closed because
@@ -1534,7 +1534,6 @@ HERE
           tml => <<HERE,
 <verbatim>U
 </verbatim>
-
 L
 HERE
       },

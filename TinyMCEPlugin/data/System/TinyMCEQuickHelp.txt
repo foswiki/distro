@@ -33,11 +33,11 @@
 <ul>
 <li> Just type it in. When the topic is saved, what you type will be saved just as you wrote it.  </li>
 <li> If any part of your macro parameters is sensitive to spacing, then select the entire macro and assign the ==PROTECTED== style to it before you save. </li></ul>
-<span class="twikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
+<span class="foswikiUnvisited">[[%SYSTEMWEB%.Macros][More on macros]]</span>
 
 *Editing the raw text instead of Wysiwyg*
 <ul>
-<li> Select    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/twikibuttons/images/hide.gif" alt="the pickaxe" />
+<li> Select    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/plugins/foswikibuttons/images/hide.gif" alt="the pickaxe" />
 , or use the _Raw Edit_ link in the bottom action bar. </li></ul>
 </td>
 </tr>
@@ -52,7 +52,7 @@
 <td class="imgcolumn"><img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/link.gif" alt="link" />
    <img src="%PUBURL%/%WEB%/TinyMCEPlugin/tinymce/jscripts/tiny_mce/themes/advanced/images/unlink.gif" alt="unlink" /></td>
 <td class="textcolumn"><ul>
-    <li> Links can either point to a URL or to the name of a Foswiki topic. For example =http://twiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.</li>
+    <li> Links can either point to a URL or to the name of a Foswiki topic. For example =http://foswiki.org=, =TopicNames=, =Webname.TopicNames=, or =Webname.Subweb.WebName=.</li>
    </ul></td>
 </tr>
 <tr>

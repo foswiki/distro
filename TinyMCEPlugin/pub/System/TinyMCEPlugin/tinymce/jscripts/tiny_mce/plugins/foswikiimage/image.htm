@@ -8,20 +8,20 @@
 	<script language="javascript" type="text/javascript" src="jscripts/functions.js"></script>
 	<base target="_self" />
 </head>
-<body id="twikiimage" onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+<body id="foswikiimage" onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
     <form onsubmit="insertAction();return false;" action="#"> 
 		<div class="tabs">
 			<ul>
-				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{$lang_twikiimage_tab_general}</a></span></li>
-				<li id="appearance_tab"><span><a href="javascript:mcTabs.displayTab('appearance_tab','appearance_panel');" onmousedown="return false;">{$lang_twikiimage_tab_appearance}</a></span></li>
-				<li id="advanced_tab"><span><a href="javascript:mcTabs.displayTab('advanced_tab','advanced_panel');" onmousedown="return false;">{$lang_twikiimage_tab_advanced}</a></span></li>
+				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{$lang_foswikiimage_tab_general}</a></span></li>
+				<li id="appearance_tab"><span><a href="javascript:mcTabs.displayTab('appearance_tab','appearance_panel');" onmousedown="return false;">{$lang_foswikiimage_tab_appearance}</a></span></li>
+				<li id="advanced_tab"><span><a href="javascript:mcTabs.displayTab('advanced_tab','advanced_panel');" onmousedown="return false;">{$lang_foswikiimage_tab_advanced}</a></span></li>
 			</ul>
 		</div>
 
 		<div class="panel_wrapper">
 			<div id="general_panel" class="panel current">
 				<fieldset>
-						<legend>{$lang_twikiimage_general}</legend>
+						<legend>{$lang_foswikiimage_general}</legend>
 
 						<table class="properties">
 							<tr>
@@ -33,7 +33,7 @@
 									</tr>
 								  </table></td>
 								<td colspan="2">
-								    {$lang_twikiimage_img_url_help}
+								    {$lang_foswikiimage_img_url_help}
 								</td>
 							</tr>
 							<tr id="imagelistsrcrow">
@@ -45,21 +45,21 @@
 								<td colspan="2"><input id="alt" name="alt" type="text" value="" /></td> 
 							</tr> 
 							<tr> 
-								<td class="column1"><label id="titlelabel" for="title">{$lang_twikiimage_title}</label></td> 
+								<td class="column1"><label id="titlelabel" for="title">{$lang_foswikiimage_title}</label></td> 
 								<td colspan="2"><input id="title" name="title" type="text" value="" /></td> 
 							</tr>
 						</table>
 				</fieldset>
 
 				<fieldset>
-					<legend>{$lang_twikiimage_preview}</legend>
+					<legend>{$lang_foswikiimage_preview}</legend>
 					<div id="prev"></div>
 				</fieldset>
 			</div>
 
 			<div id="appearance_panel" class="panel">
 				<fieldset>
-					<legend>{$lang_twikiimage_tab_appearance}</legend>
+					<legend>{$lang_foswikiimage_tab_appearance}</legend>
 
 					<table border="0" cellpadding="4" cellspacing="0">
 						<tr> 
@@ -79,7 +79,7 @@
 							</td>
 							<td rowspan="6" valign="top">
 								<div class="alignPreview">
-									<img id="alignSampleImg" src="images/sample.gif" alt="{$lang_twikiimage_example_img}" />
+									<img id="alignSampleImg" src="images/sample.gif" alt="{$lang_foswikiimage_example_img}" />
 									Lorem ipsum, Dolor sit amet, consectetuer adipiscing loreum ipsum edipiscing elit, sed diam
 									nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Loreum ipsum
 									edipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
@@ -101,7 +101,7 @@
 							<td><table border="0" cellpadding="0" cellspacing="0">
 									<tr>
 										<td><input id="constrain" type="checkbox" name="constrain" class="checkbox" /></td>
-										<td><label id="constrainlabel" for="constrain">{$lang_twikiimage_constrain_proportions}</label></td>
+										<td><label id="constrainlabel" for="constrain">{$lang_foswikiimage_constrain_proportions}</label></td>
 									</tr>
 								</table></td>
 						</tr>
@@ -132,12 +132,12 @@
 						</tr>
 
 						<tr>
-							<td class="column1"><label id="stylelabel" for="style">{$lang_twikiimage_style}</label></td> 
+							<td class="column1"><label id="stylelabel" for="style">{$lang_foswikiimage_style}</label></td> 
 							<td colspan="2"><input id="style" name="style" type="text" value="" onchange="styleUpdated();" /></td> 
 						</tr>
 
 						<!-- <tr>
-							<td class="column1"><label id="classeslabel" for="classes">{$lang_twikiimage_classes}</label></td> 
+							<td class="column1"><label id="classeslabel" for="classes">{$lang_foswikiimage_classes}</label></td> 
 							<td colspan="2"><input id="classes" name="classes" type="text" value="" onchange="selectByValue(this.form,'classlist',this.value,true);" /></td> 
 						</tr> -->
 					</table>
@@ -146,14 +146,14 @@
 
 			<div id="advanced_panel" class="panel">
 				<fieldset>
-					<legend>{$lang_twikiimage_swap_image}</legend>
+					<legend>{$lang_foswikiimage_swap_image}</legend>
 
 					<input type="checkbox" id="onmousemovecheck" name="onmousemovecheck" class="checkbox" onclick="changeMouseMove();" />
-					<label id="onmousemovechecklabel" for="onmousemovecheck">{$lang_twikiimage_alt_image}</label>
+					<label id="onmousemovechecklabel" for="onmousemovecheck">{$lang_foswikiimage_alt_image}</label>
 
 					<table border="0" cellpadding="4" cellspacing="0" width="100%">
 							<tr>
-								<td class="column1"><label id="onmouseoversrclabel" for="onmouseoversrc">{$lang_twikiimage_mouseover}</label></td> 
+								<td class="column1"><label id="onmouseoversrclabel" for="onmouseoversrc">{$lang_foswikiimage_mouseover}</label></td> 
 								<td><table border="0" cellspacing="0" cellpadding="0"> 
 									<tr> 
 									  <td><input id="onmouseoversrc" name="onmouseoversrc" type="text" value="" /></td> 
@@ -166,7 +166,7 @@
 								<td id="imagelistovercontainer">&nbsp;</td>
 							</tr>
 							<tr> 
-								<td class="column1"><label id="onmouseoutsrclabel" for="onmouseoutsrc">{$lang_twikiimage_mouseout}</label></td> 
+								<td class="column1"><label id="onmouseoutsrclabel" for="onmouseoutsrc">{$lang_foswikiimage_mouseout}</label></td> 
 								<td class="column2"><table border="0" cellspacing="0" cellpadding="0"> 
 									<tr> 
 									  <td><input id="onmouseoutsrc" name="onmouseoutsrc" type="text" value="" /></td> 
@@ -182,41 +182,41 @@
 				</fieldset>
 
 				<fieldset>
-					<legend>{$lang_twikiimage_misc}</legend>
+					<legend>{$lang_foswikiimage_misc}</legend>
 
 					<table border="0" cellpadding="4" cellspacing="0">
 						<tr>
-							<td class="column1"><label id="idlabel" for="id">{$lang_twikiimage_id}</label></td> 
+							<td class="column1"><label id="idlabel" for="id">{$lang_foswikiimage_id}</label></td> 
 							<td><input id="id" name="id" type="text" value="" /></td> 
 						</tr>
 
 						<tr>
-							<td class="column1"><label id="dirlabel" for="dir">{$lang_twikiimage_langdir}</label></td> 
+							<td class="column1"><label id="dirlabel" for="dir">{$lang_foswikiimage_langdir}</label></td> 
 							<td>
 								<select id="dir" name="dir" onchange="changeAppearance();"> 
 										<option value="">{$lang_not_set}</option> 
-										<option value="ltr">{$lang_twikiimage_ltr}</option> 
-										<option value="rtl">{$lang_twikiimage_rtl}</option> 
+										<option value="ltr">{$lang_foswikiimage_ltr}</option> 
+										<option value="rtl">{$lang_foswikiimage_rtl}</option> 
 								</select>
 							</td> 
 						</tr>
 
 						<tr>
-							<td class="column1"><label id="langlabel" for="lang">{$lang_twikiimage_langcode}</label></td> 
+							<td class="column1"><label id="langlabel" for="lang">{$lang_foswikiimage_langcode}</label></td> 
 							<td>
 								<input id="lang" name="lang" type="text" value="" />
 							</td> 
 						</tr>
 
 						<tr>
-							<td class="column1"><label id="usemaplabel" for="usemap">{$lang_twikiimage_image_map}</label></td> 
+							<td class="column1"><label id="usemaplabel" for="usemap">{$lang_foswikiimage_image_map}</label></td> 
 							<td>
 								<input id="usemap" name="usemap" type="text" value="" />
 							</td> 
 						</tr>
 
 						<tr>
-							<td class="column1"><label id="longdesclabel" for="longdesc">{$lang_twikiimage_long_desc}</label></td>
+							<td class="column1"><label id="longdesclabel" for="longdesc">{$lang_foswikiimage_long_desc}</label></td>
 							<td><table border="0" cellspacing="0" cellpadding="0">
 									<tr>
 									  <td><input id="longdesc" name="longdesc" type="text" value="" /></td>

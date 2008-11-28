@@ -8,7 +8,7 @@ This plugin is responsible for translating TML to HTML before an edit starts
 and translating the resultant HTML back into TML.
 
 Note: In the case of a new topic, you might expect to see the "create topic"
-screen in the editor when it goes back to twiki for the topic content. This
+screen in the editor when it goes back to Foswiki for the topic content. This
 doesn't happen because the earliest possible handler is called on the topic
 content and not the template. The template is effectively ignored and a blank
 document is sent to the editor.
@@ -29,9 +29,9 @@ use strict;
 use Assert;
 use Encode;
 
-require Foswiki::Func;    # The plugins API
-require Foswiki::Plugins; # For the API version
-require Foswiki::Plugins::WysiwygPlugin::Constants;
+use Foswiki::Func;    # The plugins API
+use Foswiki::Plugins; # For the API version
+use Foswiki::Plugins::WysiwygPlugin::Constants;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $SECRET_ID $NO_PREFS_IN_TOPIC );
 use vars qw( $html2tml $tml2html $recursionBlock $imgMap );
@@ -44,6 +44,8 @@ $VERSION = '$Rev: 15843 $';
 $RELEASE = '03 Aug 2008';
 
 $SECRET_ID = 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
+
+sub WHY { 1 };
 
 sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
@@ -494,24 +496,29 @@ sub notWysiwygEditable {
     my $ok = 1;
     if( $exclusions =~ /calls/
           && $_[0] =~ /%((?!($calls_ok){)[A-Z_]+{.*?})%/s ) {
-        #print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n";
+        print STDERR "WYSIWYG_DEBUG: has calls $1 (not in $calls_ok)\n"
+          if (WHY);
         return "Text contains calls";
     }
     if( $exclusions =~ /(macros|variables)/ && $_[0] =~ /%([A-Z_]+)%/s ) {
-        #print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n";
+        print STDERR "$exclusions WYSIWYG_DEBUG: has macros $1\n"
+          if (WHY);
         return "Text contains macros";
     }
     if( $exclusions =~ /html/ &&
           $_[0] =~ /<\/?((?!literal|verbatim|noautolink|nop|br)\w+)/ ) {
-        #print STDERR "WYSIWYG_DEBUG: has html: $1\n";
+        print STDERR "WYSIWYG_DEBUG: has html: $1\n"
+          if (WHY);
         return "Text contains HTML";
     }
     if( $exclusions =~ /comments/ && $_[0] =~ /<[!]--/ ) {
-        #print STDERR "WYSIWYG_DEBUG: has comments\n";
+        print STDERR "WYSIWYG_DEBUG: has comments\n"
+          if (WHY);
         return "Text contains comments";
     }
     if( $exclusions =~ /pre/ && $_[0] =~ /<pre\w/ ) {
-        #print STDERR "WYSIWYG_DEBUG: has pre\n";
+        print STDERR "WYSIWYG_DEBUG: has pre\n"
+          if (WHY);
         return "Text contains PRE";
     }
     return 0;

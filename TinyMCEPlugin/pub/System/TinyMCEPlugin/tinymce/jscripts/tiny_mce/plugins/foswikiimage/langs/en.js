@@ -1,6 +1,6 @@
 // UK lang variables
 
-tinyMCE.addToLang('twikiimage',{
+tinyMCE.addToLang('foswikiimage',{
 tab_general : 'General',
 tab_appearance : 'Appearance',
 tab_advanced : 'Advanced',
@@ -23,6 +23,6 @@ mouseover : 'for mouse over',
 mouseout : 'for mouse out',
 misc : 'Miscellaneous',
 example_img : 'Appearance&nbsp;preview&nbsp;image',
-missing_alt : 'Are you sure you want to continue without including an Image description? Without  it the image may not be accessible to some users with disabilities, or to those using a text browser, or browsing the TWiki with images turned off.',
-img_url_help : 'Enter a full URL, or the simple name of an attachment on this topic. You can use TWiki variables.'
+missing_alt : 'Are you sure you want to continue without including an Image description? Without  it the image may not be accessible to some users with disabilities, or to those using a text browser, or browsing with images turned off.',
+img_url_help : 'Enter a full URL, or the simple name of an attachment on this topic. You can use Foswiki macros.'
 });

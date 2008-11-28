@@ -6,7 +6,7 @@
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version. For
-  more details read LICENSE in the root of the TWiki distribution.
+  more details read LICENSE in the root of the Foswiki distribution.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,28 +15,28 @@
   As per the GPL, removal of this notice is prohibited.
 */
 
-// The TWikiTiny class object
-var TWikiTiny = {
+// The FoswikiTiny class object
+var FoswikiTiny = {
 
-    twikiVars : null,
+    foswikiVars : null,
     request : null, // Container for HTTP request object
     metaTags : null,
 
     tml2html : new Array(), // callbacks, attached in plugins
     html2tml : new Array(), // callbacks, attached in plugins
 
-    // Get a TWiki variable from the set passed
-    getTWikiVar : function (name) {
-        if (TWikiTiny.twikiVars == null) {
-            var sets = tinyMCE.getParam("twiki_vars", "");
-            TWikiTiny.twikiVars = eval(sets);
+    // Get a Foswiki variable from the set passed
+    getFoswikiVar : function (name) {
+        if (FoswikiTiny.foswikiVars == null) {
+            var sets = tinyMCE.getParam("foswiki_vars", "");
+            FoswikiTiny.foswikiVars = eval(sets);
         }
-        return TWikiTiny.twikiVars[name];
+        return FoswikiTiny.foswikiVars[name];
     },
 
     expandVariables : function(url) {
-        for (var i in TWikiTiny.twikiVars) {
-            url = url.replace('%' + i + '%', TWikiTiny.twikiVars[i], 'g');
+        for (var i in FoswikiTiny.foswikiVars) {
+            url = url.replace('%' + i + '%', FoswikiTiny.foswikiVars[i], 'g');
         }
         return url;
     },
@@ -56,37 +56,37 @@ var TWikiTiny = {
 
     transform : function(editor, handler, text, onReadyToSend, onReply, onFail) {
         // Work out the rest URL from the location
-        var url = TWikiTiny.getTWikiVar("SCRIPTURL");
-        var suffix = TWikiTiny.getTWikiVar("SCRIPTSUFFIX");
+        var url = FoswikiTiny.getFoswikiVar("SCRIPTURL");
+        var suffix = FoswikiTiny.getFoswikiVar("SCRIPTSUFFIX");
         if (suffix == null) suffix = '';
         url += "/rest" + suffix + "/WysiwygPlugin/" + handler;
-        var path = TWikiTiny.getTWikiVar("WEB") + '.'
-        + TWikiTiny.getTWikiVar("TOPIC");
-        TWikiTiny.request = new Object();
+        var path = FoswikiTiny.getFoswikiVar("WEB") + '.'
+        + FoswikiTiny.getFoswikiVar("TOPIC");
+        FoswikiTiny.request = new Object();
         if (tinyMCE.isIE) {
             // branch for IE/Windows ActiveX version
-            TWikiTiny.request.req = new ActiveXObject("Microsoft.XMLHTTP");
+            FoswikiTiny.request.req = new ActiveXObject("Microsoft.XMLHTTP");
         } else {
             // branch for native XMLHttpRequest object
-            TWikiTiny.request.req = new XMLHttpRequest();
+            FoswikiTiny.request.req = new XMLHttpRequest();
         }
-        TWikiTiny.request.editor = editor;
-        TWikiTiny.request.req.open("POST", url, true);
-        TWikiTiny.request.req.setRequestHeader(
+        FoswikiTiny.request.editor = editor;
+        FoswikiTiny.request.req.open("POST", url, true);
+        FoswikiTiny.request.req.setRequestHeader(
             "Content-type", "application/x-www-form-urlencoded");
         var params = "nocache=" + encodeURIComponent((new Date()).getTime())
         + "&topic=" + encodeURIComponent(path)
         + "&text=" + encodeURIComponent(text);
     
-        TWikiTiny.request.req.setRequestHeader(
+        FoswikiTiny.request.req.setRequestHeader(
             "Content-length", params.length);
-        TWikiTiny.request.req.setRequestHeader("Connection", "close");
-        TWikiTiny.request.req.onreadystatechange = function() {
+        FoswikiTiny.request.req.setRequestHeader("Connection", "close");
+        FoswikiTiny.request.req.onreadystatechange = function() {
             // Callback for XMLHttpRequest
-            // only if TWikiTiny.request.req shows "complete"
-            if (TWikiTiny.request.req.readyState == 4) {
+            // only if FoswikiTiny.request.req shows "complete"
+            if (FoswikiTiny.request.req.readyState == 4) {
                 // only if "OK"
-                if (TWikiTiny.request.req.status == 200) {
+                if (FoswikiTiny.request.req.status == 200) {
                     onReply();
                 } else {
                     onFail();
@@ -94,7 +94,7 @@ var TWikiTiny = {
             }
         };
         onReadyToSend();
-        TWikiTiny.request.req.send(params);
+        FoswikiTiny.request.req.send(params);
     },
 
     initialisedFromServer : false,
@@ -104,10 +104,10 @@ var TWikiTiny = {
         // If we haven't done it before, then transform from TML
         // to HTML. We need this test so that pressing the 'back'
         // button from a failed save doesn't banjax the old content.
-        if (TWikiTiny.initialisedFromServer) return;
+        if (FoswikiTiny.initialisedFromServer) return;
         var editor = tinyMCE.getInstanceById(editor_id);
-        TWikiTiny.switchToWYSIWYG(editor);
-        TWikiTiny.initialisedFromServer = true;
+        FoswikiTiny.switchToWYSIWYG(editor);
+        FoswikiTiny.initialisedFromServer = true;
     },
 
     // Convert HTML content to textarea. Called from the WYSIWYG->raw switch
@@ -120,28 +120,28 @@ var TWikiTiny = {
         var text = inst.oldTargetElement.value;
 
         // Evaluate post-processors
-        for (var i = 0; i < TWikiTiny.html2tml.length; i++) {
-            var cb = TWikiTiny.html2tml[i];
+        for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
+            var cb = FoswikiTiny.html2tml[i];
             text = cb.apply(inst, [ inst, text ]);
         }
-        TWikiTiny.transform(
+        FoswikiTiny.transform(
             inst, "html2tml", text,
             function () {
-                TWikiTiny.enableSave(false);
-                var te = TWikiTiny.request.editor.oldTargetElement;
+                FoswikiTiny.enableSave(false);
+                var te = FoswikiTiny.request.editor.oldTargetElement;
                 te.value = "Please wait... retrieving page from server";
             },
             function () {
-                var te = TWikiTiny.request.editor.oldTargetElement;
-                var text = TWikiTiny.request.req.responseText;
+                var te = FoswikiTiny.request.editor.oldTargetElement;
+                var text = FoswikiTiny.request.req.responseText;
                 te.value = text;
-                TWikiTiny.enableSave(true);
+                FoswikiTiny.enableSave(true);
             },
             function () {
-                var te = TWikiTiny.request.editor.oldTargetElement;
+                var te = FoswikiTiny.request.editor.oldTargetElement;
                 te.value = "There was a problem retrieving the page: "
-                    + TWikiTiny.request.req.statusText;
-                //TWikiTiny.enableSave(true); leave it disabled
+                    + FoswikiTiny.request.req.statusText;
+                //FoswikiTiny.enableSave(true); leave it disabled
             });
         // Add the button for the switch back to WYSIWYG mode
         var eid = inst.editorId;
@@ -156,7 +156,7 @@ var TWikiTiny = {
             el.id = id;
             el.type = "button";
             el.value = "WYSIWYG";
-            el.className = "twikiButton";
+            el.className = "foswikiButton";
             el.onclick = function () {
                 tinyMCE.execCommand("mceToggleEditor", null, inst.editorId);
                 return false;
@@ -179,36 +179,36 @@ var TWikiTiny = {
         // Kill the change handler to avoid excess fires
         editor.oldTargetElement.onchange = null;
         // Need to tinyMCE.execCommand("mceToggleEditor", null, editor_id);
-        TWikiTiny.transform(
+        FoswikiTiny.transform(
             editor, "tml2html", editor.oldTargetElement.value,
             function () {
                 // Before send
-                TWikiTiny.enableSave(false);
-                var editor = TWikiTiny.request.editor;
+                FoswikiTiny.enableSave(false);
+                var editor = FoswikiTiny.request.editor;
                 tinyMCE.setInnerHTML(
-                    TWikiTiny.request.editor.getBody(),
-                    "<span class='twikiAlert'>Please wait... retrieving page from server.</span>");
+                    FoswikiTiny.request.editor.getBody(),
+                    "<span class='foswikiAlert'>Please wait... retrieving page from server.</span>");
             },
             function () {
                 // Handle the reply
-                var text = TWikiTiny.request.req.responseText;
+                var text = FoswikiTiny.request.req.responseText;
                 // Evaluate any registered pre-processors
-                for (var i = 0; i < TWikiTiny.tml2html.length; i++) {
-                    var cb = TWikiTiny.tml2html[i];
+                for (var i = 0; i < FoswikiTiny.tml2html.length; i++) {
+                    var cb = FoswikiTiny.tml2html[i];
                     text = cb.apply(editor, [ editor, text ]);
                 }
-                tinyMCE.setInnerHTML(TWikiTiny.request.editor.getBody(), text);
-                TWikiTiny.request.editor.isNotDirty = true;
-                TWikiTiny.enableSave(true);
+                tinyMCE.setInnerHTML(FoswikiTiny.request.editor.getBody(), text);
+                FoswikiTiny.request.editor.isNotDirty = true;
+                FoswikiTiny.enableSave(true);
             },
             function () {
                 // Handle a failure
                 tinyMCE.setInnerHTML(
-                    TWikiTiny.request.editor.getBody(),
-                    "<div class='twikiAlert'>"
+                    FoswikiTiny.request.editor.getBody(),
+                    "<div class='foswikiAlert'>"
                     + "There was a problem retrieving the page: "
-                    + TWikiTiny.request.req.statusText + "</div>");
-                //TWikiTiny.enableSave(true); leave save disabled
+                    + FoswikiTiny.request.req.statusText + "</div>");
+                //FoswikiTiny.enableSave(true); leave save disabled
             });
 
         // Hide the conversion button, if it exists
@@ -224,11 +224,11 @@ var TWikiTiny = {
     saveCallback : function(editor_id, html, body) {
         // Evaluate any registered post-processors
         var editor = tinyMCE.getInstanceById(editor_id);
-        for (var i = 0; i < TWikiTiny.html2tml.length; i++) {
-            var cb = TWikiTiny.html2tml[i];
+        for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
+            var cb = FoswikiTiny.html2tml[i];
             html = cb.apply(editor, [ editor, html ]);
         }
-        var secret_id = tinyMCE.getParam('twiki_secret_id');
+        var secret_id = tinyMCE.getParam('foswiki_secret_id');
         if (secret_id != null && html.indexOf(
                 '<!--' + secret_id + '-->') == -1) {
             // Something ate the ID. Probably IE. Add it back.
@@ -238,22 +238,22 @@ var TWikiTiny = {
     },
 
     // Called 
-    // Called on URL insertion, but not on image sources. Expand TWiki
+    // Called on URL insertion, but not on image sources. Expand Foswiki
     // variables in the url.
     convertLink : function(url, node, onSave){
         if(onSave == null)
             onSave = false;
         var orig = url;
-        var pubUrl = TWikiTiny.getTWikiVar("PUBURL");
-        var vsu = TWikiTiny.getTWikiVar("VIEWSCRIPTURL");
-        url = TWikiTiny.expandVariables(url);
+        var pubUrl = FoswikiTiny.getFoswikiVar("PUBURL");
+        var vsu = FoswikiTiny.getFoswikiVar("VIEWSCRIPTURL");
+        url = FoswikiTiny.expandVariables(url);
         if (onSave) {
             if ((url.indexOf(pubUrl + '/') != 0) &&
                 (url.indexOf(vsu + '/') == 0)) {
                 url = url.substr(vsu.length + 1);
                 url = url.replace(/\/+/g, '.');
-                if (url.indexOf(TWikiTiny.getTWikiVar('WEB') + '.') == 0) {
-                    url = url.substr(TWikiTiny.getTWikiVar('WEB').length + 1);
+                if (url.indexOf(FoswikiTiny.getFoswikiVar('WEB') + '.') == 0) {
+                    url = url.substr(FoswikiTiny.getFoswikiVar('WEB').length + 1);
                 }
             }
         } else {
@@ -264,7 +264,7 @@ var TWikiTiny = {
                     var web = match[1];
                     var topic = match[2];
                     if (web == null || web.length == 0) {
-                        web = TWikiTiny.getTWikiVar("WEB");
+                        web = FoswikiTiny.getFoswikiVar("WEB");
                     }
                     web = web.replace(/\.+/g, '/');
                     web = web.replace(/\/+$/, '');
@@ -281,10 +281,10 @@ var TWikiTiny = {
     // actually inserted, at which time convertLink is called.
     convertPubURL : function(url){
         var orig = url;
-        var base = TWikiTiny.getTWikiVar("PUBURL") + '/'
-        + TWikiTiny.getTWikiVar("WEB") + '/'
-        + TWikiTiny.getTWikiVar("TOPIC") + '/';
-        url = TWikiTiny.expandVariables(url);
+        var base = FoswikiTiny.getFoswikiVar("PUBURL") + '/'
+        + FoswikiTiny.getFoswikiVar("WEB") + '/'
+        + FoswikiTiny.getFoswikiVar("TOPIC") + '/';
+        url = FoswikiTiny.expandVariables(url);
         if (url.indexOf('/') == -1) {
             url = base + url;
         }
@@ -292,26 +292,26 @@ var TWikiTiny = {
     },
 
     getMetaTag : function(inKey) {
-        if (TWikiTiny.metaTags == null || TWikiTiny.metaTags.length == 0) {
+        if (FoswikiTiny.metaTags == null || FoswikiTiny.metaTags.length == 0) {
             // Do this the brute-force way because of the Firefox problem
             // seen sporadically on Bugs where the DOM appears complete, but
             // the META tags are not all found by getElementsByTagName
             var head = document.getElementsByTagName("META");
             head = head[0].parentNode.childNodes;
-            TWikiTiny.metaTags = new Array();
+            FoswikiTiny.metaTags = new Array();
             for (var i = 0; i < head.length; i++) {
                 if (head[i].tagName != null &&
                     head[i].tagName.toUpperCase() == 'META') {
-                    TWikiTiny.metaTags[head[i].name] = head[i].content;
+                    FoswikiTiny.metaTags[head[i].name] = head[i].content;
                 }
             }
         }
-        return TWikiTiny.metaTags[inKey]; 
+        return FoswikiTiny.metaTags[inKey]; 
     },
     
     install : function() {
         // find the TINYMCEPLUGIN_INIT META
-        var tmce_init = TWikiTiny.getMetaTag('TINYMCEPLUGIN_INIT');
+        var tmce_init = FoswikiTiny.getMetaTag('TINYMCEPLUGIN_INIT');
         if (tmce_init != null) {
             eval("tinyMCE.init({" + unescape(tmce_init) + "});");
             return;

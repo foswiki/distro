@@ -50,17 +50,17 @@ For a full explanation of the available options, and guidance on reconfiguring T
    relative_urls : false,
    remove_script_host : false,
    setupcontent_callback : FoswikiTiny.setUpContent,
-   urlconverter_callback : "TWikiTiny.convertLink",
-   hide_instance_callback : TWikiTiny.switchToRaw,
-   show_instance_callback : TWikiTiny.switchToWYSIWYG,
-   twikipuburl_callback : "TWikiTiny.convertPubURL",
-   save_callback : "TWikiTiny.saveCallback",
+   urlconverter_callback : "FoswikiTiny.convertLink",
+   hide_instance_callback : FoswikiTiny.switchToRaw,
+   show_instance_callback : FoswikiTiny.switchToWYSIWYG,
+   foswikipuburl_callback : "FoswikiTiny.convertPubURL",
+   save_callback : "FoswikiTiny.saveCallback",
    %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-   plugins : "table,searchreplace,autosave,paste,twikibuttons,twikiimage%IF{"$TINYMCEPLUGIN_DEBUG" then=",devkit"}%",
-   twiki_secret_id : "%WYSIWYG_SECRET_ID%",
-   twiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%" },
+   plugins : "table,searchreplace,autosave,paste,foswikibuttons,foswikiimage%IF{"$TINYMCEPLUGIN_DEBUG" then=",devkit"}%",
+   foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
+   foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%" },
    theme_advanced_toolbar_align : "left",
-   twikibuttons_formats : [
+   foswikibuttons_formats : [
    { name: "Normal", el: "", style: null },
    { name: "Heading 1", el: "h1", style: false },
    { name: "Heading 2", el: "h2", style: false },
@@ -80,7 +80,7 @@ For a full explanation of the available options, and guidance on reconfiguring T
    paste_remove_spans: true,
    paste_remove_styles: true,
    paste_strip_class_attributes: "all",
-   theme_advanced_buttons1 : "twikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor,separator,attach,image,charmap,hr,separator,undo,redo,separator,search,replace",
+   theme_advanced_buttons1 : "foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor,separator,attach,image,charmap,hr,separator,undo,redo,separator,search,replace",
    theme_advanced_buttons2: "tablecontrols,separator,code,hide",
    theme_advanced_buttons3: "",
    theme_advanced_toolbar_location: "top",
@@ -88,7 +88,7 @@ For a full explanation of the available options, and guidance on reconfiguring T
    theme_advanced_resizing : true,
    theme_advanced_path: false,
    theme_advanced_statusbar_location : "bottom",
-   content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%TWIKISTYLEURL%,%TWIKICOLORSURL%"
+   content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKISTYLEURL%,%FOSWIKICOLORSURL%"
 </verbatim>
    * Additional settings for specific browsers.
       * Warning: if you enable =paste_auto_cleanup_on_paste then it automatically implies =past_use_dialog= on all non-MSIE browsers.
@@ -140,14 +140,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/TinyMCEPlugin |
-|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/TinyMCEPluginDev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/TinyMCEPluginAppraisal |
+|  Plugin Home: | http://foswiki.org/Extensions/TinyMCEPlugin |
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
    * [[http://www.carrier.com][Carrier Corporation]]
-   * [[http://twiki.net][TWIKI.NET]]
+   * [[http://foswiki.net][TWIKI.NET]]
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 

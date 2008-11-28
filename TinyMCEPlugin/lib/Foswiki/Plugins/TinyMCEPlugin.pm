@@ -16,12 +16,11 @@ package Foswiki::Plugins::TinyMCEPlugin;
 
 use strict;
 
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 use Assert;
 
-$VERSION = '$Rev$';
-$RELEASE = '03 Aug 2008';
-$SHORTDESCRIPTION = 'Integration of TinyMCE with WysiwygPlugin';
+our $VERSION = '$Rev$';
+our $RELEASE = '03 Aug 2008';
+our $SHORTDESCRIPTION = 'Integration of TinyMCE with WysiwygPlugin';
 
 use Foswiki::Func;
 

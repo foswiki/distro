@@ -1,9 +1,9 @@
-tinyMCE.importPluginLanguagePack('twikibuttons');
+tinyMCE.importPluginLanguagePack('foswikibuttons');
 
-var TWikiButtonsPlugin = {
+var FoswikiButtonsPlugin = {
 	getInfo : function() {
 		return {
-			longname : 'TWiki Buttons Plugin',
+			longname : 'Foswiki Buttons Plugin',
 			author : 'Crawford Currie',
 			authorurl : 'http://c-dot.co.uk',
 			infourl : 'http://c-dot.co.uk',
@@ -13,31 +13,31 @@ var TWikiButtonsPlugin = {
 
 	initInstance : function(inst) {
 		//tinyMCE.importCSS(inst.getDoc(),
-        //tinyMCE.baseURL + "/plugins/twikibuttons/css/twikibuttons.css");
+        //tinyMCE.baseURL + "/plugins/foswikibuttons/css/foswikibuttons.css");
 	},
 
 	getControlHTML : function(cn) {
         var html, formats;
 		switch (cn) {
         case "tt":
-            return tinyMCE.getButtonHTML(cn, 'lang_twikibuttons_tt_desc',
+            return tinyMCE.getButtonHTML(cn, 'lang_foswikibuttons_tt_desc',
                                          '{$pluginurl}/images/tt.gif',
-                                         'twikiTT', true);
+                                         'foswikiTT', true);
         case "colour":
-            return tinyMCE.getButtonHTML(cn, 'lang_twikibuttons_colour_desc',
+            return tinyMCE.getButtonHTML(cn, 'lang_foswikibuttons_colour_desc',
                                          '{$pluginurl}/images/colour.gif',
-                                         'twikiCOLOUR', true);
+                                         'foswikiCOLOUR', true);
         case "attach":
-            return tinyMCE.getButtonHTML(cn, 'lang_twikibuttons_attach_desc',
+            return tinyMCE.getButtonHTML(cn, 'lang_foswikibuttons_attach_desc',
                                          '{$pluginurl}/images/attach.gif',
-                                         'twikiATTACH', true);
+                                         'foswikiATTACH', true);
         case "hide":
-            return tinyMCE.getButtonHTML(cn, 'lang_twikibuttons_hide_desc',
+            return tinyMCE.getButtonHTML(cn, 'lang_foswikibuttons_hide_desc',
                                          '{$pluginurl}/images/hide.gif',
-                                         'twikiHIDE', true);
-        case "twikiformat":
-            html = '<select id="{$editor_id}_twikiFormatSelect" name="{$editor_id}_twikiFormatSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'twikiFORMAT\',false,this.options[this.selectedIndex].value);" class="mceSelectList">';
-            formats = tinyMCE.getParam("twikibuttons_formats");
+                                         'foswikiHIDE', true);
+        case "foswikiformat":
+            html = '<select id="{$editor_id}_foswikiFormatSelect" name="{$editor_id}_foswikiFormatSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'foswikiFORMAT\',false,this.options[this.selectedIndex].value);" class="mceSelectList">';
+            formats = tinyMCE.getParam("foswikibuttons_formats");
             // Build format select
             for (var i = 0; i < formats.length; i++) {
                 html += '<option value="'+ formats[i].name + '">'
@@ -57,19 +57,19 @@ var TWikiButtonsPlugin = {
         var inst = tinyMCE.getInstanceById(editor_id);
 
 		switch (command) {
-        case "twikiCOLOUR":
+        case "foswikiCOLOUR":
             var t = inst.selection.getSelectedText();
             if (!(t && t.length > 0 || pe))
                 return true;
 
             template = new Array();
-            template['file'] = '../../plugins/twikibuttons/colours.htm';
+            template['file'] = '../../plugins/foswikibuttons/colours.htm';
             template['width'] = 240;
             template['height'] = 140;
             tinyMCE.openWindow(template, {editor_id : editor_id});
             return true;
 
-        case "twikiTT":
+        case "foswikiTT":
             inst = tinyMCE.getInstanceById(editor_id);
             elm = inst.getFocusElement();
             var t = inst.selection.getSelectedText();
@@ -88,20 +88,20 @@ var TWikiButtonsPlugin = {
 
             return true;
 
-        case "twikiHIDE":
+        case "foswikiHIDE":
             tinyMCE.execCommand("mceToggleEditor", user_interface, editor_id);
             return true;
 
-        case "twikiATTACH":
+        case "foswikiATTACH":
             template = new Array();
-            template['file'] = '../../plugins/twikibuttons/attach.htm';
+            template['file'] = '../../plugins/foswikibuttons/attach.htm';
             template['width'] = 350;
             template['height'] = 250;
             tinyMCE.openWindow(template, {editor_id : editor_id});
             return true;
 
-        case "twikiFORMAT":
-            var formats = tinyMCE.getParam("twikibuttons_formats");
+        case "foswikiFORMAT":
+            var formats = tinyMCE.getParam("foswikibuttons_formats");
             var format = null;
             for (var i = 0; i < formats.length; i++) {
                 if (formats[i].name == value) {
@@ -165,9 +165,9 @@ var TWikiButtonsPlugin = {
 		}
 
 		var selectElm = document.getElementById(
-            editor_id + "_twikiFormatSelect");
+            editor_id + "_foswikiFormatSelect");
         if (selectElm) {
-            var formats = tinyMCE.getParam("twikibuttons_formats");
+            var formats = tinyMCE.getParam("foswikibuttons_formats");
             var puck = -1;
             do {
                 for (var i = 0; i < formats.length; i++) {
@@ -194,4 +194,4 @@ var TWikiButtonsPlugin = {
 	}
 };
 
-tinyMCE.addPlugin("twikibuttons", TWikiButtonsPlugin);
+tinyMCE.addPlugin("foswikibuttons", FoswikiButtonsPlugin);

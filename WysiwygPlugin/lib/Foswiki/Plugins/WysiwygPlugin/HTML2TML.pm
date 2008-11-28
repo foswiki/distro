@@ -42,12 +42,12 @@ use base 'HTML::Parser';
 
 use strict;
 
-require Encode;
-require HTML::Parser;
-require HTML::Entities;
+use Encode;
+use HTML::Parser;
+use HTML::Entities;
 
-require Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node;
-require Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Node;
+use Foswiki::Plugins::WysiwygPlugin::HTML2TML::Leaf;
 
 =pod
 

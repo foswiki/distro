@@ -34,11 +34,12 @@ TML syntax is not supported.
 
 package Foswiki::Plugins::WysiwygPlugin::TML2HTML;
 
-use strict;
 use CGI qw( -any );
 
-require Foswiki;
-require Foswiki::Plugins::WysiwygPlugin::Constants;
+use Foswiki;
+use Foswiki::Plugins::WysiwygPlugin::Constants;
+
+use strict;
 
 my $TT0 = chr(0);
 my $TT1 = chr(1);

@@ -18,15 +18,14 @@
 # Tests for the plugin component
 #
 package WysiwygPluginTests;
-use base 'TWikiFnTestCase';
-
-use strict;
+use base 'FoswikiFnTestCase';
 
 use Unit::Request;
 use Unit::Response;
 use Foswiki;
 use Foswiki::Plugins::WysiwygPlugin;
 
+use strict;
 use Carp;
 
 sub new {
@@ -122,12 +121,12 @@ sub TML2HTML_test {
         'text' => [ Encode::encode_utf8($text) ],
     });
 
-    my $twiki = new Foswiki('guest', $query );
-	$twiki->{response}->charset($charset) if $charset;
+    my $foswiki = new Foswiki('guest', $query );
+	$foswiki->{response}->charset($charset) if $charset;
 
     my ($out, $result) = $this->capture(
         \&Foswiki::Plugins::WysiwygPlugin::_restTML2HTML,
-        $twiki, undef, undef, $twiki->{response});
+        $foswiki, undef, undef, $foswiki->{response});
 
     $this->assert(!$result, $result);
     # Strip ASCII header
@@ -141,7 +140,7 @@ sub TML2HTML_test {
     $out =~ s/\s*<\/p>\s*$//s;
 
     require Foswiki::Plugins::WysiwygPlugin::Constants;
-    WC::mapUnicode2HighBit($out);
+    Foswiki::Plugins::WysiwygPlugin::Constants::mapUnicode2HighBit($out);
 
     $this->assert($text eq $out, "'".anal($out)."' !=\n'".anal($text)."'");
 }
@@ -163,12 +162,12 @@ sub HTML2TML_test {
         'text' => [ Encode::encode_utf8($text) ],
     });
 
-    my $twiki = new Foswiki('guest', $query );
-	$twiki->{response}->charset($charset) if $charset;
+    my $foswiki = new Foswiki('guest', $query );
+	$foswiki->{response}->charset($charset) if $charset;
 
     my ($out, $result) = $this->capture(
         \&Foswiki::Plugins::WysiwygPlugin::_restHTML2TML,
-        $twiki, undef, undef, $twiki->{response});
+        $foswiki, undef, undef, $foswiki->{response});
 
     $this->assert(!$result, $result);
     # Strip ASCII header
@@ -179,7 +178,7 @@ sub HTML2TML_test {
     $out = Encode::decode_utf8($out);
 
     require Foswiki::Plugins::WysiwygPlugin::Constants;
-    WC::mapUnicode2HighBit($out);
+    Foswiki::Plugins::WysiwygPlugin::Constants::mapUnicode2HighBit($out);
 
     $out =~ s/\s*$//s;
 

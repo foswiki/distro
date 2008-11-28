@@ -187,11 +187,7 @@ Many thanks to the following sponsors for supporting this work:
 |  4 Sep 2007 | TWikibug:Item4534 TWikibug:Item4535 fixed |
 | See Subversion logs for earlier revisions ||
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/%TOPIC% |
-|  Feedback: | Foswiki:Extensions/%TOPIC%Dev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/%TOPIC%Appraisal |
-
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 

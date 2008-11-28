@@ -8,15 +8,15 @@
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('twikiimage');
+tinyMCE.importPluginLanguagePack('foswikiimage');
 
-var TinyMCE_TWikiImagePlugin = {
+var TinyMCE_FoswikiImagePlugin = {
 	getInfo : function() {
 		return {
-			longname : 'TWiki image',
+			longname : 'Foswiki image',
 			author : 'WikiRing, from Moxiecode Systems AB original',
 			authorurl : 'http://wikiring.com',
-			infourl : 'http://twiki.org/cgi-bin/view/Plugins/TinyMCEPlugin',
+			infourl : 'http://foswiki.org/cgi-bin/view/Plugins/TinyMCEPlugin',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
 		};
 	},
@@ -38,15 +38,15 @@ var TinyMCE_TWikiImagePlugin = {
 			case "mceAdvImage":
 				var template = new Array();
 
-				template['file']   = '../../plugins/twikiimage/image.htm';
+				template['file']   = '../../plugins/foswikiimage/image.htm';
 				template['width']  = 480;
 				template['height'] = 380;
 
 				// Language specific width and height addons
 				template['width']  += tinyMCE.getLang(
-                    'lang_twikiimage_delta_width', 0);
+                    'lang_foswikiimage_delta_width', 0);
 				template['height'] += tinyMCE.getLang(
-                    'lang_twikiimage_delta_height', 0);
+                    'lang_foswikiimage_delta_height', 0);
 
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var elm = inst.getFocusElement();
@@ -75,7 +75,7 @@ var TinyMCE_TWikiImagePlugin = {
                         tinyMCE.getAttrib(imgs[i], 'onmouseout'));
 
 					if ((src = this._getImageSrc(onmouseover)) != "") {
-                        src = eval(tinyMCE.settings['twikipuburl_callback']
+                        src = eval(tinyMCE.settings['foswikipuburl_callback']
                                    + "(src);");
 
 						imgs[i].setAttribute('onmouseover', "this.src='"
@@ -83,7 +83,7 @@ var TinyMCE_TWikiImagePlugin = {
 					}
 
 					if ((src = this._getImageSrc(onmouseout)) != "") {
-                        src = eval(tinyMCE.settings['twikipuburl_callback']
+                        src = eval(tinyMCE.settings['foswikipuburl_callback']
                                    + "(src);");
 
 						imgs[i].setAttribute('onmouseout', "this.src='"
@@ -101,7 +101,7 @@ var TinyMCE_TWikiImagePlugin = {
                         tinyMCE.getAttrib(imgs[i], 'onmouseout'));
 
 					if ((src = this._getImageSrc(onmouseover)) != "") {
-                        src = eval(tinyMCE.settings['twikipuburl_callback']
+                        src = eval(tinyMCE.settings['foswikipuburl_callback']
                                    + "(src);");
 
 						imgs[i].setAttribute('onmouseover', "this.src='"
@@ -109,7 +109,7 @@ var TinyMCE_TWikiImagePlugin = {
 					}
 
 					if ((src = this._getImageSrc(onmouseout)) != "") {
-                        src = eval(tinyMCE.settings['twikipuburl_callback']
+                        src = eval(tinyMCE.settings['foswikipuburl_callback']
                                    + "(src, null, true);");
 
 						imgs[i].setAttribute('onmouseout', "this.src='"
@@ -130,13 +130,13 @@ var TinyMCE_TWikiImagePlugin = {
 		do {
 			if (node.nodeName == "IMG" &&
                 tinyMCE.getAttrib(node, 'class').indexOf('mceItem') == -1) {
-				tinyMCE.switchClass(editor_id + '_twikiimage',
+				tinyMCE.switchClass(editor_id + '_foswikiimage',
                                     'mceButtonSelected');
 				return true;
 			}
 		} while ((node = node.parentNode));
 
-		tinyMCE.switchClass(editor_id + '_twikiimage', 'mceButtonNormal');
+		tinyMCE.switchClass(editor_id + '_foswikiimage', 'mceButtonNormal');
 
 		return true;
 	},
@@ -165,4 +165,4 @@ var TinyMCE_TWikiImagePlugin = {
 	}
 };
 
-tinyMCE.addPlugin("twikiimage", TinyMCE_TWikiImagePlugin);
+tinyMCE.addPlugin("foswikiimage", TinyMCE_FoswikiImagePlugin);
