@@ -93,10 +93,10 @@ STYLE
     require TWiki::Plugins::EditRowPlugin::Table;
     return 0 if $@;
 
-    my $vars = $query->Vars();
+    my @varnames = $query->param();
     my $urps = {};
-    while (my ($key, $value) = each %{$vars}) {
-        $urps->{$key} = $value if $key =~ /^erp_/;
+    foreach my $key (@varnames) {
+        $urps->{$key} = $query->param($key) if $key =~ /^erp_/;
     }
 
     my $endsWithNewline = ($text =~ /\n$/) ? 1 : 0;
@@ -245,8 +245,8 @@ sub save {
     } else {
         $text =~ s/\\\n//gs;
         require TWiki::Plugins::EditRowPlugin::Table;
-        die $@ if $@;
-        my $urps = $query->Vars();
+        my @ps = $query->param();
+        my $urps = { map { $_ => $query->param($_) } @ps };
         my $content = TWiki::Plugins::EditRowPlugin::Table::parseTables(
             $text, $topic, $web, $meta, $urps);
 

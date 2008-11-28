@@ -210,7 +210,7 @@ sub new {
 
     # if headerislabel true but no headerrows, set headerrows = 1
     if ($attrs->{headerislabel} && !defined($attrs->{headerrows})) {
-        $attrs->{headerrows} = TWiki::isTrue($attrs->{headerislabel}) ? 1 : 0;
+        $attrs->{headerrows} = TWiki::Func::isTrue($attrs->{headerislabel}) ? 1 : 0;
     }
 
     $attrs->{headerrows} ||= 0;
@@ -222,11 +222,11 @@ sub new {
     my $changerows = defined($attrs->{changerows}) ?
       $attrs->{changerows} :
         TWiki::Func::getPreferencesValue('CHANGEROWS');
-    $attrs->{changerows} = TWiki::isTrue($changerows);
+    $attrs->{changerows} = TWiki::Func::isTrue($changerows);
     my $q = defined($attrs->{quietsave}) ?
       $attrs->{quietsave} :
         TWiki::Func::getPreferencesValue('QUIETSAVE');
-    $attrs->{quietsave} = TWiki::isTrue($q);
+    $attrs->{quietsave} = TWiki::Func::isTrue($q);
 
     $this->{attrs} = $attrs;
 
@@ -436,7 +436,7 @@ sub renderForDisplay {
               CGI::img({
                   -name => "erp_edit_$this->{number}",
                   -border => 0,
-                  -src => '%PUBURLPATH%/TWiki/EditRowPlugin/edittable.gif',
+                  -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.gif',
                   -title => $title,
               });
             my $url;
@@ -465,7 +465,7 @@ sub renderForDisplay {
             my $button = CGI::img({
                 -name => "erp_edit_$this->{number}",
                 -border => 0,
-                -src => '%PUBURLPATH%/TWiki/EditRowPlugin/addrow.gif',
+                -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.gif',
                 -title => $title,
                }, '');
             my $url;
@@ -729,21 +729,21 @@ sub generateEditButtons {
           name => 'erp_save',
           value => $NOISY_SAVE,
           title => $NOISY_SAVE,
-          src => '%PUBURLPATH%/TWiki/DocumentGraphics/save.gif'
+          src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/save.gif'
          }, '');
     if ($attrs->{quietsave}) {
         $buttons .= CGI::image_button({
             name => 'erp_quietSave',
             value => $QUIET_SAVE,
             title => $QUIET_SAVE,
-            src => '%PUBURLPATH%/TWiki/EditRowPlugin/quiet.gif'
+            src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
            }, '');
     }
     $buttons .= CGI::image_button({
         name => 'erp_cancel',
         value => $CANCEL_ROW,
         title => $CANCEL_ROW,
-        src => '%PUBURLPATH%/TWiki/DocumentGraphics/stop.gif',
+        src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/stop.gif',
     }, '');
 
     if ($this->{attrs}->{changerows}) {
@@ -754,7 +754,7 @@ sub generateEditButtons {
                     name => 'erp_upRow',
                     value => $UP_ROW,
                     title => $UP_ROW,
-                    src => '%PUBURLPATH%/TWiki/DocumentGraphics/arrowup.gif'
+                    src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/arrowup.gif'
                    }, '');
             }
             if (!$bottomRow) {
@@ -762,7 +762,7 @@ sub generateEditButtons {
                     name => 'erp_downRow',
                     value => $DOWN_ROW,
                     title => $DOWN_ROW,
-                    src => '%PUBURLPATH%/TWiki/DocumentGraphics/arrowdown.gif'
+                    src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/arrowdown.gif'
                    }, '');
             }
         }
@@ -770,7 +770,7 @@ sub generateEditButtons {
             name => 'erp_addRow',
             value => $ADD_ROW,
             title => $ADD_ROW,
-            src => '%PUBURLPATH%/TWiki/DocumentGraphics/plus.gif'
+            src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/plus.gif'
            }, '');
 
         $buttons .= CGI::image_button({
@@ -778,7 +778,7 @@ sub generateEditButtons {
             class => 'EditRowPluginDiscardAction',
             value => $DELETE_ROW,
             title => $DELETE_ROW,
-            src => '%PUBURLPATH%/TWiki/DocumentGraphics/minus.gif'
+            src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/minus.gif'
            }, '');
     }
     return $buttons;
@@ -847,17 +847,17 @@ Render the table for display. Standard TML is used to construct the table.
 
 ---++ changeRow(\%urps)
 Commit changes from the query into the table.
-   * $urps - url parameters, usually the result of $query->Vars()
+   * $urps - url parameters
 
 ---++ addRow(\%urps)
 Add a row after the active row containing the data from the query
-   * $urps - hash of parameters, usually the result of $query->Vars()
+   * $urps - hash of parameters
       * =active_row= - the row to add after
       * 
 
 ---++ deleteRow(\%urps)
 Delete the current row, as defined by active_row in $urps
-   * $urps - url parameters, usualy the result of $query->Vars()
+   * $urps - url parameters
 
 =cut
 
