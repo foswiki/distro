@@ -52,15 +52,15 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 </verbatim>
 
 ---++ Plugin Installation Instructions
-This plugin is installed by default with a TWiki release. You should not need to install the plugin unless it is for an upgrade.
+This plugin is installed by default with a Foswiki release. You should not need to install the plugin unless it is for an upgrade.
 	* Download the ZIP file from the Plugin web (see below)
 	* Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
      | *File:* | *Description:* |
      | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==pub/TWiki/%TOPIC%/*.gif== | Plugin icon files |
-	* (Dakar) Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+     | ==pub/System/%TOPIC%/*.gif== | Plugin icon files |
+	* Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
 	* Test if the plugin is correctly installed:
 	* You will see a series of icons on next line: <br />
         :-) :) :cool: :( :o :D ;) :p :rolleyes: :mad: :eek: :confused: >:-) >;-) :-X :ok: :yes: :no: :love: :skull:
@@ -68,7 +68,7 @@ This plugin is installed by default with a TWiki release. You should not need to
 ---++ Plugin Info
 
 |  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny, TWiki Contributors |
+|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny, TWiki Contributors; &copy; 2008 Foswiki Contributors |
 |  Plugin Version: | 21 Nov 2007 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  21 Nov 2007: | Doc improvements |

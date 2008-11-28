@@ -19,17 +19,17 @@
 #
 # This plugin replaces smilies with small smilies bitmaps
 
-package TWiki::Plugins::SmiliesPlugin;
+package Foswiki::Plugins::SmiliesPlugin;
 
 use strict;
 
-use TWiki::Func;
+use Foswiki::Func;
 
 use vars qw( $VERSION $RELEASE
             %smiliesUrls %smiliesEmotions
             $smiliesPubUrl $allPattern $smiliesFormat );
 
-# This should always be $Rev: 14527 $ so that TWiki can determine the checked-in
+# This should always be $Rev: 14527 $ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev: 14527 $';
@@ -43,18 +43,18 @@ sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.026 ) {
-        TWiki::Func::writeWarning( "Version mismatch between InterwikiPlugin and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning( "Version mismatch between InterwikiPlugin and Plugins.pm" );
         return 0;
     }
 
     # Get plugin preferences
     $smiliesFormat =
-      TWiki::Func::getPreferencesValue( 'SMILIESPLUGIN_FORMAT' ) 
+      Foswiki::Func::getPreferencesValue( 'SMILIESPLUGIN_FORMAT' ) 
           || '<img src="$url" alt="$tooltip" title="$tooltip" border="0" />';
 
     $topic =
-      TWiki::Func::getPreferencesValue( 'SMILIESPLUGIN_TOPIC' ) 
+      Foswiki::Func::getPreferencesValue( 'SMILIESPLUGIN_TOPIC' ) 
           || "$installWeb.SmiliesPlugin";
 
     $web = $installWeb;
@@ -64,7 +64,7 @@ sub initPlugin {
     }
 
     $allPattern = "(";
-    foreach( split( /\n/, TWiki::Func::readTopicText( $web, $topic, undef, 1 ) ) ) {
+    foreach( split( /\n/, Foswiki::Func::readTopicText( $web, $topic, undef, 1 ) ) ) {
         # smilie       url            emotion
         if( m/^\s*\|\s*<nop>(?:\&nbsp\;)?([^\s|]+)\s*\|\s*%ATTACHURL%\/([^\s]+)\s*\|\s*"([^"|]+)"\s*\|\s*$/o ) {
             $allPattern .= "\Q$1\E|";
@@ -75,7 +75,7 @@ sub initPlugin {
     $allPattern =~ s/\|$//o;
     $allPattern .= ")";
     $smiliesPubUrl =
-      TWiki::Func::getPubUrlPath() .
+      Foswiki::Func::getPubUrlPath() .
           "/$installWeb/SmiliesPlugin";
 
     # Initialization OK
