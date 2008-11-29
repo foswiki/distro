@@ -9,7 +9,7 @@ use strict;
 #
 package TopicUserMappingContribTests;
 
-use base qw( FoswikiFnTestCase! );
+use base qw( FoswikiFnTestCase );
 
 use Unit::Request;
 use Unit::Response;
@@ -263,7 +263,7 @@ sub std_tests {
     my $output = <<'THIS';
 <div class="twikiAttachments">
 | *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
-| <img width="16" alt="png" align="top" src="%PUBURLPATH%/Foswiki/DocumentGraphics/png.gif" height="16" border="0" /><span class="twikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%">home.org.au.png</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="twikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
+| <img width="16" alt="png" align="top" src="%PUBURLPATH%/System/DocumentGraphics/png.gif" height="16" border="0" /><span class="twikiHidden">png</span> | <a href="%ATTACHURLPATH%/%ENCODE{home.org.au.png}%">home.org.au.png</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"home.org.au.png"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  4.1&nbsp;K|<span class="twikiNoBreak">31 May 2007 - 21:58</span> |TemporaryTopicUserMappingContribTestsUsersWeb.JoeDoe  |&nbsp;  |
 </div>
 THIS
     $output =~ s/UUUUUUUUUU/$displayedName/e;

@@ -5,7 +5,7 @@ package TopicUserMappingTests;
 # Some basic tests for Foswiki::Users::TopicUserMapping
 #
 # The tests are performed using the APIs published by the facade class,
-# TWiki:Users, not the actual Foswiki::Users::TopicUserMapping
+# Foswiki:Users, not the actual Foswiki::Users::TopicUserMapping
 
 use base qw(FoswikiTestCase);
 
@@ -276,7 +276,7 @@ sub verify_getListOfGroups {
     while ( $i->hasNext() ) { push( @l, $i->next() ) }
     my $k = join( ',', sort @l );
     $this->assert_str_equals(
-        "AdminGroup,AmishGroup,BaptistGroup,TWikiBaseGroup", $k );
+        "AdminGroup,AmishGroup,BaptistGroup,BaseGroup", $k );
 }
 
 sub verify_groupMembers {
