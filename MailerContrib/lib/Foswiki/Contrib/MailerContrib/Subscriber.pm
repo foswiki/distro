@@ -268,7 +268,7 @@ sub stringify {
     my $name = $this->{name};
     if ($name =~ /^$Foswiki::regex{wikiWordRegex}$/) {
         $name = '%USERSWEB%.'.$name;
-    } elsif ($name !~ /^$Foswiki::cfg{MailerContrib}{EmailFilterIn})$/) {
+    } elsif ($name !~ /^$Foswiki::cfg{MailerContrib}{EmailFilterIn}$/) {
         $name = $name =~ /'/ ? '"'.$name.'"' : "'$name'";
     }
     return "   * " . $name . ": " .

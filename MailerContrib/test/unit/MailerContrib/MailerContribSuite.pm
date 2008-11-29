@@ -1,5 +1,5 @@
 package MailerContribSuite;
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
 use locale;
@@ -53,7 +53,7 @@ sub set_up {
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    $this->{twiki}->net->setMailHandler( \&TWikiFnTestCase::sentMail );
+    $this->{twiki}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     my $text;
 
@@ -73,8 +73,8 @@ sub set_up {
     # Must create a new twiki to force re-registration of users
     $Foswiki::cfg{EnableEmail} = 1;
     $this->{twiki} = new Foswiki();
-    $this->{twiki}->net->setMailHandler( \&TWikiFnTestCase::sentMail );
-    @TWikiFnTestCase::mails = ();
+    $this->{twiki}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    @FoswikiFnTestCase::mails = ();
 
     @specs = (
 
@@ -359,10 +359,10 @@ sub testSimple {
     my @webs = ( $this->{test_web}, $this->{users_web} );
     Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{twiki}, 0 );
 
-    #print "REPORT\n",join("\n\n", @TWikiFnTestCase::mails);
+    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
     my %matched;
-    foreach my $message (@TWikiFnTestCase::mails) {
+    foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
         $message =~ /^To: (.*)$/m;
         my $mailto = $1;
@@ -416,10 +416,10 @@ sub testSubweb {
     my @webs = ( $testWeb2, $this->{users_web} );
     Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{twiki}, 0 );
 
-    #print "REPORT\n",join("\n\n", @TWikiFnTestCase::mails);
+    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
     my %matched;
-    foreach my $message (@TWikiFnTestCase::mails) {
+    foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
         $message =~ /^To: (.*)$/m;
         my $mailto = $1;
@@ -544,7 +544,7 @@ HERE
         $this->{twiki}, 0 );
 
     my %matched;
-    foreach my $message (@TWikiFnTestCase::mails) {
+    foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
         $message =~ /^To: (.*?)$/m;
         my $mailto = $1;
@@ -552,7 +552,7 @@ HERE
         $this->assert_str_equals( 'good@example.com', $mailto, $mailto );
     }
 
-    #print "REPORT\n",join("\n\n", @TWikiFnTestCase::mails);
+    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 }
 
 sub testExpansion {
@@ -573,7 +573,7 @@ HERE
         $this->{twiki}, 0 );
 
     my %matched;
-    foreach my $message (@TWikiFnTestCase::mails) {
+    foreach my $message (@FoswikiFnTestCase::mails) {
         next unless $message;
         $message =~ /^To: (.*?)$/m;
         my $mailto = $1;
@@ -581,7 +581,7 @@ HERE
         $this->assert_str_equals( 'search@example.com', $mailto, $mailto );
     }
 
-    #print "REPORT\n",join("\n\n", @TWikiFnTestCase::mails);
+    #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 }
 
 sub test_5949 {
@@ -601,13 +601,13 @@ HERE
         $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
-   * TestUser1: SpringCabbage
+   * %USERSWEB%.TestUser1: SpringCabbage
 After
 HERE
     $wn->unsubscribe( "TestUser1", "SpringCabbage" );
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
-   * TestUser1: 
+   * %USERSWEB%.TestUser1: 
 After
 HERE
 }
@@ -649,7 +649,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     my $wn =
       new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
         $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * $who: $topicList\n", $wn->stringify(1) );
+    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n", $wn->stringify(1) );
 
     $topicList = '*';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
@@ -667,7 +667,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     $wn =
       new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
         $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * $who: $topicList\n", $wn->stringify(1) );
+    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n", $wn->stringify(1) );
 
     $topicList = '-*';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
@@ -705,7 +705,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     $wn =
       new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
         $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * $who: $topicList\n", $wn->stringify(1) );
+    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n", $wn->stringify(1) );
 
     $topicList = 'WebIndex';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
@@ -728,7 +728,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
     $wn =
       new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
         $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * $who: WebHome (2) $topicList\n",
+    $this->assert_str_equals( "   * %USERSWEB%.$who: WebHome (2) $topicList\n",
         $wn->stringify(1) );
 
     $topicList   = '*';
