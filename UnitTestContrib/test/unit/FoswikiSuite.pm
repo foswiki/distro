@@ -44,8 +44,8 @@ sub include_tests {
     if ($read_manifest) {
         local $/ = "\n";
         while (<F>) {
-            if (m#^!include (\w+)/.*?/(\w+)$#) {
-                my $d = "$home/../$1/test/unit/$2";
+            if (m#^!include ([\w.]+)/.*?/(\w+)$#) {
+                my $d = "$home/test/unit/$2";
                 next unless (-e "$d/${2}Suite.pm");
                 push(@INC, $d);
                 push(@list, "${2}Suite.pm");
