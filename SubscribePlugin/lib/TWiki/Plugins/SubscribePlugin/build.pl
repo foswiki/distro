@@ -7,7 +7,7 @@
 # details of how the build process works, and what files you
 # have to provide and where.
 #
-# Requires the environment variable TWIKI_LIBS (a colon-separated path
+# Requires the environment variable FOSWIKI_LIBS (a colon-separated path
 # list) to be set to point at the build system and any required dependencies.
 # Usage: ./build.pl [-n] [-v] [target]
 # where [target] is the optional build target (build, test,
@@ -19,7 +19,7 @@
 
 # Standard preamble
 BEGIN {
-    unshift @INC, split( /:/, $ENV{TWIKI_LIBS} );
+    unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }
 
 use TWiki::Contrib::Build;

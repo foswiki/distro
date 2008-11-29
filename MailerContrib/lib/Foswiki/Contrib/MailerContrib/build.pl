@@ -3,7 +3,7 @@
 # Example build class. Copy this file to the equivalent place in your
 # plugin or contrib and edit.
 #
-# Requires the environment variable TWIKI_LIBS (a colon-separated path
+# Requires the environment variable FOSWIKI_LIBS (a colon-separated path
 # list) to be set to point at the build system and any required dependencies.
 # Usage: ./build.pl [-n] [-v] [target]
 # where [target] is the optional build target (build, test,

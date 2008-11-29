@@ -69,13 +69,16 @@ sub prompt {
 sub usage {
     print STDERR <<HERE;
 This script will generate a new extension in a directory under
-the twikiplugins directory, suitable for building using the
+the current directory, suitable for building using the
 BuildContrib. Stubs for all required files will be generated.
 
-You must be cd'ed to the twikiplugins directory, and you must
+You must be cd'ed to the 'core' directory, and you must
 pass the name of your extension - which must end in Skin, Plugin,
-Contrib, AddOn or TWikiApp - to the script. The extension directory
+or Contrib - to the script. The extension directory
 must not already exist.
+
+Subversion users: Once you have created your new extension you can
+move it to the root of your checkout before adding to SVN.
 
 Usage: $0 <name of new extension>
 HERE
@@ -91,7 +94,7 @@ $def{MODULE} = $ARGV[0];
 usage(), exit 1 unless $def{MODULE};
 usage(), exit 1 if -d $def{MODULE};
 
-$def{MODULE} =~ /^.*?(Skin|Plugin|Contrib|AddOn|TWikiApp)$/;
+$def{MODULE} =~ /^.*?(Skin|Plugin|Contrib|AddOn)$/;
 $def{TYPE} = $1;
 usage(), exit 1 unless $def{TYPE};
 
@@ -106,22 +109,22 @@ $/ = undef;
 my @DATA = split( /<<<< (.*?) >>>>\s*\n/, <DATA> );
 shift @DATA;
 my %data     = @DATA;
-my $stubPath = "$def{MODULE}/lib/TWiki/$def{STUBS}";
+my $stubPath = "$def{MODULE}/lib/Foswiki/$def{STUBS}";
 if ( $def{TYPE} eq 'Plugin' ) {
     my $rewrite;
     # Look in all the possible places for EmptyPlugin
-    if (-e "EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin.pm") {
+    if (-e "EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
         # probably running in a checkout
-        $rewrite = getFile("EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin.pm");
-    } elsif (-e "twikiplugins/EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin.pm") {
+        $rewrite = getFile("EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
+    } elsif (-e "twikiplugins/EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
         # Old-style checkout
-        $rewrite = getFile("twikiplugins/EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin.pm");
-    } elsif (-e "../EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin.pm") {
+        $rewrite = getFile("twikiplugins/EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
+    } elsif (-e "../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
         # core subdir in a new-style checkout
-        $rewrite = getFile("../EmptyPlugin/lib/TWiki/Plugins/EmptyPlugin.pm");
-    } elsif (-e "lib/TWiki/Plugins/EmptyPlugin.pm") {
+        $rewrite = getFile("../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
+    } elsif (-e "lib/Foswiki/Plugins/EmptyPlugin.pm") {
         # last ditch, get it from the install
-        $rewrite = getFile("lib/TWiki/Plugins/EmptyPlugin.pm");
+        $rewrite = getFile("lib/Foswiki/Plugins/EmptyPlugin.pm");
     }
     # Tidy up
     $rewrite =~ s/Copyright .*(# This program)/$1/s;
@@ -150,14 +153,14 @@ Suffix:  $def{UPLOADTARGETSUFFIX}
 END
     last if ask( "Is that correct? Answer 'n' to change", 1 );
     print
-      "Enter the name of the TWiki web that contains the target repository\n";
+      "Enter the name of the Foswiki web that contains the target repository\n";
     $def{UPLOADTARGETWEB} = prompt( "Web", $def{UPLOADTARGETWEB} );
-    print "Enter the full URL path to the TWiki pub directory\n";
+    print "Enter the full URL path to the Foswiki pub directory\n";
     $def{UPLOADTARGETPUB} = prompt( "PubDir", $def{UPLOADTARGETPUB} );
-    print "Enter the full URL path to the TWiki bin directory\n";
+    print "Enter the full URL path to the Foswiki bin directory\n";
     $def{UPLOADTARGETSCRIPT} = prompt( "Scripts", $def{UPLOADTARGETSCRIPT} );
     print
-"Enter the file suffix used on scripts in the TWiki bin directory (enter 'none' for none)\n";
+"Enter the file suffix used on scripts in the Foswiki bin directory (enter 'none' for none)\n";
     $def{UPLOADTARGETSUFFIX} = prompt( "Suffix", $def{UPLOADTARGETSUFFIX} );
     $def{UPLOADTARGETSUFFIX} = '' if $def{UPLOADTARGETSUFFIX} eq 'none';
 }
@@ -167,7 +170,7 @@ chmod 0775, "$modPath/build.pl";
 writeFile( $modPath, "DEPENDENCIES", $data{DEPENDENCIES} );
 writeFile( $modPath, "MANIFEST",     $data{MANIFEST} );
 
-writeFile( "$def{MODULE}/data/TWiki", "$def{MODULE}.txt",
+writeFile( "$def{MODULE}/data/System", "$def{MODULE}.txt",
     ( $data{"TXT_$def{TYPE}"} || $data{TXT} ) );
 
 sub expandVars {
@@ -205,16 +208,14 @@ sub getFile {
 __DATA__
 <<<< build.pl >>>>
 #!/usr/bin/perl -w
-BEGIN {
-    unshift @INC, split( /:/, $ENV{TWIKI_LIBS} );
-}
-use TWiki::Contrib::Build;
+BEGIN { unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} ); }
+use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new TWiki::Contrib::Build('%$MODULE%');
+$build = new Foswiki::Contrib::Build('%$MODULE%');
 
 # (Optional) Set the details of the repository for uploads.
-# This can be any web on any accessible TWiki installation.
+# This can be any web on any accessible Foswiki installation.
 # These defaults will be used when expanding tokens in .txt
 # files, but be warned, they can be overridden at upload time!
 
@@ -234,12 +235,12 @@ $build->build($build->{target});
 # Dependencies for %$MODULE%
 # Example:
 # Time::ParseDate,>=2003.0211,cpan,Required.
-# TWiki::Plugins,>=1.15,perl,TWiki 4.1 release.
+# Foswiki::Plugins,>=1.2,perl,Requires version 1.2 of handler API.
 
 <<<< MANIFEST >>>>
 # Release manifest for %$MODULE%
-data/TWiki/%$MODULE%.txt 0644 Documentation
-lib/TWiki/%$STUBS%/%$MODULE%.pm 0644 Perl module
+data/System/%$MODULE%.txt 0644 Documentation
+lib/Foswiki/%$STUBS%/%$MODULE%.pm 0644 Perl module
 
 <<<< PLUGIN_HEADER >>>>
 # %$TYPE% for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
@@ -257,7 +258,7 @@ lib/TWiki/%$STUBS%/%$MODULE%.pm 0644 Perl module
 
 =pod
 
----+ package TWiki::Plugins::%$MODULE%
+---+ package Foswiki::Plugins::%$MODULE%
 
 <<<< PM >>>>
 # %$TYPE% for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
@@ -273,7 +274,7 @@ lib/TWiki/%$STUBS%/%$MODULE%.pm 0644 Perl module
 # GNU General Public License for more details, published at
 # http://www.gnu.org/copyleft/gpl.html
 
-package TWiki::%$STUBS%::%$MODULE%;
+package Foswiki::%$STUBS%::%$MODULE%;
 
 use strict;
 
@@ -313,9 +314,5 @@ Many thanks to the following sponsors for supporting this work:
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
 |  %$TYPE% Home: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/%$UPLOADTARGETWEB%/%$MODULE% |
-|  Feedback: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/%$UPLOADTARGETWEB%/%$MODULE%Dev |
-|  Appraisal: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/%$UPLOADTARGETWEB%/%$MODULE%Appraisal |
-
-__Related Topics:__ %SYSTEMWEB%.TWiki%$TYPE%s, %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->

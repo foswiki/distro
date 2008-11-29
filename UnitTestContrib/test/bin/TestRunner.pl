@@ -26,7 +26,7 @@ BEGIN {
     # Look for the TWiki installation that we are testing in context
     # with. This will be defined by either by finding an installation
     # on the path to the current dir, or by finding the first install
-    # in TWIKI_LIBS.
+    # in FOSWIKI_LIBS.
 
     my $root = _findRelativeTo( $here, 'core/bin/setlib.cfg' )
       || _findRelativeTo( $here, 'bin/setlib.cfg' );

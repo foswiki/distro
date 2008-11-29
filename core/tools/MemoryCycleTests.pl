@@ -23,7 +23,7 @@ use Devel::Monitor qw(:all);
 BEGIN {
     use File::Spec;
 
-    unshift @INC, split(/:/, $ENV{TWIKI_LIBS} || '../lib' );
+    unshift @INC, split(/:/, $ENV{FOSWIKI_LIBS} || '../lib' );
 
     # designed to be run within a SVN checkout area
     my @path = split( /\/+/, File::Spec->rel2abs($0) );
