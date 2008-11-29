@@ -1210,7 +1210,7 @@ $Foswiki::cfg{Plugins}{TinyMCEPlugin}{Module} = 'Foswiki::Plugins::TinyMCEPlugin
 $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
 $Foswiki::cfg{Plugins}{WysiwygPlugin}{Module} = 'Foswiki::Plugins::WysiwygPlugin';
 $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} = 1;
-$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'TWiki::Plugins::TWikiCompatibilityPlugin';
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Module} = 'Foswiki::Plugins::TWikiCompatibilityPlugin';
 
 # **PERL H**
 # Search path (web names) for plugin topics. Note that the session web
