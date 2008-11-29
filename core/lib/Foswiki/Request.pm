@@ -59,6 +59,7 @@ use Assert;
 use Error;
 use IO::File;
 use CGI::Util qw(rearrange);
+use CGI qw(:standard); # Necessary, so things like $request->p('text') works.
 
 =begin TML
 
