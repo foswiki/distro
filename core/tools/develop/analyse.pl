@@ -77,7 +77,7 @@ opendir(D, $BUGS) || die "$!";
 foreach my $item (sort { $a <=> $b }
                       grep { s/^Item(\d+)\.txt$/$1/ }
                                readdir(D)) {
-    print "Item$item      \r";
+    print "Item$item      \r" if $verbose;
     open(F, "<$BUGS/Item$item.txt") || next;
     local $/ = undef;
     my $bug = <F>;
