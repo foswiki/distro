@@ -2,7 +2,7 @@ use strict;
 
 package PreferencesPluginTests;
 
-use base qw(TWikiFnTestCase);
+use base qw(FoswikiFnTestCase);
 
 use strict;
 use Unit::Request;
