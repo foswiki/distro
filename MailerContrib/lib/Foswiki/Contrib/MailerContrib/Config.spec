@@ -1,5 +1,4 @@
-# ---+ Mailer Contrib
-# Settings for the mailer that sends out topic change notifications.
+# ---+ Mail and Proxies
 # **REGEX**
 # Define the regular expression that an email address entered in WebNotify
 # must match to be identified as a legal email by the notifier. You can use

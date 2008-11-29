@@ -214,12 +214,8 @@ Note that these position tags are obviously mutually exclusive. If you define mo
 All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in a topic template can also be used in an =OUTPUT= template.
 
 ---++ Settings
-<!-- required for compatibility
-		* Set SHORTDESCRIPTION = Allows users to quickly post comments to a page without an edit/preview/save cycle.
-	* Name of file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate
-		* Set TEMPLATES = comments
-	* Default template type (if not present, defaults to "below")
-		* Set DEFAULT_TYPE = above
+<!-- Not used by the plugin
+	* Set SHORTDESCRIPTION = Quickly post comments to a page without an edit/preview/save cycle.
 -->
 Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |

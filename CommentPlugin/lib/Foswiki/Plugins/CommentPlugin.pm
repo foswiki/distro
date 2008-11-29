@@ -11,26 +11,13 @@ require Foswiki::Plugins;
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $NO_PREFS_IN_TOPIC );
 
-# This should always be $Rev: 15788 $ so that TWiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev: 15788 $';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '03 Aug 2008';
-
-$SHORTDESCRIPTION = 'Allows users to quickly post comments to a page without an edit/preview/save cycle';
+our $VERSION = '$Rev: 15788 $';
+our $RELEASE = 'Foswiki-1.0.0';
+our $SHORTDESCRIPTION = 'Quickly post comments to a page without an edit/preview/save cycle';
+our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
     #my ( $topic, $web, $user, $installWeb ) = @_;
-
-    if( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning( "CommentPlugin $VERSION requires Foswiki::Plugins::VERSION >= 1.026, $Foswiki::Plugins::VERSION found." );
-        return 0;
-    }
-
     return 1;
 }
 

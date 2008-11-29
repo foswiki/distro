@@ -1,20 +1,11 @@
 #!/usr/bin/perl -w
 #
-package CommentPluginBuild;
-
 BEGIN {
-    foreach my $pc (split(/:/, $ENV{TWIKI_LIBS})) {
+    foreach my $pc (split(/:/, $ENV{FOSWIKI_LIBS})) {
         unshift @INC, $pc;
     }
 }
 use Foswiki::Contrib::Build;
 
-@CommentPluginBuild::ISA = ( "Foswiki::Contrib::Build" );
-
-sub new {
-    my $class = shift;
-    return bless( $class->SUPER::new( "CommentPlugin" ), $class );
-}
-
-$build = new CommentPluginBuild();
+my $build = new Foswiki::Contrib::Build("CommentPlugin");
 $build->build($build->{target});

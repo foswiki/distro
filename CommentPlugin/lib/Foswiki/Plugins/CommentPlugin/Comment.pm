@@ -55,7 +55,9 @@ sub save {
 sub prompt {
     #my ( $previewing, $text, $web, $topic ) = @_;
 
-    my $defaultType = Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE') || 'above';
+    my $defaultType =
+      Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE')
+          || 'above';
 
     my $message = '';
     # Is commenting disabled?
@@ -213,7 +215,7 @@ sub _getTemplate {
     # Get the templates.
     my $templateFile = $templatetopic
         || Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_TEMPLATES')
-        || 'comments';
+          || 'comments';
 
     my $templates =
       Foswiki::Func::loadTemplate( $templateFile );
@@ -248,7 +250,7 @@ sub _buildNewTopic {
 
     my $type = $query->param( 'comment_type' ) ||
       Foswiki::Func::getPreferencesValue('COMMENTPLUGIN_DEFAULT_TYPE') ||
-          'below';
+          'above';
     my $index = $query->param( 'comment_index' ) || 0;
     my $anchor = $query->param( 'comment_anchor' );
     my $location = $query->param( 'comment_location' );
