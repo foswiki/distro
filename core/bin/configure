@@ -407,6 +407,17 @@ HERE
 # use this script recursively to serve the icon image
 print CGI::img({src=>$scriptName.'?action=image;image=banner.gif;type=image/gif', class=>'logo', alt=>'Foswiki'});
 
+if (!$query->auth_type()) {
+    print <<'OH_DEAR';
+<h1 class='twikiAlert'>BIG, BIG WARNING!</h1>
+<div class='twikiAlert'>
+This screen was accessed without requiring authentication. <b>This is a
+high security risk!</b> You should always make sure the configuration
+interface requires authentication, or it may be used by a hacker
+to modify your Foswiki configuration. See for <a href="http://foswiki.org/Support/ProtectingYourConfiguration">Protecting Your Configuration</a> for more information on
+limiting access to configuration.</div>
+OH_DEAR
+}
 my $stub = new Foswiki::Configure::Item();
 # This call will define $Foswiki::defaultCfg by loading .spec files
 my $sanityUI = Foswiki::Configure::UI::loadChecker('BasicSanity', $stub);

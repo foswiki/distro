@@ -59,10 +59,20 @@ HERE
         }
         elsif ( !-w $this->{LocalSiteDotCfg} ) {
             $result .= <<HERE;
-Cannot write to existing configuration file<br />
+Cannot write to existing configuration file
 $this->{LocalSiteDotCfg} is not writable.
 You can view the configuration, but you will not be able to save.
 Check the file permissions.
+HERE
+        }
+        elsif ( (my $mess = $this->checkCfg(\%Foswiki::cfg)) ) {
+            $result .= <<HERE;
+The existing configuration file
+$this->{LocalSiteDotCfg} doesn't seem to contain a good configuration
+for Foswiki. The following problems were found:<br>
+$mess
+You are recommended to repair these problems manually, or delete
+$this->{LocalSiteDotCfg} and start the configuration process again.
 HERE
         }
 
@@ -157,6 +167,32 @@ sub _copy {
     else {
         return $n;
     }
+}
+
+# Check that an existing LocalSite.cfg doesn't contain crap.
+
+sub checkCfg {
+    my ($this, $entry, $keys) = @_;
+    $keys ||= '';
+    my $mess = '';
+
+    if (ref($entry) eq 'HASH') {
+        foreach my $el (keys %$entry) {
+            $mess .= $this->checkCfg($entry->{$el}, "$keys\{$el}");
+        }
+    }
+    elsif (ref($entry) eq 'ARRAY') {
+        foreach my $i (0..scalar(@$entry)) {
+            $mess .= $this->checkCfg($entry->[$i], "$keys\[$i]")
+        }
+    }
+    else {
+        if (defined $entry && $entry =~ /NOT SET/) {
+            $mess .=
+              "<div>\$Foswiki::cfg::$keys has been guessed and may be incorrect</div>";
+        }
+    }
+    return $mess;
 }
 
 1;
