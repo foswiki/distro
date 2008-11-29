@@ -9,7 +9,7 @@ use strict;
 #
 package TopicUserMappingContribTests;
 
-use base qw( TWikiFnTestCase );
+use base qw( FoswikiFnTestCase! );
 
 use Unit::Request;
 use Unit::Response;

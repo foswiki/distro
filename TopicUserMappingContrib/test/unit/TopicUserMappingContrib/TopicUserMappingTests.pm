@@ -7,7 +7,7 @@ package TopicUserMappingTests;
 # The tests are performed using the APIs published by the facade class,
 # TWiki:Users, not the actual Foswiki::Users::TopicUserMapping
 
-use base qw(TWikiTestCase);
+use base qw(FoswikiTestCase);
 
 use Foswiki;
 use Foswiki::Users;
