@@ -3,24 +3,13 @@
 %TMPL:P{"styles:print"}%%TMPL:END%
 
 
-%{ template leftbardimensions is included from viewleftbar.pattern.tmpl }%
-%{ template topbardimensions is included from viewtopbar.pattern.tmpl }%
-
-
 %TMPL:DEF{"styles:screen"}%<style type="text/css" media="all">
-%TMPL:P{"topbardimensions"}%
-%TMPL:P{"leftbardimensions"}%
-</style>
-<style type="text/css" media="all">
 %IF{ "$ FOSWIKI_LAYOUT_URL" then="@import url('%FOSWIKI_LAYOUT_URL%');"}%
 %IF{ "$ FOSWIKI_STYLE_URL"  then="@import url('%FOSWIKI_STYLE_URL%');"}%
 %IF{ "$ FOSWIKI_COLORS_URL" then="@import url('%FOSWIKI_COLORS_URL%');"}%
 </style>
-%TMPL:P{"styles:skin"}%%TMPL:P{"styles:dynamic"}%<style type="text/css" media="all">
-%IF{ "$ USERLAYOUTURL" then="@import url('%USERLAYOUTURL%');"}%
-%IF{ "$ USERSTYLEURL"  then="@import url('%USERSTYLEURL%');"}%
-%IF{ "$ USERCOLORSURL" then="@import url('%USERCOLORSURL%');"}%
-</style>%TMPL:END%
+%TMPL:P{"styles:dynamic"}%
+%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:END%
 
 
 %TMPL:DEF{"styles:print"}%<style type="text/css" media="all">
@@ -35,36 +24,38 @@
 	.patternWebIndicator a:hover img {
 		background-color:%WEBBGCOLOR%;
 	}
-	%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:no-repeat;}'}%
-	%IF{ 'defined WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
-	.patternBookView {
-		border-color:%WEBBGCOLOR%;
-	}
-	.patternPreviewPage #patternMain {
-		/* uncomment to set the preview image */
-		/*background-image:url("%PREVIEWBGIMAGE%");*/
-	}
-	%IF{ "defined PAGEBGCOLOR and $ PAGEBGCOLOR != ''" then='html body, #patternPage, #patternBottomBar, .twikiPreviewArea, #patternOuter, #patternTopBar { background-color:%PAGEBGCOLOR%;}
-	#patternOuter {background-image:none;}'}%
+	%TMPL:P{"styles:deprecated"}%
 </style>%TMPL:END%
 
 
-%TMPL:DEF{"styles:skin"}%<style type="text/css" media="all">%IF{ "$ PATTERNSKINURL" then="@import url('%PATTERNSKINURL%');"}%
+%TMPL:DEF{"styles:user_defined"}%%{ "kept for compatibility with TWiki 4.2" }%<style type="text/css" media="all">%IF{ "$ USERLAYOUTURL" then="@import url('%USERLAYOUTURL%');"}%%IF{ "$ USERSTYLEURL"  then="@import url('%USERSTYLEURL%');"}%%IF{ "$ USERCOLORSURL" then="@import url('%USERCOLORSURL%');"}%</style>%TMPL:END%
+
+
+%TMPL:DEF{"styles:custom_skin"}%<style type="text/css" media="all">
+%IF{ "$ PATTERNSKIN_COLUMNS" then="@import url('%PATTERNSKIN_COLUMNS%');"}%
+%IF{ "$ PATTERNSKIN_THEME" then="@import url('%PATTERNSKIN_THEME%');"}%
 </style>%TMPL:END%
 
 
 %TMPL:DEF{"styles:iespecific"}%<!--[if IE]><style type="text/css" media="screen">
 pre {
 	overflow-x:auto;
-	padding-bottom:expression(this.scrollWidth > this.offsetWidth ? 16 : 0);
 }
 </style>
 <![endif]-->
-<!--[if lte IE 6]> 
-<style type="text/css">
-#patternLeftBar {
-	position:relative; /* IE 5.5 needs this or the contents won't show outside the parent container on print. IE 6.0 needs it only during printable copy! */
-}
-</style><![endif]-->%TMPL:END%
+%TMPL:END%
+
 
 %TMPL:DEF{"styles:javascript_affected"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiStyles.js"></script>%TMPL:END%
+
+
+%TMPL:DEF{"styles:deprecated"}%%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:no-repeat;}'}%
+	%IF{ '$ WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
+	.patternBookView {
+		border-color:%WEBBGCOLOR%;
+	}
+	.patternPreviewPage #patternMain {
+		/* uncomment to set the preview image */
+		/*background-image:url("%PREVIEWBGIMAGE%");*/
+	}%IF{ "defined PAGEBGCOLOR and $ PAGEBGCOLOR != ''" then='html body, #patternPage, #patternBottomBar, .twikiPreviewArea, #patternOuter, #patternTopBar { background-color:%PAGEBGCOLOR%;}
+	#patternOuter {background-image:none;}'}%%TMPL:END%

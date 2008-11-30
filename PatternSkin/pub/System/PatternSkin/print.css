@@ -25,6 +25,7 @@
 	/* no left bar */
 	#patternOuter {
 		margin-left:0;
+		margin-right:0;
 	}
 	#patternLeftBar {
 		width:0em;
@@ -44,32 +45,6 @@
 		display:none;
 	}
 	
-	/* Content */
-	/* show url for links */
-	/* disabled to make the topic readable again */
-	/*
-	.patternTopic a:link:after,
-	.patternTopic a:visited:after {
-		content: " (" attr(href) ") ";
-		font-weight:normal;
-		font-size:86%;
-	}
-	.twikiAttachments a:link:after,
-	.twikiAttachments a:visited:after,
-	.twikiForm a:link:after,
-	.twikiForm a:visited:after,
-	.twikiTable a:link:after,
-	.twikiTable a:visited:after,
-	table a:link:after,
-	table a:visited:after {
-		content:"";
-	}
-	table {
-		page-break-inside:avoid;
-	}
-	*/
-	
-	
 	/* hide bits of the gui */
 	.patternTopicAction,
 	.patternToolBar,
@@ -79,7 +54,9 @@
 		display:none;
 	}
 	
-	#patternMainContents {
+	#patternMainContents,
+	#patternBottomBarContents,
+	#patternTopBarContents {
 		padding:0 0 0 2em; /* bigger side margin for binding */
 	}
 	#patternBottomBar {
@@ -97,12 +74,16 @@
 	}
 	
 	/* Colors */
-	body {
+	html body {
 		background-color:#fff;
 	}
 	h2, h3, h4, h5, h6 {
 		background-color:transparent;
 	}
+	#patternBottomBar {
+		background-color:transparent;
+	}
+	
 	/* make sure that overflowing content is visible */
 	pre,
 	html>body pre {

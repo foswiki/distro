@@ -1,0 +1,11 @@
+/*
+compatible bar for TWiki installations
+*/
+
+#patternOuter {
+	margin-left:14em;
+}
+#patternLeftBar {
+	width:14em;
+	margin-left:-14em;
+}

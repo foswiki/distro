@@ -2,22 +2,4 @@
 %TMPL:DEF{"topbar"}%<div id="patternTopBar"><div id="patternTopBarContents">%INCLUDE{"%SYSTEMWEB%.WebTopBar"}%</div></div><!-- /patternTopBar-->%TMPL:END%
 
 
-
 %TMPL:DEF{"topbarspacer"}%<div id="patternClearHeaderCenter"></div>%TMPL:END%
-
-
-
-%TMPL:DEF{"topbardimensions"}%#patternTopBar,
-#patternClearHeaderCenter,
-#patternClearHeaderLeft,
-#patternClearHeaderRight,
-#patternTopBarContentsOuter,
-#patternTopBarContents {
-	height:64px; /* top bar height; make room for header columns */
-	overflow:hidden;
-}
-#twikiLogo {
-	position:absolute;
-	top:0px;
-	left:0px;
-}%TMPL:END%

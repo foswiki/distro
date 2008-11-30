@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1130019100" format="1.1" version="$Rev: 17425 $"}%
 
----+!! %TWIKIWEB%.PatternSkin Customization
+---+!! %SYSTEMWEB%.PatternSkin Customization
 
 *Guidelines how to create and customize page templates.* For styling your Foswiki using stylesheets, see PatternSkinCssCookbook.
 

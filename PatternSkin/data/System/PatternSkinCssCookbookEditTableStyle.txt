@@ -6,8 +6,7 @@
 
    1 !EditTable uses a monospace font in edit mode to make the input text width correspond to the set width of the table columns. The attached example style makes the text  more readable by changing the monospace font to a naturally spaced one.
    2 !EditTable table cell content is vertically centered. The example style makes the content aligned at the top.
-   3 The example style gives the input fields a background color so that they stand out more.
-   
+
 Test table:
 
 %EDITTABLE{format="|textarea, 8x40|text, 40|"}%
@@ -18,7 +17,7 @@ Test table:
 <div class="twikiHelp">
 This line loads the extra style definition:
 <verbatim>
-   * Set USERSTYLEURL = %ATTACHURL%/edittable.css
+   * Set USERSTYLEURL = %ATTACHURLPATH%/edittable.css
 </verbatim>
 You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
 </div>

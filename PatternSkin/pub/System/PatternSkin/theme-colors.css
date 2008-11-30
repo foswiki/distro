@@ -4,9 +4,6 @@
 
 /* LAYOUT ELEMENTS */
 
-#patternScreen {
-	background:#e2e2e2;
-}
 #patternPage {
 	border-color:#ccc;
 }
@@ -39,7 +36,7 @@
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:#f5f5f5;
+   background-color:#e2e2e2;
    color:#000;
 }
 /* be kind to netscape 4 that doesn't understand inheritance */
@@ -68,7 +65,7 @@ h1 {
    color:#3ba1cb;
 }
 h2, h3, h4, h5, h6 {
-   color:#d1400e;
+   color:#de5433;
 }
 h2 {
    border-color:#e2e2e2;
@@ -126,7 +123,7 @@ h3, h4, h5, h6 {
 #patternMainContents h4 a:link, #patternMainContents h4 a:visited,
 #patternMainContents h5 a:link, #patternMainContents h5 a:visited,
 #patternMainContents h6 a:link, #patternMainContents h6 a:visited {
-   color:#d1400e;
+   color:#de5433;
 }
 #patternMainContents h1 a:hover,
 #patternMainContents h2 a:hover,
@@ -315,14 +312,14 @@ table.twikiFormTable th.twikiFormTableHRow font {
 }
 .twikiFormStep h3,
 .twikiFormStep h4 {
-   color:#d1400e;
+   color:#de5433;
 }
 .twikiFormStep h3,
 .twikiFormStep h4 {
    background-color:transparent;
 }
 .twikiActionFormStepSign {
-   color:#d1400e;
+   color:#de5433;
 }
 .twikiToc .twikiTocTitle {
    color:#777;
@@ -338,7 +335,7 @@ table.twikiFormTable th.twikiFormTableHRow font {
    border-color:#f00;
 }
 .twikiHelp {
-   background-color:#f5fbfe;
+   background-color:#edf6fe;
    border-color:#e2e2e2;
 }
 .twikiBroadcastMessage b,
@@ -428,7 +425,7 @@ a:hover .twikiAccessKey {
 }
 #patternLeftBarContents b,
 #patternLeftBarContents strong {
-	color:#d1400e;
+	color:#de5433;
 }
 
 .patternTopicActions {
@@ -513,7 +510,7 @@ h4.patternSearchResultsHeader {
    color:#000;
 }
 .patternNoViewPage h4.patternSearchResultsHeader {
-   color:#d1400e;
+   color:#de5433;
 }
 .patternSearchResult .twikiBottomRow {
    border-color:#e2e2e2;
@@ -626,21 +623,21 @@ a.twikiSubmit:link,
 a.twikiSubmit:visited {
    background-position:0px 0px;
    background-color:#06c;
-   border-color:#94cce2 #0e66a2 #0e66a2 #94cce2;
+   border-color:#abcdf0 #0048b8 #0048b8 #abcdf0;
    color:#fff;
 }
 .twikiSubmit:hover,
 a.twikiSubmit:hover {
    background-position:0px -80px;
    background-color:#0047b7;
-   border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
+   border-color:#98bce9 #0031a4 #0031a4 #98bce9;
    color:#fff;
 }
 .twikiSubmit:active,
 a.twikiSubmit:active {
    background-position:0px -160px;
    background-color:#73ace6;
-   border-color:#0e66a2 #94cce2 #94cce2 #0e66a2;
+   border-color:#0031a4 #98bce9 #98bce9 #0031a4;
    color:#fff;
 }
 .twikiSubmitDisabled,
@@ -648,7 +645,7 @@ a.twikiSubmit:active {
 .twikiSubmitDisabled:active {
    background-position:0px -240px;
    background-color:#d9e8f7;
-   border-color:#ccc #ccc #ccc #ccc;
+   border-color:#f5f9fd #ccc #ccc #f5f9fd;
    color:#ccc;
 }
 .twikiButton,
@@ -657,18 +654,35 @@ a.twikiButton:visited {
    background-image:url(bg_button_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px 0px;
-   border-color:#fff #94cce2 #94cce2 #fff;
-   background-color:#cce7f1;
+   border-color:#f8f6ec #b8b6ad #b8b6ad #f8f6ec;
+   background-color:#dbd9cf;
    color:#333;
 }
+.twikiChangeFormButtonHolder .twikiButton {
+   background-color:#fff;
+   background-image:none;
+   color:#06c;
+}
+.twikiChangeFormButtonHolder .twikiButton:hover,
+.twikiChangeFormButtonHolder .twikiButton:active {
+   background-image:url(bg_button_gradient.gif);
+   background-repeat:repeat-x;
+}
 .twikiButton:hover,
+.twikiChangeFormButtonHolder .twikiButton:hover,
+a.twikiButton:hover {
+   background-position:0px -80px;
+   border-color:#f4f2eb #a3a092 #a3a092 #f4f2eb;
+   background-color:#c2bfae;
+   color:#222;
+}
 .twikiButton:active,
-a.twikiButton:hover,
+.twikiChangeFormButtonHolder .twikiButton:active,
 a.twikiButton:active {
    background-position:0px -160px;
-   border-color:#94cce2 #94cce2 #94cce2 #94cce2;
-   background-color:#cce7f1;
-   color:#333;
+   border-color:#a3a092 #f4f2eb #f4f2eb #a3a092;
+   background-color:#e8e5d7;
+   color:#222;
 }
 .twikiButtonDisabled,
 .twikiButtonDisabled:hover,
@@ -676,7 +690,7 @@ a.twikiButton:active {
    background-image:url(bg_button_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px -240px;
-   border-color:#ccc #ccc #ccc #ccc;
+   border-color:#fcfbf9 #e3e2dd #e3e2dd #fcfbf9;
    background-color:#edece6;
    color:#bbb;
 }
@@ -684,52 +698,52 @@ a.twikiButton:active {
    background-image:url(bg_buttoncancel_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px 0px;
-   border-color:#f3ddd7 #ce5232 #ce5232 #f3ddd7;
-   background-color:#dd724d;
-   color:#fff;
+   border-color:#f3ddd7 #b5706a #b5706a #f3ddd7;
+   background-color:#cc867f;
+   color:#333;
 }
 .twikiButtonCancel:hover {
    background-position:0px -80px;
-   border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
-   background-color:#dd724d;
-   color:#fff;
+   border-color:#eacac1 #9f564f #9f564f #eacac1;
+   background-color:#b26259;
+   color:#222;
 }
 .twikiButtonCancel:active {
    background-position:0px -160px;
-   border-color:#ce5232 #f3ddd7 #f3ddd7 #ce5232;
-   background-color:#dd724d;
-   color:#fff;
+   border-color:#9f564f #eacac1 #eacac1 #9f564f;
+   background-color:#e5bdb1;
+   color:#222;
 }
 .patternToolBar span a:link,
 .patternToolBar span a:visited,
 .patternToolBar span s,
 .patternToolBar span strike {
-   background-image:url(bg_button_gradient.gif);
+   background-image:url(bg_button_small_gradient.gif);
    background-repeat:repeat-x;
 }
 .patternToolBar span a:link,
 .patternToolBar span a:visited {
    background-position:0px 0px;
-   border-color:#fff #94cce2 #94cce2 #fff;
-   background-color:#cce7f1;
+   border-color:#f8f6ec #b8b6ad #b8b6ad #f8f6ec;
+   background-color:#dbd9cf;
    color:#333;
 }
 .patternToolBar span a:hover {
    background-position:0px -80px;
-   border-color:#94cce2 #94cce2 #94cce2 #94cce2;
-   background-color:#cce7f1;
+   border-color:#f4f2eb #a3a092 #a3a092 #f4f2eb;
+   background-color:#c2bfae;
    color:#222;
 }
 .patternToolBar span a:active {
    background-position:0px -160px;
-   border-color:#94cce2 #94cce2 #94cce2 #94cce2;
+   border-color:#a3a092 #f4f2eb #f4f2eb #a3a092;
    background-color:#e8e5d7;
    color:#222;
 }
 .patternToolBar span s,
 .patternToolBar span strike {
    background-position:0px -240px;
-   border-color:#eae9e7 #eae9e7 #eae9e7 #eae9e7;
+   border-color:#fcfbf9 #e3e2dd #e3e2dd #fcfbf9;
    background-color:#edece6;
    color:#bbb;
 }

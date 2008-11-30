@@ -4,30 +4,14 @@
 </div><!-- /patternLeftBarContents--></div><!-- /patternLeftBar-->%TMPL:END%
 
 
-
 %TMPL:DEF{"webleftbarindicator"}%<div class="patternWebIndicator">
-   * [[%BASEWEB%.%HOMETOPIC%][<nop>%BASEWEB%]]
+   * [[%BASEWEB%.%HOMETOPIC%][<nop>%BASEWEB% Web]]
 </div>%TMPL:END%
-
 
 
 %TMPL:DEF{"webleftbar"}%%TMPL:P{"webleftbarindicator"}%
 %INCLUDE{"%WEB%.WebLeftBar"}%%TMPL:END%
 
 
-
 %TMPL:DEF{"startleftbarwrapper"}%<div id="patternWrapper">%TMPL:END%
-
-
-
 %TMPL:DEF{"endleftbarwrapper"}%</div><!-- /patternWrapper-->%TMPL:END%
-
-
-
-%TMPL:DEF{"leftbardimensions"}%#patternOuter {
-	margin-left:14em;
-}
-#patternLeftBar {
-	width:14em;
-	margin-left:-14em;
-}%TMPL:END%

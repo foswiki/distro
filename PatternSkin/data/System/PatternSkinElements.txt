@@ -223,6 +223,8 @@ Describe the file so other people know what it is.
 
 <input type=submit" class="twikiSubmit" value="twikiSubmit" />
 
+<input type=submit" class="twikiButtonCancel" value="twikiButtonCancel" />
+
 <input size="30" class="twikiInputField" />
 
 <textarea class="twikiInputField" size="30" rows="4"></textarea>
