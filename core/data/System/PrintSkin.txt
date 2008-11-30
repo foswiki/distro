@@ -23,7 +23,7 @@ This skin is part of every distribution.
 
 __Note:__ The Description, Screenshot and Base Name rows are needed by the %SYSTEMWEB%.SkinBrowser
 
-__Related topic:__ [[%SYSTEMWEB.Skins][Skins]], %SYSTEMWEB%.SkinBrowser, %SYSTEMWEB%.UserDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory
+__Related topic:__ [[%SYSTEMWEB%.Skins][Skins]], %SYSTEMWEB%.SkinBrowser, %SYSTEMWEB%.UserDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory
 
 
 %META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" date="1090916727" path="C:\Data\Temp\screenshot.gif" size="4040" user="ProjectContributor" version="1.1"}%

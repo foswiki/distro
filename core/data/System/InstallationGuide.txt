@@ -81,7 +81,7 @@ The Foswiki:Support.ApacheConfigGenerator as well as the example =twiki_httpd_co
 
 ---++ Next Steps
 
-Once you have Foswiki installed and running, you might consider the following optional steps for setting up and customizing your Foswiki site. Many of the references below refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB.Skins][Skins]]= refers to the =Skins= topic in your Foswiki web. Easy way to jump directly to view the pages is to open your own Foswiki in your browser and write =[[%SYSTEMWEB.Skins]]= in the Jump test box to the right in the top bar and hit Enter. You can find these topics in the on-line reference copy at the official Foswiki website: [[Foswiki:System.WebHome][System web at Foswiki]]
+Once you have Foswiki installed and running, you might consider the following optional steps for setting up and customizing your Foswiki site. Many of the references below refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins][Skins]]= refers to the =Skins= topic in your Foswiki web. Easy way to jump directly to view the pages is to open your own Foswiki in your browser and write =[[%SYSTEMWEB%.Skins]]= in the Jump test box to the right in the top bar and hit Enter. You can find these topics in the on-line reference copy at the official Foswiki website: [[Foswiki:System.WebHome][System web at Foswiki]]
 
 #AuthenticationOfUsers
 ---++ Enable Authentication of Users
