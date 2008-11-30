@@ -1,6 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,13 +19,13 @@
 #
 # =========================
 #
-# This is part of TWiki's Spreadsheet Plugin.
+# This is part of Foswiki's Spreadsheet Plugin.
 #
 # The code below is kept out of the main plugin module for
 # performance reasons, so it doesn't get compiled until it
 # is actually used.
 
-package TWiki::Plugins::SpreadSheetPlugin::Calc;
+package Foswiki::Plugins::SpreadSheetPlugin::Calc;
 
 use strict;
 use Time::Local;
@@ -57,7 +58,7 @@ sub init
     $dontSpaceRE = "";
 
     # Module initialized
-    TWiki::Func::writeDebug( "- TWiki::Plugins::SpreadSheetPlugin::Calc::init( $web.$topic )" ) if $debug;
+    Foswiki::Func::writeDebug( "- Foswiki::Plugins::SpreadSheetPlugin::Calc::init( $web.$topic )" ) if $debug;
     return 1;
 }
 
@@ -66,7 +67,7 @@ sub CALC
 {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
 
-    TWiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::CALC( $_[2].$_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::CALC( $_[2].$_[1] )" ) if $debug;
 
     @tableMatrix = ();
     $cPos = -1;
@@ -132,7 +133,7 @@ sub CALC
 sub doCalc
 {
     my( $theAttributes ) = @_;
-    my $text = &TWiki::Func::extractNameValuePair( $theAttributes );
+    my $text = &Foswiki::Func::extractNameValuePair( $theAttributes );
 
     # Add nesting level to parenthesis,
     # e.g. "A(B())" gets "A-esc-1(B-esc-2(-esc-2)-esc-1)"
@@ -170,7 +171,7 @@ sub doFunc
     my( $theFunc, $theAttr ) = @_;
 
     $theAttr = "" unless( defined $theAttr );
-    TWiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) start" ) if $debug;
+    Foswiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) start" ) if $debug;
 
     unless( $theFunc =~ /^(IF|LISTIF|LISTMAP|NOEXEC)$/ ) {
         # Handle functions recursively
@@ -961,11 +962,11 @@ sub doFunc
         $result = $theAttr;
 
     } elsif ( $theFunc eq "EXISTS" ) {
-        $result = TWiki::Func::topicExists( $web, $theAttr );
+        $result = Foswiki::Func::topicExists( $web, $theAttr );
         $result = 0 unless( $result );
     }
 
-    TWiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) returns: $result" ) if $debug;
+    Foswiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::doFunc: $theFunc( $theAttr ) returns: $result" ) if $debug;
     return $result;
 }
 
@@ -1029,7 +1030,7 @@ sub safeEvalPerl
     $theText =~ /(.*)/;
     $theText = $1;  # untainted variable
     return "" unless( $theText );
-    local $SIG{__DIE__} = sub { TWiki::Func::writeDebug($_[0]); warn $_[0] };
+    local $SIG{__DIE__} = sub { Foswiki::Func::writeDebug($_[0]); warn $_[0] };
     my $result = eval $theText;
     if( $@ ) {
         $result = $@;
@@ -1139,7 +1140,7 @@ sub getTableRange
         return @arr;
     }
 
-    TWiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::getTableRange( $theAttr )" ) if $debug;
+    Foswiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::getTableRange( $theAttr )" ) if $debug;
     unless( $theAttr =~ /\s*R([0-9]+)\:C([0-9]+)\s*\.\.+\s*R([0-9]+)\:C([0-9]+)/ ) {
         return @arr;
     }
@@ -1167,7 +1168,7 @@ sub getTableRange
             }
         }
     }
-    TWiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::getTableRange() returns @arr" ) if $debug;
+    Foswiki::Func::writeDebug( "- SpreadSheetPlugin::Calc::getTableRange() returns @arr" ) if $debug;
     return @arr;
 }
 
@@ -1248,8 +1249,8 @@ sub _properSpace
     # FIXME: I18N
 
     unless( $dontSpaceRE ) {
-        $dontSpaceRE = &TWiki::Func::getPreferencesValue( "DONTSPACE" ) ||
-                       &TWiki::Func::getPreferencesValue( "SPREADSHEETPLUGIN_DONTSPACE" ) ||
+        $dontSpaceRE = &Foswiki::Func::getPreferencesValue( "DONTSPACE" ) ||
+                       &Foswiki::Func::getPreferencesValue( "SPREADSHEETPLUGIN_DONTSPACE" ) ||
                        "UnlikelyGibberishWikiWord";
         $dontSpaceRE =~ s/[^a-zA-Z0-9\,\s]//go;
         $dontSpaceRE = "(" . join( "|", split( /[\,\s]+/, $dontSpaceRE ) ) . ")";

@@ -79,7 +79,7 @@ sub setup_new_session() {
     $query->path_info("/Main/WebHome");
     $ENV{SCRIPT_NAME} = "view";
 
-    # close this TWiki session - its using the wrong mapper and login
+    # close this Foswiki session - its using the wrong mapper and login
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( undef, $query );
 }

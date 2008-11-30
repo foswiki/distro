@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="PeterThoeny" date="1192240197" format="1.0" version="1.56"}%
----+!! TWiki Spreadsheet Plugin
+---+!! Foswiki Spreadsheet Plugin
 
 This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae like ==%<nop>CALC{"$INT(7/3)"}%== are evaluated at page view time. They can be placed in table cells and outside of tables. In other words, this Plugin provides general formula evaluation capability, not just classic spreadsheet functions.
 
@@ -685,7 +685,7 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SPREADSHEETPLUGIN_SHORTDESCRIPTION%==
 
 	* One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
-		* Set SHORTDESCRIPTION = Add spreadsheet calculation like ="$SUM( $ABOVE() )"= to TWiki tables and other topic text
+		* Set SHORTDESCRIPTION = Add spreadsheet calculation like ="$SUM( $ABOVE() )"= to Foswiki tables and other topic text
 
 	* Debug plugin: (See output in =data/debug.txt=)
 		* Set DEBUG = 0
@@ -701,7 +701,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. Below installation instructions are for the administrator who needs to install this plugin on the TWiki server. 
+__Note:__ You do not need to install anything on the browser to use this plugin. Below installation instructions are for the administrator who needs to install this plugin on the Foswiki server. 
 
 	* Download the ZIP file from the <nop>%TOPIC% home
 	* Unzip ==SpreadSheetPlugin.zip== in your twiki installation directory. Content:
@@ -709,13 +709,13 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 	  | ==data/System/%TOPIC%.txt== | Plugin topic |
 	  | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
 	  | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-	* TWiki 4 and up: Visit =configure= in your TWiki installation, and enable the Plugin in the {Plugins} section.
+	* Visit =configure= in your Foswiki installation, and enable the Plugin in the {Plugins} section.
 	* Test if the "Total" in the first table in this topic is correct.
 
 ---++ Plugin Info
 
 |  Plugin Author: | TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Peter Thoeny, [[http://www.twiki.net/][TWIKI.NET]] |
+|  Copyright: | &copy; 2001-2007, Peter Thoeny, [[http://www.twiki.net/][TWIKI.NET]]; &copy; 2008 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 13 Oct 2007 (15270) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
@@ -726,15 +726,15 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  11 Mar 2007: | Fixing bug in $VALUE() and $INT(), introduced by version 09 Mar 2007 |
 |  09 Mar 2007: | Added $EXP(), $LN(), $LOG(), $PI(), $SQRT(); fixed $ROUND() bug, contributed by TWiki:Main/SergejZnamenskij |
 |  23 Jan 2007: | Enhanced documentation |
-|  18 Dec 2006: | Added $LISTRAND(), $LISTSHUFFLE(), $LISTTRUNCATE(); fixed spurious newline at end of topic, contributed by TWiki:Main/MichaelDaum |
+|  18 Dec 2006: | Added $LISTRAND(), $LISTSHUFFLE(), $LISTTRUNCATE(); fixed spurious newline at end of topic, contributed by Foswiki:Main/MichaelDaum |
 |  10 Oct 2006: | Enhanced documentation |
 |  13 May 2006: | Added $SETIFEMPTY(); fixes in documentation |
 |  17 Jun 2005: | Added $NOEXEC(), $EXEC() |
-|  25 Mar 2005: | Fixed evaluation bug when using <nop>SpeedyCGI accelerator; code refactor to load module only when needed, contributed by TWiki:Main/CrawfordCurrie |
+|  25 Mar 2005: | Fixed evaluation bug when using <nop>SpeedyCGI accelerator; code refactor to load module only when needed, contributed by Foswiki:Main/CrawfordCurrie |
 |  24 Oct 2004: | Added $EXISTS(), contributed by TWiki:Main/RodrigoChandia; added $PERCENTILE() |
 |  18 Oct 2004: | Added $LISTJOIN() |
-|  26 Sep 2004: | Added $FORMAT(KB), $FORMAT(MB), contributed by TWiki:Main/ArthurClemens; added $FORMAT(KBMB), $EVEN(), $ODD() |
-|  17 Jul 2004: | Added $WORKINGDAYS(), contributed by TWiki:Main/CrawfordCurrie |
+|  26 Sep 2004: | Added $FORMAT(KB), $FORMAT(MB), contributed by Foswiki:Main/ArthurClemens; added $FORMAT(KBMB), $EVEN(), $ODD() |
+|  17 Jul 2004: | Added $WORKINGDAYS(), contributed by Foswiki:Main/CrawfordCurrie |
 |  24 May 2004: | Refactored documentation (no code changes) |
 |  03 Apr 2004: | Added $ABS(), $LISTIF(); fixed $VALUE() to remove leading zeros; changed $FIND() and $SEARCH() to return 0 instead of empty string if no match |
 |  21 Mar 2004: | Added $LISTITEM(); fixed call to unofficial function |
@@ -742,7 +742,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  08 Mar 2004: | Added $LIST() |
 |  06 Mar 2004: | Added $AND(), $MOD(), $NOT(), $OR(), $PRODUCT(), $PROPER(), $PROPERSPACE(), $RAND(), $REPEAT(), $SIGN(), $VALUE(); added digits parameter to $ROUND(); renamed $MULT() to $PRODUCT(); $MULT() is deprecated and undocumented |
 |  27 Feb 2004: | Added $COUNTUNIQUE() |
-|  24 Oct 2003: | Added $SET(), $GET(), $MEDIAN(); added $SUMPRODUCT(), inspired by TWiki:Main/RobertWithrow; added $SUMDAYS(), contributed by TWiki:Main/SvenDowideit |
+|  24 Oct 2003: | Added $SET(), $GET(), $MEDIAN(); added $SUMPRODUCT(), inspired by TWiki:Main/RobertWithrow; added $SUMDAYS(), contributed by Foswiki:Main/SvenDowideit |
 |  21 Oct 2003: | Added support for lists =(1, 2, 3)= and lists of table ranges =(R1:C1..R1:C5, R3:C1..R3:C5)= for all functions that accept a table range; added $TIMEADD(); in $TIMEDIFF() added week unit; in $FORMATTIME() changed $weekday to $wd and added $wday and $weekday |
 |  14 Oct 2003: | Added $TIME(), $TODAY(), $FORMATTIME(), $FORMATGMTIME(), $TIMEDIFF() |
 |  13 Oct 2003: | Added $MULT(), contributed by TWiki:Main/GerritJanBaarda |
