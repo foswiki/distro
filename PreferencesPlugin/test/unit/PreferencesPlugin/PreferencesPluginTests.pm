@@ -98,6 +98,7 @@ sub test_save {
 HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic},
                             undef, $input );
+    $query->method('GET');
 
     my $twiki = new Foswiki(undef, $query);
     $Foswiki::Plugins::SESSION = $twiki;
@@ -105,10 +106,13 @@ HERE
     # This will attempt to redirect, so must capture
     my ($result, $ecode) = $this->capture(
         sub {
-            $twiki->{response}->body(
+            $twiki->{response}->print(
                 Foswiki::Func::expandCommonVariables(
                 $input, $this->{test_topic}, $this->{test_web}, undef)
             );
+            $Foswiki::engine->finalize(
+                $twiki->{response},
+                $twiki->{request});
         });
     $this->assert($result =~ /Status: 302/);
     my $viewUrl = Foswiki::Func::getScriptUrl(

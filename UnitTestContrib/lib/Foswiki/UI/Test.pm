@@ -13,7 +13,7 @@ sub test {
             -type    => 'text/plain',
             -charset => 'utf8',
         );
-        $session->{response}->body( freeze( $session->{request} ) );
+        $session->{response}->print( freeze( $session->{request} ) );
     }
 }
 

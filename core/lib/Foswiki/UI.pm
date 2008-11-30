@@ -98,7 +98,7 @@ sub handleRequest {
               . $req->uri
               . " was not found on this server." );
         $html .= CGI::end_html();
-        $res->body($html);
+        $res->print($html);
         return $res;
     }
     my ( $package, $function, $context ) = @$dispatcher;
@@ -202,7 +202,7 @@ sub execute {
             if (DEBUG) {
 
                 # output the full message and stacktrace to the browser
-                $res->body( $e->stringify() );
+                $res->print( $e->stringify() );
             }
             else {
                 my $mess = $e->stringify();
@@ -218,7 +218,7 @@ sub execute {
                 # cut out pathnames from public announcement
                 $mess =~ s#/[\w./]+#path#g;
                 $text .= $mess;
-                $res->body($text);
+                $res->print($text);
             }
         }
         catch Foswiki::EngineException with {
@@ -231,7 +231,7 @@ sub execute {
                 $html .= CGI::h1('Bad Request');
                 $html .= CGI::p( $e->{reason} );
                 $html .= CGI::end_html();
-                $res->body($html);
+                $res->print($html);
             }
             $Foswiki::engine->finalizeError($res);
             return $e->{status};
@@ -239,7 +239,7 @@ sub execute {
         otherwise {
             $res = new Foswiki::Response;
             $res->header( -type => 'text/plain' );
-            $res->body("Unspecified error");
+            $res->print("Unspecified error");
         };
     }
 

@@ -120,7 +120,7 @@ sub viewfile {
             try {
                 Foswiki::UI::View::viewfile( $twiki);
             } catch Error with {
-                $twiki->{response}->body(shift->stringify());
+                $twiki->{response}->print(shift->stringify());
             }
             $Foswiki::engine->finalize(
                 $twiki->{response},

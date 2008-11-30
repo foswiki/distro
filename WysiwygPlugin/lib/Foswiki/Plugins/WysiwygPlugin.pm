@@ -646,7 +646,7 @@ sub returnRESTResult {
             -status => $status,
             -type => 'text/plain',
             -charset => 'UTF-8');
-        $response->body($text);
+        $response->print($text);
     } else { # Pre-TWiki-5.
         # Turn off AUTOFLUSH
         # See http://perl.apache.org/docs/2.0/user/coding/coding.html

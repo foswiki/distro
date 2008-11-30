@@ -32,7 +32,7 @@ sub rest {
                 -type   => 'text/html',
                 -status => '400'
             );
-            $res->body( "ERROR: (400) Invalid REST invocation"
+            $res->print( "ERROR: (400) Invalid REST invocation"
                   . " - Invalid topic - no web specified\n" );
             throw Foswiki::EngineException( 400,
                 'ERROR: (400) Invalid REST invocation', $res );
@@ -53,7 +53,7 @@ sub rest {
                 -type   => 'text/html',
                 -status => '401'
             );
-            $res->body("ERROR: (401) Can't login as $login");
+            $res->print("ERROR: (401) Can't login as $login");
             throw Foswiki::EngineException( 401,
                 "ERROR: (401) Can't login as $login", $res );
         }
@@ -76,7 +76,7 @@ sub rest {
             -type   => 'text/html',
             -status => '401'
         );
-        $res->body("ERROR: (401) $e");
+        $res->print("ERROR: (401) $e");
         throw Foswiki::EngineException( 401, "ERROR: (401) $e", $res );
     };
 
@@ -91,7 +91,7 @@ sub rest {
             -type   => 'text/html',
             -status => '400'
         );
-        $res->body("ERROR: (400) Invalid REST invocation");
+        $res->print("ERROR: (400) Invalid REST invocation");
         throw Foswiki::EngineException( 401,
             "ERROR: (400) Invalid REST invocation", $res );
     }
@@ -103,7 +103,7 @@ sub rest {
             -type   => 'text/html',
             -status => '404'
         );
-        $res->body("ERROR: (404) Invalid REST invocation ($subject)");
+        $res->print("ERROR: (404) Invalid REST invocation ($subject)");
         throw Foswiki::EngineException( 401,
             "ERROR: (400) Invalid REST invocation ($subject)", $res );
     }
@@ -115,7 +115,7 @@ sub rest {
             -type   => 'text/html',
             -status => '404'
         );
-        $res->body("ERROR: (404) Invalid REST invocation ($verb on $subject)");
+        $res->print("ERROR: (404) Invalid REST invocation ($verb on $subject)");
         throw Foswiki::EngineException( 401,
             "ERROR: (400) Invalid REST invocation ($verb on $subject)", $res );
     }

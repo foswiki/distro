@@ -60,7 +60,7 @@ sub statistics {
 
         # running from CGI
         $session->generateHTTPHeaders();
-        $session->{response}->body(
+        $session->{response}->print(
             CGI::start_html( -title => 'Foswiki: Create Usage Statistics' ) );
     }
 
@@ -178,7 +178,7 @@ sub statistics {
         );
     }
     _printMsg( $session, 'End creating usage statistics' );
-    $session->{response}->body( $session->{response}->body . CGI::end_html() )
+    $session->{response}->print( CGI::end_html() )
       unless ( $session->inContext('command_line') );
 }
 
@@ -529,9 +529,7 @@ sub _printMsg {
         $msg =~
           s/==([A-Z]*)==/'=='.CGI::span( { class=>'twikiAlert' }, $1 ).'=='/ge;
     }
-    $session->{response}
-      ->body( ( $session->{response}->body || '' ) . $msg . "\n" )
-      if $msg;
+    $session->{response}->print( $msg . "\n" ) if $msg;
 }
 
 1;

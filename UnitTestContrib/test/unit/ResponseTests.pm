@@ -146,7 +146,7 @@ sub test_body {
     for ( my $i = 0 ; $i < $length ; $i++ ) {
         $body .= chr( int( rand(256) ) );
     }
-    $res->body($body);
+    $res->print($body);
     $this->assert_str_equals( $body, $res->body, 'Wrong returned body' );
     $this->assert_num_equals(
         $length,

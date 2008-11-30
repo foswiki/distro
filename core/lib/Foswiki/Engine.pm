@@ -94,7 +94,7 @@ sub prepare {
             $html .= CGI::h1('Bad Request');
             $html .= CGI::p( $e->{reason} );
             $html .= CGI::end_html();
-            $res->body($html);
+            $res->print($html);
         }
         $this->finalizeError($res);
         return $e->{status};
@@ -106,7 +106,7 @@ sub prepare {
         if (DEBUG) {
 
             # output the full message and stacktrace to the browser
-            $res->body( $e->stringify() );
+            $res->print( $e->stringify() );
         }
         else {
             my $mess = $e->stringify();
@@ -121,7 +121,7 @@ sub prepare {
             # cut out pathnames from public announcement
             $mess =~ s#/[\w./]+#path#g;
             $text .= $mess;
-            $res->body($text);
+            $res->print($text);
         }
         $this->finalizeError($res);
         return 500;    # Internal server error
@@ -321,7 +321,7 @@ sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
     $this->finalizeCookies($res);
     if ( $req && $req->method() eq 'HEAD' ) {
-        $res->body('');
+        $res->print('');
         $res->deleteHeader('Content-Length');
     }
 }

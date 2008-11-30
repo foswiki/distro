@@ -85,6 +85,7 @@ sub save_test {
     });
     $query->path_info("/$this->{test_web}/WysiwygPluginTest" );
     $query->param(text => $t);
+    $query->method('GET');
 
     $Foswiki::Plugins::SESSION = new Foswiki('guest', $query );
 	# charset definition affects output, so it is a response method and
@@ -93,7 +94,14 @@ sub save_test {
 
     require Foswiki::UI::Save;
     my ($dummy, $result) =
-      $this->capture( \&Foswiki::UI::Save::save, $Foswiki::Plugins::SESSION);
+      $this->capture(
+          sub {
+              my $ok = Foswiki::UI::Save::save($Foswiki::Plugins::SESSION);
+              $Foswiki::engine->finalize(
+                  $Foswiki::Plugins::SESSION->{response},
+                  $Foswiki::Plugins::SESSION->{request});
+              return $ok;
+          });
 
     $this->assert(!$result, $result);
     my ($meta, $out) = Foswiki::Func::readTopic(
@@ -120,13 +128,20 @@ sub TML2HTML_test {
         # REST parameters are always UTF8 encoded
         'text' => [ Encode::encode_utf8($text) ],
     });
+    $query->method('GET');
 
     my $foswiki = new Foswiki('guest', $query );
 	$foswiki->{response}->charset($charset) if $charset;
 
     my ($out, $result) = $this->capture(
-        \&Foswiki::Plugins::WysiwygPlugin::_restTML2HTML,
-        $foswiki, undef, undef, $foswiki->{response});
+        sub {
+            my $ok = Foswiki::Plugins::WysiwygPlugin::_restTML2HTML(
+                $foswiki, undef, undef, $foswiki->{response});
+            $Foswiki::engine->finalize(
+                $foswiki->{response},
+                $foswiki->{request});
+            return $ok;
+        });
 
     $this->assert(!$result, $result);
     # Strip ASCII header
@@ -161,13 +176,19 @@ sub HTML2TML_test {
         # REST parameters are always UTF8 encoded
         'text' => [ Encode::encode_utf8($text) ],
     });
-
+    $query->method('GET');
     my $foswiki = new Foswiki('guest', $query );
 	$foswiki->{response}->charset($charset) if $charset;
 
     my ($out, $result) = $this->capture(
-        \&Foswiki::Plugins::WysiwygPlugin::_restHTML2TML,
-        $foswiki, undef, undef, $foswiki->{response});
+        sub {
+            my $ok = Foswiki::Plugins::WysiwygPlugin::_restHTML2TML(
+              $foswiki, undef, undef, $foswiki->{response});
+            $Foswiki::engine->finalize(
+                $foswiki->{response},
+                $foswiki->{request});
+            return $ok;
+        });
 
     $this->assert(!$result, $result);
     # Strip ASCII header
@@ -182,7 +203,8 @@ sub HTML2TML_test {
 
     $out =~ s/\s*$//s;
 
-    $this->assert($text eq $out, "'".anal($out)."' !=\n'".anal($text)."'");
+    $this->assert_str_equals($text, $out,
+                             "'".anal($out)."' !=\n'".anal($text)."'");
 }
 
 # tests for various charsets

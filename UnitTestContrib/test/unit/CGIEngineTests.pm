@@ -43,7 +43,7 @@ sub test_bli {
     %ENV = cgi_env;
     my $res = new Foswiki::Response();
     $res->header(-type => 'text/plain', charset => 'iso8859-1');
-    $res->body("Teste!\n");
+    $res->print("Teste!\n");
     $ENV{QUERY_STRING} = 'desired_test_response='.Foswiki::urlEncode(freeze($res));
     my $out = '';
     open my $stdout, '>&', \*STDOUT;

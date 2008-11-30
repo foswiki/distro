@@ -85,7 +85,7 @@ sub preparePath {
         $html .= CGI::h1('Internal Server Error');
         $html .= CGI::p($reason);
         $html .= CGI::end_html();
-        $res->body($html);
+        $res->print($html);
         throw Foswiki::EngineException( 500, $reason, $res );
     }
     my $cgiScriptPath = $ENV{SCRIPT_NAME};

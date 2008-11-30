@@ -348,6 +348,7 @@ EXPECTED
         }
     );
     $query->path_info("/$webName/$topicName");
+    $query->method('GET');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
@@ -358,8 +359,11 @@ EXPECTED
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(Foswiki::Func::expandCommonVariables( $input,
+            $response->print(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
+            $Foswiki::engine->finalize(
+                $twiki->{response},
+                $twiki->{request});
         }
     );
     $this->assert( $saveResult =~ /Status: 302/ );
@@ -661,7 +665,7 @@ INPUT
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body( Foswiki::Func::expandCommonVariables( $input,
+            $response->print( Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -728,7 +732,7 @@ INPUT
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body( Foswiki::Func::expandCommonVariables( $input,
+            $response->print( Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -793,7 +797,7 @@ INPUT
     $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(Foswiki::Func::expandCommonVariables( $input,
+            $response->print(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -852,7 +856,7 @@ INPUT
     $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(Foswiki::Func::expandCommonVariables( $input,
+            $response->print(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -913,7 +917,7 @@ INPUT
     $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(Foswiki::Func::expandCommonVariables( $input,
+            $response->print(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -1007,7 +1011,7 @@ INPUT
     $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(Foswiki::Func::expandCommonVariables( $input,
+            $response->print(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -1061,7 +1065,7 @@ INPUT
     $Foswiki::Plugins::SESSION = $twiki;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body(Foswiki::Func::expandCommonVariables( $input,
+            $response->print(Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );
@@ -1202,7 +1206,7 @@ INPUT
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
-            $response->body( Foswiki::Func::expandCommonVariables( $input,
+            $response->print( Foswiki::Func::expandCommonVariables( $input,
                 $this->{test_topic}, $this->{test_web}, undef ) );
         }
     );

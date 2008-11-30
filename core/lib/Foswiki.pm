@@ -647,7 +647,7 @@ sub writeCompletePage {
     # Call final handler
     $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
 
-    $this->{response}->body($text);
+    $this->{response}->print($text);
 }
 
 =begin TML

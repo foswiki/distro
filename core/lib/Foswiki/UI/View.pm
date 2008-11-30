@@ -494,7 +494,7 @@ sub viewfile {
 
     $session->{response}
       ->header( -type => $type, qq(Content-Disposition="$dispo") );
-    $session->{response}->body($fileContent);
+    $session->{response}->print($fileContent);
 }
 
 sub _suffixToMimeType {

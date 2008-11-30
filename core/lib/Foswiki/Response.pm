@@ -27,6 +27,14 @@ Constructs a Foswiki::Response object.
 
 =cut
 
+# NOTE: CHECK_ORDER is used to indicate when the body assembly has started.
+# By associating an assert with this action we can ensure that headers are
+# fully assembled before the body print starts - an essential precondition
+# for early flushing of output.
+sub CHECK_ORDER {
+    ASSERT(!$_[0]->{startedPrinting}) if DEBUG;
+}
+
 sub new {
     my $proto = shift;
     my $class = ref($proto) || $proto;
@@ -36,6 +44,7 @@ sub new {
         body    => undef,
         charset => 'ISO-8859-1',
         cookies => [],
+        startedPrinting => 0,
     };
     return bless $this, $class;
 }
@@ -52,6 +61,7 @@ Gets/Sets response status.
 sub status {
     my ( $this, $status ) = @_;
     if ($status) {
+        CHECK_ORDER() if DEBUG;
         $this->{status} = $status =~ /^\d{3}/ ? $status : undef;
     }
     return $this->{status};
@@ -88,6 +98,8 @@ Doesn't support -nph, -target and -p3p.
 sub header {
     my ( $this, @p ) = @_;
     my (@header);
+
+    CHECK_ORDER;
 
     # Ugly hack to avoid html escape in CGI::Util::rearrange
     local $CGI::Q = { escape => 0 };
@@ -169,6 +181,7 @@ are scalars for single-valued headers or arrayref for multivalued ones.
 sub headers {
     my ( $this, $hdr ) = @_;
     if ($hdr) {
+        CHECK_ORDER;
         my %headers = ();
         while ( my ( $key, $value ) = each %$hdr ) {
             $key =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
@@ -207,6 +220,9 @@ Deletes headers whose names are passed.
 
 sub deleteHeader {
     my $this = shift;
+
+    CHECK_ORDER;
+
     foreach (@_) {
         ( my $hdr = $_ ) =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
         delete $this->{headers}->{$hdr};
@@ -223,6 +239,8 @@ Adds $value to list of values associated with header $name.
 
 sub pushHeader {
     my ( $this, $hdr, $value ) = @_;
+
+    CHECK_ORDER;
 
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
     my $cur = $this->{headers}->{$hdr};
@@ -257,7 +275,8 @@ sub cookies {
 
 ---++ ObjectMethod body( [ $body ] ) -> $body
 
-Gets/Sets response body.
+Gets/Sets response body. Note: do not use this method for output, use
+=print= instead. 
 
 =cut
 
@@ -305,19 +324,17 @@ sub redirect {
 
 =begin TML
 
----++ ObjectMethod appendToBody(...)
+---++ ObjectMethod print(...)
 
-Append join(' ',@_) to the end of the output. The output may be flushed
-immediately (e.g. in the case of a chunked response) or may be cached
-and written later.
+Add content to the end of the body. The print may not be flushed until the
+body is complete.
 
 =cut
 
-# Apache2::RequestRec calls this "print"
-sub appendToBody {
+sub print {
     my $this = shift;
-
-    $this->body( $this->body().join(' ', @_));
+    $this->{startedPrinting} = 1;
+    $this->body( ($this->{body} || '').join('', @_));
 }
 
 1;
