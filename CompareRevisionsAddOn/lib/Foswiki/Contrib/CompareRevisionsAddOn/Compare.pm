@@ -6,7 +6,7 @@
 # the differences broken down to the word-by-word level if necessary.
 # The output can be formatted by templates and skins.
 #
-# See the documentation in TWiki/CompareRevisionsAddOn
+# See the documentation in Foswiki/CompareRevisionsAddOn
 #
 # History:
 #
@@ -17,16 +17,16 @@
 # 14 Sep 2005 - JChristophFuchs - Fix for Codev.SecurityAlertExecuteCommandsWithRev
 # 26 Feb 2006 - JChristophFuchs - Updated for Dakar
 ########################################################################
-package TWiki::Contrib::CompareRevisionsAddOn::Compare;
+package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 
 use strict;
 
 use CGI::Carp qw(fatalsToBrowser);
 use CGI;
 
-use TWiki::UI;
-use TWiki::Func;
-use TWiki::Plugins;
+use Foswiki::UI;
+use Foswiki::Func;
+use Foswiki::Plugins;
 
 use HTML::TreeBuilder;
 use Algorithm::Diff;
@@ -44,36 +44,36 @@ my $scripturl;
 sub compare {
     my $session = shift;
 
-    $TWiki::Plugins::SESSION = $session;
+    $Foswiki::Plugins::SESSION = $session;
 
     my $query   = $session->{cgiQuery};
     my $webName = $session->{webName};
     my $topic   = $session->{topicName};
 
-    unless ( TWiki::Func::topicExists( $webName, $topic ) ) {
-        TWiki::Func::redirectCgiQuery( $query,
-            TWiki::Func::getOopsUrl( $webName, $topic, 'oopsmissing' ) );
+    unless ( Foswiki::Func::topicExists( $webName, $topic ) ) {
+        Foswiki::Func::redirectCgiQuery( $query,
+            Foswiki::Func::getOopsUrl( $webName, $topic, 'oopsmissing' ) );
     }
 
-    $scripturl = TWiki::Func::getScriptUrl( $webName, $topic, 'compare' );
+    $scripturl = Foswiki::Func::getScriptUrl( $webName, $topic, 'compare' );
 
     # Check, if interweave or sidebyside
 
     my $renderStyle = $query->param('render')
-      || &TWiki::Func::getPreferencesValue( "COMPARERENDERSTYLE", $webName )
+      || &Foswiki::Func::getPreferencesValue( "COMPARERENDERSTYLE", $webName )
       || 'interweave';
     $interweave = $renderStyle eq 'interweave';
 
     # Check context
 
     $context = $query->param('context');
-    $context = &TWiki::Func::getPreferencesValue( "COMPARECONTEXT", $webName )
+    $context = &Foswiki::Func::getPreferencesValue( "COMPARECONTEXT", $webName )
       unless defined($context);
     $context = -1 unless defined($context) && $context =~ /^\d+$/;
 
     # Get Revisions. rev2 default to maxrev, rev1 to rev2-1
 
-    my $maxrev = ( TWiki::Func::getRevisionInfo( $webName, $topic ) )[2];
+    my $maxrev = ( Foswiki::Func::getRevisionInfo( $webName, $topic ) )[2];
     my $rev2 = $query->param('rev2') || $maxrev;
     $rev2 =~ s/^1\.// if $rev2;
 
@@ -101,11 +101,11 @@ sub compare {
 
     my $tree2 = _getTree( $session, $webName, $topic, $rev2 );
     if ( $tree2 =~ /^http:.*oops/ ) {
-        TWiki::Func::redirectCgiQuery( $query, $tree2 );
+        Foswiki::Func::redirectCgiQuery( $query, $tree2 );
     }
     my $tree1 = _getTree( $session, $webName, $topic, $rev1 );
     if ( $tree1 =~ /^http:.*oops/ ) {
-        TWiki::Func::redirectCgiQuery( $query, $tree1 );
+        Foswiki::Func::redirectCgiQuery( $query, $tree1 );
     }
 
     # Reset the skin
@@ -127,16 +127,16 @@ sub compare {
     # get and process templates
 
     my $tmpl =
-      TWiki::Func::readTemplate( $interweave ? 'compareinterweave' : 'comparesidebyside' );
+      Foswiki::Func::readTemplate( $interweave ? 'compareinterweave' : 'comparesidebyside' );
 
     $tmpl =~ s/\%META{.*?\}\%\s*//g;    # Meta data already processed
                                         # in _getTree
-    $tmpl = TWiki::Func::expandCommonVariables( $tmpl, $topic, $webName );
+    $tmpl = Foswiki::Func::expandCommonVariables( $tmpl, $topic, $webName );
     $tmpl =~ s/%REVTITLE1%/$revtitle1/g;
     $tmpl =~ s/%REVTITLE2%/$revtitle2/g;
     $tmpl =~ s/%REVINFO1%/$revinfo1/g;
     $tmpl =~ s/%REVINFO2%/$revinfo2/g;
-    $tmpl = TWiki::Func::renderText( $tmpl, $webName );
+    $tmpl = Foswiki::Func::renderText( $tmpl, $webName );
 	$tmpl =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois
       ;
 
@@ -249,8 +249,8 @@ sub compare {
 
         last
           if $i == 1
-              || (   $TWiki::cfg{NumberOfRevisions} > 0
-                  && $i == $maxrev - $TWiki::cfg{NumberOfRevisions} + 1 );
+              || (   $Foswiki::cfg{NumberOfRevisions} > 0
+                  && $i == $maxrev - $Foswiki::cfg{NumberOfRevisions} + 1 );
         if ( $i == $rev2 && $i - 1 == $rev1 ) {
             $revisions .= "  &lt;";
         }
@@ -279,8 +279,8 @@ sub compare {
     $tmpl_after =~ s/%REVINFO2%/$revinfo2/go;
 
     $tmpl_after =
-      TWiki::Func::expandCommonVariables( $tmpl_after, $topic, $webName );
-    $tmpl_after = TWiki::Func::renderText( $tmpl_after, $webName );
+      Foswiki::Func::expandCommonVariables( $tmpl_after, $topic, $webName );
+    $tmpl_after = Foswiki::Func::renderText( $tmpl_after, $webName );
     $tmpl_after =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois
       ;    # remove <nop> and <noautolink> tags
 
@@ -297,13 +297,13 @@ sub _getTree {
 
     # Read document
 
-    my ( $meta, $text ) = TWiki::Func::readTopic( $webName, $topicName, $rev );
+    my ( $meta, $text ) = Foswiki::Func::readTopic( $webName, $topicName, $rev );
     $text .= "\n" . '%META{"form"}%';
     $text .= "\n" . '%META{"attachments"}%';
 
     $session->enterContext( 'can_render_meta', $meta );
-    $text = TWiki::Func::expandCommonVariables( $text, $topicName, $webName );
-    $text = TWiki::Func::renderText( $text, $webName );
+    $text = Foswiki::Func::expandCommonVariables( $text, $topicName, $webName );
+    $text = Foswiki::Func::renderText( $text, $webName );
 
     $text =~ s/^\s*//;
     $text =~ s/\s*$//;
@@ -547,12 +547,12 @@ sub _getTextFromAction {
 sub getRevInfo {
     my ( $web, $rev, $topic, $short ) = @_;
 
-    my ( $date, $user ) = TWiki::Func::getRevisionInfo( $web, $topic, $rev );
-    my $mainweb = TWiki::Func::getMainWebname();
+    my ( $date, $user ) = Foswiki::Func::getRevisionInfo( $web, $topic, $rev );
+    my $mainweb = Foswiki::Func::getMainWebname();
     $user = "$mainweb.$user";
 
-#    $user = TWiki::Render::getRenderedVersion( TWiki::userToWikiName( $user ) );
-    $date = TWiki::Func::formatTime($date);
+#    $user = Foswiki::Render::getRenderedVersion( Foswiki::userToWikiName( $user ) );
+    $date = Foswiki::Func::formatTime($date);
 
     my $revInfo = "$date - $user";
     $revInfo =~ s/[\n\r]*//go;

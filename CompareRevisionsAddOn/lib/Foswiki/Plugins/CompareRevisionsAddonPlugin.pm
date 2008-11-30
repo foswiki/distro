@@ -5,6 +5,7 @@
 # and TWiki Contributors. All Rights Reserved. TWiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +17,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# For licensing info read LICENSE file in the TWiki root.
+# For licensing info read LICENSE file in the Foswiki root.
 
 =pod
 
@@ -27,18 +28,18 @@ This is a helper plugin for the CompareRevisionsAddon package.
 =cut
 
 # change the package name and $pluginName!!!
-package TWiki::Plugins::CompareRevisionsAddonPlugin;
+package Foswiki::Plugins::CompareRevisionsAddonPlugin;
 
 # Always use strict to enforce variable scoping
 use strict;
 
-use TWiki;
+use Foswiki;
 
-# $VERSION is referred to by TWiki, and is the only global variable that
+# $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package
 use vars qw( $VERSION $RELEASE $debug $pluginName );
 
-# This should always be $Rev: 8713$ so that TWiki can determine the checked-in
+# This should always be $Rev: 8713$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev: 8713$';
@@ -56,8 +57,8 @@ sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.026 ) {
-        TWiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 1.026 ) {
+        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
         return 0;
     }
 
@@ -69,7 +70,7 @@ sub commonTagsHandler {
     # do not uncomment, use $_[0], $_[1]... instead
     ### my ( $text, $topic, $web ) = @_;
 
-    TWiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
 
     $_[0] =~ s/%RDIFF2COMPARE{"?(.*?)"?}%/&_handleRdiff2Compare($1)/ge;
 }
@@ -77,8 +78,8 @@ sub commonTagsHandler {
 sub _handleRdiff2Compare {
 
     my $text = shift;
-    $text =~ s{/rdiff  $TWiki::cfg{ScriptSuffix}/}
-              {/compare$TWiki::cfg{ScriptSuffix}/}xmsg;
+    $text =~ s{/rdiff  $Foswiki::cfg{ScriptSuffix}/}
+              {/compare$Foswiki::cfg{ScriptSuffix}/}xmsg;
     return $text;
 	 
 }

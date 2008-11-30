@@ -7,7 +7,7 @@ This add-on compares the renderd HTML output of two revisions and shows the diff
 
 ---++ Description
 
-The !CompareRevisionsAddOn compares two revisions of a document, like _rdiff_ does. But in contrast to normal _rdiff_, the comparison is done with the rendered HTML output of the revisions instead of the TWiki source text files. (This feature was proposed by many of our users, who found the normal _rdiff_ output too technical - even with the _sidebyside_ option - and wanted to see
+The !CompareRevisionsAddOn compares two revisions of a document, like _rdiff_ does. But in contrast to normal _rdiff_, the comparison is done with the rendered HTML output of the revisions instead of the Foswiki source text files. (This feature was proposed by many of our users, who found the normal _rdiff_ output too technical - even with the _sidebyside_ option - and wanted to see
 differences in the content of the page).
 
 Furthermore, the differences between the revisions are shown as close as possible. If necessary, this means that different words are marked instead of whole lines or even paragraphs.
@@ -115,7 +115,7 @@ and ==twikiCompareChange2== are defined with a light green background.
 
 ---++ Add-On Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this add-on. The following instructions are for the administrator who installs the add-on on the server where TWiki is running. 
+__Note:__ You do not need to install anything on the browser to use this add-on. The following instructions are for the administrator who installs the add-on on the server where Foswiki is running. 
 
    * This script needs some additional Perl modules.
      If necessary, download and install the required perl modules from [[http://www.cpan.org][CPAN]]. 
@@ -128,21 +128,21 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
       * [[http://cpan.uwinnipeg.ca/module/HTML::Tree][HTML::Tree]] (with HTML::TreeBuilder and HTML::Element). These modules in turn need
          * [[http://cpan.uwinnipeg.ca/module/HTML::Parser][HTML::Parser]]
          * [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]]
-      * Algorithm::Diff (which is included in the standard TWiki installation
+      * Algorithm::Diff (which is included in the standard Foswiki installation
    * Download the [[%ATTACHURL%/CompareRevisionsAddOn.zip][ZIP file]] from the Add-on Home (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
      | *File:*                      | *Description:*   |
-     | ==data/TWiki/%TOPIC%.txt==   | Add-on topic     |
+     | ==data/System/%TOPIC%.txt==   | Add-on topic     |
      | ==bin/compare==              | Add-on script  |
-     | ==lib/TWiki/UI/Compare.pm==  | Perl package used by the script |
+     | ==lib/Foswiki/UI/Compare.pm==  | Perl package used by the script |
      | ==templates/compare.tmpl==   | Template for side-by-side output |
      | ==templates/compare.pattern.tmpl== | Same for pattern skin |
      | ==templates/interweave.tmpl==   | Template for interwoven output |
      | ==templates/interweave.pattern.tmpl== | Same for pattern skin |
      | ==lib/Foswiki/Plugins/CompareRevisionsAddonPlugin.pm== | Helper plugin |
-     | ==data/TWiki/CompareRevisionsAddonPlugin.txt== | Plugin topic |
-     | ==pub/TWiki/CompareRevisionsAddOn/interweaved.png== | Interwoven screenshot |
-     | ==pub/TWiki/CompareRevisionsAddOn/sidebyside.png== | Side-by-side screenshot |
+     | ==data/System/CompareRevisionsAddonPlugin.txt== | Plugin topic |
+     | ==pub/System/CompareRevisionsAddOn/interweaved.png== | Interwoven screenshot |
+     | ==pub/System/CompareRevisionsAddOn/sidebyside.png== | Side-by-side screenshot |
      | ==data/Sandbox/CompareRevisionsAddOnDemoTopic.txt== | Demonstration topic |
      | ==data/Sandbox/CompareRevisionsAddOnDemoTopic.txt,v== | Demonstration topic history |
 
