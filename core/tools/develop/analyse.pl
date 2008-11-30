@@ -86,14 +86,14 @@ foreach my $item (sort { $a <=> $b }
     while ($bug =~ s/^%META:FIELD.*name="(\w+)".*value="(.*?)".*%$//m) {
         $field{$1} = $2;
     }
-    if ($field{Priority} !~ /Enhancement/ &&
-          ($field{AppliesTo} eq "Engine" ||
-             $field{Extension} =~ /\b($coreExt)\b/)) {
+    if (($field{AppliesTo} eq "Engine" ||
+         $field{Extension} =~ /\b($coreExt)\b/)
+        && $field{CurrentState} =~ /(Closed|Waiting for Release)/i) {
         foreach my $cin (split(/\s+/, $field{Checkins})) {
             $cin =~ s/^\w+://; # remove interwiki thingy
             my $who = $sid2who{$cin};
             if ($who) {
-                print "$cin zapped by $who\n" if $verbose;
+                print "$item zapped by $who with $cin\n" if $verbose;
                 $zappedBy{$who}{$item} = $cin;
                 $contributedBy{$who}{$item} = 1;
             }
@@ -103,7 +103,7 @@ foreach my $item (sort { $a <=> $b }
         }
     } else {
         foreach my $cin (split(/\s+/, $field{Checkins})) {
-            $cin =~ s/Rev://;
+            $cin =~ s/^\w+://;
             my $who = $sid2who{$cin};
             $contributedBy{$who}{$item} = $cin;
         }
@@ -133,17 +133,18 @@ The following tables show contributions to the core.
 The tables are refreshed regularly
 by a cron job. *THIS TOPIC IS AUTO_GENERATED*. Do not attempt to edit it!
 %TOC%
----+ Bug Zapping Summary
+---+ Task Closing Summary
 This table shows the top 5 most active contributors to the
-core and standard extensions in different timeframes.
+core and standard extensions in different timeframes. Bear in mind that
+this only counts contributions that are checked in to subversion.
 
-The count is of the number of closed and waiting for release bugs
-(not enhancements) where a checkin
-was done by the person (i.e. they contributed to the fix).
+The count is of the number of Closed or Waiting for Release tasks
+where a checkin
+was done by the person (i.e. they contributed to closing the task).
 %STARTINCLUDE%
-| Top 5 bug zappers since the last: ||||||
+| Top 5 task closers since the last: ||||||
 | *Patch release ($patch)* || *Minor release ($minor)* || *Major release ($major)* ||
-| _Who_ | _Fixes_ | _Who_ | _Fixes_ | _Who_ | _Fixes_ |
+| _Who_ | _Tasks_ | _Who_ | _Tasks_ | _Who_ | _Tasks_ |
 HEADING
 my @pzs = sort { $patchc{$b} <=> $patchc{$a} } keys %patchc;
 my @mzs = sort { $minorc{$b} <=> $minorc{$a} } keys %minorc;
@@ -176,10 +177,10 @@ print F '| total | '.
 print F "%STOPINCLUDE%\n";
 
 print F <<STUFF;
----+ Bug Zapping Full Story
-Here's the full story of core bug zapper contributions since the inception
+---+ Checkins Full Story
+Here's the full story of core contributions since the inception
 of this database.
-| *Who* | *Bugs reported* | *Core bugs fixed* |
+| *Who* | *Tasks Opened* | *Tasks Closed* |
 STUFF
 foreach my $zapper (sort { $counts{$b} <=> $counts{$a} } keys %counts) {
     next unless $zapper;
@@ -190,7 +191,7 @@ print F <<STUFF;
 ---+ Contributions
 Here's a full breakdown of individual contributions. The counts are the number
 of items (all priorities) in the database where the person contributed a
-checkin. This covers bugs, enhancements, core and all plugins.
+checkin. This covers core and all plugins.
 | *Who* | *Contributions* |
 STUFF
 my %dumps;
