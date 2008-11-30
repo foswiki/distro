@@ -139,7 +139,7 @@ sub process {
 ---+++ processText( $doSave, $saveTableNr, $doSaveQuiet, $text, $topic, $web )
 
 Process the text line by line.
-When a EditTablePlugin table is encountered, its contents is rendered according to the view: 
+When a EditTablePlugin table is encountered, its contents is rendered according to the view:
    * View mode - default
    * Edit mode - when an Edit button is clicked, renders the rest of the table in edit mode
    * Save mode - when called from a Save button: calls processText again, only renders the selected table number, then saves the topic text
@@ -765,7 +765,7 @@ sub handleTableStart {
     if ($doEdit) {
         require Foswiki::Contrib::JSCalendarContrib;
         unless ($@) {
-            Foswiki::Contrib::JSCalendarContrib::addHEAD('twiki');
+            Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
         }
     }
     $text .= "$preSp<noautolink>\n" if $doEdit;
