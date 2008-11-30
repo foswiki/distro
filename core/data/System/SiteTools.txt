@@ -122,7 +122,7 @@ Foswiki generates monthly log files which are used by the statistics script
 
 Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
 
-Foswiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[preference setting]].
+Foswiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
 The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
 
@@ -132,7 +132,7 @@ You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= m
 
 !   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to an empty value.
 
-   * %T% You can set a separate ==SMTPSENDERHOST== [[preference setting]] to define the mail sender host (some SMTP installations require this).
+   * %T% You can set a separate ==SMTPSENDERHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to define the mail sender host (some SMTP installations require this).
 
 ---+++ Setting the automatic e-mail schedule
 

@@ -22,7 +22,7 @@ Incredibly obvious, maybe, but some site admins don't get around to changing the
 
 *What we are doing*
 
-We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of [[preference setting]] for each Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
+We want to set the preference WEBBGCOLOR in topic WebPreferences to one of the StandardColors. <nop>WebPreferences is, as you can guess, a topic which holds all kind of [[%SYSTEMWEB%.PreferenceSettings][preference settings]] for each Web[[ManagingWebs][{*}]]. Each web has its own <nop>WebPreferences, and you can set them differently for each web.
 
 *How to do it*
 

@@ -213,7 +213,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Plugins Settings
 
    * You can enable/disable Plugins using the [[%SCRIPTURLPATH{"configure"}%][configure]] interface.
-   * You can also disable installed plugins in individual webs/topics by defining the DISABLEDPLUGINS [[preference setting]] to be a list of plugins to disable e.g.
+   * You can also disable installed plugins in individual webs/topics by defining the DISABLEDPLUGINS [[PreferenceSettings][preference setting]] to be a list of plugins to disable e.g.
       * <nop>Set DISABLEDPLUGINS = SpreadSheetPlugin,EditTablePlugin
       * Currently, %<nop>DISABLEDPLUGINS% is set to "%DISABLEDPLUGINS%"
    * Currently activated Plugins: %ACTIVATEDPLUGINS%
@@ -334,13 +334,13 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---++ Creating New Preference Settings
  
-You can introduce new [[%SYSTEMWEB%.PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the Foswiki engine (Perl scripts).
+You can introduce new [[PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the Foswiki engine (Perl scripts).
    * A preference is defined in a ShortHand bullet item: ==[3 spaces] * [space] Set NAME = value== <br /> Example (as a nested bullet item, indented 6 spaces):
       * S<nop>et WEBBGCOLOR = #FFFFC0
    * Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs: ==%==. Example:
       * When you write ==%WEB<nop>BGCOLOR%==, it gets expanded to =%WEBBGCOLOR%= .
 
-   * %X% The sequential order of the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
+   * %X% The sequential order of the [[PreferenceSettings][preference settings]] is significant. Define preferences that use other preferences FIRST. For example, set ==<nop>WEBCOPYRIGHT== before ==<nop>WIKIWEBMASTER== since the copyright notice uses the Wiki administrator e-mail address.
    * %X% In order to protect your custom preferences from being overwritten when upgrading the [[%SYSTEMWEB%.%TOPIC%]] topic, it is recommended that all custom settings are defined in [[%USERSWEB%.%TOPIC%]].
 
 ---++ Protected System Settings

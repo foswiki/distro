@@ -54,7 +54,7 @@ The original Photoshop files of the skin graphics (mainly background images) are
 
 ---+++ Troubleshooting
 
-If you have set the SKIN [[preference setting]] to =pattern= and you still don't see the layout as on the <a href="%ATTACHURL%/patternskin_screenshot_full.png">screenshot</a>, a few settings in may have been disabled.
+If you have set the SKIN [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to =pattern= and you still don't see the layout as on the <a href="%ATTACHURL%/patternskin_screenshot_full.png">screenshot</a>, a few settings in may have been disabled.
 
 Check these [[%SYSTEMWEB%.PreferenceSettings][preference settings]] here:
    * FOSWIKI_LAYOUT_URL = %FOSWIKI_LAYOUT_URL%
