@@ -3,9 +3,9 @@
 
 This plugin shows a complete or partial history of a document. The output can arbitrarily be formatted. An example for a Wikipedia-like history is included.
 
-Since TWiki 4.0.3 - when using PatternSkin enabling the !HistoryPlugin changes the "History" link in the bottom action bar so it opens a page with a nice user interface where you can select the versions to compare. 
+When using PatternSkin enabling the !HistoryPlugin changes the "History" link in the bottom action bar so it opens a page with a nice user interface where you can select the versions to compare.
 
-With older versions of TWiki you will need to tweak the templates.
+With other skins for Foswiki you will need to tweak the templates.
 
 If [[Foswiki:Extensions.CompareRevisionsAddOn][CompareRevisionsAddOn]] is installed and activated the "History" user interface will allow you to choose how the changes are rendered (interweaved vs side-by-side, and context).
 
@@ -55,13 +55,13 @@ Example screenshot of the topic history with !HistoryPlugin enabled and working 
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where TWiki is running. 
+__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
 
    * Download the ZIP file from the Plugin web (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
    | *File:* | *Description:* |
 %$MANIFEST%
-   * Visit =configure= in your TWiki installation, and enable the plugin in the {Plugins} section.
+   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
    * Test if the installation was successful:
       * Here should appear the history of this document inline: 
         %HISTORY{"      r1.$rev - $date - $wikiusername%BR%"}%

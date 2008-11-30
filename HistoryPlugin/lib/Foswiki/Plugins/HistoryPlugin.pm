@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.com
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -14,9 +15,9 @@
 # GNU General Public License for more details, published at 
 # http://www.gnu.org/copyleft/gpl.html
 #
-package TWiki::Plugins::HistoryPlugin;
+package Foswiki::Plugins::HistoryPlugin;
 
-use TWiki::Func;
+use Foswiki::Func;
 
 # =========================
 use vars qw( $VERSION $RELEASE $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION);
@@ -30,12 +31,12 @@ $SHORTDESCRIPTION = 'Shows a complete history of a document';
 sub initPlugin
 {
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.021 ) {
-        TWiki::Func::writeWarning( "Version mismatch between HistoryPlugin and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 1.021 ) {
+        Foswiki::Func::writeWarning( "Version mismatch between HistoryPlugin and Plugins.pm" );
         return 0;
     }
 
-    TWiki::Func::registerTagHandler('HISTORY', \&handleHistory);
+    Foswiki::Func::registerTagHandler('HISTORY', \&handleHistory);
 
     return 1;
 }
@@ -53,13 +54,13 @@ sub handleHistory {
     my $footer = $params->{footer} ;
     $footer = "\$previous{'...'}" unless defined($footer);
 
-    unless ( TWiki::Func::topicExists( $web, $topic) ) {
+    unless ( Foswiki::Func::topicExists( $web, $topic) ) {
 	return "Topic $web.$topic does not exist";
     }
 
     # Get revisions
 
-    my $maxrev = (TWiki::Func::getRevisionInfo($web, $topic) )[2];
+    my $maxrev = (Foswiki::Func::getRevisionInfo($web, $topic) )[2];
     my $rev1 = $params->{rev1};
     $rev1 =~ s/1\.// if $rev1;
     my $rev2 = $params->{rev2};
@@ -75,7 +76,7 @@ sub handleHistory {
     $rev2 = $maxrev if $rev2 > $maxrev;
     $rev2 = 1 if $rev2 < 1;
 
-    $TWiki::Plugins::SESSION->{prefs}->pushPreferenceValues( 'SESSION', { 
+    $Foswiki::Plugins::SESSION->{prefs}->pushPreferenceValues( 'SESSION', { 
       HISTORY_MAXREV => $maxrev,
       HISTORY_REV1 => $rev1,
       HISTORY_REV2 => $rev2,
@@ -92,17 +93,17 @@ sub handleHistory {
     my $reverse = $params->{reverse} || 1;
     $reverse = 0 if $reverse =~ /off|no/i;
     @revs = reverse(@revs) if $reverse;
-    my $mixedAlphaNum = TWiki::Func::getRegularExpression('mixedAlphaNum');
+    my $mixedAlphaNum = Foswiki::Func::getRegularExpression('mixedAlphaNum');
     my $checkFlag = 0;
 
     foreach my $rev (@revs) {
 
         my ($date, $user, $revout, $comment) = 
-            TWiki::Func::getRevisionInfo($web, $topic, $rev);
+            Foswiki::Func::getRevisionInfo($web, $topic, $rev);
 
 
-        my $wikiName = TWiki::Func::userToWikiName($user, 1);
-        my $wikiUserName = TWiki::Func::userToWikiName($user, 0);
+        my $wikiName = Foswiki::Func::userToWikiName($user, 1);
+        my $wikiUserName = Foswiki::Func::userToWikiName($user, 0);
 
         my $revinfo = $format;
         my $checked1 = '';
@@ -113,7 +114,7 @@ sub handleHistory {
         $revinfo =~ s/\$web/$web/g;
         $revinfo =~ s/\$topic/$topic/g;
         $revinfo =~ s/\$rev/$revout/g;
-        $revinfo =~ s/\$date/TWiki::Func::formatTime($date)/ge;
+        $revinfo =~ s/\$date/Foswiki::Func::formatTime($date)/ge;
         $revinfo =~ s/\$username/$user/g;
         $revinfo =~ s/\$wikiname/$wikiName/g;
         $revinfo =~ s/\$wikiusername/$wikiUserName/g;
@@ -155,7 +156,7 @@ sub handleHeadFoot {
             $args =~ s/\$rev2/$newrev2/g;
             $args =~ s/\$nrev/$nrev/g;
 
-            my %params = TWiki::Func::extractParameters($args);
+            my %params = Foswiki::Func::extractParameters($args);
             my $newtext = $params{text} || $params{_DEFAULT} || '';
             my $url = $params{url} || '';
             my $replace = $url ? "<a href='$url' class='twikiButton'>$newtext</a>" : $newtext;
@@ -178,7 +179,7 @@ sub handleHeadFoot {
             $args =~ s/\$rev2/$newrev2/g;
             $args =~ s/\$nrev/$nrev/g;
 
-            my %params = TWiki::Func::extractParameters($args);
+            my %params = Foswiki::Func::extractParameters($args);
             my $newtext = $params{text} || $params{_DEFAULT} || '';
             my $url = $params{url} || '';
             my $replace = $url ? "<a href='$url' class='twikiButton'>$newtext</a>" : $newtext;
