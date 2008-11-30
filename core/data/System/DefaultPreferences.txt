@@ -186,17 +186,16 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---+++ PatternSkin
 
-   * Default styles       
+   * Global skin styles. To change the look of the site, point these variables to custom CSS attachments.
       * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css
       * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css
       * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css
 
-   * Customized styles
-      * For customizing the look and feel of this site, see instructions at PatternSkin.
+   * Themes that add upon the global skin styles. Choose from the Theme Browser at PatternSkin.
       * Set PATTERNSKIN_THEME = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme_foswiki_noframe.css
       * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/column_left.css
       
-   * Deprecated, added here for compatibity of TWiki installations. Custom overriding styles (enabled pr. default but empty, to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs)
+   * Overriding styles that add upon the global and theme styles. Enabled by default but empty to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs.
       * Set USERLAYOUTURL = 
       * Set USERSTYLEURL = 
       * Set USERCOLORSURL = 
