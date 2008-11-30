@@ -1,0 +1,11 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107726758" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ Keyword search
+
+Interactive [[WebSearch][search]] is a keyword search by default. For example, to search for all topics that contain "SOAP", "WSDL", a literal "web service", but not "shampoo", enter this:
+
+=soap +wsdl "web service" -shampoo=
+
+More [[SearchHelp][search help]]
+
+[[%SYSTEMWEB%.TipsOfTheDay][See More Tips...]]

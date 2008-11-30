@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107571155" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ Inline search
+
+To embed a search in a topic, use the =%<nop>SEARCH{ &lt;parameters&gt; }%= macro. The search macro is used by many Foswiki based applications.
+
+[[Macros#VarSEARCH][More Information...]]
+
+[[TipsOfTheDay][See More Tips...]]
