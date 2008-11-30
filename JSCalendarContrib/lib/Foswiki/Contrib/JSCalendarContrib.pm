@@ -5,7 +5,7 @@ Read [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] or
 calendar widget.
 
 This package also includes a small Perl module to make using the calendar
-easier from TWiki plugins. This module includes the functions:
+easier from Foswiki plugins. This module includes the functions:
 
 =cut
 
@@ -82,7 +82,7 @@ sub renderDateForEdit {
 
     $format ||= $Foswiki::cfg{JSCalendarContrib}{format} || '%e %B %Y';
 
-    addHEAD('twiki');
+    addHEAD('foswiki');
 
     # Work out how wide it has to be from the format
     # SMELL: add a space because pattern skin default fonts on FF make the
@@ -101,7 +101,7 @@ sub renderDateForEdit {
           -onclick =>
             "javascript: return showCalendar('id_$name','$format')",
             -src=> Foswiki::Func::getPubUrlPath() . '/' .
-              Foswiki::Func::getTwikiWebname() .
+              $Foswiki::cfg{SystemWebName} .
                   '/JSCalendarContrib/img.gif',
           -alt => 'Calendar',
           -align => 'middle');
@@ -117,7 +117,7 @@ formatting of your calendars than =renderDateForEdit= affords. =$setup= is
 the name of
 the calendar setup module; it can either be omitted, in which case the method
 described in the Mishoo documentation can be used to create calendars, or it
-can be ='twiki'=, in which case a Javascript helper function called
+can be ='foswiki'=, in which case a Javascript helper function called
 'showCalendar' is added that simplifies using calendars to set a value in a
 text field. For example, say we wanted to display the date with the calendar
 icon _before_ the text field, using the format =%Y %b %e=
@@ -129,14 +129,14 @@ use Foswiki::Contrib::JSCalendarContrib;
 sub commonTagsHandler {
   ....
   # Enable 'showCalendar'
-  Foswiki::Contrib::JSCalendarContrib::addHEAD( 'twiki' );
+  Foswiki::Contrib::JSCalendarContrib::addHEAD( 'foswiki' );
 
   my $cal = CGI::image_button(
       -name => 'img_datefield',
       -onclick =>
        "return showCalendar('id_datefield','%Y %b %e')",
       -src=> Foswiki::Func::getPubUrlPath() . '/' .
-             Foswiki::Func::getTwikiWebname() .
+             $Foswiki::cfg{SystemWebName} .
              '/JSCalendarContrib/img.gif',
       -alt => 'Calendar',
       -align => 'middle' )

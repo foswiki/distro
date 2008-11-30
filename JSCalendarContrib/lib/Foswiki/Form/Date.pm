@@ -28,10 +28,10 @@ sub renderForEdit {
           size=> $this->{size},
           value => $value,
           class => $this->can('cssClasses') ?
-            $this->cssClasses('twikiInputField', 'twikiEditFormDateField') :
-              'twikiInputField twikiEditFormDateField'});
+            $this->cssClasses('foswikiInputField', 'foswikiEditFormDateField') :
+              'foswikiInputField foswikiEditFormDateField'});
     my $ifFormat = $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
-    Foswiki::Contrib::JSCalendarContrib::addHEAD( 'twiki' );
+    Foswiki::Contrib::JSCalendarContrib::addHEAD( 'foswiki' );
     my $button .= CGI::image_button(
         -name => 'calendar',
         -onclick =>
@@ -40,9 +40,9 @@ sub renderForEdit {
           $Foswiki::cfg{SystemWebName} .
             '/JSCalendarContrib/img.gif',
         -alt => 'Calendar',
-        -class => 'twikiButton twikiEditFormCalendarButton' );
+        -class => 'foswikiButton foswikiEditFormCalendarButton' );
     $value .= CGI::span(
-        { -class => 'twikiMakeVisible' },
+        { -class => 'foswikiMakeVisible' },
         '&nbsp;' . $button
     );
     my $session = $this->{session};
@@ -68,6 +68,7 @@ Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://F
 # TWiki Contributors are listed in the AUTHORS file in the root
 # of this distribution. NOTE: Please extend that file, not this notice.
 #
+# Copyright (C) 2008 Foswiki Contributors
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2

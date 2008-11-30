@@ -16,7 +16,7 @@
 %TOC%
 
 ---++ Summary of Contents
-This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] Javascript in a form suitable for use with TWiki.
+This module packages the [[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]] Javascript in a form suitable for use with Foswiki.
 
 ---++ Detailed Documentation
 %$POD%
@@ -45,15 +45,15 @@ If the contrib is installed, you will see such a field here:
 %$INSTALL_INSTRUCTIONS%
 	* An administrator can customize the appearance of the calendar by setting the following in =<nop>LocalSite.cfg=
      | *Setting* | *Default* |
-     | =$TWiki::cfg{JSCalendarContrib}{style}= | ='blue'= |
-     | =$TWiki::cfg{JSCalendarContrib}{lang}= | ='en'= |
-     | =$TWiki::cfg{JSCalendarContrib}{format}= | ='%e %b %Y'= |
+     | =$Foswiki::cfg{JSCalendarContrib}{style}= | ='blue'= |
+     | =$Foswiki::cfg{JSCalendarContrib}{lang}= | ='en'= |
+     | =$Foswiki::cfg{JSCalendarContrib}{format}= | ='%e %b %Y'= |
 
 ---+++ Contrib Info
 
-Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Author: | TWiki:Main/CrawfordCurrie http://c-dot.co.uk |
+|  Author: | Foswiki:Main/CrawfordCurrie http://c-dot.co.uk |
 |  Version: | %$VERSION% of the Mishoo calendar |
 |  Copyright &copy;: | See [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
