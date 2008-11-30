@@ -11,6 +11,8 @@
    * =FINALPREFERENCES= locks site-level preferences that are *not* allowed to be overridden by [[%WEBPREFSTOPIC%]] or user preferences:
       * Set FINALPREFERENCES = ATTACHFILESIZELIMIT, PREVIEWBGIMAGE, WIKITOOLNAME, WIKIHOMEURL, ALLOWROOTCHANGE, DENYROOTCHANGE, FOSWIKI_LAYOUT_URL, FOSWIKI_STYLE_URL, FOSWIKI_COLORS_URL, USERSWEB, SYSTEMWEB, DOCWEB
 
+   * #Set PATTERNSKINURL = %PUBURL%/%SYSTEMWEB%/PatternSkinStyles/letter.css
+   
 <!-- Keep this as a security measure:
    * Set ALLOWTOPICCHANGE = AdminGroup
    * Set ALLOWTOPICRENAME = AdminGroup

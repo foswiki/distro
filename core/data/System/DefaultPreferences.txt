@@ -118,7 +118,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WIKITOOLNAME = Foswiki
 
    * Image, URL and alternate tooltip text of the logo *for this installation*: you should change these settings for your site, or they can be overwridden in !WebPreferences for individual webs by defining these settings there.
-      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-logo.png
+      * Set WIKILOGOIMG = %PUBURL%/%SYSTEMWEB%/ProjectLogos/raven_logo.gif
       * Set WIKILOGOURL = %SCRIPTURL{"view"}%/%USERSWEB%/%HOMETOPIC%
       * Set WIKILOGOALT = Powered by Foswiki, The Free and Open Source Wiki
 
@@ -191,14 +191,17 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css
       * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css
 
-   * Custom overriding styles (enabled pr. default but empty, to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs)
+   * Customized styles
+      * For customizing the look and feel of this site, see instructions at PatternSkin.
+      * Set PATTERNSKIN_THEME = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme_foswiki_noframe.css
+      * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/column_left.css
+      
+   * Deprecated, added here for compatibity of TWiki installations. Custom overriding styles (enabled pr. default but empty, to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs)
       * Set USERLAYOUTURL = 
       * Set USERSTYLEURL = 
       * Set USERCOLORSURL = 
-
-   * *PatternSkin header settings*
-      * Set WEBHEADERART = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/TWiki_header.gif
-      * #Set WEBHEADERBGCOLOR = #faf8f0
+      * Set WEBHEADERART = 
+      * Set WEBHEADERBGCOLOR = 
       
 ---+++ Skin icons
 
