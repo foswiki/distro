@@ -24,7 +24,7 @@
 %IF{"defined NOTE AND $NOTE != ''" then='---+++ %NOTE%'}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="twikiNotification twikiAlert twikiUnvisited twikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
+%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="twikiNotification foswikiAlert twikiUnvisited twikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
 
 %TMPL:DEF{"error"}%%MAKETEXT{"Error: [_1]" args="%ERROR%"}%%TMPL:END%
 
@@ -47,7 +47,7 @@
 
 %TMPL:DEF{"usernamenote"}%%TMPL:P{"authrealm"}%%TMPL:END%
 
-%TMPL:DEF{"usernamefieldhelp"}%%TWISTY{mode="span" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}% <div class="twikiHelp">%TMPL:P{"usernamenote"}%</div> %ENDTWISTY%%TMPL:END%
+%TMPL:DEF{"usernamefieldhelp"}%%TWISTY{mode="span" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}% <div class="foswikiHelp">%TMPL:P{"usernamenote"}%</div> %ENDTWISTY%%TMPL:END%
 
 %TMPL:DEF{"passwordfield"}%<input tabindex='2' type='password' class='twikiInputField' size='40' name='password' value='' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
@@ -71,7 +71,7 @@
 %TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='twikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
 
 %{ please keep the spaces between the div and the TMPL seealsonote, it allows TWiki to process the emailaddress }%
-%TMPL:DEF{"seealsostep"}%<div class="twikiFormStep twikiGrayText twikiLast"> %TMPL:P{"seealsonote"}% </div><!-- /twikiFormStep-->%TMPL:END%
+%TMPL:DEF{"seealsostep"}%<div class="twikiFormStep foswikiGrayText twikiLast"> %TMPL:P{"seealsonote"}% </div><!-- /twikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"seealsonote"}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}% %TMPL:END%
 

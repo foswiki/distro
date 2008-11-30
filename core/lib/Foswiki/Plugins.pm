@@ -383,7 +383,7 @@ sub _handleFAILEDPLUGINS {
         my $td;
         if ( $plugin->{errors} ) {
             $td = CGI::td(
-                { class => 'twikiAlert' },
+                { class => 'foswikiAlert' },
                 "\n<verbatim>\n"
                   . join( "\n", @{ $plugin->{errors} } )
                   . "\n</verbatim>\n"
@@ -419,7 +419,7 @@ sub _handleFAILEDPLUGINS {
             if ( defined( $Foswiki::Plugin::deprecated{$handler} ) ) {
                 $h .= CGI::br()
                   . CGI::span(
-                    { class => 'twikiAlert' },
+                    { class => 'foswikiAlert' },
 " __This handler is deprecated__ - please check for updated versions of the plugins that use it!"
                   );
             }

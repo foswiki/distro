@@ -1118,7 +1118,7 @@ sub _dispLogon {
     }
 
     my $text = $session->templates->expandTemplate('LOG_IN');
-    return CGI::a( { class => 'twikiAlert', href => $urlToUse }, $text );
+    return CGI::a( { class => 'foswikiAlert', href => $urlToUse }, $text );
 }
 
 =begin TML

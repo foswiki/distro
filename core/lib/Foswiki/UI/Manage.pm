@@ -1072,11 +1072,11 @@ sub _newTopicScreen {
             foreach my $entry ( sort keys %$refs ) {
                 $search .= CGI::Tr(
                     CGI::td(
-                        { class => 'twikiTopRow' },
+                        { class => 'foswikiTopRow' },
                         CGI::input(
                             {
                                 type    => 'checkbox',
-                                class   => 'twikiCheckBox',
+                                class   => 'foswikiCheckBox',
                                 name    => 'referring_topics',
                                 value   => $entry,
                                 checked => 'checked'
@@ -1085,7 +1085,7 @@ sub _newTopicScreen {
                           . " [[$entry]] "
                       )
                       . CGI::td(
-                        { class => 'twikiSummary twikiGrayText' },
+                        { class => 'foswikiSummary foswikiGrayText' },
                         $refs->{$entry}
                       )
                 );
@@ -1105,11 +1105,11 @@ sub _newTopicScreen {
         foreach my $entry ( sort keys %$refs ) {
             $search .= CGI::Tr(
                 CGI::td(
-                    { class => 'twikiTopRow' },
+                    { class => 'foswikiTopRow' },
                     CGI::input(
                         {
                             type    => 'checkbox',
-                            class   => 'twikiCheckBox',
+                            class   => 'foswikiCheckBox',
                             name    => 'referring_topics',
                             value   => $entry,
                             checked => 'checked'
@@ -1118,7 +1118,7 @@ sub _newTopicScreen {
                       . " [[$entry]] "
                   )
                   . CGI::td(
-                    { class => 'twikiSummary twikiGrayText' },
+                    { class => 'foswikiSummary foswikiGrayText' },
                     $refs->{$entry}
                   )
             );
@@ -1263,11 +1263,11 @@ sub _newWebScreen {
     foreach my $entry ( sort keys %$refs ) {
         $search .= CGI::Tr(
             CGI::td(
-                { class => 'twikiTopRow' },
+                { class => 'foswikiTopRow' },
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'twikiCheckBox',
+                        class   => 'foswikiCheckBox',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'
@@ -1276,7 +1276,7 @@ sub _newWebScreen {
                   . " [[$entry]] "
               )
               . CGI::td(
-                { class => 'twikiSummary twikiGrayText' },
+                { class => 'foswikiSummary foswikiGrayText' },
                 $refs->{$entry}
               )
         );
@@ -1294,11 +1294,11 @@ sub _newWebScreen {
     foreach my $entry ( sort keys %$refs ) {
         $search .= CGI::Tr(
             CGI::td(
-                { class => 'twikiTopRow' },
+                { class => 'foswikiTopRow' },
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'twikiCheckBox',
+                        class   => 'foswikiCheckBox',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'
@@ -1307,7 +1307,7 @@ sub _newWebScreen {
                   . " [[$entry]] "
               )
               . CGI::td(
-                { class => 'twikiSummary twikiGrayText' },
+                { class => 'foswikiSummary foswikiGrayText' },
                 $refs->{$entry}
               )
         );

@@ -43,11 +43,11 @@
 .twikiBroadcastMessage strong {
 	color:#f00;
 }
-.twikiAlert,
-.twikiAlert code {
+.foswikiAlert,
+.foswikiAlert code {
 	color:#f00;
 }
-.twikiEmulatedLink {
+.foswikiEmulatedLink {
 	text-decoration:underline;
 }
 .twikiAccessKey {

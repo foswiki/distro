@@ -20,7 +20,7 @@
 %MAKETEXT{"Copy text and form data to a new topic (no attachments will be copied though)."}%
 
 <form action="%SCRIPTURL{manage}%/%WEB%/">
-%MAKETEXT{"Name of copy:"}% <input type="text" name="topic" class="twikiInputField" value="%TOPIC%Copy" size="30"> <input type="submit" class="twikiButton" value="Clone" /> <span class="twikiGrayText">%MAKETEXT{"You will be able to review the copied topic before saving"}%</span>
+%MAKETEXT{"Name of copy:"}% <input type="text" name="topic" class="twikiInputField" value="%TOPIC%Copy" size="30"> <input type="submit" class="twikiButton" value="Clone" /> <span class="foswikiGrayText">%MAKETEXT{"You will be able to review the copied topic before saving"}%</span>
 %TMPL:P{"nonwikiword"}%
 <input type="hidden" name="action" value="create" />
 <input type="hidden" name="onlynewtopic" value="on" />
@@ -117,7 +117,7 @@ table.twikiDiffOptions img {
 	* %MAKETEXT{"Restore topic to revision:"}% <input class="twikiInputField" type="text" name="rev" size="6" value="%PARAM2%" />
 	<input type="hidden" name="action" value="restoreRevision" />
 	<input type="hidden" name="nowysiwyg" value="1" />
-	<input type="submit" class="twikiButton" title="%MAKETEXT{"Restore topic to this revision"}%" value='%MAKETEXT{"Restore"}%' /> <span class="twikiGrayText">%MAKETEXT{"You will be able to review the topic before saving it to a new revision"}%</span>
+	<input type="submit" class="twikiButton" title="%MAKETEXT{"Restore topic to this revision"}%" value='%MAKETEXT{"Restore"}%' /> <span class="foswikiGrayText">%MAKETEXT{"You will be able to review the topic before saving it to a new revision"}%</span>
 </form>
 %IF{"$ param1='0'" then="-->" }%%IF{"$ param1!='0'" then="<!--" }%
 %MAKETEXT{"No previous revision exists."}%%IF{"$ param1!='0'" then="-->" }%%TMPL:END%

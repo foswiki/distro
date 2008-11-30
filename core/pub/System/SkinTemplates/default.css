@@ -88,21 +88,21 @@ blockquote {
 	padding:1em;
 	background:#fff;
 }
-.twikiNewLink font {
+.foswikiNewLink font {
 	color:inherit;
 }
-.twikiNewLink a:link sup,
-.twikiNewLink a:visited sup {
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
 	color:#666;
 	border-color:#ccc;
 }
-.twikiNewLink a:hover sup {
+.foswikiNewLink a:hover sup {
 	background-color:#D6000F;
 	color:#FBF7E8;
 	border-color:#D6000F;
 }
 
-.twikiNewLink {
+.foswikiNewLink {
 	border-color:#ccc;
 }
 :link:focus,
@@ -160,17 +160,17 @@ blockquote {
 .twikiTable th a font {
 	color:#fff;
 }
-.twikiGrayText {
+.foswikiGrayText {
 	color:#8E9195;
 }
 .twikiSeparator {
 	color:#8E9195;
 }
-.twikiGrayText a:link,
-.twikiGrayText a:visited {
+.foswikiGrayText a:link,
+.foswikiGrayText a:visited {
 	color:#8E9195;
 }
-.twikiGrayText a:hover {
+.foswikiGrayText a:hover {
 	color:#FBF7E8;
 }
 
@@ -210,11 +210,11 @@ table.twikiFormTable {
 .twikiBroadcastMessage strong {
 	color:#f00;
 }
-.twikiAlert,
-.twikiAlert code {
+.foswikiAlert,
+.foswikiAlert code {
 	color:#f00;
 }
-.twikiEmulatedLink {
+.foswikiEmulatedLink {
 	color:#06c;
 }
 .twikiPageForm table {
@@ -226,7 +226,7 @@ table.twikiFormTable {
 	background-color:#ccc;
 	color:#ccc;
 }
-.twikiHelp {
+.foswikiHelp {
 	background-color:#f8fbfc;
 }
 .twikiAccessKey {
@@ -316,29 +316,29 @@ tr.twikiDiffDebug .twikiDiffUnchangedText {
 }
 
 /* Links */
-/* somehow the twikiNewLink style have to be before the general link styles */
-.twikiNewLink {
+/* somehow the foswikiNewLink style have to be before the general link styles */
+.foswikiNewLink {
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-.twikiNewLink a {
+.foswikiNewLink a {
 	text-decoration:none;
 	margin-left:1px;
 }
-.twikiNewLink a sup {
+.foswikiNewLink a sup {
 	text-align:center;
 	padding:0 2px;
 	vertical-align:baseline;
 	font-size:100%;
 	text-decoration:none;
 }
-.twikiNewLink a:link sup,
-.twikiNewLink a:visited sup {
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
 	border-width:1px;
 	border-style:solid;
 	text-decoration:none;
 }
-.twikiNewLink a:hover sup {
+.foswikiNewLink a:hover sup {
 	text-decoration:none;
 }
 .twikiTable {
@@ -356,7 +356,7 @@ tr.twikiDiffDebug .twikiDiffUnchangedText {
 	border-width:0 0 0 1px;
 	padding:.4em .5em;
 }
-.twikiTable th.twikiFirstCol {
+.twikiTable th.foswikiFirstCol {
 	border-left-style:none;
 }
 .twikiTable a:link,
@@ -371,7 +371,7 @@ tr.twikiDiffDebug .twikiDiffUnchangedText {
 	margin:0 0 .5em 0;
 }
 .twikiLast,
-.twikiForm .twikiLast,
+.foswikiForm .twikiLast,
 .twikiTable .twikiLast {
 	border-bottom-style:none;
 	border-bottom-width:0;
@@ -385,9 +385,9 @@ tr.twikiDiffDebug .twikiDiffUnchangedText {
 	border-width:5px;
 }
 .twikiAttachments,
-.twikiForm {
+.foswikiForm {
 	margin:1em 0;
-	padding:1px; /* fixes disappearing borders because of overflow:auto; in twikiForm */
+	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
 }
 .twikiTable h2, .twikiFormTable h2,
 .twikiTable h3, .twikiFormTable h3,
@@ -443,8 +443,8 @@ table.twikiFormTable td {
 	text-align:left;
 	vertical-align:top;
 }
-.twikiAttachments th.twikiFirstCol,
-.twikiAttachments td.twikiFirstCol {
+.twikiAttachments th.foswikiFirstCol,
+.twikiAttachments td.foswikiFirstCol {
 	/* make more width for the icon column */
 	width:26px;
 	text-align:center;
@@ -513,12 +513,12 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 .twikiSmallish {
 	font-size:94%; /*S2*/
 }
-.twikiNew { }
-.twikiSummary {
+.foswikiNew { }
+.foswikiSummary {
 	font-size:86%;
 	line-height:110%; /*S3*/
 }
-.twikiEmulatedLink {
+.foswikiEmulatedLink {
 	text-decoration:underline;
 }
 .twikiPageForm table {
@@ -541,15 +541,15 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 	padding:.25em .5em;
 	margin:0 0 1em 0;
 }
-.twikiHelp {
+.foswikiHelp {
 	padding:1em;
 	margin:0 0 -1px 0;
 }
-.twikiHelp ul,
-.twikiHelp li {
+.foswikiHelp ul,
+.foswikiHelp li {
 	margin:0;
 }
-.twikiHelp ul {
+.foswikiHelp ul {
 	padding-left:2em;
 }
 .twikiAccessKey {
@@ -561,7 +561,7 @@ a:hover .twikiAccessKey {
 	text-decoration:none;
 	border:none;
 }
-.twikiWebIndent {
+.foswikiWebIndent {
 	margin:0 0 0 1em;
 }
 a.twikiLinkInHeaderRight {
@@ -637,7 +637,7 @@ tr.twikiDiffDebug td {
  * by this CSS
  */
 /*
-twikiAnchorLink
+foswikiAnchorLink
 twikiConflict
 twikiContentFooter
 twikiContentHeader
@@ -655,9 +655,9 @@ twikiEditFormSelect
 twikiEditFormTextAreaField
 twikiEditTextarea
 TWikiFooterNote
-twikiForm
+foswikiForm
 twikiFormTableRow
-twikiLink
+foswikiLink
 twikiMain
 twikiMiddleContainer
 twikiNoBreak
@@ -665,5 +665,5 @@ twikiTableEven
 twikiTableOdd
 twikiTextarea
 twikiTextareaRawView
-twikiTopRow
+foswikiTopRow
 */

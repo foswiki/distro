@@ -229,7 +229,7 @@ sub stringify {
     if ($html) {
         $res = CGI::Tr(
             CGI::th(
-                { colspan => 2, class => 'twikiFirstCol' },
+                { colspan => 2, class => 'foswikiFirstCol' },
                 CGI::h3( $this->{TYPE} . ' ' . $this->{SOURCE} )
             )
         ) . "\n";

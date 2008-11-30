@@ -702,8 +702,8 @@ EVERYWHERE
           exec => $TML2HTML | $ROUNDTRIP,
           name => 'nestedPre',
           html => '<p>
-Outside <pre class="twikiAlert TMLverbatim"><br />&nbsp;&nbsp;Inside<br />&nbsp;&nbsp;</pre> Outside </p>',
-          tml => 'Outside <verbatim class="twikiAlert">
+Outside <pre class="foswikiAlert TMLverbatim"><br />&nbsp;&nbsp;Inside<br />&nbsp;&nbsp;</pre> Outside </p>',
+          tml => 'Outside <verbatim class="foswikiAlert">
   Inside
   </verbatim> Outside',
       },
@@ -748,11 +748,11 @@ Snide
           exec => $HTML2TML,
           name => 'classifiedPre',
           html => 'Outside
- <pre class="twikiAlert">
+ <pre class="foswikiAlert">
  Inside
  </pre>
  Outside',
-          tml => 'Outside <pre class="twikiAlert">
+          tml => 'Outside <pre class="foswikiAlert">
  Inside
  </pre> Outside',
       },
@@ -790,7 +790,7 @@ Inside
           exec => $TML2HTML|$ROUNDTRIP,
           name => 'classifiedNAL',
           html => '<p>Outside
-<span class="WYSIWYG_PROTECTED">&lt;noautolink&nbsp;class="twikiAlert"&gt;</span></p>
+<span class="WYSIWYG_PROTECTED">&lt;noautolink&nbsp;class="foswikiAlert"&gt;</span></p>
   <ul>
    <li> Inside </li>
   </ul>
@@ -798,11 +798,11 @@ Inside
  Outside
  ',
           tml => 'Outside
-<noautolink class="twikiAlert">
+<noautolink class="foswikiAlert">
    * Inside
 </noautolink>
  Outside',
-          finaltml => 'Outside <noautolink class="twikiAlert">
+          finaltml => 'Outside <noautolink class="foswikiAlert">
    * Inside
 </noautolink> Outside',
       },

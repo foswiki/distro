@@ -72,7 +72,7 @@ ul.natEditHelpTools {
   float:right;
 }
 
-.twikiForm {
+.foswikiForm {
   clear:both;
 }
 
@@ -96,7 +96,7 @@ ul.natEditHelpTools {
 .patternEditPage .patternTopic {
   margin:0px;
 }
-.patternEditPage .twikiForm {
+.patternEditPage .foswikiForm {
   margin:0px;
 }
 .jqTabContents h3 {

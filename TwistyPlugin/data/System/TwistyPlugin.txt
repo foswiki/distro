@@ -286,7 +286,7 @@ Use parameter =class= to style the content div or class:
 mode="div"
 showlink="Show..."
 hidelink="Hide"
-class="twikiHelp"
+class="foswikiHelp"
 }%
 my twisty content
 %ENDTWISTY%
@@ -297,7 +297,7 @@ Generates: %BR%
 mode="div"
 showlink="Show..."
 hidelink="Hide"
-class="twikiHelp"
+class="foswikiHelp"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%

@@ -3771,7 +3771,7 @@ sub WEBLIST {
     }
 
     my @items;
-    my $indent = CGI::span( { class => 'twikiWebIndent' }, '' );
+    my $indent = CGI::span( { class => 'foswikiWebIndent' }, '' );
     foreach my $item (@list) {
         my $line = $format;
         $line =~ s/\$web\b/$web/g;

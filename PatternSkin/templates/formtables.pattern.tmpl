@@ -3,19 +3,19 @@
 
 
 %{ Start of form table }%
-%TMPL:DEF{FORM:display:header}%<div class="twikiForm">
+%TMPL:DEF{FORM:display:header}%<div class="foswikiForm">
 <table class='twikiFormTable' border='1'>%TMPL:P{FORM:display:header:headerrow}%%TMPL:END%
 
 
 %{ Header }%
-%TMPL:DEF{FORM:display:header:headerrow}%<tr><th class='twikiFormTableHRow twikiFirstCol' colspan='2'>
+%TMPL:DEF{FORM:display:header:headerrow}%<tr><th class='twikiFormTableHRow foswikiFirstCol' colspan='2'>
 [[%A_TITLE%]]
 </th></tr>%TMPL:END%
 
 
 
 %{ Each row }%
-%TMPL:DEF{FORM:display:row}%<tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> %A_TITLE% </td><td>
+%TMPL:DEF{FORM:display:row}%<tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> %A_TITLE% </td><td>
 %A_VALUE%
 </td></tr>%TMPL:END%
 
@@ -23,4 +23,4 @@
 
 %{ Footer }%
 %TMPL:DEF{FORM:display:footer}%</table>%TMPL:P{FORM:display:footer:editlink}%
-</div><!-- /twikiForm -->%TMPL:END%
+</div><!-- /foswikiForm -->%TMPL:END%

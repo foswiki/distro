@@ -239,7 +239,7 @@ sub test_squab_simple {
     my $text = "[[$testWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<span class="twikiNewLink">$testWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWeb\?topicparent=$testWeb.NonExistant"!, $text);
+    $this->assert_matches(qr!<span class="foswikiNewLink">$testWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWeb\?topicparent=$testWeb.NonExistant"!, $text);
 }
 
 # Check expansion of [[SubWeb]] in TestWeb/NonExistant.
@@ -257,7 +257,7 @@ sub test_squab_subweb {
     my $text = "[[$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<span class="twikiNewLink">$testWebSubWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
+    $this->assert_matches(qr!<span class="foswikiNewLink">$testWebSubWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
 }
 
 # Check expansion of [[TestWeb.SubWeb]] in TestWeb/NonExistant.
@@ -274,7 +274,7 @@ sub test_squab_subweb_full_path {
     my $text = "[[$testWeb.$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<span class="twikiNewLink">$testWeb.$testWebSubWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
+    $this->assert_matches(qr!<span class="foswikiNewLink">$testWeb.$testWebSubWeb<a.*href=".*edit$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb\?topicparent=$testWeb.NonExistant"!, $text);
 }
 
 # Check expansion of [[SubWeb]] in TestWeb/NonExistant.
@@ -294,7 +294,7 @@ sub test_squab_subweb_wih_topic {
     my $text = "[[$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="twikiLink">$testWebSubWeb</a>!, $text);
+    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="foswikiLink">$testWebSubWeb</a>!, $text);
 }
 
 # Check expansion of [[TestWeb.SubWeb]] in TestWeb/NonExistant.
@@ -314,7 +314,7 @@ sub test_squab_full_path_with_topic {
     my $text = "[[$testWeb.$testWebSubWeb]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="twikiLink">$testWeb.$testWebSubWeb</a>!, $text);
+    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="foswikiLink">$testWeb.$testWebSubWeb</a>!, $text);
 }
 
 # Check expansion of [[TestWeb.SubWeb.WebHome]] in TestWeb/NonExistant.
@@ -334,7 +334,7 @@ sub test_squab_path_to_topic_in_subweb {
     my $text = "[[$testWeb.$testWebSubWeb.WebHome]]";
     $text = $this->{twiki}->renderer->getRenderedVersion(
         $text, $testWeb, 'NonExistant');
-    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$Foswiki::cfg{HomeTopicName}" class="twikiLink">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!, $text);
+    $this->assert_matches(qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$Foswiki::cfg{HomeTopicName}" class="foswikiLink">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!, $text);
 
 }
 

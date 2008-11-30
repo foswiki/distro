@@ -218,7 +218,7 @@ Example of a custom form to save a comment to a new topic. When the topic is cre
 <div class="twikiFormSteps">
 <div class="twikiFormStep">
 *New topic name:* %BR%
-<input class="twikiInputField" %DISABLED% type="text" size="40" name="topic" id="topic" value="" /> <span class="twikiGrayText">Enter a !WikiWord topic name</span>
+<input class="twikiInputField" %DISABLED% type="text" size="40" name="topic" id="topic" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
 </div>
 <div class="twikiFormStep twikiLast">
 *Topic text:* %BR%

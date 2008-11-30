@@ -634,7 +634,7 @@ sub _patch {
                 {
                     pop(@toAdd);
                     push( @toAdd, <<'HERE');
-<div class="twikiAlert">WARNING: THIS TEXT WAS ADDED BY THE SYSTEM TO CORRECT A PROBABLE ERROR IN THE HISTORY OF THIS TOPIC.</div>
+<div class="foswikiAlert">WARNING: THIS TEXT WAS ADDED BY THE SYSTEM TO CORRECT A PROBABLE ERROR IN THE HISTORY OF THIS TOPIC.</div>
 HERE
                     $pos--;   # so when we add $length we get to the right place
                 }

@@ -308,19 +308,19 @@ EXPECTED
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol"> <input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="test1" /> </td>
 		</tr>
 		<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
-			<td bgcolor="#f2f3f6" valign="top" class="twikiTableCol0 twikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
+			<td bgcolor="#f2f3f6" valign="top" class="twikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
 			<td bgcolor="#f2f3f6" valign="top" class="twikiTableCol1 twikiLastCol"> <input class="twikiInputField editTableInput" type="text" name="etcell2x2" size="10" value="test2" /> </td>
 		</tr>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol"> <input class="twikiInputField editTableInput" type="text" name="etcell3x2" size="10" value="test3" /> </td>
 		</tr>
 		<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
-			<td bgcolor="#f2f3f6" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <span class="et_rowlabel">3<input type="hidden" name="etcell4x1" value="3" /></span> </td>
+			<td bgcolor="#f2f3f6" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLast"> <span class="et_rowlabel">3<input type="hidden" name="etcell4x1" value="3" /></span> </td>
 			<td bgcolor="#f2f3f6" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <input class="twikiInputField editTableInput" type="text" name="etcell4x2" size="10" value="init" /> </td>
 		</tr>
 	</tbody></table>
@@ -426,7 +426,7 @@ INPUT
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <select class="twikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLast"> <select class="twikiSelect" name="etcell1x1" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLast"> <select class="twikiSelect" name="etcell1x2" size="1"> <option>a</option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol2 twikiLast"> <select class="twikiSelect" name="etcell1x3" size="1 "> <option>a </option> <option>b</option> <option selected="selected">c</option> <option>d</option></select> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol3 twikiLastCol twikiLast"> <select class="twikiSelect" name="etcell1x4" size="1 "> <option>a </option> <option>b </option> <option selected="selected">c </option> <option>d</option></select> </td>
@@ -490,7 +490,7 @@ INPUT
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x1" value=":skull:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="radio" name="etcell1x1" value=":cool:" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x2x2" value=":skull:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/skull.gif" alt="dead!" title="dead!" border="0" /> <br /> <input type="checkbox" name="etcell1x2x3" value=":cool:" checked="checked" /> <img src="$pubPathSystemWeb/SmiliesPlugin/cool.gif" alt="cool!" title="cool!" border="0" /> </td></tr></table><input type="hidden" name="etcell1x2" value="Chkbx: etcell1x2x2 etcell1x2x3" /> </td>
 		</tr>
 	</tbody>
@@ -546,8 +546,8 @@ INPUT
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.gif" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <a href="$viewUrl" class="twikiCurrentTopicLink twikiLink">$topicName</a> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLast"> <img src="%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/choice-yes.gif" alt="DONE" title="DONE" width="16" height="16" border="0" /> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <a href="$viewUrl" class="foswikiCurrentTopicLink foswikiLink">$topicName</a> </td>
 		</tr>
 	</tbody>
 </table>
@@ -600,7 +600,7 @@ INPUT
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <input class="twikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLast"> <input class="twikiInputField editTableInput" type="text" name="etcell1x1" size="30" value="%Y%" /> </td>
 			<td bgcolor="#ffffff" valign="top" class="twikiTableCol1 twikiLastCol twikiLast"> <input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="30" value="%TOPIC%" /> </td>
 		</tr>
 	</tbody>	
@@ -965,7 +965,7 @@ INPUT
 <table cellspacing="0" id="table1" cellpadding="0" class="twikiTable" rules="cols" border="1">
 	<tbody>
 		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol twikiLastCol twikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
+			<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLastCol twikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
 		</tr>
 	</tbody></table>
 <input type="hidden" name="etrows" value="1" />

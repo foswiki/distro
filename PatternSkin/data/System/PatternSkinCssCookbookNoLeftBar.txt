@@ -2,7 +2,7 @@
 
 ---+!! PatternSkinCssCookbook Recipe: Hide the left bar
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURLPATH%/hideleftbar.css

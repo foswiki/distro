@@ -859,7 +859,7 @@ sub _appendColNumberCssClass {
 sub _appendFirstColumnCssClass {
     my ($classList) = @_;
 
-    return _appendToClassList( $classList, 'twikiFirstCol' );
+    return _appendToClassList( $classList, 'foswikiFirstCol' );
 }
 
 sub _appendLastColumnCssClass {

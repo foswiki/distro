@@ -121,7 +121,7 @@ sub renderForEdit {
 
     # Treat like text, make it reasonably long, add a warning
     return (
-        '<br /><span class="twikiAlert">MISSING TYPE '
+        '<br /><span class="foswikiAlert">MISSING TYPE '
           . $this->{type}
           . '</span>',
         CGI::textfield(

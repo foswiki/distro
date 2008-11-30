@@ -14,7 +14,7 @@ Test table:
 | *Hamlet:* So much for this, sir; now shall you see the other.<br />You do remember all the circumstance? | *Horatio:* Remember it, my lord! |
 
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURLPATH%/edittable.css

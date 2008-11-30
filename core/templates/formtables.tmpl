@@ -2,19 +2,19 @@
 
 %{ Header definition for topic attachments and top table in attach screen }%
 %TMPL:DEF{FORM:display:header}%
-<div class="twikiForm">
-<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow twikiFirstCol' colspan='2'>
+<div class="foswikiForm">
+<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow foswikiFirstCol' colspan='2'>
 [[%A_TITLE%]]
 </th></tr>
 %TMPL:END%
 
 %{ Each row }%
 %TMPL:DEF{FORM:display:row}%
-<tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'>%A_TITLE%</td><td>
+<tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'>%A_TITLE%</td><td>
 %A_VALUE%
 </td></tr>
 %TMPL:END%
 
 %{ Footer }%
 %TMPL:DEF{FORM:display:footer}%
-</table></div><!--/twikiForm-->%TMPL:END%
+</table></div><!--/foswikiForm-->%TMPL:END%

@@ -60,7 +60,7 @@ sub open_html {
         $row2col1 .= CGI::span(
             {
                 title => 'default = ' . $v,
-                class => 'twikiAlert'
+                class => 'foswikiAlert'
             },
             '&delta;'
         );

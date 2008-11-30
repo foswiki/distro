@@ -659,7 +659,7 @@ sub renderFormForDisplay {
         $form =
           new Foswiki::Form( $this->{_session}, $this->{_web}, $fname, $this );
         return CGI::span(
-            { class => 'twikiAlert' },
+            { class => 'foswikiAlert' },
             "%MAKETEXT{\"Form definition '[_1]' not found\" args=\"$fname\"}%"
         ) . $form->renderForDisplay($this);
     }

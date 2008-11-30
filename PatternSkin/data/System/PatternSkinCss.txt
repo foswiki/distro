@@ -52,7 +52,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
       * #patternOuter - wrapper container
       * #patternFloatWrap - wrapper container
       * #patternMain - center area
-      * #patternMainContents - holder of patternTop, patternTopic, twikiForm, twikiAttachments, etc.
+      * #patternMainContents - holder of patternTop, patternTopic, foswikiForm, twikiAttachments, etc.
       * #patternTopBar - top bar area
       * #patternTopBarContents - header art / logo; contains topic %SYSTEMWEB%.WebTopBar
       * #patternBottomBar - bottom bar area
@@ -61,7 +61,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---++ Style classes
 
    * View
-      * .patternContent - container around .patternTopic in =view.pattern.tmpl= only; to be able to give .twikiAttachments and .twikiForm a different appearance when they are not enclosed by it, for example the personal data form on the user pages (where the user form is positioned outside, above the topic text)
+      * .patternContent - container around .patternTopic in =view.pattern.tmpl= only; to be able to give .twikiAttachments and .foswikiForm a different appearance when they are not enclosed by it, for example the personal data form on the user pages (where the user form is positioned outside, above the topic text)
       * .patternTopBarLogo - logo position in patternTopBar (topic %SYSTEMWEB%.WebTopBar)
       * .patternTopBarOverlay - striped white image background
       * .patternTopic - Foswiki topic text

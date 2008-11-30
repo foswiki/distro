@@ -51,7 +51,7 @@ Actual:
 ---+++ Parent with bullet list
 Expected:
 <!-- expected expand BULLET -->
-<ul><li><a class="twikiCurrentTopicLink twikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">%TOPIC%</a></li></ul>
+<ul><li><a class="foswikiCurrentTopicLink foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">%TOPIC%</a></li></ul>
 <!-- /expected -->
 Actual:
 <!-- actual -->
@@ -61,7 +61,7 @@ Actual:
 ---+++ Parent abbreviated
 Expected:
 <!-- expected expand ABBR -->
-<a class="twikiCurrentTopicLink twikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">Test...</a>
+<a class="foswikiCurrentTopicLink foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">Test...</a>
 <!-- /expected -->
 Actual:
 <!-- actual -->

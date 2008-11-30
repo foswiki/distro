@@ -82,7 +82,7 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 <table cellspacing="0" id="default" cellpadding="0" class="twikiTable" rules="rows" border="1">
 	<thead>
 	<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol0 twikiFirstCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=0;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Nr<input type="hidden" name="etcell1x1" value="*Nr*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=0;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Nr<input type="hidden" name="etcell1x1" value="*Nr*" /></font></a> </th>
 		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol1"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=1;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Text field<input type="hidden" name="etcell1x2" value="*Text field*" /></font></a> </th>
 		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol2"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=2;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Drop down<input type="hidden" name="etcell1x3" value="*Drop down*" /></font></a> </th>
 		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol3"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=3;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Mood<input type="hidden" name="etcell1x4" value="*Mood*" /></font></a> </th>
@@ -90,14 +90,14 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 	</tr>
 	</thead>
 	<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 twikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
+		<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol1"> <input class="twikiInputField editTableInput" type="text" name="etcell2x2" size="20" value="hello table" /> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol2"> <select class="twikiSelect" name="etcell2x3" size="1"> <option selected="selected">one</option> <option>two</option> <option>three</option> <option>four</option></select> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol3"> <input type="radio" name="etcell2x4" value=":-)" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell2x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell2x4" value=":-(" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
 		<td bgcolor="#ffffff" valign="top" class="twikiTableCol4 twikiLastCol"> 26 Jun 2002 12:30<input type="hidden" name="etcell2x5" value="26 Jun 2002 12:30" /> </td>
 	</tr>
 	<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol0 twikiFirstCol twikiLast"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
+		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol0 foswikiFirstCol twikiLast"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
 		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol1 twikiLast"> <input class="twikiInputField editTableInput" type="text" name="etcell3x2" size="20" value="" /> </td>
 
 		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol2 twikiLast"> <select class="twikiSelect" name="etcell3x3" size="1"> <option>one</option> <option selected="selected">two</option> <option>three</option> <option>four</option></select> </td>
@@ -176,7 +176,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
       * Set CANCEL_BUTTON = %MAKETEXT{"Cancel"}%
    
    * Default help texts
-      * Set INCLUDED_TOPIC_DOES_NOT_EXIST = <span class="twikiAlert">%MAKETEXT{"Warning: 'include' topic does not exist!"}%</span>
+      * Set INCLUDED_TOPIC_DOES_NOT_EXIST = <span class="foswikiAlert">%MAKETEXT{"Warning: 'include' topic does not exist!"}%</span>
    
 __Note:__ The Plugin uses base settings like date format, language and style from the JSCalendarContrib.
 

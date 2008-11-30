@@ -90,7 +90,7 @@ sub preview {
 
     # Disable links and inputs in the text
     $dispText =~
-      s#<a\s[^>]*>(.*?)</a>#<span class="twikiEmulatedLink">$1</span>#gis;
+      s#<a\s[^>]*>(.*?)</a>#<span class="foswikiEmulatedLink">$1</span>#gis;
     $dispText =~ s/<(input|button|textarea) /<$1 disabled="disabled" /gis;
     $dispText =~ s(</?form(|\s.*?)>)()gis;
     $dispText =~ s/(<[^>]*\bon[A-Za-z]+=)('[^']*'|"[^"]*")/$1''/gis;

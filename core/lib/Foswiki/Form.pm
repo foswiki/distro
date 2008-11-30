@@ -396,7 +396,7 @@ sub renderForEdit {
             }
 
             if ( $fieldDef->isMandatory() ) {
-                $extra .= CGI::span( { class => 'twikiAlert' }, ' *' );
+                $extra .= CGI::span( { class => 'foswikiAlert' }, ' *' );
             }
 
             $tmp =~ s/%ROWTITLE%/_link(

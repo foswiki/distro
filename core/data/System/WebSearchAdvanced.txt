@@ -80,7 +80,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 </div>
 </noautolink>
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
 *%MAKETEXT{"Other search options:"}%*
    * %MAKETEXT{"If you already know the name of the topic, enter the name of the topic into the ~[~[[_1]~]~[Jump box~]~] at the top" args="%SYSTEMWEB%.GoBox"}%
    * <a href="%SCRIPTURLPATH{"search"}%/%INCLUDINGWEB%/?scope=topic&regex=on&search=\.*">%MAKETEXT{"List all topics in the [_1] web in alphabetical order" args="<nop>%INCLUDINGWEB%"}%</a>

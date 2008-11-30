@@ -4,7 +4,7 @@
 
 *This recipe shows how center the page horizontally and vertically.*
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURLPATH%/centerpage.css

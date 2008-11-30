@@ -4,7 +4,7 @@
 
 *Cookbook example with other fonts and font colors.*
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURLPATH%/fonts.css

@@ -29,7 +29,7 @@ Outside verbatim
 ---+++ Expected
 <!-- expected 2 -->
 Outside verbatim with class
-<pre class="twikiAlert">
+<pre class="foswikiAlert">
 Inside verbatim with class
 </pre>
 Outside verbatim with class
@@ -37,7 +37,7 @@ Outside verbatim with class
 ---+++ Actual
 <!-- actual -->
 Outside verbatim with class
-<verbatim class="twikiAlert">
+<verbatim class="foswikiAlert">
 Inside verbatim with class
 </verbatim>
 Outside verbatim with class
@@ -84,7 +84,7 @@ Outside
 ---+++ Expected
 <!-- expected 5 -->
 Outside
-<pre class="twikiAlert">
+<pre class="foswikiAlert">
 Inside
 </pre>
 Outside
@@ -92,7 +92,7 @@ Outside
 ---+++ Actual
 <!-- actual -->
 Outside
-<pre class="twikiAlert">
+<pre class="foswikiAlert">
 Inside
 </pre>
 Outside
@@ -141,7 +141,7 @@ Outside
 ---+++ Expected
 <!-- expected 8 -->
 Outside
-<noautolink class="twikiAlert">
+<noautolink class="foswikiAlert">
 Inside
 </noautolink>
 Outside
@@ -149,7 +149,7 @@ Outside
 ---+++ Actual
 <!-- actual -->
 Outside
-<noautolink class="twikiAlert">
+<noautolink class="foswikiAlert">
 Inside
 </noautolink>
 Outside

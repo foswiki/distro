@@ -144,7 +144,7 @@ sub expandHTML {
               '-&gt;r'.$this->{CURR_REV};
         } else {
             # new _since the last notification_
-            $frev = CGI::span( { class=>'twikiNew' }, 'NEW' );
+            $frev = CGI::span( { class=>'foswikiNew' }, 'NEW' );
         }
     }
     $html =~ s/%REVISION%/$frev/g;

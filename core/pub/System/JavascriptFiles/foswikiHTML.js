@@ -191,7 +191,7 @@ foswiki.HTML = {
 	var elem = document.getElementById("my_div");
 	var nodeList = elem.getElementsByTagName('ul')
 	var attributes = {
-		"class":"twikiSmall twikiGrayText",
+		"class":"twikiSmall foswikiGrayText",
     	"style":
     		{
     			"fontSize":"20px",

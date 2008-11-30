@@ -122,7 +122,7 @@ sub oops {
             $n++;
         }
         $tmplData =~ s/%(PARAM\d+)%/
-          CGI::span({class=>'twikiAlert'},"MISSING $1 ")/ge if DEBUG;
+          CGI::span({class=>'foswikiAlert'},"MISSING $1 ")/ge if DEBUG;
         $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
         $tmplData =
           $session->renderer->getRenderedVersion( $tmplData, $web, $topic );

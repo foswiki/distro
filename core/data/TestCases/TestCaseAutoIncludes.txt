@@ -15,7 +15,7 @@ There was an old Man of the coast
 <p />
 <p />
 <p />
-<span class='twikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE TestCases.RecursiveInclude repeatedly, topic is already included.</dd></dl></span>
+<span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE TestCases.RecursiveInclude repeatedly, topic is already included.</dd></dl></span>
 Who placidly sat on a post;
 But when it was cold
 He relinquished his hold
@@ -38,7 +38,7 @@ And called for some hot buttered toast.
 <noautolink>
 <!-- expected expand FNF -->
 <p></p><p /><p />
-<span class='twikiAlert'>Warning: Can't find topic TestCases.FileNotFound</span>
+<span class='foswikiAlert'>Warning: Can't find topic TestCases.FileNotFound</span>
 <!-- /expected -->
 </noautolink>
 ---++ Actual
@@ -80,7 +80,7 @@ IncludedTopic
 
 ---+ Include nothing
 ---++ Expected
-<!-- expected NOWT --><p></p><p></p><span class='twikiAlert'>Warning: Can't find topic "".""</span><!-- /expected -->
+<!-- expected NOWT --><p></p><p></p><span class='foswikiAlert'>Warning: Can't find topic "".""</span><!-- /expected -->
 ---++ Actual
 <!-- actual -->%INCLUDE{""}%<!-- /actual -->
 

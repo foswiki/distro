@@ -77,20 +77,20 @@ h3, h4, h5, h6 {
    border-color:#e2e2e2;
 }
 /* to override old Render.pm coded font color style */
-.twikiNewLink font {
+.foswikiNewLink font {
    color:inherit;
 }
-.twikiNewLink a:link sup,
-.twikiNewLink a:visited sup {
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
    color:#777;
    border-color:#ddd;
 }
-.twikiNewLink a:hover sup {
+.foswikiNewLink a:hover sup {
    background-color:#0055b5;
    color:#fff;
    border-color:#0055b5;
 }
-.twikiNewLink {
+.foswikiNewLink {
    border-color:#ddd;
 }
 :link:focus,
@@ -255,14 +255,14 @@ a:hover.twistyTrigger {
    Foswiki styles
    -----------------------------------------------------------   */
 
-.twikiGrayText {
+.foswikiGrayText {
    color:#777;
 }
-.twikiGrayText a:link,
-.twikiGrayText a:visited {
+.foswikiGrayText a:link,
+.foswikiGrayText a:visited {
    color:#777;
 }
-.twikiGrayText a:hover {
+.foswikiGrayText a:hover {
    color:#fff;
 }
 
@@ -286,7 +286,7 @@ table.twikiFormTable td.twikiFormTableRow {
    background-color:#f0f6fb;
 }
 .patternContent .twikiAttachments,
-.patternContent .twikiForm {
+.patternContent .foswikiForm {
    background-color:#eef7fa;
 }
 .twikiAttachments table,
@@ -337,7 +337,7 @@ table.twikiFormTable th.twikiFormTableHRow font {
    background-color:#fff;
    border-color:#f00;
 }
-.twikiHelp {
+.foswikiHelp {
    background-color:#f5fbfe;
    border-color:#e2e2e2;
 }
@@ -345,11 +345,11 @@ table.twikiFormTable th.twikiFormTableHRow font {
 .twikiBroadcastMessage strong {
    color:#f00;
 }
-.twikiAlert,
-.twikiAlert code {
+.foswikiAlert,
+.foswikiAlert code {
    color:#f00;
 }
-.twikiEmulatedLink {
+.foswikiEmulatedLink {
    color:#4571d0;
 }
 .twikiPageForm table {
@@ -518,13 +518,13 @@ h4.patternSearchResultsHeader {
 .patternSearchResult .twikiBottomRow {
    border-color:#e2e2e2;
 }
-.patternSearchResult .twikiAlert {
+.patternSearchResult .foswikiAlert {
    color:#f00;
 }
-.patternSearchResult .twikiSummary .twikiAlert {
+.patternSearchResult .foswikiSummary .foswikiAlert {
    color:#900;
 }
-.patternSearchResult .twikiNew {
+.patternSearchResult .foswikiNew {
    background-color:#ECFADC;
    border-color:#049804;
    color:#049804;
@@ -535,7 +535,7 @@ h4.patternSearchResultsHeader {
 
 /* Search results in book view format */
 
-.patternBookView .twikiTopRow {
+.patternBookView .foswikiTopRow {
    background-color:transparent; /* set to WEBBGCOLOR in css.pattern.tmpl */
    color:#777;
 }

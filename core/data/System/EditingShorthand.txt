@@ -6,7 +6,7 @@
 %TABLE{}%
 <table class="twikiTable" border="1" cellpadding="3" bgcolor="#ffffff">
 <tr bgcolor="#ffffff">
-<th width="50%" class="twikiFirstCol">
+<th width="50%" class="foswikiFirstCol">
  Formatting Command:
 </th>
 <th width="25%">

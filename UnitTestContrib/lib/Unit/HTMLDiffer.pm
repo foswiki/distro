@@ -95,8 +95,8 @@ sub _rexeq {
     $a =~ s/\@TIME/[012]\\d:[0-5]\\d/g;
     my $wikiword = '[A-Z]+[a-z]+[A-Z]+\w+';
     $a =~ s/\@WIKIWORD/$wikiword/og;
-    my $satWord = '<a [^>]*class="twikiLink"[^>]*>'.$wikiword.'</a>';
-    my $unsatWord = '<span [^>]*class="twikiNewLink"[^>]*>'.$wikiword.'<a [^>]*><sup>\?</sup></a
+    my $satWord = '<a [^>]*class="foswikiLink"[^>]*>'.$wikiword.'</a>';
+    my $unsatWord = '<span [^>]*class="foswikiNewLink"[^>]*>'.$wikiword.'<a [^>]*><sup>\?</sup></a
 </span>';
     $a =~ s/!REX(\d+)!/$res[$1]/g;
     $a =~ s!/!\/!g;

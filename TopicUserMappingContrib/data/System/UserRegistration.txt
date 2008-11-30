@@ -299,7 +299,7 @@ return sOut;
 </div><!-- /twikiFormSteps-->
 </form>
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
    * %ICON{info}% %MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
 </div>
 

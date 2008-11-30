@@ -121,29 +121,29 @@ h2.patternTemplateTitle {
 	border:none;
 }
 /* Links */
-/* somehow the twikiNewLink style have to be before the general link styles */
-.twikiNewLink {
+/* somehow the foswikiNewLink style have to be before the general link styles */
+.foswikiNewLink {
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-.twikiNewLink a {
+.foswikiNewLink a {
 	text-decoration:none;
 	margin-left:1px;
 }
-.twikiNewLink a sup {
+.foswikiNewLink a sup {
 	text-align:center;
 	padding:0 2px;
 	vertical-align:baseline;
 	font-size:100%;
 	text-decoration:none;
 }
-.twikiNewLink a:link sup,
-.twikiNewLink a:visited sup {
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
 	border-width:1px;
 	border-style:solid;
 	text-decoration:none;
 }
-.twikiNewLink a:hover sup {
+.foswikiNewLink a:hover sup {
 	text-decoration:none;
 }
 
@@ -297,7 +297,7 @@ a.twikiSubmit:visited:active {
 }
 
 /*
-.twikiTable th.twikiFirstCol {
+.twikiTable th.foswikiFirstCol {
 	border-left-style:none;
 }
 */
@@ -347,9 +347,9 @@ a.twikiSubmit:visited:active {
 	border-width:2px;
 }
 .twikiAttachments,
-.twikiForm {
+.foswikiForm {
 	margin:1em 0;
-	padding:1px; /* fixes disappearing borders because of overflow:auto; in twikiForm */
+	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
 }
 .twikiTable h2, .twikiFormTable h2,
 .twikiTable h3, .twikiFormTable h3,
@@ -376,7 +376,7 @@ a.twikiSubmit:visited:active {
 }
 
 .patternContent .twikiAttachments,
-.patternContent .twikiForm {
+.patternContent .foswikiForm {
 	/* form or attachment table inside topic area */
 	font-size:94%; /*S2*/
 	padding:1em 20px; /*S5*/ /* top:use less padding for the toggle link; bottom:use less space in case the table is folded in  */
@@ -420,8 +420,8 @@ table.twikiFormTable td {
 	text-align:left;
 	vertical-align:top;
 }
-.twikiAttachments .twikiTable th.twikiFirstCol,
-.twikiAttachments .twikiTable td.twikiFirstCol {
+.twikiAttachments .twikiTable th.foswikiFirstCol,
+.twikiAttachments .twikiTable td.foswikiFirstCol {
 	/* make more width for the icon column */
 	width:26px;
 	text-align:center;
@@ -514,11 +514,11 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 	font-size:94%; /*S2*/
 	line-height:1.5em; /*S1*/
 }
-.twikiNew {}
-.twikiSummary {
+.foswikiNew {}
+.foswikiSummary {
 	font-size:86%; /*S3*/
 }
-.twikiEmulatedLink {
+.foswikiEmulatedLink {
 	text-decoration:underline;
 }
 .twikiPageForm table {
@@ -547,14 +547,14 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 .twikiBroadcastMessage {
 	margin:0 0 1.25em 0;
 }
-.twikiHelp {
+.foswikiHelp {
 	height:1%; /* for IE */
 	padding:1em;
 	margin:0;
 	border-style:solid;
 	border-width:2px;
 }
-.twikiHelp ul {
+.foswikiHelp ul {
 	margin:0;
 	padding-left:20px;
 }
@@ -563,7 +563,7 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-.twikiWebIndent {
+.foswikiWebIndent {
 	margin:0 0 0 1em;
 }
 a.twikiLinkInHeaderRight {
@@ -920,7 +920,7 @@ h4.patternSearchResultsHeader {
 	padding-bottom:.3em;
 	font-weight:normal;
 }
-.patternSearchResult .twikiTopRow {
+.patternSearchResult .foswikiTopRow {
 	padding-top:.2em;
 	margin-top:.1em;
 }
@@ -930,20 +930,20 @@ h4.patternSearchResultsHeader {
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-.patternSearchResult .twikiAlert {
+.patternSearchResult .foswikiAlert {
 	font-weight:bold;
 }
-.patternSearchResult .twikiSummary .twikiAlert {
+.patternSearchResult .foswikiSummary .foswikiAlert {
 	font-weight:normal;
 }
-.patternSearchResult .twikiNew {
+.patternSearchResult .foswikiNew {
 	border-width:1px;
 	border-style:solid;
 	font-size:86%; /*S3*/
 	padding:0 1px;
 	font-weight:bold;
 }
-.patternSearchResults .twikiHelp {
+.patternSearchResults .foswikiHelp {
 	display:block;
 	width:auto;
 	padding:.1em 5px;
@@ -974,7 +974,7 @@ h4.patternSearchResultsHeader {
 	margin:.5em 0 1.5em -5px;
 	padding:0 0 0 5px;
 }
-.patternBookView .twikiTopRow {
+.patternBookView .foswikiTopRow {
 	padding:.25em 5px .15em 5px; /*S4*/
 	margin:1em -5px .15em -5px; /*S4*/
 }
@@ -996,12 +996,12 @@ h4.patternSearchResultsHeader {
 .patternEditPage .patternTopic {
 	margin-bottom:0;
 }
-.patternEditPage .twikiForm {
+.patternEditPage .foswikiForm {
 	margin:1em 0 0 0;
 }
-.patternEditPage .twikiForm h1,
-.patternEditPage .twikiForm h2,
-.patternEditPage .twikiForm h3 {
+.patternEditPage .foswikiForm h1,
+.patternEditPage .foswikiForm h2,
+.patternEditPage .foswikiForm h3 {
 	/* same as twikiFormStep */
 	font-size:120%;
 	font-weight:bold;

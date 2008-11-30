@@ -4,7 +4,7 @@
 
 *This recipe shows how to put a border around the page, while centering the page horizontally.* The example on this page uses a gradient image as background - on top of a gray base color. You can choose to set no image of course.
 
-<div class="twikiHelp">
+<div class="foswikiHelp">
 This line loads the extra style definition:
 <verbatim>
    * Set USERSTYLEURL = %ATTACHURLPATH%/centerpageborder.css
@@ -24,7 +24,7 @@ background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gi
 }
 </style>
 </verbatim>
-<div class="twikiHelp">
+<div class="foswikiHelp">
 %ICON{info}% If you don't write this overloading style in a template and use an external =.css= file, you need to set the image to the absolute url:
 <pre>
 &lt;style type="text/css" media="all">

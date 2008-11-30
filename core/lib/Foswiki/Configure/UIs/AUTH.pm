@@ -77,7 +77,7 @@ HERE
             }
         );
         $output .= '&nbsp;'
-          . CGI::span( { class => 'twikiAlert' },
+          . CGI::span( { class => 'foswikiAlert' },
             CGI::strong('Notes on Security') );
         $output .= <<HERE;
 <ul>

@@ -67,11 +67,11 @@ Click to enlarge:%BR%
 <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a>
 <!--
 %SEARCH{ "%TOPIC%" scope="topic" nosearch="on" nototal="on" format="$pattern(.*\| *Screenshot\:[^\|]*\|([^\|]*).*)" }%
-<div class="twikiGrayText">Click to view full screenshot</div>-->
+<div class="foswikiGrayText">Click to view full screenshot</div>-->
 
 
 ---++ Information for site administrators
-<div class="twikiHelp">
+<div class="foswikiHelp">
 ---+++ Creating your own look
 If you want to make more changes than the themes on this page allow, you have the option to change CSS files and templates to make changes (small or large).
 

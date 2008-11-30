@@ -46,7 +46,7 @@ var URL_TEMPLATE = "%URLPARAM{"template"}%";
 %TMPL:DEF{"topicnamestep"}%<div class="twikiFormStep">
 ---+++ %MAKETEXT{"Topic name:"}%
 <p>
-%TMPL:P{"topicname"}% <span id="webTopicCreatorFeedback" class="twikiGrayText"><!--generated name will be put here--></span>
+%TMPL:P{"topicname"}% <span id="webTopicCreatorFeedback" class="foswikiGrayText"><!--generated name will be put here--></span>
 </p>%TMPL:P{"nonwikiword"}%
 </div><!--/twikiFormStep-->%TMPL:END%
 

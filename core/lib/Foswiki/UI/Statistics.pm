@@ -513,7 +513,7 @@ sub _printMsg {
     }
     else {
         if ( $msg =~ s/^\!// ) {
-            $msg = CGI::h4( CGI::span( { class => 'twikiAlert' }, $msg ) );
+            $msg = CGI::h4( CGI::span( { class => 'foswikiAlert' }, $msg ) );
         }
         elsif ( $msg =~ /^[A-Z]/ ) {
 
@@ -521,13 +521,13 @@ sub _printMsg {
             $msg =~ s/^([A-Z].*)/CGI::h3($1)/ge;
         }
         else {
-            $msg =~ s/(\*\*\*.*)/CGI::span( { class=>'twikiAlert' }, $1 )/ge;
+            $msg =~ s/(\*\*\*.*)/CGI::span( { class=>'foswikiAlert' }, $1 )/ge;
             $msg =~ s/^\s\s/&nbsp;&nbsp;/go;
             $msg =~ s/^\s/&nbsp;/go;
             $msg .= CGI::br();
         }
         $msg =~
-          s/==([A-Z]*)==/'=='.CGI::span( { class=>'twikiAlert' }, $1 ).'=='/ge;
+          s/==([A-Z]*)==/'=='.CGI::span( { class=>'foswikiAlert' }, $1 ).'=='/ge;
     }
     $session->{response}->print( $msg . "\n" ) if $msg;
 }

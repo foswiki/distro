@@ -79,7 +79,7 @@ sub ui {
     my $installed = 0;
     my $exts      = $this->_getListOfExtensions();
     foreach my $error ( @{ $this->{errors} } ) {
-        $table .= CGI::Tr( { class => 'twikiAlert' },
+        $table .= CGI::Tr( { class => 'foswikiAlert' },
             CGI::td( { colspan => 7 }, $error ) );
     }
 
@@ -146,7 +146,7 @@ To install an extension from this page, click on the link in the 'Action' column
 write files everywhere in your Foswiki installation. Otherwise you may see
 'No permission to write' errors during extension installation.
 INTRO
-    $page .= CGI::table( { class => 'twikiForm' }, $table );
+    $page .= CGI::table( { class => 'foswikiForm' }, $table );
     return $page;
 }
 

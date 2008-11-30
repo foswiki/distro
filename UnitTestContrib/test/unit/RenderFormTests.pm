@@ -183,45 +183,45 @@ sub test_render_formfield_with_form {
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic2);
     my $res = $meta->renderFormForDisplay();
     $this->assert_html_equals(<<HERE, $res);
-<div class="twikiForm">
-<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow twikiFirstCol' colspan='2'>
+<div class="foswikiForm">
+<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow foswikiFirstCol' colspan='2'>
 [[$this->{test_web}.InitializationForm][InitializationForm]]
-</th></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue Name </td><td>
+</th></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
 *no web*
-</td></tr>SOUR<tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr>SOUR<tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
 _hello world_
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
 ,   * high
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
 </td></tr></table>
-</div><!-- /twikiForm -->
+</div><!-- /foswikiForm -->
 HERE
     ($meta, $text) =
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
     $res = $meta->renderFormForDisplay();
     $this->assert_html_equals(<<HERE, $res);
-<div class="twikiForm">
-<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow twikiFirstCol' colspan='2'>
+<div class="foswikiForm">
+<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow foswikiFirstCol' colspan='2'>
 [[$this->{test_web}.InitializationForm][InitializationForm]]
-</th></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue Name </td><td>
+</th></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 ---+ Example problem
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
 *Defect*
-</td></tr>SOUR<tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr>SOUR<tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
 Defect, None
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
 Defect
-</td></tr><tr valign='top'><td class='twikiFormTableRow twikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
 </td></tr></table>
-</div><!-- /twikiForm -->
+</div><!-- /foswikiForm -->
 HERE
 }
 
@@ -235,7 +235,7 @@ sub test_render_for_edit {
     my $res = $formDef->renderForEdit($this->{test_web}, $testtopic1, $meta);
 
 my $expected = <<HERE;
-<div class="twikiForm twikiEditForm"><table class="twikiFormTable">
+<div class="foswikiForm twikiEditForm"><table class="twikiFormTable">
 <tr>
 <th class="twikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window" onclick="return launchWindow(&quot;TemporaryRenderFormTestsTestWebRenderFormTests&quot;,&quot;InitializationForm&quot;)">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="twikiChangeFormButton twikiButton" onclick="suppressSaveValidation()" /></th>
 </tr> 
@@ -251,7 +251,7 @@ Defect</textarea></td></tr>
 HERE
 
 my $oldstuff=<<HERE;
-<div class="twikiForm twikiEditForm">
+<div class="foswikiForm twikiEditForm">
 <table class="twikiFormTable">
  <tr>
   <th class="twikiFormTableHRow" colspan="2">

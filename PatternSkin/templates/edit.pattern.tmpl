@@ -59,7 +59,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 %TMPL:P{"saveoptions"}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="twikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
 
 
 %TMPL:DEF{"textarea"}%<textarea class="twikiTextarea twikiEditboxStyleProportional" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>
@@ -69,10 +69,10 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 %TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"sig"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%<br class="twikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
 
 
-%TMPL:DEF{"sig"}%<span class="patternSig twikiLeft"><label for="sig" class="twikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="twikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /></span><!--/patternSig-->%TMPL:END%
+%TMPL:DEF{"sig"}%<span class="patternSig twikiLeft"><label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste:"}%&nbsp;&nbsp;</label><input class="twikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /></span><!--/patternSig-->%TMPL:END%
 
 
-%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="twikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
 
 
 %TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%

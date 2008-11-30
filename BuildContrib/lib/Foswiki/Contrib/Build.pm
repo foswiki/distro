@@ -2092,4 +2092,4 @@ automatic installer script written using the Build<nop>Contrib.
       1 Check in any installed files that have existing =,v= files in your existing install (take care *not* to lock the files when you check in)
       1 Manually edit !LocalSite.cfg to set any configuration variables.
 
-%IF{"defined 'SYSTEMWEB'" else="<div class='twikiAlert'>%X% WARNING: SYSTEMWEB is not defined. Please add these definitions to your %USERSWEB%.SitePreferences, if they are not already there:<br><pre>   * <nop>Set SYSTEMWEB = %<nop>TWIKIWEB%<br>   * <nop>Set USERSWEB = %<nop>MAINWEB%</pre></div>"}%
+%IF{"defined 'SYSTEMWEB'" else="<div class='foswikiAlert'>%X% WARNING: SYSTEMWEB is not defined. Please add these definitions to your %USERSWEB%.SitePreferences, if they are not already there:<br><pre>   * <nop>Set SYSTEMWEB = %<nop>TWIKIWEB%<br>   * <nop>Set USERSWEB = %<nop>MAINWEB%</pre></div>"}%

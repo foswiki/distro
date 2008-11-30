@@ -103,7 +103,7 @@ Information for programmers.
 |=.twikiSortedAscendingCol=  |Sorted column, ascending  |
 |=.twikiSortedDescendingCol=  |Sorted column, descending  |
 |=.tableSortIcon=  |The sort icon holder (span)  |
-|=.twikiFirstCol=  |The first column  |
+|=.foswikiFirstCol=  |The first column  |
 |=.twikiTableEven= |Even numbered rows  |
 |=.twikiTableOdd= |Odd numbered rows  |
 |=.twikiTableCol= + column number  | Unique column identifier, for instance: =twikiTableCol0= |

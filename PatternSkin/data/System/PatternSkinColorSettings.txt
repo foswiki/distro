@@ -277,20 +277,20 @@ h3, h4, h5, h6 {
    border-color:%MINOR_SEPARATOR_BORDER%;
 }
 /* to override old Render.pm coded font color style */
-.twikiNewLink font {
+.foswikiNewLink font {
    color:inherit;
 }
-.twikiNewLink a:link sup,
-.twikiNewLink a:visited sup {
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
    color:%MUTED_TEXT%;
    border-color:%NEUTRAL_BORDER%;
 }
-.twikiNewLink a:hover sup {
+.foswikiNewLink a:hover sup {
    background-color:%LINK_BACKGROUND_HOVER%;
    color:%LINK_TEXT_HOVER%;
    border-color:%LINK_BACKGROUND_HOVER%;
 }
-.twikiNewLink {
+.foswikiNewLink {
    border-color:%NEUTRAL_BORDER%;
 }
 :link:focus,
@@ -455,14 +455,14 @@ a:hover.twistyTrigger {
    Foswiki styles
    -----------------------------------------------------------   */
 
-.twikiGrayText {
+.foswikiGrayText {
    color:%GRAYED_OUT_TEXT%;
 }
-.twikiGrayText a:link,
-.twikiGrayText a:visited {
+.foswikiGrayText a:link,
+.foswikiGrayText a:visited {
    color:%GRAYED_OUT_TEXT%;
 }
-.twikiGrayText a:hover {
+.foswikiGrayText a:hover {
    color:%LINK_TEXT_HOVER%;
 }
 
@@ -486,7 +486,7 @@ table.twikiFormTable td.twikiFormTableRow {
    background-color:%TABLE_DATA_ODD_BACKGROUND%;
 }
 .patternContent .twikiAttachments,
-.patternContent .twikiForm {
+.patternContent .foswikiForm {
    background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
 }
 .twikiAttachments table,
@@ -537,7 +537,7 @@ table.twikiFormTable th.twikiFormTableHRow font {
    background-color:%MAIN_TEXT_BACKGROUND%;
    border-color:%ALERT_BORDER%;
 }
-.twikiHelp {
+.foswikiHelp {
    background-color:%INFO_BACKGROUND%;
    border-color:%SEPARATOR_BORDER%;
 }
@@ -545,11 +545,11 @@ table.twikiFormTable th.twikiFormTableHRow font {
 .twikiBroadcastMessage strong {
    color:%ALERT_TEXT%;
 }
-.twikiAlert,
-.twikiAlert code {
+.foswikiAlert,
+.foswikiAlert code {
    color:%ALERT_TEXT%;
 }
-.twikiEmulatedLink {
+.foswikiEmulatedLink {
    color:%LINK_TEXT_NORMAL%;
 }
 .twikiPageForm table {
@@ -718,13 +718,13 @@ h4.patternSearchResultsHeader {
 .patternSearchResult .twikiBottomRow {
    border-color:%MINOR_SEPARATOR_BORDER%;
 }
-.patternSearchResult .twikiAlert {
+.patternSearchResult .foswikiAlert {
    color:%ALERT_TEXT%;
 }
-.patternSearchResult .twikiSummary .twikiAlert {
+.patternSearchResult .foswikiSummary .foswikiAlert {
    color:%ALERT_TEXT_MUTED%;
 }
-.patternSearchResult .twikiNew {
+.patternSearchResult .foswikiNew {
    background-color:%NEW_BACKGROUND%;
    border-color:%NEW_TEXT%;
    color:%NEW_TEXT%;
@@ -735,7 +735,7 @@ h4.patternSearchResultsHeader {
 
 /* Search results in book view format */
 
-.patternBookView .twikiTopRow {
+.patternBookView .foswikiTopRow {
    background-color:transparent; /* set to WEBBGCOLOR in css.pattern.tmpl */
    color:%MUTED_TEXT%;
 }

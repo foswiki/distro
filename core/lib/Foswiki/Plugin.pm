@@ -316,7 +316,7 @@ sub getDescription {
     my $web = $this->topicWeb();
     my $result = ' ' . ($web ? "$web." : '!') . $this->{name} . ' ';
     $result .=
-      CGI::span( { class => 'twikiGrayText twikiSmall' },
+      CGI::span( { class => 'foswikiGrayText twikiSmall' },
         '(' . $version . ')' );
     $result .= ': ' . $this->{description};
     return $result;

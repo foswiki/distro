@@ -6,7 +6,7 @@
 <div class="twikiPageForm">
 <table id="twikiSearchTable" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td class="twikiFirstCol">
+<td class="foswikiFirstCol">
 <form name="jumpAgain" action="%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%">
 *%MAKETEXT{"Did you spell the [_1] correctly?" args="%SYSTEMWEB%.WikiWord"}%* %MAKETEXT{"Remember, a [_1] is case sensitive." args="<nop>WikiWord"}% %BR%     <input type="text" class="twikiInputField" name="topic" size="36" value="%BASETOPIC%" /> <input type="submit" class="twikiSubmit" value="%MAKETEXT{"Jump"}%" />
 </form>

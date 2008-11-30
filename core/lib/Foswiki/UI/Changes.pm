@@ -39,7 +39,7 @@ sub changes {
             },
             'View all changes'
           );
-        $comment = CGI::div( { class => 'twikiHelp' }, $comment );
+        $comment = CGI::div( { class => 'foswikiHelp' }, $comment );
         $page .= $comment;
     }
     my %done = ();
@@ -70,7 +70,7 @@ sub changes {
             my $srev = 'r' . $change->{revision};
 
             if ( $change->{revision} == 1 ) {
-                $srev = CGI::span( { class => 'twikiNew' }, 'NEW' );
+                $srev = CGI::span( { class => 'foswikiNew' }, 'NEW' );
             }
             $thisChange =~ s/%TIME%/$time/g;
             $thisChange =~ s/%REVISION%/$srev/go;

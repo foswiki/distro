@@ -91,7 +91,7 @@ sub _newLinkFormat {
     unless ( $this->{NEWLINKFORMAT} ) {
         $this->{NEWLINKFORMAT} =
           $this->{session}->{prefs}->getPreferencesValue('NEWLINKFORMAT')
-          || '<span class="twikiNewLink">$text<a href="%SCRIPTURLPATH{edit}%/$web/$topic?topicparent=%WEB%.%TOPIC%" '
+          || '<span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{edit}%/$web/$topic?topicparent=%WEB%.%TOPIC%" '
           . 'rel="nofollow" title="%MAKETEXT{"Create this topic"}%">'
           . '?</a></span>';
     }
@@ -676,12 +676,12 @@ sub _renderExistingWikiWord {
     my ( $this, $web, $topic, $text, $anchor ) = @_;
 
     my $currentWebHome = '';
-    $currentWebHome = 'twikiCurrentWebHomeLink '
+    $currentWebHome = 'foswikiCurrentWebHomeLink '
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $Foswiki::cfg{HomeTopicName} ) );
 
     my $currentTopic = '';
-    $currentTopic = 'twikiCurrentTopicLink '
+    $currentTopic = 'foswikiCurrentTopicLink '
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $this->{session}->{topicName} ) );
 
@@ -691,14 +691,14 @@ sub _renderExistingWikiWord {
         $anchor = $this->makeAnchorName($anchor);
         push(
             @attrs,
-            class => $currentTopic . $currentWebHome . 'twikiAnchorLink',
+            class => $currentTopic . $currentWebHome . 'foswikiAnchorLink',
             href  => $href . '#' . $anchor
         );
     }
     else {
         push(
             @attrs,
-            class => $currentTopic . $currentWebHome . 'twikiLink',
+            class => $currentTopic . $currentWebHome . 'foswikiLink',
             href  => $href
         );
     }

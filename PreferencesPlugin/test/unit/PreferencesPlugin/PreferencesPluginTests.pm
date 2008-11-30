@@ -37,7 +37,7 @@ HERE
         $this->{test_web}, $this->{test_topic}, 'viewauth');
     $this->assert_html_equals(<<HTML, $result);
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
- <span style="font-weight:bold;" class="twikiAlert">FLEEGLE = SHELTER\0070</span>
+ <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
  <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="twikiSubmit" />
  &nbsp;
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="twikiButton" />
@@ -76,8 +76,8 @@ Normal text outside form
  <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="twikiSubmit" />
  &nbsp;
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="twikiButton" />
-   * Set <span style="font-weight:bold;" class="twikiAlert">FLEEGLE = SHELTER\0070</span>
-   * Set <span style="font-weight:bold;" class="twikiAlert">FLEEGLE2 = SHELTER\0071</span></form>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
+   * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = SHELTER\0071</span></form>
 <!-- Form ends before this
    * Set HIDDENSETTING = hidden
 -->

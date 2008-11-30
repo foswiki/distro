@@ -195,7 +195,7 @@ sub _generateEditField {
     push( @shelter, $html );
 
     return $START_MARKER.
-      CGI::span({class=>'twikiAlert',
+      CGI::span({class=>'foswikiAlert',
                  style=>'font-weight:bold;'},
                 $name . ' = SHELTER' . $MARKER . $#shelter).$END_MARKER;
 }

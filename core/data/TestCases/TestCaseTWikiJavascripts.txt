@@ -513,7 +513,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     	var elem = document.getElementById("setNodeAttributesInListContainer");
     	var nodeList = elem.getElementsByTagName('ul');
     	var attributes = {
-    		"class":"twikiSmall twikiGrayText",
+    		"class":"twikiSmall foswikiGrayText",
     		"style":
     			{
     				"fontSize":"20px",
@@ -528,7 +528,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     	var elem = nodeList[0];
     	/*
     	assertEquals("testSetNodeAttributesInListWithValidArgs class",
-    		"twikiSmall twikiGrayText",
+    		"twikiSmall foswikiGrayText",
     		elem.getAttribute("class"));
     	assertEquals("testSetNodeAttributesInListWithValidArgs style.color",
     		"20px",
