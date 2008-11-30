@@ -95,15 +95,15 @@ from esc tab hack moz min-height solution ***/
 	display:inline;
 }
 
-#patternLeftBar {
-	/* Left bar width is defined in viewleftbar.pattern.tmpl */
+#patternSideBar {
+	/* Left bar width is defined in viewsidebar.pattern.tmpl */
 	float:left;
 	display:inline;
 	position:relative; /* IE needs this or the contents won't show
 outside the parent container. */
 	overflow:hidden;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	left:-1px;
 	position:relative;
 	/* for margins and paddings use style.css */
@@ -388,7 +388,7 @@ textarea {
 #patternMainContents {
 	padding:0 1.5em 3em 3em;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	margin:0 1em 1em 1em;
 }
 
@@ -483,16 +483,16 @@ th.foswikiSortedDescendingCol a:hover font {
 	text-decoration:none;
 }
 /* TipsContrib - in left bar */
-#patternLeftBar .tipsOfTheDayHeader img {
+#patternSideBar .tipsOfTheDayHeader img {
 	/* hide lamp icon */
 	display:none;
 }
-#patternLeftBar .tipsOfTheDayContents {
+#patternSideBar .tipsOfTheDayContents {
 	padding:.25em .25em .5em .25em;
 	height:1%; /* or Win IE won't display a background */
 	overflow:hidden;
 }
-#patternLeftBar .tipsOfTheDayHeader {
+#patternSideBar .tipsOfTheDayHeader {
 	display:block;
 	font-weight:normal;
 }
@@ -737,53 +737,53 @@ a.foswikiLinkInHeaderRight {
 .patternTopic {
 	margin:1em 0 2em 0;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	font-size:94%; /*S2*/
 	padding:0 0 .5em 0;
 }
-#patternLeftBarContents a img {
+#patternSideBarContents a img {
 	margin:1px 0 0 0;
 }
-#patternLeftBarContents a:link,
-#patternLeftBarContents a:visited {
+#patternSideBarContents a:link,
+#patternSideBarContents a:visited {
 	text-decoration:none;
 }
-#patternLeftBarContents ul {
+#patternSideBarContents ul {
 	padding:0;
 	margin:.5em 0 1em 0;
 	list-style:none;
 }
-#patternLeftBarContents li {
+#patternSideBarContents li {
 	width:100%;
 	margin:0 1.1em 0 0;
 	overflow:hidden;
 }
-#patternLeftBarContents .patternWebIndicator {
+#patternSideBarContents .patternWebIndicator {
 	margin:0 -1em; /*S6*/
 	padding:.55em 1em; /*S6*/
 	line-height:1.4em;
 	text-align:center;
 }
-#patternLeftBarContents .patternWebIndicator a:link,
-#patternLeftBarContents .patternWebIndicator a:visited {
+#patternSideBarContents .patternWebIndicator a:link,
+#patternSideBarContents .patternWebIndicator a:visited {
 	text-decoration:none;
 }
-#patternLeftBarContents .patternLeftBarPersonal {
+#patternSideBarContents .patternLeftBarPersonal {
 	margin:0 -1em; /*S6*/
 	padding:.55em 1em; /*S6*/
 	width:100%;
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-#patternLeftBarContents .patternLeftBarPersonal ul {
+#patternSideBarContents .patternLeftBarPersonal ul {
 	margin:0;
 	padding:0;
 }
-#patternLeftBarContents .patternLeftBarPersonal li {
+#patternSideBarContents .patternLeftBarPersonal li {
 	padding-left:1em;
 	background-repeat:no-repeat;
 }
-#patternLeftBarContents .patternLeftBarPersonal a:hover {
+#patternSideBarContents .patternLeftBarPersonal a:hover {
 	text-decoration:none;
 }
 
@@ -1218,7 +1218,7 @@ tr.foswikiDiffDebug td {
 	background-color:#fff; /*** Sets background of center col***/
 	border-color:#ccc;
 }
-#patternLeftBar, #patternLeftBarContents { /* don't set a background here; use patternWrapper */ }
+#patternSideBar, #patternSideBarContents { /* don't set a background here; use patternWrapper */ }
 #patternWrapper {
 	background-color:#F6FAFD; /*BG13*/
 }
@@ -1394,11 +1394,11 @@ a:hover.twistyTrigger {
 	color:#333; /*T11*/
 }
 /* TipsContrib - in left bar */
-#patternLeftBar .tipsOfTheDay a:link,
-#patternLeftBar .tipsOfTheDay a:visited {
+#patternSideBar .tipsOfTheDay a:link,
+#patternSideBar .tipsOfTheDay a:visited {
 	color:#a00; /*T5*/
 }
-#patternLeftBar .tipsOfTheDay a:hover {
+#patternSideBar .tipsOfTheDay a:hover {
 	color:#FBF7E8; /*T3*/
 }
 
@@ -1536,45 +1536,45 @@ a:hover .foswikiAccessKey {
 	background-color:#fff; /*BG1*/
 }
 /* Left bar */
-#patternLeftBarContents {
+#patternSideBarContents {
 	color:#666; /*T7*/
 }
-#patternLeftBarContents .patternWebIndicator {
+#patternSideBarContents .patternWebIndicator {
 	color:#000; /*T1*/
 }
-#patternLeftBarContents .patternWebIndicator a:link,
-#patternLeftBarContents .patternWebIndicator a:visited {
+#patternSideBarContents .patternWebIndicator a:link,
+#patternSideBarContents .patternWebIndicator a:visited {
 	color:#000; /*T1*/
 }
-#patternLeftBarContents .patternWebIndicator a:hover {
+#patternSideBarContents .patternWebIndicator a:hover {
 	color:#FBF7E8; /*T3*/
 }
-#patternLeftBarContents hr {
+#patternSideBarContents hr {
 	color:#E2DCC8; /*BO4*/
 	background-color:#E2DCC8; /*BO4*/
 }
-#patternLeftBarContents a:link,
-#patternLeftBarContents a:visited {
+#patternSideBarContents a:link,
+#patternSideBarContents a:visited {
 	color:#7A4707; /*T6*/
 }
-#patternLeftBarContents a:hover {
+#patternSideBarContents a:hover {
 	color:#FBF7E8; /*C3*/
 }
-#patternLeftBarContents b,
-#patternLeftBarContents strong {
+#patternSideBarContents b,
+#patternSideBarContents strong {
 	color:#333; /*T11*/
 }
-#patternLeftBarContents .patternChangeLanguage {
+#patternSideBarContents .patternChangeLanguage {
 	color:#8E9195; /*T8*/
 }
-#patternLeftBarContents .patternLeftBarPersonal {
+#patternSideBarContents .patternLeftBarPersonal {
 	border-color:#D9EAF6;
 }
-#patternLeftBarContents .patternLeftBarPersonal a:link,
-#patternLeftBarContents .patternLeftBarPersonal a:visited {
+#patternSideBarContents .patternLeftBarPersonal a:link,
+#patternSideBarContents .patternLeftBarPersonal a:visited {
 	color:#06c; /*T2*/;
 }
-#patternLeftBarContents .patternLeftBarPersonal a:hover {
+#patternSideBarContents .patternLeftBarPersonal a:hover {
 	color:#FBF7E8; /*C3*/
 	background-color:#D6000F; /*BG2*/
 }

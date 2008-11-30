@@ -86,13 +86,13 @@ from esc tab hack moz min-height solution ***/
 	display:inline;
 }
 
-#patternLeftBar {
-	/* Left bar width is defined in viewleftbar.pattern.tmpl */
+#patternSideBar {
+	/* Left bar width is defined in viewsidebar.pattern.tmpl */
 	float:left;
 	display:inline;
 	overflow:hidden;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	position:relative;
 	/* for margins and paddings use style.css */
 }

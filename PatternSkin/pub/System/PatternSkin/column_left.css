@@ -6,7 +6,7 @@ depends on global settings in layout.css
 #patternOuter {
 	margin-left:14em;
 }
-#patternLeftBar {
+#patternSideBar {
 	width:14em;
 	margin-left:-14em;
 }

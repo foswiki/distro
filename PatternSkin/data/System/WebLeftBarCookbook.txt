@@ -16,7 +16,7 @@ Each link is an item in a bullet list. So it can look like this:
 
 The list is formatted with CSS. To get an idea of the actual look, see the list above formatted as in the left bar (you need to have =SKIN= set to PatternSkin):
 
-<div class="patternLeftBar" style="position:relative; top:0; left:0; padding:0; margin:0; border:0;">
+<div class="patternSideBar" style="position:relative; top:0; left:0; padding:0; margin:0; border:0;">
 <div class="patternLeftBarPersonal">
    * *My links*
       * WebHome

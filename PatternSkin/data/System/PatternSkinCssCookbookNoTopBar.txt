@@ -15,21 +15,21 @@ You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePre
 Add the dynamic link to the logo image to the topic text:
 <verbatim>
 <style type="text/css" media="all">
-#patternLeftBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
+#patternSideBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
 </style>
 </verbatim>
 <div class="twikiHelp">
 %ICON{info}% If you don't write this overloading style in a template and use an external =.css= file, you need to set the image to the absolute url:
 <pre>
 &lt;style type="text/css" media="all">
-#patternLeftBar { background-image:url("<nop>%PUBURLPATH%/<nop>%WEB%/<nop>%WEBPREFSTOPIC%/logo.gif"); }
+#patternSideBar { background-image:url("<nop>%PUBURLPATH%/<nop>%WEB%/<nop>%WEBPREFSTOPIC%/logo.gif"); }
 &lt;/style>
 </pre>
 You can always write a =&lt;style>= in a topic - all current browsers support this - but the page won't validate as valid XHTML.
 </div>
 
 <style type="text/css" media="all">
-#patternLeftBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
+#patternSideBar { background-image:url("%PUBURLPATH%/%WEB%/%WEBPREFSTOPIC%/logo.gif"); }
 </style>
 
 

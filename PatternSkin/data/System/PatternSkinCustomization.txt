@@ -84,7 +84,7 @@ view
         css
         viewtopbar
             %TWIKIWEB%.WebTopBar
-        viewleftbar
+        viewsidebar
             %WEB%.WebLeftBar
         viewtopicactionbuttons
         viewbottombar
@@ -226,13 +226,10 @@ You can remove these items from %TWIKIWEB%.WebTopBar.
 The view template is populated with page elements using template inclusions:
 
 <pre>
-%<nop>TMPL:INCLUDE{"page"}%
-%<nop>TMPL:INCLUDE{"viewtopbar"}%
-%<nop>TMPL:INCLUDE{"viewtoolbar"}%
-%<nop>TMPL:INCLUDE{"viewleftbar"}%
-%<nop>TMPL:INCLUDE{"viewrightbar"}%
+%<nop>TMPL:INCLUDE{"view"}%
 %<nop>TMPL:INCLUDE{"viewtopicactionbuttons"}%
-%<nop>TMPL:INCLUDE{"viewbottombar"}%
+%<nop>TMPL:INCLUDE{"viewtopbar"}%
+%<nop>TMPL:INCLUDE{"viewsidebar"}%
 </pre>
 
 Each included template draws a part of the screen.%BR%
@@ -262,40 +259,16 @@ See PatternSkinCssCookbookNoTopBar
 
 ---++ Left bar
 
----+++ I want to hide the left bar
+---+++ I want to hide the side bar
 
 *Using templates:* %BR%
-Omit =%<nop>TMPL:INCLUDE{"viewleftbar"}%= to hide the left bar, or in a custom template clear it using
+Omit =%<nop>TMPL:INCLUDE{"viewsidebar"}%= to hide the side bar, or in a custom template clear it using
 <blockquote><verbatim>
-%TMPL:DEF{"leftbar"}%%TMPL:END%
-%TMPL:DEF{"leftbardimensions"}%%TMPL:END%
+%TMPL:DEF{"sidebar"}%%TMPL:END%
 </verbatim></blockquote>
 
 *Using style sheets:* %BR%
 See PatternSkinCssCookbookNoLeftBar
-
----+++ I want to make the left bar wider
-
-*Using templates:* %BR%
-
-The left bar is 12 em wide by default.
-
-*Using templates:* %BR%
-Using either a template or a topic template, copy this definition in your custom template:
-
-<blockquote>
-<verbatim>
-%TMPL:DEF{"leftbardimensions"}%#patternOuter {
-	margin-left:12em;
-}
-#patternLeftBar {
-	width:12em;
-	margin-left:-12em;
-}%TMPL:END%
-</verbatim>
-And change the number from 12em to a different value (3 occurrences).
-</blockquote>
-
 
 
 ---++ Buttons

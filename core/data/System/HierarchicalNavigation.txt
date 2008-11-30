@@ -27,7 +27,7 @@ generates:
 
 When included in WebLeftBar (using default Pattern skin) this is styled to:
 
-<div id="patternLeftBarContents">
+<div id="patternSideBarContents">
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
 </div>
 
@@ -45,7 +45,7 @@ generates:
 
 When included in WebLeftBar (using default Pattern skin) this is styled to:
 
-<div id="patternLeftBarContents">
+<div id="patternSideBarContents">
 %INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
 </div>
 

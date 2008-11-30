@@ -1,0 +1,17 @@
+%{ to include a side bar on a page, just include this template in the page template }%
+%TMPL:DEF{"sidebar"}%<div id="patternSideBar"><div id="patternClearHeaderLeft"></div>
+<div id="patternSideBarContents">%TMPL:P{"webleftbar"}%
+</div><!-- /patternSideBarContents--></div><!-- /patternSideBar-->%TMPL:END%
+
+
+%TMPL:DEF{"webleftbarindicator"}%<div class="patternWebIndicator">
+   * [[%BASEWEB%.%HOMETOPIC%][<nop>%BASEWEB% Web]]
+</div>%TMPL:END%
+
+
+%TMPL:DEF{"webleftbar"}%%TMPL:P{"webleftbarindicator"}%
+%INCLUDE{"%WEB%.WebLeftBar"}%%TMPL:END%
+
+
+%TMPL:DEF{"startsidebarwrapper"}%<div id="patternWrapper">%TMPL:END%
+%TMPL:DEF{"endsidebarwrapper"}%</div><!-- /patternWrapper-->%TMPL:END%

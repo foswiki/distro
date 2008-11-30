@@ -17,7 +17,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 
    * All !PatternSkin specific classes have the prefix =pattern=: patternEditPage, patternTopicAction, etcetera. 
    * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =twiki=: twikiButton, twikiToc, etcetera. See for a complete list CascadingStyleSheets.
-   * Positional containers are referred by id, for instance =#patternLeftBar=.
+   * Positional containers are referred by id, for instance =#patternSideBar=.
 
 ---++ Namespaces
 
@@ -47,8 +47,8 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
       * #patternPage - html content container
       * Left bar:
          * #patternWrapper
-         * #patternLeftBar - left bar area
-         * #patternLeftBarContents - used for left menu
+         * #patternSideBar - left bar area
+         * #patternSideBarContents - used for left menu
       * #patternOuter - wrapper container
       * #patternFloatWrap - wrapper container
       * #patternMain - center area

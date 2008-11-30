@@ -624,23 +624,23 @@ a.twikiLinkInHeaderRight {
 	line-height:125%;
 	text-align:left;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	margin:0 0 1em 0;
 	padding-right:.5em;
 	padding-left:1em;
 }
 #patternMainContents,
 #patternBottomBarContents,
-#patternLeftBarContents,
+#patternSideBarContents,
 #patternTopBarContents {
 	padding-right:2em;
 	padding-left:2em;
 }
-#patternLeftBarContents,
+#patternSideBarContents,
 #patternMainContents {
 	padding-top:2em;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	padding-bottom:2em;
 }
 #patternTopBarContents {
@@ -673,43 +673,43 @@ a.twikiLinkInHeaderRight {
 }
 
 
-#patternLeftBarContents img {
+#patternSideBarContents img {
 	margin:0 3px 0 0;
 	vertical-align:text-bottom;
 }
-#patternLeftBarContents a:link,
-#patternLeftBarContents a:visited {
+#patternSideBarContents a:link,
+#patternSideBarContents a:visited {
 	text-decoration:none;
 }
 /*
-#patternLeftBarContents .patternLeftBarPersonal a:link,
-#patternLeftBarContents .patternLeftBarPersonal a:visited {
+#patternSideBarContents .patternLeftBarPersonal a:link,
+#patternSideBarContents .patternLeftBarPersonal a:visited {
 	text-decoration:underline;
 }
-#patternLeftBarContents .patternLeftBarPersonal ul a:link,
-#patternLeftBarContents .patternLeftBarPersonal ul a:visited {
+#patternSideBarContents .patternLeftBarPersonal ul a:link,
+#patternSideBarContents .patternLeftBarPersonal ul a:visited {
 	text-decoration:none;
 }
-#patternLeftBarContents .patternLeftBarPersonal ul a:hover {
+#patternSideBarContents .patternLeftBarPersonal ul a:hover {
 	text-decoration:underline;
 }
 */
-#patternLeftBarContents ul {
+#patternSideBarContents ul {
 	padding:0;
 	margin:0;
 	list-style:none;
 }
-#patternLeftBarContents,
-#patternLeftBarContents ul,
-#patternLeftBarContents li {
+#patternSideBarContents,
+#patternSideBarContents ul,
+#patternSideBarContents li {
 	line-height:1.35em;
 }
-#patternLeftBarContents h2 {
+#patternSideBarContents h2 {
 	border:none;
 	background-color:transparent;
 }
-#patternLeftBarContents .patternLeftBarPersonal,
-#patternLeftBarContents .patternWebIndicator {
+#patternSideBarContents .patternLeftBarPersonal,
+#patternSideBarContents .patternWebIndicator {
 	height:1%; /* for IE */
 	width:100%; /* for IE */
 	padding:0 1em .75em 1em;
@@ -718,8 +718,8 @@ a.twikiLinkInHeaderRight {
 	border-width:1px;
 }
 /*
-#patternLeftBarContents ul li a:link,
-#patternLeftBarContents ul li a:visited {
+#patternSideBarContents ul li a:link,
+#patternSideBarContents ul li a:visited {
 	display:block;
 	margin:0 -1em 0 -1em;
 	padding:.2em 1em;
@@ -732,10 +732,10 @@ a.twikiLinkInHeaderRight {
 .patternLeftBarPersonalContent {
 	padding:1em 0 0 0;
 }
-#patternLeftBarContents li {
+#patternSideBarContents li {
 	overflow:hidden;
 }
-html>body #patternLeftBarContents li { /* Mozilla */
+html>body #patternSideBarContents li { /* Mozilla */
 	overflow:visible;
 }
 

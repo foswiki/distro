@@ -19,7 +19,7 @@
    background:none;
    border-color:#dadada;
 }
-#patternLeftBar,
+#patternSideBar,
 #patternWrapper {
    background:#fff;
 }
@@ -408,26 +408,26 @@ a:hover .twikiAccessKey {
 }
 
 /* Left bar */
-#patternLeftBarContents {
+#patternSideBarContents {
    color:#000;
 }
-#patternLeftBarContents hr {
+#patternSideBarContents hr {
    color:#e2e2e2;
    background-color:#e2e2e2;
 }
-#patternLeftBarContents a:link,
-#patternLeftBarContents a:visited {
+#patternSideBarContents a:link,
+#patternSideBarContents a:visited {
    color:#444;
 }
-#patternLeftBarContents a:hover {
+#patternSideBarContents a:hover {
    color:#fff;
 }
-#patternLeftBarContents .patternLeftBarPersonal,
-#patternLeftBarContents .patternWebIndicator {
+#patternSideBarContents .patternLeftBarPersonal,
+#patternSideBarContents .patternWebIndicator {
 	border-color:#dadada;
 }
-#patternLeftBarContents b,
-#patternLeftBarContents strong {
+#patternSideBarContents b,
+#patternSideBarContents strong {
 	color:#d1400e;
 }
 

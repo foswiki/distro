@@ -111,8 +111,8 @@ templates/searchmeta.pattern.tmpl 0444
 templates/settings.pattern.tmpl 0444
 templates/view.pattern.tmpl 0444
 templates/viewbottombar.pattern.tmpl 0444
-templates/viewleftbar.pattern.tmpl 0444
-templates/viewnoleftbar.pattern.tmpl 0444
+templates/viewsidebar.pattern.tmpl 0444
+templates/viewnosidebar.pattern.tmpl 0444
 templates/viewnotopbar.pattern.tmpl 0444
 templates/viewplain.pattern.tmpl 0444
 templates/viewprint.pattern.tmpl 0444

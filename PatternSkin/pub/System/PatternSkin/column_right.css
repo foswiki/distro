@@ -3,7 +3,7 @@ places the side bar at the right
 depends on global settings in layout.css
 */
 
-#patternLeftBar {
+#patternSideBar {
 	float:right;
 }
 #patternMain {
@@ -13,12 +13,12 @@ depends on global settings in layout.css
 .patternViewPage #patternOuter {
 	margin-right:18em;
 }
-#patternLeftBar {
-	width:18em; /* includes left padding, see #patternLeftBarContents */
+#patternSideBar {
+	width:18em; /* includes left padding, see #patternSideBarContents */
 	margin-right:-18em;
 	margin-left:-1px;
 	position:relative;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	padding-left:2em;
 }

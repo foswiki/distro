@@ -11,10 +11,10 @@
 	display:hidden;
 }
 /* move the left bar contents down to show the logo */
-#patternLeftBarContents {
+#patternSideBarContents {
 	margin-top:64px; /* top bar height */
 }
-#patternLeftBar {
+#patternSideBar {
 	/* dynamic background image set in topic */
 	/* or write a hard coded image location here */
 	background-attachment:relative;

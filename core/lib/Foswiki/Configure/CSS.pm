@@ -174,13 +174,13 @@ from esc tab hack moz min-height solution ***/
 	display:inline;
 }
 
-#patternLeftBar {
-	/* Left bar width is defined in viewleftbar.pattern.tmpl */
+#patternSideBar {
+	/* Left bar width is defined in viewsidebar.pattern.tmpl */
 	float:left;
 	display:inline;
 	overflow:hidden;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	position:relative;
 	/* for margins and paddings use style.css */
 }
@@ -722,7 +722,7 @@ a.twikiLinkInHeaderRight {
 	line-height:125%;
 	text-align:left;
 }
-#patternLeftBarContents {
+#patternSideBarContents {
 	margin:0 0 1em 0;
 	padding-right:.5em;
 	padding-left:1em;
@@ -732,7 +732,7 @@ a.twikiLinkInHeaderRight {
 /* top paddings */
 #patternMainContents,
 #patternBottomBarContents,
-#patternLeftBarContents {
+#patternSideBarContents {
 	padding-top:1em;
 }
 .patternNoViewPage #patternMainContents {
@@ -781,26 +781,26 @@ a.twikiLinkInHeaderRight {
 	margin-right:2%;
 }
 
-#patternLeftBarContents {}
-#patternLeftBarContents img {
+#patternSideBarContents {}
+#patternSideBarContents img {
 	margin:0 3px 0 0;
 	vertical-align:text-bottom;
 }
-#patternLeftBarContents a:link,
-#patternLeftBarContents a:visited {
+#patternSideBarContents a:link,
+#patternSideBarContents a:visited {
 	text-decoration:none;
 }
-#patternLeftBarContents ul {
+#patternSideBarContents ul {
 	padding:0;
 	margin:0;
 	list-style:none;
 }
-#patternLeftBarContents h2 {
+#patternSideBarContents h2 {
 	border:none;
 	background-color:transparent;
 }
-#patternLeftBarContents .patternLeftBarPersonal,
-#patternLeftBarContents .patternWebIndicator {
+#patternSideBarContents .patternLeftBarPersonal,
+#patternSideBarContents .patternWebIndicator {
 	padding:0 1em .75em 1em;
 	margin:0 -1em .75em -1em; /*S6*/
 }
@@ -809,10 +809,10 @@ a.twikiLinkInHeaderRight {
 	font-weight:bold;
 }
 
-#patternLeftBarContents li {
+#patternSideBarContents li {
 	overflow:hidden;
 }
-html>body #patternLeftBarContents li { /* Mozilla */
+html>body #patternSideBarContents li { /* Mozilla */
 	overflow:visible;
 }
 
@@ -1182,7 +1182,7 @@ tr.twikiDiffDebug td {
 	background-color:#fff; /* Sets background of center col */
 	border-color:#cfcfcf;
 }
-#patternLeftBar,
+#patternSideBar,
 #patternWrapper {
 	background-color:#f5f9fb;
 }
@@ -1492,25 +1492,25 @@ a:hover .twikiAccessKey {
 }
 
 /* Left bar */
-#patternLeftBarContents {
+#patternSideBarContents {
 	color:#000;
 }
-#patternLeftBarContents hr {
+#patternSideBarContents hr {
 	color:#d9e8ef;
 	background-color:#d9e8ef;
 }
-#patternLeftBarContents a:link,
-#patternLeftBarContents a:visited {
+#patternSideBarContents a:link,
+#patternSideBarContents a:visited {
 	color:#555;
 }
-#patternLeftBarContents a:hover {
+#patternSideBarContents a:hover {
 	color:#fff;
 }
-#patternLeftBarContents .patternLeftBarPersonal a:link,
-#patternLeftBarContents .patternLeftBarPersonal a:visited {
+#patternSideBarContents .patternLeftBarPersonal a:link,
+#patternSideBarContents .patternLeftBarPersonal a:visited {
 	color:#4571d0;
 }
-#patternLeftBarContents .patternLeftBarPersonal a:hover {
+#patternSideBarContents .patternLeftBarPersonal a:hover {
 	color:#fff;
 }
 

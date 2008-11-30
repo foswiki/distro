@@ -21,7 +21,7 @@ Overrides global settings in layout.css, style.css and colors.css
 	padding-right:2em;
 	padding-left:2em;
 }
-#patternLeftBarContents,
+#patternSideBarContents,
 #patternMainContents {
 	padding-top:1em;
 }
