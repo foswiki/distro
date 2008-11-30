@@ -4,6 +4,7 @@
 #
 # Copyright (C) 1999-2006 Peter Thoeny, peter@thoeny.org
 # and TWiki Contributors.
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,5 +28,5 @@ BEGIN {
     require 'setlib.cfg';
 }
 
-use TWiki::Contrib::CompareRevisionsAddOn::Compare;
-TWiki::UI::run( \&TWiki::Contrib::CompareRevisionsAddOn::Compare::compare );
+use Foswiki::Contrib::CompareRevisionsAddOn::Compare;
+Foswiki::UI::run( \&Foswiki::Contrib::CompareRevisionsAddOn::Compare::compare );
