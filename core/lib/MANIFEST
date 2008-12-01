@@ -9,10 +9,10 @@
 !include ../PreferencesPlugin/lib/Foswiki/Plugins/PreferencesPlugin
 !include ../RenderListPlugin/lib/TWiki/Plugins/RenderListPlugin
 !include ../SlideShowPlugin/lib/TWiki/Plugins/SlideShowPlugin
-!include ../SmiliesPlugin/lib/TWiki/Plugins/SmiliesPlugin
-!include ../SpreadSheetPlugin/lib/TWiki/Plugins/SpreadSheetPlugin
-!include ../TablePlugin/lib/TWiki/Plugins/TablePlugin
-!include ../TipsContrib/lib/TWiki/Contrib/TipsContrib
+!include ../SmiliesPlugin/lib/Foswiki/Plugins/SmiliesPlugin
+!include ../SpreadSheetPlugin/lib/Foswiki/Plugins/SpreadSheetPlugin
+!include ../TablePlugin/lib/Foswiki/Plugins/TablePlugin
+!include ../TipsContrib/lib/Foswiki/Contrib/TipsContrib
 !include ../TinyMCEPlugin/lib/Foswiki/Plugins/TinyMCEPlugin
 !include ../TopicUserMappingContrib/lib/Foswiki/Contrib/TopicUserMappingContrib
 !include ../TwistyContrib/lib/Foswiki/Contrib/TwistyContrib
