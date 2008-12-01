@@ -1,6 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +18,7 @@
 
 
 # =========================
-package TWiki::Plugins::RenderListPlugin;    # change the package name and $pluginName!!!
+package Foswiki::Plugins::RenderListPlugin;    # change the package name and $pluginName!!!
 
 # =========================
 use vars qw(
@@ -35,20 +36,20 @@ sub initPlugin
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1 ) {
-        TWiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 1 ) {
+        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
         return 0;
     }
 
     # Get plugin debug flag
-    $debug = TWiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
+    $debug = Foswiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
 
     # one time initialization
-    $pubUrl = TWiki::Func::getUrlHost() . TWiki::Func::getPubUrlPath();
+    $pubUrl = Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath();
     $attachUrl = "$pubUrl/$installWeb/$pluginName";
 
     # Plugin correctly initialized
-    TWiki::Func::writeDebug( "- TWiki::Plugins::${pluginName}::initPlugin( $web.$topic ) is OK" ) if $debug;
+    Foswiki::Func::writeDebug( "- Foswiki::Plugins::${pluginName}::initPlugin( $web.$topic ) is OK" ) if $debug;
     return 1;
 }
 
@@ -57,7 +58,7 @@ sub startRenderingHandler
 {
 ### my ( $text, $web ) = @_;   # do not uncomment, use $_[0], $_[1] instead
 
-    TWiki::Func::writeDebug( "- ${pluginName}::startRenderingHandler( $_[1] )" ) if $debug;
+    Foswiki::Func::writeDebug( "- ${pluginName}::startRenderingHandler( $_[1] )" ) if $debug;
 
     # This handler is called by getRenderedVersion just before the line loop
 
@@ -80,12 +81,12 @@ sub handleRenderList
     $thePre =~ s/ {3}/\t/gs;
     $theList =~ s/ {3}/\t/gs;
 
-    my $focus = &TWiki::Func::extractNameValuePair( $theAttr, "focus" );
-    my $depth = &TWiki::Func::extractNameValuePair( $theAttr, "depth" );
-    my $theme = &TWiki::Func::extractNameValuePair( $theAttr, "theme" ) ||
-                &TWiki::Func::extractNameValuePair( $theAttr );
+    my $focus = &Foswiki::Func::extractNameValuePair( $theAttr, "focus" );
+    my $depth = &Foswiki::Func::extractNameValuePair( $theAttr, "depth" );
+    my $theme = &Foswiki::Func::extractNameValuePair( $theAttr, "theme" ) ||
+                &Foswiki::Func::extractNameValuePair( $theAttr );
     $theme = "RENDERLISTPLUGIN_" . uc( $theme ) . "_THEME";
-    $theme = &TWiki::Func::getPreferencesValue( $theme ) || "unrecognized theme type";
+    $theme = &Foswiki::Func::getPreferencesValue( $theme ) || "unrecognized theme type";
     my ( $type, $params ) = split( /, */, $theme, 2 );
     $type = lc( $type );
 
@@ -178,9 +179,9 @@ sub renderIconList
     $theParams =~ s/%PUBURL%/$pubUrl/go;
     $theParams =~ s/%ATTACHURL%/$attachUrl/go;
     $theParams =~ s/%WEB%/$installWeb/go;
-    $theParams =~ s/%MAINWEB%/TWiki::Func::getMainWebname()/geo;
-    $theParams =~ s/%TWIKIWEB%/TWiki::Func::getTwikiWebname()/geo;  # deprecated
-    $theParams =~ s/%SYSTEMWEB%/TWiki::Func::getTwikiWebname()/geo;
+    $theParams =~ s/%MAINWEB%/Foswiki::Func::getMainWebname()/geo;
+    $theParams =~ s/%TWIKIWEB%/$Foswiki::cfg{SystemWebName}/geo;
+    $theParams =~ s/%SYSTEMWEB%/$Foswiki::cfg{SystemWebName}/geo;
     my ( $showLead, $width, $height, $iconSp, $iconT, $iconI, $iconL, $iconImg )
        = split( /, */, $theParams );
     $width   = 16 unless( $width );

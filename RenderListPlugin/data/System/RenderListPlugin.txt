@@ -340,22 +340,22 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the TWiki server.
+__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the Foswiki server.
 
    * Download the ZIP file from the Plugin Home (see below)
-   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
      | *File:* | *Description:* |
      | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==pub/TWiki/%TOPIC%/*.gif== | Image files for themes |
-   * TWiki 4.0 and up: Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script to enable the Plugin
+     | ==pub/System/%TOPIC%/*.gif== | Image files for themes |
+   * Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script to enable the Plugin
    * Test if the installation was successful: See if above examples work
 
 ---++ Plugin Info
 
 |  Plugin Author: | TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2006-2007, Peter@Thoeny.org, [[http://www.twiki.net/][TWIKI.NET]] |
+|  Copyright: | &copy; 2006-2007, Peter@Thoeny.org, [[http://www.twiki.net/][TWIKI.NET]]; &copy; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 15 Jan 2008 (2.0) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
