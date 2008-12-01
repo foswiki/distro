@@ -9,7 +9,7 @@
 File::MMagic ?
 File::MMtypes MIME::Types Archive::Any ),
 	qw( Module::Build ),
-		    qw( Error URI HTML::Tagset HTML::Parser LWP LWP::UserAgent XML::NamespaceSupport XML::Parser XML::Simple Algorithm::Diff Text::Diff HTML::Diff ),
+		    qw( Error URI HTML::Tagset HTML::Parser LWP LWP::UserAgent XML::NamespaceSupport XML::Parser XML::Simple Algorithm::Diff Text::Diff ),
 #		    qw( HTML::Form HTML::HeadParser HTTP::Status HTML::TokeParser HTTP::Daemon HTTP::Request ),
 		qw( Test::Simple Test::LongString),
 		    qw( WWW::Mechanize HTML::TableExtract WWW::Mechanize::TWiki ),

@@ -16,7 +16,7 @@ Provides comparison of rendered text with golden masters. The golden masters and
 
 The plugin is enabled when <code>?test=compare</code> is appended to the URL of a page.
 
-A test pass will generate an appropriate plain text message in the browser. A test failure is reported in a +diff= - style table. If neither of these outcomes is seen, and the topic renders as normal, then there is a problem with the installation (did you install HTML::Diff?)
+A test pass will generate an appropriate plain text message in the browser. A test failure is reported in a +diff= - style table. If neither of these outcomes is seen, and the topic renders as normal, then there is a problem with the installation (did you install Algorithm::Diff?)
 
 ---+ Syntax
 
@@ -41,7 +41,7 @@ You specify your actual test markup in the same way:
 </verbatim>
 
 Some notes about the comparison process:
-	1 The comparison is performed by HTML::Diff, which compares the HTML structures found in the text. See the documentation on HTML::Diff for help.
+	1 The comparison is performed by Algorithm::Diff, which compares the HTML structures found in the text. See the documentation on Algorithm::Diff for help.
 	* whitespace is effectively ignored.
 	* The comparison is _insensitive_ to the order of parameters to the tags, but _all_ parameters must be present.
 	* All HTML entities are _normalised_ to &amp;#dd; style decimal entities before comparison, so &amp;lt; will match &amp;#60;
@@ -67,7 +67,7 @@ Some notes about the comparison process:
 |  Plugin Version: | 1.000 |
 | Change History: <!-- Most recent first --> ||
 | 7 Nov 2004 | 1.000 Initial version. |
-|  Dependencies: | HTML::Diff |
+|  Dependencies: | Algorithm::Diff |
 |  Perl Version: | 5.8 |
 
 __Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]

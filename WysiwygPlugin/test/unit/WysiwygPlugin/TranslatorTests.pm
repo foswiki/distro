@@ -1726,8 +1726,6 @@ sub set_up {
     $Foswiki::Plugins::SESSION = $this->{twiki};
 }
 
-use HTML::Diff;
-
 sub normaliseEntities {
     my $text = shift;
     # Convert text entities to &# representation

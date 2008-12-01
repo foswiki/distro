@@ -117,7 +117,6 @@ This Foswiki Contrib provides locally-installable versions of the following CPAN
    * [[CPAN:FreezeThaw]]
    * [[CPAN:Getopt::Long]]
    * [[CPAN:HTML::CalendarMonthSimple]]
-   * [[CPAN:HTML::Diff]]
    * [[CPAN:HTML::Element]]
    * [[CPAN:HTML::FormatText]]
    * [[CPAN:HTML::Mason]]

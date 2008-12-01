@@ -27,7 +27,7 @@ require TWiki::Plugins::TestFixturePlugin::HTMLDiffer;
 # results that interact with test cases in the TestCases web.
 #
 # To use this plugin, you will have to:
-# 1 Have HTML::Diff installed
+# 1 Have Algorithm::Diff installed
 # 2 Create an empty topic in the 'TWiki' web of your test installation,
 #   called TestFixturePlugin.txt
 #
