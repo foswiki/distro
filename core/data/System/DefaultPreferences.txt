@@ -23,7 +23,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WEBBGCOLOR = #FFD8AA
 
    * [[http://en.wikipedia.org/wiki/Favicon][favicon]]: Attach a =favicon.ico= to a web's WebPreferences or add a =FAVICON= setting to WebPreferences
-      * Set FAVICON = %PUBURLPATH%/%BASEWEB%/%WEBPREFSTOPIC%/favicon.ico
+      * Set FAVICON = %PUBURLPATH%/%BASEWEB%/ProjectLogos/favicon.ico
 
    * Image, URL and alternate tooltip text of web's logo.
       * Set WEBLOGOIMG = %WIKILOGOIMG%

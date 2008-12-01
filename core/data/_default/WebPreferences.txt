@@ -65,4 +65,3 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
 
 %INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%
 
-%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="placeholder favicon" date="1100974473" path="favicon.ico" size="318" tmpFilename="/var/tmp/CGItemp25580" user="ProjectContributor" version="1.1"}%
