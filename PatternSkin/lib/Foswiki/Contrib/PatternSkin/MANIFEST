@@ -116,5 +116,4 @@ templates/viewnosidebar.pattern.tmpl 0444
 templates/viewnotopbar.pattern.tmpl 0444
 templates/viewplain.pattern.tmpl 0444
 templates/viewprint.pattern.tmpl 0444
-templates/viewrightbar.pattern.tmpl 0444
 templates/viewtopbar.pattern.tmpl 0444
