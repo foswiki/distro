@@ -3624,6 +3624,19 @@ sub REVINFO {
     $cgiRev = $cgiQuery->param('rev') if ($cgiQuery);
     my $rev = $params->{rev} || $cgiRev || '';
 
+    ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
+    if ($web ne $theWeb || $topic ne $theTopic) {
+        unless (
+            $this->security->checkAccessPermission(
+                'VIEW', $this->{user}, undef, undef, $topic, $web
+            )
+          )
+        {
+            return $this->inlineAlert( 'alerts', 'access_denied', $web,
+                $topic );
+        }
+    }
+
     return $this->renderer->renderRevisionInfo( $web, $topic, undef, $rev,
         $format );
 }

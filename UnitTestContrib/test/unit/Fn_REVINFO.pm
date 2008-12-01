@@ -193,6 +193,20 @@ HERE
     $this->assert_str_equals("unknown unknown unknown", $ui);
 }
 
+sub test_42 {
+    my $this = shift;
+    $this->{twiki}->{store}->saveTopic(
+        $this->{test_user_cuid},
+        $this->{test_web}, "HappyPill",
+        "   * Set ALLOWTOPICVIEW = CarlosCastenada\n");
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki();
+    my $ui = $this->{twiki}->handleCommonTags(
+        '%REVINFO{topic="'.$this->{test_web}.'.HappyPill" format="$username $wikiname $wikiusername"}%',
+        $this->{test_web}, 'GlumDrop');
+    $this->assert($ui =~ /No permission to view/);
+}
+
 # SMELL: need to test for other revs specified by the 'rev' parameter
 
 # SMELL: need to test for the format parameter strings:
