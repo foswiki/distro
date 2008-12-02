@@ -125,7 +125,7 @@ Edit this topic, and change the color as you like.
 ---++++ DIFF_HEADER_BACKGROUND Diff header (dark gray)
    * Local DIFF_HEADER_BACKGROUND = #ccc
 ---++++ NOTIFICATION_BACKGROUND Info, broadcast message and notifications
-   * Local NOTIFICATION_BACKGROUND = #fff0c4
+   * Local NOTIFICATION_BACKGROUND = #ffe67b
 ---++++ INFO_BACKGROUND
    * Local INFO_BACKGROUND = #f5fbfe
 
@@ -239,7 +239,7 @@ Do not change the text below this line unless you know what you are doing!
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:%NEUTRAL_BACKGROUND%;
+   background-color:%MAIN_TEXT_BACKGROUND%;
    color:%MAIN_TEXT%;
 }
 /* be kind to netscape 4 that doesn't understand inheritance */
@@ -527,9 +527,7 @@ table.twikiFormTable th.twikiFormTableHRow font {
 .twikiToc .twikiTocTitle {
    color:%MUTED_TEXT%;
 }
-.twikiBroadcastMessage {
-   background-color:%NOTIFICATION_BACKGROUND%;
-}
+.twikiBroadcastMessage,
 .twikiNotification {
    background-color:%NOTIFICATION_BACKGROUND%;
 }

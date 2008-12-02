@@ -2,18 +2,3 @@
 ---+!! !PatternSkin Graphics
 
 This topic contains original Photoshop files of the graphics used in PatternSkin.
-
-
-
-%META:FILEATTACHMENT{name="bg_button_16x16_generic.psd" attr="" autoattached="1" comment="" date="1184103822" path="bg_button_16x16_generic.psd" size="42546" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_button_small_gradient.psd" attr="" autoattached="1" comment="" date="1183834347" path="bg_button_small_gradient.psd" size="45720" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_buttoncancel_gradient.psd" attr="" autoattached="1" comment="" date="1184049809" path="bg_buttoncancel_gradient.psd" size="48326" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_sidebar_reflection.psd" attr="" autoattached="1" comment="" date="1184346543" path="bg_sidebar_reflection.psd" size="40794" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="button_arrow.psd" attr="" autoattached="1" comment="" date="1184105714" path="button_arrow.psd" size="49326" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="border_sidebar_personal.psd" attr="" autoattached="1" comment="" date="1183837374" path="border_sidebar_personal.psd" size="31112" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="button_font_selector.psd" attr="" autoattached="1" comment="" date="1184105854" path="button_font_selector.psd" size="205168" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_action_gradient.psd" attr="" autoattached="1" comment="" date="1184356164" path="bg_action_gradient.psd" size="33182" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_button_gradient.psd" attr="" autoattached="1" comment="" date="1183834340" path="bg_button_gradient.psd" size="46900" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_submit_gradient.psd" attr="" autoattached="1" comment="" date="1183665075" path="bg_submit_gradient.psd" size="46932" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="bg_outer_gradient.psd" attr="" autoattached="1" comment="" date="1184332110" path="bg_outer_gradient.psd" size="41852" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="TWiki_header.psd" attr="" autoattached="1" comment="" date="1182955036" path="TWiki_header.psd" size="425495" user="ProjectContributor" version=""}%

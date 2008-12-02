@@ -4,8 +4,17 @@
 <div class="twikiBroadcastMessage"> <strong>NOTE:</strong> Edit and Attach will be disabled today between 05:00 PM and 06:00 PM PDT (00:00 to 01:00 GMT) for a scheduled Foswiki maintenance.</div>
 -->
 
-
-
+<div class="twikiNotification">This is a notification. 
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+Normal text.
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+Normal text.
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+Normal text.
+</div>
 
 ---+!! h1 header [[%TOPIC%][with link]]
 

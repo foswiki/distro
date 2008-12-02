@@ -39,7 +39,7 @@
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:#f5f5f5;
+   background-color:#fff;
    color:#000;
 }
 /* be kind to netscape 4 that doesn't understand inheritance */
@@ -327,11 +327,9 @@ table.twikiFormTable th.twikiFormTableHRow font {
 .twikiToc .twikiTocTitle {
    color:#777;
 }
-.twikiBroadcastMessage {
-   background-color:#fff0c4;
-}
+.twikiBroadcastMessage,
 .twikiNotification {
-   background-color:#fff0c4;
+   background-color:#ffe67b;
 }
 #twikiLogin .patternLoginNotification {
    background-color:#fff;
@@ -771,6 +769,11 @@ a.twikiButton:active {
 }
 .patternButtonShrink:active {
    background-position:16px -84px;
+}
+.twikiBroadcastMessage,
+.twikiNotification {
+   background-image:url(background_alert.gif);
+   background-repeat:repeat-x;
 }
 
 /* common settings */

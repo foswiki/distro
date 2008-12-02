@@ -845,9 +845,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternTopicAction .patternActionButtons span strike {
 	text-decoration:none;
 }
-.patternTopicAction .patternSaveOptions {
-	margin-top:.5em;
-}
 .patternNoViewPage .patternTopicAction {
 	margin-top:-1px;
 }
@@ -1014,19 +1011,18 @@ h4.patternSearchResultsHeader {
 }
 .twikiChangeFormButtonHolder {
 	float:left;
-	margin:.5em 0;
+	margin:.5em 0 0 0;
 }
-.patternEditPage .patternTopicActions {
+.patternEditPage .patternActionButtons {
 	float:left;
+	margin:0.5em 0 0 0;
 }
 .twikiFormHolder { /* constrains the textarea */
 	width:100%;
 }
-.patternSig {
-
-}
+.patternSig {}
 .patternSigLine {
-	margin:.5em 0;
+	margin:.5em 0 0 0;
 	border-style:none;
 	height:1%; /* for IE */
 	float:right;
@@ -1047,6 +1043,11 @@ h4.patternSearchResultsHeader {
 .patternSaveHelp {
 	margin:2em 0 0 0;
 	line-height:1.5em;
+}
+.patternSaveOptions {
+	float:left;
+	margin:0.25em 0 0 0;
+	clear:both;
 }
 
 /* preview.pattern.tmpl */

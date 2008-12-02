@@ -20,7 +20,6 @@ as this will break the design ***/
 /* Last height declaration hidden from Mac IE 5.x */
 }
 body {
-	background:#fff;
 	min-width:100%; /*** This is needed for moz. Otherwise, the header and patternBottomBar will
 slide off the left side of the page if the screen width is narrower than the design.
 Not seen by IE. Left Col + Right Col + Center Col + Both Inner Borders + Both Outer Borders ***/
@@ -87,14 +86,12 @@ from esc tab hack moz min-height solution ***/
 }
 
 #patternSideBar {
-	/* Left bar width is defined in viewsidebar.pattern.tmpl */
 	float:left;
 	display:inline;
 	overflow:hidden;
 }
 #patternSideBarContents {
 	position:relative;
-	/* for margins and paddings use style.css */
 }
 #patternMain {
 	width:100%;
@@ -102,7 +99,6 @@ from esc tab hack moz min-height solution ***/
 	display:inline;
 }
 #patternTopBar {
-	/* Top bar height is defined in viewtopbar.pattern.tmpl */
 	z-index:1; /*** Critical value for Moz/Opera Background Column colors fudge to work ***/
 	position:absolute;
 	top:0px;
