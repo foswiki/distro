@@ -61,12 +61,12 @@ Same as last test
 <!-- expected expand rex TWOWEBS -->
 <div class="patternSearchResult"><div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor" class="foswikiLink">ProjectContributor</a></div><div class="twikiRight twikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/foswikiTopRow--><div class="twikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
 </div><!--/twikiBottomRow--></div><!--/patternSearchResult-->
-<div class="patternSearchResult"><div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TWiki/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor" class="foswikiLink">ProjectContributor</a></div><div class="twikiRight twikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TWiki/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/foswikiTopRow--><div class="twikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+<div class="patternSearchResult"><div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a></div><div class="twikiRight twikiSRAuthor"> <span class="foswikiNewLink">WikiGuest<a href="%SCRIPTURLPATH{"edit"}%/%USERSWEB%/WikiGuest?topicparent=TestCases.TestCaseAutoSearch" rel="nofollow" title="Create this topic">?</a></span> </div><div class="twikiRight twikiSRRev">r214 - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/foswikiTopRow--><div class="twikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
 </div><!--/twikiBottomRow--></div><!--/patternSearchResult-->
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->
-%SEARCH{ "WebPreferences$" type="regex" scope="topic" web="TestCases, TWiki" nosummary="on" nosearch="on" noheader="on" nototal="on" order="topic" }%
+%SEARCH{ "WebPreferences$" type="regex" scope="topic" web="TestCases, %SYSTEMWEB%" nosummary="on" nosearch="on" noheader="on" nototal="on" order="topic" }%
 <!-- /actual -->
 
 
@@ -74,19 +74,10 @@ Same as last test
 ---+ Topic search with all webs specified
 ---++ Expected
 <!-- expected expand rex ALLWEBS -->
-<div class="patternSearchResult">
-<div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TWiki/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
-<div class="twikiRight twikiSRAuthor">
-<a class='foswikiLink' href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
-<div class="twikiRight twikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TWiki/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div>
-<!--/foswikiTopRow--><div class="twikiBottomRow">
-<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/twikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
-<div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
-<div class="twikiRight twikiSRAuthor">
-<a class='foswikiLink' href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
-<div class="twikiRight twikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="twikiClear" /></div>
-<!--/foswikiTopRow--><div class="twikiBottomRow">
-<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/twikiBottomRow--></div><!--/patternSearchResult-->
+<div class="patternSearchResult"><div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD" class="foswikiLink">@WIKIWORD</a></div><div class="twikiRight twikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="twikiClear" /></div><!--/foswikiTopRow--><div class="twikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+</div><!--/twikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div><div class="twikiRight twikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD" class="foswikiLink">@WIKIWORD</a></div><div class="twikiRight twikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="twikiClear" /></div><!--/foswikiTopRow--><div class="twikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+
+</div><!--/twikiBottomRow--></div><!--/patternSearchResult-->
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->

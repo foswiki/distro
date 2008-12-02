@@ -60,7 +60,7 @@ Designed by: Crawford Currie
  <tr>
  <tr>
   <td>SYSTEMWEB</td>
-  <td><!-- expected dirtene -->SYSTEMWEB TWiki<!-- /expected --></td>
+  <td><!-- expected dirtene -->SYSTEMWEB System<!-- /expected --></td>
   <td><!-- actual -->SYSTEMWEB %SYSTEMWEB%<!-- /actual --></td>
  </tr>
  <tr>
