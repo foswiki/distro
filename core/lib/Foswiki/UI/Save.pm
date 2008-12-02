@@ -520,7 +520,7 @@ WARN
     my $saveCmd = $query->param('cmd') || 0;
     if ( $saveCmd && !$session->{users}->isAdmin( $session->{user} ) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'only_group',
             web    => $web,
             topic  => $topic,
@@ -611,7 +611,7 @@ WARN
 
     if ($merged) {
         throw Foswiki::OopsException(
-            'attention',
+            'attention', status => 200,
             def    => 'merge_notice',
             web    => $web,
             topic  => $topic,

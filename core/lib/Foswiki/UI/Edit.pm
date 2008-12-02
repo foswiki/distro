@@ -182,7 +182,7 @@ sub init_edit {
 
     if ( $saveCmd && !$session->{users}->isAdmin( $session->{user} ) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'only_group',
             web    => $webName,
             topic  => $topic,
@@ -235,7 +235,7 @@ sub init_edit {
 
             unless ( $store->topicExists( $templateWeb, $templateTopic ) ) {
                 throw Foswiki::OopsException(
-                    'accessdenied',
+                    'accessdenied', status => 403,
                     def   => 'no_such_topic_template',
                     web   => $templateWeb,
                     topic => $templateTopic

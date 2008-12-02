@@ -135,7 +135,7 @@ sub bulkRegister {
 
     unless ( $session->{users}->isAdmin($user) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'only_group',
             web    => $web,
             topic  => $topic,
@@ -420,6 +420,7 @@ sub _requireVerification {
 
     throw Foswiki::OopsException(
         'attention',
+        status => 200,
         def    => 'confirm',
         web    => $data->{webName},
         topic  => $topic,
@@ -469,7 +470,7 @@ sub resetPassword {
         # another user's password.
         unless ( $session->{users}->isAdmin($user) ) {
             throw Foswiki::OopsException(
-                'accessdenied',
+                'accessdenied', status => 403,
                 def    => 'only_group',
                 web    => $web,
                 topic  => $topic,
@@ -507,6 +508,7 @@ sub resetPassword {
 
         throw Foswiki::OopsException(
             'attention',
+            status => 200,
             topic  => $Foswiki::cfg{HomeTopicName},
             def    => 'reset_ok',
             params => [$message]
@@ -736,6 +738,7 @@ sub changePassword {
         # OK - password changed
         throw Foswiki::OopsException(
             'attention',
+            status => 200,
             web   => $webName,
             topic => $topic,
             def   => 'password_changed'
@@ -745,6 +748,7 @@ sub changePassword {
     # must be just email
     throw Foswiki::OopsException(
         'attention',
+        status => 200,
         web    => $webName,
         topic  => $topic,
         def    => 'email_changed',
@@ -893,6 +897,7 @@ sub complete {
     # and finally display thank you page
     throw Foswiki::OopsException(
         'attention',
+        status => 200,
         web    => $Foswiki::cfg{UsersWebName},
         topic  => $data->{WikiName},
         def    => 'thanks',

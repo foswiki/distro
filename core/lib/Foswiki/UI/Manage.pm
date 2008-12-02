@@ -136,7 +136,7 @@ sub _removeUser {
     $users->removeUser($cUID);
 
     throw Foswiki::OopsException(
-        'attention',
+        'attention', status => 200,
         def    => 'remove_user_done',
         web    => $webName,
         topic  => $topic,
@@ -237,7 +237,7 @@ sub _createWeb {
 
     # everything OK, redirect to last message
     throw Foswiki::OopsException(
-        'attention',
+        'attention', status => 200,
         web   => $newWeb,
         topic => $newTopic,
         def   => 'created_web'
@@ -312,7 +312,7 @@ sub rename {
         unless ( $session->{store}->topicExists( $oldWeb, lcfirst $oldTopic ) )
         {
             throw Foswiki::OopsException(
-                'accessdenied',
+                'accessdenied', status => 403,
                 def   => 'no_such_topic_rename',
                 web   => $oldWeb,
                 topic => $oldTopic
@@ -1624,7 +1624,7 @@ sub _restoreRevision {
 
         # user has no permission to change the topic
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'topic_access',
             web    => $web,
             topic  => $topic,

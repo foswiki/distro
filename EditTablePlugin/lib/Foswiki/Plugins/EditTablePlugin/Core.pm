@@ -1440,7 +1440,7 @@ sub doEnableEdit {
 
         # user has no permission to change the topic
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'topic_access',
             web    => $theWeb,
             topic  => $theTopic,

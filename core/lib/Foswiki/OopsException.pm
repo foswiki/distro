@@ -23,6 +23,7 @@ use Error;
 ...
 
 throw Foswiki::OopsException( 'bathplugin',
+                            status => 418,
                             def => 'toestuck',
                             web => $web,
                             topic => $topic,
@@ -83,7 +84,7 @@ NOTE: parameter values are automatically and unconditionally entity-encoded
 sub new {
     my $class    = shift;
     my $template = shift;
-    my $this     = bless( $class->SUPER::new(), $class );
+    my $this     = $class->SUPER::new();
     $this->{template} = $template;
     ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
       if DEBUG;
@@ -145,22 +146,44 @@ sub stringify {
     }
 }
 
+# Generate a redirect to an 'oops' script for this exception.
+#
+# If the 'keep' parameter is set in the
+# exception, it saves parameter values into the query as well. This is needed
+# if the query string might get lost during a passthrough, due to a POST
+# being redirected to a GET.
+# This redirect has been replaced by the generate function below and should
+# not be called in new code.
+sub redirect {
+    my ( $this, $session ) = @_;
+    my @p = $this->_prepareResponse($session);
+    my $url =
+      $session->getScriptUrl( 1, 'oops', $this->{web}, $this->{topic}, @p );
+    $session->redirect( $url, 1 );
+}
+
 =begin TML
 
----++ ObjectMethod redirect( $twiki )
+---++ ObjectMethod generate( $session )
 
-Generate a redirect to an 'oops' script for this exception.
-
-If the 'keep' parameter is set in the
-exception, it saves parameter values into the query as well. This is needed
-if the query string might get lost during a passthrough, due to a POST
-being redirected to a GET.
+Generate an error page for the exception. This will output the error page
+to the browser. The default HTTP Status for an Oops exception is 500. This
+can be overridden using the 'status => ' parameter to the constructor.
 
 =cut
 
-sub redirect {
-    my ( $this, $session ) = @_;
+sub generate {
+    my ($this, $session ) = @_;
 
+    my @p = $this->_prepareResponse( $session );
+    $session->{response}->status( $this->{status} || 500 );
+    require Foswiki::UI::Oops;
+    Foswiki::UI::Oops::oops($session, $this->{web}, $this->{topic},
+                            $session->{request}, 0);
+}
+
+sub _prepareResponse {
+    my ($this, $session ) = @_;
     my @p = ();
 
     $this->{template} = "oops$this->{template}"
@@ -169,12 +192,10 @@ sub redirect {
     push( @p, def => $this->{def} ) if $this->{def};
     my $n = 1;
     push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->{params} } );
-    my $url =
-      $session->getScriptUrl( 1, 'oops', $this->{web}, $this->{topic}, @p );
     while ( my $p = shift(@p) ) {
         $session->{request}->param( -name => $p, -value => shift(@p) );
     }
-    $session->redirect( $url, 1 );
+    return @p;
 }
 
 1;

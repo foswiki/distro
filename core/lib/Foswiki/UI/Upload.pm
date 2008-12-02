@@ -258,6 +258,7 @@ sub upload {
     else {
         throw Foswiki::OopsException(
             'attention',
+            status => 200,
             def    => 'upload_name_changed',
             web    => $webName,
             topic  => $topic,

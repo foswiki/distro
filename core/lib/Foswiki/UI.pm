@@ -182,18 +182,18 @@ sub execute {
                 # Login manager did not want to authenticate, perhaps because
                 # we are already authenticated.
                 my $exception = new Foswiki::OopsException(
-                    'accessdenied',
+                    'accessdenied', status => 403,
                     web    => $e->{web},
                     topic  => $e->{topic},
                     def    => 'topic_access',
                     params => [ $e->{mode}, $e->{reason} ]
                 );
 
-                $exception->redirect($session);
+                $exception->generate($session);
             }
         }
         catch Foswiki::OopsException with {
-            shift->redirect($session);
+            shift->generate($session);
         }
         catch Error::Simple with {
             my $e = shift;
@@ -276,7 +276,7 @@ sub checkWebExists {
 
     unless ( $session->{store}->webExists($webName) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'no_such_web',
             web    => $webName,
             topic  => $topic,
@@ -300,7 +300,7 @@ sub checkTopicExists {
 
     unless ( $session->{store}->topicExists( $webName, $topic ) ) {
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'no_such_topic',
             web    => $webName,
             topic  => $topic,
@@ -351,7 +351,7 @@ sub checkAccess {
       )
     {
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'topic_access',
             web    => $web,
             topic  => $topic,

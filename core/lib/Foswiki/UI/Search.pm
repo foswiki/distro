@@ -58,7 +58,7 @@ sub search {
     unless ( $session->{store}->webExists($webName) ) {
         require Foswiki::OopsException;
         throw Foswiki::OopsException(
-            'accessdenied',
+            'accessdenied', status => 403,
             def    => 'no_such_web',
             web    => $webName,
             topic  => $topic,

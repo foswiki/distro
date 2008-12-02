@@ -1403,12 +1403,14 @@ sub topicExists {
     my ( $this, $web, $topic ) = @_;
     $web =~ s#\.#/#go;
     ASSERT( defined($topic) ) if DEBUG;
-    if (DEBUG) {
-        my ( $webTest, $topicTest ) =
-          $this->{session}->normalizeWebTopicName( $web, $topic );
-        ASSERT( $topic eq $topicTest );
-        ASSERT( $web   eq $webTest );
-    }
+    # This test is invalid. This intent is good, but this function may
+    # be called with a deliberately undef web or topic.
+    #if (DEBUG) {
+    #    my ( $webTest, $topicTest ) =
+    #      $this->{session}->normalizeWebTopicName( $web, $topic );
+    #    ASSERT( $topic eq $topicTest );
+    #    ASSERT( $web   eq $webTest );
+    #}
     return 0 unless $topic;
 
     my $handler = _getHandler( $this, $web, $topic );

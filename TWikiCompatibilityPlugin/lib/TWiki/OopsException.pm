@@ -1,13 +1,9 @@
 package TWiki::OopsException;
-use Error;
-use Assert;
-use base 'Error';
-
-use Foswiki::OopsException;
+use base 'Foswiki::OopsException';
 
 sub new {
-    shift;
-    return new Foswiki::OopsException(@_);
+    my $class = shift;
+    return $class->SUPER::new(@_);
 }
 
 1;

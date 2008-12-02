@@ -1,10 +1,11 @@
 package ExceptionTests;
-use base FoswikiTestCase;
+use base 'FoswikiTestCase';
 
 use strict;
 
 use Error qw( :try );
 use Foswiki::OopsException;
+use Foswiki::AccessControlException;
 use Foswiki::UI::Oops;
 
 # Check an OopsException with one non-array parameter
@@ -63,6 +64,7 @@ sub upchuck {
     $e->redirect($session);
 }
 
+# Test for DEPRECATED redirect
 sub test_redirectOopsException {
     my $this = shift;
     my $t = new Foswiki();
