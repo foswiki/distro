@@ -562,12 +562,12 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 ---+++ Expected
 <!-- expected expand -->
 <span class="foswikiNewLink">AnchorLink#AnchorName<a href="%SCRIPTURLPATH{"edit"}%/TestCases/AnchorLink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
-<a class="foswikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/Macros#VarWEBLIST">Macros#VarWEBLIST</a>
+<a class="foswikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences#Tools">WebPreferences#Tools</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
 AnchorLink#AnchorName
-%SYSTEMWEB%.Macros#VarWEBLIST
+%SYSTEMWEB%.WebPreferences#Tools
 <!-- /actual -->
 
 ---++ Link at end of topic
