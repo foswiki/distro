@@ -139,8 +139,8 @@ else {
         $data{PM} . ( $data{"PM_$def{TYPE}"} || '' ) );
 }
 my $modPath = "$stubPath/$def{MODULE}";
-$def{UPLOADTARGETPUB}    = 'http://nextwiki.org/pub';
-$def{UPLOADTARGETSCRIPT} = 'http://nextwiki.org/bin';
+$def{UPLOADTARGETPUB}    = 'http://foswiki.org/pub';
+$def{UPLOADTARGETSCRIPT} = 'http://foswiki.org/bin';
 $def{UPLOADTARGETSUFFIX} = '';
 $def{UPLOADTARGETWEB}    = "Extensions";
 while (1) {
