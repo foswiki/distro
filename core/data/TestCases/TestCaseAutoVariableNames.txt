@@ -18,7 +18,7 @@ Designed by: Kenneth Lavrsen
    * Set Variable2 = Titlecase-with-number
    * Set VARIABLE2 = UPPERCASE-with-number
    * Set UP2DATE = MIXEDUPPERNUMBER
-   * Set All4TWiki = Mix-of-uplownumber
+   * Set All4Foswiki = Mix-of-uplownumber
    * Set camelCase = upperINthemiddle
    * Set UPPER_UNDERSCORE = UPPERCASE-with-underscore
    * Set lower_underscore = lowercase-with-underscore
@@ -71,7 +71,7 @@ Designed by: Kenneth Lavrsen
   <tr>
     <td>Mix of upper/lower and number</td>
     <td><!-- expected -->Mix-of-uplownumber<!-- /expected --></td>
-    <td><!-- actual -->%All4TWiki%<!-- /actual --></td>
+    <td><!-- actual -->%All4Foswiki%<!-- /actual --></td>
   </tr>
   <tr>
     <td>Upper case in the middle</td>

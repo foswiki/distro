@@ -94,7 +94,7 @@ Tag tests requiring manual inspection
 </tr>
 <tr>
  <td>PLUGINVERSION{"DefaultPlugin"}</td>
- <td>Look in =lib/TWiki/Plugins/DefaultPlugin.pm= to see what this should be</td>
+ <td>Look in =lib/Foswiki/Plugins/DefaultPlugin.pm= to see what this should be</td>
  <td>%PLUGINVERSION{"DefaultPlugin"}%</td>
 </tr>
 <tr>

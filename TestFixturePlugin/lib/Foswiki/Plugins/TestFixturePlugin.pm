@@ -13,22 +13,22 @@
 # GNU General Public License for more details, published at 
 # http://www.gnu.org/copyleft/gpl.html
 #
-package TWiki::Plugins::TestFixturePlugin;
+package Foswiki::Plugins::TestFixturePlugin;
 
 use strict;
 
-require TWiki::Func;    # The plugins API
-require TWiki::Attrs;
-require TWiki::Plugins::TestFixturePlugin::HTMLDiffer;
+require Foswiki::Func;    # The plugins API
+require Foswiki::Attrs;
+require Foswiki::Plugins::TestFixturePlugin::HTMLDiffer;
 
-# This is a test plugin designed to interact with TWiki testcases.
+# This is a test plugin designed to interact with Foswiki testcases.
 # It should NOT be shipped with a release.
 # It implements all possible plugin handlers, and generates selected
 # results that interact with test cases in the TestCases web.
 #
 # To use this plugin, you will have to:
 # 1 Have Algorithm::Diff installed
-# 2 Create an empty topic in the 'TWiki' web of your test installation,
+# 2 Create an empty topic in the 'Foswiki' web of your test installation,
 #   called TestFixturePlugin.txt
 #
 # DO NOT USE THIS PLUGIN IN A USER INSTALLATION. IT IS DESIGNED FOR
@@ -46,11 +46,10 @@ use vars qw(
             $installWeb $VERSION $RELEASE $pluginName
             $topic $web $user $installWeb
            );
-use vars qw( %TWikiCompatibility );
 
 use CGI qw( :any );
 
-# This should always be $Rev$ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev$';
@@ -129,7 +128,7 @@ sub _compareExpectedWithActual {
             $e->{text} = $et;
         }
         if ( $e->{options} =~ /\bexpand\b/ ) {
-            $et = TWiki::Func::expandCommonVariables( $et, $topic, $web );
+            $et = Foswiki::Func::expandCommonVariables( $et, $topic, $web );
         }
         my $at = $actual->[$i]->{text};
         my $control = {
@@ -138,7 +137,7 @@ sub _compareExpectedWithActual {
                        result => ''
                       };
 
-        if( TWiki::Plugins::TestFixturePlugin::HTMLDiffer::diff
+        if( Foswiki::Plugins::TestFixturePlugin::HTMLDiffer::diff
             ( $et, $at, $control )) {
 
             $errors .= CGI::table({border=>1},
@@ -169,7 +168,7 @@ sub _processDiff {
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
-    TWiki::Func::registerTagHandler('STRICTTAG', \&_STRICTTAG);
+    Foswiki::Func::registerTagHandler('STRICTTAG', \&_STRICTTAG);
 
     return 1;
 }
@@ -179,7 +178,7 @@ sub commonTagsHandler {
 }
 
 sub _extractParams {
-    my $params = new TWiki::Attrs(shift, 1);
+    my $params = new Foswiki::Attrs(shift, 1);
     return $params->stringify();
 }
 
@@ -196,14 +195,12 @@ sub preRenderingHandler {
     $oph = 0;
 }
 
-#$TWikiCompatibility{outsidePREHandler} = 1.1;
 sub outsidePREHandler {
     # Replace the text "%outsidePREHandler%" with some
     # recognisable text.
     $_[0] =~ s/%outsidePreHandler(\d+)%/$oph++;"$1OPH${oph}_line1\n$1OPH${oph}_line2\n$1OPH${oph}_line3\n"/ge;
 }
 
-#$TWikiCompatibility{insidePREHandler} = 1.1;
 sub insidePREHandler {
     # Replace the text "%insidePREHandler%" with some
     # recognisable text.
@@ -211,13 +208,13 @@ sub insidePREHandler {
 }
 
 sub postRenderingHandler {
-    my $q = TWiki::Func::getCgiQuery();
+    my $q = Foswiki::Func::getCgiQuery();
     my $t;
     $t = $q->param( 'test' ) if ( $q );
     $t = '' unless $t;
 
     if ( $t eq 'compare' && $_[0] =~ /<!--\s*actual\s*-->/ ) {
-        my ( $meta, $expected ) = TWiki::Func::readTopic( $web, $topic );
+        my ( $meta, $expected ) = Foswiki::Func::readTopic( $web, $topic );
         my $res = _compareExpectedWithActual( _parse( $expected, 'expected' ),
                                               _parse( $_[0], 'actual' ),
                                               $topic, $web);

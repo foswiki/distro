@@ -13,11 +13,11 @@
 # GNU General Public License for more details, published at 
 # http://www.gnu.org/copyleft/gpl.html
 #
-package TWiki::Plugins::TestFixturePlugin::CleanHTML;
+package Foswiki::Plugins::TestFixturePlugin::CleanHTML;
 
 use HTML::Parser;
 
-@TWiki::Plugins::TestFixturePlugin::CleanHTML::ISA = ( 'HTML::Parser' );
+@Foswiki::Plugins::TestFixturePlugin::CleanHTML::ISA = ( 'HTML::Parser' );
 
 my %entMap =
   (
@@ -129,14 +129,14 @@ sub _text {
     $this->{last_was_text} = 1;
 }
 
-package TWiki::Plugins::TestFixturePlugin::HTMLDiffer;
+package Foswiki::Plugins::TestFixturePlugin::HTMLDiffer;
 
 # Module for comparing two blocks of HTML to see if
 # they would render to the same thing.
 
 use Algorithm::Diff;
 
-my $cleaner = new TWiki::Plugins::TestFixturePlugin::CleanHTML();
+my $cleaner = new Foswiki::Plugins::TestFixturePlugin::CleanHTML();
 
 sub _tidy {
     my $a = shift;

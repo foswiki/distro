@@ -8,7 +8,7 @@ Designed by: Crawford Currie
 
 Expected outcome in each case is defined as the results of =extractParameters=, the Cairo equivalent to the attribute parser.
 
-This test uses the =STRICTTAG= feature of the !TestFixturePlugin, that simply creates a TWiki::Attrs from the parameter and then outputs it using =stringify()=
+This test uses the =STRICTTAG= feature of the !TestFixturePlugin, that simply creates a Foswiki::Attrs from the parameter and then outputs it using =stringify()=
 
 <table border=1>
 <tr><th>Input string</th>

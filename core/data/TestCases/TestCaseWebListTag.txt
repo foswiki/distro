@@ -13,23 +13,23 @@ Description: Tests for WEBLIST tag
   <td><!-- actual -->%WEBLIST{""}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>WEBLIST{"TWiki"}</td>
+  <td>WEBLIST{"System"}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%WEBLIST{"TWiki"}%<!-- /actual --></td>
+  <td><!-- actual -->%WEBLIST{"System"}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>WEBLIST{TWiki}</td>
+  <td>WEBLIST{System}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%WEBLIST{TWiki}%<!-- /actual --></td>
+  <td><!-- actual -->%WEBLIST{System}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>WEBLIST{"TWiki" marker="X" format="$web$name$qname$item$marker"}</td>
+  <td>WEBLIST{"System" marker="X" format="$web$name$qname$item$marker"}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%WEBLIST{"TWiki" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
+  <td><!-- actual -->%WEBLIST{"System" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>WEBLIST{"TWiki" separator="X" web="Y" webs="Z" selection="W"}</td>
+  <td>WEBLIST{"System" separator="X" web="Y" webs="Z" selection="W"}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%WEBLIST{TWiki}%<!-- /actual --></td>
+  <td><!-- actual -->%WEBLIST{System}%<!-- /actual --></td>
  </tr>
 </table>

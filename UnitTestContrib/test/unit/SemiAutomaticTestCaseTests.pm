@@ -13,18 +13,18 @@ sub list_tests {
     my ($this, $suite) = @_;
     my @set = $this->SUPER::list_tests(@_);
 
-    my $twiki = new Foswiki();
-    unless( $twiki->{store}->webExists('TestCases')) {
+    my $wiki = new Foswiki();
+    unless( $wiki->{store}->webExists('TestCases')) {
         print STDERR "Cannot run semi-automatic test cases; TestCases web not found";
         return;
     }
     eval "use Foswiki::Plugins::TestFixturePlugin";
     if ($@) {
         print STDERR "Cannot run semi-automatic test cases; could not find TestFixturePlugin";
-        $twiki->finish();
+        $wiki->finish();
         return;
     }
-    foreach my $case ($twiki->{store}->getTopicNames('TestCases')) {
+    foreach my $case ($wiki->{store}->getTopicNames('TestCases')) {
         next unless $case =~ /^TestCaseAuto/;
         my $test = 'SemiAutomaticTestCaseTests::test_'.$case;
         no strict 'refs';
@@ -32,7 +32,7 @@ sub list_tests {
         use strict 'refs';
         push(@set, $test);
     }
-    $twiki->finish();
+    $wiki->finish();
     return @set;
 }
 
@@ -44,22 +44,22 @@ sub run_testcase {
         skin=>'pattern'});
     $query->path_info( "/TestCases/$testcase" );
     $Foswiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
-    my $twiki = new Foswiki( $this->{test_user_login}, $query );
-    $twiki->{store}->saveTopic(
-        $twiki->{user}, $this->{users_web}, 'ProjectContributor', 'none');
-    my ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $twiki);
+    my $wiki = new Foswiki( $this->{test_user_login}, $query );
+    $wiki->{store}->saveTopic(
+        $wiki->{user}, $this->{users_web}, 'ProjectContributor', 'none');
+    my ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $wiki);
     unless( $text =~ m#<font color="green">ALL TESTS PASSED</font># ) {
         open(F,">${testcase}_run.html");
         print F $text;
         close F;
         $query->delete('test');
-        ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $twiki);
+        ($text, $result) = $this->capture( \&Foswiki::UI::View::view, $wiki);
         open(F,">${testcase}.html");
         print F $text;
         close F;
         $this->assert(0, "$testcase FAILED - output in ${testcase}.html and ${testcase}_run.html");
     }
-    $twiki->finish();
+    $wiki->finish();
 }
 
 sub test_suppresswarning {

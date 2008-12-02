@@ -8,10 +8,10 @@ BEGIN {
   }
 }
 
-use TWiki::Contrib::Build;
+use Fosiki::Contrib::Build;
 
 # Create the build object
-$build = new TWiki::Contrib::Build( 'TestFixturePlugin' );
+$build = new Foswiki::Contrib::Build( 'TestFixturePlugin' );
 
 # Build the target on the command line, or the default target
 $build->build($build->{target});

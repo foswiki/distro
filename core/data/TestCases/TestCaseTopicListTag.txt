@@ -10,23 +10,23 @@ Description: Test for TOPICLIST - rather huge, so in a topic on it's own
   <td><!-- actual -->%TOPICLIST{}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>TOPICLIST{"TWiki"}</td>
+  <td>TOPICLIST{"Foswiki"}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%TOPICLIST{"TWiki"}%<!-- /actual --></td>
+  <td><!-- actual -->%TOPICLIST{"Foswiki"}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>TOPICLIST{TWiki}</td>
+  <td>TOPICLIST{Foswiki}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%TOPICLIST{TWiki}%<!-- /actual --></td>
+  <td><!-- actual -->%TOPICLIST{Foswiki}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>TOPICLIST{"TWiki" marker="X" format="$web$name$qname$item$marker"}</td>
+  <td>TOPICLIST{"Foswiki" marker="X" format="$web$name$qname$item$marker"}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%TOPICLIST{"TWiki" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
+  <td><!-- actual -->%TOPICLIST{"Foswiki" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
  </tr>
  <tr>
-  <td>TOPICLIST{"TWiki" separator="X" web="Y" webs="Z" selection="W"}</td>
+  <td>TOPICLIST{"Foswiki" separator="X" web="Y" webs="Z" selection="W"}</td>
   <td><!-- expected --><!-- /expected --></td>
-  <td><!-- actual -->%TOPICLIST{TWiki}%<!-- /actual --></td>
+  <td><!-- actual -->%TOPICLIST{Foswiki}%<!-- /actual --></td>
  </tr>
 </table>
