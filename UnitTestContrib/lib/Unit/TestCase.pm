@@ -274,9 +274,10 @@ sub assert_html_matches {
 sub capture {
     my $this = shift;
     my $proc = shift;
-    
+
     require File::Temp;
     my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
+    my $tmpfilename = "$tmpdir/data";
 
     my $text = undef;
     my $response = undef;
@@ -286,12 +287,12 @@ sub capture {
 
     {
         local *STDOUT;
-        open(STDOUT, ">$tmpdir/data");
+        open STDOUT, ">", $tmpfilename
+	  or die "Can't open temporary STDOUT file $tmpfilename: $!";
 
         $result = &$proc( @params );
     }
-    
-    if ( $release >= 5 ) {
+
         $response =
           UNIVERSAL::isa( $params[0], 'Foswiki' )
           ? $params[0]->{response}
@@ -307,13 +308,6 @@ sub capture {
 
         # Capture body
         $text .= $response->body() if $response->body();
-    }
-    else {
-        open( FH, "$tmpdir/data" );
-        local $/ = undef;
-        $text = <FH>;
-        close(FH);
-    }
 
     return ( $text, $result );
 }
