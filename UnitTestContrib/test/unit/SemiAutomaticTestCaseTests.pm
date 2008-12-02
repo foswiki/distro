@@ -44,6 +44,7 @@ sub run_testcase {
         skin=>'pattern'});
     $query->path_info( "/TestCases/$testcase" );
     $Foswiki::cfg{Plugins}{TestFixturePlugin}{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{TestFixturePlugin}{Module} = 'Foswiki::Plugins::TestFixturePlugin';
     my $wiki = new Foswiki( $this->{test_user_login}, $query );
     $wiki->{store}->saveTopic(
         $wiki->{user}, $this->{users_web}, 'ProjectContributor', 'none');
