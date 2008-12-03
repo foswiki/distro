@@ -1,6 +1,6 @@
 %META:TOPICINFO{author="ProjectContributor" date="1093167095" format="1.0" version="$Rev$"}%
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
-   * <b>[[%INCLUDINGWEB%.%HOMETOPIC%][ %ICON{"home"}% <nop>%MAKETEXT{"[_1] Web" args="%INCLUDINGWEB%"}%]]</b>
+   * *%MAKETEXT{"Toolbox"}%*
    * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
    * [[%INCLUDINGWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
    * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]

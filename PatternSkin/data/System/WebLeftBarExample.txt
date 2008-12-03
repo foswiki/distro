@@ -1,13 +1,41 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 7555 $"}%
-   * <b>%MAKETEXT{"[_1] Web" args="<nop>%INCLUDINGWEB%"}%</b>
-   * [[%HOMETOPIC%][%MAKETEXT{"[_1] Web Home" args="%INCLUDINGWEB%"}%]]
-   * [[WebChanges][%MAKETEXT{"Changes"}%]] 
-   * [[WebIndex][%MAKETEXT{"Index"}%]]
-   * [[WebSearch][%MAKETEXT{"Search"}%]]
----
-   * *%MAKETEXT{"Webs"}%*
-%WEBLIST{"      * [[$name.%HOMETOPIC%][$name]]" separator=""}%
-<div class="patternLeftBarPersonal">
-%INCLUDE{"%MAINWEB%.%WIKINAME%LeftBar" warn="<a href=\"%SCRIPTURLPATH{"edit"}%/%MAINWEB%/%WIKINAME%LeftBar?templatetopic=%SYSTEMWEB%.WebLeftBarPersonalTemplate\">%MAKETEXT{"Create personal sidebar"}%</a>"}%
-</div>
+%META:TOPICINFO{author="ProjectContributor" date="1178746198" format="1.1" version="$Rev$"}%
+%INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
 
+   * *%MAKETEXT{"Toolbox"}%*
+   * %IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" else=" $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt" then="[[$percntUSERSWEB$percnt.$percntWIKIUSERSTOPIC$percnt][ $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt]]"}%
+   * [[%USERSWEB%.WikiGroups][ %ICON{"group"}% %MAKETEXT{"Groups"}%]]
+   * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
+   * [[%INCLUDINGWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
+   * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
+   * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
+   * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
+   * [[WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
+   * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
+
+   * <b>%MAKETEXT{"User Reference"}%</b>
+   * BeginnersStartHere
+   * TextFormattingRules
+   * [[%SYSTEMWEB%.Macros][Macros]]
+   * FormattedSearch
+   * QuerySearch
+   * DocumentGraphics
+   * SkinBrowser
+   * InstalledPlugins
+
+   * <b>%MAKETEXT{"Admin Maintenance"}%</b>
+   * [[ReferenceManual][Reference Manual]]
+   * AdminToolsCategory
+   * InterWikis
+   * ManagingWebs
+   * SiteTools
+   * %WIKIPREFSTOPIC%
+   * %WEBPREFSTOPIC%
+
+   * <b>%MAKETEXT{"Categories"}%</b>
+   * [[AdminDocumentationCategory][Admin Documentation]]
+   * [[AdminToolsCategory][Admin Tools]]
+   * [[DeveloperDocumentationCategory][Developer Doc]]
+   * [[UserDocumentationCategory][User Documentation]]
+   * [[UserToolsCategory][User Tools]]
+
+%INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%
