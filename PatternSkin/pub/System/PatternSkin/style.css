@@ -49,7 +49,7 @@ hr {
 }
 /* put overflow pre in a scroll area */
 pre {
-    width:auto
+    width:auto;
     height:1%;
     margin:1em 0; /* Win IE tries to make this bigger otherwise */
     border-style:solid;
