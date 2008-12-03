@@ -42,11 +42,11 @@ sub test_TWISTY_mode_default {
 %TWISTY{}%content%ENDTWISTY%
 SOURCE
 
-    my $result = <<RESULT;
+    my $expected = <<EXPECTED;
 <span class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">Close</span></a> </span></span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">content</span></span><!--/twistyPlugin-->
-RESULT
+EXPECTED
 
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTY_mode_div {
@@ -56,11 +56,11 @@ sub test_TWISTY_mode_div {
 %TWISTY{mode="div"}%div content%ENDTWISTY%
 SOURCE
 
-    my $result = <<RESULT;
+    my $expected = <<EXPECTED;
 <div class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">More...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">Close</span></a> </span>  </div><!--/twistyPlugin twikiMakeVisibleInline--> <div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">div content</div></div><!--/twistyPlugin-->
-RESULT
+EXPECTED
 
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTY_mode_default_with_id {
@@ -70,11 +70,11 @@ sub test_TWISTY_mode_default_with_id {
 %TWISTY{id="myid"}%content%ENDTWISTY%
 SOURCE
 
-    my $result = <<RESULT;
+    my $expected = <<EXPECTED;
 <span class="twistyPlugin twikiMakeVisibleInline"><span id="myidshow" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">More...</span></a></span><span id="myidhide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">Close</span></a> </span></span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin"><span id="myidtoggle" class="twistyContent twikiMakeHidden twistyInited">content</span></span><!--/twistyPlugin-->
-RESULT
+EXPECTED
 
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTYSHOW {
@@ -84,11 +84,11 @@ sub test_TWISTYSHOW {
 %TWISTYSHOW{id="myid"}%%TWISTYHIDE{id="myid"}%%TWISTYTOGGLE{id="myid"}%toggle content%ENDTWISTYTOGGLE%
 SOURCE
 
-    my $result = <<RESULT;
+    my $expected = <<EXPECTED;
 <span class="twistyPlugin twikiMakeVisibleInline"><span id="myidshow" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">More...</span></a> </span> </span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin twikiMakeVisibleInline"><span id="myidhide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">Close</span></a> </span> </span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin"><span id="myidtoggle" class="twistyContent twikiMakeHidden twistyInited">toggle content</span></span><!--/twistyPlugin-->
-RESULT
+EXPECTED
 
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTYBUTTON {
@@ -98,11 +98,11 @@ sub test_TWISTYBUTTON {
 %TWISTYBUTTON{id="myid" link="more"}%%TWISTYTOGGLE{id="myid"}%content%ENDTWISTYTOGGLE%
 SOURCE
 
-    my $result = <<RESULT;
+    my $expected = <<EXPECTED;
 <span class="twistyPlugin twikiMakeVisibleInline"><span id="myidshow" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">more</span></a></span><span id="myidhide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">more</span></a> </span>  </span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin"><span id="myidtoggle" class="twistyContent twikiMakeHidden twistyInited">content</span></span><!--/twistyPlugin-->
-RESULT
+EXPECTED
 
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTY_with_icons {
@@ -121,28 +121,28 @@ content with icons
 %ENDTWISTY%
 SOURCE
 
-    my $result = <<RESULT1;
+    my $expected = <<EXPECTED1;
 <div class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><img src="
-RESULT1
+EXPECTED1
  
-     $result .= "$pubUrlTWikiWeb/DocumentGraphics/toggleopen-small.gif";
+     $expected .= "$pubUrlTWikiWeb/DocumentGraphics/toggleopen-small.gif";
      
-$result .= <<RESULT2;
+$expected .= <<EXPECTED2;
 " border="0" alt="" /><span class="twikiLinkLabel twikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><img src="
-RESULT2
+EXPECTED2
 
-     $result .= "$pubUrlTWikiWeb/DocumentGraphics/toggleclose-small.gif";
+     $expected .= "$pubUrlTWikiWeb/DocumentGraphics/toggleclose-small.gif";
 
-$result .= <<RESULT3;
+$expected .= <<EXPECTED3;
 " border="0" alt="" /><span class="twikiLinkLabel twikiUnvisited">Hide</span></a> </span>  </div><!--/twistyPlugin twikiMakeVisibleInline--> <div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">
 content with icons
 </div></div><!--/twistyPlugin-->
-RESULT3
+EXPECTED3
 
     # fix introduced linebreaks
-    $result =~ s/src="\n/src="/go;
+    $expected =~ s/src="\n/src="/go;
     
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTY_remember {
@@ -176,13 +176,13 @@ my twisty content
 %ENDTWISTY%
 SOURCE
 
-    my $result = <<RESULT;
+    my $expected = <<EXPECTED;
 <span class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting2show" class="twistyRememberSetting twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">Show...</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting2hide" class="twistyRememberSetting twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited">Hide</span></a> </span></span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting2toggle" class="twistyRememberSetting twistyContent twikiMakeHidden twistyInited">
 my twisty content
 </span></span><!--/twistyPlugin-->
-RESULT
+EXPECTED
 
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
 sub test_TWISTY_escaped_variable {
@@ -193,26 +193,41 @@ sub test_TWISTY_escaped_variable {
 %TWISTY{link="\$percntY\$percnt"}%content%ENDTWISTY%
 SOURCE
 
-    my $result = <<RESULT1;
+    my $expected = <<EXPECTED1;
 <span class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited"><img src="
-RESULT1
+EXPECTED1
 
-    $result .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
+    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
 
-    $result .= <<RESULT2;
+    $expected .= <<EXPECTED2;
 " alt="DONE" title="DONE" width="16" height="16" border="0" /></span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited"><img src="
-RESULT2
+EXPECTED2
 
-    $result .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
+    $expected .= "$pubUrlTWikiWeb/DocumentGraphics/choice-yes.gif";
 
-    $result .= <<RESULT3;
+    $expected .= <<EXPECTED3;
 " alt="DONE" title="DONE" width="16" height="16" border="0" /></span></a> </span></span><!--/twistyPlugin twikiMakeVisibleInline--><span class="twistyPlugin"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">content</span></span><!--/twistyPlugin-->
-RESULT3
+EXPECTED3
 
     # fix introduced linebreaks
-    $result =~ s/src="\n/src="/go;
+    $expected =~ s/src="\n/src="/go;
     
-    $this->do_test($result, $source);
+    $this->do_test($expected, $source);
 }
 
+sub test_TWISTY_param_linkclass {
+    my $this = shift;
+    
+    my $source = <<SOURCE;
+%TWISTY{link="open" linkclass="twikiButton" mode="div"}%contents%ENDTWISTY%
+SOURCE
+
+    my $expected = <<EXPECTED;
+<div class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited twikiButton">open</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited twikiButton">open</span></a></span></div><!--/twistyPlugin twikiMakeVisibleInline--><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">
+contents
+</div></div><!--/twistyPlugin-->
+EXPECTED
+
+    $this->do_test($expected, $source);
+}
 1;

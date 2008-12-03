@@ -40,7 +40,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.5';
+$RELEASE = '1.5.1';
 
 $pluginName = 'TwistyPlugin';
 
@@ -223,7 +223,7 @@ sub _twistyBtn {
     if ( !defined $link ) {
         $link = $defaultLink || '';
     }
-
+    my $linkClass = $params->{'linkclass'} ? " $params->{'linkclass'}" : '';
     my $img =
          $params->{ $twistyControlState . 'img' }
       || $params->{'img'}
@@ -249,10 +249,11 @@ sub _twistyBtn {
       ( $imgleft ne '' )
       ? '<img src="' . $imgleft . '" border="0" alt="" />'
       : '';
+    
     my $imgLinkTag =
         '<a href="#">'
       . $imgLeftTag
-      . '<span class="twikiLinkLabel twikiUnvisited">'
+      . '<span class="twikiLinkLabel twikiUnvisited' . $linkClass . '">'
       . $link
       . '</span>'
       . $imgTag

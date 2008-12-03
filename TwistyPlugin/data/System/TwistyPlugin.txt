@@ -303,6 +303,31 @@ class="foswikiHelp"
 %ENDTWISTY%
 
 
+---+++ Styling the Twisty link or button
+Use parameter =linkclass= to style the twisty links:
+
+<verbatim>
+%TWISTY{
+mode="div"
+showlink="Show..."
+hidelink="Hide"
+linkclass="twikiButton"
+}%
+my twisty content
+%ENDTWISTY%
+</verbatim>
+
+Generates: %BR%
+%TWISTY{
+mode="div"
+showlink="Show..."
+hidelink="Hide"
+linkclass="twikiButton"
+}%
+%GREEN% my twisty content %ENDCOLOR%
+%ENDTWISTY%
+
+
 ---+++ Twisty headers
 To be able to use header tags like =&lt;h2>=, use the properties =prefix= and =suffix=. Because we have identical show and hide links we can use the shorthand property =link=.
 
@@ -431,6 +456,7 @@ Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
     | =firststart=   | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
     | =noscript=     | ="hide"= | Make content hidden in case use does not have !JavaScript on | optional, default content is shown in case !JavaScript if off |
     | =class=        | CSS class name | Class for Twisty div or span | optional, default none |
+    | =linkclass= | CSS class name | Class for link | optional, default none |
     | =prefix=       | Text      | Text to display before the show/hide links | optional, default none |
     | =suffix=       | Text      | Text to display after the show/hide links | optional, default none |
     | =img=          | Image url | %GREEN%Deprecated, use showimgleft, hideimgleft, showimgright or hideimgright.%ENDCOLOR% | optional, defaults to no image |
@@ -510,6 +536,7 @@ This is useful if both the show and the hide button take the same arguments.
     | =id= | Unique identifier | Used to link [[#VarTWISTYSHOW][TWISTYSHOW]], [[#VarTWISTYHIDE ][TWISTYHIDE ]] and [[#VarTWISTYTOGGLE][TWISTYTOGGLE]].  | required  |
     | =mode= | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. | optional, defaults to =&lt;span&gt;= |
     | =class= | CSS class name | Class for content div or span | optional, default none |
+    | =linkclass= | CSS class name | Class for link | optional, default none |
     | =remember= | ="on"=, ="off"= | If ="on"=, the Twisty state is remembered the next time the page is shown. If ="off"=, the stored setting will be cleared.<br /> *Note:* when used, think carefully about a unique name (id) for the Twisty, otherwise the cookie that is set might affect other Twisties with the same name. Also note that only interaction is stored, not the state of the Twisty when left unclicked. | optional, no default |
     | =start= | ="hide"= or ="show"= | Initial state of the Twisty; this will override any setting stored in a cookie (see =remember=).  | optional, default no initial state |
     | =firststart= | ="hide"= or ="show"= | Initial state of the Twisty the first time the visitor gets to see the Twisty; this will NOT override cookie settings (see =remember=).  | optional, default no initial state |
@@ -574,8 +601,9 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 |  Copyright &copy;: | Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Dependencies: | None |
-|  Plugin&nbsp;Version: | 27 Nov 2008 (version 1.5) |
+|  Plugin&nbsp;Version: | 03 Dec 2008 (version 1.5.1) |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
 |  08 Oct 2008 | 1.4.11, 1.4.12 It is now possible to have a twisty on the same line without a linebreak. |
 |  03 Aug 2008 | 1.4.10 TWiki 4.2.1 release version |
