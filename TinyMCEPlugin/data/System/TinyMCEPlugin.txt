@@ -114,11 +114,12 @@ The topic TinyMCEFrequentlyAskedQuestions contains more help with things like: "
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Plugin Author(s): | Foswiki:Main.CrawfordCurrie |
-|  Plugin Version: | 03 Aug 2008 %$VERSION% |
+|  Plugin Version: | %$VERSION% |
 |  Copyright: | &copy; 2007-2008 Crawford Currie http://c-dot.co.uk |
 |             | This package also includes the complete sources for version 2.1.1.1 of the !TinyMCE editor |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Dec 2008 | Re-released for the Foswiki project |
 |  03 Aug 2008 | TWiki 4.2.1 release version |
 |  04 May 2008 | TWikibug:Item5547: Change mechanism by which TMCE recognises textareas to camp on. Use class instead of element name. |
 |  12 Apr 2008 | TWikibug:Item4946: I think I have finally fixed non-iso-8859-1 character sets. Painful. |
