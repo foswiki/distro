@@ -3,8 +3,7 @@ unless ( scalar(@ARGV) ) {
     print <<DOC;
 Build an extension
 
-When run from the 'trunk' directory of a TWiki trunk checkout
-or the twikiplugins dir of 4.2.x and prior checkouts ,
+When run from the 'trunk' directory of a Foswiki trunk checkout
 this script will build the BuildContrib-enabled extension named in the
 first parameter. The second parameter is the build target for the extension.
 
@@ -30,9 +29,12 @@ if ( $extension =~ /Plugin$/ ) {
     $extdir = "Plugins";
 }
 
-my $scriptDir = "$extension/lib/TWiki/$extdir/$extension";
+my $scriptDir = "$extension/lib/Foswiki/$extdir/$extension";
 unless ( -e "$scriptDir/build.pl" ) {
-    die "$scriptDir/build.pl not found";
+    $scriptDir = "$extension/lib/TWiki/$extdir/$extension";
+    unless ( -e "$scriptDir/build.pl" ) {
+        die "build.pl not found";
+    }
 }
 
 my $call = './build.pl '.$arg.' '.$target;

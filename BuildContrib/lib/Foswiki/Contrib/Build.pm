@@ -61,7 +61,7 @@ my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
 
-my $targetProject = 'Foswiki';# May change to 'TWiki'
+my $targetProject = 'Foswiki';# May change to 'TWiki' later
 
 my $collector;           # general purpose handle for collecting stuff
 
@@ -1388,6 +1388,7 @@ END
     my $response = $userAgent->get("$url?raw=debug");
 
     my %newform;
+    my $formExists = 0;
     unless ( $response->is_success ) {
         print 'Failed to GET old topic ', $response->request->uri,
           ' -- ', $response->status_line, "\n";
@@ -1405,7 +1406,15 @@ END
                 if ( defined $val && length($val) ) {
                     $newform{$1} = $val;
                 }
+            } elsif ( $line =~ /META:FORM{name=/ ) {
+                $formExists = 1;
             }
+        }
+        if (!$formExists) {
+            $newform{formtemplate} ||= 'PackageForm';
+        }
+        if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
+            $newform{TopicClassification} ||= $1.'Package';
         }
     }
     local $/ = undef;    # set to read to EOF
@@ -1425,6 +1434,9 @@ END
     }
 
     $this->_uploadTopic( $userAgent, $user, $pass, $topic, \%newform );
+    my @attachments;
+    $newform{text} =~ s/%META:FILEATTACHMENT(.*)%/
+      push(@attachments, $1);''/ge;
 
     # Upload any 'Var*.txt' topics published by the extension
     my $dataDir = $this->{basedir} . '/data/System';
@@ -1444,13 +1456,12 @@ END
 
     # upload any attachments to the developer's version of the topic. Any other
     # attachments to the topic on t.o. will still be there.
-    my @attachments;
     my %uploaded;    # flag already uploaded
 
-    my $doupattachements = ask("Do you want to upload the attachments?", 1);
-        
+    my $doupattachements = scalar(@attachments) &&
+      ask("Do you want to upload the attachments?", 1);
+
     if ($doupattachements) {
-        $newform{text} =~ s/%META:FILEATTACHMENT(.*)%/push(@attachments, $1)/ge;
         foreach my $a (@attachments) {
             $a =~ /name="([^"]*)"/;
             my $name = $1;
@@ -2077,19 +2088,6 @@ sub _addDep {
 __DATA__
 You do not need to install anything in the browser to use this extension. The following instructions are for the administrator who installs the extension on the server.
 
-Like many other extensions, this module is shipped with a fully
-automatic installer script written using the Build<nop>Contrib.
-   * If you have TWiki 4.2 or later, you can install from the =configure= interface (Go to Plugins->Find More Extensions)
-      * See the [[http://foswiki.org/Extensions/BuildContribInstallationSupplement][installation supplement]] on TWiki.org for more information.
-   * If you have any problems, then you can still install manually from the command-line:
-      1 Download one of the =.zip= or =.tgz= archives
-      1 Unpack the archive in the root directory of your installation.
-      1 Run the installer script ( =perl &lt;module&gt;_installer= )
-      1 Run =configure= and enable the module, if it is a plugin.
-      1 Repeat for any missing dependencies.
-   * If you are *still* having problems, then instead of running the installer script:
-      1 Make sure that the file permissions allow the webserver user to access all files.
-      1 Check in any installed files that have existing =,v= files in your existing install (take care *not* to lock the files when you check in)
-      1 Manually edit !LocalSite.cfg to set any configuration variables.
+Open configure, and open the "Extensions" section. Use "Find More Extensions" to get a list of available extensions. Select "Install".
 
-%IF{"defined 'SYSTEMWEB'" else="<div class='foswikiAlert'>%X% WARNING: SYSTEMWEB is not defined. Please add these definitions to your %USERSWEB%.SitePreferences, if they are not already there:<br><pre>   * <nop>Set SYSTEMWEB = %<nop>TWIKIWEB%<br>   * <nop>Set USERSWEB = %<nop>MAINWEB%</pre></div>"}%
+If you have any problems, or if the extension isn't available in =configure=, then you can still install manually from the command-line. See http://foswiki.org/Support/ManuallyInstallingExtensions for more help.

@@ -160,7 +160,7 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.carrier.com][Carrier Corporation]]
    * [[http://twiki.net][TWIKI.NET]]
 
-|  Plugin Author(s): | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk |
+|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright | &copy; ILOG 2005 http://www.ilog.fr |
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |

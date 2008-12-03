@@ -116,9 +116,6 @@ if ( $def{TYPE} eq 'Plugin' ) {
     if (-e "EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
         # probably running in a checkout
         $rewrite = getFile("EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
-    } elsif (-e "twikiplugins/EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
-        # Old-style checkout
-        $rewrite = getFile("twikiplugins/EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
     } elsif (-e "../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm") {
         # core subdir in a new-style checkout
         $rewrite = getFile("../EmptyPlugin/lib/Foswiki/Plugins/EmptyPlugin.pm");
@@ -302,17 +299,17 @@ One line description, required for extensions repository catalog.
 
 %$INSTALL_INSTRUCTIONS%
 
----++ %$TYPE% Info
+---++ Info
 
 Many thanks to the following sponsors for supporting this work:
    * Acknowledge any sponsors here
 
-|  %$TYPE% Author(s): | |
+|  Author(s): | |
 |  Copyright: | &copy; |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  %$TYPE% Version: | %$VERSION% |
+|  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
-|  %$TYPE% Home: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/%$UPLOADTARGETWEB%/%$MODULE% |
+|  Home page: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/%$UPLOADTARGETWEB%/%$MODULE% |
 
-<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. -->

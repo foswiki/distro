@@ -25,8 +25,8 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Plugin Author: | Foswiki:Main.CrawfordCurrie |
-|  Copyright: | &copy; 2008, Crawford Currie http://c-dot.co.uk |
+|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
+|  Copyright: | &copy; 2008, Crawford Currie |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | %$VERSION% |
 |  Dependencies: | %$DEPENDENCIES% |

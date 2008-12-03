@@ -134,8 +134,7 @@ will generate newsletters from *all* webs every week on midnight Saturday.
 %X% Note: Multiple instances of mailnotify script are not allowed to be executed simutaneously. If you need to run the script multiple times with different options, make sure the cron jobs are scheduled so a previous run has finished before the next starts. You can also write a small script that runs mailnotify in sequence as described in Foswiki:Support.DuplicateNotificationsFromMailerCon.
 
 <!--
-	* Set STUB = Foswiki::Contrib::Mailer
-	* Set SHORTDESCRIPTION = Supports e-mail notification of changes.
+   * Set SHORTDESCRIPTION = Supports e-mail notification of changes.
 -->
 ---++ Developer Notes
 The changes mails sent to subscribers are based on a Foswiki template called =mailnotify=. This template must contain the following definitions. 
@@ -158,7 +157,7 @@ Many thanks to the following sponsors for supporting this work:
    * [[http://www.windriver.com][Wind River]]
    * [[http://wikigardens.com][WikiGardens]]
 
-|  Author: | Foswiki:Main/CrawfordCurrie (http://c-dot.co.uk) |
+|  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright &copy;: | 2004, Wind River Systems; 2008, http://WikiRing.com |
 |  License: | GPL |
 |  Version: | %$VERSION% |

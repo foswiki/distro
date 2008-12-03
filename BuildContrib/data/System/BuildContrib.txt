@@ -95,7 +95,7 @@ installation tree. Every plugin has some _key files_:
    * =pub/=
       * =System/=
          * <code><i>name</i>/</code> - directory where all your images, css, and Javascript files should go
-Contribs are held in the =lib/TWiki/Contrib= directory instead of =lib/Foswiki/Plugins= but otherwise in exactly work the same way.
+Contribs are held in the =lib/Foswiki/Contrib= directory instead of =lib/Foswiki/Plugins= but otherwise in exactly work the same way.
 
 Other directories normally found in a Foswiki installation may also exist under
 a root directory e.g. =bin=, =templates= etc.
@@ -316,8 +316,8 @@ that are most likely to be useful to anyone writing a script extension.
 You are stongly recommended to develop a unit test suite for your extension.
 Unit tests are kept in the =test/unit/&lt;name>= directory for each extension.
 
-To run the unit tests you will need to set up the test environment described
-in http://twiki.org/cgi-bin/view/Codev/TestCasesTutorial#SettingUpATestEnvironment. That page also includes extensive information on writing testcases.
+To run the unit tests you will need to set up the test environment as described
+in Foswiki::Development.GettingStarted
 
 The easiest way to generate tests for your extension is to copy the approach taken in another extension. See for example !ActionTrackerPlugin and !CommentPlugin, which both have extensive test suites.
 
@@ -327,7 +327,7 @@ Tests are run using
 ---++ Building a release
 When you are almost ready to release, you should 
    1 Build a release package and installer
-      * =cd BathPlugin/lib/TWiki/Plugins/BathPlugin=
+      * =cd BathPlugin/lib/Foswiki/Plugins/BathPlugin=
       * =perl build.pl release=
    1 Remove the softlinked version from your dev install
       * =cd= _dev install_
@@ -341,7 +341,7 @@ When you are almost ready to release, you should
 The =release= target automatically expands certain tokens in =.txt= files
 and in the installer script. The following tokens are supported:
    * =%$<nop>MANIFEST%= - table of files in MANIFEST
-   * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/System/ThsiTopic.txt' => 0664, 'lib/TWiki/Plugins/BlahPlugin.pm' => 0775
+   * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/System/ThsiTopic.txt' => 0664, 'lib/Foswiki/Plugins/BlahPlugin.pm' => 0775
    * =%$<nop>DEPENDENCIES%= - list of dependencies from DEPENDENCIES
    * =%$<nop>VERSION%= value of $VERSION
    * =%$<nop>DATE%= - local date
@@ -360,7 +360,7 @@ TODO: add code sample here?
 ---++ Upload
 When you are happy the release package is built correctly, you can
 upload it.
-   * =cd BathPlugin/lib/TWiki/Plugins/BathPlugin=
+   * =cd BathPlugin/lib/Foswiki/Plugins/BathPlugin=
    * =perl build.pl upload=
 By default the =upload= target will upload to Foswiki.org. You will be prompted
 to enter an alternate upload target, should you require it (e.g. to upload to
@@ -395,11 +395,12 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.
 
-|  Authors: | Crawford Currie |
-|  Copyright &copy;: | 2004-2008, Crawford Currie http://c-dot.co.uk |
+|  Authors: | [[http://c-dot.co.uk][Crawford Currie]] |
+|  Copyright &copy;: | 2004-2008, Foswiki Contributors |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 |  31 Aug 2008 | TWikibug:Item5971 BuildContrib broken upload on 4.2.2 with template login. Also adding query to optionally skip topic attachment upload. |
 |  22 Apr 2008 | TWikibug:Item5556 BuildContrib defaults all unspecified permissions to 664 && TWikibug:Item5455  	 BuildContrib doesn't cope with larger numbers of files - TWiki:Main.SvenDowideit|
 |  31 Jan 2008 | TWikibug:Item4751 support spaces in MANIFEST TWikibug:Item4990 removed dependency on external md5sum program TWikibug:Item5309 added tidy target |
