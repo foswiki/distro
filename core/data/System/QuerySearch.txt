@@ -69,7 +69,7 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
    * =fields= means the same as =META:FIELD=, You can also use the name of the form (the value of =form.name= e.g. =PersonForm=)
    * =preferences= means the same as =META:PREFERENCE=
 
-This plan is referenced using a simple syntax:
+Fields in this plan are referenced using a simple _field specifier_ syntax:
 | *Syntax* | *Means* | *Examples* |
 | =X= | refers to the field named =X=. | =info=, =META:TOPICMOVED=, =attachments=, =name=. |
 | =X.Y= | refers to the entry with the key =Y= in the structure named =X= | =info.date=, =moved.by=, =META:TOPICPARENT.name= |
@@ -95,10 +95,10 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | <code>=</code> | Left-hand side (LHS) exactly matches the value on the Right-hand side (RHS). Numbers and strings can be compared. |
 | <code>!=</code> | Inverse of <code>=</code>. |
 | =~= | wildcard match ('*' will match any number of characters, '?' will match any single character e.g. "PersonForm.Surname ~ '*Smit?'") Note: Surname ~ 'Smith' is the same as Surname = 'Smith' |
-| <code>&lt;</code> | LHS is less that RHS. If both sides are numbers, the order is numeric. Otherwise it is alphabetic (applies to all comparison operators) |
-| <code>&gt;</code> | &gt; |
-| <code>&gt;=</code> | &gte; |
-| <code>&lt;=</code> | &lte; |
+| <code>&lt;</code> | LHS is less than RHS. If both sides are numbers, the order is numeric. Otherwise it is lexical (applies to all comparison operators) |
+| <code>&gt;</code> | greater than |
+| <code>&lt;=</code> | less than or equal to |
+| <code>&gt;=</code> | greater than or equal to |
 | =lc(x)= | Converts x to lower case, Use for caseless comparisons. |
 | =uc(x)= | Converts x to UPPER CASE. Use for caseless comparisons. |
 | =d2n(x)= | Converts a date (expressed in [[TimeSpecifications][one of the formats that Foswiki can parse]]) to a number of seconds since 1st Jan 1970. This is the format dates are stored in inside Foswiki, and you have to convert a string date using =d2n= before you can compare it with - for example - the date an attachment was uploaded. Times without a timezone are assumed to be in server local time. If you have date fields in your forms, note that they are *not* stored in Foswiki's internal format, but are stored as text strings. You should still use =d2n= to convert them to numbers for comparisons, though. |

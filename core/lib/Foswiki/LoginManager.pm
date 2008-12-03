@@ -723,7 +723,8 @@ sub _pushCookie {
     my $cookie = CGI::Cookie->new(
         -name  => $Foswiki::LoginManager::Session::NAME,
         -value => $this->{_cgisession}->id(),
-        -path  => '/'
+        -path  => '/',
+        -httponly => 1
     );
 
     # An expiry time is only set if the session has the REMEMBER variable
