@@ -239,9 +239,13 @@ Do not change the text below this line unless you know what you are doing!
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:%MAIN_TEXT_BACKGROUND%;
+   background-color:%NEUTRAL_BACKGROUND%;
    color:%MAIN_TEXT%;
 }
+html body.patternEditPage {
+   background-color:%MAIN_TEXT_BACKGROUND%;
+}
+
 /* be kind to netscape 4 that doesn't understand inheritance */
 body, p, li, ul, ol, dl, dt, dd, acronym, h1, h2, h3, h4, h5, h6 {
    background-color:transparent;

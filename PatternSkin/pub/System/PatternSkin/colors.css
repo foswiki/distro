@@ -39,8 +39,11 @@
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:#fff;
+   background-color:#f5f5f5;
    color:#000;
+}
+html body.patternEditPage {
+   background-color:#f5f5f5;
 }
 /* be kind to netscape 4 that doesn't understand inheritance */
 body, p, li, ul, ol, dl, dt, dd, acronym, h1, h2, h3, h4, h5, h6 {
