@@ -21,13 +21,13 @@ var Pattern = {
 		var countStr = " " + "<span class='patternAttachmentCount'>" + " ("  + count + ")" + "<\/span>";
 		var showElem = document.getElementById('topicattachmentslistshow');
 		if (showElem != undefined) {
-			var labelElem = showElem.getElementsByTagName('a')[0].getElementsByTagName('span')[0];
-			labelElem.innerHTML += countStr;
+			var elems = foswiki.getElementsByClassName(showElem, 'patternToggleHeader');
+			elems[0].innerHTML += countStr;
 		}
 		var hideElem = document.getElementById('topicattachmentslisthide');
 		if (hideElem != undefined) {
-			var labelElem = hideElem.getElementsByTagName('a')[0].getElementsByTagName('span')[0];
-			labelElem.innerHTML += countStr;
+			var elems = foswiki.getElementsByClassName(hideElem, 'patternToggleHeader');
+			elems[0].innerHTML += countStr;
 		}
 	},
 	
@@ -77,7 +77,7 @@ var patternRules = {
 			foswiki.Form.restoreBeforeFocusText(this);
 		}
 	},
-	'#tabletwikiAttachmentsTable' : function(el) {
+	'#twikiAttachmentsTable' : function(el) {
 		Pattern.setAttachmentCount(el);
 	},
 	'body.patternEditPage' : function(el) {
@@ -109,3 +109,7 @@ var TEXT_JUMP = foswiki.getMetaTag('TEXT_JUMP');
 var TEXT_SEARCH = foswiki.getMetaTag('TEXT_SEARCH');
 var TEXT_NUM_TOPICS = foswiki.getMetaTag('TEXT_NUM_TOPICS');
 var TEXT_MODIFY_SEARCH = foswiki.getMetaTag('TEXT_MODIFY_SEARCH');
+var SCRIPTURLPATH = foswiki.getMetaTag('SCRIPTURLPATH');
+var SCRIPTSUFFIX = foswiki.getMetaTag('SCRIPTSUFFIX');
+var WEB = foswiki.getMetaTag('WEB');
+var TOPIC = foswiki.getMetaTag('TOPIC');

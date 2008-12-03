@@ -19,11 +19,22 @@ foswiki.getMetaTag = function(inKey) {
     return foswiki.metaTags[inKey]; 
 };
 
-// Get all elements under root that have the given tag and include the
-// given class
-foswiki.getElementsByClassName = function(root, tag, className) {
-	var elms = root.getElementsByTagName(tag);
-	className = className.replace(/\-/g, "\\-");
+/**
+Get all elements under root that include the given class.
+@param inRootElem: HTMLElement to start searching from
+@param inClassName: CSS class name to find
+@param inTag: (optional) HTML tag to speed up searching (if not given, a wildcard is used to search all elements)
+@example:
+<code>
+var gallery = document.getElementById('galleryTable');
+var elems = foswiki.getElementsByClassName(gallery, 'personalPicture');
+var firstPicture = elems[0];
+</code>
+*/
+foswiki.getElementsByClassName = function(inRootElem, inClassName, inTag) {
+	var tag = inTag || '*';
+	var elms = inRootElem.getElementsByTagName(tag);
+	var className = inClassName.replace(/\-/g, "\\-");
 	var re = new RegExp("\\b" + className + "\\b");
 	var el;
 	var hits = new Array();

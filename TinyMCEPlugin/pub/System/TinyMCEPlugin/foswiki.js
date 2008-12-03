@@ -5,10 +5,10 @@ break;}
 node=node.parentNode;}}
 function handleKeyDown(e){if(!e)e=window.event;var code;if(e.keyCode)code=e.keyCode;if(code==27)return false;return true;}
 function validateMandatoryFields(event){if(foswiki.Pref.validateSuppressed){return true;}
-var ok=true;var els=foswiki.getElementsByClassName(document,'select','foswikiMandatory');for(var j=0;j<els.length;j++){var one=false;for(var k=0;k<els[j].options.length;k++){if(els[j].options[k].selected){one=true;break;}}
+var ok=true;var els=foswiki.getElementsByClassName(document,'foswikiMandatory','select');for(var j=0;j<els.length;j++){var one=false;for(var k=0;k<els[j].options.length;k++){if(els[j].options[k].selected){one=true;break;}}
 if(!one){alert("The required form field '"+els[j].name+
 "' has no value.");ok=false;}}
-var taglist=new Array('input','textarea');for(var i=0;i<taglist.length;i++){els=foswiki.getElementsByClassName(document,taglist[i],'foswikiMandatory');for(var j=0;j<els.length;j++){if(els[j].value==null||els[j].value.length==0){alert("The required form field '"+els[j].name+
+var taglist=new Array('input','textarea');for(var i=0;i<taglist.length;i++){els=foswiki.getElementsByClassName(document,'foswikiMandatory',taglist[i]);for(var j=0;j<els.length;j++){if(els[j].value==null||els[j].value.length==0){alert("The required form field '"+els[j].name+
 "' has no value.");ok=false;}}}
 return ok;}
 function suppressSaveValidation(){foswiki.Pref.validateSuppressed=true;}
