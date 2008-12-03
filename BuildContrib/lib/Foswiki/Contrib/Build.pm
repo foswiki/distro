@@ -61,7 +61,7 @@ my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
                          # to reduce average load on server
 
-my $targetProject = 'Foswiki';# May change to 'TWiki' later
+my $targetProject;       # Foswiki or TWiki
 
 my $collector;           # general purpose handle for collecting stuff
 
@@ -107,8 +107,11 @@ BEGIN {
     $buildpldir = File::Spec->rel2abs($buildpldir);
 
     # Find the lib root
-    $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
-    unless ($libpath) {
+    if (-e "$buildpldir/../../Foswiki") {
+        $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
+        $targetProject = 'Foswiki';
+    } else {
+        print STDERR "Assuming this is a TWiki project\n";
         $libpath = _findRelativeTo( $buildpldir, 'lib/TWiki' );
         $targetProject = 'TWiki';
     }
@@ -198,8 +201,8 @@ sub new {
     $stubpath =~ s/[\\\/]/::/g;
 
     # where data files live
-    $this->{data_systemdir} =
-      ($targetProject eq 'TWiki') ? 'data/TWiki' : 'data/System';
+    $this->{data_systemdir} = 'data/'.
+      (($targetProject eq 'TWiki') ? 'TWiki' : 'System');
 
     # the root of the name of data files
     $this->{topic_root} = $this->{data_systemdir} . '/' . $this->{project};
@@ -1138,6 +1141,9 @@ sub target_archive {
 
     foreach my $f qw(.tgz .zip .txt _installer) {
         print "$f in $this->{basedir}/$project$f\n";
+        unless( -e "$this->{basedir}/$project$f" ) {
+            print STDERR "\tWTF? no $this->{basedir}/$project$f there!\n";
+        }
     }
 }
 
@@ -2006,7 +2012,8 @@ sub target_dependencies {
         'overload',
         'warnings',
         'Assert',
-        $targetProject ) {
+        'TWiki',
+        'Foswiki' ) {
         $this->{satisfied}{$m} = 1;
     }
 
