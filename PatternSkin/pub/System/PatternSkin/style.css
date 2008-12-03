@@ -50,7 +50,7 @@ hr {
 /* put overflow pre in a scroll area */
 pre {
     width:auto;
-    height:1%;
+	height:1%; /* for IE */
     margin:1em 0; /* Win IE tries to make this bigger otherwise */
     border-style:solid;
     border-width:1px;
@@ -309,10 +309,6 @@ a.twikiSubmit:visited:active {
 	text-decoration:underline;
 }
 
-.twikiEditForm {
-	margin:0 0 .5em 0;
-}
-
 /* TwistyContrib */
 .twistyTrigger a:link,
 .twistyTrigger a:visited {
@@ -350,6 +346,9 @@ a.twikiSubmit:visited:active {
 .foswikiForm {
 	margin:1em 0;
 	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
+	border-width:2px 0 0 0;
+	border-style:solid;
+	height:1%; /* for IE */
 }
 .twikiTable h2, .twikiFormTable h2,
 .twikiTable h3, .twikiFormTable h3,
@@ -384,7 +383,7 @@ a.twikiSubmit:visited:active {
 }
 .twikiAttachments .twikiTable,
 table.twikiFormTable {
-	margin:5px 0;
+	margin:10px 0 5px 0;
 	border-collapse:collapse;
 	padding:0px;
 	border-spacing:0px;
@@ -395,8 +394,6 @@ table.twikiFormTable {
 .twikiAttachments table {
 	line-height:1.5em; /*S1*/
 	width:auto;
-	voice-family:"\"}\""; /* hide the following for Explorer 5.x */
-	voice-family:inherit;
 	width:100%;
 }
 .twikiAttachments .twikiTable th {
@@ -433,12 +430,27 @@ table.twikiFormTable th.twikiFormTableHRow a:link,
 table.twikiFormTable th.twikiFormTableHRow a:visited {
 	text-decoration:none;
 }
-.twikiAttachments .twistyTrigger .twikiLinkLabel {
-	font-size:122%; /* h4 size */
+.twikiAttachments h3,
+.foswikiForm h3 {
+	font-size:115%;
 	font-weight:bold;
+	display:inline;
+	margin:0;
+	padding:0;
 }
-.patternAttachmentCount {
+.twikiAttachments .twikiButton h3,
+.foswikiForm .twikiButton h3 {
+	padding:.1em .2em;
+}
+.patternToggleHeader {}
+.foswikiForm h3 a:link,
+.foswikiForm h3 a:visited {
+	text-decoration:none;
+}
+.patternSmallLinkToHeader {
 	font-weight:normal;
+	font-size:86%;
+	margin:0 0 0 .15em;
 }
 .twikiFormSteps {
 	text-align:left;
@@ -902,7 +914,7 @@ h4.patternSearchResultsHeader {
 	display:block;
 	border-width:0 0 1px 0;
 	border-style:solid;
-	height:1%; /* or WIN/IE wont draw the backgound */
+	height:1%; /* for IE */
 	font-weight:bold;
 }
 .patternSearchResults h3 {
@@ -986,15 +998,12 @@ h4.patternSearchResultsHeader {
 
 /* edit.pattern.tmpl */
 
-.patternEditPage #patternMainContents,
-.patternEditPage .patternTopic {
-	padding:0;
-}
-.patternEditPage .patternTopic {
-	margin-bottom:0;
+.patternEditPage #patternMainContents {
+	padding:0 0 2em 0;
 }
 .patternEditPage .foswikiForm {
-	margin:.5em 0 0 0;
+	margin:2.25em 0 0 0;
+	border:none;
 }
 .patternEditPage .foswikiForm h1,
 .patternEditPage .foswikiForm h2,
@@ -1002,7 +1011,8 @@ h4.patternSearchResultsHeader {
 	/* same as twikiFormStep */
 	font-size:120%;
 	font-weight:bold;
-}	
+}
+.twikiEditForm {}
 .twikiEditboxStyleMono {
 	font-family: "Bitstream Vera Sans Mono","Andale Mono",Courier,monospace;
 }

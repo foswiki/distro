@@ -291,6 +291,11 @@ table.twikiFormTable td.twikiFormTableRow {
 .patternContent .twikiAttachments,
 .patternContent .foswikiForm {
    background-color:#eef7fa;
+   border-color:#fff;
+}
+.twikiAttachments .twikiButton h3,
+.foswikiForm .twikiButton h3 {
+	color:#d1400e;
 }
 .twikiAttachments table,
 table.twikiFormTable {
@@ -300,6 +305,8 @@ table.twikiFormTable {
 .twikiAttachments table {
    background-color:#fff;
 }
+.foswikiForm td,
+.foswikiForm th,
 .twikiAttachments td, 
 .twikiAttachments th {
    border-color:#e2e2e2;

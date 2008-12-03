@@ -18,16 +18,20 @@ var Pattern = {
 	*/
 	setAttachmentCount:function(inTableElement) {		
 		var count = inTableElement.getElementsByTagName("tr").length - 1;
-		var countStr = " " + "<span class='patternAttachmentCount'>" + " ("  + count + ")" + "<\/span>";
+		var countStr = " " + "<span class='patternSmallLinkToHeader'>" + ' '  + count + "<\/span>";
 		var showElem = document.getElementById('topicattachmentslistshow');
 		if (showElem != undefined) {
 			var elems = foswiki.getElementsByClassName(showElem, 'patternToggleHeader');
-			elems[0].innerHTML += countStr;
+			if (elems && elems[0]) {
+				elems[0].innerHTML += countStr;
+			}
 		}
 		var hideElem = document.getElementById('topicattachmentslisthide');
 		if (hideElem != undefined) {
 			var elems = foswiki.getElementsByClassName(hideElem, 'patternToggleHeader');
-			elems[0].innerHTML += countStr;
+			if (elems && elems[0]) {
+				elems[0].innerHTML += countStr;
+			}
 		}
 	},
 	
@@ -100,6 +104,12 @@ var patternRules = {
 	},
 	'.twikiFocus':function(el) {
 		el.focus();
+	},
+	'.twikiChangeFormButton':function(el) {
+		el.onclick = function() {
+			alert("twikiChangeFormButton");
+			suppressSaveValidation();
+		}
 	}
 };
 Behaviour.register(patternRules);

@@ -68,7 +68,9 @@ Edit this topic, and change the color as you like.
    * Local LINK_BACKGROUND_HOVER = #0055b5
 ---++++ SIDE_BAR_LINK_TEXT Side bar link text
    * Local SIDE_BAR_LINK_TEXT = #444
-
+---++++ BUTTON_TEXT_NORMAL Button text
+   * Local BUTTON_TEXT_NORMAL = #333
+   
 ---+++ Disabled
 ---++++ DISABLED_BORDER Disabled border
    * Local DISABLED_BORDER = #e0e0e0
@@ -492,6 +494,11 @@ table.twikiFormTable td.twikiFormTableRow {
 .patternContent .twikiAttachments,
 .patternContent .foswikiForm {
    background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
+   border-color:%MAIN_TEXT_BACKGROUND%;
+}
+.twikiAttachments .twikiButton h3,
+.foswikiForm .twikiButton h3 {
+	color:%HEADER_TEXT%;
 }
 .twikiAttachments table,
 table.twikiFormTable {
@@ -501,6 +508,8 @@ table.twikiFormTable {
 .twikiAttachments table {
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
+.foswikiForm td,
+.foswikiForm th,
 .twikiAttachments td, 
 .twikiAttachments th {
    border-color:%TABLE_BORDER%;
@@ -861,7 +870,7 @@ a.twikiButton:visited {
    background-position:0px 0px;
    border-color:#fff #94cce2 #94cce2 #fff;
    background-color:#cce7f1;
-   color:#333;
+   color:%BUTTON_TEXT_NORMAL%;
 }
 .twikiButton:hover,
 .twikiButton:active,
@@ -870,7 +879,7 @@ a.twikiButton:active {
    background-position:0px -160px;
    border-color:#94cce2 #94cce2 #94cce2 #94cce2;
    background-color:#cce7f1;
-   color:#333;
+   color:%BUTTON_TEXT_NORMAL%;
 }
 .twikiButtonDisabled,
 .twikiButtonDisabled:hover,
@@ -914,7 +923,7 @@ a.twikiButton:active {
    background-position:0px 0px;
    border-color:#fff #94cce2 #94cce2 #fff;
    background-color:#cce7f1;
-   color:#333;
+   color:%BUTTON_TEXT_NORMAL%;
 }
 .patternToolBar span a:hover {
    background-position:0px -80px;
