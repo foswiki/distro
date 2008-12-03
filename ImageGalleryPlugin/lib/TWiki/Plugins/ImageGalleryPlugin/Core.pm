@@ -106,7 +106,7 @@ sub isImage {
   writeDebug("called isImage(". $attachment->{name}.")");
 
   my $suffix = '';
-  if ($attachment->{name} =~ /\.(.+?)$/) {
+  if ($attachment->{name} =~ /.*\.(.+?)$/) {
     $suffix = lc($1);
   }
 
