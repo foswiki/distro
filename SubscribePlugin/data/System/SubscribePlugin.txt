@@ -23,14 +23,15 @@ You don't need =VIEW= access to the WebNotify topic in order to subscribe to cha
 
 ---++ Plugin Info
 
-Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
-|  Plugin Author: | TWiki:Main.CrawfordCurrie |
+|  Plugin Author: | Foswiki:Main.CrawfordCurrie |
 |  Copyright: | &copy; 2008, Crawford Currie http://c-dot.co.uk |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | %$VERSION% |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
+|  03 Dec 2008 | Re-released for Foswiki |
 |  15 Oct 2008 | TWikibug:Item4115: enable subscriptions with (child), \
                     TWikibug:Item5950: fix cross web SUBSCRIPTION indication (requires updated MailerContrib) \
                     can now get feedback to %<nop>SUBSCRIBE{topic="*"}% \
@@ -47,10 +48,6 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  13081 | TWikibug:Item3731 - Added SubscribePlugin, and cleaned up and updated APIs in MailerContrib |
 |  24 Apr 2007 | First version |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
-
-__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%
