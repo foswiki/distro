@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1183913691" format="1.1" reprev="1." version="1.1"}%
 ---+!! !Behaviour Javascript framework Contrib
 
-This contrib packages the third-party =Behaviour= Javascript event library, available from http://bennolan.com/behaviour/.
+This contrib packages the third-party =Behaviour= Javascript event library, written by Ben Nolan.
 
 Behaviour uses CSS selectors to subscribe to javascript event handlers. This allows to create clean code, separated from HTML (and well suited to create javascript based interaction that degrades nicely when javascript is not available).
 
@@ -60,14 +60,11 @@ Behaviour.register(myrules);
 ---++ Usage
 Include the javascript file:
 
-<blockquote>
 <verbatim>
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.js"></script>
 </verbatim>
-</blockquote>
 
 In your code you create a "rules" object, with sub-objects for each html element class name or id:
-<blockquote>
 <verbatim>
 var myrules = {
 	'.classname' : function(element) {
@@ -97,22 +94,18 @@ var myrules = {
 	}
 };
 </verbatim>
-</blockquote>
 
 Apply the rules with:
 
-<blockquote>
 <verbatim>
 Behaviour.register(myrules);
 </verbatim>
-</blockquote>
 
 
 
 ---+++ Example
 If we have a 'normal' link to a web hometopic: [[%SYSTEMWEB%.%HOMETOPIC%][Web Home]], we can use javascript to make it open a popup window. When javascript is not available the link behaviour defaults to opening the page in the current window.
 
-<blockquote>
 <verbatim>
 <div id="demoblock" style="padding:1em; width:100px; text-align:center;">
 MOUSE OVER ME
@@ -234,7 +227,7 @@ Behaviour.register(myrules);
 
 ---+++ Leaking danger
 Behaviour code leaks memory on Windows Explorer prior to version 7. To prevent leaking, set the element variable to =null=:
-<blockquote>
+
 <verbatim>
 var myrules = {
 	'table.test td' : function(element) {
@@ -247,7 +240,6 @@ var myrules = {
 };	
 Behaviour.register(myrules);
 </verbatim>
-</blockquote>
 
 
 ---++ Development
@@ -261,9 +253,7 @@ Behaviour is freely distributable under the terms of an BSD license.
 For details see the Behaviour website.
 
 
-
 ---++ Links
-   * [[http://bennolan.com/behaviour/][Behaviour website]]
    * [[http://groups.google.com/group/behaviour][Behaviour Google Group]]
 
 ---++ Installation Instructions
@@ -276,12 +266,13 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 
 ---++ Contrib Info
 |  Author: | Foswiki:Main.ArthurClemens |
-|  Copyright: | Code: =behaviour.js= version 1.1 - Copyright (c) Ben Nolan and Simon Willison. TWiki distribution and updates/additions: Foswiki:Main.ArthurClemens. |
+|  Copyright: | Code: =behaviour.js= version 1.1 - Copyright (c) Ben Nolan and Simon Willison. Foswiki distribution and updates/additions: Foswiki:Main.ArthurClemens. |
 |  License: | BSD |
 |  Version: | %$VERSION% |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Contrib&nbsp;Version: | 1.3.1 |
+|  Contrib&nbsp;Version: | 1.4 |
 |  Change&nbsp;History: | <!-- specify latest version first -->&nbsp; |
+|  03 Dec 2008 | 1.4 Foswiki release version. |
 |  17 Oct 2007 | 1.3 Replaced "faster code" by other code from Dean Edwards, [[ packed by http://groups.google.com/group/behaviour/browse_thread/thread/85137977bedf5ed/3cf3ba8065d41a8c#3cf3ba8065d41a8c][Raymond Irving]]. |
 |  02 Jul 2007 | 1.2 Integrated other faster code by Dean Edwards: [[http://dean.edwards.name/weblog/2006/06/again/][faster onload (again)]]. |
 |  08 Mar 2007 | 1.1 Integrated code by Dean Edwards (see [[#CodeUpdate][Code update version 1.1 with faster DOM queries]]). |
@@ -289,8 +280,6 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
-
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 %META:FILEATTACHMENT{name="behaviour.js" attr="" autoattached="1" comment="" date="1162075796" path="behaviour.compressed.js" size="2902" user="UnknownUser" version=""}%
 
