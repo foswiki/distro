@@ -206,8 +206,54 @@ sub getHeader {
     my ( $this, $hdr ) = @_;
     return keys %{ $this->{headers} } unless $hdr;
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-    my $value = $this->{headers}->{$hdr};
-    return ref $value ? @$value : ($value);
+    if( exists $this->{headers}->{$hdr} ) {
+      my $value = $this->{headers}->{$hdr};
+      return ref $value ? @$value : ($value);
+    }
+    else {
+      return undef;
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod setDefaultHeaders( { $name => $value, ... } )
+
+Sets the header corresponding to the key => value pairs passed in the
+hash, if the key doesn't already exist, otherwise does nothing.
+This ensures some default values are entered, but they can be overridden
+by plugins or other parts in the code.
+
+=cut
+
+sub setDefaultHeaders {
+    my ( $this, $hopt ) = @_;
+    return unless $hopt && keys %$hopt;
+    while( my ( $hdr, $value ) = each %$hopt ) {
+      $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
+      $this->{headers}->{$hdr} = $value
+	unless exists $this->{headers}->{$hdr};
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod printHeaders()
+
+Return a string of all headers, separated by CRLF
+
+=cut
+
+sub printHeaders {
+  my ($this) = shift;
+  my $CRLF = "\x0A\x0D";
+  my $hdr = '';
+    foreach my $header ( keys %{ $this->{headers} } ) {
+      $hdr .= $header . ': ' . $_ . $CRLF
+          foreach $this->getHeader($header);
+    }
+    $hdr .= $CRLF;
+  return $hdr;
 }
 
 =begin TML
@@ -317,7 +363,7 @@ sub redirect {
     return undef if ( $status && $status !~ /^\s*3\d\d.*/ );
 
     my @headers = ( -Location => $url );
-    push @headers, '-Status' => ( $status || '302 Found' );
+    push @headers, '-Status' => ( $status || 302 );
     push @headers, '-Cookie' => $cookies if $cookies;
     $this->header(@headers);
 }

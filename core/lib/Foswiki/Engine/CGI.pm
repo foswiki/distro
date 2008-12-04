@@ -174,16 +174,13 @@ sub finalizeUploads {
 
 sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
-
     $this->SUPER::finalizeHeaders( $res, $req );
+
     # make sure we always generate a status for the response
-    print 'Status: '.$res->status()
-      if ($res->status() && !defined($res->headers->{status}));
-    foreach my $header ( keys %{ $res->headers } ) {
-        print $header . ': ' . $_ . $this->CRLF
-          foreach $res->getHeader($header);
-    }
-    print $this->CRLF;
+    print 'Status: ' . $res->status()
+      if ( $res->status() && !defined( $res->headers->{status} ) );
+    my $hdr = $res->printHeaders;
+    print $hdr;
 }
 
 sub write {

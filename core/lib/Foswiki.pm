@@ -637,12 +637,7 @@ sub writeCompletePage {
     }
 
     $this->generateHTTPHeaders( undef, $pageType, $contentType );
-    my $hdr;
-    foreach my $header ( keys %{ $this->{response}->headers } ) {
-        $hdr .= $header . ': ' . $_ . "\x0D0A"
-          foreach $this->{response}->getHeader($header);
-    }
-    $hdr .= "\x0D0A";
+    my $hdr = $this->{response}->printHeaders;
 
     # Call final handler
     $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
@@ -722,7 +717,10 @@ sub generateHTTPHeaders {
 
     # add cookie(s)
     $this->{users}->{loginManager}->modifyHeader($hopts);
-    $this->{response}->headers($hopts);
+
+    # The headers method resets all headers to what we pass
+    # what we want is simply ensure our headers are there
+    $this->{response}->setDefaultHeaders($hopts);
 }
 
 =begin TML
