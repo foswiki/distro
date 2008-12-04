@@ -12,18 +12,18 @@
 #
 # LocalLib.cfg: local path settings for Foswiki
 
-use vars qw( $twikiLibPath $CPANBASE );
+use vars qw( $foswikiLibPath $CPANBASE );
 
 #development and debugging settings
-#$ENV{TWIKI_ASSERTS} = 1;
-#$ENV{TWIKI_MONITOR} = 1;
+#$ENV{FOSWIKI_ASSERTS} = 1;
+#$ENV{FOSWIKI_MONITOR} = 1;
 
 # -------------- Path to lib directory containing Foswiki.pm. 
 #
 # REQUIRED
 # The absolute path to the 'lib' directory in your installation..
 
-$twikiLibPath = "/absolute/path/to/your/lib";
+$foswikiLibPath = "/absolute/path/to/your/lib";
 
 
 # -------------- Extra path components to include in @INC

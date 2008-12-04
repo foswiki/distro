@@ -31,7 +31,7 @@ BEGIN {
         print STDERR "This script should not be called from command line.\n";
         exit(1);
     }
-    delete $ENV{TWIKI_ACTION} if exists $ENV{TWIKI_ACTION};
+    delete $ENV{FOSWIKI_ACTION} if exists $ENV{FOSWIKI_ACTION};
     @INC = ('.', grep { $_ ne '.' } @INC);
     require 'setlib.cfg';
 }

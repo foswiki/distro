@@ -32,7 +32,7 @@ BEGIN {
         require Carp;
         $SIG{__DIE__} = \&Carp::confess;
     }
-    $ENV{TWIKI_ACTION} = 'save';
+    $ENV{FOSWIKI_ACTION} = 'save';
     @INC = ('.', grep { $_ ne '.' } @INC);
     require 'setlib.cfg';
 }
