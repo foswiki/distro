@@ -1150,7 +1150,7 @@ sub _make_params {
             $anchor .= '#' . shift(@args);
         }
         else {
-            $ps .= ';' . $p . '=' . urlEncode( shift(@args) || '' );
+            $ps .= ';' . urlEncode( $p ) . '=' . urlEncode( shift(@args) || '' );
         }
     }
     if ($ps) {
