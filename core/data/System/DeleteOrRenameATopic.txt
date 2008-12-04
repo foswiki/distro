@@ -14,7 +14,7 @@ Click ==[More]== on the control bar at the bottom of the page you want to change
 
 __NOTE:__ The configuration of your site and your own access permissions determine whether you can access these functions.
 
-Note for site administrators: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =/twiki/data/Trash=.
+Note for site administrators: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =data/Trash=.
 
 __Back to:__ FrequentlyAskedQuestions
 

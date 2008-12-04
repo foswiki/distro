@@ -28,7 +28,7 @@ __See other types of extensions:__ ContributedAddOns, [[Contribs]], [[Plugins]]
 
 You may want to define your own skin, for example to comply with corporate web guidelines, or because you have a aesthetic vision that you want to share. There are a couple of places you an start doing this.
 
-The [[skin templates]] used for skins are located in the =twiki/templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in Foswiki topics - see SkinTemplates for details.
+The [[skin templates]] used for skins are located in the =templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in Foswiki topics - see SkinTemplates for details.
 
 To start creating a new skin, copy the default skin templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as Foswiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
 

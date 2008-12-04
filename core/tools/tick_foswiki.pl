@@ -23,7 +23,7 @@
 # this script. This is so it can pick up the right TWiki environment
 # from setlib.cfg.
 # You can add a directory to your include path using the -I option
-# to the perl command e.g. perl -I /usr/local/twiki/bin tick_twiki.pl
+# to the perl command e.g. perl -I /usr/local/foswiki/bin tick_foswiki.pl
 #
 # It executes a number of non-essential regular administration
 # tasks that will help keep your TWiki healthy and happy.
@@ -32,7 +32,7 @@
 # by a user who can write files created by the webserver user!)
 # For example,
 #
-# 0 0 * * 0 cd /usr/twiki/bin && perl ../tools/tick_twiki.pl
+# 0 0 * * 0 cd /usr/foswiki/bin && perl ../tools/tick_foswiki.pl
 #
 BEGIN {
     unshift @INC, '.';
@@ -52,8 +52,8 @@ Foswiki::LoginManager::expireDeadSessions();
 # cancelling the edit.
 
 use Foswiki;
-my $twiki = new Foswiki();
-my $store = $twiki->{store};
+my $foswiki = new Foswiki();
+my $store = $foswiki->{store};
 my $now = time();
 foreach my $web ( $store->getListOfWebs()) {
     $store->removeSpuriousLeases($web);

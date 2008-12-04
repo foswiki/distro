@@ -134,12 +134,12 @@ Attachments are referred to directly, and are not normally indirected via Foswik
 The easiest way to apply the same access control rules for attachments as apply to topics is to use the Apache =mod_rewrite= module, and configure your webserver to redirect accesses to attachments to the Foswiki =viewfile= script. For example,
 
 <verbatim>
-    ScriptAlias /twiki/bin/ /filesystem/path/to/twiki/bin/
-    Alias /twiki/pub/       /filesystem/path/to/twiki/pub/
+    ScriptAlias /foswiki/bin/ /filesystem/path/to/bin/
+    Alias /foswiki/pub/       /filesystem/path/to/pub/
 
     RewriteEngine on
-    RewriteCond %{REQUEST_URI} !^/+twiki/+pub/+Foswiki/+.+
-    RewriteRule ^/+twiki/+pub/+([^/]+)((/+([^/]+))+)/+(.+) /twiki/bin/viewfile/$1/$2?filename=$5 [L,PT]
+    RewriteCond %{REQUEST_URI} !^/+foswiki/+pub/+Foswiki/+.+
+    RewriteRule ^/+foswiki/+pub/+([^/]+)((/+([^/]+))+)/+(.+) /foswiki/bin/viewfile/$1/$2?filename=$5 [L,PT]
 </verbatim>
 
 That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support.
@@ -198,7 +198,7 @@ __%X% Note:__ Obfuscating a web without view access control is *very* insecure, 
 
 ---+++ Restrict Access to Whole Foswiki Site
 
-For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =twiki/bin= and =twiki/pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
+For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =bin= and =pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
 
 <verbatim>
 <FilesMatch ".*">

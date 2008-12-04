@@ -4,22 +4,22 @@
 
 _Programs on the server performing actions such as rendering, saving and renaming topics._
 
-These scripts are located in the =bin= and =tools= directories. This topic describes the interfaces to some of those scripts. All scripts in the =twiki/bin= directory can be called from the CGI ([[http://en.wikipedia.org/wiki/Common_Gateway_Interface][Common Gateway Interface]]) environment or from the command line. The scripts in the =twiki/tools= directory can only be called from the command line.
+These scripts are located in the =bin= and =tools= directories. This topic describes the interfaces to some of those scripts. All scripts in the =bin= directory can be called from the CGI ([[http://en.wikipedia.org/wiki/Common_Gateway_Interface][Common Gateway Interface]]) environment or from the command line. The scripts in the =tools= directory can only be called from the command line.
 
 %TOC%
 
 ---++ CGI Scripts
-Details on CGI scripts located in the =twiki/bin= directory.
+Details on CGI scripts located in the =bin= directory.
 
 ---+++ General Information
 ---++++ CGI environment
 In the CGI environment parameters are passed to the scripts via the URL and URL parameters. Environment variables are also used to determine the user performing the action. If the environment is not set up, the default user is used (usually =guest=).
 ---++++ Command-line
-You *must* be have the =twiki/bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
+You *must* be have the =bin= directory on the perl path to run the scripts from the command line. To avoid issues with file permissions, run the scripts as the web server user such as =nobody= or =www=.
 
 Parameters are passed on the command line using '-name' - for example,
 <verbatim>
-$ cd /usr/local/twiki/bin
+$ cd /usr/local/foswiki/bin
 $ save -topic MyWeb.MyTopic -user admin -action save -text "New text of the topic"
 </verbatim>
 All parameters require a value, even if that is the empty string.
@@ -306,9 +306,9 @@ for example:
    1 from browser %SCRIPTURL{"statistics"}% updates _all user webs_
    2 from browser %SCRIPTURL{"statistics"}%?webs=Userweb,Sandbox updates _Userweb,Sandbox_
    3 from browser %SCRIPTURL{"statistics"}%/%WEB% updates %WEB%
-   4 from command line twiki/bin/statistics updates _all user webs_
-   5 from command line twiki/bin/statistics -webs=Userweb,Sandbox updates _Userweb,Sandbox_
-   6 from command line twiki/bin/statistics %WEB%.<nop>WebHome updates %WEB%
+   4 from command line bin/statistics updates _all user webs_
+   5 from command line bin/statistics -webs=Userweb,Sandbox updates _Userweb,Sandbox_
+   6 from command line bin/statistics %WEB%.<nop>WebHome updates %WEB%
 
 see SiteTools#WebStatistics_site_statistics for updating statistics using cron.
 
@@ -351,7 +351,7 @@ Instead of using the =filename= parameter, you can append the attachment name
 to the end of the URL path (after the topic) e.g. =%SCRIPTURL{viewfile}%/Webname/TopicName/Attachment.gif=
 
 ---++ Command Line Scripts
-Details on command line scripts located in the =twiki/tools= directory.
+Details on command line scripts located in the =tools= directory.
 
 ---+++ =geturl.pl=
 This is a very simple script to get the content of a web site. It is marked as _deprecated_ and might be removed (or enhanced) in a future release. Its functions are covered by the standard =wget= and =curl= commands.
@@ -362,11 +362,11 @@ This is a very simple script to get the content of a web site. It is marked as _
 ---+++ =rewriteshebang.pl=
 Simple script to rewrite the =#!/usr/bin/perl= shebang lines specific to your local Perl installation. It will rewrite the first line of all your cgi scripts so they use a different shebang line. Use it if your perl is in a non-standard location, or you want to use a different interpreter (such as 'speedy').
 
----+++ =tick_twiki.pl=
+---+++ =tick_foswiki.pl=
 This script executes a number of non-essential regular administration tasks that will help keep your site healthy and happy, such as removing expired sessions and lease files.
 
 It is intended to be run as a cron job or a scheduled task once a week. Example crontab entry:%BR%
-=0 0 * * 0 cd /usr/twiki/bin && perl ../tools/tick_twiki.pl=
+=0 0 * * 0 cd /usr/local/foswiki/bin && perl ../tools/tick_foswiki.pl=
 
 __Note:__ The script has to be run by a user who can write files created by the webserver user.
 

@@ -35,7 +35,7 @@ TWiki 4.2.2 is shipped with
       * New WYSIWYG editor based on !TinyMCE replaces the Kupu based editor. See below.
       * New "Restore topic" feature has been added to the _More Topic Actions_ menu. You can now much more easily restore an older version of a topic including the values a topic form.
       * Attachment comments no longer has a limit to the length of the text.
-      * The viewfile script now accepts similar simple URL path as used to access a topic. E.g. =http:<nop>//example.com/twiki/bin/viewfile/TWiki/DocumentGraphics/addon.gif= means the same as =http<nop>://example.com/twiki/bin/viewfile/TWiki/DocumentGraphics?filename=addon.gif=. This make it simpler to use command line tools like =wget= in Linux to download attachments.
+      * The viewfile script now accepts similar simple URL path as used to access a topic. E.g. =http:<nop>//example.com/twiki/bin/viewfile/System/DocumentGraphics/addon.gif= means the same as =http<nop>://example.com/foswiki/bin/viewfile/System/DocumentGraphics?filename=addon.gif=. This make it simpler to use command line tools like =wget= in Linux to download attachments.
 
    * *Application Platform Enhancements*
       * Enhancements to IF: allows, ingroup, istopic, and isweb

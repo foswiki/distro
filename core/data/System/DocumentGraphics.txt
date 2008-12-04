@@ -239,7 +239,7 @@ Other usage: [[%TOPIC%#Usage_extended][see below]].
 | <img src="%ATTACHURLPATH%/web-bg.gif" alt="Web" title="Web" />  | =web-bg.gif= | Web background, used in %SYSTEMWEB%.WebLeftBarWebsList | =%<nop>ICON{web-bg}%= |
 | <img src="%ATTACHURLPATH%/web-bg-small.gif" alt="Web" title="Web" />  | =web-bg-small.gif= | Web background, 13x13 | =&lt;img src="%<nop>ICONURL{web-bg-small}%" width="13" height="13" alt="Web" border="0" /&gt;= |
 
----+++ %ICON{twiki}% Foswiki icons
+---+++ Foswiki icons
 
 %TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
 | *&nbsp;* | *File Name* | *Description* | *Write...* |
@@ -602,7 +602,6 @@ __Contributors:__ Most icons on this page were originally designed by Peter Thoe
 %META:FILEATTACHMENT{name="topicdiffs.gif" attr="" comment="" date="1169565034" path="topicdiffs.gif" size="157" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="trash.gif" attr="" comment="" date="1169565034" path="trash.gif" size="224" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="ttf.gif" attr="" comment="" date="1169565034" path="ttf.gif" size="378" user="ProjectContributor" version=""}%
-%META:FILEATTACHMENT{name="twiki.gif" attr="" comment="" date="1169565034" path="twiki.gif" size="585" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="txt.gif" attr="" comment="" date="1169565034" path="txt.gif" size="375" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="unchecked.gif" attr="" comment="" date="1169565034" path="unchecked.gif" size="96" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="up.gif" attr="" comment="" date="1169565034" path="up.gif" size="199" user="ProjectContributor" version=""}%

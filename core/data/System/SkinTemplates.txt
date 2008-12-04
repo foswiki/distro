@@ -56,8 +56,8 @@ See IfStatements for details of supported context identifiers.
 #FindingTemplates
 ---+++ Finding Skin Templates
 
-The skin templates shipped with a release are stored in the twiki/templates directory.
-As an example, ==twiki/templates/view.tmpl== is the default skin template file for the ==twiki/bin/view== script. 
+The skin templates shipped with a release are stored in the =templates= directory.
+As an example, ==templates/view.tmpl== is the default skin template file for the ==bin/view== script. 
 
 You can save templates in other directories as long as they are listed in the ={TemplatePath}= configuration setting.
 The ={TemplatePath}= is defined in the Miscellaneous section of the [[%SCRIPTURLPATH{configure}%][configure]] page.

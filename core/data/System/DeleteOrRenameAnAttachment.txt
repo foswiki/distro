@@ -12,7 +12,7 @@ Click on ==action== on the file in the FileAttachment table, then in the *Update
 
 __NOTE:__ The configuration of your site and your own access permissions determine whether you can access these functions.
 
-Note for system administrators: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic, then with file-level access, delete the file attachment and its =,v= repository file manually from =twiki/pub/Trash/TrashAttachment=.
+Note for system administrators: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic, then with file-level access, delete the file attachment and its =,v= repository file manually from =pub/Trash/TrashAttachment=.
 
 __Back to:__ FrequentlyAskedQuestions
 
