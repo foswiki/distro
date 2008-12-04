@@ -183,10 +183,7 @@ sub test_render_formfield_with_form {
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic2);
     my $res = $meta->renderFormForDisplay();
     $this->assert_html_equals(<<HERE, $res);
-<div class="foswikiForm">
-<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow foswikiFirstCol' colspan='2'>
-[[$this->{test_web}.InitializationForm][InitializationForm]]
-</th></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm][InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='twikiFormTable' border='1'><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
@@ -198,17 +195,14 @@ _hello world_
 ,   * high
 </td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr></table>
-</div><!-- /foswikiForm -->
+</td></tr></table></div><!-- /foswikiForm -->
 HERE
     ($meta, $text) =
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
     $res = $meta->renderFormForDisplay();
+
     $this->assert_html_equals(<<HERE, $res);
-<div class="foswikiForm">
-<table class='twikiFormTable' border='1'><tr><th class='twikiFormTableHRow foswikiFirstCol' colspan='2'>
-[[$this->{test_web}.InitializationForm][InitializationForm]]
-</th></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm][InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='twikiFormTable' border='1'><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 ---+ Example problem
@@ -220,8 +214,7 @@ Defect, None
 Defect
 </td></tr><tr valign='top'><td class='twikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr></table>
-</div><!-- /foswikiForm -->
+</td></tr></table></div><!-- /foswikiForm -->
 HERE
 }
 
@@ -233,11 +226,10 @@ sub test_render_for_edit {
     my $formDef = new Foswiki::Form(
         $this->{twiki}, $this->{test_web}, "InitializationForm" );
     my $res = $formDef->renderForEdit($this->{test_web}, $testtopic1, $meta);
-
 my $expected = <<HERE;
 <div class="foswikiForm twikiEditForm"><table class="twikiFormTable">
 <tr>
-<th class="twikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window" onclick="return launchWindow(&quot;TemporaryRenderFormTestsTestWebRenderFormTests&quot;,&quot;InitializationForm&quot;)">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="twikiChangeFormButton twikiButton" onclick="suppressSaveValidation()" /></th>
+<th class="twikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window" onclick="return launchWindow(&quot;TemporaryRenderFormTestsTestWebRenderFormTests&quot;,&quot;InitializationForm&quot;)">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="twikiChangeFormButton twikiButton" /></th>
 </tr> 
 <tr><th align="right">Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="twikiInputField twikiEditFormTextField" /></td></tr>
 <tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  label="none" class="twikiRadioButton twikiEditFormRadioField"/>none</label></td></tr></table></td></tr>
@@ -250,89 +242,7 @@ Defect</textarea></td></tr>
 <tr><th align="right">Issue 5</th><td align="left"><select name="Issue5" multiple="on" class="twikiSelect twikiEditFormSelect" size="3"><option class="twikiEditFormOption" selected="selected">Foo</option><option class="twikiEditFormOption">Bar</option><option class="twikiEditFormOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr> </table>  </div>
 HERE
 
-my $oldstuff=<<HERE;
-<div class="foswikiForm twikiEditForm">
-<table class="twikiFormTable">
- <tr>
-  <th class="twikiFormTableHRow" colspan="2">
-   <a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Click to see details in separate window" onclick="return launchWindow(&quot;TemporaryRenderFormTestsTestWebRenderFormTests&quot;,&quot;InitializationForm&quot;)">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a>
-   <input type="submit" name="action_replaceform" value='Replace form...' class="twikiChangeFormButton twikiButton" />
-  </th>
- </tr>
- <tr>
-  <th align="right">
-   Issue Name
-  </th>
-  <td align="left">
-   <input type="text" name="IssueName" value="_An issue_" size="40" class="twikiInputField twikiEditFormTextField" />
-  </td>
- </tr>
- <tr>
-  <th align="right">
-   State</th>
-  <td align="left">
-   <table>
-    <tr>
-     <td>
-      <label>
-       <input type="radio" name="State" value="none" label="none" class="twikiRadioButton twikiEditFormRadioField"/>
-       none
-      </label>
-     </td>
-    </tr>
-   </table>
-  </td>
- </tr>
- <tr>
-  <th align="right">
-   Issue Description
-  </th>
-  <td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  />
-   <div class="twikiEditFormLabelField">
-    <nop>
-    <h1>
-     <a name="Example_problem"></a> Example problem
-    </h1>
-   </div>
-  </td>
- </tr>
- <tr>
-  <th align="right">
-   Issue 1
-  </th>
-  <td align="left">
-   <select name="Issue1" class="twikiSelect twikiEditFormSelect" size="1">
-   </select>
-  </td>
- </tr>
- <tr>
-  <th align="right">
-   Issue 2EXTRA
-  </th>
-  <td align="left">SWEET
-  </td></tr>
- <tr>
-  <th align="right">
-   Issue 3
-  </th>
-  <td align="left">
-   <table></table>
-   <input type="hidden" name="Issue3" value="" />
-  </td>
- </tr>
- <tr>
-  <th align="right">
-   Issue 4
-  </th>
-  <td align="left">
-   <textarea name="Issue4"  rows="4" cols="50" class="twikiInputField twikiEditFormTextAreaField">
-Defect
-   </textarea>
-  </td>
- </tr>
-</table>
-</div>
-HERE
+    Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
 
     my $viewUrl = $this->{twiki}->getScriptUrl(0, 'view');
     $expected =~ s/%VIEWURL%/$viewUrl/g;
