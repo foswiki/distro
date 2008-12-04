@@ -246,7 +246,7 @@ Return a string of all headers, separated by CRLF
 
 sub printHeaders {
   my ($this) = shift;
-  my $CRLF = "\x0A\x0D";
+  my $CRLF = "\x0D\x0A";
   my $hdr = '';
     foreach my $header ( keys %{ $this->{headers} } ) {
       $hdr .= $header . ': ' . $_ . $CRLF

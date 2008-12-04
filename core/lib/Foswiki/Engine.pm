@@ -20,17 +20,6 @@ use Scalar::Util;
 
 =begin TML
 
----++ ObjectMethod CRLF() -> $crfl
-
-Utility constant. Defined as sub thus can be used from
-children objects.
-
-=cut
-
-sub CRLF { "\x0D\x0A" }
-
-=begin TML
-
 ---++ ClassMethod new() -> $engine
 
 Constructs an engine object.
