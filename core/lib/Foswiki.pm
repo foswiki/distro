@@ -3866,7 +3866,7 @@ sub URLPARAM {
     my ( $this, $params ) = @_;
     my $param     = $params->{_DEFAULT} || '';
     my $newLine   = $params->{newline};
-    my $encode    = $params->{encode};
+    my $encode    = $params->{encode} || 'safe';
     my $multiple  = $params->{multiple};
     my $separator = $params->{separator};
     $separator = "\n" unless ( defined $separator );
@@ -3896,18 +3896,23 @@ sub URLPARAM {
     }
     if ( defined $value ) {
         $value =~ s/\r?\n/$newLine/go if ( defined $newLine );
-        if ($encode) {
-            if ( $encode =~ /^entit(y|ies)$/i ) {
-                $value = entityEncode($value);
-            }
-            elsif ( $encode =~ /^quotes?$/i ) {
-                $value =~ s/\"/\\"/go
-                  ;    # escape quotes with backslash (Bugs:Item3383 fix)
-            }
-            else {
-                $value =~ s/\r*\n\r*/<br \/>/;    # Legacy
-                $value = urlEncode($value);
-            }
+        if ( $encode =~ /^entit(y|ies)$/i ) {
+            $value = entityEncode($value);
+        }
+        elsif ( $encode =~ /^quotes?$/i ) {
+            $value =~ s/\"/\\"/go
+              ;    # escape quotes with backslash (Bugs:Item3383 fix)
+        }
+        elsif ( $encode =~ /^(off|none)$/i ) {
+            # no encoding
+        }
+        elsif ( $encode =~ /^url$/i ) {
+            $value =~ s/\r*\n\r*/<br \/>/;    # Legacy
+            $value = urlEncode($value);
+        }
+        else { # safe or default
+            # entity encode ' " < > and %
+            $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         }
     }
     unless ( defined $value ) {

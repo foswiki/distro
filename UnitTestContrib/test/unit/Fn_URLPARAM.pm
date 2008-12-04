@@ -54,6 +54,11 @@ sub test_default {
     $str = $this->{twiki}->handleCommonTags(
         '%URLPARAM{"foo" default="bar"}%', $this->{test_web}, $this->{test_topic});
     $this->assert_str_equals('', "$str");
+    
+    $this->{request}->param( -name=>'foo', -value=>'<evil script>\'\"%');
+    $str = $this->{twiki}->handleCommonTags(
+        '%URLPARAM{"foo" default="bar"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals('&#60;evil script&#62;&#39;\&#34;&#37;', "$str");
 }
 
 sub test_encode {
@@ -61,10 +66,10 @@ sub test_encode {
 
     my $str;
 
-    $this->{request}->param( -name=>'foo', -value=>'&?*!"');
+    $this->{request}->param( -name=>'foo', -value=>'<>\'%&?*!"');
     $str = $this->{twiki}->handleCommonTags(
         '%URLPARAM{"foo" encode="entity"}%', $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals('&#38;?&#42;!&#34;', "$str");
+    $this->assert_str_equals('&#60;&#62;&#39;&#37;&#38;?&#42;!&#34;', "$str");
 
     $this->{request}->param( -name=>'foo', -value=>'&?*!" ');
     $str = $this->{twiki}->handleCommonTags(
@@ -75,6 +80,21 @@ sub test_encode {
     $str = $this->{twiki}->handleCommonTags(
         '%URLPARAM{"foo" encode="quote"}%', $this->{test_web}, $this->{test_topic});
     $this->assert_str_equals('&?*!\" ', "$str");
+    
+    $this->{request}->param( -name=>'foo', -value=>'<evil script>\'\"%');
+    $str = $this->{twiki}->handleCommonTags(
+        '%URLPARAM{"foo" default="bar" encode="safe"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals('&#60;evil script&#62;&#39;\&#34;&#37;', "$str");
+    
+    $this->{request}->param( -name=>'foo', -value=>'<evil script>\'\"%');
+    $str = $this->{twiki}->handleCommonTags(
+        '%URLPARAM{"foo" default="bar" encode="off"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals('<evil script>\'\"%', "$str");
+    
+    $this->{request}->param( -name=>'foo', -value=>'<evil script>\'\"%');
+    $str = $this->{twiki}->handleCommonTags(
+        '%URLPARAM{"foo" default="bar" encode="none"}%', $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals('<evil script>\'\"%', "$str");
 }
 
 sub test_defaultencode {
