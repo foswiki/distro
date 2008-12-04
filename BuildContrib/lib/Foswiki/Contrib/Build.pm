@@ -107,7 +107,7 @@ BEGIN {
     $buildpldir = File::Spec->rel2abs($buildpldir);
 
     # Find the lib root
-    if (-e "$buildpldir/../../Foswiki") {
+    if (-e "$buildpldir/../../../Foswiki") {
         $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
         $targetProject = 'Foswiki';
     } else {
