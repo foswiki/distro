@@ -267,11 +267,7 @@ sub processText {
 s/$editTablePluginRE/&handleEditTableTag( $theWeb, $theTopic, $1, $2 )/geo;
         }
 
-        if ( $doSave && ( $tableNr != $saveTableNr ) ) {
-
-            # nothing (TODO: rewrite this condition...)
-        }
-        else {
+        if ( ! $doSave || ( $tableNr == $saveTableNr ) ) {
 
             $paramTableNr = $query->param('ettablenr')
               || 0;    # only on save and edit
