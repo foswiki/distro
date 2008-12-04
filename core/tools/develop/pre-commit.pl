@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 
-# PRE-COMMIT HOOK for TWiki Subversion
+# PRE-COMMIT HOOK for Foswiki Subversion
 #
 # The pre-commit hook tests that the item(s) listed in the checkin
 # exist(s) in Tasks web, and is(are) in a state to receive checkins.
@@ -10,7 +10,7 @@ use strict;
 
 my $REPOS = $ARGV[0];
 my $TXN = $ARGV[1];
-my $twikiDataDir = '/home/foswiki.org/data';
+my $dataDir = '/home/trunk.foswiki.org/core/data';
 
 my $logmsg = `/usr/local/bin/svnlook log -t $TXN $REPOS`;
 
@@ -37,8 +37,8 @@ my @items;
 $logmsg =~ s/\b(Item\d+):/push(@items, $1); '';/gem;
 foreach my $item ( @items ) {
     fail "Bug item $item does not exist"
-      unless( -f "$twikiDataDir/Tasks/$item.txt" );
-    open(F, "<$twikiDataDir/Tasks/$item.txt") || die "Cannot open $item";
+      unless( -f "$dataDir/Tasks/$item.txt" );
+    open(F, "<$dataDir/Tasks/$item.txt") || die "Cannot open $item";
     my $text = <F>;
     my $state = "Closed";
     if( $text =~ /^%META:FIELD{name="CurrentState".*value="(.*?)"/m ) {
