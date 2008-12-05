@@ -68,7 +68,7 @@ sub topicExists { Foswiki::Func::topicExists(@_) }
 sub checkTopicEditLock { Foswiki::Func::checkTopicEditLock(@_) }
 sub setTopicEditLock { Foswiki::Func::setTopicEditLock(@_) }
 sub saveTopic { Foswiki::Func::saveTopic(@_) }
-*TWiki::Func::saveTopicText = *Foswiki::Func::saveTopicText;
+*TWiki::Func::saveTopicText = \&Foswiki::Func::saveTopicText;
 sub moveTopic { Foswiki::Func::moveTopic(@_) }
 sub getRevisionInfo { Foswiki::Func::getRevisionInfo(@_) }
 sub getRevisionAtTime { Foswiki::Func::getRevisionAtTime(@_) }
@@ -109,8 +109,8 @@ sub internalLink { Foswiki::Func::internalLink(@_) }
 sub sendEmail { Foswiki::Func::sendEmail(@_) }
 sub wikiToEmail { Foswiki::Func::wikiToEmail(@_) }
 sub expandVariablesOnTopicCreation { Foswiki::Func::expandVariablesOnTopicCreation(@_) }
-*TWiki::Func::registerTagHandler = *Foswiki::Func::registerTagHandler;
-*TWiki::Func::registerRESTHandler = *Foswiki::Func::registerRESTHandler;
+*TWiki::Func::registerTagHandler = \&Foswiki::Func::registerTagHandler;
+*TWiki::Func::registerRESTHandler = \&Foswiki::Func::registerRESTHandler;
 sub decodeFormatTokens { Foswiki::Func::decodeFormatTokens(@_) }
 sub searchInWebContent { Foswiki::Func::searchInWebContent(@_) }
 sub getWorkArea { Foswiki::Func::getWorkArea(@_) }
@@ -120,7 +120,7 @@ sub getRegularExpression { Foswiki::Func::getRegularExpression(@_) }
 sub normalizeWebTopicName { Foswiki::Func::normalizeWebTopicName(@_) }
 sub sanitizeAttachmentName { Foswiki::Func::sanitizeAttachmentName(@_) }
 sub spaceOutWikiWord { Foswiki::Func::spaceOutWikiWord(@_) }
-*TWiki::Func::writeWarning = *Foswiki::Func::writeWarning;
+*TWiki::Func::writeWarning = \&Foswiki::Func::writeWarning;
 sub writeDebug { Foswiki::Func::writeDebug(@_) }
 sub formatTime { Foswiki::Func::formatTime(@_) }
 sub isTrue { Foswiki::Func::isTrue(@_) }
