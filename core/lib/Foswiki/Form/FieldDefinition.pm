@@ -125,7 +125,7 @@ sub renderForEdit {
           . $this->{type}
           . '</span>',
         CGI::textfield(
-            -class => $this->cssClasses('twikiEditFormError'),
+            -class => $this->cssClasses('foswikiAlert'),
             -name  => $this->{name},
             -size  => 80,
             -value => $value

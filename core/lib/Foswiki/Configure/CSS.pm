@@ -764,7 +764,7 @@ a.twikiLinkInHeaderRight {
 	padding-bottom:2em;
 }
 
-.patternTopic {
+.foswikiTopic {
 	margin:.5em 0 2em 0;
 }
 .patternViewPage #patternBottomBarContents {
@@ -1271,10 +1271,10 @@ h3, h4, h5, h6 {
 :visited:hover img {
 	background-color:transparent;
 }
-.patternTopic a:visited {
+.foswikiTopic a:visited {
 	color:#666;
 }
-.patternTopic a:hover {
+.foswikiTopic a:hover {
 	color:#fff;
 }
 #patternMainContents h1 a:link, #patternMainContents h1 a:visited,
@@ -1293,10 +1293,10 @@ h3, h4, h5, h6 {
 #patternMainContents h6 a:hover {
 	color:#fff;
 }
-.patternTopic .twikiUnvisited a:visited {
+.foswikiTopic .twikiUnvisited a:visited {
 	color:#4571d0;
 }
-.patternTopic .twikiUnvisited a:hover {
+.foswikiTopic .twikiUnvisited a:hover {
 	color:#fff;
 }
 

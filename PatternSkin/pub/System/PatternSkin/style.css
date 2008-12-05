@@ -177,15 +177,15 @@ select {
 	font-family:arial, verdana, sans-serif;
 	font-size:100%;
 }
-.twikiTextarea {
+.foswikiTextarea {
 	padding:1px;
 }
 .twikiSubmit,
 .twikiSubmitDisabled,
-.twikiButton,
+.foswikiButton,
 .twikiButtonDisabled,
 .twikiButtonCancel,
-a.twikiButton,
+a.foswikiButton,
 a.twikiSubmit,
 .twikiCheckbox {
 	border-width:1px;
@@ -197,22 +197,22 @@ a.twikiSubmit,
 }
 .twikiSubmit,
 .twikiSubmitDisabled,
-.twikiButton,
+.foswikiButton,
 .twikiButtonDisabled,
 .twikiButtonCancel,
 .twikiSubmit:hover,
 .twikiSubmitDisabled:hover,
-.twikiButton:hover,
+.foswikiButton:hover,
 .twikiSubmit:active,
 .twikiSubmitDisabled:active,
-.twikiButton:active {
+.foswikiButton:active {
 	cursor:default;
 	outline:none;
 }
-a.twikiButton,
-a.twikiButton:hover,
-a.twikiButton:link:active,
-a.twikiButton:visited:active,
+a.foswikiButton,
+a.foswikiButton:hover,
+a.foswikiButton:link:active,
+a.foswikiButton:visited:active,
 a.twikiSubmit,
 a.twikiSubmit:hover,
 a.twikiSubmit:link:active,
@@ -221,12 +221,12 @@ a.twikiSubmit:visited:active {
 }
 
 .twikiCheckbox,
-.twikiRadioButton {
+.foswikiRadioButton {
 	margin:1px .25em 1px .1em;
 	padding:0 0 0 .5em;
 	border:0;
 }
-.twikiTextarea,
+.foswikiTextarea,
 .twikiInputField,
 .twikiInputFieldDisabled,
 .twikiInputFieldReadOnly,
@@ -234,7 +234,7 @@ a.twikiSubmit:visited:active {
 	border-width:2px;
 	border-style:solid;
 }
-.twikiTextarea,
+.foswikiTextarea,
 .twikiInputField,
 .twikiInputFieldDisabled,
 .twikiInputFieldReadOnly {
@@ -438,8 +438,8 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 	margin:0;
 	padding:0;
 }
-.twikiAttachments .twikiButton h3,
-.foswikiForm .twikiButton h3 {
+.twikiAttachments .foswikiButton h3,
+.foswikiForm .foswikiButton h3 {
 	padding:.1em .2em;
 }
 .patternToggleHeader {}
@@ -670,7 +670,7 @@ a.twikiLinkInHeaderRight {
 #patternBottomBarContents {
 	padding-bottom:2em;
 }
-.patternTopic {
+.foswikiTopic {
 	margin:1em 0 2em 0;
 }
 .patternNoViewPage #patternMainContents,

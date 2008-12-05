@@ -92,8 +92,8 @@ ul.natEditHelpTools {
 }
 
 /* pattern skin tweaks */
-.patternPreviewPage .patternTopic,
-.patternEditPage .patternTopic {
+.patternPreviewPage .foswikiTopic,
+.patternEditPage .foswikiTopic {
   margin:0px;
 }
 .patternEditPage .foswikiForm {

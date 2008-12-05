@@ -16,7 +16,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---++ Naming conventions
 
    * All !PatternSkin specific classes have the prefix =pattern=: patternEditPage, patternTopicAction, etcetera. 
-   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =twiki=: twikiButton, twikiToc, etcetera. See for a complete list CascadingStyleSheets.
+   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =twiki=: foswikiButton, twikiToc, etcetera. See for a complete list CascadingStyleSheets.
    * Positional containers are referred by id, for instance =#patternSideBar=.
 
 ---++ Namespaces
@@ -52,7 +52,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
       * #patternOuter - wrapper container
       * #patternFloatWrap - wrapper container
       * #patternMain - center area
-      * #patternMainContents - holder of patternTop, patternTopic, foswikiForm, twikiAttachments, etc.
+      * #patternMainContents - holder of patternTop, foswikiTopic, foswikiForm, twikiAttachments, etc.
       * #patternTopBar - top bar area
       * #patternTopBarContents - header art / logo; contains topic %SYSTEMWEB%.WebTopBar
       * #patternBottomBar - bottom bar area
@@ -61,10 +61,10 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---++ Style classes
 
    * View
-      * .patternContent - container around .patternTopic in =view.pattern.tmpl= only; to be able to give .twikiAttachments and .foswikiForm a different appearance when they are not enclosed by it, for example the personal data form on the user pages (where the user form is positioned outside, above the topic text)
+      * .patternContent - container around .foswikiTopic in =view.pattern.tmpl= only; to be able to give .twikiAttachments and .foswikiForm a different appearance when they are not enclosed by it, for example the personal data form on the user pages (where the user form is positioned outside, above the topic text)
       * .patternTopBarLogo - logo position in patternTopBar (topic %SYSTEMWEB%.WebTopBar)
       * .patternTopBarOverlay - striped white image background
-      * .patternTopic - Foswiki topic text
+      * .foswikiTopic - Foswiki topic text
       * .patternTop - area at top of topic text, with patternHomePath, revision and action buttons
       * .patternTopicActions - container for multiple .patternTopicAction rows
       * .patternTopicAction - container for .patternActionButtons
@@ -90,7 +90,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
       * .patternSaveHelp - info block with help on save options (access keys and potentially other info)
 
    * Preview page
-      * .patternPreviewArea - container around preview of .patternTopic
+      * .patternPreviewArea - container around preview of .foswikiTopic
 
    * Attach page
       * .patternPrevious - attachment table of previous versions

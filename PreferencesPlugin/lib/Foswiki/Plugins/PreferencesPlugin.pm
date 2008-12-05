@@ -187,7 +187,7 @@ sub _generateEditField {
     }
     unless( $html ) {
         # No form definition, default to text field.
-        $html = CGI::textfield( -class=>'twikiEditFormError twikiInputField',
+        $html = CGI::textfield( -class=>'foswikiAlert twikiInputField',
                                 -name => $name,
                                 -size => 80, -value => $value );
     }
@@ -216,7 +216,7 @@ sub _generateEditButton {
         value => 'edit'});
     $text .= CGI::submit(-name => 'edit',
                          -value=>'Edit Preferences',
-                         -class=>'twikiButton');
+                         -class=>'foswikiButton');
     $text .= CGI::end_form();
     $text =~ s/\n//sg;
     return $text;
@@ -232,7 +232,7 @@ sub _generateControlButtons {
                                          -accesskey=>'s');
     $text .= '&nbsp;';
     $text .= CGI::submit(-name=>'prefsaction', -value=>'Cancel',
-                         -class=>'twikiButton',
+                         -class=>'foswikiButton',
                          -accesskey=>'c').$END_MARKER;
     return $text;
 }

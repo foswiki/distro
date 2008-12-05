@@ -242,7 +242,7 @@ link=""
 noscript="hide"
 start="show"
 }%
-<input type="submit" class="twikiButton" value="You surely have !JavaScript" />
+<input type="submit" class="foswikiButton" value="You surely have !JavaScript" />
 %ENDTWISTY%
 </verbatim>
 
@@ -251,7 +251,7 @@ link=""
 noscript="hide"
 start="show"
 }%
-<input type="submit" class="twikiButton" value="You surely have !JavaScript" />
+<input type="submit" class="foswikiButton" value="You surely have !JavaScript" />
 %ENDTWISTY%
 
 Do not forget to set =start="show"= to show the Twisty content at all. 
@@ -265,7 +265,7 @@ This code will show the button when !JavaScript is off:
 link=""
 start="show"
 }%
-<input type="submit" class="twikiButton" value="You might have !JavaScript" />
+<input type="submit" class="foswikiButton" value="You might have !JavaScript" />
 %ENDTWISTY%
 </verbatim>
 
@@ -273,7 +273,7 @@ start="show"
 link=""
 start="show"
 }%
-<input type="submit" class="twikiButton" value="You might have !JavaScript" />
+<input type="submit" class="foswikiButton" value="You might have !JavaScript" />
 %ENDTWISTY%
 
 
@@ -311,7 +311,7 @@ Use parameter =linkclass= to style the twisty links:
 mode="div"
 showlink="Show..."
 hidelink="Hide"
-linkclass="twikiButton"
+linkclass="foswikiButton"
 }%
 my twisty content
 %ENDTWISTY%
@@ -322,7 +322,7 @@ Generates: %BR%
 mode="div"
 showlink="Show..."
 hidelink="Hide"
-linkclass="twikiButton"
+linkclass="foswikiButton"
 }%
 %GREEN% my twisty content %ENDCOLOR%
 %ENDTWISTY%
@@ -362,13 +362,13 @@ suffix="</h4>"
 You can toggle all Twisties on or off at once by putting a link or button on the page with class =twistyExpandAll= or =twistyCollapseAll=.
 
 <verbatim>
-<button class="twistyExpandAll twikiButton">Expand all</button> &nbsp; <button class="twistyCollapseAll twikiButton">Collapse all</button>
+<button class="twistyExpandAll foswikiButton">Expand all</button> &nbsp; <button class="twistyCollapseAll foswikiButton">Collapse all</button>
 </verbatim>
 
 Creates these controls:
 
-<button class="twistyExpandAll twikiButton">Expand all</button> &nbsp; 
-<button class="twistyCollapseAll twikiButton">Collapse all</button>
+<button class="twistyExpandAll foswikiButton">Expand all</button> &nbsp; 
+<button class="twistyCollapseAll foswikiButton">Collapse all</button>
 
 When you want to use links, write:
 

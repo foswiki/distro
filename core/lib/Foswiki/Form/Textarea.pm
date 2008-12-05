@@ -42,7 +42,7 @@ sub renderForEdit {
         '',
         CGI::textarea(
             -class => $this->cssClasses(
-                'twikiInputField', 'twikiEditFormTextAreaField'
+                'foswikiTextarea'
             ),
             -cols    => $this->{cols},
             -rows    => $this->{rows},

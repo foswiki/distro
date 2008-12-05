@@ -40,7 +40,7 @@ HERE
  <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
  <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="twikiSubmit" />
  &nbsp;
- <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="twikiButton" />
+ <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButton" />
 </form>
 HTML
     $twiki->finish();
@@ -75,7 +75,7 @@ Normal text outside form
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
  <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="twikiSubmit" />
  &nbsp;
- <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="twikiButton" />
+ <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButton" />
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = SHELTER\0071</span></form>
 <!-- Form ends before this
@@ -145,7 +145,7 @@ HERE
     $this->assert_html_equals(<<HTML, $result);
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
  <input type="hidden" name="prefsaction" value="edit"  />
- <input type="submit" name="edit" value="Edit Preferences" class="twikiButton" />
+ <input type="submit" name="edit" value="Edit Preferences" class="foswikiButton" />
 </form>
 HTML
     $twiki->finish();

@@ -54,10 +54,10 @@ __Note:__ The =%<nop>EDITCELL{ }%= macro cannot be used by itself; place an =%<n
    * In page view mode:
       * <input type="submit" class="twikiSubmit" name="et"   value="Edit table" onclick="return(false);" /> - turn the table into edit mode
    * In edit mode:
-      * <input type="submit" class="twikiButton" name="etsave"   value="Save table"  onclick="return(false);" /> - save your changes
-      * <input type="submit" class="twikiButton" name="etqsave"   value="Quiet save"  onclick="return(false);" /> - save your changes without alerting subscribed WebNotify users
-      * <input type="submit" class="twikiButton" name="etaddrow" value="Add row" onclick="return(false);" /> - add row to the table (if enabled)
-      * <input type="submit" class="twikiButton" name="etdelrow" value="Delete last row" onclick="return(false);" /> - remove last row from the table (if enabled)
+      * <input type="submit" class="foswikiButton" name="etsave"   value="Save table"  onclick="return(false);" /> - save your changes
+      * <input type="submit" class="foswikiButton" name="etqsave"   value="Quiet save"  onclick="return(false);" /> - save your changes without alerting subscribed WebNotify users
+      * <input type="submit" class="foswikiButton" name="etaddrow" value="Add row" onclick="return(false);" /> - add row to the table (if enabled)
+      * <input type="submit" class="foswikiButton" name="etdelrow" value="Delete last row" onclick="return(false);" /> - remove last row from the table (if enabled)
       * <input type="submit" class="twikiButtonCancel" name="etcancel" value="Cancel" onclick="return(false);" /> - cancel without saving and release edit lock
       * <img src="%ATTACHURLPATH%/btn_move.gif"> - Move a row by clicking this button next to the row to
          be moved, then at a destination.
@@ -106,10 +106,10 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 	</tr></table>
 <input type="hidden" name="etrows" value="3" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </div><!-- /editTable -->
 
 The following example shows a simple table with key/value rows. The default edit field type for the value column is a text field. This is overloaded by a selector for the Gender, and a date picker for the DOB. This is typically used by Foswiki applications where new topics with tables are created based on a template topic.

@@ -127,20 +127,20 @@ blockquote {
 /* Form elements */
 
 .twikiSubmit,
-.twikiButton,
+.foswikiButton,
 .twikiCheckbox {
 	padding:.1em .3em;
 }
 .twikiCheckbox,
-.twikiRadioButton {
+.foswikiRadioButton {
 	margin:0 .3em 0 0;
 	border:0;
 }
 .twikiSubmit,
-.twikiButton {
+.foswikiButton {
 }
 .twikiSubmit:active,
-.twikiButton:active {
+.foswikiButton:active {
 }
 
 .twikiInputField,
@@ -256,8 +256,8 @@ table#twikiSearchTable td.first {
 	background-color:#FCF8EC;
 }
 
-.twikiChangeFormButton .twikiButton,
-.twikiChangeFormButtonHolder .twikiButton { /* looks like a link */
+.twikiChangeFormButton .foswikiButton,
+.twikiChangeFormButtonHolder .foswikiButton { /* looks like a link */
 	color:#06c;
 	background:none;
 }
@@ -617,8 +617,8 @@ a.twikiLinkInHeaderRight {
 	margin:.5em 0;
 	float:right;
 }
-.twikiChangeFormButton .twikiButton,
-.twikiChangeFormButtonHolder .twikiButton {
+.twikiChangeFormButton .foswikiButton,
+.twikiChangeFormButtonHolder .foswikiButton {
 	padding:0;
 	margin:0;
 	border:none;
@@ -643,27 +643,19 @@ twikiContentFooter
 twikiContentHeader
 twikiDiffLineNumberHeader
 twikiDiffTable
-twikiEditFormCalendarButton
-twikiEditFormCheckboxButton
-twikiEditFormCheckboxField
-twikiEditFormDateField
-twikiEditFormError
-twikiEditFormLabelField
 twikiEditFormOption
-twikiEditFormRadioField
+foswikiRadioButton
 twikiEditFormSelect
-twikiEditFormTextAreaField
 twikiEditTextarea
 TWikiFooterNote
 foswikiForm
 twikiFormTableRow
 foswikiLink
 twikiMain
-twikiMiddleContainer
 twikiNoBreak
 twikiTableEven
 twikiTableOdd
-twikiTextarea
+foswikiTextarea
 twikiTextareaRawView
 foswikiTopRow
 */

@@ -53,7 +53,7 @@ The customized skin file:
 The column preference:
    * <nop>Set PATTERNSKIN_COLUMNS = %PATTERNSKIN_COLUMNS_RELATIVE%
 </textarea><br />
-<input type="button" class="twikiButton" value="Highlight text" onClick="javascript:this.form.copypaste.focus();this.form.copypaste.select();">
+<input type="button" class="foswikiButton" value="Highlight text" onClick="javascript:this.form.copypaste.focus();this.form.copypaste.select();">
 </form>
 </noautolink>
 %ENDTWISTY%

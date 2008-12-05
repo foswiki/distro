@@ -124,7 +124,7 @@
 		text-decoration:none;
 	}
 	:visited,
-	.patternTopic a:visited {
+	.foswikiTopic a:visited {
 		color:#06c;
 		background-color:transparent;
 	}

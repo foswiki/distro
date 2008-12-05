@@ -843,17 +843,17 @@ sub createButtonRow {
 "$preSp<input type=\"submit\" name=\"etsave\" id=\"etsave\" value=\"$prefSAVE_BUTTON\" class=\"twikiSubmit\" />\n";
         if ( $params{'quietsave'} ) {
             $text .=
-"$preSp<input type=\"submit\" name=\"etqsave\" id=\"etqsave\" value=\"$prefQUIET_SAVE_BUTTON\" class=\"twikiButton\" />\n";
+"$preSp<input type=\"submit\" name=\"etqsave\" id=\"etqsave\" value=\"$prefQUIET_SAVE_BUTTON\" class=\"foswikiButton\" />\n";
         }
         if ( $params{'changerows'} ) {
             $text .=
-"$preSp<input type=\"submit\" name=\"etaddrow\" id=\"etaddrow\" value=\"$prefADD_ROW_BUTTON\" class=\"twikiButton\" />\n";
+"$preSp<input type=\"submit\" name=\"etaddrow\" id=\"etaddrow\" value=\"$prefADD_ROW_BUTTON\" class=\"foswikiButton\" />\n";
             $text .=
-"$preSp<input type=\"submit\" name=\"etdelrow\" id=\"etdelrow\" value=\"$prefDELETE_LAST_ROW_BUTTON\" class=\"twikiButton\" />\n"
+"$preSp<input type=\"submit\" name=\"etdelrow\" id=\"etdelrow\" value=\"$prefDELETE_LAST_ROW_BUTTON\" class=\"foswikiButton\" />\n"
               unless ( $params{'changerows'} =~ /^add$/oi );
         }
         $text .=
-"$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"twikiButton twikiButtonCancel\" />\n";
+"$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"foswikiButton twikiButtonCancel\" />\n";
 
         if ( $params{'helptopic'} ) {
 
@@ -945,7 +945,7 @@ sub viewEditCell {
     }
     else {
         return
-"<input class=\"twikiButton editTableEditButton\" type=\"submit\" value=\"$value\" /> $warningMessage";
+"<input class=\"foswikiButton editTableEditButton\" type=\"submit\" value=\"$value\" /> $warningMessage";
     }
 }
 
@@ -1172,7 +1172,7 @@ sub inputElement {
         Foswiki::Plugins::EditTablePlugin::encodeValue($theValue)
           unless ( $theValue eq '' );
         $text .=
-"<textarea class=\"twikiTextarea editTableTextarea\" rows=\"$rows\" cols=\"$cols\" name=\"$theName\">$theValue</textarea>";
+"<textarea class=\"foswikiTextarea editTableTextarea\" rows=\"$rows\" cols=\"$cols\" name=\"$theName\">$theValue</textarea>";
         $text .= saveEditCellFormat( $cellFormat, $theName );
 
     }

@@ -229,15 +229,15 @@ sub test_render_for_edit {
 my $expected = <<HERE;
 <div class="foswikiForm twikiEditForm"><table class="twikiFormTable">
 <tr>
-<th class="twikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window" onclick="return launchWindow(&quot;TemporaryRenderFormTestsTestWebRenderFormTests&quot;,&quot;InitializationForm&quot;)">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="twikiChangeFormButton twikiButton" /></th>
+<th class="twikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window" onclick="return launchWindow(&quot;TemporaryRenderFormTestsTestWebRenderFormTests&quot;,&quot;InitializationForm&quot;)">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="twikiChangeFormButton foswikiButton" /></th>
 </tr> 
-<tr><th align="right">Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="twikiInputField twikiEditFormTextField" /></td></tr>
-<tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  label="none" class="twikiRadioButton twikiEditFormRadioField"/>none</label></td></tr></table></td></tr>
-<tr><th align="right">Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div class="twikiEditFormLabelField"><nop><h1><a name="Example_problem"></a> Example problem </h1></div></td></tr>
+<tr><th align="right">Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="twikiInputField" /></td></tr>
+<tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  label="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
+<tr><th align="right">Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div><nop><h1><a name="Example_problem"></a> Example problem </h1></div></td></tr>
 <tr><th align="right">Issue 1</th><td align="left"><select name="Issue1" class="twikiSelect twikiEditFormSelect" size="1"></select></td></tr>
 <tr><th align="right">Issue 2EXTRA</th><td align="left">SWEET</td></tr>
 <tr><th align="right">Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
-<tr><th align="right">Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="twikiInputField twikiEditFormTextAreaField">
+<tr><th align="right">Issue 4</th><td align="left"><textarea name="Issue4"  rows="4" cols="50" class="foswikiTextarea">
 Defect</textarea></td></tr>
 <tr><th align="right">Issue 5</th><td align="left"><select name="Issue5" multiple="on" class="twikiSelect twikiEditFormSelect" size="3"><option class="twikiEditFormOption" selected="selected">Foo</option><option class="twikiEditFormOption">Bar</option><option class="twikiEditFormOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr> </table>  </div>
 HERE

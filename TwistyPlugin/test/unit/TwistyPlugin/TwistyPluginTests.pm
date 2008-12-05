@@ -219,11 +219,11 @@ sub test_TWISTY_param_linkclass {
     my $this = shift;
     
     my $source = <<SOURCE;
-%TWISTY{link="open" linkclass="twikiButton" mode="div"}%contents%ENDTWISTY%
+%TWISTY{link="open" linkclass="foswikiButton" mode="div"}%contents%ENDTWISTY%
 SOURCE
 
     my $expected = <<EXPECTED;
-<div class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited twikiButton">open</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited twikiButton">open</span></a></span></div><!--/twistyPlugin twikiMakeVisibleInline--><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">
+<div class="twistyPlugin twikiMakeVisibleInline"><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1show" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited foswikiButton">open</span></a></span><span id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1hide" class="twistyTrigger twikiUnvisited twistyHidden twistyInited"><a href="#"><span class="twikiLinkLabel twikiUnvisited foswikiButton">open</span></a></span></div><!--/twistyPlugin twikiMakeVisibleInline--><div class="twistyPlugin"><div id="twistyIdTemporaryTwistyFormattingTestWebTwistyFormattingTestTopicTwistyFormatting1toggle" class="twistyContent twikiMakeHidden twistyInited">
 contents
 </div></div><!--/twistyPlugin-->
 EXPECTED

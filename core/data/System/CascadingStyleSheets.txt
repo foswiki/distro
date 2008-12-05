@@ -19,55 +19,45 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 
 ---+++ Styles in core code
 
-|.foswikiAlert  |Client.pm, Form.pm, Statistics.pm  |
-|.foswikiFirstCol  |Render.pm  |
-|.foswikiForm  |Render.pm  |
-|.foswikiNew  |Changes.pm, Search.pm  |
-|.foswikiHelp  |Changes.pm  |
-|.foswikiTopRow  |Manage.pm  |
-|.foswikiSummary  |Manage.pm  |
-|.foswikiGrayText  |Manage.pm  |
-|.foswikiCheckBox  |Manage.pm  |
-|.foswikiLink  |Render.pm  |
-|.foswikiNewLink  |Render.pm  |
-|.foswikiAnchorLink  |Render.pm  |
-|.foswikiCurrentWebHomeLink  |Render.pm  |
-|.foswikiCurrentTopicLink  |Render.pm  |
-|.foswikiEmulatedLink  |Preview.pm  |
-|.foswikiWebIndent  |Foswiki.pm  |
+|.foswikiAlert  |  |
+|.foswikiFirstCol  |  |
+|.foswikiForm  |  |
+|.foswikiNew  |,   |
+|.foswikiHelp  |  |
+|.foswikiTopRow  |  |
+|.foswikiSummary  |  |
+|.foswikiGrayText  |  |
+|.foswikiCheckBox  |  |
+|.foswikiLink  |  |
+|.foswikiNewLink  |  |
+|.foswikiAnchorLink  |  |
+|.foswikiCurrentWebHomeLink  |  |
+|.foswikiCurrentTopicLink  |  |
+|.foswikiEmulatedLink  |  |
+|.foswikiWebIndent  |  |
 
-|.twikiEditFormDateField  | Form.pm  |
-|.twikiEditFormTextField  |Form.pm  |
-|.twikiEditFormLabelField  |Form.pm  |
-|.twikiEditFormTextAreaField  |Form.pm  |
-|.twikiEditFormCheckboxButton  |Form.pm  |
-|.twikiEditFormCheckboxField  |Form.pm  |
-|.twikiRadioButton  |Form.pm  |
-|.twikiEditFormRadioField  |Form.pm  |
-|.twikiEditFormError  |Form.pm  |
+|.foswikiCheckBox  |  |
+|.foswikiRadioButton  |  |
 
-|.twikiDiffTable  |RDiff.pm  |
-|.twikiDiffDeletedHeader  |RDiff.pm  |
-|.twikiDiffDeletedMarker  |RDiff.pm  |
-|.twikiDiffDeletedText  |RDiff.pm  |
-|.twikiDiffAddedHeader  |RDiff.pm  |
-|.twikiDiffAddedMarker  |RDiff.pm  |
-|.twikiDiffAddedText  |RDiff.pm  |
-|.twikiDiffChangedHeader  |RDiff.pm  |
-|.twikiDiffChangedText  |RDiff.pm  |
-|.twikiDiffUnchangedText  |RDiff.pm  |
-|.twikiDiffUnchangedTextContents  |RDiff.pm  |
-|.twikiDiffLineNumberHeader  |RDiff.pm  |
-|.twikiDiffDebug  |RDiff.pm  |
-|.twikiDiffDebugRight  |RDiff.pm  |
-|.twikiDiffDebugLeft  |RDiff.pm  |
+|.twikiDiffTable  |  |
+|.twikiDiffDeletedHeader  |  |
+|.twikiDiffDeletedMarker  |  |
+|.twikiDiffDeletedText  |  |
+|.twikiDiffAddedHeader  |  |
+|.twikiDiffAddedMarker  |  |
+|.twikiDiffAddedText  |  |
+|.twikiDiffChangedHeader  |  |
+|.twikiDiffChangedText  |  |
+|.twikiDiffUnchangedText  |  |
+|.twikiDiffUnchangedTextContents  |  |
+|.twikiDiffLineNumberHeader  |  |
+|.twikiDiffDebug  |  |
+|.twikiDiffDebugRight  |  |
+|.twikiDiffDebugLeft  |  |
 
-|.twikiToc  |Foswiki.pm  |
-|.twikiTocTitle  |Foswiki.pm  |
+|.twikiToc  |  |
+|.twikiTocTitle  |  |
 
-
----+++ Styles in Plugins
----++++ TablePlugin
 |=.twikiTable=  |The table  |
 |=.twikiSortedCol=  |A sorted column  |
 |=.twikiSortedAscendingCol=  |Sorted column, ascending  |
@@ -83,8 +73,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 ---+++ Styles in Templates
 
 |.twikiPage  |foswiki.tmpl  |
-|.twikiMiddleContainer  |foswiki.tmpl  |
 |.twikiMain  |foswiki.tmpl  |
+|.foswikiTopic | |
 |.twikiFormTable  |formtables.tmpl, form.tmpl  |
 |.twikiFormTableHRow  |formtables.tmpl, form.tmpl  |
 |.twikiFormTableRow  |formtables.tmpl  |
@@ -99,9 +89,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |.twikiInputFieldFocus | For Internet Explorer that does not recognize the =:focus= pseudo class selector |
 |.twikiInputFieldBeforeFocus  |for use with Javascript: the color of the input text when not clicked in the field |
 |.twikiSelect   | Select dropdown menu |
-|.twikiTextarea | |
+|.foswikiTextarea | |
 |.twikiTextareaRawView | |
-|.twikiButton  | |
+|.foswikiButton  | |
 |.twikiFocus  |Behaviour marker so a field can be given input focus |
 |.twikiLeft  | |
 |.twikiRight  | |
@@ -128,9 +118,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |.twikiContentFooter  |container around optional html placed after topic text  |
 
 ---+++ Styles used in =configure=
-|#twikiLogin  |CSS.pm  |
-|.twikiFormSteps  |CSS.pm |
-|.twikiFormStep  |CSS.pm |
+|#twikiLogin  |  |
+|.twikiFormSteps  | |
+|.twikiFormStep  | |
 
 ---+++ Styles in topics
 

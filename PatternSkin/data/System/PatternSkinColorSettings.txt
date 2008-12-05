@@ -19,7 +19,7 @@ Edit this topic, and change the color as you like.
 </div>
 <div class="twikiFormStep">
 ---+++!! Step 3
-%IF{"context AttachContentPluginEnabled" then='<a href="%SCRIPTURL{save}%/%WEB%/%TOPIC%?action_save=1" class="twikiButton">Save the topic</a> This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/my_colors.css][attachment]] to topic [[PatternSkin]].' else='Install !AttachContentPlugin to be able to save this topic. On saving, an attachment will be created to topic PatternSkin.'}% 
+%IF{"context AttachContentPluginEnabled" then='<a href="%SCRIPTURL{save}%/%WEB%/%TOPIC%?action_save=1" class="foswikiButton">Save the topic</a> This will generate an [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/my_colors.css][attachment]] to topic [[PatternSkin]].' else='Install !AttachContentPlugin to be able to save this topic. On saving, an attachment will be created to topic PatternSkin.'}% 
 
 
 </div>
@@ -318,10 +318,10 @@ h3, h4, h5, h6 {
 :visited:hover img {
    background-color:transparent;
 }
-.patternTopic a:visited {
+.foswikiTopic a:visited {
    color:%LINK_TEXT_NORMAL_VISITED%;
 }
-.patternTopic a:hover {
+.foswikiTopic a:hover {
    color:%LINK_TEXT_HOVER%;
 }
 #patternMainContents h1 a:link, #patternMainContents h1 a:visited {
@@ -342,10 +342,10 @@ h3, h4, h5, h6 {
 #patternMainContents h6 a:hover {
    color:%LINK_TEXT_HOVER%;
 }
-.patternTopic .twikiUnvisited a:visited {
+.foswikiTopic .twikiUnvisited a:visited {
    color:%LINK_TEXT_NORMAL%;
 }
-.patternTopic .twikiUnvisited a:hover {
+.foswikiTopic .twikiUnvisited a:hover {
    color:%LINK_TEXT_HOVER%;
 }
 
@@ -359,14 +359,14 @@ select {
    background-color:%MAIN_TEXT_BACKGROUND%;
 }
 .twikiSubmit,
-.twikiButton {
+.foswikiButton {
    border-color:%BUTTON_BORDERS%;
 }
 .twikiSubmit {
    color:%SUBMIT_BUTTON_BORDER_TEXT%;
    background-color:%SUBMIT_BUTTON_BACKGROUND%;
 }
-.twikiButton {
+.foswikiButton {
    color:%BUTTON_TEXT%;
    background-color:%BUTTON_BACKGROUND%;
 }
@@ -380,14 +380,14 @@ select {
    color:%DISABLED_TEXT%;
    background-color:%ACTIVE_FORM_BACKGROUND%;
 }
-.twikiTextarea,
+.foswikiTextarea,
 .twikiInputField,
 .twikiInputFieldDisabled,
 .twikiInputFieldReadOnly,
 .twikiSelect {
    border-color:%INPUT_FIELD_BORDERS%;
 }
-.twikiTextarea,
+.foswikiTextarea,
 .twikiInputField,
 .twikiSelect {
    color:%MAIN_TEXT%;
@@ -496,8 +496,8 @@ table.twikiFormTable td.twikiFormTableRow {
    background-color:%ATTACHMENT_AND_FORM_BACKGROUND%;
    border-color:%MAIN_TEXT_BACKGROUND%;
 }
-.twikiAttachments .twikiButton h3,
-.foswikiForm .twikiButton h3 {
+.twikiAttachments .foswikiButton h3,
+.foswikiForm .foswikiButton h3 {
 	color:%HEADER_TEXT%;
 }
 .twikiAttachments table,
@@ -862,9 +862,9 @@ a.twikiSubmit:active {
    border-color:#ccc #ccc #ccc #ccc;
    color:#ccc;
 }
-.twikiButton,
-a.twikiButton:link,
-a.twikiButton:visited {
+.foswikiButton,
+a.foswikiButton:link,
+a.foswikiButton:visited {
    background-image:url(bg_button_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px 0px;
@@ -872,10 +872,10 @@ a.twikiButton:visited {
    background-color:#cce7f1;
    color:%BUTTON_TEXT_NORMAL%;
 }
-.twikiButton:hover,
-.twikiButton:active,
-a.twikiButton:hover,
-a.twikiButton:active {
+.foswikiButton:hover,
+.foswikiButton:active,
+a.foswikiButton:hover,
+a.foswikiButton:active {
    background-position:0px -160px;
    border-color:#94cce2 #94cce2 #94cce2 #94cce2;
    background-color:#cce7f1;

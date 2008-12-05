@@ -115,10 +115,10 @@ h3, h4, h5, h6 {
 :visited:hover img {
    background-color:transparent;
 }
-.patternTopic a:visited {
+.foswikiTopic a:visited {
    color:#666;
 }
-.patternTopic a:hover {
+.foswikiTopic a:hover {
    color:#fff;
 }
 #patternMainContents h1 a:link, #patternMainContents h1 a:visited {
@@ -139,10 +139,10 @@ h3, h4, h5, h6 {
 #patternMainContents h6 a:hover {
    color:#fff;
 }
-.patternTopic .twikiUnvisited a:visited {
+.foswikiTopic .twikiUnvisited a:visited {
    color:#4571d0;
 }
-.patternTopic .twikiUnvisited a:hover {
+.foswikiTopic .twikiUnvisited a:hover {
    color:#fff;
 }
 
@@ -156,14 +156,14 @@ select {
    background-color:#fff;
 }
 .twikiSubmit,
-.twikiButton {
+.foswikiButton {
    border-color:#fff #888 #888 #fff;
 }
 .twikiSubmit {
    color:#fff;
    background-color:#06c;
 }
-.twikiButton {
+.foswikiButton {
    color:#000;
    background-color:#e2e3e3;
 }
@@ -177,14 +177,14 @@ select {
    color:#aaa;
    background-color:#eef7fa;
 }
-.twikiTextarea,
+.foswikiTextarea,
 .twikiInputField,
 .twikiInputFieldDisabled,
 .twikiInputFieldReadOnly,
 .twikiSelect {
    border-color:#bbb #f2f2f2 #f2f2f2 #bbb;
 }
-.twikiTextarea,
+.foswikiTextarea,
 .twikiInputField,
 .twikiSelect {
    color:#000;
@@ -293,8 +293,8 @@ table.twikiFormTable td.twikiFormTableRow {
    background-color:#eef7fa;
    border-color:#fff;
 }
-.twikiAttachments .twikiButton h3,
-.foswikiForm .twikiButton h3 {
+.twikiAttachments .foswikiButton h3,
+.foswikiForm .foswikiButton h3 {
 	color:#d1400e;
 }
 .twikiAttachments table,
@@ -659,9 +659,9 @@ a.twikiSubmit:active {
    border-color:#ccc #ccc #ccc #ccc;
    color:#ccc;
 }
-.twikiButton,
-a.twikiButton:link,
-a.twikiButton:visited {
+.foswikiButton,
+a.foswikiButton:link,
+a.foswikiButton:visited {
    background-image:url(bg_button_gradient.gif);
    background-repeat:repeat-x;
    background-position:0px 0px;
@@ -669,10 +669,10 @@ a.twikiButton:visited {
    background-color:#cce7f1;
    color:#333;
 }
-.twikiButton:hover,
-.twikiButton:active,
-a.twikiButton:hover,
-a.twikiButton:active {
+.foswikiButton:hover,
+.foswikiButton:active,
+a.foswikiButton:hover,
+a.foswikiButton:active {
    background-position:0px -160px;
    border-color:#94cce2 #94cce2 #94cce2 #94cce2;
    background-color:#cce7f1;

@@ -545,7 +545,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 
 ---+++ twiki.Window.openPopup
 
-<button class="twikiButton testopenPopup">Test open window</button>
+<button class="foswikiButton testopenPopup">Test open window</button>
 
 <script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>
 

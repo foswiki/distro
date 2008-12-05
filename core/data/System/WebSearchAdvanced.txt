@@ -35,9 +35,9 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <tr>
 <th>%MAKETEXT{"Search where:"}%</th>
 <td>
-<input type="radio" class="twikiRadioButton" id="textbody" name="scope" value="text" %IF{" '%URLPARAM{"scope"}%' = 'text' " then="checked=\"checked\"" else=""}% /><label for="textbody"> %MAKETEXT{"Text body"}%</label><br />
-<input type="radio" class="twikiRadioButton" id="topictitle" name="scope" value="topic" %IF{" '%URLPARAM{"scope" default="all"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topictitle"> %MAKETEXT{"Topic title"}%</label><br />
-<input type="radio" class="twikiRadioButton" id="both" name="scope" value="all" %IF{" '%URLPARAM{"scope" default="all"}%' = 'all' " then="checked=\"checked\"" else=""}% /><label for="both"> %MAKETEXT{"Both body and title"}%</label>
+<input type="radio" class="foswikiRadioButton" id="textbody" name="scope" value="text" %IF{" '%URLPARAM{"scope"}%' = 'text' " then="checked=\"checked\"" else=""}% /><label for="textbody"> %MAKETEXT{"Text body"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="topictitle" name="scope" value="topic" %IF{" '%URLPARAM{"scope" default="all"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topictitle"> %MAKETEXT{"Topic title"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="both" name="scope" value="all" %IF{" '%URLPARAM{"scope" default="all"}%' = 'all' " then="checked=\"checked\"" else=""}% /><label for="both"> %MAKETEXT{"Both body and title"}%</label>
 <hr />
 <input type="checkbox" class="twikiCheckbox" id="web" name="web" value="all" %IF{" '%URLPARAM{web}%' = 'all'" then="checked=\"checked\"" else=""}% /><label for="web"> %MAKETEXT{"All public webs"}%</label> <span class="twikiSmall">%MAKETEXT{"(otherwise search [_1] Web only)" args="<nop>%INCLUDINGWEB%"}%</span>
 </td>
@@ -45,9 +45,9 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <tr>
 <th>%MAKETEXT{"Sort results by:"}%</th>
 <td>
-<input type="radio" class="twikiRadioButton" id="topic" name="order" value="topic" %IF{" '%URLPARAM{"order" default="topic"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Topic name"}%</label><br />
-<input type="radio" class="twikiRadioButton" id="modified" name="order" value="modified" %IF{" '%URLPARAM{order}%' = 'modified' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Last modified time"}%</label><br />
-<input type="radio" class="twikiRadioButton" id="editby" name="order" value="editby" %IF{" '%URLPARAM{order}%' = 'editby' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Last editor"}%</label>
+<input type="radio" class="foswikiRadioButton" id="topic" name="order" value="topic" %IF{" '%URLPARAM{"order" default="topic"}%' = 'topic' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Topic name"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="modified" name="order" value="modified" %IF{" '%URLPARAM{order}%' = 'modified' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Last modified time"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="editby" name="order" value="editby" %IF{" '%URLPARAM{order}%' = 'editby' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Last editor"}%</label>
 <hr />
 <input type="checkbox" class="twikiCheckbox" name="reverse" id="reverse" %IF{" '%URLPARAM{reverse}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="reverse"> %MAKETEXT{"In reversed order"}%</label>
 </td>

@@ -159,7 +159,7 @@ sub handleHeadFoot {
             my %params = Foswiki::Func::extractParameters($args);
             my $newtext = $params{text} || $params{_DEFAULT} || '';
             my $url = $params{url} || '';
-            my $replace = $url ? "<a href='$url' class='twikiButton'>$newtext</a>" : $newtext;
+            my $replace = $url ? "<a href='$url' class='foswikiButton'>$newtext</a>" : $newtext;
             $text =~ s/\$next({.*?})/$replace/;
         }
     }
@@ -182,7 +182,7 @@ sub handleHeadFoot {
             my %params = Foswiki::Func::extractParameters($args);
             my $newtext = $params{text} || $params{_DEFAULT} || '';
             my $url = $params{url} || '';
-            my $replace = $url ? "<a href='$url' class='twikiButton'>$newtext</a>" : $newtext;
+            my $replace = $url ? "<a href='$url' class='foswikiButton'>$newtext</a>" : $newtext;
             $text =~ s/\$previous({.*?})/$replace/;
         }
     }

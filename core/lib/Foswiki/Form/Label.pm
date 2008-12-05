@@ -24,7 +24,7 @@ sub renderForEdit {
             -name  => $this->{name},
             -value => $value
           )
-          . CGI::div( { class => 'twikiEditFormLabelField' }, $renderedValue )
+          . CGI::div( $renderedValue )
     );
 }
 

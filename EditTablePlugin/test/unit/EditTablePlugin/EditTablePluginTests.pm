@@ -117,7 +117,7 @@ sub test_viewEditButton {
 <input type="hidden" name="ettablenr" value="1" />
 <input type="hidden" name="etedit" value="on" />
 <input type="hidden" name="etrows" value="0" />
-<input class="twikiButton editTableEditButton" type="submit" value="Edit me" />
+<input class="foswikiButton editTableEditButton" type="submit" value="Edit me" />
 </form>
 </div><!-- /editTable -->
 END
@@ -209,13 +209,13 @@ SOMETHING <noautolink>
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
-|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="twikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="twikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<input type="text" name="etcell1x8"  size="11" class="twikiInputField editTableInput" id="idetcell1x8" /><span class="twikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span> |
+|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="twikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<input type="text" name="etcell1x8"  size="11" class="twikiInputField editTableInput" id="idetcell1x8" /><span class="twikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span> |
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -263,10 +263,10 @@ INPUT
 |<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="twikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -327,10 +327,10 @@ EXPECTED
 <input type="hidden" name="etrows" value="4" />
 <input type="hidden" name="etaddedrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -435,10 +435,10 @@ INPUT
 </table>
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 END
@@ -497,10 +497,10 @@ INPUT
 </table>
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 END
@@ -607,10 +607,10 @@ INPUT
 </table>
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 END
@@ -1147,10 +1147,10 @@ SOMETHING
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="submit" name="etsave" id="etsave" value="Save table" class="twikiSubmit" />
-<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="twikiButton" />
-<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="twikiButton" />
-<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="twikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="twikiButton twikiButtonCancel" />
+<input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
+<input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
+<input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton twikiButtonCancel" />
 <input type="hidden" name="ettablenr" value="1" />
 | <input class="twikiInputField editTableInput" type="text" name="etcell1x1" size="16" value="" /> |
 <input type="hidden" name="etrows" value="1" />

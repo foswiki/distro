@@ -142,10 +142,10 @@ sub renderForEdit {
             $expandedOption =~ s/(\W)/\\$1/g;
             $attrs{$option}{label} = $expandedOption;
             if ($colDef->{type} eq 'checkbox') {
-                $attrs{$option}{class} = 'twikiEditFormCheckboxField EditRowPluginInput';
+                $attrs{$option}{class} = 'foswikiCheckBox EditRowPluginInput';
             } else {
                 $attrs{$option}{class} =
-                  'twikiRadioButton twikiEditFormRadioField EditRowPluginInput';
+                  'foswikiRadioButton EditRowPluginInput';
             }
 
             if ($expandedValue =~ /,\s*$expandedOption\s*,/) {

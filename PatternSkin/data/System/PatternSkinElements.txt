@@ -144,7 +144,7 @@ Numbered list:
 <tr>
 <th class="last">Search where:</th>
 <td class="last">
-<input type="radio" class="twikiRadioButton" id="textbody" name="scope" value="text" checked="checked" /><label for="textbody"> Text body</label>&nbsp;&nbsp;&nbsp;<input type="radio" class="twikiRadioButton" id="topictitle" name="scope" value="topic"  /><label for="topictitle"> Topic title</label>&nbsp;&nbsp;&nbsp;<input type="radio" class="twikiRadioButton" id="both" name="scope" value="all"  /><label for="both"> Both body and title</label>
+<input type="radio" class="foswikiRadioButton" id="textbody" name="scope" value="text" checked="checked" /><label for="textbody"> Text body</label>&nbsp;&nbsp;&nbsp;<input type="radio" class="foswikiRadioButton" id="topictitle" name="scope" value="topic"  /><label for="topictitle"> Topic title</label>&nbsp;&nbsp;&nbsp;<input type="radio" class="foswikiRadioButton" id="both" name="scope" value="all"  /><label for="both"> Both body and title</label>
 <hr />
 <input type="checkbox" class="twikiCheckbox" id="web" name="web"  /><label for="web"> All public webs</label> <span class="twikiSmall">(otherwise search System Web only)</span>
 </td>
@@ -177,7 +177,7 @@ Describe the file so other people know what it is.
 <input type="checkbox" class="twikiCheckbox" id="createlink" name="createlink"  /><label for="createlink">Create a link to the attached file</label> <span class="foswikiGrayText">Images will be displayed, for other attachments a link will be created.</span>
 <p />
 <input type="checkbox" class="twikiCheckbox" id="hidefile" name="hidefile"  /><label for="hidefile">Do not show attachment in table</label> <span class="foswikiGrayText">Attachments will not be shown in topic view page.</span>
-</div><!-- /twikiFormStep--><div class="twikiFormStep twikiLast"><input type="submit" class="twikiButton" name="changeproperties" value='Change comment and properties only' /></div><!-- /twikiFormStep-->
+</div><!-- /twikiFormStep--><div class="twikiFormStep twikiLast"><input type="submit" class="foswikiButton" name="changeproperties" value='Change comment and properties only' /></div><!-- /twikiFormStep-->
 </div><!-- /twikiFormSteps-->
 <a name="topic-actions"> </a><div class="patternTopicActions"><div class="patternTopicAction" style="margin-top:-1px;"><span class="patternActionButtons"> <input type="submit" class="twikiSubmit" value='Upload file' /> or <a href="#" title='Back to topic' accesskey='c' rel='nofollow'><span class='twikiAccessKey'>C</span>ancel</a></span></div></div><!--/patternTopicActions-->
 
@@ -214,7 +214,7 @@ Describe the file so other people know what it is.
 <table style="border-width:0px;" cellspacing="0" cellpadding="0" class="twikiTable" border="0"><tr class="twikiTableEven"><td bgcolor="#ffffff" align="right" valign="top" style="vertical-align:top;border-width:0px;" class="foswikiFirstCol"> <label for="comment_url">Url</label> </td><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;"> <input class="twikiInputField"  type="text" size="40" name="comment_url" id="comment_url" value="http://" /> </td></tr>
 <tr class="twikiTableOdd"><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;" class="foswikiFirstCol"> <label for="comment_link">Link label</label> </td><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;"> <input class="twikiInputField"  type="text" size="40" name="comment_link" id="comment_link" /> </td></tr>
 <tr class="twikiTableEven"><td bgcolor="#ffffff" align="right" valign="top" style="vertical-align:top;border-width:0px;" class="foswikiFirstCol"> <label for="bookmark_comment_text">Comment</label> </td><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;"> <input class="twikiInputField"  type="text" size="40" name="bookmark_comment_text" id="bookmark_comment_text" value="" /> </td></tr>
-<tr class="twikiTableOdd"><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;" class="foswikiFirstCol twikiLast">  </td><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;" class="twikiLast"> <input  type="submit" value="Add bookmark" class="twikiButton" /> </td></tr>
+<tr class="twikiTableOdd"><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;" class="foswikiFirstCol twikiLast">  </td><td bgcolor="#ffffff" valign="top" style="vertical-align:top;border-width:0px;" class="twikiLast"> <input  type="submit" value="Add bookmark" class="foswikiButton" /> </td></tr>
 </table>
 <input type="hidden" name="comment_action" value="save" /><input type="hidden" name="comment_type" value="bookmark" /><input type="hidden" name="comment_index" value="14" /><div></div>
 
@@ -228,7 +228,7 @@ Describe the file so other people know what it is.
 
 ---++ Form elements
 
-<input type=submit" class="twikiButton" value="twikiButton" />
+<input type=submit" class="foswikiButton" value="foswikiButton" />
 
 <input type=submit" class="twikiSubmit" value="twikiSubmit" />
 
