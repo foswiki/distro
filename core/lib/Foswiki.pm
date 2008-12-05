@@ -3686,6 +3686,15 @@ sub _encode {
         $text =~ s/\r*\n\r*/<br \/>/;    # Legacy.
         return urlEncode($text);
     }
+    elsif ( $type =~ /^(off|none)$/i ) {
+        # no encoding
+        return $text;
+    }
+    else { # safe or default
+        # entity encode ' " < > and %
+        $text =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
+        return $text;
+    }
 }
 
 sub ENV {
@@ -3842,16 +3851,16 @@ sub QUERYPARAMS {
       ? $params->{format}
       : '$name=$value';
     my $separator = defined $params->{separator} ? $params->{separator} : "\n";
-    my $encoding = $params->{encoding} || '';
+    my $encoding = $params->{encoding} || 'safe';
 
     my @list;
     foreach my $name ( $this->{request}->param() ) {
 
         # Issues multi-valued parameters as separate hiddens
         my $value = $this->{request}->param($name);
-        if ($encoding) {
-            $value = _encode( $encoding, $value );
-        }
+        $name = _encode( $encoding, $name );
+        $value = _encode( $encoding, $value );
+
         my $entry = $format;
         $entry =~ s/\$name/$name/g;
         $entry =~ s/\$value/$value/;

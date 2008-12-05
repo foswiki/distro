@@ -17,10 +17,12 @@ test/unit/ConfigureTests.pm 0644
 test/unit/EmptyTests.pm 0644
 test/unit/ExampleTests.pm 0644
 test/unit/ExceptionTests.pm 0644
+test/unit/Fn_ENCODE.pm 0644
 test/unit/Fn_GROUPS.pm 0644
 test/unit/Fn_IF.pm 0644
 test/unit/Fn_INCLUDE.pm 0644
 test/unit/Fn_NOP.pm 0644
+test/unit/Fn_QUERYPARAMS.pm 0644
 test/unit/Fn_REVINFO.pm 0644
 test/unit/Fn_SCRIPTURL.pm 0644
 test/unit/Fn_SEARCH.pm 0644
