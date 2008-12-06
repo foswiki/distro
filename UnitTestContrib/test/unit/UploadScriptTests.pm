@@ -43,7 +43,7 @@ sub do_upload {
     my $query = new Unit::Request(\%args);
     $query->method('POST');
     $query->path_info( "/$this->{test_web}/$this->{test_topic}" );
-    my $tmpfile = new CGITempFile(0);
+    my $tmpfile = new CGITempFile(0);       #<-- returns undef on OSX with 3.15 version of CGI module (works on 3.42)
     my $fh = Fh->new($fn, $tmpfile->as_string, 0);
     print $fh $data;
     seek($fh,0,0);
