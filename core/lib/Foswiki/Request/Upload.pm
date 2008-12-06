@@ -46,8 +46,12 @@ sub finish {
     my $this = shift;
     undef $this->{headers};
 
-    # Note: untaint filename. Taken from CGI.pm
-    unlink( $this->tmpFileName =~ m{^([a-zA-Z0-9_ \'\":/.\$\\-]+)$} );
+    #SMELL: Note: untaint filename. Taken from CGI.pm (had to be updated for OSX in Dec2008)
+    $this->tmpFileName =~ m{^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$};
+    my $file = $1;
+    if (scalar(unlink( $file )) != 1) {
+        throw Error::Simple("unable to unlink : ".$file);
+    }
     undef $this->{tmpname};
 }
 
@@ -55,7 +59,7 @@ sub finish {
 
 ---++ ObjectMethod uploadInfo() -> $headers
 
-Returns a hashref to information about uploaded 
+Returns a hashref to information about uploaded
 file as sent by browser.
 
 =cut
@@ -82,7 +86,7 @@ sub handle {
 
 ---++ ObjectMethod tmpFileName() -> ( $tmpName )
 
-Returns the names of temporarly created file. 
+Returns the names of temporarly created file.
 
 =cut
 
