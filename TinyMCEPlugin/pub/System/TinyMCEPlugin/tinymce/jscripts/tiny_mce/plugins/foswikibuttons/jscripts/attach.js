@@ -1,7 +1,7 @@
 function initAttachDialog(){tinyMCEPopup.resizeToInnerSize();}
 function getAttachInfo(){var scripturl=FoswikiTiny.getFoswikiVar("SCRIPTURL");var suffix=FoswikiTiny.getFoswikiVar("SCRIPTSUFFIX");if(suffix==null)suffix='';var url=scripturl+"/rest"+suffix+"/WysiwygPlugin/attachments";var request=(tinyMCE.isIE)?new ActiveXObject("Microsoft.XMLHTTP"):new XMLHttpRequest();request.open("POST",url,true);request.setRequestHeader("Content-type","application/x-www-form-urlencoded");var path=FoswikiTiny.getFoswikiVar("WEB")+'.'
 +FoswikiTiny.getFoswikiVar("TOPIC");var params="nocache="+encodeURIComponent((new Date()).getTime())
-+"&topic="+encodeURIComponent(path);request.setRequestHeader("Content-length",params.length);request.setRequestHeader("Connection","close");request.onreadystatechange=function(){attachmentListCallback(request);};request.send(params);var el=document.getElementById('upload_form');el.action=scripturl+"/rest"+suffix+
++"&topic="+encodeURIComponent(path);request.setRequestHeader("Content-length",params.length);request.onreadystatechange=function(){attachmentListCallback(request);};request.send(params);var el=document.getElementById('upload_form');el.action=scripturl+"/rest"+suffix+
 "/WysiwygPlugin/upload";el=document.getElementById('upload_form_topic');el.value=path;}
 function attachmentListCallback(request){if(request.readyState==4){if(request.status==200){var atts=request.responseText;if(atts!=null){atts=eval(atts);var select=document.getElementById("attachments_select");for(var i=0;i<atts.length;i++){select.options[i]=new Option(atts[i].name,atts[i].name);}}}else{alert("There was a problem retrieving the attachments list: "
 +request.statusText);}}}

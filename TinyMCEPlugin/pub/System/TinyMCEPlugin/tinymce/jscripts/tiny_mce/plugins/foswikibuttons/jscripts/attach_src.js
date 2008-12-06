@@ -40,7 +40,8 @@ function getAttachInfo() {
         + "&topic=" + encodeURIComponent(path);
     
     request.setRequestHeader("Content-length", params.length);
-    request.setRequestHeader("Connection", "close");
+    /* Banjaxes NTLM - see http://foswiki.org/Tasks/Item5859 for analysis
+       request.setRequestHeader("Connection", "close"); */
     request.onreadystatechange = function() {
         attachmentListCallback(request);
     };

@@ -80,7 +80,8 @@ var FoswikiTiny = {
     
         FoswikiTiny.request.req.setRequestHeader(
             "Content-length", params.length);
-        FoswikiTiny.request.req.setRequestHeader("Connection", "close");
+        /* Banjaxes NTLM - see http://foswiki.org/Tasks/Item5859 for analysis
+           FoswikiTiny.request.req.setRequestHeader("Connection", "close"); */
         FoswikiTiny.request.req.onreadystatechange = function() {
             // Callback for XMLHttpRequest
             // only if FoswikiTiny.request.req shows "complete"
