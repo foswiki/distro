@@ -5,6 +5,7 @@ package PasswordTests;
 use base qw(FoswikiTestCase);
 
 use Foswiki;
+use Foswiki::Users;
 use Foswiki::Users::HtPasswdUser;
 
 sub new {
@@ -145,21 +146,34 @@ sub TODO_test_htpasswd_plain {
     $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
     my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
-    $this->doTests($impl, 1);
+    $this->doTests($impl);
 }
 
-sub TODO_test_htpasswd_md5 {
+sub test_htpasswd_md5 {
     my $this = shift;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
     my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
-    $this->doTests($impl, 1);
+    $this->doTests($impl);
 }
 
 
 sub test_htpasswd_crypt_md5 {
     my $this = shift;
+
+    if ($Foswiki::cfg{DetailedOS} eq 'darwin') {
+        print STDERR "*** CANNOT RUN crypt-md5 TESTS on OSX, they fail\n";
+        return;
+    }
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
+    $this->assert($impl);
+    $this->doTests($impl, 1);
+}
+
+sub test_htpasswd_crypt_crypt {
+    my $this = shift;
+    $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
     my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
     $this->doTests($impl, 1);

@@ -43,6 +43,11 @@ sub new {
         require Digest::SHA1;
         import Digest::SHA1 qw( sha1 );
     }
+    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) &&
+          ($Foswiki::cfg{DetailedOS} eq 'darwin')) {
+        print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
+        throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
+    }
     return $this;
 }
 
@@ -201,6 +206,7 @@ sub encrypt {
             foreach my $i ( 0 .. 7 ) {
 
 # generate a salt not only from rand() but also mixing in the users login name: unecessary
+#SMELL - see PasswordTests.pm for failure on OSX
                 $salt .= $saltchars[
                   (
                       int( rand( $#saltchars + 1 ) ) +
