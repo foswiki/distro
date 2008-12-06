@@ -29,15 +29,15 @@ sub test_empty_new {
 
     my @list = $req->header();
     $this->assert_str_equals(0, scalar @list, '$req->header not empty');
-    
+
     @list = ();
     @list = $req->param();
     $this->assert_str_equals(0, scalar @list, '$req->param not empty');
-    
+
     my $ref = $req->cookies();
     $this->assert_str_equals('HASH', ref($ref), '$req->cookies did not returned a hashref');
     $this->assert_str_equals(0, scalar keys %$ref, '$req->cookies not empty');
-    
+
     $ref = $req->uploads();
     $this->assert_str_equals('HASH', ref($ref), '$req->uploads did not returned a hashref');
     $this->assert_str_equals(0, scalar keys %$ref, '$req->uploads not empty');
@@ -268,28 +268,28 @@ sub test_url {
 sub test_query_param {
     my $this = shift;
     my $req  = new Foswiki::Request("");
-    
+
     $req->queryParam( -name => 'q1', -value => 'v1' );
     my @result = $req->param('q1');
     $this->assert_deep_equals(['v1'], \@result, 'wrong value from queryParam()');
-    
+
     $req->queryParam( -name => 'q2', -values => [qw(v1 v2)] );
     @result = $req->param('q2');
     $this->assert_deep_equals([qw(v1 v2)], \@result, 'wrong value from queryParam()');
-    
+
     $req->queryParam('p', qw(qv1 qv2 qv3));
     @result =  $req->param('p');
     $this->assert_deep_equals([qw(qv1 qv2 qv3)], \@result, 'wrong value from queryParam()');
-    
+
     @result = $req->queryParam();
     $this->assert_deep_equals([qw(q1 q2 p)], \@result, 'wrong parameter name from queryParam()');
-    
+
     @result = (scalar $req->param('q2'));
     $this->assert_deep_equals(['v1'], \@result, 'wrong parameter name from queryParam()');
 
     @result = (scalar $req->queryParam('nonexistent'));
     $this->assert_deep_equals([undef], \@result, 'wrong parameter name from queryParam()');
-    
+
     @result = $req->queryParam('nonexistent');
     $this->assert_num_equals(0, scalar @result, 'wrong parameter name from queryParam()');
 
@@ -303,28 +303,28 @@ sub test_query_param {
 sub test_body_param {
     my $this = shift;
     my $req  = new Foswiki::Request("");
-    
+
     $req->bodyParam( -name => 'q1', -value => 'v1' );
     my @result = $req->param('q1');
     $this->assert_deep_equals(['v1'], \@result, 'wrong value from bodyParam()');
-    
+
     $req->bodyParam( -name => 'q2', -values => [qw(v1 v2)] );
     @result = $req->param('q2');
     $this->assert_deep_equals([qw(v1 v2)], \@result, 'wrong value from bodyParam()');
-    
+
     $req->bodyParam('p', qw(qv1 qv2 qv3));
     @result =  $req->param('p');
     $this->assert_deep_equals([qw(qv1 qv2 qv3)], \@result, 'wrong value from bodyParam()');
-    
+
     @result = $req->bodyParam();
     $this->assert_deep_equals([qw(q1 q2 p)], \@result, 'wrong parameter name from bodyParam()');
-    
+
     @result = (scalar $req->param('q2'));
     $this->assert_deep_equals(['v1'], \@result, 'wrong parameter name from bodyParam()');
 
     @result = (scalar $req->bodyParam('nonexistent'));
     $this->assert_deep_equals([undef], \@result, 'wrong parameter name from bodyParam()');
-    
+
     @result = $req->bodyParam('nonexistent');
     $this->assert_deep_equals([], \@result, 'wrong parameter name from bodyParam()');
 }
@@ -345,7 +345,7 @@ sub test_cookies {
         scalar @result,
         'cookie() method must not store cookies created'
     );
-    
+
     $req->cookies( \%cookies );
     @result = $req->cookie();
     $this->assert_deep_equals(
@@ -355,7 +355,7 @@ sub test_cookies {
     );
     $this->assert_equals( 'value1', $req->cookie('c1'), 'wrong cookie value' );
     $this->assert_equals( 'value2', $req->cookie('c2'), 'wrong cookie value' );
-    
+
     @result = $req->cookie('nonexistent');
     $this->assert_num_equals(
         0,
@@ -365,10 +365,10 @@ sub test_cookies {
 
     $result[0] = $req->cookie(-value => 'test');
     $this->assert_null($result[0], 'cookie() did not return undef for invalid parameters');
-    
+
     $result[0] = $req->cookie(-value => 'test', -name=> '');
     $this->assert_null($result[0], 'cookie() did not return undef for invalid parameters');
-    
+
     $result[0] = $req->cookie(
         -name    => 'c3',
         -value   => 'value3',
@@ -428,7 +428,7 @@ sub test_delete {
     $this->assert_deep_equals( [qw(p)], \@result,
         'wrong returned parameter values' );
     $this->assert( !-e $tmp->filename,
-        'Uploaded file not deleted after call to delete()' );
+        'Uploaded file not deleted after call to delete() - see :'.$tmp->filename );
 }
 
 sub test_delete_all {
@@ -452,15 +452,15 @@ sub test_delete_all {
         tmpname => $tmp->filename,
     );
     $req->uploads( \%uploads );
-    
+
     my @result = $req->param();
     $this->assert_deep_equals( [qw(q2 q1 p q3 file)], \@result,
         'wrong returned parameter values' );
-    
+
     $req->deleteAll();
     @result = $req->param();
     $this->assert_num_equals(0, scalar @result, "deleteAll didn't work");
-    
+
     $req->param( -name => 'q2', -values => [qw(v1 v2)] );
     $req->param( -name => 'q1', -value  => 'v1' );
     $req->param( 'p', qw(qv1 qv2 qv3) );
@@ -472,38 +472,40 @@ sub test_delete_all {
         tmpname => $tmp->filename,
     );
     $req->uploads( \%uploads );
-    
+
     $req->delete_all();
     @result = $req->param();
     $this->assert_num_equals(0, scalar @result, "deleteAll didn't work");
+    $this->assert( !-e $tmp->filename,
+        'Uploaded file not deleted after call to delete() - see :'.$tmp->filename );
 }
 
 sub test_header {
     my $this = shift;
     my $req  = new Foswiki::Request("");
-    
+
     $req->header( 'h-1' => 'v1' );
     my @result = $req->header('H-1');
     $this->assert_deep_equals(['v1'], \@result, 'wrong value from header()');
-    
+
     $req->header( 'h2' => [qw(v1 v2)] );
-    
+
     @result = $req->header('h2');
     $this->assert_deep_equals([qw(v1 v2)], \@result, 'wrong value from header()');
-    
+
     $req->header('h', qw(v1 v2 v3));
     @result =  $req->header('h');
     $this->assert_deep_equals([qw(v1 v2 v3)], \@result, 'wrong value from header()');
-    
+
     @result = sort $req->header();
     $this->assert_deep_equals([qw(h h-1 h2)], \@result, 'wrong header field names from header()');
-    
+
     @result = (scalar $req->header('h2'));
     $this->assert_deep_equals(['v1'], \@result, 'wrong header field values from header()');
 
     @result = (scalar $req->header('nonexistent'));
     $this->assert_deep_equals([undef], \@result, 'wrong header field values from header()');
-    
+
     @result = $req->header('nonexistent');
     $this->assert_deep_equals([], \@result, 'wrong header field values from header()');
 }
