@@ -2,21 +2,21 @@
 %META:TOPICPARENT{name="WebSearch"}%
 ---+ %MAKETEXT{"Advanced Search"}%
 
-%IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="entity"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" default="all"}%;scope=%URLPARAM{"scope" deafult="text"}%;casesensitive=%URLPARAM{"casesensitive" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
+%IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
 
 %SEARCH{
-"%URLPARAM{search}%"
+"%URLPARAM{"search" encode="quote"}%"
 type="%IF{" '%URLPARAM{regex}%' = 'on' or '%URLPARAM{type}%' = 'regex'" then="regex" else="word"}%"
-scope="%URLPARAM{scope}%"
-web="%URLPARAM{web}%"
-nosearch="%URLPARAM{nosearch}%"
-casesensitive="%URLPARAM{casesensitive}%"
-bookview="%URLPARAM{bookview}%"
-nosummary="%URLPARAM{nosummary}%"
-nototal="%URLPARAM{nototal}%"
-order="%URLPARAM{order}%"
-reverse="%URLPARAM{reverse}%"
-limit="%URLPARAM{limit}%"
+scope="%URLPARAM{"scope" encode="quote"}%"
+web="%URLPARAM{"web" encode="quote"}%"
+nosearch="%URLPARAM{"nosearch" encode="quote"}%"
+casesensitive="%URLPARAM{"casesensitive" encode="quote"}%"
+bookview="%URLPARAM{"bookview" encode="quote"}%"
+nosummary="%URLPARAM{"nosummary" encode="quote"}%"
+nototal="%URLPARAM{"nototal" encode="quote"}%"
+order="%URLPARAM{"order" encode="quote"}%"
+reverse="%URLPARAM{"reverse" encode="quote"}%"
+limit="%URLPARAM{"limit" encode="quote"}%"
 zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 
@@ -28,7 +28,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <tr>
 <td colspan="2" class="twikiFirstRow">
   <input class="twikiInputField" type="text" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" /> 
-  <input type="submit" class="twikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="twikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%INCLUDINGWEB%/WebSearchAdvanced?search=%URLPARAM{search}%;type=%URLPARAM{"type" default="word"}%;scope=%URLPARAM{scope}%;web=%URLPARAM{web}%;nosearch=%URLPARAM{nosearch}%'>%MAKETEXT{"Simple search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
+  <input type="submit" class="twikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="twikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%INCLUDINGWEB%/WebSearch?search=%URLPARAM{"search" encode="url"}%;type=%URLPARAM{"type" encode="url" default="word"}%;scope=%URLPARAM{"scope" encode="url"}%;web=%URLPARAM{"web" encode="url"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%'>%MAKETEXT{"Simple search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
 <div class="twikiSmall" style="padding:1em 0 0 0;">%MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code></div>
 </td>
 </tr>
@@ -63,11 +63,6 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <td><input type="checkbox" class="twikiCheckbox" id="nosearch" name="nosearch" %IF{" '%URLPARAM{nosearch}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nosearch"> %MAKETEXT{"Search string"}%</label><br />
 <input type="checkbox" class="twikiCheckbox" id="nosummary" name="nosummary" %IF{" '%URLPARAM{nosummary}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nosummary"> %MAKETEXT{"Summaries"}%</label><br />
 <input type="checkbox" class="twikiCheckbox" id="nototal" name="nototal" %IF{" '%URLPARAM{nototal}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nototal"> %MAKETEXT{"Total matches"}%</label>
-</td>
-</tr>
-<tr>
-<th>%MAKETEXT{"Do show:"}%</th>
-<td><input type="checkbox" class="twikiCheckbox" id="bookview" name="bookview" %IF{" '%URLPARAM{bookview}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="bookview"> !BookView</label> <span class="twikiSmall">[[%SYSTEMWEB%.BookView][%MAKETEXT{"about !BookView"}%]]</span>
 </td>
 </tr>
 <tr>
