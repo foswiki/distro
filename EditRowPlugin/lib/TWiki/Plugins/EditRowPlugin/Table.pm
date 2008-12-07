@@ -73,12 +73,12 @@ sub parseTables {
                 # This check is missing from EditTablePlugin
                 unless (TWiki::Func::topicExists($iw, $it)) {
                     $line = CGI::span(
-                        { class=>'foswikiAlert' },
+                        { class=>'twikiAlert' },
                         "Could not find format topic $attrs->{include}");
                 }
                 if ($read{"$iw.$it"}) {
                     $line = CGI::span(
-                        { class=>'foswikiAlert' },
+                        { class=>'twikiAlert' },
                         "Recursive include of $attrs->{include}");
                 }
                 $read{"$iw.$it"} = 1;

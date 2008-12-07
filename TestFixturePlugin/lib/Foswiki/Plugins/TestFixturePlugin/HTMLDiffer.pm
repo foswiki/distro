@@ -159,7 +159,7 @@ sub _rexeq {
     my $wikiword = '[A-Z]+[a-z]+[A-Z]+\w+';
     $a =~ s/\\\@WIKIWORD/$wikiword/g;
     $a =~ s/\\\@URLPARAMS/[A-Za-z0-9=%;]*/g;
-    my $satWord = '<a [^>]*class="foswikiLink"[^>]*>'.$wikiword.'</a>';
+    my $satWord = '<a [^>]*class="twikiLink"[^>]*>'.$wikiword.'</a>';
     my $unsatWord = '<span [^>]*class="foswikiNewLink"[^>]*>'.$wikiword.'<a [^>]*><sup>\?</sup></a
 </span>';
     $a =~ s/RRRREX(\d+)XERRRR/$res[$1]/g;

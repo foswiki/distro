@@ -102,7 +102,7 @@ sub _SUBSCRIBE {
 
 sub _alert {
     my( $mess ) = @_;
-    return "<span class='foswikiAlert'>$mess</span>";
+    return "<span class='twikiAlert'>$mess</span>";
 }
 
 # Handle a (un)subscription request
