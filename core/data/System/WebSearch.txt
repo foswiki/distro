@@ -2,14 +2,14 @@
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"Web Search"}%
 
-%IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="entity"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" default="all"}%;scope=%URLPARAM{"scope" deafult="text"}%;casesensitive=%URLPARAM{"casesensitive" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
+%IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex" encode="url"}%'='on' OR '%URLPARAM{"type" encode="url"}%'='regex'" then="regex" else="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
 
 %SEARCH{ 
-"%URLPARAM{search}%" 
-type="%URLPARAM{"type" default="word"}%" 
-scope="%URLPARAM{scope}%" 
-web="%URLPARAM{web}%" 
-nosearch="%URLPARAM{nosearch}%" 
+"%URLPARAM{"search" encode="quote"}%" 
+type="%URLPARAM{"type" encode="quote" default="word"}%" 
+scope="%URLPARAM{"scope" encode="quote"}%" 
+web="%URLPARAM{"web" encode="quote"}%" 
+nosearch="%URLPARAM{"nosearch" encode="quote"}%" 
 zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 
@@ -21,7 +21,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <tr>
 <td colspan="2" class="twikiFirstRow">
   <input type="text" class="twikiInputField" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" /> 
-  <input type="submit" class="twikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="twikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%INCLUDINGWEB%/WebSearchAdvanced?search=%URLPARAM{search}%;type=%URLPARAM{"type" default="word"}%;scope=%URLPARAM{scope}%;web=%URLPARAM{web}%;nosearch=%URLPARAM{nosearch}%'>%MAKETEXT{"Advanced search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
+  <input type="submit" class="twikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="twikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%INCLUDINGWEB%/WebSearchAdvanced?search=%URLPARAM{"search" encode="url"}%;type=%URLPARAM{"type" encode="url" default="word"}%;scope=%URLPARAM{"scope" encode="url"}%;web=%URLPARAM{"web" encode="url"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%'>%MAKETEXT{"Advanced search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
 <div class="twikiSmall" style="padding:1em 0 0 0;">%MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code></div>
 </td>
 </tr>
