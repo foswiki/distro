@@ -1,4 +1,4 @@
-%{ This is a default template }%%TMPL:DEF{"changeform"}%<input type="submit" name="action_replaceform" value='%MAKETEXT{"Replace form..."}%' class="twikiChangeFormButton foswikiButton" />%TMPL:END%
+%{ This is a default template }%%TMPL:DEF{"changeform"}%<input type="submit" name="action_replaceform" value='%MAKETEXT{"Replace form..."}%' class="foswikiChangeFormButton foswikiButton" />%TMPL:END%
 
 %TMPL:DEF{"mandatory"}%<span class="foswikiAlert">*</span> %MAKETEXT{"indicates mandatory fields"}% %TMPL:END%
 
@@ -6,7 +6,7 @@
 <tr><th align="right">%ROWTITLE%%ROWEXTRA%</th><td align="left">%ROWVALUE%</td></tr>%REPEAT%<tr><th align="left" colspan="2">%ROWVALUE%</th></tr>%REPEAT% %TMPL:END%
 
 %TMPL:DEF{"formtail"}% %TMPL:P{context="mandatoryfields" then="mandatory"}% %TMPL:END%
-<div class="foswikiForm twikiEditForm"><table class="twikiFormTable">
+<div class="foswikiForm foswikiEditForm"><table class="foswikiFormTable">
 <tr>
-<th class="twikiFormTableHRow" colspan="2">%FORMTITLE% %TMPL:P{"changeform"}%</th>
+<th class="foswikiFormTableHRow" colspan="2">%FORMTITLE% %TMPL:P{"changeform"}%</th>
 </tr>%TMPL:P{"repeatedformrows"}%</table>%TMPL:P{"formtail"}%</div>

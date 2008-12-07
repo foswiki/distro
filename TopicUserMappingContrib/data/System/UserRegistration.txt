@@ -79,11 +79,11 @@ return sOut;
 </script>
 
 <form action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
-<div class="twikiFormSteps">
-<div class="twikiFormStep">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
 *%MAKETEXT{"To register as a new user, simply fill out this form:"}%*
 </div>
-<div class="twikiFormStep">
+<div class="foswikiFormStep">
 <table border="0" cellpadding="0" cellspacing="6">
 <tr>
   <td></td>
@@ -91,40 +91,40 @@ return sOut;
 </tr>
 <tr>
   <td align="right"> %MAKETEXT{"First Name:"}% </td>
-  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="twikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.value)+capitalise(this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.value)+capitalise(this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
 </tr>
 <tr>
   <td align="right"> %MAKETEXT{"Last Name:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="twikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.form.Twk1FirstName.value)+capitalise(this.value)" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.form.Twk1FirstName.value)+capitalise(this.value)" /> =<font color="red">**</font>= </td>
 </tr>
   <td align="right"> %MAKETEXT{"(identifies you to others) WikiName:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="twikiInputField" value="" onblur="" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="foswikiInputField" value="" onblur="" /> =<font color="red">**</font>= </td>
 </tr>
 <!--
    # optional row for login name, enabled by {Register}{AllowLoginName} option in =configure=
-   * Set BESPOKE_AUTH = <tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"twikiInputField\" value=\"%REMOTE_USER%\" /> =<font color='red'>**</font>= </td></tr>
+   * Set BESPOKE_AUTH = <tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> =<font color='red'>**</font>= </td></tr>
 -->
 %IF{"$ ALLOWLOGINNAME" then="%BESPOKE_AUTH%"}%
 <tr>
   <td align="right"> %MAKETEXT{"E-mail address:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk1Email" size="40" class="twikiInputField" value="" /> =<font color="red">**</font>= </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1Email" size="40" class="foswikiInputField" value="" /> =<font color="red">**</font>= </td>
 </tr>
 <!--
    # optional rows for password, enabled by {Register}{AllowLoginName} option in =configure=, we assume that login name means that Foswiki does not handle passwords
-   * Set BESPOKE_PASSWORD = <tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"twikiInputField\" value=\"\" /> =<font color=\"red\">**</font>= </td></tr>\
-     <tr><td align=\"right\"> %MAKETEXT{"Retype password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"twikiInputField\" value=\"\" /> =<font color=\"red\">**</font>= </td></tr>
+   * Set BESPOKE_PASSWORD = <tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> =<font color=\"red\">**</font>= </td></tr>\
+     <tr><td align=\"right\"> %MAKETEXT{"Retype password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> =<font color=\"red\">**</font>= </td></tr>
 -->
 %IF{"$ ALLOWLOGINNAME < 1" then="%BESPOKE_PASSWORD%"}%
 <tr>
   <td align="right"> %MAKETEXT{"Organisation name:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationName" size="40" class="twikiInputField" value="" /></td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" /></td>
 </tr><tr>
   <td align="right"> %MAKETEXT{"Organisation URL:"}% </td>
-  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationURL" size="40" class="twikiInputField" onBlur="if(this.value=='http://') { this.value='' }" onFocus="if(this.value=='') { this.value='http://' }" /></td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationURL" size="40" class="foswikiInputField" onBlur="if(this.value=='http://') { this.value='' }" onFocus="if(this.value=='') { this.value='http://' }" /></td>
 </tr><tr>
   <td align="right"> %MAKETEXT{"Country:"}% </td>
   <td>
-  <select class="twikiSelect" %NOREGISTRATION%  name="Twk1Country" size="1">
+  <select class="foswikiSelect" %NOREGISTRATION%  name="Twk1Country" size="1">
   <option selected value="">Select...</option>
   <option>USA</option>
   <option>Albania</option>
@@ -274,11 +274,11 @@ return sOut;
 </tr>
 <tr>
   <td valign="top" align="right"> %MAKETEXT{"Comments:"}%<br /> %MAKETEXT{"(optional)"}% </td>
-  <td><textarea %NOREGISTRATION%  name="Twk0Comment" wrap="virtual" rows="4" cols="38" class="twikiInputField"></textarea></td>
+  <td><textarea %NOREGISTRATION%  name="Twk0Comment" wrap="virtual" rows="4" cols="38" class="foswikiInputField"></textarea></td>
 </tr>
 </table>
-</div><!-- /twikiFormStep-->
-<div class="twikiFormStep">
+</div><!-- /foswikiFormStep-->
+<div class="foswikiFormStep">
 %MAKETEXT{"When [_1] receives the form, it will mail an account activation code to the e-mail address you gave above. Enter that activation code in the following screen, or follow the link in the e-mail, to activate your account. Once your account is activated, [_1] will:" args="%WIKITOOLNAME%"}%
    * %MAKETEXT{"Finish creating an account for you, so that you can start editing pages using your WikiName."}%
    * %MAKETEXT{"Create your personal [_1] topic using your WikiName as topic name, and add the data you submitted to the topic." args="<nop>%WIKITOOLNAME%"}%
@@ -290,13 +290,13 @@ return sOut;
 -->
 %MAKETEXT{"Once registered you can login using your [_1] and password." args="%LOGIN_METHOD_IN_THIS_SITE%"}%
 </div>
-<div class="twikiFormStep twikiLast">
+<div class="foswikiFormStep foswikiLast">
 <input type="hidden" name="rx" value='%BLACKLISTPLUGIN{ action="magic" }%' />
 <input type="hidden" name="topic" value="%TOPIC%" />
 <input type="hidden" name="action" value="register" />
-<input %NOREGISTRATION%  type="submit" class="twikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
-</div><!-- /twikiFormStep-->
-</div><!-- /twikiFormSteps-->
+<input %NOREGISTRATION%  type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
+</div><!-- /foswikiFormStep-->
+</div><!-- /foswikiFormSteps-->
 </form>
 
 <div class="foswikiHelp">

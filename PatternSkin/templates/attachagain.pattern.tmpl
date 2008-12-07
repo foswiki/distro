@@ -6,14 +6,14 @@
 
 
 %TMPL:DEF{"versions"}%---++ %MAKETEXT{"Version history of [_1]" args="<nop>%FILENAME%"}%
-<div class="twikiAttachments">
+<div class="foswikiAttachments">
 %TABLE{%TMPL:P{"commonattachtableattributes"}% summary="%MAKETEXT{"Version history"}%" caption="%MAKETEXT{"Version history"}%"}%
 %ATTACHTABLE%
-</div><!-- /twikiAttachments-->%TMPL:END%
+</div><!-- /foswikiAttachments-->%TMPL:END%
 
 
 
-%TMPL:DEF{"changepropertiesaction"}%<div class="twikiFormStep twikiLast"><input type="submit" class="foswikiButton" name="changeproperties" value='%MAKETEXT{"Change comment and properties only"}%' /></div><!-- /twikiFormStep-->%TMPL:END%
+%TMPL:DEF{"changepropertiesaction"}%<div class="foswikiFormStep foswikiLast"><input type="submit" class="foswikiButton" name="changeproperties" value='%MAKETEXT{"Change comment and properties only"}%' /></div><!-- /foswikiFormStep-->%TMPL:END%
 
 
 
@@ -21,11 +21,11 @@
 
 
 
-%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment"><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="twikiLinkLabel">%MAKETEXT{"Move"}%</span></a> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?web=%TRASHWEB%&template=renameattachmentdelete&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="twikiLinkLabel">%MAKETEXT{"Delete"}%</span></a> =%FILENAME%= </div>%TMPL:END%
+%TMPL:DEF{"movedelete"}%<div class="patternMoveAttachment"><a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?template=moveattachment&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Move"}%</span></a> %MAKETEXT{"or"}% <a href="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%?web=%TRASHWEB%&template=renameattachmentdelete&attachment=%ENCODE{%FILENAME%}%" rel='nofollow'><span class="foswikiLinkLabel">%MAKETEXT{"Delete"}%</span></a> =%FILENAME%= </div>%TMPL:END%
 
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="twikiSubmit" value='%MAKETEXT{"Upload file"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Upload file"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
 
 
 

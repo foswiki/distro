@@ -75,7 +75,7 @@ Here is an example for creating new topics (in the Sandbox web) based on a speci
 
 <form name="new" action="%SCRIPTURLPATH{edit}%/Sandbox/">
    * New example topic: 
-     <input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="twikiSubmit" value="Create" />
+     <input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
      <input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
      <input type="hidden" name="topicparent" value="%TOPIC%" />
      <input type="hidden" name="onlywikiname" value="on" />
@@ -92,7 +92,7 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
      &lt;input type="hidden" name="topicparent" value="%<nop>TOPIC%" /&gt;
      &lt;input type="hidden" name="onlywikiname" value="on" /&gt;
      &lt;input type="hidden" name="onlynewtopic" value="on" /&gt;
-     &lt;input type="submit" class="twikiSubmit" value="Create" /&gt;
+     &lt;input type="submit" class="foswikiSubmit" value="Create" /&gt;
 &lt;/form&gt;
 </pre>
 

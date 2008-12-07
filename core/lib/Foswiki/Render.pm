@@ -298,7 +298,7 @@ sub _addTHEADandTFOOT {
     }
     $lines->[$i] = CGI::start_table(
         {
-            class       => 'twikiTable',
+            class       => 'foswikiTable',
             border      => 1,
             cellspacing => 0,
             cellpadding => 0
@@ -676,29 +676,31 @@ sub _renderExistingWikiWord {
     my ( $this, $web, $topic, $text, $anchor ) = @_;
 
     my $currentWebHome = '';
-    $currentWebHome = 'foswikiCurrentWebHomeLink '
+    $currentWebHome = 'foswikiCurrentWebHomeLink  '
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $Foswiki::cfg{HomeTopicName} ) );
 
     my $currentTopic = '';
-    $currentTopic = 'foswikiCurrentTopicLink '
+    $currentTopic = 'foswikiCurrentTopicLink'
       if ( ( $web eq $this->{session}->{webName} )
         && ( $topic eq $this->{session}->{topicName} ) );
 
     my @attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
+    my $cssClassName = "$currentTopic$currentWebHome";
+    $cssClassName =~ s/^(.*?)\s*$/$1/ if $cssClassName;
     if ($anchor) {
         $anchor = $this->makeAnchorName($anchor);
         push(
             @attrs,
-            class => $currentTopic . $currentWebHome . 'foswikiAnchorLink',
+            class => $cssClassName,
             href  => $href . '#' . $anchor
         );
     }
     else {
         push(
             @attrs,
-            class => $currentTopic . $currentWebHome . 'foswikiLink',
+            class => $cssClassName,
             href  => $href
         );
     }

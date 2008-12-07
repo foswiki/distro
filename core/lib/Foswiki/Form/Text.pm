@@ -21,7 +21,7 @@ sub renderForEdit {
         '',
         CGI::textfield(
             -class =>
-              $this->cssClasses( 'twikiInputField' ),
+              $this->cssClasses( 'foswikiInputField' ),
             -name  => $this->{name},
             -size  => $this->{size},
             -value => $value

@@ -36,7 +36,7 @@ HERE
         $actor = CGI::a(
             {
                 href      => $scriptName . '?action=FindMoreExtensions',
-                class     => 'twikiSubmit',
+                class     => 'foswikiSubmit',
                 accesskey => 'P'
             },
             'Find More Extensions'

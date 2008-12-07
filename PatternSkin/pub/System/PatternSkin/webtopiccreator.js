@@ -123,12 +123,12 @@ function capitalizeSentence (inText) {
 */
 function enableSubmit(inButton) {
 	if (!inButton) return;
-	foswiki.CSS.removeClass(inButton, "twikiSubmitDisabled");
+	foswiki.CSS.removeClass(inButton, "foswikiSubmitDisabled");
 	inButton.disabled = false;
 }
 function disableSubmit(inButton) {
 	if (!inButton) return;
-	foswiki.CSS.addClass(inButton, "twikiSubmitDisabled");
+	foswiki.CSS.addClass(inButton, "foswikiSubmitDisabled");
 	inButton.disabled = true;
 }
 function passFormValuesToNewLocation (inUrl) {

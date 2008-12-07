@@ -26,6 +26,6 @@ Overrides global settings in layout.css, style.css and colors.css
 	height:90px; /* top bar height; make room for header columns */
 	overflow:hidden;
 }
-#twikiLogo {
+#foswikiLogo {
 	margin-top:1em;
 }

@@ -44,7 +44,7 @@ sub open_html {
     if ( $isUnused
         || !$isBroken && ( $isExpert && !$expert || $value->{hidden} ) )
     {
-        $hiddenClass = ' twikiHidden';
+        $hiddenClass = ' foswikiHidden';
     }
 
     # Generate the documentation row

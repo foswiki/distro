@@ -284,7 +284,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4585][Item4585]] | configure generates apache errors |
 | [[%BUGS%/Item4576][Item4576]] | Improve how emailing is enabled and disabled in TWiki especially for registration |
 | [[%BUGS%/Item4569][Item4569]] | !WebSearchAdvanced does not show selected state for default radion button "both"  |
-| [[%BUGS%/Item4539][Item4539]] | Rename css class !TWikiFooterNote to twikiFooterNote |
+| [[%BUGS%/Item4539][Item4539]] | Rename css class !TWikiFooterNote to foswikiFooterNote |
 | [[%BUGS%/Item4510][Item4510]] | Remove inline scripts |
 | [[%BUGS%/Item4509][Item4509]] | Prevent [ and ] in topic names when renaming topics |
 | [[%BUGS%/Item4508][Item4508]] | !ResetPassword, !ChangePassword, !ChangeEmailAddress, !TWikiRegistration needs to be hacked after each upgrade |
@@ -533,7 +533,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item4278][Item4278]] | TwistyPlugin 1.4: remove ugly javascript init calls |
 | [[%BUGS%/Item4275][Item4275]] | Add Adobe Air to mimetypes |
 | [[%BUGS%/Item4259][Item4259]] | Simplify default templates more, and use CSS |
-| [[%BUGS%/Item4241][Item4241]] | CSS class =twikiUnvisited= |
+| [[%BUGS%/Item4241][Item4241]] | CSS class =foswikiUnvisited= |
 | [[%BUGS%/Item4185][Item4185]] | !SlideShowPlugin: Add !VarSLIDESHOWSTART and !VarSLIDESHOWEND variable documentation |
 | [[%BUGS%/Item4184][Item4184]] | !RenderListPlugin: Add !VarRENDERLIST variable documentation |
 | [[%BUGS%/Item4183][Item4183]] | !TablePlugin: Add !VarTABLE variable documentation |
@@ -556,7 +556,7 @@ The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item3854][Item3854]] | show subwebs="" in WEBLIST relative to a web |
 | [[%BUGS%/Item3841][Item3841]] | Add expandStandardEscapes to TWiki::Func |
 | [[%BUGS%/Item3801][Item3801]] | Propose adding $admin attribute to USERINFO rather than appending "isAdmin()" to $group output |
-| [[%BUGS%/Item3798][Item3798]] | twikiNotification: CSS style for notifcations |
+| [[%BUGS%/Item3798][Item3798]] | foswikiNotification: CSS style for notifcations |
 | [[%BUGS%/Item3774][Item3774]] | Add getSessionKeys to Func |
 | [[%BUGS%/Item3773][Item3773]] | Handlers don't have access to the full topic |
 | [[%BUGS%/Item3766][Item3766]] | Enhance EditTablePlugin with DHTML; fix eating of newlines; graceful fallback calendar button; fix css styling |
@@ -675,7 +675,7 @@ The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWi
 | [[%BUGS%/Item5509][Item5509]] | IF & query String matching may be incorrectly greedy. |
 | [[%BUGS%/Item5501][Item5501]] | IF allows does not work correctly if the topic does not exist. |
 | [[%BUGS%/Item5499][Item5499]] | TWiki::UI::Resister::changePassword sends login, not cUID to TWiki::Users::setPassword |
-| [[%BUGS%/Item5495][Item5495]] | add twikiBroadcastMessage class div to default & classic skins |
+| [[%BUGS%/Item5495][Item5495]] | add foswikiBroadcastMessage class div to default & classic skins |
 | [[%BUGS%/Item5491][Item5491]] | !FileAttachment documentation fix - {AutoAttachPubDir} should read {AutoAttachPubFiles} |
 | [[%BUGS%/Item5490][Item5490]] | %REVTITLE2% not substituted in RDiff.pm |
 | [[%BUGS%/Item5478][Item5478]] | Personal left bar is potentially buggy in layout |

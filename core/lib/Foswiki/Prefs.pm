@@ -371,7 +371,7 @@ sub stringify {
     }
 
     if ($html) {
-        return CGI::table( { class => 'twikiTable' }, $s );
+        return CGI::table( { class => 'foswikiTable' }, $s );
     }
     else {
         return $s;

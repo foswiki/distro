@@ -4,12 +4,12 @@
 %TMPL:DEF{ATTACH:files:header(toprow)}%| *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |%TMPL:END%
 
 %{ Header definition for topic attachments and top table in attach screen }%
-%TMPL:DEF{ATTACH:files:header(basic)}%<div class="twikiAttachments">
+%TMPL:DEF{ATTACH:files:header(basic)}%<div class="foswikiAttachments">
 %TMPL:P{ATTACH:files:header(toprow)}%%TMPL:END%
 
 %{ A basic row definition, for attachment table and attach screen }%
 %{ Use %A_URL% instead of %PUBURLPATH%/%WEB%/%TOPIC%/%A_FILE% to get a viewfile link }%
-%TMPL:DEF{ATTACH:files:row(basic)}%| %A_ICON%<span class="twikiHidden">%A_EXT%</span> | <a href="%ATTACHURLPATH%/%ENCODE{%A_FILE%}%">%A_FILE%</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"%A_FILE%"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  %A_SIZE%|<span class="twikiNoBreak">%A_DATE%</span> |%A_USER%  |%A_COMMENT%  |%TMPL:END%
+%TMPL:DEF{ATTACH:files:row(basic)}%| %A_ICON%<span class="foswikiHidden">%A_EXT%</span> | <a href="%ATTACHURLPATH%/%ENCODE{%A_FILE%}%">%A_FILE%</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"%A_FILE%"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  %A_SIZE%|<span class="foswikiNoBreak">%A_DATE%</span> |%A_USER%  |%A_COMMENT%  |%TMPL:END%
 
 %{ Header for topic attachment table }%
 %TMPL:DEF{ATTACH:files:header}%%TMPL:P{ATTACH:files:header(basic)}%
@@ -39,7 +39,7 @@
 
 %{ Row for versions table in attach screen }%
 %{ Use %A_URL% instead of %PUBURLPATH%/%WEB%/%TOPIC%/%A_FILE% to get a viewfile link }%
-%TMPL:DEF{ATTACH:versions:row}%| %A_REV%  | <a href="%SCRIPTURL{viewfile}%/%WEB%/%TOPIC%?filename=%ENCODE{%A_FILE%}%;rev=%A_REV%">%MAKETEXT{"view"}%</a>  |  <span class="twikiNoBreak">%A_DATE%</span>|%A_USER%  |%A_COMMENT%  |
+%TMPL:DEF{ATTACH:versions:row}%| %A_REV%  | <a href="%SCRIPTURL{viewfile}%/%WEB%/%TOPIC%?filename=%ENCODE{%A_FILE%}%;rev=%A_REV%">%MAKETEXT{"view"}%</a>  |  <span class="foswikiNoBreak">%A_DATE%</span>|%A_USER%  |%A_COMMENT%  |
 %TMPL:END%
 
 %{ Footer for versions table in attach screen }%

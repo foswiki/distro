@@ -27,7 +27,7 @@ The list is formatted with CSS. To get an idea of the actual look, see the list 
 
 By default the &lt;user&gt;LeftBar topic has an edit link. In case you loose the edit link line of text, here's a copy:
 <verbatim>
-<div class="twikiSmall"><a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$year$mo$day$hours$minutes$seconds"}%">edit</a></div>
+<div class="foswikiSmall"><a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$year$mo$day$hours$minutes$seconds"}%">edit</a></div>
 </verbatim>
  
 

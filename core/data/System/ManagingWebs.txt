@@ -25,14 +25,14 @@ In either case you will want to be sure to verify that your new web has all the 
 <form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
 Create a new web by filling out this form.%BR%
 __%X% Note:__ *Keep the number of webs to a minimum!* Don't create a new web for each little project. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
-|  *Name of new web:* | <input name="newweb" class="twikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="16" /> | The name must start with an upper case letter, followed by upper or lower case letters or numbers. Specify a short name to avoid long URLs. |
-|  *Based on web:* | <select name="baseweb" class="twikiSelect"> %WEBLIST{ "<option $marker>$name</option>" webs="webtemplate,public" selection="_default" separator=" "}% </select> | Select a TemplateWeb |
-|  *Web color:* | <input name="WEBBGCOLOR" class="twikiInputField" type="text" value="#D0D0D0" size="16" /> | Enter a StandardColors code for the web |
+|  *Name of new web:* | <input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="16" /> | The name must start with an upper case letter, followed by upper or lower case letters or numbers. Specify a short name to avoid long URLs. |
+|  *Based on web:* | <select name="baseweb" class="foswikiSelect"> %WEBLIST{ "<option $marker>$name</option>" webs="webtemplate,public" selection="_default" separator=" "}% </select> | Select a TemplateWeb |
+|  *Web color:* | <input name="WEBBGCOLOR" class="foswikiInputField" type="text" value="#D0D0D0" size="16" /> | Enter a StandardColors code for the web |
 |  *Site Map:* | <input type="radio" name="SITEMAPLIST" value="on" checked="checked" /> Yes &nbsp; <input type="radio" name="SITEMAPLIST" value="" /> No | Include this web in the site map |
-|  *Description:<br /> &nbsp;<br /> &nbsp;* | <input type="text" class="twikiInputField" name="SITEMAPWHAT" value="" size="60" /><br /> Enter a short description of the web. Write =Web.TopicName= instead of just =TopicName= if you include links. This description will be used in the %SYSTEMWEB%.SiteMap ||
-|  *Use to...<br /> &nbsp;* | <input type="text" class="twikiInputField" name="SITEMAPUSETO" value="...collaborate on" size="60" /><br /> Continue the sentence describing the intended use. This is also for the %SYSTEMWEB%.SiteMap ||
+|  *Description:<br /> &nbsp;<br /> &nbsp;* | <input type="text" class="foswikiInputField" name="SITEMAPWHAT" value="" size="60" /><br /> Enter a short description of the web. Write =Web.TopicName= instead of just =TopicName= if you include links. This description will be used in the %SYSTEMWEB%.SiteMap ||
+|  *Use to...<br /> &nbsp;* | <input type="text" class="foswikiInputField" name="SITEMAPUSETO" value="...collaborate on" size="60" /><br /> Continue the sentence describing the intended use. This is also for the %SYSTEMWEB%.SiteMap ||
 |  *Hidden:* | <input type="radio" name="NOSEARCHALL" value="on" /> Yes &nbsp; <input type="radio" name="NOSEARCHALL" value="" checked="checked" /> No | Specify if you want to exclude the web from a "search all webs" search. *This will not prevent users accessing the web*. It will simply hide it from searches. |
-| *&nbsp;* | <input type="submit" class="twikiSubmit" value="Create new web" /> ||
+| *&nbsp;* | <input type="submit" class="foswikiSubmit" value="Create new web" /> ||
 <input name="newtopic" type="hidden" value="%URLPARAM{"newtopic"}%" />
 <input name="action" type="hidden" value="createweb" />
 </form>

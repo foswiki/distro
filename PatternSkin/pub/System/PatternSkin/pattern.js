@@ -10,7 +10,7 @@ var Pattern = {
 			'span',
 			sign
 		);
-		newEl.className = 'twikiActionFormStepSign';
+		newEl.className = 'foswikiActionFormStepSign';
 	},
 
 	/**
@@ -49,10 +49,10 @@ var Pattern = {
 	},
 	
 	displayModifySearchLink:function() {
-		var linkContainer = document.getElementById('twikiModifySearchContainer');
+		var linkContainer = document.getElementById('foswikiModifySearchContainer');
 		if (linkContainer != null) {
 			if (Pattern.searchResultsCount > 0) {
-				var linkText=' <a href="#" onclick="location.hash=\'twikiSearchForm\'; return false;"><span class="twikiLinkLabel twikiSmallish">' + TEXT_MODIFY_SEARCH + '</span></a>';
+				var linkText=' <a href="#" onclick="location.hash=\'foswikiSearchForm\'; return false;"><span class="foswikiLinkLabel foswikiSmallish">' + TEXT_MODIFY_SEARCH + '</span></a>';
 					foswiki.HTML.setHtmlOfElement(linkContainer, linkText);
 			}
 		}
@@ -60,7 +60,7 @@ var Pattern = {
 }
 
 var patternRules = {
-	'.twikiFormStep h3' : function(el) {
+	'.foswikiFormStep h3' : function(el) {
 		Pattern.createTwikiActionFormStepSign(el);
 	},
 	'#jumpFormField' : function(el) {
@@ -81,33 +81,32 @@ var patternRules = {
 			foswiki.Form.restoreBeforeFocusText(this);
 		}
 	},
-	'#twikiAttachmentsTable' : function(el) {
+	'#foswikiAttachmentsTable' : function(el) {
 		Pattern.setAttachmentCount(el);
 	},
 	'body.patternEditPage' : function(el) {
 		foswiki.Event.addLoadEvent(initForm, false); // call after Behaviour
 	},
-	'.twikiSearchResultCount' : function(el) {
+	'.foswikiSearchResultCount' : function(el) {
 		Pattern.addSearchResultsCounter(el);
 	},
-	'#twikiNumberOfResultsContainer' : function(el) {
+	'#foswikiNumberOfResultsContainer' : function(el) {
 		Pattern.displayTotalSearchResultsCount(el);
 	},
-	'#twikiWebSearchForm':function(el) {
+	'#foswikiWebSearchForm':function(el) {
 		Pattern.displayModifySearchLink();
 	},
-	'.twikiPopUp':function(el) {
+	'.foswikiPopUp':function(el) {
 		el.onclick = function() {
 			foswiki.Window.openPopup(el.href, {template:"viewplain"});
 			return false;
 		}
 	},
-	'.twikiFocus':function(el) {
+	'.foswikiFocus':function(el) {
 		el.focus();
 	},
-	'.twikiChangeFormButton':function(el) {
+	'.foswikiChangeFormButton':function(el) {
 		el.onclick = function() {
-			alert("twikiChangeFormButton");
 			suppressSaveValidation();
 		}
 	}

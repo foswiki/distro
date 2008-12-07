@@ -187,7 +187,7 @@ sub _generateEditField {
     }
     unless( $html ) {
         # No form definition, default to text field.
-        $html = CGI::textfield( -class=>'foswikiAlert twikiInputField',
+        $html = CGI::textfield( -class=>'foswikiAlert foswikiInputField',
                                 -name => $name,
                                 -size => 80, -value => $value );
     }
@@ -228,7 +228,7 @@ sub _generateControlButtons {
 
     my $text = $START_MARKER.CGI::submit(-name=>'prefsaction',
                                          -value=>'Save new settings',
-                                         -class=>'twikiSubmit',
+                                         -class=>'foswikiSubmit',
                                          -accesskey=>'s');
     $text .= '&nbsp;';
     $text .= CGI::submit(-name=>'prefsaction', -value=>'Cancel',

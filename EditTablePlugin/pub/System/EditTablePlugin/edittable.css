@@ -2,7 +2,7 @@
 .editTable {
 	padding-bottom:1em;
 }
-.editTableEdit .twikiTable {
+.editTableEdit .foswikiTable {
 	margin:5px 0;
 }
 .editTableInnerTable table,
@@ -33,14 +33,14 @@
 .editTableActionSelectedCell {
 	background-color:#069;
 }
-.twikiTableEven textarea,
-.twikiTableEven .editTableTextarea,
-.twikiTableEven input {
+.foswikiTableEven textarea,
+.foswikiTableEven .editTableTextarea,
+.foswikiTableEven input {
 	background-color:#f5f5f5;
 }
-.twikiTableOdd textarea,
-.twikiTableOdd .editTableTextarea,
-.twikiTableOdd input {
+.foswikiTableOdd textarea,
+.foswikiTableOdd .editTableTextarea,
+.foswikiTableOdd input {
 	background-color:#ffffff;
 }
 .editTableCalendarButton {

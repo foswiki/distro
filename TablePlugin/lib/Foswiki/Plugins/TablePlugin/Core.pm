@@ -492,7 +492,7 @@ sub _parseParameters {
 
     if ($writeDefaults) {
 
-  # just uncomment to write plugin settings as css styles ( .twikiTable{ ... } )
+  # just uncomment to write plugin settings as css styles ( .foswikiTable{ ... } )
   #_addStylesToHead( $useCss, $writeDefaults, %defaultCssAttrs );
     }
     else {
@@ -839,20 +839,20 @@ sub _appendToClassList {
 sub _appendSortedCssClass {
     my ($classList) = @_;
 
-    return _appendToClassList( $classList, 'twikiSortedCol' );
+    return _appendToClassList( $classList, 'foswikiSortedCol' );
 }
 
 sub _appendRowNumberCssClass {
     my ( $classList, $colListName, $rowNum ) = @_;
 
-    my $rowClassName = 'twikiTableRow' . $colListName . $rowNum;
+    my $rowClassName = 'foswikiTableRow' . $colListName . $rowNum;
     return _appendToClassList( $classList, $rowClassName );
 }
 
 sub _appendColNumberCssClass {
     my ( $classList, $colNum ) = @_;
 
-    my $colClassName = 'twikiTableCol' . $colNum;
+    my $colClassName = 'foswikiTableCol' . $colNum;
     return _appendToClassList( $classList, $colClassName );
 }
 
@@ -865,25 +865,25 @@ sub _appendFirstColumnCssClass {
 sub _appendLastColumnCssClass {
     my ($classList) = @_;
 
-    return _appendToClassList( $classList, 'twikiLastCol' );
+    return _appendToClassList( $classList, 'foswikiLastCol' );
 }
 
 sub _appendLastRowCssClass {
     my ($classList) = @_;
 
-    return _appendToClassList( $classList, 'twikiLast' );
+    return _appendToClassList( $classList, 'foswikiLast' );
 }
 
 sub _appendSortedAscendingCssClass {
     my ($classList) = @_;
 
-    return _appendToClassList( $classList, 'twikiSortedAscendingCol' );
+    return _appendToClassList( $classList, 'foswikiSortedAscendingCol' );
 }
 
 sub _appendSortedDescendingCssClass {
     my ($classList) = @_;
 
-    return _appendToClassList( $classList, 'twikiSortedDescendingCol' );
+    return _appendToClassList( $classList, 'foswikiSortedDescendingCol' );
 }
 
 # The default sort direction.
@@ -939,7 +939,7 @@ sub _addStylesToHead {
 
     if ( !$didWriteDefaultStyle ) {
         my $id       = 'default';
-        my $selector = '.twikiTable';
+        my $selector = '.foswikiTable';
         my $attr     = 'padding-left:.3em; vertical-align:text-bottom;';
         push( @styles, ".tableSortIcon img {$attr}" );
 
@@ -956,7 +956,7 @@ sub _addStylesToHead {
     # only write default style
     return if !$useCss;
 
-    my $selector = '.twikiTable';
+    my $selector = '.foswikiTable';
     my $id = $writeDefaults ? $writeDefaults : $cssAttrs{tableId};
     $selector .= '#' . $id if !$writeDefaults;
 
@@ -1075,7 +1075,7 @@ sub _addStylesToHead {
     if ( defined $cssAttrs{headerBgSorted} ) {
         unless ( $cssAttrs{headerBgSorted} =~ /none/i ) {
             my $attr = 'background-color:' . $cssAttrs{headerBgSorted} . ';';
-            push( @styles, "$selector th.twikiSortedCol {$attr}" );
+            push( @styles, "$selector th.foswikiSortedCol {$attr}" );
         }
     }
 
@@ -1106,7 +1106,7 @@ sub _addStylesToHead {
             foreach (@attrDataBg) {
                 my $color = $_;
                 next if !$color;
-                my $rowSelector = 'twikiTableRow' . 'dataBg';
+                my $rowSelector = 'foswikiTableRow' . 'dataBg';
                 $rowSelector .= $count;
                 my $attr = 'background-color:' . $_ . ';';
                 push( @styles, "$selector tr.$rowSelector td {$attr}" );
@@ -1123,11 +1123,11 @@ sub _addStylesToHead {
             foreach (@attrDataBgSorted) {
                 my $color = $_;
                 next if !$color;
-                my $rowSelector = 'twikiTableRow' . 'dataBg';
+                my $rowSelector = 'foswikiTableRow' . 'dataBg';
                 $rowSelector .= $count;
                 my $attr = 'background-color:' . $_ . ';';
                 push( @styles,
-                    "$selector tr.$rowSelector td.twikiSortedCol {$attr}" );
+                    "$selector tr.$rowSelector td.foswikiSortedCol {$attr}" );
                 $count++;
             }
         }
@@ -1141,7 +1141,7 @@ sub _addStylesToHead {
             foreach (@attrDataColor) {
                 my $color = $_;
                 next if !$color;
-                my $rowSelector = 'twikiTableRow' . 'dataColor';
+                my $rowSelector = 'foswikiTableRow' . 'dataColor';
                 $rowSelector .= $count;
                 my $attr = 'color:' . $_ . ';';
                 push( @styles, "$selector tr.$rowSelector td {$attr}" );
@@ -1158,7 +1158,7 @@ sub _addStylesToHead {
         foreach (@attrColumnWidths) {
             my $width = $_;
             next if !$width;
-            my $colSelector = 'twikiTableCol';
+            my $colSelector = 'foswikiTableCol';
             $colSelector .= $count;
             my $attr = 'width:' . $_ . ';';
             push( @styles, "$selector td.$colSelector {$attr}" );
@@ -1180,7 +1180,7 @@ sub _addStylesToHead {
             foreach (@attrHeaderAlign) {
                 my $width = $_;
                 next if !$width;
-                my $colSelector = 'twikiTableCol';
+                my $colSelector = 'foswikiTableCol';
                 $colSelector .= $count;
                 my $attr = 'text-align:' . $_ . ';';
                 push( @styles, "$selector th.$colSelector {$attr}" );
@@ -1202,7 +1202,7 @@ sub _addStylesToHead {
             foreach (@attrDataAlign) {
                 my $width = $_;
                 next if !$width;
-                my $colSelector = 'twikiTableCol';
+                my $colSelector = 'foswikiTableCol';
                 $colSelector .= $count;
                 my $attr = 'text-align:' . $_ . ';';
                 push( @styles, "$selector td.$colSelector {$attr}" );
@@ -1244,7 +1244,7 @@ sub emitTable {
     }
 
     my $sortThisTable = _shouldISortThisTable( $curTable[ $headerRows - 1 ] );
-    my $tattrs = { class => 'twikiTable' };
+    my $tattrs = { class => 'foswikiTable' };
     $tattrs->{border} = $tableBorder
       if defined $tableBorder && $tableBorder ne '';
     $tattrs->{cellspacing} = $cellSpacing
@@ -1612,7 +1612,7 @@ sub emitTable {
         # just 2 css names is too limited, but we will keep it for compatibility
         # with existing style sheets
         my $rowTypeName =
-          ( $rowCount % 2 ) ? 'twikiTableEven' : 'twikiTableOdd';
+          ( $rowCount % 2 ) ? 'foswikiTableEven' : 'foswikiTableOdd';
         $trClassName = _appendToClassList( $trClassName, $rowTypeName );
 
         if ( scalar @dataBgSorted ) {

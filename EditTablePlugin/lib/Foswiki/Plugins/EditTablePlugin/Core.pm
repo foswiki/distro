@@ -840,7 +840,7 @@ sub createButtonRow {
 
         # Edit mode
         $text .=
-"$preSp<input type=\"submit\" name=\"etsave\" id=\"etsave\" value=\"$prefSAVE_BUTTON\" class=\"twikiSubmit\" />\n";
+"$preSp<input type=\"submit\" name=\"etsave\" id=\"etsave\" value=\"$prefSAVE_BUTTON\" class=\"foswikiSubmit\" />\n";
         if ( $params{'quietsave'} ) {
             $text .=
 "$preSp<input type=\"submit\" name=\"etqsave\" id=\"etqsave\" value=\"$prefQUIET_SAVE_BUTTON\" class=\"foswikiButton\" />\n";
@@ -853,7 +853,7 @@ sub createButtonRow {
               unless ( $params{'changerows'} =~ /^add$/oi );
         }
         $text .=
-"$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"foswikiButton twikiButtonCancel\" />\n";
+"$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"foswikiButton foswikiButtonCancel\" />\n";
 
         if ( $params{'helptopic'} ) {
 
@@ -1012,7 +1012,7 @@ sub inputElement {
           Foswiki::Func::expandCommonVariables( $theValue, $theTopic, $theWeb );
         $size = 1 if $size < 1;
         $text =
-          "<select class=\"twikiSelect\" name=\"$theName\" size=\"$size\">";
+          "<select class=\"foswikiSelect\" name=\"$theName\" size=\"$size\">";
         $i = 2;
         while ( $i < @bits ) {
             $val         = $bits[$i]         || '';
@@ -1186,7 +1186,7 @@ sub inputElement {
         $text .= CGI::textfield(
             {
                 name     => $theName,
-                class    => 'twikiInputField editTableInput',
+                class    => 'foswikiInputField editTableInput',
                 id       => 'id' . $theName,
                 size     => $size,
                 value    => $theValue,
@@ -1197,7 +1197,7 @@ sub inputElement {
         eval 'use Foswiki::Contrib::JSCalendarContrib';
 
         unless ($@) {
-            $text .= '<span class="twikiMakeVisible">';
+            $text .= '<span class="foswikiMakeVisible">';
             $text .= CGI::image_button(
                 -class   => 'editTableCalendarButton',
                 -name    => 'calendar',
@@ -1217,7 +1217,7 @@ sub inputElement {
         Foswiki::Plugins::EditTablePlugin::encodeValue($theValue)
           unless ( $theValue eq '' );
         $text =
-"<input class=\"twikiInputField editTableInput\" type=\"text\" name=\"$theName\" size=\"$size\" value=\"$theValue\" />";
+"<input class=\"foswikiInputField editTableInput\" type=\"text\" name=\"$theName\" size=\"$size\" value=\"$theValue\" />";
         $text .= saveEditCellFormat( $cellFormat, $theName );
     }
 

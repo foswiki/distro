@@ -7,10 +7,10 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
 
 <form action="%SCRIPTURLPATH{"edit"}%/%WEB%/" method="get">
 
-<div class="twikiFormSteps">
-<div class="twikiFormStep twikiLast">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep foswikiLast">
 %TABLE{databg="" cellborder="0" tableborder="0"}%
-| New Group: |<input type="text" name="topic" value="NameGroup" size="40" class="twikiInputField" />&nbsp;<input class="twikiSubmit" type="submit" value="Add"/>  |
+| New Group: |<input type="text" name="topic" value="NameGroup" size="40" class="foswikiInputField" />&nbsp;<input class="foswikiSubmit" type="submit" value="Add"/>  |
 | |%ICON{"warning"}% __Note:__ A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and __must__ end in =...Group=. New topics are based on [[GroupTemplate]]  |
 
 <input type="hidden" name="templatetopic" value="GroupTemplate"/>

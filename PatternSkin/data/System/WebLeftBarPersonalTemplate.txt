@@ -6,5 +6,5 @@ Customise this topic; samples and ideas available at %SYSTEMWEB%.WebLeftBarCookb
    * [[%WIKIUSERNAME%][My home page]]
    * [[%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on][My %BASEWEB% activities]]
    * 
-<a class="twikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
+<a class="foswikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
 

@@ -215,12 +215,12 @@ Example of a custom form to save a comment to a new topic. When the topic is cre
 <input type="hidden" name="comment_action" value="save" />
 <input type="hidden" name="nonwikiword" value="off" />
 <input type="hidden" name="onlywikiname" value="on" />
-<div class="twikiFormSteps">
-<div class="twikiFormStep">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
 *New topic name:* %BR%
-<input class="twikiInputField" %DISABLED% type="text" size="40" name="topic" id="topic" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
+<input class="foswikiInputField" %DISABLED% type="text" size="40" name="topic" id="topic" value="" /> <span class="foswikiGrayText">Enter a !WikiWord topic name</span>
 </div>
-<div class="twikiFormStep twikiLast">
+<div class="foswikiFormStep foswikiLast">
 *Topic text:* %BR%
 %COMMENT{noform="on" button="Save"}%
 </div>

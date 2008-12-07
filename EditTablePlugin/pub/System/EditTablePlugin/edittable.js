@@ -203,7 +203,7 @@ function insertActionButtonsMove(asset_url) {
         }
     }
     // set styling for the last action_cell to remove the bottom border
-    //addClass(action_cell, 'twikiLast');
+    //addClass(action_cell, 'foswikiLast');
 }
 
 function createActionButtonMove (asset_url, rownr) {
@@ -256,7 +256,7 @@ function insertActionButtonsDelete(asset_url) {
         }
     }
     // set styling for the last action_cell to remove the bottom border
-    addClass(action_cell, 'twikiLast');
+    addClass(action_cell, 'foswikiLast');
 }
 
 function createActionButtonDelete (asset_url, rownr) {
@@ -608,20 +608,20 @@ function fixStyling() {
         var tr = sEditTable.rows[num];
         var tableCells = tr.getElementsByTagName('TD');
         var alternate = (i % 2 == 0) ? 0: 1;
-        var className = (i % 2 == 0) ? 'twikiTableEven': 'twikiTableOdd';
+        var className = (i % 2 == 0) ? 'foswikiTableEven': 'foswikiTableOdd';
         
         
         if (!sAlternatingColors[alternate]) {
             continue;
         }
-        removeClass(tr, 'twikiTableEven');
-        removeClass(tr, 'twikiTableOdd');
+        removeClass(tr, 'foswikiTableEven');
+        removeClass(tr, 'foswikiTableOdd');
         addClass(tr, className);
         
         
         for (var j = 0; j < tableCells.length;++j) {
             var cell = tableCells[j];
-            removeClass(cell, 'twikiLast');
+            removeClass(cell, 'foswikiLast');
             addClass(cell, className);
             cell.removeAttribute('bgColor');
             cell.setAttribute('bgColor', sAlternatingColors[alternate]);
@@ -634,7 +634,7 @@ function fixStyling() {
     var lastRowElement = sEditTable.rows[lastRowNum];
     var tableCells = lastRowElement.getElementsByTagName('TD');
     for (var i = 0; i < tableCells.length;++i) {
-        addClass(tableCells[i], 'twikiLast');
+        addClass(tableCells[i], 'foswikiLast');
     }
     
     

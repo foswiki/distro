@@ -17,7 +17,7 @@ New FAQ topic: &nbsp; (Use a name in WikiNotation) <br />
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="templatetopic" value="FaqTemplate" />
 <input type="hidden" name="topicparent" value="%TOPIC%" />
-<input type="submit" class="twikiSubmit" value="Create Topic" />
+<input type="submit" class="foswikiSubmit" value="Create Topic" />
 </form>
 
 ---++ More sources...

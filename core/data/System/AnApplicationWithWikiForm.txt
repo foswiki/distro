@@ -20,7 +20,7 @@ The following is the code source of FrequentlyAskedQuestions:
 <verbatim>
 <form action="%SCRIPTURLPATH{edit}%/%WEB%/">
 New FAQ topic: &nbsp; (Use a name in System.WikiNotation) <br />
-<input type="text" name="topic" size="32" />&nbsp;<input type="submit" class="twikiSubmit" value="Create Topic" />
+<input type="text" name="topic" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create Topic" />
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="templatetopic" value="FaqTemplate" />
 <input type="hidden" name="topicparent" value="%TOPIC%" />

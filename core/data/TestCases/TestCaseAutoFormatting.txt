@@ -267,7 +267,7 @@ WikiWordAfterList
 ---+++ Expected
 <!-- expected SIMPLE TABLE -->
 <p />
-<table border="1" cellspacing="0" cellpadding="0" class=twikiTable><thead><tr><th> <strong>L</strong> </th><th> <strong>C</strong> </th><th> <strong>R</strong> </th></tr></thead>
+<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable><thead><tr><th> <strong>L</strong> </th><th> <strong>C</strong> </th><th> <strong>R</strong> </th></tr></thead>
 <tbody>
 <tr><td>  A2  </td><td align="center">	2	</td><td align="right">	2  </td></tr>
 
@@ -279,7 +279,7 @@ WikiWordAfterList
 </tbody>
 </table>
 <p />
-<table border="1" cellspacing="0" cellpadding="0" class=twikiTable> <tbody><tr><td> ^ </td><td>  six  </td><td>  six  </td></tr>
+<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable> <tbody><tr><td> ^ </td><td>  six  </td><td>  six  </td></tr>
 </tbody>
 </table>
 <p />
@@ -351,18 +351,18 @@ a@b.com
 ---++ Wiki Word Links
 ---+++ Expected
 <!-- expected expand WIKIWORDS -->
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences">WebPreferences</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences">WebPreferences</a>
 <p />
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%WIKIUSERSTOPIC%</a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%WIKIUSERSTOPIC%</a>
 <p />
 <span class="foswikiNewLink">CompleteAndUtterNothing<a href="%SCRIPTURLPATH{"edit"}%/TestCases/CompleteAndUtterNothing?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
 <p />
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBox</a>
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxs</a>
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxy">LinkBoxies</a>
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxess">LinkBoxess</a>
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxess">LinkBoxesses</a>
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxes</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBox</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxs</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxy">LinkBoxies</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxess">LinkBoxess</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxess">LinkBoxesses</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxes</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
@@ -385,7 +385,7 @@ LinkBoxes
 <!-- expected expand SQUABS -->
 <span class="foswikiNewLink">wiki syntax<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">?</a></span>
 <p />
-<a class="foswikiLink" href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
 <p />
 escaped:
 [<nop>[wiki syntax]]
@@ -429,7 +429,7 @@ escaped:
 ---++ Anchors
 ---+++ Expected
 <!-- expected expand ANCHOR -->
-<a class="foswikiCurrentTopicLink foswikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#NotThere">TestCaseAutoFormatting#NotThere</a>
+<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#NotThere">TestCaseAutoFormatting#NotThere</a>
 <p />
 <a class="foswikiCurrentTopicLink foswikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#MyAnchor">Jump</a>
 <p />
@@ -467,7 +467,7 @@ nowt!%USERSWEB%
 ---++ Complex table
 ---+++ Expected
 <!-- expected expand COMPLEX TABLE -->
-<table cellpadding="0" cellspacing="0" border="1" class=twikiTable>
+<table cellpadding="0" cellspacing="0" border="1" class=foswikiTable>
 <thead>
 <tr>
   <th><strong>A0 all rows</strong></th>
@@ -524,7 +524,7 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 ---++ Link in a table
 ---+++ Expected
 <!-- expected GOOGLE -->
-<table border="1" cellspacing="0" cellpadding="0" class=twikiTable>
+<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable>
 <tbody>
  <tr>
   <td>

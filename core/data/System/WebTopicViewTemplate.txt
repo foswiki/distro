@@ -3,12 +3,12 @@
 
 *%MAKETEXT{"The topic [_1] you are trying to access does not exist, yet." args="'%BASETOPIC%'"}%*
 
-<div class="twikiPageForm">
-<table id="twikiSearchTable" border="0" cellspacing="0" cellpadding="0">
+<div class="foswikiPageForm">
+<table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td class="foswikiFirstCol">
 <form name="jumpAgain" action="%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%">
-*%MAKETEXT{"Did you spell the [_1] correctly?" args="%SYSTEMWEB%.WikiWord"}%* %MAKETEXT{"Remember, a [_1] is case sensitive." args="<nop>WikiWord"}% %BR%     <input type="text" class="twikiInputField" name="topic" size="36" value="%BASETOPIC%" /> <input type="submit" class="twikiSubmit" value="%MAKETEXT{"Jump"}%" />
+*%MAKETEXT{"Did you spell the [_1] correctly?" args="%SYSTEMWEB%.WikiWord"}%* %MAKETEXT{"Remember, a [_1] is case sensitive." args="<nop>WikiWord"}% %BR%     <input type="text" class="foswikiInputField" name="topic" size="36" value="%BASETOPIC%" /> <input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Jump"}%" />
 </form>
 </td>
 </tr>

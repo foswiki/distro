@@ -16,7 +16,7 @@ Designed by: Crawford Currie
 <table><tr><th>Expected</th><th>Actual</th></tr>
 <tr valign="top"><td>
 <!-- expected expand rex -->
-<div class="twikiToc">
+<div class="foswikiToc">
 <ul>
 <li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Nonsense">Nonsense</a>
 <ul>
@@ -39,8 +39,8 @@ Designed by: Crawford Currie
 <!-- /actual -->
 </td></tr><tr valign="top"><td>
 <!-- expected expand rex wine -->
-<div class="twikiToc">
-<span class="twikiTocTitle">The Top</span>
+<div class="foswikiToc">
+<span class="foswikiTocTitle">The Top</span>
 <ul>
 <li> <a href="?@URLPARAMS#H1_1">H1 <!--1--></a>
 <ul>

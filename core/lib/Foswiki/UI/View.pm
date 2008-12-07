@@ -370,7 +370,7 @@ sub view {
                     -rows     => $p->getPreferencesValue('EDITBOXHEIGHT'),
                     -cols     => $p->getPreferencesValue('EDITBOXWIDTH'),
                     -style    => $p->getPreferencesValue('EDITBOXSTYLE'),
-                    -class    => 'foswikiTextarea twikiTextareaRawView',
+                    -class    => 'foswikiTextarea foswikiTextareaRawView',
                     -id       => 'topic',
                     -default  => $text
                 );

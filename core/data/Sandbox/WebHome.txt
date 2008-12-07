@@ -7,7 +7,7 @@
 
 <form action='%SCRIPTURLPATH{"edit"}%/%WEB%/'> 
 %ICON{"newtopic"}% %MAKETEXT{"Create a new document by name:"}% %MAKETEXT{"(Use a topic name in System.WikiNotation)"}% <br /> 
-<input class="twikiInputField" type="text" name="topic" size="32" />&nbsp;<input type="submit" class="twikiSubmit" value='%MAKETEXT{"Create by Name"}%' />
+<input class="foswikiInputField" type="text" name="topic" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create by Name"}%' />
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="onlynewtopic" value="on" />
 </form>
@@ -15,18 +15,18 @@
 <form action='%SCRIPTURLPATH{"edit"}%/%BASEWEB%/TestTopicAUTOINC0' name="createNewTestTopic">
 %ICON{"newtopic"}% %MAKETEXT{"Create a new auto-numbered test topic:"}%
 <input type="hidden" name="t" value="%SERVERTIME{$hou$min$sec}%" />
-<input type="submit" class="twikiSubmit" value='%MAKETEXT{"Create <nop>TestTopic###"}%' />
+<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create <nop>TestTopic###"}%' />
 </form>
 
 ---++ %MAKETEXT{"Recently changed topics"}%
 <dl>
-%SEARCH{ ".*" regex="on" nosearch="on" nototal="on" order="modified" reverse="on" limit="7" format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='twikiGrayText'>$date - $wikiusername</span></dd>"}%
+%SEARCH{ ".*" regex="on" nosearch="on" nototal="on" order="modified" reverse="on" limit="7" format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='foswikiGrayText'>$date - $wikiusername</span></dd>"}%
 </dl>
 %MAKETEXT{"A more extensive changes list is available via ~[~[[_1]~]~[Recent Changes~]~]." args="WebChanges"}%
 
 ---++ <nop>%WEB% Web Utilities
 <form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>
-   * <input class="twikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="twikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * <input class="foswikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
    * WebTopicList - all topics in alphabetical order
    * WebChanges - recent topic changes in this web
    * WebNotify - subscribe to an e-mail alert sent when topics change

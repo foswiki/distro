@@ -11,23 +11,23 @@
 
 %TMPL:DEF{"header"}%<div class="twikiSearchResult">
 <div class="foswikiTopRow" style="backgroundcolor:%WEBBGCOLOR%;">
-<div class="twikiLeft"><b>%MAKETEXT{"Topics in [_1] web" args="<nop>%WEB%"}%</b></div>
-<div class="twikiRight twikiSRAuthor"><b>%MAKETEXT{"Changed"}%</b></div>
-<div class="twikiRight twikiSRRev"><b>%MAKETEXT{"Changed by"}%</div>
-<br class="twikiClear" /></div><!--/foswikiTopRow-->
+<div class="foswikiLeft"><b>%MAKETEXT{"Topics in [_1] web" args="<nop>%WEB%"}%</b></div>
+<div class="foswikiRight foswikiSRAuthor"><b>%MAKETEXT{"Changed"}%</b></div>
+<div class="foswikiRight foswikiSRRev"><b>%MAKETEXT{"Changed by"}%</div>
+<br class="foswikiClear" /></div><!--/foswikiTopRow-->
 </div><!--/twikiSearchResult-->%TMPL:END%
 
 %TMPL:DEF{"count"}%</table><br clear="all" /> %BR% Number of topics: <b>%NTOPICS%</b>%TMPL:END%
 
 %TMPL:DEF{"result"}%<div class="twikiSearchResult">
 <div class="foswikiTopRow">
-<div class="twikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div>
-<div class="twikiRight twikiSRAuthor"> %AUTHOR%</div>
-<div class="twikiRight twikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div>
-<br class="twikiClear" /></div><!--/foswikiTopRow-->
-<div class="twikiBottomRow">
+<div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div>
+<div class="foswikiRight foswikiSRAuthor"> %AUTHOR%</div>
+<div class="foswikiRight foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div>
+<br class="foswikiClear" /></div><!--/foswikiTopRow-->
+<div class="foswikiBottomRow">
 <div class="foswikiSummary foswikiGrayText">%TEXTHEAD%</div><!--/foswikiSummary-->
-</div><!--/twikiBottomRow-->
+</div><!--/foswikiBottomRow-->
 </div><!--/twikiSearchResult-->%TMPL:END%
 
 

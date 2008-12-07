@@ -233,7 +233,7 @@ foswiki.JQueryTwistyPlugin.Storage = function () {
  */
 $(function() {
   $(".twistyTrigger, .twistyContent").
-    removeClass("twistyMakeHidden twikiMakeHidden twikiMakeVisible twikiMakeVisibleBlock twikiMakeVisibleInline").
+    removeClass("twistyMakeHidden foswikiMakeHidden foswikiMakeVisible foswikiMakeVisibleBlock foswikiMakeVisibleInline").
     addClass("twistyHidden").
     each(function() {
       foswiki.JQueryTwistyPlugin.init(this);

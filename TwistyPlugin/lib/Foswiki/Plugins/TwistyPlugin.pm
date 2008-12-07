@@ -253,7 +253,7 @@ sub _twistyBtn {
     my $imgLinkTag =
         '<a href="#">'
       . $imgLeftTag
-      . '<span class="twikiLinkLabel twikiUnvisited' . $linkClass . '">'
+      . '<span class="foswikiLinkLabel foswikiUnvisited' . $linkClass . '">'
       . $link
       . '</span>'
       . $imgTag
@@ -325,7 +325,7 @@ sub _createHtmlProperties {
     # unless explicitly said otherwise
     my $shouldHideTrigger = 1;
     if ($isTrigger) {
-        push( @classList, 'twistyTrigger twikiUnvisited' );
+        push( @classList, 'twistyTrigger foswikiUnvisited' );
 
         if (   $state eq $TWISTYPLUGIN_CONTENT_SHOWN
             && $twistyControlState eq 'hide' )
@@ -349,17 +349,17 @@ sub _createHtmlProperties {
         if ( $state eq $TWISTYPLUGIN_CONTENT_SHOWN ) {
             $shouldHideContent = 0;
         }
-        push( @classList, 'twikiMakeHidden' ) if $shouldHideContent;
+        push( @classList, 'foswikiMakeHidden' ) if $shouldHideContent;
     }
 
     # deprecated
     # should be done by twiki template scripts instead
     if ( !$isTrigger && $noscriptHide ) {
         if ( $mode eq 'div' ) {
-            push( @classList, 'twikiMakeVisibleBlock' );
+            push( @classList, 'foswikiMakeVisibleBlock' );
         }
         else {
-            push( @classList, 'twikiMakeVisibleInline' );
+            push( @classList, 'foswikiMakeVisibleInline' );
         }
     }
 
@@ -424,12 +424,12 @@ sub _wrapInContentHtmlClose {
 
 sub _wrapInContainerHideIfNoJavascripOpen {
     my ($mode) = @_;
-    return '<' . $mode . ' class="twistyPlugin twikiMakeVisibleInline">';
+    return '<' . $mode . ' class="twistyPlugin foswikiMakeVisibleInline">';
 }
 
 sub _wrapInContainerDivIfNoJavascripClose {
     my ($mode) = @_;
-    return '</' . $mode . '><!--/twistyPlugin twikiMakeVisibleInline-->';
+    return '</' . $mode . '><!--/twistyPlugin foswikiMakeVisibleInline-->';
 }
 
 1;

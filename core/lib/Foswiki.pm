@@ -1938,7 +1938,7 @@ sub _TOC {
          $params->{title}
       || $this->{prefs}->getPreferencesValue('TOC_TITLE')
       || '';
-    $title = CGI::span( { class => 'twikiTocTitle' }, $title ) if ($title);
+    $title = CGI::span( { class => 'foswikiTocTitle' }, $title ) if ($title);
 
     if ( $web ne $defaultWeb || $topic ne $defaultTopic ) {
         unless (
@@ -2075,7 +2075,7 @@ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
             $highest--;
             $result =~ s/^\t{$highest}//gm;
         }
-        return CGI::div( { class => 'twikiToc' }, "$title$result\n" );
+        return CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
     }
     else {
         return '';
@@ -4104,7 +4104,7 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
     my $result = $this->i18n->maketext( $str, @args );
 
     # replace accesskeys:
-    $result =~ s#(^|[^&])&([a-zA-Z])#$1<span class='twikiAccessKey'>$2</span>#g;
+    $result =~ s#(^|[^&])&([a-zA-Z])#$1<span class='foswikiAccessKey'>$2</span>#g;
 
     # replace escaped amperstands:
     $result =~ s/&&/\&/g;

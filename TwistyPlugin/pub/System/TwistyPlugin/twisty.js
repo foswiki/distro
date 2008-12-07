@@ -187,10 +187,10 @@ foswiki.TwistyPlugin.init = function(inId) {
 	ref = this._register(e);
 	
 	foswiki.CSS.replaceClass(e, "twistyMakeHidden", "twistyHidden");
-	foswiki.CSS.removeClass(e, "twikiMakeVisible");
-	foswiki.CSS.removeClass(e, "twikiMakeVisibleBlock");
-	foswiki.CSS.removeClass(e, "twikiMakeVisibleInline");
-	foswiki.CSS.removeClass(e, "twikiMakeHidden");
+	foswiki.CSS.removeClass(e, "foswikiMakeVisible");
+	foswiki.CSS.removeClass(e, "foswikiMakeVisibleBlock");
+	foswiki.CSS.removeClass(e, "foswikiMakeVisibleInline");
+	foswiki.CSS.removeClass(e, "foswikiMakeHidden");
 	
 	if (ref.show && ref.hide && ref.toggle) {
 		// all Twisty elements present

@@ -80,7 +80,7 @@ You can also test this by appending =?template=PersonalInfoView= to the url.
 The =view= script invokes the =view= template:
 <verbatim>
 view
-    twiki
+    foswiki
         css
         viewtopbar
             %TWIKIWEB%.WebTopBar
@@ -357,8 +357,8 @@ raw_link
 !PatternSkin has 2 'buckets' to write additional content to: =contentheader= and =contentfooter=, both defined in =view.pattern.tmpl=. These containers can contain text or html and are placed directly before and after the topic text.
 
 Both modules are wrapped in CSS containers:
-   * =contentheader= - wrapped in =div= of class =twikiContentHeader=
-   * =contentfooter= - wrapped in =div= of class =twikiContentFooter=
+   * =contentheader= - wrapped in =div= of class =foswikiContentHeader=
+   * =contentfooter= - wrapped in =div= of class =foswikiContentFooter=
    
 To put contents *before* the main text, use the custom skin approach as described above.%BR%
 So our custom template contains:

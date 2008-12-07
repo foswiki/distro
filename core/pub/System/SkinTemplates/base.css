@@ -1,21 +1,21 @@
 /* Foswiki base CSS */
 
-.twikiMakeVisible,
-.twikiMakeVisibleInline,
-.twikiMakeVisibleBlock {
+.foswikiMakeVisible,
+.foswikiMakeVisibleInline,
+.foswikiMakeVisibleBlock {
 	display:none; /* will be made visible with javascript */
 }
-.twikiLeft {
+.foswikiLeft {
 	float:left;
 	position:relative;
 }
-.twikiRight {
+.foswikiRight {
 	position:relative;
 	float:right;
 	display:inline;
 	margin:0;
 }
-.twikiClear {
+.foswikiClear {
 	/* to clean up floats */
 	margin:0;
 	padding:0;
@@ -24,23 +24,23 @@
 	clear:both;
 	display:block;
 }
-.twikiHidden {
+.foswikiHidden {
 	display:none;
 }
-.twikiSmall {
+.foswikiSmall {
 	font-size:86%;
 	line-height:110%; /*S3*/
 }
-.twikiSmallish {
+.foswikiSmallish {
 	font-size:94%; /*S2*/
 }
-.twikiBroadcastMessage {
+.foswikiBroadcastMessage {
 	background-color:#ff0;
 	padding:.25em .5em;
 	margin:0 0 1em 0;
 }
-.twikiBroadcastMessage b,
-.twikiBroadcastMessage strong {
+.foswikiBroadcastMessage b,
+.foswikiBroadcastMessage strong {
 	color:#f00;
 }
 .foswikiAlert,
@@ -50,21 +50,21 @@
 .foswikiEmulatedLink {
 	text-decoration:underline;
 }
-.twikiAccessKey {
+.foswikiAccessKey {
 	text-decoration:none;
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-a:hover .twikiAccessKey {
+a:hover .foswikiAccessKey {
 	text-decoration:none;
 	border:none;
 }
-.twikiImage img {
+.foswikiImage img {
 	padding:3px;
 	border-width:1px;
 	border-style:solid;
 }
-.twikiPreviewArea {
+.foswikiPreviewArea {
 	border-width:1px;
 	border-style:solid;
 	border-color:#f00;

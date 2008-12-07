@@ -16,13 +16,13 @@
 %TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"The new topic chosen must already exist."}%</p>%TMPL:END%
 
 
-%TMPL:DEF{"newweb"}%<p><select class="twikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:END%
+%TMPL:DEF{"newweb"}%<p><select class="foswikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:END%
 
 
 %TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move attachment to web:"}%%TMPL:END%
 
 
-%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="twikiInputField" value="" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
+%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
 
 
 %TMPL:DEF{"notes"}%
@@ -33,7 +33,7 @@
 
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="twikiSubmit" value=' %MAKETEXT{"Move"}% ' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Move"}% ' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
 
 
 

@@ -22,7 +22,7 @@
         if it has such string in its translation table for that language.
       * Amperstands (<code>&amp;</code>) followed by one letter (one of a...z, A...Z)
         (say, =X=) in the translatable string will be translated to 
-        <code>&lt;span class='twikiAccessKey'&gt;X&lt;/span&gt;</code>.
+        <code>&lt;span class='foswikiAccessKey'&gt;X&lt;/span&gt;</code>.
         This is used to implement access keys.
         If you want to write an actual amperstand that stays just before a letter,
         write two consecutive amperstands (<code>&amp;&amp;</code>): they will

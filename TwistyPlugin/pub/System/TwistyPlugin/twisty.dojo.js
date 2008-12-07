@@ -176,13 +176,13 @@ foswiki.TwistyPlugin.init = function(e) {
 	
 	//foswiki.CSS.replaceClass(e, "twistyMakeHidden", "twistyHidden");
 
-	dojo.removeClass(e, "twikiMakeVisible");
+	dojo.removeClass(e, "foswikiMakeVisible");
 
-	dojo.removeClass(e, "twikiMakeVisibleBlock");
+	dojo.removeClass(e, "foswikiMakeVisibleBlock");
 
-	dojo.removeClass(e, "twikiMakeVisibleInline");
+	dojo.removeClass(e, "foswikiMakeVisibleInline");
 
-	dojo.removeClass(e, "twikiMakeHidden");
+	dojo.removeClass(e, "foswikiMakeHidden");
 
 
 	

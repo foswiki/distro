@@ -7,7 +7,7 @@
 %TMPL:DEF{"title"}%---++ %MAKETEXT{"Please enter the Wiki admin password"}%
 %TMPL:END%
 
-%TMPL:DEF{"usernamefield"}%<input tabindex='1' class="twikiInputField twikiFocus" type="text" size="40" name="username" value="%WIKIADMINLOGIN%"  %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
+%TMPL:DEF{"usernamefield"}%<input tabindex='1' class="foswikiInputField foswikiFocus" type="text" size="40" name="username" value="%WIKIADMINLOGIN%"  %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
 %TMPL:DEF{"usernamenote"}%%TMPL:P{"authrealm"}%%TMPL:END%
 
@@ -15,4 +15,4 @@
 
 %TMPL:DEF{"loginasadministratorform"}%%TMPL:END%
 
-%TMPL:DEF{"authrealm"}%<span class="twikiUnvisited">%MAKETEXT{"Enter the Wiki Administrator user or login as set in [_1]" args="[[%SCRIPTURL{configure}%][configure]]"}%</span>%TMPL:END%
+%TMPL:DEF{"authrealm"}%<span class="foswikiUnvisited">%MAKETEXT{"Enter the Wiki Administrator user or login as set in [_1]" args="[[%SCRIPTURL{configure}%][configure]]"}%</span>%TMPL:END%

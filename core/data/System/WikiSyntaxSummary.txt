@@ -14,6 +14,6 @@ Keeping this help text short and simple is important since this page is aimed at
    * %MAKETEXT{"*external links* =http://yahoo.com= or =~[<nop>~[http://yahoo.com/~]~[link to Yahoo~]~]="}%
    * %MAKETEXT{"*monospaced* put word/phrase in equal signs: =<nop>=your words=="}%
    * %MAKETEXT{"*paragraphs* separate with blank line"}%
-   * <a target="TextFormattingRules" class="twikiPopUp" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules">%MAKETEXT{"More formatting help"}%</a> %MAKETEXT{"and"}% <a target="GoodStyle" class="twikiPopUp" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/GoodStyle">%MAKETEXT{"hints on good style"}%</a>
+   * <a target="TextFormattingRules" class="foswikiPopUp" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/TextFormattingRules">%MAKETEXT{"More formatting help"}%</a> %MAKETEXT{"and"}% <a target="GoodStyle" class="foswikiPopUp" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/GoodStyle">%MAKETEXT{"hints on good style"}%</a>
 %STOPINCLUDE%
 ---

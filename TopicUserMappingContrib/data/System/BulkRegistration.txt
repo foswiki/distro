@@ -87,7 +87,7 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 -->
 <form name="bulkRegister" action="%SCRIPTURLPATH{"manage"}%/%REGISTERTOPIC%" method="post">
 <input type="hidden" name="action" value="bulkRegister" />&nbsp;
-<input %NOTMODIFYABLE% type="submit" class="twikiSubmit" value="Bulk Register these people" />
+<input %NOTMODIFYABLE% type="submit" class="foswikiSubmit" value="Bulk Register these people" />
 <input type="hidden" name="LogTopic" value="%LOGTOPIC%" />
 <input type="hidden" name="OverwriteHomeTopics" value="%OVERWRITEHOMETOPICS%" />
 </form>

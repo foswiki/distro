@@ -184,14 +184,14 @@ foswiki.HTML = {
 	/**
 	Passes attributes from value object inAttributes to all nodes in NodeList inNodeList.
 	@param inNodeList : (NodeList) nodes to set the style of
-	@param inAttributes : (Object) value object with element properties, with stringified keys. For example, use "class":"twikiSmall" to set the class. This cannot be a property key written as <code>class</code> because this is a reserved keyword.
+	@param inAttributes : (Object) value object with element properties, with stringified keys. For example, use "class":"foswikiSmall" to set the class. This cannot be a property key written as <code>class</code> because this is a reserved keyword.
 	@use
 	In this example all NodeList elements get assigend a class and style:
 	<pre>
 	var elem = document.getElementById("my_div");
 	var nodeList = elem.getElementsByTagName('ul')
 	var attributes = {
-		"class":"twikiSmall foswikiGrayText",
+		"class":"foswikiSmall foswikiGrayText",
     	"style":
     		{
     			"fontSize":"20px",

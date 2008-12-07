@@ -176,7 +176,7 @@ foswiki.Form = {
 	},
 	
 	/**
-	Sets the default text of an input field (for instance the text 'Enter keyword or product number' in a search box) that is cleared when the field gets focus. The field is styled with CSS class 'twikiInputFieldBeforeFocus'.
+	Sets the default text of an input field (for instance the text 'Enter keyword or product number' in a search box) that is cleared when the field gets focus. The field is styled with CSS class 'foswikiInputFieldBeforeFocus'.
 	@param el : (HTMLElement) the input field to receive default text
 	@param inText : (String) the default text
 	*/
@@ -188,7 +188,7 @@ foswiki.Form = {
 	},
 	
 	/**
-	Clears the default input field text. The CSS styling 'twikiInputFieldBeforeFocus' is removed. Call this function at 'onfocus'.
+	Clears the default input field text. The CSS styling 'foswikiInputFieldBeforeFocus' is removed. Call this function at 'onfocus'.
 	@param el : (HTMLElement) the input field that has default text
 	*/
 	clearBeforeFocusText:function(el) {
@@ -198,8 +198,8 @@ foswiki.Form = {
 		if (el.FP_defaultValue == el.value) {
 			el.value = "";
 		}
-		foswiki.CSS.addClass(el, "twikiInputFieldFocus");
-		foswiki.CSS.removeClass(el, "twikiInputFieldBeforeFocus");
+		foswiki.CSS.addClass(el, "foswikiInputFieldFocus");
+		foswiki.CSS.removeClass(el, "foswikiInputFieldBeforeFocus");
 	},
 	
 	/**
@@ -210,7 +210,7 @@ foswiki.Form = {
 		if (!el.value && el.FP_defaultValue) {
 			foswiki.Form._setDefaultStyle(el);
 		}
-		foswiki.CSS.removeClass(el, "twikiInputFieldFocus");
+		foswiki.CSS.removeClass(el, "foswikiInputFieldFocus");
 	},
 	
 	/**
@@ -219,7 +219,7 @@ foswiki.Form = {
 	*/
 	_setDefaultStyle:function(el) {
 		el.value = el.FP_defaultValue;
-		foswiki.CSS.addClass(el, "twikiInputFieldBeforeFocus");
+		foswiki.CSS.addClass(el, "foswikiInputFieldBeforeFocus");
 	}
 	
 };

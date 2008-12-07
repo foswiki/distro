@@ -7,10 +7,10 @@
 %TMPL:DEF{"webaction"}%%MAKETEXT{"Rename"}%%TMPL:END%
 
 
-%TMPL:DEF{"newweb"}%<p><input class="twikiInputField" value="%NEW_SUBWEB%" name="newsubweb" size="20" /><input type="hidden" name="action" value="renameweb" /><input type="hidden" name="confirm" value="getlock" /></p>%TMPL:END%
+%TMPL:DEF{"newweb"}%<p><input class="foswikiInputField" value="%NEW_SUBWEB%" name="newsubweb" size="20" /><input type="hidden" name="action" value="renameweb" /><input type="hidden" name="confirm" value="getlock" /></p>%TMPL:END%
 
 
-%TMPL:DEF{"newparentweb"}%<p><select class="twikiSelect" name="newparentweb"><option value=""></option>%WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%NEW_PARENTWEB%" separator=" "}%</select></p>%TMPL:END%
+%TMPL:DEF{"newparentweb"}%<p><select class="foswikiSelect" name="newparentweb"><option value=""></option>%WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%NEW_PARENTWEB%" separator=" "}%</select></p>%TMPL:END%
 
 
 
@@ -30,4 +30,4 @@
 
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="twikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%

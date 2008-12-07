@@ -4,7 +4,7 @@
 *[[%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%?create=on&newtopic=&topicparent=%URLPARAM{"parent"}%&template=WebCreateNewTopic][%MAKETEXT{"Continue to create the new page"}%]]*
 
 
-<div class="twikiNotification">
+<div class="foswikiNotification">
 ---+++ Wiki admins
 
 Please replace all web's !WebTopicCreator topic contents with this text:

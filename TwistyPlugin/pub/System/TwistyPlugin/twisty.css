@@ -13,8 +13,8 @@
 .twistyInited0 { /* behavior class: state is set to hidden */ }
 
 /* These styles are available in TWiki 4.2, but provided here for older TWiki versions: */
-.twikiMakeVisible,
-.twikiMakeVisibleInline,
-.twikiMakeVisibleBlock {
+.foswikiMakeVisible,
+.foswikiMakeVisibleInline,
+.foswikiMakeVisibleBlock {
 	display:none; /* will be made visible with javascript */
 }

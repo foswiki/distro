@@ -19,17 +19,17 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
 
 
-%TMPL:DEF{"searchresultsstep"}%<div class="twikiFormStep">%TMPL:P{"searchresults"}%</div><!-- /twikiFormStep-->
+%TMPL:DEF{"searchresultsstep"}%<div class="foswikiFormStep">%TMPL:P{"searchresults"}%</div><!-- /foswikiFormStep-->
 %TMPL:END%
 
-%TMPL:DEF{"renameformsteps"}%<div class="twikiFormSteps">
-<div class="twikiFormStep">%TMPL:P{"changefrom"}%</div><!-- /twikiFormStep-->
-<div class="twikiFormStep">%TMPL:P{"toweb"}%</div><!-- /twikiFormStep-->
-<div class="twikiFormStep twikiLast">%TMPL:P{"totopic"}%</div><!-- /twikiFormStep-->
-%TMPL:P{"searchresultsstep"}%</div><!-- /twikiFormSteps-->%TMPL:END%
+%TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
+<div class="foswikiFormStep">%TMPL:P{"changefrom"}%</div><!-- /foswikiFormStep-->
+<div class="foswikiFormStep">%TMPL:P{"toweb"}%</div><!-- /foswikiFormStep-->
+<div class="foswikiFormStep foswikiLast">%TMPL:P{"totopic"}%</div><!-- /foswikiFormStep-->
+%TMPL:P{"searchresultsstep"}%</div><!-- /foswikiFormSteps-->%TMPL:END%
 
 
-%TMPL:DEF{"checkuncheck"}%<div class="twikiMakeVisibleBlock"><hr />
+%TMPL:DEF{"checkuncheck"}%<div class="foswikiMakeVisibleBlock"><hr />
 <p><input type="button" class="foswikiButton" value='%MAKETEXT{"Select all"}%' onclick="checkAll(document.rename,true);" />&nbsp;<input type="button" class="foswikiButton" value='%MAKETEXT{"Clear all"}%' onclick="checkAll(document.rename,false);" /> %MAKETEXT{"checkboxes of referenced topics"}%</p></div>%TMPL:END%
 
 

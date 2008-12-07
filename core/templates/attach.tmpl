@@ -2,7 +2,7 @@
 
 
 
-%TMPL:DEF{"notes"}%   * <a class="twikiPopUp" target='FileAttachment' href="%SCRIPTURL{view}%/%SYSTEMWEB%/FileAttachment" rel='nofollow'>FileAttachment</a> %MAKETEXT{"has more information about attaching files." args=""}%%TMPL:END%
+%TMPL:DEF{"notes"}%   * <a class="foswikiPopUp" target='FileAttachment' href="%SCRIPTURL{view}%/%SYSTEMWEB%/FileAttachment" rel='nofollow'>FileAttachment</a> %MAKETEXT{"has more information about attaching files." args=""}%%TMPL:END%
 
 %TMPL:DEF{"existingattachments"}%%META{"attachments" all="on" title="<h2>%MAKETEXT{"Attachments of [_1]" args="<nop>%TOPIC%"}%</h2>"}%%TMPL:END%
 
@@ -36,7 +36,7 @@
   <td align="right">
    %MAKETEXT{"Link"}%
   </td><td>
-   <input type="checkbox" class="twikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
+   <input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
   </td>
  </tr>%TMPL:END%
 
@@ -44,7 +44,7 @@
   <td align="right">
    %MAKETEXT{"Hide file"}%
   </td><td>
-   <input type="checkbox" class="twikiCheckbox" id="hidefile" name="hidefile" %HIDEFILE% /><label for="hidefile">%MAKETEXT{"Do not show attachment in table"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Attachments will not be shown in topic view page."}%</span>
+   <input type="checkbox" class="foswikiCheckbox" id="hidefile" name="hidefile" %HIDEFILE% /><label for="hidefile">%MAKETEXT{"Do not show attachment in table"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Attachments will not be shown in topic view page."}%</span>
   </td>
  </tr>%TMPL:END%
 

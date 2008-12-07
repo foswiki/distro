@@ -2,37 +2,37 @@
 %META:TOPICPARENT{name="WebHome"}%
 ---+!! %TOPIC%
 
-Description: Verify CSS styles that are affected by javascript: twikiMakeVisible, twikiMakeVisibleInline, twikiMakeVisibleBlock, twikiMakeHidden
+Description: Verify CSS styles that are affected by javascript: foswikiMakeVisible, foswikiMakeVisibleInline, foswikiMakeVisibleBlock, foswikiMakeHidden
 
 This should be tested with !JavaScript turned on and off.
 
----++ twikiMakeVisible
+---++ foswikiMakeVisible
 
-BEFORE <span class="twikiMakeVisible">
+BEFORE <span class="foswikiMakeVisible">
 %GREEN%
 This span should only be visible with !JavaScript turned on.
 %ENDCOLOR%
 </span> AFTER
 
----++ twikiMakeVisibleInline
+---++ foswikiMakeVisibleInline
 
-BEFORE <span class="twikiMakeVisibleInline">
+BEFORE <span class="foswikiMakeVisibleInline">
 %GREEN%
 This span should only be visible with !JavaScript turned on.
 %ENDCOLOR%
 </span> AFTER
 
----++ twikiMakeVisibleBlock
+---++ foswikiMakeVisibleBlock
 
-BEFORE <div class="twikiMakeVisibleBlock">
+BEFORE <div class="foswikiMakeVisibleBlock">
 %GREEN%
 This div should only be visible with !JavaScript turned on.
 %ENDCOLOR%
 </div> AFTER
 
----++ twikiMakeHidden
+---++ foswikiMakeHidden
 
-BEFORE <div class="twikiMakeHidden">
+BEFORE <div class="foswikiMakeHidden">
 %GREEN%
 This div should only be hidden with !JavaScript turned on. If you can read this text either there is a bug or you have !JavaScript turned off, in which case this test runs fine.
 %ENDCOLOR%

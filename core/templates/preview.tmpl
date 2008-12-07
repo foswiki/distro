@@ -3,7 +3,7 @@
 
 
 %TMPL:DEF{"templatestyle"}%<style type="text/css" media="all">
-%IF{ "defined PREVIEWBGIMAGE and $ PREVIEWBGIMAGE != ''" then='.twikiPreviewArea { background-image:url("%PREVIEWBGIMAGE%"); }'}%</style>%TMPL:END%
+%IF{ "defined PREVIEWBGIMAGE and $ PREVIEWBGIMAGE != ''" then='.foswikiPreviewArea { background-image:url("%PREVIEWBGIMAGE%"); }'}%</style>%TMPL:END%
 
 
 %TMPL:DEF{"pagetitle"}%<nop>%TOPIC% (%MAKETEXT{"preview"}%)%TMPL:END%
@@ -15,7 +15,7 @@
 %TMPL:DEF{"webaction"}%%TMPL:END%
 
 
-%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="twikiSubmit" value="Save Changes" /> %MAKETEXT{"or"}% %TMPL:P{"gobacktopicaction"}% %FORMFIELDS% %TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value="Save Changes" /> %MAKETEXT{"or"}% %TMPL:P{"gobacktopicaction"}% %FORMFIELDS% %TMPL:END%
 
 
 %TMPL:DEF{"formparameters"}%%TMPL:P{"formparameters:edit"}%%TMPL:P{"formparameters:preview"}%%TMPL:END%
@@ -27,9 +27,9 @@
 %TMPL:DEF{"help"}%%TMPL:END%
 
 %TMPL:DEF{"content"}%%TMPL:P{"alert"}%%TMPL:P{"formstart"}%
-<div class="twikiPreviewArea">
+<div class="foswikiPreviewArea">
 %TEXT%
 %META{"form"}%
-</div><!--/twikiPreviewArea-->
+</div><!--/foswikiPreviewArea-->
 %TMPL:P{"topicinfo"}%
 %TMPL:P{"formend"}%%TMPL:END%

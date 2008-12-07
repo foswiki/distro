@@ -94,7 +94,7 @@ sub renderForEdit {
 
     my %isSelected = map { $_ => 1 } split( /\s*,\s*/, $value );
     foreach my $option ( @{ $this->getOptions() } ) {
-        my %params = ( class => 'twikiEditFormOption', );
+        my %params = ( class => 'foswikiOption', );
         $params{selected} = 'selected' if $isSelected{$option};
         if ( defined( $this->{valueMap}{$option} ) ) {
             $params{value} = $option;
@@ -111,7 +111,7 @@ sub renderForEdit {
         $size = $this->{minSize};
     }
     my $params = {
-        class => $this->cssClasses( 'twikiSelect', 'twikiEditFormSelect' ),
+        class => $this->cssClasses( 'foswikiSelect' ),
         name  => $this->{name},
         size  => $this->{size},
     };

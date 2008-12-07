@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1172730733" format="1.1" version="$Rev: 15648 $"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1228679419" format="1.1" version="1.2"}%
 ---+!! <nop>%WEB% Web Preferences
 
 The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the __site-level preferences__ in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by __user preferences__ (your personal topic, eg: [[%USERSWEB%.%WIKINAME%][%WIKINAME%]] in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
@@ -9,20 +9,20 @@ The following settings are __web preferences__ of the [[%WEB%.%HOMETOPIC%][%WEB%
 
 These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
 
-   * Web Settings:
+   * Web Settings: 
       * Set WEBBGCOLOR = #B9DAFF
       * Set SITEMAPWHAT = Sandbox test area with all features enabled. 
       * Set SITEMAPUSETO = ...experiment in an unrestricted hands-on web. 
       * Set SITEMAPLIST = on
 
-   * Default template for *new topics* for this web:
+   * Default template for *new topics* for this web: 
       * WebTopicEditTemplate: Default template for new topics in this web. (Site-level is used if topic does not exist)
       * [[%SYSTEMWEB%.WebTopicEditTemplate]]: Site-level default topic template
 
-   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
-      * Set WEBFORMS = 
+   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information. 
+      * Set WEBFORMS = TestForm
 
-   * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]). Remove the # to enable any of these settings. Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web.
+   * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]). Remove the # to enable any of these settings. Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web. 
       * Set DENYWEBVIEW = 
       * Set ALLOWWEBVIEW = 
       * Set DENYWEBCHANGE = 
@@ -30,13 +30,12 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
       * Set DENYWEBRENAME = 
       * Set ALLOWWEBRENAME = 
 
-   * Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]])
+   * Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]]) 
       * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
       * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
 
-   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
+   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences: 
       * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
-
 %INCLUDE{"%SYSTEMWEB%.WebPreferencesHelp"}%
 
 %META:FILEATTACHMENT{name="logo.gif" attr="" comment="" date="1126793019" path="logo.png" size="3362" user="ProjectContributor" version=""}%

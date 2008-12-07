@@ -8,8 +8,8 @@ var EDITBOX_MIN_ROWCOUNT = 4;
 var EDITBOX_PREF_FONTSTYLE_ID = "TextareaFontStyle";
 var EDITBOX_FONTSTYLE_MONO = "mono";
 var EDITBOX_FONTSTYLE_PROPORTIONAL = "proportional";
-var EDITBOX_FONTSTYLE_MONO_STYLE = "twikiEditboxStyleMono";
-var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "twikiEditboxStyleProportional";
+var EDITBOX_FONTSTYLE_MONO_STYLE = "foswikiEditboxStyleMono";
+var EDITBOX_FONTSTYLE_PROPORTIONAL_STYLE = "foswikiEditboxStyleProportional";
 var textareaInited = false;
 
 function initForm() {

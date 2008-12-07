@@ -32,19 +32,19 @@ sub ui {
     }
 
     # and add a few more
-    $output .= "<div id ='twikiPassword'><div class='twikiFormSteps'>\n";
+    $output .= "<div id ='twikiPassword'><div class='foswikiFormSteps'>\n";
 
-    $output .= CGI::div( { class => 'twikiFormStep' },
+    $output .= CGI::div( { class => 'foswikiFormStep' },
         CGI::h3('Enter the configuration password') );
 
     $output .= CGI::div(
-        { class => 'twikiFormStep' },
+        { class => 'foswikiFormStep' },
         CGI::h3( CGI::strong("Your Password:") )
           . CGI::p(
                 CGI::password_field( 'cfgAccess', '', 20, 80 ) 
               . '&nbsp;'
               . CGI::submit(
-                -class => 'twikiSubmit',
+                -class => 'foswikiSubmit',
                 -value => $actionMess
               )
           )
@@ -52,7 +52,7 @@ sub ui {
 
     if ( $Foswiki::cfg{Password} ne '' ) {
         $output .= CGI::div(
-            { class => 'twikiFormStep' },
+            { class => 'foswikiFormStep' },
             CGI::p( CGI::strong('Forgotten your password?') )
               . CGI::p(<<'HERE') );
 To reset the password, log in to the server and delete the
@@ -61,11 +61,11 @@ To reset the password, log in to the server and delete the
 HERE
     }
 
-    $output .= '</div><!--/twikiFormSteps--></div><!--/twikiPassword-->';
+    $output .= '</div><!--/foswikiFormSteps--></div><!--/twikiPassword-->';
 
     if ($canChangePW) {
         $output .=
-          "<div id='twikiPasswordChange'><div class='twikiFormSteps'>\n";
+          "<div id='twikiPasswordChange'><div class='foswikiFormSteps'>\n";
         $output .= '<div class="explanation">';
         $output .= CGI::img(
             {
@@ -98,27 +98,27 @@ HERE
 
         my $submitStr = $actionMess;
         $output .= CGI::div(
-            { class => 'twikiFormStep' },
+            { class => 'foswikiFormStep' },
             CGI::h3(
-                { class => 'twikiFormStep' },
+                { class => 'foswikiFormStep' },
                 'You may set a new password here:'
             )
         );
         $output .= CGI::div(
-            { class => 'twikiFormStep' },
+            { class => 'foswikiFormStep' },
             CGI::strong('New Password:')
               . CGI::p( CGI::password_field( 'newCfgP', '', 20, 80 ) )
         );
         $output .= CGI::div(
-            { class => 'twikiFormStep' },
+            { class => 'foswikiFormStep' },
             CGI::strong('Confirm Password:')
               . CGI::p( CGI::password_field( 'confCfgP', '', 20, 80 ) )
         );
         $submitStr = 'Change Password and ' . $submitStr;
-        $output .= CGI::div( { class => 'twikiFormStep twikiLast' },
-            CGI::submit( -class => 'twikiSubmit', -value => $submitStr ) );
+        $output .= CGI::div( { class => 'foswikiFormStep foswikiLast' },
+            CGI::submit( -class => 'foswikiSubmit', -value => $submitStr ) );
         $output .=
-          "</div><!--/twikiFormSteps--></div><!--/twikiPasswordChange-->";
+          "</div><!--/foswikiFormSteps--></div><!--/twikiPasswordChange-->";
     }
 
     return $output . CGI::end_form();

@@ -518,7 +518,7 @@ Redirects to the edit screen.
 
 Copy an existing topic using:
 	<form action="%SCRIPTURL{manage}%/%WEB%/">
-	<input type="text" name="topic" class="twikiInputField" value="%TOPIC%Copy" size="30">
+	<input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30">
 	<input type="hidden" name="action" value="create" />
 	<input type="hidden" name="templatetopic" value="%TOPIC%" />
 	...
@@ -1076,7 +1076,7 @@ sub _newTopicScreen {
                         CGI::input(
                             {
                                 type    => 'checkbox',
-                                class   => 'foswikiCheckBox',
+                                class   => 'foswikiCheckbox',
                                 name    => 'referring_topics',
                                 value   => $entry,
                                 checked => 'checked'
@@ -1109,7 +1109,7 @@ sub _newTopicScreen {
                     CGI::input(
                         {
                             type    => 'checkbox',
-                            class   => 'foswikiCheckBox',
+                            class   => 'foswikiCheckbox',
                             name    => 'referring_topics',
                             value   => $entry,
                             checked => 'checked'
@@ -1267,7 +1267,7 @@ sub _newWebScreen {
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'foswikiCheckBox',
+                        class   => 'foswikiCheckbox',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'
@@ -1298,7 +1298,7 @@ sub _newWebScreen {
                 CGI::input(
                     {
                         type    => 'checkbox',
-                        class   => 'foswikiCheckBox',
+                        class   => 'foswikiCheckbox',
                         name    => 'referring_topics',
                         value   => $entry,
                         checked => 'checked'

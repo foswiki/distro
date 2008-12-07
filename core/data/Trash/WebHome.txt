@@ -12,7 +12,7 @@ Last 15 changes in this web:
 
 ---++ <nop>%WEB% Web Utilities
 <form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>
-   * <input type="text" name="search" size="22" />&nbsp;<input type="submit" class="twikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * <input type="text" name="search" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
    * WebTopicList - all topics in alphabetical order
    * WebChanges - recent topic changes in this web
    * WebNotify - subscribe to an e-mail alert sent when topics change

@@ -108,18 +108,18 @@
 	pre, code, tt {
 		color:#5b4221;
 	}
-	.twikiTable th {
+	.foswikiTable th {
 		border-style:solid;
 		border-width:0 0 1px 1px;
 		border-color:#ccc;
 		color:#000;
 	}
-	.twikiTable th a:link,
-	.twikiTable th a:visited,
-	.twikiTable th a font,
-	.twikiAttachments .twikiTable th a:link,
-	.twikiAttachments .twikiTable th a:visited,
-	.twikiAttachments .twikiTable th a font {
+	.foswikiTable th a:link,
+	.foswikiTable th a:visited,
+	.foswikiTable th a font,
+	.foswikiAttachments .foswikiTable th a:link,
+	.foswikiAttachments .foswikiTable th a:visited,
+	.foswikiAttachments .foswikiTable th a font {
 		color:#000;
 		text-decoration:none;
 	}
@@ -128,8 +128,8 @@
 		color:#06c;
 		background-color:transparent;
 	}
-	.twikiAttachments,
-	.patternContent .twikiAttachments,
+	.foswikiAttachments,
+	.patternContent .foswikiAttachments,
 	.foswikiForm,
 	.patternContent .foswikiForm {
 		background-color:#fff;

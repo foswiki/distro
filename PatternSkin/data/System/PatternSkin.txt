@@ -15,29 +15,29 @@ Select a theme to change the look, or tune the entire appearance with CSS or tem
 You may quickly change the appearance of this skin by setting a theme and the sidebar location:
 
 #ThemeBrowser
-<div class="twikiFormSteps">
-<div class="twikiFormStep">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
 ---+++!! Choose theme
 [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;themefile=%THEME%PREVIOUSTHEME%%;themeidx=%PREVIOUSTHEME%;%COLPARAM%#ThemeBrowser][%ICON{"go_back"}%]] 
 [[%THEME%CURRENTTHEME%%][%THEME_NAME%CURRENTTHEME%%]] (%CALC{"$EVAL( %CURRENTTHEME% - %THEMEFIRST% +1 ) of $EVAL( %THEMELAST% - %THEMEFIRST% +1 )"}%)
 [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;themefile=%THEME%NEXTTHEME%%;themeidx=%NEXTTHEME%;%COLPARAM%#ThemeBrowser][%ICON{"go_forward"}%]]
 </div>
-<div class="twikiFormStep">
+<div class="foswikiFormStep">
 Or enter the *full URL path* to one of the theme CSS files: %BR%
 <form action="" method="POST">
 <input type="hidden" name="themeidx" value="%CURRENTTHEME%" />
 <input type="hidden" name="colidx" value="%CURRENTCOL%" />
 <input type="hidden" name="patterncolumns" value="%URLPARAM{"patterncolumns" default="%COL%CURRENTCOL%%"}%" />
-<input type="text" size="60" name="themefile" class="twikiInputField" value="%THEME%CURRENTTHEME%%" /> <input type="submit" value="View theme" class="twikiSubmit" />
+<input type="text" size="60" name="themefile" class="foswikiInputField" value="%THEME%CURRENTTHEME%%" /> <input type="submit" value="View theme" class="foswikiSubmit" />
 </form>
 </div>
-<div class="twikiFormStep">
+<div class="foswikiFormStep">
 ---+++!! Choose side column
 [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;%THEMEPARAM%;patterncolumns=%COL%PREVIOUSCOL%%;colidx=%PREVIOUSCOL%#ThemeBrowser][%ICON{"go_back"}%]] 
 [[%COL%CURRENTCOL%%][%COL_NAME%CURRENTCOL%%]] (%CALC{"$EVAL( %CURRENTCOL% - %COLFIRST% +1 ) of $EVAL( %COLLAST% - %COLFIRST% +1 )"}%)
 [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern;%THEMEPARAM%;patterncolumns=%COL%NEXTCOL%%;colidx=%NEXTCOL%#ThemeBrowser][%ICON{"go_forward"}%]] 
 </div>
-<div class="twikiFormStep">
+<div class="foswikiFormStep">
 ---+++!! Copying these settings
 Do you want to store the selected theme? %TWISTY{link="Show how..." remember="on"}%
    * Copy the text below to [[%WIKIUSERNAME%][your personal topic]]
@@ -45,7 +45,7 @@ Do you want to store the selected theme? %TWISTY{link="Show how..." remember="on
 
 <noautolink>
 <form name="select_all">
-<textarea readonly="readonly" rows="8" cols="120" name="copypaste" class="twikiInputFieldReadOnly twikiSmallish">
+<textarea readonly="readonly" rows="8" cols="120" name="copypaste" class="foswikiInputFieldReadOnly foswikiSmallish">
 The overall skin:
    * Set SKIN = pattern
 The customized skin file:
@@ -92,7 +92,7 @@ The original Photoshop files of the skin graphics (mainly background images) are
 *Note 2:* !PatternSkin is included with Foswiki by default. Use the following instructions only if you are upgrading !PatternSkin.
 
    * Download the ZIP file from the Skin Home page (see below)
-   * Unzip ==%TOPIC%.zip== in your twiki installation directory
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory
    * [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=pattern][Test if installed]]
    * For skin activation see [[%SYSTEMWEB%.Skins]]
 
@@ -171,7 +171,7 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 
 Leave remarks, suggestions and other feedback in Foswiki:Extensions.PatternSkinDev.
 
-<verbatim class="twikiHidden">
+<verbatim class="foswikiHidden">
 Iterators for theme and column file
    * Theme
       * Set CURRENTTHEME = %URLPARAM{"themeidx" default="%THEME_DEFAULT%"}%

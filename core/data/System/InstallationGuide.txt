@@ -299,9 +299,9 @@ You can easily select a balance of browser capability versus look and feel. Try 
 #NonRootInstallNotes
 ---++ Notes on Installing Foswiki on Non-Root Account
 
-The following supplemental notes to the <a href="#StandardInstallation" class="foswikiAnchorLink">Basic Installation</a> instructions apply to installing Foswiki on a system where you don't have Unix/Linux root (administrator) privileges, for example, on a hosted Web account or an intranet server administered by someone else.
+The following supplemental notes to the <a href="#StandardInstallation">Basic Installation</a> instructions apply to installing Foswiki on a system where you don't have Unix/Linux root (administrator) privileges, for example, on a hosted Web account or an intranet server administered by someone else.
 
-Referring to the <a href="#StandardInstallation" class="foswikiAnchorLink">Basic Installation</a> steps presented above:
+Referring to the <a href="#StandardInstallation">Basic Installation</a> steps presented above:
 
    * *Step 2:* If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows:
       * Using the table below, create a directory structure on your host server

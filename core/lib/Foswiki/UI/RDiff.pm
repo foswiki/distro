@@ -20,11 +20,11 @@ require Foswiki::UI;
 #Hash, indexed by diffType (+,-,c,u,l.....)
 #contains {colour, CssClassName}
 my %format = (
-    '+' => [ '#ccccff', 'twikiDiffAddedMarker' ],
-    '-' => [ '#ff9999', 'twikiDiffDeletedMarker' ],
-    'c' => [ '#99ff99', 'twikiDiffChangedText' ],
-    'u' => [ '#ffffff', 'twikiDiffUnchangedText' ],
-    'l' => [ '#eeeeee', 'twikiDiffLineNumberHeader' ]
+    '+' => [ '#ccccff', 'foswikiDiffAddedMarker' ],
+    '-' => [ '#ff9999', 'foswikiDiffDeletedMarker' ],
+    'c' => [ '#99ff99', 'foswikiDiffChangedText' ],
+    'u' => [ '#ffffff', 'foswikiDiffUnchangedText' ],
+    'l' => [ '#eeeeee', 'foswikiDiffLineNumberHeader' ]
 );
 
 #SVEN - new design.
@@ -189,11 +189,11 @@ sub _renderDebug {
     $result = CGI::Tr( CGI::td( 'type: ' . $diffType ) );
 
     my %classMap = (
-        '+' => ['twikiDiffAddedText'],
-        '-' => ['twikiDiffDeletedText'],
-        'c' => ['twikiDiffChangedText'],
-        'u' => ['twikiDiffUnchangedText'],
-        'l' => ['twikiDiffLineNumberHeader']
+        '+' => ['foswikiDiffAddedText'],
+        '-' => ['foswikiDiffDeletedText'],
+        'c' => ['foswikiDiffChangedText'],
+        'u' => ['foswikiDiffUnchangedText'],
+        'l' => ['foswikiDiffLineNumberHeader']
     );
 
     my $styleClass = ' ' . $classMap{$diffType}[0] || '';
@@ -202,18 +202,18 @@ sub _renderDebug {
 
     if ( $diffType ne '+' ) {
         $result .= CGI::Tr(
-            { class => 'twikiDiffDebug' },
+            { class => 'foswikiDiffDebug' },
             CGI::td(
-                { class => 'twikiDiffDebugLeft ' . $styleClassLeft },
+                { class => 'foswikiDiffDebugLeft ' . $styleClassLeft },
                 CGI::div($left)
             )
         );
     }
     if ( ( $diffType ne '-' ) && ( $diffType ne 'l' ) ) {
         $result .= CGI::Tr(
-            { class => 'twikiDiffDebug' },
+            { class => 'foswikiDiffDebug' },
             CGI::td(
-                { class => 'twikiDiffDebugRight ' . $styleClassRight },
+                { class => 'foswikiDiffDebugRight ' . $styleClassRight },
                 CGI::div($right)
             )
         );
@@ -305,7 +305,7 @@ sub _renderSequential {
         $result .= CGI::Tr(
             {
                 bgcolor => $format{l}[0],
-                class   => 'twikiDiffLineNumberHeader'
+                class   => 'foswikiDiffLineNumberHeader'
             },
             CGI::th(
                 {
@@ -416,7 +416,7 @@ sub _renderRevisionDiff {
     }
     return CGI::table(
         {
-            class       => 'twikiDiffTable',
+            class       => 'foswikiDiffTable',
             width       => '100%',
             cellspacing => 0,
             cellpadding => 0

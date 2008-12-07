@@ -30,13 +30,13 @@ sub renderForEdit {
         my $boxes = scalar( @{ $this->getOptions() } );
         $extra = CGI::br();
         $extra .= CGI::button(
-            -class   => 'foswikiCheckBox',
+            -class   => 'foswikiCheckbox',
             -value   => $session->i18n->maketext('Set all'),
             -onClick => 'checkAll(this,2,' . $boxes . ',true)'
         );
         $extra .= '&nbsp;';
         $extra .= CGI::button(
-            -class   => 'foswikiCheckBox',
+            -class   => 'foswikiCheckbox',
             -value   => $session->i18n->maketext('Clear all'),
             -onClick => 'checkAll(this,1,' . $boxes . ',false)'
         );
@@ -49,7 +49,7 @@ sub renderForEdit {
 
         # NOTE: Does not expand $item in label
         $attrs{$item} = {
-            class => $this->cssClasses('foswikiCheckBox'),
+            class => $this->cssClasses('foswikiCheckbox'),
             label => $session->handleCommonTags( $item, $web, $topic ),
         };
 

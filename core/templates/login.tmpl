@@ -14,17 +14,17 @@
 %TMPL:DEF{"title"}%---++ %MAKETEXT{"Please enter your username and password"}%
 %TMPL:END%
 
-%TMPL:DEF{"titlestep"}%<div class="twikiFormStep">
+%TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
 %TMPL:P{"title"}%
 %TMPL:P{"notestep"}%
-%TMPL:P{"errorstep"}%</div><!-- /twikiFormStep-->%TMPL:END%
+%TMPL:P{"errorstep"}%</div><!-- /foswikiFormStep-->%TMPL:END%
 
 
 %TMPL:DEF{"notestep"}%<div style="display:%IF{'defined ERROR or defined NOTE or defined BANNER' then='block' else='none'}%;">
 %IF{"defined NOTE AND $NOTE != ''" then='---+++ %NOTE%'}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="twikiNotification foswikiAlert twikiUnvisited twikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
+%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="foswikiNotification foswikiAlert foswikiUnvisited twikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
 
 %TMPL:DEF{"error"}%%MAKETEXT{"Error: [_1]" args="%ERROR%"}%%TMPL:END%
 
@@ -36,51 +36,51 @@
 %QUERYPARAMS{encoding="entity" format="<input type='hidden' name='$name' value='$value' />"}%
 </literal><input type="hidden" name="origurl" value="%ORIGURL%" /></form>%TMPL:END%
 
-%TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='twikiInputField twikiFocus' size='40' name='username' value='%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
+%TMPL:DEF{"usernamefield"}%<input tabindex='1' type='text' class='foswikiInputField foswikiFocus' size='40' name='username' value='%URLPARAM{"usernamestep"}%' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
-%TMPL:DEF{"usernamestep"}%<div class="twikiFormStep">
+%TMPL:DEF{"usernamestep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Username"}%
 
 %TMPL:P{"usernamefield"}% %TMPL:P{"usernamefieldhelp"}%
 
-</div><!-- /twikiFormStep-->%TMPL:END%
+</div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"usernamenote"}%%TMPL:P{"authrealm"}%%TMPL:END%
 
 %TMPL:DEF{"usernamefieldhelp"}%%TWISTY{mode="span" showlink="%MAKETEXT{"Help"}%" hidelink="%MAKETEXT{"Hide help"}%" remember="on"}% <div class="foswikiHelp">%TMPL:P{"usernamenote"}%</div> %ENDTWISTY%%TMPL:END%
 
-%TMPL:DEF{"passwordfield"}%<input tabindex='2' type='password' class='twikiInputField' size='40' name='password' value='' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
+%TMPL:DEF{"passwordfield"}%<input tabindex='2' type='password' class='foswikiInputField' size='40' name='password' value='' %TMPL:P{context="no_auto_complete_login" then="autocomplete_off"}% />%TMPL:END%
 
 %TMPL:DEF{"autocomplete_off"}% autocomplete='off' %TMPL:END%
 
 %TMPL:DEF{"passwordfieldnoteremember"}%%TMPL:P{"passwordfield"}% %TMPL:P{"passwordnote"}%
 %TMPL:P{context="can_remember_login" then="rememberbox"}%%TMPL:END%
 
-%TMPL:DEF{"passwordstep"}%<div class="twikiFormStep">
+%TMPL:DEF{"passwordstep"}%<div class="foswikiFormStep">
 ---+++ %MAKETEXT{"Password"}%
 
 %TMPL:P{"passwordfieldnoteremember"}%
-</div><!-- /twikiFormStep-->%TMPL:END%
+</div><!-- /foswikiFormStep-->%TMPL:END%
 
-%TMPL:DEF{"passwordnote"}%<span class="twikiUnvisited">[[%SYSTEMWEB%.ResetPassword][%MAKETEXT{"I forgot my password"}%]]</span>%TMPL:END%
+%TMPL:DEF{"passwordnote"}%<span class="foswikiUnvisited">[[%SYSTEMWEB%.ResetPassword][%MAKETEXT{"I forgot my password"}%]]</span>%TMPL:END%
 
 %TMPL:DEF{"rememberbox"}%%BR%<input tabindex='3' id="remember" name="remember" type="checkbox" value="1" /><label for="remember">&nbsp;%MAKETEXT{"Remember me on this computer"}%</label>%TMPL:END%
 
-%TMPL:DEF{"submitstep"}%<div class="twikiFormStep">%TMPL:P{"submit"}%</div><!-- /twikiFormStep-->%TMPL:END%
+%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep">%TMPL:P{"submit"}%</div><!-- /foswikiFormStep-->%TMPL:END%
 
-%TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='twikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
+%TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
 
 %{ please keep the spaces between the div and the TMPL seealsonote, it allows TWiki to process the emailaddress }%
-%TMPL:DEF{"seealsostep"}%<div class="twikiFormStep foswikiGrayText twikiLast"> %TMPL:P{"seealsonote"}% </div><!-- /twikiFormStep-->%TMPL:END%
+%TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep foswikiGrayText foswikiLast"> %TMPL:P{"seealsonote"}% </div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"seealsonote"}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}% %TMPL:END%
 
-%TMPL:DEF{"form"}%<div id="twikiLogin">
-<div class="twikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
+%TMPL:DEF{"form"}%<div id="foswikiLogin">
+<div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
 %TMPL:P{"usernamestep"}%%TMPL:P{"passwordstep"}%%TMPL:P{"submitstep"}%
 %TMPL:P{"formend"}%
 %TMPL:P{"seealsostep"}%
-</div><!-- /twikiFormSteps-->
-</div><!-- /twikiLogin-->%TMPL:END%
+</div><!-- /foswikiFormSteps-->
+</div><!-- /foswikiLogin-->%TMPL:END%
 
 %TMPL:DEF{"content"}%%TMPL:P{"form"}%%TMPL:END%

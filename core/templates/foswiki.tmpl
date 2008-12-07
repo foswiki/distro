@@ -1,12 +1,12 @@
 %TMPL:INCLUDE{"css"}%
-%TMPL:DEF{"sep"}%<span class="twikiSeparator"> | </span>%TMPL:END%
+%TMPL:DEF{"sep"}%<span class="foswikiSeparator"> | </span>%TMPL:END%
 %TMPL:DEF{"titlesep"}% &lt; %TMPL:END%
 %TMPL:DEF{"LOG_IN"}%Log In%TMPL:END%
 %TMPL:DEF{"LOG_OUT"}%Log Out%TMPL:END%
 
 %TMPL:DEF{"nonwikiwordwarning"}%<p><input type="checkbox" id="nonwikiword" name="nonwikiword" %IF{"$ 'URLPARAM{nonwikiword}'='on'" then="checked=\"checked\""}% /><label for="nonwikiword">%MAKETEXT{"Allow non <nop>WikiWord for the new topic name"}%</label><br />%TMPL:P{"nonwikiwordhelp"}%</p>%TMPL:END%
 
-%TMPL:DEF{"nonwikiwordhelp"}% %MAKETEXT{"It's usually best to choose a <a target='WikiWord' class='twikiPopUp' href='[_1]' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WikiWord"}%%TMPL:END%
+%TMPL:DEF{"nonwikiwordhelp"}% %MAKETEXT{"It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' href='[_1]' rel='nofollow'>WikiWord</a> for the new topic name, otherwise automatic linking may not work. Characters not allowed in topic names, such as spaces will automatically be removed." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WikiWord"}%%TMPL:END%
 
 %TMPL:DEF{"nonwikiwordallowed"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword" default="on"}%" />%TMPL:END%
 
@@ -43,29 +43,29 @@
 
 %TMPL:DEF{"bodyclassname"}%%TMPL:END%
 
-%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%"><div class="twikiPage">
+%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%"><div class="foswikiPage">
 #PageTop %TMPL:END%
-%TMPL:DEF{"bodyend"}%</div><!--/twikiPage--></body></html>%TMPL:END%
+%TMPL:DEF{"bodyend"}%</div><!--/foswikiPage--></body></html>%TMPL:END%
 
 %TMPL:DEF{"broadcastmessage"}%%IF{"defined BROADCASTMESSAGE and $BROADCASTMESSAGE != ''" then="$percntTMPL:P{$quotbroadcastmessage:contents$quot}$percnt"}%%TMPL:END%
-%TMPL:DEF{"broadcastmessage:contents"}%<div class="twikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%
+%TMPL:DEF{"broadcastmessage:contents"}%<div class="foswikiBroadcastMessage"> %BROADCASTMESSAGE% </div>%TMPL:END%
 
 %TMPL:DEF{"attachments"}%%TMPL:END%
 
 %TMPL:DEF{"standardheader"}%
 <div style="margin:0 0 0 0em; padding:3px; background-color:%WEBBGCOLOR%">
 <div>
-<div class="twikiLeft" style="padding-right:2em;"><noautolink><a href="%WEBLOGOURL%" rel='nofollow'><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></a></noautolink></div>
-<div class="twikiLeft">
+<div class="foswikiLeft" style="padding-right:2em;"><noautolink><a href="%WEBLOGOURL%" rel='nofollow'><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></a></noautolink></div>
+<div class="foswikiLeft">
 <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%HOMETOPIC%">%WEB%</a> &gt; %META{"parent" nowebhome="on" suffix=" &gt;"}% <b>%TOPIC%</b> %TMPL:P{"titleaction"}%</div>
-<div class="twikiRight twikiSmall">%WIKITOOLNAME% webs: %WIKIWEBLIST% &nbsp; %TMPL:P{"login"}%</div><br class="twikiClear" /></div>
+<div class="foswikiRight foswikiSmall">%WIKITOOLNAME% webs: %WIKIWEBLIST% &nbsp; %TMPL:P{"login"}%</div><br class="foswikiClear" /></div>
 <form name="main" action="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">
 %TMPL:P{"webaction"}%</form></div>%TMPL:END%
 
 %TMPL:DEF{"simpleheader"}%
 <div style="margin:0 0 0 0em; padding:3px; background-color:%WEBBGCOLOR%">
-<div><div class="twikiLeft"  style="padding-right:2em;"><noautolink><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></noautolink></div>
-<div class="twikiLeft"> %WEB%&nbsp; %TOPIC% %TMPL:P{"titleaction"}%</div><br class="twikiClear" /> </div></div>%TMPL:P{"headerhelp"}%%TMPL:END%
+<div><div class="foswikiLeft"  style="padding-right:2em;"><noautolink><img src="%WEBLOGOIMG%" border="0" alt="%WEBLOGOALT%" /></noautolink></div>
+<div class="foswikiLeft"> %WEB%&nbsp; %TOPIC% %TMPL:P{"titleaction"}%</div><br class="foswikiClear" /> </div></div>%TMPL:P{"headerhelp"}%%TMPL:END%
 
 %TMPL:DEF{"copyright"}%<div class="twikiCopyright">%WEBCOPYRIGHT%</div>%TMPL:END%
 
@@ -85,18 +85,18 @@
 %TMPL:DEF{"topicinfo"}%<div style="background:%WEBBGCOLOR%">
 %TMPL:P{"topicaction"}%</div>%TMPL:END%
 
-%TMPL:DEF{"main"}%<div class="twikiMain">
+%TMPL:DEF{"main"}%<div class="foswikiMain">
 %TMPL:P{"simpleheader"}%
 %TMPL:P{"pagetitlestylewrapper"}%%TMPL:P{"contentwrapper"}%
 %TMPL:P{"standardfooter"}%</div>%TMPL:END%
 
 %{ container displayed just above the topic text: }%
 %TMPL:DEF{"contentheader"}%%TMPL:END%
-%TMPL:DEF{"contentheaderstylewrapper"}%<div class="twikiContentHeader">%TMPL:P{"contentheader"}%</div>%TMPL:END%
+%TMPL:DEF{"contentheaderstylewrapper"}%<div class="foswikiContentHeader">%TMPL:P{"contentheader"}%</div>%TMPL:END%
 
 %{ container displayed just below the topic text: }%
 %TMPL:DEF{"contentfooter"}%%TMPL:END%
-%TMPL:DEF{"contentfooterstylewrapper"}%<div class="twikiContentFooter">%TMPL:P{"contentfooter"}%</div>%TMPL:END%
+%TMPL:DEF{"contentfooterstylewrapper"}%<div class="foswikiContentFooter">%TMPL:P{"contentfooter"}%</div>%TMPL:END%
 
 %TMPL:DEF{"revisions"}%<a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?type=history" title="%MAKETEXT{"View total topic history"}%" accesskey="H" rel="nofollow">%MAKETEXT{"&History"}%</a>: %REVISIONS% %TMPL:END%
 

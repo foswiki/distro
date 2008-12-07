@@ -38,7 +38,7 @@ HERE
     $this->assert_html_equals(<<HTML, $result);
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
  <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
- <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="twikiSubmit" />
+ <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="foswikiSubmit" />
  &nbsp;
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButton" />
 </form>
@@ -73,7 +73,7 @@ HERE
 <!-- Comment should be outside form -->
 Normal text outside form
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
- <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="twikiSubmit" />
+ <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="foswikiSubmit" />
  &nbsp;
  <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButton" />
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>

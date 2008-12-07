@@ -142,7 +142,7 @@ Found 4
 ---++ Expected
 
 <!-- expected with text and multi -->
-<table cellspacing="0" cellpadding="0" class="twikiTable" border="1">
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1">
 <tbody><tr>
 <td>  option1  </td>
 <td>  option  </td>

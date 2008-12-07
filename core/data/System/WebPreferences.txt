@@ -31,7 +31,7 @@ These [[%SYSTEMWEB%.PreferenceSettings][preference settings]] override the defau
       * Set WEBFORMS = DefaultPreferencesForm
 
    * Copyright notice for the web.
-      * Set WEBCOPYRIGHT = <span class="twikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
+      * Set WEBCOPYRIGHT = <span class="foswikiRight"> <a href="http://foswiki.org/"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/badge.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /></a></span>%MAKETEXT{"Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors." args="1999-%GMTIME{$year}%"}% <br /> %MAKETEXT{"Ideas, requests, problems regarding [_1]? <a href='[_2]'>Send feedback</a>" args="<nop>%WIKITOOLNAME%,mailto:%WIKIWEBMASTER%?subject=%WIKITOOLNAME%%20Feedback%20on%20%BASEWEB%.%BASETOPIC%"}% %IF{"$ WEB= $ SYSTEMWEB" then=""}%
 
    * Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See %SYSTEMWEB%.AccessControl).
       * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup

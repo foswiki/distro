@@ -145,17 +145,17 @@ outside the parent container. */
 	margin-right:0;
 }
 
-.twikiLeft {
+.foswikiLeft {
 	float:left;
 	position:relative;
 }
-.twikiRight {
+.foswikiRight {
 	position:relative;
 	float:right;
 	display:inline;
 	margin:0;
 }
-.twikiClear {
+.foswikiClear {
 	/* to clean up floats */
 	margin:0;
 	padding:0;
@@ -164,11 +164,11 @@ outside the parent container. */
 	clear:both;
 	display:block;
 }
-.twikiHidden {
+.foswikiHidden {
 	display:none;
 }
-.twikiLast,
-.foswikiTopic .twikiLast {
+.foswikiLast,
+.foswikiTopic .foswikiLast {
 	border-bottom:0px;
 }
 
@@ -185,7 +185,7 @@ outside the parent container. */
 	----------------------------------------
 	S1 line-height																	1.4em
 	S2 somewhat smaller font size													94%
-	S3 small font size, twikiSmall													font-size:86%; line-height:110%;
+	S3 small font size, foswikiSmall													font-size:86%; line-height:110%;
 	S4 horizontal bar padding (h2, patternTop)										5px
 	S5 form and attachment padding													20px
 	S6 left margin left bar															1em
@@ -329,9 +329,9 @@ input,
 select option {
 	padding:1px;
 }
-.twikiSubmit,
+.foswikiSubmit,
 .foswikiButton,
-.twikiCheckbox {
+.foswikiCheckbox {
 	border-width:1px;
 	border-style:solid;
 	padding:.15em .25em;
@@ -339,12 +339,12 @@ select option {
 	font-weight:bold;
 	vertical-align:middle;
 }
-.twikiCheckbox,
+.foswikiCheckbox,
 .foswikiRadioButton {
 	margin:0 .3em 0 0;
 	border:0;
 }
-.twikiInputField {
+.foswikiInputField {
 	border-width:1px;
 	border-style:solid;
 	padding:.15em .25em;
@@ -396,7 +396,7 @@ textarea {
 	-----------------------------------------------------------	*/
 
 /* EditTablePlugin */
-.editTable .twikiTable {
+.editTable .foswikiTable {
 	margin:0 0 2px 0;
 }
 .editTableInput,
@@ -408,61 +408,61 @@ textarea {
 }
 
 /* TablePlugin */
-.twikiTable {
+.foswikiTable {
 }
-.twikiTable td,
-.twikiTable th {
+.foswikiTable td,
+.foswikiTable th {
 }
-.twikiTable th {
+.foswikiTable th {
     padding:4px;
 }
-.twikiTable td {
+.foswikiTable td {
     padding:2px 4px;
 }
-.twikiTable th a:link,
-.twikiTable th a:visited,
-.twikiTable th a font {
+.foswikiTable th a:link,
+.foswikiTable th a:visited,
+.foswikiTable th a font {
 	text-decoration:none;
 }
-.twikiTable th a:hover,
-.twikiTable th a:hover font {
+.foswikiTable th a:hover,
+.foswikiTable th a:hover font {
 	text-decoration:none;
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
 
 /* TablePlugin - sorting of table columns */
-th.twikiSortedAscendingCol a:link,
-th.twikiSortedAscendingCol a:link font,
-th.twikiSortedAscendingCol a:visited,
-th.twikiSortedAscendingCol a:visited font {
+th.foswikiSortedAscendingCol a:link,
+th.foswikiSortedAscendingCol a:link font,
+th.foswikiSortedAscendingCol a:visited,
+th.foswikiSortedAscendingCol a:visited font {
 	border-width:1px 0 0 0;
 	border-style:solid;	
 }
-th.twikiSortedDescendingCol a:link,
-th.twikiSortedDescendingCol a:link font,
-th.twikiSortedDescendingCol a:visited,
-th.twikiSortedDescendingCol a:visited font {
+th.foswikiSortedDescendingCol a:link,
+th.foswikiSortedDescendingCol a:link font,
+th.foswikiSortedDescendingCol a:visited,
+th.foswikiSortedDescendingCol a:visited font {
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-th.twikiSortedAscendingCol a:hover,
-th.twikiSortedAscendingCol a:hover font {
+th.foswikiSortedAscendingCol a:hover,
+th.foswikiSortedAscendingCol a:hover font {
 	border-width:0 0 1px 0;
 	border-style:solid;
 	text-decoration:none;
 }
-th.twikiSortedDescendingCol a:hover,
-th.twikiSortedDescendingCol a:hover font {
+th.foswikiSortedDescendingCol a:hover,
+th.foswikiSortedDescendingCol a:hover font {
 	border-width:1px 0 0 0;
 	border-style:solid;
 	text-decoration:none;
 }
 
-.twikiEditForm {
+.foswikiEditForm {
 	margin:0 0 .5em 0;
 }
-.twikiEditForm .twikiFormTable {
+.foswikiEditForm .foswikiFormTable {
 	text-align:center;
 }
 
@@ -510,15 +510,15 @@ a:visited .twistyLinkLabel {
 	TWiki styles
 	-----------------------------------------------------------	*/
 
-#twikiLogin {
+#foswikiLogin {
 	width:40em;
 	margin:0 auto;
 	text-align:center;
 }
-#twikiLogin .twikiFormSteps {
+#foswikiLogin .foswikiFormSteps {
 	border-width:5px;
 }
-.twikiAttachments,
+.foswikiAttachments,
 .foswikiForm {
 	margin:1em 0;
 	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
@@ -531,7 +531,7 @@ a:visited .twistyLinkLabel {
 .foswikiForm h6 {
 	margin-top:0;
 }
-.patternContent .twikiAttachments,
+.patternContent .foswikiAttachments,
 .patternContent .foswikiForm {
 	/* form or attachment table inside topic area */
 	font-size:94%; /*S2*/
@@ -540,8 +540,8 @@ a:visited .twistyLinkLabel {
 	border-style:solid;
 	margin:0;
 }
-.twikiAttachments table,
-table.twikiFormTable {
+.foswikiAttachments table,
+table.foswikiFormTable {
 	margin:5px 0 10px 0; /* bottom:create extra space in case the table is folded out */
 	border-collapse:collapse;
 	padding:0px;
@@ -550,123 +550,123 @@ table.twikiFormTable {
 	border-style:solid;
 	border-width:1px;
 }
-.twikiAttachments table {
+.foswikiAttachments table {
 	line-height:1.4em; /*S1*/
 	width:auto;
 	voice-family:""}""; /* hide the following for Explorer 5.x */
 	voice-family:inherit;
 	width:100%;
 }
-.twikiAttachments td, 
-.twikiAttachments th {
+.foswikiAttachments td, 
+.foswikiAttachments th {
 	border-style:solid;
 	border-width:1px;
 }
-.twikiAttachments th,
-table.twikiFormTable th.twikiFormTableHRow {
+.foswikiAttachments th,
+table.foswikiFormTable th.foswikiFormTableHRow {
 	padding:3px 6px;
 	height:2.5em;
 	vertical-align:middle;
 }
-table.twikiFormTable th.twikiFormTableHRow {
+table.foswikiFormTable th.foswikiFormTableHRow {
 	text-align:center;
 }
-.twikiEditForm .twikiFormTable th,
-.twikiEditForm .twikiFormTable td {
+.foswikiEditForm .foswikiFormTable th,
+.foswikiEditForm .foswikiFormTable td {
 	padding:.25em .5em;
 	vertical-align:middle;
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-.twikiAttachments th a:link,
-.twikiAttachments th a:visited {
+.foswikiAttachments th a:link,
+.foswikiAttachments th a:visited {
 	text-decoration:none;
 }
 /* don't show any of those ugly sort icons */
-.twikiAttachments th img,
-.twikiAttachments th a:link img,
-.twikiAttachments th a:visited img {
+.foswikiAttachments th img,
+.foswikiAttachments th a:link img,
+.foswikiAttachments th a:visited img {
 	display:none;
 }
-.twikiAttachments td,
-table.twikiFormTable td {
+.foswikiAttachments td,
+table.foswikiFormTable td {
 	padding:3px 6px;
 	height:1.4em; /*S1*/
 	text-align:left;
 	vertical-align:top;
 }
-.twikiAttachments td {
+.foswikiAttachments td {
 	/* don't show column lines in attachment listing */
 	border-width:0 0 1px 0;
 }
-.twikiAttachments th.foswikiFirstCol,
-.twikiAttachments td.foswikiFirstCol {
+.foswikiAttachments th.foswikiFirstCol,
+.foswikiAttachments td.foswikiFirstCol {
 	/* make more width for the icon column */
 	width:26px;
 	text-align:center;
 }
-.twikiAttachments caption {
+.foswikiAttachments caption {
 	display:none;
 }
-table.twikiFormTable th.twikiFormTableHRow a:link,
-table.twikiFormTable th.twikiFormTableHRow a:visited {
+table.foswikiFormTable th.foswikiFormTableHRow a:link,
+table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	text-decoration:none;
 }
 
-.twikiFormSteps {
+.foswikiFormSteps {
 	text-align:left;
 	padding:.25em 0 0 0;
 	border-width:1px 0;
 	border-style:solid;
 }
-.twikiFormStep {
+.foswikiFormStep {
 	line-height:140%;
 	padding:1em 20px; /*S5*/
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-.twikiFormStep h3,
-.twikiFormStep h4 {
+.foswikiFormStep h3,
+.foswikiFormStep h4 {
 	font-size:115%;
 	border:none;
 	margin:0;
 	padding:0;
 }
-.twikiFormStep h3 {
+.foswikiFormStep h3 {
 	font-weight:bold;
 }
-.twikiFormStep h4 {
+.foswikiFormStep h4 {
 	font-weight:normal;
 }
-.twikiFormStep p {
+.foswikiFormStep p {
 	margin:.3em 0;
 }
 
-.twikiToc {
+.foswikiToc {
 	margin:1em 0;
 	padding:.3em 0 .6em 0;
 }
-.twikiToc ul {
+.foswikiToc ul {
 	list-style:none;
 	padding:0 0 0 .5em;
 	margin:0em;
 }
-.twikiToc li {
+.foswikiToc li {
 	margin-left:1em;
 	padding-left:1em;
 	background-repeat:no-repeat;
 	background-position:0 .5em;
 }
-.twikiToc .twikiTocTitle {
+.foswikiToc .foswikiTocTitle {
 	margin:0em;
 	padding:0em;
 	font-weight:bold;
 }
 
-.twikiSmall {
+.foswikiSmall {
 	font-size:86%; line-height:110%; /*S3*/
 }
-.twikiSmallish {
+.foswikiSmallish {
 	font-size:94%; /*S2*/
 }
 .foswikiNew { }
@@ -676,24 +676,24 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 .foswikiEmulatedLink {
 	text-decoration:underline;
 }
-.twikiPageForm table {
+.foswikiPageForm table {
 	border-width:1px;
 	border-style:solid;
 }
-.twikiPageForm table {
+.foswikiPageForm table {
 	width:100%;
 	margin:0 0 2em 0;
 }
-.twikiPageForm th,
-.twikiPageForm td {
+.foswikiPageForm th,
+.foswikiPageForm td {
 	border:0;
 	padding:.15em 1em;
 }
-.twikiPageForm td {}
-.twikiPageForm td.first {
+.foswikiPageForm td {}
+.foswikiPageForm td.first {
 	padding-top:1em;
 }
-.twikiBroadcastMessage {
+.foswikiBroadcastMessage {
 	padding:.25em .5em;
 	margin:0 0 1em 0;
 }
@@ -710,23 +710,17 @@ table.twikiFormTable th.twikiFormTableHRow a:visited {
 .foswikiHelp ul {
 	padding-left:2em;
 }
-.twikiAccessKey {
+.foswikiAccessKey {
 	text-decoration:none;
 	border-width:0 0 1px 0;
 	border-style:solid;
 }
-a:hover .twikiAccessKey {
+a:hover .foswikiAccessKey {
 	text-decoration:none;
 	border:none;
 }
 .foswikiWebIndent {
 	margin:0 0 0 1em;
-}
-
-a.twikiLinkInHeaderRight {
-	float:right;
-	display:block;
-	margin:0 0 0 5px;
 }
 
 /*	-----------------------------------------------------------
@@ -799,7 +793,7 @@ a.twikiLinkInHeaderRight {
 .patternToolBarButtons {
 	float:right;
 }
-.patternToolBarButtons .twikiSeparator {
+.patternToolBarButtons .foswikiSeparator {
 	display:none;
 }
 .patternToolBar .patternButton {
@@ -906,24 +900,24 @@ a.twikiLinkInHeaderRight {
 }
 
 /* WebSearch, WebSearchAdvanced */
-table#twikiSearchTable {
+table#foswikiSearchTable {
 	background:none;
 	border-bottom:0;
 } 
-table#twikiSearchTable th,
-table#twikiSearchTable td {
+table#foswikiSearchTable th,
+table#foswikiSearchTable td {
 	padding:.5em;
 	border-width:0 0 1px 0;
 	border-style:solid;
 } 
-table#twikiSearchTable th {
+table#foswikiSearchTable th {
 	width:20%;
 	text-align:right;
 }
-table#twikiSearchTable td {
+table#foswikiSearchTable td {
 	width:80%;
 }
-table#twikiSearchTable td.first {
+table#foswikiSearchTable td.first {
 	padding:1em;
 }
 
@@ -948,7 +942,7 @@ h4.patternSearchResultsHeader {
 	font-weight:bold;
 }
 .patternSearchResults h3 {
-	font-size:115%; /* same as twikiFormStep */
+	font-size:115%; /* same as foswikiFormStep */
 	margin:0;
 	padding:.5em 20px;
 	font-weight:bold;
@@ -962,7 +956,7 @@ h4.patternSearchResultsHeader {
 .patternSearchResult .foswikiTopRow {
 	padding-top:.2em;
 }
-.patternSearchResult .twikiBottomRow {
+.patternSearchResult .foswikiBottomRow {
 	padding-bottom:.25em;
 	border-width:0 0 1px 0;
 	border-style:solid;
@@ -986,11 +980,11 @@ h4.patternSearchResultsHeader {
 	padding:.1em 5px;
 	margin:1em -5px .35em -5px;
 }
-.patternSearchResult .twikiSRAuthor {
+.patternSearchResult .foswikiSRAuthor {
 	width:15%;
 	text-align:left;
 }
-.patternSearchResult .twikiSRRev {
+.patternSearchResult .foswikiSRRev {
 	width:30%;
 	text-align:left;
 }
@@ -1013,7 +1007,7 @@ h4.patternSearchResultsHeader {
 	padding:.25em 5px .15em 5px; /*S4*/
 	margin:1em -5px .15em -5px; /*S4*/
 }
-.patternBookView .twikiBottomRow {
+.patternBookView .foswikiBottomRow {
 	font-size:100%;
 	padding:1em 0 1em 0;
 	width:auto;
@@ -1048,27 +1042,15 @@ table.patternDiffOptions img {
 .patternEditPage .foswikiForm h1,
 .patternEditPage .foswikiForm h2,
 .patternEditPage .foswikiForm h3 {
-	/* same as twikiFormStep */
+	/* same as foswikiFormStep */
 	font-size:120%;
 	font-weight:bold;
 }	
-.twikiEditboxStyleMono {
+.foswikiEditboxStyleMono {
 	font-family:"Courier New", courier, monaco, monospace;
 }
-.twikiEditboxStyleProportional {
+.foswikiEditboxStyleProportional {
 	font-family:"Lucida Grande", verdana, arial, sans-serif;
-}
-.twikiChangeFormButtonHolder {
-	margin:.5em 0;
-	float:right;
-}
-.twikiChangeFormButton .foswikiButton,
-.twikiChangeFormButtonHolder .foswikiButton {
-	padding:0em;
-	margin:0em;
-	border:none;
-	text-decoration:underline;
-	font-weight:normal;
 }
 .patternFormHolder { /* constrains the textarea */
 	width:100%;
@@ -1103,13 +1085,13 @@ table.patternDiffOptions img {
 
 /* attach.pattern.tmpl */
 
-.patternAttachPage .twikiAttachments table {
+.patternAttachPage .foswikiAttachments table {
 	width:auto;
 }
 .patternAttachPage .patternTopicAction {
 	margin-top:-1px;
 }
-.patternAttachPage .twikiAttachments {
+.patternAttachPage .foswikiAttachments {
 	margin-top:0;
 }
 .patternAttachForm {
@@ -1134,21 +1116,21 @@ table.patternDiffOptions img {
 	margin:2em 0 0 0;
 	list-style:none;
 }
-.patternDiffPage .twikiDiffTable {
+.patternDiffPage .foswikiDiffTable {
 	margin:2em 0;
 }
-.patternDiffPage .twikiDiffTable th,
-.patternDiffPage .twikiDiffTable td {
+.patternDiffPage .foswikiDiffTable th,
+.patternDiffPage .foswikiDiffTable td {
 	padding:.2em;
 }
-tr.twikiDiffDebug td {
+tr.foswikiDiffDebug td {
 	border-width:1px;
 	border-style:solid;
 }
-.patternDiffPage td.twikiDiffDebugLeft {
+.patternDiffPage td.foswikiDiffDebugLeft {
 	border-bottom:none;
 }
-.twikiDiffLineNumberHeader {
+.foswikiDiffLineNumberHeader {
 	padding:.3em 0;
 }
 
@@ -1315,19 +1297,19 @@ input,
 select {
 	border-color:#aaa; /*BO6*/
 }
-.twikiSubmit,
+.foswikiSubmit,
 .foswikiButton {
 	border-color:#ddd #aaa #aaa #ddd;
 	color:#333;
 	background-color:#fff; /*BG1*/
 }
-.twikiSubmit:active,
+.foswikiSubmit:active,
 .foswikiButton:active {
 	border-color:#999 #ccc #ccc #999;
 	color:#000;
 }
-.twikiInputField,
-.twikiSelect {
+.foswikiInputField,
+.foswikiSelect {
 	border-color:#aaa #ddd #ddd #aaa;
 	color:#000;
 	background-color:#fff; /*BG1*/
@@ -1338,42 +1320,42 @@ select {
 	-----------------------------------------------------------	*/
 
 /* TablePlugin */
-.twikiTable,
-.twikiTable td,
-.twikiTable th {
+.foswikiTable,
+.foswikiTable td,
+.foswikiTable th {
 	border-color:#ccc; /*BO8*/
 }
-.twikiTable th a:link,
-.twikiTable th a:visited,
-.twikiTable th a font {
+.foswikiTable th a:link,
+.foswikiTable th a:visited,
+.foswikiTable th a font {
 	color:#06c; /*T2*/
 }
-.twikiTable th a:hover,
-.twikiTable th a:hover font {
+.foswikiTable th a:hover,
+.foswikiTable th a:hover font {
 	background-color:transparent;
 	color:#D6000F; /*T4*/
 	border-color:#D6000F; /*T4*/
 }
 
 /* TablePlugin - sorting of table columns */
-.foswikiTopic th.twikiSortedAscendingCol,
-.foswikiTopic th.twikiSortedDescendingCol {
+.foswikiTopic th.foswikiSortedAscendingCol,
+.foswikiTopic th.foswikiSortedDescendingCol {
 	background-color:#ccc; /*BG8*/
 }
-th.twikiSortedAscendingCol a:link,
-th.twikiSortedAscendingCol a:link font,
-th.twikiSortedAscendingCol a:visited,
-th.twikiSortedAscendingCol a:visited font,
-th.twikiSortedDescendingCol a:link,
-th.twikiSortedDescendingCol a:link font,
-th.twikiSortedDescendingCol a:visited,
-th.twikiSortedDescendingCol a:visited font {
+th.foswikiSortedAscendingCol a:link,
+th.foswikiSortedAscendingCol a:link font,
+th.foswikiSortedAscendingCol a:visited,
+th.foswikiSortedAscendingCol a:visited font,
+th.foswikiSortedDescendingCol a:link,
+th.foswikiSortedDescendingCol a:link font,
+th.foswikiSortedDescendingCol a:visited,
+th.foswikiSortedDescendingCol a:visited font {
 	border-color:#666; /*T7*/
 }
-th.twikiSortedAscendingCol a:hover,
-th.twikiSortedAscendingCol a:hover font,
-th.twikiSortedDescendingCol a:hover,
-th.twikiSortedDescendingCol a:hover font {
+th.foswikiSortedAscendingCol a:hover,
+th.foswikiSortedAscendingCol a:hover font,
+th.foswikiSortedDescendingCol a:hover,
+th.foswikiSortedDescendingCol a:hover font {
 	border-color:#D6000F; /*T4*/
 }
 
@@ -1416,85 +1398,85 @@ a:hover.twistyTrigger {
 	color:#FBF7E8; /*C3*/
 }
 
-table.twikiFormTable th.twikiFormTableHRow,
-table.twikiFormTable td.twikiFormTableRow {
+table.foswikiFormTable th.foswikiFormTableHRow,
+table.foswikiFormTable td.foswikiFormTableRow {
 	color:#666; /*T7*/
 }
-.twikiEditForm {
+.foswikiEditForm {
 	color:#000; /*T1*/
 }
-.twikiEditForm .twikiFormTable th,
-.twikiEditForm .twikiFormTable td {
+.foswikiEditForm .foswikiFormTable th,
+.foswikiEditForm .foswikiFormTable td {
 	border-color:#ddd; /*BO8*/
 }
-.twikiEditForm .twikiFormTable td  {
+.foswikiEditForm .foswikiFormTable td  {
 	background-color:#F6F8FC;
 }
-.twikiEditForm .twikiFormTable th {
+.foswikiEditForm .foswikiFormTable th {
 	background-color:#ECF4FB; /*BG5*/
 }
-.patternContent .twikiAttachments,
+.patternContent .foswikiAttachments,
 .patternContent .foswikiForm {
 	background-color:#FEFBF3; /*BG9*/
 	border-color:#E2DCC8; /*BO4*/
 }
-.twikiAttachments table,
-table.twikiFormTable {
+.foswikiAttachments table,
+table.foswikiFormTable {
 	border-color:#ccc; /*BO7*/
 	background-color:#fff; /*BG1*/
 }
-.twikiAttachments table {
+.foswikiAttachments table {
 	background-color:#fff; /*BG1*/
 }
-.twikiAttachments td, 
-.twikiAttachments th {
+.foswikiAttachments td, 
+.foswikiAttachments th {
 	border-color:#ccc;
 }
-.twikiAttachments th/*,
-table.twikiFormTable th.twikiFormTableHRow*/ {
+.foswikiAttachments th/*,
+table.foswikiFormTable th.foswikiFormTableHRow*/ {
 	background-color:#fff; /*BG1*/
 }
-.twikiAttachments td {
+.foswikiAttachments td {
 	background-color:#fff; /*BG1*/
 }
-.twikiAttachments th a:link,
-.twikiAttachments th a:visited,
-table.twikiFormTable th.twikiFormTableHRow a:link,
-table.twikiFormTable th.twikiFormTableHRow a:visited {
+.foswikiAttachments th a:link,
+.foswikiAttachments th a:visited,
+table.foswikiFormTable th.foswikiFormTableHRow a:link,
+table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	color:#06c; /*T2*/
 }
-.twikiAttachments th font,
-table.twikiFormTable th.twikiFormTableHRow font {
+.foswikiAttachments th font,
+table.foswikiFormTable th.foswikiFormTableHRow font {
 	color:#06c; /*T2*/
 }
-.twikiAttachments th a:hover,
-table.twikiFormTable th.twikiFormTableHRow a:hover {
+.foswikiAttachments th a:hover,
+table.foswikiFormTable th.foswikiFormTableHRow a:hover {
 	border-color:#06c; /*T2*/
 	background-color:transparent;
 }
-.twikiAttachments th.twikiSortedAscendingCol,
-.twikiAttachments th.twikiSortedDescendingCol {
+.foswikiAttachments th.foswikiSortedAscendingCol,
+.foswikiAttachments th.foswikiSortedDescendingCol {
 	background-color:#efefef; /*BG3*/
 }
-.twikiFormSteps {
+.foswikiFormSteps {
 	background-color:#F6FAFD; /*BG13*/
 	border-color:#E2DCC8;
 }
-.twikiFormStep {
+.foswikiFormStep {
 	border-color:#E2DCC8;
 }
-.twikiFormStep h3,
-.twikiFormStep h4 {
+.foswikiFormStep h3,
+.foswikiFormStep h4 {
 	background-color:transparent;
 }
-.twikiToc .twikiTocTitle {
+.foswikiToc .foswikiTocTitle {
 	color:#666; /*T7*/
 }
-.twikiBroadcastMessage {
+.foswikiBroadcastMessage {
 	background-color:yellow;
 }
-.twikiBroadcastMessage b,
-.twikiBroadcastMessage strong {
+.foswikiBroadcastMessage b,
+.foswikiBroadcastMessage strong {
 	color:#f00; /*T9*/
 }
 .foswikiAlert,
@@ -1504,11 +1486,11 @@ table.twikiFormTable th.twikiFormTableHRow a:hover {
 .foswikiEmulatedLink {
 	color:#06c; /*T2*/
 }
-.twikiPageForm table {
+.foswikiPageForm table {
 	border-color:#ddd; /*BO8*/
 	background:#fff; /*BG1*/
 }
-.twikiPageForm hr {
+.foswikiPageForm hr {
 	border-color:#efefef; /*BO1*/
 	background-color:#efefef; /*BO1*/
 	color:#efefef; /*BO1*/
@@ -1517,13 +1499,13 @@ table.twikiFormTable th.twikiFormTableHRow a:hover {
 	background-color:#ECF4FB; /*BG5*/
 	border-color:#D5E6F3; /*BO3*/
 }
-.twikiAccessKey {
+.foswikiAccessKey {
 	color:inherit;
 	border-color:#8E9195; /*T8*/
 }
-a:link .twikiAccessKey,
-a:visited .twikiAccessKey,
-a:hover .twikiAccessKey {
+a:link .foswikiAccessKey,
+a:visited .foswikiAccessKey,
+a:hover .foswikiAccessKey {
 	color:inherit;
 }
 
@@ -1586,7 +1568,7 @@ a:hover .twikiAccessKey {
 	border-color:#E2DCC8; /*BO4*/
 	background-color:#FBF7E8;
 }
-.patternTopicAction .twikiSeparator {
+.patternTopicAction .foswikiSeparator {
 	color:#aaa;
 }
 .patternActionButtons a:link,
@@ -1596,7 +1578,7 @@ a:hover .twikiAccessKey {
 .patternActionButtons a:hover {
 	color:#FBF7E8; /*C3*/
 }
-.patternTopicAction .twikiAccessKey {
+.patternTopicAction .foswikiAccessKey {
 	border-color:#C75305;
 }
 .patternTopicAction label {
@@ -1638,12 +1620,12 @@ a:hover .twikiAccessKey {
 .patternToolBarBottom {
 	border-color:#E2DCC8; /*BO4*/
 }
-.patternToolBar a:link .twikiAccessKey,
-.patternToolBar a:visited .twikiAccessKey {
+.patternToolBar a:link .foswikiAccessKey,
+.patternToolBar a:visited .foswikiAccessKey {
 	color:inherit;
 	border-color:#666; /*T7*/
 }
-.patternToolBar a:hover .twikiAccessKey {
+.patternToolBar a:hover .foswikiAccessKey {
 	background-color:transparent;
 	color:inherit;
 }
@@ -1667,15 +1649,15 @@ a:hover .twikiAccessKey {
 }
 
 /* WebSearch, WebSearchAdvanced */
-table#twikiSearchTable th,
-table#twikiSearchTable td {
+table#foswikiSearchTable th,
+table#foswikiSearchTable td {
 	background-color:#fff; /*BG1*/
 	border-color:#ddd; /*BO8*/
 } 
-table#twikiSearchTable th {
+table#foswikiSearchTable th {
 	color:#8E9195; /*T8*/
 }
-table#twikiSearchTable td.first {
+table#foswikiSearchTable td.first {
 	background-color:#efefef; /*BG3*/
 }
 
@@ -1695,7 +1677,7 @@ h4.patternSearchResultsHeader {
 .patternNoViewPage h4.patternSearchResultsHeader {
 	color:#a00; /*T5*/
 }
-.patternSearchResult .twikiBottomRow {
+.patternSearchResult .foswikiBottomRow {
 	border-color:#ddd; /*BO8*/
 }
 .patternSearchResult .foswikiAlert {
@@ -1719,7 +1701,7 @@ h4.patternSearchResultsHeader {
 	background-color:transparent; /* set to WEBBGCOLOR in css.pattern.tmpl */
 	color:#666; /*T7*/
 }
-.patternBookView .twikiBottomRow {
+.patternBookView .foswikiBottomRow {
 	border-color:#ddd; /*BO8*/
 }
 .patternBookView .patternSearchResultCount {
@@ -1736,11 +1718,6 @@ table.patternDiffOptions img {
 
 .patternEditPage textarea#topic {
 	background-color:#fff; /*BG1*/
-}
-.twikiChangeFormButton .foswikiButton,
-.twikiChangeFormButtonHolder .foswikiButton {
-	color:#06c; /*T2*/
-	background:none;
 }
 .patternSig input {
 	color:#8E9195; /*T8*/
@@ -1774,39 +1751,38 @@ table.patternDiffOptions img {
 .patternDiff h4.patternSearchResultsHeader {
 	background-color:#ccc;
 }
-tr.twikiDiffDebug td {
+tr.foswikiDiffDebug td {
 	border-color:#ddd; /*BO8*/
 }
-.patternDiffPage .twikiDiffTable th {
+.patternDiffPage .foswikiDiffTable th {
 	background-color:#eee;
 }
-tr.twikiDiffDebug .twikiDiffChangedText,
-tr.twikiDiffDebug .twikiDiffChangedText {
+tr.foswikiDiffDebug .foswikiDiffChangedText,
+tr.foswikiDiffDebug .foswikiDiffChangedText {
 	background:#99ff99; /* green */
 }
 /* Deleted */
-tr.twikiDiffDebug .twikiDiffDeletedMarker,
-tr.twikiDiffDebug .twikiDiffDeletedText {
+tr.foswikiDiffDebug .foswikiDiffDeletedMarker,
+tr.foswikiDiffDebug .foswikiDiffDeletedText {
 	background-color:#f99;
 }
 /* Added */
-tr.twikiDiffDebug .twikiDiffAddedMarker,
-tr.twikiDiffDebug .twikiDiffAddedText {
+tr.foswikiDiffDebug .foswikiDiffAddedMarker,
+tr.foswikiDiffDebug .foswikiDiffAddedText {
 	background-color:#ccf;
 }
 /* Unchanged */
-tr.twikiDiffDebug .twikiDiffUnchangedText {
+tr.foswikiDiffDebug .foswikiDiffUnchangedText {
 	color:#8E9195; /*T8*/
 }
 /* Headers */
-.twikiDiffChangedHeader,
-.twikiDiffDeletedHeader,
-.twikiDiffAddedHeader {
+.foswikiDiffChangedHeader,
+.foswikiDiffAddedHeader {
 	background-color:#ccc;
 }
 /* Unchanged */
-.twikiDiffUnchangedTextContents { }
-.twikiDiffLineNumberHeader {
+.foswikiDiffUnchangedTextContents { }
+.foswikiDiffLineNumberHeader {
 	background-color:#eee;
 }
 </style>
