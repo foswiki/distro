@@ -159,9 +159,12 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 
 ---++ Add-On Info
 
-|  Add-on Author: | TWiki:Main/JChristophFuchs |
-|  Add-on Version: | 07 Nov 2007 |
+|  Plugin Author: | Foswiki:Main.KennethLavrsen |
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors | 
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 08 Dec 2008  |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Dec 2008 | Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0. Policy is now feel free to modify but please do not break compatibility. | 
 |  07 Nov 2007 | Arthur Clemens: Updated for TWiki 4.2  |
 |  09 Apr 2006 | Updated for new <nop>PatternSkin in [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00x02][TWikiRelease04x00x02]] |
 |  26 Feb 2006 | Updated for TWiki 4 |
@@ -174,7 +177,6 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  License: | GPL |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 
