@@ -4,18 +4,18 @@
 %STARTINCLUDE%
 Welcome to <nop>%WIKITOOLNAME%! This site is a meeting place to work on common interests. Anyone can contribute using any web browser. <nop>%WIKITOOLNAME% looks like a normal web site... except that it encourages contribution and *editing* of pages, questions, answers, comments and updates.
 
-"Wiki" systems are fundamentally editable web pages. It's a fun and useful way of communicating asynchronously over the web for many existing intranet and public internet sites.  %WIKITOOLNAME% is simple to learn and use.  It aims to provide a transparent way for you to publish and exchange your ideas with others over the web. You will find more about wikis in general at Sandbox.ProposalWikiCulture.
+"Wiki" systems are fundamentally editable web pages. It's a fun and useful way of communicating asynchronously over the web for many existing intranet and public internet sites.  %WIKITOOLNAME% is simple to learn and use.  It aims to provide a transparent way for you to publish and exchange your ideas with others over the web. You will find more about wikis in general at WikiCulture.
 
 ---++ So what is it that you can do?
 
    * *Browse.* This is a site like other sites. Read and follow interesting links.
-   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a %WIKITOOLNAME% topic. Use regular text or [[Sandbox.ProposalShortHand][simple shorthand]].
+   * *Write.* Speak your mind! From your browser you can change or add to anything you see in a %WIKITOOLNAME% topic. Use regular text or [[ShortHand][simple shorthand]].
    * *Try.* Do not worry that anything could go wrong. When you change a topic, its previous versions are saved and can be recovered.
    * *Start to figure it out.* Some good places to start:
       * BeginnersStartHere is a short introduction training course for beginners. 
       * TwentyMinuteTutorial is a 20-minute tour of %WIKITOOLNAME% essentials. 
       * WikiReferences links to selected articles and books about wiki technology and online collaboration.
 
-You have some time and want to really get into %WIKITOOLNAME%? Then the Sandbox.ProposalUserGuide is what you are looking for!
+You have some time and want to really get into %WIKITOOLNAME%? Then the UserGuide is what you are looking for!
 %STOPINCLUDE%
 
