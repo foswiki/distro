@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1212529094" format="1.1" version="$Rev: 16876 $"}%
----+!! Welcome to %WIKITOOLNAME%%IF{ "$ WIKINAME='TWikiGuest'" then="!" else=", %WIKIUSERNAME%!" }%
+---+!! Welcome to %WIKITOOLNAME%%IF{ "$ WIKINAME='WikiGuest'" then="!" else=", %WIKIUSERNAME%!" }%
 
 %STARTINCLUDE%
 Welcome to <nop>%WIKITOOLNAME%! This site is a meeting place to work on common interests. Anyone can contribute using any web browser. <nop>%WIKITOOLNAME% looks like a normal web site... except that it encourages contribution and *editing* of pages, questions, answers, comments and updates.
