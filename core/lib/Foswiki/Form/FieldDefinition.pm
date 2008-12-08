@@ -145,7 +145,7 @@ Pass it a list of the other classnames you want on the field.
 sub cssClasses {
     my $this = shift;
     if ( $this->isMandatory() ) {
-        push( @_, 'twikiMandatory' );
+        push( @_, 'foswikiMandatory' );
     }
     return join( ' ', @_ );
 }
