@@ -3,11 +3,13 @@
 
 This topic defines __site-level__ settings that apply to all users and webs on this site.
 
+<div class="foswikiNotification">
 __%X% Note:__ This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
 
 Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (this topic is pointed to by {LocalSitePreferences}, which is set by the admin in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface). Settings in [[%LOCALSITEPREFS%]] will override settings in this topic, and should be used for defining custom settings.
 
 [[Macros#SettingPrefs][Read more]] on how to set preferences.
+</div>
 
 %TOC%
 
