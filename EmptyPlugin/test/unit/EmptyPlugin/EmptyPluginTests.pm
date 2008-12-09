@@ -8,7 +8,7 @@ use strict;
 use Foswiki;
 use CGI;
 
-my $twiki;
+my $foswiki;
 
 sub new {
     my $self = shift()->SUPER::new(@_);
@@ -21,7 +21,7 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $foswiki;
 }
 
 sub tear_down {
