@@ -76,7 +76,8 @@ sub canFetchUsers {
 sub fetchUsers {
     my $this  = shift;
     my @users = $this->{apache}->fetchUsers();
-    return new ListIterator( \@users );
+    require Foswiki::ListIterator;
+    return new Foswiki::ListIterator( \@users );
 }
 
 sub fetchPass {
