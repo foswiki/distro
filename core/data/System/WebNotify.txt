@@ -1,9 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
-This is a subscription service to be automatically notified by e-mail when topics change in this *<nop>%WEB%* web. This is a convenient service, so you do not have to come back and check all the time if something has changed. To subscribe, please add a bullet with your %SYSTEMWEB%.WikiName in alphabetical order to this list:
+%MAKETEXT{"This is a subscription service to be automatically notified by e-mail when topics change in this [_1] web. This is a convenient service, so you do not have to come back and check all the time if something has changed. To subscribe, please add a bullet with your [_2] in alphabetical order to this list:" args="*<nop>%WEB%*,[[%SYSTEMWEB%.WikiName][WikiName]]"}%
 
+   * %USERSWEB%.WikiGuest
    * %USERSWEB%.WikiGuest - example@your.company
 
+
 %INCLUDE{"%SYSTEMWEB%.WebChangesAlert"}%
-
-__Related topics:__ %SYSTEMWEB%.WebChangesAlert, %USERSWEB%.%WIKIUSERSTOPIC%, %SYSTEMWEB%.UserRegistration
-
