@@ -7,4 +7,6 @@ sub TWiki::new {
     return new Foswiki(@_);
 }
 
+%TWiki::regex = %Foswiki::regex;
+
 1;
