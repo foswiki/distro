@@ -406,7 +406,8 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
     $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/o;
     $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}_]+/o;
     $regex{abbrevRegex}         = qr/[$regex{upperAlpha}]{3,}s?\b/o;
-
+    $regex{topicNameRegex}      =
+      qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
     # Simplistic email regex, e.g. for WebNotify processing - no i18n
     # characters allowed
     $regex{emailAddrRegex} = qr/([A-Za-z0-9\.\+\-\_]+\@[A-Za-z0-9\.\-]+)/;
@@ -723,15 +724,9 @@ sub generateHTTPHeaders {
     $this->{response}->setDefaultHeaders($hopts);
 }
 
-=begin TML
-
----++ StaticMethod isRedirectSafe($redirect) => $ok
-
-tests if the $redirect is an external URL, returning false if AllowRedirectUrl is denied
-
-=cut
-
-sub isRedirectSafe {
+# Tests if the $redirect is an external URL, returning false if
+# AllowRedirectUrl is denied
+sub _isRedirectSafe {
     my $redirect = shift;
 
     #TODO: this should really use URI
@@ -757,49 +752,57 @@ sub isRedirectSafe {
     return 1;
 }
 
-# _getRedirectUrl() => redirectURL set from the parameter
-# Reads a redirect url from CGI parameter 'redirectto'.
-# This function is used to get and test the 'redirectto' cgi parameter,
-# and then the calling function can set its own reporting if there is a
-# problem.
-sub _getRedirectUrl {
-    my $session = shift;
+=begin TML
 
-    my $query       = $session->{request};
-    my $redirecturl = $query->param('redirectto');
-    return '' unless $redirecturl;
+---++ ObjectMethod redirectto($url) -> $url
+Gets a redirect url from CGI parameter 'redirectto', if present on the query.
+
+If the redirectto CGI parameter specifies a valid redirection target it is
+returned; otherwise the original URL passed in the parameter is returned.
+
+Conditions for a valid redirection target are:
+   * The target matches the linkProtocolPattern regex, and redirection
+     to the url _isRedirectSafe
+   * The target specified a topic, or a Web.Topic (redirect will be to
+     'view')
+
+=cut
+
+sub redirectto {
+    my ($this, $url) = @_;
+    ASSERT($url);
+
+    my $redirecturl = $this->{request}->param('redirectto');
+    return $url unless $redirecturl;
 
     if ( $redirecturl =~ m#^$regex{linkProtocolPattern}://#o ) {
 
         # assuming URL
-        if ( isRedirectSafe($redirecturl) ) {
+        if ( _isRedirectSafe($redirecturl) ) {
             return $redirecturl;
         }
         else {
-            return '';
+            return $url;
         }
     }
 
     # assuming 'web.topic' or 'topic'
     my ( $w, $t ) =
-      $session->normalizeWebTopicName( $session->{webName}, $redirecturl );
-    $redirecturl = $session->getScriptUrl( 1, 'view', $w, $t );
-    return $redirecturl;
+      $this->normalizeWebTopicName( $this->{webName}, $redirecturl );
+    return $this->getScriptUrl( 1, 'view', $w, $t );
 }
 
 =begin TML
 
----++ ObjectMethod redirect( $url, $passthrough, $action_redirectto )
+---++ ObjectMethod redirect( $url, $passthrough )
 
    * $url - url or topic to redirect to
-   * $passthrough - (optional) parameter to **FILLMEIN**
-   * $action_redirectto - (optional) redirect to where ?redirectto=
-     points to (if it's valid)
+   * $passthrough - (optional) parameter to pass through current query
+     parameters (see below)
 
 Redirects the request to =$url=, *unless*
    1 It is overridden by a plugin declaring a =redirectCgiQueryHandler=.
    1 =$session->{request}= is =undef= or
-   1 $query->param('noredirect') is set to a true value.
 Thus a redirect is only generated when in a CGI context.
 
 Normally this method will ignore parameters to the current query. Sometimes,
@@ -819,25 +822,13 @@ server.
 =cut
 
 sub redirect {
-    my ( $this, $url, $passthru, $action_redirectto ) = @_;
+    my ( $this, $url, $passthru ) = @_;
+    ASSERT(defined $url);
 
     my $query = $this->{request};
 
     # if we got here without a query, there's not much more we can do
     return unless $query;
-
-    # SMELL: if noredirect is set, don't generate the redirect, throw an
-    # exception instead. This is a HACK used to support TWikiDrawPlugin.
-    # It is deprecated and must be replaced by REST handlers in the plugin.
-    if ( $query->param('noredirect') ) {
-        die "ERROR: $url";
-        return;
-    }
-
-    if ($action_redirectto) {
-        my $redir = _getRedirectUrl($this);
-        $url = $redir if ($redir);
-    }
 
     if ( $passthru && defined $query->method() ) {
         my $existing = '';
@@ -871,7 +862,7 @@ sub redirect {
     # prevent phishing by only allowing redirect to configured host
     # do this check as late as possible to catch _any_ last minute hacks
     # TODO: this should really use URI
-    if ( !isRedirectSafe($url) ) {
+    if ( !_isRedirectSafe($url) ) {
 
         # goto oops if URL is trying to take us somewhere dangerous
         $url = $this->getScriptUrl(
@@ -961,20 +952,7 @@ Check for a valid topic name
 sub isValidTopicName {
     my ($name) = @_;
 
-    return isValidWikiWord(@_) || isValidAbbrev(@_);
-}
-
-=begin TML
-
----++ StaticMethod isValidAbbrev( $name ) -> $boolean
-
-Check for a valid ABBREV (acronym)
-
-=cut
-
-sub isValidAbbrev {
-    my $name = shift || '';
-    return ( $name =~ m/^$regex{abbrevRegex}$/o );
+    return ( $name =~ m/^$regex{topicNameRegex}$/o );
 }
 
 =begin TML
@@ -1147,7 +1125,7 @@ sub _make_params {
     my $anchor = '';
     while ( my $p = shift @args ) {
         if ( $p eq '#' ) {
-            $anchor .= '#' . shift(@args);
+            $anchor .= '#' . urlEncode( shift(@args) );
         }
         else {
             $ps .= ';' . urlEncode( $p ) . '=' . urlEncode( shift(@args) || '' );
@@ -3858,6 +3836,7 @@ sub QUERYPARAMS {
 
         # Issues multi-valued parameters as separate hiddens
         my $value = $this->{request}->param($name);
+        $value = '' unless defined $value;
         $name = _encode( $encoding, $name );
         $value = _encode( $encoding, $value );
 

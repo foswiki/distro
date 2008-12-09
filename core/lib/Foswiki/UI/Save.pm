@@ -440,7 +440,7 @@ WARN
             last if ( $store->topicExists( $w, $t ) );
         }
         my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
-        $session->redirect( $viewURL, undef, 1 );
+        $session->redirect( $session->redirectto($viewURL) );
 
         return;
     }
@@ -497,6 +497,13 @@ WARN
         }
 
         # drop through
+    } else {
+         $redirecturl = $session->getScriptUrl( 1, 'view', $web, $topic );
+     }
+
+    # Do we have ?redirectto=
+    if ($saveaction ne 'checkpoint') {
+        $redirecturl = $session->redirectto($redirecturl);
     }
 
     if ( $saveaction eq 'quietsave' ) {
@@ -529,7 +536,6 @@ WARN
     }
 
     #success - redirect to topic view (unless its a checkpoint save)
-    $redirecturl ||= $session->getScriptUrl( 1, 'view', $web, $topic );
 
     if ( $saveCmd eq 'delRev' ) {
 
@@ -547,7 +553,7 @@ WARN
             );
         };
 
-        $session->redirect( $redirecturl, undef, 1 );
+        $session->redirect( $redirecturl );
         return;
     }
 
@@ -576,8 +582,7 @@ WARN
             );
         };
 
-        $session->redirect( $redirecturl, undef,
-            ( $saveaction ne 'checkpoint' ) );
+        $session->redirect( $redirecturl);
         return;
     }
 
@@ -619,7 +624,7 @@ WARN
         );
     }
 
-    $session->redirect( $redirecturl, undef, ( $saveaction ne 'checkpoint' ) );
+    $session->redirect( $redirecturl );
 }
 
 1;

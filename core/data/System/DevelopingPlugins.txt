@@ -1,12 +1,12 @@
 ---+ Developing Plugins
 
-Foswiki has a large number of internal (perl code) interfaces that give access to all the internal functionality. However in general it's a bad idea to use these interfaces to extend Foswiki, because that would result in your code breaking every time the core changes.
+Foswiki has a large number of internal (perl code) interfaces. However in general it's a bad idea to use these interfaces to extend Foswiki, because that would result in your code breaking every time the core changes.
 
 To address this problem Foswiki provides a number of Application Program Interfaces (APIs) that allow you to extend Foswiki in a robust way.
 
 The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in %SYSTEMWEB%.EmptyPlugin and =lib/Foswiki/Plugins/EmptyPlugin.pm=.
 
-To be robust plugins must avoid using any unpublished functionality from the Foswiki core. Functionality that is available to plugins consists of the following perl packages. Click on the name of the packge to see the full documentation.
+To be robust extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::EmptyPlugin][Foswiki::Plugins::EmptyPlugin]]= - template plugin for you to use as a starting point for your own plugins.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - bridge to core functions. This is the package you will use most.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Meta][Foswiki::Meta]]= - topic meta-data
@@ -18,14 +18,54 @@ In addition the following global variables may be referred to:
    * =$Foswiki::Plugins::VERSION= - plugin handler API version number
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
    * =$Foswiki::cfg= - reference to configuration hash
+   * =$Foswiki::regex - see 'Standard Regular Expressions', below
    * =$Foswiki::sandbox= - reference to the static sandbox object (type =Foswiki::Sandbox=), used for calling external programs.
 %I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.
 
----+++ Predefined Hooks
+__Note__ the APIs are available to all extensions, but rely on a
+=Foswiki= singleton object having been created before the APIs can be used.
+This will only be a problem if you are writing an extension that doesn't
+use the standard initialisation sequence.
 
-Plugins 'listen' to events happening in the core by registering an interest in those events. They do this using 'plugin handlers'. these are simply functions with a particular name that, if they exist in your plugin, will be called by the core.
+---+++ Standard Regular Expressions
+A number of standard regular expressions are available for use in extensions, in the =$Foswiki::regex= hash. these regular expressions are precompiled in an
+<nop>I18N-compatible manner. The
+following are guaranteed to be present. Others may exist, but their use
+is unsupported and they may be removed in future Foswiki versions.
 
-Foswiki:Development.StepByStepRenderingOrder helps you decide which rendering handler to use. See EmptyPlugin for a full list of the handlers that are defined.
+In the table below, the expression marked type 'String' are intended for
+use within character classes (i.e. for use within square brackets inside
+a regular expression), for example:
+<verbatim>
+   my $isCapitalizedWord =
+     ( $s =~ /[$Foswiki::regex{upperAlpha}][$Foswiki::regex{mixedAlpha}]+/ );
+</verbatim>
+Those expressions marked type 'RE' are precompiled regular expressions that can be used outside square brackets. For example:
+<verbatim>
+   my $isWebName = ( $s =~ m/$Foswiki::regex{webNameRegex}/ );
+</verbatim>
+
+| *Name*         | *Matches*                        | *Type* |
+| upperAlpha     | Upper case characters            | String |
+| upperAlphaNum  | Upper case characters and digits | String |
+| lowerAlpha     | Lower case characters            | String |
+| lowerAlphaNum  | Lower case characters and digits | String |
+| numeric        | Digits                           | String |
+| mixedAlpha     | Alphabetic characters            | String |
+| mixedAlphaNum  | Alphanumeric characters          | String |
+| wikiWordRegex  | WikiWords                        | RE |
+| webNameRegex   | User web names                   | RE |
+| topicNameRegex | Topic names                      | RE |
+| anchorRegex    | #AnchorNames                     | RE |
+| abbrevRegex    | Abbreviations/Acronyms e.g. GOV, IRS | RE |
+| emailAddrRegex | email@address.com                | RE |
+| tagNameRegex   | Standard macro names e.g. %<nop>THIS_BIT% (THIS_BIT only) | RE |
+
+---+++ Predefined Hooks for Plugins
+
+Plugins 'listen' to events happening in the core by registering an interest in those events. They do this by declaring 'plugin handlers'. These are simply functions with a particular name that, if they exist in your plugin, will be called by the core.
+
+Foswiki:Development.StepByStepRenderingOrder helps you decide which rendering handler to use. See [[EmptyPlugin]] for a full list of the handlers that are defined.
 
 #FastPluginHints
 ---+++ Hints on Writing Fast Plugins
@@ -43,21 +83,21 @@ Foswiki:Development.StepByStepRenderingOrder helps you decide which rendering ha
 To eliminate the incompatibility problems that are bound to arise from active open plugin development, a plugin versioning system is provided for automatic compatibility checking.
 
    * All plugin packages require a =$VERSION= variable. This should be an integer, or a subversion version id.
-
    * The =initPlugin= handler should check all dependencies and return 1 if the initialization is OK or 0 if something went wrong.
       * The plugin initialization code does not register a plugin that returns 0 (or that has no =initPlugin= handler).
-
    * =$Foswiki::Plugins::VERSION= in the =Foswiki::Plugins= module contains the Foswiki plugin API version, currently *%PLUGINVERSION{}%*.
       * You can also use the =[[VarPLUGINVERSION][%<nop>PLUGINVERSION{}%]]= macro to query the plugin API version or the version of installed plugins.
 
 ---+++ Security
 
-   * Badly written plugins can open huge security holes in Foswiki. This is especially true if care isn't taken to prevent execution of arbitrary commands on the server.
-   * Don't allow sensitive configuration data to be edited by users. it is better to add sensitive configuration options to the =%Foswiki::cfg= hash than adding it as preferences in the plugin topic.
+   * Badly written plugins can open security holes in Foswiki. This is especially true if care isn't taken to prevent execution of arbitrary commands on the server.
+   * Don't allow sensitive configuration data to be edited by users. Use the =%Foswiki::cfg= hash for configuration options. Don't ask installers to edit topics in the System web.
       * [[#ConfigSpec][Integrating with <code>configure</code>]] describes the steps
       * Foswiki:Extensions.MailInContrib has an example
       * Foswiki:Extensions.BuildContrib can help you with this
-   * Always use the Foswiki::Sandbox to execute commands.
+   * Make sure that all user input is checked and validated. Be especially careful to filter characters that might be used in perl string interpolation.
+   * Avoid =eval=, and if you must use it make sure you sanitise parameters
+   * Always use the Foswiki::sandbox to execute commands. Never use backtick or qx//.
    * Always audit the plugins you install, and make sure you are happy with the level of security provided. While every effort is made to monitor plugin authors activities, at the end of the day they are uncontrolled user contributions.
 
 #CreatePlugins

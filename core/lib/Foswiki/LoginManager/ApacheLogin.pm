@@ -119,7 +119,7 @@ sub login {
 
     $url .= ( ';' . $query->query_string() ) if $query->query_string();
 
-    $session->redirect( $url, 1 );
+    $session->redirect( $url, 1 ); # with passthrough
 }
 
 =begin TML

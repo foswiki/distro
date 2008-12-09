@@ -262,6 +262,7 @@ parameters:
 | =confirm= | if defined, requires a second level of confirmation |
 | =currentwebonly= | if defined, searches current web only for links to this topic |
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name |
+| =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). |
 
 =cut
 
@@ -461,8 +462,8 @@ sub rename {
         $new_url = $session->getScriptUrl( 0, 'view', $newWeb, $newTopic );
     }
 
-    #follow redirectto=
-    $session->redirect( $new_url, undef, 1 );
+    # follow redirectto
+    $session->redirect( $session->redirectto( $new_url ) );
 }
 
 =begin TML
@@ -1586,9 +1587,7 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
         );
     };
     my $viewURL = $session->getScriptUrl( 0, 'view', $web, $topic );
-    $session->redirect( $viewURL, undef, 1 );
-    return;
-
+    $session->redirect( $session->redirectto($viewURL) );
 }
 
 sub _handleSave {

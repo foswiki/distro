@@ -199,7 +199,8 @@ sub bulkRegister {
 
     $session->leaveContext('absolute_urls');
 
-    $session->redirect( $session->getScriptUrl( 1, 'view', $web, $logTopic ) );
+    my $nurl = $session->getScriptUrl( 1, 'view', $web, $logTopic );
+    $session->redirect( $nurl );
 }
 
 # Register a single user during a bulk registration process

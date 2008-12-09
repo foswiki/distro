@@ -118,22 +118,66 @@ This method is designed to be
 invoked via the =UI::run= method.
 CGI parameters, passed in $query:
 
-| =hidefile= | if defined, will not show file in attachment table |
-| =filepath= | |
-| =filename= | |
-| =filecomment= | comment to associate with file in attachment table |
-| =createlink= | if defined, will create a link to file at end of topic |
-| =changeproperties= | |
-| =redirectto= | URL to redirect to after upload. ={AllowRedirectUrl}= must be enabled in =configure=. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL. Redirect to a URL only works if it is enabled in =configure=. |
+Does the work of uploading an attachment to a topic.
 
-Does the work of uploading a file to a topic. Designed to be useable for
-a crude RPC (it will redirect to the 'view' script unless the
-'noredirect' parameter is specified, in which case it will print a message to
-STDOUT, starting with 'OK' on success and 'ERROR' on failure.
+   * =hidefile= - if defined, will not show file in attachment table
+   * =filepath= -
+   * =filename= -
+   * =filecomment= - comment to associate with file in attachment table
+   * =createlink= - if defined, will create a link to file at end of topic
+   * =changeproperties= -
+   * =redirectto= - URL to redirect to after upload. ={AllowRedirectUrl}=
+     must be enabled in =configure=. The parameter value can be a
+     =TopicName=, a =Web.TopicName=, or a URL. Redirect to a URL only works
+     if it is enabled in =configure=, and is ignored if =noredirect= is
+     specified.
+   * =noredirect= - Normally it will redirect to 'view' when the upload is
+     complete, but also designed to be useable for REST-style calling using
+     the 'noredirect' parameter. If this parameter is set it will return an
+     appropriate HTTP status code and print a message to STDOUT, starting
+     with 'OK' on success and 'ERROR' on failure.
 
 =cut
 
 sub upload {
+    my $session = shift;
+
+    my $query   = $session->{request};
+    if ($query->param('noredirect')) {
+        my $message;
+        my $status = 200;
+        try {
+            $message = _upload($session);
+        } catch Foswiki::OopsException with {
+            my $e = shift;
+            $status = $e->{status};
+            if ($status >= 400) {
+                $message = 'ERROR: '.$e->stringify();
+            }
+        } catch Foswiki::AccessControlException with {
+            my $e = shift;
+            $status = 403;
+            $message = 'ERROR: '.$e->stringify();
+        };
+        if ($status < 400) {
+            $message = 'OK '.$message;
+        };
+        $session->{response}->header(
+            -status => $status,
+            -type => 'text/plain');
+        $session->{response}->print($message);
+    } else {
+        # allow exceptions to propagate
+        _upload($session);
+
+        my $nurl = $session->getScriptUrl(
+            1, 'view', $session->{webName}, $session->{topicName} );
+        $session->redirect( $session->redirectto( $nurl ));
+    };
+}
+
+# Real work of upload
+sub _upload {
     my $session = shift;
 
     my $query   = $session->{request};
@@ -158,11 +202,13 @@ sub upload {
     $fileName    =~ s/\s*$//o;
     $filePath    =~ s/\s*$//o;
 
-    Foswiki::UI::checkWebExists( $session, $webName, $topic, 'attach files to' );
+    Foswiki::UI::checkWebExists(
+        $session, $webName, $topic, 'attach files to' );
     Foswiki::UI::checkTopicExists( $session, $webName, $topic,
-        'attach files to' );
+                                   'attach files to' );
     Foswiki::UI::checkMirror( $session, $webName, $topic );
-    Foswiki::UI::checkAccess( $session, $webName, $topic, 'CHANGE', $user );
+    Foswiki::UI::checkAccess(
+        $session, $webName, $topic, 'CHANGE', $user );
 
     my $origName = $fileName;
     my $stream;
@@ -173,8 +219,7 @@ sub upload {
 
         try {
             $tmpFilePath = $query->tmpFileName($fh);
-        }
-        catch Error::Simple with {
+        } catch Error::Simple with {
 
             # Item5130, Item5133 - Illegal file name, bad path,
             # something like that
@@ -184,7 +229,7 @@ sub upload {
                 web    => $webName,
                 topic  => $topic,
                 params => [ ( $filePath || '""' ) ]
-            );
+               );
         };
 
         $stream = $query->upload('filepath');
@@ -204,7 +249,7 @@ sub upload {
                 web    => $webName,
                 topic  => $topic,
                 params => [ ( $filePath || '""' ) ]
-            );
+               );
         }
 
         my $maxSize =
@@ -218,7 +263,7 @@ sub upload {
                 web    => $webName,
                 topic  => $topic,
                 params => [ $fileName, $maxSize ]
-            );
+               );
         }
     }
     try {
@@ -237,25 +282,19 @@ sub upload {
                 filedate    => $fileDate,
                 tmpFilename => $tmpFilePath,
             }
-        );
-    }
-    catch Error::Simple with {
+           );
+    } catch Error::Simple with {
         throw Foswiki::OopsException(
             'attention',
             def    => 'save_error',
             web    => $webName,
             topic  => $topic,
             params => [ shift->{-text} ]
-        );
+           );
     };
     close($stream) if $stream;
 
-    if ( $fileName eq $origName ) {
-        $session->redirect(
-            $session->getScriptUrl( 1, 'view', $webName, $topic ),
-            undef, 1 );
-    }
-    else {
+    if ( $fileName ne $origName ) {
         throw Foswiki::OopsException(
             'attention',
             status => 200,
@@ -263,13 +302,13 @@ sub upload {
             web    => $webName,
             topic  => $topic,
             params => [ $origName, $fileName ]
-        );
+           );
     }
 
- # generate a message useful for those calling this script from the command line
-    my $message = ($doPropsOnly) ? 'properties changed' : "$fileName uploaded";
-
-    print 'OK ', $message, "\n" if $session->inContext('command_line');
+    # generate a message useful for those calling this script
+    # from the command line
+    return ($doPropsOnly) ? 'properties changed' :
+      "$fileName uploaded";
 }
 
 1;

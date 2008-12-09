@@ -466,9 +466,10 @@ sub makeAnchorName {
         $anchorName =~ s/[\s_]+$//;    # no trailing space, nor '_'
     }
 
-    # No need to encode 8-bit characters in anchor due to UTF-8 URL support
+    # There should be no need to encode 8-bit characters in anchor
+    # due to UTF-8 URL support. However encoding apparently cures Item5962
 
-    return $anchorName;
+    return Foswiki::urlEncode( $anchorName );
 }
 
 # dispose of the set of known unique anchornames in order to inhibit the

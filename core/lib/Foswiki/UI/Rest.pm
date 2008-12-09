@@ -15,9 +15,9 @@ use Foswiki;
 use Error qw( :try );
 
 sub rest {
-    my ( $twiki, %initialContext ) = @_;
+    my ( $session, %initialContext ) = @_;
 
-    my $query = $twiki->{request};
+    my $query = $session->{request};
     my $login = $query->param('username');
     my $pass  = $query->param('password');
 
@@ -27,7 +27,7 @@ sub rest {
     my $topic = $query->param('topic');
     if ($topic) {
         unless ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
-            my $res = $twiki->{response};
+            my $res = $session->{response};
             $res->header(
                 -type   => 'text/html',
                 -status => '400'
@@ -41,14 +41,14 @@ sub rest {
     else {
 
         # Point it somewhere innocent
-        $twiki->{webName}   = $Foswiki::cfg{UsersWebName};
-        $twiki->{topicName} = $Foswiki::cfg{HomeTopicName};
+        $session->{webName}   = $Foswiki::cfg{UsersWebName};
+        $session->{topicName} = $Foswiki::cfg{HomeTopicName};
     }
 
     if ($login) {
-        my $validation = $twiki->{users}->checkPassword( $login, $pass );
+        my $validation = $session->{users}->checkPassword( $login, $pass );
         unless ($validation) {
-            my $res = $twiki->{response};
+            my $res = $session->{response};
             $res->header(
                 -type   => 'text/html',
                 -status => '401'
@@ -58,20 +58,20 @@ sub rest {
                 "ERROR: (401) Can't login as $login", $res );
         }
 
-        my $cUID     = $twiki->{users}->getCanonicalUserID($login);
-        my $WikiName = $twiki->{users}->getWikiName($cUID);
-        $twiki->{users}->{loginManager}->userLoggedIn( $login, $WikiName );
+        my $cUID     = $session->{users}->getCanonicalUserID($login);
+        my $WikiName = $session->{users}->getWikiName($cUID);
+        $session->{users}->{loginManager}->userLoggedIn( $login, $WikiName );
 
-#TODO: its a bit odd that $twiki->{user} has to be manually set (expected userLoggedIn would do it)
-        $twiki->{user} = $cUID;
+#TODO: its a bit odd that $session->{user} has to be manually set (expected userLoggedIn would do it)
+        $session->{user} = $cUID;
     }
 
     try {
-        $twiki->{users}->{loginManager}->checkAccess();
+        $session->{users}->{loginManager}->checkAccess();
     }
     catch Error with {
         my $e   = shift;
-        my $res = $twiki->{response};
+        my $res = $session->{response};
         $res->header(
             -type   => 'text/html',
             -status => '401'
@@ -86,7 +86,7 @@ sub rest {
 
         # Foswiki rest invocations are defined as having a subject (pluginName)
         # and verb (restHandler in that plugin)
-        my $res = $twiki->{response};
+        my $res = $session->{response};
         $res->header(
             -type   => 'text/html',
             -status => '400'
@@ -98,7 +98,7 @@ sub rest {
     my ( $subject, $verb ) = ( $1, $2 );
 
     unless ( Foswiki::isValidWikiWord($subject) ) {
-        my $res = $twiki->{response};
+        my $res = $session->{response};
         $res->header(
             -type   => 'text/html',
             -status => '404'
@@ -110,7 +110,7 @@ sub rest {
 
     my $function = $Foswiki::restDispatch{$subject}{$verb};
     unless ($function) {
-        my $res = $twiki->{response};
+        my $res = $session->{response};
         $res->header(
             -type   => 'text/html',
             -status => '404'
@@ -121,14 +121,15 @@ sub rest {
     }
 
     no strict 'refs';
-    my $result = &$function( $twiki, $subject, $verb, $twiki->{response} );
+    my $result = &$function( $session, $subject, $verb, $session->{response} );
     use strict 'refs';
     my $endPoint = $query->param('endPoint');
     if ( defined($endPoint) ) {
-        $twiki->redirect( $twiki->getScriptUrl( 1, 'view', '', $endPoint ) );
+        my $nurl = $session->getScriptUrl( 1, 'view', '', $endPoint );
+        $session->redirect( $nurl );
     }
     else {
-        $twiki->writeCompletePage($result) if $result;
+        $session->writeCompletePage($result) if $result;
     }
 }
 

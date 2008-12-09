@@ -86,6 +86,7 @@ sub new {
     my $template = shift;
     my $this     = $class->SUPER::new();
     $this->{template} = $template;
+    $this->{status} = 500; # default server error
     ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
       if DEBUG;
     while ( my $key = shift @_ ) {
@@ -176,7 +177,7 @@ sub generate {
     my ($this, $session ) = @_;
 
     my @p = $this->_prepareResponse( $session );
-    $session->{response}->status( $this->{status} || 500 );
+    $session->{response}->status( $this->{status} );
     require Foswiki::UI::Oops;
     Foswiki::UI::Oops::oops($session, $this->{web}, $this->{topic},
                             $session->{request}, 0);

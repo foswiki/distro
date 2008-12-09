@@ -63,7 +63,7 @@ sub forceAuthentication {
         my $web   = $session->{webName};
         my $url   = $session->getScriptUrl( 0, 'login', $web, $topic );
         $query->param( -name => 'origurl', -value => $session->{request}->uri );
-        $session->redirect( $url, 1 );
+        $session->redirect( $url, 1 ); # with passthrough
         return 1;
     }
     return undef;
@@ -161,7 +161,7 @@ sub login {
             $query->delete('sudo')
               ; #remove the sudo param - its only to tell TemplateLogin that we're using BaseMapper..
                 # Redirect with passthrough
-            $sessionSession->redirect( $origurl, 1 );
+            $sessionSession->redirect( $origurl, 1 ); # with passthrough
             return;
         }
         else {

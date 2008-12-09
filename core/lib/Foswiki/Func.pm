@@ -1277,7 +1277,7 @@ sub setTopicEditLock {
 
 =begin TML
 
----+++ saveTopic( $web, $topic, $meta, $text, $options ) -> $error
+---+++ saveTopic( $web, $topic, $meta, $text, $options )
 
    * =$web= - web for the topic
    * =$topic= - topic name
@@ -1288,7 +1288,6 @@ sub setTopicEditLock {
      | =dontlog= | don't log this change in twiki log |
      | =forcenewrevision= | force the save to increment the revision counter |
      | =minor= | True if this is a minor change, and is not to be notified |
-Return: error message or undef.
 
 For example,
 <verbatim>
@@ -1299,6 +1298,10 @@ Foswiki::Func::saveTopic( $web, $topic, $meta, $text, { forcenewrevision => 1 } 
 
 __Note:__ Plugins handlers ( e.g. =beforeSaveHandler= ) will be called as
 appropriate.
+
+In the event of an error an exception will be thrown. Callers can elect
+to trap the exceptions thrown, or allow them to propagate to the calling
+environment. May throw Foswiki::OopsException, Foswiki::AccessControlException or Error::Simple.
 
 =cut
 
@@ -2319,56 +2322,6 @@ sub saveFile {
 
 =begin TML
 
----+++ getRegularExpression( $name ) -> $expr
-
-Retrieves a Foswiki predefined regular expression or character class.
-   * =$name= - Name of the expression to retrieve.  See notes below
-Return: String or precompiled regular expression matching as described below.
-
-__Note:__ Foswiki internally precompiles several regular expressions to
-represent various string entities in an <nop>I18N-compatible manner. Plugins
-authors are encouraged to use these in matching where appropriate. The
-following are guaranteed to be present. Others may exist, but their use
-is unsupported and they may be removed in future Foswiki versions.
-
-In the table below, the expression marked type 'String' are intended for
-use within character classes (i.e. for use within square brackets inside
-a regular expression), for example:
-<verbatim>
-   my $upper = Foswiki::Func::getRegularExpression('upperAlpha');
-   my $alpha = Foswiki::Func::getRegularExpression('mixedAlpha');
-   my $capitalized = qr/[$upper][$alpha]+/;
-</verbatim>
-Those expressions marked type 'RE' are precompiled regular expressions that can be used outside square brackets. For example:
-<verbatim>
-   my $webRE = Foswiki::Func::getRegularExpression('webNameRegex');
-   my $isWebName = ( $s =~ m/$webRE/ );
-</verbatim>
-
-| *Name*         | *Matches*                        | *Type* |
-| upperAlpha     | Upper case characters            | String |
-| upperAlphaNum  | Upper case characters and digits | String |
-| lowerAlpha     | Lower case characters            | String |
-| lowerAlphaNum  | Lower case characters and digits | String |
-| numeric        | Digits                           | String |
-| mixedAlpha     | Alphabetic characters            | String |
-| mixedAlphaNum  | Alphanumeric characters          | String |
-| wikiWordRegex  | WikiWords                        | RE |
-| webNameRegex   | User web names                   | RE |
-| anchorRegex    | #AnchorNames                     | RE |
-| abbrevRegex    | Abbreviations e.g. GOV, IRS      | RE |
-| emailAddrRegex | email@address.com                | RE |
-| tagNameRegex   | Standard variable names e.g. %<nop>THIS_BIT% (THIS_BIT only) | RE |
-
-=cut
-
-sub getRegularExpression {
-    my ($regexName) = @_;
-    return $Foswiki::regex{$regexName};
-}
-
-=begin TML
-
 ---+++ normalizeWebTopicName($web, $topic) -> ($web, $topic)
 
 Parse a web and topic name, supplying defaults as appropriate.
@@ -2508,6 +2461,35 @@ sub isValidWikiWord {
 
 =begin TML
 
+---+++ isValidWebName( $name, $system ) -> $boolean
+
+Check for a valid web name. If $system is true, then
+system web names are considered valid (names starting with _)
+otherwise only user web names are valid
+
+If $Foswiki::cfg{EnableHierarchicalWebs} is off, it will also return false
+when a nested web name is passed to it.
+
+=cut
+
+sub isValidWebName {
+    return Foswiki::isValidWebName(@_);
+}
+
+=begin TML
+
+---++ StaticMethod isValidTopicName( $name ) -> $boolean
+
+Check for a valid topic name.
+
+=cut
+
+sub isValidTopicName {
+    return Foswiki::isValidTopicName(@_);
+}
+
+=begin TML
+
 ---+++ extractParameters($attr ) -> %params
 
 Extract all parameters from a variable string and returns a hash of parameters
@@ -2580,6 +2562,26 @@ If the currently-running code version is 1.1 _or later_, then the _handler will 
 
 The following functions are retained for compatibility only. You should
 stop using them as soon as possible.
+
+=cut
+
+=begin TML
+
+---+++ getRegularExpression( $name ) -> $expr
+
+*Deprecated* 28 Nov 2008 - use =$Foswiki::regex{...}= instead, it is directly
+equivalent.
+
+See System.DevelopingPlugins for more information
+
+=cut
+
+sub getRegularExpression {
+    my ($regexName) = @_;
+    return $Foswiki::regex{$regexName};
+}
+
+=begin TML
 
 ---+++ getScriptUrlPath( ) -> $path
 

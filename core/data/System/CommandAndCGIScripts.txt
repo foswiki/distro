@@ -321,8 +321,21 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
 | =filecomment= | Comment to associate with file in attachment table | |
 | =createlink= | if defined, will create a link to file at end of topic | |
 | =changeproperties= | if defined, this is a property change operation *only* - no file will be uploaded. | null |
+| =redirectto= | URL to redirect to after upload. ={AllowRedirectUrl}= \
+     must be enabled in =configure=. The parameter value can be a \
+     =TopicName=, a =Web.TopicName=, or a URL. Redirect to a URL only works \
+     if it is enabled in =configure=, and is ignored if =noredirect= is \
+     specified.%BR% __Note:__ Redirect to a URL only works if it is enabled \
+     in =configure= (Miscellaneous ={AllowRedirectUrl}=). |
+| =noredirect= | Normally it will redirect to 'view' when the upload is \
+     complete, but also designed to be useable for REST-style calling using \
+     the 'noredirect' parameter. If this parameter is set it will return an \
+     appropriate HTTP status code and print a message to STDOUT, starting \
+     with 'OK' on success and 'ERROR' on failure. |
 
-You can use a tool like =curl= to upload files from the command line using this script.
+__Tips__
+   * You can use a tool like =curl= to upload files from the command line using this script.
+   * You can call upload easily from !XmlHttpRequest in Javascript.
 
 ---+++ =view=
 Used for viewing topics.
