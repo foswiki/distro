@@ -1,6 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,13 +17,13 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-package TWiki::Plugins::SlideShowPlugin;
+package Foswiki::Plugins::SlideShowPlugin;
 
 use vars qw(
         $web $topic $user $installWeb $VERSION $RELEASE $debug
     );
 
-# This should always be $Rev$ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev$';
@@ -38,8 +39,8 @@ sub initPlugin
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1 ) {
-        TWiki::Func::writeWarning( "Version mismatch between SlideShowPlugin and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 1 ) {
+        Foswiki::Func::writeWarning( "Version mismatch between SlideShowPlugin and Plugins.pm" );
         return 0;
     }
 
@@ -51,9 +52,9 @@ sub commonTagsHandler
 {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
     if( $_[0] =~ /%SLIDESHOWSTART/ ) {
-        require TWiki::Plugins::SlideShowPlugin::SlideShow;
-        TWiki::Plugins::SlideShowPlugin::SlideShow::init( $installWeb );
-        $_[0] = TWiki::Plugins::SlideShowPlugin::SlideShow::handler( @_ );
+        require Foswiki::Plugins::SlideShowPlugin::SlideShow;
+        Foswiki::Plugins::SlideShowPlugin::SlideShow::init( $installWeb );
+        $_[0] = Foswiki::Plugins::SlideShowPlugin::SlideShow::handler( @_ );
     }
 }
 

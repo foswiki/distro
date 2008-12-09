@@ -1,6 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2008 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,9 +18,9 @@
 # As per the GPL, removal of this notice is prohibited.
 
 use strict;
-use TWiki::Func;
+use Foswiki::Func;
 
-package TWiki::Plugins::SlideShowPlugin::SlideShow;
+package Foswiki::Plugins::SlideShowPlugin::SlideShow;
 
 use vars qw( $imgRoot $installWeb );
 
@@ -55,7 +56,7 @@ sub handler
     # SMELL: there should be a better block
     $text =~ s/%SLIDESHOW/%<nop>SLIDESHOW/g;
 
-    my $query = TWiki::Func::getCgiQuery();
+    my $query = Foswiki::Func::getCgiQuery();
 
     # Build query string based on existingURL parameters
     my $qparams = '?slideshow=on;skin=print';
@@ -80,7 +81,7 @@ sub handler
             my @slides = split( /[\n\r]\-\-\-+$level\!* /, $text );
             $text = "";
 
-            my $hideComments = TWiki::Func::getPreferencesValue( 'SLIDESHOWPLUGIN_HIDECOMMENTS' ) || '';
+            my $hideComments = Foswiki::Func::getPreferencesValue( 'SLIDESHOWPLUGIN_HIDECOMMENTS' ) || '';
 
             my $tmplText = readTmplText( $theWeb, $args );
             my $slideText = "";
@@ -158,7 +159,7 @@ sub renderSlideNav
     my $prev = $theNum - 1 || 1;
     my $next = $theNum + 1;
     my $text = '<span style="white-space: nowrap">';
-    my $viewUrl = TWiki::Func::getViewUrl($theWeb, $theTopic);
+    my $viewUrl = Foswiki::Func::getViewUrl($theWeb, $theTopic);
     if( $theButtons =~ /f/ ) {
         # first slide button
         if( $theButtons =~ / f/ ) {
@@ -224,7 +225,7 @@ sub renderSlideToc
 
     my $slideNum = 1;
     my $text = '';
-    my $viewUrl = TWiki::Func::getViewUrl($theWeb, $theTopic);
+    my $viewUrl = Foswiki::Func::getViewUrl($theWeb, $theTopic);
     foreach( @theTitles ) {
         $text .= "\t\* ";
         $text .= "<a href=\"$viewUrl?slideshow=on&amp;skin=print#GoSlide$slideNum\">";
@@ -239,17 +240,17 @@ sub readTmplText
 {
     my( $theWeb, $theArgs ) = @_;
 
-    my $tmplTopic =  TWiki::Func::extractNameValuePair( $theArgs, "template" );
+    my $tmplTopic =  Foswiki::Func::extractNameValuePair( $theArgs, "template" );
     unless( $tmplTopic ) {
         $theWeb = $installWeb;
-        $tmplTopic =  TWiki::Func::getPreferencesValue( "SLIDESHOWPLUGIN_TEMPLATE" )
+        $tmplTopic =  Foswiki::Func::getPreferencesValue( "SLIDESHOWPLUGIN_TEMPLATE" )
                    || "SlideShowPlugin";
     }
     if( $tmplTopic =~ /^([^\.]+)\.(.*)$/o ) {
         $theWeb = $1;
         $tmplTopic = $2;
     }
-    my( $meta, $text ) = TWiki::Func::readTopic( $theWeb, $tmplTopic );
+    my( $meta, $text ) = Foswiki::Func::readTopic( $theWeb, $tmplTopic );
     # remove everything before %STARTINCLUDE% and after %STOPINCLUDE%
     $text =~ s/.*?%STARTINCLUDE%//os;
     $text =~ s/%STOPINCLUDE%.*//os;

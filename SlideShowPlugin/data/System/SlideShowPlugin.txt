@@ -7,11 +7,11 @@ This plugin converts a topic with headings into a slideshow.
 
 ---++ Introduction
 
-There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in TWiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of TWiki and other plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/TWikiDrawPlugin can be used to create appealing presentations.
+There is already a defacto standard for presentations, why this plugin? This plugin makes sense for organizations that do already have lots of content in Foswiki: It is easy to create a web based presentation that contains many links to related content. The plugin does not try to compete with the bells and whistles of the other presentation program, but the markup of Foswiki and other plugins like Foswiki:Extensions/ChartPlugin, Foswiki:Extensions/GaugePlugin, Foswiki:Extensions/SpreadSheetPlugin, Foswiki:Extensions/FoswikiDrawPlugin can be used to create appealing presentations.
 
 Any topic with headings can be converted into a slideshow. Each slide starts with a ="---++"= heading. There are two modes to view a topic:
 
-   * Normal topic view mode: Headings and text is shown in the usual TWiki rendering, representing the outline of the slideshow. This mode is useful to print handouts.
+   * Normal topic view mode: Headings and text is shown in the usual Foswiki rendering, representing the outline of the slideshow. This mode is useful to print handouts.
    * Presentation mode: Each heading with text is shown as a slide; the format is based on a slide template. Navigation buttons are added to go to the "First", "Previous", and "Next" slide. Slide navigation is quick because it is done with anchor jumps to the same page. 
 
 You can start the presentation by clicking on the "Start presentation" button.
@@ -56,9 +56,9 @@ This is a short example of a slideshow. You should see a "Start presentation" bu
 %BR%
 
 <center>
-By TWiki:Main/PeterThoeny
+By John Doe
 
-San Jose, 29 Sep 2007
+London, 29 Sep 2007
 </center>
 
 ---+++ Agenda
@@ -104,7 +104,7 @@ The part between the rulers defines the default format of a slide:
 %STARTINCLUDE%
 <table width="100%" border="0" cellspacing="0" cellpadding="5">
 <tr bgcolor="#003399"><td valign="middle" width="2%">
-<img src="%PUBURL%/%WEB%/SlideShowPlugin/logo.gif" border="0" alt="TWiki Slide Show" /></td>
+<img src="%PUBURL%/%WEB%/SlideShowPlugin/logo.gif" border="0" alt="Foswiki Slide Show" /></td>
 <td valign="middle">
 <font size="+3" color="#FFFFFF">%SLIDETITLE%</font></td>
 <td align="right" valign="middle">
@@ -133,7 +133,7 @@ The part between the rulers defines the default format of a slide:
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where TWiki is running. 
+__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
 
    * Download the ZIP file from the Plugin Home (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
@@ -141,8 +141,8 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
      | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
      | ==lib/Foswiki/Plugins/%TOPIC%/SlideShow.pm== | Plugin Perl module |
-     | ==pub/TWiki/*.gif== | Various button image files |
-   * TWiki 4.0 and up: Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script, and enable the plugin in the {Plugins} section.
+     | ==pub/System/*.gif== | Various button image files |
+   * Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script, and enable the plugin in the {Plugins} section.
    * Test above example if the installation was successful.
 
 ---++ Plugin Info
