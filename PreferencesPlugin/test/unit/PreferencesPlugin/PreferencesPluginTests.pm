@@ -40,7 +40,7 @@ HERE
  <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
  <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="foswikiSubmit" />
  &nbsp;
- <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButton" />
+ <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
 </form>
 HTML
     $twiki->finish();
@@ -75,7 +75,7 @@ Normal text outside form
 <form method="post" action="$viewUrl" enctype="multipart/form-data" name="editpreferences">
  <input type="submit" name="prefsaction" value="Save new settings" accesskey="s" class="foswikiSubmit" />
  &nbsp;
- <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButton" />
+ <input type="submit" name="prefsaction" value="Cancel" accesskey="c" class="foswikiButtonCancel" />
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE = SHELTER\0070</span>
    * Set <span style="font-weight:bold;" class="foswikiAlert">FLEEGLE2 = SHELTER\0071</span></form>
 <!-- Form ends before this

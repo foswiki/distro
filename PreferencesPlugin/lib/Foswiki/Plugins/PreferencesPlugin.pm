@@ -232,7 +232,7 @@ sub _generateControlButtons {
                                          -accesskey=>'s');
     $text .= '&nbsp;';
     $text .= CGI::submit(-name=>'prefsaction', -value=>'Cancel',
-                         -class=>'foswikiButton',
+                         -class=>'foswikiButtonCancel',
                          -accesskey=>'c').$END_MARKER;
     return $text;
 }
