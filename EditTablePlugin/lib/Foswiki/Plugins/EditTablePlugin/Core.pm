@@ -853,7 +853,7 @@ sub createButtonRow {
               unless ( $params{'changerows'} =~ /^add$/oi );
         }
         $text .=
-"$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"foswikiButton foswikiButtonCancel\" />\n";
+"$preSp<input type=\"submit\" name=\"etcancel\" id=\"etcancel\" value=\"$prefCANCEL_BUTTON\" class=\"foswikiButtonCancel\" />\n";
 
         if ( $params{'helptopic'} ) {
 

@@ -215,7 +215,7 @@ SOMETHING <noautolink>
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -266,7 +266,7 @@ INPUT
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -330,7 +330,7 @@ EXPECTED
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 EXPECTED
@@ -438,7 +438,7 @@ INPUT
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 END
@@ -500,7 +500,7 @@ INPUT
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 END
@@ -610,7 +610,7 @@ INPUT
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 </form>
 </div><!-- /editTable --></noautolink>
 END
@@ -1150,7 +1150,7 @@ SOMETHING
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
 <input type="submit" name="etaddrow" id="etaddrow" value="Add row" class="foswikiButton" />
 <input type="submit" name="etdelrow" id="etdelrow" value="Delete last row" class="foswikiButton" />
-<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButton foswikiButtonCancel" />
+<input type="submit" name="etcancel" id="etcancel" value="Cancel" class="foswikiButtonCancel" />
 <input type="hidden" name="ettablenr" value="1" />
 | <input class="foswikiInputField editTableInput" type="text" name="etcell1x1" size="16" value="" /> |
 <input type="hidden" name="etrows" value="1" />
