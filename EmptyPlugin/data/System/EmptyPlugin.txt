@@ -12,15 +12,17 @@ To create your own Plugin:
 ---++ Plugin Handlers
 The following plugin handlers are defined.
 
-%INCLUDE{"pod:Foswiki::Plugins::EmptyPlugin" level="3"}%
+%INCLUDE{"doc:Foswiki::Plugins::EmptyPlugin" level="3"}%
 
----++ Plugin Settings
+---++ Plugin Preferences
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>EMPTYPLUGIN_SHORTDESCRIPTION%==
-
-   * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
+Preference settings specific to your plugin can be stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. Default values for these preferences can be set in plugin topics; for example:
+   * One line description, used by other tools:
       * Set SHORTDESCRIPTION = Empty Plugin used as a template for new Plugins
+This is then referenced using ==%<nop>EMPTYPLUGIN_SHORTDESCRIPTION%==.
+
+If you want to redefine a preference setting, for example in %USERSWEB%.SitePreferences, or in a web preferences or in your personal preferences, you must define the 'long form' e.g.
+      * <nop>Set EMPTYPLUGIN_MYPREFERENCE = my preference
 
 ---++ Plugin Info
 
