@@ -98,7 +98,7 @@ These template files have a specific format that matches the raw format of email
 so be careful and test your changes. It is easiest to start by copying the default templates:
 
 <verbatim>
-cd twiki/templates
+cd templates
 cp registernotify.tmpl registernotify.myskin.tmpl
 cp registerconfirm.tmpl registerconfirm.myskin.tmpl
 cp registernotifyadmin.tmpl registernotifyadmin.myskin.tmpl
