@@ -340,7 +340,7 @@ push(@body, "New Revision: $rev\n");
 push(@body, "Trac url: http://trac.foswiki.org/changeset/$rev\n");
 push(@body, "Log:\n");
 for( @log ) {
-    s#\b(Item\d+)#http://foswiki.org/Tasks/$1 #g;
+    s#(?:Foswikitask:)?\b(Item\d+)#http://foswiki.org/Tasks/$1 #g;
 }
 push(@body, @log);
 push(@body, "\n");

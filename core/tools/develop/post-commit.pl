@@ -9,7 +9,7 @@
 use strict;
 
 my $REPOS = $ARGV[0];
-my $BUGS = '/home/trunk.foswiki.org/core/data/Tasks';
+my $BUGS = '/home/foswiki.org/data/Tasks';
 my $SUPPORT = '/home/svn';
 
 my $verbose = 0; # 1 to debug
