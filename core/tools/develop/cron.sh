@@ -15,9 +15,6 @@ cd /usr/home/trunk.foswiki.org
 #        | sh
 #done
 
-# Cleanup: remove all symbolilc links
-find . -type l -print0|xargs -r0 rm
-
 # Revert Foswiki.pm as we modified it to show the last revision
 svn revert core/lib/Foswiki.pm
 
@@ -28,13 +25,16 @@ svn update
 cd core
 perl pseudo-install.pl -link default
 
+# Remove broken links
+find -L . -type l -exec rm \{\} \;
+
 # Modify Foswiki.pm to show the last revision
 REV=`svnlook youngest /home/svn/nextwiki`
 cd lib
 sed -e "s/\(RELEASE = '\)/\1SVN $REV: /" Foswiki.pm > Foswiki.pm.new
 mv Foswiki.pm.new Foswiki.pm
 
-# Linking all non-existing webs to trunk
+# Make sure we have links to all non-existing webs to trunk
 for dir in data pub; do
     cd ../$dir
     for f in /home/foswiki.org/$dir/*; do
