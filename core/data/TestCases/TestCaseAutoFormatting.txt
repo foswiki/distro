@@ -431,7 +431,7 @@ escaped:
 <!-- expected expand ANCHOR -->
 <a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#NotThere">TestCaseAutoFormatting#NotThere</a>
 <p />
-<a class="foswikiCurrentTopicLink foswikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#MyAnchor">Jump</a>
+<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#MyAnchor">Jump</a>
 <p />
 <a name="MyAnchor"></a> To here
 <!-- /expected -->
@@ -562,7 +562,7 @@ Note that when viewing this topic the table below may be formatted by <nop>Table
 ---+++ Expected
 <!-- expected expand -->
 <span class="foswikiNewLink">AnchorLink#AnchorName<a href="%SCRIPTURLPATH{"edit"}%/TestCases/AnchorLink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
-<a class="foswikiAnchorLink" href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences#Tools">WebPreferences#Tools</a>
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences#Tools">WebPreferences#Tools</a>
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->

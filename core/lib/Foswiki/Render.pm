@@ -688,23 +688,20 @@ sub _renderExistingWikiWord {
 
     my @attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
-    my $cssClassName = "$currentTopic$currentWebHome";
-    $cssClassName =~ s/^(.*?)\s*$/$1/ if $cssClassName;
     if ($anchor) {
         $anchor = $this->makeAnchorName($anchor);
-        push(
-            @attrs,
-            class => $cssClassName,
-            href  => $href . '#' . $anchor
-        );
+        $href = "$href#$anchor";
     }
-    else {
-        push(
-            @attrs,
-            class => $cssClassName,
-            href  => $href
-        );
-    }
+    my $cssClassName = "$currentTopic$currentWebHome";
+    $cssClassName =~ s/^(.*?)\s*$/$1/ if $cssClassName;
+	push(
+		@attrs,
+		class => $cssClassName
+	) if $cssClassName;
+	push(
+		@attrs,
+		href => $href
+	);
     my $tooltip = _linkToolTipInfo( $this, $web, $topic );
     push( @attrs, title => $tooltip ) if ($tooltip);
 
