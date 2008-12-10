@@ -110,8 +110,7 @@ database, that can then be displayed by referring to
 =cut
 
 sub login {
-    my ( $this, $query, $sessionSession ) = @_;
-    my $session = $this->{session};
+    my ( $this, $query, $session ) = @_;
     my $users   = $session->{users};
 
     my $origurl   = $query->param('origurl');
@@ -151,7 +150,13 @@ sub login {
         $error = $users->passwordError();
 
         if ($validation) {
+            # SUCCESS our user is authenticated..
             $this->userLoggedIn($loginName);
+
+            # remove the sudo param - its only to tell TemplateLogin
+            # that we're using BaseMapper..
+            $query->delete('sudo');
+
             $cgisession->param( 'VALIDATION', $validation ) if $cgisession;
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
@@ -160,13 +165,21 @@ sub login {
 
                 # origurl passed as parameter, encoded
                 $origurl = Foswiki::urlDecode($origurl);
+
+                # Unpack params encoded in the origurl and restore them
+                # to the query. If they were left in the query string they
+                # would be lost when we redirect with passthrough
+                if ($origurl =~ s/\?(.*)//) {
+                    foreach my $pair (split(/[&;]/, $1)) {
+                        if ($pair =~ /(.*?)=(.*)/) {
+                            $query->param($1, $2);
+                        }
+                    }
+                }
             }
 
-            #SUCCESS our user is authenticated..
-            $query->delete('sudo')
-              ; #remove the sudo param - its only to tell TemplateLogin that we're using BaseMapper..
-                # Redirect with passthrough
-            $sessionSession->redirect( $origurl, 1 );    # with passthrough
+            # Redirect with passthrough
+            $session->redirect( $origurl, 1 );    # with passthrough
             return;
         }
         else {
