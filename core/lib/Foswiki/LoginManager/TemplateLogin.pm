@@ -51,7 +51,7 @@ Triggered on auth fail
 =cut
 
 sub forceAuthentication {
-    my $this  = shift;
+    my $this    = shift;
     my $session = $this->{session};
 
     unless ( $session->inContext('authenticated') ) {
@@ -59,11 +59,11 @@ sub forceAuthentication {
 
         # Redirect with passthrough so we don't lose the original query params
         my $session = $this->{session};
-        my $topic = $session->{topicName};
-        my $web   = $session->{webName};
-        my $url   = $session->getScriptUrl( 0, 'login', $web, $topic );
+        my $topic   = $session->{topicName};
+        my $web     = $session->{webName};
+        my $url     = $session->getScriptUrl( 0, 'login', $web, $topic );
         $query->param( -name => 'origurl', -value => $session->{request}->uri );
-        $session->redirect( $url, 1 ); # with passthrough
+        $session->redirect( $url, 1 );    # with passthrough
         return 1;
     }
     return undef;
@@ -79,10 +79,10 @@ Content of a login link
 =cut
 
 sub loginUrl {
-    my $this  = shift;
+    my $this    = shift;
     my $session = $this->{session};
-    my $topic = $session->{topicName};
-    my $web   = $session->{webName};
+    my $topic   = $session->{topicName};
+    my $web     = $session->{webName};
     return $session->getScriptUrl( 0, 'login', $web, $topic,
         origurl => $session->{request}->uri );
 }
@@ -112,7 +112,7 @@ database, that can then be displayed by referring to
 sub login {
     my ( $this, $query, $sessionSession ) = @_;
     my $session = $this->{session};
-    my $users = $session->{users};
+    my $users   = $session->{users};
 
     my $origurl   = $query->param('origurl');
     my $loginName = $query->param('username');
@@ -156,12 +156,17 @@ sub login {
             if ( !$origurl || $origurl eq $query->url() ) {
                 $origurl = $session->getScriptUrl( 0, 'view', $web, $topic );
             }
+            else {
+
+                # origurl passed as parameter, encoded
+                $origurl = Foswiki::urlDecode($origurl);
+            }
 
             #SUCCESS our user is authenticated..
             $query->delete('sudo')
               ; #remove the sudo param - its only to tell TemplateLogin that we're using BaseMapper..
                 # Redirect with passthrough
-            $sessionSession->redirect( $origurl, 1 ); # with passthrough
+            $sessionSession->redirect( $origurl, 1 );    # with passthrough
             return;
         }
         else {
@@ -175,7 +180,7 @@ sub login {
     $session->{prefs}->pushPreferenceValues(
         'SESSION',
         {
-            ORIGURL => Foswiki::urlEncode( $origurl ),
+            ORIGURL => Foswiki::urlEncode($origurl),
             BANNER  => $banner,
             NOTE    => $note,
             ERROR   => $error
