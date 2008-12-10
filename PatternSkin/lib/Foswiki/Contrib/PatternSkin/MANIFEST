@@ -93,7 +93,6 @@ templates/search.pattern.tmpl 0444
 templates/searchbase.pattern.tmpl 0444
 templates/searchbookview.pattern.tmpl 0444
 templates/searchformat.pattern.tmpl 0444
-templates/searchmeta.pattern.tmpl 0444
 templates/settings.pattern.tmpl 0444
 templates/view.pattern.tmpl 0444
 templates/viewbottombar.pattern.tmpl 0444

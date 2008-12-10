@@ -1,6 +1,7 @@
 %TMPL:INCLUDE{"preview"}%
+%TMPL:INCLUDE{"viewbottombar"}%
 
-
+%TMPL:DEF{"bottombarcontents"}%%TMPL:END%
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternPreviewPage%TMPL:END%
 
 
@@ -9,7 +10,7 @@
 
 %TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp;%TMPL:P{"button_quietsave"}%&nbsp;%TMPL:P{"button_checkpoint"}% %MAKETEXT{"or"}% %TMPL:P{"button_discard"}%%TMPL:END%
 
-%TMPL:DEF{"button_discard"}%<input id="discard" type="submit" class="foswikiButton foswikiButtonCancel" name="action_cancel" %MAKETEXT{"value='Discard' accesskey='d'"}% />%TMPL:END%
+%TMPL:DEF{"button_discard"}%<input id="discard" type="submit" class="foswikiButtonCancel" name="action_cancel" %MAKETEXT{"value='Discard' accesskey='d'"}% />%TMPL:END%
 
 %TMPL:DEF{"accesskeys_help"}%%ICON{info}% <a class="foswikiPopUp" target="AccessKeys" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/AccessKeys">%MAKETEXT{"Access keys"}%</a>: %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, D = Discard"}%%TMPL:END%
 

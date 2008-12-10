@@ -29,19 +29,11 @@ html body {
 html>body { /* Mozilla */
 	font-size:small;	
 }
-p {
-	margin:1em 0 0 0;
-}
-table {
-}
 th {
 	line-height:1.15em;
 }
 label {
 	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
-}
-strong, b {
-	font-weight:bold;
 }
 hr {
 	height:1px;
@@ -67,8 +59,8 @@ html>body pre { /* hide from IE */
 }
 ol, ul {
 	margin-top:0;
+	margin-bottom:1em;
 }
-ol li, ul li {}
 blockquote {
 	padding:.5em 1.25em;
 	border-style:solid;
@@ -79,10 +71,6 @@ blockquote {
 h1 {
 	padding:0.25em 0 0 0;
 	margin:0 0 .5em 0;
-}
-h2, h3, h4, h5, h6 {
-	padding:0;
-	margin:1em 0 .1em 0;
 }
 h1, h2, h3, h4, h5, h6 {
 	font-weight:normal;
@@ -98,7 +86,7 @@ h2, h3, h4, h5, h6 {
 	display:block;
 	/* give header a background color for easy scanning:*/
 	padding:.25em 10px;
-	margin:1.25em -10px .35em -10px;
+	margin:1em -10px .35em -10px;
 	height:auto;	
 }
 /*
@@ -184,6 +172,7 @@ select {
 .foswikiButtonCancel,
 a.foswikiButton,
 a.foswikiSubmit,
+a.foswikiButtonCancel,
 .foswikiCheckbox {
 	border-width:1px;
 	border-style:solid;
@@ -210,6 +199,10 @@ a.foswikiButton,
 a.foswikiButton:hover,
 a.foswikiButton:link:active,
 a.foswikiButton:visited:active,
+a.foswikiButtonCancel,
+a.foswikiButtonCancel:hover,
+a.foswikiButtonCancel:link:active,
+a.foswikiButtonCancel:visited:active,
 a.foswikiSubmit,
 a.foswikiSubmit:hover,
 a.foswikiSubmit:link:active,
@@ -343,8 +336,6 @@ a.foswikiSubmit:visited:active {
 .foswikiForm {
 	margin:1em 0;
 	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
-	border-width:2px 0 0 0;
-	border-style:solid;
 	height:1%; /* for IE */
 }
 .foswikiTable h2, .foswikiFormTable h2,
@@ -377,6 +368,8 @@ a.foswikiSubmit:visited:active {
 	font-size:94%; /*S2*/
 	padding:1em 20px; /*S5*/ /* top:use less padding for the toggle link; bottom:use less space in case the table is folded in  */
 	margin:0;
+	border-width:2px 0 0 0;
+	border-style:solid;
 }
 .foswikiAttachments .foswikiTable,
 table.foswikiFormTable {
@@ -428,18 +421,21 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	text-decoration:none;
 }
 .foswikiAttachments h3,
-.foswikiForm h3 {
-	font-size:115%;
+.foswikiForm h3,
+.patternTwistyButton h3 {
+	font-size:1.15em;
 	font-weight:bold;
 	display:inline;
 	margin:0;
 	padding:0;
 }
-.foswikiAttachments .foswikiButton h3,
-.foswikiForm .foswikiButton h3 {
+.patternTwistyButton h3 {
+	/* always add class foswikiButton as well */
 	padding:.1em .2em;
 }
-.patternToggleHeader {}
+.patternAtachmentHeader {
+	/* behaviour class */
+}
 .foswikiForm h3 a:link,
 .foswikiForm h3 a:visited {
 	text-decoration:none;
@@ -548,10 +544,12 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 }
 .foswikiBroadcastMessage,
 .foswikiNotification {
-	padding:.5em 20px; /*S5*/
+	padding:1em 20px; /*S5*/
 }
 .foswikiNotification {
 	margin:1em 0;
+	border-style:solid;
+	border-width:2px;
 }
 .foswikiBroadcastMessage {
 	margin:0 0 1.25em 0;
@@ -559,7 +557,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiHelp {
 	height:1%; /* for IE */
 	padding:1em;
-	margin:0;
+	margin:.25em 0 0 0;
 	border-style:solid;
 	border-width:2px;
 }
@@ -568,6 +566,9 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	padding-left:20px;
 }
 .foswikiAccessKey {
+	border:none;
+}
+a:hover .foswikiAccessKey {
 	text-decoration:none;
 	border-width:0 0 1px 0;
 	border-style:solid;
@@ -658,7 +659,9 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 }
 
 /* bottom paddings */
-#patternMainContents,
+#patternMainContents {
+	padding-bottom:4em;
+}
 #patternBottomBarContents {
 	padding-bottom:2em;
 }
@@ -805,15 +808,6 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternToolBar span a:active {
 	outline:none;
 }
-.patternToolBar span.foswikiAccessKey {
-	padding:0;
-	margin:0;
-	float:none;
-}
-.patternToolBar a:hover .foswikiAccessKey {
-	border-width:0 0 1px 0;
-	border-style:solid;
-}
 .patternToolBar span s,
 .patternToolBar span strike {
 	text-decoration:none;
@@ -848,6 +842,11 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternTopicAction .patternActionButtons span s,
 .patternTopicAction .patternActionButtons span strike {
 	text-decoration:none;
+}
+.patternActionButtons a.foswikiButton,
+.patternActionButtons a.foswikiSubmit,
+.patternActionButtons a.foswikiButtonCancel {
+	padding:.1em .2em;
 }
 .patternNoViewPage .patternTopicAction {
 	margin-top:-1px;
@@ -992,6 +991,12 @@ h4.patternSearchResultsHeader {
 
 .patternEditPage #patternMainContents {
 	padding:0 0 2em 0;
+}
+.patternEditPage .patternTop {
+	font-size:94%;
+}
+.patternEditPage .patternEditTopic {
+	margin:.25em 0 0 0;
 }
 .patternEditPage .foswikiForm {
 	margin:2.25em 0 0 0;

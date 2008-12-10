@@ -14,8 +14,7 @@ foswiki.Event.addLoadEvent(initForm);
 </script>%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" link="%MAKETEXT{"Edit help"}%" showimgleft="%ICONURLPATH{toggleopen}%"
-hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="<h3>&#9658; %MAKETEXT{"Edit help"}%</h3>" hidelink="<h3>&#9660; %MAKETEXT{"Edit help"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
 
 
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternEditPage%TMPL:END%
@@ -45,7 +44,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 
 %TMPL:DEF{"button_preview"}%<input type="submit" class="foswikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% onclick="enableTWikiMandatoryChecks()" />%TMPL:END%
 
-%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButton foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressSaveValidation()" />%TMPL:END%
+%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressSaveValidation()" />%TMPL:END%
 
 
 %TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div><!--/patternSaveHelp-->%TMPL:END%
@@ -62,7 +61,7 @@ hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
 
 
-%TMPL:DEF{"textarea"}%<textarea class="foswikiTextarea foswikiEditboxStyleProportional" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>
+%TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea></div><!--/patternEditTopic-->
 %TMPL:P{"sig_textareabuttons"}%%TMPL:END%
 
 

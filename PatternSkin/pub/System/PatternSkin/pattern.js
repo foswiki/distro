@@ -21,14 +21,14 @@ var Pattern = {
 		var countStr = " " + "<span class='patternSmallLinkToHeader'>" + ' '  + count + "<\/span>";
 		var showElem = document.getElementById('topicattachmentslistshow');
 		if (showElem != undefined) {
-			var elems = foswiki.getElementsByClassName(showElem, 'patternToggleHeader');
+			var elems = foswiki.getElementsByClassName(showElem, 'patternAtachmentHeader');
 			if (elems && elems[0]) {
 				elems[0].innerHTML += countStr;
 			}
 		}
 		var hideElem = document.getElementById('topicattachmentslisthide');
 		if (hideElem != undefined) {
-			var elems = foswiki.getElementsByClassName(hideElem, 'patternToggleHeader');
+			var elems = foswiki.getElementsByClassName(hideElem, 'patternAtachmentHeader');
 			if (elems && elems[0]) {
 				elems[0].innerHTML += countStr;
 			}
