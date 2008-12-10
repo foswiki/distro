@@ -92,7 +92,7 @@ ACTUAL
 sub test_squabbedWebWikiword {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
+<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">$Foswiki::cfg{SystemWebName}.$Foswiki::cfg{HomeTopicName}</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -105,7 +105,7 @@ ACTUAL
 sub test_squabbedWebWikiWordAltText {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
+<a href="$this->{sup}/$Foswiki::cfg{SystemWebName}/$Foswiki::cfg{HomeTopicName}">Alt <nop>TextAlt</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -178,7 +178,7 @@ ACTUAL
 sub test_squabbedUnderscoreTopic {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$this->{test_web}/Underscore_topic">Underscore_topic</a>
+<a href="$this->{sup}/$this->{test_web}/Underscore_topic">Underscore_topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -190,7 +190,7 @@ ACTUAL
 sub test_squabbedWebUnderscroe {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$this->{test_web}/Underscore_topic">$this->{test_web}.Underscore_topic</a>
+<a href="$this->{sup}/$this->{test_web}/Underscore_topic">$this->{test_web}.Underscore_topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -202,7 +202,7 @@ ACTUAL
 sub test_squabbedWebUnderscoreAlt {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$this->{test_web}/Underscore_topic">topic</a>
+<a href="$this->{sup}/$this->{test_web}/Underscore_topic">topic</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -276,7 +276,7 @@ ACTUAL
 sub test_squabbedUS {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$this->{test_web}/H_">H_</a>
+<a href="$this->{sup}/$this->{test_web}/H_">H_</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -294,7 +294,7 @@ ACTUAL
 sub test_wikiWordInsideSquabbedLink {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/System/WebRssBase">System.WebRss <nop>Base</a>
+<a href="$this->{sup}/System/WebRssBase">System.WebRss <nop>Base</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -369,7 +369,7 @@ ACTUAL
 sub test_numericWikiWord {
     my $this = shift;
     my $expected = <<EXPECTED;
-<a class="" href="$this->{sup}/$this->{test_web}/Numeric1Wikiword">Numeric1Wikiword</a>
+<a href="$this->{sup}/$this->{test_web}/Numeric1Wikiword">Numeric1Wikiword</a>
 EXPECTED
 
     my $actual = <<ACTUAL;
@@ -442,7 +442,7 @@ ACTUAL
 sub test_squabbedEmmedTopic {
     my $this = shift;
     my $expected = <<EXPECTED;
-<em>text with <a class="" href="$this->{sup}/$this->{test_web}/H_">H_</a> link</em>
+<em>text with <a href="$this->{sup}/$this->{test_web}/H_">H_</a> link</em>
 EXPECTED
 
     my $actual = <<ACTUAL;
