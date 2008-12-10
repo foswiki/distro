@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1228723330" format="1.1" version="1.3"}%
+%META:TOPICINFO{author="ProjectContributor" date="1228723330" format="1.1" version="1.1"}%
 ---+!! %MAKETEXT{"Local customisations of site-wide preferences"}%
 
 <div class="foswikiHelp">%ICON{"info"}% %MAKETEXT{"Site-level preferences are located in [_1], however this [_2] prefs topic has override priority and should be used for local customisations. This allows for easier upgrades as you don't need to worry about the shipped preferences clobbering yours. It's easier to keep a handle on if you only copy over the settings you actually change." args="[[%SYSTEMWEB%.DefaultPreferences]], [[%USERSWEB%.%TOPIC%]]"}% </div>
@@ -15,4 +15,3 @@
    * Set ALLOWTOPICCHANGE = AdminGroup
    * Set ALLOWTOPICRENAME = AdminGroup
 -->
-
