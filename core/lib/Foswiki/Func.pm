@@ -1288,7 +1288,7 @@ sub setTopicEditLock {
      | =dontlog= | don't log this change in twiki log |
      | =forcenewrevision= | force the save to increment the revision counter |
      | =minor= | True if this is a minor change, and is not to be notified |
-
+     | =comment= | Comment relating to the save |
 For example,
 <verbatim>
 my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic )
@@ -1351,8 +1351,6 @@ sub saveTopicText {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
     my $session = $Foswiki::Plugins::SESSION;
-    my ( $mirrorSite, $mirrorViewURL ) = $session->readOnlyMirrorWeb($web);
-    throw Error::Simple('Cannot save on a mirror site') if ($mirrorSite);
 
     # check access permission
     unless (

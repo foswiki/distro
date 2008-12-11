@@ -41,7 +41,6 @@ sub buildNewTopic {
         );
     }
 
-    Foswiki::UI::checkMirror( $session, $webName, $topic );
     Foswiki::UI::checkWebExists( $session, $webName, $topic, 'save' );
 
     my $topicExists = $store->topicExists( $webName, $topic );

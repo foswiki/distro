@@ -143,19 +143,10 @@ sub view {
         $session->writeLog( 'view', $webName . '.' . $topicName, $logEntry );
     }
 
-    my ( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote ) =
-      $session->readOnlyMirrorWeb($webName);
-
     # Note; must enter all contexts before the template is read, as
     # TMPL:P is expanded on the fly in the template reader. :-(
     my ( $revTitle, $revArg ) = ( '', '' );
-    if ($mirrorSiteName) {
-        $session->enterContext('inactive');
-        unless ($topicExists) {
-            $text = '';
-        }
-    }
-    elsif ( $rev < $showRev ) {
+    if ( $rev < $showRev ) {
         $session->enterContext('inactive');
 
         # disable edit of previous revisions
@@ -188,7 +179,6 @@ sub view {
         );
     }
 
-    $tmpl =~ s/%REVINFO%/%REVINFO%$mirrorNote/go;
     $tmpl =~ s/%REVTITLE%/$revTitle/g;
     $tmpl =~ s/%REVARG%/$revArg/g;
 

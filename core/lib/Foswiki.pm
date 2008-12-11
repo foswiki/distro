@@ -977,48 +977,6 @@ sub isValidWebName {
 
 =begin TML
 
----++ ObjectMethod readOnlyMirrorWeb( $theWeb ) -> ( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote )
-
-If this is a mirrored web, return information about the mirror. The info
-is returned in a quadruple:
-
-| site name | URL | link | note |
-
-=cut
-
-sub readOnlyMirrorWeb {
-    my ( $this, $theWeb ) = @_;
-
-    my @mirrorInfo = ( '', '', '', '' );
-    if ( $Foswiki::cfg{SiteWebTopicName} ) {
-        my $mirrorSiteName =
-          $this->{prefs}->getWebPreferencesValue( 'MIRRORSITENAME', $theWeb );
-        if (   $mirrorSiteName
-            && $mirrorSiteName ne $Foswiki::cfg{SiteWebTopicName} )
-        {
-            my $mirrorViewURL =
-              $this->{prefs}
-              ->getWebPreferencesValue( 'MIRRORVIEWURL', $theWeb );
-            my $mirrorLink = $this->templates->readTemplate('mirrorlink');
-            $mirrorLink =~ s/%MIRRORSITENAME%/$mirrorSiteName/g;
-            $mirrorLink =~ s/%MIRRORVIEWURL%/$mirrorViewURL/g;
-            $mirrorLink =~ s/\s*$//g;
-            my $mirrorNote = $this->templates->readTemplate('mirrornote');
-            $mirrorNote =~ s/%MIRRORSITENAME%/$mirrorSiteName/g;
-            $mirrorNote =~ s/%MIRRORVIEWURL%/$mirrorViewURL/g;
-            $mirrorNote =
-              $this->renderer->getRenderedVersion( $mirrorNote, $theWeb,
-                $Foswiki::cfg{HomeTopic} );
-            $mirrorNote =~ s/\s*$//g;
-            @mirrorInfo =
-              ( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote );
-        }
-    }
-    return @mirrorInfo;
-}
-
-=begin TML
-
 ---++ ObjectMethod getSkin () -> $string
 
 Get the currently requested skin path
@@ -3221,8 +3179,7 @@ sub _includeWarning {
 sub FORMFIELD {
     my ( $this, $params, $topic, $web ) = @_;
     my $cgiQuery = $this->{request};
-    my $cgiRev = $cgiQuery->param('rev') if ($cgiQuery);
-    $params->{rev} = $cgiRev;
+    $params->{rev} = $cgiQuery->param('rev') if ($cgiQuery);
     return $this->renderer->renderFORMFIELD( $params, $topic, $web );
 }
 

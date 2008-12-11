@@ -50,8 +50,6 @@ sub attach {
     my $isHideChecked = '';
     my $users         = $session->{users};
 
-    Foswiki::UI::checkMirror( $session, $webName, $topic );
-
     Foswiki::UI::checkAccess( $session, $webName, $topic, 'CHANGE',
         $session->{user} );
     Foswiki::UI::checkTopicExists( $session, $webName, $topic,
@@ -206,7 +204,6 @@ sub _upload {
         $session, $webName, $topic, 'attach files to' );
     Foswiki::UI::checkTopicExists( $session, $webName, $topic,
                                    'attach files to' );
-    Foswiki::UI::checkMirror( $session, $webName, $topic );
     Foswiki::UI::checkAccess(
         $session, $webName, $topic, 'CHANGE', $user );
 

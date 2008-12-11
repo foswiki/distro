@@ -199,7 +199,8 @@ sub encrypt {
 
     }
     elsif ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) {
-        my $salt = $this->fetchPass($login) unless $fresh;
+        my $salt;
+        $salt = $this->fetchPass($login) unless $fresh;
         if ( $fresh || !$salt ) {
             $salt = '$1$';
             my @saltchars = ( '.', '/', 0 .. 9, 'A' .. 'Z', 'a' .. 'z' );

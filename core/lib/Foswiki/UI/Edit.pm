@@ -76,7 +76,6 @@ sub init_edit {
     my $store     = $session->{store};
 
     Foswiki::UI::checkWebExists( $session, $webName, $topic, 'edit' );
-    Foswiki::UI::checkMirror( $session, $webName, $topic );
 
     my $tmpl        = '';
     my $text        = '';

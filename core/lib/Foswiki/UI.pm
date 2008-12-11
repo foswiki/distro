@@ -309,28 +309,6 @@ sub checkTopicExists {
     }
 }
 
-=begin TML
-
----++ StaticMethod checkMirror( $session, $web, $topic )
-
-Checks if this web is a mirror web, throwing an OopsException
-if it is.
-
-=cut
-
-sub checkMirror {
-    my ( $session, $webName, $topic ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-
-    my ( $mirrorSiteName, $mirrorViewURL ) =
-      $session->readOnlyMirrorWeb($webName);
-
-    return unless ($mirrorSiteName);
-
-    throw Error::Simple(
-        "This is a mirror site $mirrorSiteName, $mirrorViewURL");
-}
-
 =pod TML
 
 ---++ StaticMethod checkAccess( $web, $topic, $mode, $user )

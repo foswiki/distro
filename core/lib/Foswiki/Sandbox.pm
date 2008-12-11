@@ -411,7 +411,7 @@ sub sysCommand {
 
             # Child - run the command
             untie(*STDERR);
-            open( STDERR, '>' . File::Spec->devnull() )
+            open( STDERR, '>', File::Spec->devnull() )
               || die "Can't kill STDERR: '$!'";
             unless ( exec( $path, @args ) ) {
                 syswrite( STDOUT, $key . ": $!\n" );
@@ -470,7 +470,7 @@ sub sysCommand {
 
             open( STDOUT, ">&=" . fileno($writeHandle) ) or die;
 
-            open( STDERR, '>' . File::Spec->devnull() );
+            open( STDERR, '>', File::Spec->devnull() );
             unless ( exec( $path, @args ) ) {
                 syswrite( STDOUT, $key . ": $!\n" );
                 exit($key);
@@ -512,7 +512,7 @@ sub sysCommand {
         }
 
         open( OLDERR, '>&STDERR' ) || die "Can't steal STDERR: $!";
-        open( STDERR, '>' . File::Spec->devnull() );
+        open( STDERR, '>', File::Spec->devnull() );
         $data = `$cmd`;
 
         # restore STDERR
