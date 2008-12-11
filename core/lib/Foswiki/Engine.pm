@@ -146,10 +146,15 @@ sub prepareQueryParameters {
     my ( $this, $req, $queryString ) = @_;
     my @pairs = split /[&;]/, $queryString;
     my ( $param, $value, %params, @plist );
-    foreach (@pairs) {
-        ( $param, $value ) =
-          map { tr/+/ /; s/%([0-9a-fA-F]{2})/chr(hex($1))/oge; $_ }
-          split '=', $_, 2;
+    foreach my $pair (@pairs) {
+        ( $param, $value ) = split('=', $pair, 2);
+        # url decode
+        $param =~ tr/+/ /;
+        $param =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
+        if (defined $value) {
+            $value =~ tr/+/ /;
+            $value =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
+        }
         push @{ $params{$param} }, $value;
         push @plist, $param;
     }
