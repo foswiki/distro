@@ -32,11 +32,7 @@ Another one was !CvWiki, developed by Peter Merel in 1997. It was the first wiki
 Today there is a variety of wikis, one of them being the wiki you are presently looking at.
 
 ---+++ History of Foswiki
-Foswiki was created on October 27, 2008 under the temporary name of !NextWiki. It was forked from [[http://twiki.org][TWiki]] as a result of a conflict between the open source community that supported the TWiki project at this time and its founder Peter Thoeny together with a commercial company called TWIKI.NET. 
-
-Conflicts arose beginning of 2008 and resulted in the fork when the company TWIKI.NET on October 27, 2008, announced unilaterally that the best for the TWiki.org project would be for them to take over governance and convert the open source initiative into commercial open source. As a result, core contributors did not agree to continue development based on a new governance model and joined forces to continue development of TWiki under the working title !NextWiki.
-
-After a short time of accomodation, on November 18, 2008 the community decided *Foswiki* to be the new name for the project and it is up to now.
+Foswiki is the latest in a line of Perl wiki implementations that started with the !JosWiki clone in the late 1990's. For a full history of Foswiki, visit the [[http://foswiki.org][Foswiki website]].
 
 #CiteReference
 ---++ Bibliography
