@@ -282,10 +282,7 @@ sub _link {
     if ( $store->topicExists( $web, $topic ) ) {
         $link = CGI::a(
             {
-                target  => $topic,
-                onclick => 'return launchWindow("' 
-                  . $web . '","' 
-                  . $topic . '")',
+                target => $topic,
                 title => $tooltip,
                 href =>
                   $this->{session}->getScriptUrl( 0, 'view', $web, $topic ),
