@@ -24,11 +24,11 @@ When the following macros are used in a template topic, they automatically get e
 | *Macro:* | *Description:* |
 | =%<nop>DATE%= | Signature format date. See VarDATE |
 | =%<nop>GMTIME%= | Date/time. See VarGMTIME |
-| =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME2 |
+| =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME |
 | =%<nop>NOP%= | A no-operation macro that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
 | =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
-| =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME2 |
+| =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
 | =%<nop>USERNAME%= | Login name of user who is instantiating the new topic, e.g. %USERNAME% |
 | =%<nop>URLPARAM{"name"}%= | Value of a named URL parameter |
 | =%<nop>WIKINAME%= | WikiName of user who is instantiating the new topic, e.g. <nop>%WIKINAME% |
@@ -74,7 +74,7 @@ Example link to create a new topic:%BR%
 Here is an example for creating new topics (in the Sandbox web) based on a specific template topic and form:
 
 <form name="new" action="%SCRIPTURLPATH{edit}%/Sandbox/">
-   * New example topic: 
+   * New example topic:
      <input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
      <input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
      <input type="hidden" name="topicparent" value="%TOPIC%" />
@@ -86,7 +86,7 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
 
 <pre>
 &lt;form name="new" action="%<nop>SCRIPTURLPATH{edit}%/Sandbox/"&gt;
-   * New example topic: 
+   * New example topic:
      &lt;input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" /&gt;
      &lt;input type="hidden" name="templatetopic" value="ExampleTopicTemplate" /&gt;
      &lt;input type="hidden" name="topicparent" value="%<nop>TOPIC%" /&gt;
