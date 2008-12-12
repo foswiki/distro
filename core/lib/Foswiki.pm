@@ -521,8 +521,18 @@ sub UTF82SiteCharSet {
     # Detect character encoding of the full topic name from URL
     return undef if ( $text =~ $regex{validAsciiStringRegex} );
 
+    # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
-    return undef unless ( $text =~ $regex{validUtf8StringRegex} );
+    if ($^O eq 'darwin') {
+        #this is a gross over-generalisation - as not all darwins are apple's
+        # and not all darwins use apple's perl
+    	my $trial = $text;
+        $trial =~ s/$regex{validUtf8CharRegex}//g;
+        return unless (length($trial) == 0);
+    } else {
+        #SMELL: this seg faults on OSX leopard. (and possibly others)
+        return undef unless ( $text =~ $regex{validUtf8StringRegex} );  
+    }
 
     # If site charset is already UTF-8, there is no need to convert anything:
     if ( $Foswiki::cfg{Site}{CharSet} =~ /^utf-?8$/i ) {
