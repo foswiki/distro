@@ -1,9 +1,0 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
-%META:TOPICPARENT{name="Macros"}%
-#VarSCRIPTURLPATH2
----+++ SCRIPTURLPATH{"script"} -- URL path of script
-   * As =%<nop>SCRIPTURL{"script"}%=, but doesn't include the protocol and host part of the URL
-   * Syntax: =%<nop>SCRIPTURLPATH{"script"}%=
-   * Expands to: =%SCRIPTURLPATH{"script"}%=
-   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTSUFFIX][SCRIPTSUFFIX]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL2][SCRIPTURL{"script"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]]
-
