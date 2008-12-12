@@ -522,6 +522,7 @@ Copy an existing topic using:
 	<input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30">
 	<input type="hidden" name="action" value="create" />
 	<input type="hidden" name="templatetopic" value="%TOPIC%" />
+	<input type="hidden" name="action_save" value="1" />
 	...
 	</form>
 
@@ -531,40 +532,43 @@ sub _createTopic {
     my ($session) = @_;
 
     my $query = $session->{request};
-    my $newTopic = $query->param('topic') || '';
+    
+    # distill web and topic from Web.Topic input
+    my ($newWeb, $newTopic) = Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
 
+	# user must have change access
+    Foswiki::UI::checkAccess( $session, $newWeb, $newTopic, 'CHANGE',
+        $session->{user} );
+        
     # topic must not be empty
-    if ( !$newTopic ) {
+    if ( $newTopic eq '' ) {
         throw Foswiki::OopsException(
             'attention',
-            web    => undef,
+            web    => $newWeb,
             topic  => $newTopic,
             def    => 'empty_topic_name',
             params => undef
         );
     }
-
-    my $oldWeb   = $session->{webName};
-    my $oldTopic = $session->{topicName};
-
-    Foswiki::UI::checkAccess( $session, $oldWeb, $newTopic, 'CHANGE',
-        $session->{user} );
-
+    
     # topic must be valid
     if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
         throw Foswiki::OopsException(
             'attention',
-            web    => $oldWeb,
-            topic  => $oldTopic,
+            web    => $newWeb,
+            topic  => $newTopic,
             def    => 'not_wikiword',
             params => [$newTopic]
         );
     }
-    $newTopic = _safeTopicName($newTopic);
-
+    
+    my $oldWeb   = $session->{webName};
+    my $oldTopic = $session->{topicName};
+    
     # untaint new topic name
     use Foswiki::Sandbox;
     $session->{topicName} = Foswiki::Sandbox::untaintUnchecked($newTopic);
+    $session->{webName} = Foswiki::Sandbox::untaintUnchecked($newWeb);
 
     require Foswiki::UI::Edit;
     Foswiki::UI::Edit::edit($session);
