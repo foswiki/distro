@@ -45,13 +45,13 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
 
    * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) __Note__ it is much better to use [[AccessControl][AccessControls]] in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
-      * Set NOSEARCHALL = 
+      * Set NOSEARCHALL =
    * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and acronyms (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
-      * Set NOAUTOLINK = 
+      * Set NOAUTOLINK =
       * __Note:__ Use the =[<nop>[...][...]]= syntax to link topics in case you disabled <nop>WikiWord linking. The =&lt;noautolink&gt; ... &lt;/noautolink&gt;= syntax can be used to prevents links within a block of text.
    * If you use non !WikiWords for topic names (for example "Expenses" or "Mighty1") and if you use bracket notation to link to those topics, it is useful to *turn of all warnings* (like: "WARNING: This topic name is not recommended because it will not be linked automatically") and checkboxes ("Allow non !WikiWord for the new topic name"). Can be overwritten by web preferences. Set to =on= to activate:
       * Set HIDE_NON_WIKI_WORD_WARNINGS =
-      
+
    * Warn if =%<nop>INCLUDE{}%= of topic fails: Fail silently if empty or =off=. Output warning message (defined in templates/oopsalerts.tmpl) if set to =on=. Otherwise output specific text (use =$topic= for topic). You can override this in web preferences, or by using a =warn="..."= parameter with =%<nop>INCLUDE{}%= :
       * Set INCLUDEWARNING = on
 
@@ -60,21 +60,21 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
          * Set TOC_MIN_DEPTH =
             * If not set: =1=
             * Possible values: =1= to =6=
-      * The last header level to appear in the TOC:      
+      * The last header level to appear in the TOC:
          * Set TOC_MAX_DEPTH =
             * If not set: =6=
             * Possible values: =1= to =6=
-            * Can be overridden by =depth= parameter of [[%SYSTEMWEB%.VarTOC2][TOC]]
+            * Can be overridden by =depth= parameter of [[%SYSTEMWEB%.VarTOC][TOC]]
       * The default TOC title:
          * Set TOC_TITLE =
             * If not set: nothing
             * Possible values: any string, for example =On this page:=
-            * Can be overridden by =title= parameter of [[%SYSTEMWEB%.VarTOC2][TOC]]
+            * Can be overridden by =title= parameter of [[%SYSTEMWEB%.VarTOC][TOC]]
       * Do not show a TOC if the topic it contains is included in another topic:
          * Set TOC_HIDE_IF_INCLUDED =
             * If not set: included TOC is shown
             * Possible values: =on= or nothing
-            
+
 ---++ Default User Settings
 
 %X% *NOTE:* They are typically redefined in topics of individual %USERSWEB%.WikiUsers
@@ -93,13 +93,13 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set EDITBOXSTYLE = width:99%
 
    * Default state of the __Force New Revision__ (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
-      * Set FORCENEWREVISIONCHECKBOX = 
+      * Set FORCENEWREVISIONCHECKBOX =
 
    * Default state of the __Minor Changes, Don't Notify__ (DontNotify) check box in preview. Check box is initially checked if =Set DONTNOTIFYCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
-      * Set DONTNOTIFYCHECKBOX = 
+      * Set DONTNOTIFYCHECKBOX =
 
    * Default state of the __link__ check box in the attach file page. Checkbox is initially checked if =Set ATTACHLINKBOX = checked="checked"=, or unchecked if empty (=Set ATTACHLINKBOX ==). If checked, a link is created to the attached file at the end of the topic: (can be overwritten by user preferences)
-      * Set ATTACHLINKBOX = 
+      * Set ATTACHLINKBOX =
 
    * Format of file link when the __link__ check box is checked: (can be overwritten by user preferences)
       * %H% *NOTE:* Keyword ==$name== gets expanded to filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).
@@ -136,7 +136,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ATTACHFILESIZELIMIT = 10000
 
    * Broadcast message for skins supporting a %<nop>BROADCASTMESSAGE% at the top of the page: (IMPORTANT: Set to empty message if not used; #Comment out unused messages)
-      * Set BROADCASTMESSAGE = 
+      * Set BROADCASTMESSAGE =
       * #Set BROADCASTMESSAGE = *NOTE:* Edit and Attach will be disabled today between 05:00 PM and 06:00 PM PDT (00:00 to 01:00 GMT) for a scheduled <nop>%WIKITOOLNAME% maintenance.
 
    * Users or groups allowed to [[%SYSTEMWEB%.ManagingWebs][create new top-level webs]]: (ex: %USERSWEB%.WebCreatorsGroup). If set to nothing, only administrators will be able to do this.
@@ -169,19 +169,19 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * *NOTE:* The current values of these preferences are not displayed in view mode (values are <code>&lt;link&gt;</code>-tags).
 
    * ==http-equiv== meta tags for ==view==, ==rdiff==, ==attach==, ==search*== scripts:
-      * #Set HTTP_EQUIV_ON_VIEW = 
+      * #Set HTTP_EQUIV_ON_VIEW =
       * Set HTTP_EQUIV_ON_VIEW = <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="%SCRIPTURLPATH{"view"}%/%WEB%/WebRss" />
 
    * ==http-equiv== meta tags for ==edit== script:
-      * Set HTTP_EQUIV_ON_EDIT = 
+      * Set HTTP_EQUIV_ON_EDIT =
 
    * ==http-equiv== meta tags for ==preview== script:
-      * Set HTTP_EQUIV_ON_PREVIEW = 
+      * Set HTTP_EQUIV_ON_PREVIEW =
 
 
 ---++ Skin Settings
 
-   * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences) 
+   * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences)
       * Set SKIN = pattern
 
    * __Note:__ See SkinBrowser for currently installed skins
@@ -196,14 +196,14 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Themes that add upon the global skin styles. Choose from the Theme Browser at PatternSkin.
       * Set PATTERNSKIN_THEME = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme_foswiki_noframe.css
       * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/column_left.css
-      
+
    * Overriding styles that add upon the global and theme styles. Enabled by default but empty to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs.
-      * Set USERLAYOUTURL = 
-      * Set USERSTYLEURL = 
-      * Set USERCOLORSURL = 
-      * Set WEBHEADERART = 
-      * Set WEBHEADERBGCOLOR = 
-      
+      * Set USERLAYOUTURL =
+      * Set USERSTYLEURL =
+      * Set USERCOLORSURL =
+      * Set WEBHEADERART =
+      * Set WEBHEADERBGCOLOR =
+
 ---+++ Skin icons
 
    * Topic containing the icon graphics library. Icons can easily be rendered with =%<nop>ICON{name}%=.
@@ -231,7 +231,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Rendering Shortcuts Settings
 
    * Line break: Note that the setting has an intentional trailing space
-      * Set BR = <br /> 
+      * Set BR = <br />
 
    * Bullet sign:
       * Set BULLET = &#8226;
@@ -315,7 +315,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Format of a NewWikiWord link:
    * Note that =$text= is the topic link text, =$topic= is the name of the new topic, and =$web= is the name of the web for the new topic. Values for the 3 are taken from the link syntax =[<nop>[$web.$topic][$text]]=. For normal plain !WikiWord links =$text= and =$topic= are the same. The value of =$web= is the current web unless the link is in the format =$web.$topic=.
       * default setting:
-         * Set NEWLINKFORMAT = <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span> 
+         * Set NEWLINKFORMAT = <span class="foswikiNewLink">$text<a href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">?</a></span>
       * alternative setting:
          * #Set NEWLINKFORMAT = <a class="foswikiNewLink" href="%SCRIPTURLPATH{"edit"}%/$web/$topic?topicparent=%WEB%.%TOPIC%" rel="nofollow" title="%MAKETEXT{"Create this topic"}%">$text</a>
 
@@ -324,7 +324,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
    * User-friendly synonyms for system webs
       * Set DOCWEB = %SYSTEMWEB%
-      
+
    * show extra help for !ApacheLogin users for Main.AdminUser login
       * Set ADMINLOGIN = %IF{"{LoginManager} = 'Foswiki::LoginManager::ApacheLogin' AND NOT context authenticated"
         then="Foswiki is configured using <nop>ApacheLogin, please [[%LOGINURL%][login]] as a normal user first. Then the Admin Login will replace this text"
@@ -337,7 +337,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
 
 ---++ Creating New Preference Settings
- 
+
 You can introduce new [[PreferenceSettings][preference settings]] and use them in your topics and templates. There is no need to change the Foswiki engine (Perl scripts).
    * A preference is defined in a ShortHand bullet item: ==[3 spaces] * [space] Set NAME = value== <br /> Example (as a nested bullet item, indented 6 spaces):
       * S<nop>et WEBBGCOLOR = #FFFFC0
@@ -349,8 +349,8 @@ You can introduce new [[PreferenceSettings][preference settings]] and use them i
 
 ---++ Protected System Settings
 
-The following macros are declared final to protect them as read only. These are system macros that should 
-never be attempted set or altered in any preference topic or topic settings. 
+The following macros are declared final to protect them as read only. These are system macros that should
+never be attempted set or altered in any preference topic or topic settings.
 
    * Set FINALPREFERENCES = WEB, TOPIC
 

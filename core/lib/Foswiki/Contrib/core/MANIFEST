@@ -1,4 +1,4 @@
-#this is a _just_ the core directory, and will be build up into the final 
+#this is a _just_ the core directory, and will be build up into the final
 #release package from trunk/core/lib/MANIFEST using INCLUDES
 AUTHORS 0444
 COPYING 0444
@@ -272,7 +272,6 @@ data/System/VarSYSTEMWEB.txt 0644
 data/System/VarT.txt 0644
 data/System/VarTEAL.txt 0644
 data/System/VarTOC.txt 0644
-data/System/VarTOC2.txt 0644
 data/System/VarTOPIC.txt 0644
 data/System/VarTOPICLIST.txt 0644
 data/System/VarTOPICURL.txt 0644
