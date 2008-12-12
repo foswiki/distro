@@ -225,7 +225,7 @@ sub _GETUsingLWP {
     $request = HTTP::Request->new( GET => $url );
     '$Rev: 13594 $' =~ /([0-9]+)/;
     my $revstr = $1;
-    $request->header( 'User-Agent' => 'Foswiki::Net/' 
+    $request->header( 'User-Agent' => 'Foswiki::Net/'
           . $revstr
           . " libwww-perl/$LWP::VERSION" );
     require Foswiki::Net::UserCredAgent;
@@ -338,7 +338,7 @@ sub sendEmail {
             $e = join( "\n", grep( /^ERROR/, split( /\n/, $e ) ) );
 
             unless ( $e =~ /^ERROR/ ) {
-                $e = "Mail could not be sent - see Foswiki warning log.";
+                $e = "Mail could not be sent - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
             }
             $errors .= $e . "\n";
             sleep($back_off);
@@ -372,7 +372,14 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
       || die "ERROR: Can't send mail using Foswiki::cfg{MailProgram}";
     print MAIL $text;
     close(MAIL);
-    die "ERROR: Exit code $? from Foswiki::cfg{MailProgram}" if $?;
+    #SMELL: this is bizzare. on a freeBSD server, I've seen sendmail return 17152
+    #(17152 >> 8) == 67 == EX_NOUSER - however, the mail log says that the error was
+    #EX_TEMPFAIL == 75, and that (as per oreilly book) the email is cued. The email
+    #does reach the user, but they are very confused because they were told that the
+    #rego failed completely.
+    #Sven has ameneded the oops_message for the verify emails to be less positive that
+    #everything has failed, but.
+    die "ERROR: Exit code ".($? << 8)." ($?) from Foswiki::cfg{MailProgram}" if $?;
 }
 
 sub _sendEmailByNetSMTP {

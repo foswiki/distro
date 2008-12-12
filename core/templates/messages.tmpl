@@ -240,11 +240,14 @@
 %TMPL:DEF{"registration_mail_failed"}%
 ---+++ %MAKETEXT{"Error registering new user"}%
 
-%MAKETEXT{"Internal error when sending email to [_1]." args="%PARAM1%"}%
+%MAKETEXT{"While attempting to email [_1]." args="%PARAM1%"}%
 
+%MAKETEXT{"Your registration verification email has either failed, or is queued in the mail system."}%
+
+%MAKETEXT{"If you don't receive a verification email within the next hour, "}%
 %MAKETEXT{"Please contact [_1]." args="%WIKIWEBMASTER%"}%
 
-%MAKETEXT{"You have *not* been registered."}%
+
 %TMPL:END%
 %TMPL:DEF{"send_mail_error"}%
 ---+++ Mail Error
@@ -409,7 +412,7 @@ __%MAKETEXT{"Note:"}%__
 
 %MAKETEXT{"Check your configuration settings for {TemplateDir} and {TemplatePath}. If that's not the problem, it may be because you have a setting of [_1] that is pointing to a template that doesn't exist." args="=%PARAM2%="}%
 
-%MAKETEXT{"[_1] is currently set to [_2]" args="=%PARAM2%=,<code><nop>%PARAM1%</code>"}% 
+%MAKETEXT{"[_1] is currently set to [_2]" args="=%PARAM2%=,<code><nop>%PARAM1%</code>"}%
 
 (%MAKETEXT{"don't forget to check your Topic Settings"}%)
 %TMPL:END%
