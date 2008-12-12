@@ -6,18 +6,24 @@ use diagnostics;
 
 package ManageDotPmTests;
 
-use base qw(FoswikiTestCase);
+use base qw(FoswikiFnTestCase);
 use Foswiki;
 use Foswiki::UI::Manage;
+use Foswiki::UI::Save;
 
-my $debug = 1;
+my $debug = 0;
+my $twiki;
 
+# Set up the test fixture
 sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
+    my $query = new Unit::Request();
+    $twiki = Foswiki->new( undef, $query );
+    $this->{request}  = $query;
+    $this->{response} = new Unit::Response();
 }
-
 sub test_isValidTopicName_WebHome {
     my $this = shift;
 
@@ -83,9 +89,6 @@ sub test_makeSafeTopicName {
 		$this->assert( $result eq $expected );
 	}
 }
-
-
-
 
 
 1;
