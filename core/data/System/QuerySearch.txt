@@ -17,7 +17,7 @@ You use field specifiers to say what value from the topic you are interested
 in.
 
 All meta-data in a topic is referenced according to a to a simple plan.
- 
+
    * =name= - name of the topic
    * =web= - name of the web the topic is within
    * =text= - the body text of the topic
@@ -45,7 +45,7 @@ All meta-data in a topic is referenced according to a to a simple plan.
       * =from=
       * =to=
    * =META:FORM= - the main form of the topic
-      * =name= (known as the _formname_)
+      * =name=
    * =META:FIELD= - the fields in the form.
       * _for each field in the form_
          * =name=
@@ -65,7 +65,7 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
    * =info= means the same as =META:TOPICINFO=
    * =parent= means the same as =META:TOPICPARENT=
    * =moved= means the same as =META:TOPICMOVED=
-   * =form= means the same as =META:FORM=
+   * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
    * =fields= means the same as =META:FIELD=, You can also use the name of the form (the value of =form.name= e.g. =PersonForm=)
    * =preferences= means the same as =META:PREFERENCE=
 
@@ -73,7 +73,7 @@ Fields in this plan are referenced using a simple _field specifier_ syntax:
 | *Syntax* | *Means* | *Examples* |
 | =X= | refers to the field named =X=. | =info=, =META:TOPICMOVED=, =attachments=, =name=. |
 | =X.Y= | refers to the entry with the key =Y= in the structure named =X= | =info.date=, =moved.by=, =META:TOPICPARENT.name= |
-| =X[<i>query</i>]= | refers to all the elements of the array =X= that match _query_. If <i>query</i> is of the form =name='Y'= then you can use the same =X.Y= syntax as is used for accessing structures. | =attachments[size>1024]=, =DocumentForm[name!='Summary' AND value~'top secret'].value=, =DocumentForm.Summary= | 
+| =X[<i>query</i>]= | refers to all the elements of the array =X= that match _query_. If <i>query</i> is of the form =name='Y'= then you can use the same =X.Y= syntax as is used for accessing structures. | =attachments[size>1024]=, =DocumentForm[name!='Summary' AND value~'top secret'].value=, =DocumentForm.Summary= |
 | =X[N]= | where =X= is an array and =N= is an integer number >= 0, gets the Nth element of the array =X= | =attachments[3]= |
 | =X/Y= | accesses =Y= from the topic specified by the _value_ of =X=. =X= must evaluate to a topic name | =parent.name/(form.name='ExampleForm')= will evaluate to true if (1) the topic has a parent, (2) the parent topic has the main form type =ExampleForm=. |
 
@@ -83,10 +83,10 @@ There is a shortcut for accessing form fields. If you use the name of a field (f
    * =PersonForm[name='Lastname'].value=
    * =Lastname=
    * =PersonForm.Lastname=
-If =X= would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example. 
+If =X= would conflict with the name of an entry or alias (e.g. it's =moved= or maybe =parent=), you can prepend the name of the form followed by a dot, as shown in the last example.
 
 ---++ Constants
-You use constants for the values that you compare with fields. Constants are either strings, or numbers. Strings are always delimited by single-quotes (you can escape a quote using backslash). Numbers can be any integer or floating point number. 
+You use constants for the values that you compare with fields. Constants are either strings, or numbers. Strings are always delimited by single-quotes (you can escape a quote using backslash). Numbers can be any integer or floating point number.
 
 ---++ Operators
 

@@ -13,9 +13,17 @@ See [[Plugins]] for more detailed description of how to install and use Plugins.
 
 See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
 
-%SEARCH{ ".+(Contrib|AddOn)$" web="%SYSTEMWEB%,TWiki" type="regex" scope="topic" nonoise="on" format="   * [[$web.$topic][$topic]]" }%
+%SEARCH{
+    "1"
+    type="query"
+    topic="*Contrib,*AddOn"
+    web="%SYSTEMWEB%,TWiki"
+    scope="topic"
+    nonoise="on"
+    format="   * [[$web.$topic][$topic]]"
+}%
 
----++ Plugin Diagnostics 
+---++ Plugin Diagnostics
 %FAILEDPLUGINS%
 
 __Note:__ The diagnostics are provided by the =%<nop>FAILEDPLUGINS%= macro
