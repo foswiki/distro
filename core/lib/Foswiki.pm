@@ -1884,7 +1884,9 @@ sub _TOC {
          $params->{title}
       || $this->{prefs}->getPreferencesValue('TOC_TITLE')
       || '';
-    $title = CGI::span( { class => 'foswikiTocTitle' }, $title ) if ($title);
+    # add a anchor to be able to jump to the toc
+    $title = CGI::a( {name=>'foswikiTOC'},'</a>');
+    $title .= CGI::span( { class => 'foswikiTocTitle' }, $title ) if ($title);
 
     if ( $web ne $defaultWeb || $topic ne $defaultTopic ) {
         unless (
@@ -2022,6 +2024,7 @@ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
             $result =~ s/^\t{$highest}//gm;
         }
         return CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
+
     }
     else {
         return '';
