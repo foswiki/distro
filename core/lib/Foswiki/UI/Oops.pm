@@ -106,12 +106,21 @@ sub oops {
           . CGI::end_html();
     }
     else {
-        if ( defined $def ) {
+    	#as def is optional, this would leave an ugly %INSTANTIATE% in the template which is shown. So replace it in any case 
+    	#if ( defined $def ) {
 
             # if a def is specified, instantiate that def
-            my $blah = $session->templates->expandTemplate($def);
+            my $blah = $session->templates->expandTemplate($def) || "";
             $tmplData =~ s/%INSTANTIATE%/$blah/;
-        }
+            
+
+        #}
+        
+        # replaces the placeholder for a message which the call could give in a parameter
+        # we do this in anycase to get rid of the ugl %MESSAGEASARGUMENT% in the template in any case
+        my $showmessage = $query->param('showmessage');        
+        $tmplData =~ s/%MESSAGEASARGUMENT%/$showmessage/g;
+        
         $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
         $n = 1;
         foreach my $param (@params) {

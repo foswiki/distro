@@ -101,6 +101,7 @@ sub new {
             $this->{$key} = $val || '';
         }
     }
+    
     return $this;
 }
 
@@ -134,6 +135,7 @@ sub stringify {
         return $message;
     }
     else {
+    	
         my $s = 'OopsException(';
         $s .= $this->{template};
         $s .= '/' . $this->{def} if $this->{def};
@@ -158,6 +160,7 @@ sub stringify {
 sub redirect {
     my ( $this, $session ) = @_;
     my @p = $this->_prepareResponse($session);
+   
     my $url =
       $session->getScriptUrl( 1, 'oops', $this->{web}, $this->{topic}, @p );
     $session->redirect( $url, 1 );
@@ -191,6 +194,7 @@ sub _prepareResponse {
       unless $this->{template} =~ /^oops/;
     push( @p, template => $this->{template} );
     push( @p, def => $this->{def} ) if $this->{def};
+    push( @p, showmessage => $this->{showmessage} );
     my $n = 1;
     push( @p, map { 'param' . ( $n++ ) => $_ } @{ $this->{params} } );
     while ( my $p = shift(@p) ) {
