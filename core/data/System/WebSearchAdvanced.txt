@@ -81,7 +81,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 </div>
 </noautolink>
 
-<div class="foswikiHelp">
+<div class="foswikiHelp" %IF{"defined search" else="style=\"display:none;\""}% >
 The following Foswiki markup can be used in a topic to display the above result.
 <br />
 <span class="foswikiSmall">
