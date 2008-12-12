@@ -2,11 +2,11 @@
 %META:TOPICPARENT{name="WebSearch"}%
 ---+ %MAKETEXT{"Advanced Search"}%
 
-%IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="url"}%;type=%IF{"'%URLPARAM{"regex"}%'='on' OR '%URLPARAM{"type"}%'='regex'" then="regex" else="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
+%IF{"defined search" then='%ICON{feed}% <a href="%SCRIPTURL{"view"}%/%BASEWEB%/WebRss?search=%URLPARAM{"search" encode="safe"}%;type=%URLPARAM{"type" default="word"}%;excludetopic=%BASETOPIC%,WebHome,WebStatistics;web=%URLPARAM{"web" encode="url" default="%BASEWEB%"}%;limit=%URLPARAM{"limit" encode="url" default="all"}%;scope=%URLPARAM{"scope" encode="url" default="text"}%;casesensitive=%URLPARAM{"casesensitive" encode="url" default="off"}%">%MAKETEXT{"Get notified on changes on this search"}%</a>'}%
 
 %SEARCH{
 "%URLPARAM{"search" encode="quote"}%"
-type="%IF{" '%URLPARAM{regex}%' = 'on' or '%URLPARAM{type}%' = 'regex'" then="regex" else="word"}%"
+type="%URLPARAM{"type" default="word"}%"
 scope="%URLPARAM{"scope" encode="quote"}%"
 web="%URLPARAM{"web" encode="quote"}%"
 nosearch="%URLPARAM{"nosearch" encode="quote"}%"
@@ -27,7 +27,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td colspan="2" class="foswikiFirstRow">
-  <input class="foswikiInputField" type="text" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" /> 
+  <input class="foswikiInputField" type="text" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" />
   <input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="foswikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%INCLUDINGWEB%/WebSearch?search=%URLPARAM{"search" encode="url"}%;type=%URLPARAM{"type" encode="url" default="word"}%;scope=%URLPARAM{"scope" encode="url"}%;web=%URLPARAM{"web" encode="url"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%'>%MAKETEXT{"Simple search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
 <div class="foswikiSmall" style="padding:1em 0 0 0;">%MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code></div>
 </td>
@@ -55,14 +55,20 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <tr>
 <th>%MAKETEXT{"Make search:"}%</th>
 <td><input type="checkbox" class="foswikiCheckbox" id="casesensitive" name="casesensitive" %IF{" '%URLPARAM{casesensitive}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="casesensitive"> %MAKETEXT{"Case sensitive"}%</label><br />
-<input type="checkbox" class="foswikiCheckbox" id="regex" name="regex"%IF{" '%URLPARAM{regex}%' = 'on' or '%URLPARAM{type}%' = 'regex'" then="checked=\"checked\"" else=""}% /><label for="regex"> %MAKETEXT{"Regular expression search"}%</label> <span class="foswikiSmall">%MAKETEXT{"(semicolon =;= for and)"}% [[%SYSTEMWEB%.RegularExpression][%MAKETEXT{"about regular expression search"}%]]</span>
+    <span class="foswikiSmall">(for more information about the SEARCH types see [[%SYSTEMWEB%.VarSEARCH][VarSEARCH]])</span><br />
+<input type="radio" class="foswikiRadioButton" id="word" name="type" value="word" %IF{" '%URLPARAM{"type" default="word"}%' = 'word' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Topic name"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="literal" name="type" value="literal" %IF{" '%URLPARAM{type}%' = 'literal' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Literal search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="regex" name="type" value="regex" %IF{" '%URLPARAM{type}%' = 'regex' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Regular expression search"}%</label><br />
+<input type="radio" class="foswikiRadioButton" id="query" name="type" value="query" %IF{" '%URLPARAM{type}%' = 'query' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Query Search"}%</label>
+    <span class="foswikiSmall">(allows you to try out [[%SYSTEMWEB%.QuerySearch][QuerySearch]] - such as =form.name~'*UserForm'=)</span><br />
+
 </td>
 </tr>
 <tr>
 <th><b>%MAKETEXT{"Don't show:"}%</b></th>
 <td><input type="checkbox" class="foswikiCheckbox" id="nosearch" name="nosearch" %IF{" '%URLPARAM{nosearch}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nosearch"> %MAKETEXT{"Search string"}%</label><br />
 <input type="checkbox" class="foswikiCheckbox" id="nosummary" name="nosummary" %IF{" '%URLPARAM{nosummary}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nosummary"> %MAKETEXT{"Summaries"}%</label><br />
-<input type="checkbox" class="foswikiCheckbox" id="nototal" name="nototal" %IF{" '%URLPARAM{nototal}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nototal"> %MAKETEXT{"Total matches"}%</label>
+<input type="checkbox" class="foswikiCheckbox" id="nototal" name="nototal" %IF{" '%URLPARAM{nototal}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="nototal"> %MAKETEXT{"Total matches"}%</label><br />
 </td>
 </tr>
 <tr>
@@ -74,6 +80,20 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 </form>
 </div>
 </noautolink>
+
+<div class="foswikiHelp">
+The following Foswiki markup can be used in a topic to display the above result.
+<br />
+<span class="foswikiSmall">
+<pre>
+%<nop>SEARCH{
+   "%URLPARAM{"search" encode="quote"}%"
+   type="%URLPARAM{"type" default="word"}%"
+%IF{"defined scope" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"defined nosearch" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined bookview" then="   bookview=\"%URLPARAM{"bookview" encode="quote"}%\"$n"}%%IF{"defined nosummary" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search" then="on" else="off" }%"
+}%
+</pre>
+</span>
+</div>
 
 <div class="foswikiHelp">
 *%MAKETEXT{"Other search options:"}%*
