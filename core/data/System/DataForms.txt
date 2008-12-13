@@ -1,8 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1177881299" format="1.1" version="$Rev: 13239 $"}%
 %STARTINCLUDE%
 ---+ Data Forms
-
-_Add structure to content with forms attached to topics. Data forms (with form fields) and formatted search are the base for building database applications._
+Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications.
 
 %TOC%
 
@@ -11,14 +10,15 @@ _Add structure to content with forms attached to topics. Data forms (with form f
 By adding form-based input to freeform content, you can structure topics with unlimited, easily searchable categories. A form is enabled for a web and can be added to a topic. The form data is shown in tabular format when the topic is viewed, and can be changed in edit mode using edit fields, radio buttons, check boxes and list boxes. Many different form types can be defined in a web, though a topic can only have one form attached to it at a time.
 
 Typical steps to build an application based on Foswiki forms:
-   1. Define a form template
+   1. Define a form definition
    1. Enable the form for a web
    1. Add the form to a [[TemplateTopics][template topic]]
    1. Build an HTML form to create new topics based on that template topic
    1. Build a FormattedSearch to list topics that share the same form
 
----++ Defining a Form
-A Form Template specifies the fields in a form. A Form Template is simply a page containing a Foswiki table, where each row of the table specifies one form field.
+#FormDefinition
+---++ Defining a form
+A form definition specifies the fields in a form. A form definition is simply a page containing a Foswiki table, where each row of the table specifies one form field.
    1. Create a new topic with your form name: ==<nop>YourForm==, ==<nop>ExpenseReportForm==, ==<nop>InfoCategoryForm==, ==<nop>RecordReviewForm==, whatever you need.
    1. Create a TML table, with each column representing one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes== _(see sample below)_.
    1. For each field, fill in a new line; for the type of field, select from the list.
@@ -74,9 +74,9 @@ Field values can also be set using the result of expanding other macros. For exa
 When used in the value field of the form definition, this will find all topic names in the %USERSWEB% web which end in "Office" and use them as the legal field values.
 
 #EnablingForms
----++ Enabling Forms by Web
+---++ Enabling forms by Web
 
-Forms have to be enabled for each individual web. The ==WEBFORMS== setting in WebPreferences is optional and defines a list of possible form templates.
+Forms have to be enabled for each individual web. The ==WEBFORMS== setting in WebPreferences is optional and defines a list of possible form definitions.
 <blockquote>
 *Example:*
    * <nop>Set WEBFORMS = <nop>BugForm, <nop>FeatureForm, Books.<nop>BookLoanForm
@@ -116,9 +116,9 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
    * If two people edit the same topic containing a form at exactly the same time, and both change fields in the form, Foswiki will try to merge the changes so that no data is lost.
 
 #FormStructure
----++ Structure of a Form Template
+---++ Structure of a form definition
 
-A Form Template specifies the fields in a form. A Form Template is simply a page containing a TML table, where each row of the table specifies one form field.
+A form definition specifies the fields in a form. A form definition is simply a TML table contained in a topic, where each row of the table specifies one form field.
 
 Each *column* of the table is one element of an entry field: ==Name==, ==Type==, ==Size==, ==Values==, ==Tooltip message==, and ==Attributes==.
 
@@ -137,7 +137,7 @@ The ==Type==, ==Size== and ==Value== fields describe the legal values for this f
          * =select+values= allows the definition of values that are different to the displayed text. For example:
          <pre>| Field 9 | select+values | 5 | One, Two=2, Three=III, Four | Various values formats |</pre> shows <select size="2"><option>One</option><option>Two</option><option>Three</option><option>Four</option></select> but the values or options =Two= and =Three= are =2= and =III= respectively.<br />
       You can combine these modifiers e.g. =select+multi+values=
-   * ==Type== =text= specifies a one-line text field. =Size= specifies the text box width in number of characters. =Value= is the initial (default) content when a new topic is created with this form template.
+   * ==Type== =text= specifies a one-line text field. =Size= specifies the text box width in number of characters. =Value= is the initial (default) content when a new topic is created with this form definition.
    * ==Type== =textarea= specifies a multi-line text box. The =Size= field should specify columns x rows, e.g. =80x6=; default size is 40x5. As for =text=, the =Value= field specifies the initial text
    * ==Type== =date= specifies a single-line text box and a button next to it; clicking on the button will bring up a calendar from which the user can select a date. The date can also be typed into the text box. =Size= specifies the text box width in characters. As for =text=, the =Value= field specifies the initial text
 
@@ -161,7 +161,7 @@ For example, a simple form just supporting entry of a name and a date would look
    * Field names can in theory include any text, but you should stick to alphanumeric characters. If you want to use a non-wikiname for a =select=, =checkbox= or =radio= field, and want to get the values from another topic, you can use  ==[<nop>[...]]== links. This notation can also be used when referencing another topic to obtain field values, but a name other than the topic name is required as the name of the field. 
    * Leading and trailing spaces are _not_ significant.
 *Field Value Notes:*
-   * The field value will be used to initialize a field when a form is created, unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form template.
+   * The field value will be used to initialize a field when a form is created, unless specific values are given by the topic template or query parameters. The first item in the list for a select or radio type is the default item. For =label=, =text=, and =textarea= fields the value may also contain commas. =checkbox= fields cannot be initialized through the form definition.
    * Leading and trailing spaces are _not_ significant.
    * Field values can also be generated through a %SYSTEMWEB%.FormattedSearch, which must yield a suitable table as the result.
    * Macros in the initial values of a form definition get expanded when the form definition is loaded.
@@ -170,9 +170,9 @@ For example, a simple form just supporting entry of a name and a date would look
       * The FormatTokens can be used to prevent expansion of other characters.
 *General Notes:*
    * The topic definition is not read when a topic is viewed.
-   * Form definition topics can be protected in the usual manner, using  AccessControl, to limit who can change the form template and/or individual value lists. Note that view access is required to be able to edit topics that use the form definition, though view access to the form definition is _not_ required to view a topic where the form has been used.
+   * Form definition topics can be protected in the usual manner, using  AccessControl, to limit who can change the form definition and/or individual value lists. Note that view access is required to be able to edit topics that use the form definition, though view access to the form definition is _not_ required to view a topic where the form has been used.
 
----+++ Values in Other Topics
+---+++ Values in other topics
 As described above, you can also retrieve possible values for select, checkbox or radio types from other topics. For example, if you have a rows defined like this:
 <verbatim>
 | *Name*                 | *Type* | *Size* |
@@ -199,12 +199,13 @@ You can extend the range of data types accepted by forms by using [[Plugins]]. A
    * any type name with =+multi= anywhere in the name
 Types with names like this can both take multiple values.
 
----++ Hints and Tips
----+++ Build an HTML form to create new Form-based topics
+---++ Hints and tips
+---+++ Build an HTML form to create new form-based topics
    * New topics with a form are created by simple HTML forms asking for a topic name. For example, you can have a =<nop>SubmitExpenseReport= topic where you can create new expense reports, a =<nop>SubmitVacationRequest= topic, and so on. These can specify the required template topic with its associated form. [[TemplateTopics][Template topics]] has more.
-A Form Template specifies the fields in a form. A Form Template is simply a page containing a Foswiki table, where each row of the table specifies one form field.
+A form definition specifies the fields in a form. A form definition is simply a page containing a Foswiki table, where each row of the table specifies one form field.
+
 #UsingFormData
----+++ Searching in Form Data
+---+++ Searching in form data
 The best way to search in form data is using the structured query language in the SEARCH macro. See QuerySearch for more information.
 
 ---+++ Gotcha!

@@ -10,7 +10,7 @@
                        =newline="..."=: by default, each newline character will be rewritten to =&lt;br /&gt;= to allow metadata that contains newlines to be used in tables, etc. =$n= indicates a newline character. %BR% \
                        =bar="..."=: by default, each vertical bar is rewritten to an HTML entity so as to not be mistaken for a table separator. \
                     | Show a single form field |
-     | ="form"= | _none_ | Generates the table showing the form fields. See [[CompleteDocumentation#Form_Templates][Form Templates]] |
+     | ="form"= | _none_ | Generates the table showing the form fields. See [[CompleteDocumentation#FormDefinition][Form Definition]] |
      | ="attachments"= | =all="on"= to show hidden attachments. %BR% \
      					 =title="..."= to show a title - only if attachments are displayed. %BR% \
      					 =template="..."= to use a custom template for the rendering of attachments; default =attachtables= is used. \
@@ -24,4 +24,3 @@
 		    =separator="..."=: Separator between parents; default =" &gt; "=. \
                   | Generates the parent link |
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETASEARCH][METASEARCH]]
-

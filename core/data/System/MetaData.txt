@@ -102,7 +102,7 @@ Extra fields that are added if an attachment is moved:
 
 ---+++ META:FIELD
 
-Should only be present if there is a META:FORM entry.  Note that this data is used when viewing a topic, the form template definition is not read.
+Should only be present if there is a META:FORM entry.  Note that this data is used when viewing a topic, the form definition definition is not read.
 
 | *Key*   | *Name*   |
 | name    | Ties to entry in DataForms template, is title with all bar alphanumerics and . removed |
