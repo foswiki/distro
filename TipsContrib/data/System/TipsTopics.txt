@@ -10,5 +10,6 @@ Search (perl regular expression): <input name="searchfor" type="text" value="%UR
 
 Total: %CALC{$GET(total)}% tips
 
-__See also:__ [[TipsOfTheDayAdmin][Tips Of The Day Administration]]
+---
+*See also:* [[TipsOfTheDayAdmin][Tips Of The Day Administration]]
 

@@ -11,7 +11,7 @@
 
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="<!--"}%
 <sticky><div style="background-color:yellow"></sticky>
-__How to add the first administrator__ %BR%
+*How to add the first administrator* %BR%
 If you haven't previously set up an administrator, follow these steps:
    1 Authenticate as the internal administrator:
       * %ADMINLOGIN%
@@ -25,6 +25,7 @@ If you haven't previously set up an administrator, follow these steps:
 <sticky></div></sticky>
 %IF{"(NOT defined GROUP) OR $GROUP = ''" then="" else="-->"}%
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+---
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[AdminUser]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
 
 

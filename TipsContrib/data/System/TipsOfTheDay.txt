@@ -7,4 +7,5 @@ These are all tips of the day. They are located in the %SYSTEMWEB% web (official
 
 Total: %CALC{$GET(total)}% tips
 
-__See also:__ [[TipsOfTheDayAdmin][Tips Of The Day Administration]]
+---
+*See also:* [[TipsOfTheDayAdmin][Tips Of The Day Administration]]

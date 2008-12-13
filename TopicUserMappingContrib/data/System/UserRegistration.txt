@@ -2,7 +2,7 @@
 ---+ %MAKETEXT{"Registration"}%
 
 %IF{"context registration_supported" 
-then="*%MAKETEXT{"To edit pages on this FoswikiSite, you must have a registered user name and password."}%* %IF{"context registration_enabled" then="" else="%BR%%BR% __%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%__ "}%" 
+then="*%MAKETEXT{"To edit pages on this FoswikiSite, you must have a registered user name and password."}%* %IF{"context registration_enabled" then="" else="%BR%%BR% *%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%* "}%" 
 else="*%MAKETEXT{"This Foswiki does _not_ support new User Registration"}%*"
 }%
 

@@ -1,2 +1,2 @@
 %META:TOPICINFO{author="ProjectContributor" date="1127307283" format="1.1" version="$Rev$"}%
-__Related topics:__ %SEARCH{"name='WikiUsers' OR name='WikiGroups' OR name='UserList' OR name~'UserListBy*'" type="query" web="%USERSWEB%" scope="topic" separator=", " nonoise="on" format="[[$web.$topic][$topic]]" excludetopic="%INCLUDINGTOPIC%"}%
+*Related topics:* %SEARCH{"name='WikiUsers' OR name='WikiGroups' OR name='UserList' OR name~'UserListBy*'" type="query" web="%USERSWEB%" scope="topic" separator=", " nonoise="on" format="[[$web.$topic][$topic]]" excludetopic="%INCLUDINGTOPIC%"}%

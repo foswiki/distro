@@ -23,8 +23,8 @@ You can start the presentation by clicking on the "Start presentation" button.
    * Start with =%<nop>SLIDESHOWSTART%=
       * Use the optional =template= parameter to specify your own slide template topic, e.g. =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%=
    * Create the slides. Start each slide with a ="---++"= heading and add text like paragraphs, bullets, tables and images.
-      * __Hint:__ Make sure to keep each slide short enough so that you do not need to scroll to see all text of a slide during the presentation.
-      * __Note:__ You can use any heading level you like, but use the same for all slides.
+      * *Hint:* Make sure to keep each slide short enough so that you do not need to scroll to see all text of a slide during the presentation.
+      * *Note:* You can use any heading level you like, but use the same for all slides.
    * End your slideshow with =%<nop>SLIDESHOWEND%=
 
 ---+++ How to Create Your own Slide Template
@@ -133,7 +133,7 @@ The part between the rulers defines the default format of a slide:
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
+*Note:* You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
 
    * Download the ZIP file from the Plugin Home (see below)
    * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
@@ -171,7 +171,8 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+---
+*Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
 %META:FILEATTACHMENT{name="next.gif" attr="h" comment="Next button" date="1037510613" path="C:\Data\next.gif" size="993" user="ProjectContributor" version="1.2"}%
 %META:FILEATTACHMENT{name="prev.gif" attr="h" comment="Prev button" date="1037510599" path="C:\Data\prev.gif" size="993" user="ProjectContributor" version="1.2"}%

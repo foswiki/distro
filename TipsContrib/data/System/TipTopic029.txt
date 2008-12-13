@@ -12,7 +12,8 @@ For other Foswiki webs, replace =/%MAINWEB%/= with the name of the web:
 
 %WEBLIST{ format="   * <code> %SCRIPTURL%/view%SCRIPTSUFFIX%/$name/WebRss </code>" }%
 
-__See also:__
+---
+*See also:*
 	* %SYSTEMWEB%.WebRssBase - help on Foswiki RSS news feeds
 
 [[%SYSTEMWEB%.TipsOfTheDay][See More Tips...]]

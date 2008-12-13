@@ -51,4 +51,5 @@ New Plugin Tip:
 <input type="submit" value="Create" /> (replace =MyOwnPlugin= with the name of your Plugin)
 </form>
 
-__Related:__ TipsOfTheDay, TipsOfTheDayAdmin, TipsOfTheDayTemplate
+---
+*Related:* TipsOfTheDay, TipsOfTheDayAdmin, TipsOfTheDayTemplate

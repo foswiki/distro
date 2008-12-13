@@ -4,7 +4,7 @@
 This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae like ==%<nop>CALC{"$INT(7/3)"}%== are evaluated at page view time. They can be placed in table cells and outside of tables. In other words, this Plugin provides general formula evaluation capability, not just classic spreadsheet functions.
 
 <table><tr><td valign="top">
-__Example:__
+*Example:*
 
 | *Region:* | *Sales:* |
 | Northeast |  320 |
@@ -15,7 +15,7 @@ __Example:__
 | Total:	 |  %CALC{"$SUM( $ABOVE() )"}% |
 
 </td><td>&nbsp; &nbsp; &nbsp;</td><td valign="top">
-__Interactive example:__
+*Interactive example:*
 
 <form name="interactive" action="%SCRIPTURL%/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%" method="get">
 <noautolink>
@@ -701,7 +701,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. Below installation instructions are for the administrator who needs to install this plugin on the Foswiki server. 
+*Note:* You do not need to install anything on the browser to use this plugin. Below installation instructions are for the administrator who needs to install this plugin on the Foswiki server. 
 
 	* Download the ZIP file from the <nop>%TOPIC% home
 	* Unzip ==SpreadSheetPlugin.zip== in your twiki installation directory. Content:
@@ -767,7 +767,8 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
-__Related Topics:__ %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
+---
+*Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
 
 -- TWiki:Main/PeterThoeny - 13 Oct 2007
 

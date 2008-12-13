@@ -22,4 +22,5 @@ If, on the other hand, if your entry is like this:
 
 Then you would log in using your WikiName, in this case 'WikiGuest'
 
-__Related Topics for Administrators:__ ManagingUsers, UserDocumentationCategory
+---
+*Related Topics for Administrators:* ManagingUsers, UserDocumentationCategory

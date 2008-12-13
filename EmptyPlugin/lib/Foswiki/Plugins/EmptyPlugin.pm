@@ -13,7 +13,7 @@ by revision 1.2 of the Plugins API. See the documentation of =Foswiki::Func=
 for more information about what this revision number means, and how a
 plugin can check it.
 
-__NOTE:__ To interact with Foswiki use ONLY the official API functions
+*NOTE:* To interact with Foswiki use ONLY the official API functions
 in the Foswiki::Func module. Do not reference any functions or
 variables elsewhere in Foswiki, as these are subject to change
 without prior warning, and your plugin may suddenly stop
@@ -25,22 +25,22 @@ the function name. For efficiency and clarity, you should comment out or
 delete the whole of handlers you don't use before you release your
 plugin.
 
-__NOTE:__ When developing a plugin it is important to remember that
+*NOTE:* When developing a plugin it is important to remember that
 Foswiki is tolerant of plugins that do not compile. In this case,
 the failure will be silent but the plugin will not be available.
 See [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]] for error messages.
 
-__NOTE:__ Defining deprecated handlers will cause the handlers to be 
+*NOTE:* Defining deprecated handlers will cause the handlers to be 
 listed in [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]]. See
 [[%SYSTEMWEB%.Plugins#Handlig_deprecated_functions]]
 for information on regarding deprecated handlers that are defined for
 compatibility with older Foswiki versions.
 
-__BNOTE:__ All but the initPlugin are disabled. To enable a callback, remove =DISABLE_= from the function name.
+*NOTE:* All but the initPlugin are disabled. To enable a callback, remove =DISABLE_= from the function name.
 
 %STARTINCLUDE%
 
-__NOTE:__ When writing handlers, keep in mind that these may be invoked
+*NOTE:* When writing handlers, keep in mind that these may be invoked
 on included topics. For example, if a plugin generates links to the current
 topic, these need to be generated before the afterCommonTagsHandler is run,
 as at that point in the rendering loop we have lost the information that we
@@ -112,7 +112,7 @@ a function to handle variables that have standard Foswiki syntax - for example,
 Foswiki variable handling functions this way, though this practice is unsupported
 and highly dangerous!
 
-__Note:__ Please align variables names with the Plugin name, e.g. if 
+*Note:* Please align variables names with the Plugin name, e.g. if 
 your Plugin is called FooBarPlugin, name variables FOOBAR and/or 
 FOOBARSOMETHING. This avoids namespace issues.
 
@@ -252,11 +252,11 @@ variables (and any variables declared using =Foswiki::Func::registerTagHandler=)
 are expanded _before_, and then again _after_, this function is called
 to ensure all %<nop>TAGS% are expanded.
 
-__NOTE:__ when this handler is called, &lt;verbatim> blocks have been
+*NOTE:* when this handler is called, &lt;verbatim> blocks have been
 removed from the text (though all other blocks such as &lt;pre> and
 &lt;noautolink> are still present).
 
-__NOTE:__ meta-data is _not_ embedded in the text passed to this
+*NOTE:* meta-data is _not_ embedded in the text passed to this
 handler. Use the =$meta= object.
 
 *Since:* $Foswiki::Plugins::VERSION 1.000
@@ -292,14 +292,14 @@ internal variables. It is designed for use by cache plugins. Note that
 when this handler is called, &lt;verbatim> blocks are still present
 in the text.
 
-__NOTE__: This handler is called once for each call to
+*NOTE*: This handler is called once for each call to
 =commonTagsHandler= i.e. it may be called many times during the
 rendering of a topic.
 
-__NOTE:__ meta-data is _not_ embedded in the text passed to this
+*NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
-__NOTE:__ This handler is not separately called on included topics.
+*NOTE:* This handler is not separately called on included topics.
 
 =cut
 
@@ -321,11 +321,11 @@ This handler is after Foswiki has completed expansion of %TAGS%.
 It is designed for use by cache plugins. Note that when this handler
 is called, &lt;verbatim> blocks are present in the text.
 
-__NOTE__: This handler is called once for each call to
+*NOTE*: This handler is called once for each call to
 =commonTagsHandler= i.e. it may be called many times during the
 rendering of a topic.
 
-__NOTE:__ meta-data is _not_ embedded in the text passed to this
+*NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
 =cut
@@ -375,10 +375,10 @@ foreach my $placeholder ( keys %$map ) {
 }
 </verbatim>
 
-__NOTE__: This handler is called once for each rendered block of text i.e. 
+*NOTE*: This handler is called once for each rendered block of text i.e. 
 it may be called several times during the rendering of a topic.
 
-__NOTE:__ meta-data is _not_ embedded in the text passed to this
+*NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
 Since Foswiki::Plugins::VERSION = '1.026'
@@ -395,10 +395,10 @@ sub DISABLE_preRenderingHandler {
 ---++ postRenderingHandler( $text )
    * =$text= - the text that has just been rendered. May be modified in place.
 
-__NOTE__: This handler is called once for each rendered block of text i.e. 
+*NOTE*: This handler is called once for each rendered block of text i.e. 
 it may be called several times during the rendering of a topic.
 
-__NOTE:__ meta-data is _not_ embedded in the text passed to this
+*NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
 Since Foswiki::Plugins::VERSION = '1.026'
@@ -419,7 +419,7 @@ sub DISABLE_postRenderingHandler {
 This handler is called by the edit script just before presenting the edit text
 in the edit box. It is called once when the =edit= script is run.
 
-__NOTE__: meta-data may be embedded in the text passed to this handler 
+*NOTE*: meta-data may be embedded in the text passed to this handler 
 (using %META: tags)
 
 *Since:* Foswiki::Plugins::VERSION = '1.010'
@@ -443,9 +443,9 @@ sub DISABLE_beforeEditHandler {
 This handler is called by the preview script just before presenting the text.
 It is called once when the =preview= script is run.
 
-__NOTE:__ this handler is _not_ called unless the text is previewed.
+*NOTE:* this handler is _not_ called unless the text is previewed.
 
-__NOTE:__ meta-data is _not_ embedded in the text passed to this
+*NOTE:* meta-data is _not_ embedded in the text passed to this
 handler. Use the =$meta= object.
 
 *Since:* $Foswiki::Plugins::VERSION 1.010
@@ -469,7 +469,7 @@ sub DISABLE_afterEditHandler {
 
 This handler is called each time a topic is saved.
 
-__NOTE:__ meta-data is embedded in =$text= (using %META: tags). If you modify
+*NOTE:* meta-data is embedded in =$text= (using %META: tags). If you modify
 the =$meta= object, then it will override any changes to the meta-data
 embedded in the text. Modify *either* the META in the text *or* the =$meta=
 object, never both. You are recommended to modify the =$meta= object rather
@@ -499,7 +499,7 @@ sub DISABLE_beforeSaveHandler {
 
 This handler is called each time a topic is saved.
 
-__NOTE:__ meta-data is embedded in $text (using %META: tags)
+*NOTE:* meta-data is embedded in $text (using %META: tags)
 
 *Since:* Foswiki::Plugins::VERSION 1.025
 

@@ -30,7 +30,7 @@ This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for admi
 
 ---++ Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where Foswiki is running.
+*Note:* You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where Foswiki is running.
 
 	* Download the ZIP file from the Plugin web (see below)
 	* Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
@@ -51,6 +51,7 @@ __Note:__ You do not need to install anything on the browser to use this contrib
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
-__Related Topics:__ %USERSWEB%.SitePreferences
+---
+*Related Topics:* %USERSWEB%.SitePreferences
 
 -- TWiki:Main.PeterThoeny - 2007-01-04

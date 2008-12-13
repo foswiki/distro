@@ -101,5 +101,5 @@ Make sure that the extra fields also appear on the %SYSTEMWEB%.UserForm.
 
 %INCLUDE{"%LOGTOPIC%" warn="off"}%
 
-
-__Related Topics:__ AdminToolsCategory
+---
+*Related Topics:* AdminToolsCategory

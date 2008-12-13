@@ -52,6 +52,5 @@ To use your new user form for new (registering) users, create a copy of %IF{"ist
    <span class="foswikiGrayText">you will return here after saving</span>
 
 ---
-
-__Related topics:__ %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.UserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
+*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.UserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
 

@@ -21,7 +21,7 @@ The editor uses a translator module to convert from Foswiki Topic Markup Languag
 
 ---++ Installation Instructions
 
-__NOTES:__
+*NOTES:*
    * This plugin comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the plugin.
    * It requires the very latest revision of WysiwygPlugin.
    * When installed, it *replaces* the old "textarea" editor. The default Foswiki skin provides access to the plain text editor by adding a Raw Edit link at the bottom of the page.

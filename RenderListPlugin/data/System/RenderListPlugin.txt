@@ -47,11 +47,11 @@ Render bullet lists in a variety of formats
 ---++ Examples
 
 <table border="0" cellspacing="5" cellpadding="3"><tr><th valign="top" bgcolor="#CCCCC">
-__You type:__
+*You type:*
 </th><th valign="top" bgcolor="#CCCCC">
-__You get: (simulated)__
+*You get: (simulated)*
 </th><th valign="top" bgcolor="#CCCCC">
-__You get: (if installed)__
+*You get: (if installed)*
 </th></tr>
 <tr><td valign="top" bgcolor="#EEEEEE">
 <pre>
@@ -340,7 +340,7 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the Foswiki server.
+*Note:* You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the Foswiki server.
 
    * Download the ZIP file from the Plugin Home (see below)
    * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
@@ -380,7 +380,8 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
-__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, Foswiki:Extensions/TreePlugin
+---
+*Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, Foswiki:Extensions/TreePlugin
 
 -- TWiki:Main/PeterThoeny - 30 Sep 2007
 

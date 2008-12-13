@@ -75,7 +75,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 |  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
-__Related Topics:__ %USERSWEB%.SitePreferences
+---
+*Related Topics:* %USERSWEB%.SitePreferences
 
 %META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%

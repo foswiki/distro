@@ -74,14 +74,14 @@ To remove a user account (<nop>FredQuimby, who logs in as "fred"):
    2 Remove the =FredQuimby - fred= line from the <nop>%USERSWEB%.WikiUsers
      topic
    3 Remove =FredQuimby= from all groups and from all the
-      =ALLOWWEB/ALLOWTOPIC...= declarations, if any.%BR% __Note:__ If you
+      =ALLOWWEB/ALLOWTOPIC...= declarations, if any.%BR% *Note:* If you
       fail to do this you risk creating a security hole, as the next user to
       register with the wikiname Fred<nop>Quimby will inherit the old
       Fred<nop>Quimby's permissions.
    4 _[optional]_ Delete their user topic %USERSWEB%.<nop>FredQuimby
      (including attachments, if any.)
 
-__Note:__ Consider leaving the user topic file in place so their past signatures and revision author entries don't end up looking like AnUncreatedTopic.
+*Note:* Consider leaving the user topic file in place so their past signatures and revision author entries don't end up looking like AnUncreatedTopic.
 If you want to make it clear the user is no longer around, replace the topic content with a note to that effect.
 The existence of the <nop>UserName topic should also prevent that user name from being re-used, sealing the potential security hole regarding inherited permissions..
 
@@ -125,7 +125,7 @@ Content-Transfer-Encoding: 8bit
     EMAILADDRESS="%EMAILADDRESS%"
 }%
 </verbatim>
-   * __note the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template__
+   * *note the use of %<nop>WIKINAME%, %<nop>FIRSTLASTNAME%, %<nop>EMAILADDRESS% passed in from the INCLUDE so that the topic below is similar to the original template*
 
 and then create a topic %NOP%%USERSWEB%.RegisterNotifyEmail:
 <verbatim>
@@ -150,6 +150,7 @@ Your Wiki Admin
 
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="Main.AdminGroup"}%
 </verbatim>
-   * __remember to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.__
+   * *remember to secure the topic appropriately to prevent attackers from getting emailed sensitive passwords.*
 
-__Related Topics:__ AdminDocumentationCategory
+---
+*Related Topics:* AdminDocumentationCategory

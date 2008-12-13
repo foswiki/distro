@@ -11,7 +11,7 @@ Whenever you write ==ExternalSite:Page== it will be linked automatically to the 
 	* Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
 	* The Alias must start with an upper case letter and may contain alphanumeric letters.
 	* The URL and Tooltip Text may contain optional ==$page== formatting tokens; the token gets expanded to the page name.
-	* __Note:__ The Tooltip Text must not contain any HTML tags (including ==&lt;nop&gt;== escape code), no internal %SYSTEMWEB%.WikiWord links, and no external links. Hint: Escape =='WikiWords'== and =='$page'==.
+	* *Note:* The Tooltip Text must not contain any HTML tags (including ==&lt;nop&gt;== escape code), no internal %SYSTEMWEB%.WikiWord links, and no external links. Hint: Escape =='WikiWords'== and =='$page'==.
 
 ---+++ General Inter-Site Links
 
@@ -65,6 +65,7 @@ Whenever you write ==ExternalSite:Page== it will be linked automatically to the 
 
 </noautolink>
 
-__Note:__ This topic configures the InterwikiPlugin.
+*Note:* This topic configures the InterwikiPlugin.
 
-__Related Topics:__ [[%SYSTEMWEB%.Plugins][Plugins]], UserDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], UserDocumentationCategory, AdminDocumentationCategory
