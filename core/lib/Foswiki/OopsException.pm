@@ -4,31 +4,60 @@
 
 ---+ package Foswiki::OopsException
 
-API version $Rev$ $Date$
+Exception used to raise a request to output a preformatted page.
 
-Exception used to raise a request to redirect to an Oops URL.
+Despite the name, =oops= is not used just for errors; it is also used
+for one-time redirection, for example during the registration process.
 
-An OopsException thrown anywhere in the code will redirect the
-browser to a url based on the =oops= script. =oops= requires
-the name of an oops template file from the =templates= directory.
-This file will be expanded and the
-parameter values passed to the exception instantiated. The
-result will be shown in the browser.
+The =Foswiki::UI::run= function, which is in the call stack for almost
+all cases where an =OopsException= will be thrown, traps the exception
+and outputs an =oops= page to the browser. This requires
+the name of a template file from the =templates= directory, which it
+expands. Parameter values passed to the exception are instantiated in
+the expanded template. The =oops= page is output with an HTTP status
+appropriate to the event that caused the exception (default 500).
 
-Plugins may throw Foswiki::OopsException. For example:
+Extensions may throw =Foswiki::OopsException=. For example:
 
 <verbatim>
-use Error;
+use Error qw(:try);
 
 ...
 
 throw Foswiki::OopsException( 'bathplugin',
                             status => 418,
-                            def => 'toestuck',
                             web => $web,
                             topic => $topic,
-                            params => [ 'bigtoe', 'hot tap' ] );
+                            params => [ 'big toe', 'stuck', 'hot tap' ] );
 </verbatim>
+This will raise an exception that uses the =bathplugin.tmpl= template. If
+=UI::run= handles the exception it will generate a redirect to:
+<verbatim>
+oops?template=bathplugin;param1=bigtoe;param2=hot%20tap
+</verbatim>
+The =bathplugin.tmpl= might contain:
+<verbatim>
+%TMPL:INCLUDE{"oops"}%
+%TMPL:DEF{"titleaction"}% %MAKETEXT{"Bathing problem"}% %TMPL:END%
+%TMPL:DEF{"heading"}%%MAKETEXT{"Problem filling bath"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"oktopicaction"}%%TMPL:END%
+%TMPL:DEF{"script"}%<meta http-equiv="refresh" content="0;url=%SCRIPTURL{view}%/%WEB%/%TOPIC%" />%TMPL:END%
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"heading"}%%TMPL:END%
+%TMPL:DEF{"webaction"}% *%MAKETEXT{"Warning"}%* %TMPL:END%
+%TMPL:DEF{"message"}%
+%MAKETEXT{"Your bath cannot be filled because your [_1] is [_2] in the [_2]%TMPL:END%
+</verbatim>
+In this case the =oops= page will be rendered with a 418 ("I'm a teapot")
+status in the HTTP header.
+
+A more practical example for plugins authors that does not require them to
+provide their own template file involves use of the generic message template
+available from =oopsattention.tmpl=:
+<verbatim>
+throw Foswiki::OopsException( 'oopsattention', def => 'generic',
+   params => [ "%MAKETEXT{\"[_1] is not allowed to [_2] [_3]\", args=\"$user,$action,$topic\"}%" ] );
+</verbatim>
+In this example =%MAKETEXT= is used so that if a language translation includes this string it will be automatically translated.
 
 API version $Date$ (revision $Rev$)
 
@@ -168,7 +197,7 @@ sub redirect {
 ---++ ObjectMethod generate( $session )
 
 Generate an error page for the exception. This will output the error page
-to the browser. The default HTTP Status for an Oops exception is 500. This
+to the browser. The default HTTP Status for an Oops page is 500. This
 can be overridden using the 'status => ' parameter to the constructor.
 
 =cut
