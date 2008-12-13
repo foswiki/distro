@@ -24,7 +24,6 @@ with CGI accelerators such as mod_perl.
    * =remoteUser=       Login ID when using ApacheLogin. Maintained for
                         compatibility only, do not use.
    * =requestedWebName= Name of web found in URL path or =web= URL parameter
-   * =sandbox=          Foswiki::Sandbox singleton
    * =scriptUrlPath=    URL path to the current script. May be dynamically
                         extracted from the URL path if {GetScriptUrlFromCgi}.
                         Only required to support {GetScriptUrlFromCgi} and
@@ -1290,7 +1289,7 @@ sub new {
     $initialContext ||= defined($query) ? {} : { command_line => 1 };
 
     $query ||= new Foswiki::Request();
-    my $this = bless( {}, $class );
+    my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
     $this->{request}  = $query;
     $this->{cgiQuery}  = $query; # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
@@ -1305,13 +1304,6 @@ sub new {
     $this->{_HTMLHEADERS} = {};
     $this->{context}      = $initialContext;
 
-    # create the various sub-objects
-    unless ($sandbox) {
-
-        # "shared" between mod_perl instances
-        $sandbox =
-          new Foswiki::Sandbox( $Foswiki::cfg{OS}, $Foswiki::cfg{DetailedOS} );
-    }
     require Foswiki::Plugins;
     $this->{plugins} = new Foswiki::Plugins($this);
     require Foswiki::Store;

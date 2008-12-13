@@ -322,7 +322,8 @@ sub searchInWebContent {
 
     no strict 'refs';
     return &{ $this->{searchFn} }(
-        $searchString, $topics, $options, $sDir, $Foswiki::sandbox, $this->{web}
+        # the undef was previously the sandbox
+        $searchString, $topics, $options, $sDir, undef, $this->{web}
     );
     use strict 'refs';
 }

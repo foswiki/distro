@@ -12,7 +12,6 @@ sub execute { Foswiki::UI::execute(@_) }
 sub logon { Foswiki::UI::logon(@_) }
 sub checkWebExists { Foswiki::UI::checkWebExists(@_) }
 sub checkTopicExists { Foswiki::UI::checkTopicExists(@_) }
-sub checkMirror { Foswiki::UI::checkMirror(@_) }
 sub checkAccess { Foswiki::UI::checkAccess(@_) }
 sub readTemplateTopic { Foswiki::UI::readTemplateTopic(@_) }
 sub run { Foswiki::UI::run(@_) }

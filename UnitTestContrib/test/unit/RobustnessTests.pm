@@ -2,7 +2,7 @@
 package RobustnessTests;
 
 use base qw(FoswikiTestCase);
-require 5.006;
+require 5.008;
 
 use Foswiki;
 use Foswiki::Sandbox;
@@ -14,23 +14,17 @@ my $slash;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
-    $this->{twiki} = new Foswiki();
+    $this->{session} = new Foswiki();
     $slash = ($Foswiki::cfg{OS} eq 'WINDOWS') ? '\\' : '/';
-    # NOTE: this test pokes the *shared* sandbox, so we have to be extra
-    # careful about restoring state. We store the state, rather than
-    # just destroying the sandbox object, so that we can
-    # still pick up on potential mod_perl problems in the tests.
-    $this->{RSPO} = $Foswiki::sandbox->{REAL_SAFE_PIPE_OPEN};
-    $this->{ESPO} = $Foswiki::sandbox->{EMULATED_SAFE_PIPE_OPEN};
+    Foswiki::Sandbox::_assessPipeSupport();
 }
 
 sub tear_down {
     my $this = shift;
-    # NOTE: this test pokes the *shared* sandbox, so we have to be extra
+    # NOTE: this test pokes globals in the sandbox, so we have to be extra
     # careful about restoring state.
-    $Foswiki::sandbox->{REAL_SAFE_PIPE_OPEN} = $this->{RSPO};
-    $Foswiki::sandbox->{EMULATED_SAFE_PIPE_OPEN} = $this->{ESPO};
-    $this->{twiki}->finish();
+    Foswiki::Sandbox::_assessPipeSupport();
+    $this->{session}->finish();
     $this->SUPER::tear_down();
 }
 
@@ -119,54 +113,54 @@ sub test_sanitizeAttachmentName {
 sub test_buildCommandLine {
     my $this = shift;
     $this->assert_deep_equals(["a", "b", "c"],
-                              [$Foswiki::sandbox->_buildCommandLine("a b c", ())]);
+                              [Foswiki::Sandbox::_buildCommandLine("a b c", ())]);
     $this->assert_deep_equals(["a", "b", "c"],
-                              [$Foswiki::sandbox->_buildCommandLine(" a  b  c ", ())]);
+                              [Foswiki::Sandbox::_buildCommandLine(" a  b  c ", ())]);
     $this->assert_deep_equals([1, 2, 3],
-                              [$Foswiki::sandbox->_buildCommandLine(" %A%  %B%  %C% ", (A => 1, B => 2, C => 3))]);
+                              [Foswiki::Sandbox::_buildCommandLine(" %A%  %B%  %C% ", (A => 1, B => 2, C => 3))]);
     $this->assert_deep_equals([1, "./-..", "a${slash}b"],
-                              [$Foswiki::sandbox->_buildCommandLine(" %A|U%  %B|F%  %C|F% ", (A => 1, B => "-..", C => "a/b"))]);
+                              [Foswiki::Sandbox::_buildCommandLine(" %A|U%  %B|F%  %C|F% ", (A => 1, B => "-..", C => "a/b"))]);
     $this->assert_deep_equals([1, "2:3"],
-                              [$Foswiki::sandbox->_buildCommandLine(" %A%  %B%:%C% ", (A => 1, B => 2, C => 3))]);
+                              [Foswiki::Sandbox::_buildCommandLine(" %A%  %B%:%C% ", (A => 1, B => 2, C => 3))]);
     $this->assert_deep_equals([1, "-n2:3"],
-                              [$Foswiki::sandbox->_buildCommandLine(" %A%  -n%B%:%C% ", (A => 1, B => 2, C => 3))]);
+                              [Foswiki::Sandbox::_buildCommandLine(" %A%  -n%B%:%C% ", (A => 1, B => 2, C => 3))]);
     $this->assert_deep_equals([1, "-r2:HEAD", 3],
-                              [$Foswiki::sandbox->_buildCommandLine(" %A%  -r%B%:HEAD %C% ", (A => 1, B => 2, C => 3))]);
+                              [Foswiki::Sandbox::_buildCommandLine(" %A%  -r%B%:HEAD %C% ", (A => 1, B => 2, C => 3))]);
     $this->assert_deep_equals(["a", "b", "${slash}c"],
-                              [$Foswiki::sandbox->_buildCommandLine(" %A|F%  ", (A => ["a", "b", "/c"]))]);
+                              [Foswiki::Sandbox::_buildCommandLine(" %A|F%  ", (A => ["a", "b", "/c"]))]);
 
     $this->assert_deep_equals(
             ["1", "2.3", "4", 'str-.+_ing', "-09AZaz.+_"],
-            [$Foswiki::sandbox->_buildCommandLine(" %A|N% %B|S% %C|S%",
+            [Foswiki::Sandbox::_buildCommandLine(" %A|N% %B|S% %C|S%",
                  (A => [1, 2.3, 4], B => 'str-.+_ing', C => "-09AZaz.+_"))]);
 
     $this->assert_deep_equals(["2004/11/20 09:57:41"],
-                              [$Foswiki::sandbox->_buildCommandLine("%A|D%", A => Foswiki::Time::formatTime (1100944661, '$rcs', 'gmtime'))]);
-    eval { $Foswiki::sandbox->_buildCommandLine('%A|%') };
+                              [Foswiki::Sandbox::_buildCommandLine("%A|D%", A => Foswiki::Time::formatTime (1100944661, '$rcs', 'gmtime'))]);
+    eval { Foswiki::Sandbox::_buildCommandLine('%A|%') };
     $this->assert_not_null($@, '');
-    eval { $Foswiki::sandbox->_buildCommandLine('%A|X%') };
+    eval { Foswiki::Sandbox::_buildCommandLine('%A|X%') };
     $this->assert_not_null($@, '');
-    eval { $Foswiki::sandbox->_buildCommandLine(' %A|N%  ', A => '2/3') };
+    eval { Foswiki::Sandbox::_buildCommandLine(' %A|N%  ', A => '2/3') };
     $this->assert_not_null($@, '');
-    eval { $Foswiki::sandbox->_buildCommandLine(' %A|S%  ', A => '2/3') };
+    eval { Foswiki::Sandbox::_buildCommandLine(' %A|S%  ', A => '2/3') };
     $this->assert_not_null($@, '');
 }
 
 sub verify {
     my $this = shift;
-    my($out, $exit) = $Foswiki::sandbox->sysCommand(
+    my($out, $exit) = Foswiki::Sandbox->sysCommand(
         'sh -c %A%', A => 'echo OK; echo BOSS');
     $this->assert_str_equals("OK\nBOSS\n", $out);
     $this->assert_equals(0, $exit);
-    ($out, $exit) = $Foswiki::sandbox->sysCommand(
+    ($out, $exit) = Foswiki::Sandbox->sysCommand(
         'sh -c %A%', A => 'echo JUNK ON STDERR 1>&2');
     $this->assert_equals(0, $exit);
     $this->assert_str_equals("", $out);
-    ($out, $exit) = $Foswiki::sandbox->sysCommand(
+    ($out, $exit) = Foswiki::Sandbox->sysCommand(
         'test %A% %B% %C%', A => '1', B=>'-eq', C=>'2');
     $this->assert_equals(1, $exit, $exit.' '.$out);
     $this->assert_str_equals("", $out);
-    ( $out, $exit) = $Foswiki::sandbox->sysCommand(
+    ( $out, $exit) = Foswiki::Sandbox->sysCommand(
         'sh -c %A%', A => 'echo urmf; exit 7');
     $this->assert($exit != 0);
     $this->assert_str_equals("urmf\n", $out);
@@ -175,24 +169,24 @@ sub verify {
 sub test_executeRSP {
     my $this = shift;
     return if $Foswiki::cfg{OS} eq 'WINDOWS';
-    $Foswiki::sandbox->{REAL_SAFE_PIPE_OPEN} = 1;
-    $Foswiki::sandbox->{EMULATED_SAFE_PIPE_OPEN} = 0;
+    $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN = 1;
+    $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
     $this->verify();
 }
 
 sub test_executeESP {
     my $this = shift;
     return if $Foswiki::cfg{OS} eq 'WINDOWS';
-    $Foswiki::sandbox->{REAL_SAFE_PIPE_OPEN} = 0;
-    $Foswiki::sandbox->{EMULATED_SAFE_PIPE_OPEN} = 1;
+    $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN = 0;
+    $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 1;
     $this->verify();
 }
 
 sub test_executeNSP {
     my $this = shift;
     return if $Foswiki::cfg{OS} eq 'WINDOWS';
-    $Foswiki::sandbox->{REAL_SAFE_PIPE_OPEN} = 0;
-    $Foswiki::sandbox->{EMULATED_SAFE_PIPE_OPEN} = 0;
+    $Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN = 0;
+    $Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
     $this->verify();
 }
 

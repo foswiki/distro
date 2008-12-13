@@ -4,7 +4,10 @@ use Foswiki;
 
 sub TWiki::new {
     shift;
-    return new Foswiki(@_);
+    my $fatwilly = new Foswiki(@_);
+    require TWiki::Sandbox;
+    $fatwilly->{sandbox} = new TWiki::Sandbox();
+    return $fatwilly;
 }
 
 %TWiki::regex = %Foswiki::regex;

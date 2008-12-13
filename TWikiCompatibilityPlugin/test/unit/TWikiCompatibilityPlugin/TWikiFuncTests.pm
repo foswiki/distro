@@ -4,7 +4,7 @@ use strict;
 # Unit tests for TWiki::Func
 #
 
-package FuncTests;
+package TWikiFuncTests;
 use base qw(FoswikiFnTestCase);
 
 use TWiki;
@@ -449,7 +449,7 @@ END
         $topic, $this->{test_web});
     $this->assert($access);
     # make sure meta overrides text, as documented - Item2953
-    my $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $topic);
+    my $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $topic);
     $meta->putKeyed('PREFERENCE', {
         name => 'ALLOWTOPICVIEW',
         title => 'ALLOWTOPICVIEW',
@@ -461,7 +461,7 @@ END
         "   * Set ALLOWTOPICVIEW = NotASoul\n",
         $topic, $this->{test_web}, $meta);
     $this->assert($access);
-    $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $topic);
+    $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $topic);
     $meta->putKeyed('PREFERENCE', {
         name => 'DENYTOPICVIEW',
         title => 'DENYTOPICVIEW',
@@ -501,7 +501,7 @@ END
         $topic, $this->{test_web});
     $this->assert($access);
     # make sure meta overrides text, as documented - Item2953
-    my $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $topic);
+    my $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $topic);
     $meta->putKeyed('PREFERENCE', {
         name => 'ALLOWTOPICVIEW',
         title => 'ALLOWTOPICVIEW',
@@ -513,7 +513,7 @@ END
         "   * Set ALLOWTOPICVIEW = NotASoul\n",
         $topic, $this->{test_web}, $meta);
     $this->assert($access);
-    $meta = new TWiki::Meta($this->{twiki}, $this->{test_web}, $topic);
+    $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $topic);
     $meta->putKeyed('PREFERENCE', {
         name => 'DENYTOPICVIEW',
         title => 'DENYTOPICVIEW',

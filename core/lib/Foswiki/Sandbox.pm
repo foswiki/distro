@@ -4,14 +4,27 @@
 
 ---+ package Foswiki::Sandbox
 
-This object provides an interface to the outside world. All calls to
+This package provides an interface to the outside world. All calls to
 system functions, or handling of file names, should be brokered by
-this object.
+the =sysCommand= function in this package.
 
-NOTE: Foswiki creates a singleton sandbox that is *shared* by all Foswiki
-runs under a single mod_perl instance. If any Foswiki run modifies the
-sandbox, that modification will carry over in to subsequent runs.
-Be very, very careful!
+API version $Date$ (revision $Rev$)
+
+*Since* _date_ indicates where functions or parameters have been added since
+the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+earliest date of a Foswiki release that will support that function or
+parameter.
+
+*Deprecated* _date_ indicates where a function or parameters has been
+[[http://en.wikipedia.org/wiki/Deprecation][deprecated]]. Deprecated
+functions will still work, though they should
+_not_ be called in new plugins and should be replaced in older plugins
+as soon as possible. Deprecated parameters are simply ignored in Foswiki
+releases after _date_.
+
+*Until* _date_ indicates where a function or parameter has been removed.
+The _date_ indicates the latest date at which Foswiki releases still supported
+the function or parameter.
 
 =cut
 
@@ -28,77 +41,56 @@ require Foswiki;
 # Set to 1 to trace commands to STDERR
 sub TRACE { 0 }
 
+our $REAL_SAFE_PIPE_OPEN;
+our $EMULATED_SAFE_PIPE_OPEN;
+our $SAFE;
+our $CMDQUOTE; # leave undef until _assessPipeSupport has run
+
 # TODO: Sandbox module should probably use custom 'die' handler so that
 # output goes only to web server error log - otherwise it might give
 # useful debugging information to someone developing an exploit.
 
-=begin TML
+# Assess pipe support for =$os=, setting flags for platform features
+# that help.
+sub _assessPipeSupport {
 
----++ ClassMethod new( $os, $realOS )
+    # filter the support based on what platforms are proven not to work.
 
-Construct a new sandbox suitable for $os, setting
-flags for platform features that help.  $realOS distinguishes
-Perl variants on platforms such as Windows.
+    $REAL_SAFE_PIPE_OPEN = 1;
+    $EMULATED_SAFE_PIPE_OPEN = 1;
 
-=cut
-
-sub new {
-    my ( $class, $os, $realOS ) = @_;
-    my $this = bless( {}, $class );
-
-    ASSERT( defined $os )     if DEBUG;
-    ASSERT( defined $realOS ) if DEBUG;
-
-    $this->{REAL_SAFE_PIPE_OPEN}     = 1;    # supports open(FH, '-|")
-    $this->{EMULATED_SAFE_PIPE_OPEN} = 1;    # supports pipe() and fork()
-
-    # filter the support based on what platforms are proven
-    # not to work.
-    #from the Activestate Docco this is _only_ defined on ActiveState Perl
+    # from the Activestate Docco this is _only_ defined on ActiveState Perl
     if ( defined(&Win32::BuildNumber) ) {
-        $this->{REAL_SAFE_PIPE_OPEN}     = 0;
-        $this->{EMULATED_SAFE_PIPE_OPEN} = 0;
+        $REAL_SAFE_PIPE_OPEN     = 0;
+        $EMULATED_SAFE_PIPE_OPEN = 0;
     }
 
     # 'Safe' means no need to filter in on this platform - check
     # sandbox status at time of filtering
-    $this->{SAFE} =
-      ( $this->{REAL_SAFE_PIPE_OPEN} || $this->{EMULATED_SAFE_PIPE_OPEN} );
+    $SAFE = ( $REAL_SAFE_PIPE_OPEN || $EMULATED_SAFE_PIPE_OPEN ) ? 1 : 0;
 
     # Shell quoting - shell used only on non-safe platforms
-    if ( $os eq 'UNIX' or ( $os eq 'WINDOWS' and $realOS eq 'cygwin' ) ) {
-        $this->{CMDQUOTE} = '\'';
+    if ( $Foswiki::cfg{OS} eq 'UNIX'
+           || ( $Foswiki::cfg{OS} eq 'WINDOWS'
+                  && $$Foswiki::cfg{DetailedOS} eq 'cygwin' ) ) {
+        $CMDQUOTE = "'";
     }
     else {
-        $this->{CMDQUOTE} = '"';
+        $CMDQUOTE = '"';
     }
-
-    return $this;
-}
-
-=begin TML
-
----++ ObjectMethod finish()
-Break circular references.
-
-=cut
-
-# Note to developers; please undef *all* fields in the object explicitly,
-# whether they are references or not. That way this method is "golden
-# documentation" of the live fields in the object.
-sub finish {
-    my $this = shift;
 }
 
 =begin TML
 
 ---++ StaticMethod untaintUnchecked ( $string ) -> $untainted
 
-Untaints $string without any checks (dangerous).  If $string is
+Untaints =$string= without any checks.  If $string is
 undefined, return undef.
 
-The intent is to use this routine to be able to find all untainting
-places using grep.
+This function doesn't perform *any* checks on the data being untainted.
+Callers *must* ensure that =$string= does not contain any dangerous content,
+such as interpolation characters, if it is to be used in potentially
+unsafe operations.
 
 =cut
 
@@ -115,7 +107,8 @@ sub untaintUnchecked {
 
 ---++ StaticMethod normalizeFileName( $string ) -> $filename
 
-Errors out if $string contains filtered characters.
+Throws an exception if =$string= contains filtered characters, as
+defined by =$Foswiki::cfg{NameFilter}=
 
 The returned string is not tainted, but it may contain shell
 metacharacters and even control characters.
@@ -165,7 +158,7 @@ sub normalizeFileName {
 Given a file name received in a query parameter, sanitise it. Returns
 the sanitised name together with the basename before sanitisation.
 
-Sanitisation includes filtering illegal characters and mapping client
+Sanitation includes filtering illegal characters and mapping client
 file names to legal server names.
 
 =cut
@@ -212,22 +205,8 @@ sub sanitizeAttachmentName {
     return ( $fileName, $origName );
 }
 
-# $template is split at whitespace, and '%VAR%' strings contained in it
-# are replaced with $params{VAR}.  %params may consist of scalars and
-# array references as values.  Array references are dereferenced and the
-# array elements are inserted into the command line at the indicated
-# point.
-#
-# '%VAR%' can optionally take the form '%VAR|FLAG%', where FLAG is a
-# single character flag.  Permitted flags are
-#   * U untaint without further checks -- dangerous,
-#   * F normalize as file name,
-#   * N generalized number,
-#   * S simple, short string,
-#   * D rcs format date
-
 sub _buildCommandLine {
-    my ( $this, $template, %params ) = @_;
+    my ( $template, %params ) = @_;
     my @arguments;
 
     $template ||= '';
@@ -241,7 +220,7 @@ sub _buildCommandLine {
         my @tmplarg = $tmplarg =~ /([^%]+|%[^%]+%)/g;
         my @targs;
         for my $t (@tmplarg) {
-            if ( $t =~ /%(.*?)(|\|[A-Z])%/ ) {
+            if ( $t =~ /%(.*?)(?:\|([A-Z]))?%/ ) {
                 my ( $p, $flag ) = ( $1, $2 );
                 if ( !exists $params{$p} ) {
                     throw Error::Simple( 'unknown parameter name ' . $p );
@@ -263,15 +242,17 @@ sub _buildCommandLine {
                         push @targs, $param;
                         next;
                     }
-                    if ( $flag =~ /U/ ) {
+                    if ( $flag eq 'U' ) {
                         push @targs, untaintUnchecked($param);
                     }
-                    elsif ( $flag =~ /F/ ) {
+                    elsif ( $flag eq 'F' ) {
                         $param = normalizeFileName($param);
-                        $param = "./$param" if $param =~ /^-/;
+                        # Some command interpreters are too stupid to deal
+                        # with filenames that start with a non-alphanumeric
+                        $param = "./$param" if $param =~ /^[^\w\/\\]/;
                         push @targs, $param;
                     }
-                    elsif ( $flag =~ /N/ ) {
+                    elsif ( $flag eq 'N' ) {
 
                         # Generalized number.
                         if ( $param =~ /^([0-9A-Fa-f.x+\-]{0,30})$/ ) {
@@ -282,11 +263,11 @@ sub _buildCommandLine {
                                 "invalid number argument '$param' $t");
                         }
                     }
-                    elsif ( $flag =~ /S/ ) {
+                    elsif ( $flag eq 'S' ) {
 
                         # "Harmless" string. Aggressively filter-in on unsafe
                         # platforms.
-                        if ( $this->{SAFE} || $param =~ /^[-0-9A-Za-z.+_]+$/ ) {
+                        if ( $SAFE || $param =~ /^[-0-9A-Za-z.+_]+$/ ) {
                             push @targs, untaintUnchecked($param);
                         }
                         else {
@@ -294,7 +275,7 @@ sub _buildCommandLine {
                                 "invalid string argument '$param' $t");
                         }
                     }
-                    elsif ( $flag =~ /D/ ) {
+                    elsif ( $flag eq 'D' ) {
 
                         # RCS date.
                         if (
@@ -342,15 +323,39 @@ sub _safeDie {
 
 =begin TML
 
----++ ObjectMethod sysCommand( $template, @params ) -> ( $data, $exit )
+---++ StaticMethod sysCommand( $class, $template, %params ) -> ( $data, $exit )
 
-Invokes the program described by $template
-and @params, and returns the output of the program and an exit code.
-STDOUT is returned. STDERR is THROWN AWAY.
+Invokes the program described by =$template=
+and =%params=, and returns the output of the program and an exit code.
+STDOUT is returned. STDERR is THROWN AWAY. $class is also ignored, and
+is only present for compatibility.
 
 The caller has to ensure that the invoked program does not react in a
-harmful way to the passed arguments.  sysCommand merely
+harmful way to the passed arguments. =sysCommand= merely
 ensures that the shell does not interpret any of the passed arguments.
+
+$template is a template command-line for the program, which contains
+typed tokens that are replaced with parameter values passed in the
+=sysCommand= call. For example,
+<verbatim>
+    my ( $output, $exit ) = Foswiki::Sandbox->sysCommand(
+        $command,
+        FILENAME => $filename );
+</verbatim>
+where =$command= is a template for the command - for example,
+<verbatim>
+/usr/bin/rcs -i -t-none -kb %FILENAME|F%
+</verbatim>
+=$template= is split at whitespace, and '%VAR%' strings contained in it
+are replaced with =$params{VAR}=.  =%params= values may consist of scalars and
+array references.  Array references are dereferenced and the
+array elements are inserted. '%VAR%' can optionally take the form '%VAR|T%',
+where FLAG is a single character type flag.  Permitted type flags are
+   * =U= untaint without further checks -- dangerous,
+   * =F= normalize as file name,
+   * =N= generalized number,
+   * =S= simple, short string,
+   * =D= RCS format date
 
 =cut
 
@@ -358,7 +363,7 @@ ensures that the shell does not interpret any of the passed arguments.
 
 sub sysCommand {
     ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
-    my ( $this, $template, %params ) = @_;
+    my ( $ignore, $template, %params ) = @_;
 
     #local $SIG{__DIE__} = &_safeDie;
 
@@ -372,7 +377,6 @@ sub sysCommand {
     my $path  = $1;
     my $pTmpl = $2;
     my $cmd;
-    my $cq = $this->{CMDQUOTE};
 
     # Item5449: A random key known by both parent and child.
     # Used to make it possible that the parent detects when
@@ -381,9 +385,11 @@ sub sysCommand {
     # the parent.
     my $key = int( rand(255) ) + 1;
 
+    _assessPipeSupport() unless defined $CMDQUOTE;
+
     # Build argument list from template
-    my @args = _buildCommandLine( $this, $pTmpl, %params );
-    if ( $this->{REAL_SAFE_PIPE_OPEN} ) {
+    my @args = _buildCommandLine( $pTmpl, %params );
+    if ( $REAL_SAFE_PIPE_OPEN ) {
 
         # Real safe pipes, open from process directly - works
         # for most Unix/Linux Perl platforms and on Cygwin.  Based on
@@ -422,7 +428,7 @@ sub sysCommand {
         }
 
     }
-    elsif ( $this->{EMULATED_SAFE_PIPE_OPEN} ) {
+    elsif ( $EMULATED_SAFE_PIPE_OPEN ) {
 
         # Safe pipe emulation mostly on Windows platforms
 
@@ -487,7 +493,7 @@ sub sysCommand {
 
         # This appears to be the only way to get ActiveStatePerl working
         # Escape the cmd quote using \
-        if ( $cq eq '"' ) {
+        if ( $CMDQUOTE eq '"' ) {
 
             # DOS shell :-( Tried dozens of ways of trying to get the quotes
             # right, but it just won't play nicely
@@ -496,9 +502,10 @@ sub sysCommand {
         else {
             $cmd =
                 $path . ' ' 
-              . $cq
-              . join( $cq . ' ' . $cq, map { s/$cq/\\$cq/g; $_ } @args )
-              . $cq;
+              . $CMDQUOTE
+              . join( $CMDQUOTE . ' ' . $CMDQUOTE,
+                      map { s/$CMDQUOTE/\\$CMDQUOTE/go; $_ } @args )
+              . $CMDQUOTE;
         }
 
         if (   ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' )
@@ -527,7 +534,8 @@ sub sysCommand {
     }
 
     if (TRACE) {
-        $cmd ||= $path . ' ' . $cq . join( $cq . ' ' . $cq, @args ) . $cq;
+        $cmd ||= $path . ' ' . $CMDQUOTE .
+          join( $CMDQUOTE . ' ' . $CMDQUOTE, @args ) . $CMDQUOTE;
         $data ||= '';
         print STDERR $cmd, ' -> ', $data, "\n";
     }

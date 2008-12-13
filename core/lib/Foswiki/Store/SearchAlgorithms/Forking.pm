@@ -17,7 +17,7 @@ for details.
 =cut
 
 sub search {
-    my ( $searchString, $topics, $options, $sDir, $sandbox ) = @_;
+    my ( $searchString, $topics, $options, $sDir ) = @_;
 
     # Default (Forking) search
 
@@ -72,7 +72,7 @@ sub search {
 
     while (@set) {
         @set = map { "$sDir/$_.txt" } @set;
-        my ( $m, $exit ) = $sandbox->sysCommand(
+        my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
             $program,
             TOKEN => $searchString,
             FILES => \@set

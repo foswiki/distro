@@ -443,7 +443,7 @@ sub makeAnchorName {
     $anchorName =~ s/<\/?[a-zA-Z][^>]*>//gi;    # remove HTML tags
     $anchorName =~ s/&#?[a-zA-Z0-9]+;//g;       # remove HTML entities
     $anchorName =~ s/&//g;                      # remove &
-         # filter TOC excludes if not at beginning
+    # filter TOC excludes if not at beginning
     $anchorName =~ s/^(.+?)\s*$Foswiki::regex{headerPatternNoTOC}.*/$1/o;
 
     # filter '!!', '%NOTOC%'
@@ -460,14 +460,11 @@ sub makeAnchorName {
     if ( !$compatibilityMode ) {
         $anchorName =~ s/^[\s#_]+//;    # no leading space nor '#', '_'
     }
-    $anchorName =~ s/^(.{32})(.*)$/$1/
-      ;    # limit to 32 chars - FIXME: Use Unicode chars before truncate
+    # limit to 32 chars - FIXME: Use Unicode chars before truncate
+    $anchorName =~ s/^(.{32})(.*)$/$1/;
     if ( !$compatibilityMode ) {
         $anchorName =~ s/[\s_]+$//;    # no trailing space, nor '_'
     }
-
-    # There should be no need to encode 8-bit characters in anchor
-    # due to UTF-8 URL support. However encoding apparently cures Item5962
 
     return Foswiki::urlEncode( $anchorName );
 }

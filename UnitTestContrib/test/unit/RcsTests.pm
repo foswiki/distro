@@ -54,14 +54,16 @@ sub set_up {
     die unless (defined $Foswiki::cfg{ScriptSuffix});
     $Foswiki::cfg{Register}{AllowLoginName}    =  1;
     $twiki = new Foswiki();
-    $twiki->{sandbox}->{TRACE} = 0;
+    no warnings 'redefine';
+    *Foswiki::Sandbox::TRACE = sub {};
+    use warnings 'redefine';
     # Switch off pipes to maximise debug opportunities
     # The following setting is for debugging and disabled
     # since it makes so much noise that normal tests drown
     # Note enabling these makes later test cases fail when
     # run as FoswikiSuite
-    #$twiki->{sandbox}->{REAL_SAFE_PIPE_OPEN} = 0;
-    #$twiki->{sandbox}->{EMULATED_SAFE_PIPE_OPEN} = 0;
+    #$Foswiki::Sandbox::REAL_SAFE_PIPE_OPEN = 0;
+    #$Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
 
     $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
     die unless $twiki;
