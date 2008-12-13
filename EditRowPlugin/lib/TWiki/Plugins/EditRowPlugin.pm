@@ -210,7 +210,7 @@ sub postRenderingHandler {
 }
 
 # REST handler for table row edit save with redirect on completion.
-# The noredirect URL parameter can be passed to prevent
+# The erp_noredirect URL parameter can be passed to prevent
 # the redirection. If it is set, the request will respond with a 500
 # status code with a human readable message. This allows the handler
 # to be used by Javascript table editors.

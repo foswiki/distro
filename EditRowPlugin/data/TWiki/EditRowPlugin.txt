@@ -94,7 +94,7 @@ Parameters:
      will present the columns of the row as rows in the editor. This makes
      editing very wide tables much easier. Has no effect in whole table
      editing mode.
-   * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a TWiki table.
+   * ==helptopic== Topic name containing help text shown when editing a table. The [[VarSTARTINCLUDE][%<nop>STARTINCLUDE%]] and [[VarSTOPINCLUDE][%<nop>STOPINCLUDE%]] markers can be used in the topic to specify what is shown. Note that newlines are removed from the included text so the that text can be used inside a table.
 
 Table rows are shown with a row edit button %ICON{edittopic}% in the first column,
 and a table edit button <img src="%ATTACHURLPATH%/edittable.gif" /> after the
@@ -119,8 +119,8 @@ __Note:__ The =%<nop>EDITCELL{ }%=variable cannot be used by itself; place an =%
 Copy the following examples and paste them into a topic in the Sandbox web
 (or another web where you have write access). The !EditRowPlugin is
 %IF{"{Plugins}{EditRowPlugin}{Enabled}"
-else=" *not* enabled in this TWiki, so the examples will be disabled."
-then="enabled in this TWiki. Click on the buttons to try it out."}%
+else=" *not* enabled on this site, so the examples will be disabled."
+then="enabled in this site. Click on the buttons to try it out."}%
 
 ---+++ Example 1
 <verbatim>
@@ -198,7 +198,7 @@ manipulate tables.
 
 The REST handler is invoked using the following URI format:
 
-&lt;twiki-bin-path>/rest/EditRowPlugin/save
+&lt;bin-path>/rest/EditRowPlugin/save
 
 The handler accepts the following parameters:
    * =erp_active_topic= the web.wikiname of the topic to be changed
@@ -215,7 +215,7 @@ The handler accepts the following parameters:
 The value of each individual cell is stored in a parameter called =erp_&lt;table>_&lt;row>_&lt;column>=
 
 ---++ Plugin Info
-Another great TWiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Plugin Author(s): | Crawford Currie http://c-dot.co.uk |
 |  Plugin Version: | %$VERSION% |
@@ -247,9 +247,7 @@ Another great TWiki extension from the <a style="text-decoration:none" href="htt
 |  13159 | Fixed issue with short rows, and added perms check. Thanks also to TWiki:Main.MichaelDaum for more fixes and testing. Now works on IE. |
 |  13148 | TWikibug:Item3770: Bugfixes |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://twiki.org/cgi-bin/view/Plugins/EditRowPlugin |
-|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/EditRowPluginDev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/EditRowPluginAppraisal |
+|  Plugin Home: | http://foswiki.org/cgi-bin/view/Extensions/EditRowPlugin |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
