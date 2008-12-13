@@ -231,7 +231,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 ---++ Rendering Shortcuts Settings
 
    * Line break: Note that the setting has an intentional trailing space
-      * Set BR = <br />
+      * Set BR = <br /> 
 
    * Bullet sign:
       * Set BULLET = &#8226;
