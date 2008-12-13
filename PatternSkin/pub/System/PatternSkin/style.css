@@ -59,7 +59,6 @@ html>body pre { /* hide from IE */
 }
 ol, ul {
 	margin-top:0;
-	margin-bottom:1em;
 }
 blockquote {
 	padding:.5em 1.25em;
