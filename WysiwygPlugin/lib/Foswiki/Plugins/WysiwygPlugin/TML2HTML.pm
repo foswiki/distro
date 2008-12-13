@@ -19,10 +19,10 @@
 
 ---+ package Foswiki::Plugins::WysiwygPlugin::TML2HTML
 
-Convertor class for translating TML (TWiki Meta Language) into
+Convertor class for translating TML (Topic Meta Language) into
 HTML
 
-The convertor does _not_ use the TWiki rendering, as that is a
+The convertor does _not_ use the Foswiki rendering, as that is a
 lossy conversion, and would make symmetric translation back to TML
 an impossibility.
 
@@ -150,7 +150,7 @@ sub _dropIn {
 
 # Parse and convert macros. If we are not using span markers
 # for macros, we have to change the percent signs into entities
-# to prevent internal tags being expanded by TWiki during rendering.
+# to prevent internal tags being expanded by Foswiki during rendering.
 # It's assumed that the editor will have the common sense to convert
 # them back to characters when editing.
 sub _processTags {
@@ -249,7 +249,7 @@ sub _getRenderedVersion {
     my $colourMatch = join('|',grep(/^[A-Z]/, keys %WC::KNOWN_COLOUR));
     while ($text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#<font color="\L$1\E">$2</font>#og) {};
 
-    # Convert TWiki tags to spans outside protected text
+    # Convert Foswiki tags to spans outside protected text
     $text = $this->_processTags( $text );
 
     # protect some HTML tags.
@@ -488,7 +488,7 @@ sub _takeOutIMGTag {
     return $this->_liftOut($text, '', 'NONE');
 }
 
-# Pull out TWiki Set statements, to prevent unwanted munging
+# Pull out Foswiki Set statements, to prevent unwanted munging
 sub _takeOutSets {
     my $this = $_[0];
     my $setRegex =

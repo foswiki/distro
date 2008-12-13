@@ -1,9 +1,9 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
-# Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2005-2006 TWiki Contributors
 # Copyright (C) 2008 Foswiki Contributors.
+# Copyright (C) 2005-2006 TWiki Contributors
+# Copyright (C) 2001-2004 Peter Thoeny, peter@thoeny.org
+# Copyright (C) 2001-2003 John Talintyre, jet@cheerful.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

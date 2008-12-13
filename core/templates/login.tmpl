@@ -1,6 +1,6 @@
 %{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
 
-%TMPL:DEF{"webaction"}%%MAKETEXT{"TWiki User Authentication"}%%TMPL:END%
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Foswiki User Authentication"}%%TMPL:END%
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(login)"}% %TMPL:END%
 %TMPL:DEF{"LOG_IN_BANNER"}%%TMPL:END%
 %TMPL:DEF{"LOGGED_IN_BANNER"}%%MAKETEXT{"[_1] is currently logged in" args="%USERSWEB%.%WIKINAME%"}%%TMPL:END%
@@ -24,7 +24,7 @@
 %IF{"defined NOTE AND $NOTE != ''" then='---+++ %NOTE%'}%</div>%TMPL:END%
 
 
-%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="foswikiNotification foswikiAlert foswikiUnvisited twikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
+%TMPL:DEF{"errorstep"}%%IF{"defined BANNER AND $BANNER != ''" then='<div class="foswikiNotification foswikiAlert foswikiUnvisited foswikiLoginNotification">%BANNER%%IF{"defined ERROR AND $ERROR != ''" then='<!--%TMPL:P{"error"}%-->'}%</div>'}%%TMPL:END%
 
 %TMPL:DEF{"error"}%%MAKETEXT{"Error: [_1]" args="%ERROR%"}%%TMPL:END%
 
@@ -70,7 +70,7 @@
 
 %TMPL:DEF{"submit"}%<input tabindex='4' type='submit' class='foswikiSubmit' value='%MAKETEXT{"Logon"}%' />%TMPL:END%
 
-%{ please keep the spaces between the div and the TMPL seealsonote, it allows TWiki to process the emailaddress }%
+%{ please keep the spaces between the div and the TMPL seealsonote, it allows Foswiki to process the emailaddress }%
 %TMPL:DEF{"seealsostep"}%<div class="foswikiFormStep foswikiGrayText foswikiLast"> %TMPL:P{"seealsonote"}% </div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"seealsonote"}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%IF{"defined WIKIWEBMASTER AND $WIKIWEBMASTER != ''" then="%WIKIWEBMASTER%" else="your Wiki administrator"}%"}% %TMPL:END%

@@ -50,37 +50,37 @@ Patch release following the 4.2.0 released 22 Jan 2008
 *Hall of Fame of TWiki Release 4.2*
 
 Many people have been involved in creating TWiki 4.2. Special thanks go to the most active contributors in the following areas:
-   * Release management led by TWiki:Main.KennethLavrsen, ably assisted by TWiki:Main.SvenDowideit
-   * Design and development driven by TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki.Main.KennethLavrsen and TWiki:Main.SvenDowideit
-   * Testing driven by TWiki:Main.KennethLavrsen
+   * Release management led by Foswiki:Main.KennethLavrsen, ably assisted by Foswiki:Main.SvenDowideit
+   * Design and development driven by Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.KennethLavrsen and Foswiki:Main.SvenDowideit
+   * Testing driven by Foswiki:Main.KennethLavrsen
 
 Many thanks also to the contributors in the following areas:
    * *Sponsor and facilitator:* TWiki:Main.PeterThoeny
-   * *Testing and bug fixing:* TWiki:Main.KennethLavrsen, TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki:Main.SvenDowideit, TWiki:Main.SteffenPoulsen, TWiki:Main.MichaelDaum, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin
-   * *Spec and code:* TWiki:Main.CrawfordCurrie (2323), TWiki:Main.ArthurClemens (566), TWiki:Main.SvenDowideit (507), TWiki:Main.PeterThoeny (83), TWiki:Main.KennethLavrsen (73), TWiki:Main.SteffenPoulsen (72), TWiki:Main.AntonioTerceiro (63) - ( 3857 changes by 20 authors )
-   * *Templates and skins:* TWiki:Main.ArthurClemens (587), TWiki:Main.CrawfordCurrie (130), TWiki:Main.AndreUlrich (73), TWiki:Main.SvenDowideit (44) - ( 869 changes by 12 authors )
-   * *Documentation:* TWiki:Main.ArthurClemens (460), TWiki:Main.CrawfordCurrie (377), TWiki:Main.PeterThoeny (233), TWiki:Main.AndreUlrich (157), TWiki:Main.SvenDowideit (118), TWiki:Main.KennethLavrsen (68) - ( 1450 changes by 14 authors )
-   * *Release package builds:* TWiki:Main.SvenDowideit
-   * *Usability:* TWiki:Main.CarloSchulz, TWiki:Main.ArthurClemens
+   * *Testing and bug fixing:* Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SvenDowideit, Foswiki:Main.SteffenPoulsen, Foswiki:Main.MichaelDaum, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin
+   * *Spec and code:* Foswiki:Main.CrawfordCurrie (2323), Foswiki:Main.ArthurClemens (566), Foswiki:Main.SvenDowideit (507), TWiki:Main.PeterThoeny (83), Foswiki:Main.KennethLavrsen (73), Foswiki:Main.SteffenPoulsen (72), TWiki:Main.AntonioTerceiro (63) - ( 3857 changes by 20 authors )
+   * *Templates and skins:* Foswiki:Main.ArthurClemens (587), Foswiki:Main.CrawfordCurrie (130), Foswiki:Main.AndreUlrich (73), Foswiki:Main.SvenDowideit (44) - ( 869 changes by 12 authors )
+   * *Documentation:* Foswiki:Main.ArthurClemens (460), Foswiki:Main.CrawfordCurrie (377), TWiki:Main.PeterThoeny (233), Foswiki:Main.AndreUlrich (157), Foswiki:Main.SvenDowideit (118), Foswiki:Main.KennethLavrsen (68) - ( 1450 changes by 14 authors )
+   * *Release package builds:* Foswiki:Main.SvenDowideit
+   * *Usability:* Foswiki:Main.CarloSchulz, Foswiki:Main.ArthurClemens
    * *Translations:* Coordinated by TWiki:Main.AntonioTerceiro
       * Bulgarian: TWiki:Main.KrassimirBerov
-      * Danish: TWiki:Main.SteffenPoulsen
-      * Dutch: TWiki:Main.ArthurClemens
+      * Danish: Foswiki:Main.SteffenPoulsen
+      * Dutch: Foswiki:Main.ArthurClemens
       * Finnish: TWiki:Main.HeikkiToivonen
       * French: TWiki:Main.BenVoui
-      * German: TWiki:Main.OliverKrueger, TWiki:Main.AndreUlrich
+      * German: Foswiki:Main.OliverKrueger, Foswiki:Main.AndreUlrich
       * Italian: TWiki:Main.MassimoMancini
       * Portuguese: TWiki:Main.CarlinhosCecconi
       * Simplified Chinese: TWiki:Main.CheDong
       * Swedish: TWiki:Main.ErikAman
       * Traditional Chinese: TWiki:Main.CheDong
       * Ukrainian: TWiki:Main.SerhijDubyk
-   * *Marketing:* TWiki:Main.RodBeckstrom, TWiki:Main.PeterThoeny, TWiki:Main.MichaelCorbett, TWiki:Main.KoenMartens
-   * *Public relations:* TWiki:Main.PeterThoeny, TWiki:Main.MichaelCorbett
+   * *Marketing:* TWiki:Main.RodBeckstrom, TWiki:Main.PeterThoeny, Foswiki:Main.MichaelCorbett, Foswiki:Main.KoenMartens
+   * *Public relations:* TWiki:Main.PeterThoeny, Foswiki:Main.MichaelCorbett
    * *Meetups:* TWiki:Main.AmirShobeiri
-   * *TWiki.org wiki champions:* TWiki:Main.PeterThoeny, TWiki:Main.ArthurClemens, TWiki:Main.CrawfordCurrie, TWiki:Main.KennethLavrsen, TWiki:Main.SvenDowideit, TWiki:Main.MichaelDaum, TWiki:Main.CarloSchulz, TWiki:Main.StephaneLenclud, TWiki:Main.RichardDonkin, TWiki:Main.KoenMartens <!-- Blog, Codev, Main, Plugins, TWiki webs -->
-   * *Customer support:* TWiki:Main.PeterThoeny, TWiki:Main.ArthurClemens, TWiki:Main.CrawfordCurrie, TWiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg <!-- Support web -->
-   * *System administration:* TWiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie
+   * *TWiki.org wiki champions:* TWiki:Main.PeterThoeny, Foswiki:Main.ArthurClemens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KennethLavrsen, Foswiki:Main.SvenDowideit, Foswiki:Main.MichaelDaum, Foswiki:Main.CarloSchulz, Foswiki:Main.StephaneLenclud, TWiki:Main.RichardDonkin, Foswiki:Main.KoenMartens <!-- Blog, Codev, Main, Plugins, TWiki webs -->
+   * *Customer support:* TWiki:Main.PeterThoeny, Foswiki:Main.ArthurClemens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg <!-- Support web -->
+   * *System administration:* Foswiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie
 
 If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
 
@@ -158,28 +158,28 @@ If you find an omission please fix it at TWiki:System.ReleaseHistory. For the fu
 Although many more people have been involved in creating TWiki-4.1, special thanks go to the most active contributors in the following areas:
 
    * *Sponsor and facilitator:* TWiki:Main.PeterThoeny
-   * *Process improvement:* TWiki:Main.KennethLavrsen, TWiki:Main.PeterThoeny, TWiki:Main.SteffenPoulsen, TWiki:Main.CrawfordCurrie
-   * *Release management:* TWiki:Main.KennethLavrsen
-   * *Spec, code, testing:* TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki:Main.SteffenPoulsen, TWiki:Main.PeterThoeny, TWiki:Main.ThomasWeigert, TWiki:Main.KennethLavrsen, TWiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg, TWiki:Main.MichaelDaum, TWiki:Main.MeredithLesly, TWiki:Main.WillNorris, TWiki:Main.RafaelAlvarez, TWiki:Main.AntonioTerceiro
-   * *Templates and skins:* TWiki:Main.ArthurClemens, TWiki:Main.MichaelDaum, TWiki:Main.SvenDowideit
-   * *Documentation:* TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki:Main.SteffenPoulsen, TWiki:Main.KennethLavrsen
+   * *Process improvement:* Foswiki:Main.KennethLavrsen, TWiki:Main.PeterThoeny, Foswiki:Main.SteffenPoulsen, Foswiki:Main.CrawfordCurrie
+   * *Release management:* Foswiki:Main.KennethLavrsen
+   * *Spec, code, testing:* Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SteffenPoulsen, TWiki:Main.PeterThoeny, TWiki:Main.ThomasWeigert, Foswiki:Main.KennethLavrsen, Foswiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg, Foswiki:Main.MichaelDaum, TWiki:Main.MeredithLesly, Foswiki:Main.WillNorris, TWiki:Main.RafaelAlvarez, TWiki:Main.AntonioTerceiro
+   * *Templates and skins:* Foswiki:Main.ArthurClemens, Foswiki:Main.MichaelDaum, Foswiki:Main.SvenDowideit
+   * *Documentation:* TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SteffenPoulsen, Foswiki:Main.KennethLavrsen
    * *Translations:* Coordinated by TWiki:Main.AntonioTerceiro
       * Chinese: TWiki:Main.CheDong
       * Czech: TWiki:Main.IvanKuncl
-      * Danish: TWiki:Main.SteffenPoulsen
-      * Dutch: TWiki:Main.ArthurClemens
+      * Danish: Foswiki:Main.SteffenPoulsen
+      * Dutch: Foswiki:Main.ArthurClemens
       * French: TWiki:Main.BenVoui
-      * German: TWiki:Main.AndreUlrich
+      * German: Foswiki:Main.AndreUlrich
       * Italian: TWiki:Main.MassimoMancini
       * Polish: TWiki:Main.ZbigniewKulesza
       * Portuguese: TWiki:Main.AntonioTerceiro, TWiki:Main.CarlinhosCecconi
       * Russian: TWiki:Main.AndreyTkachenko, TWiki:Main.SergejZnamenskij, TWiki:Main.SergeyJSinx, TWiki:Main.AlexTananaev
-      * Spanish: TWiki:Main.WillNorris, TWiki:Main.MiguelABayona
+      * Spanish: Foswiki:Main.WillNorris, TWiki:Main.MiguelABayona
       * Swedish: TWiki:Main.ErikAman
    * *Public relations:* TWiki:Main.PeterThoeny, TWiki:Main.TomTansy
-   * *TWiki.org wiki champions:* TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie, TWiki:Main.KennethLavrsen, TWiki:Main.SteffenPoulsen, TWiki:Main.ArthurClemens, TWiki:Main.ThomasWeigert, TWiki:Main.MichaelDaum
-   * *Customer support:* TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie, TWiki:Main.ArthurClemens, TWiki:Main.SteffenPoulsen, TWiki:Main.SteveStark, TWiki:Main.MichaelDaum
-   * *System administration:* TWiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, TWiki:Main.CrawfordCurrie
+   * *TWiki.org wiki champions:* TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KennethLavrsen, Foswiki:Main.SteffenPoulsen, Foswiki:Main.ArthurClemens, TWiki:Main.ThomasWeigert, Foswiki:Main.MichaelDaum
+   * *Customer support:* TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SteffenPoulsen, TWiki:Main.SteveStark, Foswiki:Main.MichaelDaum
+   * *System administration:* Foswiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie
 
 If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
 
@@ -204,11 +204,11 @@ See more details on the TWiki 4.1 release at TWikiReleaseNotes04x01.
 
 Many, many people worked on TWiki-4.0.0. The credits in the table below only list the people who worked on individual enhancements. If you find an omission please fix it at TWiki:System.%TOPIC%. There were many other contributors; for a full list, visit ProjectContributor.
 
-Most of the redesign, refactoring and new documentation work in Dakar release was done by [[http://c-dot.co.uk][Crawford Currie]]. [[http://kamaelia.org/Michael.html][Michael Sparks]] provided ideas and proof of concept for several improvements. Other people who gave _large_ amounts of their time and patience to less sexy aspects of the work, such as testing, infrastructure and documentation, are [[TWiki:Main.AntonAylward][AntonAylward]], [[TWiki:Main.KennethLavrsen][KennethLavrsen]], [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[TWiki:Main.MichaelDaum][MichaelDaum]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.SteffenPoulsen][SteffenPoulsen]], [[http://www.home.org.au][Sven Dowideit]], [[TWiki:Main.WillNorris][WillNorris]].
+Most of the redesign, refactoring and new documentation work in Dakar release was done by [[http://c-dot.co.uk][Crawford Currie]]. [[http://kamaelia.org/Michael.html][Michael Sparks]] provided ideas and proof of concept for several improvements. Other people who gave _large_ amounts of their time and patience to less sexy aspects of the work, such as testing, infrastructure and documentation, are [[TWiki:Main.AntonAylward][AntonAylward]], [[Foswiki:Main.KennethLavrsen][KennethLavrsen]], [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[Foswiki:Main.MichaelDaum][MichaelDaum]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[Foswiki:Main.SteffenPoulsen][SteffenPoulsen]], [[http://www.home.org.au][Sven Dowideit]], [[Foswiki:Main.WillNorris][WillNorris]].
 
 %TABLE{ headeralign="left" sort="off" }%
 | *Installation & configuration*  | *Contributor* |
-| Much simpler install and configuration | [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[TWiki:Main.ArthurClemens][ArthurClemens]] |
+| Much simpler install and configuration | [[http://c-dot.co.uk][Crawford Currie]], [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[Foswiki:Main.ArthurClemens][ArthurClemens]] |
 | =mod_perl= safe code for better performance | [[http://c-dot.co.uk][Crawford Currie]] |
 | *Security* ||
 | Security sandbox blocking exploits for remote command execution on the server | [[http://www.enyo.de/fw/][Florian Weimer]], [[http://c-dot.co.uk][Crawford Currie]], [[http://www.home.org.au][Sven Dowideit]] |
@@ -216,14 +216,14 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | *Internationalization & localization*  ||
 | [[TWiki:Codev.UserInterfaceInternationalisation][User Interface Internationalisation]] | [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]] |
 | Chinese translation | [[TWiki:Main.CheDong][CheDong]] |
-| Danish translation | [[TWiki:Main.SteffenPoulsen][SteffenPoulsen]] |
-| Dutch translation | [[TWiki:Main.ArthurClemens][ArthurClemens]] |
+| Danish translation | [[Foswiki:Main.SteffenPoulsen][SteffenPoulsen]] |
+| Dutch translation | [[Foswiki:Main.ArthurClemens][ArthurClemens]] |
 | French translation | [[TWiki:Main.BenVoui][BenVoui]] |
-| German translation | [[TWiki:Main.AndreUlrich][AndreUlrich]] |
+| German translation | [[Foswiki:Main.AndreUlrich][AndreUlrich]] |
 | Italian translation | [[TWiki:Main.MassimoMancini][MassimoMancini]] |
 | Polish translation | [[TWiki:Main.ZbigniewKulesza][ZbigniewKulesza]] |
 | Portuguese translation | [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[TWiki:Main.CarlinhosCecconi][CarlinhosCecconi]] |
-| Spanish translation | [[TWiki:Main.WillNorris][WillNorris]], [[TWiki:Main.MiguelABayona][MiguelABayona]] |
+| Spanish translation | [[Foswiki:Main.WillNorris][WillNorris]], [[TWiki:Main.MiguelABayona][MiguelABayona]] |
 | Swedish translation | [[TWiki:Main.ErikAman][Erik &Aring;man]] |
 | *New features for users*  ||
 | Edit conflict resolution with automatic merge | [[http://c-dot.co.uk][Crawford Currie]] |
@@ -234,19 +234,19 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | [[TWiki:Codev.RegisterCgiScriptRewrite][Registration process with e-mail confirmation]] | [[TWiki:Main.MartinCleaver][MartinCleaver]] |
 | [[TWiki:Codev.TipOfTheDayFeatureRequest][Tip of the Day box in TWiki Home]] | [[TWiki:Main.PaulineCheung][PaulineCheung]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.AntonAylward][AntonAylward]] |
 | [[WebAtomBase][ATOM feeds]] | [[http://www.structuredwikis.com/][Peter Thoeny]] |
-| [[TWiki:Codev.ForceNewRevisionCheckBox]["Force New Revision" check box for topic save]] | [[TWiki:Main.WillNorris][WillNorris]] |
+| [[TWiki:Codev.ForceNewRevisionCheckBox]["Force New Revision" check box for topic save]] | [[Foswiki:Main.WillNorris][WillNorris]] |
 | *New features for Wiki administrators and wiki application developers*  ||
 | Improved preferences handling | [[TWiki:Main.ThomasWeigert][ThomasWeigert]], [[http://c-dot.co.uk][Crawford Currie]] |
 | Named include sections | [[TWiki:Main.RafaelAlvarez][RafaelAlvarez]] |
 | [[TWiki:Codev.AllowDynamicTopicNameCreation][Create topic names with consecutive numbers]] | [[http://www.home.org.au][Sven Dowideit]] |
 | [[TWiki:Codev.ParameterizedIncludes][Parameterized includes]] | [[http://c-dot.co.uk][Crawford Currie]] |
 | [[TWiki:Codev.DynamicFormOptionDefinitions][Dynamic form option definitions]] of DataForms with FormattedSearch | [[TWiki:Main.MartinCleaver][MartinCleaver]] |
-| SEARCH enhancements with new parameters =excludeweb=, =newline=, =noempty=, =nofinalnewline=, =nonoise=, =recurse=, =zeroresults= | [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.ArthurClemens][ArthurClemens]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
+| SEARCH enhancements with new parameters =excludeweb=, =newline=, =noempty=, =nofinalnewline=, =nonoise=, =recurse=, =zeroresults= | [[http://c-dot.co.uk][Crawford Currie]], [[Foswiki:Main.ArthurClemens][ArthurClemens]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | FormattedSearch enhancements with =$changes=, =$count=, =$formfield(name, 30, ...)=, =$summary(expandvar)=, =$summary(noheaders)=, =$summary(showvarnames)= | [[TWiki:Main.ColasNahaboo][ColasNahaboo]], [[http://c-dot.co.uk][Crawford Currie]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]] |
-| New TWikiVariables [[TWikiVariables#VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[TWikiVariables#VarALLVARIABLES][ALLVARIABLES]], [[TWikiVariables#VarAUTHREALM][AUTHREALM]], [[TWikiVariables#VarEMAILS][EMAILS]], [[TWikiVariables#VarFAILEDPLUGINS][FAILEDPLUGINS]], [[TWikiVariables#VarHTTP][HTTP]], [[TWikiVariables#VarHTTPS][HTTPS]], [[TWikiVariables#VarICONURL][ICONURL]], [[TWikiVariables#VarICONURLPATH][ICONURLPATH]], [[TWikiVariables#VarIF][IF]], [[TWikiVariables#VarLANGUAGES][LANGUAGES]], [[TWikiVariables#VarLOCALSITEPREFS][LOCALSITEPREFS]], [[TWikiVariables#VarLOGIN][LOGIN]], [[TWikiVariables#VarLOGOUT][LOGOUT]], [[TWikiVariables#VarMAKETEXT][MAKETEXT]], [[TWikiVariables#VarMETA][META]], [[TWikiVariables#VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[TWikiVariables#VarQUERYSTRING][QUERYSTRING]], [[TWikiVariables#VarSTARTSECTION][STARTSECTION]]/[[TWikiVariables#VarENDSECTION][ENDSECTION]], [[TWikiVariables#VarSESSION_VARIABLE][SESSION_VARIABLE]], [[TWikiVariables#VarSESSIONID][SESSIONID]], [[TWikiVariables#VarSESSIONVAR][SESSIONVAR]], [[TWikiVariables#VarSPACEOUT][SPACEOUT]], [[TWikiVariables#VarUSERLANGUAGE][USERLANGUAGE]], [[TWikiVariables#VarWIKIHOMEURL][WIKIHOMEURL]] | [[TWiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.GregAbbas][GregAbbas]], [[TWiki:Main.PeterThoeny][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]], [[TWiki:Main.WillNorris][WillNorris]] and many more |
-| [[TWiki:Codev.TWikiFormWithHiddenType][TWiki form with hidden type]] and other form enhancements | [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
+| New TWikiVariables [[TWikiVariables#VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[TWikiVariables#VarALLVARIABLES][ALLVARIABLES]], [[TWikiVariables#VarAUTHREALM][AUTHREALM]], [[TWikiVariables#VarEMAILS][EMAILS]], [[TWikiVariables#VarFAILEDPLUGINS][FAILEDPLUGINS]], [[TWikiVariables#VarHTTP][HTTP]], [[TWikiVariables#VarHTTPS][HTTPS]], [[TWikiVariables#VarICONURL][ICONURL]], [[TWikiVariables#VarICONURLPATH][ICONURLPATH]], [[TWikiVariables#VarIF][IF]], [[TWikiVariables#VarLANGUAGES][LANGUAGES]], [[TWikiVariables#VarLOCALSITEPREFS][LOCALSITEPREFS]], [[TWikiVariables#VarLOGIN][LOGIN]], [[TWikiVariables#VarLOGOUT][LOGOUT]], [[TWikiVariables#VarMAKETEXT][MAKETEXT]], [[TWikiVariables#VarMETA][META]], [[TWikiVariables#VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[TWikiVariables#VarQUERYSTRING][QUERYSTRING]], [[TWikiVariables#VarSTARTSECTION][STARTSECTION]]/[[TWikiVariables#VarENDSECTION][ENDSECTION]], [[TWikiVariables#VarSESSION_VARIABLE][SESSION_VARIABLE]], [[TWikiVariables#VarSESSIONID][SESSIONID]], [[TWikiVariables#VarSESSIONVAR][SESSIONVAR]], [[TWikiVariables#VarSPACEOUT][SPACEOUT]], [[TWikiVariables#VarUSERLANGUAGE][USERLANGUAGE]], [[TWikiVariables#VarWIKIHOMEURL][WIKIHOMEURL]] | [[Foswiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.GregAbbas][GregAbbas]], [[TWiki:Main.PeterThoeny][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]], [[Foswiki:Main.WillNorris][WillNorris]] and many more |
+| [[TWiki:Codev.TWikiFormWithHiddenType][TWiki form with hidden type]] and other form enhancements | [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | [[TWiki:Codev.SupportTopicSpecificTemplates][Support topic-specific templates]] for TWiki applications | [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
-| Direct save feature for one-click template-based topic creation | [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
+| Direct save feature for one-click template-based topic creation | [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.ThomasWeigert][ThomasWeigert]] |
 | [[TWiki:Codev.AutomaticAttachments][Automatic Attachments]] showing all files in the attachment directory | [[TWiki:Main.MartinCleaver][MartinCleaver]] |
 | Rename, move or delete webs | [[TWiki:Main.PeterNixon][PeterNixon]] |
 | Hierarchical subwebs (beta) | [[TWiki:Main.PeterNixon][PeterNixon]] |
@@ -259,9 +259,9 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | Extensive test suite, unit tests and testcases | [[http://c-dot.co.uk][Crawford Currie]] |
 | TWiki:Codev.DevelopBranch , [[http://develop.twiki.org/~develop/cgi-bin/view/Bugs][DEVELOP branch Bugs system]] | [[http://www.home.org.au][Sven Dowideit]] |
 | *Documentation, logo artwork, skins:*  ||
-| Documentation | [[http://c-dot.co.uk][Crawford Currie]], [[TWiki:Main.LynnwoodBrown][LynnwoodBrown]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]] and others |
-| Design of [[ProjectLogos][TWikiLogos]] with big "T" in a speech bubble | [[TWiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.PeterThoeny][Peter Thoeny]] |
-| Improved templates and PatternSkin | [[TWiki:Main.ArthurClemens][ArthurClemens]] |
+| Documentation | [[http://c-dot.co.uk][Crawford Currie]], [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[http://www.home.org.au][Sven Dowideit]] and others |
+| Design of [[ProjectLogos][TWikiLogos]] with big "T" in a speech bubble | [[Foswiki:Main.ArthurClemens][ArthurClemens]], [[TWiki:Main.PeterThoeny][Peter Thoeny]] |
+| Improved templates and PatternSkin | [[Foswiki:Main.ArthurClemens][ArthurClemens]] |
 
 See more details at TWikiReleaseNotes04x00
 
@@ -283,43 +283,43 @@ See more details at TWikiReleaseNotes04x00
 
 %TABLE{ columnwidths="90%, 10%"}%
 | *Details of New Features and Enhancements of 01-Sep-2004 Release* | *Developer, Sponsor* |
-| Install: Ship with an automatic upgrade script to facilitate TWiki upgrades. [[http://TWiki.org/cgi-bin/view/Codev/CairoReleaseUpgradeGuide][Details]] | TWiki:Main.MartinGregory TWiki:Main.SvenDowideit |
-| Install: New testenv function to change the locks in the TWiki database to the web server user id (automates installation step). [[http://TWiki.org/cgi-bin/view/Codev/RelockingRCSFiles][Details]] | TWiki:Main.MattWilkie TWiki:Main.SvenDowideit |
-| Install: The shipped .htaccess.txt now needs to be edited before it is valid, to help reduce chances of error. [[http://TWiki.org/cgi-bin/view/Codev/InconsistentExtractDirectory][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.SvenDowideit |
-| Install: Configurable password file handling for different types of encryption. [[http://TWiki.org/cgi-bin/view/Codev/ConfigurablePasswordFileHandling][Details]] | TWiki:Main.PavelGoran TWiki:Main.SvenDowideit |
+| Install: Ship with an automatic upgrade script to facilitate TWiki upgrades. [[http://TWiki.org/cgi-bin/view/Codev/CairoReleaseUpgradeGuide][Details]] | TWiki:Main.MartinGregory Foswiki:Main.SvenDowideit |
+| Install: New testenv function to change the locks in the TWiki database to the web server user id (automates installation step). [[http://TWiki.org/cgi-bin/view/Codev/RelockingRCSFiles][Details]] | TWiki:Main.MattWilkie Foswiki:Main.SvenDowideit |
+| Install: The shipped .htaccess.txt now needs to be edited before it is valid, to help reduce chances of error. [[http://TWiki.org/cgi-bin/view/Codev/InconsistentExtractDirectory][Details]] | Foswiki:Main.CrawfordCurrie Foswiki:Main.SvenDowideit |
+| Install: Configurable password file handling for different types of encryption. [[http://TWiki.org/cgi-bin/view/Codev/ConfigurablePasswordFileHandling][Details]] | TWiki:Main.PavelGoran Foswiki:Main.SvenDowideit |
 | Install: Remove office locations from registration. [[http://TWiki.org/cgi-bin/view/Codev/RemoveOfficeFromRegistration][Details]] | TWiki:Main.PeterThoeny |
 | Install: Changes to support shorter URLs with Apache Rewrite rules. [[http://TWiki.org/cgi-bin/view/Codev/ShorterURLs][Details]] | TWiki:Main.AntonioBellezza TWiki:Main.WalterMundt |
 | Install: Remove the Know web from the distribution. [[http://TWiki.org/cgi-bin/view/Codev/StopDistributingKnowWeb][Details]] | TWiki:Main.PeterThoeny |
 | Internationalization: Support use of UTF-8 URLs for <nop>I18N characters in TWiki page and attachment names. [[http://TWiki.org/cgi-bin/view/Codev/EncodeURLsWithUTF8][Details]] | TWiki:Main.RichardDonkin |
-| Authentication: Authenticate users when creating new topic in view restricted web. [[http://TWiki.org/cgi-bin/view/Codev/VariousAuthBugsFixed][Details]] | TWiki:Main.JonathanGraehl TWiki:Main.SvenDowideit |
+| Authentication: Authenticate users when creating new topic in view restricted web. [[http://TWiki.org/cgi-bin/view/Codev/VariousAuthBugsFixed][Details]] | TWiki:Main.JonathanGraehl Foswiki:Main.SvenDowideit |
 | Preferences: TWiki Preferences need to be secured properly. [[http://TWiki.org/cgi-bin/view/Codev/SecureTWikiPreferences][Details]] | TWiki:Main.PeterThoeny |
 | Preferences: Use TWiki Forms to set user preferences. [[http://TWiki.org/cgi-bin/view/Codev/UsingFormsForSettings][Details]] | TWiki:Main.JohnTalintyre |
-| Skins: New pre-installed skins !PatternSkin and !DragonSkin. [[http://TWiki.org/cgi-bin/view/Codev/SkinsForCairoRelease][Details]] | TWiki:Main.ArthurClemens TWiki:Main.PeterThoeny |
+| Skins: New pre-installed skins !PatternSkin and !DragonSkin. [[http://TWiki.org/cgi-bin/view/Codev/SkinsForCairoRelease][Details]] | Foswiki:Main.ArthurClemens TWiki:Main.PeterThoeny |
 | Skins: New skin browser to choose from installed skins. [[http://TWiki.org/cgi-bin/view/Codev/TWikiSkinBrowser][Details]] | TWiki:Main.PeterThoeny |
-| Skins: Documented set of CSS classes that are used in standard skins. [[http://TWiki.org/cgi-bin/view/Codev/CssClassNames][Details]] | TWiki:Main.ArthurClemens TWiki:Main.SvenDowideit |
-| Skins: Added CSS class names to Diff output. [[http://TWiki.org/cgi-bin/view/Codev/HardwiredRDiffColours][Details]] | TWiki:Main.SvenDowideit |
-| Skins: Templates can now be read from user topics, as well as from files in the templates diretcory. [[http://TWiki.org/cgi-bin/view/Codev/ReadTemplatesFromUserTopics][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.WalterMundt |
+| Skins: Documented set of CSS classes that are used in standard skins. [[http://TWiki.org/cgi-bin/view/Codev/CssClassNames][Details]] | Foswiki:Main.ArthurClemens Foswiki:Main.SvenDowideit |
+| Skins: Added CSS class names to Diff output. [[http://TWiki.org/cgi-bin/view/Codev/HardwiredRDiffColours][Details]] | Foswiki:Main.SvenDowideit |
+| Skins: Templates can now be read from user topics, as well as from files in the templates diretcory. [[http://TWiki.org/cgi-bin/view/Codev/ReadTemplatesFromUserTopics][Details]] | Foswiki:Main.CrawfordCurrie TWiki:Main.WalterMundt |
 | Skins: Ensure that the default template gets overridden by a template passed in. [[http://TWiki.org/cgi-bin/view/Codev/PassedInTopicTemplateOverridesDefault][Details]] | TWiki:Main.MartinCleaver TWiki:Main.WalterMundt |
 | Skin: Convey an important broadcast message to all users, e.g. scheduled server downtime. [[http://TWiki.org/cgi-bin/view/Codev/BroadcastMessageHandling][Details]] | TWiki:Main.PeterThoeny |
-| Skin: Balanced pastel colors for TWiki webs. [[http://TWiki.org/cgi-bin/view/Codev/TWikiWebColors][Details]] | TWiki:Main.ArthurClemens |
-| Rendering: Use exclamation point prefix to escape TWiki markup rendering. [[http://TWiki.org/cgi-bin/view/Codev/EasierNop][Details]] | TWiki:Main.ArthurClemens |
+| Skin: Balanced pastel colors for TWiki webs. [[http://TWiki.org/cgi-bin/view/Codev/TWikiWebColors][Details]] | Foswiki:Main.ArthurClemens |
+| Rendering: Use exclamation point prefix to escape TWiki markup rendering. [[http://TWiki.org/cgi-bin/view/Codev/EasierNop][Details]] | Foswiki:Main.ArthurClemens |
 | Rendering: Ordered lists with uppercase & lowercase letters, uppercase & lowercase Roman numerals. [[http://TWiki.org/cgi-bin/view/Codev/ImprovedOutlines][Details]] | TWiki:Main.DanBoitnott TWiki:Main.PeterThoeny |
-| Rendering: Allow custom styles for the "?" of uncreated topics. [[http://TWiki.org/cgi-bin/view/Codev/NewTopicLinkStylePatch][Details]] | TWiki:Main.SvenDowideit |
+| Rendering: Allow custom styles for the "?" of uncreated topics. [[http://TWiki.org/cgi-bin/view/Codev/NewTopicLinkStylePatch][Details]] | Foswiki:Main.SvenDowideit |
 | Rendering: Render IRC and NNTP as a URL. [[http://TWiki.org/cgi-bin/view/Codev/RenderIrcAsURL][Details]] | TWiki:Main.PeterThoeny |
-| Rendering: Make acronym linking more strict by requiring a trailing boundary, e.g. excluding TLAfoobar. [[http://TWiki.org/cgi-bin/view/Codev/TLAbehaviourIsOdd][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.SvenDowideit |
+| Rendering: Make acronym linking more strict by requiring a trailing boundary, e.g. excluding TLAfoobar. [[http://TWiki.org/cgi-bin/view/Codev/TLAbehaviourIsOdd][Details]] | Foswiki:Main.CrawfordCurrie Foswiki:Main.SvenDowideit |
 | Rendering: TWiki Form with Label type. [[http://TWiki.org/cgi-bin/view/Codev/TWikiFormWithLabelType][Details]] | TWiki:Main.PeterThoeny |
 | Rendering: Web names can now be !WikiWords. [[http://TWiki.org/cgi-bin/view/Codev/WebNameAsWikiName][Details]] | TWiki:Main.PeterThoeny |
 | Rendering: New syntax for definition list with dollar sign and colon. [[http://TWiki.org/cgi-bin/view/Codev/WikiSyntaxForDefinitionLists][Details]] | TWiki:Main.AdamTheo TWiki:Main.PeterThoeny |
 | Rendering: Table with multi-span rows, functionality provided by Table Plugin. [[http://TWiki.org/cgi-bin/view/Codev/WikiTablesNeedRowspanning][Details]] | TWiki:Main.WalterMundt | 
-| Variables: New title parameter for TOC variable. [[http://TWiki.org/cgi-bin/view/Codev/AddHeadingToToc][Details]] | TWiki:Main.PeterThoeny TWiki:Main.ArthurClemens |
-| Variables: New REVINFO variable in templates supports flexible display of revision information. [[http://TWiki.org/cgi-bin/view/Codev/AddRevisionVariablesToTemplate][Details]] | TWiki:Main.PeterThoeny TWiki:Main.SvenDowideit |
-| Variables: Set times to be displayed as gmtime or servertime. [[http://TWiki.org/cgi-bin/view/Codev/AlwaysServerTimeZone][Details]] | TWiki:Main.SueBlake TWiki:Main.SvenDowideit |
+| Variables: New title parameter for TOC variable. [[http://TWiki.org/cgi-bin/view/Codev/AddHeadingToToc][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.ArthurClemens |
+| Variables: New REVINFO variable in templates supports flexible display of revision information. [[http://TWiki.org/cgi-bin/view/Codev/AddRevisionVariablesToTemplate][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.SvenDowideit |
+| Variables: Set times to be displayed as gmtime or servertime. [[http://TWiki.org/cgi-bin/view/Codev/AlwaysServerTimeZone][Details]] | TWiki:Main.SueBlake Foswiki:Main.SvenDowideit |
 | Variables: Properly encode parameters for form fields with ENCODE variable. [[http://TWiki.org/cgi-bin/view/Codev/EncodeParamsForFormFields][Details]] | TWiki:Main.PeterThoeny |
 | Variables: Expand USERNAME and WIKINAME in Template Topics. [[http://TWiki.org/cgi-bin/view/Codev/ExpandUsernameAndWikinameInTemplateTopics][Details]] | TWiki:Main.PeterThoeny |
 | Variables: Expand same variables in new user template as in template topics. [[http://TWiki.org/cgi-bin/view/Codev/ExpandVariablesInNewUserTemplate][Details]] | TWiki:Main.PeterThoeny |
 | Variables: Optionally warn when included topic does not exist; with the option to create the included topic. [[http://TWiki.org/cgi-bin/view/Codev/FailedIncludeWarning][Details]] | TWiki:Main.PeterThoeny |
 | Variables: In topic text show file-types of attached files as icons. [[http://TWiki.org/cgi-bin/view/Codev/FileAttachmentIconVariable][Details]] | TWiki:Main.PeterThoeny |
-| Variables: New variable FORMFIELD returns the value of a field in the form attached to a topic.. [[http://TWiki.org/cgi-bin/view/Codev/FormattedTWikiFormDataInTopicText][Details]] | TWiki:Main.DavidSachitano TWiki:Main.SvenDowideit |
+| Variables: New variable FORMFIELD returns the value of a field in the form attached to a topic.. [[http://TWiki.org/cgi-bin/view/Codev/FormattedTWikiFormDataInTopicText][Details]] | TWiki:Main.DavidSachitano Foswiki:Main.SvenDowideit |
 | Variables: Meta data rendering for form fields with META{"formfield"}. [[http://TWiki.org/cgi-bin/view/Codev/MetaDataRendering][Details]] | TWiki:Main.PeterThoeny |
 | Variables: New PLUGINVERSION variable. [[http://TWiki.org/cgi-bin/view/Codev/PluginVersionVariable][Details]] | TWiki:Main.PeterThoeny |
 | Variables: URLPARAM now has a =default="..."= argument, for when no value has been given. [[http://TWiki.org/cgi-bin/view/Codev/UrlParamWithDefaultValue][Details]] | TWiki:Main.PeterThoeny |
@@ -339,9 +339,9 @@ See more details at TWikiReleaseNotes04x00
 | Search: New =scope=all= search parameter to search in topic name and topic text at the same time. [[http://TWiki.org/cgi-bin/view/Codev/SearchScopeForTopicAndText][Details]] | TWiki:Main.PeterThoeny |
 | Search: New =topic= parameter for AND search on topic text and topic name. [[http://TWiki.org/cgi-bin/view/Codev/SearchTopicNameAndTopicText][Details]] | TWiki:Main.PeterThoeny |
 | Search modules uses Perl-style keyword parameters (code cleanup). [[http://TWiki.org/cgi-bin/view/Codev/SearchWebHasTooManyParameters][Details]] | TWiki:Main.PeterThoeny |
-| Search: New $wikiname variable in format parameter of formatted search. [[http://TWiki.org/cgi-bin/view/Codev/ShortUserNameInFormattedSearch][Details]] | TWiki:Main.ArthurClemens |
+| Search: New $wikiname variable in format parameter of formatted search. [[http://TWiki.org/cgi-bin/view/Codev/ShortUserNameInFormattedSearch][Details]] | Foswiki:Main.ArthurClemens |
 | Search: Sort search by topic creation date. [[http://TWiki.org/cgi-bin/view/Codev/SortSearchByTopicCreateDate][Details]] | TWiki:Main.PeterThoeny |
-| Search: Topic creation date and user in Formatted Search. [[http://TWiki.org/cgi-bin/view/Codev/TopicCreateDateInFormattedSearch][Details]] | TWiki:Main.CoreyFruitman TWiki:Main.SvenDowideit |
+| Search: Topic creation date and user in Formatted Search. [[http://TWiki.org/cgi-bin/view/Codev/TopicCreateDateInFormattedSearch][Details]] | TWiki:Main.CoreyFruitman Foswiki:Main.SvenDowideit |
 | Search: Increase levels of nested search from 2 to 16. [[http://TWiki.org/cgi-bin/view/Codev/MoreNestedSearchLevels][Details]] | TWiki:Main.PeterThoeny |
 | Plugins: New pre-installed Plugins !CommentPlugin, !EditTablePlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin. [[http://TWiki.org/cgi-bin/view/Codev/PreinstalledTWikiPlugins][Details]] | TWiki:Main.PeterThoeny |
 | Plugins: New callback =afterSaveHandler=, called after a topic is saved. [[http://TWiki.org/cgi-bin/view/Codev/AfterSavePluginHandler][Details]] | TWiki:Main.WalterMundt |
@@ -349,36 +349,36 @@ See more details at TWikiReleaseNotes04x00
 | Plugins: New callbacks =beforeCommonTagsHandler= and =afterCommonTagsHandler=. [[http://TWiki.org/cgi-bin/view/Codev/BeforeCommonTagsHandler][Details]] | TWiki:Main.PeterThoeny |
 | Plugins: New callback =renderFormFieldForEditHandler= to render form field for edit. [[http://TWiki.org/cgi-bin/view/Codev/RenderFormFieldForEditHandler][Details]] | TWiki:Main.JohnTalintyre |
 | Plugins: New callback =renderWikiWordHandler= to custom render links. [[http://TWiki.org/cgi-bin/view/Codev/RenderedWikiWordHandler][Details]] | TWiki:Main.MartinCleaver TWiki:Main.WalterMundt |
-| Plugins: New function =TWiki::Func::formatTime= to format time into a string. [[http://TWiki.org/cgi-bin/view/Codev/FormatTime][Details]] | TWiki:Main.SvenDowideit |
+| Plugins: New function =TWiki::Func::formatTime= to format time into a string. [[http://TWiki.org/cgi-bin/view/Codev/FormatTime][Details]] | Foswiki:Main.SvenDowideit |
 | Plugins: New function =TWiki::Func::getRegularExpression= to get predefined regular expressions. [[http://TWiki.org/cgi-bin/view/Codev/GetRegularExpression][Details]] | TWiki:Main.RichardDonkin |
 | Plugins: New functions =TWiki::Func::getPluginPreferences*= to get Plugin preferences. [[http://TWiki.org/cgi-bin/view/Codev/GetPluginPreferences][Details]] | TWiki:Main.WalterMundt |
 | Plugins: New function =TWiki::Func::extractParameters= to extract all parameters from a variable string. [[http://TWiki.org/cgi-bin/view/Codev/ExtractParameters][Details]] | TWiki:Main.PeterThoeny |
-| Plugins: New function =TWiki::Func::checkDependencies= to check for module dependency. [[http://TWiki.org/cgi-bin/view/Codev/PluginDependencies][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.SvenDowideit |
+| Plugins: New function =TWiki::Func::checkDependencies= to check for module dependency. [[http://TWiki.org/cgi-bin/view/Codev/PluginDependencies][Details]] | Foswiki:Main.CrawfordCurrie Foswiki:Main.SvenDowideit |
 | Plugins: A recommendation for where a Plugin can store its data. [[http://TWiki.org/cgi-bin/view/Codev/RecommendedStorageOfPluginData][Details]] | TWiki:Main.PeterThoeny |
 | UI: Show tool-tip topic info on WikiWord links. [[http://TWiki.org/cgi-bin/view/Codev/ToolTipTopicInfoOnWikiWordLinks][Details]] | TWiki:Main.PeterThoeny |
 | UI: Save topic and continue edit feature. [[http://TWiki.org/cgi-bin/view/Codev/CheckpointSave][Details]] | TWiki:Main.ColasNahaboo |
-| UI: Change topic with direct save (without edit/preview/save cycle) and checkpoint save. [[http://TWiki.org/cgi-bin/view/Codev/SavemultiCgiScript][Details]] | TWiki:Main.MattWilkie TWiki:Main.SvenDowideit |
-| UI: In attachment table, change 'action' to 'manage'. [[http://TWiki.org/cgi-bin/view/Codev/AttachmentActionLinkBadName][Details]] | TWiki:Main.PeterThoeny TWiki:Main.ArthurClemens |
-| UI: Smaller usability enhancements on the file attachment table. [[http://TWiki.org/cgi-bin/view/Codev/BetterAttachmentTableForCairoRelease][Details]] | TWiki:Main.PeterThoeny TWiki:Main.ArthurClemens |
-| UI: Removes anchor links from header content and places them before the text to fix 'header becomes link'. [[http://TWiki.org/cgi-bin/view/Codev/BetterLinksToHeadings][Details]] | TWiki:Main.ArthurClemens |
-| UI: Improved functionality of the More screen. [[http://TWiki.org/cgi-bin/view/Codev/BetterMoreRealizedFeatures][Details]] | TWiki:Main.PeterThoeny TWiki:Main.ArthurClemens |
-| UI: Quick reference chart of most used markup is now listed on the edit screen. [[http://TWiki.org/cgi-bin/view/Codev/HelpTextInEditPage][Details]] | TWiki:Main.ArthurClemens |
+| UI: Change topic with direct save (without edit/preview/save cycle) and checkpoint save. [[http://TWiki.org/cgi-bin/view/Codev/SavemultiCgiScript][Details]] | TWiki:Main.MattWilkie Foswiki:Main.SvenDowideit |
+| UI: In attachment table, change 'action' to 'manage'. [[http://TWiki.org/cgi-bin/view/Codev/AttachmentActionLinkBadName][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.ArthurClemens |
+| UI: Smaller usability enhancements on the file attachment table. [[http://TWiki.org/cgi-bin/view/Codev/BetterAttachmentTableForCairoRelease][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.ArthurClemens |
+| UI: Removes anchor links from header content and places them before the text to fix 'header becomes link'. [[http://TWiki.org/cgi-bin/view/Codev/BetterLinksToHeadings][Details]] | Foswiki:Main.ArthurClemens |
+| UI: Improved functionality of the More screen. [[http://TWiki.org/cgi-bin/view/Codev/BetterMoreRealizedFeatures][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.ArthurClemens |
+| UI: Quick reference chart of most used markup is now listed on the edit screen. [[http://TWiki.org/cgi-bin/view/Codev/HelpTextInEditPage][Details]] | Foswiki:Main.ArthurClemens |
 | UI: Flag for edit script to avoid overwrite of existing topic text and form data. [[http://TWiki.org/cgi-bin/view/Codev/FlagForEditScriptToAvoidFormDataOverwrite][Details]] | TWiki:Main.NielsKoldso TWiki:Main.PeterThoeny |
-| UI: Disable Escape key in IE textarea to prevent it cancelling work. [[http://TWiki.org/cgi-bin/view/Codev/EscKeyInEditorDeletesText][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
-| UI: Improved warning message on unsaved topic. [[http://TWiki.org/cgi-bin/view/Codev/ReassurePeopleTheyDidntLoseTheirData][Details]] | TWiki:Main.MartinGregory TWiki:Main.SvenDowideit |
-| UI: Reverse order of words in page title for better multi-window/tab navigation. [[http://TWiki.org/cgi-bin/view/Codev/ReversePageTitle][Details]] | TWiki:Main.ArthurClemens |
-| UI: Provides a framework to create and modify a topic without going through edit-&gt;preview-&gt;save sequence. [[http://TWiki.org/cgi-bin/view/Codev/SaveContentWithoutEdit][Details]] | TWiki:Main.AndreUlrich TWiki:Main.SvenDowideit |
+| UI: Disable Escape key in IE textarea to prevent it cancelling work. [[http://TWiki.org/cgi-bin/view/Codev/EscKeyInEditorDeletesText][Details]] | Foswiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
+| UI: Improved warning message on unsaved topic. [[http://TWiki.org/cgi-bin/view/Codev/ReassurePeopleTheyDidntLoseTheirData][Details]] | TWiki:Main.MartinGregory Foswiki:Main.SvenDowideit |
+| UI: Reverse order of words in page title for better multi-window/tab navigation. [[http://TWiki.org/cgi-bin/view/Codev/ReversePageTitle][Details]] | Foswiki:Main.ArthurClemens |
+| UI: Provides a framework to create and modify a topic without going through edit-&gt;preview-&gt;save sequence. [[http://TWiki.org/cgi-bin/view/Codev/SaveContentWithoutEdit][Details]] | Foswiki:Main.AndreUlrich Foswiki:Main.SvenDowideit |
 | UI: Set the topic parent to none in More screen, e.g. remove the current topic parent. [[http://TWiki.org/cgi-bin/view/Codev/SettingParentTopicToNone][Details]] | TWiki:Main.PeterThoeny |
-| UI: Use templates to define how file attachments are displayed. Was previously hard-coded. [[http://TWiki.org/cgi-bin/view/Codev/TemplatesForMetaDataPresentation][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.SvenDowideit |
-| UI: Topic diff shows unified diff with unchanged context. [[http://TWiki.org/cgi-bin/view/Codev/UnifiedDiffOutput][Details]] | TWiki:Main.SvenDowideit |
-| UI: Diff feature shows TWiki form changes in nice tables. [[http://TWiki.org/cgi-bin/view/Codev/TWikiFormsDiffRendering][Details]] | TWiki:Main.SvenDowideit |
+| UI: Use templates to define how file attachments are displayed. Was previously hard-coded. [[http://TWiki.org/cgi-bin/view/Codev/TemplatesForMetaDataPresentation][Details]] | Foswiki:Main.CrawfordCurrie Foswiki:Main.SvenDowideit |
+| UI: Topic diff shows unified diff with unchanged context. [[http://TWiki.org/cgi-bin/view/Codev/UnifiedDiffOutput][Details]] | Foswiki:Main.SvenDowideit |
+| UI: Diff feature shows TWiki form changes in nice tables. [[http://TWiki.org/cgi-bin/view/Codev/TWikiFormsDiffRendering][Details]] | Foswiki:Main.SvenDowideit |
 | Code refactoring: The log entry for a save now has a dontNotify flag in the extra field if the user checked the minor changes flag. [[http://TWiki.org/cgi-bin/view/Codev/DontNotifyFlagInLogFile][Details]] | TWiki:Main.PeterThoeny |
-| Code refactoring: Server-side include of attachments accelerates INCLUDE. [[http://TWiki.org/cgi-bin/view/Codev/IncludeAttachment][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
-| Code refactoring: Move functionality out of bin scripts and into included modules. [[http://TWiki.org/cgi-bin/view/Codev/MoreChangesToUpload][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.SvenDowideit |
-| Code refactoring: Move bin script functionality into TWiki::UI modules. [[http://TWiki.org/cgi-bin/view/Codev/MoveScriptFunctionalityIntoTWikiUiLibs][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
+| Code refactoring: Server-side include of attachments accelerates INCLUDE. [[http://TWiki.org/cgi-bin/view/Codev/IncludeAttachment][Details]] | Foswiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
+| Code refactoring: Move functionality out of bin scripts and into included modules. [[http://TWiki.org/cgi-bin/view/Codev/MoreChangesToUpload][Details]] | Foswiki:Main.CrawfordCurrie Foswiki:Main.SvenDowideit |
+| Code refactoring: Move bin script functionality into TWiki::UI modules. [[http://TWiki.org/cgi-bin/view/Codev/MoveScriptFunctionalityIntoTWikiUiLibs][Details]] | Foswiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
 | Code refactoring: Optimize preferences handling for better performance. [[http://TWiki.org/cgi-bin/view/Codev/OptimizePreferencesHandling][Details]] | TWiki:Main.PavelGoran TWiki:Main.WalterMundt |
-| Code refactoring: Refactor variable expansion for edit and register. [[http://TWiki.org/cgi-bin/view/Codev/RefactorVariableExpansion][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
-| Code refactoring: Move savemulti script into TWiki::UI::Save. [[http://TWiki.org/cgi-bin/view/Codev/SavemultiIntoSaveDotPm][Details]] | TWiki:Main.MattWilkie TWiki:Main.SvenDowideit |
+| Code refactoring: Refactor variable expansion for edit and register. [[http://TWiki.org/cgi-bin/view/Codev/RefactorVariableExpansion][Details]] | Foswiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
+| Code refactoring: Move savemulti script into TWiki::UI::Save. [[http://TWiki.org/cgi-bin/view/Codev/SavemultiIntoSaveDotPm][Details]] | TWiki:Main.MattWilkie Foswiki:Main.SvenDowideit |
 | Code refactoring: Topic search is done natively in Perl, it does not depend anymore on system calls with pipes. [[http://TWiki.org/cgi-bin/view/Codev/SearchWithNoPipe][Details]] | TWiki:Main.PeterThoeny |
 | Code refactoring: Fix logical error in upload script which prevented MIME filename from being used. [[http://TWiki.org/cgi-bin/view/Codev/UploadFilenameFixToEnableBatchUploadWithCurl][Details]] | TWiki:Main.WalterMundt |
 
@@ -387,67 +387,67 @@ See more details at TWikiReleaseNotes04x00
 | *Bug Fixes of 01-Sep-2004 Release* | *Developer, Sponsor* |
 | Fix: Consistently create headings with empty anchor tags. [[http://TWiki.org/cgi-bin/view/Codev/AllcapsHeadingsProduceBrokenAnchors][Details]] | TWiki:Main.PeterThoeny |
 | Fix: TOC does not work for headings containing & without spaces surrounding it. [[http://TWiki.org/cgi-bin/view/Codev/AmpersandHeadingBadTOCLink][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Backslash line break breaks TWiki form definitions. [[http://TWiki.org/cgi-bin/view/Codev/BackslashBreaksForm][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
+| Fix: Backslash line break breaks TWiki form definitions. [[http://TWiki.org/cgi-bin/view/Codev/BackslashBreaksForm][Details]] | Foswiki:Main.CrawfordCurrie TWiki:Main.PeterThoeny |
 | Fix: Rename fixes unrelated topic references. [[http://TWiki.org/cgi-bin/view/Codev/BugInTopicRenaming][Details]] | TWiki:Main.RichardDonkin |
 | Fix: Bug with infinite recursion in search. [[http://TWiki.org/cgi-bin/view/Codev/BugInfiniteRecursionInSearch][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Can't send mail with full 'From' address. [[http://TWiki.org/cgi-bin/view/Codev/CantSendMailWithFullAddress][Details]] | TWiki:Main.PeterThoeny |
 | Fix: All scripts change to $bin before execute (for mod_perl2). [[http://TWiki.org/cgi-bin/view/Codev/ChangeToScriptDirForModPerl][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Several RSS readers do not show all entries seen in the !WebChanges list; repeated updates to the same topics get lost. [[http://TWiki.org/cgi-bin/view/Codev/ChangesDontShowUpInRSS][Details]] | TWiki:Main.ArthurClemens |
-| Fix: TWiki::Access::checkAccessPermission function improperly handles Main and TWiki webs. [[http://TWiki.org/cgi-bin/view/Codev/CheckAccessPermissionBrokenForMainAndTWikiWebs][Details]] | TWiki:Main.SvenDowideit |
+| Fix: Several RSS readers do not show all entries seen in the !WebChanges list; repeated updates to the same topics get lost. [[http://TWiki.org/cgi-bin/view/Codev/ChangesDontShowUpInRSS][Details]] | Foswiki:Main.ArthurClemens |
+| Fix: TWiki::Access::checkAccessPermission function improperly handles Main and TWiki webs. [[http://TWiki.org/cgi-bin/view/Codev/CheckAccessPermissionBrokenForMainAndTWikiWebs][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Topic save returns error CI Date precedes date in revision. [[http://TWiki.org/cgi-bin/view/Codev/CiDatePrecedesDateInRevision][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Double quotes got replaced by &#34; in TWiki forms. [[http://TWiki.org/cgi-bin/view/Codev/DoubleQuoteHandlingInTwikiForms][Details]] | TWiki:Main.MichaelSparks TWiki:Main.PeterThoeny |
 | Fix: Duplicated Wiki name in .htpasswd entry for sha1 encoding. [[http://TWiki.org/cgi-bin/view/Codev/DuplicatedWikiNameInHtpasswdEntry][Details]] | TWiki:Main.PeterThoeny |
 | Fix: When viewing a previous version of a topic, the view script substitutes only one occurrence of the variable EDITTOPIC. [[http://TWiki.org/cgi-bin/view/Codev/EditTopicNotGloballySubstituted][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Form default values are not working for text fields. [[http://TWiki.org/cgi-bin/view/Codev/FormDefaultNotWorkingForTextField][Details]] | TWiki:Main.ThomasWeigert TWiki:Main.SvenDowideit |
+| Fix: Form default values are not working for text fields. [[http://TWiki.org/cgi-bin/view/Codev/FormDefaultNotWorkingForTextField][Details]] | TWiki:Main.ThomasWeigert Foswiki:Main.SvenDowideit |
 | Fix: Formatted searches using a $pattern which unbalanced parenthesis crash TWiki. [[http://TWiki.org/cgi-bin/view/Codev/FormattedSearchPatternExtractionUnmatchedParenthesesError][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Formatted Search uses title but should use name for formfield parameter. [[http://TWiki.org/cgi-bin/view/Codev/FormattedSearchUsesTitleInsteadOfName][Details]] | TWiki:Main.PeterThoeny |
-| Fix: GMTIME variable returns unwanted GMT text. [[http://TWiki.org/cgi-bin/view/Codev/GmTimeVariableReturnsUnwantedGMT][Details]] | TWiki:Main.SvenDowideit |
+| Fix: GMTIME variable returns unwanted GMT text. [[http://TWiki.org/cgi-bin/view/Codev/GmTimeVariableReturnsUnwantedGMT][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Include from other Web links ACRONYMS. [[http://TWiki.org/cgi-bin/view/Codev/IncludeFromOtherWebLinksACRONYMS][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Including an HTML file is very slow. [[http://TWiki.org/cgi-bin/view/Codev/IncludeHTMLTakesLongTime][Details]] | TWiki:Main.JohnTalintyre |
-| Fix: includeUrl() mess up absolute URLs. [[http://TWiki.org/cgi-bin/view/Codev/IncludeUrlScrewsUpAbsoluteUrls][Details]] | TWiki:Main.SvenDowideit |
+| Fix: includeUrl() mess up absolute URLs. [[http://TWiki.org/cgi-bin/view/Codev/IncludeUrlScrewsUpAbsoluteUrls][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Filter out fixed font rendering in TOC to avoid unrendered = equal signs in TOC. [[http://TWiki.org/cgi-bin/view/Codev/IncorrectWhitespaceParsingInTOC][Details]] | TWiki:Main.PeterThoeny |
 | Fix: The initializeUserHandler is broken for session Plugins. [[http://TWiki.org/cgi-bin/view/Codev/InitializeUserHandlerBroken][Details]] | TWiki:Main.JohnTalintyre |
 | Fix: SEARCH fails with very large webs. [[http://TWiki.org/cgi-bin/view/Codev/InlineSearchArgListTooLong][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Security alert: User could gain view access rights of another user. [[http://TWiki.org/cgi-bin/view/Codev/InsecureViewWithFailedAuthentication][Details]] | TWiki:Main.KimCovil TWiki:Main.PeterThoeny |
-| Fix: 'print to closed file handle' error of log files are not writable. [[http://TWiki.org/cgi-bin/view/Codev/LogAndWarningFilePermissionsGiveBadErrorMessage][Details]] | TWiki:Main.MartinGregory TWiki:Main.SvenDowideit |
+| Fix: 'print to closed file handle' error of log files are not writable. [[http://TWiki.org/cgi-bin/view/Codev/LogAndWarningFilePermissionsGiveBadErrorMessage][Details]] | TWiki:Main.MartinGregory Foswiki:Main.SvenDowideit |
 | Fix: Meta data handler can't process CR-LF line endings. [[http://TWiki.org/cgi-bin/view/Codev/MetaDataHandlerCantProcessCrLfLineEndings][Details]] | TWiki:Main.PeterThoeny |
 | Fix: METAFIELD meta data is not shown in view raw=on mode. [[http://TWiki.org/cgi-bin/view/Codev/MetaFieldNotShownInViewRawMode][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Minor XHTML non-compliance in templates and code. [[http://TWiki.org/cgi-bin/view/Codev/MinorXHTMLNonComplianceInTemplates][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Getting pages from virtual hosts fails. [[http://TWiki.org/cgi-bin/view/Codev/NetCantGetURLFromVhosts][Details]] | TWiki:Main.JohnTalintyre |
-| Fix: Create new web fails if !RCS files do not exist. [[http://TWiki.org/cgi-bin/view/Codev/NewWebFailsIfTemplateRCSIsDeleted][Details]] | TWiki:Main.ClausBrunzema TWiki:Main.SvenDowideit |
+| Fix: Create new web fails if !RCS files do not exist. [[http://TWiki.org/cgi-bin/view/Codev/NewWebFailsIfTemplateRCSIsDeleted][Details]] | TWiki:Main.ClausBrunzema Foswiki:Main.SvenDowideit |
 | Fix: Metacharacters can be passed through to the shell in File Attach. [[http://TWiki.org/cgi-bin/view/Codev/NoShellCharacterEscapingInFileAttachComment][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Ability to delete non-WikiWord topics without confirmation. [[http://TWiki.org/cgi-bin/view/Codev/NonWikiWordInConfirm][Details]] | TWiki:Main.PeterThoeny |
 | Fix: + symbol in password reset fails. [[http://TWiki.org/cgi-bin/view/Codev/OopsResetPasswdFormat][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Pathinfo cleanup for hosted sites. [[http://TWiki.org/cgi-bin/view/Codev/PathInfoCleanupBug][Details]] | TWiki:Main.MikeSalisbury TWiki:Main.SvenDowideit |
+| Fix: Pathinfo cleanup for hosted sites. [[http://TWiki.org/cgi-bin/view/Codev/PathInfoCleanupBug][Details]] | TWiki:Main.MikeSalisbury Foswiki:Main.SvenDowideit |
 | Fix: Software error in SEARCH if regular expression pattern has unmached parenthesis. [[http://TWiki.org/cgi-bin/view/Codev/PatternExtractBug][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Pipe chars in the comment field of the attachment table are not escaped. [[http://TWiki.org/cgi-bin/view/Codev/PipeInCommentInAttachmentTableNotEscaped][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Link escaping in preview fails for not quoted hrefs. [[http://TWiki.org/cgi-bin/view/Codev/PreviewDoesNoQuoteHrefs][Details]] | TWiki:Main.TedPavlic TWiki:Main.PeterThoeny |
 | Fix: Preview expands variables twice. [[http://TWiki.org/cgi-bin/view/Codev/PreviewExpandsVariablesTwice][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Using a proxy with TWiki fails; no proxy-HTTP request, minimal request not HTTP 1.0, requests marked 1.1 are at best 1.0. [[http://TWiki.org/cgi-bin/view/Codev/ProxiedIncludesBrokenImplementationBug][Details]] | TWiki:Main.MichaelSparks TWiki:Main.JohnTalintyre |
-| Fix: Runaway view processes with TWiki::Sore::RcsLite. [[http://TWiki.org/cgi-bin/view/Codev/RcsLiteRunawayViewProcesses][Details]] | TWiki:Main.SvenDowideit |
+| Fix: Runaway view processes with TWiki::Sore::RcsLite. [[http://TWiki.org/cgi-bin/view/Codev/RcsLiteRunawayViewProcesses][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Regex Error in !WebTopicList with topics that have meta characters in the name. [[http://TWiki.org/cgi-bin/view/Codev/RegexErrorWithTopicNamesWithMetaChars][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Rename script misses some ref-by topics. [[http://TWiki.org/cgi-bin/view/Codev/RenameScriptMissesSomeReferrers][Details]] | TWiki:Main.JohnTalintyre |
-| Fix: Links to self within the page being renamed are not changed. [[http://TWiki.org/cgi-bin/view/Codev/RenameSkipsSelf][Details]] | TWiki:Main.SvenDowideit |
+| Fix: Links to self within the page being renamed are not changed. [[http://TWiki.org/cgi-bin/view/Codev/RenameSkipsSelf][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Rename topic does 'Main.Main.UserName' for attachments. [[http://TWiki.org/cgi-bin/view/Codev/RenameTopicDoesMainMainUser][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Revision date is set to Jan 1970 when using RCS Lite. [[http://TWiki.org/cgi-bin/view/Codev/RevisionDateJan1970][Details]] | TWiki:Main.SvenDowideit |
+| Fix: Revision date is set to Jan 1970 when using RCS Lite. [[http://TWiki.org/cgi-bin/view/Codev/RevisionDateJan1970][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: The new dynamically-created <nop>SiteMap is very nice, but somewhat slow. [[http://TWiki.org/cgi-bin/view/Codev/SiteMapIsSlow][Details]] | TWiki:Main.PeterThoeny |
 | Fix: The makeAnchorName function did not produce the same results if called iteratively, resulting in problems trying to link to headers.. [[http://TWiki.org/cgi-bin/view/Codev/SpecificLinkIncorrectlyRemovesAnchorUnderscores][Details]] | TWiki:Main.WalterMundt |
 | Fix: Statistics page does not provide links to non-wikiword topics. [[http://TWiki.org/cgi-bin/view/Codev/StatisticsDoesNotLinkNonWikiWordTopics][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Make TOC link URI references relative. [[http://TWiki.org/cgi-bin/view/Codev/TOCLinkURIRefsNotRelative][Details]] | TWiki:Main.MartinGregory TWiki:Main.PeterThoeny |
-| Fix: TWiki hangs when used on Apache 2.0. [[http://TWiki.org/cgi-bin/view/Codev/TWikiOnApache2dot0Hangs][Details]] | TWiki:Main.SvenDowideit |
+| Fix: TWiki hangs when used on Apache 2.0. [[http://TWiki.org/cgi-bin/view/Codev/TWikiOnApache2dot0Hangs][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: TOC incorrectly strips out links in headers. [[http://TWiki.org/cgi-bin/view/Codev/TocMishandlesStrippingLinks][Details]] | TWiki:Main.PeterThoeny |
 | Fix: The HTML tags that are generated by TOC do not close properly. [[http://TWiki.org/cgi-bin/view/Codev/TocNotClosedProperly][Details]] | TWiki:Main.PeterThoeny |
-| Fix: TOC on INCLUDEd topic ignores STOPINCLUDE. [[http://TWiki.org/cgi-bin/view/Codev/TocWithParameterIgnoresStopinclude][Details]] | TWiki:Main.WillNorris TWiki:Main.PeterThoeny |
+| Fix: TOC on INCLUDEd topic ignores STOPINCLUDE. [[http://TWiki.org/cgi-bin/view/Codev/TocWithParameterIgnoresStopinclude][Details]] | Foswiki:Main.WillNorris TWiki:Main.PeterThoeny |
 | Fix: Quotes in tooltip message can break a TWiki form. [[http://TWiki.org/cgi-bin/view/Codev/TooltipCanBreakForm][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Better error message if the file attachment directory is not writable. [[http://TWiki.org/cgi-bin/view/Codev/UninitializedValueInRcsFile][Details]] | TWiki:Main.CrawfordCurrie TWiki:Main.SvenDowideit |
-| Fix: Image size of PNG files. [[http://TWiki.org/cgi-bin/view/Codev/UploadDoesNotGenerateImageSizeOfPngs][Details]] | TWiki:Main.ArthurClemens |
+| Fix: Better error message if the file attachment directory is not writable. [[http://TWiki.org/cgi-bin/view/Codev/UninitializedValueInRcsFile][Details]] | Foswiki:Main.CrawfordCurrie Foswiki:Main.SvenDowideit |
+| Fix: Image size of PNG files. [[http://TWiki.org/cgi-bin/view/Codev/UploadDoesNotGenerateImageSizeOfPngs][Details]] | Foswiki:Main.ArthurClemens |
 | Fix: The testenv script distinguishes between real user ID and effective user ID. [[http://TWiki.org/cgi-bin/view/Codev/UseEffectiveUIDInTestenv][Details]] | TWiki:Main.RichardDonkin |
-| Fix: Variables in square bracket links dont work in form fields. [[http://TWiki.org/cgi-bin/view/Codev/VariableInSquareBracketLinkDoestWorkInFormField][Details]] | TWiki:Main.SvenDowideit |
+| Fix: Variables in square bracket links dont work in form fields. [[http://TWiki.org/cgi-bin/view/Codev/VariableInSquareBracketLinkDoestWorkInFormField][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Variable with Parameters in Form Fields Disappear. [[http://TWiki.org/cgi-bin/view/Codev/VariableWithParamsInFormFieldsDisappear][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Verbatim tag should escape HTML entities. [[http://TWiki.org/cgi-bin/view/Codev/VerbatimShouldEscapeHtmlEntities][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Field names of TWiki Forms can be !WikiWords, this is used to link to a help topic. [[http://TWiki.org/cgi-bin/view/Codev/WebDotTopicFormFieldNamesDontWork][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Clean up the !WebRssBase INCLUDES to use VARIABLES set in !TWikiPreferences. [[http://TWiki.org/cgi-bin/view/Codev/WebRssBaseDcFieldsWrong][Details]] | TWiki:Main.SvenDowideit |
-| Fix: Resolving variables in included topics. [[http://TWiki.org/cgi-bin/view/Codev/WrongInternalTagOrder][Details]] | TWiki:Main.OliverKrueger TWiki:Main.SvenDowideit |
+| Fix: Clean up the !WebRssBase INCLUDES to use VARIABLES set in !TWikiPreferences. [[http://TWiki.org/cgi-bin/view/Codev/WebRssBaseDcFieldsWrong][Details]] | Foswiki:Main.SvenDowideit |
+| Fix: Resolving variables in included topics. [[http://TWiki.org/cgi-bin/view/Codev/WrongInternalTagOrder][Details]] | Foswiki:Main.OliverKrueger Foswiki:Main.SvenDowideit |
 
 #BeijingRelease
 ---++ 01-Feb-2003 Release (Beijing)
@@ -458,7 +458,7 @@ See more details at TWikiReleaseNotes04x00
       * Enhanced Plugin API to manipulate topic data with new functions in Func.pm: =readTopicText=, =saveTopicText=, =setTopicEditLock=, =checkTopicEditLock=
    * *31 Dec 2002* - TWiki:Main.PeterThoeny
       * New =%<nop>NOAUTOLINK%= setting in the %WIKIPREFSTOPIC% to disable the auto-linking of WikiWords
-   * *29 Dec 2002* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin, TWiki:Main.SvenDowideit
+   * *29 Dec 2002* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin, Foswiki:Main.SvenDowideit
       * New Plugin hooks =registrationHandler=, =beforeEditHandler=, =afterEditHandler=, =beforeSaveHandler=, =writeHeaderHandler=, =redirectCgiQueryHandler=, =getSessionValueHandler=, =setSessionValueHandler=
    * *30 Nov 2002* - TWiki:Main.RichardDonkin
       * Internationalization ('I18N') support for international characters in WikiWords, such as ISO-8859-15, KOI8-R - also supports Chinese, Japanese, etc.

@@ -35,7 +35,7 @@ Official tips are located in the %SYSTEMWEB% web. Please do not submit new tips 
 <input type="hidden" name="onlynewtopic" value="on" />
 <input type="hidden" name="topicparent" value="TipsOfTheDay" />
 <input type="hidden" name="templatetopic" value="TipsOfTheDayTemplate" />
-New Official Tip: <nop>%CALC{$GET(ttopic)}% <input type="%CALC{$IF($EXACT($LOWER(%HTTP_HOST%),twiki-fork.org),submit,hidden)}%" value="Create" />
+New Official Tip: <nop>%CALC{$GET(ttopic)}% <input type="%CALC{$IF($EXACT($LOWER(%HTTP_HOST%),foswiki.org),submit,hidden)}%" value="Create" />
 </form>
 
 ---++ Add a Tip for a Plugin

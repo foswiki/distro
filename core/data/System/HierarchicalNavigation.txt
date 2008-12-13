@@ -50,7 +50,7 @@ When included in WebLeftBar (using default Pattern skin) this is styled to:
 </div>
 
 <verbatim style="display:none;">
-%STARTSECTION{name="all"}%<div class="twikiHierarchicalNavigation">
+%STARTSECTION{name="all"}%<div class="foswikiHierarchicalNavigation">
 <ul>
 %SEARCH{
 "parent"
@@ -58,15 +58,15 @@ type="query"
 topic="%BASETOPIC%"
 web="%BASEWEB%"
 nonoise="on"
-format="<li class='twikiParentTopic'><img src='%ICONURL{parent_gray}%' width='16' height='16' alt='' border='0' /> [[$web.$parent][$parent]]</li>"
+format="<li class='foswikiParentTopic'><img src='%ICONURL{parent_gray}%' width='16' height='16' alt='' border='0' /> [[$web.$parent][$parent]]</li>"
 }%
-<li class='twikiCurrentTopic' style='font-weight:bold;'><nop>%BASETOPIC%</li>%INCLUDE{"%TOPIC%" section="childlist"}%
+<li class='foswikiCurrentTopic' style='font-weight:bold;'><nop>%BASETOPIC%</li>%INCLUDE{"%TOPIC%" section="childlist"}%
 </ul>
-</div><!--/twikiHierarchicalNavigation-->%ENDSECTION{name="all"}%
+</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{name="all"}%
 
-%STARTSECTION{name="children"}%<div class="twikiHierarchicalNavigation">
+%STARTSECTION{name="children"}%<div class="foswikiHierarchicalNavigation">
 <ul>%INCLUDE{"%TOPIC%" section="childlist"}%</ul>
-</div><!--/twikiHierarchicalNavigation-->%ENDSECTION{name="children"}%</div>%ENDSECTION{name="children"}%
+</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{name="children"}%</div>%ENDSECTION{name="children"}%
 
 %STARTSECTION{name="childlist"}%%SEARCH{
 "parent.name='%BASETOPIC%'"

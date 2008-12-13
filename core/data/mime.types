@@ -1,10 +1,10 @@
-# This file is used to convert a TWiki file attachment
+# This file is used to convert a Foswiki file attachment
 # file type into the MIME type, which is returned to
 # the browser. The file format is identical to the 
 # Apache mime.types file. In case you are running a 
 # web server that is compatible with this format it 
 # is recommended to use the mime.types file of the 
-# web server instead. Set the location in lib/TWiki.cfg
+# web server instead. Set the location in lib/LocalSite.cfg
 # file.
 
 application/atom+xml            atom

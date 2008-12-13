@@ -54,7 +54,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 ---++ Plugin Installation Instructions
 This plugin is installed by default with a Foswiki release. You should not need to install the plugin unless it is for an upgrade.
 	* Download the ZIP file from the Plugin web (see below)
-	* Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+	* Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
      | *File:* | *Description:* |
      | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
@@ -67,8 +67,7 @@ This plugin is installed by default with a Foswiki release. You should not need 
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny, TWiki Contributors; &copy; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2007 Andrea Sterbini, Peter Thoeny, peter@thoeny.org and TWiki Contributors |
 |  Plugin Version: | 21 Nov 2007 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  21 Nov 2007: | Doc improvements |

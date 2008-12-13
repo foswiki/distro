@@ -540,10 +540,10 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 </script>
 
 
----++ twiki.Window
-<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/twikiWindow.js"></script>
+---++ foswiki.Window
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiWindow.js"></script>
 
----+++ twiki.Window.openPopup
+---+++ foswiki.Window.openPopup
 
 <button class="foswikiButton testopenPopup">Test open window</button>
 
@@ -553,7 +553,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
 <script language="javascript">
 /*<![CDATA[*/
 	function openPopup() {
-		var win = twiki.Window.openPopup(
+		var win = foswiki.Window.openPopup(
     		"%SCRIPTURL{view}%/",
     		{
     			topic:"WebChanges",
@@ -581,7 +581,7 @@ These tests require Foswiki:Extensions.JSUnitContrib to run.
     }
     
     function testOpenPopupWithInvalidArgs() {
-    	var win = twiki.Window.openPopup();
+    	var win = foswiki.Window.openPopup();
     	assertNull("No url passed should result in null", win);
     }
 
@@ -686,7 +686,7 @@ foswiki.Event.addLoadEvent("createTextNode");
     	var expiryDate = new Date();
     	expiryDate.setDate(expiryDate.getDate() + 1);
 		var path = "/";
-		var domain = "twiki4.visiblearea.com";
+		var domain = "foswiki.org";
     	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
     	var cookie = foswiki.Pref.getCookie(name);
     	foswiki.Pref.deleteCookie(name, path);
@@ -731,12 +731,12 @@ foswiki.Event.addLoadEvent("createTextNode");
 
 ---+++ foswiki.CSS.removeClass, foswiki.CSS.getClassList
 
-<div id="twikiCSSremoveClass" class="someClass foswikiSmall otherClass">text</div>
+<div id="foswikiCSSremoveClass" class="someClass foswikiSmall otherClass">text</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testRemoveClassWithValidArgs() {
-    	var el = document.getElementById("twikiCSSremoveClass");
+    	var el = document.getElementById("foswikiCSSremoveClass");
     	foswiki.CSS.removeClass(el, "foswikiSmall");
     	var classList = foswiki.CSS.getClassList(el);
     	var classListString = classList.join(",");
@@ -748,12 +748,12 @@ foswiki.Event.addLoadEvent("createTextNode");
 
 ---+++ foswiki.CSS.addClass
 
-<div id="twikiCSSaddClass">text</div>
+<div id="foswikiCSSaddClass">text</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testAddClassWithValidArgs() {
-    	var el = document.getElementById("twikiCSSaddClass");
+    	var el = document.getElementById("foswikiCSSaddClass");
     	foswiki.CSS.addClass(el, "foswikiSmall");
     	foswiki.CSS.addClass(el, "secondClass");
     	var classList = foswiki.CSS.getClassList(el);
@@ -766,12 +766,12 @@ foswiki.Event.addLoadEvent("createTextNode");
 
 ---+++ foswiki.CSS.replaceClass
 
-<div id="twikiCSSreplaceClass" class="someClass replaceThisClass otherClass">text</div>
+<div id="foswikiCSSreplaceClass" class="someClass replaceThisClass otherClass">text</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testReplaceClassWithValidArgs() {
-    	var el = document.getElementById("twikiCSSreplaceClass");
+    	var el = document.getElementById("foswikiCSSreplaceClass");
     	foswiki.CSS.replaceClass(el, "replaceThisClass", "myClass");
     	var classList = foswiki.CSS.getClassList(el);
     	var classListString = classList.join(",");
@@ -783,12 +783,12 @@ foswiki.Event.addLoadEvent("createTextNode");
 
 ---+++ foswiki.CSS.setClassList
 
-<div id="twikiCSSsetClassList">text</div>
+<div id="foswikiCSSsetClassList">text</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testSetClassListWithValidArgs() {
-    	var el = document.getElementById("twikiCSSsetClassList");
+    	var el = document.getElementById("foswikiCSSsetClassList");
     	var classList = [];
     	classList.push("classOne");
     	classList.push("classTwo");
@@ -803,12 +803,12 @@ foswiki.Event.addLoadEvent("createTextNode");
 
 ---+++ foswiki.CSS.hasClass
 
-<div id="twikiCSShasClass" class="classOne classTwo">text</div>
+<div id="foswikiCSShasClass" class="classOne classTwo">text</div>
 
 <script language="javascript">
 /*<![CDATA[*/
     function testHasClassWithValidArgs() {
-    	var el = document.getElementById("twikiCSShasClass");
+    	var el = document.getElementById("foswikiCSShasClass");
     	assertTrue("Has class 1", foswiki.CSS.hasClass(el, "classOne"));
     	assertTrue("Has class 2", foswiki.CSS.hasClass(el, "classTwo"));
     	assertFalse("Has class 3", foswiki.CSS.hasClass(el, "classThree"));

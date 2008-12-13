@@ -7,7 +7,7 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of the TWiki distribution.
+# more details read LICENSE in the root of the Foswiki distribution.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,8 +21,8 @@
 # Readers are invited to add more testcases.
 #
 # The tests require FOSWIKI_LIBS to include a pointer to the lib
-# directory of a TWiki installation, so it can pick up the bits
-# of TWiki it needs to include.
+# directory of a Foswiki installation, so it can pick up the bits
+# of Foswiki it needs to include.
 #
 package TranslatorTests;
 use base qw(FoswikiTestCase);

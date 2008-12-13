@@ -6,7 +6,7 @@
 # Copyright (C) 2004-2007 Peter Thoeny, peter@thoeny.org
 # and TWiki Contributors.
 #
-# For licensing info read LICENSE file in the TWiki root.
+# For licensing info read LICENSE file in the Foswiki root.
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -20,9 +20,9 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-# Mail notification script. You must add the TWiki bin dir to the
-# search path for this script, so it can find the rest of TWiki e.g.
-# perl -I /usr/local/twiki/bin /usr/local/twiki/tools/mailnotify
+# Mail notification script. You must add the Foswiki bin dir to the
+# search path for this script, so it can find the rest of Foswiki e.g.
+# perl -I /usr/local/foswiki/bin /usr/local/foswiki/tools/mailnotify
 
 BEGIN {
     require 'setlib.cfg';

@@ -106,15 +106,15 @@ Information for programmers.
 |=.foswikiFirstCol=  |The first column  |
 |=.foswikiTableEven= |Even numbered rows  |
 |=.foswikiTableOdd= |Odd numbered rows  |
-|=.foswikiTableCol= + column number  | Unique column identifier, for instance: =twikiTableCol0= |
-|=.foswikiTableRow= + type + row number | Unique row identifier, for instance: =twikiTableRowdataBg0= |
+|=.foswikiTableCol= + column number  | Unique column identifier, for instance: =foswikiTableCol0= |
+|=.foswikiTableRow= + type + row number | Unique row identifier, for instance: =foswikiTableRowdataBg0= |
 
 
 ---++ Plugin Installation Instructions
 This plugin is pre-installed with your Foswiki release. You should not have to install it other than to do an upgrade.
 
 	* Download the ZIP file from the Plugin web (see below)
-	* Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+	* Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
 	  | *File:* | *Description:* |
 	  | ==data/System/%TOPIC%.txt== | Plugin topic |
 	  | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
@@ -126,8 +126,7 @@ This plugin is pre-installed with your Foswiki release. You should not have to i
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main/JohnTalintyre, TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2001-2008, TWiki:Main/JohnTalintyre, Peter@Thoeny.org ([[http://www.twiki.net/][TWIKI.NET]]), TWiki Contributors; &copy; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 1.036 (01 Oct 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |

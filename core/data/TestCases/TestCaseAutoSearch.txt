@@ -25,7 +25,7 @@ Designed by: Crawford Currie
 <!--/foswikiTopRow--><div class="foswikiBottomRow">
 <div class="foswikiSummary foswikiGrayText">This is a test fixture topic, used in TestCaseAutoSearch hit me with your rhythm stick hit me! hit me! schmerz ist gut, ich liebe dich hit me! hit me! hit me! ...</div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div>
 <!--/patternSearchResult-->
-<div class="patternSearchResultCount" class="twikiBottomResultCount" >Number of topics: <span class="foswikiSearchResultCount">2</span></div><!--/patternSearchResultCount-->
+<div class="patternSearchResultCount" class="foswikiBottomResultCount" >Number of topics: <span class="foswikiSearchResultCount">2</span></div><!--/patternSearchResultCount-->
 <!-- /expected -->
 ---++ Actual
 <!-- actual -->

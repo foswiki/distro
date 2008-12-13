@@ -7,7 +7,7 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of the TWiki distribution.
+# more details read LICENSE in the root of the Foswiki distribution.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,7 +19,7 @@
 
 ---+ package Foswiki::Plugins::WysiwygPlugin::HTML2TML;
 
-Convertor for translating HTML into TML (TWiki Meta Language)
+Convertor for translating HTML into TML (Topic Meta Language)
 
 The conversion is done by parsing the HTML and generating a parse
 tree, and then converting that parse treeinto TML.

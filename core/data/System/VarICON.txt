@@ -9,7 +9,7 @@
       * =%<nop>ICON{"pdf"}%= returns %ICON{"pdf"}%
       * =%<nop>ICON{"smile.pdf"}%= returns %ICON{"smile.pdf"}%
       * =%<nop>ICON{"/dont/you/dare/smile.pdf"}%= returns %ICON{"/dont/you/dare/smile.pdf"}%
-      * =%<nop>ICON{"http://twiki.org/doc/xhtml.xsl"}%= returns %ICON{"http://twiki.org/doc/xhtml.xsl"}%
+      * =%<nop>ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%= returns %ICON{"http://trunk.foswiki.org/pub/System/DocumentGraphics/xsl.gif"}%
    * Graphic samples: %ICON{"arrowbright"}% =arrowbright=, %ICON{"bubble"}% =bubble=, %ICON{"choice-yes"}% =choice-yes=, %ICON{"hand"}% =hand=
    * File type samples: %ICON{"bmp"}% =bmp=, %ICON{"doc"}% =doc=, %ICON{"gif"}% =gif=, %ICON{"hlp"}% =hlp=, %ICON{"html"}% =html=, %ICON{"mp3"}% =mp3=, %ICON{"pdf"}% =pdf=, %ICON{"ppt"}% =ppt=, %ICON{"txt"}% =txt=, %ICON{"xls"}% =xls=, %ICON{"xml"}% =xml=, %ICON{"zip"}% =zip=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURL][ICONURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarICONURLPATH][ICONURLPATH]], %WIKIPREFSTOPIC%, FileAttachments, DocumentGraphics

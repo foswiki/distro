@@ -81,28 +81,28 @@ If this plugin is installed you will see an *[&nbsp;Edit&nbsp;table&nbsp;]* butt
 <input type="hidden" name="ettablenr" value="1" />
 <table cellspacing="0" id="default" cellpadding="0" class="foswikiTable" rules="rows" border="1">
 	<thead>
-	<tr class="foswikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=0;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Nr<input type="hidden" name="etcell1x1" value="*Nr*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol1"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=1;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Text field<input type="hidden" name="etcell1x2" value="*Text field*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol2"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=2;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Drop down<input type="hidden" name="etcell1x3" value="*Drop down*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol3"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=3;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Mood<input type="hidden" name="etcell1x4" value="*Mood*" /></font></a> </th>
-		<th bgcolor="#6b7f93" valign="top" class="twikiTableCol4 foswikiLastCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=4;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Timestamp<input type="hidden" name="etcell1x5" value="*Timestamp*" /></font></a> </th>
+	<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+		<th bgcolor="#6b7f93" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=0;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Nr<input type="hidden" name="etcell1x1" value="*Nr*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=1;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Text field<input type="hidden" name="etcell1x2" value="*Text field*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=2;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Drop down<input type="hidden" name="etcell1x3" value="*Drop down*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="foswikiTableCol3"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=3;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Mood<input type="hidden" name="etcell1x4" value="*Mood*" /></font></a> </th>
+		<th bgcolor="#6b7f93" valign="top" class="foswikiTableCol4 foswikiLastCol"> <a rel="nofollow" href="%SCRIPTURL{"viewauth"}%/%SYSTEMWEB%/EditTablePlugin?ettablenr=1&amp;amp;etedit=on&amp;amp;etrows=3&amp;amp;x=27&amp;amp;y=13&amp;amp;sortcol=4;table=2;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Timestamp<input type="hidden" name="etcell1x5" value="*Timestamp*" /></font></a> </th>
 	</tr>
 	</thead>
-	<tr class="foswikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol1"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="20" value="hello table" /> </td>
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol2"> <select class="foswikiSelect" name="etcell2x3" size="1"> <option selected="selected">one</option> <option>two</option> <option>three</option> <option>four</option></select> </td>
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol3"> <input type="radio" name="etcell2x4" value=":-)" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell2x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell2x4" value=":-(" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
-		<td bgcolor="#ffffff" valign="top" class="twikiTableCol4 foswikiLastCol"> 26 Jun 2002 12:30<input type="hidden" name="etcell2x5" value="26 Jun 2002 12:30" /> </td>
+	<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+		<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol"> <span class="et_rowlabel">1<input type="hidden" name="etcell2x1" value="1" /></span> </td>
+		<td bgcolor="#ffffff" valign="top" class="foswikiTableCol1"> <input class="foswikiInputField editTableInput" type="text" name="etcell2x2" size="20" value="hello table" /> </td>
+		<td bgcolor="#ffffff" valign="top" class="foswikiTableCol2"> <select class="foswikiSelect" name="etcell2x3" size="1"> <option selected="selected">one</option> <option>two</option> <option>three</option> <option>four</option></select> </td>
+		<td bgcolor="#ffffff" valign="top" class="foswikiTableCol3"> <input type="radio" name="etcell2x4" value=":-)" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell2x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell2x4" value=":-(" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
+		<td bgcolor="#ffffff" valign="top" class="foswikiTableCol4 foswikiLastCol"> 26 Jun 2002 12:30<input type="hidden" name="etcell2x5" value="26 Jun 2002 12:30" /> </td>
 	</tr>
-	<tr class="foswikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol1 foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x2" size="20" value="" /> </td>
+	<tr class="foswikiTableEven foswikiTableRowdataBgSorted1 foswikiTableRowdataBg1">
+		<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLast"> <span class="et_rowlabel">2<input type="hidden" name="etcell3x1" value="2" /></span> </td>
+		<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol1 foswikiLast"> <input class="foswikiInputField editTableInput" type="text" name="etcell3x2" size="20" value="" /> </td>
 
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol2 foswikiLast"> <select class="foswikiSelect" name="etcell3x3" size="1"> <option>one</option> <option selected="selected">two</option> <option>three</option> <option>four</option></select> </td>
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol3 foswikiLast"> <input type="radio" name="etcell3x4" value=":-)" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell3x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell3x4" value=":-(" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
-		<td bgcolor="#edf4f9" valign="top" class="twikiTableCol4 foswikiLastCol foswikiLast"> 27 Jun 2002 12:40<input type="hidden" name="etcell3x5" value="27 Jun 2002 12:40" /> </td>
+		<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol2 foswikiLast"> <select class="foswikiSelect" name="etcell3x3" size="1"> <option>one</option> <option selected="selected">two</option> <option>three</option> <option>four</option></select> </td>
+		<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol3 foswikiLast"> <input type="radio" name="etcell3x4" value=":-)" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" />  <input type="radio" name="etcell3x4" value=":-I" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/indifferent.gif" alt="indifferent" title="indifferent" border="0" />  <input type="radio" name="etcell3x4" value=":-(" checked="checked" /> <img src="%PUBURL%/%SYSTEMWEB%/SmiliesPlugin/frown.gif" alt="frown" title="frown" border="0" /> </td>
+		<td bgcolor="#edf4f9" valign="top" class="foswikiTableCol4 foswikiLastCol foswikiLast"> 27 Jun 2002 12:40<input type="hidden" name="etcell3x5" value="27 Jun 2002 12:40" /> </td>
 	</tr></table>
 <input type="hidden" name="etrows" value="3" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
@@ -193,7 +193,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 ---++ Installation Instructions
 
    * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your ($TWIKI_ROOT) directory.
+   * Unzip ==%TOPIC%.zip== in your ($FOSWIKI_ROOT) directory.
    * Alternatively,
       * Manually resolve the dependencies listed below.
       %$DEPENDENCIES%

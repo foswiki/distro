@@ -136,7 +136,7 @@ The part between the rulers defines the default format of a slide:
 *Note:* You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
 
    * Download the ZIP file from the Plugin Home (see below)
-   * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
      | *File:* | *Description:* |
      | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
@@ -147,8 +147,8 @@ The part between the rulers defines the default format of a slide:
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2006-2007, Peter Thoeny, [[http://www.twiki.net/][TWIKI.NET]] |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki
+Contributors; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 02 Aug 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |

@@ -2,7 +2,7 @@
 //
 // By Byron Darrah
 //
-// This code adds support to the TWiki EditTablesPlugin for dynamically
+// This code adds support to the Foswiki EditTablesPlugin for dynamically
 // manipulating rows within a table.
 // 
 // Small refactoring by Arthur Clemens

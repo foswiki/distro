@@ -2,9 +2,9 @@
 ---+ Change E-mail Address
 %STARTINCLUDE%
 
-<strong>%MAKETEXT{"This form is used to change your registered e-mail addresses. Your registered e-mails are used by TWiki for sending you e-mails, include notifications of password changes. The addresses you register via this form are kept secret and will *not* be published anywhere on this site."}%</strong>
+<strong>%MAKETEXT{"This form is used to change your registered e-mail addresses. Your registered e-mails are used by Foswiki for sending you e-mails, include notifications of password changes. The addresses you register via this form are kept secret and will *not* be published anywhere on this site."}%</strong>
 
-%X% *Security Note*: %MAKETEXT{"You really ought to register a valid e-mail address. If TWiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"}%
+%X% *Security Note*: %MAKETEXT{"You really ought to register a valid e-mail address. If Foswiki can't find a registered e-mail for you in the secret database, it will look in your user topic for a line like this:"}%
 <verbatim>
    * Set Email = user@example.com
 </verbatim>
@@ -44,7 +44,7 @@ Registered e-mail addresses for currently logged in user (=%USERINFO{format="$wi
 
 <div class="foswikiHelp">
    * %ICON{info}% %MAKETEXT{"If you have any questions, please contact [_1]" args="%WIKIWEBMASTER%"}%
-   * %ICON{info}% %MAKETEXT{"[_1] has a list of other TWiki users" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
+   * %ICON{info}% %MAKETEXT{"[_1] has a list of other Foswiki users" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
 </div>
 
 %STOPINCLUDE%

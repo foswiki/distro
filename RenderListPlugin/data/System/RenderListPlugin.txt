@@ -354,8 +354,8 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2006-2007, Peter@Thoeny.org, [[http://www.twiki.net/][TWIKI.NET]]; &copy; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki
+Contributors; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 15 Jan 2008 (2.0) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
@@ -383,7 +383,6 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, Foswiki:Extensions/TreePlugin
 
--- TWiki:Main/PeterThoeny - 30 Sep 2007
 
 %META:FILEATTACHMENT{name="empty.gif" attr="h" comment="Empty 16x16 spacer" date="1070383918" path="empty.gif" size="100" user="PeterThoeny" version="1.1"}%
 %META:FILEATTACHMENT{name="email.gif" attr="h" comment="E-mail icon 16x16" date="1070614932" path="email.gif" size="183" user="PeterThoeny" version="1.1"}%

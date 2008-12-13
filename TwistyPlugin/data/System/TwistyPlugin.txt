@@ -585,7 +585,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
    
 ---++ Plugin Installation Instructions
    * Download the ZIP file from the Plugin web (see below)
-   * Unzip it in your twiki installation directory. Content: 
+   * Unzip it in your Foswiki installation directory. Content: 
      | *File:* | *Description:* |
 %$MANIFEST%
 
@@ -598,7 +598,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 ---++ Plugin Info
 
 |  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
-|  Copyright &copy;: | Rafael Alvarez; Michael Daum, Arthur Clemens |
+|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Dependencies: | None |
 |  Plugin&nbsp;Version: | 03 Dec 2008 (version 1.5.1) |

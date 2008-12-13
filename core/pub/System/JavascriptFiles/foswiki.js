@@ -53,8 +53,8 @@ var LOWER_ALPHANUM_CHARS	= LOWER_ALPHA_CHARS + NUMERIC_CHARS;
 var WIKIWORD_REGEX = "^" + "[" + UPPER_ALPHA_CHARS + "]" + "+" + "[" + LOWER_ALPHANUM_CHARS + "]" + "+" + "[" + UPPER_ALPHA_CHARS + "]" + "+" + "[" + MIXED_ALPHANUM_CHARS + "]" + "*";
 var ALLOWED_URL_CHARS = MIXED_ALPHANUM_CHARS + "-_^";
 
-// TWiki namespace
-var TWiki = {};
+// Foswiki namespace
+var Foswiki = {};
 
 // Chain a new load handler onto the existing handler chain
 // http://simon.incutio.com/archive/2004/05/26/addLoadEvent
@@ -285,7 +285,7 @@ Pass location.search to the constructor:
 Retrieve values
 <code>var myValue = myPageQuery.getValue("param1")</code>
 */
-TWiki.PageQuery = function (q) {
+Foswiki.PageQuery = function (q) {
 	if (q.length > 1) {
 		this.q = q.substring(1, q.length);
 	} else {
@@ -298,27 +298,27 @@ TWiki.PageQuery = function (q) {
 		}
 	}
 }
-TWiki.PageQuery.prototype.getKeyValuePairs = function() {
+Foswiki.PageQuery.prototype.getKeyValuePairs = function() {
 	return this.keyValuePairs;
 }
 /**
 @return The query string value; if not found returns -1.
 */
-TWiki.PageQuery.prototype.getValue = function (s) {
+Foswiki.PageQuery.prototype.getValue = function (s) {
 	for(var j=0; j < this.keyValuePairs.length; j++) {
 		if(this.keyValuePairs[j].split(/=/)[0] == s)
 			return this.keyValuePairs[j].split(/=/)[1];
 	}
 	return -1;
 }
-TWiki.PageQuery.prototype.getParameters = function () {
+Foswiki.PageQuery.prototype.getParameters = function () {
 	var a = new Array(this.getLength());
 	for(var j=0; j < this.keyValuePairs.length; j++) {
 		a[j] = this.keyValuePairs[j].split(/=/)[0];
 	}
 	return a;
 }
-TWiki.PageQuery.prototype.getLength = function() {
+Foswiki.PageQuery.prototype.getLength = function() {
 	return this.keyValuePairs.length;
 }
 
@@ -360,7 +360,7 @@ function readCookie(name) {
 }
 
 /**
-Writes a TWiki preference value. If the TWiki preference of given name already exists, a new value is written. If the preference name is new, a new preference is created.
+Writes a Foswiki preference value. If the Foswiki preference of given name already exists, a new value is written. If the preference name is new, a new preference is created.
 Characters '|' and '=' are reserved as separators.
 @param inPrefName (String): name of the preference to write, for instance 'SHOWATTACHMENTS'
 @param inPrefValue (String): value to write, for instance '1'
@@ -458,8 +458,8 @@ function _writePrefValues (inValues) {
 }
 
 /**
-Gets the TWiki pref cookie; creates a new cookie if it does not exist.
-@return The TWiki pref cookie.
+Gets the Foswiki pref cookie; creates a new cookie if it does not exist.
+@return The Foswiki pref cookie.
 */
 function _getPrefCookie () {
 	var cookieString = GetCookie(FOSWIKI_PREF_COOKIE_NAME);

@@ -52,7 +52,7 @@ Format tokens that can be used in the format string:
 | =$createwikiusername= | Wiki user name of topic revision 1, e.g. =%USERSWEB%.<nop>JohnSmith= |
 | =$summary= | Topic summary, just the plain text, all formatting and line breaks removed; up to 162 characters |
 | =$summary(50)= | Topic summary, up to 50 characters shown |
-| =$summary(showvarnames)= | Topic summary, with =%<nop>ALLTWIKI{...}%= macros shown as =ALLTWIKI{...}= |
+| =$summary(showvarnames)= | Topic summary, with =%<nop>SOMEMACRO{...}%= macros shown as =SOMEMACRO{...}= |
 | =$summary(noheader)= | Topic summary, with leading =---+ headers= removed%BR% *Note:* The tokens can be combined, for example =$summary(100, showvarnames, noheader)= |
 | =$changes= | Summary of changes between latest rev and previous rev |
 | =$changes(n)= | Summary of changes between latest rev and rev n |

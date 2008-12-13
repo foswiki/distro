@@ -12,7 +12,7 @@ span.twistyContent {}
 .twistyInited1 { /* behavior class: state is set to shown */ }
 .twistyInited0 { /* behavior class: state is set to hidden */ }
 
-/* These styles are available in TWiki 4.2, but provided here for older TWiki versions: */
+/* These styles are available in Foswiki, but provided here for older TWiki versions: */
 .foswikiMakeVisible,
 .foswikiMakeVisibleInline,
 .foswikiMakeVisibleBlock {

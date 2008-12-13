@@ -16,9 +16,9 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# For licensing info read LICENSE file in the TWiki root.
+# For licensing info read LICENSE file in the Foswiki root.
 #
-# Comment TWiki plugin
+# Comment Foswiki plugin
 # Original author David Weller, reimplemented by Peter Masiar
 # and again by Crawford Currie
 #
@@ -276,7 +276,7 @@ sub _buildNewTopic {
     $output = '' unless defined($output);
 
     # SMELL: Reverse the process that inserts meta-data just performed
-    # by the TWiki core, but this time without the support of the
+    # by the Foswiki core, but this time without the support of the
     # methods in the core. Fortunately this will work even if there is
     # no embedded meta-data.
     # Note: because this is Dakar, and has sensible semantics for handling

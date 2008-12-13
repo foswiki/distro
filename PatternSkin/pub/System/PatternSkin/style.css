@@ -32,6 +32,9 @@ html>body { /* Mozilla */
 th {
 	line-height:1.15em;
 }
+p {
+	margin:1em 0 0 0;
+}
 label {
 	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
 }
@@ -476,7 +479,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	font-weight:bold;
 }
 .foswikiFormStep p {
-	margin:.35em 0;
+	margin:.5em 0;
 }
 .foswikiFormStep blockquote {
 	margin-left:1em;

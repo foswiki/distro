@@ -19,8 +19,8 @@ The following settings are *web preferences* of the <nop>%WEB% web. These prefer
 	* List this web in the %SYSTEMWEB%.SiteMap:
 		* If yes, Set SITEMAPLIST = =on=, and add the "what" and "use to..." description for the site map. Make sure to list only links that include the name of the web, e.g. %WEB%.Topic links.
 		* Set SITEMAPLIST = on
-		* Set SITEMAPWHAT = Test Cases for TWiki 
-		* Set SITEMAPUSETO = Test TWiki. 
+		* Set SITEMAPWHAT = Test Cases for Foswiki 
+		* Set SITEMAPUSETO = Test Foswiki. 
 
 	* Exclude web from a =web="all"= search: (Set to =on= for hidden webs)
 		* Set NOSEARCHALL = 

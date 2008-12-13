@@ -91,16 +91,14 @@ The following template files are used for Foswiki screens, and are referenced in
 
 ---+++ Partial customisation, or adding in new features to an existing skin
 
-You can use recusion in the TMPL:INCLUDE chain (eg foswiki.classic.tmpl contains =%<nop>TMPL:INCLUDE{"twiki"}%=, the templating system will include the next twiki.SKIN in the skin path. 
+You can use recusion in the TMPL:INCLUDE chain (eg view.tmpl contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path. 
 For example, to create a customisation of pattern skin, where you _only_ want to remove the edit & WYSIWYG buttons from view page, you create only a =view.yourlocal.tmpl=:
 <verbatim>
 %TMPL:INCLUDE{"view"}%
 %TMPL:DEF{"edit_topic_link"}%%TMPL:END%
 %TMPL:DEF{"edit_wysiwyg_link"}%%TMPL:END%
 </verbatim>
-and then set =SKIN=yourlocal,pattern=.
-
-Because ClassicSkin and the default templates use the same Template definition names, you can over-ride the edit links in them (or any skin derived from them) using the same =view.yourlocal.tmpl= (just set SKIN=yourlocal,classic either in %USERSWEB%.SitePreferences for globally, or a Web's <nop>Webname.<nop>WebPreferences for a particular web) 
+and then set =SKIN=yourlocal,pattern=
 
 ---++ Settings in Skins
 

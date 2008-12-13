@@ -15,7 +15,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# For licensing info read LICENSE file in the TWiki root.
+# For licensing info read LICENSE file in the Foswiki root.
 
 # Still do to:
 # Handle continuation lines (see Prefs::parseText). These should always
@@ -30,7 +30,7 @@ require Foswiki::Plugins; # For the API version
 
 use vars qw( $VERSION $RELEASE @shelter );
 
-# This should always be $Rev: 13963 $ so that TWiki can determine the checked-in
+# This should always be $Rev: 13963 $ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev: 13963 $';
@@ -38,7 +38,7 @@ $VERSION = '$Rev: 13963 $';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = 'TWiki-4.2';
+$RELEASE = 'Foswiki-1.0';
 
 my $MARKER = "\007";
 

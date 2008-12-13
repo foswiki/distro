@@ -1,15 +1,15 @@
 %META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 14439 $"}%
 ---+ !TestCases Web
 
-If you are here, you want to test this version of TWiki. This web is held in the TWiki Subversion repository, so:
+If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so:
    1 You must manually ensure that all topics in this web are readable and writable by the apache user
    1 New topics must be manually added to the Subversion repository.
       * Only check in =.txt= files. You must _not_ check in ,v files. Topic histories will be maintained in Subversion.
-   1 If you use TWiki to edit topics (_not_ recommended) you must:
-      * Manually maintain the =META:TOPICINFO= of all topics in this web so that the =author= is =ProjectContributor= and the =version= is the SVN keyword =$<nop>Rev$=. _Do not_ allow TWiki to overwrite this info.
+   1 If you use Foswiki to edit topics (_not_ recommended) you must:
+      * Manually maintain the =META:TOPICINFO= of all topics in this web so that the =author= is =ProjectContributor= and the =version= is the SVN keyword =$<nop>Rev$=. _Do not_ allow Foswiki to overwrite this info.
       * Remove all ctrl+M's before checking in.
 
-The integration testcases are an important assistant to TWiki testing. However they should _not_ be regarded as the only required testing; manual testing, by a user interacting with TWiki, is also key, as are unit tests.
+The integration testcases are an important assistant to Foswiki testing. However they should _not_ be regarded as the only required testing; manual testing, by a user interacting with Foswiki, is also key, as are unit tests.
 
 Integration testcases are of two kinds; manual, and automatic. Automatic testcases are _strongly_ preferred.
 
@@ -21,7 +21,7 @@ Other topics may be created to provide test fixtures, but all checked-in topics 
 
 *Manual* testcases simply document a series of steps that have to be performed to execute the test, sometimes with links in to help the process (for an example see TestCaseAmISane).
 
-*Automatic* testcases are designed for testing TWiki rendering. They can be visited and manually checked just like manual testcases, but also include markers that indicate to the %SYSTEMWEB%.TestFixturePlugin what is _expected_ output versus what TWiki _actually_ produces. See %SYSTEMWEB%.TestFixturePlugin for details, and view [[%SCRIPTURL{"view"}%/%WEB%/TestCaseAutoWikiWordRendering?raw=on][TestCaseAutoWikiWordRendering]] raw for a good example. Automatic testcase topics should also contain a link that allows the testcase to be run: <code>[<nop>[%<nop>SCRIPTURL%/view%<nop>SCRIPTSUFFIX%/%<nop>WEB%/%<nop>TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]</code>
+*Automatic* testcases are designed for testing Foswiki rendering. They can be visited and manually checked just like manual testcases, but also include markers that indicate to the %SYSTEMWEB%.TestFixturePlugin what is _expected_ output versus what Foswiki _actually_ produces. See %SYSTEMWEB%.TestFixturePlugin for details, and view [[%SCRIPTURL{"view"}%/%WEB%/TestCaseAutoWikiWordRendering?raw=on][TestCaseAutoWikiWordRendering]] raw for a good example. Automatic testcase topics should also contain a link that allows the testcase to be run: <code>[<nop>[%<nop>SCRIPTURL%/view%<nop>SCRIPTSUFFIX%/%<nop>WEB%/%<nop>TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]</code>
 
 Automatic testcases may be run by clicking on the =run= link for the testcase in the table below. The testcases are run with _no plugins enabled_.
 

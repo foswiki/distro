@@ -7,7 +7,7 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of the TWiki distribution.
+# more details read LICENSE in the root of the Foswiki distribution.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -231,7 +231,7 @@ sub rootGenerate {
     #print STDERR "Converted ",WC::debugEncode($text),"\n";
 
     # Move leading \n out of protected region. Delicate hack fix required to
-    # maintain TWiki variables at the start of lines.
+    # maintain Foswiki variables at the start of lines.
     $text =~ s/$WC::PON$WC::NBBR/$WC::CHECKn$WC::PON/g;
 
     # isolate whitespace checks and convert to $NBSP
@@ -381,7 +381,7 @@ sub _collapse {
 
         # If this is an emphasis (b, i, code, tt, strong) then
         # flatten out any child nodes that express the same emphasis.
-        # This has to be done because TWiki emphases are single level.
+        # This has to be done because Foswiki emphases are single level.
         if ($WC::EMPHTAG{$node->{tag}}) {
             my $kid = $node->{head};
             while ($kid) {
@@ -1169,7 +1169,7 @@ sub _handleFONT {
         delete $atts{color};
     }
     # The presence of the class forces it to be converted to a
-    # TWiki variable
+    # Foswiki variable
     if (!_removeClass(\%atts, 'WYSIWYG_COLOUR')) {
         delete $atts{class};
         if (scalar(keys %atts) > 0 || !$colour || $colour !~ /^([a-z]+|#[0-9A-Fa-f]{6})$/i) {
@@ -1322,7 +1322,7 @@ sub _handleSPAN {
 
     if( $options & $WC::VERY_CLEAN ) {
         # remove style attribute if cleaning aggressively. Have to do this
-        # because TWiki generates these.
+        # because Foswiki generates these.
         delete $atts{style} if defined $atts{style}
     }
 

@@ -21,9 +21,9 @@
 =pod
 
 ---+ package Foswiki::Contrib::MailerContrib::WebNotify
-Object that represents the contents of a %NOTIFYTOPIC% topic in a TWiki web.
+Object that represents the contents of a %NOTIFYTOPIC% topic in a Foswiki web.
 
-Note that =$Foswiki::Plugins::SESSION= is used to find the TWiki session, and
+Note that =$Foswiki::Plugins::SESSION= is used to find the Foswiki session, and
 must be set up before this class is used.
 
 =cut
@@ -43,7 +43,7 @@ require Foswiki::Contrib::MailerContrib::Subscription;
 =pod
 
 ---++ new($session, $web, $topic)
-   * =$session= - TWiki object
+   * =$session= - Foswiki object
    * =$web= - web name
    * =$topic= - topic name
    * =$noexpandgroups= - True will prevent expansion of  group subscriptions

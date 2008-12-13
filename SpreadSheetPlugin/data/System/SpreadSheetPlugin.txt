@@ -704,7 +704,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 *Note:* You do not need to install anything on the browser to use this plugin. Below installation instructions are for the administrator who needs to install this plugin on the Foswiki server. 
 
 	* Download the ZIP file from the <nop>%TOPIC% home
-	* Unzip ==SpreadSheetPlugin.zip== in your twiki installation directory. Content:
+	* Unzip ==SpreadSheetPlugin.zip== in your Foswiki installation directory. Content:
 	  | *File:* | *Description:* |
 	  | ==data/System/%TOPIC%.txt== | Plugin topic |
 	  | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
@@ -714,8 +714,8 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main/PeterThoeny |
-|  Copyright: | &copy; 2001-2007, Peter Thoeny, [[http://www.twiki.net/][TWIKI.NET]]; &copy; 2008 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki
+Contributors;  &copy; 2008 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 13 Oct 2007 (15270) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
@@ -769,6 +769,4 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
-
--- TWiki:Main/PeterThoeny - 13 Oct 2007
 

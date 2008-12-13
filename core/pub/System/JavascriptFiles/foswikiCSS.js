@@ -85,8 +85,8 @@ foswiki.CSS = {
 	/* PRIVILIGED METHODS */
 	
 	/**
-	See: twiki.Array.indexOf
-	Function copied here to prevent extra dependency on twiki.Array.
+	See: foswiki.Array.indexOf
+	Function copied here to prevent extra dependency on foswiki.Array.
 	*/
 	_indexOf:function(inArray, el) {
 		if (!inArray || inArray.length == undefined) return null;

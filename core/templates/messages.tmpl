@@ -28,7 +28,7 @@
 
 %MAKETEXT{"Those changes have been merged with yours to create Rev [_1]. Text fields will have been merged, but other data such as form fields may have overwritten the other users changes. Please inspect the topic to make sure it is OK, especially if you made any changes to form fields." args="%PARAM3%"}%
 
-%MAKETEXT{"Confirm your changes using TWiki's ~[~[[_1]~]~[topic history comparison tool (diff)~]~]." args="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?rev1=%PARAM1%;rev2=%PARAM3%"}%
+%MAKETEXT{"Confirm your changes using Foswiki's ~[~[[_1]~]~[topic history comparison tool (diff)~]~]." args="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPIC%?rev1=%PARAM1%;rev2=%PARAM3%"}%
 
 %TMPL:P{"oktopicaction"}%
 %TMPL:END%
@@ -160,7 +160,7 @@
 %TMPL:END%
 %TMPL:DEF{"thanks"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
-   * %MAKETEXT{"Your personal TWiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
+   * %MAKETEXT{"Your personal Foswiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
      %MAKETEXT{"(*Suggestion:* How about uploading your picture to your topic?)"}%
    * %MAKETEXT{"You are also listed in the [_1] topic" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
 %PARAM1%
@@ -174,7 +174,7 @@
 ---+++ %MAKETEXT{"Password changed successfully!"}%
 
 %IF{
-  "{LoginManager} = 'TWiki::LoginManager::ApacheLogin'"
+  "{LoginManager} = 'Foswiki::LoginManager::ApacheLogin'"
   then="%MAKETEXT{"You may need to close your browser to make this change take effect."}%"
 }%
 
@@ -183,7 +183,7 @@
 %TMPL:DEF{"password_not_changed"}%
 ---+++ %MAKETEXT{"Password could not be changed"}%
 
-%MAKETEXT{"Your system may not support changing passwords through TWiki. Check with your Wiki administrator."}%
+%MAKETEXT{"Your system may not support changing passwords through Foswiki. Check with your Wiki administrator."}%
 
 *[[%TOPIC%][%MAKETEXT{"OK"}%]]*
 %TMPL:END%
@@ -360,7 +360,7 @@
 %MAKETEXT{"However, the filename has been changed from [_1] to [_2]. Please make a note of it." args="<b><code>%PARAM1%</code></b>,<b><code>%PARAM2%</code></b>"}%
 
 *%MAKETEXT{"Note:"}%*
-%MAKETEXT{"In some cases, TWiki changes the name of the uploaded file to make it safe and accessible across all platforms:"}%
+%MAKETEXT{"In some cases, Foswiki changes the name of the uploaded file to make it safe and accessible across all platforms:"}%
    * %MAKETEXT{"Spaces are replaced by underscores"}%
    * %MAKETEXT{"A =.txt= extension is appended to some filenames for security reasons"}%
    * %MAKETEXT{"Some characters such as =&#126;=, =$=, =@=, =%= are removed"}%
@@ -422,7 +422,7 @@
 
 %MAKETEXT{"If you received a link to this topic in an e-mail or just want to look at the topic, ~[~[[_1]~]~[cancel save~]~] to go to [_2]." args="%WEB%.%TOPIC%, <nop>%TOPIC%"}%
 
-%MAKETEXT{"If you are developing a <nop>TWikiApplication, see [_1] for a description of the correct parameters." args="%SYSTEMWEB%.TWikiScripts#%PARAM1%"}%
+%MAKETEXT{"If you are developing a Foswiki application, see [_1] for a description of the correct parameters." args="%SYSTEMWEB%.CommandAndCGIScripts#%PARAM1%"}%
 
 %TMPL:END%
 %{
@@ -484,7 +484,7 @@
 %TMPL:END%
 %TMPL:DEF{"no_such_web"}%
 ---++ %MAKETEXT{"The [_1] web does not exist" args="\"%WEB%\""}%
-%MAKETEXT{"A [_1] is divided into webs; each one represents one subject, one area of collaboration. You are trying to [_2] in a web that does not exist." args="%SYSTEMWEB%.TWikiSite, '%PARAM1%'"}%
+%MAKETEXT{"A Foswiki site is divided into webs; each one represents one subject, one area of collaboration. You are trying to [_1] in a web that does not exist." args="'%PARAM1%'"}%
 
 ---+++ %MAKETEXT{"If you came here by clicking on a question mark link"}%
 <blockquote>

@@ -5,7 +5,7 @@
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 %SHORTDESCRIPTION%
 
-Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML (topic markup language) translator script. For WYSIWYG editing in Foswiki and TWiki, you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
+Support for the integration of WYSIWYG (What-You-See-Is-What-You-Get) editors. On its own, the only thing this plugin gives you is a stand-alone HTML to TML (topic markup language) translator script. For WYSIWYG editing in Foswiki and Foswiki, you will also need to install a specific editor package such as Foswiki:Extensions.TinyMCEPlugin.
 
 This plugin provides a generic framework that supports editing of topics using any browser-based HTML editor. It works by transforming TML into HTML for the editor, and then transforming HTML back into TML on save.
 
@@ -94,7 +94,7 @@ The flow of control is as follows:
 
 ---+++ Other techniques
 ---++++ Asynchronous saves
-Editors can use =XmlHttpRequest= to perform saves, by POSTing to the Foswiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %SYSTEMWEB%.TWikiScripts for details of the other parameters to the =save= script.
+Editors can use =XmlHttpRequest= to perform saves, by POSTing to the Foswiki =save= script with the =wysiwyg_edit= parameter set to =1=. This parameter tells the =beforeSaveHandler= in the !WysiwygPlugin to convert the content back to TML. See %SYSTEMWEB%.CommandAndCGIScripts for details of the other parameters to the =save= script.
 
 Once the save script has completed it responds with a redirect, either to an Oops page if the save failed, or to the appropriate post-save URL (usually a =view=). The editor must be ready to handle this redirect.
 
@@ -137,7 +137,7 @@ WysiwygPlugin is incompatible with plugins that expand non-standard syntax e.g. 
 Plugins that extend the syntax using macros, such as =%MYMACRO%=, should work fine.
 
 ---+++ Overlapping styles
-Because Foswiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formating in the original TWiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
+Because Foswiki uses a "best guess" approach to some formatting, it allows overlapping of tags in a way forbidden by HTML, and it is impossible to guarantee 100% that formating in the original Foswiki document will still be there when the same document is loaded and then saved through the WysiwygPlugin. The most obvious case of this is to do with styles. For example, the sentence
 <verbatim>
 *bold _bold-italic* italic_
 </verbatim>

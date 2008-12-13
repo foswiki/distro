@@ -32,7 +32,7 @@ use vars
   qw( $VERSION $RELEASE $pluginName @modes $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-# This should always be $Rev$ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev$';
@@ -353,7 +353,7 @@ sub _createHtmlProperties {
     }
 
     # deprecated
-    # should be done by twiki template scripts instead
+    # should be done by Foswiki template scripts instead
     if ( !$isTrigger && $noscriptHide ) {
         if ( $mode eq 'div' ) {
             push( @classList, 'foswikiMakeVisibleBlock' );

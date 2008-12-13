@@ -72,8 +72,8 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiTopRow=                       | First row in search results; also used for styling first table rows (=td.foswikiTopRow=)  |
 |=.foswikiTableEven=                    | Even numbered rows  |
 |=.foswikiTableOdd=                     | Odd numbered rows  |
-|=.foswikiTableCol + column number=     | Unique column identifier, for instance: twikiTableCol0 |
-|=.foswikiTableRow + type + row number= | Unique row identifier, for instance: twikiTableRowdataBg0 |
+|=.foswikiTableCol + column number=     | Unique column identifier, for instance: foswikiTableCol0 |
+|=.foswikiTableRow + type + row number= | Unique row identifier, for instance: foswikiTableRowdataBg0 |
 |=.tableSortIcon=                       | Holder (=span=) for the table column sort icon  |
 
 #DataForms

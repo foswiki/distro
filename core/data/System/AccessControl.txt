@@ -150,7 +150,7 @@ That way all the controls that apply to the topic also apply to attachments to t
 ---+++ Controlling who can manage top-level webs
 
 Top level webs are a special case, because they don't have a parent web with a %WEBPREFSTOPIC%. So there has to be a special control just for the root level.
-   * You can define these settings in the %USERSWEB%.%TWIKIPREFSTOPIC% topic, preferable towards the end of the topic:
+   * You can define these settings in the %USERSWEB%.%WIKIPREFSTOPIC% topic, preferable towards the end of the topic:
       * ==Set <nop>DENYROOTCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
       * ==Set <nop>ALLOWROOTCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
 Note that you do *not* require =ROOTCHANGE= access to rename an existing top-level web. You just need =WEBCHANGE= in the web itself.

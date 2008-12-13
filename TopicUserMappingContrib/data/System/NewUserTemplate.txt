@@ -4,10 +4,10 @@
 
 ---++ My Links
 
-   * [[%SYSTEMWEB%.BeginnersStartHere][BeginnersStartHere]] - view a short introductory presentation on TWiki for beginners
-   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - starting points on TWiki
-   * [[%SYSTEMWEB%.UsersGuide][UsersGuide]] - complete TWiki documentation, Quick Start to Reference
-   * [[Sandbox.%HOMETOPIC%][%HOMETOPIC%]] - try out TWiki on your own
+   * [[%SYSTEMWEB%.BeginnersStartHere][BeginnersStartHere]] - view a short introductory presentation on Foswiki for beginners
+   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - starting points on Foswiki
+   * [[%SYSTEMWEB%.UsersGuide][UsersGuide]] - complete Foswiki documentation, Quick Start to Reference
+   * [[Sandbox.%HOMETOPIC%][%HOMETOPIC%]] - try out Foswiki on your own
    * [[Sandbox.%TOPIC%Sandbox][%TOPIC%Sandbox]] - just for me
    * 
    * 
@@ -29,9 +29,9 @@ Uncomment [[%SYSTEMWEB%.PreferenceSettings][preference settings]] to activate th
 
    * [[%SYSTEMWEB%.ChangePassword][ChangePassword]] for changing your password
    * [[%SYSTEMWEB%.ChangeEmailAddress][ChangeEmailAddress]] for changing your email address
-   * [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] has a list of other TWiki users
-   * [[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]] is a list of TWiki user documentation
-   * [[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]] lists all TWiki user tools
+   * [[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]] has a list of other Foswiki users
+   * [[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]] is a list of Foswiki user documentation
+   * [[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]] lists all Foswiki user tools
 
 %STARTSECTION{type="templateonly"}%
 ----
@@ -39,7 +39,7 @@ Notes to Wiki Administrator:
 
 Anything inside this "templateonly" section will not be copied to the home topic of the new user. It is a resource for the administrator to tailor the users home topic.
 
-On public TWiki's on the Internet user topics are often subject to spam so you may want to limit editing to the user himself. You can do this by moving these two lines to the Personal Preferences section above. Remove the small # in front of the "Set".
+On public Foswiki sites on the Internet user topics are often subject to spam so you may want to limit editing to the user himself. You can do this by moving these two lines to the Personal Preferences section above. Remove the small # in front of the "Set".
    * Write protect your home page: (set it to your [[%SYSTEMWEB%.WikiName][WikiName]])
       * #Set ALLOWTOPICCHANGE = %WIKIUSERNAME%
 
@@ -63,10 +63,10 @@ Text for multilingual wiki community, copy from here to %<nop>ENDSECTION{type="t
 -->
 ---++ %MAKETEXT{"My Links"}%
 
-   * %MAKETEXT{"[_1] - view a short introductory presentation on TWiki for beginners" args="[[%SYSTEMWEB%.BeginnersStartHere][BeginnersStartHere]]"}%
-   * %MAKETEXT{"[_1] - starting points on TWiki" args="[[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]]"}%
-   * %MAKETEXT{"[_1] - complete TWiki documentation, Quick Start to Reference" args="[[%SYSTEMWEB%.UsersGuide][UsersGuide]]"}%
-   * %MAKETEXT{"[_1] - try out TWiki on your own" args="[[Sandbox.%HOMETOPIC%][%HOMETOPIC%]]"}%
+   * %MAKETEXT{"[_1] - view a short introductory presentation on Foswiki for beginners" args="[[%SYSTEMWEB%.BeginnersStartHere][BeginnersStartHere]]"}%
+   * %MAKETEXT{"[_1] - starting points on Foswiki" args="[[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]]"}%
+   * %MAKETEXT{"[_1] - complete Foswiki documentation, Quick Start to Reference" args="[[%SYSTEMWEB%.UsersGuide][UsersGuide]]"}%
+   * %MAKETEXT{"[_1] - try out Foswiki on your own" args="[[Sandbox.%HOMETOPIC%][%HOMETOPIC%]]"}%
    * %MAKETEXT{"[_1] - just for me" args="[[Sandbox.%TOPIC%Sandbox][%TOPIC%Sandbox]]"}%
    * 
    * 
@@ -82,9 +82,9 @@ Text for multilingual wiki community, copy from here to %<nop>ENDSECTION{type="t
 
    * %MAKETEXT{"[_1] for changing your password" args="[[%SYSTEMWEB%.ChangePassword][ChangePassword]]"}%
    * %MAKETEXT{"[_1] for changing your email address" args="[[%SYSTEMWEB%.ChangeEmailAddress][ChangeEmailAddress]]"}%
-   * %MAKETEXT{"[_1] has a list of other TWiki users" args="[[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]]"}%
-   * %MAKETEXT{"[_1] is a list of TWiki user documentation" args="[[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]]"}%
-   * %MAKETEXT{"[_1] lists all TWiki user tools" args="[[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]]"}%
+   * %MAKETEXT{"[_1] has a list of other Foswiki users" args="[[%USERSWEB%.%WIKIUSERSTOPIC%][%WIKIUSERSTOPIC%]]"}%
+   * %MAKETEXT{"[_1] is a list of Foswiki user documentation" args="[[%SYSTEMWEB%.UserDocumentationCategory][UserDocumentationCategory]]"}%
+   * %MAKETEXT{"[_1] lists all Foswiki user tools" args="[[%SYSTEMWEB%.UserToolsCategory][UserToolsCategory]]"}%
 
 %ENDSECTION{type="templateonly"}%
 %META:FORM{name="%SYSTEMWEB%.UserForm"}%

@@ -268,7 +268,7 @@ sub _WYSIWYG_TEXT {
 
     $text = TranslateTML2HTML( $text, $web, $topic );
 
-    # Lift out the text to protect it from further TWiki rendering. It will be
+    # Lift out the text to protect it from further Foswiki rendering. It will be
     # put back in the postRenderingHandler.
     return _liftOut( $text );
 }
@@ -426,7 +426,7 @@ sub postConvertURL {
     return $url.$anchor.$parameters;
 }
 
-# Callback used to convert an image reference into a TWiki variable.
+# Callback used to convert an image reference into a Foswiki variable.
 sub _convertImage {
     my( $src, $opts ) = @_;
 
@@ -452,7 +452,7 @@ sub _convertImage {
     return $imgMap->{$src};
 }
 
-# Replace content with a marker to prevent it being munged by TWiki
+# Replace content with a marker to prevent it being munged by Foswiki
 sub _liftOut {
     my( $text ) = @_;
     my $n = scalar( @refs );
@@ -473,7 +473,7 @@ sub _dropBack {
 
 ---++ StaticMethod notWysiwygEditable($text) -> $boolean
 Determine if the given =$text= is WYSIWYG editable, based on the topic content
-and the value of the TWiki preferences WYSIWYG_EXCLUDE and
+and the value of the Foswiki preferences WYSIWYG_EXCLUDE and
 WYSIWYG_EDITABLE_CALLS. Returns a descriptive string if the text is not
 editable, 0 otherwise.
 
@@ -603,7 +603,7 @@ DEFAULT
 # for XML, which XHR was designed to transport.
 
 # This function is used to decode such parameters to the currently selected
-# TWiki site character set.
+# Foswiki site character set.
 
 # Note that this transform is not as simple as an Encode::from_to, as
 # a number of unicode code points must be remapped for certain encodings.
@@ -639,7 +639,7 @@ sub returnRESTResult {
 
     $text = Encode::encode_utf8($text);
 
-    # TWiki5 introduces the Foswiki::Response object, which handles all
+    # Foswiki 1.0 introduces the Foswiki::Response object, which handles all
     # responses.
     if (UNIVERSAL::isa( $response, 'Foswiki::Response')) {
         $response->header(
@@ -647,7 +647,7 @@ sub returnRESTResult {
             -type => 'text/plain',
             -charset => 'UTF-8');
         $response->print($text);
-    } else { # Pre-TWiki-5.
+    } else { # Pre-Foswiki-1.0.
         # Turn off AUTOFLUSH
         # See http://perl.apache.org/docs/2.0/user/coding/coding.html
         local $| = 0;

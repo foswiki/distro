@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1159249788" format="1.1" version="$Rev: 15598 $"}%
 ---+ Installed Plugins
 
-Here is a list of the plugins currently installed and enabled on this TWiki site:
+Here is a list of the plugins currently installed and enabled on this Fosiki site:
 
 %PLUGINDESCRIPTIONS%
 

@@ -47,7 +47,7 @@ The =target= attribute may specify a web, and may also specify an anchor within 
 <verbatim>
 %COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
 </verbatim>
-This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about TWiki anchors.
+This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
 
 ---++++ Location relative to an arbitrary text string
 Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
@@ -92,7 +92,7 @@ Customisation of the comment plugin requires
 
 To define a comment type, you have to provide two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
 
-The plugin picks up these template definitions from a standard template file, =templates/comments.tmpl=. This allows different templates to be defined for different TWiki skins.
+The plugin picks up these template definitions from a standard template file, =templates/comments.tmpl=. This allows different templates to be defined for different Foswiki skins.
 
 ---+++ Defining custom templates
 By default, =templates/comments.tmpl= includes the topic %SYSTEMWEB%.CommentPluginTemplate, which contains all the shipped standard templates and in turn includes %SYSTEMWEB%.<nop>UserCommentsTemplate that can include non-standard customisations.
@@ -227,7 +227,7 @@ These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in indiv
 ---++ Plugin Installation Instructions
 	* This plugin is pre-installed in most releases. However if you need to upgrade the plugin for any reason:
 	* Download the archive file from the Plugin web (see below)
-	* Unpack the archive in your twiki installation directory.
+	* Unpack the archive in your Foswiki installation directory.
 		* You may need to correct file permissions
 	* Run ==%TOPIC%_installer== to automatically check and install other modules that this module depends on, and enable the plugin.
 	* Alternatively,
@@ -273,7 +273,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
 |  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
 |  4745 | 06 Mar 2002 initial commit |
-|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 TWiki:System.ProjectContributor |
+|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 Foswiki:%SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Home: | Foswiki:Extensions/%TOPIC% |
 |  Feedback: | Foswiki:Extensions/%TOPIC%Dev |

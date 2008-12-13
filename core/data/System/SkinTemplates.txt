@@ -111,7 +111,7 @@ If these preferences are set locally (using _Local_ instead of _Set_) for a topi
 
 ---+++ TMPL:INCLUDE recursion for piecewise customisation, or mixing in new features
 
-If there is recursion in the TMPL:INCLUDE chain (eg foswiki.classic.tmpl contains =%<nop>TMPL:INCLUDE{"twiki"}%=, the templating system will include the next twiki.SKIN in the skin path. 
+If there is recursion in the TMPL:INCLUDE chain (eg view.tmpl contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path. 
 For example, to create a customisation of pattern skin, where you _only_ want to over-ride the breadcrumbs for the view script, you can create only a view.yourlocal.tmpl:
 <verbatim>
 %TMPL:INCLUDE{"view"}%
