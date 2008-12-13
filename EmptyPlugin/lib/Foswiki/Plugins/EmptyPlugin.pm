@@ -4,51 +4,49 @@
 
 ---+ package EmptyPlugin
 
+Foswiki plugins 'listen' to events happening in the core by registering an
+interest in those events. They do this by declaring 'plugin handlers'. These
+are simply functions with a particular name that, if they exist in your
+plugin, will be called by the core.
+
 This is an empty Foswiki plugin. It is a fully defined plugin, but is
 disabled by default in a Foswiki installation. Use it as a template
-for your own plugins; see %SYSTEMWEB%.Plugins for details.
+for your own plugins.
 
-This version of the !EmptyPlugin documents the handlers supported
-by revision 1.2 of the Plugins API. See the documentation of =Foswiki::Func=
-for more information about what this revision number means, and how a
-plugin can check it.
-
-*NOTE:* To interact with Foswiki use ONLY the official API functions
-in the Foswiki::Func module. Do not reference any functions or
-variables elsewhere in Foswiki, as these are subject to change
-without prior warning, and your plugin may suddenly stop
+To interact with Foswiki use ONLY the official APIs
+documented in %SYSTEMWEB%.DevelopingPlugins. <strong>Do not reference any
+packages, functions or variables elsewhere in Foswiki</strong>, as these are
+subject to change without prior warning, and your plugin may suddenly stop
 working.
 
-For increased performance, all handlers except initPlugin are
-disabled below. *To enable a handler* remove the leading DISABLE_ from
-the function name. For efficiency and clarity, you should comment out or
-delete the whole of handlers you don't use before you release your
-plugin.
+Error messages can be output using the =Foswiki::Func= =writeWarning= and
+=writeDebug= functions. You can also =print STDERR=; the output will appear
+in the webserver error log. Most handlers can also throw exceptions (e.g.
+[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]])
 
-*NOTE:* When developing a plugin it is important to remember that
+For increased performance, all handler functions except =initPlugin= are
+commented out below. *To enable a handler* remove the leading =#= from
+each line of the function. For efficiency and clarity, you should
+only uncomment handlers you actually use.
+
+__NOTE:__ When developing a plugin it is important to remember that
+
 Foswiki is tolerant of plugins that do not compile. In this case,
 the failure will be silent but the plugin will not be available.
-See [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]] for error messages.
+See %SYSTEMWEB%.InstalledPlugins for error messages.
 
-*NOTE:* Defining deprecated handlers will cause the handlers to be 
-listed in [[%SYSTEMWEB%.Plugins#FAILEDPLUGINS]]. See
-[[%SYSTEMWEB%.Plugins#Handlig_deprecated_functions]]
-for information on regarding deprecated handlers that are defined for
-compatibility with older Foswiki versions.
+__NOTE:__ Foswiki:Development.StepByStepRenderingOrder helps you decide which
+rendering handler to use. When writing handlers, keep in mind that these may
+be invoked
 
-*NOTE:* All but the initPlugin are disabled. To enable a callback, remove =DISABLE_= from the function name.
-
-%STARTINCLUDE%
-
-*NOTE:* When writing handlers, keep in mind that these may be invoked
 on included topics. For example, if a plugin generates links to the current
-topic, these need to be generated before the afterCommonTagsHandler is run,
-as at that point in the rendering loop we have lost the information that we
+topic, these need to be generated before the =afterCommonTagsHandler= is run.
+After that point in the rendering loop we have lost the information that
 the text had been included from another topic.
 
 =cut
 
-# change the package name and $pluginName!!!
+# change the package name!!!
 package Foswiki::Plugins::EmptyPlugin;
 
 # Always use strict to enforce variable scoping
@@ -59,63 +57,53 @@ require Foswiki::Plugins; # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package.
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
-
 # This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
-$VERSION = '$Rev$';
+our $VERSION = '$Rev$';
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = 'Foswiki-4.2';
+our $RELEASE = '$Date$';
 
 # Short description of this plugin
 # One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
-$SHORTDESCRIPTION = 'Empty Plugin used as a template for new Plugins';
+our $SHORTDESCRIPTION = 'Empty Plugin used as a template for new Plugins';
 
-# You must set $NO_PREFS_IN_TOPIC to 0 if you want your plugin to use preferences
-# stored in the plugin topic. This default is required for compatibility with
-# older plugins, but imposes a significant performance penalty, and
-# is not recommended. Instead, use $Foswiki::cfg entries set in LocalSite.cfg, or
-# if you want the users to be able to change settings, then use standard Foswiki
-# preferences that can be defined in your %USERSWEB%.SitePreferences and overridden
-# at the web and topic level.
-$NO_PREFS_IN_TOPIC = 1;
-
-# Name of this Plugin, only used in this module
-$pluginName = 'EmptyPlugin';
+# You must set $NO_PREFS_IN_TOPIC to 0 if you want your plugin to use
+# preferences set in the plugin topic. This is required for compatibility
+# with older plugins, but imposes a significant performance penalty, and
+# is not recommended. Instead, leave $NO_PREFS_IN_TOPIC at 1 and use
+# =$Foswiki::cfg= entries set in =LocalSite.cfg=, or if you want the users
+# to be able to change settings, then use standard Foswiki preferences that
+# can be defined in your %USERSWEB%.SitePreferences and overridden at the web
+# and topic level.
+our $NO_PREFS_IN_TOPIC = 1;
 
 =begin TML
 
----++ initPlugin($topic, $web, $user, $installWeb) -> $boolean
+---++ initPlugin($topic, $web, $user) -> $boolean
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
    * =$user= - the login name of the user
-   * =$installWeb= - the name of the web the plugin is installed in
+   * =$installWeb= - the name of the web the plugin topic is in
+     (usually the same as =$Foswiki::cfg{SystemWebName}=)
 
-REQUIRED
+*REQUIRED*
 
 Called to initialise the plugin. If everything is OK, should return
 a non-zero value. On non-fatal failure, should write a message
-using Foswiki::Func::writeWarning and return 0. In this case
+using =Foswiki::Func::writeWarning= and return 0. In this case
 %<nop>FAILEDPLUGINS% will indicate which plugins failed.
 
 In the case of a catastrophic failure that will prevent the whole
 installation from working safely, this handler may use 'die', which
 will be trapped and reported in the browser.
 
-You may also call =Foswiki::Func::registerTagHandler= here to register
-a function to handle variables that have standard Foswiki syntax - for example,
-=%<nop>MYTAG{"my param" myarg="My Arg"}%. You can also override internal
-Foswiki variable handling functions this way, though this practice is unsupported
-and highly dangerous!
-
-*Note:* Please align variables names with the Plugin name, e.g. if 
-your Plugin is called FooBarPlugin, name variables FOOBAR and/or 
+__Note:__ Please align macro names with the Plugin name, e.g. if
+your Plugin is called !FooBarPlugin, name macros FOOBAR and/or
 FOOBARSOMETHING. This avoids namespace issues.
-
 
 =cut
 
@@ -123,23 +111,27 @@ sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning( "Version mismatch between $pluginName and Plugins.pm" );
+    if( $Foswiki::Plugins::VERSION < 2.0 ) {
+        Foswiki::Func::writeWarning( 'Version mismatch between ',
+                                     __PACKAGE__, ' and Plugins.pm' );
         return 0;
     }
 
-    # Example code of how to get a preference value, register a variable handler
-    # and register a RESTHandler. (remove code you do not need)
+    # Example code of how to get a preference value, register a macro
+    # handler and register a RESTHandler (remove code you do not need)
 
-    # Set plugin preferences in LocalSite.cfg, like this:
+    # Set your per-installation plugin configuration in LocalSite.cfg,
+    # like this:
     # $Foswiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} = 1;
+    # Optional: See %SYSTEMWEB%.DevelopingPlugins#ConfigSpec for information
+    # on integrating your plugin configuration with =configure=.
+
     # Always provide a default in case the setting is not defined in
     # LocalSite.cfg. See %SYSTEMWEB%.Plugins for help in adding your plugin
     # configuration to the =configure= interface.
-    my $setting = $Foswiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} || 0;
-    $debug = $Foswiki::cfg{Plugins}{EmptyPlugin}{Debug} || 0;
+    # my $setting = $Foswiki::cfg{Plugins}{EmptyPlugin}{ExampleSetting} || 0;
 
-    # register the _EXAMPLETAG function to handle %EXAMPLETAG{...}%
+    # Register the _EXAMPLETAG function to handle %EXAMPLETAG{...}%
     # This will be called whenever %EXAMPLETAG% or %EXAMPLETAG{...}% is
     # seen in the topic text.
     Foswiki::Func::registerTagHandler( 'EXAMPLETAG', \&_EXAMPLETAG );
@@ -152,24 +144,26 @@ sub initPlugin {
     return 1;
 }
 
-# The function used to handle the %EXAMPLETAG{...}% variable
-# You would have one of these for each variable you want to process.
-sub _EXAMPLETAG {
-    my($session, $params, $theTopic, $theWeb) = @_;
-    # $session  - a reference to the Foswiki session object (if you don't know
-    #             what this is, just ignore it)
-    # $params=  - a reference to a Foswiki::Attrs object containing parameters.
-    #             This can be used as a simple hash that maps parameter names
-    #             to values, with _DEFAULT being the name for the default
-    #             parameter.
-    # $theTopic - name of the topic in the query
-    # $theWeb   - name of the web in the query
-    # Return: the result of processing the variable
-
-    # For example, %EXAMPLETAG{'hamburger' sideorder="onions"}%
-    # $params->{_DEFAULT} will be 'hamburger'
-    # $params->{sideorder} will be 'onions'
-}
+# The function used to handle the %EXAMPLETAG{...}% macro
+# You would have one of these for each macro you want to process.
+#sub _EXAMPLETAG {
+#    my($session, $params, $theTopic, $theWeb) = @_;
+#    # $session  - a reference to the Foswiki session object (if you don't know
+#    #             what this is, just ignore it)
+#    # $params=  - a reference to a Foswiki::Attrs object containing
+#    #             parameters.
+#    #             This can be used as a simple hash that maps parameter names
+#    #             to values, with _DEFAULT being the name for the default
+#    #             (unnamed) parameter.
+#    # $theTopic - name of the topic in the query
+#    # $theWeb   - name of the web in the query
+#    # Return: the result of processing the macro. This will replace the
+#    # macro call in the final text.
+#
+#    # For example, %EXAMPLETAG{'hamburger' sideorder="onions"}%
+#    # $params->{_DEFAULT} will be 'hamburger'
+#    # $params->{sideorder} will be 'onions'
+#}
 
 =begin TML
 
@@ -182,9 +176,9 @@ If it returns a non-null error string, the plugin will be disabled.
 
 =cut
 
-sub DISABLE_earlyInitPlugin {
-    return undef;
-}
+#sub earlyInitPlugin {
+#    return undef;
+#}
 
 =begin TML
 
@@ -200,16 +194,13 @@ Return the *login* name.
 
 This handler is called very early, immediately after =earlyInitPlugin=.
 
-*Since:* Foswiki::Plugins::VERSION = '1.010'
+*Since:* Foswiki::Plugins::VERSION = '2.0'
 
 =cut
 
-sub DISABLE_initializeUserHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $loginName, $url, $pathInfo ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::initializeUserHandler( $_[0], $_[1] )" ) if $debug;
-}
+#sub initializeUserHandler {
+#    my ( $loginName, $url, $pathInfo ) = @_;
+#}
 
 =begin TML
 
@@ -220,16 +211,13 @@ sub DISABLE_initializeUserHandler {
 
 Called when a new user registers with this Foswiki.
 
-*Since:* Foswiki::Plugins::VERSION = '1.010'
+*Since:* Foswiki::Plugins::VERSION = '2.0'
 
 =cut
 
-sub DISABLE_registrationHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $web, $wikiName, $loginName ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::registrationHandler( $_[0], $_[1] )" ) if $debug;
-}
+#sub registrationHandler {
+#    my ( $web, $wikiName, $loginName ) = @_;
+#}
 
 =begin TML
 
@@ -237,20 +225,20 @@ sub DISABLE_registrationHandler {
    * =$text= - text to be processed
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
-   * =$included= - Boolean flag indicating whether the handler is invoked on an included topic
+   * =$included= - Boolean flag indicating whether the handler is
+     invoked on an included topic
    * =$meta= - meta-data object for the topic MAY BE =undef=
-This handler is called by the code that expands %<nop>TAGS% syntax in
+This handler is called by the code that expands %<nop>MACROS% syntax in
 the topic body and in form fields. It may be called many times while
 a topic is being rendered.
 
-For variables with trivial syntax it is far more efficient to use
-=Foswiki::Func::registerTagHandler= (see =initPlugin=).
+Only plugins that have to parse the entire topic content should implement
+this function. For expanding macros with trivial syntax it is *far* more
+efficient to use =Foswiki::Func::registerTagHandler= (see =initPlugin=).
 
-Plugins that have to parse the entire topic content should implement
-this function. Internal Foswiki
-variables (and any variables declared using =Foswiki::Func::registerTagHandler=)
-are expanded _before_, and then again _after_, this function is called
-to ensure all %<nop>TAGS% are expanded.
+Internal Foswiki macros, (and any macros declared using
+=Foswiki::Func::registerTagHandler=) are expanded _before_, and then again
+_after_, this function is called to ensure all %<nop>MACROS% are expanded.
 
 *NOTE:* when this handler is called, &lt;verbatim> blocks have been
 removed from the text (though all other blocks such as &lt;pre> and
@@ -259,26 +247,24 @@ removed from the text (though all other blocks such as &lt;pre> and
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler. Use the =$meta= object.
 
-*Since:* $Foswiki::Plugins::VERSION 1.000
+*Since:* $Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_commonTagsHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web, $included, $meta ) = @_;
-    
-    # If you don't want to be called from nested includes...
-    #   if( $_[3] ) {
-    #   # bail out, handler called from an %INCLUDE{}%
-    #         return;
-    #   }
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
-
-    # do custom extension rule, like for example:
-    # $_[0] =~ s/%XYZ%/&handleXyz()/ge;
-    # $_[0] =~ s/%XYZ{(.*?)}%/&handleXyz($1)/ge;
-}
+#sub commonTagsHandler {
+#    my ( $text, $topic, $web, $included, $meta ) = @_;
+#
+#    # If you don't want to be called from nested includes...
+#    #   if( $included ) {
+#    #         # bail out, handler called from an %INCLUDE{}%
+#    #         return;
+#    #   }
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -287,7 +273,7 @@ sub DISABLE_commonTagsHandler {
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
    * =$meta= - meta-data object for the topic MAY BE =undef=
-This handler is called before Foswiki does any expansion of it's own
+This handler is called before Foswiki does any expansion of its own
 internal variables. It is designed for use by cache plugins. Note that
 when this handler is called, &lt;verbatim> blocks are still present
 in the text.
@@ -303,12 +289,14 @@ handler.
 
 =cut
 
-sub DISABLE_beforeCommonTagsHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web, $meta ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::beforeCommonTagsHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub beforeCommonTagsHandler {
+#    my ( $text, $topic, $web, $meta ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -317,7 +305,7 @@ sub DISABLE_beforeCommonTagsHandler {
    * =$topic= - the name of the topic in the current CGI query
    * =$web= - the name of the web in the current CGI query
    * =$meta= - meta-data object for the topic MAY BE =undef=
-This handler is after Foswiki has completed expansion of %TAGS%.
+This handler is called after Foswiki has completed expansion of %MACROS%.
 It is designed for use by cache plugins. Note that when this handler
 is called, &lt;verbatim> blocks are present in the text.
 
@@ -330,29 +318,33 @@ handler.
 
 =cut
 
-sub DISABLE_afterCommonTagsHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web, $meta ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::afterCommonTagsHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub afterCommonTagsHandler {
+#    my ( $text, $topic, $web, $meta ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
 ---++ preRenderingHandler( $text, \%map )
-   * =$text= - text, with the head, verbatim and pre blocks replaced with placeholders
-   * =\%removed= - reference to a hash that maps the placeholders to the removed blocks.
+   * =$text= - text, with the head, verbatim and pre blocks replaced
+     with placeholders
+   * =\%removed= - reference to a hash that maps the placeholders to
+     the removed blocks.
 
 Handler called immediately before Foswiki syntax structures (such as lists) are
-processed, but after all variables have been expanded. Use this handler to 
+processed, but after all variables have been expanded. Use this handler to
 process special syntax only recognised by your plugin.
 
-Placeholders are text strings constructed using the tag name and a 
-sequence number e.g. 'pre1', "verbatim6", "head1" etc. Placeholders are 
-inserted into the text inside &lt;!--!marker!--&gt; characters so the 
+Placeholders are text strings constructed using the tag name and a
+sequence number e.g. 'pre1', "verbatim6", "head1" etc. Placeholders are
+inserted into the text inside &lt;!--!marker!--&gt; characters so the
 text will contain &lt;!--!pre1!--&gt; for placeholder pre1.
 
-Each removed block is represented by the block text and the parameters 
+Each removed block is represented by the block text and the parameters
 passed to the tag (usually empty) e.g. for
 <verbatim>
 <pre class='slobadob'>
@@ -364,31 +356,35 @@ the map will contain:
 $removed->{'pre1'}{text}:   XYZ
 $removed->{'pre1'}{params}: class="slobadob"
 </pre>
-Iterating over blocks for a single tag is easy. For example, to prepend a 
+Iterating over blocks for a single tag is easy. For example, to prepend a
 line number to every line of every pre block you might use this code:
 <verbatim>
 foreach my $placeholder ( keys %$map ) {
     if( $placeholder =~ /^pre/i ) {
-       my $n = 1;
-       $map->{$placeholder}{text} =~ s/^/$n++/gem;
+        my $n = 1;
+        $map->{$placeholder}{text} =~ s/^/$n++/gem;
     }
 }
 </verbatim>
 
-*NOTE*: This handler is called once for each rendered block of text i.e. 
+__NOTE__: This handler is called once for each rendered block of text i.e.
 it may be called several times during the rendering of a topic.
 
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
-Since Foswiki::Plugins::VERSION = '1.026'
+Since Foswiki::Plugins::VERSION = '2.0'
 
 =cut
 
-sub DISABLE_preRenderingHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    #my( $text, $pMap ) = @_;
-}
+#sub preRenderingHandler {
+#    my( $text, $pMap ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -401,14 +397,17 @@ it may be called several times during the rendering of a topic.
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler.
 
-Since Foswiki::Plugins::VERSION = '1.026'
+Since Foswiki::Plugins::VERSION = '2.0'
 
 =cut
 
-sub DISABLE_postRenderingHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    #my $text = shift;
-}
+#sub postRenderingHandler {
+#    my $text = shift;
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -422,16 +421,18 @@ in the edit box. It is called once when the =edit= script is run.
 *NOTE*: meta-data may be embedded in the text passed to this handler 
 (using %META: tags)
 
-*Since:* Foswiki::Plugins::VERSION = '1.010'
+*Since:* Foswiki::Plugins::VERSION = '2.0'
 
 =cut
 
-sub DISABLE_beforeEditHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::beforeEditHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub beforeEditHandler {
+#    my ( $text, $topic, $web ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -448,16 +449,18 @@ It is called once when the =preview= script is run.
 *NOTE:* meta-data is _not_ embedded in the text passed to this
 handler. Use the =$meta= object.
 
-*Since:* $Foswiki::Plugins::VERSION 1.010
+*Since:* $Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_afterEditHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::afterEditHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub afterEditHandler {
+#    my ( $text, $topic, $web ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -476,16 +479,18 @@ object, never both. You are recommended to modify the =$meta= object rather
 than the text, as this approach is proof against changes in the embedded
 text format.
 
-*Since:* Foswiki::Plugins::VERSION = '1.010'
+*Since:* Foswiki::Plugins::VERSION = 2.0
 
 =cut
 
-sub DISABLE_beforeSaveHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::beforeSaveHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub beforeSaveHandler {
+#    my ( $text, $topic, $web ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -501,16 +506,18 @@ This handler is called each time a topic is saved.
 
 *NOTE:* meta-data is embedded in $text (using %META: tags)
 
-*Since:* Foswiki::Plugins::VERSION 1.025
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_afterSaveHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $text, $topic, $web, $error, $meta ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::afterSaveHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub afterSaveHandler {
+#    my ( $text, $topic, $web, $error, $meta ) = @_;
+#
+#    # You can work on $text in place by using the special perl
+#    # variable $_[0]. These allow you to operate on $text
+#    # as if it was passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -525,17 +532,14 @@ sub DISABLE_afterSaveHandler {
 
 This handler is called just after the rename/move/delete action of a web, topic or attachment.
 
-*Since:* Foswiki::Plugins::VERSION = '1.11'
+*Since:* Foswiki::Plugins::VERSION = '2.0'
 
 =cut
 
-sub DISABLE_afterRenameHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ### my ( $oldWeb, $oldTopic, $oldAttachment, $newWeb, $newTopic, $newAttachment ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::afterRenameHandler( " .
-                             "$_[0].$_[1] $_[2] -> $_[3].$_[4] $_[5] )" ) if $debug;
-}
+#sub afterRenameHandler {
+#    my ( $oldWeb, $oldTopic, $oldAttachment,
+#         $newWeb, $newTopic, $newAttachment ) = @_;
+#}
 
 =begin TML
 
@@ -552,15 +556,13 @@ The attributes hash will include at least the following attributes:
    * =user= - the user id
    * =tmpFilename= - name of a temporary file containing the attachment data
 
-*Since:* Foswiki::Plugins::VERSION = 1.025
+*Since:* Foswiki::Plugins::VERSION = 2.0
 
 =cut
 
-sub DISABLE_beforeAttachmentSaveHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ###   my( $attrHashRef, $topic, $web ) = @_;
-    Foswiki::Func::writeDebug( "- ${pluginName}::beforeAttachmentSaveHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub beforeAttachmentSaveHandler {
+#    my( $attrHashRef, $topic, $web ) = @_;
+#}
 
 =begin TML
 
@@ -575,15 +577,13 @@ will include at least the following attributes:
    * =comment= - the comment
    * =user= - the user id
 
-*Since:* Foswiki::Plugins::VERSION = 1.025
+*Since:* Foswiki::Plugins::VERSION = 2.0
 
 =cut
 
-sub DISABLE_afterAttachmentSaveHandler {
-    # do not uncomment, use $_[0], $_[1]... instead
-    ###   my( $attrHashRef, $topic, $web ) = @_;
-    Foswiki::Func::writeDebug( "- ${pluginName}::afterAttachmentSaveHandler( $_[2].$_[1] )" ) if $debug;
-}
+#sub afterAttachmentSaveHandler {
+#    my( $attrHashRef, $topic, $web ) = @_;
+#}
 
 =begin TML
 
@@ -627,12 +627,13 @@ merge the data:
 The merge handler is called whenever a topic is saved, and a merge is 
 required to resolve concurrent edits on a topic.
 
-*Since:* Foswiki::Plugins::VERSION = 1.1
+*Since:* Foswiki::Plugins::VERSION = 2.0
 
 =cut
 
-sub DISABLE_mergeHandler {
-}
+#sub mergeHandler {
+#    my ( $diff, $old, $new, $info ) = @_;
+#}
 
 =begin TML
 
@@ -651,15 +652,13 @@ Note that this is the HTTP header which is _not_ the same as the HTML
 &lt;HEAD&gt; tag. The contents of the &lt;HEAD&gt; tag may be manipulated
 using the =Foswiki::Func::addToHEAD= method.
 
-*Since:* Foswiki::Plugins::VERSION 1.1
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_modifyHeaderHandler {
-    my ( $headers, $query ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::modifyHeaderHandler()" ) if $debug;
-}
+#sub modifyHeaderHandler {
+#    my ( $headers, $query ) = @_;
+#}
 
 =begin TML
 
@@ -673,16 +672,13 @@ If this handler is defined in more than one plugin, only the handler
 in the earliest plugin in the INSTALLEDPLUGINS list will be called. All
 the others will be ignored.
 
-*Since:* Foswiki::Plugins::VERSION 1.010
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_redirectCgiQueryHandler {
-    # do not uncomment, use $_[0], $_[1] instead
-    ### my ( $query, $url ) = @_;
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::redirectCgiQueryHandler( query, $_[1] )" ) if $debug;
-}
+#sub redirectCgiQueryHandler {
+#    my ( $query, $url ) = @_;
+#}
 
 =begin TML
 
@@ -703,7 +699,7 @@ should be done by the built-in type handlers.
 Return HTML text that renders this field. If false, form rendering
 continues by considering the built-in types.
 
-*Since:* Foswiki::Plugins::VERSION 1.1
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 Note that you can also extend the range of available
 types by providing a subclass of =Foswiki::Form::FieldDefinition= to implement
@@ -713,8 +709,9 @@ extend the form field types.
 
 =cut
 
-sub DISABLE_renderFormFieldForEditHandler {
-}
+#sub renderFormFieldForEditHandler {
+#    my ( $name, $type, $size, $value, $attributes, $possibleValues) = @_;
+#}
 
 =begin TML
 
@@ -729,14 +726,14 @@ the rendering of labels used for links.
 
 Return the new link text.
 
-*Since:* Foswiki::Plugins::VERSION 1.1
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_renderWikiWordHandler {
-    my( $linkText, $hasExplicitLinkLabel, $web, $topic ) = @_;
-    return $linkText;
-}
+#sub renderWikiWordHandler {
+#    my( $linkText, $hasExplicitLinkLabel, $web, $topic ) = @_;
+#    return $linkText;
+#}
 
 =begin TML
 
@@ -750,14 +747,18 @@ cache and security plugins.
      a =Content-length=. That will be computed and added immediately before
      the page is actually written. This is a string, which must end in \n\n.
 
-*Since:* Foswiki::Plugins::VERSION 1.2
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub DISABLE_completePageHandler {
-    #my($html, $httpHeaders) = @_;
-    # modify $_[0] or $_[1] if you must change the HTML or headers
-}
+#sub completePageHandler {
+#    my( $html, $httpHeaders ) = @_;
+#    # modify $_[0] or $_[1] if you must change the HTML or headers
+#    # You can work on $html and $httpHeaders in place by using the
+#    # special perl variables $_[0] and $_[1]. These allow you to operate
+#    # on parameters as if they were passed by reference; for example:
+#    # $_[0] =~ s/SpecialString/my alternative/ge;
+#}
 
 =begin TML
 
@@ -773,17 +774,17 @@ For more information, check %SYSTEMWEB%.CommandAndCGIScripts#rest
 For information about handling error returns from REST handlers, see
 Foswiki::Support.Faq1
 
-*Since:* Foswiki::Plugins::VERSION 1.1
+*Since:* Foswiki::Plugins::VERSION 2.0
 
 =cut
 
-sub restExample {
-   #my ($session) = @_;
-   return "This is an example of a REST invocation\n\n";
-}
+#sub restExample {
+#   my ($session) = @_;
+#   return "This is an example of a REST invocation\n\n";
+#}
 
 1;
-__DATA__
+__END__
 This copyright information applies to the EmptyPlugin:
 
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
@@ -796,8 +797,8 @@ This copyright information applies to the EmptyPlugin:
 # Copyright (C) 2001-2006 Peter Thoeny, peter@thoeny.org
 # and TWiki Contributors. All Rights Reserved. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
-
-This license applies to EmptyPlugin *and also to any derivatives*
+#
+# This license applies to EmptyPlugin *and also to any derivatives*
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

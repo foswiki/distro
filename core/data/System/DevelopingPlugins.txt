@@ -1,6 +1,6 @@
 ---+ Developing Plugins
 %TOC%
-The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in %SYSTEMWEB%.EmptyPlugin ( =lib/Foswiki/Plugins/EmptyPlugin.pm= ).
+The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::EmptyPlugin][EmptyPlugin]] ( =lib/Foswiki/Plugins/EmptyPlugin.pm= ).
 
 ---++ APIs available to Extensions
 To be robust extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
