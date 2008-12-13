@@ -656,7 +656,7 @@ sub changePassword {
             'attention',
             web    => $webName,
             topic  => $topic,
-            def    => 'notwikiuser',
+            def    => 'not_a_user',
             params => [$login]
         );
     }

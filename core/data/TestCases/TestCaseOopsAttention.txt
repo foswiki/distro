@@ -16,8 +16,8 @@ Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=merge_notice;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=missing_action;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=unrecognized_action;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
----++ =oopsattention nofoswikiuser=
-%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=nofoswikiuser;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention not_a_user=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=not_a_user;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 ---++ =oopsattention in_a_group=
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=in_a_group;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 ---++ =oopsattention move_err=

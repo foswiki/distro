@@ -24,8 +24,8 @@ Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=generic;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 ---++ =oopsalerts missing_user=
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=missing_user;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
----++ =oopsalerts nofoswikiuser=
-%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=nofoswikiuser;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsalerts not_a_user=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=not_a_user;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 ---++ =oopsalerts no_email_for=
 %INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsalerts&def=no_email_for;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
 ---++ =oopsalerts new_sys_pass=
