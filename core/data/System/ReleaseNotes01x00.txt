@@ -9,7 +9,7 @@ TWiki 4.2.0 was released 22 Jan 2008 and introduced some hot new features that m
 
 TWiki 4.2.1 is a patch release which only contains bug fixes. More than 150 bugs have been fixed since the release of 4.2.0 in all areas of TWiki.
 
-TWiki 4.2.2 is a patch release which only contains bug fixes. More than __TODO__ bugs have been fixed since the release of 4.2.1 in all areas of TWiki.
+TWiki 4.2.2 is a patch release which only contains bug fixes. More than *TODO* bugs have been fixed since the release of 4.2.1 in all areas of TWiki.
 
 
 It is highly recommended to upgrade TWiki 4.2.x to 4.2.2. Users will find the 4.2.2 much more stable in daily use.
@@ -57,7 +57,7 @@ TWiki 4.2.2 is shipped with
 This is a fast trip bug fix for issues found during upgrades from 4.2.0 to 4.2.1.
 ---+++ Highlights of bug fixes since 4.2.1
 
-__TODO__
+*TODO*
 
 See the full list of bug fixes at the bottom of this topic.
 
@@ -766,4 +766,5 @@ None!
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs
 -->
-__Related Topic:__ ReleaseHistory
+---
+*Related Topic:* ReleaseHistory

@@ -216,8 +216,8 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(За име на страница използвайте System.WikiНотацията)"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__Suggestion:__ Можете да прикачите ваша снимка към страницата.)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Suggestion:* Можете да прикачите ваша снимка към страницата.)"
 
 #: templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"

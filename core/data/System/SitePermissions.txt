@@ -5,7 +5,7 @@
 | *&nbsp;* | *Listed* | *DENY* | *ALLOW* | *DENY* | *ALLOW* | *DENY* | *ALLOW* |
 %SEARCH{ "%WEBPREFSTOPIC%" web="%USERSWEB%, %SYSTEMWEB%, all" scope="topic" topic="%WEBPREFSTOPIC%" nototal="on" nosearch="on" format="| [[$web.%WEBPREFSTOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/wrench.gif\" alt=\"Preferences\" title=\"Preferences of <nop>$web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.%HOMETOPIC%][<img src=\"%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/home.gif\" alt=\"Home\" title=\"Home of <nop>$web web\" width=\"16\" height=\"16\" border=\"0\" />]] [[$web.%HOMETOPIC%][$web]] | $percntVAR{ \"SITEMAPLIST\" web=\"$web\" }$percnt | $percntVAR{ \"DENYWEBVIEW\" web=\"$web\" }$percnt | $percntVAR{ \"ALLOWWEBVIEW\" web=\"$web\" }$percnt | $percntVAR{ \"DENYWEBCHANGE\" web=\"$web\" }$percnt | $percntVAR{ \"ALLOWWEBCHANGE\" web=\"$web\" }$percnt | $percntVAR{ \"DENYWEBRENAME\" web=\"$web\" }$percnt | $percntVAR{ \"ALLOWWEBRENAME\" web=\"$web\" }$percnt |" }%
 
-__Please Note:__
+*Please Note:*
 
    * A blank in the the above table may mean _either_ the corresponding control is absent or commented out _or_ that it has been set to a null value.  The two conditions have dramatically different and possibly opposed semantics.
    * %USERSWEB%.WikiGuest is the guest account - used by unauthenticated users.
@@ -15,4 +15,5 @@ __Please Note:__
 
 See AccessControl for details 
 
-__Related Topics:__ SiteMap, UserDocumentationCategory, AdminDocumentationCategory, AdminToolsCategory
+---
+*Related Topics:* SiteMap, UserDocumentationCategory, AdminDocumentationCategory, AdminToolsCategory

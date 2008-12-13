@@ -371,9 +371,10 @@ To get the full URL of the icon, use [[VarICONURL][ICONURL]]:
 and that will get rendered as: %ICONURL{"toggleopen"}%
 </blockquote>
 
-__Related Topics:__ [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
 
-__Contributors:__ Most icons on this page were originally designed by Peter Thoeny. Many icons were recreated by Arthur Clemens.
+*Contributors:* Most icons on this page were originally designed by Peter Thoeny. Many icons were recreated by Arthur Clemens.
 
 %META:FILEATTACHMENT{name="addon.gif" attr="" comment="" date="1169565034" path="addon.gif" size="370" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="air.gif" attr="" comment="" date="1169565034" path="air.gif" size="356" user="ProjectContributor" version=""}%

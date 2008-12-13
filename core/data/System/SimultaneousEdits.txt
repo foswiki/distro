@@ -10,7 +10,7 @@ Foswiki allows multiple simultaneous edits of the same topic, and then merges th
 
 Foswiki will warn if you attempt to edit a topic that someone else is editing. It will also warn if a merge was required during a save.
 
-__Back to:__ FrequentlyAskedQuestions
+*Back to:* FrequentlyAskedQuestions
 
-
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

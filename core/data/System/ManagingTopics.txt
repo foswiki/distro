@@ -20,7 +20,7 @@ You can use browser-based controls to change a topic's name, move it to another 
    1. *Prevent updates* by unchecking individual items on the list of referring links - these topics will NOT to be updated with the new name (by default, all referring links will be updated).
    1. *Click* on ==[Rename/Move]==: the topic will be renamed and links to the topic updated as requested.
       * If any of the referring pages are locked then they will be listed: you can correct these later by again pressing ==[Rename/Move]==.
-      * %H% There is a __Put back__ feature that allows you to undo a ==Rename/Move/Delete== - an instruction line and undo link will appear at the bottom of the modified topic. This allows you to revert from the _last modification only_.
+      * %H% There is a *Put back* feature that allows you to undo a ==Rename/Move/Delete== - an instruction line and undo link will appear at the bottom of the modified topic. This allows you to revert from the _last modification only_.
 
 #DeleteTopic
 ---++ Deleted Topics: How to Clear the Trash
@@ -86,4 +86,5 @@ The following shows some limitations of square bracket processing.
 </verbatim>
 </blockquote>
 
-__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

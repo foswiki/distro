@@ -15,7 +15,7 @@ A Foswiki site is divided into webs; each one usually represents one area of col
    * The home page in each web is the %HOMETOPIC% topic.
    * To browse a web, just click on any highlighted link. These links are called WikiWords and comprise two or more words with initial capitals, run together. 
    * Follow the WikiWord link and learn what it is.
-   * If you know the name of a topic, you can jump directly to it by typing its name into the *Go* field on the top of the page. Type =WebSearch= to jump to the search page. __Hint:__ Do not confuse the *Go* field with search.
+   * If you know the name of a topic, you can jump directly to it by typing its name into the *Go* field on the top of the page. Type =WebSearch= to jump to the search page. *Hint:* Do not confuse the *Go* field with search.
    * You can search each web. Enter a search string in the %HOMETOPIC% topic or the WebSearch topic accessible from the =Search= link on each topic. Foswiki searches for an exact match; optionally, you can also use RegularExpressions.
 
 ---++ 3. Open a private account...
@@ -41,7 +41,7 @@ The color-coded control strips at the top and/or bottom of the page has a collec
 Go to the [[Sandbox.%HOMETOPIC%][Sandbox]]. This is the sandbox web, where you can make changes and try it all out at will.
    * Click the ==Edit== link. You are now in edit mode and you can see the source of the page. (Go to a different topic like Sandbox.%WIKINAME%Sandbox if you see a "Topic is being edited by an other user" warning.)
    * Look at the text in edit mode and compare it with the rendered page (move back and forth in your browser.)
-   * __%T% Tip:__ When you only want to see the source code of a topic click the ==Raw View== link.
+   * *%T% Tip:* When you only want to see the source code of a topic click the ==Raw View== link.
    * Notice how WikiWords are linked automatically; there is no link if you look at the text in edit mode.
    * Now, create a new topic - your own test page:
       1. In edit mode, enter a new text with a WikiWord, for example: <br />
@@ -49,11 +49,11 @@ Go to the [[Sandbox.%HOMETOPIC%][Sandbox]]. This is the sandbox web, where you c
       1. Preview and save the topic. The name appears, highlighted, with a linked question mark at the end. This means that the topic doesn't exist yet.
       1. Click on the question mark. Now you're in edit mode of the new topic.
       1. Type some text, basically, like you write an e-mail.
-      1. A signature with your name is already entered by default. __NOTE:__ The =%USERSWEB%.= in front of your name means that you have a link from the current web to your personal topic located in the %USERSWEB% web.
+      1. A signature with your name is already entered by default. *NOTE:* The =%USERSWEB%.= in front of your name means that you have a link from the current web to your personal topic located in the %USERSWEB% web.
       1. Preview and save the topic...
    * Learn about text formatting. You can enter text in !ShortHand, a very simple markup language. Follow the ShortHand link to see how, then:
       1. Go back to your sandbox topic end edit it.
-      2. Enter some text in ShortHand: *bold* text, _italic_ text, __bold italic__ text, a bullet list, tables, paragraphs, etc. __Hint:__ If you need help, click on the TextFormattingRules link located below the text box in edit mode.
+      2. Enter some text in ShortHand: *bold* text, _italic_ text, __bold italic__ text, a bullet list, tables, paragraphs, etc. *Hint:* If you need help, click on the TextFormattingRules link located below the text box in edit mode.
       3. Preview and save the topic.
 
 ---++ 7. Use your browser to upload files as page attachments...
@@ -75,7 +75,8 @@ You can attach _any_ type of file to a topic - documents, images, programs, what
 
 That's it! You're now equipped with all the essentials. You are ready to roll.
 
-__NOTE:__ When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to _separating_ individual messages, with  e-mail, message boards, non-Wiki collaboration platforms. __Don't worry about it.__ You can't accidentally delete important stuff - you can always check previous versions, and copy-and-paste from them if you want to undo any changes. After a short while, wiki-style free-form communication becomes second-nature. You'll expect it everywhere!
+*NOTE:* When first using Foswiki, it will probably seem strange to be able to change other people's postings - we're used to _separating_ individual messages, with  e-mail, message boards, non-Wiki collaboration platforms. *Don't worry about it.* You can't accidentally delete important stuff - you can always check previous versions, and copy-and-paste from them if you want to undo any changes. After a short while, wiki-style free-form communication becomes second-nature. You'll expect it everywhere!
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 

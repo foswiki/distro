@@ -132,6 +132,7 @@ The default ={TemplatePath}= will not give you the desired result if you put the
 | =%<nop>TMPL:DEF{"simpleheader"}%= | Simple header with reduced links (ex: edit, attach, oops) |
 | =%<nop>TMPL:DEF{"standardfooter"}%= | Footer, excluding revision and copyright parts |
 
-__Related Topics:__ [[Skins]]
+---
+*Related Topics:* [[Skins]]
 
 %STOPINCLUDE%

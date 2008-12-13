@@ -151,13 +151,13 @@ The footer of the page is also highlighted in colour, and is usually where you w
 
 ---++ Formatting just makes pages prettier
 ... and easier to read<br /><br />
-<code>_Actually_ it is <nop>*perfectly* and <nop>__absolutely__ flat</code><br /><br /> appears as <br /><br /> _Actually_ it is *perfectly* and __absolutely__ flat
+<code>_Actually_ it is <nop>*perfectly* and <nop>*absolutely* flat</code><br /><br /> appears as <br /><br /> _Actually_ it is *perfectly* and *absolutely* flat
    * A full description of all the formatting can be found in the %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.TextFormattingFAQ
    * The best thing to do is just to type until you get stuck
       * then follow the link on the edit page to the help.
 
 ---++ Commonly used formatting
-Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %ENDCOLOR%%GREEN% _them_ %ENDCOLOR%%BLUE% *up* %ENDCOLOR% using some simple formatting shortcuts. Here are some of the more commonly used ones:
+Foswiki understands pages in plain text just fine, but you can %RED% *jazz* %ENDCOLOR%%GREEN% _them_ %ENDCOLOR%%BLUE% *up* %ENDCOLOR% using some simple formatting shortcuts. Here are some of the more commonly used ones:
    * <nop>---+ indicates a heading. Add more +'s for a deeper heading.
     | *You type* | *You see* |
     | %BLACK%<code>---+ This is a heading</code>%ENDCOLOR% | <h1>%BLACK%This is a heading%ENDCOLOR%</h1> |
@@ -296,7 +296,7 @@ You may see a comment box on a page in Thread<nop>Mode that makes it easy to qui
       1 Put the BumpyWord 'Category<nop>Weather' on all the pages relating to the weather<br />(usually at the bottom, below a horizontal bar)
 
 ---++ Contributed features
-Basic Foswiki is rich with features, but is enriched even further by the addition of optional plug-in modules that may (or may not!) be installed in your Foswiki. These are classified as either __skins__ (modules that change the look-and-feel) and __plugins__ (modules that enhance functionality).
+Basic Foswiki is rich with features, but is enriched even further by the addition of optional plug-in modules that may (or may not!) be installed in your Foswiki. These are classified as either *skins* (modules that change the look-and-feel) and *plugins* (modules that enhance functionality).
 
 Here's a brief description of some of the more common plugins, together with the tags you might expect to see in topics if they are used. You can find out more by visiting the plugin pages.
    * Action<nop>TrackerPlugin: Support *action tags* in topics, with *automatic notification* of action statuses <code>%ACTION...</code>
@@ -324,5 +324,5 @@ There are many other plugins, see http://foswiki.org/Extensions
    * The latest version of this presentation is available at Foswiki:%WEB%.%TOPIC%, where you can also provide feedback
 %SLIDESHOWEND%
 
-__Related topics:__ WelcomeGuest, TwentyMinuteTutorial
-
+---
+*Related topics:* WelcomeGuest, TwentyMinuteTutorial

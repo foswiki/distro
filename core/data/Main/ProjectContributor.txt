@@ -3,7 +3,8 @@
 
 Not an actual user of this site, but a person devoting some of his/her time to contribute to the Foswiki Open Source project. [[%SYSTEMWEB%.ProjectContributor][ProjectContributor]] lists the people involved.
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
+---
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 

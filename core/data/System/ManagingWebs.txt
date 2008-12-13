@@ -24,7 +24,7 @@ In either case you will want to be sure to verify that your new web has all the 
 
 <form name="admin" action="%SCRIPTURLPATH{manage}%/%WEB%/%TOPIC%" method="post">
 Create a new web by filling out this form.%BR%
-__%X% Note:__ *Keep the number of webs to a minimum!* Don't create a new web for each little project. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
+*%X% Note:* *Keep the number of webs to a minimum!* Don't create a new web for each little project. Cross-linking topics is easier, and searches are faster, if there are only a few larger webs.
 |  *Name of new web:* | <input name="newweb" class="foswikiInputField" type="text" value="%URLPARAM{"newweb"}%" size="16" /> | The name must start with an upper case letter, followed by upper or lower case letters or numbers. Specify a short name to avoid long URLs. |
 |  *Based on web:* | <select name="baseweb" class="foswikiSelect"> %WEBLIST{ "<option $marker>$name</option>" webs="webtemplate,public" selection="_default" separator=" "}% </select> | Select a TemplateWeb |
 |  *Web color:* | <input name="WEBBGCOLOR" class="foswikiInputField" type="text" value="#D0D0D0" size="16" /> | Enter a StandardColors code for the web |
@@ -37,7 +37,7 @@ __%X% Note:__ *Keep the number of webs to a minimum!* Don't create a new web for
 <input name="action" type="hidden" value="createweb" />
 </form>
 
-__Notes:__
+*Notes:*
    * You must have =ROOTCHANGE= access to create a top-level web (one with no parent)
    * Only the person who created it has permission to change the <nop>%WEBPREFSTOPIC% in the new web
 
@@ -45,7 +45,7 @@ __Notes:__
 
 You can only create hierarchical webs (webs within webs) if the ={EnableHierarchicalWebs}= setting in [[%SCRIPTURLPATH{"configure"}%][configure]] is enabled. Hierarchical webs are currently %IF{"{EnableHierarchicalWebs}" then="enabled." else="disabled. Without this setting, Foswiki will only allow a single level of hierarchy. With it, you can use multiple levels, like a directory tree, i.e. webs within webs."}%
 
-__%T% Note:__ You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
+*%T% Note:* You might not need hierarchical webs. Foswiki topics already have a parent/child relationship within a web, which is shown in the breadcrumb. Try to keep the number of webs to a minimum in order to keep search and cross-referencing simple.
 
 You can create hierarchical webs via the _Adding a New Web_ form above, by using a slash- or dot-separated path name which is based on an existing web name in the _Name of new web:_ field.
 
@@ -99,4 +99,5 @@ If you plan to rename the %USERSWEB% web, remember that Foswiki stores user topi
 
 %X% Renaming the webs in the distribution is not recommended because it makes upgrades much more complicated.
 
-__Related Topics:__ AdminDocumentationCategory, AdminToolsCategory
+---
+*Related Topics:* AdminDocumentationCategory, AdminToolsCategory

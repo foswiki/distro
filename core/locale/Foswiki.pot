@@ -210,7 +210,7 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr ""
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr ""
 
 #: templates/oopsaccessdenied.tmpl:4

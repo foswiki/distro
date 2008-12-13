@@ -9,7 +9,7 @@
 
 Patch release following the 4.2.0 released 22 Jan 2008
 
-__New Features and Enhancements of TWiki Release 4.2__
+*New Features and Enhancements of TWiki Release 4.2*
 
    * *Easier Installation and Upgrade*
       * New Internal Admin Login feature
@@ -47,7 +47,7 @@ __New Features and Enhancements of TWiki Release 4.2__
       * More than 300 bugs fixes since 4.1.2
 
 #FreetownHallOfFame
-__Hall of Fame of TWiki Release 4.2__
+*Hall of Fame of TWiki Release 4.2*
 
 Many people have been involved in creating TWiki 4.2. Special thanks go to the most active contributors in the following areas:
    * Release management led by TWiki:Main.KennethLavrsen, ably assisted by TWiki:Main.SvenDowideit
@@ -84,14 +84,14 @@ Many thanks also to the contributors in the following areas:
 
 If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
 
-__Note:__ Order of contributors under "Spec and code", "Templates and skins" and "Documentation" is based on number of SVN file changes for core and default extensions from March 2007 (svn rev:13046) to Jan 2008 (svn rev:16210). (Details at TWikibug:TWiki420SvnLog). Order of contributors under "Testing and bug fixing" is based on Bugs web statistics from 2007-03 to 2007-12. Order of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2007-02 to 2007-12.
+*Note:* Order of contributors under "Spec and code", "Templates and skins" and "Documentation" is based on number of SVN file changes for core and default extensions from March 2007 (svn rev:13046) to Jan 2008 (svn rev:16210). (Details at TWikibug:TWiki420SvnLog). Order of contributors under "Testing and bug fixing" is based on Bugs web statistics from 2007-03 to 2007-12. Order of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2007-02 to 2007-12.
 
 
 
 #EdinburghRelease
 ---++ TWiki Release 4.1 (Edinburgh), 16 Jan 2007
 
-__New Features and Enhancements of TWiki Release 4.1__
+*New Features and Enhancements of TWiki Release 4.1*
 
    * *Easier Installation and Upgrade*
       * Plugins can now be installed from the configure script.
@@ -153,7 +153,7 @@ __New Features and Enhancements of TWiki Release 4.1__
       * More than 200 bugs fixed since 4.0.5
 
 #EdinburghHallOfFame
-__Hall of Fame of TWiki Release 4.1__
+*Hall of Fame of TWiki Release 4.1*
 
 Although many more people have been involved in creating TWiki-4.1, special thanks go to the most active contributors in the following areas:
 
@@ -183,7 +183,7 @@ Although many more people have been involved in creating TWiki-4.1, special than
 
 If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
 
-__Note:__ Sequence of contributors under "Spec, code, testing", "Templates and skins" and "Documentation" is based on number of SVN check-ins for core and default extensions from 2006-02 to 2006-12. Sequence of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2006-02 to 2006-12.
+*Note:* Sequence of contributors under "Spec, code, testing", "Templates and skins" and "Documentation" is based on number of SVN check-ins for core and default extensions from 2006-02 to 2006-12. Sequence of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2006-02 to 2006-12.
 
 See more details on the TWiki 4.1 release at TWikiReleaseNotes04x01.
 
@@ -191,7 +191,7 @@ See more details on the TWiki 4.1 release at TWikiReleaseNotes04x01.
 #DakarRelease
 ---++ TWiki Release 4.0.0 (Dakar), 01 Feb 2006
 
-__Major New Features__
+*Major New Features*
    * Much simpler install and configuration
    * Integrated session support
    * Webserver-independent login/logout
@@ -268,8 +268,7 @@ See more details at TWikiReleaseNotes04x00
 #CairoRelease
 ---++ 01-Sep-2004 Release (Cairo)
 
-__Major New Features__
-
+*Major New Features*
    * Automatic upgrade script, and easier first-time installation
    * Attractive new skins, using a standard set of CSS classes, and a skin browser to help you choose
    * New easier-to-use save options
@@ -565,7 +564,7 @@ __Major New Features__
    * *21 Jan 2001* - TWiki:Main.PeterThoeny
       * Added Bold Fixed formatting using double-equal signs, e.g. write =<nop>==Bold Fixed==<nop>= to get ==Bold Fixed==. 
    * *20 Jan 2001* - TWiki:Main.PeterThoeny
-      * Format changed of =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= variables. Format is now ="$hour:$min"= instead of ="hour:min"=. More in TWikiVariables. __Attention:__ Check your existing topics when you upgrade TWiki! 
+      * Format changed of =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= variables. Format is now ="$hour:$min"= instead of ="hour:min"=. More in TWikiVariables. *Attention:* Check your existing topics when you upgrade TWiki! 
    * *18 Jan 2001* - TWiki:Main.PeterThoeny
       * WebChanges, WebSearch and e-mail notification indicate also the revision number of a topic (i.e. <u>18 Jan 2001 16:43 r1.5</u>), or NEW for a new topic (i.e. i.e. <u>18 Jan 2001 16:43 <b>NEW</b></u>). 
    * *16 Jan 2001* - TWiki:Main.PeterThoeny
@@ -641,7 +640,7 @@ __Major New Features__
    * *21 Apr 2000* - TWiki:Main.JohnAltstadt, TWiki:Main.PeterThoeny
       * !TWikiRegistration is done separately for Intranet use (depends on remote_user) or Internet use (depends on .htpasswd file). 
    * *20 Mar 2000* - TWiki:Main.PeterThoeny
-      * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference setting =%<nop>ATTACHLINKBOX%= controls the default state of the __link__ check box in the attach file page. 
+      * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference setting =%<nop>ATTACHLINKBOX%= controls the default state of the *link* check box in the attach file page. 
    * *11 Mar 2000* - TWiki:Main.PeterThoeny
       * Better security with taint checking ( =Perl -T= option ) 
    * *25 Feb 2000* - TWiki:Main.PeterThoeny

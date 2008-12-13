@@ -22,4 +22,5 @@
    * *[[SimultaneousEdits][simultaneous page editing]]:* 
    * *Referred-By:* Find the pages that contain links to a topic.
 
-__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

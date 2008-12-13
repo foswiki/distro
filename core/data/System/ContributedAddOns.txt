@@ -10,7 +10,7 @@ _Add functionality with extensions not based on the Foswiki scripts._
 
 An add-on runs separately from the Foswiki scripts, e.g. for data import, export to static HTML, etc. Add-Ons normally do not call any Foswiki code directly, though may invoke Foswiki scripts. There are different types of add-ons, they may be stand alone scripts, browser plugins, office tool extensions, or even a set of topics that form a wiki application.
 
-__See other types of extensions:__ [[Contribs]], [[Plugins]], [[Skins]]
+*See other types of extensions:* [[Contribs]], [[Plugins]], [[Skins]]
 
 ---++ Add-Ons Installed on this site
 
@@ -26,5 +26,6 @@ __See other types of extensions:__ [[Contribs]], [[Plugins]], [[Skins]]
    * Visit Foswiki:Extensions.AddOnPackageHowTo and follow the instructions.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory
 

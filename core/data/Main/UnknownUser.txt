@@ -3,7 +3,8 @@
 
 !UnknownUser is a reserved name. If the !UnknownUser appears, it is probably because author information for a topic could not be recovered, perhaps because a topic has been modified by a non-Foswiki tool.
 
-__Related topics:__ [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
+---
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
 
 %META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
 

@@ -30,4 +30,5 @@ This depends on the browser you are using (see also cross-browser support below)
       * Press and hold the 'Ctrl' key
       * Press the required letter
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

@@ -125,7 +125,7 @@ Children:
 %SEARCH{ "parent.name='%TOPIC%'" type="query" nonoise="on" format="[[$topic]]" separator=", " }%
 </verbatim>
 
-__Note:__ Replace =%<nop>TOPIC%= with =%<nop>BASETOPIC%= if you put this SEARCH into the skin or a sidebar.
+*Note:* Replace =%<nop>TOPIC%= with =%<nop>BASETOPIC%= if you put this SEARCH into the skin or a sidebar.
 
 
 <!-- ============================== -->
@@ -232,5 +232,6 @@ Search for the 'moved' meta data. Type this:
 
 =Moved topics: %<nop>SEARCH{ "moved.to!=''" type="query" format="$topic, " nosearch="on" noheader="on" nosummary="on" }%=
 
-__Related Topics:__ UserDocumentationCategory, SearchHelp, [[Macros]], FormattedSearch, RegularExpression
+---
+*Related Topics:* UserDocumentationCategory, SearchHelp, [[Macros]], FormattedSearch, RegularExpression
 

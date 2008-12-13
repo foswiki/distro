@@ -57,4 +57,5 @@ see also: [[Plugins]]
    * Engine: %WIKIVERSION%
    * Plugin API: %PLUGINVERSION{}%
 
-__Related Topics:__ AdminDocumentationCategory
+---
+*Related Topics:* AdminDocumentationCategory

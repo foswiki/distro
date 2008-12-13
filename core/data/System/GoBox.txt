@@ -12,9 +12,10 @@ Enter part of a topic name to get a list of similar topics, for example:
    * *faq* to get %SEARCH{ "faq" scope="topic" nosearch="on" nototal="on" format="[[$topic]]" separator=", " }%
    * *%USERSWEB%.users*  to jump to the %USERSWEB% web from any web, and get a list of topics about users (all in one step)
 
-__%T% Tip:__ Entering part of a topic name is a simple, yet powerful way to quickly navigate to content of interest, also in a large wiki.
+*%T% Tip:* Entering part of a topic name is a simple, yet powerful way to quickly navigate to content of interest, also in a large wiki.
 
-__Note:__ The Go box is not a search box
+*Note:* The Go box is not a search box
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 

@@ -10,12 +10,12 @@ You can move and delete attachments directly from your browser. Moving lets you 
 
 Click on ==action== on the file in the FileAttachment table, then in the *Update attachment* screen choose ==[Move attachment]==, and make your changes to that screen.
 
-__NOTE:__ The configuration of your site and your own access permissions determine whether you can access these functions.
+*NOTE:* The configuration of your site and your own access permissions determine whether you can access these functions.
 
 Note for system administrators: To remove an attachment permanently move it to the Trash.<nop>TrashAttachment topic, then with file-level access, delete the file attachment and its =,v= repository file manually from =pub/Trash/TrashAttachment=.
 
-__Back to:__ FrequentlyAskedQuestions
+*Back to:* FrequentlyAskedQuestions
 
-
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 

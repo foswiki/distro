@@ -53,7 +53,7 @@ Format tokens that can be used in the format string:
 | =$summary= | Topic summary, just the plain text, all formatting and line breaks removed; up to 162 characters |
 | =$summary(50)= | Topic summary, up to 50 characters shown |
 | =$summary(showvarnames)= | Topic summary, with =%<nop>ALLTWIKI{...}%= macros shown as =ALLTWIKI{...}= |
-| =$summary(noheader)= | Topic summary, with leading =---+ headers= removed%BR% __Note:__ The tokens can be combined, for example =$summary(100, showvarnames, noheader)= |
+| =$summary(noheader)= | Topic summary, with leading =---+ headers= removed%BR% *Note:* The tokens can be combined, for example =$summary(100, showvarnames, noheader)= |
 | =$changes= | Summary of changes between latest rev and previous rev |
 | =$changes(n)= | Summary of changes between latest rev and rev n |
 | =$formname= | The name of the form attached to the topic; empty if none |
@@ -108,11 +108,11 @@ To get this:
 
 *Write this:*
 
-=%<nop>SEARCH{ "__Back to\:__ <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
+=%<nop>SEARCH{ "*Back to\:* <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
 
 *To get this:*
 
-%SEARCH{ "__Back to\:__ FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
+%SEARCH{ "*Back to\:* FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
 
 
 ---+++ Nested Search
@@ -139,7 +139,7 @@ Here is an example. Let's search for all topics that contain the word "culture" 
 
 %SEARCH{ "culture" format="   * $topic is referenced by:$n      * $percntSEARCH{ \"$topic\" format=\"$dollartopic\" nosearch=\"on\" nototal=\"on\" separator=\", \" }$nop%" nosearch="on" nototal="on" }%
 
-__Note:__ Nested search can be slow, especially if you nest more then 3 times. Nesting is limited to 16 levels. For each new nesting level you need to "escape the escapes", e.g. write =$dollarpercntSEARCH{= for level three, =$dollardollarpercntSEARCH{= for level four, etc.
+*Note:* Nested search can be slow, especially if you nest more then 3 times. Nesting is limited to 16 levels. For each new nesting level you need to "escape the escapes", e.g. write =$dollarpercntSEARCH{= for level three, =$dollardollarpercntSEARCH{= for level four, etc.
 
 ---+++ Most recently changed pages
 
@@ -201,4 +201,5 @@ Find Topics:
 Result:
 %SEARCH{ search="%URLPARAM{"q" encode="quote"}%" type="keyword" format="   * $web.$topic: %BR% $summary" nosearch="on" }%
 
-__Related Topics:__ UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression
+---
+*Related Topics:* UserDocumentationCategory, SearchHelp, [[%SYSTEMWEB%.Macros#VarSEARCH][Macros#VarSEARCH]], SearchPatternCookbook, RegularExpression

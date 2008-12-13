@@ -161,7 +161,7 @@
 %TMPL:DEF{"thanks"}%
 ---+++ %MAKETEXT{"Thank you for registering"}%
    * %MAKETEXT{"Your personal TWiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
-     %MAKETEXT{"(__Suggestion:__ How about uploading your picture to your topic?)"}%
+     %MAKETEXT{"(*Suggestion:* How about uploading your picture to your topic?)"}%
    * %MAKETEXT{"You are also listed in the [_1] topic" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
 %PARAM1%
 %TMPL:END%
@@ -307,7 +307,7 @@
 
 %MAKETEXT{"Either the code is not valid, or you have already confirmed your registration using it."}% %MAKETEXT{"Registration codes can only be used once."}%
 
-__%MAKETEXT{"Note:"}%__
+*%MAKETEXT{"Note:"}%*
 %MAKETEXT{"Some mail tools have an error that causes them to send the same request twice when you click on a link. It you did this, it is possible that you actually *have* registered successfully."}%
 
 <form action="%SCRIPTURLPATH{"register"}%" method=get>
@@ -359,7 +359,7 @@ __%MAKETEXT{"Note:"}%__
 %MAKETEXT{"The file has been uploaded and attached properly to the [_1] topic." args="<nop>%TOPIC%"}%
 %MAKETEXT{"However, the filename has been changed from [_1] to [_2]. Please make a note of it." args="<b><code>%PARAM1%</code></b>,<b><code>%PARAM2%</code></b>"}%
 
-__%MAKETEXT{"Note:"}%__
+*%MAKETEXT{"Note:"}%*
 %MAKETEXT{"In some cases, TWiki changes the name of the uploaded file to make it safe and accessible across all platforms:"}%
    * %MAKETEXT{"Spaces are replaced by underscores"}%
    * %MAKETEXT{"A =.txt= extension is appended to some filenames for security reasons"}%
@@ -473,14 +473,14 @@ __%MAKETEXT{"Note:"}%__
 
 %MAKETEXT{"Contact [_1] if you have any questions." args="<a href=\"mailto:%WIKIWEBMASTER%?subject=%ENCODE{"%PARAM1% access denied for '%WEB%.%TOPIC%'"}%\">%WIKIWEBMASTER%</a>"}%
 
-__%MAKETEXT{"Related topics:"}%__ %USERSWEB%.WikiGroups, %SYSTEMWEB%.AccessControl %TMPL:END%
+*%MAKETEXT{"Related topics:"}%* %USERSWEB%.WikiGroups, %SYSTEMWEB%.AccessControl %TMPL:END%
 %TMPL:DEF{"only_group"}%
 %MAKETEXT{"Only members of the [_1] are allowed to perform this action." args="%PARAM1%"}%
 
 %MAKETEXT{"Contact [_1] if you have any questions." args="<a href=\"mailto:%WIKIWEBMASTER%?subject=%ENCODE{"Access Denied for '%WEB%.%TOPIC%', needs '%PARAM1%'"}%\">%WIKIWEBMASTER%</a>"}%
 
 
-__%MAKETEXT{"Related topics:"}%__ %USERSWEB%.WikiGroups, %SYSTEMWEB%.AccessControl
+*%MAKETEXT{"Related topics:"}%* %USERSWEB%.WikiGroups, %SYSTEMWEB%.AccessControl
 %TMPL:END%
 %TMPL:DEF{"no_such_web"}%
 ---++ %MAKETEXT{"The [_1] web does not exist" args="\"%WEB%\""}%

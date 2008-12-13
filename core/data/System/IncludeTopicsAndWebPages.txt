@@ -15,7 +15,7 @@ The example parameters PARAMETER1 and PARAMETER2 will be defined as macros withi
 
 VarINCLUDE explains the other parameters.
 
-__Note:__ All text of a topic is included unless it contains a =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=, or you specify a =section= parameter and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=.
+*Note:* All text of a topic is included unless it contains a =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=, or you specify a =section= parameter and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=.
 
 ---++ Usage Examples
 
@@ -56,5 +56,6 @@ The result would be
 
    * I like apples better than oranges.
 
-__Related Topics:__ VarINCLUDE, UserDocumentationCategory
+---
+*Related Topics:* VarINCLUDE, UserDocumentationCategory
 

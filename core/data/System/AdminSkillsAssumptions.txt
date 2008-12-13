@@ -2,7 +2,7 @@
 %META:TOPICPARENT{name="InstallationGuide"}%
 ---+ Administrator Skills Assumptions
 
-__Note:__ If you aren't already fairly well-skilled in Linux/Unix/Windows, Apache, and so on, consider using a version in a pre-packaged Virtual Machine - this can be installed on Windows or Linux, and makes it possible to get a working Foswiki system within 5 minutes (after a fairly big download), ready to use from your browser.  This is ideal for personal use or evaluations - if you decide to go for production use then these !AdminSkillsAssumptions apply to some degree, but you are starting from a working system.
+*Note:* If you aren't already fairly well-skilled in Linux/Unix/Windows, Apache, and so on, consider using a version in a pre-packaged Virtual Machine - this can be installed on Windows or Linux, and makes it possible to get a working Foswiki system within 5 minutes (after a fairly big download), ready to use from your browser.  This is ideal for personal use or evaluations - if you decide to go for production use then these !AdminSkillsAssumptions apply to some degree, but you are starting from a working system.
 
 If you need to install Foswiki you'll need to either have or learn the following skills (even with a Virtual Machine, you'll need these for upgrades).  For each of these, the requirement is either pre-existing knowledge/skill, or the willingness to spend significant time (i.e. from hours to days) learning them:
 
@@ -21,4 +21,5 @@ To get started with Linux, visit [[http://linuxbasics.org/ LinuxBasics.org]]. !L
 
 A nice tool for people migrating from Windows is http://www.MidnightCommander.org/. It is already installed on Linux systems: try ==mc -ac== and ==ESC 1== to get help.
 
-__Related Topics:__ AdminDocumentationCategory
+---
+*Related Topics:* AdminDocumentationCategory

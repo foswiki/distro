@@ -60,7 +60,7 @@ Login management controls the way users have to log in. There are three basic op
 
 Does exactly what it says on the tin. Forget about authentication to make your site completely public - anyone can browse and edit freely, in classic Wiki style. All visitors are given the %USERSWEB%.WikiGuest default identity, so you can't track individual user activity.
 
-__%X% Note:__ This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.
+*%X% Note:* This setup is *not* recommended on public websites for security reasons; anyone would be able to change system settings and perform tasks usually restricted to administrators.
 
 #TemplateLogin
 ---+++ Template Login (select =Foswiki::LoginManager::TemplateLogin=)
@@ -165,7 +165,7 @@ This section applies only if you are using authentication with existing login na
 Foswiki can automatically map an Intranet (Login) Username to a Foswiki Username if the {AllowLoginName} is enabled in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default is to use your WikiName as a login name.
 
 <blockquote>
-__NOTE:__ *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
+*NOTE:* *To correctly enter a WikiName* - your own or someone else's - be sure to include the %USERSWEB% web name in front of the Wiki username, followed by a period, and no spaces, for example ==%USERSWEB%.<nop>WikiUsername== or ==%<nop>USERSWEB%.<nop>WikiUsername==.
 This points ==<nop>WikiUsername== to the %USERSWEB% web, where user home pages are located, no matter which web it's entered in. Without the web prefix, the name appears as a NewTopic everywhere but in the %USERSWEB% web.
 </blockquote>
 
@@ -223,4 +223,5 @@ Finally, it would be really neat if someone was to work out how to use certifica
 See Foswiki:Support.SupplementalDocuments for more information.
 
 %STOPINCLUDE%
-__Related Topics:__ AdminDocumentationCategory, AccessControl
+---
+*Related Topics:* AdminDocumentationCategory, AccessControl

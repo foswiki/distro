@@ -20,4 +20,5 @@ Don't let the reams of documentation fool you, it all boils down to: wiki means 
    * FileAttachments: Browser-upload files for distribution or display
    * WebChangesAlert: Get e-mail alerts linking to the latest page changes
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

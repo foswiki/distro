@@ -10,7 +10,7 @@ Some macros are just shortcuts for longer sequences of characters, to either sav
 %SEARCH{ "parent.name='ShortcutMacros'" type="query" topic="Var*" 
 format="   * [[$topic][%<nop>$pattern(.*?\-\++ *([^ ]*).*)%]] - $pattern(.*?\-\+.*?-- ([^\n\r]*).*) %$pattern(.*?\-\++ *([^ ]*).*)%" nonoise="on" }%
 
-__See also:__
+*See also:*
    * [[Macros]] - an alphabetical list of all macros
    * DefaultPreferences#RenderingShortcuts - where shortcuts are defined 
    * ShortHand - summary of the topic markup language

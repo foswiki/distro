@@ -165,6 +165,7 @@ Markers to invoke behaviour with unobtrusive !JavaScript.
 
 Practical introduction to CSS: http://www.w3.org/Style/LieBos2e/enter/
 
-__Related Topics:__ [[Skins]], PatternSkin, DeveloperDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* [[Skins]], PatternSkin, DeveloperDocumentationCategory, AdminDocumentationCategory
 
 %STOPINCLUDE%

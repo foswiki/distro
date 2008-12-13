@@ -86,7 +86,7 @@ Once you have Foswiki installed and running, you might consider the following op
 #AuthenticationOfUsers
 ---++ Enable Authentication of Users
 
-This step provides for site access control and user activity tracking on your Foswiki site. __This is particularly important for sites that are publicly accessible on the web.__ This guide describes only the most common of several possible authentication setups for Foswiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.UserAuthentication=, and Foswiki:Support.UserAuthenticationSupplement.
+This step provides for site access control and user activity tracking on your Foswiki site. *This is particularly important for sites that are publicly accessible on the web.* This guide describes only the most common of several possible authentication setups for Foswiki and is suitable for public web sites. For information about other setups, see =%SYSTEMWEB%.UserAuthentication=, and Foswiki:Support.UserAuthenticationSupplement.
 
 These are the steps for enabling "Template Login" which asks for a username and password in a web page, and processes them using the Apache 'htpasswd' password manager. Users can log in and log out. Users are listed in a topic =%SYSTEMWEB%/WikiUsers=
 
@@ -294,7 +294,7 @@ You can easily select a balance of browser capability versus look and feel. Try 
 ---+++ Important note about Foswiki Plugins
 
    * Plugins can require just about anything -  browser-specific functions, stylesheets (CSS), Java applets, cookies, specific Perl modules,... - check the individual Plugin specs.
-      * __%T% Note:__ Plugins included in the Foswiki distribution do not add requirements, except for the CommentPlugin which requires Perl 5.6.1.
+      * *%T% Note:* Plugins included in the Foswiki distribution do not add requirements, except for the CommentPlugin which requires Perl 5.6.1.
 
 #NonRootInstallNotes
 ---++ Notes on Installing Foswiki on Non-Root Account
@@ -306,7 +306,7 @@ Referring to the <a href="#StandardInstallation">Basic Installation</a> steps pr
    * *Step 2:* If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows:
       * Using the table below, create a directory structure on your host server
       * Upload the Foswiki files by FTP (transfer as text except for the image files in =pub= directory.)
-      * __Note:__ Don't worry if you are not able to put the =lib= directory at the same level as the =bin= directory (e.g. because CGI bin directories can't be under your home directory and you don't have root access). You can create this directory elsewhere and configure the =bin/setlib.cfg= file (done in Step 2).
+      * *Note:* Don't worry if you are not able to put the =lib= directory at the same level as the =bin= directory (e.g. because CGI bin directories can't be under your home directory and you don't have root access). You can create this directory elsewhere and configure the =bin/setlib.cfg= file (done in Step 2).
 
 <blockquote>
 
@@ -347,5 +347,6 @@ The manual steps you have to take are:
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, Foswiki:Support.SupplementalDocuments
+---
+*Related Topics:* AdminDocumentationCategory, Foswiki:Support.SupplementalDocuments
 

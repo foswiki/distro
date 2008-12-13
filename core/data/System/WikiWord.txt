@@ -81,6 +81,7 @@ When you write the name of a topic, it becomes a link. There are more ways
    * %X% When linking to a <nop>%HOMETOPIC% topic _in another web_, the link will be rendered as the name of the web, e.g. =Sandbox.%HOMETOPIC%= becomes Sandbox.%HOMETOPIC%.
    * %X% Dots (.) are used as seperators between webs, subwebs, and topics. It is not possible to use dots in topic names. Foswiki does not attempt to guess if a dot could be part of a topic name.
 
-__Related Topics:__ WikiSyntax, TextFormattingRules
+---
+*Related Topics:* WikiSyntax, TextFormattingRules
 %STOPINCLUDE%
 

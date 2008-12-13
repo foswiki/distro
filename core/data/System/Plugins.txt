@@ -20,7 +20,7 @@ Foswiki plugins are developed and contributed by interested members of the commu
 
 Most [[http://twiki.org/cgi-bin/view/Plugins/WebHome][TWiki<sup>&reg;</sup> plugins]] can also be used with Foswiki if the TWikiCompatibilityPlugin is installed (it is by default).
 
-__See other types of extensions:__ [[Contribs]], [[Skins]]
+*See other types of extensions:* [[Contribs]], [[Skins]]
 
 ---+ Installed Plugins
 %PLUGINDESCRIPTIONS%
@@ -126,4 +126,5 @@ Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to dis
 [[Developing plugins]] provides a simple introduction to hooking into Foswiki code from your own Perl modules. Foswiki:Development.GettingStarted is the starting point for more comprehensive documentation.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory

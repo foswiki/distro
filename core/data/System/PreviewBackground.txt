@@ -8,8 +8,8 @@ Remarks:
    * You also could attach a new image file to this topic.
    * You can override the PREVIEWBGIMAGE setting in your personal home page.
 
-__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
-
+---
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
 %META:FILEATTACHMENT{name="blankltgraybg.gif" attr="" comment="Blank white background" date="970534080" path="D:\Data\Temp\blankltgraybg.gif" size="878" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="blankwhitebg.gif" attr="" comment="Blank white background" date="970534080" path="D:\Data\Temp\blankwhitebg.gif" size="878" user="ProjectContributor" version=""}%

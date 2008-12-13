@@ -36,5 +36,6 @@
 
    * *TIP:* Check the source when you want to find out how something is formatted: click ==Edit== on the lower toolbar. To see earlier versions, click ==More==, then check ==Raw text format== and click ==View revision==. A bit of HTML experience can't hurt, but you'll soon see with ShortHand how far that is from necessary. 
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 

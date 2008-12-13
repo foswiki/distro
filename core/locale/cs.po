@@ -212,8 +212,8 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "Použijte jméno článku ve tvaru System.JmenoClanku"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__Doporučení:__ Nechtěl by jste nahrát svojí fotografii ?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Doporučení:* Nechtěl by jste nahrát svojí fotografii ?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 #, fuzzy

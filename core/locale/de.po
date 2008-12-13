@@ -220,8 +220,8 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(Benutzen Sie einen Topic Namen in System.WikiNotation)"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__Vorschlag:__ Wie wäre es, wenn Sie Ihr Foto an Ihre Seite anhängen?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Vorschlag:* Wie wäre es, wenn Sie Ihr Foto an Ihre Seite anhängen?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"
@@ -5007,15 +5007,15 @@ msgstr "Sie *müssen* zumindest eine gültige E-Mail registriert haben, um ihr "
 #~ msgstr "Ihre Signatur mit Zeitstempel"
 
 #~ msgid ""
-#~ "__Note:__ Go back and click on Cancel if you would like to cancel the "
+#~ "*Note:* Go back and click on Cancel if you would like to cancel the "
 #~ "changes you did."
-#~ msgstr "__Hinweis:__ Gehen Sie zurück und Klicken Sie auf Abbrechen, wenn Sie "
+#~ msgstr "*Hinweis:* Gehen Sie zurück und Klicken Sie auf Abbrechen, wenn Sie "
 #~ "ihre Änderungen rückgängig machen wollen."
 
 #~ msgid ""
-#~ "__Note:__ Locking gets reset after <b> %1 </b> minutes of inactivity, the "
+#~ "*Note:* Locking gets reset after <b> %1 </b> minutes of inactivity, the "
 #~ "earliest in <b>%2</b> minutes."
-#~ msgstr "__Hinweis:__ Die Schreibsperre wird nach <b> %1 </b> der Inaktivität "
+#~ msgstr "*Hinweis:* Die Schreibsperre wird nach <b> %1 </b> der Inaktivität "
 #~ "aufgehoben, frühestens jedoch in <b>%2</b> Minuten."
 
 #~ msgid "changes"

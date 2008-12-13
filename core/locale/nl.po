@@ -213,8 +213,8 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(Gebruik een paginanaam in [[%SYSTEMWEB%.WikiNotation][Wikinotatie]])"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__Suggestie:__ Wat dacht je van een foto op je persoonlijke pagina?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Suggestie:* Wat dacht je van een foto op je persoonlijke pagina?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"

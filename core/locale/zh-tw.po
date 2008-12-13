@@ -215,8 +215,8 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(在 System.WikiNotation 使用一個主題名)"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__建議:__ 上傳一個關於您的主題的圖片?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*建議:* 上傳一個關於您的主題的圖片?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"

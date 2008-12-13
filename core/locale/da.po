@@ -216,9 +216,9 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(Brug et sidenavn i System.WikiNotation)"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
 msgstr ""
-"(__Forslag:__ Hvad med at uploade et billede af dig selv til din side?)"
+"(*Forslag:* Hvad med at uploade et billede af dig selv til din side?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"

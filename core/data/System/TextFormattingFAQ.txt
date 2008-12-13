@@ -27,8 +27,8 @@ If you want to display angle brackets, enter them as HTML codes instead of typin
    * =&amp;lt;= = =&lt;= <br />
      =&amp;gt;= = =&gt;=
 
-   * __You enter:__ =(a &amp;gt; 0)= <p /> 
-     __Result:__ =(a &gt; 0)=
+   * *You enter:* =(a &amp;gt; 0)= <p /> 
+     *Result:* =(a &gt; 0)=
 
 ---
 ---+++ Some words appear highlighted, with a "?" link at the end. How can I prevent that?
@@ -51,8 +51,8 @@ To escape the exclamation mark escape, try prefixing a =&lt;nop>=, e.g. write =A
 
 The quickest way is to enclose the text in equal signs:
 
-   * __You enter:__ =Proportional text, <nop>=fixed font=<nop>, proportional again.= <p />
-     __Result:__ Proportional text, =fixed font=, proportional again.
+   * *You enter:* =Proportional text, <nop>=fixed font=<nop>, proportional again.= <p />
+     *Result:* Proportional text, =fixed font=, proportional again.
 
 ---
 #VerbatimText
@@ -70,9 +70,9 @@ This text will keep its format as it is:
 
 The =pre= tag is standard HTML; =verbatim= is a special Foswiki tag that forces text to fixed font mode, and also prevents macros from being expanded.
 
-__NOTE:__ [[%SYSTEMWEB%.PreferenceSettings][preference settings]] still work within verbatim tags (this is a historical peculiarity)
+*NOTE:* [[%SYSTEMWEB%.PreferenceSettings][preference settings]] still work within verbatim tags (this is a historical peculiarity)
 
-__NOTE:__ The =verbatim= opening and closing tags are converted into =pre= tags; any HTML attributes (e.g., =class=, =id=) in the opening =verbatim= tag are included in the corresponding =pre= tag.
+*NOTE:* The =verbatim= opening and closing tags are converted into =pre= tags; any HTML attributes (e.g., =class=, =id=) in the opening =verbatim= tag are included in the corresponding =pre= tag.
 
 ---
 ---+++ How do I create tables?
@@ -95,7 +95,7 @@ There are three possibilities:
 
 This is a manual process using HTML commands. 
 
-__You enter:__
+*You enter:*
 
 <pre>
 &lt;table border="1"&gt;
@@ -109,7 +109,7 @@ __You enter:__
 &lt;/table&gt;
 </pre>
 
-__Result:__
+*Result:*
 
 <table border="1">
   <tr>
@@ -136,10 +136,10 @@ To place an image on any topic, there are two ways of including inline images.
 
 *1. Using URL ending in .gif, .jpg, .jpeg, .png*
 
-This is a simple and automatic way of including inline images. Simply write the URL of the image file, this will create the inline image for you. __NOTE:__ The images must be [[#ImgUpload][accessible]] as a URL.
+This is a simple and automatic way of including inline images. Simply write the URL of the image file, this will create the inline image for you. *NOTE:* The images must be [[#ImgUpload][accessible]] as a URL.
 
-   * __You enter:__ <code> %<nop>PUBURL%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif logo.</code> <br />
-     __Result:__ %PUBURL%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif logo.
+   * *You enter:* <code> %<nop>PUBURL%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif logo.</code> <br />
+     *Result:* %PUBURL%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif logo.
 
 #ImgUpload
 You can upload images directly to your server with FTP access. You can also [[FileAttachment][attach]] image files to a topic - you could even create a dedicated image topic, like =ImageLibrary= - and then link to the images directly:
@@ -148,20 +148,20 @@ You can upload images directly to your server with FTP access. You can also [[Fi
 
 *2. Using &lt;img&gt; tag*
 
-This is a manual process where you have more control over the rendering of the image. Use the &lt;img&gt; tag of HTML to include GIF, JPG and PNG files. __Note:__ The rendering of the topic is faster if you include the =width= and =height= parameters that have the actual image size. http://www.htmlhelp.com/reference/wilbur/special/img.html has more on inline images.
+This is a manual process where you have more control over the rendering of the image. Use the &lt;img&gt; tag of HTML to include GIF, JPG and PNG files. *Note:* The rendering of the topic is faster if you include the =width= and =height= parameters that have the actual image size. http://www.htmlhelp.com/reference/wilbur/special/img.html has more on inline images.
 
-   * __You enter:__ <code> &lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif" width="80" height="15" border="0" alt="logo" /&gt; logo.</code><br />
-    __Result:__ <br /> <img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif" width="80" height="15" border="0" alt="logo" /> logo.
+   * *You enter:* <code> &lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif" width="80" height="15" border="0" alt="logo" /&gt; logo.</code><br />
+    *Result:* <br /> <img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/smallPowered.gif" width="80" height="15" border="0" alt="logo" /> logo.
 
 -----
 ---+++ Can I write colored text?
 
 DefaultPreferences! defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
 
-   * __You enter:__ =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= <p /> 
-     __Result:__ %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR%
+   * *You enter:* =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= <p /> 
+     *Result:* %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR%
 
-__Note:__ =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%= . If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
+*Note:* =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%= . If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
 
 If you need more colors you can use HTML, like =&lt;font color="#ff0000"&gt; red text &lt;/font&gt;=. You can also use the up-to-date =style= attribute - ex:  =style="color:#ff0000"= - placed in most HTML tags. =span= is an all-purpose choice: =&lt;span style="color:#ff0000"&gt;CoLoR&lt;/span&gt;=. Only old (like 3.x IE &amp; NS) browsers have a problem with =style=.
 

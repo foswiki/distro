@@ -2,7 +2,7 @@
 
 This topic contains javascript files that are included by skin templates, and may be used by skin templates and in topics.
 
-__Related Topics:__ SkinTemplates, [[Skins]]
+*Related Topics:* SkinTemplates, [[Skins]]
 
 	* Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
 	

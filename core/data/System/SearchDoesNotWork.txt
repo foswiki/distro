@@ -8,7 +8,7 @@ I've problems with the <nop>WebSearch</nop>. There is no Search Result on any in
 
 That is an indication that <nop>%WIKITOOLNAME% can't find the =egrep= and =fgrep= commands on your system. Check the ={RCS}EgrepCmd}= and ={RCS}{FgrepCmd}= settings in [[%SCRIPTURLPATH{"configure"}%][configure]].
 
-__Back to:__ FrequentlyAskedQuestions
+*Back to:* FrequentlyAskedQuestions
 
-
-__Related Topics:__ AdminDocumentationCategory
+---
+*Related Topics:* AdminDocumentationCategory

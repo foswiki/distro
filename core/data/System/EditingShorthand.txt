@@ -142,7 +142,7 @@ _this does not _
  *Verbatim Text:* %BR%
  Surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags.%BR%
 %T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR%
-__%X% NOTE:__ Preferences settings (* Set NAME = value) are set within verbatim tags.
+*%X% NOTE:* Preferences settings (* Set NAME = value) are set within verbatim tags.
 </td><td>
 <verbatim>
 <verbatim>
@@ -335,7 +335,7 @@ Sandbox.%HOMETOPIC%
 <tr valign="top">
 <td>
  *Anchors:* %BR%
- You can define a reference inside a topic (called an anchor name) and link to that. To __define__ an anchor write =#AnchorName= at the beginning of a line. The anchor name must be a WikiWord of no more than 32 characters. To __link to__ an anchor name use the =[<nop>[MyTopic#MyAnchor]]= syntax. You can omit the topic name if you want to link within the same topic.
+ You can define a reference inside a topic (called an anchor name) and link to that. To *define* an anchor write =#AnchorName= at the beginning of a line. The anchor name must be a WikiWord of no more than 32 characters. To *link to* an anchor name use the =[<nop>[MyTopic#MyAnchor]]= syntax. You can omit the topic name if you want to link within the same topic.
 </td><td>
 <verbatim>
 [[WikiWord#NotThere]]
@@ -385,7 +385,7 @@ escaped:
 <td>
  *Specific Links:* %BR%
  You can create a link where you specify the link text and the URL separately using nested square brackets =[<nop>[reference][text]]=. Internal link references (e.g. WikiSyntax) and URLs (e.g. http://foswiki.org/) are both supported.
-The rules described under __Forced Links__ apply for internal link references.
+The rules described under *Forced Links* apply for internal link references.
  %BR% %T% Anchor names can be added as well, to create a link to a specific place in a topic.
 </td><td>
 <verbatim>

@@ -47,4 +47,5 @@ You can easily select a balance of browser capability versus look and feel. Try 
 
    * Plugins can require just about anything -  browser-specific functions, stylesheets (CSS), Java applets, cookies, specific Perl modules,... - check the individual Plugin specs.
 
-__Related Topics:__ AdminDocumentationCategory
+---
+*Related Topics:* AdminDocumentationCategory

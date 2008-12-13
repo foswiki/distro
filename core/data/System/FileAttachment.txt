@@ -21,12 +21,12 @@ File Attachments can be used to archive data, or to create powerful customized g
 ---+++ Web Authoring
 
    * Through your Web browser, you can easily upload graphics (or sound files, or anything else you want to link to on a page) and place them on a single page, or use them across a web, or site-wide.
-      * __NOTE:__ You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files can't be managed using browser-based Attachment controls. You can also create [[%SYSTEMWEB%.Macros][macro shortcuts]], like this %<nop>H% = %H%.
+      * *NOTE:* You can also add graphics - any files - directly, typically by FTP upload. This requires FTP access, and may be more convenient if you have a large number of files to load. FTP-ed files can't be managed using browser-based Attachment controls. You can also create [[%SYSTEMWEB%.Macros][macro shortcuts]], like this %<nop>H% = %H%.
 
 ---++ Uploading Files
 
    * Click on the ==Attach== link at the bottom of the page. The =Attach= screen lets you browse for a file, add a comment, and upload it. The uploaded file will show up in the [[#FileAttachmentTable][File Attachment table]].
-      * __NOTE:__ The topic must already exist. It is a two step process if you want to attach a file to a non-existing topic; first create the topic, then add the file attachment.
+      * *NOTE:* The topic must already exist. It is a two step process if you want to attach a file to a non-existing topic; first create the topic, then add the file attachment.
       * Any type of file can be uploaded. Some files that might pose a security risk are renamed, ex: =*.php= files are renamed to =*.php.txt= so that no one can place code that would be read in a .php file. 
       * The previous upload path is retained for convenience. In case you make some changes to the local file and want to upload it, again you can copy the previous upload path into the Local file field.
       * Foswiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= [[%SYSTEMWEB%.PreferenceSettings][preference settings]], currently set at %ATTACHFILESIZELIMIT% KB.
@@ -34,7 +34,7 @@ File Attachments can be used to archive data, or to create powerful customized g
    * Automatic attachments:
       * When enabled, all files in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an 'Attach' link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
       * To enable this feature, set the {AutoAttachPubFiles} configuration option.
-      * __NOTE:__ The automatic attachment feature can only be used by an administrator who has access to the server's file system.
+      * *NOTE:* The automatic attachment feature can only be used by an administrator who has access to the server's file system.
    
 ---++ Downloading Files
 
@@ -130,7 +130,8 @@ Describe the file so other people know what it is.
    
 %STOPINCLUDE%
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 
 %META:FILEATTACHMENT{name="Sample.txt" attr="" comment="Just a sample" date="964294620" path="C:\DATA\Sample.txt" size="30" user="ProjectContributor" version=""}%
 %META:FILEATTACHMENT{name="Smile.gif" attr="" comment="Smiley face" date="964294680" path="C:\DATA\Smile.gif" size="94" user="ProjectContributor" version=""}%

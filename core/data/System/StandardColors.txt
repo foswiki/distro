@@ -116,7 +116,7 @@ This table can be used to choose a color in %WEBPREFSTOPIC% of each web.
 
 See TWiki:Codev.ColorScheme for links to web sites with web safe palettes, scheme generators, and other color tools and reference.
 
-__Related web sites:__
+*Related web sites:*
    * http://html-color-codes.info/ - map of hexadecimal color codes, with color picker
    * http://www.triplecode.com/munsell/ - color picker based on how people _perceive_ colors
    * http://www.cloford.com/resources/colours/websafe2.htm - Web-safe colors
@@ -126,4 +126,5 @@ __Related web sites:__
 %SEARCH{ "parent.name='StandardColors'" type="query" topic="Var*" 
 format="   * $percnt<nop>$pattern(.*?\-\++ *([^ ]*).*)$percnt $percnt$pattern(.*?\-\++ *([^ ]*).*)$percnt Lorem ipsum.... $percntENDCOLOR$percnt $percnt<nop>ENDCOLOR$percnt" nonoise="on" }%
 
-__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

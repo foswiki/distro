@@ -2,4 +2,5 @@
 %META:TOPICPARENT{name="FileAttachment"}%
 Each FileAttachment in a Topic can have additional attributes.  At present only the H (hidden) attribute is supported.  If this attribute is set then the attachment is considered to be hidden.  It is not listed in the topic, but is still displayed when attachments are explicitly viewed.
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

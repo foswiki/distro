@@ -19,7 +19,7 @@ In addition the following global variables may be referred to:
    * =$Foswiki::sandbox= - reference to the static sandbox object (type =Foswiki::Sandbox=), used for calling external programs.
 %I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.
 
-__Note__ the APIs are available to all extensions, but rely on a
+*Note* the APIs are available to all extensions, but rely on a
 =Foswiki= singleton object having been created before the APIs can be used.
 This will only be a problem if you are writing an extension that doesn't
 use the standard initialisation sequence.
@@ -178,7 +178,7 @@ You can create a plugin "work area" using the =Foswiki::Func::getWorkArea()= fun
 
 The internal data area is not normally made web-accessible for security reasons. If yoou want to store web accessible data, for example generated images, then you should use Foswiki's attachment mechanisms.
 
-__Topic-specific data__ such as generated images can be stored in the topic's attachment area, which is web accessible. Use the =Foswiki::Func::saveAttachment()= function to store the data.
+*Topic-specific data* such as generated images can be stored in the topic's attachment area, which is web accessible. Use the =Foswiki::Func::saveAttachment()= function to store the data.
 
 Recommendation for file name:
    * Prefix the filename with an underscore (the leading underscore avoids a name clash with files attached to the same topic)
@@ -187,7 +187,7 @@ Recommendation for file name:
    * Example: =_GaugePlugin_img123.gif=
 Such auto-generated attachments han be hidden from users by setting the 'h' attribute in the attachment attributes.
 
-__Web specific data__ should be stored in the attachment area of a topic in the web that you specify for the purpose, e.g. Web.<nop>BathPlugPictures. Use the =Foswiki::Func::saveAttachment()= function to store the data in this topic.
+*Web specific data* should be stored in the attachment area of a topic in the web that you specify for the purpose, e.g. Web.<nop>BathPlugPictures. Use the =Foswiki::Func::saveAttachment()= function to store the data in this topic.
 
 #ConfigSpec
 ---++ Integrating with <code>configure</code>
@@ -264,7 +264,7 @@ The plugin interface (FoswikiFuncDotPm functions and plugin handlers) evolve ove
 
 Organizations typically do not upgrade to the latest Foswiki for many months. However, many administrators still would like to install the latest versions of a plugin on their older Foswiki installation. This need is fulfilled if plugins are maintained in a compatible manner. 
 
-__%T% Tip:__ Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
+*%T% Tip:* Plugins can be written to be compatible with older and newer Foswiki releases. This can be done also for plugins using unofficial Foswiki internal functions of an earlier release that no longer work on the latest Foswiki codebase. 
 Here is an example; the Foswiki:Support.PluginsSupplement has more details.
 
 <verbatim>

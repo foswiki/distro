@@ -1,10 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1176595196" format="1.1" version="$Rev: 15706 $"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
-This topic defines __site-level__ settings that apply to all users and webs on this site.
+This topic defines *site-level* settings that apply to all users and webs on this site.
 
 <div class="foswikiNotification">
-__%X% Note:__ This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
+*%X% Note:* This topic should be regarded as read-only, so that upgrades can safely overwrite it without risk to your customizations.
 
 Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (this topic is pointed to by {LocalSitePreferences}, which is set by the admin in the [[%SCRIPTURLPATH{"configure"}%][configure]] interface). Settings in [[%LOCALSITEPREFS%]] will override settings in this topic, and should be used for defining custom settings.
 
@@ -44,11 +44,11 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Simplified Copyright notice for the WebRss feed (don't use any special characters, html tags, entities, wiki markup or WikiWords)
       * Set WEBRSSCOPYRIGHT = Copyright %GMTIME{"$year"}% by contributing authors
 
-   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) __Note__ it is much better to use [[AccessControl][AccessControls]] in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
+   * Exclude web from a =web="all"= search: (Set to =on= for hidden webs; is overwritten by web preferences) *Note* it is much better to use [[AccessControl][AccessControls]] in individual webs to control who can and can't view the contents of a web. NOSEARCHALL is retained for compatibility, but you should avoid using it.
       * Set NOSEARCHALL =
    * Prevent automatic linking of [[%SYSTEMWEB%.WikiWords][WikiWords]] and acronyms (if set to =on=); link <nop>WikiWords (if empty); can be overwritten by web preferences:
       * Set NOAUTOLINK =
-      * __Note:__ Use the =[<nop>[...][...]]= syntax to link topics in case you disabled <nop>WikiWord linking. The =&lt;noautolink&gt; ... &lt;/noautolink&gt;= syntax can be used to prevents links within a block of text.
+      * *Note:* Use the =[<nop>[...][...]]= syntax to link topics in case you disabled <nop>WikiWord linking. The =&lt;noautolink&gt; ... &lt;/noautolink&gt;= syntax can be used to prevents links within a block of text.
    * If you use non !WikiWords for topic names (for example "Expenses" or "Mighty1") and if you use bracket notation to link to those topics, it is useful to *turn of all warnings* (like: "WARNING: This topic name is not recommended because it will not be linked automatically") and checkboxes ("Allow non !WikiWord for the new topic name"). Can be overwritten by web preferences. Set to =on= to activate:
       * Set HIDE_NON_WIKI_WORD_WARNINGS =
 
@@ -92,23 +92,23 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Style of text edit box. Set to =width: 99%= for full window width (default; this will overwrite the EDITBOXWIDTH setting), or =width: auto= to disable. This setting works for IE and some other recent browsers. (can be overwritten by user preferences)
       * Set EDITBOXSTYLE = width:99%
 
-   * Default state of the __Force New Revision__ (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
+   * Default state of the *Force New Revision* (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
       * Set FORCENEWREVISIONCHECKBOX =
 
-   * Default state of the __Minor Changes, Don't Notify__ (DontNotify) check box in preview. Check box is initially checked if =Set DONTNOTIFYCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
+   * Default state of the *Minor Changes, Don't Notify* (DontNotify) check box in preview. Check box is initially checked if =Set DONTNOTIFYCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)
       * Set DONTNOTIFYCHECKBOX =
 
-   * Default state of the __link__ check box in the attach file page. Checkbox is initially checked if =Set ATTACHLINKBOX = checked="checked"=, or unchecked if empty (=Set ATTACHLINKBOX ==). If checked, a link is created to the attached file at the end of the topic: (can be overwritten by user preferences)
+   * Default state of the *link* check box in the attach file page. Checkbox is initially checked if =Set ATTACHLINKBOX = checked="checked"=, or unchecked if empty (=Set ATTACHLINKBOX ==). If checked, a link is created to the attached file at the end of the topic: (can be overwritten by user preferences)
       * Set ATTACHLINKBOX =
 
-   * Format of file link when the __link__ check box is checked: (can be overwritten by user preferences)
+   * Format of file link when the *link* check box is checked: (can be overwritten by user preferences)
       * %H% *NOTE:* Keyword ==$name== gets expanded to filename; ==$comment== to comment; ==\t== to tab (3 spaces for bullets).
 <!-- verbatim tag required to prevent error in Apache log; does not suppress Set -->
 <verbatim>
       * Set ATTACHEDFILELINKFORMAT = \n   * [[%ATTACHURL%/$name][$name]]: $comment
 </verbatim>
 
-   * Format of images when the __link__ check box is checked: (can be overwritten by user preferences)
+   * Format of images when the *link* check box is checked: (can be overwritten by user preferences)
       * %H% *NOTE:* Keyword ==$name== gets expanded to filename; ==$comment== to comment; ==$size== to ==width="..." height="..."== attribute of ==img== tag; ==\t== to tab and ==\n== to linefeed (3 spaces for bullets).
 <verbatim>
       * Set ATTACHEDIMAGEFORMAT = \n   * $comment: <br />\n     <img src="%ATTACHURLPATH%/$name" alt="$name" $size />
@@ -184,7 +184,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Skin overriding the default templates: (can be overwritten by WebPreferences and user preferences)
       * Set SKIN = pattern
 
-   * __Note:__ See SkinBrowser for currently installed skins
+   * *Note:* See SkinBrowser for currently installed skins
 
 ---+++ PatternSkin
 
@@ -248,7 +248,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
       * Set BB3 = <br />&nbsp;&nbsp;&nbsp;&nbsp;&#8226;
       * Set BB4 = <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8226;
 
-   * __Hint:__ Above shortcuts are useful in tables where you cannot use newlines
+   * *Hint:* Above shortcuts are useful in tables where you cannot use newlines
 
 #DocGraphics
    * Macros for graphics used in documentation - view all images in %ICONTOPIC%:
@@ -267,7 +267,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Colored text: (see more StandardColors)
      | You type: | =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= |
      | You get: | %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR% |
-      * __Note:__ =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
+      * *Note:* =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
         <!-- Two sets of colors follow: Color test and color setting -->
       * %YELLOW% *Set YELLOW = looks like this* %ENDCOLOR%
       * %ORANGE% *Set ORANGE = looks like this* %ENDCOLOR%
@@ -362,5 +362,5 @@ never be attempted set or altered in any preference topic or topic settings.
    * %SYSTEMWEB%.AccessControl explains how to restrict access by users or groups.
    * Foswiki:Extensions.PreferencesPlugin makes editing preferences a snap.
 
-__Note__: Can't edit?
+*Note*: Can't edit?
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on][View raw topic]]

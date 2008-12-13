@@ -6,9 +6,9 @@
 
 	* Set BROADCASTMESSAGE = NOTE: This is the <nop>TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web, you can only create new topics. Any topics you _do_ create that are not checked into subversion may be deleted by anyone, at any time.
 
-The following settings are __web preferences__ of the <nop>%WEB% web. These preferences overwrite the __site-level preferences__ in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overwritten by __user preferences__ (your personal topic, i.e. %USERSWEB%.WikiGuest in the %USERSWEB% web)
+The following settings are *web preferences* of the <nop>%WEB% web. These preferences overwrite the *site-level preferences* in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overwritten by *user preferences* (your personal topic, i.e. %USERSWEB%.WikiGuest in the %USERSWEB% web)
 
-__Preferences:__
+*Preferences:*
 
 	* List of topics of the <nop>%WEB% web:
 		* Set WEBTOPICLIST = [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
@@ -31,7 +31,7 @@ __Preferences:__
 		* %SYSTEMWEB%.DataForms: How to enable form(s)
 		* Set WEBFORMS = ThisForm, FormattedSearchForm
 
-	* Users or groups who __are not__ / __are__ allowed to __view__ / __change__ / __rename__ topics in the <nop>%WEB% web: (See %SYSTEMWEB%.AccessControl)
+	* Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See %SYSTEMWEB%.AccessControl)
 		* #Set DENYWEBVIEW = 
 		* #Set ALLOWWEBVIEW = 
 		* #Set DENYWEBCHANGE = 
@@ -53,7 +53,7 @@ __Preferences:__
    * Set WEBTESTPREF = web test pref
    * Set OVERRIDETHISTESTPREF = ERROR web setting
    * Set FINALPREFERENCES = WEBFINALTESTPREF
-__Notes:__
+*Notes:*
 	* A preference is defined as: <br /> =6 spaces * Set NAME = value= <br /> Example:
 		* S<nop>et WEBBGCOLOR = #FFFFC0
 	* Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs. Example:
@@ -61,12 +61,12 @@ __Notes:__
 	* The sequential order of the preference settings is significant. Define preferences that use other preferences first, i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= variable.
 	* You can introduce new preferences variables and use them in your topics and templates. There is no need to change the <nop>%WIKITOOLNAME% engine (Perl scripts).
 
-__Related Topics:__
+*Related Topics:*
 	* %SYSTEMWEB%.%WIKIPREFSTOPIC% has site-level preferences.
 	* %USERSWEB%.%WIKIUSERSTOPIC% has a list of user topics. User topics can have optional user preferences.
 	* [[%SYSTEMWEB%.Macros][Macros]] has a list of common =%<nop>VARIABLES%=.
 	* %SYSTEMWEB%.AccessControl explains how to restrict access by users or groups.
 
-__Tools:__
+*Tools:*
 %INCLUDE{"%SYSTEMWEB%.RenameWeb"}%
 

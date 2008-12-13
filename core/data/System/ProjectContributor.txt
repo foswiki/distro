@@ -8,8 +8,8 @@ Try and make sure robots don't spam contributor names
 
 %INCLUDE{"%ATTACHURL%/AUTHORS"}%
 
-__Note:__ Please contact us at http://foswiki.org if you contributed to Foswiki and your name is not on this list!
+*Note:* Please contact us at http://foswiki.org if you contributed to Foswiki and your name is not on this list!
 
-__Disclaimer:__ Foswiki gets installed on many public web sites. The Foswiki contributors are not affiliated in any way with those sites.
+*Disclaimer:* Foswiki gets installed on many public web sites. The Foswiki contributors are not affiliated in any way with those sites.
 
 %META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS~" size="117" user="ProjectContributor" version="1.1"}%

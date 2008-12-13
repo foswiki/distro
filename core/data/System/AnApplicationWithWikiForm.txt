@@ -81,8 +81,8 @@ format="   * [[$web.$topic][$formfield(Title)]]"
 </div>
 </div>
 
----
-__Back to:__ FrequentlyAskedQuestions
+*Back to:* FrequentlyAskedQuestions
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 

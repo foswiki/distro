@@ -61,5 +61,5 @@ Below part is included by each <nop>WebRss topic:
 </verbatim>
 -----
 
-__See also__: WebAtomBase
+*See also*: WebAtomBase
 

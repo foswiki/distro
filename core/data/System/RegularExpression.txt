@@ -65,8 +65,9 @@ Repetition takes precedence over concatenation, which in turn takes precedence o
 The backreference \n, where n is a single digit, matches the substring previously matched by the nth parenthesized subexpression of the regular expression.
 </blockquote>
 
-__Related Links:__ 
+*Related Links:* 
    * http://perldoc.perl.org/perlretut.html - Regular expressions tutorial
    * http://www.perl.com/doc/manual/html/pod/perlre.html - Perl regular expressions
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

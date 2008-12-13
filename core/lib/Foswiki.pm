@@ -799,7 +799,14 @@ sub redirectto {
     # assuming 'web.topic' or 'topic'
     my ( $w, $t ) =
       $this->normalizeWebTopicName( $this->{webName}, $redirecturl );
-    return $this->getScriptUrl( 1, 'view', $w, $t );
+
+	# capture anchor
+    my ($topic, $anchor) = $t =~ m/^(.*)#(.*)$/;
+    $t = $topic if $topic;
+    my @attrs = ();
+    push (@attrs, '#'=>$anchor) if $anchor;
+
+    return $this->getScriptUrl( 1, 'view', $w, $t, @attrs );
 }
 
 =begin TML

@@ -69,7 +69,7 @@ The =edit= script understands the following parameters, typically supplied by HT
 | =contenttype= | Optional parameter that defines the application type to write into the CGI header. Defaults to =text/html=. May be used to invoke alternative client applications | |
 | =anyname= | Any parameter can passed to the new topic; if the template topic contains =%<nop>URLPARAM{"anyname"}%=, it will be replaced by its value | |
 | =breaklock= | If set, any lease conflicts will be ignored, and the edit will proceed even if someone is already editing the topic. | |
-| =redirectto= | If the user continues from edit to save, and if the save (or cancels the edit) process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
+| =redirectto= | If the user continues from edit to save, and if the save (or cancels the edit) process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
 
 Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
    1 The first sequence of ten or more =X= characters in the topic name will be converted on save to a number such that the resulting topic name is unique in the target web.
@@ -107,7 +107,7 @@ No parameters
 | *Parameter* | *Description* | *Default* |
 | =text= | Text of the topic | '' |
 | =originalrev= | Revision that the edit started on | Most recent revision |
-| =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | 
+| =redirectto= | If the savesettings process is successful, save will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | 
 All other parameters may be interpreted as form fields, depending on the current form definition in the topic.
 
 ---++++ =action=bulkRegister=
@@ -186,7 +186,7 @@ Used for renaming topics.
 | =confirm= | if defined, requires a second level of confirmation | |
 | =currentwebonly= | if defined, searches current web only for links to this topic | |
 | =nonwikiword= | if defined, a non-wikiword is acceptable for the new topic name | |
-| =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
+| =redirectto= | If the rename process is successful, rename will redirect to this topic or URL. The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | |
 
 ---+++ =rest=
 This REST ([[http://en.wikipedia.org/wiki/REST][Representational State Transfer]]) script can be invoked via http in the same way as the other scripts (see *Invocation Examples*, below) to execute a function that is associated to a "subject" and a "verb" (see below). These functions are usually registered by plugins using the =Foswiki::Func::registerRESTHandler= method. The =rest= script will print the result directly to the browser unless the =endPoint= parameter is specified, in which case it will output a redirect to the given topic.
@@ -242,7 +242,7 @@ The =save= script performs a range of save-related functions, as selected by the
 | =originalrev= | Revision on which the edit started. | |
 | =edit= | The script to use to edit the topic when action is =checkpoint= | =edit= |
 | =editparams= | The parameter string to use to edit the topic |  |
-| =redirectto= | The save process will redirect to this topic or URL if it is successful. (Typically this would be the URL that was being viewed when edit was invoked). The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% __Note:__ Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | view topic being edited |
+| =redirectto= | The save process will redirect to this topic or URL if it is successful. (Typically this would be the URL that was being viewed when edit was invoked). The parameter value can be a =TopicName=, a =Web.TopicName=, or a URL.%BR% *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous ={AllowRedirectUrl}=). | view topic being edited |
 
 Any errors will cause a redirect to an =oops= page.
 
@@ -325,7 +325,7 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
      must be enabled in =configure=. The parameter value can be a \
      =TopicName=, a =Web.TopicName=, or a URL. Redirect to a URL only works \
      if it is enabled in =configure=, and is ignored if =noredirect= is \
-     specified.%BR% __Note:__ Redirect to a URL only works if it is enabled \
+     specified.%BR% *Note:* Redirect to a URL only works if it is enabled \
      in =configure= (Miscellaneous ={AllowRedirectUrl}=). |
 | =noredirect= | Normally it will redirect to 'view' when the upload is \
      complete, but also designed to be useable for REST-style calling using \
@@ -333,7 +333,7 @@ Uploads an attachment to a topic. The HTTP request is expected to be in =multipa
      appropriate HTTP status code and print a message to STDOUT, starting \
      with 'OK' on success and 'ERROR' on failure. |
 
-__Tips__
+*Tips*
    * You can use a tool like =curl= to upload files from the command line using this script.
    * You can call upload easily from !XmlHttpRequest in Javascript.
 
@@ -381,6 +381,7 @@ This script executes a number of non-essential regular administration tasks that
 It is intended to be run as a cron job or a scheduled task once a week. Example crontab entry:%BR%
 =0 0 * * 0 cd /usr/local/foswiki/bin && perl ../tools/tick_foswiki.pl=
 
-__Note:__ The script has to be run by a user who can write files created by the webserver user.
+*Note:* The script has to be run by a user who can write files created by the webserver user.
 
-__Related Topics:__ AdminDocumentationCategory, DeveloperDocumentationCategory
+---
+*Related Topics:* AdminDocumentationCategory, DeveloperDocumentationCategory

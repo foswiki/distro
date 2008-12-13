@@ -64,7 +64,7 @@ The main steps are:
    * Installing TWiki Extensions such as Plugins requires that the perl name space is changed from TWiki to Foswiki. A TWikiCompatibilityPlugin is provided which makes most unmodified TWiki Plugins work on Foswiki. If a plugin exists in the Foswiki:Extensions repository it is highly recommended to install it from there so get an extension which has been converted to the Foswiki namespace.
    * Manual installation is possible. Follow the instruction on the Plugin page at foswiki.org.
    * Check the plugin topics from your old TWiki/Foswiki installation. There may be plugin settings that you want to transfer to the new Foswiki installation.
-     %BR% __%H% Hint:__ For an easier upgrade later on, set the plugin preferences settings in the [[%LOCALSITEPREFS%]] topic, not in the plugin topic. To identify the plugin, prefix the name of the setting with the capitalized name of the plugin. For example, to change the =DEFAULT_TYPE= setting of the CommentPlugin, create a =COMMENTPLUGIN_DEFAULT_TYPE= setting in <nop>%LOCALSITEPREFS%.
+     %BR% *%H% Hint:* For an easier upgrade later on, set the plugin preferences settings in the [[%LOCALSITEPREFS%]] topic, not in the plugin topic. To identify the plugin, prefix the name of the setting with the capitalized name of the plugin. For example, to change the =DEFAULT_TYPE= setting of the CommentPlugin, create a =COMMENTPLUGIN_DEFAULT_TYPE= setting in <nop>%LOCALSITEPREFS%.
    * Typical plugin settings you may have altered.
       * CommentPlugin - Set DEFAULT_TYPE
       * EditTablePlugin - Set CHANGEROWS, Set QUIETSAVE, and Set EDITBUTTON
@@ -83,7 +83,7 @@ The main steps are:
       * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
    * Copy your local webs over to the data and pub directories of the new install. Do not copy the default webs: System (or TWiki), Main, Trash, Sandbox, _default, and _empty.
    * Make sure all data and pub files and directories are owned by the webserver user.
-   * __Note:__ Foswiki's WebChanges topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or to change them in the sequence of old file timestamps.
+   * *Note:* Foswiki's WebChanges topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or to change them in the sequence of old file timestamps.
 
 ---+++ Copy Users And Their Topics From Main Web
 
@@ -247,4 +247,5 @@ Foswiki has a new _Internal Admin Login_ feature which uses "admin" (configurabl
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix
+---
+*Related Topics:* AdminDocumentationCategory, Foswiki:Support.UpgradingFromOlderTWikiReleases, Foswiki:Support.UpgradingFromTWiki4x2Releases, Foswiki:Support.UpgradingPatchReleases, Foswiki:Support.ApacheConfigGenerator, Foswiki:Support.SettingFileAccessRightsLinuxUnix

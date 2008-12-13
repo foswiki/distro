@@ -20,8 +20,9 @@ You can try out the [[Skins]] currently installed on this system:
 .skinstable td {border-top:2px solid #444; padding:0.75em 0.5em;}
 </style>
 
-__Tip:__ Additional skins can be downloaded from Foswiki:Extensions.SkinPackage
+*Tip:* Additional skins can be downloaded from Foswiki:Extensions.SkinPackage
 
-__Note:__ [[Skins]] describes how to install and activate a skin
+*Note:* [[Skins]] describes how to install and activate a skin
 
-__Related Topics:__ [[Skins]], AdminDocumentationCategory, UserDocumentationCategory
+---
+*Related Topics:* [[Skins]], AdminDocumentationCategory, UserDocumentationCategory

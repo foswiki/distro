@@ -101,9 +101,9 @@ Forms have to be enabled for each individual web. The ==WEBFORMS== setting in We
        <input type="submit" class="foswikiSubmit" value="Create" />
     </form>
        </verbatim>
-   * __%T% Tip:__ For Wiki Applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
+   * *%T% Tip:* For Wiki Applications you can [[TemplateTopics#AutomaticallyGeneratedTopicname][automatically generate unique topicnames]].
 
-   * __%X% Note:__ Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
+   * *%X% Note:* Initial values will *not* be set in the form of a new topic if you _only_ use the formtemplate parameter.
 
 ---++ Changing a form
    * You can change a form definition, and Foswiki will try to make sure you don't lose any data from the topics that use that form. 
@@ -214,4 +214,5 @@ The best way to search in form data is using the structured query language in th
 
 %STOPINCLUDE%
 
-__Related Topics:__ UserDocumentationCategory, TemplateTopics, AnApplicationWithWikiForm
+---
+*Related Topics:* UserDocumentationCategory, TemplateTopics, AnApplicationWithWikiForm

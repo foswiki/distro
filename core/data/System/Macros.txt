@@ -18,7 +18,7 @@ To use a macro type its name. For example,
    * type =%<nop>TOPIC%= to get =%TOPIC%= (a predefined [[macro]])
    * type =%<nop>CALC{ "$UPPER(Text)" }%= to get =TEXT= (a [[macro]] defined by a Plugin)
 
-__Note:__
+*Note:*
    * To leave a macro unexpanded, precede it with an exclamation point, e.g. type =!%<nop>TOPIC%= to get =%<nop>TOPIC%=
    * Macros are expanded relative to the topic they are _used_ in, not the topic they are _defined_ in
    * Type =%<nop>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
@@ -136,5 +136,6 @@ See ShortcutMacros for a full list of predefined shortcuts.
 
 %ENDSECTION{type="include"}%
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory
 

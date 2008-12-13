@@ -45,5 +45,5 @@ Below part is included by each <nop>WebAtom topic:
 </verbatim>
 -----
 
-__See also__: WebRssBase
+*See also*: WebRssBase
 

@@ -24,7 +24,7 @@ As a *collaboration guideline*:
 ---++ Permissions settings of the webs on this Foswiki site
 %INCLUDE{SitePermissions}%
 
-__Note:__ Above table comes from SitePermissions
+*Note:* Above table comes from SitePermissions
 
 ---++ Authentication vs. Access Control
 
@@ -61,7 +61,7 @@ The GROUP setting is a comma-separated list of users and/or other groups. Exampl
 The ALLOWTOPICCHANGE setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
 
-__%X% Note:__ Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
+*%X% Note:* Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
 
 #SuperAdminGroup
 ---+++ The Super Admin Group
@@ -144,7 +144,7 @@ The easiest way to apply the same access control rules for attachments as apply 
 
 That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support.
 
-__Note:__ Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
+*Note:* Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
 
 #RootWebs
 ---+++ Controlling who can manage top-level webs
@@ -165,7 +165,7 @@ When deciding whether to grant access, Foswiki evaluates the following rules in 
       * people in the list will be *DENIED*.
    1 If DENYTOPIC is set to _empty_ ( i.e. <tt>Set DENYTOPIC =</tt> )
       * access is *PERMITTED* _i.e_ no-one is denied access to this topic.%BR%
-        %X% __Attention:__ Use this with caution. This is __deprecated__ and will likely change in the next release.
+        %X% *Attention:* Use this with caution. This is *deprecated* and will likely change in the next release.
    1 If ALLOWTOPIC is set
       1 people in the list are *PERMITTED*
       1 everyone else is *DENIED*
@@ -194,7 +194,7 @@ Another way of hiding webs is to keep them hidden by not publishing the URL and 
 
 This setup can be useful to hide a new web until content its ready for deployment, or to hide view access restricted webs.
 
-__%X% Note:__ Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.
+*%X% Note:* Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.
 
 ---+++ Restrict Access to Whole Foswiki Site
 
@@ -208,7 +208,7 @@ For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to al
 
 If needed, you can further restrict access to selected webs with ALLOWWEBVIEW and other access control settings.
 
-__Note:__ With this configuration, someone with access to the site needs to register new users.
+*Note:* With this configuration, someone with access to the site needs to register new users.
 
 ---+++ Authenticate all Webs and Restrict Selected Webs
 
@@ -218,7 +218,7 @@ Use the following setup to authenticate users for topic viewing in all webs and 
       * ==Set <nop>DENYWEBVIEW = WikiGuest==
    1. *Restrict* view access to selected Users and Groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
       * ==Set <nop>ALLOWWEBVIEW = &lt; list of Users and Groups &gt;==
-      * __Note:__ =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
+      * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
 
 In rare cases it may be required to authenticate the view script. This can in some cases have a dramatic performance hit because the webserver must re-authenticate for every page view.
 
@@ -231,11 +231,11 @@ Use the following setup to provide unrestricted viewing access to open webs, wit
    1. *Restrict* view access to selected Users and Groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
       * ==Set <nop>DENYWEBVIEW = &lt; list of Users and Groups &gt;==
       * ==Set <nop>ALLOWWEBVIEW = &lt; list of Users and Groups &gt;==
-      * __Note:__ =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
+      * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
 
 ---+++ Hide Control Settings
 
-__%T% Tip:__ To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
+*%T% Tip:* To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
@@ -247,5 +247,6 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
 
 %STOPINCLUDE%
 
-__Related Topics:__ AdminDocumentationCategory, UserAuthentication
+---
+*Related Topics:* AdminDocumentationCategory, UserAuthentication
 

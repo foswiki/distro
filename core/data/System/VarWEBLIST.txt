@@ -10,7 +10,7 @@
      | =format="format"= | (Alternative to above) | ="$name"= |
      | =separator=", "= | Line separator | ="$n"= (new line) |
      | =web=""= | if you specify =$web= in format, it will be replaced with this  | =""= |
-     | =webs="public"=   | Comma separated list of webs, =public= expands to all non-hidden.%BR% __NOTE:__ Administrators will see all webs, not just the public ones | ="public"= |
+     | =webs="public"=   | Comma separated list of webs, =public= expands to all non-hidden.%BR% *NOTE:* Administrators will see all webs, not just the public ones | ="public"= |
      | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
      | =selection="%<nop>WEB%"= | Current value to be selected in list | =selection="%<nop>WEB%"= |
      | =subwebs="Sandbox"=   | show webs that are a sub-web of this one (recursivly) | =""= |

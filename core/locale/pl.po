@@ -214,8 +214,8 @@ msgstr ""
 "(wpisz nazwę nowej strony w formacie [[%SYSTEMWEB%.WikiNotation][WikiWord]])"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__Propozycja:__ A może zechcesz zamieścić swoją fotografię?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Propozycja:* A może zechcesz zamieścić swoją fotografię?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 #, fuzzy
@@ -5066,17 +5066,17 @@ msgstr ""
 #~ msgstr "Twój podpis"
 
 #~ msgid ""
-#~ "__Note:__ Go back and click on Cancel if you would like to cancel the "
+#~ "*Note:* Go back and click on Cancel if you would like to cancel the "
 #~ "changes you did."
 #~ msgstr ""
-#~ "__Uwaga:__ Kliknij Wstecz i wybierz Rezygnacja, jeśli chcesz zrezygnować "
+#~ "*Uwaga:* Kliknij Wstecz i wybierz Rezygnacja, jeśli chcesz zrezygnować "
 #~ "z wprowadzonych zmian."
 
 #~ msgid ""
-#~ "__Note:__ Locking gets reset after <b> %1 </b> minutes of inactivity, the "
+#~ "*Note:* Locking gets reset after <b> %1 </b> minutes of inactivity, the "
 #~ "earliest in <b>%2</b> minutes."
 #~ msgstr ""
-#~ "__Uwaga:__ Blokada zostanie wyłączona po <b> %1 </b> minutach "
+#~ "*Uwaga:* Blokada zostanie wyłączona po <b> %1 </b> minutach "
 #~ "bezczynności, najwcześniej w ciągu <b>%2</b> minut(y)."
 
 #~ msgid "changes"

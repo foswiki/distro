@@ -154,7 +154,8 @@ Current support covers:
     ==suffix="..."==: Suffix, only appears if there are parents, default =""=. <br /> \
     ==separator="..."==: Separator between parents, default is =" &gt; "=. |
 
-__Note:__ SEARCH can also be used to render meta data, see examples in FormattedSearch and SearchPatternCookbook.
+*Note:* SEARCH can also be used to render meta data, see examples in FormattedSearch and SearchPatternCookbook.
 
-__Related Topics:__ DeveloperDocumentationCategory, UserDocumentationCategory
+---
+*Related Topics:* DeveloperDocumentationCategory, UserDocumentationCategory
 

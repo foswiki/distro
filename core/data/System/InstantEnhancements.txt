@@ -5,13 +5,12 @@ These quick enhancements are aimed at improving and customising your Foswiki.  N
 
 Many of these tips are based on setting some special [[WebPreferencesHelp][preferences]].
 
-%S% We recommend implementing at least __some__ of these enhancements __right after installation__ to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
+%S% We recommend implementing at least *some* of these enhancements *right after installation* to get a taste for what is possible.  Some of these tips and enhancements _should_ be implemented before or during initial roll-out.
 
 This may spark your imagination to *really* customize your site so that it's optimal for *your* users.  Slightly more advanced customization tips can be found in Foswiki:Support.SupplementalDocuments.
 
 %TOC%
 
----
 ---++ Tips using Preference Settings
 
 Preference settings can be redefined and are a great resource to customize your site. You need to know the preference name and decide where to put it.
@@ -39,7 +38,7 @@ Without getting into the [[skin templates]] system yet, you can easily edit the 
 
 ---+++ Titles-Only Topic List - !WebTopicList
 
-WebTopicList is a __good first navigation tool for new users,__ a fast-loading linked list (page titles only) of a web's topics is a quick and easy way see what's available. By default, slower, but more powerful WebIndex is used. 
+WebTopicList is a *good first navigation tool for new users,* a fast-loading linked list (page titles only) of a web's topics is a quick and easy way see what's available. By default, slower, but more powerful WebIndex is used. 
 
 Without explaining what WEBTOPICLIST is, just try it: 
 
@@ -73,7 +72,7 @@ Or if you have a custom image to use, attach this to [[%LOCALSITEPREFS%]] and wr
 
 Most images in DocumentGraphics are 16 x 16 pixels.
 
-   * __Related:__ There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
+   * *Related:* There are other approaches for creating more extensive icon libraries. This is a simply and quick way to get started. See DocumentGraphics for more info.
 
 ---+++ Use TOC macro to create table of content
 
@@ -93,7 +92,6 @@ For example, you may want to put all your custom settings in [[%LOCALSITEPREFS%]
 
 Non-admin users wil be interested only in first part, non-system preferences.
 
----
 ---++ Personal Productivity - Tools and Tips for Working Faster
 
 Although this area applies to all setups, the initial focus is on site managers working on a Linux/Apache site, from a Windows local PC. The assumption being: if you're working with Linux as your desktop, you're probably a programmer or system admin and have these basics handled!
@@ -102,13 +100,13 @@ Although this area applies to all setups, the initial focus is on site managers 
 
 When you have a fair bit of formatting work - for example, compiling new info pages from various cut'n'paste sources, editing multiple topics or contributed material - it's often easier to use a real *[[TextEditor]]* instead of the browser's text edit box.  There are several methods for doing this.  For Windows, there are several well-recommended text editors.
 
-__Windows&nbsp;Example:__ [[http://textpad.com][TextPad]] is a low-cost, top flight Windows program, with an extended trial period. You can download from a well-stocked library of user-contributed macros, dictionaries, and syntax and clip files. You can also easily create a clip collection that allows you to format text with TML code: select a text string and click for bold, italic, links, bullet lists - just like a regular HTML editor - and also insert blocks of TML code, use simple or regex search and replace, more.
+*Windows&nbsp;Example:* [[http://textpad.com][TextPad]] is a low-cost, top flight Windows program, with an extended trial period. You can download from a well-stocked library of user-contributed macros, dictionaries, and syntax and clip files. You can also easily create a clip collection that allows you to format text with TML code: select a text string and click for bold, italic, links, bullet lists - just like a regular HTML editor - and also insert blocks of TML code, use simple or regex search and replace, more.
 
-__Copy&nbsp;&amp;&nbsp;Paste:__ Using the web window this can work very well.  System differences may present difficulties with this method but it is simple and reliable in most cases.
+*Copy&nbsp;&amp;&nbsp;Paste:* Using the web window this can work very well.  System differences may present difficulties with this method but it is simple and reliable in most cases.
 
-__Browser&nbsp;Integration:__ Some web browsers can be configured to automatically use an external editor.  See your browser documentation for details.
+*Browser&nbsp;Integration:* Some web browsers can be configured to automatically use an external editor.  See your browser documentation for details.
 
-__Alternate&nbsp;Browser:__ While your main browser might not have the features for topic editing, another one might.
+*Alternate&nbsp;Browser:* While your main browser might not have the features for topic editing, another one might.
    * An example on the Linux platform is the =w3m= pager/browser for Linux.  This is a text based version similar to =lynx= but it includes text editor features and a configurable command set to act like =lynx= if you are more accustomed to it.
 
 ---++ Ready to use SEARCH 
@@ -119,7 +117,7 @@ Here's how you can create your own personal directory of topics you've contribut
 
 *Start Copy*
 <verbatim>
-__Here's a list of topics I've been involved in recently:__
+*Here's a list of topics I've been involved in recently:*
 
 ---++++ Project Web
 
@@ -139,14 +137,12 @@ Here are the last 15 changed pages, formatted into a neat table.
 </table>
 </verbatim>
 
----
 ---++ Hidden Edit Lock for Individual Topics
 
 When you're creating main gateway pages, you may want to temporarily (or permanently) restrict editing to yourself or a limited group of people. You can do this with a Preference setting that includes one or more users and groups. Only auhorized users will be able to use ==Edit==.
-   * __Example:__ ==Set ALLOWTOPICCHANGE = <nop>%USERSWEB%.UserName, <nop>%USERSWEB%.GroupName==
+   * *Example:* ==Set ALLOWTOPICCHANGE = <nop>%USERSWEB%.UserName, <nop>%USERSWEB%.GroupName==
    * %T% *To hide the setting:* Use HTML comment tags - put ==&lt;!--== on the line _above the setting, and ==--&gt;== on the line below.
 
----
 ---++ Change the Default Logo
 
 If you want to change the logo per web, simply attach a new logo.gif to the web's <nop>WebPreferences, and change the logo's filename by overriding the name using WEBLOGONAME in <nop>WebPreferences:  
@@ -157,27 +153,23 @@ Other cusomtisations are possible using =WEBLOGOIMG=, =WEBLOGOURL=, and =WEBLOGO
 If you'd like to have the same customised logo for all the webs, make these changes in %LOCALSITEPREFS% instead of each web's <nop>WebPreferences, e.g.,
    * =Set WEBLOGOIMG = %<nop>PUBURLPATH%/%USERSWEB%/WebPreferences/mylogo.gif=
 
-----
 ---++ Customize Topic Classification Forms
 
-With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with DataForms, without having to read up about them first. %X% __(add the corresponding search per category - copy a default and change)__
+With a simple one or two-line default topic form available for every topic  - in *Edit* mode, click the ==[Add]== button, and select the form if it isn't already enabled. Then, click the title to get to the actual form, ==[Edit]==, and carefully change values, probably basic page classifications. You'll get some increased value, and hands-on experience with DataForms, without having to read up about them first. %X% *(add the corresponding search per category - copy a default and change)*
 
 
----
 ---++ Add Your Favorite <nop>JavaScript Features
 
 You're no doubt familiar or better with HTML, JS, and "webmastering". Without getting into the [[skin templates]] system yet, you can easily edit the ==view.pattern.tmpl== (if you are using default pattern skin) (in the =templates= directory) for some dramatic effects. The top of the template is mostly regular HTML with some macros. Open up some space in the ==&lt;head&gt;== area, and you can drop in reliable <nop>JavaScripts - a pop-up window script, for example - or tag it as an external script.
 
-   * %T% Obviously, you can do the same - place a link to an external stylesheet as well. If you set values for standard HTML tags, you can control a good deal of the type size, style and color with out adding CSS tags. __example__
+   * %T% Obviously, you can do the same - place a link to an external stylesheet as well. If you set values for standard HTML tags, you can control a good deal of the type size, style and color with out adding CSS tags. *example*
 
 %X% Depending on what you load up, you may change the overall cross-browser compatibility - however be careful that your site does not look beat up in various other browsers. The scripts you choose will determine compatibility.
 
----
 ---++ Customize The Left Navigation Bar
 
 Customize the contents of the WebLeftBar for each web to include important topics for that web, or to link to an important topic for the overall site. Each web has its own WebLeftBar page. (This is specific to the PatternSkin.) 
 
 ----
-
-__Related Topics:__ AdminDocumentationCategory
+*Related Topics:* AdminDocumentationCategory
 

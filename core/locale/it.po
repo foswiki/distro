@@ -216,8 +216,8 @@ msgid "(Use a topic name in System.WikiNotation)"
 msgstr "(Usa un nomepagina in [[System.WikiNotation][notazione TWiki]])"
 
 #: templates/messages.tmpl:156
-msgid "(__Suggestion:__ How about uploading your picture to your topic?)"
-msgstr "(__Suggerimento:__ Come caricare l'immagine sulla pagina?)"
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Suggerimento:* Come caricare l'immagine sulla pagina?)"
 
 #: templates/oopsaccessdenied.tmpl:4
 msgid "(access denied)"

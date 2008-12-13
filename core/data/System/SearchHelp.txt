@@ -43,4 +43,5 @@ The default search preferences are:
    * =SEARCHSTOPWORDS=: List of stop words (common words and characters to exclude from a keyword search)
       * Currently =%SEARCHSTOPWORDS%=
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

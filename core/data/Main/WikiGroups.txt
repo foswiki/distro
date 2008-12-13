@@ -11,7 +11,7 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
 <div class="foswikiFormStep foswikiLast">
 %TABLE{databg="" cellborder="0" tableborder="0"}%
 | New Group: |<input type="text" name="topic" value="NameGroup" size="40" class="foswikiInputField" />&nbsp;<input class="foswikiSubmit" type="submit" value="Add"/>  |
-| |%ICON{"warning"}% __Note:__ A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and __must__ end in =...Group=. New topics are based on [[GroupTemplate]]  |
+| |%ICON{"warning"}% *Note:* A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. New topics are based on [[GroupTemplate]]  |
 
 <input type="hidden" name="templatetopic" value="GroupTemplate"/>
 <input type="hidden" name="topicparent" value="%TOPIC%"/>
@@ -26,4 +26,5 @@ These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][Acc
    * Content does not get lost because topics are under revision control.
    * A topic revision can be undone by a member of the [[%USERSWEB%.AdminGroup][AdminGroup]] if necesssary.
 
-__Related topics:__ [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]
+---
+*Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]

@@ -5,7 +5,7 @@ This page contains all documentation topics as one long, complete reference shee
 
 %TOC{ depth="2" }%
 
-__Related Topics:__ UserDocumentationCategory, AdminDocumentationCategory
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory
 
 ------
 %INCLUDE{"SystemRequirements"}%

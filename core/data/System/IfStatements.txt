@@ -21,7 +21,7 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | $ | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
 | {X} | expands to the value of the =configure= setting {X} - for example, ={ScriptUrlPath}= |
 
-__Examples:__
+*Examples:*
 
 1. Macro defined or not
 <verbatim>

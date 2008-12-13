@@ -8,6 +8,7 @@ You can hide/unhide file attachments in normal topic view.
    * enable the *Hide file* checkbox,
    * then click *Change properties* 
 
-__Note:__ All attachments are listed in the attach screen, regardless of the hide file flag.
+*Note:* All attachments are listed in the attach screen, regardless of the hide file flag.
 
-__Related Topics:__ UserDocumentationCategory
+---
+*Related Topics:* UserDocumentationCategory

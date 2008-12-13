@@ -5,6 +5,6 @@
    * Syntax =%<nop>WIKIHOMEURL%=
    * Expands to =%WIKIHOMEURL%=
    * Normally by default set to =%<nop>SCRIPTURLPATH{"view"}%=
-   * __%X% Note:__ For the top bar logo URL use =%<nop>WIKILOGOURL%= defined in WebPreferences instead.
+   * *%X% Note:* For the top bar logo URL use =%<nop>WIKILOGOURL%= defined in WebPreferences instead.
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVarWIKITOOLNAME][WIKITOOLNAME]]
 

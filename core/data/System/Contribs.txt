@@ -12,13 +12,13 @@ Foswiki contribs extend the functionality of Foswiki, in a lower-level way than 
 
 An example is the MailerContrib, which implements mail notification of topics changes.
 
-__Relevant links on Foswiki.org:__
+*Relevant links on Foswiki.org:*
    * Foswiki:Extensions.ContribPackage - list of all contributed contrib packages
    * Foswiki:Extensions.ContribDevelopment - discussion and feedback on contributed packages
    * Foswiki:Extensions.ContribBrainstorming - open forum for new contrib ideas
    * Foswiki:Extensions.ContribPackageHowTo - instructions and template to create a new contrib package
 
-__See other types of extensions:__ ContributedAddOns, [[Plugins]], [[Skins]]
+*See other types of extensions:* ContributedAddOns, [[Plugins]], [[Skins]]
 
 ---++ Foswiki Contribs Installed on this site
 
@@ -41,4 +41,5 @@ __See other types of extensions:__ ContributedAddOns, [[Plugins]], [[Skins]]
    * Visit Foswiki:Extensions.ContribPackageHowTo and follow the instructions.
 
 %STOPINCLUDE%
-__Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, Foswiki:Support.PluginsSupplement
+---
+*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory, Foswiki:Support.PluginsSupplement
