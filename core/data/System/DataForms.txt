@@ -12,9 +12,10 @@ By adding form-based input to freeform content, you can structure topics with un
 Typical steps to build an application based on Foswiki forms:
    1. Define a form definition
    1. Enable the form for a web
-   1. Add the form to a [[TemplateTopics][template topic]]
    1. Build an HTML form to create new topics based on that template topic
    1. Build a FormattedSearch to list topics that share the same form
+
+For a step by step tutorial, see AnApplicationWithWikiForm.
 
 #FormDefinition
 ---++ Defining a form
@@ -213,4 +214,4 @@ The best way to search in form data is using the structured query language in th
 
 %STOPINCLUDE%
 
-__Related Topics:__ UserDocumentationCategory, TemplateTopics
+__Related Topics:__ UserDocumentationCategory, TemplateTopics, AnApplicationWithWikiForm
