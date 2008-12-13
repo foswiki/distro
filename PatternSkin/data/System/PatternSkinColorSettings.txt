@@ -43,7 +43,7 @@ Edit this topic, and change the color as you like.
 ---++++ GENERAL_TEXT General text (black)
    * Local GENERAL_TEXT = #000
 ---++++ H1_HEADER_TEXT Header text
-   * Local H1_HEADER_TEXT = #3ba1cb
+   * Local H1_HEADER_TEXT = #2989bb
 ---++++ HEADER_TEXT Header text
    * Local HEADER_TEXT = #d1400e
 ---++++ CODE_TEXT Code text, left bar text and links

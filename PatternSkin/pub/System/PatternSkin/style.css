@@ -996,7 +996,7 @@ h4.patternSearchResultsHeader {
 	font-size:94%;
 }
 .patternEditPage .patternEditTopic {
-	margin:.25em 0 0 0;
+	margin:.25em 0 .5em 0;
 }
 .patternEditPage .foswikiForm {
 	margin:2.25em 0 0 0;
@@ -1025,7 +1025,6 @@ h4.patternSearchResultsHeader {
 }
 .patternSig {}
 .patternSigLine {
-	margin:.5em 0 0 0;
 	border-style:none;
 	height:1%; /* for IE */
 	float:right;
