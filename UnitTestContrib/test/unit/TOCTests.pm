@@ -120,7 +120,7 @@ sub setup_TOCtests {
   # ----- now analyze the resultant $tree
 
   my @children = $tree->content_list();
-  return ($children[1]->content_list())[0]->content_list();
+  return $children[0]->content_list();
 
 }
 
@@ -144,10 +144,10 @@ sub test_no_parameters {
   
   my @children = setup_TOCtests( $this, $testtext1, $testtopic1, $testweb, '', '' );
   # @children will have alternating ' * ' and an href
-  foreach my $c ( @children ) {
+  foreach my $c ( @children ) {  	
     next if ($c eq " * ");
     my $res = $c->{href};
-    $res =~ s/#.*$//o;  # Delete anchor
+    $res =~ s/#.*$//o;  # Delete anchor    
     $this->assert_str_equals('', $res);
   }
 }
