@@ -19,17 +19,17 @@
 
 =begin TML
 
----+!! package TWiki::Engine::FastCGI
+---+!! package Foswiki::Engine::FastCGI
 
 Class that implements FastCGI execution mode.
 
-Refer to TWiki::Engine documentation for explanation about methos below.
+Refer to Foswiki::Engine documentation for explanation about methos below.
 
 =cut
 
-package TWiki::Engine::FastCGI;
+package Foswiki::Engine::FastCGI;
 
-use base 'TWiki::Engine::CGI';
+use base 'Foswiki::Engine::CGI';
 
 use strict;
 
@@ -74,8 +74,8 @@ sub run {
         $manager && $manager->pm_pre_dispatch();
         CGI::initialize_globals();
         my $req = $this->prepare;
-        if ( UNIVERSAL::isa($req, 'TWiki::Request') ) {
-            my $res = TWiki::UI::handleRequest($req);
+        if ( UNIVERSAL::isa($req, 'Foswiki::Request') ) {
+            my $res = Foswiki::UI::handleRequest($req);
             $this->finalize( $res, $req );
         }
         $manager && $manager->pm_post_dispatch();

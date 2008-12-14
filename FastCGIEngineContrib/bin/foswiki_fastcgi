@@ -27,9 +27,9 @@ use strict;
 use warnings;
 
 BEGIN {
-    $TWiki::cfg{Engine} = 'TWiki::Engine::FastCGI';
+    $Foswiki::cfg{Engine} = 'Foswiki::Engine::FastCGI';
     @INC = ('.', grep { $_ ne '.' } @INC);
-    delete $ENV{TWIKI_ACTION} if exists $ENV{TWIKI_ACTION};
+    delete $ENV{FOSWIKI_ACTION} if exists $ENV{FOSWIKI_ACTION};
     require 'setlib.cfg';
 }
 
@@ -48,10 +48,10 @@ GetOptions(
 
 pod2usage(1) if $help;
 
-use TWiki;
-use TWiki::UI;
+use Foswiki;
+use Foswiki::UI;
 
-$TWiki::engine->run(
+$Foswiki::engine->run(
     $listen,
     {   nproc         => $nproc,
         pidfile       => $pidfile,
@@ -64,7 +64,7 @@ __END__
 
 =head1 SYNOPSIS
 
-twiki_fastcgi.pl [options]
+foswiki_fastcgi [options]
 
   Options:
     -l --listen     Socket to listen on
