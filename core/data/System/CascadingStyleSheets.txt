@@ -1,4 +1,4 @@
-%META:TOPICINFO{author"ProjectContributor" date"1111929255" format"1.0" version"$Rev: 16175 $"}%
+%META:TOPICINFO{author"ProjectContributor" date"1111929255" format"1.0" version"$Rev$"}%
 %STARTINCLUDE%
 ---+ Appendix C: CSS
 
@@ -86,6 +86,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiFormTableFooter=        | Table container for form elements  |
 |=.foswikiEditForm=               | Edit state of data form  |
 |=.foswikiMandaroty=              | Indication of mandatory field |
+|=.foswikiAddFormButton=          | "Add form" button on edit screen |
 
 ---+++ HTML Forms
 |=.foswikiPageForm=              | Container for the form on the page |

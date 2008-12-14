@@ -12,7 +12,8 @@
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
 
 
-%TMPL:DEF{"changefromtitle"}%---++ %MAKETEXT{"Change from:"}% <nop>%WEB%.%TOPIC%%TMPL:END%
+%TMPL:DEF{"changefromtitle"}%---++ %MAKETEXT{"Change from:"}% 
+<nop>%WEB%.%TOPIC%%TMPL:END%
 
 %TMPL:DEF{"changefrom"}%
 %TMPL:P{"changefromtitle"}%
@@ -49,14 +50,13 @@
 ---+++ %MAKETEXT{"Update links"}%
 *%TMPL:P{"updatenote"}%*
 
-<blockquote>
 ---++++ %MAKETEXT{"Change links in topics that refer to [_1] in the [_2] Web:" args="%TOPIC%, <nop>%WEB%"}%
 %LOCAL_SEARCH%
 
 ---++++ %MAKETEXT{"Change links in topics that refer to [_1] in any Web:" args="[[%WEB%.%TOPIC%]]"}%
 %GLOBAL_SEARCH%
 %TMPL:P{"checkuncheck"}%
-</blockquote>%TMPL:END%
+%TMPL:END%
 
 
 %TMPL:DEF{"notes"}%%TMPL:P{"notegethelp"}%%TMPL:END%

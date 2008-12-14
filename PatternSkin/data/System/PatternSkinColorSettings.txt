@@ -52,7 +52,9 @@ Edit this topic, and change the color as you like.
    * Local MUTED_TEXT = %GRAYED_TEXT%
 ---++++ GRAYED_OUT_TEXT Grayed out text
    * Local GRAYED_OUT_TEXT = %GRAYED_TEXT%
-
+---++++ GRAYED_OUT_TEXT_ON_DARK Grayed out text on dark background
+   * Local GRAYED_OUT_TEXT_ON_DARK = #bbb
+   
 ---+++ Links
 ---++++ LINK_TEXT_NORMAL Link normal text
    * Local LINK_TEXT_NORMAL = #4571d0
@@ -526,6 +528,9 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
 .foswikiFormStep {
    border-color:%FORM_STEP_BORDER%;
 }
+.foswikiFormStep h2 {
+   color:%H1_HEADER_TEXT%;
+}
 .foswikiFormStep h3,
 .foswikiFormStep h4 {
    color:%FORM_HEADER_TEXT%;
@@ -647,7 +652,7 @@ a:hover .foswikiAccessKey {
 
 .patternTopicActions {
    background-color:%TOPIC_ACTION_BACKGROUND%;
-   color:%MUTED_TEXT%;
+   color:%GRAYED_OUT_TEXT_ON_DARK%;
 }
 .patternTopicAction {
    border-color:%ATTACHMENT_AND_FORM_BORDER%;
@@ -682,6 +687,9 @@ a:hover .foswikiAccessKey {
 .patternSigLine {
    color:%MUTED_TEXT%;
 }
+.patternEditTopic {
+	background:%ATTACHMENT_AND_FORM_BACKGROUND%;
+}
 .patternToolBar a:link .foswikiAccessKey,
 .patternToolBar a:visited .foswikiAccessKey {
    color:inherit;
@@ -691,9 +699,6 @@ a:hover .foswikiAccessKey {
    background-color:transparent;
    color:inherit;
    border-color:%LINK_TEXT_NORMAL_VISITED%;
-}
-.patternSaveHelp {
-   background-color:%MAIN_TEXT_BACKGROUND%;
 }
 
 /* WebSearch, WebSearchAdvanced */

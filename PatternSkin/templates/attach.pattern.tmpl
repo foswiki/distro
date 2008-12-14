@@ -11,8 +11,7 @@
 %TMPL:DEF{"pagetitle"}%%MAKETEXT{"Attach image or document on [_1]" args="[[%TOPIC%]]"}%%TMPL:END%
 
 
-%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" link="%MAKETEXT{"Attachments help"}%" showimgleft="%ICONURLPATH{toggleopen}%"
-hideimgleft="%ICONURLPATH{toggleclose}%"}%</div><!--//patternTop-->%TMPL:END%
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" showlink="<h3>&#9658; %MAKETEXT{"Attachments help"}%</h3>" hidelink="<h3>&#9660; %MAKETEXT{"Attachments help"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
 
 
 %TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="attachhelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">
