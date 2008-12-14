@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 14936 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev$"}%
 ---+ Wiki Administrator User
 
 The %TOPIC% allows you to login without needing to register a user,

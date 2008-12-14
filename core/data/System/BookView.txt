@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 4646 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
 *BookView* is an option available from the [[WebSearchAdvanced][advanced search]] topic. It allows you to display the result in "book view", that is, the whole content of topics is shown instead of a topic summary. This allows you to easily see a whole set of pages, which is useful for printing.
 
 ---

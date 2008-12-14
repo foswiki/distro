@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1168078214" format="1.1" version="$Rev: 14760 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1168078214" format="1.1" version="$Rev$"}%
 ---+!! Reference Manual (%WIKIVERSION%)
 
 This page contains all documentation topics as one long, complete reference sheet.

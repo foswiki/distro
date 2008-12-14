@@ -22,7 +22,7 @@ use vars qw(
         $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION
     );
 
-$VERSION = '$Rev: 17034 $';
+$VERSION = '$Rev$';
 $RELEASE = '4.00-pre1';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';

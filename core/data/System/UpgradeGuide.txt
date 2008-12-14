@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1200013119" format="1.1" version="$Rev: 14667 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1200013119" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
 

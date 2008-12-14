@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 5970 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
 
 Description: This topic is not a testcase, it is part of a fixture for the TestCaseInternalTags
 

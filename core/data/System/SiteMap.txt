@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1208655647" format="1.1" version="$Rev: 15961 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1208655647" format="1.1" version="$Rev$"}%
 ---+ <nop>%WIKITOOLNAME% Site Map
 %STARTINCLUDE%
 | *Web* | *Description of Web* | *Used to...* | *Links* |

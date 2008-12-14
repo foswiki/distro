@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1174436429" format="1.1" version="$Rev: 11678 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1174436429" format="1.1" version="$Rev$"}%
 ---+ <nop>GoodStyle Collaboration Tips
 
    * Foswiki has a very simple *[[ShortHand][text formatting shorthand]]*. In any case, you won't go wrong if you simply:

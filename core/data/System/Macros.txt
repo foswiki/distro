@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1173217738" format="1.0" version="$Rev: 15689 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1173217738" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="WebHome"}%
 %STARTSECTION{type="include"}%
 ---+ Macros

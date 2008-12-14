@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1141756708" format="1.1" version="$Rev: 13903 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1141756708" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Text Formatting
 

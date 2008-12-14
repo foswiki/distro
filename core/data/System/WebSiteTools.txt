@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
 ---+ Web Site Tools
 %STARTINCLUDE%
 <form action="%SCRIPTURLPATH{search}%/%INCLUDINGWEB%/SearchResult">

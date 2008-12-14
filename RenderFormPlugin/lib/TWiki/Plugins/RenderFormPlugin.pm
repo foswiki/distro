@@ -4,7 +4,7 @@ use strict;
 
 use vars qw( $VERSION $RELEASE $REVISION $debug $pluginName );
 
-$VERSION = '$Rev: 17581 (05 Oct 2008) $';
+$VERSION = '$Rev$';
 
 $RELEASE = 'Dakar';
 

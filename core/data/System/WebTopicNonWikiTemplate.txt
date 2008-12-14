@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1163295544" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1163295544" format="1.0" version="$Rev$"}%
 %INCLUDE{"%SYSTEMWEB%.WebTopicViewTemplate"}%%IF{"'%HIDE_NON_WIKI_WORD_WARNINGS%'!='on'" then=" $percntINCLUDE{$quot$percntSYSTEMWEB$percnt.$percntWebTopicNonWikiTemplate$percnt$quot section=$quotnonwikiwordwarning$quot}$percnt"}%
 
 <!--

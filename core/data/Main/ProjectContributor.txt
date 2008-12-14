@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1127386324" format="1.1" version="$Rev: 15171 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1127386324" format="1.1" version="$Rev$"}%
 ---+ Project Contributor
 
 Not an actual user of this site, but a person devoting some of his/her time to contribute to the Foswiki Open Source project. [[%SYSTEMWEB%.ProjectContributor][ProjectContributor]] lists the people involved.

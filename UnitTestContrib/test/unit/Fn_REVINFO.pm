@@ -132,7 +132,7 @@ sub test_compatibility1 {
     $this->assert(open(
         F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"));
     print F <<'HERE';
-%META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev: 16686 $"}%
+%META:TOPICINFO{author="ScumBag" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     close(F);
     my $ui = $this->{twiki}->handleCommonTags(
@@ -155,7 +155,7 @@ sub test_compatibility2 {
     $this->assert(open(
         F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/CrikeyMoses.txt"));
     print F <<'HERE';
-%META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev: 16686 $"}%
+%META:TOPICINFO{author="scum" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     close(F);
     my $ui = $this->{twiki}->handleCommonTags(
@@ -178,7 +178,7 @@ sub test_5873 {
     $this->assert(open(
         F, '>', "$Foswiki::cfg{DataDir}/$this->{test_web}/GeeWillikins.txt"));
     print F <<'HERE';
-%META:TOPICINFO{author="eltonjohn" date="1120846368" format="1.1" version="$Rev: 16686 $"}%
+%META:TOPICINFO{author="eltonjohn" date="1120846368" format="1.1" version="$Rev$"}%
 HERE
     close(F);
     $Foswiki::cfg{RenderLoggedInButUnknownUsers} = 0;

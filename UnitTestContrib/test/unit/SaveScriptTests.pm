@@ -35,7 +35,7 @@ my $testform4 = $testform1 . <<'HERE';
 HERE
 
 my $testtext1 = <<'HERE';
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 4579 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev$"}%
 
 A guest of this Foswiki web, not unlike yourself. You can leave your trace behind you, just add your name in %SYSTEMWEB%.UserRegistration and create your own page.
 
