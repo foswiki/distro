@@ -2022,7 +2022,7 @@ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
         }
         
         # add a anchor to be able to jump to the toc and add a outer div
-        return CGI::a( {name=>'foswikiTOC'}).CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
+        return CGI::a( {name=>'foswikiTOC'},'').CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
 
     }
     else {
