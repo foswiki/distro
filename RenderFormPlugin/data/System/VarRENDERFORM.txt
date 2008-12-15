@@ -3,7 +3,7 @@
 #VarRENDERFORM
 ---+++ RENDERFORM -- render DataForms data within a topic
    * The =%<nop>RENDERLIST%= variable is handled by the RenderFormPlugin
-   * Syntax: =%<nop>RENDERFORM{ "ATWikiFormDefinition"}%=
+   * Syntax: =%<nop>RENDERFORM{ "ADataFormDefinition"}%=
    * Example:%BR%
      =%<nop>RENDERLIST{ "%SYSTEMWEB%.HelpDeskForm" }%= %BR%
    * Related: DataForms

@@ -1,4 +1,22 @@
-package TWiki::Plugins::RenderFormPlugin::Core;
+# RenderFormPlugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 2008 Daniel Rohde
+#
+# For licensing info read LICENSE file in the Foswiki root.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details, published at
+# http://www.gnu.org/copyleft/gpl.html
+#
+# As per the GPL, removal of this notice is prohibited. 
+
+package Foswiki::Plugins::RenderFormPlugin::Core;
 
 ### todo:
 # + additional form field definitions that can be used with URLPARAM in the templatetopic
@@ -60,7 +78,7 @@ sub _initDefaults {
 sub _initOptions {
 	my ($attributes, $topic, $web) = @_;
 
-	my %params = &TWiki::Func::extractParameters($attributes);
+	my %params = &Foswiki::Func::extractParameters($attributes);
 
 	## handle default parameter:
 	$params{form}=$params{_DEFAULT} if (defined $params{_DEFAULT}) && (!defined $params{form});
@@ -75,9 +93,9 @@ sub _initOptions {
         return 0 if $#unknownParams != -1; 
 
 	my $tmplName = $params{template};
-	$tmplName = ( TWiki::Func::getPreferencesValue("\U${pluginName}_TEMPLATE\E") || undef) unless defined $tmplName;
+	$tmplName = ( Foswiki::Func::getPreferencesValue("\U${pluginName}_TEMPLATE\E") || undef) unless defined $tmplName;
 
-	my $cgi = TWiki::Func::getCgiQuery();
+	my $cgi = Foswiki::Func::getCgiQuery();
 
 
 	$formCounter++;
@@ -91,8 +109,8 @@ sub _initOptions {
                 $v = $params{$option} unless defined $v;
 
 		if ((defined $tmplName)&&(!defined $v)) {
-			$v = (TWiki::Func::getPreferencesFlag("\U${pluginName}_TEMPLATE_${tmplName}_${option}\E") || undef) if grep /^\Q$option\E$/, @flagOptions;
-			$v = (TWiki::Func::getPreferencesValue("\U${pluginName}_TEMPLATE_${tmplName}_${option}\E") || undef) unless defined $v;
+			$v = (Foswiki::Func::getPreferencesFlag("\U${pluginName}_TEMPLATE_${tmplName}_${option}\E") || undef) if grep /^\Q$option\E$/, @flagOptions;
+			$v = (Foswiki::Func::getPreferencesValue("\U${pluginName}_TEMPLATE_${tmplName}_${option}\E") || undef) unless defined $v;
 			$v = undef if (defined $v) && ($v eq "");
 		}
 
@@ -104,9 +122,9 @@ sub _initOptions {
                         }
                 } else {
                         if (grep /^\Q$option\E$/, @flagOptions) {
-                                $v = TWiki::Func::getPreferencesFlag("\U${pluginName}_$option\E") || undef;
+                                $v = Foswiki::Func::getPreferencesFlag("\U${pluginName}_$option\E") || undef;
                         } else {
-                                $v = TWiki::Func::getPreferencesValue("\U${pluginName}_$option\E") || undef;
+                                $v = Foswiki::Func::getPreferencesValue("\U${pluginName}_$option\E") || undef;
                         }
                         $v = undef if (defined $v) && ($v eq "");
                         $options{$option}=(defined $v)? $v : $defaults{$option};
@@ -121,7 +139,7 @@ sub _initOptions {
 
 	# automatic mode change:
 	my ($w,$t) = _getWebAndTopic($options{topic},$web);
-	my $topicExists = TWiki::Func::topicExists($w,$t);
+	my $topicExists = Foswiki::Func::topicExists($w,$t);
 	$options{mode}='view' if (($options{mode} eq $defaults{mode}) && ($options{topic} ne $topic.'XXXXXXXXXX') && $topicExists);
 
 	# automatic form detection:
@@ -151,9 +169,9 @@ sub _detectForm {
 	my $formTopic = undef;
 
 	if ($text =~ /\%META:FORM{(.*?)}\%/s) {
-		my %params = TWiki::Func::extractParameters($1);
+		my %params = Foswiki::Func::extractParameters($1);
 		my ($w,$t) = _getWebAndTopic($params{name}, $web);
-		$formTopic = "$w.$t" if TWiki::Func::topicExists($w,$t);
+		$formTopic = "$w.$t" if Foswiki::Func::topicExists($w,$t);
 	}
 	return $formTopic;
 }
@@ -183,7 +201,7 @@ sub render {
 	my %titl = %{$titlRef};
 
 	my $text = "";
-	my $cgi = TWiki::Func::getCgiQuery();
+	my $cgi = Foswiki::Func::getCgiQuery();
 
 	#_dump(\@defs);
 
@@ -193,7 +211,7 @@ sub render {
 	$text .= $cgi->start_form(-method=>"post", 
 					-onSubmit=>"return ${formName}CheckFormData();",
 					-name=>$formName, 
-					-action=>TWiki::Func::getScriptUrl($theWeb, $topic, $options{script}));
+					-action=>Foswiki::Func::getScriptUrl($theWeb, $topic, $options{script}));
 	$text .= $cgi->a({-name=>"$formName"},"");
 
 	$options{topicparent} = "$theWeb.$theTopic" unless defined $options{topicparent};
@@ -242,13 +260,13 @@ sub _layoutTopicExists {
 	my ($topic,$web);
 	($topic) = split(/\#/,$options{layout});
 	($web,$topic) =  _getWebAndTopic($topic,$theWeb);
-	return TWiki::Func::topicExists($web,$topic);
+	return Foswiki::Func::topicExists($web,$topic);
 }
 # =========================
 sub _renderUserLayout {
 	my ($topic,$web,$a) = @_;
 
-	my $cgi = TWiki::Func::getCgiQuery();
+	my $cgi = Foswiki::Func::getCgiQuery();
 	my $formName = $options{formName};
 
 	my $text = _readUserLayout($web);
@@ -272,7 +290,7 @@ sub _renderUserLayout {
 		my $title = $$def{title};
 
 		if ($text=~s/(\Q$options{fieldmarker}$title$options{fieldmarker}\E)/join(" ",_renderFormField($cgi,$def,$formName))/eg) {
-			TWiki::Func::writeDebug("$1 substituted") if $TWiki::Plugins::RenderFormPlugin::debug;
+			Foswiki::Func::writeDebug("$1 substituted") if $Foswiki::Plugins::RenderFormPlugin::debug;
 		} else {
 			$hidden .= $cgi->hidden(-name=>$name, -default=>$$def{values}[0]{name});
 		}
@@ -296,7 +314,7 @@ sub _readUserLayout {
 
 	while ((!defined $layout)&&($text=~s/\%STARTRENDERFORMLAYOUT\{(.*?)\}\%(.*?)\%STOPRENDERFORMLAYOUT\%//s)) {
 		my ($p,$l) = ($1,$2);
-		my %params = TWiki::Func::extractParameters($p);
+		my %params = Foswiki::Func::extractParameters($p);
 		my $pname = $params{name};
 		$pname = $params{_DEFAULT} unless defined $pname;
 		if ((defined $name) && (defined $pname) && ($pname eq $name) && ((!defined $params{mode}) || ($params{mode} eq $options{mode}))) { 
@@ -329,7 +347,7 @@ sub _readUserLayout {
 sub _getSwitchButton {
 	my ($theTopic,$theWeb) = @_;
 	my $formName = $options{formName};
-	my $cgi = TWiki::Func::getCgiQuery();
+	my $cgi = Foswiki::Func::getCgiQuery();
 	my $buttonmode = $options{mode} eq 'view' ? 'edit' : $options{mode} eq 'edit' ? 'view' : '';
 
 	## preserve all query parameters and overwrite some 
@@ -428,11 +446,11 @@ sub _renderFormField {
 				$td = $$def{value};
 				$td = '&nbsp;' if $$def{value} eq "";
 			} else {
-				my $dateformat = defined $options{dateformat} ? $options{dateformat} : TWiki::Func::getPreferencesValue('JSCALENDARDATEFORMAT');
+				my $dateformat = defined $options{dateformat} ? $options{dateformat} : Foswiki::Func::getPreferencesValue('JSCALENDARDATEFORMAT');
 				$dateformat="%d %b %Y" unless defined $dateformat;
 				my $id=$formName.$$def{name}; 
 				$td = $cgi->textfield({-id=>$id,-name=>$$def{name},-default=>$$def{value},-size=>$$def{size},-readonly=>'readonly'})
-					.$cgi->image_button(-name=>'calendar', -src=>'%PUBURLPATH%/TWiki/JSCalendarContrib/img.gif', 
+					.$cgi->image_button(-name=>'calendar', -src=>'%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/img.gif', 
 							-alt=>'Calendar', -title=>'Calendar', -onClick=>qq@javascript: return showCalendar('$id','$dateformat')@);
 			}
 		}
@@ -501,13 +519,13 @@ sub _readTopicFormData {
 	my $foundForm=0;
 	foreach my $line (split(/[\r\n]/,$data)) {
 		if ($line=~/\%META:FORM{(.*?)}\%/) {
-			my %params = TWiki::Func::extractParameters($1);
+			my %params = Foswiki::Func::extractParameters($1);
 			$foundForm = ($params{name} eq $options{form}) || ($params{name} eq "$theWeb.$options{form}");
 			next;
 		}
 
 		if ($foundForm &&($line=~/\%META:FIELD{(.*?)}\%/)) {
-			my %params = TWiki::Func::extractParameters($1);
+			my %params = Foswiki::Func::extractParameters($1);
 
 			if (defined $$attr{$params{name}} && $$attr{$params{name}}{type} =~ /^(text|textarea|label|date)$/) {
 				$$attr{$params{name}}{value}=$params{value};
@@ -655,7 +673,7 @@ sub _getFormFieldValues {
 # =========================
 sub _createMissingParamsMessage {
         my $msg;
-        $msg = TWiki::Func::getPreferencesValue("MISSINGPARAMSMSG") || undef;
+        $msg = Foswiki::Func::getPreferencesValue("MISSINGPARAMSMSG") || undef;
         $msg = $defaults{missingparamsmsg} unless defined $msg;
         $msg =~ s/\%MISSINGPARAMSLIST\%/join(', ', sort @missingParams)/eg;
         $msg =~ s/\%REQUIREDPARAMSLIST\%/join(', ', sort @requiredOptions)/eg;
@@ -664,7 +682,7 @@ sub _createMissingParamsMessage {
 # =========================
 sub _createUnknownParamsMessage {
         my $msg;
-        $msg = TWiki::Func::getPreferencesValue("UNKNOWNPARAMSMSG") || undef;
+        $msg = Foswiki::Func::getPreferencesValue("UNKNOWNPARAMSMSG") || undef;
         $msg = $defaults{unknownparamsmsg} unless defined $msg;
         $msg =~ s/\%UNKNOWNPARAMSLIST\%/join(', ', sort @unknownParams)/eg;
         $msg =~ s/\%KNOWNPARAMSLIST\%/join(', ', sort keys %defaults)/eg;
@@ -673,7 +691,7 @@ sub _createUnknownParamsMessage {
 # =========================
 sub _createInvalidParamsMessage {
         my $msg;
-        $msg = TWiki::Func::getPreferencesValue("INVALIDPARAMSMSG") || undef;
+        $msg = Foswiki::Func::getPreferencesValue("INVALIDPARAMSMSG") || undef;
         $msg = $defaults{invalidparamsmsg} unless defined $msg;
         $msg =~ s/\%INVALIDPARAMSLIST\%/join(', ', sort @invalidParams)/eg;
 	my $list = "";
@@ -688,17 +706,17 @@ sub _readTopicText
 {
         my( $theWeb, $theTopic, $dontExpand ) = @_;
         my $text = '';
-        if( $TWiki::Plugins::VERSION >= 1.010 ) {
-                $text = &TWiki::Func::readTopicText( $theWeb, $theTopic, '', 1 );
+        if( $Foswiki::Plugins::VERSION >= 1.010 ) {
+                $text = &Foswiki::Func::readTopicText( $theWeb, $theTopic, '', 1 );
         } else {
-                $text = &TWiki::Func::readTopic( $theWeb, $theTopic );
+                $text = &Foswiki::Func::readTopic( $theWeb, $theTopic );
         }
 
 	#if ((!defined $dontExpand) || (!$dontExpand)) {
 		$text =~ s/(\%RENDERFORM{.*?}%)/<verbatim>\n$1<\/verbatim>/g;
 		$text =~ s/(\%STARTRENDERFORMLAYOUT.*?STOPRENDERFORMLAYOUT\%)/<verbatim>\n$1\n<\/verbatim>/sg;
 
-		$text = TWiki::Func::expandCommonVariables($text, $theTopic, $theWeb);
+		$text = Foswiki::Func::expandCommonVariables($text, $theTopic, $theWeb);
 	#}
         # return raw topic text, including meta data
         return $text;
@@ -715,7 +733,7 @@ sub _int {
 sub _dump {
 	eval {
 		use Data::Dumper;
-		TWiki::Func::writeWarning(Data::Dumper->Dump( \@_ ));
+		Foswiki::Func::writeWarning(Data::Dumper->Dump( \@_ ));
 	};
 }
 1;

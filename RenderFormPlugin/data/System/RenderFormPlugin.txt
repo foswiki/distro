@@ -21,7 +21,7 @@ Features:
 
 ---++ Syntax Rules
    * Usage: =%<nop>RENDERFORM{attr1="val1" attr2="val2" ...}%=
-   * Example: =%<nop>RENDERFORM{"TWikiFormDefinition"}% (=%<nop>RENDERFORM{form="TWikiFormDefinition"}%=)
+   * Example: =%<nop>RENDERFORM{"DataFormDefinition"}% (=%<nop>RENDERFORM{form="DataFormDefinition"}%=)
 
 ---++ Quick Start Guide
 
@@ -190,40 +190,37 @@ You can also use template based preferences, just write ==RENDERFORM_TEMPLATE_&l
 
 ---++ Plugin Installation Instructions
 
-__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the TWiki server.
+__Note:__ You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the Foswiki server.
 
    * Download the ZIP file from the Plugin Home (see below)
-      * Unzip ==%TOPIC%.zip== in your twiki installation directory. Content:
+      * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
       | *File:* | *Description:* |
       | ==data/System/%TOPIC%.txt== | Plugin topic |
-      | ==data/TWiki/VarRENDERFORM.txt== | Plugin Variables topic  |
-      | ==data/TWiki/%TOPIC%ExampleForm.txt== | Example form  |
-      | ==pub/TWiki/%TOPIC%/example.gif== | Example image |
+      | ==data/System/VarRENDERFORM.txt== | Plugin Variables topic  |
+      | ==data/System/%TOPIC%ExampleForm.txt== | Example form  |
+      | ==pub/System/%TOPIC%/example.gif== | Example image |
       | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
       | ==lib/Foswiki/Plugins/%TOPIC%/Core.pm== | Plugin Perl module |
    * Configure the Plugin: 
-      * TWiki 4.0 and up: Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script to enable the Plugin
+      * Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script to enable the Plugin
       * Change the Plugin settings as needed
    * Test if the installation was successful: 
       * see Examples section
 
 
 ---++ Plugin Info
-|  Plugin Author: | TWiki:Main.DanielRohde |
-|  Copyright: | &copy; 2008, TWiki:Main.DanielRohde |
+|  Plugin Author: | Foswiki:Main.DanielRohde |
+|  Copyright: | &copy; 2008, Foswiki:Main.DanielRohde |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | V1.002 (14 Oct 2008) |
+|  Plugin Version: | V1.003 (16 Dec 2008) |
 |  Change History: | <!-- versions below in reverse order --> |
-|  V1.002 (14 Oct 2008): | TWiki:Main:DanielRohde: added layout feature; fixed date field bug; added missing docs; |
-|  V1.001 (05 Oct 2008): | TWiki:Main:DanielRohde: changed topicparent default; added and fixed docs; fixed date field bug; fixed non-word character in field names bug; |
-|  V1.000 (04 Oct 2008): | TWiki:Main:DanielRohde: Initial version |
-|  TWiki Dependency: | $TWiki::Plugins::VERSION 1.1 |
+|  V1.003 (16 Dec 2008): | Foswiki:Main.KennethLavrsen: Changed to Foswiki name space |
+|  V1.002 (14 Oct 2008): | Foswiki:Main:DanielRohde: added layout feature; fixed date field bug; added missing docs; |
+|  V1.001 (05 Oct 2008): | Foswiki:Main:DanielRohde: changed topicparent default; added and fixed docs; fixed date field bug; fixed non-word character in field names bug; |
+|  V1.000 (04 Oct 2008): | Foswiki:Main:DanielRohde: Initial version |
+|  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.1 |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.005 |
-|  [[Foswiki:Extensions/Benchmark][Benchmarks]]: | %SYSTEMWEB%.GoodStyle 61%, %SYSTEMWEB%.FormattedSearch 87%, %TOPIC% 70% |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
-
--- TWiki:Main.DanielRohde - 04 Oct 2008
