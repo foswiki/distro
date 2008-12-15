@@ -94,7 +94,7 @@ installLocalModules({
 	'Data::UUID' => [ qw( /var/tmp 0007 ) ],
 #?	'GD' => [ qw( /usr/local/lib y y y ) ],
     },
-    # TODO: update to use same output as =cpan/calc-twiki-deps.pl=
+    # TODO: update to use same output as =cpan/calc-foswiki-deps.pl=
     modules => [ @ARGV ],
 });
 # Image::LibRSVG
@@ -244,7 +244,7 @@ B<install-cpan.pl> will ...
 
 =head2 SEE ALSO
 
-        http://twiki.org/cgi-bin/view/Codev/...
+        http://foswiki.org/Extensions/CpanContrib
 
 =cut
 
@@ -258,7 +258,7 @@ $CPAN::Config = {
   'http_proxy' => q[],
   'make_arg' => q[],
   'make_install_arg' => q[],
-  'makepl_arg' => q[PREFIX=/Users/twiki/Sites/cgi-bin/lib/CPAN/],
+  'makepl_arg' => q[PREFIX=/Users/foswiki/Sites/bin/lib/CPAN/],
   'no_proxy' => q[],
   'pager' => q[/usr/bin/less],
   'prerequisites_policy' => q[follow],

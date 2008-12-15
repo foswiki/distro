@@ -1,7 +1,7 @@
-package TWiki::Contrib::CpanContrib;
+package Foswiki::Contrib::CpanContrib;
 
 use vars qw( $VERSION $RELEASE );
-# This should always be $Rev$ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
 $VERSION = '$Rev$';

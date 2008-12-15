@@ -20,11 +20,11 @@ BEGIN {
   unshift @INC, '../../../CPAN/lib';
 }
 
-use TWiki::Contrib::Build;
+use Foswiki::Contrib::Build;
 
 # Declare our build package
 package BuildBuild;
-use base qw( TWiki::Contrib::Build );
+use base qw( Foswiki::Contrib::Build );
 
 use File::Path qw( mkpath rmtree );
 use FindBin;
@@ -83,7 +83,7 @@ sub target_build {
 
     # Do other build stuff here (?)
     # get cpan minimirror up-to-date
-    # create twiki mini-minicpan mirror (also publish this)
+    # create foswiki mini-minicpan mirror (also publish this)
 
     use Cwd;
     my $base_lib_dir = getcwd . "/../../../CPAN";
