@@ -1,9 +1,9 @@
-# Runtime Engine of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+# Runtime Engine of Foswiki - The Free and Open Source Wiki,
+# http://foswiki.org/
 #
-# Copyright (C) 2007-2008 TWiki Contributors. All Rights Reserved. 
-# TWiki Contributors are listed in the AUTHORS file in the root of 
-# TWiki distribution.
-# NOTE: Please extend that file, not this notice.
+# Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# contributors. Foswiki contributors are listed in the AUTHORS file in the root
+# of Foswiki distribution.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

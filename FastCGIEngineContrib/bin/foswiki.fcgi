@@ -1,9 +1,9 @@
-#!/usr/bin/perl -wT
-#
+#!/usr/bin/perl -w
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org
-# and TWiki Contributors.
+# Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
+# contributors. Foswiki contributors are listed in the AUTHORS file in the root
+# of Foswiki distribution.
 #
 # This script is based/inspired on Catalyst framework. Refer to
 #
