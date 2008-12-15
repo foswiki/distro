@@ -245,9 +245,13 @@ Return a string of all headers, separated by CRLF
 =cut
 
 sub printHeaders {
-  my ($this) = shift;
-  my $CRLF = "\x0D\x0A";
-  my $hdr = '';
+    my ($this) = shift;
+    my $CRLF = "\x0D\x0A";
+    my $hdr = '';
+    
+    # make sure we always generate a status for the response
+    $this->{headers}->{Status} = $this->status()
+      if ( $this->status() && !defined( $this->headers->{Status} ) );
     foreach my $header ( keys %{ $this->{headers} } ) {
       $hdr .= $header . ': ' . $_ . $CRLF
           foreach $this->getHeader($header);
