@@ -65,10 +65,10 @@ AuthType Basic
 # to register with the Foswiki. Apache requires this to be a *local* path.
 # Comment this out if you setup Foswiki to completely deny access to WikiGuest
 # in all webs or change the path to a static html page.
-ErrorDocument 401 {ScriptUrlPath}/view/Foswiki/UserRegistration
+ErrorDocument 401 {ScriptUrlPath}/view/System/UserRegistration
 # Alternatively if your users are all known to be registered you may want
 # to redirect them to the ResetPassword page.
-# ErrorDocument 401 {ScriptUrlPath}/view/Foswiki/ResetPassword 
+# ErrorDocument 401 {ScriptUrlPath}/view/System/ResetPassword 
 
 # Set options for excuting CGI and allow symlinks for e.g. viewauth
 # This also unsets any options allowing directory indexing etc.
