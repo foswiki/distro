@@ -83,6 +83,27 @@ sub run {
     FCGI::CloseSocket($sock) if $sock;
 }
 
+sub preparePath {
+    my $this = shift;
+
+    # In some hosted environments, users don't have access to "Alias", so they
+    # should use in .htaccess something like:
+    #
+    # SetHandler foswiki-fastcgi
+    # Action foswiki-fastcgi /foswiki/bin/foswiki.fcgi
+    # <Files "foswiki.fcgi">
+    #    SetHandler fastcgi-script
+    # </Files>
+    #
+    # but then, the script is called by the webserver as
+    # /foswiki/bin/foswiki.fcgi/foswiki/bin/edit, for example. In other words:
+    # the seen PATH_INFO starts with ScriptUrlPath, so it must be removed. This
+    # way, SUPER::preparePath works fine.
+
+    $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#;
+    $this->SUPER::preparePath(@_);
+}
+
 sub write {
     my ($this, $buffer) = @_;
     syswrite STDOUT, $buffer;
