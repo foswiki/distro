@@ -30,10 +30,10 @@ require Foswiki::Plugins; # For the API version
 
 use vars qw( $VERSION $RELEASE @shelter );
 
-# This should always be $Rev: 13963 $ so that Foswiki can determine the checked-in
+# This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
-$VERSION = '$Rev: 13963 $';
+$VERSION = '$Rev$';
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
@@ -95,8 +95,8 @@ sub beforeCommonTagsHandler {
             } elsif ( $token =~ /-->/ ) {
                 $insidecomment-- if ( $insidecomment > 0 );
             } elsif ( !$insidecomment ) {
-                $token =~ s(^((?:\t|   )+\*\sSet\s*)(\w+)\s*\=(.*$(\n[ \t]+[^\s*].*$)*))
-                           ($1._generateEditField($web, $topic, $2, $3, $formDef))gem;
+                $token =~ s(^((?:\t|   )+\*\s(Set|Local)\s*)(\w+)\s*\=(.*$(\n[ \t]+[^\s*].*$)*))
+                           ($1._generateEditField($web, $topic, $3, $4, $formDef))gem;
             }
             $outtext .= $token;
         }
@@ -123,8 +123,8 @@ sub beforeCommonTagsHandler {
     } elsif( $action eq 'save' ) {
 
         my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-        $text =~ s(^((?:\t|   )+\*\sSet\s)(\w+)\s\=\s(.*)$)
-          ($1._saveSet($query, $web, $topic, $2, $3, $formDef))mgeo;
+        $text =~ s(^((?:\t|   )+\*\s(Set|Local)\s)(\w+)\s\=\s(.*)$)
+          ($1._saveSet($query, $web, $topic, $3, $4, $formDef))mgeo;
         Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
         Foswiki::Func::setTopicEditLock( $web, $topic, 0 );
         # Finish with a redirect so that the *new* values are seen

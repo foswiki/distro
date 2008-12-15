@@ -11,7 +11,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 
 ---++ Syntax Rules
 
-	* =%<nop>EDITPREFERENCES{ "= _topic_ =" }%=
+	* =%<nop>EDITPREFERENCES{ "topic" }%=
 		* _topic_ references a [[%SYSTEMWEB%.DataForms][DataForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
 		* If a [[%SYSTEMWEB%.PreferenceSettings][preference setting]] is not mentioned in the form referenced by _topic_, a text input box of the specified length is provided.
 		* Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %SYSTEMWEB%.DataForms.
@@ -35,6 +35,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  Copyright: | Copyright (C) TWiki:Main.ThomasWeigert and TWiki Contributors |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Dec 2008: | Arthur Clemens added reading of =Local= preferences. |
 |  05 Nov 2007: | Kenneth Lavrsen fixed problem when settings are hidden in html comments. These settings are now ignored. |
 |  23 Jun 2007: | Crawford Currie added testcases, recoded to work without a form definition, fixed for TWiki 4.2 |
 |  08 Feb 2007: | Arthur Clemens added access keys for Save and Cancel, bold style for editable preference names, and a descriptive Save button label. |
