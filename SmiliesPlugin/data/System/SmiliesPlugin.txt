@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 14527 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
 ---+ The Smilies Plugin <nop>:-)
 
 Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon.
@@ -68,8 +68,10 @@ This plugin is installed by default with a Foswiki release. You should not need 
 ---++ Plugin Info
 
 |  Copyright: | Copyright (C) 2001-2007 Andrea Sterbini, Peter Thoeny, peter@thoeny.org and TWiki Contributors |
-|  Plugin Version: | 21 Nov 2007 |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 16 Dec 2008 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Dec 2008: | Foswiki version - no new features |
 |  21 Nov 2007: | Doc improvements |
 |  16 Mar 2005: | Fixed typo "scull" |
 |  5 Mar 2005   | 1.004 Crawford Currie prepared for Dakar |
@@ -84,11 +86,9 @@ This plugin is installed by default with a Foswiki release. You should not need 
 |  28 Feb 2001: | Initial version |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.0 |
-|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 96%, %SYSTEMWEB%.FormattedSearch 98%, SmiliesPlugin 96% |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
