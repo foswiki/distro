@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1170597947" format="1.0" version="$Rev: 15788 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1170597947" format="1.0" version="$Rev$"}%
 
 ---+!! Comment Plugin
 
@@ -244,11 +244,14 @@ Note that if you want to use the =action= template then you must also:
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
-|  Plugin Version: | 03 Aug 2008 %$VERSION% |
+|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 Foswiki:%SYSTEMWEB%.ProjectContributor |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 16 Dec 2008 %$VERSION% |
 |  Change History: | |
+|  16 Dec 2008 | Foswiki version |
 |  03 Aug 2008 | The TWiki 4.2.1 release version | 
 |  11 Apr 2008 | TWikibug:Item5518 corrected the template definition for bulletabove |
-|  5 Sep 2007 | TWikibug:Item3689 corrected =location= handling TWikibug:Item4181 added VarCOMMENT TWikibug:Item4402 corrected access check |
+|  05 Sep 2007 | TWikibug:Item3689 corrected =location= handling TWikibug:Item4181 added VarCOMMENT TWikibug:Item4402 corrected access check |
 |  22 Jun 2007 | Removed the long-deprecated =%TIME= (use %GMTIME instead). Minor doc changes |
 |  14021 | TWikibug:Item3755 Fixed incorrect handling of line terminators when targeting an anchor |
 |  13311 | Added option to define a comment template in any topic. Pass the topic location with =templatetopic= (either =topic= or =web.topic=). See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]]. |
@@ -273,8 +276,6 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
 |  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
 |  4745 | 06 Mar 2002 initial commit |
-|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 Foswiki:%SYSTEMWEB%.ProjectContributor |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Home: | Foswiki:Extensions/%TOPIC% |
 |  Feedback: | Foswiki:Extensions/%TOPIC%Dev |
 
