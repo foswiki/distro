@@ -147,11 +147,11 @@ The part between the rulers defines the default format of a slide:
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki
-Contributors; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 02 Aug 2008 |
+|  Plugin Version: | 16 Dec 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Dec 2008: | Foswiki version |
 |  02 Aug 2008: | Fixed corruption of preview |
 |  29 Sep 2007: | Added %SYSTEMWEB%.VarSLIDESHOWSTART and %SYSTEMWEB%.VarSLIDESHOWEND to have them listed in %SYSTEMWEB%.Macros |
 |  12 Feb 2007: | fixed construction of view urls (TWiki:Main/MichaelDaum) |
@@ -165,11 +165,9 @@ Contributors; 2008 Foswiki Contributors |
 |  17 Nov 2002: | Initial version |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.005 |
-|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 98%, %SYSTEMWEB%.FormattedSearch 99%, SlideShowPlugin 99% |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
