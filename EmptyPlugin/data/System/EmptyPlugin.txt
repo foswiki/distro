@@ -26,6 +26,6 @@ If you want to redefine a preference setting, for example in %USERSWEB%.SitePref
 |  Copyright: | &copy; 2008, Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
-|  Home: | Foswiki:Extensions.EmptyPlugin |
-
+|  Home: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
