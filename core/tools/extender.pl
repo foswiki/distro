@@ -50,6 +50,9 @@ my $MANIFEST;
 
 BEGIN {
     $installationRoot = Cwd::getcwd();
+    # BS untaint getcwd - seems it complains when run with taint
+    $installationRoot =~ /^(.*)$/;
+    $installationRoot = $1;
     my $check_perl_module = sub {
         my $module = shift;
 
