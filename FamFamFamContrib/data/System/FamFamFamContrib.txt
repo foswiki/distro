@@ -10,7 +10,8 @@ One line description, required for extensions repository catalog.
 
 ---++ Usage
 
-The icons are attached to the FamFamFamFlagIcons  FamFamFamMiniIcons  FamFamFamMintIcons  FamFamFamSilkIcons topics - be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
+The icons are attached to the FamFamFamFlagIcons  FamFamFamMiniIcons  FamFamFamMintIcons  FamFamFamSilkIcons topics - 
+be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
 
 At this point, the only way to access these Icons is using the url - see below.
 
@@ -42,7 +43,7 @@ At this point, the only way to access these Icons is using the url - see below.
 
 
 |  Icons Creator: | Icons by Mark James http://www.famfamfam.com |
-|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@distributedINFORMATION.com a [[http://WikiRing.com][WikiRing]] founding partner |
+|  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
 |  Copyright: | &copy; Mark James http://www.famfamfam.com |
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |

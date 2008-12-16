@@ -1,6 +1,7 @@
 ---+ %TOPIC%
 
-"Mint" icons are a small set of tiny PNG web icons, loosely-based on Shaun Inman's Mint  statistics software. Released on the same day as the product of the same name, they provide a few useful little icons in a particularly minty flavour.  
+"Mint" icons are a small set of tiny PNG web icons, loosely-based on Shaun Inman's Mint  statistics software. 
+Released on the same day as the product of the same name, they provide a few useful little icons in a particularly minty flavour.  
 
 ---++ Source
 These Icons come from http://www.famfamfam.com/lab/icons/mint/
