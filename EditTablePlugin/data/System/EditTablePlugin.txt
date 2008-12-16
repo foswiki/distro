@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1191744279" format="1.1" version="$Rev: 17303 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191744279" format="1.1" version="$Rev$"}%
 ---+!! Edit Table Plugin
 
 Edit tables in place, using edit fields and drop down boxes, without having to edit the complete topic. 
@@ -212,8 +212,9 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 |  Copyright: | &copy; 2008, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.10 (23 Nov 2008) |
+|  Plugin Version: | 4.11 (16 Dec 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Dec 2008: | 4.11: Kenneth Lavrsen: Foswiki version |
 |  01 Nov 2008: | 4.9: Arthur Clemens: Fixed rendering of =verbatim= blocks when editing. Added parameter =buttonrow="top"= to allow the buttons to be positioned at the top of the table. |
 |  26 Sep 2008: | 4.8.7: Arthur Clemens: Let empty table initialize more than one column from =header= parameter |
 |  24 Sep 2008: | 4.8.6: Arthur Clemens: Fix parsing of header labels |
@@ -257,10 +258,9 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 |  08 Apr 2002: | Check for change permission and edit lock of topic |
 |  05 Apr 2002: | Initial version |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Perl Version: | 5.0 |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 %META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1071283396" path="EditTablePluginCalendarExample.gif" size="7823" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1077050633" path="ScreenshotEditCell1.gif" size="2017" user="ProjectContributor" version="1.1"}%
