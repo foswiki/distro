@@ -128,8 +128,9 @@ This plugin is pre-installed with your Foswiki release. You should not have to i
 
 |  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 1.036 (01 Oct 2008) |
+|  Plugin Version: | 1.037 (16 Dec 2008) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Dec 2008 | 1.037 Foswiki version |
 |  30 Sep 2008 | 1.035 Fix sorting of attachment date column.  |
 |  03 Aug 2008 | 1.034 TWiki 4.2.1 release version |
 |  20 Mar 2008 | 1.033 TWikibug:Item5387: allow rowspanned columns to contain HTML tags; otherwise it is impossible to add an invisible anchor to a rowspanned cell |
@@ -168,10 +169,9 @@ This plugin is pre-installed with your Foswiki release. You should not have to i
 |  07 Oct 2001 | JT: Initial version |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.0 |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 ---
 *Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.StandardColors
