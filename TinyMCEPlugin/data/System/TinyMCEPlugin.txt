@@ -114,10 +114,10 @@ The topic TinyMCEFrequentlyAskedQuestions contains more help with things like: "
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Plugin Version: | %$VERSION% |
 |  Copyright: | &copy; 2007-2008 Crawford Currie http://c-dot.co.uk |
 |             | This package also includes the complete sources for version 2.1.1.1 of the !TinyMCE editor |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  06 Dec 2008 | Foswikitask:Item5859: removed XHR headers that were banjaxing NTLM |
 |  03 Dec 2008 | Re-released for the Foswiki project |
@@ -142,7 +142,8 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
 |  14538 | First release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://foswiki.org/Extensions/TinyMCEPlugin |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
