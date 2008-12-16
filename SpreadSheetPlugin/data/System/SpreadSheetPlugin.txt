@@ -714,11 +714,11 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki
-Contributors;  &copy; 2008 Foswiki Contributors  |
+|  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 13 Oct 2007 (15270) |
+|  Plugin Version: | 16 Dec 2008 (15270) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  16 Dec 2008: | Foswiki version - no new features |
 |  13 Oct 2007: | Added $FORMATTIMEDIFF() |
 |  09 Sep 2007: | Enhanced documentation for $EVAL() and $INT() |
 |  02 Jun 2007: | Added %SYSTEMWEB%.VarCALC to have =%<nop>CALC{}%= listed in [[%SYSTEMWEB%.Macros][Macros]] |
@@ -760,12 +760,10 @@ Contributors;  &copy; 2008 Foswiki Contributors  |
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
 |  CPAN Dependencies: | none |
-|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 99%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 95% |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.000 and up |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.VarCALC
