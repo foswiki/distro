@@ -39,17 +39,16 @@ This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for admi
 
 ---++ Contrib Info
 
-|  Copyright  | Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki
-Contributors  |
+|  Copyright  | Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
-|  Version: | 2007-01-04 |
+|  Version: | 16 Dec 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  2007-01-04: | Performance improvement |
+|  16 Dec 2008: | Foswiki version | 
+|  04 Jan 2007: | Performance improvement |
 |  10 Oct 2005: | Initial version - Packaging by TWiki:Main.LynnwoodBrown |
+|  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 ---
 *Related Topics:* %USERSWEB%.SitePreferences
