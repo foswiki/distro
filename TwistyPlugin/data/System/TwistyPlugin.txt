@@ -600,10 +600,9 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 |  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
 |  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
-|  Dependencies: | None |
 |  Plugin&nbsp;Version: | 03 Dec 2008 (version 1.5.1) |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. |
+|  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
 |  08 Oct 2008 | 1.4.11, 1.4.12 It is now possible to have a twisty on the same line without a linebreak. |
 |  03 Aug 2008 | 1.4.10 TWiki 4.2.1 release version |
@@ -619,6 +618,6 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 |  27 Sep 2006 | 1.101 Fixes !JavaScript handling when !AllowInlineScript in configure is not set |
 |  11 June 2006 | 1.100 Added parameters =start=, =firststart=, =noscript= and =class=; complete !JavaScript rewrite for speed |
 |  12 Sep 2005 | 1.000 First Version |
+|  Dependencies: | None |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
