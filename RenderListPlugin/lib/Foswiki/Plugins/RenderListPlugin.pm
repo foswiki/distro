@@ -27,7 +27,7 @@ use vars qw(
     );
 
 $VERSION = '$Rev: 16234 $';
-$RELEASE = '2.0';
+$RELEASE = '2.1';
 $pluginName = 'RenderListPlugin';  # Name of this Plugin
 
 # =========================
