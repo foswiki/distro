@@ -165,7 +165,7 @@ Many thanks to the following sponsors for supporting this work:
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | |
-|  03 Dec 2008 | Foswikitask:Item6041: fixed empty bullet list problem |
+|  03 Dec 2008 | Foswikitask:Item6041: fixed empty bullet list problem. Foswiki version |
 |  22 Oct 2008 | Fixed TWikibug:Item5961 (emphasis), TWikibug:Item6089 (backslash in verbatim) |
 |  7 Aug 2008 | Fixed TWikibug:Item5707 (mod_perl) |
 |  3 Aug 2008 | TWiki 4.2.1 release version |
@@ -189,6 +189,7 @@ Many thanks to the following sponsors for supporting this work:
 | See Subversion logs for earlier revisions ||
 |  Dependencies: | %$DEPENDENCIES% |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
 
