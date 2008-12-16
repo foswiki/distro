@@ -72,6 +72,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 <!--
       * Set SHORTDESCRIPTION = Shows a complete history of a document
 -->
+
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
@@ -87,11 +88,10 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  19 Jan 2007: | 1.002 Corrected coding error that causes the plugin to fail with HISTORY tag in topic |
 |  9 Apr 2006: | 1.001 Updated for new <nop>PatternSkin in [[http://TWiki.org/cgi-bin/view/Codev/TWikiRelease04x00x02][TWikiRelease04x00x02]] |
 |  17 Feb 2005: | Initial version |
-|  TWiki Dependency: | $Foswiki::Plugins::VERSION 1.024 |
+|  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.024 |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.005 |
-|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle 100%, %SYSTEMWEB%.FormattedSearch 99%, %TOPIC% 97% |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
