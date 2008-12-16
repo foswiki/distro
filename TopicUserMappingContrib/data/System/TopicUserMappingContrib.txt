@@ -66,15 +66,15 @@ It's a part of the default distribution of the Foswiki Core.
 ---++ Contrib Info
 
 |  Contrib Author(s): | Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
-|  Contrib Version: | 4.2.1 |
-|  Copyright: | &copy; |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Contrib Version: | 4.2.2 (16 Dec 2008) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.2.2 | 16 Dec 2008 - Foswiki version |
 |  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
 |  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Contrib Home: | http://twiki.org/cgi-bin/view/Plugins/TopicUserMappingContrib |
 |  Feedback: | http://twiki.org/cgi-bin/view/Plugins/TopicUserMappingContribDev |
-|  Appraisal: | http://twiki.org/cgi-bin/view/Plugins/TopicUserMappingContribAppraisal |
+
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
