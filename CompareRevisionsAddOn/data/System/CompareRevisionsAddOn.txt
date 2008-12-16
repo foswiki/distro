@@ -173,8 +173,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  20 Jan 2005 | Initial version |
 |  CPAN Dependencies: | [[http://cpan.uwinnipeg.ca/module/HTML::Parser][HTML::Parser]], [[http://cpan.uwinnipeg.ca/module/HTML::Tagset][HTML::Tagset]], [[http://cpan.uwinnipeg.ca/module/HTML::Tree][HTML::Tree]] |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.005 |
-|  License: | GPL |
+|  Perl Version: | 5.008 |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 

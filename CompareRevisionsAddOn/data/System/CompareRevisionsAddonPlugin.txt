@@ -24,17 +24,18 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 
 ---++ Plugin Info
 
-|  Plugin Author: | TWiki:Main.JChristophFuchs |
-|  Plugin Version: | 07 Nov 2006 |
+|  Plugin Author: | Foswiki:Main.KennethLavrsen |
+|  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 08 Dec 2008  |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Dec 2008 | Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0. Policy is now feel free to modify but please do not break compatibility. | 
 |  07 Nov 2007 | Updated for TWiki 4.2.0. |
 |  26 Feb 2006 | Initial version |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.0 |
-|  Foswiki:Extensions/Benchmark: |  |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/CompareRevisionsAddOn |
 |  Feedback: | http://foswiki.org/Extensions/CompareRevisionsAddOnDev |
-|  Appraisal: | http://foswiki.org/Extensions/CompareRevisionsAddOnAppraisal |
 
 __Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
