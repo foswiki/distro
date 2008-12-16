@@ -33,9 +33,10 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 ---++ Plugin Info
 
 |  Copyright: | Copyright (C) TWiki:Main.ThomasWeigert and TWiki Contributors |
-|  Plugin Version: | %$VERSION% |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | %$VERSION% (15 Dec 2008) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  15 Dec 2008: | Arthur Clemens added reading of =Local= preferences. |
+|  15 Dec 2008: | Arthur Clemens added reading of =Local= preferences. Foswiki version |
 |  05 Nov 2007: | Kenneth Lavrsen fixed problem when settings are hidden in html comments. These settings are now ignored. |
 |  23 Jun 2007: | Crawford Currie added testcases, recoded to work without a form definition, fixed for TWiki 4.2 |
 |  08 Feb 2007: | Arthur Clemens added access keys for Save and Cancel, bold style for editable preference names, and a descriptive Save button label. |
@@ -43,15 +44,12 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  26 May 2005: | Crawford Currie recoded to use code from Form.pm to render form fields. |
 |  08 May 2005: | Add plugin preference to define default input length  |
 |  07 May 2005: | Initial version |
-|  TWiki Dependency: | $TWiki::Plugins::VERSION 1.026 |
+|  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.026 |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
-|  Perl Version: | 5.005 |
-|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Foswiki:Extensions/Benchmark: | %SYSTEMWEB%.GoodStyle nn%, %SYSTEMWEB%.FormattedSearch nn%, %TOPIC% nn% |
+|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, %SYSTEMWEB%.DataForms
