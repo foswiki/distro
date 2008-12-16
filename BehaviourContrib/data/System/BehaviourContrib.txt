@@ -269,7 +269,6 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 |  Copyright: | Code: =behaviour.js= version 1.1 - Copyright (c) Ben Nolan and Simon Willison. Foswiki distribution and updates/additions: Foswiki:Main.ArthurClemens. |
 |  License: | BSD |
 |  Version: | %$VERSION% |
-|  Dependencies: | %$DEPENDENCIES% |
 |  Contrib&nbsp;Version: | 1.4 |
 |  Change&nbsp;History: | <!-- specify latest version first -->&nbsp; |
 |  03 Dec 2008 | 1.4 Foswiki release version. |
@@ -277,9 +276,9 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 |  02 Jul 2007 | 1.2 Integrated other faster code by Dean Edwards: [[http://dean.edwards.name/weblog/2006/06/again/][faster onload (again)]]. |
 |  08 Mar 2007 | 1.1 Integrated code by Dean Edwards (see [[#CodeUpdate][Code update version 1.1 with faster DOM queries]]). |
 |  04 Jun 2006 | 1.0  First Version. Included Behaviour version: 1.1. |
+|  Dependencies: | %$DEPENDENCIES% |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Appraisal: | http://foswiki.org/Extensions/%TOPIC%Appraisal |
 
 %META:FILEATTACHMENT{name="behaviour.js" attr="" autoattached="1" comment="" date="1162075796" path="behaviour.compressed.js" size="2902" user="UnknownUser" version=""}%
 
