@@ -297,7 +297,7 @@ sub _discover_languages {
     my $this = shift;
 
     #use the cache, if available
-    if ( open LANGUAGE, "<$Foswiki::cfg{LocalesDir}/languages.cache" ) {
+    if ( open LANGUAGE, "<$Foswiki::cfg{WorkingDir}/languages.cache" ) {
         foreach my $line (<LANGUAGE>) {
             my ( $key, $name ) = split( '=', $line );
             chop($name);
@@ -307,7 +307,7 @@ sub _discover_languages {
     else {
 
 #TODO: if the cache file don't exist, perhaps a warning should be issued to the logs?
-        open LANGUAGE, ">$Foswiki::cfg{LocalesDir}/languages.cache";
+        open LANGUAGE, ">$Foswiki::cfg{WorkingDir}/languages.cache";
         foreach my $tag ( available_languages() ) {
             my $h    = Foswiki::I18N->get_handle($tag);
             my $name = $h->maketext("_language_name");
