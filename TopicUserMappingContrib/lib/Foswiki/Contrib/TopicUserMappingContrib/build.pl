@@ -8,7 +8,7 @@ use Foswiki::Contrib::Build;
 $build = new Foswiki::Contrib::Build('TopicUserMappingContrib');
 
 # (Optional) Set the details of the repository for uploads.
-# This can be any web on any accessible TWiki installation.
+# This can be any web on any accessible Wiki installation.
 # These defaults will be used when expanding tokens in .txt
 # files, but be warned, they can be overridden at upload time!
 

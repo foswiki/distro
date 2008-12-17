@@ -1,6 +1,6 @@
 #!perl
 #
-# This script will iterate over the list of users in the TWiki users
+# This script will iterate over the list of users in the Wiki users
 # topic, recovering the email for each user (which will get the email
 # from the user topic if it isn't found in the secret DB) and then
 # setting the email in the secret DB. This will *not* modify the
@@ -19,7 +19,7 @@ BEGIN {
 use Foswiki;
 use Foswiki::Users::TopicUserMapping; # required to get email addresses
 
-my $twiki = new Foswiki();
+my $foswiki = new Foswiki();
 
 my $admin_email = $Foswiki::cfg{WebMasterEmail} || 'webmaster@example.com';
 $/ = "\n";
@@ -39,10 +39,10 @@ while (1) {
 };
 
 my ($meta, $text) =
-  $twiki->{store}->readTopic(
+  $foswiki->{store}->readTopic(
       undef, $Foswiki::cfg{UsersWebName}, $Foswiki::cfg{UsersTopicName} );
 
-my $users = $twiki->{users};
+my $users = $foswiki->{users};
 
 foreach my $line ( split( /\r?\n/, $text )) {
     if( $line =~ /^\s*\* ($Foswiki::regex{webNameRegex}\.)?(\w+)\s*(?:-\s*(\S+)\s*)?-\s*\d+ \w+ \d+\s*$/o ) {
@@ -60,9 +60,9 @@ foreach my $line ( split( /\r?\n/, $text )) {
                 if (scalar(@em)) {
                     print "Already have an address for $id\n";
                 } else {
-                    # Get emails *from the TWiki user mapping manager*
+                    # Get emails *from the Foswiki user mapping manager*
                     @em = Foswiki::Users::TopicUserMapping::mapper_getEmails(
-                        $twiki, $cUID);
+                        $foswiki, $cUID);
                     if( scalar( @em )) {
                         print "Secreting $id: ",join(';',@em),"\n";
                         $users->setEmails( $cUID, @em );

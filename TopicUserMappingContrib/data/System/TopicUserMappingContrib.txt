@@ -73,8 +73,5 @@ It's a part of the default distribution of the Foswiki Core.
 |  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
 |  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Contrib Home: | http://twiki.org/cgi-bin/view/Plugins/TopicUserMappingContrib |
-|  Feedback: | http://twiki.org/cgi-bin/view/Plugins/TopicUserMappingContribDev |
-
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->

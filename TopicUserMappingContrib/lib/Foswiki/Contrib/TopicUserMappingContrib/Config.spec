@@ -7,7 +7,7 @@ $Foswiki::cfg{Register}{EnableNewUserRegistration} = $TRUE;
 
 # **BOOLEAN EXPERT**
 # Hide password in registration email to the *user*
-# Note that TWiki sends admins a separate confirmation.
+# Note that Foswiki sends admins a separate confirmation.
 $Foswiki::cfg{Register}{HidePasswd} = $TRUE;
 
 # **BOOLEAN**

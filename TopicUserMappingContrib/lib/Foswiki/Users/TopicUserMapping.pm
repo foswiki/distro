@@ -6,7 +6,7 @@
 #
 # Additional copyrights apply to some or all of the code in this file:
 #
-# Copyright (C) 2007 Sven Dowideit, SvenDowideit@distributedINFORMATION.com
+# Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@distributedINFORMATION.com
 # and TWiki Contributors. All Rights Reserved. Foswiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
@@ -27,18 +27,18 @@
 
 ---+ package Foswiki::Users::TopicUserMapping
 
-The User mapping is the process by which TWiki maps from a username (a login name)
+The User mapping is the process by which Foswiki maps from a username (a login name)
 to a wikiname and back. It is also where groups are defined.
 
-By default TWiki maintains user topics and group topics in the %MAINWEB% that
+By default Foswiki maintains user topics and group topics in the %MAINWEB% that
 define users and group. These topics are
-   * !WikiUsers - stores a mapping from usernames to TWiki names
+   * !WikiUsers - stores a mapping from usernames to Wiki names
    * !WikiName - for each user, stores info about the user
    * !GroupNameGroup - for each group, a topic ending with "Group" stores a list of users who are part of that group.
 
 Many sites will want to override this behaviour, for example to get users and groups from a corporate database.
 
-This class implements the basic TWiki behaviour using topics to store users,
+This class implements the basic Foswiki behaviour using topics to store users,
 but is also designed to be subclassed so that other services can be used.
 
 Subclasses should be named 'XxxxUserMapping' so that configure can find them.
@@ -60,20 +60,20 @@ use Error qw( :try );
 ---++ ClassMethod new ($session, $impl)
 
 Constructs a new user mapping handler of this type, referring to $session
-for any required TWiki services.
+for any required Foswiki services.
 
 =cut
 
-# The null mapping name is reserved for TWiki for backward-compatibility.
+# The null mapping name is reserved for Foswiki for backward-compatibility.
 # We declare this as a global variable so we can override it during testing.
-our $TWIKI_USER_MAPPING_ID = '';
+our $FOSWIKI_USER_MAPPING_ID = '';
 
-#our $TWIKI_USER_MAPPING_ID = 'TestMapping_';
+#our $FOSWIKI_USER_MAPPING_ID = 'TestMapping_';
 
 sub new {
     my ( $class, $session ) = @_;
 
-    my $this = $class->SUPER::new( $session, $TWIKI_USER_MAPPING_ID );
+    my $this = $class->SUPER::new( $session, $FOSWIKI_USER_MAPPING_ID );
 
     my $implPasswordManager = $Foswiki::cfg{PasswordManager};
     $implPasswordManager = 'Foswiki::Users::Password'
@@ -250,7 +250,7 @@ sub _userReallyExists {
     if ( $this->{passwords}->canFetchUsers() ) {
 
         # AllowLoginName mapping failed, maybe the user is however
-        # present in the TWiki managed pwd file
+        # present in the Wiki managed pwd file
         # can use the password file if available
         my $pass = $this->{passwords}->fetchPass($login);
         return unless ( defined($pass) );
@@ -527,7 +527,7 @@ sub userExists {
 
     return 1 if ( $loginName eq $Foswiki::cfg{DefaultUserLogin} );
 
-    # TWiki allows *groups* to log in
+    # Foswiki allows *groups* to log in
     return 1 if ( $this->isGroup($loginName) );
 
     # Look them up in the password manager (can be slow).
@@ -838,7 +838,7 @@ Only used if passwordManager->isManagingEmails= = =false
 
 Note: This method is PUBLIC because it is used by the tools/upgrade_emails.pl
 script, which needs to kick down to the mapper to retrieve email addresses
-from TWiki topics.
+from Wiki topics.
 
 =cut
 
@@ -948,7 +948,7 @@ sub findUserByWikiName {
 
             # Bloody compatibility!
             # The wikiname is always a registered user for the purposes of this
-            # mapping. We have to do this because TWiki defines access controls
+            # mapping. We have to do this because Foswiki defines access controls
             # in terms of mapped users, and if a wikiname is *missing* from the
             # mapping there is "no such user".
             push( @users, $this->login2cUID($wn) );
@@ -1053,7 +1053,7 @@ sub _collateGroups {
     push( @{ $ref->{list} }, $group );
 }
 
-# get a list of groups defined in this TWiki
+# get a list of groups defined in this Wiki
 sub _getListOfGroups {
     my $this = shift;
     ASSERT( ref($this) eq 'Foswiki::Users::TopicUserMapping' ) if DEBUG;
