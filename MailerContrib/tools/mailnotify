@@ -44,10 +44,10 @@ foreach my $arg ( @ARGV ) {
     }
 }
 
-use TWiki::Contrib::MailerContrib;
+use Foswiki::Contrib::MailerContrib;
 use CGI;
 
-my $report = TWiki::Contrib::MailerContrib::mailNotify(
+my $report = Foswiki::Contrib::MailerContrib::mailNotify(
     \@webs, undef, $verbose, \@exwebs );
 
 print $report."\n" if $verbose;
