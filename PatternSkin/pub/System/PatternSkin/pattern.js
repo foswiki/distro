@@ -1,6 +1,5 @@
 var Pattern = {
 
-	searchResultsCount:0,
 	metaTags:[],
 	
 	createTwikiActionFormStepSign:function(el) {
@@ -45,7 +44,9 @@ var Pattern = {
 		if (Pattern.searchResultsCount >= 10) {
 			var text = " " + TEXT_NUM_TOPICS + " <b>" + Pattern.searchResultsCount + " <\/b>";
 			foswiki.HTML.setHtmlOfElement(el, text);			
-		}		
+			// reset for next count
+			Pattern.searchResultsCount = 0;
+		}
 	},
 	
 	displayModifySearchLink:function() {
