@@ -42,7 +42,8 @@ html body {
    background-color:#f5f5f5;
    color:#000;
 }
-html body.patternEditPage {
+html body.patternEditPage,
+.mceContentBody {
    background-color:#fff;
 }
 /* be kind to netscape 4 that doesn't understand inheritance */
