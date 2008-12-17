@@ -608,8 +608,6 @@ locale/sv.po 0444
 locale/zh-cn.po 0444
 locale/zh-tw.po 0444
 pub-htaccess.txt 0444
-pub/Main/WebPreferences/logo.gif 0644
-pub/Sandbox/WebPreferences/logo.gif 0644
 pub/System/BeginnersStartHere/BT_logo.gif 0644
 pub/System/BeginnersStartHere/Disney_logo.gif 0644
 pub/System/BeginnersStartHere/EpicGames_logo.gif 0644
@@ -931,10 +929,7 @@ pub/System/SkinTemplates/oopsmore_diff_debug.gif 0644
 pub/System/SkinTemplates/oopsmore_diff_sequential.gif 0644
 pub/System/SkinTemplates/oopsmore_diff_sidebyside.gif 0644
 pub/System/WabiSabi/wabisabi.gif 0644
-pub/System/WebPreferences/logo.gif 0644
 pub/System/WindowsInstallCookbook/cygwin-icon.gif 0644
-pub/Trash/WebPreferences/logo.gif 0644
-pub/_default/WebPreferences/logo.gif 0644
 readme.txt 0444
 robots.txt 0444
 root-htaccess.txt 0444

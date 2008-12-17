@@ -37,5 +37,3 @@ These settings override the defaults for this web only. See [[%SYSTEMWEB%.Defaul
    * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences: 
       * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
 %INCLUDE{"%SYSTEMWEB%.WebPreferencesHelp"}%
-
-%META:FILEATTACHMENT{name="logo.gif" attr="" comment="" date="1126793019" path="logo.png" size="3362" user="ProjectContributor" version=""}%
