@@ -6,7 +6,7 @@ I would like to install Foswiki on my server. Can I get the source?
 
 ---++ Answer:
 
-Foswiki is distributed under the GnuGeneralPublicLicense. You can get the source from http://foswiki.org/download.html.
+Foswiki is distributed under the GnuGeneralPublicLicense. You can get the source from http://foswiki.org/Home/Download
 
 *Back to:* FrequentlyAskedQuestions, AdminDocumentationCategory
 

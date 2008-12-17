@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1215477424" format="1.1" version="$Rev: 15474 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1215477424" format="1.1" version="$Rev$"}%
 <div style="float:right;margin:1em 0em 1em;padding:0.5em;text-align:center">
 <a style="background:transparent" href="http://foswiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-slogan.png" alt="Foswiki - The Free and Open Source Wiki" title="Foswiki - The Free and Open Source Wiki" border="0" /></a>
 <br />Come to <a href="http://foswiki.org"><span class="foswikiLinkLabel">foswiki.org</span></a>.
@@ -32,4 +32,4 @@ Foswiki is a flexible, powerful, secure, yet simple web-based collaboration plat
    * WebPreferences - preferences of this web
 </form>
 
-Foswiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[http://Foswiki.org/download.html][Foswiki.org downloads]].
+Foswiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Home.Download][Foswiki.org downloads]].

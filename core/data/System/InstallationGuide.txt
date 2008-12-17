@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1187845362" format="1.1" version="$Rev: 15965 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1187845362" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Installation Guide
 
@@ -29,7 +29,7 @@ If you need help, ask a question in the Foswiki:Support web or on Foswiki:Commun
 #StandardInstallation
 ---++ Basic Installation
 
-   1 *Download* the Foswiki distribution from http://foswiki.org/download.html.
+   1 *Download* the Foswiki distribution from http://foswiki.org/Home/Download
    1 *Make a directory* for the installation and *unpack the distribution* in it. In the rest of this document we assume this directory is called =foswiki=.
       * *Note!* that Foswiki does not allow spaces in the directory names. Especially on Windows make sure to use a directory path without spaces.
    1 *Setup access file and directory rights* to enable the webserver user (the user Apache runs the CGI scripts as) to read and write inside the foswiki directory.
