@@ -163,7 +163,7 @@
    * %MAKETEXT{"Your personal Foswiki topic [_1] has been created" args="%USERSWEB%.%PARAM2%"}% <br />
      %MAKETEXT{"(*Suggestion:* How about uploading your picture to your topic?)"}%
    * %MAKETEXT{"You are also listed in the [_1] topic" args="%USERSWEB%.%WIKIUSERSTOPIC%"}%
-%PARAM1%
+<noautolink>%PARAM1%</noautolink>
 %TMPL:END%
 %TMPL:DEF{"reset_ok"}%
 %PARAM1%
@@ -192,7 +192,7 @@
 
 %MAKETEXT{"Remember to update your user topic if you want your e-mail change to be reflected there as well."}%
 
-%MAKETEXT{"Your registered e-mail address(es) are updated to: [_1]." args="%PARAM1%"}%
+%MAKETEXT{"Your registered e-mail address(es) are updated to: <noautolink>[_1]</noautolink>." args="%PARAM1%"}%
 
 %MAKETEXT{"Return to [_1]." args="%SYSTEMWEB%.ChangeEmailAddress"}%
 %TMPL:END%
@@ -240,7 +240,7 @@
 %TMPL:DEF{"registration_mail_failed"}%
 ---+++ %MAKETEXT{"Error registering new user"}%
 
-%MAKETEXT{"While attempting to email [_1]." args="%PARAM1%"}%
+%MAKETEXT{"While attempting to email <noautolink>[_1]</noautolink>." args="%PARAM1%"}%
 
 %MAKETEXT{"Your registration verification email has either failed, or is queued in the mail system."}%
 
