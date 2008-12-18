@@ -27,7 +27,7 @@ Alias /foswiki/ "/home/httpd/foswiki/"
 # Except the Foswiki directory which is read only and does have attached html files.
 # You should uncomment the two lines below if the Foswiki is on the public Internet
 #SetEnvIf Request_URI "foswiki/pub/.*\.[hH][tT][mM]?$" blockAccess
-#SetEnvIf Request_URI "foswiki/pub/Foswiki/.*\.[hH][tT][mM]?$" !blockAccess
+#SetEnvIf Request_URI "foswiki/pub/System/.*\.[hH][tT][mM]?$" !blockAccess
 
 # We set an environment variable called blockAccess.
 #
