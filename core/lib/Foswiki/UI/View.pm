@@ -501,7 +501,7 @@ sub viewfile {
         if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
             && $session->{store}->attachmentExists( $map{$webName}, $topic, $fileName )) {
             $webName = $map{$webName};
-            $session->{response}->status(302);  #moved
+            $session->{response}->status(200);  #OK, but, um non-authorative?
         } else {
             throw Foswiki::OopsException(
                 'attention',
