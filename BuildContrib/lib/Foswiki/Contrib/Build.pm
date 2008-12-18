@@ -984,7 +984,7 @@ sub filter_pm {
     my $text = <IF>;
     close(IF);
 
-    $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev: $this->{VERSION} \$/gso;
+    $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev$this->{VERSION} \$/gso;
 
     unless ( $this->{-n} ) {
         open( OF, '>' . $to )
@@ -1971,7 +1971,7 @@ sub target_history {
             next if $mess =~ /^Item0+:/;
             $mess =~ s/</&lt;/g;
             $mess =~ s/\|/!/g;
-            $mess =~ s#(?<!Bugs:)\bItem(\d+):#Bugs:Item$1:#gm;
+            $mess =~ s#(?<!Foswikitask:)\bItem(\d+):#Foswikitask:Item$1:#gm;
             $mess =~ s/\r?\n/ /g;
             $new{$rev} = [ $rev, $mess ];
         }
