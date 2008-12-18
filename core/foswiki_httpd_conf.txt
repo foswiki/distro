@@ -130,6 +130,9 @@ BrowserMatchNoCase ^$ blockAccess
 
 	# This line will redefine the mime type for the most common types of scripts
 	AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
+	
+	#for TWikiCompatibility - or even to make 'attachment not found's more user friendly
+	ErrorDocument 404 /foswiki/bin/viewfile
 </Directory>
 
 # Security note: All other directories should be set so

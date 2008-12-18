@@ -92,4 +92,46 @@ sub earlyInitPlugin {
     return;
 }
 
+=pod
+
+---++ postRenderingHandler( $text )
+   * =$text= - the text that has just been rendered. May be modified in place.
+
+using the same simplistic mechanism as DistributedServersPlugin, we fins all 
+the System and TWiki web pub URL's and make sure they actually exist. If not, 
+we look in the 'other' place, and modify them if that file does exist.
+   * TODO: should really protect non-HTML src type url's from re-writing
+
+=cut
+
+sub NOT_postRenderingHandler {
+    # do not uncomment, use $_[0], $_[1]... instead
+    #my $text = shift;
+
+    # remove duplicated hostPath's
+    #my $hostUrl = TWiki::Func::getUrlHost( );
+    #$_[0] =~ s|($hostUrl)($hostUrl)|$1|g;
+
+#    $_[0] =~ s/(.*)($Foswiki::cfg{PubUrlPath}\/)(TWiki|$Foswiki::cfg{SystemWebName})([^"']*)/$1.validatePubURL($2, $3, $4)/ge;
+    $_[0] =~ s/(.*)($Foswiki::cfg{PubUrlPath}\/)([^"'\/]*)([^"'<]*)/$1.validatePubURL($2, $3, $4, $1)/gem;
+}
+
+sub validatePubURL {
+    my ($pubUrl, $web, $file) = @_;
+print STDERR "validatePubURL($pubUrl, $web, $file)\n";
+    my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
+		$Foswiki::cfg{SystemWebName} => 'TWiki');
+    
+    #TODO: make into a hash - and see if we can persist it for fastcgi etc..
+    my $filePath = $Foswiki::cfg{PubDir}.'/'.$web.$file;
+    unless (-e $filePath) {
+	$web = $map{$web};
+	$filePath = $Foswiki::cfg{PubDir}.'/'.$web.$file;
+	unless (-e $filePath) {
+	    print STDERR "   validatePubURL($pubUrl, $web, $file) ($filePath) - can't find file ine either $map{$web} or $web\n";
+	}
+    }
+    return $pubUrl.$web.$file;
+}
+
 1;

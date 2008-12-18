@@ -8,10 +8,18 @@ One line description, required for extensions repository catalog.
 %TOC%
 
 ---++ Usage
-Automaticalle maps requests for legacy TWiki web topics to Foswiki free topics as per
+Automatically maps requests for legacy TWiki web topics to Foswiki free topics as per
 [[http://foswiki.org/Development/TopicNameMappingTable][TopicNameMappingTable]].
 
 Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings required.
+
+to add similar auto-compatibility for attachments, add (or uncomment) the following ErrorDocument handeling to
+your Apache configuration _in the =pub= section_
+
+<verbatim>
+	#for TWikiCompatibility
+	ErrorDocument 404 /foswiki/bin/viewfile
+</verbatim
 
 ---+++ TODO:
    1 pub file redirection - will probably have to be a final regex in postRendering

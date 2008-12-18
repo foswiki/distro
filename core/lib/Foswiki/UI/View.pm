@@ -64,6 +64,21 @@ sub view {
     my $rev = $store->cleanUpRevID( $query->param('rev') );
 
     my $topicExists = $store->topicExists( $webName, $topicName );
+    if (!$topicExists 
+        && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+        && (
+            $webName eq $Foswiki::cfg{SystemWebName}
+            || $webName eq 'TWiki'
+            )) {
+        #try the other web (TWikiCompatibility)
+        my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
+            $Foswiki::cfg{SystemWebName} => 'TWiki');
+        if ($topicExists = $session->{store}->topicExists( $map{$webName}, $topicName )) {
+            $webName = $map{$webName};
+            $session->{webName} = $webName;
+            print STDERR 'BINGO';
+        }
+    }
 
     # text and meta of the _latest_ rev of the topic
     my ( $currText, $currMeta );
@@ -481,13 +496,22 @@ sub viewfile {
     unless ( $fileName
         && $session->{store}->attachmentExists( $webName, $topic, $fileName ) )
     {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'no_such_attachment',
-            web    => $webName,
-            topic  => $topic,
-            params => [ 'viewfile', $fileName || '?' ]
-        );
+        #try the other web (TWikiCompatibility)
+        my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
+            $Foswiki::cfg{SystemWebName} => 'TWiki');
+        if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+            && $session->{store}->attachmentExists( $map{$webName}, $topic, $fileName )) {
+            $webName = $map{$webName};
+        } else {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'no_such_attachment',
+                web    => $webName,
+                topic  => $topic,
+                status => 404,
+                params => [ 'viewfile', $fileName || '?' ]
+            );
+        }
     }
 
     # TSA SMELL: Maybe could be less memory hungry if get a file handle
