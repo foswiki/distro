@@ -423,13 +423,30 @@ sub viewfile {
 
     my $topic   = $session->{topicName};
     my $webName = $session->{webName};
-
+    
     my $fileName;
-    if ( defined( $query->param('filename') ) ) {
-        $fileName = $query->param('filename');
-    }
-    else {
-        my $pathInfo = $query->path_info();
+    unless (defined($ENV{REDIRECT_STATUS}) && defined($ENV{REQUEST_URI})) {
+        if ( defined( $query->param('filename') ) ) {
+            $fileName = $query->param('filename');
+        } else {
+            my $pathInfo = $query->path_info();
+            $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
+            my @path = split( '/', $pathInfo );
+            shift(@path) unless ($path[0]);   #remove leading empty string
+
+            #work out the web, topic and filename
+            $webName = shift(@path);
+            while (($path[0]) && (TWiki::Func::webExists("$webName/".$path[0]))) {
+                $webName .= '/'.shift(@path);
+            }
+            $topic = shift(@path);
+            $fileName = join('/', @path);
+        }
+    } else {
+        #this is a redirect - can be used to make 404,401 etc URL's more foswiki tailored
+        #and is also used in TWikiCompatibility
+        my $pathInfo = $ENV{REQUEST_URI};
+        $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||; #remove pubUrlPath
         $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
         my @path = split( '/', $pathInfo );
         shift(@path) unless ($path[0]);   #remove leading empty string
@@ -441,18 +458,20 @@ sub viewfile {
         }
         $topic = shift(@path);
         $fileName = join('/', @path);
-    }
+	}
+
     if ( !$fileName ) {
         throw Foswiki::OopsException(
             'attention',
             def    => 'no_such_attachment',
             web    => 'Unknown',
             topic  => 'Unknown',
+            status => 404,
             params => [ 'viewfile', '?' ]
         );
     }
 
-    #print STDERR "\t web($webName), topic($topic), file($fileName)\n";
+    #print STDERR "VIEWFILE: web($webName), topic($topic), file($fileName)\n";
 
     #you can't remove the /'s from the filename, as there are directories below the pub/web/topic
     #$fileName = Foswiki::Sandbox::sanitizeAttachmentName($fileName);
