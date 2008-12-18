@@ -76,7 +76,6 @@ sub view {
         if ($topicExists = $session->{store}->topicExists( $map{$webName}, $topicName )) {
             $webName = $map{$webName};
             $session->{webName} = $webName;
-            print STDERR 'BINGO';
         }
     }
 
