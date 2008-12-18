@@ -27,7 +27,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td colspan="2" class="foswikiFirstRow">
-  <input class="foswikiInputField" type="text" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" />
+  <input class="foswikiInputField foswikiFocus" type="text" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" />
   <input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="foswikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%BASEWEB%/WebSearch?search=%URLPARAM{"search" encode="url"}%;type=%URLPARAM{"type" encode="url" default="word"}%;scope=%URLPARAM{"scope" encode="url"}%;web=%URLPARAM{"web" encode="url"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%'>%MAKETEXT{"Simple search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
 <div class="foswikiSmall" style="padding:1em 0 0 0;">%MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code></div>
 </td>
@@ -81,18 +81,15 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 </div>
 </noautolink>
 
-<div class="foswikiHelp" %IF{"defined search" else="style=\"display:none;\""}% >
-The following Foswiki markup can be used in a topic to display the above result.
-<br />
-<span class="foswikiSmall">
-<pre>
+<div class="foswikiHelp%IF{"defined search" else=" foswikiHidden"}%">
+%MAKETEXT{"To display the above search results in a topic, copy-paste the following markup:"}%
+<pre class="foswikiSmall">
 %<nop>SEARCH{
    "%URLPARAM{"search" encode="quote"}%"
    type="%URLPARAM{"type" default="word"}%"
 %IF{"defined scope" then="   scope=\"%URLPARAM{"scope" encode="quote"}%\"$n"}%%IF{"defined web" then="   web=\"%URLPARAM{"web" encode="quote"}%\"$n"}%%IF{"defined nosearch" then="   nosearch=\"%URLPARAM{"nosearch" encode="quote"}%\"$n"}%%IF{"defined casesensitive" then="   casesensitive=\"%URLPARAM{"casesensitive" encode="quote"}%\"$n"}%%IF{"defined bookview" then="   bookview=\"%URLPARAM{"bookview" encode="quote"}%\"$n"}%%IF{"defined nosummary" then="   nosummary=\"%URLPARAM{"nosummary" encode="quote"}%\"$n"}%%IF{"defined nototal" then="   nototal=\"%URLPARAM{"nototal" encode="quote"}%\"$n"}%%IF{"defined order" then="   order=\"%URLPARAM{"order" encode="quote"}%\"$n"}%%IF{"defined reverse" then="   reverse=\"%URLPARAM{"reverse" encode="quote"}%\"$n"}%%IF{"defined limit" then="   limit=\"%URLPARAM{"limit" encode="quote"}%\"$n"}%   zeroresults="%IF{ "defined search" then="on" else="off" }%"
 }%
 </pre>
-</span>
 </div>
 
 <div class="foswikiHelp">
