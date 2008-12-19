@@ -79,10 +79,10 @@
 %TMPL:DEF{"canceltopicaction"}%[[%WEB%.%TOPIC%][%MAKETEXT{"Cancel"}%]]%TMPL:END%
 %TMPL:DEF{"oktopicaction"}%[[%WEB%.%TOPIC%][%MAKETEXT{"OK"}%]]%TMPL:END%
 %TMPL:DEF{"gobacktopicaction"}%<a href="#" onclick="history.go(-1); return false;">%MAKETEXT{"Go back"}%</a>%TMPL:END%
-%TMPL:DEF{"topicaction"}%%TMPL:P{"topicactionbuttons"}%%TMPL:END%
+%TMPL:DEF{"topicaction"}%<div class="foswikiTopicAction" >%TMPL:P{"topicactionbuttons"}%</div>%TMPL:END%
 %TMPL:DEF{"topicactionbuttons"}%%TMPL:P{"canceltopicaction"}%%TMPL:END%
 
-%TMPL:DEF{"topicinfo"}%<div style="background:%WEBBGCOLOR%">
+%TMPL:DEF{"topicinfo"}%<div class="foswikiTopicInfo" style="background:%WEBBGCOLOR%">
 %TMPL:P{"topicaction"}%</div>%TMPL:END%
 
 %TMPL:DEF{"main"}%<div class="foswikiMain">
