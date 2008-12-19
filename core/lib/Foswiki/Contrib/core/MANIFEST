@@ -157,6 +157,7 @@ data/System/ShortcutMacros.txt 0644
 data/System/CommandAndCGIScripts.txt 0644
 data/System/SiteTools.txt 0644
 data/System/SystemRequirements.txt 0644
+data/System/TopicDoesNotExistViewTemplate.txt 0644
 data/System/TopicsAndWebs.txt 0644
 data/System/UserAuthentication.txt 0644
 data/System/TemplateWeb.txt 0644
@@ -315,8 +316,6 @@ data/System/WebTemplateTopics.txt 0644
 data/System/WebTopicCreator.txt 0644
 data/System/WebTopicEditTemplate.txt 0644
 data/System/WebTopicList.txt 0644
-data/System/WebTopicNonWikiTemplate.txt 0644
-data/System/WebTopicViewTemplate.txt 0644
 data/System/WelcomeGuest.txt 0644
 data/System/WhatIsWikiWiki.txt 0644
 data/System/WikiCulture.txt 0644

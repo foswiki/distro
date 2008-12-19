@@ -1,12 +1,10 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15508 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev$"}%
 #TemplateTopics
 ---++ Template Topics
 
 Template Topics are topics that define the default text for _new_ topics. There are four types of template topic:
 
 | *Topic Name:* | *What it is:* |
-| WebTopicViewTemplate | Alert page shown when you try to view a nonexistent topic. This page is usually used as a prompt to help you create a new topic. |
-| WebTopicNonWikiTemplate | Alert page shown when you try to view a nonexistent topic with a non-WikiName. Again, this page is used as a prompt to help you create the new topic. |
 | WebTopicEditTemplate | Default text used in a new topic. |
 | &lt;MyCustomNamed&gt;Template | Whenever you create a topic ending in the word "Template", it is automatically added to the list of available template topics in the "Use Template" drop down field on the !WebCreateNewTopic page. |
 
@@ -75,7 +73,7 @@ Here is an example for creating new topics (in the Sandbox web) based on a speci
 
 <form name="new" action="%SCRIPTURLPATH{edit}%/Sandbox/">
    * New example topic:
-     <input type="text" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
+     <input type="text" class="foswikiInputField" name="topic" value="ExampleTopicAUTOINC0001" size="30" />&nbsp;<input type="submit" class="foswikiSubmit" value="Create" />
      <input type="hidden" name="templatetopic" value="ExampleTopicTemplate" />
      <input type="hidden" name="topicparent" value="%TOPIC%" />
      <input type="hidden" name="onlywikiname" value="on" />

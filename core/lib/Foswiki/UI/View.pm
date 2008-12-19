@@ -84,6 +84,7 @@ sub view {
 
     # text and meta of the chosen rev of the topic
     my ( $meta, $text );
+    my $viewTemplate;
     if ($topicExists) {
         require Foswiki::Time;
         ( $currMeta, $currText ) =
@@ -133,15 +134,7 @@ sub view {
         $indexableView = 0;
         $session->enterContext('new_topic');
         $rev = 1;
-        if ( Foswiki::isValidTopicName($topicName) ) {
-            ( $currMeta, $currText ) =
-              Foswiki::UI::readTemplateTopic( $session, 'WebTopicViewTemplate' );
-        }
-        else {
-            ( $currMeta, $currText ) = Foswiki::UI::readTemplateTopic( $session,
-                'WebTopicNonWikiTemplate' );
-        }
-        ( $text, $meta ) = ( $currText, $currMeta );
+        $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
     }
 
@@ -169,7 +162,7 @@ sub view {
     }
 
     my $template =
-         $query->param('template')
+         $viewTemplate || $query->param('template')
       || $session->{prefs}->getPreferencesValue('VIEW_TEMPLATE')
       || 'view';
 
@@ -342,7 +335,7 @@ sub view {
 
     # Set the meta-object that contains the rendering info
     # SMELL: hack to get around not having a proper topic object model
-    $session->enterContext( 'can_render_meta', $meta );
+    $session->enterContext( 'can_render_meta', $meta ) if $meta;
 
     my $page;
 
