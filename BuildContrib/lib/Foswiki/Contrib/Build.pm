@@ -332,7 +332,8 @@ sub new {
 
 sub DESTROY {
     my $self = shift;
-    File::Path::rmtree( $self->{tmpDir} ) if $self->{tmpDir};
+    File::Path::rmtree( $self->{tmpDir} ) 
+        if $self->{tmpDir} && -d $self->{tmpDir};
 }
 
 # Load the config memory (passwords, repository locations etc)
