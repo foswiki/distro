@@ -260,7 +260,7 @@ HERE
         )
     );
 
-    return $this->foldableBlock( CGI::em('CGI Setup'), '(read only) ', $block );
+    return $this->foldableBlock( CGI::em('CGI Setup (read only)'), '', $block );
 }
 
 sub _checkBinDir {

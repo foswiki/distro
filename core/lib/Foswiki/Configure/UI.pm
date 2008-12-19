@@ -140,7 +140,7 @@ sub foldableBlock {
             rel     => 'nofollow',
             onclick => 'foldBlock("' . $id . '"); return false;'
         },
-        $headText . $mess
+        '<span class="blockLinkIndicator"></span>' . $headText . $mess
       )
       . CGI::div(
         {

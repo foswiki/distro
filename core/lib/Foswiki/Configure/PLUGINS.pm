@@ -17,9 +17,9 @@ sub new {
 
     my $this = $class->SUPER::new('Installed Plugins');
     my %modules;
-    my $classes = $scanner->findClasses('Foswiki::Plugins::*Plugin');
+    my $classes      = $scanner->findClasses('Foswiki::Plugins::*Plugin');
     my $twikiclasses = $scanner->findClasses('TWiki::Plugins::*Plugin');
-    push(@$classes, @$twikiclasses);
+    push( @$classes, @$twikiclasses );
     foreach my $module (@$classes) {
         my $simple = $module;
         $simple =~ s/^.*::([^:]*)/$1/;
@@ -43,8 +43,7 @@ sub new {
                 typename => 'STRING'
             )
         );
-        $Foswiki::cfg{Plugins}{$module}{Module} ||=
-          $modules{$module};
+        $Foswiki::cfg{Plugins}{$module}{Module} ||= $modules{$module};
     }
     return $this;
 }

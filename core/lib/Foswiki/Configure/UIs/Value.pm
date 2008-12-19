@@ -91,7 +91,7 @@ sub open_html {
         CGI::td( { class => 'firstCol' }, $row2col1 ) . "\n"
           . CGI::td( { class => 'secondCol' }, $row2col2 )
       ) . "\n" . CGI::Tr( { class => $hiddenClass },
-        CGI::td( { colspan => 2, class => 'docdata info' }, $row1 ) )
+        CGI::td( { colspan => "2", class => 'docdata info' }, $row1 ) )
       . "\n";
 }
 

@@ -64,26 +64,36 @@ a.blockLink {
 }
 a:link.blockLink,
 a:visited.blockLink {
-    text-decoration:underline; 
+    text-decoration:none; 
 }
-a:link:hover.blockLink {
-    text-decoration:underline;   
-}
+a:link:hover.blockLink {}
 a:link.blockLinkOff,
 a:visited.blockLinkOff {
     background-color:#f2f4f6;
 }
 a:link.blockLinkOn,
 a:visited.blockLinkOn {
-    background-color:#c4cbd6;
+    background-color:#06c;
+    color:#fff;
 	border-bottom-color:#3f4e67;
     border-top-color:#fff;
 }
 a.blockLink:hover {
-	background-color:#c4cbd6;
-    color:#3f4e67;
+    background-color:#06c;
+    color:#fff;
     border-bottom-color:#3f4e67;
     border-top-color:#fff;
+}
+.blockLinkIndicator {
+	padding:0 .25em 0 0;
+}
+a:link.blockLink em,
+a:visited.blockLink em {
+	font-style:normal;
+	color:#aaa;
+}
+a:hover.blockLink em {
+	color:#aaa;
 }
 div.explanation {
 	background-color:#fff9d1;
@@ -98,22 +108,6 @@ div.specialRemark {
 }
 div.options {
     margin:1em 0;
-}
-div.options div.optionHeader {
-    padding:0.25em 1em;
-    background-color:#666;
-    color:white;
-    font-weight:bold;
-}
-div.options div.optionHeader a:link:hover,
-div.options div.optionHeader a:visited:hover {
-    background-color:#b4d5ff; /* King's blue */
-	text-decoration:none;
-	color:#333;
-}
-div.options .foswikiSmall {
-    margin-left:0.5em;
-    color:#bbb;
 }
 div.foldableBlock {
     border-bottom:1px solid #ccc;

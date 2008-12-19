@@ -31,7 +31,7 @@ sub open_html {
             my $head = &$fn( $section->{headline} );
             use strict 'refs';
             $head .= $section->{desc} if $section->{desc};
-            return '<tr><td colspan=2>' . $head . '</td></tr>';
+            return '<tr><td colspan="2">' . $head . '</td></tr>';
         }
     }
 
@@ -45,7 +45,7 @@ sub open_html {
     if ( $depth == 2 ) {
 
         # Open row
-        $guts .= '<tr><td colspan=2>';
+        $guts .= '<tr><td colspan="2">';
         $guts .= CGI::a( { name => $linkAnchor } );
 
         # Open twisty div
@@ -57,7 +57,7 @@ sub open_html {
                 rel     => 'nofollow',
                 onclick => 'foldBlock("' . $id . '"); return false;'
             },
-            $section->{headline} . $mess
+            '<span class="blockLinkIndicator"></span>' . $section->{headline} . $mess
         );
 
         $guts .= "<div id='$id' class='foldableBlock foldableBlockClosed'>";
@@ -70,7 +70,6 @@ sub open_html {
             -border      => 0,
             -cellspacing => 0,
             -cellpadding => 0,
-            -cols        => 2
         }
     ) . "\n";
 
@@ -78,7 +77,7 @@ sub open_html {
     if ( $depth == 2 ) {
         $guts .= CGI::Tr(
             CGI::td(
-                { colspan => 2, class => 'docdata firstInfo' },
+                { colspan => "2", class => 'docdata firstInfo' },
                 $section->{desc}
             )
         ) if $section->{desc};

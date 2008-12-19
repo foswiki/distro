@@ -82,8 +82,8 @@ sub load {
         foreach my $dir (@INC) {
             _loadSpecsFrom( "$dir/Foswiki/Plugins", $root, \%read );
             _loadSpecsFrom( "$dir/Foswiki/Contrib", $root, \%read );
-            _loadSpecsFrom( "$dir/TWiki/Plugins", $root, \%read );
-            _loadSpecsFrom( "$dir/TWiki/Contrib", $root, \%read );
+            _loadSpecsFrom( "$dir/TWiki/Plugins",   $root, \%read );
+            _loadSpecsFrom( "$dir/TWiki/Contrib",   $root, \%read );
         }
     }
 }
@@ -334,7 +334,8 @@ sub startVisit {
         }
 
         # Substitute any existing value, or append if not there
-        unless ( $this->{content} =~ s/\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/s ) {
+        unless ( $this->{content} =~ s/\$(Foswiki::)?cfg$keys\s*=.*?;\n/$txt/s )
+        {
             $this->{content} .= $txt;
         }
     }

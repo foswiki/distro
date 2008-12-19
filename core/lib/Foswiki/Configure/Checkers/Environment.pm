@@ -10,8 +10,8 @@ sub ui {
     for my $key ( sort keys %ENV ) {
         $block .= $this->setting( $key, $ENV{$key} );
     }
-    $block = $this->foldableBlock( CGI::em('Environment variables'),
-        '(read only) ', $block );
+    $block = $this->foldableBlock( CGI::em('Environment variables (read only)'),
+        '', $block );
     return $block;
 }
 

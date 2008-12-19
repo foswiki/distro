@@ -61,6 +61,8 @@ function openBlock(id) {
 }
 
 function openBlockElement(block, blockLink) {
+	var indicator = getElementsByClassName(blockLink, 'blockLinkIndicator')[0];
+	indicator.innerHTML = '&#9660;';
     block.className = 'foldableBlock foldableBlockOpen';
     block.open = true;
     blockLink.className = 'blockLink blockLinkOn';
@@ -74,6 +76,8 @@ function closeBlock(id) {
 }
 
 function closeBlockElement(block, blockLink) {
+	var indicator = getElementsByClassName(blockLink, 'blockLinkIndicator')[0];
+	indicator.innerHTML = '&#9658;';
     block.className = 'foldableBlock foldableBlockClosed';
     block.open = false;
     blockLink.className = 'blockLink blockLinkOff';
@@ -81,10 +85,10 @@ function closeBlockElement(block, blockLink) {
 
 function toggleAllOptions(open) {
     if (allBlocks == null) {
-        allBlocks = getElementsByClassName('foldableBlock');
+        allBlocks = getElementsByClassName(document, 'foldableBlock');
     }
     if (allBlockLinks == null) {
-        allBlockLinks = getElementsByClassName('blockLink');
+        allBlockLinks = getElementsByClassName(document, 'blockLink');
     }
     var i, ilen=allBlocks.length;
     if (open) {
@@ -100,29 +104,43 @@ function toggleAllOptions(open) {
     lastOpenBlockLink = null;
 }
 
-function getElementsByClassName(class_name)
-{
-    var all_obj, ret_obj = new Array();
-    if (document.all)
-        all_obj=document.all;
-     else if (document.getElementsByTagName && !document.all)
-        all_obj=document.getElementsByTagName("*");
-    var len = all_obj.length;
-    for (i=0;i<len;++i) {
-        var myClass = all_obj[i].className;
-         if (myClass == class_name) {
-            ret_obj.push(all_obj[i]);
-        } else {
-            var classElems = myClass.split(" ");
-            var elemLen = classElems.length;
-            for (ii=0; ii<elemLen; ++ii) {
-                if (classElems[ii] == class_name) {
-                    ret_obj.push(all_obj[i]);
-                }
-            }    
-        }
-    }
-    return ret_obj;
+function getElementsByClassName(inRootElem, inClassName, inTag) {
+	var tag = inTag || '*';
+	var elms = inRootElem.getElementsByTagName(tag);
+	var className = inClassName.replace(/\-/g, "\\-");
+	var re = new RegExp("\\b" + className + "\\b");
+	var el;
+	var hits = new Array();
+	for (var i = 0; i < elms.length; i++) {
+		el = elms[i];
+		if (re.test(el.className)) {
+			hits.push(el);
+		}
+	}
+	return hits;
 }
+
+function addLoadEvent (inFunction, inDoPrepend) {
+	if (typeof(inFunction) != "function") {
+		return;
+	}
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = function() {
+			inFunction();
+		};
+	} else {
+		var prependFunc = function() {
+			inFunction(); oldonload();
+		};
+		var appendFunc = function() {
+			oldonload(); inFunction();
+		};
+		window.onload = inDoPrepend ? prependFunc : appendFunc;
+	}
+}
+
+addLoadEvent(toggleAllOptions, 0);
+
 //-->
 

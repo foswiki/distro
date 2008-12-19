@@ -80,7 +80,7 @@ sub ui {
     my $exts      = $this->_getListOfExtensions();
     foreach my $error ( @{ $this->{errors} } ) {
         $table .= CGI::Tr( { class => 'foswikiAlert' },
-            CGI::td( { colspan => 7 }, $error ) );
+            CGI::td( { colspan => "7" }, $error ) );
     }
 
     $table .= CGI::Tr(
@@ -132,7 +132,7 @@ sub ui {
     $table .= CGI::Tr(
         { class => 'patternAccessKeyInfo' },
         CGI::td(
-            { colspan => 7 },
+            { colspan => "7" },
             $installed
               . ' extension'
               . ( $installed == 1 ? '' : 's' )

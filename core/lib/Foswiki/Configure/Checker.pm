@@ -134,7 +134,8 @@ sub checkGnuProgram {
     my $mess = '';
 
     if (   $Foswiki::cfg{OS} eq 'UNIX'
-        || $Foswiki::cfg{OS} eq 'WINDOWS' && $Foswiki::cfg{DetailedOS} eq 'cygwin' )
+        || $Foswiki::cfg{OS} eq 'WINDOWS'
+        && $Foswiki::cfg{DetailedOS} eq 'cygwin' )
     {
 
         # SMELL: assumes no spaces in program pathnames

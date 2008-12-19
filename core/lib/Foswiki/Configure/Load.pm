@@ -146,8 +146,8 @@ sub readDefaults {
     foreach my $dir (@INC) {
         _loadDefaultsFrom( "$dir/Foswiki/Plugins", $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/Foswiki/Contrib", $root, \%read, \@errors );
-        _loadDefaultsFrom( "$dir/TWiki/Plugins", $root, \%read, \@errors );
-        _loadDefaultsFrom( "$dir/TWiki/Contrib", $root, \%read, \@errors );
+        _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );
+        _loadDefaultsFrom( "$dir/TWiki/Contrib",   $root, \%read, \@errors );
     }
     return \@errors;
 }
