@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1212529094" format="1.1" version="$Rev: 16876 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1212529094" format="1.1" version="$Rev$"}%
 ---+!! Welcome to %WIKITOOLNAME%%IF{ "$ WIKINAME='WikiGuest'" then="!" else=", %WIKIUSERNAME%!" }%
 
 %STARTINCLUDE%
@@ -16,6 +16,6 @@ Welcome to <nop>%WIKITOOLNAME%! This site is a meeting place to work on common i
       * TwentyMinuteTutorial is a 20-minute tour of %WIKITOOLNAME% essentials. 
       * WikiReferences links to selected articles and books about wiki technology and online collaboration.
 
-You have some time and want to really get into %WIKITOOLNAME%? Then the UserGuide is what you are looking for!
+You have some time and want to really get into %WIKITOOLNAME%? Then the UsersGuide is what you are looking for!
 %STOPINCLUDE%
 

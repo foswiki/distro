@@ -1,5 +1,5 @@
-%META:TOPICINFO{author="ProjectContributor" date="1199519964" format="1.1" version="1.2"}%
-This is a short introductory training course for beginners.
+%META:TOPICINFO{author="ProjectContributor" date="1199519964" format="1.1" version="$Rev$"}%
+This is a short introductory training course for Foswiki beginners.
 
 %SLIDESHOWSTART%
 
@@ -14,23 +14,22 @@ A Wiki is like a web site, except that you can edit the content in your browser
    * In Ward's words, Wiki is _"the simplest online database that could possibly work"_
    * A Wiki is basically a shared, online, persistent whiteboard
 
----++ Foswiki
+---++ Foswiki Wiki
 <img src="%ATTACHURL%/whiteboard.gif" alt="Whiteboard" width="240" height="160" align="right" />
-Implements the basic Wiki idea of a shared whiteboard
+Foswiki implements the basic Wiki idea of a shared whiteboard
 
    * Anyone can add content<br />... or change what is written<br />... or change the organisation of the content
    * Whatever what you write is<br />... nicely presented<br />... remembered... and never forgotten
 
 Foswiki also acts as an "application platform" to integrate a number of other functions.
 
----++ Where is it used?
-Foswiki is mainly used in commercial environments, often on corporate intranets
+Foswiki is an Open-Source development on http://foswiki.org/
+   * governed by an association under german law called Foswiki Association e.V.
+   * with over 100 regular contributors in many countries
 
-A number of public Wiki sites also use Foswiki
-
----++ Foswiki Features
+---++ Foswiki features
 Foswiki builds on the original Wiki concept and adds a number of features that make it very useful in a business environment.
-   * Foswiki pages are fully revision controlled, so a record of every change to every page is kept <table border="0" cellpadding="3" cellspacing="0"><tr><td bgcolor="#D0D0D0"><font color="black" size="-1">r6 <a>&lt;</a> r5 <a>&lt;</a> r4</font></td></tr></table>
+   * Foswiki pages are fully revision controlled, so a record of every change to every page is kept
    * The look-and-feel is highly configurable, through use of templates
 <table width="100%"><tr><td valign="top">
    * A "plugins" interface eases
@@ -48,7 +47,7 @@ Basic Foswiki can be used as:
    * A chat room   
 
 ---++ Extended applications
-Foswiki-with-extensions has been used as:
+Foswiki-with-extensions can be used as:
    * A Content Management System (CMS) for websites
    * A presentation development tool
    * A Blog
@@ -67,97 +66,142 @@ Foswiki pages are usually organised into three parts:
    * The body contains the text of the page, as entered by you
 Foswiki is very configurable, and the look can change. However the essentials will all be there on the page (somewhere!)
 
----++ The Page Header
-The header of a Foswiki page is generally highlighted in colour, and will usually contain an icon that gives you an idea of where you are, such as a company logo.
-<table width="90%" border="0" cellpadding="3" cellspacing="0" bgcolor="white">
- <tr>
-  <td bgcolor="#D0D0D0" rowspan="2" valign="top" width="1%">
-    <img src="%ATTACHURL%/myco.gif" width="62" height="63" border="0" alt="Foswiki home" />
-   </td><td>
-   <font size="+0"> My<nop>Co.My<nop>Topic </font>
-  </td><td align="right">
-    <font size="-1" color="black">Webs:<br /> <a href="non">Myco</a> | <a href="non">Main</a> | <a href="non">Foswiki</a> | <a href="non">Sandbox</a></font>
-  </td>
- </tr>
- <tr bgcolor="#D0D0D0">
-  <td colspan="2">
-    <font size="-1" color="black">[[WebChanges][Changes]] | [[WebIndex][Index]] | [[WebSearch][Search]] | Go <input type="text" name="topic" size="16" /></font>
-  </td>
- </tr>
-</table>
-It will also usually contain a number of 'links' that you can click on. You will generally see:
-   * [[WebChanges][Changes]] - gives you a list of recent changes
-   * [[WebIndex][Index]] - gives you a full index
-   * [[WebSearch][Search]] - takes you to a search page, where you can search all the text
-   * Go <input type="text" name="topic" size="16" /> - lets you type in the name of a page you already know
+---++ The page header
+The header of a Foswiki page is generally highlighted in colour, and will usually contain an icon that gives you an idea of where you are, such as a company logo. It will also usually contain:
+   * A *Search* box that allows you to look for topics or content all over the Foswiki site 
+   * A *Go* box where you can type in the name of a page you already know.
 
----++ The Page Header ... continued
-<table width="90%" border="0" cellpadding="3" cellspacing="0" bgcolor="white">
- <tr>
-  <td bgcolor="#D0D0D0" rowspan="2" valign="top" width="1%">
-    <img src="%ATTACHURL%/myco.gif" width="62" height="63" border="0" alt="Foswiki home" />
-   </td><td>
-    <font size="+0"> My<nop>Co.My<nop>Topic </font>
-  </td><td align="right">
-    <font size="-1" color="black">Webs:<br /> <a href="non">Myco</a> | <a href="non">Main</a> | <a href="non">Foswiki</a> | <a href="non">Sandbox</a></font>
-  </td>
- </tr>
- <tr bgcolor="#D0D0D0">
-  <td colspan="2">
-    <font size="-1" color="black">[[WebChanges][Changes]] | [[WebIndex][Index]] | [[WebSearch][Search]] | Go <input type="text" name="topic" size="16" /></font>
-  </td>
- </tr>
+#HeaderSample
+-----
+<table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+   <tr>
+   <td valign="middle"><span id="foswikiLogo" class="foswikiImage"> %ATTACHURL%/myco.gif </span></td>
+   <td align="right" valign="top" class="patternMetaMenu">
+   <ul>
+      <li>
+      <form name="jumpForm">
+      <input id="jumpFormField" type="text" class="foswikiInputField" name="topic" value="" size="18" />
+      <noscript>&nbsp;<input type="submit" class="foswikiButton" size="5" name="submit" value="Jump" />&nbsp;</noscript>
+      </form>
+      </li>
+      <li>
+      <form name="quickSearchForm" >
+      <input type="text" class="foswikiInputField" id="quickSearchBox" name="search" value="" size="18" />
+      <input type="hidden" name="scope" value="all" />
+      <input type="hidden" name="web" value="System" />
+      <noscript>&nbsp;<input type="submit" size="5" class="foswikiButton" name="submit" value="Search" />&nbsp;</noscript>
+      </form>
+      </li>
+   </ul> 
+   </td>
+   </tr>
+   <tr>
+   <td valign="middle"> *Webs:* [[#HeaderSample][Home]]%SEP%[[#HeaderSample][Myco]]%SEP%[[#HeaderSample][Main]]%SEP%[[#HeaderSample][System]]%SEP%[[#HeaderSample][Sandbox]]</td>
+   </tr>
 </table>
-You may also see in the header (usually at the top right) a list of the Foswiki "webs". A web is a collection of pages that are related closely together
+-----
+
+---++ The page header ... continued
+
+#HeaderSampleCont
+-----
+<table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+   <tr>
+   <td valign="middle"><span id="foswikiLogo" class="foswikiImage"> %ATTACHURL%/myco.gif </span></td>
+   <td align="right" valign="top" class="patternMetaMenu">
+   <ul>
+      <li>
+      <form name="jumpForm">
+      <input id="jumpFormField" type="text" class="foswikiInputField" name="topic" value="" size="18" />
+      <noscript>&nbsp;<input type="submit" class="foswikiButton" size="5" name="submit" value="Jump" />&nbsp;</noscript>
+      </form>
+      </li>
+      <li>
+      <form name="quickSearchForm" >
+      <input type="text" class="foswikiInputField" id="quickSearchBox" name="search" value="" size="18" />
+      <input type="hidden" name="scope" value="all" />
+      <input type="hidden" name="web" value="System" />
+      <noscript>&nbsp;<input type="submit" size="5" class="foswikiButton" name="submit" value="Search" />&nbsp;</noscript>
+      </form>
+      </li>
+   </ul> 
+   </td>
+   </tr>
+   <tr>
+   <td valign="middle"> *Webs:* [[#HeaderSampleCont][Home]]%SEP%[[#HeaderSampleCont][Myco]]%SEP%[[#HeaderSampleCont][Main]]%SEP%[[#HeaderSampleCont][System]]%SEP%[[#HeaderSampleCont][Sandbox]]</td>
+   </tr>
+</table>
+-----
+
+You may also see in the header (usually immediately below it) a list of the Foswiki "webs". A web is a collection of pages that are related closely together
    * For example, we might have a web called "Enemies", where we keep all we know about our enemies, and another called "Friends"
-   * There's usually a safe play web called something like "Sandbox" or "Scratch", where you can create pages just to try things out
-   * And some admin areas, like "%USERSWEB%" and "%SYSTEMWEB%"
+   * There's usually a safe play web called something like "Sandbox", where you can create pages just to try things out
+   * And some admin areas, like *%USERSWEB%* and *%SYSTEMWEB%*
 
----++ The Page Footer
-The footer of the page is also highlighted in colour, and is usually where you will find the links that let you change the content.
-<table bgcolor="white" width="90%" border="0" cellpadding="3" cellspacing="0">
- <tr bgcolor="#D0D0D0">
-  <td valign="top" colspan="2">
-    <font size="-1" color="black"> <a href="none"><b>Edit</b></a>
-    |  <a href="none">Attach</a>
-    |  <a href="none">Diffs</a>  | r2 <a href="none">&gt;</a> r1
-    |  <a href="none">More</a> </font>
-  </td>
- </tr>
- <tr>
-  <td valign="top">
-    <font size="-1" color="black">Revision r1.2 - 13 Feb 2004 - 09:09 GMT - <a href="none">FoswikiPresenter</a> </font>
-  </td>
-  <td width="40%" valign="top">
-   <font size="-2">%WEBCOPYRIGHT% </font>
-  </td>
- </tr>
+---++ The menu
+The menu, normally located either on the right or the left side of the content, often includes:
+   * links to important topics
+   * some standard topics like for example
+      * [[%SYSTEMWEB%.WebTopicList][Index]] - gives you a full index
+      * [[%SYSTEMWEB%.WebChanges][Changes]] - gives you a list of recent changes
+      * [[%SYSTEMWEB%.WebNotify][Notifications]] - allows you to subscribe to a notification service
+      * [[%SYSTEMWEB%.WebStatistics][Statistics]] - gives you a list of topic related statistics
+
+#MenuSample
+<table style="border:1px solid grey">
+<tr><td>
+%ORANGE% *Myco* %ENDCOLOR%
+<ul style="list-style-type:none;margin-left:0;padding-left:0;">
+<li> [[#MenuSample][Important topic]] </li>
+<li> [[#MenuSample][Company philosophy]] </li>
+</ul>
+
+%ORANGE% *Tools* %ENDCOLOR%
+<ul style="list-style-type:none;margin-left:0;padding-left:0;">
+<li> %ICON{index}% [[#MenuSample][Index]] </li>
+<li> %ICON{index}% [[#MenuSample][Index]] </li>
+<li> %ICON{notify}% [[#MenuSample][Notifications]] </li>
+<li> %ICON{statistics}% [[#MenuSample][Statistics]] </li>
+</ul>
+</tr></td>
 </table>
-   * The <a>Edit</a> link takes you to an interactive page where you can change the page content
-   * The <a>Attach</a> link lets you attach files
-   * The other links invoke other, more complex, functions, mainly to do with revision tracking - they can safely be ignored for now
+
+---++ The page footer
+#PageFooter
+The footer of the page is also highlighted in colour, and is usually where you will find the links that let you change the content. 
+
+<div class="patternTopicActions">
+<span class="patternActionButtons">
+&nbsp;[[#PageFooter][Edit]] %SEP% [[#PageFooter][Attach]] %SEP% [[#PageFooter][Print version]] %SEP% [[#PageFooter][History]]: r2 &lt; [[#PageFooter][r1]] %SEP% [[#PageFooter][More topic actions]]</span>
+</div>
+
+   * The [[#PageFooter][Edit]] link takes you to an interactive page where you can change the page content
+   * The [[#PageFooter][Attach]] link lets you attach files
+   * The other links invoke other, more complex, functions, mainly to do with revision tracking - they can safely be ignored for now 
 
 ---++ Editing Pages
    * You've read a page, and you disagree with it violently! It says:<br /> _Everyone_ *knows* that =the world= is an <font color="blue"><u>OblateSpheroid</u></font><br />But you know for a fact it is flat! ;-)
-   * You've clicked the edit link, and an edit page has appeared. But it doesn't look much like what was on the page before - it's full of strange hieroglyphics!
+   * You've clicked the edit link, and an edit page has appeared. 
+      * Depending on your site configuration and with some luck, you will see some kind of WYSIWYG-editor and can start writing right away.
+      * But it might happen that it doesn't look much like what was on the page before - it's full of strange hieroglyphics!
 <code>_Everyone_ <nop>*knows* that <nop>=the world= is an Oblate<nop>Spheroid</code>
    * Now what?
 
 ---++ What's in a page
-   * The hieroglyphics are what's known as "Topic Markup Language" or "formatting"
+   * The hieroglyphics are what's known as "Topic Markup" or "formatting"
    * They are a really simple way of telling the browser how you want the page to look
    * You don't have to use them
       * Foswiki understands pages in plain text just fine.<br /><br /> <code>Actually it is perfectly and absolutely flat</code><br /><br /> appears as <br /><br /> Actually it is perfectly and absolutely flat
 
 ---++ Formatting just makes pages prettier
 ... and easier to read<br /><br />
-<code>_Actually_ it is <nop>*perfectly* and <nop>*absolutely* flat</code><br /><br /> appears as <br /><br /> _Actually_ it is *perfectly* and *absolutely* flat
+<code>_Actually_ it is <nop>*perfectly* and <nop>__absolutely__ flat</code><br /><br /> appears as <br /><br /> _Actually_ it is *perfectly* and __absolutely__ flat
    * A full description of all the formatting can be found in the %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.TextFormattingFAQ
    * The best thing to do is just to type until you get stuck
       * then follow the link on the edit page to the help.
 
 ---++ Commonly used formatting
-Foswiki understands pages in plain text just fine, but you can %RED% *jazz* %ENDCOLOR%%GREEN% _them_ %ENDCOLOR%%BLUE% *up* %ENDCOLOR% using some simple formatting shortcuts. Here are some of the more commonly used ones:
+Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %ENDCOLOR%%GREEN% _them_ %ENDCOLOR%%BLUE% *up* %ENDCOLOR% using some simple formatting shortcuts. Here are some of the more commonly used ones:
    * <nop>---+ indicates a heading. Add more +'s for a deeper heading.
     | *You type* | *You see* |
     | %BLACK%<code>---+ This is a heading</code>%ENDCOLOR% | <h1>%BLACK%This is a heading%ENDCOLOR%</h1> |
@@ -190,23 +234,23 @@ Foswiki understands pages in plain text just fine, but you can %RED% *jazz* %END
    * %<nop>RED% .... %<nop>ENDCOLOR% will change the colour of the enclosed text. Lots of colours are available (%RED%%<nop>RED%%ENDCOLOR%, %GREEN%%<nop>GREEN%%ENDCOLOR%, %BLUE%%<nop>BLUE%%ENDCOLOR% etc)
 
 ---++ Wiki<nop>Words
-   * One special hieroglyph that is *very important* is a BumpyWord
+   * One special hieroglyph that is *very important* is a WikiWord
       * a word that starts with uppercase, then some lowercase, then more uppercase (a.k.a <nop>CamelCase)
    * This has a special meaning to Foswiki; if it matches the name of another topic, Foswiki will automatically create a link to that page for you.
-   * If there is no such page, then the word is highlighted and a question mark is put after the word, LikeThis
+   * If there is no such page, then the word is highlighted and has a question mark is put after the word, LikeThis
    * If you click on the question mark, then Foswiki will invite you to create that page.
 
    * This lets you enter the names of topics you _think_ should exist, but don't yet
       * You, or someone else, can always come along later and click on the question mark!
 
 ---++ Referencing other pages and URLs
-   * BumpyWords automatically link to the target page
+   * WikiWords automatically link to the target page
       * You can make these links easier to read using square brackets:
-         * <code>[<nop>[BumpyWords][bumpy words]] appears as [[BumpyWords][bumpy words]]</code>
+         * <code>[<nop>[WikiWords][bumpy words]] appears as [[WikiWords][bumpy words]]</code>
    * An ordinary URL pasted into text will appear as a link - http://www.google.com
       * You can also prettify URLs using square brackets:
          * <code>[<nop>[http://www.google.com/][Google]]</code> appears as [[http://www.google.com/][Google]]
-   * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[Macros]] for full details.
+   * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[%SYSTEMWEB%.Macros]] for full details.
 
 ---++ More formatting
    * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.TextFormattingFAQ
@@ -215,37 +259,64 @@ Foswiki understands pages in plain text just fine, but you can %RED% *jazz* %END
       * <code>&lt;nop&gt;_word_</code> appears as <nop>_word_
 
 ---++ Creating new pages
-   * Alternative ways:
-      * Click on the question mark after a BumpyWord
+
+   *  Alternative ways:
+      * Click on the question mark after a WikiWord
       * Type in the name of the topic in the "Go:" box
-      * Type in the name of the topic in the URL
+      * Type in the name of the topic in the URL 
    * Any time you try to visit a page that doesn't exist, Foswiki will invite you to create it.
-   * Make sure the names of topics are always BumpyWords.
+   * Make sure the names of topics are always WikiWords.
 
 ---++ Attachments
-   * Attachments are files which have been uploaded and attached to a Foswiki page using the 'Attach' function in the footer.
-<table border="0" cellspacing="2" cellpadding="1" bgcolor="white">
- <tr>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99">Attachment</font></a></th>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Action</font></a> </th>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Size</font></a> </th>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Date</font></a> </th>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Who</font></a> </th>
-  <th align="center" valign="top" bgcolor="#0c2577"><a href="none"><font color="#FFFF99"> Comment</font></a> </th>
- </tr>
- <tr>
-  <td valign="top" bgcolor="#F8F8F8">
-   %ICON{"gif"}%
-   <font color="black"><a href="none">myco.gif</a></font>
-  </td>
-  <td align="center" valign="top" bgcolor="#F8F8F8">
-   <font color="black"><a href="none">manage</a></font>
-  </td>
-  <td align="right" valign="top" bgcolor="#F8F8F8"><font color="black"> 9.6&nbsp;K </font></td>
-  <td valign="top" bgcolor="#F8F8F8"> <font color="black"> 13 Feb 2004 - 18:41 </font></td>
-  <td valign="top" bgcolor="#F8F8F8"> <font color="black"> <a href="none">MushroomMagicMan</a> </font></td>
-  <td valign="top" bgcolor="#F8F8F8"> <font color="black">Attached image file </font></td></tr>
+   * Attachments are files which have been uploaded and attached to a Foswiki topic using the ==[Attach]== link in the toolbar.
+
+#FileAttachmentTable
+<div class="foswikiAttachments">
+<table style="border-width:1px;" cellspacing="0" id="foswikiAttachmentsTable" cellpadding="0" class="foswikiTable">
+   <tr class="foswikiTableEven">
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;" class="foswikiFirstCol">
+      <a href="#FileAttachmentTable" style="color:#0066cc">I</a>
+   </th>
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a href="#FileAttachmentTable" style="color:#0066cc">Attachment</a> 
+   </th>
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a href="#FileAttachmentTable" style="color:#0066cc">Action</a>
+   </th>
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a href="FileAttachmentTable" style="color:#0066cc">Size</a>
+   </th>
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Date</a> 
+   </th>
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a rel="nofollow" href="#FileAttachmentTable" style="color:#0066cc">Who</a> 
+   </th>
+   <th bgcolor="#ffffff" align="center" valign="middle" style="text-align:center;vertical-align:middle;">
+      <a href="#FileAttachmentTable" style="color:#0066cc">Comment</a>
+   </th>
+   </tr>
+   <tr class="foswikiTableOdd">
+   <td bgcolor="#ffffff" align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{txt}% </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Sample.txt]] </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:37</td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> Just a sample </td>
+   </tr>
+   <tr class="foswikiTableOdd">
+   <td bgcolor="#ffffff" align="center" valign="top" style="text-align:center;vertical-align:top;" class="foswikiFirstCol"> %ICON{gif}% </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][Smile.gif]] </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][manage]] </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:center;vertical-align:top;">0.1 K</td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;">22 Jul 2000 - 19:38</td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> [[#FileAttachmentTable][ProjectContributor]] </td>
+   <td bgcolor="#ffffff" align="left" valign="top" style="text-align:left;vertical-align:top;"> Smiley face </td>
+   </tr>
 </table>
+</div>
+
    * Attachments are simply files, in whatever format you want.
    * Foswiki recognises some file formats, notably image files (.gif)
       * Write =%<nop>ATTACHURL%/myco.gif= to see this: %ATTACHURL%/myco.gif
@@ -293,10 +364,10 @@ You may see a comment box on a page in Thread<nop>Mode that makes it easy to qui
       1 Create a page called 'Category<nop>Weather'
       1 Put a SEARCH that contains the word 'Category<nop>Weather' into it
          * <code>%<nop>SEARCH{"Category<nop>Weather" nosearch="on" nosummary="on"}%</code>
-      1 Put the BumpyWord 'Category<nop>Weather' on all the pages relating to the weather<br />(usually at the bottom, below a horizontal bar)
+      1 Put the WikiWord 'Category<nop>Weather' on all the pages relating to the weather<br />(usually at the bottom, below a horizontal bar)
 
 ---++ Contributed features
-Basic Foswiki is rich with features, but is enriched even further by the addition of optional plug-in modules that may (or may not!) be installed in your Foswiki. These are classified as either *skins* (modules that change the look-and-feel) and *plugins* (modules that enhance functionality).
+Basic Foswiki is rich with features, but is enriched even further by the addition of optional plug-in modules that may (or may not!) be installed in your Foswiki. These are classified as either __skins__ (modules that change the look-and-feel) or __plugins__ (modules that enhance functionality).
 
 Here's a brief description of some of the more common plugins, together with the tags you might expect to see in topics if they are used. You can find out more by visiting the plugin pages.
    * Action<nop>TrackerPlugin: Support *action tags* in topics, with *automatic notification* of action statuses <code>%ACTION...</code>
@@ -311,10 +382,10 @@ Here's a brief description of some of the more common plugins, together with the
    * Slide<nop>ShowPlugin: *Create web based presentations* based on topics with headings <code>%SLIDESHOWSTART...</code>
    * Spread<nop>SheetPlugin: Add *spreadsheet calculations* like "$SUM( $ABOVE() )" to tables located in Foswiki topics <code>%CALC...</code>
    * Table<nop>Plugin: Control *presentation and sorting of tables* <code>%TABLE...</code>
-   * <nop>JHotDrawPlugin: Add *quick sketches* to pages <code>%DRAWING...</code>
+   * TWiki<nop>DrawPlugin: Add *quick sketches* to pages <code>%DRAWING...</code>
 The following plugins are installed on this Foswiki: %ACTIVATEDPLUGINS%
 
-There are many other plugins, see http://foswiki.org/Extensions
+There are many other plugins, see http://foswiki.org/Extensions/WebHome
 
 ---++ Credits and Acknowledgements
    * This training was developed by Foswiki:Main.CrawfordCurrie on behalf of [[http://www.oxamer.com/][Oxamer]], one of the companies in the [[http://www.ogt.co.uk/][Oxford Gene Technology]] group.
@@ -324,5 +395,5 @@ There are many other plugins, see http://foswiki.org/Extensions
    * The latest version of this presentation is available at Foswiki:%WEB%.%TOPIC%, where you can also provide feedback
 %SLIDESHOWEND%
 
----
-*Related topics:* WelcomeGuest, TwentyMinuteTutorial
+__Related topics:__ WelcomeGuest, WikiCulture, TwentyMinuteTutorial, TopicsAndWebs, WorkingTopics
+
