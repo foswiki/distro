@@ -13,7 +13,8 @@ sub prompt {
     return CGI::textfield(
         -name    => $id,
         -size    => 20,
-        -default => sprintf( '0%o', $value )
+        -default => sprintf( '0%o', $value ),
+        -class   => 'foswikiInputField',
     );
 }
 

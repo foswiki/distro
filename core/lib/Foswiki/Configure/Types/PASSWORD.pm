@@ -24,7 +24,8 @@ sub prompt {
         -name         => $id,
         -size         => $size,
         -default      => $value,
-        -autocomplete => 'off'
+        -autocomplete => 'off',
+        -class   => 'foswikiInputField',
     );
 }
 

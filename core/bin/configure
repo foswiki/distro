@@ -407,17 +407,6 @@ HERE
 # use this script recursively to serve the icon image
 print CGI::img({src=>$scriptName.'?action=image;image=banner.gif;type=image/gif', class=>'logo', alt=>'Foswiki'});
 
-if (!$query->auth_type()) {
-    print <<'OH_DEAR';
-<h1 class='twikiAlert'>BIG, BIG WARNING!</h1>
-<div class='twikiAlert'>
-This screen was accessed without requiring authentication. <b>This is a
-high security risk!</b> You should always make sure the configuration
-interface requires authentication, or it may be used by a hacker
-to modify your Foswiki configuration. See for <a href="http://foswiki.org/Support/ProtectingYourConfiguration">Protecting Your Configuration</a> for more information on
-limiting access to configuration.</div>
-OH_DEAR
-}
 my $stub = new Foswiki::Configure::Item();
 # This call will define $Foswiki::defaultCfg by loading .spec files
 my $sanityUI = Foswiki::Configure::UI::loadChecker('BasicSanity', $stub);
@@ -547,6 +536,15 @@ sub _actionConfigure {
     $Foswiki::Configure::UI::totwarnings = 0;
 
     print CGI::h1( 'Configuration');
+    if (!$query->auth_type()) {
+    print <<'OH_DEAR';
+<div class='foswikiNotification foswikiAlert'><strong>BIG, BIG WARNING!</strong> <br />This screen was accessed without requiring authentication. <b>This is a
+high security risk!</b> You should always make sure the configuration
+interface requires authentication, or it may be used by a hacker
+to modify your Foswiki configuration. See for <a href="http://foswiki.org/Support/ProtectingYourConfiguration">Protecting Your Configuration</a> for more information on
+limiting access to configuration.</div>
+OH_DEAR
+}
     print $sanityStatement;
 
     # The first three sections go without a root
@@ -575,7 +573,7 @@ sub _actionConfigure {
  <div class="patternTopic">
   <p><strong>Use this page to set the configuration options for Foswiki.
   Fill in the settings, and then press 'Next'.</strong></p>
-  <div class="explanation">
+  <div class="foswikiLeft foswikiHelp" style="width:45%">
    <ul>
     <li><b>If your Foswiki site is already working</b>, continue to
      <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome">
@@ -607,7 +605,7 @@ register</a> as a normal user first and then add your wikiname to the <a rel="no
      </li>
     </ul>
    </div>
-   <div class="remark">Explanation of colours and symbols:
+   <div class="foswikiLeft foswikiHelp" style="width:45%; margin-left:1em">Explanation of colours and symbols:
     <ul style="margin-top:0;">
      <li>Settings marked <span class='mandatory'>like this</span> are required
       (they must have a value).</li>
@@ -620,13 +618,14 @@ register</a> as a normal user first and then add your wikiname to the <a rel="no
 HERE
         if (!$expertsMode) {
             print <<HERE
- EXPERT options are hidden unless you click the <form><input type="submit" style="background-color:#eef" value="Yes, I've read all the documentation"/><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form> button.
+ EXPERT options are hidden unless you click the <form><input type="submit" class="foswikiButton" value="Yes, I've read all the documentation" /><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form> button.
 HERE
 }
         print <<HERE;
      </li>
     </ul>
    </div><!-- remark-->
+   <br class="foswikiClear" />
   </div><!--explanation-->
 HERE
     }
@@ -653,7 +652,8 @@ HERE
                 {
                     href    => '#',
                     rel     => 'nofollow',
-                    onclick => 'toggleAllOptions(true); return false;'
+                    onclick => 'toggleAllOptions(true); return false;',
+                    class   => 'foswikiButton',
                 },
                 'Open all options'
             )

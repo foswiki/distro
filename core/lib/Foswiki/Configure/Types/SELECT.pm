@@ -22,7 +22,7 @@ sub prompt {
             $sopts .= '<option>' . $opt . '</option>';
         }
     }
-    return CGI::Select( { name => $id, size => 1 }, $sopts );
+    return CGI::Select( { name => $id, size => 1, class => 'foswikiSelect' }, $sopts );
 }
 
 1;

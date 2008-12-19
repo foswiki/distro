@@ -28,7 +28,8 @@ sub prompt {
         -name    => $id,
         -value   => $v,
         -rows    => 10,
-        -columns => 80
+        -columns => 80,
+        -class   => 'foswikiTextarea',
     );
 }
 

@@ -41,7 +41,7 @@ sub ui {
         { class => 'foswikiFormStep' },
         CGI::h3( CGI::strong("Your Password:") )
           . CGI::p(
-                CGI::password_field( 'cfgAccess', '', 20, 80 ) 
+                CGI::password_field( -name=>'cfgAccess', -size =>20, -maxlength=>80, -class => 'foswikiInputField' ) 
               . '&nbsp;'
               . CGI::submit(
                 -class => 'foswikiSubmit',
@@ -66,7 +66,7 @@ HERE
     if ($canChangePW) {
         $output .=
           "<div id='twikiPasswordChange'><div class='foswikiFormSteps'>\n";
-        $output .= '<div class="explanation">';
+        $output .= '<div class="foswikiNotification" style="margin:1em;">';
         $output .= CGI::img(
             {
                 width  => '16',
@@ -107,12 +107,12 @@ HERE
         $output .= CGI::div(
             { class => 'foswikiFormStep' },
             CGI::strong('New Password:')
-              . CGI::p( CGI::password_field( 'newCfgP', '', 20, 80 ) )
+              . CGI::p( CGI::password_field( -name=>'newCfgP', -size=>20, -maxlength=>80, -class => 'foswikiInputField' ) )
         );
         $output .= CGI::div(
             { class => 'foswikiFormStep' },
             CGI::strong('Confirm Password:')
-              . CGI::p( CGI::password_field( 'confCfgP', '', 20, 80 ) )
+              . CGI::p( CGI::password_field( -name=>'confCfgP', size=>20, -maxlength=>80, -class => 'foswikiInputField' ) )
         );
         $submitStr = 'Change Password and ' . $submitStr;
         $output .= CGI::div( { class => 'foswikiFormStep foswikiLast' },

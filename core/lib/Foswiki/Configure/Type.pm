@@ -48,7 +48,7 @@ sub prompt {
             $size = '55%';
         }
     }
-    return CGI::textfield( -name => $id, -size => $size, -default => $value );
+    return CGI::textfield( -name => $id, -size => $size, -default => $value, -class => 'foswikiInputField' );
 }
 
 # Test to determine if two values of this type are equal.

@@ -86,14 +86,13 @@ sub open_html {
         $row2col2 = CGI::hidden( $keys, $valuer->currentValue($value) );
     }
 
-    return CGI::Tr( { class => $hiddenClass },
-        CGI::td( { colspan => 2, class => 'docdata info' }, $row1 ) )
-      . "\n"
-      . CGI::Tr(
+    return CGI::Tr(
         { class => $hiddenClass },
         CGI::td( { class => 'firstCol' }, $row2col1 ) . "\n"
           . CGI::td( { class => 'secondCol' }, $row2col2 )
-      ) . "\n";
+      ) . "\n" . CGI::Tr( { class => $hiddenClass },
+        CGI::td( { colspan => 2, class => 'docdata info' }, $row1 ) )
+      . "\n";
 }
 
 sub close_html {
