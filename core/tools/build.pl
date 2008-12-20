@@ -48,7 +48,7 @@ sub new {
 		$name = 'Foswiki-'.getCurrentFoswikiRELEASE().'-auto'.$1;
 		$autoBuild = 1;
 	}
-    }
+}
 
 print <<END;
 
