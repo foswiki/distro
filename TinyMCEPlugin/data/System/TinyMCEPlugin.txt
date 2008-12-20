@@ -42,7 +42,7 @@ This setting contains all the options passed to the TinyMCE editor on startup.
 For a full explanation of the available options, and guidance on reconfiguring TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
 <verbatim>
    * Set INIT = mode:"textareas",
-   editor_selector : "foswikiTextarea",
+   editor_selector : "foswikiWysiwygEdit",
    save_on_tinymce_forms: true,
    cleanup : true,
    theme : "advanced",
