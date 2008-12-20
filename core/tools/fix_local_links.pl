@@ -33,7 +33,7 @@ use Foswiki;
     local $/;
     my $topichtml = <>;
 
-    $topichtml =~ s|(?<=[?;&])TWIKISESSID=\w*[;&]?||g;
+    $topichtml =~ s|(?<=[?;&])FOSWIKISESSID=\w*[;&]?||g;
     
     # Replace the header with a minimal header to avoid all references to other files
     $topichtml =~ s|<head>.*?<title>\s*(\S*).*?</title>.*?</head>|<head><title>$1</title></head>|gs;
@@ -42,10 +42,10 @@ use Foswiki;
     $topichtml =~ s|<img.*?>||g;
     
     # Changes all links to attachments to twiki.org
-    $topichtml =~ s|$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/*|http://twiki.org/p/pub/|g;
+    $topichtml =~ s|$Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{PubUrlPath}/*|http://foswiki.org/pub/|g;
 
     # Changes all links to topics to twiki.org
-    $topichtml =~ s|($Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath})/*|http://twiki.org/cgi-bin/|g;
+    $topichtml =~ s|($Foswiki::cfg{DefaultUrlHost}$Foswiki::cfg{ScriptUrlPath}/view)/*|http://foswiki.org/|g;
     
     #This URL param is not wanted when we link to twiki.org 
     $topichtml =~ s/href="\?skin=plain#/href="#/g;
