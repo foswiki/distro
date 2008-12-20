@@ -1,4 +1,5 @@
 User-agent: *
+Crawl-delay: 5
 Disallow: /bin/attach
 Disallow: /bin/changes
 Disallow: /bin/configure
