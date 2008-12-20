@@ -985,7 +985,7 @@ sub filter_pm {
     my $text = <IF>;
     close(IF);
 
-    $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev$this->{VERSION} \$/gso;
+    $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gso;
 
     unless ( $this->{-n} ) {
         open( OF, '>' . $to )
