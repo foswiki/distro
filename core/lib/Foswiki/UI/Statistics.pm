@@ -105,7 +105,7 @@ sub statistics {
       or throw Error::Simple( 'Cannot backup log file: ' . $! );
 
     my $TMPFILE = new IO::File;
-    open( $TMPFILE, '>', $tmpFilename )
+    open( $TMPFILE, '<', $tmpFilename )
       or throw Error::Simple( 'Cannot open backup file: ' . $! );
 
     # Do a single data collection pass on the temporary copy of logfile,
