@@ -330,8 +330,9 @@ sub _emitTR {
 
     $theRow =~ s/\t/   /g;    # change tabs to space
     $theRow =~ s/\s*$//;      # remove trailing spaces
-    $theRow =~ s/(\|\|+)/'colspan'.$Foswiki::TranslationToken.length($1).'|'/ge
-      ;                       # calc COLSPAN
+    # calc COLSPAN
+    $theRow =~ s/(\|\|+)/
+      'colspan'.$Foswiki::TranslationToken.length($1).'|'/ge;
     my $cells = '';
     my $containsTableHeader;
     my $isAllTH = 1;

@@ -14,7 +14,7 @@ sub check {
         $Foswiki::cfg{Site}{CharSet} = $1 if defined $1;
         $Foswiki::cfg{Site}{CharSet} =~ s/^utf8$/utf-8/i;
         $Foswiki::cfg{Site}{CharSet} =~ s/^eucjp$/euc-jp/i;
-        $Foswiki::cfg{Site}{CharSet} = lc $Foswiki::cfg{Site}{CharSet};
+        $Foswiki::cfg{Site}{CharSet} = lc( $Foswiki::cfg{Site}{CharSet});
     }
     return '';
 }

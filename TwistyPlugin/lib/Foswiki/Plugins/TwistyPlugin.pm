@@ -101,7 +101,9 @@ sub _addHeader {
     return if $doneHeader;
     $doneHeader = 1;
 
-    Foswiki::Func::loadTemplate( lc($pluginName) );
+    # Untaint is required if use locale is on
+    Foswiki::Func::loadTemplate(
+        Foswiki::Sandbox::untaintUnchecked(lc($pluginName)) );
     my $header = Foswiki::Func::expandTemplate('twisty:header');
     Foswiki::Func::addToHEAD( $pluginName, $header );
 }

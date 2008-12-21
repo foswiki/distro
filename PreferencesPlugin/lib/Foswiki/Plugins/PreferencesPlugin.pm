@@ -79,7 +79,7 @@ sub beforeCommonTagsHandler {
 
     my $query = Foswiki::Func::getCgiQuery();
 
-    my $action = lc $query->param( 'prefsaction' );
+    my $action = lc( $query->param( 'prefsaction' ));
     $query->Delete( 'prefsaction' );
     $action =~ s/\s.*$//;
 

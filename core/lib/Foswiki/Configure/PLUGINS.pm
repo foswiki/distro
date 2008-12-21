@@ -28,7 +28,7 @@ sub new {
         # the first can get loaded from @INC.
         $modules{$simple} = $module;
     }
-    foreach my $module ( sort { lc $a cmp lc $b } keys %modules ) {
+    foreach my $module ( sort { lc( $a ) cmp lc( $b ) } keys %modules ) {
         $this->addChild(
             new Foswiki::Configure::Value(
                 parent   => $this,

@@ -335,9 +335,9 @@ sub rename {
     Foswiki::UI::checkWebExists( $session, $oldWeb, $oldTopic, 'rename' );
 
     unless ( $session->{store}->topicExists( $oldWeb, $oldTopic ) ) {
-
         # Item3270: check for the same name starting with a lower case letter.
-        unless ( $session->{store}->topicExists( $oldWeb, lcfirst $oldTopic ) )
+        unless ( $session->{store}->topicExists(
+            $oldWeb, lcfirst( $oldTopic )) )
         {
             throw Foswiki::OopsException(
                 'accessdenied', status => 403,
@@ -346,7 +346,8 @@ sub rename {
                 topic => $oldTopic
             );
         }
-        $oldTopic = lcfirst $oldTopic;
+        # Untaint is required is use locale is in force
+        $oldTopic = Foswiki::Sandbox::untaintUnchecked(lcfirst( $oldTopic ));
     }
 
     if ($newTopic) {
@@ -516,7 +517,9 @@ sub rename {
 ---++ StaticMethod _safeTopicName( $topic ) -> $topic
 
 Filter out dangerous characters . and / may cause issues with pathnames.
-        
+
+Note that the resut may be tainted.
+
 =cut
 
 sub _safeTopicName {

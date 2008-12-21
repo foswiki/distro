@@ -124,7 +124,7 @@ sub header {
 
         # Don't use \s because of perl bug 21951
         next unless my ( $header, $value ) = /([^ \r\n\t=]+)=\"?(.+?)\"?$/;
-        $header = lc $header;
+        $header = lc( $header );
         $header =~ s/\b(\w)/\u$1/g;
         if ( exists $this->{headers}->{$header} ) {
             if ( ref $this->{headers}->{$header} ) {

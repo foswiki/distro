@@ -89,6 +89,7 @@ use vars qw( @registrableHandlers %deprecated );
 
 sub new {
     my ( $class, $session, $name, $module ) = @_;
+    ASSERT(UNTAINTED($name)) if DEBUG;
     my $this = bless(
         {
             session => $session,

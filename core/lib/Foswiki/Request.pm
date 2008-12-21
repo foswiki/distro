@@ -550,7 +550,7 @@ sub header {
 
     return keys %{ $this->{headers} } unless $key;
     $key =~ tr/_/-/;
-    $key = lc $key;
+    $key = lc( $key );
 
     if ( defined $value[0] ) {
         $this->{headers}{$key} =

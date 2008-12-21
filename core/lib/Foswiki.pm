@@ -262,19 +262,6 @@ BEGIN {
         $Foswiki::cfg{OS} = 'OS2';
     }
 
-    # Validate and untaint Apache's SERVER_NAME Environment variable
-    # for use in referencing virtualhost-based paths for separate data/
-    # and templates/ instances, etc
-
-    $ENV{SERVER_NAME} = Foswiki::Sandbox::untaint(
-        $ENV{SERVER_NAME},
-        sub {
-            return undef unless defined $ENV{SERVER_NAME};
-            return $ENV{SERVER_NAME} if $ENV{SERVER_NAME} =~
-              /^(([a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?\.)+[a-z]{2,6})$/i;
-            return undef;
-        });
-
     # readConfig is defined in Foswiki::Configure::Load to allow overriding it
     Foswiki::Configure::Load::readConfig();
 
@@ -748,7 +735,8 @@ sub _isRedirectSafe {
     #TODO: this should really use URI
     # Compare protocol, host name and port number
     if ( $redirect =~ m!^(.*?://[^/]*)! ) {
-        # implicit untaints OK because result not used
+        # implicit untaints OK because result not used. uc retaints
+        # if use locale anyway.
         my $target = uc( $1 );
 
         $Foswiki::cfg{DefaultUrlHost} =~ m!^(.*?://[^/]*)!;
@@ -1223,7 +1211,7 @@ sub mapToIconFileName {
     my ( $this, $fileName, $default ) = @_;
 
     my @bits = ( split( /\./, $fileName ) );
-    my $fileExt = lc $bits[$#bits];
+    my $fileExt = lc( $bits[$#bits] );
 
     unless ( $this->{_ICONMAP} ) {
         my $iconTopic = $this->{prefs}->getPreferencesValue('ICONTOPIC');
@@ -1446,6 +1434,14 @@ sub new {
         $web = $1 unless $web;
     }
 
+    my $topicNameTemp = $this->UTF82SiteCharSet( $this->{topicName} );
+    if ($topicNameTemp) {
+        $topic = $topicNameTemp;
+    }
+
+    # TWikibug:Item3270 - here's the appropriate place to enforce spec
+    $topic = ucfirst( $topic );
+
     # Validate and untaint topic name from path info
     $this->{topicName} = Foswiki::Sandbox::untaint(
         $topic,
@@ -1475,15 +1471,6 @@ sub new {
     if ($webNameTemp) {
         $this->{webName} = $webNameTemp;
     }
-
-    my $topicNameTemp = $this->UTF82SiteCharSet( $this->{topicName} );
-    if ($topicNameTemp) {
-        $this->{topicName} = $topicNameTemp;
-    }
-
-    # Item3270 - here's the appropriate place to enforce Foswiki spec:
-    # All topic name sources are evaluated, site charset applied
-    $this->{topicName} = ucfirst $this->{topicName};
 
     $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
 

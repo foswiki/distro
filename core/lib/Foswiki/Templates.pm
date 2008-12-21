@@ -302,8 +302,9 @@ sub _readTemplateFile {
     my $userdirweb  = $web;
     my $userdirname = $name;
     if ( $name =~ /^(.+)\.(.+?)$/ ) {
-        $userdirweb  = ucfirst($1);
-        $userdirname = ucfirst($2);
+        # ucfirst taints if use locale is in force
+        $userdirweb  = Foswiki::Sandbox::untaintUnchecked(ucfirst($1));
+        $userdirname = Foswiki::Sandbox::untaintUnchecked(ucfirst($2));
 
         # if the name can be parsed into $web.$name, then this is an attempt
         # to explicit include that topic. No further searching required.
@@ -318,8 +319,9 @@ sub _readTemplateFile {
         }
     }
     else {
-        $userdirweb  = ucfirst($userdirweb);
-        $userdirname = ucfirst($userdirname);
+        # ucfirst taints if use locale is in force
+       $userdirweb  = Foswiki::Sandbox::untaintUnchecked(ucfirst($userdirweb));
+       $userdirname = Foswiki::Sandbox::untaintUnchecked(ucfirst($userdirname));
     }
 
     my @skinList = split( /\,\s*/, $skins );

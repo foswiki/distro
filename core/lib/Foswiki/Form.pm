@@ -175,7 +175,7 @@ sub _parseFormDefinition {
             $title ||= '';
 
             $type ||= '';
-            $type = lc $type;
+            $type = lc( $type );
             $type =~ s/^\s*//go;
             $type =~ s/\s*$//go;
             $type = 'text' if ( !$type );
@@ -242,13 +242,15 @@ sub createField {
     my $this = shift;
     my $type = shift;
 
-    my $class = $type;
-    $class =~ /^(\w*)/;    # cut off +buttons etc
-      #The following is a workaround for a bug in Perl 5.8.4 that was ultimately fixed on Perl 5.8.7-8
-      # see http://bugs.debian.org/303308
-      # using $class=Foswiki::Sandbox::untaintUnchecked($class) also works but is one more method call.
-    my $workaround = $1;
-    $class = 'Foswiki::Form::' . ucfirst($workaround);
+    # The untaint is required for the validation *and* the ucfirst, which
+    # retaints when use locale is in force
+    my $class = Foswiki::Sandbox::untaint(
+        $type,
+        sub {
+            my $class = shift;
+            $class =~ /^(\w*)/;    # cut off +buttons etc
+            return 'Foswiki::Form::' . ucfirst($1);
+        });
 
     eval 'require ' . $class;
     if ($@) {

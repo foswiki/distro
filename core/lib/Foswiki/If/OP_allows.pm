@@ -124,14 +124,14 @@ sub evaluate {
     if ($session->{store}->topicExists($web, $topic)) {
         #try the non-precise name as an existant topic first.
         $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, $topic, $web);
+            $mode, $session->{user}, undef, undef, $topic, $web);
     } elsif ($session->{store}->webExists($str)) {
         $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, undef, $str);
+            $mode, $session->{user}, undef, undef, undef, $str);
     } elsif ($session->{store}->webExists($web)) {
         #not an existing topic or web - assume any lone name is a topic without a web specified
         $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, $topic, $web);
+            $mode, $session->{user}, undef, undef, $topic, $web);
     } else {
     	$ok = 0;
     }
@@ -204,14 +204,14 @@ sub evaluate {
     if ($session->{store}->topicExists($web, $topic)) {
         #try the non-precise name as an existant topic first.
         $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, $topic, $web);
+            $mode, $session->{user}, undef, undef, $topic, $web);
     } elsif ($session->{store}->webExists($str)) {
         $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, undef, $str);
+            $mode, $session->{user}, undef, undef, undef, $str);
     } elsif ($session->{store}->webExists($web)) {
         #not an existing topic or web - assume any lone name is a topic without a web specified
         $ok = $session->security->checkAccessPermission(
-            uc($mode), $session->{user}, undef, undef, $topic, $web);
+            $mode, $session->{user}, undef, undef, $topic, $web);
     } else {
     	$ok = 0;
     }
