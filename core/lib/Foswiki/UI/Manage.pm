@@ -559,7 +559,8 @@ sub _createTopic {
 
     # distill web and topic from Web.Topic input
     my ($newWeb, $newTopic) =
-      Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
+      Foswiki::Func::normalizeWebTopicName(
+          $session->{webName}, $query->param('topic') );
 
     # Validate topic name
     $newTopic = Foswiki::Sandbox::untaint(
