@@ -71,7 +71,7 @@ msgstr "%1 - se en kort introduksjon om Foswiki for nybegynnere"
 
 #: ../core/data/System/WebChanges.txt:2
 msgid "%1 Recent Changes in %2 Web"
-msgstr "%1 Siste endinger i %2 Web"
+msgstr "%1 Siste endringer i %2 Web"
 
 #: ../PatternSkin/templates/view.pattern.tmpl:43
 msgid "%1 Web"
@@ -1484,6 +1484,8 @@ msgid ""
 "may be a fraudulent registration.  The user '%1' could not be removed "
 "automatically."
 msgstr ""
+"Men bekreftelses epost til %2 feilet, indikerer at dette kan være en falsk "
+"registrering. Brukeren '%1' kunne ikke fjernes automatisk."
 
 #: ../core/templates/registerfailedremoved.tmpl:14
 msgid ""
@@ -1491,16 +1493,20 @@ msgid ""
 "maye be a fraudulent registration.  The user '%1' was removed automatically. "
 "However you may have to remove the user's personal topic manually."
 msgstr ""
+"Men bekreftelses epost til %2 feilet, indikerer at dette kan være en falsk "
+"registrering. Brukeren '%1' ble automatisk fjernet. Du må kanskje allikevel "
+"slette brukerens personlige side."
 
 #: ../core/templates/messages.tmpl:360
 msgid ""
 "However, the filename has been changed from %1 to %2. Please make a note of "
 "it."
 msgstr ""
+"Men filnavnet har blitt endret fra %1 til %2. Vennligst noter dette."
 
 #: ../core/templates/login.tmpl:65
 msgid "I forgot my password"
-msgstr ""
+msgstr "Jeg har glemt mitt passord"
 
 #: ../core/data/System/DefaultPreferences.txt:42
 #: ../core/data/System/WebPreferences.txt:34
