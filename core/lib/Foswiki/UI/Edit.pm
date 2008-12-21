@@ -232,7 +232,13 @@ sub init_edit {
             ( $templateWeb, $templateTopic ) =
               $session->normalizeWebTopicName( $templateWeb, $templateTopic );
 
-            unless ( $store->topicExists( $templateWeb, $templateTopic ) ) {
+            if ( $store->topicExists( $templateWeb, $templateTopic ) ) {
+                # Validated
+                $templateWeb =
+                  Foswiki::Sandbox::untaintUnchecked( $templateWeb );
+                $templateTopic =
+                  Foswiki::Sandbox::untaintUnchecked( $templateTopic );
+            } else {
                 throw Foswiki::OopsException(
                     'accessdenied', status => 403,
                     def   => 'no_such_topic_template',

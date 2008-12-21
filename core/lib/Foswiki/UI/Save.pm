@@ -94,7 +94,13 @@ sub buildNewTopic {
         ( $templateweb, $templatetopic ) =
           $session->normalizeWebTopicName( $templateweb, $templatetopic );
 
-        unless ( $store->topicExists( $templateweb, $templatetopic ) ) {
+        if ( $store->topicExists( $templateweb, $templatetopic ) ) {
+            # Validated
+            $templateweb =
+              Foswiki::Sandbox::untaintUnchecked( $templateweb );
+            $templatetopic =
+              Foswiki::Sandbox::untaintUnchecked( $templatetopic );
+        } else {
             throw Foswiki::OopsException(
                 'attention',
                 def   => 'no_such_topic_template',
