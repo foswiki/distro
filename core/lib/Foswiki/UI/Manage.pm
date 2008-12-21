@@ -1481,6 +1481,24 @@ sub _updateReferringTopics {
         my ( $itemWeb, $itemTopic ) =
           $session->normalizeWebTopicName( '', $item );
 
+        # Check validity of web and topic
+        $itemWeb = Foswiki::Sandbox::untaint(
+            $itemWeb,
+            sub {
+                return $itemWeb if Foswiki::isValidWebName( $itemWeb, 1 );
+                return undef;
+            });
+        $itemTopic = Foswiki::Sandbox::untaint(
+            $itemTopic,
+            sub {
+                return $itemTopic if Foswiki::isValidTopicName(
+                    $itemTopic, 1 );
+                return undef;
+            });
+
+        # Skip web.topic that fails validation
+        next unless ($itemWeb && $itemTopic);
+
         if ( $store->topicExists( $itemWeb, $itemTopic ) ) {
             $store->lockTopic( $cUID, $itemWeb, $itemTopic );
             try {

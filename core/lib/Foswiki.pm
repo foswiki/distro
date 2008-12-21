@@ -731,6 +731,7 @@ sub _isRedirectSafe {
     my $redirect = shift;
 
     return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
+    return 1 if $redirect =~ m#^/#; # relative URL - OK
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
