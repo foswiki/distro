@@ -67,7 +67,7 @@ foswiki.Event.addLoadEvent(initForm);
 %TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%TMPL:P{"sig"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
 
 
-%TMPL:DEF{"sig"}%<span class="patternSig foswikiLeft"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span><!--/patternSig-->%TMPL:END%
+%TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span><!--/patternSig-->%TMPL:END%
 
 
 %TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
