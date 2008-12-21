@@ -95,7 +95,6 @@ sub new {
             name    => $name   || '',
             module  => $module, # if undef, use discovery
         }, $class );
-ASSERT(UNTAINTED($this->{name}));
 
     return $this;
 }
