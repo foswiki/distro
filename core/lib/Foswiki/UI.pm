@@ -351,8 +351,6 @@ sub readTemplateTopic {
     my ( $session, $theTopicName ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    $theTopicName =~ s/$Foswiki::cfg{NameFilter}//go;
-
     my $web = $Foswiki::cfg{SystemWebName};
     if ( $session->{store}->topicExists( $session->{webName}, $theTopicName ) )
     {

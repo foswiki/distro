@@ -105,6 +105,32 @@ sub untaintUnchecked {
 
 =begin TML
 
+---++ StaticMethod untaint ( $datum, \&method, ... ) -> $untainted
+
+Calls &$method($datum, ...) and if it returns a non-undef result, returns
+that result after untainting it. Otherwise returns undef.
+
+$method can indicate a validation problem in a couple of ways. First, it
+can throw an exception. Second, it can return undef, which then causes
+the untaint function to return undef.
+
+=cut
+
+sub untaint {
+    my $datum = shift;
+    my $method = shift;
+    ASSERT(ref($method)) if DEBUG;
+    $datum = &$method($datum, @_);
+
+    if ( defined $datum ) {
+        $datum =~ /^(.*)$/;
+        return $1;
+    }
+    return $datum;
+}
+
+=begin TML
+
 ---++ StaticMethod normalizeFileName( $string ) -> $filename
 
 Throws an exception if =$string= contains filtered characters, as
@@ -186,8 +212,8 @@ sub sanitizeAttachmentName {
 
     if ( $Foswiki::cfg{UseLocale} ) {
 
-  # Filter out (less secure) only if using locales
-  # TODO: Make this use filtering in, using locales or full Codev.UnicodeSupport
+        # Filter out (less secure) only if using locales
+        # TODO: Make this use filtering in
         $fileName =~ s/$Foswiki::cfg{NameFilter}//goi;
     }
     else {

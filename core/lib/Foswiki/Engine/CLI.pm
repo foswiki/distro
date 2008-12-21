@@ -23,22 +23,23 @@ sub run {
     my $this = shift;
     my @args = @ARGV;    # Copy, so original @ARGV doesn't get modified
     while ( scalar @args ) {
+        my $name;
         my $arg = shift @args;
-        if ( $arg =~ /^-?([A-Za-z0-9_]+)(?:=(.*))?$/o ) {
-            my $name = $1;
-            my $arg  = Foswiki::Sandbox::untaintUnchecked(
-                defined $2 ? $2 : ( shift @args ) );
-            if ( $name eq 'user' ) {
-                $this->{user} = $arg;
-            }
-            else {
-                push @{ $this->{plist} }, $name
-                  unless exists $this->{params}->{$name};
-                push @{ $this->{params}->{$name} }, $arg;
-            }
+        if ( $arg =~ /^-([a-z0-9_]+)/) {
+            ($name, $arg) = ($1, shift( @args ));
+        } elsif ( $arg =~ /([a-z0-9_]+)=(.*)$/i ) {
+            ($name, $arg) = ($1, $2);
+        }
+        if ($name && $name eq 'user' ) {
+            $this->{user} = $arg;
+        }
+        elsif ($name) {
+            push @{ $this->{plist} }, $name
+              unless exists $this->{params}->{$name};
+            push @{ $this->{params}->{$name} }, $arg;
         }
         else {
-            $this->{path_info} = Foswiki::Sandbox::untaintUnchecked($arg);
+            $this->{path_info} = $arg; # keep it tainted
         }
     }
     my $req = $this->prepare;

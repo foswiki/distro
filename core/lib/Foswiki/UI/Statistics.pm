@@ -98,22 +98,8 @@ sub statistics {
 
     # Copy the log file to temp file, since analysis could take some time
 
-    # FIXME: use the working dir
-    my $tmpDir;
-    if ( $Foswiki::cfg{OS} eq 'UNIX' ) {
-        $tmpDir = $ENV{'TEMP'} || "/tmp";
-    }
-    elsif ( $Foswiki::cfg{OS} eq 'WINDOWS' ) {
-        $tmpDir = $ENV{'TEMP'} || "c:/";
-    }
-    else {
-
-        # FIXME handle other OSs properly - assume Unix for now.
-        $tmpDir = "/tmp";
-    }
     my $randNo = int( rand 1000 );    # For mod_perl with threading...
-    my $tmpFilename =
-      Foswiki::Sandbox::untaintUnchecked("$tmpDir/twiki-stats.$$.$randNo");
+    my $tmpFilename = "$Foswiki::cfg{WorkingDir}/tmp/twiki-stats.$$.$randNo";
 
     File::Copy::copy( $logFile, $tmpFilename )
       or throw Error::Simple( 'Cannot backup log file: ' . $! );
@@ -128,13 +114,20 @@ sub statistics {
       = _collectLogData( $session, $TMPFILE, $logMonthYear );
 
     my @weblist;
-    my $webSet =
-      Foswiki::Sandbox::untaintUnchecked( $session->{request}->param('webs') )
-      || $session->{requestedWebName};
+    my $webSet = $session->{request}->param('webs') ||
+      $session->{requestedWebName};
     if ($webSet) {
 
         # do specific webs
-        push( @weblist, split( /,\s*/, $webSet ) );
+        foreach my $web (split( /,\s*/, $webSet )) {
+            $web = Foswiki::Sandbox::untaint(
+                $web,
+                sub {
+                    return $web if Foswiki::isValidWebName($web);
+                    return $web;
+                });
+            push(@weblist, $web) if $web;
+        }
     }
     else {
 

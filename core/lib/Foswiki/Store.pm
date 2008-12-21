@@ -1818,11 +1818,15 @@ sub cleanUpRevID {
 
     return 0 unless $rev;
 
-    $rev =~ s/^r(ev)?//i;
-    $rev =~ s/^\d+\.//;     # clean up RCS rev number
-    $rev =~ s/[^\d]//g;     # digits only
-
-    return Foswiki::Sandbox::untaintUnchecked($rev);
+    return Foswiki::Sandbox::untaint(
+        $rev,
+        sub {
+            my $rev = shift;
+            $rev =~ s/^r(ev)?//i;
+            $rev =~ s/^\d+\.//;     # clean up RCS rev number
+            $rev =~ s/[^\d]//g;     # digits only
+            return $rev;
+        });
 }
 
 =begin TML

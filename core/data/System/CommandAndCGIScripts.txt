@@ -99,6 +99,7 @@ Performs a range of management functions.
 | =sitemapwhat= | Value for SITEMAPWHAT | '' |
 | =sitemapuseto= | Value for SITEMAPUSETO | '' |
 | =nosearchall= | Value for NOSEARCHALL | '' |
+| =newtopic= | Value of %<nop>TOPIC% within the web creation message. Optionally used in some skins to signify a non-default home topic. |
 
 ---++++ =action=editSettings=
 No parameters

@@ -25,7 +25,7 @@ Manual sections in separate pages:
    1. [[ContributedAddOns][Contributed Add-Ons]]
    1. [[Contribs][Contribs]]
    1. [[Plugins][Plugins]]
-   1. [[FoswikiFuncDotPm][Foswiki::Func Module]]
+   1. [[Developing Plugins]]
    1. [[CommandAndCGIScripts][CGI and Command Line Scripts]]
    1. [[Site Tools]] 
    1. [[Managing Topics]] 

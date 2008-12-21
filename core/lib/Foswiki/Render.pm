@@ -720,8 +720,8 @@ sub _renderNonExistingWikiWord {
     $ans =~ s/\$text/$text/g;
     $ans = $this->{session}->handleCommonTags(
         $ans,
-        $this->{session}{webName},
-        $this->{session}{topicName}
+        $this->{session}->{webName},
+        $this->{session}->{topicName}
     );
     return $ans;
 }

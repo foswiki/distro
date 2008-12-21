@@ -174,13 +174,10 @@ sub bulkRegister {
         my $row = $data[$n];
         $row->{webName} = $userweb;
 
-        #-- Following two lines untaint WikiName as required and verify it is
-        #-- not zero length
-        if ( !$row->{WikiName} ) {
+        unless ( $row->{WikiName} ) {
             $log .= "---++ Failed to register user on row $n: no !WikiName\n";
             next;
         }
-        $row->{WikiName} = Foswiki::Sandbox::untaintUnchecked( $row->{WikiName} );
         $row->{LoginName} = $row->{WikiName} unless $row->{LoginName};
 
         $log .= _registerSingleBulkUser( $session, \@fields, $row, $settings );
@@ -806,9 +803,14 @@ sub complete {
         $data->{webName} = $web;
     }
 
-    if ( !exists $data->{WikiName} ) {
-        throw Error::Simple('no WikiName after reload');
-    }
+    $data->{WikiName} = Foswiki::Sandbox::untaint(
+        $data->{WikiName},
+        sub {
+            my $wn = shift;
+            throw Error::Simple('bad WikiName after reload')
+              unless $wn && Foswiki::isValidTopicName($wn);
+            return $wn;
+        });
 
     if ( !exists $data->{LoginName} ) {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {
@@ -1155,14 +1157,15 @@ sub _validateRegistration {
     }
 
     # Check if login name matches expectations
-    unless ( $data->{LoginName} =~ /$Foswiki::cfg{LoginNameFilterIn}/ ) {
+    unless ( $session->{users}->{loginManager}->isValidLoginName(
+        $data->{LoginName} )) {
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
             topic  => $session->{topicName},
             def    => 'bad_loginname',
             params => [ $data->{LoginName} ]
-        );
+           );
     }
 
     # Check if the login name is already registered
@@ -1232,7 +1235,7 @@ sub _validateRegistration {
         );
     }
 
-    if ( exists $data->{passwordA} ) {
+    if ( exists $data->{Password} ) {
 
         # check password length
         my $doCheckPasswordLength =
@@ -1240,7 +1243,7 @@ sub _validateRegistration {
               && $Foswiki::cfg{MinPasswordLength} );
 
         if ( $doCheckPasswordLength
-            && length( $data->{passwordA} ) < $Foswiki::cfg{MinPasswordLength} )
+            && length( $data->{Password} ) < $Foswiki::cfg{MinPasswordLength} )
         {
             throw Foswiki::OopsException(
                 'attention',
@@ -1252,7 +1255,7 @@ sub _validateRegistration {
         }
 
         # check if passwords are identical
-        if ( $data->{passwordA} ne $data->{passwordB} ) {
+        if ( $data->{Password} ne $data->{Confirm} ) {
             throw Foswiki::OopsException(
                 'attention',
                 web   => $data->{webName},
@@ -1311,8 +1314,8 @@ sub _sendEmail {
     $p->{Introduction} ||= '';
     $p->{Name} ||= $p->{WikiName};
     $text =~ s/%LOGINNAME%/$p->{LoginName}/geo;
-    $text =~ s/%FIRSTLASTNAME%/$p->{WikiName}/go;
-    $text =~ s/%WIKINAME%/$p->{Name}/geo;
+    $text =~ s/%FIRSTLASTNAME%/$p->{Name}/go;
+    $text =~ s/%WIKINAME%/$p->{WikiName}/geo;
     $text =~ s/%EMAILADDRESS%/$p->{Email}/go;
     $text =~ s/%INTRODUCTION%/$p->{Introduction}/go;
     $text =~ s/%VERIFICATIONCODE%/$p->{VerificationCode}/go;
@@ -1344,6 +1347,7 @@ sub _clearPendingRegistrationsForUser {
     # Remove the integer code to leave just the wikiname
     $file =~ s/\.\d+$//;
     foreach my $f (<$file.*>) {
+        # Read from disc, implictly validated
         unlink( Foswiki::Sandbox::untaintUnchecked($f) );
     }
 }
@@ -1415,35 +1419,30 @@ sub _getDataFromQuery {
     # get all parameters from the form
     my $data = {};
     foreach ( $query->param() ) {
-        if (/^(Twk)([0-9])(.*)/) {
-            my $form = {};
-            $form->{required} = $2;
+        if (/^(Twk([0-9])(.*))/) {
+            my @values = $query->param( $1 );
+            my $required = $2;
             my $name   = $3;
-            my @values = $query->param( $1 . $2 . $3 );
-            my $value =
-              join( ',', @values ); #deal with multivalue fields like checkboxen
-            $form->{name}  = $name;
-            $form->{value} = $value;
-            if ( $name eq 'Password' ) {
+            # deal with multivalue fields like checkboxen
+            my $value = join( ',', @values );
 
-                #TODO: get rid of this; move to removals and generalise.
-                $data->{passwordA} = $value;
-            }
-            elsif ( $name eq 'Confirm' ) {
-                $data->{passwordB} = $value;
-            }
-
-            # 'WikiName' omitted because they can't
-            # change it, and 'Confirm' is a duplicate
-            push( @{ $data->{form} }, $form )
-              unless ( $name eq 'WikiName' || $name eq 'Confirm' );
-
-            #TODO: need to change this to be untainting the data correctly
-            #      for eg, for {Emails} only accept real email addresses.
-            $data->{$name} = Foswiki::Sandbox::untaintUnchecked($value);
+            # Note: field values are unvalidated (and therefore tainted).
+            # This is because the registration code does not have enough
+            # information to validate the data - for example, it cannot
+            # know what the user mapper considers to be a valid login name.
+            # It is the responsibility of the implementation code to untaint
+            # these data before they are used in dangerous ways.
+            # DO NOT UNTAINT THESE DATA HERE!
+            $data->{$name} = $value;
+            push( @{ $data->{form} },
+                  {
+                      required => $required,
+                      name => $name,
+                      value => $value,
+                  } );
         }
     }
-    $data->{WikiName} = Foswiki::Sandbox::untaintUnchecked( $data->{WikiName} );
+
     if (   !$data->{Name}
         && defined $data->{FirstName}
         && defined $data->{LastName} )

@@ -46,7 +46,8 @@ sub finish {
     my $this = shift;
     undef $this->{headers};
 
-    #SMELL: Note: untaint filename. Taken from CGI.pm (had to be updated for OSX in Dec2008)
+    #SMELL: Note: untaint filename. Taken from CGI.pm
+    # (had to be updated for OSX in Dec2008)
     $this->tmpFileName =~ m{^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$};
     my $file = $1;
     if (scalar(unlink( $file )) != 1) {

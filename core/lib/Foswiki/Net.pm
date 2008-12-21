@@ -164,7 +164,7 @@ sub getExternalResource {
             $port = $proxyPort;
         }
 
-        '$Rev: 13594 $' =~ /([0-9]+)/;
+        '$Rev$' =~ /([0-9]+)/;
         my $revstr = $1;
 
         $req .= 'User-Agent: Foswiki::Net/' . $revstr . "\r\n";
@@ -223,7 +223,7 @@ sub _GETUsingLWP {
     my $request;
     require HTTP::Request;
     $request = HTTP::Request->new( GET => $url );
-    '$Rev: 13594 $' =~ /([0-9]+)/;
+    '$Rev$' =~ /([0-9]+)/;
     my $revstr = $1;
     $request->header( 'User-Agent' => 'Foswiki::Net/'
           . $revstr
@@ -251,6 +251,8 @@ sub _installMailHandler {
 
         # See Codev.RegisterFailureInsecureDependencyCygwin for why
         # this must be untainted
+        # SMELL: That topic tells me nothing - AFAICT this untaint is not
+        # required.
         require Foswiki::Sandbox;
         $this->{MAIL_HOST} =
           Foswiki::Sandbox::untaintUnchecked( $this->{MAIL_HOST} );

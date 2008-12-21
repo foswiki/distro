@@ -121,7 +121,8 @@ sub mkPathTo {
 
     my $file = shift;
 
-    $file = Foswiki::Sandbox::untaintUnchecked($file);
+    ASSERT(UNTAINTED($file)) if DEBUG;
+
     my $path = File::Basename::dirname($file);
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
@@ -249,14 +250,20 @@ sub getTopicNames {
 
     opendir my $DIR, $Foswiki::cfg{DataDir} . '/' . $this->{web};
 
-    # the name filter is used to ensure we don't return filenames
-    # that contain illegal characters as topic names.
-    my @topicList =
-      sort
-      map { Foswiki::Sandbox::untaintUnchecked($_) }
-      grep { !/$Foswiki::cfg{NameFilter}/ && s/\.txt$// } readdir($DIR);
+    my @topicList;
+    foreach my $f (readdir($DIR)) {
+        next unless $f =~ s/\.txt$//;
+        # Second parameter allows non-wiki-word topic names
+        $f = Foswiki::Sandbox::untaint(
+            $f,
+            sub {
+                return $f if Foswiki::isValidTopicName($f, 1);
+                return undef;
+            });
+        push(@topicList, $f) if $f;
+    }
     closedir($DIR);
-    return @topicList;
+    return sort @topicList;
 }
 
 =begin TML
@@ -271,13 +278,20 @@ sub getWebNames {
     my $this = shift;
     my $dir  = $Foswiki::cfg{DataDir} . '/' . $this->{web};
     if ( opendir( my $DIR, $dir ) ) {
-        my @tmpList =
-          sort
-          map { Foswiki::Sandbox::untaintUnchecked($_) }
-          grep { !/\./ && !/$Foswiki::cfg{NameFilter}/ && -d $dir . '/' . $_ }
-          readdir($DIR);
+        my @list;
+        foreach my $web (readdir($DIR)) {
+            $web = Foswiki::Sandbox::untaint(
+                $web,
+                sub {
+                    # Second parameter validates hidden web names
+                    return undef unless Foswiki::isValidWebName($web, 1);
+                    return undef unless -d $dir . '/' . $web;
+                    return $web;
+                });
+            push(@list, $web) if $web;
+        }
         closedir($DIR);
-        return @tmpList;
+        return sort @list;
     }
     return ();
 }
@@ -553,7 +567,9 @@ sub copyTopic {
         )
       )
     {
-        for my $att ( grep { !/^\./ } readdir $DIR ) {
+        foreach my $att ( readdir $DIR ) {
+            next if $att =~ /^\./;
+            # Read from attachment store, can assume valid
             $att = Foswiki::Sandbox::untaintUnchecked($att);
             my $oldAtt =
               new Foswiki::Store::RcsFile( $this->{session}, $this->{web},
@@ -807,6 +823,8 @@ sub _moveFile {
 
 sub saveFile {
     my ( $this, $name, $text ) = @_;
+
+    ASSERT(UNTAINTED($name)) if DEBUG;
 
     mkPathTo($name);
 

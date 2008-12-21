@@ -60,26 +60,37 @@ sub finish {
     undef $this->{session};
 }
 
-=begin TML
-
----++ StaticMethod getTextPattern (  $text, $pattern  )
-
-Sanitise search pattern - currently used for FormattedSearch only
-
-=cut
-
-sub getTextPattern {
+sub _extractPattern {
     my ( $text, $pattern ) = @_;
 
-    $pattern =~
-      s/([^\\])([\$\@\%\&\#\'\`\/])/$1\\$2/go;    # escape some special chars
-    $pattern = Foswiki::Sandbox::untaintUnchecked($pattern);
+    # Pattern comes from topic, therefore tainted
+    $pattern = Foswiki::Sandbox::untaint($pattern, \&Foswiki::validatePattern);
 
-    my $OK = 0;
-    eval { $OK = ( $text =~ s/$pattern/$1/is ); };
-    $text = '' unless ($OK);
+    try {
+        $text =~ s/$pattern/$1/is;
+    } catch Error::Simple with {
+        $text = '';
+    };
 
     return $text;
+}
+
+# With the same argument as $pattern, returns a number which is the count of
+# occurences of the pattern argument.
+sub _countPattern {
+    my ( $text, $pattern ) = @_;
+
+    $pattern = Foswiki::Sandbox::untaint($pattern, \&Foswiki::validatePattern);
+
+    my $count;
+    try {
+        # see: perldoc -q count
+        $count = () = $text =~ /$pattern/g;
+    } catch Error::Simple with {
+        $count = 0;
+    };
+
+    return $count;
 }
 
 # Split the search string into tokens depending on type of search.
@@ -611,10 +622,17 @@ sub searchWeb {
     my $ttopics = 0;
     my $prefs   = $session->{prefs};
     foreach my $web (@webs) {
-        $web =~ s/$Foswiki::cfg{NameFilter}//go;
-        $web = Foswiki::Sandbox::untaintUnchecked($web);
 
-        next unless $store->webExists($web);    # can't process what ain't thar
+        $web = Foswiki::Sandbox::untaint(
+            $web, sub {
+                my $web = shift;
+                if ( Foswiki::isValidWebName( $web )
+                    && $store->webExists($web)) {
+                    return $web;
+                }
+                return undef;
+            });
+        next unless defined $web;
 
         my $thisWebNoSearchAll =
           $prefs->getWebPreferencesValue( 'NOSEARCHALL', $web ) || '';
@@ -921,7 +939,7 @@ s/\$parent\(([^\)]*)\)/Foswiki::Render::breakName( $meta->getParent(), $1 )/ges;
    # Note: The RE requires a .* at the end of a pattern to avoid false positives
    # in pattern matching
                     $out =~
-s/\$pattern\((.*?\s*\.\*)\)/getTextPattern( $text, $1 )/ges;
+s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
                     $out =~ s/\r?\n/$newLine/gos if ($newLine);
                     if ( defined($separator) ) {
                         $out .= $separator;
@@ -1236,25 +1254,6 @@ sub _getRev1Info {
     }
 
     return 1;
-}
-
-# With the same argument as $pattern, returns a number which is the count of
-# occurences of the pattern argument.
-sub _countPattern {
-    my ( $theText, $thePattern ) = @_;
-
-    $thePattern =~
-      s/([^\\])([\$\@\%\&\#\'\`\/])/$1\\$2/go;    # escape some special chars
-    $thePattern =~ /(.*)/;                        # untaint
-    $thePattern = $1;
-    my $OK = 0;
-    eval {
-
-        # counting hack, see: http://dev.perl.org/perl6/rfc/110.html
-        $OK = () = $theText =~ /$thePattern/g;
-    };
-
-    return $OK;
 }
 
 1;

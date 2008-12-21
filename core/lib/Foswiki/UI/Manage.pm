@@ -159,18 +159,25 @@ sub _createWeb {
     my $query     = $session->{request};
     my $cUID      = $session->{user};
 
-    my $newWeb = $query->param('newweb') || '';
-    unless ($newWeb) {
-        throw Foswiki::OopsException( 'attention', def => 'web_missing' );
-    }
-    unless ( Foswiki::isValidWebName( $newWeb, 1 ) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'invalid_web_name',
-            params => [$newWeb]
-        );
-    }
-    $newWeb = Foswiki::Sandbox::untaintUnchecked($newWeb);
+    my $newWeb = $query->param('newweb');
+
+    # Validate and untaint
+    $newWeb = Foswiki::Sandbox::untaint(
+        $newWeb,
+        sub {
+            unless ($newWeb) {
+                throw Foswiki::OopsException(
+                    'attention', def => 'web_missing' );
+            }
+            unless ( Foswiki::isValidWebName( $newWeb, 1 ) ) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'invalid_web_name',
+                    params => [$newWeb]
+                   );
+            }
+            return $newWeb;
+        });
 
     # check permission, user authorized to create web here?
     my $parent = undef;    # default is root if no parent web
@@ -181,19 +188,19 @@ sub _createWeb {
         $session->{user} );
 
     my $baseWeb = $query->param('baseweb') || '';
-    unless ( $session->{store}->webExists($baseWeb) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'base_web_missing',
-            params => [$baseWeb]
-        );
-    }
-    $baseWeb = Foswiki::Sandbox::untaintUnchecked($baseWeb);
-
-    my $newTopic = $query->param('newtopic') || $Foswiki::cfg{HomeTopicName};
-
-    # SMELL: check that it is a valid topic name?
-    $newTopic = Foswiki::Sandbox::untaintUnchecked($newTopic);
+    # Validate the base web name
+    $baseWeb = Foswiki::Sandbox::untaint(
+        $baseWeb, sub {
+            my $web = shift;
+            unless ( $session->{store}->webExists($baseWeb) ) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'base_web_missing',
+                    params => [$baseWeb]
+                   );
+            }
+            return $web;
+        });
 
     if ( $session->{store}->webExists($newWeb) ) {
         throw Foswiki::OopsException(
@@ -233,6 +240,28 @@ sub _createWeb {
             def    => 'web_creation_error',
             params => [ $newWeb, $err ]
         );
+    }
+
+    my $newTopic = $query->param('newtopic');
+
+    if ($newTopic) {
+        # Purify the new topic name
+        $newTopic = _safeTopicName($newTopic);
+        # Validate
+        $newTopic = Foswiki::Sandbox::untaint(
+            $newTopic, sub {
+                my ($topic, $nonww) = @_;
+                if ( !Foswiki::isValidTopicName( $topic, $nonww) ) {
+                    throw Foswiki::OopsException(
+                        'attention',
+                        web    => $newWeb,
+                        topic  => $newTopic,
+                        def    => 'not_wikiword',
+                        params => [$topic]
+                       );
+                }
+                return $topic;
+            }, Foswiki::isTrue($query->param('nonwikiword')));
     }
 
     # everything OK, redirect to last message
@@ -280,30 +309,28 @@ sub rename {
     }
 
     my $newTopic = $query->param('newtopic') || '';
-    $newTopic = Foswiki::Sandbox::untaintUnchecked($newTopic);
 
     my $newWeb = $query->param('newweb') || '';
-    unless ( !$newWeb || Foswiki::isValidWebName( $newWeb, 1 ) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'invalid_web_name',
-            params => [$newWeb]
-        );
-    }
-    $newWeb = Foswiki::Sandbox::untaintUnchecked($newWeb);
 
-    my $attachment = $query->param('attachment');
-
-    # SMELL: test for valid attachment name?
-    $attachment = Foswiki::Sandbox::untaintUnchecked($attachment);
+    # Validate the new web name
+    $newWeb = Foswiki::Sandbox::untaint(
+        $newWeb, sub {
+            my ($web) = @_;
+            unless ( !$web || Foswiki::isValidWebName( $web, 1 ) ) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'invalid_web_name',
+                    params => [$web]
+                   );
+            }
+            return $web;
+        });
 
     my $lockFailure = '';
     my $breakLock   = $query->param('breaklock');
 
     my $confirm = $query->param('confirm');
     my $store   = $session->{store};
-
-    $attachment ||= '';
 
     Foswiki::UI::checkWebExists( $session, $oldWeb, $oldTopic, 'rename' );
 
@@ -323,36 +350,54 @@ sub rename {
     }
 
     if ($newTopic) {
+        # Purify the new topic name
         $newTopic = _safeTopicName($newTopic);
-        if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $oldWeb,
-                topic  => $oldTopic,
-                def    => 'not_wikiword',
-                params => [$newTopic]
-            );
-        }
+        # Validate
+        $newTopic = Foswiki::Sandbox::untaint(
+            $newTopic, sub {
+                my ($topic, $nonww) = @_;
+                if ( !Foswiki::isValidTopicName( $topic, $nonww) ) {
+                    throw Foswiki::OopsException(
+                        'attention',
+                        web    => $oldWeb,
+                        topic  => $oldTopic,
+                        def    => 'not_wikiword',
+                        params => [$topic]
+                       );
+                }
+                return $topic;
+            }, Foswiki::isTrue($query->param('nonwikiword')));
     }
+
+    my $attachment = $query->param('attachment');
 
     if ($attachment) {
 
         # Does old attachment exist?
-        unless ( $store->attachmentExists( $oldWeb, $oldTopic, $attachment ) ) {
-            my $tmplname = $query->param('template') || '';
-            throw Foswiki::OopsException(
-                'attention',
-                web   => $oldWeb,
-                topic => $oldTopic,
-                def   => ( $tmplname eq 'deleteattachment' )
-                ? 'delete_err'
-                : 'move_err',
-                params => [
-                    $newWeb, $newTopic, $attachment,
-                    $session->i18n->maketext('Attachment does not exist')
-                ]
-            );
-        }
+            # Attachment exists, validated
+            $attachment = Foswiki::Sandbox::untaint(
+                $attachment,
+                sub {
+                    my ($att) = @_;
+                    if ( !$store->attachmentExists(
+                        $oldWeb, $oldTopic, $att ) ) {
+                        my $tmplname = $query->param('template') || '';
+                        throw Foswiki::OopsException(
+                            'attention',
+                            web   => $oldWeb,
+                            topic => $oldTopic,
+                            def   => ( $tmplname eq 'deleteattachment' )
+                              ? 'delete_err'
+                                : 'move_err',
+                            params => [
+                                $newWeb, $newTopic, $attachment,
+                                $session->i18n->maketext(
+                                    'Attachment does not exist')
+                               ]
+                           );
+                    }
+                    return $att;
+                });
 
         if ( $newWeb && $newTopic ) {
             Foswiki::UI::checkTopicExists( $session, $newWeb, $newTopic,
@@ -468,30 +513,6 @@ sub rename {
 
 =begin TML
 
----++ StaticMethod _isValidTopicName( $topic, $nonWikiWordParam ) -> $boolean
-
-Checks whether a topic name is valid. This may depend on the setting of session param 'nonwikiword'.
-
-Usage:
-	my $isValidName = _isValidTopicName( $newTopic, $query->param('nonwikiword') );
-
-=cut
-
-sub _isValidTopicName {
-    my ( $topic, $nonWikiWordParam ) = @_;
-
-    my $nonWikiWord = $nonWikiWordParam || 0;
-    my $doAllowNonWikiWord = Foswiki::isTrue($nonWikiWord);
-
-    return 0 if !$topic;
-    return 0 if ( !Foswiki::isValidTopicName($topic) && !$doAllowNonWikiWord );
-    return 1 if ( Foswiki::isValidTopicName($topic) );
-
-    return 1;
-}
-
-=begin TML
-
 ---++ StaticMethod _safeTopicName( $topic ) -> $topic
 
 Filter out dangerous characters . and / may cause issues with pathnames.
@@ -532,43 +553,63 @@ sub _createTopic {
     my ($session) = @_;
 
     my $query = $session->{request};
-    
+
     # distill web and topic from Web.Topic input
-    my ($newWeb, $newTopic) = Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
+    my ($newWeb, $newTopic) =
+      Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
+
+    # Validate topic name
+    $newTopic = Foswiki::Sandbox::untaint(
+        $newTopic,
+        sub {
+            my ($topic) = @_;
+            unless ($topic) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    web    => $newWeb,
+                    topic  => $newTopic,
+                    def    => 'empty_topic_name',
+                    params => undef
+                   );
+            }
+            unless (Foswiki::isValidTopicName(
+                $topic, Foswiki::isTrue($query->param('nonwikiword')))) {
+                throw Foswiki::OopsException(
+                    'attention',
+                    web    => $newWeb,
+                    topic  => $newTopic,
+                    def    => 'not_wikiword',
+                    params => [$newTopic]
+                   );
+            }
+            return $topic;
+        });
+
+    # Validate web name
+    $newWeb = Foswiki::Sandbox::untaint(
+        $newWeb,
+        sub {
+            my ($web) = @_;
+            unless ( $session->{store}->webExists($web) ) {
+                throw Foswiki::OopsException(
+                    'accessdenied', status => 403,
+                    def    => 'no_such_web',
+                    web    => $web,
+                    params => ['create']
+                   );
+            }
+            return $web;
+        });
 
 	# user must have change access
     Foswiki::UI::checkAccess( $session, $newWeb, $newTopic, 'CHANGE',
         $session->{user} );
-        
-    # topic must not be empty
-    if ( $newTopic eq '' ) {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $newWeb,
-            topic  => $newTopic,
-            def    => 'empty_topic_name',
-            params => undef
-        );
-    }
-    
-    # topic must be valid
-    if ( !_isValidTopicName( $newTopic, $query->param('nonwikiword') ) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $newWeb,
-            topic  => $newTopic,
-            def    => 'not_wikiword',
-            params => [$newTopic]
-        );
-    }
-    
+
     my $oldWeb   = $session->{webName};
     my $oldTopic = $session->{topicName};
-    
-    # untaint new topic name
-    use Foswiki::Sandbox;
-    $session->{topicName} = Foswiki::Sandbox::untaintUnchecked($newTopic);
-    $session->{webName} = Foswiki::Sandbox::untaintUnchecked($newWeb);
+
+    $session->{topicName} = $newTopic;
+    $session->{webName} = $newWeb;
 
     require Foswiki::UI::Edit;
     Foswiki::UI::Edit::edit($session);
@@ -585,29 +626,40 @@ sub _renameweb {
     my $query  = $session->{request};
     my $cUID   = $session->{user};
 
-  # If the user is not allowed to rename anything in the current web - stop here
+    # If the user is not allowed to rename anything in the current
+    # web - stop here
     Foswiki::UI::checkAccess( $session, $oldWeb, undef, 'RENAME',
         $session->{user} );
 
     my $newParentWeb = $query->param('newparentweb') || '';
-    unless ( !$newParentWeb || Foswiki::isValidWebName( $newParentWeb, 1 ) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'invalid_web_name',
-            params => [$newParentWeb]
-        );
-    }
-    $newParentWeb = Foswiki::Sandbox::untaintUnchecked($newParentWeb);
+    # Validate
+    $newParentWeb = Foswiki::Sandbox::untaint(
+        $newParentWeb,
+        sub {
+            my $web = shift;
+            return $web if Foswiki::isValidWebName( $web, 1 );
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'invalid_web_name',
+                params => [$web]
+               );
+        }
+       );
 
     my $newSubWeb = $query->param('newsubweb') || '';
-    unless ( !$newSubWeb || Foswiki::isValidWebName( $newSubWeb, 1 ) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'invalid_web_name',
-            params => [$newSubWeb]
-        );
-    }
-    $newSubWeb = Foswiki::Sandbox::untaintUnchecked($newSubWeb);
+    # Validate
+    $newSubWeb = Foswiki::Sandbox::untaint(
+        $newSubWeb,
+        sub {
+            my $web = shift;
+            return $web if Foswiki::isValidWebName( $web, 1 );
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'invalid_web_name',
+                params => [$web]
+               );
+        }
+       );
 
     my $newWeb;
     if ($newSubWeb) {
@@ -690,8 +742,6 @@ sub _renameweb {
                 my $webTopic = pop(@path);
                 my $webIter = join( '/', @path );
 
-                $webIter  = Foswiki::Sandbox::untaintUnchecked($webIter);
-                $webTopic = Foswiki::Sandbox::untaintUnchecked($webTopic);
                 if ( $confirm eq 'getlock' ) {
                     $store->setLease( $webIter, $webTopic, $cUID,
                         $Foswiki::cfg{LeaseLength} );
@@ -728,10 +778,8 @@ sub _renameweb {
         (@webList) = $store->getListOfWebs( 'public', $oldWeb );
         unshift( @webList, $oldWeb );
         foreach my $webIter (@webList) {
-            $webIter = Foswiki::Sandbox::untaintUnchecked($webIter);
             my @webTopicList = $store->getTopicNames($webIter);
             foreach my $webTopic (@webTopicList) {
-                $webTopic = Foswiki::Sandbox::untaintUnchecked($webTopic);
                 if ( $confirm eq 'getlock' ) {
                     $store->setLease( $webIter, $webTopic, $cUID,
                         $Foswiki::cfg{LeaseLength} );
@@ -872,10 +920,8 @@ sub _renameweb {
     my (@webList) = $store->getListOfWebs( 'public', $newWeb );
     unshift( @webList, $newWeb );
     foreach my $webIter (@webList) {
-        $webIter = Foswiki::Sandbox::untaintUnchecked($webIter);
         my @webTopicList = $store->getTopicNames($webIter);
         foreach my $webTopic (@webTopicList) {
-            $webTopic = Foswiki::Sandbox::untaintUnchecked($webTopic);
             $store->clearLease( $webIter, $webTopic );
         }
     }
@@ -885,9 +931,7 @@ sub _renameweb {
         $ref =~ s/\./\//go;
         my (@path) = split( /\//, $ref );
         my $webTopic = pop(@path);
-        $webTopic = Foswiki::Sandbox::untaintUnchecked($webTopic);
         my $webIter = join( "/", @path );
-        $webIter = Foswiki::Sandbox::untaintUnchecked($webIter);
         $store->clearLease( $webIter, $webTopic );
     }
 

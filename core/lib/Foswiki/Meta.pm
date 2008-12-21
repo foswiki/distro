@@ -69,7 +69,7 @@ our $VERSION = '$Rev$';
 =begin TML
 
 ---++ ClassMethod new($session, $web, $topic)
-   * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION)
+   * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
    * =$web=, =$topic= - the topic that the metadata relates to
 Construct a new, empty object to contain meta-data for the given topic.
 

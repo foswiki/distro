@@ -263,13 +263,16 @@ BEGIN {
 
 # Validate and untaint Apache's SERVER_NAME Environment variable
 # for use in referencing virtualhost-based paths for separate data/ and templates/ instances, etc
-    if (   $ENV{SERVER_NAME}
-        && $ENV{SERVER_NAME} =~
-        /^(([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6})$/ )
-    {
-        $ENV{SERVER_NAME} =
-          Foswiki::Sandbox::untaintUnchecked( $ENV{SERVER_NAME} );
-    }
+
+    $ENV{SERVER_NAME} = Foswiki::Sandbox::untaint(
+        $ENV{SERVER_NAME},
+        sub {
+            my $sn = shift;
+            return undef unless defined $sn;
+            return $sn if $sn =~
+              /^(([a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?\.)+[a-z]{2,6})$/i;
+            return undef;
+        });
 
     # readConfig is defined in Foswiki::Configure::Load to allow overriding it
     Foswiki::Configure::Load::readConfig();
@@ -409,7 +412,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
     # Simplistic email regex, e.g. for WebNotify processing - no i18n
     # characters allowed
-    $regex{emailAddrRegex} = qr/([A-Za-z0-9\.\+\-\_]+\@[A-Za-z0-9\.\-]+)/;
+    $regex{emailAddrRegex} = qr/([-a-z0-9.+_]+\@[a-z0-9\.\-]+)/i;
 
 # Filename regex to used to match invalid characters in attachments - allow
 # alphanumeric characters, spaces, underscores, etc.
@@ -959,16 +962,22 @@ sub isValidWikiWord {
 
 =begin TML
 
----++ StaticMethod isValidTopicName( $name ) -> $boolean
+---++ StaticMethod isValidTopicName( $name [, $nonww] ) -> $boolean
 
-Check for a valid topic name
+Check for a valid topic =$name=. If =$nonww=, then accept non wiki-words
+(though they must still be composed of only valid, unfiltered characters)
 
 =cut
 
+# Note: must work on tainted names.
 sub isValidTopicName {
-    my ($name) = @_;
+    my ($name, $nonww) = @_;
 
-    return ( $name =~ m/^$regex{topicNameRegex}$/o );
+    return 0 unless defined $name && $name ne '';
+    return 1 if ( $name =~ m/^$regex{topicNameRegex}$/o );
+    return 0 unless $nonww;
+    return 0 if $name =~ /$Foswiki::cfg{NameFilter}/;
+    return 1;
 }
 
 =begin TML
@@ -984,11 +993,26 @@ when a nested web name is passed to it.
 
 =cut
 
+# Note: must work on tainted names.
 sub isValidWebName {
     my $name = shift || '';
     my $sys = shift;
     return 1 if ( $sys && $name =~ m/^$regex{defaultWebNameRegex}$/o );
     return ( $name =~ m/^$regex{webNameRegex}$/o );
+}
+
+=begin TML
+
+---++ StaticMethod isValidEmailAddress( $name ) -> $boolean
+
+STATIC Check for a valid email address name.
+
+=cut
+
+# Note: must work on tainted names.
+sub isValidEmailAddress {
+    my ($name) = @_;
+    return $name =~ /^$regex{emailAddrRegex}$/;
 }
 
 =begin TML
@@ -1238,6 +1262,9 @@ the web defaults to $Foswiki::cfg{UsersWebName}. If there is no topic
 specification, or the topic is '0', the topic defaults to the web home topic
 name.
 
+*WARNING* this function untaints the web and topic names, but does not check
+the validity of same.
+
 =cut
 
 sub normalizeWebTopicName {
@@ -1325,6 +1352,7 @@ sub new {
         $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     }
     else {
+        # SMELL: how can we validate the PATH?
         $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
     }
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
@@ -1408,21 +1436,31 @@ sub new {
         $web = $1 unless $web;
     }
 
-    # All roads lead to WebHome
-    $topic = $Foswiki::cfg{HomeTopicName} if ( $topic =~ /\.\./ );
-    $topic =~ s/$Foswiki::cfg{NameFilter}//go;
-    $topic = $Foswiki::cfg{HomeTopicName} unless $topic;
-    $this->{topicName} = Foswiki::Sandbox::untaintUnchecked($topic);
+    # Validate and untaint topic name from path info
+    $this->{topicName} = Foswiki::Sandbox::untaint(
+        $topic,
+        sub {
+            return $Foswiki::cfg{HomeTopicName}
+              unless isValidTopicName( $topic, 1 );
+            return $topic;
+        });
 
-    $web =~ s/$Foswiki::cfg{NameFilter}//go;
-    $this->{requestedWebName} =
-      Foswiki::Sandbox::untaintUnchecked($web);    #can be an empty string
-    $web = $Foswiki::cfg{UsersWebName} unless $web;
-    $this->{webName} = Foswiki::Sandbox::untaintUnchecked($web);
+    # Validate web name from path info
+    $this->{requestedWebName} = Foswiki::Sandbox::untaint(
+        $web,
+        sub {
+            return '' unless $web &&    # can be an empty string
+              isValidWebName( $web );
+            return $web;
+        });
+    $this->{webName} = $this->{requestedWebName} ||
+      $Foswiki::cfg{UsersWebName};
 
-# Convert UTF-8 web and topic name from URL into site charset if necessary
-# SMELL: merge these two cases, browsers just don't mix two encodings in one URL
-# - can also simplify into 2 lines by making function return unprocessed text if no conversion
+    # Convert UTF-8 web and topic name from URL into site charset if
+    # necessary
+    # SMELL: merge these two cases, browsers just don't mix two encodings
+    # in one URL - can also simplify into 2 lines by making function
+    # return unprocessed text if no conversion
     my $webNameTemp = $this->UTF82SiteCharSet( $this->{webName} );
     if ($webNameTemp) {
         $this->{webName} = $webNameTemp;
@@ -1435,9 +1473,7 @@ sub new {
 
     # Item3270 - here's the appropriate place to enforce Foswiki spec:
     # All topic name sources are evaluated, site charset applied
-    # SMELL: This untaint unchecked is duplicate of one just above
-    $this->{topicName} =
-      Foswiki::Sandbox::untaintUnchecked( ucfirst $this->{topicName} );
+    $this->{topicName} = ucfirst $this->{topicName};
 
     $this->{scriptUrlPath} = $Foswiki::cfg{ScriptUrlPath};
 
@@ -1816,6 +1852,24 @@ sub _fixupIncludedTopic {
 
 =begin TML
 
+---++ StaticMethod validatePattern( $pattern ) -> $pattern
+
+Validate a pattern provided in a parameter to $pattern so that
+dangerous chars (interpolation and execution) are disabled.
+
+=cut
+
+sub validatePattern {
+    my $pattern = shift;
+
+    # Escape unescaped $ and @ characters that might cause a reference
+    # to an internal variable. Escape { to defuse (??{...})
+    $pattern =~ s/([^\\])(?=[{$@])/$1\\/g;
+    return $pattern;
+}
+
+=begin TML
+
 ---++ StaticMethod applyPatternToIncludedText( $text, $pattern ) -> $text
 
 Apply a pattern on included text to extract a subset
@@ -1823,12 +1877,16 @@ Apply a pattern on included text to extract a subset
 =cut
 
 sub applyPatternToIncludedText {
-    my ( $theText, $thePattern ) = @_;
-    $thePattern =~
-      s/([^\\])([\$\@\%\&\#\'\`\/])/$1\\$2/g;    # escape some special chars
-    $thePattern = Foswiki::Sandbox::untaintUnchecked($thePattern);
-    $theText = '' unless ( $theText =~ s/$thePattern/$1/is );
-    return $theText;
+    my ( $text, $pattern ) = @_;
+
+    $pattern = Foswiki::Sandbox::untaint($pattern, \&validatePattern);
+
+    try {
+        $text =~ s/$pattern/$1/is;
+    } catch Error::Simple with {
+        $text = '';
+    };
+    return $text;
 }
 
 #
@@ -3301,18 +3359,17 @@ sub INCLUDE {
         }
     }
 
-    # No protocol handler; must be a topic references
-    $control{_DEFAULT} =~ s/$Foswiki::cfg{NameFilter}//go;    # zap anything suspicious
+    # No protocol handler; must be a topic reference
     if ( $Foswiki::cfg{DenyDotDotInclude} ) {
 
-        # Filter out '..' from filename, this is to
+        # Filter out '..' from path, this is to
         # prevent includes of '../../file'
-        $control{_DEFAULT} =~ s/\.+/\./g;
-    }
-    else {
-
-        # danger, could include .htpasswd with relative path
-        $control{_DEFAULT} =~ s/passwd//gi;                 # filter out passwd filename
+        if ($control{_DEFAULT} =~ /\.\./) {
+            # SMELL: could do with a different message here, but don't want to
+            # add one right now because translators are already working
+            return _includeWarning( $this, $control{warn}, 'topic_not_found',
+                                    '""', '""' );
+        }
     }
 
     # make sure we have something to include. If we don't do this, then
@@ -3321,7 +3378,8 @@ sub INCLUDE {
 
         # SMELL: could do with a different message here, but don't want to
         # add one right now because translators are already working
-        return _includeWarning( $this, $control{warn}, 'topic_not_found', '""', '""' );
+        return _includeWarning( $this, $control{warn}, 'topic_not_found',
+                                '""', '""' );
     }
 
     my $text = '';
@@ -3335,8 +3393,8 @@ sub INCLUDE {
 
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
-        return _includeWarning( $this, $control{warn}, 'topic_not_found', $includedWeb,
-            $includedTopic );
+        return _includeWarning( $this, $control{warn}, 'topic_not_found',
+                                $includedWeb, $includedTopic );
     }
 
     # prevent recursive includes. Note that the inclusion of a topic into

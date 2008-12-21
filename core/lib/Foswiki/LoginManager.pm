@@ -328,6 +328,8 @@ sub loadSession {
 
     _trace( $this, "Webserver says user is $authUser" ) if ($authUser);
 
+    # SMELL: is there any way to get evil data into the CGI session such
+    # that this untaint is less than safe?
     my $sessionUser = Foswiki::Sandbox::untaintUnchecked(
         $this->{_cgisession}->param('AUTHUSER') );
     _trace( $this, "session says user is " . ( $sessionUser || 'undef' ) );
@@ -344,6 +346,8 @@ sub loadSession {
     # variable (which may have been set manually by a unit test,
     # or it might have come from Apache).
     if ($authUser) {
+        # SMELL: is there any way to get evil data into the CGI session such
+        # that this untaint is less than safe?
         my $cUID = Foswiki::Sandbox::untaintUnchecked(
             $this->{_cgisession}->param('cUID') )
           || '';
@@ -363,6 +367,8 @@ sub loadSession {
     if (   ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
         && ( $query && $query->param('logout') ) )
     {
+        # SMELL: is there any way to get evil data into the CGI session such
+        # that this untaint is less than safe?
         my $sudoUser = Foswiki::Sandbox::untaintUnchecked(
             $this->{_cgisession}->param('SUDOFROMAUTHUSER') );
 
@@ -469,19 +475,27 @@ sub expireDeadSessions {
     $exp = -$exp if $exp < 0;
 
     opendir( D, "$Foswiki::cfg{WorkingDir}/tmp" ) || return;
-    foreach my $file ( grep { /^(passthru|cgisess)_[0-9a-f]{32}/ } readdir(D) )
-    {
-        $file = Foswiki::Sandbox::untaintUnchecked(
-            "$Foswiki::cfg{WorkingDir}/tmp/$file");
-        my @stat = stat($file);
+    foreach my $file ( readdir(D) ) {
+        $file = Foswiki::Sandbox::untaint(
+            $file,
+            sub {
+                my $file = shift;
+                return $file if $file =~ /^(passthru|cgisess)_[0-9a-f]{32}/;
+                return undef;
+            }
+           );
+        next unless $file;
 
-  # CGI::Session updates the session file each time a browser views a
-  # topic setting the access and expiry time as values in the file. This
-  # also sets the mtime (modification time) for the file which is all we need.
-  # We know that the expiry time is mtime + $Foswiki::cfg{Sessions}{ExpireAfter}
-  # so we do not need to waste execution time opening and reading the file.
-  # We just check the mtime. mtime is confirmed set in both Windows and Linux
-  # As a fallback we also check ctime. Files are deleted when they expire.
+        my @stat = stat("$Foswiki::cfg{WorkingDir}/tmp/$file");
+
+        # CGI::Session updates the session file each time a browser views a
+        # topic setting the access and expiry time as values in the file. This
+        # also sets the mtime (modification time) for the file which is all
+        # we need. We know that the expiry time is mtime +
+        # $Foswiki::cfg{Sessions}{ExpireAfter} so we do not need to waste
+        # execution time opening and reading the file. We just check the
+        # mtime. As a fallback we also check ctime. Files are deleted when
+        # they expire.
         my $lat = $stat[9] || $stat[10] || 0;
         unlink $file if ( $time - $lat >= $exp );
         next;
@@ -958,6 +972,21 @@ the username stored in the session will be used.
 
 sub getUser {
     return undef;
+}
+
+=begin TML
+
+---++ ObjectMethod isValidLoginName( $name ) -> $boolean
+
+STATIC Check for a valid login name (not an existance check, just syntax).
+Default behaviour is to check the login name against
+$Foswiki::cfg{LoginNameFilterIn}
+
+=cut
+
+sub isValidLoginName {
+    my ($name) = @_;
+    return $name =~ /$Foswiki::cfg{LoginNameFilterIn}/;
 }
 
 =begin TML

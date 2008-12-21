@@ -254,7 +254,7 @@ sub _userReallyExists {
         # can use the password file if available
         my $pass = $this->{passwords}->fetchPass($login);
         return unless ( defined($pass) );
-        return if ( "$pass" eq "0" );    # login invalid... (SMELL: what
+        return if ( $pass eq '0' );    # login invalid... (SMELL: what
                                          # does that really mean)
         return 1;
     }
