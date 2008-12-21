@@ -2459,7 +2459,7 @@ sub isValidWikiWord {
 
 =begin TML
 
----+++ isValidWebName( $name, $system ) -> $boolean
+---+++ isValidWebName( $name [, $system] ) -> $boolean
 
 Check for a valid web name. If $system is true, then
 system web names are considered valid (names starting with _)
@@ -2476,9 +2476,11 @@ sub isValidWebName {
 
 =begin TML
 
----++ StaticMethod isValidTopicName( $name ) -> $boolean
+---++ StaticMethod isValidTopicName( $name [, $allowNonWW] ) -> $boolean
 
 Check for a valid topic name.
+   * =$name= - topic name
+   * =$allowNonWW= - true to allow non-wikiwords
 
 =cut
 

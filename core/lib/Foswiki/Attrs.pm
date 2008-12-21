@@ -126,6 +126,7 @@ sub new {
 
             # otherwise the whole string - sans padding - is the default
             else {
+                # SMELL: unchecked implicit untaint?
                 if ( $string =~ m/^\s*(.*?)\s*$/s
                     && !defined( $this->{$DEFAULTKEY} ) )
                 {
@@ -134,6 +135,7 @@ sub new {
                 last;
             }
         }
+        # SMELL: unchecked implicit untaint?
         elsif ( $string =~ m/^\s*(.*?)\s*$/s ) {
             $this->{$DEFAULTKEY} = $1 if ($first);
             last;
@@ -233,6 +235,7 @@ sub extractValue {
     else {
 
         # test if format: { "value" ... }
+        # SMELL: unchecked implicit untaint?
         if ( $str =~ /(^|\=\s*\"[^\"]*\")\s*\"(.*?)\"\s*(\w+\s*=\s*\"|$)/ ) {
 
             # is: %VAR{ "value" }%

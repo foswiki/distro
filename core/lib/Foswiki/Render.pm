@@ -356,6 +356,8 @@ sub _emitTR {
                 push( @attr, align => 'center' );
             }
         }
+        # implicit untaint is OK, because we are just taking topic data
+        # and rendering it; no security step is bypassed.
         if (/^\s*\*(.*)\*\s*$/) {
             $cells .= CGI::th( {@attr}, CGI::strong(" $1 ") ) . "\n";
         }
@@ -810,6 +812,7 @@ s/(?<=[\s\(])($Foswiki::regex{wikiWordRegex}|[$Foswiki::regex{upperAlpha}])/<nop
 
             # [[]] style - take care for legacy:
             # Prepare special case of '[[URL#anchor display text]]' link
+            # implicit untaint is OK because we are just recyling topic content
             if ( $link =~ /^(\S+)\s+(.*)$/ ) {
 
                 # '[[URL#anchor display text]]' link:

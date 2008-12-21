@@ -110,7 +110,7 @@ sub preparePath {
         # This handles twiki_cgi; use the first path el after the script
         # name as the function
         $pathInfo =~ m{^/([^/]+)(.*)};
-        my $first = $1 || '';
+        my $first = $1; # implicit untaint OK; checked below
         if ( exists $Foswiki::cfg{SwitchBoard}{$first} ) {
 
             # The path is of the form script/function/...
@@ -133,7 +133,7 @@ sub prepareBody {
     my $cgi = new CGI();
     my $err = $cgi->cgi_error;
     throw Foswiki::EngineException( $1, $2 )
-      if defined $err && $err =~ /\s*(\d{3})\s*(.*)/o;
+      if defined $err && $err =~ /\s*(\d{3})\s*(.*)/;
     $this->{cgi} = $cgi;
 }
 

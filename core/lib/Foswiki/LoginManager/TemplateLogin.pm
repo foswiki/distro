@@ -172,7 +172,7 @@ sub login {
                 if ($origurl =~ s/\?(.*)//) {
                     foreach my $pair (split(/[&;]/, $1)) {
                         if ($pair =~ /(.*?)=(.*)/) {
-                            $query->param($1, $2);
+                            $query->param($1, TAINT($2));
                         }
                     }
                 }

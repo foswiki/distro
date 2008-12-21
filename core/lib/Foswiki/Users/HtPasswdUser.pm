@@ -114,12 +114,14 @@ sub _readPasswd {
     while ( defined( $line = <IN_FILE> ) ) {
         if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
             if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
+                # implicit untaint OK; data from htpasswd
                 $data->{$1}->{pass} = $3;
                 $data->{$1}->{emails} = $4 || '';
             }
         }
         else {                                               # htpasswd format
             if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
+                # implicit untaint OK; data from htpasswd
                 $data->{$1}->{pass} = $2;
                 $data->{$1}->{emails} = $3 || '';
             }

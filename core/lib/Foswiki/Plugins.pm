@@ -165,8 +165,17 @@ sub load {
 
     unless ($allDisabled) {
         if ( $query && defined( $query->param('debugenableplugins') ) ) {
-            @pluginList =
-              split( /[,\s]+/, $query->param('debugenableplugins') );
+            foreach my $pn (split(
+                /[,\s]+/, $query->param('debugenableplugins') )) {
+                push (@pluginList, Foswiki::Sandbox::untaint(
+                    $pn,
+                    sub {
+                        throw Error::Simple(
+                            'Bad debugenableplugins') unless
+                              $pn =~ /^\w+$/;
+                        return $pn;
+                    }));
+            }
         }
         else {
             if ( $Foswiki::cfg{PluginsOrder} ) {

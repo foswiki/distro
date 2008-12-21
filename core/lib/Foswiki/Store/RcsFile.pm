@@ -252,15 +252,13 @@ sub getTopicNames {
 
     my @topicList;
     foreach my $f (readdir($DIR)) {
-        next unless $f =~ s/\.txt$//;
+        # Validate and untaint
+        next unless $f =~ /^(.*)\.txt$/;
+        $f = $1;
         # Second parameter allows non-wiki-word topic names
-        $f = Foswiki::Sandbox::untaint(
-            $f,
-            sub {
-                return $f if Foswiki::isValidTopicName($f, 1);
-                return undef;
-            });
-        push(@topicList, $f) if $f;
+        if ( Foswiki::isValidTopicName($f, 1)) {
+            push(@topicList, $1);
+        }
     }
     closedir($DIR);
     return sort @topicList;
@@ -280,15 +278,12 @@ sub getWebNames {
     if ( opendir( my $DIR, $dir ) ) {
         my @list;
         foreach my $web (readdir($DIR)) {
-            $web = Foswiki::Sandbox::untaint(
-                $web,
-                sub {
-                    # Second parameter validates hidden web names
-                    return undef unless Foswiki::isValidWebName($web, 1);
-                    return undef unless -d $dir . '/' . $web;
-                    return $web;
-                });
-            push(@list, $web) if $web;
+            # Second parameter validates hidden web names
+            if ( Foswiki::isValidWebName($web, 1)
+                && -d $dir . '/' . $web ) {
+                $web =~ /^(.*)$/; # untaint validated web name
+                push(@list, $1);
+            }
         }
         closedir($DIR);
         return sort @list;
@@ -759,9 +754,10 @@ sub removeSpuriousLeases {
     my $W;
     if ( opendir( $W, $web ) ) {
         foreach my $f ( readdir($W) ) {
+            # Validate, untaint, and unlink
             if ( $f =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink($f);
+                    unlink("$1.lease");
                 }
             }
         }
@@ -843,6 +839,9 @@ sub saveFile {
 
 sub readFile {
     my ( $this, $name ) = @_;
+
+    ASSERT(UNTAINTED($name)) if DEBUG;
+
     my $data;
     my $IN_FILE;
     if ( open( $IN_FILE, '<', $name ) ) {
@@ -856,9 +855,11 @@ sub readFile {
 }
 
 sub mkTmpFilename {
-    my $tmpdir = File::Spec->tmpdir();
+    my $tmpdir = $Foswiki::cfg{WorkingDir}.'/tmp';
     my $file = _mktemp( 'twikiAttachmentXXXXXX', $tmpdir );
-    return File::Spec->catfile( $tmpdir, $file );
+    # Constructed, so known to be valid
+    return Foswiki::Sandbox::untaintUnchecked(
+        File::Spec->catfile( $tmpdir, $file ));
 }
 
 # Adapted from CPAN - File::MkTemp
@@ -913,9 +914,10 @@ sub _rmtree {
     my $root = shift;
 
     if ( opendir( my $D, $root ) ) {
-        foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
-            $entry =~ /^(.*)$/;
-            $entry = $root . '/' . $1;
+        foreach my $entry ( readdir($D) ) {
+            next if $entry =~ /^\.+$/;
+            $entry = Foswiki::Sandbox::untaintUnchecked( $entry );
+            $entry = $root . '/' . $entry;
             if ( -d $entry ) {
                 _rmtree($entry);
             }
@@ -1189,6 +1191,7 @@ sub stringify {
 # messages
 sub hidePath {
     my ( $this, $erf ) = @_;
+    return $erf if DEBUG;
     $erf =~ s#.*(/\w+/\w+\.[\w,]*)$#...$1#;
     return $erf;
 }
@@ -1279,6 +1282,38 @@ sub eachChange {
         my $changes = [];
         return new Foswiki::ListIterator($changes);
     }
+}
+
+=begin TML
+
+---++ ObjectMethod checkedSysCommand($command, ...) -> $result
+
+Executes a system command, throwing an error if a non-zero exit
+code is returned.
+
+=cut
+
+sub checkedSysCommand {
+    my $this = shift;
+    my $command = shift;
+    my ( $result, $exit ) = Foswiki::Sandbox->sysCommand( $command, @_ );
+    if ($exit) {
+        my %p = @_;
+        my $params = join(' ', map { "$_=>$p{$_}" } keys %p);
+        if (DEBUG) {
+            # Throw a proper wobbly
+            throw Error::Simple( $command . ' '.$params
+                                 . ' failed: ' . $result );
+        } else {
+            print STDERR $command . ' ' . $params
+              . ' failed: ' . $result;
+            # Throw a sanitised version
+            throw Error::Simple( $command . ' of '
+                                   . $this->hidePath( $this->{file} )
+                                     . ' failed: ' . $result );
+        }
+    }
+    return $result;
 }
 
 1;

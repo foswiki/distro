@@ -90,6 +90,7 @@ sub _upgradeCategoryItem {
         $scatname = $catname;
 
         #$scatname =~ s/[^a-zA-Z0-9]//g;
+        # SMELL: unchecked implicit untaint?
         $src =~ /<!---->(.*)<!---->/;
         if ($1) {
             $src = $1;
@@ -219,6 +220,7 @@ sub _getOldAttachAttr {
         ( $before, $filePath, $after ) =
           split( /<(?:\/)*TwkFilePath>/, $atext );
         if ( !$filePath ) { $filePath = ''; }
+        # SMELL: unchecked implicit untaint
         $filePath =~ s/<TwkData value="(.*)">//go;
         if   ($1) { $filePath = $1; }
         else      { $filePath = ''; }

@@ -95,6 +95,7 @@ sub new {
             name    => $name   || '',
             module  => $module, # if undef, use discovery
         }, $class );
+ASSERT(UNTAINTED($this->{name}));
 
     return $this;
 }
@@ -210,7 +211,6 @@ sub registerSettings {
         $this->{disabled} = 1;
         return;
     }
-
     my $prefs = $this->{session}->{prefs};
     if ( !$this->{no_topic} ) {
         $prefs->pushPreferences( $this->{topicWeb}, $this->{name}, 'PLUGIN',

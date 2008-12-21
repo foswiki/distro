@@ -39,7 +39,7 @@ use vars qw( %TWikiCompatibility @refs );
 
 $SHORTDESCRIPTION = 'Translator framework for Wysiwyg editors';
 $NO_PREFS_IN_TOPIC = 1;
-$VERSION = '$Rev: 15843 $';
+$VERSION = '$Rev$';
 
 $RELEASE = '03 Aug 2008';
 
@@ -732,14 +732,29 @@ sub _restHTML2TML {
     return undef; # to prevent further processing
 }
 
+# SMELL: foswiki supports proper REST usage of the upload script,
+# so debatable if this is required any more
 sub _restUpload {
     my ($session, $plugin, $verb, $response) = @_;
     my $query = Foswiki::Func::getCgiQuery();
-    my $topic = $query->param('topic');
-    $topic =~ /^(.*)\.([^.]*)$/;
-    my $web = $1;
-    $topic = $2;
-
+    my ($web, $topic) = Foswiki::Func::normalizeWebTopicName( undef,
+        $query->param('topic'));
+    $web = Foswiki::Sandbox::untaint(
+        $web,
+        sub {
+            return $web if Foswiki::Func::isValidWebName($web, 1);
+            return undef;
+        });
+    $topic = Foswiki::Sandbox::untaint(
+        $topic,
+        sub {
+            return $topic if Foswiki::Func::isValidTopicName($topic, 1);
+            return undef;
+        });
+    unless (defined $web && defined $topic) {
+        returnRESTResult($response, 401, "Access denied");
+        return undef; # to prevent further processing
+    }
     my $hideFile = $query->param('hidefile') || '';
     my $fileComment = $query->param('filecomment') || '';
     my $createLink = $query->param('createlink') || '';
@@ -838,6 +853,18 @@ sub _restAttachments {
     my ($session, $plugin, $verb, $response) = @_;
     my ($web, $topic) = Foswiki::Func::normalizeWebTopicName(
         undef, Foswiki::Func::getCgiQuery()->param('topic'));
+    $web = Foswiki::Sandbox::untaint(
+        $web,
+        sub {
+            return $web if Foswiki::Func::isValidWebName($web, 1);
+            return undef;
+        });
+    $topic = Foswiki::Sandbox::untaint(
+        $topic,
+        sub {
+            return $topic if Foswiki::Func::isValidTopicName($topic, 1);
+            return undef;
+        });
     my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
     unless (Foswiki::Func::checkAccessPermission(
         'VIEW', Foswiki::Func::getWikiName(), $text, $topic, $web, $meta)) {

@@ -66,7 +66,7 @@ sub getOptions {
                     $inBlock = 1;
                 }
                 elsif (/^\s*\|\s*([^|]*?)\s*\|/) {
-                    push( @vals, $1 ) if ($inBlock);
+                    push( @vals, TAINT($1) ) if ($inBlock);
                 }
                 else {
                     $inBlock = 0;

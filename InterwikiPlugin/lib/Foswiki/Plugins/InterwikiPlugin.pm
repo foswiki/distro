@@ -50,10 +50,10 @@ use vars qw(
             %interSiteTable
     );
 
-# This should always be $Rev: 14913 (17 Sep 2007) $ so that TWiki can determine the checked-in
+# This should always be $Rev$ so that TWiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
-$VERSION = '$Rev: 14913 (17 Sep 2007) $';
+$VERSION = '$Rev$';
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
@@ -96,9 +96,6 @@ sub initPlugin {
           || 'InterWikis';
     ( $interWeb, $interTopic ) =
       Foswiki::Func::normalizeWebTopicName( $interWeb, $interTopic );
-    if( $interTopic =~ s/^(.*)\.// ) {
-        $interWeb = $1;
-    }
 
     my $text = Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
 

@@ -214,8 +214,16 @@ sub verify_simple9 {
     $this->checkGetRevision([ "", "\n", "\n\n", "a", "a\n", "a\n\n", "\na","\n\na", "" ]);
 }
 
-sub verify_simple10 {
+# coMustCopy should only affect RcsWrap, but test them both anyway
+sub verify_simple10a {
     my $this = shift;
+    $Fowiki::cfg{RCS}{coMustCopy} = 0;
+    $this->checkGetRevision([ "a", "b", "a\n", "b", "a", "b\n","a\nb\n", "a\nc\n" ]);
+}
+
+sub verify_simple10b {
+    my $this = shift;
+    $Fowiki::cfg{RCS}{coMustCopy} = 1;
     $this->checkGetRevision([ "a", "b", "a\n", "b", "a", "b\n","a\nb\n", "a\nc\n" ]);
 }
 

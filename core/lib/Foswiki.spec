@@ -86,17 +86,6 @@ my $OS = $Foswiki::cfg{OS} || '';
 #  This is the root of all Foswiki URLs e.g. http://myhost.com:123.
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
-# **STRING**
-# If your host has aliases (such as both www.foswiki.org and foswiki.org, and some IP addresses)
-# you need to list them to tell Foswiki that redirecting to them is OK. Foswiki uses redirection
-# as part of its normal mode of operation when it changes between editing and viewing.
-# The security setting {AllowRedirectUrl} is per default disabled making redirecting to other
-# domains restricted to prevent Foswiki from being used in phishing attacks to protect it from
-# middleman exploits. You can add additional URLs to this setting to enable redirects to
-# additional trusted sites. Enter as comma separated list of URLs or hostnames. The URL must 
-# be in the format http://your.domain.com.
-$Foswiki::cfg{PermittedRedirectHostUrls} = '';
-
 # **PATH M**
 # This is the 'cgi-bin' part of URLs used to access the Foswiki bin
 # directory e.g. <code>/foswiki/bin</code><br />
@@ -534,10 +523,24 @@ $Foswiki::cfg{RemovePortNumber}  = $FALSE;
 # public sites should <b>not</b> enable it. Note: It is possible to 
 # redirect to a topic regardless of this setting, such as 
 # <tt>topic=OtherTopic</tt> or <tt>redirectto=Web.OtherTopic</tt>.
-# To enable redirection to a just list of trusted URLs keep this setting
-# disabled and add a list of trusted URL to the {PermittedRedirectHostUrls}
-# setting in the General path settings section.
+# To enable redirection to a list of trusted URLs, keep this setting
+# disabled and set the {PermittedRedirectHostUrls}.
 $Foswiki::cfg{AllowRedirectUrl}  = $FALSE;
+
+# **STRING EXPERT**
+# If your host has aliases (such as both www.foswiki.org and foswiki.org
+# and some IP addresses) you need to tell Foswiki that redirecting to them
+# is OK. Foswiki uses redirection as part of its normal mode of operation
+# when it changes between editing and viewing.
+# To prevent Foswiki from being used in phishing attacks and to protect it
+# from middleman exploits, the security setting {AllowRedirectUrl} is by
+# default disabled, restricting redirection to other domains. If a redirection
+# to a different host is attempted, the target URL is compared against this
+# list of additional trusted sites, and only if it matches is the redirect
+# permitted.<br />
+# Enter as a comma separated list of URLs (protocol, hostname and (optional)
+# port) e.g. <code>http://your.domain.com:8080,https://other.domain.com</code>
+$Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **REGEX EXPERT**
 # Defines the filter-in regexp that must match the names of environment

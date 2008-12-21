@@ -151,6 +151,7 @@ sub bulkRegister {
     my @data;
     my $gotHdr = 0;
     foreach my $line ( split( /\r?\n/, $text ) ) {
+        # unchecked implicit untaint OK - this function is for admins only
         if ( $line =~ /^\s*\|\s*(.*?)\s*\|\s*$/ ) {
             if ($gotHdr) {
                 my $i = 0;

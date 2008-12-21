@@ -52,16 +52,11 @@ sub initBinary {
 
     return if -e $this->{rcsFile};
 
-    my ( $rcsOutput, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initBinaryCmd},
+    my $rcsOutput =
+      $this->checkedSysCommand( $Foswiki::cfg{RCS}{initBinaryCmd},
         FILENAME => $this->{file} );
-    if ($exit) {
-        throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
-              . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $rcsOutput );
-    }
-    elsif ( !-e $this->{rcsFile} ) {
+
+    if ( !-e $this->{rcsFile} ) {
 
         # Sometimes (on Windows?) rcs file not formed, so check for it
         throw Error::Simple( $Foswiki::cfg{RCS}{initBinaryCmd} . ' of '
@@ -80,17 +75,11 @@ sub initText {
 
     return if -e $this->{rcsFile};
 
-    my ( $rcsOutput, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{initTextCmd},
+    my $rcsOutput = $this->checkedSysCommand(
+        $Foswiki::cfg{RCS}{initTextCmd},
         FILENAME => $this->{file} );
-    if ($exit) {
-        $rcsOutput ||= '';
-        throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
-              . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $rcsOutput );
-    }
-    elsif ( !-e $this->{rcsFile} ) {
+
+    if ( !-e $this->{rcsFile} ) {
 
         # Sometimes (on Windows?) rcs file not formed, so check for it
         throw Error::Simple( $Foswiki::cfg{RCS}{initTextCmd} . ' of '
@@ -146,17 +135,13 @@ sub replaceRevision {
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
 
     _lock($this);
-    my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+    my $rcsOut = $this->checkedSysCommand(
         $Foswiki::cfg{RCS}{ciDateCmd},
         DATE     => $date,
         USERNAME => $user,
         FILENAME => $this->{file},
         COMMENT  => $comment
     );
-    if ($exit) {
-        $rcsOut = $Foswiki::cfg{RCS}{ciDateCmd} . "\n" . $rcsOut;
-        return $rcsOut;
-    }
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
 
@@ -172,39 +157,23 @@ sub _deleteRevision {
     my ( $this, $rev ) = @_;
 
     # delete latest revision (unlock (may not be needed), delete revision)
-    my ( $rcsOut, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{unlockCmd},
+    my $rcsOut = $this->checkedSysCommand(
+        $Foswiki::cfg{RCS}{unlockCmd},
         FILENAME => $this->{file} );
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 
-    ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+    $rcsOut = $this->checkedSysCommand(
         $Foswiki::cfg{RCS}{delRevCmd},
         REVISION => '1.' . $rev,
-        FILENAME => $this->{file}
-    );
-
-    if ($exit) {
-        throw Error::Simple( $Foswiki::cfg{RCS}{delRevCmd} . ' of '
-              . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $rcsOut );
-    }
+        FILENAME => $this->{file} );
 
     # Update the checkout
     $rev--;
-    ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+    $rcsOut = $this->checkedSysCommand(
         $Foswiki::cfg{RCS}{coCmd},
         REVISION => '1.' . $rev,
-        FILENAME => $this->{file}
-    );
-
-    if ($exit) {
-        throw Error::Simple( $Foswiki::cfg{RCS}{coCmd} . ' of '
-              . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $rcsOut );
-    }
+        FILENAME => $this->{file} );
     Foswiki::Store::RcsFile::saveFile( $this, $this->{file}, $rcsOut );
 }
 
@@ -216,10 +185,7 @@ sub getRevision {
         return $this->SUPER::getRevision($version);
     }
 
-    my $tmpfile    = '';
-    my $tmpRevFile = '';
-    my $coCmd      = $Foswiki::cfg{RCS}{coCmd};
-    my $file       = $this->{file};
+    my ($text, $exit);
     if ( $Foswiki::cfg{RCS}{coMustCopy} ) {
 
         # SMELL: is this really necessary? What evidence is there?
@@ -228,27 +194,31 @@ sub getRevision {
         # Need to put RCS into binary mode to avoid extra \r appearing and
         # read from binmode file rather than stdout to avoid early file
         # read termination
-        $tmpfile    = Foswiki::Store::RcsFile::mkTmpFilename($this);
-        $tmpRevFile = $tmpfile . ',v';
-        copy( $this->{rcsFile}, $tmpRevFile );
-        my ( $tmp, $status ) =
-          Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{tmpBinaryCmd},
-            FILENAME => $tmpRevFile );
-        $file = $tmpfile;
+        my $coCmd      = $Foswiki::cfg{RCS}{coCmd};
         $coCmd =~ s/-p%REVISION/-r%REVISION/;
-    }
-    my ( $text, $status ) = Foswiki::Sandbox->sysCommand(
-        $coCmd,
-        REVISION => '1.' . $version,
-        FILENAME => $file
-    );
+        my $tmpfile    = Foswiki::Store::RcsFile::mkTmpFilename();
+        my $tmpRevFile = $tmpfile . ',v';
+        copy( $this->{rcsFile}, $tmpRevFile );
+        $this->checkedSysCommand(
+              $Foswiki::cfg{RCS}{tmpBinaryCmd},
+              FILENAME => $tmpRevFile );
 
-    if ($tmpfile) {
+        $this->checkedSysCommand(
+            $coCmd,
+            REVISION => '1.' . $version,
+            FILENAME => $tmpfile
+           );
+
         $text = Foswiki::Store::RcsFile::readFile( $this, $tmpfile );
 
         # SMELL: Is untainting really necessary here?
         unlink Foswiki::Sandbox::untaintUnchecked($tmpfile);
         unlink Foswiki::Sandbox::untaintUnchecked($tmpRevFile);
+    } else {
+        $text = $this->checkedSysCommand(
+            $Foswiki::cfg{RCS}{coCmd},
+            REVISION => '1.' . $version,
+            FILENAME => $this->{file} );
     }
 
     return $text;
@@ -263,16 +233,10 @@ sub numRevisions {
         return 0;
     }
 
-    my ( $rcsOutput, $exit ) =
-      Foswiki::Sandbox->sysCommand( $Foswiki::cfg{RCS}{histCmd},
+    my $rcsOutput =
+      $this->checkedSysCommand( $Foswiki::cfg{RCS}{histCmd},
         FILENAME => $this->{rcsFile} );
-    if ($exit) {
-        throw Error::Simple( 'RCS: '
-              . $Foswiki::cfg{RCS}{histCmd} . ' of '
-              . $this->hidePath( $this->{rcsFile} )
-              . ' failed: '
-              . $rcsOutput );
-    }
+
     if ( $rcsOutput =~ /head:\s+\d+\.(\d+)\n/ ) {
         return $1;
     }
@@ -290,24 +254,21 @@ sub getRevisionInfo {
         if ( !$version || $version > $this->numRevisions() ) {
             $version = $this->numRevisions();
         }
-        my ( $rcsOut, $exit ) = Foswiki::Sandbox->sysCommand(
+        my $rcsOut = $this->checkedSysCommand(
             $Foswiki::cfg{RCS}{infoCmd},
             REVISION => '1.' . $version,
             FILENAME => $this->{rcsFile}
         );
-        if ( !$exit ) {
-            if ( $rcsOut =~
-                /^.*?date: ([^;]+);  author: ([^;]*);[^\n]*\n([^\n]*)\n/s )
-            {
-                my $user    = $2;
-                my $comment = $3;
-                require Foswiki::Time;
-                my $date = Foswiki::Time::parseTime($1);
-                my $rev  = $version;
-                if ( $rcsOut =~ /revision 1.([0-9]*)/ ) {
-                    $rev = $1;
-                    return ( $rev, $date, $user, $comment );
-                }
+        if ( $rcsOut =~
+                /^.*?date: ([^;]+);  author: ([^;]*);[^\n]*\n([^\n]*)\n/s ) {
+            my $user    = $2;
+            my $comment = $3;
+            require Foswiki::Time;
+            my $date = Foswiki::Time::parseTime($1);
+            my $rev  = $version;
+            if ( $rcsOut =~ /revision 1.([0-9]*)/ ) {
+                $rev = $1;
+                return ( $rev, $date, $user, $comment );
             }
         }
     }
@@ -379,13 +340,15 @@ sub parseRevisionDiff {
                     push @diffArray, [ 'l', $1, $3 ];
                 }
                 elsif (/^\-(.*)$/) {
+                    # Implicit untaint OK; data from diff
                     push @diffArray, [ '-', $1, '' ];
                 }
                 elsif (/^\+(.*)$/) {
+                    # Implicit untaint OK; data from diff
                     push @diffArray, [ '+', '', $1 ];
                 }
                 else {
-                    s/^ (.*)$/$1/go;
+                    s/^ (.*)$/$1/g;
                     push @diffArray, [ 'u', $_, $_ ];
                 }
             }
@@ -402,9 +365,11 @@ sub parseRevisionDiff {
                 push @diffArray, [ 'l', $1, $3 ];
             }
             elsif (/^< (.*)$/) {
+                # Implicit untaint OK; data from diff
                 push @diffArray, [ '-', $1, '' ];
             }
             elsif (/^> (.*)$/) {
+                # Implicit untaint OK; data from diff
                 push @diffArray, [ '+', '', $1 ];
             }
             else {
@@ -421,37 +386,25 @@ sub _ci {
 
     $comment = 'none' unless $comment;
 
-    my ( $cmd, $rcsOutput, $exit );
+    my $rcsOutput;
     if ( defined($date) ) {
         require Foswiki::Time;
         $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
-        $cmd = $Foswiki::cfg{RCS}{ciDateCmd};
-        ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
-            $cmd,
+        $rcsOutput = $this->checkedSysCommand(
+            $Foswiki::cfg{RCS}{ciDateCmd},
             USERNAME => $user,
             FILENAME => $this->{file},
             COMMENT  => $comment,
-            DATE     => $date
-        );
+            DATE     => $date );
     }
     else {
-        $cmd = $Foswiki::cfg{RCS}{ciCmd};
-        ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
-            $cmd,
+        $rcsOutput = $this->checkedSysCommand(
+            $Foswiki::cfg{RCS}{ciCmd},
             USERNAME => $user,
             FILENAME => $this->{file},
-            COMMENT  => $comment
-        );
+            COMMENT  => $comment );
     }
     $rcsOutput ||= '';
-
-    if ($exit) {
-        throw Error::Simple( $cmd . ' of '
-              . $this->hidePath( $this->{file} )
-              . ' failed: '
-              . $exit . ' '
-              . $rcsOutput );
-    }
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 }
@@ -501,7 +454,7 @@ sub getRevisionAtTime {
     }
     require Foswiki::Time;
     $date = Foswiki::Time::formatTime( $date, '$rcs', 'gmtime' );
-    my ( $rcsOutput, $exit ) = Foswiki::Sandbox->sysCommand(
+    my $rcsOutput = $this->checkedSysCommand(
         $Foswiki::cfg{RCS}{rlogDateCmd},
         DATE     => $date,
         FILENAME => $this->{file}

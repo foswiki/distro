@@ -378,6 +378,8 @@ sub addUser {
                 $web        = $1 || $Foswiki::cfg{UsersWebName};
                 $name       = $2;
                 $odate      = $3;
+                # Filter-in date format dd Mmm yyyy
+                $odate = '' unless $odate =~ /^\d+\s+[A-Za-z]+\s+\d+$/;
                 $insidelist = 1;
             }
             elsif ( $line =~ /^\s+\*\s([A-Z]) - / ) {
@@ -863,6 +865,7 @@ sub mapper_getEmails {
         # Now try the topic text
         foreach my $l ( split( /\r?\n/, $text ) ) {
             if ( $l =~ /^\s+\*\s+E-?mail:\s*(.*)$/mi ) {
+                # SMELL: implicit unvalidated untaint
                 push @addresses, split( /;/, $1 );
             }
         }

@@ -52,7 +52,7 @@ sub getOptions {
         my $str;
         foreach my $val (@$vals) {
             if ( $val =~ /^(.*?[^\\])=(.*)$/ ) {
-                $str = $1;
+                $str = TAINT($1);
                 $val = $2;
                 $str =~ s/\\=/=/g;
             }

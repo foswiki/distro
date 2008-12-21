@@ -28,7 +28,7 @@ throw Foswiki::OopsException( 'bathplugin',
                             status => 418,
                             web => $web,
                             topic => $topic,
-                            params => [ 'big toe', 'stuck', 'hot tap' ] );
+                            params => [ 'big toe', 'stuck in', 'hot tap' ] );
 </verbatim>
 This will raise an exception that uses the =bathplugin.tmpl= template. If
 =UI::run= handles the exception it will generate a redirect to:
@@ -45,7 +45,7 @@ The =bathplugin.tmpl= might contain:
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"heading"}%%TMPL:END%
 %TMPL:DEF{"webaction"}% *%MAKETEXT{"Warning"}%* %TMPL:END%
 %TMPL:DEF{"message"}%
-%MAKETEXT{"Your bath cannot be filled because your [_1] is [_2] in the [_2]%TMPL:END%
+%MAKETEXT{"Your bath cannot be filled because your [_1] is [_2] the [_3]%TMPL:END%
 </verbatim>
 In this case the =oops= page will be rendered with a 418 ("I'm a teapot")
 status in the HTTP header.

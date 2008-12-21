@@ -247,6 +247,7 @@ sub _buildCommandLine {
         my @targs;
         for my $t (@tmplarg) {
             if ( $t =~ /%(.*?)(?:\|([A-Z]))?%/ ) {
+                # implicit untaint of template OK
                 my ( $p, $flag ) = ( $1, $2 );
                 if ( !exists $params{$p} ) {
                     throw Error::Simple( 'unknown parameter name ' . $p );
@@ -399,6 +400,7 @@ sub sysCommand {
 
     return '' unless $template;
 
+    # Implicit untaint OK; $template is safe
     $template =~ /(^.*?)\s+(.*)$/;
     my $path  = $1;
     my $pTmpl = $2;

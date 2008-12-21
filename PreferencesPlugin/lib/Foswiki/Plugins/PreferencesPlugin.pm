@@ -123,6 +123,7 @@ sub beforeCommonTagsHandler {
     } elsif( $action eq 'save' ) {
 
         my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+        # SMELL: unchecked implicit untaint of value?
         $text =~ s(^((?:\t|   )+\*\s(Set|Local)\s)(\w+)\s\=\s(.*)$)
           ($1._saveSet($query, $web, $topic, $3, $4, $formDef))mgeo;
         Foswiki::Func::saveTopic( $web, $topic, $meta, $text );

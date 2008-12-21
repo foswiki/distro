@@ -26,6 +26,7 @@ sub rest {
     # the path_info, but we *can* persuade Foswiki to ignore it.
     my $topic = $query->param('topic');
     if ($topic) {
+        # SMELL: excess brackets in RE?
         unless ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
             my $res = $session->{response};
             $res->header(
@@ -61,9 +62,6 @@ sub rest {
         my $cUID     = $session->{users}->getCanonicalUserID($login);
         my $WikiName = $session->{users}->getWikiName($cUID);
         $session->{users}->{loginManager}->userLoggedIn( $login, $WikiName );
-
-#TODO: its a bit odd that $session->{user} has to be manually set (expected userLoggedIn would do it)
-        $session->{user} = $cUID;
     }
 
     try {
@@ -82,10 +80,10 @@ sub rest {
 
     my $pathInfo = $query->path_info();
 
-    unless ( $pathInfo =~ /\/(.*?)[\.\/](.*?)([\.\/].*?)*$/ ) {
+    # Foswiki rest invocations are defined as having a subject (pluginName)
+    # and verb (restHandler in that plugin)
+    unless ( $pathInfo =~ m#/(.*?)[./]([^/]*)# ) {
 
-        # Foswiki rest invocations are defined as having a subject (pluginName)
-        # and verb (restHandler in that plugin)
         my $res = $session->{response};
         $res->header(
             -type   => 'text/html',
@@ -95,6 +93,7 @@ sub rest {
         throw Foswiki::EngineException( 401,
             "ERROR: (400) Invalid REST invocation", $res );
     }
+    # implicit untaint OK - validated below
     my ( $subject, $verb ) = ( $1, $2 );
 
     unless ( Foswiki::isValidWikiWord($subject) ) {

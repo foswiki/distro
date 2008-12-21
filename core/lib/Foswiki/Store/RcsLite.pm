@@ -256,8 +256,9 @@ sub _process {
             }
         }
         elsif ( $state eq 'admin.access' ) {
-            if (/^access\s*(.*);$/o) {
+            if (/^access\s*(.*);$/) {
                 $state = 'admin.symbols';
+                # Implicit untaint OK; data from ,v file
                 $this->{access} = $1;
             }
             else {
@@ -265,8 +266,9 @@ sub _process {
             }
         }
         elsif ( $state eq 'admin.symbols' ) {
-            if (/^symbols(.*);$/o) {
+            if (/^symbols(.*);$/) {
                 $state = 'admin.locks';
+                # Implicit untaint OK; data from ,v file
                 $this->{symbols} = $1;
             }
             else {
@@ -274,7 +276,7 @@ sub _process {
             }
         }
         elsif ( $state eq 'admin.locks' ) {
-            if (/^locks.*;$/o) {
+            if (/^locks.*;$/) {
                 $state = 'admin.postLocks';
             }
             else {
@@ -282,19 +284,19 @@ sub _process {
             }
         }
         elsif ( $state eq 'admin.postLocks' ) {
-            if (/^strict\s*;/o) {
+            if (/^strict\s*;/) {
                 $state = 'admin.postStrict';
             }
         }
         elsif ( $state eq 'admin.postStrict'
-            && /^comment\s.*$/o )
+            && /^comment\s.*$/ )
         {
             $state = 'admin.postComment';
             $this->{comment} = $string;
         }
         elsif (
             ( $state eq 'admin.postStrict' || $state eq 'admin.postComment' )
-            && /^expand\s/o )
+            && /^expand\s/ )
         {
             $state = 'admin.postExpand';
             $this->{expand} = $string;
@@ -312,7 +314,8 @@ sub _process {
             }
         }
         elsif ( $state eq 'delta.author' ) {
-            if (/^author\s+(.*);$/o) {
+            if (/^author\s+(.*);$/) {
+                # Implicit untaint OK; data from ,v file
                 $revs[$num]->{author} = $1;
                 if ( $num == 1 ) {
                     $state = 'desc';

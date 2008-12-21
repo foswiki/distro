@@ -10,7 +10,7 @@ require 5.006;
 #  1. ASSERT instead of assert
 #  2. has to be _explicitly enabled_ using the $ENV{ASSERT}
 #  3. should and shouldnt have been removed
-#  4. Added UNTAINTED
+#  4. Added UNTAINTED and TAINT
 #
 # Usage is as for Carp::Assert except that you have to explicitly
 # enable asserts using the environment variable ENV{FOSWIKI_ASSERTS}
@@ -19,12 +19,13 @@ require 5.006;
 
 use strict;
 
-use vars qw(@ISA $VERSION %EXPORT_TAGS);
+use vars qw(@ISA $VERSION %EXPORT_TAGS $DIRTY);
 
 BEGIN {
     $VERSION = '0.01';
+    $DIRTY = $ENV{PATH}; # Used in TAINT
 
-    $EXPORT_TAGS{NDEBUG} = [qw(ASSERT UNTAINTED DEBUG)];
+    $EXPORT_TAGS{NDEBUG} = [qw(ASSERT UNTAINTED TAINT DEBUG)];
     $EXPORT_TAGS{DEBUG}  = $EXPORT_TAGS{NDEBUG};
     Exporter::export_tags(qw(NDEBUG DEBUG));
 }
@@ -47,7 +48,7 @@ sub import {
     else {
         my $caller = caller;
         *{ $caller . '::ASSERT' }    = \&noop;
-        *{ $caller . '::UNTAINTED' } = \&ASSERTS_OFF;
+        *{ $caller . '::TAINT' }     = sub { $_[0] };
         *{ $caller . '::DEBUG' }     = \&ASSERTS_OFF;
     }
     use strict 'refs';
@@ -65,10 +66,16 @@ sub ASSERT ($;$) {
     return undef;
 }
 
+# Test if a value is untainted
 sub UNTAINTED($) {
     local ( @_, $@, $^W ) = @_;
     my $x;
     return eval { $x = $_[0], kill 0; 1 };
+}
+
+# Taint the datum passed and return the tainted value
+sub TAINT($) {
+    return substr($_[0].$DIRTY, 0, length($_[0]));
 }
 
 1;

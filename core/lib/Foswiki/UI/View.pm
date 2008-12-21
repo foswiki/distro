@@ -271,6 +271,8 @@ sub view {
     # Note: This feature is experimental and may be replaced by an
     # alternative solution not requiring additional tags.
     my ( $start, $end );
+    # SMELL: unchecked implicit untaint of data that *may* be coming from
+    # a topic (topics can be templates)
     if ( $tmpl =~ m/^(.*)%TEXT%(.*)$/s ) {
         my @starts = split( /%STARTTEXT%/, $1 );
         if ( $#starts > 0 ) {

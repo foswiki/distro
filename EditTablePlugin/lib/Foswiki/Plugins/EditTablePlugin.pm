@@ -76,14 +76,14 @@ sub initPlugin {
 }
 
 sub beforeCommonTagsHandler {
-    return unless $_[0] =~ /%EDIT(TABLE|CELL){(.*)}%/os;
+    return unless $_[0] =~ /%EDIT(TABLE|CELL){.*}%/s;
     require Foswiki::Plugins::EditTablePlugin::Core;
     Foswiki::Plugins::EditTablePlugin::Core::protectVariables(
         $_[0] );
 }
 
 sub commonTagsHandler {
-    return unless $_[0] =~ /%EDIT(TABLE|CELL){(.*)}%/os;
+    return unless $_[0] =~ /%EDIT(TABLE|CELL){.*}%/s;
 
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;

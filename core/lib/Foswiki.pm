@@ -101,25 +101,26 @@ sub _getLibDir {
 "WARNING: Foswiki lib path $foswikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
         my $bin;
 
- # TSA SMELL : Should not assume environment variables and get data from request
+ # SMELL : Should not assume environment variables; get data from request
         if (   $ENV{SCRIPT_FILENAME}
-            && $ENV{SCRIPT_FILENAME} =~ /^(.+)\/[^\/]+$/ )
+            && $ENV{SCRIPT_FILENAME} =~ m#^(.+)/.+?$# )
         {
 
             # CGI script name
+            # implicit untaint OK, because of use of $SCRIPT_FILENAME
             $bin = $1;
         }
-        elsif ( $0 =~ /^(.*)\/.*?$/ ) {
+        elsif ( $0 =~ m#^(.*)/.*?$# ) {
 
             # program name
+            # implicit untaint OK, because of use of $PROGRAM_NAME ($0)
             $bin = $1;
         }
         else {
 
             # last ditch; relative to current directory.
             require Cwd;
-            import Cwd qw( cwd );
-            $bin = cwd();
+            $bin = Cwd::cwd();
         }
         $foswikiLibDir = "$bin/$foswikiLibDir/";
 
@@ -261,15 +262,15 @@ BEGIN {
         $Foswiki::cfg{OS} = 'OS2';
     }
 
-# Validate and untaint Apache's SERVER_NAME Environment variable
-# for use in referencing virtualhost-based paths for separate data/ and templates/ instances, etc
+    # Validate and untaint Apache's SERVER_NAME Environment variable
+    # for use in referencing virtualhost-based paths for separate data/
+    # and templates/ instances, etc
 
     $ENV{SERVER_NAME} = Foswiki::Sandbox::untaint(
         $ENV{SERVER_NAME},
         sub {
-            my $sn = shift;
-            return undef unless defined $sn;
-            return $sn if $sn =~
+            return undef unless defined $ENV{SERVER_NAME};
+            return $ENV{SERVER_NAME} if $ENV{SERVER_NAME} =~
               /^(([a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?\.)+[a-z]{2,6})$/i;
             return undef;
         });
@@ -710,6 +711,7 @@ sub generateHTTPHeaders {
       || '';
     if ($pluginHeaders) {
         foreach ( split /\r?\n/, $pluginHeaders ) {
+            # Implicit untaint OK; data from plugin handler
             if (m/^([\-a-z]+): (.*)$/i) {
                 $hopts->{$1} = $2;
             }
@@ -741,27 +743,26 @@ sub generateHTTPHeaders {
 sub _isRedirectSafe {
     my $redirect = shift;
 
+    return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
+
     #TODO: this should really use URI
-    if (   ( !$Foswiki::cfg{AllowRedirectUrl} )
-        && ( $redirect =~ m!^([^:]*://[^/]*)/*(.*)?$! ) )
-    {
-        my $host = $1;
+    # Compare protocol, host name and port number
+    if ( $redirect =~ m!^(.*?://[^/]*)! ) {
+        # implicit untaints OK because result not used
+        my $target = uc( $1 );
 
-        #remove trailing /'s to match
-        $Foswiki::cfg{DefaultUrlHost} =~ m!^([^:]*://[^/]*)/*(.*)?$!;
-        my $expected = $1;
+        $Foswiki::cfg{DefaultUrlHost} =~ m!^(.*?://[^/]*)!;
+        return 1 if ( $target eq uc($1) );
 
-        if ( defined( $Foswiki::cfg{PermittedRedirectHostUrls} )
-            && $Foswiki::cfg{PermittedRedirectHostUrls} ne '' )
-        {
-            my @permitted =
-              map { s!^([^:]*://[^/]*)/*(.*)?$!$1!; $1 }
-              split( /,\s*/, $Foswiki::cfg{PermittedRedirectHostUrls} );
-            return 1 if ( grep ( { uc($host) eq uc($_) } @permitted ) );
+        if ( $Foswiki::cfg{PermittedRedirectHostUrls} ) {
+            foreach my $red (split(
+                /\s*,\s*/, $Foswiki::cfg{PermittedRedirectHostUrls} )) {
+                $red =~ m!^(.*?://[^/]*)!;
+                return 1 if ( $target eq uc($1) );
+            }
         }
-        return ( uc($host) eq uc($expected) );
     }
-    return 1;
+    return 0;
 }
 
 =begin TML
@@ -803,7 +804,7 @@ sub redirectto {
       $this->normalizeWebTopicName( $this->{webName}, $redirecturl );
 
 	# capture anchor
-    my ($topic, $anchor) = $t =~ m/^(.*)#(.*)$/;
+    my ($topic, $anchor) = split('#', $t, 2);
     $t = $topic if $topic;
     my @attrs = ();
     push (@attrs, '#'=>$anchor) if $anchor;
@@ -852,7 +853,7 @@ sub redirect {
     if ( $passthru && defined $query->method() ) {
         my $existing = '';
         if ( $url =~ s/\?(.*)$// ) {
-            $existing = $1;
+            $existing = $1; # implicit untaint OK; recombined later
         }
         if ( $query->method() eq 'POST' ) {
 
@@ -1262,8 +1263,8 @@ the web defaults to $Foswiki::cfg{UsersWebName}. If there is no topic
 specification, or the topic is '0', the topic defaults to the web home topic
 name.
 
-*WARNING* this function untaints the web and topic names, but does not check
-the validity of same.
+*WARNING* if the input topic name is tainted, then the output web and
+topic names will be tainted.
 
 =cut
 
@@ -1275,15 +1276,22 @@ sub normalizeWebTopicName {
     if ( $topic =~ m|^(.*)[./](.*?)$| ) {
         $web   = $1;
         $topic = $2;
+
+        if ( DEBUG && !UNTAINTED($_[2] )) {
+            # retaint data untainted by RE above
+            $web = TAINT($web);
+            $topic = TAINT($topic);
+        }
     }
     $web   ||= $cfg{UsersWebName};
     $topic ||= $cfg{HomeTopicName};
-    while ( $web =~
-s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/_expandTagOnTopicRendering( $this,$1)||''/e
-      )
-    {
+    # MAINWEB and TWIKIWEB expanded for compatibility reasons
+    while ( $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
+              $this->_expandTagOnTopicRendering( $1 ) || ''/e ) {
     }
-    $web =~ s#\.#/#go;
+    # Normalize web name to use / and not . as a subweb separator
+    $web =~ s#\.#/#g;
+
     return ( $web, $topic );
 }
 
@@ -1336,18 +1344,18 @@ sub new {
     require Foswiki::Store;
     $this->{store} = new Foswiki::Store($this);
 
-    $this->{remoteUser} =
-      $login;    #use login as a default (set when running from cmd line)
+    # use login as a default (set when running from cmd line)
+    $this->{remoteUser} = $login;
+
     require Foswiki::Users;
     $this->{users}      = new Foswiki::Users($this);
     $this->{remoteUser} = $this->{users}->{remoteUser};
 
-    # Make %ENV safer, preventing hijack of the search path
-    # SMELL: can this be done in a BEGIN block? Or is the environment
-    # set per-query?
-    # TWikibug:Item4382: Default $ENV{PATH} must be untainted because Foswiki runs
-    # with use strict and calling external programs that writes on the disk
-    # will fail unless Perl seens it as set to safe value.
+    # Make %ENV safer, preventing hijack of the search path. The
+    # environment is set per-query, so this can't be done in a BEGIN.
+    # TWikibug:Item4382: Default $ENV{PATH} must be untainted because
+    # Foswiki runs with use strict and calling external programs that
+    # writes on the disk will fail unless Perl seens it as set to safe value.
     if ( $Foswiki::cfg{SafeEnvPath} ) {
         $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     }
@@ -1384,6 +1392,7 @@ sub new {
         # SMELL: this is a really dangerous hack. It will fail
         # spectacularly with mod_perl.
         # SMELL: why not just use $query->script_name?
+        # SMELL: unchecked implicit untaint?
         $this->{scriptUrlPath} = $1;
     }
 
@@ -1399,13 +1408,13 @@ sub new {
             $this->redirect($topic);
             return $this;
         }
-        elsif ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
+        elsif ( $topic =~ m#^(.*)[./](.*?)$# ) {
 
-            # is 'bin/script?topic=Webname.SomeTopic'
+            # is '?topic=Webname.SomeTopic'
+            # implicit untaint OK - validated later
             $web   = $1;
             $topic = $2;
-            $web =~ s/\./\//go;
-            $web =~ s/\/$//o;
+            $web =~ s/\./\//g;
 
             # jump to WebHome if 'bin/script?topic=Webname.'
             $topic = $Foswiki::cfg{HomeTopicName} if ( $web && !$topic );
@@ -1418,21 +1427,22 @@ sub new {
     }
 
     my $pathInfo = $query->path_info();
-    $pathInfo =~ s|//*|/|g;    #multiple //'s are illogical
-    $pathInfo =~ s|/$||;    #trailing / does not mean WebHome
+    $pathInfo =~ s|//+|/|g; # multiple //'s are illogical
+    $pathInfo =~ s#/+$##;
 
     # Get the web and topic names from PATH_INFO
-    if ( $pathInfo =~ /\/((?:.*[\.\/])+)(.*)/ ) {
+    if ( $pathInfo =~ m#^/(.*)[./](.*?)$# ) {
 
-        # is 'bin/script/Webname/SomeTopic' or 'bin/script/Webname/'
+        # is '/Webname/SomeTopic' or '/Webname'
+        # implicit untaint OK - validated later
         $web   = $1 unless $web;
         $topic = $2 unless $topic;
-        $web =~ s/\./\//go;
-        $web =~ s/\/$//o;
+        $web =~ s/\./\//g;
     }
-    elsif ( $pathInfo =~ /\/(.*)/ ) {
+    elsif ( $pathInfo =~ m#^/(.*?)$# ) {
 
         # is 'bin/script/Webname' or 'bin/script/'
+        # implicit untaint OK - validated later
         $web = $1 unless $web;
     }
 
@@ -2168,6 +2178,7 @@ sub parseSections {
     foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] ) ) {
         if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
+            # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
             $attrs->{type} ||= 'section';
             $attrs->{name} =
@@ -2198,6 +2209,7 @@ sub parseSections {
         }
         elsif ( $bit =~ /^%ENDSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
+            # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
             $attrs->{type} ||= 'section';
             $attrs->{name} = $attrs->{_DEFAULT} || $attrs->{name} || '';
@@ -2672,6 +2684,7 @@ sub _processTags {
 
             # /s so you can have newlines in parameters
             if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/so ) {
+                # SMELL: unchecked implicit untaint?
                 my ( $expr, $tag, $args ) = ( $1, $2, $3 );
 
                 #print STDERR ' ' x $tell,"POP $tag\n";
@@ -3711,7 +3724,7 @@ sub ENV {
           && defined $Foswiki::cfg{AccessibleENV}
           && $key =~ /$Foswiki::cfg{AccessibleENV}/o;
     my $val;
-    if ( $key =~ /^HTTPS?_(.*)/ ) {
+    if ( $key =~ /^HTTPS?_(\w+)/ ) {
         $val = $this->{request}->header($1);
     }
     elsif ( $key eq 'REQUEST_METHOD' ) {

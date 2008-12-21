@@ -476,15 +476,9 @@ sub expireDeadSessions {
 
     opendir( D, "$Foswiki::cfg{WorkingDir}/tmp" ) || return;
     foreach my $file ( readdir(D) ) {
-        $file = Foswiki::Sandbox::untaint(
-            $file,
-            sub {
-                my $file = shift;
-                return $file if $file =~ /^(passthru|cgisess)_[0-9a-f]{32}/;
-                return undef;
-            }
-           );
-        next unless $file;
+        # Validate
+        next unless $file =~ /^((passthru|cgisess)_[0-9a-f]{32})$/;
+        $file = $1; # untaint validated file name
 
         my @stat = stat("$Foswiki::cfg{WorkingDir}/tmp/$file");
 
@@ -522,6 +516,9 @@ sub userLoggedIn {
     my ( $this, $authUser, $wikiName ) = @_;
 
     my $session = $this->{session};
+    if ($session->{users}) {
+        $session->{user} = $session->{users}->getCanonicalUserID($authUser);
+    }
     return undef if $session->inContext('command_line');
 
     if ( $Foswiki::cfg{UseClientSessions} ) {
@@ -638,6 +635,7 @@ sub _rewriteURL {
 
         # strip off existing params
         my $params = "?$Foswiki::LoginManager::Session::NAME=$sessionId";
+        # implicit untaint is OK because recombined with url later
         if ( $url =~ s/\?(.*)$// ) {
             $params .= ';' . $1;
         }

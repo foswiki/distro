@@ -89,6 +89,7 @@ sub haveTemplate {
 sub _expandTrivialTemplate {
     my ( $this, $text ) = @_;
 
+    # SMELL: unchecked implicit untaint?
     $text =~ /%TMPL\:P{(.*)}%/;
     my $attrs = new Foswiki::Attrs($1);
 
@@ -213,6 +214,7 @@ sub readTemplate {
     # recursively read template file(s)
     my $text = _readTemplateFile( $this, $name, $skins, $web );
 
+    # SMELL: unchecked implicit untaint?
     while ( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
         $text =~
 s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $web )/geo;
@@ -244,6 +246,7 @@ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $we
                 $this->{VARS}->{$key} = $val;
             }
             $key = $1;
+            # SMELL: unchecked implicit untaint?
             $val = $2;
 
         }
@@ -253,6 +256,7 @@ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $we
             $this->{VARS}->{$key} = $val;
             $key                  = '';
             $val                  = '';
+            # SMELL: unchecked implicit untaint?
             $result .= $1;
 
         }

@@ -12,9 +12,11 @@ Refer to Foswiki::Engine documentation for explanation about methos below.
 =cut
 
 package Foswiki::Engine::CLI;
+use base 'Foswiki::Engine';
 
 use strict;
-use base 'Foswiki::Engine';
+use Assert;
+
 use Foswiki::Request;
 use Foswiki::Request::Upload;
 use Foswiki::Response;
@@ -26,9 +28,9 @@ sub run {
         my $name;
         my $arg = shift @args;
         if ( $arg =~ /^-([a-z0-9_]+)/) {
-            ($name, $arg) = ($1, shift( @args ));
+            ($name, $arg) = (TAINT($1), shift( @args ));
         } elsif ( $arg =~ /([a-z0-9_]+)=(.*)$/i ) {
-            ($name, $arg) = ($1, $2);
+            ($name, $arg) = (TAINT($1), TAINT($2));
         }
         if ($name && $name eq 'user' ) {
             $this->{user} = $arg;
