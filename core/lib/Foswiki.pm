@@ -1434,7 +1434,7 @@ sub new {
         $web = $1 unless $web;
     }
 
-    my $topicNameTemp = $this->UTF82SiteCharSet( $this->{topicName} );
+    my $topicNameTemp = $this->UTF82SiteCharSet( $topic );
     if ($topicNameTemp) {
         $topic = $topicNameTemp;
     }
