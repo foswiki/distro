@@ -30,8 +30,8 @@ BEGIN {
 }
 
 # constant.pm, alas, adds too much load time (yes, I benchmarked it)
-sub ASSERTS_ON()  { 1 }    # CONSTANT
-sub ASSERTS_OFF() { 0 }    # CONSTANT
+sub ASSERTS_ON  { 1 }    # CONSTANT
+sub ASSERTS_OFF { 0 }    # CONSTANT
 
 # Export the proper DEBUG flag if FOSWIKI_ASSERTS is set,
 # otherwise export noop versions of our routines
