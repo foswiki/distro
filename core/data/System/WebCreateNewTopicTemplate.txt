@@ -57,7 +57,7 @@
 
 
 
-%TMPL:DEF{"topicname"}%<input type="text" class="foswikiInputField" name="topic" id="topic" size="40" %IF{"'%PREFILLTOPIC%'='1'" then="%BASETOPIC%"}% value="%IF{"'%URLPARAM{"topic"}%'" then="d%URLPARAM{"topic"}%" else="$percntIF{$quot $ TOPIC='WebCreateNewTopic'$quot then=$quot$quot else=$quot%TOPIC%$quot}$percnt"}%" />%TMPL:END%
+%TMPL:DEF{"topicname"}%<input type="text" class="foswikiInputField" name="topic" id="topic" size="40" %IF{"'%PREFILLTOPIC%'='1'" then="%BASETOPIC%"}% value="%IF{"'%URLPARAM{"topic"}%'" then="%URLPARAM{"topic"}%" else="$percntIF{$quot $ TOPIC='WebCreateNewTopic'$quot then=$quot$quot else=$quot%TOPIC%$quot}$percnt"}%" />%TMPL:END%
 
 
 %TMPL:DEF{"topicparent"}%%IF{"defined pickparent" then="<select name='topicparent' size='10' class='foswikiSelect'>$percntTOPICLIST{$quot<option $marker value='$name'>$name</option>$quot marker=$quotselected$quot separator=$quot$quot selection=$quot$percntURLPARAM{ $quottopicparent$quot default=$quot%MAKETEXT{"(no parent, orphaned topic)"}%$quot }$percnt$quot}$percnt<option value=$quot$quot>$percntMAKETEXT{$quot(no parent, orphaned topic)$quot}$percnt</option></select>" else="<input type='text' size='40' name='topicparent' class='foswikiInputField' value='%URLPARAM{topicparent}%' />&nbsp;<span class='foswikiUnvisited'><a id='pickparent' href='$percntSCRIPTURLPATH{view}$percnt/$percntBASEWEB$percnt/$percntBASETOPIC$percnt?pickparent=1;$percntQUERYSTRING$percnt;#NewTopic'>%MAKETEXT{"Pick from a list"}%</a></span>"}%%TMPL:END%
