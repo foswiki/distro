@@ -3,9 +3,10 @@ package FuncUsersTests;
 use strict;
 use warnings;
 
-
+# These tests should pass for all usermappers written.
 # Some basic tests for adding/removing users in the Foswiki users topic,
 # and finding them again.
+
 
 use base qw(FoswikiFnTestCase);
 
@@ -33,6 +34,10 @@ sub AllowLoginName {
     $loginname{NonExistantuser} = 'nonexistantuser';
     $loginname{ScumBag} = 'scum';
     $loginname{UserZ} = 'userz';
+
+    $loginname{DotLogin} = 'dot.login';
+    $loginname{EmailLogin} = 'email@example.com';
+
 }
 sub DontAllowLoginName {
     my $this = shift;
@@ -45,6 +50,10 @@ sub DontAllowLoginName {
     $loginname{NonExistantuser} = 'NonExistantuser';
     $loginname{ScumBag} = 'scum';   #the scum user was registered _before_ these options in the base class
     $loginname{UserZ} = 'UserZ';
+    
+    $loginname{DotLogin} = 'DotLogin';
+    $loginname{EmailLogin} = 'EmailLogin';
+
 }
 
 sub TemplateLoginManager {
@@ -122,6 +131,9 @@ sub set_up_for_verify {
 
             $this->registerUser($loginname{UserZ}, 'User', 'Z', 'userZ@example.com');
 
+            $this->registerUser($loginname{DotLogin}, 'Dot', 'Login', 'dot@example.com');
+#            $this->registerUser($loginname{EmailLogin}, 'Email', 'Login', 'email@example.com');
+
 
             $this->{twiki}->{store}->saveTopic(
                 $this->{twiki}->{user},
@@ -197,7 +209,7 @@ sub verify_eachUser {
     if ($Foswiki::cfg{UserMappingManager} eq 'Foswiki::Users::BaseUserMapping') {
          @correctList = qw/ProjectContributor RegistrationAgent UnknownUser WikiGuest/;
     } else {
-         @correctList = qw/ProjectContributor RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ WikiGuest/;
+         @correctList = qw/ProjectContributor RegistrationAgent UnknownUser User86A UserA UserA86 UserB UserC UserZ WikiGuest DotLogin/;
          if ($Foswiki::cfg{Register}{AllowLoginName} == 1) {
              push @correctList, 'ScumBag';      # this user is created in the base class with the assumption of AllowLoginName 
          } else {
@@ -746,6 +758,67 @@ sub verify_isGroupMember_extended {
     $this->assert(!Foswiki::Func::isGroupMember($Foswiki::cfg{SuperAdminGroup}, 'UserB'));
     $this->assert(!Foswiki::Func::isGroupMember($Foswiki::cfg{SuperAdminGroup}, $Foswiki::cfg{UsersWebName}.'.'.'UserB'));
 
+}
+
+#http://foswiki.org/Tasks/Item6000
+sub verify_topic_meta_usermapping {
+    my $this = shift;
+    
+    return if ($Foswiki::cfg{Register}{AllowLoginName} == 0);
+    
+    my $ret;
+    
+$Foswiki::cfg{RenderLoggedInButUnknownUsers} = 1;
+    
+    my $web = $this->{test_web};
+    my $topic = "TestStoreTopic";
+    
+    open( FILE, ">$Foswiki::cfg{TempfileDir}/testfile.gif" );
+    print FILE "one two three";
+    close(FILE);
+    
+    my $oldCfg = $Foswiki::cfg{LoginNameFilterIn};
+    $Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$%`"'&;|<>\x00-\x1f]+$/;
+    
+    my $login = 'asdf2@example.com';
+    $this->registerUser($login, 'Asdf3', 'Poiu', 'asdf2@example.com');
+    my $cUID = Foswiki::Func::getCanonicalUserID($login);
+    
+    my $text = "This is some test text\n   * some list\n   * content\n :) :)";
+    $this->{twiki}->{store}->saveTopic($login, $web, $topic, $text, undef );
+    $this->assert( $this->{twiki}->{store}->topicExists($web, $topic) );
+    my ($readMeta, $readText) = $this->{twiki}->{store}->readTopic($login, $web, $topic);
+    my ( $date, $author, $rev, $comment ) = $readMeta->getRevisionInfo();
+
+    $this->assert_equals($author, $login, $login);
+    my $revinfo = $this->{twiki}->REVINFO( {format=>'$wikiname'}, $topic, $web );
+    #Task:Item6000
+    $this->assert_equals($revinfo, 'Asdf3Poiu', 'Asdf3Poiu');
+    
+    $this->{twiki}->{store}->saveAttachment(
+        $web, $topic, "testfile.gif", $login,
+        { file => "$Foswiki::cfg{TempfileDir}/testfile.gif",
+          comment => "a comment" } );
+    ($readMeta, $readText) = $this->{twiki}->{store}->readTopic($login, $web, $topic);
+          
+    my @attachments = $readMeta->find( 'FILEATTACHMENT' );
+    foreach my $a ( @attachments ) {
+	#Task:Item6000
+	$this->assert_equals($a->{user}, $login, $login);
+    }
+    
+    #META
+    $this->{twiki}->enterContext('can_render_meta', $readMeta);
+    my $metainfo = $this->{twiki}->META( {_DEFAULT=>'attachments'}, $topic, $web );
+#Task:Item6000
+    $this->assert_str_equals($metainfo, '<div class="foswikiAttachments">
+%TABLE{valign="middle" dataalign="center,left,left,right,left,left,left,center" datavalign="top" headercolor="#0066cc" databg="#ffffff" headerbg="#ffffff" headerbgsorted="#eeeeee" databgsorted="#f5f5f5" tablerules="rows" id="foswikiAttachmentsTable" summary="%MAKETEXT{"Topic attachments"}%" caption="%MAKETEXT{"Topic attachments"}%"}%
+%TWISTY{id="topicattachmentslist" mode="div" remember="on" showlink="<h3 class=\'patternAtachmentHeader\'>&#9658; %MAKETEXT{"Attachments"}%</h3>" hidelink="<h3 class=\'patternAtachmentHeader\'>&#9660; %MAKETEXT{"Attachments"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%
+| *I* | *%MAKETEXT{"Attachment"}%* | *%MAKETEXT{"Action"}%* | *%MAKETEXT{"Size"}%* | *%MAKETEXT{"Date"}%* | *%MAKETEXT{"Who"}%* | *%MAKETEXT{"Comment"}%* |
+| <img width="16" alt="gif" align="top" src="/foswiki/pub/System/DocumentGraphics/gif.gif" height="16" border="0" /><span class="foswikiHidden">gif</span> | <a href="%ATTACHURLPATH%/%ENCODE{testfile.gif}%">testfile.gif</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"testfile.gif"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  0.1&nbsp;K|<span class="foswikiNoBreak">01 Jan 1970 - 00:00</span> |TemporaryFuncUsersUsersWeb.Asdf3Poiu  |a comment  |
+%ENDTWISTY%</div><!--//foswikiAttachments-->');
+	
+    $Foswiki::cfg{LoginNameFilterIn} = $oldCfg;
 }
 
 1;

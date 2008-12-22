@@ -976,14 +976,16 @@ sub getUser {
 
 ---++ ObjectMethod isValidLoginName( $name ) -> $boolean
 
-STATIC Check for a valid login name (not an existance check, just syntax).
+Check for a valid login name (not an existance check, just syntax).
 Default behaviour is to check the login name against
 $Foswiki::cfg{LoginNameFilterIn}
 
 =cut
 
 sub isValidLoginName {
-    my ($name) = @_;
+    my ($this, $name) = @_;
+    ASSERT(! ref($name) ) if DEBUG;	#this function was erroniously marked as static
+    
     return $name =~ /$Foswiki::cfg{LoginNameFilterIn}/;
 }
 

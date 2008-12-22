@@ -1597,5 +1597,178 @@ sub verify_resetPassword_NoWikiUsersEntry {
 
 }
 
+sub registerUserException {
+    my ($this, $loginname, $forename, $surname, $email) = @_;
+
+    my $query = new Unit::Request ({
+                          'TopicName' => [ 'UserRegistration'  ],
+                          'Twk1Email' => [ $email ],
+                          'Twk1WikiName' => [ "$forename$surname" ],
+                          'Twk1Name' => [ "$forename $surname" ],
+                          'Twk0Comment' => [ '' ],
+                          'Twk1LoginName' => [ $loginname ],
+                          'Twk1FirstName' => [ $forename ],
+                          'Twk1LastName' => [ $surname ],
+                          'action' => [ 'register' ]
+                         });
+
+    $query->path_info( "/$this->{users_web}/UserRegistration" );
+
+    my $twiki = new Foswiki(undef, $query);
+    $twiki->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
+    my $exception;
+    try {
+        Foswiki::UI::Register::register_cgi($twiki);
+    } catch Foswiki::OopsException with {
+	$exception = shift;
+	if (
+	    ("attention" eq $exception->{template})
+	    &&
+	    ("thanks" eq $exception->{def})
+	    ) {
+#print STDERR "---------".$exception->stringify()."\n";
+	    $exception = undef;	#the only correct answer
+	}
+    } catch Foswiki::AccessControlException with {
+	$exception = shift;
+    } catch Error::Simple with {
+	$exception = shift;
+    } otherwise {
+	$exception = new Error::Simple();
+    };
+    $twiki->finish();
+    # Reload caches
+    my $q = $this->{request};
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki(undef, $q);
+    $this->{twiki}->net->setMailHandler(\&FoswikiFnTestCase::sentMail);
+    
+    return $exception;
+}
+
+#$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
+#$Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$@%`"'&;|<>\x00-\x1f]+$/;
+sub verify_Default_LoginNameFilterIn {
+    my $this = shift;
+    my $ret;
+    
+    $ret = $this->registerUserException('asdf', 'Asdf', 'Poiu', 'asdf@example.com');
+    $this->assert_null($ret, "Simple rego should work");
+    
+    $ret = $this->registerUserException('asdf@example.com', 'Asdf', 'Poiu', 'asdf@example.com');
+    $this->assert_not_null($ret, "email as log should fail");
+
+#TODO: test response to undef'd login.. (and similarly for other params undef'd
+
+    $ret = $this->registerUserException('asdf2@example.com', 'Asdf2', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "email as logon should fail");
+    $this->assert_equals('attention', $ret->{template}, "email as logon should fail");
+    $this->assert_equals('bad_loginname', $ret->{def}, "email as logon should fail");
+    $this->assert_equals('asdf2@example.com', ${$ret->{params}}[0], "email as logon should fail");
+
+    $ret = $this->registerUserException('some space', 'Asdf2', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "space logon should fail");
+    $this->assert_equals('attention', $ret->{template}, "space logon should fail");
+    $this->assert_equals('bad_loginname', $ret->{def}, "space logon should fail");
+    $this->assert_equals('some space', ${$ret->{params}}[0], "space logon should fail");
+
+    $ret = $this->registerUserException('question?', 'Asdf2', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "question?logon should fail");
+    $this->assert_equals('attention', $ret->{template}, "question logon should fail");
+    $this->assert_equals('bad_loginname', $ret->{def}, "question logon should fail");
+    $this->assert_equals('question?', ${$ret->{params}}[0], "question logon should fail");
+
+}
+
+sub verify_Modified_LoginNameFilterIn_At {
+    my $this = shift;
+    my $ret;
+    
+    my $oldCfg = $Foswiki::cfg{LoginNameFilterIn};
+    $Foswiki::cfg{LoginNameFilterIn} = qr/^[^\s\*?~^\$%`"'&;|<>\x00-\x1f]+$/;
+
+    
+    $ret = $this->registerUserException('asdf', 'Asdf', 'Poiu', 'asdf@example.com');
+    $this->assert_null($ret, "Simple rego should work");
+    
+    $ret = $this->registerUserException('asdf2@example.com', 'Asdf3', 'Poiu', 'asdf2@example.com');
+    $this->assert_null($ret, "email as logon should succed");
+
+    $ret = $this->registerUserException('some space', 'Asdf4', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "space logon should fail");
+    $this->assert_equals('attention', $ret->{template}, "space logon should fail");
+    $this->assert_equals('bad_loginname', $ret->{def}, "space logon should fail");
+    $this->assert_equals('some space', ${$ret->{params}}[0], "space logon should fail");
+
+    $ret = $this->registerUserException('question?', 'Asdf5', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "question?logon should fail");
+    $this->assert_equals('attention', $ret->{template}, "question logon should fail");
+    $this->assert_equals('bad_loginname', $ret->{def}, "question logon should fail");
+    $this->assert_equals('question?', ${$ret->{params}}[0], "question logon should fail");
+
+    $Foswiki::cfg{LoginNameFilterIn} = $oldCfg;
+}
+
+sub verify_Modified_LoginNameFilterIn_Liberal {
+    my $this = shift;
+    my $ret;
+    
+    my $oldCfg = $Foswiki::cfg{LoginNameFilterIn};
+    $Foswiki::cfg{LoginNameFilterIn} = qr/^.*$/;
+
+    
+    $ret = $this->registerUserException('asdf', 'Asdf', 'Poiu', 'asdf@example.com');
+    $this->assert_null($ret, "Simple rego should work");
+    
+    $ret = $this->registerUserException('asdf@example.com', 'Asdf2', 'Poiu', 'asdf@example.com');
+    $this->assert_null($ret, "email as log should succed");
+
+    $ret = $this->registerUserException('asdf2@example.com', 'Asdf3', 'Poiu', 'asdf2@example.com');
+    $this->assert_null($ret, "email as logon should succed");
+
+    $ret = $this->registerUserException('some space', 'Asdf4', 'Poiu', 'asdf2@example.com');
+    $this->assert_null($ret, "space logon should succed");
+
+    $ret = $this->registerUserException('question?', 'Asdf5', 'Poiu', 'asdf2@example.com');
+    $this->assert_null($ret, "question?logon should succed");
+
+    $Foswiki::cfg{LoginNameFilterIn} = $oldCfg;
+}
+
+#$Foswiki::cfg{NameFilter} = qr/[\s\*?~^\$@%`"'&;|<>\[\]\x00-\x1f]/;
+#this regex is only used later in the mapper - during rego, we actually use the isWikiWord test
+sub verify_Default_NameFilter {
+    my $this = shift;
+    my $ret;
+    
+    $ret = $this->registerUserException('asdf', 'Asdf', 'Poiu', 'asdf@example.com');
+    $this->assert_null($ret, "Simple rego should work");
+    
+    $ret = $this->registerUserException('asdf2', 'Asdf@', 'Poiu', 'asdf@example.com');
+    $this->assert_not_null($ret, "at in wikiname should fail");
+    $this->assert_equals('attention', $ret->{template}, "at in name should fail");
+    $this->assert_equals('bad_wikiname', $ret->{def}, "at in name should fail");
+    $this->assert_equals('Asdf@Poiu', ${$ret->{params}}[0], "at in name should fail");
+
+    $ret = $this->registerUserException('asdf3', 'Mac Asdf', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "space in name should fail");
+    $this->assert_equals('attention', $ret->{template}, "space in name should fail");
+    $this->assert_equals('bad_wikiname', $ret->{def}, "space in name should fail");
+    $this->assert_equals('Mac AsdfPoiu', ${$ret->{params}}[0], "space in name should fail");
+
+    $ret = $this->registerUserException('asdf4', 'Asd`f2', 'Poiu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "` name should fail");
+    $this->assert_equals('attention', $ret->{template}, "space logon should fail");
+    $this->assert_equals('bad_wikiname', $ret->{def}, "space logon should fail");
+    $this->assert_equals('Asd`f2Poiu', ${$ret->{params}}[0], "space logon should fail");
+
+    $ret = $this->registerUserException('asdf5', 'Asdf2', 'Po?iu', 'asdf2@example.com');
+    $this->assert_not_null($ret, "question?logon should fail");
+    $this->assert_equals('attention', $ret->{template}, "question logon should fail");
+    $this->assert_equals('bad_wikiname', $ret->{def}, "question logon should fail");
+    $this->assert_equals('Asdf2Po?iu', ${$ret->{params}}[0], "question logon should fail");
+
+}
+
 
 1;

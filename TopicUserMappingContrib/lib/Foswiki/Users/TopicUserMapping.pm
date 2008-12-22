@@ -216,23 +216,26 @@ Converts an internal cUID to that user's login
 sub getLoginName {
     my ( $this, $cUID ) = @_;
     ASSERT($cUID) if DEBUG;
+    
+    my $login = $cUID;
 
     #can't call userExists - its recursive
     #return unless (userExists($this, $user));
 
     # Remove the mapping id in case this is a subclass
-    $cUID =~ s/$this->{mapping_id}// if $this->{mapping_id};
+    $login =~ s/$this->{mapping_id}// if $this->{mapping_id};
 
     use bytes;
 
     # Reverse the encoding used to generate cUIDs in login2cUID
     # use bytes to ignore character encoding
-    $cUID =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/gei;
+    $login =~ s/_([0-9a-f][0-9a-f])/chr(hex($1))/gei;
     no bytes;
 
-    return undef unless _userReallyExists( $this, $cUID );
+    return undef unless _userReallyExists( $this, $login );
+    return undef unless ($cUID eq $this->login2cUID($login));
 
-    return $cUID;
+    return $login;
 }
 
 # test if the login is in the WikiUsers topic, or in the password file
@@ -575,7 +578,6 @@ sub eachUser {
         my $login    = $this->{session}->{users}->getLoginName($cUID);
         my $wikiname = $this->{session}->{users}->getWikiName($cUID);
 
-        #print STDERR "**** $cUID  $login  $wikiname \n";
         require Foswiki::Plugins;
         return !( $Foswiki::Plugins::SESSION->{users}->{basemapping}
             ->handlesUser( undef, $login, $wikiname ) );
