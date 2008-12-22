@@ -109,7 +109,7 @@ sub makeLoginManager {
     }
     else {
 
-        # Rename from old "Client" to new "LoginManager" - see Bugs:Item3375
+        # Rename from old "Client" to new "LoginManager" - see TWikibug:Item3375
         $Foswiki::cfg{LoginManager} =~ s/::Client::/::LoginManager::/;
         my $loginManager = $Foswiki::cfg{LoginManager};
         if ( $session->inContext('sudo_login') )

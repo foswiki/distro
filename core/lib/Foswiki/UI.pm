@@ -135,7 +135,8 @@ sub execute {
 
     my $cache = $req->param('foswiki_redirect_cache');
 
-# Never trust input data from a query. We will only accept an MD5 32 character string
+    # Never trust input data from a query. We will only accept
+    # an MD5 32 character string
     if ( $cache && $cache =~ /^([a-f0-9]{32})$/ ) {
         $cache = $1;
 
@@ -164,7 +165,9 @@ sub execute {
         }
     }
 
-    my $session = new Foswiki( $req->remoteUser, $req, \%initialContext );
+    # DO NOT pass in $req->remoteUser here (even though it appears to be right)
+    # because it may occlude the login manager.
+    my $session = new Foswiki( undef, $req, \%initialContext );
     my $res = $session->{response};
 
     unless ( defined $session->{response}->status()
