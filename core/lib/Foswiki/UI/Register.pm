@@ -880,13 +880,8 @@ sub complete {
     }
 
     $data->{WikiName} = Foswiki::Sandbox::untaint(
-        $data->{WikiName},
-        sub {
-            my $wn = shift;
-            throw Error::Simple('bad WikiName after reload')
-              unless $wn && Foswiki::isValidTopicName($wn);
-            return $wn;
-        });
+        $data->{WikiName}, \&Foswiki::Sandbox::validateTopicName);
+    throw Error::Simple('bad WikiName after reload') unless $data->{WikiName};
 
     if ( !exists $data->{LoginName} ) {
         if ( $Foswiki::cfg{Register}{AllowLoginName} ) {

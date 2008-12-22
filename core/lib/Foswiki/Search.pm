@@ -624,15 +624,9 @@ sub searchWeb {
     foreach my $web (@webs) {
 
         $web = Foswiki::Sandbox::untaint(
-            $web, sub {
-                my $web = shift;
-                if ( Foswiki::isValidWebName( $web )
-                    && $store->webExists($web)) {
-                    return $web;
-                }
-                return undef;
-            });
+            $web, \&Foswiki::Sandbox::validateWebName);
         next unless defined $web;
+        next unless $store->webExists($web);
 
         my $thisWebNoSearchAll =
           $prefs->getWebPreferencesValue( 'NOSEARCHALL', $web ) || '';

@@ -46,7 +46,7 @@ my %reservedFieldNames = map { $_ => 1 }
 ---++ ClassMethod new ( $session, $web, $form, \@def )
 
 Looks up a form in the session object or, if it hasn't been read yet,
-reads it frm the form definition topic on disc.
+reads it from the form definition topic on disc.
    * =$web= - default web to recover form from, if =$form= doesn't
      specify a web
    * =$form= - name of the form
@@ -63,6 +63,16 @@ sub new {
     my ( $class, $session, $web, $form, $def ) = @_;
 
     ( $web, $form ) = $session->normalizeWebTopicName( $web, $form );
+
+    # Validate
+    $web = Foswiki::Sandbox::untaint(
+        $web, \&Foswiki::Sandbox::validateWebName );
+    $form = Foswiki::Sandbox::untaint(
+        $form, \&Foswiki::Sandbox::validateTopicName );
+
+    unless ($web && $form) {
+        throw Error::Simple("Invalid form name");
+    }
 
     my $this = $session->{forms}->{"$web.$form"};
     unless ($this) {

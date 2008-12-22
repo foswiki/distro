@@ -110,7 +110,7 @@ sub untaintUnchecked {
 Calls &$method($datum, ...) and if it returns a non-undef result, returns
 that result after untainting it. Otherwise returns undef.
 
-$method can indicate a validation problem in a couple of ways. First, it
+\&method can indicate a validation problem in a couple of ways. First, it
 can throw an exception. Second, it can return undef, which then causes
 the untaint function to return undef.
 
@@ -127,6 +127,36 @@ sub untaint {
         return $1;
     }
     return $datum;
+}
+
+=begin TML
+
+---++ StaticMethod validateWebName($name) -> $web
+
+Check that the name is valid for use as a web name. Method used for
+validation with untaint(). Returns the name, or undef if it is invalid.
+
+=cut
+
+sub validateWebName {
+    my $web = shift;
+    return $web if Foswiki::isValidWebName($web, 1);
+    return undef;
+}
+
+=begin TML
+
+---++ StaticMethod validateTopicName($name) -> $topic
+
+Check that the name is valid for use as a topic name. Method used for
+validation with untaint(). Returns the name, or undef if it is invalid.
+
+=cut
+
+sub validateTopicName {
+    my $topic = shift;
+    return $topic if Foswiki::isValidTopicName($topic, 1);
+    return undef;
 }
 
 =begin TML

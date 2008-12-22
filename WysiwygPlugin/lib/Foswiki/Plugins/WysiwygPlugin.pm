@@ -740,17 +740,9 @@ sub _restUpload {
     my ($web, $topic) = Foswiki::Func::normalizeWebTopicName( undef,
         $query->param('topic'));
     $web = Foswiki::Sandbox::untaint(
-        $web,
-        sub {
-            return $web if Foswiki::Func::isValidWebName($web, 1);
-            return undef;
-        });
+        $web, \&Foswiki::Sandbox::validateWebName );
     $topic = Foswiki::Sandbox::untaint(
-        $topic,
-        sub {
-            return $topic if Foswiki::Func::isValidTopicName($topic, 1);
-            return undef;
-        });
+        $topic, \&Foswiki::Sandbox::validateTopicName );
     unless (defined $web && defined $topic) {
         returnRESTResult($response, 401, "Access denied");
         return undef; # to prevent further processing
@@ -854,17 +846,9 @@ sub _restAttachments {
     my ($web, $topic) = Foswiki::Func::normalizeWebTopicName(
         undef, Foswiki::Func::getCgiQuery()->param('topic'));
     $web = Foswiki::Sandbox::untaint(
-        $web,
-        sub {
-            return $web if Foswiki::Func::isValidWebName($web, 1);
-            return undef;
-        });
+        $web, \&Foswiki::Sandbox::validateWebName);
     $topic = Foswiki::Sandbox::untaint(
-        $topic,
-        sub {
-            return $topic if Foswiki::Func::isValidTopicName($topic, 1);
-            return undef;
-        });
+        $topic, \&Foswiki::Sandbox::validateTopicName);
     my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
     unless (Foswiki::Func::checkAccessPermission(
         'VIEW', Foswiki::Func::getWikiName(), $text, $topic, $web, $meta)) {

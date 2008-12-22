@@ -121,11 +121,7 @@ sub statistics {
         # do specific webs
         foreach my $web (split( /,\s*/, $webSet )) {
             $web = Foswiki::Sandbox::untaint(
-                $web,
-                sub {
-                    return $web if Foswiki::isValidWebName($web);
-                    return $web;
-                });
+                $web, \&Foswiki::Sandbox::validateWebName);
             push(@weblist, $web) if $web;
         }
     }
