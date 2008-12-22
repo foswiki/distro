@@ -603,6 +603,8 @@ sub test_protocols {
         'https://flim.flam.example.com/path' => 0,
         'irc://irc.com/' => 0,
         'mailto:pitiful@example.com' => '<a href="mailto:pitiful@exampleSTUFFED.com">mailto:pitiful@exampleSTUFFED.com</a>',
+        'mailto:pitiful@example.com.au' => '<a href="mailto:pitiful@exampleSTUFFED.com.au">mailto:pitiful@exampleSTUFFED.com.au</a>',
+        'mailto:pitiful@server.example.com.au' => '<a href="mailto:pitiful@serverSTUFFED.example.com.au">mailto:pitiful@serverSTUFFED.example.com.au</a>',
         'news:b52.on.moon'=> 0,
         'nntp:slobba.dobba'=>0,
         'telnet://some.address:5' => 0,
@@ -635,6 +637,23 @@ EXPECTED
 [[mailto:flip\@example.com][Oh smeg]]
 ACTUAL
     $this->do_test($expected, $actual);
+    
+    $expected = <<EXPECTED;
+<a href="mailto:flip\@exampleSTUFFED.com.au">mailto:flip\@exampleSTUFFED.com.au</a>
+EXPECTED
+    $actual = <<ACTUAL;
+mailto:flip\@example.com.au
+ACTUAL
+    $this->do_test($expected, $actual);
+
+    $expected = <<EXPECTED;
+<a href="mailto:flip\@exampleSTUFFED.com.au">flip\@exampleSTUFFED.com.au</a>
+EXPECTED
+    $actual = <<ACTUAL;
+flip\@example.com.au
+ACTUAL
+    $this->do_test($expected, $actual);
+
 
     $Foswiki::cfg{AntiSpam}{HideUserDetails} = 1;
     $expected = <<EXPECTED;
