@@ -551,6 +551,8 @@ msgstr "En skabelon-side kan benyttes som skabelon for indholdet af nye sider."
 #: ../core/data/System/TopicDoesNotExistViewTemplate.txt:22
 msgid "A topic with this name did exist, but has been renamed or moved to %1."
 msgstr ""
+"En side med dette navn har eksisteret men er blevet omd�ller "
+"flyttet til %1."
 
 #: ../core/templates/oopsaccessdenied.tmpl:6
 msgid "Access Denied"
@@ -784,7 +786,7 @@ msgstr "Basis-webbet %1 mangler eller er ikke oprettet"
 
 #: ../core/lib/Foswiki/OopsException.pm:41
 msgid "Bathing problem"
-msgstr ""
+msgstr "Bade problem"
 
 #: ../core/data/System/WebSearch.txt:31
 #: ../core/data/System/WebSearchAdvanced.txt:40
@@ -1021,6 +1023,8 @@ msgid ""
 "Copy text and form data to a new topic (no attachments will be copied "
 "though)."
 msgstr ""
+"Kopier tekst og form data til new side (dog vil ingen vedhæftede filer "
+"blive kopierede)"
 
 #: ../core/templates/oopsmore.tmpl:19
 msgid "Copy topic"
@@ -1384,7 +1388,7 @@ msgstr "Filen er blevet uploadet under et ændret navn"
 
 #: ../core/data/System/TopicDoesNotExistViewTemplate.txt:11
 msgid "Find similar topics"
-msgstr ""
+msgstr "Find lignende sider"
 
 #: ../core/templates/oopsmore.tmpl:54 ../core/templates/oopsmore.tmpl:56
 msgid "Find topics that link to %1 ..."
@@ -1532,6 +1536,8 @@ msgid ""
 "may be a fraudulent registration.  The user '%1' could not be removed "
 "automatically."
 msgstr ""
+"men afsendelse af bekræftelses-email til %2 mislykkedes, hvilket tyder på "
+"en falsk registrering. Brugeren '%1' kunne ikke fjernes automatisk."
 
 #: ../core/templates/registerfailedremoved.tmpl:14
 msgid ""
@@ -1539,6 +1545,9 @@ msgid ""
 "maye be a fraudulent registration.  The user '%1' was removed automatically. "
 "However you may have to remove the user's personal topic manually."
 msgstr ""
+"men afsendelse af bekræftelses-email til %2 mislykkedes, hvilket tyder på "
+"en falsk registrering. Brugeren '%1' blev fjernet automatisk."
+"Men du bliver måske nødt til at slette brugerens personlige side manuelt."
 
 #: ../core/templates/messages.tmpl:360
 msgid ""
@@ -1587,7 +1596,7 @@ msgstr "Hvis du kom hertil ved at klikke på et spørgsmålstegns-link"
 
 #: ../core/templates/messages.tmpl:247
 msgid "If you don't receive a verification email within the next hour, "
-msgstr ""
+msgstr "Hvis du ikke modtager en bekræftelses-email inden den næste time, "
 
 #: ../PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
 msgid "If you enter a different name, make sure the topic does  exist."
@@ -2192,7 +2201,7 @@ msgstr "Præferencer for"
 
 #: ../core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
-msgstr ""
+msgstr "Problem med a fylde badekar"
 
 #: ../PatternSkin/templates/attach.pattern.tmpl:53
 msgid "Properties"
@@ -2757,11 +2766,11 @@ msgstr ""
 #: ../core/data/Trash/WebRss.txt:5 ../core/data/_default/WebAtom.txt:3
 #: ../core/data/_default/WebRss.txt:5
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr ""
+msgstr "%1 webben i Foswiki, the Free and Open Source Wiki."
 
 #: ../core/data/Sandbox/WebRss.txt:5
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
-msgstr ""
+msgstr "%1 webben i Foswiki, the Free and Open Source Wiki."
 
 #: ../core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -2833,7 +2842,7 @@ msgstr "Låsen på denne side udløb for %1 siden."
 
 #: ../core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
-msgstr ""
+msgstr "Sidenavnet må ikke være tomt."
 
 #: ../core/templates/moveattachment.tmpl:16
 msgid "The new topic chosen must already exist."
@@ -2982,6 +2991,8 @@ msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
 msgstr ""
+"For at vise ovenstående søgeresultater i en side, kopier-indsæt følgende "
+"kode:"
 
 #: ../TopicUserMappingContrib/data/System/UserRegistration.txt:5
 msgid ""
@@ -3020,7 +3031,7 @@ msgstr "Til web:"
 #: ../PatternSkin/data/_default/WebLeftBar.txt:3
 #: ../TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:3
 msgid "Toolbox"
-msgstr ""
+msgstr "Værktøjer"
 
 #: ../core/data/System/TopicDoesNotExistViewTemplate.txt:
 msgid "Topic %1 does not exist"
@@ -3246,7 +3257,7 @@ msgstr "Vis komplet historik for siden"
 
 #: ../core/lib/Foswiki/OopsException.pm:46
 msgid "Warning"
-msgstr ""
+msgstr "Advarsel"
 
 #: ../EditTablePlugin/data/System/EditTablePlugin.txt:179
 msgid "Warning: 'include' topic does not exist!"
@@ -3303,7 +3314,7 @@ msgstr ""
 
 #: ../core/templates/messages.tmpl:243
 msgid "While attempting to email <noautolink>%1</noautolink>."
-msgstr ""
+msgstr "Under forsøg på at emaile <noautolink>%1</noautolink>."
 
 #: ../core/templates/attachtables.tmpl:37
 #: ../core/templates/attachtables.tmpl:4
@@ -3446,7 +3457,7 @@ msgstr ""
 
 #: ../core/templates/messages.tmpl:92
 msgid "You must pass a topic name."
-msgstr ""
+msgstr "Du skal angive et sidenavn"
 
 #: ../core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3539,7 +3550,7 @@ msgstr ""
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
-msgstr ""
+msgstr "Din bekræftelses-email er enten fejlet eller i kø i mail systemet."
 
 #: ../PatternSkin/templates/edit.pattern.tmpl:70
 msgid "Your signature to copy/paste"
