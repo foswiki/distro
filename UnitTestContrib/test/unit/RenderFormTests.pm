@@ -243,7 +243,7 @@ Defect</textarea></td></tr>
 <tr><th align="right">Issue 5</th><td align="left"><select name="Issue5" multiple="on" class="foswikiSelect" size="3"><option class="foswikiOption" selected="selected">Foo</option><option class="foswikiOption">Bar</option><option class="foswikiOption" selected="selected">Baz</option></select><input type="hidden" name="Issue5" value="" /></td></tr> </table>  </div>
 HERE
 
-    Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
+    #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
 
     my $viewUrl = $this->{twiki}->getScriptUrl(0, 'view');
     $expected =~ s/%VIEWURL%/$viewUrl/g;
@@ -262,6 +262,53 @@ sub test_render_hidden {
     $this->assert_html_equals(<<'HERE', $res);
 <input type="hidden" name="IssueName" value="_An issue_"  /><input type="hidden" name="State" value="Invisible"  /><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><input type="hidden" name="Issue1" value="*Defect*"  /><input type="hidden" name="Issue2" value="Enhancement"  /><input type="hidden" name="Issue3" value="Defect"  /><input type="hidden" name="Issue3" value="None"  /><input type="hidden" name="Issue4" value="Defect"  /><input type="hidden" name="Issue5" value="Foo"  /><input type="hidden" name="Issue5" value="Baz"  />
 HERE
+}
+
+sub test_nondefined_form {
+    my $this = shift;
+    my $web = $this->{test_web};
+    my $topic = 'FormDoesntExist';
+   
+    my $rawtext = '
+%META:FORM{name="NonExistantPluginTestForm"}%
+%META:FIELD{name="ExtensionName" attributes="" title="ExtensionName" value="Example"}%
+%META:FIELD{name="TopicClassification" attributes="" title="TopicClassification" value="SkinPackage"}%
+%META:FIELD{name="TestedOnFoswiki" attributes="" title="TestedOnFoswiki" value=""}%
+%META:FIELD{name="TestedOnTWiki" attributes="" title="TestedOnTWiki" value=""}%
+%META:FIELD{name="TestedOnOS" attributes="" title="TestedOnOS" value="AnyOS"}%
+%META:FIELD{name="ShouldRunOnOS" attributes="" title="ShouldRunOnOS" value="AnyOS"}%
+%META:FIELD{name="DemoUrl" attributes="" title="DemoUrl" value="http://"}%
+%META:FIELD{name="DevelopedInSVN" attributes="" title="DevelopedInSVN" value="No"}%
+%META:FIELD{name="ModificationPolicy" attributes="" title="ModificationPolicy" value="ContactAuthorFirst"}%';
+
+    Foswiki::Func::saveTopic( $web, $topic, undef, $rawtext );
+        
+    my ($meta, $text) =
+      $this->{twiki}->{store}->readTopic(undef, $web, $topic);
+    my $res = $meta->renderFormForDisplay();
+
+    $this->assert_html_equals(<<'HERE', $res);
+<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm][NonExistantPluginTestForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
+ContactAuthorFirst
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
+Example
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TopicClassification </td><td>
+SkinPackage
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnFoswiki </td><td>
+
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnTWiki </td><td>
+
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnOS </td><td>
+AnyOS
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ShouldRunOnOS </td><td>
+AnyOS
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> DemoUrl </td><td>
+http://
+</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> DevelopedInSVN </td><td>
+No
+</td></tr></table></div><!-- /foswikiForm -->
+HERE
+    
 }
 
 1;
