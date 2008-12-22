@@ -53,7 +53,7 @@ The main difference between invoking this script and using WebChanges is that We
 *NOTE*: The result from =changes= script and the topic WebChanges can be different, if the =changes= file is deleted from a web. In particular, in new installations the =changes= script will return no results while the WebChanges topic will.
 
 ---+++ =configure=
-=configure= is the browser script used for inspection of, and cahnges to, the site configuration. None of the parameters to this script are useable for any purpose except =configure=. See [[%SCRIPTURLPATH{"configure"}%][configure]].
+=configure= is the browser script used for inspection of, and changes to, the site configuration. None of the parameters to this script are useable for any purpose except =configure=. See [[%SCRIPTURLPATH{"configure"}%][configure]].
 
 ---+++ =edit=
 The =edit= script understands the following parameters, typically supplied by HTML input fields:

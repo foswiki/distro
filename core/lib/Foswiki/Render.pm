@@ -931,7 +931,7 @@ sub renderFORMFIELD {
     my $altText   = $params->{alttext};
     my $default   = $params->{default};
     my $rev       = $params->{rev};
-    my $format    = $params->{'format'};
+    my $format    = $params->{format};
 
     unless ($format) {
 
@@ -979,7 +979,7 @@ sub renderFORMFIELD {
         };
     }
 
-    my $text  = '';
+    my $text  = $format;
     my $found = 0;
     my $title = '';
     if ($meta) {
@@ -989,25 +989,31 @@ sub renderFORMFIELD {
             $title = $field->{title} || $name;
             if ( $title eq $formField || $name eq $formField ) {
                 $found = 1;
+                $text =~ s/\$title/$title/go;
                 my $value = $field->{value};
 
-                if ( length $value ) {
-                    $text = $format;
-                    $text =~ s/\$value/$value/go;
+                if ( !length( $value ) ) {
+                    $value = defined( $default ) ? $default : '';
                 }
-                elsif ( defined $default ) {
-                    $text = $default;
+                $text =~ s/\$value/$value/go;
+                $text =~ s/\$name/$name/g;
+                if( $text =~ m/\$form/ ) {
+                    my @defform = $meta->find('FORM');
+                    my $form = $defform[0]; # only one form per topic
+                    my $fname = $form->{name};
+                    $text =~ s/\$form/$fname/g;
                 }
-                last;    #one hit suffices
+
+                last;    # one hit suffices
             }
         }
     }
 
-    unless ($found) {
+    if ($found) {
+        $text = Foswiki::expandStandardEscapes( $text );
+    } else {
         $text = $altText || '';
     }
-
-    $text =~ s/\$title/$title/go;
 
     return $text;
 }
