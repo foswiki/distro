@@ -1174,6 +1174,8 @@ msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
 msgstr ""
+"Stavede du dit navn rigtigt? Husk at et sidenavn er følsomt for "
+"store og små bodstaver."
 
 #: core/data/System/VarMAKETEXT.txt:19
 msgid "Did you want to [[%1][reset %2's password]]?"
@@ -3232,12 +3234,10 @@ msgstr ""
 "%2"
 
 #: core/templates/messages.tmpl:459
-#, fuzzy
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Advarsel: Kan ikke INCLUDE siden %1 rekursivt, siden er allerede inkluderet. "
-"%2"
+"Advarsel: Kan ikke INCLUDE %1, navnet er tomt eller indeholder ugyldige tegn."
 
 #: core/templates/messages.tmpl:457
 msgid "Warning: Can't find topic %1.%2"
