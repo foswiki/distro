@@ -3343,11 +3343,26 @@ sub INCLUDE {
     for my $p qw(_DEFAULT pattern rev section raw warn) {
         $control{$p} = $params->remove($p);
     }
+
+    $control{warn} ||= $this->{prefs}->getPreferencesValue('INCLUDEWARNING');
+
+    # make sure we have something to include. If we don't do this, then
+    # normalizeWebTopicName will default to WebHome. TWikibug:Item2209.
+    unless ($control{_DEFAULT}) {
+        return _includeWarning( $this, $control{warn},
+                                'bad_include_path', '' );
+    }
+
+    # Filter out '..' from path to prevent includes of '../../file'
+    if ($Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./) {
+        return _includeWarning( $this, $control{warn},
+                                'bad_include_path', $control{_DEFAULT} );
+    }
+
     # no sense in considering an empty string as an unfindable section
     delete $control{section} if (
         defined($control{section}) && $control{section} eq '' );
     $control{raw} ||= '';
-    $control{warn} ||= $this->{prefs}->getPreferencesValue('INCLUDEWARNING');
     $control{inWeb} = $includingWeb;
     $control{inTopic} = $includingTopic;
     if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
@@ -3361,27 +3376,6 @@ sub INCLUDE {
     }
 
     # No protocol handler; must be a topic reference
-    if ( $Foswiki::cfg{DenyDotDotInclude} ) {
-
-        # Filter out '..' from path, this is to
-        # prevent includes of '../../file'
-        if ($control{_DEFAULT} =~ /\.\./) {
-            # SMELL: could do with a different message here, but don't want to
-            # add one right now because translators are already working
-            return _includeWarning( $this, $control{warn}, 'topic_not_found',
-                                    '""', '""' );
-        }
-    }
-
-    # make sure we have something to include. If we don't do this, then
-    # normalizeWebTopicName will default to WebHome. Item2209.
-    unless ($control{_DEFAULT}) {
-
-        # SMELL: could do with a different message here, but don't want to
-        # add one right now because translators are already working
-        return _includeWarning( $this, $control{warn}, 'topic_not_found',
-                                '""', '""' );
-    }
 
     my $text = '';
     my $meta = '';

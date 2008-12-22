@@ -456,6 +456,7 @@
 %TMPL:DEF{"bad_content"}%        %MAKETEXT{"Error: Unsupported content type: [_1] (Must be =text/html=, =text/plain= or =text/css=)" args="%PARAM1%"}% %TMPL:END%
 %TMPL:DEF{"topic_not_found"}%    %MAKETEXT{"Warning: Can't find topic [_1].[_2]" args="<nop>%PARAM1%, <nop>%PARAM2%"}% %TMPL:END%
 %TMPL:DEF{"already_included"}%   %MAKETEXT{"Warning: Can't INCLUDE [_1] repeatedly, topic is already included. [_2]" args="<nop>%PARAM1%, %PARAM2%"}% %TMPL:END%
+%TMPL:DEF{"bad_include_path"}%   %MAKETEXT{"Warning: Can't INCLUDE '[_1]', path is empty or contains illegal characters." args="<nop>%PARAM1%"}% %TMPL:END%
 %TMPL:DEF{"generic"}%            %PARAM1% %PARAM2% %PARAM3% %PARAM4% %TMPL:END%
 %TMPL:DEF{"missing_user"}%       %MAKETEXT{"The entry for user [_1] was missing in the password system." args="%PARAM1%"}% %TMPL:END%
 %TMPL:DEF{"bad_user"}%           %MAKETEXT{"Can't find user [_1]" args="%PARAM1%"}%%TMPL:END%
