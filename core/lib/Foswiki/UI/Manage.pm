@@ -4,7 +4,9 @@
 
 ---+ package Foswiki::UI::Manage
 
-UI functions for web, topic and user management
+UI functions for web, topic and user management. The =manage= script is
+a dispatcher for a number of admin functions that are gathered
+in one place.
 
 =cut
 
@@ -24,8 +26,7 @@ require Foswiki::Sandbox;
 ---++ StaticMethod manage( $session )
 
 =manage= command handler.
-This method is designed to be
-invoked via the =UI::run= method.
+This method is designed to be invoked via the =UI::run= method.
 
 =cut
 
@@ -34,114 +35,51 @@ sub manage {
 
     my $action = $session->{request}->param('action') || '';
 
-    if ( $action eq 'createweb' ) {
-        _createWeb($session);
-    }
-    elsif ( $action eq 'changePassword' ) {
-        require Foswiki::UI::Register;
-        Foswiki::UI::Register::changePassword($session);
-    }
-    elsif ( $action eq 'resetPassword' ) {
-        require Foswiki::UI::Register;
-        Foswiki::UI::Register::resetPassword($session);
-    }
-    elsif ( $action eq 'bulkRegister' ) {
-        require Foswiki::UI::Register;
-        Foswiki::UI::Register::bulkRegister($session);
-    }
-    elsif ( $action eq 'deleteUserAccount' ) {
-        _removeUser($session);
-    }
-    elsif ( $action eq 'editSettings' ) {
-        _editSettings($session);
-    }
-    elsif ( $action eq 'saveSettings' ) {
-        _saveSettings($session);
-    }
-    elsif ( $action eq 'restoreRevision' ) {
-        _restoreRevision($session);
-    }
-    elsif ( $action eq 'create' ) {
-        _createTopic($session);
-    }
-    elsif ($action) {
-        throw Foswiki::OopsException(
-            'attention',
-            def    => 'unrecognized_action',
-            params => [$action]
-        );
+    # Dispatch to action function
+    if (defined $action) {
+        my $method = 'Foswiki::UI::Manage::_action_'.$action;
+
+        if (defined \&$method) {
+            no strict 'refs';
+            &$method($session);
+            use strict 'refs';
+        }
+        else {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'unrecognized_action',
+                params => [$action]
+               );
+        }
     }
     else {
         throw Foswiki::OopsException( 'attention', def => 'missing_action' );
     }
 }
 
-# Renames the *current* user's topic (with renaming all links) and
-# removes user entry from passwords. CGI parameters:
-sub _removeUser {
+sub _action_changePassword {
+    my $session = shift;
+    require Foswiki::UI::Register;
+    Foswiki::UI::Register::changePassword($session);
+}
+
+sub _action_resetPassword {
+    my $session = shift;
+    require Foswiki::UI::Register;
+    Foswiki::UI::Register::resetPassword($session);
+}
+
+sub _action_bulkRegister {
+    my $session = shift;
+    require Foswiki::UI::Register;
+    Foswiki::UI::Register::bulkRegister($session);
+}
+
+sub _action_deleteUserAccount {
     my $session = shift;
 
-    my $webName = $session->{webName};
-    my $topic   = $session->{topicName};
-    my $query   = $session->{request};
-    my $cUID    = $session->{user};
-
-    my $password = $query->param('password');
-
-    # check if user entry exists
-    my $users = $session->{users};
-    if ( !$users->userExists($cUID) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'not_a_user',
-            params => [ $session->{users}->getWikiName($cUID) ]
-        );
-    }
-
-    #check to see it the user we are trying to remove is a member of a group.
-    #initially we refuse to delete the user
-    #in a later implementation we will remove the from the group
-    #(if Access.pm implements it..)
-    my $git = $users->eachMembership($cUID);
-    if ( $git->hasNext() ) {
-        my $list = '';
-        while ( $git->hasNext() ) {
-            $list .= ' ' . $git->next();
-        }
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'in_a_group',
-            params => [ $session->{users}->getWikiName($cUID), $list ]
-        );
-    }
-
-    unless (
-        $users->checkPassword(
-            $session->{users}->getLoginName($cUID), $password
-        )
-      )
-    {
-        throw Foswiki::OopsException(
-            'attention',
-            web   => $webName,
-            topic => $topic,
-            def   => 'wrong_password'
-        );
-    }
-
-    $users->removeUser($cUID);
-
-    throw Foswiki::OopsException(
-        'attention', status => 200,
-        def    => 'remove_user_done',
-        web    => $webName,
-        topic  => $topic,
-        params => [ $users->getWikiName($cUID) ]
-    );
+    require Foswiki::UI::Register;
+    Foswiki::UI::Register::deleteUser($session);
 }
 
 sub _isValidHTMLColor {
@@ -151,7 +89,7 @@ m/^(#[0-9a-f]{6}|black|silver|gray|white|maroon|red|purple|fuchsia|green|lime|ol
 
 }
 
-sub _createWeb {
+sub _action_createweb {
     my $session = shift;
 
     my $topicName = $session->{topicName};
@@ -535,7 +473,7 @@ sub _safeTopicName {
 
 =begin TML
 
----++ StaticMethod _createTopic()
+---++ StaticMethod _action_create()
 
 Creates a topic to new topic with name passed in query param 'topic'.
 Creates an exception when the topic name is not valid; the topic name does not have to be a WikiWord if parameter 'nonwikiword' is set to 'on'.
@@ -552,7 +490,7 @@ Copy an existing topic using:
 
 =cut
 
-sub _createTopic {
+sub _action_create {
     my ($session) = @_;
 
     my $query = $session->{request};
@@ -1572,7 +1510,7 @@ sub _updateWebReferringTopics {
     }
 }
 
-sub _editSettings {
+sub _action_editSettings {
     my $session = shift;
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
@@ -1605,7 +1543,7 @@ sub _editSettings {
 
 }
 
-sub _saveSettings {
+sub _action_saveSettings {
     my $session = shift;
     my $topic   = $session->{topicName};
     my $web     = $session->{webName};
@@ -1675,31 +1613,10 @@ sub _handleSave {
     return '';
 }
 
-sub _restoreRevision {
+sub _action_restoreRevision {
     my ($session) = @_;
-    my $topic     = $session->{topicName};
-    my $web       = $session->{webName};
 
-    # read the current topic
-    my ( $meta, $text ) =
-      $session->{store}->readTopic( undef, $web, $topic, undef );
-    my $cUID = $session->{user};
-    if (
-        !$session->security->checkAccessPermission(
-            'change', $cUID, $text, $meta, $topic, $web
-        )
-      )
-    {
-
-        # user has no permission to change the topic
-        throw Foswiki::OopsException(
-            'accessdenied', status => 403,
-            def    => 'topic_access',
-            web    => $web,
-            topic  => $topic,
-            params => [ 'change', 'denied' ]
-        );
-    }
+    # edit handles all the parameters we require
     $session->{request}->delete('action');
     require Foswiki::UI::Edit;
     Foswiki::UI::Edit::edit($session);

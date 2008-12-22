@@ -785,6 +785,81 @@ sub verifyEmailAddress {
 
 }
 
+=begin TML
+
+---++ StaticMethod deleteUser($session)
+CGI function that deletes the current user
+Renames the *current* user's topic (with renaming all links) and
+removes user entry from passwords.
+
+=cut
+
+sub deleteUser {
+    my $session = shift;
+
+    my $webName = $session->{webName};
+    my $topic   = $session->{topicName};
+    my $query   = $session->{request};
+    my $cUID    = $session->{user};
+
+    my $password = $query->param('password');
+
+    # check if user entry exists
+    my $users = $session->{users};
+    if ( !$users->userExists($cUID) ) {
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'not_a_user',
+            params => [ $session->{users}->getWikiName($cUID) ]
+        );
+    }
+
+    #check to see it the user we are trying to remove is a member of a group.
+    #initially we refuse to delete the user
+    #in a later implementation we will remove the from the group
+    #(if Access.pm implements it..)
+    my $git = $users->eachMembership($cUID);
+    if ( $git->hasNext() ) {
+        my $list = '';
+        while ( $git->hasNext() ) {
+            $list .= ' ' . $git->next();
+        }
+        throw Foswiki::OopsException(
+            'attention',
+            web    => $webName,
+            topic  => $topic,
+            def    => 'in_a_group',
+            params => [ $session->{users}->getWikiName($cUID), $list ]
+        );
+    }
+
+    unless (
+        $users->checkPassword(
+            $session->{users}->getLoginName($cUID), $password
+        )
+      )
+    {
+        throw Foswiki::OopsException(
+            'attention',
+            web   => $webName,
+            topic => $topic,
+            def   => 'wrong_password'
+        );
+    }
+
+    $users->removeUser($cUID);
+
+    throw Foswiki::OopsException(
+        'attention', status => 200,
+        def    => 'remove_user_done',
+        web    => $webName,
+        topic  => $topic,
+        params => [ $users->getWikiName($cUID) ]
+    );
+}
+
 # Complete a registration
 sub complete {
     my ($session) = @_;

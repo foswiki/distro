@@ -80,7 +80,7 @@ IncludedTopic
 
 ---+ Include nothing
 ---++ Expected
-<!-- expected NOWT --><p></p><p></p><span class='foswikiAlert'>Warning: Can't find topic "".""</span><!-- /expected -->
+<!-- expected NOWT --><p></p><p></p><span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE '', path is empty or contains illegal characters.</dd></dl></span><!-- /expected -->
 ---++ Actual
 <!-- actual -->%INCLUDE{""}%<!-- /actual -->
 

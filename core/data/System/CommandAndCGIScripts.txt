@@ -89,9 +89,16 @@ Used for logging in when Web Server authentication is being used (e.g. !ApacheLo
 ---+++ =manage=
 Performs a range of management functions.
 | *Parameter* | *Description* | *Default* |
-| =action= | One of =createweb=, =deleteUserAccount=, =editSettings= or =saveSettings= | none |
+| =action= | One of =create=, =createweb=, =changePassowrd=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | none |
+
+---++++ =action=create=
+Alternative entry point for creation, via =edit=, of a new topic, used by screens that support several actions using =manage.
+| *Parameter* | *Description* | *Default* |
+| =topic= | Name of topic to create (can be web.topic) | none |
+Other parameters are the same as for =edit=.
 
 ---++++ =action=createweb=
+Create a new web
 | *Parameter* | *Description* | *Default* |
 | =newweb= | Name of the new web | '' |
 | =baseweb= | Name of the web to copy to create the new web | '' |
@@ -142,6 +149,9 @@ BulkRegistration provides the means to create multiple accounts but it does not 
 Unregisters (removes) the currently logged-in user.
 | *Parameter* | *Description* | *Default* |
 | =password= | Users' password | none |
+
+---++++ =action=restoreRevision=
+Alternative entry point for =edit=, used by screens that support several actions using =manage. Parameters are as for =edit=.
 
 ---+++ =oops=
 This script is mainly used for rendering pages containing error messages, though it is also used for some functional actions such as manage pages (move topic etc).
