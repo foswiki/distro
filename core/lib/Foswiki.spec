@@ -1076,7 +1076,7 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # names. The first file on this list that is found considered to be the 
 # requested template file. The file names can either be absolute file names
 # ending in ".tmpl" or a topic file in a Foswiki web.
-$Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
+$Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
 # **STRING 120 EXPERT**
 # List of protocols (URI schemes) that Foswiki will 
