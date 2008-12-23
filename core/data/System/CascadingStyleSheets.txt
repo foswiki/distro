@@ -36,6 +36,9 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=#foswikiLogin=                 | Login box |
 |=#foswikiLogo=                  | Logo |
 |=.foswikiPreviewArea=           | Container around topic preview |
+|=.foswikiTopicActions=          | Topic Actions list |
+|=.foswikiTopicInfo=             | Topic Info section containing REVINFO |
+|=.foswikiTopicText=             | The rendered Topic text |
 
 ---+++ General appearance
 |=.foswikiLeft=              | Left float |
