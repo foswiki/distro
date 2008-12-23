@@ -70,7 +70,7 @@ select option {
 	padding:1px;
 }
 textarea {
-	padding:1px;
+	padding:1px 4px;
 	font-size:100%;
 }
 blockquote {

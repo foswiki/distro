@@ -164,7 +164,7 @@ select {
 	font-size:100%;
 }
 .foswikiTextarea {
-	padding:1px;
+	padding:1px 4px;
 }
 .foswikiSubmit,
 .foswikiSubmitDisabled,
@@ -1115,4 +1115,8 @@ tr.foswikiDiffDebug td {
 }
 .foswikiDiffLineNumberHeader {
 	padding:.3em 0;
+}
+
+.mceContentBody {
+    padding: 1px 4px;
 }
