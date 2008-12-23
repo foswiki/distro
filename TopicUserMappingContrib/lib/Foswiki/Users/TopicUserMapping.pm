@@ -235,7 +235,8 @@ sub getLoginName {
     return undef unless _userReallyExists( $this, $login );
     return undef unless ($cUID eq $this->login2cUID($login));
 
-    return $login;
+    # Validated
+    return Foswiki::Sandbox::untaintUnchecked( $login );
 }
 
 # test if the login is in the WikiUsers topic, or in the password file
