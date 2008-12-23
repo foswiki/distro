@@ -74,12 +74,12 @@ The _skin path_ is set as described in [[Skins]].
    1 templates/%RED%web%ENDCOLOR%/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
       * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
    1 templates/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
+   1 The topic %RED%web%ENDCOLOR%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
+   1 The topic %RED%web%ENDCOLOR%.%RED%Script%ENDCOLOR%Template
    1 templates/%RED%web%ENDCOLOR%/%RED%script%ENDCOLOR%.tmpl
       * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
    1 templates/%RED%script%ENDCOLOR%.tmpl
    1 The topic aweb.atopic if the template name can be parsed into aweb.atopic
-   1 The topic %RED%web%ENDCOLOR%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
-   1 The topic %RED%web%ENDCOLOR%.%RED%Script%ENDCOLOR%Template
    1 The topic %<nop>SYSTEMWEB%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
    1 The topic %<nop>SYSTEMWEB%.%RED%Script%ENDCOLOR%Template
 *Legend:*
