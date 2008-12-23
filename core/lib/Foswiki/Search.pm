@@ -594,6 +594,13 @@ sub searchWeb {
     my @tokens;
 
     if ( $type eq 'query' ) {
+        if (length($searchString) == 0) {
+            #default search should return no results
+            $searchString = '1 = 2';
+            #shortcircuit the search
+            #FIXME: this breaks the per-web summary output that is hidden in the foreach
+            @webs = ();
+        }
         unless ( defined($queryParser) ) {
             require Foswiki::Query::Parser;
             $queryParser = new Foswiki::Query::Parser();
@@ -614,7 +621,9 @@ sub searchWeb {
         # Split the search string into tokens depending on type of search -
         # each token is ANDed together by actual search
         @tokens = _tokensFromSearchString( $this, $searchString, $type );
-        return '' unless scalar(@tokens);
+        #shorcircuit the search foreach below for a zero result search
+        #FIXME: this breaks the per-web summary output that is hidden in the foreach
+        @webs = () unless scalar(@tokens); #default
     }
 
     # Loop through webs
