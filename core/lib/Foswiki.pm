@@ -1860,9 +1860,11 @@ dangerous chars (interpolation and execution) are disabled.
 sub validatePattern {
     my $pattern = shift;
 
-    # Escape unescaped $ and @ characters that might cause a reference
-    # to an internal variable. Escape { to defuse (??{...})
-    $pattern =~ s/([^\\])(?=[{$@])/$1\\/g;
+    # Escape unescaped $ and @ characters that might interpolate
+    # an internal variable.
+    $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
+    # Defuse (??{...})
+    $pattern =~ s/(^|[^\\])\(\?\?{/$1(\\?\\?{/g;
     return $pattern;
 }
 

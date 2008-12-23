@@ -29,7 +29,6 @@ sub set_up {
     $this->{twiki}->{store}->saveTopic(
         $this->{twiki}->{user}, $this->{test_web},
         'Ok+Topic', "BLEEGLE dont.matchmeblah");
-   	
 }
 
 sub fixture_groups {
@@ -912,6 +911,28 @@ sub verify_likeQuery2 {
         '%SEARCH{"text ~ \'*before. Another*\'" web="'.$this->{test_web}.'" '.$stdCrap,
         $this->{test_web}, $this->{test_topic});
     $this->assert_str_equals('QueryTopic', $result);
+}
+
+sub test_pattern  {
+    my $this = shift;
+
+    my $result = $this->{twiki}->handleCommonTags(
+        '%SEARCH{"BLEEGLE" topic="Ok-Topic,Ok+Topic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%',
+        $this->{test_web}, $this->{test_topic});
+    $this->assert_matches(qr/Xdontmatchme\.Y/, $result);
+    $this->assert_matches(qr/Xdont.matchmeY/, $result);
+    $this->assert_matches(qr/XY/, $result);
+}
+
+sub test_badpattern  {
+    my $this = shift;
+
+    my $result = $this->{twiki}->handleCommonTags(
+        '%SEARCH{"BLEEGLE" topic="Ok-Topic,Ok+Topic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE (.*?)blah.*)Y"}%',
+        $this->{test_web}, $this->{test_topic});
+    $this->assert_equals(1, $result =~ s/XBLEEGLE dontmatchme\.blahY//);
+    $this->assert_matches(qr/Xdont.matchmeblahY/, $result);
+    $this->assert_matches(qr/XBLEEGLE blah\/matchme\.blahYY/, $result);
 }
 
 1;
