@@ -1,3 +1,3 @@
 bin/foswiki.fcgi 0755
 lib/Foswiki/Engine/FastCGI.pm 0644
-data/Foswiki/FastCGIEngineContrib.txt 0644
+data/System/FastCGIEngineContrib.txt 0644
