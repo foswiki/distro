@@ -37,8 +37,8 @@
 
 %TMPL:P{"previous"}%%IF{"$ATTACHFILESIZELIMIT > 0" then="%MAKETEXT{"Upload up to [_1] KB." args="%ATTACHFILESIZELIMIT%"}%"}%
 
-<input type="hidden" name="filename" value="%FILENAME%" /> 
-<input class="foswikiInputField" type="file" name="filepath" value="%FILEPATH%" size="70" />
+<noautolink><input type="hidden" name="filename" value="%FILENAME%" /> 
+<input class="foswikiInputField" type="file" name="filepath" value="%FILEPATH%" size="70" /></noautolink>
 </div><!-- /foswikiFormStep-->%TMPL:END%
 
 %TMPL:DEF{"comment"}%<div class="foswikiFormStep">
