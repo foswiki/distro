@@ -66,4 +66,13 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion} = {
     'TWikiAdminUser' => 'AdminUser',
 };
 
+
+# **PERL**
+# Used by TWikiCompatibilityPlugin view and viewfile auto-compatibility.
+# if a topic or attachment is not found in one web, it will try the other.
+$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath} = {
+    "$Foswiki::cfg{SystemWebName}" => 'TWiki',
+    'TWiki' => "$Foswiki::cfg{SystemWebName}"
+};
+
 1;

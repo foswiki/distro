@@ -64,18 +64,15 @@ sub view {
     my $rev = $store->cleanUpRevID( $query->param('rev') );
 
     my $topicExists = $store->topicExists( $webName, $topicName );
+    my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
     if (!$topicExists 
         && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-        && (
-            $webName eq $Foswiki::cfg{SystemWebName}
-            || $webName eq 'TWiki'
-            )) {
+        && defined($map)
+        && defined($map->{$webName})
+        ) {
         #try the other web (TWikiCompatibility)
-        my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
-            $Foswiki::cfg{SystemWebName} => 'TWiki');
-        if ($topicExists = $session->{store}->topicExists( $map{$webName}, $topicName )) {
-            $webName = $map{$webName};
-            $session->{webName} = $webName;
+        if ($topicExists = $session->{store}->topicExists( $map->{$webName}, $topicName )) {
+            $session->{webName} = $webName = $map->{$webName};
         }
     }
 
@@ -491,11 +488,11 @@ sub viewfile {
         && $session->{store}->attachmentExists( $webName, $topic, $fileName ) )
     {
         #try the other web (TWikiCompatibility)
-        my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
-            $Foswiki::cfg{SystemWebName} => 'TWiki');
+        my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
         if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-            && $session->{store}->attachmentExists( $map{$webName}, $topic, $fileName )) {
-            $webName = $map{$webName};
+            && defined ($map)
+            && $session->{store}->attachmentExists( $map->{$webName}, $topic, $fileName )) {
+            $webName = $map->{$webName};
             $session->{response}->status(200);  #OK, but, um non-authorative?
         } else {
             throw Foswiki::OopsException(
