@@ -8,7 +8,7 @@ foswiki.String = {
 	*/
 	isWikiWord:function(inValue) {
 		if (!inValue) return false;
-		var re = new RegExp(foswiki.StringConstants.getInstance().WIKIWORD_REGEX);
+		var re = new RegExp(WIKIWORD_REGEX);
 		return (inValue.match(re)) ? true : false;
 	},
 
@@ -19,7 +19,7 @@ foswiki.String = {
 	*/
 	capitalize:function(inValue) {
 		if (!inValue) return null;
-		var re = new RegExp("[" + foswiki.StringConstants.getInstance().MIXED_ALPHANUM_CHARS + "]+", "g");
+		var re = new RegExp("[" + MIXED_ALPHANUM_CHARS + "]+", "g");
 		return inValue.replace(re, function(a) {
 			return a.charAt(0).toLocaleUpperCase() + a.substr(1);
 		});
@@ -61,7 +61,7 @@ foswiki.String = {
 	*/
 	removePunctuation:function(inValue) {
 		if (!inValue) return null;
-		var allowedRegex = "[^" + foswiki.StringConstants.getInstance().MIXED_ALPHANUM_CHARS + "]";
+		var allowedRegex = "[^" + MIXED_ALPHANUM_CHARS + "]";
 		var re = new RegExp(allowedRegex, "g");
 		return inValue.replace(re, "");
 	},
