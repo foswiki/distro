@@ -86,7 +86,7 @@ sub makeLoginManager {
 
         my $use = 'use Foswiki::LoginManager::Session';
         if ( $Foswiki::cfg{Sessions}{UseIPMatching} ) {
-            $use .= ' qw(-ip-match)';
+            $use .= ' qw(-ip_match)';
         }
         $use .= '; use CGI::Cookie';
         eval $use;
