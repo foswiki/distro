@@ -57,6 +57,20 @@ sub test_encode {
     $str = $this->{twiki}->handleCommonTags(
         "%ENCODE{\"<evil script>\n&\'\\\"%*A\" type=\"url\"}%", $this->{test_web}, $this->{test_topic});
     $this->assert_str_equals("%3cevil%20script%3e%3cbr%20/%3e%26'%22%25*A", "$str");
+
+    #http://trunk.foswiki.org/Tasks/Item5453
+    #unfortuanatly, perl considers the string '0' to be 
+    #equivalent to 0 which is equivalent to false
+    #making it impossible to have a %ENCODE{"0"}%
+    #task:5453 suggests that the following test should fail.
+    #see also AttrsTests::test_zero
+    $str = $this->{twiki}->handleCommonTags(
+        "%ENCODE{\"0\" type=\"url\"}%", $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals("", "$str");   #should really return "0"
+    $str = $this->{twiki}->handleCommonTags(
+        "%ENCODE{\"\" type=\"url\"}%", $this->{test_web}, $this->{test_topic});
+    $this->assert_str_equals("", "$str");
+
 }
 
 1;

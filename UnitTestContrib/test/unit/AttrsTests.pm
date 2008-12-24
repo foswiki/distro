@@ -268,4 +268,20 @@ sub test_raw {
     $this->assert_str_equals($s, $new->{_RAW});
 }
 
+#http://trunk.foswiki.org/Tasks/Item5453
+sub test_zero {
+	my $this = shift;
+
+	my $attrs = Foswiki::Attrs->new("0", 1);
+	$this->assert(!$attrs->isEmpty());
+	$this->assert(defined($attrs->{_DEFAULT}));
+	#unfortuanatly, perl considers the string '0' to be 
+	#equivalent to 0 which is equivalent to false
+	#making it impossible to have a %ENCODE{"0"}%
+	#task:5453 suggests that the following test should fail.
+	#see also Fn_ENCODE::test_encode
+	#beware that this issue affects alot of marcos, not just ENCODE
+	$this->assert(!$attrs->{_DEFAULT});
+}
+
 1;
