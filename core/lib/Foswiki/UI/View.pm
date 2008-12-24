@@ -454,6 +454,7 @@ sub viewfile {
         #and is also used in TWikiCompatibility
         my $pathInfo = Foswiki::Sandbox::normalizeFileName($ENV{REQUEST_URI});
 
+	$pathInfo =~ s/^(.*)(\?|#).*/$1/;	#ignore parameters, as apache would.
         $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||; #remove pubUrlPath
         $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
         my @path = split( '/', $pathInfo );
