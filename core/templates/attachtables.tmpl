@@ -9,7 +9,7 @@
 
 %{ A basic row definition, for attachment table and attach screen }%
 %{ Use %A_URL% instead of %PUBURLPATH%/%WEB%/%TOPIC%/%A_FILE% to get a viewfile link }%
-%TMPL:DEF{ATTACH:files:row(basic)}%| %A_ICON%<span class="foswikiHidden">%A_EXT%</span> | <a href="%ATTACHURLPATH%/%ENCODE{%A_FILE%}%">%A_FILE%</a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"%A_FILE%"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  %A_SIZE%|<span class="foswikiNoBreak">%A_DATE%</span> |%A_USER%  |%A_COMMENT%  |%TMPL:END%
+%TMPL:DEF{ATTACH:files:row(basic)}%| %A_ICON%<span class="foswikiHidden">%A_EXT%</span> | <a href="%ATTACHURLPATH%/%ENCODE{%A_FILE%}%"><literal>%A_FILE%</literal></a> | <a href="%SCRIPTURLPATH{"attach"}%/%WEB%/%TOPIC%?filename=%ENCODE{"%A_FILE%"}%;revInfo=1" title="%MAKETEXT{"change, update, previous revisions, move, delete..."}%" rel="nofollow">%MAKETEXT{"manage"}%</a> |  %A_SIZE%|<span class="foswikiNoBreak">%A_DATE%</span> |%A_USER%  |%A_COMMENT%  |%TMPL:END%
 
 %{ Header for topic attachment table }%
 %TMPL:DEF{ATTACH:files:header}%%TMPL:P{ATTACH:files:header(basic)}%
