@@ -34,21 +34,21 @@ use base 'Foswiki::Engine::CGI';
 use strict;
 
 use FCGI;
-use IO::Handle;
 
 sub run {
     my ( $this, $listen, $args ) = @_;
 
     my $sock = 0;
-    if ( $listen ) {
-        $sock = FCGI::OpenSocket( $listen, 100)
+    if ($listen) {
+        $sock = FCGI::OpenSocket( $listen, 100 )
           or die "Failed to create FastCGI socket: $!";
     }
     my %env = ();
     $args ||= {};
-    my $r = FCGI::Request( \*STDIN, \*STDOUT, \*STDERR, \%ENV, $sock, &FCGI::FAIL_ACCEPT_ON_INTR);
+    my $r = FCGI::Request( \*STDIN, \*STDOUT, \*STDERR, \%ENV, $sock,
+        &FCGI::FAIL_ACCEPT_ON_INTR );
     my $manager;
-    
+
     if ($listen) {
         $args->{manager} ||= 'FCGI::ProcManager';
         $args->{nproc}   ||= 1;
@@ -74,7 +74,7 @@ sub run {
         $manager && $manager->pm_pre_dispatch();
         CGI::initialize_globals();
         my $req = $this->prepare;
-        if ( UNIVERSAL::isa($req, 'Foswiki::Request') ) {
+        if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
             my $res = Foswiki::UI::handleRequest($req);
             $this->finalize( $res, $req );
         }
@@ -100,13 +100,23 @@ sub preparePath {
     # the seen PATH_INFO starts with ScriptUrlPath, so it must be removed. This
     # way, SUPER::preparePath works fine.
 
-    $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#;
+    $ENV{PATH_INFO} =~ s#^$Foswiki::cfg{ScriptUrlPath}/*#/#
+      if $ENV{PATH_INFO};
     $this->SUPER::preparePath(@_);
 }
 
 sub write {
-    my ($this, $buffer) = @_;
+    my ( $this, $buffer ) = @_;
     syswrite STDOUT, $buffer;
+}
+
+sub reExec {
+    require Config;
+    $ENV{PERL5LIB} .= join $Config::Config{path_sep}, @INC;
+    $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
+    my $perl = $Config::Config{perlpath};
+    my ($script) = $0 =~ /^(.*)$/;
+    exec $perl, '-wT', $script, map { /^(.*)$/; $1 } @ARGV;
 }
 
 sub fork {
@@ -126,9 +136,9 @@ sub daemonize {
     print "FastCGI daemon started (pid $$)\n";
     umask(0);
     chdir '/';
-    open STDIN, "+</dev/null" or die $!;
-    open STDOUT, ">&STDIN"    or die $!;
-    open STDERR, ">&STDIN"    or die $!;
+    open STDIN,  "+</dev/null" or die $!;
+    open STDOUT, ">&STDIN"     or die $!;
+    open STDERR, ">&STDIN"     or die $!;
     POSIX::setsid();
 }
 

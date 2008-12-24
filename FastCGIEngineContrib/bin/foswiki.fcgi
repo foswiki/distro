@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
@@ -24,17 +24,21 @@
 # As per the GPL, removal of this notice is prohibited.
 
 use strict;
-use warnings;
 
 BEGIN {
     $Foswiki::cfg{Engine} = 'Foswiki::Engine::FastCGI';
-    @INC = ('.', grep { $_ ne '.' } @INC);
+    @INC = ( '.', grep { $_ ne '.' } @INC );
     delete $ENV{FOSWIKI_ACTION} if exists $ENV{FOSWIKI_ACTION};
     require 'setlib.cfg';
 }
 
 use Getopt::Long;
 use Pod::Usage;
+use Foswiki;
+use Foswiki::UI;
+
+eval { eval substr($0, 0, 0) };
+Foswiki::Engine::FastCGI::reExec() unless $@;
 
 my ( $listen, $nproc, $pidfile, $manager, $detach, $help );
 GetOptions(
@@ -48,15 +52,13 @@ GetOptions(
 
 pod2usage(1) if $help;
 
-use Foswiki;
-use Foswiki::UI;
-
 $Foswiki::engine->run(
     $listen,
-    {   nproc         => $nproc,
-        pidfile       => $pidfile,
-        manager       => $manager,
-        detach        => $detach,
+    {
+        nproc   => $nproc,
+        pidfile => $pidfile,
+        manager => $manager,
+        detach  => $detach,
     }
 );
 
