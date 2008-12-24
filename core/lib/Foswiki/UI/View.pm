@@ -434,7 +434,7 @@ sub viewfile {
     my $fileName;
     unless (defined($ENV{REDIRECT_STATUS}) && defined($ENV{REQUEST_URI})) {
         if ( defined( $query->param('filename') ) ) {
-            $fileName   = Foswiki::Sandbox::untaint($query->param('filename'), \&Foswiki::Sandbox::validateWebName);
+            $fileName   = Foswiki::Sandbox::normalizeFileName($query->param('filename'));
         } else {
             my $pathInfo = Foswiki::Sandbox::normalizeFileName($query->path_info());
             $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
