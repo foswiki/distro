@@ -13,6 +13,7 @@ package Foswiki::UI::View;
 use strict;
 use integer;
 use Monitor;
+use Assert;
 
 require Foswiki;
 require Foswiki::UI;
@@ -427,15 +428,15 @@ sub viewfile {
 
     my $query = $session->{request};
 
-    my $topic   = $session->{topicName};
-    my $webName = $session->{webName};
+    my $topic   = Foswiki::Sandbox::untaint($session->{topicName}, \&Foswiki::Sandbox::validateTopicName);
+    my $webName   = Foswiki::Sandbox::untaint($session->{webName}, \&Foswiki::Sandbox::validateWebName);
     
     my $fileName;
     unless (defined($ENV{REDIRECT_STATUS}) && defined($ENV{REQUEST_URI})) {
         if ( defined( $query->param('filename') ) ) {
-            $fileName = $query->param('filename');
+            $fileName   = Foswiki::Sandbox::untaint($query->param('filename'), \&Foswiki::Sandbox::validateWebName);
         } else {
-            my $pathInfo = $query->path_info();
+            my $pathInfo = Foswiki::Sandbox::normalizeFileName($query->path_info());
             $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
             my @path = split( '/', $pathInfo );
             shift(@path) unless ($path[0]);   #remove leading empty string
@@ -451,7 +452,8 @@ sub viewfile {
     } else {
         #this is a redirect - can be used to make 404,401 etc URL's more foswiki tailored
         #and is also used in TWikiCompatibility
-        my $pathInfo = $ENV{REQUEST_URI};
+        my $pathInfo = Foswiki::Sandbox::normalizeFileName($ENV{REQUEST_URI});
+
         $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||; #remove pubUrlPath
         $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
         my @path = split( '/', $pathInfo );
@@ -464,7 +466,7 @@ sub viewfile {
         }
         $topic = shift(@path);
         $fileName = join('/', @path);
-	}
+    }
 
     if ( !$fileName ) {
         throw Foswiki::OopsException(
@@ -505,6 +507,10 @@ sub viewfile {
             );
         }
     }
+    ASSERT(UNTAINTED($webName)) if DEBUG;
+    ASSERT(UNTAINTED($topic)) if DEBUG;
+    ASSERT(UNTAINTED($fileName)) if DEBUG;
+    ASSERT(UNTAINTED($rev)) if DEBUG;
 
     # TSA SMELL: Maybe could be less memory hungry if get a file handle
     # and set response body to it. This way engines could send data the
