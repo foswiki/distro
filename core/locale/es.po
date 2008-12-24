@@ -44,9 +44,8 @@ msgstr "%1"
 
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
-#, fuzzy
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Fallo en registro de %2 (%3)"
+msgstr "%1 - Falló registro de %2 (%3)"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
 #: core/templates/registernotify.tmpl:3
@@ -982,13 +981,12 @@ msgid "Confirm rename or move"
 msgstr "Confirme renombrar o mover"
 
 #: core/templates/messages.tmpl:31
-#, fuzzy
 msgid ""
 "Confirm your changes using Foswiki's [[%1][topic history comparison tool "
 "(diff)]]."
 msgstr ""
 "Confirme sus cambios utilizando la [[%1][herramienta para comparar "
-"el historial de un tema de Foswiki (diff)]]."
+"el historial de un tema (diff)]] de Foswiki."
 
 #: core/templates/oopsleaseconflict.tmpl:6
 msgid "Conflict"
@@ -2189,7 +2187,7 @@ msgstr "Propiedades"
 #: core/data/System/WebSearchAdvanced.txt:62
 #, fuzzy
 msgid "Query Search"
-msgstr "Buscar en la Web"
+msgstr "Consultas (inf.)"
 
 #: core/data/Main/SitePreferences.txt:7
 msgid ""
@@ -2220,9 +2218,9 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
-"Lea %1 para obtener una vista rápida de esta plataforma de colaboración. "
+"Lea %1 para obtener una idea rápida de esta plataforma de colaboración. "
 "Para aprender más, estudie el TwentyMinuteTutorial, el cual está accesible "
-"en el mismo enlace."
+"por el mismo enlace."
 
 #: PatternSkin/templates/edit.pattern.tmpl:30
 msgid "Read new revision help text in new window"
@@ -2331,7 +2329,7 @@ msgstr "Reemplazar formulario..."
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:3
 msgid "Reset Password"
-msgstr "Reinicializar Contraseña"
+msgstr "Reinicializar contraseña"
 
 #: TopicUserMappingContrib/data/System/ResetPassword.txt:32
 msgid "Reset password"
@@ -2393,7 +2391,7 @@ msgstr "S = Guardar, C = Cancelar"
 #: PatternSkin/templates/preview.pattern.tmpl:15
 msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
 msgstr ""
-"S = Guardar, Q = Guardar sin notificación, K = Guardar y Continuar, D = "
+"S = Guardar, Q = Guardar sin notificación, K = Guardar y continuar, D = "
 "Descartar"
 
 #: PatternSkin/templates/edit.pattern.tmpl:53
@@ -2441,14 +2439,13 @@ msgid "Search all webs for topics that link to here"
 msgstr "Buscar en todas las webs por temas que estén enlazados aquí"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:25
-#, fuzzy
 msgid "Search in all webs"
 msgstr "Buscar en todas las webs"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:25
 #, fuzzy
 msgid "Search more topics in this web"
-msgstr "Buscar temas similares en todas las webs públicas"
+msgstr "Buscar más temas en esta web"
 
 #: core/data/System/WebSearchAdvanced.txt:69
 msgid "Search string"
@@ -2474,7 +2471,7 @@ msgstr "Aviso de seguridad:"
 #: core/templates/messages.tmpl:47
 msgid "See %1 for a list of existing users or register as new user in %2."
 msgstr ""
-"Vea %1 por una lista de usuarios existentes o registrados como usuario nuevo "
+"Revise %1 por una lista de usuarios existentes o regístrese como usuario nuevo "
 "en %2."
 
 #: core/templates/messages.tmpl:331
@@ -2483,7 +2480,7 @@ msgstr "Vea %1 por información acerca de definiciones de formularios."
 
 #: core/data/System/WebIndex.txt:4
 msgid "See also the faster %1"
-msgstr "Ver también el %1 mas rápido"
+msgstr "Ver también el %1 más rápido"
 
 #: core/data/System/WebTopicList.txt:4
 msgid "See also the verbose %1."
@@ -2515,11 +2512,11 @@ msgstr "Seleccionar tema padre:"
 
 #: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:48
 msgid "Select, copy and paste your signature text to the bottom of your entry"
-msgstr "Seleccione, copie y pegue su texto de firma al final de su texto"
+msgstr "Seleccione, copie y pegue su firma digital al final de su texto"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:286
 msgid "Send you a confirmation of your registration by e-mail."
-msgstr "Se le envió una confirmación de su registro por correo electrónico."
+msgstr "Enviarle una confirmación de su registro por correo electrónico."
 
 #: core/templates/oopsmore.tmpl:113
 msgid "Sequential"
@@ -2569,10 +2566,10 @@ msgid ""
 msgstr ""
 "Preferencias del sitio están ubicadas en %1, sin embargo esta página de "
 "preferencias %2 tiene prioridad sobre otras páginas y debe ser utilizada "
-"para ajustes locales. Esto permiteactualizaciones más fáciles porque no "
-"tiene que preocuparse de que preferencias de la actualización se sobreponen "
-"a los suyos. Se les facilite el control si se copian solamente los items que "
-"se están modificando."
+"para ajustes locales. Esto le facilita la actualización del sistema porque no "
+"tiene que preocuparse de que preferencias de la actualización se sobrepongan "
+"a los suyos. Se le recomienda copiar solamente los items que "
+"se modificarán."
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2593,7 +2590,7 @@ msgid ""
 "twice when you click on a link. It you did this, it is possible that you "
 "actually *have* registered successfully."
 msgstr ""
-"Algunas herramientas de correo electrónica contienen un error que resulta en "
+"Algunos programas de correo electrónico tienen un error que resulta en "
 "el doble envío de un documento cuando se toca un enlace. Si eso sucedió, es "
 "posible que *sí* se registró exitosamente."
 
@@ -2618,7 +2615,7 @@ msgstr "Disculpe, el registro fue deshabilitado temporalmente"
 msgid "Sorry, the password system is currently read only, please contact %1"
 msgstr ""
 "Disculpe, el sistema de contraseña se encuentra actualmente en modo de solo "
-"lectura, favor contacte a %1"
+"lectura, favor comunicarse con %1"
 
 #: core/data/System/WebSearchAdvanced.txt:46
 msgid "Sort results by:"
@@ -2626,7 +2623,7 @@ msgstr "Ordene resultados por:"
 
 #: core/templates/messages.tmpl:364
 msgid "Spaces are replaced by underscores"
-msgstr "Los espacios se sustituyen por subrayados"
+msgstr "Los espacios se sustituyen por guiones bajos"
 
 #: PatternSkin/data/Main/WebLeftBarExample.txt:11
 #: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
@@ -2735,7 +2732,7 @@ msgid ""
 "jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
 "page and sign and date it with your %4."
 msgstr ""
-"La web %1 está en la zona de pruebas llamada Sandbos. Todos están "
+"La web %1 es como una caja de arena. Todos están "
 "bienvenidos de añadir o borrar algunas cosas. Es recomendable leer %2 para "
 "apdrender a utilizar la herramienta %3. Una buena sugerencia es añadir al "
 "final de la página una firma y una fecha con su %4"
@@ -2745,11 +2742,11 @@ msgstr ""
 #: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
 #: core/data/_default/WebRss.txt:5
 msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
-msgstr ""
+msgstr "La web %1 de Foswiki, el Free and Open Source Wiki (Wiki libre y de código abierto)."
 
 #: core/data/Sandbox/WebRss.txt:5
 msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
-msgstr ""
+msgstr "La web %1 de Foswiki. Foswiki es el Free and Open Source Wiki (Wiki libre y de código abierto)."
 
 #: core/templates/messages.tmpl:155
 msgid "The Administrator has disabled new user registration."
@@ -2761,15 +2758,15 @@ msgstr "El código de activación %1 no es válido."
 
 #: core/templates/moveattachment.tmpl:29
 msgid "The attachment and any history will be moved to the new topic."
-msgstr "El archivo adjunto y cualquier historial serán movidos al nuevo tema."
+msgstr "El archivo adjunto y cualquier historial serán movidos al tema nuevo."
 
 #: core/templates/messages.tmpl:444
 msgid ""
 "The chances are good that %1 has simply navigated away from the edit page "
 "without saving."
 msgstr ""
-"Hay muchas probabilidades de que %1 haya simplemente navegado fuera de la "
-"página de edición sin guardar."
+"Es muy probable que %1 simplemente salió de la "
+"página de edición sin guardarla."
 
 #: core/templates/renamebase.tmpl:70
 msgid ""
@@ -2777,7 +2774,7 @@ msgid ""
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
 "Los temas marcados serán actualizados (otro formulario aparecerá lo cual "
-"_eventualmente_ le permitirá renombrar cualquier tema que estaba bloqueado)"
+"_eventualmente_ le permitirá renombrar cualquier tema que esté bloqueado)"
 
 #: core/templates/messages.tmpl:298
 msgid "The e-mail address for this account is not valid."
@@ -2786,7 +2783,7 @@ msgstr "La dirección de correo electrónico para esta cuenta no es válida."
 #: core/templates/messages.tmpl:461
 msgid "The entry for user %1 was missing in the password system."
 msgstr ""
-"El registro para el usuario %1 no fue encontrada en el sistema de "
+"El registro para el usuario %1 no fue encontrado en el sistema de "
 "contraseñas."
 
 #: core/templates/messages.tmpl:359
@@ -2802,8 +2799,8 @@ msgstr ""
 #: core/templates/messages.tmpl:401
 msgid "The following topics refer to topics in this web, but are being edited:"
 msgstr ""
-"Las siguientes temas hacen referencia a temas en esta web, pero están siendo "
-"editadas:"
+"Los siguientes temas hacen referencia a temas en esta web, pero están siendo "
+"editados:"
 
 #: core/templates/messages.tmpl:398
 msgid ""
@@ -2811,7 +2808,7 @@ msgid ""
 "to them:"
 msgstr ""
 "Los temas siguientes hacen referencia a temas en esta web, pero tiene acceso "
-"restringido a ellas:"
+"restringido a ellos:"
 
 #: core/templates/messages.tmpl:337
 msgid "The form should be defined in the topic %1"
@@ -2823,7 +2820,7 @@ msgstr "El bloqueo a este tema expiró hace %1."
 
 #: core/templates/messages.tmpl:93
 msgid "The name of the topic must not be empty."
-msgstr ""
+msgstr "El nombre del tema no debe ser vacío."
 
 #: core/templates/moveattachment.tmpl:16
 msgid "The new topic chosen must already exist."
@@ -2874,20 +2871,18 @@ msgid "There should be a line that includes %1, look for %2 (or %3)"
 msgstr "Deberia haber una linea que incluya %1, busque %2 (o %3)"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:6
-#, fuzzy
 msgid "This Foswiki does _not_ support new User Registration"
-msgstr "Este TWiki _no_ permite el Registro de Usuarios Nuevos"
+msgstr "Este Foswiki _no_ permite el registro de usuarios nuevos"
 
 #: core/templates/messages.tmpl:350
 msgid "This can be automatically upgraded by:"
-msgstr "Esto puede ser automáticamente actualizado por:"
+msgstr "Esto puede ser actualizado automáticamente por:"
 
 #: core/templates/messages.tmpl:333
 msgid "This could be for several reasons:"
 msgstr "Esto puede ser debido a varias razones:"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:5
-#, fuzzy
 msgid ""
 "This form is used to change your registered e-mail addresses. Your "
 "registered e-mails are used by Foswiki for sending you e-mails, include "
@@ -2895,7 +2890,7 @@ msgid ""
 "are kept secret and will *not* be published anywhere on this site."
 msgstr ""
 "Este formulario se usa para cambiar sus direcciones de correo electrónico "
-"registradas. Sus correos electrónicos registrados son usados por TWiki para "
+"registradas. Sus correos electrónicos registrados son usados por Foswiki para "
 "enviarle correos, incluyendo notificaciones de cambios de contraseña. Las "
 "direcciones que usted registre por este formulario son mantenidas en secreto "
 "y *no* serán publicadas en ningún lado de este sitio."
@@ -2943,7 +2938,7 @@ msgid ""
 "This name has been chosen so it doesn't conflict with any other topics "
 "already in the %1 web."
 msgstr ""
-"Este nombre ha sido escojido de tal forma que no cause conflicto con otros "
+"Este nombre ha sido escojido de tal forma que no cause conflictos con otros "
 "temas existentes en la web %1."
 
 #: core/templates/messages.tmpl:348
@@ -2975,7 +2970,8 @@ msgstr ""
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
-msgstr ""
+msgstr "Para mostrar los resultados de búsqueda en un tema, copie y pegue "
+"el texto a continuación:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
 #, fuzzy
