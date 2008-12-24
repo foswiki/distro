@@ -36,9 +36,15 @@ use Getopt::Long;
 use Pod::Usage;
 use Foswiki;
 use Foswiki::UI;
+require Cwd;
 
-eval { eval substr($0, 0, 0) };
-Foswiki::Engine::FastCGI::reExec() unless $@;
+our ($script) = $0         =~ /^(.*)$/;
+our ($dir)    = Cwd::cwd() =~ /^(.*)$/;
+
+eval { eval substr( $0, 0, 0 ) };
+Foswiki::Engine::FastCGI::reExec() unless $@ =~ /^Insecure dependency in eval/;
+
+my @argv = @ARGV;
 
 my ( $listen, $nproc, $pidfile, $manager, $detach, $help );
 GetOptions(
@@ -51,6 +57,9 @@ GetOptions(
 );
 
 pod2usage(1) if $help;
+
+@ARGV = @argv;
+undef @argv;
 
 $Foswiki::engine->run(
     $listen,
@@ -72,8 +81,14 @@ foswiki_fastcgi [options]
     -l --listen     Socket to listen on
     -n --nproc      Number of backends to use, defaults to 1
     -p --pidfile    File used to write pid to
-    -M --manager    FCGI manager class, defaults to FCGI::ProcManager
+    -M --manager    FCGI manager class
     -d --daemon     Detach from terminal and keeps running as a daemon
     -? --help       Display this help and exits
+
+  Note:
+    FCGI manager class defaults to Foswiki::Engine::FastCGI::ProcManager, a
+    wrapper around FCGI::ProcManager to enable automatic reload of 
+    configurations if changed. If you provide another class, probably you'll 
+    need to restart FastCGI processes manually.
 
 =cut

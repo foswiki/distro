@@ -1,4 +1,4 @@
-# Runtime Engine of Foswiki - The Free and Open Source Wiki,
+# FastCGI Runtime Engine of Foswiki - The Free and Open Source Wiki,
 # http://foswiki.org/
 #
 # Copyright (C) 2008 Gilmar Santos Jr, jgasjr@gmail.com and Foswiki
@@ -15,6 +15,20 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
+#------------------------------------------------------------------------------
+# Parts of this package are based on Net::Server::Daemonize, which is
+#  Copyright (C) 2001-2007
+#
+#    Jeremy Howard
+#    j+daemonize@howard.fm
+#
+#    Paul Seamons
+#    paul@seamons.com
+#    http://seamons.com/
+#
+# For more details:
+# http://search.cpan.org/perldoc?Net::Server::Daemonize
+#------------------------------------------------------------------------------
 # As per the GPL, removal of this notice is prohibited.
 
 =begin TML
@@ -34,6 +48,10 @@ use base 'Foswiki::Engine::CGI';
 use strict;
 
 use FCGI;
+use POSIX qw(:signal_h);
+require File::Spec;
+
+our $hupRecieved = 0;
 
 sub run {
     my ( $this, $listen, $args ) = @_;
@@ -43,14 +61,17 @@ sub run {
         $sock = FCGI::OpenSocket( $listen, 100 )
           or die "Failed to create FastCGI socket: $!";
     }
-    my %env = ();
+    else {
+        sigaction( SIGHUP, POSIX::SigAction->new( sub { $hupRecieved++ } ) )
+          or warn "Could not install SIGHUP handler: $!";
+    }
     $args ||= {};
     my $r = FCGI::Request( \*STDIN, \*STDOUT, \*STDERR, \%ENV, $sock,
         &FCGI::FAIL_ACCEPT_ON_INTR );
     my $manager;
 
     if ($listen) {
-        $args->{manager} ||= 'FCGI::ProcManager';
+        $args->{manager} ||= 'Foswiki::Engine::FastCGI::ProcManager';
         $args->{nproc}   ||= 1;
 
         $this->fork() if $args->{detach};
@@ -59,7 +80,7 @@ sub run {
             $manager = $args->{manager}->new(
                 {
                     n_processes => $args->{nproc},
-                    pid_fname   => $args->{pidfile}
+                    pid_fname   => $args->{pidfile},
                 }
             );
             $this->daemonize() if $args->{detach};
@@ -70,6 +91,11 @@ sub run {
         }
     }
 
+    my $localSiteCfg = File::Spec->catpath(
+        ( File::Spec->splitpath( $INC{'Foswiki.pm'} ) )[ 0, 1 ],
+        'LocalSite.cfg' );
+    my $lastMTime = (stat $localSiteCfg)[9];
+
     while ( $r->Accept() >= 0 ) {
         $manager && $manager->pm_pre_dispatch();
         CGI::initialize_globals();
@@ -79,7 +105,18 @@ sub run {
             $this->finalize( $res, $req );
         }
         $manager && $manager->pm_post_dispatch();
+        my $mtime = (stat $localSiteCfg)[9];
+        if ($mtime > $lastMTime || $hupRecieved) {
+            $r->LastCall();
+            if ($manager) {
+                kill SIGHUP, $manager->pm_parameter('MANAGER_PID');
+            }
+            else {
+                $hupRecieved++;
+            }
+        }
     }
+    reExec() if $hupRecieved;
     FCGI::CloseSocket($sock) if $sock;
 }
 
@@ -115,14 +152,38 @@ sub reExec {
     $ENV{PERL5LIB} .= join $Config::Config{path_sep}, @INC;
     $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     my $perl = $Config::Config{perlpath};
-    my ($script) = $0 =~ /^(.*)$/;
-    exec $perl, '-wT', $script, map { /^(.*)$/; $1 } @ARGV;
+    chdir $main::dir
+      or die
+      "Foswiki::Engine::FastCGI::reExec(): Could not restore directory: $!";
+    exec $perl, '-wT', $main::script, map { /^(.*)$/; $1 } @ARGV
+      or die "Foswiki::Engine::FastCGI::reExec(): Could not exec(): $!";
 }
 
-sub fork {
-    require POSIX;
-    fork && exit;
+sub fork () {
+
+    ### block signal for fork
+    my $sigset = POSIX::SigSet->new(SIGINT);
+    POSIX::sigprocmask( SIG_BLOCK, $sigset )
+      or die "Can't block SIGINT for fork: [$!]\n";
+
+    ### fork off a child
+    my $pid = fork;
+    unless ( defined $pid ) {
+        die "Couldn't fork: [$!]\n";
+    }
+
+    ### make SIGINT kill us as it did before
+    $SIG{INT} = 'DEFAULT';
+
+    ### put back to normal
+    POSIX::sigprocmask( SIG_UNBLOCK, $sigset )
+      or die "Can't unblock SIGINT for fork: [$!]\n";
+    
+    $pid && exit;
+
+    return $pid;
 }
+
 
 =begin TML
 
@@ -135,10 +196,10 @@ Daemonize process. Currently not portable...
 sub daemonize {
     print "FastCGI daemon started (pid $$)\n";
     umask(0);
-    chdir '/';
-    open STDIN,  "+</dev/null" or die $!;
-    open STDOUT, ">&STDIN"     or die $!;
-    open STDERR, ">&STDIN"     or die $!;
+    chdir File::Spec->rootdir;
+    open STDIN,  File::Spec->devnull or die $!;
+    open STDOUT, ">&STDIN"           or die $!;
+    open STDERR, ">&STDIN"           or die $!;
     POSIX::setsid();
 }
 
