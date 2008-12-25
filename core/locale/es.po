@@ -2974,12 +2974,11 @@ msgstr "Para mostrar los resultados de búsqueda en un tema, copie y pegue "
 "el texto a continuación:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
-#, fuzzy
 msgid ""
-"To edit pages on this FoswikiSite, you must have a registered user name and "
+"To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
-"Para editar páginas en este TWikiSite, deberá tener un nombre de usuario "
+"Para editar páginas en este sitio de Foswiki, debe tener un nombre de usuario "
 "registrado y una contraseña."
 
 #: core/templates/oopsleaseconflict.tmpl:20
@@ -2993,11 +2992,11 @@ msgstr ""
 
 #: core/templates/oopsleaseconflict.tmpl:16
 msgid "To see if %1 has finished editing yet, click "
-msgstr "Para ver si %1 ha finalizado la edición, presione "
+msgstr "Para ver si %1 ya finalizó la edición, presione "
 
 #: core/templates/renamebase.tmpl:30 core/templates/renameconfirm.tmpl:14
 msgid "To topic:"
-msgstr "A tema:"
+msgstr "Al tema:"
 
 #: core/templates/renamebase.tmpl:23 core/templates/renameconfirm.tmpl:10
 msgid "To web:"
@@ -3010,7 +3009,7 @@ msgstr "A la web:"
 #: PatternSkin/data/_default/WebLeftBar.txt:3
 #: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:3
 msgid "Toolbox"
-msgstr ""
+msgstr "Herramientas"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:5
 msgid "Topic %1 does not exist"
@@ -3026,7 +3025,7 @@ msgstr "Archivos adjuntos al tema"
 
 #: core/templates/messages.tmpl:346
 msgid "Topic can not be upgraded from old style category table"
-msgstr "Tema no puede ser actualizado de la tabla de viejo estilo"
+msgstr "Tema no puede ser actualizado de la tabla de estilo vieja"
 
 #: core/data/System/WebSearchAdvanced.txt:48
 #: core/data/System/WebSearchAdvanced.txt:59
@@ -3051,7 +3050,7 @@ msgstr "Revisión del tema:"
 
 #: core/templates/oopssaveerr.tmpl:12
 msgid "Topic save error"
-msgstr "Error salvando tema"
+msgstr "Error guardando tema"
 
 #: core/data/System/WebTemplateTopics.txt:2
 msgid "Topic templates in %1 Web"
@@ -3091,15 +3090,15 @@ msgid ""
 "Topics which refer to this web and are are currently being edited by other "
 "users:"
 msgstr ""
-"Temas que hacen referencia a esta web y están siendo editadas por otros "
+"Temas que hacen referencia a esta web y están siendo editados por otros "
 "usuarios:"
 
 #: core/templates/renamewebbase.tmpl:35
 msgid ""
 "Topics which refer to this web that you do not have permission to change:"
 msgstr ""
-"Temas que hacen referencia a esta web y a las cuales no tiene permiso de "
-"editarlas:"
+"Temas que hacen referencia a esta web y a los cuales no tiene permiso de "
+"editarlos:"
 
 #: core/data/System/WebSearchAdvanced.txt:71
 msgid "Total matches"
@@ -3110,13 +3109,12 @@ msgid "Try Again"
 msgstr "Inténtelo de nuevo"
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:76
-#, fuzzy
 msgid ""
 "Uncomment preference settings to activate them (remove the #-sign). Help and "
 "details on preference settings are available in %1."
 msgstr ""
 "Descomente variables de configuración para activarlas (remueva el signo #). "
-"Ayuda y detalles en variables de configuración está disponible en %1. "
+"Ayuda y detalles acerca de variables de configuración están disponible en %1. "
 
 #: core/templates/login.sudo.tmpl:5
 msgid "Unrecognised user and/or password"
@@ -3185,7 +3183,7 @@ msgid ""
 "[[%1][change password]] to change their password to something memorable."
 msgstr ""
 "Se les recomienda a usuarios con contraseñas generadas por el sistema que "
-"procedan inmediatamente a [[%1][cambiar contraseña]] su contraseña por una "
+"procedan inmediatamente a [[%1][cambiar su contraseña]] por una "
 "que sea más fácil de recordar."
 
 #: core/templates/attachtables.tmpl:37
@@ -3210,7 +3208,7 @@ msgstr "Ver diferencias"
 
 #: core/templates/oopsmore.tmpl:104
 msgid "View previous topic revision"
-msgstr "Ver revision anterior del tema"
+msgstr "Ver revisión anterior del tema"
 
 #: core/templates/oopsleaseconflict.tmpl:28
 msgid "View raw text without formatting"
@@ -3236,25 +3234,24 @@ msgstr "Ver historial total del tema"
 
 #: core/lib/Foswiki/OopsException.pm:46
 msgid "Warning"
-msgstr ""
+msgstr "Advertencia"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:179
 msgid "Warning: 'include' topic does not exist!"
-msgstr "Advertencia: Tema 'include' no existe"
+msgstr "Advertencia: Tema 'incluido' no existe"
 
 #: core/templates/messages.tmpl:458
 msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
 msgstr ""
-"Advertencia: No se pudo INCLUIR %1 repetidamente, el tema ya está incluida. %"
+"Advertencia: No se puede INCLUIR %1 repetidamente, el tema ya está incluida. %"
 "2"
 
 #: core/templates/messages.tmpl:459
-#, fuzzy
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Advertencia: No se pudo INCLUIR %1 repetidamente, el tema ya está incluida. %"
-"2"
+"Advertencia: No se puede INCLUIR %1 repetidamente, la ruta está vacía o "
+"contiene caracteres ilegales."
 
 #: core/templates/messages.tmpl:457
 msgid "Warning: Can't find topic %1.%2"
@@ -3262,12 +3259,12 @@ msgstr "Advertencia: No se puede encontrar el tema %1.%2"
 
 #: core/lib/Foswiki/UI/Register.pm:868
 msgid "Warning: Could not send confirmation email"
-msgstr "Advertencia: Ne se pudo enviar correo de confirmación"
+msgstr "Advertencia: No se pudo enviar correo de confirmación"
 
 #: core/lib/Foswiki/UI/Register.pm:880
 msgid "Warning: Could not send confirmation email, email has been disabled"
 msgstr ""
-"Advertencia: Ne se pudo enviar correo de confirmación, correo electrónico "
+"Advertencia: No se pudo enviar correo de confirmación, correo electrónico "
 "fue deshabilitado"
 
 #: core/templates/messages.tmpl:466
@@ -3294,14 +3291,14 @@ msgid ""
 "your account is activated, %1 will:"
 msgstr ""
 "Cuando %1 reciba el formulario, enviará un correo con un código de "
-"activación a la dirección de correo electrónico que dipo previamente. "
-"Introduzca ese código de activación en la siguiente pantalla, o siga el link "
-"en el correo electrónico para activar su cuenta. Una vez que su cuenta está "
+"activación a la dirección de correo electrónico que dio previamente. "
+"Introduzca ese código de activación en la siguiente pantalla, o siga el enlace "
+"en el correo electrónico para activar su cuenta. Una vez que su cuenta esté "
 "activada, %1 va a:"
 
 #: core/templates/messages.tmpl:243
 msgid "While attempting to email <noautolink>%1</noautolink>."
-msgstr ""
+msgstr "Mientras se intentó de enviar <noautolink>%1</noautolink> por correo."
 
 #: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Who"
@@ -3309,7 +3306,7 @@ msgstr "Quién"
 
 #: core/templates/messages.tmpl:19
 msgid "Would you like to go to:"
-msgstr "Qusiera ir a:"
+msgstr "Quisiera ir a:"
 
 #: core/templates/messages.tmpl:262
 msgid "You are already registered"
@@ -3331,10 +3328,10 @@ msgid ""
 "cannot easily be merged though, so in this case you are recommended to check "
 "with %1 first."
 msgstr ""
-"Se recomienda continuar y ediar - a menos que intente cambiar la "
-"informaciónen un formulario adjunto a la página. Si %1 realmente _guarda_ "
-"mientras usted está editando, sus cambios serán fusionados, y nada será "
-"perdido. Datos de formularios no se fusionan tan fácilmente, así que en este "
+"Se le recomienda que continue y edite - a menos que tenga la intención de cambiar la "
+"información en un formulario adjunto a la página. Si %1 realmente _guarda_ el tema "
+"mientras usted lo está editando, sus cambios serán fusionados, y nada se "
+"perderá. Datos de formularios no se fusionan tan fácilmente, así que en este "
 "caso se recomienda que chequee con %1 primero."
 
 #: PatternSkin/templates/view.pattern.tmpl:39
@@ -3349,7 +3346,7 @@ msgid ""
 "used as a base to create new webs) choose a name that starts with an "
 "underscore and has only alphanumeric characters."
 msgstr ""
-"Se recomienda escoger nombres cortos, preferibleente menos de 10 letras, "
+"Se recomienda escoger nombres cortos, preferiblemente menos de 10 letras, "
 "empezando con un caracter alfabético en mayúscula y usar solo caracteres "
 "alfanuméricos. Si quiere crear una plantilla web (una web creada solamente "
 "para usarse como base para crear otras webs) escoja un nombre que empiece "
@@ -3361,7 +3358,7 @@ msgstr "Está tratando de %1 un archivo adjunto que no existe."
 
 #: core/templates/messages.tmpl:511
 msgid "You are trying to create a topic from a template that does not exist."
-msgstr "Está tratando de crear un tema en base a una plantilla que no existe."
+msgstr "Está tratando de crear un tema con base en una plantilla que no existe."
 
 #: core/templates/messages.tmpl:506
 msgid ""
@@ -3443,7 +3440,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:92
 msgid "You must pass a topic name."
-msgstr ""
+msgstr "Tiene que digitar un nombre de tema."
 
 #: core/templates/registerconfirm.tmpl:11
 msgid ""
@@ -3455,13 +3452,12 @@ msgstr ""
 "electrónico sea enviado, o visitando %2"
 
 #: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:7
-#, fuzzy
 msgid ""
 "You really ought to register a valid e-mail address. If Foswiki can't find a "
 "registered e-mail for you in the secret database, it will look in your user "
 "topic for a line like this:"
 msgstr ""
-"Realmente deberá de registrar un correo electrónico válido. Si TWiki no "
+"Realmente deberá de registrar un correo electrónico válido. Si Foswiki no "
 "puede encontrar un correo electrónico registrado suyo en la base de datos "
 "secreta, buscará en la página del usuario por una línea como esta:"
 
@@ -3504,7 +3500,7 @@ msgid ""
 "Your language will be changed to %1 from the next screen. You will be "
 "redirected to there right now. If you aren't, [[%2][click to proceed]]."
 msgstr ""
-"Su idioma será cambiado a %1 desde la proxima pantalla. Será redirigido "
+"Su idioma será cambiado a %1 a partir de la siguiente pantalla. Será redirigido "
 "hacia ella ahora mismo. Si no, [[%2][presione aquí]] para proceder."
 
 #: core/templates/mailresetpassword.tmpl:10
@@ -3524,25 +3520,23 @@ msgstr ""
 "desee:"
 
 #: core/templates/messages.tmpl:163
-#, fuzzy
 msgid "Your personal Foswiki topic %1 has been created"
-msgstr "Su página personal del TWiki %1 ha sido creada"
+msgstr "Su página personal del Foswiki %1 ha sido creada"
 
 #: core/templates/messages.tmpl:195
-#, fuzzy
 msgid ""
 "Your registered e-mail address(es) are updated to: <noautolink>%1</"
 "noautolink>."
-msgstr "Su(s) dirección(es) de correo electrónico serán actualizadas a: %1"
+msgstr "Su(s) dirección(es) de correo electrónico serán actualizadas a: <noautolink>%1"
 
 #: core/templates/messages.tmpl:245
 msgid ""
 "Your registration verification email has either failed, or is queued in the "
 "mail system."
-msgstr ""
+msgstr "Su correo de verificacion de registro falló o todavía se encuentra en"
+"la cola de elementos a enviar de su sistema de correo electrónico."
 
 #: PatternSkin/templates/edit.pattern.tmpl:70
-#, fuzzy
 msgid "Your signature to copy/paste"
 msgstr "Su firma para copiar/pegar:"
 
@@ -3551,13 +3545,12 @@ msgid "Your signature to copy/paste:"
 msgstr "Su firma para copiar/pegar:"
 
 #: core/templates/messages.tmpl:186
-#, fuzzy
 msgid ""
 "Your system may not support changing passwords through Foswiki. Check with "
 "your Wiki administrator."
 msgstr ""
-"Tal vez su sistema no le permita cambiar contraseñas a través del Wiki. "
-"Consultar con su administrador del Wiki."
+"Tal vez su sistema no le permita cambiar contraseñas a través de Foswiki. "
+"Consulte con su administrador del Wiki."
 
 #: core/templates/messages.tmpl:11
 msgid "Your user name has been removed from the Authentication System."
@@ -3577,7 +3570,7 @@ msgstr "[[%1][Depurar texto del tema]]."
 msgid ""
 "[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
 msgstr ""
-"[Multiplo de 3 espacios] * [espacio] Set [espacio] NOMBREDEVARIABLE "
+"[Multiples de 3 espacios] * [espacio] Set [espacio] NOMBREDEVARIABLE "
 "[espacio] = [valor]"
 
 # please enter the name of your language here (written in the native language):
@@ -3634,9 +3627,8 @@ msgid "don't forget to check your Topic Settings"
 msgstr "no se le olvide revisar su configuración de página"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
-#, fuzzy
 msgid "edit"
-msgstr "(editar)"
+msgstr "editar"
 
 #: core/templates/messages.tmpl:221
 msgid "fields are required."
@@ -3653,7 +3645,7 @@ msgstr "ayuda"
 
 #: core/data/System/WikiSyntaxSummary.txt:17
 msgid "hints on good style"
-msgstr "pistas de buen estilo"
+msgstr "recomendaciones de buen estilo"
 
 #: core/templates/oopsmore.tmpl:107
 msgid "in raw text format"
@@ -3819,9 +3811,9 @@ msgid ""
 "your password. If none of your registered e-mail addresses is valid, and you "
 "have forgotten your password, contact %1."
 msgstr ""
-"*Deberá* tener por lo menos un correo electrónico valido registrado para "
+"*deberá* tener por lo menos un correo electrónico válido registrado para "
 "poder reinicializar su contraseña. Si ni uno de sus direcciones de correos "
-"electrónicos es valida, y usted ha olvidado su contraseña, contacte a %1."
+"electrónicos es válida, y a usted se le olvidó su contraseña, comuníquese con %1."
 
 #~ msgid "%1 Web Home"
 #~ msgstr "Página inicial de la Web %1"

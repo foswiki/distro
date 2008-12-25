@@ -2986,7 +2986,7 @@ msgstr ""
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
 #, fuzzy
 msgid ""
-"To edit pages on this FoswikiSite, you must have a registered user name and "
+"To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
 "Om pagina&#39;s te bewerken op deze TWikiSite heb je een geregistreerde "

@@ -3026,10 +3026,10 @@ msgstr ""
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
 msgid ""
-"To edit pages on this FoswikiSite, you must have a registered user name and "
+"To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
-"Pour modifier des pages sur ce site Foswiki (FoswikiSite), vous devez vous "
+"Pour modifier des pages sur ce site Foswiki, vous devez vous "
 "inscrire pour obtenir un nom de connexion et un mot de passe."
 
 #: core/templates/oopsleaseconflict.tmpl:20
