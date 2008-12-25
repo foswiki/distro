@@ -3665,7 +3665,8 @@ sub REVARG {
 sub ENCODE {
     my ( $this, $params ) = @_;
     my $type = $params->{type}     || 'url';
-    my $text = $params->{_DEFAULT} || '';
+    # Value 0 can be valid input so we cannot use simple = || ''
+    my $text = defined ( $params->{_DEFAULT} ) ? $params->{_DEFAULT} : '';
     return _encode( $type, $text );
 }
 
