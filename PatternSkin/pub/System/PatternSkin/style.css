@@ -812,6 +812,9 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternToolBar span a:active {
 	outline:none;
 }
+.patternToolBar span.foswikiAccessKey { 
+	float:none; 
+}
 .patternToolBar span s,
 .patternToolBar span strike {
 	text-decoration:none;
