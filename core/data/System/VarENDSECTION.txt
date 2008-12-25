@@ -7,7 +7,7 @@
    * Supported parameter:
      | *Parameter:* | *Description:* |
      | ="name"= | Name of the section. |
-     | =type="..."= | Type of the section being terminated; supported types ="section"=, ="include"=, ="templateonly"=. |
+     | =type="..."= | Type of the section being terminated; supported types ="section"=, ="include"=, ="expandvariables"=, ="templateonly"=. |
    * If the =STARTSECTION= is named, the corresponding =ENDSECTION= must also be named with the same name. If the =STARTSECTION= specifies a type, then the corresponding =ENDSECTION= must also specify the same type. If the section is unnamed, =ENDSECTION= will match with the nearest unnamed =%<nop>STARTSECTION%= *of the same type* above it. 
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]]
 

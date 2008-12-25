@@ -24,6 +24,7 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>GMTIME%= | Date/time. See VarGMTIME |
 | =%<nop>GMTIME{...}%= | Formatted date/time. See VarGMTIME |
 | =%<nop>NOP%= | A no-operation macro that gets removed. Useful to prevent a SEARCH from hitting an edit template topic; also useful to escape a variable, such as =%<nop>URLPA%<nop>NOP%RAM{...}%= escaping URLPARAM |
+| =%<nop>STARTSECTION{type="expandvariables"}%%BR%...%BR%%<nop>ENDSECTION{type="expandvariables"}%= | All macros inside an "expandvariables" type section gets expanded when a new topic based on the template topic is created. See notes below |
 | =%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= | Text that gets removed when a new topic based on the template topic is created. See notes below. |
 | =%<nop>SERVERTIME%= | Date/time. See VarSERVERTIME |
 | =%<nop>SERVERTIME{...}%= | Formatted date/time. See VarSERVERTIME |
@@ -32,7 +33,22 @@ When the following macros are used in a template topic, they automatically get e
 | =%<nop>WIKINAME%= | WikiName of user who is instantiating the new topic, e.g. <nop>%WIKINAME% |
 | =%<nop>WIKIUSERNAME%= | User name of user who is instantiating the new tpoic, e.g. <nop>%WIKIUSERNAME% |
 
-=%<nop>STARTSECTION{type="templateonly"}%%BR%...%BR%%<nop>ENDSECTION{type="templateonly"}%= markers are used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. For example, you might want to write in the template topic:
+All other macros are unchanged, e.g. are carried over "as is" into the new topic.
+
+=%<nop>STARTSECTION{type="expandvariables"}% ... %<nop>ENDSECTION{type="expandvariables"}%= markers are used to embed text that contains macros that you always want expanded when a new topic is created based on the template topic.
+For example: You want to create a status report topic that is created by piecing together several sub-topics in %<nop>INLCUDE%-s and you want to save a capture and freeze the state of them in a new topic weekly for historical purposes. Use something similar to this in the template topic:
+
+<pre>
+%<nop>STARTSECTION{type="expandvariables"}%
+%<nop>INCLUDE{"<nop>WeeklyReportProjectX"}%
+%<nop>INCLUDE{"<nop>WeeklyReportProjectY"}%
+%<nop>INCLUDE{"<nop>WeeklyReportProjectY"}%
+%<nop>ENDSECTION{type="expandvariables"}%
+</pre>
+
+When a new topic is created based on the template topic the INCLUDEs are replaced by the actual current content of the included topics.
+
+=%<nop>STARTSECTION{type="templateonly"}% ... %<nop>ENDSECTION{type="templateonly"}%= markers are used to embed text that you _do not_ want expanded when a new topic is created based on the template topic. For example, you might want to write in the template topic:
 <pre>
 %<nop>STARTSECTION{type="templateonly"}%
 This template topic can only be changed by:
@@ -43,14 +59,12 @@ This will restrict who can edit the template topic, but will get removed when a 
 
 =%<nop>NOP%= can be used to prevent expansion of [[macros]] that would otherwise be expanded during topic creation e.g.i escape =%<nop>SERVERTIME%= with =%<nop>SER%<nop>NOP%VERTIME%=.
 
-All other macros are unchanged, e.g. are carried over "as is" into the new topic.
-
 ---+++ Specifying a Form
 When you create a new topic based on a template topic, you often want the new topic to have a form attached to it. You can attach a form to the template topic, in which case it will automatically be copied into the new topic.
 
 Sometimes this isn't quite what you want, as it copies all the existing data from the template topic into the new topic. To avoid this and use the default values specified in the form definition instead, you can use the =formtemplate= parameter to the =edit= script to specify the name of a form to attach.
 
-See CommandAndCgiScripts for information about this, and all the other parameters to =edit=.
+See CommandAndCGIScripts for information about this, and all the other parameters to =edit=.
 
 #AutomaticallyGeneratedTopicname
 ---+++ Automatically Generated Topic Names
@@ -94,7 +108,7 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
 &lt;/form&gt;
 </pre>
 
-See CommandAndCgiScripts#edit for details of the parameters that the =edit= script understands.
+See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.
 
 %T% *TIP:* You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
 ==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==
