@@ -64,10 +64,14 @@ The column preference:
 ---++ Screenshot
 
 Click to enlarge:%BR%
-<a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a>
-<!--
-%SEARCH{ "%TOPIC%" scope="topic" nosearch="on" nototal="on" format="$pattern(.*\| *Screenshot\:[^\|]*\|([^\|]*).*)" }%
-<div class="foswikiGrayText">Click to view full screenshot</div>-->
+%SEARCH{"^\| *[S]creenshot"
+    topic="%TOPIC%"
+    regex="on"
+    nosearch="on"
+    nototal="on"
+    multiple="on"
+    format="$pattern(.*?\| *[S]creenshot\:[^\|]*?\|([^\|]*?)\|.*)"
+}%
 
 
 ---++ Information for site administrators
