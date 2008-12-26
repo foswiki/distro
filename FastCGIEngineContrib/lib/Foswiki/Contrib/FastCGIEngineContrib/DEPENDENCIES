@@ -1,5 +1,4 @@
 FCGI, >0.67, cpan, FastCGI perl library
-Cwd, >0, cpan, This module is shipped as part of standard perl
 File::Spec, >0, cpan, This module is shipped as part of standard perl
 Cwd, >0, cpan, This module is shipped as part of standard perl
 POSIX, >0, cpan, This module is shipped as part of standard perl
