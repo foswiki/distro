@@ -57,6 +57,15 @@ Foswiki 1.0.0 is shipped with
    * New "Copy topic" feature in the "More topic actions" tools.
    * IF conditions has been expanded with new "isempty" test condition
 
+---++ Security Updates
+
+Foswiki is much more secure than TWiki 4.2.4.
+
+   * The Foswiki 1.0.0 has chosen to secure by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities within normal use of URLPARAM. This means that not only the distributed topics but also your existing topics are better protected against XSS.
+   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS like URLPARAM is now encoding with the new "safe" type encoding.
+   * Print preview link is no longer an XSS attack vector.
+   * A developer security audit of the code revealed quite many both severe and less severe possibilities to inject code into the running old TWiki code. Foswiki has rewritten all code that takes data from outside so that it is checked and filtered for safe execution. Much more rigorous taint checking is now applied to all variables. As the Foswiki code is already a major rewrite it has not been practically possible for the Foswiki project to feed patches back to the TWiki code. TWiki users are for security reasons adviced to upgrade to Foswiki as soon as possible, as we have not seen any attempt from the TWiki.net company to even start porting our fixes back into their old TWiki code base. None of the known attack vectors has or will be exposed to the public. They are all found and fixed inside the Foswiki core development team.
+
 ---++ Major changes caused by name change from TWiki to Foswiki
 
 Because TWiki brandname is legally owned by Peter Thoeny we have felt it necessary to eliminate the TWiki word everywhere. It has also been an opportunity to change some of the naming that caused confusement for the end users.
@@ -157,22 +166,11 @@ When you upgrade from TWiki copy the old TWikiUsers topic to WikiUsers and manua
 Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. 
 </noautolink>
    
----++ Security Updates
-
-Foswiki is much more secure than TWiki 4.2.4.
-
-   * The Foswiki 1.0.0 has chosen to secure by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities within normal use of URLPARAM. This means that not only the distributed topics but also your existing topics are better protected against XSS.
-   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS like URLPARAM is now encoding with the new "safe" type encoding.
-   * Print preview link is no longer an XSS attack vector.
-   * A developer security audit of the code revealed quite many both severe and less severe possibilities to inject code into the running old TWiki code. Foswiki has rewritten all code that takes data from outside so that it is checked and filtered for safe execution. Much more rigorous taint checking is now applied to all variables. As the Foswiki code is already a major rewrite it has not been practically possible for the Foswiki project to feed patches back to the TWiki code. TWiki users are for security reasons adviced to upgrade to Foswiki as soon as possible, as we have not seen any attempt from the TWiki.net company to even start porting our fixes back into their old TWiki code base. None of the known attack vectors has or will be exposed to the public. They are all found and fixed inside the Foswiki core development team.
-
 ---++ Important Changes since TWiki 4.2.3
 
 If this release had been a TWiki release it would have been 4.3.0
 
 Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we list all changes since this release below.
-
----+++ Highlights of bug fixes since TWiki 4.2.3
 
 ---++ Fixes
 
