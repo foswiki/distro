@@ -9,3 +9,7 @@ compatible bar for TWiki installations
 	width:14em;
 	margin-left:-14em;
 }
+#patternSideBarContents {
+	padding-right:1em;
+	padding-left:1em;
+}
