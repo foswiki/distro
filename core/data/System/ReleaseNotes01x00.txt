@@ -27,7 +27,7 @@ The quality of 1.0.0 is depending on *you* downloading and installing this beta 
 
 -----
 
-Foswiki - The Free and Open Source Wiki
+*Foswiki - The Free and Open Source Wiki*
 
 Foswiki is an enterprise collaboration and information sharing tool targetted for professionel use in anything from small businesses to large organisations. 
 
@@ -35,9 +35,27 @@ Foswiki is a wiki. A "Wiki" system is fundamentally a website with editable web 
 
 It is a Structured Wiki with tools that enables users without programming skills to build powerful yet simple applications to process information and build workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is a fork of TWiki. In 2008 the TWiki brandname owner decided to commercialize TWiki and take full control of the project. After years of development towards an open and democratic development process nearly all the developers decided to discard the TWiki brand and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is owned by an independent association without commercial control, which makes it a safe bet for the future as no single individual or commercial interest can bring it down. If you are a happy TWiki user you can safely upgrade to Foswiki and take advantage of the continuous development made by a large expanding open source community which is open to everyone. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
+Foswiki is the old TWiki project under a new name. Developers decided to discard the TWiki brand because of a commercial dispute and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is backwards compatible all content from older TWiki installations. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
 
 Foswiki is release under the GNU General Public License.
+
+---++ Pre-installed Extensions
+
+Foswiki 1.0.0 is shipped with
+
+   * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
+   * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
+   * *Skins:* !PatternSkin
+   * *Compatibility version* -  !TWikiCompatibilityPlugin
+
+---++ New Features Highlights
+
+   * The Foswiki 1.0.0 is built on a new platform called Foswiki Stand Alone which enables more optimized functionality in mod_perl and the like. It also enables making features like running Foswiki without a webserver locally. These new features are not yet available but they will soon and by running Foswiki 1.0.0 you are already ready for them when they because available for download.
+   * The PatternSkin has been facelifted. If you go to the PatternSkin topic you can select different themes. You can choose which side you want the side bar, you can add a frame around the whole content, and there is a TWiki theme which makes it easier for the upgrader as it maintains the dimentions of top bar etc.
+   * Advanced Search screen now has query type search
+   * New section type "expandvariables" adds better control over macro expansion in topic templates. You can now create template topics with sections within which all macros are expanded.
+   * New "Copy topic" feature in the "More topic actions" tools.
+   * IF conditions has been expanded with new "isempty" test condition
 
 ---++ Major changes caused by name change from TWiki to Foswiki
 
@@ -138,24 +156,6 @@ When you upgrade from TWiki copy the old TWikiUsers topic to WikiUsers and manua
 
 Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. 
 </noautolink>
-
----++ Pre-installed Extensions
-
-Foswiki 1.0.0 is shipped with
-
-   * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
-   * *Skins:* !PatternSkin
-   * *Compatibility version* -  !TWikiCompatibilityPlugin
-
----++ New Features Highlights
-
-   * The Foswiki 1.0.0 is built on a new platform called Foswiki Stand Alone which enables more optimized functionality in mod_perl and the like. It also enables making features like running Foswiki without a webserver locally. These new features are not yet available but they will soon and by running Foswiki 1.0.0 you are already ready for them when they because available for download.
-   * The PatternSkin has been facelifted. If you go to the PatternSkin topic you can select different themes. You can choose which side you want the side bar, you can add a frame around the whole content, and there is a TWiki theme which makes it easier for the upgrader as it maintains the dimentions of top bar etc.
-   * Advanced Search screen now has query type search
-   * New section type "expandvariables" adds better control over macro expansion in topic templates. You can now create template topics with sections within which all macros are expanded.
-   * New "Copy topic" feature in the "More topic actions" tools.
-   * IF conditions has been expanded with new "isempty" test condition
    
 ---++ Security Updates
 
@@ -173,8 +173,6 @@ If this release had been a TWiki release it would have been 4.3.0
 Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we list all changes since this release below.
 
 ---+++ Highlights of bug fixes since TWiki 4.2.3
-
-
 
 ---++ Fixes
 
