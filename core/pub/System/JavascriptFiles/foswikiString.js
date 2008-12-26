@@ -8,7 +8,7 @@ foswiki.String = {
 	*/
 	isWikiWord:function(inValue) {
 		if (!inValue) return false;
-		var re = new RegExp(WIKIWORD_REGEX);
+		var re = new RegExp(foswiki.StringConstants.getInstance().WIKIWORD_REGEX);
 		return (inValue.match(re)) ? true : false;
 	},
 
@@ -19,7 +19,7 @@ foswiki.String = {
 	*/
 	capitalize:function(inValue) {
 		if (!inValue) return null;
-		var re = new RegExp("[" + MIXED_ALPHANUM_CHARS + "]+", "g");
+		var re = new RegExp("[" + foswiki.StringConstants.getInstance().MIXED_ALPHANUM_CHARS + "]+", "g");
 		return inValue.replace(re, function(a) {
 			return a.charAt(0).toLocaleUpperCase() + a.substr(1);
 		});
@@ -61,7 +61,7 @@ foswiki.String = {
 	*/
 	removePunctuation:function(inValue) {
 		if (!inValue) return null;
-		var allowedRegex = "[^" + MIXED_ALPHANUM_CHARS + "]";
+		var allowedRegex = "[^" + foswiki.StringConstants.getInstance().MIXED_ALPHANUM_CHARS + "]";
 		var re = new RegExp(allowedRegex, "g");
 		return inValue.replace(re, "");
 	},
@@ -111,10 +111,10 @@ http://www.hot-tips.co.uk/useful/unicode_converter.HTML
 Convert hexadecimal Unicode escape sequence (\uXXXX) to text
 http://www.hot-tips.co.uk/useful/unicode_convert_back.HTML
 	
-More international characters in unicode_chars.js
+More international characters in foswikiStringUnicodeChars.js
 Import file when international support is needed:
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/unicode_chars.js"></script>
-unicode_chars.js will overwrite the regexes below
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiStringUnicodeChars.js"></script>
+foswikiStringUnicodeChars.js will overwrite the regexes below:
 	
 Info on unicode: http://www.fileformat.info/info/unicode/
 */

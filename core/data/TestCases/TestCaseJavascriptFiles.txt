@@ -1,0 +1,1069 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 7490 $"}%
+
+---+!! Unit tests for !JavascriptFiles
+
+These tests require Foswiki:Extensions.JSUnitContrib to run.
+
+*[[%PUBURL%/%SYSTEMWEB%/JSUnitContrib/testRunner.html?testpage=%SCRIPTURL{"view"}%/%BASEWEB%/%TOPIC%][Run tests]]*
+
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JSUnitContrib/app/jsUnitCore.js"></script>
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js"></script>
+
+%TOC%
+
+---++ foswiki.Array
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiArray.js"></script>
+
+---+++ foswiki.Array.remove
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testRemoveWithValidArgs() {
+    	var list = ["a", "b", "c"];
+    	foswiki.Array.remove(list, "b");
+        assertEquals("Remove object 1 from list", "ac", list.join(""));
+        foswiki.Array.remove(list, "a");
+        assertEquals("Remove object 2 from list", "c", list.join(""));
+        foswiki.Array.remove(list, "c");
+        assertEquals("Remove object 3 from list", "", list.join(""));
+    }
+    function testRemoveWithInvalidArgs() {
+    	var list = ["a", "b", "c"];
+        assertNull("A null argument should result in null", foswiki.Array.remove(list, null));
+        foswiki.Array.remove(list, null);
+        assertEquals("A null argument should result in no objects removed", "abc", list.join(""));
+    }
+    function testRemoveWithUndefinedValue() {
+    	var list = ["a", "b", "c"];
+        assertNull("An undefined argument should result in null", foswiki.Array.remove(list, JSUNIT_UNDEFINED_VALUE));
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.Array.convertArgumentsToArray
+
+<script language="javascript">
+/*<![CDATA[*/
+	function returnArguments() {
+		return arguments;
+	}
+    function testConvertArgumentsToArrayWithValidArgs() {
+    	var args = returnArguments("a", "b", "c");
+    	var argsArray = foswiki.Array.convertArgumentsToArray(args);
+    	assertEquals("Convert valid arguments", "abc", argsArray.join(""));
+    	var argsArray = foswiki.Array.convertArgumentsToArray(args,1);
+    	assertEquals("Convert valid arguments with starting point", "bc", argsArray.join(""));
+    }
+    function testConvertArgumentsToArrayWithInValidArgs() {
+    	{
+			var args = returnArguments();
+			var list = foswiki.Array.convertArgumentsToArray(args);
+			assertNull("Empty args list should result in null", list);
+		}
+		{
+			var args = returnArguments("a", "b", "c");
+			var list = foswiki.Array.convertArgumentsToArray(args,3);
+			assertNull("Start beyond bounds should result in null", list);
+		}
+		{
+	    	assertNull("No args should result in null", foswiki.Array.convertArgumentsToArray());
+    	}
+    	{
+			var args = returnArguments("a", "b", "c");
+			var list = foswiki.Array.convertArgumentsToArray(args,"a");
+			assertNull("String input as start should result in null", list);
+		}
+    }
+
+/*]]>*/
+</script>
+
+---+++ foswiki.Array.indexOf
+
+<script language="javascript">
+/*<![CDATA[*/
+
+    function testIndexOfWithValidArgs() {
+    	var array = ["a", "b", "b", "c"];
+    	var index;
+    	
+    	index = foswiki.Array.indexOf(array, "a");
+    	assertEquals("testIndexOfWithValidArgs 1", 0, index);
+
+    	index = foswiki.Array.indexOf(array, "b");
+    	assertEquals("testIndexOfWithValidArgs 2", 1, index);
+    	
+    	index = foswiki.Array.indexOf(array, "c");
+    	assertEquals("testIndexOfWithValidArgs 3", 3, index);
+    	
+    	index = foswiki.Array.indexOf(array, "d");
+    	assertEquals("testIndexOfWithValidArgs 4", -1, index);
+    	
+    	var emptyArray = [];
+    	index = foswiki.Array.indexOf(emptyArray, "a");
+    	assertEquals("Empty array input should result in -1", -1, index);
+    }
+    function testIndexOfWithInvalidArgs() {
+    	index = foswiki.Array.indexOf(null, "a");
+    	assertNull("No array input should result in null", index);
+    }
+/*]]>*/
+</script>
+
+
+
+
+---++ foswiki.Form
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiForm.js"></script>
+
+<form id="testForm" name="testForm">
+
+<!-- text input -->
+<input type="text" name="testInput" id="testInput" value="TESTTEXT" size="40" disabled=true />
+
+<!-- text input -->
+<input type="password" name="testPwd" value="secret" size="40" disabled=true />
+
+<!-- radio buttons -->
+<input type="radio" name="testRadio" value="text" checked="checked" disabled=true /><label for="textbody">Text body</label><br />
+<input type="radio" name="testRadio" value="topic" disabled=true /><label for="topictitle">Topic title</label><br />
+<input type="radio" name="testRadio" value="all" disabled=true /><label for="both">Both body and title</label>
+
+<!-- checkboxes -->
+<input type="checkbox" name="testCbNoSearch" checked="checked" disabled=true /><label for="nosearch">Search string</label><br />
+<input type="checkbox" name="testCbNoSummary" checked="checked" disabled=true /><label for="nosummary">Summaries</label><br />
+<input type="checkbox" name="nototal" disabled=true /><label for="nototal">Total matches</label>
+
+<!-- hidden field -->
+<input type=hidden name="testHidden" value="classic" disabled=true  />
+
+<!-- textarea -->
+<textarea name="testTextArea" disabled=true >COMMENTSTEXT</textarea>
+
+<!-- select dropdown -->
+<select name="testSelect" disabled=true >
+<option value="volvo">Volvo</option>
+<option value="saab">Saab</option>
+<option value="fiat" selected="selected">Fiat</option>
+<option value="audi">Audi</option>
+</select>
+
+<!-- select multiple -->
+<select name="testSelectMultiple" size="5" multiple> 
+<option>[New Genre]</option> 
+<option selected="selected">Industrial</option> 
+<option selected="selected">Rock</option> 
+</select>
+
+</form>
+
+---+++ foswiki.Form.formData2QueryString
+
+<script language="javascript">
+/*<![CDATA[*/
+
+    function testFormData2QueryStringWithValidArgs() {
+    	{
+			var queryString = foswiki.Form.formData2QueryString(
+				document.getElementById('testForm')
+			);
+			assertEquals("Form values not collapsed", "testInput=TESTTEXT;testPwd=secret;testRadio=text;testCbNoSearch=on;testCbNoSummary=on;testHidden=classic;testTextArea=COMMENTSTEXT;testSelect=fiat;testSelectMultiple=Industrial;testSelectMultiple=Rock", queryString);
+		}
+		{
+			var queryString = foswiki.Form.formData2QueryString(
+				document.getElementById('testForm'),
+				{collapseMulti:false}
+			);
+			assertEquals("Form values; collapsed false", "testInput=TESTTEXT;testPwd=secret;testRadio=text;testCbNoSearch=on;testCbNoSummary=on;testHidden=classic;testTextArea=COMMENTSTEXT;testSelect=fiat;testSelectMultiple=Industrial;testSelectMultiple=Rock", queryString);
+		}
+		{
+			var queryString = foswiki.Form.formData2QueryString(
+				document.getElementById('testForm'),
+				{collapseMulti:true}
+			);
+			assertEquals("Form values collapsed", "testInput=TESTTEXT;testPwd=secret;testRadio=text;testCbNoSearch=on;testCbNoSummary=on;testHidden=classic;testTextArea=COMMENTSTEXT;testSelect=fiat;testSelectMultiple=Industrial,Rock", queryString);
+		}
+    }
+
+	function testFormData2QueryStringWithInvalidArgs() {
+    	{
+    		var formElem = document.getElementById('doesNotExist');
+			var queryString = foswiki.Form.formData2QueryString(formElem);
+			assertNull("Non-existing form should return null", queryString);
+		}
+		{
+			var queryString = foswiki.Form.formData2QueryString(
+				document.getElementById('testForm'),
+				{bla:true}
+			);
+			assertEquals("Non-existing options should do nothing", "testInput=TESTTEXT;testPwd=secret;testRadio=text;testCbNoSearch=on;testCbNoSummary=on;testHidden=classic;testTextArea=COMMENTSTEXT;testSelect=fiat;testSelectMultiple=Industrial;testSelectMultiple=Rock", queryString);
+		}
+    }
+
+/*]]>*/
+</script>
+
+
+
+---++ foswiki.HTML
+
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiHTML.js"></script>
+
+
+---+++ foswiki.HTML.setHtmlOfElementWithId
+
+<div id="testSetHtmlOfElementWithId"></div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testSetHtmlOfElementWithIdWithValidArgs() {
+    	var html = "<span class=\"blue\">Blue text<\/span>";
+		var elem = foswiki.HTML.setHtmlOfElementWithId(
+			"testSetHtmlOfElementWithId",
+			html
+		);
+		
+		var result = foswiki.HTML.getHtmlOfElementWithId("testSetHtmlOfElementWithId");
+    	assertEquals(
+    		"Result setHtmlOfElementWithId",
+    		html.toLowerCase().replace(/\s*/g,''),
+    		result.toLowerCase().replace(/\s*/g,'')
+    	);
+    	
+    	assertEquals(
+    		"Result setHtmlOfElementWithId element",
+    		document.getElementById('testSetHtmlOfElementWithId'),
+    		elem
+    	);
+	}
+	
+	function testSetHtmlOfElementWithIdWithInvalidArgs() {
+		var html = "<span style=\"color:#00f\">Blue text<\/span>";
+		var newElem = foswiki.HTML.setHtmlOfElementWithId(
+			"doesNotExist",
+			html
+		);
+		assertNull("testSetHtmlOfElementWithIdWithInvalidArgs - Non-existing element should return null", newElem);
+	}
+	
+ /*]]>*/
+</script>
+
+---+++ foswiki.HTML.setHtmlOfElement
+
+<div id="setHtmlOfElement"></div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testSetHtmlOfElementWithValidArgs() {
+    	var html = "<span class=\"blue\">Blue text<\/span>";
+    	var elem = document.getElementById("setHtmlOfElement");
+		var newElem = foswiki.HTML.setHtmlOfElement(
+			elem,
+			html
+		);
+		
+		var result = foswiki.HTML.getHtmlOfElementWithId("setHtmlOfElement");
+    	assertEquals(
+    		"Result setHtmlOfElement",
+    		html.toLowerCase().replace(/\s*/g,''),
+    		result.toLowerCase().replace(/\s*/g,'')
+    	);
+    	
+    	assertEquals(
+    		"Result setHtmlOfElement element",
+    		document.getElementById('setHtmlOfElement'),
+    		newElem
+    	);
+
+	}
+	
+	function testSetHtmlOfElementWithInvalidArgs() {
+		var html = "<span class=\"blue\">Blue text<\/span>";
+		var newElem = foswiki.HTML.setHtmlOfElement(
+			null,
+			html
+		);
+		assertNull("testSetHtmlOfElementWithInvalidArgs - Non-existing element should return null", newElem);
+	}
+
+ /*]]>*/
+</script>
+
+---+++ foswiki.HTML.getHtmlOfElementWithId
+
+<div id="testgetHtmlOfElementIdContainer">***HtmlOfElementWithId***</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testGetHtmlOfElementWithIdWithValidArgs() {
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testgetHtmlOfElementIdContainer");
+    	assertEquals(
+    		"Result html of element with id",
+    		'***HtmlOfElementWithId***',
+    		result
+    	);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.HTML.getHtmlOfElement
+
+<div id="testgetHtmlOfElementContainer">+++HtmlOfElement+++</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testGetHtmlOfElementWithIdWithValidArgs() {
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testgetHtmlOfElementContainer");
+    	assertEquals(
+    		"Result html of element",
+    		'+++HtmlOfElement+++',
+    		result
+    	);
+    }
+/*]]>*/
+</script>
+
+
+---+++ foswiki.HTML.clearElementWithId
+
+<div id="testclearElementWithIdContainer">***clearElementWithId text***</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testClearElementWithIdWithValidArgs() {
+    	var elem = foswiki.HTML.clearElementWithId("testclearElementWithIdContainer");
+    	
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testclearElementWithIdContainer");
+    	assertEquals(
+    		"Result html of clear element with id",
+    		'',
+    		result
+    	);
+    	
+    	assertEquals(
+    		"Result clearElementWithId element",
+    		document.getElementById('testclearElementWithIdContainer'),
+    		elem
+    	);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.HTML.clearElement
+
+<div id="testclearElementContainer">***clearElement text***</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testClearElementWithValidArgs() {
+    	var elem = document.getElementById("testclearElementContainer");
+    	var newElem = foswiki.HTML.clearElement(elem);
+    	
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testclearElementContainer");
+    	assertEquals(
+    		"Result html of clear element",
+    		'',
+    		result
+    	);
+    	
+    	assertEquals(
+    		"Result clearElement element",
+    		document.getElementById('testclearElementContainer'),
+    		newElem
+    	);
+    }
+/*]]>*/
+</script>
+
+
+
+---+++ foswiki.HTML.insertAfterElement
+
+<div id="testInsertAfter">insert after this div...</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testInsertAfterWithValidArgs() {
+    	var html = "<strong>RESULT INSERT AFTER</strong>";
+    	var newElem = foswiki.HTML.insertAfterElement(
+    		document.getElementById('testInsertAfter'),
+    		'div',
+    		html,
+    		{
+    			"id":"testInsertAfterResult",
+    			"style":"color:red"
+    		}
+    	);
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testInsertAfterResult");
+    	assertEquals(
+    		"Result insert after",
+    		html.toLowerCase().replace(/\s*/g,''),
+    		result.toLowerCase().replace(/\s*/g,'')
+    	);
+    	
+    	assertEquals(
+    		"Resulting element insert after",
+    		document.getElementById('testInsertAfterResult'),
+    		newElem
+    	);
+    }
+    
+    function testInsertAfterWithInvalidArgs() {
+    	var newElem = foswiki.HTML.insertAfterElement(
+    		document.getElementById('doesNotExist')
+    	);
+    	assertNull("testInsertAfterWithValidArgs - Non-existing element should return null", newElem);
+    }
+ /*]]>*/
+</script>
+
+---+++ foswiki.HTML.insertBeforeElement
+
+<div id="testInsertBefore">insert before this div...</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testInsertBeforeWithValidArgs() {
+    	var html = '<strong>RESULT INSERT BEFORE</strong>';
+    	var newElem = foswiki.HTML.insertBeforeElement(
+    		document.getElementById('testInsertBefore'),
+    		'div',
+    		html,
+    		{
+    			"id":"testInsertBeforeResult"
+    		}
+    	);
+    	var result = foswiki.HTML.getHtmlOfElementWithId("testInsertBeforeResult");
+    	assertEquals(
+    		"Result insert before",
+    		html.toLowerCase().replace(/\s*/g,''),
+    		result.toLowerCase().replace(/\s*/g,'')
+    	);
+    	
+    	assertEquals(
+    		"Resulting element insert before",
+    		document.getElementById('testInsertBeforeResult'),
+    		newElem
+    	);
+    }
+    
+    function testInsertBeforeWithInvalidArgs() {
+    	var newElem = foswiki.HTML.insertBeforeElement(
+    		document.getElementById('doesNotExist')
+    	);
+    	assertNull("testInsertBeforeWithInvalidArgs - Non-existing element should return null", newElem);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.HTML.replaceElement
+
+<div id="testReplace">replace this div...</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testReplaceWithValidArgs() {
+    	var html = '<strong>RESULT REPLACE</strong>';
+    	var newElem = foswiki.HTML.replaceElement(
+    		document.getElementById('testReplace'),
+    		'div',
+    		html,
+    		{
+    			id:'resultReplaced'
+    		}
+    		
+    	);
+    	var result = foswiki.HTML.getHtmlOfElementWithId("resultReplaced");
+    	assertEquals(
+    		"Result replaced",
+    		html.toLowerCase().replace(/\s*/g,''),
+    		result.toLowerCase().replace(/\s*/g,'')
+    	);
+    	
+    	assertEquals(
+    		"Resulting element replaced",
+    		document.getElementById('resultReplaced'),
+    		newElem
+    	);
+    }
+    
+    function testReplaceWithInvalidArgs() {
+    	var newElem = foswiki.HTML.replaceElement(
+    		document.getElementById('doesNotExist')
+    	);
+    	assertNull("testReplaceWithInvalidArgs - Non-existing element should return null", newElem);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.HTML.setNodeAttributesInList
+
+<div id="setNodeAttributesInListContainer">
+<ul>
+	<li>Item 1</li>
+	<li>Item 2</li>
+	<li>Item 3</li>
+</ul>
+</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testSetNodeAttributesInListWithValidArgs() {
+    	var elem = document.getElementById("setNodeAttributesInListContainer");
+    	var nodeList = elem.getElementsByTagName('ul');
+    	var attributes = {
+    		"class":"foswikiSmall foswikiGrayText",
+    		"style":
+    			{
+    				"fontSize":"20px",
+    				"backgroundColor":"#444",
+    				"borderLeft":"5px solid red",
+					"margin":"0 0 1em 0"
+    			}
+    	};
+    	foswiki.HTML.setNodeAttributesInList(nodeList, attributes);
+    	
+    	// test first element
+    	var elem = nodeList[0];
+    	/*
+    	assertEquals("testSetNodeAttributesInListWithValidArgs class",
+    		"foswikiSmall foswikiGrayText",
+    		elem.getAttribute("class"));
+    	assertEquals("testSetNodeAttributesInListWithValidArgs style.color",
+    		"20px",
+    		elem.style["font-size"]);
+    	*/
+    }
+	testSetNodeAttributesInListWithValidArgs();
+/*]]>*/
+</script>
+
+
+---++ foswiki.Window
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiWindow.js"></script>
+
+---+++ foswiki.Window.openPopup
+
+<button class="foswikiButton testopenPopup">Test open window</button>
+
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>
+
+
+<script language="javascript">
+/*<![CDATA[*/
+	function openPopup() {
+		var win = foswiki.Window.openPopup(
+    		"%SCRIPTURL{view}%/",
+    		{
+    			topic:"WebChanges",
+    			web:"%SYSTEMWEB%",
+    			name:"TEST_WINDOW",
+    			width:"700",
+    			height:"200",
+    			template:"view.print",
+    			skin:"classic",
+    			cover:"pattern",
+    			attributes:"titlebar=1,resizable=no,scrollbars=no"
+    		},
+    		this
+    	);
+    	return win;
+	}
+    function testOpenPopupWithValidArgs() {
+    	var win = openPopup();
+    	if (!win) {
+    		alert("Disable your pop-up blocker to run this test");
+    		return;
+    	}
+    	assertEquals("Window name", "TEST_WINDOW", win.name);
+    	win.close();
+    }
+    
+    function testOpenPopupWithInvalidArgs() {
+    	var win = foswiki.Window.openPopup();
+    	assertNull("No url passed should result in null", win);
+    }
+
+	//openPopup();
+	
+	var myrules = {
+	   '.testopenPopup' : function(el) {
+		  el.onclick = function() {
+			 openPopup();
+			 return false;
+		  }
+	   }
+	};
+	Behaviour.register(myrules);
+/*]]>*/
+</script>
+
+---++ foswiki.Event
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiEvent.js"></script>
+
+---+++ foswiki.Event.addLoadEvent
+
+<div id="testAddLoadEventContainer">Here goes...</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+foswiki.Event.addLoadEvent(
+	function() {
+		document.body.style.backgroundColor = '#ffc';
+	});
+
+foswiki.Event.addLoadEvent(
+	function() {
+		document.getElementById("testAddLoadEventContainer").appendChild(document.createTextNode(' monkeys!'));
+	});
+
+foswiki.Event.addLoadEvent(
+	function() {
+		document.getElementById("testAddLoadEventContainer").appendChild(document.createTextNode('Hungry'));
+	},
+	true);
+
+foswiki.Event.addLoadEvent("createTextNode");
+	
+    function testAddLoadEventWithValidArgs() {
+    	
+    	assertEquals(
+    		"Text contents", 
+    		document.getElementById("testAddLoadEventContainer").innerHTML,
+    		"Here goes...Hungry monkeys!"
+    	);
+    }
+    function testAddLoadEventWithInvalidArgs() {
+    	// see addLoadEvent No. 4
+    }
+    
+/*]]>*/
+</script>
+
+
+---++ foswiki.Pref
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
+
+---+++ foswiki.Pref.setCookie, foswiki.Pref.getCookie
+<script language="javascript">
+/*<![CDATA[*/
+    function testGetSetCookieWithValidArgs() {
+    	var name = "TestCaseJavascriptFilesCookie1"; 
+    	var value = "delightful";
+    	var expiryDate = new Date();
+    	expiryDate.setDate(expiryDate.getDate() + 1);
+		var path = null;
+		var domain = null;
+    	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
+    	var cookie = foswiki.Pref.getCookie(name);
+    	assertEquals("Cookie ", value, cookie);
+    }
+/*]]>*/
+</script>
+    
+---+++ foswiki.Pref.deleteCookie
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testDeleteCookieWithValidArgs() {
+    	var name = "TestCaseJavascriptFilesCookie2"; 
+    	var value = "enchanting";
+    	var expiryDate = new Date();
+    	expiryDate.setDate(expiryDate.getDate() + 1);
+		var path = null;
+		var domain = null;
+    	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
+    	var cookie = foswiki.Pref.getCookie(name);
+    	foswiki.Pref.deleteCookie(name, path, domain);
+    	var deletedCookie = foswiki.Pref.getCookie(name);
+    	assertNull("Deleted cookie", deletedCookie);
+    }
+    
+    function testDeleteCookieWithInValidArgs() {
+    	var name = "TestCaseJavascriptFilesCookie3"; 
+    	var value = "heavenly";
+    	var expiryDate = new Date();
+    	expiryDate.setDate(expiryDate.getDate() + 1);
+		var path = "/";
+		var domain = "foswiki.org";
+    	foswiki.Pref.setCookie(name, value, expiryDate, path, domain);
+    	var cookie = foswiki.Pref.getCookie(name);
+    	foswiki.Pref.deleteCookie(name, path);
+    	var notDeletedCookie = foswiki.Pref.getCookie(name);
+    	assertEquals("Not deleted cookie ", cookie, notDeletedCookie);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.Pref.setPref, foswiki.Pref.getPref
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testSetPrefWithValidArgs() {
+    	var prefName = "TestCaseJavascriptFilesPref1";
+    	var value = "a battuta";
+		foswiki.Pref.setPref(prefName, value);
+		var retrievedValue = foswiki.Pref.getPref(prefName);
+		assertEquals("Set pref ", retrievedValue, value);
+	}
+/*]]>*/
+</script>
+
+---+++ foswiki.Pref.getPrefList, foswiki.Pref.getPrefValueFromPrefList
+
+<script language="javascript">
+/*<![CDATA[*/
+	function testGetPrefListWithValidArgs() {
+		var prefName = "TestCaseJavascriptFilesPref2";
+    	var value = "a capella";
+		foswiki.Pref.setPref(prefName, value);
+		var prefList = foswiki.Pref.getPrefList();
+		var retrievedValue = foswiki.Pref.getPrefValueFromPrefList(prefName, prefList);
+		assertEquals("Pref from prefList", retrievedValue, value);
+		
+	}
+/*]]>*/
+</script>
+
+---++ foswiki.CSS
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiCSS.js"></script>
+
+---+++ foswiki.CSS.removeClass, foswiki.CSS.getClassList
+
+<div id="foswikiCSSremoveClass" class="someClass foswikiSmall otherClass">text</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testRemoveClassWithValidArgs() {
+    	var el = document.getElementById("foswikiCSSremoveClass");
+    	foswiki.CSS.removeClass(el, "foswikiSmall");
+    	var classList = foswiki.CSS.getClassList(el);
+    	var classListString = classList.join(",");
+    	var expectedClassListString = "someClass,otherClass";
+    	assertEquals("Remaining classes ", expectedClassListString, classListString);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.CSS.addClass
+
+<div id="foswikiCSSaddClass">text</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testAddClassWithValidArgs() {
+    	var el = document.getElementById("foswikiCSSaddClass");
+    	foswiki.CSS.addClass(el, "foswikiSmall");
+    	foswiki.CSS.addClass(el, "secondClass");
+    	var classList = foswiki.CSS.getClassList(el);
+    	var classListString = classList.join(",");
+    	var expectedClassListString = "foswikiSmall,secondClass";
+    	assertEquals("Added classes ", expectedClassListString, classListString);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.CSS.replaceClass
+
+<div id="foswikiCSSreplaceClass" class="someClass replaceThisClass otherClass">text</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testReplaceClassWithValidArgs() {
+    	var el = document.getElementById("foswikiCSSreplaceClass");
+    	foswiki.CSS.replaceClass(el, "replaceThisClass", "myClass");
+    	var classList = foswiki.CSS.getClassList(el);
+    	var classListString = classList.join(",");
+    	var expectedClassListString = "someClass,otherClass,myClass";
+    	assertEquals("Replaced classes ", expectedClassListString, classListString);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.CSS.setClassList
+
+<div id="foswikiCSSsetClassList">text</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testSetClassListWithValidArgs() {
+    	var el = document.getElementById("foswikiCSSsetClassList");
+    	var classList = [];
+    	classList.push("classOne");
+    	classList.push("classTwo");
+    	classList.push("classThree");
+		foswiki.CSS.setClassList(el, classList);
+    	var classListString = classList.join(",");
+    	var setClassListString = foswiki.CSS.getClassList(el).join(",");
+    	assertEquals("Set classes ", classListString, setClassListString);
+    }
+/*]]>*/
+</script>
+
+---+++ foswiki.CSS.hasClass
+
+<div id="foswikiCSShasClass" class="classOne classTwo">text</div>
+
+<script language="javascript">
+/*<![CDATA[*/
+    function testHasClassWithValidArgs() {
+    	var el = document.getElementById("foswikiCSShasClass");
+    	assertTrue("Has class 1", foswiki.CSS.hasClass(el, "classOne"));
+    	assertTrue("Has class 2", foswiki.CSS.hasClass(el, "classTwo"));
+    	assertFalse("Has class 3", foswiki.CSS.hasClass(el, "classThree"));
+    }
+/*]]>*/
+</script>
+
+
+---++ foswiki.String
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js"></script>
+
+---+++ foswiki.String.isWikiWord
+<script language="javascript">
+/*<![CDATA[*/
+    function testIsWikiWordWithValidArgs() {
+    	assertTrue("WikiWord", foswiki.String.isWikiWord("WikiWord"));
+    	assertFalse("ABC", foswiki.String.isWikiWord("ABC"));
+    	assertTrue("ThisIsAWikiWord", foswiki.String.isWikiWord("ThisIsAWikiWord"));
+    	assertTrue("ThisIsAWikiWord123", foswiki.String.isWikiWord("ThisIsAWikiWord123"));
+    	assertFalse("123", foswiki.String.isWikiWord("123"));
+    	assertFalse("No Wikiword", foswiki.String.isWikiWord("No Wikiword"));
+    }
+    
+    function testIsWikiWordWithInvalidArgs() {
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord(" "));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord("_"));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord(0));
+    	assertFalse("Invalid wiki word", foswiki.String.isWikiWord(null));
+	}
+	function testIsWikiWordWithUndefinedValue() {
+		assertFalse("An undefined argument should result in false", foswiki.String.isWikiWord(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
+---+++ foswiki.String.capitalize
+<script language="javascript">
+/*<![CDATA[*/
+    function testCapitalizeWordsWithValidArgs() {
+    	var text, result, expected;
+    	
+    	text = "abc";
+    	expected = "Abc";
+    	result = foswiki.String.capitalize(text);
+    	assertEquals("Capitalized text:", result, expected);
+    	
+    	text = "abc def";
+    	expected = "Abc Def";
+    	result = foswiki.String.capitalize(text);
+    	assertEquals("Capitalized text:", result, expected);
+    	
+    	text = "abc 123";
+    	expected = "Abc 123";
+    	result = foswiki.String.capitalize(text);
+    	assertEquals("Capitalized text:", result, expected);
+    }
+	function testCapitalizeWordsWithInvalidArgs() {
+    	assertNull("Invalid capitalized text:", foswiki.String.capitalize(null));
+    	assertNull("Invalid capitalized text:", foswiki.String.capitalize(0));
+	}
+	function testCapitalizedWordsWithUndefinedValue() {
+		assertNull("An undefined argument should result in null:", foswiki.String.capitalize(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
+---+++ foswiki.String.isBoolean
+<script language="javascript">
+/*<![CDATA[*/
+    function testIsBooleanWithValidArgs() {
+    	var text;
+    	
+    	text = "1";
+    	assertTrue("isBoolean:", foswiki.String.isBoolean(text));
+    	
+    	text = "0";
+    	assertFalse("isBoolean:", foswiki.String.isBoolean(text));
+    	
+    	text = "2";
+    	assertFalse("isBoolean:", foswiki.String.isBoolean(text));
+    	
+    	text = "on";
+    	assertTrue("isBoolean:", foswiki.String.isBoolean(text));
+    	
+    	text = "true";
+    	assertTrue("isBoolean:", foswiki.String.isBoolean(text));
+    	
+    	text = "1.1";
+    	assertFalse("isBoolean:", foswiki.String.isBoolean(text));
+    }
+    function testIsBooleanWithInvalidArgs() {
+    	assertFalse("Invalid capitalized text:", foswiki.String.isBoolean(null));
+    	assertFalse("Invalid capitalized text:", foswiki.String.isBoolean(0));
+	}
+	function testIsBooleanWithUndefinedValue() {
+		assertFalse("An undefined argument should result in false", foswiki.String.isBoolean(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
+---+++ foswiki.String.removeSpaces
+<script language="javascript">
+/*<![CDATA[*/
+    function testRemoveSpacesWithValidArgs() {
+    	var text, result, expected;
+    	
+    	text = "abc";
+    	expected = "abc";
+    	result = foswiki.String.removeSpaces(text);
+    	assertEquals("Removed spaces:", result, expected);
+    	
+    	text = "abc def";
+    	expected = "abcdef";
+    	result = foswiki.String.removeSpaces(text);
+    	assertEquals("Removed spaces:", result, expected);
+    	
+    	text = "abc 123";
+    	expected = "abc123";
+    	result = foswiki.String.removeSpaces(text);
+    	assertEquals("Removed spaces:", result, expected);
+    	
+    	text = "A Handy Dictionary";
+    	expected = "AHandyDictionary";
+    	result = foswiki.String.removeSpaces(text);
+    	assertEquals("Removed spaces:", result, expected);	
+    }
+    function testRemoveSpacesWithInvalidArgs() {
+    	assertNull("An invalid argument should result in null:", foswiki.String.removeSpaces(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.removeSpaces(0));
+	}
+	function testRemoveSpacesWithUndefinedValue() {
+		assertNull("An undefined argument should result in null:", foswiki.String.removeSpaces(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
+
+---+++ foswiki.String.removePunctuation
+<script language="javascript">
+/*<![CDATA[*/
+    function testRemovePunctuationWithValidArgs() {
+    	var text, result, expected;
+    	
+    	text = "a b c,";
+    	expected = "abc";
+    	result = foswiki.String.removePunctuation(text);
+    	assertEquals("Removed punctuation:", result, expected);
+    	
+    	text = ",abc, def,";
+    	expected = "abcdef";
+    	result = foswiki.String.removePunctuation(text);
+    	assertEquals("Removed punctuation:", result, expected);
+    	
+    	text = "abc !@#$%&*()_+-={}[]:;\"'|\<,>.?/123";
+    	expected = "abc123";
+    	result = foswiki.String.removePunctuation(text);
+    	assertEquals("Removed punctuation:", result, expected);
+    	
+    	text = "___";
+    	expected = "";
+    	result = foswiki.String.removePunctuation(text);
+    	assertEquals("Removed punctuation:", result, expected);	
+    }
+    function testRemovePunctuationWithInvalidArgs() {
+    	assertNull("An invalid argument should result in null:", foswiki.String.removePunctuation(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.removePunctuation(0));
+	}
+	function testRemovePunctuationWithUndefinedValue() {
+		assertNull("An undefined argument should result in null:", foswiki.String.removePunctuation(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
+
+
+---+++ foswiki.String.makeWikiWord
+<script language="javascript">
+/*<![CDATA[*/
+    function testMakeWikiWordWithValidArgs() {
+    	var text, result, expected;
+    	
+    	text = "abc";
+    	expected = "Abc";
+    	result = foswiki.String.makeWikiWord(text);
+    	assertEquals("makeWikiWord:", result, expected);
+    	
+    	text = "wiki word";
+    	expected = "WikiWord";
+    	result = foswiki.String.makeWikiWord(text);
+    	assertEquals("makeWikiWord:", result, expected);
+    	
+    	text = "abc !@#$%&*()_+-={}[]:;\"'|\<,>.?/123";
+    	expected = "Abc123";
+    	result = foswiki.String.makeWikiWord(text);
+    	assertEquals("makeWikiWord:", result, expected);
+    }
+    function testMakeWikiWordWithInvalidArgs() {
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(0));
+	}
+	function testmakeWikiWordWithUndefinedValue() {
+		assertNull("An undefined argument should result in null:", foswiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
+---+++ foswiki.String.makeSafeForTableEntry
+
+<script language="javascript">
+/*<![CDATA[*/
+
+    function testMakeSafeForTableEntry() {
+		var rawValue = "1111|2222";
+		var newValue = foswiki.String.makeSafeForTableEntry( rawValue );
+		var EXPECTED = '1111/2222 ';
+		assertEquals("Safe string", newValue, EXPECTED);
+    }
+
+/*]]>*/
+</script>
+
+
+---++ foswiki.String (unicode chars)
+<script language="javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiStringUnicodeChars.js"></script>
+
+---+++ foswiki.String.makeWikiWord
+<script language="javascript">
+/*<![CDATA[*/
+    function testMakeWikiWord_UniCode_WithValidArgs() {
+    	var text, result, expected;
+    	
+    	foswiki.StringConstants.getInstance().init();
+
+    	text = "Žfg";
+    	expected = "ƒfg";
+    	result = foswiki.String.makeWikiWord(text);
+    	assertEquals("makeWikiWord:", result, expected);
+    	
+    	text = "Œ word";
+    	expected = "Word";
+    	result = foswiki.String.makeWikiWord(text);
+    	assertEquals("makeWikiWord:", result, expected);
+    	
+    	text = "Ÿberal";
+    	expected = "†beral";
+    	result = foswiki.String.makeWikiWord(text);
+    	assertEquals("makeWikiWord:", result, expected);
+    }
+    function testMakeWikiWord_UniCode_WithInvalidArgs() {
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(null));
+    	assertNull("An invalid argument should result in null:", foswiki.String.makeWikiWord(0));
+	}
+	function testmakeWikiWord_UniCode_WithUndefinedValue() {
+		assertNull("An undefined argument should result in null:", foswiki.String.makeWikiWord(JSUNIT_UNDEFINED_VALUE));
+	}
+/*]]>*/
+</script>
+
