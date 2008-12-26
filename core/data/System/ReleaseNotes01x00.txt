@@ -37,7 +37,7 @@ It is a Structured Wiki with tools that enables users without programming skills
 
 Foswiki is the old TWiki project under a new name. Developers decided to discard the TWiki brand because of a commercial dispute and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is backwards compatible all content from older TWiki installations. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
 
-Foswiki is release under the GNU General Public License.
+Foswiki is released under the GNU General Public License.
 
 ---++ Pre-installed Extensions
 
