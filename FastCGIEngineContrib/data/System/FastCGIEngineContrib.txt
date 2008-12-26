@@ -1,0 +1,218 @@
+---+!! <nop>FastCGI Engine Contrib
+
+%TOC%
+
+---++ Overview
+
+[[http://www.fastcgi.com][FastCGI]] is a technology to deliver dynamic web content. It differs from [[http://hoohoo.ncsa.uiuc.edu/cgi/][CGI]] cause it remains persistent between requests, instead of CGI approach of a new forked process per request. This way there is a significant performance improvement, since all overhead related to create a new process, load the interpreter and compile the code is skipped.
+
+Some !FastCGI features:
+   * The number of persistent processes is configurable, independent of the web server. This leads to easier capacity planning/management.
+   * Processes can be run with a different user: more security.
+   * Processes can be run on another machines: easier load balancing.
+<!-- NOT IMPLEMENTED YET
+   * Besides the [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.2][responder]] [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6][role]], equivalent of classic CGI scripts, there is the [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.3][authorizer]], that can be used to add access checks to attachments with less overhead and resource usage than [[System/CommandAndCGIScripts#viewfile][viewfile]] script. -->
+
+---++ Setup
+
+This section is about how to configure FastCGIEngineContrib, considering many possible environments:
+   * [[http://httpd.apache.org][Apache]] web server 
+      * Using only =.htaccess= (typically on host services)
+      * With access to apache configuration files 
+         * Remote !FastCGI processes
+   * [[http://www.lighttpd.net/][Lighttpd]] web server 
+      * Remote !FastCGI processes
+%X% The directory references in the following subsections are relative to Foswiki root.
+
+---+++ Apache
+
+---++++ Using only =.htaccess=
+
+Using only =.htaccess= file it's not possible to control the number of !FastCGI processes, nor the user it'll be run with. We assume the webserver is configured to recognize files with =.fcgi= extension to be !FastCGI scripts and foswiki [[System.CommandAndCGIScripts][cgi scripts]] are accessible under =/foswiki/bin/= URL. We also need [[http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html][mod_rewrite]] enabled or [[http://httpd.apache.org/docs/2.2/mod/mod_actions.html][mod_actions]].
+
+Example using =mod_rewrite=:
+<verbatim>
+# bin/.htaccess file
+
+Options +ExecCGI
+
+RewriteEngine On
+
+# configure script is a special case, it must run as a CGI script:
+RewriteCond %{REQUEST_URI} !/configure 
+
+# avoid loops:
+RewriteCond %{REQUEST_URI} !/foswiki.fcgi
+
+RewriteRule ^(.*) /foswiki/bin/foswiki.fcgi/$1
+
+<Files configure>
+    SetHandler cgi-script
+</Files>
+</verbatim>
+
+Example using =mod_actions=:
+<verbatim>
+# bin/.htaccess file
+
+Options +ExecCGI
+
+Action foswiki-fastcgi /foswiki/bin/foswiki.fcgi
+SetHandler foswiki-fastcgi
+
+<Files configure>
+    SetHandler cgi-script
+</Files>
+
+<Files foswiki.fcgi>
+   SetHandler fastcgi-script
+</Files>
+</verbatim>
+
+%X% This example assume you're using [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi]]. If you're using [[http://fastcgi.coremail.cn/][mod_fcgid]] replace =SetHandler fastcgi-script= by =SetHandler fcgid-script=.
+
+---++++ With access to apache configuration files
+
+Direct access to Apache configuration files open more possibilities than with =.htaccess=:
+   * It's possible to configure the number of !FastCGI processes
+   * It's possible to use !FastCGI processes remotely and/or control with user to run with, by using sockets
+
+---+++++ Using mod_fastcgi
+
+We can use _static_ or _dynamic_ servers: static servers are initialized with Apache itself and exists as long Apache is running. Dynamic servers are loaded on demand and killed if the aren't needed anymore.
+
+See [[http://www.fastcgi.com/mod_fastcgi/docs/mod_fastcgi.html][mod_fastcgi documentation]] for more options.
+
+<verbatim>
+# Simple and traditional example.
+Alias /foswiki/bin/configure /path/to/foswiki/bin/configure
+Alias /foswiki/bin /path/to/foswiki/bin/foswiki.fcgi
+
+# Commenting the next line makes foswiki to be a dynamic server, loaded on demand
+FastCgiServer /path/to/foswiki/bin/foswiki.fcgi -processes 3
+
+<Directory /path/to/foswiki/bin>
+   Options +ExecCGI
+    <Files configure>
+        SetHandler cgi-script
+    </Files>
+    <Files foswiki.fcgi>
+        SetHandler fastcgi-script
+    </Files>
+</Directory>
+</verbatim>
+
+Refer to [[%TOPIC%#Tunning][tunning]] section bellow for a little discussion about the number of !FastCGI processes.
+
+<verbatim>
+# External server: could be running at another machine and/or a different user from the webserver
+
+Alias /foswiki/bin/configure /path/to/foswiki/bin/configure
+Alias /foswiki/bin /path/to/foswiki/bin/foswiki.fcgi
+
+# Running an external server on the same machine:
+FastCgiExternalServer /path/to/foswiki/bin/foswiki.fcgi -socket /path/to/socket
+
+# Or at another machine:
+FastCgiExternalServer /path/to/foswiki/bin/foswiki.fcgi -host example.com:8080
+
+<Directory /path/to/foswiki/bin>
+   Options +ExecCGI
+    <Files configure>
+        SetHandler cgi-script
+    </Files>
+    <Files foswiki.fcgi>
+        SetHandler fastcgi-script
+    </Files>
+</Directory>
+</verbatim>
+
+When you're using external servers you must run the! !FastCGI processes manually:
+<verbatim>
+$ cd /path/to/foswiki/bin
+$ ./foswiki.fcgi --listen host:port --nproc 3 --pidfile /path/to/pidfile.pid --daemon
+</verbatim>
+
+Run ==./foswiki.fcgi --help== for details on the options.
+
+---++++ Using mod_fcgid
+
+As I understood from the [[http://fastcgi.coremail.cn/doc.htm][mod_fcgid documentation]], only _dynamic_ servers are supported and there is no way to use processes running on another machine.
+
+<verbatim>
+# Simple and traditional example.
+Alias /foswiki/bin/configure /path/to/foswiki/bin/configure
+Alias /foswiki/bin /path/to/foswiki/bin/foswiki.fcgi
+
+<Directory /path/to/foswiki/bin>
+   Options +ExecCGI
+    <Files configure>
+        SetHandler cgi-script
+    </Files>
+    <Files foswiki.fcgi>
+        SetHandler fcgid-script
+    </Files>
+</Directory>
+</verbatim>
+
+---+++ Lighttpd
+
+You need to load both [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModCGI][mod_cgi]] and [[http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI][mod_fastcgi]]. The first is used to run [[System.CommandAndCGIScripts#configure][configure script]]. From what I understood from the documentation, lighttpd doesn't support dynamic servers.
+
+<verbatim>
+# Example with FastCGI processes launched by the webserver
+$HTTP["url"] =~ "^/foswiki/bin/configure" {
+    alias.url += ( "/trunk/bin" => "/home/junior/projeto_final/svn/src/foswiki/core/bin" )
+    cgi.assign = ( "" => "" )
+}
+
+$HTTP["url"] =~ "^/foswiki/bin/" {
+    alias.url += ( "/foswiki/bin" => "/path/to/foswiki/bin/foswiki.fcgi" )
+    fastcgi.server = ( ".fcgi" => (
+            (
+                "socket"    => "/path/to/foswiki/working/tmp/foswiki.sock",
+                "bin-path"  => "/path/to/foswiki/bin/foswiki.fcgi",
+                "max-procs" => 3
+            ),
+        )
+    )
+}
+</verbatim>
+
+<verbatim>
+# Example with external FastCGI processes (running on the same host, with another user or at a remote machine)
+$HTTP["url"] =~ "^/foswiki/bin/configure" {
+    alias.url += ( "/trunk/bin" => "/home/junior/projeto_final/svn/src/foswiki/core/bin" )
+    cgi.assign = ( "" => "" )
+}
+
+$HTTP["url"] =~ "^/foswiki/bin/" {
+    alias.url += ( "/foswiki/bin" => "/path/to/foswiki/bin/foswiki.fcgi" )
+    fastcgi.server = ( ".fcgi" => (
+            (
+                "host"    => "example.com",
+                "port"    => "8080",
+            ),
+        )
+    )
+}
+</verbatim>
+
+---++ Tunning
+
+Except from Apache using only =.htaccess= file, it's possible to adjust the number of !FastCGI processes. There is no _magic number_: it depends on some variables, like the hardware resources and access load. If you set this number too low, users may experience high latencies and you'll not use all hardware potential, on the other hand if this setting is adjusted too high then the server can be forced to use swap, what degrades performance a lot.
+
+Dynamic servers are more useful when foswiki access load on the server is low and/or it's used to something else. Under high loads, static servers can deliver better performance.
+
+---++ Known Issues
+
+[[http://www.fastcgi.com/drupal/node/6?q=node/22][FastCGI specification]] defines an [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.3][authorizer role]] besides the common used [[http://www.fastcgi.com/drupal/node/6?q=node/22#S6.2][responder]]. Foswiki, by default, doesn't check access to attachments, unless you use [[System.CommandAndCGIScripts#viewfile][viewfile]] script. The problem with that script is that it's slow and resource-hungry. In future releases, this contrib will provide a way to add access checks to attachments with very little overhead, using the authorizer role.
+
+---++ Contrib Info
+
+| Authors | [[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]] |
+| Copyright &copy;: | 2008, Foswiki Contributors |
+|  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
+|  Version: | 0.9.0 |
+| Change History: | |
+| 25 Dec 2008 | Initial Release |

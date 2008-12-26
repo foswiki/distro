@@ -51,6 +51,8 @@ use FCGI;
 use POSIX qw(:signal_h);
 require File::Spec;
 
+our $VERSION = '0.9.0';
+
 our $hupRecieved = 0;
 
 sub run {
@@ -94,19 +96,21 @@ sub run {
     my $localSiteCfg = File::Spec->catpath(
         ( File::Spec->splitpath( $INC{'Foswiki.pm'} ) )[ 0, 1 ],
         'LocalSite.cfg' );
-    my $lastMTime = (stat $localSiteCfg)[9];
+    my $lastMTime = ( stat $localSiteCfg )[9];
 
     while ( $r->Accept() >= 0 ) {
         $manager && $manager->pm_pre_dispatch();
         CGI::initialize_globals();
+        
         my $req = $this->prepare;
         if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
             my $res = Foswiki::UI::handleRequest($req);
             $this->finalize( $res, $req );
         }
-        $manager && $manager->pm_post_dispatch();
-        my $mtime = (stat $localSiteCfg)[9];
-        if ($mtime > $lastMTime || $hupRecieved) {
+        
+        
+        my $mtime = ( stat $localSiteCfg )[9];
+        if ( $mtime > $lastMTime || $hupRecieved ) {
             $r->LastCall();
             if ($manager) {
                 kill SIGHUP, $manager->pm_parameter('MANAGER_PID');
@@ -115,6 +119,7 @@ sub run {
                 $hupRecieved++;
             }
         }
+        $manager && $manager->pm_post_dispatch();
     }
     reExec() if $hupRecieved;
     FCGI::CloseSocket($sock) if $sock;
@@ -178,12 +183,11 @@ sub fork () {
     ### put back to normal
     POSIX::sigprocmask( SIG_UNBLOCK, $sigset )
       or die "Can't unblock SIGINT for fork: [$!]\n";
-    
+
     $pid && exit;
 
     return $pid;
 }
-
 
 =begin TML
 
