@@ -510,7 +510,6 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 	padding:0;
 	font-weight:bold;
 }
-
 .foswikiSmall {
 	font-size:86%; /*S3*/
 	line-height:1.5em; /*S1*/
@@ -636,6 +635,7 @@ a:hover .foswikiAccessKey {
 }
 #patternMainContents,
 #patternBottomBarContents,
+#patternSideBarContents,
 #patternTopBarContents {
 	padding-right:2em;
 	padding-left:2em;

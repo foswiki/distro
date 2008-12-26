@@ -11,14 +11,11 @@ depends on global settings in layout.css
 	overflow:hidden;
 }
 .patternViewPage #patternOuter {
-	margin-right:18em;
+	margin-right:16em;
 }
 #patternSideBar {
-	width:18em; /* includes left padding, see #patternSideBarContents */
-	margin-right:-18em;
+	width:16em; /* includes left padding, see #patternSideBarContents */
+	margin-right:-16em;
 	margin-left:-1px;
 	position:relative;
-}
-#patternSideBarContents {
-	padding-left:2em;
 }

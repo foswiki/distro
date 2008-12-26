@@ -4,9 +4,9 @@ depends on global settings in layout.css
 */
 
 #patternOuter {
-	margin-left:14em;
+	margin-left:16em;
 }
 #patternSideBar {
-	width:14em;
-	margin-left:-14em;
+	width:16em;
+	margin-left:-16em;
 }
