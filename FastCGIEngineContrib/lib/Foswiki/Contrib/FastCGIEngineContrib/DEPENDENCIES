@@ -1,1 +1,7 @@
-FCGI, >0, cpan, FastCGI perl library
+FCGI, >0.67, cpan, FastCGI perl library
+Cwd, >0, cpan, This module is shipped as part of standard perl
+File::Spec, >0, cpan, This module is shipped as part of standard perl
+Cwd, >0, cpan, This module is shipped as part of standard perl
+POSIX, >0, cpan, This module is shipped as part of standard perl
+Getopt::Long, >2.37, cpan, Extended processing of command line options
+Pod::Usage, >1.35, cpan, print a usage message from embedded pod documentation
