@@ -1,8 +1,53 @@
-%META:TOPICINFO{author="ProjectContributor" date="1200423469" format="1.1" version="$Rev: 15785 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1200423469" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Appendix A: TWiki Development Time-line
 
 %TOC%
+
+---++ Foswiki Release 1.0.0
+
+Foswiki is the old TWiki project under a new name. Developers decided to discard the TWiki brand because of a commercial dispute and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is backwards compatible all content from older TWiki installations. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
+
+*New Features and Enhancements of Foswiki Release 1.0.0*
+
+   * The Foswiki 1.0.0 is built on a new platform called Foswiki Stand Alone which enables more optimized functionality in mod_perl and the like. It also enables making features like running Foswiki without a webserver locally. These new features are not yet available but they will soon and by running Foswiki 1.0.0 you are already ready for them when they because available for download.
+   * The PatternSkin has been facelifted. If you go to the PatternSkin topic you can select different themes. You can choose which side you want the side bar, you can add a frame around the whole content, and there is a TWiki theme which makes it easier for the upgrader as it maintains the dimentions of top bar etc.
+   * Advanced Search screen now has query type search
+   * New section type "expandvariables" adds better control over macro expansion in topic templates. You can now create template topics with sections within which all macros are expanded.
+   * New "Copy topic" feature in the "More topic actions" tools.
+   * IF conditions has been expanded with new "isempty" test condition
+   
+*Security Fixes in Foswiki Release 1.0.0*
+
+Foswiki is much more secure than TWiki 4.2.4.
+
+   * The Foswiki 1.0.0 has chosen to secure by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities within normal use of URLPARAM. This means that not only the distributed topics but also your existing topics are better protected against XSS.
+   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS like URLPARAM is now encoding with the new "safe" type encoding.
+   * Print preview link is no longer an XSS attack vector.
+   * A developer security audit of the code revealed quite many both severe and less severe possibilities to inject code into the running old TWiki code. Foswiki has rewritten all code that takes data from outside so that it is checked and filtered for safe execution. Much more rigorous taint checking is now applied to all variables. As the Foswiki code is already a major rewrite it has not been practically possible for the Foswiki project to feed patches back to the TWiki code. TWiki users are for security reasons adviced to upgrade to Foswiki as soon as possible, as we have not seen any attempt from the TWiki.net company to even start porting our fixes back into their old TWiki code base. None of the known attack vectors has or will be exposed to the public. They are all found and fixed inside the Foswiki core development team.
+   
+*Major changes caused by name change from TWiki to Foswiki*
+
+Because TWiki brandname is legally owned by Peter Thoeny we have felt it necessary to eliminate the TWiki word everywhere. It has also been an opportunity to change some of the naming that caused confusement for the end users.
+
+   * The TWiki web is now called System
+   * The %<nop>TWIKIWEB% and %<nop>MAINWEB% variables are now called %<nop>SYSTEMWEB% and %<nop>USERSWEB%
+   * System distributed topics have been renamed to eliminate the TWiki word and to make the text more readable (e.g Plugins, Skins etc)
+   * All templates, CSS and Javascript names have been changed from twikiXxxxx to foswikiXxxxx
+   * The !TWikiCompatibilityPlugin has been created to help the upgrader so that links to the old topics do not appear broken and so most Plugins made for TWiki 4.2 also works in Foswiki 1.0.0.
+   * Terminology changes: Most important are, TWiki Variables and now called Macros, TWiki Forms are now Data Forms, TWiki Applications are now Wiki Applications, TWiki Markup Language is not Topic Markup Language (still TML).
+   
+*Hall of Fame of Foswiki*
+
+The proud, free, independent Foswiki community.
+
+Highlights:
+
+   * *Top 5 core contributors on SVN*: Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.ArthurClemens, Foswiki:Main.OlivierRaginel
+   * *Top contributors in general on SVN*: Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.ArthurClemens, Foswiki:Main.OlivierRaginel, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.MichaelDaum, Foswiki:Main.GilmarSantosJr, Foswiki:Main.SebastianKlus, Foswiki:Main.WillNorris, Foswiki:Main.SeanMcCarthy, Foswiki:Main.MartinCleaver, Foswiki:Main.RobManson
+   * *Development Infrastructure*: Foswiki:Main.SvenDowideit, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KwangErnLiew, Foswiki:Main.OliverKrueger, Foswiki:Main.OlivierRaginel, Foswiki:Main.WillNorris, Foswiki:Main.ColasNahaboo, Foswiki:Main.KennethLavrsen
+   
+   
 
 #FreetownRelease
 ---++ TWiki Release 4.2.1 (Freetown) released %$DATE%
