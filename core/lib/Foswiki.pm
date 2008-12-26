@@ -2541,8 +2541,10 @@ With parameter $sep any string may be used as separator between the word compone
 =cut
 
 sub spaceOutWikiWord {
-    my $word = shift || '';
-    my $sep  = shift || ' ';
+    my ( $word, $sep ) = @_;
+    # Both could have the value 0 so we cannot use simple = || ''
+    $word = defined( $word ) ? $word : '';
+    $sep  = defined( $sep ) ? $sep : ' ';
     $word =~
 s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/go;
     $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$sep$2/go;
