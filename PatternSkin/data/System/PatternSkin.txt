@@ -64,14 +64,8 @@ The column preference:
 ---++ Screenshot
 
 Click to enlarge:%BR%
-%SEARCH{"^\| *[S]creenshot"
-    topic="%TOPIC%"
-    regex="on"
-    nosearch="on"
-    nototal="on"
-    multiple="on"
-    format="$pattern(.*?\| *[S]creenshot\:[^\|]*?\|([^\|]*?)\|.*)"
-}%
+%SEARCH{ "%TOPIC%" scope="topic" nosearch="on" nototal="on" format="$pattern(.*\| *Screenshot\:[^\|]*\|([^\|]*).*)" }%
+<div class="foswikiGrayText">Click to view full screenshot</div>
 
 
 ---++ Information for site administrators

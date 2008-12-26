@@ -63,14 +63,13 @@ sub finish {
 sub _extractPattern {
     my ( $text, $pattern ) = @_;
 
-    # Pattern comes from topic, therefore tainted
-    $pattern = Foswiki::Sandbox::untaint($pattern, \&Foswiki::validatePattern);
+    $pattern =~
+      s/([^\\])([\$\@\%\&\#\'\`\/])/$1\\$2/go;    # escape some special chars
+    $pattern = Foswiki::Sandbox::untaintUnchecked($pattern);
 
-    try {
-        $text =~ s/$pattern/$1/is;
-    } catch Error::Simple with {
-        $text = '';
-    };
+    my $OK = 0;
+    eval { $OK = ( $text =~ s/$pattern/$1/is ); };
+    $text = '' unless ($OK);
 
     return $text;
 }
