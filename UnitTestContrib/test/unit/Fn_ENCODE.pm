@@ -66,7 +66,7 @@ sub test_encode {
     #see also AttrsTests::test_zero
     $str = $this->{twiki}->handleCommonTags(
         "%ENCODE{\"0\" type=\"url\"}%", $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals("", "$str");   #should really return "0"
+    $this->assert_str_equals("0", "$str");
     $str = $this->{twiki}->handleCommonTags(
         "%ENCODE{\"\" type=\"url\"}%", $this->{test_web}, $this->{test_topic});
     $this->assert_str_equals("", "$str");
