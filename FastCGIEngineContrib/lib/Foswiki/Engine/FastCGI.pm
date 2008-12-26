@@ -51,7 +51,10 @@ use FCGI;
 use POSIX qw(:signal_h);
 require File::Spec;
 
-our $VERSION = '0.9.0';
+use vars qw( $VERSION $RELEASE );
+
+$VERSION = '$Rev$';
+$RELEASE = '0.9.0';
 
 our $hupRecieved = 0;
 
