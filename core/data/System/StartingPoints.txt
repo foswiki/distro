@@ -10,9 +10,8 @@ Don't let the reams of documentation fool you, it all boils down to: wiki means 
    * FrequentlyAskedQuestions: Common questions about how to use the program
 
    * GoodStyle: Things to consider when changing text
-   * ShortHand: Easy to learn rules for editing text
+   * WikiSyntax: Easy to learn rules for editing text
    * TextFormattingRules: The complete set of text formatting rules 
-   * TextFormattingFAQ: Common how-to questions about posting
 
    * [[%SYSTEMWEB%.Macros][Macros]]: How to easily embed text, graphics, dynamic content 
 

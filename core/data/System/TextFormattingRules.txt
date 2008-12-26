@@ -60,7 +60,7 @@ Check on current Plugin status and settings for this site in [[%SYSTEMWEB%.Plugi
 
 ---++ Common Editing Errors
 
-Foswiki formatting rules are fairly simple to use and quick to type. However, there are some things to watch out for, taken from the TextFormattingFAQ:
+Foswiki formatting rules are fairly simple to use and quick to type. However, there are some things to watch out for:
 
    * *Q:* Text enclosed in angle brackets like =&lt;filename&gt;= is not displayed. How can I show it as it is?
       * *A:* The ='&lt;'= and ='&gt;'= characters have a special meaning in HTML, they define HTML tags. You need to escape them, so write ='&amp;lt;'= instead of ='&lt;'=, and ='&amp;gt;'= instead of ='&gt;'=. <br /> Example: Type ='prog &amp;lt;filename&amp;gt;'= to get ='prog &lt;filename&gt;'=.

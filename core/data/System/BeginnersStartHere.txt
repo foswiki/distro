@@ -177,7 +177,7 @@ Edit | Attach | Print version | History: r2 < r1 | Backlinks | Raw View | Raw ed
 ---++ Formatting just makes pages prettier
 ... and easier to read<br /><br />
 <code>_Actually_ it is <nop>*perfectly* and <nop>__absolutely__ flat</code><br /><br /> appears as <br /><br /> _Actually_ it is *perfectly* and __absolutely__ flat
-   * A full description of all the formatting can be found in the %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.TextFormattingFAQ
+   * A full description of all the formatting can be found in the %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
    * The best thing to do is just to type until you get stuck
       * then follow the link on the edit page to the help.
 
@@ -234,7 +234,7 @@ Foswiki understands pages in plain text just fine, but you can %RED% __jazz__ %E
    * Use %<nop>SEARCH. This is an interface to a sophisticated search engine that embeds the results of the search in your page. See [[%SYSTEMWEB%.Macros]] for full details.
 
 ---++ More formatting
-   * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.TextFormattingFAQ
+   * There's *lots* more formatting available, see %SYSTEMWEB%.TextFormattingRules and %SYSTEMWEB%.WikiSyntax
    * _If you are a real masochist, you can even enter raw HTML tags!_
    * *Important* to _disable_ unwanted formatting, use =&lt;nop&gt;=
       * <code>&lt;nop&gt;_word_</code> appears as <nop>_word_

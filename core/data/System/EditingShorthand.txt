@@ -359,7 +359,7 @@ Sandbox.%HOMETOPIC%
  *Forced Links:* %BR%
  You can create a forced internal link by enclosing words in double square brackets.
 %BR% 
-Text within the brackets may contain optional spaces; the topic name is formed by capitalizing the initial letter and by removing the spaces; for example, =[<nop>[text formatting FAQ]]= links to topic TextFormattingFAQ.  You can also refer to a different web and use anchors.
+Text within the brackets may contain optional spaces; the topic name is formed by capitalizing the initial letter and by removing the spaces; for example, =[<nop>[wiki syntax]]= links to topic WikiSyntax.  You can also refer to a different web and use anchors.
 %BR%
 %T% To "escape" double square brackets that would otherwise make a link, prefix the leading left square bracket with an exclamation point.
 </td><td>

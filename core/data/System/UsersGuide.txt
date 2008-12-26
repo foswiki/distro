@@ -20,10 +20,7 @@ _Documentation for users._
       * FileAttachments: Browser-upload files for distribution or display
       * WebChangesAlert: Get e-mail alerts linking to the latest page changes
       * GlossaryOfTerms: A simple glossary of terms
-
-   * *Help FAQs*
-      * FrequentlyAskedQuestions: The first things people ask
-      * TextFormattingFAQ: Common how-to questions about posting  
+      * FrequentlyAskedQuestions: The first things people ask<p />
       * Frequent users should also browse the full [[ReferenceManual][Reference Manual]]!
 
 

@@ -28,6 +28,5 @@ Other places where you can find answers to your questions:
    * TwentyMinuteTutorial: Get a jump start on using this wiki 
    * GoodStyle: Things to consider when changing text
    * WikiSyntax, TextFormattingRules: A quick one-two guide to Foswiki shorthand basics
-   * TextFormattingFAQ: Answers to frequently asked questions about text styling in Foswiki
    * If you can't find an answer, ask a question - post it in the Foswiki:Support web
 
