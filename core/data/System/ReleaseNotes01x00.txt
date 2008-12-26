@@ -1,770 +1,320 @@
 %META:TOPICINFO{author="ProjectContributor" date="1177700623" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.0, %$DATE%
+---+!! Foswiki Release 1.0.0 - BETA 1, %$DATE%
 
 %TOC%
 
 ---++ Introduction
 
-TWiki 4.2.0 was released 22 Jan 2008 and introduced some hot new features that make TWiki a better user experience for both beginners and experienced application developers. It also contained quite a number of bugfixes since 4.1.2.
+Foswiki Release 1.0.0 - Beta 1.
 
-TWiki 4.2.1 is a patch release which only contains bug fixes. More than 150 bugs have been fixed since the release of 4.2.0 in all areas of TWiki.
+-----
+<!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
 
-TWiki 4.2.2 is a patch release which only contains bug fixes. More than *TODO* bugs have been fixed since the release of 4.2.1 in all areas of TWiki.
+*Note this is the first beta release of Foswiki 1.0.0. It is not recommended for production use*
 
+The purpose of this beta is
 
-It is highly recommended to upgrade TWiki 4.2.x to 4.2.2. Users will find the 4.2.2 much more stable in daily use.
+   * Give translators a platform to test their work on.
+   * Give developers a chance to see a real installation built and installed
+   * Give extension developers a platform to develop the Foswiki versions of extensions
+   * Give our users a chance to practice the upgrade from TWiki to Foswiki before the real release
+   
+There may be a beta 2 just before New Year 2008/2009 if needed.
+
+The release of Foswiki 1.0.0 is planned for 03 Jan 2009 but can be delayed by a week as we will not release with known urgent bugs.
+
+The quality of 1.0.0 is depending on *you* downloading and installing this beta and report back problems to the development team.
+
+-----
+
+Foswiki - The Free and Open Source Wiki
+
+Foswiki is an enterprise collaboration and information sharing tool targetted for professionel use in anything from small businesses to large organisations. 
+
+Foswiki is a wiki. A "Wiki" system is fundamentally a website with editable web pages. It looks like a normal web site... except that it encourages contribution and editing of pages, questions, answers, comments and updates. It's a powerful way of communicating asynchronously over the web for many existing intranet and public internet sites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
+
+It is a Structured Wiki with tools that enables users without programming skills to build powerful yet simple applications to process information and build workflows. Developers can extend the functionality of Foswiki with plugins.
+
+Foswiki is a fork of TWiki. In 2008 the TWiki brandname owner decided to commercialize TWiki and take full control of the project. After years of development towards an open and democratic development process nearly all the developers decided to discard the TWiki brand and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is owned by an independent association without commercial control, which makes it a safe bet for the future as no single individual or commercial interest can bring it down. If you are a happy TWiki user you can safely upgrade to Foswiki and take advantage of the continuous development made by a large expanding open source community which is open to everyone. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
+
+Foswiki is release under the GNU General Public License.
+
+---++ Major changes caused by name change from TWiki to Foswiki
+
+Because TWiki brandname is legally owned by Peter Thoeny we have felt it necessary to eliminate the TWiki word everywhere. It has also been an opportunity to change some of the naming that caused confusement for the end users.
+
+   * The TWiki web is now called System
+   * The %<nop>TWIKIWEB% and %<nop>MAINWEB% variables are now called %<nop>SYSTEMWEB% and %<nop>USERSWEB%
+   * System distributed topics have been renamed to eliminate the TWiki word and to make the text more readable (e.g Plugins, Skins etc)
+   * All CSS and Javascript names have been changed from twikiXxxxx to foswikiXxxxx
+   * All templates starting with twiki now starts with foswiki
+
+The !TWikiCompatibilityPlugin has been created to help the upgrader so that links to the old topics do not appear broken and so most Plugins made for TWiki 4.2 also works in Foswiki 1.0.0.
+
+As part of the fork the Foswiki community is evaluating all the 100s of extensions that are available for TWiki. All that are working are ported over to the Foswiki name space. Many of them are being bug fixed in the process. Effectively you will have more working plugins available for Foswiki than you had for TWiki. The most popular plugins are already ported and more are added every day.
+
+---+++ Terminology Changes
+
+As the TWiki brand name was part of the terminology the Foswiki project had to review and change terminology. While doing that we also took the opportunity to change some of the terminology that is known to cause confusion among end users.
+
+| *TWiki term* | *Foswiki term* |
+| TWiki variable | Macro |
+| preference(s) variable | preference setting, or macro when referring to expansion of same |
+| TWiki form | Data form |
+| TWiki Plugin | Plugin |
+| TWiki Template | Skin Template |
+| Topic Template | Template Topic |
+| TWiki Markup Language (TML) | Topic Markup Language (TML) |
+| TWiki Application | Wiki Application |
+
+---+++ Topic names changed in System web (former TWiki web)
+
+<noautolink>
+| *Old name* | *New name* |
+| ATasteOfTWiki | BeginnersStartHere |
+| TWikiAccessControl | AccessControl |
+| TWikiAddOns | ContributedAddOns |
+| TWikiContribs | Contribs |
+| TWikiContributor | ProjectContributor |
+| TWikiCss | CascadingStyleSheets |
+| TWikiDocGraphics | DocumentGraphics |
+| TWikiDocumentation | CompleteDocumentation |
+| TWikiDownload | DownloadSources |
+| TWikiEditingShorthand | EditingShorthand |
+| TWikiEnhancementRequests | EnhancementRequests |
+| TWikiFaqTemplate | FaqTemplate |
+| TWikiFAQ | FrequentlyAskedQuestions |
+| TWikiForms | DataForms |
+| TWikiGlossary | GlossaryOfTerms |
+| TWikiHistory | ReleaseHistory |
+| TWikiInstallationGuide | InstallationGuide |
+| TWikiJavascripts | JavascriptFiles |
+| TWikiLogos | ProjectLogos |
+| TWikiMetaData | MetaData |
+| TWikiPlugins | Plugins |
+| TWikiPreferences | DefaultPreferences |
+| TWikiReferenceManual | ReferenceManual |
+| TWikiRegistration | UserRegistration |
+| TWikiReleaseNotes04x02 | ReleaseNotes01x00 |
+| TWikiRenderingShortcut | RenderingShortcut |
+| TWikiScripts | CommandAndCGIScripts |
+| TWikiShorthand | ShortHand |
+| TWikiSiteTools | SiteTools |
+| TWikiSkinBrowser | SkinBrowser |
+| TWikiSkins | Skins |
+| TWikiSystemRequirements | SystemRequirements |
+| TWikiTemplates | SkinTemplates |
+| TWikiTemplates | TemplateTopics |
+| TWikiTopics | TopicsAndWebs |
+| TWikiTutorial | TwentyMinuteTutorial |
+| TWikiUpgradeGuide | UpgradeGuide |
+| TWikiUserAuthentication | UserAuthentication |
+| TWikiUsersGuide | UsersGuide |
+| TWikiVariablesQuickStart | MacrosQuickStart |
+| TWikiVariables | Macros |
+| TWikiWebsTable | WebsTable |
+| TWikiRegistrationAgent | RegistrationAgent |
+
+TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandFor have been removed.
+</noautolink>
+
+---+++ Topic names changed in System web (former TWiki web)
+
+<noautolink>
+| *Old name* | *New name* |
+| TWikiAdminGroup | AdminGroup |
+| TWikiGroupTemplate | GroupTemplate |
+| TWikiPreferences | SitePreferences |
+| TWikiGroups | WikiGroups |
+| TWikiContributor | ProjectContributor |
+| TWikiUsers | WikiUsers |
+| TWikiGuest | WikiGuest |
+| TWikiRegistrationAgent | RegistrationAgent |
+| TWikiAdminUser | AdminUser |
+
+Note that the change from TWikiAdminGroup to AdminGroup has no practical implication when upgrading from TWiki to Foswiki. The topics with an ALLOW setting set to TWikiAdminGroup will still prevent users from accessing or editing and the AdminGroup members can edit anything. You must however make sure the TWikiAdminGroup topic exists in the Main web and that it is protected against editing. Simply make sure it iw copied over from old Main web along with all other user and group topics.
+
+When you upgrade from TWiki copy the old TWikiUsers topic to WikiUsers and manually add the AdminUser, ProjectContributor, and RegistrationAgent.
+
+Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. 
+</noautolink>
 
 ---++ Pre-installed Extensions
 
-TWiki 4.2.2 is shipped with
+Foswiki 1.0.0 is shipped with
 
    * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
-   * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib, !TwistyContrib
-   * *Skins:* !ClassicSkin, !PatternSkin
+   * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
+   * *Skins:* !PatternSkin
+   * *Compatibility version* -  !TWikiCompatibilityPlugin
 
 ---++ New Features Highlights
 
-   * *Easier Installation and Upgrade*
-      * New Internal Admin Login feature. See below.
-      * The !Main.WikiUsers topic is no longer distributed as a default topic in Main. See below. 
-      * A new directory =working= which per default is located in the twiki root which contains registration_approvals, tmp, and work_areas. See below
-      * !ResetPassword, !ChangePassword, !ChangeEmailAddress, and !UserRegistration no longer contains yellow text that you have to remove.
-      * Configure can now authenticate when connecting to local plugins repository.
-
-   * *Usability Enhancements*
-      * New WYSIWYG editor based on !TinyMCE replaces the Kupu based editor. See below.
-      * New "Restore topic" feature has been added to the _More Topic Actions_ menu. You can now much more easily restore an older version of a topic including the values a topic form.
-      * Attachment comments no longer has a limit to the length of the text.
-      * The viewfile script now accepts similar simple URL path as used to access a topic. E.g. =http:<nop>//example.com/twiki/bin/viewfile/System/DocumentGraphics/addon.gif= means the same as =http<nop>://example.com/foswiki/bin/viewfile/System/DocumentGraphics?filename=addon.gif=. This make it simpler to use command line tools like =wget= in Linux to download attachments.
-
-   * *Application Platform Enhancements*
-      * Enhancements to IF: allows, ingroup, istopic, and isweb
-
-   * *Search Enhancements*
-      * New =query= search mode supports SQL-style queries over form fields
-        and other meta-data.
-
-   * *Skins and Templates Enhancements*
-      * The !PatternSkin which is the default skin for TWiki has got a face lift.
-      * The template have been heavily refactored. This will break some tailorings and home made skins but it was needed to make it easier to make skins in the future.
-
-   * *Miscellaneous Feature Enhancements*
-      * Many new functions in the API for plugin developers.
-      * Table of Content (TOC) feature enhanced 
-      * User Mapping (mapping between login name and !WikiName) code has been extended to allow pluggable modules to integrate with all sorts of alternative authentication and Management schemes. For normal cases you use the default !TopicUserMapping which is using the !Main.WikiUsers topic to map between login and !WikiName. A new !BaseUserMapping is provided for TWikis where you only have guests and an administrator. In this case you use the login and password given in configure to login as an admin.
-
----++ Important Changes since 4.2.1
-This is a fast trip bug fix for issues found during upgrades from 4.2.0 to 4.2.1.
----+++ Highlights of bug fixes since 4.2.1
-
-*TODO*
-
-See the full list of bug fixes at the bottom of this topic.
-
----++ Important Changes since 4.2.0
-
----+++ Perl 5.8 is now minimum requirement with Wysiwyg
-
-In TWiki 4.2.1 the support of international characters has been improved. Especially when using the Wysiwyg editor. This requires that perl internally works with unicode and that the Encode CPAN lib is installed. For this reason Perl 5.8.X is required for Wysiwyg support. TWiki will run with perl 5.6.1 if !WysiwygPlugin is disabled.
-
----+++ TWiki now installs and works with Perl 5.10.0.
-
-Newer distributions of Linux now ships with Perl 5.10.0. TWiki has been tested with Perl 5.10.0 and it should work fine. If the CGI library is version 3.37 you will need to update it to a newer version as the 3.37 contains some fatal bugs. Simply updating your perl using the standard update feature in your distribution may be enough to cure this problem.
-
----+++ The RCS files in subdirectories feature removed
-
-The feature related to the config option TWiki::cfg{RCS}{useSubDir} has been removed. It never really worked and there are all sorts of issues related to it with respect to distribution of extensions and packaged applications, and it does not really add any performance advantages. So instead of trying to repair a bad feature that never really worked it was decided to remove it.
-
-The removal was announced in a news letter and in a proposal topic, and discussed at several release meetings, and noone objected against its removal.
-
-If you have run TWiki with this feature (maybe with a self implemented fix of the code) you will need to simply copy all the ,v files in all RCS directories to the directory above (where you find the .txt file or the attached filed) when you upgrade to 4.2.1.
-
----+++ The Japanese language file has been renamed
-
-We decided to rename the locale/jp.po to locale/ja.po to match the rule that the file has the same name as the code for the locale.
-
-For those using the Japanese language file you need to do the following if you upgrade TWiki
-
-   * Delete the old jp.po file
-   * Delete the locale/languages.cache file (it gets recreated by TWiki first time it runs with language files)
-   * Rename the entry =$TWiki::cfg{Languages}{jp}{Enabled} = 1;= in the lib/LocalSite.cfg to =$TWiki::cfg{Languages}{ja}{Enabled} = 1;=
-
----+++ Highlights of bug fixes since 4.2.0
-
-   * Much more stable Wysiwyg editor
-      * Better support for non-English characters
-      * Better handling of bullet points
-      * Pickaxe feature which enables quick swap between Wysiwyg and raw edit is more stable
-      * Attachment of files within Wysiwyg editor working better
-      * Linking feature fixed
-   * More stable !EditTablePlugin
-   * Better support for UTF8 though UTF8 is still regarded as experimental and features such as wiki words do not work with non-english characters. UTF8 will be a good choice for languages such as Chinese, Japanese and Korean
-   * Better support for non English charsets
-   * Easier configuration of language settings in configure
-   * Renaming of webs much improved
-   * Compatibility with perl 5.10
-   * Fixes related to mandatory fields in forms
-   * Universal edit button with Firefox extension
-   * Access controls using login ID instead of wikiname which was broken in 4.2.0 works again
-   * Search features have had a few bugs fixed
-   * Several bugs related to attaching files have been fixed
-   * Some cross site scripting possibilities have been eliminated
-   * Plugins that uses beforeAttachmentSaveHandler now works stable (e.g. !BlackListPlugin)
-   * The feature of having RCS files (the ,v file) in a separate directory never worked. Feature has now been removed as it really does not give any advantages.
-   * User mapping feature improved to ensure 1:1 mapping between canonical user ID and login ID which is important for security
-
-See the full list of bug fixes at the bottom of this topic.
-
----++ Important Changes since 4.1.2
-
----+++ New WYSIWYG Editor
-
-TWiki now ships with a new WYSIWYG editor based on !TinyMCE replaces the Kupu based editor.%BR% !TinyMCE is not a perfect Wysiwyg editor but it is magnitudes better than the Kupu editor
-
-The !WysiwygPlugin that drives the engine behind both !TinyMCE has additionally been heavily improved so that less TWiki Applications are negatively affected by editing WYSIWYG
-
-When !TinyMCEPlugin is enabled the Edit button per default becomes WYSIWYG editing mode. A new Raw Edit link has been added to enable application developers to edit the good old way
-
-The WYSIWYG button is removed when using !TinyMCE instead of Kupu.
-
----+++ NEWTOPICLINKSYMBOL removed
-
-The NEWTOPICLINKSYMBOL preference which was deprecated in 4.1 has now been removed from the code. If you want to control the appearance of new links, you can use the more flexible NEWLINKFORMAT.
-
----+++ !UserForm and !NewUserTemplate Customization
-
-When a new user registers on TWiki his user topic is created based on the =NewUserTemplate= and =UserForm=.
-
-The =NewUserTemplate= was located in the TWiki web and the =UserForm= in the Main web. When upgrading TWiki these were some of the topics you had to take care not to overwrite.
-
-From 4.2.0 the =UserForm= and =NewUserTemplate= are distributed in the TWiki web. If you create the two in the Main web the Main web version will be used instead. So if you tailor the user topic format or the form then you should always copy the two files to the Main web and modify the ones in the Main web. When you later upgrade TWiki your tailored template and form will not be overwritten.
-
----+++ !WikiUsers no longer distributed
-
-The =Main.WikiUsers= topic contains all the registered users. It is a topic you do not want to overwrite when you upgrade TWiki.
-
-From 4.2.0 this file is no longer included in the TWiki distribution. When you register the first time TWiki creates the =Main.WikiUsers= topic in the Main web if it does not exist already. This means that you can now upgrade TWiki without risk of overwriting the important =WikiUsers= topic.
-
-   * For new installers this makes no difference at all
-   * For upgraders this is one less problem to worry about as your important !Main.WikiUsers topic now no longer gets overwritten when upgrading.
+   * The Foswiki 1.0.0 is built on a new platform called Foswiki Stand Alone which enables more optimized functionality in mod_perl and the like. It also enables making features like running Foswiki without a webserver locally. These new features are not yet available but they will soon and by running Foswiki 1.0.0 you are already ready for them when they because available for download.
+   * The PatternSkin has been facelifted. If you go to the PatternSkin topic you can select different themes. You can choose which side you want the side bar, you can add a frame around the whole content, and there is a TWiki theme which makes it easier for the upgrader as it maintains the dimentions of top bar etc.
+   * Advanced Search screen now has query type search
+   * New section type "expandvariables" adds better control over macro expansion in topic templates. You can now create template topics with sections within which all macros are expanded.
+   * New "Copy topic" feature in the "More topic actions" tools.
+   * IF conditions has been expanded with new "isempty" test condition
    
----+++ New =working= directory
+---++ Security Updates
 
-A new directory =working= which per default is located in the twiki root, has been introduced which contains:
+Foswiki is much more secure than TWiki 4.2.4.
 
-   * registration_approvals - with 4.2.0 it is moved to here from the data directory)
-   * tmp - so we now avoid having to fight with special access rights and /tmp directory that gets cleaned out when booting.
-   * work_areas - with 4.2.0 it is moved to here from the pub directory. Configure automatically moved the directory when you upgrade.
+   * The Foswiki 1.0.0 has chosen to secure by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities within normal use of URLPARAM. This means that not only the distributed topics but also your existing topics are better protected against XSS.
+   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS like URLPARAM is now encoding with the new "safe" type encoding.
+   * Print preview link is no longer an XSS attack vector.
+   * A developer security audit of the code revealed quite many both severe and less severe possibilities to inject code into the running old TWiki code. Foswiki has rewritten all code that takes data from outside so that it is checked and filtered for safe execution. Much more rigorous taint checking is now applied to all variables. As the Foswiki code is already a major rewrite it has not been practically possible for the Foswiki project to feed patches back to the TWiki code. TWiki users are for security reasons adviced to upgrade to Foswiki as soon as possible, as we have not seen any attempt from the TWiki.net company to even start porting our fixes back into their old TWiki code base. None of the known attack vectors has or will be exposed to the public. They are all found and fixed inside the Foswiki core development team.
 
-Note: Remember to restrict access to this new directory when you upgrade.
-   
----+++ New Internal Admin Login
+---++ Important Changes since TWiki 4.2.3
 
-TWiki 4.2 introduces a new _Internal Admin Login_ feature which uses "admin" (configurable) as username and the password from configure to become temporary administrator. 
-When you do a new installation you need to use this feature as !Main.AdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. 
-From configure there is a link to the !AdminGroup topic and on !AdminGroup the step by step instructions are written in a yellow box. 
+If this release had been a TWiki release it would have been 4.3.0
 
----+++ Rearchitected User Mapping system (a transperant change for end users)
+Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we list all changes since this release below.
 
-The User Mapping system has been further rearchitected to reduce its dependance on the traditional TWiki User topic based management and mapping implementation. TWiki is now capable of 
-dealing with login names that are not 7bit ascii (by transforming those logins into a 'cUID' that can be used by rcs). TWiki::Users now uses =TWikiIterators= opening the way for much larger
-user sets.
+---+++ Highlights of bug fixes since TWiki 4.2.3
 
----++ API Enhancements (Func)
 
-   * $TWiki::Plugins::VERSION is now 1.2
-   * Added =decodeFormatTokens($str) -> $unencodedString=
-   * Added =eachChangeSince($web, $time) -> $iterator=
-   * Added =eachGroup() -> $iterator=
-   * Added =eachGroupMember($group) -> $iterator=
-   * Added =eachMembership($wikiname) -> $iterator=
-   * Added =eachUser() -> $iterator=
-   * Added =emailToWikiNames( $email, $dontAddWeb ) -> @wikiNames=
-   * Added =meta= parameter to =expandCommonVariables( $text, $topic, $web, $meta ) -> $text=
-   * Added =getCanonicalUserID( $user ) -> $cUID=
-   * Added =getExternalResource( $url ) -> $response=
-   * Added =getSessionKeys() -> @keys=
-   * Added =user= parameter to =getWikiName( $user ) -> $wikiName=
-   * Added =user= parameter to =getWikiUserName($user ) -> $wikiName=
-   * Added =isAnAdmin( $login ) -> $boolean=
-   * Added =isGroup( $group ) -> $boolean=
-   * Added =isGroupMember( $group, $login ) -> $boolean=
-   * Added =isTrue( $value, $default ) -> $boolean=
-   * Added =popTopicContext()=
-   * Added =pushTopicContext($web, $topic)=
-   * Added =setPreferencesValue($name, $val)=
-   * Added =sanitizeAttachmentName($fname) -> ($fileName, $origName)=
-   * Added =spaceOutWikiWord( $word, $sep ) -> $text=
-   * Added =wikiNameToEmails( $wikiname ) -> @emails=
-   * Deprecated getOopsUrl( $web, $topic, $template, $param1, $param2, $param3, $param4 ) -> $url
-   * Deprecated permissionsSet( $web ) -> $boolean
-
----++ Deprecation Notices
-
-The %<nop>MAINWEB% and %<nop>SYSTEMWEB% macros have been deprecated. For compatibility reasons they are unlikely to ever be removed completely, but you should use the %<nop>USERSWEB% and %<nop>SYSTEMWEB% macros instead.
-
-In Func getOopsUrl and permissionsSet have been declared deprecated. There is no plan to remove them yet.
-
----++  TWiki 4.2.0 Minor Release - Details
-
-The 4.2.0 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWikiRelease04x02 revision %$VERSION%. 
 
 ---++ Fixes
 
 <noautolink>
-| [[%BUGS%/Item5252][Item5252]] | RenderListPlugin produces warnings with list with no level 1 bullets |
-| [[%BUGS%/Item5246][Item5246]] | When using SERVERTIME with $week in template TWIki fails on missing CPAN lib dependency |
-| [[%BUGS%/Item5245][Item5245]] | adding missing docs for NEWLINKFORMAT - introduced in 2006 |
-| [[%BUGS%/Item5226][Item5226]] | TopicUserMapping speed re-enhancements |
-| [[%BUGS%/Item5210][Item5210]] | EDITTABLE with a simple text input in which the user has put %BR gets trunkated at the first BR |
-| [[%BUGS%/Item5123][Item5123]] | missing fetchUsers method in Password.pm |
-| [[%BUGS%/Item5121][Item5121]] | Performance: Copy hash |
-| [[%BUGS%/Item5046][Item5046]] | error link mailto |
-| [[%BUGS%/Item5040][Item5040]] | Auto attach has hardcoded the string 'UnknownUser' for the attachment meta user attr |
-| [[%BUGS%/Item5038][Item5038]] | TablePlugin prepends 'table' to id parameter |
-| [[%BUGS%/Item5031][Item5031]] | "Here" link in merge_notice in templates/messages.tmpl |
-| [[%BUGS%/Item5029][Item5029]] | Template.pm prints incomplete and confusing error message |
-| [[%BUGS%/Item5019][Item5019]] | if you get a lease conflict when using EditTablePlugin, the oops conflict output link is unusable |
-| [[%BUGS%/Item5009][Item5009]] | TWISTY =link= parameter doesn't support (local) variables (set in topic and used with %) properly |
-| [[%BUGS%/Item5008][Item5008]] | If you register someone you are magically logged in as them |
-| [[%BUGS%/Item5004][Item5004]] | AutoAttach created META that will break topic rendering |
-| [[%BUGS%/Item4991][Item4991]] | TwistyPlugin: add behaviour earlier to head than twisty js |
-| [[%BUGS%/Item4989][Item4989]] | wrong expansion of deprecated URL tag |
-| [[%BUGS%/Item4986][Item4986]] | select+multi+values broken in various respects |
-| [[%BUGS%/Item4973][Item4973]] | default skin appears to have javascript in it |
-| [[%BUGS%/Item4972][Item4972]] | session files should only be created for web based sessions. |
-| [[%BUGS%/Item4971][Item4971]] | taint error when registering and verify is off |
-| [[%BUGS%/Item4944][Item4944]] | EditTablePlugin data corruption under mod_perl |
-| [[%BUGS%/Item4941][Item4941]] | ChangePassword form does not detect failure when .htpasswd is read-only |
-| [[%BUGS%/Item4939][Item4939]] | Pass topicparent when creating a new topic |
-| [[%BUGS%/Item4928][Item4928]] | lets use HTTP error codes in rest cgi, rather than rather less useful die's |
-| [[%BUGS%/Item4921][Item4921]] | rest cgi is not testing the URL correctly |
-| [[%BUGS%/Item4918][Item4918]] | checkpoint-save ignores EDIT_TEMPATE |
-| [[%BUGS%/Item4900][Item4900]] | 0 is not recognized as valid input in a mandatory form field |
-| [[%BUGS%/Item4898][Item4898]] | tmp and working dir security needs work (docco and code |
-| [[%BUGS%/Item4879][Item4879]] | configure not honoring $TWiki::cfg{ScriptUrlPath} |
-| [[%BUGS%/Item4856][Item4856]] | EditTablePlugin: make buttons customizable and translatable |
-| [[%BUGS%/Item4854][Item4854]] | EditTablePlugin: undefined textarea size gives error in log |
-| [[%BUGS%/Item4848][Item4848]] | !EditTablePlugin textarea bug! |
-| [[%BUGS%/Item4846][Item4846]] | Installation process SNAFU if you don't set a configure PW |
-| [[%BUGS%/Item4819][Item4819]] | viewauth redirect loops to death when Main and TWiki webs both are view denied for !WikiGuest |
-| [[%BUGS%/Item4816][Item4816]] | !EditPreferences of !Main.TWikiPreferences broken |
-| [[%BUGS%/Item4807][Item4807]] | swap twikistyle and defaultstyle definitions |
-| [[%BUGS%/Item4797][Item4797]] | Online installer not resolving dependencies |
-| [[%BUGS%/Item4794][Item4794]] | Wrong link to !FileAttachment |
-| [[%BUGS%/Item4793][Item4793]] | Login screen has error messages the wrong order |
-| [[%BUGS%/Item4774][Item4774]] | When using a field type select+multi in a form used in a template topic, the field doesn't remember the selection |
-| [[%BUGS%/Item4765][Item4765]] | Reading static HTML's for upgrade/install is difficult without internet connection/behind firewall |
-| [[%BUGS%/Item4761][Item4761]] | Remove inline scripts from pattern skin |
-| [[%BUGS%/Item4756][Item4756]] | raw=all does not show all meta when VIEW_TEMPLATE is defined. |
-| [[%BUGS%/Item4753][Item4753]] | /bin/twiki is experimental stuff that should not be in distribution |
-| [[%BUGS%/Item4752][Item4752]] | Terrifying text appears below plugins list during new extensions install via configure |
-| [[%BUGS%/Item4736][Item4736]] | add expires header for css js etc |
-| [[%BUGS%/Item4727][Item4727]] | nested web creation is broken (it should prevent the user from creating them if its disabled...) |
-| [[%BUGS%/Item4724][Item4724]] | =afterEditHandler= is never called on "Quiet Save" |
-| [[%BUGS%/Item4722][Item4722]] | Unused EXPERT options are always shown |
-| [[%BUGS%/Item4718][Item4718]] | Improve the installation doc for how to setup apache config for configure |
-| [[%BUGS%/Item4713][Item4713]] | Repackage native search as a conrib, remove from 4.2 |
-| [[%BUGS%/Item4702][Item4702]] | Lighter top bar background image |
-| [[%BUGS%/Item4694][Item4694]] | Standard user topics of !TopicUserMapping are referenced, but not defined |
-| [[%BUGS%/Item4692][Item4692]] | Forking search algorithm throws error if topic is nonexistent |
-| [[%BUGS%/Item4680][Item4680]] | Print view seems weird in both pattern skin and default skin |
-| [[%BUGS%/Item4677][Item4677]] | Search results now have empty line (= html P) between search header and results list |
-| [[%BUGS%/Item4676][Item4676]] | Update color scheme to match new neutral table borders |
-| [[%BUGS%/Item4675][Item4675]] | Add completePageHandler for plugins |
-| [[%BUGS%/Item4671][Item4671]] | default skin is a bit broken |
-| [[%BUGS%/Item4670][Item4670]] | close browser advice non-sensical when not using apache login |
-| [[%BUGS%/Item4667][Item4667]] | Adding CGI::Session with distribution and enable Template login by default. |
-| [[%BUGS%/Item4664][Item4664]] | Web rename renames content as well |
-| [[%BUGS%/Item4661][Item4661]] | renaming a topic destroys full qualified topic names |
-| [[%BUGS%/Item4659][Item4659]] | Change the strategy of protecting again html attach spam to not harm Wysiwyg editor |
-| [[%BUGS%/Item4658][Item4658]] | remove use of undefined variable un utf8 code |
-| [[%BUGS%/Item4605][Item4605]] | User shown as Unknown User (Login ID) when author is not in WikiUsers. Bad feature |
-| [[%BUGS%/Item4590][Item4590]] | Rename "Checkpoint" to "Save and Continue" |
-| [[%BUGS%/Item4585][Item4585]] | configure generates apache errors |
-| [[%BUGS%/Item4576][Item4576]] | Improve how emailing is enabled and disabled in TWiki especially for registration |
-| [[%BUGS%/Item4569][Item4569]] | !WebSearchAdvanced does not show selected state for default radion button "both"  |
-| [[%BUGS%/Item4539][Item4539]] | Rename css class !TWikiFooterNote to foswikiFooterNote |
-| [[%BUGS%/Item4510][Item4510]] | Remove inline scripts |
-| [[%BUGS%/Item4509][Item4509]] | Prevent [ and ] in topic names when renaming topics |
-| [[%BUGS%/Item4508][Item4508]] | !ResetPassword, !ChangePassword, !ChangeEmailAddress, !TWikiRegistration needs to be hacked after each upgrade |
-| [[%BUGS%/Item4505][Item4505]] | User registration states incorrect user name |
-| [[%BUGS%/Item4493][Item4493]] | Inline rdiff between rev 0 and rev 1 is empty |
-| [[%BUGS%/Item4487][Item4487]] | As described in !TWiki.TWikiScripts auth protect rest |
-| [[%BUGS%/Item4476][Item4476]] | Missing error message when registration mail fails to be sent |
-| [[%BUGS%/Item4459][Item4459]] | TemplateLogin messages not translated |
-| [[%BUGS%/Item4458][Item4458]] | Topic newsletter notifications in MailerContrib fail |
-| [[%BUGS%/Item4453][Item4453]] | A Set embedded in a list has problems |
-| [[%BUGS%/Item4449][Item4449]] | No (simple) way to create a Set |
-| [[%BUGS%/Item4448][Item4448]] | InterwikiPlugin: Change ISBN rule |
-| [[%BUGS%/Item4440][Item4440]] | reading the FORMFIELDs of another topic imposes its access rights |
-| [[%BUGS%/Item4439][Item4439]] | %INCLUDE breaks enumeration/tables when included topic has file attachments  |
-| [[%BUGS%/Item4435][Item4435]] | Paragraphs not correctly handled |
-| [[%BUGS%/Item4434][Item4434]] | Patch for improper replacing of "0" with "" (empty string) in URLPARAM default value |
-| [[%BUGS%/Item4432][Item4432]] | %VAR causes an internal server error |
-| [[%BUGS%/Item4426][Item4426]] | HTMl embedded in lists breaks the translator |
-| [[%BUGS%/Item4425][Item4425]] | Empty bullets get a br tag. |
-| [[%BUGS%/Item4403][Item4403]] | Error saving topic message not shown as code because of trailing space |
-| [[%BUGS%/Item4402][Item4402]] | Access check based on getWikiUserName (fails) vs. getWikiName (succeeds) |
-| [[%BUGS%/Item4399][Item4399]] | Add a note about adding a doc license to footer when installing TWiki |
-| [[%BUGS%/Item4397][Item4397]] | Authenticating through REST does not work in MAIN |
-| [[%BUGS%/Item4383][Item4383]] | {Register}{NeedVerification} shoud not be an expert setting and disabled by default |
-| [[%BUGS%/Item4380][Item4380]] | =mailnotify= fails due to TWIki::Merge failing |
-| [[%BUGS%/Item4378][Item4378]] | default skin, and thus the classic skin, contains javascript |
-| [[%BUGS%/Item4372][Item4372]] | Custom META fields that don't have the _name_ key are ignored by TWiki::Store |
-| [[%BUGS%/Item4355][Item4355]] | bulkregistration is unforgiving on TWikiTable format |
-| [[%BUGS%/Item4349][Item4349]] | TablePlugin generates invalid html attribute =maxcols= |
-| [[%BUGS%/Item4347][Item4347]] | Empty field values in searches are returned as strings containing "$value"  |
-| [[%BUGS%/Item4335][Item4335]] | TablePlugin: TWikiTables in TWikiLists generate invalid html |
-| [[%BUGS%/Item4333][Item4333]] | !OopsException allows anything from a URL to pass through to the generated HTML incl scripts |
-| [[%BUGS%/Item4332][Item4332]] | No error message for duplicate_activation |
-| [[%BUGS%/Item4319][Item4319]] | {SafeEnvPath} screws up windows |
-| [[%BUGS%/Item4308][Item4308]] | getListOfWebs() and webExists() disagree |
-| [[%BUGS%/Item4300][Item4300]] | TablePlugin overrides skin css AGAIN |
-| [[%BUGS%/Item4284][Item4284]] | Support topic permissions checking |
-| [[%BUGS%/Item4280][Item4280]] | Move hide-if-no-javascript functionality from TwistyPlugin to default templates |
-| [[%BUGS%/Item4271][Item4271]] | Update TwistyPlugin with TWiki 4 javascript files |
-| [[%BUGS%/Item4269][Item4269]] | Update TwistyContrib with TWiki 4 javascript files |
-| [[%BUGS%/Item4260][Item4260]] | Add MAKETEXT to all default templates |
-| [[%BUGS%/Item4258][Item4258]] | Get rid of default TH background color |
-| [[%BUGS%/Item4257][Item4257]] | Default templates and documentation topics assume pattern CSS classes |
-| [[%BUGS%/Item4250][Item4250]] | Pipe symbol (i.e. in SEARCH) breaks Form Definition Table |
-| [[%BUGS%/Item4249][Item4249]] | RegistrationApprovals is not a web |
-| [[%BUGS%/Item4243][Item4243]] | Malformed META embedded in text can crash TWiki |
-| [[%BUGS%/Item4239][Item4239]] | syntax error at /usr/lib/cgi-bin/TEST/lib/TWiki/ Users/ApacheHtpasswdUser.pm line 67, near "}" |
-| [[%BUGS%/Item4236][Item4236]] | Configure harmless errors confuse people when they have other unrelated errors. |
-| [[%BUGS%/Item4229][Item4229]] | Remove deprecated filename attribute from attach template |
-| [[%BUGS%/Item4219][Item4219]] | Add correct CSS class to select box |
-| [[%BUGS%/Item4207][Item4207]] | Usability: Warn if more than one {WebMasterEmail} e-mail address |
-| [[%BUGS%/Item4204][Item4204]] | Document how you become an admin user with new temporary admin login (sudo) |
-| [[%BUGS%/Item4193][Item4193]] | Show and hide WYSIWYG buttons based on COMPOSER setting |
-| [[%BUGS%/Item4173][Item4173]] | GROUPS variable kills server if there is a large group |
-| [[%BUGS%/Item4166][Item4166]] | TwistyPlugin: wrong use of plugin handlers |
-| [[%BUGS%/Item4158][Item4158]] | !TWikiRegistration does not pass on multiple checkbox element values to UserForm. |
-| [[%BUGS%/Item4157][Item4157]] | tick_twiki.pl broken |
-| [[%BUGS%/Item4156][Item4156]] | Fixing twiki cgi for logging in |
-| [[%BUGS%/Item4151][Item4151]] | Javascript: twiki object overwritten |
-| [[%BUGS%/Item4150][Item4150]] | Add global setting to allow non-WikiWords |
-| [[%BUGS%/Item4146][Item4146]] | Documentation !VarENCODE param typo |
-| [[%BUGS%/Item4143][Item4143]] | Remove max length on attachment comment |
-| [[%BUGS%/Item4141][Item4141]] | Topic templates are not documented |
-| [[%BUGS%/Item4138][Item4138]] | Doc bug in !TWikiUpgradeGuide.html |
-| [[%BUGS%/Item4128][Item4128]] | Create default directive for non-view pages |
-| [[%BUGS%/Item4126][Item4126]] | !WebSearch: Fix checkbox state based on url param web=all |
-| [[%BUGS%/Item4088][Item4088]] | Add css style to raw textarea |
-| [[%BUGS%/Item4081][Item4081]] | Broken Links to Topics and Subwebs |
-| [[%BUGS%/Item4080][Item4080]] | Downloading extension via configure sometimes end up in an "Invalid header block" message |
-| [[%BUGS%/Item4071][Item4071]] | Add dmg to mime.types |
-| [[%BUGS%/Item4067][Item4067]] | Hexadecimal character references do not work |
-| [[%BUGS%/Item4063][Item4063]] | Document how to reset a password with !ApacheLogin |
-| [[%BUGS%/Item4062][Item4062]] | Reset password message doesn't make sense any more |
-| [[%BUGS%/Item4060][Item4060]] | template login Error message activated when there was no error |
-| [[%BUGS%/Item4048][Item4048]] | EditTablePlugin: Password shown in URL params after template login on direct sort urls (authenticated setups) |
-| [[%BUGS%/Item4045][Item4045]] | PatternSkin: More space in topic name fields and file field |
-| [[%BUGS%/Item4043][Item4043]] | attachments have bad user name display issues |
-| [[%BUGS%/Item4042][Item4042]] | Broken formfield "name" and "title" attributes |
-| [[%BUGS%/Item4035][Item4035]] | METASEARCH doc not complete. format option and probably more are missing in the doc |
-| [[%BUGS%/Item4034][Item4034]] | Topic rename: error in javascript so select all does not work |
-| [[%BUGS%/Item4028][Item4028]] | Authenticated twice; garbled !CommentPlugin text |
-| [[%BUGS%/Item4023][Item4023]] | configure link for 'Expert mode' missing t= parameter to prevent caching |
-| [[%BUGS%/Item4019][Item4019]] | Remove preferences edit button from !TWiki.TWikiPreferences |
-| [[%BUGS%/Item4006][Item4006]] | More options: do not show "View previous topic revision" when there is no previous version |
-| [[%BUGS%/Item3991][Item3991]] | Add =spaceOutWikiWord= to Func |
-| [[%BUGS%/Item3989][Item3989]] | Problematic Values for FINALPREFERENCES in Distribution |
-| [[%BUGS%/Item3971][Item3971]] | viewauth Redirect May Add Superfluous Slash |
-| [[%BUGS%/Item3969][Item3969]] | Emails may be 8bit, not 7bit |
-| [[%BUGS%/Item3968][Item3968]] | Base HREF is wrong when scripturls are changed |
-| [[%BUGS%/Item3957][Item3957]] | Mandatory fields will not accept 0 |
-| [[%BUGS%/Item3955][Item3955]] | RCS command-line settings should be EXPERT |
-| [[%BUGS%/Item3949][Item3949]] | Search 'Number of topics' does not show on first search on advanced regex searches |
-| [[%BUGS%/Item3947][Item3947]] | Better documentation on how to install CPAN libs (including a reference in the install doc) |
-| [[%BUGS%/Item3940][Item3940]] | PREFERENCE values not carried over to preview and then save |
-| [[%BUGS%/Item3929][Item3929]] | Make TOPICLIST topic parameter equivalent to other vars |
-| [[%BUGS%/Item3921][Item3921]] | =renderWikiWordHandler= called at wrong place in Render.pm; change to support bracket notation |
-| [[%BUGS%/Item3917][Item3917]] | Add .changes API to Func |
-| [[%BUGS%/Item3914][Item3914]] | Some plugins cannot be downloaded using =configure= |
-| [[%BUGS%/Item3911][Item3911]] | default preview tmpl has major bug in release value="%REDIRECTTO"  |
-| [[%BUGS%/Item3909][Item3909]] | Pattern skin template documentation update |
-| [[%BUGS%/Item3902][Item3902]] | Reset Password is broken in MAIN branch |
-| [[%BUGS%/Item3900][Item3900]] | New CARET preferences setting |
-| [[%BUGS%/Item3897][Item3897]] | Fix sanitizeAttachmentName |
-| [[%BUGS%/Item3895][Item3895]] | Structure the TWiki version number to make accessible from plugins (code included) |
-| [[%BUGS%/Item3892][Item3892]] | Do not automatically lock user homepages when this is not set in !NewUserTemplate |
-| [[%BUGS%/Item3890][Item3890]] | EDITTABLE expands variables in table cells |
-| [[%BUGS%/Item3889][Item3889]] | $EXISTS() should default to topic in current web |
-| [[%BUGS%/Item3885][Item3885]] | Plugin installation doesn't work through some proxies |
-| [[%BUGS%/Item3883][Item3883]] | No rendering of TML after %BR% used in table cells and multiline bullets |
-| [[%BUGS%/Item3879][Item3879]] | Topic rename does not find URL references from topics in different web |
-| [[%BUGS%/Item3876][Item3876]] | Better documentation of =$FORMAT(PERCENT, ...)= |
-| [[%BUGS%/Item3864][Item3864]] | =renderWikiWordHandler= is not documented |
-| [[%BUGS%/Item3862][Item3862]] | Parameter passed to preRenderingHandler incorrect |
-| [[%BUGS%/Item3853][Item3853]] | WEBLIST docco spelling error (selection=) |
-| [[%BUGS%/Item3835][Item3835]] | !TWiki.TWikiSiteTools mentions geturl.pl, but does not point out the authentication problems with it |
-| [[%BUGS%/Item3834][Item3834]] | USERINFO{format="$groups"} always returns webDotWikiName identifiers |
-| [[%BUGS%/Item3833][Item3833]] | Cannot move attachment to topic with non-wikiword name |
-| [[%BUGS%/Item3832][Item3832]] | bracket links are not updated during page renames |
-| [[%BUGS%/Item3829][Item3829]] | !NativeSearch: give gentle warning when no parameters are passed to test.pl |
-| [[%BUGS%/Item3822][Item3822]] | Table rules for columns are invisible in Internet explorer |
-| [[%BUGS%/Item3821][Item3821]] | Document INCLUDE behaviour in !TWikiAccessControl |
-| [[%BUGS%/Item3813][Item3813]] | Web reference gets inappropriately inserted into bracketed links inside verbatim tags. |
-| [[%BUGS%/Item3812][Item3812]] | Space in username not rejected when resetting password |
-| [[%BUGS%/Item3806][Item3806]] | add =true= and =false= to TWiki::isTrue |
-| [[%BUGS%/Item3805][Item3805]] | footerrows setting is ignored when adding rows |
-| [[%BUGS%/Item3804][Item3804]] | !TemplateLogin.pm doesn't return the error from the underlying !PasswordManager |
-| [[%BUGS%/Item3803][Item3803]] | %!USERINFO{format="$groups"}% crashes |
-| [[%BUGS%/Item3796][Item3796]] | Javascript: ensuring variables are local |
-| [[%BUGS%/Item3790][Item3790]] | Web statistic severely broken |
-| [[%BUGS%/Item3787][Item3787]] | !TWiki.TWikiDocumentation jumps to top at double click |
-| [[%BUGS%/Item3784][Item3784]] | Rename across webs bugs |
-| [[%BUGS%/Item3783][Item3783]] | Pattern skin small template refactoring |
-| [[%BUGS%/Item3780][Item3780]] | Add Sanitize Attachment Name to TWiki::Func |
-| [[%BUGS%/Item3779][Item3779]] | Table with backslash breaks EditTablePlugin  |
-| [[%BUGS%/Item3778][Item3778]] | Lock !WebPreferences to person creating web |
-| [[%BUGS%/Item3775][Item3775]] | !Commentplugin makes inappropriate line ending handling when targeting an anchor |
-| [[%BUGS%/Item3772][Item3772]] | TWiki::Func::getOopsUrl() doesn't support =def= parameter |
-| [[%BUGS%/Item3771][Item3771]] | Dutch translation files some special chars mangled |
-| [[%BUGS%/Item3769][Item3769]] | Can't create configuration subsection for plugins and contribs |
-| [[%BUGS%/Item3765][Item3765]] | configure docco for mail handler should say howto force twiki to use sendmail |
-| [[%BUGS%/Item3760][Item3760]] | With rename topic, topic texts are changed as well |
-| [[%BUGS%/Item3759][Item3759]] | MailerContrib not mailing groups |
-| [[%BUGS%/Item3758][Item3758]] | Remark "There is no size limit for uploaded files." is not relevant to users |
-| [[%BUGS%/Item3756][Item3756]] | RegistrationAgent produces wrongly formated entries |
-| [[%BUGS%/Item3755][Item3755]] | Need to document parameterized include |
-| [[%BUGS%/Item3752][Item3752]] | Doc fix to !AdminSkillsAssumptions |
-| [[%BUGS%/Item3748][Item3748]] | EXTEND.pm fails to move directories across filesystems |
-| [[%BUGS%/Item3743][Item3743]] | Input bugs in !SpreadSheetPlugin::Calc |
-| [[%BUGS%/Item3742][Item3742]] | Short description containing TML does not get rendered properly in PLUGINDESCRIPTIONS |
-| [[%BUGS%/Item3738][Item3738]] | Avoid "detailed instructions are beyond the scope of this document" |
-| [[%BUGS%/Item3735][Item3735]] | WYSIWYG broken for bolded !WikiWords |
-| [[%BUGS%/Item3727][Item3727]] | Can't login; e-mail wiped out in .htpasswd entry |
-| [[%BUGS%/Item3725][Item3725]] | BulkRegister not functioning properly if password Manger is set to NONE |
-| [[%BUGS%/Item3704][Item3704]] | Incorrect number of topics indicated with multiple SEARCHes |
-| [[%BUGS%/Item3703][Item3703]] | & nbsp; in the size field of a form will crash the forms code |
-| [[%BUGS%/Item3690][Item3690]] | exec return an exit code of 1 for a perfectly valid grep |
-| [[%BUGS%/Item3689][Item3689]] | !CommentPlugin location only works if it is above the %COMMENT... tag |
-| [[%BUGS%/Item3688][Item3688]] | Page loads unreasonable slow under IE with Twisty enabled (clone of 3582) |
-| [[%BUGS%/Item3686][Item3686]] | Make redirectto parameter work for rename |
-| [[%BUGS%/Item3684][Item3684]] | Over-complex CPAN installation instructions |
-| [[%BUGS%/Item3673][Item3673]] | Bad expression error in 'more' screen if parent is missing |
-| [[%BUGS%/Item3668][Item3668]] | Broken links in topic A if includes topic B in which !InterWiki links are defined |
-| [[%BUGS%/Item3653][Item3653]] | Document standard extensions in release notes |
-| [[%BUGS%/Item3652][Item3652]] | I18N: Urls to file attachments that has umlauts only works in some browsers |
-| [[%BUGS%/Item3646][Item3646]] | Make edit form somewhat less spacious |
-| [[%BUGS%/Item3641][Item3641]] | Access key char invisible on hover |
-| [[%BUGS%/Item3639][Item3639]] | Extension installer in configure floods error_log when checking for installed plugins. |
-| [[%BUGS%/Item3630][Item3630]] | Topic URL parameter overwrites revision to which REVINFO variable refers |
-| [[%BUGS%/Item3623][Item3623]] | Can't delete attachment with pluses in file name |
-| [[%BUGS%/Item3621][Item3621]] | Improve visibility of attachment twisty |
-| [[%BUGS%/Item3604][Item3604]] | URL rendering cuts off first part of URL |
-| [[%BUGS%/Item3594][Item3594]] | Can't save template topic with mandatory form fields |
-| [[%BUGS%/Item3592][Item3592]] | Cleaning up !Main.TWikiPreferences |
-| [[%BUGS%/Item3583][Item3583]] | 'configure' password gets saved as 'smtp' password (in plain text!) |
-| [[%BUGS%/Item3581][Item3581]] | Unwanted question mark link in bracket link text |
-| [[%BUGS%/Item3580][Item3580]] | redirectto implemented redundantly in several places |
-| [[%BUGS%/Item3579][Item3579]] | Usability: [Save] of preferences screen should support access key |
-| [[%BUGS%/Item3578][Item3578]] | Deprecate =permissionsSet= from Func |
-| [[%BUGS%/Item3575][Item3575]] | Usability: Use pub url instead of viewfile url in attachment table |
-| [[%BUGS%/Item3570][Item3570]] | Usability: Time consuming to create new topic |
-| [[%BUGS%/Item3567][Item3567]] | TablePlugin: css attributes priority of site/web preferences too agressive |
-| [[%BUGS%/Item3486][Item3486]] | Possible to create topics with unsupported characters |
-| [[%BUGS%/Item3463][Item3463]] | Document how to use .spec files for plugin setting in !TWiki.TWikiPlugins |
-| [[%BUGS%/Item3456][Item3456]] | Doc is unclear that Space In Path Causes Error |
-| [[%BUGS%/Item3438][Item3438]] | !UnprocessedBulkRegistrationLog is improperly formatted |
-| [[%BUGS%/Item3375][Item3375]] | Refactor object names for clarity |
-| [[%BUGS%/Item3368][Item3368]] | No existance check for topic used in =include= |
-| [[%BUGS%/Item3367][Item3367]] | !EditTablePlugin ignores valid table syntax |
-| [[%BUGS%/Item3362][Item3362]] | Update doc topics that have forms |
-| [[%BUGS%/Item3341][Item3341]] | invalid Date: header in mailnotify |
-| [[%BUGS%/Item3289][Item3289]] | attach a filename with paraens and wikiwords |
-| [[%BUGS%/Item3246][Item3246]] | Fix save_error template |
-| [[%BUGS%/Item3229][Item3229]] | WysiwygPlugin alters things inside complex twiki vars so they break |
-| [[%BUGS%/Item3158][Item3158]] | Don't include anything when trying to include a non existing section |
-| [[%BUGS%/Item3105][Item3105]] | Usability: Misleading  "Invalid Activation Code" error message |
-| [[%BUGS%/Item3051][Item3051]] | Wasted vertical space below edit box |
-| [[%BUGS%/Item3038][Item3038]] | NEWTOPICFGCOLOR and NEWTOPICBGCOLOR never used |
-| [[%BUGS%/Item3009][Item3009]] | Need clear definition of the impact of spaces on !EditTable definition |
-| [[%BUGS%/Item2975][Item2975]] | EditTablePlugin format fails for last item |
-| [[%BUGS%/Item2960][Item2960]] | I18N: Using UTF8 in headers breaks header anchors |
-| [[%BUGS%/Item2915][Item2915]] | Allow date format in form fields |
-| [[%BUGS%/Item2892][Item2892]] | TWiki dies with SEARCH on topic that has form field named =*Foobar*= |
-| [[%BUGS%/Item2772][Item2772]] | Mailto link should use %20 instead of &#32; for spaces |
-| [[%BUGS%/Item2690][Item2690]] | EditTablePlugin: remove sort links from headers when editing the table |
-| [[%BUGS%/Item2632][Item2632]] | Username vs WikiName is confusing in Configure |
-| [[%BUGS%/Item2615][Item2615]] | Fully document exposed APIs |
-| [[%BUGS%/Item2520][Item2520]] | !WebExist uses !WebPreferences as opposed to !WebHome to determine the validity of a web |
-| [[%BUGS%/Item2354][Item2354]] | FuncUsersContrib and MoreFuncContrib and FuncusersContrib should be merged into Func |
-| [[%BUGS%/Item2326][Item2326]] | Remove the secret NEWTOPICLINKSYMBOL (was missing docs for =NEWTOPIC*= ) |
-| [[%BUGS%/Item2244][Item2244]] | Documented METASEARCH parameter defaults are not the actual defaults |
-| [[%BUGS%/Item2221][Item2221]] | .changes is hardcoded to 500 entries, affecting WebStatistics and MailerContrib |
-| [[%BUGS%/Item2108][Item2108]] | Better installation doc for !AdminGroup |
-| [[%BUGS%/Item2032][Item2032]] | Some UTF8 characters in form values broken (CGI.pm interaction) |
-| [[%BUGS%/Item2005][Item2005]] | Cannot change configure password without making other changes |
-| [[%BUGS%/Item1993][Item1993]] | IE eats newlines |
-| [[%BUGS%/Item1985][Item1985]] | Not possible to use CDATA in SEARCH output (prev: RSS feeds chokes on HTML entities in SEARCH results) |
-| [[%BUGS%/Item1965][Item1965]] | !ResetPassword usability |
-| [[%BUGS%/Item1870][Item1870]] | Improvements to installation docs |
-| [[%BUGS%/Item1860][Item1860]] | NewUserTemplate should be in Main |
-| [[%BUGS%/Item1852][Item1852]] | Lease files are not deleted or renamed when you delete/rename topics with cancelled edit |
-| [[%BUGS%/Item1828][Item1828]] | Rendering bug of headings when using MBCS as a heading string |
-| [[%BUGS%/Item1562][Item1562]] | RcsFile::searchInWebContent doesn't check exit status of the grep command |
-| [[%BUGS%/Item1379][Item1379]] | Table sorting confused when using variables. |
-</noautolink>
-
----++ Enhancements
-
-<noautolink>
-| [[%BUGS%/Item652][Item652]] | =configure= plugins should be sorted case-insensitively |
-| [[%BUGS%/Item4995][Item4995]] | EditTablePlugin: Omit Edit button in print view |
-| [[%BUGS%/Item4810][Item4810]] | SpreadSheetPlugin: New FORMATTIMEDIFF() function |
-| [[%BUGS%/Item4809][Item4809]] | ConditionalBasedOnGroupMembership |
-| [[%BUGS%/Item4709][Item4709]] | Update small T-logo badge in bottom bar |
-| [[%BUGS%/Item4599][Item4599]] | Add timestamps to history revisions (rdiff) |
-| [[%BUGS%/Item4568][Item4568]] | Offer RSS feed on search results |
-| [[%BUGS%/Item4548][Item4548]] | Improve TOC display in TWiki documentation |
-| [[%BUGS%/Item4547][Item4547]] | Improve TWiki variables documentation |
-| [[%BUGS%/Item4504][Item4504]] | pop-ups need to pass extra url parameters |
-| [[%BUGS%/Item4500][Item4500]] | need a way to set preferences from TWiki::Func |
-| [[%BUGS%/Item4473][Item4473]] | check that we have a testable can_edit state |
-| [[%BUGS%/Item4461][Item4461]] | 'Changed' link should point to most recent changes, not the entire history |
-| [[%BUGS%/Item4451][Item4451]] | Add Bugs rule |
-| [[%BUGS%/Item4351][Item4351]] | Add a way to pass authentication information to an extra plugins repository |
-| [[%BUGS%/Item4294][Item4294]] | TablePlugin: put all css styling in head |
-| [[%BUGS%/Item4279][Item4279]] | TwistyContrib: support TwistyPlugin 1.4 |
-| [[%BUGS%/Item4278][Item4278]] | TwistyPlugin 1.4: remove ugly javascript init calls |
-| [[%BUGS%/Item4275][Item4275]] | Add Adobe Air to mimetypes |
-| [[%BUGS%/Item4259][Item4259]] | Simplify default templates more, and use CSS |
-| [[%BUGS%/Item4241][Item4241]] | CSS class =foswikiUnvisited= |
-| [[%BUGS%/Item4185][Item4185]] | !SlideShowPlugin: Add !VarSLIDESHOWSTART and !VarSLIDESHOWEND variable documentation |
-| [[%BUGS%/Item4184][Item4184]] | !RenderListPlugin: Add !VarRENDERLIST variable documentation |
-| [[%BUGS%/Item4183][Item4183]] | !TablePlugin: Add !VarTABLE variable documentation |
-| [[%BUGS%/Item4182][Item4182]] | !EditTablePlugin: Add !VarEDITTABLE variable documentation |
-| [[%BUGS%/Item4181][Item4181]] | !CommentPlugin: Add !VarCOMMENT variable documentation |
-| [[%BUGS%/Item4180][Item4180]] | !SpreadSheetPlugin: Add !VarCALC variable documentation |
-| [[%BUGS%/Item4174][Item4174]] | Add templatetopic url parameter to !WebTopicCreator |
-| [[%BUGS%/Item4153][Item4153]] | Add control over TOC rendering |
-| [[%BUGS%/Item4142][Item4142]] | Template unification |
-| [[%BUGS%/Item4140][Item4140]] | Support standard escapes in IF statements |
-| [[%BUGS%/Item4139][Item4139]] | Configurable date format to enable 2007-05-25 format. |
-| [[%BUGS%/Item4120][Item4120]] | !Main.WikiUsers no longer in distribution but gets created from template if non existing |
-| [[%BUGS%/Item4087][Item4087]] | PatternSkin: visual update to form elements |
-| [[%BUGS%/Item4075][Item4075]] | Enhance MailerContrib To Allow Exclusion Of Webs |
-| [[%BUGS%/Item4069][Item4069]] | Normalise =viewfile= so it is able to use path syntax as well as the ?filename= syntax. |
-| [[%BUGS%/Item4046][Item4046]] | PatternSkin: Add RSS feed icon to !WebLeftBar |
-| [[%BUGS%/Item4044][Item4044]] | Add RSS feed icon to !DocumentGraphics |
-| [[%BUGS%/Item4041][Item4041]] | Extend SEARCH to allow SQL-type queries over form fields |
-| [[%BUGS%/Item3988][Item3988]] | Japanese translation |
-| [[%BUGS%/Item3854][Item3854]] | show subwebs="" in WEBLIST relative to a web |
-| [[%BUGS%/Item3841][Item3841]] | Add expandStandardEscapes to TWiki::Func |
-| [[%BUGS%/Item3801][Item3801]] | Propose adding $admin attribute to USERINFO rather than appending "isAdmin()" to $group output |
-| [[%BUGS%/Item3798][Item3798]] | foswikiNotification: CSS style for notifcations |
-| [[%BUGS%/Item3774][Item3774]] | Add getSessionKeys to Func |
-| [[%BUGS%/Item3773][Item3773]] | Handlers don't have access to the full topic |
-| [[%BUGS%/Item3766][Item3766]] | Enhance EditTablePlugin with DHTML; fix eating of newlines; graceful fallback calendar button; fix css styling |
-| [[%BUGS%/Item3757][Item3757]] | TWiki inserts html into text areas which have text in them |
-| [[%BUGS%/Item3607][Item3607]] | SEARCH summary should remove leading exclamation point |
-| [[%BUGS%/Item3606][Item3606]] | !SpreadSheetPlugin doc work for 4.2 |
-| [[%BUGS%/Item3552][Item3552]] | Support interface to getting URLs in Func |
-| [[%BUGS%/Item3530][Item3530]] | Make scope="all" the default search in !WebSearch |
-| [[%BUGS%/Item3487][Item3487]] | Need a way to tell if mod_perl is in use |
-| [[%BUGS%/Item3321][Item3321]] | Table column headers always centered |
-| [[%BUGS%/Item3313][Item3313]] | Make redirectto parameter work for upload |
-| [[%BUGS%/Item3265][Item3265]] | Existing attachments: change header from "Other attachments of" to "Attachments of" |
-| [[%BUGS%/Item3250][Item3250]] | Allow infinite expiry of cookies |
-| [[%BUGS%/Item3234][Item3234]] | PatternSkin minor CSS changes for 4.2 |
-| [[%BUGS%/Item2123][Item2123]] | Add new type=word search to search on word boundaries |
-| [[%BUGS%/Item1966][Item1966]] | Poor/nonexistent revert-to-previous-version design |
-| [[%BUGS%/Item1772][Item1772]] | Add a =?template=viewplain= template for plain view |
-| [[%BUGS%/Item1748][Item1748]] | Attach help contains note for Internet Explorer 4 that can be removed now |
-| [[%BUGS%/Item1582][Item1582]] | configure needs a backlink to the TWiki/WebHome |
-</noautolink>
-
----++  TWiki 4.2.1 Patch Release - Details
-
-The 4.2.1 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWikiRelease04x02 revision %$VERSION%. 
-
----++ Fixes
-
-<noautolink>
-| [[%BUGS%/Item5876][Item5876]] | Make query search ref more clear in !VarSEARCH. |
-| [[%BUGS%/Item5873][Item5873]] | REVINFO shows unknown user instead of the author value when it cannot map. |
-| [[%BUGS%/Item5868][Item5868]] | ApacheHtpasswdUser compile error |
-| [[%BUGS%/Item5866][Item5866]] | shortcircuit TWiki::_processTags shortpath for 10-30% TWiki render speed improvement |
-| [[%BUGS%/Item5854][Item5854]] | Forking search result collation regex can cause many spurious log entries |
-| [[%BUGS%/Item5850][Item5850]] | !ResetPassword/ChangePassword combo "Oops: we could not recognize you" |
-| [[%BUGS%/Item5849][Item5849]] | regex SEARCH on Native Windows crashes when there are [^] chars or mismatched "s in the regex. |
-| [[%BUGS%/Item5844][Item5844]] | Automatic statistics denied by default server configuration |
-| [[%BUGS%/Item5834][Item5834]] | Edit in ClassicSkin with action=form still displays the text field for the topic |
-| [[%BUGS%/Item5833][Item5833]] | Double header in Classic skin when editing with action=text |
-| [[%BUGS%/Item5832][Item5832]] | EDITACTION only works on Edit but not Edit Raw |
-| [[%BUGS%/Item5831][Item5831]] | EDITACTION parameter does get replaced properly in the changeform templates if combined with setting EDITACTION |
-| [[%BUGS%/Item5826][Item5826]] | improved the security of the password generated for resetPassword |
-| [[%BUGS%/Item5823][Item5823]] | Adding MD5 Password Feature |
-| [[%BUGS%/Item5819][Item5819]] | Document that 4.2.1 with Wysiwyg will no longer work with Perl 5.6 |
-| [[%BUGS%/Item5810][Item5810]] | %IF in a set statement fails |
-| [[%BUGS%/Item5808][Item5808]] | !TWiki.InstalledPlugins lists Contribs and AddOns but no Skins |
-| [[%BUGS%/Item5798][Item5798]] | urlHost field initialized too late in TWiki::new |
-| [[%BUGS%/Item5796][Item5796]] | SubscribePlugin and perl 5.8.4 exposes a taint issue in the latest MailerContrib |
-| [[%BUGS%/Item5794][Item5794]] | potential dataloss bug in EditTablePlugin 4.8.2 |
-| [[%BUGS%/Item5790][Item5790]] | LOCAL_SEARCH does expand nop'ed TML |
-| [[%BUGS%/Item5789][Item5789]] | don't rely on the author info being present in attachment meta data |
-| [[%BUGS%/Item5787][Item5787]] | square bracket url links don't escape their contents well enough |
-| [[%BUGS%/Item5786][Item5786]] | improve TemplateOopsAttentionNotFound message |
-| [[%BUGS%/Item5776][Item5776]] | MailerContrib cannot run multiple instances at the same time (document this fact) |
-| [[%BUGS%/Item5772][Item5772]] | base and current revisions reversed in diff URL of MailerContrib notify message |
-| [[%BUGS%/Item5744][Item5744]] | When renaming webs you get a File does not exist .. twiki_renamedelete.js |
-| [[%BUGS%/Item5743][Item5743]] | Easy to goof up web renaming because the default new webname includes subweb. |
-| [[%BUGS%/Item5741][Item5741]] | REVTITLE isn't rendered except on rdiff |
-| [[%BUGS%/Item5739][Item5739]] | twiki_httpd_conf.txt is inconsistent in the paths it has as default. |
-| [[%BUGS%/Item5727][Item5727]] | configure and perl 5.10 dies with Use of uninitialized value $filename in substitution (s///) at (eval 41) line 23 |
-| [[%BUGS%/Item5726][Item5726]] | Changing a form when the old form has mandatory fields which are empty causes bogus error |
-| [[%BUGS%/Item5725][Item5725]] | Editing in Classic skin gives missing Save and Cancel buttons |
-| [[%BUGS%/Item5724][Item5724]] | When you Edit Raw and then add form you end up in Wysiwyg edit mode |
-| [[%BUGS%/Item5721][Item5721]] | TinyMCE not honouring Template Topic in special cases. |
-| [[%BUGS%/Item5716][Item5716]] | universal edit button work |
-| [[%BUGS%/Item5711][Item5711]] | Registration of Zyc ends in the end of TWiki users instead of the last entry in list of users |
-| [[%BUGS%/Item5703][Item5703]] | Putting setting with empty value in 'Topic Preference' interface does not work. |
-| [[%BUGS%/Item5701][Item5701]] | tempatetopic not implemented as per the docco in TWikiScripts |
-| [[%BUGS%/Item5690][Item5690]] | Chinese is fail on newest TinyMCEPlugin / WysiwygPlugin |
-| [[%BUGS%/Item5688][Item5688]] | Documentation of eachChangeSince uses $iterator and $it |
-| [[%BUGS%/Item5687][Item5687]] | TWikiScripts docco for formtemplate is missing details. |
-| [[%BUGS%/Item5677][Item5677]] | META tag does not show form field data in 4.2 |
-| [[%BUGS%/Item5674][Item5674]] | IF and Query have problems if some part of an evaluated statement is undef |
-| [[%BUGS%/Item5668][Item5668]] | twiki form Hidden Labels aren't being hidden in view mode. |
-| [[%BUGS%/Item5667][Item5667]] | Named jp.po to ja.po to match locale. Fixed the translation of the word Japanese |
-| [[%BUGS%/Item5656][Item5656]] | CGI::charset called in BEGIN{} breaks mod_perl preloading of TWiki.pm |
-| [[%BUGS%/Item5655][Item5655]] | Query and IF info.version value is not compatible with the common external representation of topic revision |
-| [[%BUGS%/Item5649][Item5649]] | INCLUDE{"WebHome" section=""} returns nothing. |
-| [[%BUGS%/Item5648][Item5648]] | LINKTOOLTIPINFO format cannot be changed |
-| [[%BUGS%/Item5643][Item5643]] | REVINFO with topic= set to a non-existant topic returns stupid values. |
-| [[%BUGS%/Item5638][Item5638]] | readdir/closedir attempted on invalid dirhandle on perl-5.10 |
-| [[%BUGS%/Item5636][Item5636]] | Main Web preferences lists nonexistant topic in WEBFORM |
-| [[%BUGS%/Item5633][Item5633]] | Documentation mistakes in TWikiFuncDotPm/saveTopic |
-| [[%BUGS%/Item5632][Item5632]] | moveAttachment creates duplicates when topic/web are the same as the source |
-| [[%BUGS%/Item5631][Item5631]] | WebStatistics topic was linking to the massive !TWikiDocumentation topic |
-| [[%BUGS%/Item5630][Item5630]] | spooling erra's in the WebNotify topics  |
-| [[%BUGS%/Item5629][Item5629]] | registration email does not explicitly tell the user what their login is. |
-| [[%BUGS%/Item5627][Item5627]] | Image and Attachment references are trashed when using short URLs |
-| [[%BUGS%/Item5626][Item5626]] | Encoding problem with iso-8859 and umlauts |
-| [[%BUGS%/Item5622][Item5622]] | Jumping text with blockindent on IE |
-| [[%BUGS%/Item5620][Item5620]] | Core: edit window no longer has focus on load |
-| [[%BUGS%/Item5615][Item5615]] | !ActionTracker with !CommentPlugin order Dependencies |
-| [[%BUGS%/Item5612][Item5612]] | Selecting "All Public Webs" option not sticking in UI |
-| [[%BUGS%/Item5609][Item5609]] | Bug in lib/TWiki/Prefs/PrefsCache.pm (CGI::H3 should be CGI::h3) |
-| [[%BUGS%/Item5602][Item5602]] | Web Rename not following ALLOWWEBRENAME Preference |
-| [[%BUGS%/Item5601][Item5601]] | registerHandler should be called once per registration |
-| [[%BUGS%/Item5597][Item5597]] | default skin search template is broken for webchanges |
-| [[%BUGS%/Item5593][Item5593]] | raw=on broken on topics with a view_template |
-| [[%BUGS%/Item5588][Item5588]] | INCLUDE of attached HTML files fails in subwebs |
-| [[%BUGS%/Item5562][Item5562]] | Query type Search does not report with large number of topics |
-| [[%BUGS%/Item5559][Item5559]] | TWikiJavascript does not enable partial js usage. |
-| [[%BUGS%/Item5556][Item5556]] | it appears that BuildContrib defaults all unspecified permissions to 664? |
-| [[%BUGS%/Item5554][Item5554]] | Missuse of sort and loops |
-| [[%BUGS%/Item5547][Item5547]] | "action" parameter for "edit" script fail in 4.2 |
-| [[%BUGS%/Item5542][Item5542]] | After you enable {UserInterfaceInternationalisation} first view shows an error |
-| [[%BUGS%/Item5540][Item5540]] | TopicUserMapping: single character erroneously reported as a group |
-| [[%BUGS%/Item5536][Item5536]] | robots.txt is missing some obvious scripts - like login |
-| [[%BUGS%/Item5535][Item5535]] | IF{"$BANNER" does not really work. |
-| [[%BUGS%/Item5534][Item5534]] | missing contexts for several bin scripts |
-| [[%BUGS%/Item5533][Item5533]] | tmpl login script does not do writeCompletePage, so it does not get addToHEAD bits. |
-| [[%BUGS%/Item5529][Item5529]] | SEARCHes of type word do not work if word is non-English and with TWiki running utf-8 |
-| [[%BUGS%/Item5526][Item5526]] | !WebSearch link "Get notified on changes on this search" breaks when search string contains quote |
-| [[%BUGS%/Item5518][Item5518]] | "URLPARAM{" in Comment Box when type="bulletabove" |
-| [[%BUGS%/Item5517][Item5517]] | Wrong call $session->{i18n} |
-| [[%BUGS%/Item5516][Item5516]] | !LanguageSelector javascript breaks on topic names with underscores |
-| [[%BUGS%/Item5514][Item5514]] | suppressTWikiSaveValidation and validateTWikiMandatoryFields Javascript errors in IE and Firefox |
-| [[%BUGS%/Item5509][Item5509]] | IF & query String matching may be incorrectly greedy. |
-| [[%BUGS%/Item5501][Item5501]] | IF allows does not work correctly if the topic does not exist. |
-| [[%BUGS%/Item5499][Item5499]] | TWiki::UI::Resister::changePassword sends login, not cUID to TWiki::Users::setPassword |
-| [[%BUGS%/Item5495][Item5495]] | add foswikiBroadcastMessage class div to default & classic skins |
-| [[%BUGS%/Item5491][Item5491]] | !FileAttachment documentation fix - {AutoAttachPubDir} should read {AutoAttachPubFiles} |
-| [[%BUGS%/Item5490][Item5490]] | %REVTITLE2% not substituted in RDiff.pm |
-| [[%BUGS%/Item5478][Item5478]] | Personal left bar is potentially buggy in layout |
-| [[%BUGS%/Item5467][Item5467]] | Pickaxe saves absolute URL instead of ATTACHURL |
-| [[%BUGS%/Item5466][Item5466]] | default and classic search.tmpl's have one table per topic result |
-| [[%BUGS%/Item5462][Item5462]] | Hide Attachment option does not work  |
-| [[%BUGS%/Item5461][Item5461]] | default skin does not show the form attached to the topic. |
-| [[%BUGS%/Item5458][Item5458]] | Rename web drop all link refer to the web |
-| [[%BUGS%/Item5457][Item5457]] | !TinyMCE breaks Cyrillic Encoding (cp1251 or KOI8-R) |
-| [[%BUGS%/Item5451][Item5451]] | MailInContrib reveals error in Password.pm, that has been carried over to LdapContrib |
-| [[%BUGS%/Item5450][Item5450]] | MailInContrib docs refer to bin/mailincron but actually its in tools |
-| [[%BUGS%/Item5449][Item5449]] | TWiki::Sandbox::sysCommand leaves an extra process if command fails |
-| [[%BUGS%/Item5447][Item5447]] | If =manage= requires login, impossible to change password |
-| [[%BUGS%/Item5443][Item5443]] | Searches order="editby" are sorted by login ID (cUID) instead of WikiName making result look random |
-| [[%BUGS%/Item5432][Item5432]] | Image links inserted with Manage Attachment only work with lower case file extension |
-| [[%BUGS%/Item5431][Item5431]] | Register.pm redirects to WikiUsers topic on error, even though that topic may not exist |
-| [[%BUGS%/Item5430][Item5430]] | reset password message has some errors |
-| [[%BUGS%/Item5428][Item5428]] | Topic save error with form does not remove nop |
-| [[%BUGS%/Item5426][Item5426]] | RSS feeds failing due to newlines at top of page. |
-| [[%BUGS%/Item5418][Item5418]] | readme.txt refers to missing 'install instructions' !TWikiDocumentation.html |
-| [[%BUGS%/Item5412][Item5412]] | "You are trying to templatetopic a topic that does not exist" makes no sense |
-| [[%BUGS%/Item5410][Item5410]] | WebSearchAdvanced does not regex search when you select that it should |
-| [[%BUGS%/Item5405][Item5405]] | !TWikiHierarchicalNavigation seach broken |
-| [[%BUGS%/Item5399][Item5399]] | DISPLAYTIME documentation improved |
-| [[%BUGS%/Item5393][Item5393]] | Adding bullet right after a heading adds annoying html paragraph tags |
-| [[%BUGS%/Item5387][Item5387]] | Issue with multi-span rows and the EditRowPlugin / TablePlugin |
-| [[%BUGS%/Item5382][Item5382]] | TWiki.pm sets wrong urlHost if https protocol and !ShorterUrlCookbook is used |
-| [[%BUGS%/Item5348][Item5348]] | Comment regarding FINALPREFERENCES should also mention subwebs. |
-| [[%BUGS%/Item5345][Item5345]] | Logging in as admin still redirects to main home |
-| [[%BUGS%/Item5344][Item5344]] | PatternSkin small bug fixes and enhancements after 4.2 |
-| [[%BUGS%/Item5343][Item5343]] | Can't set parent to none anymore |
-| [[%BUGS%/Item5339][Item5339]] | Attachment uploaded by name not shown as TWiki link in 4.2 for attachments uploaded by TWiki 4.1.2  |
-| [[%BUGS%/Item5324][Item5324]] | Oops allows the template url parameter to pass through without filtering. |
-| [[%BUGS%/Item5316][Item5316]] | PHP flag in pub-htaccess.txt is not working with PHP running as CGI |
-| [[%BUGS%/Item5314][Item5314]] | TinyMCE breaks Chinese, Japanese, Korean Unicode Encoding upon entering "Edit Twiki Markup" from WYSIWYG |
-| [[%BUGS%/Item5311][Item5311]] | deep recursion in getEmails() |
-| [[%BUGS%/Item5307][Item5307]] | Plugins with beforeAttachmentSaveHandler break file attachments with TWiki 4.2.0 |
-| [[%BUGS%/Item5294][Item5294]] | Wysywig & !TinyMCE corrupt some topics. |
-| [[%BUGS%/Item5293][Item5293]] | DATE in TWiki.pm to follow configured displaytime |
-| [[%BUGS%/Item5288][Item5288]] | META tag doesn't call expandStandardEscapes() and crashes (trunk only does not affect 4.2.1) |
-| [[%BUGS%/Item5287][Item5287]] | Linking is totally broken - in 4.2 WikiWord links do not work - in 4.1.2 buttons are disabled |
-| [[%BUGS%/Item5284][Item5284]] | You cannot paste into Wysiwyg in IE unless you are in Intranet security zone (documentation issue) |
-| [[%BUGS%/Item5283][Item5283]] | EditTablePlugin dollar percent expansion does not work well together with !SpreadSheetPlugin |
-| [[%BUGS%/Item5276][Item5276]] | Link to Release Notes 4.1 in distribution documentation of 4.2.0 |
-| [[%BUGS%/Item5258][Item5258]] | Preview does not set ORIGINALREV and other values in edit.tmpl, so continuing from there has problems |
-| [[%BUGS%/Item5257][Item5257]] | TinyMCE pads bullets incl. "set" variables with trailing spaces breaking some plugins and TWiki apps. |
-| [[%BUGS%/Item5232][Item5232]] | Locales problem in WebNotify.pm and Subscibe.pmI  |
-| [[%BUGS%/Item5206][Item5206]] | Image not shown , when inserting image with Image button and not using any path |
-| [[%BUGS%/Item5182][Item5182]] | "save" does not treat bad templatetopic as an error |
+| [[%BUGS%/Item109][Item109]] | Rename all topics that have the T-word in them |
+| [[%BUGS%/Item110][Item110]] | Replace all occurences of %TWIKIWEB% in core, docs and default plugins with %SYSTEMWEB%  |
+| [[%BUGS%/Item113][Item113]] | Rebrand css classes from twikiXxxxx to foswikiXxxxxx |
+| [[%BUGS%/Item115][Item115]] | Delete ClassicSkin |
+| [[%BUGS%/Item116][Item116]] | Rebrand javascript classes |
+| [[%BUGS%/Item124][Item124]] | undefined ICONTOPIC causes crash |
+| [[%BUGS%/Item125][Item125]] | Search error 'grep for \btest\b failed.. |
+| [[%BUGS%/Item128][Item128]] | Error in oopsmore |
+| [[%BUGS%/Item136][Item136]] | remove pattern skin css classes from default skin - replace with twiki* ready for re-brand |
+| [[%BUGS%/Item137][Item137]] | Register show user's a failure when sendmail returns non-zero |
+| [[%BUGS%/Item168][Item168]] | Review all SEARCH statements in the docco & convert to query or more contemporary TML |
+| [[%BUGS%/Item191][Item191]] | remove the stupid kids from pattern skin |
+| [[%BUGS%/Item203][Item203]] | Rebrand the !TipsContrib |
+| [[%BUGS%/Item205][Item205]] | Replace all TWiki webnames to %SYSTEMWEB% |
+| [[%BUGS%/Item206][Item206]] | Linking to Supplemental Documents |
+| [[%BUGS%/Item212][Item212]] | stop url(http://... something.png) from being made into a html link, so inline images in css style isn't terminal |
+| [[%BUGS%/Item217][Item217]] | Replace module/plugin of message at the top of source files |
+| [[%BUGS%/Item218][Item218]] | Change the links in plugins to foswiki.org |
+| [[%BUGS%/Item221][Item221]] | Change Interwiki links in docs to Foswiki |
+| [[%BUGS%/Item230][Item230]] | lib/CPAN/lib missing in INC path |
+| [[%BUGS%/Item244][Item244]] | nonwikiword is never really checked |
+| [[%BUGS%/Item2525][Item2525]] | TablePlugin produces bad links for sorting when using "short" URLs |
+| [[%BUGS%/Item254][Item254]] | add -Autoconf to pseudo-install.pl  |
+| [[%BUGS%/Item264][Item264]] | Rebrand pattern skin |
+| [[%BUGS%/Item265][Item265]] | Rebranding EditTablePlugin for Foswiki |
+| [[%BUGS%/Item267][Item267]] | Update file table in plugins that contains TWiki directories |
+| [[%BUGS%/Item273][Item273]] | Rename twiki.tmpl -> foswiki.tmpl |
+| [[%BUGS%/Item295][Item295]] | Replacing TWiki with Foswiki in core docs and default plugins |
+| [[%BUGS%/Item297][Item297]] | viewfile can't be used as a dropin replacement for {pubUrl}, and when viewfile fails it redirects to an oops mess |
+| [[%BUGS%/Item300][Item300]] | Rebranding root-level documentation |
+| [[%BUGS%/Item308][Item308]] | Preview renders a zero byte page when topic uses a view_template |
+| [[%BUGS%/Item309][Item309]] | Checkpoint save fotgets edit_template |
+| [[%BUGS%/Item312][Item312]] | !Main.UserForm does not override !TWiki.UserForm |
+| [[%BUGS%/Item314][Item314]] | Potential inadvertant linking on registration completion page |
+| [[%BUGS%/Item318][Item318]] | if you have a trailing / on your url, foswiki assumes all preceeding parts of the URL are webnames |
+| [[%BUGS%/Item319][Item319]] | Rewrite all SEARCH's in the distributed topics to use querySearch |
+| [[%BUGS%/Item327][Item327]] | Rebranding TablePlugin |
+| [[%BUGS%/Item328][Item328]] | Rebranding SmiliesPlugin for Foswiki |
+| [[%BUGS%/Item347][Item347]] | Rebranding SpreadSheetPlugin |
+| [[%BUGS%/Item367][Item367]] | Rebranding RenderListPlugin |
+| [[%BUGS%/Item370][Item370]] | Replace the favicon to Foswiki - and make the default setting come from System.ProjectLogos |
+| [[%BUGS%/Item375][Item375]] | Eliminate use of URLPARAM in docs so it becomes an XSS trap |
+| [[%BUGS%/Item384][Item384]] | Improve function getElementsByClassName |
+| [[%BUGS%/Item385][Item385]] | Improve layout attachment button and form header. Add attachment counter |
+| [[%BUGS%/Item391][Item391]] | QUERYPARAMSTRING and TOC only url encodes parameter values but not the names |
+| [[%BUGS%/Item393][Item393]] | Add default safe encoding for QUERYPARAMS and add "safe" type to ENCODE |
+| [[%BUGS%/Item401][Item401]] | OSX fails unit tests - notably UTF8 seg faults. |
+| [[%BUGS%/Item405][Item405]] | ORIGURL used in template login used for example for reset password is an XSS attach vector |
+| [[%BUGS%/Item406][Item406]] | WebSearch does not work with quoted word strings. |
+| [[%BUGS%/Item407][Item407]] | WebRss and Atom search does not work with quotes words |
+| [[%BUGS%/Item417][Item417]] | Undefined subroutine &Foswiki::Users:: ApacheHtpasswdUser::ListIterator called |
+| [[%BUGS%/Item418][Item418]] | Rebranding SlideShowPlugin |
+| [[%BUGS%/Item41][Item41]] | Remove the duplicate TAG topics - like VarREVINFO and VarREVINFO2 |
+| [[%BUGS%/Item444][Item444]] | Adding a anchor "foswikiTOC" for the TOC to be able to jump up to it |
+| [[%BUGS%/Item4463][Item4463]] | Template Path is wrong for Skin customization using topics |
+| [[%BUGS%/Item462][Item462]] | Improved user interface and interaction on the topic that is shown when a topic does not exist |
+| [[%BUGS%/Item471][Item471]] | WebSearch and WebSearchAdvanced keep moveing the user to the TWiki web, rather than staying where the users asked to be |
+| [[%BUGS%/Item474][Item474]] | PreferencesPlugin does not understand Local |
+| [[%BUGS%/Item4868][Item4868]] | Bulk Register fails if Main web is Set ALLOWWEBCHANGE = TWikiAdminGroup |
+| [[%BUGS%/Item486][Item486]] | Beginners start here has obsolete content |
+| [[%BUGS%/Item4906][Item4906]] | Filename of attachments containing a wikiword inside ( ) messes up the file attachment table and other UI |
+| [[%BUGS%/Item491][Item491]] | UserListByPhotograph moved to Image Gallery plugin |
+| [[%BUGS%/Item498][Item498]] | Update System.DownloadSources to point to correct location http://foswiki.org/Home/Download |
+| [[%BUGS%/Item5006][Item5006]] | Interwiki rule: change Bugs: to Foswikitask:, and Rev: to Foswikirev: |
+| [[%BUGS%/Item509][Item509]] | Remove un-needed pub/WebPreferences/logo.gif files which are not used and still TWiki logos |
+| [[%BUGS%/Item510][Item510]] | Wysiwyg editor takes the background colour for the html body for the editor instead of applying a white background. |
+| [[%BUGS%/Item511][Item511]] | Twisty on login screen creates slightly invalid markup |
 | [[%BUGS%/Item5176][Item5176]] | %SCRIPTSUFFIX is added twice in TOC links |
-| [[%BUGS%/Item5124][Item5124]] | Registration confirmation should contain name, not !WikiName |
-| [[%BUGS%/Item5118][Item5118]] | Difference from 4.1.2 - 4.2: Apache loginname no longer works with access control lists |
-| [[%BUGS%/Item5116][Item5116]] | WYSIWYG Line Returns Removed In Opera |
-| [[%BUGS%/Item5053][Item5053]] | Dropdown in !TinyMCE help text is confusing |
-| [[%BUGS%/Item4946][Item4946]] | urlDecode() not working for characters represented by Unicode code points |
-| [[%BUGS%/Item4922][Item4922]] | add the other meta field infos to the output of FORMFIELD{format=""} |
-| [[%BUGS%/Item4863][Item4863]] | Removal of RcsDirs feature (was RcsWrap does not support RcsDirs) |
-| [[%BUGS%/Item4824][Item4824]] | Security bug: TWiki's user management code needs rework again |
-| [[%BUGS%/Item4780][Item4780]] | Twisty addToHEAD does not work in login template |
-| [[%BUGS%/Item4741][Item4741]] | %META{"formfield" ....} does not expand |
-| [[%BUGS%/Item4289][Item4289]] | Document effect if INCLUDE on access control settings |
-| [[%BUGS%/Item4288][Item4288]] | Document what happens if access control set more than once |
-| [[%BUGS%/Item3824][Item3824]] | Possible to hijack TOPIC or WEB variable making editing a topic with one of these defined impossible |
-| [[%BUGS%/Item3715][Item3715]] | Simplify !I18N configuration |
-| [[%BUGS%/Item3502][Item3502]] | preview of a slideshow is corrupted |
-| [[%BUGS%/Item3048][Item3048]] | Documented that CGI version 2.89 causes character entities to not be escaped in Raw View  |
-| [[%BUGS%/Item1861][Item1861]] | Document EDITACTION |
+| [[%BUGS%/Item529][Item529]] | fix_local_links needs to point to foswiki.org |
+| [[%BUGS%/Item5350][Item5350]] | NONWIKIWORDFLAG is not resolved |
+| [[%BUGS%/Item5351][Item5351]] | !WebCreateNewTopic filters out international characters |
+| [[%BUGS%/Item541][Item541]] | calling search bin with no empty search string results in white screen instead of response |
+| [[%BUGS%/Item5637][Item5637]] | Move languages.cache to Working where webserver has permission to write so we can leave Locales read only |
+| [[%BUGS%/Item567][Item567]] | !LoginManager not working with IP matching because of code error in Foswiki's interface to CGI::Session |
+| [[%BUGS%/Item569][Item569]] | ENCODE turns the value 0 into empty string '' |
+| [[%BUGS%/Item570][Item570]] | SPACEOUT fails if value or separator are the string 0 |
+| [[%BUGS%/Item5848][Item5848]] | Number of topics resulting from 2 SEARCH's onthe same topic seems in error (and seems to be duplicated too. |
+| [[%BUGS%/Item5852][Item5852]] | Split out operators into seperate modules, so that extensions can plug in new operators. |
+| [[%BUGS%/Item5859][Item5859]] | Plugin does not work if using NTLM |
+| [[%BUGS%/Item5900][Item5900]] | !PatternSkinCustomization and WysiwygPlugin still mention kupu and COMPOSER |
+| [[%BUGS%/Item5910][Item5910]] | %TOC variable creates links with unnecessary query string |
+| [[%BUGS%/Item5914][Item5914]] | =TWiki::Request::url()= must support =-rewrite=, =-absolute= and =-relative= |
+| [[%BUGS%/Item5922][Item5922]] | $formfield data not being displayed in formatted searches |
+| [[%BUGS%/Item5926][Item5926]] | Topics with Chinese in UTF8 destroys page view in Internet Explorer |
+| [[%BUGS%/Item5937][Item5937]] | move initialization of SwitchBoard to TWiki.spec |
+| [[%BUGS%/Item5939][Item5939]] | Rogue <p /&gt; below </html&gt; on every topic in every web |
+| [[%BUGS%/Item5943][Item5943]] | TWikiRegistrationAgent should be in the admin group |
+| [[%BUGS%/Item5944][Item5944]] | The padding:1px for textareas makes it hard to place the cursor at the begining of a line |
+| [[%BUGS%/Item5957][Item5957]] | htdigest format password file gets stomped on password or email change/reset |
+| [[%BUGS%/Item5961][Item5961]] | WysiwygPlugin and TWiki's odd idea of needing a space before *'s causes user surprise. |
+| [[%BUGS%/Item5965][Item5965]] | Document `t' parameter of edit |
+| [[%BUGS%/Item5967][Item5967]] | =viewfile= sees dots in file names as a web separator  |
+| [[%BUGS%/Item5979][Item5979]] | add non-alarmist PerlOnRedHatIsSlow detection to configure |
+| [[%BUGS%/Item5991][Item5991]] | JSCalendarContrib does not work correctly in IE7 |
+| [[%BUGS%/Item5994][Item5994]] | turn on taint mode in configure and fix the problems |
+| [[%BUGS%/Item6000][Item6000]] | Changes tracked by loginname not wikiname |
+| [[%BUGS%/Item6005][Item6005]] | EditTable Changes "label"-formatted cell in unexpected way |
+| [[%BUGS%/Item6006][Item6006]] | redirectCgiQuery doesn't handle fragments properly & needs minor tweak |
+| [[%BUGS%/Item6014][Item6014]] | Integration of !SortedHeadPlugin into core (Process Add To Head Adds) |
+| [[%BUGS%/Item6022][Item6022]] | %ENCODE{} treats % as safe character |
+| [[%BUGS%/Item6026][Item6026]] | With header format emtpy table is initialized with one column only |
+| [[%BUGS%/Item6031][Item6031]] | TablePlugin date sorting is broken. |
+| [[%BUGS%/Item6039][Item6039]] | Preview does not respect VIEW_TEMPLATE |
+| [[%BUGS%/Item6041][Item6041]] | TinyMCE bug with Firefox 3 and bulleted lists |
+| [[%BUGS%/Item6043][Item6043]] | TWiki::Sandbox::sysCommand leads to errors with Plugins.FastCGIEngineContrib |
+| [[%BUGS%/Item6050][Item6050]] | statistics script fails when cuid is not == login name (as login is whats in the log files...) |
+| [[%BUGS%/Item6054][Item6054]] | No longer possible to have a twisty on one line without linebreak |
+| [[%BUGS%/Item6060][Item6060]] | configure's get more extensions seems to require LWP |
+| [[%BUGS%/Item6061][Item6061]] | TWiki::Func::getContext docco |
+| [[%BUGS%/Item6062][Item6062]] | EditTablePlugin destroys verbatim-tags |
+| [[%BUGS%/Item6066][Item6066]] | MailerContrib makes an assumption that cuid == loginname |
+| [[%BUGS%/Item6072][Item6072]] | Can't call method "generate" on unblessed reference at lib/TWiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm line 630. |
+| [[%BUGS%/Item6083][Item6083]] | configure hostname warning is case sensitive |
+| [[%BUGS%/Item6089][Item6089]] | backslash at end of line inside verbatim and pre being used as line continuation |
+| [[%BUGS%/Item6095][Item6095]] | Registration confirmation page fails to display when user confirmation e-mail can't be sent |
+| [[%BUGS%/Item6108][Item6108]] | add docco for customising the registration emails. |
+| [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
+| [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
+
 </noautolink>
 
 ---++ Enhancements
-
-None!
-
----++  TWiki 4.2.2 Patch Release - Details
-
-The 4.2.2 release was built from SVN http://svn.twiki.org/svn/twiki/branches/TWikiRelease04x02 revision TODO (10 Aug 2008). 
-
----++ Fixes
 
 <noautolink>
-TODO
+| [[%BUGS%/Item1873][Item1873]] | Need Copy topic, not just move and rename |
+| [[%BUGS%/Item3647][Item3647]] | Usability: Control over variable expansion in topic templates |
+| [[%BUGS%/Item381][Item381]] | Add linkclass to style Twisty links |
+| [[%BUGS%/Item39][Item39]] | Add a query search option to webSearchAdvanced |
+| [[%BUGS%/Item4875][Item4875]] | Add javascript function 'makeSafeForTableEntry' |
+| [[%BUGS%/Item5916][Item5916]] | Add !IsEmpty To IF conditions |
+
 </noautolink>
 
----++ Enhancements
-
-None!
-
-<!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
-   * Set BUGS = http://develop.twiki.org/~twiki4/cgi-bin/view/Bugs
--->
 ---
+<!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
+   * Set BUGS = http://foswiki.org/Task
+--> 
+
 *Related Topic:* ReleaseHistory
