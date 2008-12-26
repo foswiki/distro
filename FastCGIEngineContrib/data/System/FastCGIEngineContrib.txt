@@ -210,9 +210,11 @@ Dynamic servers are more useful when foswiki access load on the server is low an
 
 ---++ Contrib Info
 
-| Authors | [[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]] |
-| Copyright &copy;: | 2008, Foswiki Contributors |
-|  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
-|  Version: | 0.9.0 |
+| Author(s) | [[Foswiki:Main.GilmarSantosJr][Gilmar Santos Jr]] |
+| Copyright | &copy; 2008, Foswiki Contributors |
+| License: | [[http://www.gnu.org/copyleft/gpl.html][GPL (Gnu General Public License)]] |
+| Version: | %$VERSION% |
 | Change History: | |
 | 25 Dec 2008 | Initial Release |
+| Dependencies: | %$DEPENDENCIES% |
+| Home page: | http://foswiki.org/Extensions/FastCGIEngineContrib |
