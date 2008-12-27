@@ -12,19 +12,17 @@ non-existing <nop>WikiWord. Together with the appropriate application
 settings, this plugin will then assure that the data the user enters is handled
 appropriately during view and edit.
 
-There are two modes on how the name of the template is derived: 
-   1 =exist= (default) and 
+There are two modes on how the name of the template is derived:
+   1 =exist= (default) and
    1 =section=.
 
 ---+++ Mode "exist"
 A topic that has a =MyForm= <nop>WikiForm attached to it, will be displayed
-using the view template =MyViewTemplate= and editted using the =MyEditTempalte=
+using the view template =MyView= and editted using the =MyEdit=
 if they exist. The template name is derived by stripping off the suffix
 =...Form= from the form name and appending =...View=. The Wiki engine will
 then use the template name =MyView= to search for the correct template along
-the template search path, for example using a topic =MyViewTemplate=. Remember
-the engine appends yet another =...Template= to the name for templates stored
-in topics.
+the template search path, for example using a topic =MyView=.
 
 ---+++ Mode "section"
 A topic with a =MyForm= will be displayed/editted using the template name
@@ -33,7 +31,7 @@ stored in the named section =viewtemplate/edittemplate= . For example given the
 content is =MyOtherView=, then this will be used to view the topic. Likewise,
 the content of the =edittemplate= section in =MyForm= will read to find the
 edit template.
-      
+
 By default existing values for VIEW_TEMPLATE and EDIT_TEMPLATE have priority.
 You can override this behaviour in =configure=.
 
@@ -49,12 +47,13 @@ You can override this behaviour in =configure=.
 <!--
    * Set SHORTDESCRIPTION = Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE
 -->
-|  Plugin Author: | TWiki:Main.OliverKrueger |
+|  Plugin Author: | Foswiki:Main.OliverKrueger |
 |  Copyright: | &copy; 2008, Oliver Krueger |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Contributors: | TWiki:Main.MichaelDaum | 
+|  Contributors: | Foswiki:Main.MichaelDaum |
 |  Plugin Version: | 15 Nov 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  27 Dec 2008: | Item196: moved to Foswiki namespace |
 |  15 Nov 2008: | Item196: minor doc changes |
 |  11 Jul 2008: | Item5770: try to derive the EDIT_TEMPLATE of a new topic using the <nop>WebTopicEditTemplate (MD) |
 |  03 Jul 2008: | Item5747: fixed normalizing web part of form names (MD) |
@@ -63,9 +62,9 @@ You can override this behaviour in =configure=.
                   fixed view templates in subwebs (MD) |
 |  04 Sep 2007: | Added build script and installer, minor doc changes |
 |  05 Jun 2007: | Initial version |
-|  TWiki Dependency: | $TWiki::Plugins::VERSION 1.026 |
+|  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.026 |
 |  CPAN Dependencies: | none |
 |  Other Dependencies: | none |
 |  Perl Version: | 5.005 |
-|  Plugin Home: | http://www.nextwiki.org/Extensions/%TOPIC% |
+|  Plugin Home: | http://www.foswiki.org/Extensions/%TOPIC% |
 
