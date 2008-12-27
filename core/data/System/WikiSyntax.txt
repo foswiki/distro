@@ -3,7 +3,7 @@
 %TOC%
 
 %STARTINCLUDE%
-_If you can enter text, you're ready for %WIKITOOLNAME%. With a few simple rules, you'll be able to use plain text to create well-styled postings, instantly. What you are going to learn here is called <b>T</b>opic <b>M</b>arkup <b>L</b>anguage, or simply TML. So here comes a fast-track guide to shorthand basics:_
+_If you can enter text, you're ready for Foswiki. With a few simple rules, you'll be able to use plain text to create well-styled postings, instantly. What you are going to learn here is called <b>T</b>opic <b>M</b>arkup <b>L</b>anguage, or simply TML. So here comes a fast-track guide to shorthand basics:_
 
 ---++ General text formatting
 
@@ -19,12 +19,22 @@ _If you can enter text, you're ready for %WIKITOOLNAME%. With a few simple rules
 
    * Use =<nop>=<nop>=double equal signs=== for bold: ==bold mono==.
 
+   * To display colored text, enter:__ =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= to get %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR%.
+      * =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
+      * DefaultPreferences defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
+
+   * To display headings, type (from the beginning of a line) three dashes (-), from one to six plus signs (+), a space, and your heading text.
+      * The quantity of plus signs is related to the size of the heading - the more plus signs you use, the smaller the heading.
+      * You can insert a nested table of contents, generated from headings, by placing =%<nop>TOC%= wherever you like on a page (see [[%SYSTEMWEB%.Macros]] for more =%<nop>TOC%= options).
+
    * Use ==&lt;verbatim&gt;== to enclose code excerpts, filenames, and other unformatted text:%BR%
      =<b>&lt;verbatim&gt;</b>= %BR%
      =unformatted text!= %BR%
      =and more of it!= %BR%
-     =<b>&lt;/verbatim&gt;</b>= %BR%%BR%
-     __%H% For advanced users:__ <nop>%VARIABLES% or <nop>%MACROS% can be set inside verbatim tags - they are not disabled. For more detailed information, see [[Macros]].
+     =<b>&lt;/verbatim&gt;</b>=
+
+---+++ Macros and special characters (advanced)
+   * <nop>%MACROS% can be set inside verbatim tags - they are not disabled. For more detailed information, see [[Macros]].
 
    * If you want to display angle brackets, enter them as HTML codes instead of typing them in directly:
       * =&amp;lt;= = =&lt;= %BR%
@@ -34,14 +44,6 @@ _If you can enter text, you're ready for %WIKITOOLNAME%. With a few simple rules
 
    * Sometimes you will not see the =&= charachter and you need to excape it to see it as it is. The reason behind is that =&= has a special meaning in HTML - it starts so called character entities, like ='&amp;copy;'= which is the =&copy;= copyright character.
       * Type ='This &amp;amp; that'= to get ='This &amp; that'=.
-
-   * To display colored text, enter:__ =%<nop>RED% red text %<nop>ENDCOLOR% and %<nop>GREEN% green text %<nop>ENDCOLOR%= to get %RED% red text %ENDCOLOR% and %GREEN% green text %ENDCOLOR%.
-      * =%&lt;color&gt;%= text must end with =%<nop>ENDCOLOR%=. If you want to switch from one color to another one you first need to end the active color with =%<nop>ENDCOLOR%=, e.g. write =%<nop>RED% some text %<nop>ENDCOLOR% %<nop>GREEN% more text %<nop>ENDCOLOR%=.
-      * DefaultPreferences defines some commonly used colors: *%YELLOW% %<nop>YELLOW%%ENDCOLOR%, %RED% %<nop>RED%%ENDCOLOR%, %PINK% %<nop>PINK%%ENDCOLOR%, %PURPLE% %<nop>PURPLE%%ENDCOLOR%, %TEAL% %<nop>TEAL%%ENDCOLOR%, %NAVY% %<nop>NAVY%%ENDCOLOR%, %BLUE% %<nop>BLUE%%ENDCOLOR%, %AQUA% %<nop>AQUA%%ENDCOLOR%, %LIME% %<nop>LIME%%ENDCOLOR%, %GREEN% %<nop>GREEN%%ENDCOLOR%, %OLIVE% %<nop>OLIVE%%ENDCOLOR%, %MAROON% %<nop>MAROON%%ENDCOLOR%, %BLACK% %<nop>BLACK%%ENDCOLOR%, %GRAY% %<nop>GRAY%%ENDCOLOR%, %SILVER% %<nop>SILVER%%ENDCOLOR%* and *%<nop>ENDCOLOR%*.
-
-   * To display headings, type (from the beginning of a line) three dashes (-), from one to six plus signs (+), a space, and your heading text.
-      * The quantity of plus signs is related to the size of the heading - the more plus signs you use, the smaller the heading.
-      * You can insert a nested table of contents, generated from headings, by placing =%<nop>TOC%= wherever you like on a page (see [[%SYSTEMWEB%.Macros]] for more =%<nop>TOC%= options).
 
 ---++ Internal and external links
 
@@ -77,9 +79,9 @@ Always start *counting* spaces for bullets or numbers from the beginning of a ne
 
    * Three (or more) consecutive *hyphens* will create a horizontal rule:%BR% =---=
 
-   * Follow GoodStyle recommendations when editing topics. %BR% In general, it is always nice to add one's signature at the end of a topic or comments. To add your signature, type =%MAINWEB%.YourName=, it will then expand to %USERNAME%.
+Follow GoodStyle recommendations when editing topics. In general, it is always nice to add one's signature at the end of a topic or comments. To add your signature, type =%MAINWEB%.YourName=, it will then expand to %USERNAME%.
 
-   * __%H% For advanced users:__ See EditingShorthand for the complete set of formatting rules.
+See EditingShorthand for the complete set of formatting rules.
 
 %STOPINCLUDE%
 __Related Topics:__ WikiWords, [[Macros]], EditingShorthand, FileAttachment

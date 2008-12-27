@@ -33,7 +33,7 @@ _Following you will find a short list of hints and recommendations that are cons
 
    * For *external site links*, you can type URLs directly into the text - =http://etcete.ra/...= - it'll be clear to anyone where they're headed on click. 
 
-   * %WIKITOOLNAME% is intended for world-wide use, and an internationally understood date format like ==01 Sep %SERVERTIME{$year}%== or ==%SERVERTIME{$year}%-09-01== is preferred. It's clearer than the xx/xx/xx format, where a date like 9/1/01 can mean either Jan or Sep, depending on the local conventions of the readers. For months, use the first three letters: Jan, Feb, Mar, Apr,...
+   * Foswiki is intended for world-wide use, and an internationally understood date format like ==01 Sep %SERVERTIME{$year}%== or ==%SERVERTIME{$year}%-09-01== is preferred. It's clearer than the xx/xx/xx format, where a date like 9/1/01 can mean either Jan or Sep, depending on the local conventions of the readers. For months, use the first three letters: Jan, Feb, Mar, Apr,...
 
    * Check the source when you want to find out how something is formatted: click ==[Raw view]== on the toolbar.
    * To see earlier versions, click either on ==[History]== (to see all previous versions of a topic) or click on the revision number you would like to see; the formatted revision version will be shown. 

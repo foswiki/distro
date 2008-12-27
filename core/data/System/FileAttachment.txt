@@ -30,7 +30,7 @@ Through your web browser, you can easily upload graphics (or sound files, or any
    * Click on the ==[Attach]== link at the bottom of the page. The =Attach= screen lets you browse for a file, add a comment, and upload it. The uploaded file will show up in the [[#FileAttachmentTable][file attachment table]].
       * %H% The topic must already exist. If it does not, it is a two step process: First create the topic, then add the file attachment.
       * Any type of file can be uploaded. Some files that might pose a security risk are renamed, for example: =*.php= files are renamed to =*.php.txt= so that no one can place code that would be read in a .php file.
-      * %WIKITOOLNAME% can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= [[%SYSTEMWEB%.PreferenceSettings][preference settings]], currently set at %ATTACHFILESIZELIMIT% kB.
+      * Foswiki can limit the file size. This is defined by the =%<nop>ATTACHFILESIZELIMIT%= [[%SYSTEMWEB%.PreferenceSettings][preference settings]], currently set at %ATTACHFILESIZELIMIT% kB.
          * %X% It is not recommended to upload files greater than a few hundred K through a browser. Large files can be extremely slow-loading, and often time out. Use an FTP site for large file uploads.
    * Automatic attachments:
       * When enabled, all files in a topic's attachment directory are shown as attachments to the topic - even if they were directly copied to the directory and never attached by using an =[Attach]= link. This is a convenient way to quickly "attach" files to a topic without uploading them one by one; although at the cost of losing audit trail and version control.
@@ -78,7 +78,7 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
       1. ==[Preview]==: text appears as %PUBURLPATH%/%WEB%/%TOPIC%/Smile.gif, an image.
 
 ---++ Examples
-Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin] is used on your %WIKITOOLNAME% installation.
+Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin] is used on your Foswiki installation.
 
 #FileAttachmentTable
 ---+++ File attachment table

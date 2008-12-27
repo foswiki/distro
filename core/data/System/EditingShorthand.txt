@@ -140,9 +140,9 @@ _this does not _
 <tr valign="top">
 <td>
  *Verbatim Text:* %BR%
- Surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags.%BR%
-%T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR%
-*%X% NOTE:* Preferences settings (* Set NAME = value) are set within verbatim tags.
+ Surround code excerpts and other formatted text with =&lt;verbatim&gt;= and =&lt;/verbatim&gt;= tags.%BR% %BR%
+%T% =verbatim= tags disable HTML code. Use =&lt;pre&gt;= and =&lt;/pre&gt;= tags instead if you want the HTML code within the tags to be interpreted.%BR% %BR%
+%X% Preferences settings (* Set NAME = value) are set within verbatim tags.
 </td><td>
 <verbatim>
 <verbatim>
@@ -179,7 +179,7 @@ Three or more three dashes at the beginning of a line..
 <tr valign="top">
 <td>
  *Bulleted List:* %BR%
-Multiple of three spaces, an asterisk, and another space.%BR%
+Multiple of three spaces, an asterisk, and another space.%BR% %BR%
 %H% For all the list types, you can break a list item over several lines by indenting lines after the first one by *at least 3 spaces*.
 </td><td>
 <verbatim>
@@ -245,8 +245,6 @@ Multiple of three spaces, a type character, a dot, and another space. Several ty
 <td>
  *Definition List:* %BR%
  Three spaces, a dollar sign, the term, a colon, a space, followed by the definition.
-
- Deprecated syntax: Three spaces, the term with no spaces, a colon, a space, followed by the definition.
 </td><td>
 <verbatim>
    $ Sushi: Japan

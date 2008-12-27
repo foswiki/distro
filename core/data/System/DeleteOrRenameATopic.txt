@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 11170 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
 %META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
 ---++ FAQ:
 
@@ -12,9 +12,9 @@ You can rename, move and delete topics directly from your browser. Moving lets y
 
 Click ==[More]== on the control bar at the bottom of the page you want to change, then choose ==[Rename/move]==, and make your changes to that screen. There's a link that launches to the ManagingTopics reference page in a pop-up window.
 
-*NOTE:* The configuration of your site and your own access permissions determine whether you can access these functions.
+%H% The configuration of your site and your own access permissions determine whether you can access these functions.
 
-Note for site administrators: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =data/Trash=.
+%H% *For site administrators*: To remove a topic permanently move it to the Trash web, then with file-level access, delete the =.txt= and =.txt,v= files manually from =data/Trash=.
 
 *Back to:* FrequentlyAskedQuestions
 

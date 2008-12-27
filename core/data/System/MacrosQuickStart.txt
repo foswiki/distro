@@ -3,7 +3,7 @@
 
 %STARTINCLUDE%
 
-Macros are names enclosed in percent signs that are that are expanded to some other text when the topic is displayed. For example, =%<nop>TOPIC%= is expanded to %TOPIC%.
+Macros are names enclosed in percent signs that are that are expanded to some other text when the topic is displayed. For example, =%<nop>TOPIC%= is expanded to %TOPIC%, the title of this topic.
 
 Some macros can take arguments in curly braces - for example, =%<nop>INCLUDE{"OtherTopic" ARG="arg"}%=.
 

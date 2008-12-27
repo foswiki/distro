@@ -7,8 +7,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 
 ---++ Submit a new FAQ
 
-%X% *NOTE:* 
-These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.
+%X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.
 New FAQ topics are based on the FaqTemplate.
 
 <form action="%SCRIPTURL{"edit"}%/%WEB%/">
