@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1194966209" format="1.1" reprev="1.2" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1194966209" format="1.1" reprev="1.2" version="$Rev:1610 $"}%
 ---+ <nop>AutoViewTemplatePlugin
 %SHORTDESCRIPTION%
 
@@ -51,7 +51,7 @@ You can override this behaviour in =configure=.
 |  Copyright: | &copy; 2008, Oliver Krueger |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Contributors: | Foswiki:Main.MichaelDaum |
-|  Plugin Version: | 15 Nov 2008 |
+|  Plugin Version: | 27 Dec 2008 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  27 Dec 2008: | Item196: moved to Foswiki namespace |
 |  15 Nov 2008: | Item196: minor doc changes |

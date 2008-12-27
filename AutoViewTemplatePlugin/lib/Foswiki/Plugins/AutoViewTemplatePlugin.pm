@@ -16,7 +16,7 @@ use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION
   $debug $mode $override $isEditAction
   $pluginName $NO_PREFS_IN_TOPIC );
 
-$VERSION = '2008-12-27';
+$VERSION = '$Rev$';
 $RELEASE = '2008-12-27';
 $SHORTDESCRIPTION = 'Automatically sets VIEW_TEMPLATE and EDIT_TEMPLATE';
 $NO_PREFS_IN_TOPIC = 1;
