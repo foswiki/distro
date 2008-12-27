@@ -310,7 +310,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 
 ---
 <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
-   * Set BUGS = http://foswiki.org/Task
+   * Set BUGS = http://foswiki.org/Tasks
 --> 
 
 *Related Topic:* ReleaseHistory
