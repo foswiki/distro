@@ -2995,12 +2995,11 @@ msgstr ""
 "folgende Auszeichnung:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
-#, fuzzy
 msgid ""
 "To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
-"Um Seiten auf dieser FoswikiSite zu bearbeiten benötigen Sie einen "
+"Um Seiten auf dieser Foswiki Installation zu bearbeiten benötigen Sie einen "
 "registrierten Benutzernamen und ein Passwort."
 
 #: core/templates/oopsleaseconflict.tmpl:20
@@ -3270,12 +3269,10 @@ msgstr ""
 "inkludiert. %2"
 
 #: core/templates/messages.tmpl:459
-#, fuzzy
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Warnung: Konnte INCLUDE %1 nicht wiederholt durchführen, Topic wurde bereits "
-"inkludiert. %2"
+"Warnung: Konnte das INCLUDE '%1' nicht durchführen, der Pfad ist leer oder beinhaltet unerlaubte Zeichen."
 
 #: core/templates/messages.tmpl:457
 msgid "Warning: Can't find topic %1.%2"
