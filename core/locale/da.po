@@ -2964,12 +2964,11 @@ msgstr ""
 "kode:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
-#, fuzzy
 msgid ""
 "To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
-"For at kunne editere siderne på dette FoswikiSite, skal du have et "
+"For at kunne editere siderne på dette Foswiki websted, skal du have et "
 "brugernavn og et password."
 
 #: core/templates/oopsleaseconflict.tmpl:20
