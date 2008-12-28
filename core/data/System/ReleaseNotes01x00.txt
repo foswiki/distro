@@ -5,12 +5,14 @@
 
 ---++ Introduction
 
-Foswiki Release 1.0.0 - Beta 1.
+Foswiki Release 1.0.0 - Beta 2.
 
 -----
 <!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
 
-*Note this is the first beta release of Foswiki 1.0.0. It is not recommended for production use*
+*Note this is the second beta release of Foswiki 1.0.0. It is not recommended for production use*
+
+Beta 1 had a couple of severe bugs and one security issue (A newly registered user had his password copied to his home page). Therefore this beta 2 so shortly after. 
 
 The purpose of this beta is
 
@@ -293,7 +295,6 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item6108][Item6108]] | add docco for customising the registration emails. |
 | [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
 | [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
-
 </noautolink>
 
 ---++ Enhancements
