@@ -25,6 +25,7 @@ my %SKIPKEYS = (
     'WikiName'  => 1,
     'LoginName' => 1,
     'Password'  => 1,
+    'Confirm'   => 1,
     'Email'     => 1
 );
 
