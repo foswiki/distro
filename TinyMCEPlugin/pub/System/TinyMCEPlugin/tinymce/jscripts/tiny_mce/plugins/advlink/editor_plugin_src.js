@@ -1,26 +1,21 @@
 /**
- * $Id: editor_plugin_src.js 268 2007-04-28 15:52:59Z spocke $
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @author Eugen Mayer
+ * @copyright Copyright Impressive.media GbR
  */
 
 /* Import plugin specific language pack */
-tinyMCE.importPluginLanguagePack('advlink');
+tinyMCE.importPluginLanguagePack('foswikilink');
 
-var TinyMCE_AdvancedLinkPlugin = {
+var TinyMCE_FoswikiLinkPlugin = {
 	getInfo : function() {
 		return {
-			longname : 'Advanced link',
-			author : 'Moxiecode Systems AB',
-			authorurl : 'http://tinymce.moxiecode.com',
-			infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/advlink',
-			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
+			longname : 'Foswiki link',
+			author : 'Eugen Mayer - Impressive.media GbR',
+			authorurl : 'http://impressive-media.de',
+			infourl : 'http://impressive-media.de',
+			version : "0.1"
 		};
-	},
-
-	initInstance : function(inst) {
-		inst.addShortcut('ctrl', 'k', 'lang_advlink_desc', 'mceAdvLink');
 	},
 
 	getControlHTML : function(cn) {
@@ -43,8 +38,8 @@ var TinyMCE_AdvancedLinkPlugin = {
 
 				if (anySelection || (focusElm != null && focusElm.nodeName == "A")) {
 					tinyMCE.openWindow({
-						file : '../../plugins/advlink/link.htm',
-						width : 480 + tinyMCE.getLang('lang_advlink_delta_width', 0),
+						file : '../../plugins/foswikilink/link.htm',
+						width : 380 + tinyMCE.getLang('lang_advlink_delta_width', 0),
 						height : 400 + tinyMCE.getLang('lang_advlink_delta_height', 0)
 					}, {
 						editor_id : editor_id,
@@ -80,4 +75,4 @@ var TinyMCE_AdvancedLinkPlugin = {
 	}
 };
 
-tinyMCE.addPlugin("advlink", TinyMCE_AdvancedLinkPlugin);
+tinyMCE.addPlugin("foswikilink", TinyMCE_FoswikiLinkPlugin);
