@@ -55,12 +55,12 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <tr>
 <th>%MAKETEXT{"Make search:"}%</th>
 <td><input type="checkbox" class="foswikiCheckbox" id="casesensitive" name="casesensitive" %IF{" '%URLPARAM{casesensitive}%' = 'on' " then="checked=\"checked\"" else=""}% /><label for="casesensitive"> %MAKETEXT{"Case sensitive"}%</label><br />
-    <span class="foswikiSmall">(for more information about the SEARCH types see [[%SYSTEMWEB%.VarSEARCH][VarSEARCH]])</span><br />
+<hr />
 <input type="radio" class="foswikiRadioButton" id="word" name="type" value="word" %IF{" '%URLPARAM{"type" default="word"}%' = 'word' " then="checked=\"checked\"" else=""}% /><label for="topic"> %MAKETEXT{"Topic name"}%</label><br />
 <input type="radio" class="foswikiRadioButton" id="literal" name="type" value="literal" %IF{" '%URLPARAM{type}%' = 'literal' " then="checked=\"checked\"" else=""}% /><label for="modified"> %MAKETEXT{"Literal search"}%</label><br />
 <input type="radio" class="foswikiRadioButton" id="regex" name="type" value="regex" %IF{" '%URLPARAM{type}%' = 'regex' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Regular expression search"}%</label><br />
 <input type="radio" class="foswikiRadioButton" id="query" name="type" value="query" %IF{" '%URLPARAM{type}%' = 'query' " then="checked=\"checked\"" else=""}% /><label for="editby"> %MAKETEXT{"Query Search"}%</label>
-    <span class="foswikiSmall">(allows you to try out [[%SYSTEMWEB%.QuerySearch][QuerySearch]] - such as =form.name~'*UserForm'=)</span><br />
+    <span class="foswikiSmall">[[%SYSTEMWEB%.QuerySearch][%ICON{"help"}%]]</span><br />
 
 </td>
 </tr>
