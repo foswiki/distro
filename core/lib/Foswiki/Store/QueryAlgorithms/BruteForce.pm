@@ -47,7 +47,7 @@ sub query {
     my %matches;
     local $/;
     foreach my $topic (@$topics) {
-        next unless open( FILE, "<$sDir/$topic.txt" );
+        next unless open( FILE, '<', "$sDir/$topic.txt" );
         my $meta = new Foswiki::Meta( $store->{session}, $web, $topic, <FILE> );
         close(FILE);
         my $match = $query->evaluate( tom => $meta, data => $meta );

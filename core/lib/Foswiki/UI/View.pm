@@ -72,7 +72,8 @@ sub view {
         && defined($map->{$webName})
         ) {
         #try the other web (TWikiCompatibility)
-        if ($topicExists = $session->{store}->topicExists( $map->{$webName}, $topicName )) {
+        if ($topicExists = $session->{store}->topicExists(
+            $map->{$webName}, $topicName )) {
             $session->{webName} = $webName = $map->{$webName};
         }
     }
@@ -97,8 +98,8 @@ sub view {
         }
 
         if ( $rev < $showRev ) {
-            ( $meta, $text ) =
-              $store->readTopic( $session->{user}, $webName, $topicName, $rev );
+            ( $meta, $text ) = $store->readTopic(
+                $session->{user}, $webName, $topicName, $rev );
 
             ( $revdate, $revuser ) = $meta->getRevisionInfo();
             $revdate = Foswiki::Time::formatTime($revdate);
@@ -428,46 +429,68 @@ sub viewfile {
 
     my $query = $session->{request};
 
-    my $topic   = Foswiki::Sandbox::untaint($session->{topicName}, \&Foswiki::Sandbox::validateTopicName);
-    my $webName   = Foswiki::Sandbox::untaint($session->{webName}, \&Foswiki::Sandbox::validateWebName);
-    
+    my $topic   = $session->{topicName};
+    my $webName = $session->{webName};
+
     my $fileName;
-    unless (defined($ENV{REDIRECT_STATUS}) && defined($ENV{REQUEST_URI})) {
-        if ( defined( $query->param('filename') ) ) {
-            $fileName   = Foswiki::Sandbox::normalizeFileName($query->param('filename'));
-        } else {
-            my $pathInfo = Foswiki::Sandbox::normalizeFileName($query->path_info());
-            $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
-            my @path = split( '/', $pathInfo );
-            shift(@path) unless ($path[0]);   #remove leading empty string
+    my $pathInfo;
 
-            #work out the web, topic and filename
-            $webName = shift(@path);
-            while (($path[0]) && (TWiki::Func::webExists("$webName/".$path[0]))) {
-                $webName .= '/'.shift(@path);
-            }
-            $topic = shift(@path);
-            $fileName = join('/', @path);
-        }
-    } else {
-        #this is a redirect - can be used to make 404,401 etc URL's more foswiki tailored
-        #and is also used in TWikiCompatibility
-        my $pathInfo = Foswiki::Sandbox::normalizeFileName($ENV{REQUEST_URI});
-
-	$pathInfo =~ s/^(.*)(\?|#).*/$1/;	#ignore parameters, as apache would.
+    if (defined($ENV{REDIRECT_STATUS}) && defined($ENV{REQUEST_URI})) {
+        # this is a redirect - can be used to make 404,401 etc URL's
+        # more foswiki tailored and is also used in TWikiCompatibility
+        $pathInfo = $ENV{REQUEST_URI};
+        # ignore parameters, as apache would.
+        $pathInfo =~ s/^(.*)(\?|#).*/$1/;
         $pathInfo =~ s|$Foswiki::cfg{PubUrlPath}||; #remove pubUrlPath
-        $pathInfo =~ s|//*|/|g;     #stop the simplistic parsing from barfing on //
-        my @path = split( '/', $pathInfo );
-        shift(@path) unless ($path[0]);   #remove leading empty string
+    }
+    elsif ( defined( $query->param('filename') ) ) {
+        # Filename is an attachment to the topic in the standard path info
+        # /Web/Topic?filename=Attachment.gif
+        $fileName = $query->param('filename');
+    }
+    else {
+        # This is a standard path extended by the attachment name e.g.
+        # /Web/Topic/Attachment.gif
+        $pathInfo = $query->path_info();
+    }
 
-        #work out the web, topic and filename
-        $webName = shift(@path);
-        while (($path[0]) && (TWiki::Func::webExists("$webName/".$path[0]))) {
-            $webName .= '/'.shift(@path);
+    if ($pathInfo) {
+        my @path = split( /\/+/, $pathInfo );
+        shift(@path) unless ($path[0]);   # remove leading empty string
+
+        # work out the web, topic and filename
+        $webName = '';
+        while ( $path[0]
+                  && ($session->{store}->webExists($webName.$path[0]))) {
+            $webName .= shift(@path).'/';
         }
+        # The web name has been validated, untaint
+        chop($webName); # trailing /
+        $webName = Foswiki::Sandbox::untaintUnchecked($webName);
+
+        # The next element on the path has to be the topic name
         $topic = shift(@path);
+        if (!$topic
+              || !$session->{store}->topicExists($webName, $topic)) {
+            throw Foswiki::OopsException(
+                'attention',
+                def    => 'no_such_attachment',
+                web    => $webName,
+                topic  => $topic || 'Unknown',
+                status => 404,
+                params => [ 'viewfile', '?' ]
+               );
+        }
+        # Topic has been validated
+        $topic = Foswiki::Sandbox::untaintUnchecked($topic);
+        # What's left in the path is the attachment name.
         $fileName = join('/', @path);
     }
+
+    # According to SvenDowideit, you can't remove the /'s from the filename,
+    # as there are directories below the pub/web/topic.
+    #$fileName = Foswiki::Sandbox::sanitizeAttachmentName($fileName);
+    $fileName = Foswiki::Sandbox::normalizeFileName($fileName);
 
     if ( !$fileName ) {
         throw Foswiki::OopsException(
@@ -481,10 +504,6 @@ sub viewfile {
     }
 
     #print STDERR "VIEWFILE: web($webName), topic($topic), file($fileName)\n";
-
-    #you can't remove the /'s from the filename, as there are directories below the pub/web/topic
-    #$fileName = Foswiki::Sandbox::sanitizeAttachmentName($fileName);
-    $fileName = Foswiki::Sandbox::normalizeFileName($fileName);
 
     my $rev = $session->{store}->cleanUpRevID( $query->param('rev') );
     unless ( $fileName
@@ -508,37 +527,40 @@ sub viewfile {
             );
         }
     }
-    ASSERT(UNTAINTED($webName)) if DEBUG;
-    ASSERT(UNTAINTED($topic)) if DEBUG;
-    ASSERT(UNTAINTED($fileName)) if DEBUG;
-    ASSERT(UNTAINTED($rev)) if DEBUG;
+    # Something is seriously wrong if any of these is tainted. If they are,
+    # find out why and validate them at the input point.
+    if (DEBUG) {
+        ASSERT(UNTAINTED($topic));
+        ASSERT(UNTAINTED($webName));
+        ASSERT(UNTAINTED($fileName));
+        ASSERT(UNTAINTED($rev));
+    }
 
     # TSA SMELL: Maybe could be less memory hungry if get a file handle
     # and set response body to it. This way engines could send data the
     # best way possible to each one
-    my $fileContent =
-      $session->{store}
-      ->readAttachment( $session->{user}, $webName, $topic, $fileName, $rev );
+    my $fileContent = $session->{store}->readAttachment(
+        $session->{user}, $webName, $topic, $fileName, $rev );
 
-    my $type   = _suffixToMimeType( $session, $fileName );
+    my $type   = _suffixToMimeType( $fileName );
     my $length = length($fileContent);
     my $dispo  = 'inline;filename=' . $fileName;
 
-    $session->{response}
-      ->header( -type => $type, qq(Content-Disposition="$dispo") );
+    $session->{response}->header(
+        -type => $type, qq(Content-Disposition="$dispo") );
     $session->{response}->print($fileContent);
 }
 
 sub _suffixToMimeType {
-    my ( $session, $theFilename ) = @_;
+    my ( $attachment ) = @_;
 
     my $mimeType = 'text/plain';
-    if ( $theFilename =~ /\.([^.]+)$/ ) {
+    if ( $attachment && $attachment =~ /\.([^.]+)$/ ) {
         my $suffix = $1;
-        my @types = grep { s/^\s*([^\s]+).*?\s$suffix\s.*$/$1/i }
-          map { $_ . ' ' }
-          split( /[\n\r]/, Foswiki::readFile( $Foswiki::cfg{MimeTypesFileName} ) );
-        $mimeType = $types[0] if (@types);
+        my $types = Foswiki::readFile( $Foswiki::cfg{MimeTypesFileName} );
+        if ($types =~ /^([^#]\S*).*?\s$suffix(?:\s|$)/im) {
+            $mimeType = $1;
+        }
     }
     return $mimeType;
 }

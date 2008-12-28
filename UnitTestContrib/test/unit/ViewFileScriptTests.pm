@@ -259,4 +259,21 @@ sub test_simpleUrl {
 #TODO: add more nasty tricks
 }
 
+sub test_MIME_types {
+    my $this = shift;
+
+    $this->assert_equals(
+        'application/vnd.adobe.air-application-installer-package+zip',
+        Foswiki::UI::View::_suffixToMimeType('blah.air'));
+    $this->assert_equals(
+        'text/h323',
+        Foswiki::UI::View::_suffixToMimeType('blah.323'));
+    $this->assert_equals(
+        'application/octet-stream',
+        Foswiki::UI::View::_suffixToMimeType('blah.w02'));
+    $this->assert_equals(
+        'text/plain',
+        Foswiki::UI::View::_suffixToMimeType('blah.wibble'));
+}
+
 1;

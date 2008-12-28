@@ -39,7 +39,7 @@ sub search {
     my $doMatch = eval "sub { $match_code }";
   FILE:
     foreach my $file (@$topics) {
-        next unless open( FILE, "<$sDir/$file.txt" );
+        next unless open( FILE, '<', "$sDir/$file.txt" );
         while ( my $line = <FILE> ) {
             if ( &$doMatch($line) ) {
                 chomp($line);
