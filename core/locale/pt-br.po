@@ -1,8 +1,9 @@
-# Foswiki translation for Portuguese (português)
+# Foswiki translation for Brazilian Portuguese (português brasileiro)
 # Translators:
-# translation of pt.po to português
+# translation of pt-br.po to português brasileiro
 #   Foswiki:Main/AntonioTerceiro, 2007, 2008.
 #   Foswiki:Main/CarlinhosCecconi, 2007, 2008.
+#   carlinhos cecconi <carlinux@terra.com.br>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
@@ -3507,7 +3508,7 @@ msgstr ""
 # please enter the name of your language here (written in the native language):
 #: core/lib/Foswiki/I18N.pm:313
 msgid "_language_name"
-msgstr "Português"
+msgstr "Português brasileiro"
 
 #: core/lib/Foswiki/Access.pm:207
 msgid "access denied on root"
