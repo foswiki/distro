@@ -444,7 +444,7 @@ msgstr ""
 
 #: core/lib/Foswiki/I18N/Extract.pm:88
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: core/templates/oopsmore.tmpl:14
 msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
@@ -1561,6 +1561,8 @@ msgid ""
 "If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
 "using your mail address %3. Contact %4 if this is in error."
 msgstr ""
+"Dersom du har mottatt denne eposten ved en feiltakelse: Noen (%1) har "
+"registrert seg på %2 med denne epostadressen %3. Kontakt %4 dersom dette er feil."
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:303
 msgid "If you have any questions about registration, send an e-mail to %1."
@@ -2133,7 +2135,7 @@ msgstr "Preferanser for"
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
-msgstr ""
+msgstr "Problem med å fylle badet"
 
 #: PatternSkin/templates/attach.pattern.tmpl:53
 msgid "Properties"
@@ -2172,10 +2174,12 @@ msgid ""
 "Read %1 to get a quick overview of this collaboration platform. To learn "
 "more, study the TwentyMinuteTutorial, which is accessible from the same link."
 msgstr ""
+"Les %1 for et raskt overblikk over denne samarbeidsplattformen. For å "
+"lære mer, se TwentyMinuteTutorial som er tilgjengelig fra samme sted."
 
 #: PatternSkin/templates/edit.pattern.tmpl:30
 msgid "Read new revision help text in new window"
-msgstr ""
+msgstr "Les ny versjon hjelpetekst i nytt vindu""
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
@@ -3222,6 +3226,10 @@ msgid ""
 "screen, or follow the link in the e-mail, to activate your account. Once "
 "your account is activated, %1 will:"
 msgstr ""
+"Når %1 mottar skjemaet sendes en aktiveringskode for kontoen til den "
+"epostadressen du oppgav ovenfor. Skriv den aktiveringskoden i det "
+"påfølgende skjermbildet, eller følg linken i eposten for å aktivere "
+"kontoen. Når det er gjort vil %1:"
 
 #: core/templates/messages.tmpl:243
 msgid "While attempting to email <noautolink>%1</noautolink>."
