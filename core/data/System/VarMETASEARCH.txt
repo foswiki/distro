@@ -17,7 +17,7 @@
    * Example: You may want to use this in WebTopicViewTemplate and WebTopicNonWikiTemplate:<br /> =%<nop>METASEARCH{type="parent" web="%<nop>WEB%" topic="%<nop>TOPIC%" title="Children: "}%=
    * Example: =%<nop>METASEARCH{type="field" name="Country" value="China"}%=
    * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarMETA][META]]
-   * *%X% Note:* METASEARCH is deprecated in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.
+   * %X% METASEARCH is deprecated in favour of the new and much more powerful query type search. See [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]] and QuerySearch.
 
 %STOPINCLUDE%
 

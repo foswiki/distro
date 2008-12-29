@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1168737391" format="1.1" version="$Rev: 13271 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1168737391" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 #MetaData
----+ Meta Data
+---+ Meta data
 
 _Additional topic data, program-generated or from DataForms, is stored embedded in the topic text using =META:= tags_
 
@@ -13,9 +13,9 @@ By default, topics are stored in files on disk, in a really simple and obvious d
 
 To keep eveything together in one place, meta-data (program-generated or from DataForms) is embedded directly in topics. It does this using =META:= tags.
 
-=META:= data includes program-generated info like FileAttachment and topic movement data, and user-defined DataForms info.
+=META:= data includes program-generated info like FileAttachment, topic movement data and user-defined information from DataForms.
 
----++ Meta Data Syntax
+---++ Meta data syntax
 
    * Format is the same as in [[%SYSTEMWEB%.Macros][macros]], except all fields have a key.
       * =%<nop>META:&lt;type&gt;{key1="value1" key2="value2" ...}%=
@@ -42,21 +42,21 @@ To keep eveything together in one place, meta-data (program-generated or from Da
 </pre>
 </blockquote>
 
----++ Meta Data Specifications
+---++ Meta data specifications
 
 The current version of Meta Data is 1.0, with support for the following syntax.
 
 ---+++ META:TOPICINFO
 
 |  *Key*  |  *Comment*          |
-| version | Same as RCS version |
+| version | Same as SVN version |
 | date    | integer, unix time, seconds since start 1970 |
 | author  | last to change topic, is the REMOTE_USER |
 | format  | Format of this topic, will be used for automatic format conversion |
 
 ---+++ META:TOPICMOVED
 
-This is optional, exists if topic has ever been moved.  If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic, older ones are to be found in the rcs history.
+This is optional, exists if topic has ever been moved. If a topic is moved more than once, only the most recent META:TOPICMOVED meta datum exists in the topic, older ones are to be found in the rcs history.
 
 =%<nop>META:TOPICMOVED{from="Codev.OldName" to="Codev.NewName" by="talintj" date="976762680"}%=
 
@@ -67,8 +67,8 @@ This is optional, exists if topic has ever been moved.  If a topic is moved more
 | date | integer, unix time, seconds since start 1970 |
 
 Notes: 
-   * at present version number is not supported directly, it can be inferred from the RCS history.
-   * there is only one META:TOPICMOVED in a topic, older move information can be found in the RCS history.
+   * at present version number is not supported directly, it can be inferred from the SVN history.
+   * there is only one META:TOPICMOVED in a topic, older move information can be found in the SVN history.
  
 ---+++ META:TOPICPARENT
 
@@ -79,7 +79,7 @@ Notes:
 
 | *Key*   | *Comment* |
 | name    | Name of file, no path.  Must be unique within topic |
-| version | Same as RCS revision  |
+| version | Same as SVN revision  |
 | path    | Full path file was loaded from |
 | size    | In bytes |
 | date    | integer, unix time, seconds since start 1970 |
@@ -102,16 +102,16 @@ Extra fields that are added if an attachment is moved:
 
 ---+++ META:FIELD
 
-Should only be present if there is a META:FORM entry.  Note that this data is used when viewing a topic, the form definition definition is not read.
+Should only be present if there is a META:FORM entry.  Note that this data is used when viewing a topic; the form definition is not read.
 
 | *Key*   | *Name*   |
 | name    | Ties to entry in DataForms template, is title with all bar alphanumerics and . removed |
 | title   | Full text from DataForms template |
 | value   | Value user has supplied via form |
 
----+++ Recommended Sequence
+---+++ Recommended sequence
 
-There is no absolute need for Meta Data to be listed in a specific order within a topic, but it makes sense to do so a couple of good reasons:
+There is no absolute need for Meta data to be listed in a specific order within a topic, but it makes sense to do so for a couple of good reasons:
 
    * form fields remain in the order they are defined
    * the =diff= function output appears in a logical order
@@ -126,14 +126,14 @@ The recommended sequence is:
    * =META:FORM= (optional)
    * =META:FIELD= (0 or more entries; FORM required)
 
----++ Viewing Meta Data in Page Source
+---++ Viewing meta data in page source
 
-When viewing a topic the ==Raw Text== link can be clicked to show the text of a topic (i.e., as seen when editing).  This is done by adding <code>raw=on</code> to URL.  <code>raw=debug</code> shows the meta data as well as the topic data, ex: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=debug">debug view for this topic</a>
+When viewing a topic the ==[View raw text]== link can be clicked to show the text of a topic (i.e., as seen when editing).  This is done by adding <code>raw=on</code> to URL.  <code>raw=debug</code> shows the meta data as well as the topic data, ex: <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=debug">debug view for this topic</a>
 
 #MetaDataRendering
----++ Rendering Meta Data
+---++ Rendering meta data
 
-Meta Data is rendered with the %<nop>META% macro. This is mostly used in the =view=, =preview= and =edit= scripts.
+Meta data is rendered with the %<nop>META% macro. This is mostly used in the =view=, =preview= and =edit= scripts.
 
 You can render form fields in topic text by using the FORMFIELD macro. Example:%BR%
 =%<nop>FORMFIELD{"TopicClassification"}%= %BR%
@@ -154,8 +154,7 @@ Current support covers:
     ==suffix="..."==: Suffix, only appears if there are parents, default =""=. <br /> \
     ==separator="..."==: Separator between parents, default is =" &gt; "=. |
 
-*Note:* SEARCH can also be used to render meta data, see examples in FormattedSearch and SearchPatternCookbook.
+%H% SEARCH can also be used to render meta data, see examples in FormattedSearch and SearchPatternCookbook.
 
 ---
 *Related Topics:* DeveloperDocumentationCategory, UserDocumentationCategory
-

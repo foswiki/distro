@@ -1,15 +1,15 @@
-%META:TOPICINFO{author="ProjectContributor" date="1183870141" format="1.1" version="$Rev: 15747 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1183870141" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Access Control
 
-_Restricting read and write access to topics and webs, by Users and groups_
+_Restricting read and write access to topics and webs, by users and groups_
 
 Access Control allows you restrict access to single topics and entire webs, by individual user and by user Groups. Access control, combined with UserAuthentication, lets you easily create and manage an extremely flexible, fine-grained privilege system.
 
 %TOC%
 
 #ImportantConsideration
----++ An Important Control Consideration
+---++ An important control consideration
 
 Open, freeform editing is the essence of WikiCulture - what makes Foswiki different and often more effective than other collaboration tools. For that reason, it is strongly recommended that decisions to restrict read or write access to a web or a topic are made with great care - the more restrictions, the less Wiki in the mix. Experience shows that _unrestricted write access_ works very well because:
    * *Peer influence* is enough to ensure that only relevant content is posted.
@@ -24,7 +24,7 @@ As a *collaboration guideline*:
 ---++ Permissions settings of the webs on this Foswiki site
 %INCLUDE{SitePermissions}%
 
-*Note:* Above table comes from SitePermissions
+%H% Above table comes from SitePermissions
 
 ---++ Authentication vs. Access Control
 
@@ -32,9 +32,9 @@ As a *collaboration guideline*:
 
 *Access control:* Restrict access to content based on users and groups once a user is identified.
 
----++ Users and Groups
+---++ Users and groups
 
-Access control is based on the familiar concept of Users and Groups. Users are defined by their WikiNames. They can then be organized in unlimited combinations by inclusion in one or more user Groups. For convenience, Groups can also be included in other Groups. 
+Access control is based on the familiar concept of users and groups. Users are defined by their WikiNames. They can then be organized in unlimited combinations by inclusion in one or more user Groups. For convenience, Groups can also be included in other Groups. 
 
 ---+++ Managing Users
 
@@ -52,8 +52,8 @@ The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated 
 The following describes the standard Foswiki support for groups. Your local Foswiki may have an alternate group mapping manager installed. Check with your Wiki administrator if you are in doubt.
 
 Groups are defined by group topics located in the ==%USERSWEB%== web. To create a new group, visit  %USERSWEB%.WikiGroups and enter the name of the new group ending in ==Group== into the "new group" form field. This will create a new group topic with two important settings:
-   * ==Set <nop>GROUP = &lt; list of Users and/or Groups &gt;==
-   * ==Set <nop>ALLOWTOPICCHANGE = &lt; list of Users and/or Groups &gt;==
+   * ==Set <nop>GROUP = &lt; list of users and/or groups &gt;==
+   * ==Set <nop>ALLOWTOPICCHANGE = &lt; list of users and/or groups &gt;==
 
 The GROUP setting is a comma-separated list of users and/or other groups. Example:
    * ==Set GROUP = %USERSWEB%.<nop>SomeUser, %USERSWEB%.<nop>OtherUser, %USERSWEB%.<nop>SomeGroup==
@@ -61,7 +61,7 @@ The GROUP setting is a comma-separated list of users and/or other groups. Exampl
 The ALLOWTOPICCHANGE setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
 
-*%X% Note:* Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
+%X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
 
 #SuperAdminGroup
 ---+++ The Super Admin Group
@@ -80,36 +80,36 @@ You can define who is allowed to read or write to a web or a topic. Note that so
    * Restricting CHANGE blocks creating new topics, changing topics or attaching files.
    * Restricting RENAME prevents renaming of topics within a web.
    
-Note that there is an important distinction between CHANGE access and RENAME access. A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
+%X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
 
 ---+++ Controlling access to a Web
 
-You can define restrictions on who is allowed to view a <nop>%WIKITOOLNAME% web. You can restrict access to certain webs to selected Users and Groups, by:
+You can define restrictions on who is allowed to view a <nop>%WIKITOOLNAME% web. You can restrict access to certain webs to selected users and groups, by:
 
    * *authenticating all webs and restricting selected webs:* Topic access in all webs is authenticated, and selected webs have restricted access.
    * *authenticating and restricting selected webs only:* Provide unrestricted viewing access to open webs, with authentication and restriction only on selected webs.
 
    * You can define these settings in the %WEBPREFSTOPIC% topic, preferable towards the end of the topic:
-      * ==Set <nop>DENYWEBVIEW = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWWEBVIEW = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>DENYWEBCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWWEBCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>DENYWEBRENAME = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWWEBRENAME = &lt; comma-delimited list of Users and Groups &gt;==
+      * ==Set <nop>DENYWEBVIEW = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWWEBVIEW = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYWEBCHANGE = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWWEBCHANGE = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYWEBRENAME = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWWEBRENAME = &lt; comma-delimited list of users and groups &gt;==
 
 If your site allows hierarchical webs, then access to sub-webs is determined from the access controls of the parent web, plus the access controls in the sub-web. So, if the parent web has ==ALLOWWEBVIEW== set, this will also apply to the subweb. Also note that you will need to ensure that the parent web's ==FINALPREFERENCES== does not include the access control settings listed above. Otherwise you will not be able override the parent web's access control settings in sub-webs.
 
 Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the parent web (or ROOTCHANGE for [[#RootWebs][root webs]]). Renaming is additionally restricted by the setting of WEBRENAME in the web itself.
 
----+++ Controlling access to a Topic
+---+++ Controlling access to a topic
 
    * You can define these settings in any topic, preferable towards the end of the topic:
-      * ==Set <nop>DENYTOPICVIEW = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWTOPICVIEW = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>DENYTOPICCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWTOPICCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>DENYTOPICRENAME = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of Users and Groups &gt;==
+      * ==Set <nop>DENYTOPICVIEW = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWTOPICVIEW = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYTOPICCHANGE = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWTOPICCHANGE = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>DENYTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
 
 Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the WebLeftBar - may also be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
@@ -127,7 +127,7 @@ The same rules apply to ALLOWTOPICCHANGE/DENYTOPICCHANGE and APPLYTOPICRENAME/DE
 
 See "How Foswiki evaluates ALLOW/DENY settings" below for more on how ALLOW and DENY interacts.
 
----+++ Controlling access to Attachments
+---+++ Controlling access to attachments
 
 Attachments are referred to directly, and are not normally indirected via Foswiki scripts. This means that the above instructions for access control will _not_ apply to attachments. It is possible that someone may inadvertently publicise a URL that they expected to be access-controlled.
 
@@ -144,15 +144,15 @@ The easiest way to apply the same access control rules for attachments as apply 
 
 That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support.
 
-*Note:* Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
+%H% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
 
 #RootWebs
 ---+++ Controlling who can manage top-level webs
 
 Top level webs are a special case, because they don't have a parent web with a %WEBPREFSTOPIC%. So there has to be a special control just for the root level.
    * You can define these settings in the %USERSWEB%.%WIKIPREFSTOPIC% topic, preferable towards the end of the topic:
-      * ==Set <nop>DENYROOTCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWROOTCHANGE = &lt; comma-delimited list of Users and Groups &gt;==
+      * ==Set <nop>DENYROOTCHANGE = &lt; comma-delimited list of users and groups &gt;==
+      * ==Set <nop>ALLOWROOTCHANGE = &lt; comma-delimited list of users and groups &gt;==
 Note that you do *not* require =ROOTCHANGE= access to rename an existing top-level web. You just need =WEBCHANGE= in the web itself.
 
 ---+++ How Foswiki evaluates ALLOW/DENY settings
@@ -185,18 +185,18 @@ Examples: Topic A includes topic B
    * If the included topic B has ALLOWTOPICCHANGE set to block editing for a user, it does not prevent editing the including topic A.
    * If the included topic B has ALLOWTOPICVIEW set to block view for a user, the user can still view topic A but he cannot see the included topic B. He will see a message _No permission to view B_ 
 
----++ Access Control quick recipes
+---++ Access control quick recipes
 
----+++ Obfuscating Webs
+---+++ Obfuscating webs
 
 Another way of hiding webs is to keep them hidden by not publishing the URL and by preventing the ==all webs== search option from accessing obfuscated webs. Do so by enabling the ==NOSEARCHALL== setting in %WEBPREFSTOPIC%:
    * ==Set <nop>NOSEARCHALL = on==
 
 This setup can be useful to hide a new web until content its ready for deployment, or to hide view access restricted webs.
 
-*%X% Note:* Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.
+%X% Obfuscating a web without view access control is *very* insecure, as anyone who knows the URL can access the web.
 
----+++ Restrict Access to Whole Foswiki Site
+---+++ Restrict Access to a whole Foswiki site
 
 For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to allow only invited people to access your Foswiki. In this case, enable [[UserAuthentication#ApacheLogin][user authentication with ApacheLogin]] and lock down access to the whole =bin= and =pub= directories to all but valid users. In the Apache =.htaccess= file or the appropriate =.conf= file, replace the =&lt;FilesMatch "(attach|edit|...= section with this:
 
@@ -208,34 +208,34 @@ For a firewalled Foswiki, e.g. an intranet wiki or extranet wiki, you want to al
 
 If needed, you can further restrict access to selected webs with ALLOWWEBVIEW and other access control settings.
 
-*Note:* With this configuration, someone with access to the site needs to register new users.
+%H% With this configuration, someone with access to the site needs to register new users.
 
----+++ Authenticate all Webs and Restrict Selected Webs
+---+++ Authenticate all webs and restrict selected webs
 
 Use the following setup to authenticate users for topic viewing in all webs and to restrict access to selected webs. Requires UserAuthentication to be enabled.
 
    1 The simple way is to add this to =%WEBPREFSTOPIC%= in all webs.
       * ==Set <nop>DENYWEBVIEW = WikiGuest==
-   1. *Restrict* view access to selected Users and Groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
-      * ==Set <nop>ALLOWWEBVIEW = &lt; list of Users and Groups &gt;==
+   1. *Restrict* view access to selected users and groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
+      * ==Set <nop>ALLOWWEBVIEW = &lt; list of users and groups &gt;==
       * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
 
 In rare cases it may be required to authenticate the view script. This can in some cases have a dramatic performance hit because the webserver must re-authenticate for every page view.
 
    1. Set =require valid-user= on your =view= script in .htaccess or the appropriate Apache .conf file. This looks like: =FilesMatch "(attach|edit|manage|rename|save|view|upload|mail|logon|.*auth).*"= (normally =view= is not in that list).
 
----+++ Authenticate and Restrict Selected Webs Only
+---+++ Authenticate and restrict selected webs only
 
 Use the following setup to provide unrestricted viewing access to open webs, with authentication only on selected webs. Requires UserAuthentication to be enabled.
 
-   1. *Restrict* view access to selected Users and Groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
-      * ==Set <nop>DENYWEBVIEW = &lt; list of Users and Groups &gt;==
-      * ==Set <nop>ALLOWWEBVIEW = &lt; list of Users and Groups &gt;==
+   1. *Restrict* view access to selected users and groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
+      * ==Set <nop>DENYWEBVIEW = &lt; list of users and groups &gt;==
+      * ==Set <nop>ALLOWWEBVIEW = &lt; list of users and groups &gt;==
       * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
 
----+++ Hide Control Settings
+---+++ Hide control settings
 
-*%T% Tip:* To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
+%T% To hide access control settings from normal browser viewing, you can put them into the _topic [[%SYSTEMWEB%.PreferenceSettings][preference settings]]_ by clicking the link =Edit topic preference settings= under =More topic actions= menu. Preferences set in this manner are not visible in the topic text, but take effect nevertheless. Access control settings added as topic preference settings are stored in the topic meta data and they override settings defined in the topic text.
 
 Alternatively, place them in HTML comment markers, but this exposes the access setting during ordinary editing.
 
@@ -249,4 +249,3 @@ Alternatively, place them in HTML comment markers, but this exposes the access s
 
 ---
 *Related Topics:* AdminDocumentationCategory, UserAuthentication
-

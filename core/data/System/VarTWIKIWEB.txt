@@ -2,5 +2,5 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarTWIKIWEB
 ---+++ TWIKIWEB -- synonym for [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSYSTEMWEB][SYSTEMWEB]]
-   * Deprecated. Please use =%<nop>SYSTEMWEB%= instead.
+   * %X% *Deprecated.* Please use =%<nop>SYSTEMWEB%= instead.
 
