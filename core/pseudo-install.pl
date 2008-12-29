@@ -288,7 +288,17 @@ sub Autoconf {
     my $foswikidir   = $basedir;
     my $localSiteCfg = $foswikidir . '/lib/LocalSite.cfg';
     if ( $force || ( !-e $localSiteCfg ) ) {
-        my $localsite = `grep 'Foswiki::cfg' $foswikidir/lib/Foswiki.spec`;
+        my $grep = 'grep';
+        $grep = 'find' if ($^O eq 'MSWin32');   #let windows play too
+            my $localsite = `$grep "Foswiki::cfg" $foswikidir/lib/Foswiki.spec`;
+            if ($^O eq 'MSWin32') {
+            #oh wow, windows find is retarded
+            $localsite =~ s|^(-------.*)$||m;
+            #prefer non-grep SEARCH
+            $localsite =~ s|^(.*)SearchAlgorithms::Forking(.*)$|$1SearchAlgorithms::PurePerl$2|m;
+            #RscLite
+            $localsite =~ s|^(.*)RcsWrap(.*)$|$1RcsLite$2|m;
+        }
 
         $localsite =~ s|/home/httpd/foswiki|$foswikidir|g;
 
