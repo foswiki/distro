@@ -2179,7 +2179,7 @@ msgstr ""
 
 #: PatternSkin/templates/edit.pattern.tmpl:30
 msgid "Read new revision help text in new window"
-msgstr "Les ny versjon hjelpetekst i nytt vindu""
+msgstr "Les ny versjon hjelpetekst i nytt vindu"
 
 #: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
 msgid "Read on"
