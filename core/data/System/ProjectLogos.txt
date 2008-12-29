@@ -10,7 +10,6 @@ The official Foswiki logo is attached to this page.
 
 <img src="%ATTACHURLPATH%/foswiki-logo.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
-
 <img src="%ATTACHURLPATH%/foswiki-badge.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
 
 %STOPINCLUDE%
