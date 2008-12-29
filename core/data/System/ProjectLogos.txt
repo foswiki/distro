@@ -32,6 +32,14 @@ You may NOT use any original artwork from Foswiki.org, nor make or use modified 
    * You may use the Foswiki artwork on a web site, in product description and promotional material IF and ONLY IF such use can in no way be interpreted as anything other than an attribution. Using the Foswiki name and artwork in a manner that implies endorsement of a product or service is not allowed.
 
 
-%META:FILEATTACHMENT{name="foswiki-logo-slogan.png" attachment="foswiki-logo-slogan.png" attr="" comment="" date="1227691967" path="foswiki-logo-slogan.png" size="8967" stream="IO::File=GLOB(0x948bfa4)" tmpFilename="/tmp/EjtcDwyRwS" user="ProjectContributor" version="3"}%
+
+%META:FILEATTACHMENT{name="badge.gif" attachment="badge.gif" attr="" comment="" date="1227691956" path="badge.gif" size="2160" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="banner.gif" attachment="banner.gif" attr="" comment="" date="1227691956" path="banner.gif" size="2711" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1227691956" path="favicon.ico" size="1150" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="foswiki-badge.png" attachment="foswiki-badge.png" attr="" comment="" date="1227691956" path="foswiki-badge.png" size="4807" stream="IO::File=GLOB(0x9494014)" tmpFilename="/tmp/B5uA2toSKg" user="ProjectContributor" version="2"}%
+%META:FILEATTACHMENT{name="foswiki-logo-slogan.png" attachment="foswiki-logo-slogan.png" attr="" comment="" date="1227691967" path="foswiki-logo-slogan.png" size="8967" stream="IO::File=GLOB(0x948bfa4)" tmpFilename="/tmp/EjtcDwyRwS" user="ProjectContributor" version="3"}%
 %META:FILEATTACHMENT{name="foswiki-logo.png" attachment="foswiki-logo.png" attr="" comment="" date="1227691994" path="foswiki-logo.png" size="7537" stream="IO::File=GLOB(0x9494bc8)" tmpFilename="/tmp/SJ8x5Btee3" user="ProjectContributor" version="2"}%
+%META:FILEATTACHMENT{name="foswiki-logo.xcf" attachment="foswiki-logo.xcf" attr="" date="1227691956" path="foswiki-logo.xcf" size="45514" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="large.gif" attachment="large.gif" attr="" comment="" date="1227691956" path="large.gif" size="4726" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="logo.svg" attachment="logo.svg" attr="" comment="" date="1227691956" path="logo.svg" size="7180" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="smallPowered.gif" attachment="smallPowered.gif" attr="" comment="" date="1227691956" path="smallPowered.gif" size="477" user="ProjectContributor" version="1"}%
