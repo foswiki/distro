@@ -2,7 +2,7 @@
 #TemplateTopics
 ---+ Template topics
 
-_Template Topics are topics that define the default text for new topics._
+_Template topics are topics that define the default text for new topics._
 
 %TOC%
 
@@ -11,8 +11,8 @@ _Template Topics are topics that define the default text for new topics._
 There are four types of template topics:
 
 | *Topic Name:* | *What it is:* |
-| WebTopicViewTemplate | Alert page shown when you try to view a nonexistent topic. This page is usually used as a prompt to help you create a new topic. |
-| WebTopicNonWikiTemplate | Alert page shown when you try to view a nonexistent topic with a non-WikiName. Again, this page is used as a prompt to help you create the new topic. |
+| WebCreateNewTopicTemplate | Page shown when you click on a %ICON{newtopic}% *Create New Topic* link. It provides a form requesting the necessary information to create a new, nonexistent topic. |
+| TopicDoesNotExistViewTemplate | Alert page shown when you try to view a nonexistent topic and usually used as a prompt to help you create this new topic. For this reason, the form of the WebCreateNewTopicTemplate is included and therefore shown, too. |
 | WebTopicEditTemplate | Default text used in a new topic. |
 | &lt;MyCustomNamed&gt;Template | Whenever you create a topic ending in the word "Template", it is automatically added to the list of available template topics in the "Use Template" drop down field on the !WebCreateNewTopic page. |
 
@@ -58,7 +58,7 @@ When you create a new topic based on a template topic, you often want the new to
 
 Sometimes this isn't quite what you want, as it copies all the existing data from the template topic into the new topic. To avoid this and use the default values specified in the form definition instead, you can use the =formtemplate= parameter to the =edit= script to specify the name of a form to attach.
 
-See CommandAndCgiScripts for information about this, and all the other parameters to =edit=.
+See CommandAndCGIScripts for information about this, and all the other parameters to =edit=.
 
 #AutomaticallyGeneratedTopicname
 ---++ Automatically generated topic names
@@ -102,7 +102,7 @@ The above form asks for a topic name. A hidden input tag named ==templatetopic==
 &lt;/form&gt;
 </pre>
 
-See CommandAndCgiScripts#edit for details of the parameters that the =edit= script understands.
+See CommandAndCGIScripts#edit for details of the parameters that the =edit= script understands.
 
 %T% You can use the =%<nop>WIKIUSERNAME%= and =%<nop>DATE%= macros in your template topics to include the signature of the person creating a new topic. The macros are expanded into fixed text when a new topic is created. The standard signature is: <br />
 ==-- %<nop>WIKIUSERNAME% - %<nop>DATE%==

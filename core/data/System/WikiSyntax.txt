@@ -79,7 +79,7 @@ Always start *counting* spaces for bullets or numbers from the beginning of a ne
 
    * Three (or more) consecutive *hyphens* will create a horizontal rule:%BR% =---=
 
-Follow GoodStyle recommendations when editing topics. In general, it is always nice to add one's signature at the end of a topic or comments. To add your signature, type =%MAINWEB%.YourName=, it will then expand to %USERNAME%.
+Follow GoodStyle recommendations when editing topics. In general, it is always nice to add one's signature at the end of a topic or comments. To add your signature, type =%USERSWEB%.YourName=, it will then expand to %USERNAME%.
 
 See EditingShorthand for the complete set of formatting rules.
 

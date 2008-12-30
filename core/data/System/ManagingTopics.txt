@@ -35,7 +35,7 @@ The =Trash= web should be be cleared periodically, by archiving (saving) the tex
 
 ---++ Redirecting from an old topic
 
-You can use MetaData to place a command in the %SYSTEMWEB%.WebTopicViewTemplate and %SYSTEMWEB%.WebTopicNonWikiTemplate that will indicate that a topic has been moved by searching for the tag %<nop>META:TOPICMOVED{...}%. Customize something like this:
+You can use MetaData to place a command in the %SYSTEMWEB%.TopicDoesNotExistViewTemplate that will indicate that a topic has been moved by searching for the tag %<nop>META:TOPICMOVED{...}%. Customize something like this:
 
 <blockquote>
 <verbatim>

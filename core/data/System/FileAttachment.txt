@@ -75,10 +75,10 @@ Move unwanted Attachments to web =Trash=, topic =TrashAttachment=.
    * GIF, JPG and PNG images can be attached and shown embedded in a topic. Example:
       1. ==[Attach]== an image file, for example: =Smile.gif=
       1. ==[Edit]== topic and write text: =%<nop>ATTACHURL%/Smile.gif=
-      1. ==[Preview]==: text appears as %PUBURLPATH%/%WEB%/%TOPIC%/Smile.gif, an image.
+      1. ==[Preview]==: text appears as %ATTACHURL%/Smile.gif, an image.
 
 ---++ Examples
-Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin] is used on your Foswiki installation.
+Following you will find some examples of screens and tables related to this topic and referenced throughout the previous text. The appearance of these tables might vary, depending on what [[Skins][skin]] is used on your Foswiki installation.
 
 #FileAttachmentTable
 ---+++ File attachment table
