@@ -329,9 +329,11 @@ sub _readTemplateFile {
 
     my @templatePath = split( /\s*,\s*/, $Foswiki::cfg{TemplatePath} );
     if (($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled})
-        && (lc($name) eq 'foswiki')) {
+        && (lc($name) eq 'foswiki')
+        && defined($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath})
+         ) {
         #TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
-        @templatePath = Foswiki::Plugins::TWikiCompatibilityPlugin::augmentedTemplatePath();
+        @templatePath = @{$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath}};
     }
 
     # Search the $Foswiki::cfg{TemplatePath} for the skinned versions

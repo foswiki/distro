@@ -45,6 +45,10 @@ $pluginName = 'TWikiCompatibilityPlugin';
 
 sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
+
+    #initialise the augmented template path
+    augmentedTemplatePath();
+
     return 1;
 }
 
