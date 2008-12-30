@@ -524,6 +524,8 @@ sub viewfile {
     my $length = length($fileContent);
     my $dispo  = 'inline;filename=' . $fileName;
 
+    #re-set to 200, in case this was a 404 or other redirect
+    $session->{response}->status(200);
     $session->{response}->header(
         -type => $type, qq(Content-Disposition="$dispo") );
     $session->{response}->print($fileContent);
