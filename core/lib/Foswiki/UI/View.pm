@@ -65,18 +65,6 @@ sub view {
     my $rev = $store->cleanUpRevID( $query->param('rev') );
 
     my $topicExists = $store->topicExists( $webName, $topicName );
-    my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
-    if (!$topicExists 
-        && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-        && defined($map)
-        && defined($map->{$webName})
-        ) {
-        #try the other web (TWikiCompatibility)
-        if ($topicExists = $session->{store}->topicExists(
-            $map->{$webName}, $topicName )) {
-            $session->{webName} = $webName = $map->{$webName};
-        }
-    }
 
     # text and meta of the _latest_ rev of the topic
     my ( $currText, $currMeta );
@@ -470,17 +458,8 @@ sub viewfile {
 
         # The next element on the path has to be the topic name
         $topic = shift(@path);
-        if (!$topic
-              || !$session->{store}->topicExists($webName, $topic)) {
-            #try the other web (TWikiCompatibility)
-            my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
-            if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-                && defined ($map)
-                && $session->{store}->attachmentExists( $map->{$webName}, $topic, $fileName )) {
-                $webName = $map->{$webName};
-                $session->{response}->status(200);  #OK, but, um non-authorative?
-            } else {
-                throw Foswiki::OopsException(
+        if (!$topic) {
+            Foswiki::OopsException(
                     'attention',
                     def    => 'no_such_attachment',
                     web    => $webName,
@@ -488,7 +467,6 @@ sub viewfile {
                     status => 404,
                     params => [ 'viewfile', '?' ]
                    );
-            }
         }
         # Topic has been validated
         $topic = Foswiki::Sandbox::untaintUnchecked($topic);

@@ -87,7 +87,22 @@ sub finish {
 sub _getHandler {
     my ( $this, $web, $topic, $attachment ) = @_;
 
-    return $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
+    my $handler = $this->{IMPL}->new( $this->{session}, $web, $topic, $attachment );
+
+    my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
+    if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+        && defined ($map)
+        && defined ($map->{$web})
+        && !$handler->storedDataExists()
+        ) {
+        #try the other
+        my $newhandler = $this->{IMPL}->new( $this->{session}, $map->{$web}, $topic, $attachment );
+        if ($newhandler->storedDataExists()) {
+            $handler = $newhandler;
+        }
+    }
+
+    return $handler;
 }
 
 =begin TML
