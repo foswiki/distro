@@ -328,6 +328,11 @@ sub _readTemplateFile {
     my $nrskins = $#skinList;
 
     my @templatePath = split( /\s*,\s*/, $Foswiki::cfg{TemplatePath} );
+    if (($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled})
+        && (lc($name) eq 'foswiki')) {
+        #TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
+        @templatePath = Foswiki::Plugins::TWikiCompatibilityPlugin::augmentedTemplatePath();
+    }
 
     # Search the $Foswiki::cfg{TemplatePath} for the skinned versions
     my @candidates;
@@ -405,6 +410,7 @@ sub _readTemplateFile {
 
 sub validateFile {
     my $file = shift;
+print STDERR "validateFile($file)\n";
     return -e $file;
 }
 
