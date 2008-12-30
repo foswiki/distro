@@ -97,7 +97,7 @@ sub earlyInitPlugin {
 ---++ postRenderingHandler( $text )
    * =$text= - the text that has just been rendered. May be modified in place.
 
-using the same simplistic mechanism as DistributedServersPlugin, we fins all 
+using the same simplistic mechanism as DistributedServersPlugin, we find all 
 the System and TWiki web pub URL's and make sure they actually exist. If not, 
 we look in the 'other' place, and modify them if that file does exist.
    * TODO: should really protect non-HTML src type url's from re-writing
