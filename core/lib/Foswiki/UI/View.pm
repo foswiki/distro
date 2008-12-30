@@ -472,14 +472,23 @@ sub viewfile {
         $topic = shift(@path);
         if (!$topic
               || !$session->{store}->topicExists($webName, $topic)) {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_such_attachment',
-                web    => $webName,
-                topic  => $topic || 'Unknown',
-                status => 404,
-                params => [ 'viewfile', '?' ]
-               );
+            #try the other web (TWikiCompatibility)
+            my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
+            if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+                && defined ($map)
+                && $session->{store}->attachmentExists( $map->{$webName}, $topic, $fileName )) {
+                $webName = $map->{$webName};
+                $session->{response}->status(200);  #OK, but, um non-authorative?
+            } else {
+                throw Foswiki::OopsException(
+                    'attention',
+                    def    => 'no_such_attachment',
+                    web    => $webName,
+                    topic  => $topic || 'Unknown',
+                    status => 404,
+                    params => [ 'viewfile', '?' ]
+                   );
+            }
         }
         # Topic has been validated
         $topic = Foswiki::Sandbox::untaintUnchecked($topic);
@@ -509,23 +518,14 @@ sub viewfile {
     unless ( $fileName
         && $session->{store}->attachmentExists( $webName, $topic, $fileName ) )
     {
-        #try the other web (TWikiCompatibility)
-        my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
-        if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
-            && defined ($map)
-            && $session->{store}->attachmentExists( $map->{$webName}, $topic, $fileName )) {
-            $webName = $map->{$webName};
-            $session->{response}->status(200);  #OK, but, um non-authorative?
-        } else {
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'no_such_attachment',
-                web    => $webName,
-                topic  => $topic,
-                status => 404,
-                params => [ 'viewfile', $fileName || '?' ]
-            );
-        }
+        throw Foswiki::OopsException(
+            'attention',
+            def    => 'no_such_attachment',
+            web    => $webName,
+            topic  => $topic,
+            status => 404,
+            params => [ 'viewfile', $fileName || '?' ]
+        );
     }
     # Something is seriously wrong if any of these is tainted. If they are,
     # find out why and validate them at the input point.
