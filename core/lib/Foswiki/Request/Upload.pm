@@ -79,7 +79,7 @@ Returns an open filehandle to uploaded file.
 
 sub handle {
     my $fh = new IO::File( $_[0]->{tmpname}, '<' );
-    $fh->binmode;
+    binmode $fh;
     return $fh;
 }
 

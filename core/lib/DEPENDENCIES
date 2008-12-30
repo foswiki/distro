@@ -23,6 +23,7 @@ FileHandle,>=2.01,cpan,Required, for base Foswiki
 FindBin,>=0,cpan,Optional, required if you want to use the Extensions Installer in configure
 Getopt::Long,>=0,cpan,Optional, may be required for international characters
 I18N::Langinfo,>=0,cpan,Optional, may be required for international characters
+IO::File,>=1.10,cpan,Required, for base Foswiki (upload)
 Lingua::EN::Sentence,>=0,cpan,Optional, may be required for generating new language files
 Locale::Maketext::Lexicon,>=0,cpan,Optional, may be required for international characters
 LWP,>=0,cpan,Optional, needed for the Configure Extensions installer, and for external URL based INCLUDEs
