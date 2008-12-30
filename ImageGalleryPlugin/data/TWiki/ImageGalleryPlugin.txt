@@ -176,6 +176,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | v4.00-per1 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  29 Dec 2008 | temporary fix to work under Foswiki |
 |  14 Nov 2008 | made format string for galleries more flexible |
 |  16 Jul 2008 | don't crash on images that start with a digits pattern |
 |  07 Jul 2008 | fixing use of string as hash |
@@ -211,7 +212,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  01 Aug 2003 | Updates from feedback from a Windows installation |
 |  25 Jul 2003 | Initial version posted to TWiki.org |
 |  15 Mar 2002 | Initial (internal) version |
-|  CPAN Dependencies: | CPAN:Image::Magick or CPAN:Graphics::Magick |
+|  CPAN Dependencies: | CPAN:Image::Magick |
 |  Other Dependencies: |  |
 |  Perl Version: | 5.8 |
 |  Plugin Home: | http://nextwiki.org/Extensions/%TOPIC% |
