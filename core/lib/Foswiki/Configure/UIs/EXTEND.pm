@@ -239,19 +239,22 @@ sub _listDir {
     my @names = ();
     if ( opendir( $d, "$dir$path" ) ) {
         foreach my $f ( grep { !/^\.*$/ } readdir $d ) {
-
-            # Someone might upload a package to twiki.org that contains
+            # Someone might upload a package that contains
             # a filename which, when passed to File::Copy, does something
             # evil. Check and untaint the filenames here.
-            # SMELL: potential problem with unicode chars in file names?
-            $f =~ /([\w.]+)/;
-            $f = $1;
-            if ( -d "$dir$path/$f" ) {
-                push( @names, "$path$f/" );
-                push( @names, _listDir( $dir, "$path$f/" ) );
-            }
-            else {
-                push( @names, "$path$f" );
+            # SMELL: potential problem with unicode chars in file names? (yes)
+            # TODO: should really compare to MANIFEST
+            if ($f =~ /^([-\w.]+)$/) {
+                $f = $1;
+                if ( -d "$dir$path/$f" ) {
+                    push( @names, "$path$f/" );
+                    push( @names, _listDir( $dir, "$path$f/" ) );
+                }
+                else {
+                    push( @names, "$path$f" );
+                }
+            } else {
+                print "WARNING: skipping possibly unsafe file (not able to shot it for the same reason :( )<br />\n";
             }
         }
         closedir($d);
@@ -276,13 +279,13 @@ sub _unpackArchive {
     $here =~ /(.*)/;
     $here = $1;    # untaint current dir name
     chdir($dir);
-    unless ( $name =~ /\.zip/i && _unzip($name)
+    unless ( $name =~ /(\.zip)/i && _unzip($name)
         || $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && _untar($name) )
     {
         $dir = undef;
         print "Failed to unpack archive $name<br />\n";
     }
-    chdir($1);
+    chdir($here);
 
     return $dir;
 }
@@ -301,6 +304,8 @@ sub _unzip {
         my @members = $zip->members();
         foreach my $member (@members) {
             my $file   = $member->fileName();
+            $file =~ /(.*)/;
+            $file = $1; #yes, we must untaint
             my $target = $file;
             my $err    = $zip->extractMember( $file, $target );
             if ($err) {
