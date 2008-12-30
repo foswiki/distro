@@ -212,7 +212,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  01 Aug 2003 | Updates from feedback from a Windows installation |
 |  25 Jul 2003 | Initial version posted to TWiki.org |
 |  15 Mar 2002 | Initial (internal) version |
-|  CPAN Dependencies: | CPAN:Image::Magick |
+|  CPAN Dependencies: | CPAN:Graphics::Magick or CPAN:Image::Magick |
 |  Other Dependencies: |  |
 |  Perl Version: | 5.8 |
 |  Plugin Home: | http://nextwiki.org/Extensions/%TOPIC% |
