@@ -410,7 +410,6 @@ sub _readTemplateFile {
 
 sub validateFile {
     my $file = shift;
-print STDERR "validateFile($file)\n";
     return -e $file;
 }
 
