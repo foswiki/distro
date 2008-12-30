@@ -92,6 +92,25 @@ sub earlyInitPlugin {
     return;
 }
 
+sub augmentedTemplatePath {
+    #TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
+    #allow the user to set the compatibility tempalte path too
+    unless (defined($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath})) {
+        my @cfgTemplatePath = split( /\s*,\s*/, $Foswiki::cfg{TemplatePath} );
+        my @templatePath = ();
+        foreach my $path (@cfgTemplatePath) {
+            push(@templatePath, $path);
+            if ($path =~ /^(.*)\$name(.*)$/) {
+                #SMELL: hardcoded foswiki and twiki
+                push(@templatePath, "$1twiki$2");
+            }
+        }
+        $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath} = \@templatePath;
+    }
+
+    return @{$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath}};
+}
+
 =pod
 
 ---++ postRenderingHandler( $text )
