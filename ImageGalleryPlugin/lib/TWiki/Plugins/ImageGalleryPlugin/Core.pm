@@ -40,7 +40,7 @@ sub new {
 
   $this->{id} = $id;
   $this->{query} = TWiki::Func::getCgiQuery();
-  $this->{isDakar} = defined $TWiki::RELEASE;
+  $this->{isDakar} = defined $TWiki::RELEASE || defined $Foswiki::RELEASE;
   $this->{topic} = $topic;
   $this->{web} = $web;
   $this->{doRefresh} = 0;
