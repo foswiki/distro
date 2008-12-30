@@ -382,12 +382,12 @@ msgid ""
 msgstr ""
 "*Importante:* as informações fornecidas nesse formulário serão armazenadas "
 "num banco de dados no servidor do Foswiki. Este banco de dados é acessível por "
-"qualquer pessoa que tem permissão de administrar o servidor pela web (porém as senhas serão "
-"criptografadas e os endereços de e-mail ofuscados para evitar SPAM). Seu "
-"país, ou o país onde o servidor está hospedado, pode ter Leis de Proteção de "
-"Dados disciplinando as formas de manutenção desse tipo de banco de dados. Se tiver "
-"dúvida e quiser obter detalhes sobre a "
-"Política de Proteção de Dados desse servidor Foswiki,  contate %1 antes de se registrar."
+"qualquer pessoa que tenha permissão de administrar o servidor pela web (porém "
+"as senhas serão criptografadas e os endereços de e-mail ofuscados para evitar "
+"SPAM). Seu país, ou o país onde o servidor está hospedado, pode ter Leis de "
+"Proteção de Dados disciplinando as formas de manutenção desse tipo de banco "
+"de dados. Se tiver dúvida e quiser obter detalhes sobre a Política de Proteção "
+"de Dados desse servidor Foswiki,  contate %1 antes de se registrar."
 
 #: core/templates/attachagain.tmpl:19
 msgid ""
@@ -782,7 +782,7 @@ msgstr "Bathing problem"
 
 #: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
-msgstr "Tanto no título quando no texto"
+msgstr "Ambos: texto e nome do tópico"
 
 #: core/templates/changeform.tmpl:29
 msgid ""
@@ -957,7 +957,7 @@ msgstr ""
 
 #: TwistyPlugin/data/System/TwistyPlugin.txt:576
 msgid "Close"
-msgstr "Esconder"
+msgstr "Ocultar"
 
 #: core/templates/messages.tmpl:130
 msgid "Color %1 has an invalid format"
@@ -1470,11 +1470,11 @@ msgstr "Ajuda"
 
 #: core/templates/attach.tmpl:45
 msgid "Hide file"
-msgstr "Esconder arquivo"
+msgstr "Ocultar arquivo"
 
 #: core/templates/login.tmpl:50
 msgid "Hide help"
-msgstr "Esconder ajuda"
+msgstr "Ocultar ajuda"
 
 #: core/templates/messages.tmpl:117
 msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
@@ -2146,7 +2146,7 @@ msgstr "Propriedades"
 
 #: core/data/System/WebSearchAdvanced.txt:62
 msgid "Query Search"
-msgstr "Busca avançada"
+msgstr "Busca com <code>type=\"query\"</code>"
 
 #: core/data/Main/SitePreferences.txt:7
 msgid ""
@@ -3000,7 +3000,7 @@ msgstr "Modelos de tópicos na web %1"
 
 #: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
 msgid "Topic title"
-msgstr "Título do tópico"
+msgstr "Nome do tópico"
 
 #: core/templates/messages.tmpl:26
 msgid "Topic was merged"
