@@ -1864,7 +1864,8 @@ sub validatePattern {
     # an internal variable.
     # There is no need to defuse (??{ and (?{ as perl won't allow
     # it anyway, unless one uses re 'eval' which we won't do
-    return $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
+    $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
+    return $pattern;
 }
 
 =begin TML
