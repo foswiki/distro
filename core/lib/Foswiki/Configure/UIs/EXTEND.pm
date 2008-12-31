@@ -244,7 +244,7 @@ sub _listDir {
             # evil. Check and untaint the filenames here.
             # SMELL: potential problem with unicode chars in file names? (yes)
             # TODO: should really compare to MANIFEST
-            if ($f =~ /^([-\w.]+)$/) {
+            if ($f =~ /^([-\w.,]+)$/) {
                 $f = $1;
                 if ( -d "$dir$path/$f" ) {
                     push( @names, "$path$f/" );
@@ -254,7 +254,7 @@ sub _listDir {
                     push( @names, "$path$f" );
                 }
             } else {
-                print "WARNING: skipping possibly unsafe file (not able to shot it for the same reason :( )<br />\n";
+                print "WARNING: skipping possibly unsafe file $f (not able to shot it for the same reason :( )<br />\n";
             }
         }
         closedir($d);
