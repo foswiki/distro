@@ -1862,10 +1862,9 @@ sub validatePattern {
 
     # Escape unescaped $ and @ characters that might interpolate
     # an internal variable.
-    $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
-    # Defuse (??{...})
-    $pattern =~ s/(^|[^\\])\(\?\?{/$1(\\?\\?{/g;
-    return $pattern;
+    # There is no need to defuse (??{ and (?{ as perl won't allow
+    # it anyway, unless one uses re 'eval' which we won't do
+    return $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
 }
 
 =begin TML
