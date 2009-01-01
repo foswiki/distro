@@ -73,16 +73,16 @@ $wd =~ /^(.*)$/;    # untaint
 unshift( @path, $1 ) if $1;
 my $script = File::Spec->catfile(@path);
 
-unless ( do $script ) {
+unless ( my $return = do $script ) {
     my $message = <<MESSAGE;
 ************************************************************
 Could not load $script
 MESSAGE
-    if ($!) {
-        $message .= "There was a file error: $!\n";
-    }
-    elsif ($@) {
+    if ($@) {
         $message .= "There was a compile error: $@\n";
+    }
+    elsif (defined $return) {
+        $message .= "There was a file error: $!\n";
     }
     else {
         $message .= "An unspecified error occurred\n";
