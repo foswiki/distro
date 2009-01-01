@@ -575,21 +575,23 @@ sub _renameweb {
 
     my $newParentWeb = $query->param('newparentweb') || '';
     # Validate
-    $newParentWeb = Foswiki::Sandbox::untaint(
-        $newParentWeb,
-        sub {
-            my $web = shift;
-            return $web if Foswiki::isValidWebName( $web, 1 );
-            throw Foswiki::OopsException(
-                'attention',
-                def    => 'invalid_web_name',
-                params => [$web]
-               );
-        }
-       );
-
+    if( $newParentWeb ne "" ) {    	
+	    $newParentWeb = Foswiki::Sandbox::untaint(
+	        $newParentWeb,
+	        sub {
+	            my $web = shift;
+	            return $web if Foswiki::isValidWebName( $web, 1 );
+	            throw Foswiki::OopsException(
+	                'attention',
+	                def    => 'invalid_web_name',
+	                params => [$web]
+	               );
+	        }
+	       );
+    }
     my $newSubWeb = $query->param('newsubweb') || '';
     # Validate
+    if( $newSubWeb ne "" ) {
     $newSubWeb = Foswiki::Sandbox::untaint(
         $newSubWeb,
         sub {
@@ -602,7 +604,7 @@ sub _renameweb {
                );
         }
        );
-
+    }
     my $newWeb;
     if ($newSubWeb) {
         if ($newParentWeb) {
@@ -842,7 +844,7 @@ sub _renameweb {
           )
         {
 
-            # Has user selected new name yet?
+            # Has user selected new name yet?            
             _newWebScreen( $session, $oldWeb, $newWeb, $confirm,
                 \%webTopicInfo );
             return;
