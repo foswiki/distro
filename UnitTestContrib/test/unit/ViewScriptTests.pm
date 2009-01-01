@@ -93,6 +93,32 @@ sub set_up {
     $twiki->{store}->saveTopic(
         $this->{test_user_wikiname}, $this->{test_subweb}, $topic,
         'nested topci1 text', undef );
+        
+    #set up nested web _and_ topic called $this->{test_web}/ThisTopic 
+    $twiki->{store}->saveTopic(
+        $this->{test_user_wikiname}, $this->{test_web}, 'ThisTopic',
+        'nested ThisTopic text', undef );
+    $this->{test_clashingsubweb} = $this->{test_web}.'/ThisTopic';
+    $topic = 'TestTopic1';
+
+    try {
+        $this->{twiki} = new Foswiki('AdminUser');
+
+        $this->{twiki}->{store}->createWeb( $this->{twiki}->{user}, $this->{test_clashingsubweb} );
+        $this->assert( $this->{twiki}->{store}->webExists( $this->{test_clashingsubweb} ) );
+        $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
+                                    $this->{test_clashingsubweb},
+                                    $Foswiki::cfg{HomeTopicName},
+                                    "SMELL" );
+        $this->assert( $this->{twiki}->{store}->topicExists(
+            $this->{test_clashingsubweb}, $Foswiki::cfg{HomeTopicName} ) );
+
+    } catch Error::Simple with {
+        $this->assert(0,shift->stringify()||'');
+    };
+    $twiki->{store}->saveTopic(
+        $this->{test_user_wikiname}, $this->{test_clashingsubweb}, $topic,
+        'nested topci1 text', undef );
 }
 
 sub setup_view {
@@ -263,7 +289,20 @@ sub test_urlparsing {
     $this->urltest('/System/?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
     $this->urltest('/System//?topic='.$this->{test_subweb}.'.WebChanges', $this->{test_subweb}, 'WebChanges');
 #nonexistant webs
-#noneexistant topics
+#noneexistant topics (Item598)
+    $this->urltest('/Sandbox/ThisTopicShouldNotExist', 'Sandbox', 'ThisTopicShouldNotExist');
+    $this->urltest('/Sandbox/ThisTopicShouldNotExist/', 'Sandbox', 'ThisTopicShouldNotExist');
+
+    $this->urltest('/'.$this->{test_subweb}.'/ThisTopicShouldNotExist', $this->{test_subweb}, 'ThisTopicShouldNotExist');
+    $this->urltest('/'.$this->{test_subweb}.'/ThisTopicShouldNotExist/', $this->{test_subweb}, 'ThisTopicShouldNotExist');
+#both topic and subweb of same name exists (Item598)
+#$this->{test_web}/ThisTopic is both a web and a topic
+    $this->urltest('/'.$this->{test_web}.'/ThisTopic', $this->{test_web}, 'ThisTopic');	#the only way yo get to the topic
+    $this->urltest('/'.$this->{test_web}.'/ThisTopic/', $this->{test_web}.'/ThisTopic', 'WebHome');
+    $this->urltest('/'.$this->{test_web}.'/ThisTopic/WebHome', $this->{test_web}.'/ThisTopic', 'WebHome');
+    $this->urltest('/'.$this->{test_web}.'/ThisTopic/WebHome/', $this->{test_web}.'/ThisTopic', 'WebHome');
+
+
 #invalid..
 
 }
