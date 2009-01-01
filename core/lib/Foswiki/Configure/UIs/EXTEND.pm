@@ -253,7 +253,7 @@ sub _listDir {
                     push( @names, "$path$f" );
                 }
             } else {
-                print "WARNING: skipping possibly unsafe file $f (not able to shot it for the same reason :( )<br />\n";
+                print "WARNING: skipping possibly unsafe file (not able to show it for the same reason :( )<br />\n";
             }
         }
         closedir($d);
