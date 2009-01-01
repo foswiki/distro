@@ -50,7 +50,6 @@ my $MANIFEST;
 
 BEGIN {
     $installationRoot = Cwd::getcwd();
-
     # getcwd is often a simple `pwd` thus it's tainted, untaint it
     $installationRoot =~ /^(.*)$/;
     $installationRoot = $1;
