@@ -1011,7 +1011,7 @@ msgstr ""
 #: core/data/System/WebPreferences.txt:34
 #, fuzzy
 msgid ""
-"Copyright &copy; by the contributing authors. All material on this site is "
+"Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
 "コピーライト &&copy; 著作者。本プラットフォームにある全ての物は本プラット"

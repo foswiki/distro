@@ -918,8 +918,8 @@ msgid "Copyright &&copy; by the contributing authors. All material on this colla
 msgstr "Copyright &&copy; bidragande författare. Allt innehåll på denna sammarbetsplattform tillhör författarna."
 
 #: core/data/System/WebPreferences.txt:34
-msgid "Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors."
-msgstr "Copyright &copy; bidragande författare. Allt innehåll på denna webbplats tillhör författarna."
+msgid "Copyright &&copy; by the contributing authors. All material on this site is the property of the contributing authors."
+msgstr "Copyright &&copy; bidragande författare. Allt innehåll på denna webbplats tillhör författarna."
 
 #: core/templates/messages.tmpl:140
 msgid "Could not create the new web %1"

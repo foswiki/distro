@@ -1032,10 +1032,10 @@ msgstr ""
 
 #: core/data/System/WebPreferences.txt:34
 msgid ""
-"Copyright &copy; by the contributing authors. All material on this site is "
+"Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
-"Das Urheberrecht &copy; liegt bei den mitwirkenden Autoren. Alle Inhalte "
+"Das Urheberrecht &&copy; liegt bei den mitwirkenden Autoren. Alle Inhalte "
 "dieser Kollaborations-Plattform sind Eigentum der Autoren."
 
 #: core/templates/messages.tmpl:140

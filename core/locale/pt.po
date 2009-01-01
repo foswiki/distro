@@ -1024,7 +1024,7 @@ msgstr ""
 
 #: core/data/System/WebPreferences.txt:34
 msgid ""
-"Copyright &copy; by the contributing authors. All material on this site is "
+"Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr ""
 "Copyright &&copy; pelos autores contribuintes. Todo material nessa "

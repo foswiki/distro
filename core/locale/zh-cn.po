@@ -985,7 +985,7 @@ msgstr "版权所有 &&copy; 作者 在协作平台上的所有资料归于内�
 #: core/data/System/WebPreferences.txt:34
 #, fuzzy
 msgid ""
-"Copyright &copy; by the contributing authors. All material on this site is "
+"Copyright &&copy; by the contributing authors. All material on this site is "
 "the property of the contributing authors."
 msgstr "版权所有 &&copy; 作者 在协作平台上的所有资料归于内容贡献者所有"
 

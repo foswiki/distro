@@ -916,8 +916,8 @@ msgid "Copyright &&copy; by the contributing authors. All material on this colla
 msgstr "Copyright &&copy; par les auteurs. Le contenu de cette plateforme collaborative est la propriété des auteurs qui y ont contribué."
 
 #: ../core/data/System/WebPreferences.txt:34
-msgid "Copyright &copy; by the contributing authors. All material on this site is the property of the contributing authors."
-msgstr "Copyright &copy; par les auteurs contributeurs. Le contenu de ce site est la propriété des auteurs qui y ont contribué."
+msgid "Copyright &&copy; by the contributing authors. All material on this site is the property of the contributing authors."
+msgstr "Copyright &&copy; par les auteurs contributeurs. Le contenu de ce site est la propriété des auteurs qui y ont contribué."
 
 #: ../core/templates/messages.tmpl:140
 msgid "Could not create the new web %1"
