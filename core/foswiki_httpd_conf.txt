@@ -45,6 +45,13 @@ Alias /foswiki/ "/home/httpd/foswiki/"
 # BrowserMatchNoCase ^SiteSucker blockAccess
 BrowserMatchNoCase ^$ blockAccess
 
+# This enables access to the documents in the Foswiki root directory
+<Directory "/home/httpd/foswiki">
+	Order Allow,Deny
+	Allow from all
+	Deny from env=blockAccess
+</Directory> 
+
 # This specifies the options on the Foswiki scripts directory. The ExecCGI
 # and SetHandler tell apache that it contains scripts. "Allow from all"
 # lets any IP address access this URL.
