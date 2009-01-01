@@ -1882,7 +1882,7 @@ sub validatePerlModule {
 
     # Remove all non alpha-numeric caracters and :
     # Do not use \w as this is localized, and might be tainted
-    $module =~ s/[^a-zA-Z:]//g;
+    $module =~ s/[^a-zA-Z:_]//g;
     return $module;
 }
 
