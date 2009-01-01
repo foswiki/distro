@@ -91,6 +91,7 @@ sub _getHandler {
 
     my $map = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{WebSearchPath};
     if ($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled}
+        && defined ($topic)
         && defined ($map)
         && defined ($map->{$web})
         && !$handler->storedDataExists()
