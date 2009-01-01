@@ -1870,6 +1870,24 @@ sub validatePattern {
 
 =begin TML
 
+---++ StaticMethod validatePerlModule( $module ) -> $module
+
+Validate a perl module in a parameter to $module so that
+random garbage are filtered out.
+
+=cut
+
+sub validatePerlModule {
+    my $module = shift;
+
+    # Remove all non alpha-numeric caracters and :
+    # Do not use \w as this is localized, and might be tainted
+    $module =~ s/[^a-zA-Z:]//g;
+    return $module;
+}
+
+=begin TML
+
 ---++ StaticMethod applyPatternToIncludedText( $text, $pattern ) -> $text
 
 Apply a pattern on included text to extract a subset

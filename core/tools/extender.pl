@@ -35,10 +35,10 @@ use File::Path;
 
 no warnings 'redefine';
 
-my $noconfirm = 0;
+my $noconfirm  = 0;
 my $downloadOK = 0;
-my $reuseOK = 0;
-my $inactive = 0;
+my $reuseOK    = 0;
+my $inactive   = 0;
 my $session;
 my %available;
 my $lwp;
@@ -50,27 +50,54 @@ my $MANIFEST;
 
 BEGIN {
     $installationRoot = Cwd::getcwd();
-    # BS untaint getcwd - seems it complains when run with taint
+
+    # getcwd is often a simple `pwd` thus it's tainted, untaint it
     $installationRoot =~ /^(.*)$/;
     $installationRoot = $1;
+
+    # Check if we were invoked from configure
+    # by looking at the call stack
+    sub running_from_configure {
+        my $i = 0;
+        while ( my $caller = caller( ++$i ) ) {
+            if ( $caller =~ /^Foswiki::Configure::UIs::EXTEND$/ ) {
+                return 1;
+            }
+        }
+        return 0;
+    }
     my $check_perl_module = sub {
         my $module = shift;
 
+        if ( $module =~ /^CPAN/ ) {
+
+            # Check how we were invoked as CPAN shouldn't
+            # be loaded from the configure
+            if (running_from_configure) {
+                print "Running from configure, disabling $module\n";
+                return $available{$module} = 0;
+            }
+        }
         eval "use $module;";
-        if( $@ ) {
-            print "Warning: $module is not available, some installer functions have been disabled\n";
+        if ($@) {
+            print
+"Warning: $module is not available, some installer functions have been disabled\n";
             $available{$module} = 0;
-        } else {
+        }
+        else {
             $available{$module} = 1;
         }
         return $available{$module};
     };
 
-    unless ( -d 'lib' &&
-             -d 'bin' &&
-             -e 'bin/setlib.cfg' ) {
-        die 'This installer must be run from the root directory of a Foswiki installation';
+    unless ( -d 'lib'
+        && -d 'bin'
+        && -e 'bin/setlib.cfg' )
+    {
+        die
+'This installer must be run from the root directory of a Foswiki installation';
     }
+
     # read setlib.cfg
     chdir('bin');
     require 'setlib.cfg';
@@ -78,102 +105,113 @@ BEGIN {
     # See if we can make a Foswiki. If we can, then we can save topic
     # and attachment histories. Key off Foswiki::Merge because it is
     # fairly new and fairly unique.
-    unless( &$check_perl_module( 'Foswiki::Merge' )) {
+    unless ( &$check_perl_module('Foswiki::Merge') ) {
         die "Can't find Foswiki: $@";
     }
 
     require Foswiki;
+
     # We have to get the admin user, as a guest user may be blocked.
     my $user = $Foswiki::cfg{AdminUserLogin};
     $session = new Foswiki($user);
     chdir($installationRoot);
 
-    if( &$check_perl_module( 'LWP' )) {
+    if ( &$check_perl_module('LWP') ) {
         $lwp = new LWP::UserAgent();
         $lwp->agent("PluginsInstaller");
         $lwp->env_proxy();
     }
-    &$check_perl_module( 'CPAN' );
+    &$check_perl_module('CPAN');
 }
 
 sub remap {
     my $file = shift;
 
-    if ($Foswiki::cfg{SystemWebName} ne 'System') {
+    if ( $Foswiki::cfg{SystemWebName} ne 'System' ) {
         $file =~ s#^data/System/#data/$Foswiki::cfg{SystemWebName}/#;
         $file =~ s#^pub/System/#pub/$Foswiki::cfg{SystemWebName}/#;
     }
 
-    if ($Foswiki::cfg{TrashWebName} ne 'Trash') {
+    if ( $Foswiki::cfg{TrashWebName} ne 'Trash' ) {
         $file =~ s#^data/Trash/#data/$Foswiki::cfg{TrashWebName}/#;
         $file =~ s#^pub/Trash/#pub/$Foswiki::cfg{TrashWebName}/#;
     }
 
-    if ($Foswiki::cfg{UsersWebName} ne 'Main') {
+    if ( $Foswiki::cfg{UsersWebName} ne 'Main' ) {
         $file =~ s#^data/Main/#data/$Foswiki::cfg{UsersWebName}/#;
         $file =~ s#^pub/Main/#pub/$Foswiki::cfg{UsersWebName}/#;
     }
 
-    if ($Foswiki::cfg{UsersWebName} ne 'Users') {
+    if ( $Foswiki::cfg{UsersWebName} ne 'Users' ) {
         $file =~ s#^data/Users/#data/$Foswiki::cfg{UsersWebName}/#;
         $file =~ s#^pub/Users/#pub/$Foswiki::cfg{UsersWebName}/#;
     }
 
     # Canonical symbol mappings
     foreach my $w qw( SystemWebName TrashWebName UsersWebName ) {
-        if (defined $Foswiki::cfg{$w}) {
+        if ( defined $Foswiki::cfg{$w} ) {
             $file =~ s#^data/$w/#data/$Foswiki::cfg{$w}/#;
             $file =~ s#^pub/$w/#pub/$Foswiki::cfg{$w}/#;
         }
     }
     foreach my $t qw( NotifyTopicName HomeTopicName WebPrefsTopicName
-                      MimeTypesFileName ) {
-        if (defined $Foswiki::cfg{$t}) {
-            $file =~ s#^data/(.*)/$t\.txt(,v)?#data/$1/$Foswiki::cfg{$t}.txt$2/#;
+      MimeTypesFileName ) {
+        if ( defined $Foswiki::cfg{$t} )
+        {
+            $file =~
+              s#^data/(.*)/$t\.txt(,v)?#data/$1/$Foswiki::cfg{$t}.txt$2/#;
             $file =~ s#^pub/(.*)/$t/([^/]*)$#pub/$1/$Foswiki::cfg{$t}/$2/#;
         }
-    }
-    return $file;
+      } return $file;
 }
 
 sub check_dep {
     my $dep = shift;
-    my( $ok, $msg ) = (1, '');
+    my ( $ok, $msg ) = ( 1, '' );
 
-    if( $dep->{type} =~ /^(perl|cpan)$/i ) {
+    if ( $dep->{type} =~ /^(perl|cpan)$/i ) {
+
         # Try to 'use' the perl module
-        eval 'use '.$dep->{name};
-        if( $@ ) {
+        eval 'use ' . $dep->{name};
+        if ($@) {
             $msg = $@;
             $msg =~ s/ in .*$/\n/s;
             $ok = 0;
-        } else {
+        }
+        else {
+
             # OK, it was loaded. See if a version constraint is specified
-            if( defined( $dep->{version} ) ) {
+            if ( defined( $dep->{version} ) ) {
                 my $ver;
+
                 # check the $VERSION variable in the loaded module
-                eval '$ver = $'.$dep->{name}.'::VERSION;';
-                if( $@ || !defined( $ver ) ) {
-                    $msg .= 'The VERSION of the package could not be found: '.
-                      $@;
+                eval '$ver = $' . $dep->{name} . '::VERSION;';
+                if ( $@ || !defined($ver) ) {
+                    $msg .=
+                      'The VERSION of the package could not be found: ' . $@;
                     $ok = 0;
-                } else {
+                }
+                else {
+
                     # The version variable exists. Clean it up
                     $ver =~ s/^.*\$Rev: (\d+)\$.*$/$1/;
                     $ver =~ s/[^\d]//g;
                     $ver ||= 0;
-                    eval '$ok = ( $ver '.$dep->{version}.' )';
-                    if( $@ || ! $ok ) {
+                    eval '$ok = ( $ver ' . $dep->{version} . ' )';
+                    if ( $@ || !$ok ) {
+
                         # The version variable fails the constraint
-                        $msg .= ' '.$ver.' is currently installed: '.$@;
+                        $msg .= ' ' . $ver . ' is currently installed: ' . $@;
                         $ok = 0;
                     }
                 }
             }
         }
-    } else {
+    }
+    else {
+
         # This module has no perl interface, and can't be checked
-        $ok = 0;
+        $ok  = 0;
         $msg = <<END;
 Module is type $dep->{type}, and cannot be automatically checked.
 Please check it manually and install if necessary.
@@ -192,18 +230,18 @@ END
 #       distributions have a perl 'stub' module that carries the version info.
 # 2. If the module is _not_ perl, then we can't check it.
 sub satisfy {
-    my $dep = shift;
+    my $dep  = shift;
     my $trig = eval $dep->{trigger};
 
-    return 1 unless ( $trig );
+    return 1 unless ($trig);
 
     print <<DONE;
 ##########################################################
 Checking dependency on $dep->{name}....
 DONE
-    my ( $ok, $msg ) = check_dep( $dep );
+    my ( $ok, $msg ) = check_dep($dep);
 
-    if( $ok ) {
+    if ($ok) {
         return 1;
     }
 
@@ -215,15 +253,18 @@ But when I tried to find it I got this error:
 $msg
 DONE
 
-    if( $dep->{name} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
-        my $type = $1;
-        my $pack = $2;
+    if ( $dep->{name} =~ m/^(Foswiki|TWiki)::(Contrib|Plugins)::(\w*)/ ) {
+        my $type     = $1;
+        my $pack     = $2;
         my $packname = $3;
-        $packname .= $pack if( $pack eq 'Contrib' && $packname !~ /Contrib$/);
-        if (!$noconfirm || ($noconfirm && $downloadOK)) {
-            my $reply = ask('Would you like me to try to download and install the latest version of '.$packname.' from foswiki.org?');
-            if( $reply ) {
-                return installPackage( $packname );
+        $packname .= $pack if ( $pack eq 'Contrib' && $packname !~ /Contrib$/ );
+        if ( !$noconfirm || ( $noconfirm && $downloadOK ) ) {
+            my $reply = ask(
+'Would you like me to try to download and install the latest version of '
+                  . $packname
+                  . ' from foswiki.org?' );
+            if ($reply) {
+                return installPackage($packname);
             }
         }
         return 0;
@@ -236,12 +277,16 @@ can download and install it from here. The module will be installed
 to wherever you configured CPAN to install to.
 
 DONE
-        my $reply = ask('Would you like me to try to download and install the latest version of '.$dep->{name}.' from cpan.org?');
+        my $reply = ask(
+'Would you like me to try to download and install the latest version of '
+              . $dep->{name}
+              . ' from cpan.org?' );
         return 0 unless $reply;
 
-        my $mod = CPAN::Shell->expand('Module', $dep->{name});
+        my $mod = CPAN::Shell->expand( 'Module', $dep->{name} );
         my $info = $mod->dslip_status();
-        if ($info->{D} eq 'S') {
+        if ( $info->{D} eq 'S' ) {
+
             # Standard perl module!
             print STDERR <<DONE;
 #########################################################################
@@ -258,15 +303,16 @@ DONE
         }
         if ($noconfirm) {
             $CPAN::Config->{prerequisites_policy} = 'follow';
-        } else {
+        }
+        else {
             $CPAN::Config->{prerequisites_policy} = 'ask';
         }
         CPAN::install( $dep->{name} );
-        ( $ok, $msg ) = check_dep( $dep );
+        ( $ok, $msg ) = check_dep($dep);
         return 1 if $ok;
 
         my $e = 'it';
-        if( $CPAN::Config->{makepl_arg} =~ /PREFIX=(\S+)/) {
+        if ( $CPAN::Config->{makepl_arg} =~ /PREFIX=(\S+)/ ) {
             $e = $1;
         }
         print STDERR <<DONE;
@@ -301,7 +347,7 @@ sub ask {
 
     $q .= '?' unless $q =~ /\?\s*$/;
 
-    print $q.' [y/n] ';
+    print $q. ' [y/n] ';
     while ( ( $reply = <STDIN> ) !~ /^[yn]/i ) {
         print "Please answer yes or no\n";
     }
@@ -317,10 +363,10 @@ Example: =$dir = prompt("Directory")=;
 =cut
 
 sub prompt {
-    my( $q, $default) = @_;
+    my ( $q, $default ) = @_;
     my $reply = '';
     local $/ = "\n";
-    while( !$reply ) {
+    while ( !$reply ) {
         print $q;
         print " ($default)" if defined $default;
         print ': ';
@@ -336,27 +382,29 @@ sub prompt {
 # (3) in the twikiplugins subdirectory (if there, to support developers)
 # and finally (4) download from $PACKAGES_URL
 sub getComponent {
-    my ($module, $types, $what) = @_;
+    my ( $module, $types, $what ) = @_;
     my $f;
 
     # Look for the archive.
     require Config;
-    if (!$noconfirm || ($noconfirm && $reuseOK)) {
-        foreach my $dir ($installationRoot,
-                         $installationRoot.'/twikiplugins/'.$module,
-                         split($Config::Config{path_sep},
-                               $ENV{TWIKI_PACKAGES} || '')) {
-            foreach my $type ( @$types ) { # .tgz preferred
-                $f = $dir.'/'.$module.$type;
-                if( -e $f ) {
-                    my @st = stat($f);
-                    my $credate = localtime($st[9]);
+    if ( !$noconfirm || ( $noconfirm && $reuseOK ) ) {
+        foreach my $dir (
+            $installationRoot,
+            $installationRoot . '/twikiplugins/' . $module,
+            split( $Config::Config{path_sep}, $ENV{TWIKI_PACKAGES} || '' )
+          )
+        {
+            foreach my $type (@$types) {    # .tgz preferred
+                $f = $dir . '/' . $module . $type;
+                if ( -e $f ) {
+                    my @st      = stat($f);
+                    my $credate = localtime( $st[9] );
                     print <<HERE;
 $f exists on this machine; would you like me to use it?
 It was created on $credate.
 If not, I will try to download a new one.
 HERE
-                    if (ask("Use existing $f?")) {
+                    if ( ask("Use existing $f?") ) {
                         print "Got a local $what from $f\n";
                         return $f;
                     }
@@ -365,7 +413,7 @@ HERE
         }
     }
 
-    unless( $lwp ) {
+    unless ($lwp) {
         print STDERR <<HERE;
 Cannot find a local $what for $module, and LWP is not installed
 so I can't download it. Please download it manually and re-run
@@ -374,13 +422,14 @@ HERE
         return undef;
     }
 
-    my $url = "$PACKAGES_URL/$module/$module";
+    my $url         = "$PACKAGES_URL/$module/$module";
     my $downloadDir = $installationRoot;
 
-    if ($ENV{TWIKI_PACKAGES} && -d $ENV{TWIKI_PACKAGES}) {
+    if ( $ENV{TWIKI_PACKAGES} && -d $ENV{TWIKI_PACKAGES} ) {
+
         # see if we can write in $TWIKI_PACKAGES
-        my $test = $ENV{TWIKI_PACKAGES}.'/'.$$;
-        if (open(F, ">$test")) {
+        my $test = $ENV{TWIKI_PACKAGES} . '/' . $$;
+        if ( open( F, ">$test" ) ) {
             close(F);
             unlink($test);
             $downloadDir = $ENV{TWIKI_PACKAGES};
@@ -388,24 +437,24 @@ HERE
     }
 
     my $response;
-    foreach my $type ( @$types ) {
-        $response = $lwp->get( $url.$type );
+    foreach my $type (@$types) {
+        $response = $lwp->get( $url . $type );
 
-        if( $response->is_success() ) {
-            $f = $downloadDir.'/'.$module.$type;
-            open(F, ">$f" ) || die "Failed to open $f for write: $!";
-            binmode F;
+        if ( $response->is_success() ) {
+            $f = $downloadDir . '/' . $module . $type;
+            open( F, ">$f" ) || die "Failed to open $f for write: $!";
             print F $response->content();
             close(F);
             last;
         }
     }
 
-    unless ($f && -e $f) {
+    unless ( $f && -e $f ) {
         print STDERR "Failed to download $module $what\n",
-          $response->status_line(),"\n";
+          $response->status_line(), "\n";
         return undef;
-    } else {
+    }
+    else {
         print "Downloaded $what from $PACKAGES_URL to $f\n";
     }
 
@@ -416,39 +465,42 @@ HERE
 sub getArchive {
     my $module = shift;
 
-    return getComponent($module, \@archTypes, 'archive');
+    return getComponent( $module, \@archTypes, 'archive' );
 }
 
 # Try and find an installer for the named module.
 sub getInstaller {
     my $module = shift;
 
-    return getComponent($module, [ '_installer' ], 'installer');
+    return getComponent( $module, ['_installer'], 'installer' );
 }
 
 # install a package by running the installer
 sub installPackage {
-    my( $module ) = @_;
+    my ($module) = @_;
 
-    my $script = getInstaller( $module );
-    if( $script && -e $script ) {
+    my $script = getInstaller($module);
+    if ( $script && -e $script ) {
         my $cmd = "perl $script";
         $cmd .= ' -a' if $noconfirm;
         $cmd .= ' -n' if $inactive;
         $cmd .= ' install';
         local $| = 0;
+
         # Fork the installation of the downloaded package.
         my $pid = fork();
         if ($pid) {
             wait();
-            if( $? ) {
+            if ($?) {
                 print STDERR "Installation of $module failed: $?\n";
                 return 0;
             }
-        } else {
+        }
+        else {
             exec($cmd);
         }
-    } else {
+    }
+    else {
         print STDERR <<HERE;
 I cannot locate an installer for $module.
 $module may not have been designed to be installed with this installer.
@@ -459,16 +511,17 @@ HERE
         my $ans = ask("Would you like me to try to get an archive of $module?");
         return 0 unless ($ans);
         my $arch = getArchive($module);
-        unless( $arch) {
+        unless ($arch) {
             print STDERR <<HERE;
 Cannot locate an archive for $module; installation failed.
 HERE
             return 0;
         }
+
         # Unpack the archive in place. Don't bother trying to
         # look for a MANIFEST or run the installer script - it
         # was probably packaged by an amateur.
-        unpackArchive($arch, $installationRoot);
+        unpackArchive( $arch, $installationRoot );
     }
 
     return 1;
@@ -484,16 +537,17 @@ to a temporary directory, the name of which is returned.
 =cut
 
 sub unpackArchive {
-    my ($name, $dir) = @_;
+    my ( $name, $dir ) = @_;
 
-    $dir ||= File::Temp::tempdir(CLEANUP=>1);
-    chdir( $dir );
-    unless( $name =~ /\.zip/i && unzip( $name ) ||
-              $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && untar( $name )) {
+    $dir ||= File::Temp::tempdir( CLEANUP => 1 );
+    chdir($dir);
+    unless ( $name =~ /\.zip/i && unzip($name)
+        || $name =~ /(\.tar\.gz|\.tgz|\.tar)/ && untar($name) )
+    {
         $dir = undef;
         print STDERR "Failed to unpack archive $name\n";
     }
-    chdir( $installationRoot );
+    chdir($installationRoot);
 
     return $dir;
 }
@@ -502,30 +556,33 @@ sub unzip {
     my $archive = shift;
 
     eval 'use Archive::Zip';
-    unless ( $@ ) {
-        my $zip = new Archive::Zip( $archive );
-        unless ( $zip ) {
+    unless ($@) {
+        my $zip = new Archive::Zip($archive);
+        unless ($zip) {
             print STDERR "Could not open zip file $archive\n";
             return 0;
         }
 
         my @members = $zip->members();
-        foreach my $member ( @members ) {
-            my $file = $member->fileName();
-            my $target = $file ;
-            my $err = $zip->extractMember( $file, $target );
-            if ( $err ) {
+        foreach my $member (@members) {
+            my $file   = $member->fileName();
+            my $target = $file;
+            my $err    = $zip->extractMember( $file, $target );
+            if ($err) {
                 print STDERR "Failed to extract '$file' from zip file ",
-                  $zip,". Archive may be corrupt.\n";
+                  $zip, ". Archive may be corrupt.\n";
                 return 0;
-            } else {
+            }
+            else {
                 print "    $target\n";
             }
         }
-    } else {
-        print STDERR "Archive::Zip is not installed; trying unzip on the command line\n";
+    }
+    else {
+        print STDERR
+          "Archive::Zip is not installed; trying unzip on the command line\n";
         print `unzip $archive`;
-        if ( $? ) {
+        if ($?) {
             print STDERR "unzip failed: $?\n";
             return 0;
         }
@@ -540,30 +597,33 @@ sub untar {
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
     eval 'use Archive::Tar';
-    unless ( $@ ) {
+    unless ($@) {
         my $tar = Archive::Tar->new( $archive, $compressed );
-        unless ( $tar ) {
+        unless ($tar) {
             print STDERR "Could not open tar file $archive\n";
             return 0;
         }
 
         my @members = $tar->list_files();
-        foreach my $file ( @members ) {
+        foreach my $file (@members) {
             my $target = $file;
 
             my $err = $tar->extract_file( $file, $target );
-            unless ( $err ) {
-                print STDERR 'Failed to extract ',$file,' from tar file ',
-                  $tar,". Archive may be corrupt.\n";
+            unless ($err) {
+                print STDERR 'Failed to extract ', $file, ' from tar file ',
+                  $tar, ". Archive may be corrupt.\n";
                 return 0;
-            } else {
+            }
+            else {
                 print "    $target\n";
             }
         }
-    } else {
-        print STDERR "Archive::Tar is not installed; trying tar on the command-line\n";
+    }
+    else {
+        print STDERR
+          "Archive::Tar is not installed; trying tar on the command-line\n";
         print `tar xvf$compressed $archive`;
-        if ( $? ) {
+        if ($?) {
             print STDERR "tar failed: $?\n";
             return 0;
         }
@@ -575,15 +635,16 @@ sub untar {
 # Check in. On Cairo, do nothing because the apache user
 # has everything checked out :-(
 sub checkin {
-    my( $web, $topic, $file ) = @_;
+    my ( $web, $topic, $file ) = @_;
 
     # If this is Dakar, we have a good chance of completing the
     # install.
     my $err = 1;
 
-    if( $session ) {
-        if( $file ) {
-            my $origfile = $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
+    if ($session) {
+        if ($file) {
+            my $origfile =
+              $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
             print "Add attachment $origfile\n";
             return 1 if ($inactive);
             print <<DONE;
@@ -591,40 +652,45 @@ sub checkin {
 Adding file: $file to installation ....
 (attaching it to $web.$topic)
 DONE
+
             # Need copy of file to upload it, use temporary location
             # Use non object version of File::Temp for Perl 5.6.1 compatibility
-            my @stats = stat $origfile;
+            my @stats    = stat $origfile;
             my $fileSize = $stats[7];
             my $fileDate = $stats[9];
 
             # make sure it's readable and writable by the current user
-            chmod(($stats[2] & 07777) | 0600, $origfile);
+            chmod( ( $stats[2] & 07777 ) | 0600, $origfile );
 
-            my ($tmp, $tmpfilename) = File::Temp::tempfile(unlink=>1);
-            File::Copy::copy($origfile, $tmpfilename) ||
-              die "$origfile could not be copied to tmp dir ($tmpfilename): $!";
+            my ( $tmp, $tmpfilename ) = File::Temp::tempfile( unlink => 1 );
+            File::Copy::copy( $origfile, $tmpfilename )
+              || die
+              "$origfile could not be copied to tmp dir ($tmpfilename): $!";
             eval {
                 Foswiki::Func::saveAttachment(
                     $web, $topic, $file,
-                    { comment => 'Saved by install script',
-                      file => $tmpfilename,
-                      filesize => $fileSize,
-                      filedate => $fileDate } );
+                    {
+                        comment  => 'Saved by install script',
+                        file     => $tmpfilename,
+                        filesize => $fileSize,
+                        filedate => $fileDate
+                    }
+                );
             };
             $err = $@;
-        } else {
+        }
+        else {
             print "Add topic $web.$topic\n";
             return 1 if ($inactive);
             print <<DONE;
 ##########################################################
 Adding topic: $web.$topic to installation ....
 DONE
+
             # read the topic to recover meta-data
             eval {
-                my( $meta, $text ) =
-                  Foswiki::Func::readTopic( $web, $topic );
-                Foswiki::Func::saveTopic(
-                    $web, $topic, $meta, $text,
+                my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+                Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
                     { comment => 'Saved by install script' } );
             };
             $err = $@;
@@ -637,7 +703,7 @@ sub _uninstall {
     my $file;
     my @dead;
     foreach $file ( keys %$MANIFEST ) {
-        if( -e $file ) {
+        if ( -e $file ) {
             push( @dead, remap($file) );
         }
     }
@@ -646,14 +712,14 @@ sub _uninstall {
         return 0;
     }
     print "To uninstall $MODULE, the following files will be deleted:\n";
-    print "\t".join( "\n\t", @dead )."\n";
+    print "\t" . join( "\n\t", @dead ) . "\n";
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
-    if( $reply ) {
+    if ($reply) {
         Foswiki::preuninstall();
         foreach $file ( keys %$MANIFEST ) {
-            if( -e $file ) {
-                unlink( $file );
+            if ( -e $file ) {
+                unlink($file);
             }
         }
         Foswiki::postuninstall();
@@ -681,45 +747,47 @@ sub _emplace {
         my $target = remap($file);
         print "Install $target, permissions $MANIFEST->{$file}\n";
         unless ($inactive) {
-            if (-e $target) {
-                unless (File::Copy::move($target, "$target.bak")) {
+            if ( -e $target ) {
+                unless ( File::Copy::move( $target, "$target.bak" ) ) {
                     print STDERR "Could not create $target.bak: $!\n";
                 }
             }
-            my @path = split(/[\/\\]+/, $target);
+            my @path = split( /[\/\\]+/, $target );
             pop(@path);
-            if (scalar(@path)) {
-                File::Path::mkpath(join('/',@path));
+            if ( scalar(@path) ) {
+                File::Path::mkpath( join( '/', @path ) );
             }
-            File::Copy::move($source, $target) ||
-                die "Failed to move $source to $target: $!\n";
+            File::Copy::move( $source, $target )
+              || die "Failed to move $source to $target: $!\n";
         }
-        if( $target =~ /^data\/(\w+)\/(\w+).txt$/ ) {
-            push(@topic, $target);
-        } elsif( $target =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
-            push(@pub, $target);
+        if ( $target =~ /^data\/(\w+)\/(\w+).txt$/ ) {
+            push( @topic, $target );
         }
-        unless( $inactive ) {
-            chmod( oct($MANIFEST->{$file}), $target ) ||
-              print STDERR "WARNING: cannot set permissions on $target: $!\n";
+        elsif ( $target =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
+            push( @pub, $target );
+        }
+        unless ($inactive) {
+            chmod( oct( $MANIFEST->{$file} ), $target )
+              || print STDERR
+              "WARNING: cannot set permissions on $target: $!\n";
         }
     }
-    foreach $file ( @topic ) {
+    foreach $file (@topic) {
         $file =~ /^data\/(.*)\/(\w+).txt$/;
-        unless( checkin( $1, $2, undef )) {
+        unless ( checkin( $1, $2, undef ) ) {
             push( @bads, $file );
         }
     }
-    foreach $file ( @pub ) {
+    foreach $file (@pub) {
         $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
-        unless( checkin( $1, $2, $3 )) {
+        unless ( checkin( $1, $2, $3 ) ) {
             push( @bads, $file );
         }
     }
 
-    if( scalar( @bads )) {
+    if ( scalar(@bads) ) {
         print STDERR '
-WARNING: I cannot automatically update the local revision history for:',"\n\t";
+WARNING: I cannot automatically update the local revision history for:', "\n\t";
         print STDERR join( "\n\t", @bads );
         print STDERR <<DONE;
 
@@ -773,30 +841,35 @@ DONE
 # 5 Move files into the target tree
 # 6 Clean up
 sub _install {
-    my ($deps, $rootModule) = @_;
+    my ( $deps, $rootModule ) = @_;
     my $unsatisfied = 0;
-    foreach my $dep ( @$deps ) {
-        unless ( satisfy( $dep ) ) {
+    foreach my $dep (@$deps) {
+        unless ( satisfy($dep) ) {
             $unsatisfied++;
         }
     }
 
     my $path = $MODULE;
 
-    if ($path !~ /^(Foswiki|TWiki)::/) {
+    if ( $path !~ /^(Foswiki|TWiki)::/ ) {
         my $source = $1;
-        my $type = 'Contrib';
-        if ($path =~ /Plugin$/) {
+        my $type   = 'Contrib';
+        if ( $path =~ /Plugin$/ ) {
             $type = 'Plugins';
         }
-        $path = $source.'::'.$type.'::'.$rootModule;
+        $path = $source . '::' . $type . '::' . $rootModule;
     }
 
-    eval 'use '.$path;
+    eval 'use ' . $path;
     unless ($@) {
-        my $version = eval '$'.$path.'::VERSION';
-        if( $version ) {
-            unless( ask("$MODULE version $version is already installed. Are you sure you want to re-install this module?")) {
+        my $version = eval '$' . $path . '::VERSION';
+        if ($version) {
+            unless (
+                ask(
+"$MODULE version $version is already installed. Are you sure you want to re-install this module?"
+                )
+              )
+            {
                 return 0;
             }
             print <<DONE;
@@ -808,85 +881,149 @@ DONE
     print "Fetching the archive for $path.\n";
     my $archive = getArchive($MODULE);
 
-    unless( $archive ) {
+    unless ($archive) {
         print STDERR "Unable to locate suitable archive for install";
         return 0;
     }
     Foswiki::preinstall();
-    my $tmpdir = unpackArchive( $archive );
+    my $tmpdir = unpackArchive($archive);
     print "Archive unpacked\n";
     return 0 unless $tmpdir;
-    return 0 unless _emplace( $tmpdir );
+    return 0 unless _emplace($tmpdir);
 
     print "\n### $MODULE installed";
-    print ' with ',$unsatisfied.' unsatisfied dependencies' if ( $unsatisfied );
+    print ' with ', $unsatisfied . ' unsatisfied dependencies'
+      if ($unsatisfied);
     print " ###\n";
     Foswiki::postinstall();
 
     print "\n### Installation finished ###\n";
-    return ($unsatisfied ? 0 : 1);
+    return ( $unsatisfied ? 0 : 1 );
 }
 
 sub install {
     $PACKAGES_URL = shift;
-    $MODULE = shift;
+    $MODULE       = shift;
     my $rootModule = shift;
-    push(@_, '') if (scalar(@_) & 1);
+    push( @_, '' ) if ( scalar(@_) & 1 );
     my %data = @_;
 
-    foreach my $row (split(/\r?\n/, $data{MANIFEST})) {
-        my ($file, $perms, $desc) = split(',', $row, 3);
+    foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
+        my ( $file, $perms, $desc ) = split( ',', $row, 3 );
         $MANIFEST->{$file} = $perms;
     }
 
     my @deps;
-    foreach my $row (split(/\r?\n/, $data{DEPENDENCIES})) {
-        my ($module, $condition, $trigger, $type, $desc) = split(',', $row, 5);
-        push(@deps, {
-            name=>$module,
-            type=>$type,
-            version=>$condition, # version condition
-            trigger => $trigger, # ONLYIF condition
-            description=>$desc,
-        });
+    foreach my $row ( split( /\r?\n/, $data{DEPENDENCIES} ) ) {
+        my ( $module, $condition, $trigger, $type, $desc ) =
+          split( ',', $row, 5 );
+        $module =
+          Foswiki::Sandbox::untaint( $module, \&Foswiki::validatePerlModule );
+        if ( $trigger eq '1' ) {
+
+            # ONLYIF usually isn't used, and is dangerous
+            push(
+                @deps,
+                {
+                    name        => $module,
+                    type        => $type,
+                    version     => $condition,    # version condition
+                    trigger     => 1,             # ONLYIF condition
+                    description => $desc,
+                }
+            );
+        }
+        else {
+
+            # There is a ONLYIF condition, warn user
+            print
+'The script uses an ONLYIF condition which is potentially insecure: "'
+              . $trigger . "\n";
+            if ( $trigger =~ /^[a-zA-Z:\s<>0-9.()]*$/ ) {
+
+                # It looks more or less safe
+                push(
+                    @deps,
+                    {
+                        name        => $module,
+                        type        => $type,
+                        version     => $condition,    # version condition
+                        trigger     => $1,            # ONLYIF condition
+                        description => $desc,
+                    }
+                );
+            }
+            else {
+                print 'This ' . $trigger . ' condition does not look safe.';
+                if (running_from_configure) {
+                    print
+'Disabling this as we were invoked from configure. If you really want to install this module, do it from the command line.'
+                      . "\n";
+                }
+                else {
+                    my $reply = ask('Do you want to run it anyway?');
+                    if ($reply) {
+                        print 'OK...';
+                        push(
+                            @deps,
+                            {
+                                name    => $module,
+                                type    => $type,
+                                version => $condition,    # version condition
+                                trigger =>
+                                  Foswiki::Sandbox::untaintUnchecked($1)
+                                ,                         # ONLYIF condition
+                                description => $desc,
+                            }
+                        );
+                    }
+                }
+            }
+        }
     }
 
     unshift( @INC, 'lib' );
 
-    my $n = 0;
+    my $n      = 0;
     my $action = 'install';
-    while ( $n < scalar( @ARGV ) ) {
-        if( $ARGV[$n] eq '-a' ) {
+    while ( $n < scalar(@ARGV) ) {
+        if ( $ARGV[$n] eq '-a' ) {
             $noconfirm = 1;
-        } elsif( $ARGV[$n] eq '-d' ) {
+        }
+        elsif ( $ARGV[$n] eq '-d' ) {
             $downloadOK = 1;
-        } elsif( $ARGV[$n] eq '-r' ) {
+        }
+        elsif ( $ARGV[$n] eq '-r' ) {
             $reuseOK = 1;
-        } elsif( $ARGV[$n] eq '-n' ) {
+        }
+        elsif ( $ARGV[$n] eq '-n' ) {
             $inactive = 1;
-        } elsif( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
+        }
+        elsif ( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
             $action = $1;
-        } else {
-            usage( );
-            die 'Bad parameter '.$ARGV[$n];
+        }
+        else {
+            usage();
+            die 'Bad parameter ' . $ARGV[$n];
         }
         $n++;
     }
 
-    if ($action eq 'manifest') {
-        foreach my $row (split(/\r?\n/, $data{MANIFEST})) {
-            my ($file, $perms, $desc) = split(',', $row, 3);
+    if ( $action eq 'manifest' ) {
+        foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
+            my ( $file, $perms, $desc ) = split( ',', $row, 3 );
             print "$file $perms $desc\n";
         }
         exit 0;
     }
 
-    if ($action eq 'dependencies') {
+    if ( $action eq 'dependencies' ) {
         foreach my $dep (@deps) {
-            if ($dep->{trigger} && $dep->{trigger} != '1') {
+            if ( $dep->{trigger} && $dep->{trigger} != '1' ) {
                 print "ONLYIF $dep->{trigger}\n";
             }
-            print "$dep->{name},$dep->{version},$dep->{type},$dep->{description}\n";
+            print
+              "$dep->{name},$dep->{version},$dep->{type},$dep->{description}\n";
         }
         exit 0;
     }
@@ -896,7 +1033,7 @@ sub install {
 This installer must be run from the root directory of your TWiki
 installation.
 DONE
-    unless( $noconfirm ) {
+    unless ($noconfirm) {
         print <<DONE
     * The script will not do anything without asking you for
       confirmation first (unless you used -a).
@@ -908,9 +1045,10 @@ DONE
       the script again later
 DONE
 
-    if( $action eq 'install' ) {
-        _install(\@deps, $rootModule);
-    } elsif( $action eq 'uninstall' ) {
+    if ( $action eq 'install' ) {
+        _install( \@deps, $rootModule );
+    }
+    elsif ( $action eq 'uninstall' ) {
         _uninstall();
     }
 }
