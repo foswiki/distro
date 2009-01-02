@@ -72,7 +72,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
       * .patternMoved - topic moved info (only visible when the topic has changed name or web)
       * .patternWebIndicator - colored block at the top of the left bar to indicate the current web
       * .patternFormHolder - container around form to manage the size of form elements
-      * .patternLeftBarPersonal - block of personal links (included topic %<nop>MAINWEB%.%<nop>USERNAME%LeftBar)
+      * .patternLeftBarPersonal - block of personal links (included topic %<nop>USERSWEB%.%<nop>USERNAME%LeftBar)
       * .patternHomePath - breadcrumb at top
       * .patternHomePathTitle - "You are here" text
       * .patternRevInfo - revision info and author name

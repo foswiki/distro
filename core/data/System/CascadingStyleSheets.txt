@@ -28,7 +28,7 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiFormSteps=             | Container around a form that contains a number of separate 'steps'; each 'step' in a separate row  |
 |=.foswikiFormStep=              | Form step row |
 |=.foswikiLast=                  | Last step (always in combination with =foswikiFormStep=); sometimes used as last table row  |
-|=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.DefaultPreferences; custom set in %MAINWEB%.SitePreferences  |
+|=.foswikiBroadcastMessage=      | Site-wide message block; contents set in %SYSTEMWEB%.DefaultPreferences; custom set in %USERSWEB%.SitePreferences  |
 |=.foswikiNotification=          | Temporary alert, for instance after user actions; used as wrapper around =%<nop>FLASHNOTE%=  |
 |=.foswikiContentHeader=         | Optional container around text placed above topic text  |
 |=.foswikiContentFooter=         | Optional container around text placed below topic text  |

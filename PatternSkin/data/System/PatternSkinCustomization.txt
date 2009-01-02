@@ -284,7 +284,7 @@ Using either a template or a topic template, 'empty' =top:toolbarbuttons= and =t
 %<nop>TMPL:DEF{"topicaction"}%%TMPL:END%
 </pre></blockquote>
 
-In the user page of %MAINWEB%.WikiGuest, set the cover to
+In the user page of %USERSWEB%.WikiGuest, set the cover to
 <blockquote><pre>
    * <nop>Set COVER = customer
 </pre></blockquote>
