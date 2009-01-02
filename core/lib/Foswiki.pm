@@ -1417,7 +1417,6 @@ sub new {
 
     my $pathInfo = $query->path_info();
     $pathInfo =~ s|//+|/|g; # multiple //'s are illogical
-    $pathInfo =~ s#/+$##;
 
     # Get the web and topic names from PATH_INFO
     if ( $pathInfo =~ m#^/(.*)[./](.*?)$# ) {
