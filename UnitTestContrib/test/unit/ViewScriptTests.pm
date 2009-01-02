@@ -195,25 +195,25 @@ sub test_urlparsing {
     $this->urltest('/Sandbox///', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox/WebHome', 'Sandbox', 'WebHome');
     $this->urltest('/Sandbox//WebHome', 'Sandbox', 'WebHome');
-    $this->urltest('/Sandbox/WebHome/', 'Sandbox', 'WebHome');
-    $this->urltest('/Sandbox/WebHome//', 'Sandbox', 'WebHome');
+    $this->urltest('/Sandbox/WebHome/', 'Sandbox/WebHome', 'WebHome');
+    $this->urltest('/Sandbox/WebHome//', 'Sandbox/WebHome', 'WebHome');
 
     $this->urltest('/Sandbox/WebIndex', 'Sandbox', 'WebIndex');
     $this->urltest('/Sandbox//WebIndex', 'Sandbox', 'WebIndex');
     $this->urltest('/Sandbox///WebIndex', 'Sandbox', 'WebIndex');
-    $this->urltest('/Sandbox/WebIndex/', 'Sandbox', 'WebIndex');
-    $this->urltest('/Sandbox/WebIndex//', 'Sandbox', 'WebIndex');
-    $this->urltest('/Sandbox/WebIndex///', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex/', 'Sandbox/WebIndex', 'WebHome');
+    $this->urltest('/Sandbox/WebIndex//', 'Sandbox/WebIndex', 'WebHome');
+    $this->urltest('/Sandbox/WebIndex///', 'Sandbox/WebIndex', 'WebHome');
 
     $this->urltest('/Sandbox/WebIndex?asd=w', 'Sandbox', 'WebIndex');
     $this->urltest('/Sandbox//WebIndex?asd=qwe', 'Sandbox', 'WebIndex');
-    $this->urltest('/Sandbox/WebIndex/?asd=qwe', 'Sandbox', 'WebIndex');
-    $this->urltest('/Sandbox/WebIndex//?asd=ewr', 'Sandbox', 'WebIndex');
+    $this->urltest('/Sandbox/WebIndex/?asd=qwe', 'Sandbox/WebIndex', 'WebHome');
+    $this->urltest('/Sandbox/WebIndex//?asd=ewr', 'Sandbox/WebIndex', 'WebHome');
 
     $this->urltest('/Sandbox/WebIndex?topic=WebChanges', 'Sandbox', 'WebChanges');
     $this->urltest('/Sandbox//WebIndex?topic=WebChanges', 'Sandbox', 'WebChanges');
-    $this->urltest('/Sandbox/WebIndex/?topic=WebChanges', 'Sandbox', 'WebChanges');
-    $this->urltest('/Sandbox/WebIndex//?topic=WebChanges', 'Sandbox', 'WebChanges');
+    $this->urltest('/Sandbox/WebIndex/?topic=WebChanges', 'Sandbox/WebIndex', 'WebChanges');
+    $this->urltest('/Sandbox/WebIndex//?topic=WebChanges', 'Sandbox/WebIndex', 'WebChanges');
 
     $this->urltest('/Sandbox?topic=WebChanges', 'Sandbox', 'WebChanges');
     $this->urltest('/Sandbox/?topic=WebChanges', 'Sandbox', 'WebChanges');
@@ -238,25 +238,25 @@ sub test_urlparsing {
 #    $this->urltest('/'.$this->{test_subweb}.'///', $this->{test_subweb}, 'WebHome');
     $this->urltest('/'.$this->{test_subweb}.'/WebHome', $this->{test_subweb}, 'WebHome');
     $this->urltest('/'.$this->{test_subweb}.'//WebHome', $this->{test_subweb}, 'WebHome');
-    $this->urltest('/'.$this->{test_subweb}.'/WebHome/', $this->{test_subweb}, 'WebHome');
-    $this->urltest('/'.$this->{test_subweb}.'/WebHome//', $this->{test_subweb}, 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebHome/', $this->{test_subweb}.'/WebHome', 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebHome//', $this->{test_subweb}.'/WebHome', 'WebHome');
 
     $this->urltest('/'.$this->{test_subweb}.'/WebIndex', $this->{test_subweb}, 'WebIndex');
     $this->urltest('/'.$this->{test_subweb}.'//WebIndex', $this->{test_subweb}, 'WebIndex');
     $this->urltest('/'.$this->{test_subweb}.'///WebIndex', $this->{test_subweb}, 'WebIndex');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/', $this->{test_subweb}, 'WebIndex');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//', $this->{test_subweb}, 'WebIndex');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex///', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/', $this->{test_subweb}.'/WebIndex', 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//', $this->{test_subweb}.'/WebIndex', 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex///', $this->{test_subweb}.'/WebIndex', 'WebHome');
 
     $this->urltest('/'.$this->{test_subweb}.'/WebIndex?asd=w', $this->{test_subweb}, 'WebIndex');
     $this->urltest('/'.$this->{test_subweb}.'//WebIndex?asd=qwe', $this->{test_subweb}, 'WebIndex');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?asd=qwe', $this->{test_subweb}, 'WebIndex');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?asd=ewr', $this->{test_subweb}, 'WebIndex');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?asd=qwe', $this->{test_subweb}.'/WebIndex', 'WebHome');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?asd=ewr', $this->{test_subweb}.'/WebIndex', 'WebHome');
 
     $this->urltest('/'.$this->{test_subweb}.'/WebIndex?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
     $this->urltest('/'.$this->{test_subweb}.'//WebIndex?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
-    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex/?topic=WebChanges', $this->{test_subweb}.'/WebIndex', 'WebChanges');
+    $this->urltest('/'.$this->{test_subweb}.'/WebIndex//?topic=WebChanges', $this->{test_subweb}.'/WebIndex', 'WebChanges');
 
 #    $this->urltest('/'.$this->{test_subweb}.'?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
 #    $this->urltest('/'.$this->{test_subweb}.'/?topic=WebChanges', $this->{test_subweb}, 'WebChanges');
@@ -291,16 +291,16 @@ sub test_urlparsing {
 #nonexistant webs
 #noneexistant topics (Item598)
     $this->urltest('/Sandbox/ThisTopicShouldNotExist', 'Sandbox', 'ThisTopicShouldNotExist');
-    $this->urltest('/Sandbox/ThisTopicShouldNotExist/', 'Sandbox', 'ThisTopicShouldNotExist');
+    $this->urltest('/Sandbox/ThisTopicShouldNotExist/', 'Sandbox/ThisTopicShouldNotExist', 'WebHome');
 
     $this->urltest('/'.$this->{test_subweb}.'/ThisTopicShouldNotExist', $this->{test_subweb}, 'ThisTopicShouldNotExist');
-    $this->urltest('/'.$this->{test_subweb}.'/ThisTopicShouldNotExist/', $this->{test_subweb}, 'ThisTopicShouldNotExist');
+    $this->urltest('/'.$this->{test_subweb}.'/ThisTopicShouldNotExist/', $this->{test_subweb}.'/ThisTopicShouldNotExist', 'WebHome');
 #both topic and subweb of same name exists (Item598)
 #$this->{test_web}/ThisTopic is both a web and a topic
     $this->urltest('/'.$this->{test_web}.'/ThisTopic', $this->{test_web}, 'ThisTopic');	#the only way yo get to the topic
     $this->urltest('/'.$this->{test_web}.'/ThisTopic/', $this->{test_web}.'/ThisTopic', 'WebHome');
     $this->urltest('/'.$this->{test_web}.'/ThisTopic/WebHome', $this->{test_web}.'/ThisTopic', 'WebHome');
-    $this->urltest('/'.$this->{test_web}.'/ThisTopic/WebHome/', $this->{test_web}.'/ThisTopic', 'WebHome');
+    $this->urltest('/'.$this->{test_web}.'/ThisTopic/WebHome/', $this->{test_web}.'/ThisTopic/WebHome', 'WebHome');
 
 
 #invalid..
