@@ -39,7 +39,7 @@ sub query {
 
 sub _ip_matches {
     return ( $_[0]->{_DATA}->{_SESSION_REMOTE_ADDR} eq
-          $_[0]->{_QUERY}->remoteAddress );
+          $_[0]->query->remoteAddress );
 }
 
 1;
