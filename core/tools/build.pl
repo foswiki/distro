@@ -251,7 +251,7 @@ sub stage_gendocs {
     print "Building automatic documentation to $this->{tmpDir}...";
     print `perl $this->{basedir}/tools/gendocs.pl -debug -root $this->{tmpDir}`;
     $this->cp( "$this->{tmpDir}/AUTHORS",
-               "$this->{tmpDir}/pub/Foswiki/ProjectContributor/AUTHORS" );
+               "$this->{tmpDir}/pub/System/ProjectContributor/AUTHORS" );
 
     for my $script qw( view rdiff ) {
         $this->cp( "$this->{tmpDir}/bin/$script",
