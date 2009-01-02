@@ -106,7 +106,9 @@ The main steps are:
       * PatternSkinCustomization
       * PatternSkinCssCookbook
    * From Foswiki 1.0.0 the =WebLeftBar= topic is no longer shipped with the distribution. Foswiki 1.0.0 !PatternSkin will use the topic =WebLeftBarExample= if there is no =WebLeftBar= topic in the current web. To make your own =WebLeftBar= simply make it a copy of =WebLeftBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebLeftBar= topic is not being overwritten by the upgrade.
-   
+   * From Foswiki 1.0.0 the =%SYSTEMWEB%.WebTopBar= topic is no longer shipped with the distribution. Foswiki 1.0.0 !PatternSkin will use the topic =%SYSTEMWEB%.WebTopBarExample= if there is no =%SYSTEMWEB%.WebTopBar= topic. To make your own  =%SYSTEMWEB%.WebTopBar= simply make it a copy of =%SYSTEMWEB%.WebTopBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebTopBar= topic is not being overwritten by the upgrade.
+   * From Foswiki 1.0.0 the bottom bar is also defined by a topic which is called =%SYSTEMWEB%.WebBottomBar=. As with the top bar there is no =%SYSTEMWEB%.WebBottomBar= in the distribution. The =%SYSTEMWEB%.WebBottomBarExample= is used if there is no =%SYSTEMWEB%.WebBottomBar=. To make your own  =%SYSTEMWEB%.WebBottomBar= simply make it a copy of =%SYSTEMWEB%.WebBottomBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebBottomBar= topic is not being overwritten by the upgrade. As with =WebTopBar= =WebBottomBar= is common for all webs.
+    
 ---+++ Apply Preferences From Old Installation
 
    * Transfer any customized and local settings from [[%SYSTEMWEB%.DefaultPreferences]] to the topic pointed at by {LocalSitePreferences} ([[%LOCALSITEPREFS%]]). Per default this is =%USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.

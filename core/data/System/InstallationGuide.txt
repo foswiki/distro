@@ -197,6 +197,18 @@ You change the copy right statement globally by taking these steps.
    * You can create a unique message for each web by adding the WEBCOPYRIGHT setting to =WebPreferences= in each web. E.g. adding a confident!ial classification to a very restricted web.
    * The WEBCOPYRIGHT in =%SYSTEMWEB%.WebPreferences= covers the documentation that comes with Foswiki and is covered by the original Foswiki Copyright and GPL License. You will normally leave this unchanged.
 
+
+---++ Left, Top and Bottom Bars in Default skin
+
+Foswiki ships with a default skin called !PatternSkin. The =%SYSTEMWEB%.PatternSkin= topic contains much information about how to customize the skin.
+
+Most will wants to customise the left, top, and bottom bars.
+
+   * Topic =%SYSTEMWEB%.WebTopBar= defines the content of the top bar. If this topic does not exist the topic =%SYSTEMWEB%.WebTopBarExample= will define the top bar. Foswiki does not ship with a =WebTopBar= topic so by creating this topic as a copy of =WebTopBarExample= and customizing the copy, you will not later risk that upgrading Foswiki will overwrite your top bar. The top bar is common for all webs.
+   * Topic =%SYSTEMWEB%.WebBottomBar= defines the content of the bottom bar. If this topic does not exist the topic =%SYSTEMWEB%.WebBottomBarExample= will define the bottom bar. Foswiki does not ship with a =WebBottomBar= topic so by creating this topic as a copy of =WebBottomBarExample= and customizing the copy, you will not later risk that upgrading Foswiki will overwrite your bottom bar. The bottom bar is common for all webs.
+   * Topic =WebLeftBar= defines the content of the left bar. Each web has its own =WebLeftBar=. If this topic does not exist the topic =WebLeftBarExample= will define the left bar. Foswiki does not ship with =WebLeftBar= topics so by creating this topic as a copy of =WebLeftBarExample= and customizing the copy, you will not later risk that upgrading Foswiki will overwrite your left bars. You can choose to display the =WebLeftBar= on the right side of the screen. See the themes in the =%SYSTEMWEB%.PatternSkin topic.
+
+
 ---++ Troubleshooting
 
 The first step is to re-run the =configure= script and make sure you have resolved all errors, and are satisfied that you understand any warnings.

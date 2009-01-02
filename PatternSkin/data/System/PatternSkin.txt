@@ -82,6 +82,15 @@ If you want to make more changes than the themes on this page allow, you have th
 ---++++ Changing graphics
 The original Photoshop files of the skin graphics (mainly background images) are attached to PatternSkinGraphics.
 
+---++++ Top, Bottom and Left Bar customization
+
+Most will customise top, bottom, and left bars.
+
+   * Topic =%SYSTEMWEB%.WebTopBar= defines the content of the top bar. If this topic does not exist the topic =%SYSTEMWEB%.WebTopBarExample= will define the top bar. Foswiki does not ship with a =WebTopBar= topic so by creating this topic as a copy of =WebTopBarExample= and customizing the copy, you will not later risk that upgrading Foswiki will overwrite your top bar. The top bar is common for all webs.
+   * Topic =%SYSTEMWEB%.WebBottomBar= defines the content of the bottom bar. If this topic does not exist the topic =%SYSTEMWEB%.WebBottomBarExample= will define the bottom bar. Foswiki does not ship with a =WebBottomBar= topic so by creating this topic as a copy of =WebBottomBarExample= and customizing the copy, you will not later risk that upgrading Foswiki will overwrite your bottom bar. The bottom bar is common for all webs.
+   * Topic =WebLeftBar= defines the content of the left bar. Each web has its own =WebLeftBar=. If this topic does not exist the topic =WebLeftBarExample= will define the left bar. Foswiki does not ship with =WebLeftBar= topics so by creating these topics as copies of =WebLeftBarExample= and customizing the copies, you will not later risk that upgrading Foswiki will overwrite your left bars. You can choose to display the =WebLeftBar= on the right side of the screen.
+
+See these topics for more information: %SYSTEMWEB%.WebLeftBarCookbook, %SYSTEMWEB%.WebLeftBarExample, %SYSTEMWEB%.WebLeftBarLogin, %SYSTEMWEB%.WebLeftBarPersonalTemplate, %SYSTEMWEB%.WebLeftBarSearch, %SYSTEMWEB%.WebLeftBarWebsList, %SYSTEMWEB%.WebTopBarExample, and %SYSTEMWEB%.WebBottomBarExample.
 
 ---+++ Installation
 
@@ -129,15 +138,17 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
    * %SYSTEMWEB%.PatternSkinCssCookbookNoTopBar
    * %SYSTEMWEB%.PatternSkinCustomization
    * %SYSTEMWEB%.PatternSkinGraphics
-   * %SYSTEMWEB%.WebBottomBar
-   * %SYSTEMWEB%.WebLeftBar
+   * %SYSTEMWEB%.WebBottomBar (not distributed with Foswiki)
+   * %SYSTEMWEB%.WebBottomBarExample
+   * %SYSTEMWEB%.WebLeftBar (not distributed with Foswiki)
    * %SYSTEMWEB%.WebLeftBarCookbook
    * %SYSTEMWEB%.WebLeftBarExample
    * %SYSTEMWEB%.WebLeftBarLogin
    * %SYSTEMWEB%.WebLeftBarPersonalTemplate
    * %SYSTEMWEB%.WebLeftBarSearch
    * %SYSTEMWEB%.WebLeftBarWebsList
-   * %SYSTEMWEB%.WebTopBar
+   * %SYSTEMWEB%.WebTopBar (not distributed with Foswiki)
+   * %SYSTEMWEB%.WebTopBarExample
 
 </div>
 
