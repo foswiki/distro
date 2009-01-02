@@ -135,6 +135,9 @@ sub viewfile {
 
 sub test_simpleUrl {
     my $this = shift;
+    
+# Note 1: If we decide that trailing / after a topic name and no subweb exists with this name = go for topic name instead
+# then we can re-activate these tests marked with Note1. See Foswikitask:Item598
 
 #simple topic, direct path
     $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/one.txt"));
@@ -150,9 +153,9 @@ sub test_simpleUrl {
     $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1?filename=two.txt"));
     $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1?filename=inc/file.txt"));
 
-    $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=one.txt"));
-    $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=two.txt"));
-    $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=inc/file.txt"));
+#Note1 $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=one.txt"));
+#Note1 $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=two.txt"));
+#Note1 $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1/?filename=inc/file.txt"));
 
     $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1?filename=/one.txt"));
     $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_web}/TestTopic1?filename=/two.txt"));
@@ -171,9 +174,9 @@ sub test_simpleUrl {
     $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1?filename=two.txt"));
     $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1?filename=inc/file.txt"));
 
-    $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1/?filename=one.txt"));
-    $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1/?filename=two.txt"));
-    $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1/?filename=inc/file.txt"));
+#Note1 $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1/?filename=one.txt"));
+#Note1 $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1/?filename=two.txt"));
+#Note1 $this->assert_equals("Test attachment inc/file.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1/?filename=inc/file.txt"));
 
     $this->assert_equals("Test attachment one.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1?filename=/one.txt"));
     $this->assert_equals("Test attachment two.txt\n", $this->viewfile("/$this->{test_subweb}/TestTopic1?filename=/two.txt"));
@@ -202,12 +205,12 @@ sub test_simpleUrl {
     $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
                             $this->viewfile("/$this->{test_web}/SecureTopic?filename=inc/file.txt"));
 
-    $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
-                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=one.txt"));
-    $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
-                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=two.txt"));
-    $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
-                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=inc/file.txt"));
+#Note1 $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
+#                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=one.txt"));
+#Note1 $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
+#                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=two.txt"));
+#Note1 $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
+#                            $this->viewfile("/$this->{test_web}/SecureTopic/?filename=inc/file.txt"));
 
     $this->assert_equals('AccessControlException: Access to VIEW TemporaryViewFileScriptTestWebViewFileScript.SecureTopic for scum is denied. access not allowed on topic',
                             $this->viewfile("/$this->{test_web}/SecureTopic?filename=/one.txt"));
@@ -239,12 +242,12 @@ sub test_simpleUrl {
     $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
                             $this->viewfile("/$this->{test_subweb}/SecureTopic?filename=inc/file.txt"));
 
-    $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
-                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=one.txt"));
-    $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
-                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=two.txt"));
-    $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
-                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=inc/file.txt"));
+#Note1 $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
+#                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=one.txt"));
+#Note1 $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
+#                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=two.txt"));
+#Note1 $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
+#                            $this->viewfile("/$this->{test_subweb}/SecureTopic/?filename=inc/file.txt"));
 
     $this->assert_equals('AccessControlException: Access to VIEW '.$this->{test_subweb}.'.SecureTopic for scum is denied. access not allowed on topic',
                             $this->viewfile("/$this->{test_subweb}/SecureTopic?filename=/one.txt"));
