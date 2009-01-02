@@ -138,6 +138,9 @@ sub formatGmTime { Foswiki::Func::formatGmTime(@_) }
 sub getDataDir { Foswiki::Func::getDataDir(@_) }
 sub getPubDir { Foswiki::Func::getPubDir(@_) }
 sub checkDependencies { Foswiki::Func::checkDependencies(@_) }
+# For extender.pl
+sub TWiki::Extender::install { Foswiki::Extender::install(@_) }
+
 
 1;
 

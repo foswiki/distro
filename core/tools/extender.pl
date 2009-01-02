@@ -225,7 +225,7 @@ END
 #    2. If the dependency has specified a version constraint, then
 #       the module must have a top-level variable VERSION which satisfies
 #       the constraint.
-#       Note that all TWiki modules are perl modules - even non-perl
+#       Note that all Foswiki modules are perl modules - even non-perl
 #       distributions have a perl 'stub' module that carries the version info.
 # 2. If the module is _not_ perl, then we can't check it.
 sub satisfy {
@@ -715,13 +715,13 @@ sub _uninstall {
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
-        Foswiki::preuninstall();
+        defined &Foswiki::preuninstall ? &Foswiki::preuninstall : &TWiki::preuninstall;
         foreach $file ( keys %$MANIFEST ) {
             if ( -e $file ) {
                 unlink($file);
             }
         }
-        Foswiki::postuninstall();
+        defined &Foswiki::preinstall ? &Foswiki::preinstall : &TWiki::preinstall;
         print "### $MODULE uninstalled ###\n";
     }
     return 1;
@@ -806,7 +806,7 @@ Usage: ${MODULE}_installer -a -n -d -r install
        ${MODULE}_installer dependencies
 
 Operates on the directory tree below where it is run from,
-so should be run from the top level of your TWiki installation.
+so should be run from the top level of your Foswiki installation.
 
 install will check dependencies and perform any required
 post-install steps.
@@ -884,7 +884,7 @@ DONE
         print STDERR "Unable to locate suitable archive for install";
         return 0;
     }
-    Foswiki::preinstall();
+    defined &Foswiki::preinstall ? &Foswiki::preinstall : &TWiki::preinstall;
     my $tmpdir = unpackArchive($archive);
     print "Archive unpacked\n";
     return 0 unless $tmpdir;
@@ -894,7 +894,7 @@ DONE
     print ' with ', $unsatisfied . ' unsatisfied dependencies'
       if ($unsatisfied);
     print " ###\n";
-    Foswiki::postinstall();
+    defined &Foswiki::postinstall ? &Foswiki::postinstall : &TWiki::postinstall;
 
     print "\n### Installation finished ###\n";
     return ( $unsatisfied ? 0 : 1 );
@@ -1029,7 +1029,7 @@ sub install {
 
     print "\n### ${MODULE} Installer ###\n\n";
     print <<DONE;
-This installer must be run from the root directory of your TWiki
+This installer must be run from the root directory of your Foswiki
 installation.
 DONE
     unless ($noconfirm) {
