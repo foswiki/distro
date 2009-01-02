@@ -979,7 +979,7 @@ sub renderFORMFIELD {
         };
     }
 
-    my $text  = $format;
+    my $text  = Foswiki::expandStandardEscapes( $format );
     my $found = 0;
     my $title = '';
     if ($meta) {
@@ -1009,9 +1009,7 @@ sub renderFORMFIELD {
         }
     }
 
-    if ($found) {
-        $text = Foswiki::expandStandardEscapes( $text );
-    } else {
+    unless ($found) {
         $text = $altText || '';
     }
 
