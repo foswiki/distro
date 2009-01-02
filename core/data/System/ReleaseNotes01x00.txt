@@ -5,14 +5,16 @@
 
 ---++ Introduction
 
-Foswiki Release 1.0.0 - Beta 2.
+Foswiki Release 1.0.0 - Beta 3.
 
 -----
 <!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
 
 *Note this is the second beta release of Foswiki 1.0.0. It is not recommended for production use*
 
-Beta 1 had a couple of severe bugs and one security issue (A newly registered user had his password copied to his home page). Therefore this beta 2 so shortly after. 
+Beta 1 had a couple of severe bugs and one security issue (A newly registered user had his password copied to his home page). Therefore this beta 2 so shortly after.
+
+Beta 2 was subject to a lot of testing in Windows environment. Beta 3 is therefore a good step for Windows users.
 
 The purpose of this beta is
 
@@ -20,10 +22,8 @@ The purpose of this beta is
    * Give developers a chance to see a real installation built and installed
    * Give extension developers a platform to develop the Foswiki versions of extensions
    * Give our users a chance to practice the upgrade from TWiki to Foswiki before the real release
-   
-There may be a beta 2 just before New Year 2008/2009 if needed.
 
-The release of Foswiki 1.0.0 is planned for 03 Jan 2009 but can be delayed by a week as we will not release with known urgent bugs.
+The release of Foswiki 1.0.0 is planned for 03 Jan 2009 but likely to happen around the 9th as the beta testing revealed many issues on Windows.
 
 The quality of 1.0.0 is depending on *you* downloading and installing this beta and report back problems to the development team.
 
@@ -239,7 +239,6 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item486][Item486]] | Beginners start here has obsolete content |
 | [[%BUGS%/Item4906][Item4906]] | Filename of attachments containing a wikiword inside ( ) messes up the file attachment table and other UI |
 | [[%BUGS%/Item491][Item491]] | UserListByPhotograph moved to Image Gallery plugin |
-| [[%BUGS%/Item498][Item498]] | Update System.DownloadSources to point to correct location http://foswiki.org/Home/Download |
 | [[%BUGS%/Item5006][Item5006]] | Interwiki rule: change Bugs: to Foswikitask:, and Rev: to Foswikirev: |
 | [[%BUGS%/Item509][Item509]] | Remove un-needed pub/WebPreferences/logo.gif files which are not used and still TWiki logos |
 | [[%BUGS%/Item510][Item510]] | Wysiwyg editor takes the background colour for the html body for the editor instead of applying a white background. |
@@ -262,7 +261,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item5922][Item5922]] | $formfield data not being displayed in formatted searches |
 | [[%BUGS%/Item5926][Item5926]] | Topics with Chinese in UTF8 destroys page view in Internet Explorer |
 | [[%BUGS%/Item5937][Item5937]] | move initialization of SwitchBoard to TWiki.spec |
-| [[%BUGS%/Item5939][Item5939]] | Rogue <p /&gt; below </html&gt; on every topic in every web |
+| [[%BUGS%/Item5939][Item5939]] | Rogue <p /> below </html> on every topic in every web |
 | [[%BUGS%/Item5943][Item5943]] | TWikiRegistrationAgent should be in the admin group |
 | [[%BUGS%/Item5944][Item5944]] | The padding:1px for textareas makes it hard to place the cursor at the begining of a line |
 | [[%BUGS%/Item5957][Item5957]] | htdigest format password file gets stomped on password or email change/reset |
@@ -276,7 +275,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item6005][Item6005]] | EditTable Changes "label"-formatted cell in unexpected way |
 | [[%BUGS%/Item6006][Item6006]] | redirectCgiQuery doesn't handle fragments properly & needs minor tweak |
 | [[%BUGS%/Item6014][Item6014]] | Integration of !SortedHeadPlugin into core (Process Add To Head Adds) |
-| [[%BUGS%/Item6022][Item6022]] | %ENCODE{} treats % as safe character |
+| [[%BUGS%/Item6022][Item6022]] | ENCODE{} treats % as safe character |
 | [[%BUGS%/Item6026][Item6026]] | With header format emtpy table is initialized with one column only |
 | [[%BUGS%/Item6031][Item6031]] | TablePlugin date sorting is broken. |
 | [[%BUGS%/Item6039][Item6039]] | Preview does not respect VIEW_TEMPLATE |
@@ -293,6 +292,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item6089][Item6089]] | backslash at end of line inside verbatim and pre being used as line continuation |
 | [[%BUGS%/Item6095][Item6095]] | Registration confirmation page fails to display when user confirmation e-mail can't be sent |
 | [[%BUGS%/Item6108][Item6108]] | add docco for customising the registration emails. |
+| [[%BUGS%/Item629][Item629]] | Unable to access root docs on some installations of Apache. |
 | [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
 | [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
 </noautolink>
