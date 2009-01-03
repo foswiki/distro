@@ -948,7 +948,7 @@ msgstr "Créer la page de test <nop>TestTopic###"
 #: ../PatternSkin/data/_default/WebLeftBar.txt:4
 #: ../TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
 msgid "Create New Topic"
-msgstr "Créer une nouvelle page"
+msgstr "Créer nouvelle page"
 
 #: ../PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:43
 #: ../core/data/System/WebCreateNewTopicTemplate.txt:6
