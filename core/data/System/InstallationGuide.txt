@@ -186,7 +186,7 @@ At the official Foswiki website you can find more resources. A good place to sta
 
 ---++ Customization of Special Pages
 
-Some pages are meant to be customized after choice of authentication. If you do not use the internal Foswiki password manager the topics that contains the features for changing and resetting passwords and changing the email address should be changed to a note describing how to perform these tasks in your organization. The topics are:
+Some pages are meant to be customized after choice of authentication. If you do not use the internal Foswiki password manager, the topics that contains the features for changing and resetting passwords and changing the email address should be changed to a note describing how to perform these tasks in your organization. The topics are:
 
    * =%SYSTEMWEB%.ChangePassword=
    * =%SYSTEMWEB%.ResetPassword=
@@ -194,21 +194,21 @@ Some pages are meant to be customized after choice of authentication. If you do 
    
 ---++ WYSIWYG vs Raw Edit
 
-From TWiki release 4.2.0 and continuing with Foswiki 1.0.0 it was decided that WYSIWYG would be the default edit mode. An Edit Raw link is available for those that have a need or preference for this mode.
+From TWiki release 4.2.0 and continuing with Foswiki 1.0.0, it was decided that WYSIWYG would be the default edit mode. An Edit Raw link is available for those that have a need or preference for this mode.
 
-However you may prefer to have the same user interface as in TWiki 4.1 where _Edit_ was the raw text editor and you had a WYSIWYG button. You can modify the templates that define the buttons by following the description on Foswiki:Support.FaqHowToMakeRawEditDefault.
+However, you may prefer to have the same user interface as in TWiki 4.1 where _Edit_ was the raw text editor and you had a WYSIWYG button. You can modify the templates that define the buttons by following the description on Foswiki:Support.FaqHowToMakeRawEditDefault.
    
 ---++ Copyright, License and Classification Statements
 
 In the bottom of each topic you will find a default copyright messages saying "Copyright &&copy; by the contributing authors. All material on this collaboration platform is the property of the contributing authors." It is a setting WEBCOPYRIGHT that defines this. This is often not adequate.
 
-   * If your Foswiki is used in a commercial application without public access you should replace this by your normal copyright notice. You should also consider adding classifications (e.g. For Internal Use Only) so people do not have to add this manually to every new topic.
-   * If your Foswiki is public with public access you need to decide which copyright and license the contributions should be covered by. For open source type applications licenses such as <a href="http://www.gnu.org/licenses/fdl.html">the GNU Free Documentation License</a>, <a href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>, and <a href="http://creativecommons.org/licenses/">Creative Commons license</a> are possible licenses to consider. Remember that once people have started contributing it is difficult and not correct to change or impose licenses on existing contributions.
+   * If your Foswiki is used in a commercial application without public access you should replace this by your normal copyright notice. You should also consider adding classifications (e.g., For Internal Use Only) so people do not have to add this manually to every new topic.
+   * If your Foswiki is public with public access you need to decide which copyright and license the contributions should be covered by. For open source type applications, licenses such as <a href="http://www.gnu.org/licenses/fdl.html">the GNU Free Documentation License</a>, <a href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>, and <a href="http://creativecommons.org/licenses/">Creative Commons license</a> are possible licenses to consider. Remember that once people have started contributing, it is difficult and not correct to change or impose licenses on existing contributions.
 
-You change the copy right statement globally by taking these steps.
+You change the copyright statement globally by taking these steps.
 
    * Copy the setting WEBCOPYRIGHT from =System.DefaultPreferences= to =%USERSWEB%.SitePreferences= and alter the copied text to your need.
-   * You can create a unique message for each web by adding the WEBCOPYRIGHT setting to =WebPreferences= in each web. E.g. adding a confident!ial classification to a very restricted web.
+   * You can create a unique message for each web by adding the WEBCOPYRIGHT setting to =WebPreferences= in each web. E.g., adding a confidential classification to a very restricted web.
    * The WEBCOPYRIGHT in =%SYSTEMWEB%.WebPreferences= covers the documentation that comes with Foswiki and is covered by the original Foswiki Copyright and GPL License. You will normally leave this unchanged.
 
 
@@ -227,7 +227,7 @@ Most will wants to customise the left, top, and bottom bars.
 
 The first step is to re-run the =configure= script and make sure you have resolved all errors, and are satisfied that you understand any warnings.
 
-Failing that consult the resources you can find in Foswiki:Support.SupplementalDocuments and Foswiki:Support.AskedQuestions.
+Failing that, consult the resources you can find in Foswiki:Support.SupplementalDocuments and Foswiki:Support.AskedQuestions.
 
 If you need help, ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki)
 
@@ -311,7 +311,7 @@ perl -e 'use FileHandle; print $FileHandle::VERSION."\n"'
 The Foswiki standard installation has relatively low browser requirements:
 
    * HTML 3.2 compliant
-   * Cookies, if persistent sessions are required
+   * Cookie support, if persistent sessions are required
 
 CSS and Javascript are used in most skins, although there is a low-fat skin (Classic skin) available that minimises these requirements. Some skins will require more recent releases of browsers. The default skin (Pattern) is tested on IE 6, Safari, and Mozilla 5.0 based browsers (such as Firefox).
 
