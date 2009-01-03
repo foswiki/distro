@@ -153,7 +153,7 @@ When a new users registers on your Foswiki, a home topic is created for them bas
    * Add a default ALLOWTOPICCHANGE so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public Foswiki to prevent spam.
    * Add and remove fields defined in the =%SYSTEMWEB%.UserForm=
 
-If you choose to tailor anything you are strongly advised to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. Foswiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the Foswiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade Foswiki.
+If you choose to tailor anything, you are strongly advised to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. Foswiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the Foswiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade Foswiki.
 
 If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.UserRegistration=.
 
