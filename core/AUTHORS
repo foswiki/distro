@@ -1,6 +1,6 @@
 Foswiki is a development of the Foswiki community.
 
-Foswiki is based on TWiki (TM), which was written by Peter Thoeny, who
+Foswiki is based on TWiki<sup>&reg;</sup>, which was written by Peter Thoeny, who
 based his work on Jos Wiki and parts of Ward Cunningham's original Wiki.
 Over the years TWiki has been maintained, extended and rewritten
 by TWiki contributors, whos names are included below. TWiki is a trademark
@@ -19,6 +19,7 @@ The following people are identified as authors of Foswiki:
 | *Name*               | *Contact*                      | *Country*   |
 | Crawford Currie      | http://c-dot.co.uk             | UK          |
 | Gilmar Santos Jr     | Foswiki:Main.GilmarSantosJr    | Brazil      |
+| Isaac Lin            | Foswiki:Main.IsaacLin          | Canada      |
 | Kenneth Lavrsen      | http://www.lavrsen.dk          | Denmark     |
 | Sebastien Klus       |                                |             |
 | Sven Dowideit        | Foswiki:Main.SvenDowideit      | Australia   |
