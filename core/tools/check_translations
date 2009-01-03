@@ -72,7 +72,7 @@ if ($ARGV[0] eq '--help') {
 
 
 my $text = '';
-$text .= "| *Language* | *Translated* | *Fuzzy* | *Unstranslated* | *% translated* ||\n" unless $raw;
+$text .= "| *Language* | *Translated* | *Fuzzy* | *Untranslated* | *% translated* ||\n" unless $raw;
 
 for my $file (<locale/*.po>) {
   print "I: Checking $file ...\n" unless $raw;
