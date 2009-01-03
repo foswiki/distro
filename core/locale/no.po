@@ -170,11 +170,11 @@ msgstr "%1 forsøkte å registrere med epost %2"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "&Cancel"
-msgstr "&Avbryt"
+msgstr "&Avbryt (&c)"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
 msgid "&Edit text"
-msgstr "&Rediger tekst"
+msgstr "R&ediger tekst"
 
 #: core/templates/foswiki.tmpl:101
 msgid "&History"
@@ -3637,11 +3637,11 @@ msgstr "søker lenker i _alle offentlige web_"
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
-"title='Vedlegg et bilde eller dokument til denne siden' accesskey='a'>&Attach"
+"title='Vedlegg et bilde eller dokument til denne siden' accesskey='a'>Legg ved (&a)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:4
 msgid "title='Create new topic' accesskey='c'>&Create"
-msgstr "title='Lag ny side' accesskey='c'>&Create"
+msgstr "title='Lag ny side' accesskey='c'>Lag (&c)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:17
 msgid ""
@@ -3649,24 +3649,24 @@ msgid ""
 "revisions' accesskey='m'>&More topic actions"
 msgstr ""
 "title='Slett eller navngi denne siden; set foreldreside;vis og sammenlign "
-"versjoner' accesskey='m'>&More topic actions"
+"versjoner' accesskey='m'>Flere valg (&m)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Rediger denne side teksten' accesskey='e'>&Edit"
+msgstr "title='Rediger denne side teksten' accesskey='e'>R&ediger)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr "title='Utskriftsvennlig versjon av siden' accesskey='p'>&Print version"
+msgstr "title='Utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig versjon (&p)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
-msgstr "title='Rå redigering av denne siden' accesskey='w'>Ra&w edit"
+msgstr "title='Rå redigering av denne siden' accesskey='w'>Rå edit (&w)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
 "title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
-msgstr "title='Søk alle web for sider som linker hit' accesskey='l'>A&ll Webs"
+msgstr "title='Søk alle web for sider som linker hit' accesskey='l'>A&lle Webs"
 
 #: core/templates/viewtopicactionbuttons.tmpl:30
 msgid ""
@@ -3682,16 +3682,16 @@ msgstr "title='Søk i %1 web'en for sider som linker hit' accesskey='b'>We&b"
 
 #: core/templates/viewtopicactionbuttons.tmpl:38
 msgid "title='View raw text without formatting' accesskey='r'>&Raw View"
-msgstr "title='Vis rå tekst uten formatering' accesskey='r'>&Raw View"
+msgstr "title='Vis rå tekst uten formatering' accesskey='r'>&Rå Tekst"
 
 #: core/templates/viewtopicactionbuttons.tmpl:11
 msgid "title='View topic' accesskey='v'>&View topic"
-msgstr "title='Vis side' accesskey='v'>&View topic"
+msgstr "title='Vis side' accesskey='v'>&Vis side"
 
 #: core/templates/viewtopicactionbuttons.tmpl:33
 #: core/templates/viewtopicactionbuttons.tmpl:35
 msgid "title='View total topic history' accesskey='h'>&History"
-msgstr "title='Vis total sidehistorikk' accesskey='h'>&History"
+msgstr "title='Vis total sidehistorikk' accesskey='h'>&Historikk"
 
 #: core/lib/Foswiki.pm:4269
 msgid "user list truncated"
