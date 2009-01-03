@@ -92,40 +92,6 @@ code to make Foswiki work on older versions of Perl
 HERE
     }
 
-    {
-
-#from http://search.cpan.org/src/ASH/DBIx-Class-0.08010/lib/DBIx/Class/StartupCheck.pm
-        {
-
-            package TestRHBug;
-            use overload bool => sub { 0 }
-        }
-
-        sub _has_bug_34925 {
-            my %thing;
-            my $r1 = \%thing;
-            my $r2 = \%thing;
-            bless $r1 => 'TestRHBug';
-            return !!$r2;
-        }
-
-        sub _possibly_has_bad_overload_performance {
-            return $] < 5.008009 && !_has_bug_34925();
-        }
-
-        if ( !_possibly_has_bad_overload_performance() ) {
-            $n .=
-                "<br /> This version of Perl is likely to exhibit "
-              . "extremely slow performance for certain critical operations. <br />"
-              . "Please consider recompiling Perl.  For more information, see <br />"
-              . "http://twiki.org/cgi-bin/view/Codev/PerlOnRedHatIsSlow <br />"
-              . "https://bugzilla.redhat.com/show_bug.cgi?id=196836 and/or <br />"
-              . "http://blog.vipul.net/2008/08/24/redhat-perl-what-a-tragedy/ <br />"
-              . "http://lists.scsys.co.uk/pipermail/dbix-class/2007-October/005119.html.  <br />"
-              . "<br />";
-        }
-    }
-
     $block .= $this->setting( 'Perl version', $n );
 
     # Perl @INC (lib path)
