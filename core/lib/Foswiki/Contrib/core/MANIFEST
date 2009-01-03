@@ -12,7 +12,7 @@ bin/configure 0555
 bin/edit 0555
 bin/login 0555
 bin/logon 0555
-bin/logos/banner.gif 0444
+bin/logos/banner.png 0444
 bin/logos/favicon.ico 0444
 bin/logos/info.gif 0444
 bin/logos/warning.gif 0444
@@ -921,16 +921,12 @@ pub/System/PreviewBackground/preview2bg.gif 0644
 pub/System/PreviewBackground/previewbg.gif 0644
 pub/System/PrintSkin/fullscreen.gif 0644
 pub/System/PrintSkin/screenshot.gif 0644
-pub/System/ProjectLogos/badge.gif 0644
-pub/System/ProjectLogos/banner.gif 0644
 pub/System/ProjectLogos/favicon.ico 0644
 pub/System/ProjectLogos/foswiki-badge.png 0644
 pub/System/ProjectLogos/foswiki-logo.png 0644
 pub/System/ProjectLogos/foswiki-logo-slogan.png 0644
+pub/System/ProjectLogos/foswiki-poweredby.gif 0644
 pub/System/ProjectLogos/foswiki-logo.xcf 0644
-pub/System/ProjectLogos/large.gif 0644
-pub/System/ProjectLogos/logo.svg 0644
-pub/System/ProjectLogos/smallPowered.gif 0644
 pub/System/SkinTemplates/base.css 0644
 pub/System/SkinTemplates/default.css 0644
 pub/System/SkinTemplates/oopsmore_diff_debug.gif 0644
