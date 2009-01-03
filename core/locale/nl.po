@@ -144,7 +144,7 @@ msgstr "%1 is de standaard pagina voor verwijderde bijlagen."
 
 #: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
 msgid "%1 lists all Foswiki user tools"
-msgstr "%1 vermeldt alle Foswiki gebruikers hulpmiddelen"
+msgstr "%1 vermeldt alle Foswiki gebruikershulpmiddelen"
 
 #: core/templates/messages.tmpl:440
 msgid "%1 may still be editing %2."
@@ -1159,7 +1159,7 @@ msgstr "Details in een ander venster"
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
-msgstr "Heb je de naam van de pagina correct gespeld?, Vergeet niet dat een paginanaam hoofdlettergevoelig is."
+msgstr "Heb je de naam van de pagina correct gespeld? Vergeet niet dat een paginanaam hoofdlettergevoelig is."
 
 #: core/data/System/VarMAKETEXT.txt:19
 msgid "Did you want to [[%1][reset %2's password]]?"
@@ -1495,14 +1495,18 @@ msgid ""
 "However, sending a confirmation e-mail to %2 failed, suggesting that this "
 "may be a fraudulent registration.  The user '%1' could not be removed "
 "automatically."
-msgstr "Hoewel het sturen van een confirmatie e-mail naar %2 faalde, wat een frauduleuze registratie impliceert, kon de gebruiker '%1' niet automatisch verwijderd worden."
+msgstr "Hoewel het sturen van een bevestigings e-mail naar %2 is mislukt, "
+"wat een frauduleuze registratie impliceert, kon de gebruiker '%1' niet " "automatisch verwijderd worden."
 
 #: core/templates/registerfailedremoved.tmpl:14
 msgid ""
 "However, sending a confirmation e-mail to %2 failed, suggesting that this "
 "maye be a fraudulent registration.  The user '%1' was removed automatically. "
 "However you may have to remove the user's personal topic manually."
-msgstr "Hoewel het sturen van een confirmatie e-mail naar %2 faalde, wat een frauduleuze registratie impliceert, is de gebruiker '%1' automatisch verwijderd. Wellicht moet de persoonlijke gebruikerspagina met de hand verwijderd worden."
+msgstr "Hoewel het sturen van een bevestigings e-mail naar %2 is mislukt, "
+"wat een frauduleuze registratie impliceert, is de gebruiker '%1' automatisch "
+"verwijderd. Wellicht moet de persoonlijke gebruikerspagina met de hand "
+"verwijderd worden."
 
 #: core/templates/messages.tmpl:360
 msgid ""
@@ -1802,7 +1806,7 @@ msgstr "Verstuur mail aan"
 
 #: core/data/System/WebSearchAdvanced.txt:56
 msgid "Make search:"
-msgstr "Maak de zoekactie:"
+msgstr "Type zoekactie:"
 
 #: core/templates/messages.tmpl:220
 msgid "Missing Fields"
@@ -2157,7 +2161,7 @@ msgstr "Eigenschappen"
 
 #: core/data/System/WebSearchAdvanced.txt:62
 msgid "Query Search"
-msgstr "Zoeken in Web"
+msgstr "Query Search"
 
 #: core/data/Main/SitePreferences.txt:7
 msgid ""
@@ -2935,7 +2939,7 @@ msgstr ""
 msgid ""
 "To display the above search results in a topic, copy-paste the following "
 "markup:"
-msgstr "Om de resultaten van de bovenstaande zoek opdracht in een pagina te plaatsen dien je de volgende markup te kopieren:"
+msgstr "Om de resultaten van de bovenstaande zoekopdracht in een pagina te plaatsen copy-paste je de volgende tekst:"
 
 #: TopicUserMappingContrib/data/System/UserRegistration.txt:5
 msgid ""
@@ -3260,7 +3264,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:243
 msgid "While attempting to email <noautolink>%1</noautolink>."
-msgstr "Tijdens een poging tot e-mailen <noautolink>%1</noautolink>."
+msgstr "Tijdens een poging tot het mailen van <noautolink>%1</noautolink>."
 
 #: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
 msgid "Who"
@@ -3579,11 +3583,11 @@ msgstr "vergeet niet om je pagina voorkeurinstellingen na te kijken"
 
 #: PatternSkin/templates/formtables.pattern.tmpl:28
 msgid "edit"
-msgstr "(bewerken)"
+msgstr "bewerken"
 
 #: core/templates/messages.tmpl:221
 msgid "fields are required."
-msgstr "velden are vereist."
+msgstr "velden zijn verplicht."
 
 #: core/templates/attach.tmpl:5
 msgid "has more information about attaching files."
