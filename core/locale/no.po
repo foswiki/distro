@@ -2919,7 +2919,7 @@ msgid ""
 "To edit pages on this Foswiki site, you must have a registered user name and "
 "password."
 msgstr ""
-"For å redigere siden på denne Foswiki webløsningen trenger du å ha "
+"For å redigere sider på denne Foswiki webløsningen trenger du å ha "
 "registrert et brukernavn og passord."
 
 #: core/templates/oopsleaseconflict.tmpl:20
@@ -3189,7 +3189,8 @@ msgstr ""
 msgid ""
 "Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
 msgstr ""
-"Advarsel: Kan ikke INCLUDE %1 flere ganger, siden er allerede inkludert. %2"
+"Advarsel: Kan ikke bruke INCLUDE '%1' flere ganger, siden er allerede inkludert. %2"
+
 
 #: core/templates/messages.tmpl:457
 msgid "Warning: Can't find topic %1.%2"
@@ -3653,7 +3654,7 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Rediger denne side teksten' accesskey='e'>R&ediger)"
+msgstr "title='Rediger denne side teksten' accesskey='e'>R&ediger"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
