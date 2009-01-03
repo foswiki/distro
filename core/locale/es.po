@@ -2185,9 +2185,8 @@ msgid "Properties"
 msgstr "Propiedades"
 
 #: core/data/System/WebSearchAdvanced.txt:62
-#, fuzzy
 msgid "Query Search"
-msgstr "Consultas (inf.)"
+msgstr "Buscar por pedido"
 
 #: core/data/Main/SitePreferences.txt:7
 msgid ""
@@ -2443,7 +2442,6 @@ msgid "Search in all webs"
 msgstr "Buscar en todas las webs"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:25
-#, fuzzy
 msgid "Search more topics in this web"
 msgstr "Buscar más temas en esta web"
 
