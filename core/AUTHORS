@@ -12,16 +12,28 @@ License as described in the file LICENSE accompanying this notice. The people
 listed below are identified as joint copyright owners.
 
 A Foswiki contributor is defined as a person who has contributed:
-   * significant amounts of code that was taken into the Foswiki distribution, or
+   * significant amounts of code (enhancements as well as bug fixing) that was taken into the Foswiki distribution, or
    * considerably to the Foswiki documentation.
+   * performed the translation of strings into a language
 
 The following people are identified as authors of Foswiki:
 | *Name*               | *Contact*                      | *Country*   |
+| Arthur Clemens       | Foswiki:Main.ArthurClemens     | Netherlands |
+| Andre Ulrich         | Foswiki:Main.AndreUlrich       | Germany     |
+| Ben Beijer           | Foswiki:Main.BenBeijer         | Netherlands |
 | Crawford Currie      | http://c-dot.co.uk             | UK          |
+| Eugen Mayer          | Foswiki:Main.EugenMayer        | Germany     |
+| George Clark         | Foswiki:Main.GeorgeClark       | USA         |
 | Gilmar Santos Jr     | Foswiki:Main.GilmarSantosJr    | Brazil      |
 | Isaac Lin            | Foswiki:Main.IsaacLin          | Canada      |
 | Kenneth Lavrsen      | http://www.lavrsen.dk          | Denmark     |
+| Koen Martens         | Foswiki:Main.KoenMartens       | Netherlands |
+| Lars Eik             | Foswiki:Main.LarsEik           | Norway      |
+| Martin Cleaver       | Foswiki:Main.MartinCleaver     | Canada      |
+| Michael Daum         | Foswiki:Main.MichaelDaum       | Germany     |
 | Olivier Raginel      | Foswiki:Main.OlivierRaginel    | France      |
+| Rob Manson           | Foswiki:Main.RobManson         | Australia   |
+| Sean McCarthy        | Foswiki:Main.SeanMcCarthy      | Australia   |
 | Sebastian Klus       | Foswiki:Main.SebastianKlus     | Costa Rica  |
 | Sven Dowideit        | Foswiki:Main.SvenDowideit      | Australia   |
 | Will Norris          | Foswiki:Main.WillNorris        | Mexico      |
