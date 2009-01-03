@@ -153,7 +153,7 @@ When a new users registers on your Foswiki, a home topic is created for them bas
    * Add a default ALLOWTOPICCHANGE so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public Foswiki to prevent spam.
    * Add and remove fields defined in the =%SYSTEMWEB%.UserForm=
 
-If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. Foswiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the Foswiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade Foswiki.
+If you choose to tailor anything you are strongly advised to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. Foswiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the Foswiki web. By creating a =%USERSWEB%.NewUserTemplate= and its =%USERSWEB%.UserForm= you will not loose your tailorings next time you upgrade Foswiki.
 
 If you added or removed fields from the user form you may also need to tailor =%SYSTEMWEB%.UserRegistration=.
 
@@ -168,13 +168,13 @@ Some plugins require that you define their settings in =configure=. You fill fin
 
 Foswiki has the basic requirement to be 100% backwards compatible with the markup used in any topic created in TWiki in all version up to and including TWiki 4.2.3. Foswiki has this compatibility without any need of compatibility plugins.
 
-In addition to this Foswiki ships with a plugin called =TWikiCompatibilityPlugin=. This plugin
+Additionally, Foswiki ships with a plugin called =TWikiCompatibilityPlugin=. This plugin
 
    * enables most extensions written for TWiki to also work in Foswiki.
    * automatically maps requests for legacy TWiki web topics to Foswiki System web topics as per Foswiki:Development.TopicNameMappingTable.
    * maps TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings required.
    
-If you are installing Foswiki and are not upgrading from TWiki and you do not plan to install plugins downloaded from the TWiki website, you are adviced to disable the !TWikiCompatibilityPlugin in =configure=.
+If you are installing Foswiki and are not upgrading from TWiki and you do not plan to install plugins downloaded from the TWiki website, you are advised to disable the !TWikiCompatibilityPlugin in =configure=.
 
 If a plugin exists both in a TWiki version and a Foswiki version, it is strongly recommended to install the Foswiki version as this is coded to work optimally with Foswiki. As part of the fork the Foswiki community is evaluating all the extensions that are available for TWiki. All that are working are ported over to the Foswiki name space. Many of them are being bug fixed in the process. Effectively you will have more working plugins available for Foswiki than you had for TWiki. The most popular plugins are already ported and more are added every day. 
 
