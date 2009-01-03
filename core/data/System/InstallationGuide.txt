@@ -164,6 +164,20 @@ You activate installed plugins in the _Plugins_ section of =configure=. In this 
 
 Some plugins require that you define their settings in =configure=. You fill find these under the _Extensions_ section of configure.
 
+---++ TWiki Compatibility
+
+Foswiki has the basic requirement to be 100% backwards compatible with the markup used in any topic created in TWiki in all version up to and including TWiki 4.2.3. Foswiki has this compatibility without any need of compatibility plugins.
+
+In addition to this Foswiki ships with a plugin called =TWikiCompatibilityPlugin=. This plugin
+
+   * enables most extensions written for TWiki to also work in Foswiki.
+   * automatically maps requests for legacy TWiki web topics to Foswiki System web topics as per Foswiki:Development.TopicNameMappingTable.
+   * maps TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB - no Preference settings required.
+   
+If you are installing Foswiki and are not upgrading from TWiki and you do not plan to install plugins downloaded from the TWiki website, you are adviced to disable the !TWikiCompatibilityPlugin in =configure=.
+
+If a plugin exists both in a TWiki version and a Foswiki version, it is strongly recommended to install the Foswiki version as this is coded to work optimally with Foswiki. As part of the fork the Foswiki community is evaluating all the extensions that are available for TWiki. All that are working are ported over to the Foswiki name space. Many of them are being bug fixed in the process. Effectively you will have more working plugins available for Foswiki than you had for TWiki. The most popular plugins are already ported and more are added every day. 
+
 ---++ Customize Your Foswiki!
 
 The real power of Foswiki lies in it's flexibility to be customized to meet your needs. You can with small means change the looks of the default skin (called !PatternSkin) by reading the =%SYSTEMWEB%.PatternSkinCustomization=

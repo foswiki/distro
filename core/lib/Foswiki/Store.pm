@@ -1396,6 +1396,16 @@ sub webExists {
     $web =~ s#\.#/#go;
 
     return 0 unless defined $web;
+    
+    # Foswiki ships with TWikiCompatibilityPlugin but if it is disabled we
+    # do not want the TWiki web to appear as a valid web to anyone.
+    if ( $web eq 'TWiki' ) {
+        unless ( defined ( $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} )
+                 && $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} == 1 ) {
+            return 0;
+        }
+    }
+
     my $handler = _getHandler( $this, $web, $Foswiki::cfg{WebPrefsTopicName} );
     return $handler->storedDataExists();
 }

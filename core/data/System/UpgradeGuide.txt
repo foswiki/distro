@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1200013119" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1200013119" format="1.1" version="1"}%
 %STARTINCLUDE%
 ---+ Foswiki Upgrade Guide
+
+<!-- Document writers. Please note that this document is distributed in HTML version in the root of the distribution. You cannot use WikiWord links or any other local linking. -->
 
 _This guide covers upgrading from a previous version of Foswiki or TWiki (such as Cairo or TWiki4.0) to Foswiki 1.0_
 
@@ -10,17 +12,17 @@ _This guide covers upgrading from a previous version of Foswiki or TWiki (such a
 
 Foswiki is in reality the TWiki project continued under a new name.
 
-The brand name change has had a large impact on many things that also impact an upgrader. They are however mostly visible "under the hood" and a TWikiCompatibilityPlugin is provided that makes Foswiki compatible with most Plugins made for TWiki.
+The brand name change has had a large impact on many things that also impact an upgrader. They are however mostly visible "under the hood" and a =TWikiCompatibilityPlugin= is provided that makes Foswiki compatible with most Plugins made for TWiki.
 
 Foswiki is 100% compatible with all content of existing TWikis which is the most important factor when you upgrade.
 
 ---++ Upgrading from TWiki to Foswiki
 
-If you upgrade from TWiki to Foswiki, you are strongly adviced to read the ReleaseNotes01x00 (also available in HTML version in the root of your installation) where all the changes from TWiki 4.2.3 to Foswiki 1.0.0 are listed.
+If you upgrade from TWiki to Foswiki, you are strongly adviced to read the Foswiki:System.ReleaseNotes01x00 (also available in HTML version in the root of your installation) where all the changes from TWiki 4.2.3 to Foswiki 1.0.0 are listed.
 
 ---++ Upgrade Requirements
 
-   * Please review the AdminSkillsAssumptions before you upgrade Foswiki
+   * Please review the Foswiki:System.AdminSkillsAssumptions before you upgrade Foswiki
    * To upgrade from an old TWiki Release to the latest Foswiki Production Release, follow the instructions below
    * Once the upgrade has been applied, an existing earlier installation will still be able to read all the topics, but should not be used to write. Make sure you take a backup!
    * Not all Plugins from TWiki are compatible with Foswiki. But most publicly available Foswiki:Extensions have been republished in a version converted to the Foswiki namespace.
@@ -41,7 +43,7 @@ The main steps are:
 ---+++ Installation
 
    * Follow the installation instructions in INSTALL.html which you find in the root of the new installation. Install the new release in a new directory. Do not install on top of the old release.
-   * Use the [[%SCRIPTURL{configure}%][configure]] script to configure Foswiki.
+   * Use the =configure= script to configure Foswiki.
       * If you are upgrading from a TWiki 4.x.x release, you can not carry over the configure settings from the old release. If you upgrade from an older Foswiki release you can reuse your configure settings.
       * You need to run configure and save the configuration once when you upgrade as this will update the altered and added settings.
       * You can also choose to start with a fresh configuration and walk through all the settings using your old !LocalSite.cfg as a reference. This way you will not have old obsolete settings in the new !LocalSite.cfg. When upgrading from TWiki to Foswiki you always have to start with a fresh configuration.
@@ -58,20 +60,20 @@ The main steps are:
 
 ---+++ Install Extensions
 
-   * Note that not all extensions that worked in Cairo had been updated to work with Foswiki. We are continuously releasing Foswiki versions of the plugins on Foswiki:Extensions. When we release a Foswiki version we test them to make sure Foswiki plugins as a minimum runs on Foswiki. Installing TWiki Extensions such as Plugins requires that the perl name space is changed from TWiki to Foswiki. A TWikiCompatibilityPlugin is provided which makes most unmodified TWiki Plugins work on Foswiki. If a plugin exists in the Foswiki:Extensions repository it is highly recommended to install it from there so get an extension which has been converted to the Foswiki namespace.
-   * The [[%SCRIPTURLPATH{"configure"}%][configure]] script which you ran during installation supports installation of additional plugins.
+   * Note that not all extensions that worked in Cairo had been updated to work with Foswiki. We are continuously releasing Foswiki versions of the plugins on Foswiki:Extensions. When we release a Foswiki version we test them to make sure Foswiki plugins as a minimum runs on Foswiki. Installing TWiki Extensions such as Plugins requires that the perl name space is changed from TWiki to Foswiki. A =TWikiCompatibilityPlugin= is provided which makes most unmodified TWiki Plugins work on Foswiki. If a plugin exists in the Foswiki:Extensions repository it is highly recommended to install it from there so get an extension which has been converted to the Foswiki namespace.
+   * The =configure= script which you ran during installation supports installation of additional plugins.
    * Manual installation is possible. Follow the instruction on the Plugin page at foswiki.org.
    * Check the plugin topics from your old TWiki/Foswiki installation. There may be plugin settings that you want to transfer to the new Foswiki installation.
-     %BR% *%H% Hint:* For an easier upgrade later on, set the plugin preferences settings in the [[%LOCALSITEPREFS%]] topic, not in the plugin topic. To identify the plugin, prefix the name of the setting with the capitalized name of the plugin. For example, to change the =DEFAULT_TYPE= setting of the CommentPlugin, create a =COMMENTPLUGIN_DEFAULT_TYPE= setting in <nop>%LOCALSITEPREFS%.
+     %BR% *%H% Hint:* For an easier upgrade later on, set the plugin preferences settings in the =%USERSWEB%.SitePreferences= topic, not in the plugin topic. To identify the plugin, prefix the name of the setting with the capitalized name of the plugin. For example, to change the =DEFAULT_TYPE= setting of the =CommentPlugin=, create a =COMMENTPLUGIN_DEFAULT_TYPE= setting in <nop>%LOCALSITEPREFS%.
    * Typical plugin settings you may have altered.
-      * CommentPlugin - Set DEFAULT_TYPE
-      * EditTablePlugin - Set CHANGEROWS, Set QUIETSAVE, and Set EDITBUTTON
-      * InterwikiPlugin - Set RULESTOPIC
-      * InterWikis - If you added your own rules you should save this topic and not overwrite it.
-      * SlideShowPlugin - Make sure you did not change the embedded 'Default Slide Template' If you did you should save it. It is a bad idea to do. It is better to define your own slide show templates as separate topics that do not get overwritten when you upgrade.
-      * SmiliesPlugin - Did you add your own smileys? No real changes were made to the smilies topic October 2005 so you can just leave this topic as it is.
-      * TablePlugin - Set TABLEATTRIBUTES   
-   * Remember that a plugin must be activated in [[%SCRIPTURLPATH{"configure"}%][configure]].
+      * =CommentPlugin= - Set DEFAULT_TYPE
+      * =EditTablePlugin= - Set CHANGEROWS, Set QUIETSAVE, and Set EDITBUTTON
+      * =InterwikiPlugin= - Set RULESTOPIC
+      * =InterWikis= - If you added your own rules you should save this topic and not overwrite it.
+      * =SlideShowPlugin= - Make sure you did not change the embedded 'Default Slide Template' If you did you should save it. It is a bad idea to do. It is better to define your own slide show templates as separate topics that do not get overwritten when you upgrade.
+      * =SmiliesPlugin= - Did you add your own smileys? No real changes were made to the smilies topic October 2005 so you can just leave this topic as it is.
+      * =TablePlugin= - Set TABLEATTRIBUTES   
+   * Remember that a plugin must be activated in =configure=.
    * To avoid having to re-apply plugin settings each time you upgrade a plugin or Foswiki itself, define the altered plugin settings in =%USERSWEB%.SitePreferences= instead
 
 ---+++ Copy your old webs to new Foswiki
@@ -81,14 +83,14 @@ The main steps are:
       * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
    * Copy your local webs over to the data and pub directories of the new install. Do not copy the default webs: System (or TWiki), Main, Trash, Sandbox, _default, and _empty.
    * Make sure all data and pub files and directories are owned by the webserver user.
-   * *Note:* Foswiki's WebChanges topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or to change them in the sequence of old file timestamps.
+   * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or to change them in the sequence of old file timestamps.
 
 ---+++ Copy Users And Their Topics From Main Web
 
    * Copy all the topics from the Main web and corresponding pub/Main directories from the old TWiki/Foswiki to the new Foswiki but do not overwrite any of the new topics already inside the new Main directory!
    * Manually merge all the users from the old =Main.WikiUsers= topic to the new Foswiki. Foswiki does not ship with a =Main.WikiUsers= topic. When you register the first user Foswiki now checks for an existing =Main.WikiUsers= and if it does not exist it gets created.
       * For upgrades from TWiki to Foswiki the =TWikiUsers= topic must additionally be renamed to =WikiUsers=. If you upgrade from Cairo you can simply use the old file renamed to =WikiUsers= and add the missing new system users to the list of users. If you upgrade from TWiki-4.0.X simply use the old topic renamed to =WikiUsers=.
-   * For upgrades from TWiki to Foswiki also copy the =Main.TWikiAdminGroup= topic so that topics you have protected with ALLOWTOPICCHANGE or ALLOWWEBCHANGE set to TWikiAdminGroup are still protected. Otherwise people can create the =TWikiAdminGroup= and put themselves in it. 
+   * For upgrades from TWiki to Foswiki also copy the =Main.TWikiAdminGroup= topic so that topics you have protected with ALLOWTOPICCHANGE or ALLOWWEBCHANGE set to !TWikiAdminGroup are still protected. Otherwise people can create the =TWikiAdminGroup= and put themselves in it. 
    * If you use =data/.htpasswd= for authentication copy this file from the old TWiki/Foswiki to the new Foswiki.
       * If you upgrade from Cairo and you are using the Htpasswd login manager, then note that email addresses for users have moved out of user topics and into the password file. There is a script that performs this extra upgrade step for you - see =tools/upgrade_emails.pl=.
    * The old sandbox web may have a lot of useful topic and users may use it actively for drafts. Manually select the topics (remember the corresponding pub directories) from the old Sandbox web and copy them to the new Foswiki. Decide if you want to overwrite the sandbox homepage and left menu bar or keep the new.
@@ -101,17 +103,15 @@ The main steps are:
 
    * Not many of the old TWiki Cairo skins work well with Foswiki
    * Add Logos, update top bar and left bar as required.
-   * Apply any desired changes to style sheets and templates. The default PatternSkin has been totally rewritten since Cairo and once more in 4.0.2. Since then changes to PatternSkin have been minor and you may be able to carry over most simpler tailorings directly from 4.0.2-4.0.5.
+   * Apply any desired changes to style sheets and templates. The default !PatternSkin has been totally rewritten since Cairo and once more in 4.0.2. Since then changes to !PatternSkin have been minor and you may be able to carry over most simpler tailorings directly from 4.0.2-4.0.5.
    * Additional resources:
-      * PatternSkinCustomization
-      * PatternSkinCssCookbook
+      * =%SYSTEMWEB%.PatternSkinCustomization=
+      * =%SYSTEMWEB%.PatternSkinCssCookbook=
    * From Foswiki 1.0.0 the =WebLeftBar= topic is no longer shipped with the distribution. Foswiki 1.0.0 !PatternSkin will use the topic =WebLeftBarExample= if there is no =WebLeftBar= topic in the current web. To make your own =WebLeftBar= simply make it a copy of =WebLeftBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebLeftBar= topic is not being overwritten by the upgrade.
-   * From Foswiki 1.0.0 the =%SYSTEMWEB%.WebTopBar= topic is no longer shipped with the distribution. Foswiki 1.0.0 !PatternSkin will use the topic =%SYSTEMWEB%.WebTopBarExample= if there is no =%SYSTEMWEB%.WebTopBar= topic. To make your own  =%SYSTEMWEB%.WebTopBar= simply make it a copy of =%SYSTEMWEB%.WebTopBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebTopBar= topic is not being overwritten by the upgrade.
-   * From Foswiki 1.0.0 the bottom bar is also defined by a topic which is called =%SYSTEMWEB%.WebBottomBar=. As with the top bar there is no =%SYSTEMWEB%.WebBottomBar= in the distribution. The =%SYSTEMWEB%.WebBottomBarExample= is used if there is no =%SYSTEMWEB%.WebBottomBar=. To make your own  =%SYSTEMWEB%.WebBottomBar= simply make it a copy of =%SYSTEMWEB%.WebBottomBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebBottomBar= topic is not being overwritten by the upgrade. As with =WebTopBar= =WebBottomBar= is common for all webs.
-    
+   
 ---+++ Apply Preferences From Old Installation
 
-   * Transfer any customized and local settings from [[%SYSTEMWEB%.DefaultPreferences]] to the topic pointed at by {LocalSitePreferences} ([[%LOCALSITEPREFS%]]). Per default this is =%USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.
+   * Transfer any customized and local settings from =%SYSTEMWEB%.DefaultPreferences= to the topic pointed at by {LocalSitePreferences}. Per default this is =%USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.
       * Upgraders from TWiki should note that the =Main.TWikiPreferences= is renamed to =SitePreferences=, and =TWiki.TWikiPreferences= is renamed to =System.DefaultPreferences= in Foswiki.
    * If you changed any of the topics in the original TWiki/Foswiki distribution, you will have to transfer your changes to the new install manually. 
    * Compare the =WebPreferences= topics in the old TWiki/Foswiki Installation with the default from the new Foswiki installation and add any new Preferences that may be relevant.
@@ -128,7 +128,7 @@ Some pages in the Foswiki web are meant to be customized after choice of authent
 
 ---+++ Favicon
 
-Foswiki's PatternSkin use the favicon feature which most browsers use to show a small icon in front of the URL and for bookmarks.
+Foswiki's !PatternSkin use the favicon feature which most browsers use to show a small icon in front of the URL and for bookmarks.
 
 By default the same favicon is used in all webs and stored in %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/ProjectLogos/favicon.ico 
 
@@ -169,7 +169,7 @@ From TWiki 4.1.0 and continuing in Foswiki this has changed so that white space 
 
 It is not difficult. The general rule is - if you get mysterious blank lines in your skin, the newline after the %<nop>TMPL:DEF{"block"}% needs to be removed. Ie. the content of the block must follow on the same line as the TMPL:DEF.
 
-The spec change have the same impact on CommentPlugin templates where you may have to remove the first line break after the TMPL:DEF. See the CommentPluginTemplate for examples of how comment template definitions should look like in TWiki-4.1.X
+The spec change have the same impact on !CommentPlugin templates where you may have to remove the first line break after the TMPL:DEF. See the =%SYSTEMWEB%.CommentPluginTemplate= for examples of how comment template definitions should look like in TWiki-4.1.X
 
 An example: A !CommentPlugin template that adds a comment as appending a row to a table. Before the spec change this would work.
 
