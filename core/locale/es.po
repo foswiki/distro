@@ -778,7 +778,7 @@ msgstr "Web base %1 falta o no existe"
 
 #: core/lib/Foswiki/OopsException.pm:41
 msgid "Bathing problem"
-msgstr ""
+msgstr "Problema de bañar"
 
 #: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:40
 msgid "Both body and title"
@@ -2178,7 +2178,7 @@ msgstr "Preferencias para"
 
 #: core/lib/Foswiki/OopsException.pm:42
 msgid "Problem filling bath"
-msgstr ""
+msgstr "Problema de llenar la tina"
 
 #: PatternSkin/templates/attach.pattern.tmpl:53
 msgid "Properties"
@@ -3925,20 +3925,18 @@ msgstr ""
 #~ msgstr ""
 #~ "Usualmente lo mejor es escoger un <a target='WikiWord' onclick=\"return "
 #~ "launchWindow('%1','WikiWord')\" href='%1' rel='nofollow'>WikiWord</a> "
-#~ "parael nuevo nombre de las páginas, de otra manera los enlaces "
+#~ "para el nuevo nombre de las páginas, de otra manera los enlaces "
 #~ "automaticos podrían no funcionar. Caracteres no permitidos en nombres de "
 #~ "páginas, como espacios serán removidos automaticamente."
 
 #~ msgid "You can see the differences [[%1][here]]."
 #~ msgstr "Puede ver las diferencias [[%1][Aquí]]"
 
-#, fuzzy
 #~ msgid "or [[%1][log in as administrator]]"
-#~ msgstr "Nota al administrador"
+#~ msgstr "ó [[%1][iniciar cómo el administrador]]"
 
-#, fuzzy
 #~ msgid "or %1"
-#~ msgstr "ahora %1"
+#~ msgstr "ó %1"
 
 #~ msgid "&WYSIWYG"
 #~ msgstr "&WYSIWYG"
@@ -3972,9 +3970,8 @@ msgstr ""
 #~ "Durante el salvado del archivo %1 un error fue encontrado por el "
 #~ "sistemade control de versiones. Por favor notifique a su administrador %2."
 
-#, fuzzy
 #~ msgid "Hello %1!</strong>"
-#~ msgstr "Hola %1"
+#~ msgstr "Hola %1!</strong>"
 
 #~ msgid ""
 #~ "Once you have created the topic, consider adding links in related topics "
@@ -4063,9 +4060,8 @@ msgstr ""
 #~ msgid "Subwebs must be enabled."
 #~ msgstr "Debe habilitar sub-webs."
 
-#, fuzzy
 #~ msgid "The checkmarked topics will be updated."
-#~ msgstr "Las páginas marcados serán actualizados"
+#~ msgstr "Las páginas marcadas serán actualizadas"
 
 #~ msgid "There is no size limit for uploaded files."
 #~ msgstr "No hay limite de tamaño para archivos cargados."
