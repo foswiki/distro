@@ -180,7 +180,7 @@ If a plugin exists both in a TWiki version and a Foswiki version, it is strongly
 
 ---++ Customize Your Foswiki!
 
-The real power of Foswiki lies in it's flexibility to be customized to meet your needs. You can with small means change the looks of the default skin (called !PatternSkin) by reading the =%SYSTEMWEB%.PatternSkinCustomization=
+The real power of Foswiki lies in its flexibility to be customized to meet your needs. You can with small means change the look of the default skin (called !PatternSkin) by reading the =%SYSTEMWEB%.PatternSkinCustomization=
 
 At the official Foswiki website you can find more resources. A good place to start for exploring what's possible is Foswiki:Support.AdministratorsCookBook which offers tips and tricks for customizing your Foswiki site. Many of these are appropriate to implement immediately after installing Foswiki and before adding content so now's a good time to look at these.
 
