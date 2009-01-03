@@ -170,7 +170,7 @@ msgstr "%1 forsøkte å registrere med epost %2"
 
 #: PatternSkin/templates/foswiki.pattern.tmpl:9
 msgid "&Cancel"
-msgstr "&Avbryt (&c)"
+msgstr "Avbryt (&c)"
 
 #: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
 msgid "&Edit text"
