@@ -1,7 +1,7 @@
 # Foswiki translation for Spanish
 # Translators:
 #   Foswiki:Main/MiguelABayona, 2006.
-#   Foswiki:Main/WillNorris, 2005, 2006
+#   Foswiki:Main/WillNorris, 2005, 2006, 2008
 #   Marco Antonio Gonzalez Parra, 2006
 #   Foswiki:Main/SebastianKlus, 2008
 msgid ""
