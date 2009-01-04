@@ -37,7 +37,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = 'Dakar';
+$RELEASE = '04 Jan 2009';
 
 sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
@@ -76,7 +76,7 @@ sub initPlugin {
     $allPattern .= ")";
     $smiliesPubUrl =
       Foswiki::Func::getPubUrlPath() .
-          "/$installWeb/SmiliesPlugin";
+          "/$web/$topic";
 
     # Initialization OK
     return 1;
