@@ -52,10 +52,10 @@ our $RELEASE = 'Foswiki-1';
 our $SHORTDESCRIPTION =
   'Automate build process for Plugins, Add-ons and Contrib modules';
 
-my $UPLOADSITEPUB    = 'http://foswiki.org/pub';
-my $UPLOADSITESCRIPT = 'http://foswiki.org/bin';
-my $UPLOADSITESUFFIX = '';
-my $UPLOADSITEBUGS   = 'http://foswiki.org/Tasks';
+my $UPLOADSITEPUB           = 'http://foswiki.org/pub';
+my $UPLOADSITESCRIPT        = 'http://foswiki.org/bin';
+my $UPLOADSITESUFFIX        = '';
+my $UPLOADSITEBUGS          = 'http://foswiki.org/Tasks';
 my $UPLOADSITEEXTENSIONSWEB = "Extensions";
 
 my $GLACIERMELT = 10;    # number of seconds to sleep between uploads,
@@ -89,6 +89,7 @@ sub _findRelativeTo {
         return $found if -e $found;
         pop(@path);
     }
+
     #try legacy TWiki Contrib
     $startdir =~ s/\/Foswiki\//\/TWiki\//g;
     @path = split( /\/+/, $startdir );
@@ -107,10 +108,11 @@ BEGIN {
     $buildpldir = File::Spec->rel2abs($buildpldir);
 
     # Find the lib root
-    if (-e "$buildpldir/../../../Foswiki") {
+    if ( -e "$buildpldir/../../../Foswiki" ) {
         $libpath = _findRelativeTo( $buildpldir, 'lib/Foswiki' );
         $targetProject = 'Foswiki';
-    } else {
+    }
+    else {
         print STDERR "Assuming this is a TWiki project\n";
         $libpath = _findRelativeTo( $buildpldir, 'lib/TWiki' );
         $targetProject = 'TWiki';
@@ -121,8 +123,8 @@ BEGIN {
     $basedir = $libpath;
     $basedir =~ s#/[^/]*$##;
 
-    my $env = $ENV{uc($targetProject).'_LIBS'};
-    if ( $env ) {
+    my $env = $ENV{ uc($targetProject) . '_LIBS' };
+    if ($env) {
         my %known;
         map { $known{$_} = 1 } split( /:/, @INC );
         foreach my $pc ( reverse split( /:/, $env ) ) {
@@ -179,7 +181,7 @@ sub new {
 
     $this->{basedir} = $basedir;
 
-    # The following paths are all relative to the root of the 
+    # The following paths are all relative to the root of the
     # installation
 
     #SMELL: Hardcoded project classification
@@ -201,8 +203,8 @@ sub new {
     $stubpath =~ s/[\\\/]/::/g;
 
     # where data files live
-    $this->{data_systemdir} = 'data/'.
-      (($targetProject eq 'TWiki') ? 'TWiki' : 'System');
+    $this->{data_systemdir} =
+      'data/' . ( ( $targetProject eq 'TWiki' ) ? 'TWiki' : 'System' );
 
     # the root of the name of data files
     $this->{topic_root} = $this->{data_systemdir} . '/' . $this->{project};
@@ -211,7 +213,8 @@ sub new {
     # Read the manifest
 
     my $manifest = _findRelativeTo( $buildpldir, 'MANIFEST' );
-    if (!defined($manifest)) {
+    if ( !defined($manifest) ) {
+
         #the core MANIFEST is in the lib dir, not the tools dir
         $manifest = _findRelativeTo( $libpath, 'MANIFEST' );
     }
@@ -240,7 +243,8 @@ sub new {
     # Work out the dependencies
 
     my $dependancies = _findRelativeTo( $buildpldir, 'DEPENDENCIES' );
-    if (!defined($dependancies)) {
+    if ( !defined($dependancies) ) {
+
         #the core DEPENDENCIES is in the lib dir, not the tools dir
         $dependancies = _findRelativeTo( $libpath, 'DEPENDENCIES' );
     }
@@ -250,8 +254,10 @@ sub new {
     if ( $this->{other_modules} ) {
         foreach my $module ( @{ $this->{other_modules} } ) {
             try {
-                my $depsfile = _findRelativeTo("$basedir/$module", 'DEPENDENCIES' );
-                die 'Failed to find DEPENDENCIES for ' . $module unless $depsfile && -f $depsfile;
+                my $depsfile =
+                  _findRelativeTo( "$basedir/$module", 'DEPENDENCIES' );
+                die 'Failed to find DEPENDENCIES for ' . $module
+                  unless $depsfile && -f $depsfile;
 
                 $this->_loadDependenciesFrom($depsfile);
             }
@@ -298,7 +304,7 @@ sub new {
     {
         $this->{$stage} = '# No ' . $stage . ' script';
         my $file = _findRelativeTo( $buildpldir, $stage );
-        if ( $file && open( PF, '<' . $file ) ) {
+        if ( $file && open( PF, '<', $file ) ) {
             $this->{$stage} = "\n" . <PF>;
         }
     }
@@ -332,8 +338,8 @@ sub new {
 
 sub DESTROY {
     my $self = shift;
-    File::Path::rmtree( $self->{tmpDir} ) 
-        if $self->{tmpDir} && -d $self->{tmpDir};
+    File::Path::rmtree( $self->{tmpDir} )
+      if $self->{tmpDir} && -d $self->{tmpDir};
 }
 
 # Load the config memory (passwords, repository locations etc)
@@ -365,7 +371,7 @@ sub _loadConfig {
 sub _saveConfig {
     my $this = shift;
     require Data::Dumper;
-    if ( open( F, '>' . $this->{config}->{file} ) ) {
+    if ( open( F, '>', $this->{config}->{file} ) ) {
         print F Data::Dumper->Dump( [ $this->{config} ] );
         close(F);
         print "Config saved in $this->{config}->{file}\n";
@@ -404,7 +410,7 @@ sub _loadDependenciesFrom {
 
     my $condition = 1;
     if ( -f $depsFile ) {
-        open( PF, '<' . $depsFile ) || die 'Failed to open ' . $depsFile;
+        open( PF, '<', $depsFile ) || die 'Failed to open ' . $depsFile;
         while ( my $line = <PF> ) {
             if ( $line =~ /^\s*$/ || $line =~ /^\s*#/ ) {
             }
@@ -437,7 +443,8 @@ sub _loadDependenciesFrom {
         }
     }
     else {
-        warn 'WARNING: no ' . $depsFile
+        warn 'WARNING: no '
+          . $depsFile
           . '; dependencies will only be extracted from code';
     }
     close(PF);
@@ -447,23 +454,28 @@ sub _get_svn_version {
     my $this = shift;
     unless ( $this->{VERSION} ) {
         $this->{VERSION} = 0;
+
         #Shelling out with a large number of files dies, killing the build.
         my $idx = 0;
-        while ($idx < scalar(@{$this->{files}})) {
+        while ( $idx < scalar( @{ $this->{files} } ) ) {
             my @files;
-            # #@files = map { "$this->{basedir}/$_->{name}" } @{ $this->{files} };
+
+          # #@files = map { "$this->{basedir}/$_->{name}" } @{ $this->{files} };
             my $limit = $idx + 1000;
-            $limit = scalar(@{$this->{files}}) if
-              $limit > scalar(@{$this->{files}});
-            while( $idx < $limit ) {
-                my $file = ${$this->{files}}[$idx++];     #accessing ->{name} directly creats it.
-                push(@files, $this->{basedir}.'/'.($file->{name}||''));
+            $limit = scalar( @{ $this->{files} } )
+              if $limit > scalar( @{ $this->{files} } );
+            while ( $idx < $limit ) {
+                my $file =
+                  ${ $this->{files} }[ $idx++ ]
+                  ;    #accessing ->{name} directly creats it.
+                push( @files,
+                    $this->{basedir} . '/' . ( $file->{name} || '' ) );
             }
+
             # svn info all the files in the manifest
             my $max = $this->{VERSION} || 0;
             eval {
-                my $log =
-                  $this->sys_action( 'svn', 'info', @files );
+                my $log = $this->sys_action( 'svn', 'info', @files );
 
                 foreach my $line ( split( /\n/, $log ) ) {
                     if ( $line =~ /^Last Changed Rev: (.*)$/ ) {
@@ -648,7 +660,7 @@ chmod notation.
 
 sub prot {
     my ( $this, $perms, $file ) = @_;
-    if (! -d $file) {   #skip directories
+    if ( !-d $file ) {    #skip directories
         $this->perl_action("chmod($perms,'$file')");
     }
 }
@@ -771,7 +783,7 @@ sub _isPerl {
             push( @$collector, $File::Find::name );
         }
         elsif ( $File::Find::name !~ m#\.[^/]+$#
-            && open( F, "<$File::Find::name" ) )
+            && open( F, '<', $File::Find::name ) )
         {
             local $/ = "\n";
             my $shebang = <F>;
@@ -796,22 +808,18 @@ sub target_test {
 
     # find testrunner
     my $testrunner =
-      _findRelativeTo( $this->{basedir}, 'core/test/bin/TestRunner.pl' ) ||
-      _findRelativeTo( $this->{basedir}, 'test/bin/TestRunner.pl' );
+         _findRelativeTo( $this->{basedir}, 'core/test/bin/TestRunner.pl' )
+      || _findRelativeTo( $this->{basedir}, 'test/bin/TestRunner.pl' );
 
     my $tests =
-      _findRelativeTo(
-          $this->{basedir},
-          'test/unit/' . $this->{project} . '/'
-            . $this->{project} . 'Suite.pm' );
+      _findRelativeTo( $this->{basedir},
+        'test/unit/' . $this->{project} . '/' . $this->{project} . 'Suite.pm' );
     unless ($tests) {
         $tests =
-          _findRelativeTo(
-              $this->{basedir},
-              '/core/test/unit/' . $this->{project} . 'Suite.pm' ) ||
-              _findRelativeTo(
-                  $this->{basedir},
-                  '/test/unit/' . $this->{project} . 'Suite.pm' );
+          _findRelativeTo( $this->{basedir},
+            '/core/test/unit/' . $this->{project} . 'Suite.pm' )
+          || _findRelativeTo( $this->{basedir},
+            '/test/unit/' . $this->{project} . 'Suite.pm' );
         unless ($tests) {
             warn 'WARNING: COULD NOT FIND ANY UNIT TESTS FOR '
               . $this->{project};
@@ -825,7 +833,7 @@ Did you remember to install UnitTestContrib?
 MESSY
         return;
     }
-    my @inc = map { ('-I', $_) } @INC;
+    my @inc = map { ( '-I', $_ ) } @INC;
     my $testdir = $tests;
     $testdir =~ s/\/[^\/]*$//;
     print "Running tests in $tests\n";
@@ -849,7 +857,7 @@ sub filter_txt {
 
     return unless ( -f $from );
 
-    open( IF, '<' . $from ) || die 'No source topic ' . $from . ' for filter';
+    open( IF, '<', $from ) || die 'No source topic ' . $from . ' for filter';
     local $/ = undef;
     my $text = <IF>;
     close(IF);
@@ -860,7 +868,7 @@ sub filter_txt {
     $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
 
     unless ( $this->{-n} ) {
-        open( OF, '>' . $to ) || die "$to: $!";
+        open( OF, '>', $to ) || die "$to: $!";
     }
     print OF $text unless ( $this->{-n} );
     close(OF) unless ( $this->{-n} );
@@ -897,7 +905,7 @@ sub build_js {
 
     return 0 unless -e $from;
 
-    open( IF, '<' . $from ) || die $!;
+    open( IF, '<', $from ) || die $!;
     local $/ = undef;
     my $text = <IF>;
     close(IF);
@@ -909,14 +917,14 @@ sub build_js {
     else {
         $text = JavaScript::Minifier::minify( input => $text );
 
-        if ( open( IF, '<' . $to ) ) {
+        if ( open( IF, '<', $to ) ) {
             my $ot = <IF>;
             close($ot);
             return 1 if $text eq $ot;    # no changes?
         }
 
         unless ( $this->{-n} ) {
-            open( OF, '>' . $to ) || die "$to: $!";
+            open( OF, '>', $to ) || die "$to: $!";
         }
         print OF $text unless ( $this->{-n} );
         close(OF) unless ( $this->{-n} );
@@ -940,7 +948,7 @@ sub build_css {
 
     return 0 unless -e $from;
 
-    open( IF, '<' . $from ) || die $!;
+    open( IF, '<', $from ) || die $!;
     local $/ = undef;
     my $text = <IF>;
     close(IF);
@@ -952,14 +960,14 @@ sub build_css {
     else {
         $text = CSS::Minifier::minify( input => $text );
 
-        if ( open( IF, '<' . $to ) ) {
+        if ( open( IF, '<', $to ) ) {
             my $ot = <IF>;
             close($ot);
             return 1 if $text eq $ot;    # no changes?
         }
 
         unless ( $this->{-n} ) {
-            open( OF, '>' . $to ) || die "$to: $!";
+            open( OF, '>', $to ) || die "$to: $!";
         }
         print OF $text unless ( $this->{-n} );
         close(OF) unless ( $this->{-n} );
@@ -980,7 +988,7 @@ repository, not just this file.
 sub filter_pm {
     my ( $this, $from, $to ) = @_;
 
-    open( IF, '<' . $from ) || die 'No source topic ' . $from . ' for filter';
+    open( IF, '<', $from ) || die 'No source topic ' . $from . ' for filter';
     local $/ = undef;
     my $text = <IF>;
     close(IF);
@@ -988,7 +996,7 @@ sub filter_pm {
     $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gso;
 
     unless ( $this->{-n} ) {
-        open( OF, '>' . $to )
+        open( OF, '>', $to )
           || die 'Bad dest topic ' . $to . ' for filter:' . $!;
         print OF $text;
         close(OF);
@@ -1010,7 +1018,7 @@ sub target_release {
 
     print "Building a release for ";
     print "Version $this->{VERSION} of $this->{project}\n";
-    if ($this->{-v}) {
+    if ( $this->{-v} ) {
         print 'Package name will be ', $this->{project}, "\n";
         print 'Topic name will be ', $this->_getTopicName(), "\n";
     }
@@ -1031,7 +1039,7 @@ stages all the files to be in the release in a tmpDir, ready for target_archive
 sub target_stage {
     my $this    = shift;
     my $project = $this->{project};
-    
+
     $this->{tmpDir} ||= File::Temp::tempdir( CLEANUP => 1 );
     File::Path::mkpath( $this->{tmpDir} );
 
@@ -1051,8 +1059,10 @@ sub target_stage {
         }
     }
     if ( -e $this->{tmpDir} . '/' . $this->{topic_root} . '.txt' ) {
-        $this->cp( $this->{tmpDir} . '/' . $this->{topic_root} . '.txt',
-            $this->{basedir} . '/' . $project . '.txt' );
+        $this->cp(
+            $this->{tmpDir} . '/' . $this->{topic_root} . '.txt',
+            $this->{basedir} . '/' . $project . '.txt'
+        );
     }
     $this->apply_perms( $this->{files}, $this->{tmpDir} );
 
@@ -1060,11 +1070,15 @@ sub target_stage {
         my $libs = join( ':', @INC );
         foreach my $module ( @{ $this->{other_modules} } ) {
 
-            die "$basedir / $module does not exist, cannot build $module\n" unless (-e "$basedir/$module");
-            
+            die "$basedir / $module does not exist, cannot build $module\n"
+              unless ( -e "$basedir/$module" );
+
             print STDERR "Installing $module in $this->{tmpDir}\n";
+
             #SMELL: uses legacy TWIKI_ exports
-            my $cmd = "export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install";
+            my $cmd =
+"export FOSWIKI_HOME=$this->{tmpDir}; export FOSWIKI_LIBS=$libs; export TWIKI_HOME=$this->{tmpDir}; export TWIKI_LIBS=$libs; cd $basedir/$module; perl build.pl handsoff_install";
+
             #print STDERR "***** running $cmd \n";
             print `$cmd`;
         }
@@ -1125,9 +1139,9 @@ sub target_archive {
         print STDERR "WARNING: Digest::MD5 not installed; cannot checksum\n";
     }
     else {
-        open( CS, ">$project.md5" ) || die $!;
+        open( CS, '>', "$project.md5" ) || die $!;
         foreach my $file (@fs) {
-            open( F, "<$file" );
+            open( F, '<', $file );
             local $/;
             my $data = <F>;
             close(F);
@@ -1142,7 +1156,7 @@ sub target_archive {
 
     foreach my $f qw(.tgz .zip .txt _installer) {
         print "$f in $this->{basedir}/$project$f\n";
-        unless( -e "$this->{basedir}/$project$f" ) {
+        unless ( -e "$this->{basedir}/$project$f" ) {
             print STDERR "\tWTF? no $this->{basedir}/$project$f there!\n";
         }
     }
@@ -1242,7 +1256,7 @@ Uses the installer script written by target_installer
 =cut
 
 sub target_uninstall {
-    my $this  = shift;
+    my $this = shift;
     my $home = $ENV{FOSWIKI_HOME};
     die 'FOSWIKI_HOME not set' unless $home;
     $this->pushd($home);
@@ -1355,8 +1369,7 @@ Suffix:  $this->{UPLOADTARGETSUFFIX}
 END
 
         last if ask( "Is that correct? Answer 'n' to change", 1 );
-        print
-"Enter the name of the web that contains the target repository\n";
+        print "Enter the name of the web that contains the target repository\n";
         $this->{UPLOADTARGETWEB} = prompt( "Web", $this->{UPLOADTARGETWEB} );
         print "Enter the full URL path to the pub directory\n";
         $this->{UPLOADTARGETPUB} = prompt( "PubDir", $this->{UPLOADTARGETPUB} );
@@ -1401,7 +1414,7 @@ END
           ' -- ', $response->status_line, "\n";
         $newform{formtemplate} = 'PackageForm';
         if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-            $newform{TopicClassification} = $1.'Package';
+            $newform{TopicClassification} = $1 . 'Package';
         }
     }
     else {
@@ -1413,19 +1426,20 @@ END
                 if ( defined $val && length($val) ) {
                     $newform{$1} = $val;
                 }
-            } elsif ( $line =~ /META:FORM{name=/ ) {
+            }
+            elsif ( $line =~ /META:FORM{name=/ ) {
                 $formExists = 1;
             }
         }
-        if (!$formExists) {
+        if ( !$formExists ) {
             $newform{formtemplate} ||= 'PackageForm';
         }
         if ( $this->{project} =~ /(Plugin|Skin|Contrib|AddOn)$/ ) {
-            $newform{TopicClassification} ||= $1.'Package';
+            $newform{TopicClassification} ||= $1 . 'Package';
         }
     }
     local $/ = undef;    # set to read to EOF
-    if ( open( IN_FILE, '<' . $this->{basedir} . '/' . $to . '.txt' ) ) {
+    if ( open( IN_FILE, '<', $this->{basedir} . '/' . $to . '.txt' ) ) {
         print "Basing new topic on "
           . $this->{basedir} . '/'
           . $to . '.txt' . "\n";
@@ -1449,7 +1463,7 @@ END
     my $dataDir = $this->{basedir} . '/data/System';
     if ( opendir( DIR, $dataDir ) ) {
         foreach my $f ( grep( /^Var\w+\.txt$/, readdir DIR ) ) {
-            if ( open( IN_FILE, '<' . $this->{basedir} . '/data/System/' . $f ) )
+            if ( open( IN_FILE, '<', $this->{basedir} . '/data/System/' . $f ) )
             {
                 %newform = ( text => <IN_FILE> );
                 close(IN_FILE);
@@ -1465,8 +1479,8 @@ END
     # attachments to the topic on t.o. will still be there.
     my %uploaded;    # flag already uploaded
 
-    my $doupattachements = scalar(@attachments) &&
-      ask("Do you want to upload the attachments?", 1);
+    my $doupattachements = scalar(@attachments)
+      && ask( "Do you want to upload the attachments?", 1 );
 
     if ($doupattachements) {
         foreach my $a (@attachments) {
@@ -1479,9 +1493,18 @@ END
             $a =~ /attr="([^"]*)"/;
             my $attrs = $1 || '';
 
-            $this->_uploadAttachment( $userAgent, $user, $pass, $name,
-                $this->{basedir} . '/pub/System/' . $this->{project} . '/' . $name,
-                $comment, $attrs =~ /h/ ? 1 : 0 );
+            $this->_uploadAttachment(
+                $userAgent,
+                $user,
+                $pass,
+                $name,
+                $this->{basedir}
+                  . '/pub/System/'
+                  . $this->{project} . '/'
+                  . $name,
+                $comment,
+                $attrs =~ /h/ ? 1 : 0
+            );
             $uploaded{$name} = 1;
         }
     }
@@ -1539,7 +1562,8 @@ sub _postForm {
     my $response =
       $userAgent->post( $url, $form, 'Content_Type' => 'form-data' );
 
-    if (   $response->is_redirect() && $response->headers->header('Location') =~ /oopsaccessdenied|login/ ) 
+    if (   $response->is_redirect()
+        && $response->headers->header('Location') =~ /oopsaccessdenied|login/ )
     {
 
         # Try login if we got access denied despite passing creds
@@ -1561,7 +1585,8 @@ sub _postForm {
     die 'Upload failed ', $response->request->uri,
       ' -- ', $response->status_line, "\n", 'Aborting', "\n",
       $response->as_string
-      unless $response->is_redirect && $response->headers->header('Location') !~ /oops/;
+      unless $response->is_redirect
+          && $response->headers->header('Location') !~ /oops/;
 
     my $sleep = $GLACIERMELT;
     if ( $sleep > 0 ) {
@@ -1605,7 +1630,7 @@ sub target_POD {
         if ( $pmfile =~ /\.p[ml]$/o ) {
             next if $pmfile =~ /^$this->{project}_installer(\.pl)?$/;
             $pmfile = $this->{basedir} . '/' . $pmfile;
-            open( PMFILE, "<$pmfile" ) || die $!;
+            open( PMFILE, '<', $pmfile ) || die $!;
             my $inPod = 0;
             while ( my $line = <PMFILE> ) {
                 if ( $line =~ /^=(begin|pod)/ ) {
@@ -1694,7 +1719,7 @@ sub target_installer {
             }
         );
         print STDERR 'Auto-adding install script to manifest', "\n"
-          if ($this->{-v});
+          if ( $this->{-v} );
     }
 
     # Find the template on @INC
@@ -1786,7 +1811,7 @@ sub target_manifest {
     $collector = $this;
     my $manifest = _findRelativeTo( $buildpldir, 'MANIFEST' );
     if ( $manifest && -e $manifest ) {
-        open( F, '<' . $manifest )
+        open( F, '<', $manifest )
           || die 'Could not open existing ' . $manifest;
         local $/ = undef;
         %{ $collector->{manilist} } =
@@ -1854,7 +1879,7 @@ sub target_history {
     my $log = join( "\n", grep { !/^\?/ } split( /\n/, `$cmd` ) );
     print STDERR "WARNING:\n$log\n" if $log;
 
-    open( IN, "<$f" ) or die "Could not open $f: $!";
+    open( IN, '<', $f ) or die "Could not open $f: $!";
 
     # find the table
     my $in_history = 0;
@@ -2002,19 +2027,12 @@ sub target_dependencies {
     die "B::PerlReq is required for 'dependencies': $@" if $@;
 
     foreach my $m (
-        'strict',
-        'vars',
-        'diagnostics',
-        'base',
-        'bytes',
-        'constant',
-        'integer',
-        'locale',
-        'overload',
-        'warnings',
-        'Assert',
-        'TWiki',
-        'Foswiki' ) {
+        'strict',   'vars',     'diagnostics', 'base',
+        'bytes',    'constant', 'integer',     'locale',
+        'overload', 'warnings', 'Assert',      'TWiki',
+        'Foswiki'
+      )
+    {
         $this->{satisfied}{$m} = 1;
     }
 
@@ -2038,7 +2056,7 @@ sub target_dependencies {
         else {
             my $testfile = $this->{basedir} . '/' . $pmfile;
             if ( -e $testfile ) {
-                open( PMFILE, "<$testfile" ) || die "$testfile: $!";
+                open( PMFILE, '<', $testfile ) || die "$testfile: $!";
                 my $fline = <PMFILE>;
                 if ( $fline && $fline =~ m.#!/usr/bin/perl. ) {
                     $is_perl = 1;
