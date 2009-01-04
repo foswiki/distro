@@ -1032,7 +1032,7 @@ sub target_stage {
     my $this    = shift;
     my $project = $this->{project};
     
-    $this->{tmpDir} = File::Temp::tempdir( CLEANUP => 1 );
+    $this->{tmpDir} ||= File::Temp::tempdir( CLEANUP => 1 );
     File::Path::mkpath( $this->{tmpDir} );
 
     $this->copy_fileset( $this->{files}, $this->{basedir}, $this->{tmpDir} );

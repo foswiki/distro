@@ -155,12 +155,25 @@ sub target_installer {
 sub target_stage {
     my $this = shift;
 
+    # Create a Foswiki-* directory to hold everything, so the archive is safer
+    $this->{rootTmpDir} = File::Temp::tempdir( CLEANUP => 1 );
+    $this->{tmpDir} = File::Spec->catdir( $this->{rootTmpDir},
+$this->{name} || $this->{project});
+    $this->makepath( $this->{tmpDir} );
     $this->SUPER::target_stage();
 
     #use a Cairo install to create new ,v files for the data, and pub
     #WARNING: I don't know how to get the 'last' release, so i'm hardcoding Cairo
     $this->stage_gendocs();
     $this->stage_rcsfiles();
+}
+
+sub target_archive {
+    my $this = shift;
+
+    # Remove the hack for the Foswiki-* directory, so the archive contains it
+    $this->{tmpDir} = $this->{rootTmpDir};
+    $this->SUPER::target_archive();
 }
 
 # check in a single file to RCS
