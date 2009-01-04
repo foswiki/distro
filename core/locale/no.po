@@ -2404,7 +2404,7 @@ msgstr "Søkestreng"
 
 #: core/templates/oopsmore.tmpl:56
 msgid "Search the %1 Web for topics that link to here"
-msgstr "Søk i %1 web'en etter sider som linker hit"
+msgstr "Søk i %1 web etter sider som linker hit"
 
 #: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:36
 msgid "Search where:"
@@ -3638,7 +3638,7 @@ msgstr "søker lenker i _alle offentlige web_"
 #: core/templates/viewtopicactionbuttons.tmpl:14
 msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
 msgstr ""
-"title='Vedlegg et bilde eller dokument til denne siden' accesskey='a'>Legg ved (&a)"
+"title='Legg ved et bilde eller dokument til denne siden' accesskey='a'>Legg ved (&a)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:4
 msgid "title='Create new topic' accesskey='c'>&Create"
@@ -3654,15 +3654,15 @@ msgstr ""
 
 #: core/templates/viewtopicactionbuttons.tmpl:7
 msgid "title='Edit this topic text' accesskey='e'>&Edit"
-msgstr "title='Rediger denne side teksten' accesskey='e'>R&ediger"
+msgstr "title='Rediger teksten på denne siden' accesskey='e'>R&ediger"
 
 #: core/templates/viewtopicactionbuttons.tmpl:21
 msgid "title='Printable version of this topic' accesskey='p'>&Print version"
-msgstr "title='Utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig versjon (&p)"
+msgstr "title='Vis utskriftsvennlig versjon av siden' accesskey='p'>Utskriftsvennlig versjon (&p)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:9
 msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
-msgstr "title='Rå redigering av denne siden' accesskey='w'>Rå edit (&w)"
+msgstr "title='Rediger rå tekst på denne siden' accesskey='w'>Rå edit (&w)"
 
 #: core/templates/viewtopicactionbuttons.tmpl:28
 msgid ""
@@ -3674,7 +3674,7 @@ msgid ""
 "title='Search the %1 Web for topics that link to here' "
 "accesskey='b'>&Backlinks"
 msgstr ""
-"title='Søk i %1 web'en for sider som linker hit' accesskey='b'>&Backlinks"
+"title='Søk i %1 web for sider som linker hit' accesskey='b'>&Backlinks"
 
 #: core/templates/viewtopicactionbuttons.tmpl:26
 msgid ""
