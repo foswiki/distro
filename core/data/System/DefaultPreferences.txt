@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1176595196" format="1.1" version="$Rev: 15706 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1176595196" format="1.1" version="$Rev$"}%
 ---+!! <nop>%WIKITOOLNAME% Site-Level Preferences
 
 This topic defines *site-level* settings that apply to all users and webs on this site.
@@ -89,7 +89,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
    * Vertical size of text edit box: (can be overwritten by user preferences)
       * Set EDITBOXHEIGHT = 22
 
-   * Style of text edit box. Set to =width: 99%= for full window width (default; this will overwrite the EDITBOXWIDTH setting), or =width: auto= to disable. This setting works for IE and some other recent browsers. (can be overwritten by user preferences)
+   * Style of text edit box. Set to =width: 99%= for full window width (default; this will override the EDITBOXWIDTH setting), or =width: auto= to disable. This setting works for IE and some other recent browsers. (can be overwritten by user preferences)
       * Set EDITBOXSTYLE = width:99%
 
    * Default state of the *Force New Revision* (ForceNewRevision) check box in preview. Check box is initially checked if =Set FORCENEWREVISIONCHECKBOX = checked="checked"=, or unchecked if empty: (can be overwritten by user preferences)

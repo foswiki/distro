@@ -10,7 +10,7 @@ Features:
    * simple !JavaScript based form field validator for mandatory fields
    * hide some form fields (=hidden= option)
    * change display order of form fields (=order= option)
-   * use URL parameters to overwrite options (query parameter names: =rfp_&lt;attribute&gt;=)
+   * use URL parameters to override options (query parameter names: =rfp_&lt;attribute&gt;=)
    * define your own (mode dependent) form layout (=layout= option)
 
 *Example (image):*
@@ -98,7 +98,7 @@ Details:
 ---++ Attributes
 
 | *Attribute* | *Description* | *Default / Example* |
-| =dateformat= | overwrites the JSCALENDARDATEFORMAT preference for date fields | dateformat="%d %b %Y" |
+| =dateformat= | overrides the JSCALENDARDATEFORMAT preference for date fields | dateformat="%d %b %Y" |
 | =donotnotify= | disables notifications | undefined / donotnotify="on" |
 | =form= | (required attribute) a name of a topic with a %SYSTEMWEB%.DataForms definition | undefined / form="MyTestForm" |
 | =hidden= | a comma separated list of form field names to hide in all modes | undefined / hidden="Field1,Field2" |

@@ -29,7 +29,7 @@ Have a look at PatternSkinColorSettings.
  </pre>
 
 ---+++ When you need to make small adjustments: Adding to existing CSS
-With CSS you cannot remove already defined classes, you can only add to it, or overwrite existing styles. <br />
+With CSS you cannot remove already defined classes, you can only add to it, or override existing styles. <br />
 Overriding default CSS is done with 3 [[%SYSTEMWEB%.PreferenceSettings][preference settings]]: =USERLAYOUTURL=, =USERSTYLEURL=, =USERCOLORSURL=.
    * Create a new topic that will contain your new CSS files
    * Attach 1, 2 or 3 new style sheets to the topic, dependent on your CSS setup (if you don't change much, you might as well put everything in one CSS file, layout, margins and colors)
