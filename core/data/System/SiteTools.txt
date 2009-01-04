@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1177803014" format="1.1" version="$Rev: 13239 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1177803014" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Site Tools
 
@@ -107,8 +107,9 @@ Foswiki generates monthly log files which are used by the statistics script
      | register | =regstart= | !WikiUserName, e-Mail address, LoginName: =user attempts to register= |
      | register | =register= | E-mail address: =user successfully registers= |
      | register | =bulkregister= | !WikiUserName of new, e-mail address, admin ID |
-     | rename | =rename= | when moving topic: =moved to !Newweb.NewTopic= |
-     | rename | =move= | when moving attachment: =Attachment filename moved to !Newweb.NewTopic= |
+     | manage | =rename= | when moving topic: =moved to !Newweb.NewTopic= |
+     | manage | =move= | when moving attachment: =Attachment filename moved to !Newweb.NewTopic= |
+     | manage | =renameweb= | when renaming a web: =oldweb moved to newweb= |
      | save | =save= | when replacing existing revision: =repRev 3= %BR% when user checks the minor changes box: =dontNotify= %BR% when user changes attributes to an exising attachment: =filename.ext= |
      | save | =cmd= | special admin parameter used when saving |
      | search | =search= | search string |
