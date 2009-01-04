@@ -2,7 +2,7 @@
 # Translators:
 # translation of pt.po to português
 #   Foswiki:Main/AntonioTerceiro, 2007, 2008.
-#   Foswiki:Main/CarlinhosCecconi, 2007, 2008.
+#   Foswiki:Main/CarlinhosCecconi, 2007, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
@@ -626,7 +626,7 @@ msgstr ""
 
 #: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
 msgid "All public webs"
-msgstr "Todas as web públicas"
+msgstr "Todas as webs públicas"
 
 #: core/templates/foswiki.tmpl:7
 msgid "Allow non <nop>WikiWord for the new topic name"
@@ -1169,7 +1169,9 @@ msgstr "Detalhes em uma nova janela"
 msgid ""
 "Did you spell the topic name correctly? Remember, a topic name is case "
 "sensitive."
-msgstr "Você nomeou o tópico corretamente? Lembre-se que nomes de tópicos diferenciam maiúsculas e minúsculas (case sensitive)"
+msgstr ""
+"Você digitou o nome do tópico corretamente? Lembre-se que nomes de "
+"tópicos diferenciam maiúsculas e minúsculas (case sensitive)"
 
 #: core/data/System/VarMAKETEXT.txt:19
 msgid "Did you want to [[%1][reset %2's password]]?"
@@ -1538,7 +1540,7 @@ msgid ""
 "the [[%1][Jump box]] at the top"
 msgstr ""
 "Se você já sabe o nome do tópico, digite o nome dele na caixa [[%1][\"Pular "
-"para:\"]] no topo"
+"para:\"]] no topo da página"
 
 #: core/templates/messages.tmpl:425
 msgid ""
@@ -1727,7 +1729,7 @@ msgstr "Último Nome:"
 
 #: core/data/System/WebSearchAdvanced.txt:50
 msgid "Last editor"
-msgstr "Último a alterar"
+msgstr "Último usuário a alterar"
 
 #: core/data/System/WebSearchAdvanced.txt:49
 msgid "Last modified time"
@@ -1873,7 +1875,7 @@ msgstr "Nome da nova web faltando"
 
 #: core/data/System/TopicDoesNotExistViewTemplate.txt:8
 msgid "Navigate to a similar topic"
-msgstr "Navegue para um tópico similar."
+msgstr "Corrija o nome do tópico para o qual quer navegar."
 
 #: core/templates/messages.tmpl:153
 msgid "New User Registration disabled"
@@ -2152,8 +2154,8 @@ msgid ""
 "Quick edit of existing preferences (edit the topic text to set new "
 "preferences)"
 msgstr ""
-"Edite rapidamente as preferências existentes (edite o tópico para configurar "
-"novas preferências)"
+"Edite rapidamente as preferências existentes (para criar e configurar "
+"novas preferências será necessário editar o tópico)"
 
 #: EditTablePlugin/data/System/EditTablePlugin.txt:173
 msgid "Quiet save"
@@ -2522,8 +2524,8 @@ msgstr ""
 "As preferências do Sítio estão localizadas em %1. Mas as preferências desse "
 "tópico %2 sobrescrevem aquelas e serão consideradas nas definições de "
 "preferências locais. Isso possibilita fácil atualização sem perda das suas "
-"definições. Mantendo o seu grupo de preferências você pode copiar somente "
-"estas quando atualizar o sistema."
+"definições. Mantendo esse grupo de preferências você pode copiar somente "
+"estas (%2) quando atualizar o sistema."
 
 #: core/templates/attachtables.tmpl:4
 msgid "Size"
@@ -2536,7 +2538,7 @@ msgstr "Algumas pessoas colocam informações sobre agenda ou comentários de f�
 
 #: core/templates/messages.tmpl:366
 msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
-msgstr "Alguns caracteres com estes =&#126;=, =$=, =@=, =%= são removidos"
+msgstr "Alguns caracteres como estes =&#126;=, =$=, =@=, =%= são removidos"
 
 #: core/templates/messages.tmpl:311
 msgid ""
@@ -2727,8 +2729,8 @@ msgid ""
 "The checkmarked topics will be updated (another form will appear which will "
 "_eventually_ allow you to rename any topics that were locked)"
 msgstr ""
-"Os tópicos marcados serão atualizados (outro formulário vai aparecer e "
-"_pode_ permitir você renomear tópicos que estejam travados)"
+"Os tópicos marcados serão atualizados (outro formulário aparecerá e pode "
+"_eventualmente_ permitir que você renomeie tópicos que estejam travados)"
 
 #: core/templates/messages.tmpl:298
 msgid "The e-mail address for this account is not valid."
@@ -3399,7 +3401,7 @@ msgstr "Você poderá revisar o tópico copiado antes de salvá-lo."
 
 #: core/templates/oopsmore.tmpl:121
 msgid "You will be able to review the topic before saving it to a new revision"
-msgstr "Você pode ver o tópico antes de salvar para uma nova versão."
+msgstr "Você poderá revisar o tópico antes de salvá-lo para uma nova versão."
 
 #: core/templates/messages.tmpl:355
 msgid "You will probably have to ask your administrator, %1, to do this."
@@ -3629,7 +3631,7 @@ msgstr "pôr de volta"
 #: PatternSkin/templates/searchbase.pattern.tmpl:12
 #: core/data/System/WebChanges.txt:2
 msgid "retrieved at %1"
-msgstr "obtidos em %1"
+msgstr "pesquisado às %1"
 
 #: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
 msgid "scans links in _%1 web_ only"
