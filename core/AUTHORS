@@ -1,20 +1,22 @@
 Foswiki is a development of the Foswiki community.
 
-Foswiki is based on TWiki<sup>&reg;</sup>, which was written by Peter Thoeny, who
-based his work on Jos Wiki and parts of Ward Cunningham's original Wiki.
-Over the years TWiki has been maintained, extended and rewritten
-by TWiki contributors, whos names are included below. TWiki is a trademark
-of Peter Thoeny.
+Foswiki is based on TWiki<sup>&reg;</sup>, which was originally written by
+Peter Thoeny, who based his work on Jos Wiki and parts of Ward Cunningham's
+original Wiki.  Over the years TWiki has been maintained, extended and
+rewritten by many TWiki contributors, whose names are included below. TWiki is
+a registered trademark of Peter Thoeny.
 
-Foswiki is copyright as described in the file COPYRIGHT in the root of
+Foswiki is copyrighted as described in the file COPYRIGHT in the root of
 this distribution and is licensed under the terms of the GNU General Public
 License as described in the file LICENSE accompanying this notice. The people
-listed below are identified as joint copyright owners.
+listed below are identified as copyright owners of their contributions to
+Foswiki.
 
-A Foswiki contributor is defined as a person who has contributed:
-   * significant amounts of code (enhancements as well as bug fixing) that was taken into the Foswiki distribution, or
-   * considerably to the Foswiki documentation.
-   * performed the translation of strings into a language
+A Foswiki author is one who has submitted new or modified files to the Foswiki
+distribution. This includes the following:
+   * software files
+   * Foswiki documentation
+   * user interface translation files
 
 The following people are identified as authors of Foswiki:
 | *Name*               | *Contact*                      | *Country*   |
