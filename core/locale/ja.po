@@ -3689,7 +3689,7 @@ msgstr "title='トピックを確認します' accesskey='v'>トピック確認"
 #: core/templates/viewtopicactionbuttons.tmpl:33
 #: core/templates/viewtopicactionbuttons.tmpl:35
 msgid "title='View total topic history' accesskey='h'>&History"
-msgstr "title=''トピックの履歴を確認します' accesskey='h'>履歴"
+msgstr "title='トピックの履歴を確認します' accesskey='h'>履歴"
 
 #: core/lib/Foswiki.pm:4269
 msgid "user list truncated"
