@@ -15,6 +15,9 @@ The tools directory contains the following:
       * When run in an SVN checkout area, links all the twikiplugins into the core source tree, so they look as if they are installed.
    * plugins_conformance_analyser.pl
       * Generates the plugins standards conformance report Plugins.PluginsConformanceReport
+   * twiki2foswiki
+      * A script that will do 95-99% of the work of converting an extension from TWiki namespace to Foswiki. You will still need to manually update doc work and comments in the code as required. 
+
 ---++ a full TWikiFor builder and installer
    * builddistros.pl
    * distro
