@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1200423469" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231133670" format="1.1" reprev="1.2" version="$rev$"}%
 %STARTINCLUDE%
 ---+ Appendix A: TWiki Development Time-line
 
@@ -6,38 +6,48 @@
 
 ---++ Foswiki Release 1.0.0
 
-Foswiki is the old TWiki project under a new name. Developers decided to discard the TWiki brand because of a commercial dispute and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is backwards compatible all content from older TWiki installations. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
+Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.0.0 ships with a !TWikiCompatibilityPlugin installed and activated by default, thus enabling most extensions made for TWiki to work under Foswiki.
 
-*New Features and Enhancements of Foswiki Release 1.0.0*
+---+++!! New features and enhancements
 
-   * The Foswiki 1.0.0 is built on a new platform called Foswiki Stand Alone which enables more optimized functionality in mod_perl and the like. It also enables making features like running Foswiki without a webserver locally. These new features are not yet available but they will soon and by running Foswiki 1.0.0 you are already ready for them when they because available for download.
-   * The PatternSkin has been facelifted. If you go to the PatternSkin topic you can select different themes. You can choose which side you want the side bar, you can add a frame around the whole content, and there is a TWiki theme which makes it easier for the upgrader as it maintains the dimentions of top bar etc.
-   * Advanced Search screen now has query type search
-   * New section type "expandvariables" adds better control over macro expansion in topic templates. You can now create template topics with sections within which all macros are expanded.
-   * New "Copy topic" feature in the "More topic actions" tools.
-   * IF conditions has been expanded with new "isempty" test condition
-   
-*Security Fixes in Foswiki Release 1.0.0*
+   * Foswiki 1.0.0 is built on a new platform called [[http://foswiki.org/Development/FoswikiStandAlone][Foswiki Stand Alone]] which adds support for [[http://foswiki.org/Extensions/FastCGIEngineContrib][FastCGI]] and enables more optimized functionality in mod_perl and other similar runtime environments. Foswiki Stand Alone also enables future features such as running Foswiki by itself without a separate web server (for example, from a stand alone memory key). You can ensure your applications and plugins will work properly on the new platform (and thus with any future capabilities dependent on the new architecture) by testing them out now with Foswiki 1.0.0.
+   * A !TWikiCompatibilityPlugin has been created that enables most extensions made for TWiki to work under Foswiki, and to support seamless migrations from TWiki to Foswiki.
+   * The PatternSkin has been given a facelift: The PatternSkin topic offers a choice of multiple themes, the sidebar can be placed either on the left or right, a frame can be added around the main content area, and a TWiki theme is available to make it easier for those upgrading from TWiki (dimensions such as the top bar size match the dimensions in the TWiki PatternSkin).
+   * The "Advanced Search" page now supports a query-based search.
+   * A new section type, "expandvariables", adds better control over macro expansion in topic templates. You can now create template topics with sections where all macros contained within the sections are expanded.
+   * A "Copy topic" feature is now present in the "More topic actions" tools.
+   * IF conditions has been expanded with an "isempty" test condition.
+   * =viewfile= script can be used as a webserver _ErrorDocument_ enabling both more secure attachments and user focused error dialogs.
+
+---+++!! Security Updates
 
 Foswiki is much more secure than TWiki 4.2.4.
 
-   * The Foswiki 1.0.0 has chosen to secure by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities within normal use of URLPARAM. This means that not only the distributed topics but also your existing topics are better protected against XSS.
-   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS like URLPARAM is now encoding with the new "safe" type encoding.
-   * Print preview link is no longer an XSS attack vector.
-   * A developer security audit of the code revealed quite many both severe and less severe possibilities to inject code into the running old TWiki code. Foswiki has rewritten all code that takes data from outside so that it is checked and filtered for safe execution. Much more rigorous taint checking is now applied to all variables. As the Foswiki code is already a major rewrite it has not been practically possible for the Foswiki project to feed patches back to the TWiki code. TWiki users are for security reasons adviced to upgrade to Foswiki as soon as possible, as we have not seen any attempt from the TWiki.net company to even start porting our fixes back into their old TWiki code base. None of the known attack vectors has or will be exposed to the public. They are all found and fixed inside the Foswiki core development team.
-   
-*Major changes caused by name change from TWiki to Foswiki*
+   * Foswiki 1.0.0 has secured by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
+   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS, like URLPARAM, is now encoded with the new, safe encoding.
+   * The print preview link is no longer vulnerable to XSS attacks.
+   * Additional security fixes have been made, based on security audits performed by the Foswiki team. Sensitive data from the topic text and web client requests are validated for safety.
 
-Because TWiki brandname is legally owned by Peter Thoeny we have felt it necessary to eliminate the TWiki word everywhere. It has also been an opportunity to change some of the naming that caused confusement for the end users.
+---+++!! Terminology changes in Foswiki
 
-   * The TWiki web is now called System
+As part of the first Foswiki product release, various topics and terms were changed to avoid using the TWiki brand name and to more accurately reflect their purpose, including the following:
+
+   * The TWiki web is now called System, as it contains configuration information for the entire Foswiki installation. The !TWikiCompatibilityPlugin provides backwards compatible support for references to the TWiki web, in order to facilitate migrations from TWiki to Foswiki.
    * The %<nop>TWIKIWEB% and %<nop>MAINWEB% variables are now called %<nop>SYSTEMWEB% and %<nop>USERSWEB%
-   * System distributed topics have been renamed to eliminate the TWiki word and to make the text more readable (e.g Plugins, Skins etc)
+   * Topics in the Foswiki distribution have been renamed to eliminate the TWiki word and to make the titles more readable (for example, Plugins, Skins, and so forth).
    * All templates, CSS and Javascript names have been changed from twikiXxxxx to foswikiXxxxx
-   * The !TWikiCompatibilityPlugin has been created to help the upgrader so that links to the old topics do not appear broken and so most Plugins made for TWiki 4.2 also works in Foswiki 1.0.0.
-   * Terminology changes: Most important are, TWiki Variables and now called Macros, TWiki Forms are now Data Forms, TWiki Applications are now Wiki Applications, TWiki Markup Language is not Topic Markup Language (still TML).
-   
-*Hall of Fame of Foswiki*
+   * Key terminology changes:
+| *TWiki term* | *Foswiki term* |
+| TWiki variable | Macro |
+| preference(s) variable | preference setting, or macro when referring to expansion of same |
+| TWiki form | Data form |
+| TWiki Plugin | Plugin |
+| TWiki Template | Skin Template |
+| Topic Template | Template Topic |
+| TWiki Markup Language (TML) | Topic Markup Language (TML) |
+| TWiki Application | Wiki Application |
+
+---+++!! Foswiki Hall of Fame
 
 The proud, free, independent Foswiki community.
 
@@ -46,60 +56,54 @@ Highlights:
    * *Top 5 core contributors on SVN*: Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.ArthurClemens, Foswiki:Main.OlivierRaginel
    * *Top contributors in general on SVN*: Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, Foswiki:Main.ArthurClemens, Foswiki:Main.OlivierRaginel, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.MichaelDaum, Foswiki:Main.GilmarSantosJr, Foswiki:Main.SebastianKlus, Foswiki:Main.WillNorris, Foswiki:Main.SeanMcCarthy, Foswiki:Main.MartinCleaver, Foswiki:Main.RobManson
    * *Development Infrastructure*: Foswiki:Main.SvenDowideit, Foswiki:Main.EugenMayer, Foswiki:Main.KoenMartens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KwangErnLiew, Foswiki:Main.OliverKrueger, Foswiki:Main.OlivierRaginel, Foswiki:Main.WillNorris, Foswiki:Main.ColasNahaboo, Foswiki:Main.KennethLavrsen
-   
-   
-
-#FreetownRelease
+#FreetownRelease 
 ---++ TWiki Release 4.2.1 (Freetown) released %$DATE%
 
 Patch release following the 4.2.0 released 22 Jan 2008
 
 *New Features and Enhancements of TWiki Release 4.2*
 
-   * *Easier Installation and Upgrade*
+   * *Easier Installation and Upgrade* 
       * New Internal Admin Login feature
       * The !Main.WikiUsers topic is no longer distributed as a default topic in Main web
       * A new directory =working= which per default is located in the TWiki root which contains registration_approvals, tmp, and work_areas
       * Configure can now authenticate when connecting to local plugins repository.
 
-   * *Usability Enhancements*
+   * *Usability Enhancements* 
       * New WYSIWYG editor based on !TinyMCE replaces the Kupu based editor
       * New "Restore topic" feature has been added to the _More Topic Actions_ menu to easily restore an older version of a topic
 
-   * *Application Platform Enhancements*
+   * *Application Platform Enhancements* 
       * Enhancements to IF: allows, ingroup, istopic, and isweb
 
-   * *Search Enhancements*
+   * *Search Enhancements* 
       * New =query= search mode supports SQL-style queries over form fields and other meta-data
 
-   * *Skins and Templates Enhancements*
+   * *Skins and Templates Enhancements* 
       * The !PatternSkin which is the default skin for TWiki has got a face lift
       * The default templates have been heavily refactored to make it easier to create skins reusing the default skin.
 
-   * *Miscellaneous Feature Enhancements*
+   * *Miscellaneous Feature Enhancements* 
       * Many new functions in the API for plugin developers
       * Table of Content (TOC) feature enhanced
       * re-architected Pluggable user mapping (between login name and !WikiName) to integrate with alternative authentication and Management schemes
       * Topic based User management has been extracted into a separately update-able package (!WikiUsersContrib)
 
-   * *Enhancements of Pre-installed Plugins*
+   * *Enhancements of Pre-installed Plugins* 
       * CommentPlugin: New =templatetopic= parameter to point to custom comment template topic
-      * EditTablePlugin: Move and delete rows 
+      * EditTablePlugin: Move and delete rows
       * MailerContrib: Allow Exclusion Of Webs
       * SpreadSheetPlugin: 6 new math formulas; formula to format time diff
 
-   * *Bug Fixes*
+   * *Bug Fixes* 
       * More than 300 bugs fixes since 4.1.2
-
-#FreetownHallOfFame
-*Hall of Fame of TWiki Release 4.2*
+#FreetownHallOfFame *Hall of Fame of TWiki Release 4.2*
 
 Many people have been involved in creating TWiki 4.2. Special thanks go to the most active contributors in the following areas:
    * Release management led by Foswiki:Main.KennethLavrsen, ably assisted by Foswiki:Main.SvenDowideit
    * Design and development driven by Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.KennethLavrsen and Foswiki:Main.SvenDowideit
    * Testing driven by Foswiki:Main.KennethLavrsen
-
-Many thanks also to the contributors in the following areas:
+Many thanks also to the contributors in the following areas: 
    * *Sponsor and facilitator:* TWiki:Main.PeterThoeny
    * *Testing and bug fixing:* Foswiki:Main.KennethLavrsen, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SvenDowideit, Foswiki:Main.SteffenPoulsen, Foswiki:Main.MichaelDaum, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin
    * *Spec and code:* Foswiki:Main.CrawfordCurrie (2323), Foswiki:Main.ArthurClemens (566), Foswiki:Main.SvenDowideit (507), TWiki:Main.PeterThoeny (83), Foswiki:Main.KennethLavrsen (73), Foswiki:Main.SteffenPoulsen (72), TWiki:Main.AntonioTerceiro (63) - ( 3857 changes by 20 authors )
@@ -107,7 +111,7 @@ Many thanks also to the contributors in the following areas:
    * *Documentation:* Foswiki:Main.ArthurClemens (460), Foswiki:Main.CrawfordCurrie (377), TWiki:Main.PeterThoeny (233), Foswiki:Main.AndreUlrich (157), Foswiki:Main.SvenDowideit (118), Foswiki:Main.KennethLavrsen (68) - ( 1450 changes by 14 authors )
    * *Release package builds:* Foswiki:Main.SvenDowideit
    * *Usability:* Foswiki:Main.CarloSchulz, Foswiki:Main.ArthurClemens
-   * *Translations:* Coordinated by TWiki:Main.AntonioTerceiro
+   * *Translations:* Coordinated by TWiki:Main.AntonioTerceiro 
       * Bulgarian: TWiki:Main.KrassimirBerov
       * Danish: Foswiki:Main.SteffenPoulsen
       * Dutch: Foswiki:Main.ArthurClemens
@@ -126,19 +130,16 @@ Many thanks also to the contributors in the following areas:
    * *TWiki.org wiki champions:* TWiki:Main.PeterThoeny, Foswiki:Main.ArthurClemens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KennethLavrsen, Foswiki:Main.SvenDowideit, Foswiki:Main.MichaelDaum, Foswiki:Main.CarloSchulz, Foswiki:Main.StephaneLenclud, TWiki:Main.RichardDonkin, Foswiki:Main.KoenMartens <!-- Blog, Codev, Main, Plugins, TWiki webs -->
    * *Customer support:* TWiki:Main.PeterThoeny, Foswiki:Main.ArthurClemens, Foswiki:Main.CrawfordCurrie, Foswiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg <!-- Support web -->
    * *System administration:* Foswiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie
-
-If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
+If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor.
 
 *Note:* Order of contributors under "Spec and code", "Templates and skins" and "Documentation" is based on number of SVN file changes for core and default extensions from March 2007 (svn rev:13046) to Jan 2008 (svn rev:16210). (Details at TWikibug:TWiki420SvnLog). Order of contributors under "Testing and bug fixing" is based on Bugs web statistics from 2007-03 to 2007-12. Order of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2007-02 to 2007-12.
-
-
 
 #EdinburghRelease
 ---++ TWiki Release 4.1 (Edinburgh), 16 Jan 2007
 
 *New Features and Enhancements of TWiki Release 4.1*
 
-   * *Easier Installation and Upgrade*
+   * *Easier Installation and Upgrade* 
       * Plugins can now be installed from the configure script.
       * The loading of plugin preferences settings has been moved earlier in the preferences evaluation order so that plugin settings can be redefined in [[%LOCALSITEPREFS%]], !WebPreferences and in topics. To make TWiki upgrades easier, it is recommended to set the plugin settings in <nop>%LOCALSITEPREFS%, and not to customize the settings in the plugin topic. For example, to change the TEMPLATES setting of the CommentPlugin, create a new COMMENTPLUGIN_TEMPLATES setting in <nop>%LOCALSITEPREFS%.
       * Plugin settings can now be defined in configure instead of in the plugin topic (requires that the individual plugin has implemented this). TWiki performs slightly better by not looking for preferences settings in plugin topics.
@@ -146,14 +147,14 @@ If you find an omission please fix it at TWiki:System.ReleaseHistory. For the fu
       * The webmaster email address is now defined in configure instead of !TWikiPreferences.
       * Default file access rights in the distribution package have been changed to be more universally defined and in line with the default access rights for new topics.
 
-   * *Usability Enhancements*
+   * *Usability Enhancements* 
       * Redesigned result page when typing incomplete topic name into the Jump box, so that it is possible to quickly navigate to a topic, also in a very large TWiki installation. For example, "I know there is a topic about Ajax somewhere in the Eng web. OK, let my type =Eng.ajax= into the Jump box... Here we go, the third link is the !AjaxCookbook I was looking for."
       * Many user documentation improvements.
       * URL parameters maintained in Table of Contents links so you can stay in a temporary skin (e.g. print) and keep URLPARAM values when you click the TOC links
       * Attachment tables now sorted alphabetically.
       * Better printing of tables and verbatim text in PatternSkin.
 
-   * *Application Platform Enhancements*
+   * *Application Platform Enhancements* 
       * Auto-incremented topic name on save with AUTOINC&lt;n&gt; in topic name; used by TWiki applications to create topic based database records.
       * The edit and save scripts support a =redirectto= parameter to redirect to a topic or a URL; for security, redirect to URL needs to be enabled with a ={AllowRedirectUrl}= configure flag.
       * CommentPlugin supports the =redirectto= parameter to redirect to a URL or link to TWiki topic after submitting comment.
@@ -162,19 +163,19 @@ If you find an omission please fix it at TWiki:System.ReleaseHistory. For the fu
       * New plugin handler for content move.
       * Enhancements for Ajax based applications with Foswiki:Extensions/YahooUserInterfaceContrib and Foswiki:Extensions.TWikiAjaxContrib (available at twiki.org).
 
-   * *Search Enhancements*
+   * *Search Enhancements* 
       * METASEARCH handles a format parameter like SEARCH.
       * Topic not found / WebTopicViewTemplate search now case insensitive.
       * FormattedSearch header supporting =$nop=, =$quot=, =$percnt=, =$dollar=.
       * Add search by createdate option to SEARCH.
       * New newline option for SEARCH to protect e.g. formfields from being altered during rendering in SEARCH.
 
-   * *Skins and Templates Enhancements*
+   * *Skins and Templates Enhancements* 
       * Support for templates to have text rendering affecting aspect outside of textarea.
       * Pattern skin dependence on TwistyPlugin instead of TwistyContrib (performance improvement.)
       * Don't strip newlines from the front of TMPL:DEFs.
 
-   * *Miscellaneous Feature Enhancements*
+   * *Miscellaneous Feature Enhancements* 
       * Change in WikiWord definition: Numbers are treated as lower case letters, e.g. !Y2K is now a !WikiWord.
       * Configurable template load path. Advanced feature for those that work with customized templates.
       * Added %<nop>VBAR% to !TWikiPreferences for vertical bar symbol.
@@ -184,7 +185,7 @@ If you find an omission please fix it at TWiki:System.ReleaseHistory. For the fu
       * WebTopicCreator - adding ability to select a template from any topic name ending in ...Template
       * Functionality of Foswiki:Extensions.DateFieldPlugin merged into core
 
-   * *Enhancements of Pre-installed Plugins*
+   * *Enhancements of Pre-installed Plugins* 
       * CommentPlugin: Supports removal of comment prompt after a comment is made.
       * EditTablePlugin: Default date format based on JSCalendarContrib instead of plugin topic.
       * InterwikiPlugin: Supports custom link formats.
@@ -194,11 +195,9 @@ If you find an omission please fix it at TWiki:System.ReleaseHistory. For the fu
       * TablePlugin: Highlight the sorted column with custom colors; includes also a general cosmetic update of default colors.
       * TablePlugin: Support for initsort on more than one table. A table with the initsort option is initsorted UNLESS it is sorted by clicking on a column header. If you click on a header of another table all other tables goes back to the default sort defined by initsort or not sorted if no initsort, and the new table is sorted based on the user clicking on a table header.
 
-   * *Bugfixes*
+   * *Bugfixes* 
       * More than 200 bugs fixed since 4.0.5
-
-#EdinburghHallOfFame
-*Hall of Fame of TWiki Release 4.1*
+#EdinburghHallOfFame *Hall of Fame of TWiki Release 4.1*
 
 Although many more people have been involved in creating TWiki-4.1, special thanks go to the most active contributors in the following areas:
 
@@ -208,7 +207,7 @@ Although many more people have been involved in creating TWiki-4.1, special than
    * *Spec, code, testing:* Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SteffenPoulsen, TWiki:Main.PeterThoeny, TWiki:Main.ThomasWeigert, Foswiki:Main.KennethLavrsen, Foswiki:Main.SvenDowideit, TWiki:Main.HaraldJoerg, Foswiki:Main.MichaelDaum, TWiki:Main.MeredithLesly, Foswiki:Main.WillNorris, TWiki:Main.RafaelAlvarez, TWiki:Main.AntonioTerceiro
    * *Templates and skins:* Foswiki:Main.ArthurClemens, Foswiki:Main.MichaelDaum, Foswiki:Main.SvenDowideit
    * *Documentation:* TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SteffenPoulsen, Foswiki:Main.KennethLavrsen
-   * *Translations:* Coordinated by TWiki:Main.AntonioTerceiro
+   * *Translations:* Coordinated by TWiki:Main.AntonioTerceiro 
       * Chinese: TWiki:Main.CheDong
       * Czech: TWiki:Main.IvanKuncl
       * Danish: Foswiki:Main.SteffenPoulsen
@@ -225,13 +224,11 @@ Although many more people have been involved in creating TWiki-4.1, special than
    * *TWiki.org wiki champions:* TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie, Foswiki:Main.KennethLavrsen, Foswiki:Main.SteffenPoulsen, Foswiki:Main.ArthurClemens, TWiki:Main.ThomasWeigert, Foswiki:Main.MichaelDaum
    * *Customer support:* TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie, Foswiki:Main.ArthurClemens, Foswiki:Main.SteffenPoulsen, TWiki:Main.SteveStark, Foswiki:Main.MichaelDaum
    * *System administration:* Foswiki:Main.SvenDowideit, TWiki:Main.PeterThoeny, Foswiki:Main.CrawfordCurrie
-
-If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor. 
+If you find an omission please fix it at TWiki:System.ReleaseHistory. For the full list of contributors see ProjectContributor.
 
 *Note:* Sequence of contributors under "Spec, code, testing", "Templates and skins" and "Documentation" is based on number of SVN check-ins for core and default extensions from 2006-02 to 2006-12. Sequence of contributors under "TWiki.org wiki champions" and "Customer support" is based on TWiki.org web statistics from 2006-02 to 2006-12.
 
 See more details on the TWiki 4.1 release at TWikiReleaseNotes04x01.
-
 
 #DakarRelease
 ---++ TWiki Release 4.0.0 (Dakar), 01 Feb 2006
@@ -246,7 +243,6 @@ See more details on the TWiki 4.1 release at TWikiReleaseNotes04x01.
    * E-mail confirmations for registration
    * WYSIWYG editor (beta)
    * Hierarchical sub-webs (beta)
-
 Many, many people worked on TWiki-4.0.0. The credits in the table below only list the people who worked on individual enhancements. If you find an omission please fix it at TWiki:System.%TOPIC%. There were many other contributors; for a full list, visit ProjectContributor.
 
 Most of the redesign, refactoring and new documentation work in Dakar release was done by [[http://c-dot.co.uk][Crawford Currie]]. [[http://kamaelia.org/Michael.html][Michael Sparks]] provided ideas and proof of concept for several improvements. Other people who gave _large_ amounts of their time and patience to less sexy aspects of the work, such as testing, infrastructure and documentation, are [[TWiki:Main.AntonAylward][AntonAylward]], [[Foswiki:Main.KennethLavrsen][KennethLavrsen]], [[Foswiki:Main.LynnwoodBrown][LynnwoodBrown]], [[Foswiki:Main.MichaelDaum][MichaelDaum]], [[http://www.structuredwikis.com/][Peter Thoeny]], [[Foswiki:Main.SteffenPoulsen][SteffenPoulsen]], [[http://www.home.org.au][Sven Dowideit]], [[Foswiki:Main.WillNorris][WillNorris]].
@@ -269,7 +265,7 @@ Most of the redesign, refactoring and new documentation work in Dakar release wa
 | Polish translation | [[TWiki:Main.ZbigniewKulesza][ZbigniewKulesza]] |
 | Portuguese translation | [[TWiki:Main.AntonioTerceiro][AntonioTerceiro]], [[TWiki:Main.CarlinhosCecconi][CarlinhosCecconi]] |
 | Spanish translation | [[Foswiki:Main.WillNorris][WillNorris]], [[TWiki:Main.MiguelABayona][MiguelABayona]] |
-| Swedish translation | [[TWiki:Main.ErikAman][Erik &Aring;man]] |
+| Swedish translation | [[TWiki:Main.ErikAman][Erik Åman]] |
 | *New features for users*  ||
 | Edit conflict resolution with automatic merge | [[http://c-dot.co.uk][Crawford Currie]] |
 | Fine grained change notification on page level and parent/child relationship | [[http://c-dot.co.uk][Crawford Currie]] |
@@ -325,8 +321,7 @@ See more details at TWikiReleaseNotes04x00
    * Better support for different authentication methods
    * Many user interface and usability improvements
    * And many, many more enhancements
-
-%TABLE{ columnwidths="90%, 10%"}%
+%TABLE{ columnwidths="90%, 10%"}% 
 | *Details of New Features and Enhancements of 01-Sep-2004 Release* | *Developer, Sponsor* |
 | Install: Ship with an automatic upgrade script to facilitate TWiki upgrades. [[http://TWiki.org/cgi-bin/view/Codev/CairoReleaseUpgradeGuide][Details]] | TWiki:Main.MartinGregory Foswiki:Main.SvenDowideit |
 | Install: New testenv function to change the locks in the TWiki database to the web server user id (automates installation step). [[http://TWiki.org/cgi-bin/view/Codev/RelockingRCSFiles][Details]] | TWiki:Main.MattWilkie Foswiki:Main.SvenDowideit |
@@ -355,7 +350,7 @@ See more details at TWikiReleaseNotes04x00
 | Rendering: TWiki Form with Label type. [[http://TWiki.org/cgi-bin/view/Codev/TWikiFormWithLabelType][Details]] | TWiki:Main.PeterThoeny |
 | Rendering: Web names can now be !WikiWords. [[http://TWiki.org/cgi-bin/view/Codev/WebNameAsWikiName][Details]] | TWiki:Main.PeterThoeny |
 | Rendering: New syntax for definition list with dollar sign and colon. [[http://TWiki.org/cgi-bin/view/Codev/WikiSyntaxForDefinitionLists][Details]] | TWiki:Main.AdamTheo TWiki:Main.PeterThoeny |
-| Rendering: Table with multi-span rows, functionality provided by Table Plugin. [[http://TWiki.org/cgi-bin/view/Codev/WikiTablesNeedRowspanning][Details]] | TWiki:Main.WalterMundt | 
+| Rendering: Table with multi-span rows, functionality provided by Table Plugin. [[http://TWiki.org/cgi-bin/view/Codev/WikiTablesNeedRowspanning][Details]] | TWiki:Main.WalterMundt |
 | Variables: New title parameter for TOC variable. [[http://TWiki.org/cgi-bin/view/Codev/AddHeadingToToc][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.ArthurClemens |
 | Variables: New REVINFO variable in templates supports flexible display of revision information. [[http://TWiki.org/cgi-bin/view/Codev/AddRevisionVariablesToTemplate][Details]] | TWiki:Main.PeterThoeny Foswiki:Main.SvenDowideit |
 | Variables: Set times to be displayed as gmtime or servertime. [[http://TWiki.org/cgi-bin/view/Codev/AlwaysServerTimeZone][Details]] | TWiki:Main.SueBlake Foswiki:Main.SvenDowideit |
@@ -427,7 +422,6 @@ See more details at TWikiReleaseNotes04x00
 | Code refactoring: Topic search is done natively in Perl, it does not depend anymore on system calls with pipes. [[http://TWiki.org/cgi-bin/view/Codev/SearchWithNoPipe][Details]] | TWiki:Main.PeterThoeny |
 | Code refactoring: Fix logical error in upload script which prevented MIME filename from being used. [[http://TWiki.org/cgi-bin/view/Codev/UploadFilenameFixToEnableBatchUploadWithCurl][Details]] | TWiki:Main.WalterMundt |
 
-
 %TABLE{ columnwidths="90%, 10%"}%
 | *Bug Fixes of 01-Sep-2004 Release* | *Developer, Sponsor* |
 | Fix: Consistently create headings with empty anchor tags. [[http://TWiki.org/cgi-bin/view/Codev/AllcapsHeadingsProduceBrokenAnchors][Details]] | TWiki:Main.PeterThoeny |
@@ -440,7 +434,7 @@ See more details at TWikiReleaseNotes04x00
 | Fix: Several RSS readers do not show all entries seen in the !WebChanges list; repeated updates to the same topics get lost. [[http://TWiki.org/cgi-bin/view/Codev/ChangesDontShowUpInRSS][Details]] | Foswiki:Main.ArthurClemens |
 | Fix: TWiki::Access::checkAccessPermission function improperly handles Main and TWiki webs. [[http://TWiki.org/cgi-bin/view/Codev/CheckAccessPermissionBrokenForMainAndTWikiWebs][Details]] | Foswiki:Main.SvenDowideit |
 | Fix: Topic save returns error CI Date precedes date in revision. [[http://TWiki.org/cgi-bin/view/Codev/CiDatePrecedesDateInRevision][Details]] | TWiki:Main.PeterThoeny |
-| Fix: Double quotes got replaced by &#34; in TWiki forms. [[http://TWiki.org/cgi-bin/view/Codev/DoubleQuoteHandlingInTwikiForms][Details]] | TWiki:Main.MichaelSparks TWiki:Main.PeterThoeny |
+| Fix: Double quotes got replaced by " in TWiki forms. [[http://TWiki.org/cgi-bin/view/Codev/DoubleQuoteHandlingInTwikiForms][Details]] | TWiki:Main.MichaelSparks TWiki:Main.PeterThoeny |
 | Fix: Duplicated Wiki name in .htpasswd entry for sha1 encoding. [[http://TWiki.org/cgi-bin/view/Codev/DuplicatedWikiNameInHtpasswdEntry][Details]] | TWiki:Main.PeterThoeny |
 | Fix: When viewing a previous version of a topic, the view script substitutes only one occurrence of the variable EDITTOPIC. [[http://TWiki.org/cgi-bin/view/Codev/EditTopicNotGloballySubstituted][Details]] | TWiki:Main.PeterThoeny |
 | Fix: Form default values are not working for text fields. [[http://TWiki.org/cgi-bin/view/Codev/FormDefaultNotWorkingForTextField][Details]] | TWiki:Main.ThomasWeigert Foswiki:Main.SvenDowideit |
@@ -497,318 +491,317 @@ See more details at TWikiReleaseNotes04x00
 #BeijingRelease
 ---++ 01-Feb-2003 Release (Beijing)
 
-   * *18 Jan 2003* - TWiki:Main.PeterThoeny
+   * *18 Jan 2003* - TWiki:Main.PeterThoeny 
       * Support for =/bin/view/Web.TopicName= topic view URL (besides the default =/bin/view/Web/TopicName= URL); useful for InterwikiPlugin links like TWiki:Codev.ReadmeFirst
-   * *31 Dec 2002* - TWiki:Main.PeterThoeny
+   * *31 Dec 2002* - TWiki:Main.PeterThoeny 
       * Enhanced Plugin API to manipulate topic data with new functions in Func.pm: =readTopicText=, =saveTopicText=, =setTopicEditLock=, =checkTopicEditLock=
-   * *31 Dec 2002* - TWiki:Main.PeterThoeny
+   * *31 Dec 2002* - TWiki:Main.PeterThoeny 
       * New =%<nop>NOAUTOLINK%= setting in the %WIKIPREFSTOPIC% to disable the auto-linking of WikiWords
-   * *29 Dec 2002* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin, Foswiki:Main.SvenDowideit
+   * *29 Dec 2002* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny, TWiki:Main.RichardDonkin, Foswiki:Main.SvenDowideit 
       * New Plugin hooks =registrationHandler=, =beforeEditHandler=, =afterEditHandler=, =beforeSaveHandler=, =writeHeaderHandler=, =redirectCgiQueryHandler=, =getSessionValueHandler=, =setSessionValueHandler=
-   * *30 Nov 2002* - TWiki:Main.RichardDonkin
+   * *30 Nov 2002* - TWiki:Main.RichardDonkin 
       * Internationalization ('I18N') support for international characters in WikiWords, such as ISO-8859-15, KOI8-R - also supports Chinese, Japanese, etc.
-   * *25 Nov 2002* - TWiki:Main.PeterThoeny
+   * *25 Nov 2002* - TWiki:Main.PeterThoeny 
       * Include previous topic revision with =%<nop>INCLUDE{ "OtherTopic" rev="1.2" }%=
-   * *15 Nov 2002* - TWiki:Main.PeterThoeny
+   * *15 Nov 2002* - TWiki:Main.PeterThoeny 
       * The Go box understands also URLs, useful for special TWikiSkins handling
-   * *08 Nov 2002* - TWiki:Main.ColasNahaboo, TWiki:Main.RichardDonkin
+   * *08 Nov 2002* - TWiki:Main.ColasNahaboo, TWiki:Main.RichardDonkin 
       * In %NOTIFYTOPIC%, if only the WikiName is specified, the e-mail is taken from the user's home page; if the WikiName is a group name, a notification is sent to all members of the group
-   * *30 Oct 2002* - TWiki:Main.PeterThoeny
+   * *30 Oct 2002* - TWiki:Main.PeterThoeny 
       * New =%<nop>NOP{}%= variable in TWikiTemplates topic gets removed at topic creation time; useful to write protect template topics
-   * *28 Sep 2002* - TWiki:Main.PeterThoeny
+   * *28 Sep 2002* - TWiki:Main.PeterThoeny 
       * The =%<nop>URLPARAM{}%= variable in TWikiTemplates topic gets expanded at topic creation time; useful for dynamic content creation
-   * *28 Sep 2002* - TWiki:Main.PeterThoeny
+   * *28 Sep 2002* - TWiki:Main.PeterThoeny 
       * New =$logDir= introduced in TWiki.cfg to set the log directory
-   * *13 Sep 2002* - TWiki:Main.PeterThoeny
+   * *13 Sep 2002* - TWiki:Main.PeterThoeny 
       * Renamed the *Test* web to *Sandbox*
-   * *03 Aug 2002* - TWiki:Main.RichardDonkin
+   * *03 Aug 2002* - TWiki:Main.RichardDonkin 
       * New =setlib.cfg= file in the bin directory to set the TWiki library path
-   * *02 Aug 2002* - TWiki:Main.PeterThoeny, TWiki:Main.RyanFreebern
+   * *02 Aug 2002* - TWiki:Main.PeterThoeny, TWiki:Main.RyanFreebern 
       * Support for outbound HTTP proxy when including URLs based on new =%<nop>PROXYHOST= and =%<nop>PROXYPORT%= settings in the %WIKIPREFSTOPIC%
-   * *12 Jul 2002* - TWiki:Main.PeterThoeny
+   * *12 Jul 2002* - TWiki:Main.PeterThoeny 
       * The page logo is configurable with new =%<nop>WIKILOGOIMG%=, =%<nop>TWIKILOGOURL%= and =%<nop>WIKILOGOALT%= variables in %WIKIPREFSTOPIC%; replacing =$wikiHomeUrl= in TWiki.cfg
-   * *12 Jun 2002* - TWiki:Main.PeterThoeny
+   * *12 Jun 2002* - TWiki:Main.PeterThoeny 
       * New =%<nop>WIKITOOLNAME%= variable in %WIKIPREFSTOPIC%; replacing =$wikiToolName= in TWiki.cfg
-   * *31 May 2002* - TWiki:Main.PeterThoeny
+   * *31 May 2002* - TWiki:Main.PeterThoeny 
       * New =%<nop>EDITBOXSTYLE%= preferences setting which sets the edit box width automatically to the window width
-   * *17 May 2002* - TWiki:Main.PeterThoeny
+   * *17 May 2002* - TWiki:Main.PeterThoeny 
       * New =%<nop>URLENCODE{}%= variable to encodes a string for using in a URL parameter, e.g. =%<nop>URLENCODE{"spaced name"}%= returns =spaced%20name=
-   * *17 May 2002* - TWiki:Main.PeterThoeny
+   * *17 May 2002* - TWiki:Main.PeterThoeny 
       * FormattedSearch can be nested
-   * *05 May 2002* - TWiki:Main.PeterThoeny
+   * *05 May 2002* - TWiki:Main.PeterThoeny 
       * New user home pages are now based on the NewUserTemplate, replacing the =/twiki/templates/register.tmpl= template file
-   * *26 Apr 2002* - TWiki:Main.PeterThoeny
+   * *26 Apr 2002* - TWiki:Main.PeterThoeny 
       * New markup to exclude heading from a =%<nop>TOC%= table of content, e.g. =---+!! This heading= is not shown in a TOC
-   * *13 Apr 2002* - TWiki:Main.PeterThoeny
+   * *13 Apr 2002* - TWiki:Main.PeterThoeny 
       * Form and script to create new webs, see ManagingWebs
-   * *01 Apr 2002* - TWiki:Main.JohnTalintyre
+   * *01 Apr 2002* - TWiki:Main.JohnTalintyre 
       * New data storage framework that lets you use external RCS commands for revision control, or a new native Perl implementation that does not depend on the external RCS commands
-   * *28 Mar 2002* - TWiki:Main.RichardDonkin
+   * *28 Mar 2002* - TWiki:Main.RichardDonkin 
       * Fixed IE5/IE6-specific problem whereby going back from preview sometimes removes all edit changes
-   * *23 Mar 2002* - TWiki:Main.JohnTalintyre
+   * *23 Mar 2002* - TWiki:Main.JohnTalintyre 
       * New AND search; with regular expression enabled, use the semicolon ";" as the AND operator in =%<nop>SEARCH{}%= variable, FormattedSearch and WebSearch
-   * *21 Mar 2002* - TWiki:Main.ColasNahaboo, TWiki:Main.RichardDonkin
+   * *21 Mar 2002* - TWiki:Main.ColasNahaboo, TWiki:Main.RichardDonkin 
       * Fixed cache issue where the edit page showed outdated content
-   * *06 Mar 2002* - TWiki:Main.RichardDonkin
+   * *06 Mar 2002* - TWiki:Main.RichardDonkin 
       * Improved statistics script which uses less memory to process large log files
-   * *09 Jan 2002* - TWiki:Main.JohnTalintyre
+   * *09 Jan 2002* - TWiki:Main.JohnTalintyre 
       * Variables inside =&lt;verbatim&gt;= tags are no longer expanded
-
-#AthensRelease
+#AthensRelease 
 ---++ 01-Dec-2001 Release (Athens)
 
-   * *25 Oct 2001* - TWiki:Main.PeterThoeny
+   * *25 Oct 2001* - TWiki:Main.PeterThoeny 
       * Added FormattedSearch to =%<nop>SEARCH{}%= variable for database like reporting.
 
 ---++ 01-Sep-2001 Release
 
-   * *30 Aug 2001* - TWiki:Main.JohnTalintyre
+   * *30 Aug 2001* - TWiki:Main.JohnTalintyre 
       * Easier install for Windows, including auto detection in =TWiki.cfg=
-   * *30 Aug 2001* - TWiki:Main.JohnTalintyre
-      * Ability to move attachments between topics, see FileAttachments 
-   * *21 Aug 2001* - TWiki:Main.PeterThoeny
+   * *30 Aug 2001* - TWiki:Main.JohnTalintyre 
+      * Ability to move attachments between topics, see FileAttachments
+   * *21 Aug 2001* - TWiki:Main.PeterThoeny 
       * Convert to XHTML 1.0 function: first step to XHTML-ifying TWiki
-   * *26 Jun 2001* - TWiki:Main.JohnTalintyre
+   * *26 Jun 2001* - TWiki:Main.JohnTalintyre 
       * Category information to forms using the TWikiMetaData format, see !TWikiForms
-   * *07 Jun 2001* - TWiki:Main.PeterThoeny
-      * New topic templates as topics instead of templates. Customize by editing the topic. Retired =notedited.tmpl=, =notext.tmpl= and =nofoswiki.tmpl= templates. More in TWikiTemplates. 
-   * *07 Jun 2001* - TWiki:Main.PeterThoeny
-      * New =%<nop>TOPICLIST{"format"}%= and =%<nop>WEBLIST{"format"}%= variables to get a formatted topic index and web index, respectively. More in TWikiVariables. 
-   * *01 Jun 2001* - TWiki:Main.PeterThoeny
-      * New =%<nop>URLPARAM{"name"}%= variable to query URL parameters. More in TWikiVariables. 
-   * *01 Jun 2001* - TWiki:Main.AndreaSterbini
-      * API to extend TWiki, see [[TWikiPlugins#PluginAPI][TWikiPluginAPI]] 
-   * *01 Jun 2001* - TWiki:Main.KlausWriessnegger, TWiki:Main.AndreaSterbini
-      * Forms to change/reset/install passwords, see ChangePassword &amp; ResetPassword
-   * *01 May 2001* - TWiki:Main.AndreaSterbini
-      * The %MAINWEB%.AdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics. 
-   * *01 May 2001* - TWiki:Main.JohnTalintyre
+   * *07 Jun 2001* - TWiki:Main.PeterThoeny 
+      * New topic templates as topics instead of templates. Customize by editing the topic. Retired =notedited.tmpl=, =notext.tmpl= and =nofoswiki.tmpl= templates. More in TWikiTemplates.
+   * *07 Jun 2001* - TWiki:Main.PeterThoeny 
+      * New =%<nop>TOPICLIST{"format"}%= and =%<nop>WEBLIST{"format"}%= variables to get a formatted topic index and web index, respectively. More in TWikiVariables.
+   * *01 Jun 2001* - TWiki:Main.PeterThoeny 
+      * New =%<nop>URLPARAM{"name"}%= variable to query URL parameters. More in TWikiVariables.
+   * *01 Jun 2001* - TWiki:Main.AndreaSterbini 
+      * API to extend TWiki, see [[TWikiPlugins#PluginAPI][TWikiPluginAPI]]
+   * *01 Jun 2001* - TWiki:Main.KlausWriessnegger, TWiki:Main.AndreaSterbini 
+      * Forms to change/reset/install passwords, see ChangePassword & ResetPassword
+   * *01 May 2001* - TWiki:Main.AndreaSterbini 
+      * The %MAINWEB%.AdminGroup (or other group) can be enabled as a [[AccessControl#SuperAdminGroup][SuperAdminGroup]]. Members have browser edit access to _all_ locked topics.
+   * *01 May 2001* - TWiki:Main.JohnTalintyre 
       * Meta information format, see TWikiMetaData
-   * *01 May 2001* - TWiki:Main.JohnTalintyre
-      * Attachment under revision control See FileAttachment 
-   * *01 May 2001* - TWiki:Main.JohnTalintyre
+   * *01 May 2001* - TWiki:Main.JohnTalintyre 
+      * Attachment under revision control See FileAttachment
+   * *01 May 2001* - TWiki:Main.JohnTalintyre 
       * Ability to rename/move topics, ManagingTopics
-   * *27 Mar 2001* - TWiki:Main.PeterThoeny
-      * The table syntax has been enhanced to (i) render ==| <nop>*bold*<nop> |== cells as table headers, (ii) render space padded cells ==|   center aligned   |== and ==|   right aligned |==, (iii) span multiple columns using ==| empty cells |||==. More in TextFormattingRules. 
-   * *25 Mar 2001* - TWiki:Main.PeterThoeny
-      * Security fix Questionable files like PHP scripts (executables) and ==.htaccess== files that are attached to a topic get a ==.txt== suffix appended to the file name. See also TWiki:Codev/FileAttachmentFilterSecurityAlert 
-   * *28 Feb 2001* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny
-      * New Wiki rule for headings, i.e. =---++ My Title=; and new =%<nop>TOC%= variable to build a table of content from headings in a topic. More in TWikiVariables. 
-   * *28 Feb 2001* - TWiki:Main.PeterThoeny
-      * New Wiki rule to specify arbitrary text for external links (i.e. =[<nop>[http://TWki.org][TWiki]]=) and internal links (i.e =[<nop>[WikiSyntax][syntax]]=). More in TWikiVariables. 
-   * *28 Feb 2001* - TWiki:Main.PeterThoeny
-      * New Wiki rule for named anchors, e.g. links within a topic. Define a named anchor with =#MyAnchor= at the beginning of a line, and link to it with =[<nop>[#MyAnchor]]=. More in TWikiVariables. 
-   * *25 Feb 2001* - TWiki:Main.NicholasLee, TWiki:Main.PeterThoeny
-      * Use =Net::SMTP= module instead of =sendmail= if installed. 
-   * *01 Feb 2001* - TWiki:Main.PeterThoeny
-      * Added =&lt;verbatim&gt;= ... =&lt;/verbatim&gt;= tags to show source code "as is". Unlike the =&lt;pre&gt;= ... =&lt;/pre&gt;= tags, it also shows =&lt;=, =&gt;=, =&amp;= characters "as is". 
-   * *01 Feb 2001* - TWiki:Main.PeterThoeny
-      * Fixed TWiki:Codev/CreateLinkToAttachedFileBug. 
-   * *21 Jan 2001* - TWiki:Main.PeterThoeny
-      * Added a "Minor change, don't notify" checkbox in preview. More in DontNotify. 
-   * *21 Jan 2001* - TWiki:Main.PeterThoeny
-      * Added Bold Fixed formatting using double-equal signs, e.g. write =<nop>==Bold Fixed==<nop>= to get ==Bold Fixed==. 
-   * *20 Jan 2001* - TWiki:Main.PeterThoeny
-      * Format changed of =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= variables. Format is now ="$hour:$min"= instead of ="hour:min"=. More in TWikiVariables. *Attention:* Check your existing topics when you upgrade TWiki! 
-   * *18 Jan 2001* - TWiki:Main.PeterThoeny
-      * WebChanges, WebSearch and e-mail notification indicate also the revision number of a topic (i.e. <u>18 Jan 2001 16:43 r1.5</u>), or NEW for a new topic (i.e. i.e. <u>18 Jan 2001 16:43 <b>NEW</b></u>). 
-   * *16 Jan 2001* - TWiki:Main.PeterThoeny
-      * New variable =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= variables to control what gets included of a topic. More in TWikiVariables. 
-   * *16 Jan 2001* - TWiki:Main.PeterThoeny
-      * TWiki skins Define a different page layout with a customized header and footer layout, i.e. a =print= skin for a printable view of a topic. More in TWikiSkins and TWiki:Codev/TWikiSkins. 
-   * *07 Jan 2001* - TWiki:Main.StanleyKnutson
-      * Better error handling when saving a topic. 
-   * *05 Jan 2001* - TWiki:Main.PeterThoeny
-      * View authorization based on groups. Define who is allowed to see a TWiki web. More in AccessControl and TWiki:Codev/AuthenticationBasedOnGroups. 
-   * *05 Dec 2000* - TWiki:Main.PeterThoeny
-      * Improved include handling. Infinite recursion of includes are prevented; new variables =%<nop>BASEWEB%=, =%<nop>INCLUDINGWEB%=, =%<nop>BASETOPIC%= and =%<nop>INCLUDINGTOPIC%= to have more control over include handling. More in TWikiVariables and TWiki:Codev/IncludeHandlingImprovements. 
-   * *03 Dec 2000* - TWiki:Main.PeterThoeny
-      * New =noheader="on"= switch in =%<nop>SEARCH{...}%= to suppress table header. More in TWikiVariables. 
+   * *27 Mar 2001* - TWiki:Main.PeterThoeny 
+      * The table syntax has been enhanced to (i) render ==| <nop>*bold*<nop> |== cells as table headers, (ii) render space padded cells ==| center aligned |== and ==| right aligned |==, (iii) span multiple columns using ==| empty cells |||==. More in TextFormattingRules.
+   * *25 Mar 2001* - TWiki:Main.PeterThoeny 
+      * Security fix Questionable files like PHP scripts (executables) and ==.htaccess== files that are attached to a topic get a ==.txt== suffix appended to the file name. See also TWiki:Codev/FileAttachmentFilterSecurityAlert
+   * *28 Feb 2001* - TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny 
+      * New Wiki rule for headings, i.e. =---++ My Title=; and new =%<nop>TOC%= variable to build a table of content from headings in a topic. More in TWikiVariables.
+   * *28 Feb 2001* - TWiki:Main.PeterThoeny 
+      * New Wiki rule to specify arbitrary text for external links (i.e. =[<nop>[http://TWki.org][TWiki]]=) and internal links (i.e =[<nop>[WikiSyntax][syntax]]=). More in TWikiVariables.
+   * *28 Feb 2001* - TWiki:Main.PeterThoeny 
+      * New Wiki rule for named anchors, e.g. links within a topic. Define a named anchor with =#MyAnchor= at the beginning of a line, and link to it with =[<nop>[#MyAnchor]]=. More in TWikiVariables.
+   * *25 Feb 2001* - TWiki:Main.NicholasLee, TWiki:Main.PeterThoeny 
+      * Use =Net::SMTP= module instead of =sendmail= if installed.
+   * *01 Feb 2001* - TWiki:Main.PeterThoeny 
+      * Added =&lt;verbatim&gt;= ... =&lt;/verbatim&gt;= tags to show source code "as is". Unlike the =&lt;pre&gt;= ... =&lt;/pre&gt;= tags, it also shows =&lt;=, =&gt;=, =&= characters "as is".
+   * *01 Feb 2001* - TWiki:Main.PeterThoeny 
+      * Fixed TWiki:Codev/CreateLinkToAttachedFileBug.
+   * *21 Jan 2001* - TWiki:Main.PeterThoeny 
+      * Added a "Minor change, don't notify" checkbox in preview. More in DontNotify.
+   * *21 Jan 2001* - TWiki:Main.PeterThoeny 
+      * Added Bold Fixed formatting using double-equal signs, e.g. write =<nop>==Bold Fixed==<nop>= to get ==Bold Fixed==.
+   * *20 Jan 2001* - TWiki:Main.PeterThoeny 
+      * Format changed of =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= variables. Format is now ="$hour:$min"= instead of ="hour:min"=. More in TWikiVariables. *Attention:* Check your existing topics when you upgrade TWiki!
+   * *18 Jan 2001* - TWiki:Main.PeterThoeny 
+      * WebChanges, WebSearch and e-mail notification indicate also the revision number of a topic (i.e. <u>18 Jan 2001 16:43 r1.5</u>), or NEW for a new topic (i.e. i.e. <u>18 Jan 2001 16:43 *NEW* </u>).
+   * *16 Jan 2001* - TWiki:Main.PeterThoeny 
+      * New variable =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%= variables to control what gets included of a topic. More in TWikiVariables.
+   * *16 Jan 2001* - TWiki:Main.PeterThoeny 
+      * TWiki skins Define a different page layout with a customized header and footer layout, i.e. a =print= skin for a printable view of a topic. More in TWikiSkins and TWiki:Codev/TWikiSkins.
+   * *07 Jan 2001* - TWiki:Main.StanleyKnutson 
+      * Better error handling when saving a topic.
+   * *05 Jan 2001* - TWiki:Main.PeterThoeny 
+      * View authorization based on groups. Define who is allowed to see a TWiki web. More in AccessControl and TWiki:Codev/AuthenticationBasedOnGroups.
+   * *05 Dec 2000* - TWiki:Main.PeterThoeny 
+      * Improved include handling. Infinite recursion of includes are prevented; new variables =%<nop>BASEWEB%=, =%<nop>INCLUDINGWEB%=, =%<nop>BASETOPIC%= and =%<nop>INCLUDINGTOPIC%= to have more control over include handling. More in TWikiVariables and TWiki:Codev/IncludeHandlingImprovements.
+   * *03 Dec 2000* - TWiki:Main.PeterThoeny 
+      * New =noheader="on"= switch in =%<nop>SEARCH{...}%= to suppress table header. More in TWikiVariables.
 
 ---++ 01-Dec-2000 Release
 
-   * *03 Nov 2000* - TWiki:Main.PeterThoeny
-      * Flag =$doHidePasswdInRegistration= in =wikicfg.pm= to hide plain text password in registration e-mail. 
-   * *01 Nov 2000* - TWiki:Main.PeterThoeny
-      * New variable =%<nop>VAR{"NAME" web="Web"}%= to get web-specific preferences. More in TWikiVariables. 
-   * *01 Nov 2000* - TWiki:Main.PeterThoeny
-      * Added a "Cancel" link in edit that releases the edit lock. 
-   * *23 Oct 2000* - TWiki:Main.PeterThoeny
-      * Authorization based on groups. Define fine graned control who is allowed to change or create topics. More in AccessControl and TWiki:Codev/AuthenticationBasedOnGroups. 
-   * *05 Oct 2000* - TWiki:Main.PeterThoeny
-      * Remember user by IP address so that =view= "knows" the user once authenticated in =edit=. More in TWikiUserAuthentication. 
-   * *26 Sep 2000* - TWiki:Main.AlWilliams, TWiki:Main.PeterThoeny
-      * Fixed TWiki:Codev/UppercaseAttachments bug and added =png= image support. 
-   * *26 Sep 2000* - TWiki:Main.HaroldGottschalk, TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny
-      * Allow nesting of variables, i.e. =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.TWikiWebsTable"}%=. More in TWiki:Codev/BetterTWikiTagTemplateProcessing. 
-   * *20 Sep 2000* - TWiki:Main.ManpreetSingh
-      * New -q switch in =mailnotify= to suppress all normal output. 
-   * *19 Sep 2000* - TWiki:Main.PeterThoeny
-      * Fixed TWiki:Codev/AttachedNotificationLinksBug. 
-   * *18 Sep 2000* - TWiki:Main.ManpreetSingh, TWiki:Main.PeterThoeny
-      * Added forced internal links. Write =[<nop>[text formatting FAQ]]= to get the link [[text formatting FAQ]] that points to topic TextFormattingFAQ. 
-   * *19 Aug 2000* - TWiki:Main.PeterThoeny
-      * Ref-By link searches all webs (not just the current web.) 
-   * *16 Aug 2000* - TWiki:Main.PeterThoeny
-      * New !TWikiPreferences settings =%<nop>HTTP_EQUIV_ON_VIEW%= , =%<nop>HTTP_EQUIV_ON_EDIT%= and =%<nop>HTTP_EQUIV_ON_PREVIEW%= that define the =&lt;meta http-equiv="..."&gt;= meta tags for the TWiki templates. This can be used for example to set a document expiration time. 
-   * *29 Jul 2000* - TWiki:Main.PeterThoeny
-      * New variables =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= . More in TWikiVariables. 
-   * *23 Jul 2000* - TWiki:Main.PeterThoeny
-      * Changed include syntax from =%<nop>INCLUDE{"Web/TopicName.txt"}%= to =%<nop>INCLUDE{"Web.TopicName"}%= . Legacy syntax still supported. 
-   * *23 Jul 2000* - TWiki:Main.PeterThoeny
-      * BookView search allows you show a set of topics for easy printing. 
-   * *22 Jul 2000* - TWiki:Main.PeterThoeny
-      * More forgiving syntax for =*bold*, _italic_, __bold italic__= and ==fixed== , where it is not necessary anymore to have a trailing space before =.,;:?!= characters. 
-   * *22 Jul 2000* - TWiki:Main.PeterThoeny
-      * Split the TWiki.Main web into TWiki.Main (users, company data) and TWiki.TWiki (TWiki related documentation, registration) 
-   * *07 Jul 2000* - TWiki:Main.PeterThoeny
-      * Added an "Release edit lock" checkbox in preview to let other people edit the topic immediately without the one hour lock. 
-   * *07 Jul 2000* - TWiki:Main.PeterThoeny
-      * Fixed problem of losing carriage returns when editing topics with KDE KFM browser or <nop>W3M browser. 
-   * *21 Jun 2000* - TWiki:Main.PeterThoeny
-      * Fixed problem that a page redirect on some server environments is not working (host name is needed in URL). 
-   * *21 Jun 2000* - TWiki:Main.CrisBailiff, TWiki:Main.PeterThoeny
-      * Fixed security issue to prevent a server side =%<nop>INCLUDE%= of arbitrary files. 
-   * *29 May 2000* - TWiki:Main.PeterThoeny
-      * New =%<nop>GMTIME%= variable that shows the current GM time. 
-   * *28 May 2000* - TWiki:Main.PeterThoeny
-      * Lock warning shows remaining lock time in minutes. 
-   * *15 May 2000* - TWiki:Main.PeterFokkinga
-      * Each topic can have its own template file. TWikiTemplates has more. 
-   * *02 May 2000* - TWiki:Main.KevinKinnell, TWiki:Main.PeterThoeny
-      * Advanced search features like search multiple webs; sort by topic name / modified time / author; limit the number of results returned. More in TWikiVariables. 
+   * *03 Nov 2000* - TWiki:Main.PeterThoeny 
+      * Flag =$doHidePasswdInRegistration= in =wikicfg.pm= to hide plain text password in registration e-mail.
+   * *01 Nov 2000* - TWiki:Main.PeterThoeny 
+      * New variable =%<nop>VAR{"NAME" web="Web"}%= to get web-specific preferences. More in TWikiVariables.
+   * *01 Nov 2000* - TWiki:Main.PeterThoeny 
+      * Added a "Cancel" link in edit that releases the edit lock.
+   * *23 Oct 2000* - TWiki:Main.PeterThoeny 
+      * Authorization based on groups. Define fine graned control who is allowed to change or create topics. More in AccessControl and TWiki:Codev/AuthenticationBasedOnGroups.
+   * *05 Oct 2000* - TWiki:Main.PeterThoeny 
+      * Remember user by IP address so that =view= "knows" the user once authenticated in =edit=. More in TWikiUserAuthentication.
+   * *26 Sep 2000* - TWiki:Main.AlWilliams, TWiki:Main.PeterThoeny 
+      * Fixed TWiki:Codev/UppercaseAttachments bug and added =png= image support.
+   * *26 Sep 2000* - TWiki:Main.HaroldGottschalk, TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny 
+      * Allow nesting of variables, i.e. =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.TWikiWebsTable"}%=. More in TWiki:Codev/BetterTWikiTagTemplateProcessing.
+   * *20 Sep 2000* - TWiki:Main.ManpreetSingh 
+      * New -q switch in =mailnotify= to suppress all normal output.
+   * *19 Sep 2000* - TWiki:Main.PeterThoeny 
+      * Fixed TWiki:Codev/AttachedNotificationLinksBug.
+   * *18 Sep 2000* - TWiki:Main.ManpreetSingh, TWiki:Main.PeterThoeny 
+      * Added forced internal links. Write =[<nop>[text formatting FAQ]]= to get the link [[text formatting FAQ]] that points to topic TextFormattingFAQ.
+   * *19 Aug 2000* - TWiki:Main.PeterThoeny 
+      * Ref-By link searches all webs (not just the current web.)
+   * *16 Aug 2000* - TWiki:Main.PeterThoeny 
+      * New !TWikiPreferences settings =%<nop>HTTP_EQUIV_ON_VIEW%= , =%<nop>HTTP_EQUIV_ON_EDIT%= and =%<nop>HTTP_EQUIV_ON_PREVIEW%= that define the =&lt;meta http-equiv="..."&gt;= meta tags for the TWiki templates. This can be used for example to set a document expiration time.
+   * *29 Jul 2000* - TWiki:Main.PeterThoeny 
+      * New variables =%<nop>GMTIME{"..."}%= and =%<nop>SERVERTIME{"..."}%= . More in TWikiVariables.
+   * *23 Jul 2000* - TWiki:Main.PeterThoeny 
+      * Changed include syntax from =%<nop>INCLUDE{"Web/TopicName.txt"}%= to =%<nop>INCLUDE{"Web.TopicName"}%= . Legacy syntax still supported.
+   * *23 Jul 2000* - TWiki:Main.PeterThoeny 
+      * BookView search allows you show a set of topics for easy printing.
+   * *22 Jul 2000* - TWiki:Main.PeterThoeny 
+      * More forgiving syntax for =*bold*, _italic_, __bold italic__= and ==fixed== , where it is not necessary anymore to have a trailing space before =.,;:?!= characters.
+   * *22 Jul 2000* - TWiki:Main.PeterThoeny 
+      * Split the TWiki.Main web into TWiki.Main (users, company data) and TWiki.TWiki (TWiki related documentation, registration)
+   * *07 Jul 2000* - TWiki:Main.PeterThoeny 
+      * Added an "Release edit lock" checkbox in preview to let other people edit the topic immediately without the one hour lock.
+   * *07 Jul 2000* - TWiki:Main.PeterThoeny 
+      * Fixed problem of losing carriage returns when editing topics with KDE KFM browser or <nop>W3M browser.
+   * *21 Jun 2000* - TWiki:Main.PeterThoeny 
+      * Fixed problem that a page redirect on some server environments is not working (host name is needed in URL).
+   * *21 Jun 2000* - TWiki:Main.CrisBailiff, TWiki:Main.PeterThoeny 
+      * Fixed security issue to prevent a server side =%<nop>INCLUDE%= of arbitrary files.
+   * *29 May 2000* - TWiki:Main.PeterThoeny 
+      * New =%<nop>GMTIME%= variable that shows the current GM time.
+   * *28 May 2000* - TWiki:Main.PeterThoeny 
+      * Lock warning shows remaining lock time in minutes.
+   * *15 May 2000* - TWiki:Main.PeterFokkinga 
+      * Each topic can have its own template file. TWikiTemplates has more.
+   * *02 May 2000* - TWiki:Main.KevinKinnell, TWiki:Main.PeterThoeny 
+      * Advanced search features like search multiple webs; sort by topic name / modified time / author; limit the number of results returned. More in TWikiVariables.
 
 ---++ 01-May-2000 Release
 
-   * *21 Apr 2000* - TWiki:Main.PeterThoeny
-      * New TWikiVariables =%<nop>HTTP_HOST%= , =%<nop>REMOTE_ADDR%= , =%<nop>REMOTE_PORT%= and =%<nop>REMOTE_USER%= . 
-   * *21 Apr 2000* - TWiki:Main.JohnAltstadt, TWiki:Main.PeterThoeny
-      * !TWikiRegistration is done separately for Intranet use (depends on remote_user) or Internet use (depends on .htpasswd file). 
-   * *20 Mar 2000* - TWiki:Main.PeterThoeny
-      * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference setting =%<nop>ATTACHLINKBOX%= controls the default state of the *link* check box in the attach file page. 
-   * *11 Mar 2000* - TWiki:Main.PeterThoeny
-      * Better security with taint checking ( =Perl -T= option ) 
-   * *25 Feb 2000* - TWiki:Main.PeterThoeny
-      * New preference settings =%<nop>EDITBOXWIDTH%= and =%<nop>EDITBOXHEIGHT%= to specify the edit box size. 
-   * *25 Feb 2000* - TWiki:Main.PeterThoeny
-      * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (!TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.WikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.  
-   * *11 Feb 2000* - TWiki:Main.PeterThoeny
-      * New variable =%<nop>SCRIPTSUFFIX%= / $scriptSuffix containing an optional file extension of the TWiki Perl script. Templates have been changed to use this variable. This allows you to rename the Perl script files to have a file extension like for example ".cgi". 
-   * *11 Feb 2000* - TWiki:Main.PeterThoeny
-      * New variable =%<nop>SCRIPTURLPATH%= / $scriptUrlPath containing the script URL without the domain name. Templates have been changed to use this variable instead of =%<nop>SCRIPTURL%= . This is for performance reasons. 
-   * *07 Feb 2000* - TWiki:Main.PeterThoeny
-      * Changed the syntax for server side include variable from =%<nop>INCLUDE:"filename.ext"%= to =%<nop>INCLUDE{"filename.ext"}%= . (Previous syntax still supported. Change was done because of inline search syntax) 
-   * *07 Feb 2000* - TWiki:Main.PeterThoeny
-      * Inline search. New variable =%<nop>SEARCH{"str" ...}%= to show a search result embedded in a topic text. TWikiVariables has more on the syntax. Inline search combined with the category table feature can be used for example to create a simple bug tracking system. 
-   * *04 Feb 2000* - TWiki:Main.PeterThoeny
-      * Access statistics. Each web has a WebStatistics topic that shows monthy statistics with number of topic views and changes, most popular topics, and top contributors. (It needs to be enabled, CompleteDocumentation has more.) 
-   * *29 Jan 2000* - TWiki:Main.PeterThoeny
-      * Fixed bug where TWiki would not initialize correctly under certain circumstances, i.e. when running it under mod_perl. Sub =initialize= in =wiki.pm= did not handle =$thePathInfo= correctly. 
-   * *24 Jan 2000* - TWiki:Main.PeterThoeny
-      * Fixed bug where an e-mail address starting with a WikiName was rendered as an internal Wiki link instead of an e-mail address, i.e. SomeWikiName@somewhere.test . 
-   * *10 Jan 2000* - TWiki:Main.PeterThoeny
-      * No more escaping for '%' percent characters. (Number of consecutive '%' entered and displayed is identical.) 
-   * *03 Oct 1999* - TWiki:Main.PeterThoeny
-      * Limit the number of revisions shown at the bottom of the topic. Example %BR% Topic <nop>%TOPIC% . { .....   <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%">Diffs</a>   r1.10   <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev1=1.10&rev2=1.9">&gt;</a>   <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?rev=1.9">r1.9</a>   <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev1=1.9&rev2=1.8">&gt;</a>   <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?rev=1.8">r1.8</a>   <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev1=1.8&rev2=1.7">&gt;</a>   <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?rev=1.7">r1.7</a>   <a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=oopsrev&param1=1.10">&gt;...</a> } %BR% Additional revisions can be selected by pressing the =>...= link.
+   * *21 Apr 2000* - TWiki:Main.PeterThoeny 
+      * New TWikiVariables =%<nop>HTTP_HOST%= , =%<nop>REMOTE_ADDR%= , =%<nop>REMOTE_PORT%= and =%<nop>REMOTE_USER%= .
+   * *21 Apr 2000* - TWiki:Main.JohnAltstadt, TWiki:Main.PeterThoeny 
+      * !TWikiRegistration is done separately for Intranet use (depends on remote_user) or Internet use (depends on .htpasswd file).
+   * *20 Mar 2000* - TWiki:Main.PeterThoeny 
+      * Uploading a file (topic file attachment) will optionally create a link to the uploaded file at the end of the topic. The preference setting =%<nop>ATTACHLINKBOX%= controls the default state of the *link* check box in the attach file page.
+   * *11 Mar 2000* - TWiki:Main.PeterThoeny 
+      * Better security with taint checking ( =Perl -T= option )
+   * *25 Feb 2000* - TWiki:Main.PeterThoeny 
+      * New preference settings =%<nop>EDITBOXWIDTH%= and =%<nop>EDITBOXHEIGHT%= to specify the edit box size.
+   * *25 Feb 2000* - TWiki:Main.PeterThoeny 
+      * Edit preferences topics to set TWiki variables. There are three level of preferences Site-level (!TWikiPreferences), web-level (WebPreferences in each web) and user-level preferences (for each of the Main.WikiUsers). With this, discontinue use of server side include of =wikiwebs.inc= , =wikiwebtable.inc= , =weblist.inc= , =webcopyright.inc= and =webcolors.inc= files.
+   * *11 Feb 2000* - TWiki:Main.PeterThoeny 
+      * New variable =%<nop>SCRIPTSUFFIX%= / $scriptSuffix containing an optional file extension of the TWiki Perl script. Templates have been changed to use this variable. This allows you to rename the Perl script files to have a file extension like for example ".cgi".
+   * *11 Feb 2000* - TWiki:Main.PeterThoeny 
+      * New variable =%<nop>SCRIPTURLPATH%= / $scriptUrlPath containing the script URL without the domain name. Templates have been changed to use this variable instead of =%<nop>SCRIPTURL%= . This is for performance reasons.
+   * *07 Feb 2000* - TWiki:Main.PeterThoeny 
+      * Changed the syntax for server side include variable from =%<nop>INCLUDE:"filename.ext"%= to =%<nop>INCLUDE{"filename.ext"}%= . (Previous syntax still supported. Change was done because of inline search syntax)
+   * *07 Feb 2000* - TWiki:Main.PeterThoeny 
+      * Inline search. New variable =%<nop>SEARCH{"str" ...}%= to show a search result embedded in a topic text. TWikiVariables has more on the syntax. Inline search combined with the category table feature can be used for example to create a simple bug tracking system.
+   * *04 Feb 2000* - TWiki:Main.PeterThoeny 
+      * Access statistics. Each web has a WebStatistics topic that shows monthy statistics with number of topic views and changes, most popular topics, and top contributors. (It needs to be enabled, CompleteDocumentation has more.)
+   * *29 Jan 2000* - TWiki:Main.PeterThoeny 
+      * Fixed bug where TWiki would not initialize correctly under certain circumstances, i.e. when running it under mod_perl. Sub =initialize= in =wiki.pm= did not handle =$thePathInfo= correctly.
+   * *24 Jan 2000* - TWiki:Main.PeterThoeny 
+      * Fixed bug where an e-mail address starting with a WikiName was rendered as an internal Wiki link instead of an e-mail address, i.e. SomeWikiName@somewhere.test .
+   * *10 Jan 2000* - TWiki:Main.PeterThoeny 
+      * No more escaping for '%' percent characters. (Number of consecutive '%' entered and displayed is identical.)
+   * *03 Oct 1999* - TWiki:Main.PeterThoeny 
+      * Limit the number of revisions shown at the bottom of the topic. Example %BR% Topic <nop>%TOPIC% . { ..... <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%">Diffs</a> r1.10 <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev1=1.10&rev2=1.9">&gt;</a> <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?rev=1.9">r1.9</a> <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev1=1.9&rev2=1.8">&gt;</a> <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?rev=1.8">r1.8</a> <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev1=1.8&rev2=1.7">&gt;</a> <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?rev=1.7">r1.7</a> <a href="%SCRIPTURL{"oops"}%/%WEB%/%TOPIC%?template=oopsrev&param1=1.10">&gt;...</a> } %BR% Additional revisions can be selected by pressing the =&gt;...= link.
 
 ---++ 01-Sep-1999 Release
 
-   * *31 Aug 1999* - TWiki:Main.PeterThoeny
-      * Fixed <nop>Y2K bug. (Date in year 2000 had wrong format.) 
-   * *08 Aug 1999* - TWiki:Main.PeterThoeny
-      * New text formatting rule for creating tables. Text gets rendered as a table if enclosed in " " vertical bars. Example line as it is written and how it shows up  
-   * *03 Aug 1999* - TWiki:Main.PeterThoeny
-      * Online registration of new user using web form in !TWikiRegistration. Authentication of users. 
-   * *22 Jul 1999* - TWiki:Main.PeterThoeny
-      * Flags =$doLogTopic*= in wikicfg.pm to selectively log topic view, edit, save, rdiff, attach, search and changes to monthly log file. 
-   * *21 Jul 1999* - TWiki:Main.PeterThoeny
-      * Flag =$doRemovePortNumber= in wikicfg.pm to optionally remove the port number from the TWiki URL. Example =www.some.domain:1234/twiki= gets =www.some.domain/twiki= . 
-   * *15 Jul 1999* - TWiki:Main.PeterThoeny
-      * Search path for include files in =%<nop>INCLUDE:"file.inc"%= variable. Search first in the current web, then in parent data directory. Useful to overload default include text in the data directory by web-specific text, like for example =webcopyright.inc= text. 
-   *  *07 Jul 1999* - TWiki:Main.ChristopheVermeulen
+   * *31 Aug 1999* - TWiki:Main.PeterThoeny 
+      * Fixed <nop>Y2K bug. (Date in year 2000 had wrong format.)
+   * *08 Aug 1999* - TWiki:Main.PeterThoeny 
+      * New text formatting rule for creating tables. Text gets rendered as a table if enclosed in " " vertical bars. Example line as it is written and how it shows up
+   * *03 Aug 1999* - TWiki:Main.PeterThoeny 
+      * Online registration of new user using web form in !TWikiRegistration. Authentication of users.
+   * *22 Jul 1999* - TWiki:Main.PeterThoeny 
+      * Flags =$doLogTopic*= in wikicfg.pm to selectively log topic view, edit, save, rdiff, attach, search and changes to monthly log file.
+   * *21 Jul 1999* - TWiki:Main.PeterThoeny 
+      * Flag =$doRemovePortNumber= in wikicfg.pm to optionally remove the port number from the TWiki URL. Example =www.some.domain:1234/twiki= gets =www.some.domain/twiki= .
+   * *15 Jul 1999* - TWiki:Main.PeterThoeny 
+      * Search path for include files in =%<nop>INCLUDE:"file.inc"%= variable. Search first in the current web, then in parent data directory. Useful to overload default include text in the data directory by web-specific text, like for example =webcopyright.inc= text.
+   * *07 Jul 1999* - TWiki:Main.ChristopheVermeulen 
       * Link a plural topic to a singular topic in case the plural topic does not exist. Example =TestVersion= / =TestVersions= , =TestPolicy= / =TestPolicies= , =TestAddress= / =TestAddresses= , =TestBox= / =TestBoxes= .
 
 ---++ 01-Jul-1999 Release
 
-   * *23 Jun 1999* - TWiki:Main.PeterThoeny
-      * New TextFormattingRules to write __bold italic__ text by enclosing words with double underline characters. 
-   * *23 Jun 1999* - TWiki:Main.PeterThoeny
-      * Separate wiki.pm into configuration (wikicfg.pm) and TWiki core (wiki.pm) . This is to ease the upgrade of TWiki installations, it also allows customized extensions to TWiki without affecting the TWiki core. 
-   * *21 May 1999* - TWiki:Main.DavidWarman
-      * Externalize copyright text at the bottom of every page into a web-specific =webcopyright.inc= file. This is to easily customize the copyright text.  
-   * *20 May 1999* - TWiki:Main.PeterThoeny
-      * Added meta tag so that robots index only /view/ of topics, not /edit/, /attach/ e.t.c. Tag &lt;META NAME="ROBOTS" CONTENT="NOINDEX"&gt; 
-   * *20 May 1999* - TWiki:Main.PeterThoeny
-      * New variables =%<nop>WIKIHOMEURL%= (link when pressing the icon on the upper left corner) and =%<nop>WIKITOOLNAME%= (the name of the wiki tool =<nop>%WIKITOOLNAME%= ). 
-   * *15 Apr 1999* - TWiki:Main.PeterThoeny
-      * Topic locking Warn user if a topic has been edited by an _other_ person within _one_ hour. This is to prevent contention, e.g. simultaneous topic updates. 
-   * *26 Mar 1999* - TWiki:Main.PeterThoeny
-      * File attachments Upload and download any file as a topic attachment by using the browser. FileAttachment has more. 
-   * *26 Mar 1999* - TWiki:Main.PeterThoeny
-      * New variables =%<nop>PUBURL%= (Public directory URL) and =%<nop>ATTACHURL%= (URL of topic file attachment). 
-   * *09 Feb 1999* - TWiki:Main.PeterThoeny
-      * New text formatting rule for creating =fixed font text= . Words get showns in =fixed font= by enclosing them in "=" equal signs. Example Writing <nop>=fixed font=<nop> will show up as =fixed font= . 
-   * *09 Feb 1999* - TWiki:Main.PeterThoeny
-      * No new topic revision is created if the _same_ person saves a topic again within _one_ hour. 
-   * *03 Feb 1999* - TWiki:Main.PeterThoeny
-      * Possible to view complete revision history of a topic on one page. Access at the linked date in the Changes page, or the <code>Diffs</code> link at the bottom of each topic, e.g. %BR% <code> Topic <nop>TWikiHistory . { Edit   Ref-By   Diffs   r1.3   >   r1.2   >   r1.1 } %BR% Revision r1.3 1998/11/10 01:34 by <nop>PeterThoeny </code> 
-   * *04 Jan 1999* - TWiki:Main.PeterThoeny
-      * Fixed bug when viewing differences between topic revisions that include HTML table tags like &lt;table&gt;, &lt;tr&gt;, &lt;td&gt;. 
+   * *23 Jun 1999* - TWiki:Main.PeterThoeny 
+      * New TextFormattingRules to write __bold italic__ text by enclosing words with double underline characters.
+   * *23 Jun 1999* - TWiki:Main.PeterThoeny 
+      * Separate wiki.pm into configuration (wikicfg.pm) and TWiki core (wiki.pm) . This is to ease the upgrade of TWiki installations, it also allows customized extensions to TWiki without affecting the TWiki core.
+   * *21 May 1999* - TWiki:Main.DavidWarman 
+      * Externalize copyright text at the bottom of every page into a web-specific =webcopyright.inc= file. This is to easily customize the copyright text.
+   * *20 May 1999* - TWiki:Main.PeterThoeny 
+      * Added meta tag so that robots index only /view/ of topics, not /edit/, /attach/ e.t.c. Tag &lt;META NAME="ROBOTS" CONTENT="NOINDEX"&gt;
+   * *20 May 1999* - TWiki:Main.PeterThoeny 
+      * New variables =%<nop>WIKIHOMEURL%= (link when pressing the icon on the upper left corner) and =%<nop>WIKITOOLNAME%= (the name of the wiki tool =<nop>%WIKITOOLNAME%= ).
+   * *15 Apr 1999* - TWiki:Main.PeterThoeny 
+      * Topic locking Warn user if a topic has been edited by an _other_ person within _one_ hour. This is to prevent contention, e.g. simultaneous topic updates.
+   * *26 Mar 1999* - TWiki:Main.PeterThoeny 
+      * File attachments Upload and download any file as a topic attachment by using the browser. FileAttachment has more.
+   * *26 Mar 1999* - TWiki:Main.PeterThoeny 
+      * New variables =%<nop>PUBURL%= (Public directory URL) and =%<nop>ATTACHURL%= (URL of topic file attachment).
+   * *09 Feb 1999* - TWiki:Main.PeterThoeny 
+      * New text formatting rule for creating =fixed font text= . Words get showns in =fixed font= by enclosing them in "=" equal signs. Example Writing <nop>=fixed font=<nop> will show up as =fixed font= .
+   * *09 Feb 1999* - TWiki:Main.PeterThoeny 
+      * No new topic revision is created if the _same_ person saves a topic again within _one_ hour.
+   * *03 Feb 1999* - TWiki:Main.PeterThoeny 
+      * Possible to view complete revision history of a topic on one page. Access at the linked date in the Changes page, or the Diffs link at the bottom of each topic, e.g. %BR% Topic <nop>TWikiHistory . { Edit Ref-By Diffs r1.3 &gt; r1.2 &gt; r1.1 } %BR% Revision r1.3 1998/11/10 01:34 by <nop>PeterThoeny
+   * *04 Jan 1999* - TWiki:Main.PeterThoeny 
+      * Fixed bug when viewing differences between topic revisions that include HTML table tags like &lt;table&gt;, &lt;tr&gt;, &lt;td&gt;.
 
 ---++ 1998 Releases
 
-   * *08 Dec 1998* - TWiki:Main.PeterThoeny
-      * Signature is shown below the text area when editing a topic. Use this to easily copy & paste your signature into the text. 
-   * *07 Dec 1998* - TWiki:Main.PeterThoeny
-      * Possible to add a category table to a TWiki topic. This permits storing and searching for more structured information. Editing a topic shows a HTML form with the usual text area and a table with selectors, checkboxes, radio buttons and text fields. CompleteDocumentation has more on setup. The TWiki.Know web uses this category table to set classification, platform and OS version.  
-   * *18 Nov 1998* - TWiki:Main.PeterThoeny
-      * Internal log of topic save actions to the file <code>data/logYYYYMM.txt</code>, where <code>YYYYMM</code> the year and month in numeric format is. Intended for auditing only, not accessible from the web. 
-   * *10 Nov 1998* - TWiki:Main.PeterThoeny
-      * The e-mail notification and the Changes topic have now a topic date that is linked. Clicking on the link will show the difference between the two most recent topic revisions. 
-   * *10 Nov 1998* - TWiki:Main.PeterThoeny
-      * View differences between topic revisions. Each topic has a list of revisions (e.g. <code>r1.3</code>) and differences thereof (e.g. <code>&gt;</code>) at the bottom %BR% <code> Topic <nop>TWikiHistory . { Edit   Ref-By   r1.3   >   r1.2   >   r1.1 } %BR% Revision r1.3 1998/11/10 01:34 by TWiki:Main.PeterThoeny </code> 
-   * *26 Oct 1998* - TWiki:Main.PeterThoeny
-      * Added preview of topic changes before saving the topic. This was necessary to prevent unneeded revisions. 
-   * *26 Oct 1998* - TWiki:Main.PeterThoeny
-      * Added revision control using RCS. Each topic has now a list of revisions at the bottom and a revision info, e.g. %BR% <code> Topic <nop>TWikiHistory . { Edit   Ref-By   r1.3   r1.2   r1.1 } %BR% Revision r1.3 1998/10/26 01:34:00 by TWiki:Main.PeterThoeny </code> 
-   * *14 Oct 1998* - TWiki:Main.PeterThoeny
-      * Refered-By Find out which topics have a link to the current topic. Each topic has a  Ref-By  link for that. Note Only references from the current web are shown, not references from other webs. 
-   * *13 Oct 1998* - TWiki:Main.PeterThoeny
-      * Alphabetical topic index in WebSearch. 
-   * *24 Sep 1998* - TWiki:Main.PeterThoeny
-      * Corrected templates for automatic e-mail notification so that MS Outlook can display attachment as an HTML file. 
-   * *13 Aug 1998* - TWiki:Main.PeterThoeny
-      * WikiNotation allows also numbers after the <code>AaA</code> sequence, e.g. <code>AaA1</code> is a valid TWikiTopics name, but not <code>Aa1</code>. 
-   * *07 Aug 1998* - TWiki:Main.PeterThoeny
-      * Automatic e-mail notification when something has changed in a TWiki web. Each web has a topic WebNotify where one can subscribe and unsubscribe. 
-   * *06 Aug 1998* - TWiki:Main.PeterThoeny
-      * Added server side include of files. Syntax is =%INCLUDE:<nop>"filename.ext"%= 
-   * *05 Aug 1998* - TWiki:Main.PeterThoeny
-      * Signature and date is inserted automatically when creating a new topic. 
-   * *04 Aug 1998* - TWiki:Main.PeterThoeny
-      * Separate templates for text of non existing topic and default text of new topic. (template file templates/Web/notedited.tmpl) 
-   * *04 Aug 1998* - TWiki:Main.PeterThoeny
-      * Warn user if new topic name is not a valid Wiki name. (template file templates/Web/nofoswiki.tmpl) 
-   * *31 Jul 1998* - TWiki:Main.PeterThoeny
-      * Support for quoted text with a '>' at the beginning of the line. 
-   * *28 Jul 1998* - TWiki:Main.PeterThoeny
-      * Added TWiki variables, enclosed in % signs =%<nop>TOPIC%= (Topic name), =%<nop>WEB%= (web name), =%<nop>SCRIPTURL%= (script URL), =%<nop>DATE%= (current date), =%<nop>WIKIWEBMASTER%= (Wiki webmaster address), =%<nop>WIKIVERSION%= (Wiki version), =%<nop>USERNAME%= (user name), =%<nop>WIKIUSERNAME%= (Wiki user name). 
-   * *28 Jul 1998* - TWiki:Main.PeterThoeny
-      * Topic WebChanges shows Wiki username instead of Intranet username, e.g. =PeterThoeny= instead of =thoeny= in case the Wiki username exists. Implementation Automatic lookup of Wiki username in topic Main.WikiUsers. 
-   * *28 Jul 1998* - TWiki:Main.PeterThoeny
-      * Topic index. (Technically speaking a simple '.*' search on topic names.)  
-   * *28 Jul 1998* - TWiki:Main.PeterThoeny
-      * Topic WebSearch allows full text search and and topic search with/without regular expressions. 
-   * *27 Jul 1998* - TWiki:Main.PeterThoeny
-      * Added automatic links to topics in other TWiki webs by specifying &lt;web name&gt;.&lt;topic name&gt;, e.g. =Know.WebSeach= . 
-   * *23 Jul 1998* - TWiki:Main.PeterThoeny
+   * *08 Dec 1998* - TWiki:Main.PeterThoeny 
+      * Signature is shown below the text area when editing a topic. Use this to easily copy & paste your signature into the text.
+   * *07 Dec 1998* - TWiki:Main.PeterThoeny 
+      * Possible to add a category table to a TWiki topic. This permits storing and searching for more structured information. Editing a topic shows a HTML form with the usual text area and a table with selectors, checkboxes, radio buttons and text fields. CompleteDocumentation has more on setup. The TWiki.Know web uses this category table to set classification, platform and OS version.
+   * *18 Nov 1998* - TWiki:Main.PeterThoeny 
+      * Internal log of topic save actions to the file data/logYYYYMM.txt, where YYYYMM the year and month in numeric format is. Intended for auditing only, not accessible from the web.
+   * *10 Nov 1998* - TWiki:Main.PeterThoeny 
+      * The e-mail notification and the Changes topic have now a topic date that is linked. Clicking on the link will show the difference between the two most recent topic revisions.
+   * *10 Nov 1998* - TWiki:Main.PeterThoeny 
+      * View differences between topic revisions. Each topic has a list of revisions (e.g. r1.3) and differences thereof (e.g. &gt;) at the bottom %BR% Topic <nop>TWikiHistory . { Edit Ref-By r1.3 &gt; r1.2 &gt; r1.1 } %BR% Revision r1.3 1998/11/10 01:34 by TWiki:Main.PeterThoeny
+   * *26 Oct 1998* - TWiki:Main.PeterThoeny 
+      * Added preview of topic changes before saving the topic. This was necessary to prevent unneeded revisions.
+   * *26 Oct 1998* - TWiki:Main.PeterThoeny 
+      * Added revision control using RCS. Each topic has now a list of revisions at the bottom and a revision info, e.g. %BR% Topic <nop>TWikiHistory . { Edit Ref-By r1.3 r1.2 r1.1 } %BR% Revision r1.3 1998/10/26 01:34:00 by TWiki:Main.PeterThoeny
+   * *14 Oct 1998* - TWiki:Main.PeterThoeny 
+      * Refered-By Find out which topics have a link to the current topic. Each topic has a Ref-By link for that. Note Only references from the current web are shown, not references from other webs.
+   * *13 Oct 1998* - TWiki:Main.PeterThoeny 
+      * Alphabetical topic index in WebSearch.
+   * *24 Sep 1998* - TWiki:Main.PeterThoeny 
+      * Corrected templates for automatic e-mail notification so that MS Outlook can display attachment as an HTML file.
+   * *13 Aug 1998* - TWiki:Main.PeterThoeny 
+      * WikiNotation allows also numbers after the AaA sequence, e.g. AaA1 is a valid TWikiTopics name, but not Aa1.
+   * *07 Aug 1998* - TWiki:Main.PeterThoeny 
+      * Automatic e-mail notification when something has changed in a TWiki web. Each web has a topic WebNotify where one can subscribe and unsubscribe.
+   * *06 Aug 1998* - TWiki:Main.PeterThoeny 
+      * Added server side include of files. Syntax is =%INCLUDE:<nop>"filename.ext"%=
+   * *05 Aug 1998* - TWiki:Main.PeterThoeny 
+      * Signature and date is inserted automatically when creating a new topic.
+   * *04 Aug 1998* - TWiki:Main.PeterThoeny 
+      * Separate templates for text of non existing topic and default text of new topic. (template file templates/Web/notedited.tmpl)
+   * *04 Aug 1998* - TWiki:Main.PeterThoeny 
+      * Warn user if new topic name is not a valid Wiki name. (template file templates/Web/nofoswiki.tmpl)
+   * *31 Jul 1998* - TWiki:Main.PeterThoeny 
+      * Support for quoted text with a '&gt;' at the beginning of the line.
+   * *28 Jul 1998* - TWiki:Main.PeterThoeny 
+      * Added TWiki variables, enclosed in % signs =%<nop>TOPIC%= (Topic name), =%<nop>WEB%= (web name), =%<nop>SCRIPTURL%= (script URL), =%<nop>DATE%= (current date), =%<nop>WIKIWEBMASTER%= (Wiki webmaster address), =%<nop>WIKIVERSION%= (Wiki version), =%<nop>USERNAME%= (user name), =%<nop>WIKIUSERNAME%= (Wiki user name).
+   * *28 Jul 1998* - TWiki:Main.PeterThoeny 
+      * Topic WebChanges shows Wiki username instead of Intranet username, e.g. =PeterThoeny= instead of =thoeny= in case the Wiki username exists. Implementation Automatic lookup of Wiki username in topic Main.WikiUsers.
+   * *28 Jul 1998* - TWiki:Main.PeterThoeny 
+      * Topic index. (Technically speaking a simple '.*' search on topic names.)
+   * *28 Jul 1998* - TWiki:Main.PeterThoeny 
+      * Topic WebSearch allows full text search and and topic search with/without regular expressions.
+   * *27 Jul 1998* - TWiki:Main.PeterThoeny 
+      * Added automatic links to topics in other TWiki webs by specifying &lt;web name&gt;.&lt;topic name&gt;, e.g. =Know.WebSeach= .
+   * *23 Jul 1998* - TWiki:Main.PeterThoeny 
       * Installed initial version, based on the JOS Wiki. See WikiWikiClones for details.
 
 ---++ Dev Flow
 
 The typical TWiki development flow...
 
-   * TWiki:Codev.FeatureBrainstorming: open forum for new ideas  
+   * TWiki:Codev.FeatureBrainstorming: open forum for new ideas
    * TWiki:Codev.FeatureEnhancementRequest: specific detailed request
    * TWiki:Codev.FeatureToDo: prioritized to up-next dev status
    * TWiki:Codev.FeatureUnderConstruction: currently in development
@@ -817,4 +810,3 @@ The typical TWiki development flow...
    * TWiki:Codev.DocsToDo: feature documentation pending
    * TWiki:Codev.FeatureDocumented: documented feature
    * ReferenceManual: reference manual for the latest TWiki
-

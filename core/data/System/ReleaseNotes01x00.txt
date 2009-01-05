@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1177700623" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231133620" format="1.1" reprev="1.2" version="$Rev$"}%
 ---+!! Foswiki Release 1.0.0 - BETA 1, %$DATE%
 
 %TOC%
@@ -7,8 +7,8 @@
 
 Foswiki Release 1.0.0 - Beta 3.
 
------
-<!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
+---
+ <!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
 
 *Note this is the second beta release of Foswiki 1.0.0. It is not recommended for production use*
 
@@ -22,70 +22,66 @@ The purpose of this beta is
    * Give developers a chance to see a real installation built and installed
    * Give extension developers a platform to develop the Foswiki versions of extensions
    * Give our users a chance to practice the upgrade from TWiki to Foswiki before the real release
-
 The release of Foswiki 1.0.0 is planned for 03 Jan 2009 but likely to happen around the 9th as the beta testing revealed many issues on Windows.
 
 The quality of 1.0.0 is depending on *you* downloading and installing this beta and report back problems to the development team.
 
------
+---
 
-*Foswiki - The Free and Open Source Wiki*
+---++ Foswiki - The Free and Open Source Wiki
 
-Foswiki is an enterprise collaboration and information sharing tool targetted for professionel use in anything from small businesses to large organisations. 
+Foswiki is an enterprise collaboration and information sharing tool targeted for professional use in many types of companies: from small businesses to large organizations.
 
-Foswiki is a wiki. A "Wiki" system is fundamentally a website with editable web pages. It looks like a normal web site... except that it encourages contribution and editing of pages, questions, answers, comments and updates. It's a powerful way of communicating asynchronously over the web for many existing intranet and public internet sites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
+Foswiki is a wiki: fundamentally, a website with editable web pages. It looks like a normal web site but it encourages contributions, edits, updates, questions, and answers from its users. It's a powerful way of enabling a community to communicate asynchronously using intranet and public internet websites. Foswiki is simple to learn and use. It aims to provide a transparent way for you to publish and exchange your ideas with others over the web and eliminates the one-webmaster syndrome of outdated intranet content.
 
-It is a Structured Wiki with tools that enables users without programming skills to build powerful yet simple applications to process information and build workflows. Developers can extend the functionality of Foswiki with plugins.
+It is a structured wiki with tools that enables users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is the old TWiki project under a new name. Developers decided to discard the TWiki brand because of a commercial dispute and continue the project under the new name Foswiki. The old TWiki project is defacto not actively developed any longer, and it is questionable if the project will survive without the open source community behind it. Foswiki is backwards compatible all content from older TWiki installations. Foswiki 1.0.0 ships in a version with !TWikiCompatibilityPlugin pre-installed. This plugin makes most extensions made for TWiki work under Foswiki.
-
-Foswiki is released under the GNU General Public License.
+Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.0.0 ships with a !TWikiCompatibilityPlugin installed and activated by default, thus enabling most extensions made for TWiki to work under Foswiki. Foswiki is released under the GNU General Public License.
 
 ---++ Pre-installed Extensions
 
-Foswiki 1.0.0 is shipped with
+Foswiki 1.0.0 is shipped with the following:
 
    * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
    * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
    * *Skins:* !PatternSkin
-   * *Compatibility version* -  !TWikiCompatibilityPlugin
+   * *Compatibility support* - !TWikiCompatibilityPlugin
 
 ---++ New Features Highlights
 
-   * The Foswiki 1.0.0 is built on a new platform called Foswiki Stand Alone which enables more optimized functionality in mod_perl and the like. It also enables making features like running Foswiki without a webserver locally. These new features are not yet available but they will soon and by running Foswiki 1.0.0 you are already ready for them when they because available for download.
-   * The PatternSkin has been facelifted. If you go to the PatternSkin topic you can select different themes. You can choose which side you want the side bar, you can add a frame around the whole content, and there is a TWiki theme which makes it easier for the upgrader as it maintains the dimentions of top bar etc.
-   * Advanced Search screen now has query type search
-   * New section type "expandvariables" adds better control over macro expansion in topic templates. You can now create template topics with sections within which all macros are expanded.
-   * New "Copy topic" feature in the "More topic actions" tools.
-   * IF conditions has been expanded with new "isempty" test condition
+   * Foswiki 1.0.0 is built on a new platform called [[http://foswiki.org/Development/FoswikiStandAlone][Foswiki Stand Alone]] which adds support for [[http://foswiki.org/Extensions/FastCGIEngineContrib][FastCGI]] and enables more optimized functionality in mod_perl and other similar runtime environments. Foswiki Stand Alone also enables future features such as running Foswiki by itself without a separate web server (for example, from a stand alone memory key). You can ensure your applications and plugins will work properly on the new platform (and thus with any future capabilities dependent on the new architecture) by testing them out now with Foswiki 1.0.0.
+   * A !TWikiCompatibilityPlugin has been created that enables most extensions made for TWiki to work under Foswiki, and to support seamless migrations from TWiki to Foswiki.
+   * The PatternSkin has been given a facelift: The PatternSkin topic offers a choice of multiple themes, the sidebar can be placed either on the left or right, a frame can be added around the main content area, and a TWiki theme is available to make it easier for those upgrading from TWiki (dimensions such as the top bar size match the dimensions in the TWiki PatternSkin).
+   * The "Advanced Search" page now supports a query-based search.
+   * A new section type, "expandvariables", adds better control over macro expansion in topic templates. You can now create template topics with sections where all macros contained within the sections are expanded.
+   * A "Copy topic" feature is now present in the "More topic actions" tools.
+   * IF conditions has been expanded with an "isempty" test condition.
+   * =viewfile= script can be used as a webserver _ErrorDocument_ enabling both more secure attachments and user focused error dialogs.
 
 ---++ Security Updates
 
 Foswiki is much more secure than TWiki 4.2.4.
 
-   * The Foswiki 1.0.0 has chosen to secure by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities within normal use of URLPARAM. This means that not only the distributed topics but also your existing topics are better protected against XSS.
-   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS like URLPARAM is now encoding with the new "safe" type encoding.
-   * Print preview link is no longer an XSS attack vector.
-   * A developer security audit of the code revealed quite many both severe and less severe possibilities to inject code into the running old TWiki code. Foswiki has rewritten all code that takes data from outside so that it is checked and filtered for safe execution. Much more rigorous taint checking is now applied to all variables. As the Foswiki code is already a major rewrite it has not been practically possible for the Foswiki project to feed patches back to the TWiki code. TWiki users are for security reasons adviced to upgrade to Foswiki as soon as possible, as we have not seen any attempt from the TWiki.net company to even start porting our fixes back into their old TWiki code base. None of the known attack vectors has or will be exposed to the public. They are all found and fixed inside the Foswiki core development team.
+   * Foswiki 1.0.0 has secured by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
+   * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS, like URLPARAM, is now encoded with the new, safe encoding.
+   * The print preview link is no longer vulnerable to XSS attacks.
+   * Additional security fixes have been made, based on security audits performed by the Foswiki team. Sensitive data from the topic text and web client requests are validated for safety.
 
----++ Major changes caused by name change from TWiki to Foswiki
+---++ Upgrading From TWiki 4.2
 
-Because TWiki brandname is legally owned by Peter Thoeny we have felt it necessary to eliminate the TWiki word everywhere. It has also been an opportunity to change some of the naming that caused confusement for the end users.
+Foswiki is compatible with content of TWiki releases up to and including 4.2, as part of its design.
 
-   * The TWiki web is now called System
+As part of the creation of the Foswiki project, the Foswiki community is evaluating all of the hundreds of extensions that are available for TWiki. All that are working are ported over to the Foswiki name space. Many of them are being enhanced through the removal of bugs and security vulnerabilities, resulting in better, more functional plugins for Foswiki. The most popular plugins are already ported and more are added every day.
+
+---++ Terminology changes in Foswiki
+
+As part of the first Foswiki product release, various topics and terms were changed to avoid using the TWiki brand name and to more accurately reflect their purpose, including the following:
+
+   * The TWiki web is now called System, as it contains configuration information for the entire Foswiki installation. The !TWikiCompatibilityPlugin provides backwards compatible support for references to the TWiki web, in order to facilitate migrations from TWiki to Foswiki.
    * The %<nop>TWIKIWEB% and %<nop>MAINWEB% variables are now called %<nop>SYSTEMWEB% and %<nop>USERSWEB%
-   * System distributed topics have been renamed to eliminate the TWiki word and to make the text more readable (e.g Plugins, Skins etc)
-   * All CSS and Javascript names have been changed from twikiXxxxx to foswikiXxxxx
-   * All templates starting with twiki now starts with foswiki
-
-The !TWikiCompatibilityPlugin has been created to help the upgrader so that links to the old topics do not appear broken and so most Plugins made for TWiki 4.2 also works in Foswiki 1.0.0.
-
-As part of the fork the Foswiki community is evaluating all the 100s of extensions that are available for TWiki. All that are working are ported over to the Foswiki name space. Many of them are being bug fixed in the process. Effectively you will have more working plugins available for Foswiki than you had for TWiki. The most popular plugins are already ported and more are added every day.
-
----+++ Terminology Changes
-
-As the TWiki brand name was part of the terminology the Foswiki project had to review and change terminology. While doing that we also took the opportunity to change some of the terminology that is known to cause confusion among end users.
-
+   * Topics in the Foswiki distribution have been renamed to eliminate the TWiki word and to make the titles more readable (for example, Plugins, Skins, and so forth).
+   * All templates, CSS and Javascript names have been changed from twikiXxxxx to foswikiXxxxx
+   * Key terminology changes:
 | *TWiki term* | *Foswiki term* |
 | TWiki variable | Macro |
 | preference(s) variable | preference setting, or macro when referring to expansion of same |
@@ -144,8 +140,7 @@ As the TWiki brand name was part of the terminology the Foswiki project had to r
 | TWikiWebsTable | WebsTable |
 | TWikiRegistrationAgent | RegistrationAgent |
 
-TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandFor have been removed.
-</noautolink>
+TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandFor have been removed. </noautolink>
 
 ---+++ Topic names changed in System web (former TWiki web)
 
@@ -161,20 +156,19 @@ TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandF
 | TWikiRegistrationAgent | RegistrationAgent |
 | TWikiAdminUser | AdminUser |
 
-Note that the change from TWikiAdminGroup to AdminGroup has no practical implication when upgrading from TWiki to Foswiki. The topics with an ALLOW setting set to TWikiAdminGroup will still prevent users from accessing or editing and the AdminGroup members can edit anything. You must however make sure the TWikiAdminGroup topic exists in the Main web and that it is protected against editing. Simply make sure it iw copied over from old Main web along with all other user and group topics.
+Note that the change from TWikiAdminGroup to AdminGroup has no practical implication when upgrading from TWiki to Foswiki. The topics with an ALLOW setting set to TWikiAdminGroup will still prevent users from accessing or editing and the AdminGroup members can edit anything. You must however make sure the TWikiAdminGroup topic exists in the Main web and that it is protected against editing: when migrating, make sure it is copied over from the old Main web along with all other user and group topics.
 
-When you upgrade from TWiki copy the old TWikiUsers topic to WikiUsers and manually add the AdminUser, ProjectContributor, and RegistrationAgent.
+When you upgrade from TWiki, copy the old TWikiUsers topic to WikiUsers and manually add the AdminUser, ProjectContributor, and RegistrationAgent users.
 
-Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. 
-</noautolink>
-   
+Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. </noautolink>
+
 ---++ Important Changes since TWiki 4.2.3
 
 If this release had been a TWiki release it would have been 4.3.0
 
-Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we list all changes since this release below.
+Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, all changes since this release are listed below.
 
----++ Fixes
+---+++ Fixes
 
 <noautolink>
 | [[%BUGS%/Item109][Item109]] | Rename all topics that have the T-word in them |
@@ -203,7 +197,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item264][Item264]] | Rebrand pattern skin |
 | [[%BUGS%/Item265][Item265]] | Rebranding EditTablePlugin for Foswiki |
 | [[%BUGS%/Item267][Item267]] | Update file table in plugins that contains TWiki directories |
-| [[%BUGS%/Item273][Item273]] | Rename twiki.tmpl -> foswiki.tmpl |
+| [[%BUGS%/Item273][Item273]] | Rename twiki.tmpl -&gt; foswiki.tmpl |
 | [[%BUGS%/Item295][Item295]] | Replacing TWiki with Foswiki in core docs and default plugins |
 | [[%BUGS%/Item297][Item297]] | viewfile can't be used as a dropin replacement for {pubUrl}, and when viewfile fails it redirects to an oops mess |
 | [[%BUGS%/Item300][Item300]] | Rebranding root-level documentation |
@@ -261,7 +255,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item5922][Item5922]] | $formfield data not being displayed in formatted searches |
 | [[%BUGS%/Item5926][Item5926]] | Topics with Chinese in UTF8 destroys page view in Internet Explorer |
 | [[%BUGS%/Item5937][Item5937]] | move initialization of SwitchBoard to TWiki.spec |
-| [[%BUGS%/Item5939][Item5939]] | Rogue <p /> below </html> on every topic in every web |
+| [[%BUGS%/Item5939][Item5939]] | Rogue <p> below on every topic in every web</p> |
 | [[%BUGS%/Item5943][Item5943]] | TWikiRegistrationAgent should be in the admin group |
 | [[%BUGS%/Item5944][Item5944]] | The padding:1px for textareas makes it hard to place the cursor at the begining of a line |
 | [[%BUGS%/Item5957][Item5957]] | htdigest format password file gets stomped on password or email change/reset |
@@ -295,9 +289,9 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 | [[%BUGS%/Item629][Item629]] | Unable to access root docs on some installations of Apache. |
 | [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
 | [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
-</noautolink>
+ </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 | [[%BUGS%/Item1873][Item1873]] | Need Copy topic, not just move and rename |
@@ -310,8 +304,8 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, we
 </noautolink>
 
 ---
-<!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
+ <!-- Note: Do not use Bugs: interwiki links because interwiki rule might not be defined
    * Set BUGS = http://foswiki.org/Tasks
---> 
+-->
 
 *Related Topic:* ReleaseHistory
