@@ -49,8 +49,8 @@ do
     sed -i -e "s/twiki\([A-Z][A-Za-z]\+\)/foswiki\1/g"  $file
     sed -i -e "s/'twiki'/'foswiki'/g"  $file
     sed -i -e "s/TWikiCompatibility/FoswikiCompatibility/g"  $file
-    sed -i -e "s/&Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g"  $file
-    sed -i -e "s/Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g"  $file
+    sed -i -e 's/&Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g'  $file
+    sed -i -e 's/Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g'  $file
     sed -i -e "s/^=begin twiki/=begin TML/g"  $file       
 done
 
