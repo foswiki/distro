@@ -5,16 +5,12 @@
 
 ---++ Introduction
 
-Foswiki Release 1.0.0 - Beta 3.
+Foswiki Release 1.0.0 - Release Candidate 1
 
 ---
  <!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
 
-*Note this is the second beta release of Foswiki 1.0.0. It is not recommended for production use*
-
-Beta 1 had a couple of severe bugs and one security issue (A newly registered user had his password copied to his home page). Therefore this beta 2 so shortly after.
-
-Beta 2 was subject to a lot of testing in Windows environment. Beta 3 is therefore a good step for Windows users.
+*Note this is the Release Candidate 1 of Foswiki 1.0.0. It is not recommended for production use*
 
 The purpose of this beta is
 
@@ -22,9 +18,9 @@ The purpose of this beta is
    * Give developers a chance to see a real installation built and installed
    * Give extension developers a platform to develop the Foswiki versions of extensions
    * Give our users a chance to practice the upgrade from TWiki to Foswiki before the real release
-The release of Foswiki 1.0.0 is planned for 03 Jan 2009 but likely to happen around the 9th as the beta testing revealed many issues on Windows.
+The release of Foswiki 1.0.0 is planned for 07 Jan 2009 and to be made public 09 Jan 2009 allowing two days of last checking and marketing actions.
 
-The quality of 1.0.0 is depending on *you* downloading and installing this beta and report back problems to the development team.
+The quality of 1.0.0 is depending on *you* downloading and installing this RC and report back problems to the development team.
 
 ---
 
@@ -57,6 +53,7 @@ Foswiki 1.0.0 is shipped with the following:
    * A "Copy topic" feature is now present in the "More topic actions" tools.
    * IF conditions has been expanded with an "isempty" test condition.
    * =viewfile= script can be used as a webserver _ErrorDocument_ enabling both more secure attachments and user focused error dialogs.
+   * Foswiki is now distributed so when you unpack the tgz or zip file,  a directory called Foswiki-X.X.X (X.X.X being the version number) is neatly created. No more splattering of files all over in the current directory.
 
 ---++ Security Updates
 

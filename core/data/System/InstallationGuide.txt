@@ -30,7 +30,8 @@ If you need help, ask a question in the Foswiki:Support web or on Foswiki:Commun
 ---++ Basic Installation: getting Foswiki running
 
    1 *Download* the Foswiki distribution from http://foswiki.org/Download
-   1 *Make a directory* for the installation and *unpack the distribution* in it. In the rest of this document we assume this directory is called =foswiki=. 
+   1 *Change directory* to the directory in which you want Foswiki directory to be.
+   1 *Unpack the distribution file*, and note that the distributed tgz or tar creates a directory called Foswiki-VERSION when you unpack the distribution tar or tgz file. You can rename this directory to a simpler name. In the rest of this document we assume this directory is renamed to =foswiki=. 
       * *Note:* Foswiki does not support directory paths that contain spaces, so ensure that all of its directory paths do not contain any spaces (particularly on Windows).
    1 *Setup access file and directory rights* to enable the webserver user (the user uesd by Apache to run the CGI programs) to read and write within the foswiki directory. 
       * *Warning:* Do not just run a =chmod -R 770 foswiki=. The access rules have different meaning for files and directories. This is the most common mistake installers make.
