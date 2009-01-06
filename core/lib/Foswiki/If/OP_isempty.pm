@@ -39,7 +39,7 @@ __DATA__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
-Copyright (C) 2005-2008 Foswiki Contributors. All Rights Reserved.
+Copyright (C) 2005-2009 Foswiki Contributors. All Rights Reserved.
 Foswiki Contributors are listed in the AUTHORS file in the root of
 this distribution. NOTE: Please extend that file, not this notice.
 
