@@ -26,7 +26,7 @@
 # that the 'configure' script can extract documentation from here.
 # You are *strongly* advised not to edit this file!
 #
-# You can alter the most recent revision of a topic using 
+# You can alter the most recent revision of a topic using
 # /edit/web/topic?cmd=repRev
 #    * use only as a last resort, as history is altered
 #    * you must be in AdminGroup
@@ -277,7 +277,7 @@ $Foswiki::cfg{Sessions}{MapIP2SID} = 0;
 $Foswiki::cfg{LoginManager} = 'Foswiki::LoginManager::TemplateLogin';
 
 # **BOOLEAN EXPERT**
-# Browsers typically remember your login and passwords to make authentication 
+# Browsers typically remember your login and passwords to make authentication
 # more convenient for users. If your Foswiki is used on public terminals, or other
 # you can prevent this, forcing the user to enter the login and password every time.
 $Foswiki::cfg{TemplateLogin}{PreventBrowserRememberingPassword} = 0;
@@ -307,7 +307,7 @@ $Foswiki::cfg{AdminUserLogin} = 'admin';
 
 # **STRING 20 EXPERT**
 # An admin user WikiName what is displayed for actions done by the AdminUserLogin
-# You should normally not need to change this. (you will need to move the 
+# You should normally not need to change this. (you will need to move the
 # %USERSWEB%.AdminUser topic to match)
 $Foswiki::cfg{AdminUserWikiName} = 'AdminUser';
 
@@ -348,8 +348,7 @@ $Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdi
 # Authentication realm. This is
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
-$Foswiki::cfg{AuthRealm} =
-'Enter your System.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit System.UserRegistration if you do not have one.';
+$Foswiki::cfg{AuthRealm} = 'Enter your System.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit System.UserRegistration if you do not have one.';
 
 #---++ User Mapping
 # **SELECTCLASS Foswiki::Users::*UserMapping**
@@ -477,7 +476,7 @@ $Foswiki::cfg{AllowInlineScript} = $TRUE;
 # to prevent upload of files with the same file extensions as executables.
 # <p /> NOTE: Be sure to update
 # this list with any configuration or script filetypes that are
-# automatically run by your web server. 
+# automatically run by your web server.
 $Foswiki::cfg{UploadFilter} = qr/^(\.htaccess|.*\.(?i)(?:php[0-9s]?(\..*)?|[sp]htm[l]?(\..*)?|pl|py|cgi))$/;
 
 # **REGEX EXPERT**
@@ -501,11 +500,11 @@ $Foswiki::cfg{ForceUnsafeRegexes} = $FALSE;
 $Foswiki::cfg{GetScriptUrlFromCgi} = $FALSE;
 
 # **BOOLEAN EXPERT**
-# Draining STDIN may be necessary if the script is called due to a 
-# redirect and the original query was a POST. In this case the web 
-# server is waiting to write the POST data to this script's STDIN, 
-# but CGI.pm won't drain STDIN as it is seeing a GET because of the 
-# redirect, not a POST. Enable this <b>only</b> in case a Foswiki script 
+# Draining STDIN may be necessary if the script is called due to a
+# redirect and the original query was a POST. In this case the web
+# server is waiting to write the POST data to this script's STDIN,
+# but CGI.pm won't drain STDIN as it is seeing a GET because of the
+# redirect, not a POST. Enable this <b>only</b> in case a Foswiki script
 # hangs.
 $Foswiki::cfg{DrainStdin} = $FALSE;
 
@@ -516,12 +515,12 @@ $Foswiki::cfg{DrainStdin} = $FALSE;
 $Foswiki::cfg{RemovePortNumber}  = $FALSE;
 
 # **BOOLEAN EXPERT**
-# Allow the use of URLs in the <tt>redirectto</tt> parameter to the 
-# <tt>save</tt> script, and in <tt>topic</tt> parameter to the 
-# <tt>view</tt> script. <b>WARNING:</b> Enabling this feature makes it 
-# very easy to build phishing pages using the wiki, so in general, 
-# public sites should <b>not</b> enable it. Note: It is possible to 
-# redirect to a topic regardless of this setting, such as 
+# Allow the use of URLs in the <tt>redirectto</tt> parameter to the
+# <tt>save</tt> script, and in <tt>topic</tt> parameter to the
+# <tt>view</tt> script. <b>WARNING:</b> Enabling this feature makes it
+# very easy to build phishing pages using the wiki, so in general,
+# public sites should <b>not</b> enable it. Note: It is possible to
+# redirect to a topic regardless of this setting, such as
 # <tt>topic=OtherTopic</tt> or <tt>redirectto=Web.OtherTopic</tt>.
 # To enable redirection to a list of trusted URLs, keep this setting
 # disabled and set the {PermittedRedirectHostUrls}.
@@ -553,7 +552,7 @@ $Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD
 # Standard Foswiki incorporates some simple anti-spam measures to protect
 # e-mail addresses and control the activities of benign robots. These
 # should be enough to handle intranet requirements. Administrators of
-# public (internet) sites are strongly recommended to install 
+# public (internet) sites are strongly recommended to install
 # <a href="http://foswiki.org/Extensions/AntiSpamPlugin">
 # AntiSpamPlugin </a>
 
@@ -700,7 +699,7 @@ $Foswiki::cfg{Languages}{'zh-tw'}{Enabled} = 1;
 $Foswiki::cfg{DisplayTimeValues} = 'gmtime';
 
 # **SELECT $day $month $year, $year-$mo-$day, $year/$mo/$day, $year.$mo.$day**
-# Set the default format for dates. The traditional Foswiki format is 
+# Set the default format for dates. The traditional Foswiki format is
 # '$day $month $year' (31 Dec 2007). The ISO format '$year-$mo-$day'
 # (2007-12-31) is recommended for non English language Foswikis. Note that $mo
 # is the month as a two digit number. $month is the three first letters of
@@ -721,7 +720,7 @@ $Foswiki::cfg{UseLocale} = $FALSE;
 # <br />
 # Locale names are not standardised. On Unix/Linux check 'locale -a' on
 # your system to see which locales are supported by your system.
-# You may also need to check what charsets your browsers accept - the 
+# You may also need to check what charsets your browsers accept - the
 # 'preferred MIME names' at http://www.iana.org/assignments/character-sets
 # are a good starting point.
 # <br />
@@ -763,7 +762,7 @@ $Foswiki::cfg{Site}{LocaleRegexes} = $TRUE;
 # locales.
 $Foswiki::cfg{UpperNational} = '';
 # **STRING EXPERT**
-# 
+#
 $Foswiki::cfg{LowerNational} = '';
 
 # **STRING 50 **
@@ -987,8 +986,8 @@ $Foswiki::cfg{WebMasterEmail} = '';
 $Foswiki::cfg{WebMasterName} = 'Wiki Administrator';
 
 # **COMMAND**
-# Mail program. If Net::SMTP is installed, it will be used in preference. 
-# To force Foswiki to use the {MailProgram}, unset both {SMTP}{MAILHOST} 
+# Mail program. If Net::SMTP is installed, it will be used in preference.
+# To force Foswiki to use the {MailProgram}, unset both {SMTP}{MAILHOST}
 # below and all SMTPMAILHOST settings in your Foswiki's Preferences topics.
 # This needs to be a command-line program that accepts
 # MIME format mail messages on standard input, and mails them.
@@ -1008,7 +1007,7 @@ $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30**
 # Mail domain sending mail, required if you are using Net::SMTP. SMTP
-# requires that you identify the server sending mail. If not set, 
+# requires that you identify the server sending mail. If not set,
 # Net::SMTP will guess it for you. Example: foswiki.your.company.
 # <b>CAUTION</b> This setting can be overridden by a setting of SMTPSENDERHOST
 # in SitePreferences. Make sure you delete that setting if you are using a
@@ -1073,13 +1072,13 @@ $Foswiki::cfg{Stats}{TopicName} = 'WebStatistics';
 # Template path. A comma-separated list of generic file names, containing
 # variables standing for part of the file name. When a template $name in $web
 # with $skin is requested, this path is instantiated into a sequence of file
-# names. The first file on this list that is found considered to be the 
+# names. The first file on this list that is found considered to be the
 # requested template file. The file names can either be absolute file names
 # ending in ".tmpl" or a topic file in a Foswiki web.
 $Foswiki::cfg{TemplatePath} = '$Foswiki::cfg{TemplateDir}/$web/$name.$skin.tmpl, $Foswiki::cfg{TemplateDir}/$name.$skin.tmpl, $web.$skinSkin$nameTemplate, $Foswiki::cfg{SystemWebName}.$skinSkin$nameTemplate, $Foswiki::cfg{TemplateDir}/$web/$name.tmpl, $Foswiki::cfg{TemplateDir}/$name.tmpl, $web.$nameTemplate, $Foswiki::cfg{SystemWebName}.$nameTemplate';
 
 # **STRING 120 EXPERT**
-# List of protocols (URI schemes) that Foswiki will 
+# List of protocols (URI schemes) that Foswiki will
 # automatically recognize and activate if found in absolute links.
 # Additions you might find useful in your environment could be 'imap' or 'pop'
 # (if you are using shared mailboxes accessible through your browser), or 'tel'
@@ -1244,7 +1243,8 @@ $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 # and should have the packaged extension attached as a <tt>zip</tt> and/or
 # <tt>tgz</tt> file.
 # <p />
-# This setting is a semicolon-separated list of repository specifications, each in the format: <i>name=(listurl,puburl)</i>,
+# This setting is a semicolon-separated list of repository specifications, each in the format: <i>name=(listurl,puburl)</i>.
+# For Extensions with the same name in both repositories, the one in the last repository will be chosen, so foswiki should be last for maximum compatibility.
 # where:
 # <ul>
 # <li><i>name</i> is the symbolic name of the repository e.g. Foswiki.org</li>
@@ -1252,7 +1252,7 @@ $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 # <li><i>puburl</i> is the root of a download URL
 # </ul>
 # For example,<code>
-# foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);
-# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);</code><p />
+# twiki.org=(http://twiki.org/cgi-bin/view/Plugins/,http://twiki.org/p/pub/Plugins/);
+# foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/);</code><p />
 $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
 1;
