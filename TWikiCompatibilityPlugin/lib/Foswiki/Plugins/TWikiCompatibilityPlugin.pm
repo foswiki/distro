@@ -91,6 +91,7 @@ sub earlyInitPlugin {
 
     # Load TWiki::Func and TWiki::Plugins, for badly written plugins
     # which rely on them being there without using them first
+    use TWiki;
     use TWiki::Func;
     use TWiki::Plugins;
 
@@ -121,8 +122,8 @@ sub augmentedTemplatePath {
 ---++ postRenderingHandler( $text )
    * =$text= - the text that has just been rendered. May be modified in place.
 
-using the same simplistic mechanism as DistributedServersPlugin, we find all 
-the System and TWiki web pub URL's and make sure they actually exist. If not, 
+using the same simplistic mechanism as DistributedServersPlugin, we find all
+the System and TWiki web pub URL's and make sure they actually exist. If not,
 we look in the 'other' place, and modify them if that file does exist.
    * TODO: should really protect non-HTML src type url's from re-writing
 
@@ -145,7 +146,7 @@ sub validatePubURL {
 print STDERR "validatePubURL($pubUrl, $web, $file)\n";
     my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
 		$Foswiki::cfg{SystemWebName} => 'TWiki');
-    
+
     #TODO: make into a hash - and see if we can persist it for fastcgi etc..
     my $filePath = $Foswiki::cfg{PubDir}.'/'.$web.$file;
     unless (-e $filePath) {
