@@ -627,32 +627,40 @@ sub doFunc
 
     } elsif( $theFunc eq "REPLACE" ) {
         my( $string, $start, $num, $replace ) = split ( /,\s*/, $theAttr, 4 );
+        $string = "" unless ( defined $string );
         $result = $string;
         $start-- unless ($start < 1);
         $num = 0 unless( $num );
         $replace = "" unless( defined $replace );
-        if( eval 'substr( $string, $start, $num, $replace )' && $string ) {
+        if( eval 'substr( $string, $start, $num, $replace )' ) {
             $result = $string;
         }
 
     } elsif( $theFunc eq "SUBSTITUTE" ) {
         my( $string, $from, $to, $inst, $options ) = split( /,\s*/, $theAttr );
+        $string = "" unless ( defined $string );
         $result = $string;
-        $to = "" unless( defined $to );
+        $from = "" unless( defined $from );        
         $from = quotemeta( $from ) unless( $options && $options =~ /r/i);
-        if( $inst ) {
-            # replace Nth instance
-            my $count = 0;
-            if( eval '$string =~ s/($from)/if( ++$count == $inst ) { $to; } else { $1; }/gex;' && $string ) {
-                $result = $string;
-            }
-        } else {
-            # global replace
-            if( eval '$string =~ s/$from/$to/g' && $string ) {
-                $result = $string;
+        $to = "" unless( defined $to );
+
+        # Note that the number 0 is valid string. An empty string as well as 0
+        # are valid return values
+        if ( $string ne "" && $from ne "" ) {
+            if( $inst ) {
+                # replace Nth instance
+                my $count = 0;
+                if( eval '$string =~ s/($from)/if( ++$count == $inst ) { $to; } else { $1; }/gex;' ) {
+                    $result = $string;
+                }
+            } else {
+                # global replace
+                if( eval '$string =~ s/$from/$to/g' ) {
+                    $result = $string;
+                }
             }
         }
-
+    
     } elsif( $theFunc eq "TRANSLATE" ) {
         $result = $theAttr;
         # greedy match for comma separated parameters (in case first parameter has embedded commas)
