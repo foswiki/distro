@@ -200,9 +200,9 @@ sub _parse {
             $open = new Foswiki::Configure::Value( typename => $1, opts => $2 );
         }
 
-        elsif ( $l =~ /^#?\s*\$(Foswiki::)?cfg([^=\s]*)\s*=(.*)$/ ) {
-            my $keys         = $2;
-            my $tentativeVal = $3;
+        elsif ( $l =~ /^#?\s*\$(?:(?:Fosw|TW)iki::)?cfg([^=\s]*)\s*=(.*)$/ ) {
+            my $keys         = $1;
+            my $tentativeVal = $2;
             if ( $open && $open->isa('SectionMarker') ) {
                 pusht( \@settings, $open );
                 $open = undef;

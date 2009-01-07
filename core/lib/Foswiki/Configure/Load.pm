@@ -149,6 +149,63 @@ sub readDefaults {
         _loadDefaultsFrom( "$dir/TWiki/Plugins",   $root, \%read, \@errors );
         _loadDefaultsFrom( "$dir/TWiki/Contrib",   $root, \%read, \@errors );
     }
+    if ( defined %TWiki::cfg ) {
+
+        # We had some TWiki plugins, need to map their config to Foswiki
+        sub mergeHash {
+
+          # Merges the keys in the right hashref to the ones in the left hashref
+            my ( $left, $right, $errors ) = @_;
+            while ( my ( $key, $value ) = each %$right ) {
+                if ( exists $left->{$key} ) {
+                    if ( ref($value) ne ref( $left->{$key} ) ) {
+                        push @$errors,
+                            'Trying to overwrite $Foswiki::cfg{' 
+                          . $key
+                          . '} with its $TWiki::cfg version ('
+                          . $value . ')';
+                    }
+                    elsif ( ref($value) eq 'SCALAR' ) {
+                        $left->{$key} = $value;
+                    }
+                    elsif ( ref($value) eq 'HASH' ) {
+                        $left->{$key} =
+                          mergeHash( $left->{$key}, $value, $errors );
+                    }
+                    elsif ( ref($value) eq 'ARRAY' ) {
+
+                        # It's an array. try to be smart
+                        # SMELL: Ideally, it should keep order too
+                        foreach my $item (@$value) {
+                            unless ( grep /^$item$/, @{ $left->{$key} } ) {
+
+                         # The item isn't in the current list, add it at the end
+                                unshift @{ $left->{$key} }, $item;
+                            }
+                        }
+                    }
+                    else {
+
+                        # It's something else (GLOB, coderef, ...)
+                        push @$errors,
+                            '$TWiki::cfg{' 
+                          . $key
+                          . '} is a reference to a'
+                          . ref($value)
+                          . '. No idea how to merge that, sorry.';
+                    }
+                }
+                else {
+
+                    # We don't already have such a key in the Foswiki scope
+                    $left->{$key} = $value;
+                }
+            }
+            return $left;
+        }
+        mergeHash \%Foswiki::cfg, \%TWiki::cfg, \@errors;
+    }    # define %TWiki::cfg
+
     return \@errors;
 }
 
