@@ -19,9 +19,9 @@ No further changes are planned to the Foswiki product prior to the official 1.0.
    * Provide extension developers a platform to develop the Foswiki versions of extensions.
    * Give users a chance to practice the upgrade from TWiki to Foswiki before the real release.
 
-The release of Foswiki 1.0.0 is planned for 07 Jan 2009, with an official public launch on 09 Jan 2009, to accommodate any final administrative actions.
+The release of Foswiki 1.0.0 is planned for 07 Jan 2009, with an official public launch on 09 Jan 2009, to accommodate any final administrative tasks.
 
-The quality of 1.0.0 is depending on *you* downloading and installing this RC and report back problems to the development team.
+The quality of 1.0.0 is dependent on *you* downloading and installing this RC and reporting problems to the development team.
 
 ---
 
