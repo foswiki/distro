@@ -1,0 +1,24 @@
+%TMPL:INCLUDE{"settings"}%<!-- template: settings.natedit.tmpl -->
+%TMPL:INCLUDE{"settingstoolbar"}%<!-- settingstoolbar// -->
+%TMPL:DEF{"content"}%<!-- content -->
+%TMPL:P{"contenttitle"}%<!-- contenttitle// -->
+<form id="EditForm" name="EditForm" method="post" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%">
+<input type="hidden" name="action_addform" value="" />
+<input type="hidden" name="action_cancel" value="" />
+<input type="hidden" name="action_checkpoint" value="" />
+<input type="hidden" name="action_preview" value="" />
+<input type="hidden" name="action_replaceform" value="" />
+<input type="hidden" name="action_save" value="" />
+<input type="hidden" name="action" value="saveSettings" />
+<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
+%TABPANE%
+%TAB{"%MAKETEXT{"Preferences"}%"}%
+<textarea name="text" id="topic" wrap="virtual" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style="%EDITBOXSTYLE%">%TEXT%</textarea>
+%ENDTAB%
+%TMPL:P{"helptab"}%<!-- helptab// -->
+%ENDTABPANE%
+%TMPL:P{"bottomtopicactions"}%
+%TMPL:P{"formend"}%<!-- -->
+</form>
+<!-- //content -->%TMPL:END%
+%TMPL:DEF{"helptab"}%%TAB{"%MAKETEXT{"Help"}%"}% %TMPL:P{"help"}% %ENDTAB%%TMPL:END%

@@ -14,7 +14,7 @@
 .natEdit textarea,
 .natEditTextArea {
   _width:99% !important; /* bloddy IE */
-  font-family:"Bitstream Vera Sans Mono", "Andale Mono", Courier, monospace;
+  font-family:"Bitstream Vera Sans Mono", "Andale Mono", monospace;
   font-size:12px;
 }
 ul.natEditButtonBox {
@@ -72,6 +72,7 @@ ul.natEditHelpTools {
   float:right;
 }
 
+.foswikiForm,
 .twikiForm {
   clear:both;
 }
@@ -92,10 +93,13 @@ ul.natEditHelpTools {
 }
 
 /* pattern skin tweaks */
+.patternPreviewPage .patternTopic,
 .patternPreviewPage .foswikiTopic,
+.patternEditPage .patternTopic,
 .patternEditPage .foswikiTopic {
   margin:0px;
 }
+.patternEditPage .foswikiForm,
 .patternEditPage .twikiForm {
   margin:0px;
 }

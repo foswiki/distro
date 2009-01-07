@@ -3,10 +3,8 @@ function initTextAreaHeight () { }
 function handleKeyDown () { }
 
 function submitEditForm(script, action) {
-  $("#savearea").val($("#topic").val());
-  $(".natEditBottomBar a").each(function () {
-    this.blur();
-  });
+  var topicText = $("#topic").val();
+  $("#savearea").val(topicText);
   if (typeof(beforeSubmitHandler) != 'undefined') {
     beforeSubmitHandler(script, action);
   }
@@ -25,20 +23,23 @@ function submitEditForm(script, action) {
 }
 
 $(function() {
-  window.setTimeout(function() {
-    var foundMce = $(".mceEditor").length;
-    if (foundMce) {
-      $(".natEditToolBar").hide();
-    }
-    /*
-    if (TWikiTiny) {
-      TWikiTiny['switchToRaw'] = function (inst) {
-        alert("switch to raw");
-        TWikiTiny.switchToRaw(inst);
-        $(".natEditToolBar").show();
-      };
-      alert("switchtoraw="+TWikiTiny['switchToRaw']);
-    }
-    */
-  }, 1);
+    window.setTimeout(function() {
+      if (typeof(TWikiTiny) != 'undefined' || typeof(FoswikiTiny) != 'undefined') {
+        $(".natEditToolBar").hide(); /* switch off natedit toolbar */
+
+        /*
+        var oldSwitchToRaw = TWikiTiny.switchToRaw;
+        TWikiTiny.switchToRaw = function(inst) {
+          $(".natEditToolBar").show();
+          oldSwitchToRaw(inst);
+        };
+
+        TWikiTiny['switchToRaw'] = function (inst) {
+          alert("switch to raw");
+          TWikiTiny.switchToRaw(inst);
+          $(".natEditToolBar").show();
+        };
+        */
+      }
+    }, 1);
 });

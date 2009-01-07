@@ -3,9 +3,13 @@
 %TMPL:INCLUDE{"edittoolbar"}%<!-- edittoolbar// -->
 %TMPL:INCLUDE{"edithelp"}%<!-- edithelp// -->
 
-%TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
+%TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%MAKETEXT{"edit"}%"}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
-%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
+%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">[[%WEB%.%TOPIC%][%TOPIC%]] (%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%IF{"istopic '%WEB%.%TOPIC%'" then="%MAKETEXT{"edit"}%" else="%MAKETEXT{"new"}%"}%"}%)</h1>%TMPL:END%
+
+%TMPL:DEF{"gettopictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="gettopictitle_dbcache" else="gettopictitle_default"}%%TMPL:END%
+%TMPL:DEF{"gettopictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else=""}%%TMPL:END%
+%TMPL:DEF{"gettopictitle_dbcache"}%%GETTOPICTITLE{encode="entity" default=""}%%TMPL:END%
 
 %TMPL:DEF{"content"}%<!-- content -->
 %TMPL:P{"contenttitle"}%<!-- contenttitle// -->
@@ -43,7 +47,7 @@
 <!-- //formstart -->%TMPL:END%
 
 %TMPL:DEF{"textarea"}%<!-- textarea -->
-<textarea id="topic" class="foswikiTextarea natEditTextArea natedit" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
+<textarea id="topic" class="twikiTextarea foswikiTextarea foswikiWysiwygEdit natEditTextArea natedit" name="text" style="width:99%" rows="22" cols="70">%TEXT%</textarea>
 <!-- //textarea -->%TMPL:END%
 
 
@@ -70,7 +74,7 @@
   <table>
   <tr class="natEditTopicTitle">
     <th>Title:</th>
-    <td><input class="twikiInputField" type="text" name="TopicTitle" size="80" value="%URLPARAM{"TopicTitle" default="%GETTOPICTITLE{encode="entity" default=""}%"}%" /></td>
+    <td><input class="twikiInputField" type="text" name="TopicTitle" size="80" value="%URLPARAM{"TopicTitle" default="%TMPL:P{"gettopictitle"}%"}%" /></td>
   </tr>
   </table>
 </literal></div>
@@ -94,8 +98,27 @@
 <!-- //helptab -->%TMPL:END%
 
 %TMPL:DEF{"settings"}%<!-- settings -->
-<b><label for="parent">%MAKETEXT{"Parent topic"}%:</b></label>
-<input class="twikiInputField" type="text" id="parent" name="topicparent" size="40" value="%TOPICPARENT%" />
+<div class="twikiFormSteps foswikiFormSteps">
+  <h2>Topic preferences:</h2>
+  <div class="twikiFormStep foswikiFormStep twikiFormLast">
+    <h3>%MAKETEXT{"Parent topic"}%:</h3>
+    <input class="twikiInputField" type="text" name="topicparent" size="40" value="%TOPICPARENT%" />
+  </div>
+</div>
+<div class="twikiFormSteps foswikiFormSteps">
+  <h2>Show on screen:</h2>
+  <div class="twikiFormStep foswikiFormStep twikiFormLast">
+    <label><input type="checkbox" class="twikiRadio foswikiRadio" name="Local+DISPLAYFORM" value="%IF{"'%VAR{"DISPLAYFORM"}%'='off'" then="on"}%" %IF{"$'DISPLAYFORM'='on' OR NOT defined 'DISPLAYFORM'" then="checked"}% />%MAKETEXT{"Data form"}%</label>
+    <input type="hidden" name="Local+DISPLAYFORM" value="%IF{"'%VAR{"DISPLAYFORM"}%'='off'" else="off"}%" />
+
+    <label><input type="checkbox" class="twikiRadio foswikiRadio" name="Local+DISPLAYATTACHMENTS" value="%IF{"'%VAR{"DISPLAYATTACHMENTS"}%'='off'" then="on"}%" %IF{"$'DISPLAYATTACHMENTS'='on' OR NOT defined 'DISPLAYATTACHMENTS'" then="checked"}% />%MAKETEXT{"Attachments"}%</label>
+    <input type="hidden" name="Local+DISPLAYATTACHMENTS" value="%IF{"'%VAR{"DISPLAYATTACHMENTS"}%'='off'" else="off"}%" />
+
+    <label><input type="checkbox" class="twikiRadio foswikiRadio" name="Local+DISPLAYCOMMENTS" value="%IF{"'%VAR{"DISPLAYCOMMENTS"}%'='off'" then="on"}%" %IF{"$'DISPLAYCOMMENTS'='on' OR NOT defined 'DISPLAYCOMMENTS'" then="checked"}% />%MAKETEXT{"Comments"}%</label>
+    <input type="hidden" name="Local+DISPLAYCOMMENTS" value="%IF{"'%VAR{"DISPLAYCOMMENTS"}%'='off'" else="off"}%" />
+  </div>
+</div>
+
 <!-- //settings -->%TMPL:END%
 
 %TMPL:DEF{"revCommentPluginOptions"}%<!--revCommentPluginOptions -->

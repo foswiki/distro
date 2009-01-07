@@ -1,7 +1,4 @@
-# Copyright (C) 2007-2008 Michael Daum http://michaeldaumconsulting.com
-#
-# based on NatEditPlugin:
-# Copyright (C) 2003-2008 MichaelDaum http://michaeldaumconsulting.com
+# Copyright (C) 2007-2009 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -63,7 +60,8 @@ sub initPlugin {
 
   unless ($skin =~ /\b(natedit)\b/) {
     $skin = "natedit,$skin";
-    $TWiki::Plugins::SESSION->{prefs}->pushPreferenceValues('SESSION', { SKIN => $skin } );      	
+    my $prefs = $TWiki::Plugins::SESSION->{prefs} || $Foswiki::Plugins::SESSION->{prefs};
+    $prefs->pushPreferenceValues('SESSION', { SKIN => $skin } );      	
   }
 
   TWiki::Func::addToHEAD("natedit", $header);
@@ -287,6 +285,5 @@ sub escapeParameter {
 
   return $found;
 }
-
 
 1;

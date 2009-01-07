@@ -1,7 +1,7 @@
 /*
- * jQuery NatEdit plugin 1.1
+ * jQuery NatEdit plugin 1.2
  *
- * Copyright (c) 2008 Michael Daum http://michaeldaumconsulting.com
+ * Copyright (c) 2008-2009 Michael Daum http://michaeldaumconsulting.com
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -641,7 +641,7 @@ $(function() {
   });
   if (foundNatEdit) {
     var savetext = $("#savearea").val();
-    if (savetext) {
+    if (savetext.length) {
       $("#topic").val(savetext);
     }
   }

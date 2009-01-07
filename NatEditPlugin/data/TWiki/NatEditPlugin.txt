@@ -76,13 +76,22 @@ from
 Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 
 ---++ Plugin Info
-Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIKI.NET]]
+Sponsored by [[http://www.trivadis.com][Trivadis AG]] 
 
 |  Author: | Michael Daum |
-|  Copyright &copy;: | 2007-2008 Michael Daum http://michaeldaumconsulting.com |
+|  Copyright &copy;: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v3.20 |
+|  Version: | v3.30 |
 |  Change History: | |
+|  07 Jan 2009 | support for <nop>TinyMCEPlugin wysiwyg editor; \
+                 removed non-maintained "word" style; \
+                 fixes for foswiki/compat; \
+                 added settings template; \
+                 distinguishing _restore revision_ from a normal _edit_; \
+                 made <nop>DBCachePlugin's topic title feature optional; \
+                 added "Show on screen" settings to easily switch off form, attachment or meta:comments (forthcoming); \
+                 fixed action=text; \
+                 removing <nop>TopicTitle formfield from the "Form" tab if it is already on the "Text" tab |
 |  18 Nov 2008 | fixing form data being nulled on preview; \
                  using jquery to submit the data |
 |  13 Nov 2008 | using new BUTTONs from <nop>JQueryPlugin |
@@ -107,7 +116,7 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  04 Aug 2007 | added Word theme \
                  added bullet and numbered lists buttons & Javascript \
                  added create Table button and Javascript \
-                 work done by Sveni Dowideit [[http://DistributedINFORMATION.com][DistributedINFORMATION]] for [[http://twiki.net][TWIKI.NET]]  |
+                 work done by Sven Dowideit [[http://DistributedINFORMATION.com][DistributedINFORMATION]]  |
 |  21 May 2007 | fixed display of toolbar buttons |
 |  01 May 2007 | made natedit themable |
 |  27 Apr 2007 | made all button output configurable; \
@@ -128,7 +137,6 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]] & [[http://twiki.net][TWIK
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | - |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
 %META:FILEATTACHMENT{name="wikiringlogo40x40.png" attr="h" autoattached="1" comment="" date="1207667571" path="wikiringlogo40x40.png" size="2571" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="screenshot1.png" attr="" autoattached="1" comment="" date="1207667571" path="screenshot1.png" size="52124" user="ProjectContributor" version="1"}%

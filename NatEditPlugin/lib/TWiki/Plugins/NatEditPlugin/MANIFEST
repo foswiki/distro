@@ -1,6 +1,6 @@
-data/TWiki/NatEditHelpText.txt 0644
-data/TWiki/NatEditPluginJSUnitTests.txt 0644
 data/TWiki/NatEditPlugin.txt 0644
+data/TWiki/NatEditPluginJSUnitTests.txt 0644
+data/TWiki/NatEditHelpText.txt 0644
 data/TWiki/NatEditWordHelpText.txt 0644
 lib/TWiki/Plugins/NatEditPlugin.pm 0644
 pub/TWiki/NatEditPlugin/default/btn_cyan_left.gif 0644
@@ -30,3 +30,6 @@ templates/edittoolbar.word.natedit.tmpl 0644
 templates/form.natedit.tmpl 0644
 templates/preview.natedit.tmpl 0644
 templates/previewtoolbar.natedit.tmpl 0644
+templates/settings.natedit.tmpl 0644
+templates/edittext.natedit.tmpl 0644
+templates/settingstoolbar.natedit.tmpl 0644

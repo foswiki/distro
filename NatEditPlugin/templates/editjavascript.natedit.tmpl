@@ -1,0 +1,10 @@
+%TMPL:INCLUDE{"editjavascript"}%<!-- template: editjavascript.natedit.tmpl -->
+%TMPL:DEF{"editjavascript"}%<!-- editjavascript -->
+<script type="text/javascript">
+$(function() {
+  /* remove the second TopicTitle */
+  $("[name='TopicTitle']:eq(1)").parents(".twikiFormStep").remove();
+});
+</script>
+<!-- //editjavascript -->%TMPL:END%
+%TMPL:DEF{"javascript"}%%TMPL:P{"defaultjavascript"}%%TMPL:P{"editjavascript"}%%TMPL:END%

@@ -12,8 +12,14 @@
 </ul>
 </div>
 <!-- //bottomtopicactions -->%TMPL:END%
-%TMPL:DEF{"savebutton"}%<li class="natEditSaveButton">%BUTTON{"%MAKETEXT{"Save"}%" title="%MAKETEXT{"Save and exit"}%" icon="tick" id="save" accesskey="s" onclick="submitEditForm('save', 'save')"}%</li>%TMPL:END%
-%TMPL:DEF{"checkpointbutton"}%<li class="natEditCheckpointButton">%BUTTON{"%MAKETEXT{"Save and Continue"}%" title="%MAKETEXT{"Save and continue editing"}%" icon="disk" id="checkpoint" accesskey="w" onclick="submitEditForm('save', 'checkpoint')"}%</li>%TMPL:END%
+%TMPL:DEF{"savebutton"}%<li class="natEditSaveButton">%IF{"defined 'rev'" 
+  then="$percntBUTTON{\"%MAKETEXT{"Restore"}%\" title=\"%MAKETEXT{"Restore and exit"}%\" icon=\"arrow_undo\" id=\"save\" accesskey=\"r\" onclick=\"submitEditForm('save', 'save')\"}$percnt"
+  else="$percntBUTTON{\"%MAKETEXT{"Save"}%\" title=\"%MAKETEXT{"Save and exit"}%\" icon=\"tick\" id=\"save\" accesskey=\"s\" onclick=\"submitEditForm('save', 'save')\"}$percnt"
+}%</li>%TMPL:END%
+%TMPL:DEF{"checkpointbutton"}%<li class="natEditCheckpointButton">%IF{"defined 'rev'"
+  then="$percntBUTTON{\"%MAKETEXT{"Restore and Continue"}%\" title=\"%MAKETEXT{"Restore and continue editing"}%\" icon=\"disk\" id=\"checkpoint\" accesskey=\"w\" onclick=\"submitEditForm('save', 'checkpoint')\"}$percnt"
+  else="$percntBUTTON{\"%MAKETEXT{"Save and Continue"}%\" title=\"%MAKETEXT{"Save and continue editing"}%\" icon=\"disk\" id=\"checkpoint\" accesskey=\"w\" onclick=\"submitEditForm('save', 'checkpoint')\"}$percnt"
+}%</li>%TMPL:END%
 %TMPL:DEF{"previewbutton"}%<li class="natEditPreviewButton">%BUTTON{"%MAKETEXT{"Preview"}%" title="%MAKETEXT{"Preview your changes"}%" icon="eye" id="preview" accesskey="p" onclick="submitEditForm('preview', 'preview')"}%</li>%TMPL:END%
 %TMPL:DEF{"cancelbutton"}%<li class="natEditCancelButton">%BUTTON{"%MAKETEXT{"Cancel"}%" title="%MAKETEXT{"Abandon changes and exit"}%" icon="cross" id="cancel" accesskey="c" onclick="submitEditForm('save', 'cancel')"}% </li>%TMPL:END%
 %TMPL:DEF{"forcenewrevision"}%<li class="natEditForceNewRevision"><label for="forcenewrevision"><input type="checkbox" title="Creates a new topic revision when saving" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% />%MAKETEXT{"Force new revision"}%</label></li>%TMPL:END%
