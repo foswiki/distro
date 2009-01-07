@@ -62,12 +62,12 @@ If you need help, ask a question in the Foswiki:Support web or on Foswiki:Commun
          * For a sample config file, see =foswiki_httpd_conf.txt= in the root of the foswiki installation.
          * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
       * *If you are using an .htaccess file:* 
-         * In the root of the foswiki installation and in the =bin= directory, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.
+         * In the root of the foswiki installation and in the =bin= directory, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
          | *location and name of sample .htaccess file* | *copy sample file to the following location* |
          | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= |
          | =foswiki/bin/.htaccess.txt= | =foswiki/bin/.htaccess= |
          | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= |
-         | =foswiki/subdir-htaccess.txt= | =.htaccess= in all other subdirectories below =foswiki= |
+         | =foswiki/subdir-htaccess.txt= | =.htaccess= in all other subdirectories below =foswiki= |</sticky>
       * *Protect the configure script*
          * You should never leave the =configure= script open to the public. Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the foswiki-httpd-conf.txt or bin/.htaccess.txt file for an example of the setting required to protect the =configure= script.
          * If you limit the access to a particular user then you need to setup an .htpasswd file that contains the user name and password that Apache will use to authenticate the user. Both the Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files uses =data/.htpasswd= but this file does not exist until you have Foswiki running and have registered the first user, so you must manually create an .htpasswd file:
@@ -350,7 +350,7 @@ You can easily select a balance of browser capability versus look and feel. Try 
 
 This section provides additional notes on installing Foswiki on a system where you don't have root or administrator privileges, such as on a shared hosting Web account, or on an intranet server maintained by someone else.
 
-Each item has supplemental information for the referenced step from the <a href="#StandardInstallation">Basic Installation</a> section:
+The following items provide supplemental information for the referenced step from the <a href="#StandardInstallation">Basic Installation</a> section:
 
    * *Step 2:* If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows: 
       * Using the table below, create a directory structure on your host server
