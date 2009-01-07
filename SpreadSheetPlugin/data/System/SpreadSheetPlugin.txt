@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="PeterThoeny" date="1192240197" format="1.0" version="1.56"}%
+%META:TOPICINFO{author="ProjectContributor" date="1192240197" format="1.0" version="$Rev$"}%
 ---+!! Foswiki Spreadsheet Plugin
 
 This Plugin adds spreadsheet capabilities to %WIKITOOLNAME% topics. Formulae like ==%<nop>CALC{"$INT(7/3)"}%== are evaluated at page view time. They can be placed in table cells and outside of tables. In other words, this Plugin provides general formula evaluation capability, not just classic spreadsheet functions.
