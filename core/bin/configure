@@ -145,7 +145,7 @@ sub _loadBasicModule {
             foreach my $path (@INC) {
                 if ( -e "$path/$modpath" ) {
                     $foundAt = "was found at $path/$modpath";
-                    if ( !-r $foundAt ) {
+                    if ( !-r "$path/$modpath" ) {
                         $foundAt .= ", but I don't have permission to read it.";
                     }
                     last;
