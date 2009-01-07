@@ -624,56 +624,42 @@ sub writeCompletePage {
     my ( $this, $text, $pageType, $contentType ) = @_;
     $contentType ||= 'text/html';
 
-    my $status = $this->{response}->status || 200;
-    $status =~ s/[^\d]//go;
+    if ( $contentType ne 'text/plain' ) {
 
-    if ($status != 302) { # don't do nothing if we are in the middle of a redirect
+        # Remove <nop> and <noautolink> tags
+        $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
+        $text .= "\n" unless $text =~ /\n$/s;
 
-        if ( $contentType ne 'text/plain' ) {
-
-            # Remove <nop> and <noautolink> tags
-            $text =~ s/([\t ]?)[ \t]*<\/?(nop|noautolink)\/?>/$1/gis;
-            $text .= "\n" unless $text =~ /\n$/s;
-
-            my $htmlHeader = join( "\n",
-                map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
-                    keys %{ $this->{_HTMLHEADERS} } );
-            $text =~ s!(</head>)!$htmlHeader$1!i if $htmlHeader;
-            chomp($text);
-        }
-
-        # Call final handler
-        $this->{plugins}->dispatch('completePageHandler', $text);
-
-        # cache final page, but only view
-        my $cachedPage;
-        if ($this->inContext('view') && $TWiki::cfg{Cache}{Enabled}) {
-            $cachedPage = $this->{cache}->cachePage($contentType, $text);
-            $this->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
-        }
-
-        $this->generateHTTPHeaders( undef, $pageType, $contentType, $text, $cachedPage );
+        my $htmlHeader = join( "\n",
+            map { '<!--' . $_ . '-->' . $this->{_HTMLHEADERS}{$_} }
+              keys %{ $this->{_HTMLHEADERS} } );
+        $text =~ s!(</head>)!$htmlHeader$1!i if $htmlHeader;
+        chomp($text);
     }
+
+    $this->generateHTTPHeaders( undef, $pageType, $contentType );
+    my $hdr = $this->{response}->printHeaders;
+
+    # Call final handler
+    $this->{plugins}->dispatch( 'completePageHandler', $text, $hdr );
 
     $this->{response}->print($text);
 }
 
 =begin TML
 
----++ ObjectMethod generateHTTPHeaders( $query, $pageType, $contentType, $text, $cachedPage ) -> $header
+---++ ObjectMethod generateHTTPHeaders( $query, $pageType, $contentType ) -> $header
 
 All parameters are optional.
 
-   * =$query= - CGI query object | Session CGI query (there is no good reason to set this)
+   * =$query= CGI query object | Session CGI query (there is no good reason to set this)
    * =$pageType= - May be "edit", which will cause headers to be generated that force caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused data loss with IE5 and IE6.
    * =$contentType= - page content type | text/html
-   * =$text= - page content
-   * =$cachedPage= - a pointer to the page container as fetched from the TWikiCache
 
 =cut
 
 sub generateHTTPHeaders {
-    my( $this, $query, $pageType, $contentType, $text, $cachedPage ) = @_;
+    my ( $this, $query, $pageType, $contentType ) = @_;
 
     $query = $this->{request} unless $query;
 
@@ -733,77 +719,6 @@ sub generateHTTPHeaders {
 
     # add cookie(s)
     $this->{users}->{loginManager}->modifyHeader($hopts);
-    # add etag and compression
-    if( !$this->inContext('command_line') && $text) {
-
-        my $contentEncodingHdr = '';
-        if ($TWiki::cfg{Cache}{Compress}) {
-          # compress
-          my $acceptEncoding = lc($ENV{'HTTP_ACCEPT_ENCODING'}) || '';
-          if ($acceptEncoding =~ /(x-gzip|gzip)/i) {
-            my $encoding = $1;
-
-            # check if we take the compressed version from the cache
-            if ($cachedPage && !$cachedPage->{isDirty}) {
-              $text = $cachedPage->{text}; 
-            } else {
-
-              # well, then compress it now
-              if (!$cachedPage || $cachedPage->{isDirty}) {
-                require Compress::Zlib;
-                $text = Compress::Zlib::memGzip($text);
-                #print STDERR "compressing\n";
-              }
-            }
-
-            $hopts->{'Content-Encoding'} = $encoding;
-            $hopts->{'Vary'} = 'Accept-Encoding';
-
-          } else {
-            if ($cachedPage && !$cachedPage->{isDirty}) {
-
-              # sorry, we need to uncompressed pages from cache again
-              require Compress::Zlib;
-              $text = Compress::Zlib::memGunzip($text);
-              #print STDERR "uncompressing\n";
-            }
-          }
-        } else {
-          if ($cachedPage && !$cachedPage->{isDirty}) {
-            $text = $cachedPage->{text} 
-          }
-        }
-
-        # add etag
-        my $etag = ($cachedPage)?$cachedPage->{etag}:'';
-        unless ($etag) {
-          #print STDERR "computing etag\n";
-          require Digest::MD5;
-          $etag = '"'.Digest::MD5::md5_hex($text).'"';
-        }
-
-        # check etag
-        if ($ENV{'HTTP_IF_NONE_MATCH'} &&
-            $etag =~ m/$ENV{'HTTP_IF_NONE_MATCH'}/) {
-          delete $hopts->{'Content-Encoding'};
-          delete $hopts->{'Vary'};
-          $hopts->{'Status'} = '304 Not Modified';
-          $text = '';
-          #print STDERR "not modified\n";
-        } else {
-          $hopts->{'ETag'} = $etag;
-          #print STDERR "modified\n";
-        }
-
-        # write back to text
-        $_[4] = $text;
-
-        # FIXME: Defer next line until we have Codev.UnicodeSupport
-        # - too 5.8 dependent
-        # my $len = do { use bytes; length( $text ); };
-        my $len = length($text);
-        $hopts->{'Content-Length'} = $len;
-    }
 
     # The headers method resets all headers to what we pass
     # what we want is simply ensure our headers are there
@@ -1413,10 +1328,6 @@ sub new {
     $this->{_HTMLHEADERS} = {};
     $this->{context}      = $initialContext;
 
-
-    require Foswiki::PageCache;
-    $this->{cache} = new Foswiki::PageCache( $this );
-
     require Foswiki::Plugins;
     $this->{plugins} = new Foswiki::Plugins($this);
     require Foswiki::Store;
@@ -1775,7 +1686,6 @@ sub finish {
     $this->{attach}->finish()    if $this->{attach};
     $this->{security}->finish()  if $this->{security};
     $this->{i18n}->finish()      if $this->{i18n};
-    $this->{cache}->finish() if $this->{cache};
 
     undef $this->{_HTMLHEADERS};
     undef $this->{request};
@@ -2744,13 +2654,7 @@ sub _processTags {
     }
 
     my $verbatim = {};
-    $text = $this->renderer->takeOutBlocks( $text, 'verbatim',
-                                               $verbatim);
-
-    my $dirtyAreas = {};
-    $text = $this->renderer->takeOutBlocks( $text, 'dirtyarea', $dirtyAreas) 
-      if $TWiki::cfg{Cache}{Enabled} && $this->inContext('view');
-
+    $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # See Item1442
     #my $percent = ($TranslationToken x 3).'%'.($TranslationToken x 3);
@@ -2864,8 +2768,6 @@ sub _processTags {
 
     #$stackTop =~ s/$percent/%/go;
 
-    $this->renderer->putBackBlocks( \$stackTop, $dirtyAreas, 'dirtyarea' )
-      if $TWiki::cfg{Cache}{Enabled} && $this->inContext('view');
     $this->renderer->putBackBlocks( \$stackTop, $verbatim, 'verbatim' );
 
     #print STDERR "FINAL $stackTop\n";
@@ -3054,6 +2956,7 @@ sub handleCommonTags {
     ASSERT($theTopic) if DEBUG;
 
     return $text unless $text;
+    my $verbatim = {};
 
     # Plugin Hook (for cache Plugins only)
     $this->{plugins}
@@ -3061,15 +2964,7 @@ sub handleCommonTags {
 
     #use a "global var", so included topics can extract and putback
     #their verbatim blocks safetly.
-    my $verbatim={};
-    $text = $this->renderer->takeOutBlocks( $text, 'verbatim',
-                                              $verbatim);
-
-    # take out dirty areas
-    my $dirtyAreas = {};
-    $text = $this->renderer->takeOutBlocks( $text, 'dirtyarea', $dirtyAreas )
-      if $TWiki::cfg{Cache}{Enabled} && $this->inContext('view');
-
+    $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
 
     my $memW = $this->{SESSION_TAGS}{INCLUDINGWEB};
     my $memT = $this->{SESSION_TAGS}{INCLUDINGTOPIC};
@@ -3107,11 +3002,6 @@ sub handleCommonTags {
     # to be done after CALC and before table rendering in order to join
     # table rows properly
     $text =~ s/^<nop>\r?\n//gm;
-
-    # restore dirty areas
-    $this->renderer->putBackBlocks( \$text, $dirtyAreas, 'dirtyarea' )
-      if $TWiki::cfg{Cache}{Enabled} && $this->inContext('view');
-
 
     $this->renderer->putBackBlocks( \$text, $verbatim, 'verbatim' );
 
@@ -4460,35 +4350,6 @@ sub GROUPS {
     }
 
     return '| *Group* | *Members* |' . "\n" . join( "\n", sort @table );
-}
-
-sub DISPLAYDEPENDENCIES {
-    my ( $this, $params ) = @_;
-
-    my $web = $params->{web} || $this->{webName};
-    my $topic = $params->{topic} || $this->{topicName};
-    my $header = $params->{header} || '';
-    my $footer = $params->{footer} || '';
-    my $format = $params->{format} || '   1 [[$web.$topic]]';
-    my $separator = $params->{sep} || $params->{separator} || "\n";
-
-    ($web, $topic) = $this->normalizeWebTopicName($web, $topic);
-
-    my $deps = $this->{cache}->getDependencies($web, $topic);
-    my @lines;
-    my $thisWeb;
-    my $thisTopic;
-    foreach my $dep (sort @$deps) {
-      $dep =~ /^(.*)[\.\/](.*?)$/;
-      $thisWeb = $1;
-      $thisTopic = $2;
-      my $text = $format;
-      $text =~ s/\$web/$thisWeb/g;
-      $text =~ s/\$topic/$thisTopic/g;
-      push @lines, $text;
-    }
-    return '' unless @lines;
-    return expandStandardEscapes($header.join($separator, @lines).$footer);
 }
 
 1;

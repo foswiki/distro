@@ -1,77 +1,26 @@
-%META:TOPICINFO{author="micha" date="1227726813" format="1.1" version="1.5"}%
----+ [[%WEB%.%TOPIC%][Professional Wikis]]
-<!--
-   * Set HTMLTITLE = Professional Wikis - %WIKITOOLNAME%
-   * Set ALLOWTOPICCHANGE = TWikiAdminGroup
--->
+%META:TOPICINFO{author="ProjectContributor" date="1228500812" format="1.1" version="1.1"}%
+---+!! Welcome to the <nop>%USERSWEB% web 
+Congratulations, you have finished installing Foswiki.
 
-*You want* to coordinate distant parts of your company, ease project coordination with your partners,
-or offer wiki access for your clients. You want to
-leverage collaboration and knowledge sharing among your employees.
-You are looking for a wiki for your company's intranet.
-And integrate it seamlessly in terms of infrastructure as well as look&feel.
-You want your wiki to be a great success in your company's intranet,
-an easy to use system, yet scaling with your needs. 
-And you want your fun back while managing knowledge.
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
 
----+ <span class="gray">Our Services</span> 
-<img src="%ATTACHURL%/gummiebaerchen.jpeg" align="right" title="Teamwork" width="195" style="float:right;margin:5px 0px 5px 10px" />
-*You get* an open ear to listen to all of your needs!
-Not only do we accompany you with every step to get the most decent wiki.
-We enable it hands on, on-site or via remote access.
-We offer first class out-of-the-box wikis in the market.
-We evaluate, rewrite and customize Open Source software according to your needs,
-thus supporting the originating authors. We conduct Open Source projects that you initiate.
-We design your wiki, either from scratch or according to your own corporate identity.
-We went down to every usability aspect and reinvented online interaction in knowledge management. 
-We support your team long-term. We train them. We administrate your wiki systems remotely, if you want.
+To learn more about Foswiki, visit the [[%SYSTEMWEB%.WebHome][%SYSTEMWEB% web]]. Please ensure that the read/write
+permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.DefaultPreferences]] 
+and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of your new
+%IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
 
-<table width="100%">
-<tr>
-<td width="50%" valign="top" style="padding-right:20px">
----+ <span class="gray">Contact</span>
-You want all this, and even more. And you need it fast.
-Then contact 
-%INCLUDE{"Contact"}%</td>
-<td width="50%" valign="top" style="padding-left:20px">
----+ <span class="gray">Buzzer</span>
-%~~ TAGCLOUD{"
-~~~   Wikis:10,
-~~~   Collaboration:10,
-~~~   Knowledge Management:8,
-~~~   Information Extraction:2,
-~~~   Language Processing:2,
-~~~   Consulting:9,
-~~~   Coatching:8,
-~~~   TWikiApplications:7,
-~~~   TWiki:10, 
-~~~   LDAP:5, 
-~~~   Web Design:5,
-~~~   Fulltext Retrieval:3,
-~~~   Skills management:6,
-~~~   Information Portals:8,
-~~~   Blogs:7,
-~~~   Forums:4,
-~~~   Tagging:8,
-~~~   Categorization:4,
-~~~   Ontologies,
-~~~ "
-~~~ split=","
-~~~ offset="8"
-~~~ format="
-~~~   <span rel=\"tag\" style=\"font-size:$weightpx;line-height:90%;
-~~~     color:$fadeRGB(240,223,223,156,67,65)\">$term</span>"
-~~~ }%
-</td>
-</tr>
-</table>
+---++ <nop>%WEB% Web Utilities
+<form action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch">
+   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
+   * [[%SYSTEMWEB%.UserRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
+   * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site
+   * [[WikiGroups]] - list of groups used for access control
+   * <input class="foswikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * [[WebTopicList]] - all topics in alphabetical order
+   * [[WebChanges]] - recent topic changes in this web
+   * [[WebNotify]] - subscribe to an e-mail alert sent when topics change
+   * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes
+   * [[WebStatistics]] - listing popular topics and top contributors
+   * [[WebPreferences]] - preferences of this web
+</form>
 
-
-<style type="text/css">
-.jqRounded a { color:black; text-decoration:none;}
-.jqRounded a:hover { text-decoration:underline }
-</style>
-
-
-%META:FILEATTACHMENT{name="gummiebaerchen.jpeg" attachment="gummiebaerchen.jpeg" attr="h" comment="gummie" date="1192126924" moveby="micha" movedto="Main.WebHome.gummiebaerchen.jpeg" movedwhen="1192134208" movefrom="Main.ProfessionalWikis.gummiebaerchen.jpeg" path="gummiebaerchen.jpeg" size="21285" stream="gummiebaerchen.jpeg" tmpFilename="/var/tmp/CGItemp27229" user="micha" version="1"}%
-%META:PREFERENCE{name="TOPICTITLE" title="TOPICTITLE" type="Set" value="WebHome"}%

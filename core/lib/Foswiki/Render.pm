@@ -654,11 +654,6 @@ sub _renderWikiWord {
     }
 
     if ($topicExists) {
-        # add a dependency so that the page gets invalidated as soon as the
-        # topic is deleted
-        $this->{session}->{cache}->addDependency($theWeb, $theTopic) 
-          if $Foswiki::cfg{Cache}{Enabled};
-
         return _renderExistingWikiWord( $this, $theWeb, $theTopic, $theLinkText,
             $theAnchor );
     }
@@ -668,12 +663,6 @@ sub _renderWikiWord {
         # if ($singular && $singular ne $theTopic) {
         #     #unshift( @topics, $singular);
         # }
-
-        # add a dependency so that the page gets invalidated as soon as the
-        # WikiWord comes into existance
-        $this->{session}->{cache}->addDependency($theWeb, $theTopic)
-          if $Foswiki::cfg{Cache}{Enabled};
-
         return _renderNonExistingWikiWord( $this, $theWeb, $theTopic,
             $theLinkText );
     }

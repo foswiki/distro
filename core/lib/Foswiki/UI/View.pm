@@ -46,30 +46,6 @@ sub view {
     my $webName   = $session->{webName};
     my $topicName = $session->{topicName};
 
-    my $cachedPage;
-    $session->{cache} && $session->{cache}->getPage($webName, $topicName) if $session->{cache};
-    if ($cachedPage) {
-        print STDERR "found $webName.$topicName in cache\n" if $Foswiki::cfg{Cache}{Debug};
-        Monitor::MARK("found page in cache");
-
-        # render uncacheable areas
-        my $text = $cachedPage->{text};
-        $session->{cache}->renderDirtyAreas(\$text) if $cachedPage->{isDirty};
-
-        # compute headers
-        my $contentType = $cachedPage->{contentType};
-        $session->generateHTTPHeaders($query, 'view', $contentType, $text, $cachedPage);
-        $session->{response}->body($text);
-
-        Monitor::MARK('Wrote HTML');
-        if ($Foswiki::cfg{Log}{view}) {
-            $session->writeLog( 'view', $webName.'.'.$topicName, '(cached)' );
-        }
-        return;
-    }
-
-    print STDERR "computing page for $webName.$topicName\n" if $Foswiki::cfg{Cache}{Debug};
-
     my $raw = $query->param('raw') || '';
     my $contentType = $query->param('contenttype');
 

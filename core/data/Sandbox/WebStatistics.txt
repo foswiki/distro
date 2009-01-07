@@ -4,9 +4,9 @@
 
 | *Month:* | *Topic <br /> views:* | *Topic <br /> saves:* | *File <br /> uploads:* | *Most popular <br /> topic views:* | *Top contributors for <br /> topic save and uploads:* |
 | <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |
-| Sep 2008 |  140 |  86 |  4 | &nbsp;20 [[FormatListTest]]<br />&nbsp;19 [[CalcTest]]<br />&nbsp;18 [[ImageTest]]<br />&nbsp;17 [[WebHome]]<br />&nbsp;16 [[IfDefinedPluginTest]]<br />&nbsp;10 [[TestTopic8]]<br />&nbsp;10 [[TestTopic9]]<br />&nbsp;&nbsp;8 [[TablePluginTest]]<br />&nbsp;&nbsp;7 [[CommentTest]]<br />&nbsp;&nbsp;4 [[JQueryPluginExamples]]<br />&nbsp;&nbsp;3 [[ImageTest2]] | &nbsp;88 Main.MichaelDaum<br />&nbsp;&nbsp;2 Main.CrawfordCurrie |
 
 *Notes:*
-   * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%WEB%/%TOPIC%][force]] an update)
+   * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%WEB%][force]] an update)
    * [[%SYSTEMWEB%.SiteTools#WebStatistics_site_statistics][Site tools]] tells you how to enable the automatic updates of the statistics.
-   * Suggestion: You could archive this topic once a year and delete the previous year's statistics from the table.
+	* Suggestion: You could archive this topic once a year and delete the previous year's statistics from the table.
+

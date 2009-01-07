@@ -766,11 +766,6 @@ sub searchWeb {
             }
         }
 
-        # add dependencies
-        foreach my $topic ( @topicList ) {
-          $session->{cache}->addDependency($web,$topic);
-        }
-
         # output the list of topics in $web
         my $ntopics    = 0;
         my $headerDone = $noHeader;

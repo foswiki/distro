@@ -290,7 +290,7 @@ sub _readTemplateFile {
 
     # SMELL: not i18n-friendly (can't have accented characters in skin name)
     # zap anything suspicious
-    $name  =~ s/[^A-Za-z0-9_,.\/]//go;
+    $name  =~ s/[^A-Za-z0-9_,.]//go;
     $skins =~ s/[^A-Za-z0-9_,.]//go;
 
     # if the name ends in .tmpl, then this is an explicit include from
