@@ -1,5 +1,5 @@
-# Copyright (C) 2002-2003 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
-# Copyright (C) 2005-2008 Michael Daum http://michaeldaumconsulting.com
+# Copyright (C) 2002-2009 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
+# Copyright (C) 2005-2009 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,7 +40,6 @@ sub new {
 
   $this->{id} = $id;
   $this->{query} = TWiki::Func::getCgiQuery();
-  $this->{isDakar} = defined $TWiki::RELEASE;
   $this->{topic} = $topic;
   $this->{web} = $web;
   $this->{doRefresh} = 0;
@@ -64,11 +63,11 @@ sub new {
   );
   
   # get style url
-  my $hostUrl = ($this->{isDakar})? $TWiki::cfg{DefaultUrlHost}:$TWiki::defaultUrlHost;
+  my $hostUrl = $TWiki::cfg{DefaultUrlHost};
     
   # get image mimes
-  my $mimeTypesFilename = ($this->{isDakar})?
-    $TWiki::cfg{MimeTypesFileName}:$TWiki::mimeTypesFilename;
+  my $mimeTypesFilename = $TWiki::cfg{MimeTypesFileName};
+
   my $fileContent = TWiki::Func::readFile($mimeTypesFilename);
   $this->{isImageSuffix} = ();
   foreach my $line (split(/\r?\n/, $fileContent)) {

@@ -1,7 +1,6 @@
 data/TWiki/ImageGalleryPlugin.txt 0644
-data/Main/UserListByPhotograph.txt 0644
-lib/TWiki/Plugins/ImageGalleryPlugin/Core.pm 0644
 lib/TWiki/Plugins/ImageGalleryPlugin.pm 0644
-pub/TWiki/ImageGalleryPlugin/navi.png 0644
+lib/TWiki/Plugins/ImageGalleryPlugin/Core.pm 0644
 pub/TWiki/ImageGalleryPlugin/style.css 0644
+pub/TWiki/ImageGalleryPlugin/navi.png 0644
 pub/TWiki/ImageGalleryPlugin/wikiringlogo40x40.png 0644

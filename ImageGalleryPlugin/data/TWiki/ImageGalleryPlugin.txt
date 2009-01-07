@@ -1,13 +1,4 @@
 %META:TOPICINFO{author="ProjectContributor" date="1167759528" format="1.1" reprev="1.2" version="$Rev$"}%
-<!--
-
-   PLEASE DO NOT EDIT THIS TOPIC
-
-   It is automatically generated from the subversion repository, and any changes
-   you make will simply be overwritten the next time a release is generated.
-
-   Instead, you could check your fix in, raise a bug in the Bugs web, or mail the author.
--->
 ---+!! <nop>ImageGalleryPlugin
 <table style="float:right">
 <tr>
@@ -160,7 +151,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 ---++ Plugin Installation Instructions
 
    * Download the ZIP file
-   * Unzip it in your twiki installation directory. Content: 
+   * Unzip it in your installation directory. Content: 
    | *File:* | *Description:* |
 %$MANIFEST%
    * Visit =configure= in your installation, and enable the plugin in the {Plugins} section.
@@ -171,10 +162,10 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 -->
 
 
-|  Plugin Author: | Michael Daum, TWiki:Main/WillNorris |
-|  Copyright &copy;: | 2002-2003, Will Norris; 2005-2008, Michael Daum http://michaeldaumconsulting.com |
+|  Plugin Author: | Michael Daum, Will Norris |
+|  Copyright &copy;: | 2002-2009, Will Norris; 2005-2009, Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | v4.00-per1 |
+|  Plugin Version: | v4.00-pre2 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  29 Dec 2008 | temporary fix to work under Foswiki |
 |  14 Nov 2008 | made format string for galleries more flexible |
@@ -198,12 +189,12 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  16 Feb 2006 | renamed thumbnail so that it does not interfer with auto-attachment |
 |  14 Sep 2005 | don't strictly depend on normalizeFilename() |
 |  15 June 2005 | new release |
-|  10 May 2005 | fixed igp id clash error found by TWiki:Main/MartinCleaver; \
+|  10 May 2005 | fixed igp id clash error found by Martin Cleaver; \
                  capture <nop>ImageMagick error messages; \
                  don't trust attachment info - check for attachment existence as well;\
                  added refresh query parameter to recompute images |
-|  09 May 2005 | fixed errors reported by TWiki:Main/MarcelTrap; \
-                 added support for multiple topics (proposed by TWiki:Main/MartinCleaver; \
+|  09 May 2005 | fixed errors reported by Marcel Trap; \
+                 added support for multiple topics (proposed by Martin Cleaver; \
                  added %<nop>NRIMAGES% tag |
 |  &nbsp;      | fix error when called from within rename view |
 |  03 May 2005 | fixed thumbnail resizing; reintroduced =titles= parameter;  \
@@ -215,8 +206,8 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  CPAN Dependencies: | CPAN:Graphics::Magick or CPAN:Image::Magick |
 |  Other Dependencies: |  |
 |  Perl Version: | 5.8 |
-|  Plugin Home: | http://nextwiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://nextwiki.org/Extensions/%TOPIC%Dev |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
 
 %META:FILEATTACHMENT{name="wikiringlogo40x40.png" attachment="wikiringlogo40x40.png" attr="h" comment="" date="1189787359" path="wikiringlogo40x40.png" size="2571" stream="wikiringlogo40x40.png" tmpFilename="" user="ProjectContributor" version="1"}%
