@@ -1456,7 +1456,7 @@ sub new {
         $web,
         sub {
             return '' unless $web &&    # can be an empty string
-              isValidWebName( $web );
+              isValidWebName( $web, 1 );
             return $web;
         });
     $this->{webName} = $this->{requestedWebName} ||
