@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1151720041" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ Go Box
 The box at the top or sidebar of each page, also called Jump box. 
 

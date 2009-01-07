@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1176971123" format="1.0" version="$Rev: 15969 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ User Authentication
 

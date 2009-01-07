@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1222844046" format="1.1" version="$Rev: 16040 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+!! Documentation Graphics and Filetype icons
 
 This is the Foswiki icon library. The graphics can be used in topics and by web applications. 

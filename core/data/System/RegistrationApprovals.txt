@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
 This topic is a placeholder for registrations not yet completed.
 
 Attachments are made when people first register, held pending until the registration is confirmed and approved, and are removed when registration is completed.

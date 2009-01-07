@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 13096 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
 ---+!! Instant Site Enhancements
 
 These quick enhancements are aimed at improving and customising your Foswiki.  New site administrators are especially encouraged to review this document for ideas before deploying a new site. The metaphor of building a house is useful.  The listed enhancements are some of the details possible when moving into a new office or home. These small changes can make a *big* differences for user satisfaction at your site. All modifications can be done through your Web browser, and they don't take more then in a couple of minutes.  No system administration expertise is required. Some of these enhancements are also mentioned in the reference manual and other topics.

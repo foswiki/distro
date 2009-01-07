@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1131431859" format="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ %MAKETEXT{"'Create New Topic' page has moved"}%
 
 *[[%SCRIPTURL{view}%/%BASEWEB%/%BASETOPIC%?create=on&newtopic=&topicparent=%URLPARAM{"parent"}%&template=WebCreateNewTopic][%MAKETEXT{"Continue to create the new page"}%]]*

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1170016036" format="1.1" version="$Rev: 11142 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ The 216 Standard Colors
 
 This table can be used to choose a color in %WEBPREFSTOPIC% of each web.

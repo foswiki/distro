@@ -1,3 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ Javascripts
 
 This topic contains javascript files that are included by skin templates, and may be used by skin templates and in topics.

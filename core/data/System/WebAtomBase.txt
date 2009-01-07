@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 8264 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
 ---+ ATOM News Feeds
 
 ---++ Find out What's New

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1177881299" format="1.1" version="$Rev: 13239 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
 ---+ Data Forms
 Data forms allow you to add structured data to topics. The data stored in the form fields can be used to search and filter topics. The combination of structured data and search queries are the base for building database applications.

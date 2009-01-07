@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1129330724" format="1.1" version="$Rev: 8603 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+!! Language selection dropdown
 
 *To be included where a language selection is needed, for instance in the top bar or left bar.*

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 7770 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
 ---+ Plain Skin
 
 The plain skin is used to get the rendered topic text without any page decoration such as side, top or bottom bars. The text is shown without any markup styles. It can be used to display topic content inside an [[http://www.htmlhelp.com/reference/html40/special/iframe.html][IFRAME]].

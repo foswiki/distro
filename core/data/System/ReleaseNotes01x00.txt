@@ -1,29 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231133620" format="1.1" reprev="1.2" version="$Rev$"}%
----+!! Foswiki Release 1.0.0 - BETA 1, %$DATE%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+---+!! Foswiki Release 1.0.0 - 09 Jan 2009
 
 %TOC%
-
----++ Introduction
-
-Foswiki Release 1.0.0 - Release Candidate 1
-
----
- <!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
-
-*Note this is the Release Candidate 1 of Foswiki 1.0.0. It is not recommended for production use.*
-
-No further changes are planned to the Foswiki product prior to the official 1.0.0 release, except for critical bug fixes. The release candidate allows the following objectives to be tested prior to the release:
-
-   * Provide translators with a platform to test their work on.
-   * Allow developers to build and install a product distribution.
-   * Provide extension developers a platform to develop the Foswiki versions of extensions.
-   * Give users a chance to practice the upgrade from TWiki to Foswiki before the real release.
-
-The release of Foswiki 1.0.0 is planned for 07 Jan 2009, with an official public launch on 09 Jan 2009, to accommodate any final administrative tasks.
-
-The quality of 1.0.0 is dependent on *you* downloading and installing this RC and reporting problems to the development team.
-
----
 
 ---++ Foswiki - The Free and Open Source Wiki
 
