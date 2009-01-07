@@ -11,6 +11,6 @@ sub TWiki::new {
 }
 
 %TWiki::regex = %Foswiki::regex;
-%TWiki::cfg   = %Foswiki::cfg;
+#%TWiki::cfg   = %Foswiki::cfg;
 
 1;
