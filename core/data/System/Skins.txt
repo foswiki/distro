@@ -10,7 +10,7 @@ _Skins overlay regular templates to give different looks and feels to Foswiki sc
 
 Foswiki uses [[skin templates]] as the basis of all the screens it uses to interact with users. Each screen has an associated template file that contains the basic layout of the screen. This is then filled in by the code to generate what you see in the browser.
 
-Foswiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. Foswiki also includes support for _skins_ that can be selected to give different, more sophisticated, look and feels. A default Foswiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a Foswiki installation to give more options. To see how Foswiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
+Foswiki ships with a default set of template files that give a very basic, CSS-themable, look-and-feel. Foswiki also includes support for skins that can be selected to give different, more sophisticated, look and feel. A default Foswiki installation will usually start up with the PatternSkin already selected. Skins may also be defined by third parties and loaded into a Foswiki installation to give more options. To see how Foswiki looks when *no* skin is selected, [[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=not_a_skin][view this topic with a non-existant skin]].
 
 Topic text is not affected by the choice of skin, though a skin can be defined to use a CSS (Cascading Style Sheet), which can sometimes give a radically different appearance to the text.
 
@@ -30,17 +30,11 @@ You may want to define your own skin, for example to comply with corporate web g
 
 The [[skin templates]] used for skins are located in the =templates= directory and are named according to the skin: ==&lt;scriptname&gt;.&lt;skin&gt;.tmpl==. Skin files may also be defined in Foswiki topics - see SkinTemplates for details.
 
-To start creating a new skin, copy the default skin templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as Foswiki can be configured to fall back to another skin if a template is not defined in your skin. Name the files as described above (for example =view.myskin.tmpl=.
+To start creating a new skin, copy the default skin templates (like =view.tmpl=), or copy an existing skin to use as a base for your own skin. You should only need to copy the files you intend to customise, as Foswiki can be configured to fall back to another skin if a template is not defined in your skin. A custom skin can be as small as one file! Name your files as described above (for example =view.myskin.tmpl=).
 
-If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook.
+If you use PatternSkin as your starting point, and you want to modify the layout, colors or even the templates to suit your own needs, have a look first at the topics PatternSkinCustomization and PatternSkinCssCookbook. These topics also provide practical instructions how to create custom skin template files.
 
-For your own skin you are encouraged to show a small 80x31 pixel <a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Foswiki" border="0" /></a> logo at the bottom of your skin:
-
-=&lt;a href="http://foswiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Forwiki" border="0" /&gt;&lt;/a&gt;=
-
-The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
-
-*%X% Note:* Two skin names have _reserved_ meanings; =text= skin, and skin names starting with =rss= have [[#HardCodedSkins][hard-coded meanings]].
+*%X% Note:* Don't call your skin =text= or =rss= as these two skin names have reserved meanings, see below at [[#HardCodedSkins][hard-coded meanings]].
 
 The following template files are used for Foswiki screens, and are referenced in the Foswiki core code. If a skin doesn't define its own version of a template file, then Foswiki will fall back to the next skin in the skin path, or finally, to the default version of the template file.
 
@@ -130,8 +124,21 @@ You can use [[SkinTemplates#TemplateMacros][template directives]], ordinary [[ma
 | =%<nop>WEBCOPYRIGHT%= | Copyright notice, defined in the WebPreferences |
 | =%<nop>BROADCASTMESSAGE%= | Broadcast message at the beginning of your view template, can be used to alert users of scheduled downtimes; can be set in %LOCALSITEPREFS% |
 
+---++ Using Cascading Style Sheets
+
+CSS files are gererally attachments to the skin topic that are included in the the skin templates - in the case of PatternSkin in the template =css.pattern.tmpl=.
+
+   * General documentation of CSS classes: CascadingStyleSheets
+   * To see how CSS is used in the default Foswiki skin, see: PatternSkin
+   * If you write a complete new skin, this is the syntax to use in a template file:
+<verbatim>
+<style type='text/css' media='all'>@import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');</style>
+</verbatim>
+
+---++ Skin parts
+
 #GoBox
----++ The "Go" Box and Navigation Box
+---+++ The "Go" Box and Navigation Box
 
 The default skins include a [[GoBox]["Go" box]], also called "Jump" box, to jump to a topic.
 
@@ -163,17 +170,18 @@ Jump:
 
 *Note:* Redirect to a URL only works if it is enabled in =configure= (Miscellaneous, ={AllowRedirectUrl}=).
 
----++ Using Cascading Style Sheets
+#FlashNote
+---+++ FLASHNOTE Notifications
 
-CSS files are gererally attachments to the skin topic that are included in the the skin templates - in the case of PatternSkin in the template =styles.pattern.tmpl=.
+PatternSkin has a notification message display using the variable =FLASHNOTE=. For example: 
 
-   * To see how CSS is used in the default Foswiki skin, see: PatternSkin
-   * If you write a complete new skin, this is the syntax to use in a template file:
-<verbatim>
-<style type='text/css' media='all'>@import url('%PUBURLPATH%/%SYSTEMWEB%/MySkin/mystyle.css');</style>
-</verbatim>
+   * Set FLASHNOTE = Skins documentation
 
----++ Attachment Tables
+See the alert at the top of this topic.
+
+While this feature is not yet used by the system, it might be a good idea to already prepare your skin.
+
+---+++ Attachment Tables
 Controlling the look and feel of attachment tables is a little bit more complex than for the rest of a skin. By default, the attachment table is a standard Foswiki table, and the look is controlled in the same way as other tables. In a very few cases you may want to change the _content_ of the table as well.
 
 The format of standard attachment tables is defined through the use of special _template directives_ which by default, are defined in the =attachtables.tmpl= template using the =%TMPL:DEF= directive syntax described in SkinTemplates. These macros are:
@@ -206,6 +214,12 @@ The =ATTACH:row= macros are expanded for each file in the attachment table, usin
 ---++ Packaging and Publishing Skins
 
 See Foswiki:Extensions/SkinPackagingHowTo and Foswiki:Extensions/SkinDeveloperFAQ
+
+For your own skin you are encouraged to show a small 80x31 pixel <a href="http://foswiki.org/"><img src="%PUBURL%/%SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Foswiki" border="0" /></a> logo at the bottom of your skin:
+
+=&lt;a href="http://foswiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" width="80" height="15" title="This site is powered by Forwiki" border="0" /&gt;&lt;/a&gt;=
+
+The standard %WIKITOOLNAME% skins show the logo in the =%<nop>WEBCOPYRIGHT%=.
 
 ---++ Browsing Installed Skins
 
