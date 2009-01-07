@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="BaseUserMapping_333" date="1228679419" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="micha" date="1231278475" format="1.1" version="1.4"}%
 ---+!! <nop>%WEB% Web Preferences
 
 The following settings are *web preferences* of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the *site-level preferences* in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by *user preferences* (your personal topic, eg: [[%USERSWEB%.%WIKINAME%][%WIKINAME%]] in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
@@ -9,26 +9,57 @@ The following settings are *web preferences* of the [[%WEB%.%HOMETOPIC%][%WEB%]]
 
 These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
 
-   * Web Settings: 
+---++ Applications.EmployeePortalApp stuff
+
+   * Set WEBDEPENDENCIES = Sandbox.WebHome
+   * Set EMPSUMMARY = %TVDEMPSUMMARY%
+   * Set EMPDEFAULTMODULE = business
+   * Set EMPMODULES = %TVDEMPMODULES%
+
+---+++ Module settings:
+   * Set TVDEMPSUMMARY = RenderTvdSummary
+   * Set TVDEMPMODULES = 
+    | *Id* | *Label* | *View* | *Icon* | *Edit* | *Data* |
+    | business | Business details | Applications.EmployeePortalApp.RenderTvdBusinessDetails | %PUBURL%/Applications/EmployeePortalApp/icn_business.gif | Applications.EmployeePortalApp.TvdBusinessDetailsEdit | %BASEWEB%.%BASETOPIC% |
+    | contact  | Contact details  | Applications.EmployeePortalApp.RenderTvdContactDetails | %PUBURL%/Applications/EmployeePortalApp/icn_location.gif | Applications.EmployeePortalApp.TvdContactDetailsEdit | %BASEWEB%.%BASETOPIC% |
+    | projects | Projects | Applications.EmployeePortalApp.RenderTvdProjects | | | |
+    | skills | Skills | Applications.EmployeePortalApp.RenderTvdSkills | %PUBURL%/Applications/EmployeePortalApp/icn_self.gif | Applications.EmployeePortalApp.TvdSkillsEdit | %BASEWEB%.%BASETOPIC% |
+    | cv | Curriculum Vitae | Applications.EmployeePortalApp.RenderTvdCurriculumVitae | %PUBURL%/Applications/EmployeePortalApp/icn_self.gif | Applications.EmployeePortalApp.TvdCurriculumVitaeEdit | %BASEWEB%.%BASETOPIC% |
+    | notes | Notes | Applications.EmployeePortalApp.RenderPersonalNotes | %PUBURL%/Applications/EmployeePortalApp/icn_web.gif | | %BASEWEB%.%BASETOPIC% |
+
+<!-- obsoleted
+   * Set CVBASEURL = http://strswin.trivadis.com:13002/ADB
+   * Set CVURL = %CVBASEURL%/CVRTF.jsp
+-->
+
+TWiki.RtfContrib settings:
+   * Set RTFCVTEMPLATEDE = Applications.EmployeePortalApp.cv-template-de.rtf
+   * Set RTFCVTEMPLATEEN = Applications.EmployeePortalApp.cv-template-en.rtf
+
+
+Misc:
+   * Set TVDPHOTOURL = https://intranet.trivadis.com/tvd_all/70_INTRANET/10_WEBPAGES/MAFotos
+
+---++ Default stuff
+
+   * #Set DISPLAYFORM = on
+
+   * Web Settings:
       * Set WEBBGCOLOR = #B9DAFF
       * Set SITEMAPWHAT = Sandbox test area with all features enabled. 
       * Set SITEMAPUSETO = ...experiment in an unrestricted hands-on web. 
       * Set SITEMAPLIST = on
 
-   * Default template for *new topics* for this web: 
-      * WebTopicEditTemplate: Default template for new topics in this web. (Site-level is used if topic does not exist)
-      * [[%SYSTEMWEB%.WebTopicEditTemplate]]: Site-level default topic template
-
-   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information. 
-      * Set WEBFORMS = TestForm
+   * Comma separated list of *forms* that can be attached to topics in this web. See [[%SYSTEMWEB%.DataForms][DataForms]] for more information.
+      * Set WEBFORMS = Applications.TopicType, TestForm, PartnerForm
 
    * Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See [[%SYSTEMWEB%.AccessControl][AccessControl]]). Remove the # to enable any of these settings. Remember that an empty setting is a valid setting; setting DENYWEBVIEW to nothing means that anyone can view the web. 
-      * Set DENYWEBVIEW = 
-      * Set ALLOWWEBVIEW = 
-      * Set DENYWEBCHANGE = 
-      * Set ALLOWWEBCHANGE = 
-      * Set DENYWEBRENAME = 
-      * Set ALLOWWEBRENAME = 
+      * #Set DENYWEBVIEW = %MAINWEB%.TWikiGuest
+      * #Set ALLOWWEBVIEW = 
+      * #Set DENYWEBCHANGE = %MAINWEB%.TWikiGuest
+      * #Set ALLOWWEBCHANGE = 
+      * #Set DENYWEBRENAME = %MAINWEB%.TWikiGuest
+      * #Set ALLOWWEBRENAME = 
 
    * Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., [[%USERSWEB%.AdminGroup][AdminGroup]]) 
       * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup

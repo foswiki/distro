@@ -1063,8 +1063,8 @@ sub _newTopicScreen {
         else {
             $refs = getReferringTopics( $session, $oldWeb, $oldTopic, 1 );
             foreach my $entry ( sort keys %$refs ) {
-                $search .= CGI::Tr(
-                    CGI::td(
+                $search .= 
+                    CGI::Div(
                         { class => 'foswikiTopRow' },
                         CGI::input(
                             {
@@ -1076,12 +1076,7 @@ sub _newTopicScreen {
                             }
                           )
                           . " [[$entry]] "
-                      )
-                      . CGI::td(
-                        { class => 'foswikiSummary foswikiGrayText' },
-                        $refs->{$entry}
-                      )
-                );
+                      );
             }
             unless ($search) {
                 $search = ( $session->i18n->maketext('(none)') );
@@ -1096,8 +1091,8 @@ sub _newTopicScreen {
 
         $search = '';
         foreach my $entry ( sort keys %$refs ) {
-            $search .= CGI::Tr(
-                CGI::td(
+            $search .= 
+                CGI::Div(
                     { class => 'foswikiTopRow' },
                     CGI::input(
                         {
@@ -1109,12 +1104,7 @@ sub _newTopicScreen {
                         }
                       )
                       . " [[$entry]] "
-                  )
-                  . CGI::td(
-                    { class => 'foswikiSummary foswikiGrayText' },
-                    $refs->{$entry}
-                  )
-            );
+                  );
         }
         unless ($search) {
             $search = ( $session->i18n->maketext('(none)') );
@@ -1254,8 +1244,8 @@ sub _newWebScreen {
 
     $refs = ${$webTopicInfoRef}{referring}{refs1};
     foreach my $entry ( sort keys %$refs ) {
-        $search .= CGI::Tr(
-            CGI::td(
+        $search .= 
+            CGI::Div(
                 { class => 'foswikiTopRow' },
                 CGI::input(
                     {
@@ -1267,12 +1257,7 @@ sub _newWebScreen {
                     }
                   )
                   . " [[$entry]] "
-              )
-              . CGI::td(
-                { class => 'foswikiSummary foswikiGrayText' },
-                $refs->{$entry}
-              )
-        );
+              );
     }
     unless ($search) {
         $search = ( $session->i18n->maketext('(none)') );
@@ -1285,8 +1270,8 @@ sub _newWebScreen {
     $refs   = $webTopicInfoRef->{referring}{refs0};
     $search = '';
     foreach my $entry ( sort keys %$refs ) {
-        $search .= CGI::Tr(
-            CGI::td(
+        $search .= 
+            CGI::Div(
                 { class => 'foswikiTopRow' },
                 CGI::input(
                     {
@@ -1298,12 +1283,7 @@ sub _newWebScreen {
                     }
                   )
                   . " [[$entry]] "
-              )
-              . CGI::td(
-                { class => 'foswikiSummary foswikiGrayText' },
-                $refs->{$entry}
-              )
-        );
+              );
     }
     unless ($search) {
         $search = ( $session->i18n->maketext('(none)') );

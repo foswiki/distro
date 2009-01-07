@@ -9,7 +9,6 @@ Low client and server base requirements are core features that keep Foswiki wide
 %TOC%
 
 ---++ Server Requirements
-
 The code is written in Perl 5, and uses a number of shell commands from perl.
 The default package requires [[http://www.gnu.org/software/rcs/rcs.html][RCS (Revision Control System)]], a GNU Free Software package. Foswiki is developed in a basic Linux/Apache environment. It also works with Microsoft Windows, and should have no problem on any other platform that meets the requirements.
 

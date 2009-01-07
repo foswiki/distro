@@ -22,6 +22,8 @@ use Assert;
 sub run {
     my $this = shift;
     my $req  = $this->prepare;
+    my $errorLog = $Foswiki::cfg{DataDir}."/error.log";
+    open(STDERR, ">>$errorLog"); 
     if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
         my $res = Foswiki::UI::handleRequest($req);
         $this->finalize( $res, $req );

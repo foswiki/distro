@@ -1,30 +1,30 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 15171 $"}%
+%META:TOPICINFO{author="micha" date="1229345065" format="1.1" version="1.3"}%
 ---+ Wiki Groups
-
 These groups can be used to define fine grained [[%SYSTEMWEB%.AccessControl][AccessControl]] in <nop>%WIKITOOLNAME%:
 
-%GROUPS%
+%TWISTY{link="%BUTTON{"%MAKETEXT{"New group"}%" icon="add"}%%CLEAR%"}%
 
 <form action="%SCRIPTURLPATH{"edit"}%/%WEB%/" method="get">
-
 <div class="foswikiFormSteps">
-<div class="foswikiFormStep foswikiLast">
-%TABLE{databg="" cellborder="0" tableborder="0"}%
-| New Group: |<input type="text" name="topic" value="NameGroup" size="40" class="foswikiInputField" />&nbsp;<input class="foswikiSubmit" type="submit" value="Add"/>  |
-| |%ICON{"warning"}% *Note:* A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and *must* end in =...Group=. New topics are based on [[GroupTemplate]]  |
-
+<div class="foswikiFormStep">
 <input type="hidden" name="templatetopic" value="GroupTemplate"/>
 <input type="hidden" name="topicparent" value="%TOPIC%"/>
 <input type="hidden" name="onlywikiname" value="on" />
 <input type="hidden" name="onlynewtopic" value="on" />
+---+++ Name:
+<input type="text" name="topic" value="...Group" size="40" class="foswikiInputField" />
+<div class="foswikiFormDescription">
+A group topic name must be a [[%SYSTEMWEB%.WikiWord][WikiWord]] and __must__ end in =...Group=. New topics are based on [[GroupTemplate]] 
+</div>
+</div>
+<div class="foswikiFormStep foswikiFormButtons foswikiLast foswikiFormLast">
+%BUTTON{"%MAKETEXT{"Submit"}%" type="submit" icon="tick"}%%CLEAR%
 </div>
 </div>
 </form>
+%ENDTWISTY%
 
-*IMPORTANT NOTE:* Think twice before restricting write access to a web or a topic, because an open system where everybody can contribute is the essence of [[%SYSTEMWEB%.WikiCulture][WikiCulture]]. Experience shows that unrestricted write access works very well because:
-   * There is enough peer pressure to post only appropriate content.
-   * Content does not get lost because topics are under revision control.
-   * A topic revision can be undone by a member of the [[%USERSWEB%.AdminGroup][AdminGroup]] if necesssary.
+%GROUPS%
 
 ---
 *Related topics:* [[%SYSTEMWEB%.AccessControl][AccessControl]], [[%WEBPREFSTOPIC%]], [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.WikiCulture][WikiCulture]]

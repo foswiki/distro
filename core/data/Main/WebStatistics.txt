@@ -4,9 +4,9 @@
 
 | *Month:* | *Topic <br /> views:* | *Topic <br /> saves:* | *File <br /> uploads:* | *Most popular <br /> topic views:* | *Top contributors for <br /> topic save and uploads:* |
 | <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |
-
-*Notes:*
-   * Do not edit this topic, it is updated automatically. (You can also [[%SCRIPTURL{"statistics"}%/%WEB%][force]] an update)
-   * [[%SYSTEMWEB%.SiteTools#WebStatistics_site_statistics][Site tools]] tells you how to enable the automatic updates of the statistics.
-	* Suggestion: You could archive this topic once a year and delete the previous year's statistics from the table.
-
+| Sep 2008 |  383 |  40 |  0 | 174 [[WebHome]]<br />&nbsp;91 [[MichaelDaum]]<br />&nbsp;77 [[Category]]<br />&nbsp;16 [[SkillsCloud]]<br />&nbsp;11 [[TWikiUsers]]<br />&nbsp;&nbsp;5 [[TWikiPreferences]]<br />&nbsp;&nbsp;4 [[TWikiGroups]]<br />&nbsp;&nbsp;1 [[TWikiRegistration]]<br />&nbsp;&nbsp;1 [[TestUser]]<br />&nbsp;&nbsp;1 [[SkillsCategory]]<br />&nbsp;&nbsp;1 [[WebPreferences]] | &nbsp;38 Main.MichaelDaum<br />&nbsp;&nbsp;1 Main.TWikiRegistrationAgent<br />&nbsp;&nbsp;1 Main.admin |
+| Nov 2007 |  212 |  6 |  0 | 157 [[WebHome]]<br />&nbsp;33 [[TWikiWebMoreActions]]<br />&nbsp;16 [[TWikiPreferences]]<br />&nbsp;&nbsp;1 [[MichaelDaum]]<br />&nbsp;&nbsp;1 [[WebNotify]]<br />&nbsp;&nbsp;1 [[TWikiGroups]] | &nbsp;&nbsp;6 Main.MichaelDaum |
+| Oct 2007 |  577 |  15 |  0 | 515 [[WebHome]]<br />&nbsp;54 [[TWikiPreferences]]<br />&nbsp;&nbsp;6 [[WikiRingThemeContrib]]<br />&nbsp;&nbsp;1 [[MichaelDaum]] | &nbsp;15 Main.MichaelDaum |
+| Sep 2007 |  2107 |  47 |  1 | 638 [[WebHome]]<br />371 [[SolutionsContrib]]<br />283 [[DpaContrib]]<br />109 [[WebTopicList]]<br />&nbsp;61 [[TWikiPreferences]]<br />&nbsp;56 [[BlogAdminGroup]]<br />&nbsp;53 [[WikiRingThemeContrib]]<br />&nbsp;50 [[MichaelDaum]]<br />&nbsp;21 [[MichaelDaumSideBar]]<br />&nbsp;19 [[BlogAuthorGroup]]<br />&nbsp;17 [[WebSearchAdvanced]] | &nbsp;48 Main.MichaelDaum |
+| Aug 2007 |  854 |  25 |  0 | 505 [[SolutionsContrib]]<br />232 [[WebHome]]<br />&nbsp;78 [[TWikiPreferences]]<br />&nbsp;12 [[TWikiUsers]]<br />&nbsp;&nbsp;9 [[TWikiGroups]]<br />&nbsp;&nbsp;5 [[MichaelDaum]]<br />&nbsp;&nbsp;5 [[RsapContrib]]<br />&nbsp;&nbsp;3 [[TWikiWebHtmlHead]]<br />&nbsp;&nbsp;1 [[TWikiWebJavaScript]]<br />&nbsp;&nbsp;1 [[TWikiGuest]]<br />&nbsp;&nbsp;1 [[TWikiAdminGroup]] | &nbsp;25 Main.MichaelDaum |
+| Jul 2007 |  557 |  62 |  1 | 391 [[WebHome]]<br />&nbsp;64 [[TWikiPreferences]]<br />&nbsp;35 [[TWikiWebHtmlHead]]<br />&nbsp;19 [[MichaelDaum]]<br />&nbsp;18 [[TWikiWebJavaScript]]<br />&nbsp;15 [[RsapContrib]]<br />&nbsp;&nbsp;3 [[WebTopicList]]<br />&nbsp;&nbsp;3 [[TWikiUsers]]<br />&nbsp;&nbsp;2 [[MichaelDaumSideBar]]<br />&nbsp;&nbsp;1 [[UnknownUser]]<br />&nbsp;&nbsp;1 [[WebStatistics]] | &nbsp;63 Main.MichaelDaum |

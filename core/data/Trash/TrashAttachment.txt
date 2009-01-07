@@ -1,5 +1,9 @@
-%META:TOPICINFO{author="ProjectContributor" date="1092762941" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="micha" date="1231235369" format="1.1" version="1.4"}%
 %META:TOPICPARENT{name="WebHome"}%
 ---+ %MAKETEXT{"Placeholder for trashed attachments"}%
 
 
+%META:FILEATTACHMENT{name="2078280247_dcd1261627_o.jpg" attachment="2078280247_dcd1261627_o.jpg" attr="" comment="" date="1226074978" moveby="micha" movedto="Trash.TrashAttachment.2078280247_dcd1261627_o.jpg" movedwhen="1226077758" movefrom="Sandbox.CopyContribTest.2078280247_dcd1261627_o.jpg" path="2078280247_dcd1261627_o.jpg" size="84581" stream="IO::File=GLOB(0x8f3d614)" tmpFilename="/var/tmp/CGItemp28948" user="micha" version="1"}%
+%META:FILEATTACHMENT{name="aww.gif" attachment="aww.gif" attr="" comment="" date="1226080828" moveby="micha" movedto="Trash.TrashAttachment.aww.gif" movedwhen="1226081105" movefrom="Sandbox.CopyContribTest1.aww.gif" path="aww.gif" size="18542" stream="IO::File=GLOB(0x8f3dd2c)" tmpFilename="/var/tmp/CGItemp51073" user="micha" version="1"}%
+%META:FILEATTACHMENT{name="handlotion.gif" attachment="handlotion.gif" attr="h" comment="" date="1229078225" moveby="micha" movedto="Trash.TrashAttachment.handlotion.gif" movedwhen="1229078250" movefrom="Sandbox.AhaEDVFaehland.handlotion.gif" path="handlotion.gif" size="18474" stream="IO::File=GLOB(0x8f99c34)" tmpFilename="/var/tmp/CGItemp34669" user="micha" version="1"}%
+%META:FILEATTACHMENT{name="jquery.tablesorter.pack.js" attr="" autoattached="1" comment="2.0-beta" date="1185819841" moveby="micha" movedto="Trash.TrashAttachment.jquery.tablesorter.pack.js" movedwhen="1231235369" movefrom="Morgue.JQueryTableSorterPlugin.jquery.tablesorter.pack.js" path="jquery.tablesorter.pack.js" size="5298" user="micha" version="1"}%

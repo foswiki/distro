@@ -178,7 +178,7 @@ sub _parseFormDefinition {
 
        # Only insist on first field being present FIXME - use oops page instead?
         if ( $inBlock && $line =~ s/^\s*\|\s*// ) {
-            $line =~ s/\\\|/\007/g;    # protect \| from split
+            $line =~ s/\\\|/\\\007/g;    # protect \| from split
             my ( $title, $type, $size, $vals, $tooltip, $attributes ) =
               map { s/\007/|/g; $_ } split( /\s*\|\s*/, $line );
 

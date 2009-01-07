@@ -270,6 +270,9 @@ sub readTopicRaw {
     # test if topic contains a webName to override $web
     ( $web, $topic ) = $this->{session}->normalizeWebTopicName( $web, $topic );
 
+    # add dependency
+    $this->{session}->{cache}->addDependency( $web, $topic ) if $Foswiki::cfg{Cache}{Enabled};
+
     my $text;
 
     my $handler = _getHandler( $this, $web, $topic );
@@ -387,6 +390,8 @@ sub moveAttachment {
         );
     }
     finally {
+        $this->{session}->{cache}->fireDependency($oldWeb, $oldTopic);
+        $this->{session}->{cache}->fireDependency($newWeb, $newTopic);
         $this->unlockTopic( $user, $oldWeb, $oldTopic );
         $this->unlockTopic( $user, $newWeb, $newTopic );
     };
@@ -537,6 +542,8 @@ sub moveTopic {
         $handler->moveTopic( $newWeb, $newTopic );
     }
     finally {
+        $this->{session}->{cache}->fireDependency($newWeb, $newTopic);
+        $this->{session}->{cache}->fireDependency($oldWeb, $oldTopic);
         $this->unlockTopic( $user, $oldWeb, $oldTopic );
     };
 
@@ -647,6 +654,9 @@ sub readAttachment {
         throw Foswiki::AccessControlException( 'VIEW', $user, $web, $topic,
             $this->{session}->security->getReason() );
     }
+
+    # add dependency
+    $this->{session}->{cache}->addDependency( $web, $topic ) if $Foswiki::cfg{Cache}{Enabled};
 
     my $handler = _getHandler( $this, $web, $topic, $attachment );
     return $handler->getRevision($theRev);
@@ -951,6 +961,7 @@ sub saveTopic {
         $plugins->dispatch( 'afterSaveHandler', $text, $topic, $web,
             $error ? $error->{-text} : '', $meta );
     }
+    $this->{session}->{cache}->fireDependency($web, $topic);
 
     throw $error if $error;
 }
@@ -1111,6 +1122,7 @@ sub saveAttachment {
 
     }
     finally {
+        $this->{session}->{cache}->fireDependency($web, $topic);
         $this->unlockTopic( $user, $web, $topic );
     };
 
