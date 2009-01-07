@@ -10,15 +10,16 @@ Foswiki Release 1.0.0 - Release Candidate 1
 ---
  <!-- This section should be deleted when 1.0.0 is released down to the  "-----"  -->
 
-*Note this is the Release Candidate 1 of Foswiki 1.0.0. It is not recommended for production use*
+*Note this is the Release Candidate 1 of Foswiki 1.0.0. It is not recommended for production use.*
 
-The purpose of this beta is
+No further changes are planned to the Foswiki product prior to the official 1.0.0 release, except for critical bug fixes. The release candidate allows the following objectives to be tested prior to the release:
 
-   * Give translators a platform to test their work on.
-   * Give developers a chance to see a real installation built and installed
-   * Give extension developers a platform to develop the Foswiki versions of extensions
-   * Give our users a chance to practice the upgrade from TWiki to Foswiki before the real release
-The release of Foswiki 1.0.0 is planned for 07 Jan 2009 and to be made public 09 Jan 2009 allowing two days of last checking and marketing actions.
+   * Provide translators with a platform to test their work on.
+   * Allow developers to build and install a product distribution.
+   * Provide extension developers a platform to develop the Foswiki versions of extensions.
+   * Give users a chance to practice the upgrade from TWiki to Foswiki before the real release.
+
+The release of Foswiki 1.0.0 is planned for 07 Jan 2009, with an official public launch on 09 Jan 2009, to accommodate any final administrative actions.
 
 The quality of 1.0.0 is depending on *you* downloading and installing this RC and report back problems to the development team.
 
@@ -53,7 +54,7 @@ Foswiki 1.0.0 is shipped with the following:
    * A "Copy topic" feature is now present in the "More topic actions" tools.
    * IF conditions has been expanded with an "isempty" test condition.
    * =viewfile= script can be used as a webserver _ErrorDocument_ enabling both more secure attachments and user focused error dialogs.
-   * Foswiki is now distributed so when you unpack the tgz or zip file,  a directory called Foswiki-X.X.X (X.X.X being the version number) is neatly created. No more splattering of files all over in the current directory.
+   * The Foswiki tgz / zip distribution file now has a top-level directory &mdash; Foswiki-x.y.z (x.y.z representing the version) &mdash; in which all of its files and subdirectories are contained.
 
 ---++ Security Updates
 
