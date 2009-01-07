@@ -51,6 +51,10 @@ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion} = 
     'TWikiWebsTable' => 'WebsTable',
     'WhatDoesTWikiStandFor' => '_remove_',
     'TWikiRegistrationAgent' => 'RegistrationAgent',
+#TopicUserMapping topics
+	'TWikiUserMappingContrib' => 'TopicUserMappingContrib',
+	'TWikiUserSetting' => 'UserSetting',
+	'TWikiUsersTemplate' => 'UsersTemplate',
 };
 # **PERL**
 # a hash mapping TWiki's Main web topics to Foswiki's topics
