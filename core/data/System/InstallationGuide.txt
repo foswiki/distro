@@ -4,7 +4,7 @@
 
 *The following is installation instructions for the Foswiki 1.0.0 production release on an Apache web server on Linux.* Visit Foswiki:Support.SupplementalDocuments for supplemental information on installing Foswiki or upgrading from TWiki, including notes on installing Foswiki on different platforms, environments and web hosting sites.
 
-These installation instructions are also available online by following links from Foswiki:Support.Foswiki01x00x00.
+These installation instructions are also available online by following links from Foswiki:Support.Foswiki01x00x00, and are available within your Foswiki installation at =%SYSTEMWEB%.InstallationGuide= (the <nop>InstallationGuide topic in the %SYSTEMWEB% web).
 
 %TOC%
 
@@ -41,7 +41,7 @@ If you need help, ask a question in the Foswiki:Support web or on Foswiki:Commun
          * Suse : =chown -R wwwrun:www /path/to/foswiki=
       * If you mistakenly change the access rights in a way that makes Foswiki stop working, simply run the script found at Foswiki:Support.SettingFileAccessRightsLinuxUnix to set the access right of the entire Foswiki tree back to the distributed defaults.
       * It is possible to define tighter access rules than the ones given by default after the installation is complete. But how tight they should be depends on your distribution and local needs. Typically you may want to limit all access from world if the web server machine has login access for other users than root and the web server administrator. For a dedicated web server made just for running Foswiki with limited login access the default access rights have a good safety level.
-   1 *Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system. 
+   1 *Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system.
       * The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script in the =bin= directory. You can use the rewriteshebang.pl script in the tools directory. For example:<verbatim>
       cd /path/to/foswiki/bin
       /path/to/perl ../tools/rewriteshebang.pl
@@ -91,7 +91,11 @@ Before you continue any further there are some basic and very important security
 
 ---++ Beyond the basic installation
 
-Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. Many of the references in this section refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins][Skins]]= refers to the =Skins= topic in your Foswiki web. You can enter the topic name, such as =%SYSTEMWEB%.Skins= into the "Jump" text box at the top right of any Foswiki page to go directly to a topic. All of the pages can also be found online in the [[Foswiki:System.WebHome][Foswiki documentation section]] (the "System" web).
+Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. Many of the references in this section refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins][Skins]]= refers to the =Skins= topic in your Foswiki web. To go directly to a topic, enter the topic name, such as =%SYSTEMWEB%.Skins=, into the "Jump" text box at the top right of any Foswiki page.
+
+To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the INSTALL.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
+
+All of the Foswiki documentation can also be found online in the [[Foswiki:System.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
 
 Note the =configure= page mentioned in this section is accessible via your web browser at <kbd>http://yourdomain/foswiki/bin/configure</kbd>&nbsp;.
 
@@ -143,18 +147,18 @@ Apache Login is required for Apache-based login methods such as mod_ldap.
 
 If you are not using Foswiki to manage your users' passwords or email addresses, or would just like to enhance the default pages, then modify the following topics accordingly with information appropriate for your site:
 
-   * [[%SYSTEMWEB%.ChangePassword]]
-   * [[%SYSTEMWEB%.ResetPassword]]
-   * [[%SYSTEMWEB%.ChangeEmailAddress]]
+   * =[[%SYSTEMWEB%.ChangePassword]]=
+   * =[[%SYSTEMWEB%.ResetPassword]]=
+   * =[[%SYSTEMWEB%.ChangeEmailAddress]]=
 
 #DefineAdminUser
 ---+++ Define the administrator user(s)
 
-Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. After installing Foswiki and registering a user, you should make the user an administrator by adding the WikiName for the user to the =AdminGroup=, defined in the [[%USERSWEB%.AdminGroup]] topic:
+Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. After installing Foswiki and registering a user, you should make the user an administrator by adding the WikiName for the user to the =AdminGroup=, defined in the =[[%USERSWEB%.AdminGroup]]= topic:
    * If you are not already logged in with your WikiName, then login.
-   * Go to the [[%USERSWEB%.AdminGroup]] topic and select the "internal admin login" link. Login using the password you set on the =configure= page.
-   * After logging as the internal admin, edit the [[%USERSWEB%.AdminGroup]] topic. Follow the instructions on the page carefully and add your WikiName to the group.
-   * Test that you have been added successfully: On the [[%USERSWEB%.AdminGroup]] page, select the "Logout link" and logout from being the internal admin. Select the "Edit" link for the [[%USERSWEB%.AdminGroup]] page. If you successfully added yourself as an admin user, you should see the edit page.
+   * Go to the =[[%USERSWEB%.AdminGroup]]= topic and select the "internal admin login" link. Login using the password you set on the =configure= page.
+   * After logging as the internal admin, edit the =[[%USERSWEB%.AdminGroup]]= topic. Follow the instructions on the page carefully and add your WikiName to the group.
+   * Test that you have been added successfully: On the =[[%USERSWEB%.AdminGroup]]= page, select the "Logout link" and logout from being the internal admin. Select the "Edit" link for the =[[%USERSWEB%.AdminGroup]]= page. If you successfully added yourself as an admin user, you should see the edit page.
 
 Once the =AdminGroup= is no longer empty, then any member of the group can add subsequent members &mdash; you do not have to use the internal admin login.
 
@@ -163,11 +167,11 @@ To more easily debug access control issues, you may want to have a regular Foswi
 #SetPreferences 
 ---+++ Set Foswiki Preferences
 
-Preferences for customizing many aspects of Foswiki are set by editing [[%USERSWEB%.SitePreferences]]. If a given preference is not set in =%USERSWEB%.SitePreferences=, then a default value is picked up from [[%SYSTEMWEB%.DefaultPreferences]], if present, or, for extensions, from the extension topics.
+Preferences for customizing many aspects of Foswiki are set by editing =%USERSWEB%.SitePreferences=. If a given preference is not set in =%USERSWEB%.SitePreferences=, then a default value is picked up from =[[%SYSTEMWEB%.DefaultPreferences]]=, if present, or, for extensions, from the extension topics.
 
 To simplify your upgrades, do not modify =%SYSTEMWEB%.DefaultPreferences=. Instead, copy any settings you want to change from =%SYSTEMWEB%.DefaultPreferences= to =%USERSWEB%.SitePreferences=.
 
-To see the available preferences that can be set, look through [[%SYSTEMWEB%.DefaultPreferences]].
+To see the available preferences that can be set, look through =[[%SYSTEMWEB%.DefaultPreferences]]=.
 
 ---+++ Enable Email Notification
 
@@ -181,7 +185,7 @@ You can manually or automatically generate a listing of the most popular pages f
 
 ---+++ Automate removal of expired sessions and lease files
 
-By default Foswiki cleans out expired session and lease files each time any topic is viewed. This has a performance cost, however. Instead you may wish to schedule a cron job (or equivalent) to run the =tools/tick_foswiki.pl= script, and set a negative value on the =configure= page for {Sessions}{ExpireAfter}. Fore more details, read [[%SYSTEMWEB%.CommandAndCGIScripts#tick_foswiki_pl]].
+By default Foswiki cleans out expired session and lease files each time any topic is viewed. This has a performance cost, however. Instead you may wish to schedule a cron job (or equivalent) to run the =tools/tick_foswiki.pl= script, and set a negative value on the =configure= page for ={Sessions}{ExpireAfter}=. For more details, read [[%SYSTEMWEB%.CommandAndCGIScripts#tick_foswiki_pl]].
 
 ---+++ Enable Localisation
 
@@ -190,14 +194,14 @@ Foswiki supports displaying national (non-ASCII) characters, and using different
 #TailorUsersTopic
 ---+++ Customize the home topic for new users
 
-When a new user registers on your Foswiki site, a home topic is created for the user based on the [[%SYSTEMWEB%.NewUserTemplate]] topic (and its associated [[%SYSTEMWEB%.UserForm]]). If you want to customize the home topic for your users, you should copy =%SYSTEMWEB%.NewUserTemplate= and =%SYSTEMWEB%.UserForm= to [[%USERSWEB%.NewUserTemplate]] and [[%USERSWEB%.UserForm]], so you will not lose your customizations the next time you upgrade Foswiki. Your versions in the %USERSWEB% web will override the default versions in the %SYSTEMWEB% web.
+When a new user registers on your Foswiki site, a home topic is created for the user based on the [[%SYSTEMWEB%.NewUserTemplate]] topic (and its associated [[%SYSTEMWEB%.UserForm]]). If you want to customize the home topic for your users, you should copy =%SYSTEMWEB%.NewUserTemplate= and =%SYSTEMWEB%.UserForm= to =[[%USERSWEB%.NewUserTemplate]]= and =[[%USERSWEB%.UserForm]]=, so you will not lose your customizations the next time you upgrade Foswiki. Your versions in the %USERSWEB% web will override the default versions in the %SYSTEMWEB% web.
 
 You can edit these topics to suit your needs, such as the following:
    * Customize the user topic for your site.
-   * Add an ALLOWTOPICCHANGE preference setting to [[%USERSWEB%.NewUserTemplate]] so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public Foswiki site to prevent spam.
-   * Add and remove fields defined in the [[%USERSWEB%.UserForm]].
+   * Add an ALLOWTOPICCHANGE preference setting to =[[%USERSWEB%.NewUserTemplate]]= so only the user can edit their own home topic. We do not encourage this for Intranet sites as it sends a wrong signal to new users, but it can be necessary on a public Foswiki site to prevent spam.
+   * Add and remove fields defined in the =[[%USERSWEB%.UserForm]]=.
 
-If you added or removed fields from the user form you may also need to tailor [[%USERSWEB%.UserRegistration]] to match (again, copy over the contents from [[%SYSTEMWEB%.UserRegistration]]).
+If you added or removed fields from the user form you may also need to tailor =[[%USERSWEB%.UserRegistration]]= to match (again, copy over the contents from [[%SYSTEMWEB%.UserRegistration]]).
 
 ---+++ Install plugins
 Foswiki:Extensions is an extensive library of [[plugins]] for Foswiki that enhance functionality in a huge number of ways. A few plugins are pre-installed in the Foswiki distribution.
@@ -226,9 +230,9 @@ At the [[http://foswiki.org/][Foswiki website]] you can find more resources. A g
 
 The top bar and bottom bar are common across all webs.
 
-To customize the top bar, copy [[%SYSTEMWEB%.WebTopBarExample]] to [[%SYSTEMWEB%.WebTopBar]], and make your desired changes to =%SYSTEMWEB%.WebTopBar=.
+To customize the top bar, copy =[[%SYSTEMWEB%.WebTopBarExample]]= to =[[%SYSTEMWEB%.WebTopBar]]=, and make your desired changes to =%SYSTEMWEB%.WebTopBar=.
 
-To customize the bottom bar, copy [[%SYSTEMWEB%.WebBottomBarExample]] to [[%SYSTEMWEB%.WebBottomBar]], and make your desired changes to =%SYSTEMWEB%.WebBottomBar=.
+To customize the bottom bar, copy =[[%SYSTEMWEB%.WebBottomBarExample]]= to =[[%SYSTEMWEB%.WebBottomBar]]=, and make your desired changes to =%SYSTEMWEB%.WebBottomBar=.
 
 The side bar can be customized on a per web basis. To customize the side bar, copy the =WebLeftBarExample= topic in the given web to =WebLeftBar=, and make your desired changes to =WebLeftBar=. If you would like to move the side bar to the right of the page, see [[%SYSTEMWEB%.PatternSkin]] for more details.
 
@@ -242,9 +246,9 @@ If your Foswiki site is accessible publicly, you need to decide which copyright 
 
 To change the copyright statement, perform the following steps:
 
-   * Copy the WEBCOPYRIGHT preference setting from [[System.DefaultPreferences]] to [[%USERSWEB%.SitePreferences]]. Change the value to your desired text. This value will be your new default across all webs.
+   * Copy the WEBCOPYRIGHT preference setting from =[[System.DefaultPreferences]]= to =%USERSWEB%.SitePreferences=. Change the value to your desired text. This value will be your new default across all webs.
    * You can create a unique message for a specific web by setting the WEBCOPYRIGHT preference in the =WebPreferences= topic for the given web. For example, you could add a confidential classification to a web that has restricted access.
-   * The WEBCOPYRIGHT preference setting in [[%SYSTEMWEB%.WebPreferences]] covers the documentation that comes with Foswiki, and should not be changed.
+   * The WEBCOPYRIGHT preference setting in =[[%SYSTEMWEB%.WebPreferences]]= covers the documentation that comes with Foswiki, and should not be changed.
 
 ---+++ WYSIWYG vs Raw Edit
 
