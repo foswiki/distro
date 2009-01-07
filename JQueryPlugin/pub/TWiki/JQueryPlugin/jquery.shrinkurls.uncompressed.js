@@ -3,7 +3,7 @@
  *
  * http://wikiring.de
  *
- * Copyright (c) 2007 Michael Daum
+ * Copyright (c) 2007-2009 Michael Daum
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

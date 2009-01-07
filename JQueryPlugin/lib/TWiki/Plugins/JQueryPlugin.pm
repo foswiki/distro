@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2008 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (c) 2007-2009 Michael Daum, http://michaeldaumconsulting.com
 # 
 # and TWiki Contributors. All Rights Reserved. TWiki Contributors
 # are listed in the AUTHORS file in the root of this distribution.
@@ -26,8 +26,8 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '1.10'; 
-$SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for NextWiki';
+$RELEASE = '1.11'; 
+$SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
 $header = <<'HERE';
@@ -39,8 +39,8 @@ if (!twiki) {
 }
 twiki.pubUrl = "%PUBURL%";
 twiki.pubUrlPath = '%PUBURLPATH%';
-twiki.twikiWebName = '%SYSTEMWEB%';
-twiki.mainWebName = '%MAINWEB%';
+twiki.systemWebName = '%SYSTEMWEB%';
+twiki.usersWebName = '%USERSWEB%';
 twiki.wikiName = '%WIKINAME%';
 twiki.loginName = '%USERNAME%';
 twiki.wikiUserName = '%WIKIUSERNAME%';
@@ -50,7 +50,7 @@ twiki.MathModePluginEnabled = %IF{"context MathModePluginEnabled" then="true" el
 </script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.js"></script>
 <script type="text/javascript">
-ChiliBook.recipeFolder = twiki.pubUrlPath+'/'+twiki.twikiWebName+'/JQueryPlugin/chili/';
+ChiliBook.recipeFolder = twiki.pubUrlPath+'/'+twiki.systemWebName+'/JQueryPlugin/chili/';
 ChiliBook.automaticSelector = 'pre';
 //ChiliBook.lineNumbers = true;
 </script>

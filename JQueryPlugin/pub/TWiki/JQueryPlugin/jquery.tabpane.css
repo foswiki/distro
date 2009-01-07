@@ -25,7 +25,7 @@ ul.jqTabGroup {
   margin:0px !important;
   padding:0px !important;
   list-style:none;
-  /*border-top:1px solid white;*/ /* IE6+IE7 fix */
+  padding-top:1px; /* IE6+IE7 fix */
 }
 ul.jqTabGroup li {
   background-color: transparent;
@@ -38,6 +38,7 @@ ul.jqTabGroup li {
   margin:0px 4px -1px 0px !important;
   height:29px;
   line-height:100%;
+  list-style:none !important;
 }
 ul.jqTabGroup a:active,
 ul.jqTabGroup a:hover,

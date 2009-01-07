@@ -1,4 +1,4 @@
-# Copyright (C) 2006-2008 Michael Daum, http://michaeldaumconsulting.com
+# Copyright (C) 2006-2009 Michael Daum, http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@ package TWiki::Plugins::JQueryPlugin::Core;
 use strict;
 use constant DEBUG => 0; # toggle me
 
-use vars qw($tabPaneCounter $tabCounter $jqueryFormHeader);
+use vars qw($tabPaneCounter $tabCounter $jqueryFormHeader $iconTopic);
 
 $jqueryFormHeader=<<'HERE';
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.form.js"></script>
@@ -152,8 +152,13 @@ sub handleButton {
   if ($theTarget) {
     my $url;
 
-    my $topicNameRegex = qr/[$TWiki::regex{upperAlphaNum}]+[$TWiki::regex{lowerAlphaNum}]+[$TWiki::regex{upperAlpha}]+[$TWiki::regex{mixedAlphaNum}]*/o;
-    if ($theTarget =~ /$TWiki::regex{webNameRegex}\.$topicNameRegex/) {
+    my $upperAlphaNum = TWiki::Func::getRegularExpression('upperAlphaNum');
+    my $upperAlpha = TWiki::Func::getRegularExpression('upperAlpha');
+    my $lowerAlphaNum = TWiki::Func::getRegularExpression('lowerAlphaNum');
+    my $mixedAlphaNum = TWiki::Func::getRegularExpression('mixedAlphaNum');
+    my $webNameRegex = TWiki::Func::getRegularExpression('webNameRegex');
+    my $topicNameRegex = qr/[$upperAlphaNum]+[$lowerAlphaNum]+[$upperAlpha]+[$mixedAlphaNum]*/o;
+    if ($theTarget =~ /^$webNameRegex\.$topicNameRegex$/) {
       my ($web, $topic) = TWiki::Func::normalizeWebTopicName($theWeb, $theTarget);
       $url = TWiki::Func::getViewUrl($web, $topic);
     } else {
@@ -174,18 +179,21 @@ sub handleButton {
     $theOnClick="\$(this).parents('form:first').clearForm();";
     TWiki::Func::addToHEAD('jquery.form', $jqueryFormHeader);
   }
+  $theOnClick .= ';return false;' if $theOnClick;
 
   my $result = "<a class='jqButton $theBg $theClass' href='$theHref'";
-  $result .= " accesskey='$theAccessKey' " if defined $theAccessKey;
-  $result .= " id='$theId' " if defined $theId;
-  $result .= " title='$theTitle' " if defined $theTitle;
-  $result .= " onclick=\"$theOnClick\" " if defined $theOnClick;
-  $result .= " onmouseover=\"$theOnMouseOver\" " if defined $theOnMouseOver;
-  $result .= " onmouseout=\"$theOnMouseOut\" " if defined $theOnMouseOut;
-  $result .= " onfocus=\"$theOnFocus\" " if defined $theOnFocus;
-  $result .= " style='$theStyle' " if defined $theStyle;
+  $result .= " accesskey='$theAccessKey' " if $theAccessKey;
+  $result .= " id='$theId' " if $theId;
+  $result .= " title='$theTitle' " if $theTitle;
+  $result .= " onclick=\"$theOnClick\" " if $theOnClick;
+  $result .= " onmouseover=\"$theOnMouseOver\" " if $theOnMouseOver;
+  $result .= " onmouseout=\"$theOnMouseOut\" " if $theOnMouseOut;
+  $result .= " onfocus=\"$theOnFocus\" " if $theOnFocus;
+  $result .= " style='$theStyle' " if $theStyle;
 
   $result .= ">$theText</a>";
+  $result .= "<input type='submit' style='display:none' />" if
+    $theType eq 'submit';
 
   return $result;
 }
@@ -199,7 +207,12 @@ sub getIconUrlPath {
   my $iconWeb = TWiki::Func::getTwikiWebname();
   $iconName =~ s/^.*\.(.*?)$/$1/;
 
-  return TWiki::Func::getPubUrlPath().'/'.$iconWeb.'/JQueryPlugin/'.$iconName.'.png';
+  unless ($iconTopic) {
+    $iconTopic = TWiki::Func::getPreferencesValue('JQUERYPLUGIN_ICONTOPIC')
+      || 'FamFamFamSilkIcons';
+  }
+
+  return TWiki::Func::getPubUrlPath().'/'.$iconWeb.'/'.$iconTopic.'/'.$iconName.'.png';
 }
 
 ###############################################################################

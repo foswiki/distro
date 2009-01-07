@@ -70,8 +70,8 @@ JS_SOURCES=\
   jquery.shrinkurls.js \
   jquery.tabpane.js \
   jquery.tooltip.js \
-  jquery.treeview.async.js \
   jquery.treeview.js \
+  jquery.treeview.async.js \
   jquery.twiki.js
 
 CSS_SOURCES=\

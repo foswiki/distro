@@ -1,4 +1,6 @@
 /* buttons */
+.patternTopic a.jqButton,
+.patternTopic a.jqButton:hover,
 .jqButton:hover,
 .jqButton {
   background-color:transparent;
@@ -13,7 +15,10 @@
   padding:0px;
   margin:0px 8px 0px 0px;
   color:black;
+  font-size:13px;
 }
+.patternTopic a.jqButton:link:hover,
+.patternTopic a.jqButton:hover,
 .jqButton:hover {
   color:red;
 }
@@ -28,6 +33,7 @@
   line-height:23px;
   padding:0px 8px;
   margin:0px 3px 0px 0px;
+  font-size:13px;
   /* ie 6 */
   _margin:0px 1px 0px 0px;
 }
