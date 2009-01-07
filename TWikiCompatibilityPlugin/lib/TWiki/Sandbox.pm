@@ -15,6 +15,6 @@ sub new {
 sub untaintUnchecked { Foswiki::Sandbox::untaintUnchecked(@_) }
 sub normalizeFileName { Foswiki::Sandbox::normalizeFileName(@_) }
 sub sanitizeAttachmentName { Foswiki::Sandbox::sanitizeAttachmentName(@_) }
-sub sysCommand { return Foswiki::Sandbox->sysCommand(@_) }
+sub sysCommand { return Foswiki::Sandbox::sysCommand(@_) }
 
 1;
