@@ -1,5 +1,4 @@
 #!/usr/bin/perl -wT
-#!/usr/bin/speedy -wT -- -t600 -M5 -r20 -gTWikiTrunk
 #
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
