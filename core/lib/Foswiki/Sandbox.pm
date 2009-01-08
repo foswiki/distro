@@ -477,7 +477,7 @@ sub sysCommand {
             untie(*STDERR);
             open( STDERR, '>', File::Spec->devnull() )
               || die "Can't kill STDERR: '$!'";
-            local %ENV;
+
             unless ( exec( $path, @args ) ) {
                 syswrite( STDOUT, $key . ": $!\n" );
                 exit($key);
