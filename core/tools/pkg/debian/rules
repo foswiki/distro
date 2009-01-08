@@ -17,7 +17,7 @@ configure-stamp:
 
 build: patch build-stamp
 
-build-stamp: configure-stamp 
+build-stamp: configure-stamp
 	dh_testdir
 	touch build-stamp
 
@@ -36,102 +36,103 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	cp -r bin/* debian/twiki/usr/lib/cgi-bin/twiki
-	cp -r debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg.txt debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
+	cp -r bin/* debian/foswiki/usr/lib/cgi-bin/foswiki
+	cp -r debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg.txt debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
 
 	# not needed, with statoverride?
-	chmod 755 debian/twiki/usr/lib/cgi-bin/twiki/*
-	chmod 644 debian/twiki/usr/lib/cgi-bin/twiki/setlib.cfg
+	chmod 755 debian/foswiki/usr/lib/cgi-bin/foswiki/*
+	chmod 644 debian/foswiki/usr/lib/cgi-bin/foswiki/setlib.cfg
 	#need more libreal perms to allow configure script to work :()
-	chmod 644 debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
-	chmod 644 debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg.txt
-	
-#	chown $(TWIKI_OWNER) debian/twiki/usr/lib/cgi-bin/twiki/*
-	cp -Rp pub debian/twiki/var/lib/twiki/
-	cp -pR templates debian/twiki/var/lib/twiki/
-	cp -pR locale debian/twiki/var/lib/twiki/
-	cp -pR data debian/twiki/var/lib/twiki/
-	
-    #move configure's logos and css to /var/lib/twiki/pub/logos
-	mv debian/twiki/usr/lib/cgi-bin/twiki/logos debian/twiki/var/lib/twiki/pub/
-	
+	chmod 644 debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
+	chmod 644 debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg.txt
+
+#	chown $(TWIKI_OWNER) debian/foswiki/usr/lib/cgi-bin/foswiki/*
+	cp -Rp pub debian/foswiki/var/lib/foswiki/
+	cp -pR templates debian/foswiki/var/lib/foswiki/
+	cp -pR locale debian/foswiki/var/lib/foswiki/
+	cp -pR data debian/foswiki/var/lib/foswiki/
+
+    #move configure's logos and css to /var/lib/foswiki/pub/logos
+	mv debian/foswiki/usr/lib/cgi-bin/foswiki/logos debian/foswiki/var/lib/foswiki/pub/
+
 	#create mailnotify timestamps
-	date +%s > debian/twiki/var/lib/twiki/data/TWiki/.mailnotify
-	date +%s > debian/twiki/var/lib/twiki/data/Main/.mailnotify
-	date +%s > debian/twiki/var/lib/twiki/data/Sandbox/.mailnotify
-	
+	date +%s > debian/foswiki/var/lib/foswiki/data/System/.mailnotify
+	date +%s > debian/foswiki/var/lib/foswiki/data/Main/.mailnotify
+	date +%s > debian/foswiki/var/lib/foswiki/data/Sandbox/.mailnotify
+
 # change the unix owners -- don't bother, tar --owner does it
 # so now we don't even care if TWIKI_OWNER exists at build time
-#	chown -R $(TWIKI_OWNER) debian/twiki/var/lib/twiki/data
+#	chown -R $(TWIKI_OWNER) debian/foswiki/var/lib/foswiki/data
 # and change the RCS lock owners to match
 
 	#distribute the tools scripts
-	#cp UpgradeTwiki debian/twiki/var/lib/twiki
-	#chmod 777 debian/twiki/var/lib/twiki/UpgradeTwiki
-    	
-	mkdir debian/twiki/var/lib/twiki/tools
-	cp -r tools/* debian/twiki/var/lib/twiki/tools/
-	chmod -R 777 debian/twiki/var/lib/twiki/tools/*
-	cp -p debian/mod_perl_startup.pl debian/twiki/var/lib/twiki/tools/
+	#cp UpgradeTwiki debian/foswiki/var/lib/foswiki
+	#chmod 777 debian/foswiki/var/lib/foswiki/UpgradeTwiki
+
+	mkdir debian/foswiki/var/lib/foswiki/tools
+	cp -r tools/* debian/foswiki/var/lib/foswiki/tools/
+	chmod -R 777 debian/foswiki/var/lib/foswiki/tools/*
+	cp -p debian/mod_perl_startup.pl debian/foswiki/var/lib/foswiki/tools/
 
 
     #SVEN - you should probably make this a patch file.
-	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/twiki/var/lib/twiki/tools/rewriteshbang.pl
-	perl -piOLD -e 's{#!perl}{#!/usr/bin/perl}g;' debian/twiki/var/lib/twiki/tools/upgrade_emails.pl
-	
-	rm debian/twiki/var/lib/twiki/tools/*OLD
+	perl -piOLD -e 's{#! perl}{#!/usr/bin/perl}g;' debian/foswiki/var/lib/foswiki/tools/rewriteshbang.pl
+	perl -piOLD -e 's{#!perl}{#!/usr/bin/perl}g;' debian/foswiki/var/lib/foswiki/tools/upgrade_emails.pl
 
-	chmod -R 644 debian/twiki/var/lib/twiki/templates/*
+	rm debian/foswiki/var/lib/foswiki/tools/*OLD
+
+	chmod -R 644 debian/foswiki/var/lib/foswiki/templates/*
 
 
-	find debian/twiki/var/lib/twiki/data -type f -name '*,v' | \
+	find debian/foswiki/var/lib/foswiki/data -type f -name '*,v' | \
 	  xargs -n1 perl -pi -e 's/^(\s)nobody:/\1$(TWIKI_OWNER):/ unless $$done; $$done=1 if /^\n$$/;'
-	tar -cf - -C debian/twiki var/lib/twiki/data \
+	tar -cf - -C debian/foswiki var/lib/foswiki/data \
 		| tardy -User_NAme=$(TWIKI_OWNER) -Group_NAme=www-data \
-		| gzip -c -9 > debian/twiki/usr/share/twiki/twiki-data.tar.gz
-	rm -rf debian/twiki/var/lib/twiki/data
+		| gzip -c -9 > debian/foswiki/usr/share/foswiki/foswiki-data.tar.gz
+	rm -rf debian/foswiki/var/lib/foswiki/data
 
 #do the same with pub - it should also only be replaced if there is none there already
 # and it needs to be owned by $(TWIKI_OWNER)
-	find debian/twiki/var/lib/twiki/pub -type f -name '*,v' | \
+	find debian/foswiki/var/lib/foswiki/pub -type f -name '*,v' | \
 	  xargs -n1 perl -pi -e 's/^(\s)nobody:/\1$(TWIKI_OWNER):/ unless $$done; $$done=1 if /^\n$$/;'
-	tar -cf - -C debian/twiki var/lib/twiki/pub \
+	tar -cf - -C debian/foswiki var/lib/foswiki/pub \
 		| tardy -User_NAme=$(TWIKI_OWNER) -Group_NAme=www-data \
-		| gzip -c -9 > debian/twiki/usr/share/twiki/twiki-pub.tar.gz
-	rm -rf debian/twiki/var/lib/twiki/pub
+		| gzip -c -9 > debian/foswiki/usr/share/foswiki/foswiki-pub.tar.gz
+	rm -rf debian/foswiki/var/lib/foswiki/pub
 
-	cp -pR lib/* debian/twiki/usr/share/perl5/
-	cp -p debian/apache.conf debian/twiki/etc/twiki/
+	cp -pR lib/* debian/foswiki/usr/share/perl5/
+	cp -p debian/apache.conf debian/foswiki/etc/foswiki/
 
 	#move non-CPAN files out of cpan dir
-	mv debian/twiki/usr/share/perl5/DEPENDENCIES debian/twiki/etc/twiki/
-	mv debian/twiki/usr/share/perl5/TWiki.spec debian/twiki/etc/twiki/
-	mv debian/twiki/usr/share/perl5/MANIFEST debian/twiki/etc/twiki/
-	mv debian/twiki/usr/share/perl5/CPAN debian/twiki/usr/share/twiki/
-	#mv debian/twiki/var/lib/twiki/tools/native_search debian/twiki/usr/share/twiki/
-	#chmod 644 debian/twiki/usr/share/twiki/native_search/*
- 	#TODO: rename this to TWiki::Assert or something?
-	#can't move this away without code changes - better to move entire twikilib out of cpan dir.
-	#mv debian/twiki/usr/share/perl5/Assert.pm debian/twiki/usr/share/twiki/
-    
+	mv debian/foswiki/usr/share/perl5/DEPENDENCIES debian/foswiki/etc/foswiki/
+	mv debian/foswiki/usr/share/perl5/Foswiki.spec debian/foswiki/etc/foswiki/
+	mv debian/foswiki/usr/share/perl5/MANIFEST debian/foswiki/etc/foswiki/
+	mv debian/foswiki/usr/share/perl5/CPAN debian/foswiki/usr/share/foswiki/
+	#mv debian/foswiki/var/lib/foswiki/tools/native_search debian/foswiki/usr/share/foswiki/
+	#chmod 644 debian/foswiki/usr/share/foswiki/native_search/*
+ 	#TODO: rename this to Foswiki::Assert or something?
+	#can't move this away without code changes - better to move entire foswikilib out of cpan dir.
+	#mv debian/foswiki/usr/share/perl5/Assert.pm debian/foswiki/usr/share/foswiki/
+
     # setlib.cfg
-	perl -pi~ -e 's|^(.twikiLibPath).*|\1 = \"/usr/share/perl5\";|;' debian/twiki/usr/lib/cgi-bin/twiki/setlib.cfg
-	rm debian/twiki/usr/lib/cgi-bin/twiki/setlib.cfg~
+	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/usr/share/perl5\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/setlib.cfg
+	rm debian/foswiki/usr/lib/cgi-bin/foswiki/setlib.cfg~
 
-#move twiki.cfg to /etc/twiki
-	cp debian/LocalSite.cfg debian/twiki/etc/twiki/LocalSite.cfg
-	#mv debian/twiki/usr/share/perl5/LocalSite.cfg.txt debian/twiki/etc/twiki/LocalSite.cfg.txt
-	#mv debian/twiki/usr/share/perl5/TWiki.cfg debian/twiki/etc/twiki/TWiki.cfg
- 
-	perl -pi~ -e 's|^(.twikiLibPath).*|\1 = \"/etc/twiki\";|;' debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
-	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/twiki/lib\";|;' debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg
-	rm debian/twiki/usr/lib/cgi-bin/twiki/LocalLib.cfg~
+#move foswiki.cfg to /etc/foswiki
+	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
+	#mv debian/foswiki/usr/share/perl5/LocalSite.cfg.txt debian/foswiki/etc/foswiki/LocalSite.cfg.txt
+	#mv debian/foswiki/usr/share/perl5/TWiki.cfg debian/foswiki/etc/foswiki/TWiki.cfg
 
-	chmod -R 644 debian/twiki/etc/twiki/*
+	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
+	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
+	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
+	rm debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg~
 
- 
+	chmod -R 644 debian/foswiki/etc/foswiki/*
+
+
 # fix paths for index.html
-	perl -pi~ -e 's|http://your.server.com/your-cgi-bin/view/Main/WebHome|http://localhost/cgi-bin/twiki/view/Main/WebHome|;' index.html
+	perl -pi~ -e 's|http://your.server.com/your-cgi-bin/view/Main/WebHome|http://localhost/cgi-bin/foswiki/view/Main/WebHome|;' index.html
 	perl -pi~ -e 's|license.txt|copyright|g;' index.html
 	rm index.html~
 
@@ -139,7 +140,7 @@ install: build
 binary-indep: build install
 	dh_testdir
 	dh_testroot
-	dh_installdebconf	
+	dh_installdebconf
 	dh_installdocs -Xlicense.txt
 	dh_installexamples
 	dh_installmenu
@@ -152,11 +153,11 @@ binary-indep: build install
 	dh_installman
 	dh_installinfo
 #	dh_undocumented
-	dh_installchangelogs 
+	dh_installchangelogs
 	dh_link
 	dh_strip
 	dh_compress
-	dh_fixperms # --exclude /var/lib/twiki/data
+	dh_fixperms # --exclude /var/lib/foswiki/data
 #	dh_makeshlibs
 	dh_installdeb
 	dh_perl
@@ -178,4 +179,4 @@ binary-arch: build install
 #	done
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure 
+.PHONY: build clean binary-indep binary-arch binary install configure

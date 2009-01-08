@@ -1,12 +1,12 @@
-# translation of twiki-eu.po to Euskara
+# translation of foswiki-eu.po to Euskara
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Piarres Beobide <pi@beobide.net>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: twiki-eu\n"
-"Report-Msgid-Bugs-To: twiki@packages.debian.org\n"
+"Project-Id-Version: foswiki-eu\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
 "POT-Creation-Date: 2008-07-16 11:58+0200\n"
 "PO-Revision-Date: 2008-07-02 10:14+0200\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
@@ -19,24 +19,24 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates:1001
-msgid "URL of the server TWiki runs under:"
-msgstr "TWiki exekutatzen duen zerbitzariaren URLa:"
+msgid "URL of the server Foswiki runs under:"
+msgstr "Foswiki exekutatzen duen zerbitzariaren URLa:"
 
 #. Type: string
 #. Description
 #: ../templates:1001
 msgid ""
 "Please enter the web server URL (such as \"http://www.example.org/\"). "
-"Complete TWiki URLs will be constructed from this value plus the string "
-"\"twiki/\"."
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
 msgstr ""
 "Mesedez idatzi web-zerbitzariaren URLa (\"http://www.adibidea.org\" "
-"antzerakoa). Twiki URL osoak balio honi \"twiki/\" gehituaz osatuko dira."
+"antzerakoa). Twiki URL osoak balio honi \"foswiki/\" gehituaz osatuko dira."
 
 #. Type: string
 #. Description
 #: ../templates:2001
-msgid "Email address of the webmaster for this TWiki:"
+msgid "Email address of the webmaster for this Foswiki:"
 msgstr "Twiki honen arduradunaren eposta helbidea:"
 
 #. Type: string
@@ -59,17 +59,17 @@ msgstr "Lehenetsiriko wiki izenburu bilduma instalatu?"
 #. Description
 #: ../templates:3001
 msgid ""
-"TWiki includes a complete \"starter kit\" which includes user registration "
+"Foswiki includes a complete \"starter kit\" which includes user registration "
 "pages, documentation, and tutorials."
 msgstr ""
-"TWikik erregistro orriak, dokumentazioa eta manualak dakartzan \"hasiera "
+"Foswikik erregistro orriak, dokumentazioa eta manualak dakartzan \"hasiera "
 "bilduma\" bat du."
 
 #. Type: boolean
 #. Description
 #: ../templates:3001
 msgid ""
-"Accept this option unless you want to use an existing TWiki data set (for "
+"Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
 "Aukera hau onartu ez baduzu dagoeneko dagoen Twiki datu bilduma bat erabili "
@@ -80,13 +80,13 @@ msgstr ""
 #: ../templates:3001
 msgid ""
 "If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
-"The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-"(and twiki-pub.tar.gz) if you want to install it manually or compare the "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
 "topics with the new version."
 msgstr ""
 "data/Main/WebHome.txt aurkitzen badu, hasiera tresna-jokoak ez da "
-"despaketatuko. F itxategi horiek /usr/share/twiki/twiki-data.tar.gz  (eta "
-"twiki-pub.tar.gz)-en aurki ditzakezu eskuz instalatu edo zure gaiak bertsio "
+"despaketatuko. F itxategi horiek /usr/share/foswiki/foswiki-data.tar.gz  (eta "
+"foswiki-pub.tar.gz)-en aurki ditzakezu eskuz instalatu edo zure gaiak bertsio "
 "berriarekin parekatu nahi badituzu."
 
 #. Type: note
@@ -117,9 +117,9 @@ msgstr "'configure' scripta exekutatzeko baimena duen apache erabiltzailea:"
 #: ../templates:5001
 msgid ""
 "Please enter the username of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
-"Mesedez idatzi http://localhost/cgi-bin/twiki/configure-eko 'configure' "
+"Mesedez idatzi http://localhost/cgi-bin/foswiki/configure-eko 'configure' "
 "scripta exekutatzeko baimena duen apache erabiltzaile-izena."
 
 #. Type: password
@@ -134,9 +134,9 @@ msgstr "'${configuser}'-ren pasahitza:"
 #: ../templates:6001
 msgid ""
 "Please enter the password of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
-"Mesedez idatzi http://localhost/cgi-bin/twiki/configure-eko 'configure' "
+"Mesedez idatzi http://localhost/cgi-bin/foswiki/configure-eko 'configure' "
 "scripta exekutatzeko baimena duen apache erabiltzailearen pasahitza."
 
 #. Type: password

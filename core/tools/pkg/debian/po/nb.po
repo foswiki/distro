@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
-"Report-Msgid-Bugs-To: twiki@packages.debian.org\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
 "POT-Creation-Date: 2008-07-16 11:58+0200\n"
 "PO-Revision-Date: 2008-06-28 16:17+0200\n"
 "Last-Translator: Bjørn Steensrud <bsteensr@skogkatt.homelinux.org>\n"
@@ -20,25 +20,25 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates:1001
-msgid "URL of the server TWiki runs under:"
-msgstr "Nettadresse for den tjeneren der TWiki kjører:"
+msgid "URL of the server Foswiki runs under:"
+msgstr "Nettadresse for den tjeneren der Foswiki kjører:"
 
 #. Type: string
 #. Description
 #: ../templates:1001
 msgid ""
 "Please enter the web server URL (such as \"http://www.example.org/\"). "
-"Complete TWiki URLs will be constructed from this value plus the string "
-"\"twiki/\"."
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
 msgstr ""
 "Oppgi nett-tjenerens URL (slik som «http://www.example.org/»). Komplette "
-"TWiki-URLer blir laget fra denne teksten pluss strengen «twiki»."
+"Foswiki-URLer blir laget fra denne teksten pluss strengen «foswiki»."
 
 #. Type: string
 #. Description
 #: ../templates:2001
-msgid "Email address of the webmaster for this TWiki:"
-msgstr "E-postadresse til ansvarshavende for denne TWiki-en:"
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "E-postadresse til ansvarshavende for denne Foswiki-en:"
 
 #. Type: string
 #. Description
@@ -60,20 +60,20 @@ msgstr "Skal standard wiki emneliste installeres?"
 #. Description
 #: ../templates:3001
 msgid ""
-"TWiki includes a complete \"starter kit\" which includes user registration "
+"Foswiki includes a complete \"starter kit\" which includes user registration "
 "pages, documentation, and tutorials."
 msgstr ""
-"TWiki inneholder et komplett «begynnersett» som inneholder registreringssider "
+"Foswiki inneholder et komplett «begynnersett» som inneholder registreringssider "
 "for brukere, dokumentasjon og veiledninger."
 
 #. Type: boolean
 #. Description
 #: ../templates:3001
 msgid ""
-"Accept this option unless you want to use an existing TWiki data set (for "
+"Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
-"Velg dette om du ikke vil bruke eksisterende TWiki-data (f.eks. det som "
+"Velg dette om du ikke vil bruke eksisterende Foswiki-data (f.eks. det som "
 "ligger igjen etter en tidligere installasjon)."
 
 #. Type: boolean
@@ -81,13 +81,13 @@ msgstr ""
 #: ../templates:3001
 msgid ""
 "If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
-"The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-"(and twiki-pub.tar.gz) if you want to install it manually or compare the "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
 "topics with the new version."
 msgstr ""
 "Hvis fila data/Main/WebHome.txt finnes, så blir begynnersettet ikke pakket "
-"ut. Filene i begynnersettet finnes i /usr/share/twiki/twiki-data.tar.gz  (og "
-"twiki-pub.tar.gz), om du vil installere dem manuelt eller sammenlikne dine "
+"ut. Filene i begynnersettet finnes i /usr/share/foswiki/foswiki-data.tar.gz  (og "
+"foswiki-pub.tar.gz), om du vil installere dem manuelt eller sammenlikne dine "
 "emnermed den nye versjonen."
 
 #. Type: note
@@ -118,10 +118,10 @@ msgstr "Apache-bruker som har tilgang til «configure»-skriptet:"
 #: ../templates:5001
 msgid ""
 "Please enter the username of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 "Oppgi brukernavn for den apache-brukeren som skal få lov til å kjøre "
-"oppsettsskriptet med adressen http://localhost/cgi-bin/twiki/configure."
+"oppsettsskriptet med adressen http://localhost/cgi-bin/foswiki/configure."
 
 #. Type: password
 #. Description
@@ -135,10 +135,10 @@ msgstr "Passord for «${configuser}»:"
 #: ../templates:6001
 msgid ""
 "Please enter the password of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 "Oppgi passord for den apache-brukeren som skal få lov til å kjøre "
-"oppsettsskriptet med adressen http://localhost/cgi-bin/twiki/configure."
+"oppsettsskriptet med adressen http://localhost/cgi-bin/foswiki/configure."
 
 #. Type: password
 #. Description
@@ -165,18 +165,18 @@ msgid ""
 "The passwords you entered didn't match. You will have to enter them again."
 msgstr "Passordene du oppga var ikke like. Du må oppgi dem igjen."
 
-#~ msgid "Top-level URL of the server TWiki runs under:"
-#~ msgstr "Nettadresse for topp-nivået på den tjeneren der TWiki kjører:"
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "Nettadresse for topp-nivået på den tjeneren der Foswiki kjører:"
 
 #~ msgid ""
 #~ "For a normal install, this should be a URL for your web server's full "
 #~ "name, which is used to construct URLs on some pages.  The install will "
-#~ "serve up the data by adding \"twiki\" to the end of this setting; it is "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
 #~ "also needed for certain redirections."
 #~ msgstr ""
 #~ "I en vanlig installasjon bør dette være en URL til det fulle navnet på "
 #~ "nett-tjeneren din. URL-en brukes til å bygge nettaddresser på noen sider. "
-#~ "Installasjonen henter fram data ved å legge til «twiki» på enden av denne "
+#~ "Installasjonen henter fram data ved å legge til «foswiki» på enden av denne "
 #~ "strengen, og den brukes også for noen omadresseringer."
 
 #~ msgid ""
@@ -190,20 +190,20 @@ msgstr "Passordene du oppga var ikke like. Du må oppgi dem igjen."
 #~ msgstr "Skal standard wiki emneliste installeres på første installering?"
 
 #~ msgid ""
-#~ "TWiki includes a complete \"starter kit\" which includes user "
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
 #~ "registration pages, documentation, and tutorials.  Only decline if you're "
-#~ "re-installing TWiki after deleting the package and want to keep the old "
-#~ "data, or if you've got a TWiki data set from your own manual install.  If "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
 #~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
-#~ "The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-#~ "(and twiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
 #~ "your topics with the new version."
 #~ msgstr ""
-#~ "TWiki inneholder et komplett «begynnersett», deriblant sider for "
+#~ "Foswiki inneholder et komplett «begynnersett», deriblant sider for "
 #~ "registrering av nye brukere, dokumentasjon og veiledninger. Si nei takk "
-#~ "bare hvis du nå installerer twiki på nytt etter at pakka er slettet og du "
-#~ "vil beholde de gamle dataene, eller om du har twiki-data fra din egen "
+#~ "bare hvis du nå installerer foswiki på nytt etter at pakka er slettet og du "
+#~ "vil beholde de gamle dataene, eller om du har foswiki-data fra din egen "
 #~ "manuelle installasjon. Hvis fila data/Main/WebHome.txt finnes, så blir "
 #~ "begynnersettet ikke pakket ut. Filene i begynnersettet finnes i /usr/"
-#~ "share/twiki/twiki-data.tar.gz  (og twiki-pub.tar.gz), om du vil "
+#~ "share/foswiki/foswiki-data.tar.gz  (og foswiki-pub.tar.gz), om du vil "
 #~ "installere dem manuelt eller sammenlikne dine emnermed den nye versjonen."

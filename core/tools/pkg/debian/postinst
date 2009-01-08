@@ -1,5 +1,5 @@
 #! /bin/sh
-# postinst script for twiki
+# postinst script for foswiki
 #
 # see: dh_installdeb(1)
 
@@ -29,25 +29,25 @@ set -e
 #     `abort-remove' or `abort-deconfigure'.
 
 
-db_get twiki/samplefiles
+db_get foswiki/samplefiles
 if [ "$RET" = true ]; then
 #check for the existance of _any_ of the default webs
 #TODO: later this will be replaced by the upgrade script
-    if [ ! -e /var/lib/twiki/data/Main/WebHome.txt ]; then
-        if [ ! -e /var/lib/twiki/data/TWiki/WebHome.txt ]; then
-	if [ ! -e /var/lib/twiki/data/Sandbox/WebHome.txt ]; then
-	if [ ! -e /var/lib/twiki/data/Trash/WebHome.txt ]; then
-	if [ ! -e /var/lib/twiki/data/_default/WebHome.txt ]; then
+    if [ ! -e /var/lib/foswiki/data/Main/WebHome.txt ]; then
+        if [ ! -e /var/lib/foswiki/data/Foswiki/WebHome.txt ]; then
+	if [ ! -e /var/lib/foswiki/data/Sandbox/WebHome.txt ]; then
+	if [ ! -e /var/lib/foswiki/data/Trash/WebHome.txt ]; then
+	if [ ! -e /var/lib/foswiki/data/_default/WebHome.txt ]; then
 		    # only extract if they say so and there's no home there
 		    # and even then, fail on overwrite so we don't stomp.
-		    tar -zxk -C / -f /usr/share/twiki/twiki-data.tar.gz
+		    tar -zxk -C / -f /usr/share/foswiki/foswiki-data.tar.gz
 		    # clean up the .mailnotify timestamps.
-		    webs="Main Sandbox TWiki Trash _default";
+		    webs="Main Sandbox Foswiki Trash _default";
 		    for web in $webs; do
-		    	    date +%s > /var/lib/twiki/data/$web/.mailnotify
+		    	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
     		    done
-			if [ ! -e /var/lib/twiki/pub/wikiHome.gif ]; then
-				tar -zxk -C / -f /usr/share/twiki/twiki-pub.tar.gz
+			if [ ! -e /var/lib/foswiki/pub/wikiHome.gif ]; then
+				tar -zxk -C / -f /usr/share/foswiki/foswiki-pub.tar.gz
 			fi
        	fi
        	fi
@@ -56,30 +56,30 @@ if [ "$RET" = true ]; then
     fi
 fi
 
-db_get twiki/defaultUrlHost
+db_get foswiki/defaultUrlHost
 # be more robust later:
-perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/twiki/LocalSite.cfg
-perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/twiki/apache.conf
+perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/LocalSite.cfg
+perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/apache.conf
 #remove the double //cgi-bin caused by putting a / at the end of the hostUrl
-perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/twiki/apache.conf
-#perl -pi~ -e '$U=q{'"$RET"'}; s{^(Redirect\s+/twiki/index.html\s+).*(cgi-bin/twiki/view\n)$}{$1$U$2};' /etc/twiki/apache.conf
-rm /etc/twiki/*~ 
+perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/foswiki/apache.conf
+#perl -pi~ -e '$U=q{'"$RET"'}; s{^(Redirect\s+/foswiki/index.html\s+).*(cgi-bin/foswiki/view\n)$}{$1$U$2};' /etc/foswiki/apache.conf
+rm /etc/foswiki/*~ 
 
-db_get twiki/wikiwebmaster
+db_get foswiki/wikiwebmaster
 # do rcs checkout first?
 #TODO: these settings should move to Main.SitePreferences
-if [ ! -e /var/lib/twiki/data/TWiki/DefaultPreferences.txt ]; then
-	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/twiki/data/TWiki/DefaultPreferences.txt
+if [ ! -e /var/lib/foswiki/data/Foswiki/DefaultPreferences.txt ]; then
+	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/foswiki/data/Foswiki/DefaultPreferences.txt
 	#force default to use sendmail by setting SMTPMAILHOST to blank
-	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/twiki/data/TWiki/DefaultPreferences.txt
+	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/foswiki/data/Foswiki/DefaultPreferences.txt
 fi
 
 # user + password authorized to run configure script
-db_get twiki/adminuser
+db_get foswiki/adminuser
 configuser="$RET"
-perl -pi~ -e '$U=q{'"$RET"'}; s/^([^#]*Require user).*/$1 $U/g;' /etc/twiki/apache.conf
+perl -pi~ -e '$U=q{'"$RET"'}; s/^([^#]*Require user).*/$1 $U/g;' /etc/foswiki/apache.conf
 
-db_get twiki/adminpassword
+db_get foswiki/adminpassword
 configpassword="$RET"
 
 # prevent further confusion: done with debconfig
@@ -90,7 +90,7 @@ configpassword="$RET"
 
 case "$1" in
     configure)
-#	P=/usr/lib/cgi-bin/twiki
+#	P=/usr/lib/cgi-bin/foswiki
 #	for i in attach changes edit geturl installpasswd mailnotify oops passwd preview rdiff register rename save search statistics testenv upload view viewfile; do
 #	    if ! dpkg-statoverride --list $P/$i >/dev/null; then
 #		dpkg-statoverride --update --add $TWIKI_OWNER www-data 4555 $P/$i
@@ -100,12 +100,12 @@ case "$1" in
 	servers="apache apache-perl apache-ssl apache2"
 	for server in $servers; do 
 		if [ -e /etc/$server/conf.d ]; then
-			includefile=/etc/twiki/apache.conf
-			if [ -e /etc/$server/conf.d/twiki.conf ]; then
-				rm -f /etc/twiki/$server-conf.d-twiki.conf_old
-				mv /etc/$server/conf.d/twiki.conf /etc/twiki/$server-conf.d-twiki.conf_old
+			includefile=/etc/foswiki/apache.conf
+			if [ -e /etc/$server/conf.d/foswiki.conf ]; then
+				rm -f /etc/foswiki/$server-conf.d-foswiki.conf_old
+				mv /etc/$server/conf.d/foswiki.conf /etc/foswiki/$server-conf.d-foswiki.conf_old
 			fi
-			ln -s $includefile /etc/$server/conf.d/twiki.conf 
+			ln -s $includefile /etc/$server/conf.d/foswiki.conf 
 			if [ $server = "apache2" ]; then
 				a2enmod  authn_file
 				a2enmod  rewrite
@@ -124,7 +124,7 @@ case "$1" in
 	fi
 
 	# create initial htpasswd, if needed
-	if [ -e /var/lib/twiki/data ]; then	
+	if [ -e /var/lib/foswiki/data ]; then	
 		#for now prefer apache 1 config, I don't know how to detect which one is prefered
 		if [ -e /usr/bin/htpasswd2 ]; then
 			HTPASSWDCMD="/usr/bin/htpasswd2";
@@ -134,68 +134,68 @@ case "$1" in
 		fi
 		if [ -e $HTPASSWDCMD ]; then
 			#if the user has installed without initial universe then we can't do this
-			if [ ! -e /var/lib/twiki/data/.htpasswd ]; then
-			    touch /var/lib/twiki/data/.htpasswd
-			    chmod 660 /var/lib/twiki/data/.htpasswd
+			if [ ! -e /var/lib/foswiki/data/.htpasswd ]; then
+			    touch /var/lib/foswiki/data/.htpasswd
+			    chmod 660 /var/lib/foswiki/data/.htpasswd
 			fi
-		       	$HTPASSWDCMD -b /var/lib/twiki/data/.htpasswd "$configuser" "$configpassword"
-			chown $TWIKI_OWNER.www-data /var/lib/twiki/data/.htpasswd
+		       	$HTPASSWDCMD -b /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
+			chown $TWIKI_OWNER.www-data /var/lib/foswiki/data/.htpasswd
 		fi
 	fi
 
-	#remove the  .htaccess file - moved to apache-twiki.conf
-	if [ -e /usr/lib/cgi-bin/twiki/.htaccess ]; then
-		rm /usr/lib/cgi-bin/twiki/.htaccess 
+	#remove the  .htaccess file - moved to apache-foswiki.conf
+	if [ -e /usr/lib/cgi-bin/foswiki/.htaccess ]; then
+		rm /usr/lib/cgi-bin/foswiki/.htaccess 
 	fi
-	if [ -e /etc/twiki/.htaccess ]; then
-		rm /etc/twiki/.htaccess 
+	if [ -e /etc/foswiki/.htaccess ]; then
+		rm /etc/foswiki/.htaccess 
 	fi
 
-	#create securer-twiki session dir
-	if [ ! -e /var/lib/twiki/working ]; then
-		mkdir /var/lib/twiki/working 
+	#create securer-foswiki session dir
+	if [ ! -e /var/lib/foswiki/working ]; then
+		mkdir /var/lib/foswiki/working 
 	fi
-	chown $TWIKI_OWNER.www-data /var/lib/twiki/working
-	if [ ! -e /var/lib/twiki/working/work_areas ]; then
-		mkdir /var/lib/twiki/working/work_areas
+	chown $TWIKI_OWNER.www-data /var/lib/foswiki/working
+	if [ ! -e /var/lib/foswiki/working/work_areas ]; then
+		mkdir /var/lib/foswiki/working/work_areas
 	fi
-	chown $TWIKI_OWNER.www-data /var/lib/twiki/working/work_areas
+	chown $TWIKI_OWNER.www-data /var/lib/foswiki/working/work_areas
 
 	#mmmm, mailnotify etc may be running _not_ as www-data
 	#and for some reason create a session
 	#use 1777 to prevent third parties replacing the file with a doctored one
-	#put into /tmp/twiki so that the open dir can't be used by others to fill up /var, thus crashing all logging
-	if [ ! -e /tmp/twiki ]; then
-		mkdir /tmp/twiki
+	#put into /tmp/foswiki so that the open dir can't be used by others to fill up /var, thus crashing all logging
+	if [ ! -e /tmp/foswiki ]; then
+		mkdir /tmp/foswiki
 	fi
-	chmod 1777 /tmp/twiki
-	chown $TWIKI_OWNER.www-data /tmp/twiki
+	chmod 1777 /tmp/foswiki
+	chown $TWIKI_OWNER.www-data /tmp/foswiki
 
 	#add softlinks to make adding plugins easier ()
-	if [ ! -e /var/lib/twiki/lib ]; then
-		ln -s /usr/share/perl5 /var/lib/twiki/lib
-	fi
-	if [ ! -e /var/lib/twiki/pub ]; then
-		ln -s /var/lib/twiki/pub /var/lib/twiki/pub
-	fi
-	if [ ! -e /var/lib/twiki/bin ]; then
-		ln -s /usr/lib/cgi-bin/twiki/ /var/lib/twiki/bin
-	fi
-	if [ ! -e /var/lib/twiki/log ]; then
-		ln -s /var/log/twiki /var/lib/twiki/log
+#	if [ ! -e /var/lib/foswiki/lib ]; then
+#		ln -s /usr/share/perl5 /var/lib/foswiki/lib
+#	fi
+#	if [ ! -e /var/lib/foswiki/pub ]; then
+#		ln -s /var/lib/foswiki/pub /var/lib/foswiki/pub
+#	fi
+#	if [ ! -e /var/lib/foswiki/bin ]; then
+#		ln -s /usr/lib/cgi-bin/foswiki/ /var/lib/foswiki/bin
+#	fi
+	if [ ! -e /var/lib/foswiki/log ]; then
+		ln -s /var/log/foswiki /var/lib/foswiki/log
 	fi
 	
-	chown -R $TWIKI_OWNER.www-data /var/log/twiki
-	chmod -R 755 /var/log/twiki
-	chown $TWIKI_OWNER.www-data /etc/twiki/LocalSite.cfg
-	chown -R $TWIKI_OWNER.www-data /var/lib/twiki
-	chown -R $TWIKI_OWNER.www-data /var/lib/twiki/locale
-	chown -R $TWIKI_OWNER.www-data /var/lib/twiki/templates
-	chown -R $TWIKI_OWNER.www-data /var/lib/twiki/tools
+	chown -R $TWIKI_OWNER.www-data /var/log/foswiki
+	chmod -R 755 /var/log/foswiki
+	chown $TWIKI_OWNER.www-data /etc/foswiki/LocalSite.cfg
+	chown -R $TWIKI_OWNER.www-data /var/lib/foswiki
+	chown -R $TWIKI_OWNER.www-data /var/lib/foswiki/locale
+	chown -R $TWIKI_OWNER.www-data /var/lib/foswiki/templates
+	chown -R $TWIKI_OWNER.www-data /var/lib/foswiki/tools
 
 	# erase configuser password
-        db_reset "twiki/adminpassword"
-	db_fset  "twiki/adminpassword" "seen" "false" || true
+        db_reset "foswiki/adminpassword"
+	db_fset  "foswiki/adminpassword" "seen" "false" || true
 
 	db_stop
 

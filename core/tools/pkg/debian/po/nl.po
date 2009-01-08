@@ -5,8 +5,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: twiki\n"
-"Report-Msgid-Bugs-To: twiki@packages.debian.org\n"
+"Project-Id-Version: foswiki\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
 "POT-Creation-Date: 2008-07-16 11:58+0200\n"
 "PO-Revision-Date: 2007-04-25 18:00+0100\n"
 "Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
@@ -20,24 +20,24 @@ msgstr ""
 #. Description
 #: ../templates:1001
 #, fuzzy
-#| msgid "Top-level URL of the server TWiki runs under:"
-msgid "URL of the server TWiki runs under:"
-msgstr "Hoogste-niveau URL van de server waar TWiki draait:"
+#| msgid "Top-level URL of the server Foswiki runs under:"
+msgid "URL of the server Foswiki runs under:"
+msgstr "Hoogste-niveau URL van de server waar Foswiki draait:"
 
 #. Type: string
 #. Description
 #: ../templates:1001
 msgid ""
 "Please enter the web server URL (such as \"http://www.example.org/\"). "
-"Complete TWiki URLs will be constructed from this value plus the string "
-"\"twiki/\"."
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
 msgstr ""
 
 #. Type: string
 #. Description
 #: ../templates:2001
-msgid "Email address of the webmaster for this TWiki:"
-msgstr "E-mailadres van de webmeester voor dit TWiki:"
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "E-mailadres van de webmeester voor dit Foswiki:"
 
 #. Type: string
 #. Description
@@ -68,7 +68,7 @@ msgstr ""
 #. Description
 #: ../templates:3001
 msgid ""
-"TWiki includes a complete \"starter kit\" which includes user registration "
+"Foswiki includes a complete \"starter kit\" which includes user registration "
 "pages, documentation, and tutorials."
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr ""
 #. Description
 #: ../templates:3001
 msgid ""
-"Accept this option unless you want to use an existing TWiki data set (for "
+"Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
 
@@ -85,27 +85,27 @@ msgstr ""
 #: ../templates:3001
 #, fuzzy
 #| msgid ""
-#| "TWiki includes a complete \"starter kit\" which includes user "
+#| "Foswiki includes a complete \"starter kit\" which includes user "
 #| "registration pages, documentation, and tutorials.  Only decline if you're "
-#| "re-installing TWiki after deleting the package and want to keep the old "
-#| "data, or if you've got a TWiki data set from your own manual install.  If "
+#| "re-installing Foswiki after deleting the package and want to keep the old "
+#| "data, or if you've got a Foswiki data set from your own manual install.  If "
 #| "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
-#| "The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-#| "(and twiki-pub.tar.gz), if you want to install it manually or compare "
+#| "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#| "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
 #| "your topics with the new version."
 msgid ""
 "If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
-"The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-"(and twiki-pub.tar.gz) if you want to install it manually or compare the "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
 "topics with the new version."
 msgstr ""
-"TWiki bevat een complete 'starter-kit' die onder andere registratiepagina's, "
-"documentatie en handleidingen omvat. Sla dit enkel af wanneer u TWiki "
+"Foswiki bevat een complete 'starter-kit' die onder andere registratiepagina's, "
+"documentatie en handleidingen omvat. Sla dit enkel af wanneer u Foswiki "
 "herinstalleert na het pakket verwijderd te hebben en u de oude data wilt "
-"bewaren, of wanneer u een TWiki dataset heeft van uw eigen handmatige "
+"bewaren, of wanneer u een Foswiki dataset heeft van uw eigen handmatige "
 "installatie. Als data/Main/WebHome.txt aanwezig is wordt de starter-kit niet "
-"uitgepakt. De starter-kit bestanden vindt u terug in /usr/share/twiki/twiki-"
-"data.tar.gz en twiki-pub.tar.gz (voor als u dit handmatig wilt installeren, "
+"uitgepakt. De starter-kit bestanden vindt u terug in /usr/share/foswiki/foswiki-"
+"data.tar.gz en foswiki-pub.tar.gz (voor als u dit handmatig wilt installeren, "
 "of als u uw onderwerpen wilt vergelijken met de nieuwe versie)."
 
 #. Type: note
@@ -136,7 +136,7 @@ msgstr ""
 #: ../templates:5001
 msgid ""
 "Please enter the username of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 
 #. Type: password
@@ -151,7 +151,7 @@ msgstr ""
 #: ../templates:6001
 msgid ""
 "Please enter the password of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 
 #. Type: password
@@ -179,18 +179,18 @@ msgid ""
 "The passwords you entered didn't match. You will have to enter them again."
 msgstr ""
 
-#~ msgid "Top-level URL of the server TWiki runs under:"
-#~ msgstr "Hoogste-niveau URL van de server waar TWiki draait:"
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "Hoogste-niveau URL van de server waar Foswiki draait:"
 
 #~ msgid ""
 #~ "For a normal install, this should be a URL for your web server's full "
 #~ "name, which is used to construct URLs on some pages.  The install will "
-#~ "serve up the data by adding \"twiki\" to the end of this setting; it is "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
 #~ "also needed for certain redirections."
 #~ msgstr ""
 #~ "Voor een normale installatie dient deze URL de volledige naam van uw "
 #~ "webserver te zijn. Deze URL wordt gebruikt bij het opbouwen van de URL's "
-#~ "op sommige pagina's. De installatie biedt de data aan door 'twiki' toe te "
+#~ "op sommige pagina's. De installatie biedt de data aan door 'foswiki' toe te "
 #~ "voegen aan het eind van deze instelling. Dit is tevens nodig voor sommige "
 #~ "omleidingen."
 
@@ -208,21 +208,21 @@ msgstr ""
 #~ "initiële installatie?"
 
 #~ msgid ""
-#~ "TWiki includes a complete \"starter kit\" which includes user "
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
 #~ "registration pages, documentation, and tutorials.  Only decline if you're "
-#~ "re-installing TWiki after deleting the package and want to keep the old "
-#~ "data, or if you've got a TWiki data set from your own manual install.  If "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
 #~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
-#~ "The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-#~ "(and twiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
 #~ "your topics with the new version."
 #~ msgstr ""
-#~ "TWiki bevat een complete 'starter-kit' die onder andere "
+#~ "Foswiki bevat een complete 'starter-kit' die onder andere "
 #~ "registratiepagina's, documentatie en handleidingen omvat. Sla dit enkel "
-#~ "af wanneer u TWiki herinstalleert na het pakket verwijderd te hebben en u "
-#~ "de oude data wilt bewaren, of wanneer u een TWiki dataset heeft van uw "
+#~ "af wanneer u Foswiki herinstalleert na het pakket verwijderd te hebben en u "
+#~ "de oude data wilt bewaren, of wanneer u een Foswiki dataset heeft van uw "
 #~ "eigen handmatige installatie. Als data/Main/WebHome.txt aanwezig is wordt "
 #~ "de starter-kit niet uitgepakt. De starter-kit bestanden vindt u terug in /"
-#~ "usr/share/twiki/twiki-data.tar.gz en twiki-pub.tar.gz (voor als u dit "
+#~ "usr/share/foswiki/foswiki-data.tar.gz en foswiki-pub.tar.gz (voor als u dit "
 #~ "handmatig wilt installeren, of als u uw onderwerpen wilt vergelijken met "
 #~ "de nieuwe versie)."

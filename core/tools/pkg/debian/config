@@ -1,61 +1,61 @@
-#!/bin/sh 
+#!/bin/sh
 
 set -e
 
 # Source debconf library.
 . /usr/share/debconf/confmodule
 
-# What is the top-level URL of the server TWiki runs under?
+# What is the top-level URL of the server Foswiki runs under?
 # high = Items that don't have a reasonable default
 # unless we preload it with mailname...
-db_input high twiki/defaultUrlHost || true
-db_input high twiki/wikiwebmaster || true
+db_input high foswiki/defaultUrlHost || true
+db_input high foswiki/wikiwebmaster || true
 # medium = Normal items that have reasonable defaults.
-db_input medium twiki/samplefiles || true
+db_input medium foswiki/samplefiles || true
 
 db_go || true
 
 # ask for config user (default: configuser)
 # medium = may be initialized to default value
-db_input medium twiki/adminuser || true
+db_input medium foswiki/adminuser || true
 
 db_go || true
 
 # if not yet seen configpassword, we need to process with password input
 # otherwise, nothing to do
-db_fget twiki/adminpassword seen
+db_fget foswiki/adminpassword seen
 if [ "$RET" = "false" ]; then
 
-    db_get twiki/adminuser
+    db_get foswiki/adminuser
     configuser="$RET"
-    db_subst "twiki/adminpassword" "configuser" "$configuser"
-    db_subst "twiki/adminpassword_again" "configuser" "$configuser"
+    db_subst "foswiki/adminpassword" "configuser" "$configuser"
+    db_subst "foswiki/adminpassword_again" "configuser" "$configuser"
 
     pass_ok="false"
     while [ "$pass_ok" != "true" ]; do
         # Ask for password
         # high : password must be typed-in
-	db_input high twiki/adminpassword || [ $? -eq 30 ]
+	db_input high foswiki/adminpassword || [ $? -eq 30 ]
 
         # Ask for password again
-	db_input high twiki/adminpassword_again || [ $? -eq 30 ]
+	db_input high foswiki/adminpassword_again || [ $? -eq 30 ]
 	db_go
 
-	db_get twiki/adminpassword
+	db_get foswiki/adminpassword
 	password="$RET"
-	db_get twiki/adminpassword_again
+	db_get foswiki/adminpassword_again
 	password_again="$RET"
 
         # If password are not equals, loop again
 	if [ "$password" != "$password_again" ]; then
 
 	    # Reset the template used.
-	    db_reset "twiki/adminpassword" || true
-	    db_fset  "twiki/adminpassword" "seen" "false" || true
-	    db_reset "twiki/adminpassword_again" || true
-	    db_fset  "twiki/adminpassword_again" "seen" "false" || true
+	    db_reset "foswiki/adminpassword" || true
+	    db_fset  "foswiki/adminpassword" "seen" "false" || true
+	    db_reset "foswiki/adminpassword_again" || true
+	    db_fset  "foswiki/adminpassword_again" "seen" "false" || true
 	    # Promt the user.
-	    db_input critical "twiki/password_mismatch" || true
+	    db_input critical "foswiki/password_mismatch" || true
 
 	    # Loop again
 	    continue
@@ -64,14 +64,13 @@ if [ "$RET" = "false" ]; then
 	pass_ok="true"
 
         # attention, password is seen, but reset, so next time, must not compare again
-	db_reset twiki/adminpassword_again
+	db_reset foswiki/adminpassword_again
     done
 
 fi
 
 # add info due to 3-4 bug reports
-db_input high twiki/apacheUserCreationNote || true
+db_input high foswiki/apacheUserCreationNote || true
 db_go || true
 
 db_stop
-

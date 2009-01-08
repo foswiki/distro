@@ -1,5 +1,5 @@
 #! /bin/sh
-# preinst script for twiki
+# preinst script for foswiki
 #
 # see: dh_installdeb(1)
 
@@ -17,8 +17,8 @@ set -e
 
 case "$1" in
     install|upgrade)
-#	if ! id -u twikidat >/dev/null 2>&1; then
-#	    adduser --quiet  --no-create-home --disabled-password --system --shell /bin/sh --home /var/lib/twiki twikidat
+#	if ! id -u foswikidat >/dev/null 2>&1; then
+#	    adduser --quiet  --no-create-home --disabled-password --system --shell /bin/sh --home /var/lib/foswiki foswikidat
 #	fi
 	;;
     abort-upgrade)

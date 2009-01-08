@@ -1,5 +1,5 @@
 #! /bin/sh
-# postrm script for twiki
+# postrm script for foswiki
 #
 # see: dh_installdeb(1)
 
@@ -24,8 +24,8 @@ if [ "$1" = "remove" ]; then
 
 	servers="apache apache-perl apache-ssl apache2"
 	for server in $servers; do 
-		if [ -e /etc/$server/conf.d/twiki.conf ]; then
-			rm /etc/$server/conf.d/twiki.conf 
+		if [ -e /etc/$server/conf.d/foswiki.conf ]; then
+			rm /etc/$server/conf.d/foswiki.conf 
 		fi
 	done
 
@@ -40,7 +40,7 @@ fi
 if [ "$1" = "purge" ]; then
     #purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
 
-	files="/etc/twiki/*_old /usr/lib/cgi-bin/twiki/.htaccess* /var/log/twiki/*"
+	files="/etc/foswiki/*_old /usr/lib/cgi-bin/foswiki/.htaccess* /var/log/foswiki/*"
 	for file in $files; do
 		rm -f $file
 	done

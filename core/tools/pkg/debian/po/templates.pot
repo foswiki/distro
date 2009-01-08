@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: twiki@packages.debian.org\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
 "POT-Creation-Date: 2008-07-16 11:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates:1001
-msgid "URL of the server TWiki runs under:"
+msgid "URL of the server Foswiki runs under:"
 msgstr ""
 
 #. Type: string
@@ -27,14 +27,14 @@ msgstr ""
 #: ../templates:1001
 msgid ""
 "Please enter the web server URL (such as \"http://www.example.org/\"). "
-"Complete TWiki URLs will be constructed from this value plus the string "
-"\"twiki/\"."
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
 msgstr ""
 
 #. Type: string
 #. Description
 #: ../templates:2001
-msgid "Email address of the webmaster for this TWiki:"
+msgid "Email address of the webmaster for this Foswiki:"
 msgstr ""
 
 #. Type: string
@@ -55,7 +55,7 @@ msgstr ""
 #. Description
 #: ../templates:3001
 msgid ""
-"TWiki includes a complete \"starter kit\" which includes user registration "
+"Foswiki includes a complete \"starter kit\" which includes user registration "
 "pages, documentation, and tutorials."
 msgstr ""
 
@@ -63,7 +63,7 @@ msgstr ""
 #. Description
 #: ../templates:3001
 msgid ""
-"Accept this option unless you want to use an existing TWiki data set (for "
+"Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
 
@@ -72,8 +72,8 @@ msgstr ""
 #: ../templates:3001
 msgid ""
 "If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
-"The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-"(and twiki-pub.tar.gz) if you want to install it manually or compare the "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
 "topics with the new version."
 msgstr ""
 
@@ -103,7 +103,7 @@ msgstr ""
 #: ../templates:5001
 msgid ""
 "Please enter the username of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 
 #. Type: password
@@ -118,7 +118,7 @@ msgstr ""
 #: ../templates:6001
 msgid ""
 "Please enter the password of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 
 #. Type: password

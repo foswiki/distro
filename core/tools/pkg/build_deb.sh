@@ -4,21 +4,21 @@ if [ -e /tmp/build_deb ]; then
 	echo '/tmp/build_deb already exists, please move aside'
 	exit -1;
 fi
-if [ ! -e TWiki-4.2.3.tgz ]; then
-	echo 'need TWiki-4.2.3.tgz file to build'
+if [ ! -e Foswiki-1.0.0.tgz ]; then
+	echo 'need Foswiki-1.0.0.tgz file to build'
 	exit -1;
 fi
 
 mkdir /tmp/build_deb
-cp TWiki-4.2.3.tgz /tmp/build_deb/twiki_4.2.3.orig.tar.gz
+cp Foswiki-1.0.0.tgz /tmp/build_deb/foswiki_1.0.0.orig.tar.gz
 
-mkdir /tmp/build_deb/twiki-4.2.3 
+mkdir /tmp/build_deb/foswiki-1.0.0
 
-cp -r debian /tmp/build_deb/twiki-4.2.3
-cd /tmp/build_deb/twiki-4.2.3
+cp -r debian /tmp/build_deb/foswiki-1.0.0
+cd /tmp/build_deb/foswiki-1.0.0
 find . -name .svn -exec rm -rf '{}' \;
 
-tar zxvf /tmp/build_deb/twiki_4.2.3.orig.tar.gz
+tar zxvf /tmp/build_deb/foswiki_1.0.0.orig.tar.gz
 
 #patch it
 #fakeroot debian/rules patch
@@ -28,11 +28,10 @@ tar zxvf /tmp/build_deb/twiki_4.2.3.orig.tar.gz
 dpkg-buildpackage -rfakeroot
 
 #TODO
-#interdiff -z twiki_4.1.2-{8,9}.diff.gz
+#interdiff -z foswiki_4.1.2-{8,9}.diff.gz
 #upload this too
 
 #update the debian repos on distributedINFORMATION.com
 #echo ================== upload into experimental debian repos
-#cd /data/home/sven/src/wikiring/projects/TWiki/TWikiInstaller/experimental/
+#cd /data/home/sven/src/wikiring/projects/Foswiki/FoswikiInstaller/experimental/
 #reprepro --component main --priority normal  --section web --ignore=wrongdistribution   includedeb experimental /tmp/build_deb/*.deb
-

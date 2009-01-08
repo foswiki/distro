@@ -1,12 +1,12 @@
 # translation of po-debconf template to German
-# This file is distributed under the same license as the twiki package.
+# This file is distributed under the same license as the foswiki package.
 # Copyright (C):
 #
 # Matthias Julius <mdeb@julius-net.net>, 2007, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: twiki 1:4.1.2-3.2\n"
-"Report-Msgid-Bugs-To: twiki@packages.debian.org\n"
+"Project-Id-Version: foswiki 1:4.1.2-3.2\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
 "POT-Creation-Date: 2008-07-16 11:58+0200\n"
 "PO-Revision-Date: 2008-07-06 12:40-0400\n"
 "Last-Translator: Matthias Julius <mdeb@julius-net.net>\n"
@@ -19,26 +19,26 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates:1001
-msgid "URL of the server TWiki runs under:"
-msgstr "URL des Servers auf dem TWiki läuft:"
+msgid "URL of the server Foswiki runs under:"
+msgstr "URL des Servers auf dem Foswiki läuft:"
 
 #. Type: string
 #. Description
 #: ../templates:1001
 msgid ""
 "Please enter the web server URL (such as \"http://www.example.org/\"). "
-"Complete TWiki URLs will be constructed from this value plus the string "
-"\"twiki/\"."
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
 msgstr ""
 "Bitte geben Sie die URL des Webservers ein (wie »http://www.example.org/«). "
-"Komplette TWiki-URLs werden aus diesem Wert und der Zeichenkette »twiki/« "
+"Komplette Foswiki-URLs werden aus diesem Wert und der Zeichenkette »foswiki/« "
 "gebildet."
 
 #. Type: string
 #. Description
 #: ../templates:2001
-msgid "Email address of the webmaster for this TWiki:"
-msgstr "E-Mail-Adresse des Webmasters dieses TWikis:"
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "E-Mail-Adresse des Webmasters dieses Foswikis:"
 
 #. Type: string
 #. Description
@@ -63,20 +63,20 @@ msgstr ""
 #. Description
 #: ../templates:3001
 msgid ""
-"TWiki includes a complete \"starter kit\" which includes user registration "
+"Foswiki includes a complete \"starter kit\" which includes user registration "
 "pages, documentation, and tutorials."
 msgstr ""
-"TWiki enthält ein komplettes »Starter-Kit«, das Seiten für die "
+"Foswiki enthält ein komplettes »Starter-Kit«, das Seiten für die "
 "Nutzerregistrierung, Dokumentation und Anleitungen enthält."
 
 #. Type: boolean
 #. Description
 #: ../templates:3001
 msgid ""
-"Accept this option unless you want to use an existing TWiki data set (for "
+"Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
-"Akzeptieren Sie diese Option, falls Sie keinen vorhandenen TWiki-Datensatz "
+"Akzeptieren Sie diese Option, falls Sie keinen vorhandenen Foswiki-Datensatz "
 "verwenden möchten (z.B. von einer vorherigen Installation)."
 
 #. Type: boolean
@@ -84,13 +84,13 @@ msgstr ""
 #: ../templates:3001
 msgid ""
 "If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
-"The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-"(and twiki-pub.tar.gz) if you want to install it manually or compare the "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
 "topics with the new version."
 msgstr ""
 "Falls data/Main/WebHome.txt vorhanden ist, wird das Starter-Kit nicht "
-"entpackt. Die Dateien des Starter-Kits befinden sich in /usr/share/twiki/"
-"twiki-data.tar.gz (und twiki-pub.tar.gz) für den Fall, dass Sie sie manuell "
+"entpackt. Die Dateien des Starter-Kits befinden sich in /usr/share/foswiki/"
+"foswiki-data.tar.gz (und foswiki-pub.tar.gz) für den Fall, dass Sie sie manuell "
 "installieren oder die Themen mit der neuen Version vergleichen möchten."
 
 #. Type: note
@@ -121,10 +121,10 @@ msgstr "Apache-Benutzer, dem Zugriff auf das »configure«-Skript erlaubt ist:"
 #: ../templates:5001
 msgid ""
 "Please enter the username of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 "Bitte geben Sie den Benutzernamen des Apache-Benutzers ein, dem es erlaubt "
-"ist, das configure-Skript unter http://localhost/cgi-bin/twiki/configure "
+"ist, das configure-Skript unter http://localhost/cgi-bin/foswiki/configure "
 "auszuführen."
 
 #. Type: password
@@ -139,10 +139,10 @@ msgstr "Passwort für »${configuser}«:"
 #: ../templates:6001
 msgid ""
 "Please enter the password of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 "Bitte geben Sie das Password des Apache-Benutzers ein, dem es erlaubt ist, "
-"das configure-Skript unter http://localhost/cgi-bin/twiki/configure "
+"das configure-Skript unter http://localhost/cgi-bin/foswiki/configure "
 "auszuführen."
 
 #. Type: password

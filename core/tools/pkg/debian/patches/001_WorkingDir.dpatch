@@ -1,18 +1,18 @@
 #! /bin/sh /usr/share/dpatch/dpatch-run
-## 001_WorkingDir.dpatch by  <SvenDowideit@home.org.au>
+## 001_WorkingDir.dpatch by  <SvenDowideit@fosiki.com>
 ##
 ## All lines beginning with `## DP:' are a description of the patch.
 ## DP: reduce the security footprint of working/tmp
 
 @DPATCH@
 
-diff -urNad /tmp/build_deb/twiki-4.1.2/lib/TWiki.pm TWiki412/lib/TWiki.pm 
+diff -urNad /tmp/build_deb/twiki-4.1.2/lib/TWiki.pm TWiki412/lib/TWiki.pm
 --- /tmp/build_deb/twiki-4.1.2/lib/TWiki.pm	2007-03-04 01:45:57.000000000 +1100
 +++ TWiki412/lib/TWiki.pm	2007-10-29 13:47:09.000000000 +1100
 @@ -787,7 +787,9 @@
          }
      }
- 
+
 -    open(F, ">$passthruFilename") || die "{TempfileDir} cache not writable $!";
 +    use Fcntl;
 +    #passthrough file is only written to once, so if it already exists, suspect a security hack (O_EXCL)
@@ -21,12 +21,12 @@ diff -urNad /tmp/build_deb/twiki-4.1.2/lib/TWiki.pm TWiki412/lib/TWiki.pm
      close(F);
      return 'twiki_redirect_cache='.$uid;
 
-diff -urNad /tmp/build_deb/twiki-4.1.2/lib/TWiki/Client.pm TWiki412/lib/TWiki/Client.pm 
+diff -urNad /tmp/build_deb/twiki-4.1.2/lib/TWiki/Client.pm TWiki412/lib/TWiki/Client.pm
 --- /tmp/build_deb/twiki-4.1.2/lib/TWiki/Client.pm	2007-03-04 01:45:57.000000000 +1100
 +++ TWiki412/lib/TWiki/Client.pm	2007-10-29 13:25:03.000000000 +1100
 @@ -181,7 +181,7 @@
      return undef unless $ip; # no IP address, can't map
- 
+
      my %ips;
 -    if( open( IPMAP, '<', $TWiki::cfg{TempfileDir}.'/ip2sid' )) {
 +    if( open( IPMAP, '<', $TWiki::cfg{WorkingDir}.'/ip2sid' )) {

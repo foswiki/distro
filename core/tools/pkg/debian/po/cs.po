@@ -13,8 +13,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: twiki\n"
-"Report-Msgid-Bugs-To: twiki@packages.debian.org\n"
+"Project-Id-Version: foswiki\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
 "POT-Creation-Date: 2008-07-16 11:58+0200\n"
 "PO-Revision-Date: 2008-07-05 20:55+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
@@ -26,25 +26,25 @@ msgstr ""
 #. Type: string
 #. Description
 #: ../templates:1001
-msgid "URL of the server TWiki runs under:"
-msgstr "URL serveru, pod kterým poběží TWiki:"
+msgid "URL of the server Foswiki runs under:"
+msgstr "URL serveru, pod kterým poběží Foswiki:"
 
 #. Type: string
 #. Description
 #: ../templates:1001
 msgid ""
 "Please enter the web server URL (such as \"http://www.example.org/\"). "
-"Complete TWiki URLs will be constructed from this value plus the string "
-"\"twiki/\"."
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
 msgstr ""
 "Zadejte prosím URL webového serveru (např. „http://www.priklad.cz“). "
-"Výsledné URL vznikne složením této hodnoty a řetězce „twiki“."
+"Výsledné URL vznikne složením této hodnoty a řetězce „foswiki“."
 
 #. Type: string
 #. Description
 #: ../templates:2001
-msgid "Email address of the webmaster for this TWiki:"
-msgstr "E-mailová adresa správce tohoto TWiki:"
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "E-mailová adresa správce tohoto Foswiki:"
 
 #. Type: string
 #. Description
@@ -67,34 +67,34 @@ msgstr "Instalovat výchozí sadu stránek?"
 #. Description
 #: ../templates:3001
 msgid ""
-"TWiki includes a complete \"starter kit\" which includes user registration "
+"Foswiki includes a complete \"starter kit\" which includes user registration "
 "pages, documentation, and tutorials."
 msgstr ""
-"TWiki obsahuje kompletní „sadu pro začátečníky“, ve které se nachází stránky "
+"Foswiki obsahuje kompletní „sadu pro začátečníky“, ve které se nachází stránky "
 "pro registraci uživatelů, dokumentace a návody."
 
 #. Type: boolean
 #. Description
 #: ../templates:3001
 msgid ""
-"Accept this option unless you want to use an existing TWiki data set (for "
+"Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
 "Pokud neplánujete použít stávající data (například z předchozí instalace "
-"TWiki), odpovězte kladně."
+"Foswiki), odpovězte kladně."
 
 #. Type: boolean
 #. Description
 #: ../templates:3001
 msgid ""
 "If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
-"The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-"(and twiki-pub.tar.gz) if you want to install it manually or compare the "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
 "topics with the new version."
 msgstr ""
 "Pokud existuje soubor data/Main/WebHome.txt, sada pro začátečníky se "
 "nerozbalí. Budete-li chtít sadu nainstalovat ručně, nachází se v souboru /"
-"usr/share/doc/twiki/twiki-data.tar.gz (a twiki-pub.tar.gz)."
+"usr/share/doc/foswiki/foswiki-data.tar.gz (a foswiki-pub.tar.gz)."
 
 #. Type: note
 #. Description
@@ -125,10 +125,10 @@ msgstr ""
 #: ../templates:5001
 msgid ""
 "Please enter the username of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 "Zadejte prosím uživatelské jméno apache uživatele, který bude moci používat "
-"konfigurační skript na http://localhost/cgi-bin/twiki/configure."
+"konfigurační skript na http://localhost/cgi-bin/foswiki/configure."
 
 #. Type: password
 #. Description
@@ -142,10 +142,10 @@ msgstr "Heslo pro „${configuser}“:"
 #: ../templates:6001
 msgid ""
 "Please enter the password of the apache user who will be allowed to run the "
-"configure script at http://localhost/cgi-bin/twiki/configure."
+"configure script at http://localhost/cgi-bin/foswiki/configure."
 msgstr ""
 "Zadejte prosím heslo pro apache uživatele, který bude moci používat "
-"konfigurační skript na http://localhost/cgi-bin/twiki/configure."
+"konfigurační skript na http://localhost/cgi-bin/foswiki/configure."
 
 #. Type: password
 #. Description
@@ -172,17 +172,17 @@ msgid ""
 "The passwords you entered didn't match. You will have to enter them again."
 msgstr "Zadaná hesla nesouhlasí. Zkuste je zadat znovu."
 
-#~ msgid "Top-level URL of the server TWiki runs under:"
-#~ msgstr "Vrcholové URL serveru, pod kterým TWiki poběží:"
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "Vrcholové URL serveru, pod kterým Foswiki poběží:"
 
 #~ msgid ""
 #~ "For a normal install, this should be a URL for your web server's full "
 #~ "name, which is used to construct URLs on some pages.  The install will "
-#~ "serve up the data by adding \"twiki\" to the end of this setting; it is "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
 #~ "also needed for certain redirections."
 #~ msgstr ""
 #~ "Pro běžné instalace by to měla být celá adresa vašeho webového serveru. "
-#~ "Instalace přidá na konec této adresy řetězec \"twiki\", čímž vznikne URL, "
+#~ "Instalace přidá na konec této adresy řetězec \"foswiki\", čímž vznikne URL, "
 #~ "pod kterým bude vaše wiki dostupné. Zadané URL se použije pro vytváření "
 #~ "odkazů na některých stránkách."
 
@@ -198,38 +198,38 @@ msgstr "Zadaná hesla nesouhlasí. Zkuste je zadat znovu."
 #~ msgstr "Instalovat při prvotní instalaci výchozí sadu stránek?"
 
 #~ msgid ""
-#~ "TWiki includes a complete \"starter kit\" which includes user "
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
 #~ "registration pages, documentation, and tutorials.  Only decline if you're "
-#~ "re-installing TWiki after deleting the package and want to keep the old "
-#~ "data, or if you've got a TWiki data set from your own manual install.  If "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
 #~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
-#~ "The starter kit files can be found in /usr/share/twiki/twiki-data.tar.gz "
-#~ "(and twiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
 #~ "your topics with the new version."
 #~ msgstr ""
-#~ "TWiki obsahuje kompletní \"sadu pro začátečníky\", která zahrnuje stránky "
+#~ "Foswiki obsahuje kompletní \"sadu pro začátečníky\", která zahrnuje stránky "
 #~ "s registrací uživatelů, dokumentací a návody. Zamítněte pouze pokud "
-#~ "reinstalujete twiki po předchozím odstranění balíku a chcete zachovat svá "
+#~ "reinstalujete foswiki po předchozím odstranění balíku a chcete zachovat svá "
 #~ "stará data, nebo pokud máte data po dřívější ruční instalaci. Sada pro "
 #~ "začátečníky se nerozbalí, pokud existuje soubor data/Main/WebHome.txt. "
 #~ "Budete-li chtít data nainstalovat ručně, nachází se v souboru /usr/share/"
-#~ "doc/twiki/twiki-data.tar.gz (a twiki-pub.tar.gz).)"
+#~ "doc/foswiki/foswiki-data.tar.gz (a foswiki-pub.tar.gz).)"
 
 #~ msgid ""
-#~ "The default debian installation of the TWiki is configured to create new "
+#~ "The default debian installation of the Foswiki is configured to create new "
 #~ "users automatically when a user Registers. This is not as secure as the "
-#~ "default TWiki but is more useful for trying TWiki out. To change it so "
-#~ "the users are created manually by the administrator use TWiki RenameTopic "
-#~ "to rename the TWikiRegistration to TWikiRegistrationPub, and "
-#~ "TWikiRegistrationDefault to TWikiRegistration. IMPORTANT: After you have "
+#~ "default Foswiki but is more useful for trying Foswiki out. To change it so "
+#~ "the users are created manually by the administrator use Foswiki RenameTopic "
+#~ "to rename the FoswikiRegistration to FoswikiRegistrationPub, and "
+#~ "FoswikiRegistrationDefault to FoswikiRegistration. IMPORTANT: After you have "
 #~ "created yourself a user, edit the Main.AdminGroup to restrict Admin "
 #~ "privileges"
 #~ msgstr ""
-#~ "Výchozí instalace TWiki v Debianu je nastavena tak, aby při registraci "
+#~ "Výchozí instalace Foswiki v Debianu je nastavena tak, aby při registraci "
 #~ "uživatele automaticky vytvářela nové uživatele. To není tak bezpečné, "
-#~ "jako výchozí nastavení TWiki, avšak pro pouhé vyzkoušení TWiki je to "
+#~ "jako výchozí nastavení Foswiki, avšak pro pouhé vyzkoušení Foswiki je to "
 #~ "užitečnější. Změnu, aby uživatele zakládal administrátor ručně, provedete "
-#~ "pomocí TWiki RenameToppic, kde přejmenujete TWikiRegistration na "
-#~ "TWikiRegistrationPub a poté TWikiRegistrationDefault na "
-#~ "TWikiRegistration. DŮLEŽITÉ: Až si pro sebe vytvoříte uživatele, omezte "
+#~ "pomocí Foswiki RenameToppic, kde přejmenujete FoswikiRegistration na "
+#~ "FoswikiRegistrationPub a poté FoswikiRegistrationDefault na "
+#~ "FoswikiRegistration. DŮLEŽITÉ: Až si pro sebe vytvoříte uživatele, omezte "
 #~ "administrátorská oprávnění úpravou Main.AdminGroup."
