@@ -1882,7 +1882,7 @@ sub validatePerlModule {
     # Remove all non alpha-numeric caracters and :
     # Do not use \w as this is localized, and might be tainted
     my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    $this->writeWarning( 'validatePerlModule removed '
+    writeWarning( 'validatePerlModule removed '
           . $replacements
           . ' characters, leading to '
           . $module )
