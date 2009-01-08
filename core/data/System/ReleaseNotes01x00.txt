@@ -157,6 +157,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item128][Item128]] | Error in oopsmore |
 | [[%BUGS%/Item136][Item136]] | remove pattern skin css classes from default skin - replace with twiki* ready for re-brand |
 | [[%BUGS%/Item137][Item137]] | Register show user's a failure when sendmail returns non-zero |
+| [[%BUGS%/Item1607][Item1607]] | TOC does not distinguish two headlines that have the same text |
 | [[%BUGS%/Item168][Item168]] | Review all SEARCH statements in the docco & convert to query or more contemporary TML |
 | [[%BUGS%/Item191][Item191]] | remove the stupid kids from pattern skin |
 | [[%BUGS%/Item203][Item203]] | Rebrand the !TipsContrib |
@@ -173,7 +174,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item264][Item264]] | Rebrand pattern skin |
 | [[%BUGS%/Item265][Item265]] | Rebranding EditTablePlugin for Foswiki |
 | [[%BUGS%/Item267][Item267]] | Update file table in plugins that contains TWiki directories |
-| [[%BUGS%/Item273][Item273]] | Rename twiki.tmpl -&gt; foswiki.tmpl |
+| [[%BUGS%/Item273][Item273]] | Rename twiki.tmpl -> foswiki.tmpl |
 | [[%BUGS%/Item295][Item295]] | Replacing TWiki with Foswiki in core docs and default plugins |
 | [[%BUGS%/Item297][Item297]] | viewfile can't be used as a dropin replacement for {pubUrl}, and when viewfile fails it redirects to an oops mess |
 | [[%BUGS%/Item300][Item300]] | Rebranding root-level documentation |
@@ -205,6 +206,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item462][Item462]] | Improved user interface and interaction on the topic that is shown when a topic does not exist |
 | [[%BUGS%/Item471][Item471]] | WebSearch and WebSearchAdvanced keep moveing the user to the TWiki web, rather than staying where the users asked to be |
 | [[%BUGS%/Item474][Item474]] | PreferencesPlugin does not understand Local |
+| [[%BUGS%/Item4835][Item4835]] | !SpreadSheetPlugin functions SUBSTITUTE and REPLACE cannot return number 0 or empty string |
 | [[%BUGS%/Item4868][Item4868]] | Bulk Register fails if Main web is Set ALLOWWEBCHANGE = TWikiAdminGroup |
 | [[%BUGS%/Item486][Item486]] | Beginners start here has obsolete content |
 | [[%BUGS%/Item4906][Item4906]] | Filename of attachments containing a wikiword inside ( ) messes up the file attachment table and other UI |
@@ -217,7 +219,9 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item529][Item529]] | fix_local_links needs to point to foswiki.org |
 | [[%BUGS%/Item5350][Item5350]] | NONWIKIWORDFLAG is not resolved |
 | [[%BUGS%/Item5351][Item5351]] | !WebCreateNewTopic filters out international characters |
+| [[%BUGS%/Item5406][Item5406]] | Don't let a skin update break existing left bars and top bar |
 | [[%BUGS%/Item541][Item541]] | calling search bin with no empty search string results in white screen instead of response |
+| [[%BUGS%/Item5453][Item5453]] | value of "0" improperly handled as param to ENCODE and SPACEOUT |
 | [[%BUGS%/Item5637][Item5637]] | Move languages.cache to Working where webserver has permission to write so we can leave Locales read only |
 | [[%BUGS%/Item567][Item567]] | !LoginManager not working with IP matching because of code error in Foswiki's interface to CGI::Session |
 | [[%BUGS%/Item569][Item569]] | ENCODE turns the value 0 into empty string '' |
@@ -227,11 +231,10 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item5859][Item5859]] | Plugin does not work if using NTLM |
 | [[%BUGS%/Item5900][Item5900]] | !PatternSkinCustomization and WysiwygPlugin still mention kupu and COMPOSER |
 | [[%BUGS%/Item5910][Item5910]] | %TOC variable creates links with unnecessary query string |
-| [[%BUGS%/Item5914][Item5914]] | =TWiki::Request::url()= must support =-rewrite=, =-absolute= and =-relative= |
 | [[%BUGS%/Item5922][Item5922]] | $formfield data not being displayed in formatted searches |
 | [[%BUGS%/Item5926][Item5926]] | Topics with Chinese in UTF8 destroys page view in Internet Explorer |
 | [[%BUGS%/Item5937][Item5937]] | move initialization of SwitchBoard to TWiki.spec |
-| [[%BUGS%/Item5939][Item5939]] | Rogue <p> below on every topic in every web</p> |
+| [[%BUGS%/Item5939][Item5939]] | Rogue <p /> below </html> on every topic in every web |
 | [[%BUGS%/Item5943][Item5943]] | TWikiRegistrationAgent should be in the admin group |
 | [[%BUGS%/Item5944][Item5944]] | The padding:1px for textareas makes it hard to place the cursor at the begining of a line |
 | [[%BUGS%/Item5957][Item5957]] | htdigest format password file gets stomped on password or email change/reset |
@@ -241,16 +244,18 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item5979][Item5979]] | add non-alarmist PerlOnRedHatIsSlow detection to configure |
 | [[%BUGS%/Item5991][Item5991]] | JSCalendarContrib does not work correctly in IE7 |
 | [[%BUGS%/Item5994][Item5994]] | turn on taint mode in configure and fix the problems |
+| [[%BUGS%/Item599][Item599]] | Get a Foswiki working in Windows with strawberry perl |
 | [[%BUGS%/Item6000][Item6000]] | Changes tracked by loginname not wikiname |
 | [[%BUGS%/Item6005][Item6005]] | EditTable Changes "label"-formatted cell in unexpected way |
 | [[%BUGS%/Item6006][Item6006]] | redirectCgiQuery doesn't handle fragments properly & needs minor tweak |
 | [[%BUGS%/Item6014][Item6014]] | Integration of !SortedHeadPlugin into core (Process Add To Head Adds) |
 | [[%BUGS%/Item6022][Item6022]] | ENCODE{} treats % as safe character |
 | [[%BUGS%/Item6026][Item6026]] | With header format emtpy table is initialized with one column only |
+| [[%BUGS%/Item602][Item602]] | Release tarball could be in a subdirectory |
 | [[%BUGS%/Item6031][Item6031]] | TablePlugin date sorting is broken. |
 | [[%BUGS%/Item6039][Item6039]] | Preview does not respect VIEW_TEMPLATE |
 | [[%BUGS%/Item6041][Item6041]] | TinyMCE bug with Firefox 3 and bulleted lists |
-| [[%BUGS%/Item6043][Item6043]] | TWiki::Sandbox::sysCommand leads to errors with Plugins.FastCGIEngineContrib |
+| [[%BUGS%/Item6043][Item6043]] | TWiki::Sandbox::sysCommand leads to errors with Extensions.FastCGIEngineContrib |
 | [[%BUGS%/Item6050][Item6050]] | statistics script fails when cuid is not == login name (as login is whats in the log files...) |
 | [[%BUGS%/Item6054][Item6054]] | No longer possible to have a twisty on one line without linebreak |
 | [[%BUGS%/Item6060][Item6060]] | configure's get more extensions seems to require LWP |
@@ -263,20 +268,25 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item6095][Item6095]] | Registration confirmation page fails to display when user confirmation e-mail can't be sent |
 | [[%BUGS%/Item6108][Item6108]] | add docco for customising the registration emails. |
 | [[%BUGS%/Item629][Item629]] | Unable to access root docs on some installations of Apache. |
+| [[%BUGS%/Item649][Item649]] | Only see TWiki as a valid web if TWikiCompatibilityPlugin is installed and enabled. |
+| [[%BUGS%/Item661][Item661]] | Copy edits to Foswiki release 1.0.0 documentation |
+| [[%BUGS%/Item667][Item667]] | Add WebChangesForAllWebs to System web in the release |
+| [[%BUGS%/Item669][Item669]] | VarADDTOHEAD topic appears to be missing |
 | [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
+| [[%BUGS%/Item681][Item681]] | can't access system webs like _default |
+| [[%BUGS%/Item8003][Item8003]] | TWiki.SmiliesPlugin TOPIC variable not used for images |
 | [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
  </noautolink>
 
 ---+++ Enhancements
 
 <noautolink>
-| [[%BUGS%/Item1873][Item1873]] | Need Copy topic, not just move and rename |
-| [[%BUGS%/Item3647][Item3647]] | Usability: Control over variable expansion in topic templates |
-| [[%BUGS%/Item381][Item381]] | Add linkclass to style Twisty links |
 | [[%BUGS%/Item39][Item39]] | Add a query search option to webSearchAdvanced |
 | [[%BUGS%/Item4875][Item4875]] | Add javascript function 'makeSafeForTableEntry' |
+| [[%BUGS%/Item3647][Item3647]] | Usability: Control over variable expansion in topic templates |
+| [[%BUGS%/Item1873][Item1873]] | Need Copy topic, not just move and rename |
+| [[%BUGS%/Item381][Item381]] | Add linkclass to style Twisty links |
 | [[%BUGS%/Item5916][Item5916]] | Add !IsEmpty To IF conditions |
-
 </noautolink>
 
 ---
