@@ -152,17 +152,11 @@ sub handleButton {
   if ($theTarget) {
     my $url;
 
-    my $upperAlphaNum = TWiki::Func::getRegularExpression('upperAlphaNum');
-    my $upperAlpha = TWiki::Func::getRegularExpression('upperAlpha');
-    my $lowerAlphaNum = TWiki::Func::getRegularExpression('lowerAlphaNum');
-    my $mixedAlphaNum = TWiki::Func::getRegularExpression('mixedAlphaNum');
-    my $webNameRegex = TWiki::Func::getRegularExpression('webNameRegex');
-    my $topicNameRegex = qr/[$upperAlphaNum]+[$lowerAlphaNum]+[$upperAlpha]+[$mixedAlphaNum]*/o;
-    if ($theTarget =~ /^$webNameRegex\.$topicNameRegex$/) {
+    if ($theTarget =~ /^(http|\/)$/) {
+      $url = $theTarget;
+    } else {
       my ($web, $topic) = TWiki::Func::normalizeWebTopicName($theWeb, $theTarget);
       $url = TWiki::Func::getViewUrl($web, $topic);
-    } else {
-      $url = $theTarget;
     }
     $theOnClick .= ";window.location.href='$url';";
   }

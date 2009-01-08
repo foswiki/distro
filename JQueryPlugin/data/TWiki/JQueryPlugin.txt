@@ -88,7 +88,7 @@ The following themes are provided:
    * Sandbox.JQueryPluginExamples.txt
 
 ---++ Installation Instructions
-   * Download the ZIP file from the Plugin web (see below)
+   * Download the ZIP file from the Plugin Home (see below)
    * Unzip ==%TOPIC%.zip== in your installation directory. Content:
      | *File:* | *Description:* |
 %$MANIFEST%
@@ -97,8 +97,9 @@ The following themes are provided:
 |  Plugin Author(s): | Michael Daum |
 |  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.11 |
+|  Plugin Version: | v1.12 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  08 Jan 2009: | certified for foswiki/compat; fixed BUTTON target for non-wikiword topics |
 |  12 Dec 2008: | fixed a series of IE6+IE7 issues |
 |  18 Nov 2008: | added jquery.ifixpng; \
                   improved BUTTON tag to have submit and clear and reset buttons; \
