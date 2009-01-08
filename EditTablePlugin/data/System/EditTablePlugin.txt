@@ -269,7 +269,6 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 %META:FILEATTACHMENT{name="menuarrow.gif" attr="h" comment="Component of Mishoo DHTML calendar" date="1077813470" path="menuarrow.gif" size="68" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="edittable.gif" attr="h" comment="Edit table image button" date="1077933805" path="edittable.gif" size="298" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="btn_move.gif" attr="h" comment="Javascript button: move row" date="1077933805" path="btn_move.gif" size="298" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="btn_target.gif" attr="h" comment="Javascript button: move target (animated)" date="1077933805" path="btn_target.gif" size="298" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="btn_delete.gif" attr="h" comment="Javascript button: delete row" date="1077933805" path="btn_delete.gif" size="298" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="btn_delete_disabled.gif" attr="h" comment="Javascript button: delete (disabled)" date="1077933805" path="btn_delete_disabled.gif" size="298" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="edittable.css" attr="h" comment="Plugin Style Sheet" date="1077933805" path="edittable.css" size="298" user="ProjectContributor" version="1.1"}%
