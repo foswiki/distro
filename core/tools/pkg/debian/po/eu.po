@@ -31,13 +31,13 @@ msgid ""
 "\"foswiki/\"."
 msgstr ""
 "Mesedez idatzi web-zerbitzariaren URLa (\"http://www.adibidea.org\" "
-"antzerakoa). Twiki URL osoak balio honi \"foswiki/\" gehituaz osatuko dira."
+"antzerakoa). Foswiki URL osoak balio honi \"foswiki/\" gehituaz osatuko dira."
 
 #. Type: string
 #. Description
 #: ../templates:2001
 msgid "Email address of the webmaster for this Foswiki:"
-msgstr "Twiki honen arduradunaren eposta helbidea:"
+msgstr "Foswiki honen arduradunaren eposta helbidea:"
 
 #. Type: string
 #. Description
@@ -72,7 +72,7 @@ msgid ""
 "Accept this option unless you want to use an existing Foswiki data set (for "
 "instance, one left over from a previous installation)."
 msgstr ""
-"Aukera hau onartu ez baduzu dagoeneko dagoen Twiki datu bilduma bat erabili "
+"Aukera hau onartu ez baduzu dagoeneko dagoen Foswiki datu bilduma bat erabili "
 "(adibidez instalazio zahar batetan utzitakoak)."
 
 #. Type: boolean
