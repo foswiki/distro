@@ -36,6 +36,8 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
+	echo `pwd`
+
 	cp -r bin/* debian/foswiki/usr/lib/cgi-bin/foswiki
 	cp -r debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg.txt debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
 

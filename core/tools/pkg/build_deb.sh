@@ -10,18 +10,21 @@ if [ ! -e Foswiki-1.0.0.tgz ]; then
 fi
 
 mkdir /tmp/build_deb
+cp -r debian /tmp/build_deb/
 cp Foswiki-1.0.0.tgz /tmp/build_deb/foswiki_1.0.0.orig.tar.gz
 
-mkdir /tmp/build_deb/foswiki-1.0.0
-
-cp -r debian /tmp/build_deb/foswiki-1.0.0
-cd /tmp/build_deb/foswiki-1.0.0
-find . -name .svn -exec rm -rf '{}' \;
-
+cd /tmp/build_deb
 tar zxvf /tmp/build_deb/foswiki_1.0.0.orig.tar.gz
 
-#patch it
-#fakeroot debian/rules patch
+#add * to allow for -beta, -auto etc
+mv /tmp/build_deb/Foswiki-1.0.0*/ /tmp/build_deb/foswiki-1.0.0/
+cd /tmp/build_deb/foswiki-1.0.0
+
+mv ../debian .
+
+#clean out svn dirs
+find . -name .svn -exec rm -rf '{}' \;
+
 
 #debuild
 #see http://www.debian.org/doc/maint-guide/ch-build.en.html
