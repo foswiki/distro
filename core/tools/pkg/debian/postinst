@@ -34,7 +34,7 @@ if [ "$RET" = true ]; then
 #check for the existance of _any_ of the default webs
 #TODO: later this will be replaced by the upgrade script
     if [ ! -e /var/lib/foswiki/data/Main/WebHome.txt ]; then
-        if [ ! -e /var/lib/foswiki/data/Foswiki/WebHome.txt ]; then
+        if [ ! -e /var/lib/foswiki/data/System/WebHome.txt ]; then
 	if [ ! -e /var/lib/foswiki/data/Sandbox/WebHome.txt ]; then
 	if [ ! -e /var/lib/foswiki/data/Trash/WebHome.txt ]; then
 	if [ ! -e /var/lib/foswiki/data/_default/WebHome.txt ]; then
@@ -42,7 +42,7 @@ if [ "$RET" = true ]; then
 		    # and even then, fail on overwrite so we don't stomp.
 		    tar -zxk -C / -f /usr/share/foswiki/foswiki-data.tar.gz
 		    # clean up the .mailnotify timestamps.
-		    webs="Main Sandbox Foswiki Trash _default";
+		    webs="Main Sandbox System Trash _default";
 		    for web in $webs; do
 		    	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
     		    done
@@ -68,10 +68,10 @@ rm /etc/foswiki/*~
 db_get foswiki/wikiwebmaster
 # do rcs checkout first?
 #TODO: these settings should move to Main.SitePreferences
-if [ ! -e /var/lib/foswiki/data/Foswiki/DefaultPreferences.txt ]; then
-	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/foswiki/data/Foswiki/DefaultPreferences.txt
+if [ ! -e /var/lib/foswiki/data/System/DefaultPreferences.txt ]; then
+	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
 	#force default to use sendmail by setting SMTPMAILHOST to blank
-	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/foswiki/data/Foswiki/DefaultPreferences.txt
+	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
 fi
 
 # user + password authorized to run configure script
