@@ -23,7 +23,7 @@ use vars qw(
     );
 
 $VERSION = '$Rev$';
-$RELEASE = '4.00-pre2';
+$RELEASE = '4.00-pre3';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'Displays image gallery with auto-generated thumbnails from attachments';
 
@@ -51,7 +51,7 @@ sub commonTagsHandler {
     # add css definitions, deliberately NOT using addToHEAD()
     my $link = 
       '<link rel="stylesheet" '.
-      'href="%PUBURL%/%SYSTEMWEB%/ImageGalleryPlugin/style.css" '.
+      'href="%PUBURL%/%TWIKIWEB%/ImageGalleryPlugin/style.css" '.
       'type="text/css" media="all" />';
 
     if ($_[0] =~ s/<head>(.*?[\r\n]+)/<head>$1$link\n/o) {

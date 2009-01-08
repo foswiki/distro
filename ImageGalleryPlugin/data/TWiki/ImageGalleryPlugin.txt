@@ -149,12 +149,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 =&lt;nr&gt;&lt;space&gt;-&lt;space&gt;= stripped off.
  
 ---++ Plugin Installation Instructions
-
-   * Download the ZIP file
-   * Unzip it in your installation directory. Content: 
-   | *File:* | *Description:* |
-%$MANIFEST%
-   * Visit =configure= in your installation, and enable the plugin in the {Plugins} section.
+%$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Info
 <!--
@@ -165,7 +160,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  Plugin Author: | Michael Daum, Will Norris |
 |  Copyright &copy;: | 2002-2009, Will Norris; 2005-2009, Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | v4.00-pre2 |
+|  Plugin Version: | v4.00-pre3 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  29 Dec 2008 | temporary fix to work under Foswiki |
 |  14 Nov 2008 | made format string for galleries more flexible |
