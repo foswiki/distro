@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1224177960" format="1.1" reprev="1.1" version="$Rev$"}%
 ---+!! %TOPIC%
 <!--
-   * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for <nop>NextWiki
+   * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
 -->
 %SHORTDESCRIPTION%
 
@@ -25,7 +25,7 @@ HTML documents, handle events, perform animations, and add Ajax interactions to
 your web pages."
 </blockquote>
 
-See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by <nop>NextWiki.
+See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used by Foswiki.
 
 ---++ Included libraries
    1 [[http://docs.jquery.com][jquery]]: the core  
@@ -88,16 +88,13 @@ The following themes are provided:
    * Sandbox.JQueryPluginExamples.txt
 
 ---++ Installation Instructions
-   * Download the ZIP file from the Plugin Home (see below)
-   * Unzip ==%TOPIC%.zip== in your installation directory. Content:
-     | *File:* | *Description:* |
-%$MANIFEST%
+%$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Info
 |  Plugin Author(s): | Michael Daum |
 |  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.12 |
+|  Plugin Version: | v1.13 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  08 Jan 2009: | certified for foswiki/compat; fixed BUTTON target for non-wikiword topics |
 |  12 Dec 2008: | fixed a series of IE6+IE7 issues |

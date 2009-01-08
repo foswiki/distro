@@ -19,7 +19,7 @@ use constant DEBUG => 0; # toggle me
 use vars qw($tabPaneCounter $tabCounter $jqueryFormHeader $iconTopic);
 
 $jqueryFormHeader=<<'HERE';
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery.form.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery.form.js"></script>
 HERE
 
 ###############################################################################
