@@ -478,6 +478,16 @@ sub sysCommand {
             open( STDERR, '>', File::Spec->devnull() )
               || die "Can't kill STDERR: '$!'";
 
+            local @ENV = @ENV;
+            if ( $Foswiki::cfg{SafeEnvPath} ) {
+                $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
+            }
+            else {
+                # SMELL: how can we validate the PATH?
+                $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
+            }
+            delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+
             unless ( exec( $path, @args ) ) {
                 syswrite( STDOUT, $key . ": $!\n" );
                 exit($key);
