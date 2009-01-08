@@ -653,7 +653,7 @@ register</a> as a normal user first and then add your wikiname to the <a rel="no
 HERE
         if ( !$expertsMode ) {
             print <<HERE
- EXPERT options are hidden unless you click the <form><input type="submit" class="foswikiButton" value="Yes, I've read all the documentation" /><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form> button.
+ EXPERT options are hidden unless you click the button: <form><input type="submit" class="foswikiButton" value="Yes, I've read all the documentation" /><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form>
 HERE
         }
         print <<HERE;
