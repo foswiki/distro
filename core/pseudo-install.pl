@@ -165,8 +165,10 @@ sub installModule {
 sub copy_in {
     my ( $moduleDir, $dir, $file ) = @_;
     File::Path::mkpath($dir);
-    File::Copy::copy( "$moduleDir/$file", $file )
-      || die "Couldn't install $file: $!";
+    if( -e "$moduleDir/$file" ) {
+        File::Copy::copy( "$moduleDir/$file", $file )
+        || die "Couldn't install $file: $!";
+    }
     print "Copied $file\n";
 }
 
