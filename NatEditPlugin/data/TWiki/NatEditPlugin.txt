@@ -75,13 +75,16 @@ from
 
 Testing has been carried out using Safari, Firefox, Opera and Internet Explorer.
 
+---++ Plugin Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+
 ---++ Plugin Info
 Sponsored by [[http://www.trivadis.com][Trivadis AG]] 
 
 |  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v3.30 |
+|  Version: | v3.31 |
 |  Change History: | |
 |  07 Jan 2009 | support for <nop>TinyMCEPlugin wysiwyg editor; \
                  removed non-maintained "word" style; \

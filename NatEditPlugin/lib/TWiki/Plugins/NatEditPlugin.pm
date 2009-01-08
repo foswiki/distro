@@ -22,7 +22,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = 'v3.20';
+$RELEASE = 'v3.31';
 
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'A Wikiwyg Editor';
@@ -31,11 +31,11 @@ use constant DEBUG => 0; # toggle me
 
 $header = <<'HERE';
 <style type="text/css" media="all">
-  @import url("%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/styles.css");
-  @import url("%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
+  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/styles.css");
+  @import url("%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/%IF{"defined NATEDIT_THEME" then="%NATEDIT_THEME%" else="default"}%/styles.css");
 </style>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/edit.js"></script>
-<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/NatEditPlugin/jquery.natedit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/NatEditPlugin/jquery.natedit.js"></script>
 HERE
 
 ###############################################################################
