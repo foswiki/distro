@@ -23,7 +23,8 @@ use base 'CGI::Session';
 
 sub load {
     my $this = shift;
-    local %ENV;
+    # SMELL: This breaks mod_perl Foswikibug:Item691
+#    local %ENV = %ENV;
     $ENV{REMOTE_ADDR} = @_ == 1 ? $_[0]->remoteAddress : $_[1]->remoteAddress;
     $this->SUPER::load(@_);
 }
