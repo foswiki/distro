@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 1340 $"}%
 %META:TOPICPARENT{name="Macros"}%
 #VarADDTOHEAD
----+++ =%<nop>ADDTOHEAD%=
+---+++ ADDTOHEAD
 You can write =%<nop>ADDTOHEAD{...}%= in a topic or template. This variable accepts the following parameters:
    * =_DEFAULT= optional, id of the head block. Used to generate a comment in the output HTML.
    * =text= optional, text to use for the head block. Mutually exclusive with =topic=.
