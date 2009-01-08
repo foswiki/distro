@@ -91,7 +91,7 @@ Before you continue any further there are some basic and very important security
 
 ---++ Beyond the basic installation
 
-Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. Many of the references in this section refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins][Skins]]= refers to the =Skins= topic in your Foswiki web. To go directly to a topic, enter the topic name, such as =%SYSTEMWEB%.Skins=, into the "Jump" text box at the top right of any Foswiki page.
+Once you have Foswiki installed and running, you can perform one or more of the following steps to tailor your installation to your needs. Many of the references in this section refer to topics within your Foswiki installation. For example, =[[%SYSTEMWEB%.Skins]]= refers to the =Skins= topic in your %SYSTEMWEB% web. To go directly to a topic, enter the full topic name, such as =%SYSTEMWEB%.Skins=, into the "Jump" text box at the top right of any Foswiki page.
 
 To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the INSTALL.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
