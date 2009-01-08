@@ -478,7 +478,7 @@ sub sysCommand {
             open( STDERR, '>', File::Spec->devnull() )
               || die "Can't kill STDERR: '$!'";
 
-            local @ENV = @ENV;
+            local %ENV = %ENV;
             if ( $Foswiki::cfg{SafeEnvPath} ) {
                 $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
             }
