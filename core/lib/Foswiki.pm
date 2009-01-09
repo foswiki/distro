@@ -474,19 +474,9 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
 
     # initialize the runtime engine
     if ( !defined $Foswiki::cfg{Engine} ) {
-
         # Caller did not define an engine; try and work it out (mainly for
-        # the benefit of pre-5.0 CGI scripts)
-        if ( defined $ENV{GATEWAY_INTERFACE} ) {
-            $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
-            use CGI::Carp qw(fatalsToBrowser);
-            $SIG{__DIE__} = \&CGI::Carp::confess;
-        }
-        else {
-            $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
-            require Carp;
-            $SIG{__DIE__} = \&Carp::confess;
-        }
+        # the benefit of pre-1.0 CGI scripts)
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::Legacy';
     }
     $engine = eval qq(use $Foswiki::cfg{Engine}; $Foswiki::cfg{Engine}->new);
     die $@ if $@;

@@ -367,11 +367,12 @@ sub readTemplateTopic {
 
 =begin TML
 
----++ StaticMethod run( $method )
+---++ StaticMethod run( $method, %context )
 
-Supported for bin scripts that were written for Foswiki < 2.0. The
-parameter is a function reference to the UI method to call, and is ignored
-in Foswiki >= 2.0, where it should be replaced by a Config.spec entry such as:
+Supported for bin scripts that were written for Foswiki < 1.0. The parameters
+are a function reference to the UI method to call and initial context.
+
+In Foswiki >= 1.0 it should be replaced by a Config.spec entry such as:
 
 # **PERL H**
 # Bin script registration - do not modify
@@ -380,7 +381,12 @@ $Foswiki::cfg{SwitchBoard}{publish} = [ "Foswiki::Contrib::Publish", "publish", 
 =cut
 
 sub run {
-    $Foswiki::engine->run();
+    my ( $method, %context ) = @_;
+    
+    if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
+        $context{command_line} = 1;
+    }
+    execute( Foswiki::Request->new(), \&$method, %context );
 }
 
 1;
