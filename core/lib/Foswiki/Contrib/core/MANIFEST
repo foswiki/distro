@@ -484,6 +484,7 @@ lib/Foswiki/Configure/Valuer.pm 0444
 lib/Foswiki/Engine.pm 0444
 lib/Foswiki/Engine/CGI.pm 0444
 lib/Foswiki/Engine/CLI.pm 0444
+lib/Foswiki/Engine/Legacy.pm 0444
 lib/Foswiki/EngineException.pm 0444
 lib/Foswiki/Form.pm 0444
 lib/Foswiki/Form/Checkbox.pm 0444
