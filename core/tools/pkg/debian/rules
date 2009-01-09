@@ -98,21 +98,11 @@ install: build
 		| gzip -c -9 > debian/foswiki/usr/share/foswiki/foswiki-pub.tar.gz
 	rm -rf debian/foswiki/var/lib/foswiki/pub
 
-	cp -pR lib/* debian/foswiki/usr/share/perl5/
+	mkdir debian/foswiki/var/lib/foswiki/lib/
+	cp -pR lib/* debian/foswiki/var/lib/foswiki/lib/
+
 	cp -p debian/apache.conf debian/foswiki/etc/foswiki/
-
-	#move non-CPAN files out of cpan dir
-	mv debian/foswiki/usr/share/perl5/DEPENDENCIES debian/foswiki/etc/foswiki/
-	mv debian/foswiki/usr/share/perl5/Foswiki.spec debian/foswiki/etc/foswiki/
-	mv debian/foswiki/usr/share/perl5/MANIFEST debian/foswiki/etc/foswiki/
-	mv debian/foswiki/usr/share/perl5/CPAN debian/foswiki/usr/share/foswiki/
-	#mv debian/foswiki/var/lib/foswiki/tools/native_search debian/foswiki/usr/share/foswiki/
-	#chmod 644 debian/foswiki/usr/share/foswiki/native_search/*
- 	#TODO: rename this to Foswiki::Assert or something?
-	#can't move this away without code changes - better to move entire foswikilib out of cpan dir.
-	#mv debian/foswiki/usr/share/perl5/Assert.pm debian/foswiki/usr/share/foswiki/
-
-#move foswiki.cfg to /etc/foswiki
+#move LocalSite.cfg to /etc/foswiki
 	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 
 	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
@@ -121,7 +111,6 @@ install: build
 	rm debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg~
 
 	chmod -R 644 debian/foswiki/etc/foswiki/*
-
 
 # fix paths for index.html
 	perl -pi~ -e 's|http://your.server.com/your-cgi-bin/view/Main/WebHome|http://localhost/cgi-bin/foswiki/view/Main/WebHome|;' index.html

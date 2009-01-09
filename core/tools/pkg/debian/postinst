@@ -171,16 +171,6 @@ case "$1" in
 	chmod 1777 /tmp/foswiki
 	chown $WIKI_OWNER.www-data /tmp/foswiki
 
-	#add softlinks to make adding plugins easier ()
-#	if [ ! -e /var/lib/foswiki/lib ]; then
-#		ln -s /usr/share/perl5 /var/lib/foswiki/lib
-#	fi
-#	if [ ! -e /var/lib/foswiki/pub ]; then
-#		ln -s /var/lib/foswiki/pub /var/lib/foswiki/pub
-#	fi
-#	if [ ! -e /var/lib/foswiki/bin ]; then
-#		ln -s /usr/lib/cgi-bin/foswiki/ /var/lib/foswiki/bin
-#	fi
 	if [ ! -e /var/lib/foswiki/log ]; then
 		ln -s /var/log/foswiki /var/lib/foswiki/log
 	fi

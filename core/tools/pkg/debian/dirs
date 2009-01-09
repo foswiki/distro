@@ -1,11 +1,7 @@
-var/lib/foswiki/pub
-var/lib/foswiki/templates
-var/lib/foswiki/data
+var/lib/foswiki
 var/log/foswiki
 usr/lib/cgi-bin/foswiki
-usr/share/perl5
 etc/foswiki
 usr/share/doc/foswiki
 usr/share/foswiki
-var/lib/foswiki/working
-var/lib/foswiki/working/work_areas
+
