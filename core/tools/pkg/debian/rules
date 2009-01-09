@@ -112,10 +112,6 @@ install: build
 	#can't move this away without code changes - better to move entire foswikilib out of cpan dir.
 	#mv debian/foswiki/usr/share/perl5/Assert.pm debian/foswiki/usr/share/foswiki/
 
-    # setlib.cfg
-	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/usr/share/perl5\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/setlib.cfg
-	rm debian/foswiki/usr/lib/cgi-bin/foswiki/setlib.cfg~
-
 #move foswiki.cfg to /etc/foswiki
 	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 
