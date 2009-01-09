@@ -285,7 +285,7 @@ sub compare {
       ;    # remove <nop> and <noautolink> tags
 
     print $tmpl_after;
-    print CGI::end_html;
+    print CGI::end_html();
 
 }
 
