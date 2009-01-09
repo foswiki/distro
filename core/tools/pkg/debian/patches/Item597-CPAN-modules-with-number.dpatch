@@ -1,0 +1,24 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## Item597-CPAN-modules-with-number.dpatch by  <sven@quad.home.org.au>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad foswiki-1.0.0~/lib/Foswiki.pm foswiki-1.0.0/lib/Foswiki.pm
+--- foswiki-1.0.0~/lib/Foswiki.pm	2009-01-08 23:02:29.000000000 +1100
++++ foswiki-1.0.0/lib/Foswiki.pm	2009-01-09 17:14:18.000000000 +1100
+@@ -1881,7 +1881,12 @@
+ 
+     # Remove all non alpha-numeric caracters and :
+     # Do not use \w as this is localized, and might be tainted
+-    $module =~ s/[^a-zA-Z:_]//g;
++    my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
++    writeWarning( 'validatePerlModule removed '
++          . $replacements
++          . ' characters, leading to '
++          . $module )
++      if $replacements;
+     return $module;
+ }
+ 
