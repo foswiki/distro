@@ -108,7 +108,7 @@ The most common authentication methods used for public Foswiki installations are
 
 ---++++ Template Login authentication
 
-With Template Login enabled, when Foswiki needs to authenticate the user, it will redirect to a login web page. A list of all users is shown in the [[%SYSTEMWEB%.WikiUsers]] topic. Internally, Foswiki stores the users and passwords using the Apache htpasswd utility.
+With Template Login enabled, when Foswiki needs to authenticate the user, it will redirect to a login web page. A list of all users is shown in the [[%USERSWEB%.WikiUsers]] topic. Internally, Foswiki stores the users and passwords using the Apache htpasswd utility.
 
 To setup Template Login, perform the following steps:
 
