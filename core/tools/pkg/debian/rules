@@ -107,7 +107,7 @@ install: build
 
 	perl -pi~ -e 's|^(.foswikiLibPath).*|\1 = \"/etc/foswiki\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
 	#enable /var/lib/foswiki/lib as an extra lib dir for plugin installers (configure, fosiki extras and unziping)
-	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
+	perl -pi~ -e 's|^# (.localPerlLibPath).*|\1 = \"/var/lib/foswiki/lib\";\n\$$CPANBASE = 1;|;' debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg
 	rm debian/foswiki/usr/lib/cgi-bin/foswiki/LocalLib.cfg~
 
 	chmod -R 644 debian/foswiki/etc/foswiki/*
