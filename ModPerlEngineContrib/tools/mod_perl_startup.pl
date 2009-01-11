@@ -7,7 +7,8 @@ BEGIN {
     my ($vol, @path);
     foreach my $file ( keys %INC ) {
         next unless $file =~ /mod_perl_startup\.pl$/;
-        my ($vol, $dir) = (File::Spec->splitpath($file))[0,1];
+        my $dir;
+        ($vol, $dir) = (File::Spec->splitpath($file))[0,1];
         @path = File::Spec->splitdir($dir);
         last;
     }
