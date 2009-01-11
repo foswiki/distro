@@ -315,7 +315,7 @@ sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
     $this->finalizeCookies($res);
     if ( $req && $req->method() eq 'HEAD' ) {
-        $res->print('');
+        $res->body('');
         $res->deleteHeader('Content-Length');
     }
 }
