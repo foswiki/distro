@@ -60,7 +60,8 @@ sub new {
 }
 
 END {
-    $Foswiki::engine->finalize( $response, $request );
+    $Foswiki::engine->finalize( $response, $request )
+      if ref($response) && $response->isa('Foswiki::Response');
     ( $request, $response ) = ();
 }
 
