@@ -121,7 +121,7 @@ If your web server (or =VirtualHost=) only serves Foswiki:
 
 ---++++ Non-dedicated web server
 
-If Foswiki is accessed through a path (assuming /wiki/):
+If Foswiki is accessed through a path (assuming =/wiki/=):
 
 <verbatim>
     Alias /wiki/pub  /var/www/foswiki/pub
@@ -153,6 +153,6 @@ If Foswiki is accessed through a path (assuming /wiki/):
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  12 Jan 2009 | Initial Release |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Home page: | http://foswiki.org/bin/view/Extensions/ModPerlEngineContrib |
+|  Home page: | http://foswiki.org/Extensions/ModPerlEngineContrib |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
