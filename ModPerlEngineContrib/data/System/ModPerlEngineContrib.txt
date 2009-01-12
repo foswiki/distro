@@ -27,6 +27,9 @@ each request.
 The following instructions assumes foswiki's root directory to be
 =/var/www/foswiki=.  Adjust it according to your local installation.
 
+%X% %RED% run =configure= script *before* enabling this contrib or else Apache
+will not start, reporting an error about missing lib/LocalSite.cfg %ENDCOLOR%
+
 %X% =configure= script should be configured as showed bellow, plus the hints at
 Foswiki:Support/ProtectingYourConfiguration
 
@@ -132,13 +135,14 @@ If Foswiki is accessed through a path (assuming /wiki/):
 
 ---++ Known Issues
 
-The =bin/configure= script is an exception and should be run as a plain CGI
-script. If you are using some extension that adds files to =bin/= directory you
-should configure them to be run as plain CGI scripts: since they were not
-designed to be executed under mod_perl you may face problems. You can replace
-=Files= directive by
-[[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] and
-list all the exceptions.
+   * Apache must be restarted in order to configuration changes take effect.
+   * The =bin/configure= script is an exception and should be run as a plain 
+   CGI script. If you are using some extension that adds files to =bin/= 
+   directory you should configure them to be run as plain CGI scripts: since 
+   they were not designed to be executed under mod_perl you may face problems. 
+   You can replace =Files= directive by
+   [[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] 
+   and list all the exceptions.
 
 ---++ Info
 
