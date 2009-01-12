@@ -127,7 +127,7 @@ If Foswiki is accessed through a path (assuming /wiki/):
 
     RewriteEngine On
     RewriteCond %{REQUEST_URI} ^/+wiki/+bin/+view/+   [NC]
-    RewriteRule ^/+wiki/+bin/+view/+(.*)  /$1         [L,R]
+    RewriteRule ^/+wiki/+bin/+view/+(.*)  /wiki/$1         [L,R]
 </verbatim>
 
 ---++ Known Issues
