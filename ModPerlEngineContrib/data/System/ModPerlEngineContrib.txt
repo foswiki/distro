@@ -1,30 +1,153 @@
 ---+!! !ModPerlEngineContrib
 <!--
 One line description, required for extensions repository catalog.
-   * Set SHORTDESCRIPTION = adds mod_perl support for Foswiki
+   * Set SHORTDESCRIPTION = Permits Foswiki to be executed under mod_perl
 -->
 %SHORTDESCRIPTION%
 
 %TOC%
 
----++ Usage
+---++ Overview
 
----++ Examples
+This is a runtime engine component from [[Foswiki:Development.FoswikiStandAlone][Foswiki Standalone]] architecture.
+
+[[http://en.wikipedia.org/wiki/Mod_perl][mod_perl]] is the
+[[http://perl.apache.org/][Perl API]] to the
+[[http://httpd.apache.org/][Apache]] web server. It permits to hook applications
+into Apache, providing good performance and great flexibility.
+
+It has better performance than
+[[http://en.wikipedia.org/wiki/Common_Gateway_Interface][CGI]] because it loads
+and compile apps at apache initialization and apps are kept in memory as long
+as apache itself, so there is no need to fork+load+compile all the code for
+each request.
 
 ---++ Installation Instructions
 
-%$INSTALL_INSTRUCTIONS%
+The following instructions assumes foswiki's root directory to be
+=/var/www/foswiki=.  Adjust it according to your local installation.
+
+%X% =configure= script should be configured as showed bellow, plus the hints at
+Foswiki:Support/ProtectingYourConfiguration
+
+---+++ Apache 2.x / mod_perl 2.x
+
+<verbatim>
+PerlSwitches -wT
+PerlRequire /var/www/foswiki/tools/mod_perl_startup.pl
+
+Alias /foswiki/pub /var/www/foswiki/pub
+Alias /foswiki/bin /var/www/foswiki/bin
+
+<Directory "/var/www/foswiki/bin">
+    Options +ExecCGI
+    SetHandler perl-script
+    PerlResponseHandler Foswiki::Engine::Apache
+    <Files "configure">
+        SetHandler cgi-script
+    </Files>
+</Directory>
+</verbatim>
+
+---+++ Apache 1.3 / mod_perl 1.x
+
+<verbatim>
+PerlTaintCheck On
+PerlWarn On
+PerlRequire /var/www/foswiki/tools/mod_perl_startup.pl
+
+Alias /foswiki/pub /var/www/foswiki/pub
+Alias /foswiki/bin /var/www/foswiki/bin
+
+<Directory "/var/www/foswiki/bin">
+    Options +ExecCGI
+    SetHandler perl-script
+    PerlHandler Foswiki::Engine::Apache
+    <Files "configure">
+        SetHandler cgi-script
+    </Files>
+</Directory>
+</verbatim>
+
+---+++ Foswiki configuration tunning
+
+Fork new processes under =mod_perl= can be very slow, so some configuration changes are recommended.
+
+Access the =configure= script and click the =Yes, I've read all the documentation= button.
+Go to =Store Settings=:
+   * ={StoreImpl}=: adjust to =RcsLite=
+   * ={RCS}{SearchAlgorithm}=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib
+
+---+++ Apache Authentication
+
+If you're using =Foswiki::LoginManager::ApacheLogin= you'll need an extra
+subsection in =Directory= configuration:
+
+<verbatim>
+<Directory "/var/www/foswiki/bin">
+    # (...)
+    <FilesMatch "(attach|edit|manage|rename|save|upload|.*auth|rest|login|logon).*">
+        AuthType Basic
+        AuthName 'Enter your WikiName: (First name and last name, no space, no
+dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+        
+        AuthUserFile "/var/www/foswiki/data/.htpasswd"
+        Require valid-user
+    </FilesMatch>
+</Directory>
+</verbatim>
+
+---+++ Shorter URLs
+
+In order to use [[Foswiki:Support/ShorterUrlCookbook][shorter URLs]] take a
+look at the following examples.
+
+---++++ Dedicated web server
+
+If your web server (or =VirtualHost=) only serves Foswiki:
+
+<verbatim>
+    Alias /pub  /var/www/foswiki/pub
+    Alias /bin  /var/www/foswiki/bin
+    Alias /     /var/www/foswiki/bin/view/
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} ^/+bin/+view/+   [NC]
+    RewriteRule ^/+bin/+view/+(.*)  /$1         [L,R]
+</verbatim>
+
+---++++ Non-dedicated web server
+
+If Foswiki is accessed through a path (assuming /wiki/):
+
+<verbatim>
+    Alias /wiki/pub  /var/www/foswiki/pub
+    Alias /wiki/bin  /var/www/foswiki/bin
+    Alias /wiki      /var/www/foswiki/bin/view
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} ^/+wiki/+bin/+view/+   [NC]
+    RewriteRule ^/+wiki/+bin/+view/+(.*)  /$1         [L,R]
+</verbatim>
+
+---++ Known Issues
+
+The =bin/configure= script is an exception and should be run as a plain CGI
+script. If you are using some extension that adds files to =bin/= directory you
+should configure them to be run as plain CGI scripts: since they were not
+designed to be executed under mod_perl you may face problems. You can replace
+=Files= directive by
+[[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] and
+list all the exceptions.
 
 ---++ Info
 
-Many thanks to the following sponsors for supporting this work:
-   * Acknowledge any sponsors here
-
-|  Author(s): | |
-|  Copyright: | &copy; |
+|  Author(s): | Foswiki:Main.GilmarSantosJr |
+|  Copyright: | &copy; 2009 Gilmar Santos Jr and Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  12 Jan 2009 | Initial Release |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/bin/view/Extensions/ModPerlEngineContrib |
 
