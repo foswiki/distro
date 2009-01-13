@@ -15,6 +15,7 @@ sub Usage
     print <<'__USAGE__';
 Usage:
   mirror-cpan.pl [--mirror=[http://cpan.org]] [--local=[$FindBin::BIN/MIRROR/MINICPAN/]] [cpan modules list regex...]
+      --status		shows variables
       --help | --?	usage info
       --debug
       --verbose
@@ -40,6 +41,7 @@ $optsConfig = {
     mirror => 'http://cpan.org/',
     local => "$FindBin::Bin/MIRROR/MINICPAN/",
 # 
+    status => 0,
     verbose => 0,
     debug => 0,
     help => 0,
@@ -52,6 +54,7 @@ my $TRACE = 1;
 
 GetOptions( $optsConfig,
 	    'mirror=s', 'local=s',
+	    'status',
 # miscellaneous/generic options
 	    'help|?', 'man', 'debug', 'verbose|v',
 	    );
@@ -63,6 +66,11 @@ print STDERR Dumper( $optsConfig ) if $optsConfig->{debug};
 # pass module list on the command line
 my @modules = @ARGV ? @ARGV : q(.+);
 print Dumper( \@modules );
+
+if ( $optsConfig->{status} ) {
+    print qq{Mirroring from "$optsConfig->{mirror}" to "$optsConfig->{local}"\n};
+    exit 0;
+}
 
 ################################################################################
 
