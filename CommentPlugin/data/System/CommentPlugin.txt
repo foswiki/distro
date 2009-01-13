@@ -244,10 +244,11 @@ Note that if you want to use the =action= template then you must also:
 Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
 
 |  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
-|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2007 Foswiki:%SYSTEMWEB%.ProjectContributor |
+|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2009 Foswiki:%SYSTEMWEB%.ProjectContributor |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 16 Dec 2008 %$VERSION% |
+|  Plugin Version: | 13 Jan 2009 %$VERSION% |
 |  Change History: | |
+|  13 Jan 2009 | Foswikitask:736 Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
 |  16 Dec 2008 | Foswiki version |
 |  03 Aug 2008 | The TWiki 4.2.1 release version | 
 |  11 Apr 2008 | TWikibug:Item5518 corrected the template definition for bulletabove |
