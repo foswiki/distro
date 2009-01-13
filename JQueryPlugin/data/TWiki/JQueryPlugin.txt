@@ -91,11 +91,12 @@ The following themes are provided:
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Info
-|  Plugin Author(s): | Michael Daum |
+|  Plugin Author(s): | Michael Daum, Main.EugenMayer |
 |  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.13 |
+|  Plugin Version: | v1.14 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  13 Jan 2009: | PRE-Detwikisation: introduced the foswiki alias for the JS-Variable to get the current WebName etc. |
 |  08 Jan 2009: | certified for foswiki/compat; fixed BUTTON target for non-wikiword topics |
 |  12 Dec 2008: | fixed a series of IE6+IE7 issues |
 |  18 Nov 2008: | added jquery.ifixpng; \
