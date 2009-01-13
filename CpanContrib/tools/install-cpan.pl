@@ -47,19 +47,10 @@ pod2usage({ -exitval => 1, -verbose => 2 }) if $optsConfig->{man};
 print STDERR Dumper( $optsConfig ) if $optsConfig->{debug};
 
 # fix up relative paths
-foreach my $path qw( baselibdir mirror config )
-{
-    # expand tildes in paths (from Perl Cookbook: 7.3. Expanding Tildes in Filenames)
-    $optsConfig->{$path} =~ s{ ^ ~ ( [^/]* ) }
-    { $1 
-	  ? (getpwnam($1))[7]
-	  : ( $ENV{HOME} || $ENV{LOGDIR} || (getpwuid($>))[7] )
-    }ex;
+foreach my $path qw( baselibdir mirror config ) {
+    $optsConfig->{$path} = absolutePath( $optsConfig->{$path} );
 
-    $optsConfig->{$path} = File::Spec->rel2abs( $optsConfig->{$path} ) 
-	unless $optsConfig->{$path} =~ /^[^:]{2,}:/;
-    if ( $path eq 'mirror' )
-    {
+    if ( $path eq 'mirror' ) {
 	# use file: unless some transport (eg, http:, ftp:, etc.) has already been specified
 	$optsConfig->{$path} = 'file:' . $optsConfig->{$path} unless $optsConfig->{$path} =~ /^[^:]{2,}:/;
     }
@@ -106,6 +97,25 @@ installLocalModules({
 # explicity call cleanup code (puts back MyConfig.pm)
 $SIG{INT}();
 exit 0;
+
+################################################################################
+
+sub absolutePath {
+    my $filename = shift;
+
+    # expand tildes in paths (from Perl Cookbook: 7.3. Expanding Tildes in Filenames)
+    $filename =~ s{ ^ ~ ( [^/]* ) }
+    { $1 
+	  ? (getpwnam($1))[7]
+	  : ( $ENV{HOME} || $ENV{LOGDIR} || (getpwuid($>))[7] )
+    }ex;
+
+    # 
+    $filename = File::Spec->rel2abs( $filename ) 
+	unless $filename=~ /^[^:]{2,}:/;
+
+    return $filename;
+}
 
 ################################################################################
 ################################################################################
