@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1130019100" format="1.1" version="$Rev: 17425 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1130019100" format="1.1" version="$Rev$"}%
 
 ---+!! %SYSTEMWEB%.PatternSkin Customization
 
@@ -83,12 +83,12 @@ view
     foswiki
         css
         viewtopbar
-            %TWIKIWEB%.WebTopBar
+            %SYSTEMWEB%.WebTopBar
         viewsidebar
             %WEB%.WebLeftBar
         viewtopicactionbuttons
         viewbottombar
-            %TWIKIWEB%.WebBottomBar
+            %SYSTEMWEB%.WebBottomBar
 </verbatim>
 
 ---++ Logo
@@ -110,7 +110,7 @@ There are 2 ways to change the logo in a web:
 
 *Using logo.gif:*
 <blockquote>
-   * Create a new image named =logo.gif= and attach it to the web's WebPreferences topic. %TWIKIWEB%.PatternSkin's stylesheet assumes the logo is 40px high. More about that later.
+   * Create a new image named =logo.gif= and attach it to the web's WebPreferences topic. %SYSTEMWEB%.PatternSkin's stylesheet assumes the logo is 40px high. More about that later.
    * You can also upload the image with FTP to =/pub/YourWeb/WebPreferences/=.
    * Copy the above instructions ("Redefine your custom preference settings") and insert your logo name.
 </blockquote>
@@ -137,7 +137,7 @@ See [[#TopBarChangeHeight][I want to change the height of the top bar]]
 
 ---+++ I want to change the white space above and below the logo
 
-Change the table style in topic %TWIKIWEB%.WebTopBar. The default top padding is 11px.
+Change the table style in topic %SYSTEMWEB%.WebTopBar. The default top padding is 11px.
 
 ---++ Top bar
 
@@ -191,7 +191,7 @@ And change the number from 64px to a different value.
 
 *Using style sheets:*
 <blockquote>
-Create a new stylesheet with above definition in it, attach it to a topic and point =USERLAYOUTURL= to that topic attachment. See %TWIKIWEB%.PatternSkinCssCookbook about creating custom styles.
+Create a new stylesheet with above definition in it, attach it to a topic and point =USERLAYOUTURL= to that topic attachment. See %SYSTEMWEB%.PatternSkinCssCookbook about creating custom styles.
 </blockquote>
 
 ---+++ I want to set or change the top background image
@@ -200,7 +200,7 @@ The image at the top is called "header art" - commonly the top image found on bl
 
 Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
 <blockquote><pre>
-   * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>TWIKIWEB%/PatternSkin/Foswiki_header.gif
+   * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/Foswiki_header.gif
    * <nop>Set WEBHEADERBGCOLOR = somehexcolor (no quotes, for example: #ffffff)
 </pre></blockquote>
 
@@ -217,7 +217,7 @@ Redefine =WEBHEADERBGCOLOR= in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% in
 
 If you have localization enabled, you will also see a language dropdown box at the far right.
 
-You can remove these items from %TWIKIWEB%.WebTopBar.
+You can remove these items from %SYSTEMWEB%.WebTopBar.
 
 ---+++ I want to hide the top bar
 
