@@ -19,12 +19,12 @@ use Pod::Usage;
 use Cwd qw( cwd );
 sub mychomp { chomp $_[0]; $_[0] }
 
-my $dirMirror = "file:$FindBin::Bin/MIRROR/MINICPAN/";
+my $dirMirror = "$FindBin::Bin/MIRROR/MINICPAN/";
 my $optsConfig = {
 #
     baselibdir => $FindBin::Bin . "/../cgi-bin/lib/CPAN",
 # SMELL: change into list   
-    mirror => -d $dirMirror && $dirMirror || 'http://cpan.org',
+    mirror => -d $dirMirror && "file:$dirMirror" || 'http://cpan.org',
 #
     config => "~/.cpan/CPAN/MyConfig.pm",
 #
