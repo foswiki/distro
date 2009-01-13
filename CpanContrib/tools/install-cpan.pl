@@ -2,7 +2,6 @@
 # $Id: install-cpan.pl 13664 2007-05-08 12:58:03Z WillNorris $
 # Copyright 2004,2005 Will Norris.  All Rights Reserved.
 # License: GPL
-
 ################################################################################
 
 use strict;
@@ -29,6 +28,7 @@ my $optsConfig = {
 #
     config => "~/.cpan/CPAN/MyConfig.pm",
 #
+    status => 0,
     verbose => 0,
     debug => 0,
     help => 0,
@@ -38,6 +38,7 @@ my $optsConfig = {
 GetOptions( $optsConfig,
 	    'baselibdir=s', 'mirror=s', 'config=s',
 	    'force|f',
+	    'status',
 # miscellaneous/generic options
 	    'help', 'man', 'debug', 'verbose|v',
 	    );
@@ -64,12 +65,15 @@ foreach my $path qw( baselibdir mirror config )
     }
 }
 
-print STDERR Dumper( $optsConfig ) if $optsConfig->{debug};
-
 my @localLibs = ( "$optsConfig->{baselibdir}/lib", "$optsConfig->{baselibdir}/lib/arch" );
 unshift @INC, @localLibs;
 $ENV{PERL5LIB} = join( ':', @localLibs );
 print STDERR Dumper( \@INC ) if $optsConfig->{debug};
+
+if ( $optsConfig->{status} ) {
+    print Dumper( $optsConfig );
+}
+#print STDERR Dumper( $optsConfig ) if $optsConfig->{debug};
 
 ################################################################################
 
@@ -221,6 +225,7 @@ Copyright 2004, 2005 Will Norris.  All Rights Reserved.
    -baselibdir         where to install the CPAN modules
    -mirror             location of the (mini) CPAN mirror
    -config             filename (~/.cpan/CPAN/MyConfig.pm)
+   -status             show configuration
    -verbose
    -debug
    -help               this documentation
@@ -235,6 +240,8 @@ Copyright 2004, 2005 Will Norris.  All Rights Reserved.
 =item B<-mirror>
 
 =item B<-config>
+
+=item B<-status>
 
 =back
 
