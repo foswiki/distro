@@ -25,4 +25,4 @@ You can try out the [[Skins]] currently installed on this system:
 *Note:* [[Skins]] describes how to install and activate a skin
 
 ---
-*Related Topics:* [[Skins]], AdminDocumentationCategory, UserDocumentationCategory
+*Related Topics:* [[Skins]], AdminDocumentationCategory, AdminToolsCategory, UserDocumentationCategory
