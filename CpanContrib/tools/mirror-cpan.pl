@@ -65,7 +65,7 @@ print STDERR Dumper( $optsConfig ) if $optsConfig->{debug};
 
 # pass module list on the command line
 my @modules = @ARGV ? @ARGV : q(.+);
-print Dumper( \@modules );
+print Dumper( \@modules ) if $optsConfig->{debug};
 
 if ( $optsConfig->{status} ) {
     print qq{Mirroring from "$optsConfig->{mirror}" to "$optsConfig->{local}"\n};
