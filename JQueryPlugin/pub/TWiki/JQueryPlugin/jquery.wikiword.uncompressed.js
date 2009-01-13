@@ -55,7 +55,13 @@ $.wikiword = {
 
     result = $.wikiword.wikify(result);
 
-    //$.wikiword.writeDebug("result="+result);
+    if (thisOpts.suffix) {
+      result += thisOpts.suffix;
+    }
+    if (thisOpts.prefix) {
+      result = prefix+result;
+    }
+    $.wikiword.writeDebug("result="+result);
 
     target.each(function() {
       //$.wikiword.writeDebug("this="+this);
@@ -113,8 +119,16 @@ $.wikiword = {
         result += String.fromCharCode(chVal);
       }
     }
-    result = result.capitalize();
+
+    // capitalize
+    result = result.replace(/[a-zA-Z\d]+/g, function(a) {
+        return a.charAt(0).toLocaleUpperCase() + a.substr(1);
+    });
+
+    // remove all non-mixedalphanums
     result = result.replace(/[^a-zA-Z\d]/g, "");
+
+    // remove all spaces
     result = result.replace(/\s/g, "");
 
     return result;
@@ -139,7 +153,9 @@ $.wikiword = {
    * plugin defaults
    */
   defaults: {
-    debug: false
+    debug: true,
+    suffix: '',
+    prefix: ''
   }
 };
 

@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1224177960" format="1.1" reprev="1.1" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231767301" format="1.1" version="1.2"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -96,14 +96,15 @@ The following themes are provided:
 |  License: | GPL |
 |  Plugin Version: | v1.14 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  13 Jan 2009: | PRE-Detwikisation: introduced the foswiki alias for the JS-Variable to get the current WebName etc. |
+|  13 Jan 2009: | fixed jquery.wikiword not to depend on outside string libraries; \
+                  added foswiki alias to global javascript variables (Eugen Mayer) |
 |  08 Jan 2009: | certified for foswiki/compat; fixed BUTTON target for non-wikiword topics |
 |  12 Dec 2008: | fixed a series of IE6+IE7 issues |
 |  18 Nov 2008: | added jquery.ifixpng; \
                   improved BUTTON tag to have submit and clear and reset buttons; \
                   ie6 fixes for BUTTONs; \
                   added missing jquery.wikiword plugin |
-|  13 Nov 2008: | added automaxexpand for TABPANES ;\ 
+|  13 Nov 2008: | added automaxexpand for TABPANES ;\
                   added jquery.shake plugin; \
                   reworked BUTTON tag |
 |  15 Oct 2008: | added jquery.autocomplete, jquery.cycle |

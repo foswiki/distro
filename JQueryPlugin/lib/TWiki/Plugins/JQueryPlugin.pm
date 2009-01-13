@@ -48,8 +48,7 @@ twiki.wikiUserName = '%WIKIUSERNAME%';
 twiki.serverTime = '%SERVERTIME%';
 twiki.ImagePluginEnabled = %IF{"context ImagePluginEnabled" then="true" else="false"}%;
 twiki.MathModePluginEnabled = %IF{"context MathModePluginEnabled" then="true" else="false"}%;
-/* this is just for newer plugins based on this, using the foswiki alias before this one gets detwikisized */
-var foswiki = twiki;
+var foswiki = twiki; // temporary alias
 </script>
 <script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery-all.js"></script>
 <script type="text/javascript">
