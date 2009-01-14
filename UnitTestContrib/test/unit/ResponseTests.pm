@@ -61,7 +61,7 @@ sub test_headers {
     );
     $res->headers( \%hdr );
     $this->assert_deep_equals(
-        [ sort qw(Content-Type Status Connection F-O-O-Bar Set-Cookie) ],
+        [ sort qw(Content-Type Status Connection F-O-O-Bar Set-Cookie Date) ],
         [ sort $res->getHeader() ],
         'Wrong header field names'
     );
@@ -116,7 +116,7 @@ sub test_headers {
         'pushHeader did not work'
     );
 
-    $res->deleteHeader(qw(coNNection content-TYPE set-cookie f-o-o-bar));
+    $res->deleteHeader(qw(coNNection content-TYPE set-cookie f-o-o-bar date));
     $this->assert_deep_equals(
         [qw(Pragma Status)],
         [ sort $res->getHeader ],
