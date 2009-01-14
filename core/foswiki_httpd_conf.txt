@@ -76,10 +76,10 @@ BrowserMatchNoCase ^$ blockAccess
 	# to register with the Foswiki. Apache requires this to be a *local* path.
 	# Comment this out if you setup Foswiki to completely deny access to WikiGuest
 	# in all webs or change the path to a static html page.
-	ErrorDocument 401 /foswiki/bin/view/Foswiki/UserRegistration
+	ErrorDocument 401 /foswiki/bin/view/System/UserRegistration
 	# Alternatively if your users are all known to be registered you may want
 	# to redirect them to the ResetPassword page.
-	# ErrorDocument 401 /foswiki/bin/view/Foswiki/ResetPassword
+	# ErrorDocument 401 /foswiki/bin/view/System/ResetPassword
 
 # Limit access to configure to specific IP addresses and or users.
 # Make sure configure is not open to the general public.
