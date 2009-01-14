@@ -1370,4 +1370,65 @@ sub test_ISEMPTY_EXPR_UNDEF {
     $this->simpleTest( test => "isempty undef", then => 1, else => 0 );
 }
 
+sub test_d2n {
+    my $this = shift;
+
+#TRUE cases
+    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2007-03-26')", then => 1, else => 0);
+
+    $this->simpleTest(test => "d2n('2007-03-27') != d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-04-26') != d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2008-03-26') != d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2007-03-27')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2007-04-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2008-03-26')", then => 1, else => 0);
+
+    $this->simpleTest(test => "d2n('2007-03-27') > d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-04-26') > d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2008-03-26') > d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-27') >= d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-04-26') >= d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2008-03-26') >= d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') < d2n('2007-03-27')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') < d2n('2007-04-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') < d2n('2008-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-03-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-03-27')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-04-26')", then => 1, else => 0);
+    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2008-03-26')", then => 1, else => 0);
+
+#FALSE cases
+    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2007-03-26')", then => 0, else => 1);
+
+    $this->simpleTest(test => "d2n('2007-03-27') = d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-04-26') = d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2008-03-26') = d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2007-03-27')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2007-04-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2008-03-26')", then => 0, else => 1);
+
+    $this->simpleTest(test => "d2n('2007-03-27') < d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-04-26') < d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2008-03-26') < d2n('2007-03-26')", then => 0, else => 1);
+#    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-27') <= d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-04-26') <= d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2008-03-26') <= d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') > d2n('2007-03-27')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') > d2n('2007-04-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') > d2n('2008-03-26')", then => 0, else => 1);
+#    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-03-27')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-04-26')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2008-03-26')", then => 0, else => 1);
+
+#try to examine the root of my looking into this - d2n('13 Oct 2008') >= d2n('2008/12/1')
+    $this->simpleTest(test => "d2n('2008/10/13') >= d2n('2008/12/1')", then => 0, else => 1);
+    $this->simpleTest(test => "d2n('13 Oct 2008') >= d2n('2008/12/1')", then => 0, else => 1);
+
+
+}
+
+
 1;
