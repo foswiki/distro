@@ -32,18 +32,18 @@ Constructs a Foswiki::Response object.
 # fully assembled before the body print starts - an essential precondition
 # for early flushing of output.
 sub CHECK_ORDER {
-    ASSERT(!$_[0]->{startedPrinting}) if DEBUG;
+    ASSERT( !$_[0]->{startedPrinting} ) if DEBUG;
 }
 
 sub new {
     my $proto = shift;
     my $class = ref($proto) || $proto;
     my $this  = {
-        status  => undef,
-        headers => {},
-        body    => undef,
-        charset => 'ISO-8859-1',
-        cookies => [],
+        status          => undef,
+        headers         => {},
+        body            => undef,
+        charset         => 'ISO-8859-1',
+        cookies         => [],
         startedPrinting => 0,
     };
     return bless $this, $class;
@@ -124,7 +124,7 @@ sub header {
 
         # Don't use \s because of perl bug 21951
         next unless my ( $header, $value ) = /([^ \r\n\t=]+)=\"?(.+?)\"?$/;
-        $header = lc( $header );
+        $header = lc($header);
         $header =~ s/\b(\w)/\u$1/g;
         if ( exists $this->{headers}->{$header} ) {
             if ( ref $this->{headers}->{$header} ) {
@@ -154,9 +154,8 @@ sub header {
 
     # push all the cookies -- there may be several
     if ($cookie) {
-        my @cookie =
-          ref($cookie) && ref($cookie) eq 'ARRAY' ? @$cookie : ($cookie);
-        $this->cookies( \@cookie );
+        my @cookies = ref($cookie) eq 'ARRAY' ? @$cookie : ($cookie);
+        $this->cookies( \@cookies );
     }
     $this->{headers}->{Expires} = expires( $expires, 'http' )
       if ( defined $expires );
@@ -187,6 +186,18 @@ sub headers {
             $key =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
             $headers{$key} = $value;
         }
+        $headers{Expires} = expires( $headers{Expires}, 'http' )
+          if defined $headers{Expires};
+        $headers{Date} = expires( 0, 'http' )
+          if defined $headers{'Set-Cookie'} || defined $headers{Expires};
+        if ( defined $headers{'Set-Cookie'} ) {
+            my @cookies =
+              ref( $headers{'Set-Cookie'} ) eq 'ARRAY'
+              ? @{ $headers{'Set-Cookie'} }
+              : ( $headers{'Set-Cookie'} );
+            $this->cookies( \@cookies );
+        }
+        $this->status( $headers{Status} ) if defined $headers{Status};
         $this->{headers} = \%headers;
     }
     return $this->{headers};
@@ -206,12 +217,12 @@ sub getHeader {
     my ( $this, $hdr ) = @_;
     return keys %{ $this->{headers} } unless $hdr;
     $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-    if( exists $this->{headers}->{$hdr} ) {
-      my $value = $this->{headers}->{$hdr};
-      return ref $value ? @$value : ($value);
+    if ( exists $this->{headers}->{$hdr} ) {
+        my $value = $this->{headers}->{$hdr};
+        return ref $value ? @$value : ($value);
     }
     else {
-      return undef;
+        return undef;
     }
 }
 
@@ -229,11 +240,26 @@ by plugins or other parts in the code.
 sub setDefaultHeaders {
     my ( $this, $hopt ) = @_;
     return unless $hopt && keys %$hopt;
-    while( my ( $hdr, $value ) = each %$hopt ) {
-      $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
-      $this->{headers}->{$hdr} = $value
-	unless exists $this->{headers}->{$hdr};
+    while ( my ( $hdr, $value ) = each %$hopt ) {
+        $hdr =~ s/(?:^|(?<=-))(.)([^-]*)/\u$1\L$2\E/g;
+        unless ( exists $this->{headers}->{$hdr} ) {
+            if ( $hdr eq 'Status' ) {
+                $this->status($hdr);
+            }
+            elsif ( $hdr eq 'Expires' ) {
+                $value = expires( $value, 'http' );
+            }
+            elsif ( $hdr eq 'Set-Cookie' ) {
+                my @cookies = ref($value) eq 'ARRAY' ? @$value : ($value);
+                $this->cookies( \@cookies );
+            }
+            $this->{headers}->{$hdr} = $value;
+        }
     }
+    $this->{headers}{Date} = expires( 0, 'http' )
+      if !exists $this->{headers}{Date}
+          && (   defined $this->{headers}{Expires}
+              || defined $this->{headers}{'Set-Cookie'} );
 }
 
 =begin TML
@@ -246,18 +272,17 @@ Return a string of all headers, separated by CRLF
 
 sub printHeaders {
     my ($this) = shift;
-    my $CRLF = "\x0D\x0A";
-    my $hdr = '';
-    
+    my $CRLF   = "\x0D\x0A";
+    my $hdr    = '';
+
     # make sure we always generate a status for the response
     $this->{headers}->{Status} = $this->status()
       if ( $this->status() && !defined( $this->headers->{Status} ) );
     foreach my $header ( keys %{ $this->{headers} } ) {
-      $hdr .= $header . ': ' . $_ . $CRLF
-          foreach $this->getHeader($header);
+        $hdr .= $header . ': ' . $_ . $CRLF foreach $this->getHeader($header);
     }
     $hdr .= $CRLF;
-  return $hdr;
+    return $hdr;
 }
 
 =begin TML
@@ -384,7 +409,7 @@ body is complete.
 sub print {
     my $this = shift;
     $this->{startedPrinting} = 1;
-    $this->body( ($this->{body} || '').join('', @_));
+    $this->body( ( $this->{body} || '' ) . join( '', @_ ) );
 }
 
 1;
