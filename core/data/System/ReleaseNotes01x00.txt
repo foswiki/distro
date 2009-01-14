@@ -216,6 +216,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item510][Item510]] | Wysiwyg editor takes the background colour for the html body for the editor instead of applying a white background. |
 | [[%BUGS%/Item511][Item511]] | Twisty on login screen creates slightly invalid markup |
 | [[%BUGS%/Item5176][Item5176]] | %SCRIPTSUFFIX is added twice in TOC links |
+| [[%BUGS%/Item5213][Item5213]] | SCRIPTNAME not defined when using Sun One Web Server |
 | [[%BUGS%/Item529][Item529]] | fix_local_links needs to point to foswiki.org |
 | [[%BUGS%/Item5350][Item5350]] | NONWIKIWORDFLAG is not resolved |
 | [[%BUGS%/Item5351][Item5351]] | !WebCreateNewTopic filters out international characters |
