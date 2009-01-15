@@ -37,9 +37,9 @@ $.wikiword = {
       var thisOpts = $.meta ? $.extend({}, opts, $this.data()) : opts;
 
       $source.change(function() {
-        $.wikiword.handleChange($source, $this);
+        $.wikiword.handleChange($source, $this, thisOpts);
       }).keyup(function() {
-        $.wikiword.handleChange($source, $this);
+        $.wikiword.handleChange($source, $this, thisOpts);
       }).change();
     });
   },
@@ -47,19 +47,23 @@ $.wikiword = {
   /***************************************************************************
    * handler for source changes
    */
-  handleChange: function(source, target) {
+  handleChange: function(source, target, thisOpts) {
     var result = '';
     source.each(function() {
       result += $(this).is(':input')?$(this).val():$(this).text();
     });
 
-    result = $.wikiword.wikify(result);
+    if (result || !thisOpts.initial) {
+      result = $.wikiword.wikify(result);
 
-    if (thisOpts.suffix) {
-      result += thisOpts.suffix;
-    }
-    if (thisOpts.prefix) {
-      result = prefix+result;
+      if (thisOpts.suffix) {
+        result += thisOpts.suffix;
+      }
+      if (thisOpts.prefix) {
+        result = thisOpts.prefix+result;
+      }
+    } else {
+      result = thisOpts.initial;
     }
     $.wikiword.writeDebug("result="+result);
 
@@ -153,9 +157,10 @@ $.wikiword = {
    * plugin defaults
    */
   defaults: {
-    debug: true,
+    debug: false,
     suffix: '',
-    prefix: ''
+    prefix: '',
+    initial: ''
   }
 };
 

@@ -152,7 +152,7 @@ sub handleButton {
   if ($theTarget) {
     my $url;
 
-    if ($theTarget =~ /^(http|\/)$/) {
+    if ($theTarget =~ /^(http|\/).*$/) {
       $url = $theTarget;
     } else {
       my ($web, $topic) = TWiki::Func::normalizeWebTopicName($theWeb, $theTarget);
