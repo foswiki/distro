@@ -36,7 +36,7 @@ To check for the most recently edited topics while on-site, use the WebChanges l
 This is simply a preset =SEARCH=. The number of topics listed by the =limit= parameter.:
 <blockquote>
 <pre>
-%<nop>SEARCH{ ".*" web="%INCLUDINGWEB%" type="regex" nosearch="on" order="modified"%BR% reverse="on" 
+%<nop>SEARCH{ ".*" web="%BASEWEB%" type="regex" nosearch="on" order="modified"%BR% reverse="on" 
 limit="50" }%
 </pre>
 </blockquote>

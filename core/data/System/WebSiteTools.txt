@@ -1,14 +1,14 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
 ---+ Web Site Tools
 %STARTINCLUDE%
-<form action="%SCRIPTURLPATH{search}%/%INCLUDINGWEB%/SearchResult">
+<form action="%SCRIPTURLPATH{search}%/%BASEWEB%/SearchResult">
 <noautolink>
-   * <input type="text" name="search" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> &nbsp;&nbsp; (More options in [[%INCLUDINGWEB%.WebSearch][WebSearch]])
-   * [[%INCLUDINGWEB%.WebChanges][WebChanges]]: Display recent changes to the %INCLUDINGWEB% web
-   * [[%INCLUDINGWEB%.WebIndex][WebIndex]]: List all %INCLUDINGWEB% topics in alphabetical order. See also the faster [[%INCLUDINGWEB%.WebTopicList][WebTopicList]]
-   * [[%INCLUDINGWEB%.%NOTIFYTOPIC%][%NOTIFYTOPIC%]]: Subscribe to an e-mail alert sent when something changes in the %INCLUDINGWEB% web
-   * [[%INCLUDINGWEB%.%STATISTICSTOPIC%][%STATISTICSTOPIC%]]: View access statistics of the %INCLUDINGWEB% web
-   * [[%INCLUDINGWEB%.%WEBPREFSTOPIC%][%WEBPREFSTOPIC%]]: Preferences of the %INCLUDINGWEB% web ([[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]] has site-wide preferences)
+   * <input type="text" name="search" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> &nbsp;&nbsp; (More options in [[%BASEWEB%.WebSearch][WebSearch]])
+   * [[%BASEWEB%.WebChanges][WebChanges]]: Display recent changes to the %BASEWEB% web
+   * [[%BASEWEB%.WebIndex][WebIndex]]: List all %BASEWEB% topics in alphabetical order. See also the faster [[%BASEWEB%.WebTopicList][WebTopicList]]
+   * [[%BASEWEB%.%NOTIFYTOPIC%][%NOTIFYTOPIC%]]: Subscribe to an e-mail alert sent when something changes in the %BASEWEB% web
+   * [[%BASEWEB%.%STATISTICSTOPIC%][%STATISTICSTOPIC%]]: View access statistics of the %BASEWEB% web
+   * [[%BASEWEB%.%WEBPREFSTOPIC%][%WEBPREFSTOPIC%]]: Preferences of the %BASEWEB% web ([[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]] has site-wide preferences)
 </noautolink>
 </form>
 %STOPINCLUDE%

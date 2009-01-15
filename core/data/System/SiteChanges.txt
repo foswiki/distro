@@ -91,7 +91,7 @@ format="| <nobr>$date</nobr> | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic
 %TWISTY{link="Modify changes listing (number of items, included webs)..."}%
 
 <noautolink>
-<form name="sitechanges" action="%SCRIPTURLPATH{"view"}%/%INCLUDINGWEB%/%INCLUDINGTOPIC%">
+<form name="sitechanges" action="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%">
 
 *Number of changes for each web:* <input type="radio" name="limit" value="20" id="limit20" />20 <input type="radio" name="limit" value="50" id="limit50" />50 <input type="radio" name="limit" value="100" id="limit100" />100 <input type="radio" name="limit" value="200" id="limit200" />200 <input type="radio" name="limit" value="400" id="limit400" />400
 

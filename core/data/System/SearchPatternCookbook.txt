@@ -84,8 +84,8 @@ The filtering select dialogue is created as in Pattern 1:
 <form name="selectType" action="%SCRIPTURLPATH{"view"}%/%WEB%/" >
 <select name="type" size="1" onchange="document.location=this.value;"> 
 %SEARCH{ "^\|[^\|]*\| *option *\|" topic="TopicClassification" web="%WEB%" type="regex" 
-multiple="on" nosearch="on" nototal="on" format="<option value=%INCLUDINGTOPIC%?type=$pattern(^\| *(.*?) *\|.*)>$pattern(^\| *(.*?) *\|.*)</option>" }% 
-<option value=%INCLUDINGTOPIC%>All pages</option> </select>
+multiple="on" nosearch="on" nototal="on" format="<option value=%BASETOPIC%?type=$pattern(^\| *(.*?) *\|.*)>$pattern(^\| *(.*?) *\|.*)</option>" }% 
+<option value=%BASETOPIC%>All pages</option> </select>
 </form>
 %STOPSIDEBAR% 
 </verbatim>

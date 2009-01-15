@@ -99,13 +99,14 @@ Most predefined macros return values that were either set in the configuration w
 
    * %X% Predefined macros can be overridden by [[%SYSTEMWEB%.PreferenceSettings][preference settings]] (except TOPIC and WEB)
    * %X% Plugins may extend the set of predefined macros (see individual Plugins topics for details)
-   * %T% *Take the time to thoroughly read through ALL preference macros.* If you actively configure your site, review macros periodically. They cover a wide range of functions, and it can be easy to miss the one perfect macro for something you have in mind. For example, see =%<nop>INCLUDINGTOPIC%=, =%<nop>INCLUDE%=, and the mighty =%<nop>SEARCH%=.
+   * %T% *Take the time to thoroughly read through ALL preference macros.* If you actively configure your site, review macros periodically. They cover a wide range of functions, and it can be easy to miss the one perfect macro for something you have in mind. For example, see =%<nop>BASETOPIC%=, =%<nop>INCLUDE%=, and the mighty =%<nop>SEARCH%=.
 
 This version of Foswiki - %WIKIVERSION% - predefines the following macros:
 
 %SEARCH{
     "^Var[A-Z_0-9]+$"
     casesensitive="on"
+    web="%SYSTEMWEB%"
     type="regex"
     scope="topic"
     format="$percntINCLUDE{$web.$topic}$percnt"

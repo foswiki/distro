@@ -10,7 +10,7 @@ and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of you
 %IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
 
 ---++ <nop>%WEB% Web Utilities
-<form action="%SCRIPTURLPATH{view}%/%INCLUDINGWEB%/WebSearch">
+<form action="%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch">
    * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
    * [[%SYSTEMWEB%.UserRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
    * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site

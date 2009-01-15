@@ -24,7 +24,7 @@ The WebAtom topic in each web contains the following text:
 
 -----
 <pre>
-&lt;title>&lt;nop>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>INCLUDINGWEB% web&lt;/title>
+&lt;title>&lt;nop>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>BASEWEB% web&lt;/title>
 &lt;subtitle>(the description of the web, plain text with no markup and no wikiwords). Foswiki is the Free and Open Source Wiki.&lt;/subtitle>
 %<nop>INCLUDE{"%<nop>SYSTEMWEB%.WebAtomBase"}% &lt;!--
    * Set <nop>SKIN = rss
@@ -37,10 +37,10 @@ Below part is included by each <nop>WebAtom topic:
 
 -----
 <verbatim>
-%STARTINCLUDE%<link rel="self" type="application/atom+xml" href="%SCRIPTURL{"view"}%/%INCLUDINGWEB%/%BASETOPIC%"/>
-<id>%SCRIPTURL{"view"}%/%INCLUDINGWEB%</id>
+%STARTINCLUDE%<link rel="self" type="application/atom+xml" href="%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%"/>
+<id>%SCRIPTURL{"view"}%/%BASEWEB%</id>
 <rights>%WEBRSSCOPYRIGHT%</rights>%CALC{$SET(c,0)}%
-%SEARCH{"%URLPARAM{"search" encode="quote" default=".*" }%" web="%INCLUDINGWEB%" type="regex" nosearch="on" order="modified" reverse="on" nototal="on" limit="16" format="$percntCALC{$IF($GET(c)>0, , <updated>$isodate</updated>$CHAR(10))$SETM(c, +1)}$percnt<entry>$n <title>$topic</title>$n <link rel=\"alternate\" type=\"text/html\" href=\"%SCRIPTURL{"view"}%/$web/$topic?t=$isodate\"/>$n <id>%SCRIPTURL{"view"}%/$web/$topic</id>$n <updated>$isodate</updated>$n <summary>$summary (last changed by <nop>$wikiname)</summary>$n <author>$n  <name><nop>$wikiname</name></author>$n</entry>"}%
+%SEARCH{"%URLPARAM{"search" encode="quote" default=".*" }%" web="%BASEWEB%" type="regex" nosearch="on" order="modified" reverse="on" nototal="on" limit="16" format="$percntCALC{$IF($GET(c)>0, , <updated>$isodate</updated>$CHAR(10))$SETM(c, +1)}$percnt<entry>$n <title>$topic</title>$n <link rel=\"alternate\" type=\"text/html\" href=\"%SCRIPTURL{"view"}%/$web/$topic?t=$isodate\"/>$n <id>%SCRIPTURL{"view"}%/$web/$topic</id>$n <updated>$isodate</updated>$n <summary>$summary (last changed by <nop>$wikiname)</summary>$n <author>$n  <name><nop>$wikiname</name></author>$n</entry>"}%
 %STOPINCLUDE%
 </verbatim>
 -----

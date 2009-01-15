@@ -9,7 +9,7 @@ Each Foswiki web has an automatic e-mail notification service that sends you an 
 
 *Note for System Administrators:* Notification is supported by an add-on to the Foswiki kernel called the !MailerContrib. See the [[%SYSTEMWEB%.MailerContrib][MailerContrib]] topic for details of how to set up this service.
 
-*Note:* If you prefer a news feed, point your reader to [[%INCLUDINGWEB%.WebRss][WebRss]] (for RSS 1.0 feeds) or [[%INCLUDINGWEB%.WebAtom][WebAtom]] (for ATOM 1.0 feeds). Learn more at [[%SYSTEMWEB%.WebRssBase][WebRssBase]] and [[%SYSTEMWEB%.WebAtomBase][WebAtomBase]], respectively.
+*Note:* If you prefer a news feed, point your reader to [[%BASEWEB%.WebRss][WebRss]] (for RSS 1.0 feeds) or [[%BASEWEB%.WebAtom][WebAtom]] (for ATOM 1.0 feeds). Learn more at [[%SYSTEMWEB%.WebRssBase][WebRssBase]] and [[%SYSTEMWEB%.WebAtomBase][WebAtomBase]], respectively.
 
 ---
 *Related topics:* [[%SYSTEMWEB%.WebChangesAlert][WebChangesAlert]], [[%USERSWEB%.%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
