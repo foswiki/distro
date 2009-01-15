@@ -84,8 +84,9 @@ Sponsored by [[http://www.trivadis.com][Trivadis AG]]
 |  Author: | Michael Daum |
 |  Copyright &copy;: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | v3.31 |
+|  Version: | v3.32 |
 |  Change History: | |
+|  15 Jan 2009 | fixed buttons in preview screen |
 |  07 Jan 2009 | support for <nop>TinyMCEPlugin wysiwyg editor; \
                  removed non-maintained "word" style; \
                  fixes for foswiki/compat; \

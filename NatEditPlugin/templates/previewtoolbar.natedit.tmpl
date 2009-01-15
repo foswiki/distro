@@ -2,11 +2,16 @@
 <div class="natEditBottomBar" style="position:static;margin-bottom:25px;">
 <ul>
 %TMPL:P{"savebutton"}%<!-- savebutton// -->
-%TMPL:P{"checkpointbutton"}%<!-- checkpointbutton// -->
+%TMPL:P{"saveandcontinuebutton"}%<!-- checkpointbutton// -->
 %TMPL:P{"editbutton"}%<!-- editbutton// -->
 %TMPL:P{"cancelbutton"}%<!-- cancelbutton// -->
 %TMPL:P{"forcenewrevision"}%<!-- forcenewrevision// -->
 </ul>
 </div>%TMPL:END%
-%TMPL:DEF{"editbutton"}%<li class="natEditEditButton">%BUTTON{"%MAKETEXT{"Edit"}%" accesskey="e" icon="pencil" href="javascript:history.back()" title="%MAKETEXT{"Continue editing"}%"}%</li>%TMPL:END%
-
+%TMPL:DEF{"editbutton"}%<li class="natEditEditButton">%BUTTON{
+  "%MAKETEXT{"Edit"}%" 
+  accesskey="e" 
+  icon="pencil" 
+  onclick="window.history.back()" 
+  title="%MAKETEXT{"Continue editing"}%"
+}%</li>%TMPL:END%

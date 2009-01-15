@@ -5,7 +5,7 @@
 
 %TMPL:DEF{"titleaction"}%(%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%MAKETEXT{"edit"}%"}%)%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<!-- backwards compatibility -->%TMPL:END%
-%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">[[%WEB%.%TOPIC%][%TOPIC%]] (%IF{"defined 'rev'" then="%MAKETEXT{"restore"}%" else="%IF{"istopic '%WEB%.%TOPIC%'" then="%MAKETEXT{"edit"}%" else="%MAKETEXT{"new"}%"}%"}%)</h1>%TMPL:END%
+%TMPL:DEF{"contenttitle"}%<h1 class="patternTemplateTitle">%IF{"defined 'rev'" then="[[%WEB%.%TOPIC%][%TOPIC%]] (%MAKETEXT{"restore"}%)" else="%IF{"istopic '%WEB%.%TOPIC%'" then="[[%WEB%.%TOPIC%][%TOPIC%]] (%MAKETEXT{"edit"}%)" else="<nop>%TOPIC% (%MAKETEXT{"new"}%)"}%"}%</h1>%TMPL:END%
 
 %TMPL:DEF{"gettopictitle"}%%TMPL:P{context="DBCachePluginEnabled" then="gettopictitle_dbcache" else="gettopictitle_default"}%%TMPL:END%
 %TMPL:DEF{"gettopictitle_default"}%%IF{"defined 'TOPICTITLE'" then="%TOPICTITLE%" else=""}%%TMPL:END%
