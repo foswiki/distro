@@ -248,6 +248,7 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 13 Jan 2009 %$VERSION% |
 |  Change History: | |
+|  15 Jan 2008 | Foswikitask:Item727 - data loss issue when missing anchor or location |
 |  13 Jan 2009 | Foswikitask:736 Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
 |  16 Dec 2008 | Foswiki version |
 |  03 Aug 2008 | The TWiki 4.2.1 release version | 
