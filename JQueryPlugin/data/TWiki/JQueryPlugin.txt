@@ -94,8 +94,9 @@ The following themes are provided:
 |  Plugin Author(s): | Michael Daum, Main.EugenMayer |
 |  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.14 |
+|  Plugin Version: | v1.15 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Jan 2009: | fixed click target for relative urls in %<nop>BUTTON{}%; yet another jquery.wikiword fix |
 |  13 Jan 2009: | fixed jquery.wikiword not to depend on outside string libraries; \
                   added foswiki alias to global javascript variables (Eugen Mayer) |
 |  08 Jan 2009: | certified for foswiki/compat; fixed BUTTON target for non-wikiword topics |
