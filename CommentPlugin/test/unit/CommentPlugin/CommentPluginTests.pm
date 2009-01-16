@@ -466,13 +466,14 @@ HERE
     $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
+    my $date = Foswiki::Time::formatTime(time(), '$day $mon $year');
     $this->assert_str_equals(<<HERE,
 before
 
 
 This is the comment
 
--- TemporaryCommentPluginTestsUsersWeb.WikiGuest - 15 Jan 2009
+-- TemporaryCommentPluginTestsUsersWeb.WikiGuest - $date
 %COMMENT{type="above" cols="100" target="%INCLUDINGTOPIC%#LatestComment"}%
 after
 HERE
@@ -522,10 +523,11 @@ HERE
     $text = Foswiki::Func::readTopicText($this->{test_web}, $this->{test_topic});
     # make sure it hasn't changed
     $text =~ s/^%META.*?\n//gm;
+    my $date = Foswiki::Time::formatTime(time(), '$day $mon $year');
     $this->assert_str_equals(<<HERE,
 before
 %COMMENT{type="below" target="%INCLUDINGTOPIC%#LatestComment"}%
-   * This is the comment -- TemporaryCommentPluginTestsUsersWeb.WikiGuest - 15 Jan 2009
+   * This is the comment -- TemporaryCommentPluginTestsUsersWeb.WikiGuest - $date
 after
 HERE
                              $text);
