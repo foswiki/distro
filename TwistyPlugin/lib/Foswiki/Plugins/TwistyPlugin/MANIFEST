@@ -1,0 +1,11 @@
+data/System/TwistyPlugin.txt 0644
+lib/Foswiki/Plugins/TwistyPlugin.pm 0444
+pub/System/TwistyPlugin/twisty.js 0644
+pub/System/TwistyPlugin/twisty.css 0644
+pub/System/TwistyPlugin/twisty.dojo.js 0644
+pub/System/TwistyPlugin/twisty.jquery.css 0644
+pub/System/TwistyPlugin/twisty.jquery.js 0644
+templates/twistyplugin.tmpl 0444
+templates/twistyplugin.dojo.tmpl 0444 Template for DojoToolkitContrib twisties
+templates/twistyplugin.jquery.tmpl 0444 Template for JQueryPlugin twisties
+templates/twistyplugin.pattern.tmpl 0444 Template for default twisties with PatternSkin
