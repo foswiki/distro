@@ -1,0 +1,89 @@
+%{
+   Templates for the parts of the mails sent out by mailnotify. The HTML
+   and PLAIN templates are in three parts; header, body (which is repeated
+   for each  change), and footer. The result is embedded in MailNotifyBody
+}%
+--------------------------------
+%TMPL:DEF{HTML:before}%<h2>%MAKETEXT{"This is an automated e-mail from [_1]." args="%WIKITOOLNAME%"}%</h2>
+<p>
+<em>%MAKETEXT{"New or changed topics in [_1], since [_2]:" args="%WIKITOOLNAME%.%WEB%,%LASTDATE%"}%</em>
+</p>
+<table width="100%" border="0" cellpadding="0" cellspacing="4">
+<tr bgcolor="#B9DAFF">
+  <td width="50%">
+    <b>%MAKETEXT{"Topics in [_1] web:" args="<nop>%WEB%"}%</b>
+  </td><td width="30%">
+    <b>%MAKETEXT{"Changed:"}%</b> (%MAKETEXT{"now [_1]" args="%DISPLAYTIME{"$hour:$min"}%"}%)
+  </td><td width="20%">
+    <b>%MAKETEXT{"Changed by"}%:</b>
+  </td>
+</tr>
+%TMPL:END%
+--------------------------------
+%TMPL:DEF{HTML:middle}%<tr>
+  <td width="50%">
+    <a href="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%"><b>%TOPIC%</b></a>
+  </td><td width="30%">
+    <a href="%SCRIPTURL{"rdiff"}%/%WEB%/%TOPIC%?rev2=%BASE_REV%&rev1=%CUR_REV%" rel='nofollow'>%TIME%</a> - %REVISION%
+  </td><td width="20%">
+    %AUTHOR%
+  </td>
+</tr>
+<tr>
+  <td colspan="2">
+    <font size="-1">
+    %TEXTHEAD% </font>
+  </td><td width="20%">
+    &nbsp;
+  </td>
+</tr>
+%TMPL:END%
+--------------------------------
+%TMPL:DEF{HTML:after}%</table>
+<br clear="all" />
+<p>%MAKETEXT{"Review recent changes in:"}%
+  <a href="%SCRIPTURL{"view"}%/%WEB%/WebChanges">%SCRIPTURL{"view"}%/%WEB%/WebChanges</a> </p>
+
+<p>%MAKETEXT{"Subscribe / Unsubscribe in:"}%
+  <a href="%SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%">%SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%</a> </p>
+%TMPL:END%
+--------------------------------
+%TMPL:DEF{PLAIN:before}%%TMPL:END%
+--------------------------------
+%TMPL:DEF{PLAIN:middle}%- %TOPIC% (%AUTHOR%, %TIME%) %REVISION%
+%SCRIPTURL{"view"}%/%ENCODE{%WEB%}%/%ENCODE{%TOPIC%}%
+
+%TMPL:END%
+--------------------------------
+%TMPL:DEF{PLAIN:after}%%TMPL:END%
+--------------------------------
+%TMPL:DEF{MailNotifyBody}%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+To: %EMAILTO%
+Subject: %WIKITOOLNAME%.%WEB% - %MAKETEXT{"Automated notification of topic changes"}%
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=_=0i0k0i0w0tXuOi0E0A"
+
+This is a multi-part message in MIME format.
+--=_=0i0k0i0w0tXuOi0E0A
+Content-Type: text/plain; charset=%CHARSET%; format=flowed
+Content-Transfer-Encoding: 8bit
+
+%MAKETEXT{"This is an automated e-mail from [_1]." args="%WIKITOOLNAME%"}%
+
+%MAKETEXT{"New or changed topics in [_1], since [_2]:" args="%WIKITOOLNAME%.%WEB%,%LASTDATE%"}%
+
+%PLAIN_TEXT%
+%MAKETEXT{"Review recent changes in:"}%
+  %SCRIPTURL{"view"}%/%WEB%/WebChanges
+
+%MAKETEXT{"Subscribe / Unsubscribe in:"}%
+  %SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%
+
+--=_=0i0k0i0w0tXuOi0E0A
+Content-Type: text/html; charset=%CHARSET%
+Content-Transfer-Encoding: 8bit
+
+%HTML_TEXT%
+
+--=_=0i0k0i0w0tXuOi0E0A--
+%TMPL:END%

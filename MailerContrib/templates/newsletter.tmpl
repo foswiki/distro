@@ -1,0 +1,22 @@
+%{
+   Templates for the mails sent out by mailnotify for newsletters.
+}%
+
+%TMPL:DEF{"NEWS:header"}%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+To: %EMAILTO%
+Subject: %WIKITOOLNAME% %WEB%.%TOPIC%
+MIME-Version: 1.0
+Content-Type: text/html; charset=%CHARSET%
+Content-Transfer-Encoding: 8bit
+
+
+%TMPL:END%
+
+%TMPL:DEF{"NEWS:body"}%
+%TEXT%
+%TMPL:END%
+
+%TMPL:DEF{"NEWS:footer"}%
+%MAKETEXT{"Subscribe / Unsubscribe in:"}%
+  <a href="%SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%">%SCRIPTURL{"view"}%/%WEB%/%NOTIFYTOPIC%</a> </p>
+%TMPL:END%

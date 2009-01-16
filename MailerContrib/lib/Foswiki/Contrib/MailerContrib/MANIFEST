@@ -1,0 +1,16 @@
+lib/Foswiki/Contrib/MailerContrib/Config.spec 0444 Spec file for =configure=
+lib/Foswiki/Contrib/MailerContrib/WebNotify.pm 0444
+lib/Foswiki/Contrib/MailerContrib/Subscriber.pm 0444
+lib/Foswiki/Contrib/MailerContrib/Subscription.pm 0444
+lib/Foswiki/Contrib/MailerContrib/TopicContext.pm 0444
+lib/Foswiki/Contrib/MailerContrib/Change.pm 0444
+lib/Foswiki/Contrib/MailerContrib/Constants.pm 0444
+lib/Foswiki/Contrib/MailerContrib/UpData.pm 0444
+lib/Foswiki/Contrib/MailerContrib/CompatibilityHacks.pm 0444
+lib/Foswiki/Contrib/MailerContrib.pm 0444
+data/System/MailerContrib.txt 0644
+tools/mailnotify 0555
+templates/mailnotify.tmpl 0444
+templates/newsletter.tmpl 0444
+pub/System/MailerContrib/wikiringlogo20x20.png 0660
+pub/System/MailerContrib/logo.gif 0660
