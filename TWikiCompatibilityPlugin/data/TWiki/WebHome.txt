@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231008977" format="1.1" version="1"}%
+---++ TWiki Web Home
+
+The TWiki web is required only for the %SYSTEMWEB%.TWikiCompatibilityPlugin, and any installed legacy TWiki plugins to work.  Please do not add any content to this web,
+
+Former TWiki web content is now located in  [[%SYSTEMWEB%.WebHome][the System web]]
+
+If you do not need TWiki compatibility you can disable =TWikiCompatibilityPlugin= in the [[%SCRIPTURL{configure}%][configure]] Plugins section. This will also hide the TWiki web so it does not appear in any user interfaces. Not even administrators will see it.
