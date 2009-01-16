@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="ProjectContributor" date="1191133809" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSLIDESHOWSTART
+---+++ SLIDESHOWSTART -- convert a topic with headings into a slideshow
+   * The =%<nop>SLIDESHOWSTART%= macro is handled by the SlideShowPlugin
+   * Syntax: =%<nop>SLIDESHOWSTART%=
+   * Syntax: =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%=
+   * Example:%BR%
+     =%<nop>SLIDESHOWSTART%= %BR%
+     =---++ Sample Slide 1= %BR%
+     =&nbsp;   * Bullet 1= %BR%
+     =&nbsp;   * Bullet 2= %BR%
+     =---++ Sample Slide 2= %BR%
+     =&nbsp;   * Bullet 1= %BR%
+     =&nbsp;   * Bullet 2= %BR%
+     =%<nop>SLIDESHOWEND%=
+   * Related: [[#VarSLIDESHOWEND][SLIDESHOWEND]], SlideShowPlugin
