@@ -4168,35 +4168,36 @@ sub META {
     my $meta = $this->inContext('can_render_meta');
 
     return '' unless $meta;
-    my $result = '';
 
     my $option = $params->{_DEFAULT} || '';
 
     if ( $option eq 'form' ) {
 
         # META:FORM and META:FIELD
-        $result = $meta->renderFormForDisplay( $this->templates );
+        return $meta->renderFormForDisplay( $this->templates );
     }
     elsif ( $option eq 'formfield' ) {
 
         # a formfield from within topic text
-        $result =
-          $meta->renderFormFieldForDisplay( $params->get('name'), '$value',
-            $params );
+        return  $meta->renderFormFieldForDisplay( 
+                       $params->get('name'), '$value', $params );
     }
     elsif ( $option eq 'attachments' ) {
 
         # renders attachment tables
-        $result = $this->attach->renderMetaData( $web, $topic, $meta, $params );
+        return $this->attach->renderMetaData( $web, $topic, $meta, $params );
     }
     elsif ( $option eq 'moved' ) {
-        $result = $this->renderer->renderMoved( $web, $topic, $meta, $params );
+        return $this->renderer->renderMoved( $web, $topic, $meta, $params );
     }
     elsif ( $option eq 'parent' ) {
-        $result = $this->renderer->renderParent( $web, $topic, $meta, $params );
+        # Only parent parameter has the format option and should do std escapes
+        return expandStandardEscapes( $this->renderer->renderParent(
+                                             $web, $topic, $meta, $params )
+                                    );
     }
-
-    return expandStandardEscapes($result);
+    # return nothing if invalid parameter
+    return '';
 }
 
 # Remove NOP tag in template topics but show content. Used in template
