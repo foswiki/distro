@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1122409431" format="1.1" version="$Rev $"}%
+---+ A List of User Tools
+
+%SEARCH{"%TOPIC%" excludetopic="%TOPIC%" nonoise="on" format="   * $web.$topic$n      * $summary(100, noheader)"}%

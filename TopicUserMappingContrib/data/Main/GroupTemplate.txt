@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 16686 $"}%
+---+!! <nop>%URLPARAM{"topic"}%
+
+   * Member list (comma-separated list):
+      * Set GROUP = %WIKIUSERNAME%
+   * Persons/group who can change the list:
+      * Set ALLOWTOPICCHANGE = %URLPARAM{"topic"}%
+
+*%MAKETEXT{"Related topics:"}%* [[%SYSTEMWEB%.AccessControl][AccessControl]]
+

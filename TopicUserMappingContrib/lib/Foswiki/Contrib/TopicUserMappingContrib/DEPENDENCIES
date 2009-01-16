@@ -1,0 +1,5 @@
+# Dependencies for TopicUserMappingContrib
+# Example:
+# Time::ParseDate,>=2003.0211,cpan,Required.
+# Foswiki::Plugins,>=1.15,perl,Foswiki 1 release.
+

@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="ProjectContributor" date="1187649998" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="DefaultPreferences"}%
+---+++ User Settings -- preference settings customizable by users
+Some of the preference settings are explicitly intended to be customized by users, though a default is provided in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and site wide customisation can take place in [[%LOCALSITEPREFS%]].
+
+User settings are customised by asetting a value in the users' personal topic.
+For example,
+Example:
+<verbatim>
+   * Set LINKTOOLTIPINFO = off
+</verbatim>
+
+This value will apply for the user when they are logged in, but will not
+affect other users.
+
+*See also:*
+   * [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] - default preference settings
+   * [[%LOCALSITEPREFS%]] - preference settings local to this site
+   * [[%SYSTEMWEB%.Macros][Macros]] - an alphabetical list of all macros

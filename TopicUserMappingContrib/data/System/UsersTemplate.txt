@@ -1,0 +1,53 @@
+%META:TOPICINFO{author="AdminGroup" date="1178574333" format="1.1" reprev="1.2" version="1.2"}%
+---+ List of <nop>%WIKITOOLNAME% users
+
+Below is a list of users with accounts. If you want to edit topics or see protected areas of the site then you can get added to the list by registering: fill out the form in %SYSTEMWEB%.UserRegistration. 
+
+If you forget your password, %SYSTEMWEB%.ResetPassword will get a new one sent to you.
+
+%INCLUDE{"UserListHeader"}%
+
+----
+#ListStart
+[[#A][A]] [[#B][B]] [[#C][C]] [[#D][D]] [[#E][E]] [[#F][F]] [[#G][G]] [[#H][H]] [[#I][I]] [[#J][J]] [[#K][K]] [[#L][L]] [[#M][M]] [[#N][N]] [[#O][O]] [[#P][P]] [[#Q][Q]] [[#R][R]] [[#S][S]] [[#T][T]] [[#U][U]] [[#V][V]] [[#W][W]] [[#X][X]] [[#Y][Y]] [[#Z][Z]]
+
+   * A - <a name="A">- - - -</a>
+   * B - <a name="B">- - - -</a>
+   * C - <a name="C">- - - -</a>
+   * D - <a name="D">- - - -</a>
+   * E - <a name="E">- - - -</a>
+   * F - <a name="F">- - - -</a>
+   * G - <a name="G">- - - -</a>
+   * H - <a name="H">- - - -</a>
+   * I - <a name="I">- - - -</a>
+   * J - <a name="J">- - - -</a>
+   * K - <a name="K">- - - -</a>
+   * L - <a name="L">- - - -</a>
+   * M - <a name="M">- - - -</a>
+   * N - <a name="N">- - - -</a>
+   * O - <a name="O">- - - -</a>
+   * P - <a name="P">- - - -</a>
+   * Q - <a name="Q">- - - -</a>
+   * R - <a name="R">- - - -</a>
+   * S - <a name="S">- - - -</a>
+   * T - <a name="T">- - - -</a>
+   * ProjectContributor - 1 Jan 2005
+   * WikiGuest - guest - 10 Feb 1999
+   * RegistrationAgent - 1 Jan 2005
+   * U - <a name="U">- - - -</a>
+   * UnknownUser - 1 Jan 2005
+   * V - <a name="V">- - - -</a>
+   * W - <a name="W">- - - -</a>
+   * X - <a name="X">- - - -</a>
+   * Y - <a name="Y">- - - -</a>
+   * Z - <a name="Z">- - - -</a>
+
+*%X% Note:* There are four default system users:
+   * *ProjectContributor* - placeholder for a Foswiki developer, and is used in documentation
+   * *WikiGuest* - guest user, used as a fallback if the user can't be identified
+   * *RegistrationAgent* - special user used during the new user registration process
+   * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
+
+---
+*Access Control:*
+   * Set ALLOWTOPICCHANGE = AdminGroup

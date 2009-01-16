@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1163619832" format="1.0" version="$Rev: 15206 $"}%
+---+ User List sorted by location
+
+%INCLUDE{"UserListHeader"}%
+
+%TABLE{initsort="1"}%
+%SEARCH{"form.name~'*UserForm'" type="query" header="|*Country* | *State* | *FirstName* | *LastName* | *Organization* |" format="| $formfield(Country) | $formfield(State) | [[$topic][$formfield(FirstName)]] | [[$topic][$formfield(LastName)]] | $formfield(OrganisationName) |" excludetopic="Web*, *Template" nosearch="on" order="formfield(Country)"}%
