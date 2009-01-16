@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+ <title>cssQuery Test Page</title>
+ <meta name="author" content="Dean Edwards"/>
+ <!-- keeping code tidy!! -->
+ <meta name="copyright" content="&copy; copyright 2005, Dean Edwards"/>
+ <style type="text/css">
+  p.test a {background-color: red;}
+ </style>
+ <script src="cssQuery.js" type="text/javascript"></script>
+ <script src="cssQuery-level2.js" type="text/javascript"></script>
+ <script src="cssQuery-level3.js" type="text/javascript"></script>
+ <script src="cssQuery-standard.js" type="text/javascript"></script>
+ <script type="text/javascript">
+  onload = function() {
+	var styles = document.getElementsByTagName("pre");
+	for (var i = 0; i < styles.length; i++) test(styles[i]);
+
+	function test(style) {
+		var rule = style.firstChild.nodeValue;
+		var selector = rule.slice(0, rule.indexOf("{"));
+
+		var elements = cssQuery(selector);
+
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].style.backgroundColor = "lime";
+		}
+	};
+  };
+ </script>
+</head>
+
+<body lang="en">
+ <h2>cssQuery Test Page</h2>
+
+ <h3><abbr>CSS</abbr> Level 1</h3>
+
+ <pre>#test1-1 p a {background-color: lime;}</pre>
+ <div id="test1-1"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test1-2 :link {background-color: lime;}</pre>
+ <div id="test1-2"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <h3><abbr>CSS</abbr> Level 2</h3>
+
+ <pre>#test2-1 p.test.link a {background-color: lime;}</pre>
+ <div id="test2-1"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-2 p > a {background-color: lime;}</pre>
+ <div id="test2-2"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-3 span + a {background-color: lime;}</pre>
+ <div id="test2-3"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-4 p:first-child a {background-color: lime;}</pre>
+ <div id="test2-4"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-5 a:lang(en) {background-color: lime;}</pre>
+ <div id="test2-5"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-6 a[href] {background-color: lime;}</pre>
+ <div id="test2-6"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-7 a[title="This is a link"] {background-color: lime;}</pre>
+ <div id="test2-7"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test2-8 a[title~="is"] {background-color: lime;}</pre>
+ <div id="test2-8"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>div[id|=test2-9] a {background-color: lime;}</pre>
+ <div id="test2-9"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <h3><abbr>CSS</abbr> Level 3</h3>
+
+ <pre>#test3-1 span ~ a {background-color: lime;}</pre>
+ <div id="test3-1"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-2 p:last-child a {background-color: lime;}</pre>
+ <div id="test3-2"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-3 a:contains("test") {background-color: lime;}</pre>
+ <div id="test3-3"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-4 p :not(span) {background-color: lime;}</pre>
+ <div id="test3-4"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-5 p:only-child a {background-color: lime;}</pre>
+ <div id="test3-5"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-6 p *:nth-child(even) {background-color: lime;}</pre>
+ <div id="test3-6"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-7 p *:nth-last-child(2n+1) {background-color: lime;}</pre>
+ <div id="test3-7"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>:root #test3-8 a {background-color: lime;}</pre>
+ <div id="test3-8"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-9 a[title^="This"] {background-color: lime;}</pre>
+ <div id="test3-9"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-10 a[title*="is a"] {background-color: lime;}</pre>
+ <div id="test3-10"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+
+ <pre>#test3-11 a[title$="link"] {background-color: lime;}</pre>
+ <div id="test3-11"><p class="test link"><span>This</span> is a <a href="#" title="This is a link">test</a> link.</p></div>
+</body>
+</html>
