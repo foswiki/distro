@@ -1,0 +1,31 @@
+---+ Empty Plugin
+
+This Plugin does nothing.
+
+This is an empty Plugin topic you can use as a template for your own Plugin
+documentation topic.
+
+Learn how to create your own plugin in %SYSTEMWEB%.DevelopingPlugins.
+
+---++ Plugin Preferences
+
+Settings specific to your plugin can be stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. Default values for these preferences can be set in plugin topics; for example:
+   * One line description, used by other tools:
+      * Set SHORTDESCRIPTION = Empty Plugin used as a template for new Plugins
+This is then referenced using ==%<nop>EMPTYPLUGIN_SHORTDESCRIPTION%==.
+
+If you want to redefine a preference setting, for example in %USERSWEB%.SitePreferences, or in a web preferences or in your personal preferences, you must define the 'long form' e.g.
+      * <nop>Set EMPTYPLUGIN_MYPREFERENCE = my preference
+
+---++ Installation
+%$INSTALL_INSTRUCTIONS%
+
+---++ Plugin Info
+
+|  Author: | Foswiki:Main.PluginAuthor|
+|  Copyright: | &copy; 2008, Foswiki Contributors |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Version: | %$VERSION% |
+|  Home: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+
