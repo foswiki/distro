@@ -1,0 +1,54 @@
+%META:TOPICINFO{author="ProjectContributor" date="1167969723" format="1.0" version="$Rev$"}%
+---+!! Tips Contrib Package
+
+Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki features. Includes an application for creating custom tips for local installation.
+
+%TOC%
+
+---++ Summary of Contents
+	* Set on =TipTopic= topics providing brief lessons on Foswiki features. See %SYSTEMWEB%.TipsTopics.
+	* Set of topics for creating and managing =TipTopicXXX= topics. See %SYSTEMWEB%.TipsOfTheDayAdmin.
+
+---++ Detailed Documentation
+	* See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
+	* See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
+
+---++ Settings
+
+This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for administration details.
+
+	* One line description:
+	* Set SHORTDESCRIPTION = Displays rotating list of "Tip-of-the-day"
+
+---++ CSS used by !TipsContrib
+
+	* .tipsOfTheDay - overall container
+	* .tipsOfTheDayContents - container for tipsOfTheDayHeader and tipsOfTheDayText
+	* strong.tipsOfTheDayHeader - header that says "Tip of the Day"
+	* .tipsOfTheDayText - the tip; contains title and tip summary and link "Read on"
+	* .tipsOfTheDayTitle - title of the tip; the link to the tip topic
+
+---++ Installation Instructions
+
+*Note:* You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where Foswiki is running.
+
+	* Download the ZIP file from the Plugin web (see below)
+	* Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
+	  | *File:* | *Description:* |
+	  %$MANIFEST%
+
+---++ Contrib Info
+
+|  Copyright  | Copyright (C) 2005-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Version: | 16 Dec 2008 |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Dec 2008: | Foswiki version | 
+|  04 Jan 2007: | Performance improvement |
+|  10 Oct 2005: | Initial version - Packaging by TWiki:Main.LynnwoodBrown |
+|  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+
+---
+*Related Topics:* %USERSWEB%.SitePreferences

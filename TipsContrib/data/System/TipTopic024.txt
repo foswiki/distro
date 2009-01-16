@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107572800" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ Comment box with !CommentPlugin 
+
+The CommentPlugin allows users to quickly post comments to a page without an edit/preview/save cycle. 
+
+Write =%<nop>COMMENT{ attributes }%= or simply =%<nop>COMMENT%= anywhere in a Foswiki topic.
+
+Example:
+<form name="disabled">
+<table><tr valign="middle"><td><textarea rows="3" cols="40" name="comment" wrap="soft" onfocus="if(this.value=='')this.value=''" onblur="if(this.value=='')this.value=''">This non-working example is for demonstration purposes only</textarea></td><td><input type="submit" value="Add comment" disabled="disabled" /></td></tr></table>
+</form>
+
+[[CommentPlugin][More Information...]]
+
+[[TipsOfTheDay][See More Tips...]]
