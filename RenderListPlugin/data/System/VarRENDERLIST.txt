@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1191140974" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarRENDERLIST
+---+++ RENDERLIST -- render bullet lists in a variety of formats
+   * The =%<nop>RENDERLIST%= macro is handled by the RenderListPlugin
+   * Syntax: =%<nop>RENDERLIST%=
+   * Syntax: =%<nop>RENDERLIST{ "org" focus="Sales.WestCoastTeam" }%=
+   * Example:%BR%
+     =%<nop>RENDERLIST{ "org" }%= %BR%
+     =&nbsp;  * [<nop>[Eng.WebHome][Engineering]]= %BR%
+     =&nbsp;     * [<nop>[Eng.TechPubs][Tech Pubs]]= %BR%
+     =&nbsp;  * [<nop>[Sales.WestCoastTeam][Sales]]= %BR%
+     =&nbsp;     * [<nop>[Sales.EastCoastTeam][East Coast]]= %BR%
+     =&nbsp;     * [<nop>[Sales.WestCoastTeam][West Coast]]=
+   * Related: RenderListPlugin
