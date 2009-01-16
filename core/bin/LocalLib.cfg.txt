@@ -1,0 +1,43 @@
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# LocalLib.cfg: local path settings for Foswiki
+
+use vars qw( $foswikiLibPath $CPANBASE );
+
+#development and debugging settings
+#$ENV{FOSWIKI_ASSERTS} = 1;
+#$ENV{FOSWIKI_MONITOR} = 1;
+
+# -------------- Path to lib directory containing Foswiki.pm. 
+#
+# REQUIRED
+# The absolute path to the 'lib' directory in your installation..
+
+$foswikiLibPath = "/absolute/path/to/your/lib";
+
+
+# -------------- Extra path components to include in @INC
+# OPTIONAL
+# If you need to use perl modules that are not installed in the standard
+# directories (e.g. you have downloaded extra modules for use with plugins)
+# then you can add the absolute paths to those modules below. You can list
+# as many directories as you want, each directory within quotes, and 
+# directories separated by commas.
+
+# @localPerlLibPath = ( '/path/to/dir', '/path/to/another/dir' );
+
+# http://www.perl.com/pub/a/2002/04/10/mod_perl.html?page=3 has good advice
+# on installing CPAN modules without superuser privileges.
+
+
+1; # Required for successful module loading

@@ -1,0 +1,23 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSTARTSECTION
+---+++ STARTSECTION -- marks the start of a section within a topic
+   * Section boundaries are defined with =%<nop>STARTSECTION{}%= and =%<nop>ENDSECTION{}%=.
+   * Sections may be given a name to help identify them, and/or a type, which changes how they are used.
+      * =type="section"= - the default, used for a generic section, such as a named section used by [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]].
+      * =type="include"= - like =%<nop>STARTINCLUDE%= ... =%<nop>STOPINCLUDE%= except that you can have as many include blocks as you want (=%<nop>STARTINCLUDE%= is restricted to only one).
+      * =type="expandvariables"= - all macros inside an "expandvariables" type section gets expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
+      * =type="templateonly"= - start position of text to be removed when a template topic is used. This is used to embed text that you _do not_ want expanded when a new topic based on the template topic is created. See TemplateTopics for more information.
+   * Syntax: =%<nop>STARTSECTION{"name"}% ................... %<nop>ENDSECTION{"name"}%=
+   * Syntax: =%<nop>STARTSECTION{type="include"}% ........... %<nop>ENDSECTION{type="include"}%=
+   * Syntax: =%<nop>STARTSECTION{type="expandvariables"}% ... %<nop>ENDSECTION{type="expandvariables"}%=
+   * Syntax: =%<nop>STARTSECTION{type="templateonly"}% ...... %<nop>ENDSECTION{type="templateonly"}%=
+   
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default* |
+     | ="name"= | Name of the section. Must be unique inside a topic. | Generated name |
+     | =type="..."= | Type of the section; type ="section"=, ="expandvariables"=, ="include"= or ="templateonly"= | ="section"= |
+   * %X% If a section is not given a name, it will be assigned one. Unnamed sections are assigned names starting with =_SECTION0= for the first unnamed section in the topic, =_SECTION1= for the second, etc..
+   * %X% You can define nested sections. It is not recommended to overlap sections, although it is valid in Foswiki. Use named sections to make sure that the correct START and ENDs are matched. Section markers are *not* displayed when a topic is viewed.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarINCLUDE][INCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNOP][NOP]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]]
+

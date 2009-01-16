@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarREMOTEADDR
+---+++ REMOTE_ADDR -- environment variable
+   * Syntax: =%<nop>REMOTE_ADDR%=
+   * Expands to: =%REMOTE_ADDR%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarENV][ENV]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTPHOST][HTTP_HOST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]

@@ -1,0 +1,38 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+
+Description: Tests for handling embedded tag parameters
+
+---++ Test for embedding a URLPARAM in a SEARCH
+<verbatim>
+%SEARCH{"%URLPARAM{"tagname"}%" topic="TestCaseEmbeddedTags" nosearch="on" nototal="on" format="The test passed %TOPIC%"}%
+</verbatim>
+<a href="%SCRIPTURLPATH%/view/%WEB%/%TOPIC%?tagname=passed&searchtgt="ArfleBarfleGloop">Click here to run test</a>
+The expected result was:
+<!-- expected -->
+Search hit in TestCaseEmbeddedTags
+<!-- /expected -->
+
+The value of =tagname= is: %URLPARAM{"tagname"}%
+
+The actual output was:
+<!-- actual -->
+%SEARCH{"%URLPARAM{"tagname"}%" topic="TestCaseEmbeddedTags" nosearch="on" nototal="on" format="Search hit in $topic"}%
+<!-- /actual -->
+
+---++ Test for embedding an URLPARAM tag in the parameters to another URLPARAM tag.
+<verbatim>
+%URLPARAM{ "%URLPARAM{"tagname" default="failed"}%" default="failed"}%
+</verbatim>
+<a href="%SCRIPTURLPATH%/view/%WEB%/%TOPIC%?tagname=passed&passed=expected">Click here to run test</a>
+
+The value of =tagname= is: %URLPARAM{"tagname"}%
+
+The expected output was:
+<!-- expected -->
+expected
+<!--/expected -->
+The actual output was:
+<!-- actual -->
+%URLPARAM{ "%URLPARAM{"tagname" default="failed"}%" default="failed"}%
+<!-- /actual -->

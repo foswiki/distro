@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Tests for inclusion of attachments
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+%BR% Modified by: Markus Ueberall (redundant anchor names get renamed, cf. TestCaseAutoTOC)
+
+---+ Existing attachment
+---++ Expected
+<!-- expected -->
+<h1><a name="heading_1_AN1"></a>heading 1</h1>
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%INCLUDE{"%ATTACHURL%/attachment.html"}%
+<!-- /actual -->
+---
+---+ Non-existant attachment (manual test)
+---++ Expected
+<!-- manual expected  -->
+<p />
+<h1><a name="Not_Found"> </a> Not Found </h1>
+The requested URL %ATTACHURLPATH%/noexist was not found on this server.<P>
+<HR>
+<!-- manual /expected -->
+---++ Actual
+<!-- manual actual -->
+%INCLUDE{"%ATTACHURL%/noexist"}%
+<!-- manual /actual -->
+
+
+%META:FILEATTACHMENT{name="attachment.html" attachment="attachment.html" attr="" comment="" date="1101889684" path="attachment.html" size="18" tmpFilename="/var/tmp/CGItemp34644" user="ProjectContributor" version="1.1"}%
+

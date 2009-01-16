@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarVAR
+---+++ VAR{"NAME" web="Web"} -- get a preference value from another web 
+   * Syntax: =%<nop>VAR{"NAME" web="Web"}%=
+   * Example: To get =%<nop>WEBBGCOLOR%= of the %USERSWEB% web write =%<nop>VAR{"WEBBGCOLOR" web="%USERSWEB%"}%=, which expands to =%VAR{"WEBBGCOLOR" web="%USERSWEB%"}%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBPREFSTOPIC][WEBPREFSTOPIC]]
+

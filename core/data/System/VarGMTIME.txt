@@ -1,0 +1,29 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarGMTIME
+---+++ GMTIME{"format"} -- formatted GM time
+   * Syntax: =%<nop>GMTIME%= OR =%<nop>GMTIME{"format"}%=
+   * =%<nop>GMTIME%= uses the default date format defined by the {DefaultDateFormat} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
+      * expands to %GMTIME%
+   * Supported special format tokens:
+     | *Token:* | *Unit:* | *Example* |
+     | =$seconds= | seconds | 59 |
+     | =$minutes= | minutes | 59 |
+     | =$hours= | hours | 23 |
+     | =$day= | day of month | 31 |
+     | =$wday= | day of the Week (Sun, Mon, Tue, Wed, Thu, Fri, Sat) | Thu |
+     | =$dow= | day of the week (Sun = 0) | 2  |
+     | =$week= | number of week in year (ISO 8601) | 34 |
+     | =$month= | short name of month | Dec |
+     | =$mo= | 2 digit month | 12 |
+     | =$year= | 4 digit year | 1999 |
+     | =$ye= | 2 digit year | 99 |
+     | =$tz= | either "GMT" (if set to gmtime), or "Local" (if set to servertime) | GMT |
+     | =$iso= | ISO format timestamp | %GMTIME{"$iso"}% |
+     | =$rcs= | RCS format timestamp | %GMTIME{"$rcs"}% |
+     | =$http= | E-mail & http format timestamp | %GMTIME{"$http"}% |
+     | =$epoch= | Number of seconds since 00:00 on 1st January, 1970 | %GMTIME{"$epoch"}% |
+   * Tokens can be shortened to 3 characters
+   * Example: =%<nop>GMTIME{"$day $month, $year - $hour:$min:$sec"}%= expands to =%GMTIME{"$day $month, $year - $hour:$min:$sec"}%=
+   * %X% When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]

@@ -1,0 +1,23 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Search results can contain tags. These tags must be correctly expanded in the output.
+
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+<!--
+TAGME %SYSTEMWEB%
+-->
+<table border=1>
+<tr><th>Expected</th><th>Actual</th></tr>
+<tr><td>
+<!-- expected expand -->
+%SYSTEMWEB%
+<!-- /expected -->
+<td>
+<!-- actual -->
+%SEARCH{"TAGME" topic="%TOPIC%" nosearch="on" nototal="on" format="$pattern(.*?TAGME\s*([^\n\r]*).*)"}%
+<!-- /actual -->
+</table>

@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarHTTPS
+---+++ HTTPS -- get HTTPS headers
+   * The same as =%<nop>HTTP%= but operates on the HTTPS environment variables present when the SSL protocol is in effect. Can be used to determine whether SSL is turned on.
+   * Syntax: =%<nop>HTTPS%=
+   * Syntax: =%<nop>HTTPS{"Header-name"}%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHTTP][HTTP]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEADDR][REMOTE_ADDR]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEPORT][REMOTE_PORT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]]
+

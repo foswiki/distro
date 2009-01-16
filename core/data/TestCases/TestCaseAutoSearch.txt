@@ -1,0 +1,289 @@
+%META:TOPICINFO{author="ProjectContributor" date="1117992408" format="1.0" version="$Rev: 13647 $"}%
+
+Description: Automated search function tests.
+
+Results dependent on templates used to render search results. Tests only make sense when this topic is viewed with "pattern" skin and standard search templates.
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+---+ Search _default
+---++ Expected
+<!-- expected expand rex DEFAULT -->
+<span class="patternSearched">Searched: <b><noautolink>hit me with your rhythm stick</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
+<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (GMT)</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4>
+<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText">Description: Automated search function tests. Results dependent on templates used to render search results. Tests only make sense when this topic is viewed with "pattern ...</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a>&nbsp;</div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText">This is a test fixture topic, used in TestCaseAutoSearch hit me with your rhythm stick hit me! hit me! schmerz ist gut, ich liebe dich hit me! hit me! hit me! ...</div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div>
+<!--/patternSearchResult-->
+<div class="patternSearchResultCount" class="foswikiBottomResultCount" >Number of topics: <span class="foswikiSearchResultCount">2</span></div><!--/patternSearchResultCount-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "hit me with your rhythm stick" }%
+<!-- /actual -->
+
+
+
+---+ Search with search parameter
+---++ Expected (again)
+<!-- expected again expand rex SEARCHPARAMETER -->
+Same as last test
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ search="hit me with your rhythm stick" }%
+<!-- /actual -->
+
+---+ Search with _default *and* search parameter
+---++ Expected (again)
+<!-- expected again expand rex DEFAULTANDSEARCH -->
+Same as last test
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "hit me with your rhythm stick" search="sausages and mash" }%
+<!-- /actual -->
+
+
+
+---+ Topic search with two webs specified, all summary fields disabled
+---++ Expected
+<!-- expected expand rex TWOWEBS -->
+<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences"><b>WebPreferences</b></a></div><div class="foswikiRight foswikiSRAuthor"><a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/ProjectContributor">ProjectContributor</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WebPreferences" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "WebPreferences$" type="regex" scope="topic" web="TestCases, %SYSTEMWEB%" nosummary="on" nosearch="on" noheader="on" nototal="on" order="topic" }%
+<!-- /actual -->
+
+
+
+---+ Topic search with all webs specified
+---++ Expected
+<!-- expected expand rex ALLWEBS -->
+<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/%SYSTEMWEB%/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a></div><div class="foswikiRight foswikiSRAuthor"> <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div><div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary-->
+
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "WhatIsWikiWiki" scope="topic" web="all" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+
+
+---+ Text search with topic parameter
+---++ Expected
+<!-- expected expand rex TOPICPARAMETER -->
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> -
+<a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "hit me with" topic="TestCaseAuto*" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+
+---+ Text search with excludetopic parameter set to a topic
+---++ Expected
+<!-- expected rex expand EXCLUDETOPICTOPIC -->
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "your rhythm" excludetopic="TestCaseAutoSearch" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+
+
+
+---+ Text search with excludetopic parameter set to a wildcard
+---++ Expected (again)
+<!-- expected again rex expand EXCLUDETOPICWILDCARD -->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "your rhythm" excludetopic="TestCaseAuto*" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+---+ Keyword search
+---++ Expected (again)
+<!-- expected again rex expand KEYWORDSEARCH -->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "includer -excluder" web="TestCases" type="keyword" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+---+ Text search with excludetopic set to a list of topics
+---++ Expected (empty)
+<!-- expected EXCLUDETOPICLIST -->
+<p />
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "hit me with" excludetopic="TestCaseAutoSearch, WhatIsWikiWiki" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+
+
+
+
+---+ Text search with multiple set
+---++ Expected
+<!-- expected expand rex MULTIPLE -->
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "hit me" web="TestCases" multiple="on" reverse="on" limit="1" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+
+
+
+---+ Regex search
+---++ Expected
+<!-- expected expand rex REGEX -->
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "hit *me" type="regex" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" }%
+<!-- /actual -->
+
+---+ scope="all" search
+---++ Expected
+<!-- expected expand rex SCOPEALL -->
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/WhatIsWikiWiki"><b>WhatIsWikiWiki</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/WhatIsWikiWiki" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult--><div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "WhatIsWikiWiki" web="TestCases" scope="all" nosummary="on" nosearch="on" noheader="on" nototal="on" reverse="on"}%
+<!-- /actual -->
+
+---+ casesensitive="on"
+---++ Expected
+<!-- expected rex expand CASESENSITIVE -->
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>
+<div class="foswikiRight foswikiSRRev"><span class="foswikiNew">NEW</span> - <a href="%SCRIPTURLPATH{"rdiff"}%/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a> </div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "Rhythm" web="TestCases" nosummary="on" nosearch="on" noheader="on" nototal="on" casesensitive="on" }%
+<!-- /actual -->
+
+<!-- expected rex NOOPED -->
+NOOPED vars shouldn't expand in search results %DATE%
+<div class="patternSearchResult">
+<div class="foswikiTopRow"><div class="foswikiLeft">
+<a href="@REX(.*?)view@REX(.*?)/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a></div>
+<div class="foswikiRight foswikiSRAuthor">
+<a href="@REX(.*?)/view@REX(.*?)/@REX(.*?)/@WIKIWORD">@WIKIWORD</a>
+</div>
+<div class="foswikiRight foswikiSRRev">
+<span class="foswikiNew">NEW</span> - <a href="@REX(.*?)rdiff@REX(.*?)/TestCases/TestCaseAutoSearch" rel='nofollow'>@DATE - @TIME</a></div><br class="foswikiClear" /></div>
+<!--/foswikiTopRow--><div class="foswikiBottomRow">
+<div class="foswikiSummary foswikiGrayText"></div><!--/foswikiSummary--></div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->
+<!-- /expected -->
+<!-- actual -->
+NOOPED vars shouldn't expand in search results %<nop>DATE%
+%SEARCH{"[N]OOPED vars shouldn" type="regex" nonoise="on"}%
+<!-- /actual -->
+
+---+ bookview="on"
+
+---+ expandvariables="on"
+
+---+ header="..."
+
+---+ separator=", " (default newline)
+---+ newline="%BR%" 	Line separator within a search hit, effective only in FormattedSearch.
+
+
+

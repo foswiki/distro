@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! <nop>%WEB% Web Preferences
+
+The following settings are *web preferences* of the [[%WEB%.%HOMETOPIC%][%WEB%]] web. These preferences overwrite the *site-level preferences* in [[%SYSTEMWEB%.%WIKIPREFSTOPIC%]] and [[%LOCALSITEPREFS%]], and can be overwritten by *user preferences* (your personal topic, eg: %USERSWEB%.%WIKINAME% in the [[%USERSWEB%.%HOMETOPIC%][%USERSWEB%]] web).
+
+%TOC%
+
+---++ Web Preferences Settings
+
+These settings override the defaults for this web only. See [[%SYSTEMWEB%.DefaultPreferences#DefaultWebPreferences][full list of defaults with explanation]].
+
+   * Set WEBBGCOLOR = #FF0099
+   * Set SITEMAPWHAT = Place for trashed topics and attachments.
+   * Set SITEMAPUSETO = ...get rid of unused stuff.
+   * Set NOSEARCHALL = on
+
+   * Restricted to adminsso that deleted topics can't be viewed by spies.
+      * Set ALLOWWEBVIEW = %USERSWEB%.AdminGroup
+      * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+      * Set ALLOWTOPICRENAME = %USERSWEB%.AdminGroup
+
+   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
+      * Set FINALPREFERENCES = NOSEARCHALL, ATTACHFILESIZELIMIT, WIKIWEBMASTER, WEBCOPYRIGHT, WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME
+
+%INCLUDE{%SYSTEMWEB%.WebPreferencesHelp}%
+

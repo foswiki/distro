@@ -1,0 +1,84 @@
+#!/usr/bin/perl
+#
+#
+# TWiki WikiClone (see wiki.pm for $wikiversion and other info)
+#
+# Copyright (C) 1999-2001 Peter Thoeny, peter@thoeny.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details, published at 
+# http://www.gnu.org/copyleft/gpl.html
+
+# Set library paths in @INC, at compile time
+BEGIN { unshift @INC, '.'; require 'setlib.cfg' }
+
+use TWiki;
+
+sub showArgs
+{
+   print "usage:\n";
+   print "   upgradeformat <web> <topic>\n";
+   print "   upgradeformat <web>\n";
+   print "   upgradeformat all - upgrades all webs\n";
+}
+
+my $theRemoteUser = "guest";
+
+&TWiki::initialize( "", $theRemoteUser, "", "", "" );
+
+if ( $#ARGV == 1 ) {
+   upgradeTopic( $ARGV[0], $ARGV[1], "log" );
+} elsif ( $#ARGV == 0 ) {
+   if( $ARGV[0] eq "all" ) {
+       my @webs = TWiki::Store::getAllWebs();
+       foreach my $web ( @webs ) {
+           my @topics = TWiki::Store::getTopicNames( $web );
+           foreach my $topic ( @topics ) {
+               upgradeTopic( $web, $topic, "log" );
+           }
+       }
+   } else {
+       # Change all topics in a specific WEB
+       my @topics = TWiki::Store::getTopicNames( $ARGV[0] );
+       my $topic;
+       foreach $topic ( @topics ) {
+	   upgradeTopic( $ARGV[0], $topic, "log" );
+       }
+   }
+} else {
+   print "Wrong number of arguments\n";
+   showArgs();
+   exit( 1 );
+}
+
+
+
+
+#=========================
+sub upgradeTopic
+{
+   my ( $theWeb, $theTopic, $doLogToStdOut ) = @_;
+   
+   my( $meta, $text ) = TWiki::Store::readTopic( $theWeb, $theTopic );
+   my %info = $meta->findOne( "TOPICINFO" );
+   my $format = $info{"format"};
+   if( $format ne $TWiki::formatVersion ) {
+       my ( $dontLogSave, $doUnlock, $dontNotify ) = ( "", "1", "1" );
+       my $error = TWiki::Store::saveNew( $theWeb, $theTopic, $text, $meta, "", "", $dontLogSave, $doUnlock, $dontNotify, "upgraded format" );
+       if ( $error ) {
+	  print "upgradeformat: error from save: $error of $theWeb.$theTopic\n";
+       }
+       if ( $doLogToStdOut ) {
+	  print "Updaded format for $theWeb.$theTopic from \"$format\" to \"$TWiki::formatVersion\"\n";
+       }
+   }
+}
+
+

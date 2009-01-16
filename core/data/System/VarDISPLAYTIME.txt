@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarDISPLAYTIME
+---+++ DISPLAYTIME{"format"} -- formatted display time
+   * Formatted time - either GMT or Local server time, depending on {DisplayTimeValues} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. Same format qualifiers as =%<nop>GMTIME%=
+   * Syntax: =%<nop>DISPLAYTIME%= OR =%<nop>DISPLAYTIME{"format"}%=
+   * =%<nop>DISPLAYTIME%= The time is shown as hh:mm (24 hour clock)
+      * Expands to: =%DISPLAYTIME%=
+   * Example: =%<nop>DISPLAYTIME{"$hou:$min"}%= expands to =%DISPLAYTIME{"$hou:$min"}%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]

@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarGROUPS
+---+++ GROUPS -- a formatted list of groups
+   * Expands to a formatted list of user groups in your %WIKITOOLNAME%.
+   * Syntax: =%<nop>GROUPS%=
+   * The macro is intended to be used in %USERSWEB%.WikiGroups, to allow a
+     group listing for various user mapping managers.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREMOTEUSER][REMOTE_USER]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERINFO][USERINFO]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERSTOPIC][WIKIUSERSTOPIC]]
+

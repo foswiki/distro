@@ -1,0 +1,117 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 15996 $"}%
+
+Description: tests for TOCs included from other topics and with funny deprecated syntaxes.
+
+<i>This test also demonstrates that redundant anchor names (either specified in TML syntax or
+generated using the =makeUniqueAnchorName()= subroutine in =Render.pm=)
+now get renamed automatically; currently, this is actually done twice (once for TOC and once
+for the topic contents), yet all references must be in sync at any time. %BR%
+For details cf. TWiki:Codev/FixAnchorHandling, TWikibug:Item1607 </i>
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+%BR% Modified by: Markus Ueberall (documented anchor name handling)
+
+<table><tr><th>Expected</th><th>Actual</th></tr>
+<tr valign="top"><td>
+<!-- expected expand rex -->
+<a name=foswikiTOC />
+<div class="foswikiToc">
+<ul>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Nonsense">Nonsense</a>
+<ul>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Makes">Makes</a>
+<ul>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Content">Content</a>
+</li>
+</ul>
+</li>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Tests">Tests</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- /expected -->
+</td><td>
+<!-- actual -->
+%TOC{"TocFixture"}%
+<!-- /actual -->
+</td></tr><tr valign="top"><td>
+<!-- expected expand rex wine -->
+<a name=foswikiTOC />
+<div class="foswikiToc">
+<span class="foswikiTocTitle">The Top</span>
+<ul>
+<li> <a href="?@URLPARAMS#H1_1">H1 <!--1--></a>
+<ul>
+<li> <a href="?@URLPARAMS#H2">H2</a>
+</li>
+</ul>
+</li>
+<li> <a href="?@URLPARAMS#H1_2">H1 <!--2--></a>
+<ul>
+<li> <a href="?@URLPARAMS#H2_AN1">H2</a>
+<ul>
+<li>
+<ul>
+<li> <a href="?@URLPARAMS#Don_t_ignore">Don't ignore</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li> <a href="?@URLPARAMS#hash_H1">hash H1</a>
+<ul>
+<li> <a href="?@URLPARAMS#H2_AN2">H2</a>
+</li>
+</ul>
+</li>
+<li> <a href="?@URLPARAMS#hash_H1_AN1">hash H1</a>
+<ul>
+<li> <a href="?@URLPARAMS#normal_H2">normal H2</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- /expected -->
+</td><td>
+<!-- actual -->
+%TOC{title="The Top" web="%WEB%" topic="%TOPIC%"}%
+<!-- /actual -->
+</td></tr></table>
+---+!! Ignore me H1
+---++++%NOTOC% Ignore me as well heading
+---+ H1 <!--1-->
+Some text
+---++ H2
+Some more text
+---+ H1 <!--2-->
+text
+---++ H2
+The rest
+
+---#!! Ignore me H1
+---#### Don't ignore %NOTOC% except this
+---# hash H1
+Some text
+---## H2
+Some more text
+---# hash H1
+text
+<h2>normal H2</H2>
+<h3>!! notoc H3</H3>
+The rest
+
+	#!! Ignore me H1
+	####%NOTOC% Ignore me as well heading
+	# space H1
+Some text
+	## H2
+Some more text
+	# H1
+text

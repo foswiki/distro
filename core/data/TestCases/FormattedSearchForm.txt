@@ -1,0 +1,7 @@
+---++ TestCaseAutoSearch Form
+
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* |
+| Name | text | 40 | | |
+| Role | text | 40 | | |
+| Testsample | text | 40 | | |
+

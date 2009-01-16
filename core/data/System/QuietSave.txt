@@ -1,0 +1,5 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+Like Save but does not e-mail people on the WebNotify notification list - same effect as checking "Minor changes, don't notify".
+
+*Related Topics:* UserDocumentationCategory
+

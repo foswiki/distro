@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSTATISTICSTOPIC
+---+++ STATISTICSTOPIC -- name of statistics topic
+   * Syntax: =%<nop>STATISTICSTOPIC%=
+   * Expands to: =%STATISTICSTOPIC%=, renders as [[%STATISTICSTOPIC%]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarNOTIFYTOPIC][NOTIFYTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPIC][TOPIC]]
+

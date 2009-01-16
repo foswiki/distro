@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSPACEOUT
+---+++ SPACEOUT{"string"} -- renders string with spaces inserted in sensible places
+   * Inserts spaces after lower case letters that are followed by a digit or a capital letter, and after digits that are followed by a capital letter.
+   * Useful for spacing out WikiWords
+   * Syntax: =%<nop>SPACEOUT{ "%<nop>TOPIC%" }%=
+   * Expands to: =%SPACEOUT{ "%INCLUDINGTOPIC%" }%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | =separator= | The separator to put between words e.g. %<nop>SPACEOUT{"DogsCatsBudgies" separator=", "}% -> %SPACEOUT{"DogsCatsBudgies" separator=", "}% | ' ' |
+   * %T% Spaced out !WikiWords are not automatically linked. To SPACEOUT a !WikiWord but preserve the link use "double bracket" format. For example, =[<nop>[WebHome][%<nop>SPACEOUT{"Web<nop>Home"}%]]= expands to [[WebHome][%SPACEOUT{"WebHome"}%]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSPACEDTOPIC][SPACEDTOPIC]], [[SpreadSheetPlugin#FuncPROPERSPACE][$PROPERSPACE()]] of SpreadSheetPlugin
+

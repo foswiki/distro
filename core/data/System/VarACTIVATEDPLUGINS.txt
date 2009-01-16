@@ -1,0 +1,7 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarACTIVATEDPLUGINS
+---+++ ACTIVATEDPLUGINS -- list of currently activated plugins
+   * Syntax: =%<nop>ACTIVATEDPLUGINS%=
+   * Expands to: %ACTIVATEDPLUGINS%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINDESCRIPTIONS][PLUGINDESCRIPTIONS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarFAILEDPLUGINS][FAILEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINVERSION][PLUGINVERSION]]

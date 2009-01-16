@@ -1,0 +1,12 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(search result)"}% %TMPL:END%
+%TMPL:DEF{"webaction"}% %WEBTOPICLIST% %TMPL:END%
+%TMPL:DEF{"topicaction"}%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%
+%SPLIT%%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b><p />
+%SPLIT%%REPEAT%%REPEAT%%SPLIT%%MAKETEXT{"Number of topics:"}% <b>%NTOPICS%</b><p />
+%SPLIT%
+%TMPL:END%

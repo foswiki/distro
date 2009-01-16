@@ -1,0 +1,5 @@
+foswiki (1.0.0-1) unstable; urgency=low
+
+  * migrate twiki packaging to foswiki fork to avoid trademark issues
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Fri, 09 Jan 2009 09:53:40 +0100

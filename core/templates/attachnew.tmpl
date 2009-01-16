@@ -1,0 +1,10 @@
+%{ This is a default template }%%TMPL:INCLUDE{"attach"}%
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(attach)"}% %TMPL:END%
+%TMPL:DEF{"headerhelp"}% %TMPL:END%
+%TMPL:DEF{"webaction"}% %MAKETEXT{"Attach file to [_1]" args="[[%TOPIC%]]"}% %TMPL:END%
+%TMPL:DEF{"previousdetails"}%
+---++ %MAKETEXT{"Attach new file"}% %TMPL:END%
+%TMPL:DEF{"previous"}%<tr> <td></td></tr>%TMPL:END%
+%TMPL:DEF{"action"}%%MAKETEXT{"Attach new file"}%%TMPL:END%
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value=" %MAKETEXT{"Upload file"}%" />%TMPL:P{"sep"}%%TMPL:P{"canceltopicaction"}%%TMPL:END%
+%TMPL:P{"attach"}%

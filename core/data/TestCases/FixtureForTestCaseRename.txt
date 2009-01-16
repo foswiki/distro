@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+
+
+make sure that all of the following are correctly renamed to the new topic name
+
+---+++ without web name
+	* TestCaseRename
+	* TestCaseRenames
+	* [[TestCaseRename][asdf]]
+
+---+++ with web name
+	* TestCases.TestCaseRename
+	* TestCases.TestCaseRenames
+	* [[TestCases.TestCaseRename][asdf]]
+
+---+++ these should *not* be renamed
+	* NotTestCaseRename
+	* TestCaseRenameNot
+	* TestCaseRenamenot
+	* !TestCaseRename
+	* <nop>TestCaseRename
+<noautolink>
+	* TestCaseRename
+</noautolink>
+<pre>
+	* TestCaseRename
+</pre>
+<verbatim>
+	* TestCaseRename
+</verbatim>
+
+---+++ TODO:
+	* metadata, attachments, more...
+

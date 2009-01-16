@@ -1,0 +1,30 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarREVINFO
+---+++ REVINFO -- revision information of current topic
+   * Syntax:
+   * Date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]]
+---+++ REVINFO{"format"} -- formatted revision information of topic
+   * Syntax: =%<nop>REVINFO%= OR =%<nop>REVINFO{"format"}%=
+   * =%<nop>REVINFO%= is equivalent to =%<nop>REVINFO{format="r1.$rev - $date - $wikiusername"}%=
+      * Expands to: <code>%REVINFO%</code>
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="format"= | Format of revision information, see supported formatting tokens below | ="r1.$rev - $date - $wikiusername"= |
+     | =web="..."= | Name of web | Current web |
+     | =topic="..."= | Topic name | Current topic |
+     | =rev="1.5"= | Specific revision number | Latest revision |
+   * Supported formatting tokens:
+     | *Token:* | *Unit:* | *Example* |
+     | =$web= | Name of web | Current web |
+     | =$topic= | Topic name | Current topic |
+     | =$rev= | Revision number. Prefix =r1.= to get the usual =r1.5= format | =5= |
+     | =$username= | Login username of revision | =jsmith= |
+     | =$wikiname= | WikiName of revision | =JohnSmith= |
+     | =$wikiusername= | <nop>WikiName with %USERSWEB% web prefix | =%USERSWEB%.JohnSmith= |
+     | =$date= | Revision date. Actual date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]] | =21 Sep 2006= |
+     | =$time= | Revision time | =23:24:25= |
+     | =$iso= | Revision date in ISO date format | =2006-09-22T06:24:25Z= |
+     | =$min=, =$sec=, etc. | Same date format qualifiers as [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]] | |
+   * Example: =%<nop>REVINFO{"$date - $wikiusername" rev="1.1"}%= returns revision info of first revision
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME{"format"}]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarREVINFO][REVINFO]]

@@ -1,0 +1,32 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Test for TOPICLIST - rather huge, so in a topic on it's own
+
+<table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
+
+ <tr>
+  <td>TOPICLIST{}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%TOPICLIST{}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>TOPICLIST{"Foswiki"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%TOPICLIST{"Foswiki"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>TOPICLIST{Foswiki}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%TOPICLIST{Foswiki}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>TOPICLIST{"Foswiki" marker="X" format="$web$name$qname$item$marker"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%TOPICLIST{"Foswiki" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>TOPICLIST{"Foswiki" separator="X" web="Y" webs="Z" selection="W"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%TOPICLIST{Foswiki}%<!-- /actual --></td>
+ </tr>
+</table>

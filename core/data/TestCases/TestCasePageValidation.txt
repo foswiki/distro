@@ -1,0 +1,109 @@
+%META:TOPICINFO{author="ProjectContributor" date="1130275816" format="1.1" version="1.1"}%
+---+!! !TestCase Page Validation
+
+Description: A list of templates, with automatic testing on the [[http://validator.w3.org/][W3C validation service]] - page will take long to load!
+
+Pages should get validated as XHTML 1.0 Transitional.
+
+<style>
+.result h2 {font-size:100%; font-weight:bold; line-height:1.4em; padding:0; border:0; background:transparent; margin:0;}
+.result .valid {color:#007600;}
+.result .invalid {color:#ff0000;}
+</style>
+
+<!-- %TABLE{ sort="off" headeralign="left, left" }% -->
+| *Template view* 																											| *Comment* 																										| *Validation url* 																																				| *Validation result*	| *Status* 	|
+| [[%SCRIPTURL%{"attach"}%/%SYSTEMWEB%/%HOMETOPIC%][attach new]] 																| =attach.pattern.tmpl=, =attachnew.pattern.tmpl= 																	| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"attach"}%/%SYSTEMWEB%/%HOMETOPIC%}%][validate]] 															| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"attach"}%/%SYSTEMWEB%/%HOMETOPIC%}%" 															pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%?filename=favicon.ico&revInfo=1][attach again]] 										| =attach.pattern.tmpl=, =attachnagain.pattern.tmpl=, =attachtables.pattern.tmpl= 									| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%?filename=favicon.ico&revInfo=1}%][validate]] 									| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"attach"}%/%WEB%/%TOPIC%?filename=favicon.ico&revInfo=1}%" 										pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=backlinksweb][backlinks web]]											| =backlinks.pattern.tmpl=, =backlinksweb.pattern.tmpl= 															| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=backlinksweb}%][validate]] 										| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=backlinksweb}%" 										pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=backlinksallwebs][backlinks all webs]]									| =backlinks.pattern.tmpl=, =backlinksallwebs.pattern.tmpl= 														| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=backlinksallwebs}%][validate]] 									| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=backlinksallwebs}%" 									pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"changes"}%/%SYSTEMWEB%/%HOMETOPIC%][changes]] 																	| =changes.pattern.tmpl= 																							| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"changes"}%/%SYSTEMWEB%/%HOMETOPIC%}%][validate]] 															| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"changes"}%/%SYSTEMWEB%/%HOMETOPIC%}%]" 															pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"changes"}%/%SYSTEMWEB%/%HOMETOPIC%?minor=1][view all changes]] 													| =changes.pattern.tmpl= 																							| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"changes"}%/%SYSTEMWEB%/%HOMETOPIC%?minor=1}%][validate]] 													| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"changes"}%/%SYSTEMWEB%/%HOMETOPIC%?minor=1}%" 													pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=favicon.ico&web=Trash&template=deleteattachment][delete attachment]] 		| =deleteattachment.pattern.tmpl=																					| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=favicon.ico&web=Trash&template=deleteattachment}%][validate]] 		| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=favicon.ico&web=Trash&template=deleteattachment}%" 			pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=foo.bar&web=Trash&template=deleteattachment][deleteattachment error]] 		| =oopsattention.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=foo.bar&web=Trash&template=deleteattachment}%][validate]] 			| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=foo.bar&web=Trash&template=deleteattachment}%" 				pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=favicon.ico][moveattachment]] 												| =moveattachment.pattern.tmpl=																						| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=favicon.ico}%][validate]] 											| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=favicon.ico}%" 												pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=foo.bar][moveattachment error]] 											| =oopsattention.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=foo.bar}%][validate]] 												| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%WEB%/%TOPIC%?attachment=foo.bar}%" 													pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| TODO: =changeform.pattern.tmpl= 																							|  																													|  																																								|  |  |
+| [[%SCRIPTURL{"edit"}%/%SYSTEMWEB%/%HOMETOPIC%?t=1091026613][edit]] 															|  																													| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%SYSTEMWEB%/%HOMETOPIC%?t=1091026613}%][validate]] 												| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%SYSTEMWEB%/%HOMETOPIC%?t=1091026613}%" 													pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=form&t=1130355004][edit user data form]] 									| =editform.pattern.tmpl= Note: user topic must exist (test: name=<nop>%WIKINAME%; topic=[[%USERSWEB%.%WIKINAME%]]) 	| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=form&t=1130355004}%][validate]] 										| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=form&t=1130355004}%" 										pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=text&t=1130355004][edit text]] 											| =editform.pattern.tmpl= Note: user topic must exist (test: name=<nop>%WIKINAME%; topic=[[%USERSWEB%.%WIKINAME%]]) 	| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=text&t=1130355004}%][validate]] 										| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"edit"}%/%USERSWEB%/%WIKINAME%?action=text&t=1130355004}%" 										pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"login"}%/%SYSTEMWEB%/%HOMETOPIC%][log in]] 																		| =login.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"login"}%/%SYSTEMWEB%/%HOMETOPIC%}%][validate]] 															| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"login"}%/%SYSTEMWEB%/%HOMETOPIC%}%" 																pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> | Try to go to the validation page manually. |
+| [[%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopschangelanguage][change language]] 									| =oopschangelanguage.pattern.tmpl=																					| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopschangelanguage}%][validate]] 								| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopschangelanguage}%" 									pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopsmore&param1=2&param2=2][more options]]			 					| =oopsmore.pattern.tmpl=																							| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopsmore&param1=2&param2=2}%][validate]]			 				| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"oops"}%/%SYSTEMWEB%/%HOMETOPIC%?template=oopsmore&param1=2&param2=2}%" 							pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| TODO: =oopssaveerr.pattern.tmpl= 																							|  																													|  																																								|  |  |
+| TODO: =preview.pattern.tmpl= 																								| Test manually by saving the page html and paste that in the form on http://validator.w3.org						|																							  																	|  |  |
+| [[%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?type=history][rdiff history]]													| =rdiff.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?type=history}%][validate]] 												| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?type=history}%" 												pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?render=sidebyside][rdiff side by side]]										| =rdiff.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?render=sidebyside}%][validate]] 											| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?render=sidebyside}%" 											pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?render=debug][rdiff debug]]													| =rdiff.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?render=debug}%][validate]] 												| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rdiff"}%/%SYSTEMWEB%/%HOMETOPIC%?render=debug}%" 												pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"manage"}%/%SYSTEMWEB%/%HOMETOPIC%?action=editSettings][settings]]												| =settings.pattern.tmpl=																							| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"manage"}%/%SYSTEMWEB%/%HOMETOPIC%?action=editSettings}%][validate]] 										| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"manage"}%/%SYSTEMWEB%/%HOMETOPIC%?action=editSettings}%" 										pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%?newweb=Trash&nonwikiword=on][(rename) delete]]								| =renamebase.pattern.tmpl=, =renamedelete.pattern.tmpl=															| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%?newweb=Trash&nonwikiword=on}%][validate]] 								| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%?newweb=Trash&nonwikiword=on}%" 								pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%][(rename) move]]																| =renamebase.pattern.tmpl=																							| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%}%][validate]] 															| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%}%" 															pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%?action=renameweb][rename web]]												| =renamebase.pattern.tmpl=, =renameweb.pattern.tmpl=, =renamewebdelete.pattern.tmpl=								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%?action=renameweb}%][validate]] 											| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"rename"}%/%SYSTEMWEB%/%HOMETOPIC%?action=renameweb}%" 											pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| TODO: =renamewebconfirm.pattern.tmpl= 																					|  																													|  																																								|  |  |
+| TODO: =oopsaccessdenied.pattern.tmpl= 																					|  																													|  																																								|  |  |
+| TODO: =oopsleaseconflict.pattern.tmpl= 																					|  																													|  																																								|  |  |
+| [[%SCRIPTURL{"search"}%/%SYSTEMWEB%/%HOMETOPIC%?search=%HOMETOPIC%&scope=topic][search]]										| =search.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"search"}%/%SYSTEMWEB%/%HOMETOPIC%?search=%HOMETOPIC%&scope=topic}%][validate]] 							| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"search"}%/%SYSTEMWEB%/%HOMETOPIC%?search=%HOMETOPIC%&scope=topic}%" 								pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"search"}%/%SYSTEMWEB%/%HOMETOPIC%?search=%HOMETOPIC%&scope=topic&order=topic&bookview=on&limit=all][search (bookview)]]| =search.pattern.tmpl=																						| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"search"}%/%SYSTEMWEB%/%HOMETOPIC%?search=%HOMETOPIC%&scope=topic&order=topic&bookview=on&limit=all}%][validate]] | <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"search"}%/%SYSTEMWEB%/%HOMETOPIC%?search=%HOMETOPIC%&scope=topic&order=topic&bookview=on&limit=all}%" pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| TODO: =searchformat.pattern.tmpl= 																						|  																													|  																																								|  |  |
+| TODO: =searchmeta.pattern.tmpl= 																							|  																													|  																																								|  |  |
+| [[%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%][view]] 																		| =view.pattern.tmpl=																								| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%}%][validate]] 															| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%}%" 																pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?skin=plain][view plain]]														| =view.plain.pattern.tmpl=											 												| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?skin=plain}%][validate]] 													| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?skin=plain}%" 													pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?raw=on][view raw]] 																| =view.pattern.tmpl=												 												| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?raw=on}%][validate]] 														| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?raw=on}%" 														pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> | Does not validate because of keyword "wrap" |
+| [[%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?skin=print.pattern,pattern][view print version]]								| =view.print.pattern.tmpl=										 													| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?skin=print.pattern,pattern}%][validate]]									| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"view"}%/%SYSTEMWEB%/%HOMETOPIC%?skin=print.pattern,pattern}%" 									pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+
+
+<!-- %TABLE{ sort="off" headeralign="left, left" }% -->
+| *Style sheet* 																											| *Comment* 																										| *Validation url* 																																				| *Validation result* | *Status* |
+| [[%PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css][layout.css]] 																|  																													| [[http://jigsaw.w3.org/css-validator/validator?uri=%PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css][validate]]  													| <span class="result">%INCLUDE{"http://jigsaw.w3.org/css-validator/validator?uri=%PUBURL%/%SYSTEMWEB%/PatternSkin/layout.css" 														pattern="^.*?\<div id=(\'congrats\'|\"errors\")\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+| [[%PUBURL%/%SYSTEMWEB%/PatternSkin/style.css][style.css]] 																	|  																													| [[http://jigsaw.w3.org/css-validator/validator?uri=%PUBURL%/%SYSTEMWEB%/PatternSkin/style.css][validate]] 														| <span class="result">%INCLUDE{"http://jigsaw.w3.org/css-validator/validator?uri=%PUBURL%/%SYSTEMWEB%/PatternSkin/style.css" 														pattern="^.*?\<div id=(\'congrats\'|\"errors\")\>\s*(.*)\<\/h2\>.*" }%</h2></span> | Various errors and warning because of CSS hacks |
+| [[%PUBURL%/%SYSTEMWEB%/PatternSkin/colors.css][colors.css]] 																|  																													| [[http://jigsaw.w3.org/css-validator/validator?uri=%PUBURL%/%SYSTEMWEB%/PatternSkin/colors.css][validate]] 													| <span class="result">%INCLUDE{"http://jigsaw.w3.org/css-validator/validator?uri=%PUBURL%/%SYSTEMWEB%/PatternSkin/colors.css" 														pattern="^.*?\<div id=(\'congrats\'|\"errors\")\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+
+<!-- %TABLE{ sort="off" headeralign="left, left" }% -->
+| *Page* | *Comment* | *Validation url* | *Validation result* | *Status* |
+| [[%SCRIPTURL{"configure"}%][configure]] 																						| =configure=																										| [[http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"configure"}%}%][validate]] 																				| <span class="result">%INCLUDE{"http://validator.w3.org/check?uri=%ENCODE{%SCRIPTURL{"configure"}%}%" pattern="^.*?\<div id=\"result\"\>\s*(.*)\<\/h2\>.*" }%</h2></span> |  |
+
+
+
+<!--
+attach.pattern.tmpl
+attachagain.pattern.tmpl
+attachnew.pattern.tmpl
+attachtables.pattern.tmpl
+backlinks.pattern.tmpl
+backlinksallwebs.pattern.tmpl
+backlinksweb.pattern.tmpl
+changeform.pattern.tmpl
+changes.pattern.tmpl
+deleteattachment.pattern.tmpl
+edit.pattern.tmpl
+editform.pattern.tmpl
+edittext.pattern.tmpl
+login.pattern.tmpl
+moveattachment.pattern.tmpl
+oopsaccessdenied.pattern.tmpl
+oopschangelanguage.tmpl
+oopsleaseconflict.pattern.tmpl
+oopsmore.pattern.tmpl
+oopssaveerr.pattern.tmpl
+preview.pattern.tmpl
+rdiff.pattern.tmpl
+renamebase.pattern.tmpl
+renameconfirm.pattern.tmpl
+renamedelete.pattern.tmpl
+rename.pattern.tmpl
+renameweb.pattern.tmpl
+renamewebbase.pattern.tmpl
+renamewebconfirm.pattern.tmpl
+renamewebdelete.pattern.tmpl
+search.pattern.tmpl
+searchbookview.pattern.tmpl
+searchformat.pattern.tmpl
+searchmeta.pattern.tmpl
+settings.pattern.tmpl
+foswiki.pattern.tmpl
+view.pattern.tmpl
+view.print.pattern.tmpl
+view.plain.pattern.tmpl
+-->
+
+%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1130354471" path="favicon.ico" size="3638" stream="favicon.ico" user="ProjectContributor" version="1"}%

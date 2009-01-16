@@ -1,0 +1,3 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"messages"}%
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"heading"}%%TMPL:END%
+%TMPL:DEF{"content"}%%IF{" '%TMPL:P{"webaction"}%' = '' " then="" else="<h3><span class='foswikiAlert'>%TMPL:P{"webaction"}%</span></h3>"}%%TMPL:P{"message"}%%TMPL:P{"topicinfo"}%%TMPL:END%

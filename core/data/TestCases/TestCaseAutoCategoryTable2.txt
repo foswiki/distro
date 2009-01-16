@@ -1,0 +1,18 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Test for category table and attachment upgrading from 1.0beta
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+This topic has 1.0beta TOPICINFO meta-data, to force an upgradeCategoryTable action. The test is inadequate; it doesn't check that it actually worked, only that it was didn't crash.
+
+<verbatim>
+<!--TWikiCat-->
+
+</verbatim>
+
+If this topic is displayed, the test passed.
+
+<font color="green">ALL TESTS PASSED</font>

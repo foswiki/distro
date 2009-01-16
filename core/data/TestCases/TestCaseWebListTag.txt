@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Tests for WEBLIST tag
+<table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
+ <tr>
+  <td>WEBLIST{}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{""}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{"System"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{"System"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{System}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{System}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{"System" marker="X" format="$web$name$qname$item$marker"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{"System" marker="X" format="$web$name$qname$item$marker"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBLIST{"System" separator="X" web="Y" webs="Z" selection="W"}</td>
+  <td><!-- expected --><!-- /expected --></td>
+  <td><!-- actual -->%WEBLIST{System}%<!-- /actual --></td>
+ </tr>
+</table>

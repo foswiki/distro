@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarATTACHURLPATH
+---+++ ATTACHURLPATH -- path of the attachment URL of the current topic
+   * Syntax: =%<nop>ATTACHURLPATH%=
+   * Expands to: =%ATTACHURLPATH%=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
+

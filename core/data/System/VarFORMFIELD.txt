@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarFORMFIELD
+---+++ FORMFIELD{"fieldname"} -- renders a field in the form attached to some topic
+   * Syntax: =%<nop>FORMFIELD{"fieldname"}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="fieldname"= | The name of a [[DataForms][Data form]] field | required |
+     | =topic="..."= | Topic where form data is located. May be of the form =Web.<nop>TopicName= | Current topic |
+     | =format="..."= | Format string. =$value= expands to the field value, and =$name= expands to the field name, =$title= to the field title, =$form= to the name of the form the field is in. The [[FormatTokens][standard format tokens]] are also expanded. | ="$value"= |
+     | =default="..."= | Text shown when no value is defined for the field | =""= |
+     | =alttext="..."= | Text shown when field is not found in the form | =""= |
+   * Example: =%<nop>FORMFIELD{"<nop>ProjectName" topic="Projects.<nop>SushiProject" default="(not set)" alttext="<nop>ProjectName field found"}%= 
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]
+

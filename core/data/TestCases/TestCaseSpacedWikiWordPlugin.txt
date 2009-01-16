@@ -1,0 +1,310 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+---+!! %SYSTEMWEB%.SpacedWikiWordPlugin tests
+
+Description: visual test output from %SYSTEMWEB%.SpacedWikiWordPlugin.
+
+Tests in this topic expect =NOAUTOLINK= to be off.
+
+   * Set NOAUTOLINK = 
+   
+%TOC%
+
+---++ !WikiWords
+Test spacing variable: =SPACEDWIKIWORDPLUGIN_SPACE_OUT_WIKI_WORD_LINKS= = %SPACEDWIKIWORDPLUGIN_SPACE_OUT_WIKI_WORD_LINKS%
+
+---+++ WW topic
+
+<verbatim>
+WebHome
+</verbatim>
+
+   * Core spaced out word: %SPACEOUT{"WebHome"}%
+   * Plugin spaced out: WebHome
+   * Expected: <a href="#">Web Home</a>
+
+---+++ WW web.topic
+
+<verbatim>
+%SYSTEMWEB%.DefaultPreferences
+</verbatim>
+
+   * Core spaced out word: %SPACEOUT{"DefaultPreferences"}%
+   * Plugin spaced out: %SYSTEMWEB%.DefaultPreferences
+      * Testing if the T and W don't show a gap
+   * Expected: <a href="#">Default Preferences</a>
+
+---+++ WW Bracket notation, no link label
+
+<verbatim>
+[[WebStatistics]]
+</verbatim>
+
+   * Plugin spaced out: [[WebStatistics]]
+   * Expected: <a href="#">Web Statistics</a>
+   
+---+++ WW Plural
+
+<verbatim>
+WebHomes
+</verbatim>
+
+   * Plugin spaced out: WebHomes
+   * Expected: (link to [[WebHome]]): <a href="%SCRIPTURL{view}%/%WEB%/WebHome">Web Homes</a>
+
+---+++ WW Plural bracket notation
+
+<verbatim>
+[[WebHomes]]
+</verbatim>
+
+   * Plugin spaced out: [[WebHomes]]
+   * Expected: (link to [[WebHome]]): <a href="%SCRIPTURL{view}%/%WEB%/WebHome">Web Homes</a>
+   
+---+++ WW Bracket notation: link label same as topic name
+
+<verbatim>
+[[WebTopicList][WebTopicList]]
+</verbatim>
+
+   * Plugin spaced out: [[WebTopicList][WebTopicList]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">WebTopicList</a>
+   
+---+++ WW Bracket notation: link label same as topic name, with web
+
+<verbatim>
+[[%WEB%.WebTopicList][WebTopicList]]
+</verbatim>
+
+   * Plugin spaced out: [[%WEB%.WebTopicList][WebTopicList]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">WebTopicList</a>
+   
+---+++ WW Bracket notation: link label
+
+<verbatim>
+[[WebPreferences][PrefTopic]]
+</verbatim>
+
+   * Plugin spaced out: [[WebPreferences][PrefTopic]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">PrefTopic</a>
+   
+---+++ WW Bracket notation: search results: default behaviour
+
+<verbatim>
+%SEARCH{"SpacedWikiWord" scope="topic" nonoise="on" format="[[$web.$topic][$topic]]"}%
+</verbatim>
+
+   * Plugin spaced out: %SEARCH{"SpacedWikiWord" scope="topic" nonoise="on" format="[[$web.$topic][$topic]]"}%
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">TestCaseSpacedWikiWordPlugin</a>
+   
+---+++ WW Bracket notation: search results: set to spaced out
+
+<verbatim>
+%SEARCH{"SpacedWikiWord" scope="topic" nonoise="on" format="[[$web.$topic][$percntSPACEOUT{$topic}$percnt]]"}%
+</verbatim>
+
+   * Plugin spaced out: %SEARCH{"SpacedWikiWord" scope="topic" nonoise="on" format="[[$web.$topic][$percntSPACEOUT{$topic}$percnt]]"}%
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">Test Case Spaced Wiki Word Plugin</a>
+   
+---+++ WW Bracket notation: anchor, no link label
+
+#TestAnchor
+
+<verbatim>
+[[%TOPIC%#TestAnchor]]
+</verbatim>
+
+   * Plugin spaced out: [[%TOPIC%#TestAnchor]]
+   * Expected: <a href="#">Test Case Spaced Wiki Word Plugin#Test Anchor</a>
+   
+---+++ WW Bracket notation: anchor, link label
+
+#TestAnchor
+
+<verbatim>
+[[%TOPIC%#TestAnchor][TestAnchor]]
+</verbatim>
+
+   * Plugin spaced out: [[%TOPIC%#TestAnchor][TestAnchor]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">TestAnchor</a>
+   
+
+---+++ WW DONTSPACE words
+
+   * Set SPACEDWIKIWORDPLUGIN_DONTSPACE = CamelCase, DaimlerChrysler, MasterCard
+  
+<verbatim>
+CamelCase, DaimlerChrysler, MasterCard, UnlikelyGibberishWikiWord
+</verbatim>  
+
+   * Plugin handling: CamelCase, DaimlerChrysler, MasterCard, UnlikelyGibberishWikiWord
+   * Expected: <span class="foswikiNewLink">Camel Case<a href="#">?</a></span>, <span class="foswikiNewLink">Daimler Chrysler<a href="#">?</a></span>, <span class="foswikiNewLink">Master Card<a href="#">?</a></span>, <span class="foswikiNewLink">Unlikely Gibberish Wiki Word<a href="#">?</a></span>
+
+---+++ WW DONTSPACE words, no links
+
+   * Set SPACEDWIKIWORDPLUGIN_DONTSPACE = CamelCase, DaimlerChrysler, MasterCard
+  
+<verbatim>
+!McIntosh, !CamelCase, !VentureLab, !UnlikelyGibberishWikiWord
+</verbatim>  
+
+   * Plugin handling: !McIntosh, !CamelCase, !VentureLab, !UnlikelyGibberishWikiWord
+   * Expected: !McIntosh, !CamelCase, !VentureLab, !UnlikelyGibberishWikiWord
+   
+
+
+
+
+
+
+
+---++ !Underscore_topics
+Test spacing variable: =SPACEDWIKIWORDPLUGIN_SPACE_OUT_UNDERSCORE_LINKS= = %SPACEDWIKIWORDPLUGIN_SPACE_OUT_UNDERSCORE_LINKS%
+
+---+++ UT topic
+
+<verbatim>
+Underscore_topic
+</verbatim>
+
+   * Plugin spaced out: Underscore_topic
+   * Expected: !Underscore_topic
+
+---+++ UT web.topic
+
+<verbatim>
+TestCase.Underscore_topic
+</verbatim>
+
+   * Plugin spaced out: TestCase.Underscore_topic
+   * Expected: TestCase.<nop>Underscore_topic
+
+---+++ UT Bracket notation, no link label
+
+<verbatim>
+[[Underscore_topic]]
+</verbatim>
+
+   * Plugin spaced out: [[Underscore_topic]]
+   * Expected: <a href="#">Underscore topic</a>
+
+---+++ UT Bracket notation: link label same as topic name
+
+<verbatim>
+[[Underscore_topic][Underscore_topic]]
+</verbatim>
+
+   * Plugin spaced out: [[Underscore_topic][Underscore_topic]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">Underscore_topic</a>
+
+---+++ UT Plural bracket notation
+
+<verbatim>
+[[Underscore_topic]]
+</verbatim>
+
+   * Plugin spaced out: [[Underscore_topic]]
+   * Expected: (link to [[Underscore_topic]]): <a href="%SCRIPTURL{view}%/%WEB%/Underscore_topic">Underscore topic</a>
+   
+---+++ UT Bracket notation: link label same as topic name, with web
+
+<verbatim>
+[[%WEB%.Underscore_topic][Underscore_topic]]
+</verbatim>
+
+   * Plugin spaced out: [[%WEB%.Underscore_topic][Underscore_topic]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">Underscore_topic</a>
+
+---+++ UT Bracket notation: link label
+
+<verbatim>
+[[Underscore_topic][Test topic]]
+</verbatim>
+
+   * Plugin spaced out: [[Underscore_topic][Test topic]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">Test topic</a>
+
+---+++ UT Bracket notation: search results: default behaviour
+
+<verbatim>
+%SEARCH{"Underscore_topic" scope="topic" nonoise="on" format="[[$web.$topic][$topic]]"}%
+</verbatim>
+
+   * Plugin spaced out: %SEARCH{"Underscore_topic" scope="topic" nonoise="on" format="[[$web.$topic][$topic]]"}%
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">Underscore_topic</a>
+    
+---+++ UT Bracket notation: search results: set to spaced out
+
+<verbatim>
+%SEARCH{"Underscore_topic" scope="topic" nonoise="on" format="[[$web.$topic][$percntSPACEOUT{$topic}$percnt]]"}%
+</verbatim>
+
+   * Plugin spaced out: %SEARCH{"Underscore_topic" scope="topic" nonoise="on" format="[[$web.$topic][$percntSPACEOUT{$topic}$percnt]]"}%
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">Underscore topic</a>
+
+---+++ UT Bracket notation: anchor, no link label
+
+#TestAnchor
+
+<verbatim>
+[[Underscore_topic#TestAnchor]]
+</verbatim>
+
+   * Plugin spaced out: [[Underscore_topic#TestAnchor]]
+   * Expected: <a href="#">Underscore topic#Test Anchor</a>
+
+---+++ UT Bracket notation: anchor, link label
+
+#TestAnchor
+
+<verbatim>
+[[Underscore_topic#TestAnchor][TestAnchor]]
+</verbatim>
+
+   * Plugin spaced out: [[Underscore_topic#TestAnchor][TestAnchor]]
+      * explicitely set to a topic name, so should remain unchanged
+   * Expected: <a href="#">TestAnchor</a>
+   
+---+++ UT DONTSPACE words
+
+   * Set SPACEDWIKIWORDPLUGIN_DONTSPACE = My_name, Root_case, Glib_globble
+  
+<verbatim>
+My_name, Root_case, Glib_globble, Unlikely_gibberish_name
+</verbatim>  
+
+   * Plugin handling: My_name, Root_case, Glib_globble, Unlikely_gibberish_name
+   * Expected: My_name, Root_case, Glib_globble, Unlikely_gibberish_name
+
+---+++ UT DONTSPACE words, no links
+
+   * Set SPACEDWIKIWORDPLUGIN_DONTSPACE = My_name, Root_case, Glib_globble
+  
+<verbatim>
+!My_name, !Root_case, !Glib_globble
+</verbatim>  
+
+   * Plugin handling: !My_name, !Root_case, !Glib_globble, !Unlikely_gibberish_name
+   * Expected: !My_name, !Root_case, !Glib_globble, !Unlikely_gibberish_name
+</verbatim>
+
+---+++ UT Space out
+
+<verbatim>
+%SPACEOUT{"Human_evolution"}%
+</verbatim>
+
+   * Plugin handling: %SPACEOUT{"Human_evolution"}%
+   * Expected: Human evolution
+   

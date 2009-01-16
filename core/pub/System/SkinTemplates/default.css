@@ -1,0 +1,610 @@
+/* Simple CSS demonstrating use of css to theme the default Foswiki templates.
+ * Note to installers; do *not* modify this file, and don't assume it will
+ * remain unchanged in the future. If you want to create your own themed
+ * CSS, then create your own skin that overrides %TMPL:DEF{"templatestyle"}%
+ * and loads your own CSS file instead.
+ */
+
+html body {
+	font-size:104%;
+	voice-family:"\"}\""; 
+	voice-family:inherit;
+	font-size:small;
+}
+html>body { /* Mozilla */
+	font-size:small;	
+}
+h1, h2, h3, h4, h5, h6 {
+	line-height:104%;
+}
+p {
+	margin:1em 0 0 0;
+}
+table {
+}
+th {
+	line-height:1.15em;
+}
+label {
+	padding:.15em .3em .15em 0; /* same vertical padding as foswikiInputField */
+}
+strong, b {
+	font-weight:bold;
+}
+hr {
+	height:1px;
+	border:none;
+	color:#aaa;
+	background-color:#aaa;
+}
+/* put overflow pre in a scroll area */
+pre {
+    width:100%;
+    margin:1em 0; /* Win IE tries to make this bigger otherwise */
+}
+/* IE behavior for pre is defined in css.tmpl in conditional comment */
+html>body pre { /* hide from IE */
+	/*\*/ overflow:auto !important; /* */ overflow:scroll; width:auto; /* for Mac Safari */
+}
+ol, ul {
+	margin-top:0;
+}
+ol li, ul li {
+	line-height:1.4em; /*S1*/
+}
+/* Form elements */
+form { 
+	display:inline;
+	margin:0;
+	padding:0;
+}
+textarea,
+input,
+select {
+	vertical-align:middle;
+	font-family:arial, sans-serif;
+	font-size:100%;
+}
+input,
+select option {
+	padding:1px;
+}
+textarea {
+	padding:1px 4px;
+	font-size:100%;
+}
+blockquote {
+}
+
+/*	-----------------------------------------------------------
+	Foswiki styles
+	-----------------------------------------------------------	*/
+
+.foswikiPage {
+	font-family:arial, sans-serif;
+	line-height:1.4em;
+	/* change font size here */
+	font-size:105%;
+	padding:1em;
+	background:#fff;
+}
+.foswikiNewLink font {
+	color:inherit;
+}
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
+	color:#666;
+	border-color:#ccc;
+}
+.foswikiNewLink a:hover sup {
+	background-color:#D6000F;
+	color:#FBF7E8;
+	border-color:#D6000F;
+}
+
+.foswikiNewLink {
+	border-color:#ccc;
+}
+:link:focus,
+:visited:focus,
+:link,
+:visited,
+:link:active,
+:visited:active {
+	color:#06c;
+	background-color:transparent;
+}
+:link:hover,
+:visited:hover {
+	color:#FBF7E8;
+	background-color:#d6000f;
+}
+:link:hover img,
+:visited:hover img {
+	background-color:transparent;
+}
+
+/* Form elements */
+
+.foswikiSubmit,
+.foswikiButton,
+.foswikiCheckbox {
+	padding:.1em .3em;
+}
+.foswikiCheckbox,
+.foswikiRadioButton {
+	margin:0 .3em 0 0;
+	border:0;
+}
+.foswikiSubmit,
+.foswikiButton {
+}
+.foswikiSubmit:active,
+.foswikiButton:active {
+}
+
+.foswikiInputField,
+.foswikiSelect {
+}
+
+.foswikiTable,
+.foswikiTable td {
+	border-color:#ccc;
+}
+.foswikiTable th {
+	background-color:#9be;
+	border-color:#ccc;
+}
+.foswikiTable th a:link,
+.foswikiTable th a:visited,
+.foswikiTable th a font {
+	color:#fff;
+}
+.foswikiGrayText {
+	color:#8E9195;
+}
+.foswikiSeparator {
+	color:#8E9195;
+}
+.foswikiGrayText a:link,
+.foswikiGrayText a:visited {
+	color:#8E9195;
+}
+.foswikiGrayText a:hover {
+	color:#FBF7E8;
+}
+
+.foswikiAttachments table,
+table.foswikiFormTable {
+	border-color:#ccc;
+	background-color:#fff;
+}
+.foswikiAttachments table {
+	background-color:#fff;
+}
+.foswikiAttachments td, 
+.foswikiAttachments th {
+	border-color:#ccc;
+}
+.foswikiAttachments .foswikiTable th font {
+	color:#06c;
+}
+
+.foswikiFormSteps {
+	background-color:#f8fbfc;
+	border-color:#E2DCC8;
+}
+.foswikiFormStep {
+	border-color:#E2DCC8;
+}
+.foswikiFormStep h3,
+.foswikiFormStep h4 {
+}
+.foswikiToc .foswikiTocTitle {
+	color:#666;
+}
+.foswikiBroadcastMessage {
+	background-color:#ff0;
+}
+.foswikiBroadcastMessage b,
+.foswikiBroadcastMessage strong {
+	color:#f00;
+}
+.foswikiAlert,
+.foswikiAlert code {
+	color:#f00;
+}
+.foswikiEmulatedLink {
+	color:#06c;
+}
+.foswikiPageForm table {
+	border-color:#ccc;
+	background:#fff;
+}
+.foswikiPageForm hr {
+	border-color:#ccc;
+	background-color:#ccc;
+	color:#ccc;
+}
+.foswikiHelp {
+	background-color:#f8fbfc;
+}
+.foswikiAccessKey {
+	color:inherit;
+	border-color:#8E9195;
+}
+a:link .foswikiAccessKey,
+a:visited .foswikiAccessKey,
+a:hover .foswikiAccessKey {
+	color:inherit;
+}
+.foswikiImage img {
+	border-color:#eee;
+	background-color:#fff;
+}
+
+/* WebSearch, WebSearchAdvanced */
+table#foswikiSearchTable th,
+table#foswikiSearchTable td {
+	background-color:#fff;
+	border-color:#ccc;
+} 
+table#foswikiSearchTable th {
+	color:#000;
+}
+table#foswikiSearchTable td.first {
+	background-color:#FCF8EC;
+}
+tr.foswikiDiffDebug td {
+	border-color:#ccc;
+}
+
+/* Changed */
+.foswikiDiffChangedHeader,
+tr.foswikiDiffDebug .foswikiDiffChangedText,
+tr.foswikiDiffDebug .foswikiDiffChangedText {
+	background:#9f9; /* green - do not change */
+}
+/* Deleted */
+tr.foswikiDiffDebug .foswikiDiffDeletedMarker,
+tr.foswikiDiffDebug .foswikiDiffDeletedText {
+	background-color:#f99; /* red - do not change */
+}
+/* Added */
+.foswikiDiffAddedHeader,
+tr.foswikiDiffDebug .foswikiDiffAddedMarker,
+tr.foswikiDiffDebug .foswikiDiffAddedText {
+	background-color:#ccf; /* violet - do not change */
+}
+/* Unchanged */
+.foswikiDiffUnchangedHeader,
+tr.foswikiDiffDebug .foswikiDiffUnchangedText {
+	color:#8E9195;
+}
+.foswikiDiffLineNumberHeader {
+	background-color:#ccc;
+}
+.foswikiLeft {
+	float:left;
+	position:relative;
+}
+.foswikiRight {
+	position:relative;
+	float:right;
+	display:inline;
+	margin:0;
+}
+.foswikiClear {
+	/* to clean up floats */
+	margin:0;
+	padding:0;
+	height:0;
+	line-height:0px;
+	clear:both;
+	display:block;
+}
+.foswikiHidden {
+	display:none;
+}
+
+/* Links */
+/* somehow the foswikiNewLink style have to be before the general link styles */
+.foswikiNewLink {
+	border-width:0 0 1px 0;
+	border-style:solid;
+}
+.foswikiNewLink a {
+	text-decoration:none;
+	margin-left:1px;
+}
+.foswikiNewLink a sup {
+	text-align:center;
+	padding:0 2px;
+	vertical-align:baseline;
+	font-size:100%;
+	text-decoration:none;
+}
+.foswikiNewLink a:link sup,
+.foswikiNewLink a:visited sup {
+	border-width:1px;
+	border-style:solid;
+	text-decoration:none;
+}
+.foswikiNewLink a:hover sup {
+	text-decoration:none;
+}
+.foswikiTable {
+	border-style:solid;
+	border-width:1px;
+	margin:2px 0;
+}
+.foswikiTable td {
+	padding:.25em .5em;
+	border-style:none none solid none;
+	border-width:0 0 1px 0;
+}
+.foswikiTable th {
+	border-style:none none none solid;
+	border-width:0 0 0 1px;
+	padding:.4em .5em;
+}
+.foswikiTable th.foswikiFirstCol {
+	border-left-style:none;
+}
+.foswikiTable a:link,
+.foswikiTable a:visited {
+	text-decoration:underline;
+}
+.foswikiTable a:hover {
+	text-decoration:underline;
+}
+
+.foswikiEditForm {
+	margin:0 0 .5em 0;
+}
+.foswikiLast,
+.foswikiForm .foswikiLast,
+.foswikiTable .foswikiLast {
+	border-bottom-style:none;
+	border-bottom-width:0;
+}
+#foswikiLogin {
+	width:40em;
+	margin:0 auto;
+	text-align:center;
+}
+#foswikiLogin .foswikiFormSteps {
+	border-width:5px;
+}
+.foswikiAttachments,
+.foswikiForm {
+	margin:1em 0;
+	padding:1px; /* fixes disappearing borders because of overflow:auto; in foswikiForm */
+}
+.foswikiTable h2, .foswikiFormTable h2,
+.foswikiTable h3, .foswikiFormTable h3,
+.foswikiTable h4, .foswikiFormTable h4,
+.foswikiTable h5, .foswikiFormTable h5,
+.foswikiTable h6, .foswikiFormTable h6 {
+	border:0;
+	margin-top:0;
+	margin-bottom:0;
+}
+.foswikiFormTable th {
+	font-weight:normal;
+}
+.foswikiFormTable .foswikiTable th {
+	font-weight:bold;
+}
+
+.foswikiAttachments table,
+table.foswikiFormTable {
+	margin:5px 0;
+	border-collapse:collapse;
+	padding:0px;
+	border-spacing:0px;
+	empty-cells:show;
+	border-style:solid;
+	border-width:1px;
+}
+.foswikiAttachments table {
+	line-height:1.4em; /*S1*/
+	width:auto;
+	voice-family:"\"}\""; /* hide the following for Explorer 5.x */
+	voice-family:inherit;
+	width:100%;
+}
+.foswikiAttachments th {
+	border-style:none none solid solid;
+	border-width:1px;
+}
+.foswikiAttachments th,
+table.foswikiFormTable th.foswikiFormTableHRow {
+	padding:3px 6px;
+	height:2.5em;
+	vertical-align:middle;
+}
+table.foswikiFormTable th.foswikiFormTableHRow {
+	text-align:center;
+}
+
+.foswikiAttachments td,
+table.foswikiFormTable td {
+	padding:3px 6px;
+	height:1.4em; /*S1*/
+	text-align:left;
+	vertical-align:top;
+}
+.foswikiAttachments th.foswikiFirstCol,
+.foswikiAttachments td.foswikiFirstCol {
+	/* make more width for the icon column */
+	width:26px;
+	text-align:center;
+}
+.foswikiAttachments caption {
+	display:none;
+}
+table.foswikiFormTable th.foswikiFormTableHRow a:link,
+table.foswikiFormTable th.foswikiFormTableHRow a:visited {
+	text-decoration:none;
+}
+.foswikiFormSteps {
+	text-align:left;
+	padding:.25em 0 0 0;
+	border-width:1px 0 0 0;
+	border-style:solid;
+}
+.foswikiFormStep {
+	line-height:140%;
+	padding:1em 20px; /*S5*/
+	border-width:0 0 1px 0;
+	border-style:solid;
+}
+.foswikiFormStep h2,
+.foswikiFormStep h3,
+.foswikiFormStep h4 {
+	border:none;
+	margin:0;
+	padding:0;
+	background:none;
+}
+.foswikiFormStep h2 {
+	font-size:130%;
+	font-weight:bold;
+}
+.foswikiFormStep h3 {
+	font-size:115%;
+	font-weight:bold;
+}
+.foswikiFormStep h4 {
+	font-size:115%;
+	font-weight:normal;
+}
+.foswikiFormStep p {
+	margin:.3em 0;
+}
+.foswikiFormSteps .foswikiLast {
+	border-bottom-style:solid;
+	border-bottom-width:0px;
+}
+
+.foswikiToc {
+	margin:1em 0;
+	padding:.3em 0 .6em 0;
+}
+.foswikiToc .foswikiTocTitle {
+	margin:0;
+	padding:0;
+	font-weight:bold;
+}
+
+.foswikiSmall {
+	font-size:86%;
+	line-height:110%; /*S3*/
+}
+.foswikiSmallish {
+	font-size:94%; /*S2*/
+}
+.foswikiNew { }
+.foswikiSummary {
+	font-size:86%;
+	line-height:110%; /*S3*/
+}
+.foswikiEmulatedLink {
+	text-decoration:underline;
+}
+.foswikiPageForm table {
+	border-width:1px;
+	border-style:solid;
+}
+.foswikiPageForm table {
+	width:100%;
+}
+.foswikiPageForm th,
+.foswikiPageForm td {
+	border:0;
+	padding:.5em 1em;
+}
+.foswikiPageForm td {}
+.foswikiPageForm td.first {
+	padding-top:1em;
+}
+.foswikiBroadcastMessage {
+	padding:.25em .5em;
+	margin:0 0 1em 0;
+}
+.foswikiHelp {
+	padding:1em;
+	margin:0 0 -1px 0;
+}
+.foswikiHelp ul,
+.foswikiHelp li {
+	margin:0;
+}
+.foswikiHelp ul {
+	padding-left:2em;
+}
+.foswikiAccessKey {
+	text-decoration:none;
+	border-width:0 0 1px 0;
+	border-style:solid;
+}
+a:hover .foswikiAccessKey {
+	text-decoration:none;
+	border:none;
+}
+.foswikiWebIndent {
+	margin:0 0 0 1em;
+}
+.foswikiLinkLabel {}
+.foswikiImage img {
+	padding:3px;
+	border-width:1px;
+	border-style:solid;
+}
+
+.foswikiHierarchicalNavigation ul {
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+.foswikiHierarchicalNavigation .foswikiCurrentTopic li {
+	font-weight:bold;
+}
+.foswikiHierarchicalNavigation .foswikiParentTopic li {}
+.foswikiHierarchicalNavigation .foswikiChildTopics li {}
+
+
+/* WebSearch, WebSearchAdvanced */
+#foswikiSearchTable {
+	background:none;
+	border-bottom:0;
+} 
+#foswikiSearchTable th,
+#foswikiSearchTable td {
+	padding:1em;
+	border-width:0 0 1px 0;
+	border-style:solid;
+} 
+#foswikiSearchTable th {
+	width:20%;
+	text-align:right;
+}
+#foswikiSearchTable td {
+	width:80%;
+}
+
+.foswikiEditboxStyleMono {
+	font-family:"Courier New", courier, monaco, monospace;
+}
+.foswikiEditboxStyleProportional {
+	font-family:"Lucida Grande", verdana, arial, sans-serif;
+}
+tr.foswikiDiffDebug td {
+	border-width:1px;
+	border-style:solid;
+}
+.foswikiCopyright {
+	margin:1em 0 0 0;
+}
+/* See also: System/CascadingStyleSheets */

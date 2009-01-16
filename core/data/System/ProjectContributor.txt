@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+<!--
+Try and make sure robots don't spam contributor names
+   * Set HTTP_EQUIV_ON_VIEW = <meta name="robots" content="noindex,nofollow" />
+-->
+
+---+ Project Contributor
+
+%INCLUDE{"%ATTACHURL%/AUTHORS"}%
+
+*Note:* Please contact us at http://foswiki.org if you contributed to Foswiki and your name is not on this list!
+
+*Disclaimer:* Foswiki gets installed on many public web sites. The Foswiki contributors are not affiliated in any way with those sites.
+
+%META:FILEATTACHMENT{name="AUTHORS" attr="" comment="" date="1111932261" path="AUTHORS" size="117" user="ProjectContributor" version="1.1"}%

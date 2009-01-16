@@ -1,0 +1,12 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: This topic is not a testcase, it is part of a fixture for the TestCaseInternalTags
+
+THE TEST FAILED
+%STARTINCLUDE%
+   * BASEWEB        <!-- actual -->%BASEWEB%<!-- /actual -->
+   * INCLUDINGWEB   <!-- actual -->%INCLUDINGWEB%<!-- /actual -->
+   * BASETOPIC      <!-- actual -->%BASETOPIC%<!-- /actual -->
+   * INCLUDINGTOPIC <!-- actual -->%INCLUDINGTOPIC%<!-- /actual -->
+%STOPINCLUDE%
+THE TEST FAILED

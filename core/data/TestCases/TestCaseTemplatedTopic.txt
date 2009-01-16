@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+
+Description: Manual test to check creation of topics with a template topic.
+
+The following link will create a new topic that should be templated from *this* topic.
+
+To test, click the link and manually verify that this topic has been used as a template for the new topic.
+
+*DO NOT SAVE THE NEW TOPIC* - hit 'Cancel' in the editor instead.
+
+%SCRIPTURL{"edit"}%/%WEB%/%TOPIC%NewTopicFixture?templatetopic=%WEB%.%TOPIC%
+

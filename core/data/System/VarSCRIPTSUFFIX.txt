@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSCRIPTSUFFIX
+---+++ SCRIPTSUFFIX -- script suffix
+   * Some <nop>%WIKITOOLNAME% installations require a file extension for CGI scripts, such as =.pl= or =.cgi=
+   * Syntax: =%<nop>SCRIPTSUFFIX%=
+   * Expands to: <code>%SCRIPTSUFFIX%</code>
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTNAME][SCRIPTNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURLPATH][SCRIPTURLPATH]]
+

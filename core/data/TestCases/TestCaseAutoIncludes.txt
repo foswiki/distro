@@ -1,0 +1,91 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Check for the correct detection and handling of recursive and repeated includes
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+---+ Recursion detection and avoidance
+---++ Expected
+<noautolink>
+<!-- expected RECUSS -->
+There was an old Man of the coast
+There was an old Man of the coast
+<p />
+<p />
+<p />
+<span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE TestCases.RecursiveInclude repeatedly, topic is already included.</dd></dl></span>
+Who placidly sat on a post;
+But when it was cold
+He relinquished his hold
+And called for some hot buttered toast.
+Who placidly sat on a post;
+But when it was cold
+He relinquished his hold
+And called for some hot buttered toast.
+<!-- /expected -->
+</noautolink>
+---++ Actual
+<!-- actual -->
+%INCLUDE{"RecursiveInclude"}%
+%INCLUDE{"IncludeMeTwice"}%
+%INCLUDE{"IncludeMeTwice"}%
+<!-- /actual -->
+
+---+ File not found
+---++ Expected
+<noautolink>
+<!-- expected expand FNF -->
+<p></p><p /><p />
+<span class='foswikiAlert'>Warning: Can't find topic TestCases.FileNotFound</span>
+<!-- /expected -->
+</noautolink>
+---++ Actual
+<!-- actual -->
+%INCLUDE{"FileNotFound"}%
+<!-- /actual -->
+
+---+ References to BASETOPIC and INCLUDINGTOPIC
+<!-- AAA hubba AAA tag string used for testing pattern -->
+---+ Expected
+<!-- expected expand -->
+<p />
+%TOPIC%
+%TOPIC%
+hubba
+<p />
+%TOPIC%
+IncludedTopic
+<p />
+<!-- /expected -->
+---+ Actual
+<noautolink>
+<!-- actual -->
+%INCLUDE{"IncludedTopic"}%
+<!-- /actual -->
+</noautolink>
+
+---+ Parameterized includes
+---++ Expected
+<!-- expected PARAM -->
+%A% %B% %C%
+1 2 3
+%A% %B% %C%
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%A% %B% %C% %INCLUDE{"ParameterizedIncludeFixture" A="1" B="2" C="3"}% %A% %B% %C%
+<!-- /actual -->
+
+---+ Include nothing
+---++ Expected
+<!-- expected NOWT --><p></p><p></p><span class='foswikiAlert'><dl><dt>Warning</dt><dd>Can't INCLUDE '', path is empty or contains illegal characters.</dd></dl></span><!-- /expected -->
+---++ Actual
+<!-- actual -->%INCLUDE{""}%<!-- /actual -->
+
+---+ Include nothing with warning
+---++ Expected
+<!-- expected NOBBUTWARN --><!-- /expected -->
+---++ Actual
+<!-- actual -->%INCLUDE{"" warn="off"}%<!-- /actual -->

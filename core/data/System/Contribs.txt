@@ -1,0 +1,45 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%STARTINCLUDE%
+---+ Foswiki Contribs
+
+_Extensions that sit close to the core, or provide services for other extensions_
+
+%TOC%
+
+---++ Overview
+
+Foswiki contribs extend the functionality of Foswiki, in a lower-level way than plugins and add-ons. They may also provide alternative implementations for sections of the Foswiki core e.g. user management, or when an extension just can't be implemented as a plugin because it requires very close access to Foswiki internals.
+
+An example is the MailerContrib, which implements mail notification of topics changes.
+
+*Relevant links on Foswiki.org:*
+   * Foswiki:Extensions.ContribPackage - list of all contributed contrib packages
+   * Foswiki:Extensions.ContribDevelopment - discussion and feedback on contributed packages
+   * Foswiki:Extensions.ContribBrainstorming - open forum for new contrib ideas
+   * Foswiki:Extensions.ContribPackageHowTo - instructions and template to create a new contrib package
+
+*See other types of extensions:* ContributedAddOns, [[Plugins]], [[Skins]]
+
+---++ Foswiki Contribs Installed on this site
+
+%SEARCH{
+   "1"
+   type="query"
+   scope="topic"
+   topic="*Contrib"
+   nosearch="on"
+   format="   * <b>[[$topic]]</b>: <nop>$pattern(.*?\*\sSet\sSHORTDESCRIPTION\s\=([^\n\r]*).*) <span style=\"color: gray\">- version $pattern(.*?Version\:?\s*\|([^\n\r\|]*)\|.*)</span> <br /> <span style=\"color: gray; font-size: 80%\"> Author: $pattern(.*?\sAuthors?:\s*\|\s*(.*?)\s*\|.*) - last modified: r$rev - [[%SCRIPTURL{rdiff}%/$web/$topic][$date]] - $wikiusername </span>"
+}%
+
+---++ Installing Contribs
+
+   * Download an add-on from Foswiki:Extensions.ContribPackage.
+   * Follow the installation instructions in the contrib topic.
+
+---++ Creating new Contribs
+
+   * Visit Foswiki:Extensions.ContribPackageHowTo and follow the instructions.
+
+%STOPINCLUDE%
+---
+*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory, Foswiki:Support.PluginsSupplement

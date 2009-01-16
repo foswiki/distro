@@ -1,0 +1,6 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="ShortcutMacros"}%
+#VarTOPICURL
+---+++ TOPICURL -- shortcut to viewing the current topic
+   * This macro always expands to an url pointing to the current base topic.
+   * Current value: TOPICURL = %TOPICURL%

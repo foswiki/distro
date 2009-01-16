@@ -1,0 +1,580 @@
+LinkAtStart
+<!-- /actual -->
+<!-- expected expand LINKATSTART -->
+<span class="foswikiNewLink">LinkAtStart<a href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtStart?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic" >?</a></span>
+<!-- /expected -->
+
+Description: Simple formatting, as described in %SYSTEMWEB%.TextFormattingRules
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+%BR% Modified by: Markus Ueberall (redundant anchor names get renamed, cf. TestCaseAutoTOC)
+
+---++ Paragraphs
+---+++ Expected
+<!-- expected PARAS -->
+1st paragraph
+<p />
+2nd paragraph
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+1st paragraph
+
+2nd paragraph
+<!-- /actual -->
+
+---++ Headings
+---+++ Expected
+<!-- expected HEADS -->
+<h2><a name="Sushi_AN1"></a>Sushi</h2>
+<h3><a name="Maguro_AN1"></a>Maguro</h3>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+---++ Sushi
+---+++ Maguro
+<!-- /actual -->
+
+---++ Bold Text
+---+++ Expected
+<!-- expected BOLD -->
+<strong>Bold</strong>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+*Bold*
+<!-- /actual -->
+
+---++ Bold Text with URL
+---+++ Expected
+<!-- expected BOLD LINK -->
+<strong>reminded about <a target="_top" href="http://www.koders.com">http://www.koders.com</a></strong>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+*reminded about http://www.koders.com*
+<!-- /actual -->
+
+---++ Italic Text
+---+++ Expected
+<!-- expected ITALIC -->
+<em>Italic</em>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+_Italic_
+<!-- /actual -->
+
+---++ Bold Italic
+---+++ Expected
+<!-- expected BOLD ITALIC -->
+<strong><em>Bold italic</em></strong>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+__Bold italic__
+<!-- /actual -->
+
+---++ Fixed Font
+---+++ Expected
+<!-- expected FIXED -->
+<code>Fixed font</code>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+=Fixed font=
+<!-- /actual -->
+
+---++ Bold Fixed Font
+---+++ Expected
+<!-- expected BOLD FIXED -->
+<code><b>Bold fixed</b></code>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+==Bold fixed==
+<!-- /actual -->
+
+---++ Bold Fixed Font
+---+++ Expected
+<!-- expected MIXED -->
+<em>this</em> <em>should</em> <em>italicise</em> <em>each</em> <em>word</em>
+<p />
+<strong>and</strong> <strong>this</strong> <strong>should</strong> <strong>embolden</strong> <strong>each</strong> <strong>word</strong>
+<p />
+<em>mixing</em> <strong>them</strong> <em>should</em> <strong>work</strong>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+_this_ _should_ _italicise_ _each_ _word_
+
+*and* *this* *should* *embolden* *each* *word*
+
+_mixing_ *them* _should_ *work*
+<!-- /actual -->
+
+---++ Verbatim Mode
+---+++ Expected
+<!-- expected VERBATIM -->
+<pre>
+&lt;verbatim&gt;
+Description
+&lt;/verbatim&gt;
+class CatAnimal {
+  void purr() {
+	 code &lt;here&gt;
+  }
+}
+</pre>
+<!-- /expected -->
+---+++ Actual
+<!-- actual VERBATIM -->
+<verbatim>
+<verbatim>
+Description
+</verbatim>
+class CatAnimal {
+  void purr() {
+	 code <here>
+  }
+}
+</verbatim>
+<!-- /actual -->
+
+---++ Separator
+---+++ Expected
+<!-- expected HR -->
+<hr></hr>
+<hr></hr>
+--
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+---
+-------
+--
+<!-- /actual -->
+
+---++ List Item
+---+++ Expected
+<!-- expected BULLETS -->
+<ul>
+<li>bullet item
+</li>
+</ul>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+	* bullet item
+<!-- /actual -->
+
+---++ Nested List Item
+---+++ Expected
+<!-- expected NESTBULL -->
+<ul>
+<li>level 1
+<ul>
+<li>level 2 and some more
+</li>
+</ul>
+</li>
+</ul>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+	* level 1
+		* level 2
+          and some more
+<!-- /actual -->
+
+---++ Ordered List
+---+++ Expected
+<!-- expected OL -->
+<ol><li> Sushi</li></ol><p />
+<ol><li type="A"> Sushi</li></ol><p />
+<ol><li type="i"> Sushi</li></ol><p />
+<ol><li> Sushi</li>
+<li type="A"> Sushi</li>
+<li type="i"> Sushi</li></ol>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+	1. Sushi
+
+	A. Sushi
+
+	i. Sushi
+
+	1. Sushi
+	A. Sushi
+	i. Sushi
+<!-- /actual -->
+
+---++ Nested bullets & numbers lists
+
+---+++ Expected
+<!-- expected expand WIKIWORDAFTER -->
+<span class="foswikiNewLink">WikiWordBeforeList<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiWordBeforeList?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<ol>
+<li>Things</li>
+<li>Stuff
+<ul>
+<li>Banana Skins</li>
+<li>Other</li>
+<li></li>
+</ul></li>
+<li>Something</li>
+<li>Hello kitty</li>
+</ol>
+<span class="foswikiNewLink">WikiWordAfterList<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiWordAfterList?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+WikiWordBeforeList
+   1 Things
+   2 Stuff
+      * Banana Skins
+      * Other
+      * 
+   3 Something
+   4 Hello kitty
+WikiWordAfterList
+<!-- /actual -->
+
+---++ Definition List
+---+++ Expected
+<!-- expected DL -->
+<dl>
+<dt> Sushi </dt><dd> Japan
+</dd>
+<dt> Dim-Sum </dt><dd> San Francisco, USA
+</dd>
+<dt> Honey Fried Locust </dt><dd> Tombouctou, Mali
+</dd>
+
+</dl>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+	$ Sushi: Japan
+	$ Dim-Sum: San Francisco, USA
+	$ Honey Fried Locust: Tombouctou, Mali
+<!-- /actual -->
+
+---++ Table
+---+++ Expected
+<!-- expected SIMPLE TABLE -->
+<p />
+<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable><thead><tr><th> <strong>L</strong> </th><th> <strong>C</strong> </th><th> <strong>R</strong> </th></tr></thead>
+<tbody>
+<tr><td>  A2  </td><td align="center">	2	</td><td align="right">	2  </td></tr>
+
+<tr><td>  A3  </td><td align="center">	3	</td><td align="right">	3  </td></tr>
+<tr><td colspan="3">  multi span  </td></tr>
+<tr><td>  A4-6  </td><td>  four  </td><td>  four  </td></tr>
+
+<tr><td> ^ </td><td>  five  </td><td>  five  </td></tr>
+</tbody>
+</table>
+<p />
+<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable> <tbody><tr><td> ^ </td><td>  six  </td><td>  six  </td></tr>
+</tbody>
+</table>
+<p />
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+
+| *L* | *C* | *R* |
+| A2 |  2  |  2 |
+| A3 |  3  |  3 |
+| multi span |||
+| A4-6 | four | four |
+|^| five | five |
+
+|^| six | six |
+
+<!-- /actual -->
+
+---++ Prevent a Link
+---+++ Expected
+<!-- expected NOLINK -->
+<nop>SunOS
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+!SunOS
+<!-- /actual -->
+
+---++ Disable Links
+---+++ Expected
+<!-- expected DISLINK -->
+<noautolink>
+ RedHat &amp; SuSE
+</noautolink>
+<!-- /expected -->
+Note: noautolink tags will still be there, because they are not removed until immediately before topic display.
+---+++ Actual
+<!-- actual -->
+<noautolink>
+ RedHat & SuSE
+</noautolink>
+<!-- /actual -->
+
+---++ Mailto: Links
+Note: depends on setting of spam padding
+---+++ Expected
+<!-- expected MAILTOS -->
+<a href="mailto&#58;a&#64;z&#46;com">Mail</a>
+<a href="mailto&#58;&#63;subject&#61;Hi">Hi</a>
+<a href="mailto&#58;a&#64;b&#46;com">a&#64;b.com</a>
+<a href="mailto&#58;a&#64;b&#46;com">Mail</a>
+<a href="mailto&#58;a&#64;b&#46;com">Mail link</a>
+<a href="mailto&#58;&#63;subject&#61;Hi">Subject_only</a>
+<a href="mailto&#58;&#63;subject&#61;Hi">Subject only</a>
+<a href="mailto:?subject=Hi">Subject only</a>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+[[mailto:a@z.com Mail]]
+[[mailto:?subject=Hi Hi]]
+a@b.com
+[[mailto:a@b.com][Mail]]
+[[mailto:a@b.com][Mail link]]
+[[mailto:?subject=Hi][Subject_only]]
+[[mailto:?subject=Hi][Subject only]]
+<a href="mailto:?subject=Hi">Subject only</a>
+<!-- /actual -->
+
+---++ Wiki Word Links
+---+++ Expected
+<!-- expected expand WIKIWORDS -->
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/WebPreferences">WebPreferences</a>
+<p />
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%WIKIUSERSTOPIC%</a>
+<p />
+<span class="foswikiNewLink">CompleteAndUtterNothing<a href="%SCRIPTURLPATH{"edit"}%/TestCases/CompleteAndUtterNothing?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<p />
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBox</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxs</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxy">LinkBoxies</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxess">LinkBoxess</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBoxess">LinkBoxesses</a>
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/LinkBox">LinkBoxes</a>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+WebPreferences
+
+%USERSWEB%.%WIKIUSERSTOPIC%
+
+CompleteAndUtterNothing
+
+LinkBox
+LinkBoxs
+LinkBoxies
+LinkBoxess
+LinkBoxesses
+LinkBoxes
+<!-- /actual -->
+
+---++ Square Brackets
+---+++ Expected
+<!-- expected expand SQUABS -->
+<span class="foswikiNewLink">wiki syntax<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow"  title="Create this topic">?</a></span>
+<p />
+<a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/%WIKIUSERSTOPIC%">%USERSWEB%.Wiki users</a>
+<p />
+escaped:
+[<nop>[wiki syntax]]
+<p />
+<a href="/relative/URL" target="_top">relative url</a>
+<p />
+<span class="foswikiNewLink">filter%rubbish;from'thelink<a href="%SCRIPTURLPATH{"edit"}%/TestCases/FilterRubbishFromThelink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+[[wiki syntax]]
+
+[[%USERSWEB%.Wiki users]]
+
+escaped:
+![[wiki syntax]]
+
+[[/relative/URL][relative url]]
+
+[[filter%rubbish;from'thelink]]
+<!-- /actual -->
+
+---++ Protocol Links
+---+++ Expected
+<!-- expected expand PROTOCOL -->
+<span class="foswikiNewLink">syntax<a href="%SCRIPTURLPATH{"edit"}%/TestCases/WikiSyntax?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<p />
+<a href="http://gnu.org" target="_top">GNU</a>
+<p />
+<a href="http://xml.org" target="_top">XML</a>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+[[WikiSyntax][syntax]]
+
+[[http://gnu.org][GNU]]
+
+[[http://xml.org XML]]
+<!-- /actual -->
+
+---++ Anchors
+---+++ Expected
+<!-- expected expand ANCHOR -->
+<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#NotThere">TestCaseAutoFormatting#NotThere</a>
+<p />
+<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#MyAnchor">Jump</a>
+<p />
+<a name="MyAnchor"></a> To here
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+[[TestCaseAutoFormatting#NotThere]]
+
+[[#MyAnchor][Jump]]
+
+#MyAnchor To here
+<!-- /actual -->
+
+---++ Escaped variables 1
+---+++ Expected
+<!-- expected ESCAPEDVAR1 -->
+&#37;USERSWEB%nowt
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+!%USERSWEB%nowt
+<!-- /actual -->
+
+---++ Escaped variables 2 
+---+++ Expected
+<!-- expected expand ESCAPEDVAR2 -->
+nowt!%USERSWEB%
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+nowt!%USERSWEB%
+<!-- /actual -->
+
+---++ Complex table
+---+++ Expected
+<!-- expected expand COMPLEX TABLE -->
+<table cellpadding="0" cellspacing="0" border="1" class=foswikiTable>
+<thead>
+<tr>
+  <th><strong>A0 all rows</strong></th>
+  <th><strong>B0</strong></th>
+  <th><strong>C0 widen this col</strong></th>
+  <th><strong><span class="foswikiNewLink">D0LinkInColHeader<a href="%SCRIPTURLPATH{"edit"}%/TestCases/D0LinkInColHeader?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span></strong></th>
+  <th><strong>E0 not a link this time</strong></th>
+ </tr></thead>
+<tbody>
+ <tr>
+  <td align="right">   ^ </td>
+  <td>  B1 left </td>
+  <td align="center">   C1 center  </td>
+  <td align="right">   D1 right </td>
+  <th><strong>E1 strong</strong></th>
+ </tr>
+ <tr>
+  <td> ^</td>
+  <td colspan="4" align="center">   B2:E2 span whole row  </td>
+ </tr>
+ <tr>
+  <td> ^ </td>
+  <td colspan="2" align="right">   B3:C3 span 2 cols right</td>
+  <td> D3</td>
+  <td> E3:E4 span 2 rows </td>
+ </tr>
+ <tr>
+  <td>  ^</td>
+  <td> B4:B5 span 2 rows </td>
+  <td colspan="2"> C4:D4 span 2 cols</td>
+  <td>  ^ </td>
+ </tr>
+ <tr>
+  <td> ^</td>
+  <td> ^</td>
+  <td> C5</td>
+  <td colspan="2"> D5:E5 span 2 cols</td>
+ </tr>
+</tbody>
+</table>
+<!-- /expected -->
+---+++ Actual
+Note that when viewing this topic the table below may be formatted by <nop>TablePlugin. This is switched off during the tests. Revisit this URL with <code>?debugenableplugins=</code> to see the table used in the test.
+---+++ Actual
+<!-- actual -->
+| *A0 all rows* | *B0* | *C0 widen this col* | *D0LinkInColHeader* | *E0 not a link this time* |
+|  ^ | B1 left |  C1 center  |  D1 right | *E1 strong* |
+|^|  B2:E2 span whole row  ||||
+|^ |  B3:C3 span 2 cols right||D3|E3:E4 span 2 rows |
+| ^|B4:B5 span 2 rows |C4:D4 span 2 cols|| ^ |
+|^|^|C5|D5:E5 span 2 cols||
+<!-- /actual -->
+
+---++ Link in a table
+---+++ Expected
+<!-- expected GOOGLE -->
+<table border="1" cellspacing="0" cellpadding="0" class=foswikiTable>
+<tbody>
+ <tr>
+  <td>
+   <a  target="_top" href="http://www.google.co.uk">http://www.google.co.uk</a>  </td>
+ </tr>
+ <tr>
+  <td>
+   <a  target="_top" href="http://www.google.co.uk">http://www.google.co.uk</a>  </td>
+ </tr>
+</tbody>
+</table>
+<!-- /expected -->
+---+++ Actual
+---+++ Actual
+<!-- actual -->
+|http://www.google.co.uk|
+| http://www.google.co.uk |
+<!-- /actual -->
+
+---++ Newlines in variable parameter lists
+---+++ Expected
+<!-- expected expand NEWLINES_IN_VBLS -->
+%IF{"context view" then="X" else="Y"}%
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+%IF{
+   "context view"
+   then = "X"
+   else = "Y"
+}%
+<!-- /actual -->
+
+---++ Anchor links
+---+++ Expected
+<!-- expected expand -->
+<span class="foswikiNewLink">AnchorLink#AnchorName<a href="%SCRIPTURLPATH{"edit"}%/TestCases/AnchorLink?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<a href="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/WebPreferences#Tools">WebPreferences#Tools</a>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+AnchorLink#AnchorName
+%SYSTEMWEB%.WebPreferences#Tools
+<!-- /actual -->
+
+---++ Link at end of topic
+---+++ Expected
+<!-- expected expand LINKATEND -->
+<span class="foswikiNewLink">LinkAtEnd<a href="%SCRIPTURLPATH{"edit"}%/TestCases/LinkAtEnd?topicparent=TestCases.TestCaseAutoFormatting" rel="nofollow" title="Create this topic">?</a></span>
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+LinkAtEnd

@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev $"}%
+---+ List of all Category topics
+
+%SEARCH{"name~'*Category'" excludetopic="%TOPIC%" type="query" scope="topic" nonoise="on" format="   * $web.$topic"}%

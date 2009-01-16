@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1217292809" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarEDITACTION
+---+++ EDITACTION -- Selects an edit template
+
+   * The EDITACTION [[PreferenceSettings][preference setting]] lets you define the use of an editaction template instead of the standard edit. If EDITACTION is defined as =text=, then hide the form. If EDITACTION is defined as =form= hide the normal text area and only edit the form.
+   * Syntax: Set EDITACTION = text|form
+   * Expands to: %EDITACTION%
+   * Related: CommandAndCGIScripts#edit
+   * %X% When EDITACTION is defined as text or form the Edit and Edit Raw buttons simply add =;action=text= or =;action=form= to the URL for the edit script. If you have defined an EDITACTION [[PreferenceSettings][preference setting]] you can still edit the topic content or the form by removing the =;action=form= or =;action=text= from the edit URL in the browser and reload.

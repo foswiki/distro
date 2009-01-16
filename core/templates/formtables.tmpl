@@ -1,0 +1,20 @@
+%{ This is a default template }%%{ These templates define the form attached at the bottom of viewed page. }%
+
+%{ Header definition for topic attachments and top table in attach screen }%
+%TMPL:DEF{FORM:display:header}%
+<div class="foswikiForm">
+<table class='foswikiFormTable' border='1'><tr><th class='foswikiFormTableHRow foswikiFirstCol' colspan='2'>
+[[%A_TITLE%]]
+</th></tr>
+%TMPL:END%
+
+%{ Each row }%
+%TMPL:DEF{FORM:display:row}%
+<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'>%A_TITLE%</td><td>
+%A_VALUE%
+</td></tr>
+%TMPL:END%
+
+%{ Footer }%
+%TMPL:DEF{FORM:display:footer}%
+</table></div><!--/foswikiForm-->%TMPL:END%

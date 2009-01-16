@@ -1,0 +1,195 @@
+%META:TOPICINFO{author="ProjectContributor" date="1158898025" format="1.0" version="$Rev$"}%
+
+Description: Test cases for internal tags *NOT INCLUDING* URLPARAM, SEARCH OR METASEARCH
+
+Forward to TestCaseWebListTag
+
+Tag tests requiring manual inspection
+
+<table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
+<tr>
+ <td>ATTACHURLPATH</td>
+ <td>Manual check</td>
+ <td>%ATTACHURLPATH%</td>
+</tr>
+<tr>
+ <td>ATTACHURL</td>
+ <td>Probably should be http://%HTTP_HOST%/%ATTACHURLPATH%</td>
+ <td>%ATTACHURL%</td>
+</tr>
+<tr>
+ <td>CHARSET</td>
+ <td>Manual check</td>
+ <td>%CHARSET%</td>
+</tr>
+<tr>
+ <td>DATE</td>
+ <td>Today</td>
+ <td>%DATE%</td>
+</tr>
+<tr>
+ <td>DISPLAYTIME</td>
+ <td>Manual check</td>
+ <td>%DISPLAYTIME%</td>
+</tr>
+<tr>
+ <td>DISPLAYTIME{""}</td>
+ <td>Manual check</td>
+ <td>%DISPLAYTIME{""}%</td>
+</tr>
+<tr>
+ <td>EDITURL</td>
+ <td>Manual check</td>
+ <td>%EDITURL%</td>
+</tr>
+<tr>
+ <td>GMTIME</td>
+ <td>Manual check</td>
+ <td>%GMTIME%</td>
+</tr>
+<tr>
+ <td>GMTIME{""}</td>
+ <td>Manual check</td>
+ <td>%GMTIME{""}%</td>
+</tr>
+<tr>
+ <td>GMTIME{"$hour:$minu:$seco $day ($wday,$dow) wk $week, $mont($mo) $year($ye) $tz"}%</td>
+ <td>Manual check</td>
+ <td>%GMTIME{"$hour:$minu:$seco $day ($wday,$dow) wk $week, $mont($mo) $year($ye) $tz"}%</td>
+</tr>
+<tr>
+ <td>GMTIME{"http"}</td>
+ <td>Manual check</td>
+ <td>%GMTIME{"http"}%</td>
+</tr>
+<tr>
+ <td>GMTIME{"rcs"}</td>
+ <td>Manual check</td>
+ <td>%GMTIME{""}%</td>
+</tr>
+<tr>
+ <td>GMTIME{"iso"}</td>
+ <td>Manual check</td>
+ <td>%GMTIME{"iso"}%</td>
+</tr>
+<tr>
+ <td>HTTP_HOST</td>
+ <td>Manual check</td>
+ <td>%HTTP_HOST%</td>
+</tr>
+<tr>
+ <td>HTTP</td>
+ <td>Manual check</td>
+ <td>%HTTP{"accept-language"}%</td>
+</tr>
+<tr>
+ <td>HTTPS</td>
+ <td>Manual check</td>
+ <td>%HTTPS{"accept-language"}%</td>
+</tr>
+<tr>
+ <td>LANG</td>
+ <td>Manual check</td>
+ <td>%LANG%</td>
+</tr>
+<tr>
+ <td>PLUGINVERSION{"DefaultPlugin"}</td>
+ <td>Look in =lib/Foswiki/Plugins/DefaultPlugin.pm= to see what this should be</td>
+ <td>%PLUGINVERSION{"DefaultPlugin"}%</td>
+</tr>
+<tr>
+ <td>PUBURLPATH</td>
+ <td>Manual check</td>
+ <td>%PUBURLPATH%</td>
+</tr>
+<tr>
+ <td>PUBURL</td>
+ <td>Probably should be http://%HTTP_HOST%%PUBURLPATH%</td>
+ <td>%PUBURL%</td>
+</tr>
+<tr>
+ <td>REMOTE_ADDR</td>
+ <td>Manual check</td>
+ <td>%REMOTE_ADDR%</td>
+</tr>
+<tr>
+ <td>REMOTE_PORT</td>
+ <td>Manual check</td>
+ <td>%REMOTE_PORT%</td>
+</tr>
+<tr>
+ <td>REMOTE_USER</td>
+ <td>Manual check</td>
+ <td>%REMOTE_USER%</td>
+</tr>
+<tr>
+ <td>REVINFO{"" format="$web $topic $rev $date $time $iso $hou:$min:$sec $comment $username $wikiname $wikiusername" web="" topic="" rev=""}</td>
+ <td>Manual check</td>
+ <td>%REVINFO{"" format="$web $topic $rev $date $time $iso $hou:$min:$sec $comment $username $wikiname $wikiusername" web="" topic="" rev=""}%</td>
+</tr>
+<tr>
+ <td>REVINFO</td>
+ <td>Manual check</td>
+ <td>%REVINFO%</td>
+</tr>
+<tr>
+ <td>SCRIPTSUFFIX</td>
+ <td>Manual check</td>
+ <td>%SCRIPTSUFFIX%</td>
+</tr>
+<tr>
+ <td>SCRIPTURLPATH</td>
+ <td>Manual check</td>
+ <td>%SCRIPTURLPATH%</td>
+</tr>
+<tr>
+ <td>SCRIPTURL</td>
+ <td>Manual check</td>
+ <td>%SCRIPTURL%</td>
+</tr>
+<tr>
+ <td>SERVERTIME</td>
+ <td>Manual check</td>
+ <td>%SERVERTIME%</td>
+</tr>
+<tr>
+ <td>SERVERTIME{""}</td>
+ <td>Manual check</td>
+ <td>%SERVERTIME{""}%</td>
+</tr>
+<tr>
+ <td>SHORTLANG</td>
+ <td>Manual check</td>
+ <td>%SHORTLANG%</td>
+</tr>
+<tr>
+ <td>USERNAME</td>
+ <td>Manual check</td>
+ <td>%USERNAME%</td>
+</tr>
+<tr>
+ <td>WIKIHOMEURL</td>
+ <td>Manual check</td>
+ <td>%WIKIHOMEURL%</td>
+</tr>
+<tr>
+ <td>WIKINAME</td>
+ <td>Manual check</td>
+ <td>%WIKINAME%</td>
+</tr>
+<tr>
+ <td>WIKITOOLNAME</td>
+ <td>Manual check</td>
+ <td>%WIKITOOLNAME%</td>
+</tr>
+<tr>
+ <td>WIKIUSERNAME</td>
+ <td>Manual check</td>
+ <td>%WIKIUSERNAME%</td>
+</tr>
+<tr>
+ <td>WIKIVERSION</td>
+ <td>Manual check</td>
+ <td>%WIKIVERSION%</td>
+</tr>
+</table>

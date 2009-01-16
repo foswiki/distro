@@ -1,0 +1,28 @@
+%{ This is a default template }%%{ Templates for lease conflict messages. One DEF is selected and inserted at %INSTANTIATE }%
+%TMPL:INCLUDE{"oops"}%
+
+%TMPL:DEF{"webaction"}% *%MAKETEXT{"Attention"}%* %TMPL:END%
+
+%TMPL:DEF{"heading"}%%MAKETEXT{"Conflict"}%%TMPL:END%
+
+%TMPL:DEF{"message"}%
+%{ Instantiate either lease_active or lease_old }%
+%INSTANTIATE%
+
+<form action="%SCRIPTURLPATH{"%PARAM4%"}%/%WEB%/%TOPIC%" method="post">
+<literal>
+%QUERYPARAMS{format="<input type='hidden' name='$name' value='$value' />" encoding="entity"}%
+</literal>
+%MAKETEXT{"To see if [_1] has finished editing yet, click " args="%PARAM1%"}%
+<input type="submit" class="foswikiButton" value='%MAKETEXT{"Try Again"}%' />
+</form>
+<form action="%SCRIPTURLPATH{"%PARAM4%"}%/%WEB%/%TOPIC%" method="post">
+%MAKETEXT{"To edit the topic anyway, click "}%
+<input type="hidden" name="breaklock" value="on" />
+<literal>
+%QUERYPARAMS{format="<input type='hidden' name='$name' value='$value' />" encoding="entity"}%
+</literal>
+<input type="submit" class="foswikiButton" value='%MAKETEXT{"Edit Anyway"}%' />
+</form>%TMPL:END%
+
+%TMPL:DEF{"topicactionbuttons"}%[[%WEB%.%TOPIC%][%MAKETEXT{"View topic"}%]] %TMPL:P{"sep"}% <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?raw=on">%MAKETEXT{"View raw text without formatting"}%</a>%TMPL:END%

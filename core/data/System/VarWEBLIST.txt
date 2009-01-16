@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarWEBLIST
+---+++ WEBLIST{"format"} -- index of all webs
+   * List of all webs. Obfusticated webs are excluded, e.g. webs with a =NOSEARCHALL = on= [[PreferenceSettings][preference setting]]. The ="format"= defines the format of one web item. The =$name= gets expanded to the name of the web, =$qname= gets expanded to double quoted name, =$marker= to =marker= where web matches =selection=.
+   * Syntax: =%<nop>WEBLIST{"format" ...}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="format"= | Format of one line, may include =$name= (the name of the web), $qname (the name of the web in double quotes), =$indentedname= (the name of the web with parent web names replaced by indents, for use in indented lists), and =$marker= (which expands to =marker= for the item matching =selection= only) | ="$name"= |
+     | =format="format"= | (Alternative to above) | ="$name"= |
+     | =separator=", "= | Line separator | ="$n"= (new line) |
+     | =web=""= | if you specify =$web= in format, it will be replaced with this  | =""= |
+     | =webs="public"=   | Comma separated list of webs, =public= expands to all non-hidden.%BR% *NOTE:* Administrators will see all webs, not just the public ones | ="public"= |
+     | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
+     | =selection="%<nop>WEB%"= | Current value to be selected in list | =selection="%<nop>WEB%"= |
+     | =subwebs="Sandbox"=   | show webs that are a sub-web of this one (recursivly) | =""= |
+   * Example: =%<nop>WEBLIST{"   * [<nop>[$name.%HOMETOPIC%]]"}%= - creates a bullet list of all webs.
+   * Example: =&lt;form&gt;&lt;select name="web"&gt; %<nop>WEBLIST{"&lt;option $marker value=$qname&gt;$name&lt;/option&gt;" webs="Trash, public" selection="%<nop>WEB%" separator=" "}% &lt;/select&gt;&lt;/form&gt;= - creates a dropdown of all public webs + Trash web, with the current web highlighted.
+   * %X% - WEBLIST will not show a web called 'TWiki' even if it exists in the file system unless the =TWikiCompatibilityPlugin= is installed and activated in [[%SCRIPTURLPATH{"configure"}%][configure]]. This is done to ensure that the TWiki compatibility components such as the TWiki web are only visible and active when needed.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarTOPICLIST][TOPICLIST]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]]

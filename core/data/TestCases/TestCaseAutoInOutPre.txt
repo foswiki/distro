@@ -1,0 +1,55 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: check the behaviour of the inside and outside PRE handlers
+This test is designed to be automatic; it cannot be performed manually.
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+The TestFixturePlugin has all the handlers defined. For each handler call, it will replace the text "%handlerNameN%" (where handlerName is the name of the handler and N is a digit) with a unique identifier. The identifier is composed as:
+
+NXXXM_lineL
+
+where N is the digit from %handleNameN%, XXX is OPH for outsidePreHandler etc, and L is the number of the line processed in this call to the handler.
+
+Designed by: Crawford Currie
+
+---+ Actual
+<!-- actual -->
+%outsidePreHandler1%
+<pre>
+%insidePreHandler1%
+</pre>
+%outsidePreHandler2%
+<pre>
+%insidePreHandler2%
+%insidePreHandler3%
+</pre>
+%outsidePreHandler3%
+<!-- /actual -->
+---+ Expected
+<!-- expected -->
+1OPH1_line1
+1OPH1_line2
+1OPH1_line3
+<pre>
+1IPH1_line1
+1IPH1_line2
+1IPH1_line3
+</pre>
+2OPH2_line1
+2OPH2_line2
+2OPH2_line3
+<pre>
+2IPH2_line1
+2IPH2_line2
+2IPH2_line3
+
+3IPH3_line1
+3IPH3_line2
+3IPH3_line3
+
+</pre>
+3OPH3_line1
+3OPH3_line2
+3OPH3_line3
+<!-- /expected -->

@@ -1,0 +1,39 @@
+%META:TOPICINFO{author="ProjectContributor" date="1127097700" format="1.1" version="1.1"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! %TOPIC%
+
+Description: Verify CSS styles that are affected by javascript: foswikiMakeVisible, foswikiMakeVisibleInline, foswikiMakeVisibleBlock, foswikiMakeHidden
+
+This should be tested with !JavaScript turned on and off.
+
+---++ foswikiMakeVisible
+
+BEFORE <span class="foswikiMakeVisible">
+%GREEN%
+This span should only be visible with !JavaScript turned on.
+%ENDCOLOR%
+</span> AFTER
+
+---++ foswikiMakeVisibleInline
+
+BEFORE <span class="foswikiMakeVisibleInline">
+%GREEN%
+This span should only be visible with !JavaScript turned on.
+%ENDCOLOR%
+</span> AFTER
+
+---++ foswikiMakeVisibleBlock
+
+BEFORE <div class="foswikiMakeVisibleBlock">
+%GREEN%
+This div should only be visible with !JavaScript turned on.
+%ENDCOLOR%
+</div> AFTER
+
+---++ foswikiMakeHidden
+
+BEFORE <div class="foswikiMakeHidden">
+%GREEN%
+This div should only be hidden with !JavaScript turned on. If you can read this text either there is a bug or you have !JavaScript turned off, in which case this test runs fine.
+%ENDCOLOR%
+</div> AFTER

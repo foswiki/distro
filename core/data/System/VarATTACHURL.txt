@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarATTACHURL
+---+++ ATTACHURL -- full URL for attachments in the current topic
+   * Syntax: =%<nop>ATTACHURL%=
+   * Expands to: =%ATTACHURL%=
+   * Example: If you attach a file you can refer to it as =%<nop>ATTACHURL%/image.gif=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURL][PUBURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
+

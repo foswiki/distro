@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+---+ Project Contributor
+
+Not an actual user of this site, but a person devoting some of his/her time to contribute to the Foswiki Open Source project. [[%SYSTEMWEB%.ProjectContributor][ProjectContributor]] lists the people involved.
+
+---
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
+
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+

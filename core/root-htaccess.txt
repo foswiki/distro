@@ -1,0 +1,13 @@
+# Sample Root '.htaccess' file
+
+# Controls access to Foswiki 'root' directory (parent of the 'bin' directory)
+# - rename this file to '.htaccess' to have Apache use it.
+
+# Turn off directory indexing in this and sub directories
+Options -Indexes
+
+# Redirect any access to 'index.html' to the 'view' script (i.e. Main.WebHome)
+# Disabled by default - uncomment if required, will hide the real index.html.
+#
+# The first path here must be a URL path, not a file pathname
+# Redirect /urlpath/to/foswiki/index.html http://your.domain.com/urlpath/to/foswiki/bin/view

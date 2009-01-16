@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1132293685" format="1.1" version="$Rev$"}%
+alskfja slkf sljkf a;sdj f;adf
+aslkf jaskf ja;sdfj aslkf jaslf
+asdlk ads;fja s;dfja s;dfjasdfa;jf
+asdlf;kja sd;fj asd;j fas;djf asdjf 
+asdfasdlfja;s dfja;sld fjasfk
+
+%STARTINCLUDE%
+SUCCESS: %TOPIC%
+%STOPINCLUDE%
+
+adsf;j alsdfj a;ls dfalsjd fa;sldj
+asdl fas;dfj asdlfj a;slkfj a
+sdfasljkf a;skfj a;dsfj a;sdfj
+asdflka jsd;flj adsflkasjf

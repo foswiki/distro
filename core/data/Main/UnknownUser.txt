@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ The <nop>UnknownUser User
+
+!UnknownUser is a reserved name. If the !UnknownUser appears, it is probably because author information for a topic could not be recovered, perhaps because a topic has been modified by a non-Foswiki tool.
+
+---
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[%SYSTEMWEB%.UserRegistration][UserRegistration]]
+
+%META:PREFERENCE{name="ALLOWTOPICCHANGE" title="ALLOWTOPICCHANGE" type="Set" value="AdminGroup"}%
+

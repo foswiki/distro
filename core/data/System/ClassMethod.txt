@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="ObjectMethod"}%
+A ClassMethod is a method that must be called relative to the containing class object. This normally only applies to the =new= method used to create new object instances. For example,
+
+---+ package Telecoms
+---++ ClassMethod new()
+
+<verbatim>
+my $mobile = new Telecoms();
+</verbatim>
+or
+<verbatim>
+my $mobile = Telecoms->new();
+</verbatim>
+
+---
+*Related Topics:* StaticMethod, ObjectMethod

@@ -1,0 +1,13 @@
+# Sample '.htaccess' file for subdirectories
+
+# Controls access to Foswiki subdirectories other than 'bin' and 'pub'
+# - copy this into 'data', 'lib', 'locale', 'working' and 'templates'
+# naming it '.htaccess', to have Apache use it.
+
+# This is useful if you install Foswiki on a web host, or an intranet host
+# where you can't edit the Apache http.conf file.  If you can edit the
+# http.conf file, just set the 'deny from all' there (or locate these
+# directories outside the Web-visible directory tree.)
+
+# Deny all access
+Deny from all

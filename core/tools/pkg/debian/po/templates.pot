@@ -1,0 +1,147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid "URL of the server Foswiki runs under:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid "Perform install of default wiki Topic Set?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr ""
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr ""

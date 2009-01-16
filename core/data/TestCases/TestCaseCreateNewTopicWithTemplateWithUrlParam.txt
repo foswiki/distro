@@ -1,0 +1,6 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Verify the correct creation of a topic from a template, where URL params are used to populate the text in the new topic.
+
+[[%SCRIPTURL{"edit"}%/TestCases?topic=TemplatedTopic&templatetopic=TopicTemplateWithUrlParamFixture&testtext=text%20from%20the%20url][Click here]] to run the test and topic. *DO NOT SAVE IT*, just check that the content is present and correct.
+

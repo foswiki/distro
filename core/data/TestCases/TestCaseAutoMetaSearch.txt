@@ -1,0 +1,79 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 12658 $"}%
+%META:TOPICPARENT{name="RecursiveInclude"}%
+
+Description: tests for METASEARCH tags
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+---++ Search for parents
+Expected:
+<!-- expected expand PARENT -->
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">%TOPIC%</a>
+<!-- /expected -->
+Actual:
+<!-- actual -->
+%METASEARCH{web="%WEB%" type="parent" topic="RecursiveInclude"}%
+<!-- /actual -->
+
+---++ Search for moved topic
+Expected:
+<!-- expected expand MOVED -->
+Itwos <a href="%SCRIPTURLPATH{"view"}%/TestCases/DeliberatelyMoved">DeliberatelyMoved</a>
+<!-- /expected -->
+Actual: 
+<!-- actual -->
+%METASEARCH{web="%WEB%" topic="MovedFrom" type="topicmoved" title="Itwos "}%
+<!-- /actual -->
+
+---++ Search for field value
+Expected:
+<!-- expected expand VALUE -->
+<a href="%SCRIPTURLPATH{"view"}%/TestCases/DeliberatelyMoved">DeliberatelyMoved</a>
+<!-- /expected -->
+Actual: 
+<!-- actual -->
+%METASEARCH{web="%WEB%" type="field" name="RubaDuba" value="Heeby.*by"}%
+<!-- /actual -->
+
+---++ Search with no result
+Expected:
+<!-- expected NO RESULT -->
+Not a sausage
+<!-- /expected -->
+Actual:
+<!-- actual -->
+%METASEARCH{web="%WEB%" type="field" name="Not a field" value="Not a value" default="Not a sausage"}%
+<!-- /actual -->
+
+---++ Search with format parameters
+---+++ Parent with bullet list
+Expected:
+<!-- expected expand BULLET -->
+<ul><li><a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">%TOPIC%</a></li></ul>
+<!-- /expected -->
+Actual:
+<!-- actual -->
+%METASEARCH{type="parent" topic="RecursiveInclude" format="   * $topic" }%
+<!-- /actual -->
+
+---+++ Parent abbreviated
+Expected:
+<!-- expected expand ABBR -->
+<a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/%TOPIC%">Test...</a>
+<!-- /expected -->
+Actual:
+<!-- actual -->
+%METASEARCH{type="parent" topic="RecursiveInclude" format="[[$web.$topic][$topic(4,...)]]"}%
+<!-- /actual -->
+   
+---+++ Color
+Expected:
+<!-- expected expand -->
+<span style="background-color:#f00; color:#fff"><nop>%TOPIC%</span>
+<!-- /expected -->
+Actual:
+<!-- actual -->
+%METASEARCH{web="%WEB%" type="parent" topic="RecursiveInclude" format="<span style=\"background-color:#f00; color:#fff\">$topic</span>" }%
+<!-- /actual -->

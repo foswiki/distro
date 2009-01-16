@@ -1,0 +1,36 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Tags embedded in the format option must expand correcly
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+<verbatim>
+%SEARCH{"%TOPIC%" format="$percntINCLUDE{ $topic }$nop%" nosearch="on" noheader="on" nosummary="on" nototal="on"}%
+</verbatim>
+
+<!--
+Fixture for test: TestCaseAutoSearchWithInternalTag
+
+%STARTINCLUDE%Test Passed Ok%STOPINCLUDE%
+-->
+
+<table border=1>
+<tr><th>Expected</th><th>Actual</th></tr>
+<tr><td>
+<!-- expected -->Test Passed Ok<!-- /expected -->
+</td>
+<td>
+<!-- actual -->%SEARCH{"%TOPIC%" format="$percntINCLUDE{ $topic }$nop%" nosearch="on" noheader="on" nosummary="on" nototal="on"}%<!-- /actual -->
+</td>
+</tr>
+<tr><td>
+<!-- expected -->Test Passed Ok<!-- /expected -->
+</td>
+<td>
+<!-- actual -->%SEARCH{"%TOPIC%" format="$percntINCLUDE{ $topic }$nop$percnt" nosearch="on" noheader="on" nosummary="on" nototal="on"}%<!-- /actual -->
+</td>
+</tr>
+</table>
+

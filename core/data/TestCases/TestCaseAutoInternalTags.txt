@@ -1,0 +1,165 @@
+%META:TOPICINFO{author="SimianApe" date="1229981030" format="1.1" version="1.2"}%
+Description: Tag tests that can be automated
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+<table border="1"><tr><th> Tag </th><th>Expected</th><th>Actual</th></tr>
+ <tr>
+  <td>TOPIC</td>
+  <td><!-- expected three -->TOPIC TestCaseAutoInternalTags<!-- /expected --></td>
+  <td><!-- actual -->TOPIC <nop>%TOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEB</td>
+  <td><!-- expected fore -->WEB TestCases<!-- /expected --></td>
+  <td><!-- actual -->WEB <nop>%WEB%<!-- /actual --></td>
+ </tr>
+  <tr>
+  <td>ICON{}</td>
+  <td><!-- expected fave rex expand -->ICON <img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.gif" align="top" alt="else" border="0" height="16" width="16" /><!-- /expected --></td>
+  <td><!-- actual -->ICON %ICON{}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>ICON{""}</td>
+  <td><!-- expected sox rex expand -->ICON <img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/else.gif" align="top" alt="else" border="0" height="16" width="16" /><!-- /expected --></td>
+  <td><!-- actual -->ICON %ICON{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>ICON{"Fleegle"}</td>
+  <td><!-- expected sebum rex expand -->ICON <img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/Fleegle.gif" align="top" alt="Fleegle" border="0" height="16" width="16" /><!-- /expected --></td>
+  <td><!-- actual -->ICON %ICON{"Fleegle"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>ICON{"sniff.sniff"}</td>
+  <td><!-- expected ate rex expand -->ICON <img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/sniff.gif" align="top" alt="sniff" border="0" height="16" width="16" /><!-- /expected --></td>
+  <td><!-- actual -->ICON %ICON{"sniff.sniff"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>ICON{"gif"}</td>
+  <td><!-- expected noin rex expand -->ICON <img src="%PUBURLPATH%/%SYSTEMWEB%/@WIKIWORD/gif.gif" align="top" alt="gif" border="0" height="16" width="16" /><!-- /expected --></td>
+  <td><!-- actual -->ICON %ICON{"gif"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>URLENCODE{""}</td>
+  <td><!-- expected turn -->URLENCODE <!-- /expected --></td>
+  <td><!-- actual -->URLENCODE %URLENCODE{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>ENCODE{""}</td>
+  <td><!-- expected elven -->ENCODE <!-- /expected --></td>
+  <td><!-- actual -->ENCODE %ENCODE{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>INTURLENCODE{""}</td>
+  <td><!-- expected elf -->INTURLENCODE <!-- /expected --></td>
+  <td><!-- actual -->INTURLENCODE %INTURLENCODE{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+ <tr>
+  <td>SYSTEMWEB</td>
+  <td><!-- expected dirtene -->SYSTEMWEB System<!-- /expected --></td>
+  <td><!-- actual -->SYSTEMWEB %SYSTEMWEB%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>HOMETOPIC</td>
+  <td><!-- expected voretene -->HOMETOPIC WebHome<!-- /expected --></td>
+  <td><!-- actual -->HOMETOPIC <nop>%HOMETOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WIKIUSERSTOPIC</td>
+  <td><!-- expected viftene -->WIKIUSERSTOPIC WikiUsers<!-- /expected --></td>
+  <td><!-- actual -->WIKIUSERSTOPIC <nop>%WIKIUSERSTOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WIKIPREFSTOPIC</td>
+  <td><!-- expected sexteen -->WIKIPREFSTOPIC DefaultPreferences<!-- /expected --></td>
+  <td><!-- actual -->WIKIPREFSTOPIC <nop>%WIKIPREFSTOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>WEBPREFSTOPIC</td>
+  <td><!-- expected serumtene -->WEBPREFSTOPIC WebPreferences<!-- /expected --></td>
+  <td><!-- actual -->WEBPREFSTOPIC <nop>%WEBPREFSTOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>NOTIFYTOPIC</td>
+  <td><!-- expected oughteen -->NOTIFYTOPIC WebNotify<!-- /expected --></td>
+  <td><!-- actual -->NOTIFYTOPIC <nop>%NOTIFYTOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>STATISTICSTOPIC</td>
+  <td><!-- expected naughty -->STATISTICSTOPIC WebStatistics<!-- /expected --></td>
+  <td><!-- actual -->STATISTICSTOPIC <nop>%STATISTICSTOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>STARTINCLUDE</td>
+  <td><!-- expected wendy -->STARTINCLUDE <!-- /expected --></td>
+  <td><!-- actual -->STARTINCLUDE %STARTINCLUDE%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>STOPINCLUDE</td>
+  <td><!-- expected wendyone -->STOPINCLUDE <!-- /expected --></td>
+  <td><!-- actual -->STOPINCLUDE %STOPINCLUDE%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>STARTSECTION{""}</td>
+  <td><!-- expected -->STARTSECTION <!-- /expected --></td>
+  <td><!-- actual -->STARTSECTION %STARTSECTION{""}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>SECTION{}</td>
+  <td><!-- expected wendytoo -->STARTSECTION <!-- /expected --></td>
+  <td><!-- actual -->STARTSECTION %STARTSECTION{}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>ENDSECTION</td>
+  <td><!-- expected wendyfree -->ENDSECTION <!-- /expected --></td>
+  <td><!-- actual -->ENDSECTION %ENDSECTION%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>FORMFIELD{"" topic="" alttext="" default="" format="$value"}</td>
+  <td><!-- expected wendymore -->FORMFIELD <!-- /expected --></td>
+  <td><!-- actual -->FORMFIELD %FORMFIELD{"" topic="" alttext="" default="" format="$value"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>FORMFIELD{"Slash Slash Escape" alttext="" default="" format="'$name'=$quot$value$quot $title in $quot$form$quot"}</td>
+  <td><!-- expected wendydive -->FORMFIELD 'SlashSlashEscape'="One" Slash Slash Escape in "ThisForm"<!-- /expected --></td>
+  <td><!-- actual -->FORMFIELD %FORMFIELD{"Slash Slash Escape" alttext="" default="" format="'$name'=$quot$value$quot $title in $quot$form$quot"}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>SPACEDTOPIC</td>
+  <td><!-- expected wendytax -->SPACEDTOPIC Test%20*Case%20*Auto%20*Internal%20*Tags<!-- /expected --></td>
+  <td><!-- actual -->SPACEDTOPIC %SPACEDTOPIC%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>RELATIVETOPICPATH{}</td>
+  <td><!-- expected wendyeven -->RELATIVETOPICPATH <!-- /expected --></td>
+  <td><!-- actual -->RELATIVETOPICPATH %RELATIVETOPICPATH{}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>RELATIVETOPICPATH{Sausage}</td>
+  <td><!-- expected wendydate -->RELATIVETOPICPATH ../TestCases/Sausage<!-- /expected --></td>
+  <td><!-- actual -->RELATIVETOPICPATH %RELATIVETOPICPATH{Sausage}%<!-- /actual --></td>
+ </tr>
+ <tr>
+  <td>RELATIVETOPICPATH{"Chips"}</td>
+  <td><!-- expected wendynein -->RELATIVETOPICPATH ../TestCases/Chips<!-- /expected --></td>
+  <td><!-- actual -->RELATIVETOPICPATH %RELATIVETOPICPATH{"Chips"}%<!-- /actual --></td>
+ </tr>
+</table>
+
+---+ INCLUDE
+---++ Expected
+   * BASEWEB        <!-- expected -->TestCases<!-- /expected -->
+   * INCLUDINGWEB   <!-- expected -->TestCases<!-- /expected -->
+   * BASETOPIC      <!-- expected -->TestCaseAutoInternalTags<!-- /expected -->
+   * INCLUDINGTOPIC <!-- expected -->TestCaseAutoInternalTags<!-- /expected -->
+---++ Actual
+%INCLUDE{"FixtureIncludedTopic"}%
+
+%META:FORM{name="ThisForm"}%
+%META:FIELD{name="Squeegle" attributes="" title="Squeegle" value="Hugh Pugh Barney McGrew"}%
+%META:FIELD{name="Smomble" attributes="" title="Smomble" value=""}%
+%META:FIELD{name="Rubaduba" attributes="" title="Rubaduba" value=""}%
+%META:FIELD{name="SlashSlashEscape" attributes="" title="Slash Slash Escape" value="One"}%

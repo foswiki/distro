@@ -1,0 +1,65 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ RSS News Feeds
+
+---++ Find out What's New
+
+There are several ways to find out what's new in each web:
+   1. Visit WebChanges to see recent changes
+   1. Subscribed in WebNotify get notified of recent changes by e-mail
+   1. Use a news readers such as Foswiki:Extensions/HeadlinesPlugin to display the recent changes
+      * The source can be a RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
+
+---++ RSS Feed Usage
+
+   * The URL for an RSS feed is =%SCRIPTURL{"view"}%/&lt;web&gt;/WebRss=
+   * For this <nop>%WEB% web it is %SCRIPTURL{"view"}%/%WEB%/WebRss
+   * You can also create a custom feed based on a search. Add a =search=value= parameter to the URL, e.g. %SCRIPTURL{"view"}%/%WEB%/WebRss?search=plugin is a what's new feed about Plugins.
+
+---++ RSS Feed Internals
+
+Each web has a WebRss topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the RSS feed and generates an RSS 1.0 feed.
+
+The WebRss topic in each web contains the following text:
+
+-----
+<pre>
+&lt;channel rdf:about="%<nop>SCRIPTURL{"view"}%/%<nop>INCLUDINGWEB%">
+  &lt;title>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>INCLUDINGWEB% web&lt;/title>
+  &lt;link>%<nop>SCRIPTURL{"view"}%/%<nop>INCLUDINGWEB%&lt;/link>
+  &lt;description>(the description of the web). Foswiki, the Free and Open-Source Wiki.&lt;/description>
+%<nop>INCLUDE{"%SYSTEMWEB%.WebRssBase"}% &lt;!--
+   * Set <nop>SKIN = rss
+-->
+</pre>
+-----
+
+
+Below part is included by each <nop>WebRss topic:
+
+
+-----
+<verbatim>
+%STARTINCLUDE%<image rdf:resource="%WIKILOGOIMG%" />
+  <dc:language>en-us</dc:language>
+  <dc:rights>%WEBRSSCOPYRIGHT%</dc:rights>
+  <dc:publisher>%WIKIWEBMASTERNAME% [%WIKIWEBMASTER%]</dc:publisher>
+  <dc:creator>The contributing authors of %WIKITOOLNAME%</dc:creator>
+  <dc:source>%WIKITOOLNAME%</dc:source>
+  <items>
+    <rdf:Seq>
+%SEARCH{"%URLPARAM{"search" encode="quote" default=".*" }%" web="%URLPARAM{"web" encode="quote" default="%INCLUDINGWEB%" }%" excludetopic="%URLPARAM{"excludetopic" encode="quote" default="WebStatistics" }%" type="%URLPARAM{"type" encode="quote" default="regex" }%" nosearch="on" order="modified" reverse="on" nototal="on" limit="%URLPARAM{"limit" encode="quote" default="16" }%" scope="%URLPARAM{"scope" encode="quote" default="text" }%" casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%" date="%URLPARAM{"date" encode="quote" default="" }%" format="      <rdf:li rdf:resource=\"%SCRIPTURL{"view"}%/$web/$topic\" />"}%
+    </rdf:Seq>
+  </items>
+</channel>
+<image rdf:about="%WIKILOGOIMG%">
+  <title>%WIKILOGOALT%.%INCLUDINGWEB%</title>
+  <link>%SCRIPTURL{"view"}%/%INCLUDINGWEB%</link>
+  <url>%WIKILOGOIMG%</url>
+</image>
+%SEARCH{"%URLPARAM{"search" encode="quote" default=".*" }%" web="%URLPARAM{"web" encode="quote" default="%INCLUDINGWEB%" }%" excludetopic="%URLPARAM{"excludetopic" encode="quote" default="WebStatistics" }%" type="%URLPARAM{"type" encode="quote" default="regex" }%" nosearch="on" order="modified" reverse="on" nototal="on" limit="%URLPARAM{"limit" encode="quote" default="16" }%" scope="%URLPARAM{"scope" encode="quote" default="text" }%" casesensitive="%URLPARAM{"casesensitive" encode="quote" default="on" }%" date="%URLPARAM{"date" encode="quote" default="" }%" format="<item rdf:about=\"%SCRIPTURL{"view"}%/$web/$topic\">$n  <title>$topic</title>$n  <link>%SCRIPTURL{"view"}%/$web/$topic</link>$n  <description>$summary (last changed by <nop>$wikiname)</description>$n  <dc:date>$isodate</dc:date>$n  <dc:contributor>$n    <rdf:Description link=\"%SCRIPTURL{"view"}%?topic=$wikiusername\">$n      <rdf:value>$username</rdf:value>$n    </rdf:Description>$n  </dc:contributor>$n</item>"}%
+%STOPINCLUDE%
+</verbatim>
+-----
+
+*See also*: WebAtomBase
+

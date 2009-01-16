@@ -1,0 +1,32 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+---+ Installed Plugins
+
+Here is a list of the plugins currently installed and enabled on this Fosiki site:
+
+%PLUGINDESCRIPTIONS%
+
+Administrators can enable and disable plugins using [[%SCRIPTURLPATH{"configure"}%][%ICON{"wrench"}% configure]].
+
+See [[Plugins]] for more detailed description of how to install and use Plugins.
+
+---++ All Contrib Modules
+
+See %SYSTEMWEB%.SkinBrowser for an overview of the installed Skins.
+
+%SEARCH{
+    "1"
+    type="query"
+    topic="*Contrib,*AddOn"
+    web="%SYSTEMWEB%,TWiki"
+    scope="topic"
+    nonoise="on"
+    format="   * [[$web.$topic][$topic]]"
+}%
+
+---++ Plugin Diagnostics
+%FAILEDPLUGINS%
+
+*Note:* The diagnostics are provided by the =%<nop>FAILEDPLUGINS%= macro
+
+---
+*Related Topics:* [[Plugins]], %WIKIPREFSTOPIC%, AdminDocumentationCategory, AdminToolsCategory, SkinBrowser

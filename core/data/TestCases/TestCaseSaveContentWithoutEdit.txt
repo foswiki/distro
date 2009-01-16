@@ -1,0 +1,62 @@
+%META:TOPICINFO{author="LynnwoodBrown" date="1124300292" format="1.1" version="1.2"}%
+
+---+!! %TOPIC%
+
+Description: Verify the proper creation or revision of a topic without going through edit, along with the proper handling of URL params in the following cases:
+   1 The topic already exisit containing form field values 
+   1 A =templatetopic= is specified.
+   1 A =formtemplate= is specified.
+
+In all cases, some form field values will be changed with URL params and other with be left unchanged.
+
+Before this test, the content of the SavedContentExistingTopic should be:
+---
+This topic is used by TestCaseSaveContentWithoutEdit
+
+Rubaduba form field should say %GMTIME% (after running test).
+
+The other form fields should be unchanged. i.e.:
+   * Squeegle =  Hugh Pugh Barney McGrew
+   * Smomble = unchecked
+   * Slash Slash Escape = One
+---
+The actual content is:
+---
+%INCLUDE{SavedContentExistingTopic}%
+---
+*if the content is different, you need to delete SavedContentExistingTopic and "svn update" again*.
+
+---++++ Test #1: Passing URL Params to update fields in an existing topic
+
+[[%SCRIPTURL{"save"}%/TestCases?topic=SavedContentExistingTopic&Rubaduba=%ENCODE{"%GMTIME%"}%][Click here]] to run the test. Expected result:
+   * The topic should still contain the content shown above.
+   * Rubaduba form field should contain current GMTIME. This variable is also in topic for comparison.
+   * The other form fields should be unchanged. i.e.:
+      * Squeegle =  Hugh Pugh Barney McGrew
+      * Smomble = unchecked
+      * Slash Slash Escape = One
+
+
+---++++ Test #2: Passing URL Params to new topic with =templatetopic= specified
+
+Before running this test, check if SavedNewTopicNoEdit exist and, if so, [[%SCRIPTURL{"manage"}%/%WEB%/SavedNewTopicNoEdit?action=rename;newweb=%TRASHWEB%;newtopic=SavedNewTopicNoEdit;breaklock=1][delete it]].
+
+[[%SCRIPTURL{"save"}%/TestCases?topic=SavedNewTopicNoEdit&templatetopic=TopicTemplateWithUrlParamFixture&testtext=text%20from%20the%20url&Rubaduba=%ENCODE{"%GMTIME%"}%][Click here]] to run the test and topic. Expected result:
+   * The topic should contain some content, including some text passed in url.
+   * Rubaduba form field should contain current GMTIME. This variable is also in topic for comparison.
+   * The other form fields should be unchanged. i.e.:
+      * Squeegle =  Hugh Pugh Barney McGrew
+      * Smomble = unchecked
+      * Slash Slash Escape = One
+
+
+---++++ Test #3: Passing URL Params to new topic with =formtemplate= specified
+
+Before running this test, check if SavedNewTopicNoEdit exists and, if so, [[%SCRIPTURL{"manage"}%/%WEB%/SavedNewTopicNoEdit?action=rename;newweb=%TRASHWEB%;newtopic=SavedNewTopicNoEdit;breaklock=1][delete it]].
+
+[[%SCRIPTURL{"save"}%/TestCases?topic=SavedNewTopicNoEdit&formtemplate=ThisForm&text=text%20from%20the%20url&Rubaduba=%ENCODE{"%GMTIME%"}%&Squeegle=Hugh][Click here]] to run the test and topic. Expected result:
+   * The topic should contain some text passed in url.
+   * The topic should have ThisForm assigned.
+   * Rubaduba form field should contain current GMTIME.
+   * Squeegle form field should contain "Hugh"
+

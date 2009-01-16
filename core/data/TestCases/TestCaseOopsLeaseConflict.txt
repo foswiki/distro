@@ -1,0 +1,14 @@
+Description: Load message templates for review
+
+To exercise the testcase for another skin, view this topic with a skin set in the URL.
+
+<form action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%">
+Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
+<input type="submit" value="Try this skin" />
+</form>
+
+---+ Messages for oopsleaseconflict
+---++ =oopsleaseconflict lease_active=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsleaseconflict&def=lease_active;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsleaseconflict lease_old=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsleaseconflict&def=lease_old;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%

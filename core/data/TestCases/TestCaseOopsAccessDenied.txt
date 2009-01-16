@@ -1,0 +1,22 @@
+Description: Load message templates for review
+
+To exercise the testcase for another skin, view this topic with a skin set in the URL.
+
+<form action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%">
+Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
+<input type="submit" value="Try this skin" />
+</form>
+<!--
+   * Set LANGUAGE = %URLPARAM{"language"}%
+-->
+---+ Messages for oopsaccessdenied
+---++ =oopsaccessdenied topic_access=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsaccessdenied&def=topic_access;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsaccessdenied only_group=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsaccessdenied&def=only_group;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsaccessdenied no_such_web=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsaccessdenied&def=no_such_web;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsaccessdenied no_such_topic=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsaccessdenied&def=no_such_topic;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsaccessdenied no_such_attachment=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsaccessdenied&def=no_such_attachment;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
