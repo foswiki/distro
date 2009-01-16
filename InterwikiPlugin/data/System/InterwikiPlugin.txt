@@ -1,0 +1,83 @@
+%META:TOPICINFO{author="PeterThoeny" date="1186881349" format="1.1" version="$Rev$"}%
+---+!! Interwiki Plugin
+
+The <nop>%TOPIC% links ==ExternalSite:Page== text to external sites based on aliases defined in the %SYSTEMWEB%.InterWikis topic. This plugin is inspired by <nop>UseMod Wiki's inter-wiki links, http://www.usemod.com/cgi-bin/wiki.pl?InterWiki.
+
+%TOC%
+
+---++ Syntax Rules
+
+   * Enter ==ExternalSite:Page== to create a link that points to the ==Page== on the ==ExternalSite== server.
+   * Enter ==[<nop>[ExternalSite:Page][any label]]== to specify a custom label.
+   * All ==ExternalSite== aliases are defined in the %SYSTEMWEB%.InterWikis topic.
+   * Add and edit aliases in %SYSTEMWEB%.InterWikis.
+   * Each entry must be of format: <br /> ==| External site alias | URL | Tooltip help text |==.
+   * Site aliases must start with an upper case letter and may contain alphanumeric letters.
+   * The URL and Tooltip Text may contain optional ==$page== fromatting tokens; the token gets expanded to the page name.
+   * %H% For Foswiki and TWiki sites, both the *web* and the *topic* have to be specified: ==<nop>Foswikisite:Webname/<nop>SomePage==
+      * Foswiki:Extensions/InterwikiPlugin or Foswiki:Extensions.InterwikiPlugin
+
+---++ <nop>%TOPIC% Settings
+
+Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
+a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
+
+   * One-line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+      * Set SHORTDESCRIPTION = Link ==ExternalSite:Page== text to external sites based on aliases defined in a rules topic
+
+   * Link rules topic name: (default is %SYSTEMWEB%.InterWikis)
+      * Set RULESTOPIC = 
+
+   * Inter-link format, with formatting tokens:
+     | *Token* | *Meaning* |
+     | $site | Site alias |
+     | $page | Page (part after colon) |
+     | $url | Site URL (might contain $page) |
+     | $label | Equal to $site:$page |
+     | $tooltip | Tooltip message |
+      * Set INTERLINKFORMAT = <a href="$url" title="$tooltip" class="interwikiLink"><noautolink>$label</noautolink></a>
+
+---++ Plugin Installation Instructions
+
+%$INSTALLATION_INSTRUCTIONS%
+
+   * *Test:* If the Plugin is correctly installed, this Wiki:InterWiki link should point to http://c2.com/cgi/wiki?InterWiki topic - try it out.
+
+---++ Plugin Info
+
+|  Plugin Author: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny |
+|  Copyright: | &copy; 2001-2007, Andrea Sterbini, Peter Thoeny ([[http://www.twiki.net/][TWIKI.NET]]), %SYSTEMWEB%.ProjectContributor |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 16 Dec 2008 %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  16 Dec 2008: | Foswiki:Main.KennethLavrsen - Foswiki version - no features changed |
+|  03 Aug 2008: | TWiki 4.2.1 release version |
+|  22 Jan 2008: | TWiki 4.2.0 release version |
+|  25 Nov 2007: | 15752 - TWikibug:Item5006 - Renamed Bugs rule to TWikibug rule (PTh) |
+|  13 Aug 2007: | 14545 - TWikibug:Item4451 - Added Bugs: rule (TWiki:Main.CrawfordCurrie) |
+|  11 Aug 2007: | 14538 - Fixed broken ISBN link (TWiki:Main.PeterThoeny) |
+|  08 Nov 2006: | 11935 - Added css =class="interwikiLink"= (TWiki:Main.PeterThoeny) |
+|  07 Nov 2006: | 11924 - Added INTERLINKFORMAT; removed redundant SUPPRESSTOOLTIP; allow @ signs in page part of interwiki link; support single digit page part (TWiki:Main.PeterThoeny) |
+|  26 Feb 2005: | 1.008 TWiki:Main.CrawfordCurrie cleaned up code and made Dakar-ready |
+|  25 Aug 2004: | 1.005 TWiki:Main.PeterThoeny updated InterWikis link rules (no code change) |
+|  09 Mar 2004: | Internal changes: Use only official TWiki::Func Plugin API; for increased speed, moved Interwiki link handling from outsidePREHandler to startRenderingHandler |
+|  16 Feb 2004: | Support =[<nop>[Site:Page][label]]= Interwiki links (PTh); use TWiki::Func interface for <nop>I18N regular expressions (Walter Mundt) |
+|  18 Jan 2003: | Allow number sign =#= in Page name (PTh) |
+|  31 Aug 2002: | Allow percent sign =%= in page name (PTh) |
+|  27 Jul 2001: | Allow numbers =0-9= in site name |
+|  26 Jul 2001: | Fixed alternating missed link bug due to greedy $postfixPattern (fix by Richard Donkin) |
+|  14 Jul 2001: | Changed to plug & play |
+|  16 Jun 2001: | Made tooltips optional; prevent ==Module::Sub== type of link |
+|  12 Jun 2001: | Added optional tool tips (IE only); added the link rules topic name variable; added flexible link patterns; optional ==$page== in URL |
+|  10 Jun 2001: | Changed rules topic to table-based syntax |
+|  20 Feb 2001: | TWiki:Main.AndreaSterbini, TWiki:Main.PeterThoeny - Initial version |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.0 |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+
+---
+*Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %USERSWEB%.SitePreferences, %SYSTEMWEB%.InterWikis
+
+-- TWiki:Main.PeterThoeny - 25 Nov 2007
