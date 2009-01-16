@@ -1,0 +1,2 @@
+# Remove Templates.pm file if it exists. Dead code.
+unlink("lib/TWiki/Plugins/CommentPlugin/Templates.pm");
