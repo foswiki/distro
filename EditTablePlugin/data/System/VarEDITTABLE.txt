@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="ProjectContributor" date="1191744279" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarEDITTABLE
+---+++ EDITTABLE{ _attributes_ } -- edit tables using edit fields and other input fields
+   * The =%<nop>EDITTABLE{}%= macro is handled by the EditTablePlugin
+   * Syntax: =%<nop>EDITTABLE{ _attributes_ }%=
+%STARTSECTION{"edittable_attributes"}%
+   * Supported attributes:
+     | *Attribute* | *Comment* | *Default* |
+     | =header= | Specify the header format of a new table like ="%VBAR%*Food*%VBAR%*Drink*%VBAR%"=. Useful to start a table with only a button | (no header) |
+     | =format= | The format of one column when editing the table. A cell can be a text input field, or any of these edit field types:%BR% %BB% Text input field (1 line):%BR% &nbsp; =%VBAR% text, &lt;size&gt;, &lt;initial value&gt; %VBAR%= %BR% %BB% Textarea input field:%BR% &nbsp; =%VBAR% textarea, &lt;rows&gt;x&lt;columns&gt;, &lt;initial value&gt; %VBAR%= %BR% %BB% Drop down box: %BR% &nbsp; =%VBAR% select, &lt;size&gt;, &lt;option 1&gt;, &lt;option 2&gt;, etc*<nop> %VBAR%= %BR% &nbsp; =*= only one item can be selected %BR% %BB% Radio buttons: %BR% &nbsp; =%VBAR% radio, &lt;size*&gt;, &lt;option 1&gt;, &lt;option 2&gt;, etc %VBAR%= %BR% &nbsp; =*= size indicates the number of buttons per line in edit mode %BR% %BB% Checkboxes: %BR% &nbsp; =%VBAR% checkbox, &lt;size*&gt;, &lt;option 1&gt;, &lt;option 2&gt;, etc %VBAR%= %BR% &nbsp; =*= size indicates the number of checkboxes per line in edit mode  %BR% %BB% Fixed label: %BR% &nbsp; =%VBAR% label, 0, &lt;label text&gt; %VBAR%= %BR% %BB% Row number: %BR% &nbsp; =%VBAR% row, &lt;offset&gt; %VBAR%= %BR% %BB% Date: %BR% &nbsp; =%VBAR% date, &lt;size&gt;, &lt;initial value&gt;, &lt;DHTML date format&gt; %VBAR%= (see [[#DateField][Date Field Type]]) | ="text, 16"= %BR% for all cells |
+     | =changerows= | Rows can be added and removed if ="on"= <br /> Rows can be added but not removed if ="add"= <br /> Rows cannot be added or removed if ="off"= | =CHANGEROWS= %BR% plugin setting |
+     | =quietsave= | Quiet Save button is shown if ="on"=, hidden if ="off"= | =QUIETSAVE= %BR% plugin setting |
+     | =include= | Other topic defining the EDITTABLE parameters. The first %<nop>EDITTABLE% in the topic is used. This is useful if you have many topics with the same table format and you want to update the format in one place. | (none) |
+     | =helptopic= | Topic name containing help text shown below the table when editing a table. The %<nop>STARTINCLUDE% and %<nop>STOPINCLUDE% macros can be used in the topic to specify what is shown. | (no help text) |
+     | =headerislabel= | Table header cells are read-only (labels) if ="on"=; header cells can be edited if ="off"= or "0" | ="on"= |
+     | =editbutton= | Set edit button text, e.g. ="Edit this table"=; set button image with alt text, e.g. ="Edit table, %<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/edittopic.gif"=; hide edit button at the end of the table with ="hide"= (Note: Button is automatically hidden if an edit button is present in a cell) | =EDITBUTTON= %BR% plugin setting |
+     | =buttonrow= | Set to =top= to put the edit buttons above the table. | =bottom= |
+     | =javascriptinterface= | Use javascript to directly move and delete row without page refresh. Enable with ="on"=, disable with ="off"=. | =JAVASCRIPTINTERFACE= %BR% plugin setting |
+%ENDSECTION{"edittable_attributes"}%
+   * Example:%BR%
+     =%<nop>EDITTABLE{ format="| text, 20 | select, 1, one, two, three |" changerows="on" }%= %BR%
+     =| <nop>*Name*<nop> | <nop>*Type*<nop> |= %BR%
+     =| Foo | two |=
+   * Related: See EditTablePlugin for more details
