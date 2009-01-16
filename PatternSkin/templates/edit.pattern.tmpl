@@ -1,0 +1,82 @@
+%TMPL:INCLUDE{"edit"}%
+%{ don't show these elements to make best use of screen estate: }%
+%TMPL:DEF{"logo"}%%TMPL:END%
+%TMPL:DEF{"bottombar"}%%TMPL:END%
+
+
+%TMPL:DEF{"script:skintemplate"}%%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='$percntTMPL:P{\"script:skintemplate:edit\"}$percnt'}%%TMPL:END%
+
+%TMPL:DEF{"script:skintemplate:edit"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
+<script type="text/javascript">
+foswiki.Event.addLoadEvent(initForm);
+</script>%TMPL:END%
+
+
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="edithelp" mode="div" remember="on" showlink="<h3>&#9658; %MAKETEXT{"Edit help"}%</h3>" hidelink="<h3>&#9660; %MAKETEXT{"Edit help"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
+
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage patternEditPage%TMPL:END%
+
+
+%TMPL:DEF{"formstart"}%<div class="foswikiFormHolder" id="formHolder">
+<form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post" onsubmit="return validateMandatoryFields(event)">%TMPL:END%
+
+
+%TMPL:DEF{"revCommentPluginOptions"}%%IF{ "context RevCommentPluginEnabled" then="<div class='revComment'><label for='comment'>Summary of changes</label> <input class='foswikiInputField' type='text' style='width:50%' name='comment' id='comment' /> <a target='RevComment' class='foswikiPopUp' href='%SCRIPTURL{"view"}%/%SYSTEMWEB%/RevComment' rel='nofollow'>%MAKETEXT{"help"}%</a></div><!--/revComment-->" else=""}%%TMPL:END%
+
+
+%TMPL:DEF{"forcerevisioncheckbox"}%<div class="patternSaveOptionsContents"><input type="checkbox" class="foswikiCheckbox" title="Creates a new topic revision when saving" id="forcenewrevision" name="forcenewrevision" %FORCENEWREVISIONCHECKBOX% /><label for="forcenewrevision">%MAKETEXT{"Force new revision"}%</label> <a class="foswikiPopUp" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/ForceNewRevision" target="ForceNewRevision" rel='nofollow' title='%MAKETEXT{"Read new revision help text in new window"}%'>%MAKETEXT{"help"}%</a></div><!--/patternSaveOptionsContents-->%TMPL:END%
+
+
+%TMPL:DEF{"saveoptions"}%<div class="patternSaveOptions">%TMPL:P{"forcerevisioncheckbox"}%</div><!--/patternSaveOptions-->%TMPL:END%
+
+
+%TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp;%TMPL:P{"button_quietsave"}%&nbsp;%TMPL:P{"button_checkpoint"}% %TMPL:P{"button_preview"}% %MAKETEXT{"or"}% %TMPL:P{"button_cancel"}%%TMPL:END%
+
+
+%TMPL:DEF{"button_save"}%<input type="submit" class="foswikiSubmit" name="action_save" id="save" %MAKETEXT{"value='Save' accesskey='s'"}% />%TMPL:END%
+
+%TMPL:DEF{"button_quietsave"}%<input type="submit" class="foswikiButton" name="action_quietsave" id="quietsave" %MAKETEXT{"value='Quiet save' accesskey='q'"}% />%TMPL:END%
+
+%TMPL:DEF{"button_checkpoint"}%<input type="submit" class="foswikiButton" name="action_checkpoint" id="checkpoint" %MAKETEXT{"value='Save and Continue' accesskey='k'"}% />%TMPL:END%
+
+%TMPL:DEF{"button_preview"}%<input type="submit" class="foswikiButton" name="action_preview" id="preview" %MAKETEXT{"value='Preview' accesskey='p'"}% onclick="enableTWikiMandatoryChecks()" />%TMPL:END%
+
+%TMPL:DEF{"button_cancel"}%<input type="submit" class="foswikiButtonCancel" name="action_cancel" id="cancel" title='%MAKETEXT{"Cancel editing and discard changes"}%' %MAKETEXT{"value='Cancel' accesskey='c'"}% onclick="suppressSaveValidation()" />%TMPL:END%
+
+
+%TMPL:DEF{"actionbuttons_help"}%<div class="patternSaveHelp">%TMPL:P{"accesskeys_help"}%</div><!--/patternSaveHelp-->%TMPL:END%
+
+
+%TMPL:DEF{"accesskeys_help"}%%ICON{info}% <a class="foswikiPopUp" target="AccessKeys" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/AccessKeys">%MAKETEXT{"Access keys"}%</a>: %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"topicinfo"}%<div>%TMPL:P{"revCommentPluginOptions"}%<div class="patternActionButtons">%TMPL:P{"action_buttons"}%<br class="foswikiClear" /></div><!--/patternActionButtons-->
+%TMPL:P{"saveoptions"}%</div>%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="edithelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%%TMPL:P{"actionbuttons_help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+
+%TMPL:DEF{"textarea"}%<div class="patternEditTopic"><textarea class="foswikiTextarea foswikiEditboxStyleProportional foswikiWysiwygEdit" id="topic" name="text" rows="%EDITBOXHEIGHT%" cols="%EDITBOXWIDTH%" style='%EDITBOXSTYLE%' onkeydown='handleKeyDown(event)'>%TEXT%</textarea>%TMPL:P{"sig_textareabuttons"}%</div><!--/patternEditTopic-->%TMPL:END%
+
+
+%TMPL:DEF{"sig_textareabuttons"}%<div class="patternSigLine">%IF{"not context TinyMCEPluginEnabled or $nowysiwyg='1'" then='%TMPL:P{"textareabuttons"}%'}%%TMPL:P{"sig"}%<br class="foswikiClear" /></div><!-- /patternSigLine-->%TMPL:END%
+
+
+%TMPL:DEF{"sig"}%<span class="patternSig"><input class="foswikiInputFieldReadOnly" size="41" name="sig" type="text" readonly="readonly" title='%MAKETEXT{"Select, copy and paste your signature text to the bottom of your entry"}%' id="sig" value="-- <nop>%WIKIUSERNAME% - %DATE%" /> <label for="sig" class="foswikiGrayText">%MAKETEXT{"Your signature to copy/paste"}%&nbsp;&nbsp;</label></span><!--/patternSig-->%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"help"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
+%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%
+%TMPL:P{"textarea"}%
+%TMPL:P{"formbottom"}%%TMPL:P{"topicinfo"}%
+%TMPL:P{"formend"}%
+%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%

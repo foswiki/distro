@@ -1,0 +1,69 @@
+%TMPL:INCLUDE{"attach"}%
+%TMPL:DEF{"logo"}%%TMPL:END%
+
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage patternAttachPage%TMPL:END%
+
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(attach)"}% %TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Attach image or document on [_1]" args="[[%TOPIC%]]"}%%TMPL:END%
+
+
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="attachhelp" mode="div" remember="on" showlink="<h3>&#9658; %MAKETEXT{"Attachments help"}%</h3>" hidelink="<h3>&#9660; %MAKETEXT{"Attachments help"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="attachhelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">
+%TMPL:P{"notes"}%
+%TMPL:P{"extranotes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">
+%TMPL:P{"notes"}%
+%TMPL:P{"extranotes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+
+%TMPL:DEF{"formstart"}%<div class="patternAttachForm"><form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
+
+%TMPL:DEF{"formend"}%</form></div><!-- /patternAttachForm-->%TMPL:END%
+
+
+%TMPL:DEF{"attachformstart"}%<div class="foswikiFormSteps">%TMPL:END%
+
+%TMPL:DEF{"attachformend"}%</div><!-- /foswikiFormSteps-->%TMPL:END%
+
+%TMPL:DEF{"newfile"}%<div class="foswikiFormStep">
+---+++ %MAKETEXT{"Attach new file"}%
+
+%TMPL:P{"previous"}%%IF{"$ATTACHFILESIZELIMIT > 0" then="%MAKETEXT{"Upload up to [_1] KB." args="%ATTACHFILESIZELIMIT%"}%"}%
+
+<noautolink><input type="hidden" name="filename" value="%FILENAME%" /> 
+<input class="foswikiInputField" type="file" name="filepath" value="%FILEPATH%" size="70" /></noautolink>
+</div><!-- /foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"comment"}%<div class="foswikiFormStep">
+---+++ %MAKETEXT{"Comment"}%
+<p>
+%MAKETEXT{"Describe the file so other people know what it is."}%
+</p>
+<input class="foswikiInputField" type="text" name="filecomment" value="%FILECOMMENT%" size="70" />
+</div><!-- /foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"properties"}%<div class="foswikiFormStep foswikiLast">
+---+++ %MAKETEXT{"Properties"}%
+
+<input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
+
+<input type="checkbox" class="foswikiCheckbox" id="hidefile" name="hidefile" %HIDEFILE% /><label for="hidefile">%MAKETEXT{"Do not show attachment in table"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Attachments will not be shown in topic view page."}%</span>
+</div><!-- /foswikiFormStep-->%TMPL:P{"changepropertiesaction"}%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%
+%TMPL:P{"formstart"}%
+%TMPL:P{"attachform"}%
+%TMPL:P{"topicaction"}%%TMPL:P{"formend"}%
+%TMPL:P{"movedelete"}%
+%TMPL:P{"pagehelp_nojavascript"}%
+%TMPL:P{"versions"}%
+%TMPL:P{"existingattachments"}%%TMPL:END%

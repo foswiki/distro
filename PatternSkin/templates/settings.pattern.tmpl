@@ -1,0 +1,33 @@
+%TMPL:INCLUDE{"settings"}%
+
+%TMPL:DEF{"script:skintemplate"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_edit.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern_edit.js"></script>
+<script>
+foswiki.Event.addLoadEvent(initForm);
+</script>%TMPL:END%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(set preferences)"}% %TMPL:END%
+
+
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Preferences for"}%%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
+
+
+%TMPL:DEF{"saveoptions"}%%TMPL:END%
+%TMPL:DEF{"sig"}%%TMPL:END%
+
+%TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp; %MAKETEXT{"or"}% %TMPL:P{"button_cancel"}%%TMPL:END%
+
+
+%TMPL:DEF{"accesskeys_help"}%%ICON{info}% <a class="foswikiPopUp" target="AccessKeys" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/AccessKeys">%MAKETEXT{"Access keys"}%</a>: %MAKETEXT{"S = Save, C = Cancel"}%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%
+%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%
+%TMPL:P{"textarea"}%
+%TMPL:P{"topicinfo"}%
+%TMPL:P{"formend"}%%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%

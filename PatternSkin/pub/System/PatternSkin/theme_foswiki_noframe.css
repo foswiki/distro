@@ -1,0 +1,31 @@
+/*
+Default skin settings for Foswiki
+Overrides global settings in layout.css, style.css and colors.css
+*/
+
+/* outer 'frame' */
+#patternScreen {
+	padding:0;
+}
+#patternPage {
+	border:none;
+}
+
+/* top bar */
+#patternTopBarContents {
+	background-image:url(top_bar_gradient.png);
+	background-repeat:no-repeat;
+	background-color:#e8f3f7;
+}
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter,
+#patternTopBarContents {
+	height:90px; /* top bar height; make room for header columns */
+	overflow:hidden;
+}
+#foswikiLogo {
+	margin-top:1em;
+}

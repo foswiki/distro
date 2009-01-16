@@ -1,0 +1,2 @@
+TWiki::Plugins::TwistyPlugin,>=1.000,perl,Required
+TWiki::Plugins::TablePlugin,,perl,Required

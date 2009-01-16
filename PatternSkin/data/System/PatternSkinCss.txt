@@ -1,0 +1,116 @@
+%META:TOPICINFO{author="ProjectContributor" date="1141775863" format="1.1" version="$Rev: 14045 $"}%
+---+!! CSS elements in !PatternSkin
+
+This page is a reference for all CSS classes used in PatternSkin.
+
+%TOC{title="Page contents:"}%
+
+!PatternSkin uses 4 stylesheets:
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css][layout.css]]: positioning of block elements on the page
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css][style.css]]: margins, paddings, borders, font sizes
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css][colors.css]]: text colors, background colors, border colors
+   * [[%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/print.css][print.css]]: optimalizations for printed page
+   
+If you want to learn how to create your own look or skin based on !PatternSkin, read further in PatternSkin.
+
+---++ Naming conventions
+
+   * All !PatternSkin specific classes have the prefix =pattern=: patternEditPage, patternTopicAction, etcetera. 
+   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =twiki=: foswikiButton, foswikiToc, etcetera. See for a complete list CascadingStyleSheets.
+   * Positional containers are referred by id, for instance =#patternSideBar=.
+
+---++ Namespaces
+
+!PatternSkin uses namespaces for templates, by adding one (sometimes two - multiple) class names to the template's body tag. 
+
+   * The body tag in view.pattern.tmpl for instance has the class name "patternViewPage": =&lt;body class="patternViewPage"&gt;=. All CSS elements specific to the view template thus can be defined as =.patternViewPage .someClassName=.
+   * All templates that are _not_ the view template have the body class name "patternNoViewPage". That makes it easy to give all of these pages a different layout (smaller or wider margins for instance) in one sweep. Template edit.pattern.tmpl uses =&lt;body class="patternNoViewPage patternEditPage"&gt;=.
+
+---+++ Page type classes
+
+   * .patternViewPage
+   * .patternViewPage .patternPrintPage
+   * .patternNoViewPage
+   * .patternNoViewPage .patternEditPage
+   * .patternNoViewPage .patternAttachPage
+   * .patternNoViewPage .patternChangeFormPage
+   * .patternNoViewPage .patternDiffPage
+   * .patternNoViewPage .patternRenamePage
+   * .patternSearchResultsPage
+   * .patternPlainPage (=viewplain.pattern.tmpl=)
+
+---++ Layout classes
+
+   * Main layout elements (in order of appearance in =body.pattern.tmpl=)
+      * #patternScreen - outer container, used when centering the page (see PatternSkinCssCookbookCenterPage)
+      * #patternPageShadow - shadow border around patternPage; default not used (see PatternSkinCssCookbookCenterPageBorder)
+      * #patternPage - html content container
+      * Left bar:
+         * #patternWrapper
+         * #patternSideBar - left bar area
+         * #patternSideBarContents - used for left menu
+      * #patternOuter - wrapper container
+      * #patternFloatWrap - wrapper container
+      * #patternMain - center area
+      * #patternMainContents - holder of patternTop, foswikiTopic, foswikiForm, foswikiAttachments, etc.
+      * #patternTopBar - top bar area
+      * #patternTopBarContents - header art / logo; contains topic %SYSTEMWEB%.WebTopBar
+      * #patternBottomBar - bottom bar area
+      * #patternBottomBarContents - copyright
+
+---++ Style classes
+
+   * View
+      * .patternContent - container around .foswikiTopic in =view.pattern.tmpl= only; to be able to give .foswikiAttachments and .foswikiForm a different appearance when they are not enclosed by it, for example the personal data form on the user pages (where the user form is positioned outside, above the topic text)
+      * .patternTopBarLogo - logo position in patternTopBar (topic %SYSTEMWEB%.WebTopBar)
+      * .patternTopBarOverlay - striped white image background
+      * .foswikiTopic - Foswiki topic text
+      * .patternTop - area at top of topic text, with patternHomePath, revision and action buttons
+      * .patternTopicActions - container for multiple .patternTopicAction rows
+      * .patternTopicAction - container for .patternActionButtons
+      * .patternActionButtons - action buttons at bottom of page
+      * .patternMoved - topic moved info (only visible when the topic has changed name or web)
+      * .patternWebIndicator - colored block at the top of the left bar to indicate the current web
+      * .patternFormHolder - container around form to manage the size of form elements
+      * .patternLeftBarPersonal - block of personal links (included topic %<nop>USERSWEB%.%<nop>USERNAME%LeftBar)
+      * .patternHomePath - breadcrumb at top
+      * .patternHomePathTitle - "You are here" text
+      * .patternRevInfo - revision info and author name
+      * .patternToolBar - holder for .patternToolBarButtons
+      * .patternToolBarButtons - action buttons at top of page
+      * .patternToolBarBottom - seperator
+      * .patternSimpleLogo - logo used on 'simple' pages like the login screen
+      * .patternButton - tab button Edit, Attach, Printable at top of topic
+      * .patternMetaMenu - search box, jump box, language selector
+
+   * Edit
+      * .patternSig - signature copy box
+      * .patternSaveOptions - holder for .patternSaveOptionsContents
+      * .patternSaveOptionsContents - checkboxes that change the state of a topic save; for instance "Force revision" checkbox
+      * .patternSaveHelp - info block with help on save options (access keys and potentially other info)
+
+   * Preview page
+      * .patternPreviewArea - container around preview of .foswikiTopic
+
+   * Attach page
+      * .patternPrevious - attachment table of previous versions
+      * .patternMoveAttachment - container for "Move or Delete attachment"
+      * .patternAttachForm
+
+   * Rename (rename, move, delete)
+      * patternRenameOptionsList - list of topics that can be updated
+
+   * More
+      * patternDiffOptions - row of revision options under "Compare revisions"
+      
+   * Search results
+      * .patternSearchResults - container on rename pages (no longer used on actual search results 'view' pages)
+      * .patternSearchResultsHeader - horizontal bar with the web color
+      * .patternSearchResults - block of one result
+      * .patternSearchResultCount - the number of results
+      * .patternSearched - feedback on the string used to search
+
+---
+*Related Topics:* [[Skins]], AdminDocumentationCategory
+
+%META:FILEATTACHMENT{name="CSS_element_layout_view.pattern.tmpl.png" attr="h" comment="" date="1092634624" path="CSS_element_layout_view.pattern.tmpl.png" size="37359" user="ProjectContributor" version="1.1"}%

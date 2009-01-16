@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1129333294" format="1.1" version="$Rev$"}%
+
+---+!! PatternSkinCssCookbook Recipe: Center the page
+
+*This recipe shows how center the page horizontally and vertically.*
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim>
+   * Set USERSTYLEURL = %ATTACHURLPATH%/centerpage.css
+</verbatim>
+You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+</div>
+
+
+%META:FILEATTACHMENT{name="centerpage.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%

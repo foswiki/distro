@@ -1,0 +1,29 @@
+%{ These templates define the form attached at the bottom of viewed page. }%
+
+
+
+%{ Start of form table }%
+%TMPL:DEF{FORM:display:header}%<div class="foswikiForm">%TMPL:P{FORM:display:title}%<table class='foswikiFormTable' border='1'>%TMPL:P{FORM:display:header:headerrow}%%TMPL:END%
+
+
+%{ Header }%
+%TMPL:DEF{FORM:display:header:headerrow}%%TMPL:END%
+
+
+
+%{ Each row }%
+%TMPL:DEF{FORM:display:row}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> %A_TITLE% </td><td>
+%A_VALUE%
+</td></tr>%TMPL:END%
+
+
+
+%{ Footer }%
+%TMPL:DEF{FORM:display:footer}%</table></div><!-- /foswikiForm -->%TMPL:END%
+
+
+%TMPL:DEF{FORM:display:title}%<h3>[[%A_TITLE%]] %TMPL:P{FORM:display:editlink}%</h3>%TMPL:END%
+
+
+%TMPL:DEF{FORM:display:editlink}%<span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span>%TMPL:END%
+

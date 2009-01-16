@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1141775863" format="1.1" version="$Rev$"}%
+---+!! !PatternSkin Graphics
+
+This topic contains original Photoshop files of the graphics used in PatternSkin.

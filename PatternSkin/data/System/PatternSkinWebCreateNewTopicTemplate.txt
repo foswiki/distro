@@ -1,0 +1,71 @@
+%META:TOPICINFO{author="ProjectContributor" date="1131431859" format="1.1" version="$Rev$"}%
+%TMPL:INCLUDE{"WebCreateNewTopic"}%
+
+%{"hide page top controls"}%
+%TMPL:DEF{"top"}%%TMPL:END%
+
+%TMPL:DEF{"script:topictemplate"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiString.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiStringUnicodeChars.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+function openTemplateWindow () {
+	var window = foswiki.Window.openPopup(
+		"%SCRIPTURL{view}%/",
+			{
+    			topic:"WebTemplateTopics",
+    			web:"%SYSTEMWEB%",
+    			template:"viewplain",
+    			attributes:"resizable=1,scrollbars=1,status=1,toolbar=1",
+    			urlparams:"web=%BASEWEB%"
+    		}
+    	);
+	return false;
+}
+function getQueryUrl() {
+	return "%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?%QUERYSTRING%;pickparent=1"
+}
+/* Localized texts */
+var TEXT_FEEDBACK_HEADER = "%MAKETEXT{"Topic will be named: "}%";
+/* Url params */
+var URL_PICK_PARENT = "%URLPARAM{"pickparent"}%";
+var URL_TEMPLATE = "%URLPARAM{"template"}%";
+//]]>
+</script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/webtopiccreator.js"></script>%TMPL:END%
+
+%TMPL:DEF{"formstartstep"}%%TMPL:P{"formstart"}%
+<div class="foswikiFormSteps">%TMPL:END%
+
+%TMPL:DEF{"formendstep"}%</div><!--/foswikiFormSteps-->
+%TMPL:P{"formend"}%%TMPL:END%
+
+%TMPL:DEF{"titlestep"}%<div class="foswikiFormStep">
+---++ %MAKETEXT{"Create New Topic in [_1] Web" args="<nop>%BASEWEB%"}%
+</div><!--/foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"topicnamestep"}%<div class="foswikiFormStep">
+---+++ %MAKETEXT{"Topic name:"}%
+<p>
+%TMPL:P{"topicname"}% <span id="webTopicCreatorFeedback" class="foswikiGrayText"><!--generated name will be put here--></span>
+</p>%TMPL:P{"nonwikiword"}%
+</div><!--/foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"topicparentstep"}%<div class="foswikiFormStep">
+---+++ %MAKETEXT{"Topic parent:"}%
+<p>
+%TMPL:P{"topicparent"}%
+</p>
+</div><!--/foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"topictemplatestep"}%<div class="foswikiFormStep">
+---+++ %MAKETEXT{"Use template:"}%
+<p>
+%TMPL:P{"topictemplate"}%
+</p>
+</div><!--/foswikiFormStep-->%TMPL:END%
+
+%TMPL:DEF{"submitstep"}%<div class="foswikiFormStep">
+<p>
+%TMPL:P{"submit"}%
+</p>
+</div><!--/foswikiFormStep-->%TMPL:END%

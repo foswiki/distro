@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1129333616" format="1.1" version="$Rev$"}%
+
+---+!! PatternSkinCssCookbook Recipe: Font variation
+
+*Cookbook example with other fonts and font colors.*
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim>
+   * Set USERSTYLEURL = %ATTACHURLPATH%/fonts.css
+</verbatim>
+You can write this line in %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+</div>
+
+%META:FILEATTACHMENT{name="fonts.css" attachment="fonts.css" attr="" comment="" date="1129333615" path="fonts.css" size="240" stream="fonts.css" user="ProjectContributor" version="1"}%

@@ -1,0 +1,18 @@
+%TMPL:DEF{"searched"}%<span class="patternSearched">%MAKETEXT{"Searched:"}% <b><noautolink>%SEARCHSTRING%</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>%TMPL:END%
+
+
+
+%TMPL:DEF{"count"}%<div class="patternSearchResultCount">%MAKETEXT{"Number of topics:"}% <span class="foswikiSearchResultCount">%NTOPICS%</span></div><!--/patternSearchResultCount-->%TMPL:END%
+
+
+
+%TMPL:DEF{"header"}%<h4 class="patternSearchResultsHeader" %TMPL:P{"header:style:backgroundcolor"}%><span class="foswikiLeft">%TMPL:P{"header:left"}%</span><span class="foswikiRight">%TMPL:P{"header:right"}%</span><br class="foswikiClear" /></h4>%TMPL:END%
+
+
+%TMPL:DEF{"header:left"}%<b>%MAKETEXT{"Results from [_1] web" args="<nop>%WEB%"}%</b> %MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%%TMPL:END%
+
+
+%TMPL:DEF{"header:right"}%%TMPL:END%
+
+
+%TMPL:DEF{"header:style:backgroundcolor"}%%TMPL:END%

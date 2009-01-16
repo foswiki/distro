@@ -1,0 +1,75 @@
+%TMPL:INCLUDE{"foswiki"}%%TMPL:INCLUDE{"viewtopicactionbuttons"}%%TMPL:INCLUDE{"viewbottombar"}%
+
+%TMPL:DEF{"sep"}%<span class='foswikiSeparator'>&nbsp;|&nbsp;</span>%TMPL:END%
+%TMPL:DEF{"LOG_IN"}%%MAKETEXT{"Log In"}%%TMPL:END%
+%TMPL:DEF{"LOG_OUT"}%%MAKETEXT{"Log Out"}%%TMPL:END%
+
+%TMPL:DEF{"logo"}%<div class="patternSimpleLogo"><img src="%WIKILOGOIMG%" border="0" alt="%WIKILOGOALT%"/></div>%TMPL:END%
+
+%TMPL:DEF{"canceltopicaction"}%<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%" title='%MAKETEXT{"Back to topic"}%' %MAKETEXT{"accesskey='c'"}% rel='nofollow'>%MAKETEXT{"&Cancel"}%</a>%TMPL:END%
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage%TMPL:END%
+
+%TMPL:DEF{"simpleheader"}%%TMPL:END%
+
+%TMPL:DEF{"pagetitlestylewrapper"}%<h1 class="patternTemplateTitle">%TMPL:P{"pagetitle"}%</h1>%TMPL:END%
+
+%TMPL:DEF{"patterntopiccontents"}%<div class="foswikiTopic">%TMPL:P{"pagetitlestylewrapper"}% %TMPL:P{"content"}%</div><!-- /foswikiTopic-->%TMPL:END%
+
+%TMPL:DEF{"printaction"}%%TMPL:END%
+
+%TMPL:DEF{"topicaction"}%<a name="topic-actions"></a><div class="patternTopicActions"><div class="patternTopicAction"><span class="patternActionButtons">%TMPL:P{"topicactionbuttons"}%</span></div><!--/patternTopicAction--></div><!--/patternTopicActions-->%TMPL:END%
+
+%TMPL:DEF{"topicinfo"}%%TMPL:P{"topicaction"}%%TMPL:END%
+
+%TMPL:DEF{"htmldoctype"}%<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="%LANG%" lang="%LANG%">%TMPL:END%
+
+%TMPL:DEF{"head"}%<head>
+%TMPL:P{"windowtitle"}%
+<meta http-equiv="Content-Type" content="text/html; charset=%CHARSET%" />
+<link rel="icon" href="%FAVICON%" type="image/x-icon" />
+<link rel="shortcut icon" href="%FAVICON%" type="image/x-icon" />
+<link rel="alternate" href="%SCRIPTURL{edit}%/%BASEWEB%/%BASETOPIC%?_T=%DATE%" type="application/x-wiki" title="edit %BASETOPIC%" />
+<meta name="TOPIC" content="%INTURLENCODE{%TOPIC%}%" />
+<meta name="WEB" content="%INTURLENCODE{%WEB%}%" />
+<meta name="SCRIPTURLPATH" content="%SCRIPTURLPATH%" />
+<meta name="SCRIPTSUFFIX" content="%SCRIPTSUFFIX%" />
+<meta name="TEXT_JUMP" content="%MAKETEXT{"Jump"}%" />
+<meta name="TEXT_SEARCH" content="%MAKETEXT{"Search"}%" />
+<meta name="TEXT_NUM_TOPICS" content="%MAKETEXT{"Number of topics:"}%" />
+<meta name="TEXT_MODIFY_SEARCH" content="%MAKETEXT{"Modify search"}%" />
+<meta name="robots" content="noindex" />%HTTP_EQUIV_ON_VIEW%
+<base href="%SCRIPTURL{%SCRIPTNAME%}%/%WEB%/%TOPIC%"></base>
+%TMPL:P{"script"}%%TMPL:P{"defaultstyle"}%</head>%TMPL:END%
+
+%TMPL:DEF{"script:skinbase"}%<!--BEHAVIOURCONTRIB--><script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikilib.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiWindow.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiEvent.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiHTML.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiCSS.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiForm.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/pattern.js"></script>%TMPL:END%
+
+%TMPL:DEF{"bodystart"}%<body class="%TMPL:P{"bodyclassname"}%">
+#PageTop%TMPL:END%
+
+%TMPL:DEF{"main"}%<div id="patternScreen">
+<div id="patternPageShadow">
+<div id="patternPage">
+%TMPL:P{"startsidebarwrapper"}%<div id="patternOuter">
+<div id="patternFloatWrap">
+<div id="patternMain">%TMPL:P{"topbarspacer"}%
+<div id="patternMainContents">%TMPL:P{"logo"}%%TMPL:P{"patterntopiccontents"}%
+</div><!-- /patternMainContents-->
+</div><!-- /patternMain-->%TMPL:P{"sidebar"}%
+</div><!-- /patternFloatWrap-->
+<div class="clear">&nbsp;</div>
+</div><!-- /patternOuter-->%TMPL:P{"endsidebarwrapper"}%%TMPL:P{"topbar"}%%TMPL:P{"bottombar"}%
+</div><!-- /patternPage-->
+</div><!-- /patternPageShadow-->
+</div><!-- /patternScreen-->%TMPL:END%
+
+%TMPL:DEF{"bodyend"}%</body></html>%TMPL:END%
+
+%TMPL:DEF{"textareabuttons"}%<span class="foswikiRight foswikiMakeVisible" style="text-align:left; margin:0 0 0 1em;"><span class="foswikiLeft patternTextareaButton patternButtonFontSelector" title="%MAKETEXT{"Switch to monotype or propotional font"}%">&nbsp;</span><span class="foswikiLeft patternTextareaButton patternButtonEnlarge" title="%MAKETEXT{"Enlarge edit box"}%">&nbsp;</span><span class="foswikiLeft patternTextareaButton patternButtonShrink" title="%MAKETEXT{"Shrink edit box"}%">&nbsp;</span></span>%TMPL:END%

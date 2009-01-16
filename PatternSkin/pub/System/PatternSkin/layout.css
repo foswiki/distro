@@ -1,0 +1,111 @@
+/* 
+Basic layout derived from http://www.positioniseverything.net/articles/pie-maker/pagemaker_form.php.
+I've changed many so things that I won't put a full copyright notice. However all hacks (and comments!) are far beyond my knowledge and this deserves full credits:
+
+Original copyright notice:
+Parts of these notes are
+(c) Big John @ www.positioniseverything.net and (c) Paul O'Brien @ www.pmob.co.uk, all of whom contributed significantly to the design of
+the css and html code.
+
+Reworked for Foswiki: (c) Arthur Clemens @ visiblearea.com
+*/
+
+html, body {
+	margin:0; /*** Do NOT set anything other than a left margin for the page
+as this will break the design ***/
+	padding:0;
+	border:0;
+/* \*/
+	height:100%;
+/* Last height declaration hidden from Mac IE 5.x */
+}
+body {
+	min-width:100%; /*** This is needed for moz. Otherwise, the header and patternBottomBar will
+slide off the left side of the page if the screen width is narrower than the design.
+Not seen by IE. Left Col + Right Col + Center Col + Both Inner Borders + Both Outer Borders ***/
+	text-align:center; /*** IE/Win (not IE/MAC) alignment of page ***/
+}
+.clear {
+	clear:both;
+	/*** these next attributes are designed to keep the div
+	height to 0 pixels high, critical for Safari and Netscape 7 ***/
+	height:0px;
+	overflow:hidden;
+	line-height:1%;
+	font-size:0px;
+}
+
+#patternWrapper {
+	height:100%; /*** moz uses this to make full height design. As this #patternWrapper is inside the #patternPage which is 100% height, moz will not inherit heights further into the design inside this container, which you should be able to do with use of the min-height style. Instead, Mozilla ignores the height:100% or min-height:100% from this point inwards to the center of the design - a nasty bug.
+If you change this to height:100% moz won't expand the design if content grows.
+Aaaghhh. I pulled my hair out over this for days. ***/
+/* \*/
+	height:100%;
+/* Last height declaration hidden from Mac IE 5.x */
+/*** Fixes height for non moz browsers, to full height ***/
+}
+#patternWrapp\65	r{ /*** for Opera and Moz (and some others will see it, but NOT Safari) ***/
+	height:auto; /*** For moz to stop it fixing height to 100% ***/
+}
+/* \*/
+* html #patternWrapper{
+	height:100%;
+}
+
+#patternPage {
+	margin-left:auto; /*** Mozilla/Opera/Mac IE 5.x alignment of page ***/
+	margin-right:auto; /*** Mozilla/Opera/Mac IE 5.x alignment of page ***/
+	text-align:left; /*** IE Win re-alignment of page if page is centered ***/
+	position:relative;
+	width:100%; /*** Needed for Moz/Opera to keep page from sliding to left side of
+page when it calculates auto margins above. Can't use min-width. Note that putting
+width in #patternPage shows it to IE and causes problems, so IE needs a hack
+to remove this width. Left Col + Right Col + Center Col + Both Inner Border + Both Outer Borders ***/
+/* \*/
+
+/* Last height declaration hidden from Mac IE 5.x */
+/*** Needed for Moz to give full height design if page content is
+too small to fill the page ***/
+}
+/* Last style with height declaration hidden from Mac IE 5.x */
+/*** Fixes height for IE, back to full height,
+from esc tab hack moz min-height solution ***/
+#patternOuter {
+	z-index:1; /*** Critical value for Moz/Opera Background Column colors fudge to work ***/
+	position:relative; /*** IE needs this or the contents won't show outside the parent container. ***/
+
+	height:100%;
+/* Last height declaration hidden from Mac IE 5.x */
+/*** Needed for full height inner borders in Win IE ***/
+}
+
+#patternFloatWrap {
+	width:100%;
+	float:left;
+	display:inline;
+}
+
+#patternSideBar {
+	float:left;
+	display:inline;
+	overflow:hidden;
+}
+#patternSideBarContents {
+	position:relative;
+}
+#patternMain {
+	width:100%;
+	float:right;
+	display:inline;
+}
+#patternTopBar {
+	z-index:1; /*** Critical value for Moz/Opera Background Column colors fudge to work ***/
+	position:absolute;
+	top:0px;
+	width:100%;
+}
+#patternBottomBar {
+	z-index:1; /* Critical value for Moz/Opera Background Column colors fudge to work */
+	clear:both;
+	width:100%;
+}

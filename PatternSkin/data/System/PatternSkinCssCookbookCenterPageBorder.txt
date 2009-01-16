@@ -1,0 +1,50 @@
+%META:TOPICINFO{author="ProjectContributor" date="1141771402" format="1.1" version="$Rev$"}%
+
+---+!! PatternSkinCssCookbook Recipe: Center the page with a border
+
+*This recipe shows how to put a border around the page, while centering the page horizontally.* The example on this page uses a gradient image as background - on top of a gray base color. You can choose to set no image of course.
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim>
+   * Set USERSTYLEURL = %ATTACHURLPATH%/centerpageborder.css
+</verbatim>
+You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+</div>
+
+Add the dynamic link to the logo image to the topic text:
+<verbatim>
+<style type="text/css" media="all">
+#patternScreen {
+background-image:url("%ATTACHURLPATH%/gradient_page.gif");
+background-repeat:repeat-x;
+}
+#patternPageShadow {
+background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gif");
+}
+</style>
+</verbatim>
+<div class="foswikiHelp">
+%ICON{info}% If you don't write this overloading style in a template and use an external =.css= file, you need to set the image to the absolute url:
+<pre>
+&lt;style type="text/css" media="all">
+#patternScreen {
+background-image:url("%<nop>ATTACHURLPATH%/gradient_page.gif");
+background-repeat:repeat-x;
+}
+&lt;/style>
+</pre>
+You can always write a =&lt;style>= in a topic - all current browsers support this - but the page won't validate as valid XHTML.
+</div>
+
+<style type="text/css" media="all">
+#patternScreen {
+background-image:url("%ATTACHURLPATH%/gradient_page.gif");
+background-repeat:repeat-x;
+}
+#patternPageShadow {
+background-image:url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/striped_pageshadow.gif");
+}</style>
+
+%META:FILEATTACHMENT{name="centerpageborder.css" attr="" autoattached="1" comment="css to frame the page centered on the screen" date="1129323328" path="centerpage.css" size="259" user="ProjectContributor" version=""}%
+%META:FILEATTACHMENT{name="gradient_page.gif" attachment="gradient_page.gif" attr="" comment="background image" date="1141771401" path="gradient_page.gif" size="3854" stream="gradient_page.gif" user="ProjectContributor" version="1"}%
