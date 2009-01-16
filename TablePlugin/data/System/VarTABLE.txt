@@ -1,0 +1,43 @@
+%META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarTABLE
+---+++ TABLE{ _attributes_ } -- control attributes of tables and sorting of table columns
+   * The =%<nop>TABLE{}%= macro is handled by the TablePlugin
+   * Syntax: =%<nop>TABLE{ _attributes_ }%=
+%STARTSECTION{"table_attributes"}%
+   * Supported attributes:
+     | *Argument*       | *Comment*  | *Default&nbsp;value*  | *Example*  |
+     | =sort=           | Set table sorting by clicking headers ="on"= or ="off"=. | <span class="foswikiGrayText">unspecified</span> | =sort="on"= |
+     | =initsort=       | Column to sort initially (="1"= to number of columns). | <span class="foswikiGrayText">unspecified</span> | =initsort="2"= |
+     | =initdirection=  | Initial sorting direction for =initsort=, set to  ="up"= (descending) or ="down"= (ascending). | <span class="foswikiGrayText">unspecified</span> | =initdirection="up"= |
+     | =disableallsort= | Disable all sorting, both initsort and header sort. This is mainly used by plugins such as the EditTablePlugin to disable sorting in a table while editing the table. | <span class="foswikiGrayText">unspecified</span> | =disableallsort="on"= |
+     | =headerbg=       | Header cell background colour. | ="#6b7f93"= | =headerbg="#999999"= |
+     | =headerbgsorted= | Header cell background colour of a sorted column. | the value of =headerbg= | =headerbgsorted="#32596c"= |
+     | =headercolor=    | Header cell text colour. | ="#ffffff"= | =headercolor="#0000cc"= |
+     | =databg=         | Data cell background colour, a comma separated list. Specify ="none"= for no colour, that is to use the colour/background of the page the table is on. | ="#edf4f9,#ffffff"= | =databg="#f2f2f2,#ffffff"= |
+     | =databgsorted=   | Data cell background colour of a sorted column; see =databg=. | the values of =databg= | =databgsorted="#d4e8e4,#e5f5ea"= |
+     | =datacolor=      | Data cell text colour, a comma separated list. | <span class="foswikiGrayText">unspecified</span> | =datacolor="#0000CC, #000000"= |
+     | =tableborder=    | Table border width (pixels). | ="1"= | =tableborder="2"= |
+     | =tableframe=     | Table frame, set to ="void"= (no sides), ="above"= (the top side only), ="below"= (the bottom side only), ="hsides"= (the top and bottom sides only), ="lhs"= (the left-hand side only), ="rhs"= (the right-hand side only), ="vsides"= (the right and left sides only), ="box"= (all four sides), ="border"= (all four sides). | <span class="foswikiGrayText">unspecified</span> | =tableframe="hsides"= |
+     | =tablerules=     | Table rules, set to ="none"= (no rules), ="groups"= (rules will appear between row groups and column groups only), ="rows"= (rules will appear between rows only), ="cols"= (rules will appear between columns only), ="all"= (rules will appear between all rows and columns). | <span class="foswikiGrayText">unspecified</span>  | =tablerules="rows"= |
+     | =cellpadding=    | Cell padding (pixels). | ="0"= | =cellpadding="0"= |
+     | =cellspacing=    | Cell spacing (pixels). | ="0"= | =cellspacing="3"= |
+     | =cellborder=     | Cell border width (pixels). | <span class="foswikiGrayText">unspecified</span> | =cellborder="0"= |
+     | =valign=         | Vertical alignment of cells and headers, set to ="top"=, ="middle"=, ="bottom"= or ="baseline"=. | <span class="foswikiGrayText">unspecified</span>  | =valign="top"= |
+     | =headervalign=   | Vertical alignment of header cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =headervalign="top"= |
+     | =datavalign=     | Vertical alignment of data cells; overrides =valign=. | <span class="foswikiGrayText">unspecified</span>  | =datavalign="top"= |
+     | =headeralign=    | Header cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =headeralign="left,right"= |
+     | =dataalign=      | Data cell alignment, one value for all columns, or a comma separated list for different alignment of individual columns. Set to ="left"=, ="center"=, ="right"= or ="justify"=. Overrides individual cell settings. | <span class="foswikiGrayText">unspecified</span>  | =dataalign="center"= |
+     | =tablewidth=     | Table width: Percentage of window width, or absolute pixel value. | <span class="foswikiGrayText">unspecified</span>  | =tablewidth="100%"= |
+     | =columnwidths=   | Column widths: Comma delimited list of column widths, percentage or absolute pixel value. | <span class="foswikiGrayText">unspecified</span>  | =columnwidths="80%,20%"= |
+     | =headerrows=     | Number of header rows to exclude from sort. (will be rendered in a HTML =thead= section) | ="1"= | =headerrows="1"= |
+     | =footerrows=     | Number of footer rows to exclude from sort. (will be rendered in a HTML =tfoot= section) | ="0"= | =footerrows="1"= |
+     | =id=             | Unique table identifier string, used for targeting a table with CSS. | =tableN= (where N is the table order number on the page)  | =id="userTable"= |
+     | =summary=        | Table summary used by screenreaders: A summary of what the table presents. It should provide an orientation for someone who listens to the table. | <span class="foswikiGrayText">unspecified</span> | =summary="List of subscribed users"= |
+     | =caption=        | Table caption: A title that will be displayed just above the table.| <span class="foswikiGrayText">unspecified</span> | =caption="Users"= |
+%ENDSECTION{"table_attributes"}%
+   * Example:%BR%
+     =%<nop>TABLE{ tableborder="0" cellpadding="4" cellspacing="3" cellborder="0" }%= %BR%
+     =| <nop>*A1*<nop> | <nop>*B1*<nop> |= %BR%
+     =| A2 | B2 |=
+   * Related: See TablePlugin for more details

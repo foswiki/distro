@@ -1,0 +1,4 @@
+data/System/TablePlugin.txt 0644
+data/System/VarTABLE.txt 0644
+lib/Foswiki/Plugins/TablePlugin.pm 0444
+lib/Foswiki/Plugins/TablePlugin/Core.pm 0444
