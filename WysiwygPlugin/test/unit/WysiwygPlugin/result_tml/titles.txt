@@ -1,0 +1,14 @@
+klj kl
+---+ Titre h1: minuscule
+---+ Titre H1: capital
+---++ Titre h2: minuscule
+---++ Titre H2: capital
+---+++ Titre h3: minuscule
+---+++ Titre H3: capital
+---++++ Titre h4: minuscule
+---++++ Titre H4: capital
+---+++++ Titre h5: minuscule
+---+++++ Titre H5: capital
+---++++++ Titre h6: minuscule
+---++++++ Titre H6: capital
+

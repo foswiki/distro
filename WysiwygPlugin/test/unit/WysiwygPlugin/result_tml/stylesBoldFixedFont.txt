@@ -1,0 +1,19 @@
+ ==Bold b with code code : minuscule & minuscule==
+==Bold B with code code : capital & minuscule==
+==Bold b with code CODE : minuscule & capital==
+==Bold B with code CODE : capital & capital==
+==Code code with Bold b : minuscule & minuscule==
+==Code code with Bold B : minuscule & capital==
+==Code CODE with Bold b : capital & minuscule==
+==Code CODE with Bold B : capital & capital==
+==Bold strong with code code : minuscule & minuscule==
+==Bold B with code code : capital & minuscule==
+==Bold strong with code CODE : minuscule & capital==
+==Bold B with code CODE : capital & capital==
+==Code code with Bold strong : minuscule & minuscule==
+==Code code with Bold B : minuscule & capital==
+==Code CODE with Bold strong : capital & minuscule==
+==Code CODE with Bold B : capital & capital==
+==Bold b with code code + test space before the text: minuscule & minuscule==
+==Bold b with code code + test space after the text: minuscule & minuscule==
+==Bold b with code code + test space before and after the text: minuscule & minuscule== 

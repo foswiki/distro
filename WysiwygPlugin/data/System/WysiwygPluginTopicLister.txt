@@ -1,0 +1,1 @@
+%TOPICLIST{format="<nop>$name" web="%URLPARAM{web}%"}%

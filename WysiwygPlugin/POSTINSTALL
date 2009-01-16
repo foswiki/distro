@@ -1,0 +1,12 @@
+print <<DONE;
+
+##########################################################
+This package includes the Kupu WYSIWYG editor. This is a powerful
+cross-browser editor that works in IE and Mozilla-based browsers.
+
+Full installation of Kupu requires that you run the Kupu makefile.
+This is not required for Foswiki, but is required if you want a full
+installation of Kupu for other reasons. For further details, read
+the documentation in the pub/_kupu/doc directory in your installation.
+
+DONE
