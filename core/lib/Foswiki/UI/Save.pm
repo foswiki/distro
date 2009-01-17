@@ -271,8 +271,8 @@ sub buildNewTopic {
 
     my $merged;
 
-    # assumes rev numbers start at 1
-    if ($originalrev) {
+    # If the topic exists, see if we need to merge
+    if ( $topicExists && $originalrev ) {
         my ( $orev, $odate );
         if ( $originalrev =~ /^(\d+)_(\d+)$/ ) {
             ( $orev, $odate ) = ( $1, $2 );
@@ -293,7 +293,8 @@ sub buildNewTopic {
             require Foswiki::Merge;
 
             my $pti = $prevMeta->get('TOPICINFO');
-            if (   $pti->{reprev}
+            if (   $pti
+                && $pti->{reprev}
                 && $pti->{version}
                 && $pti->{reprev} == $pti->{version} )
             {
