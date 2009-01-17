@@ -158,8 +158,9 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 |  Screenshot: | <a href="%ATTACHURL%/patternskin_screenshot_full.png"><img src="%ATTACHURL%/patternskin_screenshot.jpg" style="border:1px solid #eee;" alt="Click for full screen image" width="600" /></a> |
 |  Preview: | [[%SCRIPTURL{view}%/%WEB%/%TOPIC%?skin=pattern][Preview with this skin]] |
 |  Base Name: | pattern |
-|  Skin Version: | 03 Dec 2008 (v4.0.0b) | 
+|  Skin Version: | 17 Jan 2009 (v4.0.1) | 
 |  History: | <!-- specify latest version first -->&nbsp; |
+|  17 Jan 2009: | v.4.0.1 - Fix reading of WEBHEADERART variable. |
 |  30 Nov 2008: | v.4.0.0 - Fosiki 1.0.0 RELEASE VERSION |
 |  03 Aug 2008: | v.3.0.1 - TWiki 4.2.1 (Edinburgh) RELEASE VERSION |
 |  13 Jul 2007: | v.3.0.0 - TWiki 4.2.0 (Edinburgh) RELEASE VERSION |
