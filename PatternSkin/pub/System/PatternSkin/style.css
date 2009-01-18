@@ -610,8 +610,7 @@ a:hover .foswikiAccessKey {
 	/* change font size here */
 	font-size:105%;
 }
-.patternNoViewPage #patternOuter,
-.patternPrintPage #patternOuter {
+.patternNoViewPage #patternOuter {
 	margin-left:0;
 	margin-right:0;
 }
