@@ -35,7 +35,7 @@ while (scalar(@cwd) > 1) {
 
 die "Can't find root" unless (-d "$root/lib" && -d "$root/data");
 
-@skip = qw(twikiplugins tools test working logs);
+@skip = qw(tools test working logs);
 print <<END;
 Run this script from anywhere (either in core root or in a subdir
 of twikiplugins).
