@@ -743,7 +743,7 @@ sub emailToWikiNames {
 Returns the registered email addresses of the named user. If $user is
 undef, returns the registered email addresses for the logged-in user.
 
-$user may also be a login name, or the name of a group.
+$user may also be a group.
 
 =cut
 
