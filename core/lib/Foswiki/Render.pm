@@ -1306,7 +1306,7 @@ s/${STARTWW}__(\S+?|\S[^\n]*?\S)__$ENDWW/<strong><em>$1<\/em><\/strong>/gm;
 
     # Normal mailto:foo@example.com ('mailto:' part optional)
     $text =~
-s/$STARTWW((mailto\:)?[a-zA-Z0-9-_.+]+@[a-zA-Z0-9-_.]+\.[a-zA-Z0-9-_]+)$ENDWW/_mailLink( $this, $1 )/gem;
+s/$STARTWW((mailto\:)?$Foswiki::regex{emailAddrRegex})$ENDWW/_mailLink( $this, $1 )/gem;
 
 # Handle [[][] and [[]] links
 # Escape rendering: Change ' ![[...' to ' [<nop>[...', for final unrendered ' [[...' output

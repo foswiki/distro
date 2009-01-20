@@ -400,7 +400,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
     # Simplistic email regex, e.g. for WebNotify processing - no i18n
     # characters allowed
-    $regex{emailAddrRegex} = qr/([-a-z0-9.+_]+\@[a-z0-9\.\-]+)/i;
+    $regex{emailAddrRegex} = qr/([a-z0-9!+$%&'*+-\/=?^_`{|}~]+\@[a-z0-9\.\-]+)/i;
 
 # Filename regex to used to match invalid characters in attachments - allow
 # alphanumeric characters, spaces, underscores, etc.
