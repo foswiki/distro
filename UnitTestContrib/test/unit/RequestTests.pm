@@ -199,11 +199,11 @@ sub perform_url_test {
     $base .= '://' . $host;
     $this->assert_str_equals( $base, $req->url( -base => 1 ),
         'Wrong BASE url' );
-    my $absolute .= $Foswiki::cfg{ScriptUrlPath} . "/$action";
+    my $absolute .= $Foswiki::cfg{ScriptUrlPath} . "/$action$Foswiki::cfg{ScriptSuffix}";
     $this->assert_str_equals( $base . $absolute, $req->url, 'Wrong FULL url' );
     $this->assert_str_equals( $absolute,
         $req->url( -absolute => 1, 'Wrong ABSOLUTE url' ) );
-    $this->assert_str_equals( $action,
+    $this->assert_str_equals( $action.$Foswiki::cfg{ScriptSuffix},
         $req->url( -relative => 1, 'Wrong RELATIVE url' ) );
 
     $this->assert_str_equals(
@@ -217,7 +217,7 @@ sub perform_url_test {
         'Wrong ABSOLUTE+PATH url'
     );
     $this->assert_str_equals(
-        $action . $path,
+        $action . $Foswiki::cfg{ScriptSuffix} . $path,
         $req->url( -relative => 1, -path => 1 ),
         'Wrong RELATIVE+PATH url'
     );
@@ -235,7 +235,7 @@ sub perform_url_test {
         'Wrong ABSOLUTE+QUERY_STRING url'
     );
     $this->assert_matches(
-        $action . $query,
+        $action . $Foswiki::cfg{ScriptSuffix} . $query,
         $req->url( -relative => 1, -query => 1 ),
         'Wrong RELATIVE+QUERY_STRING url'
     );
@@ -251,18 +251,39 @@ sub perform_url_test {
         'Wrong ABSOLUTE+PATH_INFO+QUERY_STRING url'
     );
     $this->assert_matches(
-        $action . $query,
+        $action . $Foswiki::cfg{ScriptSuffix} . $query,
         $req->url( -relative => 1, -query => 1, -path => 1 ),
         'Wrong RELATIVE+PATH_INFO+QUERY_STRING url'
     );
 }
 
-sub test_url {
-    my $this = shift;
+sub battery_url_tests {
+	my ($this, $suffix) = @_;
+	$Foswiki::cfg{ScriptSuffix} = $suffix;
     $this->perform_url_test(0, 'foo.bar',  'baz', '/Web/Topic');
     $this->perform_url_test(1, 'foo.bar',  'baz', '/Web/Topic');
     $this->perform_url_test(0, 'example.com', 'view', '/Main/WebHome');
     $this->perform_url_test(1, 'example.com', 'edit', '/Sandbox/TestTopic');
+}
+
+sub test_url_no_suffix {
+    my $this = shift;
+	$this->battery_url_tests('');
+}
+
+sub test_url_pl_suffix {
+    my $this = shift;
+	$this->battery_url_tests('.pl');
+}
+
+sub test_url_cgi_suffix {
+    my $this = shift;
+	$this->battery_url_tests('.cgi');
+}
+
+sub test_url_alien_suffix {
+    my $this = shift;
+	$this->battery_url_tests('.abcdef');
 }
 
 sub test_query_param {
