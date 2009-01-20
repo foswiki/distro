@@ -17,7 +17,7 @@ sub check {
     }
     #    $regex{emailAddrRegex} ...
     if ( $Foswiki::cfg{WebMasterEmail} !~
-        /^([a-z0-9!+$%&'*+-\/=?^_`{|}~]+\@[a-z0-9\.\-]+)$/i )
+        /^([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)$/i )
     {
         return $this->WARN('I don\'t recognise this as a valid email address.');
     }
