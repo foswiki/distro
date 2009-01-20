@@ -60,11 +60,12 @@ A wide range of standard styles are used in the Foswiki core code and topics, an
 |=.foswikiImage=             | Holder form images; for instance to create a border around an =&lt;img&gt;= element |
 
 ---+++ Links
-|=.foswikiCurrentWebHomeLink= | Used by Render.pm if a link points to the web's home topic |
-|=.foswikiCurrentTopicLink=   | Used by Render.pm if a link points to the current topic |
-|=.foswikiEmulatedLink=       | Used in the preview screen to make fake links appear as links |
-|=.foswikiLinkLabel=          | Text part of a link; used if a link contains more than a text label, for instance an icon |
-|=.foswikiUnvisited=          | Makes link appear as not visited (ignores the visited link state)  |
+|=.foswikiCurrentWebHomeLink=       | Used by Render.pm if a link points to the web's home topic |
+|=.foswikiCurrentTopicLink=         | Used by Render.pm if a link points to the current topic |
+|=.foswikiEmulatedLink=             | Used in the preview screen to make fake links appear as links |
+|=.foswikiLinkLabel=                | Text part of a link; used if a link contains more than a text label, for instance an icon |
+|=.foswikiUnvisited=                | Makes link appear as not visited (ignores the visited link state)  |
+|=.foswikiRequiresChangePermission= | To mark links to actions that the user does not have permissions for (for instance to hide action links) |
 
 ---+++ Tables
 |=.foswikiFirstCol=                     | Leftmost column  |
