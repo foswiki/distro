@@ -522,9 +522,15 @@ sub test_VariablePlaceholdersView {
     my $webName   = $this->{test_web};
     my $viewUrlAuth =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
-    my $viewUrl = Foswiki::Func::getScriptUrlPath()
-      . "/view/$webName/$topicName"
-      ;    # heck, how can I do this otherwise? I need the relative path
+
+    # SMELL: the following variable is needed cause the test simulate the
+    # rendering of %TOPIC%. Core generates a relative URL for that, but the
+    # interface provided to plugins only generates absolute URLs, so it's
+    # needed to take out the urlHost from the beginning of the got URL.
+    my $viewUrl = 
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'view' );
+    my $urlHost = Foswiki::Func::getUrlHost();
+    $viewUrl =~ s/^$urlHost//;
     my $pubUrlSystemWeb =
       Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
 
