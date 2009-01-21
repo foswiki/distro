@@ -10,7 +10,8 @@ One line description, required for extensions repository catalog.
 
 ---++ Usage
 
-The icons are attached to the FamFamFamFlagIcons  FamFamFamMiniIcons  FamFamFamMintIcons  FamFamFamSilkIcons topics - 
+The icons are attached to the FamFamFamFlagIcons  FamFamFamMiniIcons  FamFamFamMintIcons  
+FamFamFamSilkIcons FamFamFamSilkCompanion1Icons topics - 
 be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
 
 At this point, the only way to access these Icons is using the url - see below.
@@ -35,6 +36,9 @@ At this point, the only way to access these Icons is using the url - see below.
 ---+++ Silk preview FamFamFamSilkIcons
 <img src="%ATTACHURLPATH%/silk-preview.jpg" alt="silk-preview.jpg" width='320' height='240' />
 
+---+++ Silk preview FamFamFamSilkCompanion1Icons
+<img src="%PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/SilkCompanion1Thumb.png" alt="SilkCompanion1Thumb.png" width='320' height='240' />
+
 ---++ Installation Instructions
 
 %$INSTALL_INSTRUCTIONS%
@@ -44,11 +48,12 @@ At this point, the only way to access these Icons is using the url - see below.
 
 |  Icons Creator: | Icons by Mark James http://www.famfamfam.com |
 |  Contrib Author(s): | Foswiki packaging by Sven Dowideit - SvenDowideit@fosiki.com a [[http://WikiRing.com][WikiRing]] founding partner |
-|  Copyright: | &copy; Mark James http://www.famfamfam.com |
+|  Copyright: | &copy; Mark James http://www.famfamfam.com and Damien Guard http://damieng.com |
 |  License: | [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] |
 |  Contrib Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  26 Nov 20078: | compatibility Foswiki |
+|  21 Jan 2009: | added Silk Companion 1 icons by Damien Guard |
+|  26 Nov 2008: | compatibility Foswiki |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Contrib Home: | http://foswiki.org/Extensions/FamFamFamContrib |
 |  Feedback: | http://foswiki.org/Extensions/FamFamFamContribDev |

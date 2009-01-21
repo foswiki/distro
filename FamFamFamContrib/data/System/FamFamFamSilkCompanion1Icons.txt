@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" date="1223909088" format="1.1" version="$Rev$"}%
+---+ %TOPIC%
+
+Mark James created a great set of 1,022 silky-smooth 16x16 true-colour 
+icons in PNG format, aptly named [[FamFamFamSilkIcons][Silk Icons]].
+
+Damien Guard's set was fuelled by a need for a additional icons and variations in the same format. 
+He had hoped to create more original icons in the same style however time constraints meant that 
+majority of the 460+ icons are derivations and recompositions of the original set.
+
+---++ License
+This work is published under the
+ [[http://creativecommons.org/licenses/by/2.5/][Creative Commons Attribution 2.5 License]] by Damien Guard.
+
+---++ Source
+These Icons come from http://damieng.com/creative/icons/silk-companion-1-icons
+
+[[%PUBURLPATH%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/readme_companion.txt][readme_companion (txt)]]
+
+---++ Icons
+<div style="overflow:auto;padding:5px;border:1px solid #ddd">
+<img src="%ATTACHURLPATH%/SilkCompanion1Thumb.png" alt="index_abc.png" />
+</div>
+
+See also: FamFamFamContrib, FamFamFamSilkIcons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons
+
+%META:FILEATTACHMENT{name="SilkCompanion1Thumb.png" attachment="SilkCompanion1Thumb.png" attr="h"  user="ProjectContributor" version="1"}%
