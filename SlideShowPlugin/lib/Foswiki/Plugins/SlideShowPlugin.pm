@@ -16,6 +16,8 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 # As per the GPL, removal of this notice is prohibited.
+# Authors: Eugen Mayer, http://foswiki.org/Main/EugenMayer
+
 
 package Foswiki::Plugins::SlideShowPlugin;
 
@@ -31,7 +33,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '02 Aug 2008';
+$RELEASE = '21 Jan 2009';
 
 # =========================
 sub initPlugin

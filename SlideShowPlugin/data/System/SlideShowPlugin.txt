@@ -52,30 +52,13 @@ To create your own template topic, copy the "Default Slide Template" section bel
 This is a short example of a slideshow. You should see a "Start presentation" button if this plugin is installed:
 
 %SLIDESHOWSTART%
----+++ Silly Sample Slideshow
-%BR%
+---+++ Foswiki is great
+   * Because its simply better!
+---+++ Usability is important
+   * Because there are people not naming their children 1001010111 and need proper UI!
+---+++ Please tune this template
+   * tune the look of this template by using CSS ( slideshow.css attached to this document )
 
-<center>
-By John Doe
-
-London, 29 Sep 2007
-</center>
-
----+++ Agenda
-   * Silly Introduction
-   * Silly Feature
-   * Silly Conclusion
----+++ Silly Introduction
-   * why foo bar
-   * blah blah
----++++ Comments
-   * This text is not shown in the slide if HIDECOMMENTS is set to on.
----+++ Silly Feature
-   * it's foo bar
-   * more foo bar
----+++ Silly Conclusion
-   * foo is bar
-   * bar is foo
 %SLIDESHOWEND%
 
 This text is not part of the slideshow
@@ -98,37 +81,37 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 
 ---++ Default Slide Template
 
-The part between the rulers defines the default format of a slide:
 
------
-%STARTINCLUDE%
-<table width="100%" border="0" cellspacing="0" cellpadding="5">
-<tr bgcolor="#003399"><td valign="middle" width="2%">
-<img src="%PUBURL%/%WEB%/SlideShowPlugin/logo.gif" border="0" alt="Foswiki Slide Show" /></td>
-<td valign="middle">
-<font size="+3" color="#FFFFFF">%SLIDETITLE%</font></td>
-<td align="right" valign="middle">
-%SLIDENAVNEXT%</td>
-</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="3">
-<tr bgcolor="#FFFF99"><td width="1">
-<img src="%PUBURL%/%WEB%/SlideShowPlugin/clearpixel.gif" width="1" height="480" alt="" /></td>
-<td valign="top">
+You can create a new topic(MyWeb.SlidesTemplate) somewhere and adding =STARTINCLUDE your template STOPINCLUDE= to it. Afterwards, you can add =%SLIDESHOWSTART{template="MyWeb.SlidesTemplate"}%= to show you presentations with this new template.
 %BR%
-<font size="+2" color="#003399">
+---+++ Customizing the Look of you presentation
+Just customize the attached slideshow.css file to improve the view
+
+---+++ Current default template
+The part between the rulers defines the default format of a slide:
+%STARTINCLUDE%
+<LINK href="%ATTACHURL%/slideshow.css" rel="stylesheet" type="text/css">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="5" id="slideshow">
+<tr>
+<td valign="middle" id="slideheader">
+<img src="%ATTACHURL%/logo.gif" border="0" alt="Foswiki Slide Show" align="left"> <h1>%SLIDETITLE%</h1></td>
+</tr>
+<tr>
+<td valign="top" id="main-content">
 %SLIDETEXT%
-</font></td></tr>
+</td></tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr bgcolor="#FFFFCC"><td valign="middle">
+<tr><td valign="middle">
 %SLIDENAVALL%&nbsp;</td>
 <td valign="middle" align="right">
-<font size="-1" color="#666666">Slide %SLIDENUM% of %SLIDEMAX%</font></td>
+<font size="-1" color="#666666">Folie %SLIDENUM% of %SLIDEMAX%</font></td>
 <td valign="middle" align="right">
 <font size="-2" color="#666666"> COPYRIGHT &copy; %SERVERTIME{$year}% by the contributing authors </font></td></tr>
 </table>
 %STOPINCLUDE%
+
 -----
 
 ---++ Plugin Installation Instructions
@@ -146,11 +129,12 @@ The part between the rulers defines the default format of a slide:
    * Test above example if the installation was successful.
 
 ---++ Plugin Info
-
+|  Author: | [[Main.EugenMayer]] |
 |  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 16 Dec 2008 |
+|  Plugin Version: | 21 Jan 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  21 Jan 2009: | Exchanged the current default skin by something which is not written in totaly broken html and looking acceptable ( still needs an update, still table ugly design..). You can style by CSS now %BR% Tuned the docs a bit|
 |  16 Dec 2008: | Foswiki version |
 |  02 Aug 2008: | Fixed corruption of preview |
 |  29 Sep 2007: | Added %SYSTEMWEB%.VarSLIDESHOWSTART and %SYSTEMWEB%.VarSLIDESHOWEND to have them listed in %SYSTEMWEB%.Macros |
@@ -180,3 +164,4 @@ The part between the rulers defines the default format of a slide:
 %META:FILEATTACHMENT{name="logo.gif" attr="h" comment="Logo for slide template" date="1037760048" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\logo.gif" size="2877" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="first.gif" attr="h" comment="First slide button" date="1037951064" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\first.gif" size="1010" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="last.gif" attr="h" comment="Last slide button" date="1037951080" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\last.gif" size="1014" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="slideshow.css" attachment="slideshow.css" attr="" comment="" date="1232310261" path="slideshow.css" size="4" stream="IO::File=GLOB(0x9fe7e50)" tmpFilename="/var/tmp/CGItemp34083" user="mayer" version="1"}%
