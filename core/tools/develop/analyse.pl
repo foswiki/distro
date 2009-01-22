@@ -5,7 +5,7 @@ use Data::Dumper;
 use List::Util;
 
 my $REPOS = '/home/svn/nextwiki';
-my $BUGS = '/home/foswiki.org/data/Tasks';
+my $BUGS = '/home/foswiki.org/trunk/core/data/Tasks';
 my $MANIFEST = '/home/trunk.foswiki.org/core/lib/MANIFEST';
 my $svn = '/usr/local/bin/svn';
 my $svnlook = '/usr/local/bin/svnlook';
@@ -20,6 +20,8 @@ foreach my $release (
         $releases->{0+$2}->{0+$3}->{0+$4} = $1;
     }
 }
+#over-rides because tags were not created at time of release
+$releases->{1}->{0}->{0} = 1878;
 
 my @a = sort { $a <=> $b } keys(%$releases);
 my $major = pop(@a) || 0;
