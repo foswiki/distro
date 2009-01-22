@@ -948,7 +948,8 @@ sub findUserByWikiName {
         if ( $this->{W2U}->{$wn} ) {
 
             # Wikiname to UID mapping is defined
-            push( @users, $this->{W2U}->{$wn} );
+            my $user = $this->{W2U}->{$wn};
+            push( @users, $user ) if $user;
         }
         else {
 
@@ -957,7 +958,8 @@ sub findUserByWikiName {
             # mapping. We have to do this because Foswiki defines access controls
             # in terms of mapped users, and if a wikiname is *missing* from the
             # mapping there is "no such user".
-            push( @users, $this->login2cUID($wn) );
+            my $user = $this->login2cUID($wn);
+            push( @users, $user ) if $user;
         }
     }
     else {
