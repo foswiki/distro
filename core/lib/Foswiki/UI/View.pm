@@ -123,6 +123,7 @@ sub view {
         $rev = 1;
         $viewTemplate = 'TopicDoesNotExistView';
         $logEntry .= ' (not exist)';
+        $raw = ''; # There is no raw view of a topic that doesn't exist
     }
 
     if ($raw) {
