@@ -16,6 +16,14 @@ be *CAREFUL* those topics can cause your browser to run very slowly for a bit.
 
 At this point, the only way to access these Icons is using the url - see below.
 
+---++ TODO: DocumentGraphics themeing
+You can aso use %SYSTEMWEB%.FamFamFamGraphics as a replacement for the Foswiki DocumentGraphics, 
+by setting =ICONTOPIC= on your %USERSWEB%.SitePreferences, and enabling the DocumentGraphicsPlugin.
+
+<verbatim>
+   * Set ICONTOPIC = %SYSTEMWEB%.FamFamFamGraphics
+</verbatim>
+
 ---++ Examples (if installed)
 
    * <img src="%PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" alt="au.png" title="au.png" /> (=&lt;img src="%<nop>PUBURLPATH%/%SYSTEMWEB%/FamFamFamFlagIcons/au.png" /&gt;=)

@@ -1,0 +1,378 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev: 1838 $"}%
+---+!! Documentation Graphics and Filetype icons
+
+This is a Foswiki icon library. The graphics can be used in topics and by web applications. 
+
+%TOC{title="Contents:"}%
+
+---++ Usage
+
+Default notation:
+<blockquote>
+<code>%<nop>ICON{help}%</code> results in: %ICON{help}%
+
+Note that =ICON{}= assumes an image of 16 x 16 pixels. 
+See the tables below for copy-paste examples.
+</blockquote>
+
+Other usage: [[%TOPIC%#Usage_extended][see below]].
+
+---++ Graphics
+
+---+++ %ICON{note}% Document icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* |  *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/book.png | Book | =%<nop>ICON{book}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/blank.png | Blank box | =%<nop>ICON{blank}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/blank-bg.png | Blank box, transparent | =%<nop>ICON{blank-bg}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/comment.png | Speech bubble | =%<nop>ICON{bubble}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/date.png | Days, Calendar | =%<nop>ICON{days}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/disk_download.png | Download | =%<nop>ICON{download}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/printer.png | Fax | =%<nop>ICON{fax}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/filter.png | Filter | =%<nop>ICON{filter}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/cog.png | Gear | =%<nop>ICON{gear}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/world.png | Globe | =%<nop>ICON{globe}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/map_cursor.png | Map | =%<nop>ICON{map}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/Finger_point.png | Pointing hand | =%<nop>ICON{hand}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/help.png | Help | =%<nop>H%=, =%<nop>ICON{help}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/information.png | Info | =%<nop>ICON{info}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/hourglass.png | Hour glass (clock) | =%<nop>ICON{hourglass}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/transmit_go.png | Megaphone | =%<nop>ICON{megaphone}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/phone.png | Mobile | =%<nop>ICON{mobile}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_go.png | Read more | =%<nop>ICON{more}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_go.png | Read more, 13x13 | =&lt;img src="%<nop>ICONURL{more-small}%" width="13" height="13" alt="Read more" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_turn_left.png | Move | =%<nop>ICON{move}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/note.png | Note | =%<nop>ICON{note}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/car.png | Parked | =%<nop>ICON{parked}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/brick.png | Parts | =%<nop>ICON{parts}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/pencil.png | Pencil / Refactor / Edit | =%<nop>P%=, =%<nop>ICON{pencil}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/telephone.png | Phone | =%<nop>ICON{phone}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/photo.png | Photo, 13x10 | =&lt;img src="%<nop>ICONURL{photo}%" width="13" height="10" alt="Photo" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/presentation.png | Presentation | =%<nop>ICON{presentation}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/plugin.png | Puzzle | =%<nop>ICON{puzzle}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/help.png | Question | =%<nop>ICON{question}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/quiet.png | Quiet | =%<nop>ICON{quiet}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/comments_add.png | Request for comments | =%<nop>ICON{rfc}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/sitemap.png | Site map | =%<nop>ICON{sitemap}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/outline.png | Site tree | =%<nop>ICON{sitetree}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/skype.png | Skype | =%<nop>ICON{skype}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/table_sort.png | Sort | =%<nop>ICON{sort}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/star.png | Gold star, favorites | =%<nop>ICON{stargold}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/rosette.png | Red star, highlight | =%<nop>S%=, =%<nop>ICON{starred}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/stop.png | Stop | =%<nop>ICON{stop}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target.png | Target | =%<nop>ICON{target}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-blue.png | Target - blue | =%<nop>ICON{target-blue}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-gray.png | Target - gray | =%<nop>ICON{target-gray}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-green.png | Target - green | =%<nop>ICON{target-green}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-orange.png | Target - orange | =%<nop>ICON{target-orange}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/target-red.png | Target - red | =%<nop>ICON{target-red}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/lightbulb.png | Tip, idea | =%<nop>T%=, =%<nop>ICON{tip}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/dvd_start.png | Video, 13x10 | =&lt;img src="%<nop>ICONURL{video}%" width="13" height="10" alt="Video" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/exclamation.png | Warning, important | =%<nop>X%=, =%<nop>ICON{warning}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/clock.png | Watch | =%<nop>ICON{watch}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench_orange.png | Work in progress, under construction | =%<nop>ICON{wip}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/wrench.png | Wrench, tools | =%<nop>ICON{wrench}%= |
+
+
+---+++ %ICON{viewtopic}% Topic, %ICON{attachfile}% file, %ICON{folder}% folder icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page.png | View topic | =%<nop>ICON{viewtopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/printer.png | Print topic | =%<nop>ICON{printtopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_refresh.png | Refresh topic | =%<nop>ICON{refreshtopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_add.png | New topic | =%<nop>ICON{newtopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_edit.png | Edit topic | =%<nop>ICON{edittopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_save.png | Save | =%<nop>ICON{save}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_attach.png | Attach file | =%<nop>ICON{attachfile}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_put.png | Download | =%<nop>ICON{download}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_delete.png | Trash | =%<nop>ICON{trash}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_find.png | Search topic | =%<nop>ICON{searchtopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_find.png | Small search button, 13x13 | =&lt;img src="%<nop>ICONURL{search-small}%" width="13" height="13" alt="Search" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_get.png | Topic back-links | =%<nop>ICON{topicbacklinks}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_copy.png | Topic difference | =%<nop>ICON{topicdiffs}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/chart_curve.png | Statistics | =%<nop>ICON{statistics}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/text_list_bullets.png | Index | =%<nop>ICON{index}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/text_padding_left.png | Index list | =%<nop>ICON{indexlist}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_swoosh.png | Cache topic | =%<nop>ICON{cachetopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/folder.png | Folder | =%<nop>ICON{folder}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/table.png | Table | =%<nop>ICON{table}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/table_edit.png | Edit table | =%<nop>ICON{edittable}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-bo.png | UWEB ([[http://www.aboutus.org/UniversalWikiEditButton][Universal Wiki Edit Button]]), blue, outline | =%<nop>ICON{uweb-bo}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-bo12.png | UWEB, blue, outline, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb-bo12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-g.png | UWEB, green (default) | =%<nop>ICON{uweb-g}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-gs.png | UWEB, green, square | =%<nop>ICON{uweb-gs}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-m12.png | UWEB, black, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb-m12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-o.png | UWEB, orange | =%<nop>ICON{uweb-o}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-o12.png | UWEB, orange, small 12x12 | =&lt;img src="%<nop>ICONURL{uweb-o12}%" width="12" height="12" alt="Edit" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-oo.png | UWEB, orange, outline | =%<nop>ICON{uweb-oo}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/uweb-os.png | UWEB, orange, square | =%<nop>ICON{uweb-os}%= |
+
+
+---+++ %ICON{person}% Person, %ICON{group}% group, %ICON{lock}% access icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/user.png | Person | =%<nop>ICON{person}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/group.png | Persons | =%<nop>ICON{persons}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/group.png | Group | =%<nop>ICON{group}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/status_online.png | Active user | =%<nop>ICON{useractive}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/status_offline.png | Inactive user | =%<nop>ICON{userinactive}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/building.png | Building | =%<nop>ICON{building}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/neighbourhood.png | Buildings | =%<nop>ICON{buildings}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/key_delete.png | Log out | =%<nop>ICON{logout}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/key.png | Key | =%<nop>ICON{key}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/lock.png | Lock | =%<nop>ICON{lock}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_key.png | Locked topic | =%<nop>ICON{locktopic}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_key.png | Locked topic, gray | =%<nop>ICON{locktopicgray}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/folder_key.png | Locked folder | =%<nop>ICON{lockfolder}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/folder_key.png | Locked folder, gray | =%<nop>ICON{lockfoldergray}%= |
+
+
+---+++ %ICON{changes}% Changes, %ICON{notify}% notification icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_stack.png | Changes | =%<nop>ICON{changes}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_stack.png | Changes (small), 13x13 | =&lt;img src="%<nop>ICONURL{changes-small}%" width="13" height="13" alt="Changes" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_lightning.png | Recent changes | =%<nop>ICON{recentchanges}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/email.png | Mail | =%<nop>ICON{mail}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/email_star.png | Notify | =%<nop>ICON{notify}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/feed.png | Feed | =%<nop>ICON{feed}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/feed.png | RSS feed, 36x14 | =&lt;img src="%<nop>ICONURL{rss-feed}%" width="36" height="14" alt="RSS feed" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_feed.png | RSS feed | =%<nop>ICON{rss-small}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/xml-feed.png | XML feed, 36x14 | =&lt;img src="%<nop>ICONURL{xml-feed}%" width="36" height="13" alt="XML feed" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/xml-small.png | XML feed | =%<nop>ICON{xml-small}%= |
+
+
+---+++ %ICON{choice-yes}% Status, %ICON{flag}% flag, %ICON{bullet_box-red}% LED, %ICON{tag-yellow}% tag icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/new.png | NEW, 30x16 | =%<nop>N%=, =&lt;img src="%<nop>ICONURL{new}%" width="30" height="16" alt="New" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/todo.png | TODO, 37x16 | =&lt;img src="%<nop>ICONURL{todo}%" width="37" height="16" alt="TODO" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/updated.png | UPDATED, 55x16 | =%<nop>U%=, =&lt;img src="%<nop>ICONURL{updated}%" width="55" height="16" alt="UPDATED" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/done.png | DONE, 37x16 | =&lt;img src="%<nop>ICONURL{done}%" width="37" height="16" alt="Done" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/closed.png | CLOSED, 48x16 | =&lt;img src="%<nop>ICONURL{closed}%" width="48" height="16" alt="Closed" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/delete.png | Minus | =%<nop>ICON{minus}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/add.png | Plus | =%<nop>ICON{plus}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/cancel.png | Cancel | =%<nop>ICON{choice-cancel}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/accept.png | No | =%<nop>ICON{choice-no}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/decline.png | Yes / Done | =%<nop>Y%=, =%<nop>ICON{choice-yes}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/unchecked.png | Unchecked checkbox | =%<nop>ICON{unchecked}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/checked.png | Checked checkbox | =%<nop>ICON{checked}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Flag | =%<nop>ICON{flag}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Gray flag | =%<nop>ICON{flag-gray}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/flag_blue.png | Small gray flag, 13x13 | =&lt;img src="%<nop>ICONURL{flag-gray-small}%" width="13" height="13" alt="Flag" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_aqua.png | Aqua led | =%<nop>ICON{bullet_aqua}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_blue.png | Blue led | =%<nop>ICON{bullet_blue}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_gray.png | Gray led | =%<nop>ICON{bullet_gray}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_green.png | Green led | =%<nop>ICON{bullet_green}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_orange.png | Orange led | =%<nop>ICON{bullet_orange}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_purple.png | Purple led | =%<nop>ICON{bullet_purple}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_red.png | Red led | =%<nop>ICON{bullet_red}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_yellow.png | Yellow led | =%<nop>ICON{bullet_yellow}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-aqua.png | Aqua led | =%<nop>ICON{bullet_box-aqua}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-blue.png | Blue led | =%<nop>ICON{bullet_box-blue}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-gray.png | Gray led | =%<nop>ICON{bullet_box-gray}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-green.png | Green led | =%<nop>ICON{bullet_box-green}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-orange.png | Orange led | =%<nop>ICON{bullet_box-orange}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-purple.png | Purple led | =%<nop>ICON{bullet_box-purple}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-red.png | Red led | =%<nop>ICON{bullet_box-red}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_box-yellow.png | Yellow led | =%<nop>ICON{bullet_box-yellow}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_blue.png | Tag | =%<nop>ICON{tag}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_blue.png | Blue tag | =%<nop>ICON{tag-blue}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_brown.png | Brown tag | =%<nop>ICON{tag-brown}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_green.png | Green tag | =%<nop>ICON{tag-green}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_magenta.png | Magenta tag | =%<nop>ICON{tag-magenta}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_orange.png | Orange tag | =%<nop>ICON{tag-orange}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_purple.png | Purple tag | =%<nop>ICON{tag-purple}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_red.png | Red tag | =%<nop>ICON{tag-red}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_yellow.png | Yellow tag | =%<nop>ICON{tag-yellow}%= |
+
+---+++ %ICON{home}% Navigation icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/house.png | Home | =%<nop>ICON{home}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/sitemap.png | Site map | =%<nop>ICON{sitemap}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/chart_organisation.png | Site tree | =%<nop>ICON{sitetree}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_get.png | Topic back-links | =%<nop>ICON{topicbacklinks}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_in.png | Meet here (arrows to red dot) | =%<nop>ICON{arrowdot}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/link_go.png | External site | =%<nop>ICON{external}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_left.png | Left | =%<nop>ICON{left}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_right.png | Right | =%<nop>ICON{right}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_up.png | Up | =%<nop>ICON{up}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_down.png | Down | =%<nop>ICON{down}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_left.png | Arrow blue left | =%<nop>ICON{arrowbleft}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_right.png | Arrow blue right | =%<nop>ICON{arrowbright}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_up.png | Arrow blue up | =%<nop>ICON{arrowbup}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_down.png | Arrow blue down | =%<nop>ICON{arrowbdown}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_left.png | Arrow left | =%<nop>ICON{arrowleft}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_right.png | Arrow right | =%<nop>M%=, =%<nop>ICON{arrowright}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_up.png | Arrow up | =%<nop>ICON{arrowup}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/arrow_down.png | Arrow down | =%<nop>ICON{arrowdown}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_start.png | Go to start | =%<nop>ICON{go_start}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_rewind.png | Go fast back | =%<nop>ICON{go_fb}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_play_backward.png | Go back | =%<nop>ICON{go_back}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_play.png | Go forward | =%<nop>ICON{go_forward}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_fastforward.png | Go fast forward | =%<nop>ICON{go_ff}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/control_end.png | Go to end | =%<nop>ICON{go_end}%= |
+
+---+++ %ICON{toggleclose}% Interface icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/monospace.png | Monospace | =%<nop>ICON{monospace}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/proportional.png | Proportional | =%<nop>ICON{proportional}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_black.png | Sort table | =&lt;img src="%<nop>ICONURL{tablesortdiamond}%" width="11" height="13" alt="Sort table" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_down.png | Sort table descending | =&lt;img src="%<nop>ICONURL{tablesortdown}%" width="11" height="13" alt="Sort table descending" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_up.png | Sort table ascending | =&lt;img src="%<nop>ICONURL{tablesortup}%" width="11" height="13" alt="Sort table ascending" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_plus.png | Open toggle, Twisty open toggle | =%<nop>ICON{toggleopen}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_minus.png | Close toggle, Twisty close toggle | =%<nop>ICON{toggleclose}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_plus.png | Open toggle, Twisty open toggle | =%<nop>ICON{toggleopen-small}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_minus.png | Close toggle, Twisty close toggle | =%<nop>ICON{toggleclose-small}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_plus.png | Open toggle, Twisty open toggle | =&lt;img src="%<nop>ICONURL{toggleopen-mini}%" width="7" height="9" alt="Open" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_toggle_minus.png | Close toggle, Twisty close toggle | =&lt;img src="%<nop>ICONURL{toggleclose-mini}%" width="7" height="9" alt="Close" border="0" /&gt;= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_left.png | Open toggle, Twisty open toggle | =%<nop>ICON{toggleopenleft}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/bullet_left.png | Open toggle, Twisty open toggle | =%<nop>ICON{toggleopenleft-small}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/web-bg.png | Web background, used in %SYSTEMWEB%.WebLeftBarWebsList | =%<nop>ICON{web-bg}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/web-bg-small.png | Web background, 13x13 | =&lt;img src="%<nop>ICONURL{web-bg-small}%" width="13" height="13" alt="Web" border="0" /&gt;= |
+
+---+++ Foswiki icons
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/script.png | Add-on | =%<nop>ICON{addon}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/application.png | Application | =%<nop>ICON{application}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_cplusplus.png | Code | =%<nop>ICON{code}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/package.png | Package | =%<nop>ICON{package}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/plugin.png | Plugin | =%<nop>ICON{plugin}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag.png | Tag | =%<nop>ICON{tag}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/package_find.png | Search package | =%<nop>ICON{searchpackage}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/tag_find.png | Search tag | =%<nop>ICON{searchtag}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkCompanion1Icons/theme.png | Skin | =%<nop>ICON{skin}%= |
+
+---+++ %ICON{line_ur}% Block graphics
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Description* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ld.png | Line graph left-down | =%<nop>ICON{line_ld}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_lr.png | Line graph left-right | =%<nop>ICON{line_lr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_lrd.png | Line graph left-right-down | =%<nop>ICON{line_lrd}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_rd.png | Line graph right-down | =%<nop>ICON{line_rd}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ud.png | Line graph up-down | =%<nop>ICON{line_ud}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_udl.png | Line graph up-down-left | =%<nop>ICON{line_udl}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_udlr.png | Line graph up-down-left-right | =%<nop>ICON{line_udlr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_udr.png | Line graph up-down-right | =%<nop>ICON{line_udr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ul.png | Line graph up-left | =%<nop>ICON{line_ul}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ulr.png | Line graph up-left-right | =%<nop>ICON{line_ulr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ur.png | Line graph up-right | =%<nop>ICON{line_ur}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/line_ur_gray.png | Line graph up-right, gray | =%<nop>ICON{line_ur_gray}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ld.png | Dot graph left-down | =%<nop>ICON{dot_ld}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_lr.png | Dot graph left-right | =%<nop>ICON{dot_lr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_lrd.png | Dot graph left-right-down | =%<nop>ICON{dot_lrd}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_rd.png | Dot graph right-down | =%<nop>ICON{dot_rd}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ud.png | Dot graph up-down | =%<nop>ICON{dot_ud}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_udl.png | Dot graph up-down-left | =%<nop>ICON{dot_udl}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_udlr.png | Dot graph up-down-left-right | =%<nop>ICON{dot_udlr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_udr.png | Dot graph up-down-right | =%<nop>ICON{dot_udr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ul.png | Dot graph up-left | =%<nop>ICON{dot_ul}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ulr.png | Dot graph up-left-right | =%<nop>ICON{dot_ulr}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/dot_ur.png | Dot graph up-right | =%<nop>ICON{dot_ur}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/empty.png | Empty transparent 16x16 spacer | =%<nop>ICON{empty}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/parent_gray.png | Parent arrow | =%<nop>ICON{parent_gray}%= |
+
+
+---+++ %ICON{gif}% Filetype icons
+
+Filetype icons are used by the attachment table and are seldom used in topics. Write =%<nop>ICON{pdf}%= to show the %ICON{pdf}% icon.
+
+%TABLE{headeralign="left" databg="#ffffff,#ffffff" databgsorted="#f5f5f5"}%
+| *Icon URL* | *Name* | *Write...* |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_actionscript.png | !ActionScript | =%<nop>ICON{as}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_acrobat.png | Adobe Air | =%<nop>ICON{air}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_lightning.png | MS-DOS batch file | =%<nop>ICON{bat}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | Bitmap | =%<nop>ICON{bmp}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_c.png | C source code file  | =%<nop>ICON{c}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/css.png | Cascading Style Sheet file  | =%<nop>ICON{css}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_lightning.png | Dynamic Linked Library; Microsoft application file | =%<nop>ICON{dll}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_word.png | Microsoft Word file | =%<nop>ICON{doc}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white.png | Unknown file format | =%<nop>ICON{else}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_office.png | Microsoft Outlook e-mail file | =%<nop>ICON{eml}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_lightning.png | Microsoft Executable file | =%<nop>ICON{exe}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_flash.png | Macromedia Flash Movie | =%<nop>ICON{fla}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/font.png | Windows bitmapped font file | =%<nop>ICON{fon}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | GIF | =%<nop>ICON{gif}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_h.png | Header file | =%<nop>ICON{h}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_.png | Standard help file | =%<nop>ICON{hlp}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_code.png | HTML | =%<nop>ICON{html}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_java.png | Java source code file  | =%<nop>ICON{java}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | JPEG | =%<nop>ICON{jpg}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_javascript.png | !JavaScript | =%<nop>ICON{js}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_database.png | Microsoft Access database File | =%<nop>ICON{mdb}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | !Quicktime movie | =%<nop>ICON{mov}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | MP3 | =%<nop>ICON{mp3}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_acrobat.png | PDF | =%<nop>ICON{pdf}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_perl.png | Perl source code file | =%<nop>ICON{pl}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | PNG | =%<nop>ICON{png}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_powerpoint.png | !PowerPoint | =%<nop>ICON{ppt}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_ps.png | Postscript | =%<nop>ICON{ps}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | Photoshop document | =%<nop>ICON{psd}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_py.png | Python source code file  | =%<nop>ICON{py}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | !RealAudio | =%<nop>ICON{ram}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_database.png | Registry file | =%<nop>ICON{reg}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_lightning.png | Unix shell script | =%<nop>ICON{sh}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_.png | sniff | =%<nop>ICON{sniff}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | SWF (Shockwave Flash) | =%<nop>ICON{swf}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/font.png | True Type font | =%<nop>ICON{ttf}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_text.png | Text | =%<nop>ICON{txt}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_vector.png | Visio document | =%<nop>ICON{vsd}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_camera.png | Waveform sound file | =%<nop>ICON{wav}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_text.png | Windows Write | =%<nop>ICON{wri}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_excel.png | Microsoft Excel Spreadsheet | =%<nop>ICON{xls}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_code.png | XML | =%<nop>ICON{xml}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_code.png | XSL (XML style sheet) | =%<nop>ICON{xsl}%= |
+| %PUBURL%/%SYSTEMWEB%/FamFamFamSilkIcons/page_white_compressed.png | Compressed Zip archive | =%<nop>ICON{zip}%= |
+
+---++ Usage (extended)
+
+There are several other ways to put an image in a topic.
+
+Shorthand notation:
+<blockquote>
+In [[%USERSWEB%.SitePreferences!]] set a macro for an ICON, for example:
+
+=<nop>   * Set H = %<nop>ICON{help}%=
+
+Now you can use the icon by writing =%<nop>H%=
+
+For extended use, check out Foswiki:Extensions.SmiliesPlugin that uses a different short hand than =<nop>%MACROS%=.
+</blockquote>
+
+Full path:
+<blockquote>
+In any topic, write =%<nop>PUBURL%/%<nop>SYSTEMWEB%/DocumentGraphics/help.png= to show %PUBURL%/%SYSTEMWEB%/DocumentGraphics/help.png
+
+You are not restricted to use the !DocumentGraphics topic - 
+in a similar way you can show attached images by replacing =DocumentGraphics= with the topic name.
+</blockquote>
+
+To create an image with a link, write:
+<blockquote>
+=[<nop>[%HOMETOPIC%][%<nop>ICON{home}% Home]]= to get: [[%HOMETOPIC%][%ICON{home}% Home]]
+
+To get rid of the underline under the space, write: %BR%
+=[<nop>[%HOMETOPIC%][%<nop>ICON{home}%]] [<nop>[%HOMETOPIC%][Home]]= to get: [[%HOMETOPIC%][%ICON{home}%]] [[%HOMETOPIC%][Home]]
+</blockquote>
+
+To get the full URL of the icon, use [[VarICONURL][ICONURL]]:
+<blockquote>
+=%<nop>ICONURL{"toggleopen"}%= gets you the image path: <code>%ICONURL{"toggleopen"}%</code> %BR%
+and that will get rendered as: %ICONURL{"toggleopen"}%
+</blockquote>
+
+---
+*Related Topics:* [[Skins]], DeveloperDocumentationCategory, AdminDocumentationCategory
+
