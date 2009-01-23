@@ -3484,6 +3484,11 @@ sub INCLUDE {
         }
     }
 
+    if ( $interesting and (length($text) eq 0) ) {
+        return _includeWarning( $this, $control{warn}, 'topic_section_not_found',
+                                $includedWeb, $includedTopic, $control{section} );
+    }
+
     # If there were no interesting sections, restore the whole text
     $text = $ntext unless $interesting;
 
