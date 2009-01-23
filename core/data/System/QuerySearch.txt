@@ -21,7 +21,6 @@ All meta-data in a topic is referenced according to a to a simple plan.
    * =name= - name of the topic
    * =web= - name of the web the topic is within
    * =text= - the body text of the topic (without embedded meta-data)
-   * =metatext= - the body text of the topic with meta-data embedded
    * =META:FILEATTACHMENT=
       * _for each attachment_
          * =name=
