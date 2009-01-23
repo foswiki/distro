@@ -21,8 +21,13 @@ sub evaluate {
     my $node = shift;
     my $a    = $node->{params}[0];
     my $val  = $a->evaluate(@_) || '';
+    return 0 unless defined $val;
     if ( ref($val) eq 'ARRAY' ) {
         return scalar(@$val);
+    } elsif ( ref($val) eq 'HASH' ) {
+        return scalar(keys %$val);
+    } elsif ( !ref($val) ) {
+        return length($val);
     }
     return 1;
 }

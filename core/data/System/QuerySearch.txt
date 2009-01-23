@@ -20,7 +20,8 @@ All meta-data in a topic is referenced according to a to a simple plan.
 
    * =name= - name of the topic
    * =web= - name of the web the topic is within
-   * =text= - the body text of the topic
+   * =text= - the body text of the topic (without embedded meta-data)
+   * =metatext= - the body text of the topic with meta-data embedded
    * =META:FILEATTACHMENT=
       * _for each attachment_
          * =name=
@@ -66,6 +67,7 @@ It's a bit clumsy having to type =META:FILEATTACHMENT= every time you want to re
    * =parent= means the same as =META:TOPICPARENT=
    * =moved= means the same as =META:TOPICMOVED=
    * =form= means the same as =META:FORM=, so to test if a topic has a form named 'UserForm' you test for ="form.name ~ '*.UserForm'"=
+      * You can also use the name of the form in place of =form=. This is in anticipation of the day when you can attach more than one form type to a topic.
    * =fields= means the same as =META:FIELD=, You can also use the name of the form (the value of =form.name= e.g. =PersonForm=)
    * =preferences= means the same as =META:PREFERENCE=
 
@@ -108,6 +110,9 @@ Field specifiers and constants are combined using _operators_ to create queries.
 | =()= | Bracketed subquery |
 
 %I% The same operators are supported for [[VarIF][%IF statements]].
+
+---++ Text and Meta Text
+There are two fields that contain the topic text, =text= and =metatext=. =text= just contains the raw text of the topic, as you would see if you viewed the topic raw. =metatext= contains the text of the topic with MetaData embedded. This can be useful when you want to generate output based on processing meta-data.
 
 ---++ Putting it all together
 When a query is applied to a topic, the goal is to reduce to a TRUE or FALSE value that indicates whether the topic matches that query or not. If the query returns TRUE, then the topic is included in the search results.

@@ -23,7 +23,7 @@ BEGIN {
     # root the tree
     my $here = Cwd::abs_path;
 
-    # Look for the TWiki installation that we are testing in context
+    # Look for the installation that we are testing in context
     # with. This will be defined by either by finding an installation
     # on the path to the current dir, or by finding the first install
     # in FOSWIKI_LIBS.
@@ -73,15 +73,15 @@ if ($options{-log}) {
 }
 print STDERR "Options: ",join(' ',keys %options),"\n";
 
-unless (defined $ENV{TWIKI_ASSERTS}) {
-    print "exporting TWIKI_ASSERTS=1 for extra checking; disable by exporting TWIKI_ASSERTS=0\n";
-    $ENV{TWIKI_ASSERTS} = 1;
+unless (defined $ENV{FOSWIKI_ASSERTS}) {
+    print "exporting FOSWIKI_ASSERTS=1 for extra checking; disable by exporting FOSWIKI_ASSERTS=0\n";
+    $ENV{FOSWIKI_ASSERTS} = 1;
 }
 
-if ($ENV{TWIKI_ASSERTS}) {
-    print "Assert checking on $ENV{TWIKI_ASSERTS}\n";
+if ($ENV{FOSWIKI_ASSERTS}) {
+    print "Assert checking on $ENV{FOSWIKI_ASSERTS}\n";
 } else {
-    print "Assert checking off $ENV{TWIKI_ASSERTS}\n";
+    print "Assert checking off $ENV{FOSWIKI_ASSERTS}\n";
 }
 
 if ($options{-clean}) {
