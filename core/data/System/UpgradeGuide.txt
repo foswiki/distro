@@ -37,14 +37,21 @@ The following is a high level view of the upgrade procedure:
    1 Apply preferences from the old installation.
 
 More details for each step appear in the following sections. The steps may need to be modified or otherwise tailored with specifics for your installation. In particular, you may need to take care to preserve any special configuration or customizations you have made, especially if you have modified any of the distributed software files or system topics.
-   
+
+For purposes of discussion, the following conventions are used:
+   * =oldwiki= refers to the directory in which the old installation is located
+   * =newwiki= refers to the directory in which the new installation is located
+   * =&lt;old_users_web&gt;= refers to the web in which the user topics are located in the old installation
+   * =%<nop>USERSWEB%= refers to the web in which the user topics are located in the new installation. This value is set in the "Store settings" section of =configure= in the {UsersWebName} variable.
+   * =%<nop>SYSTEMWEB%= refers to the web used for documentation and default preferences. This value is set in the "Store settings" section of =configure= in the {SystemWebName} variable.
+
 ---+++ Installation
 
    * *Follow the installation instructions in INSTALL.html* which you find in the root of the new installation. *Install the new release in a new directory.* Do not install on top of the old release.
-      * For purposes of discussion, assume the old installation is installed under the =wiki= subdirectory, and the new installation is installed under the =newwiki= directory.
+      * For purposes of discussion, the location of the old installation is referred to as =oldwiki=, and the location of the new installatino is referred to as =newwiki=.
       * For public or otherwise sensitive installations, ensure that your web server configuration is set to deny access to the new Foswiki installation to anyone except you.
    * *Use the =configure= script* to configure Foswiki.
-      * *If you are upgrading from an older Foswiki release*, copy your old =wiki/lib/LocalSite.cfg= file to =newwiki/lib/LocalSite.cfg=&nbsp;. Alternatively, you can reconfigure the new installation from scratch (you can use at your old =LocalSite.cfg= file as a reference).
+      * *If you are upgrading from an older Foswiki release*, copy your =oldwiki/lib/LocalSite.cfg= file to =newwiki/lib/LocalSite.cfg=&nbsp;. Alternatively, you can reconfigure the new installation from scratch (you can use at your old =LocalSite.cfg= file as a reference).
       * *If you are upgrading from a TWiki site*, you must reconfigure your Foswiki installation from scratch. You cannot copy over your old =LocalSite.cfg= file (though you can use it as a reference).
       * Run =configure= and set the configuration values in the new installation to match those of the old installation. Save the configuration after you have completed your changes.
       * To wipe out all your settings and start configuring from a fresh installation, just delete the =newwiki/lib/LocalSite.cfg= file and run =configure=.
@@ -80,28 +87,37 @@ Some typical plugin settings you may have altered.
 
 Activate, and if required, configure the installed extensions in =configure=.
 
----+++ Copy your old webs to new Foswiki
+---+++ Copy content from non-default webs in old installation to the new installation
 
    * When upgrading from TWiki Cairo or earlier it may be necessary to unlock the rcs files in data and pub directories from the old installation using the following shell commands:
       * =find data -name '*,v' -exec rcs -u -M '{}' \;=
       * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
-   * Copy your local webs over to the data and pub directories of the new install. Do not copy the default webs: System (or TWiki), Main, Trash, Sandbox, _default, and _empty.
-   * Make sure all data and pub files and directories are owned by the webserver user.
+   * Copy your local webs over to the data and pub directories of the new installation. Do not copy the default webs: %<nop>SYSTEMWEB% (by default, either System or TWiki), Main, Trash, Sandbox, _default, and _empty.
+   * Make sure the data and pub directories, as well as the files within them, are readeable and writeable by the webserver user.
    * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or to change them in the sequence of old file timestamps.
 
----+++ Copy Users And Their Topics From Main Web
+---+++ Copy Users And Their Topics From =%<nop>USERSWEB%= Web / Main Web
 
-   * Copy all the topics from the Main web and corresponding pub/Main directories from the old TWiki/Foswiki to the new Foswiki but do not overwrite any of the new topics already inside the new Main directory!
-   * Manually merge all the users from the old =Main.WikiUsers= topic to the new Foswiki. Foswiki does not ship with a =Main.WikiUsers= topic. When you register the first user Foswiki now checks for an existing =Main.WikiUsers= and if it does not exist it gets created.
-      * For upgrades from TWiki to Foswiki the =TWikiUsers= topic must additionally be renamed to =WikiUsers=. If you upgrade from Cairo you can simply use the old file renamed to =WikiUsers= and add the missing new system users to the list of users. If you upgrade from TWiki-4.0.X simply use the old topic renamed to =WikiUsers=.
-   * For upgrades from TWiki to Foswiki also copy the =Main.TWikiAdminGroup= topic so that topics you have protected with ALLOWTOPICCHANGE or ALLOWWEBCHANGE set to !TWikiAdminGroup are still protected. Otherwise people can create the =TWikiAdminGroup= and put themselves in it. 
-   * If you use =data/.htpasswd= for authentication copy this file from the old TWiki/Foswiki to the new Foswiki.
-      * If you upgrade from Cairo and you are using the Htpasswd login manager, then note that email addresses for users have moved out of user topics and into the password file. There is a script that performs this extra upgrade step for you - see =tools/upgrade_emails.pl=.
-   * The old sandbox web may have a lot of useful topic and users may use it actively for drafts. Manually select the topics (remember the corresponding pub directories) from the old Sandbox web and copy them to the new Foswiki. Decide if you want to overwrite the sandbox homepage and left menu bar or keep the new.
-   * If you added or removed fields from the user topic form you may also have tailored =%SYSTEMWEB%.UserRegistration=. Make sure you either reuse the registration topic from the old installation or apply the same field changes to the new =%SYSTEMWEB%.UserRegistration= topic.
-      * Upgraders from TWiki must note that =TWikiRegistration= was renamed to =UserRegistration= in Foswiki.
-   * Foswiki ships with =NewUserTemplate= and =UserForm= in the System web. If you choose to tailor anything you are strongly adviced to copy =NewUserTemplate= and =UserForm= to the Main web and tailor the Main web copies. Foswiki will look for the =NewUserTemplate= in the Main web first and if it does not exist it uses the default from the System web. By creating a =Main.NewUserTemplate= and its =Main.UserForm= you will not loose your tailorings next time you upgrade Foswiki.
-   * Make sure all data and pub files and directories are owned by the webserver user.
+With Foswiki, the web in which the user topics are stored is configured in the "Store settings" section of =configure=, in the {UsersWebName} variable. With TWiki, the user topics are stored in the Main web.
+
+   * Copy all the topics from =oldwiki/data/&lt;old_users_web&gt;/= to =newwiki/data/%<nop>USERSWEB%/=, and copy all files from =oldwiki/pub/&lt;old_users_web&gt;/= to =newwiki/pub/%<nop>USERSWEB%/=. Do not overwrite any topics already present in the =newwiki/data/%<nop>USERSWEB%/= directory.
+      * In addition to all the user topics, if you have created =&lt;old_users_web&gt;.NewUserTemplate= in the old installation, this step will copy over your template for user topics to the new installation.
+      * If upgrading from TWiki, ensure that =Main.TWikiAdminGroup= has been copied over in this step. (If it has not been copied over, a user could create this topic to gain access to sensitive topics.)
+\
+   * For upgrades from an older Foswiki installation:
+      * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%<nop>USERSWEB%.WikiUsers= topic in the new installation. Note the new installation does not have an initial =%<nop>USERSWEB%.WikiUsers= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
+      * If you use =data/.htpasswd= for authentication, copy this file from the old installation to the new one.
+      * If you have customized =%<nop>SYSTEMWEB%.UserRegistration=, then either copy over =oldwiki/data/%<nop>SYSTEMWEB%/UserRegistration.txt=  and =oldwiki/data/%<nop>SYSTEMWEB%/UserRegistration.txt,v= to the =newwiki/data/%<nop>SYSTEMWEB%/= directory, or modify =%<nop>SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
+\
+   * For upgrades from a TWiki installation:
+      * Merge all users from the =&lt;old_users_web&gt;.TWikiUsers= topic in the old installation to the =%<nop>USERSWEB%.WikiUsers= topic in the new installation. Note the new installation does not have an initial =%<nop>USERSWEB%.WikiUsers= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
+      * If you use =data/.htpasswd= for authentication, copy this file from the old installation to the new one.
+      * If you are upgrading from Cairo and are using the Htpasswd login manager, run the =tools/upgrade_emails.pl= script to move the user emails out of the user topics and into the password file.
+      * If you have customized =%<nop>SYSTEMWEB%.TWikiRegistration=, then modify =%<nop>SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
+\
+   * Copy over any topics and attachments you want to preserve from the Sandbox web in the old installation: copy the desired files from =oldwiki/data/Sandbox/= to =newwiki/data/Sandbox= and from =oldwiki/pub/Sandbox/= to =newwiki/pub/Sandbox=. Some pages you may wish to preserve are the =WebHome= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The Sandbox web often contains work-in-progress topics that users will want to keep.
+\
+   * Make sure the data and pub directories, as well as the files within them, are readeable and writeable by the webserver user.
 
 ---+++ Apply Customizations To The Skin
 
@@ -109,13 +125,13 @@ Activate, and if required, configure the installed extensions in =configure=.
    * Add Logos, update top bar and left bar as required.
    * Apply any desired changes to style sheets and templates. The default !PatternSkin has been totally rewritten since Cairo and once more in 4.0.2. Since then changes to !PatternSkin have been minor and you may be able to carry over most simpler tailorings directly from 4.0.2-4.0.5.
    * Additional resources:
-      * =%SYSTEMWEB%.PatternSkinCustomization=
-      * =%SYSTEMWEB%.PatternSkinCssCookbook=
+      * =%<nop>SYSTEMWEB%.PatternSkinCustomization=
+      * =%<nop>SYSTEMWEB%.PatternSkinCssCookbook=
    * From Foswiki 1.0.0 the =WebLeftBar= topic is no longer shipped with the distribution. Foswiki 1.0.0 !PatternSkin will use the topic =WebLeftBarExample= if there is no =WebLeftBar= topic in the current web. To make your own =WebLeftBar= simply make it a copy of =WebLeftBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebLeftBar= topic is not being overwritten by the upgrade.
    
 ---+++ Apply Preferences From Old Installation
 
-   * Transfer any customized and local settings from =%SYSTEMWEB%.DefaultPreferences= to the topic pointed at by {LocalSitePreferences}. Per default this is =%USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.
+   * Transfer any customized and local settings from =%<nop>SYSTEMWEB%.DefaultPreferences= to the topic pointed at by {LocalSitePreferences}. Per default this is =%<nop>USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.
       * Upgraders from TWiki should note that the =Main.TWikiPreferences= is renamed to =SitePreferences=, and =TWiki.TWikiPreferences= is renamed to =System.DefaultPreferences= in Foswiki.
    * If you changed any of the topics in the original TWiki/Foswiki distribution, you will have to transfer your changes to the new install manually. 
    * Compare the =WebPreferences= topics in the old TWiki/Foswiki Installation with the default from the new Foswiki installation and add any new Preferences that may be relevant.
@@ -136,7 +152,7 @@ Foswiki's !PatternSkin use the favicon feature which most browsers use to show a
 
 By default the same favicon is used in all webs and stored in %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/ProjectLogos/favicon.ico 
 
-You can replace this globally by attaching a favicon to any topic and point to it with a setting in !%USERSWEB%.SitePreferences
+You can replace this globally by attaching a favicon to any topic and point to it with a setting in %<nop>USERSWEB%.SitePreferences
 
 You can also have a unique favicon for each web by applying similar setting in !WebPreferences in each web.
 
