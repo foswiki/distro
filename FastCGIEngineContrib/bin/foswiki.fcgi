@@ -75,7 +75,7 @@ __END__
 
 =head1 SYNOPSIS
 
-foswiki_fastcgi [options]
+foswiki.fcgi [options]
 
   Options:
     -l --listen     Socket to listen on

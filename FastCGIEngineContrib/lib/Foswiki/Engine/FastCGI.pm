@@ -53,8 +53,8 @@ require File::Spec;
 
 use vars qw( $VERSION $RELEASE );
 
-$VERSION = '$Rev$';
-$RELEASE = '0.9.0';
+*VERSION = \$Foswiki::Contrib::FastCGIEngineContrib::VERSION;
+*RELEASE = \$Foswiki::Contrib::FastCGIEngineContrib::RELEASE;
 
 our $hupRecieved = 0;
 
@@ -66,10 +66,6 @@ sub run {
         $sock = FCGI::OpenSocket( $listen, 100 )
           or die "Failed to create FastCGI socket: $!";
     }
-    else {
-        sigaction( SIGHUP, POSIX::SigAction->new( sub { $hupRecieved++ } ) )
-          or warn "Could not install SIGHUP handler: $!";
-    }
     $args ||= {};
     my $r = FCGI::Request( \*STDIN, \*STDOUT, \*STDERR, \%ENV, $sock,
         &FCGI::FAIL_ACCEPT_ON_INTR );
@@ -80,20 +76,27 @@ sub run {
         $args->{nproc}   ||= 1;
 
         $this->fork() if $args->{detach};
-        if ( $args->{manager} ) {
-            eval "use " . $args->{manager} . "; 1" or die $@;
+        eval "use " . $args->{manager} . "; 1";
+        unless ($@) {
             $manager = $args->{manager}->new(
                 {
                     n_processes => $args->{nproc},
                     pid_fname   => $args->{pidfile},
                 }
             );
-            $this->daemonize() if $args->{detach};
             $manager->pm_manage();
         }
-        elsif ( $args->{detach} ) {
-            $this->daemonize();
+        else { # No ProcManager
+
+            # ProcManager is in charge SIGHUP handling. If there is no manager,
+            # we handle SIGHUP ourslves.
+            eval {
+                sigaction( SIGHUP,
+                    POSIX::SigAction->new( sub { $hupRecieved++ } ) );
+            };
+            warn "Could not install SIGHUP handler: $@$!" if $@ || $@;
         }
+        $this->daemonize() if $args->{detach};
     }
 
     my $localSiteCfg = File::Spec->catpath(
@@ -104,14 +107,13 @@ sub run {
     while ( $r->Accept() >= 0 ) {
         $manager && $manager->pm_pre_dispatch();
         CGI::initialize_globals();
-        
+
         my $req = $this->prepare;
         if ( UNIVERSAL::isa( $req, 'Foswiki::Request' ) ) {
             my $res = Foswiki::UI::handleRequest($req);
             $this->finalize( $res, $req );
         }
-        
-        
+
         my $mtime = ( stat $localSiteCfg )[9];
         if ( $mtime > $lastMTime || $hupRecieved ) {
             $r->LastCall();
