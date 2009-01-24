@@ -222,6 +222,7 @@ If you are not upgrading an existing TWiki installation and do not plan to insta
 
 If a plugin exists both in a TWiki version and a Foswiki version, it is strongly recommended that you use the Foswiki version, as this is coded to work optimally with Foswiki. As part of the creation of the Foswiki project, the Foswiki community is evaluating all of the extensions that are available for TWiki, and porting them over to the Foswiki name space. Many of them are being enhanced through the removal of bugs and security vulnerabilities, resulting in better, more functional plugins for Foswiki.
 
+#CustomizeAppearance
 ---+++ Customize the appearance of your Foswiki site
 
 The real power of Foswiki lies in its flexibility to be customized to meet your needs. To change the look of the default skin, !PatternSkin, please refer to [[%SYSTEMWEB%.PatternSkin]] and [[%SYSTEMWEB%.PatternSkinCustomization]].
