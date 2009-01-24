@@ -173,6 +173,8 @@ To simplify your upgrades, do not modify =%SYSTEMWEB%.DefaultPreferences=. Inste
 
 To see the available preferences that can be set, look through =[[%SYSTEMWEB%.DefaultPreferences]]=.
 
+If, for some reason, you wish to pick up default preferences from a different topic, you can set the location in the =Miscellaneous settings= pane of the =configure= page, in the {SitePrefsTopicName} setting (visible when Expert mode is enabled). It is recommended that you leave this setting to its default value, =<nop>Default<nop>Preferences=.
+
 ---+++ Enable Email Notification
 
 Each web has an automatic email notification service that sends you an email with links to all of the topics modified since the last alert. To enable this service:

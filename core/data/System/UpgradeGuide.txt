@@ -10,9 +10,9 @@ _This guide covers upgrading from a previous version of Foswiki or TWiki (such a
 
 ---++ Overview
 
-Foswiki is a fork from TWiki 4.2.3. Upgrades from all TWiki versions and earlier Foswiki versions is supported. It is designed to be 100% compatible with the content of TWiki sites, using the same markup language and supporting the same plugin API (through the use of a =TWikiCompatibilityPlugin=), thereby enabling a smooth transition from TWiki to Foswiki.
+Foswiki is a fork from TWiki 4.2.3. Upgrades from all TWiki versions and earlier Foswiki versions are supported. Foswiki is designed to be 100% compatible with the content of TWiki sites, using the same markup language and supporting the same plugin API (through the use of a =TWikiCompatibilityPlugin=), thereby enabling a smooth transition from TWiki to Foswiki.
 
----+++ Upgrade Requirements
+---+++ Upgrade requirements
 
    * Please review the Foswiki:System.AdminSkillsAssumptions before you upgrade your site.
    * To upgrade from an old TWiki Release to the latest Foswiki production release, follow the instructions below.
@@ -25,36 +25,41 @@ Foswiki is a fork from TWiki 4.2.3. Upgrades from all TWiki versions and earlier
 You are strongly advised to read the Foswiki:System.ReleaseNotes01x00 (also available in an HTML file in the root of your installation), which contains a list of changes from TWiki 4.2.3 to Foswiki 1.0. A number of system topics and macros (formerly known as TWiki variables) have been renamed, to better describe their purpose and, where appropriate, to rebrand to the Foswiki name.
 
 
----++ Upgrade Procedure
+---++ Upgrade procedure
 
 The following is a high level view of the upgrade procedure:
 
    1 Install the new Foswiki version and configure it with the same settings as the old version.
    1 Install any additional extensions (Plugins) used by your old Foswiki installation. Make sure to use the latest Foswiki versions.
    1 Copy all the non-default webs from the old installation to the new one.
-   1 Copy the users from old installation to the new one, including all the user topics from the =%<nop>USERSWEB%= web (Foswiki sites) or Main web (TWiki sites).
-   1 Apply your site customizations to your skin (logos, menu bars, and so forth).
+   1 Copy the users, groups, and site customizations from the old installation to the =%USERSWEB%= web in the new installation, including all user topics.
    1 Apply preferences from the old installation.
+   1 Apply your site customizations: skin, logos, menu bars, forms for personal information, and so forth
+   1 Switch your production site from the old installation to the new installation.
 
 More details for each step appear in the following sections. The steps may need to be modified or otherwise tailored with specifics for your installation. In particular, you must take care to preserve any special configuration or customizations you have made, especially if you have modified any of the default software files or system topics that are contained within the installation package.
 
 For purposes of discussion, the following conventions are used:
-   * =oldwiki= refers to the directory in which the old installation is located
-   * =newwiki= refers to the directory in which the new installation is located
-   * =&lt;old_users_web&gt;= refers to the web in which the user topics are located in the old installation
-   * =%<nop>USERSWEB%= refers to the web in which the user topics are located in the new installation. This value is set in the "Store settings" section of =configure= in the {UsersWebName} setting (visible when Expert mode is enabled). The Main web is the default value.
-   * =&lt;old_system_web&gt;= refers to the web used for documentation and default preferences in the old installation. This value is set in the "Store settings" section of =configure= in the {SystemWebName} setting (visible when Expert mode is enabled). In Foswiki, the System web is the default value; in TWiki, the TWiki web is the default value.
-   * =%<nop>SYSTEMWEB%= refers to the web used for documentation and default preferences in the new installation. This value is set in the "Store settings" section of =configure= in the {SystemWebName} setting (visible when Expert mode is enabled). In Foswiki, the System web is the default value.
+   * =&lt;oldwiki&gt;= refers to the directory in which the old installation is located
+   * =&lt;newwiki&gt;= refers to the directory in which the new installation is located; it is assumed to be immediately below the root directory of your web server
+   * =&lt;old_users_web&gt;= refers to the web in which the user topics are located in the old installation. This value is set in the =Store settings= pane of the =configure= page, in the {UsersWebName} setting (visible when Expert mode is enabled). The Main web is the default value.
+   * =&lt;old_system_web&gt;= refers to the web used for documentation and default preferences in the old installation. This value is set in the =Store settings= pane of the =configure= page, in the {SystemWebName} setting (visible when Expert mode is enabled). In Foswiki, the System web is the default value; in TWiki, the TWiki web is the default value.
+
+After the upgrade, in the new installation, the %USERSWEB% web is used for user topics and site preferences, and the %SYSTEMWEB% web is used to hold documentation and default preferences.
+
+The =configure= page mentioned in this document is accessible via your web browser at <kbd>http://yourdomain/&lt;newwiki&gt;/bin/configure</kbd>&nbsp;.
+
 
 ---+++ Installation
 
    * *Follow the installation instructions in INSTALL.html* which you find in the root of the new installation. *Install the new release in a new directory.* Do not install on top of the old release.
       * For public or otherwise sensitive installations, ensure that your web server configuration is set to deny access to the new Foswiki installation for anyone except you.
-   * *Use the =configure= script* to configure Foswiki.
-      * *If you are upgrading from an older Foswiki release*, copy your =oldwiki/lib/LocalSite.cfg= file to =newwiki/lib/LocalSite.cfg= . Alternatively, you can reconfigure the new installation from scratch (you can use at your old =LocalSite.cfg= file as a reference).
+   * *Use the =configure= page* to configure Foswiki.
+      * *If you are upgrading from an older Foswiki release*, copy your =&lt;oldwiki&gt;/lib/LocalSite.cfg= file to =&lt;newwiki&gt;/lib/LocalSite.cfg= . Alternatively, you can reconfigure the new installation from scratch (you can use your old =LocalSite.cfg= file as a reference).
       * *If you are upgrading from a TWiki site*, you must reconfigure your Foswiki installation from scratch. You cannot copy over your old =LocalSite.cfg= file (though you can use it as a reference).
       * Run =configure= and set the configuration values in the new installation to match those of the old installation. Save the configuration after you have completed your changes.
-      * To wipe out all your settings and start configuring from a fresh installation, just delete the =newwiki/lib/LocalSite.cfg= file and run =configure=.
+      * To wipe out all your settings and start configuring from a fresh installation, just delete the =&lt;newwiki&gt;/lib/LocalSite.cfg= file and run =configure=.
+      * If you have changed the {UsersWebName} or {SystemWebName} setting in the =Store settings= pane, then in the new installation, rename the Main web to the name of your users web, and rename the System web to the name of your system web.
    * Additional resources   
       * Foswiki:Support.UpgradingFromOlderTWikiReleases - upgrading TWiki from older TWiki releases
       * Foswiki:Support.UpgradingFromTWiki4x2Releases - upgrading from TWiki4.2.X to Foswiki
@@ -68,7 +73,7 @@ Test your newly-installed Foswiki site and ensure that its basic functionality w
 
 To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic (if necessary, replace %SYSTEMWEB% with any customized value you have set for {SystemWebName} in =configure=). By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
----+++ Install Extensions
+---+++ Install extensions
 
 Install all of the extensions that were installed in your old site. In particular, start with any extensions required for the authentication and authorization methods you use (if any). You can use the _Find more extensions_ button in the _Extensions_ section of the =configure= page to install and confgiure extensions from the Foswiki:Extensions repository. You can also install extensions manually; see the instructions on the extension's web page from where you obtained the extension (for Foswiki extensions, on foswiki.org).
 
@@ -76,14 +81,14 @@ Install all of the extensions that were installed in your old site. In particula
 
 Check the plugin topics from your old TWiki/Foswiki installation and transfer the plugin settings to the =[[%LOCALSITEPREFS%]]= topic in your new Foswiki site, prefixing each setting with the name of the plugin in uppercase followed by an underscore. For example, to copy over the =DEFAULT_TYPE= setting from the =CommentPlugin= topic in the old site to the new site, copy the value to a =COMMENTPLUGIN_DEFAULT_TYPE= setting in the =[[%LOCALSITEPREFS%]]= topic in the new site.
 
-Some typical plugin settings you may have altered.
-   * =CommentPlugin= - Set DEFAULT_TYPE
-   * =EditTablePlugin= - Set CHANGEROWS, Set QUIETSAVE, and Set EDITBUTTON
-   * =InterwikiPlugin= - Set RULESTOPIC
-   * =InterWikis= - If you added your own rules you should save this topic and not overwrite it.
-   * =SlideShowPlugin= - If you changed the embedded 'Default Slide Template', then save the contents of this topic and do not overwrite it. (You should prefer creating your own slide show template in a separate topic, so you will not have to take special steps over upgrades to preserve your modifications to the default slide template.)
-   * =SmiliesPlugin= - Did you add your own smileys? No real changes were made to the smilies topic October 2005 so you can just leave this topic as it is.
-   * =TablePlugin= - Set TABLEATTRIBUTES   
+Commonly-customized plugin settings include the following:
+   * =CommentPlugin= - DEFAULT_TYPE
+   * =EditTablePlugin= - CHANGEROWS, <nop>QUIETSAVE, EDITBUTTON
+   * =InterwikiPlugin= - RULESTOPIC
+   * =InterWikis= - If you added your own rules, make sure you copy over the rules to the new installation.
+   * =SlideShowPlugin= - If you changed the embedded 'Default Slide Template', then copy your customed template to the topic in the new installation. You should prefer creating your own slide show template in a separate topic, so you will not have to take special steps over upgrades to preserve your modifications to the default slide template.
+   * =SmiliesPlugin= - If you added your own smileys, make sure you copy over your customizations to the topic in the new installatin.
+   * =TablePlugin= - TABLEATTRIBUTES
 
 Activate, and if required, configure the installed extensions in =configure=.
 
@@ -93,59 +98,71 @@ Activate, and if required, configure the installed extensions in =configure=.
       * =find data -name '*,v' -exec rcs -u -M '{}' \;=
       * =find pub -name '*,v' -exec rcs -u -M '{}' \;=
    * Copy your local webs over to the data and pub directories of the new installation. Do not copy the default webs: &lt;old_system_web&gt; (by default, either System or TWiki), Main, Trash, Sandbox, _default, and _empty.
-   * Make sure the data and pub directories, as well as the files within them, are readeable and writeable by the webserver user.
+   * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the webserver user.
    * *Note:* Foswiki's =WebChanges= topics depend on the file timestamp. If you touch the .txt files make sure to preserve the timestamp, or to change them in the sequence of old file timestamps.
 
----+++ Copy Users And Their Topics From =%<nop>USERSWEB%= Web / Main Web
+---+++ Copy users, user topics, and site customizations to =%USERSWEB%= web
 
-With Foswiki, the web in which the user topics are stored is configured in the "Store settings" section of =configure=, in the {UsersWebName} variable. With TWiki, the user topics are stored in the Main web.
-
-   * Copy all the topics from =oldwiki/data/&lt;old_users_web&gt;/= to =newwiki/data/%<nop>USERSWEB%/=, and copy all files from =oldwiki/pub/&lt;old_users_web&gt;/= to =newwiki/pub/%<nop>USERSWEB%/= . Do not overwrite any topics already present in the =newwiki/data/%<nop>USERSWEB%/= directory.
+   * Copy all the topics from =&lt;oldwiki&gt;/data/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/data/%USERSWEB%/=, and copy all files from =&lt;oldwiki&gt;/pub/&lt;old_users_web&gt;/= to =&lt;newwiki&gt;/pub/%USERSWEB%/= . Do not overwrite any topics already present in the =&lt;newwiki&gt;/data/%USERSWEB%/= directory.
       * In addition to all the user topics, if you have created =&lt;old_users_web&gt;.NewUserTemplate= in the old installation, this step will copy over your template for user topics to the new installation.
-      * Ensure that the topic defining the admin group in your old installation is copied over. The admin group is defined in the "Security setup" section of =configure= in the {SuperAdminGroup} setting (visible when Expert mode is enabled). You can do either of the following:
+      * Ensure that the topic defining the admin group in your old installation is copied over. The admin group is defined in the =Security setup= pane of the =configure= page, in the {SuperAdminGroup} setting (visible when Expert mode is enabled). You can do either of the following:
          * Set the {SuperAdminGroup} setting in your new installation to the old admin group.
          * Move the contents of the old admin group to the new admin group. To avoid having to change all references to the old admin group, you must still keep the old admin group defined: set it so its only member is the new admin group, and the new admin group is the only user who can change or rename the old admin group topic.
             * The default admin group with Foswiki is <nop>Admin<nop>Group and the default admin group with TWiki is <nop>TWiki<nop>Admin<nop>Group. So if you are upgrading from TWiki and are using the default admin groups, then in the new installation, you must copy all members from <nop>TWiki<nop>Admin<nop>Group to <nop>Admin<nop>Group, and change <nop>TWiki<nop>Admin<nop>Group so its only member is <nop>Admin<nop>Group and so it can only be modified or renamed by <nop>Admin<nop>Group.
+      * If your old installation did not customize {LocalSitePreferences} or {UsersWebName} on the =configure= page, then this step will also copy over your site preferences to the new installation.
 \
    * For upgrades from an older Foswiki installation:
-      * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%<nop>USERSWEB%.WikiUsers= topic in the new installation. Note the new installation does not have an initial =%<nop>USERSWEB%.WikiUsers= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
+      * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. Note the new installation does not have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
       * If you use =data/.htpasswd= for authentication, copy this file from the old installation to the new one.
-      * If you have customized =&lt;old_system_web&gt;.UserRegistration=, then either copy over =oldwiki/data/&lt;old_system_web&gt;/UserRegistration.txt= and =oldwiki/data/&lt;old_system_web&gt;/UserRegistration.txt,v= to the =newwiki/data/%<nop>SYSTEMWEB%/= directory, or modify =%<nop>SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
+      * If you have customized =&lt;old_system_web&gt;.UserRegistration=, then either copy over =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt= and =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt,v= to the =&lt;newwiki&gt;/data/%SYSTEMWEB%/= directory, or modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
 \
    * For upgrades from a TWiki installation:
-      * Merge all users from the =&lt;old_users_web&gt;.TWikiUsers= topic in the old installation to the =%<nop>USERSWEB%.WikiUsers= topic in the new installation. Note the new installation does not have an initial =%<nop>USERSWEB%.WikiUsers= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
+      * Merge all users from the =&lt;old_users_web&gt;.TWikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. Note the new installation does not have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
       * If you use =data/.htpasswd= for authentication, copy this file from the old installation to the new one.
       * If you are upgrading from Cairo and are using the Htpasswd login manager, run the =tools/upgrade_emails.pl= script to move the user emails out of the user topics and into the password file.
-      * If you have customized =&lt;old_system_web&gt;.TWikiRegistration=, then modify =%<nop>SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
+      * If you have customized =&lt;old_system_web&gt;.TWikiRegistration=, then modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
 \
-   * Copy over any topics and attachments you want to preserve from the Sandbox web in the old installation: copy the desired files from =oldwiki/data/Sandbox/= to =newwiki/data/Sandbox= and from =oldwiki/pub/Sandbox/= to =newwiki/pub/Sandbox= . Some pages you may wish to preserve are the =WebHome= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The Sandbox web often contains work-in-progress topics that users will want to keep.
+   * Copy over any topics and attachments you want to preserve from the Sandbox web in the old installation: copy the desired files from =&lt;oldwiki&gt;/data/Sandbox/= to =&lt;newwiki&gt;/data/Sandbox= and from =&lt;oldwiki&gt;/pub/Sandbox/= to =&lt;newwiki&gt;/pub/Sandbox= . Some pages you may wish to preserve are the =WebHome= topic and the =WebLeftBar= topic (if you had created it in the old wiki installation). The Sandbox web often contains work-in-progress topics that users will want to keep.
 \
-   * Make sure the data and pub directories, as well as the files within them, are readeable and writeable by the webserver user.
+   * Make sure the data and pub directories, as well as the files within them, are readable and writeable by the webserver user.
 
----+++ Apply Customizations To The Skin
+Test that users that you have transferred from the old installation can login with any problems, and that access controls work appropriately: check that users are able to view and edit pages for which they have access, and are denied permission to view or edit pages for which they do not have access.
 
-   * Not many of the old TWiki Cairo skins work well with Foswiki
-   * Add Logos, update top bar and left bar as required.
-   * Apply any desired changes to style sheets and templates. The default !PatternSkin has been totally rewritten since Cairo and once more in 4.0.2. Since then changes to !PatternSkin have been minor and you may be able to carry over most simpler tailorings directly from 4.0.2-4.0.5.
-   * Additional resources:
-      * =%<nop>SYSTEMWEB%.PatternSkinCustomization=
-      * =%<nop>SYSTEMWEB%.PatternSkinCssCookbook=
-   * From Foswiki 1.0.0 the =WebLeftBar= topic is no longer shipped with the distribution. Foswiki 1.0.0 !PatternSkin will use the topic =WebLeftBarExample= if there is no =WebLeftBar= topic in the current web. To make your own =WebLeftBar= simply make it a copy of =WebLeftBarExample= and change it as you desire. Next time you upgrade you can be safe that your =WebLeftBar= topic is not being overwritten by the upgrade.
+---+++ Apply preferences from old installation
+
+If you have not already set your desired site-wide preferences, as described in the section "[[%SYSTEMWEB%.InstallationGuide#Set_Foswiki_Preferences][Set Foswiki Preferences]]" in the %SYSTEMWEB%.InstallationGuide, then set your preferences. The location of your site preferences is specified in the =Miscellaneous settings= pane of the =configure= page, in the {LocalSitePreferences} setting (visible when Expert mode is enabled) &mdash; the default location is %USERSWEB%.<nop>Site<nop>Preferences. If your site preferences are stored in the &lt;old_users_web&gt; web, then you have transferred the site preferences over already when you transfered the contents of the &lt;old_users_web&gt; web. Otherwise, copy any customized preferences from the site preferences topic in your old installation to the site preferences topic in the new installation.
+
+If, in your old installation, you customized the default preferences in =&lt;old_system_web&gt;.DefaultPreferences=, then transfer your customizations from this topic to the site preferences topic instead (i.e. the topic specified in your {LocalSitePreferences} setting), so that your customizations will not get overwritten on the next upgrade.
+
+If you are upgrading from TWiki, note that the default location of the default preferences in TWiki is =&lt;old_system_web&gt;.<nop>TWiki<nop>Preferences=, and the default location of the site preferences is =Main.<nop>TWiki<nop>Preferences=.
+
+---+++ Apply additional site customizations
+
+---++++ Modify skin with customizations for your site
+
+If you did not already customize the appearance of your new installation, as described in the section "[[%SYSTEMWEB%.InstallationGuide#Customize_the_appearance_of_your][Customize the appearance of your Foswiki site]]" in the %SYSTEMWEB%.InstallationGuide, then reapply the customizations from your old installation to the new one. Ensure you transfer over any skin templates &mdash; .tmpl files, or topics referred to using VIEW_TEMPLATE or EDIT_TEMPLATE preferences &mdash; you need. Also ensure you transfer any style sheets or Javascript files required.
+
+If you are upgrading from the Cairo version of TWiki: note that the skins from this release do not work well with Foswiki. Starting from TWiki 4.0.2, the default !PatternSkin has been fairly stable and so your customizations should continue to work.
    
----+++ Apply Preferences From Old Installation
+---++++ Customize pages for managing personal information
 
-   * Transfer any customized and local settings from =%<nop>SYSTEMWEB%.DefaultPreferences= to the topic pointed at by {LocalSitePreferences}. Per default this is =%<nop>USERSWEB%.SitePreferences=. This avoids having to write over files in the distribution on a later upgrade.
-      * Upgraders from TWiki should note that the =Main.TWikiPreferences= is renamed to =SitePreferences=, and =TWiki.TWikiPreferences= is renamed to =System.DefaultPreferences= in Foswiki.
-   * If you changed any of the topics in the original TWiki/Foswiki distribution, you will have to transfer your changes to the new install manually. 
-   * Compare the =WebPreferences= topics in the old TWiki/Foswiki Installation with the default from the new Foswiki installation and add any new Preferences that may be relevant.
+In your new installation, default copies of the following topics were installed:
+   * =[[%SYSTEMWEB%.ChangePassword]]=
+   * =[[%SYSTEMWEB%.ResetPassword]]=
+   * =[[%SYSTEMWEB%.ChangeEmailAddress]]=
 
----++ Customization of Special Pages
+If you customized these topics in your old installation, transfer the changes to these topics in the new installation. Use the corresponding files in the =&lt;oldwiki&gt;/&lt;old_system_web&gt;/= directory as a reference.
 
-Some pages in the Foswiki web are meant to be customized after choice of authentication. If you do not use the internal Foswiki password manager the topics that contains the features for changing and resetting passwords and changing the email address should be changed to a note describing how to perform these tasks in your organization. If you have made such customizations remember to replace these topics in the System web with the tailored versions from your old installation. If you upgrade from TWiki remember that the old TWiki web is called System web in Foswiki. The topics are:
+---+++ Switch your production site from the old installation to the new installation
 
-   * =System.ChangePassword=
-   * =System.ResetPassword=
-   * =System.ChangeEmailAddress=
+Change your web server configuration so that the new installation is accessible to all of your users, and so the old installation is no longer accessible.
+
+Change your web server configuration so that the new installation is accessible using the same URL prefix as your old installation. For purposes of discussion, assume that your old installation is accessible from =http://yourdomain/wiki/=. You can use one of the following approaches to make the new installation accessible using the same URL prefix:
+   * You can rename your =&lt;newwiki&gt;/= directory to =wiki/= (renaming the directory of your old installation if necessary).
+   * If your operating system supports links to other directories, then you can create a link called =wiki/= that points to =&lt;newwiki&gt;/= .
+   * You can configure your web server so that requests to =/wiki/= are served from your =&lt;newwiki&gt;/= directory.
+
+Test that your newly-upgraded site is accessible to your users, and that all authentication and authorization mechanisms work as expected (including denying access to those who are not authorized).
 
 ---++ Upgrading from TWiki Cairo to Foswiki (additional advice)
 
@@ -153,9 +170,9 @@ Some pages in the Foswiki web are meant to be customized after choice of authent
 
 Foswiki's !PatternSkin use the favicon feature which most browsers use to show a small icon in front of the URL and for bookmarks.
 
-By default the same favicon is used in all webs and stored in %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/ProjectLogos/favicon.ico 
+By default the same favicon is used in all webs and stored in %<nop>PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico 
 
-You can replace this globally by attaching a favicon to any topic and point to it with a setting in %<nop>USERSWEB%.SitePreferences
+You can replace this globally by attaching a favicon to any topic and point to it with a setting in =[[%USERSWEB%.SitePreferences]]=
 
 You can also have a unique favicon for each web by applying similar setting in !WebPreferences in each web.
 
@@ -176,7 +193,7 @@ Your Cairo !TWikiUsers topic will work in Foswiki but you will need to ensure th
    * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
 
 
----++ Important Changes since TWiki 4.0.5
+---++ Important changes since TWiki 4.0.5
 
 ---+++ Supported Perl version
 
@@ -215,15 +232,15 @@ From Twiki 4.1.0 the old template definition will add an empty line before the n
 
 The advantage of the spec change is that now you can add leading and trailing white space including new lines. This was not possible before.
 
----++ Important Changes since TWiki 4.1.0
+---++ Important changes since TWiki 4.1.0
 
 ---+++ New location for session and other temporary files
 
 The directory for passthrough files and session files have been replaced by a common directory for temporary files used by Foswiki. Previously the two configure settings ={PassthroughDir}= and ={Sessions}{Dir}= were by default set to =/tmp=. These config settings have been eliminated. Foswiki creates the tmp directory and other temporary directors under the directory defined by the configure setting ={WorkingDir}=
 
----++ Important Changes since TWiki 4.1.2
+---++ Important changes since TWiki 4.1.2
 
----+++ New WYSIWYG Editor
+---+++ New WYSIWYG editor
 
 Foswiki now ships with a new WYSIWYG editor based on !TinyMCE replaces the Kupu based editor.%BR% !TinyMCE is not a perfect Wysiwyg editor but it is magnitudes better than the Kupu editor
 
@@ -237,7 +254,7 @@ The WYSIWYG button has been removed.
 
 The NEWTOPICLINKSYMBOL preference which was deprecated in TWiki 4.1 has now been removed from the code. If you want to control the appearance of new links, you can use NEWLINKFORMAT.
 
----+++ !UserForm and !NewUserTemplate Customization
+---+++ !UserForm and !NewUserTemplate customization
 
 When a new user registers on Foswiki his user topic is created based on the =NewUserTemplate= and =UserForm=.
 
@@ -268,9 +285,9 @@ The configuration setting ={WorkingDir}= defines the container directory for tem
 
 Take care for that change if you run your own routine to delete obsolete session files, which will now be found under =working/tmp/cgisess*=.
    
----+++ New Internal Admin Login
+---+++ New internal admin login
 
-Foswiki has a new _Internal Admin Login_ feature which uses "admin" (configurable) as username and the password used for configure to become temporary administrator. When you do a new installation you need to use this feature as !Main.AdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. From configure there is a link to the !AdminGroup topic and on !AdminGroup the step by step instructions are written in a yellow box. Our advice is not to remove this help text in case you need it later.
+Foswiki has a new _internal admin login_ feature which uses "admin" (configurable) as username and the password used for configure to become temporary administrator. When you do a new installation you need to use this feature as !Main.AdminGroup is now access restricted by default to avoid security attacks during the hours an installation may take. From configure there is a link to the !AdminGroup topic and on !AdminGroup the step by step instructions are written in a yellow box. Our advice is not to remove this help text in case you need it later.
 
 %STOPINCLUDE%
 
