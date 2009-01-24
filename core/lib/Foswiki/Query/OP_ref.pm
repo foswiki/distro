@@ -36,9 +36,6 @@ sub evaluate {
     }
     my @result;
     foreach my $v (@$node) {
-        next
-          if $v !~
-              /^($Foswiki::regex{webNameRegex}\.)*$Foswiki::regex{wikiWordRegex}$/;
 
         # Has to be relative to the web of the topic we are querying
         my ( $w, $t ) =
