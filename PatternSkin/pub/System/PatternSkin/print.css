@@ -61,6 +61,7 @@ body.patternPrintPage,
 }
 .patternPrintPage #patternBottomBar {
 	border:none;
+	padding:1em 0;
 }
 .patternPrintPage .patternTopicFooter {
 	margin:1em 0 0 0;

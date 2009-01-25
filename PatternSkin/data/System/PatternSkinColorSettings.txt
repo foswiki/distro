@@ -243,7 +243,7 @@ Do not change the text below this line unless you know what you are doing!
 /* GENERAL HTML ELEMENTS */
 
 html body {
-   background-color:%NEUTRAL_BACKGROUND%;
+   background-color:%PAGE_BACKGROUND%;
    color:%MAIN_TEXT%;
 }
 html body.patternEditPage,
@@ -280,11 +280,9 @@ h2, h3, h4, h5, h6 {
    color:%HEADER_TEXT%;
 }
 h2 {
-   border-color:%MINOR_SEPARATOR_BORDER%;
+   border-color:%HEADER_TEXT%;
 }
-h3, h4, h5, h6 {
-   border-color:%MINOR_SEPARATOR_BORDER%;
-}
+
 /* to override old Render.pm coded font color style */
 .foswikiNewLink font {
    color:inherit;
@@ -550,9 +548,6 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
 .foswikiNotification {
    background-color:%NOTIFICATION_BACKGROUND%;
 }
-.foswikiNotification {
-   border-color:%NOTIFICATION_BORDER%;
-}
 #foswikiLogin .patternLoginNotification {
    background-color:%MAIN_TEXT_BACKGROUND%;
    border-color:%ALERT_BORDER%;
@@ -641,10 +636,6 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents a:hover {
    color:%LINK_TEXT_HOVER%;
-}
-#patternSideBarContents .patternLeftBarPersonal,
-#patternSideBarContents .patternWebIndicator {
-	border-color:#dadada;
 }
 #patternSideBarContents b,
 #patternSideBarContents strong {
@@ -990,29 +981,6 @@ a.foswikiButton:active {
 }
 .patternButtonShrink:active {
    background-position:16px -84px;
-}
-
-.foswikiBroadcastMessage {
-   background-image:url(background_alert.gif);
-   background-repeat:repeat-x;
-}
-
-/* common settings */
-.patternLeftBarPersonal li,
-li.patternLogOut,
-li.patternLogIn {
-   padding-left:13px;
-   background-position:0 .4em;
-   background-repeat:no-repeat;
-}
-.patternLeftBarPersonal li {
-   background-image:url(bullet-personal_sidebar.gif);
-}
-.patternLeftBarPersonal li.patternLogOut {
-   background-image:url(bullet-lock.gif);
-}
-.patternLeftBarPersonal li.patternLogIn {
-   background-image:url(bullet-lock.gif);
 }
 %ENDATTACH%
 </verbatim>

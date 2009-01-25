@@ -8,9 +8,9 @@ Overrides global settings in layout.css, style.css and colors.css
 	padding:20px 2% 40px 2%;
 }
 #patternPage {
-	border-width:1px;
 	border-style:solid;
-	margin:-1px; /* to not make the page wider because of the border */
+	border-width:0px;
+	margin:0px; /* set to value of border-width; to not make the page wider because of the border */
 }
 
 /* top bar */
@@ -23,8 +23,7 @@ Overrides global settings in layout.css, style.css and colors.css
 #patternClearHeaderCenter,
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
-#patternTopBarContentsOuter,
-#patternTopBarContents {
+#patternTopBarContentsOuter {
 	height:90px; /* top bar height; make room for header columns */
 	overflow:hidden;
 }

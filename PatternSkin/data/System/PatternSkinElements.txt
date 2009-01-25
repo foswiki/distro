@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1165884692" format="1.1" reprev="1.1" version="1.1"}%
+%META:TOPICINFO{author="BaseUserMapping_333" date="1232834051" format="1.1" version="1.2"}%
 %META:TOPICPARENT{name="PatternSkin"}%
 <div class="foswikiBroadcastMessage"> <strong>NOTE:</strong> Edit and Attach will be disabled today between 05:00 PM and 06:00 PM PDT (00:00 to 01:00 GMT) for a scheduled Foswiki maintenance.</div>
 
@@ -41,6 +41,37 @@ Normal text.
 ---++++++ h6 header [[%TOPIC%][with link]]
 
 *Intro text.* Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text.
+
+<div class="foswikiNotification">
+---+ h1 header in a block
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+</div>
+
+<div class="foswikiNotification">
+---++ h2 header in a block
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+</div>
+
+<div class="foswikiNotification">
+---+++ h3 header in a block
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+</div>
+
+<div class="foswikiNotification">
+---++++ h4 header in a block
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+</div>
+
+<div class="foswikiNotification">
+---+++++ h5 header in a block
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+</div>
+
+<div class="foswikiNotification">
+---++++++ h6 header in a block
+Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. Normal text. 
+</div>
+
 
 ---++ Text sizes
 
