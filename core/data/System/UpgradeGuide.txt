@@ -61,7 +61,7 @@ If you are using authentication, prepare a test plan to verify that your authent
 
 Identify all essential Wiki topics and Wiki applications that must be fully functional upon completion of the upgrade. Prepare a test plan to verify their functionality. If you are using access controls, ensure that the test plan will adequately test all categories and groups of users of your site.
 
-If your testing will require a test environment to be set up, ensure that it is ready, with any required support infrastructure (for example, test authentication servers). If you need to be able to login with different users in different categories and groups, ensure that you have the required login information ready, or you have testers from those groups available to perform the required test cases.
+If your testing will require a test environment to be set up, ensure that it is ready, with any required support infrastructure (for example, testbed authentication servers). If you need to be able to login with different users in different categories and groups, ensure that you have the required login information ready, or you have testers from those groups available to perform the required test cases.
 
 Download the Foswiki distribution from the following location: http://foswiki.org/Download &mdash; if you are installing your extensions manually, also download them from the repository where they are stored.
 
@@ -128,7 +128,11 @@ Activate, and if required, configure the installed extensions in =configure=.
       * If your old installation did not customize {LocalSitePreferences} or {UsersWebName} on the =configure= page, then this step will also copy over your site preferences to the new installation.
 \
    * For upgrades from an older Foswiki installation:
-      * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. Note the new installation does not have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication).
+      * Manually merge all users from the =&lt;old_users_web&gt;.WikiUsers= topic in the old installation to the =%USERSWEB%.<nop>Wiki<nop>Users= topic in the new installation. Note the new installation does not have an initial =%USERSWEB%.<nop>Wiki<nop>Users= topic &mdash; it is created when you register a user for the first time (typically as part of the install process when setting up authentication). Ensure the following default users are present in the =%USERSWEB%.WikiUsers= topic:
+         * *ProjectContributor* - the Foswiki documentation is attributed to this user
+         * *WikiGuest* - guest user; used as a fallback if the user can't be identified
+         * *RegistrationAgent* - special user used during the new user registration process
+         * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
       * If you use =data/.htpasswd= for authentication, copy this file from the old installation to the new one.
       * If you have customized =&lt;old_system_web&gt;.UserRegistration=, then either copy over =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt= and =&lt;oldwiki&gt;/data/&lt;old_system_web&gt;/UserRegistration.txt,v= to the =&lt;newwiki&gt;/data/%SYSTEMWEB%/= directory, or modify =%SYSTEMWEB%.UserRegistration= in the new installation to contain your customizations.
 \
@@ -188,40 +192,17 @@ Re-execute your test plan to verify that your newly-upgraded site is accessible 
 
 Re-execute your test plan to verify that your Wiki applications and other key functionality work as intended.
 
----++ Upgrading from TWiki Cairo to Foswiki (additional advice)
+---++ Additional steps when upgrading from TWiki Cairo
 
 ---+++ Favicon
 
-Foswiki's !PatternSkin use the favicon feature which most browsers use to show a small icon in front of the URL and for bookmarks.
-
-By default the same favicon is used in all webs and stored in %<nop>PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/favicon.ico 
-
-You can replace this globally by attaching a favicon to any topic and point to it with a setting in =[[%USERSWEB%.SitePreferences]]=
-
-You can also have a unique favicon for each web by applying similar setting in !WebPreferences in each web.
-
-The setting you need must look similar to this
-
-<verbatim>
-   * Set FAVICON = %PUBURLPATH%/webname/topicname/favicon.ico
-</verbatim>
-
----+++ !WikiUsers topic in Main web
-
-As part of the rebranding from TWiki to Foswiki, the !TWikiUsers topic was renamed to !WikiUsers but the format is the exact same.
-
-Your Cairo !TWikiUsers topic will work in Foswiki but you will need to ensure that these 4 users from the default Foswiki version of !WikiUsers are copied to the existing !WikiUsers topic. !WikiGuest is probably already there but the others are new
-   * *ProjectContributor* - placeholder for a Foswiki developer, and is used in Foswiki documentation
-   * *WikiGuest* - guest user, used as a fallback if the user can't be identified
-   * *RegistrationAgent* - special user used during the new user registration process
-   * *UnknownUser* - used where the author of a previously stored piece of data can't be determined
-
+The favicon is now configurable as a site preference or per-web preference. See =%SYSTEMWEB%.DefaultPreferences= for a description of the FAVICON preference. To set it for your site, add the FAVICON preference to your site preferences topic, =%USERSWEB%.SitePreferences= (or the topic you configured in your {LocalSitePreferences} setting in the =Miscellaneous settings= pane on the =configure= page). To set it for a web, add the FAVICON preference to the =<nop>Web<nop>Preferences= topic for that web.
 
 ---++ Important changes since TWiki 4.0.5
 
 ---+++ Supported Perl version
 
-TWiki 4.0.5 worked on Perl version 5.6.X. Reports from users has shown that unfortunately Foswiki does not support Perl versions older then 5.8.0. It is especially the Wysiwyg editor and support for international character sets that requires new features in Perl 5.8.X.
+To use Foswiki, you must use Perl 5.8 or higher. Foswiki no longer supports Perl version 5.6.x (the minimum version required for TWiki 4.0.5).
 
 ---+++ Template spec changed
 
