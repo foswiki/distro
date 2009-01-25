@@ -705,7 +705,7 @@ a:hover .foswikiAccessKey {
 	padding:1em 0 0 0;
 }
 #patternSideBarContents {
-	padding-left:20px;
+	padding-left:16px;
 	padding-right:12px;
 }
 #patternSideBarContents li {
@@ -730,8 +730,8 @@ a:hover .foswikiAccessKey {
 #patternSideBarContents ul li a,
 #patternSideBarContents h2 {
 	display:block;
-	margin:0 -12px 0 -20px;
-	padding:3px 12px 3px 20px;
+	margin:0 -12px 0 -16px;
+	padding:3px 12px 3px 16px;
 }
 #patternSideBarContents ul li a:link,
 #patternSideBarContents ul li a:visited {

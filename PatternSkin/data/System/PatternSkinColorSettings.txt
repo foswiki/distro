@@ -280,7 +280,7 @@ h2, h3, h4, h5, h6 {
    color:%HEADER_TEXT%;
 }
 h2 {
-   border-color:%HEADER_TEXT%;
+   border-color:%STRONG_BORDER%;
 }
 
 /* to override old Render.pm coded font color style */

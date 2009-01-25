@@ -75,7 +75,7 @@ h2, h3, h4, h5, h6 {
    color:#d1400e;
 }
 h2 {
-   border-color:#d1400e;
+   border-color:#ccc;
 }
 
 /* to override old Render.pm coded font color style */
