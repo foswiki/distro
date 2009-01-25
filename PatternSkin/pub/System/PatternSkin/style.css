@@ -609,7 +609,7 @@ a:hover .foswikiAccessKey {
 	margin-right:0;
 }
 #patternTopBar {
-	border-width:0;
+	border-width:1px;
 	border-style:none none solid none;
 }
 #patternBottomBar {
@@ -705,7 +705,7 @@ a:hover .foswikiAccessKey {
 	padding:1em 0 0 0;
 }
 #patternSideBarContents {
-	padding-left:12px;
+	padding-left:20px;
 	padding-right:12px;
 }
 #patternSideBarContents li {
@@ -730,8 +730,8 @@ a:hover .foswikiAccessKey {
 #patternSideBarContents ul li a,
 #patternSideBarContents h2 {
 	display:block;
-	margin:0 -12px;
-	padding:3px 12px;
+	margin:0 -12px 0 -20px;
+	padding:3px 12px 3px 20px;
 }
 #patternSideBarContents ul li a:link,
 #patternSideBarContents ul li a:visited {
@@ -742,7 +742,7 @@ a:hover .foswikiAccessKey {
 }
 #patternSideBarContents .patternLeftBarPersonal {
 	margin:0 -12px;
-	padding:6px 12px 0 12px;
+	padding:6px 12px 6px 12px;
 }
 
 #patternSideBarContents li {
