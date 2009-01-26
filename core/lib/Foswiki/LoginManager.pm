@@ -491,7 +491,7 @@ sub expireDeadSessions {
         # mtime. As a fallback we also check ctime. Files are deleted when
         # they expire.
         my $lat = $stat[9] || $stat[10] || 0;
-        unlink $file if ( $time - $lat >= $exp );
+        unlink "$Foswiki::cfg{WorkingDir}/tmp/$file" if ( $time - $lat >= $exp );
         next;
     }
     closedir D;
