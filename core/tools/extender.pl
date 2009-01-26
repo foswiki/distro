@@ -556,9 +556,10 @@ sub unzip {
 
     eval 'use Archive::Zip';
     unless ($@) {
-        my $zip = new Archive::Zip($archive);
-        unless ($zip) {
-            print STDERR "Could not open zip file $archive\n";
+        my $zip = Archive::Zip->new();
+        my $numberOfFiles = $zip->read( $archive );
+        unless ($numberOfFiles > 0) {
+            print STDERR "Could not openzip file $archive (".$zip->error()."\n";
             return 0;
         }
 
@@ -597,9 +598,10 @@ sub untar {
 
     eval 'use Archive::Tar';
     unless ($@) {
-        my $tar = Archive::Tar->new( $archive, $compressed );
-        unless ($tar) {
-            print STDERR "Could not open tar file $archive\n";
+        my $tar = Archive::Tar->new();
+        my $numberOfFiles = $tar->read( $archive, $compressed );
+        unless ($numberOfFiles > 0) {
+            print STDERR "Could not open tar file $archive (".$tar->error()."\n";
             return 0;
         }
 
@@ -1000,11 +1002,6 @@ sub install {
         }
         elsif ( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
             $action = $1;
-        }
-        # SMELL:   There really shouldn't be a null argument.  But installer breaks if it is there.
-        elsif ( $ARGV[$n] eq '' ) {
-            $n++;
-            next;
         }
         else {
             usage();
