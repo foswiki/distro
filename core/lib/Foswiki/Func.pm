@@ -1456,11 +1456,11 @@ Get revision info of a topic or attachment
    * =$topic=   - Topic name, required, e.g. ='TokyoOffice'=
    * =$rev=     - revsion number, or tag name (can be in the format 1.2, or just the minor number)
    * =$attachment=                 -attachment filename
-Return: =( $date, $user, $rev, $comment )= List with: ( last update date, login name of last user, minor part of top revision number ), e.g. =( 1234561, 'phoeny', "5" )=
+Return: =( $date, $user, $rev, $comment )= List with: ( last update date, login name of last user, minor part of top revision number, comment of attachment if attachment ), e.g. =( 1234561, 'phoeny', "5",  )=
 | $date | in epochSec |
 | $user | Wiki name of the author (*not* login name) |
 | $rev | actual rev number |
-| $comment | WHAT COMMENT? |
+| $comment | comment given for uploaded attachment |
 
 NOTE: if you are trying to get revision info for a topic, use
 =$meta->getRevisionInfo= instead if you can - it is significantly
