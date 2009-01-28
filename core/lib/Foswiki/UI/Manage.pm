@@ -33,16 +33,15 @@ This method is designed to be invoked via the =UI::run= method.
 sub manage {
     my $session = shift;
 
-    my $action = $session->{request}->param('action') || '';
+    my $action = $session->{request}->param('action');
 
     # Dispatch to action function
     if (defined $action) {
         my $method = 'Foswiki::UI::Manage::_action_'.$action;
 
-        if (defined \&$method) {
+        if (defined &$method) {
             no strict 'refs';
             &$method($session);
-            use strict 'refs';
         }
         else {
             throw Foswiki::OopsException(
