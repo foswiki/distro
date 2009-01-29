@@ -183,6 +183,7 @@ sub login {
             return;
         }
         else {
+            $session->{response}->status( 403 );
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
