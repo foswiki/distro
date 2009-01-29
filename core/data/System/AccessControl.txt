@@ -138,7 +138,7 @@ The easiest way to apply the same access control rules for attachments as apply 
     Alias /foswiki/pub/       /filesystem/path/to/pub/
 
     RewriteEngine on
-    RewriteCond %{REQUEST_URI} !^/+foswiki/+pub/+Foswiki/+.+
+    RewriteCond %{REQUEST_URI} !^/+foswiki/+pub/+System/+.+
     RewriteRule ^/+foswiki/+pub/+([^/]+)((/+([^/]+))+)/+(.+) /foswiki/bin/viewfile/$1/$2?filename=$5 [L,PT]
 </verbatim>
 
