@@ -40,7 +40,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.5.1';
+$RELEASE = '1.5.2';
 
 $pluginName = 'TwistyPlugin';
 

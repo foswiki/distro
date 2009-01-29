@@ -600,7 +600,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 |  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
 |  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
-|  Plugin&nbsp;Version: | 03 Dec 2008 (version 1.5.1) |
+|  Plugin&nbsp;Version: | 29 Jan 2009 (version 1.5.2) |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
 |  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
@@ -620,4 +620,4 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 |  12 Sep 2005 | 1.000 First Version |
 |  Dependencies: | None |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
