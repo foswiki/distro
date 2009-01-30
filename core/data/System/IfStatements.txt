@@ -11,15 +11,15 @@ Note that because of the way Foswiki evaluates, then whatever is in the THEN and
 
 The basic syntax of a condition is the same as [[QuerySearch][the syntax used for queries]], with the addition of the following special operators:
 
-| context | True if the current context is set (see below) |
-| allows | ='X' allows 'Y'= is true if web/topic 'X' exists and allows access mode 'Y' for the current user. Web access rights are only checked if there is no topic called 'X'. |
-| istopic | =istopic 'X'= is true if topic 'X' exists |
-| isweb | =isweb 'X'= is true if web 'X' exists |
-| ingroup | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a login name or a wikiname. |
-| defined | True if a [[PreferenceSettings][preference setting]] or url parameter of this name is defined. |
-| isempty | True if a [[PreferenceSettings][preference setting]], url parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) || $x='')= |
-| $ | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
-| {X} | expands to the value of the =configure= setting {X} - for example, ={ScriptUrlPath}= |
+| =context= | True if the current context is set (see below) |
+| =allows= | ='X' allows 'Y'= is true if web/topic 'X' exists and allows access mode 'Y' for the current user. Web access rights are only checked if there is no topic called 'X'. |
+| =istopic= | =istopic 'X'= is true if topic 'X' exists |
+| =isweb= | =isweb 'X'= is true if web 'X' exists |
+| =ingroup= | ='X' ingroup 'Y'= is true if user 'X' is in group 'Y'. 'X' can be a login name or a wikiname. |
+| =defined= | True if a [[PreferenceSettings][preference setting]] or url parameter of this name is defined. |
+| =isempty= | True if a [[PreferenceSettings][preference setting]], url parameter or session variable of this name has an empty value. It is equivalent to the expression =(!defined(x) &#124;&#124; $x='')= |
+| =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
+| ={X}= | expands to the value of the =configure= setting {X} - for example, ={ScriptUrlPath}= |
 
 *Examples:*
 
@@ -92,40 +92,40 @@ You %IF{"'%USERNAME%' ingroup 'AdminGroup'" then="are an admin" else="are a norm
 
 *Context identifiers* are used in Foswiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
 | *id* | *context* |
-| absolute_urls | Set if absolute URLs are required |
-| attach | in attach script (see CommandAndCGIScripts) |
-| authenticated | a user is authenticated |
-| body_text  | when the body text is being processed in a view (useful in plugin handlers) |
-| can_login | current environment supports login |
-| changes | in changes script (see CommandAndCGIScripts) |
-| command_line | the running script was run from the command line, and not from CGI |
-| diff | in rdiff script (see CommandAndCGIScripts) |
-| edit | in edit script (see CommandAndCGIScripts) |
-| footer_text | when the footer text is being processed in a view (useful in plugin handlers) |
-| header_text | when the header text is being processed in a view (useful in plugin handlers) |
-| i18n_enabled | when user interface <nop>I18N support is enabled (i.e., user can choose the language for UI) |
-| inactive | if active links such as 'edit' and 'attach' should be disabled |
-| login & logon | in login / logon script (see CommandAndCGIScripts) |
-| manage | in manage script (see CommandAndCGIScripts) |
-| mirror | if this is a mirror |
-| new_topic | if the topic doesn't already exist |
-| oops | in oops script (see CommandAndCGIScripts) |
-| preview | in preview script (see CommandAndCGIScripts) |
-| register | in register script (see CommandAndCGIScripts) |
-| rename | in rename script (see CommandAndCGIScripts) |
-| resetpasswd | in resetpasswd script (see CommandAndCGIScripts) |
-| rss | if this is an RSS skin rendering |
-| save | in save script (see CommandAndCGIScripts) |
-| search | in search script (see CommandAndCGIScripts) |
-| statistics | in statistics script (see CommandAndCGIScripts) |
-| textareas_hijacked | provided for use by editors that highjack textareas, and want to signal this fact. This is used by skins, for example, so they can suppress extra controls when textareas have been hijacked. |
-| upload | in upload script (see CommandAndCGIScripts) |
-| view | in view script (see CommandAndCGIScripts) |
-| viewfile | in viewfile script (see CommandAndCGIScripts) |
-| rest | in rest script (see CommandAndCGIScripts) |
-| registration_supported | registration is supported by the current UserMapper |
-| registration_enabled | set if ={Register}{EnableNewUserRegistration}= is on, and registrationis supported |
-| passwords_modifyable | set if the password manager support changing the password / email |
+| =absolute_urls= | Set if absolute URLs are required |
+| =attach= | in attach script (see CommandAndCGIScripts) |
+| =authenticated= | a user is authenticated |
+| =body_text=  | when the body text is being processed in a view (useful in plugin handlers) |
+| =can_login= | current environment supports login |
+| =changes= | in changes script (see CommandAndCGIScripts) |
+| =command_line= | the running script was run from the command line, and not from CGI |
+| =diff= | in rdiff script (see CommandAndCGIScripts) |
+| =edit= | in edit script (see CommandAndCGIScripts) |
+| =footer_text= | when the footer text is being processed in a view (useful in plugin handlers) |
+| =header_text= | when the header text is being processed in a view (useful in plugin handlers) |
+| =i18n_enabled= | when user interface <nop>I18N support is enabled (i.e., user can choose the language for UI) |
+| =inactive= | if active links such as 'edit' and 'attach' should be disabled |
+| =login= and =logon= | in login / logon script (see CommandAndCGIScripts) |
+| =manage= | in manage script (see CommandAndCGIScripts) |
+| =mirror= | if this is a mirror |
+| =new_topic= | if the topic doesn't already exist |
+| =oops= | in oops script (see CommandAndCGIScripts) |
+| =preview= | in preview script (see CommandAndCGIScripts) |
+| =register= | in register script (see CommandAndCGIScripts) |
+| =rename= | in rename script (see CommandAndCGIScripts) |
+| =resetpasswd= | in resetpasswd script (see CommandAndCGIScripts) |
+| =rss= | if this is an RSS skin rendering |
+| =save= | in save script (see CommandAndCGIScripts) |
+| =search= | in search script (see CommandAndCGIScripts) |
+| =statistics= | in statistics script (see CommandAndCGIScripts) |
+| =textareas_hijacked= | provided for use by editors that highjack textareas, and want to signal this fact. This is used by skins, for example, so they can suppress extra controls when textareas have been hijacked. |
+| =upload= | in upload script (see CommandAndCGIScripts) |
+| =view= | in view script (see CommandAndCGIScripts) |
+| =viewfile= | in viewfile script (see CommandAndCGIScripts) |
+| =rest= | in rest script (see CommandAndCGIScripts) |
+| =registration_supported= | registration is supported by the current UserMapper |
+| =registration_enabled= | set if ={Register}{EnableNewUserRegistration}= is on, and registrationis supported |
+| =passwords_modifyable= | set if the password manager support changing the password / email |
 
 In addition there is a context identifier for each enabled plugin; for example, if =Gallous<nop>BreeksPlugin= is installed *and enabled*, then the context ID =Gallous<nop>BreeksPluginEnabled= will be set. Other extensions may set additional context identifiers.
 
