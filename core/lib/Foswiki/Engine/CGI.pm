@@ -89,7 +89,7 @@ sub preparePath {
         throw Foswiki::EngineException( 500, $reason, $res );
     }
     my $cgiScriptPath = $ENV{SCRIPT_NAME};
-    $pathInfo =~ s{$cgiScriptPath/}{/}i;
+    $pathInfo =~ s{$cgiScriptPath(?:/+|$)}{/}i;
     my $cgiScriptName = $cgiScriptPath;
     $cgiScriptName =~ s/.*?(\w+)(\.\w+)?$/$1/;
 
