@@ -54,6 +54,11 @@ the =$query= are added as hiddens into the expanded template.
 sub oops {
     my ( $session, $web, $topic, $query, $keep ) = @_;
 
+    # Foswikitask:Item885: web and topic are required to have values for
+    # handleCommonTags.
+    $web ||= $session->{webName};
+    $topic ||= $session->{topicName};
+
     my $tmplName;
     my $def;
     my @params;
