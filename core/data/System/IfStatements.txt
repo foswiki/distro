@@ -3,6 +3,9 @@
 
 The =%<nop>IF%= construct gives Foswiki the power to include content in topics based on the value of simple expressions.
 
+%TOC%
+
+---++ Syntax
 =%<nop>IF{"CONDITION" then="THEN" else="ELSE"}%=
 
 In the example above, if CONDITION evaluates to TRUE, then THEN will be included in the topic; otherwise ELSE will be included.
@@ -21,7 +24,7 @@ The basic syntax of a condition is the same as [[QuerySearch][the syntax used fo
 | =$= | expands a URL parameter or [[Macros][macro]] name. Plugin handlers *are not called*. You can pass a limited subset of parameters to macros by enclosing the parameter string in single quotes; for example, =$ 'MACRO{value}'=. The ='MACRO{value}'= string may *not* contain quotes (' or "). |
 | ={X}= | expands to the value of the =configure= setting {X} - for example, ={ScriptUrlPath}= |
 
-*Examples:*
+---+++ Examples
 
 1. Macro defined or not
 <verbatim>
@@ -90,7 +93,8 @@ You %IF{"'%USERNAME%' ingroup 'AdminGroup'" then="are an admin" else="are a norm
 
 *Configuration items* are defined in [[%SCRIPTURLPATH{"configure"}%][configure]]. You cannot see the value of a configuration item, you can only see if the item is set or not.
 
-*Context identifiers* are used in Foswiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
+---++ Context identifiers
+Context identifiers are used in Foswiki to label various stages of the rendering process. They are especially useful for [[Skins][skin]] authors to find out where they are in the rendering process. The following context identifiers are available:
 | *id* | *context* |
 | =absolute_urls= | Set if absolute URLs are required |
 | =attach= | in attach script (see CommandAndCGIScripts) |
@@ -131,4 +135,28 @@ In addition there is a context identifier for each enabled plugin; for example, 
 
 The =%<nop>IF%= statement is deliberately kept simple. In particular, note that there is no way to conditionally execute a Set statement. If you need more sophisticated control over formatting, then consider using the SpreadSheetPlugin.
 
+---++ Query syntax
+
 Note also that while the [[QuerySearch][query syntax]] can be used to access form fields, there are some contexts in which an IF statement may be used where there is no topic context, or the topic context is not what you expected.
+
+---+++ Examples
+Display the value of a form field if the topic has form field "Summary":
+<verbatim>
+%FORMFIELD{"%IF{"'%TOPIC%'/Summary" then="Summary"}%"}%
+</verbatim>
+
+Test if the topic has attachments:
+<verbatim>
+%IF{"'%TOPIC%'/attachments" then="has attachments"}%
+</verbatim>
+
+Test if the topic has an attachment with 'receipt' or 'Receipt' in the name:
+<verbatim>
+%IF{"'%TOPIC%'/attachments[lc(name)~'*receipt*']" then="has 'receipt' attachment"}%
+</verbatim>
+
+Test if a topic text contains a certain word:
+<verbatim>
+%IF{"'%SYSTEMWEB%.WebHome'/lc(text)~'*welcome*'" then="contains 'welcome'"}%
+</verbatim>
+
