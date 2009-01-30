@@ -17,7 +17,7 @@ Skin templates are used composing the output from all actions, like view, edit, 
 Skin templates are usually stored as text files with the extension =.tmpl=, though can also come from topic text in some limited circumstances. They are usually HTML with embedded _template macros_. The macros are expanded when we want to generate output, such as a user interface screen.
 
 #TemplateMacros
----+++ How Template Directives Work
+---++ How Template Directives Work
    * Directives are of the form ==%<nop>TMPL:&lt;key&gt;%== and ==%<nop>TMPL:&lt;key&gt;{"attr"}%==.
    * Directives:
       * ==%<nop>TMPL:INCLUDE{"file"}%==: Includes a template file. The file is found as described [[#FindingTemplates][below]].
@@ -49,7 +49,7 @@ When the "inactive" context is set, then this will expand the "link_inactive" TM
 See IfStatements for details of supported context identifiers.
 
 #FindingTemplates
----+++ Finding Skin Templates
+---++ Finding Skin Templates
 
 The skin templates shipped with a release are stored in the =templates= directory.
 As an example, ==templates/view.tmpl== is the default skin template file for the ==bin/view== script. 
@@ -104,7 +104,7 @@ Template names are usually derived from the name of the currently executing scri
    * =EDIT_TEMPLATE= sets the template for editing a topic.
 If these preferences are set locally (using _Local_ instead of _Set_) for a topic, in WebPreferences, in [[%LOCALSITEPREFS%]], or [[%SYSTEMWEB%.DefaultPreferences]] (using _Set_), the indicated templates will be chosen for =view= and =edit= respectively. The template search order is as specified above.
 
----+++ TMPL:INCLUDE recursion for piecewise customisation, or mixing in new features
+---++ TMPL:INCLUDE recursion for piecewise customisation, or mixing in new features
 
 If there is recursion in the TMPL:INCLUDE chain (eg view.tmpl contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path. 
 For example, to create a customisation of pattern skin, where you _only_ want to over-ride the breadcrumbs for the view script, you can create only a view.yourlocal.tmpl:
@@ -116,7 +116,7 @@ and then set SKIN=yourlocal,pattern
 
 The default ={TemplatePath}= will not give you the desired result if you put these statements in the topic =Thisweb.YourlocalSkinViewTemplate=. The default ={TemplatePath}= will resolve the request to the =template/view.pattern.tmpl=, before it gets to the =Thisweb.YourlocalSkinViewTemplate= resolution. You can make it work by prefixing the ={TemplatePath}= with: =$web.YourlocalSkin$nameTemplate=. 
 
----+++ Default master template
+---++ Default master template
 
 ==foswiki.tmpl== is the default master template. It defines the following sections.
 
