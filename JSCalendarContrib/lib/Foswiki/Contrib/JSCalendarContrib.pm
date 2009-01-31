@@ -17,7 +17,7 @@ require Foswiki::Func;    # The plugins API
 
 use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
-$VERSION = '$Rev: 15790 $';
+$VERSION = '$Rev$';
 $RELEASE = '03 Aug 2008';
 $SHORTDESCRIPTION = "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
 
@@ -181,6 +181,8 @@ All available date specifiers:
 </verbatim>
 
 =addHEAD= can be called from =commonTagsHandler= for adding the header to all pages, or from =beforeEditHandler= just for edit pages etc.
+
+An alternative to =commonTagsHandler= is =postRenderingHandler= which is more efficient since it is called less often.
 
 =cut
 
