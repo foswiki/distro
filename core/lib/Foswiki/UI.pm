@@ -245,6 +245,8 @@ sub execute {
             $res->print("Unspecified error");
         };
     }
+    $res->header( -"X-Foswikiaction" => $req->action());
+    $res->header( -"X-FoswikiURI" => $req->uri());
 
     $session->finish();
     return $res;
