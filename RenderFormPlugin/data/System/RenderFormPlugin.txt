@@ -226,4 +226,4 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
 
-%META:FILEATTACHMENT{name="example.gif" attachment="example.gif" attr="h" comment="" date="1233365367" size="18022"  user="FoswikiContributor" version="1"}% 
+%META:FILEATTACHMENT{name="example.gif" attr="h" comment="" date="1233365367" size="18022" user="FoswikiContributor" version="1"}%
