@@ -400,6 +400,7 @@ TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 |  31 Aug 2008 | TWikibug:Item5971 BuildContrib broken upload on 4.2.2 with template login. Also adding query to optionally skip topic attachment upload. |
 |  22 Apr 2008 | TWikibug:Item5556 BuildContrib defaults all unspecified permissions to 664 && TWikibug:Item5455  	 BuildContrib doesn't cope with larger numbers of files - TWiki:Main.SvenDowideit|
