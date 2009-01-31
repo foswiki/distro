@@ -79,6 +79,8 @@ my @compressFilters = (
 
 my @tidyFilters = ( { RE => qr/\.pl$/ }, { RE => qr/\.pm$/ }, );
 
+$ENV{'LC_ALL'} = 'C';
+
 sub _findRelativeTo {
     my ( $startdir, $name ) = @_;
 
