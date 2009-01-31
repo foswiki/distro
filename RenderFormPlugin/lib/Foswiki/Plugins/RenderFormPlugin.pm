@@ -24,9 +24,10 @@ use vars qw( $VERSION $RELEASE $REVISION $debug $pluginName );
 
 $VERSION = '$Rev$';
 
-$RELEASE = 'Dakar';
+$RELEASE = '1.004 (31 Jan 2009)';
 
-$REVISION = '1.003'; #Kenneth Lavrsen# Changed to Foswiki name space
+$REVISION = '1.004'; #Kenneth Lavrsen# Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar.
+#$REVISION = '1.003'; #Kenneth Lavrsen# Changed to Foswiki name space
 #$REVISION = '1.002'; #dro# added layout feature; fixed date field bug; added missing docs;
 #$REVISION = '1.001'; #dro# changed topicparent default; added and fixed docs; fixed date field bug; fixed non-word character in field names bug;
 #$REVISION = '1.000'; #dro# initial version
@@ -52,16 +53,22 @@ sub commonTagsHandler {
 
     Foswiki::Func::writeDebug( "- ${pluginName}::commonTagsHandler( $_[2].$_[1] )" ) if $debug;
 
-    ## !! does not work: deep recursion bug:
-    ## use Foswiki::Contrib::JSCalendarContrib;
-    ## Foswiki::Contrib::JSCalendarContrib::addHEAD( 'foswiki' );
-
-    ## eval {
 	use Foswiki::Plugins::RenderFormPlugin::Core;
 	$_[0] =~ s/\%RENDERFORM{(.*?)}\%/Foswiki::Plugins::RenderFormPlugin::Core::render($1,$_[1],$_[2])/ge;
 	$_[0] =~ s/\%STARTRENDERFORMLAYOUT(.*?)STOPRENDERFORMLAYOUT\%//sg;
-	### workaround for date fields:
-	$_[0] =~ s/<\/body>/%INCLUDE{"%SYSTEMWEB%\/JSCalendarContribInline"}%<\/body>/i if ($Foswiki::Plugins::VERSION > 1.1) && ($_[0] !~ /JSCalendarContrib\foswiki.js/);
-    ##};
-    ##Foswiki::Func::writeWarning($@) if $@;
 }
+
+sub postRenderingHandler {
+    # do not uncomment, use $_[0], $_[1]... instead
+    #my $text = shift;
+    #
+    #
+    eval {
+        require Foswiki::Contrib::JSCalendarContrib;
+        unless( $@ ) {
+            Foswiki::Contrib::JSCalendarContrib::addHEAD( 'foswiki' );
+        }
+    };
+}
+
+1;
