@@ -358,31 +358,14 @@ sub queryParam {
                                name, [ $v1, $v2, ... ]                     
                               ] ) -> @paramNames | @values | $firstValue
 
-Adds parameters passed within request body. It keeps previous values,
-but places new ones first. Should be called only by engines. Otherwise
-use param() method.
+Adds parameters passed within request body to the object.  Should be called
+only by engines. Otherwise use param() method.
 
 =cut
 
 sub bodyParam {
-    my ( $this, @p ) = @_;
-
-    my ( $key, @newValue ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
-
-    # If a parameter is defined at both query string and body, CGI.pm
-    # places body values first, but all values are available. However,
-    # CGI::param replaces previous values with new ones whenever called,
-    # so we need to rescue old values and append them to the new ones.
-    # This way, this class behaves the same as CGI.pm and so does 'param'
-    # method.
-    my @values = $this->param($key);
-    if ( ref( $newValue[0] ) eq 'ARRAY' ) {
-        unshift @values, @{ $newValue[0] };
-    }
-    else {
-        unshift @values, @newValue;
-    }
-    return $this->param( $key, @values );
+    my $this = shift;
+    return $this->param(@_);
 }
 
 =begin TML
