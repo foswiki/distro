@@ -546,7 +546,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 # Defines the filter-in regexp that must match the names of environment
 # variables that can be seen using the %ENV{}% Foswiki variable. Set it to
 # '^.*$' to allow all environment variables to be seen (not recommended).
-$Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|TWIKI_ACTION)$';
+$Foswiki::cfg{AccessibleENV} = '^(HTTP_\w+|REMOTE_\w+|SERVER_\w+|REQUEST_\w+|MOD_PERL|FOSWIKI_ACTION)$';
 
 #---+ Anti-spam measures
 
