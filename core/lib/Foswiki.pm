@@ -1694,6 +1694,7 @@ sub finish {
     undef $this->{_INCLUDES};
     undef $this->{response};
     undef $this->{evaluating_if};
+    undef $this->{_InsideFuncAddToHEAD};
 }
 
 =begin TML
