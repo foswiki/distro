@@ -32,12 +32,12 @@ sub list_translators {
     open(PO, $file);
     my $line;
     while($line = <PO>, $line =~ /^#/) {
-      if ($line =~ m/^#\s*TWiki\s*translation\s*for\s*(.*)$/) {
+      if ($line =~ m/^#\s*Foswiki\s*translation\s*for\s*(.*)$/) {
         print $1, ":\n";
       }
-      if ($line =~ m/^#\s*(TWiki:Main\/\w*),/) {
+      if ($line =~ m/^#\s*(Foswiki:Main\/\w*),/) {
         my $topic = $1;
-        $topic =~ s#TWiki:#http://www.fowswiki.org/bin/view/#;
+        $topic =~ s#Foswiki:#http://www.fowswiki.org/bin/view/#;
         print "  $topic\n";
       }
     }
