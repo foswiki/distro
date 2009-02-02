@@ -14,6 +14,8 @@ lib/TWiki/Prefs.pm 0644 Perl module
 lib/TWiki/Meta.pm 0644 Perl module
 lib/TWiki/OopsException.pm 0644 Perl module
 lib/TWiki/Time.pm 0644 Perl module
+lib/TWiki/LineIterator.pm 0644 Perl module
+lib/TWiki/ListIterator.pm 0644 Perl module
 
 #make TWiki a real web
 data/TWiki/WebPreferences.txt 0644 make it a valid web
