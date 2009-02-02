@@ -103,6 +103,24 @@ See these topics for more information: %SYSTEMWEB%.WebLeftBarCookbook, %SYSTEMWE
    * [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?skin=pattern][Test if installed]]
    * For skin activation see [[%SYSTEMWEB%.Skins]]
 
+To set pattern skin as default (site wide) skin, use these settings in [[%MAINWEB%.SitePreferences]]:
+   
+   * Global skin styles. To change the look of the site, point these variables to custom CSS attachments.
+      * Set FOSWIKI_LAYOUT_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/layout.css
+      * Set FOSWIKI_STYLE_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/style.css
+      * Set FOSWIKI_COLORS_URL = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/colors.css
+
+   * Themes that add upon the global skin styles. Choose from the Theme Browser at PatternSkin.
+      * Set PATTERNSKIN_THEME = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/theme_foswiki_noframe.css
+      * Set PATTERNSKIN_COLUMNS = %PUBURLPATH%/%SYSTEMWEB%/PatternSkin/column_left.css
+
+   * Overriding styles that add upon the global and theme styles. Enabled by default but empty to prevent browsers from fetching %<nop>USERLAYOUTURL%-style URLs.
+      * Set USERLAYOUTURL =
+      * Set USERSTYLEURL =
+      * Set USERCOLORSURL =
+      * Set WEBHEADERART =
+      * Set WEBHEADERBGCOLOR =
+      
 ---+++ Troubleshooting
 
 If you have set the SKIN setting to =pattern= and you still don't see the layout as on the <a href="%ATTACHURL%/patternskin_screenshot_full.png">screenshot</a>, a few settings in may have been disabled.
