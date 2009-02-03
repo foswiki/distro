@@ -181,6 +181,30 @@ sub verify_word {
     $this->assert_does_not_match( qr/Ok\+Topic/, $result );
 }
 
+sub verify_separator {
+    my $this = shift;
+
+    # word
+    my $result = $this->{twiki}->handleCommonTags(
+'%SEARCH{"name~\'*Topic\'" type="query" nonoise="on" format="$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+    );
+    
+    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic", $result );
+}
+
+sub verify_separator_with_header {
+    my $this = shift;
+
+    # word
+    my $result = $this->{twiki}->handleCommonTags(
+'%SEARCH{"name~\'*Topic\'" type="query" header="RESULT:" nonoise="on" format="$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+    );
+    
+    $this->assert_str_equals( "RESULT:Ok+Topic,Ok-Topic,OkTopic", $result );
+}
+
 sub verify_regex_match {
     my $this = shift;
 
