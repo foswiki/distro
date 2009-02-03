@@ -3,12 +3,14 @@
 =begin TML
 
 ---+ package Foswiki::LineIterator
+*implements* Foswiki::Iterator
 
-Iterator over the lines in a file
+Iterator over the lines in a text file
 
 =cut
 
 package Foswiki::LineIterator;
+use base 'Foswiki::Iterator';
 
 use strict;
 

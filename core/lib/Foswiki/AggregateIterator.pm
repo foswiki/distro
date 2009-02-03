@@ -2,12 +2,14 @@
 =begin TML
 
 ---+ package Foswiki::AggregateIterator
+*implements* Foswiki::Iterator
 
-combine multiple iterators
+Combine multiple iterators into a single iteration.
 
 =cut
 
 package Foswiki::AggregateIterator;
+use base 'Foswiki::Iterator';
 
 use strict;
 
@@ -15,11 +17,11 @@ use strict;
 
 ---++ new(\@list, $unique)
 
-Create a new iterator over the given list of iterators. The list is not damaged in
-any way.
+Create a new iterator over the given list of iterators. The list is
+not damaged in any way.
 
-if $unique is set, we try to not repeat values.
-Warning: $unique assumes that the values are strings (so works for cUID's )
+If =$unique= is set, we try to not repeat values.
+Warning: =$unique= assumes that the values are strings.
 
 =cut
 
@@ -46,12 +48,6 @@ sub new {
 ---++ hasNext() -> $boolean
 
 Returns false when the iterator is exhausted.
-
-<verbatim>
-my $it = new Foswiki::ListIterator(\@list);
-while ($it->hasNext()) {
-   ...
-</verbatim>
 
 =cut
 
@@ -107,7 +103,6 @@ iterator object:
    * ={process}= can be defined to be a sub to process each entry before it
      is returned by next. The value returned from next is the value returned
      by the process function.
-
 
 =cut
 

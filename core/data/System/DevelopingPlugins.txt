@@ -4,7 +4,7 @@
 The usual way Foswiki is extended is by writing a _Plugin_. Plugins extend Foswiki by providing functions that 'listen' to events in the Foswiki core, and handling these events. These functions are called "Plugin Handlers" and they are described in depth in [[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Plugins::EmptyPlugin][EmptyPlugin]] ( =lib/Foswiki/Plugins/EmptyPlugin.pm= ).
 
 ---++ APIs available to Extensions
-To be robust extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
+To be robust, extensions must avoid using any unpublished functionality from the Foswiki core. The following perl packages give access to features for extension authors. These APIs are not just for Plugins, they can be used in any type of extension. Click on the name of the package to see the full documentation.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Func][Foswiki::Func]]= - bridge to core functions. This is the package you will use most.
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Meta][Foswiki::Meta]]= - topic meta-data
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::OopsException][Foswiki::OopsException]]= - special exception for invoking the 'oops' script
@@ -12,6 +12,10 @@ To be robust extensions must avoid using any unpublished functionality from the 
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]]= - parser and storage object for macro parameters
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Time][Foswiki::Time]]= - time parsing and formatting
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Sandbox][Foswiki::Sandbox]]= - safe server-side program execution
+   * Iterators - these are classes that implement the =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Iterator][Foswiki::Iterator]]= specification
+      * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::ListIterator][Foswiki::ListIterator]]= - utility class for iterator objects that iterate over list contents
+      * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::LineIterator][Foswiki::LineIterator]]= - utility class for iterator objects that iterate over lines in a block of text
+      * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AggregateIterator][Foswiki::AggregateIterator]]= - utility class for iterator objects that aggregate other iterators into a single iteration
 In addition the following global variables may be referred to:
    * =$Foswiki::Plugins::VERSION= - plugin handler API version number
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object

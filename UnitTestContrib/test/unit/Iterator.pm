@@ -23,6 +23,7 @@ sub test_ListIterator {
 	my @list = ( 1, 2, 3 );
 	
 	my $it = new Foswiki::ListIterator(\@list);
+    $this->assert($it->isa('Foswiki::Iterator'));
 	$it->{filter} = sub { return $_[0] != 2 };
 	$it->{process} = sub { return $_[0] + 1 };
 	my $b = '';
@@ -92,6 +93,7 @@ sub test_AggregateIterator {
 
 	my @itrList = ($it1, $it2);
 	my $it = new Foswiki::AggregateIterator(\@itrList);
+    $this->assert($it->isa('Foswiki::Iterator'));
 
 	my $b = '';
 	while ($it->hasNext()) {
