@@ -633,69 +633,66 @@ sub untar {
     return 1;
 }
 
-# Check in. On Cairo, do nothing because the apache user
-# has everything checked out :-(
+# Check in.
 sub checkin {
     my ( $web, $topic, $file ) = @_;
 
-    # If this is Dakar, we have a good chance of completing the
-    # install.
+    return 0 unless ($session);
+
     my $err = 1;
 
-    if ($session) {
-        if ($file) {
-            my $origfile =
-              $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
-            print "Add attachment $origfile\n";
-            return 1 if ($inactive);
-            print <<DONE;
+    if ($file) {
+        my $origfile =
+          $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic . '/' . $file;
+        print "Add attachment $origfile\n";
+        return 1 if ($inactive);
+        print <<DONE;
 ##########################################################
 Adding file: $file to installation ....
 (attaching it to $web.$topic)
 DONE
 
-            # Need copy of file to upload it, use temporary location
-            # Use non object version of File::Temp for Perl 5.6.1 compatibility
-            my @stats    = stat $origfile;
-            my $fileSize = $stats[7];
-            my $fileDate = $stats[9];
+        # Need copy of file to upload it, use temporary location
+        # Use non object version of File::Temp for Perl 5.6.1 compatibility
+        my @stats    = stat $origfile;
+        my $fileSize = $stats[7];
+        my $fileDate = $stats[9];
 
-            # make sure it's readable and writable by the current user
-            chmod( ( $stats[2] & 07777 ) | 0600, $origfile );
+        # make sure it's readable and writable by the current user
+        chmod( ( $stats[2] & 07777 ) | 0600, $origfile );
 
-            my ( $tmp, $tmpfilename ) = File::Temp::tempfile( unlink => 1 );
-            File::Copy::copy( $origfile, $tmpfilename )
-              || die
+        my ( $tmp, $tmpfilename ) = File::Temp::tempfile( unlink => 1 );
+        File::Copy::copy( $origfile, $tmpfilename )
+            || die
               "$origfile could not be copied to tmp dir ($tmpfilename): $!";
-            eval {
-                Foswiki::Func::saveAttachment(
-                    $web, $topic, $file,
-                    {
-                        comment  => 'Saved by install script',
-                        file     => $tmpfilename,
-                        filesize => $fileSize,
-                        filedate => $fileDate
-                    }
-                );
-            };
-            $err = $@;
-        }
-        else {
-            print "Add topic $web.$topic\n";
-            return 1 if ($inactive);
-            print <<DONE;
+        eval {
+            Foswiki::Func::saveAttachment(
+                $web, $topic, $file,
+                {
+                    comment  => 'Saved by install script',
+                    file     => $tmpfilename,
+                    filesize => $fileSize,
+                    filedate => $fileDate
+                   }
+               );
+        };
+        $err = $@;
+    }
+    else {
+        print "Add topic $web.$topic\n";
+        return 1 if ($inactive);
+        print <<DONE;
 ##########################################################
 Adding topic: $web.$topic to installation ....
 DONE
 
-            # read the topic to recover meta-data
-            eval {
-                my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-                Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
-                    { comment => 'Saved by install script' } );
-            };
-            $err = $@;
-        }
+        # read the topic to recover meta-data
+        eval {
+            my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+            Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
+                                      { comment => 'Saved by install script' } );
+        };
+        $err = $@;
     }
     return ( !$err );
 }
@@ -739,14 +736,13 @@ sub _emplace {
     # For each file in the MANIFEST, move the file into the installation,
     # set the permissions, and check if it is a data or pub file. If it is,
     # then check it in.
-    my @topic;
-    my @pub;
-    my @bads;
+    my @ci_topic; # topics to checkin
+    my @ci_attachment; # topics to checkin
     my $file;
     foreach $file ( keys %$MANIFEST ) {
         my $source = "$source/$file";
         my $target = remap($file);
-        print "Install $target, permissions $MANIFEST->{$file}\n";
+        print "Install $target, permissions $MANIFEST->{$file}->{perms}\n";
         unless ($inactive) {
             if ( -e $target ) {
                 unless ( File::Copy::move( $target, "$target.bak" ) ) {
@@ -761,25 +757,29 @@ sub _emplace {
             File::Copy::move( $source, $target )
               || die "Failed to move $source to $target: $!\n";
         }
-        if ( $target =~ /^data\/(\w+)\/(\w+).txt$/ ) {
-            push( @topic, $target );
-        }
-        elsif ( $target =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
-            push( @pub, $target );
-        }
         unless ($inactive) {
-            chmod( oct( $MANIFEST->{$file} ), $target )
+            chmod( oct( $MANIFEST->{$file}->{perms} ), $target )
               || print STDERR
               "WARNING: cannot set permissions on $target: $!\n";
         }
+        if ($MANIFEST->{$file}->{ci}) {
+            if ( $target =~ /^data\/(\w+)\/(\w+).txt$/ ) {
+                push( @ci_topic, $target );
+            }
+            elsif ( $target =~ /^pub\/(\w+)\/(\w+)\/([^\/]+)$/ ) {
+                push( @ci_attachment, $target );
+            }
+        }
     }
-    foreach $file (@topic) {
+    my @bads;
+
+    foreach $file (@ci_topic) {
         $file =~ /^data\/(.*)\/(\w+).txt$/;
         unless ( checkin( $1, $2, undef ) ) {
             push( @bads, $file );
         }
     }
-    foreach $file (@pub) {
+    foreach $file (@ci_attachment) {
         $file =~ /^pub\/(.*)\/(\w+)\/([^\/]+)$/;
         unless ( checkin( $1, $2, $3 ) ) {
             push( @bads, $file );
@@ -911,7 +911,8 @@ sub install {
 
     foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
         my ( $file, $perms, $desc ) = split( ',', $row, 3 );
-        $MANIFEST->{$file} = $perms;
+        $MANIFEST->{$file}->{ci} = ($desc =~ /\(noci\)/ ? 0 : 1);
+        $MANIFEST->{$file}->{perms} = $perms;
     }
 
     my @deps;

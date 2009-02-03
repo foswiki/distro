@@ -193,7 +193,7 @@ $Foswiki::cfg{SafeEnvPath} = '';
 # Client sessions are not required for logins to work, but Foswiki will not
 # be able to remember logged-in users consistently.
 #
-# See System.UserAuthentication for a full discussion of the pros and
+# See UserAuthentication for a full discussion of the pros and
 # cons of using persistent sessions. Session files are stored in the
 # <tt>{WorkingDir}/tmp</tt> directory.
 $Foswiki::cfg{UseClientSessions} = 1;
@@ -349,7 +349,7 @@ $Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdi
 # Authentication realm. This is
 # normally only used in md5 password encoding. You may need to change it
 # if you are sharing a password file with another application.
-$Foswiki::cfg{AuthRealm} = 'Enter your System.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit System.UserRegistration if you do not have one.';
+$Foswiki::cfg{AuthRealm} = 'Enter your $Foswiki::cfg{SystemWebName}.LoginName. (Typically First name and last name, no space, no dots, capitalized, e.g. !JohnSmith, unless you chose otherwise). Visit $Foswiki::cfg{SystemWebName}.UserRegistration if you do not have one.';
 
 #---++ User Mapping
 # **SELECTCLASS Foswiki::Users::*UserMapping**

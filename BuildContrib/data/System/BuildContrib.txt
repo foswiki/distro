@@ -222,6 +222,13 @@ Do *not* include:
    * =,v= files. If you include a =,v= file it will overwrite any existing =,v= file when an extension is upgraded, potentially wiping out local changes on the end users installation.
    * =build.pl=, =MANIFEST=, or any other side file used by the build process.
    * unit tests
+_Since Foswiki 1.0.2_ By default, files in the data and pub directories are automatically checked
+in to Foswiki when the installation script is run (for example, when installing from =configure=). This is useful when you expect users to customise your files locally and you don't want to risk overwriting their customisations. If you want to suppress this checkin behaviour for individual files, you can add the string =(noci)= anywhere in the description of the file. If you want to suppress it for larger numbers of files, you can use the directives:
+<verbatim>
+!noci
+!ci
+</verbatim>
+in the MANIFEST. Any files listed after a =!noci= directove, up to the next =!ci= directive or the end of the file, will not be checked in.
 
 MANIFESTs can also include other extensions that have been packaged using
 !BuildContrib. For example,

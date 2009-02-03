@@ -64,7 +64,7 @@ sub readManifest {
     my ( $baseDir, $path, $file, $noManifestFileHook ) = @_;
     $file ||= '';
     $file = $path . $file if $path;
-print STDERR "---- $baseDir, $path, $file\n";
+    #print STDERR "---- $baseDir, $path, $file\n";
 
     unless ( $file && open( PF, '<' . $file ) ) {
         print STDERR 'COULD NOT OPEN MANIFEST FILE ', $file, $NL;
@@ -76,16 +76,26 @@ print STDERR "---- $baseDir, $path, $file\n";
     my @files;
     my @otherModules;
     my $line;
+    my $noci = 0;
     while ( $line = <PF> ) {
         next if $line =~ /^\s*#/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
             push( @otherModules, $1 );
         }
+        elsif ( $line =~ /^!noci\s*$/ ) {
+            $noci = 1;
+        }
+        elsif ( $line =~ /^!ci\s*$/ ) {
+            $noci = 0;
+        }
         elsif ( $line =~ /^(".*"|\S+)\s+(0?\d\d\d)?\s*(\S.*)?\s*$/o ) {
             my $name = $1;
             $name =~ s/^"(.*)"$/$1/;
             my $permissions = $2;
-            my $desc        = $3;
+            my $desc        = $3 || '';
+            if ($noci && $desc !~ /\(noci\)/) {
+                $desc .= " (noci)";
+            }
             unless ($permissions) {
 
                 # No permissions in MANIFEST, apply defaults

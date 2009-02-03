@@ -1,3 +1,4 @@
+!noci
 data/System/BuildContrib.txt 0444 Description
 lib/Foswiki/Contrib/Build.pm 0444 Code module
 lib/Foswiki/Contrib/BuildContrib/BaseBuild.pm 0444 Common functionality for build programs
