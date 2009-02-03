@@ -516,6 +516,7 @@ lib/Foswiki/Infix/Parser.pm 0444
 lib/Foswiki/Infix/Error.pm 0444
 lib/Foswiki/Infix/Node.pm 0444
 lib/Foswiki/LineIterator.pm 0444
+lib/Foswiki/Iterator.pm 0444
 lib/Foswiki/ListIterator.pm 0444
 lib/Foswiki/LoginManager.pm 0444
 lib/Foswiki/LoginManager/ApacheLogin.pm 0444
