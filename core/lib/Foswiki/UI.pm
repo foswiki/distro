@@ -170,6 +170,9 @@ sub execute {
     my $session = new Foswiki( undef, $req, \%initialContext );
     my $res = $session->{response};
 
+    $res->header( -"X-FoswikiAction" => $req->action());
+    $res->header( -"X-FoswikiURI" => $req->uri());
+
     unless ( defined $session->{response}->status()
         && $session->{response}->status() =~ /^\s*3\d\d/ )
     {
@@ -245,8 +248,6 @@ sub execute {
             $res->print("Unspecified error");
         };
     }
-    $res->header( -"X-FoswikiAction" => $req->action());
-    $res->header( -"X-FoswikiURI" => $req->uri());
 
     $session->finish();
     return $res;
