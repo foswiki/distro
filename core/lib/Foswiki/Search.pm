@@ -760,16 +760,15 @@ sub searchWeb {
             
             # It cannot be correct to append the separator to the header,
             # removing this  -- AC
-            # Restoring it as it's not properly commented out, and it breaks
-            # many unit tests -- Babar
-            if ( defined($separator) ) {
-                 $beforeText .= $separator;
-            }
+            #if ( defined($separator) ) {
+            #     $beforeText .= $separator;
+            #}
             
-            else {
+            #else {
                 $beforeText =~
                   s/([^\n])$/$1\n/os;           # add new line at end if needed
-            }
+            #}
+            # / end removing separator from header
         }
 
         # output the list of topics in $web
