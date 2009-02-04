@@ -760,9 +760,11 @@ sub searchWeb {
             
             # It cannot be correct to append the separator to the header,
             # removing this  -- AC
-            #if ( defined($separator) ) {
-            #     $beforeText .= $separator;
-            #}
+            # Restoring it as it's not properly commented out, and it breaks
+            # many unit tests -- Babar
+            if ( defined($separator) ) {
+                 $beforeText .= $separator;
+            }
             
             else {
                 $beforeText =~
