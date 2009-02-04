@@ -170,8 +170,8 @@ sub execute {
     my $session = new Foswiki( undef, $req, \%initialContext );
     my $res = $session->{response};
 
-    $res->header( -"X-FoswikiAction" => $req->action());
-    $res->header( -"X-FoswikiURI" => $req->uri());
+    $res->pushHeader( 'X-FoswikiAction' => $req->action() );
+    $res->pushHeader( 'X-FoswikiURI'    => $req->uri() );
 
     unless ( defined $session->{response}->status()
         && $session->{response}->status() =~ /^\s*3\d\d/ )
