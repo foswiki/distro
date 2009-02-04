@@ -24,7 +24,7 @@ To use a macro type its name. For example,
    * Type =%<nop>ALLVARIABLES%= to get a full listing of all macros defined for a particular topic
 
 ---++ Macro Names
-Macro names must start with a letter. The following characters can be letters, numbers and the underscore '_'. You can use both upper-case and lower-case letters and you can mix the characteres. E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all valid macro names. Macros are case sensitive. =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same macro.
+Macro names must start with a letter. The following characters can be letters, numbers and the underscore '_'. You can use both upper-case and lower-case letters and you can mix the characters. E.g. =%<nop>MYVAR%=, =%<nop>MyVar%=, =%<nop>My2ndVar%=, and =%<nop>My_Var%= are all valid macro names. Macros are case sensitive. =%<nop>MyVAR%= and =%<nop>MYVAR%= are not the same macro.
 
 By convention all settings, predefined macros and macros used by plugins are always UPPER-CASE.
 
