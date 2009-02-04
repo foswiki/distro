@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1217665619" format="1.1" version="$Rev: 15746 $"}%
 ---+!! Slide Show Plugin
 
-This plugin converts a topic with headings into a slideshow.
+Converts a topic with headings into a slideshow.
 
 %TOC%
 
@@ -52,13 +52,18 @@ To create your own template topic, copy the "Default Slide Template" section bel
 This is a short example of a slideshow. You should see a "Start presentation" button if this plugin is installed:
 
 %SLIDESHOWSTART%
----+++ Foswiki is great
-   * Because its simply better!
----+++ Usability is important
-   * Because there are people not naming their children 1001010111 and need proper UI!
+---+++ Hamlet meets his father's ghost
+   * Hamlet learns that his father was killed by his brother Claudius and Queen Gertrude.
+   * Claudius has quickly become king.
+---+++ This is rather upsetting
+   * The ghost demands revenge.
+   * Hamlet agrees.
+   * His friends swear to keep what they have seen a secret.
+---+++ Meanwhile...
+   * the King's advisor Polonius meets his daughter Ophelia. Hamlet has upset her.
+   * Hamlet is acting mad
 ---+++ Please tune this template
-   * tune the look of this template by using CSS ( slideshow.css attached to this document )
-
+   * Tune the look of this template by using CSS ( slideshow.css attached to this document )
 %SLIDESHOWEND%
 
 This text is not part of the slideshow
@@ -81,7 +86,6 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
 
 ---++ Default Slide Template
 
-
 You can create a new topic(MyWeb.SlidesTemplate) somewhere and adding =STARTINCLUDE your template STOPINCLUDE= to it. Afterwards, you can add =%SLIDESHOWSTART{template="MyWeb.SlidesTemplate"}%= to show you presentations with this new template.
 %BR%
 ---+++ Customizing the Look of you presentation
@@ -89,30 +93,34 @@ Just customize the attached slideshow.css file to improve the view
 
 ---+++ Current default template
 The part between the rulers defines the default format of a slide:
-%STARTINCLUDE%
-<LINK href="%ATTACHURL%/slideshow.css" rel="stylesheet" type="text/css">
-
-<table width="100%" border="0" cellspacing="0" cellpadding="5" id="slideshow">
+<verbatim>
+%STARTINCLUDE%<table width="100%" border="0" cellspacing="0" cellpadding="5" class="slideshow">
 <tr>
-<td valign="middle" id="slideheader">
-<img src="%ATTACHURL%/logo.gif" border="0" alt="Foswiki Slide Show" align="left"> <h1>%SLIDETITLE%</h1></td>
+<td valign="middle" class="slideshowHeader">
+<img src="%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/logo.gif" border="0" alt="Foswiki Slide Show" align="left" />
+<h1>%SLIDETITLE%</h1>
+</td>
 </tr>
 <tr>
-<td valign="top" id="main-content">
+<td valign="top" class="slideshowContent">
 %SLIDETEXT%
-</td></tr>
+</td>
+</tr>
 </table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td valign="middle">
-%SLIDENAVALL%&nbsp;</td>
-<td valign="middle" align="right">
-<font size="-1" color="#666666">Folie %SLIDENUM% of %SLIDEMAX%</font></td>
-<td valign="middle" align="right">
-<font size="-2" color="#666666"> COPYRIGHT &copy; %SERVERTIME{$year}% by the contributing authors </font></td></tr>
-</table>
-%STOPINCLUDE%
-
------
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="slideshowControls">
+<tr>
+<td valign="middle">
+%SLIDENAVALL%&nbsp;
+</td>
+<td valign="middle" align="right" class="foswikiSmall">
+Page %SLIDENUM% of %SLIDEMAX%
+</td>
+<td valign="middle" align="right" class="foswikiSmall">
+Copyright &copy; %SERVERTIME{$year}% by the contributing authors
+</td>
+</tr>
+</table>%STOPINCLUDE%
+</verbatim>
 
 ---++ Plugin Installation Instructions
 
@@ -125,15 +133,16 @@ The part between the rulers defines the default format of a slide:
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
      | ==lib/Foswiki/Plugins/%TOPIC%/SlideShow.pm== | Plugin Perl module |
      | ==pub/System/*.gif== | Various button image files |
-   * Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script, and enable the plugin in the {Plugins} section.
+   * Run the [[%SCRIPTURL{"configure"}][configure]] script, and enable the plugin in the {Plugins} section.
    * Test above example if the installation was successful.
 
 ---++ Plugin Info
 |  Author: | [[Main.EugenMayer]] |
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 21 Jan 2009 |
+|  Plugin Version: | 04 Feb 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  04 Feb 2009: | Updated graphics; made html and css validate. |
 |  21 Jan 2009: | Exchanged the current default skin by something which is not written in totaly broken html and looking acceptable ( still needs an update, still table ugly design..). You can style by CSS now %BR% Tuned the docs a bit|
 |  16 Dec 2008: | Foswiki version |
 |  02 Aug 2008: | Fixed corruption of preview |
@@ -151,7 +160,7 @@ The part between the rulers defines the default format of a slide:
 |  Other Dependencies: | none |
 |  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]

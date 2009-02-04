@@ -22,8 +22,10 @@
 package Foswiki::Plugins::SlideShowPlugin;
 
 use vars qw(
-        $web $topic $user $installWeb $VERSION $RELEASE $debug
+        $web $topic $user $installWeb $VERSION $RELEASE $debug $addedHead
     );
+
+$addedHead = 0;
 
 # This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
@@ -33,7 +35,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '21 Jan 2009';
+$RELEASE = '04 Feb 2009';
 
 # =========================
 sub initPlugin
@@ -54,10 +56,23 @@ sub commonTagsHandler
 {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
     if( $_[0] =~ /%SLIDESHOWSTART/ ) {
+		_addHeader();
         require Foswiki::Plugins::SlideShowPlugin::SlideShow;
         Foswiki::Plugins::SlideShowPlugin::SlideShow::init( $installWeb );
         $_[0] = Foswiki::Plugins::SlideShowPlugin::SlideShow::handler( @_ );
     }
+}
+
+sub _addHeader {
+
+	return if $addedHead;
+    $header .= <<'EOF';
+<style type="text/css" media="all">
+@import url("%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css");
+</style>
+EOF
+    Foswiki::Func::addToHEAD( 'SLIDESHOWPLUGIN', $header );
+   	$addedHead = 1;
 }
 
 1;
