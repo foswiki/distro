@@ -7,9 +7,10 @@
 # Must be chdired to the tools subdirectory when this is run
 #
 use strict;
+use warnings;
 
 my $REPOS = $ARGV[0];
-my $BUGS = '/home/foswiki.org/data/Tasks';
+my $BUGS = '/usr/home/foswiki.org/trunk/core/data/Tasks';
 my $SUPPORT = '/home/svn';
 
 my $verbose = 0; # 1 to debug
