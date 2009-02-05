@@ -105,6 +105,7 @@ sub findRelativeTo {
 
 sub installModule {
     my $module = shift;
+    $module =~ s#/+$##; #remove trailing slash's
     print "Processing $module\n";
     my $subdir = 'Plugins';
     $subdir = 'Contrib' if $module =~ /(Contrib|Skin|AddOn)$/;
@@ -117,7 +118,6 @@ sub installModule {
             last;
         }
     }
-    $moduleDir =~ s#/+$##;
 
     unless ( -d $moduleDir ) {
         print STDERR "--> Could not find $module\n";
