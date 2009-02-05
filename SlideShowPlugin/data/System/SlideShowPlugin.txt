@@ -96,10 +96,10 @@ The part between the rulers defines the default format of a slide:
 <verbatim>
 %STARTINCLUDE%<table width="100%" border="0" cellspacing="0" cellpadding="5" class="slideshow">
 <tr>
-<td valign="middle" class="slideshowHeader">
+<th valign="middle" class="slideshowHeader">
 <img src="%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/logo.gif" border="0" alt="Foswiki Slide Show" align="left" />
 <h1>%SLIDETITLE%</h1>
-</td>
+</th>
 </tr>
 <tr>
 <td valign="top" class="slideshowContent">
@@ -140,9 +140,9 @@ Copyright &copy; %SERVERTIME{$year}% by the contributing authors
 |  Author: | [[Main.EugenMayer]] |
 |  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 04 Feb 2009 |
+|  Plugin Version: | 05 Feb 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  04 Feb 2009: | Updated graphics; made html and css validate. |
+|  05 Feb 2009: | Updated graphics; made html and css validate. |
 |  21 Jan 2009: | Exchanged the current default skin by something which is not written in totaly broken html and looking acceptable ( still needs an update, still table ugly design..). You can style by CSS now %BR% Tuned the docs a bit|
 |  16 Dec 2008: | Foswiki version |
 |  02 Aug 2008: | Fixed corruption of preview |

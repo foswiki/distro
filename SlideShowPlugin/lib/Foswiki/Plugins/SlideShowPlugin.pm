@@ -35,7 +35,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '04 Feb 2009';
+$RELEASE = '05 Feb 2009';
 
 # =========================
 sub initPlugin

@@ -4,11 +4,11 @@
 
 .slideshow .slideshowHeader {
 	background-color:#036;
+	text-align:left;
 }
 
 .slideshow .slideshowHeader img {
-	margin-top:13px;
-	margin-right:8px;
+	margin:13px 1em 0 1em;
 }
 
 .slideshow .slideshowHeader h1 {
