@@ -4,7 +4,7 @@
    * *%MAKETEXT{"Toolbox"}%*
    * [[%SCRIPTURLPATH{"view"}%/%BASEWEB%/WebCreateNewTopic?topicparent=%BASETOPIC%][ %ICON{"newtopic"}% %MAKETEXT{"Create New Topic"}%]]
    * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
-   * [[%INCLUDINGWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
+   * [[%BASEWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
    * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
    * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
    * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
