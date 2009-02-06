@@ -2,13 +2,13 @@
 %INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
    * *%MAKETEXT{"Toolbox"}%*
    * [[%SCRIPTURLPATH{"view"}%/%BASEWEB%/WebCreateNewTopic?topicparent=%BASETOPIC%][ %ICON{"newtopic"}% %MAKETEXT{"Create New Topic"}%]]
-   * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
-   * [[%INCLUDINGWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
-   * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
-   * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
-   * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
-   * [[WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
-   * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
+   * [[%BASEWEB%.WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
+   * [[%BASEWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
+   * [[%BASEWEB%.WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
+   * [[%BASEWEB%.WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
+   * [[%BASEWEB%.WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
+   * [[%BASEWEB%.WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
+   * [[%BASEWEB%.WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
 
 ---
 %INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%
