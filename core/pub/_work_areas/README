@@ -1,4 +1,0 @@
-This is the Foswiki plugins work area. By default there is a .htaccess file here
-that prevents web access to the files in this directory. Individual plugins
-can choose whether to publish their files using local .htaccess files in
-their own work areas.
