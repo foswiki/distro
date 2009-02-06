@@ -34,12 +34,9 @@ sub search {
     # Convert GNU grep \< \> syntax to \b
     $searchString =~ s/(?<!\\)\\[<>]/\\b/g;
     $searchString =~ s/^(.*)$/\\b$1\\b/go if $options->{'wordboundaries'};
-    my $doMatch;
-    if ($options->{casesensitive}) {
-        $doMatch = sub { $_[0] =~ m/$searchString/o };
-    } else {
-        $doMatch = sub { $_[0] =~ m/$searchString/oi };
-    }
+    my $match_code = "return \$_[0] =~ m/$searchString/o";
+    $match_code .= 'i' unless ( $options->{casesensitive} );
+    my $doMatch = eval "sub { $match_code }";
   FILE:
     foreach my $file (@$topics) {
         next unless open( FILE, '<', "$sDir/$file.txt" );
