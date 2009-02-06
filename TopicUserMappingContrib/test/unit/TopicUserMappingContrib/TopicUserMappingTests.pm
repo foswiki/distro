@@ -24,7 +24,8 @@ my $testUsersWeb  = "TemporaryTopicUserMappingTestsUsersWeb";
 my $testUser;
 
 sub fixture_groups {
-    return ( [ 'NormalTopicUserMapping', 'NamedTopicUserMapping', ] );
+    return ( [ 'useHtpasswdMgr', 'noPasswdMgr'],
+            [ 'NormalTopicUserMapping', 'NamedTopicUserMapping', ]);
 }
 
 sub NormalTopicUserMapping {
@@ -41,6 +42,16 @@ sub NamedTopicUserMapping {
     $this->set_up_for_verify();
 }
 
+sub useHtpasswdMgr {
+    my $this = shift;
+    
+    $Foswiki::cfg{PasswordManager}    = "Foswiki::Users::HtPasswdUser";
+}
+sub noPasswdMgr {
+    my $this = shift;
+    
+    $Foswiki::cfg{PasswordManager}    = "none";
+}
 # Override default set_up in base class; will call it after the mapping
 #  id has been set
 sub set_up {

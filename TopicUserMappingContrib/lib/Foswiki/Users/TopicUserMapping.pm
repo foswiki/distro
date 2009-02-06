@@ -263,10 +263,7 @@ sub _userReallyExists {
         return 1;
     }
     else {
-
-        # passwd==none case generally assumes any login given exists...
-        # (not positive if that makes sense for rego..)
-        return 1;
+        return 0;
     }
 
     return 0;
@@ -579,8 +576,7 @@ sub eachUser {
         my $login    = $this->{session}->{users}->getLoginName($cUID);
         my $wikiname = $this->{session}->{users}->getWikiName($cUID);
 
-        require Foswiki::Plugins;
-        return !( $Foswiki::Plugins::SESSION->{users}->{basemapping}
+        return !( $this->{session}->{users}->{basemapping}
             ->handlesUser( undef, $login, $wikiname ) );
     };
     return $iter;
@@ -748,7 +744,7 @@ sub findUserByEmail {
                   $this->getEmails($uo);
             }
         }
-        push( @users, $this->{_MAP_OF_EMAILS}->{$email} );
+        push( @users, @{ $this->{_MAP_OF_EMAILS}->{$email} } );
     }
     return \@users;
 }
@@ -1040,6 +1036,10 @@ sub _cacheUser {
     ASSERT($wikiname) if DEBUG;
 
     $login ||= $wikiname;
+    
+    #discard users that are the BaseUserMapper's responsibility
+    return if ( $this->{session}->{users}->{basemapping}
+        ->handlesUser( undef, $login, $wikiname ) );
 
     my $cUID = $this->login2cUID( $login, 1 );
     return unless ($cUID);
