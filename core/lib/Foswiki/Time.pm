@@ -39,19 +39,17 @@ require Foswiki;
 our $VERSION = '$Rev$'; # Subversion rev number
 
 # Constants
-use vars qw( @ISOMONTH @WEEKDAY @MONTHLENS %MON2NUM );
-
-@ISOMONTH = (
+our @ISOMONTH = (
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 );
 
 # SMELL: does not account for leap years
-@MONTHLENS = ( 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
+our @MONTHLENS = ( 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 
-@WEEKDAY = ( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' );
+our @WEEKDAY = ( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' );
 
-%MON2NUM = (
+our %MON2NUM = (
     jan => 0,
     feb => 1,
     mar => 2,
@@ -65,6 +63,8 @@ use vars qw( @ISOMONTH @WEEKDAY @MONTHLENS %MON2NUM );
     nov => 10,
     dec => 11
 );
+
+our $TZSTRING; # timezone string for servertime; "Z" or "+01:00" etc.
 
 =begin TML
 
@@ -232,6 +232,8 @@ sub parseTime {
    | $email | full email format date/time |
    | $rcs | full RCS format date/time |
    | $epoch | seconds since 1st January 1970 |
+   | $tz | Timezone name (GMT or Local) |
+   | $isotz | ISO 8601 timezone specifier e.g. 'Z, '+07:15' |
 
 =cut
 
@@ -249,15 +251,14 @@ sub formatTime {
         $outputTimeZone = 'gmtime';
     }
 
-    my ( $sec, $min, $hour, $day, $mon, $year, $wday, $tz_str );
+    my ( $sec, $min, $hour, $day, $mon, $year, $wday );
     if ( $outputTimeZone eq 'servertime' ) {
         ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
           localtime($epochSeconds);
-        $tz_str = 'Local';
     }
     else {
-        ( $sec, $min, $hour, $day, $mon, $year, $wday ) = gmtime($epochSeconds);
-        $tz_str = 'GMT';
+        ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
+          gmtime($epochSeconds);
     }
 
     #standard twiki date time formats
@@ -276,15 +277,7 @@ sub formatTime {
 
         # ISO Format, see spec at http://www.w3.org/TR/NOTE-datetime
         # e.g. "2002-12-31T19:30:12Z"
-        $formatString = '$year-$mo-$dayT$hour:$min:$sec';
-        if ( $outputTimeZone eq 'gmtime' ) {
-            $formatString = $formatString . 'Z';
-        }
-        else {
-
-            #TODO:            $formatString = $formatString.
-            # TZD  = time zone designator (Z or +hh:mm or -hh:mm)
-        }
+        $formatString = '$year-$mo-$dayT$hour:$min:$sec$isotz';
     }
 
     $value = $formatString;
@@ -301,11 +294,81 @@ sub formatTime {
     $value =~ s/\$ye/sprintf('%.2u',$year%100)/gei;
     $value =~ s/\$epoch/$epochSeconds/gi;
 
-    # SMELL: how do we get the different timezone strings (and when
-    # we add usertime, then what?)
-    $value =~ s/\$tz/$tz_str/geoi;
+    if ($value =~ /\$tz/) {
+        my $tz_str;
+        if ( $outputTimeZone eq 'servertime' ) {
+            ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
+              localtime($epochSeconds);
+            # SMELL: how do we get the different timezone strings (and when
+            # we add usertime, then what?)
+            $tz_str = 'Local';
+        }
+        else {
+            ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
+              gmtime($epochSeconds);
+            $tz_str = 'GMT';
+        }
+        $value =~ s/\$tz/$tz_str/gei;
+    }
+    if ($value =~ /\$isotz/) {
+        my $tz_str = 'Z';
+        if ( $outputTimeZone ne 'gmtime' ) {
+            # servertime
+            # time zone designator (+hh:mm or -hh:mm)
+            # cached.
+            unless (defined $TZSTRING) {
+                my $offset = _tzOffset();
+                my $sign = ($offset < 0) ? '-' : '+';
+                $offset = abs($offset);
+                my $hours = int($offset / 3600);
+                my $mins = int(($offset - $hours * 3600) / 60);
+                if ($hours || $mins) {
+                    $TZSTRING = sprintf("$sign%02d:%02d", $hours, $mins);
+                } else {
+                    $TZSTRING = 'Z';
+                }
+            }
+            $tz_str = $TZSTRING;
+        }
+        $value =~ s/\$isotz/$tz_str/gei;
+    }
 
     return $value;
+}
+
+# Get timezone offset from GMT in seconds
+# Code taken from CPAN module 'Time' - "David Muir Sharnoff disclaims
+# any copyright and puts his contribution to this module in the public
+# domain."
+# Note that unit tests rely on this function being here.
+sub _tzOffset {
+	my $time = time();
+	my @l = localtime($time);
+	my @g = gmtime($time);
+
+	my $off =
+      $l[0] - $g[0]
+        + ($l[1] - $g[1]) * 60
+          + ($l[2] - $g[2]) * 3600;
+
+	# subscript 7 is yday.
+
+	if ($l[7] == $g[7]) {
+		# done
+	} elsif ($l[7] == $g[7] + 1) {
+		$off += 86400;
+	} elsif ($l[7] == $g[7] - 1) {
+		$off -= 86400;
+	} elsif ($l[7] < $g[7]) {
+		# crossed over a year boundary.
+		# localtime is beginning of year, gmt is end
+		# therefore local is ahead
+		$off += 86400;
+	} else {
+		$off -= 86400;
+	}
+
+	return $off;
 }
 
 sub _weekNumber {

@@ -19,11 +19,14 @@ sub set_up {
     $this->SUPER::set_up();
     $ENV{TZ} = 'GMT'; # GMT
     POSIX::tzset();
+    undef $Foswiki::Time::TZSTRING;
 }
 
 sub tear_down {
     my $this = shift;
-    $this->SUPER::tear_down();
+    $this->SUPER::tear_down(); # should restore $ENV{TZ}
+    POSIX::tzset();
+    undef $Foswiki::Time::TZSTRING;
 }
 
 sub showTime {
@@ -83,6 +86,7 @@ sub test_parseTimeISO8601 {
 
     $ENV{TZ} = 'Europe/Paris'; # GMT + 1
     POSIX::tzset();
+    # Generate server time string
     $this->checkTime(7, 59, 5, 2, 4, 1995, "1995-04-02T06:59:07", 1);
     $this->checkTime(7, 59, 6, 2, 4, 1995, "1995-04-02T06:59:07Z", 1);
 
@@ -92,17 +96,39 @@ sub test_parseTimeLocal {
     my $this = shift;
     $ENV{TZ} = 'Australia/Lindeman';
     POSIX::tzset();
+    undef $Foswiki::Time::TZSTRING;
     $this->checkTime(13, 9, 16, 7, 11, 2006, "2006-11-08T02:09:13", 1);
     # Ensure TZ specifier in string overrides parameter
     $this->checkTime(46, 25, 14, 7, 11, 2006, "2006-11-07T14:25:46Z", 1);
 }
 
+sub test_generateIsoOffset {
+    my $this = shift;
+    # South Australia has a half-hour TZ difference; handy
+    $ENV{TZ} = 'Australia/South'; # +10.30
+    POSIX::tzset();
+    undef $Foswiki::Time::TZSTRING;
+    my $tt = Foswiki::Time::parseTime('2009-02-07T10:22+10:30');
+    # Generate server time string
+    $this->assert_str_equals(
+        '2009-02-07T10:22:00+10:30',
+        Foswiki::Time::formatTime($tt, 'iso', 'servertime'));
+    $tt = Foswiki::Time::parseTime('2009-02-07T10:22Z');
+    $this->assert_str_equals(
+        '2009-02-07T20:52:00+10:30',
+        Foswiki::Time::formatTime($tt, 'iso', 'servertime'));
+}
+
 sub test_checkInterval {
     my $this = shift;
 
+    $ENV{TZ} = 'GMT';
+    POSIX::tzset();
+    undef $Foswiki::Time::TZSTRING;
+
     my $basetime = 1000000000;
-    my $start = Foswiki::Time::formatTime($basetime, 'iso');
-    my $end = Foswiki::Time::formatTime($basetime+500000, 'iso');
+    my $start = Foswiki::Time::formatTime($basetime, 'iso', 'gmtime');
+    my $end = Foswiki::Time::formatTime($basetime+500000, 'iso', 'gmtime');
     my $gap = 31556925+2592000+604800+86400+3600+60+1;
     my $gap2 = 2*31556925+2*2592000+2*604800+2*86400+2*3600+2*60+2;
 
@@ -138,15 +164,15 @@ sub test_checkInterval {
     $interval = "2006/2007";
     ($s, $e) = Foswiki::Time::parseInterval($interval);
     $this->assert_str_equals("2006-01-01T00:00:00Z",
-                             Foswiki::Time::formatTime($s, 'iso'));
+                             Foswiki::Time::formatTime($s, 'iso', 'gmtime'));
     $this->assert_str_equals("2007-12-31T23:59:59Z",
-                             Foswiki::Time::formatTime($e, 'iso'));
+                             Foswiki::Time::formatTime($e, 'iso', 'gmtime'));
     $interval = "2006/2007-02";
     ($s, $e) = Foswiki::Time::parseInterval($interval);
     $this->assert_str_equals("2006-01-01T00:00:00Z",
-                             Foswiki::Time::formatTime($s, 'iso'));
+                             Foswiki::Time::formatTime($s, 'iso', 'gmtime'));
     $this->assert_str_equals("2007-02-28T23:59:59Z",
-                             Foswiki::Time::formatTime($e, 'iso'));
+                             Foswiki::Time::formatTime($e, 'iso', 'gmtime'));
 }
 
 sub test_parseTimeRobustness {
