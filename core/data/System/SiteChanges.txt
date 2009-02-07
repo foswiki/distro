@@ -81,12 +81,8 @@ web="%URLPARAM{"web" default="all"}%"
 excludetopic="WebStatistics"
 reverse="on"
 order="modified"
-format="| <nobr>$date</nobr> | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percntFORMFIELD{$quotSummary$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percnt]] | $wikiusername | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]], %BR% [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][last&nbsp;change]] | "
+format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percntFORMFIELD{$quot$percntIF{$quot'$web.$topic'/TopicTitle$quot then=$quotTopicTitle$quot else=$quot$percntIF{$quot'$web.$topic'/Summary$quot then=$quotSummary$quot}$percnt$quot}$percnt$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percnt]] | $wikiusername | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]], %BR% [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][last&nbsp;change]] | "
 }%
-
-<!-- Old search
-%!SEARCH{ "." regex="on" nosearch="on" nototal="on" limit="%URLPARAM{"limit" default="25"}%" web="%URLPARAM{"web" default="*"}%" excludetopic="WebStatistics" reverse="on" order="modified" format="| $date - [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]] / [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][in-line diff]] - $rev | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$web.$topic(45, ...)]] | $wikiusername |" }%
--->
 
 %TWISTY{link="Modify changes listing (number of items, included webs)..."}%
 
