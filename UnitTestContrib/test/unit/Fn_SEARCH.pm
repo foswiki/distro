@@ -190,7 +190,7 @@ sub verify_separator {
         $this->{test_web}, $this->{test_topic}
     );
     
-    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic", $result );
+    $this->assert_str_equals( "Ok-Topic,Ok+Topic,OkTopic", $result );
 }
 
 sub verify_separator_with_header {
@@ -205,7 +205,7 @@ sub verify_separator_with_header {
     # FIXME: The first , shouldn't be there, but Arthur knows why
     # waiting for him to fix, and as I can't put this test into TODO...
     $this->assert_str_equals( "RESULT:
-Ok+Topic,Ok-Topic,OkTopic", $result );
+Ok-Topic,Ok+Topic,OkTopic", $result );
 }
 
 sub verify_regex_match {
