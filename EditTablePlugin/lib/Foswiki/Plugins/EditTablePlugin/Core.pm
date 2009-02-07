@@ -36,7 +36,8 @@ my $RENDER_HACK                  = "\n<nop>\n";
 my $DEFAULT_FIELD_SIZE           = 16;
 my $PLACEHOLDER_BUTTONROW_TOP    = 'PLACEHOLDER_BUTTONROW_TOP';
 my $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
-my $STUB_VARIABLE                = 'E_T_P_NOP';
+my $ESCAPE_VARIABLE                = 'E_T_P_NOP';
+my $HTML_TAGS = 'a|abbr|address|acronym|b|big|blockquote|br|center|cite|code|del|dfn|div|em|font|h|hr|i|img|ins|kbd|li|ol|p|pre|s|samp|small|span|strike|strong|sub|sup|table|td|th|tr|tt|u|ul|var';
 
 my %regex                    = ();
 $regex{edit_table_plugin} = '%EDITTABLE{(.*?)}%';
@@ -68,15 +69,15 @@ sub init {
 
 =pod
 
----+++ protectVariables ($text)
+---+++ protectVariablesDuringEdit ($text)
 
 Called during beforeCommonTagsHandler.
-Escapes variables by placing $STUB_VARIABLE inside each variable.
+Escapes variables by placing $ESCAPE_VARIABLE inside each variable.
 This stub is removed later on (inside handleTableRow).
 
 =cut
 
-sub protectVariables {
+sub protectVariablesDuringEdit {
 
     #my $text = $_[0]
 
@@ -94,20 +95,23 @@ sub protectVariables {
             if ( !$tableDone && $tableNr eq $paramTableNr ) {
 
                 # only do the one table that is being edited
-                my $inRe = '
+                my $variableRegex = '
                 %				# start of variable
                 (				# group at index 1
                 .*?				# variable name
                 \{*.*?\}*		# variable contents inside braces, if any
                 )				#
                 %				# end of variable';
-                $tableText =~ s/$inRe/%$STUB_VARIABLE$1%/gox;
-                $tableText =~ s/%$STUB_VARIABLE\BR%/&#10;/go
-                  ;    # replace escaped %BR% with newline
+                $tableText =~ s/$variableRegex/%$ESCAPE_VARIABLE$1%/gox;
+                
+                # replace escaped %BR% with newline
+                $tableText =~ s/%$ESCAPE_VARIABLE\BR%/&#10;/go;    
+                  
+                # put stub inside verbatim to prevent the renderer to take out the verbatim block (which is unwanted in edit mode)
                 my $tag = 'verbatim';
                 $tableText =~
-s/\<$tag\>(.*?)\<\/$tag\>/<$STUB_VARIABLE$tag>$1<\/$STUB_VARIABLE$tag>/go
-                  ; # put stub inside verbatim to prevent the renderer to take out the verbatim block (which is unwanted in edit mode)
+s/\<$tag(\s*.*?)\>(.*?)\<\/$tag\>/<$ESCAPE_VARIABLE$tag$1>$2<\/$ESCAPE_VARIABLE$tag>/go; 
+                
                 $tableDone = 1;  # mark no longer necessary to find other tables
             }
             $tableText = $editTableTag . "\n" . $tableText;
@@ -1307,7 +1311,7 @@ sub handleTableRow {
             }
 
             $cell =~
-              s/$STUB_VARIABLE//go;  # remove escaping of variables inside cells
+              s/$ESCAPE_VARIABLE//go;  # remove escaping of variables inside cells
 
             if ($isNewRowFromHeader) {
                 unless ($cell) {

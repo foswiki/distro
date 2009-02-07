@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
+# Copyright (C) 2008-2009 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki
 # Contributors.
 #
@@ -36,7 +36,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '4.11';
+$RELEASE = '4.12';
 
 $encodeStart = '--EditTableEncodeStart--';
 $encodeEnd   = '--EditTableEncodeEnd--';
@@ -78,7 +78,7 @@ sub initPlugin {
 sub beforeCommonTagsHandler {
     return unless $_[0] =~ /%EDIT(TABLE|CELL){.*}%/s;
     require Foswiki::Plugins::EditTablePlugin::Core;
-    Foswiki::Plugins::EditTablePlugin::Core::protectVariables(
+    Foswiki::Plugins::EditTablePlugin::Core::protectVariablesDuringEdit(
         $_[0] );
 }
 

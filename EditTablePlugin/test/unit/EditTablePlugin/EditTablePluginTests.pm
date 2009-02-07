@@ -940,9 +940,9 @@ NEWEXPECTED
 =pod
 
 Test if TML formatting is rendered.
-=cut
 
-sub test_TMLFormattingInsideCell {
+=cut
+sub test_TMLFormattingInsideCell_BR {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -1180,7 +1180,7 @@ sub test_save_with_verbatim {
     my $input = <<INPUT;
 %EDITTABLE{}%
 | *text* |
-| <verbatim>inside verbatim</verbatim> |
+| <verbatim class="foswikiAlert">inside verbatim</verbatim> |
 INPUT
     my $query = new Unit::Request(
         {
@@ -1222,7 +1222,7 @@ INPUT
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{}%
 | *text* |
-| <verbatim>inside verbatim</verbatim> |
+| <verbatim class="foswikiAlert">inside verbatim</verbatim> |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
