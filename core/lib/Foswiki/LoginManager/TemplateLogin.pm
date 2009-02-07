@@ -194,7 +194,7 @@ sub login {
     $session->{prefs}->pushPreferenceValues(
         'SESSION',
         {
-            ORIGURL => Foswiki::urlEncode($origurl),
+            ORIGURL => $origurl,
             BANNER  => $banner,
             NOTE    => $note,
             ERROR   => $error
