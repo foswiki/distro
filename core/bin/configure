@@ -332,7 +332,7 @@ if ( $action eq 'image' ) {
     if (
         ( defined($image) )
         && (   ( $image eq 'favicon.ico' )
-            || ( $image eq 'banner.png' )
+            || ( $image eq 'foswiki-logo-slogan.png' )
             || ( $image eq 'warning.gif' )
             || ( $image eq 'info.gif' ) )
       )
@@ -424,7 +424,7 @@ HERE
 # use this script recursively to serve the icon image
 print CGI::img(
     {
-        src   => $scriptName . '?action=image;image=banner.png;type=image/png',
+        src   => $scriptName . '?action=image;image=foswiki-logo-slogan.png;type=image/png',
         class => 'logo',
         alt   => 'Foswiki'
     }

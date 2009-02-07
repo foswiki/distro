@@ -12,7 +12,7 @@ bin/configure 0555
 bin/edit 0555
 bin/login 0555
 bin/logon 0555
-bin/logos/banner.png 0444
+bin/logos/foswiki-logo-slogan.png 0444
 bin/logos/favicon.ico 0444
 bin/logos/info.gif 0444
 bin/logos/warning.gif 0444
