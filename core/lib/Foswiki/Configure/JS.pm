@@ -45,6 +45,8 @@ function foldBlock(id) {
             closeBlockElement(lastOpenBlock, lastOpenBlockLink);
         }
     }
+    window.location.hash = id + "link";
+    
     if (o && o.block) {
         lastOpenBlock = (lastOpenBlock == o.block) ? null : o.block;
     }
