@@ -29,9 +29,11 @@ Order Allow,Deny
 Allow from all
 Deny from env=anonymous_spider
 
-# Use CGI & Perl to handle all files in 'bin' directory, i.e. run as scripts
-# - this should remove the need to rename files to end in '.pl' etc,
-# if your web hosting provider permits this.  Remove if using mod_perl.
+# Use CGI & Perl to handle all files in 'bin' directory, i.e. run as scripts -
+# this should remove the need to rename files to end in '.pl' etc, if your web
+# hosting provider permits this.  Remove if using mod_perl.  Look at
+# http://foswiki.org/Extensions/FastCGIEngineContrib to get info about FastCGI
+# support.
 SetHandler cgi-script
 
 # Password file for Foswiki users
