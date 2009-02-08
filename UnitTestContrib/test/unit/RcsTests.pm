@@ -681,18 +681,69 @@ sub verify_Item3122 {
 
 # Verify data compatibility between RcsLite and RcsWrap
 sub test_Item945 {
-    my( $this ) = @_;
-    my $rcsWrap = new Foswiki::Store::RcsWrap($twiki, $testWeb, 'PinkPen');
-    my $rcsLite = new Foswiki::Store::RcsLite($twiki, $testWeb, 'PinkPen');
-    $rcsWrap->addRevisionFromText("old\nwrap text\n", "one", "iron", time());
-    $rcsWrap->addRevisionFromText("new\nwrap text\n", "two", "tin", time());
-    # $rcsWrap->numRevisions invokes histCmd, which is an rlog
-    $this->assert_equals(2, $rcsWrap->numRevisions());
-    $this->assert_equals(2, $rcsLite->numRevisions());
-    $rcsLite->addRevisionFromText("old\nlite text\n", "tre", "zinc", time());
-    $rcsLite->addRevisionFromText("new\nlite text\n", "for", "gold", time());
-    $this->assert_equals(4, $rcsWrap->numRevisions());
-    $this->assert_equals(4, $rcsLite->numRevisions());
+    my ($this) = @_;
+    my $rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
+    my $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    my $time = time();
+
+    $rcsWrap->addRevisionFromText( "old\nwrap text\n", "one", "iron", $time );
+    $this->assert_equals( 1, $rcsWrap->numRevisions() );
+    $this->assert_equals( 1, $rcsLite->numRevisions() );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsWrap->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsLite->getRevisionInfo(1) ] );
+
+    $rcsWrap->addRevisionFromText( "new\nwrap text\n", "two", "tin",
+        $time + 1 );
+    $this->assert_equals( 2, $rcsWrap->numRevisions() );
+    $this->assert_equals( 2, $rcsLite->numRevisions() );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsWrap->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
+        [ $rcsWrap->getRevisionInfo(2) ] );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsLite->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
+        [ $rcsLite->getRevisionInfo(2) ] );
+
+    $rcsLite->addRevisionFromText( "old\nlite text\n",
+        "tre", "zinc", $time + 2 );
+    $this->assert_equals( 3, $rcsWrap->numRevisions() );
+    $this->assert_equals( 3, $rcsLite->numRevisions() );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsWrap->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
+        [ $rcsWrap->getRevisionInfo(2) ] );
+    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
+        [ $rcsWrap->getRevisionInfo(3) ] );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsLite->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
+        [ $rcsLite->getRevisionInfo(2) ] );
+    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
+        [ $rcsLite->getRevisionInfo(3) ] );
+
+    $rcsLite->addRevisionFromText( "new\nlite text\n",
+        "for", "gold", $time + 3 );
+    $this->assert_equals( 4, $rcsWrap->numRevisions() );
+    $this->assert_equals( 4, $rcsLite->numRevisions() );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsWrap->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
+        [ $rcsWrap->getRevisionInfo(2) ] );
+    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
+        [ $rcsWrap->getRevisionInfo(3) ] );
+    $this->assert_deep_equals( [ 4, $time + 3, "gold", "for" ],
+        [ $rcsWrap->getRevisionInfo(4) ] );
+    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
+        [ $rcsLite->getRevisionInfo(1) ] );
+    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
+        [ $rcsLite->getRevisionInfo(2) ] );
+    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
+        [ $rcsLite->getRevisionInfo(3) ] );
+    $this->assert_deep_equals( [ 4, $time + 3, "gold", "for" ],
+        [ $rcsLite->getRevisionInfo(4) ] );
 }
 
 1;
