@@ -33,6 +33,7 @@ All the scripts accept a number of common parameters. The first two components o
 | =skin= | Overrides the default skin path (see [[Skins]]) | |
 | =cover= | Specifies temporary skin path to prepend to the skin path for this script only (see [[Skins]]) | |
 | =t= | While the =t= parameter is not actively used by any scripts, it is used throughout the links like =edit= to ensure that the browser doesn't cache the reply. | generally set to current time |
+| =logout= | requests the LoginManager to log the current user out. (happens at the begining of the request so will terminate any other operation requested) |
 
 ---+++ =attach=
 Despite the name, this script doesn't actually attach a file to a topic - for that, use =upload=. This script is part of the transactions sequence executed when a file is uploaded from the browser. it just generates the "new attachment" page for a topic.
