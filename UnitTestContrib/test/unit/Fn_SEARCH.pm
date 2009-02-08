@@ -19,7 +19,9 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-
+    # Turn UseLocale off; otherwise the Ok-Topic Ok+Topic lexical sort
+    # order gets reversed
+    $Foswiki::cfg{UseLocale} = 0;
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
         $this->{test_web}, 'OkTopic', "BLEEGLE blah/matchme.blah" );
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
@@ -79,7 +81,7 @@ sub verify_simple {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"BLEEGLE" topic="Ok-Topic,Ok+Topic,OkTopic" nonoise="on" format="$topic"}%',
+'%SEARCH{"BLEEGLE" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="$topic"}%',
         $this->{test_web}, $this->{test_topic}
     );
 
@@ -104,7 +106,7 @@ sub verify_angleb {
 
     # Test regex with \< and \>, used in rename searches
     my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"\<matc[h]me\>" type="regex" topic="Ok-Topic,Ok+Topic,OkTopic" nonoise="on" format="$topic"}%',
+'%SEARCH{"\<matc[h]me\>" type="regex" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="$topic"}%',
         $this->{test_web}, $this->{test_topic}
     );
 
@@ -190,7 +192,7 @@ sub verify_separator {
         $this->{test_web}, $this->{test_topic}
     );
 
-    $this->assert_str_equals( "Ok-Topic,Ok+Topic,OkTopic", $result );
+    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic", $result );
 }
 
 sub verify_separator_with_header {
@@ -205,7 +207,7 @@ sub verify_separator_with_header {
     # FIXME: The first , shouldn't be there, but Arthur knows why
     # waiting for him to fix, and as I can't put this test into TODO...
     $this->assert_str_equals( "RESULT:
-Ok-Topic,Ok+Topic,OkTopic", $result );
+Ok+Topic,Ok-Topic,OkTopic", $result );
 }
 
 sub verify_regex_match {
@@ -1041,7 +1043,7 @@ sub test_pattern {
     my $this = shift;
 
     my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"BLEEGLE" topic="Ok-Topic,Ok+Topic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%',
+'%SEARCH{"BLEEGLE" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%',
         $this->{test_web}, $this->{test_topic}
     );
     $this->assert_matches( qr/Xdontmatchme\.Y/, $result );
@@ -1054,7 +1056,7 @@ sub test_badpattern {
 
     # The (??{ pragma cannot be run at runtime since perl 5.5
     my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"BLEEGLE" topic="Ok-Topic,Ok+Topic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%',
+'%SEARCH{"BLEEGLE" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%',
         $this->{test_web}, $this->{test_topic}
     );
 
