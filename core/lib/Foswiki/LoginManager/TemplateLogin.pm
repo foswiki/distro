@@ -187,6 +187,9 @@ sub login {
             $banner = $session->templates->expandTemplate('UNRECOGNISED_USER');
         }
     }
+    else {
+        $session->{response}->status( 400 );
+    }
 
     # TODO: add JavaScript password encryption in the template
     # to use a template)
