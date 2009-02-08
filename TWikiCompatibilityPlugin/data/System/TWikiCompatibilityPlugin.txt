@@ -19,7 +19,7 @@ your Apache configuration _in the =pub= section_
 <verbatim>
 	#for TWikiCompatibility
 	ErrorDocument 404 /foswiki/bin/viewfile
-</verbatim
+</verbatim>
 
 ---+++ TODO:
    1 pub file redirection - will probably have to be a final regex in postRendering
@@ -44,6 +44,6 @@ Many thanks to the following sponsors for supporting this work:
 |  Appraisal: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPluginAppraisal |
 
 ---
-*Related Topics:* %SYSTEMWEB%.TWikiPlugins, %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+*Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on twiki.org instead. -->
