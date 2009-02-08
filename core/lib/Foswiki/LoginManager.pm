@@ -381,12 +381,24 @@ sub loadSession {
         }
         else {
             _trace( $this, "User is logging out" );
-            my $origurl = $query->referer()
-              || $query->url() . $query->path_info();
 
-            #TODO:
+            #TODO: consider if we should risk passing on the urlparams on logout
+            my $path_info = $query->path_info();
+            if (my $topic = $query->param('topic')) {   #we should at least respect the ?topic= request
+                my $topicRequest = Foswiki::Sandbox::untaintUnchecked($query->param('topic'));
+                my ($web, $topic) = $this->{session}->normalizeWebTopicName(undef, $topicRequest);
+                $path_info = '/'.$web.'/'.$topic;
+            }
+
+            my $redirectUrl;
+            if ($path_info) {
+                $redirectUrl = $query->url() . $path_info;
+            } else {
+                $redirectUrl = $query->referer();
+            }
+
             $query->delete('logout');    #lets avoid infinite loops
-            $this->redirectCgiQuery( $query, $origurl );
+            $this->redirectCgiQuery( $query, $redirectUrl );
             $authUser = undef;
         }
     }
