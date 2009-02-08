@@ -3,6 +3,7 @@ package Foswiki::Form::Select;
 use base 'Foswiki::Form::ListFieldDefinition';
 
 use strict;
+use Assert;
 
 sub new {
     my $class = shift;

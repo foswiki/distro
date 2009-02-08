@@ -194,4 +194,21 @@ FORM
     $this->assert_str_equals('', $f->{size});
 }
 
+sub test_Item972_selectPlusValues {
+    my $this = shift;
+
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{test_web}, 'TestForm', <<FORM);
+| *Name* | *Type*   | *Size* | *Value* | *Tooltip* | *Attributes* |
+| Select | select+values | 5 | One, Two=2, Three=III, Four | Various values |
+FORM
+    my $def = new Foswiki::Form($this->{twiki}, $this->{test_web}, 'TestForm');
+
+    my $f = $def->getField('Select');
+    $this->assert_str_equals('select+values', $f->{type});
+    $this->assert_equals(4, scalar(@{$f->getOptions()}));
+    $this->assert_str_equals('One,2,III,Four', join(',',@{$f->getOptions()}));
+    $this->assert_str_equals('Various values', $f->{tooltip});
+}
+
 1;
