@@ -565,7 +565,7 @@ sub _linkToolTipInfo {
 
 ---++ ObjectMethod internalLink ( $theWeb, $theTopic, $theLinkText, $theAnchor, $doLink, $doKeepWeb, $hasExplicitLinkLabel ) -> $html
 
-Generate a link. 
+Generate a link.
 
 Note: Topic names may be spaced out. Spaced out names are converted to <nop>WikWords,
 for example, "spaced topic name" points to "SpacedTopicName".
@@ -575,11 +575,11 @@ for example, "spaced topic name" points to "SpacedTopicName".
    * =$theAnchor= - the link anchor, if any
    * =$doLinkToMissingPages= - boolean: false means suppress link for non-existing pages
    * =$doKeepWeb= - boolean: true to keep web prefix (for non existing Web.TOPIC)
-   * =$hasExplicitLinkLabel= - boolean: true in case of [[TopicName][explicit link label]] 
+   * =$hasExplicitLinkLabel= - boolean: true in case of [[TopicName][explicit link label]]
 
 Called by _handleWikiWord and _handleSquareBracketedLink and by Func::internalLink
 
-Calls _renderWikiWord, which in turn will use Plurals.pm to match fold plurals to equivalency with their singular form 
+Calls _renderWikiWord, which in turn will use Plurals.pm to match fold plurals to equivalency with their singular form
 
 SMELL: why is this available to Func?
 
@@ -1444,9 +1444,16 @@ s/$STARTWW((mailto\:)?[a-zA-Z0-9-_.+]+@[a-zA-Z0-9-_.]+\.[a-zA-Z0-9-_]+)$ENDWW/_m
         while ( $text =~ s/^\s*\-\-\-+\+[^\n\r]*// ) { };    # remove heading
     }
 
-    # keep only link text of [[prot://uri.tld/ link text]] or [[][]]
-    $text =~
-s/\[\[$Foswiki::regex{linkProtocolPattern}\:([^\s<>"]+[^\s*.,!?;:)<|])\s+(.*?)\]\]/$3/g;
+    # keep only link text of legacy [[prot://uri.tld/ link text]]
+    $text =~ s/
+            \[
+                \[$Foswiki::regex{linkProtocolPattern}\:
+                    ([^\s<>"\]]+[^\s*.,!?;:)<|\]])
+                        \s+([^\[\]]*?)
+                \]
+            \]/$3/gx;
+
+    #keep only test portion of [[][]] links
     $text =~ s/\[\[([^\]]*\]\[)(.*?)\]\]/$2/g;
 
     # remove "Web." prefix from "Web.TopicName" link

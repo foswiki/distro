@@ -189,7 +189,7 @@ sub verify_separator {
 '%SEARCH{"name~\'*Topic\'" type="query" nonoise="on" format="$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
     );
-    
+
     $this->assert_str_equals( "Ok-Topic,Ok+Topic,OkTopic", $result );
 }
 
@@ -201,7 +201,7 @@ sub verify_separator_with_header {
 '%SEARCH{"name~\'*Topic\'" type="query" header="RESULT:" nonoise="on" format="$topic" separator=","}%',
         $this->{test_web}, $this->{test_topic}
     );
-    
+
     # FIXME: The first , shouldn't be there, but Arthur knows why
     # waiting for him to fix, and as I can't put this test into TODO...
     $this->assert_str_equals( "RESULT:
@@ -1101,6 +1101,43 @@ sub test_validatepattern {
     # Test independent sub-expression
     $pattern = Foswiki::validatePattern('foo(?>blue)bar');
     $this->assert_matches( qr/$pattern/, 'foobluebar' );
+
+}
+
+#Item977
+sub verify_formatOfLinks {
+    my $this = shift;
+
+    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
+        $this->{test_web}, 'Item977', "---+ Apache
+
+Apache is the [[http://www.apache.org/httpd/][well known web server]].
+" );
+
+    my $result = $this->{twiki}->handleCommonTags(
+'%SEARCH{"Item977" scope="topic" nonoise="on" format="$summary"}%',
+        $this->{test_web}, $this->{test_topic}
+    );
+
+    $this->assert_str_equals( 'Apache Apache is the well known web server.',   $result );
+
+    #TODO: these test should move to a proper testing of Render.pm - will happen during
+    #extractFormat feature
+    $this->assert_str_equals( 'Apache is the well known web server.',
+                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[http://www.apache.org/httpd/][well known web server]].'));
+
+    #test a few others to try to not break things
+    $this->assert_str_equals( 'Apache is the well known web server.',
+                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[http://www.apache.org/httpd/ well known web server]].'));
+    $this->assert_str_equals( 'Apache is the well known web server.',
+                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[ApacheServer][well known web server]].'));
+
+    #SMELL: an unexpected result :/
+    $this->assert_str_equals( 'Apache is the   well known web server  .',
+                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[well known web server]].'));
+    $this->assert_str_equals( 'Apache is the well known web server.',
+                $this->{twiki}->{renderer}->TML2PlainText('Apache is the well known web server.'));
+
 
 }
 
