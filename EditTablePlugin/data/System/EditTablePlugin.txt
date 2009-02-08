@@ -210,10 +210,11 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 ---++ Plugin Info
 
-|  Copyright: | &copy; 2008, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
+|  Copyright: | &copy; 2008-2009, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.12 (07 Feb 2009) |
+|  Plugin Version: | 4.13 (08 Feb 2009) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  08 Feb 2009: | 4.13: Fixed incidental removal of =EDITCELL= tags when a different table in the topic is edited. Improved display of linebreaks and TML inside cells. |
 |  07 Feb 2009: | 4.12: Protect =verbatim class="xxx"= during edit. |
 |  16 Dec 2008: | 4.11: Kenneth Lavrsen: Foswiki version |
 |  01 Nov 2008: | 4.9: Arthur Clemens: Fixed rendering of =verbatim= blocks when editing. Added parameter =buttonrow="top"= to allow the buttons to be positioned at the top of the table. |

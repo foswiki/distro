@@ -209,7 +209,7 @@ SOMETHING <noautolink>
 <div class="editTable editTableEdit">
 <form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
 <input type="hidden" name="ettablenr" value="1" />
-|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="foswikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<input type="text" name="etcell1x8"  size="11" class="foswikiInputField editTableInput" id="idetcell1x8" /><span class="foswikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span> |
+|<span class="et_rowlabel">0<input type="hidden" name="etcell1x1" value="0" /></span> |<input class="foswikiInputField editTableInput" type="text" name="etcell1x2" size="10" value="--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--" /> |<textarea class="foswikiTextarea editTableTextarea" rows="3" cols="10" name="etcell1x3">--EditTableEncodeStart--.i.n.i.t--EditTableEncodeEnd--</textarea> |<select class="foswikiSelect" name="etcell1x4" size="3"> <option selected="selected">option 1</option> <option>option 2</option> <option>option 3</option></select> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="radio" name="etcell1x5" value="A" /> A <br /> <input type="radio" name="etcell1x5" value="B" /> B </td><td valign="top"> <input type="radio" name="etcell1x5" value="C" /> C <br /> <input type="radio" name="etcell1x5" value="D" /> D </td><td valign="top"> <input type="radio" name="etcell1x5" value="E" /> E <br /></td></tr></table> |<table class="editTableInnerTable"><tr><td valign="top"> <input type="checkbox" name="etcell1x6x2" value="A" checked="checked" /> A <br /> <input type="checkbox" name="etcell1x6x3" value="B" checked="checked" /> B </td><td valign="top"> <input type="checkbox" name="etcell1x6x4" value="C" checked="checked" /> C <br /> <input type="checkbox" name="etcell1x6x5" value="D" checked="checked" /> D </td><td valign="top"> <input type="checkbox" name="etcell1x6x6" value="E" checked="checked" /> E <br /></td></tr></table> <input type="hidden" name="etcell1x6" value="Chkbx: etcell1x6x2 etcell1x6x3 etcell1x6x4 etcell1x6x5 etcell1x6x6" /> |LABEL<input type="hidden" name="etcell1x7" value="--EditTableEncodeStart--.L.A.B.E.L--EditTableEncodeEnd--" /> |<nobr><input type="text" name="etcell1x8"  size="11" class="foswikiInputField editTableInput" id="idetcell1x8" /><span class="foswikiMakeVisible"><input type="image" name="calendar" src="$pubUrlSystemWeb/JSCalendarContrib/img.gif" align="middle" alt="Calendar" onclick="return showCalendar('idetcell1x8','%d %b %Y')" class="editTableCalendarButton" /></span></nobr> |
 <input type="hidden" name="etrows" value="1" />
 <input type="submit" name="etsave" id="etsave" value="Save table" class="foswikiSubmit" />
 <input type="submit" name="etqsave" id="etqsave" value="Quiet save" class="foswikiButton" />
@@ -982,6 +982,51 @@ NEWEXPECTED
     $this->do_testHtmlOutput( $expected, $result, 1 );
 }
 
+=pod
+
+Test if TML formatting is rendered with <br /> tags.
+
+=cut
+sub test_TMLFormattingInsideCell_tag_br {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+
+    my $input = <<INPUT;
+%EDITTABLE{}%
+| blablabla<br />there's still a bug<br />lurking around<br />_italic_<br />*bold* %EDITCELL{textarea,6x40,}% |
+INPUT
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName,
+        $webName, undef );
+        
+    my $expected = <<NEWEXPECTED;
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<nop>
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable" rules="cols" border="1">
+	<tbody>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td bgcolor="#ffffff" valign="top" class="foswikiTableCol0 foswikiFirstCol foswikiLastCol foswikiLast"> blablabla <br /> there's still a bug <br /> lurking around <br /> <em>italic</em> <br /> <strong>bold</strong> </td>
+		</tr>
+	</tbody></table>
+<input type="hidden" name="etrows" value="1" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+</div><!-- /editTable -->
+NEWEXPECTED
+
+    $this->do_testHtmlOutput( $expected, $result, 1 );
+}
+
 sub test_keepStars {
     my $this = shift;
     my $topicName = $this->{test_topic};
@@ -1223,6 +1268,153 @@ INPUT
 %EDITTABLE{}%
 | *text* |
 | <verbatim class="foswikiAlert">inside verbatim</verbatim> |
+NEWEXPECTED
+    $this->assert_str_equals( $expected, $newtext, 0 );
+
+    $twiki->finish();
+}
+
+sub test_INCLUDE_view {
+    my $this = shift;
+    
+    # Create topic to include
+    my $includedTopic = "TopicToInclude";
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $this->{test_web},
+        $includedTopic, <<THIS);
+%EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | checkbox, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
+| *URL* | *Name* | *By* | *Comment* | *Timestamp* |
+| 1 | Unified field theory | not started | :-) , :-I , :-( | 1 Apr 2012 |
+| 2 | *Sliced* yoghourt | not started | :-) , :-I , :-( | 1 Jun 2002 |
+| 3 | Cubical turkeys | not started | :-I | 1 Oct 2007 |
+| 4 | Self-eating burritos | completed | :-I | 1 Apr 2008 |
+THIS
+
+	# include this in our test topic
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuthTestTopic =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+	my $viewUrlAuthOtherTopic =
+      Foswiki::Func::getScriptUrl( $webName, 'TopicToInclude', 'viewauth' );
+    my $pubUrlSystemWeb =
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+      
+    my $raw_tag  = '%EDITTABLE{}%
+
+%INCLUDE{"TopicToInclude"}%
+
+%EDITTABLE{}%';
+
+    my $expected = <<END;
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="$viewUrlAuthTestTopic#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<input type="hidden" name="etrows" value="0" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+</div><!-- /editTable -->
+
+
+<div class="editTable">
+<form name="edittable1_TemporaryEditTableFunctionsTestWebEditTableFunctions_TestTopicEditTableFunctions" action="$viewUrlAuthOtherTopic#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+| *URL* | *Name* | *By* | *Comment* | *Timestamp* |
+| 1 | Unified field theory | not started | :-) , :-I , :-( | 1 Apr 2012 |
+| 2 | *Sliced* yoghourt | not started | :-) , :-I , :-( | 1 Jun 2002 |
+| 3 | Cubical turkeys | not started | :-I | 1 Oct 2007 |
+| 4 | Self-eating burritos | completed | :-I | 1 Apr 2008 |
+<input type="hidden" name="etrows" value="5" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+</div><!-- /editTable -->
+
+
+<a name="edittable2"></a>
+<div class="editTable">
+<form name="edittable2" action="$viewUrlAuthTestTopic#edittable2" method="post">
+<input type="hidden" name="ettablenr" value="2" />
+<input type="hidden" name="etedit" value="on" />
+<input type="hidden" name="etrows" value="0" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+</div><!-- /editTable -->
+END
+
+    my $result =
+      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+    $this->do_testHtmlOutput( $expected, $result, 0 );
+}
+
+=pod
+
+=cut
+sub test_is_EDITCELL_kept_after_save {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+
+    my $input = <<INPUT;
+%EDITTABLE{}% 
+| a | Some text |
+| b | More text |
+
+%EDITTABLE{ format="| label | text, 40 |" changerows="off" }%
+| *Key* | *Value* |
+| Gender: | F %EDITCELL{select, 1, , F, M}% |
+| DOB: | 8 February 2009 %EDITCELL{date, 10}% |
+INPUT
+    my $query = new Unit::Request(
+        {
+            etedit    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
+
+    $query = new Unit::Request(
+        {
+            etsave    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $input );
+
+    $twiki = new Foswiki( undef, $query );
+	my $response = new Unit::Response;
+    $Foswiki::Plugins::SESSION = $twiki;
+
+    my ( $saveResult, $ecode ) = $this->capture(
+        sub {
+            $response->print( Foswiki::Func::expandCommonVariables( $input,
+                $this->{test_topic}, $this->{test_web}, undef ) );
+        }
+    );
+
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
+
+    my $expected = <<NEWEXPECTED;
+%EDITTABLE{}% 
+| a | Some text |
+| b | More text |
+
+%EDITTABLE{ format="| label | text, 40 |" changerows="off" }%
+| *Key* | *Value* |
+| Gender: | F %EDITCELL{select, 1, , F, M}% |
+| DOB: | 8 February 2009 %EDITCELL{date, 10}% |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 

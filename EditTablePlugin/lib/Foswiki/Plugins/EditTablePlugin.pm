@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008-2009 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
+# Copyright (C) 2008 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki
 # Contributors.
 #
@@ -22,27 +22,28 @@ package Foswiki::Plugins::EditTablePlugin;
 
 use strict;
 
-use vars qw(
-  $web $topic $user $VERSION $RELEASE $debug
-  $query $usesJavascriptInterface $viewModeHeaderDone $editModeHeaderDone $encodeStart $encodeEnd $prefsInitialized
-  %editMode %saveMode $ASSET_URL
-);
-
 # This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
 # you should leave it alone.
-$VERSION = '$Rev$';
+our $VERSION = '$Rev$';
 
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '4.12';
+our $RELEASE = '4.13';
 
-$encodeStart = '--EditTableEncodeStart--';
-$encodeEnd   = '--EditTableEncodeEnd--';
-%editMode    = ( 'NONE', 0, 'EDIT', 1 );
-%saveMode    = ( 'NONE', 0, 'SAVE', 1, 'SAVEQUIET', 2 );
-$ASSET_URL   = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
+our $ENCODE_START = '--EditTableEncodeStart--';
+our $ENCODE_END   = '--EditTableEncodeEnd--';
+our $ASSET_URL    = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
+our $web;
+our $topic;
+our $user;
+our $debug;
+our $query;
+our $usesJavascriptInterface;
+our $viewModeHeaderDone;
+our $editModeHeaderDone;
+our $prefsInitialized;
 
 sub initPlugin {
     ( $topic, $web, $user ) = @_;
@@ -78,8 +79,8 @@ sub initPlugin {
 sub beforeCommonTagsHandler {
     return unless $_[0] =~ /%EDIT(TABLE|CELL){.*}%/s;
     require Foswiki::Plugins::EditTablePlugin::Core;
-    Foswiki::Plugins::EditTablePlugin::Core::protectVariablesDuringEdit(
-        $_[0] );
+    Foswiki::Plugins::EditTablePlugin::Core::init();
+    Foswiki::Plugins::EditTablePlugin::Core::prepareForView(@_);
 }
 
 sub commonTagsHandler {
@@ -87,12 +88,12 @@ sub commonTagsHandler {
 
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;
-    Foswiki::Plugins::EditTablePlugin::Core::process( $_[0], $_[1], $_[2], $topic,
-        $web );
+    Foswiki::Plugins::EditTablePlugin::Core::process( $_[0], $_[1], $_[2],
+        $topic, $web );
 }
 
 sub postRenderingHandler {
-    $_[0] =~ s/$encodeStart(.*?)$encodeEnd/decodeValue($1)/geos;
+    $_[0] =~ s/$ENCODE_START(.*?)$ENCODE_END/decodeValue($1)/geos;
 }
 
 sub encodeValue {
@@ -104,7 +105,7 @@ sub encodeValue {
 
     # convert <br /> markup to unicode linebreak character for text areas
     $_[0] =~ s/.<.b.r. .\/.>/&#10;/gos;
-    $_[0] = $encodeStart . $_[0] . $encodeEnd;
+    $_[0] = $ENCODE_START . $_[0] . $ENCODE_END;
 }
 
 sub decodeValue {
@@ -192,7 +193,8 @@ sub addJavaScriptInterfaceDisabledToHead {
 '<meta name="EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE_EditTableId" content="'
       . $tableId . '" />';
     $header .= "\n";
-    Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE', $header );
+    Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE',
+        $header );
 }
 
 sub addHeaderAndFooterCountToHead {
