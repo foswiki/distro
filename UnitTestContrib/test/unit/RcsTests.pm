@@ -679,4 +679,20 @@ sub verify_Item3122 {
     $this->assert_equals("old", $text);
 }
 
+# Verify data compatibility between RcsLite and RcsWrap
+sub test_Item945 {
+    my( $this ) = @_;
+    my $rcsWrap = new Foswiki::Store::RcsWrap($twiki, $testWeb, 'PinkPen');
+    my $rcsLite = new Foswiki::Store::RcsLite($twiki, $testWeb, 'PinkPen');
+    $rcsWrap->addRevisionFromText("old\nwrap text\n", "one", "iron", time());
+    $rcsWrap->addRevisionFromText("new\nwrap text\n", "two", "tin", time());
+    # $rcsWrap->numRevisions invokes histCmd, which is an rlog
+    $this->assert_equals(2, $rcsWrap->numRevisions());
+    $this->assert_equals(2, $rcsLite->numRevisions());
+    $rcsLite->addRevisionFromText("old\nlite text\n", "tre", "zinc", time());
+    $rcsLite->addRevisionFromText("new\nlite text\n", "for", "gold", time());
+    $this->assert_equals(4, $rcsWrap->numRevisions());
+    $this->assert_equals(4, $rcsLite->numRevisions());
+}
+
 1;
