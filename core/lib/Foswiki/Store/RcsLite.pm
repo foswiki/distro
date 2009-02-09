@@ -27,26 +27,26 @@ FIXME:
 
 <verbatim>
 rcstext    ::=  admin {delta}* desc {deltatext}*
-admin      ::=  head {num};
+admin      ::=  'head' {num};
                 { branch   {num}; }
-                access {id}*;
-                symbols {sym : num}*;
-                locks {id : num}*;  {strict  ;}
-                { comment  {string}; }
-                { expand   {string}; }
+                'access' {id}*;
+                'symbols' {sym : num}*;
+                'locks' {id : num}*;  {strict  ;}
+                { 'comment'  {string}; }
+                { 'expand'   {string}; }
                 { newphrase }*
 delta      ::=  num
-                date num;
-                author id;
-                state {id};
-                branches {num}*;
-                next {num};
+                'date' num;
+                'author' id;
+                'state' {id};
+                'branches' {num}*;
+                'next' {num};
                 { newphrase }*
-desc       ::=  desc string
+desc       ::=  'desc' string
 deltatext  ::=  num
-                log string
+                'log' logstring
                 { newphrase }*
-                text string
+                'text' string
 num        ::=  {digit | .}+
 digit      ::=  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 id         ::=  {num} idchar {idchar | num }*
@@ -54,6 +54,7 @@ sym        ::=  {digit}* idchar {idchar | digit }*
 idchar     ::=  any visible graphic character except special
 special    ::=  $ | , | . | : | ; | @
 string     ::=  @{any character, with @ doubled}*@
+logstring  ::=  @@ | @{any string not ending in \n}\n@
 newphrase  ::=  id word* ;
 word       ::=  id | num | string | :
 </verbatim>
@@ -335,7 +336,7 @@ sub _process {
         elsif ( $state eq 'deltatext.log' ) {
             if (/\d+\.(\d+)\s+log\s+$/o) {
                 $dnum               = $1;
-                $revs[$dnum]->{log} = $string;
+                $revs[$dnum]->{log} = substr( $string, 0, -1 );
                 $state              = 'deltatext.text';
             }
         }
@@ -412,7 +413,7 @@ HERE
 
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
         print $file "\n", '1.', $i, "\n",
-          'log', "\n", _formatString( $this->{revs}[$i]->{log} ),
+          'log', "\n", _formatString( $this->{revs}[$i]->{log}."\n" ),
           "\n", 'text', "\n", _formatString( $this->{revs}[$i]->{text} ),
           "\n\n";
     }
@@ -462,6 +463,8 @@ sub _addRevision {
     my ( $this, $isStream, $data, $log, $author, $date ) = @_;
 
     _ensureProcessed($this);
+	
+	$log =~ s/\n*$//;
 
     if ( $this->{state} eq 'nocommav' && -e $this->{file} ) {
 
@@ -743,7 +746,6 @@ sub _diff {
 
         $adj += _addChunk( $chunkSign, \$out, \@lines, $start, $adj );
     }
-    $out .= "\n";
 
     #print STDERR "CONVERTED\n",$out,"\n";
     return $out;
