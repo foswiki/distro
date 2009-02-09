@@ -259,6 +259,7 @@ sub _process {
         elsif ( $state eq 'admin.access' ) {
             if (/^access\s*(.*);$/) {
                 $state = 'admin.symbols';
+
                 # Implicit untaint OK; data from ,v file
                 $this->{access} = $1;
             }
@@ -269,6 +270,7 @@ sub _process {
         elsif ( $state eq 'admin.symbols' ) {
             if (/^symbols(.*);$/) {
                 $state = 'admin.locks';
+
                 # Implicit untaint OK; data from ,v file
                 $this->{symbols} = $1;
             }
@@ -316,6 +318,7 @@ sub _process {
         }
         elsif ( $state eq 'delta.author' ) {
             if (/^author\s+(.*);$/) {
+
                 # Implicit untaint OK; data from ,v file
                 $revs[$num]->{author} = $1;
                 if ( $num == 1 ) {
@@ -335,8 +338,10 @@ sub _process {
         }
         elsif ( $state eq 'deltatext.log' ) {
             if (/\d+\.(\d+)\s+log\s+$/o) {
+                local $/ = "\n";
+                chomp $string;    # Remove extra final newline
                 $dnum               = $1;
-                $revs[$dnum]->{log} = substr( $string, 0, -1 );
+                $revs[$dnum]->{log} = $string;
                 $state              = 'deltatext.text';
             }
         }
@@ -413,7 +418,7 @@ HERE
 
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
         print $file "\n", '1.', $i, "\n",
-          'log', "\n", _formatString( $this->{revs}[$i]->{log}."\n" ),
+          'log', "\n", _formatString( $this->{revs}[$i]->{log} . "\n" ),
           "\n", 'text', "\n", _formatString( $this->{revs}[$i]->{text} ),
           "\n\n";
     }
@@ -463,8 +468,9 @@ sub _addRevision {
     my ( $this, $isStream, $data, $log, $author, $date ) = @_;
 
     _ensureProcessed($this);
-	
-	$log =~ s/\n*$//;
+
+    $log ||= '';    # Undef doesn't make a good log
+    $log =~ s/\n*$//;
 
     if ( $this->{state} eq 'nocommav' && -e $this->{file} ) {
 
