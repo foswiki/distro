@@ -687,21 +687,29 @@ sub test_Item945 {
     my $time = time();
 
     $rcsWrap->addRevisionFromText( "old\nwrap text\n", "one", "iron", $time );
+    
+	$rcsWrap->finish();
+	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
     $this->assert_equals( 1, $rcsWrap->numRevisions() );
-    $this->assert_equals( 1, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
+    $this->assert_equals( 1, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
 
     $rcsWrap->addRevisionFromText( "new\nwrap text\n", "two", "tin",
         $time + 1 );
+    
+	$rcsWrap->finish();
+	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
     $this->assert_equals( 2, $rcsWrap->numRevisions() );
-    $this->assert_equals( 2, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
         [ $rcsWrap->getRevisionInfo(2) ] );
+	$rcsLite->finish();
+    $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    $this->assert_equals( 2, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
@@ -709,14 +717,19 @@ sub test_Item945 {
 
     $rcsLite->addRevisionFromText( "old\nlite text\n",
         "tre", "zinc", $time + 2 );
+    
+	$rcsWrap->finish();
+	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
     $this->assert_equals( 3, $rcsWrap->numRevisions() );
-    $this->assert_equals( 3, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
         [ $rcsWrap->getRevisionInfo(2) ] );
     $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
         [ $rcsWrap->getRevisionInfo(3) ] );
+	$rcsLite->finish();
+    $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    $this->assert_equals( 3, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
@@ -726,8 +739,10 @@ sub test_Item945 {
 
     $rcsLite->addRevisionFromText( "new\nlite text\n",
         "for", "gold", $time + 3 );
+   
+	$rcsWrap->finish();
+	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
     $this->assert_equals( 4, $rcsWrap->numRevisions() );
-    $this->assert_equals( 4, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
@@ -736,6 +751,9 @@ sub test_Item945 {
         [ $rcsWrap->getRevisionInfo(3) ] );
     $this->assert_deep_equals( [ 4, $time + 3, "gold", "for" ],
         [ $rcsWrap->getRevisionInfo(4) ] );
+	$rcsLite->finish();
+    $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    $this->assert_equals( 4, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
