@@ -1004,6 +1004,11 @@ sub install {
         elsif ( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
             $action = $1;
         }
+        # SMELL:   There really shouldn't be a null argument.  But installer breaks if it is there.
+        elsif ( $ARGV[$n] eq '' ) {
+            $n++;
+            next;
+        }
         else {
             usage();
             die 'Bad parameter ' . $ARGV[$n];
