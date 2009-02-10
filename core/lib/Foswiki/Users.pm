@@ -885,6 +885,7 @@ Otherwise returns 1 on success, undef on failure.
 
 sub setPassword {
     my ( $this, $cUID, $newPassU, $oldPassU ) = @_;
+    ASSERT( $cUID ) if DEBUG; 
     return $this->_getMapping($cUID)
       ->setPassword( $this->getLoginName($cUID), $newPassU, $oldPassU );
 }

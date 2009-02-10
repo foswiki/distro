@@ -319,7 +319,7 @@ sub addUser {
             $password = Foswiki::Users::randomPassword();
         }
 
-        unless ( $this->{passwords}->setPassword( $login, $password ) ) {
+        unless ( $this->{passwords}->setPassword( $login, $password ) == 1) {
 
            #print STDERR "\n Failed to add user:  ".$this->{passwords}->error();
             throw Error::Simple(
@@ -1010,8 +1010,10 @@ Otherwise returns 1 on success, undef on failure.
 
 sub setPassword {
     my ( $this, $user, $newPassU, $oldPassU ) = @_;
+    ASSERT( $user ) if DEBUG; 
+    my $login = $this->getLoginName($user) || $user;
     return $this->{passwords}
-      ->setPassword( $this->getLoginName($user), $newPassU, $oldPassU );
+      ->setPassword( $login, $newPassU, $oldPassU );
 }
 
 =begin TML

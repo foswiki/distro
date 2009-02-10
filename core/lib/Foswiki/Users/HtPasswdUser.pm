@@ -257,6 +257,7 @@ sub fetchPass {
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
+    ASSERT( $login ) if DEBUG; 
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -274,8 +275,10 @@ sub setPassword {
         _savePasswd($db);
     }
     catch Error::Simple with {
+        my $e = shift;
         $this->{error} = $!;
-        print STDERR "ERROR: failed to resetPassword - $!";
+        print STDERR "ERROR: failed to resetPassword - $! ($e)";
+	$this->{error} = 'unknown error in resetPassword' unless ($this->{error} && length($this->{error}));
         return undef;
     };
 
