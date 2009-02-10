@@ -11,7 +11,7 @@ my %headNames = (
     image            => '',
     topic            => 'Extension',
     description      => 'Description',
-    version          => 'Most Recent Version',
+    version          => 'Most&nbsp;Recent&nbsp;Version',
     installedVersion => 'Installed Version',
     testedOn         => 'Tested On Foswiki',
     testedOnOS       => 'Tested On OS',
@@ -121,12 +121,9 @@ sub ui {
             }
             $row .= CGI::td( { valign => 'top' }, $text );
         }
-        if ( $ext->{installedVersion} ) {
-            $table .= CGI::Tr( { class => 'patternAccessKeyInfo' }, $row );
-        }
-        else {
-            $table .= CGI::Tr($row);
-        }
+	my @classes = ( $rows % 2 ? 'odd' : 'even' );
+	push @classes, qw( patternAccessKeyInfo installed ) if $ext->{installedVersion};
+	$table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
         $rows++;
     }
     $table .= CGI::Tr(

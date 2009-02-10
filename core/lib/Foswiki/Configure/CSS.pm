@@ -196,3 +196,35 @@ a.error {
 .hiddenRow {
     display:none;
 }
+table {
+    border-collapse: collapse;
+}
+th {
+  background:#8BCA1B;
+  color:#1F3570;
+}
+.odd {
+  background:#eeeeee;
+}
+.even {
+  background:#dddddd;
+}
+th th, tr td {
+  padding:0.5em 0.1em;
+}
+tr:hover :link {
+  color:#ffffff;
+  background:transparent;
+}
+tr:hover {
+  background:#4478C5;
+  color:#eeeeee;
+}
+tr:hover :link:hover {
+  background:#8bca1b;
+}
+.installed {
+  background:#bbbbbb;
+}
+.installed:hover {
+  background:#8bca1b;
