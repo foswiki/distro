@@ -62,7 +62,7 @@ then
     sed -i -e "s.^pub/TWiki.pub/System.g"   MANIFEST
     sed -i -e "s.^lib\/TWiki.lib/Foswiki.g"  MANIFEST
     sed -i -e "s/TWiki::/Foswiki::/g"  build.pl
-    sed -i -e "s/TWiki::/Foswiki::/g"  Config.spec
+    [ -e Config.spec ] && sed -i -e "s/TWiki::/Foswiki::/g"  Config.spec
     sed -i -e "s/new TWiki\(\);/new Foswiki();/g"  build.pl
     sed -i -e "s/TWiki::/Foswiki::/g"  DEPENDENCIES
 fi
