@@ -44,26 +44,65 @@ sub open_html {
     if ( $isUnused
         || !$isBroken && ( $isExpert && !$expert || $value->{hidden} ) )
     {
-        $hiddenClass = ' foswikiHidden';
+        $hiddenClass = 'foswikiHidden';
     }
 
     # Generate the documentation row
-    my $hiddenInput = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
-    my $row1 = $hiddenInput . $info;
+    my $hiddenTypeOf = $this->hidden( 'TYPEOF:' . $keys, $value->{typename} );
+    my $row1 = $hiddenTypeOf . $info;
 
     # Generate col1 of the prompter row
     my $row2col1 = $keys;
     $row2col1 = CGI::span( { class => 'mandatory' }, $row2col1 )
       if $value->{mandatory};
     if ( $value->needsSaving($valuer) ) {
-        my $v = $valuer->defaultValue($value) || '';
+        my $defaultValue = $valuer->defaultValue($value) || '';
+
+      # special case are Perl data structures
+      # in order to edit this in the browser, it must get translated to a string
+        if ( $value->{typename} eq 'PERL' || $value->{typename} eq 'HASH' ) {
+            use Data::Dumper;
+            $Data::Dumper::Terse = 1;
+            $defaultValue        = Dumper($defaultValue);
+
+            # create stubs for special characters, put them back with javascript
+            $defaultValue =~ s/'/#26;/go;
+            $defaultValue =~ s/"/#22;/go;
+            $defaultValue =~ s/\n/#13;/go;
+        }
+
         $row2col1 .= CGI::span(
             {
-                title => 'default = ' . $v,
-                class => 'foswikiAlert'
+                title => $defaultValue,
+                class => $value->{typename} . ' delta foswikiAlert'
             },
-            '&delta;'
+            ' &delta;'
         );
+
+        # prepare javascript call
+        ( my $safeKeys = $keys ) =~ s/'/#26;/go;
+        my @onClickParams = (
+            'this',          "\'$value->{typename}\'",
+            "\'$safeKeys\'", "\'$defaultValue\'"
+        );
+        my $onClickParamsString = join( ", ", @onClickParams );
+
+        # first link CSS class name must be type
+        # a bit of a hack but we need to pass the type of the field the link
+        # will be changing
+
+        $row2col1 .= ' '
+          . CGI::a(
+            {
+                title => $defaultValue,
+                class => $value->{typename} . ' defaultValueLink foswikiSmall',
+                href  => '#',
+                onclick => 'resetToDefaultValue('
+                  . $onClickParamsString
+                  . '); return false;',
+            },
+            ''
+          );
     }
 
     # Generate col2 of the prompter row
@@ -90,7 +129,9 @@ sub open_html {
         { class => $hiddenClass },
         CGI::td( { class => 'firstCol' }, $row2col1 ) . "\n"
           . CGI::td( { class => 'secondCol' }, $row2col2 )
-      ) . "\n" . CGI::Tr( { class => $hiddenClass },
+      )
+      . "\n"
+      . CGI::Tr( { class => $hiddenClass },
         CGI::td( { colspan => "2", class => 'docdata info' }, $row1 ) )
       . "\n";
 }
