@@ -11,7 +11,7 @@ sub close_html {
 
     my $button = <<HERE;
 Consult online extensions repositories for
-new extensions. <b>If you made any changes, save them first!<b>
+new extensions. <strong>If you made any changes, save them first!</strong>
 HERE
 
     # Check that the extensions UI is loadable

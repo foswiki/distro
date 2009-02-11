@@ -32,7 +32,7 @@ sub _getListOfExtensions {
             $place->{data} =~ s#/*$#/#;
             print CGI::div("Consulting $place->{name}...");
             my $url =
-              $place->{data} . 'FastReport?skin=text&contenttype=text/plain';
+              $place->{data} . 'FastReport?skin=text';
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
                 my $page = $response->content();

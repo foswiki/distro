@@ -258,6 +258,8 @@ use vars qw( $query );
 use vars qw( $TRUE $FALSE );
 $TRUE  = 1;
 $FALSE = 0;
+our $sanityStatement;
+our $badLSC;
 
 # Remember what we detected previously, for use by Checkers
 if ( $scriptName =~ /(\.\w+)$/ ) {
@@ -359,130 +361,178 @@ if ( $action eq 'image' ) {
     exit 0;
 }
 
-my @meta = (
-    CGI::meta( { 'http-equiv' => 'Pragma',        content => 'no-cache' } ),
-    CGI::meta( { 'http-equiv' => 'Cache-Control', content => 'no-cache' } ),
-    CGI::meta( { 'http-equiv' => 'Expires',       content => 0 } ),
-    CGI::meta( { name         => 'robots',        content => 'noindex' } ),
-    CGI::Link(
-        {
-            -rel  => 'icon',
-            -href => $scriptName
-              . '?action=image;image=favicon.ico;type=image/x-icon',
-            -type => 'image/x-icon'
-        }
-    ),
-    CGI::Link(
-        {
-            -rel  => 'shortcut icon',
-            -href => $scriptName
-              . '?action=image;image=favicon.ico;type=image/x-icon',
-            -type => 'image/x-icon'
-        }
-    ),
-    CGI::script(
-        {
-            language => 'JavaScript',
-            type     => 'text/javascript'
-        },
-        Foswiki::Configure::JS::js1()
-    ),
-    CGI::style( { -type => 'text/css' }, Foswiki::Configure::CSS::css() ),
-    CGI::script(
-        {
-            language => 'JavaScript',
-            type     => 'text/javascript'
-        },
-        Foswiki::Configure::JS::js2()
-    ),
-);
+my $header            = _htmlHeader();
+my $bodyContentsStart = _htmlBodyContentsStart();
+my $bodyContentsEnd   = _htmlBodyContentsEnd();
 
-# Generate standard page header
-my $hdr = CGI::start_html(
-    -title => 'Foswiki Configuration',
-    -head  => \@meta,
-    -class => 'patternNoViewPage'
-);
-
-# XML header confuses IE, so strip it out. This is fixed in CGI.pm 3.06
-# (and IE 7, but who's counting?)
-if ( $CGI::VERSION < 3.06 ) {
-    $hdr =~ s/^<\?xml.*?>//s;
-}
-print CGI::header('text/html') . $hdr;
-
-print <<'HERE';
-<div id="patternScreen">
- <div id="patternPageShadow">
-  <div id="patternPage">
-   <div id="patternOuter">
-    <div id="patternFloatWrap">
-     <div id="patternMain">
-      <div id="patternMainContents">
-HERE
-
-# use this script recursively to serve the icon image
-print CGI::img(
-    {
-        src   => $scriptName . '?action=image;image=foswiki-logo-slogan.png;type=image/png',
-        class => 'logo',
-        alt   => 'Foswiki'
-    }
-);
-
-my $stub = new Foswiki::Configure::Item();
-
-# This call will define $Foswiki::defaultCfg by loading .spec files
-my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
-my ( $sanityStatement, $badLSC ) = $sanityUI->ui();
-
-# This is the dispatcher; $action is the name of the action to perform,
-# this is concatenated to _action to determine the name of the procedure.
-# Dispatcher methods return a boolean to indicate whether to generate a
-# link back to the main page at the end.
-if ( $sanityUI->insane() || $query->param('abort') ) {
-    print $sanityStatement;
-}
-else {
-
-    $action =~ s/\W//g;
-    my $method = '_action' . $action;
-
-    die "Undefined action $action" unless defined(&$method);
-
-    no strict 'refs';
-    my $reroute = &$method();
-    use strict 'refs';
-
-    if ($reroute) {
-        print '<div>';
-        print CGI::a(
-            {
-                href => $scriptName . '?t=' . time(),
-                rel  => 'nofollow'
-            },
-            'Return to configuration'
-        );
-        print CGI::br();
-        print "</div>\n";
-    }
-}
-
-print <<'HERE';
-</div><!--/patternMainContents-->
-</div><!--/patternMain-->
-</div><!--/patternFloatWrap-->
-<div class="clear">&nbsp;</div>
-</div><!--/patternOuter-->
-</div><!--/patternPage-->
-</div><!--/patternPageShadow-->
-</div><!--/patternScreen-->
-HERE
-
-print CGI::end_html(), "\n";
+print $header;
+print $bodyContentsStart;
+_dispatchContents();
+print $bodyContentsEnd;
 
 ###########################################################
 # End of the main program; the rest is all subs
+
+sub _dispatchContents {
+    my $message;
+    my $stub = new Foswiki::Configure::Item();
+
+    # This call will define $Foswiki::defaultCfg by loading .spec files
+    my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
+
+    # set globals
+    ( $sanityStatement, $badLSC ) = $sanityUI->ui();
+
+    # This is the dispatcher; $action is the name of the action to perform,
+    # this is concatenated to _action to determine the name of the procedure.
+    # Dispatcher methods return a boolean to indicate whether to generate a
+    # link back to the main page at the end.
+    if ( $sanityUI->insane() || $query->param('abort') ) {
+        $message = $sanityStatement;
+    }
+    else {
+
+        $action =~ s/\W//g;
+        my $method = '_action' . $action;
+
+        die "Undefined action $action" unless defined(&$method);
+
+        no strict 'refs';
+        my $reroute = &$method();
+        use strict 'refs';
+
+        if ($reroute) {
+            $message = CGI::div(
+                CGI::a(
+                    {
+                        href => $scriptName . '?t=' . time(),
+                        rel  => 'nofollow'
+                    },
+                    'Return to configuration'
+                ),
+                CGI::br()
+            );
+        }
+    }
+    return $message;
+}
+
+=pod
+
+Returns <head>...</head> including meta data as javascript and css.
+
+=cut
+
+sub _htmlHeader {
+    my $header = CGI::header('text/html');
+
+    # Generate standard page header
+    $header .= CGI::start_html(
+        -title => 'Foswiki Configuration',
+        -head  => _htmlMetaList(),
+        -class => 'patternNoViewPage'
+    );
+
+    # XML header confuses IE, so strip it out. This is fixed in CGI.pm 3.06
+    # (and IE 7, but who's counting?)
+    if ( $CGI::VERSION < 3.06 ) {
+        $header =~ s/^<\?xml.*?>//s;
+    }
+    return $header;
+}
+
+=pod
+
+Returns html for body divs. Adds logo image.
+
+=cut
+
+sub _htmlBodyContentsStart {
+    my $contents = <<'HERE';
+  <div id="patternScreen">
+    <div id="patternPageShadow">
+     <div id="patternPage">
+       <div id="patternOuter">
+         <div id="patternFloatWrap">
+           <div id="patternMain">
+             <div id="patternMainContents">
+               <div id="patternTopic">
+HERE
+    $contents .= CGI::img(
+        {
+            src => $scriptName
+              . '?action=image;image=foswiki-logo-slogan.png;type=image/png',
+            class => 'logo',
+            alt   => 'Foswiki logo'
+        }
+    );
+    return $contents;
+}
+
+sub _htmlBodyContentsEnd {
+    my $contents = <<'HERE';
+                  </div><!-- /patternTopic-->
+                </div><!-- /patternMainContents-->
+              </div><!-- /patternMain-->
+            </div><!-- /patternFloatWrap-->
+          <div class="clear">&nbsp;</div>
+        </div><!-- /patternOuter-->
+      </div><!-- /patternPage-->
+    </div><!-- /patternPageShadow-->
+  </div><!-- /patternScreen-->
+</body></html>
+HERE
+    return $contents;
+}
+
+=pod
+
+_htmlMetaList() -> \@meta
+
+Returns array of meta elements.
+
+=cut
+
+sub _htmlMetaList {
+    my @meta = (
+        CGI::meta( { 'http-equiv' => 'Pragma',        content => 'no-cache' } ),
+        CGI::meta( { 'http-equiv' => 'Cache-Control', content => 'no-cache' } ),
+        CGI::meta( { 'http-equiv' => 'Expires',       content => 0 } ),
+        CGI::meta( { name         => 'robots',        content => 'noindex' } ),
+        CGI::Link(
+            {
+                -rel  => 'icon',
+                -href => $scriptName
+                  . '?action=image;image=favicon.ico;type=image/x-icon',
+                -type => 'image/x-icon'
+            }
+        ),
+        CGI::Link(
+            {
+                -rel  => 'shortcut icon',
+                -href => $scriptName
+                  . '?action=image;image=favicon.ico;type=image/x-icon',
+                -type => 'image/x-icon'
+            }
+        ),
+        CGI::script(
+            {
+                language => 'JavaScript',
+                type     => 'text/javascript'
+            },
+            Foswiki::Configure::JS::js1()
+        ),
+        CGI::style( { -type => 'text/css' }, Foswiki::Configure::CSS::css() ),
+        CGI::script(
+            {
+                language => 'JavaScript',
+                type     => 'text/javascript'
+            },
+            Foswiki::Configure::JS::js2()
+        ),
+    );
+    return \@meta;
+}
 
 sub _checkLoadUI {
     my ( $uiname, $root ) = @_;
@@ -537,7 +587,6 @@ sub _actionNext {
 sub _actionFindMoreExtensions {
     my $root = new Foswiki::Configure::Root();
     print CGI::h1('Find Foswiki Extensions');
-    print '<div class="patternContent"><div class="patternTopic">';
 
     my $ui = _checkLoadUI( 'EXTENSIONS', $root );
     return 1 unless $ui;
@@ -572,7 +621,7 @@ sub _actionConfigure {
     print CGI::h1('Configuration');
     if ( !$query->auth_type() ) {
         print <<'OH_DEAR';
-<div class='foswikiNotification foswikiAlert'><strong>BIG, BIG WARNING!</strong> <br />This screen was accessed without requiring authentication. <b>This is a
+<div class='foswikiNotification foswikiAlert noAuthWarning'><strong>BIG, BIG WARNING!</strong> <br />This screen was accessed without requiring authentication. <b>This is a
 high security risk!</b> You should always make sure the configuration
 interface requires authentication, or it may be used by a hacker
 to modify your Foswiki configuration. See for <a href="http://foswiki.org/Support/ProtectingYourConfiguration">Protecting Your Configuration</a> for more information on
@@ -604,8 +653,6 @@ OH_DEAR
 
     if ( !$badLSC ) {
         print <<HERE;
-<div class="patternContent">
- <div class="patternTopic">
   <p><strong>Use this page to set the configuration options for Foswiki.
   Fill in the settings, and then press 'Next'.</strong></p>
   <div class="foswikiLeft foswikiHelp" style="width:45%">
@@ -653,17 +700,17 @@ register</a> as a normal user first and then add your wikiname to the <a rel="no
 HERE
         if ( !$expertsMode ) {
             print <<HERE
- EXPERT options are hidden unless you click the button: <form><input type="submit" class="foswikiButton" value="Yes, I've read all the documentation" /><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form>
+ EXPERT options are hidden unless you click the button: <form action=""><input type="submit" class="foswikiButton" value="Yes, I've read all the documentation" /><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form>
 HERE
         }
         print <<HERE;
      </li>
     </ul>
-   </div><!-- remark-->
    <br class="foswikiClear" />
   </div><!--explanation-->
 HERE
     }
+
     print CGI::start_form(
         {
             name   => 'update',
@@ -702,6 +749,7 @@ HERE
 
       ) . '<br class="foswikiClear" />';
 
+    print '<div class="blockLinks">';
     print $eui->ui();
     print $osui->ui()  if $osui;
     print $cgiui->ui() if $cgiui;
@@ -711,6 +759,7 @@ HERE
     return 1 unless $ui;
     $ui->{experts} = $expertsMode;
     print $ui->ui( $root, $valuer );
+    print '</div><!--/blockLinks-->';
 
     if (   $Foswiki::Configure::UI::toterrors
         || $Foswiki::Configure::UI::totwarnings )
@@ -734,16 +783,11 @@ HERE
             -accesskey => 'N'
         )
     );
-
     print
 "<p><a href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome\">Cancel and return to Foswiki WebHome</a></p>";
 
     print CGI::end_form();
 
-    print <<DIVS;
- </div><!--/patternTopic-->
-</div><!--/patternContent-->
-DIVS
     return 0;
 }
 
