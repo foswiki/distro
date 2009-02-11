@@ -74,7 +74,6 @@ Download the Foswiki distribution from the following location: http://foswiki.or
       * *If you are upgrading from a TWiki site*, you must reconfigure your Foswiki installation from scratch. You cannot copy over your old =LocalSite.cfg= file (though you can use it as a reference).
       * Run =configure= and set the configuration values in the new installation to match those of the old installation. Save the configuration after you have completed your changes.
       * To wipe out all your settings and start configuring from a fresh installation, just delete the =&lt;newwiki&gt;/lib/LocalSite.cfg= file and run =configure=.
-      * If you have changed the {UsersWebName} or {SystemWebName} setting in the =Store settings= pane, then in the new installation, rename the Main web to the name of your users web, and rename the System web to the name of your system web.
    * Additional resources   
       * Foswiki:Support.UpgradingFromOlderTWikiReleases - upgrading TWiki from older TWiki releases
       * Foswiki:Support.UpgradingFromTWiki4x2Releases - upgrading from TWiki4.2.X to Foswiki
@@ -86,7 +85,7 @@ Download the Foswiki distribution from the following location: http://foswiki.or
 
 Test your newly-installed Foswiki site and ensure that its basic functionality works: viewing and editing topics (you can try creating and editing a topic in the Sandbox web).
 
-To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic (if necessary, replace %SYSTEMWEB% with any customized value you have set for {SystemWebName} in =configure=). By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
+To make it easier to follow the subsequent steps, you can view this upgrade guide using your new Foswiki site by entering =%SYSTEMWEB%.UpgradeGuide= into the "Jump" text box on the top right of any topic. By doing this instead of using the UpgradeGuide.html file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
 ---+++ Install extensions
 
