@@ -495,6 +495,8 @@ WARN
           if $query->param('cover');
         $redirecturl .= '&nowysiwyg=' . $query->param('nowysiwyg')
           if $query->param('nowysiwyg');
+        $redirecturl .= '&action=' . $query->param('action')
+          if $query->param('action');
         $redirecturl .= $editparams
           if $editparams;    # May contain anchor
         my $lease = $store->getLease( $web, $topic );
