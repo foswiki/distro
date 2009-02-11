@@ -139,11 +139,11 @@ sub ui {
         )
     );
     my $page = <<INTRO;
-To install an extension from this page, click on the link in the 'Action' column.<p />Note that the webserver user has to be able to
+<div class="foswikiHelp">Note that the webserver user has to be able to
 write files everywhere in your Foswiki installation. Otherwise you may see
-'No permission to write' errors during extension installation.
+'No permission to write' errors during extension installation.</div>
 INTRO
-    $page .= CGI::table( { class => 'foswikiForm' }, $table );
+    $page .= CGI::table( { class => 'foswikiTable extensionsTable' }, $table );
     return $page;
 }
 

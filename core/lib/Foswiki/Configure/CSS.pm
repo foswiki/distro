@@ -203,3 +203,30 @@ a.error {
 div.noAuthWarning {
 	background:#fff;
 }
+
+table.extensionsTable {
+	margin:1em 0;
+}
+table.extensionsTable th {
+	background:#687684;
+	color:#fff;
+	border:none;
+}
+table.extensionsTable th,
+table.extensionsTable td {
+	padding-left:.5em;
+	padding-right:.5em;
+}
+table.extensionsTable .odd {
+	background:#f6fafc;
+}
+table.extensionsTable .even {
+	background:#fff;
+}
+table.extensionsTable .installed {
+	background:#D9F5D9;
+}
+table.extensionsTable .installed a:link,
+table.extensionsTable .installed a:visited {
+	font-weight:bold;
+}
