@@ -686,7 +686,7 @@ register</a> as a normal user first and then add your wikiname to the <a rel="no
       <a href="http://foswiki.org/Support/WebHome">Support forum</a>.
      </li>
     </ul>
-   </div>
+   </div><!--/foswikiLeft foswikiHelp-->
    <div class="foswikiLeft foswikiHelp" style="width:45%; margin-left:1em">Explanation of colours and symbols:
     <ul style="margin-top:0;">
      <li>Settings marked <span class='mandatory'>like this</span> are required
@@ -707,7 +707,7 @@ HERE
      </li>
     </ul>
    <br class="foswikiClear" />
-  </div><!--explanation-->
+  </div><!--/foswikiLeft foswikiHelp-->
 HERE
     }
 
@@ -721,7 +721,7 @@ HERE
 
     # use time to make sure we never allow cacheing
     print CGI::hidden( 'time', time() );
-
+	print '<br class="foswikiClear" />' . "\n";
     print CGI::h2('Settings') . "\n"
       . CGI::span( { class => 'foswikiLeft' },
         'Click the buttons below to open each section' )
