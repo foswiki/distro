@@ -1,0 +1,4 @@
+# Release manifest for HomePagePlugin
+data/System/HomePagePlugin.txt 0644 Documentation
+lib/Foswiki/Plugins/HomePagePlugin.pm 0644 Perl module
+
