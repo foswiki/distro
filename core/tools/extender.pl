@@ -50,6 +50,7 @@ my $MANIFEST;
 
 BEGIN {
     $installationRoot = Cwd::getcwd();
+
     # getcwd is often a simple `pwd` thus it's tainted, untaint it
     $installationRoot =~ /^(.*)$/;
     $installationRoot = $1;
@@ -557,10 +558,11 @@ sub unzip {
 
     eval 'use Archive::Zip';
     unless ($@) {
-        my $zip = Archive::Zip->new();
-        my $numberOfFiles = $zip->read( $archive );
-        unless ($numberOfFiles > 0) {
-            print STDERR "Could not openzip file $archive (".$zip->error()."\n";
+        my $zip           = Archive::Zip->new();
+        my $numberOfFiles = $zip->read($archive);
+        unless ( $numberOfFiles > 0 ) {
+            print STDERR "Could not openzip file $archive ("
+              . $zip->error() . "\n";
             return 0;
         }
 
@@ -601,8 +603,9 @@ sub untar {
     unless ($@) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
-        unless ($numberOfFiles > 0) {
-            print STDERR "Could not open tar file $archive (".$tar->error()."\n";
+        unless ( $numberOfFiles > 0 ) {
+            print STDERR "Could not open tar file $archive ("
+              . $tar->error() . "\n";
             return 0;
         }
 
@@ -664,8 +667,7 @@ DONE
 
         my ( $tmp, $tmpfilename ) = File::Temp::tempfile( unlink => 1 );
         File::Copy::copy( $origfile, $tmpfilename )
-            || die
-              "$origfile could not be copied to tmp dir ($tmpfilename): $!";
+          || die "$origfile could not be copied to tmp dir ($tmpfilename): $!";
         eval {
             Foswiki::Func::saveAttachment(
                 $web, $topic, $file,
@@ -674,8 +676,8 @@ DONE
                     file     => $tmpfilename,
                     filesize => $fileSize,
                     filedate => $fileDate
-                   }
-               );
+                }
+            );
         };
         $err = $@;
     }
@@ -691,7 +693,7 @@ DONE
         eval {
             my ( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
             Foswiki::Func::saveTopic( $web, $topic, $meta, $text,
-                                      { comment => 'Saved by install script' } );
+                { comment => 'Saved by install script' } );
         };
         $err = $@;
     }
@@ -715,13 +717,17 @@ sub _uninstall {
     return 1 if $inactive;
     my $reply = ask("Are you SURE you want to uninstall $MODULE?");
     if ($reply) {
-        defined &Foswiki::preuninstall ? &Foswiki::preuninstall : &TWiki::preuninstall;
+        defined &Foswiki::preuninstall
+          ? &Foswiki::preuninstall
+          : &TWiki::preuninstall;
         foreach $file ( keys %$MANIFEST ) {
             if ( -e $file ) {
                 unlink($file);
             }
         }
-        defined &Foswiki::preinstall ? &Foswiki::preinstall : &TWiki::preinstall;
+        defined &Foswiki::preinstall
+          ? &Foswiki::preinstall
+          : &TWiki::preinstall;
         print "### $MODULE uninstalled ###\n";
     }
     return 1;
@@ -737,8 +743,8 @@ sub _emplace {
     # For each file in the MANIFEST, move the file into the installation,
     # set the permissions, and check if it is a data or pub file. If it is,
     # then check it in.
-    my @ci_topic; # topics to checkin
-    my @ci_attachment; # topics to checkin
+    my @ci_topic;         # topics to checkin
+    my @ci_attachment;    # topics to checkin
     my $file;
     foreach $file ( keys %$MANIFEST ) {
         my $source = "$source/$file";
@@ -763,7 +769,7 @@ sub _emplace {
               || print STDERR
               "WARNING: cannot set permissions on $target: $!\n";
         }
-        if ($MANIFEST->{$file}->{ci}) {
+        if ( $MANIFEST->{$file}->{ci} ) {
             if ( $target =~ /^data\/(\w+)\/(\w+).txt$/ ) {
                 push( @ci_topic, $target );
             }
@@ -912,7 +918,7 @@ sub install {
 
     foreach my $row ( split( /\r?\n/, $data{MANIFEST} ) ) {
         my ( $file, $perms, $desc ) = split( ',', $row, 3 );
-        $MANIFEST->{$file}->{ci} = ($desc =~ /\(noci\)/ ? 0 : 1);
+        $MANIFEST->{$file}->{ci} = ( $desc =~ /\(noci\)/ ? 0 : 1 );
         $MANIFEST->{$file}->{perms} = $perms;
     }
 
@@ -1005,7 +1011,8 @@ sub install {
         elsif ( $ARGV[$n] =~ m/(install|uninstall|manifest|dependencies)/ ) {
             $action = $1;
         }
-        # SMELL:   There really shouldn't be a null argument.  But installer breaks if it is there.
+
+# SMELL:   There really shouldn't be a null argument.  But installer breaks if it is there.
         elsif ( $ARGV[$n] eq '' ) {
             $n++;
             next;
