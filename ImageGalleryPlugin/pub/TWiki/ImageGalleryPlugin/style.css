@@ -1,111 +1,108 @@
 /* styles for the ImageGalleryPlugin */
 
-/* container of the gallery */
-.igp {
-  width:75%;
-  padding:5px;
-}
-
-/* container of the thumbnails */
-.igpThumbNails {
-  text-align:center;
-  padding:5px;
-  width:100%;
-}
-/* table of thumbnails */
-.igpThumbNailsTable {
-  text-align:center;
-  width:100%;
+.igpThumbNailsTable td {
+  vertical-align:top;
 }
 
 /* one thumbnail */
+.igpPicture,
 .igpThumbNail {
-  vertical-align:bottom;
-  width:25%;
-  padding-top:5px;
+  margin:0px 1em 1em 0px;
+  border:1px solid #eee;
+  background:#fff;
+  table-layout:fixed;
+}
+.igpThumbNail a {
+  display:block;
+  border:1px solid #eee;
+  margin:5px;
+}
+.igpPicture a {
+  display:block;
+  border-bottom:1px solid #eee;
+  padding:5px;
+}
+
+.igpThumbNail:hover {
+  background:#f2f2f2;
+  border:1px solid #ddd;
 }
 .igpThumbNail img {
   border:0px;
 }
 
-/* title of a thumbnail */
+/* title */
 .igpThumbNailTitle {
-  vertical-align:top;
+  padding:0px 5px 5px 5px;
 }
-
-/* table in single-image mode */
-.igpPictureTable {
+.igpThumbNailTitle a:hover,
+.igpPictureTitle a:hover,
+.igpThumbNailTitle a,
+.igpPictureTitle a {
+  display:inline;
+  border:0px;
 }
 
 /* single image */
-.igpPicture {
-  text-align:center;
-  padding:10px;
+.igpPicture td {
+  vertical-align:top;
 }
 .igpPicture img {
   border:0px;
 }
 
 /* title describing the image */
+.igpNavi,
 .igpPictureTitle {
+  padding:5px;
+}
+.igpThumbNailTitle div {
+  overflow:hidden;
 }
 
-/* navigation */
 .igpNavi {
-  text-align:center;
+  width:115px;
 }
-.igpNaviSep,
-.igpNaviDisabled span,
-.igpNavi a span {
+.igpNavi a span,
+.igpNaviDisabled span {
   display:none;
 }
-.igpNaviContents {
-  margin:0 auto;
-  width:105px;
-}
 .igpNaviDisabled,
-.igpNaviContents a {
+.igpNavi a:hover,
+.igpNavi a {
   float:left;
   width:16px;
   height:16px;
-  background-image:url(navi.png) !important;
   background-repeat:no-repeat;
   margin:0px 5px 0px 0px;
+  padding:1px;
+  border:0px;
 }
 .igpNavi a:hover {
-  background-color:inherit;
+  background-color:#f0f0f0 !important;
+  border:0px;
 }
 
-.igpNaviFirst { background-position:0px  -16px !important; }
-.igpNaviPrev { background-position:-16px -16px !important; }
-.igpNaviNext { background-position:-32px -16px !important; }
-.igpNaviLast { background-position:-48px -16px !important; }
+.igpNaviFirst:hover,
+.igpNaviFirst { background-image:url(control-start.png); }
 
-.igpNaviFirst:hover { background-position:0px  0px !important; }
-.igpNaviPrev:hover { background-position:-16px 0px !important; }
-.igpNaviNext:hover { background-position:-32px 0px !important; }
-.igpNaviLast:hover { background-position:-48px 0px !important; }
+.igpNaviPrev:hover,
+.igpNaviPrev { background-image:url(control-left.png); }
 
-.igpNaviFirst.igpNaviDisabled { background-position:0px  -32px !important; }
-.igpNaviPrev.igpNaviDisabled { background-position:-16px -32px !important; }
-.igpNaviNext.igpNaviDisabled { background-position:-32px -32px !important; }
-.igpNaviLast.igpNaviDisabled { background-position:-48px -32px !important; }
+.igpNaviNext:hover,
+.igpNaviNext { background-image:url(control-right.png); }
 
+.igpNaviLast:hover,
+.igpNaviLast { background-image:url(control-end.png); }
+
+
+.igpNaviFirst.igpNaviDisabled { background-image:url(control-start-gray.png); }
+.igpNaviPrev.igpNaviDisabled { background-image:url(control-left-gray.png); }
+.igpNaviNext.igpNaviDisabled { background-image:url(control-right-gray.png); }
+.igpNaviLast.igpNaviDisabled { background-image:url(control-end-gray.png); }
+
+.igpNaviDone:hover,
 .igpNaviDone {
-  float:right;
+  background-image:url(cross.png);
 }
 
-/* red dot span */
-.content h2 .igpRedDot a,
-.content .igpRedDot a,
-h2 .igpRedDot a,
-.igpRedDot a {
-  color:red;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-/* error messages */
-.igpAlert {
-  color:red;
-}

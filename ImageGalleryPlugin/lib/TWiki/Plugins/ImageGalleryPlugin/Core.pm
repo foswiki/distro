@@ -16,8 +16,8 @@
 package TWiki::Plugins::ImageGalleryPlugin::Core;
 
 use strict;
-
 use constant DEBUG => 0; # toggle me
+use vars qw(%imageSuffixes);
 
 # =========================
 # constructor
@@ -66,17 +66,21 @@ sub new {
   my $hostUrl = $TWiki::cfg{DefaultUrlHost};
     
   # get image mimes
-  my $mimeTypesFilename = $TWiki::cfg{MimeTypesFileName};
-
-  my $fileContent = TWiki::Func::readFile($mimeTypesFilename);
-  $this->{isImageSuffix} = ();
-  foreach my $line (split(/\r?\n/, $fileContent)) {
-    next if $line =~ /^#/;
-    next if $line =~ /^$/;
-    next unless $line =~ /^image/;# only image types
-    next unless $line =~ /^\s*[^\s]+\s+(.*)\s*$/;
-    foreach my $suffix (split(/ /, $1)) {
-      $this->{isImageSuffix}{$suffix} = 1;
+  unless (%imageSuffixes) {
+    my $mimeTypesFilename = $TWiki::cfg{MimeTypesFileName};
+    writeDebug("reading suffix file $mimeTypesFilename");
+    my $excludeSuffix = $TWiki::cfg{ImageGalleryPlugin}{ExcludeSuffix};
+    $excludeSuffix = 'psd' unless defined $excludeSuffix;
+    my $fileContent = TWiki::Func::readFile($mimeTypesFilename);
+    foreach my $line (split(/\r?\n/, $fileContent)) {
+      next if $line =~ /^#/;
+      next if $line =~ /^$/;
+      next unless $line =~ /^image/;# only image types
+      next unless $line =~ /^\s*[^\s]+\s+(.*)\s*$/;
+      foreach my $suffix (split(/ /, $1)) {
+        next if $excludeSuffix && $suffix =~ /^($excludeSuffix)$/;
+        $imageSuffixes{$suffix} = 1;
+      }
     }
   }
 
@@ -109,7 +113,7 @@ sub isImage {
     $suffix = lc($1);
   }
 
-  my $result = defined $this->{isImageSuffix}{$suffix};
+  my $result = defined $imageSuffixes{$suffix};
   writeDebug("not an image") unless $result;
   writeDebug("this is an image") if $result;
   return $result;
@@ -120,17 +124,20 @@ sub init {
   my ($this, $params) = @_;
 
   # read attributes
-  $this->{size} = $params->{size} || 'medium';
+  $this->{size} = $params->{size};
+  unless (defined ($this->{size})) {
+    $params->{size} = TWiki::Func::getPreferencesValue("IMAGESIZE") || 'medium';
+  }
   my $thumbsize = $this->{thumbSizes}{$this->{size}} || $this->{size};
   my $thumbwidth = 95;
   my $thumbheight = 95;
-  if ($thumbsize =~ /^(.*)x(.*)$/) {
+  if ($thumbsize =~ /^(\d+)x(\d+)$/) {
     $thumbwidth = $1;
     $thumbheight = $2;
-  } elsif ($thumbsize =~ /^x(.*)$/) {
+  } elsif ($thumbsize =~ /^x(\d+)$/) {
     $thumbwidth = $1;
     $thumbheight = $1;
-  } elsif ($thumbsize =~ /^(.*)x$/) {
+  } elsif ($thumbsize =~ /^(\d+)(px)?$/) {
     $thumbwidth = $1;
     $thumbheight = $1;
   }
@@ -172,13 +179,13 @@ sub init {
   $this->{minwidth} = $params->{minwidth} || 0;
   $this->{minwidth} = $this->{maxwidth} if $this->{minwidth} > $this->{maxwidth};
   $this->{format} = $params->{format};
-  $this->{title} = $params->{title} || ' $comment ($imgnr/$nrimgs)&nbsp;$reddot';
+  $this->{title} = $params->{title} || ' $comment ($imgnr/$nrimgs)';
   $this->{doTitles} = ($this->{title} eq 'off')?0:1;
-  $this->{thumbtitle} = $params->{thumbtitle} || ' $comment $reddot';
-  $this->{doThumbTitles} = ($this->{thumbtitle} eq 'off')?0:1;
+  $this->{thumbtitle} = $params->{thumbtitle} || ' $comment';
+  $this->{doThumbTitles} = ($this->{thumbtitle} eq 'on')?1:0;
   $this->{titles} = $params->{titles};
   if ($this->{titles}) {
-    $this->{doTitles} = ($this->{titles} eq 'off')?0:1;
+    $this->{doTitles} = ($this->{titles} eq 'on')?1:0;
     $this->{doThumbTitles} = $this->{doTitles};
   }
 
@@ -193,7 +200,7 @@ sub init {
   $this->{skip} = $params->{skip} || 0;
 
   my $refresh = $this->{query}->param("refresh") || '';
-  $this->{doRefresh} = ($refresh eq 'on')?1:0;
+  $this->{doRefresh} = ($refresh =~ /on|img/)?1:0;
 
   $this->{include} = $params->{include} || '';
   $this->{exclude} = $params->{exclude} || '';
@@ -270,7 +277,7 @@ sub render {
   if ($this->{format}) {
     $result = $this->renderFormatted();
   } else {
-    $result = "<div class=\"igp\"><a name=\"igp$this->{id}\"></a>";
+    $result = "<div class='igp'><a name='igp$this->{id}'></a>";
     if ($id eq $this->{id} && $filename) {
       # picture mode
       $result .= $this->renderImage($filename);
@@ -324,96 +331,118 @@ sub renderImage {
   # document relations
   if ($this->{doDocRels}) {
     $result .=
-      "<link rel=\"parent\" href=\"".
-       TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-      "\" title=\"Thumbnails\" />\n";
+      "<link rel='parent' href='".
+       TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view').
+      "' title='Thumbnails' />\n";
     if ($firstImg && $firstImg->{name} ne $filename) {
       $result .=
-        "<link rel=\"first\" href=\"".
-        TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-        "?id=$this->{id}&filename=$firstImg->{name}#igp$this->{id}\" title=\"$firstImg->{name}\" />\n";
+        "<link rel='first' href='".
+        TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+          'id'=>$this->{id},
+          'filename'=>$firstImg->{name},
+          '#'=>"igp$this->{id}"
+        )."' title='$firstImg->{name}' />\n";
     }
     if ($lastImg && $lastImg->{name} ne $filename) {
       $result .=
-          "<link rel=\"last\" href=\"".
-          TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-          "?id=$this->{id}&filename=$lastImg->{name}#igp$this->{id}\" title=\"$lastImg->{name}\" />\n";
+          "<link rel='last' href='".
+          TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+            'id'=>$this->{id},
+            'filename'=>$lastImg->{name},
+            '#'=>"igp$this->{id}"
+          )."' title='$lastImg->{name}' />\n";
     }
     if ($nextImg && $nextImg->{name} ne $filename) {
       $result .=
-          "<link rel=\"next\" href=\"".
-          TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-          "?id=$this->{id}&filename=$nextImg->{name}#igp$this->{id}\" title=\"$nextImg->{name}\" />\n";
+          "<link rel='next' href='".
+          TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+            'id'=>$this->{id},
+            'filename'=>$nextImg->{name},
+            '#'=>"igp$this->{id}"
+          )."' title='$nextImg->{name}' />\n";
     }
     if ($prevImg && $prevImg->{name} ne $filename) {
       $result .=
-        "<link rel=\"previous\" href=\"".
-        TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-        "?id=$this->{id}&filename=$prevImg->{name}#igp$this->{id}\" title=\"$prevImg->{name}\" />\n";
+        "<link rel='previous' href='".
+        TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+          'id'=>$this->{id},
+          'filename'=>$prevImg->{name},
+          '#'=>"igp$this->{id}"
+        )."' title='$prevImg->{name}' />\n";
     }
   }
 
   # collect image information
   $this->computeImageSize($thisImg);
-  if (!$this->createImg($thisImg)) {
+  if (!$this->processImage($thisImg)) {
     return renderError($this->{errorMsg});
   }
 
-  # title
-  if ($this->{doTitles}) {
-    $result .= "<div class=\"igpPictureTitle\"><h2>"
-      . $this->replaceVars($this->{title}, $thisImg)
-      . "</h2></div>\n";
-  }
-
   # layout img table
-  $result .= "<table class=\"igpPictureTable\">\n";
+  $result .= "<table class='igpPicture' cellspacing='0' cellpadding='0'><tr><td colspan='2'>\n";
 
   # img
   my $imgFormat = '<a href="$origurl"><img src="$imageurl" title="$comment" width="$width" height="$height"/></a>';
-  $result .= "<tr><td class=\"igpPicture\">" 
-    . $this->replaceVars($imgFormat, $thisImg);
+  $result .= $this->replaceVars($imgFormat, $thisImg);
+  $result .= '</td></tr><tr>';
+
+  # title
+  $result .= "<td class='igpPictureTitle'>";
+  if ($this->{doTitles}) {
+    $result .= $this->replaceVars($this->{title}, $thisImg);
+  } else {
+    $result .= "&nbsp;";
+  }
+  $result .= '</td>';
 
   # navi
-  $result .= "<tr><td class=\"igpNavi\"><div class=\"igpNaviContents\">";
-  my $sep = '<span class="igpNaviSep"><span>|</span></span>';
+  $result .= "<td class='igpNavi'>";
+
   if ($firstImg && $firstImg->{name} ne $filename) {
-    $result .= "<a class=\"igpNaviFirst\" title=\"go to first\" href=\"".
-    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-    "?id=$this->{id}&filename=$firstImg->{name}#igp$this->{id}\"><span>first</span></a>";
+    $result .= "<a class='igpNaviFirst' title='go to first' href='".
+    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+      'id'=>$this->{id},
+      'filename'=>$firstImg->{name},
+      '#'=>"igp$this->{id}"
+    )."'><span>first</span></a>";
   } else {
-    $result .= "<span class=\"igpNaviFirst igpNaviDisabled \"><span>first</span></span>";
+    $result .= "<span class='igpNaviFirst igpNaviDisabled '><span>first</span></span>";
   }
-  $result .= $sep;
   if ($prevImg) {
-    $result .= "<a class=\"igpNaviPrev\" title=\"go to previous\" href=\"".
-    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-    "?id=$this->{id}&filename=$prevImg->{name}#igp$this->{id}\"><span>prev</span></a>";
+    $result .= "<a class='igpNaviPrev' title='go to previous' href='".
+    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+      'id'=>$this->{id},
+      'filename'=>$prevImg->{name},
+      '#'=>"igp$this->{id}"
+    )."'><span>prev</span></a>";
   } else {
-    $result .= "<span class=\"igpNaviPrev igpNaviDisabled \"><span>prev</span></span>";
+    $result .= "<span class='igpNaviPrev igpNaviDisabled '><span>prev</span></span>";
   }
-  $result .= $sep;
   if ($nextImg) {
-    $result .= "<a class=\"igpNaviNext\" title=\"go to next\" href=\"".
-    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-    "?id=$this->{id}&filename=$nextImg->{name}#igp$this->{id}\"><span>next</span></a>";
+    $result .= "<a class='igpNaviNext' title='go to next' href='".
+    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+      'id'=>$this->{id},
+      'filename'=>$nextImg->{name},
+      '#'=>"igp$this->{id}"
+    )."'><span>next</span></a>";
   } else {
-    $result .= "<span class=\"igpNaviNext igpNaviDisabled \"><span>next</span></span>";
+    $result .= "<span class='igpNaviNext igpNaviDisabled '><span>next</span></span>";
   }
-  $result .= $sep;
   if ($lastImg && $lastImg->{name} ne $filename) {
-    $result .= "<a class=\"igpNaviLast\" title=\"go to last\" href=\"".
-    TWiki::Func::getViewUrl($this->{web}, $this->{topic}) .
-    "?id=$this->{id}&filename=$lastImg->{name}#igp$this->{id}\"><span>last</span></a>";
+    $result .= "<a class='igpNaviLast' title='go to last' href='".
+    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+      'id'=>$this->{id},
+      'filename'=>$lastImg->{name},
+      '#'=>"igp$this->{id}"
+    )."'><span>last</span></a>";
   } else {
-    $result .= "<span class=\"igpNaviLast igpNaviDisabled \"><span>last</span></span>";
+    $result .= "<span class='igpNaviLast igpNaviDisabled '><span>last</span></span>";
   }
-  $result .= "</div>";
-  $result .= "<a class=\"igpNaviDone\" href=\"".
-    TWiki::Func::getViewUrl($this->{web},$this->{topic})."#igp$this->{id}".
-    "\">done</a>";
-  $result .= "</td></tr>\n";
-  $result .= "</td></tr></table>\n";
+  $result .= "<a class='igpNaviDone' href='".
+    TWiki::Func::getScriptUrl($this->{web},$this->{topic}, 'view', "#"=>"igp$this->{id}").
+    "'><span>done</span></a>";
+
+  $result .= "<br clear='both' /></td></tr>\n</table>\n";
 
   return $result;
 }
@@ -448,10 +477,10 @@ sub renderFormatted {
     $imageNr++;
 
     $this->computeImageSize($image);
-    if (!$this->createImg($image)) {
+    if (!$this->processImage($image)) {
       return renderError($this->{errorMsg});
     }
-    if (!$this->createImg($image, 1)) {
+    if (!$this->processImage($image, 1)) {
       return renderError($this->{errorMsg});
     }
 
@@ -477,10 +506,11 @@ sub renderThumbnails {
   }
 
   my $maxCols = $this->{columns};
-  my $result = "<div class='igpThumbNails'><table class='igpThumbNailsTable'><tr>";
+  my $result = "<div class='igpThumbNails'>";
   my $imageNr = 0;
-  my @rowOfImages = ();
   my $skip = $this->{skip};
+  my @lines = ();
+  my $line = '';
   foreach my $image (@{$this->{images}}) {
     $this->computeImageSize($image);
 
@@ -488,82 +518,52 @@ sub renderThumbnails {
     next if $skip >= 0;
     last if $this->{limit} && $imageNr >= $this->{limit};
 
-    if ($this->{doThumbTitles}) {
-      push @rowOfImages, $image;
-    }
-
-    $result .= "<td width=\"" . (100 / $maxCols) . "%\" class=\"igpThumbNail\"><a href=\""
-      .  TWiki::Func::getViewUrl($this->{web}, $this->{topic})
-      . "?id=$this->{id}&filename=$image->{name}#igp$this->{id}\">"
-      . "<img src=\"$this->{imagesPubUrl}/thumb_$image->{name}"
+    $line .= "<td>"
+      . "<table class='igpThumbNail' cellspacing='0' cellpadding='0'"
+      . "style='width:".($this->{thumbwidth}+15)."px; height:".($this->{thumbheight}+15)."px;'>"
+      . "<tr><td >"
+      . "<a href='".TWiki::Func::getViewUrl($this->{web}, $this->{topic})
+      . "?id=$this->{id}&filename=$image->{name}#igp$this->{id}' "
+      . ">"
+      . "<img src='$this->{imagesPubUrl}/thumb_$image->{name}"
       . (($image->{name} =~ /\.svgz?$/ )?'.png':'')
-      . "\" title=\"$image->{IGP_comment}\" alt=\"$image->{name}\"/></a></td>\n";
+      . "' title='$image->{IGP_comment}' alt='$image->{name}'/></a></td></tr>";
 
-    if (!$this->createImg($image, 1)) {
+    if ($this->{doThumbTitles}) {
+      $line .= 
+        "<tr><td class='igpThumbNailTitle'><div>" . 
+        $this->replaceVars($this->{thumbtitle}, $image) .
+        "</div></td></tr>";
+    }
+    $line .= "</table></td>\n";
+
+    if (!$this->processImage($image, 1)) {
       return renderError($this->{errorMsg});
     }
 
     $imageNr++;
     if ($imageNr % $maxCols == 0) {
-      $result .= "</tr>\n";
-      if ($this->{doThumbTitles}) {
-        $result .= $this->renderTitleRow(\@rowOfImages);
-        @rowOfImages = ();
-      }
+      push @lines, $line;
+      $line = '';
     }
   }
+
+  # fill up the rest of the row
   while ($imageNr % $maxCols != 0) {
-    $result .= "<td>&nbsp;</td>\n";
+    $line .= "<td>&nbsp;</td>";
     $imageNr++;
   }
-  $result .= "</tr>\n";
-  if ($this->{doThumbTitles}) {
-    $result .= $this->renderTitleRow(\@rowOfImages);
-  }
-  $result .= "</table></div>\n";
+  push @lines, $line if $line;
 
-  return $result;
-}
-
-# =========================
-sub renderTitleRow {
-
-  my ($this, $images) = @_;
-  
-  my $result = '<tr>';
-
-  my $imageNr = 0;
-  foreach my $image (@$images) {
+  if (@lines) {
     $result .= 
-      "<td class=\"igpThumbNailTitle\">" . 
-      $this->replaceVars($this->{thumbtitle}, $image) .
-      "</td>\n";
-    $imageNr++;
+      "\n<table class='igpThumbNailsTable' cellspacing='0' cellpadding='0'>\n" .
+      "<tr>\n".join("</tr>\n<tr>\n", @lines)."</tr>\n" .
+      "</table>\n";
   }
-  my $maxCols = $this->{columns};
-  while ($imageNr % $maxCols != 0) {
-    $result .= "<td>&nbsp;</td>";
-    $imageNr++;
-  }
-  $result .= "</tr>\n";
+  $result .= "</div>\n";
 
   return $result;
-}
-
-# =========================
-sub renderRedDot {
-  my ($this, $image) = @_;
-
-  my $changeAccessOK =
-    TWiki::Func::checkAccessPermission("change", $this->{wikiName}, undef,
-      $image->{IGP_topic}, $image->{IGP_web});
-
-  return '' unless $changeAccessOK;
-
-  return 
-    "<span class=\"igpRedDot\"><a href=\"" 
-    . TWiki::Func::getScriptUrl($image->{IGP_web}, $image->{IGP_topic}, "attach")
-    . "?filename=$image->{name}\">.</a></span>";
 }
 
 # =========================
@@ -688,7 +688,7 @@ sub getImages {
 sub computeImageSize {
   my ($this, $image) = @_;
   
-  #writeDebug("computeImageSize($image->{name})");
+  writeDebug("computeImageSize($image->{name})");
 
   my $entry = $this->{info}{$image->{name}};
   if (!$this->{doRefresh} && $entry) {
@@ -738,19 +738,27 @@ sub computeImageSize {
 
   #writeDebug("minwidth=$this->{minwidth}, minheight=$this->{minheight}, width=$width, height=$height");
 
-  # compute max thumnail width and height
+  # compute optimal thumnail width and height
   $width = $image->{IGP_origwidth};
   $height = $image->{IGP_origheight};
   $aspect = $width ? $height / $width : 0;
 
-  if ($width > $this->{thumbwidth}) {
-    $width = $this->{thumbwidth};
-    $height = $width * $aspect;
-  } 
-  if ($height > $this->{thumbheight}) {
-    $height = $this->{thumbheight};
-    $width = $aspect ? $height / $aspect : 0;
+  if ($aspect < 1) {
+    # resize height, crop rest
+    if ($height > $this->{thumbheight}) {
+      $height = $this->{thumbheight};
+      $width = $aspect ? $height / $aspect : 0;
+    }
+  } else {
+    # resize width, crop rest
+    if ($width > $this->{thumbwidth}) {
+      $width = $this->{thumbwidth};
+      $height = $width * $aspect;
+    } 
   }
+  writeDebug("aspect=$aspect thumbwidth=$width, thumbheight=$height");
+
+
   $image->{IGP_thumbwidth} = int($width+0.5);
   $image->{IGP_thumbheight} = int($height+0.5);
 
@@ -780,7 +788,7 @@ sub computeImageSize {
   $entry->{imgChanged} = $imgChanged;
   $this->{info}{$entry->{name}} = $entry;
 
-  #writeDebug("done computeImageSize");
+  writeDebug("done computeImageSize");
 }
 
 # =========================
@@ -791,8 +799,8 @@ sub replaceVars {
 
     my $imageName = $image->{name}.(($image->{name} =~ /\.svgz?$/ )?'.png':'');
 
-    $format =~ s/\$reddot/$this->renderRedDot($image)/goes;
     $format =~ s/\$width/$image->{IGP_width}/gos;
+    $format =~ s/\$framewidth/($image->{IGP_width}+2)/ge;
     $format =~ s/\$height/$image->{IGP_height}/gos;
     $format =~ s/\$thumbwidth/$image->{IGP_thumbwidth}/gos;
     $format =~ s/\$thumbheight/$image->{IGP_thumbheight}/gos;
@@ -828,10 +836,10 @@ sub replaceVars {
 # (2) the thumbnail is older than the source image
 # (3) it should be resized
 # returns 1 on success and 0 on an error (see errorMsg)
-sub createImg {
+sub processImage {
   my ($this, $image, $thumbMode) = @_;
   
-  #writeDebug("createImg($image->{name}) called");
+  #writeDebug("processImage($image->{name}) called");
   
   my $prefix = ($thumbMode)?'thumb_':'';
 
@@ -855,17 +863,17 @@ sub createImg {
   }
 
   # compute
-  #writeDebug("mage->scale");
   if ($thumbMode) {
     $error = 
-      $this->{mage}->Resize(geometry=>"$image->{IGP_thumbwidth}x$image->{IGP_thumbheight}");
+      $this->{mage}->Resize(geometry=>"$image->{IGP_thumbwidth}x$image->{IGP_thumbheight}")." ".
+      $this->{mage}->Crop(width=>$this->{thumbwidth}, height=>$this->{thumbheight})." ".
+      $this->{mage}->Set(page=>"0x0+0+0");
   } else {
     $error = 
       $this->{mage}->Resize(geometry=>"$image->{IGP_width}x$image->{IGP_height}");
   }
-  #writeDebug("done mage->scale");
-  if ($error =~ /(\d+)/) {
-    #writeDebug("Resize(): error=$error");
+  if ($error =~ /(\d+):/) {
+    writeDebug("Transform(): error=$error");
     $this->{errorMsg} .= " $error";
     return 0 if $1 >= 400;
   }
@@ -936,7 +944,7 @@ sub normalizeFileName {
 sub renderError {
   my $msg = shift;
   return '' unless $msg;
-  return "<span class=\"igpAlert\">Error: $msg</span>" ;
+  return "<span class='twikiAlert'>Error: $msg</span>" ;
 }
 
 # =========================

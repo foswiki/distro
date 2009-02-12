@@ -66,10 +66,7 @@ sub doInit {
   return if $isInitialized;
   $isInitialized = 1;
 
-  eval 'use TWiki::Plugins::ImageGalleryPlugin::Core();';
-  die $@ if $@;
-
-  return undef;
+  require TWiki::Plugins::ImageGalleryPlugin::Core;
 }
 
 # =========================
