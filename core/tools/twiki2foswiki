@@ -38,6 +38,19 @@ then
 fi
 
 
+# Script can cause havoc on an SVN tree if the svn mv commands failed to rename so we stop
+if [ ! -d $curdir/$1/data/System ]
+then
+    echo "Something went very wrong - terminating script"
+    exit
+fi
+
+if [ ! -d $curdir/$1/lib/Foswiki ]
+then
+    echo "Something went very wrong - terminating script"
+    exit
+fi
+
 #name space change all .pm files in contrib and plugins
 cd $curdir/$1/lib/Foswiki
 
@@ -49,8 +62,8 @@ do
     sed -i -e "s/twiki\([A-Z][A-Za-z]\+\)/foswiki\1/g"  $file
     sed -i -e "s/'twiki'/'foswiki'/g"  $file
     sed -i -e "s/TWikiCompatibility/FoswikiCompatibility/g"  $file
-    sed -i -e 's/&Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g'  $file
-    sed -i -e 's/Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g'  $file
+    sed -i -e "s/&Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g"  $file
+    sed -i -e "s/Foswiki::Func::getTwikiWebname()/$Foswiki::cfg{SystemWebName}/g"  $file
     sed -i -e "s/^=begin twiki/=begin TML/g"  $file       
 done
 
@@ -77,7 +90,7 @@ then
     sed -i -e "s.^pub/TWiki.pub/System.g"   MANIFEST
     sed -i -e "s.^lib\/TWiki.lib/Foswiki.g"  MANIFEST
     sed -i -e "s/TWiki::/Foswiki::/g"  build.pl
-    sed -i -e "s/TWiki::/Foswiki::/g"  Config.spec
+    [ -e Config.spec ] && sed -i -e "s/TWiki::/Foswiki::/g"  Config.spec
     sed -i -e "s/new TWiki\(\);/new Foswiki();/g"  build.pl
     sed -i -e "s/TWiki::/Foswiki::/g"  DEPENDENCIES
 fi
