@@ -442,6 +442,7 @@ HERE
         if ( $response->is_success() ) {
             $f = $downloadDir . '/' . $module . $type;
             open( F, ">$f" ) || die "Failed to open $f for write: $!";
+            binmode F;
             print F $response->content();
             close(F);
             last;
