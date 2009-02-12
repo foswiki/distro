@@ -37,7 +37,7 @@ This version is tested with TWiki 4.2.0 and 4.1.2 and Foswiki in IE6, IE7 and FF
 <th>%MAKETEXT{"Username"}%</th>
 <th>%MAKETEXT{"Comment"}%</th>
 </tr>
-%HISTORY{"<tr style=\"vertical-align:top;\"><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td>[[$wikiusername][$wikiname]]</td><td>%REVCOMMENT[$rev]%&nbsp;</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="<tr><td colspan=\"6\">$next{'%MAKETEXT{"last"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"first"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}</td></tr>"}%
+%HISTORY{"<tr style=\"vertical-align:top;\"><td align="right"><a href=\"%SCRIPTURL{view}%/%WEB%/%TOPIC%?rev=$rev\">$rev</a></td><td style=\"background-color:#fffaf2; text-align:center;\"><input type=\"radio\" name=\"rev2\" value=\"$rev\" style=\"border:none; background-color:#fffaf2;\" /></td><td style=\"background-color:#f2f7fc; text-align:center;\"><input type=\"radio\" name=\"rev1\" value=\"$rev\" style=\"border:none; background-color:#f2f7fc;\" /></td><td style="white-space: nowrap;">$date</td><td><nop>$wikiname</td><td>%REVCOMMENT[$rev]%&nbsp;</td></tr>" rev1="%URLPARAM{"rev1"}%" rev2="%URLPARAM{"rev2"}%" nrev="%URLPARAM{"nrev"}%" header="" footer="<tr><td colspan=\"6\">$next{'%MAKETEXT{"last"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&nrev=$nrev'} $next{'%MAKETEXT{"later"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"earlier"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=$rev1&nrev=$nrev'} $previous{'%MAKETEXT{"first"}%' url='%SCRIPTURL{oops}%/%WEB%/%TOPIC%?template=oopshistory&rev1=1&nrev=$nrev'}</td></tr>"}%
 </table>%TMPL:END%
 
 
@@ -77,17 +77,17 @@ Render style: <select name="render">
 <form name="main" action="%SCRIPTURL{"%TMPL:P{"diffbin"}%"}%/%WEB%/%TOPIC%">
 %TMPL:P{"historytable"}%
 %TMPL:P{"renderstyle"}%
-<input type="submit" class="twikiSubmit" value="%MAKETEXT{"Compare revisions"}%" />
+<input type="submit" class="foswikiSubmit" value="%MAKETEXT{"Compare revisions"}%" />
 </form>
 <br /><br />
 <form action="%SCRIPTURL{oops}%/%WEB%/%TOPIC%">
-*%MAKETEXT{"More view options:"}%* %MAKETEXT{"Show"}% <select class="twikiSelect" name="nrev" size="1">
+*%MAKETEXT{"More view options:"}%* %MAKETEXT{"Show"}% <select class="foswikiSelect" name="nrev" size="1">
 <option selected="selected">%HISTORY_NREV%</option>
 <option>5</option>
 <option>10</option>
 <option>20</option>
 <option>50</option>
-</select> %MAKETEXT{"revisions up to"}% <input type="text" class="twikiInputField" name="rev2" value="%HISTORY_REV2%" size="2" />&nbsp;<input type="submit" class="foswikiButton" value="%MAKETEXT{"Refresh"}%" />
+</select> %MAKETEXT{"revisions up to"}% <input type="text" class="foswikiInputField" name="rev2" value="%HISTORY_REV2%" size="2" />&nbsp;<input type="submit" class="foswikiButton" value="%MAKETEXT{"Refresh"}%" />
 <input type="hidden" name="template" value="oopshistory" />
 </form>
 %TMPL:END%

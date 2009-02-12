@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2000-2003 Andrea Sterbini, a.sterbini@flashnet.it
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.com
-# Copyright (C) 2008 Foswiki Contributors
+# Copyright (C) 2008-2009 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ use Foswiki::Func;
 use vars qw( $VERSION $RELEASE $NO_PREFS_IN_TOPIC $SHORTDESCRIPTION);
 
 $VERSION = '$Rev: 15950 $';
-$RELEASE = '1.4';
+$RELEASE = '1.5';
 $NO_PREFS_IN_TOPIC = 1;
 $SHORTDESCRIPTION = 'Shows a complete history of a document';
 
