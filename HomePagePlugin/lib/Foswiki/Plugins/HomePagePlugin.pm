@@ -49,54 +49,40 @@ sub initPlugin {
                                      __PACKAGE__, ' and Plugins.pm' );
         return 0;
     }
-    
-    my $url = $Foswiki::Plugins::SESSION->{request}->path_info();
-    if ($url eq '' or $url eq '/') {
-        my $userHomePage;
-        if (Foswiki::Func::topicExists($Foswiki::cfg{UsersWebName}, 
-                Foswiki::Func::getWikiName($user)) ) {
-                    my( $meta, $text ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, 
-                Foswiki::Func::getWikiName($user) );
-                    #TODO: make fieldname a setting.
-                    my $field = $meta->get( 'FIELD', 'HomePage' );
-                    $userHomePage = $field->{value} if (defined($field));
-                }
-        if ($userHomePage) {
-            if (Foswiki::Func::webExists($userHomePage)) {
-                #if they only set a webname, dwim
-                $userHomePage .= '.'.$Foswiki::cfg{HomeTopicName};
-            }
-            my ( $web, $topic ) =
-              $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $userHomePage );
-              
-            if (($web ne $Foswiki::Plugins::SESSION->{webName}) or 
-                ($topic ne $Foswiki::Plugins::SESSION->{topicName})) {
-                    Foswiki::Func::redirectCgiQuery(
-                      undef, Foswiki::Func::getScriptUrl($web, $topic, 'view'), 1);
-                }
-        }
-          
-    }
 
     return 1;
 }
 
+sub initializeUserHandler {
+    my ( $loginName, $url, $pathInfo ) = @_;
 
-=begin TML
-
----++ earlyInitPlugin()
-
-show the Site's default topic as set in configure if no web/topic is set in the URL
-
-=cut
-
-sub earlyInitPlugin {
     return if ($Foswiki::Plugins::SESSION->inContext('viewfile'));
 
+    #my $script_path = $Foswiki::Plugins::SESSION->{scriptUrlPath};
+    #my $script_name = $Foswiki::Plugins::SESSION->{request}->script_name();
+    #my $web = $Foswiki::Plugins::SESSION->{webName};
+    #my $topic = $Foswiki::Plugins::SESSION->{topicName};
+
     #we don't know the user at this point so can only set up the site wide default
-    my $url = $Foswiki::Plugins::SESSION->{request}->path_info();
-    if ($url eq '' or $url eq '/') {
+    my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
+    
+        #print STDERR "\n!-------- >$loginName< $web, $topic ($script_name)($path_info)";
+        #print STDERR "\n!-=-=".join(',', $Foswiki::Plugins::SESSION->{request}->param());
+    
+    if (($path_info eq '' or $path_info eq '/') or 
+        ($Foswiki::Plugins::SESSION->{request}->param('logout' )) ) {
         my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
+        
+        if (Foswiki::Func::topicExists($Foswiki::cfg{UsersWebName}, 
+                Foswiki::Func::getWikiName($loginName)) ) {
+                    my( $meta, $text ) = Foswiki::Func::readTopic( $Foswiki::cfg{UsersWebName}, 
+                Foswiki::Func::getWikiName($loginName) );
+                    #TODO: make fieldname a setting.
+                    my $field = $meta->get( 'FIELD', 'HomePage' );
+                    my $userHomePage = $field->{value} if (defined($field));
+                    $siteDefault = $userHomePage if ($userHomePage and ($userHomePage ne ''));
+                }
+        
         if (Foswiki::Func::webExists($siteDefault)) {
             #if they only set a webname, dwim
             $siteDefault .= '.'.$Foswiki::cfg{HomeTopicName};
@@ -105,11 +91,14 @@ sub earlyInitPlugin {
           $Foswiki::Plugins::SESSION->normalizeWebTopicName( '', $siteDefault );
         $Foswiki::Plugins::SESSION->{webName} = $web;
         $Foswiki::Plugins::SESSION->{topicName} = $topic;
-    }
-    
+
+        #print STDERR "-------- ($script_name)($path_info) --> ( $web, $topic )";
+        #print STDERR '-=-='.join(',', $Foswiki::Plugins::SESSION->{request}->param());
+        
     return undef;
 }
 
+}
 
 1;
 __END__
