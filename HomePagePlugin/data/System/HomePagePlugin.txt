@@ -9,7 +9,15 @@ One line description, required for extensions repository catalog.
 
 ---++ Usage
 
----++ Examples
+This plugin makes the Default frontpage configurable - any time a user goes to %SCRIPTURL{view}% they will be shown the topic =configured= 
+by the Foswiki administrator in ={HomePagePlugin}{SiteDefaultTopic}= in the Extensions section of =configure=.
+
+
+---++ TemplateLogin configurable HomePage on login
+The Admin can also =configure= ={HomePagePlugin}{GotoHomePageOnLogin}= so Foswiki Always show user's 
+HomePage (from the UserForm field in their User topic.) when they log in (makes sense if users have personalised home pages.) 
+__Note__ that this means that any URL's emailed to them will only be useful after login.
+
 
 ---++ Installation Instructions
 
@@ -18,13 +26,14 @@ One line description, required for extensions repository catalog.
 ---++ Info
 
 Many thanks to the following sponsors for supporting this work:
-   * Acknowledge any sponsors here
+   * Created for Blackfin inc.
 
-|  Author(s): | |
-|  Copyright: | &copy; |
-|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Author(s): | Foswiki:Main.SvenDowideit|
+|  Copyright: | &copy; 2009 SvenDowideit@fosiki.com|
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License 3)]] |
 |  Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+| Feb 2009 | initial version |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/bin/view/Extensions/HomePagePlugin |
 
