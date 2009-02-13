@@ -367,21 +367,24 @@ my $bodyContentsEnd   = _htmlBodyContentsEnd();
 
 print $header;
 print $bodyContentsStart;
-_dispatchContents();
+print _dispatchContents();
 print $bodyContentsEnd;
 
 ###########################################################
 # End of the main program; the rest is all subs
 
 sub _dispatchContents {
-    my $message;
-    my $stub = new Foswiki::Configure::Item();
+    my $message = '';
+    my $stub    = new Foswiki::Configure::Item();
 
     # This call will define $Foswiki::defaultCfg by loading .spec files
     my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
 
     # set globals
     ( $sanityStatement, $badLSC ) = $sanityUI->ui();
+    $sanityStatement =
+      "<div class='foswikiNotification foswikiAlert'>$sanityStatement</div>"
+      if $sanityStatement;
 
     # This is the dispatcher; $action is the name of the action to perform,
     # this is concatenated to _action to determine the name of the procedure.
@@ -655,7 +658,8 @@ OH_DEAR
         print <<HERE;
   <p><strong>Use this page to set the configuration options for Foswiki.
   Fill in the settings, and then press 'Next'.</strong></p>
-  <div class="foswikiLeft foswikiHelp" style="width:45%">
+  <div class="foswikiHelp">
+  <div class="foswikiLeft" style="width:45%;">
    <ul>
     <li><b>If your Foswiki site is already working</b>, continue to
      <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome">
@@ -686,8 +690,8 @@ register</a> as a normal user first and then add your wikiname to the <a rel="no
       <a href="http://foswiki.org/Support/WebHome">Support forum</a>.
      </li>
     </ul>
-   </div><!--/foswikiLeft foswikiHelp-->
-   <div class="foswikiLeft foswikiHelp" style="width:45%; margin-left:1em">Explanation of colours and symbols:
+   </div><!--/foswikiLeft-->
+   <div class="foswikiLeft" style="width:45%; margin-left:1em;">Explanation of colours and symbols:
     <ul style="margin-top:0;">
      <li>Settings marked <span class='mandatory'>like this</span> are required
       (they must have a value).</li>
@@ -706,8 +710,7 @@ HERE
         print <<HERE;
      </li>
     </ul>
-   <br class="foswikiClear" />
-  </div><!--/foswikiLeft foswikiHelp-->
+  </div><br class="foswikiClear" /></div><!--/foswikiLeft foswikiHelp-->
 HERE
     }
 
@@ -721,7 +724,7 @@ HERE
 
     # use time to make sure we never allow cacheing
     print CGI::hidden( 'time', time() );
-	print '<br class="foswikiClear" />' . "\n";
+    print '<br class="foswikiClear" />' . "\n";
     print CGI::h2('Settings') . "\n"
       . CGI::span( { class => 'foswikiLeft' },
         'Click the buttons below to open each section' )
@@ -792,4 +795,3 @@ HERE
 }
 
 1;
-

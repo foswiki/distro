@@ -93,9 +93,7 @@ HERE
         }
         else {
             $result .= <<HERE;
-<div class='foswikiNotification foswikiAlert'>
 Could not find existing configuration file <code>$this->{LocalSiteDotCfg}</code>.
-</div>
 <h3>Do you run configure for the first time?</h3>
 Please fill in the required paths in the
 <a rel="nofollow" href="#GeneralPathSettingslink" onclick="foldBlock('GeneralPathSettings'); return false;">
