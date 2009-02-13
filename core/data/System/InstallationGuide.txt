@@ -18,9 +18,11 @@ While this installation guide specifically describes installation on an Apache w
 
 *If you are installing Foswiki without root or administrator privileges* (for example, on a hosted domain), see "[[#NonRootInstallNotes][Notes on Installing Foswiki on Non-Root Account]]" for additional instructions beyond the basic steps presented below.
 
-*If you are upgrading from an earlier major version of Foswiki or from an old TWiki version such as Cairo (TWiki 3)* you will need the information found in Foswiki:System.UpgradeGuide. There is also a static HTML =UpgradeGuide.html= included in the root of your Foswiki distribution.
+*If you are upgrading from a previous Foswiki version or from a TWiki installation*, please refer to Foswiki:System.UpgradeGuide. A static HTML version of this document, =UpgradeGuide.html= is included in the root of your Foswiki distribution.
 
-*If you are upgrading from a TWiki 4 release,* follow the steps described in Foswiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidentally overwriting your site customizations and data.
+<!-- to be included once the Supplemental document is available
+*If you are upgrading from an old TWiki version such as Cairo (TWiki 3)*, refer to Foswiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidentally overwriting your site customizations and data.
+-->
 
 One of the more difficult tasks is installing of additional !CPAN libraries. See Foswiki:Support.HowToInstallCpanModules for detailed information on how to install !CPAN libraries.
 
@@ -80,7 +82,9 @@ If you need help, ask a question in the Foswiki:Support web or on Foswiki:Commun
       * If your web server can be accessed by more than one domain name make sure to add the additional alternative URLs to ={PermittedRedirectHostUrls}=
       * When you return to =configure= you now need to setup _Mail and Proxies_. The ={WebMasterEmail}= and ={SMTP}{MAILHOST}= settings must be defined so Foswiki can send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=.
 
-You now have a basic, unauthenticated installation running. At this point you can just point your Web browser at =http://yourdomain.com/foswiki/bin/view= and start using your Foswiki site!
+You now have a basic, unauthenticated installation running. At this point you can just point your Web browser at =http://yourdomain.com/foswiki/bin/view= and start using your Foswiki site.
+
+In order to keep your user, group, and site configuration information separate from the actual content of your site, it is recommended that you create a new web in which your site's pages will reside. See Foswiki:System.ManagingWebs for more information on Wiki webs and how to create one.
 
 ---+++ Important Server Security Settings
 Before you continue any further there are some basic and very important security settings you have to make sure are set correctly.
