@@ -72,7 +72,7 @@ sub _assessPipeSupport {
     # Shell quoting - shell used only on non-safe platforms
     if ( $Foswiki::cfg{OS} eq 'UNIX'
            || ( $Foswiki::cfg{OS} eq 'WINDOWS'
-                  && $$Foswiki::cfg{DetailedOS} eq 'cygwin' ) ) {
+                  && $Foswiki::cfg{DetailedOS} eq 'cygwin' ) ) {
         $CMDQUOTE = "'";
     }
     else {
