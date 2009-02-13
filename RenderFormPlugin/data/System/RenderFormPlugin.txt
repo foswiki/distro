@@ -214,6 +214,7 @@ __Note:__ You do not need to install anything on the browser to use this plugin.
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | V1.004 (31 Jan 2009) |
 |  Change History: | <!-- versions below in reverse order --> |
+|  V1.005 (13 Feb 2009): | Foswiki:Main.DanielRohde: fixed performance problems |
 |  V1.004 (31 Jan 2009): | Foswiki:Main.KennethLavrsen: Foswikitask:Item907 Fixed a bug that causes JSCalendarContrib to stack overflow. Fix includes changing to official API way to add JSCalendar. |
 |  V1.003 (16 Dec 2008): | Foswiki:Main.KennethLavrsen: Changed to Foswiki name space |
 |  V1.002 (14 Oct 2008): | Foswiki:Main:DanielRohde: added layout feature; fixed date field bug; added missing docs; |

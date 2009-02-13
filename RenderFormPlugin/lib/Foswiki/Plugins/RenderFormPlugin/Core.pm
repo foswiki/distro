@@ -22,9 +22,7 @@ package Foswiki::Plugins::RenderFormPlugin::Core;
 # + additional form field definitions that can be used with URLPARAM in the templatetopic
 # + AJAX form data submit
 
-use strict;
-
-use Switch;
+#use strict;
 
 use vars qw( $pluginName %defaults @requiredOptions @flagOptions %validOptions %options $defaultsInitialized @unknownParams @missingParams @invalidParams $formCounter );
 
@@ -399,67 +397,59 @@ sub _renderFormField {
 	my $td = "";   # form field cell
 	my $tadd = ""; # addition to the form field name
 
-	switch ( lc($$def{type}) ) {
-		case 'label' { $td = $$def{value}; }
-		case 'select' { 
-			$td = _renderOptions($def);
-			$td = '<select name="'._encode($$def{name}).'" size="'._encode($$def{size}).'">'.$td.'</select>'
-				if $options{mode} ne 'view';
-		}
-		case 'select+multi' { 
-			$td = _renderOptions($def);
-			$td = '<select multiple="multiple" name="'._encode($$def{name}).'" size="'._encode($$def{size}).'">'.$td.'</select>'
-				if $options{mode} ne 'view';
-		}
-		case 'checkbox+buttons' { 
-			$td = _renderButtons($def); 
-			$tadd="<br/>".$cgi->button(-value=>"Set all",-onClick=>qq@${formName}CheckAll("$$def{name}",true)@)
-					.' '.$cgi->button(-value=>"Clear all", -onClick=>qq@${formName}CheckAll("$$def{name}",false)@ )
-				if ($options{mode} ne 'view');
-		}
-		case 'checkbox' { 
+	if ( lc($$def{type}) eq 'label' ) { 
+		$td = $$def{value}; 
+	} elsif ( lc($$def{type}) eq 'select' ) { 
+		$td = _renderOptions($def);
+		$td = '<select name="'._encode($$def{name}).'" size="'._encode($$def{size}).'">'.$td.'</select>'
+			if $options{mode} ne 'view';
+	} elsif ( lc($$def{type}) eq 'select+multi' ) { 
+		$td = _renderOptions($def);
+		$td = '<select multiple="multiple" name="'._encode($$def{name}).'" size="'._encode($$def{size}).'">'.$td.'</select>'
+			if $options{mode} ne 'view';
+	} elsif ( lc($$def{type}) eq 'checkbox+buttons' ) { 
+		$td = _renderButtons($def); 
+		$tadd="<br/>".$cgi->button(-value=>"Set all",-onClick=>qq@${formName}CheckAll("$$def{name}",true)@)
+				.' '.$cgi->button(-value=>"Clear all", -onClick=>qq@${formName}CheckAll("$$def{name}",false)@ )
+			if ($options{mode} ne 'view');
+	} elsif ( lc($$def{type}) eq 'checkbox' ) { 
 			$td = _renderButtons($def);
-		}
-		case 'radio' { 
-			$td = _renderButtons($def);
-		}
-		case 'textarea' { 
-			$$def{size}=~/(\d+)x(\d+)/i; 
-			my ($cols,$rows) = ($1,$2); 
-			my $tadata=$$def{value};
-			$tadata=~s/%([0-9a-f]{2})/chr(hex("0x$1"))/eig;
-			if ($options{mode} eq 'view') {
-				$tadata=~s/\r?\n/<br \/>/g;
-				$td = $tadata;
-				$td = '&nbsp;' if $tadata eq "";
-			} else {
-				$tadata =~ s/([\r\n])/'&#'.ord($1).';'/eg;
-				my $old = $cgi->autoEscape();
-				$cgi->autoEscape(0);
-				$td = '<noautolink>'.$cgi->textarea({-title=>$$def{tooltip},-rows=>$rows,-columns=>$cols,-name=>$$def{name},-default=>qq@$tadata@}).'</noautolink>';
-				$cgi->autoEscape($old);
+	} elsif ( lc($$def{type}) eq 'radio' ) { 
+		$td = _renderButtons($def);
+	} elsif ( lc($$def{type}) eq 'textarea' ) { 
+		$$def{size}=~/(\d+)x(\d+)/i; 
+		my ($cols,$rows) = ($1,$2); 
+		my $tadata=$$def{value};
+		$tadata=~s/%([0-9a-f]{2})/chr(hex("0x$1"))/eig;
+		if ($options{mode} eq 'view') {
+			$tadata=~s/\r?\n/<br \/>/g;
+			$td = $tadata;
+			$td = '&nbsp;' if $tadata eq "";
+		} else {
+			$tadata =~ s/([\r\n])/'&#'.ord($1).';'/eg;
+			my $old = $cgi->autoEscape();
+			$cgi->autoEscape(0);
+			$td = '<noautolink>'.$cgi->textarea({-title=>$$def{tooltip},-rows=>$rows,-columns=>$cols,-name=>$$def{name},-default=>qq@$tadata@}).'</noautolink>';
+			$cgi->autoEscape($old);
 
-			}
 		}
-		case 'date' { 
-			if ($options{mode} eq 'view') {
-				$td = $$def{value};
-				$td = '&nbsp;' if $$def{value} eq "";
-			} else {
-				my $dateformat = defined $options{dateformat} ? $options{dateformat} : Foswiki::Func::getPreferencesValue('JSCALENDARDATEFORMAT');
-				$dateformat="%d %b %Y" unless defined $dateformat;
-				my $id=$formName.$$def{name}; 
-				$td = $cgi->textfield({-id=>$id,-name=>$$def{name},-default=>$$def{value},-size=>$$def{size},-readonly=>'readonly'})
-					.$cgi->image_button(-name=>'calendar', -src=>'%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/img.gif', 
-							-alt=>'Calendar', -title=>'Calendar', -onClick=>qq@javascript: return showCalendar('$id','$dateformat')@);
-			}
+	} elsif ( lc($$def{type}) eq 'date' ) { 
+		if ($options{mode} eq 'view') {
+			$td = $$def{value};
+			$td = '&nbsp;' if $$def{value} eq "";
+		} else {
+			my $dateformat = defined $options{dateformat} ? $options{dateformat} : Foswiki::Func::getPreferencesValue('JSCALENDARDATEFORMAT');
+			$dateformat="%d %b %Y" unless defined $dateformat;
+			my $id=$formName.$$def{name}; 
+			$td = $cgi->textfield({-id=>$id,-name=>$$def{name},-default=>$$def{value},-size=>$$def{size},-readonly=>'readonly'})
+				.$cgi->image_button(-name=>'calendar', -src=>'%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib/img.gif', 
+						-alt=>'Calendar', -title=>'Calendar', -onClick=>qq@javascript: return showCalendar('$id','$dateformat')@);
 		}
-		else { 
-			if ($options{mode} eq 'view') {
-				$td = (!defined $$def{value} || $$def{value} eq "") ? "&nbsp;" : $$def{value};
-			} else {
-				$td = $cgi->textfield({-size=>$$def{size}, -name=>$$def{name}, -default=>$$def{value}});
-			}
+	} else { 
+		if ($options{mode} eq 'view') {
+			$td = (!defined $$def{value} || $$def{value} eq "") ? "&nbsp;" : $$def{value};
+		} else {
+			$td = $cgi->textfield({-size=>$$def{size}, -name=>$$def{name}, -default=>$$def{value}});
 		}
 	}
 	return ($td,$tadd);
