@@ -62,7 +62,7 @@ sub initializeUserHandler {
                                         $Foswiki::Plugins::SESSION->inContext('login'));
     if ($gotoOnLogin) {
         $loginName = $Foswiki::Plugins::SESSION->{request}->param('username');
-        #pre-load the origurl with the topic we want to force to
+        #pre-load the origurl with the 'login' url which forces templatelogin to use the requested web&topic
         $Foswiki::Plugins::SESSION->{request}->param( -name => 'origurl', 
                                             -value => $Foswiki::Plugins::SESSION->{request}->url());
     }
