@@ -57,20 +57,29 @@ sub initializeUserHandler {
     my ( $loginName, $url, $pathInfo ) = @_;
 
     return if ($Foswiki::Plugins::SESSION->inContext('viewfile'));
+    
+    my $gotoOnLogin = ($Foswiki::cfg{HomePagePlugin}{GotoHomePageOnLogin} and 
+                                        $Foswiki::Plugins::SESSION->inContext('login'));
+    if ($gotoOnLogin) {
+        $loginName = $Foswiki::Plugins::SESSION->{request}->param('username');
+        #pre-load the origurl with the topic we want to force to
+        $Foswiki::Plugins::SESSION->{request}->param( -name => 'origurl', 
+                                            -value => $Foswiki::Plugins::SESSION->{request}->url());
+    }
 
-    #my $script_path = $Foswiki::Plugins::SESSION->{scriptUrlPath};
-    #my $script_name = $Foswiki::Plugins::SESSION->{request}->script_name();
-    #my $web = $Foswiki::Plugins::SESSION->{webName};
-    #my $topic = $Foswiki::Plugins::SESSION->{topicName};
+#my $script_path = $Foswiki::Plugins::SESSION->{scriptUrlPath};
+#my $script_name = $Foswiki::Plugins::SESSION->{request}->script_name();
+#my $web = $Foswiki::Plugins::SESSION->{webName};
+#my $topic = $Foswiki::Plugins::SESSION->{topicName};
 
     #we don't know the user at this point so can only set up the site wide default
     my $path_info = $Foswiki::Plugins::SESSION->{request}->path_info();
     
-        #print STDERR "\n!-------- >$loginName< $web, $topic ($script_name)($path_info)";
-        #print STDERR "\n!-=-=".join(',', $Foswiki::Plugins::SESSION->{request}->param());
+#print STDERR "\n!-------- >$loginName< $web, $topic ($script_name)($path_info)";
+#print STDERR "\n!-=-=".join(',', $Foswiki::Plugins::SESSION->{request}->param());
     
     if (($path_info eq '' or $path_info eq '/') or 
-        ($Foswiki::Plugins::SESSION->{request}->param('logout' )) ) {
+        ($gotoOnLogin) ) {
         my $siteDefault = $Foswiki::cfg{HomePagePlugin}{SiteDefaultTopic};
         
         if (Foswiki::Func::topicExists($Foswiki::cfg{UsersWebName}, 
@@ -92,8 +101,8 @@ sub initializeUserHandler {
         $Foswiki::Plugins::SESSION->{webName} = $web;
         $Foswiki::Plugins::SESSION->{topicName} = $topic;
 
-        #print STDERR "-------- ($script_name)($path_info) --> ( $web, $topic )";
-        #print STDERR '-=-='.join(',', $Foswiki::Plugins::SESSION->{request}->param());
+#print STDERR "-------- ($script_name)($path_info) --> ( $web, $topic )";
+#print STDERR '-=-='.join(',', $Foswiki::Plugins::SESSION->{request}->param());
         
     return undef;
 }
