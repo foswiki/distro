@@ -2131,7 +2131,8 @@ sub inlineAlert {
             $text =~ s/%PARAM$n%/$param/g;
             $n++;
         }
-
+        # Suppress missing params
+        $text =~ s/%PARAM\d+%//g;
     }
     else {
         $text =

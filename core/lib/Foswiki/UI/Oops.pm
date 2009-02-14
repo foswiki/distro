@@ -126,8 +126,8 @@ sub oops {
             $tmplData =~ s/%PARAM$n%/$param/g;
             $n++;
         }
-        $tmplData =~ s/%(PARAM\d+)%/
-          CGI::span({class=>'foswikiAlert'},"MISSING $1 ")/ge if DEBUG;
+        # Suppress missing params
+        $tmplData =~ s/%PARAM\d+%//g;
         $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
         $tmplData =
           $session->renderer->getRenderedVersion( $tmplData, $web, $topic );
