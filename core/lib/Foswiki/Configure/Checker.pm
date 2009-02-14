@@ -305,7 +305,11 @@ sub checkRCSProgram {
     }
     else {
         my $version = `$prog -V` || '';
-        if ( $version =~ /(\d+(\.\d+)+)/ ) {
+        if ($version !~ /Can't exec/
+              # "Can't exec" has been observed on some systems,
+              # despite perlop saying `` returns undef if the prog
+              # can't be run. See Foswikitask:Item1011
+              && $version =~ /(\d+(\.\d+)+)/ ) {
             $version = $1;
         }
         else {
