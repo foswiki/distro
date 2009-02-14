@@ -183,7 +183,7 @@ sub test_render_formfield_with_form {
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic2);
     my $res = $meta->renderFormForDisplay();
     $this->assert_html_equals(<<HERE, $res);
-<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm][InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
@@ -202,7 +202,7 @@ HERE
     $res = $meta->renderFormForDisplay();
 
     $this->assert_html_equals(<<HERE, $res);
-<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm][InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 ---+ Example problem
@@ -288,7 +288,7 @@ sub test_nondefined_form {
     my $res = $meta->renderFormForDisplay();
 
     $this->assert_html_equals(<<'HERE', $res);
-<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm][NonExistantPluginTestForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
+<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
 ContactAuthorFirst
 </td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
 Example
