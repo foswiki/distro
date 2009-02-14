@@ -1,13 +1,13 @@
 # See bottom of file for copyright and pod
-package TWiki::Plugins::EditRowPlugin::Table;
+package Foswiki::Plugins::EditRowPlugin::Table;
 
 use strict;
 use Assert;
-use TWiki::Attrs;
+use Foswiki::Attrs;
 
-use TWiki::Func;
-use TWiki::Plugins::EditRowPlugin::TableRow;
-use TWiki::Plugins::EditRowPlugin::TableCell;
+use Foswiki::Func;
+use Foswiki::Plugins::EditRowPlugin::TableRow;
+use Foswiki::Plugins::EditRowPlugin::TableCell;
 
 use vars qw($ADD_ROW $DELETE_ROW $QUIET_SAVE $NOISY_SAVE $EDIT_ROW $CANCEL_ROW $UP_ROW $DOWN_ROW);
 $ADD_ROW    = 'Add new row after this row / at the end';
@@ -61,37 +61,37 @@ sub parseTables {
         # next table encountered in the topic.
         if (!$disable && $line =~ s/(%EDITTABLE{(.*)}%)// ) {
             my $spec = $1;
-            my $attrs = new TWiki::Attrs(
-                TWiki::Func::expandCommonVariables($2, $web, $topic));
+            my $attrs = new Foswiki::Attrs(
+                Foswiki::Func::expandCommonVariables($2, $web, $topic));
             push(@tables, $line) if $line =~ /\S/;
             # Editable table
             $nTables++;
             my %read = ( "$web.$topic" => 1 );
             while ($attrs->{include}) {
-                my ($iw, $it) = TWiki::Func::normalizeWebTopicName(
+                my ($iw, $it) = Foswiki::Func::normalizeWebTopicName(
                     $web, $attrs->{include});
                 # This check is missing from EditTablePlugin
-                unless (TWiki::Func::topicExists($iw, $it)) {
+                unless (Foswiki::Func::topicExists($iw, $it)) {
                     $line = CGI::span(
-                        { class=>'twikiAlert' },
+                        { class=>'foswikiAlert' },
                         "Could not find format topic $attrs->{include}");
                 }
                 if ($read{"$iw.$it"}) {
                     $line = CGI::span(
-                        { class=>'twikiAlert' },
+                        { class=>'foswikiAlert' },
                         "Recursive include of $attrs->{include}");
                 }
                 $read{"$iw.$it"} = 1;
-                my ($meta, $text) = TWiki::Func::readTopic($iw, $it);
+                my ($meta, $text) = Foswiki::Func::readTopic($iw, $it);
                 my $params = '';
                 if ($text =~ m/%EDITTABLE{([^\n]*)}%/s) {
                     $params = $1;
                 }
                 if ($params) {
-                    $params = TWiki::Func::expandCommonVariables(
+                    $params = Foswiki::Func::expandCommonVariables(
                         $params, $iw, $it);
                 }
-                $attrs = new TWiki::Attrs($params);
+                $attrs = new Foswiki::Attrs($params);
             }
             # is there a format in the query? if there is,
             # override the format we just parsed
@@ -112,7 +112,7 @@ sub parseTables {
                 }
             }
             $active_table =
-              new TWiki::Plugins::EditRowPlugin::Table(
+              new Foswiki::Plugins::EditRowPlugin::Table(
                   $nTables, 1, $spec, $attrs, $web, $topic);
             push(@tables, $active_table);
             $hasRows = 0;
@@ -132,9 +132,9 @@ sub parseTables {
             if (!$active_table) {
                 # Uneditable table
                 $nTables++;
-                my $attrs => new TWiki::Attrs('');
+                my $attrs => new Foswiki::Attrs('');
                 $active_table =
-                  new TWiki::Plugins::EditRowPlugin::Table(
+                  new Foswiki::Plugins::EditRowPlugin::Table(
                       $nTables, 0, $line, $attrs, $web, $topic);
                 push(@tables, $active_table);
             }
@@ -147,7 +147,7 @@ sub parseTables {
                 # returns the empty list, regardless of the LIMIT specified.
                 push(@cols, '');
             }
-            my $row = new TWiki::Plugins::EditRowPlugin::TableRow(
+            my $row = new Foswiki::Plugins::EditRowPlugin::TableRow(
                 $active_table, scalar(@{$active_table->{rows}}) + 1,
                 $precruft, $postcruft,
                 \@cols);
@@ -166,7 +166,7 @@ sub parseTables {
 
     my @result;
     foreach my $t (@tables) {
-        if (UNIVERSAL::isa($t, 'TWiki::Plugins::EditRowPlugin::Table')) {
+        if (UNIVERSAL::isa($t, 'Foswiki::Plugins::EditRowPlugin::Table')) {
             if (!scalar(@{$t->{rows}}) &&
                   defined($t->{attrs}->{header})) {
                 # Legacy: add a header if the header param is defined and
@@ -177,7 +177,7 @@ sub parseTables {
                 my $postcruft = '';
                 $postcruft = $1 if $line =~ s/(\|\s*)$//;
                 my @cols = split(/\|/, $line, -1);
-                my $row = new TWiki::Plugins::EditRowPlugin::TableRow(
+                my $row = new Foswiki::Plugins::EditRowPlugin::TableRow(
                     $t, 1, $precruft, $postcruft, \@cols);
                 push(@{$t->{rows}}, $row);
             }
@@ -210,23 +210,23 @@ sub new {
 
     # if headerislabel true but no headerrows, set headerrows = 1
     if ($attrs->{headerislabel} && !defined($attrs->{headerrows})) {
-        $attrs->{headerrows} = TWiki::Func::isTrue($attrs->{headerislabel}) ? 1 : 0;
+        $attrs->{headerrows} = Foswiki::Func::isTrue($attrs->{headerislabel}) ? 1 : 0;
     }
 
     $attrs->{headerrows} ||= 0;
     $attrs->{footerrows} ||= 0;
     my $disable = defined($attrs->{disable}) ?
       $attrs->{disable} :
-        TWiki::Func::getPreferencesValue('EDITROWPLUGIN_DISABLE');
+        Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_DISABLE');
     $attrs->{disable} = $disable || '';
     my $changerows = defined($attrs->{changerows}) ?
       $attrs->{changerows} :
-        TWiki::Func::getPreferencesValue('CHANGEROWS');
-    $attrs->{changerows} = TWiki::Func::isTrue($changerows);
+        Foswiki::Func::getPreferencesValue('CHANGEROWS');
+    $attrs->{changerows} = Foswiki::Func::isTrue($changerows);
     my $q = defined($attrs->{quietsave}) ?
       $attrs->{quietsave} :
-        TWiki::Func::getPreferencesValue('QUIETSAVE');
-    $attrs->{quietsave} = TWiki::Func::isTrue($q);
+        Foswiki::Func::getPreferencesValue('QUIETSAVE');
+    $attrs->{quietsave} = Foswiki::Func::isTrue($q);
 
     $this->{attrs} = $attrs;
 
@@ -362,8 +362,8 @@ sub renderForEdit {
 
     my $format = $attrs->{format} || '';
     # SMELL: Have to double-encode the format param to defend it
-    # against the rest of TWiki. We use the escape char '-' as it
-    # isn't used by TWiki.
+    # against the rest of Foswiki. We use the escape char '-' as it
+    # isn't used by Foswiki.
     $format =~ s/([][@\s%!:-])/sprintf('-%02x',ord($1))/ge;
     # it will get encoded again as a URL param
     push(@out, CGI::hidden("erp_$this->{number}_format", $format));
@@ -418,7 +418,7 @@ sub renderForDisplay {
 
     # Generate the buttons at the bottom of the table
     my $script = 'view';
-    if ($showControls && !TWiki::Func::getContext()->{authenticated}) {
+    if ($showControls && !Foswiki::Func::getContext()->{authenticated}) {
         # A  bit of a hack. If the user isn't logged in, then show the
         # table edit button anyway, but redirect them to viewauth to force
         # login.
@@ -436,19 +436,19 @@ sub renderForDisplay {
               CGI::img({
                   -name => "erp_edit_$this->{number}",
                   -border => 0,
-                  -src => '%PUBURLPATH%/TWiki/EditRowPlugin/edittable.gif',
+                  -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.gif',
                   -title => $title,
               });
             my $url;
-            if ($TWiki::Plugins::VERSION < 1.11) {
-                $url = TWiki::Func::getScriptUrl(
+            if ($Foswiki::Plugins::VERSION < 1.11) {
+                $url = Foswiki::Func::getScriptUrl(
                     $this->{web}, $this->{topic}, $script)
                   .'?erp_active_topic='.$active_topic
                     .';erp_active_table='.$this->{number}
                       .';erp_active_row=-1'
                         .'#erp_'.$this->{number};
             } else {
-                $url = TWiki::Func::getScriptUrl(
+                $url = Foswiki::Func::getScriptUrl(
                     $this->{web}, $this->{topic}, $script,
                     erp_active_topic => $active_topic,
                     erp_active_table => $this->{number},
@@ -465,14 +465,14 @@ sub renderForDisplay {
             my $button = CGI::img({
                 -name => "erp_edit_$this->{number}",
                 -border => 0,
-                -src => '%PUBURLPATH%/TWiki/EditRowPlugin/addrow.gif',
+                -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.gif',
                 -title => $title,
                }, '');
             my $url;
             # Note: erp_unchanged prevents addRow from trying to
             # save changes in the table
-            if ($TWiki::Plugins::VERSION < 1.11) {
-                $url = TWiki::Func::getScriptUrl(
+            if ($Foswiki::Plugins::VERSION < 1.11) {
+                $url = Foswiki::Func::getScriptUrl(
                     'EditRowPlugin', 'save', 'rest')
                   .'?erp_active_topic='.$active_topic
                     .';erp_active_table='.$this->{number}
@@ -481,7 +481,7 @@ sub renderForDisplay {
                           .';erp_addRow.x=1'
                             .'#erp_'.$this->{number};
             } else {
-                $url = TWiki::Func::getScriptUrl(
+                $url = Foswiki::Func::getScriptUrl(
                     'EditRowPlugin', 'save', 'rest',
                     erp_active_topic => $active_topic,
                     erp_active_table => $this->{number},
@@ -526,7 +526,7 @@ sub _getCols {
             $urps->{$cellName} = $cell->{text};
         }
         # CGI returns multi-values separated by \0. Replace with
-        # the TWiki convention, comma
+        # the Foswiki convention, comma
         $urps->{$cellName} ||= '';
         $urps->{$cellName} =~ s/\0/, /g;
         push(@cols, $urps->{$cellName});
@@ -599,7 +599,7 @@ sub addRow {
             push(@vals, '');
         }
     }
-    my $newRow = new TWiki::Plugins::EditRowPlugin::TableRow(
+    my $newRow = new Foswiki::Plugins::EditRowPlugin::TableRow(
         $this, $row, '|', '|', \@vals);
     splice(@{$this->{rows}}, $row, 0, $newRow);
     # renumber lower rows
@@ -651,7 +651,7 @@ sub parseFormat {
     $format =~ s/^\s*\|//;
     $format =~ s/\|\s*$//;
 
-    $format = TWiki::Func::expandCommonVariables(
+    $format = Foswiki::Func::expandCommonVariables(
         $format, $this->{topic}, $this->{web});
     $format =~ s/\$nop(\(\))?//gs;
     $format =~ s/\$quot(\(\))?/\"/gs;
@@ -703,9 +703,9 @@ sub generateHelp {
     my $attrs = $this->{attrs};
     my $help;
     if ($attrs->{helptopic}) {
-        my ($web, $topic) = TWiki::Func::normalizeWebTopicName(
+        my ($web, $topic) = Foswiki::Func::normalizeWebTopicName(
             $this->{web}, $attrs->{helptopic});
-        my ($meta, $text) = TWiki::Func::readTopic($web, $topic);
+        my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
         $text =~ s/.*?%STARTINCLUDE%//s;
         $text =~ s/%STOPINCLUDE%.*//s;
         $text =~ s/^\s*//s;
@@ -736,7 +736,7 @@ sub generateEditButtons {
             name => 'erp_quietSave',
             value => $QUIET_SAVE,
             title => $QUIET_SAVE,
-            src => '%PUBURLPATH%/TWiki/EditRowPlugin/quiet.gif'
+            src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/quiet.gif'
            }, '');
     }
     $buttons .= CGI::image_button({
@@ -789,8 +789,9 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
+Copyright (c) 2009 Foswiki Contributors
 Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
-All Rights Reserved. TWiki Contributors are listed in the
+All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 
@@ -810,7 +811,7 @@ This is an object that represents a table.
 
 =pod
 
----+ package TWiki::Plugins::EditRowPlugin::Table
+---+ package Foswiki::Plugins::EditRowPlugin::Table
 Representation of an editable table
 
 =cut
@@ -822,12 +823,12 @@ Static function to extract a topic into a list of lines and embedded table defin
 Each table definition is an object of type EditTable, and contains
 a set of attrs (read from the %EDITTABLE) and a list of rows. You can spot the tables
 in the list by doing:
-newif (ref($line) eq 'TWiki::Plugins::EditRowPlugin::Table') {
+newif (ref($line) eq 'Foswiki::Plugins::EditRowPlugin::Table') {
 
 ---++ new($tno, $attrs, $web, $topic)
 Constructor
    * $tno = table number (sequence in data, usually) (start at 1)
-   * $attrs - TWiki::Attrs of the relevant %EDITTABLE
+   * $attrs - Foswiki::Attrs of the relevant %EDITTABLE
    * $web - the web
    * $topic - the topic
 

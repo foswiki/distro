@@ -1,10 +1,10 @@
 # See bottom of file for copyright
-package TWiki::Plugins::EditRowPlugin::TableCell;
+package Foswiki::Plugins::EditRowPlugin::TableCell;
 
 use strict;
 use Assert;
 
-use TWiki::Func;
+use Foswiki::Func;
 
 # Default format if no other format is defined for a cell
 my $defCol ||= { type => 'text', size => 20, values => [] };
@@ -103,7 +103,7 @@ sub renderForEdit {
         $colDef = $cd->[0];
     }
 
-    my $expandedValue = TWiki::Func::expandCommonVariables($unexpandedValue);
+    my $expandedValue = Foswiki::Func::expandCommonVariables($unexpandedValue);
     $expandedValue =~ s/^\s*(.*?)\s*$/$1/;
 
     my $text = '';
@@ -116,7 +116,7 @@ sub renderForEdit {
           "' class='EditRowPluginInput'>";
         foreach my $option ( @{$colDef->{values}} ) {
             my $expandedOption =
-              TWiki::Func::expandCommonVariables($option);
+              Foswiki::Func::expandCommonVariables($option);
             $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
             my %opts;
             if ($expandedOption eq $expandedValue) {
@@ -137,15 +137,15 @@ sub renderForEdit {
         foreach my $option (@{$colDef->{values}}) {
             push(@options, $option);
             my $expandedOption =
-              TWiki::Func::expandCommonVariables($option);
+              Foswiki::Func::expandCommonVariables($option);
             $expandedOption =~ s/^\s*(.*?)\s*$/$1/;
             $expandedOption =~ s/(\W)/\\$1/g;
             $attrs{$option}{label} = $expandedOption;
             if ($colDef->{type} eq 'checkbox') {
-                $attrs{$option}{class} = 'twikiCheckBox EditRowPluginInput';
+                $attrs{$option}{class} = 'foswikiCheckBox EditRowPluginInput';
             } else {
                 $attrs{$option}{class} =
-                  'twikiRadioButton EditRowPluginInput';
+                  'foswikiRadioButton EditRowPluginInput';
             }
 
             if ($expandedValue =~ /,\s*$expandedOption\s*,/) {
@@ -197,7 +197,7 @@ sub renderForEdit {
 
     } elsif( $colDef->{type} eq 'date' ) {
 
-        eval 'require TWiki::Contrib::JSCalendarContrib';
+        eval 'require Foswiki::Contrib::JSCalendarContrib';
 
         if ($@) {
             # Calendars not available
@@ -205,7 +205,7 @@ sub renderForEdit {
                                      class => 'EditRowPluginInput'});
         } else {
             # NOTE: old versions of JSCalendarContrib won't fire onchange
-            $text = TWiki::Contrib::JSCalendarContrib::renderDateForEdit(
+            $text = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
                 $cellName, $unexpandedValue, $colDef->{values}->[1],
                 { class => 'EditRowPluginInput' });
         }
@@ -223,7 +223,7 @@ sub renderForEdit {
             value => $unexpandedValue });
 
     }
-    return $this->{precruft}.TWiki::Plugins::EditRowPlugin::defend($text)
+    return $this->{precruft}.Foswiki::Plugins::EditRowPlugin::defend($text)
       .$this->{postcruft};
 }
 
@@ -232,8 +232,9 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
+Copyright (c) 2009 Foswiki Contributors
 Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
-All Rights Reserved. TWiki Contributors are listed in the
+All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

@@ -1,16 +1,15 @@
 # See bottom of file for copyright
-package TWiki::Plugins::EditRowPlugin;
+package Foswiki::Plugins::EditRowPlugin;
 
 use strict;
 
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $NO_PREFS_IN_TOPIC $headed );
-
 use Assert;
 
-$VERSION = '$Rev$';
-$RELEASE = '$Date$';
-$SHORTDESCRIPTION = 'Inline edit for tables';
-$NO_PREFS_IN_TOPIC = 1;
+our $VERSION = '$Rev$';
+our $RELEASE = '$Date$';
+our $SHORTDESCRIPTION = 'Inline edit for tables';
+our $NO_PREFS_IN_TOPIC = 1;
+our $RECURSING = 0;
 
 my $pluginName = 'EditRowPlugin';
 my $USE_SRC = '';
@@ -18,17 +17,9 @@ my $USE_SRC = '';
 sub initPlugin {
     my( $topic, $web, $user, $installWeb ) = @_;
 
-    # check for Plugins.pm versions
-    if( $TWiki::Plugins::VERSION < 1.1 ) {
-        TWiki::Func::writeWarning(
-            "Version mismatch between $pluginName and Plugins.pm");
-        return 0;
-    }
+    Foswiki::Func::registerRESTHandler('save', \&save);
 
-    TWiki::Func::registerRESTHandler('save', \&save);
-    $headed = 0;
-
-    if (TWiki::Func::getPreferencesValue('EDITROWPLUGIN_DEBUG')) {
+    if (Foswiki::Func::getPreferencesValue('EDITROWPLUGIN_DEBUG')) {
         $USE_SRC = '_src';
     }
 
@@ -39,16 +30,16 @@ sub initPlugin {
 # Formerly this said:
 # The handler has to be run from both beforeCommonTagsHandler and
 # commonTagsHandler, because beforeCommonTagsHandler allows us to
-# process tables before TWiki variables in their data are expanded,
+# process tables before macros in their data are expanded,
 # while the second call allows us to handle tables that have been
 # included from other topics. Both handlers only fire when the topic
 # text contains %EDITTABLE, thus constraining the problem.
+#
 # But since Item4970: disabled the beforeCommonTagsHandler because
 # it pre-empts SpreadSheetPlugin, which uses a commonTagsHandler. This
 # is consistent with EditTablePlugin, so fingers crossed.
 #sub beforeCommonTagsHandler {
 #   my ($text, $topic, $web, $meta) = @_;
-#die $text if $text =~ /%EDITTABLE/;
 #   if (_process($text, $web, $topic, $meta)) {
 #       $_[0] = $text;
 #   }
@@ -66,14 +57,13 @@ sub _process {
 
     return 0 unless $text =~ /%EDITTABLE{.*}%/;
 
-    my $context = TWiki::Func::getContext();
+    my $context = Foswiki::Func::getContext();
     return 0 unless $context->{view};
 
-    unless ($headed) {
-        $headed = 1; # recursion block
+    unless ($RECURSING) {
         my $header = "<script type='text/javascript' src='";
-        $header .= TWiki::Func::getPubUrlPath().'/'.
-          TWiki::Func::getTwikiWebname().
+        $header .= Foswiki::Func::getPubUrlPath().'/'.
+          $Foswiki::cfg{SystemWebName}.
               "/EditRowPlugin/TableSort$USE_SRC.js'></script>";
         $header .= <<STYLE;
 <style>
@@ -82,16 +72,19 @@ sub _process {
 }
 </style>
 STYLE
-        TWiki::Func::addToHEAD('EDITROWPLUGIN_JSSORT', $header);
+        Foswiki::Func::addToHEAD('EDITROWPLUGIN_JSSORT', $header);
     }
 
-    my $query = TWiki::Func::getCgiQuery();
+    my $query = Foswiki::Func::getCgiQuery();
     return 0 unless $query;
 
-    return 0 if TWiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE');
+    return 0 if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE');
 
-    require TWiki::Plugins::EditRowPlugin::Table;
+    require Foswiki::Plugins::EditRowPlugin::Table;
     return 0 if $@;
+
+    # Flag our processing state
+    local $RECURSING = 1;
 
     my @varnames = $query->param();
     my $urps = {};
@@ -101,7 +94,7 @@ STYLE
 
     my $endsWithNewline = ($text =~ /\n$/) ? 1 : 0;
 
-    my $content = TWiki::Plugins::EditRowPlugin::Table::parseTables(
+    my $content = Foswiki::Plugins::EditRowPlugin::Table::parseTables(
         $text, $web, $topic, $meta, $urps);
 
     my $active_table = 0;
@@ -117,8 +110,8 @@ STYLE
     my $displayOnly = 0;
 
     # Without change access, there is no way you can edit.
-    if (!TWiki::Func::checkAccessPermission(
-        'CHANGE', TWiki::Func::getWikiName(),
+    if (!Foswiki::Func::checkAccessPermission(
+        'CHANGE', Foswiki::Func::getWikiName(),
         $text, $topic, $web, $meta)) {
         $displayOnly = 1;
     }
@@ -126,7 +119,7 @@ STYLE
     my $hasTables = 0;
     my $needHead = 0;
     foreach (@$content) {
-        if (ref($_) eq 'TWiki::Plugins::EditRowPlugin::Table') {
+        if (ref($_) eq 'Foswiki::Plugins::EditRowPlugin::Table') {
             my $line = '';
             $table = $_;
             $active_table++;
@@ -135,7 +128,7 @@ STYLE
                     && $active_table == $urps->{erp_active_table}) {
                 my $active_row = $urps->{erp_active_row};
                 my $saveUrl =
-                  TWiki::Func::getScriptUrl($pluginName, 'save', 'rest');
+                  Foswiki::Func::getScriptUrl($pluginName, 'save', 'rest');
                 $line = CGI::start_form(
                     -method=>'POST',
                     -name => 'erp_form_'.$active_table,
@@ -154,10 +147,10 @@ STYLE
             # If this is an included topic, mark the table as having
             # being included so we don't attempt to reprocess it
             my ($precruft, $postcruft) = ('', '');
-            # NOTE: SESSION_TAGS is private to TWiki.pm, but the "official"
+            # NOTE: SESSION_TAGS is private to Foswiki.pm, but the "official"
             # mechanism for accessing its value is just silly i.e.
-            # TWiki::Func::expandCommonVariables("%INCLUDINGTOPIC%");
-            if (defined $TWiki::Plugins::SESSION->{SESSION_TAGS}{INCLUDINGTOPIC}) {
+            # Foswiki::Func::expandCommonVariables("%INCLUDINGTOPIC%");
+            if (defined $Foswiki::Plugins::SESSION->{SESSION_TAGS}{INCLUDINGTOPIC}) {
                 $precruft = "<!-- STARTINCLUDE $_[2].$_[1] -->\n";
                 $postcruft = "\n<!-- STOPINCLUDE $_[2].$_[1] -->";
             }
@@ -168,22 +161,22 @@ STYLE
 
     if ($needHead) {
         eval {
-            my $pub = TWiki::Func::getPubUrlPath();
-            my $web = TWiki::Func::getTwikiWebname();
-            require TWiki::Contrib::BehaviourContrib;
-            if (defined(&TWiki::Contrib::BehaviourContrib::addHEAD)) {
-                TWiki::Contrib::BehaviourContrib::addHEAD();
+            my $pub = Foswiki::Func::getPubUrlPath();
+            my $web = $Foswiki::cfg{SystemWebName};
+            require Foswiki::Contrib::BehaviourContrib;
+            if (defined(&Foswiki::Contrib::BehaviourContrib::addHEAD)) {
+                Foswiki::Contrib::BehaviourContrib::addHEAD();
             } else {
-                TWiki::Func::addToHEAD('BEHAVIOURCONTRIB', <<HEAD);
+                Foswiki::Func::addToHEAD('BEHAVIOURCONTRIB', <<HEAD);
 <script type='text/javascript' src='$pub/$web/BehaviourContrib/behaviour.compressed.js'></script>
 HEAD
             }
-            TWiki::Func::addToHEAD('EDITROWPLUGIN_JSVETO', <<HEAD);
+            Foswiki::Func::addToHEAD('EDITROWPLUGIN_JSVETO', <<HEAD);
 <script type='text/javascript' src='$pub/$web/EditRowPlugin/twiki$USE_SRC.js'></script>
 HEAD
         };
         if ($@) {
-            TWiki::Func::writeDebug("EditRowPlugin: failed to add JS headers: $@");
+            Foswiki::Func::writeDebug("EditRowPlugin: failed to add JS headers: $@");
         }
     }
 
@@ -194,7 +187,7 @@ HEAD
     return 0;
 }
 
-# Replace content with a marker to prevent it being munged by TWiki
+# Replace content with a marker to prevent it being munged by Foswiki
 my @refs;
 sub defend {
     my( $text ) = @_;
@@ -215,7 +208,7 @@ sub postRenderingHandler {
 # status code with a human readable message. This allows the handler
 # to be used by Javascript table editors.
 sub save {
-    my $query = TWiki::Func::getCgiQuery();
+    my $query = Foswiki::Func::getCgiQuery();
 
     unless ($query) {
         print CGI::header(-status => "500 failed");
@@ -227,14 +220,14 @@ sub save {
     my $saveType = $query->param('editrowplugin_save') || '';
     my $active_topic = $query->param('erp_active_topic');
     $active_topic =~ /(.*)/;
-    my ($web, $topic) = TWiki::Func::normalizeWebTopicName(undef, $1);
+    my ($web, $topic) = Foswiki::Func::normalizeWebTopicName(undef, $1);
 
-    my ($meta, $text) = TWiki::Func::readTopic($web, $topic);
+    my ($meta, $text) = Foswiki::Func::readTopic($web, $topic);
     my ($url, $mess);
-    if (!TWiki::Func::checkAccessPermission(
-        'CHANGE', TWiki::Func::getWikiName(), $text, $topic, $web, $meta)) {
+    if (!Foswiki::Func::checkAccessPermission(
+        'CHANGE', Foswiki::Func::getWikiName(), $text, $topic, $web, $meta)) {
 
-        $url = TWiki::Func::getScriptUrl(
+        $url = Foswiki::Func::getScriptUrl(
             $web, $topic, 'oops',
             template => 'oopsaccessdenied',
             def => 'topic_access',
@@ -244,10 +237,10 @@ sub save {
         $mess = "TWIKI ACCESS DENIED";
     } else {
         $text =~ s/\\\n//gs;
-        require TWiki::Plugins::EditRowPlugin::Table;
+        require Foswiki::Plugins::EditRowPlugin::Table;
         my @ps = $query->param();
         my $urps = { map { $_ => $query->param($_) } @ps };
-        my $content = TWiki::Plugins::EditRowPlugin::Table::parseTables(
+        my $content = Foswiki::Plugins::EditRowPlugin::Table::parseTables(
             $text, $topic, $web, $meta, $urps);
 
         my $nlines = '';
@@ -281,7 +274,7 @@ sub save {
             $no_return = 1;
         }
         foreach my $line (@$content) {
-            if (ref($line) eq 'TWiki::Plugins::EditRowPlugin::Table') {
+            if (ref($line) eq 'Foswiki::Plugins::EditRowPlugin::Table') {
                 $table = $line;
                 $active_table++;
                 if ($active_topic eq $urps->{erp_active_topic}
@@ -296,7 +289,7 @@ sub save {
             }
         }
         unless ($no_save) {
-            TWiki::Func::saveTopic($web, $topic, $meta, $nlines,
+            Foswiki::Func::saveTopic($web, $topic, $meta, $nlines,
                                    { minor => $minor });
         }
 
@@ -309,28 +302,17 @@ sub save {
         } else {
             $anchor .= '_1';
         }
-        if ($TWiki::Plugins::VERSION < 1.11) {
-            my $p = '';
-            unless ($no_return) {
-                $p = "?erp_active_topic=$urps->{erp_active_topic}";
-                $p .= ";erp_active_table=$urps->{erp_active_table}";
-                $p .= ";erp_active_row=$urps->{erp_active_row}";
-            }
-            $url = TWiki::Func::getScriptUrl($web, $topic, 'view').
-              "$p#$anchor";
-        } else {
-            my @p = ('#' => $anchor);
-            unless ($no_return) {
-                push(@p, erp_active_topic => $urps->{erp_active_topic});
-                push(@p, erp_active_table => $urps->{erp_active_table});
-                push(@p, erp_active_row => $urps->{erp_active_row});
-            }
-            $url = TWiki::Func::getScriptUrl( $web, $topic, 'view', @p);
+        my @p = ('#' => $anchor);
+        unless ($no_return) {
+            push(@p, erp_active_topic => $urps->{erp_active_topic});
+            push(@p, erp_active_table => $urps->{erp_active_table});
+            push(@p, erp_active_row => $urps->{erp_active_row});
         }
+        $url = Foswiki::Func::getScriptUrl( $web, $topic, 'view', @p);
     }
 
     unless ($query->param('erp_noredirect')) {
-        TWiki::Func::redirectCgiQuery(undef, $url);
+        Foswiki::Func::redirectCgiQuery(undef, $url);
     } elsif ($mess) {
         print CGI::header(-status => "500 $mess");
     } else {
@@ -345,8 +327,9 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
+Copyright (c) 2009 Foswiki Contributors
 Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
-All Rights Reserved. TWiki Contributors are listed in the
+All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

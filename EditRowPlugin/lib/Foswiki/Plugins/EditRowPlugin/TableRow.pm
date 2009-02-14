@@ -1,12 +1,12 @@
 
 # See bottom of file for copyright
-package TWiki::Plugins::EditRowPlugin::TableRow;
+package Foswiki::Plugins::EditRowPlugin::TableRow;
 
 use strict;
 use Assert;
 
-use TWiki::Func;
-use TWiki::Plugins::EditRowPlugin::TableCell;
+use Foswiki::Func;
+use Foswiki::Plugins::EditRowPlugin::TableCell;
 
 sub new {
     my ($class, $table, $number, $precruft, $postcruft, $cols) = @_;
@@ -82,7 +82,7 @@ sub set {
             $this->{cols}->[$n]->{text} = $val;
         } else {
             push(@{$this->{cols}},
-                 new TWiki::Plugins::EditRowPlugin::TableCell(
+                 new Foswiki::Plugins::EditRowPlugin::TableCell(
                      $this, $val, $n + 1));
         }
         $n++;
@@ -190,11 +190,11 @@ sub renderForDisplay {
         } else {
             my $url;
             my $script = 'view';
-            if (!TWiki::Func::getContext()->{authenticated}) {
+            if (!Foswiki::Func::getContext()->{authenticated}) {
                 $script = 'viewauth';
             }
-            if ($TWiki::Plugins::VERSION < 1.11) {
-                $url = TWiki::Func::getScriptUrl(
+            if ($Foswiki::Plugins::VERSION < 1.11) {
+                $url = Foswiki::Func::getScriptUrl(
                     $this->{table}->getWeb(),
                     $this->{table}->getTopic(),
                     $script)
@@ -203,7 +203,7 @@ sub renderForDisplay {
                       .';erp_active_row='.$this->{number}.'#'
                         .$this->getRowAnchor();
             } else {
-                $url = TWiki::Func::getScriptUrl(
+                $url = Foswiki::Func::getScriptUrl(
                     $this->{table}->getWeb(),
                     $this->{table}->getTopic(),
                     $script,
@@ -217,7 +217,7 @@ sub renderForDisplay {
               "<a href='$url' class='EditRowPluginDiscardAction'>" . CGI::img({
                   -name => $this->getEditAnchor(),
                   -border => 0,
-                  -src => '%PUBURLPATH%/TWiki/DocumentGraphics/edittopic.gif'
+                  -src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/edittopic.gif'
                  }) . "</a>";
             if ($addAnchor) {
                 $button .= $anchor;
@@ -247,8 +247,9 @@ __END__
 
 Author: Crawford Currie http://c-dot.co.uk
 
+Copyright (c) 2009 Foswiki Contributors
 Copyright (C) 2007 WindRiver Inc. and TWiki Contributors.
-All Rights Reserved. TWiki Contributors are listed in the
+All Rights Reserved. Foswiki Contributors are listed in the
 AUTHORS file in the root of this distribution.
 NOTE: Please extend that file, not this notice.
 

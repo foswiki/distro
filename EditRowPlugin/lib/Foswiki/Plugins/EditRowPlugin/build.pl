@@ -3,10 +3,10 @@
 BEGIN {
     unshift @INC, split( /:/, $ENV{FOSWIKI_LIBS} );
 }
-use TWiki::Contrib::Build;
+use Foswiki::Contrib::Build;
 
 # Create the build object
-$build = new TWiki::Contrib::Build('EditRowPlugin');
+$build = new Foswiki::Contrib::Build('EditRowPlugin');
 
 # Set the details of the repository for uploads.
 # This can be any web on any accessible TWiki installation.

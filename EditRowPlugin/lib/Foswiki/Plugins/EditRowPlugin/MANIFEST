@@ -1,0 +1,18 @@
+# Release manifest for EditRowPlugin
+data/System/EditRowPlugin.txt 0644 Documentation
+lib/Foswiki/Plugins/EditRowPlugin.pm 0644 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/Table.pm 0644 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/TableRow.pm 0644 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/TableCell.pm 0644 Perl module
+pub/System/EditRowPlugin/screenshot.gif 0444 Image
+pub/System/EditRowPlugin/edittable.gif 0444 Image
+pub/System/EditRowPlugin/quiet.gif 0444 Image
+pub/System/EditRowPlugin/example3.gif 0444 Image
+pub/System/EditRowPlugin/example4.gif 0444 Image
+pub/System/EditRowPlugin/example5.gif 0444 Image
+pub/System/EditRowPlugin/addrow.gif 0444 Image
+pub/System/EditRowPlugin/TableSort.js 0444 Javascript table sorting code
+pub/System/EditRowPlugin/TableSort_src.js 0444 Javascript table sorting code
+pub/System/EditRowPlugin/twiki.js 0444 Javascript table sorting code
+pub/System/EditRowPlugin/twiki_src.js 0444 Javascript table sorting code
+pub/System/EditRowPlugin/wikiringlogo20x20.png 0660
