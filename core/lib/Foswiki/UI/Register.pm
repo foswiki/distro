@@ -1199,11 +1199,9 @@ sub _buildConfirmationEmail {
         if ( ( $name eq 'Password' ) && ($hidePassword) ) {
             $value = '*******';
         }
-        if ( $name ne 'Confirm' ) {
+        if ( ( $name ne 'Confirm' ) and 
+            ( $name ne 'LoginName' ) ) {        #skip LoginName - we've put it on top.
             $before .= $b1 . ' ' . $name . ': ' . $value . "\n";
-        }
-        if ( $name eq 'LoginName' ) {
-            $loginName = '';
         }
     }
     $templateText = $before . ( $after || '' );
