@@ -1,6 +1,5 @@
 %{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
 
-
 %TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit)"}% %TMPL:END%
 
 
@@ -23,8 +22,7 @@
 %TMPL:DEF{"formstart"}%<div class="foswikiFormHolder twistyMakeHidden" id="formHolder">
 <form name="main" action="%SCRIPTURLPATH{"save"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
 
-%TMPL:DEF{"formend"}%%TMPL:P{"formparameters"}%
-</form></div><!-- /foswikiFormHolder-->%TMPL:END%
+%TMPL:DEF{"formend"}%%TMPL:P{"formparameters"}%</form></div><!-- /foswikiFormHolder-->%TMPL:END%
 
 
 %TMPL:DEF{"formparameters"}%%TMPL:P{"formparameters:edit"}%%TMPL:END%
