@@ -895,6 +895,15 @@ sub complete {
 
     my $users = $session->{users};
     try {
+        unless ( defined($data->{Password}) ) {
+            #SMELL: should give consideration to disabling $Foswiki::cfg{Register}{HidePasswd} 
+            #though that may reduce the conf options an admin has..
+            #OR, a better option would be that the rego email would thus point the user to the resetPasswd url.
+            $data->{Password} = Foswiki::Users::randomPassword();
+            #add data to the form so it can go out in the registration emails.
+            push(@{ $data->{form} }, {name=>'Password', value=>$data->{Password} });
+        }
+        
         my $cUID = $users->addUser(
             $data->{LoginName}, $data->{WikiName},
             $data->{Password},  $data->{Email}
@@ -1492,7 +1501,7 @@ sub _getDataFromQuery {
     my $data = {};
     foreach ( $query->param() ) {
         if (/^(Twk([0-9])(.*))/) {
-            my @values = $query->param( $1 );
+            my @values = $query->param( $1 ) || ();
             my $required = $2;
             my $name   = $3;
             # deal with multivalue fields like checkboxen
