@@ -108,6 +108,7 @@ Examples:
 <verbatim>
 $tmpls->expandTemplate('"blah");
 $tmpls->expandTemplate('context="view" then="sigh" else="humph"');
+</verbatim>
 
 =cut
 
@@ -246,6 +247,7 @@ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $we
                 $this->{VARS}->{$key} = $val;
             }
             $key = $1;
+
             # SMELL: unchecked implicit untaint?
             $val = $2;
 
@@ -256,6 +258,7 @@ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $we
             $this->{VARS}->{$key} = $val;
             $key                  = '';
             $val                  = '';
+
             # SMELL: unchecked implicit untaint?
             $result .= $1;
 
@@ -302,9 +305,10 @@ sub _readTemplateFile {
     my $userdirweb  = $web;
     my $userdirname = $name;
     if ( $name =~ /^(.+)\.(.+?)$/ ) {
+
         # ucfirst taints if use locale is in force
-        $userdirweb  = Foswiki::Sandbox::untaintUnchecked(ucfirst($1));
-        $userdirname = Foswiki::Sandbox::untaintUnchecked(ucfirst($2));
+        $userdirweb  = Foswiki::Sandbox::untaintUnchecked( ucfirst($1) );
+        $userdirname = Foswiki::Sandbox::untaintUnchecked( ucfirst($2) );
 
         # if the name can be parsed into $web.$name, then this is an attempt
         # to explicit include that topic. No further searching required.
@@ -319,21 +323,30 @@ sub _readTemplateFile {
         }
     }
     else {
+
         # ucfirst taints if use locale is in force
-       $userdirweb  = Foswiki::Sandbox::untaintUnchecked(ucfirst($userdirweb));
-       $userdirname = Foswiki::Sandbox::untaintUnchecked(ucfirst($userdirname));
+        $userdirweb =
+          Foswiki::Sandbox::untaintUnchecked( ucfirst($userdirweb) );
+        $userdirname =
+          Foswiki::Sandbox::untaintUnchecked( ucfirst($userdirname) );
     }
 
     my @skinList = split( /\,\s*/, $skins );
     my $nrskins = $#skinList;
 
     my @templatePath = split( /\s*,\s*/, $Foswiki::cfg{TemplatePath} );
-    if (($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled})
-        && (lc($name) eq 'foswiki')
-        && defined($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath})
-         ) {
+    if (
+           ( $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{Enabled} )
+        && ( lc($name) eq 'foswiki' )
+        && defined(
+            $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath}
+        )
+      )
+    {
+
         #TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
-        @templatePath = @{$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath}};
+        @templatePath =
+          @{ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath} };
     }
 
     # Search the $Foswiki::cfg{TemplatePath} for the skinned versions
