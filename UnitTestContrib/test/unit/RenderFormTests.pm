@@ -183,38 +183,38 @@ sub test_render_formfield_with_form {
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic2);
     my $res = $meta->renderFormForDisplay();
     $this->assert_html_equals(<<HERE, $res);
-<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 &#124; abc &#124; 123 &#124;<br />&#124; def &#124; ghk &#124;
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
 *no web*
-</td></tr>SOUR<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%SOUR%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
 _hello world_
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
 ,   * high
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr></table></div><!-- /foswikiForm -->
+</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
     ($meta, $text) =
       $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
     $res = $meta->renderFormForDisplay();
 
     $this->assert_html_equals(<<HERE, $res);
-<div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
+<div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
 ---+ Example problem
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 1 </td><td>
 *Defect*
-</td></tr>SOUR<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%SOUR%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 3 </td><td>
 Defect, None
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 4 </td><td>
 Defect
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue 5 </td><td>
 Foo, Baz
-</td></tr></table></div><!-- /foswikiForm -->
+</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
 }
 
@@ -288,25 +288,25 @@ sub test_nondefined_form {
     my $res = $meta->renderFormForDisplay();
 
     $this->assert_html_equals(<<'HERE', $res);
-<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm"><h3>[[TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm]] <span class='patternSmallLinkToHeader'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3><table class='foswikiFormTable' border='1'><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
+<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
 ContactAuthorFirst
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
 Example
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TopicClassification </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TopicClassification </td><td>
 SkinPackage
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnFoswiki </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnFoswiki </td><td>
 
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnTWiki </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnTWiki </td><td>
 
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnOS </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> TestedOnOS </td><td>
 AnyOS
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ShouldRunOnOS </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ShouldRunOnOS </td><td>
 AnyOS
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> DemoUrl </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> DemoUrl </td><td>
 http://
-</td></tr><tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> DevelopedInSVN </td><td>
+</td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> DevelopedInSVN </td><td>
 No
-</td></tr></table></div><!-- /foswikiForm -->
+</td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
     
 }
