@@ -68,6 +68,6 @@ a:hover .foswikiAccessKey {
 	border-width:1px;
 	border-style:solid;
 	border-color:#f00;
-	margin:0 -0.5em 2em -0.5em;
-	padding:.5em;
+	margin:1em 0;
+	padding:1em;
 }

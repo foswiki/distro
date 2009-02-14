@@ -424,10 +424,6 @@ table.foswikiFormTable th.foswikiFormTableHRow {
 	height:2.5em;
 	vertical-align:middle;
 }
-table.foswikiFormTable th.foswikiFormTableHRow {
-	text-align:center;
-}
-
 .foswikiAttachments td,
 table.foswikiFormTable td {
 	padding:3px 6px;

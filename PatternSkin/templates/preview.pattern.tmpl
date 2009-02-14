@@ -1,7 +1,12 @@
 %TMPL:INCLUDE{"preview"}%
 %TMPL:INCLUDE{"viewbottombar"}%
 
+%TMPL:DEF{"topbar"}%%TMPL:END%
+%TMPL:DEF{"topbarspacer"}%%TMPL:END%
 %TMPL:DEF{"bottombarcontents"}%%TMPL:END%
+%TMPL:DEF{"styles:custom_skin"}%%TMPL:END%
+%TMPL:DEF{"sidebar"}%%TMPL:END%
+
 %TMPL:DEF{"bodyclassname"}%patternNoViewPage patternPreviewPage%TMPL:END%
 
 
@@ -17,13 +22,10 @@
 
 %TMPL:DEF{"content"}%%TMPL:P{"pagehelp"}%
 %TMPL:P{"formstart"}%
-<div class="foswikiPreviewArea">
 <div class="patternContent">
 <div class="foswikiTopic">
-%TEXT%
+<div class='foswikiPreviewArea'>%TEXT%</div><!--/foswikiPreviewArea-->
 </div><!--/foswikiTopic-->
-%META{"form"}%
-</div><!--/patternContent-->
-</div><!--/foswikiPreviewArea-->
+%META{"form"}%</div><!--/patternContent-->
 %TMPL:P{"topicinfo"}%
 %TMPL:P{"formend"}%%TMPL:END%

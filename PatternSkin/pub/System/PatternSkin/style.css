@@ -440,7 +440,7 @@ table.foswikiFormTable th.foswikiFormTableHRow a:visited {
 .foswikiForm h3 a:visited {
 	text-decoration:none;
 }
-.patternSmallLinkToHeader {
+.foswikiForm h3 .foswikiSmall {
 	font-weight:normal;
 	font-size:86%;
 	margin:0 0 0 .15em;
@@ -653,7 +653,7 @@ a:hover .foswikiAccessKey {
 	padding-top:1em;
 }
 .patternNoViewPage .foswikiTopic {
-	margin-top:1em;
+	margin-top:2em;
 }
 
 /* bottom paddings */
@@ -874,6 +874,9 @@ html>body #patternSideBarContents li { /* Mozilla */
 .patternTopicFooter {
 	margin:1em 0 0 0;
 }
+.patternSimpleLogo {
+	margin:1em 0 0 0;
+}
 
 /* WebSearch, WebSearchAdvanced */
 #foswikiSearchTable {
@@ -995,8 +998,12 @@ h4.patternSearchResultsHeader {
 
 /* edit.pattern.tmpl */
 
+.patternNoViewPage #patternMainContents {
+	padding-top:0;
+}
 .patternEditPage #patternMainContents {
-	padding:0 0 2em 0;
+	padding-left:0;
+	padding-right:0;
 }
 .patternEditPage .patternEditTopic {
 	padding:5px;
@@ -1061,11 +1068,19 @@ h4.patternSearchResultsHeader {
 
 /* preview.pattern.tmpl */
 
-.foswikiPreviewArea {
+.patternPreviewPage #patternMainContents {
+	padding-left:0;
+	padding-right:0;
+}
+.patternPreviewPage .foswikiTopic {
+	margin-bottom:0;
+}
+.foswikiPreviewArea,
+.patternPreviewPage .foswikiForm {
 	border-width:1px;
 	border-style:solid;
-	margin:0 0 2em 0;
-	padding:1em;
+	margin:0 0 1.5em 0;
+	padding:2em;
 	height:1%; /* for IE */
 }
 

@@ -342,7 +342,7 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
 }
 .foswikiBroadcastMessage,
 .foswikiNotification {
-   background-color:#fff0c4;
+   background-color:#fff7e1;
 }
 .foswikiNotification {
    border:2px solid #ffdf4c;
@@ -352,7 +352,7 @@ table.foswikiFormTable th.foswikiFormTableHRow font {
    border-color:#f00;
 }
 .foswikiHelp {
-   background-color:#f5fbfe;
+   background-color:#edf5fa;
    border-color:#e2e2e2;
 }
 .foswikiBroadcastMessage b,
@@ -565,8 +565,13 @@ h4.patternSearchResultsHeader {
 
 /* preview.pattern.tmpl */
 
-.foswikiPreviewArea {
+.foswikiPreviewArea,
+.patternPreviewPage .foswikiForm {
    border-color:#f00;
+   background-color:#fff;
+}
+.patternPreviewPage .foswikiForm {
+   border-color:#ccc;
    background-color:#fff;
 }
 
