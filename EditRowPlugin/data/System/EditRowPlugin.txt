@@ -173,6 +173,8 @@ Also, the plugin can be selectively disabled using
 | =EDITROWPLUGIN_DISABLE= | Set to =on= to disable the plugin. Default is =off=. |
 These preferences can be defined in %USERSWEB%.SitePreferences, in !WebPreferences for an individual web, or in the topic.
 
+There is also a =configure= (expert) setting that allows you to change the name of the macro used to carry table editor parameters. This is usually =EDITTABLE= but can be changed to help work around problems with other plugins.
+
 ---++ Relationships
 ---+++ !EditTablePlugin
 At this time most features of !EditTablePlugin are supported. Known exceptions
@@ -222,7 +224,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Copyright: | &copy; 2007 Wind<nop>River Inc. |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  15 Feb 2009: | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table |
+|  15 Feb 2009: | Foswikitask:Item451: ported to foswiki Foswikitask:Item5757: not respecting footer rows when saving Foswikitask:Item5681: help not fully rendered before inclusion in a TML table Foswikitask:Item1086: Macros were being expanded before editing Foswikitask:Item5924: refactor for reusability |
 |  15 May 2008: | TWikibug:Item5621: helptopics were getting munged because of use of BR to replace newlines. This was to prevent accidental table concatenation, but breaks other things worse so I removed it. TWikibug:Item5624: handle comments with embedded tables. TWikibug:Item5625: don't count generated tables in the table count. TWikibug:Item5594: typo was causing strange behaviour with row management tools. TWikibug:Item5595: fixed problem with included tables. TWikibug:Item5596: changed default behaviour for empty cells to ignore pre-existing spaces if there is no other content. TWikibug:Item5616: row moving was failing on 4.1.2 due to bad URL construction. |
 |  8 Mar 2008 | TWikibug:Item5386: fixed problem with editing of tables embedded from an included topic TWikibug:Item5043: added Jeff Crawford's patch to fix multiline textareas |
 |  4 Jan 2008 | TWikibug:Item5320: fixed destructive save when add row is pressed outside edit mode |

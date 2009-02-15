@@ -64,7 +64,7 @@ sub rowIndex {
 
 sub getCellName {
     my $this = shift;
-    return 'erp_cell_'.$this->{row}->{table}->getNumber().'_'.
+    return 'erp_cell_'.$this->{row}->{table}->getID().'_'.
       $this->{row}->{number}.'_'.$this->{number};
 }
 

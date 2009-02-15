@@ -55,7 +55,9 @@ sub commonTagsHandler {
 sub _process {
     my ($text, $web, $topic, $meta) = @_;
 
-    return 0 unless $text =~ /%EDITTABLE{.*}%/;
+    my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro} || 'EDITTABLE';
+
+    return 0 unless $text =~ /%${macro}({.*})?%/;
 
     my $context = Foswiki::Func::getContext();
     return 0 unless $context->{view};
@@ -80,7 +82,8 @@ STYLE
 
     return 0 if Foswiki::Func::getPreferencesFlag('EDITROWPLUGIN_DISABLE');
 
-    require Foswiki::Plugins::EditRowPlugin::Table;
+    require Foswiki::Plugins::EditRowPlugin::TableParser;
+    ASSERT(!$@) if DEBUG;
     return 0 if $@;
 
     # Flag our processing state
@@ -94,14 +97,14 @@ STYLE
 
     my $endsWithNewline = ($text =~ /\n$/) ? 1 : 0;
 
-    my $content = Foswiki::Plugins::EditRowPlugin::Table::parseTables(
+    my $content = Foswiki::Plugins::EditRowPlugin::TableParser::parseTables(
         $text, $web, $topic, $meta, $urps);
 
     my $active_table = 0;
     my $active_topic = "$web.$topic";
 
     $urps->{erp_active_topic} ||= $active_topic;
-    $urps->{erp_active_table} ||= $active_table;
+    $urps->{erp_active_table} ||= "${macro}_$active_table";
     $urps->{erp_active_row} ||= 0;
 
     my $nlines = '';
@@ -118,25 +121,54 @@ STYLE
 
     my $hasTables = 0;
     my $needHead = 0;
+    # $real_table is the content re-read (on demand) from the raw topic.
+    # This is used when the contents of the table have already been
+    # processed by other plugins, but we want to get back to basics for an
+    # edit.
+    my $editable_content;
     foreach (@$content) {
-        if (ref($_) eq 'Foswiki::Plugins::EditRowPlugin::Table') {
+        if (UNIVERSAL::isa($_, 'Foswiki::Plugins::EditRowPlugin::Table')) {
             my $line = '';
             $table = $_;
             $active_table++;
             if (!$displayOnly
                   && $active_topic eq $urps->{erp_active_topic}
-                    && $active_table == $urps->{erp_active_table}) {
+                    && $urps->{erp_active_table} eq "${macro}_$active_table") {
                 my $active_row = $urps->{erp_active_row};
                 my $saveUrl =
                   Foswiki::Func::getScriptUrl($pluginName, 'save', 'rest');
                 $line = CGI::start_form(
                     -method=>'POST',
-                    -name => 'erp_form_'.$active_table,
+                    -name => "erp_form_${macro}_$active_table",
                     -action => $saveUrl);
                 $line .= CGI::hidden('erp_active_topic', $active_topic);
-                $line .= CGI::hidden('erp_active_table', $active_table);
+                $line .= CGI::hidden('erp_active_table', "${macro}_$active_table");
                 $line .= CGI::hidden('erp_active_row', $active_row);
-                $line .= "\n".$table->renderForEdit($active_row)."\n";
+                # To avoid with the situation where macros like
+                # %CALC% have already been processed and end up getting saved
+                # in the table that way (processed), we need to read in the
+                # topic again in raw format
+                unless ($editable_content) {
+                    my ($junkmeta, $raw) = Foswiki::Func::readTopic($web, $topic);
+                    $editable_content =
+                      Foswiki::Plugins::EditRowPlugin::TableParser::parseTables(
+                          $raw, $web, $topic, $junkmeta, $urps);
+                }
+                # get the corresponding table in the editable content
+                my $ea_table = 0;
+                my $real_table = undef;
+                foreach my $ee (@$editable_content) {
+                    if (UNIVERSAL::isa(
+                        $ee, 'Foswiki::Plugins::EditRowPlugin::Table')) {
+                        $ea_table++;
+                        if ($ea_table == $active_table) {
+                            $real_table = $ee;
+                            last;
+                        }
+                    }
+                }
+                $line .= "\n".$table->renderForEdit(
+                    $active_row, $real_table)."\n";
                 $line .= CGI::end_form();
                 $needHead = 1;
             } else {
@@ -164,6 +196,7 @@ STYLE
             my $pub = Foswiki::Func::getPubUrlPath();
             my $web = $Foswiki::cfg{SystemWebName};
             require Foswiki::Contrib::BehaviourContrib;
+            ASSERT(!$@) if DEBUG;
             if (defined(&Foswiki::Contrib::BehaviourContrib::addHEAD)) {
                 Foswiki::Contrib::BehaviourContrib::addHEAD();
             } else {
@@ -234,14 +267,16 @@ sub save {
             param1 => 'CHANGE',
             param2 => 'access not allowed on topic'
          );
-        $mess = "TWIKI ACCESS DENIED";
+        $mess = "ACCESS DENIED";
     } else {
         $text =~ s/\\\n//gs;
-        require Foswiki::Plugins::EditRowPlugin::Table;
         my @ps = $query->param();
         my $urps = { map { $_ => $query->param($_) } @ps };
-        my $content = Foswiki::Plugins::EditRowPlugin::Table::parseTables(
-            $text, $topic, $web, $meta, $urps);
+        require Foswiki::Plugins::EditRowPlugin::TableParser;
+        ASSERT(!$@) if DEBUG;
+        my $content =
+          Foswiki::Plugins::EditRowPlugin::TableParser::parseTables(
+              $text, $topic, $web, $meta, $urps);
 
         my $nlines = '';
         my $table = undef;
@@ -250,6 +285,8 @@ sub save {
         my $minor = 0;     # If true, this is a quiet save
         my $no_save = 0;   # if true, we are cancelling
         my $no_return = 0; # if true, we want to finish editing after the action
+        my $macro = $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
+          || 'EDITTABLE';
 
         # The submit buttons are image buttons. The only way with IE to tell
         # which one was clicked is by looking at the x coordinate of the
@@ -274,11 +311,12 @@ sub save {
             $no_return = 1;
         }
         foreach my $line (@$content) {
-            if (ref($line) eq 'Foswiki::Plugins::EditRowPlugin::Table') {
+            if (UNIVERSAL::isa($line, 'Foswiki::Plugins::EditRowPlugin::Table')) {
                 $table = $line;
                 $active_table++;
                 if ($active_topic eq $urps->{erp_active_topic}
-                      && $active_table == $urps->{erp_active_table}) {
+                      && $urps->{erp_active_table} eq
+                        "${macro}_$active_table") {
                     $table->$action($urps);
                 }
                 $line = $table->stringify();

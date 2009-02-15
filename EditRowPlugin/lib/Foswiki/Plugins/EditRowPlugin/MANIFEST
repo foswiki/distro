@@ -1,9 +1,12 @@
 # Release manifest for EditRowPlugin
-data/System/EditRowPlugin.txt 0644 Documentation
-lib/Foswiki/Plugins/EditRowPlugin.pm 0644 Perl module
-lib/Foswiki/Plugins/EditRowPlugin/Table.pm 0644 Perl module
-lib/Foswiki/Plugins/EditRowPlugin/TableRow.pm 0644 Perl module
-lib/Foswiki/Plugins/EditRowPlugin/TableCell.pm 0644 Perl module
+!noci
+data/System/EditRowPlugin.txt 0444 Documentation
+lib/Foswiki/Plugins/EditRowPlugin.pm 0444 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/Config.spec 0444 Configuration information
+lib/Foswiki/Plugins/EditRowPlugin/Table.pm 0444 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/TableParser.pm 0444 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/TableRow.pm 0444 Perl module
+lib/Foswiki/Plugins/EditRowPlugin/TableCell.pm 0444 Perl module
 pub/System/EditRowPlugin/addrow.gif 0444 Image
 pub/System/EditRowPlugin/arrowdown.gif 0444 Image
 pub/System/EditRowPlugin/arrowup.gif 0444 Image

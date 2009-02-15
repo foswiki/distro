@@ -30,7 +30,7 @@ sub new {
 
 sub getID {
     my $this = shift;
-    return $this->{table}->getNumber().'_'.$this->{number};
+    return $this->{table}->getID().'_'.$this->{number};
 }
 
 sub getAnchor {
@@ -51,7 +51,7 @@ sub getRowAnchor {
     if ($this->{number} > 3) {
         $row_anchor = $this->{number} - 1;
     }
-    return 'erp_'.$this->{table}->getNumber().'_'.$row_anchor;
+    return 'erp_'.$this->{table}->getID().'_'.$row_anchor;
 }
 
 # break cycles to ensure we release back to garbage
@@ -199,7 +199,7 @@ sub renderForDisplay {
                     $this->{table}->getTopic(),
                     $script)
                   .'?erp_active_topic='.$active_topic
-                    .';erp_active_table='.$this->{table}->getNumber()
+                    .';erp_active_table='.$this->{table}->getID()
                       .';erp_active_row='.$this->{number}.'#'
                         .$this->getRowAnchor();
             } else {
@@ -208,7 +208,7 @@ sub renderForDisplay {
                     $this->{table}->getTopic(),
                     $script,
                     erp_active_topic => $active_topic,
-                    erp_active_table => $this->{table}->getNumber(),
+                    erp_active_table => $this->{table}->getID(),
                     erp_active_row => $this->{number},
                     '#' => $this->getRowAnchor());
             }

@@ -7,7 +7,6 @@ use Foswiki::Attrs;
 
 use Foswiki::Func;
 use Foswiki::Plugins::EditRowPlugin::TableRow;
-use Foswiki::Plugins::EditRowPlugin::TableCell;
 
 use vars qw($ADD_ROW $DELETE_ROW $QUIET_SAVE $NOISY_SAVE $EDIT_ROW $CANCEL_ROW $UP_ROW $DOWN_ROW);
 $ADD_ROW    = 'Add new row after this row / at the end';
@@ -19,189 +18,17 @@ $CANCEL_ROW = 'Cancel';
 $UP_ROW     = 'Move this row up';
 $DOWN_ROW   = 'Move this row down';
 
-# Static method that parses tables out of a block of text
-# Returns an array of lines, with those lines that represent editable
-# tables plucked out and replaced with references to table objects
-sub parseTables {
-    my ($text, $web, $topic, $meta, $urps) = @_;
-    my $active_table = undef;
-    my $hasRows = 0;
-    my @tables;
-    my $nTables = 0;
-    my $disable = 0;
-    my $openRow = undef;
-    my @comments;
-
-    $text =~ s/(<!--.*?-->)/
-      push(@comments, $1); "\001-".scalar(@comments)."-\001"/seg;
-
-    foreach my $line (split(/\r?\n/, $text)) {
-        if ($line =~ /<(verbatim|literal)>/) {
-            $disable++;
-        }
-        if ($line =~ m#</(verbatim|literal)>#) {
-            $disable-- if $disable;
-        }
-        # Remove the marks that highlight included tables, and omit
-        # them from processing
-        if ($line =~ s/^<!-- STARTINCLUDE .* -->$//) {
-            $disable++;
-            next;
-        }
-        if ($line =~ s/^<!-- STOPINCLUDE .* -->$//) {
-            $disable-- if $disable;
-            next;
-        }
-        if (defined $openRow) {
-            $line = "$openRow$line";
-            $openRow = undef;
-        }
-
-        # Process an EDITTABLE. The tag will be associated with the
-        # next table encountered in the topic.
-        if (!$disable && $line =~ s/(%EDITTABLE{(.*)}%)// ) {
-            my $spec = $1;
-            my $attrs = new Foswiki::Attrs(
-                Foswiki::Func::expandCommonVariables($2, $web, $topic));
-            push(@tables, $line) if $line =~ /\S/;
-            # Editable table
-            $nTables++;
-            my %read = ( "$web.$topic" => 1 );
-            while ($attrs->{include}) {
-                my ($iw, $it) = Foswiki::Func::normalizeWebTopicName(
-                    $web, $attrs->{include});
-                # This check is missing from EditTablePlugin
-                unless (Foswiki::Func::topicExists($iw, $it)) {
-                    $line = CGI::span(
-                        { class=>'foswikiAlert' },
-                        "Could not find format topic $attrs->{include}");
-                }
-                if ($read{"$iw.$it"}) {
-                    $line = CGI::span(
-                        { class=>'foswikiAlert' },
-                        "Recursive include of $attrs->{include}");
-                }
-                $read{"$iw.$it"} = 1;
-                my ($meta, $text) = Foswiki::Func::readTopic($iw, $it);
-                my $params = '';
-                if ($text =~ m/%EDITTABLE{([^\n]*)}%/s) {
-                    $params = $1;
-                }
-                if ($params) {
-                    $params = Foswiki::Func::expandCommonVariables(
-                        $params, $iw, $it);
-                }
-                $attrs = new Foswiki::Attrs($params);
-            }
-            # is there a format in the query? if there is,
-            # override the format we just parsed
-            if ($urps) {
-                my $format = $urps->{"erp_${nTables}_format"};
-                if (defined($format)) {
-                    # undo the encoding
-                    $format =~ s/-([a-z\d][a-z\d])/chr(hex($1))/gie;
-                    $attrs->{format} = $format;
-                }
-                if (defined($urps->{"erp_${nTables}_headerrows"})) {
-                    $attrs->{headerrows} =
-                      $urps->{"erp_${nTables}_headerrows"};
-                }
-                if (defined($urps->{"erp_${nTables}_footerrows"})) {
-                    $attrs->{footerrows} =
-                      $urps->{"erp_${nTables}_footerrows"};
-                }
-            }
-            $active_table =
-              new Foswiki::Plugins::EditRowPlugin::Table(
-                  $nTables, 1, $spec, $attrs, $web, $topic);
-            push(@tables, $active_table);
-            $hasRows = 0;
-            next;
-        }
-
-        elsif (!$disable && $line =~ /^\s*\|/ && $active_table) {
-            if ($line =~ s/\\$//) {
-                # Continuation
-                $openRow = $line;
-                next;
-            }
-            my $precruft = '';
-            $precruft = $1 if $line =~ s/^(\s*\|)//;
-            my $postcruft = '';
-            $postcruft = $1 if $line =~ s/(\|\s*)$//;
-            if (!$active_table) {
-                # Uneditable table
-                $nTables++;
-                my $attrs => new Foswiki::Attrs('');
-                $active_table =
-                  new Foswiki::Plugins::EditRowPlugin::Table(
-                      $nTables, 0, $line, $attrs, $web, $topic);
-                push(@tables, $active_table);
-            }
-            # Note use of LIMIT=-1 on the split so we don't lose empty columns
-            my @cols;
-            if (length($line)) {
-                @cols = split(/\|/, $line, -1);
-            } else {
-                # Splitting an EXPR that evaluates to the empty string always
-                # returns the empty list, regardless of the LIMIT specified.
-                push(@cols, '');
-            }
-            my $row = new Foswiki::Plugins::EditRowPlugin::TableRow(
-                $active_table, scalar(@{$active_table->{rows}}) + 1,
-                $precruft, $postcruft,
-                \@cols);
-            push(@{$active_table->{rows}}, $row);
-            $hasRows = 1;
-            next;
-        }
-
-        elsif (!$disable && $hasRows) {
-            # associated table has been terminated
-            $active_table = undef;
-        }
-
-        push(@tables, $line);
-    }
-
-    my @result;
-    foreach my $t (@tables) {
-        if (UNIVERSAL::isa($t, 'Foswiki::Plugins::EditRowPlugin::Table')) {
-            if (!scalar(@{$t->{rows}}) &&
-                  defined($t->{attrs}->{header})) {
-                # Legacy: add a header if the header param is defined and
-                # the table has no rows.
-                my $line = $t->{attrs}->{header};
-                my $precruft = '';
-                $precruft = $1 if $line =~ s/^(\s*\|)//;
-                my $postcruft = '';
-                $postcruft = $1 if $line =~ s/(\|\s*)$//;
-                my @cols = split(/\|/, $line, -1);
-                my $row = new Foswiki::Plugins::EditRowPlugin::TableRow(
-                    $t, 1, $precruft, $postcruft, \@cols);
-                push(@{$t->{rows}}, $row);
-            }
-        } else {
-            # Expand comments again
-            $t =~ s/\001-(\d+)-\001/$comments[$1 - 1]/ges;
-        }
-        push(@result, $t);
-    }
-
-    return \@result;
-}
-
 sub new {
     my ($class, $tno, $editable, $spec, $attrs, $web, $topic) = @_;
 
-    my $this = bless({}, $class);
-    $this->{editable} = $editable;
-    $this->{number} = $tno;
-    $this->{spec} = $spec;
-    $this->{rows} = [];
-    $this->{topic} = $topic;
-    $this->{web} = $web;
-
+    my $this = bless({
+        editable => $editable,
+        id => $class->getMacro()."_$tno",
+        spec => $spec,
+        rows => [],
+        topic => $topic,
+        web => $web,
+    }, $class);
     if ($attrs->{format}) {
         $this->{colTypes} = $this->parseFormat($attrs->{format});
     } else {
@@ -210,7 +37,8 @@ sub new {
 
     # if headerislabel true but no headerrows, set headerrows = 1
     if ($attrs->{headerislabel} && !defined($attrs->{headerrows})) {
-        $attrs->{headerrows} = Foswiki::Func::isTrue($attrs->{headerislabel}) ? 1 : 0;
+        $attrs->{headerrows} = Foswiki::Func::isTrue($attrs->{headerislabel})
+          ? 1 : 0;
     }
 
     $attrs->{headerrows} ||= 0;
@@ -231,6 +59,19 @@ sub new {
     $this->{attrs} = $attrs;
 
     return $this;
+}
+
+# Static method that returns the macro name for this table class
+sub getMacro {
+    return $Foswiki::cfg{Plugins}{EditRowPlugin}{Macro}
+      || 'EDITTABLE';
+}
+
+# Create a new row of the type appropriate to this table. The new row is
+# *not* added.
+sub newRow {
+    my $this = shift;
+    return new Foswiki::Plugins::EditRowPlugin::TableRow($this, @_);
 }
 
 # break cycles to ensure we release back to garbage
@@ -276,9 +117,9 @@ sub getTopic {
     return $this->{topic};
 }
 
-sub getNumber {
+sub getID {
     my $this = shift;
-    return $this->{number};
+    return $this->{id};
 }
 
 sub isEditable {
@@ -341,8 +182,12 @@ sub getLabelRow() {
     return $labelRow;
 }
 
+# $real_table can be a Table that contains cells for editing, as against
+# display. This is used when the contents of the table have already been
+# processed by other plugins, but we want to get back to basics for the
+# edit.
 sub renderForEdit {
-    my ($this, $activeRow) = @_;
+    my ($this, $activeRow, $real_table) = @_;
 
     if (!$this->{editable}) {
         return $this->renderForDisplay(0);
@@ -351,7 +196,7 @@ sub renderForEdit {
     $this->_finalise();
 
     my $wholeTable = ($activeRow <= 0);
-    my @out = ( "<a name='erp_$this->{number}'></a>" );
+    my @out = ( "<a name='erp_$this->{id}'></a>" );
     my $orientation = $this->{attrs}->{orientrowedit} || 'horizontal';
 
     # Disallow vertical display for whole table edits
@@ -366,13 +211,13 @@ sub renderForEdit {
     # isn't used by Foswiki.
     $format =~ s/([][@\s%!:-])/sprintf('-%02x',ord($1))/ge;
     # it will get encoded again as a URL param
-    push(@out, CGI::hidden("erp_$this->{number}_format", $format));
+    push(@out, CGI::hidden("erp_$this->{id}_format", $format));
     if ($attrs->{headerrows}) {
-        push(@out, CGI::hidden("erp_$this->{number}_headerrows",
+        push(@out, CGI::hidden("erp_$this->{id}_headerrows",
                                $attrs->{headerrows}));
     }
     if ($attrs->{footerrows}) {
-        push(@out, CGI::hidden("erp_$this->{number}_footerrows",
+        push(@out, CGI::hidden("erp_$this->{id}_footerrows",
                                $attrs->{footerrows}));
     }
 
@@ -383,7 +228,9 @@ sub renderForEdit {
         $n++ unless ($row->{isHeader} || $row->{isFooter});
         if (++$r == $activeRow ||
               $wholeTable && !$row->{isHeader} && !$row->{isFooter}) {
-            push(@out, $row->renderForEdit(
+            # Get the row from the real_table, read raw from the topic
+            my $real_row = $real_table ? $real_table->{rows}->[$r - 1] : $row;
+            push(@out, $real_row->renderForEdit(
                 $this->{colTypes}, $rowControls, $orientation));
         } else {
             push(@out, $row->renderForDisplay(
@@ -434,7 +281,7 @@ sub renderForDisplay {
             my $title = "Edit full table";
             my $button =
               CGI::img({
-                  -name => "erp_edit_$this->{number}",
+                  -name => "erp_edit_$this->{id}",
                   -border => 0,
                   -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.gif',
                   -title => $title,
@@ -444,26 +291,26 @@ sub renderForDisplay {
                 $url = Foswiki::Func::getScriptUrl(
                     $this->{web}, $this->{topic}, $script)
                   .'?erp_active_topic='.$active_topic
-                    .';erp_active_table='.$this->{number}
+                    .';erp_active_table='.$this->{id}
                       .';erp_active_row=-1'
-                        .'#erp_'.$this->{number};
+                        .'#erp_'.$this->{id};
             } else {
                 $url = Foswiki::Func::getScriptUrl(
                     $this->{web}, $this->{topic}, $script,
                     erp_active_topic => $active_topic,
-                    erp_active_table => $this->{number},
+                    erp_active_table => $this->{id},
                     erp_active_row => -1,
-                    '#' => 'erp_'.$this->{number});
+                    '#' => 'erp_'.$this->{id});
             }
 
             push(@out,
-                 "<a name='erp_$this->{number}'></a>".
+                 "<a name='erp_$this->{id}'></a>".
                    "<a href='$url' title='$title'>" . $button . '</a><br />');
         } elsif ($this->{attrs}->{changerows} &&
                    $this->{attrs}->{disable} !~ /row/) {
             my $title = "Add row to end of table";
             my $button = CGI::img({
-                -name => "erp_edit_$this->{number}",
+                -name => "erp_edit_$this->{id}",
                 -border => 0,
                 -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/addrow.gif',
                 -title => $title,
@@ -475,11 +322,11 @@ sub renderForDisplay {
                 $url = Foswiki::Func::getScriptUrl(
                     'EditRowPlugin', 'save', 'rest')
                   .'?erp_active_topic='.$active_topic
-                    .';erp_active_table='.$this->{number}
+                    .';erp_active_table='.$this->{id}
                       .';erp_active_row=-1'
                         .';erp_unchanged=-1'
                           .';erp_addRow.x=1'
-                            .'#erp_'.$this->{number};
+                            .'#erp_'.$this->{id};
             } else {
                 $url = Foswiki::Func::getScriptUrl(
                     'EditRowPlugin', 'save', 'rest',
@@ -488,7 +335,7 @@ sub renderForDisplay {
                     erp_active_row => -1,
                     erp_unchanged => 1,
                     'erp_addRow.x' => 1,
-                    '#' => 'erp_'.$this->{number});
+                    '#' => 'erp_'.$this->{id});
             }
             # Full table disabled, but not row
             push(@out, "<a href='$url' title='$title'>$button</a><br />");
@@ -510,7 +357,7 @@ sub _getCols {
     my @cols;
     for (my $i = 0; $i < $count; $i++) {
         my $colDef = $this->{colTypes}->[$i];
-        my $cellName = 'erp_cell_'.$this->{number}.'_'.$row.'_'.($i + 1);
+        my $cellName = 'erp_cell_'.$this->{id}.'_'.$row.'_'.($i + 1);
         my $cell = $this->{rows}->[$row - 1]->{cols}->[$i];
         # Check current value for format-overriding EDITCELL
         if ($cell->{text} =~/%EDITCELL{(.*?)}%/) {
@@ -596,8 +443,7 @@ sub addRow {
             push(@vals, '');
         }
     }
-    my $newRow = new Foswiki::Plugins::EditRowPlugin::TableRow(
-        $this, $row, '|', '|', \@vals);
+    my $newRow = $this->newRow($row, '|', '|', \@vals);
     splice(@{$this->{rows}}, $row, 0, $newRow);
     # renumber lower rows
     for (my $i = $row + 1; $i < scalar(@{$this->{rows}}); $i++) {
@@ -814,14 +660,7 @@ Representation of an editable table
 
 =cut
 
-=pod
-
----++ parseTables($text, $topic, $web) -> \@list
-Static function to extract a topic into a list of lines and embedded table definitions.
-Each table definition is an object of type EditTable, and contains
-a set of attrs (read from the %EDITTABLE) and a list of rows. You can spot the tables
-in the list by doing:
-newif (ref($line) eq 'Foswiki::Plugins::EditRowPlugin::Table') {
+=begin TML
 
 ---++ new($tno, $attrs, $web, $topic)
 Constructor
