@@ -20,7 +20,7 @@ Automates build and packaging process, including installer generation, for exten
 
 !BuildContrib can be used to create a build script for your extension.
 It is inspired by the Java ANT build tool developed by the Apache project,
-but is targeted specifically at building Foswiki (and TWiki<sup>&reg;</sup>) extensions. It is also
+but is targeted specifically at building Foswiki extensions. It is also
 used for Foswiki release builds. The advantage of using !BuildContrib is that it
 dictates a standard structure and build procedure, which makes your extension
 easier for you, and others, to build and maintain.
@@ -191,6 +191,73 @@ You can control what server the upload is done to. This lets you - for example -
 ---+++ The =manifest= and =dependencies= targets
 These are used when you are unsure of the correct contents of MANIFEST and DEPENDENCIES. They make a best-guess at the required contents for these files.
 
+---++ The =twiki= target
+
+TWiki<sup>&reg;</sup> is the precursor of Foswiki, and some support
+for building extensions for TWiki is built in to the BuildContrib.
+
+Firstly, extensions that were developed for use with the old TWiki
+!BuildContrib can be built using the Foswiki !BuildContrib. Just modify
+the =build.pl= to load the Foswiki build system rather than the old TWiki
+build system.
+
+Secondly, BuildContrib has a special target, =twiki=, which can be used
+with a Foswiki build script to generate a TWiki directory structure and build
+script, that can then be used to build an extension targeted at TWiki. The
+files in the extension are run through a number of "mapping rules" that
+will map much of the Foswiki namespace to TWiki. This transformation is not
+complete, because Foswiki has many more features than TWiki, and because
+CSS and Javascript cannot be reliably transformed this way. However many
+extensions will work in TWiki after this transformation, and for others it
+can be used as a launchpad for further manual mapping steps.
+
+Example,
+<verbatim>
+$ cd EditRowPlugin/lib/Foswiki/Plugins/EditRowPlugin
+$ perl build.pl twiki
+Created data/TWiki/EditRowPlugin.txt
+Created lib/TWiki/Plugins/EditRowPlugin.pm
+Created lib/TWiki/Plugins/EditRowPlugin/Table.pm
+Created lib/TWiki/Plugins/EditRowPlugin/TableRow.pm
+Created lib/TWiki/Plugins/EditRowPlugin/TableCell.pm
+Created pub/TWiki/EditRowPlugin/screenshot.gif
+Created pub/TWiki/EditRowPlugin/edittable.gif
+Created pub/TWiki/EditRowPlugin/quiet.gif
+Created pub/TWiki/EditRowPlugin/example3.gif
+Created pub/TWiki/EditRowPlugin/example4.gif
+Created pub/TWiki/EditRowPlugin/example5.gif
+Created pub/TWiki/EditRowPlugin/addrow.gif
+Created pub/TWiki/EditRowPlugin/TableSort.js
+Created pub/TWiki/EditRowPlugin/TableSort_src.js
+Created pub/TWiki/EditRowPlugin/erp.js
+Created pub/TWiki/EditRowPlugin/erp_src.js
+Created pub/TWiki/EditRowPlugin/wikiringlogo20x20.png
+Created lib/TWiki/Plugins/EditRowPlugin/MANIFEST
+Created lib/TWiki/Plugins/EditRowPlugin/DEPENDENCIES
+Created lib/TWiki/Plugins/EditRowPlugin/build.pl
+$ cd ../../../TWiki/Plugins/EditRowPlugin
+$ perl build.pl release
+Building a release for Version 0 (15 Feb 2009) of EditRowPlugin
+MD5 checksums in EditRowPlugin/TWiki_EditRowPlugin.md5
+.tgz in EditRowPlugin/TWiki_EditRowPlugin.tgz
+.zip in EditRowPlugin/TWiki_EditRowPlugin.zip
+WARNING: no .txt was generated
+WARNING: no _installer was generated
+</verbatim>
+There is no TWiki-specific topic generated. The Foswiki topic should suffice.
+Installer generation is also disabled using =!option installers none= in
+the tranformed MANIFEST. Users must install the generated TWiki packages
+manually from the command-line. This is required due to bugs in TWiki.
+
+Note the =TWiki_= prefix on the archive names. This is useful to avoid naming
+clashes with the standard Foswiki release of the same package. It is defined
+using =!option archive_prefix TWiki_= in the tranformed MANIFEST.
+
+Extension authors are strongly recommended to check the functioning of the
+TWiki versions of their extensions very carefully.
+
+TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.
+
 ---++ MANIFEST
 The =MANIFEST= file contains a list of all the files that are wanted in the
 package. Each line is a file path, relative to the root of the installation.
@@ -222,14 +289,25 @@ Do *not* include:
    * =,v= files. If you include a =,v= file it will overwrite any existing =,v= file when an extension is upgraded, potentially wiping out local changes on the end users installation.
    * =build.pl=, =MANIFEST=, or any other side file used by the build process.
    * unit tests
-_Since Foswiki 1.0.1_ By default, files in the data and pub directories are automatically checked
-in to Foswiki when the installation script is run (for example, when installing from =configure=). This is useful when you expect users to customise your files locally and you don't want to risk overwriting their customisations. If you want to suppress this checkin behaviour for individual files, you can add the string =(noci)= anywhere in the description of the file. If you want to suppress it for larger numbers of files, you can use the directives:
-<verbatim>
-!noci
-!ci
-</verbatim>
-in the MANIFEST. Any files listed after a =!noci= directive, up to the next =!ci= directive or the end of the file, will not be checked in.
+---+++ Directives
+MANIFEST files can contain a number of directives that are used to control
+aspects of the build process. These directives always start with an
+exclamation mark (!) and must be on a line on their own.
 
+---++++ =!ci= and =!noci=
+By default, files in the data and pub directories are
+automatically checked in to Foswiki when the installation script is run
+(for example, when installing from =configure=). This is useful when you
+expect users to customise your files locally and you don't want to risk
+overwriting their customisations. If you want to suppress this checkin
+behaviour for individual files, you can add the string =(noci)= anywhere
+in the description of the file. If you want to suppress it for larger
+numbers of files, you can use the =!noci= and =!ci= directives in the
+MANIFEST. Any files listed after a =!noci= directive, up to the next =!ci=
+directive or the end of the file, will not be checked in when installing
+to Foswiki 1.0.1 or later
+
+---++++ =!include=
 MANIFESTs can also include other extensions that have been packaged using
 !BuildContrib. For example,
 <verbatim>
@@ -238,6 +316,14 @@ MANIFESTs can also include other extensions that have been packaged using
 This will include the !WysiwygPlugin in the release package.
 
 Note that there is a script in the Foswiki =tools= directory called =check_manifest.pl= that can be run at any time to check the contents of your MANIFEST against what is checked into Subversion.
+
+---++++ =!option=
+=!option= is a general directive used to define global options. Currently
+supported options are:
+   * =!option archive_prefix String_= will prefix the name of generated
+     archive files with =String_
+   * =!option installer none= will suppress the generation of an installer
+     script.
 
 ---++ DEPENDENCIES
 The =DEPENDENCIES= file specifies dependencies on other extensions and
@@ -400,13 +486,12 @@ You are strongly recommended to use this Contrib to help split your code develop
 ---++ Contrib Info
 Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - __Working together to improve your wiki experience__!
 
-TWiki<sup>&reg;</sup> is a trademark of Peter Thoeny.
-
 |  Authors: | [[http://c-dot.co.uk][Crawford Currie]] |
-|  Copyright &copy;: | 2004-2008, Foswiki Contributors |
+|  Copyright &copy;: | 2004-2009, Foswiki Contributors |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  15 Feb 2009 | Foswikitask:Item1079: Added twiki target |
 |  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 |  31 Aug 2008 | TWikibug:Item5971 BuildContrib broken upload on 4.2.2 with template login. Also adding query to optionally skip topic attachment upload. |

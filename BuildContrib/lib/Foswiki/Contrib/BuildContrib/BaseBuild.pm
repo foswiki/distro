@@ -32,7 +32,7 @@ my $NL = "\n";
 
 =begin foswiki
 
----++++ readManifest($baseDir,$path,$file,$manifest,$noManifestFileHook) => \@files
+---++++ readManifest($baseDir,$path,$file,$manifest,$noManifestFileHook) => (\@files, \@otherModules, \%options)
 
 Reads the specified manifest file. The parameters are:
   * $baseDir: The root dir as assumed by the manifest file
@@ -50,11 +50,13 @@ data/System/MyPlugin.txt 0664 Plugin description topic
 If no permissions are given, permissions are guessed from the permissions
 on the file in the source tree.
 
-This sub returns a reference to a list of hashes with the information of
-each file. Each hash has the following information:
+This sub returns a triple; \@files is a reference to a list of hashes.
+Each hash has the following information:
    * name: Path of the file
    * description: (optional) Description of the file
    * permissions: (optional) Permission of the file
+\%opts is a hash of options set using !option e.g.
+!option prefix twiki_
 
 =cut
 
@@ -77,10 +79,14 @@ sub readManifest {
     my @otherModules;
     my $line;
     my $noci = 0;
+    my %options;
     while ( $line = <PF> ) {
         next if $line =~ /^\s*#/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
             push( @otherModules, $1 );
+        }
+        elsif ( $line =~ /^!option\s+(\w+)\s*(.*)$/ ) {
+            $options{$1} = $2;
         }
         elsif ( $line =~ /^!noci\s*$/ ) {
             $noci = 1;
@@ -132,7 +138,7 @@ sub readManifest {
         }
     }
     close(PF);
-    return ( \@files, \@otherModules );
+    return ( \@files, \@otherModules, \%options );
 }
 
 =begin foswiki
