@@ -172,7 +172,7 @@ STYLE
 HEAD
             }
             Foswiki::Func::addToHEAD('EDITROWPLUGIN_JSVETO', <<HEAD);
-<script type='text/javascript' src='$pub/$web/EditRowPlugin/twiki$USE_SRC.js'></script>
+<script type='text/javascript' src='$pub/$web/EditRowPlugin/erp$USE_SRC.js'></script>
 HEAD
         };
         if ($@) {

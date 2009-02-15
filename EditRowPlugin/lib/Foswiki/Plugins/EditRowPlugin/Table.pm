@@ -542,12 +542,9 @@ sub change {
         # Single row
         $this->{rows}->[$row - 1]->set($this->_getCols($urps, $row));
     } else {
-        # Whole table
-        for (my $i = 0; $i < scalar(@{$this->{rows}}); $i++) {
-            # Skip the header row
-            if ($i < $this->{attrs}->{headerrows}) {
-                next;
-            }
+        # Whole table (sans header and footer rows)
+        my $end = scalar(@{$this->{rows}}) - $this->{attrs}->{footerrows};
+        for (my $i = $this->{attrs}->{headerrows}; $i < $end; $i++) {
             $this->{rows}->[$i]->set($this->_getCols($urps, $i + 1));
         }
     }
@@ -710,7 +707,8 @@ sub generateHelp {
         $text =~ s/%STOPINCLUDE%.*//s;
         $text =~ s/^\s*//s;
         $text =~ s/\s*$//s;
-        $help = $text . "\n";
+        $help = Foswiki::Func::renderText($text);
+        $help =~ s/\n/ /g;
     }
     return $help;
 }
@@ -729,7 +727,7 @@ sub generateEditButtons {
           name => 'erp_save',
           value => $NOISY_SAVE,
           title => $NOISY_SAVE,
-          src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/save.gif'
+          src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/save.gif'
          }, '');
     if ($attrs->{quietsave}) {
         $buttons .= CGI::image_button({
@@ -743,7 +741,7 @@ sub generateEditButtons {
         name => 'erp_cancel',
         value => $CANCEL_ROW,
         title => $CANCEL_ROW,
-        src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/stop.gif',
+        src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/stop.gif',
     }, '');
 
     if ($this->{attrs}->{changerows}) {
@@ -754,7 +752,7 @@ sub generateEditButtons {
                     name => 'erp_upRow',
                     value => $UP_ROW,
                     title => $UP_ROW,
-                    src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/arrowup.gif'
+                    src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/arrowup.gif'
                    }, '');
             }
             if (!$bottomRow) {
@@ -762,7 +760,7 @@ sub generateEditButtons {
                     name => 'erp_downRow',
                     value => $DOWN_ROW,
                     title => $DOWN_ROW,
-                    src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/arrowdown.gif'
+                    src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/arrowdown.gif'
                    }, '');
             }
         }
@@ -770,7 +768,7 @@ sub generateEditButtons {
             name => 'erp_addRow',
             value => $ADD_ROW,
             title => $ADD_ROW,
-            src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/plus.gif'
+            src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/plus.gif'
            }, '');
 
         $buttons .= CGI::image_button({
@@ -778,7 +776,7 @@ sub generateEditButtons {
             class => 'EditRowPluginDiscardAction',
             value => $DELETE_ROW,
             title => $DELETE_ROW,
-            src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/minus.gif'
+            src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/minus.gif'
            }, '');
     }
     return $buttons;

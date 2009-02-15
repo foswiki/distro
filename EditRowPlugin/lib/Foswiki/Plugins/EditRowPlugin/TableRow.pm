@@ -217,7 +217,7 @@ sub renderForDisplay {
               "<a href='$url' class='EditRowPluginDiscardAction'>" . CGI::img({
                   -name => $this->getEditAnchor(),
                   -border => 0,
-                  -src => '%PUBURLPATH%/%SYSTEMWEB%/DocumentGraphics/edittopic.gif'
+                  -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittopic.gif'
                  }) . "</a>";
             if ($addAnchor) {
                 $button .= $anchor;
