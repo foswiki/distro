@@ -41,6 +41,7 @@ sub prepareConnection {
     if ( $ENV{SERVER_PORT} && $ENV{SERVER_PORT} == 443 ) {
         $req->secure(1);
     }
+    $req->serverPort($ENV{SERVER_PORT});
 }
 
 sub prepareQueryParameters {
@@ -110,7 +111,7 @@ sub preparePath {
         # This handles twiki_cgi; use the first path el after the script
         # name as the function
         $pathInfo =~ m{^/([^/]+)(.*)};
-        my $first = $1; # implicit untaint OK; checked below
+        my $first = $1;    # implicit untaint OK; checked below
         if ( exists $Foswiki::cfg{SwitchBoard}{$first} ) {
 
             # The path is of the form script/function/...
@@ -143,9 +144,9 @@ sub prepareBodyParameters {
     return unless $ENV{CONTENT_LENGTH};
     my @plist = $this->{cgi}->param();
     foreach my $pname (@plist) {
-        my @values = $this->{cgi}->param($pname);
+        my @values = map { "$_" } $this->{cgi}->param($pname);
         $req->bodyParam( -name => $pname, -value => \@values );
-        $this->{uploads}->{$pname} = 1 if scalar $this->{cgi}->upload($pname);
+        $this->{uploads}{$pname} = 1 if scalar $this->{cgi}->upload($pname);
     }
 }
 
@@ -156,7 +157,7 @@ sub prepareUploads {
     my %uploads;
     foreach my $key ( keys %{ $this->{uploads} } ) {
         my $fname = $this->{cgi}->param($key);
-        $uploads{$fname} = new Foswiki::Request::Upload(
+        $uploads{"$fname"} = new Foswiki::Request::Upload(
             headers => $this->{cgi}->uploadInfo($fname),
             tmpname => $this->{cgi}->tmpFileName($fname),
         );
