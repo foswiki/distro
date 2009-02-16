@@ -9,11 +9,14 @@ sub test {
         %{ $session->{response} } = %{ thaw($desired) };
     }
     else {
-        $session->{response}->header(
-            -type    => 'text/plain',
-            -charset => 'utf8',
-        );
-        $session->{response}->print( freeze( $session->{request} ) );
+        $session->{response}->header( -type => 'application/octet-stream' );
+        my %response = ( request => $session->{request} );
+        foreach ( keys %{ $session->{request}{uploads} } ) {
+            my $fh = $session->{request}{uploads}{$_}->handle;
+            local $/ = undef;
+            $response{$_} = <$fh>;
+        }
+        $session->{response}->print( freeze( \%response ) );
     }
 }
 

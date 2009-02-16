@@ -1,6 +1,9 @@
+bin/test 0755
 lib/Foswiki/Contrib/UnitTestContrib.pm 0644
 lib/Foswiki/UI/Test.pm 0644
 lib/Unit/Eavesdrop.pm 0644
+lib/Unit/CGIEngine.pm 0644
+lib/Unit/ExternalEngine.pm 0644
 lib/Unit/HTMLDiffer.pm 0644
 lib/Unit/Request.pm 0644
 lib/Unit/Response.pm 0644
@@ -11,10 +14,10 @@ test/bin/TestRunner.pl 0755
 test/unit/AccessControlTests.pm 0644
 test/unit/AttrsTests.pm 0644
 test/unit/AutoAttachTests.pm 0644
-test/unit/CGIEngineTests.pm 0644
 test/unit/ClientTests.pm 0755
 test/unit/ConfigureTests.pm 0644
 test/unit/EmptyTests.pm 0644
+test/unit/EngineTests.pm 0644
 test/unit/ExampleTests.pm 0644
 test/unit/ExceptionTests.pm 0644
 test/unit/Fn_ENCODE.pm 0644

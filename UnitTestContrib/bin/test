@@ -1,0 +1,45 @@
+#!/usr/bin/perl -wT
+#
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors
+# Copyright (C) 2008-2009 Foswiki Contributors.
+# All Rights Reserved. TWiki Contributors and Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# As per the GPL, removal of this notice is prohibited.
+
+
+use strict;
+use warnings;
+
+BEGIN {
+    if ( defined $ENV{GATEWAY_INTERFACE} ) {
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CGI';
+        use CGI::Carp qw(fatalsToBrowser);
+        $SIG{__DIE__} = \&CGI::Carp::confess;
+    }
+    else {
+        $Foswiki::cfg{Engine} = 'Foswiki::Engine::CLI';
+        require Carp;
+        $SIG{__DIE__} = \&Carp::confess;
+    }
+    $ENV{FOSWIKI_ACTION} = 'test';
+    @INC = ('.', grep { $_ ne '.' } @INC);
+    require 'setlib.cfg';
+}
+
+use Foswiki;
+use Foswiki::UI;
+$Foswiki::engine->run();

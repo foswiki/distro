@@ -258,8 +258,8 @@ sub perform_url_test {
 }
 
 sub battery_url_tests {
-	my ($this, $suffix) = @_;
-	$Foswiki::cfg{ScriptSuffix} = $suffix;
+    my ($this, $suffix) = @_;
+    $Foswiki::cfg{ScriptSuffix} = $suffix;
     $this->perform_url_test(0, 'foo.bar',  'baz', '/Web/Topic');
     $this->perform_url_test(1, 'foo.bar',  'baz', '/Web/Topic');
     $this->perform_url_test(0, 'example.com', 'view', '/Main/WebHome');
@@ -268,22 +268,22 @@ sub battery_url_tests {
 
 sub test_url_no_suffix {
     my $this = shift;
-	$this->battery_url_tests('');
+    $this->battery_url_tests('');
 }
 
 sub test_url_pl_suffix {
     my $this = shift;
-	$this->battery_url_tests('.pl');
+    $this->battery_url_tests('.pl');
 }
 
 sub test_url_cgi_suffix {
     my $this = shift;
-	$this->battery_url_tests('.cgi');
+    $this->battery_url_tests('.cgi');
 }
 
 sub test_url_alien_suffix {
     my $this = shift;
-	$this->battery_url_tests('.abcdef');
+    $this->battery_url_tests('.abcdef');
 }
 
 sub test_query_param {
