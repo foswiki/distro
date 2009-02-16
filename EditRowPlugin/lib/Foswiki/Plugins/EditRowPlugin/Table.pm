@@ -286,22 +286,12 @@ sub renderForDisplay {
                   -src => '%PUBURLPATH%/%SYSTEMWEB%/EditRowPlugin/edittable.gif',
                   -title => $title,
               });
-            my $url;
-            if ($Foswiki::Plugins::VERSION < 1.11) {
-                $url = Foswiki::Func::getScriptUrl(
-                    $this->{web}, $this->{topic}, $script)
-                  .'?erp_active_topic='.$active_topic
-                    .';erp_active_table='.$this->{id}
-                      .';erp_active_row=-1'
-                        .'#erp_'.$this->{id};
-            } else {
-                $url = Foswiki::Func::getScriptUrl(
-                    $this->{web}, $this->{topic}, $script,
-                    erp_active_topic => $active_topic,
-                    erp_active_table => $this->{id},
-                    erp_active_row => -1,
-                    '#' => 'erp_'.$this->{id});
-            }
+            my $url = Foswiki::Func::getScriptUrl(
+                $this->{web}, $this->{topic}, $script,
+                erp_active_topic => $active_topic,
+                erp_active_table => $this->{id},
+                erp_active_row => -1,
+                '#' => 'erp_'.$this->{id});
 
             push(@out,
                  "<a name='erp_$this->{id}'></a>".
@@ -316,27 +306,17 @@ sub renderForDisplay {
                 -title => $title,
                }, '');
             my $url;
-            # Note: erp_unchanged prevents addRow from trying to
-            # save changes in the table
-            if ($Foswiki::Plugins::VERSION < 1.11) {
-                $url = Foswiki::Func::getScriptUrl(
-                    'EditRowPlugin', 'save', 'rest')
-                  .'?erp_active_topic='.$active_topic
-                    .';erp_active_table='.$this->{id}
-                      .';erp_active_row=-1'
-                        .';erp_unchanged=-1'
-                          .';erp_addRow.x=1'
-                            .'#erp_'.$this->{id};
-            } else {
-                $url = Foswiki::Func::getScriptUrl(
-                    'EditRowPlugin', 'save', 'rest',
-                    erp_active_topic => $active_topic,
-                    erp_active_table => $this->{number},
-                    erp_active_row => -1,
-                    erp_unchanged => 1,
-                    'erp_addRow.x' => 1,
-                    '#' => 'erp_'.$this->{id});
-            }
+            # erp_unchanged=1 prevents addRow from trying to
+            # save changes in the table. erp_active_row is set to -2
+            # so that addRow enters single row editing mode (see sub addRow)
+            $url = Foswiki::Func::getScriptUrl(
+                'EditRowPlugin', 'save', 'rest',
+                erp_active_topic => $active_topic,
+                erp_active_table => $this->{id},
+                erp_active_row => -2,
+                erp_unchanged => 1,
+                'erp_addRow.x' => 1,
+                '#' => 'erp_'.$this->{id});
             # Full table disabled, but not row
             push(@out, "<a href='$url' title='$title'>$button</a><br />");
         }
@@ -449,7 +429,9 @@ sub addRow {
     for (my $i = $row + 1; $i < scalar(@{$this->{rows}}); $i++) {
         $this->{rows}->[$i]->{number}++;
     }
-    if ($urps->{erp_active_row} >= 0) {
+    # -1 means full table edit; -2 means a row is being added to
+    # a table not currently being edited
+    if ($urps->{erp_active_row} != -1) {
         $urps->{erp_active_row} = $row + 1;
     }
 }

@@ -244,7 +244,8 @@ sub save {
     my $query = Foswiki::Func::getCgiQuery();
 
     unless ($query) {
-        print CGI::header(-status => "500 failed");
+        print CGI::header(-status => 500);
+        return undef;
     }
 
     # Report fatals if we are in debug mode
@@ -357,7 +358,7 @@ sub save {
         print CGI::header(-status => 200);
     }
 
-    return 0; # Suppress standard redirection mechanism
+    return undef; # Suppress standard redirection mechanism
 }
 
 1;

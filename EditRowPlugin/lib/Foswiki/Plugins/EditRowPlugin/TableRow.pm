@@ -188,30 +188,18 @@ sub renderForDisplay {
             }
             unshift(@out, " *$text* ");
         } else {
-            my $url;
             my $script = 'view';
             if (!Foswiki::Func::getContext()->{authenticated}) {
                 $script = 'viewauth';
             }
-            if ($Foswiki::Plugins::VERSION < 1.11) {
-                $url = Foswiki::Func::getScriptUrl(
-                    $this->{table}->getWeb(),
-                    $this->{table}->getTopic(),
-                    $script)
-                  .'?erp_active_topic='.$active_topic
-                    .';erp_active_table='.$this->{table}->getID()
-                      .';erp_active_row='.$this->{number}.'#'
-                        .$this->getRowAnchor();
-            } else {
-                $url = Foswiki::Func::getScriptUrl(
-                    $this->{table}->getWeb(),
-                    $this->{table}->getTopic(),
-                    $script,
-                    erp_active_topic => $active_topic,
-                    erp_active_table => $this->{table}->getID(),
-                    erp_active_row => $this->{number},
-                    '#' => $this->getRowAnchor());
-            }
+            my $url = Foswiki::Func::getScriptUrl(
+                $this->{table}->getWeb(),
+                $this->{table}->getTopic(),
+                $script,
+                erp_active_topic => $active_topic,
+                erp_active_table => $this->{table}->getID(),
+                erp_active_row => $this->{number},
+                '#' => $this->getRowAnchor());
 
             my $button =
               "<a href='$url' class='EditRowPluginDiscardAction'>" . CGI::img({
