@@ -132,7 +132,8 @@ sub getViewUrl {
     my ( $web, $topic ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    $web ||= $Foswiki::Plugins::SESSION->{webName} || $Foswiki::cfg{UsersWebName};
+    $web ||= $Foswiki::Plugins::SESSION->{webName}
+      || $Foswiki::cfg{UsersWebName};
     return getScriptUrl( $web, $topic, 'view' );
 }
 
@@ -755,7 +756,8 @@ sub wikinameToEmails {
         }
         else {
             my $uids =
-              $Foswiki::Plugins::SESSION->{users}->findUserByWikiName($wikiname);
+              $Foswiki::Plugins::SESSION->{users}
+              ->findUserByWikiName($wikiname);
             my @em = ();
             foreach my $user (@$uids) {
                 push( @em,
@@ -780,7 +782,8 @@ Test if logged in user is a guest (WikiGuest)
 
 sub isGuest {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->{user} eq $Foswiki::Plugins::SESSION->{users}
+    return $Foswiki::Plugins::SESSION->{user} eq
+      $Foswiki::Plugins::SESSION->{users}
       ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} );
 }
 
@@ -1154,7 +1157,8 @@ sub eachChangeSince {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     ASSERT( $Foswiki::Plugins::SESSION->{store}->webExists($web) ) if DEBUG;
 
-    my $iterator = $Foswiki::Plugins::SESSION->{store}->eachChange( $web, $time );
+    my $iterator =
+      $Foswiki::Plugins::SESSION->{store}->eachChange( $web, $time );
     return $iterator;
 }
 
@@ -1442,9 +1446,25 @@ sub moveTopic {
 
     return if ( $newWeb eq $web && $newTopic eq $topic );
 
-    $Foswiki::Plugins::SESSION->{store}
-      ->moveTopic( $web, $topic, $newWeb, $newTopic,
+    my $session = $Foswiki::Plugins::SESSION;
+    my $store   = $session->{store};
+    $store->moveTopic( $web, $topic, $newWeb, $newTopic,
         $Foswiki::Plugins::SESSION->{user} );
+    my ( $meta, $text ) = $store->readTopic( undef, $newWeb, $newTopic );
+
+    $meta->put(
+        'TOPICMOVED',
+        {
+            from => $web . '.' . $topic,
+            to   => $newWeb . '.' . $newTopic,
+            date => time(),
+            by   => $session->{user},
+        }
+    );
+
+    $store->saveTopic( $session->{user}, $newWeb, $newTopic, $text, $meta,
+        { minor => 1, comment => 'rename' } );
+
 }
 
 =begin TML
@@ -1674,7 +1694,8 @@ sub saveAttachment {
     my $result = undef;
 
     try {
-        $Foswiki::Plugins::SESSION->{store}->saveAttachment( $web, $topic, $name,
+        $Foswiki::Plugins::SESSION->{store}
+          ->saveAttachment( $web, $topic, $name,
             $Foswiki::Plugins::SESSION->{user}, $data );
     }
     catch Error::Simple with {
@@ -1884,14 +1905,16 @@ sub addToHEAD {
     my ( $tag, $header, $requires ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
 
-    # addToHEAD may be called from a xxxTagsHandler of a plugin and addToHEAD
-    # again calls xxxTagsHandlers via handleCommonTags causing deep recursion
-    # we use $session->{_InsideFuncAddToHEAD} to block re-entry (Foswikitask:Item913)
+# addToHEAD may be called from a xxxTagsHandler of a plugin and addToHEAD
+# again calls xxxTagsHandlers via handleCommonTags causing deep recursion
+# we use $session->{_InsideFuncAddToHEAD} to block re-entry (Foswikitask:Item913)
 
     my $session = $Foswiki::Plugins::SESSION;
-    return 0 if ( defined $session->{_InsideFuncAddToHEAD} && $session->{_InsideFuncAddToHEAD} );
-    
-    $session->{_InsideFuncAddToHEAD} = 1;   
+    return 0
+      if ( defined $session->{_InsideFuncAddToHEAD}
+        && $session->{_InsideFuncAddToHEAD} );
+
+    $session->{_InsideFuncAddToHEAD} = 1;
     $session->addToHEAD(@_);
     $session->{_InsideFuncAddToHEAD} = 0;
 }
@@ -2612,7 +2635,6 @@ sub getScriptUrlPath {
     return $Foswiki::Plugins::SESSION->getScriptUrl( 0, '' );
 }
 
-
 =begin TML
 
 ---+++ getWikiToolName( ) -> $name
@@ -2836,7 +2858,8 @@ sub getPubDir { return $Foswiki::cfg{PubDir}; }
 
 # Removed; it was never used
 sub checkDependencies {
-    die "checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
+    die
+"checkDependencies removed; contact plugin author or maintainer and tell them to use BuildContrib DEPENDENCIES instead";
 }
 
 1;
