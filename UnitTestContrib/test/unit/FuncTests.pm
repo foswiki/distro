@@ -229,39 +229,73 @@ sub test_getrevinfo {
     $this->assert_str_equals( $wikiname, $user );   # the Func::getRevisionInfo quite clearly says wikiname
 }
 
+# Helper function for test_moveTopic
+sub _checkMoveTopic($$$$)
+{
+my ($oldWeb, $oldTopic, $newWeb, $newTopic) = @_;
+my $meta;
+my $text;
+my $count = 0;
+	$newWeb ||= $oldWeb;
+	$newTopic ||= $oldTopic;
+	($meta, $text) = Foswiki::Func::readTopic($newWeb, $newTopic);
+	#print STDERR "looking for $oldWeb.$oldTopic -> $newWeb.$newTopic\n";
+	$count = @{$meta->{TOPICMOVED}} if $meta->{TOPICMOVED};
+	#print STDERR "there are $count TOPICMOVED entries.\n";
+	foreach (@{$meta->{TOPICMOVED}})
+	{
+		#print STDERR "$_->{from} -> $_->{to}\n";
+		# pick out the meta entry that indicates this move.
+		next if ($_->{to} ne "$newWeb.$newTopic");
+		next if ($_->{from} ne "$oldWeb.$oldTopic");
+		#print STDERR "Found it!\n";
+		return 1;
+	}
+	#print STDERR "Didn't find it!\n";
+	return 0;
+}
+
 sub test_moveTopic {
     my $this = shift;
-
+# TEST: create test_web.SourceTopic with content "Wibble".
 	Foswiki::Func::saveTopicText( $this->{test_web}, "SourceTopic", "Wibble" );
     $this->assert(Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic"));
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web}, "TargetTopic"));
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web2}, "SourceTopic"));
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web2}, "TargetTopic"));
 
+# TEST: move within the test web.
 	Foswiki::Func::moveTopic( $this->{test_web}, "SourceTopic",
                               $this->{test_web}, "TargetTopic" );
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic"));
     $this->assert(Foswiki::Func::topicExists( $this->{test_web}, "TargetTopic"));
 
+# TEST: Move with undefined destination web; should stay in test_web.
 	Foswiki::Func::moveTopic( $this->{test_web}, "TargetTopic",
                               undef, "SourceTopic" );
     $this->assert(Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic"));
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web}, "TargetTopic"));
 
+# TEST: Move to test_web2.
 	Foswiki::Func::moveTopic( $this->{test_web}, "SourceTopic",
                               $this->{test_web2}, "SourceTopic" );
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic"));
     $this->assert(Foswiki::Func::topicExists( $this->{test_web2}, "SourceTopic"));
+	$this->assert(_checkMoveTopic($this->{test_web}, "SourceTopic", $this->{test_web2}, "SourceTopic"));
 
+# TEST: move with undefined destination topic.
 	Foswiki::Func::moveTopic( $this->{test_web2}, "SourceTopic",
                               $this->{test_web}, undef );
     $this->assert(Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic"));
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web2}, "SourceTopic"));
+	$this->assert(_checkMoveTopic($this->{test_web2}, "SourceTopic", $this->{test_web}, "SourceTopic"));
 
+# TEST: move to test_web2 again.
 	Foswiki::Func::moveTopic( $this->{test_web}, "SourceTopic",
                               $this->{test_web2}, "TargetTopic" );
     $this->assert(!Foswiki::Func::topicExists( $this->{test_web}, "SourceTopic"));
     $this->assert(Foswiki::Func::topicExists( $this->{test_web2}, "TargetTopic"));
+	$this->assert(_checkMoveTopic($this->{test_web}, "SourceTopic", $this->{test_web2}, "TargetTopic"));
 }
 
 sub test_moveAttachment {
