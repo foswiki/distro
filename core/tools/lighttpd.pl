@@ -3,12 +3,13 @@
 use strict;
 use File::Basename;
 use File::Spec;
+use Cwd;
 
 # defaults
 my $PORT = 8080;
 
 # calculate paths
-my $foswiki_core = File::Spec->rel2abs(dirname(__FILE__) . '/..');
+my $foswiki_core = Cwd::abs_path( File::Spec->catdir( dirname(__FILE__), '..' ) );
 chomp $foswiki_core;
 my $conffile = $foswiki_core . '/working/tmp/lightpd.conf';
 
