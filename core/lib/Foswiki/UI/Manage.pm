@@ -986,18 +986,19 @@ sub move {
     $text = $session->renderer->forEachLine( $text,
         \&Foswiki::Render::replaceTopicReferences, $options );
 
-    $meta->put(
-        'TOPICMOVED',
-        {
-            from => $oldWeb . '.' . $oldTopic,
-            to   => $newWeb . '.' . $newTopic,
-            date => time(),
-            by   => $session->{user},
-        }
-    );
-
-    $store->saveTopic( $session->{user}, $newWeb, $newTopic, $text, $meta,
-        { minor => 1, comment => 'rename' } );
+# Now done in Func::moveTopic.
+#    $meta->put(
+#        'TOPICMOVED',
+#        {
+#            from => $oldWeb . '.' . $oldTopic,
+#            to   => $newWeb . '.' . $newTopic,
+#            date => time(),
+#            by   => $session->{user},
+#        }
+#    );
+#
+#    $store->saveTopic( $session->{user}, $newWeb, $newTopic, $text, $meta,
+#        { minor => 1, comment => 'rename' } );
 
     # update referrers - but _not_ including the moved topic
     _updateReferringTopics( $session, $oldWeb, $oldTopic, $newWeb, $newTopic,
