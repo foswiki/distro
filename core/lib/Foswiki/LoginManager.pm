@@ -762,7 +762,7 @@ sub _pushCookie {
         require Foswiki::Time;
         my $exp = Foswiki::Time::formatTime(
             time() + $Foswiki::cfg{Sessions}{ExpireCookiesAfter},
-            '$dow, $day-$month-$ye $hours:$minutes:$seconds GMT'
+            '$wday, $day-$month-$ye $hours:$minutes:$seconds GMT'
         );
 
         $cookie->expires($exp);
