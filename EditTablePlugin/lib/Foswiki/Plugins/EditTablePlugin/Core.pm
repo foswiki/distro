@@ -891,14 +891,19 @@ sub handleTableStart {
 
 sub hiddenField {
     my ( $prefix, $name, $value, $suffix ) = @_;
-    $prefix = defined $prefix ? $prefix : '';
-    $suffix = defined $suffix ? $suffix : '';
 
-    return "$prefix"
-      . CGI::hidden(
-        -name  => $name,
-        -value => $value
-      ) . $suffix;
+    $prefix ||= '';
+    $suffix ||= '';
+
+    # Somehow this does not work at all:
+    # return $prefix
+    #   . CGI::hidden(
+    #     -name  => $name,
+    #     -value => $value
+    #   ) . $suffix;
+
+    return
+      "$prefix<input type=\"hidden\" name=\"$name\" value=\"$value\" />$suffix";
 }
 
 =pod
