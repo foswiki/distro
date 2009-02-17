@@ -533,7 +533,7 @@ sub sysCommand {
             untie(*STDOUT);
             untie(*STDERR);
 
-            open( STDOUT, ">&=" . fileno($writeHandle) ) or die;
+            open( STDOUT, ">&=", fileno($writeHandle) ) or die;
 
             open( STDERR, '>', File::Spec->devnull() );
             unless ( exec( $path, @args ) ) {

@@ -96,21 +96,33 @@ sub make_request {
     my ( $this, $req ) = @_;
 
     my ( $env, $in ) = _req2cgi($req);
-    open my $stdin, '<&', \*STDIN;
+
+    # Saving STDIN
+    open my $stdin, '<&', \*STDIN or die "Can't dup STDIN: $!";
     close STDIN;
-    open STDIN, '<', $in;
-    open my $stdout, '>&', \*STDOUT;
+
+    # Redirecting STDIN to the CGI input
+    open STDIN, '<', $in or die "Can't redirect STDIN to \$in: $!";
+
+    # Saving STDOUT
+    open my $stdout, '>&', \*STDOUT or die "Can't dup STDOUT: $!";
     close STDOUT;
     my $out = '';
-    open STDOUT, '>', \$out;
+
+    # Redirecting STDOUT to $out to grap the CGI output
+    open STDOUT, '>', \$out or die "Can't redirect STDOUT to \$out: $!";
     local %ENV = %$env;
     eval {
         $ENV{FOSWIKI_ACTION} = 'test';
         $Foswiki::engine->run();
     };
-    open STDIN, '<&', $stdin;
+
+    # Restoring STDIN
+    open STDIN, '<&', $stdin or die "Can't restore STDIN: $!";
     close $stdin;
-    open STDOUT, '>&', $stdout;
+
+    # Restoring STDOUT
+    open STDOUT, '>&', $stdout or die "Can't restore STDOUT: $!";
     close $stdout;
     return HTTP::Message->parse($out);
 }
