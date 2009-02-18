@@ -29,58 +29,88 @@ One of the more difficult tasks is installing of additional !CPAN libraries. See
 If you need help, ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki)
 
 #StandardInstallation
----++ Basic Installation: getting Foswiki running
+---++ Basic installation: getting Foswiki up and running
 
-   1 *Download* the Foswiki distribution from http://foswiki.org/Download
-   1 *Unpack the distribution file:* Change to the directory in which you want to place the Foswiki directory. Unzip or untar and gunzip the distribution; a new subdirectory called Foswiki-VERSION will be created. You can rename this directory to a shorter name. For the rest of this document, this subdirectory is assumed to have been renamed to =foswiki=.
-      * *Note:* Foswiki does not support directory paths that contain spaces, so ensure that all of its directory paths do not contain any spaces (particularly on Windows).
-   1 *Setup access file and directory rights* to enable the webserver user (the user uesd by Apache to run the CGI programs) to read and write within the foswiki directory. 
-      * *Warning:* Do not just run a =chmod -R 770 foswiki=. The access rules have different meaning for files and directories. This is the most common mistake installers make.
-      * The distribution tgz has the file and directory access rights setup to work with a reasonable security level that will work for all types of installations including shared hosting.
-      * The ownership of the foswiki directory tree is normally set to the user that unpacked the tgz and will have to be changed to the web server user using the command =chown -R user:group /path/to/foswiki=. The web server username varies from Distributions. Examples for some major distributions: 
-         * !RedHat, Fedora, !CentOS, Gentoo, Mandriva : =chown -R apache:apache /path/to/foswiki=
-         * debian/Ubuntu/Kubunto : =chown -R www-data:www-data /path/to/foswiki=
-         * Suse : =chown -R wwwrun:www /path/to/foswiki=
-      * If you mistakenly change the access rights in a way that makes Foswiki stop working, simply run the script found at Foswiki:Support.SettingFileAccessRightsLinuxUnix to set the access right of the entire Foswiki tree back to the distributed defaults.
-      * It is possible to define tighter access rules than the ones given by default after the installation is complete. But how tight they should be depends on your distribution and local needs. Typically you may want to limit all access from world if the web server machine has login access for other users than root and the web server administrator. For a dedicated web server made just for running Foswiki with limited login access the default access rights have a good safety level.
-   1 *Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system.
-      * The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script in the =bin= directory. You can use the rewriteshebang.pl script in the tools directory. For example:<verbatim>
-      cd /path/to/foswiki/bin
-      /path/to/perl ../tools/rewriteshebang.pl
-      # At the prompt, enter the full path to the perl executable, including
-      # the full filename of the executable. You will be prompted twice for
-      # this information in order to confirm it.</verbatim>
-      * Some systems require a special extension on perl scripts (e.g. =.cgi= or =.pl=). This is normally only needed under Windows and only where perl scripts are only recognized by file extension. Under Unix and Unix-like operating systems (including Linux), this is not required. If a special extension is necessary, rename all files in =bin=; that is, rename =bin/view= to =bin/view.pl=, and so forth. When running the =configure= tool (Step 7), set the =ScriptSuffix= option to the special extension.
-   1 *Create the file <nop>Local<nop>Lib.cfg* located as =bin/LocalLib.cfg=
-      * In the <kbd>bin</kbd> directory, copy the template file <kbd>LocalLib.cfg.txt</kbd> to <kbd>LocalLib.cfg</kbd>&nbsp;. Make sure the ownership and access rights of the copy are the same as <nop>Local<nop>Lib.cfg.txt.
-      * Edit =bin/LocalLib.cfg= so that =$foswikiLibPath= is set to the absolute file path of your =lib= directory. For example: =/var/www/foswiki/lib=.
-      * If you need to install additional [[http://cpan.perl.org/][CPAN]] modules, but can't update the main Perl installation files on the server, you can set =$CPANBASE= to point to your personal [[http://cpan.perl.org/][CPAN]] install. Don't forget that the web server user has to be able to read those files as well.
-   1 *Configure the web server.* 
-      * First choose the best configuration method for your web server. With Apache, there are two ways to configure it: a config file included from httpd.conf or .htaccess files. 
-         * *Apache config file:* The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =foswiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However to use a config file you need root or sudo access to stop and start Apache. The Foswiki apache config file is included from the main Apache config file http.conf. Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: /etc/httpd/conf.d). If you use a virtual host setup in Apache you should include the foswiki.conf file from inside the desired virtual host config in your Apache configuration.
-         * *.htaccess files:* This should only be used when you cannot use a config file. Performance is slower as Apache must search through _all_ applicable directories for any .htaccess files on each page access. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo priviledges.
-      * *If you are using a config file*: 
-         * The easiest and best way is to use the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation, based on the options you choose in the tool.
-         * For a sample config file, see =foswiki_httpd_conf.txt= in the root of the foswiki installation.
-         * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
-      * *If you are using an .htaccess file:* 
-         * In the root of the foswiki installation and in the =bin= directory, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
-         | *location and name of sample .htaccess file* | *copy sample file to the following location* |
-         | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= |
-         | =foswiki/bin/.htaccess.txt= | =foswiki/bin/.htaccess= |
-         | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= |
-         | =foswiki/subdir-htaccess.txt= | =.htaccess= in all other subdirectories below =foswiki= |</sticky>
-      * *Protect the configure script*
-         * You should never leave the =configure= script open to the public. Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the foswiki-httpd-conf.txt or bin/.htaccess.txt file for an example of the setting required to protect the =configure= script.
-         * If you limit the access to a particular user then you need to setup an .htpasswd file that contains the user name and password that Apache will use to authenticate the user. Both the Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files uses =data/.htpasswd= but this file does not exist until you have Foswiki running and have registered the first user, so you must manually create an .htpasswd file:
-            * Change to the =foswiki/data= directory.
-            * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. Enter a password when prompted. Note this username cannot be used later on to register in Foswiki.
-         * When limiting access to a particular user, the Apache config file / .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Note the user specified in the directive must match the &lt;username&gt; you entered in the .htpasswd file.
-   1 *Run the =configure= script* from your browser (enter =http://yourdomain/foswiki/bin/configure= into your browser address bar).
-      * Resolve any errors or warnings it tells you about.
-      * *Note:* When you run =configure= for the first time, you can only edit the section =General Path Settings=. Save these settings, and then return to =configure= to continue configuration.
-      * If your web server can be accessed by more than one domain name make sure to add the additional alternative URLs to ={PermittedRedirectHostUrls}=
-      * When you return to =configure= you now need to setup _Mail and Proxies_. The ={WebMasterEmail}= and ={SMTP}{MAILHOST}= settings must be defined so Foswiki can send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=.
+To install Foswiki, complete the following steps:
+
+   1 *Download* and *unpack* the Foswiki distribution.
+   1 *Set the file and directory permissions* for the installation.
+   1 *Configure* the *locations of the Perl executable* and the *Foswiki modules*.
+   1 *Configure the web server.*
+   1 *Configure Foswiki.*
+
+---+++ Download and unpack the Foswiki distribution
+
+*Download* the Foswiki distribution from http://foswiki.org/Download
+
+*Unpack the distribution file:* Change to the directory in which you want to place the Foswiki directory. Unzip or untar and gunzip the distribution; a new subdirectory called Foswiki-VERSION will be created. You can rename this directory to a shorter name. For the rest of this document, this subdirectory is assumed to have been renamed to =foswiki=.
+   * *Note:* Foswiki does not support directory paths that contain spaces, so ensure that all of its directory paths do not contain any spaces (particularly on Windows).
+
+---+++ Set the file and directory permissions for the installation
+
+*Setup access file and directory rights* to enable the webserver user (the user uesd by Apache to run the CGI programs) to read and write within the foswiki directory. 
+   * *Warning:* Do not just run a =chmod -R 770 foswiki=. The access rules have different meaning for files and directories. This is the most common mistake installers make.
+   * The distribution tgz has the file and directory access rights setup to work with a reasonable security level that will work for all types of installations including shared hosting.
+   * The ownership of the foswiki directory tree is normally set to the user that unpacked the tgz and will have to be changed to the web server user using the command =chown -R user:group /path/to/foswiki=. The web server username varies from Distributions. Examples for some major distributions: 
+      * !RedHat, Fedora, !CentOS, Gentoo, Mandriva : =chown -R apache:apache /path/to/foswiki=
+      * debian/Ubuntu/Kubunto : =chown -R www-data:www-data /path/to/foswiki=
+      * Suse : =chown -R wwwrun:www /path/to/foswiki=
+   * If you mistakenly change the access rights in a way that makes Foswiki stop working, simply run the script found at Foswiki:Support.SettingFileAccessRightsLinuxUnix to set the access right of the entire Foswiki tree back to the distributed defaults.
+   * It is possible to define tighter access rules than the ones given by default after the installation is complete. But how tight they should be depends on your distribution and local needs. Typically you may want to limit all access from world if the web server machine has login access for other users than root and the web server administrator. For a dedicated web server made just for running Foswiki with limited login access the default access rights have a good safety level.
+
+---+++ Configure the locations of the Perl executable and the Foswiki modules
+
+*Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system.
+   * The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script in the =bin= directory. You can use the rewriteshebang.pl script in the tools directory. For example:<verbatim>
+   cd /path/to/foswiki/bin
+   /path/to/perl ../tools/rewriteshebang.pl
+   # At the prompt, enter the full path to the perl executable, including
+   # the full filename of the executable. You will be prompted twice for
+   # this information in order to confirm it.</verbatim>
+
+*Create the file <nop>Local<nop>Lib.cfg* located at =bin/LocalLib.cfg=
+   * In the <kbd>bin</kbd> directory, copy the template file <kbd>LocalLib.cfg.txt</kbd> to <kbd>LocalLib.cfg</kbd>&nbsp;. Make sure the ownership and access rights of the copy are the same as <nop>Local<nop>Lib.cfg.txt.
+   * Edit =bin/LocalLib.cfg= so that =$foswikiLibPath= is set to the absolute file path of your =lib= directory. For example: =/var/www/foswiki/lib=.
+   * If you need to install additional [[http://cpan.perl.org/][CPAN]] modules, but can't update the main Perl installation files on the server, you can set =$CPANBASE= to point to your personal [[http://cpan.perl.org/][CPAN]] install. Don't forget that the web server user has to be able to read those files as well.
+
+---+++ Configure the web server
+
+First choose the best configuration method for your web server. With Apache, there are two ways to configure it: a config file included from httpd.conf or .htaccess files. 
+   * *Apache config file:* The recommended method is using a config file. With a config file you can put the entire Foswiki configuration in ONE file (typically named =foswiki.conf=). Performance is much better with a config file, and one file gives the best overview and ensures that you get a safe installation . However to use a config file you need root or sudo access to stop and start Apache. The Foswiki apache config file is included from the main Apache config file http.conf. Most distributions have a directory from which any file that ends with =.conf= gets included when you restart Apache (Example !RedHat/Fedora/Centos: /etc/httpd/conf.d). If you use a virtual host setup in Apache you should include the foswiki.conf file from inside the desired virtual host config in your Apache configuration.
+   * *.htaccess files:* This should only be used when you cannot use a config file. Performance is slower as Apache must search through _all_ applicable directories for any .htaccess files on each page access. Normally this is the only way to control Apache in a shared host environment where you have no root or sudo priviledges.
+
+*If you are using a config file*: 
+   * The easiest and best way is to use the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation, based on the options you choose in the tool.
+   * For a sample config file, see =foswiki_httpd_conf.txt= in the root of the foswiki installation.
+   * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
+
+*If you are using an .htaccess file:* 
+   * In the root of the foswiki installation and in the =bin= directory, there are sample =.htaccess= files for various subdirectories in your installation. Each file has help text explaining how to modify it for your configuration. For more information, see Foswiki:Support.SupplementalDocuments.<sticky>
+   | *location and name of sample .htaccess file* | *copy sample file to the following location* |
+   | =foswiki/root-htaccess.txt= | =foswiki/.htaccess= |
+   | =foswiki/bin/.htaccess.txt= | =foswiki/bin/.htaccess= |
+   | =foswiki/pub-htaccess.txt= | =foswiki/pub/.htaccess= |
+   | =foswiki/subdir-htaccess.txt= | =.htaccess= in all other subdirectories below =foswiki= |</sticky>
+
+Some web servers require a special extension on perl scripts (e.g. =.cgi= or =.pl=). This is normally only needed under Windows and only where perl scripts are only recognized by file extension. Under Unix and Unix-like operating systems (including Linux), this is not required, nor is it required with the Apache web server running on Windows. If the documentation for your web server indicates that a special extension is necessary, rename all the executable scripts in =bin=; that is, rename =bin/view= to =bin/view.pl=, and so forth. When running the =configure= tool (Step 5), set the =ScriptSuffix= option to the special extension.
+
+*Protect the configure script:* You should never leave the =configure= script open to the public. Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the foswiki-httpd-conf.txt or bin/.htaccess.txt file for an example of the setting required to protect the =configure= script.
+
+If you limit the access to a particular user then you need to setup an .htpasswd file that contains the user name and password that Apache will use to authenticate the user. Both the Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files uses =data/.htpasswd= but this file does not exist until you have Foswiki running and have registered the first user, so you must manually create an .htpasswd file:
+   * Change to the =foswiki/data= directory.
+   * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. Enter a password when prompted. Note this username cannot be used later on to register in Foswiki.
+
+When limiting access to a particular user, the Apache config file / .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Note the user specified in the directive must match the &lt;username&gt; you entered in the .htpasswd file.
+
+---+++ Configure Foswiki
+
+*Run the =configure= script* from your browser (enter =http://yourdomain/foswiki/bin/configure= into your browser address bar).
+   * Resolve any errors or warnings it tells you about.
+   * *Note:* When you run =configure= for the first time, you can only edit the section =General Path Settings=. Save these settings, and then return to =configure= to continue configuration.
+   * If your web server can be accessed by more than one domain name make sure to add the additional alternative URLs to ={PermittedRedirectHostUrls}=
+   * When you return to =configure= you now need to setup _Mail and Proxies_. The ={WebMasterEmail}= and ={SMTP}{MAILHOST}= settings must be defined so Foswiki can send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=.
+
+---+++ Congratulations!
 
 You now have a basic, unauthenticated installation running. At this point you can just point your Web browser at =http://yourdomain.com/foswiki/bin/view= and start using your Foswiki site.
 
@@ -89,9 +119,9 @@ In order to keep your user, group, and site configuration information separate f
 ---+++ Important Server Security Settings
 Before you continue any further there are some basic and very important security settings you have to make sure are set correctly.
 
-   * As described in Step 6 of "[[#StandardInstallation][Basic Installation]]", you should protect the =configure= script from general access. The =configure= script must be restricted to use by administrators only, using your web server access control mechanisms. When accessing the =configure= URL for the first time, you should save at least one setting and set a configuration password at this time. Even after a configuration password has been set, you should still keep access to the =configure= script restricted, to avoid revealing internal details about your web server.
+   * As described in Step 4 of "[[#StandardInstallation][Basic Installation]]", you should protect the =configure= script from general access. The =configure= script must be restricted to use by administrators only, using your web server access control mechanisms. When accessing the =configure= URL for the first time, you should save at least one setting and set a configuration password at this time. Even after a configuration password has been set, you should still keep access to the =configure= script restricted, to avoid revealing internal details about your web server.
    * You absolutely must turn off any kind of PHP, Perl, Python, Server Side Includes, or other software execution mechanisms supported by your web server in the =pub= directory. Most Linux distributions have a default Apache installation with PHP and server side include (SSI) enabled; make sure you disable this in the =pub= directory.<br/>Foswiki has some built-in protection: it renames files with dangerous filenames by appending .txt to the filename. However you must not rely on this to protect your server.
-   * Make sure that you deny access to all foswiki subdirectories other than the =bin= and =pub= directories, as described in Step 6 of "[[#StandardInstallation][Basic Installation]]". The sample =foswiki_httpd_conf.txt= and =subdir-htaccess.txt= files show how to configure Apache to deny access to these subdirectories, and the Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings automatically.
+   * Make sure that you deny access to all foswiki subdirectories other than the =bin= and =pub= directories, as described in Step 4 of "[[#StandardInstallation][Basic Installation]]". The sample =foswiki_httpd_conf.txt= and =subdir-htaccess.txt= files show how to configure Apache to deny access to these subdirectories, and the Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings automatically.
 
 ---++ Beyond the basic installation
 
@@ -363,7 +393,7 @@ This section provides additional notes on installing Foswiki on a system where y
 
 The following items provide supplemental information for the referenced step from the <a href="#StandardInstallation">Basic Installation</a> section:
 
-   * *Step 2:* If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows: 
+   * *Step 1:* If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local PC and then manually create the directory structure on your host server and upload the files as follows: 
       * Using the table below, create a directory structure on your host server
       * Upload the Foswiki files by FTP (transfer as text except for the image files in =pub= directory.)
       * *Note:* Don't worry if you are not able to put the =lib= directory at the same level as the =bin= directory (e.g. because CGI bin directories can't be under your home directory and you don't have root access). You can create this directory elsewhere and configure the =bin/setlib.cfg= file (done in Step 2).
@@ -383,13 +413,13 @@ The following items provide supplemental information for the referenced step fro
 
 </blockquote>
 
-   * *Step 3:* Files in the pub directory must be readable as a url. This means that directory permissions should be set to =755= (or =775= ) and file permissions should be set to =644= (or =664=). If you can run a =chmod= command, you can accomplish this in two quick steps by running these commands from the root direct: 
+   * *Step 2:* Files in the pub directory must be readable as a url. This means that directory permissions should be set to =755= (or =775= ) and file permissions should be set to =644= (or =664=). If you can run a =chmod= command, you can accomplish this in two quick steps by running these commands from the root direct: 
       * =chmod -R 755 pub=
       * =chmod 644 `find pub -type f -print`=
       * In addition, you should create a =.htaccess= file in the pub directory, using the template included in the root level of the distribution entitled =pub-htaccess.txt=.
       * Note: This setup does not provide for absolute security for Foswiki attachments. For more information, see Foswiki:Support.SecuringYourSite.
 
-   * *Step 6:* In order to run the configure script, create a file called =.htaccess= in the bin directory that includes the following single line: =SetHandler cgi-script= . This informs the server to treat all the perl scripts in the bin directory as scripts.
+   * *Step 5:* In order to run the configure script, create a file called =.htaccess= in the bin directory that includes the following single line: =SetHandler cgi-script= . This informs the server to treat all the perl scripts in the bin directory as scripts.
 For additional information about installing Foswiki on a hosted accounts, see Foswiki:Support.InstallingOnSharedHosts
 
 ---++ Installing Manually Without Configure
