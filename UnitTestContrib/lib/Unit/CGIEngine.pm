@@ -98,14 +98,14 @@ sub make_request {
     my ( $env, $in ) = _req2cgi($req);
 
     # Saving STDIN
-    open my $stdin, '<&', \*STDIN or die "Can't dup STDIN: $!";
+    open my $stdin, '<&=', \*STDIN or die "Can't dup STDIN: $!";
     close STDIN;
 
     # Redirecting STDIN to the CGI input
     open STDIN, '<', $in or die "Can't redirect STDIN to \$in: $!";
 
     # Saving STDOUT
-    open my $stdout, '>&', \*STDOUT or die "Can't dup STDOUT: $!";
+    open my $stdout, '>&=', \*STDOUT or die "Can't dup STDOUT: $!";
     close STDOUT;
     my $out = '';
 
@@ -118,11 +118,11 @@ sub make_request {
     };
 
     # Restoring STDIN
-    open STDIN, '<&', $stdin or die "Can't restore STDIN: $!";
+    open STDIN, '<&=', $stdin or die "Can't restore STDIN: $!";
     close $stdin;
 
     # Restoring STDOUT
-    open STDOUT, '>&', $stdout or die "Can't restore STDOUT: $!";
+    open STDOUT, '>&=', $stdout or die "Can't restore STDOUT: $!";
     close $stdout;
     return HTTP::Message->parse($out);
 }

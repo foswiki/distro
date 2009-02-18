@@ -32,10 +32,6 @@ sub list_tests {
         print STDERR 'Install libwww-perl in order to run EngineTests', "\n";
         return ();
     }
-    # FIXME - when the problem with Emulated Safe Pipes will be solved
-    print STDERR 'Disabled for now', "\n";
-    return ();
-    # End of FIXME
     return $this->SUPER::list_tests(@_);
 }
 
