@@ -53,24 +53,24 @@ To create your own template topic, copy the "Default Slide Template" section bel
 This is a short example of a slideshow. You should see a "Start presentation" button if this plugin is installed:
 
 %SLIDESHOWSTART%
----+++ Introduction
+---++ Introduction
 This is slide one. 
 
 %TOC%
 
----+++ Hamlet meets his father's ghost
+---++ Hamlet meets his father's ghost
    * Hamlet learns that his father was killed by his brother Claudius and Queen Gertrude.
    * Claudius has quickly become king.
----+++ This is rather upsetting
+---++ This is rather upsetting
    * The ghost demands revenge.
    * Hamlet agrees.
    * His friends swear to keep what they have seen a secret.
----+++ Meanwhile...
+---++ Meanwhile...
    * the King's advisor Polonius meets his daughter Ophelia. Hamlet has upset her.
    * Hamlet is acting mad
----++++ Comments
+---+++ Comments
    * This text is not shown in the slide if HIDECOMMENTS is set to on.
----+++ Please tune this template
+---++ Please tune this template
 Tune the look of this template by using CSS ( slideshow.css attached to this document)
 %SLIDESHOWEND%
 
