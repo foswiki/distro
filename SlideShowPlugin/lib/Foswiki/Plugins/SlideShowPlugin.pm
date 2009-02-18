@@ -1,7 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2008 Foswiki Contributors
+# Copyright (C) 2008-2009 Eugen Mayer, Arthur Clemens, Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,9 +35,9 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '05 Feb 2009';
+$RELEASE = '18 Feb 2009';
 
-# =========================
+
 sub initPlugin
 {
     ( $topic, $web, $user, $installWeb ) = @_;
@@ -51,7 +51,7 @@ sub initPlugin
     return 1;
 }
 
-# =========================
+
 sub commonTagsHandler
 {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead

@@ -16,9 +16,9 @@ Any topic with headings can be converted into a slideshow. Each slide starts wit
 
 You can start the presentation by clicking on the "Start presentation" button.
 
----++ Syntax Rules
+---++ Syntax rules
 
----+++ How to Create a Slideshow
+---+++ How to create a slideshow
 
    * Start with =%<nop>SLIDESHOWSTART%=
       * Use the optional =template= parameter to specify your own slide template topic, e.g. =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%=
@@ -27,11 +27,11 @@ You can start the presentation by clicking on the "Start presentation" button.
       * *Note:* You can use any heading level you like, but use the same for all slides.
    * End your slideshow with =%<nop>SLIDESHOWEND%=
 
----+++ How to Create Your own Slide Template
+---+++ How to create your own slide template
 
 To create your own template topic, copy the "Default Slide Template" section below into your own slide template topic and customize it to your needs. It can be activated as the default template in the plugin's =TEMPLATE= setting, or per slideshow with the =%<nop>SLIDESHOWSTART{ template="MyOwnSlideTemplate" }%= setting.
 
-   * Use an HTML table that defines a slide. For example, create one row for the slide title, another one for the slide text.
+   * Use a DIV or an HTML table that defines a slide. For example, create one row for the slide title, another one for the slide text.
    * These keywords can be used:
      | *Keyword* | *What it means* |
      | =%<nop>SLIDETITLE%= | The heading of the slide |
@@ -39,6 +39,7 @@ To create your own template topic, copy the "Default Slide Template" section bel
      | =%<nop>SLIDECOMMENT%= | The comment of the slide (optional; appended to slide of missing) |
      | =%<nop>SLIDENUM%= | The current slide number |
      | =%<nop>SLIDEMAX%= | The last slide number |
+  * And for navigation buttons:
      | =%<nop>SLIDENAV%= | The navigation buttons for "First", "Previous", "Next" slide |
      | =%<nop>SLIDENAVALL%= | The navigation buttons for "First", "Previous", "Next", "Last" slide |
      | =%<nop>SLIDENAVFIRST%= | The navigation button for "First slide" |
@@ -52,6 +53,11 @@ To create your own template topic, copy the "Default Slide Template" section bel
 This is a short example of a slideshow. You should see a "Start presentation" button if this plugin is installed:
 
 %SLIDESHOWSTART%
+---+++ Introduction
+This is slide one. 
+
+%TOC%
+
 ---+++ Hamlet meets his father's ghost
    * Hamlet learns that his father was killed by his brother Claudius and Queen Gertrude.
    * Claudius has quickly become king.
@@ -62,13 +68,15 @@ This is a short example of a slideshow. You should see a "Start presentation" bu
 ---+++ Meanwhile...
    * the King's advisor Polonius meets his daughter Ophelia. Hamlet has upset her.
    * Hamlet is acting mad
+---++++ Comments
+   * This text is not shown in the slide if HIDECOMMENTS is set to on.
 ---+++ Please tune this template
-   * Tune the look of this template by using CSS ( slideshow.css attached to this document )
+Tune the look of this template by using CSS ( slideshow.css attached to this document)
 %SLIDESHOWEND%
 
 This text is not part of the slideshow
 
----++ <nop>%TOPIC% Global Settings
+---++ <nop>%TOPIC% preferences
 
 Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SLIDESHOWPLUGIN_SHORTDESCRIPTION%==
 
@@ -81,10 +89,13 @@ Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference setti
    * Default template for slides:
       * Set TEMPLATE = SlideShowPlugin
 
-   * Hide text starting with a =---+++ Comments= heading:
-      * Set HIDECOMMENTS = on
+   * Label for Comments section
+      * Set COMMENTS_LABEL = Comments
+      
+   * Hide text starting with a =---+++ %COMMENTS_LABEL%= heading:
+      * Set HIDECOMMENTS = 
 
----++ Default Slide Template
+---++ Default slide template
 
 You can create a new topic(MyWeb.SlidesTemplate) somewhere and adding =STARTINCLUDE your template STOPINCLUDE= to it. Afterwards, you can add =%SLIDESHOWSTART{template="MyWeb.SlidesTemplate"}%= to show you presentations with this new template.
 %BR%
@@ -94,35 +105,24 @@ Just customize the attached slideshow.css file to improve the view
 ---+++ Current default template
 The part between the rulers defines the default format of a slide:
 <verbatim>
-%STARTINCLUDE%<table width="100%" border="0" cellspacing="0" cellpadding="5" class="slideshow">
-<tr>
-<th valign="middle" class="slideshowHeader">
-<img src="%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/logo.gif" border="0" alt="Foswiki Slide Show" align="left" />
-<h1>%SLIDETITLE%</h1>
-</th>
-</tr>
-<tr>
-<td valign="top" class="slideshowContent">
-%SLIDETEXT%
-</td>
-</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="slideshowControls">
-<tr>
-<td valign="middle">
-%SLIDENAVALL%&nbsp;
-</td>
-<td valign="middle" align="right" class="foswikiSmall">
+%STARTINCLUDE%<div class="slideshow slideshow">
+<div class="slideshowToolbar">
 Page %SLIDENUM% of %SLIDEMAX%
-</td>
-<td valign="middle" align="right" class="foswikiSmall">
-Copyright &copy; %SERVERTIME{$year}% by the contributing authors
-</td>
-</tr>
-</table>%STOPINCLUDE%
+</div>
+<div class="slideshowHeader">
+%SLIDENAVALL%
+<h1>%SLIDETITLE%</h1>
+</div>
+<div class="slideshowContent">
+%SLIDETEXT%
+</div>
+<div class="slideshowComments">
+%SLIDECOMMENT%
+</div>
+</div><!--/slideshow-->%STOPINCLUDE%
 </verbatim>
 
----++ Plugin Installation Instructions
+---++ Plugin installation instructions
 
 *Note:* You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
 
@@ -136,17 +136,18 @@ Copyright &copy; %SERVERTIME{$year}% by the contributing authors
    * Run the [[%SCRIPTURL{"configure"}][configure]] script, and enable the plugin in the {Plugins} section.
    * Test above example if the installation was successful.
 
----++ Plugin Info
-|  Author: | [[Main.EugenMayer]] |
+---++ Plugin info
+|  Author: | Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens |
 |  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 05 Feb 2009 |
+|  Plugin Version: | 18 Feb 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  18 Feb 2009: | Fixed =HIDECOMMENTS= to really hide the comment if value is =on= - otherwise the comment is shown in the comments section; added customizable =COMMENTS_LABEL= for all non-English speaking people. Updated default template and css; cleaned up code: now uses a =cover= instead of a =skin= so the style of the installed skin is used (unless redefined in the css file); use a custom template; when in slideshow mode, hide topic text; removed extraneously generated spaces; improved error messages; from the button "End presentation" link back to the start button. |
 |  05 Feb 2009: | Updated graphics; made html and css validate. |
 |  21 Jan 2009: | Exchanged the current default skin by something which is not written in totaly broken html and looking acceptable ( still needs an update, still table ugly design..). You can style by CSS now %BR% Tuned the docs a bit|
 |  16 Dec 2008: | Foswiki version |
 |  02 Aug 2008: | Fixed corruption of preview |
-|  29 Sep 2007: | Added %SYSTEMWEB%.VarSLIDESHOWSTART and %SYSTEMWEB%.VarSLIDESHOWEND to have them listed in %SYSTEMWEB%.Macros |
+|  29 Sep 2007: | Added %SYSTEMWEB%.VarSLIDESHOWSTART and %SYSTEMWEB%.VarSLIDESHOWEND to have them listed in [[%SYSTEMWEB%.Macros]] |
 |  12 Feb 2007: | fixed construction of view urls (TWiki:Main/MichaelDaum) |
 |  19 Nov 2006: | 12011: Preserve URL parameters in slideshow (suggested by TWiki:Main/ThomasWeigert); changed logo in default template to T-logo; fixed warning errors introduced by 1.005 |
 |  16 Mar 2005: | 1.005 Crawford Currie prepped for Dakar, and fixed multiple evaluation bug |
@@ -165,12 +166,10 @@ Copyright &copy; %SERVERTIME{$year}% by the contributing authors
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="next.gif" attr="h" comment="Next button" date="1037510613" path="C:\Data\next.gif" size="993" user="ProjectContributor" version="1.2"}%
-%META:FILEATTACHMENT{name="prev.gif" attr="h" comment="Prev button" date="1037510599" path="C:\Data\prev.gif" size="993" user="ProjectContributor" version="1.2"}%
-%META:FILEATTACHMENT{name="clearpixel.gif" attr="h" comment="Clear pixel for spacing" date="1037523452" path="C:\Data\clearpixel.gif" size="807" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="startpres.gif" attr="h" comment="Start Presentation button" date="1037759933" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\startpres.gif" size="2065" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="endpres.gif" attr="h" comment="End Presentation button" date="1037759950" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\endpres.gif" size="2066" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="Logo for slide template" date="1037760048" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\logo.gif" size="2877" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="first.gif" attr="h" comment="First slide button" date="1037951064" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\first.gif" size="1010" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="last.gif" attr="h" comment="Last slide button" date="1037951080" path="C:\Data\MyTWiki\Plugins\SlideShowPlugin\pub\TWiki\SlideShowPlugin\last.gif" size="1014" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="slideshow.css" attachment="slideshow.css" attr="" comment="" date="1232310261" path="slideshow.css" size="4" stream="IO::File=GLOB(0x9fe7e50)" tmpFilename="/var/tmp/CGItemp34083" user="mayer" version="1"}%
+%META:FILEATTACHMENT{name="next.gif" attr="h" comment="Next button" date="1037510613" path="next.gif" size="993" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="prev.gif" attr="h" comment="Prev button" date="1037510599" path="prev.gif" size="993" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="startpres.gif" attr="h" comment="Start Presentation button" date="1037759933" path="startpres.gif" size="2065" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="endpres.gif" attr="h" comment="End Presentation button" date="1037759950" path="endpres.gif" size="2066" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="first.gif" attr="h" comment="First slide button" date="1037951064" path="first.gif" size="1010" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="last.gif" attr="h" comment="Last slide button" date="1037951080" path="last.gif" size="1014" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="slideshow.css" attachment="slideshow.css" attr="" comment="" date="1232310261" path="slideshow.css" size="4" version="1"}%

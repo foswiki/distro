@@ -1,69 +1,49 @@
 .slideshow {
-	width:100%;
+	padding:.5em 1em 1em 1em;
+	height:1500px;
 }
-
 .slideshow .slideshowHeader {
-	background-color:#036;
-	text-align:left;
+	border-bottom:1px solid #666;
+	padding:0 0 .5em 0;
 }
-
-.slideshow .slideshowHeader img {
-	margin:13px 1em 0 1em;
+.slideshow .slideshowToolbar {
+	color:#666;
+	margin:0;
+	padding:0 0 .25em 0;
+	text-align:right;
+	font-size:94%;
 }
-
+.slideshow .slideshowHeader p {
+	color:#666;
+	margin:0;
+	padding:0;
+	text-align:right;
+	font-size:94%;
+}
 .slideshow .slideshowHeader h1 {
-	color:#fff;
+	color:#360;
+	margin:0;
+	padding:0;
 }
-
 .slideshow .slideshowContent {
-	height:580px;
-	border-style:none solid solid solid;
-	border-width:1px;
-	border-color:#999;
-	padding:40px 20px 0 20px;
+	padding:2em 0 1em 0;
 	font-size:150%;
 	line-height:150%;
+	height:400px;
 }
-
-.slideshow .slideshowContent blockquote {
-	background-color:#F5F5F5;
-	border-color:#DDD;
-	border-style:solid;
-	border-width:1px 1px 1px 5px;
-	padding:0.5em 0.5em 0 0;
+.slideshow .slideshowComments,
+.slideshow .slideshowComments h4 {
+	color:#888;
 }
-
-.slideshow .slideshowContent h3 {
-	color:maroon;
+.slideshow .slideshowControls {
+	white-space:nowrap;
+	float:right;
+	clear:both;
 }
-
-.slideshow .slideshowContent th a:link,
-.slideshow .slideshowContent th a,
-.slideshow .slideshowContent .foswikiTable th font {
+.slideshow a.slideshowControlButton {
+	margin-left:5px;
+}
+a.slideshowControlButton:hover {
 	text-decoration:none;
-	color:#000;
-}
-
-.slideshow .slideshowContent .foswikiTable th {
-	background-color:#E2E2E2;
-	padding:10px;
-}
-
-.slideshow .slideshowContent .foswikiTable thead tr {
-	border-bottom:10px solid #9F9F9F;
-}
-
-.slideshow .slideshowContent .foswikiTable tbody tr th {
-	border-right:10px solid #9F9F9F;
-}
-
-.slideshow .slideshowContent verbatim {
-	overflow:hidden;
-}
-
-.slideshow .slideshowContent .foswikiTable td {
-	padding:10px 10px 10px 20px;
-}
-.slideshowControls {
-	margin:4px 0 0 0;
+	background:none;
 }
