@@ -52,23 +52,23 @@ If you do not have shell access to your web server host, see the section "[[#Upl
 
 ---+++ Set the file and directory permissions for the installation
 
-*Setup access file and directory rights* to enable the webserver user (the user used by Apache to run the CGI programs) to read and write within the =foswiki= directory.
+*Setup access file and directory rights*, as well as file ownership, as required by your web server configuration so that the web server user (the user used by Apache to run the CGI programs) can read and write within the =foswiki= directory tree.
 <!-- to be included once the supplemental document is available
 Note: for more information on the appropriate permissions to ensure security for your Foswiki data, see Foswiki:Support.SecuringYourSite.
 -->
 \
    * *Warning:* Do not just run a =chmod -R 770 foswiki=. The access rules have different meaning for files and directories. This is the most common mistake installers make.
-   * By default, the file and directory access rights as set by the distribution have a reasonable security level that will work for all types of installations including shared hosting.
-   * If you change the access rights in a way that makes Foswiki stop working, you can restore the access permissions back to their original values by running the script located at Foswiki:Support.SettingFileAccessRightsLinuxUnix.
-   * The ownership of the foswiki directory tree is normally set to the user that unpacked the tgz. If you have root user permissions, then you can change the ownership of the directory tree to the web server user using the command =chown -R user:group /path/to/foswiki=. The web server username varies from Distributions. Examples for some major distributions: 
+   * By default, the file and directory access permissions as set by the distribution define a reasonable security level that will work for all types of installations, including shared hosting.
+   * It is possible to define tighter access permissions than the default ones; how tight they should be depends on your web server environment and local needs. Typically you should limit all access from others if the web server machine has login access for users other than root and the web server administrator. For a dedicated web server that just runs Foswiki and has limited login access, the default access permissions have a good safety level.
+   * If you change the access permissions in a way that makes Foswiki stop working, you can restore the access permissions back to their original values by running the script located at Foswiki:Support.SettingFileAccessRightsLinuxUnix.
+   * _If you have root user permissions_, then you can change the ownership of the =foswiki= directory tree to the web server user, using the command =chown -R user:group /path/to/foswiki=. The web server username varies from Distributions. Examples for some major distributions: 
       * !RedHat, Fedora, !CentOS, Gentoo, Mandriva : =chown -R apache:apache /path/to/foswiki=
       * debian/Ubuntu/Kubunto : =chown -R www-data:www-data /path/to/foswiki=
       * Suse : =chown -R wwwrun:www /path/to/foswiki=
    * Files in the =pub= directory must be accessible via an URL. This means that the web server user must have read and execute access to the =pub= directory and all subdirectories, and read access to all files beneath the =pub= directory. If you can run a =chmod= command, run the following commands in the parent directory for the =pub= directory:<sticky><verbatim>
    chmod -R 755 pub
    find pub -type f -print | xargs chmod 644</verbatim></sticky>
-   Replace "755" and "644" with the appropriate permissions settings required by your web server configuration to access the =pub= directory and its files.
-   * It is possible to define tighter access rules than the ones given by default after the installation is complete. But how tight they should be depends on your distribution and local needs. Typically you may want to limit all access from world if the web server machine has login access for other users than root and the web server administrator. For a dedicated web server made just for running Foswiki with limited login access the default access rights have a good safety level.
+   Replace "755" and "644" with the appropriate permissions settings required by your web server configuration so that the web server can access the =pub= directory and its files.
 
 ---+++ Configure the locations of the Perl executable and the Foswiki modules
 
