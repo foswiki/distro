@@ -106,7 +106,7 @@ require Foswiki::Sandbox;
 # symbols - the symbols field from the file
 # comment - the comment field from the file
 # desc    - the desc field from the file
-# expand  - 'b' for binary, or null
+# expand  - 'b' for binary, or 'o' for text
 # author  - ref to array of version authors
 # date    - ref to array of dates indexed by version number
 # log     - ref to array of messages indexed by version
@@ -123,8 +123,9 @@ sub new {
     $this->{head}    = 0;
     $this->{access}  = '';
     $this->{symbols} = '';
-    $this->{comment} = '';
-    $this->{desc}    = '';
+    $this->{comment} = '# '; # Default comment for Rcs
+    $this->{desc}    = 'none';
+    $this->initText; # Set default expand to 'o'
     return $this;
 }
 
@@ -338,9 +339,8 @@ sub _process {
         }
         elsif ( $state eq 'deltatext.log' ) {
             if (/\d+\.(\d+)\s+log\s+$/o) {
-                local $/ = "\n";
-                chomp $string;    # Remove extra final newline
                 $dnum               = $1;
+		$string =~ s/\n*$//o;
                 $revs[$dnum]->{log} = $string;
                 $state              = 'deltatext.text';
             }
@@ -388,7 +388,7 @@ sub _write {
     my $nr = $this->{head} || 1;
     print $file <<HERE;
 head	1.$nr;
-access	$this->{access};
+access$this->{access};
 symbols$this->{symbols};
 locks; strict;
 HERE
@@ -405,22 +405,23 @@ HERE
         my $d       = $this->{revs}[$i]->{date};
         my $rcsDate = Foswiki::Store::RcsFile::_epochToRcsDateTime($d);
         print $file <<HERE;
+
 1.$i
 date	$rcsDate;	author $this->{revs}[$i]->{author};	state Exp;
-branches;	
+branches;
 HERE
         print $file 'next', "\t";
         print $file '1.', ( $i - 1 ) if ( $i > 1 );
         print $file ";\n";
     }
 
-    print $file "\n\n", 'desc', "\n", _formatString( $this->{desc} ) . "\n\n";
+    print $file "\n\n", 'desc', "\n", _formatString( $this->{desc} . "\n" ) . "\n\n";
 
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
         print $file "\n", '1.', $i, "\n",
           'log', "\n", _formatString( $this->{revs}[$i]->{log} . "\n" ),
           "\n", 'text', "\n", _formatString( $this->{revs}[$i]->{text} ),
-          "\n\n";
+          "\n" . ( $i == 1 ? '' : "\n" );
     }
     $this->{state} = 'parsed';    # now known clean
 }
@@ -438,7 +439,7 @@ sub initText {
     my ($this) = @_;
 
     # Nothing to be done but note for re-writing
-    $this->{expand} = '';
+    $this->{expand} = 'o';
 }
 
 # implements RcsFile
@@ -774,7 +775,8 @@ sub _addChunk {
               . join( "\n", @$lines ) . "\n";
         }
         else {
-            $$out .= 'd' . ( $start + 1 ) . ' ' . $nLines;
+            # Added "\n" at end to correct Item945
+            $$out .= 'd' . ( $start + 1 ) . ' ' . $nLines . "\n";
             $nLines *= -1;
         }
         @$lines = ();
