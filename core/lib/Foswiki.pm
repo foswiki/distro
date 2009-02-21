@@ -1794,7 +1794,7 @@ sub _writeReport {
 
 # Add a web reference to a [[...][...]] link in an included topic
 sub _fixIncludeLink {
-    my ( $web, $link, $label ) = @_;
+    my ( $web, $topic, $link, $label ) = @_;
 
     # Detect absolute and relative URLs and web-qualified wikinames
     if ( $link =~
@@ -1813,6 +1813,8 @@ m#^($regex{webNameRegex}\.|$regex{defaultWebNameRegex}\.|$regex{linkProtocolPatt
         # Must be wikiword or spaced-out wikiword (or illegal link :-/)
         $label = $link;
     }
+    # If link is only an anchor, prepend its topic
+    $link = $topic . $link if $link =~ /^#/;
     return "[[$web.$link][$label]]";
 }
 
@@ -1822,6 +1824,7 @@ sub _fixupIncludedTopic {
     my ( $text, $options ) = @_;
 
     my $fromWeb = $options->{web};
+    my $fromTopic = $options->{topic};
 
     unless ( $options->{in_noautolink} ) {
 
@@ -1833,7 +1836,7 @@ sub _fixupIncludedTopic {
     # Handle explicit [[]] everywhere
     # '[[TopicName][...]]' to '[[Web.TopicName][...]]'
     $text =~ s/\[\[([^]]+)\](?:\[([^]]+)\])?\]/
-      _fixIncludeLink( $fromWeb, $1, $2 )/geo;
+      _fixIncludeLink( $fromWeb, $fromTopic, $1, $2 )/geo;
 
     return $text;
 }
@@ -3524,6 +3527,7 @@ sub INCLUDE {
             \&_fixupIncludedTopic,
             {
                 web        => $includedWeb,
+                topic      => $includedTopic,
                 pre        => 1,
                 noautolink => 1
             }
