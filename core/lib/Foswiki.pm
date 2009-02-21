@@ -71,7 +71,7 @@ our %contextFreeSyntax;
 our %restDispatch;
 our $VERSION;
 our $RELEASE;
-our $TRUE = 1;
+our $TRUE  = 1;
 our $FALSE = 0;
 our $sandbox;
 our $engine;
@@ -101,7 +101,7 @@ sub _getLibDir {
 "WARNING: Foswiki lib path $foswikiLibDir is relative; you should make it absolute, otherwise some scripts may not run from the command line.";
         my $bin;
 
- # SMELL : Should not assume environment variables; get data from request
+        # SMELL : Should not assume environment variables; get data from request
         if (   $ENV{SCRIPT_FILENAME}
             && $ENV{SCRIPT_FILENAME} =~ m#^(.+)/.+?$# )
         {
@@ -285,17 +285,17 @@ BEGIN {
     $functionTags{LOCALSITEPREFS} = sub { $Foswiki::cfg{LocalSitePreferences} };
     $functionTags{NOFOLLOW} =
       sub { $Foswiki::cfg{NoFollow} ? 'rel=' . $Foswiki::cfg{NoFollow} : '' };
-    $functionTags{NOTIFYTOPIC}       = sub { $Foswiki::cfg{NotifyTopicName} };
-    $functionTags{SCRIPTSUFFIX}      = sub { $Foswiki::cfg{ScriptSuffix} };
-    $functionTags{STATISTICSTOPIC}   = sub { $Foswiki::cfg{Stats}{TopicName} };
-    $functionTags{SYSTEMWEB}         = sub { $Foswiki::cfg{SystemWebName} };
-    $functionTags{TRASHWEB}          = sub { $Foswiki::cfg{TrashWebName} };
-    $functionTags{WIKIADMINLOGIN}   = sub { $Foswiki::cfg{AdminUserLogin} };
-    $functionTags{USERSWEB}          = sub { $Foswiki::cfg{UsersWebName} };
-    $functionTags{WEBPREFSTOPIC}     = sub { $Foswiki::cfg{WebPrefsTopicName} };
-    $functionTags{WIKIPREFSTOPIC}    = sub { $Foswiki::cfg{SitePrefsTopicName} };
-    $functionTags{WIKIUSERSTOPIC}    = sub { $Foswiki::cfg{UsersTopicName} };
-    $functionTags{WIKIWEBMASTER}     = sub { $Foswiki::cfg{WebMasterEmail} };
+    $functionTags{NOTIFYTOPIC}     = sub { $Foswiki::cfg{NotifyTopicName} };
+    $functionTags{SCRIPTSUFFIX}    = sub { $Foswiki::cfg{ScriptSuffix} };
+    $functionTags{STATISTICSTOPIC} = sub { $Foswiki::cfg{Stats}{TopicName} };
+    $functionTags{SYSTEMWEB}       = sub { $Foswiki::cfg{SystemWebName} };
+    $functionTags{TRASHWEB}        = sub { $Foswiki::cfg{TrashWebName} };
+    $functionTags{WIKIADMINLOGIN}  = sub { $Foswiki::cfg{AdminUserLogin} };
+    $functionTags{USERSWEB}        = sub { $Foswiki::cfg{UsersWebName} };
+    $functionTags{WEBPREFSTOPIC}   = sub { $Foswiki::cfg{WebPrefsTopicName} };
+    $functionTags{WIKIPREFSTOPIC}  = sub { $Foswiki::cfg{SitePrefsTopicName} };
+    $functionTags{WIKIUSERSTOPIC}  = sub { $Foswiki::cfg{UsersTopicName} };
+    $functionTags{WIKIWEBMASTER}   = sub { $Foswiki::cfg{WebMasterEmail} };
     $functionTags{WIKIWEBMASTERNAME} = sub { $Foswiki::cfg{WebMasterName} };
 
     # locale setup
@@ -314,9 +314,9 @@ BEGIN {
         require POSIX;
         import POSIX qw( locale_h LC_CTYPE LC_COLLATE );
 
-        # SMELL: mod_perl compatibility note: If Foswiki is running under Apache,
-        # won't this play with the Apache process's locale settings too?
-        # What effects would this have?
+       # SMELL: mod_perl compatibility note: If Foswiki is running under Apache,
+       # won't this play with the Apache process's locale settings too?
+       # What effects would this have?
         setlocale( &LC_CTYPE,   $Foswiki::cfg{Site}{Locale} );
         setlocale( &LC_COLLATE, $Foswiki::cfg{Site}{Locale} );
     }
@@ -396,11 +396,13 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
     $regex{defaultWebNameRegex} = qr/_[$regex{mixedAlphaNum}_]+/o;
     $regex{anchorRegex}         = qr/\#[$regex{mixedAlphaNum}_]+/o;
     $regex{abbrevRegex}         = qr/[$regex{upperAlpha}]{3,}s?\b/o;
-    $regex{topicNameRegex}      =
+    $regex{topicNameRegex} =
       qr/(?:(?:$regex{wikiWordRegex})|(?:$regex{abbrevRegex}))/o;
+
     # Simplistic email regex, e.g. for WebNotify processing - no i18n
     # characters allowed
-    $regex{emailAddrRegex} = qr/([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)/i;
+    $regex{emailAddrRegex} =
+      qr/([a-z0-9!+$%&'*+-\/=?^_`{|}~.]+\@[a-z0-9\.\-]+)/i;
 
 # Filename regex to used to match invalid characters in attachments - allow
 # alphanumeric characters, spaces, underscores, etc.
@@ -474,6 +476,7 @@ qr/[$regex{upperAlpha}]+[$regex{lowerAlphaNum}]+[$regex{upperAlpha}]+[$regex{mix
 
     # initialize the runtime engine
     if ( !defined $Foswiki::cfg{Engine} ) {
+
         # Caller did not define an engine; try and work it out (mainly for
         # the benefit of pre-1.0 CGI scripts)
         $Foswiki::cfg{Engine} = 'Foswiki::Engine::Legacy';
@@ -503,15 +506,18 @@ sub UTF82SiteCharSet {
 
     # SMELL: all this regex stuff should go away.
     # If not UTF-8 - assume in site character set, no conversion required
-    if ($^O eq 'darwin') {
+    if ( $^O eq 'darwin' ) {
+
         #this is a gross over-generalisation - as not all darwins are apple's
         # and not all darwins use apple's perl
-    	my $trial = $text;
+        my $trial = $text;
         $trial =~ s/$regex{validUtf8CharRegex}//g;
-        return unless (length($trial) == 0);
-    } else {
+        return unless ( length($trial) == 0 );
+    }
+    else {
+
         #SMELL: this seg faults on OSX leopard. (and possibly others)
-        return undef unless ( $text =~ $regex{validUtf8StringRegex} );  
+        return undef unless ( $text =~ $regex{validUtf8StringRegex} );
     }
 
     # If site charset is already UTF-8, there is no need to convert anything:
@@ -519,7 +525,7 @@ sub UTF82SiteCharSet {
 
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
-            $this->writeWarning( 'UTF-8 not remotely supported on Perl '
+            $this->writeWarning( 'UTF-8 not remotely supported on Perl ' 
                   . $]
                   . ' - use Perl 5.8 or higher..' );
         }
@@ -688,6 +694,7 @@ sub generateHTTPHeaders {
       || '';
     if ($pluginHeaders) {
         foreach ( split /\r?\n/, $pluginHeaders ) {
+
             # Implicit untaint OK; data from plugin handler
             if (m/^([\-a-z]+): (.*)$/i) {
                 $hopts->{$1} = $2;
@@ -721,21 +728,23 @@ sub _isRedirectSafe {
     my $redirect = shift;
 
     return 1 if ( $Foswiki::cfg{AllowRedirectUrl} );
-    return 1 if $redirect =~ m#^/#; # relative URL - OK
+    return 1 if $redirect =~ m#^/#;    # relative URL - OK
 
     #TODO: this should really use URI
     # Compare protocol, host name and port number
     if ( $redirect =~ m!^(.*?://[^/]*)! ) {
+
         # implicit untaints OK because result not used. uc retaints
         # if use locale anyway.
-        my $target = uc( $1 );
+        my $target = uc($1);
 
         $Foswiki::cfg{DefaultUrlHost} =~ m!^(.*?://[^/]*)!;
         return 1 if ( $target eq uc($1) );
 
         if ( $Foswiki::cfg{PermittedRedirectHostUrls} ) {
-            foreach my $red (split(
-                /\s*,\s*/, $Foswiki::cfg{PermittedRedirectHostUrls} )) {
+            foreach my $red (
+                split( /\s*,\s*/, $Foswiki::cfg{PermittedRedirectHostUrls} ) )
+            {
                 $red =~ m!^(.*?://[^/]*)!;
                 return 1 if ( $target eq uc($1) );
             }
@@ -761,7 +770,7 @@ Conditions for a valid redirection target are:
 =cut
 
 sub redirectto {
-    my ($this, $url) = @_;
+    my ( $this, $url ) = @_;
     ASSERT($url);
 
     my $redirecturl = $this->{request}->param('redirectto');
@@ -782,11 +791,11 @@ sub redirectto {
     my ( $w, $t ) =
       $this->normalizeWebTopicName( $this->{webName}, $redirecturl );
 
-	# capture anchor
-    my ($topic, $anchor) = split('#', $t, 2);
+    # capture anchor
+    my ( $topic, $anchor ) = split( '#', $t, 2 );
     $t = $topic if $topic;
     my @attrs = ();
-    push (@attrs, '#'=>$anchor) if $anchor;
+    push( @attrs, '#' => $anchor ) if $anchor;
 
     return $this->getScriptUrl( 1, 'view', $w, $t, @attrs );
 }
@@ -822,7 +831,7 @@ server.
 
 sub redirect {
     my ( $this, $url, $passthru ) = @_;
-    ASSERT(defined $url);
+    ASSERT( defined $url );
 
     my $query = $this->{request};
 
@@ -832,7 +841,7 @@ sub redirect {
     if ( $passthru && defined $query->method() ) {
         my $existing = '';
         if ( $url =~ s/\?(.*)$// ) {
-            $existing = $1; # implicit untaint OK; recombined later
+            $existing = $1;    # implicit untaint OK; recombined later
         }
         if ( $query->method() eq 'POST' ) {
 
@@ -871,7 +880,7 @@ sub redirect {
             template => 'oopsaccessdenied',
             def      => 'topic_access',
             param1   => 'redirect',
-            param2   => 'unsafe redirect to '
+            param2   => 'unsafe redirect to ' 
               . $url
               . ': host does not match {DefaultUrlHost} , and is not in {PermittedRedirectHostUrls}"'
               . $Foswiki::cfg{DefaultUrlHost} . '"'
@@ -951,7 +960,7 @@ Check for a valid topic =$name=. If =$nonww=, then accept non wiki-words
 
 # Note: must work on tainted names.
 sub isValidTopicName {
-    my ($name, $nonww) = @_;
+    my ( $name, $nonww ) = @_;
 
     return 0 unless defined $name && $name ne '';
     return 1 if ( $name =~ m/^$regex{topicNameRegex}$/o );
@@ -1106,7 +1115,7 @@ sub _make_params {
             $anchor .= '#' . urlEncode( shift(@args) );
         }
         else {
-            $ps .= ';' . urlEncode( $p ) . '=' . urlEncode( shift(@args) || '' );
+            $ps .= ';' . urlEncode($p) . '=' . urlEncode( shift(@args) || '' );
         }
     }
     if ($ps) {
@@ -1179,12 +1188,13 @@ sub getIconUrl {
     my ( $this, $absolute, $iconName ) = @_;
 
     my $iconTopic = $this->{prefs}->getPreferencesValue('ICONTOPIC');
-    if (defined($iconTopic)) {
+    if ( defined($iconTopic) ) {
         my ( $web, $topic ) =
-            $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
+          $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
         $iconName =~ s/^.*\.(.*?)$/$1/;
         return $this->getPubUrl( $absolute, $web, $topic, $iconName . '.gif' );
-    } ele {
+    }
+    ele {
         return '';
     }
 }
@@ -1206,21 +1216,22 @@ sub mapToIconFileName {
 
     unless ( $this->{_ICONMAP} ) {
         my $iconTopic = $this->{prefs}->getPreferencesValue('ICONTOPIC');
-        if (defined($iconTopic)) {
+        if ( defined($iconTopic) ) {
             my ( $web, $topic ) =
               $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
             local $/ = undef;
             try {
                 my $icons =
-                  $this->{store}
-                  ->getAttachmentStream( undef, $web, $topic, '_filetypes.txt' );
+                  $this->{store}->getAttachmentStream( undef, $web, $topic,
+                    '_filetypes.txt' );
                 %{ $this->{_ICONMAP} } = split( /\s+/, <$icons> );
                 close($icons);
             }
             catch Error::Simple with {
                 %{ $this->{_ICONMAP} } = ();
             };
-        } else {
+        }
+        else {
             return $default || $fileName;
         }
     }
@@ -1256,18 +1267,24 @@ sub normalizeWebTopicName {
         $web   = $1;
         $topic = $2;
 
-        if ( DEBUG && !UNTAINTED($_[2] )) {
+        if ( DEBUG && !UNTAINTED( $_[2] ) ) {
+
             # retaint data untainted by RE above
-            $web = TAINT($web);
+            $web   = TAINT($web);
             $topic = TAINT($topic);
         }
     }
     $web   ||= $cfg{UsersWebName};
     $topic ||= $cfg{HomeTopicName};
+
     # MAINWEB and TWIKIWEB expanded for compatibility reasons
-    while ( $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
-              $this->_expandTagOnTopicRendering( $1 ) || ''/e ) {
+    while (
+        $web =~ s/%((MAIN|TWIKI|USERS|SYSTEM|DOC)WEB)%/
+              $this->_expandTagOnTopicRendering( $1 ) || ''/e
+      )
+    {
     }
+
     # Normalize web name to use / and not . as a subweb separator
     $web =~ s#\.#/#g;
 
@@ -1305,7 +1322,7 @@ sub new {
     $query ||= new Foswiki::Request();
     my $this = bless( { sandbox => 'Foswiki::Sandbox' }, $class );
     $this->{request}  = $query;
-    $this->{cgiQuery}  = $query; # for backwards compatibility in contribs
+    $this->{cgiQuery} = $query;    # for backwards compatibility in contribs
     $this->{response} = new Foswiki::Response();
 
     # Tell Foswiki::Response which charset we are using if not default
@@ -1339,6 +1356,7 @@ sub new {
         $ENV{PATH} = $Foswiki::cfg{SafeEnvPath};
     }
     else {
+
         # SMELL: how can we validate the PATH?
         $ENV{PATH} = Foswiki::Sandbox::untaintUnchecked( $ENV{PATH} );
     }
@@ -1406,7 +1424,7 @@ sub new {
     }
 
     my $pathInfo = $query->path_info();
-    $pathInfo =~ s|//+|/|g; # multiple //'s are illogical
+    $pathInfo =~ s|//+|/|g;    # multiple //'s are illogical
 
     # Get the web and topic names from PATH_INFO
     if ( $pathInfo =~ m#^/(.*)[./](.*?)$# ) {
@@ -1424,13 +1442,13 @@ sub new {
         $web = $1 unless $web;
     }
 
-    my $topicNameTemp = $this->UTF82SiteCharSet( $topic );
+    my $topicNameTemp = $this->UTF82SiteCharSet($topic);
     if ($topicNameTemp) {
         $topic = $topicNameTemp;
     }
 
     # TWikibug:Item3270 - here's the appropriate place to enforce spec
-    $topic = ucfirst( $topic );
+    $topic = ucfirst($topic);
 
     # Validate and untaint topic name from path info
     $this->{topicName} = Foswiki::Sandbox::untaint(
@@ -1439,18 +1457,20 @@ sub new {
             return $Foswiki::cfg{HomeTopicName}
               unless isValidTopicName( $topic, 1 );
             return $topic;
-        });
+        }
+    );
 
     # Validate web name from path info
     $this->{requestedWebName} = Foswiki::Sandbox::untaint(
         $web,
         sub {
             return '' unless $web &&    # can be an empty string
-              isValidWebName( $web, 1 );
+                  isValidWebName( $web, 1 );
             return $web;
-        });
-    $this->{webName} = $this->{requestedWebName} ||
-      $Foswiki::cfg{UsersWebName};
+        }
+    );
+    $this->{webName} = $this->{requestedWebName}
+      || $Foswiki::cfg{UsersWebName};
 
     # Convert UTF-8 web and topic name from URL into site charset if
     # necessary
@@ -1498,8 +1518,8 @@ sub new {
     # which depends on the user mapper.
     my $wn = $this->{users}->getWikiName( $this->{user} );
     if ($wn) {
-        $prefs->pushPreferences( $Foswiki::cfg{UsersWebName}, $wn,
-            'USER ' . $wn );
+        $prefs->pushPreferences( $Foswiki::cfg{UsersWebName},
+            $wn, 'USER ' . $wn );
     }
 
     $prefs->pushWebPreferences( $this->{webName} );
@@ -1777,7 +1797,8 @@ sub _writeReport {
 
     if ($log) {
         require Foswiki::Time;
-        my $time = Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
+        my $time =
+          Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
         $log =~ s/%DATE%/$time/go;
         $time = Foswiki::Time::formatTime( time(), undef, 'servertime' );
 
@@ -1813,6 +1834,7 @@ m#^($regex{webNameRegex}\.|$regex{defaultWebNameRegex}\.|$regex{linkProtocolPatt
         # Must be wikiword or spaced-out wikiword (or illegal link :-/)
         $label = $link;
     }
+
     # If link is only an anchor, prepend its topic
     $link = $topic . $link if $link =~ /^#/;
     return "[[$web.$link][$label]]";
@@ -1823,7 +1845,7 @@ m#^($regex{webNameRegex}\.|$regex{defaultWebNameRegex}\.|$regex{linkProtocolPatt
 sub _fixupIncludedTopic {
     my ( $text, $options ) = @_;
 
-    my $fromWeb = $options->{web};
+    my $fromWeb   = $options->{web};
     my $fromTopic = $options->{topic};
 
     unless ( $options->{in_noautolink} ) {
@@ -1895,11 +1917,12 @@ Apply a pattern on included text to extract a subset
 sub applyPatternToIncludedText {
     my ( $text, $pattern ) = @_;
 
-    $pattern = Foswiki::Sandbox::untaint($pattern, \&validatePattern);
+    $pattern = Foswiki::Sandbox::untaint( $pattern, \&validatePattern );
 
     try {
         $text =~ s/$pattern/$1/is;
-    } catch Error::Simple with {
+    }
+    catch Error::Simple with {
         $text = '';
     };
     return $text;
@@ -2094,9 +2117,10 @@ s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
             $highest--;
             $result =~ s/^\t{$highest}//gm;
         }
-        
+
         # add a anchor to be able to jump to the toc and add a outer div
-        return CGI::a( {name=>'foswikiTOC'},'').CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
+        return CGI::a( { name => 'foswikiTOC' }, '' )
+          . CGI::div( { class => 'foswikiToc' }, "$title$result\n" );
 
     }
     else {
@@ -2134,6 +2158,7 @@ sub inlineAlert {
             $text =~ s/%PARAM$n%/$param/g;
             $n++;
         }
+
         # Suppress missing params
         $text =~ s/%PARAM\d+%//g;
     }
@@ -2185,6 +2210,7 @@ sub parseSections {
     foreach my $bit ( split( /(%(?:START|END)SECTION(?:{.*?})?%)/, $_[0] ) ) {
         if ( $bit =~ /^%STARTSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
+
             # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
             $attrs->{type} ||= 'section';
@@ -2216,6 +2242,7 @@ sub parseSections {
         }
         elsif ( $bit =~ /^%ENDSECTION(?:{(.*)})?%$/ ) {
             require Foswiki::Attrs;
+
             # SMELL: unchecked implicit untaint?
             my $attrs = new Foswiki::Attrs($1);
             $attrs->{type} ||= 'section';
@@ -2330,7 +2357,7 @@ sub expandVariablesOnTopicCreation {
                   substr( $ntext, $s->{start}, $s->{end} - $s->{start} );
                 expandAllTags( $this, \$etext, $theTopic, $theWeb );
                 $ntext =
-                    substr( $ntext, 0, $s->{start} )
+                    substr( $ntext, 0, $s->{start} ) 
                   . $etext
                   . substr( $ntext, $s->{end}, length($ntext) );
             }
@@ -2559,9 +2586,10 @@ With parameter $sep any string may be used as separator between the word compone
 
 sub spaceOutWikiWord {
     my ( $word, $sep ) = @_;
+
     # Both could have the value 0 so we cannot use simple = || ''
-    $word = defined( $word ) ? $word : '';
-    $sep  = defined( $sep ) ? $sep : ' ';
+    $word = defined($word) ? $word : '';
+    $sep  = defined($sep)  ? $sep  : ' ';
     $word =~
 s/([$regex{lowerAlpha}])([$regex{upperAlpha}$regex{numeric}]+)/$1$sep$2/go;
     $word =~ s/([$regex{numeric}])([$regex{upperAlpha}])/$1$sep$2/go;
@@ -2693,6 +2721,7 @@ sub _processTags {
 
             # /s so you can have newlines in parameters
             if ( $stackTop =~ m/^%(($regex{tagNameRegex})(?:{(.*)})?)$/so ) {
+
                 # SMELL: unchecked implicit untaint?
                 my ( $expr, $tag, $args ) = ( $1, $2, $3 );
 
@@ -3182,8 +3211,9 @@ sub initialize {
     $Foswiki::Plugins::SESSION = $session;
 
     return (
-        $session->{topicName}, $session->{webName}, $session->{scriptUrlPath},
-        $session->{userName},  $Foswiki::cfg{DataDir}
+        $session->{topicName},     $session->{webName},
+        $session->{scriptUrlPath}, $session->{userName},
+        $Foswiki::cfg{DataDir}
     );
 }
 
@@ -3369,30 +3399,29 @@ sub INCLUDE {
 
     # make sure we have something to include. If we don't do this, then
     # normalizeWebTopicName will default to WebHome. TWikibug:Item2209.
-    unless ($control{_DEFAULT}) {
-        return _includeWarning( $this, $control{warn},
-                                'bad_include_path', '' );
+    unless ( $control{_DEFAULT} ) {
+        return _includeWarning( $this, $control{warn}, 'bad_include_path', '' );
     }
 
     # Filter out '..' from path to prevent includes of '../../file'
-    if ($Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./) {
-        return _includeWarning( $this, $control{warn},
-                                'bad_include_path', $control{_DEFAULT} );
+    if ( $Foswiki::cfg{DenyDotDotInclude} && $control{_DEFAULT} =~ /\.\./ ) {
+        return _includeWarning( $this, $control{warn}, 'bad_include_path',
+            $control{_DEFAULT} );
     }
 
     # no sense in considering an empty string as an unfindable section
-    delete $control{section} if (
-        defined($control{section}) && $control{section} eq '' );
+    delete $control{section}
+      if ( defined( $control{section} ) && $control{section} eq '' );
     $control{raw} ||= '';
-    $control{inWeb} = $includingWeb;
+    $control{inWeb}   = $includingWeb;
     $control{inTopic} = $includingTopic;
     if ( $control{_DEFAULT} =~ /^([a-z]+):/ ) {
         my $handler = $1;
-        eval 'use Foswiki::IncludeHandlers::'.$handler;
+        eval 'use Foswiki::IncludeHandlers::' . $handler;
         die $@ if ($@);
         unless ($@) {
-            $handler = 'Foswiki::IncludeHandlers::'.$handler;
-            return $handler->INCLUDE($this, \%control, $params);
+            $handler = 'Foswiki::IncludeHandlers::' . $handler;
+            return $handler->INCLUDE( $this, \%control, $params );
         }
     }
 
@@ -3410,7 +3439,7 @@ sub INCLUDE {
     # See Codev.FailedIncludeWarning for the history.
     unless ( $this->{store}->topicExists( $includedWeb, $includedTopic ) ) {
         return _includeWarning( $this, $control{warn}, 'topic_not_found',
-                                $includedWeb, $includedTopic );
+            $includedWeb, $includedTopic );
     }
 
     # prevent recursive includes. Note that the inclusion of a topic into
@@ -3437,7 +3466,8 @@ sub INCLUDE {
     }
 
     ( $meta, $text ) =
-      $this->{store}->readTopic( undef, $includedWeb, $includedTopic, $control{rev} );
+      $this->{store}
+      ->readTopic( undef, $includedWeb, $includedTopic, $control{rev} );
 
     # Simplify leading, and remove trailing, newlines. If we don't remove
     # trailing, it becomes impossible to %INCLUDE a topic into a table.
@@ -3451,7 +3481,7 @@ sub INCLUDE {
         )
       )
     {
-        if ( isTrue($control{warn}) ) {
+        if ( isTrue( $control{warn} ) ) {
             return $this->inlineAlert( 'alerts', 'access_denied',
                 "[[$includedWeb.$includedTopic]]" );
         }    # else fail silently
@@ -3489,15 +3519,17 @@ sub INCLUDE {
         }
     }
 
-    if ( $interesting and (length($text) eq 0) ) {
-        return _includeWarning( $this, $control{warn}, 'topic_section_not_found',
-                                $includedWeb, $includedTopic, $control{section} );
+    if ( $interesting and ( length($text) eq 0 ) ) {
+        return _includeWarning( $this, $control{warn},
+            'topic_section_not_found', $includedWeb, $includedTopic,
+            $control{section} );
     }
 
     # If there were no interesting sections, restore the whole text
     $text = $ntext unless $interesting;
 
-    $text = applyPatternToIncludedText( $text, $control{pattern} ) if ($control{pattern});
+    $text = applyPatternToIncludedText( $text, $control{pattern} )
+      if ( $control{pattern} );
 
     # Do not show TOC in included topic if TOC_HIDE_IF_INCLUDED
     # preference has been set
@@ -3649,7 +3681,7 @@ sub REVINFO {
     my $rev = $params->{rev} || $cgiRev || '';
 
     ( $web, $topic ) = $this->normalizeWebTopicName( $web, $topic );
-    if ($web ne $theWeb || $topic ne $theTopic) {
+    if ( $web ne $theWeb || $topic ne $theTopic ) {
         unless (
             $this->security->checkAccessPermission(
                 'VIEW', $this->{user}, undef, undef, $topic, $web
@@ -3689,9 +3721,10 @@ sub REVARG {
 
 sub ENCODE {
     my ( $this, $params ) = @_;
-    my $type = $params->{type}     || 'url';
+    my $type = $params->{type} || 'url';
+
     # Value 0 can be valid input so we cannot use simple = || ''
-    my $text = defined ( $params->{_DEFAULT} ) ? $params->{_DEFAULT} : '';
+    my $text = defined( $params->{_DEFAULT} ) ? $params->{_DEFAULT} : '';
     return _encode( $type, $text );
 }
 
@@ -3715,11 +3748,12 @@ sub _encode {
         return urlEncode($text);
     }
     elsif ( $type =~ /^(off|none)$/i ) {
+
         # no encoding
         return $text;
     }
-    else { # safe or default
-        # entity encode ' " < > and %
+    else {                               # safe or default
+                                         # entity encode ' " < > and %
         $text =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         return $text;
     }
@@ -3887,7 +3921,7 @@ sub QUERYPARAMS {
         # Issues multi-valued parameters as separate hiddens
         my $value = $this->{request}->param($name);
         $value = '' unless defined $value;
-        $name = _encode( $encoding, $name );
+        $name  = _encode( $encoding, $name );
         $value = _encode( $encoding, $value );
 
         my $entry = $format;
@@ -3936,18 +3970,19 @@ sub URLPARAM {
             $value = entityEncode($value);
         }
         elsif ( $encode =~ /^quotes?$/i ) {
-            $value =~ s/\"/\\"/go
-              ;    # escape quotes with backslash (Bugs:Item3383 fix)
+            $value =~
+              s/\"/\\"/go;    # escape quotes with backslash (Bugs:Item3383 fix)
         }
         elsif ( $encode =~ /^(off|none)$/i ) {
+
             # no encoding
         }
         elsif ( $encode =~ /^url$/i ) {
             $value =~ s/\r*\n\r*/<br \/>/;    # Legacy
             $value = urlEncode($value);
         }
-        else { # safe or default
-            # entity encode ' " < > and %
+        else {                                # safe or default
+                                              # entity encode ' " < > and %
             $value =~ s/([<>%'"])/'&#'.ord($1).';'/ge;
         }
     }
@@ -4133,7 +4168,8 @@ s/~\[(\*,\_(\d+),[^,]+(,([^,]+))?)~\]/ $max = $2 if ($2 > $max); "[$1]"/ge;
     my $result = $this->i18n->maketext( $str, @args );
 
     # replace accesskeys:
-    $result =~ s#(^|[^&])&([a-zA-Z])#$1<span class='foswikiAccessKey'>$2</span>#g;
+    $result =~
+      s#(^|[^&])&([a-zA-Z])#$1<span class='foswikiAccessKey'>$2</span>#g;
 
     # replace escaped amperstands:
     $result =~ s/&&/\&/g;
@@ -4190,8 +4226,8 @@ sub META {
     elsif ( $option eq 'formfield' ) {
 
         # a formfield from within topic text
-        return  $meta->renderFormFieldForDisplay( 
-                       $params->get('name'), '$value', $params );
+        return $meta->renderFormFieldForDisplay( $params->get('name'), '$value',
+            $params );
     }
     elsif ( $option eq 'attachments' ) {
 
@@ -4202,11 +4238,12 @@ sub META {
         return $this->renderer->renderMoved( $web, $topic, $meta, $params );
     }
     elsif ( $option eq 'parent' ) {
+
         # Only parent parameter has the format option and should do std escapes
-        return expandStandardEscapes( $this->renderer->renderParent(
-                                             $web, $topic, $meta, $params )
-                                    );
+        return expandStandardEscapes(
+            $this->renderer->renderParent( $web, $topic, $meta, $params ) );
     }
+
     # return nothing if invalid parameter
     return '';
 }
@@ -4338,7 +4375,8 @@ sub GROUPS {
         my $groupLink = "<nop>$group";
         $groupLink = '[[' . $Foswiki::cfg{UsersWebName} . ".$group][$group]]"
           if (
-            $this->{store}->topicExists( $Foswiki::cfg{UsersWebName}, $group ) );
+            $this->{store}->topicExists( $Foswiki::cfg{UsersWebName}, $group )
+          );
         my $descr        = "| $groupLink |";
         my $it           = $this->{users}->eachGroupMember($group);
         my $limit_output = 32;
