@@ -123,9 +123,9 @@ sub new {
     $this->{head}    = 0;
     $this->{access}  = '';
     $this->{symbols} = '';
-    $this->{comment} = '# '; # Default comment for Rcs
+    $this->{comment} = '# ';     # Default comment for Rcs
     $this->{desc}    = 'none';
-    $this->initText; # Set default expand to 'o'
+    $this->initText;             # Set default expand to 'o'
     return $this;
 }
 
@@ -339,10 +339,10 @@ sub _process {
         }
         elsif ( $state eq 'deltatext.log' ) {
             if (/\d+\.(\d+)\s+log\s+$/o) {
-                $dnum               = $1;
-		$string =~ s/\n*$//o;
+                $dnum = $1;
+                $string =~ s/\n*$//o;
                 $revs[$dnum]->{log} = $string;
-                $state              = 'deltatext.text';
+                $state = 'deltatext.text';
             }
         }
         elsif ( $state eq 'deltatext.text' ) {
@@ -415,7 +415,8 @@ HERE
         print $file ";\n";
     }
 
-    print $file "\n\n", 'desc', "\n", _formatString( $this->{desc} . "\n" ) . "\n\n";
+    print $file "\n\n", 'desc', "\n",
+      _formatString( $this->{desc} . "\n" ) . "\n\n";
 
     for ( my $i = $this->{head} ; $i > 0 ; $i-- ) {
         print $file "\n", '1.', $i, "\n",
@@ -775,6 +776,7 @@ sub _addChunk {
               . join( "\n", @$lines ) . "\n";
         }
         else {
+
             # Added "\n" at end to correct Item945
             $$out .= 'd' . ( $start + 1 ) . ' ' . $nLines . "\n";
             $nLines *= -1;

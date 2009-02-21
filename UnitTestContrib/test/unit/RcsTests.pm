@@ -22,6 +22,16 @@ my $rTopic = "TestTopic";
 my $fatwilly;
 my $class;
 
+my $time           = time();
+my @historyItem945 = (
+    [ "Wrap", "old\nwrap text\n",            "one", "iron",     $time ],
+    [ "Wrap", "new\nwrap text\n",            "two", "tin",      $time + 1 ],
+    [ "Lite", "old\nlite text\n",            "tre", "zinc",     $time + 2 ],
+    [ "Lite", "new\nlite text\n",            "for", "gold",     $time + 3 ],
+    [ "Wrap", "new\nlite text\n+\@wrap\@\n", "fiv", "titanium", $time + 4 ],
+);
+my @rcsTypes = qw/Wrap Lite/;	# SMELL: can't skip if no RCS installed
+
 sub RcsLite {
     my $this = shift;
     $Foswiki::cfg{StoreImpl} = 'RcsLite';
@@ -682,86 +692,72 @@ sub verify_Item3122 {
 # Verify data compatibility between RcsLite and RcsWrap
 sub test_Item945 {
     my ($this) = @_;
-    my $rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
-    my $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
-    my $time = time();
+    my $testTopic = "TestItem945";
+    for my $depth ( 0 .. $#historyItem945 ) {
+        my ( $rcsType, @params ) = @{ $historyItem945[$depth] };
+        my $rcs =
+          "Foswiki::Store::Rcs$rcsType"->new( $fatwilly, $testWeb, $testTopic );
+        $rcs->addRevisionFromText(@params);
+        $rcs->finish();
+        $this->item945_checkHistory( $depth + 1, $fatwilly, $testWeb,
+            $testTopic );
+    }
+}
 
-    $rcsWrap->addRevisionFromText( "old\nwrap text\n", "one", "iron", $time );
-    
-	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 1, $rcsWrap->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsWrap->getRevisionInfo(1) ] );
-    $this->assert_equals( 1, $rcsLite->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsLite->getRevisionInfo(1) ] );
+sub item945_checkHistory {
+    my ( $this, $depth, $fatwilly, $testWeb, $testTopic ) = @_;
+    for my $rcsType (@rcsTypes) {
+        my $rcs =
+          "Foswiki::Store::Rcs$rcsType"->new( $fatwilly, $testWeb, $testTopic );
+        $this->item945_checkHistoryRcs( $rcs, $depth );
+        $rcs->finish();
+    }
+}
 
-    $rcsWrap->addRevisionFromText( "new\nwrap text\n", "two", "tin",
-        $time + 1 );
-    
-	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 2, $rcsWrap->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsWrap->getRevisionInfo(1) ] );
-    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
-        [ $rcsWrap->getRevisionInfo(2) ] );
-	$rcsLite->finish();
-    $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 2, $rcsLite->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsLite->getRevisionInfo(1) ] );
-    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
-        [ $rcsLite->getRevisionInfo(2) ] );
+sub item945_checkHistoryRcs {
+    my ( $this, $rcs, $depth ) = @_;
+    $this->assert_equals( $depth, $rcs->numRevisions() );
+    for my $digger ( 1 .. $depth ) {
+        $this->assert_deep_equals(
+            [ "$digger", @{ $historyItem945[ $digger - 1 ] }[ 4, 3, 2 ] ],
+            [ $rcs->getRevisionInfo($digger) ] );
+    }
 
-    $rcsLite->addRevisionFromText( "old\nlite text\n",
-        "tre", "zinc", $time + 2 );
-    
-	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 3, $rcsWrap->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsWrap->getRevisionInfo(1) ] );
-    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
-        [ $rcsWrap->getRevisionInfo(2) ] );
-    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
-        [ $rcsWrap->getRevisionInfo(3) ] );
-	$rcsLite->finish();
-    $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 3, $rcsLite->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsLite->getRevisionInfo(1) ] );
-    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
-        [ $rcsLite->getRevisionInfo(2) ] );
-    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
-        [ $rcsLite->getRevisionInfo(3) ] );
+}
 
-    $rcsLite->addRevisionFromText( "new\nlite text\n",
-        "for", "gold", $time + 3 );
-   
-	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 4, $rcsWrap->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsWrap->getRevisionInfo(1) ] );
-    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
-        [ $rcsWrap->getRevisionInfo(2) ] );
-    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
-        [ $rcsWrap->getRevisionInfo(3) ] );
-    $this->assert_deep_equals( [ 4, $time + 3, "gold", "for" ],
-        [ $rcsWrap->getRevisionInfo(4) ] );
-	$rcsLite->finish();
-    $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
-    $this->assert_equals( 4, $rcsLite->numRevisions() );
-    $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
-        [ $rcsLite->getRevisionInfo(1) ] );
-    $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
-        [ $rcsLite->getRevisionInfo(2) ] );
-    $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
-        [ $rcsLite->getRevisionInfo(3) ] );
-    $this->assert_deep_equals( [ 4, $time + 3, "gold", "for" ],
-        [ $rcsLite->getRevisionInfo(4) ] );
+sub item945_fillTopic {
+    my ( $this, $rcs, $time, $fatwilly, $testWeb, $testTopic ) = @_;
+
+    for my $depth ( 0 .. $#historyItem945 ) {
+        my ( undef, @params ) = @{ $historyItem945[$depth] };
+        $rcs->addRevisionFromText(@params);
+        $this->item945_checkHistory( $depth + 1, $fatwilly, $testWeb,
+            $testTopic );
+    }
+}
+
+sub test_Item945_diff {
+    my ($this) = @_;
+    my %content;
+    my $testTopic = "TestItem945";
+    for my $rcsType (@rcsTypes) {
+        my $rcs = "Foswiki::Store::Rcs$rcsType"
+          ->new( $fatwilly, $testWeb, $testTopic . "Rcs$rcsType" );
+        $this->item945_fillTopic( $rcs, $time, $fatwilly, $testWeb,
+            $testTopic . "Rcs$rcsType" );
+        $rcs->finish();
+
+        my $file =
+          "$Foswiki::cfg{DataDir}/$testWeb/${testTopic}Rcs$rcsType.txt,v";
+        open my $fh, '<', $file
+          or die "Can't open $file: $!";
+        {
+            local $/;
+            $content{$rcsType} = <$fh>;
+        }
+    }
+
+    $this->assert_equals( $content{@rcsTypes} );
 }
 
 1;
