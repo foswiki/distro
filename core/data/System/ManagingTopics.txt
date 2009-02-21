@@ -14,7 +14,7 @@ You can use browser-based controls to change a name of a topic, move it to anoth
 %STARTSECTION{"PowerUserGuide"}%
 ---++ How to rename, move or delete a topic
 
-   1. *Click* on the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Rename, move or delete this topic]==. You can now rename and/or move/delete in one operation:
+   1. *Select* the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed. Then, in the new screen, click ==[Rename, move or delete this topic]==. You can now rename and/or move/delete in one operation:
       * *Move/Delete:* Select the target web if other than the current web - choose =Trash= to [[#DeleteTopic][delete a topic]].
       * *Rename:* Enter the new topic name - default is current name %BR%
       %X% You'll be warned if any of the topics to be affected are locked (being edited), or if there is a name conflict.
@@ -22,6 +22,13 @@ You can use browser-based controls to change a name of a topic, move it to anoth
    1. *Click* on ==[Rename]==: the topic will be renamed and links to the topic updated as requested.
       * If any of the referring pages are locked then they will be listed: you can correct these later by again pressing ==[Rename]==.
       * %H% There is a *Put back* feature that allows you to undo a ==rename/move/delete== action - an instruction line and an undo link will appear at the bottom of the modified topic. This allows you to revert from the _last modification only_.
+
+#CopyTopic
+---++ How to copy a topic
+\
+   1 *Select* the ==[More actions]== link (normally located in an action toolbar at the top or bottom of page) on the topic to be changed.
+   1 On the "More actions" page, scroll down to the "Copy topic" section. In the "Name of copy" text box, enter in the new topic name. To copy the topic to another web, fully qualify the topic name with the web name, separating the two with a period (for example, =<noautolink>Web.TopicName</noautolink>=).
+   1 *Select* the ==[Copy topic]== button. You will be directed to an edit page for the newly-created topic. You can save the new copy immediately, or make some changes and then save it.
 
 #DeleteTopic
 ---++ Deleted topics: How to clear the trash

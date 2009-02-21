@@ -52,33 +52,35 @@ If you do not have shell access to your web server host, see the section "[[#Upl
 
 ---+++ Set the file and directory permissions for the installation
 
-*Setup access file and directory rights*, as well as file ownership, as required by your web server configuration so that the web server user (the user used by Apache to run the CGI programs) can read and write within the =foswiki= directory tree.
+*Set up access file and directory rights*, as well as file ownership, as required by your web server configuration so that the web server user (the user used by the web server to run CGI programs) can read and write within the =foswiki= directory tree.
 <!-- to be included once the supplemental document is available
 Note: for more information on the appropriate permissions to ensure security for your Foswiki data, see Foswiki:Support.SecuringYourSite.
 -->
-\
-   * *Warning:* Do not just run a =chmod -R 770 foswiki=. The access rules have different meaning for files and directories. This is the most common mistake installers make.
-   * By default, the file and directory access permissions as set by the distribution define a reasonable security level that will work for all types of installations, including shared hosting.
-   * It is possible to define tighter access permissions than the default ones; how tight they should be depends on your web server environment and local needs. Typically you should limit all access from others if the web server machine has login access for users other than root and the web server administrator. For a dedicated web server that just runs Foswiki and has limited login access, the default access permissions have a good safety level.
-   * If you change the access permissions in a way that makes Foswiki stop working, you can restore the access permissions back to their original values by running the script located at Foswiki:Support.SettingFileAccessRightsLinuxUnix.
-   * _If you have root user permissions_, then you can change the ownership of the =foswiki= directory tree to the web server user, using the command =chown -R user:group /path/to/foswiki=. The web server username varies from Distributions. Examples for some major distributions: 
-      * !RedHat, Fedora, !CentOS, Gentoo, Mandriva : =chown -R apache:apache /path/to/foswiki=
-      * debian/Ubuntu/Kubunto : =chown -R www-data:www-data /path/to/foswiki=
-      * Suse : =chown -R wwwrun:www /path/to/foswiki=
-   * Files in the =pub= directory must be accessible via an URL. This means that the web server user must have read and execute access to the =pub= directory and all subdirectories, and read access to all files beneath the =pub= directory. If you can run a =chmod= command, run the following commands in the parent directory for the =pub= directory:<sticky><verbatim>
-   chmod -R 755 pub
-   find pub -type f -print | xargs chmod 644</verbatim></sticky>
-   Replace "755" and "644" with the appropriate permissions settings required by your web server configuration so that the web server can access the =pub= directory and its files.
 
+The default file and directory access permissions as set by the distribution define a reasonable security level that will work for many types of installations, including shared hosting. Nonetheless, you should verify that the web server user has read access to all files and directories beneath the =foswiki= directory, and execute access for all directories. Also verify that the =data= and =pub= directories and all the subdirectories and files beneath them allow write access for the web server user.
+   * *Warning:* Do not just run a =chmod -R 770 foswiki=. Providing execute access to all files is potentially dangerous. This is a common mistake made by Foswiki installers. See Foswiki:Support.SettingFileAccessRightsLinuxUnix for a sample set of Unix commands to set the file and directory permissions.
+
+It is possible to define tighter access permissions than the default ones; how tight they should be depends on your web server environment and local needs. Typically you should limit all access from others if the web server machine has login access for users other than root and the web server administrator. For a dedicated web server that just runs Foswiki and has limited login access, the default access permissions have a good safety level.
+
+_If you have root user permissions_, then for additional security, you can change the ownership of the =foswiki= directory tree to the web server user, using the command =chown -R user:group /path/to/foswiki=. The web server username varies in different installations; here are some sample commands for various Linux distributions:
+   * !RedHat, Fedora, !CentOS, Gentoo, Mandriva : =chown -R apache:apache /path/to/foswiki=
+   * debian/Ubuntu/Kubuntu : =chown -R www-data:www-data /path/to/foswiki=
+   * Suse : =chown -R wwwrun:www /path/to/foswiki=
+
+If Foswiki stops working after you applied a change in access permissions and you wish to restore the original permissions, run the Unix commands located at Foswiki:Support.SettingFileAccessRightsLinuxUnix.
+
+\
 ---+++ Configure the locations of the Perl executable and the Foswiki modules
 
 *Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system.
-   * The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script in the =bin= directory. You can use the rewriteshebang.pl script in the tools directory. For example:<verbatim>
+   * The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script in the =bin= and =tools= directories. (You may need to first add write permissions to all scripts.) You can use the rewriteshebang.pl script in the tools directory. For example:<verbatim>
    cd /path/to/foswiki/bin
    /path/to/perl ../tools/rewriteshebang.pl
    # At the prompt, enter the full path to the perl executable, including
    # the full filename of the executable. You will be prompted twice for
-   # this information in order to confirm it.</verbatim>
+   # this information in order to confirm it.
+   cd /path/to/foswiki/tools
+   /path/to/perl ../tools/rewriteshebang.pl</verbatim>
 
 *Create the file <nop>Local<nop>Lib.cfg* located at =bin/LocalLib.cfg=
    * In the <kbd>bin</kbd> directory, copy the template file <kbd>LocalLib.cfg.txt</kbd> to <kbd>LocalLib.cfg</kbd>&nbsp;. Make sure the ownership and access rights of the copy are the same as <nop>Local<nop>Lib.cfg.txt.
@@ -95,7 +97,7 @@ First choose the best configuration method for your web server. With Apache, the
    * The easiest and best way is to use the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation, based on the options you choose in the tool.
    * For a sample config file, see =foswiki_httpd_conf.txt= in the root of the foswiki installation.
    * Ensure that access is denied to all Foswiki subdirectories other than the =bin= and =pub= subdirectories. The Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings; the =foswiki_httpd_conf.txt= file also has examples of configuring Apache to deny access to all subdirectories other than =bin= and =pub=.
-   * Ensure there is either a ScriptAlias directive or an Options ExecCGI directive for the =foswiki/bin= subdirectory, so all scripts in the =bin= directory will be executed by Apache.
+   * Ensure there is either a =<noautolink>ScriptAlias<noautolink>= directive or an =Options <noautolink>ExecCGI</noautolink>= directive for the =foswiki/bin= subdirectory, so all scripts in the =bin= directory will be executed by Apache.
    * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
 
 *If you are using an .htaccess file:* 
@@ -118,7 +120,7 @@ To limit access to a particular user, set up an .htpasswd file that contains the
    * Change to the =foswiki/data= directory.
    * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. Enter a password when prompted. Note this username cannot be used later on to register in Foswiki.
 
-The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files show how to configure Apache so that the =configure= page will be protected using the user and password held in the =data/.htpasswd= file. The Apache config file / .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Ensure the user specified in the directive matches the &lt;username&gt; you used when creaeting the .htpasswd file.
+The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files show how to configure Apache so that the =configure= page will be protected using the user and password held in the =data/.htpasswd= file. The Apache config file or .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Ensure the user specified in the directive matches the &lt;username&gt; you used when creating the .htpasswd file.
 
 *Note:* When you use the =configure= page for the first time to save any settings, you will be prompted to enter a password for the =configure= page. This pasword is used for all subsequent configuration changes, as well as for logging in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Note even after a =configure= password has been set, access to the =configure= page should continue to be restricted by the web server, in order to avoid revealing internal information to potential attackers.
 
@@ -151,7 +153,7 @@ To setup Template Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-   1 *Verify that registration works.* Register yourself using the [[%SYSTEMWEB%.UserRegistration]] topic.<br /> %H% Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
+   1 *Verify that registration works.* Register yourself using the [[%SYSTEMWEB%.UserRegistration]] topic.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
    1 *Check that authentication works.* Edit a topic by clicking on the =Edit= link at the top or bottom of a topic. If you have been authenticated, then you will see the edit page; otherwise, you will see an error message.
 
 As Template Login uses a web page for its login prompt, there is a great deal of flexibility in customizing the login page for your purposes.
@@ -160,6 +162,8 @@ As Template Login uses a web page for its login prompt, there is a great deal of
 
 With Apache Login enabled, when Foswiki needs to authenticate the user, the standard HTTP authentication mechanism is used: the browser itself will prompt for a user name and password.
 
+*Note:* Apache Login is required for Apache-based login methods such as mod_ldap.
+
 To setup Apache Login, perform the following steps:
 
    1 *Configure Apache Login.* Under the =Security Settings= pane of the =configure= page:
@@ -167,15 +171,13 @@ To setup Apache Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<verbatim>
+      1 Configure your Apache settings for HTTP authentication. Use the Foswiki:Support.ApacheConfigGenerator tool or the =foswiki/bin/.htaccess= file to set the following Apache directives on the =bin= scripts:<sticky><verbatim>
       <FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
       require valid-user
-      </FilesMatch></verbatim>
+      </FilesMatch></verbatim></sticky>
       You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
-   1 *Verify that registration works.* Register yourself using the [[%SYSTEMWEB%.UserRegistration]] topic.<br /> %H% Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
+   1 *Verify that registration works.* Register yourself using the [[%SYSTEMWEB%.UserRegistration]] topic.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
    1 *Check that authentication works.* Edit a topic by clicking on the =Edit= link at the top or bottom of a topic. If you have been authenticated, then you will see the edit page; otherwise, you will see an error message.
-
-Apache Login is required for Apache-based login methods such as mod_ldap.
 
 #DefineAdminUser
 ---+++ Define the administrator user(s)
@@ -248,13 +250,13 @@ If you are not using Foswiki to manage your users' passwords or email addresses,
    * =[[%SYSTEMWEB%.ChangeEmailAddress]]=
 
 #TailorUsersTopic
----++++ Customize the home topic for new users
+---++++ Customize the user topic for new users
 
-When a new user registers on your Foswiki site, a home topic is created for the user based on the [[%SYSTEMWEB%.NewUserTemplate]] topic (and its associated [[%SYSTEMWEB%.UserForm]]). If you want to customize the home topic for your users, you should copy =%SYSTEMWEB%.NewUserTemplate= and =%SYSTEMWEB%.UserForm= to =[[%USERSWEB%.NewUserTemplate]]= and =[[%USERSWEB%.UserForm]]=, so you will not lose your customizations the next time you upgrade Foswiki. Your versions in the %USERSWEB% web will override the default versions in the %SYSTEMWEB% web.
+When a new user registers on your Foswiki site, a topic with a name corresponding to the user's !WikiName is created in the %USERSWEB% web: this topic is the user's user topic. The user topic is based on the =[[%USERSWEB%.NewUserTemplate]]= topic; if it is not present, then =[[%SYSTEMWEB%.NewUserTemplate]]= (and its associated =[[%SYSTEMWEB%.UserForm]]=) is used as a default. If you want to customize the user topic for your users, copy =%SYSTEMWEB%.NewUserTemplate= to =[[%USERSWEB%.NewUserTemplate]]=, and =%SYSTEMWEB%.UserForm= to =[[%USERSWEB%.UserForm]]=, and make your changes to =[[%USERSWEB%.NewUserTemplate]]= and =[[%USERSWEB%.UserForm]]=. (See Foswiki:System.ManagingTopics#CopyTopic for instructions on copying a topic.)
 
 You can edit these topics to suit your needs, such as the following:
    * Customize the user topic for your site.
-   * Add an ALLOWTOPICCHANGE preference setting to =[[%USERSWEB%.NewUserTemplate]]= so only the user can edit their own home topic. In particular, on a public Foswiki site, restricting edit access will avoid vandalism and spam.
+   * Add an ALLOWTOPICCHANGE preference setting to =[[%USERSWEB%.NewUserTemplate]]= so only the user can edit their own user topic. In particular, on a public Foswiki site, restricting edit access will avoid vandalism and spam.
    * Add and remove fields defined in the =[[%USERSWEB%.UserForm]]=.
 
 If you added or removed fields from the user form you may also need to tailor =[[%USERSWEB%.UserRegistration]]= to match (copy over the contents from [[%SYSTEMWEB%.UserRegistration]] to =%USERSWEB%.UserRegistration= when creating it).
@@ -292,7 +294,7 @@ To change the copyright statement, perform the following steps:
 
 ---++++ WYSIWYG vs Raw Edit
 
-In Foswiki 1.0.0, the WYSIWYG editor is used by default in edit mode. An _Edit Raw_ link is available for those who prefer to edit the raw topic text.
+In Foswiki, the WYSIWYG editor is used by default in edit mode. An _Edit Raw_ link is available for those who prefer to edit the raw topic text.
 
 If you prefer to use the raw text editor by default and have a separate WYSIWYG button, as in TWiki 4.1, then you can modify the templates that define the edit screen as described in Foswiki:Support.FaqHowToMakeRawEditDefault.
 
@@ -413,15 +415,15 @@ If you cannot unpack the Foswiki distribution directly in your installation dire
    * Upload the Foswiki files by FTP (transfer as text except for the image files in =pub= directory.)
    * *Note:* Don't worry if you are not able to put the =lib= directory at the same level as the =bin= directory. You can create this directory elsewhere and configure the =bin/setlib.cfg= file.<sticky>
    | *Foswiki dir:* | *What it is:* | *Where to copy:* | *Example:* |
-   | =foswiki= | start-up pages | root Foswiki dir | =/home/smith/foswiki/= |
-   | =foswiki/bin= | CGI bin | CGI-enabled dir | =/home/smith/foswiki/bin= |
-   | =foswiki/lib= | library files | same level as =bin= | =/home/smith/foswiki/lib= |
-   | =foswiki/locale= | language files | dir secure from public access | =/home/smith/foswiki/locale= |
-   | =foswiki/pub= | public files | htdoc enabled dir | =/home/smith/foswiki/pub= |
-   | =foswiki/data= | topic data | dir secure from public access | =/home/smith/foswiki/data= |
-   | =foswiki/templates= | web templates | dir secure from public access | =/home/smith/foswiki/templates= |
-   | =foswiki/tools= | Foswiki utlilities | dir secure from public access | =/home/smith/foswiki/tools= |
-   | =foswiki/working= | Temporary and internal files | dir secure from public access | =/home/smith/foswiki/working= |</sticky>
+   | =foswiki= | start-up pages | root Foswiki dir | =/home/smith/public_html/foswiki/= |
+   | =foswiki/bin= | CGI bin | CGI-enabled dir | =/home/smith/public_html/foswiki/bin= |
+   | =foswiki/lib= | library files | same level as =bin= | =/home/smith/public_html/foswiki/lib= |
+   | =foswiki/locale= | language files | dir secure from public access | =/home/smith/public_html/foswiki/locale= |
+   | =foswiki/pub= | public files | htdoc enabled dir | =/home/smith/public_html/foswiki/pub= |
+   | =foswiki/data= | topic data | dir secure from public access | =/home/smith/public_html/foswiki/data= |
+   | =foswiki/templates= | web templates | dir secure from public access | =/home/smith/public_html/foswiki/templates= |
+   | =foswiki/tools= | Foswiki utlilities | dir secure from public access | =/home/smith/public_html/foswiki/tools= |
+   | =foswiki/working= | Temporary and internal files | dir secure from public access | =/home/smith/public_html/foswiki/working= |</sticky>
 
 #ConfiguringFoswikiManually
 ---++ Configuring Foswiki manually (without using the =configure= page)
