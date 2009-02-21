@@ -19,7 +19,7 @@ my $testWeb = "TestRcsWebTests";
 my $user = "TestUser1";
 
 my $rTopic = "TestTopic";
-my $twiki;
+my $fatwilly;
 my $class;
 
 sub RcsLite {
@@ -53,7 +53,7 @@ sub set_up {
     die unless (defined $Foswiki::cfg{PubUrlPath});
     die unless (defined $Foswiki::cfg{ScriptSuffix});
     $Foswiki::cfg{Register}{AllowLoginName}    =  1;
-    $twiki = new Foswiki();
+    $fatwilly = new Foswiki();
     no warnings 'redefine';
     *Foswiki::Sandbox::TRACE = sub {};
     use warnings 'redefine';
@@ -66,8 +66,8 @@ sub set_up {
     #$Foswiki::Sandbox::EMULATED_SAFE_PIPE_OPEN = 0;
 
     $Foswiki::cfg{WarningFileName} = "$Foswiki::cfg{TempfileDir}/junk";
-    die unless $twiki;
-    die unless $twiki->{prefs};
+    die unless $fatwilly;
+    die unless $fatwilly->{prefs};
     File::Path::mkpath("$Foswiki::cfg{DataDir}/$testWeb");
     File::Path::mkpath("$Foswiki::cfg{PubDir}/$testWeb");
     $this->assert(open(F, ">$Foswiki::cfg{TempfileDir}/itme3122"), $!);
@@ -81,7 +81,7 @@ sub tear_down {
     unlink "$Foswiki::cfg{TempfileDir}/itme3122";
     File::Path::rmtree("$Foswiki::cfg{DataDir}/$testWeb");
     File::Path::rmtree("$Foswiki::cfg{PubDir}/$testWeb");
-    $twiki->finish();
+    $fatwilly->finish();
     $this->SUPER::tear_down();
 }
 
@@ -98,7 +98,7 @@ sub verify_RepRev {
     my ($this) = @_;
     my $topic = "RcsRepRev";
 
-    my $rcs = $class->new( $twiki, $testWeb, $topic, "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "there was a man\n\n", "in once", "JohnTalintyre" );
     $this->assert_equals( "there was a man\n\n", $rcs->getRevision(1) );
     $this->assert_equals( 1, $rcs->numRevisions() );
@@ -122,7 +122,7 @@ sub verify_RepRev2839 {
     my ($this) = @_;
     my $topic = "RcsRepRev";
 
-    my $rcs = $class->new( $twiki, $testWeb, $topic, "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "there was a man", "in once", "JohnTalintyre" );
     $this->assert_equals( "there was a man", $rcs->getRevision(1) );
     $this->assert_equals( 1, $rcs->numRevisions() );
@@ -150,7 +150,7 @@ sub verify_RcsWrapOnly_ciLocked {
     my $this = shift;
     my $topic = "CiTestLockedTempDeleteMeItsOk";
     # create the fixture
-    my $rcs = Foswiki::Store::RcsWrap->new( $twiki, $testWeb, $topic, "" );
+    my $rcs = Foswiki::Store::RcsWrap->new( $fatwilly, $testWeb, $topic, "" );
     $rcs->addRevisionFromText( "Shooby Dooby", "original", "BungditDin" );
     # hack the lock
     my $vfile = $rcs->{file}.",v";
@@ -321,14 +321,14 @@ sub checkGetRevision {
     my( $this, $revs ) = @_;
     my $topic = "TestRcsTopic";
 
-    my $rcs = $class->new( $twiki, $testWeb, $topic );
+    my $rcs = $class->new( $fatwilly, $testWeb, $topic );
 
     for( my $i = 0; $i < scalar(@$revs); $i++ ) {
         my $text = $revs->[$i];
         $rcs->addRevisionFromText( $text, "rev".($i+1), "UserForRev".($i+1) );
     }
 
-    $rcs = $class->new( $twiki, $testWeb, $topic );
+    $rcs = $class->new( $fatwilly, $testWeb, $topic );
 
     $this->assert_equals(scalar(@$revs), $rcs->numRevisions());
     for( my $i = 1; $i <= scalar(@$revs); $i++ ) {
@@ -346,7 +346,7 @@ sub verify_GetBinaryRevision {
     my $atttext1 = "\000123\003\n";
     my $atttext2 = "\003test test test\000\n";
     my $attachment = "file.binary";
-    my $rcs = $class->new( $twiki, $testWeb, $topic, $attachment );
+    my $rcs = $class->new( $fatwilly, $testWeb, $topic, $attachment );
     $rcs->saveFile("tmp.tmp", $atttext1) && die;
     my $fh;
     open($fh, "<tmp.tmp");
@@ -361,7 +361,7 @@ sub verify_GetBinaryRevision {
     close($fh);
     unlink("tmp.tmp");
 
-    $rcs = $class->new( $twiki, $testWeb, $topic, $attachment );
+    $rcs = $class->new( $fatwilly, $testWeb, $topic, $attachment );
 
     my $text = $rcs->getRevision( 1 );
     $this->assert_str_equals( $atttext1, $text );
@@ -374,7 +374,7 @@ sub verify_Keywords {
     my( $this ) = @_;
     my $topic = "TestRcsTopic";
     my $check = '$Author$ $Date$ $Header$ $Id$ $Locker$ $Log$ $Name$ $RCSfile$ $Revision$ $Source$ $State$';
-    my $rcs = $class->new( $twiki, $testWeb, $topic, undef );
+    my $rcs = $class->new( $fatwilly, $testWeb, $topic, undef );
     $rcs->addRevisionFromText( $check, "comment", "UserForRev0" );
     open(F,"<$rcs->{file}") || die "Failed to open $rcs->{file}";
     local $/ = undef;
@@ -386,12 +386,12 @@ sub checkDifferences {
     my( $this, $set ) = @_;
     my($from, $to) = @$set;
     my $topic = "RcsDiffTest";
-    my $rcs = $class->new( $twiki, $testWeb, $topic, "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, $topic, "" );
 
     $rcs->addRevisionFromText( $from, "num 0", "RcsWrapper" );
     $rcs->addRevisionFromText( $to, "num 1", "RcsWrapper" );
 
-    $rcs = $class->new( $twiki, $testWeb, $topic, "" );
+    $rcs = $class->new( $fatwilly, $testWeb, $topic, "" );
 
     my $diff = $rcs->revisionDiff( 1, 2 );
 
@@ -431,11 +431,11 @@ sub checkDifferences {
 sub verify_RevAtTime {
     my( $this ) = @_;
 
-    my $rcs = $class->new( $twiki, $testWeb, 'AtTime', "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'AtTime', "" );
     $rcs->addRevisionFromText( "Rev0\n", '', "RcsWrapper", 0 );
     $rcs->addRevisionFromText( "Rev1\n", '', "RcsWrapper", 1000 );
     $rcs->addRevisionFromText( "Rev2\n", '', "RcsWrapper", 2000 );
-    $rcs = $class->new( $twiki, $testWeb, 'AtTime', "" );
+    $rcs = $class->new( $fatwilly, $testWeb, 'AtTime', "" );
 
     my $r = $rcs->getRevisionAtTime(500);
     $this->assert_equals(1, $r);
@@ -448,12 +448,12 @@ sub verify_RevAtTime {
 sub verify_RevInfo {
     my( $this ) = @_;
 
-    my $rcs = $class->new( $twiki, $testWeb, 'RevInfo', "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'RevInfo', "" );
     $rcs->addRevisionFromText( "Rev1\n", 'FirstComment', "FirstUser", 0 );
     $rcs->addRevisionFromText( "Rev2\n", 'SecondComment', "SecondUser", 1000 );
     $rcs->addRevisionFromText( "Rev3\n", 'ThirdComment', "ThirdUser", 2000 );
 
-    $rcs = $class->new( $twiki, $testWeb, 'RevInfo', "" );
+    $rcs = $class->new( $fatwilly, $testWeb, 'RevInfo', "" );
 
     my ($rev, $date, $user, $comment) = $rcs->getRevisionInfo(1);
     $this->assert_equals(1, $rev);
@@ -487,11 +487,11 @@ sub verify_RevInfo {
 
     unlink($rcs->{rcsFile});
 
-    $rcs = $class->new( $twiki, $testWeb, 'RevInfo', "" );
+    $rcs = $class->new( $fatwilly, $testWeb, 'RevInfo', "" );
 
     ($rev, $date, $user, $comment) = $rcs->getRevisionInfo(3);
     $this->assert_equals(1, $rev);
-    $this->assert_str_equals($twiki->{users}->getCanonicalUserID($Foswiki::cfg{DefaultUserLogin}), $user);
+    $this->assert_str_equals($fatwilly->{users}->getCanonicalUserID($Foswiki::cfg{DefaultUserLogin}), $user);
     $this->assert_str_equals('Default revision information', $comment);
 }
 
@@ -506,7 +506,7 @@ sub verify_MissingVrestoreRev {
     print F "Rev 1\n";
     close(F);
 
-    my $rcs = $class->new( $twiki, $testWeb, 'MissingV', "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'MissingV', "" );
     my ($rev, $date, $user, $comment) = $rcs->getRevisionInfo(3);
     $this->assert_equals(1, $rev);
     $this->assert_equals(1, $rcs->numRevisions());
@@ -539,7 +539,7 @@ sub verify_MissingVrepRev {
     print F "Rev 1\n";
     close(F);
 
-    my $rcs = $class->new( $twiki, $testWeb, 'MissingV', "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'MissingV', "" );
     my ($rev, $date, $user, $comment) = $rcs->getRevisionInfo(3);
     $this->assert_equals(1, $rev);
     $this->assert_equals(1, $rcs->numRevisions());
@@ -570,7 +570,7 @@ sub verify_MissingVdelRev {
     print F "Rev 1";
     close(F);
 
-    my $rcs = $class->new( $twiki, $testWeb, 'MissingV', "" );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'MissingV', "" );
     my ($rev, $date, $user, $comment) = $rcs->getRevisionInfo(3);
     $this->assert_equals(1, $rev);
     $this->assert_equals(1, $rcs->numRevisions());
@@ -642,21 +642,21 @@ HERE
     print F $rev1;
     close(F);
 
-    my $rcs = $class->new( $twiki, $testWeb, 'Item2957', '' );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'Item2957', '' );
     $rcs->addRevisionFromText($rev2, "more", "idiot", time());
-    $rcs = $class->new( $twiki, $testWeb, 'Item2957', '' );
+    $rcs = $class->new( $fatwilly, $testWeb, 'Item2957', '' );
     $rcs->addRevisionFromText($rev3, "more", "idiot", time());
 
-    $rcs = $class->new( $twiki, $testWeb, 'Item2957', '' );
+    $rcs = $class->new( $fatwilly, $testWeb, 'Item2957', '' );
     my $text = $rcs->getRevision(1);
     if ($Foswiki::cfg{OS} eq 'WINDOWS') {
         $text =~ s/\r\n/\n/sg;
     }
     $this->assert_equals($rev1, $text);
-    $rcs = $class->new( $twiki, $testWeb, 'Item2957', '' );
+    $rcs = $class->new( $fatwilly, $testWeb, 'Item2957', '' );
     $text = $rcs->getRevision(2);
     $this->assert_equals($rev2, $text);
-    $rcs = $class->new( $twiki, $testWeb, 'Item2957', '' );
+    $rcs = $class->new( $fatwilly, $testWeb, 'Item2957', '' );
     $text = $rcs->getRevision(3);
     $this->assert_equals($rev3, $text);
 }
@@ -664,11 +664,11 @@ HERE
 sub verify_Item3122 {
     my( $this ) = @_;
 
-    my $rcs = $class->new( $twiki, $testWeb, 'Item3122', 'itme3122' );
+    my $rcs = $class->new( $fatwilly, $testWeb, 'Item3122', 'itme3122' );
     $rcs->addRevisionFromText("new", "more", "idiot", time());
     my $text = $rcs->getRevision(1);
     $this->assert_equals("new", $text);
-    $rcs = $class->new( $twiki, $testWeb, 'Item3122', 'itme3122' );
+    $rcs = $class->new( $fatwilly, $testWeb, 'Item3122', 'itme3122' );
     my $fh;
     $this->assert(open($fh, "<$Foswiki::cfg{TempfileDir}/itme3122"), $!);
     $rcs->addRevisionFromStream($fh, "more", "idiot", time());
@@ -682,14 +682,14 @@ sub verify_Item3122 {
 # Verify data compatibility between RcsLite and RcsWrap
 sub test_Item945 {
     my ($this) = @_;
-    my $rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
-    my $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    my $rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
+    my $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
     my $time = time();
 
     $rcsWrap->addRevisionFromText( "old\nwrap text\n", "one", "iron", $time );
     
 	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
+	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 1, $rcsWrap->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
@@ -701,14 +701,14 @@ sub test_Item945 {
         $time + 1 );
     
 	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
+	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 2, $rcsWrap->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
     $this->assert_deep_equals( [ 2, $time + 1, "tin", "two" ],
         [ $rcsWrap->getRevisionInfo(2) ] );
 	$rcsLite->finish();
-    $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 2, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
@@ -719,7 +719,7 @@ sub test_Item945 {
         "tre", "zinc", $time + 2 );
     
 	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
+	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 3, $rcsWrap->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
@@ -728,7 +728,7 @@ sub test_Item945 {
     $this->assert_deep_equals( [ 3, $time + 2, "zinc", "tre" ],
         [ $rcsWrap->getRevisionInfo(3) ] );
 	$rcsLite->finish();
-    $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 3, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
@@ -741,7 +741,7 @@ sub test_Item945 {
         "for", "gold", $time + 3 );
    
 	$rcsWrap->finish();
-	$rcsWrap = new Foswiki::Store::RcsWrap( $twiki, $testWeb, 'PinkPen' );
+	$rcsWrap = new Foswiki::Store::RcsWrap( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 4, $rcsWrap->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsWrap->getRevisionInfo(1) ] );
@@ -752,7 +752,7 @@ sub test_Item945 {
     $this->assert_deep_equals( [ 4, $time + 3, "gold", "for" ],
         [ $rcsWrap->getRevisionInfo(4) ] );
 	$rcsLite->finish();
-    $rcsLite = new Foswiki::Store::RcsLite( $twiki, $testWeb, 'PinkPen' );
+    $rcsLite = new Foswiki::Store::RcsLite( $fatwilly, $testWeb, 'PinkPen' );
     $this->assert_equals( 4, $rcsLite->numRevisions() );
     $this->assert_deep_equals( [ 1, $time, "iron", "one" ],
         [ $rcsLite->getRevisionInfo(1) ] );
