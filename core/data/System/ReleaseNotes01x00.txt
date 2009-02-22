@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.0 - 09 Jan 2009
+---+!! Foswiki Release 1.0.1 - 24 Feb 2009
 
 %TOC%
 
@@ -11,11 +11,16 @@ Foswiki is a wiki: fundamentally, a website with editable web pages. It looks li
 
 Foswiki is a structured wiki with tools that enable users without programming skills to build powerful yet simple applications to process information and support workflows. Developers can extend the functionality of Foswiki with plugins.
 
-Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.0.0 ships with a !TWikiCompatibilityPlugin installed and activated by default, thus enabling most extensions made for TWiki to work under Foswiki. Foswiki is released under the GNU General Public License.
+Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.0 ships with a !TWikiCompatibilityPlugin installed and activated by default, thus enabling most extensions made for TWiki to work under Foswiki. Foswiki is released under the GNU General Public License.
+
+---++ Foswiki 1.0 Releases
+
+   * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
+   * Foswiki 1.0.1 was released 24 Feb 2009. It is a patch release with around 70 bug fixes and only very few minor enhancements.   
 
 ---++ Pre-installed Extensions
 
-Foswiki 1.0.0 is shipped with the following:
+Foswiki 1.0.1 is shipped with the following:
 
    * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
    * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
@@ -24,7 +29,7 @@ Foswiki 1.0.0 is shipped with the following:
 
 ---++ What's new &mdash; highlights
 
-   * Foswiki 1.0.0 is built on a new platform called [[Foswiki:Development.FoswikiStandAlone][Foswiki Stand Alone]] which adds support for [[Foswiki:Extensions.FastCGIEngineContrib][FastCGI]] and enables more optimized functionality in mod_perl and other similar runtime environments. Foswiki Stand Alone also enables future features such as running Foswiki by itself without a separate web server (for example, from a stand alone memory key). You can ensure your applications and plugins will work properly on the new platform (and thus with any future capabilities dependent on the new architecture) by testing them out now with Foswiki 1.0.0.
+   * Foswiki 1.0 is built on a new platform called [[Foswiki:Development.FoswikiStandAlone][Foswiki Stand Alone]] which adds support for [[Foswiki:Extensions.FastCGIEngineContrib][FastCGI]] and enables more optimized functionality in mod_perl and other similar runtime environments. Foswiki Stand Alone also enables future features such as running Foswiki by itself without a separate web server (for example, from a stand alone memory key). You can ensure your applications and plugins will work properly on the new platform (and thus with any future capabilities dependent on the new architecture) by testing them out now with Foswiki 1.0.
    * A !TWikiCompatibilityPlugin has been created that enables most extensions made for TWiki to work under Foswiki, and to support seamless migrations from TWiki to Foswiki.
    * The !PatternSkin has been given a facelift: The !PatternSkin topic offers a choice of multiple themes, the sidebar can be placed either on the left or right, a frame can be added around the main content area, and a TWiki theme is available to make it easier for those upgrading from TWiki (dimensions such as the top bar size match the dimensions in the TWiki !PatternSkin).
    * The "Advanced Search" page now supports a query-based search.
@@ -38,7 +43,7 @@ Foswiki 1.0.0 is shipped with the following:
 
 Foswiki is much more secure than TWiki 4.2.4.
 
-   * Foswiki 1.0.0 has secured by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
+   * Foswiki 1.0 has secured by default the powerful but also vulnerable URLPARAM macro against cross site scripting (XSS) attacks. URLPARAM now by default encodes a short list of unsafe characters ='"&lt;&gt;%= which eliminates most XSS possibilities encountered with URLPARAM. This protects all topics using the URLPARAM macro without requiring any changes to them.
    * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS, like URLPARAM, is now encoded with the new, safe encoding.
    * The print preview link is no longer vulnerable to XSS attacks.
    * Additional security fixes have been made, based on security audits performed by the Foswiki team. Sensitive data from the topic text and web client requests are validated for safety.
@@ -138,15 +143,34 @@ When you upgrade from TWiki, copy the old TWikiUsers topic to WikiUsers and manu
 
 Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. </noautolink>
 
+---++ Important Changes since Foswiki 1.0.0
+
+Fixed 70 bugs since Foswiki 1.0.0. Quite many of these are bugs that originate from TWiki 4.2.3. The most important bugs are 
+   * Fixed some bugs related to expired sessions and date in session cookies.
+   * Fixed a number of bugs in configure related to installation of extensions
+   * Fixed a bug that prevented proper operation with https
+   * Fixed a bug related to VIEW_TEMPLATE and preview
+   * Enhanced the user interface of configure
+   * Added approx. 30 more bugs to the list of bugs fixed in 1.0.0 that we missed in the 1.0.0 version of these release notes.
+
+See full list of fixed bugs below.
+
 ---++ Important Changes since TWiki 4.2.3
 
 If this release had been a TWiki release it would have been 4.3.0
 
 Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, all changes since this release are listed below.
 
+---++ Foswiki Release 1.0.0 Details
+
 ---+++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item38][Item38]] | Replace backtick, exec and system calls to use Sandbox.. |
+| [[%BUGS%/Item41][Item41]] | Remove the duplicate TAG topics - like VarREVINFO and VarREVINFO2 |
+| [[%BUGS%/Item42][Item42]] | SECURITY: REVINFO reveals info for a topic the user does not have permission to view. |
+| [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
+| [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
 | [[%BUGS%/Item109][Item109]] | Rename all topics that have the T-word in them |
 | [[%BUGS%/Item110][Item110]] | Replace all occurences of %TWIKIWEB% in core, docs and default plugins with %SYSTEMWEB%  |
 | [[%BUGS%/Item113][Item113]] | Rebrand css classes from twikiXxxxx to foswikiXxxxxx |
@@ -157,8 +181,9 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item128][Item128]] | Error in oopsmore |
 | [[%BUGS%/Item136][Item136]] | remove pattern skin css classes from default skin - replace with twiki* ready for re-brand |
 | [[%BUGS%/Item137][Item137]] | Register show user's a failure when sendmail returns non-zero |
-| [[%BUGS%/Item1607][Item1607]] | TOC does not distinguish two headlines that have the same text |
+| [[%BUGS%/Item139][Item139]] | Do not use an Oops redirect when a URL is mistyped |
 | [[%BUGS%/Item168][Item168]] | Review all SEARCH statements in the docco & convert to query or more contemporary TML |
+| [[%BUGS%/Item175][Item175]] | Create TWiki compatibility plugin |
 | [[%BUGS%/Item191][Item191]] | remove the stupid kids from pattern skin |
 | [[%BUGS%/Item203][Item203]] | Rebrand the !TipsContrib |
 | [[%BUGS%/Item205][Item205]] | Replace all TWiki webnames to %SYSTEMWEB% |
@@ -168,13 +193,15 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item218][Item218]] | Change the links in plugins to foswiki.org |
 | [[%BUGS%/Item221][Item221]] | Change Interwiki links in docs to Foswiki |
 | [[%BUGS%/Item230][Item230]] | lib/CPAN/lib missing in INC path |
+| [[%BUGS%/Item240][Item240]] | Interval parser is a bit crap; no tests, and does too much work |
 | [[%BUGS%/Item244][Item244]] | nonwikiword is never really checked |
-| [[%BUGS%/Item2525][Item2525]] | TablePlugin produces bad links for sorting when using "short" URLs |
 | [[%BUGS%/Item254][Item254]] | add -Autoconf to pseudo-install.pl  |
 | [[%BUGS%/Item264][Item264]] | Rebrand pattern skin |
 | [[%BUGS%/Item265][Item265]] | Rebranding EditTablePlugin for Foswiki |
 | [[%BUGS%/Item267][Item267]] | Update file table in plugins that contains TWiki directories |
 | [[%BUGS%/Item273][Item273]] | Rename twiki.tmpl -> foswiki.tmpl |
+| [[%BUGS%/Item253][Item253]] | Remove hack from Foswiki.pm |
+| [[%BUGS%/Item287][Item287]] | Plugins documentation is incomplete |
 | [[%BUGS%/Item295][Item295]] | Replacing TWiki with Foswiki in core docs and default plugins |
 | [[%BUGS%/Item297][Item297]] | viewfile can't be used as a dropin replacement for {pubUrl}, and when viewfile fails it redirects to an oops mess |
 | [[%BUGS%/Item300][Item300]] | Rebranding root-level documentation |
@@ -192,6 +219,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item375][Item375]] | Eliminate use of URLPARAM in docs so it becomes an XSS trap |
 | [[%BUGS%/Item384][Item384]] | Improve function getElementsByClassName |
 | [[%BUGS%/Item385][Item385]] | Improve layout attachment button and form header. Add attachment counter |
+| [[%BUGS%/Item386][Item386]] | Form.pm calls javascript function launchWindow |
 | [[%BUGS%/Item391][Item391]] | QUERYPARAMSTRING and TOC only url encodes parameter values but not the names |
 | [[%BUGS%/Item393][Item393]] | Add default safe encoding for QUERYPARAMS and add "safe" type to ENCODE |
 | [[%BUGS%/Item401][Item401]] | OSX fails unit tests - notably UTF8 seg faults. |
@@ -200,33 +228,46 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item407][Item407]] | WebRss and Atom search does not work with quotes words |
 | [[%BUGS%/Item417][Item417]] | Undefined subroutine &Foswiki::Users:: ApacheHtpasswdUser::ListIterator called |
 | [[%BUGS%/Item418][Item418]] | Rebranding SlideShowPlugin |
-| [[%BUGS%/Item41][Item41]] | Remove the duplicate TAG topics - like VarREVINFO and VarREVINFO2 |
+| [[%BUGS%/Item427][Item427]] | Url parameters lost after login, when login has triggered by the "login-link" |
 | [[%BUGS%/Item444][Item444]] | Adding a anchor "foswikiTOC" for the TOC to be able to jump up to it |
-| [[%BUGS%/Item4463][Item4463]] | Template Path is wrong for Skin customization using topics |
 | [[%BUGS%/Item462][Item462]] | Improved user interface and interaction on the topic that is shown when a topic does not exist |
 | [[%BUGS%/Item471][Item471]] | WebSearch and WebSearchAdvanced keep moveing the user to the TWiki web, rather than staying where the users asked to be |
 | [[%BUGS%/Item474][Item474]] | PreferencesPlugin does not understand Local |
-| [[%BUGS%/Item4835][Item4835]] | !SpreadSheetPlugin functions SUBSTITUTE and REPLACE cannot return number 0 or empty string |
-| [[%BUGS%/Item4868][Item4868]] | Bulk Register fails if Main web is Set ALLOWWEBCHANGE = TWikiAdminGroup |
 | [[%BUGS%/Item486][Item486]] | Beginners start here has obsolete content |
-| [[%BUGS%/Item4906][Item4906]] | Filename of attachments containing a wikiword inside ( ) messes up the file attachment table and other UI |
 | [[%BUGS%/Item491][Item491]] | UserListByPhotograph moved to Image Gallery plugin |
-| [[%BUGS%/Item5006][Item5006]] | Interwiki rule: change Bugs: to Foswikitask:, and Rev: to Foswikirev: |
 | [[%BUGS%/Item509][Item509]] | Remove un-needed pub/WebPreferences/logo.gif files which are not used and still TWiki logos |
 | [[%BUGS%/Item510][Item510]] | Wysiwyg editor takes the background colour for the html body for the editor instead of applying a white background. |
 | [[%BUGS%/Item511][Item511]] | Twisty on login screen creates slightly invalid markup |
-| [[%BUGS%/Item5176][Item5176]] | %SCRIPTSUFFIX is added twice in TOC links |
-| [[%BUGS%/Item5213][Item5213]] | SCRIPTNAME not defined when using Sun One Web Server |
+| [[%BUGS%/Item528][Item528]] | Code validation is weak in places |
 | [[%BUGS%/Item529][Item529]] | fix_local_links needs to point to foswiki.org |
-| [[%BUGS%/Item5350][Item5350]] | NONWIKIWORDFLAG is not resolved |
-| [[%BUGS%/Item5351][Item5351]] | !WebCreateNewTopic filters out international characters |
-| [[%BUGS%/Item5406][Item5406]] | Don't let a skin update break existing left bars and top bar |
+| [[%BUGS%/Item540][Item540]] | Messages missing in Foswiki.pm for INCLUDE Errors |
 | [[%BUGS%/Item541][Item541]] | calling search bin with no empty search string results in white screen instead of response |
-| [[%BUGS%/Item5453][Item5453]] | value of "0" improperly handled as param to ENCODE and SPACEOUT |
-| [[%BUGS%/Item5637][Item5637]] | Move languages.cache to Working where webserver has permission to write so we can leave Locales read only |
+| [[%BUGS%/Item549][Item549]] | FORMFIELD plugin does not render documented format variables; missing literal tokens |
 | [[%BUGS%/Item567][Item567]] | !LoginManager not working with IP matching because of code error in Foswiki's interface to CGI::Session |
 | [[%BUGS%/Item569][Item569]] | ENCODE turns the value 0 into empty string '' |
 | [[%BUGS%/Item570][Item570]] | SPACEOUT fails if value or separator are the string 0 |
+| [[%BUGS%/Item599][Item599]] | Get a Foswiki working in Windows with strawberry perl |
+| [[%BUGS%/Item602][Item602]] | Release tarball could be in a subdirectory |
+| [[%BUGS%/Item629][Item629]] | Unable to access root docs on some installations of Apache. |
+| [[%BUGS%/Item649][Item649]] | Only see TWiki as a valid web if TWikiCompatibilityPlugin is installed and enabled. |
+| [[%BUGS%/Item661][Item661]] | Copy edits to Foswiki release 1.0.0 documentation |
+| [[%BUGS%/Item667][Item667]] | Add WebChangesForAllWebs to System web in the release |
+| [[%BUGS%/Item669][Item669]] | VarADDTOHEAD topic appears to be missing |
+| [[%BUGS%/Item681][Item681]] | can't access system webs like _default |
+| [[%BUGS%/Item1607][Item1607]] | TOC does not distinguish two headlines that have the same text |
+| [[%BUGS%/Item2525][Item2525]] | TablePlugin produces bad links for sorting when using "short" URLs |
+| [[%BUGS%/Item4463][Item4463]] | Template Path is wrong for Skin customization using topics |
+| [[%BUGS%/Item4835][Item4835]] | !SpreadSheetPlugin functions SUBSTITUTE and REPLACE cannot return number 0 or empty string |
+| [[%BUGS%/Item4868][Item4868]] | Bulk Register fails if Main web is Set ALLOWWEBCHANGE = TWikiAdminGroup |
+| [[%BUGS%/Item4906][Item4906]] | Filename of attachments containing a wikiword inside ( ) messes up the file attachment table and other UI |
+| [[%BUGS%/Item5006][Item5006]] | Interwiki rule: change Bugs: to Foswikitask:, and Rev: to Foswikirev: |
+| [[%BUGS%/Item5176][Item5176]] | %SCRIPTSUFFIX is added twice in TOC links |
+| [[%BUGS%/Item5213][Item5213]] | SCRIPTNAME not defined when using Sun One Web Server |
+| [[%BUGS%/Item5350][Item5350]] | NONWIKIWORDFLAG is not resolved |
+| [[%BUGS%/Item5351][Item5351]] | !WebCreateNewTopic filters out international characters |
+| [[%BUGS%/Item5406][Item5406]] | Don't let a skin update break existing left bars and top bar |
+| [[%BUGS%/Item5453][Item5453]] | value of "0" improperly handled as param to ENCODE and SPACEOUT |
+| [[%BUGS%/Item5637][Item5637]] | Move languages.cache to Working where webserver has permission to write so we can leave Locales read only |
 | [[%BUGS%/Item5848][Item5848]] | Number of topics resulting from 2 SEARCH's onthe same topic seems in error (and seems to be duplicated too. |
 | [[%BUGS%/Item5852][Item5852]] | Split out operators into seperate modules, so that extensions can plug in new operators. |
 | [[%BUGS%/Item5859][Item5859]] | Plugin does not work if using NTLM |
@@ -245,14 +286,12 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item5979][Item5979]] | add non-alarmist PerlOnRedHatIsSlow detection to configure |
 | [[%BUGS%/Item5991][Item5991]] | JSCalendarContrib does not work correctly in IE7 |
 | [[%BUGS%/Item5994][Item5994]] | turn on taint mode in configure and fix the problems |
-| [[%BUGS%/Item599][Item599]] | Get a Foswiki working in Windows with strawberry perl |
 | [[%BUGS%/Item6000][Item6000]] | Changes tracked by loginname not wikiname |
 | [[%BUGS%/Item6005][Item6005]] | EditTable Changes "label"-formatted cell in unexpected way |
 | [[%BUGS%/Item6006][Item6006]] | redirectCgiQuery doesn't handle fragments properly & needs minor tweak |
 | [[%BUGS%/Item6014][Item6014]] | Integration of !SortedHeadPlugin into core (Process Add To Head Adds) |
 | [[%BUGS%/Item6022][Item6022]] | ENCODE{} treats % as safe character |
 | [[%BUGS%/Item6026][Item6026]] | With header format emtpy table is initialized with one column only |
-| [[%BUGS%/Item602][Item602]] | Release tarball could be in a subdirectory |
 | [[%BUGS%/Item6031][Item6031]] | TablePlugin date sorting is broken. |
 | [[%BUGS%/Item6039][Item6039]] | Preview does not respect VIEW_TEMPLATE |
 | [[%BUGS%/Item6041][Item6041]] | TinyMCE bug with Firefox 3 and bulleted lists |
@@ -264,30 +303,112 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item6062][Item6062]] | EditTablePlugin destroys verbatim-tags |
 | [[%BUGS%/Item6066][Item6066]] | MailerContrib makes an assumption that cuid == loginname |
 | [[%BUGS%/Item6072][Item6072]] | Can't call method "generate" on unblessed reference at lib/TWiki/Plugins/WysiwygPlugin/HTML2TML/Node.pm line 630. |
+| [[%BUGS%/Item6082][Item6082]] | Deep recursion bug in query search |
 | [[%BUGS%/Item6083][Item6083]] | configure hostname warning is case sensitive |
 | [[%BUGS%/Item6089][Item6089]] | backslash at end of line inside verbatim and pre being used as line continuation |
 | [[%BUGS%/Item6095][Item6095]] | Registration confirmation page fails to display when user confirmation e-mail can't be sent |
 | [[%BUGS%/Item6108][Item6108]] | add docco for customising the registration emails. |
-| [[%BUGS%/Item629][Item629]] | Unable to access root docs on some installations of Apache. |
-| [[%BUGS%/Item649][Item649]] | Only see TWiki as a valid web if TWikiCompatibilityPlugin is installed and enabled. |
-| [[%BUGS%/Item661][Item661]] | Copy edits to Foswiki release 1.0.0 documentation |
-| [[%BUGS%/Item667][Item667]] | Add WebChangesForAllWebs to System web in the release |
-| [[%BUGS%/Item669][Item669]] | VarADDTOHEAD topic appears to be missing |
-| [[%BUGS%/Item67][Item67]] | Any topic that contains a webform that does not exist, causes the topic to be uneditable.  |
-| [[%BUGS%/Item681][Item681]] | can't access system webs like _default |
 | [[%BUGS%/Item8003][Item8003]] | TWiki.SmiliesPlugin TOPIC variable not used for images |
-| [[%BUGS%/Item94][Item94]] | SubscribePlugin trips up on missing _alert() |
  </noautolink>
 
 ---+++ Enhancements
 
 <noautolink>
 | [[%BUGS%/Item39][Item39]] | Add a query search option to webSearchAdvanced |
-| [[%BUGS%/Item4875][Item4875]] | Add javascript function 'makeSafeForTableEntry' |
-| [[%BUGS%/Item3647][Item3647]] | Usability: Control over variable expansion in topic templates |
-| [[%BUGS%/Item1873][Item1873]] | Need Copy topic, not just move and rename |
+| [[%BUGS%/Item51][Item51]] | Option to put buttons above the table |
 | [[%BUGS%/Item381][Item381]] | Add linkclass to style Twisty links |
+| [[%BUGS%/Item442][Item442]] | Throwing a OopsException can now be done with an message by argument |
+| [[%BUGS%/Item1873][Item1873]] | Need Copy topic, not just move and rename |
+| [[%BUGS%/Item3647][Item3647]] | Usability: Control over variable expansion in topic templates |
+| [[%BUGS%/Item4875][Item4875]] | Add javascript function 'makeSafeForTableEntry' |
 | [[%BUGS%/Item5916][Item5916]] | Add !IsEmpty To IF conditions |
+</noautolink>
+
+---++ Foswiki Patch Release 1.0.1 Details
+
+---++ Fixes
+
+<noautolink>
+| [[%BUGS%/Item707][Item707]] | System.InstallationGuide has incorrect link to list of users |
+| [[%BUGS%/Item714][Item714]] | Add a Legacy engine, so Contribs that add scripts to bin dir can work |
+| [[%BUGS%/Item727][Item727]] | Comment plugin loses data |
+| [[%BUGS%/Item736][Item736]] | Comment plugin doesn't know about Compare Revisions |
+| [[%BUGS%/Item742][Item742]] | Wrong =print= in Foswiki::Engine::finalizeHeaders |
+| [[%BUGS%/Item744][Item744]] | Malformed HTTP-Expire-header => data loss after Back-Button in https preview page |
+| [[%BUGS%/Item745][Item745]] | Finalizing proof-reading of fr.po |
+| [[%BUGS%/Item750][Item750]] | INCLUDINGWEB and INCLUDINGTOPIC will cause confusion when used in an INCLUDE chain |
+| [[%BUGS%/Item751][Item751]] | Installed Plugins should be listed on the AdminTools topic explicitly |
+| [[%BUGS%/Item753][Item753]] | Foswiki::Time::parseTime has a major parsing bug for some date formats |
+| [[%BUGS%/Item754][Item754]] | found a pattern skin doc that uses T* |
+| [[%BUGS%/Item763][Item763]] | change /Foswiki to /System in foswiki_httpd_conf.txt |
+| [[%BUGS%/Item764][Item764]] | Additional extensions installed via configure "FindMoreExtensions" get not listed in the "Installed Version" column and are not "upgradeable" |
+| [[%BUGS%/Item767][Item767]] | AUTOINC in the title messes up merge and crashes |
+| [[%BUGS%/Item776][Item776]] | Installer truncates dependencies in plugins |
+| [[%BUGS%/Item781][Item781]] | Forms fields expand variables like $nop, $quote $percnt |
+| [[%BUGS%/Item791][Item791]] | Cannot set WEBHEADERART in pattern skin anymore |
+| [[%BUGS%/Item793][Item793]] | Print crops the page in PatternSkin and thus in Foswiki.org skin |
+| [[%BUGS%/Item818][Item818]] | Foswiki::Request::url doesn't honor $Foswiki::cfg{ScriptSuffix} |
+| [[%BUGS%/Item819][Item819]] | bad class selectors in template make it impossible to style certain elements |
+| [[%BUGS%/Item833][Item833]] | Missing SYSTEMWEB in foswiki_vars |
+| [[%BUGS%/Item835][Item835]] | Exchanged the current default skin by something which is not written in totaly broken html |
+| [[%BUGS%/Item836][Item836]] | view of raw information on a topic that doesn't exist causes BOOM |
+| [[%BUGS%/Item841][Item841]] | the warning parameter if ignored for Sectional INCLUDEs |
+| [[%BUGS%/Item846][Item846]] | Query search length operator not documented |
+| [[%BUGS%/Item855][Item855]] | Query syntax in IF statements does not work with underscore topic names |
+| [[%BUGS%/Item873][Item873]] | expired cgi session files not deleted |
+| [[%BUGS%/Item875][Item875]] | Small Docu update in func |
+| [[%BUGS%/Item885][Item885]] | bin/manage/Web goes BOOM |
+| [[%BUGS%/Item889][Item889]] | Documentation for protecting pub files with Apache incorrect |
+| [[%BUGS%/Item893][Item893]] | configure extension installer DOS's by doing a saveTopic and saveAttachment |
+| [[%BUGS%/Item904][Item904]] | Remove test strings |
+| [[%BUGS%/Item906][Item906]] | why are we using '.' to find setlib.cfg when !FindBin is in Perl? |
+| [[%BUGS%/Item908][Item908]] | adding a script suffix seems to confuse the url parsing code |
+| [[%BUGS%/Item909][Item909]] | VIEW_TEMPLATE overrides preview template, leaving out all topic actions |
+| [[%BUGS%/Item913][Item913]] | JSCalendarContrib::addHEAD or Func::addToHEAD used in any xxxTagsHandler causes deep recursion |
+| [[%BUGS%/Item918][Item918]] | Small docu update for JSCalendarContrib |
+| [[%BUGS%/Item923][Item923]] | Adding two new fields to the default response header: Action and URI. |
+| [[%BUGS%/Item928][Item928]] | Update documentation of Foswiki::Request |
+| [[%BUGS%/Item952][Item952]] | email failure for password reset, pwd change and i think rego too oops output broken |
+| [[%BUGS%/Item962][Item962]] | Remove  FOSWIKI_LAYOUT_URL, FOSWIKI_STYLE_URL, FOSWIKI_COLORS_URL from FINALPREFERENCES |
+| [[%BUGS%/Item965][Item965]] | {Register}{HidePassword} = $FALSE; not respected when the password is generated by Register.pm |
+| [[%BUGS%/Item972][Item972]] | Undefined subroutine &Foswiki::Form::Select::TAINT called |
+| [[%BUGS%/Item973][Item973]] | SEARCH adds extra separator for header |
+| [[%BUGS%/Item977][Item977]] | WebChanges eats first word of link text |
+| [[%BUGS%/Item980][Item980]] | Moving a topic doesn't update TOPICMOVED |
+| [[%BUGS%/Item990][Item990]] | Update graphics, html and css |
+| [[%BUGS%/Item995][Item995]] | When editing a form only, "Save and Continue" leads to the full edit screen |
+| [[%BUGS%/Item1002][Item1002]] | System.InstallationGuide doesn't mention Development.FoswikiStandAlone |
+| [[%BUGS%/Item1010][Item1010]] | Configure opening and closing of panels is clunky |
+| [[%BUGS%/Item1011][Item1011]] | Configure fails with cryptic error in Configure/Checker.pm line 315 when RCS is not available on the system |
+| [[%BUGS%/Item1014][Item1014]] | Configure complains when extra spaces are added in data structure |
+| [[%BUGS%/Item1016][Item1016]] | ISO time formats have no timezone designator |
+| [[%BUGS%/Item1017][Item1017]] | EditTablePlugin again cannot save textareas with formatting because of wrong handling of new lines |
+| [[%BUGS%/Item1018][Item1018]] | Protect verbatim class="xxx" when editing |
+| [[%BUGS%/Item1020][Item1020]] | TemplateLogin corrupts origurl param |
+| [[%BUGS%/Item1022][Item1022]] | ?logout=1 ignores the requested topic and returns to original topic |
+| [[%BUGS%/Item1023][Item1023]] | System.CommandAndCGIScripts is missing docco on ?logout=1 url param |
+| [[%BUGS%/Item1029][Item1029]] | TemplateLogin provides status 200 if no username is give, changed to 400 |
+| [[%BUGS%/Item1053][Item1053]] | Fix broken HTML |
+| [[%BUGS%/Item1070][Item1070]] | Line75 of Sandbox.pm has an excess $ |
+| [[%BUGS%/Item1073][Item1073]] | Configure should not load Plugins that are hidden - ie files starting with a dot |
+| [[%BUGS%/Item1074][Item1074]] | Remove link from data form table in preview |
+| [[%BUGS%/Item1078][Item1078]] | Remove unwanted spaces in default templates |
+| [[%BUGS%/Item1094][Item1094]] | invalid expiry date for session cookies |
+| [[%BUGS%/Item1097][Item1097]] | HIDECOMMENTS is broken |
+| [[%BUGS%/Item5352][Item5352]] | Improve Email address validator to be more correct. |
+| [[%BUGS%/Item5853][Item5853]] | PurePerl taint error inspired fix. |
+| [[%BUGS%/Item5920][Item5920]] | !TWikiGroups shows all members twice |
+| [[%BUGS%/Item6128][Item6128]] | Login names with dots not working properly |
+| [[%BUGS%/Item8051][Item8051]] | Use of uninitialized value in list assignment |
+</noautolink>
+
+---++ Enhancements
+
+<noautolink>
+| [[%BUGS%/Item523][Item523]] | Small user interface improvements to configure |
+| [[%BUGS%/Item967][Item967]] | Publish the iterators |
+| [[%BUGS%/Item1015][Item1015]] | Add "use factory settings" links to Configure |
+| [[%BUGS%/Item1049][Item1049]] | Table improvements for configure's !FindMoreExtensions |
 </noautolink>
 
 ---
