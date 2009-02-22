@@ -395,7 +395,7 @@ while ( scalar(@ARGV) && $ARGV[0] =~ /^-/ ) {
 
 if ($autoconf) {
     Autoconf();
-    exit 1 unless ( scalar(@ARGV) );
+    exit 0 unless ( scalar(@ARGV) );
 }
 
 unless ( scalar(@ARGV) ) {
