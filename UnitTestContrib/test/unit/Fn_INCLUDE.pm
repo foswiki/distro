@@ -57,6 +57,7 @@ $includedTopic 6
 9 [[System.$includedTopic]]
 10 [[$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
+12 [[#anchor][$includedTopic]]
 THIS
     # Expand an include in the context of the test web
     my $text = $this->{twiki}->handleCommonTags(
@@ -83,6 +84,7 @@ $this->{other_web}.$includedTopic 6
 9 [[System.$includedTopic]]
 10 [[$this->{other_web}.$includedTopic][$includedTopic]]
 11 [[http://fleegle][$includedTopic]]
+12 [[#anchor][$includedTopic]]
 THIS
     while (my $e = pop(@expect)) {
         $this->assert_str_equals($e, pop(@get));
