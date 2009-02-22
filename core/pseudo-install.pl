@@ -442,5 +442,3 @@ foreach my $module (@modules) {
 }
 
 print join( ", ", @modules ), ' ', ( $installing ? 'i' : 'uni' ), "nstalled\n";
-
-exit 0;
