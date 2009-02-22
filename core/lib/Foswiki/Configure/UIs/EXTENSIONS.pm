@@ -62,7 +62,8 @@ sub _parseRow {
     my ( $this, $row, $place ) = @_;
     my %data;
     return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
-    $data{installedVersion} = $this->_getInstalledVersion( $data{topic} );
+    ($data{installedVersion},
+     $data{namespace}) = $this->_getInstalledVersion( $data{topic} );
     $data{repository}       = $place->{name};
     $data{data}             = $place->{data};
     $data{pub}              = $place->{pub};
@@ -80,14 +81,14 @@ sub ui {
     my $exts      = $this->_getListOfExtensions();
     foreach my $error ( @{ $this->{errors} } ) {
         $table .= CGI::Tr( { class => 'foswikiAlert' },
-            CGI::td( { colspan => "7" }, $error ) );
+                           CGI::td( { colspan => "7" }, $error ) );
     }
 
     $table .= CGI::Tr(
         join( '',
-            map { CGI::th( { valign => 'bottom' }, $headNames{$_} ) }
-              @tableHeads )
-    );
+              map { CGI::th( { valign => 'bottom' }, $headNames{$_} ) }
+                @tableHeads )
+       );
     foreach my $key ( sort keys %$exts ) {
         my $ext = $exts->{$key};
         my $row = '';
@@ -99,12 +100,12 @@ sub ui {
                 $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
 
                 my $link =
-                    $scriptName
-                  . '?action=InstallExtension'
-                  . ';repository='
-                  . $ext->{repository}
-                  . ';extension='
-                  . $ext->{topic};
+                  $scriptName
+                    . '?action=InstallExtension'
+                      . ';repository='
+                        . $ext->{repository}
+                          . ';extension='
+                            . $ext->{topic};
                 $text = 'Install';
                 if ( $ext->{installedVersion} ) {
                     $text = 'Upgrade';
@@ -117,13 +118,24 @@ sub ui {
                 if ( $f eq 'topic' ) {
                     my $link = $ext->{data} . $ext->{topic};
                     $text = CGI::a( { href => $link }, $text );
+                } elsif ($f eq 'image' && $ext->{namespace} &&
+                           $ext->{namespace} ne 'Foswiki') {
+                    $text = "$text ($ext->{namespace})";
                 }
             }
-            $row .= CGI::td( { valign => 'top' }, $text );
+            my %opts = ( valign => 'top' );
+            if ($ext->{namespace} && $ext->{namespace} ne 'Foswiki') {
+                $opts{class} = 'alienExtension';
+            }
+            $row .= CGI::td( \%opts, $text );
         }
-	my @classes = ( $rows % 2 ? 'odd' : 'even' );
-	push @classes, qw( patternAccessKeyInfo installed ) if $ext->{installedVersion};
-	$table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
+        my @classes = ( $rows % 2 ? 'odd' : 'even' );
+        if ($ext->{installedVersion}) {
+            push @classes, qw( patternAccessKeyInfo installed );
+            push @classes, 'twikiExtension'
+              if $ext->{installedVersion} =~ /\(TWiki\)/;
+        }
+        $table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
         $rows++;
     }
     $table .= CGI::Tr(
@@ -132,12 +144,12 @@ sub ui {
             { colspan => "7" },
             $installed
               . ' extension'
-              . ( $installed == 1 ? '' : 's' )
-              . ' out of '
-              . $rows
-              . ' already installed'
-        )
-    );
+                . ( $installed == 1 ? '' : 's' )
+                  . ' out of '
+                    . $rows
+                      . ' already installed'
+                     )
+         );
     my $page = <<INTRO;
 <div class="foswikiHelp">Note that the webserver user has to be able to
 write files everywhere in your Foswiki installation. Otherwise you may see
@@ -160,24 +172,34 @@ sub _getInstalledVersion {
         $lib = 'Contrib';
     }
 
-    my $path = 'Foswiki::'.$lib.'::'.$module;
-    eval "use $path";
     my $release;
-    eval '$release = $'.$path.'::RELEASE';
+    my $from;
+    foreach my $frm qw(Foswiki TWiki) {
+        my $path = $frm.'::'.$lib.'::'.$module;
+        eval "use $path";
+        next if $@;
 
-    my $version;
-    eval '$version = $'.$path.'::VERSION';
-    if ($version) {
-        # tidy up the subversion rev number
-        $version =~ s/^\s*\$Rev:\s*(.*?)\s*\$$/$1/;
-        $version =~ s/(\d+)\s\((.*)\)/$1, $2/;
-        if ($release) {
-            $release .= " ($version)";
-        } else {
-            $release = $version;
+        $from = $frm;
+        $release = eval '$'.$path.'::RELEASE';
+
+        my $version;
+        $version = eval '$'.$path.'::VERSION';
+        if ($version) {
+            # tidy up the subversion rev number
+            $version =~ s/^\s*\$Rev:\s*(.*?)\s*\$$/$1/;
+            $version =~ s/(\d+)\s\((.*)\)/$1, $2/;
+            if ($release) {
+                $release .= " ($version)";
+            } else {
+                $release = $version;
+            }
         }
+        $release ||= '';
+        $release =~ s/\$Date:\s*([^\$]*)\s*\$/$1/;
+        last;
     }
-    return $release || '';
+
+    return ($release, $from);
 }
 
 1;

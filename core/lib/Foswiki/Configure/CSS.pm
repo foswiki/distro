@@ -230,3 +230,8 @@ table.extensionsTable .installed a:link,
 table.extensionsTable .installed a:visited {
 	font-weight:bold;
 }
+
+/* Used from EXTENSIONS when a non-foswiki extension is found */
+.alienExtension {
+	background:#fae0e0;
+}
