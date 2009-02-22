@@ -24,7 +24,7 @@ Before attempting to install Foswiki, you are encouraged to review the Foswiki:S
 *If you are upgrading from an old TWiki version such as Cairo (TWiki 3)*, refer to Foswiki:Support.UpgradingFromOlderTWikiReleases to ensure a safe upgrade without accidentally overwriting your site customizations and data.
 -->
 
-Verify that your server meets the [[#SystemRequirements][Foswiki system requirements]], including having all required Perl modules installed. If you need to install any Perl libraries from CPAN for use by Foswiki, see Foswiki:Support.HowToInstallCpanModules for more information.
+Verify that your server meets the [[#SystemRequirements][Foswiki system requirements]], including having the minimum required Perl version and all required Perl modules installed. If you need to install any Perl libraries from CPAN for use by Foswiki, see Foswiki:Support.HowToInstallCpanModules for more information.
 
 If you need help, feel free to ask a question in the Foswiki:Support web or on Foswiki:Community.InternetRelayChat (irc.freenode.net, channel #foswiki).
 
@@ -71,9 +71,7 @@ If Foswiki stops working after you applied a change in access permissions and yo
 
 ---+++ Configure the locations of the Perl executable and the Foswiki modules
 
-*Check the Perl installation*. Ensure that Perl 5 and the Perl CGI library are installed on your system.
-
-*Make sure the Foswiki scripts can be executed by the web server*. The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories.  You can use the =tools/rewriteshebang.pl= script to do this; for example:<verbatim>
+*Check the Perl installation*. Make sure the Foswiki scripts can be executed by the web server. The default location of Perl is =/usr/bin/perl=. *If it's somewhere else*, change the path to Perl in the first line of each script (you may have to give yourself write permission first) in the =bin= and =tools= directories. You can use the =tools/rewriteshebang.pl= script to do this; for example:<verbatim>
    cd /path/to/foswiki/bin
    /path/to/perl ../tools/rewriteshebang.pl
    # At the prompt, enter the full path to the perl executable, including
@@ -82,9 +80,8 @@ If Foswiki stops working after you applied a change in access permissions and yo
    cd /path/to/foswiki/tools
    /path/to/perl rewriteshebang.pl
 </verbatim>
-   When configuring Foswiki (see the section "[[#ConfigureFoswiki][Configure Foswiki]]"), set the =ScriptSuffix= option to the special extension.
 
-Some web servers require a special extension on perl script files (e.g. =.cgi= or =.pl=). This is not normally required with the Apache web server, though some hosted web servers are configured to require it. If the documentation for your web server indicates that a special extension is necessary, rename all the executable scripts in =bin=; that is, rename =bin/view= to =bin/view.pl=, and so on.
+Some web servers require a special extension on perl script files (e.g. =.cgi= or =.pl=). This is not normally required with the Apache web server, though some hosted web servers are configured to require it. If the documentation for your web server indicates that a special extension is necessary, rename all the executable scripts in =bin=; that is, rename =bin/view= to =bin/view.pl=, and so on. When configuring Foswiki (see the section "[[#ConfigureFoswiki][Configure Foswiki]]"), set the =ScriptSuffix= option to the special extension.
 
 *Create the file Local<nop>Lib.cfg* located at =bin/LocalLib.cfg=
    * In the =bin= directory, copy the template file =LocalLib.cfg.txt= to =LocalLib.cfg=. Make sure the ownership and access rights of the copy are the same as <nop>Local<nop>Lib.cfg.txt.
@@ -213,7 +210,7 @@ To make it easier to follow the instructions in this section, you can view this 
 
 All of the Foswiki documentation can also be found online in the [[Foswiki:System.WebHome][Foswiki documentation section]] (the "System" web) of the Foswiki web site.
 
-Note the =configure= page mentioned in this section is accessible via your web browser at =http://yourdomain/foswiki/bin/configure=.
+Note the =configure= page mentioned in this section is accessed by visiting =http://yourdomain/foswiki/bin/configure= your web browser.
 
 ---+++ Site configuration and maintenance
 
@@ -411,6 +408,7 @@ You can easily select a balance of browser capability versus look and feel. Try 
 
 #UploadingFoswikiDistribution
 ---++ Uploading the Foswiki distribution to your web server host
+
 If you cannot unpack the Foswiki distribution directly in your installation directory, you can unpack the distribution on your local computer, manually create the directory structure on your host server and upload the files as follows: 
    * Using the table below, create a directory structure on your host server
    * Upload the Foswiki files by FTP (transfer as text except for the image files in =pub= directory.)
