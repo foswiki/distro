@@ -496,7 +496,8 @@ sub _filter_file {
     my $fh;
     open( $fh, '<', $from ) || die 'No source topic ' . $from . ' for filter';
     local $/ = undef;
-    my $text = $this->$sub(<$fh>);
+    my $text = <$fh>;
+    $text = $this->$sub($text);
     close($fh);
 
     unless ( $this->{-n} ) {
