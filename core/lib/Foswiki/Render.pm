@@ -974,7 +974,7 @@ sub renderFORMFIELD {
 
             # Ignore access exceptions; just don't read the data.
             my $e = shift;
-            $this->{session}->writeWarning(
+            $this->{session}->logger->log('warning',
                 "Attempt to read form data failed: " . $e->stringify() );
         };
     }

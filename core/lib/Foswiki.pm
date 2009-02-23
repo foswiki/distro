@@ -51,6 +51,7 @@ use CGI;    # Always required to get html generation tags;
 
 use Foswiki::Response;
 use Foswiki::Request;
+use Foswiki::Logger;
 
 require 5.005;    # For regex objects and internationalisation
 
@@ -73,7 +74,6 @@ our $VERSION;
 our $RELEASE;
 our $TRUE  = 1;
 our $FALSE = 0;
-our $sandbox;
 our $engine;
 our $ifParser;
 
@@ -525,13 +525,16 @@ sub UTF82SiteCharSet {
 
         # warn if using Perl older than 5.8
         if ( $] < 5.008 ) {
-            $this->writeWarning( 'UTF-8 not remotely supported on Perl ' 
+            $this->logger->log(
+                'warning',
+                'UTF-8 not remotely supported on Perl '
                   . $]
-                  . ' - use Perl 5.8 or higher..' );
+                    . ' - use Perl 5.8 or higher..' );
         }
 
         # We still don't have Codev.UnicodeSupport
-        $this->writeWarning( 'UTF-8 not yet supported as site charset -'
+        $this->logger->log(
+            'warning', 'UTF-8 not yet supported as site charset -'
               . 'Foswiki is likely to have problems' );
         return $text;
     }
@@ -557,10 +560,11 @@ sub UTF82SiteCharSet {
             my $charEncoding =
               Encode::resolve_alias( $Foswiki::cfg{Site}{CharSet} );
             if ( not $charEncoding ) {
-                $this->writeWarning( 'Conversion to "'
+                $this->logger->log(
+                    'warning', 'Conversion to "'
                       . $Foswiki::cfg{Site}{CharSet}
-                      . '" not supported, or name not recognised - check '
-                      . '"perldoc Encode::Supported"' );
+                        . '" not supported, or name not recognised - check '
+                          . '"perldoc Encode::Supported"' );
             }
             else {
 
@@ -578,7 +582,8 @@ sub UTF82SiteCharSet {
             require Unicode::MapUTF8;    # Pre-5.8 Perl versions
             my $charEncoding = $Foswiki::cfg{Site}{CharSet};
             if ( not Unicode::MapUTF8::utf8_supported_charset($charEncoding) ) {
-                $this->writeWarning( 'Conversion to "'
+                $this->logger->log(
+                    'warning', 'Conversion to "'
                       . $Foswiki::cfg{Site}{CharSet}
                       . '" not supported, or name not recognised - check '
                       . '"perldoc Unicode::MapUTF8"' );
@@ -1619,6 +1624,25 @@ sub i18n {
 
 =begin TML
 
+---++ ObjectMethod i18n()
+Get a reference to the i18n object. Done lazily because not everyone
+needs the i18ner.
+
+=cut
+
+sub logger {
+    my $this = shift;
+
+    unless ($this->{logger}) {
+        eval "require $Foswiki::cfg{Log}{Implementation}";
+        die $@ if $@;
+        $this->{logger} = $Foswiki::cfg{Log}{Implementation}->new();
+    }
+    return $this->{logger};
+}
+
+=begin TML
+
 ---++ ObjectMethod search()
 Get a reference to the search object. Done lazily because not everyone
 needs the searcher.
@@ -1719,17 +1743,18 @@ sub finish {
 
 =begin TML
 
----++ ObjectMethod writeLog( $action, $webTopic, $extra, $user )
-
+---++ ObjectMethod logEvent( $action, $webTopic, $extra, $user )
    * =$action= - what happened, e.g. view, save, rename
-   * =$wbTopic= - what it happened to
+   * =$webTopic= - what it happened to
    * =$extra= - extra info, such as minor flag
-   * =$user= - user who did the saving (user id)
+   * =$user= - login name of user - default current user,
+     or failing that the user agent
+
 Write the log for an event to the logfile
 
 =cut
 
-sub writeLog {
+sub logEvent {
     my $this = shift;
 
     my $action   = shift || '';
@@ -1753,64 +1778,9 @@ sub writeLog {
     }
 
     my $remoteAddr = $this->{request}->remoteAddress() || '';
-    my $text = "$user | $action | $webTopic | $extra | $remoteAddr |";
 
-    _writeReport( $this, $Foswiki::cfg{LogFileName}, $text );
-}
-
-=begin TML
-
----++ ObjectMethod writeWarning( $text )
-
-Prints date, time, and contents $text to $Foswiki::cfg{WarningFileName}, typically
-'warnings.txt'. Use for warnings and errors that may require admin
-intervention. Use this for defensive programming warnings (e.g. assertions).
-
-=cut
-
-sub writeWarning {
-    my $this = shift;
-    _writeReport( $this, $Foswiki::cfg{WarningFileName}, @_ );
-}
-
-=begin TML
-
----++ ObjectMethod writeDebug( $text )
-
-Prints date, time, and contents of $text to $Foswiki::cfg{DebugFileName}, typically
-'debug.txt'.  Use for debugging messages.
-
-=cut
-
-sub writeDebug {
-    my $this = shift;
-    _writeReport( $this, $Foswiki::cfg{DebugFileName}, @_ );
-}
-
-# Concatenates date, time, and $text to a log file.
-# The logfilename can optionally use a %DATE% variable to support
-# logs that are rotated once a month.
-# | =$log= | Base filename for log file |
-# | =$message= | Message to print |
-sub _writeReport {
-    my ( $this, $log, $message ) = @_;
-
-    if ($log) {
-        require Foswiki::Time;
-        my $time =
-          Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
-        $log =~ s/%DATE%/$time/go;
-        $time = Foswiki::Time::formatTime( time(), undef, 'servertime' );
-
-        if ( open( FILE, ">>$log" ) ) {
-            print FILE "| $time | $message\n";
-            close(FILE);
-        }
-        else {
-            print STDERR 'Could not write "' . $message . '" to '
-              . "$log: $!\n";
-        }
-    }
+    $this->logger->log(
+        'info', $user, $action, $webTopic, $extra, $remoteAddr);
 }
 
 # Add a web reference to a [[...][...]] link in an included topic
@@ -1880,29 +1850,6 @@ sub validatePattern {
     # it anyway, unless one uses re 'eval' which we won't do
     $pattern =~ s/(^|[^\\])([\$\@])/$1\\$2/g;
     return $pattern;
-}
-
-=begin TML
-
----++ StaticMethod validatePerlModule( $module ) -> $module
-
-Validate a perl module in a parameter to $module so that
-random garbage are filtered out.
-
-=cut
-
-sub validatePerlModule {
-    my $module = shift;
-
-    # Remove all non alpha-numeric caracters and :
-    # Do not use \w as this is localized, and might be tainted
-    my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
-    writeWarning( 'validatePerlModule removed '
-          . $replacements
-          . ' characters, leading to '
-          . $module )
-      if $replacements;
-    return $module;
 }
 
 =begin TML
@@ -2157,7 +2104,8 @@ sub inlineAlert {
             $text =~ s/%PARAM$n%/$param/g;
             $n++;
         }
-
+        # Suppress missing params
+        $text =~ s/%PARAM\d+%//g;
         # Suppress missing params
         $text =~ s/%PARAM\d+%//g;
     }
@@ -2672,7 +2620,7 @@ sub _processTags {
 
     unless ($depth) {
         my $mess = "Max recursive depth reached: $text";
-        $this->writeWarning($mess);
+        $this->logger->log('warning', $mess);
 
         # prevent recursive expansion that just has been detected
         # from happening in the error message

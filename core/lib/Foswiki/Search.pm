@@ -589,7 +589,7 @@ sub searchWeb {
     # FIXME: Move log entry further down to log actual webs searched
     if ( ( $Foswiki::cfg{Log}{search} ) && ( !$inline ) ) {
         my $t = join( ' ', @webs );
-        $session->writeLog( 'search', $t, $searchString );
+        $session->logEvent('search', $t, $searchString );
     }
 
     my $query;
@@ -681,7 +681,6 @@ sub searchWeb {
         # sort the topic list by date, author or topic name, and cache the
         # info extracted to do the sorting
         if ( $sortOrder eq 'modified' ) {
-
             # For performance:
             #   * sort by approx time (to get a rough list)
             #   * shorten list to the limit + some slack

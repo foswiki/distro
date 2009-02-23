@@ -38,7 +38,7 @@ sub new {
     my $session = shift;
 
     unless ($initialised) {
-        $session->writeWarning($initError) if $session;
+        $session->logger->log('warning', $initError) if $session;
         return undef;
     }
 

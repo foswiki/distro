@@ -2426,7 +2426,6 @@ sub spaceOutWikiWord {
 
 Log Warning that may require admin intervention to data/warning.txt
    * =$text= - Text to write; timestamp gets added
-Return:            none
 
 =cut
 
@@ -2434,9 +2433,8 @@ sub writeWarning {
 
     #   my( $text ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    my ($message) = @_;
-    return $Foswiki::Plugins::SESSION->writeWarning(
-        "(" . caller() . ") " . $message );
+    return $Foswiki::Plugins::SESSION->logger->log(
+        'warning', scalar(caller()), @_ );
 }
 
 =begin TML
@@ -2445,7 +2443,6 @@ sub writeWarning {
 
 Log debug message to data/debug.txt
    * =$text= - Text to write; timestamp gets added
-Return:            none
 
 =cut
 
@@ -2453,7 +2450,7 @@ sub writeDebug {
 
     #   my( $text ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-    return $Foswiki::Plugins::SESSION->writeDebug(@_);
+    return $Foswiki::Plugins::SESSION->logger->log('debug', @_);
 }
 
 =begin TML

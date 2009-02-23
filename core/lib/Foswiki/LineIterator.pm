@@ -5,7 +5,7 @@
 ---+ package Foswiki::LineIterator
 *implements* Foswiki::Iterator
 
-Iterator over the lines in a text file
+Iterator over the lines read from a file handle.
 
 =cut
 
@@ -16,36 +16,23 @@ use strict;
 
 =begin TML
 
----++ new( $file )
+---++ new( $fh )
 
-Create a new iterator over the given file. if the file cannot be opened, then
-there will be no elements in the iterator.
+Create a new iterator over the given file handle.
 
 =cut
 
 sub new {
-    my ( $class, $file ) = @_;
-    my $this = bless( {}, $class );
-    $this->{nextLine} = undef;
-    if ( open( $this->{handle}, '<', $file ) ) {
-        $this->next();
-    }
-    else {
-        die $!;
-    }
+    my ( $class, $fh ) = @_;
+    my $this = bless( {
+        nextLine => undef,
+        handle => $fh,
+    }, $class );
+    Foswiki::LineIterator::next($this);
     $this->{process} = undef;
     $this->{filter}  = undef;
 
     return $this;
-}
-
-sub _DESTROY {
-    my $this = shift;
-    if ( defined( $this->{nextLine} ) ) {
-
-        # the iterator is still open
-        close( $this->{handle} );
-    }
 }
 
 =begin TML
@@ -99,24 +86,21 @@ while ($it->hasNext()) {
 sub next {
     my ($this)  = @_;
     my $curLine = $this->{nextLine};
-    my $h       = $this->{handle};
     local $/ = "\n";
-    do {
+    while (1) {
+        my $h = $this->{handle};
         $this->{nextLine} = <$h>;
         if ( !defined( $this->{nextLine} ) ) {
-            close($h);
+            last;
         }
         else {
             chomp( $this->{nextLine} );
         }
-      } while (
-        !(
-               !defined( $this->{nextLine} )
-            || !$this->{filter}
-            || !&{ $this->{filter} }( $this->{nextLine} )
-        )
-      );
-    $curLine = &{ $this->{process} }($curLine) if $this->{process};
+        last if !$this->{filter};
+        last unless &{ $this->{filter} }( $this->{nextLine} );
+    }
+    $curLine = &{ $this->{process} }($curLine) if
+      defined $curLine && $this->{process};
     return $curLine;
 }
 

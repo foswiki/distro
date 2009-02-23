@@ -230,7 +230,8 @@ sub putKeyed {
         ASSERT($keyName) if DEBUG;
         my $i = scalar(@$data);
         while ( $keyName && $i-- ) {
-            if ( $data->[$i]->{name} eq $keyName ) {
+            if ( defined $data->[$i]->{name}
+                   && $data->[$i]->{name} eq $keyName ) {
                 $data->[$i] = $args;
                 return;
             }

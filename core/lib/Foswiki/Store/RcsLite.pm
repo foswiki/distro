@@ -230,7 +230,7 @@ sub _process {
     }
     my $fh = new FileHandle();
     if ( !$fh->open($rcsFile) ) {
-        $this->{session}->writeWarning( 'Failed to open ' . $rcsFile );
+        $this->{session}->logger->log('warning', 'Failed to open ' . $rcsFile );
         $this->{state} = 'nocommav';
         return;
     }
@@ -359,7 +359,7 @@ sub _process {
 
     unless ( $state eq 'parsed' ) {
         my $error = $this->{rcsFile} . ' is corrupt; parsed up to ' . $state;
-        $this->{session}->writeWarning($error);
+        $this->{session}->logger->log('warning', $error);
 
         #ASSERT(0) if DEBUG;
         $headNum = 0;

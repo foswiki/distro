@@ -213,7 +213,7 @@ sub execute {
             else {
                 my $mess = $e->stringify();
                 print STDERR $mess;
-                $session->writeWarning($mess);
+                $session->logger->log('warning',$mess);
 
                 # tell the browser where to look for more help
                 my $text =

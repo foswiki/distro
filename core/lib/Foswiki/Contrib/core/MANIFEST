@@ -518,6 +518,8 @@ lib/Foswiki/Infix/Node.pm 0444
 lib/Foswiki/LineIterator.pm 0444
 lib/Foswiki/Iterator.pm 0444
 lib/Foswiki/ListIterator.pm 0444
+lib/Foswiki/Logger.pm 0444
+lib/Foswiki/Logger/PlainFile.pm 0444
 lib/Foswiki/LoginManager.pm 0444
 lib/Foswiki/LoginManager/ApacheLogin.pm 0444
 lib/Foswiki/LoginManager/Session.pm 0444

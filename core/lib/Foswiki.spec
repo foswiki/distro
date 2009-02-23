@@ -616,6 +616,14 @@ $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = $TRUE;
 
 #---+ Log files
 
+# **SELECTCLASS none,Foswiki::Logger::* EXPERT **
+# Foswiki supports different implementations of log files. It can be
+# useful to be able to plug in a database implementation, for example,
+# for a large site, or even provide your own custom logger. Select the
+# implementation to be used here. Most sites should be OK with the
+# PlainFile logger, which automatically rotates the logs every month.
+$Foswiki::cfg{Log}{Implementation} = 'Foswiki::Logger::PlainFile';
+
 # **BOOLEAN EXPERT**
 # Whether or not to to log different actions in the Access log
 # (in order of how frequently they occur in a typical installation).
@@ -652,18 +660,22 @@ $Foswiki::cfg{Log}{register} = $TRUE; # rare, when a new user registers
 $Foswiki::cfg{ConfigurationLogName} = '$Foswiki::cfg{DataDir}/configurationlog.txt';
 
 # **PATH**
-# File for debug messages (usually very low volume). %DATE% gets expanded
+# Log file for debug messages when using the PlainFile logger (the default).
+# Usually very low volume. %DATE% gets expanded
 # to YYYYMM (year, month), allowing you to rotate logs.
 $Foswiki::cfg{DebugFileName} = '$Foswiki::cfg{DataDir}/debug.txt';
 
 # **PATH**
-# Warnings - low volume, hopefully! %DATE% gets expanded
+# Log file for Warnings when using the PlainFile logger (the default).
+# Low volume, hopefully! %DATE% gets expanded
 # to YYYYMM (year, month), allowing you to rotate logs.
 $Foswiki::cfg{WarningFileName} = '$Foswiki::cfg{DataDir}/warn%DATE%.txt';
 
 # **PATH**
-# Access log - high volume, depending on what you enabled in {Log} above.
-# %DATE% gets expanded to YYYYMM (year, month), allowing you to rotate logs.
+# Log file for logging script runs when using the PlainFile logger (the
+# default). High volume. %DATE% gets expanded to YYYYMM (year, month),
+# allowing you to rotate logs. You can control what script runs are logged
+# using EXPERT options.
 $Foswiki::cfg{LogFileName} = '$Foswiki::cfg{DataDir}/log%DATE%.txt';
 
 #---+ Localisation

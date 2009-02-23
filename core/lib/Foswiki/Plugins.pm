@@ -12,47 +12,6 @@ handler calls to registered plugins.
 
 =cut
 
-=begin TML
-
-Note that as of version 1.026 of this module, Foswiki internal
-methods are _no longer available_ to plugins. Any calls to
-Foswiki internal methods must be replaced by calls via the
-=$SESSION= object in this package, or via the Func package.
-For example, the call:
-
-=my $pref = Foswiki::getPreferencesValue('URGH');=
-
-should be replaced with
-
-=my $pref = Foswiki::Func::getPreferencesValue('URGH');=
-
-and the call
-
-=my $t = Foswiki::writeWarning($message);=
-
-should be replaced with
-
-=my $pref = $Foswiki::Plugins::SESSION->writeWarning($message);=
-
-Methods in other modules such as Store must be accessed through
-the relevant Foswiki sub-object, for example
-
-=Foswiki::Store::saveTopic(...)=
-
-should be replaced with
-
-=$Foswiki::Plugins::SESSION->{store}->saveTopic(...)=
-
-Note that calling Foswiki internal methods is very very bad practice,
-and should be avoided wherever practical.
-
-The developers of Foswiki reserve the right to change internal
-methods without warning, unless those methods are clearly
-marked as PUBLIC. PUBLIC methods are part of the core specification
-of a module and can be trusted.
-
-=cut
-
 package Foswiki::Plugins;
 
 use strict;
@@ -228,7 +187,8 @@ sub load {
 
         # Report initialisation errors
         if ( $p->{errors} ) {
-            $this->{session}->writeWarning( join( "\n", @{ $p->{errors} } ) );
+            $this->{session}->logger->log(
+                'warning', join( "\n", @{ $p->{errors} } ) );
         }
         $lookup{$pn} = $p;
     }
@@ -286,8 +246,8 @@ sub enable {
 
         # Report initialisation errors
         if ( $plugin->{errors} ) {
-            $this->{session}
-              ->writeWarning( join( "\n", @{ $plugin->{errors} } ) );
+            $this->{session}->logger->log(
+                'warning', join( "\n", @{ $plugin->{errors} } ) );
         }
     }
 }
