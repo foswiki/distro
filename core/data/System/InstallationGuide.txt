@@ -4,7 +4,7 @@
 
 *This guide describes the steps for manually installing Foswiki, with specific steps for installations on Linux with the Apache web server.* If you are using a different web server or operating system, in addition to reviewing this document, check any additional information specific to your platform at Foswiki:Support.SupplementalDocuments. Foswiki:Support.SupplementalDocuments also has information for other scenarios, such as shared web hosting environments.
 
-These installation instructions are also available online by following links from Foswiki:Support.Foswiki01x00x00, and are available within your Foswiki installation at =%SYSTEMWEB%.InstallationGuide= (the <nop>InstallationGuide topic in the %SYSTEMWEB% web).
+These installation instructions are also available online by following links from Foswiki:System.InstallationGuide, and are available within your Foswiki installation at =%SYSTEMWEB%.InstallationGuide= (the <nop>InstallationGuide topic in the %SYSTEMWEB% web).
 
 *For information on upgrades*, please also refer to Foswiki:System.UpgradeGuide. A static HTML version of this document, =UpgradeGuide.html=, is included in the root of your Foswiki distribution.
 
