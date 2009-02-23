@@ -12,14 +12,16 @@ use vars qw( $differ );
 
 sub new {
     my $class = shift;
-    my $this = bless({}, $class);
-    @{$this->{annotations}} = ();
+    my $this = bless({
+       annotations => [],
+       expect_failure => 0 }, $class);
     return $this;
 }
 
 sub set_up {
     my $this = shift;
     @{$this->{annotations}} = ();
+    $this->{expect_failure} = 0;
 }
 
 sub tear_down {
@@ -226,6 +228,11 @@ sub assert_deep_equals {
 sub annotate {
     my ($this, $mess) = @_;
     push(@{$this->{annotations}}, $mess) if defined($mess);
+}
+
+sub expect_failure {
+    my ($this) = @_;
+    $this->{expect_failure} = 1;
 }
 
 # 1:1 HTML comparison. Correctly compares attributes in tags. Uses HTML::Parser

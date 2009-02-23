@@ -51,20 +51,35 @@ sub start {
                 } catch Error::Simple with {
                     my $e = shift;
                     print "*** ",$e->stringify(),"\n";
+                    if ($tester->{expect_failure}) {
+                        $this->{expected_failures}++;
+                    } else {
+                        $this->{unexpected_failures}++;
+                    }
                     push(@{$this->{failures}}, $test."\n".$e->stringify());
+                } otherwise {
+                    if ($tester->{expect_failure}) {
+                        $this->{unexpected_passes}++;
+                    }
                 };
                 $tester->tear_down();
             }
         }
     }
 
-    if (scalar(@{$this->{failures}})) {
-        print scalar(@{$this->{failures}})." failures\n";
+    if ($this->{unexpected_failures} || $this->{unexpected_passes}) {
+        print $this->{unexpected_failures}." failures\n"
+          if $this->{unexpected_failures};
+        print $this->{unexpected_passes}." unexpected passes\n"
+          if $this->{unexpected_passes};
         print  join("\n---------------------------\n",
                     @{$this->{failures}}),"\n";
-        print "$passes of ",$passes + scalar(@{$this->{failures}})," test cases passed\n";
+        print "$passes of ", $passes + $this->{unexpected_failures},
+          " test cases passed\n";
         return scalar(@{$this->{failures}});
     } else {
+        print $this->{expected_failures}." expected failures\n"
+          if $this->{expected_failures};
         print "All tests passed ($passes)\n";
         return 0;
     }

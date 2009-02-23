@@ -19,7 +19,7 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-    # Turn UseLocale off; otherwise the Ok-Topic Ok+Topic lexical sort
+    # Turn UseLocale off; otherwise the Ok+Topic Ok-Topic lexical sort
     # order gets reversed
     $Foswiki::cfg{UseLocale} = 0;
     $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
@@ -828,6 +828,11 @@ sub verify_formQuery3 {
 sub verify_formQuery4 {
     my $this = shift;
 
+    if ($Foswiki::cfg{OS} eq 'WINDOWS'
+          && $Foswiki::cfg{DetailedOS} ne 'cygwin') {
+        $this->expect_failure();
+        $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
+    }
     $this->set_up_for_queries();
     my $result =
       $this->{twiki}
@@ -838,6 +843,12 @@ sub verify_formQuery4 {
 
 sub verify_formQuery5 {
     my $this = shift;
+
+    if ($Foswiki::cfg{OS} eq 'WINDOWS'
+          && $Foswiki::cfg{DetailedOS} ne 'cygwin') {
+        $this->expect_failure();
+        $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
+    }
 
     $this->set_up_for_queries();
     my $result =

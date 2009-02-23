@@ -162,8 +162,8 @@ sub test_htpasswd_crypt_md5 {
     my $this = shift;
 
     if ($Foswiki::cfg{DetailedOS} eq 'darwin') {
-        print STDERR "*** CANNOT RUN crypt-md5 TESTS on OSX, they fail\n";
-        return;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN crypt-md5 TESTS on OSX");
     }
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
     my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
@@ -186,14 +186,16 @@ sub test_htpasswd_sha1 {
     if( $@ ) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
-        print STDERR "*** CANNOT RUN SHA1 TESTS: $mess\n";
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
         return;
     }
     eval 'use Digest::SHA1';
     if( $@ ) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
-        print STDERR "*** CANNOT RUN TESTS: $mess\n";
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN SHA1 TESTS: $mess");
         return;
     }
 
@@ -203,13 +205,14 @@ sub test_htpasswd_sha1 {
     $this->doTests($impl,0);
 }
 
-sub detest_htpasswd_md5 {
+sub test_htpasswd_md5 {
     my $this = shift;
     eval 'use Digest::MD5';
     if( $@ ) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
-        print STDERR "*** CANNOT RUN SHA1 TESTS: $mess\n";
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN MD5 TESTS: $mess");
         return;
     }
 
@@ -233,8 +236,8 @@ sub test_htpasswd_apache {
     if( $@ ) {
         my $mess = $@;
         $mess =~ s/\(\@INC contains:.*$//s;
-        print STDERR "*** CANNOT RUN APACHE HTPASSWD TESTS: $mess\n";
-        return;
+        $this->expect_failure();
+        $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
     }
 
     my $impl = Foswiki::Users::ApacheHtpasswdUser->new($this->{twiki});
