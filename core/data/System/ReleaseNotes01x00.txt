@@ -395,6 +395,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item1078][Item1078]] | Remove unwanted spaces in default templates |
 | [[%BUGS%/Item1094][Item1094]] | invalid expiry date for session cookies |
 | [[%BUGS%/Item1097][Item1097]] | HIDECOMMENTS is broken |
+| [[%BUGS%/Item1121][Item1121]] | Sync the default apache config with the ApacheConfigGenerator |
 | [[%BUGS%/Item5352][Item5352]] | Improve Email address validator to be more correct. |
 | [[%BUGS%/Item5853][Item5853]] | PurePerl taint error inspired fix. |
 | [[%BUGS%/Item5920][Item5920]] | !TWikiGroups shows all members twice |
