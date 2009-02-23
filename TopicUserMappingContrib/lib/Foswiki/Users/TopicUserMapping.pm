@@ -88,7 +88,7 @@ sub new {
     if ( $this->{passwords}->readOnly()
         && ( $Foswiki::cfg{PasswordManager} ne 'none' ) )
     {
-        $session->writeWarning(
+        $session->logger->log('warning',
 'TopicUserMapping has TURNED OFF EnableNewUserRegistration, because the password file is read only.'
         );
         $Foswiki::cfg{Register}{EnableNewUserRegistration} = 0;
@@ -804,7 +804,6 @@ sub getEmails {
             }
         }
     }
-
     return keys %emails;
 }
 

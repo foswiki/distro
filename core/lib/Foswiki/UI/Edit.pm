@@ -336,7 +336,7 @@ sub init_edit {
     if ( $Foswiki::cfg{Log}{edit} ) {
 
         # write log entry
-        $session->writeLog( 'edit', $webName . '.' . $topic, $extra );
+        $session->logEvent('edit', $webName . '.' . $topic, $extra );
     }
 
     $tmpl =~ s/\(edit\)/\(edit cmd=$saveCmd\)/go if $saveCmd;

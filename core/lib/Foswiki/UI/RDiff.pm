@@ -559,7 +559,7 @@ sub diff {
     } while ( $diffType eq 'history' && ( $r1 > $rev2 || $r1 == 1 ) );
 
     if ( $Foswiki::cfg{Log}{rdiff} ) {
-        $session->writeLog( 'rdiff', $webName . '.' . $topic, "$rev1 $rev2" );
+        $session->logEvent('rdiff', $webName . '.' . $topic, "$rev1 $rev2" );
     }
 
     my $i         = $maxrev;

@@ -374,7 +374,7 @@ sub loadSession {
 
         if ($sudoUser) {
             _trace( $this, "User is logging out to $sudoUser" );
-            $session->writeLog( 'sudo logout', '',
+            $session->logEvent('sudo logout', '',
                 'from ' . ( $authUser || '' ), $sudoUser );
             $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
             $authUser = $sudoUser;
@@ -556,7 +556,7 @@ sub userLoggedIn {
             if ( defined( $session->{remoteUser} )
                 && $session->inContext('sudo_login') )
             {
-                $session->writeLog( 'sudo login', '',
+                $session->logEvent('sudo login', '',
                     'from ' . ( $session->{remoteUser} || '' ), $authUser );
                 $this->{_cgisession}
                   ->param( 'SUDOFROMAUTHUSER', $session->{remoteUser} );

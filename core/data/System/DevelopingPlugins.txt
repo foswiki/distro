@@ -11,7 +11,7 @@ To be robust, extensions must avoid using any unpublished functionality from the
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::AccessControlException][Foswiki::AccessControlException]]= - access control exception
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Attrs][Foswiki::Attrs]]= - parser and storage object for macro parameters
    * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Time][Foswiki::Time]]= - time parsing and formatting
-   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Sandbox][Foswiki::Sandbox]]= - safe server-side program execution
+   * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Sandbox][Foswiki::Sandbox]]= - safe server-side program execution, used for calling external programs.
    * Iterators - these are classes that implement the =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Iterator][Foswiki::Iterator]]= specification
       * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::ListIterator][Foswiki::ListIterator]]= - utility class for iterator objects that iterate over list contents
       * =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::LineIterator][Foswiki::LineIterator]]= - utility class for iterator objects that iterate over lines in a block of text
@@ -21,7 +21,6 @@ In addition the following global variables may be referred to:
    * =$Foswiki::Plugins::SESSION= - reference to =Foswiki= singleton object
    * =$Foswiki::cfg= - reference to configuration hash
    * =$Foswiki::regex= - see [[#StReEx][Standard Regular Expressions]], below
-   * =$Foswiki::sandbox= - reference to the static sandbox object (type =Foswiki::Sandbox=), used for calling external programs.
 %I% Foswiki:Development.GettingStarted  is the starting point for more comprehensive documentation on developing for Foswiki.
 
 *Note* the APIs are available to all extensions, but rely on a

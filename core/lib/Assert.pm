@@ -25,7 +25,7 @@ BEGIN {
     $VERSION = '0.01';
     $DIRTY = $ENV{PATH}; # Used in TAINT
 
-    $EXPORT_TAGS{NDEBUG} = [qw(ASSERT UNTAINTED TAINT DEBUG)];
+    $EXPORT_TAGS{NDEBUG} = ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'];
     $EXPORT_TAGS{DEBUG}  = $EXPORT_TAGS{NDEBUG};
     Exporter::export_tags(qw(NDEBUG DEBUG));
 }
@@ -34,10 +34,10 @@ BEGIN {
 sub ASSERTS_ON  { 1 }    # CONSTANT
 sub ASSERTS_OFF { 0 }    # CONSTANT
 
+sub noop { return $_[0] }
+
 # Export the proper DEBUG flag if FOSWIKI_ASSERTS is set,
 # otherwise export noop versions of our routines
-sub noop { }
-
 sub import {
     no warnings 'redefine';
     no strict 'refs';
@@ -48,7 +48,7 @@ sub import {
     else {
         my $caller = caller;
         *{ $caller . '::ASSERT' }    = \&noop;
-        *{ $caller . '::TAINT' }     = sub { $_[0] };
+        *{ $caller . '::TAINT' }     = \&noop;
         *{ $caller . '::DEBUG' }     = \&ASSERTS_OFF;
     }
     use strict 'refs';

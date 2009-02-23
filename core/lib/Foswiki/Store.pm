@@ -159,7 +159,7 @@ sub readTopic {
 
         #test if the attachment filenam would need sanitizing, if so, ignore it.
             if ( $fileName ne $origName ) {
-                $this->{session}->writeWarning(
+                $this->{session}->logger->log('warning',
 "AutoAttachPubFiles ignoring $origName, in $web.$topic - not a valid Attachment filename"
                 );
             }
@@ -378,7 +378,7 @@ sub moveAttachment {
                 comment => 'moved'
             }
         );
-        $this->{session}->writeLog(
+        $this->{session}->logEvent(
             'move',
             $fileAttachment->{movefrom}
               . ' moved to '
@@ -553,7 +553,7 @@ sub moveTopic {
     if ( $Foswiki::cfg{Log}{rename} ) {
         my $old = $oldWeb . '.' . $oldTopic;
         my $new = $newWeb . '.' . $newTopic;
-        $this->{session}->writeLog( 'rename', $old, "moved to $new", $user );
+        $this->{session}->logEvent('rename', $old, "moved to $new", $user );
     }
 
     # alert plugins of topic move
@@ -610,7 +610,7 @@ sub moveWeb {
     # Log rename
     if ( $Foswiki::cfg{Log}{rename} ) {
         $this->{session}
-          ->writeLog( 'renameweb', $oldWeb, 'moved to ' . $newWeb, $user );
+          ->logEvent('renameweb', $oldWeb, 'moved to ' . $newWeb, $user );
     }
 
     # alert plugins of web move
@@ -1116,7 +1116,7 @@ sub saveAttachment {
 
     if ( ( !$opts->{dontlog} ) && ( $Foswiki::cfg{Log}{$action} ) ) {
         $this->{session}
-          ->writeLog( $action, $web . '.' . $topic, $attachment, $user );
+          ->logEvent($action, $web . '.' . $topic, $attachment, $user );
     }
 }
 
@@ -1174,7 +1174,7 @@ sub _noHandlersSave {
 
         if ( ( $Foswiki::cfg{Log}{save} ) && !( $options->{dontlog} ) ) {
             $this->{session}
-              ->writeLog( 'save', $web . '.' . $topic, $extra, $user );
+              ->logEvent('save', $web . '.' . $topic, $extra, $user );
         }
     }
     finally {
@@ -1254,7 +1254,7 @@ sub repRev {
           . $revuser . ' '
           . Foswiki::Time::formatTime( $revdate, '$rcs', 'gmtime' );
         $extra .= ' minor' if ( $options->{minor} );
-        $this->{session}->writeLog(
+        $this->{session}->logEvent(
             $options->{operation} || 'save',
             $web . '.' . $topic,
             $extra, $user
@@ -1303,7 +1303,7 @@ sub delRev {
     # TODO: delete entry in .changes
 
     # write log entry
-    $this->{session}->writeLog(
+    $this->{session}->logEvent(
         'cmd',
         $web . '.' . $topic,
         'delRev by ' . $user . ": $rev", $user
@@ -1338,15 +1338,16 @@ sub lockTopic {
     while (1) {
         my ( $user, $time ) = $handler->isLocked();
         last if ( !$user || $locker eq $user );
-        $this->{session}->writeWarning(
+        $this->{session}->logger->log(
+            'warning',
             "Lock on $web.$topic for " . $locker . " denied by $user" );
 
         # see how old the lock is. If it's older than 2 minutes,
         # break it anyway. Locks are atomic, and should never be
         # held that long, by _any_ process.
         if ( time() - $time > 2 * 60 ) {
-            $this->{session}
-              ->writeWarning( $locker . " broke ${user}s lock on $web.$topic" );
+            $this->{session}->logger->log(
+                'warning', $locker . " broke ${user}s lock on $web.$topic" );
             $handler->setLock(0);
             last;
         }

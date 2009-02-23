@@ -260,7 +260,7 @@ sub _installMailHandler {
             require Net::SMTP;
         };
         if ($@) {
-            $this->{session}->writeWarning("SMTP not available: $@")
+            $this->{session}->logger->log('warning', "SMTP not available: $@")
               if ( $this->{session} );
         }
         else {
@@ -332,7 +332,7 @@ sub sendEmail {
         }
         catch Error::Simple with {
             my $e = shift->stringify();
-            $this->{session}->writeWarning($e);
+            $this->{session}->logger->log('warning', $e);
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
@@ -349,6 +349,7 @@ sub sendEmail {
               unless $retries;
         };
     }
+
     return $errors;
 }
 

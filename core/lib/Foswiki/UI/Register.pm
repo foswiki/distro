@@ -263,7 +263,7 @@ sub _registerSingleBulkUser {
         }
         $users->setEmails( $cUID, $row->{Email} );
 
-        $session->writeLog( 'bulkregister',
+        $session->logEvent( 'bulkregister',
             $row->{webName} . '.' . $row->{WikiName},
             $row->{Email}, $row->{WikiName} );
     }
@@ -386,7 +386,7 @@ sub _requireVerification {
     $data->{form} = $form;
     close(F);
 
-    $session->writeLog( 'regstart',
+    $session->logEvent('regstart',
         $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
         $data->{Email}, $data->{WikiName} );
 
@@ -582,7 +582,8 @@ sub _resetUsersPassword {
 
             if ($err) {
                 $$pMess .=
-                  $session->inlineAlert( 'alertsnohtml', 'generic', $err );
+                  $session->inlineAlert(
+                      'alertsnohtml', 'generic', $err );
             }
             else {
                 $sent = 1;
@@ -732,7 +733,7 @@ sub changePassword {
             );
         }
         else {
-            $session->writeLog( 'changepasswd', $login );
+            $session->logEvent('changepasswd', $login );
         }
 
         # OK - password changed
@@ -915,7 +916,7 @@ sub complete {
         my $e = shift;
 
         # Log the error
-        $session->writeWarning( 'Registration failed: ' . $e->stringify() );
+        $session->logger->log('warning', 'Registration failed: ' . $e->stringify() );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -941,7 +942,7 @@ sub complete {
 
         # write log entry
         if ( $Foswiki::cfg{Log}{register} ) {
-            $session->writeLog( 'register',
+            $session->logEvent('register',
                 $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
                 $data->{Email}, $data->{WikiName} );
         }
@@ -1165,7 +1166,7 @@ sub _emailRegistrationConfirmations {
     if ($err) {
 
         # don't tell the user about this one
-        $session->writeWarning( 'Could not confirm registration: ' . $err );
+        $session->logger->log('warning', 'Could not confirm registration: ' . $err );
     }
 
     return $warnings;

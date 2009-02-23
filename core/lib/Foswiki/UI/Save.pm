@@ -422,7 +422,7 @@ sub save {
       # for compatibility with old templates.
       if ( !$saveaction && $query->param('action') ) {
         $saveaction = lc( $query->param('action') );
-        $session->writeWarning(<<WARN);
+        $session->logger->log('warning',<<WARN);
 Use of deprecated "action" parameter to "save". Correct your templates!
 WARN
 

@@ -1438,7 +1438,7 @@ sub _updateReferringTopics {
             }
             catch Foswiki::AccessControlException with {
                 my $e = shift;
-                $session->writeWarning( $e->stringify() );
+                $session->logger->log('warning', $e->stringify() );
             }
             finally {
                 $store->unlockTopic( $cUID, $itemWeb, $itemTopic );
@@ -1483,7 +1483,7 @@ sub _updateWebReferringTopics {
             }
             catch Foswiki::AccessControlException with {
                 my $e = shift;
-                $session->writeWarning( $e->stringify() );
+                $session->logger->log('warning', $e->stringify() );
             }
             finally {
                 $store->unlockTopic( $cUID, $itemWeb, $itemTopic );

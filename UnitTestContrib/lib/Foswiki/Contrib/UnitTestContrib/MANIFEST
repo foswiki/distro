@@ -41,6 +41,7 @@ test/unit/FuncUsersTests.pm 0644
 test/unit/HierarchicalWebsTests.pm 0644
 test/unit/InitFormTests.pm 0644
 test/unit/Iterator.pm 0755
+test/unit/Logger.pm 0755
 test/unit/ManageDotPmTests.pm 0644
 test/unit/MergeTests.pm 0644
 test/unit/MetaTests.pm 0644
