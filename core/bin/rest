@@ -40,7 +40,7 @@ BEGIN {
     my ($bin) = $FindBin::Bin =~ /^(.*)$/;
     use Cwd ();
     my ($setlibCfg) = Cwd::abs_path( "$bin/setlib.cfg" ) =~ /(.*)/;
-    eval 'require "'.$setlibCfg.'";';
+    require $setlibCfg;
 }
 
 use Foswiki;
