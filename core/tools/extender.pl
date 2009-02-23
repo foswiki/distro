@@ -909,6 +909,24 @@ DONE
     return ( $unsatisfied ? 0 : 1 );
 }
 
+# Invoked when the user installs a new extension using
+# the configure script. It is used to ensure the perl module dependencies
+# provided by the module are real module names, and not some random garbage
+# which could be potentially insecure.
+sub _validatePerlModule {
+    my $module = shift;
+
+    # Remove all non alpha-numeric caracters and :
+    # Do not use \w as this is localized, and might be tainted
+    my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
+    print STDERR 'validatePerlModule removed '
+          . $replacements
+          . ' characters, leading to '
+          . $module ."\n"
+      if $replacements;
+    return $module;
+}
+
 sub install {
     $PACKAGES_URL = shift;
     $MODULE       = shift;
@@ -927,7 +945,7 @@ sub install {
         my ( $module, $condition, $trigger, $type, $desc ) =
           split( ',', $row, 5 );
         $module =
-          Foswiki::Sandbox::untaint( $module, \&Foswiki::validatePerlModule );
+          Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
         if ( $trigger eq '1' ) {
 
             # ONLYIF usually isn't used, and is dangerous
