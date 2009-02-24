@@ -1038,3 +1038,4 @@ lib/CPAN/lib/CGI/Session/Serialize/yaml.pm 0444
 lib/CPAN/lib/CGI/Session/Test/Default.pm 0444
 lib/CPAN/lib/CGI/Session/Tutorial.pm 0444
 lib/CPAN/lib/CGI/Session.pm 0444
+lib/CPAN/lib/UNIVERSAL/require.pm 0444

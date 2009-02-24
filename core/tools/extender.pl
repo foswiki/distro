@@ -166,57 +166,39 @@ sub remap {
 }
 
 sub check_dep {
-    my $dep = shift;
-    my ( $ok, $msg ) = ( 1, '' );
+    my ($dep) = @_;
+    my ( $ok, $msg ) = ( 1, "" );
 
-    if ( $dep->{type} =~ /^(perl|cpan)$/i ) {
+    # reject non-Perl dependencies
+    if ( $dep->{type} !~ /^(?:perl|cpan)$/i ) {
+        $ok = 0;
+        $msg =
+          "Module is type $dep->{type}, and cannot be automatically checked.\n"
+          . "Please check it manually and install if necessary.\n";
+        return ( $ok, $msg );
+    }
 
-        # Try to 'use' the perl module
-        eval 'use ' . $dep->{name};
-        if ($@) {
-            $msg = $@;
-            $msg =~ s/ in .*$/\n/s;
+    # try to load the module, using CPAN:UNIVERSAL::require
+    # This is roughly equivalent to eval { require $module }
+    # but should be way more readable
+    my $module = $dep->{name};
+    if ( not $module->require ) {
+        $ok = 0;
+        ( $msg = $@ ) =~ s/ in .*$/\n/s;
+        return ( $ok, $msg );
+    }
+
+    # check if the version satisfies the prerequisite
+    if ( defined $dep->{version} ) {
+        if ( not eval { $module->VERSION( $dep->{version} ) } ) {
             $ok = 0;
-        }
-        else {
-
-            # OK, it was loaded. See if a version constraint is specified
-            if ( defined( $dep->{version} ) ) {
-                my $ver;
-
-                # check the $VERSION variable in the loaded module
-                eval '$ver = $' . $dep->{name} . '::VERSION;';
-                if ( $@ || !defined($ver) ) {
-                    $msg .=
-                      'The VERSION of the package could not be found: ' . $@;
-                    $ok = 0;
-                }
-                else {
-
-                    # The version variable exists. Clean it up
-                    $ver =~ s/^.*\$Rev: (\d+)\$.*$/$1/;
-                    $ver =~ s/[^\d]//g;
-                    $ver ||= 0;
-                    eval '$ok = ( $ver ' . $dep->{version} . ' )';
-                    if ( $@ || !$ok ) {
-
-                        # The version variable fails the constraint
-                        $msg .= ' ' . $ver . ' is currently installed: ' . $@;
-                        $ok = 0;
-                    }
-                }
-            }
+            ( $msg = $@ ) =~ s/ at .*$//;
+            return ( $ok, $msg );
         }
     }
-    else {
 
-        # This module has no perl interface, and can't be checked
-        $ok  = 0;
-        $msg = <<END;
-Module is type $dep->{type}, and cannot be automatically checked.
-Please check it manually and install if necessary.
-END
-    }
+    $msg = "$module v" . $module->VERSION . " loaded\n";
+
     return ( $ok, $msg );
 }
 
