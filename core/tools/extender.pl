@@ -32,6 +32,7 @@ use Cwd;
 use File::Temp;
 use File::Copy;
 use File::Path;
+use UNIVERSAL::require;
 
 no warnings 'redefine';
 
