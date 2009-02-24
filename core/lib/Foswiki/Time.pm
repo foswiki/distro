@@ -374,25 +374,29 @@ sub _tzOffset {
 
 # Returns the ISO8601 week number for a date.
 # Year is the real year
-# Day of week is 0..6 where 0==Monday
+# Day of week is 0..6 where 0==Sunday
 # Day of year is 0..364 (or 365) where 0==Jan1
 # From http://www.perlmonks.org/?node_id=710571
 sub _weekNumber {
     my( $dayOfWeek, $dayOfYear, $year ) = @_;
+    # rebase dow to Monday==0
+    $dayOfWeek = ($dayOfWeek + 6) % 7;
 
-    # Locate the nearest Thursday
-    # (Done by locating the Monday at or before and going forwards 3 days)
+    # Locate the nearest Thursday, by locating the Monday at
+    # or before and going forwards 3 days)
     my $dayOfNearestThurs = $dayOfYear - $dayOfWeek + 3;
+
+    my $daysInThisYear = _daysInYear($year);
+    #print STDERR "dow:$dayOfWeek, doy:$dayOfYear, $year = thu:$dayOfNearestThurs ($daysInThisYear)\n";
 
     # Is nearest thursday in last year or next year?
     if ($dayOfNearestThurs < 0) {
         # Nearest Thurs is last year
         # We are at the start of the year
         # Adjust by the number of days in LAST year
-        $dayOfNearestThurs += daysInYear($year - 1);
+        $dayOfNearestThurs += _daysInYear($year - 1);
     }
-    my $daysInThisYear = daysInYear($year);
-    if ($dayOfNearestThurs > $daysInThisYear) {
+    if ($dayOfNearestThurs >= $daysInThisYear) {
         # Nearest Thurs is next year
         # We are at the end of the year
         # Adjust by the number of days in THIS year
@@ -405,7 +409,6 @@ sub _weekNumber {
 
 # Returns the number of...
 sub _daysInYear {
-    my $year = shift + 1900;
     return 366 unless $_[0] % 400;
     return 365 unless $_[0] % 100;
     return 366 unless $_[0] % 4;

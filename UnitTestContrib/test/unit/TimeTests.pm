@@ -221,34 +221,42 @@ sub test_parseErrors {
 
 sub test_week {
     my $this = shift;
-    # 2008 started on a tuesday...
-    my $time = Time::Local::timegm(0, 0, 0, 1, 0, 108);
+
+    # 2004 started on a thursday, so 1st Jan is in week 1
+    my $time = Time::Local::timegm(1, 0, 0, 1, 0, 104);
     my $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
     $this->assert_equals(1, $week);
-    # 3rd was the saturday of first week
-    $time = Time::Local::timegm(0, 0, 0, 3, 0, 108);
+
+    # 4th was the sunday of the first week, so also week 1
+    $time = Time::Local::timegm(1, 0, 0, 4, 0, 104);
     $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
     $this->assert_equals(1, $week);
-    # 7th was monday of second week
-    $time = Time::Local::timegm(0, 0, 0, 7, 0, 108);
+
+    # 5th was monday of second week, so week 2
+    $time = Time::Local::timegm(1, 0, 0, 5, 0, 104);
     $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
     $this->assert_equals(2, $week);
-    # poke back into 2007; 30th was in week 52
-    $time = Time::Local::timegm(0, 0, 0, 30, 11, 107);
-    $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
-    $this->assert_equals(52, $week);
-    # and 31st in week 53 (2007 started on a monday)
-    $time = Time::Local::timegm(0, 0, 0, 31, 11, 107);
-    $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
-    $this->assert_equals(53, $week);
-    # 1999 started on a friday, so 4th is week one
-    $time = Time::Local::timegm(0, 0, 0, 4, 0, 99);
+
+    # poke back into 2003; 31st is in week 1 of 2004
+    $time = Time::Local::timegm(1, 0, 0, 31, 11, 103);
     $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
     $this->assert_equals(1, $week);
-    # And 3rd is week 0
-    $time = Time::Local::timegm(0, 0, 0, 3, 0, 99);
+
+    # and 28th in week 52
+    $time = Time::Local::timegm(1, 0, 0, 28, 11, 103);
     $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
-    $this->assert_equals(0, $week);
+    $this->assert_equals(52, $week);
+
+    # 1999 started on a friday, so 1st is week 53 of 1998
+    # (week 0 of 1999)
+    $time = Time::Local::timegm(1, 0, 0, 1, 0, 99);
+    $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
+    $this->assert_equals(53, $week);
+
+    # And 4th is week 1
+    $time = Time::Local::timegm(1, 0, 0, 4, 0, 99);
+    $week = Foswiki::Time::formatTime($time, '$week', 'gmtime');
+    $this->assert_equals(1, $week);
 }
 
 1;
