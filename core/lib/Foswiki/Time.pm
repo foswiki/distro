@@ -216,6 +216,7 @@ sub parseTime {
    * =$epochSeconds= epochSecs GMT
    * =$formatString= twiki time date format, default =$day $month $year - $hour:$min=
    * =$outputTimeZone= timezone to display, =gmtime= or =servertime=, default is whatever is set in $Foswiki::cfg{DisplayTimeValues}
+
 =$formatString= supports:
    | $seconds | secs |
    | $minutes | mins |
@@ -223,7 +224,7 @@ sub parseTime {
    | $day | date |
    | $wday | weekday name |
    | $dow | day number (0 = Sunday) |
-   | $week | week number |
+   | $week | week number (ISO 8601) |
    | $month | month name |
    | $mo | month number |
    | $year | 4-digit year |
@@ -251,13 +252,13 @@ sub formatTime {
         $outputTimeZone = 'gmtime';
     }
 
-    my ( $sec, $min, $hour, $day, $mon, $year, $wday );
+    my ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday );
     if ( $outputTimeZone eq 'servertime' ) {
-        ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
+        ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
           localtime($epochSeconds);
     }
     else {
-        ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
+        ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
           gmtime($epochSeconds);
     }
 
@@ -287,10 +288,10 @@ sub formatTime {
     $value =~ s/\$day/sprintf('%.2u',$day)/gei;
     $value =~ s/\$wday/$WEEKDAY[$wday]/gi;
     $value =~ s/\$dow/$wday/gi;
-    $value =~ s/\$week/_weekNumber($day,$mon,$year,$wday)/egi;
+    $value =~ s/\$week/_weekNumber($wday, $yday, $year + 1900)/egi;
     $value =~ s/\$mont?h?/$ISOMONTH[$mon]/gi;
     $value =~ s/\$mo/sprintf('%.2u',$mon+1)/gei;
-    $value =~ s/\$year?/sprintf('%.4u',$year+1900)/gei;
+    $value =~ s/\$year?/sprintf('%.4u',$year + 1900)/gei;
     $value =~ s/\$ye/sprintf('%.2u',$year%100)/gei;
     $value =~ s/\$epoch/$epochSeconds/gi;
 
@@ -371,19 +372,44 @@ sub _tzOffset {
 	return $off;
 }
 
+# Returns the ISO8601 week number for a date.
+# Year is the real year
+# Day of week is 0..6 where 0==Monday
+# Day of year is 0..364 (or 365) where 0==Jan1
+# From http://www.perlmonks.org/?node_id=710571
 sub _weekNumber {
-    my ( $day, $mon, $year, $wday ) = @_;
+    my( $dayOfWeek, $dayOfYear, $year ) = @_;
 
-    require Time::Local;
+    # Locate the nearest Thursday
+    # (Done by locating the Monday at or before and going forwards 3 days)
+    my $dayOfNearestThurs = $dayOfYear - $dayOfWeek + 3;
 
-    # calculate the calendar week (ISO 8601)
-    my $nextThursday =
-      Time::Local::timegm( 0, 0, 0, $day, $mon, $year ) +
-      ( 3 - ( $wday + 6 ) % 7 ) * 24 * 60 * 60;    # nearest thursday
-    my $firstFourth =
-      Time::Local::timegm( 0, 0, 0, 4, 0, $year );    # january, 4th
-    return
-      sprintf( '%.0f', ( $nextThursday - $firstFourth ) / ( 7 * 86400 ) ) + 1;
+    # Is nearest thursday in last year or next year?
+    if ($dayOfNearestThurs < 0) {
+        # Nearest Thurs is last year
+        # We are at the start of the year
+        # Adjust by the number of days in LAST year
+        $dayOfNearestThurs += daysInYear($year - 1);
+    }
+    my $daysInThisYear = daysInYear($year);
+    if ($dayOfNearestThurs > $daysInThisYear) {
+        # Nearest Thurs is next year
+        # We are at the end of the year
+        # Adjust by the number of days in THIS year
+        $dayOfNearestThurs -= $daysInThisYear;
+    }
+
+    # Which week does the Thurs fall into?
+    return int ($dayOfNearestThurs / 7) + 1;
+}
+
+# Returns the number of...
+sub _daysInYear {
+    my $year = shift + 1900;
+    return 366 unless $_[0] % 400;
+    return 365 unless $_[0] % 100;
+    return 366 unless $_[0] % 4;
+    return 365;
 }
 
 =begin TML
