@@ -4,9 +4,15 @@
 
 %TOC%
 
+---++ Foswiki Release 1.0.2 - 26 Feb 2008
+
+Same as 1.0.1 but with a handful of additional bug fixes.
+
+Upgrade package for 1.0.2 is relative to 1.0.0 since 1.0.1 was never published on the Foswiki website.
+
 ---++ Foswiki Release 1.0.1 - 24 Feb 2008
 
-Patch release containing more than 70 bug fixes and some user interface improvements of configure.
+Patch release containing more than 70 bug fixes and some user interface improvements of configure. Due to a bug (Item1126) the development team decide not to publish this release but instead release 1.0.2 a few days later
 
 Bug fix highlights:
 
