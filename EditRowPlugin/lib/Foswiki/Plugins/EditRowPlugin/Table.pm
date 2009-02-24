@@ -344,13 +344,17 @@ sub _getCols {
             my $cd = $this->parseFormat($1);
             $colDef = $cd->[0];
         }
-        if ($colDef->{type} && $colDef->{type} eq 'row') {
-            # Force numbering if this is an auto-numbered column
-            $urps->{$cellName} = $row - $headRows + $colDef->{size};
-        } elsif ($colDef->{type} && $colDef->{type} eq 'label') {
-            # Label cells are uneditable, so we have to keep any existing
-            # value for them.
-            $urps->{$cellName} = $cell->{text};
+        if ( defined $colDef->{type} ) {
+            if ( $colDef->{type} eq 'row') {
+                # Force numbering if this is an auto-numbered column
+                $urps->{$cellName} = $row - $headRows + $colDef->{size};
+            } elsif ( $colDef->{type} eq 'label') {
+                # Label cells are uneditable, so we have to keep any existing
+                # value for them. If there is no value in the cell, restore
+                # the initial value.
+                $urps->{$cellName} =
+                  ($cell->{text} || $colDef->{initial_value});
+            }
         }
         # CGI returns multi-values separated by \0. Replace with
         # the Foswiki convention, comma

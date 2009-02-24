@@ -277,7 +277,7 @@ sub save {
         ASSERT(!$@) if DEBUG;
         my $content =
           Foswiki::Plugins::EditRowPlugin::TableParser::parseTables(
-              $text, $topic, $web, $meta, $urps);
+              $text, $web, $topic, $meta, $urps);
 
         my $nlines = '';
         my $table = undef;

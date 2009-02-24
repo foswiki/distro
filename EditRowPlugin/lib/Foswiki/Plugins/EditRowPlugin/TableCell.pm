@@ -212,6 +212,7 @@ sub renderForEdit {
 
     } elsif( $colDef->{type} eq 'label' ) {
 
+        # Labels are not editable.
         $text = $unexpandedValue;
 
     } else { #  if( $colDef->{type} =~ /^text.*$/)
