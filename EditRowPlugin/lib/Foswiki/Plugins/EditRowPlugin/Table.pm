@@ -356,10 +356,7 @@ sub _getCols {
                   ($cell->{text} || $colDef->{initial_value});
             }
         }
-        # CGI returns multi-values separated by \0. Replace with
-        # the Foswiki convention, comma
         $urps->{$cellName} ||= '';
-        $urps->{$cellName} =~ s/\0/, /g;
         push(@cols, $urps->{$cellName});
     }
     return \@cols;

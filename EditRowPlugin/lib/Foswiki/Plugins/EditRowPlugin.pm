@@ -272,7 +272,13 @@ sub save {
     } else {
         $text =~ s/\\\n//gs;
         my @ps = $query->param();
-        my $urps = { map { $_ => $query->param($_) } @ps };
+        my $urps = {};
+        foreach my $p (@ps) {
+            my @vals = $query->param($p);
+            # We interpreted multi-value parameters as comma-separated
+            # lists. This is what checkboxes, select+multi etc. use.
+            $urps->{$p} = join(',', @vals);
+        }
         require Foswiki::Plugins::EditRowPlugin::TableParser;
         ASSERT(!$@) if DEBUG;
         my $content =
