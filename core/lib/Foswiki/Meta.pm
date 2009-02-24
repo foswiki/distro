@@ -293,7 +293,7 @@ sub get {
     if ($data) {
         if ( defined $keyValue ) {
             foreach my $item (@$data) {
-                return $item if ( $item->{name} eq $keyValue );
+                return $item if ($item->{name} and ( $item->{name} eq $keyValue ));
             }
         }
         else {
