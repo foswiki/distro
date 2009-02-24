@@ -424,6 +424,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item1123][Item1123]] | Remove reference to !Support.Foswiki01x00x00 in InstallationGuide |
 | [[%BUGS%/Item1124][Item1124]] | EditTablePlugin cannot use Macros for the format string |
 | [[%BUGS%/Item1126][Item1126]] | Change in 1.0.1 causes crash when you have standard installation and no LocalLib.cfg and we can no longer run unit tests on Windows |
+| [[%BUGS%/Item1135][Item1135]] | Missing API documentation |
 | [[%BUGS%/Item6018][Item6018]] | GMTIME{}% does not return the right value for $week in ISO8601 |
 </noautolink>
 
