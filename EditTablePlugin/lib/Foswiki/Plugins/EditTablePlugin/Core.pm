@@ -813,6 +813,11 @@ sub handleEditTableTag {
         }
     }
 
+    # We allow expansion of macros in the EDITTABLE arguments so one can
+    # set a macro that defines the arguments
+    $theArgs = Foswiki::Func::expandCommonVariables( $theArgs, $inTopic,
+                                                     $inWeb );
+
     extractParams( $theArgs, \%params );
 
     # FIXME: should use Foswiki::Func::extractParameters
