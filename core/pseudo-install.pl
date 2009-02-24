@@ -436,7 +436,7 @@ print(
 
 foreach my $module (@modules) {
     my $libDir = installModule($module);
-    if ( ( !$installing || $autoenable ) && $module =~ /Plugin$/ ) {
+    if ( ( !$installing || $autoenable ) && $libDir && $module =~ /Plugin$/ ) {
         enablePlugin( $module, $installing, $libDir );
     }
 }
