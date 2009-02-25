@@ -14,11 +14,11 @@ use Error qw( :try );
 
 Password manager that uses Apache::HtPasswd to manage users and passwords.
 
-Subclass of [[WikiUsersPasswordDotPm][ =Foswiki::Users::Password= ]].
+Subclass of =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Users::Password][Foswiki::Users::Password]]=.
 See documentation of that class for descriptions of the methods of this class.
 
 Duplicates functionality of
-[[WikiUsersHtPasswdUserDotPm][ =Foswiki::Users::HtPasswdUser=]];
+=[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Users::HtPasswdUser][Foswiki::Users::HtPasswdUser]]=;
 provided mainly as an example of how to write a new password manager.
 
 =cut

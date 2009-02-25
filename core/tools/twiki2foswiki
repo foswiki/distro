@@ -1,5 +1,8 @@
 #!/bin/bash
 # Converts a TWiki Extension to a Foswiki Extension
+#
+# KNOWN LIMITATATIONS: (feel free to add support for any of these, if needed ;-) )
+# * TWiki*DotPm (probably) gets converted to Foswiki*DotPm, should be: %SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::*
 
 if [ $# -ne 1 ]
 then

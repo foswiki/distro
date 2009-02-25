@@ -5,7 +5,7 @@
 
 Support for htpasswd and htdigest format password files.
 
-Subclass of [[WikiUsersPasswordDotPm][ =Foswiki::Users::Password= ]].
+Subclass of =[[%SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::Users::Password][Foswiki::Users::Password]]=.
 See documentation of that class for descriptions of the methods of this class.
 
 =cut
