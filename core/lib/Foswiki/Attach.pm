@@ -167,7 +167,7 @@ sub _formatRow {
 
 sub _expandAttrs {
     my ( $this, $attr, $web, $topic, $info ) = @_;
-    my $file  = $info->{name};
+    my $file  = $info->{name} || '';
     my $users = $this->{session}->{users};
 
     require Foswiki::Time;
