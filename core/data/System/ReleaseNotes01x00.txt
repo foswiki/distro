@@ -421,9 +421,13 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 ---++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item630][Item630]] | Fix the code in extender.pl to use UNIVERSAL::require instead of eval use |
+| [[%BUGS%/Item1119][Item1119]] | Can crash foswiki by typing arbitrary meta into a topic |
 | [[%BUGS%/Item1123][Item1123]] | Remove reference to !Support.Foswiki01x00x00 in InstallationGuide |
 | [[%BUGS%/Item1124][Item1124]] | EditTablePlugin cannot use Macros for the format string |
 | [[%BUGS%/Item1126][Item1126]] | Change in 1.0.1 causes crash when you have standard installation and no LocalLib.cfg and we can no longer run unit tests on Windows |
+| [[%BUGS%/Item1132][Item1132]] | Foswiki::Func::getPreferencesValue docco is a little weird |
+| [[%BUGS%/Item1134][Item1134]] | Use of uninitialized value in string eq at .../lib/Foswiki/Meta.pm line 296. |
 | [[%BUGS%/Item1135][Item1135]] | Missing API documentation |
 | [[%BUGS%/Item6018][Item6018]] | GMTIME{}% does not return the right value for $week in ISO8601 |
 </noautolink>
