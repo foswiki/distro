@@ -206,18 +206,18 @@ sub _collectLogData {
 
     my $it = $session->logger->eachEventSince($start, 'info');
     while ( $it->hasNext() ) {
-        my $data = $it->next();
-        my $date = shift(@$data);
+        my $line = $it->next();
+        my $date = shift(@$line);
 
         my ( $logFileUserName );
 
-        while ( !$logFileUserName && scalar(@$data) ) {
-            $logFileUserName = shift @$data;
+        while ( !$logFileUserName && scalar(@$line) ) {
+            $logFileUserName = shift @$line;
             $logFileUserName =
               Foswiki::Func::getCanonicalUserID($logFileUserName);
         }
 
-        my ( $opName, $webTopic, $notes, $ip ) = @$data;
+        my ( $opName, $webTopic, $notes, $ip ) = @$line;
 
         # ignore minor changes - not statistically helpful
         next if ( $notes && $notes =~ /(minor|dontNotify)/ );
@@ -285,7 +285,9 @@ sub _collectLogData {
             }
         }
         else {
-            $session->writeDebug( 'WebStatistics: Bad logfile line ' . $line );
+            $session->logger->log(
+                'debug', 'WebStatistics: Bad logfile line ' .
+                  join('|', @$line) );
         }
     }
 
