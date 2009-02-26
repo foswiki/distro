@@ -1,0 +1,60 @@
+---+!! !UnitTestContrib
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = Foswiki Unit-Test Framework
+-->
+<a href="http://wikiring.com"><img src="%ATTACHURL%/logo.gif" style="float:right" /></a>
+%SHORTDESCRIPTION%
+
+%TOC%
+
+The Foswiki Unit Test Framework consists of a set of test support packages and scripts, and a number of unit test packages that test many of the features of Foswiki.
+
+At the time of writing this package can only be used with Foswiki and TWiki-4.2 and later.
+
+This Contrib replaces the old Test::Unit based framework that we used previously. That framework works fine, but is overweight for what we require, and hard to install for non-subversion developers.
+
+---++ Usage
+
+To run the unit tests, =cd= to =test/unit= and type =perl ../bin/TestRunner.pl FoswikiSuite.pm=. The FoswikiSuite package will collect all the other tests in the =test/unit= directory and run them. Any test failures are reported during the test run and again at the end of the run.
+
+---+++ Options
+
+*-clean*: Sometimes sessions in a live Foswiki hang around, or a test can fail leaving fragments of fixtures behind. These sessions and fragments may stop the tests from being run again, as the tests require an cleanroom environment to run in. You can instruct the test runner to clean up any fragments passing =-clean= to =TestRunner.pl= - but use it with great care, as it deletes webs and files from =/tmp= without waiting for confirmation from you!
+
+*-log*: Normal test output is printed to the console, so you can redirect it to a file. This is hard to do on some platforms, so the =-log= option is provided. This saves all the test output (STDOUT and STDERR) to a logfile. The logfile is named for the exact time the test run started. Remember that logfiles can get quite large. The logfile can also be useful when you are analysing unexpected output from subprocesses, as it blocks any attempt to redirect to the null device.
+
+---++ Details
+
+The =TestRunner.pl= script accepts a list of the names of test files in the current directory. it performs some preliminaries and environment checking before invoking a =Unit::TestRunner= that does the real work. This class iterates over the list of test files, and runs the tests. It maintains a record of any failures, and reports them at the end of the run.
+
+Test files are built by deriving a class from =Unit::TestCase=. This is usually done via =FoswikiTestCase= or =FoswikiFnTestCase=, which are fixture-building classes designed specifically for use when testing Foswiki. =FoswikiTestCase= is used for tests where the Foswiki configuration ($Foswiki::cfg) must be saved and restored; it is also responsible for making sure the default plugins (and only the default plugins) are enabled. =FoswikiFnTestCase= is used where we are already fairly confident that basic Foswiki work, and we need some pre-registered users and pre-created test webs containing data that the test can work on.
+
+FoswikiSuite automatically includes any Plugin tests it can find in subdirectories below =test/unit=. This is helpful when you want to test a plugin in context with all the other core unit tests.
+
+One test file, =SemiAutomaticTestCaseTests.pm=, reads the semi-automatic tests from the !TestCases web stored in subversion. It will not run if it can't find the !TestCases web, or if the Foswiki:Extensions.TestFixturePlugin is not installed.
+
+---++ Installation Instructions
+
+%$INSTALL_INSTRUCTIONS%
+
+---++ Contrib Info
+
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+|  Contrib Author(s): | Crawford Currie http://c-dot.co.uk and test authors |
+|  Copyright: | &copy; 2007 Foswiki Contributors |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Contrib Version: | %$VERSION% |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  5 Sep 2007 | Added logging |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Contrib Home: | http://foswiki.org/Extensions/UnitTestContrib |
+|  Feedback: | http://foswiki.org/Extensions/UnitTestContribDev |
+
+__Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the feedback topic on foswiki.org instead. -->
+
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%
