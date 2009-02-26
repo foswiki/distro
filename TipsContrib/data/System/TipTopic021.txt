@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107571621" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ !SmiliesPlugin emoticons
+
+Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile =&#058;-)= :-) or a frown =&#058;-(= :-( . This plugin automatically converts certain smilies to a nice small icon.
+
+[[SmiliesPlugin][More smilies...]]
+
+[[TipsOfTheDay][See More Tips...]]

@@ -1,0 +1,15 @@
+%META:TOPICINFO{author="ProjectContributor" date="1107567165" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="TipsOfTheDay"}%
+---+ Tip Of The Day Administration
+
+---++ Adminstrative Pages
+
+| [[TipsOfTheDay][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TipsOfTheDay?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TipsOfTheDay | Aggregated List of All Tips, from %MAINWEB% and %SYSTEMWEB%. |
+| [[TipsOfTheDayAddNew][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TipsOfTheDayAddNew?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TipsOfTheDayAddNew | Add A New Tip |
+| [[TipsOfTheDayInclude][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TipsOfTheDayInclude?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TipsOfTheDayInclude | This topic generates the random tip to display. It gets included to the focus box.  |
+| [[TipsOfTheDayTemplate][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/viewtopic.gif" alt="View topic" border="0" width="16" height="16" />]] [[%SCRIPTURL%/edit%SCRIPTSUFFIX%/%WEB%/TipsOfTheDayTemplate?t=%SERVERTIME{$hou$min$sec}%][<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/edittopic.gif" alt="Edit topic" border="0" width="16" height="16" />]] TipsOfTheDayTemplate | Template for new Tips |
+
+---++ Focus Box Example
+<table border="0" width="200px"><tr><td>
+%INCLUDE{"TipsOfTheDayInclude" warn="off" }%
+</td></tr></table>
