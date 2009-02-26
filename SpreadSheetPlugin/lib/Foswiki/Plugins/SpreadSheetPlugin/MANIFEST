@@ -1,0 +1,4 @@
+data/System/SpreadSheetPlugin.txt 0644
+data/System/VarCALC.txt 0644
+lib/Foswiki/Plugins/SpreadSheetPlugin.pm 0444
+lib/Foswiki/Plugins/SpreadSheetPlugin/Calc.pm 0444
