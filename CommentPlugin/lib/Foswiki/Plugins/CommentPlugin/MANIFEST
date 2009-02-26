@@ -1,0 +1,11 @@
+data/System/CommentPlugin.txt 0644 Plugin doc page
+data/System/VarCOMMENT.txt 0644 Comment tag doc page
+data/System/CommentPluginTemplate.txt 0644 Standard templates
+data/System/CommentPluginExamples.txt 0644 Examples of standard templates
+data/Sandbox/CommentPluginExampleComments.txt 0644 Examples of target comment
+data/Sandbox/CommentPluginTemplateExample.txt 0644 Example of comment template topic
+templates/comments.tmpl 0444 Master comment templates 
+lib/Foswiki/Plugins/CommentPlugin.pm 0444 Plugin Perl module 
+lib/Foswiki/Plugins/CommentPlugin/Comment.pm 0444 Plugin Perl module 
+
+pub/System/CommentPlugin/wikiringlogo20x20.png 0660

@@ -1,0 +1,286 @@
+%META:TOPICINFO{author="ProjectContributor" date="1170597947" format="1.0" version="$Rev$"}%
+
+---+!! Comment Plugin
+
+<!--
+
+   PLEASE DO NOT EDIT THIS TOPIC
+
+   It is automatically generated from the subversion repository, and any changes
+   you make will simply be overwritten the next time a release is generated.
+
+   Instead, you could check your fix in, raise a bug in the Bugs web, or mail thge author.
+-->
+
+*Comment Plugin lets users quickly post comments to a page without an edit/preview/save cycle.*
+
+%TOC{title="On this page:"}%
+
+Related topics: CommentPluginTemplates, CommentPluginExamples
+
+---++ Features
+
+Inserts an edit box into the page that allows users to type in and save comments. Comments can be made
+   * in different formats (as defined by a template),
+   * in both forward and reverse chronological order,  
+   * signed or unsigned, dated or undated (as defined by a template),
+   * in other topics, or other positions within the current topic.
+
+---++ Syntax
+#StandardAttrs
+Write =%<nop>COMMENT{<i>attributes</i>}%= anywhere in a topic.
+%INCLUDE{"%SYSTEMWEB%.VarCOMMENT" section="comment_attributes"}%
+(See also [[#MoreAttrs][additional attributes]])
+
+---+++ Positioning the comment
+=%COMMENT= supports several ways to specify _where_ a comment should be inserted in the target topic. This is referred to as the _location_ of the comment.
+
+---++++ Location relative to <code>%COMMENT</code> tag
+The default _location_ is the =%COMMENT= tag itself. For example:
+<verbatim>
+%COMMENT{type="below"}%
+</verbatim>
+will add comments in the current topic, directly below the =%COMMENT= tag.
+
+---++++ Location relative to an anchor
+The =target= attribute may specify a web, and may also specify an anchor within the target topic; for example, 
+<verbatim>
+%COMMENT{type="above" target="%MAINWEB%.PersonalRemarks#InsertHere"}%
+</verbatim>
+This uses a standard in-topic anchor as the insertion location. See %SYSTEMWEB%.TextFormattingRules for more about Foswiki anchors.
+
+---++++ Location relative to an arbitrary text string
+Getting more sophisticated, you can also specify a regular expression for the target location using the =location= parameter. The target topic is searched for the regular expression, and the comment inserted relative to the string that the search matched. For example,
+<verbatim>
+%COMMENT{type="above" location="Flights of Fancy"}%
+</verbatim>
+will place comments above the first occurence of the string =Flights of Fancy= in the current topic.
+
+*Warning* of course, if a user's comment contains the string "Flights of Fancy" they may and up _changing the location_ for the next comment! Also, if you use a tag in the location, then you've just inserted another tag in the page that contains the =%COMMENT=! So be very careful how you specify the RE for =location=. Note that the RE is matched using perl "multiple line" mode, so ^ and $ match the start of a line and the end of a line respectively. %BR%
+Also note that you cannot have the text =location="= just before the location.
+
+I look forward to someone leveraging this feature to create - for example - threaded conversations using =%COMMENT=.
+
+If you specify an anchor _and_ a =location=, the anchor will be ignored.
+
+---+++ Default templates
+Templates are used to define the "comment style" i.e. how comments appear in the page. The default is to add comments in "Blog like" style using bulleted lists, with the most recent comment at the top, but many other styles are available such as tables or Wiki thread mode comments. It is easy to define your own customer styles as well.
+
+A set of default comment templates are shipped with the plugin - see also CommentPluginTemplates:
+| *Template type* | *Description* |
+| =top= | Comments, signed and dated (server time), added at top of the topic (the anchor is ignored) |
+| =bottom= | Comments, signed and dated (server time), added at end of the target topic (the anchor is ignored) |
+| =above= | Comments, signed and dated (server time), added immediately before the target anchor, or the =%COMMENT= if no anchor is specified |
+| =below= | Comments, signed and dated (server time), added immediately below the target anchor, or the =%COMMENT= if no anchor is specified |
+| =belowthreadmode= | Comments, signed and dated, added recurse after comment box |
+| =threadmode= | Wiki thread mode comment, signed and dated (server time) |
+| =tableprepend= | Comments, signed and dated (server time), formatted as an HTML table row, added below the anchor (which must be in an HTML &lt;table>) |
+| =tableappend= | Comments, signed and dated (server time), formatted as an HTML table row, added above the anchor (which must be in an HTML &lt;table>) |
+| =action= | Action added to action table directly above comment box (see <a href="#Installation">Plugin Installation Instructions</a> below for immportant notes) |
+| =table= | Tablerows adding on end |
+| =toctalk= | Talk using TOC adding on end |
+| =bookmark= | Create a list of annotated bookmarks |
+| =return= | Post to a different topic and return |
+
+Your local installation may add more template types as well - see [[#TemPlates][Customisation]], below.
+
+#TemPlates
+---++ Customisation
+Customisation of the comment plugin requires
+	* familiarity with HTML forms
+	* some familiarity with the [[%SYSTEMWEB%.SkinTemplates][Skin Templates]].
+
+To define a comment type, you have to provide two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
+
+The plugin picks up these template definitions from a standard template file, =templates/comments.tmpl=. This allows different templates to be defined for different Foswiki skins.
+
+---+++ Defining custom templates
+By default, =templates/comments.tmpl= includes the topic %SYSTEMWEB%.CommentPluginTemplate, which contains all the shipped standard templates and in turn includes %SYSTEMWEB%.<nop>UserCommentsTemplate that can include non-standard customisations.
+
+This allows for several levels of customisation:
+   1 To *override all default templates, everywhere*, change =comments.tmpl= to include a different topic (this customisation will be lost next time you upgrade, though).
+   1 To add *site-wide local template customisations*, add them to %SYSTEMWEB%.UserCommentsTemplate (create if it does not exist yet). You can redefine the standard templates here if you want, and your definitions will override the standard definitions.
+   1 To override templates on a *web-by-web basis*, add a topic =UserCommentsTemplate= to the web (this will replace %SYSTEMWEB%.<nop>UserCommentsTemplate)
+   1 To override templates *for a specific skin*, add them to %SYSTEMWEB%.<nop>UserComments&lt;Skin&gt;Template (where &lt;Skin&gt; is the name of the skin with the first letter capitalised, e.g. Pattern)
+
+You can also define a *comment template in a topic*, by passing the topic location with =templatetopic=. For example:
+<blockquote>
+<verbatim>
+%COMMENT{type="blogpost" templatetopic="BlogPostCommentTemplate" target="%TOPIC%" button="Add comment" }%
+</verbatim>
+
+=templatetopic= accepts =topic= or =web.topic= syntax. See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]].
+</blockquote>
+
+
+%X% Templates are picked up by following the [[SkinTemplates#FindingTemplates][standard rules for locating template files]]. Note that you can use =%TMPL:INCLUDE= to include other files of templates. %BR%
+
+---+++ Customisation example
+Provide both a =PROMPT= and an =OUTPUT= definition:
+
+<verbatim>
+%TMPL:DEF{PROMPT:myComment}%%TMPL:P{promptbox}%%TMPL:END%
+%TMPL:DEF{OUTPUT:myComment}%%TMPL:P{outputoneliner}%%POS:TOP%
+%TMPL:END%
+</verbatim>
+
+Call your custom comment with:
+
+<verbatim>
+%COMMENT{type="myComment"}%
+</verbatim>
+
+---+++ The =PROMPT= template
+The =PROMPT= template defines the contents of an HTML form that is used to capture the comment. This form invokes the comment generator when submitted. Parameters to the comment generator are defined using standard HTML input fields, such as =input=, =textarea= and =select=. The user enters values for these parameters, and these are then available when the =OUTPUT= template is expanded, in the form of <code>%<nop>URLPARAM%</code>s.
+
+Only the input fields of the form need be defined. The plugin automatically generates the <code>&lt;form&gt;</code> and <code>&lt;/form&gt;</code> tags, unless you specify =noform="on"=, in which case you have to provide them yourself. *Note* that you must define a "submit" button if you want the form to work!
+
+#MoreAttrs
+---++++ Providing attribute values
+If an attribute is given to the =%COMMENT= tag that is not one of the [[#StandardAttrs][standard attributes]], then that attribute is taken as the name of a parameter to be expanded in the =PROMPT= template. Expressions in the template of the form <code>%</code><i>param</i><code>|</code><i>default</i><code>%</code> (e.g. <code>%rows|3%</code>, <code>%button|Push me%</code>) are expanded to the values given in the <code>%COMMENT</code>. For example, if the =PROMPT= template 'example' contains:
+<pre>
+&lt;textarea rows=%rows|3% cols="%cols|50%" value="%tval|Rubbish%">
+</pre>
+and the %COMMENT tag is:
+<pre>
+%<nop>COMMENT{type="example" cols="75"}%
+</pre>
+then the template will be expanded as
+<pre>
+&lt;textarea rows="3" cols="75" value="Rubbish">
+</pre>
+
+---++++ Special macros
+As well as support for all the usual macros in templates, the following special macros are supported in the =PROMPT= definition:
+	 | *Macro* | *Description* |
+	 | =%<nop>DISABLED%= | Set to 'disabled' when you cannot comment (e.g. in preview mode). |
+	 | =%<nop>MESSAGE%= | The text specified by =default=. This may be overridden by a helpful message when the prompt is DISABLED. |
+
+*EXPERT* Note that when a comment is saved, the =save= script is invoked on the target topic, with a number of parameters provided by the comment form. Normally the CommentPlugin will provide these fields in the form, but experts can also provide the fields themselves in order to get finer control over what is submitted, or you might want to define your own HTML forms that do comment submission. The parameters that the CommentPlugin recognises are as follows:
+| *CGI parameter* | *Description* |
+| =comment_action= | Must be =save= to get the CommentPlugin to perform |
+| =comment_type= | Type of the OUTPUT template |
+| =comment_index= | Zero-based index of the %COMMENT in the source topic. Used to place a post relative to an existing %COMMENT. |
+| =comment_anchor= | Anchor taken from the =target= spec |
+| =comment_location= | As passed to %COMMENT |
+| =comment_nonotify= | As passed to %COMMENT |
+| =comment_remove= | Zero-based index of a %COMMENT to remove from the target topic |
+| =comment_nopost= | As passed to %COMMENT |
+| =comment_templatetopic= | As passed to %COMMENT |
+Note that =comment_location= overrides =comment_anchor=, and both override =comment_index=. Example, shows an "I Approve" button that adds your approval signature to the end of the topic:
+<verbatim>
+<form method="post" action="%SCRIPTURL{save}%/%WEB%/%TOPIC%">
+<input type="submit" value="I Approve" />
+<input type="hidden" name="comment_action" value="save" />
+<input type="hidden" name="comment_type" value="bottom" />
+<input type="hidden" name="comment" value="I Approve" />
+</form>
+</verbatim>
+
+---++++ Customisation example with custom form template
+Write a custom form in a topic.
+   * In the form set the location of the prompt with =%<nop>COMMENTPROMPT%=; the prompt will be positioned here.
+   * In %COMMENT use parameter =noform="on"=
+   * In %COMMENT use parameter =templatetopic= to point to the topic with the form template
+
+Example form:
+<verbatim>
+%TMPL:DEF{FORM:example}%
+<form method="post" action="%SCRIPTURL{save}%/%BASEWEB%/%BASETOPIC%" enctype="application/x-www-form-urlencoded" name="examplecomment" id="examplecomment">
+<input type="hidden" name="redirectto" value="%BASEWEB%.%BASETOPIC%" />
+%COMMENTPROMPT%
+</form>
+%TMPL:END%
+</verbatim>
+
+Example comment:
+<verbatim>
+%COMMENT{noform="on" type="example" templatetopic="Sandbox.CommentPluginTemplateExample" target="%TOPIC%" button="Add comment" }%
+</verbatim>
+
+---+++ The =OUTPUT= template
+The =OUTPUT= template defines the format for the text that actually gets embedded into the topic. All the usual macros are available in the =PROMPT= definition, but note that they get expanded _when the comment is inserted in the text_, so time, date and username will refer to the time and date when the comment was made, and the user who made it.
+
+There are also four position tags that are used to indicate where the comment should be placed, relative to the =location= defined in the =%COMMENT= tag:
+
+	 | =%<nop>POS:TOP%= | If present, comments will be inserted *at the top of the topic* i.e. before any other text |
+	 | =%<nop>POS:BOTTOM%= | If present, comments will be inserted *at the end of the topic* i.e. after all existing text |
+	 | =%<nop>POS:BEFORE%= | If present, comments will be inserted <b>immediately before the =%<nop>COMMENT%= tag</b> |
+	 | =%<nop>POS:AFTER%= | If present, comments will be inserted <b>immediately after the =%<nop>COMMENT%= tag</b> |
+Note that these position tags are obviously mutually exclusive. If you define more than one, the result is undefined. If none is present, the default is taken from the plugin setting =DEFAULT_TYPE=
+
+	 | =%<nop>COMMENTPROMPT%= | Use with a custom form. If present, the comment prompt will be positioned here. |
+	 
+All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in a topic template can also be used in an =OUTPUT= template.
+
+---++ Settings
+<!-- Not used by the plugin
+	* Set SHORTDESCRIPTION = Quickly post comments to a page without an edit/preview/save cycle.
+-->
+Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
+| *Preference* | *Default* | *Description* |
+| =%<nop>COMMENTPLUGIN_TEMPLATES%= | =comments= | Name of template file in the 'templates' directory that contains the comment templates. The default 'comments.tmpl' automatically includes user templates from %SYSTEMWEB%.CommentPluginTemplate, which in turn includes %SYSTEMWEB%.UserCommentsTemplate. |
+| =%<nop>COMMENTPLUGIN_DEFAULT_TYPE%= | =above= | Default template type |
+These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in individual topics.
+
+#Installation
+---++ Plugin Installation Instructions
+	* This plugin is pre-installed in most releases. However if you need to upgrade the plugin for any reason:
+	* Download the archive file from the Plugin web (see below)
+	* Unpack the archive in your Foswiki installation directory.
+		* You may need to correct file permissions
+	* Run ==%TOPIC%_installer== to automatically check and install other modules that this module depends on, and enable the plugin.
+	* Alternatively,
+		* Manually resolve the dependencies listed below.
+		%$DEPENDENCIES%
+	* Use =configure= to enable the plugin
+
+Note that if you want to use the =action= template then you must also:
+   1 Install the Foswiki:Extensions/ActionTrackerPlugin;
+   1 Put the !CommentPlugin *before* the !ActionTrackerPlugin in the ={PluginsOrder}= configuration option (in =configure=)
+
+---++ Plugin Info
+
+Another great extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+|  Plugin Author: | Foswiki:Main.CrawfordCurrie http://www.c-dot.co.uk inspired by the work of TWiki:Main.DavidWeller and TWiki:Main.PeterMasiar |
+|  Copyright: | &copy; 2004, TWiki:Main.CrawfordCurrie<br />&copy; 2004-2009 Foswiki:%SYSTEMWEB%.ProjectContributor |
+|  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
+|  Plugin Version: | 13 Jan 2009 %$VERSION% |
+|  Change History: | |
+|  15 Jan 2008 | Foswikitask:Item727 - data loss issue when missing anchor or location |
+|  13 Jan 2009 | Foswikitask:736 Make !CommentPlugin aware of CompareRevisionsAddOn bin script. |
+|  16 Dec 2008 | Foswiki version |
+|  03 Aug 2008 | The TWiki 4.2.1 release version | 
+|  11 Apr 2008 | TWikibug:Item5518 corrected the template definition for bulletabove |
+|  05 Sep 2007 | TWikibug:Item3689 corrected =location= handling TWikibug:Item4181 added VarCOMMENT TWikibug:Item4402 corrected access check |
+|  22 Jun 2007 | Removed the long-deprecated =%TIME= (use %GMTIME instead). Minor doc changes |
+|  14021 | TWikibug:Item3755 Fixed incorrect handling of line terminators when targeting an anchor |
+|  13311 | Added option to define a comment template in any topic. Pass the topic location with =templatetopic= (either =topic= or =web.topic=). See an example in [[CommentPluginExamples#TemplateTopic][CommentPluginExamples:templatetopic]]. |
+|  12822 | TWikibug:Item3598 minor doc fixes |
+|  12750 | TWikibug:Item3510 added a note about the changed template spec in TWiki 4.1.0. Code remains unchanged |
+|  11358 | TWikibug:Item2802 moved SHORTDESCRIPTION to .pm. Coded up TWiki:main.PankajPant's suggestions as =nopost= and =remove=. Added default text for the %COMMENT as requested by TWiki:Main.AndyGlew |
+|  11118 | TWikibug:Item2322 removed span tag around oneliner bullet output |
+|  8788 | TWikibug:Item1465  Item1577: reverted 8433 to fix inclusion of correct user templates |
+|  8787 | TWikibug:Item1573  renamed standard templates topic to avoid naming clash on Windows, where filenames are case-insensitive |
+|  8433 | TWikibug:Item1465  Fix 'TWiki.' to '%SYSTEMWEB%.'; also fixed include 'UserComments' to 'UserCommentsTemplate' (at least that is what the doc suggests) |
+|  7427 | TWikibug:Item845  removed duplicate date in default comments; stick with server time |
+|  7251 | TWikibug:Item810  fix for user template inclusion; reorganised templates to make customisation easier |
+|  5906 | TWikibug:Item143  apache warning from comment plugin when !CommentsTmpl.txt not found |
+|  5519 | !CommentPluginOnAnchorsBroken: incorporated !JacobEisinger's fix |
+|  5518 | !CommentPluginOnAnchorsBroken: incorporated !OlivierBerger's fix |
+|  5455 | On Niels Kodslo's prompting, removed the global recursion prevention that I believe is no longer needed. |
+|  5280 | Removed templates, and some minor fixes |
+|  5250 | Removed newlines from prompt box |
+|  4902 | Changed to use viewauth. Moved templates into user topics. |
+|  4901 | Added templates in user webs support |
+|  4897 | Fixes for disabling during preview; re-enabled old legacy parameters |
+|  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
+|  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
+|  4745 | 06 Mar 2002 initial commit |
+|  Plugin Home: | Foswiki:Extensions/%TOPIC% |
+|  Feedback: | Foswiki:Extensions/%TOPIC%Dev |
+
+*Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
+
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
