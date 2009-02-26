@@ -1,0 +1,158 @@
+---+!! !TinyMCEPlugin
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = Integration of the !TinyMCE WYSIWYG Editor
+-->
+%SHORTDESCRIPTION%
+
+<img src="%ATTACHURL%/screenshot.gif"/>
+
+%TOC%
+This is an integration of the <a href="http://tinymce.moxiecode.com?id=powered_by_tinymce_mini"><img src="http://tinymce.sourceforge.net/buttons/tinymce_button.png" border="0" width="80" height="15" alt="TinyMCE" /></a> WYSIWYG editor. This is great little editor, fast and highly functional, and supporting a wide range of browsers, including Firefox, IE and Safari. At the time of writing it doesn't work with Opera or Konqueror.
+
+The integration uses the Foswiki:Extensions.WysiwygPlugin to translate text to and from a format that !TinyMCE can edit.
+
+Unlike the other editor integrations in Foswiki, which install "Word in a Browser" style editors, this plugin is able to swap out the _standard_ text areas in an edit and replace them with WYSIWYG editors. This means you get WYSIWYG editors for textareas in forms, as well as for the main text of the topic. It can also co-exist alongside other WYSIWYG editors, such as Kupu.
+
+The editor automatically "switches itself off" (i.e. reverts to the old text-only window) when editing topics that contain Foswiki content it can't handle, such as complex macros.
+
+---++ Editor Notes
+The editor uses a translator module to convert from Foswiki Topic Markup Language (TML) to HTML and back. The translator converts special macros - such as %<nop>MACROS% - to plain text, and encloses them within HTML spans using a special style called =WYSIWYG_PROTECTED=. In this way the editor can detect text that is not meant to be HTML formatted. This style is _also_ used to protect special text you enter into the editor from being interpreted when the topic is translated back into TML. If you want to add any special features that are sensitive to formatting, such as =Set= statements, then you have to format those regions using 'Protect on save' or 'Protect forever'.
+
+---++ Installation Instructions
+
+*NOTES:*
+   * This plugin comes pre-installed on Foswiki. You should only need to re-install if there is an upgrade to the plugin.
+   * It requires the very latest revision of WysiwygPlugin.
+   * When installed, it *replaces* the old "textarea" editor. The default Foswiki skin provides access to the plain text editor by adding a Raw Edit link at the bottom of the page.
+
+First follow the installation instructions to install the Plugin:
+
+%$INSTALL_INSTRUCTIONS%
+
+   * *Enable* the WysiwygPlugin in =configure=.
+   * *Enable* the TinyMCEPlugin in =configure=.
+   * *Click* on edit of any topic.
+
+---++ Settings
+You can override this setting by defining TINYMCEPLUGIN_DEBUG to enable some simple debug features.
+   * Set DEBUG = 0
+
+This setting contains all the options passed to the TinyMCE editor on startup. 
+For a full explanation of the available options, and guidance on reconfiguring TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
+<verbatim>
+   * Set INIT = mode:"textareas",
+   editor_selector : "foswikiWysiwygEdit",
+   save_on_tinymce_forms: true,
+   cleanup : true,
+   theme : "advanced",
+   convert_urls : true,
+   relative_urls : false,
+   remove_script_host : false,
+   setupcontent_callback : FoswikiTiny.setUpContent,
+   urlconverter_callback : "FoswikiTiny.convertLink",
+   hide_instance_callback : FoswikiTiny.switchToRaw,
+   show_instance_callback : FoswikiTiny.switchToWYSIWYG,
+   foswikipuburl_callback : "FoswikiTiny.convertPubURL",
+   save_callback : "FoswikiTiny.saveCallback",
+   %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
+   plugins : "table,searchreplace,autosave,paste,foswikibuttons,foswikiimage%IF{"$TINYMCEPLUGIN_DEBUG" then=",devkit"}%%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
+   foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
+   foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
+   theme_advanced_toolbar_align : "left",
+   foswikibuttons_formats : [
+   { name: "Normal", el: "", style: null },
+   { name: "Heading 1", el: "h1", style: false },
+   { name: "Heading 2", el: "h2", style: false },
+   { name: "Heading 3", el: "h3", style: false },
+   { name: "Heading 4", el: "h4", style: false },
+   { name: "Heading 5", el: "h5", style: false },
+   { name: "Heading 6", el: "h6", style: false },
+   { name: "VERBATIM", el: "pre", style: "TMLverbatim" },
+   { name: "LITERAL", el: "span", style: "WYSIWYG_LITERAL" },
+   { name: "Protect on save", el: null, style: "WYSIWYG_PROTECTED" },
+   { name: "Protect forever", el: null, style: "WYSIWYG_STICKY" }
+   ],
+   paste_create_paragraphs : true,
+   paste_create_linebreaks : false,
+   paste_convert_middot_lists : true,
+   paste_convert_headers_to_strong : false,
+   paste_remove_spans: true,
+   paste_remove_styles: true,
+   paste_strip_class_attributes: "all",
+   theme_advanced_buttons1 : "foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor,separator,attach,image,charmap,hr,separator,undo,redo,separator,search,replace",
+   theme_advanced_buttons2: "tablecontrols,separator,code,hide",
+   theme_advanced_buttons3: "",
+   theme_advanced_toolbar_location: "top",
+   theme_advanced_resize_horizontal : false,
+   theme_advanced_resizing : true,
+   theme_advanced_path: false,
+   theme_advanced_statusbar_location : "bottom",
+   content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
+</verbatim>
+   * Additional settings for specific browsers.
+      * Warning: if you enable =paste_auto_cleanup_on_paste then it automatically implies =past_use_dialog= on all non-MSIE browsers.
+      * Set INIT_MSIE = paste_auto_cleanup_on_paste : true
+      * Set INIT_OPERA = 
+      * Set INIT_GECKO = 
+      * Set INIT_SAFARI = 
+
+You can override these settings in the same way as any other [[%SYSTEMWEB%.PreferenceSettings][preference settings]], by setting e.g. =TINYMCEPLUGIN_INIT= in the site, web or topic preferences. You are *not* recommended to edit the setting here.
+
+   * You can *disable* the plugin in any web or topic, or for any specific user, by setting the =TINYMCEPLUGIN_DISABLE= preference to 1.
+   * Some browsers don't support !TinyMCE. You can prevent the editor from
+     being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror|Opera)=.   
+
+%INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
+
+---++ Frequently Asked Questions
+
+The topic TinyMCEFrequentlyAskedQuestions contains more help with things like: "How do I configure the buttons in my skin?", "How do I disable the WYSIWYG?" etc.
+
+---++ Plugin Info
+
+Another great Foswiki extension from the <a style="text-decoration:none" href="http://wikiring.com"><img src="%ATTACHURLPATH%/wikiringlogo20x20.png" alt="" /> *WikiRing* </a> - working together to improve your wiki experience!
+
+|  Author: | [[http://c-dot.co.uk][Crawford Currie]], [[Main.EugenMayer]] |
+|  Copyright: | &copy; 2007-2008 Crawford Currie http://c-dot.co.uk |
+|             | This package also includes the complete sources for version 2.1.1.1 of the !TinyMCE editor |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Plugin Version: | %$VERSION%|
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  21 Jan 2009 | Adding SYSTEMWEB to foswiki_vars, simplfying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) |
+|  06 Dec 2008 | Foswikitask:Item5859: removed XHR headers that were banjaxing NTLM |
+|  03 Dec 2008 | Re-released for the Foswiki project |
+|  03 Aug 2008 | TWiki 4.2.1 release version |
+|  04 May 2008 | TWikibug:Item5547: Change mechanism by which TMCE recognises textareas to camp on. Use class instead of element name. |
+|  12 Apr 2008 | TWikibug:Item4946: I think I have finally fixed non-iso-8859-1 character sets. Painful. |
+|  31 Mar 2008 | TWikibug:Item5314: TWikibug:Item5457: Fixed pickaxe mode for editing UTF-8. Characters above 255 are converted to entitites, which is a bit of a PITA, but at least it no longer corrupts topics. *NOTE: YOU MUST UPGRADE WysiwygPlugin TO 16600 OR LATER* |
+|  28 Mar 2008 | TWikibug:Item5432: added upper case file extensions for images TWikibug:Item5206: fixed expansion of simple filenames entered in image popup TWikibug:Item5462: fixed hide attachment switch |
+|  25 Jan 2008 | TWikibug:Item5287: links entered through dialog weren't working |
+|  24 Jan 2008 | TWikibug:Item4840: TWikibug:Item5138: UTF8 fixes, TWikibug:Item5022: made TT font size same as verbatim. Had to add a new style to do it, as TMCE didn't want to play with TT or CODE tags. TWikibug:Item5138: post-conversion of 8-bit entities to characters to aid searching, TWikibug:Item5254: non-fatal JS error fixed, TWikibug:Item5263: remove preview on WYSIWYG edit, TWikibug:Item5116: added Opera to bad browsers filter |
+|  20 Dec 2007 | TWikibug:Item5047: disable save and preview during page load TWikibug:Item5111: make the entry in the format menu sensitive to where the cursor is TWikibug:Item5022: made TT font size same as verbatim. Had to add a new style to do it, as TMCE didn't want to play with TT or CODE tags. |
+|  19 Nov 2007 | TWikibug:Item4742: auto-disable if Wysiwyg is not enabled TWikibug:Item4820: validate mandatory fields on save TWikibug:Item4747: add &lt;sticky&gt; TWikibug:Item4811: noautolink *looks* like an HTML construct but in fact is not; the tag is infact an "on-off" switch and does not imply any HTML structure, so cannot be converted to a DIV or a span, so has to be removed. TWikibug:Item4817: added typewriter text button TWikibug:Item4850: added font colour controls TWikibug:Item4645: added attachment management features TWikibug:Item4945: added switch to raw and back |
+|  16 Sep 2007 | TWikibug:Item4630: polished up the way the secret string is done, to ensure synch between perl and JS. TWikibug:Item4622: added UTF-8 handling steps that fixup malformed UTF8 strings before presenting them to the editor (saves Moz) and stops the editor passing them back to TWiki (saves IE). TWikibug:Item4603: added the draft help, so we can at least build the beta without the nasty warning |
+|  13 Sep 2007 | TWikibug:Item4613 fixed navigate-away prompt when unchanged TWikibug:Item4583 TWikibug:Item4604 TWikibug:Item4614 TWikibug:Item4616 A clutch of issues caused by use of the wrong encoding function when passing UTF8 parameters to REST using XMLHttpRequest. |
+|  12 Sep 2007 | TWikibug:Item4604 Converted to REST call for content conversion, to provide safe callback if JS is disabled in the browser TWikibug:Item4583 relaxed regex to try and make it work for UTF-8 topic names |
+|  11 Sep 2007 | TWikibug:Item4535 refinements to link handling to improve topic name recognition |
+|  7 Sep 2007 | TWikibug:Item4503 excess empty lines TWikibug:Item4486 no toc headers with unofficial syntax TWikibug:Item4560: empty lines lost TWikibug:Item4566: corrupted table on save |
+|  6 Sep 2007 | TWikibug:Item4557 added missing files to package |
+|  4 Sep 2007 | TWikibug:Item4534 TWikibug:Item4535 fixed |
+|  14679 | TWikibug:Item4481 TWikibug:Item4524 fixed |
+|  14668 | Bugfixes and refinements done as part of 4.2 release |
+|  14543 | Added PROTECTED style, to allow protection of special text. Disable on unsupported browsers (untested) |
+|  14538 | First release |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+
+Many thanks to the following sponsors for supporting this work:
+   * [[http://ilog.fr][ILOG]]
+   * [[http://www.carrier.com][Carrier Corporation]]
+   * [[http://foswiki.net][TWIKI.NET]]
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->
+
+%META:FILEATTACHMENT{name="tinymce.gif" attr="h" comment="screenshot"}%
+%META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
+%META:FILEATTACHMENT{name="screenshot.gif" attr="h" comment="" version="1"}%
