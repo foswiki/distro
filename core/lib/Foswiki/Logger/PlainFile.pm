@@ -90,7 +90,9 @@ sub log {
         while ($this->SUPER::hasNext()) {
             my @line = split(/\s*\|\s*/, $this->SUPER::next());
             shift @line; # skip the leading empty cell
-            if ($line[0] =~ s/\s+$this->{_level}\s*$//) { # test the level
+            if ($line[0] =~ s/\s+$this->{_level}\s*$// # test the level
+                # accept a plain 'old' format date with no level only if reading info (statistics)
+		|| $line[0] =~ /^\d{1,2} [a-z]{3} \d{4}/i && $this->{_level} eq 'info') {
                 $line[0] = Foswiki::Time::parseTime($line[0]);
                 if ($line[0] >= $this->{_threshold}) { # test the time
                     $this->{_nextEvent} = \@line;

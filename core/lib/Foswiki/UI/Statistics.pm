@@ -192,6 +192,7 @@ sub _collectLogData {
     # $webTopic - what it happened to
     # $extra - extra info, such as minor flag
     # $remoteAddr = e.g. 127.0.0.5
+    $start = Foswiki::Time::parseTime($start);
 
     my $data = {
         viewRef => {}, # Hash of hashes, counts topic views by (web, topic)
@@ -208,7 +209,6 @@ sub _collectLogData {
     while ( $it->hasNext() ) {
         my $line = $it->next();
         my $date = shift(@$line);
-
         my ( $logFileUserName );
 
         while ( !$logFileUserName && scalar(@$line) ) {
