@@ -1,0 +1,49 @@
+.slideshow {
+	padding:.5em 1em 1em 1em;
+	height:1500px;
+}
+.slideshow .slideshowHeader {
+	border-bottom:1px solid #666;
+	padding:0 0 .5em 0;
+}
+.slideshow .slideshowToolbar {
+	color:#666;
+	margin:0;
+	padding:0 0 .25em 0;
+	text-align:right;
+	font-size:94%;
+}
+.slideshow .slideshowHeader p {
+	color:#666;
+	margin:0;
+	padding:0;
+	text-align:right;
+	font-size:94%;
+}
+.slideshow .slideshowHeader h1 {
+	color:#360;
+	margin:0;
+	padding:0;
+}
+.slideshow .slideshowContent {
+	padding:2em 0 1em 0;
+	font-size:150%;
+	line-height:150%;
+	height:400px;
+}
+.slideshow .slideshowComments,
+.slideshow .slideshowComments h4 {
+	color:#888;
+}
+.slideshow .slideshowControls {
+	white-space:nowrap;
+	float:right;
+	clear:both;
+}
+.slideshow a.slideshowControlButton {
+	margin-left:5px;
+}
+a.slideshowControlButton:hover {
+	text-decoration:none;
+	background:none;
+}
