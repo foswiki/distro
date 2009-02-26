@@ -1,0 +1,79 @@
+---+!! !TopicUserMappingContrib
+<!--
+One line description, required for extensions repository catalog.
+   * Set SHORTDESCRIPTION = User management using data stored in topics
+-->
+%SHORTDESCRIPTION%
+
+%TOC%
+
+The _User Mapping Manager_ interface provides services for mapping between a 'user identity' as used when talking to an external authentication provider,
+an internal canonical user ID, and the displayed name used to identify the user in topics. 
+This is the default <nop>TopicUserMapping in which user information is stored in topics - one per user, and then any mapping needed is done using the
+<nop>WikiUsers topic in the %USERSWEB%.
+
+See [[http://twiki.org/cgi-bin/view/Codev/SimplifiedUserMappingCodeInterface][SimplifiedUserMappingCodeInterface]] for a more detailed discussion
+of the concepts.
+
+It includes the topics that are used when registering and managing users and groups via Foswiki:
+   * Registration and user management topics
+      * %SYSTEMWEB%.UserRegistration
+      * %SYSTEMWEB%.ResetPassword
+      * %SYSTEMWEB%.ChangePassword           
+      * %SYSTEMWEB%.ChangeEmailAddress       
+      * %SYSTEMWEB%.BulkRegistration         
+      * %SYSTEMWEB%.BulkResetPassword        
+   * Documentation topics
+      * %SYSTEMWEB%.ManagingUsers            
+      * %SYSTEMWEB%.UserToolsCategory
+      * %SYSTEMWEB%.LoginName                
+   * default groups and user
+      * %USERSWEB%.NobodyGroup
+      * %USERSWEB%.AdminGroup
+      * %USERSWEB%.RegistrationAgent    
+   * User lists
+      * %USERSWEB%.UserList                  
+      * %USERSWEB%.UserListHeader            
+      * %USERSWEB%.UserListByDateJoined      
+      * %USERSWEB%.UserListByLocation        
+      * %USERSWEB%.UserListByPhotograph      
+   * User and Group template files
+      * %SYSTEMWEB%.NewUserTemplate
+      * %SYSTEMWEB%.UserForm
+      * %SYSTEMWEB%.UsersTemplate
+      * %USERSWEB%.UserHomepageHeader        
+      * %SYSTEMWEB%.UserSetting
+      * %USERSWEB%.GroupTemplate        
+
+If you are developing a non-topic based User mapper, you might like to consider removeing or replacing the files installed by this Contrib.
+
+---++ Adding and deleting users
+Users are added using the default registration process in Foswiki. To delete a user (admins only),
+
+   1. Edit the .htpasswd file to delete their entry (see =configure= for the location
+   2. Remove their topic files: data/%USERSWEB%/FredQuimby.txt and data/%USERSWEB%/FredQuimby.txt,v
+   3. Remove the FredQuimby line from the %USERSWEB%.WikiUsers topic
+   4. Remove user from all groups and from all the ALLOWWEB/ALLOWTOPIC... declarations, if any.
+      Note: Otherwise this will leave a security hole, as the first person to re-register with this name will be granted the permissions of the previous user.
+
+---++ Settings
+The !TopicUserMappingContrib specific settings have not yet been moved out of the standard Foswiki.spec. This will be done in a future release.
+
+---++ Installation Instructions
+
+It's a part of the default distribution of the Foswiki Core.
+
+---++ Contrib Info
+
+|  Contrib Author(s): | Copyright (C) 2007-2008 Sven Dowideit, SvenDowideit@WikiRing.com and Project Contributors. |
+|  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|  Contrib Version: | 4.2.2 (16 Dec 2008) |
+|  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  4.2.2 | 16 Dec 2008 - Foswiki version |
+|  4.2.1 | 03 Aug 2008 - Distributed with TWiki 4.2.1 |
+|  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
+|  Dependencies: | %$DEPENDENCIES% |
+|  Contrib Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev | 
+
+<!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->

@@ -1,0 +1,305 @@
+%META:TOPICINFO{author="ProjectContributor" date="1216489724" format="1.0" version="$Rev: 17064 $"}%
+---+ %MAKETEXT{"Registration"}%
+
+%IF{"context registration_supported" 
+then="*%MAKETEXT{"To edit pages on this Foswiki site, you must have a registered user name and password."}%* %IF{"context registration_enabled" then="" else="%BR%%BR% *%MAKETEXT{"Sorry, Registration has been temporarily disabled"}%* "}%" 
+else="*%MAKETEXT{"This Foswiki does _not_ support new User Registration"}%*"
+}%
+
+<!--
+      * Set NOREGISTRATION = %IF{"context registration_supported" then="%IF{"context registration_enabled" then="" else="DISABLED"}%" else="DISABLED"}%
+-->
+
+%H% *%MAKETEXT{"Note:"}%* %MAKETEXT{"Registered users can [[[_1]][change]] and [[[_2]][reset]] their passwords." args="%SYSTEMWEB%.ChangePassword,%SYSTEMWEB%.ResetPassword"}%
+
+%MAKETEXT{"*Important:* the information provided in this form will be stored in a database on the Foswiki server. This database is accessible to anyone who can access the server through the web (though passwords will be encrypted, and e-mail addresses will be obfusticated to help prevent spamming). Your country, or the country where the server is hosted, may have Data Protection laws governing the maintenance of such databases. If you are in doubt, you should contact [_1] for details of the Data Protection Policy of this Foswiki server before registering." args="<a href='mailto:%WIKIWEBMASTER%?subject=Data%20Protection%20Policy'>%WIKIWEBMASTER%</a>"}%
+
+<!-- IMPORTANT NOTE if you want to customize this form: You can delete or add new input fields in this form. The name="" parameter of the input tags must start with: "Twk0..." (if this is an optional entry), "Twk1..." (if this is a required entry). This will ensure that the fields are processed correctly. -->
+
+<script language="javascript">
+<!--
+function capitalise(name)
+{
+var sIn = name;
+var sOut = '';
+var chgUpper = true;
+for ( var i = 0; i < sIn.length; i++ ) {
+ var ch = sIn.charAt( i );
+ var chVal = ch.charCodeAt(0);
+ var ch2 = '';
+ if( (chVal==192) || (chVal==193) || (chVal==194) || (chVal==195) ) { ch = 'A'; }
+ if( chVal==196) { ch = 'A'; ch2 = 'E'; }
+ if( chVal==197) { ch = 'A'; ch2 = 'A'; }
+ if( chVal==198) { ch = 'A'; ch2 = 'E'; }
+ if( chVal==199) { ch = 'C'; }
+ if( (chVal==200) || (chVal==201) || (chVal==202) || (chVal==203) ) { ch = 'E'; }
+ if( (chVal==204) || (chVal==205) || (chVal==206) || (chVal==207) ) { ch = 'I'; }
+ if( chVal==208) { ch = 'd'; }
+ if( chVal==209) { ch = 'N'; }
+ if( (chVal==210) || (chVal==211) || (chVal==212) || (chVal==213) ) { ch = 'O'; }
+ if( chVal==214) { ch = 'O'; ch2 = 'E'; }
+ if( chVal==216) { ch = 'O'; ch2 = 'E'; }
+ if( (chVal==217) || (chVal==218) || (chVal==219) ) { ch = 'U'; }
+ if( chVal==220) { ch = 'U'; ch2 = 'E'; }
+ if( chVal==221) { ch = 'Y'; }
+ if( chVal==222) { ch = 'P'; }
+ if( chVal==223) { ch = 's'; ch2 = 's'; }
+ if( (chVal==224) || (chVal==225) || (chVal==226) || (chVal==227) ) { ch = 'a'; }
+ if( chVal==228) { ch = 'a'; ch2 = 'e'; }
+ if( chVal==229) { ch = 'a'; ch2 = 'a'; }
+ if( chVal==230) { ch = 'a'; ch2 = 'e'; }
+ if( chVal==231) { ch = 'c'; }
+ if( (chVal==232) || (chVal==233) || (chVal==234) || (chVal==235) ) { ch = 'e'; }
+ if( (chVal==236) || (chVal==237) || (chVal==238) || (chVal==239) ) { ch = 'i'; }
+ if( chVal==240) { ch = 'd'; }
+ if( chVal==241) { ch = 'n'; }
+ if( (chVal==242) || (chVal==243) || (chVal==244) || (chVal==245) ) { ch = 'o'; }
+ if( chVal==246) { ch = 'o'; ch2 = 'e'; }
+ if( chVal==248) { ch = 'o'; ch2 = 'e'; }
+ if( (chVal==249) || (chVal==250) || (chVal==251) ) { ch = 'u'; }
+ if( chVal==252) { ch = 'u'; ch2 = 'e'; }
+ if( chVal==253) { ch = 'y'; }
+ if( chVal==254) { ch = 'p'; }
+ if( chVal==255) { ch = 'y'; }
+ if( ch!=' ' ) {
+  if( chgUpper ) {
+   ch = ch.toUpperCase(); chgUpper = false; 
+  } 
+  sOut+=ch;
+  if( ch2!='') {
+   sOut+=ch2; 
+  }
+ } else {
+  chgUpper = true; 
+ } 
+}
+return sOut;
+}
+//-->
+</script>
+
+<form action="%SCRIPTURLPATH{"register"}%/%USERSWEB%/%HOMETOPIC%" method="post">
+<div class="foswikiFormSteps">
+<div class="foswikiFormStep">
+*%MAKETEXT{"To register as a new user, simply fill out this form:"}%*
+</div>
+<div class="foswikiFormStep">
+<table border="0" cellpadding="0" cellspacing="6">
+<tr>
+  <td></td>
+  <td>%MAKETEXT{"Fields marked [_1] are required" args="=<font color='red'>**</font>="}%</td>
+</tr>
+<tr>
+  <td align="right"> %MAKETEXT{"First Name:"}% </td>
+  <td><input %NOREGISTRATION% type="text" name="Twk1FirstName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.value)+capitalise(this.form.Twk1LastName.value)" /> =<font color="red">**</font>= </td>
+</tr>
+<tr>
+  <td align="right"> %MAKETEXT{"Last Name:"}% </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1LastName" size="40" class="foswikiInputField" value="" onblur="this.form.Twk1WikiName.value=capitalise(this.form.Twk1FirstName.value)+capitalise(this.value)" /> =<font color="red">**</font>= </td>
+</tr>
+  <td align="right"> %MAKETEXT{"(identifies you to others) WikiName:"}% </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1WikiName" size="40" class="foswikiInputField" value="" onblur="" /> =<font color="red">**</font>= </td>
+</tr>
+<!--
+   # optional row for login name, enabled by {Register}{AllowLoginName} option in =configure=
+   * Set BESPOKE_AUTH = <tr><td align=\"right\"> %MAKETEXT{"(how you log in) LoginName:"}% </td><td><input %NOREGISTRATION% type=\"text\" name=\"Twk1LoginName\" size=\"40\" class=\"foswikiInputField\" value=\"%REMOTE_USER%\" /> =<font color='red'>**</font>= </td></tr>
+-->
+%IF{"$ ALLOWLOGINNAME" then="%BESPOKE_AUTH%"}%
+<tr>
+  <td align="right"> %MAKETEXT{"E-mail address:"}% </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk1Email" size="40" class="foswikiInputField" value="" /> =<font color="red">**</font>= </td>
+</tr>
+<!--
+   # optional rows for password, enabled by {Register}{AllowLoginName} option in =configure=, we assume that login name means that Foswiki does not handle passwords
+   * Set BESPOKE_PASSWORD = <tr><td align=\"right\"> %MAKETEXT{"Your password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Password\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> =<font color=\"red\">**</font>= </td></tr>\
+     <tr><td align=\"right\"> %MAKETEXT{"Retype password:"}% </td><td><input %NOREGISTRATION% type=\"password\" name=\"Twk0Confirm\" size=\"40\" class=\"foswikiInputField\" value=\"\" /> =<font color=\"red\">**</font>= </td></tr>
+-->
+%IF{"$ ALLOWLOGINNAME < 1" then="%BESPOKE_PASSWORD%"}%
+<tr>
+  <td align="right"> %MAKETEXT{"Organisation name:"}% </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationName" size="40" class="foswikiInputField" value="" /></td>
+</tr><tr>
+  <td align="right"> %MAKETEXT{"Organisation URL:"}% </td>
+  <td><input %NOREGISTRATION%  type="text" name="Twk0OrganisationURL" size="40" class="foswikiInputField" onBlur="if(this.value=='http://') { this.value='' }" onFocus="if(this.value=='') { this.value='http://' }" /></td>
+</tr><tr>
+  <td align="right"> %MAKETEXT{"Country:"}% </td>
+  <td>
+  <select class="foswikiSelect" %NOREGISTRATION%  name="Twk1Country" size="1">
+  <option selected value="">Select...</option>
+  <option>USA</option>
+  <option>Albania</option>
+  <option>Algeria</option>
+  <option>Andorra</option>
+  <option>Angola</option>
+  <option>Argentina</option>
+  <option>Armenia</option>
+  <option>Aruba</option>
+  <option>Australia</option>
+  <option>Austria</option>
+  <option>Azerbaijan</option>
+  <option>Bahrain</option>
+  <option>Bangladesh</option>
+  <option>Belarus</option>
+  <option>Belgium</option>
+  <option>Belize</option>
+  <option>Benin</option>
+  <option>Bhutan</option>
+  <option>Bolivia</option>
+  <option>Bosnia and Hercegovina</option>
+  <option>Brazil</option>
+  <option>Bulgaria</option>
+  <option>Burundi</option>
+  <option>Cambodia</option>
+  <option>Cameroon</option>
+  <option>Canada</option>
+  <option>Central African Republic</option>
+  <option>Chile</option>
+  <option>China</option>
+  <option>Colombia</option>
+  <option>Congo</option>
+  <option>Costa Rica</option>
+  <option>Croatia</option>
+  <option>Cuba</option>
+  <option>Cyprus</option>
+  <option>Czech Republic</option>
+  <option>Denmark</option>
+  <option>Dominican Republic</option>
+  <option>Ecuador</option>
+  <option>Egypt</option>
+  <option>El Salvador</option>
+  <option>Estonia</option>
+  <option>Ethiopia</option>
+  <option>Fiji</option>
+  <option>Finland</option>
+  <option>France</option>
+  <option>Georgia</option>
+  <option>Germany</option>
+  <option>Gibraltar</option>
+  <option>Greece</option>
+  <option>Guam</option>
+  <option>Guatemala</option>
+  <option>Haiti</option>
+  <option>Hong Kong</option>
+  <option>Hungary</option>
+  <option>Iceland</option>
+  <option>India</option>
+  <option>Indonesia</option>
+  <option>Iran</option>
+  <option>Iraq</option>
+  <option>Ireland</option>
+  <option>Israel</option>
+  <option>Italy</option>
+  <option>Jamaica</option>
+  <option>Japan</option>
+  <option>Jordan</option>
+  <option>Kazakstan</option>
+  <option>Kenya</option>
+  <option>Korea</option>
+  <option>Kuwait</option>
+  <option>Kyrgyz Rebublic</option>
+  <option>Laos</option>
+  <option>Latvia</option>
+  <option>Lebanon</option>
+  <option>Liberia</option>
+  <option>Liechtenstein</option>
+  <option>Lithuania</option>
+  <option>Luxembourg</option>
+  <option>Libya</option>
+  <option>Macao</option>
+  <option>Macedonia</option>
+  <option>Malaysia</option>
+  <option>Malawi</option>
+  <option>Malta</option>
+  <option>Mauritius</option>
+  <option>Mexico</option>
+  <option>Moldova</option>
+  <option>Monaco</option>
+  <option>Morocco</option>
+  <option>Mozambique</option>
+  <option>Namibia</option>
+  <option>Nepal</option>
+  <option>Netherlands</option>
+  <option>New Zealand</option>
+  <option>Nicaragua</option>
+  <option>Nigeria</option>
+  <option>Norway</option>
+  <option>Oman</option>
+  <option>Pakistan</option>
+  <option>Panama</option>
+  <option>Paraguay</option>
+  <option>Peru</option>
+  <option>Philippines</option>
+  <option>Poland</option>
+  <option>Portugal</option>
+  <option>Romania</option>
+  <option>Russia</option>
+  <option>Saudi Arabia</option>
+  <option>Senegal</option>
+  <option>Singapore</option>
+  <option>Slovakia</option>
+  <option>Slovenia</option>
+  <option>South Africa</option>
+  <option>Spain</option>
+  <option>Sri Lanka</option>
+  <option>Suriname</option>
+  <option>Sweden</option>
+  <option>Switzerland</option>
+  <option>Syria</option>
+  <option>Taiwan</option>
+  <option>Tajikistan</option>
+  <option>Tanzania</option>
+  <option>Thailand</option>
+  <option>Trinidad and Tobago</option>
+  <option>Tunisia</option>
+  <option>Turkey</option>
+  <option>Turkmenistan</option>
+  <option>Uganda</option>
+  <option>Ukraine</option>
+  <option>United Arab Emirates</option>
+  <option>United Kingdom</option>
+  <option>Uruguay</option>
+  <option>USA</option>
+  <option>Uzbekistan</option>
+  <option>Vatican City</option>
+  <option>Venezuela</option>
+  <option>Vietnam</option>
+  <option>Yemen</option>
+  <option>Yugoslavia</option>
+  <option>Zaire</option>
+  <option>Zambia</option>
+  <option>Zimbabwe</option>
+  <option value="Other Country">%MAKETEXT{"Other Country"}%</option>
+  </select> =<font color="red">**</font>=
+  </td>
+</tr>
+<tr>
+  <td valign="top" align="right"> %MAKETEXT{"Comments:"}%<br /> %MAKETEXT{"(optional)"}% </td>
+  <td><textarea %NOREGISTRATION%  name="Twk0Comment" wrap="virtual" rows="4" cols="38" class="foswikiInputField"></textarea></td>
+</tr>
+</table>
+</div><!-- /foswikiFormStep-->
+<div class="foswikiFormStep">
+%MAKETEXT{"When [_1] receives the form, it will mail an account activation code to the e-mail address you gave above. Enter that activation code in the following screen, or follow the link in the e-mail, to activate your account. Once your account is activated, [_1] will:" args="%WIKITOOLNAME%"}%
+   * %MAKETEXT{"Finish creating an account for you, so that you can start editing pages using your WikiName."}%
+   * %MAKETEXT{"Create your personal [_1] topic using your WikiName as topic name, and add the data you submitted to the topic." args="<nop>%WIKITOOLNAME%"}%
+   * %MAKETEXT{"Add your name to the list of users in the [_1] topic in the [_2] web." args="%USERSWEB%.%WIKIUSERSTOPIC%,%USERSWEB%"}%
+   * %MAKETEXT{"Send you a confirmation of your registration by e-mail."}%
+<!--
+   # login method used by this site:
+   * Set LOGIN_METHOD_IN_THIS_SITE = %IF{"$ ALLOWLOGINNAME" then="LoginName" else="WikiName"}%
+-->
+%MAKETEXT{"Once registered you can login using your [_1] and password." args="%LOGIN_METHOD_IN_THIS_SITE%"}%
+</div>
+<div class="foswikiFormStep foswikiLast">
+<input type="hidden" name="rx" value='%BLACKLISTPLUGIN{ action="magic" }%' />
+<input type="hidden" name="topic" value="%TOPIC%" />
+<input type="hidden" name="action" value="register" />
+<input %NOREGISTRATION%  type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
+</div><!-- /foswikiFormStep-->
+</div><!-- /foswikiFormSteps-->
+</form>
+
+<div class="foswikiHelp">
+   * %ICON{info}% %MAKETEXT{"If you have any questions about registration, send an e-mail to [_1]." args="<a href='mailto:%WIKIWEBMASTER%?subject=%TOPIC%&#32;Question'>%WIKIWEBMASTER%</a>"}%
+</div>
+

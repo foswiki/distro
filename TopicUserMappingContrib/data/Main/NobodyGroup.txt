@@ -1,0 +1,11 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 16686 $"}%
+---+ Nobody Group
+
+   * Member list:
+      * Set GROUP = 
+   * Persons/group who can change the list:
+      * Set ALLOWTOPICCHANGE = AdminGroup
+
+Used to prevent dangerous actions e.g. renaming [[%SYSTEMWEB%.DefaultPreferences][DefaultPreferences]] - put !NobodyGroup as the only group allowed to rename a topic and it can't be renamed.
+
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
