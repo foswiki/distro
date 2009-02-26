@@ -1,0 +1,3 @@
+%META:TOPICINFO{author="ProjectContributor" date="1168738857" format="1.1" version="$Rev$"}%
+   * *%MAKETEXT{"Webs"}%*
+%WEBLIST{"   * <span style=\"white-space:nowrap\"><a href=\"%SCRIPTURLPATH{"view"}%/$name/%HOMETOPIC%\"><img src=\"%ICONURL{web-bg}%\" border=\"0\" alt=\"\" width=\"16\" height=\"16\" style=\"background-color:%$markerVAR{\"WEBBGCOLOR\" web=$qname}$marker%\" />&nbsp;<nop>$indentedname</a></span>"}%

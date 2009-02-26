@@ -1,0 +1,37 @@
+%TMPL:INCLUDE{"viewprint"}%
+%TMPL:DEF{"logo"}%%TMPL:END%
+
+%TMPL:DEF{"script:skintemplate"}%%TMPL:END%
+
+
+%TMPL:DEF{"bodyclassname"}%patternViewPage patternPrintPage%TMPL:END%
+
+
+%TMPL:DEF{"form"}%
+%META{"form"}%%TMPL:END%
+%TMPL:DEF{"formtop"}%%TMPL:END%
+%TMPL:DEF{"formbottom"}%%TMPL:P{"form"}%%TMPL:END%
+
+
+%TMPL:DEF{"attachments"}%
+%META{"attachments"}%%TMPL:END%
+%TMPL:DEF{"attachmentstop"}%%TMPL:END%
+%TMPL:DEF{"attachmentsbottom"}%%TMPL:P{"attachments"}%%TMPL:END%
+
+
+
+%{ DEPRECATED: beforetext and aftertext }%
+%{ compatibility transition older than 4.2: }%
+%TMPL:DEF{"contentheader"}%%TMPL:P{"beforetext"}%%TMPL:END%
+%TMPL:DEF{"contentfooter"}%%TMPL:P{"aftertext"}%%TMPL:END%
+%TMPL:DEF{"beforetext"}%%TMPL:END%
+%TMPL:DEF{"aftertext"}%%TMPL:END%
+
+%TMPL:DEF{"broadcastmessage"}%%TMPL:END%
+
+%TMPL:DEF{"content"}%<div class="foswikiTopic">%TMPL:P{"broadcastmessage"}% %TEXT%</div><!-- /foswikiTopic-->%TMPL:END%
+
+%TMPL:DEF{"patterntopiccontents"}%
+%TMPL:P{"contentheader"}%%TMPL:P{"formtop"}%%TMPL:P{"attachmentstop"}%<div class="patternContent">%TMPL:P{"content"}%
+%TMPL:P{"contentfooter"}%%TMPL:P{"formbottom"}%%TMPL:P{"attachmentsbottom"}%</div><!-- /patternContent-->
+%TMPL:P{"topicinfo"}%%TMPL:END%

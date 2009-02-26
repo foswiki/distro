@@ -1,0 +1,41 @@
+%META:TOPICINFO{author="ProjectContributor" date="1178746198" format="1.1" version="$Rev$"}%
+%INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
+
+   * *%MAKETEXT{"Toolbox"}%*
+   * %IF{"istopic '%USERSWEB%.%WIKIUSERSTOPIC%'" else=" $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt" then="[[$percntUSERSWEB$percnt.$percntWIKIUSERSTOPIC$percnt][ $percntICON{\"person\"}$percnt $percntMAKETEXT{\"Users\"}$percnt]]"}%
+   * [[%USERSWEB%.WikiGroups][ %ICON{"group"}% %MAKETEXT{"Groups"}%]]
+   * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
+   * [[%BASEWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
+   * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
+   * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
+   * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
+   * [[WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
+   * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
+
+   * <b>%MAKETEXT{"User Reference"}%</b>
+   * BeginnersStartHere
+   * TextFormattingRules
+   * [[%SYSTEMWEB%.Macros][Macros]]
+   * FormattedSearch
+   * QuerySearch
+   * DocumentGraphics
+   * SkinBrowser
+   * InstalledPlugins
+
+   * <b>%MAKETEXT{"Admin Maintenance"}%</b>
+   * [[ReferenceManual][Reference Manual]]
+   * AdminToolsCategory
+   * InterWikis
+   * ManagingWebs
+   * SiteTools
+   * %WIKIPREFSTOPIC%
+   * %WEBPREFSTOPIC%
+
+   * <b>%MAKETEXT{"Categories"}%</b>
+   * [[AdminDocumentationCategory][Admin Documentation]]
+   * [[AdminToolsCategory][Admin Tools]]
+   * [[DeveloperDocumentationCategory][Developer Doc]]
+   * [[UserDocumentationCategory][User Documentation]]
+   * [[UserToolsCategory][User Tools]]
+
+%INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%

@@ -1,0 +1,19 @@
+/*
+compatible bar for TWiki installations
+*/
+
+#patternOuter {
+	margin-left:14em;
+}
+#patternSideBar {
+	width:14em;
+	margin-left:-14em;
+}
+#patternSideBarContents {
+	padding-right:1em;
+	padding-left:1em;
+}
+#patternSideBarContents {
+	padding-left:1em;
+	padding-right:1em;
+}

@@ -1,0 +1,31 @@
+%TMPL:INCLUDE{"preview"}%
+%TMPL:INCLUDE{"viewbottombar"}%
+
+%TMPL:DEF{"topbar"}%%TMPL:END%
+%TMPL:DEF{"topbarspacer"}%%TMPL:END%
+%TMPL:DEF{"bottombarcontents"}%%TMPL:END%
+%TMPL:DEF{"styles:custom_skin"}%%TMPL:END%
+%TMPL:DEF{"sidebar"}%%TMPL:END%
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage patternPreviewPage%TMPL:END%
+
+
+%TMPL:DEF{"templatestyle"}%%TMPL:END%
+
+
+%TMPL:DEF{"action_buttons"}%%TMPL:P{"button_save"}%&nbsp;%TMPL:P{"button_quietsave"}%&nbsp;%TMPL:P{"button_checkpoint"}% %MAKETEXT{"or"}% %TMPL:P{"button_discard"}%%TMPL:END%
+
+%TMPL:DEF{"button_discard"}%<input id="discard" type="submit" class="foswikiButtonCancel" name="action_cancel" %MAKETEXT{"value='Discard' accesskey='d'"}% />%TMPL:END%
+
+%TMPL:DEF{"accesskeys_help"}%%ICON{info}% <a class="foswikiPopUp" target="AccessKeys" href="%SCRIPTURL{"view"}%/%SYSTEMWEB%/AccessKeys">%MAKETEXT{"Access keys"}%</a>: %MAKETEXT{"S = Save, Q = Quiet save, K = Save and Continue, D = Discard"}%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"pagehelp"}%
+%TMPL:P{"formstart"}%
+<div class="patternContent">
+<div class="foswikiTopic">
+<div class='foswikiPreviewArea'>%TEXT%</div><!--/foswikiPreviewArea-->
+</div><!--/foswikiTopic-->
+%META{"form"}%</div><!--/patternContent-->
+%TMPL:P{"topicinfo"}%
+%TMPL:P{"formend"}%%TMPL:END%

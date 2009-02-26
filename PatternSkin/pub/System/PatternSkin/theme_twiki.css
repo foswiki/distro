@@ -1,0 +1,46 @@
+/*
+Compatible skin for TWiki-like installations
+Overrides global settings in layout.css, style.css and colors.css
+*/
+
+/* outer 'frame' */
+#patternScreen {
+	padding:0;
+}
+#patternPage {
+	border:none;
+}
+
+/* paddings of main content elements */
+#patternBottomBarContents,
+#patternTopBarContents {
+	padding-right:2em;
+	padding-left:1em;
+}
+#patternMainContents {
+	padding-right:2em;
+	padding-left:2em;
+}
+#patternSideBarContents,
+#patternMainContents {
+	padding-top:1em;
+}
+#patternBottomBarContents {
+	padding-top:1em;
+}
+
+/* top bar */
+#patternTopBarContents {
+	background-image:url(TWiki_header.gif);
+	background-repeat:no-repeat;
+	background-color:#fff;
+}
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter,
+#patternTopBarContents {
+	height:64px;
+	overflow:hidden;
+}

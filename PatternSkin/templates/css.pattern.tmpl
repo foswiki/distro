@@ -1,0 +1,60 @@
+%TMPL:INCLUDE{"css"}%
+%TMPL:DEF{"styles:default"}%%TMPL:P{"styles:screen"}%
+%TMPL:P{"styles:print"}%%TMPL:END%
+
+
+%TMPL:DEF{"styles:screen"}%<style type="text/css" media="all">
+%IF{ "$ FOSWIKI_LAYOUT_URL" then="@import url('%FOSWIKI_LAYOUT_URL%');"}%
+%IF{ "$ FOSWIKI_STYLE_URL"  then="@import url('%FOSWIKI_STYLE_URL%');"}%
+%IF{ "$ FOSWIKI_COLORS_URL" then="@import url('%FOSWIKI_COLORS_URL%');"}%
+</style>
+%TMPL:P{"styles:custom_skin"}%%IF{ "$ USERLAYOUTURL or $ USERSTYLEURL or $ USERCOLORSURL" then="$percntTMPL:P{$quotstyles:user_defined$quot}$percnt"}%%TMPL:P{"styles:dynamic"}%%TMPL:END%
+
+
+%TMPL:DEF{"styles:print"}%<style type="text/css" media="all">
+	@import url("%PUBURLPATH%/%SYSTEMWEB%/PatternSkin/print.css");
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"styles:dynamic"}%<style type="text/css" media="all">
+	/* Styles that are set using variables */
+	.patternBookView .foswikiTopRow,
+	.patternWebIndicator a img,
+	.patternWebIndicator a:hover img {
+		background-color:%WEBBGCOLOR%;
+	}
+	%TMPL:P{"styles:deprecated"}%
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"styles:user_defined"}%%{ "kept for compatibility with TWiki 4.2" }%<style type="text/css" media="all">%IF{ "$ USERLAYOUTURL" then="@import url('%USERLAYOUTURL%');"}%%IF{ "$ USERSTYLEURL"  then="@import url('%USERSTYLEURL%');"}%%IF{ "$ USERCOLORSURL" then="@import url('%USERCOLORSURL%');"}%</style>%TMPL:END%
+
+
+%TMPL:DEF{"styles:custom_skin"}%<style type="text/css" media="all">
+%IF{ "$ PATTERNSKIN_COLUMNS" then="@import url('%PATTERNSKIN_COLUMNS%');"}%
+%IF{ "$ PATTERNSKIN_THEME" then="@import url('%PATTERNSKIN_THEME%');"}%
+</style>%TMPL:END%
+
+
+%TMPL:DEF{"styles:iespecific"}%<!--[if IE]><style type="text/css" media="screen">
+pre {
+	overflow-x:auto;
+}
+</style>
+<![endif]-->
+%TMPL:END%
+
+
+%TMPL:DEF{"styles:javascript_affected"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswikiStyles.js"></script>%TMPL:END%
+
+
+%TMPL:DEF{"styles:deprecated"}%%IF{ "defined WEBHEADERART and $ WEBHEADERART != ''" then='#patternTopBarContents { background-image:url(%WEBHEADERART%); background-repeat:no-repeat;}'}%
+	%IF{ '$ WEBHEADERBGCOLOR' then='#patternTopBarContents { background-color:%WEBHEADERBGCOLOR%;}'}%
+	.patternBookView {
+		border-color:%WEBBGCOLOR%;
+	}
+	.patternPreviewPage #patternMain {
+		/* uncomment to set the preview image */
+		/*background-image:url("%PREVIEWBGIMAGE%");*/
+	}%IF{ "defined PAGEBGCOLOR and $ PAGEBGCOLOR != ''" then='html body, #patternPage, #patternBottomBar, .foswikiPreviewArea, #patternOuter, #patternTopBar { background-color:%PAGEBGCOLOR%;}
+	#patternOuter {background-image:none;}'}%%TMPL:END%

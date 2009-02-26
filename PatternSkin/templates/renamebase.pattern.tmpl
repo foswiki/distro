@@ -1,0 +1,41 @@
+%TMPL:INCLUDE{"renamebase"}%
+%TMPL:DEF{"logo"}%%TMPL:END%
+
+
+%TMPL:DEF{"script:skintemplate"}%<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JavascriptFiles/foswiki_renamebase.js"></script>%TMPL:END%
+
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage patternRenamePage%TMPL:END%
+
+
+%TMPL:DEF{"toolbar"}%<div class="patternTop">%TWISTYBUTTON{id="renamehelp" mode="div" remember="on" showlink="<h3>&#9658; %MAKETEXT{"Show help"}%</h3>" hidelink="<h3>&#9660; %MAKETEXT{"Show help"}%</h3>" linkclass="foswikiButton patternTwistyButton"}%</div><!--//patternTop-->%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp"}%%TWISTYTOGGLE{id="renamehelp" mode="div" remember="on" noscript="hide"}%<div class="foswikiHelp">%TMPL:P{"notes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+%TMPL:DEF{"pagehelp_nojavascript"}%<br />%TWISTYTOGGLE{id="pagehelp_nojavascript" mode="div" start="hide"}%<div class="foswikiHelp">%TMPL:P{"notes"}%</div>%ENDTWISTYTOGGLE%%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
+
+
+%TMPL:DEF{"searchresultsstep"}%<div class="foswikiFormStep">%TMPL:P{"searchresults"}%</div><!-- /foswikiFormStep-->
+%TMPL:END%
+
+%TMPL:DEF{"renameformsteps"}%<div class="foswikiFormSteps">
+<div class="foswikiFormStep">%TMPL:P{"changefrom"}%</div><!-- /foswikiFormStep-->
+<div class="foswikiFormStep">%TMPL:P{"toweb"}%</div><!-- /foswikiFormStep-->
+<div class="foswikiFormStep foswikiLast">%TMPL:P{"totopic"}%</div><!-- /foswikiFormStep-->
+%TMPL:P{"searchresultsstep"}%</div><!-- /foswikiFormSteps-->%TMPL:END%
+
+
+%TMPL:DEF{"checkuncheck"}%<div class="foswikiMakeVisibleBlock"><hr />
+<p><input type="button" class="foswikiButton" value='%MAKETEXT{"Select all"}%' onclick="checkAll(document.rename,true);" />&nbsp;<input type="button" class="foswikiButton" value='%MAKETEXT{"Clear all"}%' onclick="checkAll(document.rename,false);" /> %MAKETEXT{"checkboxes of referenced topics"}%</p></div>%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%
+%TMPL:P{"formstart"}%
+%TMPL:P{"renameformsteps"}%
+%TMPL:P{"topicaction"}%
+%TMPL:P{"formend"}%%TMPL:P{"pagehelp_nojavascript"}%%TMPL:END%

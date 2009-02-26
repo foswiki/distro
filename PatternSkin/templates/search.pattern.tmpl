@@ -1,0 +1,23 @@
+%TMPL:INCLUDE{"view"}%
+%TMPL:INCLUDE{"searchbase"}%
+
+
+%TMPL:DEF{"topicaction"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(search results)"}% %TMPL:END%
+
+
+
+%TMPL:DEF{"result"}%<div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPICNAME%"><b>%TOPICNAME%</b></a></div><div class="foswikiRight foswikiSRAuthor"> %AUTHOR%</div><div class="foswikiRight foswikiSRRev">%REVISION% - <a href="%SCRIPTURLPATH{"rdiff"}%/%WEB%/%TOPICNAME%" rel='nofollow'>%TIME%</a>&nbsp;</div><br class="foswikiClear" /></div><!--/foswikiTopRow--><div class="foswikiBottomRow"><div class="foswikiSummary foswikiGrayText">%TEXTHEAD%</div><!--/foswikiSummary-->
+</div><!--/foswikiBottomRow--></div><!--/patternSearchResult-->%TMPL:END%
+
+
+
+%TMPL:DEF{"content"}%%SPLIT%%TMPL:P{"searched"}%
+%SPLIT%%TMPL:P{"header"}%%REPEAT%%TMPL:P{"result"}%%REPEAT%%SPLIT%%TMPL:P{"count"}%%SPLIT%%TMPL:END%
+
+
+
+%TMPL:DEF{"header:style:backgroundcolor"}%style="background-color:%WEBBGCOLOR%"%TMPL:END%

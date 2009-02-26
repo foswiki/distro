@@ -1,0 +1,14 @@
+%TMPL:INCLUDE{"login"}%
+
+%TMPL:DEF{"bodyclassname"}%patternNoViewPage patternLoginPage%TMPL:END%
+
+%TMPL:DEF{"bottombarcontents"}%%TMPL:END%
+
+%TMPL:DEF{"form"}%<div id="foswikiLogin">
+<div class="foswikiFormSteps">%TMPL:P{"formstart"}%%TMPL:P{"titlestep"}%
+%TMPL:P{"usernamestep"}%%TMPL:P{"passwordstep"}%%TMPL:P{"submitstep"}%
+%TMPL:P{"formend"}%
+%TMPL:P{"seealsostep"}%
+</div><!-- /foswikiFormSteps-->
+%TMPL:P{"loginasadministratorstep"}%
+</div><!-- /foswikiLogin-->%TMPL:END%

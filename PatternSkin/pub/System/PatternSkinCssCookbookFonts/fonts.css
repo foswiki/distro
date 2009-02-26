@@ -1,0 +1,35 @@
+#patternPage {
+	font-family: "georgia", "verdana", Geneva, Arial, sans-serif;
+	color:#000;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: "times", serif;
+}
+.foswikiTopic {
+	background-color:#E2D7B9;
+	border:3px double #555;
+	padding:.5em;
+}
+#patternSideBar {
+	font-family:Times;
+}
+.patternTop {
+	font-family:Times;
+}
+#patternSideBar a:link,
+#patternSideBar a:visited {
+	color:#666;
+}
+#patternSideBar a:hover {
+	color:#acc3b1;
+}
+.patternLeftBarPersonal {
+	background:none;
+}
+.patternLeftBarPersonal a:link,
+.patternLeftBarPersonal a:visited {
+	color:#800;
+}
+#patternMain {
+	background:none;
+}

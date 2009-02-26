@@ -1,0 +1,10 @@
+#patternOuter {
+	margin-left:0;
+}
+#patternSideBar {
+	display:none;
+}
+/* for the content left margin use a bit smaller margin */
+#patternMainContents {
+	padding-left:2em; /*S6*/
+}

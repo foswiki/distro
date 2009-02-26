@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1129333294" format="1.1" version="$Rev$"}%
+
+---+!! PatternSkinCssCookbook Recipe: Hide the left bar
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim>
+   * Set USERSTYLEURL = %ATTACHURLPATH%/hideleftbar.css
+</verbatim>
+You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic, or on a single page.
+</div>
+
+
+%META:FILEATTACHMENT{name="hideleftbar.css" attr="" autoattached="1" comment="css to hide the left bar" date="1129323328" path="hideleftbar_Dakar.css" size="112" user="ProjectContributor" version=""}%

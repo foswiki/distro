@@ -1,0 +1,395 @@
+%META:TOPICINFO{author="ProjectContributor" date="1130019100" format="1.1" version="$Rev$"}%
+
+---+!! %SYSTEMWEB%.PatternSkin Customization
+
+*Guidelines how to create and customize page templates.* For styling your Foswiki using stylesheets, see PatternSkinCssCookbook.
+
+%TOC%
+
+---++ First Read: How to modify !PatternSkin templates
+
+Everything you see on the common 'view' page is written by the =view= template. For pattern skin this file is =/templates/view.pattern.tmpl=.
+
+We describe two approaches to override this template:
+   1 By creating a custom skin file in the =templates= directory
+   1 By creating a custom topic template
+
+Which approach is best?
+   * If you want to change the appearance for a lot of pages or even site-wide, the template approach is the easiest.
+   * If you want to change the appearance of a single topic, or a set of topics, use a topic template.
+
+---+++ The template approach
+
+To change templates you will need shell access. If you don't have this read on below in [[#TopicTemplates][The topic template approach]].
+
+The quickest way to change the view template would be to simply change the text in the template. A safer way -  strongly recommended, because it will survive a Foswiki update - is to create your own custom skin. That may sound like an awful lot of work, but in reality a skin may be as much as 1 file that consists of only a few lines of code.
+
+*Example* %BR%
+Let's say you want to simplify the bottom toolbar and remove all links except for "More topic actions". You would need to target =%<nop>TMPL:DEF{"topicactionbuttons"}%=, which is located in =view.pattern.tmpl=.
+
+*The steps you would need:*
+   1 Think up a name for your skin. Let us use =myskin= for now.
+   1 Create a new (empty) view template file in =/templates= called =view.myskin.tmpl=.
+   1 In =view.myskin.tmpl= you write:
+   <blockquote><verbatim>
+   %TMPL:INCLUDE{"view"}%
+   %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim></blockquote>
+   1 For testing, view any topic and append to the topic name: =?cover=myskin=. You should see an effect now.
+   1 To make the changes visible on all pages, go to [[%USERSWEB%.SitePreferences]] (to keep %WIKIPREFSTOPIC% intact) and write:
+<blockquote><pre>
+   * <nop>Set COVER = myskin
+</pre>
+or write
+<pre>
+   * <nop>Set SKIN = myskin,pattern
+</pre></blockquote>
+
+Test by appending =?cover=myskin= to the url.
+
+
+#TopicTemplates
+---+++ The topic template approach (using VIEW_TEMPLATE)
+
+Template overrides can be written in a topic, a so-called _topic template_. Topic template names end with =Template=, for instance =BlogPostViewTemplate=.
+
+Call this template by setting =VIEW_TEMPLATE=:
+<blockquote>
+<verbatim>
+   * Set VIEW_TEMPLATE = BlogPostView
+</verbatim>
+</blockquote>
+   * Note that you don't use the =Template= extension now
+   * You can make this setting hidden by writing this in the Settings screen: go to More and then Topic Settings
+   * On topic creation you can set the topic template by passing =templatetopic=:
+   <verbatim>
+   <input type="hidden" name="templatetopic" value="BlogPostViewTemplate" />
+   </verbatim>
+
+We can use the same example as above. In a topic write:
+<blockquote>
+<verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%
+</verbatim>
+</blockquote>
+
+You can also test this by appending =?template=PersonalInfoView= to the url.
+
+---++ Reference: pattern skin template INCLUDE tree
+
+The =view= script invokes the =view= template:
+<verbatim>
+view
+    foswiki
+        css
+        viewtopbar
+            %SYSTEMWEB%.WebTopBar
+        viewsidebar
+            %WEB%.WebLeftBar
+        viewtopicactionbuttons
+        viewbottombar
+            %SYSTEMWEB%.WebBottomBar
+</verbatim>
+
+---++ Logo
+
+---+++ How can I change the web logo?
+
+By default the logo at the top left of each web points to the image with name =logo.gif= that is attached to each web's WebPreferences. <br />
+The [[%SYSTEMWEB%.PreferenceSettings][preference settings]] that cause this behavior are defined in [[%WIKIPREFSTOPIC%]].
+
+Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
+<blockquote><pre>
+   * Set <nop>WEBLOGONAME = logo.gif
+   * Set <nop>WEBLOGOIMG = %<nop>PUBURLPATH%/%<nop>BASEWEB%/%<nop>WEBPREFSTOPIC%/%<nop>WEBLOGONAME%
+   * Set <nop>WEBLOGOURL = %<nop>SCRIPTURLPATH{"view"}%/%<nop>BASEWEB%/%<nop>HOMETOPIC%
+   * Set <nop>WEBLOGOALT = Home
+</pre></blockquote>
+
+There are 2 ways to change the logo in a web:
+
+*Using logo.gif:*
+<blockquote>
+   * Create a new image named =logo.gif= and attach it to the web's WebPreferences topic. %SYSTEMWEB%.PatternSkin's stylesheet assumes the logo is 40px high. More about that later.
+   * You can also upload the image with FTP to =/pub/YourWeb/WebPreferences/=.
+   * Copy the above instructions ("Redefine your custom preference settings") and insert your logo name.
+</blockquote>
+*Using a new filename:*
+<blockquote>
+   * Attach whatever image and attach it to the web's WebPreferences topic. Then add to the WebPreferences (under _Custom web preferences_):
+<pre>
+      * Set <nop>WEBLOGONAME = your-logo-name.gif-or-png
+</pre>
+   * Copy the above instructions ("Redefine your custom preference settings") and insert your logo name.
+</blockquote>
+
+---+++ How do I set a site-wide logo?
+
+There are a bunch of site-wide logo [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]]: =WIKILOGOIMG=, =WIKILOGOURL= and =WIKILOGOALT=.
+To change only the web logo image to site-wide, in [[%LOCALSITEPREFS%]] set:
+<blockquote><pre>
+   * Set <nop>WEBLOGOIMG = %<nop>WIKILOGOIMG%
+</pre></blockquote>
+
+---+++ My logo does not fit the top bar
+
+See [[#TopBarChangeHeight][I want to change the height of the top bar]]
+
+---+++ I want to change the white space above and below the logo
+
+Change the table style in topic %SYSTEMWEB%.WebTopBar. The default top padding is 11px.
+
+---++ Top bar
+
+---+++ The search box won't find topics in other webs
+
+
+In %SYSTEMWEB%.WebTopBar you can find the line:
+<verbatim>
+<input type="hidden" name="web" value="%BASEWEB%" />
+</verbatim>
+
+To search all webs, write:
+<blockquote>
+<verbatim>
+<input type="hidden" name="web" value="all" />
+</verbatim>
+</blockquote>
+
+To search a couple of webs, for instance the webs Main and System, write:
+<blockquote>
+<verbatim>
+<input type="hidden" name="web" value="Main,System" />
+</verbatim>
+</blockquote>
+
+See also: [[%SYSTEMWEB%.VarSEARCH][Search macro]]
+
+#TopBarChangeHeight
+---+++ I want to change the height of the top bar
+
+The top bar is 64 pixels high by default.
+
+*Using templates:* %BR%
+Using either a template or a topic template, copy this definition in your custom template:
+
+<blockquote>
+<verbatim>
+%TMPL:DEF{"topbardimensions"}%
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter {
+	height:64px; /* top bar height; make room for header columns */
+	overflow:hidden;
+}
+%TMPL:END%
+</verbatim>
+And change the number from 64px to a different value.
+</blockquote>
+
+*Using style sheets:*
+<blockquote>
+Create a new stylesheet with above definition in it, attach it to a topic and point =USERLAYOUTURL= to that topic attachment. See %SYSTEMWEB%.PatternSkinCssCookbook about creating custom styles.
+</blockquote>
+
+---+++ I want to set or change the top background image
+
+The image at the top is called "header art" - commonly the top image found on blog sites. The image that is displayed by default is set by the preference =WEBHEADERART=, defined in [[%WIKIPREFSTOPIC%]].
+
+Redefine your custom [[%SYSTEMWEB%.PreferenceSettings][preference settings]] in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
+<blockquote><pre>
+   * <nop>Set WEBHEADERART = %<nop>PUBURLPATH%/%<nop>SYSTEMWEB%/PatternSkin/Foswiki_header.gif
+   * <nop>Set WEBHEADERBGCOLOR = somehexcolor (no quotes, for example: #ffffff)
+</pre></blockquote>
+
+You can also set =WEBHEADERART= per web, by setting the preference in the Web's !WebPreferences.
+
+---+++ I want to have the web color in the top bar
+
+Redefine =WEBHEADERBGCOLOR= in [[%LOCALSITEPREFS%]] (to keep %WIKIPREFSTOPIC% intact):
+<blockquote><pre>
+   * <nop>Set WEBHEADERBGCOLOR = %<nop>WEBBGCOLOR%
+</pre></blockquote>
+
+---+++ I want to remove the Jump and Search boxes from the top bar 
+
+If you have localization enabled, you will also see a language dropdown box at the far right.
+
+You can remove these items from %SYSTEMWEB%.WebTopBar.
+
+---+++ I want to hide the top bar
+
+*Using templates:*
+
+The view template is populated with page elements using template inclusions:
+
+<pre>
+%<nop>TMPL:INCLUDE{"view"}%
+%<nop>TMPL:INCLUDE{"viewtopicactionbuttons"}%
+%<nop>TMPL:INCLUDE{"viewtopbar"}%
+%<nop>TMPL:INCLUDE{"viewsidebar"}%
+</pre>
+
+Each included template draws a part of the screen.%BR%
+Omit =%<nop>TMPL:INCLUDE{"viewtopbar"}%= to hide the top bar.
+
+Another approach is to clear the contents of module =topbar= with an empty definition. Using either a template or a topic template, write in your custom template:
+
+<blockquote><verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"topbar"}%%TMPL:END%
+</verbatim>
+
+and add:
+
+<verbatim>
+%TMPL:DEF{"topbardimensions"}%#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter {
+	height:0px;
+}%TMPL:END%
+</verbatim></blockquote>
+
+*Using style sheets:* %BR%
+See PatternSkinCssCookbookNoTopBar
+
+---++ Left bar
+
+---+++ I want to hide the side bar
+
+*Using templates:* %BR%
+Omit =%<nop>TMPL:INCLUDE{"viewsidebar"}%= to hide the side bar, or in a custom template clear it using
+<blockquote><verbatim>
+%TMPL:DEF{"sidebar"}%%TMPL:END%
+</verbatim></blockquote>
+
+*Using style sheets:* %BR%
+See PatternSkinCssCookbookNoLeftBar
+
+
+---++ Buttons
+
+---+++ I want to hide the edit buttons from certain users
+
+It may defy the wiki-ness of your Foswiki installation, but in certain circumstances it could be useful to hide the edit buttons from users that are not logged in, for instance for clients that have gotten viewing rights only.
+
+Using either a template or a topic template, 'empty' =top:toolbarbuttons= and =topicaction= by writing:
+<blockquote><pre>
+%<nop>TMPL:INCLUDE{"view"}%
+%<nop>TMPL:DEF{"top:toolbarbuttons"}%%TMPL:END%
+%<nop>TMPL:DEF{"topicaction"}%%TMPL:END%
+</pre></blockquote>
+
+In the user page of %USERSWEB%.WikiGuest, set the cover to
+<blockquote><pre>
+   * <nop>Set COVER = customer
+</pre></blockquote>
+
+By default this topic is editable only by Wiki admins.
+
+---+++ I want to remove the History button from the bottom
+
+All action links and buttons are defined in =viewtopicactionbuttons.tmpl=. The bottom history link is defined in DEF =action_revisions=
+<blockquote><verbatim>
+%TMPL:DEF{"topicactionbuttons"}%
+%TMPL:P{"action_activatable_edit_or_create"}%
+%TMPL:P{"action_activatable_attach"}%
+%TMPL:P{"action_printable"}%
+%TMPL:P{"action_revisions"}%
+%TMPL:P{"action_backlinks_simple"}%
+%TMPL:P{"action_raw_or_view"}%
+%TMPL:P{"action_activatable_raw_edit"}%
+%TMPL:P{"activatable_more"}%
+%TMPL:END%
+</verbatim></blockquote>
+
+To hide that link, In a custom skin view template =view.myskin.tmpl= empty =action_revisions= by replacing it with an empty string:
+<blockquote><verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"action_revisions"}%%TMPL:END%
+</verbatim></blockquote>
+
+
+---+++ I want to put the bottom links as buttons at the top
+
+The default definition in =view.pattern.tmpl= is:
+<verbatim>
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"activatable_edit_or_create"}%%TMPL:P{"activatable_attach"}%%TMPL:END%
+</verbatim>
+
+Create a new skin by creating a file =view.myskin.tmpl= in the =templates= directory. Write in it:
+
+<blockquote><verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"history_history_link"}%%TMPL:END%
+</verbatim></blockquote>
+
+View any topic with =?skin=myskin,pattern=, or set the =SKIN= preference to =myskin,pattern=.
+
+This will remove the Edit and Attach buttons, and place a History button at the top.
+
+You will probably not just want to have the History button there. Other button include names are:
+<blockquote><verbatim>
+create_topic_link
+raw_edit_link
+view_topic_link
+activatable_attach
+activatable_edit_or_create
+more_link
+activatable_printable
+backlinks_web_link
+backlinks_all_link
+backlinks_link
+history_rdiff_link
+history_history_link
+raw_link
+</verbatim></blockquote>
+
+
+---++ Other page parts
+
+---+++ I want to insert text outside of the topic content
+
+!PatternSkin has 2 'buckets' to write additional content to: =contentheader= and =contentfooter=, both defined in =view.pattern.tmpl=. These containers can contain text or html and are placed directly before and after the topic text.
+
+Both modules are wrapped in CSS containers:
+   * =contentheader= - wrapped in =div= of class =foswikiContentHeader=
+   * =contentfooter= - wrapped in =div= of class =foswikiContentFooter=
+   
+To put contents *before* the main text, use the custom skin approach as described above.%BR%
+So our custom template contains:
+<blockquote><verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"contentheader"}%This is the text before%TMPL:END%
+</verbatim></blockquote>
+
+Use the same procedure for contents to be put *after* the topic text:
+<blockquote><verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"contentfooter"}%This is the text after%TMPL:END%
+</verbatim></blockquote>
+
+---+++ I want to place the form at the top
+
+Pattern skin has 2 buckets for the form: =formtop= (form at the top) and =formbottom= (form at the bottom). The default definition is:
+
+<blockquote>
+<verbatim>
+%TMPL:DEF{"formtop"}%%TMPL:END%
+%TMPL:DEF{"formbottom"}%%TMPL:P{"form"}%%TMPL:END%
+</verbatim>
+</blockquote>
+
+You simply swap the bucket contents. Using either a template or a topic template, write in your custom template:
+
+<blockquote>
+<verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"formtop"}%%TMPL:P{"form"}%%TMPL:END%
+%TMPL:DEF{"formbottom"}%%TMPL:END%
+</verbatim>
+</blockquote>

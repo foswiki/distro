@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1178746198" format="1.1" version="$Rev$"}%
+%INCLUDE{"%IF{"context can_login" then="%SYSTEMWEB%.WebLeftBarLogin" else="<nop>"}%" warn="off"}%
+
+   * *%MAKETEXT{"Toolbox"}%*
+   * [[%SCRIPTURLPATH{"view"}%/%BASEWEB%/WebCreateNewTopic?topicparent=%BASETOPIC%][ %ICON{"newtopic"}% %MAKETEXT{"Create New Topic"}%]]
+   * [[WebTopicList][ %ICON{"index"}% %MAKETEXT{"Index"}%]]
+   * [[%BASEWEB%.WebSearch][ %ICON{"searchtopic"}% %MAKETEXT{"Search"}%]]
+   * [[WebChanges][ %ICON{"changes"}% %MAKETEXT{"Changes"}%]]
+   * [[WebNotify][ %ICON{"notify"}% %MAKETEXT{"Notifications"}%]]
+   * [[WebRss][ %ICON{"feed"}% %MAKETEXT{"RSS Feed"}%]]
+   * [[WebStatistics][ %ICON{"statistics"}% %MAKETEXT{"Statistics"}%]]
+   * [[WebPreferences][ %ICON{"wrench"}% %MAKETEXT{"Preferences"}%]]
+
+%INCLUDE{ "%SYSTEMWEB%.WebLeftBarWebsList" }%

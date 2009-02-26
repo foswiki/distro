@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
+<!--
+Customise this topic; samples and ideas available at %SYSTEMWEB%.WebLeftBarCookbook.
+-->
+*My links:*
+   * [[%WIKIUSERNAME%][My home page]]
+   * [[%SCRIPTURL{search}%/%BASEWEB%/?search=%WIKINAME%;order=modified;limit=50;reverse=on][My %BASEWEB% activities]]
+   * 
+<a class="foswikiSmallish" href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GM%NOP%TIME{"$epoch"}%">edit</a>
+

@@ -1,0 +1,34 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 7557 $"}%
+---+ !WebLeftBar Cookbook
+
+*Instructions and tips how to use WebLeftBarPersonalTemplate*.
+
+!WebLeftBarPersonalTemplate is a topic template to create a personal left bar block for each user. The personal topic, &lt;user&gt;LeftBar is included in the left bar. Its contents are only visible to you. You may put there whatever suits you - links to frequently visited topics, or a dynamically generated list of topics.
+
+Each link is an item in a bullet list. So it can look like this:
+
+   * *My links*
+      * WebHome
+      * WebIndex
+      * WebChanges
+
+(or use your own personal topics).
+
+The list is formatted with CSS. To get an idea of the actual look, see the list above formatted as in the left bar (you need to have =SKIN= set to PatternSkin):
+
+<div class="patternSideBar" style="position:relative; top:0; left:0; padding:0; margin:0; border:0;">
+<div class="patternLeftBarPersonal">
+   * *My links*
+      * WebHome
+      * WebIndex
+      * WebChanges
+</div> 
+</div>
+
+By default the &lt;user&gt;LeftBar topic has an edit link. In case you loose the edit link line of text, here's a copy:
+<verbatim>
+<div class="foswikiSmall"><a href="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%?t=%GMTIME{"$year$mo$day$hours$minutes$seconds"}%">edit</a></div>
+</verbatim>
+ 
+
+

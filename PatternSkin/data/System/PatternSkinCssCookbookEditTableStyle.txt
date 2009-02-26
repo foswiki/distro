@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" date="1134249079" format="1.1" version="$Rev$"}%
+
+---+!! PatternSkinCssCookbook Recipe: [[Foswiki:Extensions.EditTablePlugin][EditTable]] style
+
+*Cookbook example to illustrate control over !EditTable edit styles.*
+
+   1 !EditTable uses a monospace font in edit mode to make the input text width correspond to the set width of the table columns. The attached example style makes the text  more readable by changing the monospace font to a naturally spaced one.
+   2 !EditTable table cell content is vertically centered. The example style makes the content aligned at the top.
+
+Test table:
+
+%EDITTABLE{format="|textarea, 8x40|text, 40|"}%
+| *Head1* | *Head2* |
+| *Hamlet:* So much for this, sir; now shall you see the other.<br />You do remember all the circumstance? | *Horatio:* Remember it, my lord! |
+
+
+<div class="foswikiHelp">
+This line loads the extra style definition:
+<verbatim>
+   * Set USERSTYLEURL = %ATTACHURLPATH%/edittable.css
+</verbatim>
+You can write this line in %SYSTEMWEB%.DefaultPreferences, in %USERSWEB%.SitePreferences, in WebPreferences, in your user topic or on a single page.
+</div>
+
+
+
+%META:FILEATTACHMENT{name="edittable.css" attachment="edittable.css" attr="" comment="" date="1134249078" path="edittable.css" size="388" stream="edittable.css" user="ProjectContributor" version="1"}%
