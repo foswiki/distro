@@ -1,0 +1,33 @@
+# Release manifest for TWikiCompatibilityPlugin
+data/System/TWikiCompatibilityPlugin.txt 0644 Documentation
+templates/twiki.tmpl 0644 compatibility template
+lib/Foswiki/Plugins/TWikiCompatibilityPlugin.pm 0644 Perl module
+lib/Foswiki/Plugins/TWikiCompatibilityPlugin/Config.spec configuration defaults
+lib/TWiki/Plugins.pm 0644 Perl module
+lib/TWiki/Form.pm 0644 Perl module
+lib/TWiki/Func.pm 0644 Perl module
+lib/TWiki.pm 0644 Perl module
+lib/TWiki/UI.pm 0644 Perl module
+lib/TWiki/Attrs.pm 0644 Perl module
+lib/TWiki/Sandbox.pm 0644 Perl module
+lib/TWiki/Prefs.pm 0644 Perl module
+lib/TWiki/Meta.pm 0644 Perl module
+lib/TWiki/OopsException.pm 0644 Perl module
+lib/TWiki/Time.pm 0644 Perl module
+lib/TWiki/LineIterator.pm 0644 Perl module
+lib/TWiki/ListIterator.pm 0644 Perl module
+
+#make TWiki a real web
+data/TWiki/WebPreferences.txt 0644 make it a valid web
+data/TWiki/WebSearch.txt  0644 make it a valid web
+data/TWiki/WebIndex.txt  0644 make it a valid web
+data/TWiki/WebRss.txt  0644 make it a valid web
+data/TWiki/WebChanges.txt  0644 make it a valid web
+data/TWiki/WebHome.txt  0644 make it a valid web
+data/TWiki/WebNotify.txt  0644 make it a valid web
+data/TWiki/WebStatistics.txt  0644 make it a valid web
+data/TWiki/WebTopicList.txt  0644 make it a valid web
+data/TWiki/WebSearchAdvanced.txt  0644 make it a valid web
+data/TWiki/WebCreateNewTopic.txt  0644 make it a valid web
+data/TWiki/WebLeftBarExample.txt  0644 make it a valid web
+data/TWiki/WebAtom.txt  0644 make it a valid web
