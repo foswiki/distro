@@ -1043,7 +1043,8 @@ $Foswiki::cfg{MailProgram} = '/usr/sbin/sendmail -t -oi -oeq';
 # in SitePreferences. Make sure you delete that setting if you are using a
 # SitePreferences topic from a previous release of Foswiki. To disable all
 # outgoing mail from Foswiki leave both this field and the MailProgram field
-# above blank.
+# above blank. If the smpt server uses a different port than the default 25
+# use the syntax mail.your.company:portnumber.
 $Foswiki::cfg{SMTP}{MAILHOST} = '';
 
 # **STRING 30**
