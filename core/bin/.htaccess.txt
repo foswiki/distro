@@ -1,0 +1,108 @@
+# bin/.htaccess.txt
+#
+# Controls access to Foswiki scripts - to make Apache use it, rename this
+# file to '.htaccess' and REPLACE THE FOLLOWING STRINGS WHEREVER YOU SEE
+# THEM IN THIS FILE WITH PATHS SPECIFIC TO YOUR INSTALLATION.
+# Most required values can be seen in the Path Settings section of
+# =configure=.
+#
+# Replace {DataDir} with the value from =configure=
+# Replace {DefaultUrlHost} with the value from =configure=
+# Replace {ScriptUrlPath} with the value from =configure=
+# Replace {Administrators} with a space-separated list of the login
+# name(s) of the person(s) allowed to run the configure script
+# e.g. admin root superhero
+
+# We set an environment variable called anonymous_spider
+# Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
+# including its own topics as URLs and also prevents other Foswikis from
+# doing the same. This is important to prevent the most obvious
+# Denial of Service attacks.
+# You can expand this by adding more BrowserMatchNoCase statements to
+# block evil browser agents trying the impossible task of mirroring a Foswiki
+# Example:
+# BrowserMatchNoCase ^SiteSucker anonymous_spider
+BrowserMatchNoCase ^$ anonymous_spider
+
+# Now set default access rights.
+Order Allow,Deny
+Allow from all
+Deny from env=anonymous_spider
+
+# Use CGI & Perl to handle all files in 'bin' directory, i.e. run as scripts -
+# this should remove the need to rename files to end in '.pl' etc, if your web
+# hosting provider permits this.  Remove if using mod_perl.  Look at
+# http://foswiki.org/Extensions/FastCGIEngineContrib to get info about FastCGI
+# support.
+SetHandler cgi-script
+
+# Password file for Foswiki users
+#
+
+# Authentication type (htpasswd file) (comment out this if you configure htpasswd / LDAP support)
+AuthUserFile {DataDir}/.htpasswd
+AuthName 'Enter your WikiName: (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+AuthType Basic
+
+#for htdigest password suport uncomment the following
+#AuthDigestDomain {DefaultUrlHost}{ScriptUrlPath}/viewauth {DefaultUrlHost}{ScriptUrlPath}/edit {DefaultUrlHost}{ScriptUrlPath}/preview {DefaultUrlHost}{ScriptUrlPath}/save {DefaultUrlHost}{ScriptUrlPath}/attach {DefaultUrlHost}{ScriptUrlPath}/upload {DefaultUrlHost}{ScriptUrlPath}/rename {DefaultUrlHost}{ScriptUrlPath}/manage {DefaultUrlHost}{ScriptUrlPath}/installpasswd {DefaultUrlHost}{ScriptUrlPath}/passwd
+#AuthDigestFile {DataDir}/.htdigest
+# For "Digest" authentication to work properly, this string must match
+# the value of configuration variable $authRealm
+#AuthName 'Enter your WikiName. (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+#AuthType Digest
+
+#for LDAP password support uncomment the following (and fix up the paths)
+#AuthLDAPURL ldap://yourldapserver/dc=yourldapserver,dc=com?uid?sub?(objectClass=posixAccount)
+#AuthLDAPGroupAttribute memberUid
+#AuthLDAPGroupAttributeIsDN off
+#<Limit GET POST PUT>
+#    require group cn=mygroup,ou=groups,dc=yourldapserver,dc=com
+#</Limit>
+#AuthName ByPassword
+#AuthType Basic
+
+# File to return on access control error (e.g. wrong password)
+# By convention this is the UserRegistration page, that allows users
+# to register with the Foswiki. Apache requires this to be a *local* path.
+# Comment this out if you setup Foswiki to completely deny access to WikiGuest
+# in all webs or change the path to a static html page.
+ErrorDocument 401 {ScriptUrlPath}/view/System/UserRegistration
+# Alternatively if your users are all known to be registered you may want
+# to redirect them to the ResetPassword page.
+# ErrorDocument 401 {ScriptUrlPath}/view/System/ResetPassword 
+
+# Set options for excuting CGI and allow symlinks for e.g. viewauth
+# This also unsets any options allowing directory indexing etc.
+Options ExecCGI FollowSymLinks
+
+# Limit access to configure to specific IP addresses and or users.
+# Make sure configure is not open to the general public.
+# The configure script is designed for administrators only.
+# The script itself and the information it reveals can be abused by
+# attackers if not properly protected against public access.
+<FilesMatch "configure.*">
+	SetHandler cgi-script
+	Order Deny,Allow
+	Deny from all
+	Allow from 127.0.0.1, 192.168.1.10
+	Require user {Administrators}
+	Satisfy Any
+</FilesMatch>
+
+# These are scripts that might change content. The regular expression uses ".*"
+# at the end so it matches the scripts even if you had to add a .cgi or .pl
+# extension. If you want to require login for any other scripts, modify the
+# regular expression below as appropriate.
+
+# NB. The resetpasswd & passwd scripts are used to reset and change passwords.
+# They do their own validation of the user and therefore
+# should not use "require valid-user"
+
+# When using Apache type login the following defines the Foswiki scripts
+# that makes Apache ask the browser to authenticate. It is correct that
+# scripts such as view, resetpasswd & passwd are not authenticated.
+# (un-comment to activate)
+#<FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
+#       require valid-user
+#</FilesMatch>

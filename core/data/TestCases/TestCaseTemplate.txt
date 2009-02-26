@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+
+---+!! %TOPIC%
+
+Description: _a brief description of the testcase_
+
+Enter the golden HTML surrounded by structured HTML comments:
+<verbatim>
+<!-- expected -->
+...your golden HTML...
+<!-- /expected -->
+</verbatim>
+The golden HTML should be what you expect to be rendered in the final output. You can optionally enable expansion of %variables% ( =Foswiki::Func::expandCommonVariables= ) on an expected block thus:
+<verbatim>
+<!-- expected expand -->
+</verbatim>
+Normally you should _not_ use the expand option. It is intended primarily for expanding URL components when testing generated HTML which is specific to the installation, and should be used with caution as it assumes that Foswiki doesn't do anything naughty during this expansion.
+
+You specify your actual test markup in the same way:
+<verbatim>
+<!-- actual -->
+<!-- /actual -->
+</verbatim>
+

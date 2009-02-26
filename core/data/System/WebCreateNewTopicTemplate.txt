@@ -1,0 +1,69 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%TMPL:INCLUDE{"view"}%
+
+
+%TMPL:DEF{"content"}%
+---+ %MAKETEXT{"Create New Topic in [_1] Web" args="<nop>%BASEWEB%"}%
+%TMPL:P{"createform"}%
+%TMPL:END%
+
+
+%{ do not show the following elements }%
+%TMPL:DEF{"topicaction"}%%TMPL:END%
+%TMPL:DEF{"topicinfo"}%%TMPL:END%
+%TMPL:DEF{"toolbar"}%%TMPL:END%
+%TMPL:DEF{"topicpathinfo"}%%TMPL:END%
+%TMPL:DEF{"breadcrumb"}%%TMPL:END%
+%TMPL:DEF{"top:toolbarbuttons"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"createform"}%%TMPL:P{"formstartstep"}%
+%TMPL:P{"topicnamestep"}%
+%TMPL:P{"topicparentstep"}%
+%TMPL:P{"topictemplatestep"}%
+%TMPL:P{"submitstep"}%
+%TMPL:P{"formendstep"}%%TMPL:END%
+
+
+%TMPL:DEF{"formstartstep"}%%TMPL:P{"formstart"}%%TMPL:END%
+
+%TMPL:DEF{"formendstep"}%%TMPL:P{"formend"}%%TMPL:END%
+
+%TMPL:DEF{"topicnamestep"}%---+++ %MAKETEXT{"Topic name:"}%
+<p>
+%TMPL:P{"topicname"}%%TMPL:P{"nonwikiword"}%
+</p>%TMPL:END%
+
+%TMPL:DEF{"topicparentstep"}%---+++ %MAKETEXT{"Topic parent:"}%
+<p>
+%TMPL:P{"topicparent"}%
+</p>%TMPL:END%
+
+%TMPL:DEF{"topictemplatestep"}%---+++ %MAKETEXT{"Use template:"}%
+<p>
+%TMPL:P{"topictemplate"}%
+</p>%TMPL:END%
+
+%TMPL:DEF{"submitstep"}%<p>
+%TMPL:P{"submit"}%
+</p>%TMPL:END%
+
+
+%TMPL:DEF{"formstart"}%#NewTopic
+<form name="newtopicform" id="newtopicform" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/">
+<input type="hidden" name="action" value="create" />
+<input type="hidden" name="onlynewtopic" value="on" />%TMPL:END%
+
+
+
+%TMPL:DEF{"topicname"}%<input type="text" class="foswikiInputField" name="topic" id="topic" size="40" %IF{"'%PREFILLTOPIC%'='1'" then="%BASETOPIC%"}% value="%IF{"'%URLPARAM{"topic"}%'" then="%URLPARAM{"topic"}%" else="$percntIF{$quot $ TOPIC='WebCreateNewTopic'$quot then=$quot$quot else=$quot%TOPIC%$quot}$percnt"}%" />%TMPL:END%
+
+
+%TMPL:DEF{"topicparent"}%%IF{"defined pickparent" then="<select name='topicparent' size='10' class='foswikiSelect'>$percntTOPICLIST{$quot<option $marker value='$name'>$name</option>$quot marker=$quotselected$quot separator=$quot$quot selection=$quot$percntURLPARAM{ $quottopicparent$quot default=$quot%MAKETEXT{"(no parent, orphaned topic)"}%$quot }$percnt$quot}$percnt<option value=$quot$quot>$percntMAKETEXT{$quot(no parent, orphaned topic)$quot}$percnt</option></select>" else="<input type='text' size='40' name='topicparent' class='foswikiInputField' value='%URLPARAM{topicparent}%' />&nbsp;<span class='foswikiUnvisited'><a id='pickparent' href='$percntSCRIPTURLPATH{view}$percnt/$percntBASEWEB$percnt/$percntBASETOPIC$percnt?pickparent=1;$percntQUERYSTRING$percnt;#NewTopic'>%MAKETEXT{"Pick from a list"}%</a></span>"}%%TMPL:END%
+
+%TMPL:DEF{"topictemplate"}%<select name="templatetopic" class="foswikiSelect">%IF{"'%URLPARAM{"templatetopic"}%'" then='<option selected="selected">%URLPARAM{"templatetopic"}%</option>'}%<option value="">%MAKETEXT{"Default template"}%</option>%SEARCH{"name~'*Template'" scope="topic" web="%BASEWEB%" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format="<option value=\"$web.$topic\">$topic</option>"}%</select>%SEARCH{"name~'*Template'" scope="topic" web="%BASEWEB%" limit="1" excludetopic="WebTopicEditTemplate,*WebCreateNewTopicTemplate,*ViewTemplate" type="query" nonoise="on" format=" <span class='foswikiUnvisited'><a id='viewtemplates' href='%SCRIPTURL{view}%/%SYSTEMWEB%/WebTemplateTopics?web=%BASEWEB%'>%MAKETEXT{"View templates"}%</a></span>"}% %TMPL:END%
+
+%TMPL:DEF{"submit"}%<input id="submit" type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create this topic"}%' />%TMPL:END%
+
+%TMPL:DEF{"formend"}%</form>%TMPL:END%

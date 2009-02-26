@@ -1,0 +1,6 @@
+%META:TOPICINFO{author="WikiGuest" date="1129310577" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="TestCaseIncludedVerbatim"}%
+<verbatim>
+Everything is ok
+</verbatim>
+

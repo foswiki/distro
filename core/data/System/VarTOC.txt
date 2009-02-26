@@ -1,0 +1,19 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarTOC
+---+++ TOC{"Topic"} -- table of contents
+   * Table of Contents. Shows a TOC that is generated automatically based on headings of a topic. Headings in WikiSyntax (="---++ text"=) and HTML (="&lt;h2&gt;text&lt;/h2&gt;"=) are taken into account. Any heading text after ="!!"= is excluded from the TOC; for example, write ="---+!! text"= if you do not want to list a header in the TOC
+   * Syntax: =%<nop>TOC%= OR =%<nop>TOC{"SomeTopic" ...}%=
+   * Supported parameters:
+    | *Parameter:* | *Description:* | *Default:* |
+    | ="TopicName"= | topic name | Current topic |
+    | =web="Name"= | Name of web | Current web |
+    | =depth="2"= | Limit depth of headings shown in TOC | 6 |
+    | =title="Some text"= | Title to appear at top of TOC | none |
+   * Example: =%<nop>TOC{depth="2"}%=
+   * Example: =%<nop>TOC{"CompleteDocumentation" web="%SYSTEMWEB%" title="Contents:"}%=
+   * Example: see Foswiki:Sandbox.TestTopicInclude
+   * 
+   * %T% TOC will generate links to the headings, so when a reader clicks on a heading it will jump straight where that heading is anchored in the text. If you have two headings with exactly the same text, then their anchors will also be identical and they won't be able to jump to them. To make the anchors unique, you can add an invisible HTML comment to the text of the heading. This will be hidden in normal view, but will force the anchors to be different. For example, <tt>---+ Heading &lt;!--5--&gt;</tt>.
+   * %T% TOC will add an HTML anchor called =foswikiTOC= just before the table of contents. This enables adding a link from within a topic back to the table of contents to ease navigation. Example =[<nop>[#foswikiTOC][Back to TOC]]= creates [[#foswikiTOC][Back to TOC]].
+   * %T% If multiple headers have the exact same text, the anchors for the 2nd, 3rd etc will be suffixed by _AN1, _AN2 etc so the anchors become unique.

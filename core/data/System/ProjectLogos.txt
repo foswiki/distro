@@ -1,0 +1,41 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" reprev="1.2" version="1.2"}%
+---+ Logos 
+
+The official Foswiki logo is attached to this page.
+
+---++ Logo Artwork
+
+%STARTINCLUDE%
+<img src="%ATTACHURLPATH%/foswiki-logo-slogan.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+
+<img src="%ATTACHURLPATH%/foswiki-logo.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+
+<img src="%ATTACHURLPATH%/foswiki-badge.png" alt="The Free and Open Source Wiki" title="The Free and Open Source Wiki" />
+
+%STOPINCLUDE%
+
+---++ Logo Customization
+
+The logo can be changed by redefining the =WIKILOGOIMG= [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
+
+If you use the official artwork on your own site you must link back to Foswiki.org. Use this HTML (with any logo file on this page):
+
+=&lt;a href="http://foswiki.org/"&gt;&lt;img src="%<nop>PUBURL%/%<nop>SYSTEMWEB%/ProjectLogos/foswiki-poweredby.gif" alt="This site is powered by Foswiki" title="This site is powered by Foswiki" border="0" /&gt;&lt;/a&gt;=
+
+If you create your own skin you are encouraged to add this small logo at the bottom of your skin.
+
+---++ Right to use Artwork
+
+The logo artwork of Foswiki.org should be used "as is" in order to get consistent branding for Foswiki.
+
+You may NOT use any original artwork from Foswiki.org, nor make or use modified versions of such artwork, except under the following conditions:
+   * You may use the Foswiki artwork on a web site, in product description and promotional material IF and ONLY IF such use can in no way be interpreted as anything other than an attribution. Using the Foswiki name and artwork in a manner that implies endorsement of a product or service is not allowed.
+
+
+
+%META:FILEATTACHMENT{name="favicon.ico" attachment="favicon.ico" attr="" comment="" date="1227691956" path="favicon.ico" size="1150" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-badge.png" attachment="foswiki-badge.png" attr="" comment="" date="1227691956" path="foswiki-badge.png" size="4807" stream="IO::File=GLOB(0x9494014)" tmpFilename="/tmp/B5uA2toSKg" user="ProjectContributor" version="2"}%
+%META:FILEATTACHMENT{name="foswiki-logo-slogan.png" attachment="foswiki-logo-slogan.png" attr="" comment="" date="1227691967" path="foswiki-logo-slogan.png" size="8967" stream="IO::File=GLOB(0x948bfa4)" tmpFilename="/tmp/EjtcDwyRwS" user="ProjectContributor" version="3"}%
+%META:FILEATTACHMENT{name="foswiki-logo.png" attachment="foswiki-logo.png" attr="" comment="" date="1227691994" path="foswiki-logo.png" size="7537" stream="IO::File=GLOB(0x9494bc8)" tmpFilename="/tmp/SJ8x5Btee3" user="ProjectContributor" version="2"}%
+%META:FILEATTACHMENT{name="foswiki-poweredby.gif" attachment="foswiki-poweredby.gif" attr="" comment="" date="1227691956" path="foswiki-poweredby.gif" size="477" user="ProjectContributor" version="1"}%
+%META:FILEATTACHMENT{name="foswiki-logo.xcf" attachment="foswiki-logo.xcf" attr="" date="1227691956" path="foswiki-logo.xcf" size="45514" user="ProjectContributor" version="1"}%

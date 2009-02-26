@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarUSERINFO
+---+++ USERINFO{"name"} -- retrieve details about a user
+   * Syntax: =%<nop>USERINFO%=
+   * Expands to: <code>%USERINFO%</code> (comma-separated list of the username, wikiusername, and emails)
+   * With formatted output, using tokens =$emails=, =$username=, =$wikiname=, =$wikiusername=, =$groups= and =$admin= ($admin returns 'true' or 'false'):
+      * Example: =%<nop>USERINFO{ format="$username is really $wikiname" }%=
+      * Expands to: =%USERINFO{ format="$username is really !$wikiname" }%=
+   * Retrieve information about another user:
+      * Example: =%<nop>USERINFO{ "WikiGuest" format="$username is really $wikiname" }%=
+      * Expands to: <code>%USERINFO{ "WikiGuest" format="$username is really !$wikiname" }%</code>
+      * %H% The parameter should be the wikiname of a user. You can also pass a login name. You can only get information about another user if the ={AntiSpam}{HideUserDetails}= configuration option is not enabled, or if you are an admin. %IF{"{AntiSpam}{HideUserDetails}" then=" _(User details are hidden in this site)_ "}%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarUSERNAME][USERNAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKINAME][WIKINAME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIUSERNAME][WIKIUSERNAME]], UserAuthentication, ChangeEmailAddress

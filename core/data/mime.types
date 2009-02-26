@@ -1,0 +1,171 @@
+# This file is used to convert a Foswiki file attachment
+# file type into the MIME type, which is returned to
+# the browser. The file format is identical to the 
+# Apache mime.types file. In case you are running a 
+# web server that is compatible with this format it 
+# is recommended to use the mime.types file of the 
+# web server instead. Set the location in lib/LocalSite.cfg
+# file.
+
+application/atom+xml            atom
+application/font-tdpfr          pfr
+application/java-archive        jar
+application/mac-binhex40        hqx
+application/mac-compactpro      cpt
+application/msword              doc dot
+application/msaccess            mdb 
+application/msexcel             csv
+application/octet-stream        bin dms lha lzh class w02 w03 w04 dmg
+application/oda                 oda
+application/ogg                 ogg 
+application/pdf                 pdf
+application/pgp-keys            key
+application/pgp-signature       pgp 
+application/postscript          ai eps ps
+application/powerpoint          pot
+application/ppz                 ppz
+application/rar                 rar 
+application/rdf+xml             rdf 
+application/rss+xml             rss 
+application/rtf                 rtf
+application/toolbook            tbk
+application/vnd.adobe.air-application-installer-package+zip air
+application/vnd.mozilla.xul+xml xul 
+application/vnd.ms-excel        xls xlb xlt
+application/vnd.ms-powerpoint   ppt pps 
+application/vnd.sun.xml.writer                            sxw
+application/vnd.sun.xml.writer.template                   stw
+application/vnd.sun.xml.writer.global                     sxg
+application/vnd.stardivision.writer                       sdw vor
+application/vnd.stardivision.writer-global                sgl
+application/vnd.sun.xml.calc                              sxc
+application/vnd.sun.xml.calc.template                     stc
+application/vnd.stardivision.calc                         sdc
+application/vnd.sun.xml.impress                           sxi
+application/vnd.sun.xml.impress.template                  sti
+application/vnd.stardivision.impress                      sdd sdp
+application/vnd.sun.xml.draw                              sxd
+application/vnd.sun.xml.draw.template                     std
+application/vnd.stardivision.draw                         sda
+application/vnd.sun.xml.math                              sxm
+application/vnd.stardivision.math                         smf
+application/vnd.oasis.opendocument.text                   odt
+application/vnd.oasis.opendocument.text-template          ott
+application/vnd.oasis.opendocument.text-web               oth
+application/vnd.oasis.opendocument.text-master            odm
+application/vnd.oasis.opendocument.graphics               odg
+application/vnd.oasis.opendocument.graphics-template      otg
+application/vnd.oasis.opendocument.presentation           odp
+application/vnd.oasis.opendocument.presentation-template  otp
+application/vnd.oasis.opendocument.spreadsheet            ods
+application/vnd.oasis.opendocument.spreadsheet-template   ots
+application/vnd.oasis.opendocument.chart                  odc
+application/vnd.oasis.opendocument.formula                odf
+application/vnd.oasis.opendocument.database               odb
+application/vnd.oasis.opendocument.image                  odi
+application/vnd.visio           vsd 
+application/wordperfect         wpd
+application/x-abiword           abw 
+application/x-bcpio             bcpio
+application/x-bittorrent        torrent 
+application/x-cdlink            vcd
+application/x-cpio              cpio
+application/x-csh               csh
+application/x-debian-package    deb udeb 
+application/x-director          dcr dir dxr
+application/x-dvi               dvi
+application/x-freemind          mm
+application/x-gnumeric          gnumeric
+application/x-gtar              gtar
+application/x-gzip              tar.gz tgz gz taz
+application/x-hdf               hdf
+application/x-iso9660-image     iso 
+application/x-javascript        js
+application/x-java-jnlp-file    jnlp 
+application/x-java-archive-diff jardiff
+application/x-java-serialized-object ser
+application/x-koan              skp skd skt skm
+application/x-latex             latex
+application/x-mif               mif
+application/x-msdos-program     com exe bat dll scr
+application/x-netcdf            nc cdf
+application/x-sh                sh
+application/x-shar              shar
+application/x-shockwave-flash   swf swfl 
+application/x-stuffit           sit sitx
+application/x-sv4cpio           sv4cpio
+application/x-sv4crc            sv4crc
+application/x-tar               tar
+application/x-tcl               tcl
+application/x-tex               tex
+application/x-texinfo           texinfo texi
+application/x-troff             t tr roff
+application/x-troff-man         man
+application/x-troff-me          me
+application/x-troff-ms          ms
+application/x-ustar             ustar
+application/x-wais-source       src
+application/zip                 zip
+audio/basic                     au snd
+audio/midi                      mid midi kar
+audio/mpeg                      mpga mpega mp2 mp3 m4a 
+audio/mpegurl                   m3u
+audio/x-aiff                    aif aiff aifc
+audio/x-ms-wma                  wma
+audio/x-ms-wax                  wax 
+audio/x-pn-realaudio            ra rm ram
+audio/x-pn-realaudio-plugin     rpm
+audio/x-realaudio               ra
+audio/x-wav                     wav
+chemical/x-pdb                  pdb xyz
+image/gif                       gif
+image/ief                       ief
+image/jpeg                      jpeg jpg jpe
+image/png                       png
+image/svg+xml                   svg svgz
+image/tiff                      tiff tif
+image/x-cmu-raster              ras
+image/x-coreldraw               cdr
+image/x-coreldrawpattern        pat
+image/x-coreldrawtemplate       cdt
+image/x-corelphotopaint         cpt
+image/x-icon                    ico
+image/x-photoshop               psd
+image/x-portable-anymap         pnm
+image/x-portable-bitmap         pbm
+image/x-portable-graymap        pgm
+image/x-portable-pixmap         ppm
+image/x-rgb                     rgb
+image/x-xbitmap                 xbm
+image/x-xpixmap                 xpm
+image/x-xwindowdump             xwd
+message/rfc822                  eml
+model/vrml                      wrl vrml
+text/css                        css cssfrag
+text/h323                       323
+text/html                       html htm htmlfrag
+text/plain                      txt text diff sql sqlfrag
+text/richtext                   rtx
+text/tab-separated-values       tsv
+text/vnd.sun.j2me.app-descriptor    jad 
+text/vnd.wap.wml                wml
+text/vnd.wap.wmlscript          wmls 
+text/xml                        rdf
+text/x-bibtex                   bib
+text/x-java-source              java javafrag
+text/x-setext                   etx
+text/x-sgml                     sgml sgm
+text/x-vcalendar                vcs
+video/mp4                       mp4
+video/mpeg                      mpeg mpg mpe
+video/quicktime                 qt mov
+video/x-msvideo                 avi
+video/x-ms-asf                  asf asx
+video/x-ms-wm	                 wm
+video/x-ms-wmv                  wmv
+video/x-ms-wmx                  wmx
+video/x-ms-wvx                  wvx
+video/x-sgi-movie               movie
+x-conference/x-cooltalk         ice
+x-world/x-3dmf                  3dmf 3dm qd3d qd3
+x-world/x-vrml                  wrl vrm vrml

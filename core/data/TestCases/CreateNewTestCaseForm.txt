@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+
+
+<form action="%SCRIPTURL{"edit"}%/%WEB%" >
+Create new testcase<br />
+<input value="TestCaseAuto" name="topic" type="text" size="15" class="foswikiInputField" />
+<input type="hidden" name="web" value="%WEB%" />
+<input type="hidden" name="templatetopic" value="TestCaseTemplate" />
+<input type="hidden" name="topicparent" value="%HOMETOPIC%" />
+<input type="hidden" name="onlynewtopic" value="1" />
+</form><br />
+%RED% Don't forget to check it in to SVN!! %ENDCOLOR%

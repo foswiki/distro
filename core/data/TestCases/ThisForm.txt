@@ -1,0 +1,11 @@
+%META:TOPICINFO{author="guest" date="1104706440" format="1.0" version="1.1"}%
+This is a test fixture
+
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* |
+| Squeegle  | select | 1 | Hugh Pugh Barney McGrew | blah blah... |
+| Smomble  | checkbox | 3 | Cuthbert Dibble Grubb | blah blah... |
+| Rubaduba | text | 16 | | blah blah... |
+| Slash Slash Escape | select | 1 | One, \
+Two, \
+Three | Boggit |
+

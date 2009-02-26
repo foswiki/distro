@@ -1,0 +1,43 @@
+%{ This is a default template }%%TMPL:INCLUDE{"rename"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(move attachment)"}% %TMPL:END%
+
+
+%TMPL:DEF{"webaction"}% *%MAKETEXT{"Move file attachment"}%* %TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Move attachment"}% [[%ATTACHURL%/%ENCODE{"%FILENAME%"}%][%FILENAME%]]%TMPL:END%
+
+
+%TMPL:DEF{"movewebhelp"}%%TMPL:END%
+
+
+%TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"The new topic chosen must already exist."}%</p>%TMPL:END%
+
+
+%TMPL:DEF{"newweb"}%<p><select class="foswikiSelect" name="newweb" onchange="if (document.rename.newweb.value == 'Trash') { document.rename.newtopic.value = 'TrashAttachment'; }"> %WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%WEB%" separator=" "}%  </select><input type="hidden" name="attachment" value="%FILENAME%" /></p>%TMPL:END%
+
+
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"Move attachment to web:"}%%TMPL:END%
+
+
+%TMPL:DEF{"newtopic"}%<p><input name="newtopic" class="foswikiInputField" value="" size="36" /><input type="hidden" name="nonwikiword" value="on" /></p>%TMPL:P{"namehelp"}%%TMPL:END%
+
+
+%TMPL:DEF{"notes"}%
+   * %MAKETEXT{"The attachment and any history will be moved to the new topic."}%
+   * %MAKETEXT{"An error page will be shown if either of the topics are locked by another user."}%
+   * %MAKETEXT{"Note that any URLs that refer to the attachment will be broken after this move."}%
+%TMPL:END%
+
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Move"}% ' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"searchresultsstep"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"updatenote"}%%TMPL:END%

@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarTOPICLIST
+---+++ TOPICLIST{"format"} -- topic index of a web
+   * List of all topics in a web. The "format" defines the format of one topic item. It may include formatting tokens: The =$topic= token gets expanded to the topic name, =$marker= to =marker= parameter where topic matches =selection=, and =$web= to the name of the web, or any of the standard FormatTokens.
+   * Syntax: =%<nop>TOPICLIST{"format" ...}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="format"= | Format of one line, may include =$web= (name of web), =$topic= (name of the topic), =$marker= (which expands to =marker= for the item matching =selection= only) | ="$topic"= |
+     | =format="format"= | (Alternative to above) | ="$topic"= |
+     | =separator=", "= | line separator | ="$n"= (new line) |
+     | =marker="selected"= | Text for =$marker= if the item matches =selection= | ="selected"= |
+     | =selection="TopicA, !TopicB"= | Current value to be selected in list | =(none)= |
+     | =web="Name"= | Name of web | Current web |
+   * Example: =%<nop>TOPICLIST{"   * $web.$topic"}%= creates a bullet list of all topics
+   * Example: =%<nop>TOPICLIST{separator=", "}%= creates a comma separated list of all topics
+   * Example: =%<nop>TOPICLIST{" &lt;option&gt;$topic&lt;/option&gt;"}%= creates an option list (for drop down menus)
+   * Example: =&lt;select&gt;%<nop>TOPICLIST{" &lt;option $marker value='$topic'&gt;$topic&lt;/option&gt;" separator=" " selection="%<nop>TOPIC%"}%&lt;/select&gt;= creates an option list of web topics with the current topic selected
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSEARCH][SEARCH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBLIST][WEBLIST]]
+

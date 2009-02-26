@@ -1,0 +1,21 @@
+%{ This is a default template }%%{ These templates define the form attached at the bottom of viewed page. }%
+
+%{ Header definition for topic attachments and top table in attach screen }%
+%TMPL:DEF{FORM:display:header}%
+<div class="foswikiForm">
+<table class='foswikiFormTable' border='1'><tr><th class='foswikiFormTableHRow foswikiFirstCol' colspan='2'>%IF{"context preview" then="%TMPL:P{FORM:display:titlename}%" else="%TMPL:P{FORM:display:titlelink}%"}% </th></tr>%TMPL:END%
+
+%{ Each row }%
+%TMPL:DEF{FORM:display:row}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> %A_TITLE%</td><td> %A_VALUE% </td></tr>%IF{"context preview" then="</noautolink>"}%%TMPL:END%
+
+%{ Footer }%
+%TMPL:DEF{FORM:display:footer}%</table></div><!--/foswikiForm-->%TMPL:END%
+
+
+%TMPL:DEF{FORM:display:titlelink}% %A_TITLE% %TMPL:P{FORM:display:editlink}%%TMPL:END%
+
+
+%TMPL:DEF{FORM:display:titlename}%<noautolink> %A_TITLE% </noautolink>%TMPL:END%
+
+
+%TMPL:DEF{FORM:display:editlink}%<span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span>%TMPL:END%

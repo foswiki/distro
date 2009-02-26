@@ -1,0 +1,44 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+ Reference Manual
+
+_Documentation for webmasters, system administrators, project managers, team leaders, and all other users of Foswiki - the Free and Open Source Wiki._
+
+All manual sections in one big page:
+   * [[CompleteDocumentation][Complete Documentation]] (1MB size, almost 200 printed pages)
+
+Manual sections in separate pages:
+   1. [[System Requirements]]
+   1. [[InstallationGuide][Installation Guide]]
+   1. [[UpgradeGuide][Upgrade Guide]]
+   1. [[UserAuthentication][User Authentication]]
+   1. [[AccessControl][Access Control]]
+   1. [[TextFormattingRules][Formatting Rules]]
+   1. [[Macros]]
+   1. [[Template Topics]]
+   1. [[FormattedSearch][Formatted Search]]
+   1. [[FileAttachment][File Attachment]]
+   1. [[DataForms][Data Forms]]
+   1. [[Skin Templates]]
+   1. [[Skins][Skins (visual layout)]]
+   1. [[MetaData]]
+   1. [[ContributedAddOns][Contributed Add-Ons]]
+   1. [[Contribs][Contribs]]
+   1. [[Plugins][Plugins]]
+   1. [[Developing Plugins]]
+   1. [[CommandAndCGIScripts][CGI and Command Line Scripts]]
+   1. [[Site Tools]] 
+   1. [[Managing Topics]] 
+   1. [[Managing Webs]]
+   1. [[Managing Users]]
+   * *Appendices*
+      * [[ReleaseHistory][A: Development Timeline]]
+      * [[AppendixEncodeURLsWithUTF8][B: Encode URLs With UTF8]]
+      * [[CascadingStyleSheets][C: Cascading Style Sheets]]
+
+ %T% *ADMINS:* In less than an hour, you can read through and customize the [[UsersGuide][User's Guide]] to reflect the exact feature set enabled on your own site. See also other enhancement pages: 
+   * InstantEnhancements: Simple tips (using just browser, no install needed) and quick (max couple of minutes).
+   * AdminToolsCategory: Topics an admin typically needs, all in one page
+   * DocumentGraphics: Collection of useful icons
+
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

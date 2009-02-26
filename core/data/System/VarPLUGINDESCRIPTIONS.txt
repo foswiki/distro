@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarPLUGINDESCRIPTIONS
+---+++ PLUGINDESCRIPTIONS -- list of plugin descriptions
+   * Syntax: =%<nop>PLUGINDESCRIPTIONS%=
+   * Expands to: %PLUGINDESCRIPTIONS%
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarACTIVATEDPLUGINS][ACTIVATEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarFAILEDPLUGINS][FAILEDPLUGINS]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPLUGINVERSION][PLUGINVERSION]]
+

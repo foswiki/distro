@@ -1,0 +1,31 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:INCLUDE{"viewtopicactionbuttons"}%
+
+%TMPL:DEF{"titleaction"}% %REVTITLE% %TMPL:END%
+%TMPL:DEF{"webaction"}% %WEBTOPICLIST% %TMPL:END%
+%TMPL:DEF{"pagetitlestylewrapper"}%%TMPL:END%
+
+%TMPL:DEF{"form"}%%META{"form"}%%TMPL:END%
+%TMPL:DEF{"formtop"}%%TMPL:END%
+%TMPL:DEF{"formbottom"}%%TMPL:P{"form"}%%TMPL:END%
+
+%TMPL:DEF{"attachments"}%%META{"attachments"}%%TMPL:END%
+%TMPL:DEF{"attachmentstop"}%%TMPL:END%
+%TMPL:DEF{"attachmentsbottom"}%%TMPL:P{"attachments"}%%TMPL:END%
+
+%TMPL:DEF{"footernote"}%<div class="foswikiFooterNote">
+%META{"parent" prefix="<br />Parents: "}%
+%META{"moved"}%
+</div>%TMPL:END%
+
+%TMPL:DEF{"simpleheader"}%%TMPL:P{"broadcastmessage"}%%TMPL:P{"standardheader"}%%TMPL:END%
+
+%TMPL:DEF{"content"}%<div class="foswikiTopicText">
+%TEXT%
+#TopicEnd
+</div>%TMPL:END%
+
+%TMPL:DEF{"contentwrapper"}%%TMPL:P{"contentheaderstylewrapper"}%%TMPL:P{"formtop"}%%TMPL:P{"attachmentstop"}%
+%TMPL:P{"content"}%
+%TMPL:P{"contentfooterstylewrapper"}%%TMPL:P{"formbottom"}%%TMPL:P{"attachmentsbottom"}%%TMPL:P{"topicinfo"}%%TMPL:END%

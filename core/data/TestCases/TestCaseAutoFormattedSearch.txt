@@ -1,0 +1,289 @@
+%META:TOPICINFO{author="ProjectContributor" date="1169762326" format="1.1"  version="1.1"}%
+%META:TOPICPARENT{name="WebHome"}%
+Description: Automated formatted search tests.
+
+Results dependent on templates used to render search results. Tests only make sense when this topic is viewed with "pattern" skin and standard search templates.
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Kenneth Lavrsen
+
+---+ Simple formatted search
+---++ Expected
+
+<!-- expected Simple -->
+I found <nop>FormattedSearch1<br>
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{ search="[f]ormatteduniqueword" type="regex" nototal="on" nosearch="on" format="I found <nop>$topic<br>"}%
+<!-- /actual -->
+
+---+ Formatted singled level search with $web, $topic, $wikiname, $n
+
+---++ Expected
+<!-- expected expand rex FORMAT with $web, $topic, $wikiname, $n -->
+<nop>%WEB% <nop>%TOPIC%
+<p />
+@WIKIWORD 
+<!-- /expected -->
+---++ Actual
+<!-- actual -->
+%SEARCH{ "This is unique text in formsearchcase" nototal="on" nosearch="on" format="<nop>$web <nop>$topic$n()$n<nop>$wikiname" }%
+<!-- /actual -->
+
+---+ Formatted Search with $topic(5)
+
+---++ Expected
+
+<!-- expected with $topic(5) -->
+Forma- ttedS- earch- 1
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"[f]ormatteduniqueword" type="regex" nototal="on" nosearch="on" format="<nop>$topic(5)"}%
+<!-- /actual -->
+
+---+ Formatted singled level search with $topic(5, -&lt;br /&gt;)
+
+---++ Expected
+
+<!-- expected with $topic(number br)-->
+Forma-<br />
+ttedS-<br />
+earch-<br />
+1
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"[f]ormatteduniqueword" type="regex" nototal="on" nosearch="on" format="<nop>$topic(5, -<br />)"}%
+<!-- /actual -->
+
+---+ Formatted singled level search with $topic(5, ...)
+
+---++ Expected
+
+<!-- expected with $topic(5, ...) -->
+Forma...
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"[f]ormatteduniqueword" type="regex" nototal="on" nosearch="on" format="<nop>$topic(5, ...)"}%
+<!-- /actual -->
+
+---+ Formatted singled level search with $rev, $parent and $formname
+
+---++ Expected
+
+<!-- expected with $parent -->
+Revision 4 has parent <nop>TestCaseAutoFormattedSearch and it contains the form <nop>FormattedSearchForm
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"[f]ormatteduniqueword" type="regex" nototal="on" nosearch="on" format="Revision $rev has parent <nop>$parent and it contains the form <nop>$formname"}%
+<!-- /actual -->
+
+---+ Formatted single level with separator
+
+---++ Expected
+
+<!-- expected with separator -->
+<nop>FormattedSearch1, <nop>FormattedSearch2, <nop>FormattedSearch3
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{ "META\:TOPICPARENT.*\"%TOPIC%\"" type="regex" nonoise="on" format="<nop>$topic" separator=", " }%
+<!-- /actual -->
+
+---+ Formatted search with pattern and multiple
+
+---++ Expected
+
+<!-- expected with separator -->
+Clients,People,Rooms,Buildings
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"   *\s*.*?" topic="FormattedSearch2" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" separator="," format="$pattern(.*   \*\s*([^\n]*).*)"}%
+<!-- /actual -->
+
+---+ Formatted search with counting
+
+Note the counter counts the number of lines with the pattern. Not the number of actual patterns. Is this intented?
+
+---++ Expected
+
+<!-- expected counting -->
+Found 4
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"option" topic="FormattedSearch1" type="regex" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" separator=", " format="Found $count(.*?(option).*)"}%
+<!-- /actual -->
+
+---+ Formatted search with $text and multiple
+
+---++ Expected
+
+<!-- expected with text and multi -->
+<table cellspacing="0" cellpadding="0" class="foswikiTable" border="1">
+<tbody><tr>
+<td>  option1  </td>
+<td>  option  </td>
+<td>  &nbsp;  </td>
+</tr></tbody></table>
+<p />
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"option1" topic="FormattedSearch1" type="regex" multiple="on" casesensitive="on" nosummary="on" nosearch="on" noheader="on" nototal="on" format="$text$n"}%
+<!-- /actual -->
+
+---+ Formatted search with $summary
+
+---++ Expected
+
+<!-- expected with summary -->
+<nop>MichaelAnchor and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{"Anna" topic="FormattedSearch3" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="$summary"}%
+<!-- /actual -->
+
+---+ Formatted singled level search - header
+
+---++ Expected
+
+<!-- expected  header -->
+The header contains <nop>TestCases "Hey" <nop>TestCases $summary
+<p />
+Formatted search result <nop>FormattedSearch1
+<p />
+Formatted search result <nop>FormattedSearch2
+<p />
+Formatted search result <nop>FormattedSearch3
+<p />
+<!-- /expected -->
+
+---++ Actual
+<!-- actual -->
+%SEARCH{"^FormattedSearch.$" type="regex" scope="topic" nototal="on" nosummary="on" nosearch="on" header="The header contains <nop>$web $quotHey$quot <nop>$percntWEB$percnt $dollarsummary $n" format="Formatted search result <nop>$topic$n" }%
+<!-- /actual -->
+
+---+ Formatted singled level search with escaped characters
+
+---++ Expected
+
+<!-- expected  escaped characters -->
+<nop>FormattedSearch1 has $formfield(Name) = Michael Anchor
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{ "FormattedSearch1" scope="topic" nonoise="on" format="<nop>$topic has $dollarformfield(Name) = $formfield(Name)" }%
+<!-- /actual -->
+
+---+ Nested formatted search with format and $percnt
+
+---++ Expected
+
+<!-- expected  Nested with percnt -->
+<ul>
+<li>FormattedSearch1 is referenced by:
+<ul><li>TestCaseAutoFormattedSearch </li>
+</ul></li>
+</ul>
+<p />
+<ul>
+<li>FormattedSearch2 is referenced by:
+<ul><li>FormattedSearch1, <nop>TestCaseAutoFormattedSearch </li>
+</ul></li>
+</ul>
+<p />
+<!-- /expected -->
+
+---++ Actual
+
+<noautolink>
+<!-- actual -->
+%SEARCH{ "FormattedSearch[1-2]" type="regex" scope="topic" format="   * $topic is referenced by:$n      * $percntSEARCH{ \"$topic\" format=\"$dollartopic\" nosearch=\"on\" nototal=\"on\" separator=\", \" }$nop%$n" nosearch="on" nototal="on" }%
+<!-- /actual -->
+</noautolink>
+
+---+ Nested formatted search with format and $dollar and $percnt
+
+---++ Expected
+
+<!-- expected  Nested with dollar and percnt -->
+<ul>
+<li><nop>FormattedSearch1 has formfield(Testsample) = $nop, $quot, $percnt, $dollar in $formfield()
+<ul><li><nop>FormattedSearch2 has formfield(Testsample) = $summary</li>
+</ul> 
+</li>
+</ul> 
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{ "FormattedSearch1" scope="topic" nonoise="on" format="   * <nop>$topic has formfield(Testsample) = $formfield(Testsample)$n()      * $percntSEARCH{ \"$formfield(Role)\" scope=\"topic\" nonoise=\"on\" format=\"<nop>$dollartopic has formfield(Testsample) = $dollarformfield(Testsample)\" }$percnt" }%
+<!-- /actual -->
+
+---+ Extract from table
+
+---++ Expected
+
+<!-- expected table values -->
+option1
+<p />
+option2
+<p />
+option3
+<p />
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{ "^\|[^\|]*\| *option *\|" topic="FormattedSearch1" type="regex" multiple="on" nosearch="on" nototal="on" format="$pattern(^\| *(.*?) *\|.*)$n" }%
+<!-- /actual -->
+
+---+ Combinations 1
+
+---++ Expected
+
+<!-- expected combo 1 -->
+<nop>FormattedSearch1 parent is <nop>TestCaseAutoFormattedSearch
+<p />
+<nop>FormattedSearch2 parent is <nop>TestCaseAutoFormattedSearch
+<p />
+<!-- /expected -->
+
+---++ Actual
+
+<!-- actual -->
+%SEARCH{ "^FormattedSearch[12]" web="%BASEWEB%" scope="topic" type="regex" nonoise="on" format="<nop>$topic $percntIF{$quot'$parent'$quot then=$quotparent is <nop>$parent$n$quot else=$quot<nop>$quot}$percnt" }%
+<!-- /actual -->
+

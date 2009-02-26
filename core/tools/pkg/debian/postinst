@@ -1,0 +1,218 @@
+#! /bin/sh
+# postinst script for foswiki
+#
+# see: dh_installdeb(1)
+
+# not www-data.  remember to sync with rules.
+WIKI_OWNER=www-data
+
+set -e
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see /usr/share/doc/packaging-manual/
+#
+# quoting from the policy:
+#     Any necessary prompting should almost always be confined to the
+#     post-installation script, and should be protected with a conditional
+#     so that unnecessary prompting doesn't happen if a package's
+#     installation fails and the `postinst' is called with `abort-upgrade',
+#     `abort-remove' or `abort-deconfigure'.
+
+
+db_get foswiki/samplefiles
+if [ "$RET" = true ]; then
+#check for the existance of _any_ of the default webs
+#TODO: later this will be replaced by the upgrade script
+    if [ ! -e /var/lib/foswiki/data/Main/WebHome.txt ]; then
+        if [ ! -e /var/lib/foswiki/data/System/WebHome.txt ]; then
+	if [ ! -e /var/lib/foswiki/data/Sandbox/WebHome.txt ]; then
+	if [ ! -e /var/lib/foswiki/data/Trash/WebHome.txt ]; then
+	if [ ! -e /var/lib/foswiki/data/_default/WebHome.txt ]; then
+		    # only extract if they say so and there's no home there
+		    # and even then, fail on overwrite so we don't stomp.
+		    tar -zxk -C / -f /usr/share/foswiki/foswiki-data.tar.gz
+		    # clean up the .mailnotify timestamps.
+		    webs="Main Sandbox System Trash _default";
+		    for web in $webs; do
+		    	    date +%s > /var/lib/foswiki/data/$web/.mailnotify
+    		    done
+			if [ ! -e /var/lib/foswiki/pub/wikiHome.gif ]; then
+				tar -zxk -C / -f /usr/share/foswiki/foswiki-pub.tar.gz
+			fi
+       	fi
+       	fi
+       	fi
+        fi
+    fi
+fi
+
+db_get foswiki/defaultUrlHost
+# be more robust later:
+perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/LocalSite.cfg
+perl -pi~ -e '$U=q{'"$RET"'}; s{http://your.domain.com}{$U}g;' /etc/foswiki/apache.conf
+#remove the double //cgi-bin caused by putting a / at the end of the hostUrl
+perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/foswiki/apache.conf
+#perl -pi~ -e '$U=q{'"$RET"'}; s{^(Redirect\s+/foswiki/index.html\s+).*(cgi-bin/foswiki/view\n)$}{$1$U$2};' /etc/foswiki/apache.conf
+rm /etc/foswiki/*~
+
+db_get foswiki/wikiwebmaster
+# do rcs checkout first?
+#TODO: these settings should move to Main.SitePreferences
+if [ ! -e /var/lib/foswiki/data/System/DefaultPreferences.txt ]; then
+	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
+	#force default to use sendmail by setting SMTPMAILHOST to blank
+	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
+fi
+
+# user + password authorized to run configure script
+db_get foswiki/adminuser
+configuser="$RET"
+perl -pi~ -e '$U=q{'"$RET"'}; s/^([^#]*Require user).*/$1 $U/g;' /etc/foswiki/apache.conf
+
+db_get foswiki/adminpassword
+configpassword="$RET"
+
+# prevent further confusion: done with debconfig
+
+# regrettably, this doesn't actually permit us to do further I/O.
+# Rewrite this in perl, if we ever find a non-kerberos example of how
+# to do so.
+
+case "$1" in
+    configure)
+#	P=/usr/lib/cgi-bin/foswiki
+#	for i in attach changes edit geturl installpasswd mailnotify oops passwd preview rdiff register rename save search statistics testenv upload view viewfile; do
+#	    if ! dpkg-statoverride --list $P/$i >/dev/null; then
+#		dpkg-statoverride --update --add $WIKI_OWNER www-data 4555 $P/$i
+#	    fi
+#	done
+
+	servers="apache apache-perl apache-ssl apache2"
+	for server in $servers; do
+		if [ -e /etc/$server/conf.d ]; then
+			includefile=/etc/foswiki/apache.conf
+			if [ -e /etc/$server/conf.d/foswiki.conf ]; then
+				rm -f /etc/foswiki/$server-conf.d-foswiki.conf_old
+				mv /etc/$server/conf.d/foswiki.conf /etc/foswiki/$server-conf.d-foswiki.conf_old
+			fi
+			ln -s $includefile /etc/$server/conf.d/foswiki.conf
+			if [ $server = "apache2" ]; then
+				a2enmod  authn_file
+				a2enmod  rewrite
+			else
+				apache-modconf $server enable authn_file
+				apache-modconf $server enable rewrite
+			fi
+		fi
+	done
+
+	#add apache2 cgi
+	if [ -e /etc/apache2/mods-available/cgi.load ]; then
+		if [ ! -e /etc/apache2/mods-enabled/cgi.load ]; then
+			ln -s /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/cgi.load
+		fi
+	fi
+
+	# create initial htpasswd, if needed
+	if [ -e /var/lib/foswiki/data ]; then
+		#for now prefer apache 1 config, I don't know how to detect which one is prefered
+		if [ -e /usr/bin/htpasswd2 ]; then
+			HTPASSWDCMD="/usr/bin/htpasswd2";
+		fi
+		if [ -e /usr/bin/htpasswd ]; then
+			HTPASSWDCMD="/usr/bin/htpasswd";
+		fi
+		if [ -e $HTPASSWDCMD ]; then
+			#if the user has installed without initial universe then we can't do this
+			if [ ! -e /var/lib/foswiki/data/.htpasswd ]; then
+			    touch /var/lib/foswiki/data/.htpasswd
+			    chmod 660 /var/lib/foswiki/data/.htpasswd
+			fi
+		       	$HTPASSWDCMD -b /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
+			chown $WIKI_OWNER.www-data /var/lib/foswiki/data/.htpasswd
+		fi
+	fi
+
+	#remove the  .htaccess file - moved to apache-foswiki.conf
+	if [ -e /usr/lib/cgi-bin/foswiki/.htaccess ]; then
+		rm /usr/lib/cgi-bin/foswiki/.htaccess
+	fi
+	if [ -e /etc/foswiki/.htaccess ]; then
+		rm /etc/foswiki/.htaccess
+	fi
+
+	#create securer-foswiki session dir
+	if [ ! -e /var/lib/foswiki/working ]; then
+		mkdir /var/lib/foswiki/working
+	fi
+	chown $WIKI_OWNER.www-data /var/lib/foswiki/working
+	if [ ! -e /var/lib/foswiki/working/work_areas ]; then
+		mkdir /var/lib/foswiki/working/work_areas
+	fi
+	chown $WIKI_OWNER.www-data /var/lib/foswiki/working/work_areas
+
+	#mmmm, mailnotify etc may be running _not_ as www-data
+	#and for some reason create a session
+	#use 1777 to prevent third parties replacing the file with a doctored one
+	#put into /tmp/foswiki so that the open dir can't be used by others to fill up /var, thus crashing all logging
+	if [ ! -e /tmp/foswiki ]; then
+		mkdir /tmp/foswiki
+	fi
+	chmod 1777 /tmp/foswiki
+	chown $WIKI_OWNER.www-data /tmp/foswiki
+
+	if [ ! -e /var/lib/foswiki/log ]; then
+		ln -s /var/log/foswiki /var/lib/foswiki/log
+	fi
+
+	chown -R $WIKI_OWNER.www-data /var/log/foswiki
+	chmod -R 755 /var/log/foswiki
+	chown $WIKI_OWNER.www-data /etc/foswiki/LocalSite.cfg
+	chown -R $WIKI_OWNER.www-data /var/lib/foswiki
+	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/locale
+	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/templates
+	chown -R $WIKI_OWNER.www-data /var/lib/foswiki/tools
+
+	# erase configuser password
+        db_reset "foswiki/adminpassword"
+	db_fset  "foswiki/adminpassword" "seen" "false" || true
+
+	db_stop
+
+
+	# reload apache configs
+	for server in $servers; do
+		if [ -e /etc/init.d/$server ]; then
+			echo reloading $server config
+                	/etc/init.d/$server reload
+		fi
+	done
+
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+# dh_installdeb will replace this with shell code automatically
+# generated by other debhelper scripts.
+
+#DEBHELPER#
+
+exit 0

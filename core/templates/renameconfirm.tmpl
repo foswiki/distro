@@ -1,0 +1,28 @@
+%{ This is a default template }%%TMPL:INCLUDE{"renamebase"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(rename)"}% %TMPL:END%
+
+
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Confirm rename or move"}%%TMPL:END%
+
+
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"To web:"}% %NEW_WEB%
+<input type="hidden" name="newweb" value="%NEW_WEB%" />%TMPL:END%
+
+
+%TMPL:DEF{"totopictitle"}%---+++ %MAKETEXT{"To topic:"}% <nop>%NEW_TOPIC%
+<input type="hidden" name="newtopic" value="%NEW_TOPIC%" />%TMPL:P{"nonwikiwordallowed"}%%TMPL:END%
+
+
+%TMPL:DEF{"movewebhelp"}%%TMPL:END%
+
+%TMPL:DEF{"newtopic"}%%TMPL:END%
+
+%TMPL:DEF{"newweb"}%%TMPL:END%
+
+%TMPL:DEF{"searchresultsstep"}%%TMPL:END%
+
+%TMPL:DEF{"notecheckmarkedtopics"}%%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="hidden" name="nonwikiword" value="%URLPARAM{"nonwikiword"}%" /><input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%

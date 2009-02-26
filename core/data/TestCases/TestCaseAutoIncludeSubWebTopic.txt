@@ -1,0 +1,16 @@
+%META:TOPICINFO{author="ProjectContributor" date="1132220938" format="1.1" version="$Rev$"}%
+---+!! %TOPIC%
+
+Description: include a topic from a subweb
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+<!-- expected -->
+SUCCESS
+<!-- /expected -->
+
+----
+
+<!-- actual -->
+%INCLUDE{ "TestCases.SubWeb.IncludeSubWebContents" }%
+<!-- /actual -->

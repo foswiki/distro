@@ -1,0 +1,63 @@
+%{ This is a default template }%%TMPL:INCLUDE{"renamedelete"}%
+
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% <nop>%WEB%%TMPL:END%
+
+
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"New web name:"}%%TMPL:END%
+
+
+%TMPL:DEF{"parentwebtitle"}%---+++ %MAKETEXT{"New parent web:"}%%TMPL:END%
+
+
+%TMPL:DEF{"newtopic"}%%TMPL:END%
+
+
+%TMPL:DEF{"newweb"}%%TMPL:P{"newparentweb"}%.%TMPL:P{"newsubweb"}%%TMPL:END%
+
+
+%TMPL:DEF{"changefrom"}%%TMPL:END%
+
+
+%TMPL:DEF{"formend"}%<input type="hidden" name="action" value="renameweb" />
+<input type="hidden" name="confirm" value="getlock" /></form>%TMPL:END%
+
+
+%TMPL:DEF{"searchresults"}%
+---+++ %MAKETEXT{"Update links"}%
+<blockquote>
+*%MAKETEXT{"Topics which are currently being edited by other users in the [_1] Web:" args="<nop>%WEB%"}%* %BR%
+%MOVE_LOCKED%
+
+*%MAKETEXT{"Topics which refer to this web and are are currently being edited by other users:"}%* %BR%
+%REF_LOCKED%
+
+*%MAKETEXT{"Topics which refer to this web that you do not have permission to change:"}%* %BR%
+%REF_DENIED%
+</blockquote>
+*%TMPL:P{"updatenote"}%*
+<blockquote>
+---++++ %MAKETEXT{"Change links in topics that refer to ![_1] in the [_2] Web:" args="%WEB%, <nop>%WEB%"}%
+%LOCAL_SEARCH%
+
+---++++ %MAKETEXT{"Change links in topics that refer to ![_1] in any Web:" args="%WEB%"}%
+%GLOBAL_SEARCH%
+%TMPL:P{"checkuncheck"}%
+</blockquote>%TMPL:END%
+
+
+%TMPL:DEF{"notegethelp"}%
+   * %MAKETEXT{"Get help on <a target='ManagingWebs' class='foswikiPopUp' href='[_1]' rel='nofollow'>Renaming and moving webs</a>." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/ManagingWebs"}%
+   * Select the %TRASHWEB% Web to delete the topic.
+%TMPL:P{"notecheckmarkedtopics"}%
+%TMPL:END%
+
+
+%TMPL:DEF{"parentweb"}%
+%TMPL:P{"parentwebtitle"}%
+<p>%TMPL:P{"newparentweb"}%%TMPL:P{"parentwebhelp"}%</p>%TMPL:END%
+
+%TMPL:DEF{"parentwebstep"}%%TMPL:P{"parentweb"}%%TMPL:END%
+
+
+%TMPL:DEF{"renameformsteps"}%%TMPL:P{"toweb"}%
+%IF{"{EnableHierarchicalWebs}" then='%TMPL:P{"parentwebstep"}%'}%%TMPL:P{"searchresultsstep"}%%TMPL:END%

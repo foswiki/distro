@@ -1,0 +1,20 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ Web Site Tools
+%STARTINCLUDE%
+<form action="%SCRIPTURLPATH{search}%/%BASEWEB%/SearchResult">
+<noautolink>
+   * <input type="text" name="search" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> &nbsp;&nbsp; (More options in [[%BASEWEB%.WebSearch][WebSearch]])
+   * [[%BASEWEB%.WebChanges][WebChanges]]: Display recent changes to the %BASEWEB% web
+   * [[%BASEWEB%.WebIndex][WebIndex]]: List all %BASEWEB% topics in alphabetical order. See also the faster [[%BASEWEB%.WebTopicList][WebTopicList]]
+   * [[%BASEWEB%.%NOTIFYTOPIC%][%NOTIFYTOPIC%]]: Subscribe to an e-mail alert sent when something changes in the %BASEWEB% web
+   * [[%BASEWEB%.%STATISTICSTOPIC%][%STATISTICSTOPIC%]]: View access statistics of the %BASEWEB% web
+   * [[%BASEWEB%.%WEBPREFSTOPIC%][%WEBPREFSTOPIC%]]: Preferences of the %BASEWEB% web ([[%SYSTEMWEB%.%WIKIPREFSTOPIC%][%WIKIPREFSTOPIC%]] has site-wide preferences)
+</noautolink>
+</form>
+%STOPINCLUDE%
+---
+   * The list above provides the SiteTools used to navigate, search and maintain a particular web. It is included within other topics using the following directive: <p />
+     =%<nop>INCLUDE{"%<nop>SYSTEMWEB%.WebSiteTools"}%=
+
+   * [[%SCRIPTURLPATH{"search"}%/%WEB%?scope=text&amp;web=all&amp;regex=on&amp;search=INCLUDE.*WebSiteTools&amp;casesensitive=on&amp;nosummary=on&amp;nototal=on][List]] all topics which include this <nop>WebSiteTools topic.
+

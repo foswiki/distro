@@ -1,0 +1,12 @@
+Document: foswiki
+Title: Debian foswiki Manual
+Author: Foswiki Contributors <foswiki-discuss@lists.sourceforge.net>
+Abstract: This manual describes the Foswiki web-based collaboration system.
+Section: Web Development
+
+Format: HTML
+Index: /usr/share/doc/foswiki/index.html
+Files: /usr/share/doc/foswiki/*.html
+
+Format: Text
+Files: /usr/share/doc/foswiki/readme.txt

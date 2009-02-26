@@ -1,0 +1,23 @@
+%{ This is a default template }%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+To: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+Subject: %MAKETEXT{"[_1] - Registration failure for [_2] ([_3])" args="%WIKITOOLNAME%, %WIKINA
+E%, %EMAILADDRESS%"}%
+MIME-Version: 1.0
+Content-Type: text/plain; charset=%CHARSET%
+Content-Transfer-Encoding: 8bit
+
+%MAKETEXT{"This is an automated e-mail notification of user registration in [_1]." args="%WIKI
+OOLNAME%"}%
+
+%MAKETEXT{"[_1] tried to register with e-mail [_2]" args="%WIKINAME%, %EMAILADDRESS%"}%
+
+%MAKETEXT{"However, sending a confirmation e-mail to [_2] failed, suggesting that this maye be a fraudulent registration.  The user '[_1]' was removed automatically. However you may have to remove the user's personal topic manually."
+args="%WIKINAME%, %EMAILADDRESS%"}%
+
+%MAKETEXT{"Submitted content:"}%
+
+%FORMDATA%
+
+%MAKETEXT{"Saved to:"}%
+
+%SCRIPTURL{"view"}%/%USERSWEB%/%WIKINAME%

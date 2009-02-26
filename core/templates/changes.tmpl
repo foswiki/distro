@@ -1,0 +1,14 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+%TMPL:INCLUDE{"search"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(changes)"}% %TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}% Subscribe or unsubscribe in %NOTIFYTOPIC% %TMPL:END%
+
+
+%TMPL:DEF{"searchbody"}%<br />%TMPL:P{"repeatedsearchblock"}%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"searchbody"}%
+%TMPL:P{"topicinfo"}%%TMPL:END%

@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="FrequentlyAskedQuestions"}%
+---++ FAQ:
+
+
+
+---++ Answer:
+
+
+
+*Back to:%NOP%* FrequentlyAskedQuestions
+
+-- %WIKIUSERNAME% - %DATE% <br />

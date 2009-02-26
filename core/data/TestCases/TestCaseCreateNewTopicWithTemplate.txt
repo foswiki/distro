@@ -1,0 +1,23 @@
+%META:TOPICINFO{author="guest" date="1104923216" format="1.0" version="1.1"}%
+Description: Verify the correct creation of a topic from a template.
+
+
+
+The topic created should contain the following text:
+
+<verbatim>
+
+The topic %TOPIC% was correctly created from the template in TopicTemplateFixture
+
+</verbatim>
+
+All the following tests should be run. They look identical, but all use different URLs
+
+	1 [[%SCRIPTURL{"edit"}%/TestCases?topic=TemplatedTopic&templatetopic=TopicTemplateFixture][Click here]] to create the topic *DO NOT SAVE IT*!!
+
+	1 [[%SCRIPTURL{"edit"}%/TestCases/TemplatedTopic?templatetopic=TopicTemplateFixture][Click here]] to create the topic *DO NOT SAVE IT*!!
+
+	1 [[%SCRIPTURL{"edit"}%/TestCases/TemplatedTopic?templatetopic=TopicTemplateFixture&onlynewtopic=1][Click here]] to create the topic *DO NOT SAVE IT*!!
+
+
+

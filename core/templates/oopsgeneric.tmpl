@@ -1,0 +1,17 @@
+%TMPL:INCLUDE{"oops"}%
+
+%TMPL:DEF{"titleaction"}% %TMPL:END%
+
+%TMPL:DEF{"webaction"}%&nbsp;%TMPL:END%
+
+%TMPL:DEF{"heading"}% %MAKETEXT{ "[_1]" args="%PARAM1%" }% %TMPL:END%
+
+%TMPL:DEF{"topicactionbuttons"}% [[%WEB%.%TOPIC%][OK]] %TMPL:END%
+
+%TMPL:DEF{"message"}%
+%MAKETEXT{ "[_1]" args="%PARAM2%" }%
+
+%MAKETEXT{ "[_1]" args="%PARAM3%" }%
+
+%MAKETEXT{ "[_1]" args="%PARAM4%" }%
+%TMPL:END%

@@ -1,0 +1,4 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+---++ type=below, target=%<nop>INCLUDINGTOPIC%#IncludeAnchor
+%COMMENT{type="below" target="%INCLUDINGTOPIC%#IncludeAnchor"}%

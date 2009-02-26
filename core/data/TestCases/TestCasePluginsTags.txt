@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: Plugins management tags
+
+Can't automate this because the list of plugins depends on what's installed in the test environment
+
+---+ Result of !%PLUGINDESCRIPTIONS%
+%PLUGINDESCRIPTIONS%
+---+ Result of !%ACTIVATEDPLUGINS%
+%ACTIVATEDPLUGINS%
+---+ Result of !%FAILEDPLUGINS%
+%FAILEDPLUGINS%
+

@@ -1,0 +1,77 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"formstart"}%<form method="post" name="rename" action="%SCRIPTURLPATH{"rename"}%/%WEB%/%TOPIC%">%TMPL:END%
+
+%TMPL:DEF{"formend"}%</form>%TMPL:END%
+
+
+%TMPL:DEF{"pagehelp"}%%TMPL:P{"notes"}%%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
+
+
+%TMPL:DEF{"changefromtitle"}%---++ %MAKETEXT{"Change from:"}% 
+<nop>%WEB%.%TOPIC%%TMPL:END%
+
+%TMPL:DEF{"changefrom"}%
+%TMPL:P{"changefromtitle"}%
+%TMPL:END%
+
+
+%TMPL:DEF{"towebtitle"}%---+++ %MAKETEXT{"To web:"}% %TMPL:END%
+
+%TMPL:DEF{"toweb"}%
+%TMPL:P{"towebtitle"}%
+<p>%TMPL:P{"newweb"}%%TMPL:P{"newwebhelp"}%</p>%TMPL:END%
+
+
+%TMPL:DEF{"totopictitle"}%---+++ %MAKETEXT{"To topic:"}% %TMPL:END%
+
+%TMPL:DEF{"totopic"}%
+%TMPL:P{"totopictitle"}%
+<p>%TMPL:P{"newtopic"}%%TMPL:P{"newtopichelp"}%</p>%TMPL:END%
+
+
+%TMPL:DEF{"renameformsteps"}%%TMPL:P{"changefrom"}%%TMPL:P{"toweb"}%%TMPL:P{"totopic"}%%TMPL:P{"searchresultsstep"}%%TMPL:END%
+
+
+%TMPL:DEF{"checkuncheck"}%%TMPL:END%
+
+
+%TMPL:DEF{"updatenote"}%%MAKETEXT{"Checked topics will be updated to point to the new topic location."}%%TMPL:END%
+
+
+%TMPL:DEF{"searchresultsstep"}%%TMPL:P{"searchresults"}%%TMPL:END%
+
+
+%TMPL:DEF{"searchresults"}%
+---+++ %MAKETEXT{"Update links"}%
+*%TMPL:P{"updatenote"}%*
+
+---++++ %MAKETEXT{"Change links in topics that refer to [_1] in the [_2] Web:" args="%TOPIC%, <nop>%WEB%"}%
+%LOCAL_SEARCH%
+
+---++++ %MAKETEXT{"Change links in topics that refer to [_1] in any Web:" args="[[%WEB%.%TOPIC%]]"}%
+%GLOBAL_SEARCH%
+%TMPL:P{"checkuncheck"}%
+%TMPL:END%
+
+
+%TMPL:DEF{"notes"}%%TMPL:P{"notegethelp"}%%TMPL:END%
+
+
+%TMPL:DEF{"notegethelp"}%
+   * %MAKETEXT{"Get help on <a target='ManagingTopics' class='foswikiPopUp' href='[_1]' rel='nofollow'>Renaming and moving topics</a>." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/ManagingTopics"}%
+%TMPL:P{"notecheckmarkedtopics"}%
+%TMPL:END%
+
+%TMPL:DEF{"notecheckmarkedtopics"}%   * %MAKETEXT{"The checkmarked topics will be updated (another form will appear which will _eventually_ allow you to rename any topics that were locked)"}%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"toolbar"}%
+%TMPL:P{"pagehelp"}%
+%TMPL:P{"formstart"}%
+%TMPL:P{"renameformsteps"}%
+%TMPL:P{"topicinfo"}%
+%TMPL:P{"formend"}%%TMPL:END%

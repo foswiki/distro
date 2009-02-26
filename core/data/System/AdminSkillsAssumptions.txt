@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="InstallationGuide"}%
+---+ Administrator Skills Assumptions
+
+*Note:* If you aren't already fairly well-skilled in Linux/Unix/Windows, Apache, and so on, consider using a version in a pre-packaged Virtual Machine - this can be installed on Windows or Linux, and makes it possible to get a working Foswiki system within 5 minutes (after a fairly big download), ready to use from your browser.  This is ideal for personal use or evaluations - if you decide to use it for production use, then these !AdminSkillsAssumptions still apply, but you are starting from a working system.
+
+If you need to install Foswiki you'll need to either have or learn the following skills.  For each of these, the requirement is either pre-existing knowledge/skill, or the willingness to spend significant time (i.e. from hours to days) learning them:
+
+   * *Operating system administration:* Ability to use Unix/Linux command line tools (or equivalent Windows tools), including ability to move/copy/delete files, change permissions, view web server log files, set environment variables, use a text editor, and so forth. Note if you are installing on Windows, you should know how to map basic Unix administration tasks to their Windows equivalents, as the InstallationGuide and UpgradeGuide are based on Unix Foswiki installations.
+   * *Web server administration:* Ability to do basic setup, including the ability to edit config files or use GUI configuration tools to enable CGI scripts on a directory, and knowledge of how to allow and deny access to specific directories. Understanding of how web server security works and how your web server is configured to run CGI scripts or server plugins is also required. In particular, you must know the user that the web server will use when running Foswiki.
+   * *Program compilation:* _Where Revision Control System (RCS) is not pre-installed_ (that is most Unix systems), the ability to download and compile the RCS program from source, including use of =configure=, =make=, etc.  This is often *not* necessary on Linux or Windows.
+   * *Troubleshooting*: Ability to perform tests, inspect error logs, talk to technical support (whether in an IT department or web hosting provider) and read documentation in order to help with diagnosing installation problems.
+
+Installing Foswiki is *not* recommended for people who only know HTML and web design, unless they are willing to learn the above, or team up with someone who can handle the installation.
+
+Although the InstallationGuide is quite complete, there will on occasion be parts that don't work in your local environment (particularly with web hosting sites, which are sometimes challenging even for those with good OS and web server skills).
+
+There are many excellent resources for learning how to administer your OS and web server, including books, web sites, web forums, IM and e-mail lists.   The Foswiki:Support web must *not* be depended on as a resource for this purpose - in other words, it is not there to answer basic questions about operating system and web server administration.  Asking and answering questions is time consuming for all concerned and is best used for specific _Foswiki related_ issues, rather than helping you learn the OS and web server.
+
+To get started with Linux, visit [[http://linuxbasics.org/ LinuxBasics.org]]. !LinuxBasics.org offers Linux tutorials, a mailing-list and an IRC-channel to answer questions, and links to sites with information to install and use Linux. !LinuxBasics.org now also offers a downloadable Linux 'virtual machine' (LBox) that runs on Windows - you can use this as a completely safe learning environment, and feel free to make mistakes without any chance of damaging your Windows setup.
+
+A nice tool for people migrating from Windows is http://www.MidnightCommander.org/. It is already installed on Linux systems: try ==mc -ac== and ==ESC 1== to get help.
+
+---
+*Related Topics:* AdminDocumentationCategory

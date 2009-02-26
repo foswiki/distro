@@ -1,0 +1,2200 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: ensure emphases work correctly in different contexts
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+%TOC%
+
+---+ 'Code' emphasis (= sign)
+
+---++ Basic cases
+
+Verify that spaces, newlines and left brackets are all valid delimiters for opening an emphasis expression.
+
+---+++ CASE NL_BEFORE_SPACE_AFTER
+<!-- expected A_NL_BEFORE_SPACE_AFTER -->
+before <code>within</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+=within= after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_NL_AFTER
+<!-- expected A_NL_BEFORE_NL_AFTER -->
+before <code>within</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+=within=
+after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_RB_AFTER
+<!-- expected A_NL_BEFORE_RB_AFTER -->
+before <code>within</code>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+=within=)after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_NL_AFTER
+<!-- expected A_SPACE_BEFORE_NL_AFTER -->
+before <code>within</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=
+after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_SPACE_AFTER
+<!-- expected A_SPACE_BEFORE_SPACE_AFTER -->
+before <code>within</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within= after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_RB_AFTER
+<!-- expected A_SPACE_BEFORE_RB_AFTER -->
+before <code>within</code>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=)after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_SPACE_AFTER
+<!-- expected A_LB_BEFORE_SPACE_AFTER -->
+(<code>within</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+(=within= after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_NL_AFTER
+<!-- expected A_LB_BEFORE_NL_AFTER -->
+(<code>within</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+(=within=
+after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_RB_AFTER
+<!-- expected A_LB_BEFORE_RB_AFTER -->
+(<code>within</code>)
+<!-- /expected -->
+---
+<!-- actual -->
+(=within=)
+<!-- /actual -->
+
+---++ Closings
+
+Assume that the following characters are equivalent to space, nl and RB and can close an expression: ,.;:!?
+
+---+++ CASE COMMA_AFTER
+<!-- expected A_COMMA_AFTER -->
+before <code>within</code>,after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=,after
+<!-- /actual -->
+
+---+++ CASE PERIOD_AFER
+<!-- expected A_PERIOD_AFER -->
+before <code>within</code>.after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=.after
+<!-- /actual -->
+
+---+++ CASE SEMIC_AFTER
+<!-- expected A_SEMIC_AFTER -->
+before <code>within</code>;after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=;after
+<!-- /actual -->
+
+---+++ CASE COLON_AFTER
+<!-- expected A_COLON_AFTER -->
+before <code>within</code>:after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=:after
+<!-- /actual -->
+
+---+++ CASE PLING_AFTER
+<!-- expected A_PLING_AFTER -->
+before <code>within</code>!after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=!after
+<!-- /actual -->
+
+---+++ CASE QM_AFTER
+<!-- expected A_QM_AFTER -->
+before <code>within</code>?after
+<!-- /expected -->
+---
+<!-- actual -->
+before =within=?after
+<!-- /actual -->
+
+---+++ CASE OTHER_CHARACTERS
+<!-- expected A_OTHER_CHARACTERS -->
+before <code>|</code> after
+before <code>\</code> after
+before <code>¬</code> after
+before <code>`</code> after
+before <code>!</code> after
+before <code>1</code> after
+before <code>"</code> after
+before <code>2</code> after
+before <code>£</code> after
+before <code>3</code> after
+before <code>$</code> after
+before <code>4</code> after
+before <code>%</code> after
+before <code>5</code> after
+before <code>^</code> after
+before <code>6</code> after
+before <code>&amp;</code> after
+before <code>7</code> after
+before <code>*</code> after
+before <code>8</code> after
+before <code>(</code> after
+before <code>9</code> after
+before <code>)</code> after
+before <code>0</code> after
+before <code>_</code> after
+before <code>-</code> after
+before <code>+</code> after
+before <code>=</code> after
+before <code>}</code> after
+before <code>]</code> after
+before <code>{</code> after
+before <code>[</code> after
+before <code>~</code> after
+before <code>#</code> after
+before <code>@</code> after
+before <code>'</code> after
+before <code>:</code> after
+before <code>;</code> after
+before <code>?</code> after
+before <code>/</code> after
+before <code>&gt;</code> after
+before <code>.</code> after
+before <code>&lt;</code> after
+before <code>,</code> after
+before <code>A</code> after
+before <code>B</code> after
+before <code>C</code> after
+before <code>D</code> after
+before <code>E</code> after
+before <code>F</code> after
+before <code>G</code> after
+before <code>H</code> after
+before <code>I</code> after
+before <code>J</code> after
+before <code>K</code> after
+before <code>L</code> after
+before <code>M</code> after
+before <code>N</code> after
+before <code>O</code> after
+before <code>P</code> after
+before <code>Q</code> after
+before <code>R</code> after
+before <code>S</code> after
+before <code>T</code> after
+before <code>U</code> after
+before <code>V</code> after
+before <code>W</code> after
+before <code>X</code> after
+before <code>Y</code> after
+before <code>Z</code> after
+before <code>a</code> after
+before <code>b</code> after
+before <code>c</code> after
+before <code>d</code> after
+before <code>e</code> after
+before <code>f</code> after
+before <code>g</code> after
+before <code>h</code> after
+before <code>i</code> after
+before <code>j</code> after
+before <code>k</code> after
+before <code>l</code> after
+before <code>m</code> after
+before <code>n</code> after
+before <code>o</code> after
+before <code>p</code> after
+before <code>q</code> after
+before <code>r</code> after
+before <code>s</code> after
+before <code>t</code> after
+before <code>u</code> after
+before <code>v</code> after
+before <code>w</code> after
+before <code>x</code> after
+before <code>y</code> after
+before <code>z</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =|= after
+before =\= after
+before =¬= after
+before =`= after
+before =!= after
+before =1= after
+before ="= after
+before =2= after
+before =£= after
+before =3= after
+before =$= after
+before =4= after
+before =%= after
+before =5= after
+before =^= after
+before =6= after
+before =&= after
+before =7= after
+before =*= after
+before =8= after
+before =(= after
+before =9= after
+before =)= after
+before =0= after
+before =_= after
+before =-= after
+before =+= after
+before === after
+before =}= after
+before =]= after
+before ={= after
+before =[= after
+before =~= after
+before =#= after
+before =@= after
+before ='= after
+before =:= after
+before =;= after
+before =?= after
+before =/= after
+before =>= after
+before =.= after
+before =<= after
+before =,= after
+before =A= after
+before =B= after
+before =C= after
+before =D= after
+before =E= after
+before =F= after
+before =G= after
+before =H= after
+before =I= after
+before =J= after
+before =K= after
+before =L= after
+before =M= after
+before =N= after
+before =O= after
+before =P= after
+before =Q= after
+before =R= after
+before =S= after
+before =T= after
+before =U= after
+before =V= after
+before =W= after
+before =X= after
+before =Y= after
+before =Z= after
+before =a= after
+before =b= after
+before =c= after
+before =d= after
+before =e= after
+before =f= after
+before =g= after
+before =h= after
+before =i= after
+before =j= after
+before =k= after
+before =l= after
+before =m= after
+before =n= after
+before =o= after
+before =p= after
+before =q= after
+before =r= after
+before =s= after
+before =t= after
+before =u= after
+before =v= after
+before =w= after
+before =x= after
+before =y= after
+before =z= after
+<!-- /actual -->
+
+---++ Embedded delimiters
+
+Cases where a related delimiter is embedded in, or overlaps with the string to be emphasised
+
+---+++ CASE RELATIONSHIP_TO_DOUBLE
+<!-- expected A_RELATIONSHIP_TO_DOUBLE1 -->
+before <code>aabb=</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aabb== after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE2 -->
+before <code>aa=</code> bb= cc== after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aa== bb= cc== after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE3 -->
+before <code>aa <code><b>bb</code> cc</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aa ==bb= cc== after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE4 -->
+before <code>aa <code><b>cc</b></code> bb</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aa ==cc== bb= after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE5 -->
+before <code><b>aa <code>cc</code> bb</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==aa =cc= bb== after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE6 -->
+before <code>=</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before === after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE7 -->
+before <code>==</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==== after
+<!-- /actual -->
+---
+<!-- expected A_RELATIONSHIP_TO_DOUBLE8 -->
+before <code><b>=</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ===== after
+<!-- /actual -->
+
+---+++ CASE SPACES_AROUND_DELIM
+<!-- expected A_SPACES_AROUND_DELIM -->
+before <code>aa = bb</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aa = bb= after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_DELIM
+<!-- expected A_SPACE_BEFORE_DELIM -->
+before <code>aa =bb cc</code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aa =bb cc= after
+<!-- /actual -->
+
+---+++ CASE VALID_EXPR_EMBEDDED
+A valid emphasis expression embedded in an emphasised string.
+
+<!-- expected A_VALID_EXPR_EMBEDDED -->
+before <code>aa =bb</code> cc= after
+<!-- /expected -->
+---
+<!-- actual -->
+before =aa =bb= cc= after
+<!-- /actual -->
+
+---+++ CASE ALL_OTHER_EMBEDDED
+<!-- expected A_ALL_OTHER_EMBEDDED -->
+(<code>* _ __ = ==</code>)
+<!-- /expected -->
+---
+<!-- actual -->
+(=* _ __ = ===)
+<!-- /actual -->
+
+---++ Relationship with other formatting types
+Note: Cairo gets the first row wrong, by any sensible definition.
+---+++ CASE IN_TABLE
+<!-- expected A_IN_TABLE -->
+<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<tbody>
+<tr><td> <code>* _ __ = ==</code> </td><td> <code>* _ __ = ==</code> </td></tr>
+<tr><td> <code>aa</code> </td><td> <code>bb</code> </td></tr>
+<tr><td> = </td><td> = </td></tr>
+</tbody>
+</table>
+<!-- /expected -->
+---
+<!-- actual -->
+|=* _ __ = ===| =* _ __ = === |
+|=aa=| =bb= |
+|=|=|
+<!-- /actual -->
+
+---+++ CASE IN_LIST
+<!-- expected A_IN_LIST -->
+<ul>
+<li> <code>aa</code>
+</li>
+</ul>
+<p />
+
+<ul>
+<li> =aa
+</li>
+<li> bb=
+</li>
+</ul>
+<p />
+<ul>
+<li> =aa
+</li>
+</ul>
+bb=
+<p />
+=aa
+
+<ul>
+<li> bb=
+</li>
+</ul>
+<!-- /expected -->
+---
+<!-- actual -->
+	* =aa=
+
+	* =aa
+	* bb=
+
+	* =aa
+bb=
+
+=aa
+	* bb=
+<!-- /actual -->
+
+---+ 'Bold' emphasis (* sign)
+
+---++ Basic cases
+
+Verify that spaces, newlines and left brackets are all valid delimiters for opening an emphasis expression.
+
+---+++ CASE NL_BEFORE_SPACE_AFTER
+<!-- expected B_NL_BEFORE_SPACE_AFTER -->
+before <strong>within</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+*within* after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_NL_AFTER
+<!-- expected B_NL_BEFORE_NL_AFTER -->
+before <strong>within</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+*within*
+after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_RB_AFTER
+<!-- expected B_NL_BEFORE_RB_AFTER -->
+before <strong>within</strong>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+*within*)after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_NL_AFTER
+<!-- expected B_SPACE_BEFORE_NL_AFTER -->
+before <strong>within</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*
+after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_SPACE_AFTER
+<!-- expected B_SPACE_BEFORE_SPACE_AFTER -->
+before <strong>within</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within* after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_RB_AFTER
+<!-- expected B_SPACE_BEFORE_RB_AFTER -->
+before <strong>within</strong>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*)after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_SPACE_AFTER
+<!-- expected B_LB_BEFORE_SPACE_AFTER -->
+(<strong>within</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+(*within* after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_NL_AFTER
+<!-- expected B_LB_BEFORE_NL_AFTER -->
+(<strong>within</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+(*within*
+after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_RB_AFTER
+<!-- expected B_LB_BEFORE_RB_AFTER -->
+(<strong>within</strong>)
+<!-- /expected -->
+---
+<!-- actual -->
+(*within*)
+<!-- /actual -->
+
+---++ Closings
+
+Assume that the following characters are equivalent to space, nl and RB and can close an expression: ,.;:!?
+
+---+++ CASE COMMA_AFTER
+<!-- expected B_COMMA_AFTER -->
+before <strong>within</strong>,after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*,after
+<!-- /actual -->
+
+---+++ CASE PERIOD_AFER
+<!-- expected B_PERIOD_AFER -->
+before <strong>within</strong>.after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*.after
+<!-- /actual -->
+
+---+++ CASE SEMIC_AFTER
+<!-- expected B_SEMIC_AFTER -->
+before <strong>within</strong>;after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*;after
+<!-- /actual -->
+
+---+++ CASE COLON_AFTER
+<!-- expected B_COLON_AFTER -->
+before <strong>within</strong>:after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*:after
+<!-- /actual -->
+
+---+++ CASE PLING_AFTER
+<!-- expected B_PLING_AFTER -->
+before <strong>within</strong>!after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*!after
+<!-- /actual -->
+
+---+++ CASE QM_AFTER
+<!-- expected B_QM_AFTER -->
+before <strong>within</strong>?after
+<!-- /expected -->
+---
+<!-- actual -->
+before *within*?after
+<!-- /actual -->
+
+---+++ CASE OTHER_CHARACTERS
+<!-- expected B_OTHER_CHARACTERS -->
+before <strong>|</strong> after
+before <strong>\</strong> after
+before <strong>¬</strong> after
+before <strong>`</strong> after
+before <strong>!</strong> after
+before <strong>1</strong> after
+before <strong>"</strong> after
+before <strong>2</strong> after
+before <strong>£</strong> after
+before <strong>3</strong> after
+before <strong>$</strong> after
+before <strong>4</strong> after
+before <strong>%</strong> after
+before <strong>5</strong> after
+before <strong>^</strong> after
+before <strong>6</strong> after
+before <strong>&amp;</strong> after
+before <strong>7</strong> after
+before <strong>*</strong> after
+before <strong>8</strong> after
+before <strong>(</strong> after
+before <strong>9</strong> after
+before <strong>)</strong> after
+before <strong>0</strong> after
+before <strong>_</strong> after
+before <strong>-</strong> after
+before <strong>+</strong> after
+before <strong>=</strong> after
+before <strong>}</strong> after
+before <strong>]</strong> after
+before <strong>{</strong> after
+before <strong>[</strong> after
+before <strong>~</strong> after
+before <strong>#</strong> after
+before <strong>@</strong> after
+before <strong>'</strong> after
+before <strong>:</strong> after
+before <strong>;</strong> after
+before <strong>?</strong> after
+before <strong>/</strong> after
+before <strong>&gt;</strong> after
+before <strong>.</strong> after
+before <strong>&lt;</strong> after
+before <strong>,</strong> after
+before <strong>A</strong> after
+before <strong>B</strong> after
+before <strong>C</strong> after
+before <strong>D</strong> after
+before <strong>E</strong> after
+before <strong>F</strong> after
+before <strong>G</strong> after
+before <strong>H</strong> after
+before <strong>I</strong> after
+before <strong>J</strong> after
+before <strong>K</strong> after
+before <strong>L</strong> after
+before <strong>M</strong> after
+before <strong>N</strong> after
+before <strong>O</strong> after
+before <strong>P</strong> after
+before <strong>Q</strong> after
+before <strong>R</strong> after
+before <strong>S</strong> after
+before <strong>T</strong> after
+before <strong>U</strong> after
+before <strong>V</strong> after
+before <strong>W</strong> after
+before <strong>X</strong> after
+before <strong>Y</strong> after
+before <strong>Z</strong> after
+before <strong>a</strong> after
+before <strong>b</strong> after
+before <strong>c</strong> after
+before <strong>d</strong> after
+before <strong>e</strong> after
+before <strong>f</strong> after
+before <strong>g</strong> after
+before <strong>h</strong> after
+before <strong>i</strong> after
+before <strong>j</strong> after
+before <strong>k</strong> after
+before <strong>l</strong> after
+before <strong>m</strong> after
+before <strong>n</strong> after
+before <strong>o</strong> after
+before <strong>p</strong> after
+before <strong>q</strong> after
+before <strong>r</strong> after
+before <strong>s</strong> after
+before <strong>t</strong> after
+before <strong>u</strong> after
+before <strong>v</strong> after
+before <strong>w</strong> after
+before <strong>x</strong> after
+before <strong>y</strong> after
+before <strong>z</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before *|* after
+before *\* after
+before *¬* after
+before *`* after
+before *!* after
+before *1* after
+before *"* after
+before *2* after
+before *£* after
+before *3* after
+before *$* after
+before *4* after
+before *%* after
+before *5* after
+before *^* after
+before *6* after
+before *&* after
+before *7* after
+before *** after
+before *8* after
+before *(* after
+before *9* after
+before *)* after
+before *0* after
+before *_* after
+before *-* after
+before *+* after
+before *=* after
+before *}* after
+before *]* after
+before *{* after
+before *[* after
+before *~* after
+before *#* after
+before *@* after
+before *'* after
+before *:* after
+before *;* after
+before *?* after
+before */* after
+before *>* after
+before *.* after
+before *<* after
+before *,* after
+before *A* after
+before *B* after
+before *C* after
+before *D* after
+before *E* after
+before *F* after
+before *G* after
+before *H* after
+before *I* after
+before *J* after
+before *K* after
+before *L* after
+before *M* after
+before *N* after
+before *O* after
+before *P* after
+before *Q* after
+before *R* after
+before *S* after
+before *T* after
+before *U* after
+before *V* after
+before *W* after
+before *X* after
+before *Y* after
+before *Z* after
+before *a* after
+before *b* after
+before *c* after
+before *d* after
+before *e* after
+before *f* after
+before *g* after
+before *h* after
+before *i* after
+before *j* after
+before *k* after
+before *l* after
+before *m* after
+before *n* after
+before *o* after
+before *p* after
+before *q* after
+before *r* after
+before *s* after
+before *t* after
+before *u* after
+before *v* after
+before *w* after
+before *x* after
+before *y* after
+before *z* after
+<!-- /actual -->
+
+---++ Embedded delimiters
+
+Cases where a related delimiter is embedded in, or overlaps with the string to be emphasised
+
+---+++ CASE SPACES_AROUND_DELIM
+<!-- expected B_SPACES_AROUND_DELIM -->
+before <strong>aa * bb</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before *aa * bb* after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_DELIM
+<!-- expected B_SPACE_BEFORE_DELIM -->
+before <strong>aa *bb cc</strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before *aa *bb cc* after
+<!-- /actual -->
+
+---+++ CASE VALID_EXPR_EMBEDDED
+A valid emphasis expression embedded in an emphasised string.
+
+<!-- expected B_VALID_EXPR_EMBEDDED -->
+before <strong>aa *bb</strong> cc* after
+<!-- /expected -->
+---
+<!-- actual -->
+before *aa *bb* cc* after
+<!-- /actual -->
+
+---+++ CASE ALL_OTHER_EMBEDDED
+<!-- expected B_ALL_OTHER_EMBEDDED -->
+(<strong>* _ __ = ==</strong>)
+<!-- /expected -->
+---
+<!-- actual -->
+(** _ __ = ==*)
+<!-- /actual -->
+
+---++ Relationship with other formatting types
+Note: Cairo gets the first row wrong, by any sensible definition.
+---+++ CASE IN_TABLE
+<!-- expected B_IN_TABLE -->
+<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<thead>
+<tr><th> <strong>_ * __ = ==</strong> </th><th> <strong>_ * __ = ==</strong> </th></tr>
+<tr><th> <strong>aa</strong> </th><th> <strong>bb</strong> </th></tr>
+</thead>
+<tbody>
+<tr><td> * </td><td> * </td></tr>
+</tbody>
+</table>
+<!-- /expected -->
+---
+<!-- actual -->
+|*_ * __ = ==*| *_ * __ = ==* |
+|*aa*| *bb* |
+|*|*|
+<!-- /actual -->
+
+---+++ CASE IN_LIST
+<!-- expected B_IN_LIST -->
+<ul>
+<li> <strong>aa</strong>
+</li>
+</ul>
+<p />
+
+<ul>
+<li> *aa
+</li>
+<li> bb*
+</li>
+</ul>
+<p />
+<ul>
+<li> *aa
+</li>
+</ul>
+bb*
+<p />
+*aa
+
+<ul>
+<li> bb*
+</li>
+</ul>
+<!-- /expected -->
+---
+<!-- actual -->
+	* *aa*
+
+	* *aa
+	* bb*
+
+	* *aa
+bb*
+
+*aa
+	* bb*
+<!-- /actual -->
+
+---+ 'Italic' emphasis (_ sign)
+
+---++ Basic cases
+
+Verify that spaces, newlines and left brackets are all valid delimiters for opening an emphasis expression.
+
+---+++ CASE NL_BEFORE_SPACE_AFTER
+<!-- expected C_NL_BEFORE_SPACE_AFTER -->
+before <em>within</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+_within_ after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_NL_AFTER
+<!-- expected C_NL_BEFORE_NL_AFTER -->
+before <em>within</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+_within_
+after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_RB_AFTER
+<!-- expected C_NL_BEFORE_RB_AFTER -->
+before <em>within</em>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+_within_)after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_NL_AFTER
+<!-- expected C_SPACE_BEFORE_NL_AFTER -->
+before <em>within</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_
+after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_SPACE_AFTER
+<!-- expected C_SPACE_BEFORE_SPACE_AFTER -->
+before <em>within</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_ after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_RB_AFTER
+<!-- expected C_SPACE_BEFORE_RB_AFTER -->
+before <em>within</em>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_)after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_SPACE_AFTER
+<!-- expected C_LB_BEFORE_SPACE_AFTER -->
+(<em>within</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+(_within_ after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_NL_AFTER
+<!-- expected C_LB_BEFORE_NL_AFTER -->
+(<em>within</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+(_within_
+after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_RB_AFTER
+<!-- expected C_LB_BEFORE_RB_AFTER -->
+(<em>within</em>)
+<!-- /expected -->
+---
+<!-- actual -->
+(_within_)
+<!-- /actual -->
+
+---++ Closings
+
+Assume that the following characters are equivalent to space, nl and RB and can close an expression: ,.;:!?
+
+---+++ CASE COMMA_AFTER
+<!-- expected C_COMMA_AFTER -->
+before <em>within</em>,after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_,after
+<!-- /actual -->
+
+---+++ CASE PERIOD_AFER
+<!-- expected C_PERIOD_AFER -->
+before <em>within</em>.after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_.after
+<!-- /actual -->
+
+---+++ CASE SEMIC_AFTER
+<!-- expected C_SEMIC_AFTER -->
+before <em>within</em>;after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_;after
+<!-- /actual -->
+
+---+++ CASE COLON_AFTER
+<!-- expected C_COLON_AFTER -->
+before <em>within</em>:after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_:after
+<!-- /actual -->
+
+---+++ CASE PLING_AFTER
+<!-- expected C_PLING_AFTER -->
+before <em>within</em>!after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_!after
+<!-- /actual -->
+
+---+++ CASE QM_AFTER
+<!-- expected C_QM_AFTER -->
+before <em>within</em>?after
+<!-- /expected -->
+---
+<!-- actual -->
+before _within_?after
+<!-- /actual -->
+
+---+++ CASE OTHER_CHARACTERS
+<!-- expected C_OTHER_CHARACTERS -->
+before <em>|</em> after
+before <em>\</em> after
+before <em>¬</em> after
+before <em>`</em> after
+before <em>!</em> after
+before <em>1</em> after
+before <em>"</em> after
+before <em>2</em> after
+before <em>£</em> after
+before <em>3</em> after
+before <em>$</em> after
+before <em>4</em> after
+before <em>%</em> after
+before <em>5</em> after
+before <em>^</em> after
+before <em>6</em> after
+before <em>&amp;</em> after
+before <em>7</em> after
+before <em>*</em> after
+before <em>8</em> after
+before <em>(</em> after
+before <em>9</em> after
+before <em>)</em> after
+before <em>0</em> after
+before <em>_</em> after
+before <em>-</em> after
+before <em>+</em> after
+before <em>=</em> after
+before <em>}</em> after
+before <em>]</em> after
+before <em>{</em> after
+before <em>[</em> after
+before <em>~</em> after
+before <em>#</em> after
+before <em>@</em> after
+before <em>'</em> after
+before <em>:</em> after
+before <em>;</em> after
+before <em>?</em> after
+before <em>/</em> after
+before <em>&gt;</em> after
+before <em>.</em> after
+before <em>&lt;</em> after
+before <em>,</em> after
+before <em>A</em> after
+before <em>B</em> after
+before <em>C</em> after
+before <em>D</em> after
+before <em>E</em> after
+before <em>F</em> after
+before <em>G</em> after
+before <em>H</em> after
+before <em>I</em> after
+before <em>J</em> after
+before <em>K</em> after
+before <em>L</em> after
+before <em>M</em> after
+before <em>N</em> after
+before <em>O</em> after
+before <em>P</em> after
+before <em>Q</em> after
+before <em>R</em> after
+before <em>S</em> after
+before <em>T</em> after
+before <em>U</em> after
+before <em>V</em> after
+before <em>W</em> after
+before <em>X</em> after
+before <em>Y</em> after
+before <em>Z</em> after
+before <em>a</em> after
+before <em>b</em> after
+before <em>c</em> after
+before <em>d</em> after
+before <em>e</em> after
+before <em>f</em> after
+before <em>g</em> after
+before <em>h</em> after
+before <em>i</em> after
+before <em>j</em> after
+before <em>k</em> after
+before <em>l</em> after
+before <em>m</em> after
+before <em>n</em> after
+before <em>o</em> after
+before <em>p</em> after
+before <em>q</em> after
+before <em>r</em> after
+before <em>s</em> after
+before <em>t</em> after
+before <em>u</em> after
+before <em>v</em> after
+before <em>w</em> after
+before <em>x</em> after
+before <em>y</em> after
+before <em>z</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _|_ after
+before _\_ after
+before _¬_ after
+before _`_ after
+before _!_ after
+before _1_ after
+before _"_ after
+before _2_ after
+before _£_ after
+before _3_ after
+before _$_ after
+before _4_ after
+before _%_ after
+before _5_ after
+before _^_ after
+before _6_ after
+before _&_ after
+before _7_ after
+before _*_ after
+before _8_ after
+before _(_ after
+before _9_ after
+before _)_ after
+before _0_ after
+before ___ after
+before _-_ after
+before _+_ after
+before _=_ after
+before _}_ after
+before _]_ after
+before _{_ after
+before _[_ after
+before _~_ after
+before _#_ after
+before _@_ after
+before _'_ after
+before _:_ after
+before _;_ after
+before _?_ after
+before _/_ after
+before _>_ after
+before _._ after
+before _<_ after
+before _,_ after
+before _A_ after
+before _B_ after
+before _C_ after
+before _D_ after
+before _E_ after
+before _F_ after
+before _G_ after
+before _H_ after
+before _I_ after
+before _J_ after
+before _K_ after
+before _L_ after
+before _M_ after
+before _N_ after
+before _O_ after
+before _P_ after
+before _Q_ after
+before _R_ after
+before _S_ after
+before _T_ after
+before _U_ after
+before _V_ after
+before _W_ after
+before _X_ after
+before _Y_ after
+before _Z_ after
+before _a_ after
+before _b_ after
+before _c_ after
+before _d_ after
+before _e_ after
+before _f_ after
+before _g_ after
+before _h_ after
+before _i_ after
+before _j_ after
+before _k_ after
+before _l_ after
+before _m_ after
+before _n_ after
+before _o_ after
+before _p_ after
+before _q_ after
+before _r_ after
+before _s_ after
+before _t_ after
+before _u_ after
+before _v_ after
+before _w_ after
+before _x_ after
+before _y_ after
+before _z_ after
+<!-- /actual -->
+
+---++ Embedded delimiters
+
+Cases where a related delimiter is embedded in, or overlaps with the string to be emphasised
+
+---+++ CASE RELATIONSHIP_TO_DOUBLE
+<!-- expected C_RELATIONSHIP_TO_DOUBLE1 -->
+before <em>aabb_</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aabb__ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE2 -->
+before <em>aa_</em> bb_ cc__ after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aa__ bb_ cc__ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE3 -->
+before <em>aa <strong><em>bb</em> cc</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aa __bb_ cc__ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE4 -->
+before <em>aa <strong><em>cc</em></strong> bb</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aa __cc__ bb_ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE5 -->
+before <strong><em>aa <em>cc</em> bb</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before __aa _cc_ bb__ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE6 -->
+before <em>_</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ___ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE7 -->
+before <em>__</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ____ after
+<!-- /actual -->
+---
+<!-- expected C_RELATIONSHIP_TO_DOUBLE8 -->
+before <strong><em>_</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _____ after
+<!-- /actual -->
+
+---+++ CASE SPACES_AROUND_DELIM
+<!-- expected C_SPACES_AROUND_DELIM -->
+before <em>aa _ bb</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aa _ bb_ after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_DELIM
+<!-- expected C_SPACE_BEFORE_DELIM -->
+before <em>aa _bb cc</em> after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aa _bb cc_ after
+<!-- /actual -->
+
+---+++ CASE VALID_EXPR_EMBEDDED
+A valid emphasis expression embedded in an emphasised string.
+
+<!-- expected C_VALID_EXPR_EMBEDDED -->
+before <em>aa _bb</em> cc_ after
+<!-- /expected -->
+---
+<!-- actual -->
+before _aa _bb_ cc_ after
+<!-- /actual -->
+
+---+++ CASE ALL_OTHER_EMBEDDED
+<!-- expected C_ALL_OTHER_EMBEDDED -->
+(<em>* _ = == __</em>)
+<!-- /expected -->
+---
+<!-- actual -->
+(_* _ = == ___)
+<!-- /actual -->
+
+---++ Relationship with other formatting types
+Note: Cairo gets the first row wrong, by any sensible definition.
+---+++ CASE IN_TABLE
+<!-- expected C_IN_TABLE -->
+<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+<tbody>
+<tr><td> <em>* = == _ __</em> </td><td> <em>* = == _ __</em> </td></tr>
+<tr><td> <em>aa</em> </td><td> <em>bb</em> </td></tr>
+<tr><td> _ </td><td> _ </td></tr>
+</tbody>
+</table>
+<!-- /expected -->
+---
+<!-- actual -->
+|_* = == _ ___| _* = == _ ___ |
+|_aa_| _bb_ |
+|_|_|
+<!-- /actual -->
+
+---+++ CASE IN_LIST
+<!-- expected C_IN_LIST -->
+<ul>
+<li> <em>aa</em>
+</li>
+</ul>
+<p />
+
+<ul>
+<li> _aa
+</li>
+<li> bb_
+</li>
+</ul>
+<p />
+<ul>
+<li> _aa
+</li>
+</ul>
+bb_
+<p />
+_aa
+
+<ul>
+<li> bb_
+</li>
+</ul>
+<!-- /expected -->
+---
+<!-- actual -->
+	* _aa_
+
+	* _aa
+	* bb_
+
+	* _aa
+bb_
+
+_aa
+	* bb_
+<!-- /actual -->
+
+---+ 'Bold Code' emphasis (== sign)
+
+---++ Basic cases
+
+Verify that spaces, newlines and left brackets are all valid delimiters for opening an emphasis expression.
+
+---+++ CASE NL_BEFORE_SPACE_AFTER
+<!-- expected D_NL_BEFORE_SPACE_AFTER -->
+before <code><b>within</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+==within== after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_NL_AFTER
+<!-- expected D_NL_BEFORE_NL_AFTER -->
+before <code><b>within</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+==within==
+after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_RB_AFTER
+<!-- expected D_NL_BEFORE_RB_AFTER -->
+before <code><b>within</b></code>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+==within==)after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_NL_AFTER
+<!-- expected D_SPACE_BEFORE_NL_AFTER -->
+before <code><b>within</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==
+after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_SPACE_AFTER
+<!-- expected D_SPACE_BEFORE_SPACE_AFTER -->
+before <code><b>within</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within== after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_RB_AFTER
+<!-- expected D_SPACE_BEFORE_RB_AFTER -->
+before <code><b>within</b></code>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==)after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_SPACE_AFTER
+<!-- expected D_LB_BEFORE_SPACE_AFTER -->
+(<code><b>within</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+(==within== after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_NL_AFTER
+<!-- expected D_LB_BEFORE_NL_AFTER -->
+(<code><b>within</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+(==within==
+after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_RB_AFTER
+<!-- expected D_LB_BEFORE_RB_AFTER -->
+(<code><b>within</b></code>)
+<!-- /expected -->
+---
+<!-- actual -->
+(==within==)
+<!-- /actual -->
+
+---++ Closings
+
+Assume that the following characters are equivalent to space, nl and RB and can close an expression: ,.;:!?
+
+---+++ CASE COMMA_AFTER
+<!-- expected D_COMMA_AFTER -->
+before <code><b>within</b></code>,after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==,after
+<!-- /actual -->
+
+---+++ CASE PERIOD_AFER
+<!-- expected D_PERIOD_AFER -->
+before <code><b>within</b></code>.after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==.after
+<!-- /actual -->
+
+---+++ CASE SEMIC_AFTER
+<!-- expected D_SEMIC_AFTER -->
+before <code><b>within</b></code>;after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==;after
+<!-- /actual -->
+
+---+++ CASE COLON_AFTER
+<!-- expected D_COLON_AFTER -->
+before <code><b>within</b></code>:after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==:after
+<!-- /actual -->
+
+---+++ CASE PLING_AFTER
+<!-- expected D_PLING_AFTER -->
+before <code><b>within</b></code>!after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==!after
+<!-- /actual -->
+
+---+++ CASE QM_AFTER
+<!-- expected D_QM_AFTER -->
+before <code><b>within</b></code>?after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==within==?after
+<!-- /actual -->
+
+---+++ CASE OTHER_CHARACTERS
+<!-- expected D_OTHER_CHARACTERS -->
+before <code><b>|</b></code> after
+before <code><b>\</b></code> after
+before <code><b>¬</b></code> after
+before <code><b>`</b></code> after
+before <code><b>!</b></code> after
+before <code><b>1</b></code> after
+before <code><b>"</b></code> after
+before <code><b>2</b></code> after
+before <code><b>£</b></code> after
+before <code><b>3</b></code> after
+before <code><b>$</b></code> after
+before <code><b>4</b></code> after
+before <code><b>%</b></code> after
+before <code><b>5</b></code> after
+before <code><b>^</b></code> after
+before <code><b>6</b></code> after
+before <code><b>&amp;</b></code> after
+before <code><b>7</b></code> after
+before <code><b>*</b></code> after
+before <code><b>8</b></code> after
+before <code><b>(</b></code> after
+before <code><b>9</b></code> after
+before <code><b>)</b></code> after
+before <code><b>0</b></code> after
+before <code><b>_</b></code> after
+before <code><b>-</b></code> after
+before <code><b>+</b></code> after
+before <code><b>=</b></code> after
+before <code><b>}</b></code> after
+before <code><b>]</b></code> after
+before <code><b>{</b></code> after
+before <code><b>[</b></code> after
+before <code><b>~</b></code> after
+before <code><b>#</b></code> after
+before <code><b>@</b></code> after
+before <code><b>'</b></code> after
+before <code><b>:</b></code> after
+before <code><b>;</b></code> after
+before <code><b>?</b></code> after
+before <code><b>/</b></code> after
+before <code><b>&gt;</b></code> after
+before <code><b>.</b></code> after
+before <code><b>&lt;</b></code> after
+before <code><b>,</b></code> after
+before <code><b>A</b></code> after
+before <code><b>B</b></code> after
+before <code><b>C</b></code> after
+before <code><b>D</b></code> after
+before <code><b>E</b></code> after
+before <code><b>F</b></code> after
+before <code><b>G</b></code> after
+before <code><b>H</b></code> after
+before <code><b>I</b></code> after
+before <code><b>J</b></code> after
+before <code><b>K</b></code> after
+before <code><b>L</b></code> after
+before <code><b>M</b></code> after
+before <code><b>N</b></code> after
+before <code><b>O</b></code> after
+before <code><b>P</b></code> after
+before <code><b>Q</b></code> after
+before <code><b>R</b></code> after
+before <code><b>S</b></code> after
+before <code><b>T</b></code> after
+before <code><b>U</b></code> after
+before <code><b>V</b></code> after
+before <code><b>W</b></code> after
+before <code><b>X</b></code> after
+before <code><b>Y</b></code> after
+before <code><b>Z</b></code> after
+before <code><b>a</b></code> after
+before <code><b>b</b></code> after
+before <code><b>c</b></code> after
+before <code><b>d</b></code> after
+before <code><b>e</b></code> after
+before <code><b>f</b></code> after
+before <code><b>g</b></code> after
+before <code><b>h</b></code> after
+before <code><b>i</b></code> after
+before <code><b>j</b></code> after
+before <code><b>k</b></code> after
+before <code><b>l</b></code> after
+before <code><b>m</b></code> after
+before <code><b>n</b></code> after
+before <code><b>o</b></code> after
+before <code><b>p</b></code> after
+before <code><b>q</b></code> after
+before <code><b>r</b></code> after
+before <code><b>s</b></code> after
+before <code><b>t</b></code> after
+before <code><b>u</b></code> after
+before <code><b>v</b></code> after
+before <code><b>w</b></code> after
+before <code><b>x</b></code> after
+before <code><b>y</b></code> after
+before <code><b>z</b></code> after
+<!-- /expected -->
+---
+<!-- actual -->
+before ==|== after
+before ==\== after
+before ==¬== after
+before ==`== after
+before ==!== after
+before ==1== after
+before =="== after
+before ==2== after
+before ==£== after
+before ==3== after
+before ==$== after
+before ==4== after
+before ==%== after
+before ==5== after
+before ==^== after
+before ==6== after
+before ==&== after
+before ==7== after
+before ==*== after
+before ==8== after
+before ==(== after
+before ==9== after
+before ==)== after
+before ==0== after
+before ==_== after
+before ==-== after
+before ==+== after
+before ===== after
+before ==}== after
+before ==]== after
+before =={== after
+before ==[== after
+before ==~== after
+before ==#== after
+before ==@== after
+before =='== after
+before ==:== after
+before ==;== after
+before ==?== after
+before ==/== after
+before ==>== after
+before ==.== after
+before ==<== after
+before ==,== after
+before ==A== after
+before ==B== after
+before ==C== after
+before ==D== after
+before ==E== after
+before ==F== after
+before ==G== after
+before ==H== after
+before ==I== after
+before ==J== after
+before ==K== after
+before ==L== after
+before ==M== after
+before ==N== after
+before ==O== after
+before ==P== after
+before ==Q== after
+before ==R== after
+before ==S== after
+before ==T== after
+before ==U== after
+before ==V== after
+before ==W== after
+before ==X== after
+before ==Y== after
+before ==Z== after
+before ==a== after
+before ==b== after
+before ==c== after
+before ==d== after
+before ==e== after
+before ==f== after
+before ==g== after
+before ==h== after
+before ==i== after
+before ==j== after
+before ==k== after
+before ==l== after
+before ==m== after
+before ==n== after
+before ==o== after
+before ==p== after
+before ==q== after
+before ==r== after
+before ==s== after
+before ==t== after
+before ==u== after
+before ==v== after
+before ==w== after
+before ==x== after
+before ==y== after
+before ==z== after
+<!-- /actual -->
+
+---+ 'Bold Italic emphasis (__ sign)
+
+---++ Basic cases
+
+Verify that spaces, newlines and left brackets are all valid delimiters for opening an emphasis expression.
+
+---+++ CASE NL_BEFORE_SPACE_AFTER
+<!-- expected E_NL_BEFORE_SPACE_AFTER -->
+before <strong><em>within</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+__within__ after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_NL_AFTER
+<!-- expected E_NL_BEFORE_NL_AFTER -->
+before <strong><em>within</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+__within__
+after
+<!-- /actual -->
+
+---+++ CASE NL_BEFORE_RB_AFTER
+<!-- expected E_NL_BEFORE_RB_AFTER -->
+before <strong><em>within</em></strong>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before
+__within__)after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_NL_AFTER
+<!-- expected E_SPACE_BEFORE_NL_AFTER -->
+before <strong><em>within</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__
+after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_SPACE_AFTER
+<!-- expected E_SPACE_BEFORE_SPACE_AFTER -->
+before <strong><em>within</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__ after
+<!-- /actual -->
+
+---+++ CASE SPACE_BEFORE_RB_AFTER
+<!-- expected E_SPACE_BEFORE_RB_AFTER -->
+before <strong><em>within</em></strong>)after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__)after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_SPACE_AFTER
+<!-- expected E_LB_BEFORE_SPACE_AFTER -->
+(<strong><em>within</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+(__within__ after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_NL_AFTER
+<!-- expected E_LB_BEFORE_NL_AFTER -->
+(<strong><em>within</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+(__within__
+after
+<!-- /actual -->
+
+---+++ CASE LB_BEFORE_RB_AFTER
+<!-- expected E_LB_BEFORE_RB_AFTER -->
+(<strong><em>within</em></strong>)
+<!-- /expected -->
+---
+<!-- actual -->
+(__within__)
+<!-- /actual -->
+
+---++ Closings
+
+Assume that the following characters are equivalent to space, nl and RB and can close an expression: ,.;:!?
+
+---+++ CASE COMMA_AFTER
+<!-- expected E_COMMA_AFTER -->
+before <strong><em>within</em></strong>,after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__,after
+<!-- /actual -->
+
+---+++ CASE PERIOE_AFER
+<!-- expected E_PERIOE_AFER -->
+before <strong><em>within</em></strong>.after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__.after
+<!-- /actual -->
+
+---+++ CASE SEMIC_AFTER
+<!-- expected E_SEMIC_AFTER -->
+before <strong><em>within</em></strong>;after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__;after
+<!-- /actual -->
+
+---+++ CASE COLON_AFTER
+<!-- expected E_COLON_AFTER -->
+before <strong><em>within</em></strong>:after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__:after
+<!-- /actual -->
+
+---+++ CASE PLING_AFTER
+<!-- expected E_PLING_AFTER -->
+before <strong><em>within</em></strong>!after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__!after
+<!-- /actual -->
+
+---+++ CASE QM_AFTER
+<!-- expected E_QM_AFTER -->
+before <strong><em>within</em></strong>?after
+<!-- /expected -->
+---
+<!-- actual -->
+before __within__?after
+<!-- /actual -->
+
+---+++ CASE OTHER_CHARACTERS
+<!-- expected E_OTHER_CHARACTERS -->
+before <strong><em>|</em></strong> after
+before <strong><em>\</em></strong> after
+before <strong><em>¬</em></strong> after
+before <strong><em>`</em></strong> after
+before <strong><em>!</em></strong> after
+before <strong><em>1</em></strong> after
+before <strong><em>"</em></strong> after
+before <strong><em>2</em></strong> after
+before <strong><em>£</em></strong> after
+before <strong><em>3</em></strong> after
+before <strong><em>$</em></strong> after
+before <strong><em>4</em></strong> after
+before <strong><em>%</em></strong> after
+before <strong><em>5</em></strong> after
+before <strong><em>^</em></strong> after
+before <strong><em>6</em></strong> after
+before <strong><em>&amp;</em></strong> after
+before <strong><em>7</em></strong> after
+before <strong><em>*</em></strong> after
+before <strong><em>8</em></strong> after
+before <strong><em>(</em></strong> after
+before <strong><em>9</em></strong> after
+before <strong><em>)</em></strong> after
+before <strong><em>0</em></strong> after
+before <strong><em>_</em></strong> after
+before <strong><em>-</em></strong> after
+before <strong><em>+</em></strong> after
+before <strong><em>=</em></strong> after
+before <strong><em>}</em></strong> after
+before <strong><em>]</em></strong> after
+before <strong><em>{</em></strong> after
+before <strong><em>[</em></strong> after
+before <strong><em>~</em></strong> after
+before <strong><em>#</em></strong> after
+before <strong><em>@</em></strong> after
+before <strong><em>'</em></strong> after
+before <strong><em>:</em></strong> after
+before <strong><em>;</em></strong> after
+before <strong><em>?</em></strong> after
+before <strong><em>/</em></strong> after
+before <strong><em>&gt;</em></strong> after
+before <strong><em>.</em></strong> after
+before <strong><em>&lt;</em></strong> after
+before <strong><em>,</em></strong> after
+before <strong><em>A</em></strong> after
+before <strong><em>B</em></strong> after
+before <strong><em>C</em></strong> after
+before <strong><em>D</em></strong> after
+before <strong><em>E</em></strong> after
+before <strong><em>F</em></strong> after
+before <strong><em>G</em></strong> after
+before <strong><em>H</em></strong> after
+before <strong><em>I</em></strong> after
+before <strong><em>J</em></strong> after
+before <strong><em>K</em></strong> after
+before <strong><em>L</em></strong> after
+before <strong><em>M</em></strong> after
+before <strong><em>N</em></strong> after
+before <strong><em>O</em></strong> after
+before <strong><em>P</em></strong> after
+before <strong><em>Q</em></strong> after
+before <strong><em>R</em></strong> after
+before <strong><em>S</em></strong> after
+before <strong><em>T</em></strong> after
+before <strong><em>U</em></strong> after
+before <strong><em>V</em></strong> after
+before <strong><em>W</em></strong> after
+before <strong><em>X</em></strong> after
+before <strong><em>Y</em></strong> after
+before <strong><em>Z</em></strong> after
+before <strong><em>a</em></strong> after
+before <strong><em>b</em></strong> after
+before <strong><em>c</em></strong> after
+before <strong><em>d</em></strong> after
+before <strong><em>e</em></strong> after
+before <strong><em>f</em></strong> after
+before <strong><em>g</em></strong> after
+before <strong><em>h</em></strong> after
+before <strong><em>i</em></strong> after
+before <strong><em>j</em></strong> after
+before <strong><em>k</em></strong> after
+before <strong><em>l</em></strong> after
+before <strong><em>m</em></strong> after
+before <strong><em>n</em></strong> after
+before <strong><em>o</em></strong> after
+before <strong><em>p</em></strong> after
+before <strong><em>q</em></strong> after
+before <strong><em>r</em></strong> after
+before <strong><em>s</em></strong> after
+before <strong><em>t</em></strong> after
+before <strong><em>u</em></strong> after
+before <strong><em>v</em></strong> after
+before <strong><em>w</em></strong> after
+before <strong><em>x</em></strong> after
+before <strong><em>y</em></strong> after
+before <strong><em>z</em></strong> after
+<!-- /expected -->
+---
+<!-- actual -->
+before __|__ after
+before __\__ after
+before __¬__ after
+before __`__ after
+before __!__ after
+before __1__ after
+before __"__ after
+before __2__ after
+before __£__ after
+before __3__ after
+before __$__ after
+before __4__ after
+before __%__ after
+before __5__ after
+before __^__ after
+before __6__ after
+before __&__ after
+before __7__ after
+before __*__ after
+before __8__ after
+before __(__ after
+before __9__ after
+before __)__ after
+before __0__ after
+before _____ after
+before __-__ after
+before __+__ after
+before __=__ after
+before __}__ after
+before __]__ after
+before __{__ after
+before __[__ after
+before __~__ after
+before __#__ after
+before __@__ after
+before __'__ after
+before __:__ after
+before __;__ after
+before __?__ after
+before __/__ after
+before __>__ after
+before __.__ after
+before __<__ after
+before __,__ after
+before __A__ after
+before __B__ after
+before __C__ after
+before __D__ after
+before __E__ after
+before __F__ after
+before __G__ after
+before __H__ after
+before __I__ after
+before __J__ after
+before __K__ after
+before __L__ after
+before __M__ after
+before __N__ after
+before __O__ after
+before __P__ after
+before __Q__ after
+before __R__ after
+before __S__ after
+before __T__ after
+before __U__ after
+before __V__ after
+before __W__ after
+before __X__ after
+before __Y__ after
+before __Z__ after
+before __a__ after
+before __b__ after
+before __c__ after
+before __d__ after
+before __e__ after
+before __f__ after
+before __g__ after
+before __h__ after
+before __i__ after
+before __j__ after
+before __k__ after
+before __l__ after
+before __m__ after
+before __n__ after
+before __o__ after
+before __p__ after
+before __q__ after
+before __r__ after
+before __s__ after
+before __t__ after
+before __u__ after
+before __v__ after
+before __w__ after
+before __x__ after
+before __y__ after
+before __z__ after
+<!-- /actual -->

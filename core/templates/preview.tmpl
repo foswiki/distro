@@ -1,0 +1,33 @@
+%{ This is a default template }%
+%TMPL:INCLUDE{"edit"}%
+
+
+%TMPL:DEF{"templatestyle"}%<style type="text/css" media="all">
+%IF{ "defined PREVIEWBGIMAGE and $ PREVIEWBGIMAGE != ''" then='.foswikiPreviewArea { background-image:url("%PREVIEWBGIMAGE%"); }'}%</style>%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%<nop>%TOPIC% (%MAKETEXT{"preview"}%)%TMPL:END%
+
+%TMPL:DEF{"alert"}%<h2 class="twikiTemplateTitle foswikiAlert">%MAKETEXT{"Do not forget to save your changes"}%</h2>%TMPL:END%
+
+%TMPL:DEF{"titleaction"}%(%MAKETEXT{"preview"}%) %TMPL:END%
+
+%TMPL:DEF{"webaction"}%%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value="Save Changes" /> %MAKETEXT{"or"}% %TMPL:P{"gobacktopicaction"}% %FORMFIELDS% %TMPL:END%
+
+
+%TMPL:DEF{"formparameters"}%%TMPL:P{"formparameters:edit"}%%TMPL:P{"formparameters:preview"}%%TMPL:END%
+
+
+%TMPL:DEF{"formparameters:preview"}%<input type="hidden" name="text" value="%HIDDENTEXT%"/>%FORMFIELDS%%TMPL:END%
+
+%{ disable the wysiwyg edit help in preview }%
+%TMPL:DEF{"help"}%%TMPL:END%
+
+%TMPL:DEF{"content"}%%TMPL:P{"alert"}%%TMPL:P{"formstart"}%
+<div class="foswikiPreviewArea">%TEXT%
+</div><!--/foswikiPreviewArea-->%META{"form"}%
+%TMPL:P{"topicinfo"}%
+%TMPL:P{"formend"}%%TMPL:END%

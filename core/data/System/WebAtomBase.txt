@@ -1,0 +1,49 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ ATOM News Feeds
+
+---++ Find out What's New
+
+There are several ways to find out what's new in each web:
+   1. Visit WebChanges to see recent changes
+   1. Subscribed in WebNotify get notified of recent changes by e-mail
+   1. Use a news readers such as Foswiki:Extensions.HeadlinesPlugin to display the recent changes
+      * The source can be a RSS 1.0 feed (WebRss) or ATOM 1.0 feed (WebAtom)
+      * Learn more at WebRssBase and Foswiki::Support.SupplementalDocuments
+
+---++ ATOM Feed Usage
+
+   * The URL for an RSS feed is =%SCRIPTURL{view}%/&lt;web&gt;/WebAtom=
+   * For this <nop>%WEB% web it is %SCRIPTURL{view}%/%WEB%/WebAtom
+   * You can also create a custom feed based on a search. Add a =search=value= parameter to the URL, e.g. %SCRIPTURL{"view"}%/%WEB%/WebAtom?search=plugin is a what's new feed about Plugins.
+
+---++ ATOM Feed Internals
+
+Each web has a WebAtom topic which includes part of this <nop>%TOPIC% topic. This topic is the base for the ATOM feed and generates an WebAtom 1.0 feed.
+
+The WebAtom topic in each web contains the following text:
+
+-----
+<pre>
+&lt;title>&lt;nop>%<nop>WIKITOOLNAME%'s &lt;nop>%<nop>BASEWEB% web&lt;/title>
+&lt;subtitle>(the description of the web, plain text with no markup and no wikiwords). Foswiki is the Free and Open Source Wiki.&lt;/subtitle>
+%<nop>INCLUDE{"%<nop>SYSTEMWEB%.WebAtomBase"}% &lt;!--
+   * Set <nop>SKIN = rss
+--&gt;
+</pre>
+-----
+
+
+Below part is included by each <nop>WebAtom topic:
+
+-----
+<verbatim>
+%STARTINCLUDE%<link rel="self" type="application/atom+xml" href="%SCRIPTURL{"view"}%/%BASEWEB%/%BASETOPIC%"/>
+<id>%SCRIPTURL{"view"}%/%BASEWEB%</id>
+<rights>%WEBRSSCOPYRIGHT%</rights>%CALC{$SET(c,0)}%
+%SEARCH{"%URLPARAM{"search" encode="quote" default=".*" }%" web="%BASEWEB%" type="regex" nosearch="on" order="modified" reverse="on" nototal="on" limit="16" format="$percntCALC{$IF($GET(c)>0, , <updated>$isodate</updated>$CHAR(10))$SETM(c, +1)}$percnt<entry>$n <title>$topic</title>$n <link rel=\"alternate\" type=\"text/html\" href=\"%SCRIPTURL{"view"}%/$web/$topic?t=$isodate\"/>$n <id>%SCRIPTURL{"view"}%/$web/$topic</id>$n <updated>$isodate</updated>$n <summary>$summary (last changed by <nop>$wikiname)</summary>$n <author>$n  <name><nop>$wikiname</name></author>$n</entry>"}%
+%STOPINCLUDE%
+</verbatim>
+-----
+
+*See also*: WebRssBase
+

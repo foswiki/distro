@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarWIKIPREFSTOPIC
+---+++ WIKIPREFSTOPIC -- name of site-wide preferences topic
+   * Syntax: =%<nop>WIKIPREFSTOPIC%=
+   * Expands to: =%WIKIPREFSTOPIC%=, renders as [[%WIKIPREFSTOPIC%]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWEBPREFSTOPIC][WEBPREFSTOPIC]]
+

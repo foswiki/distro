@@ -1,0 +1,30 @@
+Core code benchmarks for TWiki.
+   * Requires wget
+   * Requires a local installation of Athens
+      * Must be located at URL =$server/athens/= and physical directory
+        =$installdir/athens=
+   * Requires the installations to be benchmarked to be at =$server/version/=
+     and =$installdir/version=, where version is the local name for that
+     version e.g. "beta20040816" or "beijing"
+   * Each installation has to have a 'benchmark' script installed in its
+     bin dir. This script is derived from the view script, and is therefore
+     different for each major release prior to Cairo. Appropriate benchmark
+     scripts are at the top level of this zip; copy the right one to the bin
+     directory of the installation and rename it 'benchmark'. Code released
+     after Cairo can use the cairo benchmark script.
+   * Requires a test page in the same place on all the installations; for
+     standard benchmarks this should be System.WhatIsWikiWiki.
+For examining performance of other functions of TWiki, then pick an appropriate
+page that exercises those aspects as much as possible. It is wise to stick
+to pages in TWiki web as far as possible, as they tend to have been around
+for a long time. But try a range of different pages.
+
+The benchmarks are run using the =tools/benchmark.pl= script. This script runs the benchmark on Athens first (to normalise AthensMarks) and then repeats the experiment on a list of other installations. Edit the script as appropriate for the installations you want to benchmark. You can turn debug on in this script if you think there is something going wrong. It may help.
+
+Benchmark results are reported in a table that shows the plugins installed in the installation, together with an absolute number indicating the time taken to render the page, and the performance of the installation in AthensMarks. AthensMarks are defined as the percentage of athens performance delivered by the installation; so 100 AthensMarks is the same performance as athens; 33 AthensMarks indicates performance 3 times worse than athens; 300 AthensMarks indicates performance 3 times better than Athens.
+
+The benchmarks are for the _core code only_ i.e. the overhead of client/server comms is _not_ taken into account. This means that factors such as time taken to download CSS or Javascript files are _not_ being measured. For that, use =ab= based benchmarks.
+
+There are another couple of useful scripts, countlines.pl and coverage.pl, that are explained in their own comments.
+
+-- Main.CrawfordCurrie - 29th August 2004

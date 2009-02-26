@@ -1,0 +1,42 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+
+Description: Intranet Registration manual tests
+
+---++ Preconditions
+	1 The WikiName is not registered
+	2 The LoginName is not used
+	3 The Wiki is set up with the intranet version of [[%SYSTEMWEB.UserRegistration]]
+
+---++ Test cases
+
+| *First name* | *Last name* | *Wiki name* | *Loginname* | *Email* | *Password* | *Company* | *Country* | *Comment* |
+| Test | User | (auto) TestUser | testuser | _youremail@yourdomain.com_ | whatever | Test company | Saudi Arabia | Test Comment 1 |
+| test | user too | (auto) TestuserToo | testusertoo | _youremail@yourdomain.com_ | whatever | Test company | Saudi Arabia | Test Comment 2 |
+
+---++ Expected result
+---+++ step 1:
+	1 oopsregconfirm is displayed, telling you to check your mail for the activation code
+
+---+++ step 2: 
+	1 Your email arrives  
+	2 Click on the link in the email - it takes you to bin/register?action=verify&code=TestuserToo.XXXX where XXXX is a randomPassword
+
+If you get the right activation code you are taken to oopsregthanks
+
+If you get it wrong takes you to oopsregcode
+	* Check: The users topic is not created 
+
+---++ Results of a successful registration
+
+	1 Topic named as %<nop>WIKINAME% written to %USERSWEB%
+	2 Entry written to [[%USERSWEB%.WikiUsers]]
+	3 There *is* .htpasswd entry for the user
+	4 Email is sent to administrator
+	5 Email is sent to user
+
+---++ Post test
+	1 Go back to the email. Try clicking the link on the email again. It should now take you to oopsregcode.
+ 
+
+

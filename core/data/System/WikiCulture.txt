@@ -1,0 +1,42 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! Wiki - culture, concepts and principles
+
+%TOC%
+
+---++ General concept and idea of wikis
+---+++ What is a wiki?
+"A wiki is a page or collection of Web pages designed to enable anyone who accesses it to contribute or modify content, using a simplified markup language. Wikis are often used to create collaborative websites and to power community websites. The collaborative encyclopedia [[http://wikipedia.org][Wikipedia]] is one of the best-known wikis. Wikis are used in business to provide intranets and Knowledge Management systems" [[%TOPIC%#CiteReference][<sup>1</sup>]]. 
+
+Originally, the word "wiki" is hawaiian and means "fast" or "quick" [[%TOPIC%#CiteReference][<sup>2</sup>]]. According to Ward Cunningham, the developer of the first wiki software called [[http://c2.com/cgi/wiki?WikiWikiWeb][WikiWikiWeb]], the name was chosen "as an alliterative substitute for quick and thereby avoided naming this stuff quick-web" [[%TOPIC%#CiteReference][<sup>3</sup>]].
+
+---+++ The idea behind wikis
+As mentioned above, the idea behind wikis is that anybody can create and edit content of a wiki page, using a simplified markup language. 
+
+A markup language is a language that combines text with additional anotations that have an impact of the presentation of the text itself once it is displayed. An example for markup language is HTML (Hypertext Markup Language) that is the basis for the majority of internet websites. In conjunction with wikis, the markup language is reduced to a few simple annotations that easily allow any user to format a wiki page. The markup language used on this %WIKITOOLNAME% site is called TML which stands for Topic Markup Language. For detailed information, see ShortHand.
+
+According to its founder, the basic principles of a wiki are [[%TOPIC%#CiteReference][<sup>4</sup>]]:
+   * "Any information can be altered or deleted by anyone. Wiki pages represent consensus because it's much easier to !DeleteInsults and remove !WikiSpam than indulge them. What remains generates new ideas by the iteractive integration of multiple points of view.
+   * Anyone can play. This sounds like a recipe for low signal - Wiki gets hit by the great unwashed as often as any other site - but !FromFertilizerComeFlowers. Only good players have a desire to keep playing.
+   * Wiki is not !WysiWyg. It's an intelligence test of sorts to be able to edit a wiki page. It's not rocket science, but it doesn't appeal to the !VideoAddicts. If it doesn't appeal, they don't participate, which leaves those of us who read and write to get on with rational discourse.
+   * Wiki doesn't work in real time. People take time to think, sometimes days or weeks, before they follow up some edit. So what people write is often well-considered."
+
+To avoid malicious intents of manipulation of contents, a wiki normally comes with a revision control system that backs up any changes that are done to a topic and that can be recovered at any time, if necessary.
+
+---++ Historical background
+---+++ History of wikis
+The first wiki, [[http://c2.com][WikiWikiWeb]], was dated online on March 25, 1995. Soon clones were published, probably the first by Patrick Mueller written in REXX for OS/2. Cunningham himself wrote a version of wiki that could host its own source code called !WikiBase.
+
+Another one was !CvWiki, developed by Peter Merel in 1997. It was the first wiki clone that had a functioning transclusion and backlinks. Besides it was fully integrated with a revision control system that permited basically unlimited tracking of changes.
+
+Today there is a variety of wikis, one of them being the wiki you are presently looking at.
+
+---+++ History of Foswiki
+Foswiki is the latest in a line of Perl wiki implementations that started with the !JosWiki clone in the late 1990's. For a full history of Foswiki, visit the [[http://foswiki.org][Foswiki website]].
+
+#CiteReference
+---++ Bibliography
+   1. <u>Wiki</u>. 2008. Wikipedia, the free encyclopedia. 17 Nov. 2008 %BR% [[http://en.wikipedia.org/wiki/Wiki][<http://en.wikipedia.org/wiki/Wiki>]].
+   1. <u>wiki</u>. 2008. Hawaiian Dictionaries. 17 Nov. 2008 %BR% [[http://wehewehe.org/gsdl2.5/cgi-bin/hdict?e=q-0hdict--00-0-0--010---4----den--0-000lpm--1en-Zz-1---Zz-1-home-wiki--00031-0000escapewin-00&a=q&d=D21021][<http://wehewehe.org/gsdl2.5/cgi-bin/hdict?e=q-0hdict--00-0-0--010---4----den--0-000lpm--1en-Zz-1---Zz-1-home-wiki--00031-0000escapewin-00&a=q&d=D21021>]]
+   1. <u>Wiki History</u>. 2008. Cunningham & Cunningham, Inc. 17 Nov. 2008 %BR% [[http://c2.com/cgi/wiki?WikiHistory][<http://c2.com/cgi/wiki?WikiHistory>]]
+   1. <u>Why Wiki Works</u>. 2008. Cunningham & Cunningham, Inc. 17 Nov. 2008 %BR% [[http://c2.com/cgi/wiki?WhyWikiWorks][<http://c2.com/cgi/wiki?WhyWikiWorks>]]

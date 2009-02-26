@@ -1,0 +1,33 @@
+%{ This is a default template }%%TMPL:INCLUDE{"edit"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(set preferences)"}% %TMPL:END%
+
+
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Preferences for"}%%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}% %TOPIC%%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" name="action" value="Cancel" id="cancel" />%TMPL:P{"sep"}%<input type="submit" class="foswikiSubmit" name="action" value="Update" id="checkpoint" />%TMPL:END%
+
+
+%TMPL:DEF{"formstart"}%<div class="foswikiFormHolder twistyMakeHidden" id="formHolder">
+<form name="main" action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="post">
+<input type="hidden" name="action" value="saveSettings" />
+<input type="hidden" name="originalrev" value="%ORIGINALREV%" />
+%TMPL:END%
+
+%TMPL:DEF{"formend"}%</form>%TMPL:END%
+
+
+%TMPL:DEF{"help"}%
+   * %MAKETEXT{"Get help on <a target='Macros' class='foswikiPopUp' href='[_1]' rel='nofollow'>Setting topic preferences</a>." args="%SCRIPTURLPATH{"view"}%/%SYSTEMWEB%/Macros"}%
+   * %MAKETEXT{"Each preference has the syntax"}% <br />
+     %MAKETEXT{"~[multiple of 3 spaces~] * ~[space~] Set ~[space~] VARIABLENAME ~[space~] = ~[value~]"}%
+%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"formstart"}%%TMPL:P{"formtop"}%
+%TMPL:P{"textarea"}%
+%TMPL:P{"topicinfo"}%%TMPL:P{"formend"}%%TMPL:END%

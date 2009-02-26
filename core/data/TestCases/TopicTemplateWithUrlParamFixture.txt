@@ -1,0 +1,12 @@
+%META:TOPICINFO{author="CharlesBrown" date="1118856954" format="1.1" version="1.1"}%
+The topic %TOPIC% was correctly created from the template in TopicTemplateWithUrlParamFixture
+
+If =%URLPARAM{"testtext"}%= is =text from the url= then the test *passed*.
+
+If it is anything else, it *failed*.
+%META:FORM{name="ThisForm"}%
+%META:FIELD{name="Squeegle" attributes="" title="Squeegle" value="Hugh Pugh Barney McGrew"}%
+%META:FIELD{name="Smomble" attributes="" title="Smomble" value=""}%
+%META:FIELD{name="Rubaduba" attributes="" title="Rubaduba" value=""}%
+%META:FIELD{name="SlashSlashEscape" attributes="" title="Slash Slash Escape" value="One"}%
+

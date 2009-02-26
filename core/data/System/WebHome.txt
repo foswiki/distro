@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+<div style="float:right;margin:1em 0em 1em;padding:0.5em;text-align:center">
+<a style="background:transparent" href="http://foswiki.org"><img src="%PUBURLPATH%/%SYSTEMWEB%/ProjectLogos/foswiki-logo-slogan.png" alt="Foswiki - The Free and Open Source Wiki" title="Foswiki - The Free and Open Source Wiki" border="0" /></a>
+<br />Come to <a href="http://foswiki.org"><span class="foswikiLinkLabel">foswiki.org</span></a>.
+</div>
+---+!! Welcome to the %WEB% Web
+
+_The place to learn about Foswiki features, and perform Foswiki system maintenance._
+
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+
+Foswiki is a flexible, powerful, secure, yet simple web-based collaboration platform.  Use Foswiki to run a project development space, a document management system, a knowledge base or any other groupware tool on either an intranet or on the Internet.
+
+---++ Foswiki Documentation and Configuration
+<div style="float:right;width:255px;padding:1em;">%INCLUDE{ "TipsOfTheDayInclude" warn="off" }%</div>
+   * [[WelcomeGuest][Welcome Guest]] - look here first
+   * [[TwentyMinuteTutorial][Tutorial]] - 20 minute tutorial
+   * [[UsersGuide][User's Guide]] - documentation for Foswiki users
+   * [[FrequentlyAskedQuestions][Frequently Asked Questions]] - about Foswiki
+   * [[ReferenceManual][Reference Manual]] - documentation for system administrators
+   * [[AdminToolsCategory][Admin Tools]] - manage the Foswiki site
+   * [[ReleaseNotes01x00][Release Notes for 1.0]] - describes what's new in this release
+
+---++ <nop>%WEB% Web Utilities
+<form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>
+   * <input type="text" name="search" class="foswikiInputField" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * WebTopicList - all topics in alphabetical order
+   * WebChanges - recent topic changes in this web
+   * WebNotify - subscribe to an e-mail alert sent when topics change
+   * WebRss, WebAtom - RSS and ATOM news feeds of topic changes
+   * WebStatistics - listing popular topics and top contributors
+   * WebPreferences - preferences of this web
+</form>
+
+Foswiki is developed as Free Software under the [[GnuGeneralPublicLicense][GNU/GPL]]. Get the latest version from [[Foswiki:Download][Foswiki.org downloads]].

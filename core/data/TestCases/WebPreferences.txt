@@ -1,0 +1,72 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 15648 $"}%
+
+
+%META:TOPICPARENT{name="WebHome"}%
+---++ <nop>%WEB% Web Preferences
+
+	* Set BROADCASTMESSAGE = NOTE: This is the <nop>TestCases web. You cannot edit any topic named "TestCase..." or "Web..." in this web, you can only create new topics. Any topics you _do_ create that are not checked into subversion may be deleted by anyone, at any time.
+
+The following settings are *web preferences* of the <nop>%WEB% web. These preferences overwrite the *site-level preferences* in %SYSTEMWEB%.%WIKIPREFSTOPIC%, and can be overwritten by *user preferences* (your personal topic, i.e. %USERSWEB%.WikiGuest in the %USERSWEB% web)
+
+*Preferences:*
+
+	* List of topics of the <nop>%WEB% web:
+		* Set WEBTOPICLIST = [[WebChanges][Changes]] %SEP% [[WebIndex][Index]] %SEP% [[WebSearch][Search]] %SEP% Go <input type="text" name="topic" size="16" />
+
+	* Web-specific background color: (Pick a lighter one of the %SYSTEMWEB%.StandardColors)
+		* Set WEBBGCOLOR = yellow
+
+	* List this web in the %SYSTEMWEB%.SiteMap:
+		* If yes, Set SITEMAPLIST = =on=, and add the "what" and "use to..." description for the site map. Make sure to list only links that include the name of the web, e.g. %WEB%.Topic links.
+		* Set SITEMAPLIST = on
+		* Set SITEMAPWHAT = Test Cases for Foswiki 
+		* Set SITEMAPUSETO = Test Foswiki. 
+
+	* Exclude web from a =web="all"= search: (Set to =on= for hidden webs)
+		* Set NOSEARCHALL = 
+
+	* Default template for new topics and form(s) for this web:
+		* WebTopicEditTemplate: Default template for new topics in this web. (Site-level is used if topic does not exist)
+		* [[%SYSTEMWEB%.WebTopicEditTemplate]]: Site-level default template
+		* %SYSTEMWEB%.DataForms: How to enable form(s)
+		* Set WEBFORMS = ThisForm, FormattedSearchForm
+
+	* Users or groups who *are not* / *are* allowed to *view* / *change* / *rename* topics in the <nop>%WEB% web: (See %SYSTEMWEB%.AccessControl)
+		* #Set DENYWEBVIEW = 
+		* #Set ALLOWWEBVIEW = 
+		* #Set DENYWEBCHANGE = 
+		* #Set ALLOWWEBCHANGE = 
+		* #Set DENYWEBRENAME = 
+		* #Set ALLOWWEBRENAME = 
+
+	* Users or groups allowed to change or rename this <nop>%TOPIC% topic: (e.g., %USERSWEB%.AdminGroup)
+		* #Set ALLOWTOPICCHANGE = 
+		* #Set ALLOWTOPICRENAME = 
+
+   * Web preferences that are *not* allowed to be overridden by sub-web, user or topic preferences:
+		* Set FINALPREFERENCES = WEBTOPICLIST, DENYWEBVIEW, ALLOWWEBVIEW, DENYWEBCHANGE, ALLOWWEBCHANGE, DENYWEBRENAME, ALLOWWEBRENAME, SAUSAGES
+
+   * Try and kidnap a final preference from !DefaultPreferences. The FINALPREFERENCES setting there should block this
+   * Set GLOBALFINALTESTPREF1 = ERROR in web
+   * Set GLOBALFINALTESTPREF2 = ERROR in web
+   * Set WEBFINALTESTPREF = web final test pref
+   * Set WEBTESTPREF = web test pref
+   * Set OVERRIDETHISTESTPREF = ERROR web setting
+   * Set FINALPREFERENCES = WEBFINALTESTPREF
+*Notes:*
+	* A preference is defined as: <br /> =6 spaces * Set NAME = value= <br /> Example:
+		* S<nop>et WEBBGCOLOR = #FFFFC0
+	* Preferences are used as [[%SYSTEMWEB%.Macros][Macros]] by enclosing the name in percent signs. Example:
+		* When you write variable =%WEB<nop>BGCOLOR%= , it gets expanded to =%WEBBGCOLOR%= .
+	* The sequential order of the preference settings is significant. Define preferences that use other preferences first, i.e. set =<nop>WEBCOPYRIGHT= before =<nop>WIKIWEBMASTER= since =%<nop>WEBCOPYRIGHT%= uses the =%<nop>WIKIWEBMASTER%= variable.
+	* You can introduce new preferences variables and use them in your topics and templates. There is no need to change the <nop>%WIKITOOLNAME% engine (Perl scripts).
+
+*Related Topics:*
+	* %SYSTEMWEB%.%WIKIPREFSTOPIC% has site-level preferences.
+	* %USERSWEB%.%WIKIUSERSTOPIC% has a list of user topics. User topics can have optional user preferences.
+	* [[%SYSTEMWEB%.Macros][Macros]] has a list of common =%<nop>VARIABLES%=.
+	* %SYSTEMWEB%.AccessControl explains how to restrict access by users or groups.
+
+*Tools:*
+%INCLUDE{"%SYSTEMWEB%.RenameWeb"}%
+

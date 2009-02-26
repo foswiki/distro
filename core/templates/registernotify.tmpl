@@ -1,0 +1,25 @@
+%{ This is a default template }%From: %WIKIWEBMASTERNAME% <%WIKIWEBMASTER%>
+To: %FIRSTLASTNAME% <%EMAILADDRESS%>
+Subject: %MAKETEXT{"[_1] - Registration for [_2] ([_3])" args="%WIKITOOLNAME%, %WIKINAME%, %EMAILADDRESS%"}%
+MIME-Version: 1.0
+Content-Type: text/plain; charset=%CHARSET%
+Content-Transfer-Encoding: 8bit
+
+%MAKETEXT{"Thank you for registering in the [_1] collaboration platform. Please save this e-mail for future reference." args="%WIKITOOLNAME%"}%
+
+%MAKETEXT{"Read [_1] to get a quick overview of this collaboration platform. To learn more, study the TwentyMinuteTutorial, which is accessible from the same link." args="%SCRIPTURL{"view"}%/%SYSTEMWEB%/WelcomeGuest"}%
+
+%MAKETEXT{"Your personal [_1] topic is located at [_2]. You can customize it as you like:" args="%WIKITOOLNAME%, %SCRIPTURL{"view"}%/%USERSWEB%/%WIKINAME%"}%
+
+   * %MAKETEXT{"Some people turn it into a personal portal with favorite links, what they work on, what help they'd like, etc."}%
+   * %MAKETEXT{"Some add schedule information and vacation notice."}%
+   * %MAKETEXT{"How about attaching your photo?"}%
+
+%MAKETEXT{"Submitted content:"}%
+
+%FORMDATA%
+
+%MAKETEXT{"Note:"}%
+   1 %MAKETEXT{"If you got this e-mail by mistake: Somebody ([_1]) registered at the [_2] site using your mail address [_3]. Contact [_4] if this is in error." args="%SPACEOUT{%FIRSTLASTNAME%}%, %WIKITOOLNAME%, %EMAILADDRESS%, %WIKIWEBMASTER%"}%
+   2 %MAKETEXT{"You can change your password at via [_1]" args="%SCRIPTURL{"view"}%/%SYSTEMWEB%/ChangePassword"}%
+   3 %MAKETEXT{"If you haven't set a password yet or you want to reset it, go to: [_1]" args="%SCRIPTURL{"view"}%/%SYSTEMWEB%/ResetPassword"}%

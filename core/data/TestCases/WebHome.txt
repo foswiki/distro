@@ -1,0 +1,35 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+---+ !TestCases Web
+
+If you are here, you want to test this version of Foswiki. This web is held in the Foswiki Subversion repository, so:
+   1 You must manually ensure that all topics in this web are readable and writable by the apache user
+   1 New topics must be manually added to the Subversion repository.
+      * Only check in =.txt= files. You must _not_ check in ,v files. Topic histories will be maintained in Subversion.
+   1 If you use Foswiki to edit topics (_not_ recommended) you must:
+      * Manually maintain the =META:TOPICINFO= of all topics in this web so that the =author= is =ProjectContributor= and the =version= is the SVN keyword =$<nop>Rev$=. _Do not_ allow Foswiki to overwrite this info.
+      * Remove all ctrl+M's before checking in.
+
+The integration testcases are an important assistant to Foswiki testing. However they should _not_ be regarded as the only required testing; manual testing, by a user interacting with Foswiki, is also key, as are unit tests.
+
+Integration testcases are of two kinds; manual, and automatic. Automatic testcases are _strongly_ preferred.
+
+Each integration testcase consists of a single topic, always named <nop>TestCase<i>Something</i> where _Something_ is descriptive of the testcase. For example, =TestCaseAmISane=. If _Something_ starts with =Auto= then the topic is assumed to be an automatic testcases and it is automatically added to the table below with a =run= link e.g. =TestCaseAutoFormatting=
+
+*All* testcase topics should contain a line starting with <code>Description: </code> that describes what the testcase does, for the table below. It's also convention to credit the designer(s) of the testcase, on a line starting <code>Designed by: </code>.
+
+Other topics may be created to provide test fixtures, but all checked-in topics in this web should be regarded as read-only i.e. no test should require the _overwriting_ of any of the checked-in topics. If you need to create topics in order to execute a test, please do so, but delete them after you are finished to avoid any risk of polluting future tests.
+
+*Manual* testcases simply document a series of steps that have to be performed to execute the test, sometimes with links in to help the process (for an example see TestCaseAmISane).
+
+*Automatic* testcases are designed for testing Foswiki rendering. They can be visited and manually checked just like manual testcases, but also include markers that indicate to the %SYSTEMWEB%.TestFixturePlugin what is _expected_ output versus what Foswiki _actually_ produces. See %SYSTEMWEB%.TestFixturePlugin for details, and view [[%SCRIPTURL{"view"}%/%WEB%/TestCaseAutoWikiWordRendering?raw=on][TestCaseAutoWikiWordRendering]] raw for a good example. Automatic testcase topics should also contain a link that allows the testcase to be run: <code>[<nop>[%<nop>SCRIPTURL%/view%<nop>SCRIPTSUFFIX%/%<nop>WEB%/%<nop>TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]</code>
+
+Automatic testcases may be run by clicking on the =run= link for the testcase in the table below. The testcases are run with _no plugins enabled_.
+
+%H% A good tip is to right-click each =run= link and open in a new tab (if your browser supports this; all good browsers do). That way you can run a whole bunch of testcases quickly without having to wait for each to finish loading.
+
+<!--
+%TABLE{}%
+-->
+|*Testcase* |*Description*  |*Tests*  |
+%SEARCH{"^TestCaseAuto" type="regex" scope="topic" nosearch="on" nototal="on" format="|$topic  |$pattern(.*Description:(.*?)\n.*)  |[[%SCRIPTURL{"view"}%/%WEB%/$topic?test=compare&debugenableplugins=TestFixturePlugin,CommentPlugin,InterwikiPlugin,DefaultPlugin&skin=pattern][run]]  |"}%
+%SEARCH{"^TestCase(?!Auto)" type="regex" scope="topic" nosearch="on" nototal="on" format="|$topic  |$pattern(.*Description:(.*?)\n.*)  |manual  |"}%

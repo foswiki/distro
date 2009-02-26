@@ -1,0 +1,30 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+ User's Guide
+
+_Documentation for users._
+
+   * *Quick Start*
+      * WelcomeGuest: A fast track intro covering all the basics
+      * BeginnersStartHere: A short introduction training course for beginners
+      * UserRegistration: Sign up so you can edit pages and select options
+
+   * *One-Page Primers*
+      * BeginnersStartHere: Ultra-compact, 2-minute primer
+      * TwentyMinuteTutorial: A compact, 20-minute primer<p />
+      * SearchHelp: Tips and help on search
+      * GoodStyle: Working tips for an open collaboration environment
+      * ShortHand: All of the shorthand basics
+      * TextFormattingRules: Scan all text formatting rules on one page
+      * [[%SYSTEMWEB%.Macros][Macros]]: How to easily embed text, graphics, dynamic content
+      * FileAttachments: Browser-upload files for distribution or display
+      * WebChangesAlert: Get e-mail alerts linking to the latest page changes
+      * GlossaryOfTerms: A simple glossary of terms
+      * FrequentlyAskedQuestions: The first things people ask<p />
+      * Frequent users should also browse the full [[ReferenceManual][Reference Manual]]!
+
+
+   * *Help on [[Plugins]]*
+<blockquote>
+%PLUGINDESCRIPTIONS%
+</blockquote>

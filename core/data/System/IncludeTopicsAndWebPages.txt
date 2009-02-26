@@ -1,0 +1,61 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+!! Include Topics and Web Pages Using =%<nop>INCLUDE{...}%= Macro
+
+Use the =%<nop>INCLUDE{...}%= macro to embed the content of another topic or web page inside a topic. The whole content or only parts of a page can be included. If needed, set a proxy server in %WIKIPREFSTOPIC%.
+
+%TOC%
+
+---++ Syntax Example
+
+=%<nop>INCLUDE{ "page" pattern="reg-exp" rev="2" warn="off" section="clients" PARAMETER1="value" PARAMETER2="Some value"}%=
+
+The =pattern= parameter is optional and allows you to extract some parts of a web page. Specify a %SYSTEMWEB%.RegularExpression that scans from start (='^'=) to end and contains the text you want to keep in parenthesis, e.g., =pattern="^.*?(from here.*?to here).*"=. You need to make sure that the integrity of a web page is not compromised; for example, if you include a table, make sure to include everything including the table end tag.
+
+The example parameters PARAMETER1 and PARAMETER2 will be defined as macros within the scope of the included topic. The example parameters shown will result in %PARAMETER1% and %PARAMETER2% being defined within the included topic.
+
+VarINCLUDE explains the other parameters.
+
+*Note:* All text of a topic is included unless it contains a =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=, or you specify a =section= parameter and/or a =pattern= parameter. A pattern will only search between =%<nop>STARTINCLUDE%= and =%<nop>STOPINCLUDE%=.
+
+---++ Usage Examples
+
+---+++ 1. Display regression test results
+<pre>
+  &lt;pre&gt;
+  %<nop>INCLUDE{"http://domain/~qa/v1.1/REDTest.log.txt"}%
+  &lt;/pre&gt;
+</pre>
+
+---+++ 2. Display Google's robot.txt file
+
+<pre>
+  %<nop>INCLUDE{"http://www.google.com/robots.txt"}%
+</pre>
+
+---+++ 3. Display the current time in Tokyo
+
+   * You type:
+      * ==Tokyo: %<nop>INCLUDE{"http://TWiki.org/cgi-bin/xtra/tzdate?tz=Asia/Tokyo" pattern="^.*&lt;\!--tzdate:date--&gt;(.*?)&lt;\!--/tzdate:date--&gt;.*"}%==
+   * You get:
+      * Tokyo: %INCLUDE{"http://TWiki.org/cgi-bin/xtra/tzdate?tz=Asia/Tokyo" pattern="^.*<\!--tzdate:date-->(.*?)<\!--/tzdate:date-->.*"}%
+
+---+++ 4. Include a topic !MyTopic with two parameters
+
+You include the topic with this line
+<verbatim>
+  %INCLUDE{ "MyTopic" BETTER="apples" WORSE="Oranges"}%
+</verbatim>
+
+An example of a very simple !MyTopic could contain
+
+<verbatim>
+   * I like %BETTER% better than %WORSE%.
+</verbatim> 
+
+The result would be
+
+   * I like apples better than oranges.
+
+---
+*Related Topics:* VarINCLUDE, UserDocumentationCategory
+

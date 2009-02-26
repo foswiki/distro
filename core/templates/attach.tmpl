@@ -1,0 +1,56 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"notes"}%   * <a class="foswikiPopUp" target='FileAttachment' href="%SCRIPTURL{view}%/%SYSTEMWEB%/FileAttachment" rel='nofollow'>FileAttachment</a> %MAKETEXT{"has more information about attaching files." args=""}%%TMPL:END%
+
+%TMPL:DEF{"existingattachments"}%%META{"attachments" all="on" title="<h2>%MAKETEXT{"Attachments of [_1]" args="<nop>%TOPIC%"}%</h2>"}%%TMPL:END%
+
+%TMPL:DEF{"attachform"}%%TMPL:P{"attachformstart"}%%TMPL:P{"newfile"}%%TMPL:P{"comment"}%%TMPL:P{"properties"}%%TMPL:P{"hiddenfields"}%%TMPL:P{"attachformend"}%%TMPL:END%
+
+%TMPL:DEF{"attachformstart"}%<table width="100%">%TMPL:END%
+
+%TMPL:DEF{"attachformend"}%</table>%TMPL:END%
+
+%TMPL:DEF{"newfile"}%<tr>
+  <td align="right">
+   %MAKETEXT{"Attach new file"}%
+  </td><td>
+   <noautolink><input type="hidden" name="filename" value="%FILENAME%" />
+   <input type="file" name="filepath" value="%FILEPATH%" size="50" /></noautolink>
+  </td>
+ </tr>%TMPL:END%
+
+%TMPL:DEF{"comment"}%<tr>
+  <td align="right">
+   %MAKETEXT{"Comment"}%
+  </td><td>
+   <input type="text" name="filecomment" value="%FILECOMMENT%" size="50" />
+  </td>
+ </tr>%TMPL:END%
+
+%TMPL:DEF{"properties"}%%TMPL:P{"createlink"}%
+%TMPL:P{"hidefile"}%%TMPL:END%
+
+%TMPL:DEF{"createlink"}%<tr>
+  <td align="right">
+   %MAKETEXT{"Link"}%
+  </td><td>
+   <input type="checkbox" class="foswikiCheckbox" id="createlink" name="createlink" %ATTACHLINKBOX% /><label for="createlink">%MAKETEXT{"Create a link to the attached file"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Images will be displayed, for other attachments a link will be created."}%</span>
+  </td>
+ </tr>%TMPL:END%
+
+%TMPL:DEF{"hidefile"}%<tr>
+  <td align="right">
+   %MAKETEXT{"Hide file"}%
+  </td><td>
+   <input type="checkbox" class="foswikiCheckbox" id="hidefile" name="hidefile" %HIDEFILE% /><label for="hidefile">%MAKETEXT{"Do not show attachment in table"}%</label> <span class="foswikiGrayText">%MAKETEXT{"Attachments will not be shown in topic view page."}%</span>
+  </td>
+ </tr>%TMPL:END%
+
+%TMPL:DEF{"hiddenfields"}%%{"space to put extra hidden form fields"}%%TMPL:END%
+
+%TMPL:DEF{"content"}%<form name="main" enctype="multipart/form-data" action="%SCRIPTURLPATH{"upload"}%/%WEB%/%TOPIC%" method="post">
+%TMPL:P{"previousdetails"}%
+%TMPL:P{"attachform"}%
+%TMPL:P{"notes"}%
+%TMPL:P{"extranotes"}%
+%TMPL:P{"topicinfo"}%</form>%TMPL:P{"existingattachments"}%%TMPL:END%

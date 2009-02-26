@@ -1,0 +1,135 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%STARTINCLUDE%
+---+ Skin Templates
+
+_Definition of the templates used to render output_ 
+
+%TOC%
+
+%STARTSECTION{"PowerUserGuide"}%
+---++ Overview
+
+_Skin Templates_ are plain text with embedded _template macros_ that describe how to compose blocks of text together, to create something new.
+
+#HtmlTemplates
+Skin templates are used composing the output from all actions, like view, edit, and preview. This allows you to change the look and feel of all pages by editing just a few template files.
+
+Skin templates are usually stored as text files with the extension =.tmpl=, though can also come from topic text in some limited circumstances. They are usually HTML with embedded _template macros_. The macros are expanded when we want to generate output, such as a user interface screen.
+
+#TemplateMacros
+---++ How Template Directives Work
+   * Directives are of the form ==%<nop>TMPL:&lt;key&gt;%== and ==%<nop>TMPL:&lt;key&gt;{"attr"}%==.
+   * Directives:
+      * ==%<nop>TMPL:INCLUDE{"file"}%==: Includes a template file. The file is found as described [[#FindingTemplates][below]].
+      * ==%<nop>TMPL:DEF{"block"}%==: Define a block. *All* text between this and the next =%<nop>TMPL:END%= directive is removed and saved for later use with  %<nop>TMPL:P=.
+      * ==%<nop>TMPL:END%==: Ends a block definition.
+      * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
+      * ==%<nop>{...}%==: is a comment.
+   * Two-pass processing lets you use a defined block before or after declaring it.
+   * For example, you can create a skin that overloads only the =foswiki.tmpl= master skin template, like =foswiki.print.tmpl=, that redefines the header and footer.
+   * %H% Use of template macros is optional: templates work without them.
+   * %X% Most template macros work only for templates: they do not get processed in normal topic text. The one exception is =%TMPL:P=.
+
+TMPL:P also supports simple parameters. For example, given the definition
+=%<nop>TMPL:DEF{"x"}% x%<nop>P%z%<nop>TMPL:END%= then =%<nop>TMPL:P{"x" P="y"}%= will expand to =xyz=.
+
+Note that parameters can simply be ignored; for example, =%<nop>TMPL:P{"x"}%= will expand to x%<nop>P%z.
+
+Any alphanumeric characters can be used in parameter names.
+You are highly recommended to use parameter names that cannot be confused with [[macros]].
+
+Note that three parameter names, =context=, =then= and =else= are *reserved*.
+They are used to support a limited form of "if" condition that you can use to select which of two TMPL:DEFs to use, based on a _context identifier_:
+<verbatim>
+%TMPL:DEF{"link_inactive"}%<input type="button" disabled value="Link>%TMPL:END%
+%TMPL:DEF{"link_active"}%<input type="button" onclick="link()" value="Link" />%TMPL:END%
+%TMPL:P{context="inactive" then="inactive_link" else="active_link"}% for %CONTEXT%
+</verbatim>
+When the "inactive" context is set, then this will expand the "link_inactive" TMPL:DEF; otherwise it will expand the "link_active" TMPL:DEF.
+See IfStatements for details of supported context identifiers.
+
+#FindingTemplates
+---++ Finding Skin Templates
+
+The skin templates shipped with a release are stored in the =templates= directory.
+As an example, ==templates/view.tmpl== is the default skin template file for the ==bin/view== script. 
+
+You can save templates in other directories as long as they are listed in the ={TemplatePath}= configuration setting.
+The ={TemplatePath}= is defined in the Miscellaneous section of the [[%SCRIPTURLPATH{configure}%][configure]] page.
+
+You can also save skin templates in user topics (_IF_ there is no possible template match in the =templates= directory).
+The ={TemplatePath}= configuration setting defines which topics will be accepted as templates.
+
+Skin templates that are included with an explicit ='.tmpl'= extension are looked for only in the =templates/= directory.
+For instance =%TMPL:INCLUDE{"example.tmpl"}%= will only return =templates/example.tmpl=, regardless of ={TemplatePath}= and SKIN settings.
+
+The out-of-the-box setting of ={TemplatePath}= supports the following search order to determine which template file or topic to use for a particular script or =%TMPL:INCLUDE{"script"}%= statement.
+The _skin path_ is set as described in [[Skins]].
+
+   1 templates/%RED%web%ENDCOLOR%/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
+      * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
+   1 templates/%RED%script%ENDCOLOR%.%RED%skin%ENDCOLOR%.tmpl for each %RED%skin%ENDCOLOR% on the skin path
+   1 templates/%RED%web%ENDCOLOR%/%RED%script%ENDCOLOR%.tmpl
+      * %X% this usage is supported *for compatibility only* and is *deprecated*. Store web-specific templates in topics instead.
+   1 templates/%RED%script%ENDCOLOR%.tmpl
+   1 The topic aweb.atopic if the template name can be parsed into aweb.atopic
+   1 The topic %RED%web%ENDCOLOR%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
+   1 The topic %RED%web%ENDCOLOR%.%RED%Script%ENDCOLOR%Template
+   1 The topic %<nop>SYSTEMWEB%.%RED%Skin%ENDCOLOR%Skin%RED%Script%ENDCOLOR%Template for each %RED%skin%ENDCOLOR% on the skin path
+   1 The topic %<nop>SYSTEMWEB%.%RED%Script%ENDCOLOR%Template
+*Legend:*
+   * %RED%script%ENDCOLOR% refers to the script name, e.g =view=, =edit=
+   * %RED%Script%ENDCOLOR% refers to the same, but with the first character capitalized, e.g =View=
+   * %RED%skin%ENDCOLOR% refers to a skin name, e.g =dragon=, =pattern=. All skins are checked at each stage, in the order they appear in the skin path.
+   * %RED%Skin%ENDCOLOR% refers to the same, but with the first character capitalized, e.g =Dragon=
+   * %RED%web%ENDCOLOR% refers to the current web
+
+For example, the =example= template file will be searched for in the following places, when the current web is =Thisweb= and the skin path is =print,pattern=:
+
+   I. =templates/Thisweb/example.print.tmpl= _deprecated; don't rely on it_
+   I. =templates/Thisweb/example.pattern.tmpl= _deprecated; don't rely on it_
+   I. =templates/example.print.tmpl=
+   I. =templates/example.pattern.tmpl=
+   I. =templates/Thisweb/example.tmpl= _deprecated; don't rely on it_
+   I. =templates/example.tmpl=
+   I. =Thisweb.PrintSkinExampleTemplate=
+   I. =Thisweb.PatternSkinExampleTemplate=
+   I. =Thisweb.ExampleTemplate=
+   I. =%SYSTEMWEB%.PrintSkinExampleTemplate=
+   I. =%SYSTEMWEB%.PatternSkinExampleTemplate=
+   I. =%SYSTEMWEB%.ExampleTemplate=
+
+Template names are usually derived from the name of the currently executing script; however it is also possible to override these settings in the =view= and =edit= scripts, for example when a topic-specific template is required. Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] can be used to override the skin templates used:
+   * =VIEW_TEMPLATE= sets the template to be used for viewing a topic
+   * =EDIT_TEMPLATE= sets the template for editing a topic.
+If these preferences are set locally (using _Local_ instead of _Set_) for a topic, in WebPreferences, in [[%LOCALSITEPREFS%]], or [[%SYSTEMWEB%.DefaultPreferences]] (using _Set_), the indicated templates will be chosen for =view= and =edit= respectively. The template search order is as specified above.
+
+---++ TMPL:INCLUDE recursion for piecewise customisation, or mixing in new features
+
+If there is recursion in the TMPL:INCLUDE chain (eg view.tmpl contains =%<nop>TMPL:INCLUDE{"foswiki"}%=, the templating system will include the next SKIN in the skin path. 
+For example, to create a customisation of pattern skin, where you _only_ want to over-ride the breadcrumbs for the view script, you can create only a view.yourlocal.tmpl:
+<verbatim>
+%TMPL:INCLUDE{"view"}%
+%TMPL:DEF{"breadcrumb"}% We don't want any crumbs %TMPL:END%
+</verbatim>
+and then set SKIN=yourlocal,pattern
+
+The default ={TemplatePath}= will not give you the desired result if you put these statements in the topic =Thisweb.YourlocalSkinViewTemplate=. The default ={TemplatePath}= will resolve the request to the =template/view.pattern.tmpl=, before it gets to the =Thisweb.YourlocalSkinViewTemplate= resolution. You can make it work by prefixing the ={TemplatePath}= with: =$web.YourlocalSkin$nameTemplate=. 
+
+---++ Default master template
+
+==foswiki.tmpl== is the default master template. It defines the following sections.
+
+| *Template directive:* | *Defines:* |
+| =%<nop>TMPL:DEF{"sep"}%= | "&#124;" separator |
+| =%<nop>TMPL:DEF{"htmldoctype"}%= | Start of all HTML pages |
+| =%<nop>TMPL:DEF{"standardheader"}%= | Standard header (ex: view, index, search)  |
+| =%<nop>TMPL:DEF{"simpleheader"}%= | Simple header with reduced links (ex: edit, attach, oops) |
+| =%<nop>TMPL:DEF{"standardfooter"}%= | Footer, excluding revision and copyright parts |
+
+%ENDSECTION{"PowerUserGuide"}%
+
+---
+*Related Topics:* [[Skins]]
+
+%STOPINCLUDE%

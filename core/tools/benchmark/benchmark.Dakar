@@ -1,0 +1,20 @@
+#!/usr/bin/perl -wT
+#
+BEGIN {
+    # Set default current working directory (needed for mod_perl)
+    if( $ENV{"SCRIPT_FILENAME"} && $ENV{"SCRIPT_FILENAME"} =~ /^(.+)\/[^\/]+$/ ) {
+        chdir $1;
+    }
+    # Set library paths in @INC, at compile time
+    unshift @INC, '.';
+    require 'setlib.cfg';
+}
+
+use Benchmark qw( :hireswallclock );
+my $begin = new Benchmark;
+
+require TWiki::UI;
+require TWiki::UI::View;
+TWiki::UI::run( \&TWiki::UI::View::view );
+
+print STDERR "Dakar Total ".timestr(timediff(new Benchmark,$begin))."\n";

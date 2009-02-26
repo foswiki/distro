@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1104704823" format="1.0" version="$Rev$"}%
+Test fixture - this is a topic that has been moved from a topic called MovedFrom
+%META:FORM{name="ThisForm"}%
+%META:FIELD{name="Squeegle" title="Squeegle" value="Hugh Pugh Barney McGrew"}%
+%META:FIELD{name="Smomble" title="Smomble" value="Cuthbert Dibble Grubb"}%
+%META:FIELD{name="RubaDuba" title="RubaDuba" value="Heeby Jeeby"}%
+%META:FIELD{name="Slash Slash Escape" title="Slash Slash Escape" value="One"}%
+%META:TOPICMOVED{by="guest" date="1104704822" from="TestCases.MovedFrom" to="TestCases.DeliberatelyMoved"}%

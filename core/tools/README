@@ -1,0 +1,34 @@
+The tools directory contains the following:
+
+---++ a quick BuildContrib based TWikiRelease builder
+   * build.pl
+      * running 'perl build.pl release' should result in TWiki.tgz and TWiki.zip
+   * DEPENDENCIES
+      * List of dependencies for the build, in BuildContrib format
+   * MANIFEST
+      * List of all the files that go in a release
+   * gendocs.pl
+      * Generates .txt files for POD docs in code modules
+
+---++ Developer support
+   * mklinks.pl
+      * When run in an SVN checkout area, links all the twikiplugins into the core source tree, so they look as if they are installed.
+   * plugins_conformance_analyser.pl
+      * Generates the plugins standards conformance report Plugins.PluginsConformanceReport
+   * twiki2foswiki
+      * A script that will do 95-99% of the work of converting an extension from TWiki namespace to Foswiki. You will still need to manually update doc work and comments in the code as required. 
+
+---++ a full TWikiFor builder and installer
+   * builddistros.pl
+   * distro
+
+---++ various tools to help configure TWiki
+   * addpod.pl
+   * fixHtaccess.pl
+   * perlmod2www.pl
+   * rewriteshbang.pl
+   * unisonsync.pl
+   * upgradeformat
+
+---++ packaging info and scripts for various distributions
+   * pkg

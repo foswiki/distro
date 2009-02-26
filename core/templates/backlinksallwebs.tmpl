@@ -1,0 +1,12 @@
+%{ This is a default template }%%TMPL:INCLUDE{"backlinks"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(backlinks in all Webs)"}% %TMPL:END%
+
+
+%TMPL:DEF{"resultsheader"}%<p> *%MAKETEXT{"Backlinks to [_1] in all Webs" args="%TOPIC%"}%* <span class="foswikiSmall">(<a href="%SCRIPTURLPATH{"oops"}%/%WEB%/%TOPIC%?template=backlinksweb" title='%MAKETEXT{"Search all webs for topics that link to here"}%' accesskey="b">%MAKETEXT{"Search [_1] Web only" args="<nop>%WEB%"}%</a>)</span></p>%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"resultsheader"}%
+%TMPL:P{"searchweb"}%
+%TMPL:P{"searchallwebs"}%
+%TMPL:END%

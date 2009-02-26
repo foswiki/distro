@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+#
+# Script to extract strings from Foswiki sources and templates
+
+use strict;
+
+# force the use from the root
+-d 'core' or die("You may only run this utility from the root directory of Foswiki SVN checkout!");
+
+use File::Spec;
+
+my $cwd = `pwd` ;
+chomp($cwd);
+unshift(@INC, File::Spec->catfile($cwd, 'core/lib')); 
+eval "use Foswiki::I18N::Extract";
+die($@) if $@;
+eval "use Locale::Maketext::Lexicon";
+die($@) if $@;
+
+die('You need at least version 0.61 of Locale::Maketext::Lexicon to run this utility') unless $Locale::Maketext::Lexicon::VERSION >= 0.61;
+
+die('The msgmerge command is required, it must be in your path. Try installing GNU gettext tools.') unless `which msgmerge`; 
+
+
+# config
+my $localesDir = "core/locale";
+my $potfile = "${localesDir}/Foswiki.pot";
+my $newpotfile = $potfile . '.new';
+
+# extract strings from the source code and append to the new potfile
+
+#####################################################################
+# driven from MANIFEST (picks up only files that are included in the release)
+
+sub read_MANIFEST {
+    my ( $manifest, $prefix ) = @_;
+
+    my @files;
+    open(R, $manifest) || die "Could not open $manifest: $!";
+    foreach my $source (<R>) {
+        chomp($source);
+
+        if ($source =~ m#^!include ../((\w+)/.*)$#) { 
+            my $included = $2;
+            my $included_manifest = $1 . '/MANIFEST';
+            print "I: including: $included, from $included_manifest \n";
+
+            push(@files, read_MANIFEST($included_manifest, "$included/"));
+        }
+
+        my @fields = split(/\s/, $source);
+        $source = $fields[0];
+        if( $source =~ m/^bin\/[a-z]/ ||
+            ($source =~ m/^lib\/.*\.pm$/ && (! ($source =~ m/^lib\/CPAN\/.*\.pm$/))) ||
+            $source =~ m/^templates\/.*\.tmpl$/ ||
+            $source =~ m/^data\/.*\.txt$/) {
+            my $file = $prefix . $source;
+            if (-e $file) {
+                push(@files, $prefix . $source);
+            } else {
+                print "W: $file is listed in MANIFEST and does not exist!\n";
+            }
+        }
+    }
+    close(R);
+
+  return @files;
+}
+
+sub extract {
+    my ($target, @sources) = @_;
+    print "I: Extracting strings into $target.\n";
+
+    my $extractor = new Foswiki::I18N::Extract;
+    die("Could not create an extractor. Is Locale::Maketext installed? (see above messages)") unless $extractor;
+
+    my $progress = undef;
+    eval "use Term::ProgressBar;";
+    if ( $@ ) {
+        print "W: (You could have a nice progress bar if you had Term::ProgressBar installed.)\n";
+    } else {
+        $progress = Term::ProgressBar->new (scalar(@sources));
+    }
+     
+    my $counter = 0;
+    foreach my $file (@sources) {
+        $extractor->extract_file($file) ;
+        $counter++;
+        $progress->update($counter) if $progress;
+    }
+    $extractor->compile();
+    $extractor->write_po($target);
+}
+
+sub merge {
+    my ($old, $new) = @_;
+    print("I: Merging new strings in $new into $old.\n");
+    system("msgmerge --update $old $new");
+}
+
+
+# read the top-level MANIFEST, and any other included by it
+my @sources = read_MANIFEST('core/lib/MANIFEST', '');
+
+# handle --list: only list files to be scanned
+if ($ARGV[0] eq '--list') {
+    foreach my $file (@sources) {
+        print $file, "\n";  
+    }
+    exit 0;
+}
+
+
+# extract the strings to the template POT file.
+extract($newpotfile, @sources);
+
+# merge with old POT file
+if (-e $potfile) {
+    merge($potfile, $newpotfile);
+} else {
+    system("cp $newpotfile $potfile");
+}
+
+# merge with existing translations:
+my @translations = <${localesDir}/*.po>;
+merge($_, $potfile) for @translations;
+
+# cleanup
+system("rm -rf $newpotfile");

@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarWEBPREFSTOPIC
+---+++ WEBPREFSTOPIC -- name of web preferences topic
+   * Syntax: =%<nop>WEBPREFSTOPIC%=
+   * Expands to: =%WEBPREFSTOPIC%=, renders as [[%WEBPREFSTOPIC%]]
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarHOMETOPIC][HOMETOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarWIKIPREFSTOPIC][WIKIPREFSTOPIC]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarVAR][VAR]]
+

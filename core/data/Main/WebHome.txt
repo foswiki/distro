@@ -1,0 +1,26 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+---+!! Welcome to the <nop>%USERSWEB% web 
+Congratulations, you have finished installing Foswiki.
+
+This site is running Foswiki version *%WIKIVERSION%*, Plugin API version *%PLUGINVERSION{}%*
+
+To learn more about Foswiki, visit the [[%SYSTEMWEB%.WebHome][%SYSTEMWEB% web]]. Please ensure that the read/write
+permissions for each web on your site match your access control policies (see [[%SYSTEMWEB%.DefaultPreferences]] 
+and [[%USERSWEB%.SitePreferences]]). Replace this text with a description of your new
+%IF{"defined WIKITOOLNAME" then="<nop>%WIKITOOLNAME%" else="Foswiki"}% site. 
+
+---++ <nop>%WEB% Web Utilities
+<form action="%SCRIPTURLPATH{view}%/%BASEWEB%/WebSearch">
+   * [[%SYSTEMWEB%.WelcomeGuest][WelcomeGuest]] - for first time visitors
+   * [[%SYSTEMWEB%.UserRegistration][Registration]] - become a <nop>%WIKITOOLNAME% user
+   * [[%WIKIUSERSTOPIC%]] - list of users of this <nop>%WIKITOOLNAME% site
+   * [[WikiGroups]] - list of groups used for access control
+   * <input class="foswikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * [[WebTopicList]] - all topics in alphabetical order
+   * [[WebChanges]] - recent topic changes in this web
+   * [[WebNotify]] - subscribe to an e-mail alert sent when topics change
+   * [[WebRss]], [[WebAtom]] - RSS and ATOM news feeds of topic changes
+   * [[WebStatistics]] - listing popular topics and top contributors
+   * [[WebPreferences]] - preferences of this web
+</form>
+

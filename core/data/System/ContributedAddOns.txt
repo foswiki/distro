@@ -1,0 +1,31 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%STARTINCLUDE%
+---+ Add-Ons
+
+_Add functionality with extensions not based on the Foswiki scripts._
+
+%TOC%
+
+---++ Overview
+
+An add-on runs separately from the Foswiki scripts, e.g. for data import, export to static HTML, etc. Add-Ons normally do not call any Foswiki code directly, though may invoke Foswiki scripts. There are different types of add-ons, they may be stand alone scripts, browser plugins, office tool extensions, or even a set of topics that form a wiki application.
+
+*See other types of extensions:* [[Contribs]], [[Plugins]], [[Skins]]
+
+---++ Add-Ons Installed on this site
+
+%SEARCH{ "AddOn" scope="topic" topic="*AddOn" nosearch="on" format="   * <b>[[$topic]]</b>: <nop>$pattern(.*?\*\sSet\sSHORTDESCRIPTION\s\=([^\n\r]*).*) <span style=\"color: gray;\">- version $pattern(.*?Version\:?\s*\|([^\n\r\|]*)\|.*)</span> <br /> <span style=\"color: gray; font-size: 80%\"> Author: $pattern(.*?\sAuthors?:\s*\|\s*(.*?)\s*\|.*) - last modified: r$rev - [[%SCRIPTURL{rdiff}%/$web/$topic][$date]] - $wikiusername </span>" }%
+
+---++ Installing Add-Ons
+
+   * Download an add-on from Foswiki:Extensions.AddOnPackage.
+   * Follow the installation instructions in the add-on topic.
+
+---++ Creating new Add-Ons
+
+   * Visit Foswiki:Extensions.AddOnPackageHowTo and follow the instructions.
+
+%STOPINCLUDE%
+---
+*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory
+

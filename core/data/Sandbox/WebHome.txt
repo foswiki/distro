@@ -1,0 +1,39 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+---+!! %MAKETEXT{"Welcome to the [_1] web" args="<nop>%WEB%"}%
+
+%MAKETEXT{"The [_1] web is the sandbox you can use for testing. Everybody is welcome to add or delete some stuff. It is recommended to walk through the [_2] to get a jumpstart on the [_3] tool. A good rule of thumb is to add at the end of the page and sign and date it with your [_4]." args="<b><nop>%WEB%</b>,%SYSTEMWEB%.TwentyMinuteTutorial,<nop>%WIKITOOLNAME%,%SYSTEMWEB%.WikiName"}%
+
+---++ %MAKETEXT{"Test Topics"}%
+
+<form action='%SCRIPTURLPATH{"edit"}%/%WEB%/'>
+%ICON{"newtopic"}% %MAKETEXT{"Create a new document by name:"}% %MAKETEXT{"(Use a topic name in System.WikiNotation)"}% <br />
+<input class="foswikiInputField" type="text" name="topic" size="32" />&nbsp;<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create by Name"}%' />
+<input type="hidden" name="onlywikiname" value="on" />
+<input type="hidden" name="onlynewtopic" value="on" />
+</form>
+
+<form action='%SCRIPTURLPATH{"edit"}%/%BASEWEB%/TestTopicAUTOINC0' name="createNewTestTopic">
+%ICON{"newtopic"}% %MAKETEXT{"Create a new auto-numbered test topic:"}%
+<input type="hidden" name="t" value="%SERVERTIME{$hou$min$sec}%" />
+<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Create <nop>TestTopic###"}%' />
+</form>
+
+---++ %MAKETEXT{"Recently changed topics"}%
+<dl>
+%SEARCH{ "1" type="query" scope="topic" nosearch="on" nototal="on" order="modified" reverse="on" limit="7" format="<dt>[[$topic]]</dt><dd>$summary<br /><span class='foswikiGrayText'>$date - $wikiusername</span></dd>"}%
+</dl>
+%MAKETEXT{"A more extensive changes list is available via ~[~[[_1]~]~[Recent Changes~]~]." args="WebChanges"}%
+
+---++ <nop>%WEB% Web Utilities
+<form action='%SCRIPTURLPATH{"search"}%/%WEB%/'>
+   * <input class="foswikiInputField" type="text" name="search" size="22" />&nbsp;<input type="submit" class="foswikiSubmit" value="Search" /> - [[WebSearchAdvanced][advanced search]]
+   * WebTopicList - all topics in alphabetical order
+   * WebChanges - recent topic changes in this web
+   * WebNotify - subscribe to an e-mail alert sent when topics change
+   * WebRss, WebAtom - RSS and ATOM news feeds of topic changes
+   * WebStatistics - listing popular topics and top contributors
+   * WebPreferences - preferences of this web
+</form>
+
+
+   * Set ALLOWTOPICCHANGE = Main.AdminGroup

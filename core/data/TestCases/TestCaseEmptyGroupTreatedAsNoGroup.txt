@@ -1,0 +1,14 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+---+!! %TOPIC%
+
+Description: testcase for the bug reported as TWiki:Codev/InvalidALLOWWEBVIEWTreatedAsEmpty
+
+Manual test. Read all the instructions _before_ you start!
+	1 Make sure the GROUP definition in AnInvalidGroup is empty
+	1 Edit this topic and uncomment the following line
+#	* Set ALLOWTOPICVIEW = TestCases.AnInvalidGroup
+	1 Save the topic
+		1 If the bug exists, you can still access the topic.
+		1 *If the bug does _not_ exist, you will not be able to view or edit the topic again from the browser. You can get access by adding yourself into the group in TestCases.AnInvalidGroup*
+   1 Edit this topic and put the comment back

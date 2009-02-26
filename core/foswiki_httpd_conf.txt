@@ -1,0 +1,204 @@
+# Example httpd.conf file for Foswiki.
+#
+# You are recommended to take a copy of this file and edit
+# the paths to match your installation. Most Linux distributions are setup so
+# Apache includes all config files that ends with .conf within a specific
+# directory. If your distribution does not have this feature then add:
+# include "/var/www/foswiki/foswiki_httpd.conf"
+# to the end of your main httpd.conf file.
+#
+# See also http://foswiki.org/Support/ApacheConfigGenerator
+# that helps you configure Apache
+
+# The first parameter will be part of the URL to your installation e.g.
+# http://example.com/foswiki/bin/view/...
+# The second parameter must point to the physical path on your disk. Be
+# careful not to lose any trailing /'s.
+
+#### Change the _second_ path to match your local installation
+ScriptAlias /foswiki/bin "/var/www/foswiki/bin"
+
+# This defines a url that points to the pub directory of the foswiki installation. It is
+# used to access files in the pub directory (attachments etc)
+# It must come _after_ the ScriptAlias.
+Alias /foswiki/pub "/var/www/foswiki/pub"
+
+# This enables access to the documents in the Foswiki root directory
+<Directory "/var/www/foswiki">
+    Order Allow,Deny
+    Allow from all
+    Deny from env=blockAccess
+</Directory>
+
+# This alias enables access to the documents in the Foswiki root directory.
+# You may comment this out if you do not desire that people have this access.
+#### Change the path to match your local installation
+Alias /foswiki "/var/www/foswiki"
+
+# Block access to typical spam related attachments (.htm and .html files)
+# Except the Foswiki directory which is read only and does have attached html files.
+# You should uncomment the two lines below if the Foswiki is on the public Internet
+#SetEnvIf Request_URI "/foswiki/pub/.*\.[hH][tT][mM][lL]?$" blockAccess
+#SetEnvIf Request_URI "/foswiki/pub/System/.*\.[hH][tT][mM][lL]?$" !blockAccess
+
+# We set an environment variable called blockAccess.
+#
+# Setting a BrowserMatchNoCase to ^$ is important. It prevents Foswiki from
+# including its own topics as URLs and also prevents other Foswikis from
+# doing the same. This is important to prevent the most obvious
+# Denial of Service attacks.
+#
+# You can expand this by adding more BrowserMatchNoCase statements to
+# block evil browser agents trying the impossible task of mirroring a Foswiki.
+# http://foswiki.org/Support/ApacheConfigGenerator has a good list
+# of bad spiders to block.
+#
+# Example:
+# BrowserMatchNoCase ^SiteSucker blockAccess
+BrowserMatchNoCase ^$ blockAccess
+
+
+# This specifies the options on the Foswiki scripts directory. The ExecCGI
+# and SetHandler tell apache that it contains scripts. "Allow from all"
+# lets any IP address access this URL.
+
+#### Change the path to match your local installation
+<Directory "/var/www/foswiki/bin">
+    AllowOverride None
+    Order Allow,Deny
+    Allow from all
+    Deny from env=blockAccess
+
+    Options ExecCGI FollowSymLinks
+    SetHandler cgi-script
+
+    # Password file for Foswiki users
+    AuthUserFile /var/www/foswiki/data/.htpasswd
+    AuthName 'Enter your WikiName: (First name and last name, no space, no dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
+    AuthType Basic
+    
+    # File to return on access control error (e.g. wrong password)
+    # By convention this is the UserRegistration page, that allows users
+    # to register with the Foswiki. Apache requires this to be a *local* path.
+    # Comment this out if you setup Foswiki to completely deny access to WikiGuest
+    # in all webs or change the path to a static html page.
+    ErrorDocument 401 /foswiki/bin/view/System/UserRegistration
+    # Alternatively if your users are all known to be registered you may want
+    # to redirect them to the ResetPassword page.
+    # ErrorDocument 401 /foswiki/bin/view/System/ResetPassword
+
+# Limit access to configure to specific IP addresses and or users.
+# Make sure configure is not open to the general public.
+# The configure script is designed for administrators only.
+# The script itself and the information it reveals can be abused by
+# attackers if not properly protected against public access.
+# Replace JohnDoe with the login name of the administrator
+<FilesMatch "^configure.*">
+    SetHandler cgi-script
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1 192.168.1.10
+    Require user JohnDoe
+    Satisfy Any
+</FilesMatch>
+
+# When using Apache type login the following defines the Foswiki scripts
+# that makes Apache ask the browser to authenticate. It is correct that
+# scripts such as view, resetpasswd & passwd are not authenticated.
+# (un-comment to activate)
+#<FilesMatch "(attach|edit|manage|rename|save|upload|mail|logon|rest|.*auth).*">
+#    require valid-user
+#</FilesMatch>
+
+</Directory>
+
+
+# This sets the options on the pub directory, which contains attachments and
+# other files like CSS stylesheets and icons. AllowOverride None stops a
+# user installing a .htaccess file that overrides these options.
+# Finally all execution of PHP and other scripts is disabled.
+
+# Note that files in pub are *not* protected by Foswiki Access Controls,
+# so if you want to control access to files attached to topics, you may
+# need to add your own .htaccess files to subdirectories of pub. See the
+# Apache documentation on .htaccess for more info.
+
+#### Change the path to match your local installation
+<Directory "/var/www/foswiki/pub">
+    #if you are using an svn checkout an pseudo-install.pl, you will need to enable symlinks
+    #Options FollowSymLinks
+    Options None
+    AllowOverride None
+    Order Allow,Deny
+    Allow from all
+    Deny from env=blockAccess
+    
+    # If you have PHP4 or PHP5 installed as Apache module make sure the directive below is enabled
+    # If you do not have PHP installed you will need to comment out the directory below
+    # to avoid errors.
+    # If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
+    php_admin_flag engine off
+    
+    # If you have PHP3 installed as Apache module make sure the directive below is enabled
+    # If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
+    #php3_engine off
+
+    # This line will redefine the mime type for the most common types of scripts
+    AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
+    
+    #for TWikiCompatibility - or even to make 'attachment not found's more user friendly
+    ErrorDocument 404 /foswiki/bin/viewfile
+
+#
+#add an Expires header that is sufficiently in the future that the browser does not even ask if its uptodate
+# reducing the load on the server significantly
+#IF you can, you should enable this - it _will_ improve your Foswiki experience, even if you set it to under one day.
+# you may need to enable expires_module in your main apache config
+#LoadModule expires_module libexec/httpd/mod_expires.so
+#AddModule mod_expires.c
+#<ifmodule mod_expires.c>
+#  <filesmatch "\.(jpg|gif|png|css|js)$">
+#       ExpiresActive on
+#       ExpiresDefault "access plus 11 days"
+#   </filesmatch>
+#</ifmodule>
+#
+
+</Directory>
+
+
+# Spammers are known to attach their stuff and then move it to trash where it remains unnoticed.
+# We prevent viewing any attachments directly from pub
+#### Change the path to match your local installation
+<Directory "/var/www/foswiki/pub/Trash">
+	deny from all
+</Directory>
+
+
+# Security note: All other directories should be set so
+# that they are *not* visible as URLs, so we set them as =deny from all=.
+
+#### Change the paths to match your local installation
+<Directory "/var/www/foswiki/data">
+    deny from all
+</Directory>
+
+<Directory "/var/www/foswiki/templates">
+    deny from all
+</Directory>
+
+<Directory "/var/www/foswiki/lib">
+    deny from all
+</Directory>
+
+<Directory "/var/www/foswiki/locale">
+    deny from all
+</Directory>
+
+<Directory "/var/www/foswiki/tools">
+    deny from all
+</Directory>
+
+<Directory "/var/www/foswiki/working">
+    deny from all
+</Directory>

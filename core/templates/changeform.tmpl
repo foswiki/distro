@@ -1,0 +1,40 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(change form)"}% %TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%%MAKETEXT{"Choose a new form for [_1]" args="<nop>%TOPIC%"}%%TMPL:END%
+
+
+%TMPL:DEF{"webaction"}% *%MAKETEXT{"Action"}%* %TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input class="foswikiSubmit" type="submit" name="submit" value='%MAKETEXT{"Select"}%' /> %MAKETEXT{"or"}% %TMPL:P{"gobacktopicaction"}%%TMPL:END%
+
+
+%TMPL:DEF{"formstart"}%<form name="main" action="%SCRIPTURLPATH{"edit"}%/%WEB%/%TOPIC%" method="post">%TMPL:END%
+%TMPL:DEF{"formend"}%</form>%TMPL:END%
+
+
+%TMPL:DEF{"hiddenformfields"}%<input type="hidden" name="t" value="t=%GMTIME{"$epoch"}%" />
+<input type="hidden" name="topicparent" value="%URLPARAM{"topicparent"}%" />
+<input type="hidden" name="redirectto" value="%URLPARAM{"redirectto"}%" />
+<input type="hidden" name="skin" value="%URLPARAM{"skin"}%" />
+<input type="hidden" name="cover" value="%URLPARAM{"cover"}%" />
+<input type="hidden" name="nowysiwyg" value="%URLPARAM{"nowysiwyg"}%" />%TMPL:END%
+
+
+%TMPL:DEF{"notes"}%<p>%MAKETEXT{"Any changes you made to the topic before coming to this page are preserved."}%<br />
+<span class="foswikiAlert">%MAKETEXT{"But existing form data will be lost (you can always retrieve this data through the topic history)"}%</span></p>%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"notes"}%
+%TMPL:P{"formstart"}%
+---+++ %MAKETEXT{"Available form templates"}%   
+<ul>
+%FORMLIST%
+</ul>
+%TEXT%
+%EDITACTION%
+%TMPL:P{"hiddenformfields"}%
+%TMPL:P{"topicinfo"}%%TMPL:P{"formend"}%%TMPL:END%

@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
+
+[[%SCRIPTURL{"view"}%/%WEB%/%BASETOPIC%?test=compare&debugenableplugins=TestFixturePlugin][Run Test]]<br />
+[[http://validator.w3.org/check/referer][XHTML Validator]]
+
+%INCLUDE{CreateNewTestCaseForm}%
+
+<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/recentchanges.gif" /> [[%SCRIPTURL{"changes"}%/%WEB%/][Changes]]<br/>
+<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/home.gif" /> [[%HOMETOPIC%][%WEB%]] &middot; [[WebTopicList][Topics]]<br/>
+<img src="%PUBURL%/%SYSTEMWEB%/DocumentGraphics/home.gif" /> [[%SYSTEMWEB%.%HOMETOPIC%][%SYSTEMWEB%]]
+
+   * *Admin topics*
+%SEARCH{"^Web.+" type="regex" scope="topic" nosearch="on" nototal="on" format="   * $topic"}%
+
+   * *Test fixtures*
+%SEARCH{"^(?!Web).+" type="regex" excludetopic="TestCase*" scope="topic" nosearch="on" nototal="on" format="   * $topic"}%

@@ -1,0 +1,20 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"titleaction"}% %REVTITLE% %TMPL:END%
+%TMPL:DEF{"webaction"}% %WEBTOPICLIST% %TMPL:END%
+%TMPL:DEF{"form"}%
+%META{"form"}%%TMPL:END%
+
+%TMPL:DEF{"attachments"}%
+%META{"attachments"}%%TMPL:END%
+
+%TMPL:DEF{"main"}%
+%TMPL:P{"content"}%
+%TMPL:END%
+
+
+%TMPL:DEF{"content"}%
+%TEXT%
+#TopicEnd
+%TMPL:P{"form"}%%TMPL:P{"attachments"}%
+%TMPL:END%

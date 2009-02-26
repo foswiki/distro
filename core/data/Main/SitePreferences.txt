@@ -1,0 +1,17 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="1.1"}%
+---+!! %MAKETEXT{"Local customisations of site-wide preferences"}%
+
+<div class="foswikiHelp">%ICON{"info"}% %MAKETEXT{"Site-level preferences are located in [_1], however this [_2] prefs topic has override priority and should be used for local customisations. This allows for easier upgrades as you don't need to worry about the shipped preferences clobbering yours. It's easier to keep a handle on if you only copy over the settings you actually change." args="[[%SYSTEMWEB%.DefaultPreferences]], [[%USERSWEB%.%TOPIC%]]"}% </div>
+
+%EDITPREFERENCES{"%SYSTEMWEB%/DefaultPreferencesForm"}%
+%IF{"$ SCRIPTNAME != 'viewauth%SCRIPTSUFFIX%'" then="<span class='foswikiGrayText'>%MAKETEXT{"Quick edit of existing preferences (edit the topic text to set new preferences)"}%</span>" }%
+
+<!-- Preferences start here -->
+
+   * =FINALPREFERENCES= locks site-level preferences that are *not* allowed to be overridden by [[%WEBPREFSTOPIC%]] or user preferences:
+      * Set FINALPREFERENCES = ATTACHFILESIZELIMIT, PREVIEWBGIMAGE, WIKITOOLNAME, WIKIHOMEURL, ALLOWROOTCHANGE, DENYROOTCHANGE, USERSWEB, SYSTEMWEB, DOCWEB
+   
+<!-- Keep this as a security measure:
+   * Set ALLOWTOPICCHANGE = AdminGroup
+   * Set ALLOWTOPICRENAME = AdminGroup
+-->

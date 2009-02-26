@@ -1,0 +1,71 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: verbatim tags should be nestable to at least two levels.
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+	* Set EGG = font color="blue"
+	* Set BACON = font color="purple"
+	* Set ENDBREAKFAST = /font
+
+<table>
+<tr><th>Expected</th><th>Actual</th></tr>
+<tr><td>
+<!-- expected FIRST TEST -->
+<font color="purple"> Before Verbatim </font>
+<pre>
+&lt;&#37;EGG&#37;&gt; In outer verbatim &lt;&#37;ENDBREAKFAST&#37;&gt;
+&lt;verbatim&gt;
+In inner verbatim with &lt;text in angle braces&gt;
+&lt;/verbatim&gt;
+&lt;&#37;EGG&#37;&gt; In outer verbatim again &lt;&#37;ENDBREAKFAST&#37;&gt;
+</pre>
+<font color="purple"> After Verbatim </font>
+<!-- /expected -->
+</verbatim>
+</td><td>
+<!-- actual -->
+<%BACON%> Before Verbatim <%ENDBREAKFAST%>
+<verbatim>
+<%EGG%> In outer verbatim <%ENDBREAKFAST%>
+<verbatim>
+In inner verbatim with <text in angle braces>
+</verbatim>
+<%EGG%> In outer verbatim again <%ENDBREAKFAST%>
+</verbatim>
+<%BACON%> After Verbatim <%ENDBREAKFAST%>
+<!-- /actual -->
+</td></tr></table>
+---++ Expected at end of topic
+<!-- expected SECOND TEST -->
+Function is
+<pre>
+---++ sub marine() &#61;&gt; dive dive dive
+Admire the pretty fishes.
+Usage:
+&lt;verbatim&gt;
+	 my $fishes &#61; &#95;marine();
+	 if ( $fishes-&gt;{&#34;big mouth rass&#34;} ) {
+&lt;/verbatim&gt;
+</pre>
+Lorem ipsum is pig latin for "that's my lorry, that is".
+<p />
+-- <font color="#0000ff">AlexanderTheGeek</font> - 01 Nov 2004
+<!-- /expected -->
+---++ Actual at end of topic
+<!-- actual -->
+Function is
+<verbatim>
+---++ sub marine() => dive dive dive
+Admire the pretty fishes.
+Usage:
+<verbatim>
+	 my $fishes = _marine();
+	 if ( $fishes->{"big mouth rass"} ) {
+</verbatim>
+</verbatim>
+Lorem ipsum is pig latin for "that's my lorry, that is".
+
+-- %BLUE%AlexanderTheGeek%ENDCOLOR% - 01 Nov 2004

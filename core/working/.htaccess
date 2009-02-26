@@ -1,0 +1,4 @@
+# This Apache .htaccess blocks web access to all files in this directory.
+# In the interests of security none of these files should be readable by a web user.
+# You will need to do something similar on other web servers.
+Deny From All

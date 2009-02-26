@@ -1,0 +1,31 @@
+%META:TOPICINFO{author="MidBum" date="1189245567" format="1.1" reprev="1.1" version="1.1"}%
+Description: Testcase covers Bugs:Item4439. Companion topics IncludeTableAttachment and  IncludeTableNoAttachment also required.
+
+[[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+---+ Actual
+<!-- actual -->
+| %INCLUDE{IncludeTableAttachment}% |
+
+| %INCLUDE{IncludeTableNoAttachment}% |
+<!-- /actual -->
+---+ Expected
+<!-- expected -->
+<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+  <tbody>
+	<tr>
+		<td> Content </td>
+	</tr>
+  </tbody>
+</table>
+<p />
+<table border="1" cellspacing="0" cellpadding="0" class="foswikiTable">
+  <tbody>
+	<tr>
+		<td> Content </td>
+	</tr>
+  </tbody>
+</table>
+<!-- /expected -->

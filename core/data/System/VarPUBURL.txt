@@ -1,0 +1,9 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarPUBURL
+---+++ PUBURL -- the base URL of attachments
+   * Syntax: =%<nop>PUBURL%=
+   * Expands to: =%PUBURL%=
+   * Example: You can refer to a file attached to another topic with =%<nop>PUBURL%/%<nop>WEB%/OtherTopic/image.gif=
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURL][ATTACHURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarATTACHURLPATH][ATTACHURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarPUBURLPATH][PUBURLPATH]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURL]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSCRIPTURL][SCRIPTURLPATH]], FileAttachments
+

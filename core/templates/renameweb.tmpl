@@ -1,0 +1,32 @@
+%{ This is a default template }%%TMPL:INCLUDE{"renamewebbase"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(rename)"}% %TMPL:END%
+
+
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Rename"}%%TMPL:END%
+
+
+%TMPL:DEF{"newweb"}%<p><input class="foswikiInputField" value="%NEW_SUBWEB%" name="newsubweb" size="20" /><input type="hidden" name="action" value="renameweb" /><input type="hidden" name="confirm" value="getlock" /></p>%TMPL:END%
+
+
+%TMPL:DEF{"newparentweb"}%<p><select class="foswikiSelect" name="newparentweb"><option value=""></option>%WEBLIST{"<option $marker value=$qname>$name</option>" webs="%TRASHWEB%,public" selection="%NEW_PARENTWEB%" separator=" "}%</select></p>%TMPL:END%
+
+
+
+%TMPL:DEF{"namehelp"}%<p>%MAKETEXT{"It's usually best to choose a short name for the new web, as it is easier to link to them later on. Characters not allowed in web names, such as spaces will automatically be removed."}%</p>%TMPL:END%
+
+
+
+%TMPL:DEF{"movewebhelp"}%<p>%MAKETEXT{"You can give this web a different name."}%</p>%TMPL:END%
+
+
+
+%TMPL:DEF{"parentwebhelp"}%%TMPL:END%
+
+
+
+%TMPL:DEF{"updatenote"}%%MAKETEXT{"Checked topics will be updated to point to the new web name."}%%TMPL:END%
+
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%

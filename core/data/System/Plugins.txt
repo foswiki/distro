@@ -1,0 +1,130 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%STARTINCLUDE%
+---+ Foswiki Plugins
+
+_Add functionality to Foswiki with plugins_
+
+%TOC%
+
+---++ Overview
+
+You can add plugins to extend Foswiki functionality without altering the core code. A plug-in approach lets you:
+
+   * add virtually unlimited features while keeping the main Foswiki code compact and efficient;
+   * heavily customize an installation and still do clean updates to new versions of Foswiki;
+   * rapidly develop new Foswiki functions in Perl using the plugin API.
+
+Everything to do with Foswiki plugins - demos, new releases, downloads, development, general discussion - is available at Foswiki.org, in the <b> Foswiki:Extensions </b> web.
+
+Foswiki plugins are developed and contributed by interested members of the community. Plugins are provided on an 'as is' basis; they are not a part of Foswiki, but are independently developed and maintained.
+
+Most [[http://twiki.org/cgi-bin/view/Plugins/WebHome][TWiki<sup>&reg;</sup> plugins]] can also be used with Foswiki if the TWikiCompatibilityPlugin is installed (it is by default).
+
+*See other types of extensions:* [[Contribs]], [[Skins]]
+
+---+ Installed Plugins
+%PLUGINDESCRIPTIONS%
+
+#FailedPlugins
+---+ Failed Plugins
+%FAILEDPLUGINS%
+
+#InstallPlugin
+---++ Installing Plugins
+
+Each Foswiki plugin comes with its own documentation: step-by-step installation instructions, a detailed description of any special requirements, version details, and a working example for testing. Many plugins have an install script that automates these steps for you.
+
+*Special Requirements:* Some plugins need certain Perl modules to be preinstalled on the host system. Plugins may also use other resources, like graphics, other modules, applications, and templates. You should be able to find detailed instructions in the plugin's documentation.
+
+Each plugin has a standard release topic, located in the Foswiki:Extensions web at Foswiki.org. There's usually a number of other related topics, such as a developers page, and an appraisal page.
+
+#PreTesting
+---+++ On-Site Pretesting
+
+The recommended approach to testing new plugins before making them public is to create a second local Foswiki installation, and test the plugin there. You can allow selected users access to the test area. Once you are satisfied that it won't compromise your main installation, you can install it there as well.
+
+The [[plugins]] page shows which plugins are: 1) installed, 2) loading properly, and 3) what plugin handlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various Foswiki log files.
+
+---+++ Some Notes on Plugin Performance
+
+The performance of the system depends to some extent on the number of plugins installed and on the plugin implementation. Some plugins impose no measurable performance decrease, some do. For example, a Plugin might use many Perl libraries that need to be initialized with each page view (unless you run mod_perl). You can only really tell the performance impact by installing the plugin and by measuring the performance with and without the new plugin, on real data.
+
+%T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% setting.
+
+Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
+<pre>
+   * <nop>Set DISABLEDPLUGINS = SpreadSheetPlugin, EditTablePlugin
+</pre>
+
+#ManagingPlugins
+---++ Managing Installed Plugins
+
+Some plugins require additional settings or offer extra options that you have to select. Also, you may want to make a plugin available only in certain webs, or temporarily disable it. And may want to list all available plugins in certain topics. You can handle all of these management tasks with simple procedures:
+
+---+++ Listing Active Plugins
+
+Plugin status macros let you list all active plugins wherever needed.
+
+This site is running Foswiki version *%WIKIVERSION%*, plugin API version
+*%PLUGINVERSION{}%*
+
+#ActivatedPlugins
+   * =%<nop>ACTIVATEDPLUGINS%= - shows the activated plugins
+   * =%<nop>PLUGINVERSION%= - shows the plugins API version
+   * =%<nop>FAILEDPLUGINS%= - shows what plugins failed, and why
+
+---+++ Enabling Plugins
+
+Plugins can be enabled and disabled with the [[%SCRIPTURLPATH{configure}%][configure]] script. An installed plugin needs to be enabled before it can be used.
+
+---+++ Plugin Evaluation Order
+
+By default, plugins are executed in alphabetical order on plugin name. It is possible to change the order, for example to evaluate database macros before the spreadsheet CALCs. This can be done with ={PluginsOrder}= in the plugins section of [[%SCRIPTURLPATH{configure}%][configure]].
+
+---+++ Plugin-Specific Settings
+
+Some plugins are configured with plugin [[%SYSTEMWEB%.PreferenceSettings][preference settings]], newer plugins with =configure= settings.
+
+=configure= settings are accessible though the [[%SCRIPTURLPATH{"configure"}%][configure]] interface. 
+
+Plugin [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are defined in the plugin topic and can be overloaded. The SHORTDESCRIPTION setting is always present, it is needed for the automation in the extensions repository. Example preference settings defined in the TablePlugin topic:
+
+   * =Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns=
+ 
+[[Preference settings]] of active plugins can be retrieved anywhere in Foswiki with =%&lt;pluginname&gt;_&lt;var&gt;%=, such as =%<nop>TABLEPLUGIN_SHORTDESCRIPTION%=. They can also be redefined with the =%&lt;pluginname&gt;_&lt;var&gt;%= setting at a lower level in the [[%LOCALSITEPREFS%]] or at the web level. For an easier upgrade it is recommended to customize plugin preference settings in <nop>%LOCALSITEPREFS% only.
+
+#InstallPlugin
+---++ Installing Plugins
+
+Each Foswiki plugin comes with its own documentation: step-by-step installation instructions, a detailed description of any special requirements, version details, and a working example for testing. Many plugins have an install script that automates these steps for you.
+
+*Special Requirements:* Some plugins need certain Perl modules to be preinstalled on the host system. Plugins may also use other resources, like graphics, other modules, applications, and templates. You should be able to find detailed instructions in the plugin's documentation.
+
+Each plugin has a standard release topic, located in the Foswiki:Extensions web at Foswiki.org. There's usually a number of other related topics, such as a developers page, and an appraisal page.
+
+#PreTesting
+---+++ On-Site Pretesting
+
+The recommended approach to testing new plugins before making them public is to create a second local Foswiki installation, and test the plugin there. You can allow selected users access to the test area. Once you are satisfied that it won't compromise your main installation, you can install it there as well.
+
+The [[plugins]] page shows which plugins are: 1) installed, 2) loading properly, and 3) what plugin handlers they invoke. Any failures are shown in the Errors section. The =[[VarFAILEDPLUGINS][%<nop>FAILEDPLUGINS%]]= macro can be used to debug failures. You may also want to check your webserver error log and the various Foswiki log files.
+
+---+++ Some Notes on Plugin Performance
+
+The performance of the system depends to some extent on the number of plugins installed and on the plugin implementation. Some plugins impose no measurable performance decrease, some do. For example, a Plugin might use many Perl libraries that need to be initialized with each page view (unless you run mod_perl). You can only really tell the performance impact by installing the plugin and by measuring the performance with and without the new plugin, on real data.
+
+%T% If you need to install an "expensive" plugin, but you only need its functionality only in a subset of your data, you can disable it elsewhere by defining the %<nop>DISABLEDPLUGINS% setting.
+
+Define =DISABLEDPLUGINS= to be a comma-separated list of names of plugins to disable. Define it in %USERSWEB%.<nop>SitePreferences to disable those plugins everywhere, in the !WebPreferences topic to disable them in an individual web, or in a topic to disable them in that topic. For example,
+<pre>
+   * <nop>Set DISABLEDPLUGINS = SpreadSheetPlugin, EditTablePlugin
+</pre>
+
+#PluginAPI
+---++ The Foswiki Perl Application Programming Interface
+
+[[Developing plugins]] provides a simple introduction to hooking into Foswiki code from your own Perl modules. Foswiki:Development.GettingStarted is the starting point for more comprehensive documentation.
+
+%STOPINCLUDE%
+---
+*Related Topics:* DeveloperDocumentationCategory, AdminDocumentationCategory

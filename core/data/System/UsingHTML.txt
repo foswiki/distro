@@ -1,0 +1,27 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+---++ Using HTML
+
+%STARTINCLUDE%
+You can use most HTML tags in topics without a problem. This is useful where you want to
+add some content that is formatted in a way that is not supported using [[ShortHand][shorthand]], for example,
+you can write =&lt;strike&gt;deleted text&lt;/strike&gt;= to get <strike>deleted text</strike>.
+
+There are a few usability and technical considerations to keep in mind:
+   * On collaboration pages, it's better *not* to use HTML, but to use [[ShortHand][shorthand]] instead -
+     this keeps the text uncluttered and easy to edit using the plaintext editor.
+   * If you _must_ use HTML, use [[http://www.w3.org/TR/xhtml1/][XHTML 1.0 Transitional]] syntax.
+   * Use =&lt;literal&gt;..&lt;/literal&gt;= tags around blocks of HTML to avoid accidental interpretation of
+     [[ShortHand][shorthand]] within the HTML.
+   * %X% Script tags may be filtered out, at the discretion of your Wiki administrator.
+
+Recommendations when pasting HTML from other sources (using the plain-text editor):
+   * Copy only text between =&lt;body&gt;= and =&lt;/body&gt;= tags.
+   * Remove all empty lines. Foswiki inserts =&lt;p /&gt;= paragraph tags on empty lines, which causes problems if done between HTML tags that do not allow paragraph tags, like for example between table tags.
+   * Remove leading spaces. Foswiki might interpret some text as lists.
+   * Do not span a tag over more than one line. Foswiki requires that the opening and closing angle brackets - ==&lt;...&gt;== - of a HTML tag are on the same line, or the tag will be broken.
+   * In your HTML editing program, save without hard line breaks on text wrap.
+
+When using a WYSIWYG editor, you can just copy-paste directly into the editor, and the content will
+be converted to [[ShortHand][shorthand]] automatically when you save.
+
+%STOPINCLUDE%

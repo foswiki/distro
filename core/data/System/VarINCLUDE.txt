@@ -1,0 +1,26 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarINCLUDE
+---+++ INCLUDE{"page"} -- include other topic or web page
+   * Syntax: =%<nop>INCLUDE{"page" ...}%=
+   * Supported parameters:
+     | *Parameter:* | *Description:* | *Default:* |
+     | ="SomeTopic"= | The name of a topic located in the current web, i.e. =%<nop>INCLUDE{"WebNotify"}%= | |
+     | ="Web.Topic"= | A topic in another web, i.e. =%<nop>INCLUDE{"%SYSTEMWEB%.SiteMap"}%= | |
+     | ="http://..."= | A full qualified URL, i.e. =%<nop>INCLUDE{"http://foswiki.org:80/index.html"}%=. Supported content types are =text/html= and =text/plain=. <br /> %I% if the URL resolves to an attachment file on the server this will _automatically_ translate to a server-side include. | |
+     | ="doc:Foswiki::..." level="3" | Generates the embedded documentation in the given perl module. The optional =level= parameter lets you define the base level for headings in the included text. |
+     | =pattern="..."= |Include a subset of a topic or a web page. Specify a RegularExpression that scans from start (='^'=) to end and contains the text you want to keep in parenthesis, e.g., =pattern="^.*?(from here.*?to here).*"=. IncludeTopicsAndWebPages has more. | none |
+     | =rev="2"= | Include a previous topic revision; N/A for URLs | top revision |
+     | =raw="on"= | When a page is included, normally %WIKITOOLNAME% will process it, doing the following: 1) Alter relative links to point back to originating host, 2) Remove some basic HTML tags (html, head, body, script) and finally 3) Remove newlines from HTML tags spanning multiple lines. If you prefer to include _exactly_ what is in the source of the originating page set this to =on=. %BR% =raw="on"= is short for =disableremoveheaders="on"=, =disableremovescript="on"=, =disableremovebody="on"=, =disablecompresstags="on"= and =disablerewriteurls="on"=. | disabled |
+     | =literal="on"= | While using the =raw= option will indeed include the raw content, the included content will still be processed and rendered like regular topic content. To disable parsing of the included content, set the =literal= option to ="on"=. | disabled |
+     | =disableremoveheaders="on"= | Bypass stripping headers from included HTML (everything until first =&lt;/head&gt;= tag) | disabled |
+     | =disableremovescript="on"= | Bypass stripping all =&lt;script&gt;= tags from included HTML | disabled |
+     | =disableremovebody="on"= | Bypass stripping the =&lt;/body&gt;= tag and everything around over and below it| disabled |
+     | =disablecompresstags="on"= | Bypass replacing newlines in HTML tags with spaces. This compression step rewrites unmatched &lt;'s into =&amp;lt;= entities unless bypassed | disabled |
+     | =disablerewriteurls="on"= | Bypass rewriting relative URLs into absolute ones | disabled |
+     | =warn="off"= | Warn if topic include fails: Fail silently (if =off=); output default warning (if set to =on=); else, output specific text (use =$topic= for topic name) | =%<nop>INCLUDEWARNING%= [[DefaultPreferences][preferences]] setting |
+     | =section="name"= | Includes only the specified named section, as defined in the included topic by the [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]] and [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]] macros. Nothing is shown if the named section does not exists. =section=""= is equivalent to not specifying a section | |
+     | =PARONE="val 1"%BR% PARTWO="val 2"= | Any other parameter will be defined as a macro within the scope of the included topic. The example parameters on the left will result in =%<nop>PARONE%= and =%<nop>PARTWO%= being defined within the included topic. | |
+   * %H% !JavaScript in included webpages is filtered out as a security precaution per default (disable filter with =disableremovescript= parameter)
+   * Examples: See IncludeTopicsAndWebPages
+   * Related: [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASETOPIC][BASETOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarBASEWEB][BASEWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGTOPIC][INCLUDINGTOPIC]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarINCLUDINGWEB][INCLUDINGWEB]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTINCLUDE][STARTINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTOPINCLUDE][STOPINCLUDE]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarSTARTSECTION][STARTSECTION]], [[%IF{"'%BASETOPIC%'='Macros'" then="#"}%VarENDSECTION][ENDSECTION]]

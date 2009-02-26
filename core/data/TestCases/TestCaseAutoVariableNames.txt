@@ -1,0 +1,101 @@
+%META:TOPICINFO{author="ProjectContributor" date="1142788663" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! %TOPIC%
+
+Description: Testing the rules for variable names by mixing upper case, lower case, numerical and special characters.
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Kenneth Lavrsen
+
+---++ Variable definitions used in the test
+
+   * Set variable = lowercase
+   * Set Variable = Titlecase
+   * Set VariableName = WikiWord
+   * Set VARIABLEVAR = UPPERCASE
+   * Set variable2 = lowercase-with-number
+   * Set Variable2 = Titlecase-with-number
+   * Set VARIABLE2 = UPPERCASE-with-number
+   * Set UP2DATE = MIXEDUPPERNUMBER
+   * Set All4Foswiki = Mix-of-uplownumber
+   * Set camelCase = upperINthemiddle
+   * Set UPPER_UNDERSCORE = UPPERCASE-with-underscore
+   * Set lower_underscore = lowercase-with-underscore
+   * Set Mix_4All = Mix of everything
+   * Set ILLEGAL-CHARACTER = illegal-dash
+
+---++ Test Cases
+
+<table border="1"><tr><th>Case</th><th>Expected</th><th>Actual</th></tr>
+  <tr>
+    <td>Lowercase</td>
+    <td><!-- expected -->lowercase<!-- /expected --></td>
+    <td><!-- actual -->%variable%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Titlecase</td>
+    <td><!-- expected -->Titlecase<!-- /expected --></td>
+    <td><!-- actual -->%Variable%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>WikiWord</td>
+    <td><!-- expected -->WikiWord<!-- /expected --></td>
+    <td><!-- actual -->%VariableName%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Upper-case</td>
+    <td><!-- expected -->UPPERCASE<!-- /expected --></td>
+    <td><!-- actual -->%VARIABLEVAR%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Lower-case with number</td>
+    <td><!-- expected -->lowercase-with-number<!-- /expected --></td>
+    <td><!-- actual -->%variable2%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Title-case with number</td>
+    <td><!-- expected -->Titlecase-with-number<!-- /expected --></td>
+    <td><!-- actual -->%Variable2%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Upper-case with number</td>
+    <td><!-- expected -->UPPERCASE-with-number<!-- /expected --></td>
+    <td><!-- actual -->%VARIABLE2%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Mixed upper-case and number</td>
+    <td><!-- expected -->MIXEDUPPERNUMBER<!-- /expected --></td>
+    <td><!-- actual -->%UP2DATE%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Mix of upper/lower and number</td>
+    <td><!-- expected -->Mix-of-uplownumber<!-- /expected --></td>
+    <td><!-- actual -->%All4Foswiki%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Upper case in the middle</td>
+    <td><!-- expected -->upperINthemiddle<!-- /expected --></td>
+    <td><!-- actual -->%camelCase%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Upper-case with underscore</td>
+    <td><!-- expected -->UPPERCASE-with-underscore<!-- /expected --></td>
+    <td><!-- actual -->%UPPER_UNDERSCORE%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Lower-case with underscore</td>
+    <td><!-- expected -->lowercase-with-underscore<!-- /expected --></td>
+    <td><!-- actual -->%lower_underscore%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Mix of everything</td>
+    <td><!-- expected -->Mix of everything<!-- /expected --></td>
+    <td><!-- actual -->%Mix_4All%<!-- /actual --></td>
+  </tr>
+  <tr>
+    <td>Illegal character</td>
+    <td><!-- expected -->%<nop>ILLEGAL-CHARACTER%<!-- /expected --></td>
+    <td><!-- actual -->%ILLEGAL-CHARACTER%<!-- /actual --></td>
+  </tr>
+</table>

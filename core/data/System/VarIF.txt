@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarIF
+---+++ IF{"condition" ...} -- simple conditionals
+   * Evaluate a condition and show one text or another based on the result. See details in IfStatements
+   * Syntax: =%<nop>IF{"CONDITION" then="THEN" else="ELSE"}%= shows ="THEN"= if ="CONDITION"= evaluates to =TRUE=, otherwise ="ELSE"= will be shown
+   * Example: =%<nop>IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%= renders as =%IF{"defined FUNFACTOR" then="FUNFACTOR is defined" else="FUNFACTOR is not defined"}%=
+   * Related: [[SpreadSheetPlugin#FuncIF][$IF()]] of SpreadSheetPlugin

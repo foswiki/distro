@@ -1,0 +1,10 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSERVERTIME
+---+++ SERVERTIME{"format"} -- formatted server time
+   * Same format qualifiers as =%<nop>GMTIME%=
+   * Syntax: =%<nop>SERVERTIME%= OR =%<nop>SERVERTIME{"format"}%=
+   * =%<nop>SERVERTIME%= uses the Date format defined as {DefaultDateFormat} in [[%SCRIPTURLPATH{"configure"}%][configure]]
+   * Example: =%<nop>SERVERTIME{"$hou:$min"}%= expands to =%SERVERTIME{"$hou:$min"}%=
+   * *%X% Note:* When used in a template topic, this macro will be expanded when the template is used to create a new topic. See TemplateTopics#TemplateTopicsVars for details.
+   * Related: [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarGMTIME][GMTIME]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSERVERTIME][SERVERTIME]]

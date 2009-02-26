@@ -1,0 +1,17 @@
+%{ This is a default template }%%SPLIT%
+Search: %SEARCHSTRING%
+%SPLIT%
+%MAKETEXT{"Topics in [_1] web:" args="<nop>%WEB%"}%
+
+
+%REPEAT%
+
+%WEB%.%TOPICNAME%: %TIME% - %REVISION% %AUTHOR%
+
+%TEXTHEAD%
+
+%REPEAT%
+%SPLIT%
+%MAKETEXT{"Number of topics:"}% <b>%NTOPICS%</b>
+%SPLIT% 
+%{it seems SPLIT does not work if its ends a file}%

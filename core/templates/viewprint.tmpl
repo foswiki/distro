@@ -1,0 +1,21 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+
+%TMPL:DEF{"form"}%%META{"form"}%%TMPL:END%
+%TMPL:DEF{"attachments"}%%META{"attachments"}%%TMPL:END%
+
+%TMPL:DEF{"standardheader"}%%TMPL:END%
+%TMPL:DEF{"simpleheader"}%%TMPL:END%
+
+
+%TMPL:DEF{"topicpathseparator"}%<span class='foswikiSeparator'>&nbsp;&gt;&nbsp;</span>%TMPL:END%
+
+%TMPL:DEF{"topicinfo"}%---
+%MAKETEXT{"This topic:"}% <nop>%WEB%%META{"parent" prefix="%TMPL:P{"topicpathseparator"}%" suffix=""}%%TMPL:P{"topicpathseparator"}%%TOPIC% %BR%
+%MAKETEXT{"Topic revision:"}% %REVINFO%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TEXT%
+#TopicEnd
+%TMPL:P{"form"}%%TMPL:P{"attachments"}%
+%TMPL:P{"topicinfo"}%
+---%TMPL:END%

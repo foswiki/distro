@@ -1,0 +1,25 @@
+%META:TOPICINFO{author="ProjectContributor" date="1169730364" format="1.1" version="1.4"}%
+%META:TOPICPARENT{name="TestCaseAutoFormattedSearch"}%
+Michael Anchor is a famous Danish painter. He never painted $web, $n, $nop, $quot, $percnt or $dollar.
+
+He was married to Anna Anchor who was also a great painter.
+
+This text is fill in text which is there to ensure that the unique word below does not show up in a summary.
+
+It is nice to be able to write a whole lot of word and not say anything. Actually that has happened before.
+
+This formatteduniqueword is only found in this topic.
+
+option option
+
+| *Name* | *Type* | *Tooltip message* |
+| option1 | option | |
+| option2 | option | |
+| option3 | option | |
+
+Note. This test topic must remain rev 4.
+
+%META:FORM{name="FormattedSearchForm"}%
+%META:FIELD{name="Name" attributes="" title="Name" value="Michael Anchor"}%
+%META:FIELD{name="Role" attributes="" title="Role" value="FormattedSearch2"}%
+%META:FIELD{name="Testsample" attributes="" title="Testsample" value="$nop, $quot, $percnt, $dollar in $formfield()"}%

@@ -1,0 +1,30 @@
+%META:TOPICINFO{author="RafaelAlvarez" date="1121121430" format="1.1" version="1.2"}%
+%META:TOPICPARENT{name="WebHome"}%
+
+
+---+!! %TOPIC%
+
+
+
+Description: _Verify that the ==rest== script is working properly_
+
+
+
+Click the link below. If the script is working, a page with the text "This is an example of a REST invocation" should appear.
+
+
+
+[[%SCRIPTURL{"rest"}%/EmptyPlugin/example?debugenableplugin=EmptyPlugin][Call the Plugin]]
+
+
+
+
+
+
+
+
+
+
+
+
+

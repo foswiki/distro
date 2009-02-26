@@ -1,0 +1,797 @@
+#!/usr/bin/perl -wT
+#
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 2000-2009 Foswiki Contributors.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# As per the GPL, removal of this notice is prohibited.
+#
+# Configuration script for Foswiki. Once you have a basic webserver
+# configuration that lets you access this script, the rest of the
+# configuration process is done from here.
+#
+# The script works from the top down, by checking features of the
+# environment before moving on. The sequence is:
+# 1. Check the version of perl
+# 2. Check we have the modules to run this script
+# 3. Check the environment
+# 4. Check we have the modules to load the rest of configure
+# ... and so on. At any stage, the script reports any errors in the
+# best way it can given the environment established so far.
+# When the basic checks are complete, the script moves into the
+# real configuration steps; setting configuration variables.
+#
+# This phase of the configure environment follows a Model-View-
+# Controller pattern.
+#
+# Controller
+# This script is the controller; it handles communication with the
+# browser (and thus the user). Communication is very simple; this script
+# is re-invoked with different 'action' parameters to determine what it does.
+#
+# Model
+# The Model consists of a simple node tree, where each node represents a
+# structural element in the *presentation* of the configuration (this may
+# not be consistent with the structure of $Foswiki:cfg, so beware). Each
+# leaf node has an associated Type (in the Types subdirectory) that has
+# collected model and view behaviours for the basic types.
+# The Model is independent of the language used to represent the
+# configuration. There is one parser/generator provided, FoswikiCfg, but it
+# would be trivial to add others.
+#
+# The View is a DOM document, generated as HTML by a set of UI classes.
+# Because of some convoluted history, there are actually three sets of classes
+# that generate views. They are all subclasses of Foswiki::Configure::UI
+#    UIs - are top-level and pluggable UI components. All the main screens are
+#          implemented here.
+#    Checkers - are specialised UIs designed to give checking support for
+#          variable values. Checkers also include the read-only checking
+#          UIs used for checking environment.
+#    Types - provide some UI support in the form of type-specific prompters.
+#          this is really an abuse of the Model, but it saves creating
+#          decorator classes for all the Model types.
+# HTML is generated for the model using Visitor pattern. Each node in the tree
+# is visited in depth-first order.
+#
+use strict;
+use warnings;
+
+# This is absolutely essential for error reporting. We load it using
+# an eval so we can report the problem.
+eval "use CGI::Carp qw(fatalsToBrowser)";
+if ($@) {
+    print <<"REPORT";
+Content-type: text/plain
+
+Could not load CGI::Carp. Please install this module before continuing.
+It can be downloaded from http://www.cpan.org
+
+The error seen was:
+$@
+REPORT
+    exit 1;
+}
+
+###########################################################
+# VERY basic stuff required for configure to work. Any errors
+# during this phase will throw a die, which will be picked up
+# using CGI::Carp fatalsToBrowser
+
+# Warnings are fatal
+$SIG{'__WARN__'} = sub { die @_ };
+
+eval 'require 5.00503';
+die $@ if $@;
+
+# We warn against running Foswiki on an older Perl version then 5.8.4
+# but we will not let configure die in this situation. The user
+# may have updated many libraries and tweaked Foswiki so let us give
+# him a chance.
+my $perlversion = $];
+if ( $perlversion < 5.006 ) {
+    print STDERR <<HERE;
+Your perl version is older than 5.6.0.
+Foswiki has only been successfully tested on Perl 5.6.X and 5.8.X,
+and there have been reports that it does not run on 5.5.
+Running Foswiki with an older Perl version requires upgrading of modules and
+tweaking of the Foswiki code.
+HERE
+}
+
+# Get web server's user and group info
+use vars qw($WebServer_uid $WebServer_gid);
+$WebServer_uid = $WebServer_gid = '';
+
+eval { $WebServer_uid = getlogin() || getpwuid($>) || ''; };
+
+eval {
+    $WebServer_gid = join( ',', map { lc( getgrgid($_) ) } split( ' ', $( ) );
+};
+if ($@) {
+
+    # Try to use Cygwin's 'id' command - may be on the path, since Cygwin
+    # is probably installed to supply ls, egrep, etc - if it isn't, give
+    # up.
+    # Run command without stderr output, to avoid CGI giving error.
+    # Get names of primary and other groups.
+    $WebServer_gid = lc(qx(sh -c '( id -un ; id -gn) 2>/dev/null' 2>nul ));
+}
+
+my $localLibFailure;
+
+sub _loadBasicModule {
+    my ($module) = @_;
+
+    eval "use $module";
+    if ($@) {
+        my $reason = "Failed to load the perl module $module. The module ";
+
+        # See if we can find the .pm on @INC
+        my $foundAt = "could not be found. ";
+        my $modpath = $module;
+        if ( $modpath =~ /^([\w:]+)/ ) {
+            $modpath =~ s#::#/#g;
+            $modpath .= '.pm';
+            foreach my $path (@INC) {
+                if ( -e "$path/$modpath" ) {
+                    $foundAt = "was found at $path/$modpath";
+                    if ( !-r "$path/$modpath" ) {
+                        $foundAt .= ", but I don't have permission to read it.";
+                    }
+                    last;
+                }
+            }
+        }
+        $reason .= $foundAt;
+
+        $reason .= <<HERE;
+
+
+Please ensure that:
+   1 $module is installed,
+   2 that the module is available on the \@INC path,
+   3 that the webserver user ($WebServer_uid) has permission to read the $modpath file.
+HERE
+
+        $reason .= <<HERE;
+The detailed error seen was:
+$@
+HERE
+        if ($localLibFailure) {
+            $reason .= <<HERE;
+
+NOTE that I was unable to load LocalLib.cfg because of the following error:
+
+$localLibFailure
+HERE
+        }
+        die $reason;
+    }
+}
+
+foreach my $module ( 'FindBin', 'File::Spec', 'Config', 'CGI qw(:any)', ) {
+    _loadBasicModule($module);
+}
+
+# Capture DIE for stack *when debugging*
+#$SIG{__DIE__} = sub { Carp::confess( $_[0] || '' ) };
+
+###########################################################
+# Establish the path to the Foswiki library
+
+# Set the working dir to the bin dir
+no warnings;
+$FindBin::Bin =~ /^(.*)$/;
+use warnings;
+chdir($1);
+my @root = File::Spec->splitdir($1);
+pop(@root);
+my @script     = File::Spec->splitdir($0);
+my $scriptName = pop(@script);
+$scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
+
+# Try to load the LocalLib.cfg optional overload
+
+# Paths from LocalLib.cfg (preferred)
+use vars qw( $twikiLibPath @localPerlLibPath );
+
+use lib '.';
+eval 'require "setlib.cfg"';
+
+if ($@) {
+
+    # No joy. Remember the failure so we can report it later.
+    $localLibFailure = $@;
+
+    # Stick the root/lib on the path; there's a high probability we'll be
+    # able to find the bits of Foswiki::Configure that way. We will report
+    # the setlib error later.
+    unshift( @INC, File::Spec->catfile( @root, 'lib' ) );
+}
+
+# Load all the bits of the configure module that we explicitly use
+# The loadBasicModule does some extra analysis on errors.
+foreach my $module (
+    'Cwd',                               'Data::Dumper',
+    'File::Copy',                        'File::Temp',
+    'Foswiki::Configure::Checker',       'Foswiki::Configure::CSS',
+    'Foswiki::Configure::Item',          'Foswiki::Configure::JS',
+    'Foswiki::Configure::Load',          'Foswiki::Configure::Pluggable',
+    'Foswiki::Configure::Root',          'Foswiki::Configure::Section',
+    'Foswiki::Configure::Type',          'Foswiki::Configure::Types::BOOLEAN',
+    'Foswiki::Configure::Types::NUMBER', 'Foswiki::Configure::Types::SELECT',
+    'Foswiki::Configure::Types::STRING', 'Foswiki::Configure::FoswikiCfg',
+    'Foswiki::Configure::UI',            'Foswiki::Configure::UIs::Section',
+    'Foswiki::Configure::Value',         'Foswiki::Configure::Valuer',
+  )
+{
+    _loadBasicModule($module);
+}
+
+$| = 1;    # no buffering on STDOUT
+
+###########################################################
+# From this point on we shouldn't have any more "fatal" (to configure)
+# errors, so we can report errors in the browser (i.e. without using die)
+
+# We are configuring $Foswiki::cfg, so we need to be in package Foswiki from
+# now on.
+package Foswiki;
+
+# We keep the actual config, and the default from Foswiki.spec, separate
+use vars qw( %cfg $defaultCfg );
+
+# Declared in Foswiki to support checkers
+use vars qw( $query );
+
+# 'constants' used in Foswiki.spec
+use vars qw( $TRUE $FALSE );
+$TRUE  = 1;
+$FALSE = 0;
+our $sanityStatement;
+our $badLSC;
+
+# Remember what we detected previously, for use by Checkers
+if ( $scriptName =~ /(\.\w+)$/ ) {
+    $Foswiki::cfg{DETECTED}{ScriptExtension} = $1;
+}
+
+# very basic tool
+sub findFileOnPath {
+    my $file = shift;
+
+    $file =~ s(::)(/)g;
+
+    foreach my $dir (@INC) {
+        if ( -e "$dir/$file" ) {
+            return "$dir/$file";
+        }
+    }
+    return undef;
+}
+
+###########################################################
+# Grope the OS. This duplicates a bit of code in Foswiki.pm,
+# but it has to be duplicated because we don't want to deal
+# with loading Foswiki just yet.
+
+unless ( $Foswiki::cfg{DetailedOS} ) {
+    $Foswiki::cfg{DetailedOS} = $^O;
+    unless ( $Foswiki::cfg{DetailedOS} ) {
+        require Config;
+        $Foswiki::cfg{DetailedOS} = $Config::Config{osname};
+    }
+}
+unless ( $Foswiki::cfg{OS} ) {
+    if ( $Foswiki::cfg{DetailedOS} =~ /darwin/i ) {    # MacOS X
+        $Foswiki::cfg{OS} = 'UNIX';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /Win/i ) {
+        $Foswiki::cfg{OS} = 'WINDOWS';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /vms/i ) {
+        $Foswiki::cfg{OS} = 'VMS';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /bsdos/i ) {
+        $Foswiki::cfg{OS} = 'UNIX';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /dos/i ) {
+        $Foswiki::cfg{OS} = 'DOS';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /^MacOS$/i ) {    # MacOS 9 or earlier
+        $Foswiki::cfg{OS} = 'MACINTOSH';
+    }
+    elsif ( $Foswiki::cfg{DetailedOS} =~ /os2/i ) {
+        $Foswiki::cfg{OS} = 'OS2';
+    }
+    else {
+        $Foswiki::cfg{OS} = 'UNIX';
+    }
+}
+
+$query = new CGI;
+
+my $url         = $query->url();
+my $action      = $query->param('action') || 'Configure';
+my $expertsMode = defined( $query->param('expert') );
+
+# Handle serving an image embedded in the configure page, before generating
+# any other output
+if ( $action eq 'image' ) {
+    my $image = $query->param('image');
+    $image =~ /^([-.\w]+)$/;    # filter-in
+    $image = $1;
+    if (
+        ( defined($image) )
+        && (   ( $image eq 'favicon.ico' )
+            || ( $image eq 'foswiki-logo-slogan.png' )
+            || ( $image eq 'warning.gif' )
+            || ( $image eq 'info.gif' ) )
+      )
+    {
+
+        #ignore $query->param('type') and set it using our special knowledge
+        my $type = 'image/gif';
+        if ( $image =~ /.*\.ico$/ ) {
+            $type = 'image/x-icon';
+        }
+
+        if ( open( my $F, '<', 'logos/' . $image ) ) {
+            local $/ = undef;
+
+            # SMELL: this call is correct, but causes a perl error
+            # on some versions of CGI.pm
+            # print $query->header(-type => $query->param('type'));
+            # So use this instead:
+            print 'Content-type: ' . $type . "\n\n";
+            print <$F>;
+            close($F);
+        }
+    }
+    exit 0;
+}
+
+my $header            = _htmlHeader();
+my $bodyContentsStart = _htmlBodyContentsStart();
+my $bodyContentsEnd   = _htmlBodyContentsEnd();
+
+print $header;
+print $bodyContentsStart;
+print _dispatchContents();
+print $bodyContentsEnd;
+
+###########################################################
+# End of the main program; the rest is all subs
+
+sub _dispatchContents {
+    my $message = '';
+    my $stub    = new Foswiki::Configure::Item();
+
+    # This call will define $Foswiki::defaultCfg by loading .spec files
+    my $sanityUI = Foswiki::Configure::UI::loadChecker( 'BasicSanity', $stub );
+
+    # set globals
+    ( $sanityStatement, $badLSC ) = $sanityUI->ui();
+    $sanityStatement =
+      "<div class='foswikiNotification foswikiAlert'>$sanityStatement</div>"
+      if $sanityStatement;
+
+    # This is the dispatcher; $action is the name of the action to perform,
+    # this is concatenated to _action to determine the name of the procedure.
+    # Dispatcher methods return a boolean to indicate whether to generate a
+    # link back to the main page at the end.
+    if ( $sanityUI->insane() || $query->param('abort') ) {
+        $message = $sanityStatement;
+    }
+    else {
+
+        $action =~ s/\W//g;
+        my $method = '_action' . $action;
+
+        die "Undefined action $action" unless defined(&$method);
+
+        no strict 'refs';
+        my $reroute = &$method();
+        use strict 'refs';
+
+        if ($reroute) {
+            $message = CGI::div(
+                CGI::a(
+                    {
+                        href => $scriptName . '?t=' . time(),
+                        rel  => 'nofollow'
+                    },
+                    'Return to configuration'
+                ),
+                CGI::br()
+            );
+        }
+    }
+    return $message;
+}
+
+=pod
+
+Returns <head>...</head> including meta data as javascript and css.
+
+=cut
+
+sub _htmlHeader {
+    my $header = CGI::header('text/html');
+
+    # Generate standard page header
+    $header .= CGI::start_html(
+        -title => 'Foswiki Configuration',
+        -head  => _htmlMetaList(),
+        -class => 'patternNoViewPage'
+    );
+
+    # XML header confuses IE, so strip it out. This is fixed in CGI.pm 3.06
+    # (and IE 7, but who's counting?)
+    if ( $CGI::VERSION < 3.06 ) {
+        $header =~ s/^<\?xml.*?>//s;
+    }
+    return $header;
+}
+
+=pod
+
+Returns html for body divs. Adds logo image.
+
+=cut
+
+sub _htmlBodyContentsStart {
+    my $contents = <<'HERE';
+  <div id="patternScreen">
+    <div id="patternPageShadow">
+     <div id="patternPage">
+       <div id="patternOuter">
+         <div id="patternFloatWrap">
+           <div id="patternMain">
+             <div id="patternMainContents">
+               <div id="patternTopic">
+HERE
+    $contents .= CGI::img(
+        {
+            src => $scriptName
+              . '?action=image;image=foswiki-logo-slogan.png;type=image/png',
+            class => 'logo',
+            alt   => 'Foswiki logo'
+        }
+    );
+    return $contents;
+}
+
+sub _htmlBodyContentsEnd {
+    my $contents = <<'HERE';
+                  </div><!-- /patternTopic-->
+                </div><!-- /patternMainContents-->
+              </div><!-- /patternMain-->
+            </div><!-- /patternFloatWrap-->
+          <div class="clear">&nbsp;</div>
+        </div><!-- /patternOuter-->
+      </div><!-- /patternPage-->
+    </div><!-- /patternPageShadow-->
+  </div><!-- /patternScreen-->
+</body></html>
+HERE
+    return $contents;
+}
+
+=pod
+
+_htmlMetaList() -> \@meta
+
+Returns array of meta elements.
+
+=cut
+
+sub _htmlMetaList {
+    my @meta = (
+        CGI::meta( { 'http-equiv' => 'Pragma',        content => 'no-cache' } ),
+        CGI::meta( { 'http-equiv' => 'Cache-Control', content => 'no-cache' } ),
+        CGI::meta( { 'http-equiv' => 'Expires',       content => 0 } ),
+        CGI::meta( { name         => 'robots',        content => 'noindex' } ),
+        CGI::Link(
+            {
+                -rel  => 'icon',
+                -href => $scriptName
+                  . '?action=image;image=favicon.ico;type=image/x-icon',
+                -type => 'image/x-icon'
+            }
+        ),
+        CGI::Link(
+            {
+                -rel  => 'shortcut icon',
+                -href => $scriptName
+                  . '?action=image;image=favicon.ico;type=image/x-icon',
+                -type => 'image/x-icon'
+            }
+        ),
+        CGI::script(
+            {
+                language => 'JavaScript',
+                type     => 'text/javascript'
+            },
+            Foswiki::Configure::JS::js1()
+        ),
+        CGI::style( { -type => 'text/css' }, Foswiki::Configure::CSS::css() ),
+        CGI::script(
+            {
+                language => 'JavaScript',
+                type     => 'text/javascript'
+            },
+            Foswiki::Configure::JS::js2()
+        ),
+    );
+    return \@meta;
+}
+
+sub _checkLoadUI {
+    my ( $uiname, $root ) = @_;
+    my $ui = Foswiki::Configure::UI::loadUI( $uiname, $root );
+    unless ($ui) {
+        print "Could not load $uiname UI. Error was: <pre>$@</pre>";
+        if ( $@ =~ /Can't locate (\S+)/ ) {
+            print <<HERE
+You may be able to correct this error by installing the missing $1 module.
+HERE
+        }
+    }
+    return $ui;
+}
+
+# Action invoked by 'Next' button on the main screen
+sub _actionNext {
+    my $valuer =
+      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+    my %updated;
+    my $modified = $valuer->loadCGIParams( $Foswiki::query, \%updated );
+
+    # create the root of the UI
+    my $root = new Foswiki::Configure::Root();
+    my $ui;
+    if ( !Foswiki::Configure::UI::authorised() ) {
+        print CGI::h2('Authorisation is required to save.');
+        print CGI::div( $modified
+              . ' configuration item'
+              . ( $modified == 1 ? ' was' : 's were' )
+              . ' changed' );
+        if ($modified) {
+            print CGI::div( join( ' ', keys %updated ) );
+        }
+        $ui = _checkLoadUI( 'AUTH', $root );
+        return 1 unless $ui;
+        print $ui->ui( 1, 'Save' );
+    }
+    else {
+
+        # Load the specs from the .spec files and generate the UI template
+        Foswiki::Configure::FoswikiCfg::load( $root, 1 );
+
+        $ui = _checkLoadUI( 'UPDATE', $root );
+        return 1 unless $ui;
+        print $ui->ui( $root, $valuer, \%updated );
+    }
+    return 1;
+}
+
+# Invoked by "find more extensions" button in the Extensions section
+sub _actionFindMoreExtensions {
+    my $root = new Foswiki::Configure::Root();
+    print CGI::h1('Find Foswiki Extensions');
+
+    my $ui = _checkLoadUI( 'EXTENSIONS', $root );
+    return 1 unless $ui;
+
+    print $ui->ui();
+    return 1;
+}
+
+# Invoked when an extension is to be installed
+sub _actionInstallExtension {
+    my $root = new Foswiki::Configure::Root();
+    my $ui;
+    if ( !Foswiki::Configure::UI::authorised() ) {
+        $ui = _checkLoadUI( 'AUTH', $root );
+        return 1 unless $ui;
+        print $ui->ui( 0, 'Install ' . ( $query->param('extension') || '' ) );
+    }
+    else {
+        $ui = _checkLoadUI( 'EXTEND', $root );
+        return 1 unless $ui;
+        print $ui->ui();
+    }
+    return 1;
+}
+
+# This is the default screen
+sub _actionConfigure {
+
+    $Foswiki::Configure::UI::toterrors   = 0;
+    $Foswiki::Configure::UI::totwarnings = 0;
+
+    print CGI::h1('Configuration');
+    if ( !$query->auth_type() ) {
+        print <<'OH_DEAR';
+<div class='foswikiNotification foswikiAlert noAuthWarning'><strong>BIG, BIG WARNING!</strong> <br />This screen was accessed without requiring authentication. <b>This is a
+high security risk!</b> You should always make sure the configuration
+interface requires authentication, or it may be used by a hacker
+to modify your Foswiki configuration. See for <a href="http://foswiki.org/Support/ProtectingYourConfiguration">Protecting Your Configuration</a> for more information on
+limiting access to configuration.</div>
+OH_DEAR
+    }
+    print $sanityStatement;
+
+    # The first three sections go without a root
+    my $stub = new Foswiki::Configure::Item();
+    my $eui = Foswiki::Configure::UI::loadChecker( 'Environment', $stub );
+
+    # See if this platform has special detection or checking requirements
+    # (most don't)
+    $stub = new Foswiki::Configure::Item();
+    my $osui =
+      Foswiki::Configure::UI::loadChecker( $Config::Config{osname}, $stub );
+
+    $stub = new Foswiki::Configure::Item();
+    my $cgiui = Foswiki::Configure::UI::loadChecker( 'CGISetup', $stub );
+
+    # Use a separate root for the _saveable_ sections
+    my $root = new Foswiki::Configure::Root();
+    my $valuer =
+      new Foswiki::Configure::Valuer( $Foswiki::defaultCfg, \%Foswiki::cfg );
+
+    # Load the config structures.
+    Foswiki::Configure::FoswikiCfg::load( $root, !$badLSC );
+
+    if ( !$badLSC ) {
+        print <<HERE;
+  <p><strong>Use this page to set the configuration options for Foswiki.
+  Fill in the settings, and then press 'Next'.</strong></p>
+  <div class="foswikiHelp">
+  <div class="foswikiLeft" style="width:45%;">
+   <ul>
+    <li><b>If your Foswiki site is already working</b>, continue to
+     <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome">
+browse to the Foswiki WebHome</a>.
+     <ul>
+      <li>You will now need to consider how you are going to manage
+       authentication and access control. See the reference manual
+       sections on <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/UserAuthentication">
+ authentication</a>
+       and
+       <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/AccessControl">
+        access control</a>, and the
+       <a rel="nofollow" href="#" onclick="foldBlock('SecuritySetup'); return false;">Security Setup</a>
+       section below.
+      </li>
+     </ul>
+    </li>
+    <li><b>To become an administrator</b> you need to first <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/UserRegistration">
+register</a> as a normal user first and then add your wikiname to the <a rel="nofollow" href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{UsersWebName}/$Foswiki::cfg{SuperAdminGroup}">
+ $Foswiki::cfg{SuperAdminGroup}</a> (follow the text in yellow).
+    </li>
+    <li>
+     <b>If you are on a non-standard platform or environment</b> there are a lot of
+     <a href="http://foswiki.org/Support/SupplementalDocuments">supplemental documents</a> on Foswiki.org
+    </li>
+    <li>
+      <b>If you get stuck</b> there is a lot of support available at the
+      <a href="http://foswiki.org/Support/WebHome">Support forum</a>.
+     </li>
+    </ul>
+   </div><!--/foswikiLeft-->
+   <div class="foswikiLeft" style="width:45%; margin-left:1em;">Explanation of colours and symbols:
+    <ul style="margin-top:0;">
+     <li>Settings marked <span class='mandatory'>like this</span> are required
+      (they must have a value).</li>
+     <li>Any <span class='error'>errors</span> in your configuration will be
+      highlighted.</li>
+     <li><span class='warn'>Warnings</span> are non-fatal, but are often a good
+      indicator that something that is wrong.</li>
+     <li>The little <span class='foswikiAlert' title="Not here, stupid. In the table below!">&delta;</span> after an entry means that the current value is <b>not</b> the same as the default value. If you hover the cursor over the <span class='foswikiAlert' title="Not here, stupid. In the table below!">&delta;</span>, a popup will show you what the default value is.</li>
+     <li><b><font color="#f00">EXPERT</font></b> means a setting is for expert use only. You should not fiddle with it unless you know what you are doing, or at least have read all the documentation.
+HERE
+        if ( !$expertsMode ) {
+            print <<HERE
+ EXPERT options are hidden unless you click the button: <form action=""><input type="submit" class="foswikiButton" value="Yes, I've read all the documentation" /><input type="hidden" name="t" value="@{[time()]}" /><input type="hidden" name="expert" value="1" /></form>
+HERE
+        }
+        print <<HERE;
+     </li>
+    </ul>
+  </div><br class="foswikiClear" /></div><!--/foswikiLeft foswikiHelp-->
+HERE
+    }
+
+    print CGI::start_form(
+        {
+            name   => 'update',
+            action => $scriptName,
+            method => "post"
+        }
+    );
+
+    # use time to make sure we never allow cacheing
+    print CGI::hidden( 'time', time() );
+    print '<br class="foswikiClear" />' . "\n";
+    print CGI::h2('Settings') . "\n"
+      . CGI::span( { class => 'foswikiLeft' },
+        'Click the buttons below to open each section' )
+      . CGI::div(
+        { class => 'foswikiRight' },
+        ,
+        ' '
+          . CGI::a(
+            {
+                href    => '#',
+                rel     => 'nofollow',
+                onclick => 'toggleAllOptions(true); return false;',
+            },
+            'Open all sections'
+          )
+          . ' '
+          . CGI::a(
+            {
+                href    => '#',
+                rel     => 'nofollow',
+                onclick => 'toggleAllOptions(false); return false;',
+            },
+            'Close all sections'
+          )
+
+      ) . '<br class="foswikiClear" />';
+
+    print '<div class="blockLinks">';
+    print $eui->ui();
+    print $osui->ui()  if $osui;
+    print $cgiui->ui() if $cgiui;
+
+    # Load the UI for the configuration and whack it out
+    my $ui = _checkLoadUI( 'Root', $root );
+    return 1 unless $ui;
+    $ui->{experts} = $expertsMode;
+    print $ui->ui( $root, $valuer );
+    print '</div><!--/blockLinks-->';
+
+    if (   $Foswiki::Configure::UI::toterrors
+        || $Foswiki::Configure::UI::totwarnings )
+    {
+        my $mess =
+            'Total: '
+          . $Foswiki::Configure::UI::toterrors
+          . ' error'
+          . ( $Foswiki::Configure::UI::toterrors == 1 ? '' : 's' ) . ', '
+          . $Foswiki::Configure::UI::totwarnings
+          . ' warning'
+          . ( $Foswiki::Configure::UI::totwarnings == 1 ? '' : 's' );
+        print CGI::div($mess);
+    }
+
+    print CGI::p(
+        CGI::submit(
+            -class     => 'foswikiSubmit',
+            -name      => 'action',
+            -value     => 'Next',
+            -accesskey => 'N'
+        )
+    );
+    print
+"<p><a href=\"$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}/$Foswiki::cfg{SystemWebName}/WebHome\">Cancel and return to Foswiki WebHome</a></p>";
+
+    print CGI::end_form();
+
+    return 0;
+}
+
+1;

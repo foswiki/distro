@@ -1,0 +1,36 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarMAKETEXT
+---+++ MAKETEXT -- creates text using Foswiki's <nop>I18N infrastructure
+   * Syntax: =%<nop>MAKETEXT{"string" args="..."}%=
+   * Supported parameters:
+     | *Parameter* | *Description* | *Default* |
+     | ="text"= or =string="text"= | The text to be displayed. | _none_ |
+     | =args="param1, param2"= | a comma-separated list of arguments to be interpolated in the string, replacing the =[_N]= placeholders in it. | _none_ |
+   * Examples:
+      * =%<nop>MAKETEXT{string="Notes:"}%=
+        %BR% expands to %BR%
+        <em> %MAKETEXT{string="Notes:"}% </em>
+      * =%<nop>MAKETEXT{"If you have any questions, please contact [_1]." args="%<nop>WIKIWEBMASTER%"}%=
+        %BR% expands to %BR%
+        <em> %MAKETEXT{"If you have any questions, please contact [_1]." args="%WIKIWEBMASTER%"}% </em>
+      * =%<nop>MAKETEXT{"Did you want to [<nop>[<nop>[<nop>_1]<nop>]<nop>[reset [_2]'s password]<nop>]<nop>?" args="%<nop>SYSTEMWEB%.ResetPassword,%<nop>WIKIUSERNAME%"}%=
+        %BR% expands to %BR%
+        <em> %MAKETEXT{"Did you want to [[[_1]][reset [_2]'s password]]?" args="%SYSTEMWEB%.ResetPassword,%WIKIUSERNAME%"}% </em>
+   * *Notes:*
+      * Foswiki will translate the =string= to the current user's language _only_
+        if it has such string in its translation table for that language.
+      * Amperstands (<code>&amp;</code>) followed by one letter (one of a...z, A...Z)
+        (say, =X=) in the translatable string will be translated to 
+        <code>&lt;span class='foswikiAccessKey'&gt;X&lt;/span&gt;</code>.
+        This is used to implement access keys.
+        If you want to write an actual amperstand that stays just before a letter,
+        write two consecutive amperstands (<code>&amp;&amp;</code>): they will
+        be transformed in just one.
+      * translatable string starting with underscores (<code>_</code>) are reserved. You
+        *cannot* use translatable phrases starting with an underscore.
+      * Make sure that the translatable string is _constant_. Specially, do *not*
+        include <code>%<nop>MACROS%</code> inside the translatable strings
+        (since they will get expanded *before* the <code>%<nop>MAKETEXT{...}%</code>
+        itself is handled).
+

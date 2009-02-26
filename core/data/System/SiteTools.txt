@@ -1,0 +1,167 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%STARTINCLUDE%
+---+ Site Tools
+
+_Utilities for searching, navigation, and monitoring site activity_
+
+Site Tools include utilities for navigating, searching and keeping up with site activity.
+
+In particular, you have two highly configurable, automated site monitoring tools, *<nop>WebNotify*, to e-mail alerts when topics are edited, and *<nop>WebStatistics*, to generate detailed activity reports.
+
+%TOC%
+
+#WebNotify
+---++ <nop>WebNotify - recent changes alert
+
+%INCLUDE{"WebChangesAlert"}%
+
+#WebSearch
+---++ <nop>WebSearch - search the site
+
+WebSearch is a flexible search facility, part of the core feature set. WebSearchAdvanced offers more options, including:
+   * topic title or full-text search
+   * regular expressions
+   * query search over form data
+   * search within web or site-wide
+   * index-style A-Z alphabetical listing sorted topic title
+   * many more
+
+See also: SearchHelp for help; [[%SYSTEMWEB%.Macros][Macros]] and FormattedSearch for including hard-coded searches in text.
+
+#WebChanges
+---++ <nop>WebChanges - what's new
+
+To check for the most recently edited topics while on-site, use the WebChanges link, usually located in the toolbar. It lists the most recently modified topics, newest first, along with the first couple of lines of the page content.
+
+This is simply a preset =SEARCH=. The number of topics listed by the =limit= parameter.:
+<blockquote>
+<pre>
+%<nop>SEARCH{ ".*" web="%BASEWEB%" type="regex" nosearch="on" order="modified"%BR% reverse="on" 
+limit="50" }%
+</pre>
+</blockquote>
+
+#WebRssAndAtom
+---++ <nop>WebRss and <nop>WebAtom - news feeds on recent changes
+
+You can point your news reader at WebRss and WebAtom to find out what is new in a web. WebRssBase and WebAtomBase have the details. Like WebChanges, this is based on a =%<nop>SEARCH{}%=.
+
+#WebIndex
+---++ <nop>WebIndex - list of topics
+
+WebIndex lists all web topics in alphabetical order, with the first couple of lines of text. This is simply a preset =SEARCH=:
+<blockquote>
+<pre>
+%<nop>SEARCH{ "\.*" scope="topic" type="regex" nosearch="on" }%
+</pre>
+</blockquote>
+
+#WebStatistics
+---++ <nop>WebStatistics - site statistics
+
+You can generate a listing manually, or on an automated schedule, of visits to individual pages, on a per web basis. Compiled as a running total on a monthly basis. Includes totals for Topic Views, Topic Saves, Attachment Uploads, Most Popular Topics with number of views, and Top Contributors showing total of saves and attachment uploads. Previous months are saved.
+
+   * You can create a WebStatistics link using ==%<nop>STATISTICSTOPIC%==
+
+---+++ Configuring for automatic operation
+
+   * You can automatically generate usage statistics for all webs. To enable this:
+      * Make sure configure settings *{Log}{view}*, *{Log}{save}* and *{Log}{upload} in are set in [[%SCRIPTURLPATH{"configure"}%][configure]]. This will generate log file entries (see below).
+      * The WebStatistics topic must be present in all webs where you want to have statistics. You can use the topic in the Main web as a template.
+      * Call the =bin/statistics= script from a cron job, once a day is recommended. This will update the WebStatistics topics in all webs.
+      * *Attention:* The script must run as the same user as the CGI scripts are running, which is user =nobody= on many systems. Example crontab entry: %BR% =0 0 * * * (cd /path/to/bin; ./statistics &gt;/dev/null 2&gt;&amp;1)=
+      * There is a workaround in case you can't run the script as user =nobody= : Run the utility =tools/geturl.pl= in your cron job and specify the URL of the =bin/statistics= script as a parameter. Example: %BR% =0 0 * * * (cd /path/to/tools; ./geturl.pl mydomain.com /urlpath/to/bin/statistics &gt;/dev/null 2&gt;&amp;1)= 
+      * *NOTE:* =geturl.pl= will do a CGI request as the <nop>WikiGuest user, so if you use this workaround, the !WebStatistics topics you are updating will have to be writable by <nop>WikiGuest.
+
+When running from the command line or a cron job, you can pass parameters to the script like this:
+<verbatim>
+./statistics -logdate 200605 -webs Userweb,Sandbox
+</verbatim>
+
+---+++ Generating statistics manually by URL
+
+   * The =bin/statistics= script can also be executed as a CGI script, just enter the URL in your browser. Examples:
+      * Update current month for all webs you have access to: %BR% =%SCRIPTURLPATH{statistics}%=
+      * Update current month for %USERSWEB% web only: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%=
+      * Update %SERVERTIME{$month $year}% for %USERSWEB% web: %BR% =%SCRIPTURLPATH{statistics}%/%USERSWEB%?logdate=%SERVERTIME{$year$mo}%=
+      * Update %SERVERTIME{$month $year}% for the !ProjectX, !ProjectY and !ProjectZ webs: %BR% =%SCRIPTURLPATH{statistics}%?logdate=%SERVERTIME{$year$mo}%;webs=Project<nop>X,Project<nop>Y,Project<nop>Z=
+
+#LogFiles
+---++ Log Files
+
+Foswiki generates monthly log files which are used by the statistics script
+   * The log file is defined by the *{LogFileName}* setting in [[%SCRIPTURLPATH{"configure"}%][configure]]
+   * The file name is =log&lt;year&gt;&lt;month&gt;.txt=
+   * Example path name: =logs/log%SERVERTIME{$year$mo}%.txt=
+   * Each access gets logged as: %BR%
+     =| &lt;time&gt; | &lt;wikiusername&gt; | &lt;action&gt; | &lt;web&gt;.&lt;topic&gt; | &lt;extra info&gt; | &lt;IP address&gt; |=
+   * Example log entry: %BR%
+     =| %SERVERTIME{$day $mon $year - $hour:$min}% | %USERSWEB%.WikiGuest | view | %SYSTEMWEB%.WebRss |  | 66.124.232.02 |=
+   * Actions are logged if enabled in [[%SCRIPTURLPATH{"configure"}%][configure]] by the *{Log}{<i>action</i>}* flags
+   * Logged actions:
+     | *Script* | *Action name* | *Extra info* |
+     | attach | =attach= | when viewing attach screen of previous uploaded attachment: =filename= |
+     | changes | =changes= |  |
+     | edit | =edit= | when editing non-existing topic: =(not exist)= |
+     | rdiff | =rdiff= | higher and lower revision numbers: =4 3= |
+     | register | =regstart= | !WikiUserName, e-Mail address, LoginName: =user attempts to register= |
+     | register | =register= | E-mail address: =user successfully registers= |
+     | register | =bulkregister= | !WikiUserName of new, e-mail address, admin ID |
+     | manage | =rename= | when moving topic: =moved to !Newweb.NewTopic= |
+     | manage | =move= | when moving attachment: =Attachment filename moved to !Newweb.NewTopic= |
+     | manage | =renameweb= | when renaming a web: =oldweb moved to newweb= |
+     | save | =save= | when replacing existing revision: =repRev 3= %BR% when user checks the minor changes box: =dontNotify= %BR% when user changes attributes to an exising attachment: =filename.ext= |
+     | save | =cmd= | special admin parameter used when saving |
+     | search | =search= | search string |
+     | upload | =upload= | filename |
+     | view | =view= | when viewing non-existing topic: =(not exist)= %BR% when viewing previous topic revision: =r3= |
+
+#ConfigureEmail
+---++ E-mail
+
+---+++ Configuring outgoing mail
+
+Outgoing mail is required for UserRegistration and for [[#WebNotify][recent changes alert]].
+
+Foswiki will use the ==Net::SMTP== module if it is installed on your system. Set this with the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
+
+The notify e-mail uses the default =changes.tmpl= template, or a skin if activated by a [[%SYSTEMWEB%.PreferenceSettings][preference setting]].
+
+mailnotify also relies on two hidden files in each =data/Web= directory: =.changes= and =.mailnotify.= Make sure both are writable by your web server process. =.changes= contains a list of changes; go ahead and make this empty. =.mailnotify= contains a timestamp of the last time notification was done.
+
+You can use an external mail program, such as ==sendmail==, if the =Net::SMTP= module is not installed. Set the program path in =={MailProgram}== in [[%SCRIPTURLPATH{"configure"}%][configure]].
+
+!   * %H% Net::SMTP can be easily disabled (if there is an installation error) by setting the ==SMTPMAILHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to an empty value.
+
+   * %T% You can set a separate ==SMTPSENDERHOST== [[%SYSTEMWEB%.PreferenceSettings][preference setting]] to define the mail sender host (some SMTP installations require this).
+
+---+++ Setting the automatic e-mail schedule
+
+*For Unix platforms:* Edit the =cron= table so that =mailnotify= is called in an interval of your choice. Please consult =man crontab= of how to modify the table that schedules program execution at certain intervals. Example:
+<pre>
+% crontab -e
+0 1 * * * (cd /path/to/bin; ./mailnotify -q)
+</pre>
+The above line will run mailnotify nightly at 01:00. The =-q= switch suppresses all normal output.
+
+*For ISP installations:* Many ISPs don't allow hosted accounts direct cron access, as it's often used for things that can heavily load the server. Workaround scripts are available.
+
+*On Windows:* You can use a scheduled task if you have administrative privileges.
+
+---++ Site Permissions
+
+   * AccessControl describes how to restrict read and write access to topics and webs, by users and groups
+   * SitePermissions lists the permissions settings of the webs on this site
+
+---++ Help with crontab
+
+The crontab command is used to schedule commands to be executed periodically.
+
+   * Wikipedia.org:Crontab - crontab documentation
+   * [[http://www.kalab.com/freeware/pycron/pycron.htm][pycron]] - crontab for Windows
+
+---
+*Related Topics:* AdminDocumentationCategory, AdminToolsCategory
+
+%STOPINCLUDE%
+

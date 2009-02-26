@@ -1,0 +1,28 @@
+%META:TOPICINFO{author="RafaelAlvarez" date="1127097766" format="1.1" version="1.3"}%
+%META:TOPICPARENT{name="TestCaseSectionalInclude"}%
+This is outside any section 
+
+%STARTSECTION{"first"}%
+This is the first section
+%ENDSECTION{"first"}%
+
+%STARTSECTION{"outer"}%
+This is the start of the outer section
+
+%STARTSECTION{"inner"}%
+This is the whole content of the inner section
+
+%ENDSECTION{"inner"}%
+This is the end of the outer section
+%ENDSECTION{"outer"}%
+
+This is outside any section 
+
+%STARTSECTION{"firstoverlap"}%
+This is between begining of first and second overlap
+%STARTSECTION{"secondoverlap"}%
+This is between begining of secondoverlap and end of firstoverlap
+%ENDSECTION{"firstoverlap"}%
+This is after firstoverlap
+%ENDSECTION{"secondoverlap"}%
+

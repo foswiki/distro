@@ -1,0 +1,29 @@
+%{ This is a default template }%%TMPL:INCLUDE{"foswiki"}%
+%TMPL:INCLUDE{"search"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"([_1] vs. [_2])" args="%REVTITLE2%, %REVTITLE1%"}%%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}% <a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">View</a>
+ %TMPL:P{"sep"}% %TMPL:P{"revisions"}%
+ %TMPL:P{"sep"}% <a href="%SCRIPTURLPATH{"oops"}%/%WEB%/%TOPIC%?template=oopsmore&amp;param1=%MAXREV%&amp;param2=%CURRREV%" rel='nofollow'>More</a> %TMPL:END%
+
+
+%TMPL:DEF{"searchbody"}%%TMPL:P{"repeatedsearchblock"}%%TMPL:END%
+
+%TMPL:DEF{"repeatedsearchblock"}%%REPEAT%<table width="100%" border="3" cellpadding="0" cellspacing="0">
+  <tr bgcolor="%WEBBGCOLOR%">
+    <td width="99%">
+      &nbsp;<tt><b>&lt;&lt;O&gt;&gt;</b></tt>&nbsp; Difference Topic
+      <b><a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%">%TOPIC%</a></b>
+      (<a href="%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?rev=%REVTITLE1%" rel='nofollow'>%REVTITLE1%</a> - %REVINFO1%)
+    </td>
+  </tr>
+</table>
+%TEXT%
+<br clear="all" />%REPEAT%%TMPL:END%
+
+
+%TMPL:DEF{"content"}%%TMPL:P{"searchbody"}%
+%TMPL:P{"topicinfo"}%
+%TMPL:END%

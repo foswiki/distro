@@ -1,0 +1,106 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ Recently Changed Topics in %URLPARAM{"web" default="all"}% Webs
+<!-- START DATE SELECTION -->
+<form name="seeChangesSince" method="get" action="%TOPIC%" onSubmit="processFormValue(since.value);"/>
+See changes since: <select class="foswikiSelect" name="since" onChange="storeSelectedOption(this[selectedIndex].id, this[selectedIndex].value, document.forms.seeChangesSince.sinceReadable)">
+<option id="last_time_checked" value=""></option>
+<option id="1_hour_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-1*3600), $year-$month-$day $hour:$minute:$second)"}%">1 hour ago</option>
+<option id="6_hours_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-6*3600), $year-$month-$day $hour:$minute:$second)"}%">6 hours ago</option>
+<option id="12_hours_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-12*3600), $year-$month-$day $hour:$minute:$second)"}%">12 hours ago</option>
+<option id="24_hours_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-24*3600), $year-$month-$day $hour:$minute:$second)"}%">24 hours ago</option>
+<option id="3_days_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-3*24*3600), $year-$month-$day $hour:$minute:$second)"}%">3 days ago</option>
+<option id="1_week_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-7*24*3600), $year-$month-$day $hour:$minute:$second)"}%">1 week ago</option>
+<option id="2_weeks_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-14*24*3600), $year-$month-$day $hour:$minute:$second)"}%">2 weeks ago</option>
+<option id="4_weeks_ago" value="%CALC{"$FORMATTIME($EVAL($TIME()-28*24*3600), $year-$month-$day $hour:$minute:$second)"}%">4 weeks ago</option>
+<option id="beginning" value="%CALC{"$FORMATTIME(0, $year-$month-$day $hour:$minute:$second)"}%">beginning</option>
+</select>
+<input type="hidden" name="sinceReadable" value="%URLPARAM{"sinceReadable"}%" />
+<input type="hidden" name="debugJs" value="%URLPARAM{"debugJs" default="0"}%" />
+<input type="submit" value="Show" class="foswikiButton" />
+</form>
+
+<script type="text/javascript" src="%PUBURL%/%SYSTEMWEB%/JavascriptFiles/foswikiPref.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+// debug the javascript by passing urlparam debugJs=1
+var DEBUG = %URLPARAM{"debugJs" default="0"}%;
+//
+var DEFAULT_OPTION_ID = '24_hours_ago';
+//
+var dateLastCheck = foswiki.Pref.getPref("WebChangesForAllWebs_dateLastCheck");
+if (dateLastCheck) {
+  var selectedOption = '%URLPARAM{"sinceReadable"}%';
+  if (DEBUG) alert("sinceReadable selectedOption:" + selectedOption);
+  if (selectedOption) {
+    setOptionSelected(selectedOption);
+  } else {
+    setOptionSelected(DEFAULT_OPTION_ID);
+  }
+}
+var now = '%CALC{"$FORMATTIME($EVAL($TIME()), $year-$month-$day $hour:$minute:$second)"}%';
+if (DEBUG) alert("now:" + now);
+if (now) {
+  foswiki.Pref.setPref("WebChangesForAllWebs_dateLastCheck", now);
+  updateLastTimeCheckedOption(now);
+}
+function updateLastTimeCheckedOption (inDate) {
+	var el = document.getElementById('last_time_checked');
+	if (el) {
+		el.value=inDate;
+        el.text = "last time I checked";
+	}
+}
+function setOptionSelected (inId) {
+  if (DEBUG) alert("setOptionSelected:inId=" + inId);
+  document.getElementById(inId).selected = "selected";
+}
+function processFormValue (inValue) {
+  if (DEBUG) alert("submitted:" + inValue);
+
+  return true;
+}
+// stores the name
+function storeSelectedOption (inName, inValue, inStorageField) {
+  if (DEBUG) alert("storeSelectedOption:inName=" + inName + ";inValue=" + inValue + ";inStorageField=" + inStorageField);
+  // store readable value so we can use it when reloading the page
+  inStorageField.value=inName;
+  return true;
+}
+// ]]>
+</script>
+<!-- END DATE SELECTION -->
+%TABLE{sort="on" initsort="1" initdirection="up"}%
+| *Last Modified* | *Web* | *Topic* | *Last Editor* | *Action* |
+%SEARCH{
+"info.author!='WikiGnome' AND info.date >= d2n('%URLPARAM{"since" default="%CALC{$FORMATTIME($EVAL($TIME()-24*3600), $year-$month-$dayT$hour:$minute:$second)}%"}%')"
+type="query"
+nosearch="on"
+nototal="on"
+limit="%URLPARAM{"limit" default="25"}%"
+web="%URLPARAM{"web" default="all"}%"
+excludetopic="WebStatistics"
+reverse="on"
+order="modified"
+format="| $date | <nop>$web | [[%SCRIPTURLPATH{"view"}%/$web/$topic#foo_$rev][$percntFORMFIELD{$quot$percntIF{$quot'$web.$topic'/TopicTitle$quot then=$quotTopicTitle$quot else=$quot$percntIF{$quot'$web.$topic'/Summary$quot then=$quotSummary$quot}$percnt$quot}$percnt$quot topic=$quot$web.$topic$quot format=$quot$topic: $value$quot default=$quot$topic$quot alttext=$quot$topic$quot}$percnt]] | $wikiusername | [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic#_foo=$rev][diff]], %BR% [[%SCRIPTURLPATH{"rdiff"}%/$web/$topic?type=last&render=sequential&context=9000&_foo=$rev#diff001][last&nbsp;change]] | "
+}%
+
+%TWISTY{link="Modify changes listing (number of items, included webs)..."}%
+
+<noautolink>
+<form name="sitechanges" action="%SCRIPTURLPATH{"view"}%/%BASEWEB%/%BASETOPIC%">
+
+*Number of changes for each web:* <input type="radio" name="limit" value="20" id="limit20" />20 <input type="radio" name="limit" value="50" id="limit50" />50 <input type="radio" name="limit" value="100" id="limit100" />100 <input type="radio" name="limit" value="200" id="limit200" />200 <input type="radio" name="limit" value="400" id="limit400" />400
+
+*Layout:*
+<input type="radio" name="skin" value="" id="skinnormal" />normal skin,
+<input type="radio" name="skin" value="plain" id="skinplain" />plain skin or
+<input type="radio" name="togglesidebar" value="off" id="toggleskin">without sidebar
+
+*Webs:* <input type="text" class="foswikiInputField" name="web" value="%URLPARAM{"web" default="Community, Development, Extensions,  International, Main, Tasks, System"}%" size="50" /> %BR% Specify =all= for all webs, or a comma separated list of webs from =%WEBLIST{"$name" separator=", "}%=
+
+<input type="submit" class="foswikiSubmit" name="search" value="View Changes" />
+
+</form>
+__Note:__ Specify what you need (you don't have to specify every setting)
+</noautolink>
+%ENDTWISTY%

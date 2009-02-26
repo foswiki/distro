@@ -1,0 +1,19 @@
+%{ This is a default template }%%TMPL:INCLUDE{"renamebase"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(rename)"}% %TMPL:END%
+
+
+%TMPL:DEF{"webaction"}%%MAKETEXT{"Rename"}%%TMPL:END%
+
+
+%TMPL:DEF{"newwebhelp"}%%TMPL:END%
+
+
+%TMPL:DEF{"newtopic"}%<input name="newtopic" class="foswikiInputField" value="%NEW_TOPIC%" size="36" /><br />
+%TMPL:P{"nonwikiword"}%%TMPL:END%
+
+
+%TMPL:DEF{"newweb"}%<select name="newweb" class="foswikiSelect">%WEBLIST{"<option $marker value=$qname>$name</option>" webs="%NEW_WEB%,public" selection="%NEW_WEB%" separator=" "}%</select>%TMPL:END%
+
+
+%TMPL:DEF{"topicactionbuttons"}%<input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Rename/Move"}%' /> %MAKETEXT{"or"}% %TMPL:P{"canceltopicaction"}%%TMPL:END%

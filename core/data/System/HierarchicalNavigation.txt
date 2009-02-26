@@ -1,0 +1,78 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="1.1"}%
+%META:TOPICPARENT{name="WebHome"}%
+---+!! Hierarchical Navigation
+
+*Navigation block that displays the current topic, its parent and children (if any).* %BR%
+This is intended to be included in other topics, for example in a side navigation bar (WebLeftBar).
+
+_NOTE: The lookup for parent and children will increase the loading time of your pages._
+
+%TOC%
+
+---++ Usage
+Two sections are defined:
+   * =all=
+   * =children=
+   
+---+++ Displaying the Parent - Current - Children block
+<blockquote>
+<verbatim>
+%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
+</verbatim>
+</blockquote>
+generates:
+
+%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
+
+
+When included in WebLeftBar (using default Pattern skin) this is styled to:
+
+<div id="patternSideBarContents">
+%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="all"}%
+</div>
+
+---+++ Displaying child topics
+<blockquote>
+<verbatim>
+*Child topics:*
+%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
+</verbatim>
+</blockquote>
+generates:
+
+*Child topics:*
+%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
+
+When included in WebLeftBar (using default Pattern skin) this is styled to:
+
+<div id="patternSideBarContents">
+%INCLUDE{"%SYSTEMWEB%.HierarchicalNavigation" section="children"}%
+</div>
+
+<verbatim style="display:none;">
+%STARTSECTION{name="all"}%<div class="foswikiHierarchicalNavigation">
+<ul>
+%SEARCH{
+"parent"
+type="query"
+topic="%BASETOPIC%"
+web="%BASEWEB%"
+nonoise="on"
+format="<li class='foswikiParentTopic'><img src='%ICONURL{parent_gray}%' width='16' height='16' alt='' border='0' /> [[$web.$parent][$parent]]</li>"
+}%
+<li class='foswikiCurrentTopic' style='font-weight:bold;'><nop>%BASETOPIC%</li>%INCLUDE{"%TOPIC%" section="childlist"}%
+</ul>
+</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{name="all"}%
+
+%STARTSECTION{name="children"}%<div class="foswikiHierarchicalNavigation">
+<ul>%INCLUDE{"%TOPIC%" section="childlist"}%</ul>
+</div><!--/foswikiHierarchicalNavigation-->%ENDSECTION{name="children"}%</div>%ENDSECTION{name="children"}%
+
+%STARTSECTION{name="childlist"}%%SEARCH{
+"parent.name='%BASETOPIC%'"
+web="%BASEWEB%"
+type="query"
+nonoise="on"
+format="<li class='childTopic'><img src='%ICONURL{line_ur_gray}%' width='16' height='16' alt='' border='0' /> [[$web.$topic][$topic]]</li>"
+}%%ENDSECTION{name="childlist"}%
+</verbatim>

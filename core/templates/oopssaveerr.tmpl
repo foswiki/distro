@@ -1,0 +1,21 @@
+%{ This is a default template }%%{
+    NOTE: not used by *Wiki, but retained for compatibility with some plugins
+    that use it.
+}%
+%TMPL:INCLUDE{"oops"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(save error)"}% %TMPL:END%
+
+%TMPL:DEF{"webaction"}% *%MAKETEXT{"Attention"}%* %TMPL:END%
+
+%TMPL:DEF{"heading"}%%MAKETEXT{"Topic save error"}%%TMPL:END%
+
+%TMPL:DEF{"topicactionbuttons"}% [[%WEB%.%TOPIC%][%MAKETEXT{"OK"}%]] %TMPL:END%
+
+%TMPL:DEF{"message"}%
+%MAKETEXT{"During save of [_1] an error was found by the version control system. Please notify your [_2] administrator." args="<nop>%WEB%.<nop>%TOPIC%, <nop>%WIKITOOLNAME%"}%
+
+=%PARAM1%=
+
+%MAKETEXT{"Go back in your browser and save your changes locally."}%
+%TMPL:END%

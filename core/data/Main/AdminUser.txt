@@ -1,0 +1,31 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ Wiki Administrator User
+
+The %TOPIC% allows you to login without needing to register a user,
+or to temporarily login as %TOPIC% using the password set in configure, and then log back out to the same User and Group as before.
+
+This means it is no longer necessary to add yourself to the AdminGroup, and you will be able to quicky
+change to Admin User (and back to your user) only when you need to.
+
+%STARTSECTION{"sudo_login"}%
+---+++ How to login as %TOPIC%
+   * Login as the internal Wiki administrator:
+      * %ADMINLOGIN%
+   * Logout from Administrator:
+      * click the [[%LOGOUTURL%][Logout link]]
+
+*%X% NOTE:* If you lock yourself out of <nop>AdminUser during setup activities or have forgotten the configure password,
+you can unset the configure password by editing the =lib/LocalSite.cfg= file and deleting the line that starts
+with =Foswiki::cfg{Password}= and then set it again by saving your settings in =configure=.
+%ENDSECTION{"sudo_login"}%
+
+---+++ Prerequisites
+   * =Security Setup : Sessions : {UserClientSession}= needs to be enabled in configure
+   * a configure password (otherwise the Admin login is automatically disabled.)
+   * If your Foswiki is configured to use !ApacheLoginManager, you will need to log in as a valid user first.
+   
+---
+*Related topics:* [[%WIKIUSERSTOPIC%]], [[AdminGroup]], [[WikiGroups]], [[%SYSTEMWEB%.AccessControl][AccessControl]]
+
+
+

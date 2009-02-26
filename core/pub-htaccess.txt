@@ -1,0 +1,55 @@
+# Sample '.htaccess' file for 'pub' subdirectory
+
+# Controls access to Foswiki 'pub' subdirectory - copy this into 'pub', 
+# naming it '.htaccess', to have Apache use it.
+
+# This is useful if you install Foswiki on a web host, or an intranet host
+# where you can't edit the Apache http.conf file.  If you can edit the
+# http.conf file, just set the 'Allow from all' there (or locate these
+# directories outside the Web-visible directory tree.)
+
+# Allow all access
+Allow from all
+
+# Deny people from looking at the index
+# Bare in mind that this is largely inadequate
+# See http://foswiki.org/System/AccessControl#Controlling_access_to_Attachment
+# and http://foswiki.org/Tasks/Item610
+# If you think you have a solution it is in your best interests to share it 
+# so others can test your idea.
+Options None
+
+# We need to protect the entire pub directory tree against any kind of script execution
+# Foswiki has a renaming protection scheme that alters certain file names to prevent
+# script execution but it may not be 100% safe only to rely on this. The safest
+# protection is to disabled all scripting.
+
+# If you have PHP4 or PHP5 installed as Apache module make sure the directive below is enabled
+# If you do not have PHP installed you will need to comment out the directory below
+# to avoid errors.
+# If PHP is installed as CGI this flag is not needed and will in fact make Apache fail 
+php_flag engine off
+
+# If you have PHP3 installed as Apache module make sure the directive below is enabled
+# If PHP is installed as CGI this flag is not needed and will in fact make Apache fail
+#php3_engine off
+
+# This line will redefine the mime type for the most common types of scripts
+AddType text/plain .shtml .php .php3 .phtml .phtm .pl .py .cgi
+
+#for TWikiCompatibility - or even to make 'attachment not found's more user friendly
+ErrorDocument 404 /foswiki/bin/viewfile
+
+#add an Expires header that is sufficiently in the future that the browser does not even ask if its uptodate
+# reducing the load on the server significantly
+#IF you can, you should enable this - it _will_ improve your foswiki experience, even if you set it to under one day.
+#LoadModule expires_module libexec/httpd/mod_expires.so
+#AddModule mod_expires.c
+#<ifmodule mod_expires.c>
+#  <filesmatch "\.(jpg|gif|png|css|js)$">
+#       ExpiresActive on
+#       ExpiresDefault "access plus 11 days"
+#   </filesmatch>
+#</ifmodule>
+#Add ETags too
+FileETag MTime Size

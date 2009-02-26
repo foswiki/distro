@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# POST-COMMIT HOOK
+# See post-commit.tmpl for help
+
+REPOS="$1"
+REV="$2"
+
+cd $REPOS/hooks
+
+author=`/usr/local/bin/svnlook author -r $REV $REPOS`
+
+./commit-email.pl --from svn@foswiki.org -s "[SVN] $author" "$REPOS" "$REV" foswiki-svn@lists.sourceforge.net
+/home/svn/supportscripts/twitter.pl
+./rssfeed.sh "$REPOS" "$REV" &

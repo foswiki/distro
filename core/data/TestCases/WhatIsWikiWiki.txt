@@ -1,0 +1,13 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+This is a test fixture topic, used in TestCaseAutoSearch
+
+hit me with your rhythm stick
+hit me!
+hit me!
+schmerz ist gut, ich liebe dich
+hit me!
+hit me!
+hit     me!
+
+includer

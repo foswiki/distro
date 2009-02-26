@@ -1,0 +1,100 @@
+Description: Load message templates for review
+
+To exercise the testcase for another skin, view this topic with a skin set in the URL.
+
+<form action="%SCRIPTURL{"view"}%/%WEB%/%TOPIC%">
+Skin: <input name="skin" value="%URLPARAM{"skin" default="%SKIN%}%" />
+<input type="submit" value="Try this skin" />
+</form>
+
+---+ Messages for oopsattention
+---++ =oopsattention remove_user_done=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=remove_user_done;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention created_web=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=created_web;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention merge_notice=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=merge_notice;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=missing_action;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=unrecognized_action;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention not_a_user=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=not_a_user;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention in_a_group=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=in_a_group;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention move_err=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=move_err;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention delete_err=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=delete_err;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention topic_exists=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=topic_exists;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention rename_topic_exists=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=rename_topic_exists;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention rename_web_exists=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=rename_web_exists;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention not_wikiword=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=not_wikiword;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention rename_err=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=rename_err;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention rename_web_err=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=rename_web_err;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention wrong_password=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=wrong_password;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention web_missing=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=web_missing;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention invalid_web_name=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=invalid_web_name;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention web_exists=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=web_exists;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention base_web_missing=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=base_web_missing;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention invalid_web_color=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=invalid_web_color;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention web_creation_error=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=web_creation_error;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention thanks=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=thanks;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention reset_ok=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=reset_ok;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention password_changed=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=password_changed;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention confirm=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=confirm;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention no_users_to_reset=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=no_users_to_reset;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention reset_bad=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=reset_bad;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention missing_fields=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=missing_fields;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention password_mismatch=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=password_mismatch;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention problem_adding=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=problem_adding;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention send_mail_error=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=send_mail_error;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention already_exists=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=already_exists;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention bad_wikiname=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=bad_wikiname;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention bad_email=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=bad_email;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention bad_ver_code=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=bad_ver_code;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention no_email_for=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=no_email_for;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention mandatory_field=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=mandatory_field;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention no_form_def=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=no_form_def;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention upload_name_changed=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=upload_name_changed;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention zero_size_upload=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=zero_size_upload;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention oversized_upload=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=oversized_upload;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention save_error=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=save_error;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention rename_web_prerequisites=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=rename_web_prerequisites;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention no_such_template=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=no_such_template;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%
+---++ =oopsattention bad_script_parameters=
+%INCLUDE{"%SCRIPTURL{"oops"}%/TheWeb/TheTopic?template=oopsattention&def=bad_script_parameters;param1=P1;param2=P2;param3=P3;param4=P4;param5=P5;skin=%URLPARAM{"skin" default="%SKIN%"}%;FOSWIKISID=%SESSIONID%"}%

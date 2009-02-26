@@ -1,0 +1,4177 @@
+# Foswiki translation for Czech
+# Translators: 
+#   Foswiki:Main/IvanKuncl, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: Foswiki $Id\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2007-12-04 12:22-0300\n"
+"Last-Translator: Ivan Kuncl <kuncl@centrum.cz>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. ($days)
+#: core/lib/Foswiki/Time.pm:316
+msgid "%*(%1,day) "
+msgstr "%*(%1,den) "
+
+#. ($hours)
+#: core/lib/Foswiki/Time.pm:319
+msgid "%*(%1,hour) "
+msgstr "%*(%1,hodin) "
+
+#. ($mins)
+#: core/lib/Foswiki/Time.pm:322
+msgid "%*(%1,minute) "
+msgstr "%*(%1,minut) "
+
+#. ($secs)
+#: core/lib/Foswiki/Time.pm:325
+msgid "%*(%1,second) "
+msgstr "%*(%1,sekund) "
+
+#: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
+#: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:7
+msgid "%1"
+msgstr ""
+
+#: core/templates/registerfailednotremoved.tmpl:3
+#: core/templates/registerfailedremoved.tmpl:3
+#, fuzzy
+msgid "%1 - Registration failure for %2 (%3)"
+msgstr "%1 - Registrace pro %2 (%3)"
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
+#: core/templates/registernotify.tmpl:3
+#: core/templates/registernotifyadmin.tmpl:3
+msgid "%1 - Registration for %2 (%3)"
+msgstr "%1 - Registrace pro %2 (%3)"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:68
+#, fuzzy
+msgid "%1 - complete Foswiki documentation, Quick Start to Reference"
+msgstr "%1 - kompletní dokumentace TWiki, od přehledu k podrobné referenci"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:70
+msgid "%1 - just for me"
+msgstr "%1 - pouze pro mne"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:67
+#, fuzzy
+msgid "%1 - starting points on Foswiki"
+msgstr "1 - výchozí bod v TWiki"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:69
+#, fuzzy
+msgid "%1 - try out Foswiki on your own"
+msgstr "%1 - zkuste si TWiki sami"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:66
+#, fuzzy
+msgid "%1 - view a short introductory presentation on Foswiki for beginners"
+msgstr "%1 - krátká prezentace TWiki pro začátečníky"
+
+#: core/data/System/WebChanges.txt:2
+#, fuzzy
+msgid "%1 Recent Changes in %2 Web"
+msgstr "Zkontrolujte poslední změny v:"
+
+#: PatternSkin/templates/view.pattern.tmpl:43
+msgid "%1 Web"
+msgstr "%1 Web"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:84
+msgid "%1 for changing your email address"
+msgstr "%1 pro změnu Vaší elektronické adresy"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:83
+msgid "%1 for changing your password"
+msgstr "%1 pro změnu Vašeho hesla"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:47
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:37
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:85
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:38
+#, fuzzy
+msgid "%1 has a list of other Foswiki users"
+msgstr "%1 má seznam ostatních uživatelů TWiki"
+
+#: core/templates/messages.tmpl:434
+msgid ""
+"%1 has been editing the topic for %2 and the lease is still active for "
+"another %3."
+msgstr "%1 editoval článek %2 a pravděpodobně na něm stále pracuje jiný %3."
+
+#: core/templates/registerfailednotremoved.tmpl:12
+#: core/templates/registernotifyadmin.tmpl:10
+msgid "%1 has been registered with e-mail %2"
+msgstr "%1 byl zaregistrován s e-mailem %2"
+
+#: core/templates/messages.tmpl:23
+msgid "%1 home"
+msgstr "%1 Domů"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:86
+#, fuzzy
+msgid "%1 is a list of Foswiki user documentation"
+msgstr "%1 je seznam uživatelské dokumentace"
+
+#: core/templates/messages.tmpl:114
+msgid "%1 is an invalid name for a new web"
+msgstr "%1 je chybné jm´´eno pro nový web"
+
+#: core/templates/login.sudo.tmpl:4 core/templates/login.tmpl:6
+msgid "%1 is currently logged in"
+msgstr "%1 je v současnosti přihlášen"
+
+#: core/templates/messages.tmpl:415
+msgid "%1 is currently set to %2"
+msgstr "%1 je nastaven na %2"
+
+#: core/templates/messages.tmpl:432
+msgid "%1 is editing %2."
+msgstr "%1 edituje %2."
+
+#: core/templates/messages.tmpl:49
+msgid "%1 is in at least one group and cannot be removed"
+msgstr "%1 je nejméně v jedné skupině a nemůže být smazán"
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+msgid "%1 is the default topic for deleted attachments."
+msgstr "%1 je přednastaveným článkem pro smazané přílohy."
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:87
+#, fuzzy
+msgid "%1 lists all Foswiki user tools"
+msgstr "%1 ukáže všechny uživatelské nástroje"
+
+#: core/templates/messages.tmpl:440
+msgid "%1 may still be editing %2."
+msgstr "%1 stále může editovat %2."
+
+#. ("<nop>$toWeb.<nop>$toTopic", "<nop>$fromWeb.<nop>$fromTopic",                $date, $by)
+#: core/lib/Foswiki/Render.pm:212
+msgid "%1 moved from %2 on %3 by %4"
+msgstr "uživatel  %4 přesunul %1 z %2 do %3"
+
+#: core/templates/messages.tmpl:22
+msgid "%1 to create another web"
+msgstr "%1 pro vytvoření nového webu"
+
+#: core/templates/messages.tmpl:21
+msgid "%1 to customize the web specific preferences"
+msgstr "%1 pro změnu preferencí webu"
+
+#: core/templates/messages.tmpl:20
+msgid "%1 to start working on the new web"
+msgstr "%1 pro začátek práce na novém webu"
+
+#: core/templates/messages.tmpl:505 core/templates/messages.tmpl:516
+msgid "%1 topic does not exist"
+msgstr "článek %1 neexistuje"
+
+#: core/templates/registerfailedremoved.tmpl:12
+#, fuzzy
+msgid "%1 tried to register with e-mail %2"
+msgstr "%1 byl zaregistrován s e-mailem %2"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:9
+msgid "&Cancel"
+msgstr "Pře&rušit"
+
+#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:14
+msgid "&Edit text"
+msgstr "&Editovat text"
+
+#: core/templates/foswiki.tmpl:101
+msgid "&History"
+msgstr "Historie"
+
+#: core/templates/messages.tmpl:273
+msgid "'%1' is not a valid %2 "
+msgstr ""
+
+#: core/data/System/WebTopicCreator.txt:2
+#, fuzzy
+msgid "'Create New Topic' page has moved"
+msgstr "Nový článek v %1"
+
+#: core/templates/login.tmpl:12
+msgid "(%1 login)"
+msgstr ""
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:6 core/templates/rdiff.tmpl:4
+msgid "(%1 vs. %2)"
+msgstr "(%1 oproti %2)"
+
+#: core/templates/messages.tmpl:164
+msgid "(*Suggestion:* How about uploading your picture to your topic?)"
+msgstr "(*Doporučení:* Nechtěl by jste nahrát svojí fotografii ?)"
+
+#: core/data/System/WebSearchAdvanced.txt:76
+msgid "(=all= to show all topics)"
+msgstr "(=all= pro všechny články)"
+
+#: core/data/Sandbox/WebHome.txt:9
+msgid "(Use a topic name in System.WikiNotation)"
+msgstr "Použijte jméno článku ve tvaru System.JmenoClanku"
+
+#: core/templates/oopsaccessdenied.tmpl:4
+#, fuzzy
+msgid "(access denied)"
+msgstr "Přístup odepřen"
+
+#: PatternSkin/templates/attach.pattern.tmpl:8 core/templates/attachnew.tmpl:2
+msgid "(attach)"
+msgstr "(připoj)"
+
+#: core/templates/backlinksweb.tmpl:4
+msgid "(backlinks in %1 Web)"
+msgstr "(zpětné odkazy v %1 Webu)"
+
+#: core/templates/backlinksallwebs.tmpl:4
+msgid "(backlinks in all Webs)"
+msgstr "(zpětné odkazy ve všech Webech)"
+
+#: core/templates/searchbookview.tmpl:3
+#, fuzzy
+msgid "(book view)"
+msgstr "Nefo&rmátovaně"
+
+#: core/templates/changeform.tmpl:4
+msgid "(change form)"
+msgstr "(změna formuláře)"
+
+#: core/templates/oopschangelanguage.tmpl:2
+#: core/templates/oopslanguagechanged.tmpl:3
+msgid "(change language)"
+msgstr "(změň jazyk)"
+
+#: PatternSkin/templates/changes.pattern.tmpl:4 core/templates/changes.tmpl:5
+msgid "(changes)"
+msgstr "(změny)"
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:5
+msgid "(delete attachment)"
+msgstr "(smazat přílohu)"
+
+#: core/templates/renamedelete.tmpl:4
+msgid "(delete)"
+msgstr "(smazat)"
+
+#: core/templates/editform.tmpl:4 core/templates/editform.tmpl:5
+msgid "(edit form)"
+msgstr "(editovat formuláŕ)"
+
+#: core/templates/edittext.tmpl:4 core/templates/edittext.tmpl:7
+msgid "(edit text)"
+msgstr "(editovat text)"
+
+#: core/templates/edit.tmpl:10 core/templates/edit.tmpl:4
+msgid "(edit)"
+msgstr "(editovat)"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:105
+msgid "(how you log in) LoginName:"
+msgstr "(jak jste se přihlásil) Účet:"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:100
+msgid "(identifies you to others) WikiName:"
+msgstr "(identifikuje Vás ostatním) WikiName:"
+
+#: core/templates/login.tmpl:4
+#, fuzzy
+msgid "(login)"
+msgstr "(nic)"
+
+#: core/templates/oopsmore.tmpl:3
+msgid "(more)"
+msgstr "(více)"
+
+#: core/templates/moveattachment.tmpl:4
+msgid "(move attachment)"
+msgstr "(přesun přílohy)"
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:62
+msgid "(no parent, orphaned topic)"
+msgstr "(bez rodiče, osiřelý článek)"
+
+#: core/lib/Foswiki/UI/Manage.pm:1099 core/lib/Foswiki/UI/Manage.pm:1132
+#: core/lib/Foswiki/UI/Manage.pm:1245 core/lib/Foswiki/UI/Manage.pm:1248
+#: core/lib/Foswiki/UI/Manage.pm:1251 core/lib/Foswiki/UI/Manage.pm:1290
+#: core/lib/Foswiki/UI/Manage.pm:1321 core/lib/Foswiki/UI/Manage.pm:814
+#: core/lib/Foswiki/UI/Manage.pm:818 core/lib/Foswiki/UI/Manage.pm:822
+#: core/lib/Foswiki/UI/Manage.pm:826
+msgid "(none)"
+msgstr "(nic)"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+msgid "(optional)"
+msgstr "(volitelně)"
+
+#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
+msgid "(otherwise search %1 Web only)"
+msgstr "(jinak hledá pouze v %1 webu)"
+
+#: PatternSkin/templates/view.pattern.tmpl:45
+#, fuzzy
+msgid "(raw view)"
+msgstr "Nefo&rmátovaně"
+
+#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+msgid "(recommended)"
+msgstr "(doporučené)"
+
+#: core/templates/rename.tmpl:4 core/templates/renameconfirm.tmpl:4
+#: core/templates/renameweb.tmpl:4 core/templates/renamewebconfirm.tmpl:4
+msgid "(rename)"
+msgstr "(přejmenovat)"
+
+#: PatternSkin/templates/view.pattern.tmpl:45
+#, fuzzy
+msgid "(revision %1)"
+msgstr "Revize"
+
+#: core/templates/oopssaveerr.tmpl:8
+#, fuzzy
+msgid "(save error)"
+msgstr "Chyba uložení článku"
+
+#: core/templates/searchformat.tmpl:3
+#, fuzzy
+msgid "(search result)"
+msgstr "(výsledky hledání)"
+
+#: PatternSkin/templates/search.pattern.tmpl:9 core/templates/search.tmpl:3
+#: core/templates/search.tmpl:6
+msgid "(search results)"
+msgstr "(výsledky hledání)"
+
+#: PatternSkin/templates/settings.pattern.tmpl:10
+#: core/templates/settings.tmpl:4
+msgid "(set preferences)"
+msgstr "(nastavit předvolby)"
+
+#: core/templates/messages.tmpl:286
+msgid "(single character first name)"
+msgstr "(první písmeno křestního jména)"
+
+#: core/templates/messages.tmpl:285
+msgid "(single character last name)"
+msgstr "(první písmeno přijmení)"
+
+#: core/lib/Foswiki/UI/Manage.pm:1073
+msgid "(skipped)"
+msgstr "(přeskočeno)"
+
+#: core/templates/attachagain.tmpl:18
+msgid ""
+"*Change comment:* If you use _Change Properties_ to change a comment, the "
+"comment shown in the topic will change, but the comment shown against the "
+"attachment history will be the comment when the file was uploaded."
+msgstr ""
+"*Komentář ke změně:* Pokud použijete _Změna předvoleb_ pro změnu komentáře,"
+"komentář ukázaný ve článku se změní, ale komentář ukázaný v historii přílohy "
+"bude komentář použitý, když byla přiloha nahrána."
+
+#: core/data/System/WikiSyntaxSummary.txt:8
+msgid "*Formatting help:*"
+msgstr "*Nápověda k formátování:*"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:15
+#, fuzzy
+msgid ""
+"*Important:* the information provided in this form will be stored in a "
+"database on the Foswiki server. This database is accessible to anyone who "
+"can access the server through the web (though passwords will be encrypted, "
+"and e-mail addresses will be obfusticated to help prevent spamming). Your "
+"country, or the country where the server is hosted, may have Data Protection "
+"laws governing the maintenance of such databases. If you are in doubt, you "
+"should contact %1 for details of the Data Protection Policy of this Foswiki "
+"server before registering."
+msgstr ""
+"*Důležité:* informace poskytované v tomto formuláři budou uloženy v databázi "
+"na TWiki serveru. Tato databáze je přístupná komukoli kdo může přistoupit k "
+"serveru přes web (ačkoli hesla budou zašifrována a emailovéadresy budou "
+"pozměněny kvůli spamování). Vaše země nebo země, kde je server může mít "
+"zákony týkající se administrace takové databáze. Pokud máte pochybnosti,"
+"kontaktujte prosím %1 kvůli detailům, týkajících se ochrany dat na tomto "
+"serverupřed registrací."
+
+#: core/templates/attachagain.tmpl:19
+msgid ""
+"*Local file:* If you select a different file in _Local file:_, it is this "
+"that will be updated or added."
+msgstr ""
+"*Lokální soubor:* Pokud vyberete jiný soubor jako _lokální:_, tak to bude "
+"ten, který bude změněn nebo přidán."
+
+#: core/templates/attachagain.tmpl:17
+#, fuzzy
+msgid ""
+"*Properties:* The comment and visibility (i.e. is attachment hidden) can be "
+"changed without uploading a file by pressing \"Change Properties only\"; see "
+"%1."
+msgstr ""
+"*Vlastnosti:* Komentář a viditelnost (t.j. jestli je přiloha skryta) může "
+"být změněna bez nahrání přilohy stiskem \"Změň pouze vlastnosti\"; viz <a "
+"target=\"HiddenAttachment\" onclick=\"return launchWindow('%"
+"1','HiddenAttachment')\" href=\"%2\" rel='nofollow'>Skryté přílohy</a>."
+
+#: core/data/System/WikiSyntaxSummary.txt:9
+msgid "*bold* put word/phrase in asterisks: =<nop>*your phrase*="
+msgstr "*tučně* uzavřete slovo/frázi do hvězdiček: =<nop>*Vaše fráze*="
+
+#: core/data/System/WikiSyntaxSummary.txt:10
+msgid ""
+"*bullet list* 3 spaces, asterisk, 1 space: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;"
+"your text="
+msgstr ""
+"*seznam* 3 mezery, hvězdička, 1 mezera: =&&nbsp;&&nbsp;&&nbsp;*&&nbsp;Váš "
+"text="
+
+#: core/data/System/WikiSyntaxSummary.txt:14
+#, fuzzy
+msgid ""
+"*external links* =http://yahoo.com= or =[<nop>[http://yahoo.com/][link to "
+"Yahoo]]="
+msgstr ""
+"*odkaz* použijte jméno: =%1=, =http://www.seznam.com=, nebo =[<nop>[http://"
+"www.seznam.cz/][odkaz na Seznam]]="
+
+#: core/data/System/WikiSyntaxSummary.txt:11
+msgid "*headings* 3 dashes, 1 to 6 pluses, 1 space: =---++&&nbsp;Your Heading="
+msgstr ""
+"*nadpisy* 3 pomlčky, 1 až 6 plus. znamének, 1 mezera: =---++&&nbsp;Váš "
+"nadpis="
+
+#: core/data/System/WikiSyntaxSummary.txt:12
+msgid "*italic* put word/phrase in underscores: =_<nop>your words_="
+msgstr "*kurzíva* uzavřete slovo/frázi do podtržítek: =_<nop>Vaše fráze_="
+
+#: core/data/System/WikiSyntaxSummary.txt:15
+msgid "*monospaced* put word/phrase in equal signs: =<nop>=your words=="
+msgstr ""
+"*neproporcionálně* uzavřete slovo/frázi do rovnítek: =<nop>=Vaše fráze=="
+
+#: core/data/System/WikiSyntaxSummary.txt:16
+msgid "*paragraphs* separate with blank line"
+msgstr "*odstavec* oddělte prázdnou řádkou"
+
+#: core/data/System/WikiSyntaxSummary.txt:13
+msgid "*site links* use topic name: =%1= or =[<nop>[%1][Our homepage]]="
+msgstr ""
+
+#: core/lib/Foswiki/I18N/Extract.pm:88
+msgid "..."
+msgstr "..."
+
+#: core/templates/oopsmore.tmpl:14
+msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
+msgstr "<a href='%1' rel='nofollow'>Změnit nastavení</a> pro tento článek"
+
+#: core/data/System/WebChanges.txt:8
+msgid ""
+"<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a "
+"href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a "
+"href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> "
+"topics, <a href='%7' rel='nofollow'>all changes</a>"
+msgstr ""
+
+#: core/templates/oopsmore.tmpl:57
+msgid "<em>in %1 web</em> only"
+msgstr "pouze <em>v %1 webu</em>"
+
+#: core/templates/oopsmore.tmpl:55
+msgid "<em>in all public webs</em>"
+msgstr "<em>ve všech veřejných webech</em>"
+
+#: core/templates/messages.tmpl:365
+msgid "A =.txt= extension is appended to some filenames for security reasons"
+msgstr "Přiloha =.txt= je připojena k některým souborům, kvůli bezpečnosti"
+
+#: core/templates/messages.tmpl:488
+#, fuzzy
+msgid ""
+"A Foswiki site is divided into webs; each one represents one subject, one "
+"area of collaboration. You are trying to %1 in a web that does not exist."
+msgstr ""
+"%1 je rozdělen do více webů; každý reprezentuje jedno téma, jednu oblast "
+"spolupráce. Zkoušíte %2 ve webu, který neexistuje."
+
+#: core/templates/messages.tmpl:131
+msgid ""
+"A color starts with a # sign, followed by 6 hexadecimal numbers, e.g. "
+"=#FFFF00=."
+msgstr ""
+"Barva začíná znakem # , následovaným 6 hexadecimálními čísly, např. "
+"=#FFFF00=."
+
+#. ($data->{Email})
+#: core/lib/Foswiki/UI/Register.pm:875
+msgid "A confirmation e-mail has been sent to %1"
+msgstr "Potvrzovací e-mail byl odeslán %1"
+
+#: core/templates/messages.tmpl:492
+msgid ""
+"A link to a topic located in another web is written like %1. Make sure that "
+"the name of the web is not spelt wrongly on the previous page; fix the link "
+"if necessary."
+msgstr ""
+"Odkaz na článek, který je v jiném webu se zapisuje takto: %1. Ujistěte se, "
+"že jméno webu je správné na předchozí stránce; opravte odkaz, pokud je to "
+"nezbytné."
+
+#: core/data/Sandbox/WebHome.txt:25
+#, fuzzy
+msgid "A more extensive changes list is available via [[%1][Recent Changes]]."
+msgstr ""
+"Rozšířený výpis změn je dostupný přes odkaz [[%1][Současné změny]] v menu "
+"navigace."
+
+#: core/templates/messages.tmpl:464
+msgid ""
+"A new system-generated password for your login name %1 (!WikiName %2) has "
+"been sent to your registered e-mail address. If your e-mail address is no "
+"longer valid, please contact %3"
+msgstr ""
+"Nové systémem vygenerované heslo pro Váš účet %1 (!WikiName %2) byl odeslán "
+"na Vaši registrovanou e-mailovou adresu. Pokud Vaše adresa není dále platná, "
+"kontaktujte prosím %3"
+
+#: core/data/System/WebTemplateTopics.txt:4
+msgid "A topic template defines the initial content of a newly created topic."
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:22
+msgid "A topic with this name did exist, but has been renamed or moved to %1."
+msgstr ""
+
+#: core/templates/oopsaccessdenied.tmpl:6
+msgid "Access Denied"
+msgstr "Přístup odepřen"
+
+#: core/templates/messages.tmpl:472
+msgid "Access check on %1 failed"
+msgstr "Přístup k %1 byl odepřen"
+
+#: PatternSkin/templates/edit.pattern.tmpl:53
+#: PatternSkin/templates/preview.pattern.tmpl:15
+#: PatternSkin/templates/settings.pattern.tmpl:25
+msgid "Access keys"
+msgstr "Přístupový klíč"
+
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+#: core/templates/changeform.tmpl:10
+msgid "Action"
+msgstr "Akce"
+
+#: core/templates/messages.tmpl:473
+msgid "Action %1: %2."
+msgstr "Akce %1: %2."
+
+#: core/templates/addform.tmpl:1
+msgid "Add form"
+msgstr "Přidej formulář"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:174
+#, fuzzy
+msgid "Add row"
+msgstr "Přidej formulář"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:285
+msgid "Add your name to the list of users in the %1 topic in the %2 web."
+msgstr "Přidejte Vaše jméno do seznamu uživatelů ve článku %1 na webu %2."
+
+#: core/templates/messages.tmpl:353
+msgid "Adding a %1 variable in WebPreferences"
+msgstr "Přidána proměnná %1 ve vlastnostech webu"
+
+#: core/templates/login.sudo.tmpl:3
+msgid "Admin Foswiki User Authentication"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:25
+msgid "Admin Maintenance"
+msgstr "Administrátorská údržba"
+
+#: core/data/System/WebSearchAdvanced.txt:3
+msgid "Advanced Search"
+msgstr "Rozšířené hledání"
+
+#: core/data/System/WebSearch.txt:24
+msgid "Advanced search"
+msgstr "Rozšířené hledání"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:20
+msgid ""
+"After submitting this form your e-mail will be changed, and you will be "
+"returned to this form."
+msgstr ""
+"Po odeslání tohoto formuláře bude Váš email změněn a Vy se vrátíte zpět do "
+"tohoto formuláře."
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:12
+msgid "After submitting this form your password will be changed."
+msgstr "Po odeslání tohoto formuláře Vaše heslo bude změněno."
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:15
+msgid ""
+"After submitting this form, you will receive an e-mail with your new, "
+"*system-generated* password, and a link to a page where you can change it."
+msgstr ""
+"Po odeslání tohoto formuláře obdržíte email s Vaším novým, *systémem "
+"vygenerovaným* heslem a odkazem na stránku, kde ho můžete změnit."
+
+#: core/data/System/WebSearch.txt:33 core/data/System/WebSearchAdvanced.txt:42
+msgid "All public webs"
+msgstr "Všechny veřejné weby"
+
+#: core/templates/foswiki.tmpl:7
+msgid "Allow non <nop>WikiWord for the new topic name"
+msgstr "Povolí ne <nop>WikiWord pro nový název článku"
+
+#: core/templates/messages.tmpl:267
+#, fuzzy
+msgid ""
+"Alternatively hit back to go back to %SYSTEMWEB%.UserRegistration and choose "
+"a different username."
+msgstr ""
+"Alternativně stiskněte Zpět, pro návrat zpět do System.UserRegistration a "
+"vyberte jiné jméno."
+
+#: core/templates/messages.tmpl:254
+msgid ""
+"An e-mail could not be delivered. Please notify your %1 administrator, %2"
+msgstr "Email nemohl být doručen. Uvědomte prosím Vašeho administrátora %1, %2"
+
+#: core/templates/moveattachment.tmpl:30
+msgid ""
+"An error page will be shown if either of the topics are locked by another "
+"user."
+msgstr ""
+"Chybová stránka se ukáže, pokud některý z článků je alokován jiným  "
+"uživatelem."
+
+#: core/templates/messages.tmpl:17
+msgid "And populated with topics from the base web"
+msgstr "Naplněno ćlánky ze základního webu"
+
+#: core/templates/changeform.tmpl:28
+#, fuzzy
+msgid ""
+"Any changes you made to the topic before coming to this page are preserved."
+msgstr ""
+"Všechny změny provedené do článku před příchodem na tuto stránku budou "
+"zachovány."
+
+#: core/templates/viewtopicactionbuttons.tmpl:66
+msgid "Attach"
+msgstr "Příloha"
+
+#: PatternSkin/templates/attachnew.pattern.tmpl:4
+#: core/templates/attachnew.tmpl:4
+msgid "Attach file to %1"
+msgstr "Připoj soubor k %1"
+
+#: PatternSkin/templates/attach.pattern.tmpl:11
+msgid "Attach image or document on %1"
+msgstr "Připoj obrázek nebo soubor k %1"
+
+#: PatternSkin/templates/attach.pattern.tmpl:36 core/templates/attach.tmpl:17
+#: core/templates/attachnew.tmpl:6 core/templates/attachnew.tmpl:8
+msgid "Attach new file"
+msgstr "Připoj nový soubor"
+
+#: core/templates/attachtables.tmpl:4
+msgid "Attachment"
+msgstr "Příloha"
+
+#: core/templates/messages.tmpl:522
+msgid "Attachment '%1' does not exist"
+msgstr "Přiloha '%1' neexistuje"
+
+#: core/lib/Foswiki/UI/Manage.pm:373
+msgid "Attachment already exists in new topic"
+msgstr "Přiloha už v novém článku existuje"
+
+#: core/templates/messages.tmpl:62
+msgid "Attachment delete failed"
+msgstr "Vymazání přílohy selhalo"
+
+#: core/lib/Foswiki/UI/Manage.pm:352
+msgid "Attachment does not exist"
+msgstr "Příloha neexistuje"
+
+#: core/templates/messages.tmpl:54
+msgid "Attachment move failed"
+msgstr "Přesun přílohy selhal"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:7
+#, fuzzy
+msgid "Attachments"
+msgstr "Příloha"
+
+#: PatternSkin/templates/attach.pattern.tmpl:14
+#, fuzzy
+msgid "Attachments help"
+msgstr "Příloha"
+
+#: core/templates/attach.tmpl:7
+#, fuzzy
+msgid "Attachments of %1"
+msgstr "Ostatní přílohy článku %1"
+
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
+msgid "Attachments will not be shown in topic view page."
+msgstr "Přílohy se nezobrazují na stránce Prohlížení článku"
+
+#: core/templates/oopsaccessdenied.tmpl:5 core/templates/oopsattention.tmpl:5
+#: core/templates/oopslanguagechanged.tmpl:13
+#: core/templates/oopsleaseconflict.tmpl:4 core/templates/oopssaveerr.tmpl:10
+msgid "Attention"
+msgstr "Pozor"
+
+#: core/templates/attachtables.tmpl:26
+msgid "Attribute"
+msgstr "Vlastnosti"
+
+#: MailerContrib/templates/mailnotify.tmpl:62
+msgid "Automated notification of topic changes"
+msgstr "Automatické upozorňování na změny článku"
+
+#: core/data/_default/WebHome.txt:4
+msgid "Available Information"
+msgstr "Dostupné informace"
+
+#: PatternSkin/templates/changeform.pattern.tmpl:13
+#: core/templates/changeform.tmpl:34
+#, fuzzy
+msgid "Available form templates"
+msgstr "Možné vzory pro formulář"
+
+#: core/data/System/WebTemplateTopics.txt:6
+#, fuzzy
+msgid "Available templates in %1 Web:"
+msgstr "Možné vzory pro formulář"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:9
+msgid "Back to topic"
+msgstr "Zpět na článek"
+
+#: core/templates/oopsmore.tmpl:53
+#: core/templates/viewtopicactionbuttons.tmpl:89
+msgid "Backlinks"
+msgstr "Zpětné odkazy"
+
+#: core/templates/backlinksweb.tmpl:7
+msgid "Backlinks to %1 in %2 Web"
+msgstr "Zpětné odkazy na %1 v %2 Webu"
+
+#: core/templates/backlinksallwebs.tmpl:7
+msgid "Backlinks to %1 in all Webs"
+msgstr "Zpětné odkazy na %1 ve všech Webech"
+
+#: core/templates/messages.tmpl:291
+#, fuzzy
+msgid "Bad password"
+msgstr "Nové heslo"
+
+#: core/templates/messages.tmpl:126
+msgid "Base web %1 is missing or does not exist"
+msgstr "Základní web %1 není dostupný nebo neexistuje"
+
+#: core/lib/Foswiki/OopsException.pm:41
+msgid "Bathing problem"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:40
+msgid "Both body and title"
+msgstr "Tělo článku i nadpis"
+
+#: core/templates/changeform.tmpl:29
+msgid ""
+"But existing form data will be lost (you can always retrieve this data "
+"through the topic history)"
+msgstr ""
+
+#: core/data/Trash/WebHome.txt:7
+msgid ""
+"By default, viewing the Trash web is restricted to %1. If you would like to "
+"allow all users to view the Trash web, remove the =ALLOWWEBVIEW= restriction "
+"in WebPreferences."
+msgstr ""
+"Je pŕednastaveno, že Trash web je dostupný pouze %1. Pokud chcete, aby "
+"všichni uživatelé viděli Trash web, odstraňte =ALLOWWEBVIEW= restrikci ve "
+"WebPreferences."
+
+#: core/templates/messages.tmpl:44 core/templates/messages.tmpl:462
+msgid "Can't find user %1"
+msgstr "Nemohu nalézt uživatele %1"
+
+#: core/templates/messages.tmpl:463
+msgid "Can't get an e-mail address for %1 (required for password reset)"
+msgstr ""
+"Nemohu zjistit emailovou adresu pro %1 (požadovaná pro nové nastavení hesla)"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:176
+#: core/templates/foswiki.tmpl:79
+#, fuzzy
+msgid "Cancel"
+msgstr "Pře&rušit"
+
+#: PatternSkin/templates/edit.pattern.tmpl:47
+msgid "Cancel editing and discard changes"
+msgstr "Zrušit editování a zahodit změny"
+
+#: core/templates/messages.tmpl:69
+msgid "Cannot create %1 because it already exists."
+msgstr "Nemohu vytvořit %1 protože už existuje."
+
+#: core/templates/messages.tmpl:122
+msgid "Cannot create web %1 because it already exists"
+msgstr "Web %1 nelze vytvoŕít, protože už existuje"
+
+#: core/templates/messages.tmpl:75 core/templates/messages.tmpl:81
+msgid "Cannot rename %1 to %2 because it already exists."
+msgstr "Nelze přejmenovat %1 do %2 protože už existuje."
+
+#: core/data/System/WebSearchAdvanced.txt:57
+msgid "Case sensitive"
+msgstr "Citlivé na velikost"
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:34
+msgid "Categories"
+msgstr "Kategorie"
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:2
+msgid "Change Password"
+msgstr "Změň heslo"
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:16
+msgid "Change comment and properties only"
+msgstr "Změna pouze komentáře a vlastností"
+
+#: core/templates/renamebase.tmpl:15
+msgid "Change from:"
+msgstr "Změň z:"
+
+#: core/data/System/LanguageSelector.txt:16
+#: core/templates/oopschangelanguage.tmpl:20
+#: core/templates/oopschangelanguage.tmpl:4
+#: core/templates/oopslanguagechanged.tmpl:5
+msgid "Change language"
+msgstr "Změň jazyk"
+
+#: core/templates/renamewebbase.tmpl:43
+msgid "Change links in topics that refer to !%1 in any Web:"
+msgstr "Změní odkazy v článcích, které odkazují na !%1 ve všech webech:"
+
+#: core/templates/renamewebbase.tmpl:40
+msgid "Change links in topics that refer to !%1 in the %2 Web:"
+msgstr "Změní odkazy v článcích, které odkazují na !%1 ve webu %2:"
+
+#: core/templates/renamebase.tmpl:56
+msgid "Change links in topics that refer to %1 in any Web:"
+msgstr "Změní odkazy v článcích, které odkazují na !%1 ve všech webech:"
+
+#: core/templates/renamebase.tmpl:53
+msgid "Change links in topics that refer to %1 in the %2 Web:"
+msgstr "Změní odkazy v článcích, které odkazují na !%1 ve webu %2:"
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:30
+msgid "Change password"
+msgstr "Změň heslo"
+
+#: core/templates/attachagain.tmpl:21
+#, fuzzy
+msgid "Change properties only"
+msgstr "Změna pouze komentáře a vlastností"
+
+#: core/templates/edit.tmpl:7
+msgid "Change topic"
+msgstr "Změna článku"
+
+#: core/templates/search.tmpl:15
+msgid "Changed"
+msgstr "Změněno"
+
+#: MailerContrib/templates/mailnotify.tmpl:18 core/templates/search.tmpl:16
+#, fuzzy
+msgid "Changed by"
+msgstr "Změněno:"
+
+#: MailerContrib/templates/mailnotify.tmpl:16
+msgid "Changed:"
+msgstr "Změněno"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:8
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:8
+#: PatternSkin/data/System/WebLeftBarExample.txt:9
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:6
+#: PatternSkin/data/_default/WebLeftBar.txt:7
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:7
+msgid "Changes"
+msgstr "Změny"
+
+#. ($r2, $r1)
+#: core/lib/Foswiki/UI/RDiff.pm:532
+msgid "Changes from r%1 to r%2"
+msgstr "Změněno z verze r%1 to r%2"
+
+#: core/templates/messages.tmpl:413
+#, fuzzy
+msgid ""
+"Check your configuration settings for {TemplateDir} and {TemplatePath}. If "
+"that's not the problem, it may be because you have a setting of %1 that is "
+"pointing to a template that doesn't exist."
+msgstr ""
+"Zkontrolujte Vaše nastavení pro {TemplateDir}. Pokud toto není problém, "
+"problémem může být, že %1 ukazuje na šablonu, která neexistuje."
+
+#: core/templates/renamebase.tmpl:43 core/templates/renamedelete.tmpl:31
+msgid "Checked topics will be updated to point to the new topic location."
+msgstr "Označené články budou aktualizovány do bodu do nového umístění příloh."
+
+#: core/templates/renameweb.tmpl:29
+msgid "Checked topics will be updated to point to the new web name."
+msgstr "Označené články budou aktualizovány do bodu do nového jména webu."
+
+#: core/templates/oopsmore.tmpl:128
+msgid "Child topics in %1 web"
+msgstr "Podřízené články v %1 webu"
+
+#: core/templates/changeform.tmpl:7
+#, fuzzy
+msgid "Choose a new form for %1"
+msgstr "Vyberte novou šablonu formuláře"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:33
+#: core/lib/Foswiki/Form/Checkbox.pm:40
+msgid "Clear all"
+msgstr "Vymaž vše"
+
+#: core/lib/Foswiki/Render.pm:192
+msgid ""
+"Click to move topic back to previous location, with option to change "
+"references."
+msgstr ""
+"Klikni na přesun článku zpět na předchozí umístění s možností změnit odkazy."
+
+#: TwistyPlugin/data/System/TwistyPlugin.txt:576
+msgid "Close"
+msgstr ""
+
+#: core/templates/messages.tmpl:130
+msgid "Color %1 has an invalid format"
+msgstr "Barva %1 má nesprávný formát"
+
+#: PatternSkin/templates/attach.pattern.tmpl:45 core/templates/attach.tmpl:26
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+msgid "Comment"
+msgstr "Komentář"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:276
+msgid "Comments:"
+msgstr "Komentáře:"
+
+#: core/templates/oopsmore.tmpl:109
+msgid "Compare revisions"
+msgstr "Porovnejte revize"
+
+#: core/templates/renameconfirm.tmpl:7 core/templates/renamewebconfirm.tmpl:7
+msgid "Confirm rename or move"
+msgstr "Podvrďte přejmenování nebo přesun"
+
+#: core/templates/messages.tmpl:31
+msgid ""
+"Confirm your changes using Foswiki's [[%1][topic history comparison tool "
+"(diff)]]."
+msgstr ""
+
+#: core/templates/oopsleaseconflict.tmpl:6
+msgid "Conflict"
+msgstr "Konflikt"
+
+#: core/templates/messages.tmpl:475 core/templates/messages.tmpl:481
+#: core/templates/messages.tmpl:502 core/templates/messages.tmpl:513
+#: core/templates/messages.tmpl:519 core/templates/messages.tmpl:525
+#: core/templates/messages.tmpl:534
+msgid "Contact %1 if you have any questions."
+msgstr "Kontaktujte %1 pokud máte nějaké otázky."
+
+#: core/templates/messages.tmpl:405
+msgid "Continue and try to rename web?"
+msgstr "Pokračujte a zkuste přejmenovat web?"
+
+#: core/data/System/WebTopicCreator.txt:4
+#, fuzzy
+msgid "Continue to create the new page"
+msgstr "Nemohu vytvořit nový web %1"
+
+#: core/templates/oopsmore.tmpl:20
+msgid ""
+"Copy text and form data to a new topic (no attachments will be copied "
+"though)."
+msgstr ""
+
+#: core/templates/oopsmore.tmpl:19
+#, fuzzy
+msgid "Copy topic"
+msgstr "K článku:"
+
+#: core/data/System/DefaultPreferences.txt:42
+msgid ""
+"Copyright &&copy; by the contributing authors. All material on this "
+"collaboration platform is the property of the contributing authors."
+msgstr ""
+"Copyright &&copy; podle přispívajících autorů. Všechen materiál na této "
+"platformě pro spolupráci je vlastnictvím přispívajících autorů."
+
+#: core/data/System/WebPreferences.txt:34
+#, fuzzy
+msgid ""
+"Copyright &&copy; by the contributing authors. All material on this site is "
+"the property of the contributing authors."
+msgstr ""
+"Copyright &&copy; podle přispívajících autorů. Všechen materiál na této "
+"platformě pro spolupráci je vlastnictvím přispívajících autorů."
+
+#: core/templates/messages.tmpl:140
+msgid "Could not create the new web %1"
+msgstr "Nemohu vytvořit nový web %1"
+
+#: core/templates/messages.tmpl:411
+msgid "Could not find template"
+msgstr "Nemohu nalézt šablonu"
+
+#: core/templates/messages.tmpl:467
+msgid "Could not perform search. Error was: %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:323
+msgid "Could not save %1."
+msgstr "Nemohu uložit %1"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:125
+msgid "Country:"
+msgstr "Země:"
+
+#: core/data/Sandbox/WebHome.txt:18
+msgid "Create <nop>TestTopic###"
+msgstr "Vytvořit <nop>TestTopic###"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:5
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:5
+#: PatternSkin/data/_default/WebLeftBar.txt:4
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:4
+msgid "Create New Topic"
+msgstr "Nový članek"
+
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:43
+#: core/data/System/WebCreateNewTopicTemplate.txt:6
+msgid "Create New Topic in %1 Web"
+msgstr "Nový článek v %1"
+
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:39
+msgid "Create a link to the attached file"
+msgstr "Odkaz na přilohu"
+
+#: core/data/Sandbox/WebHome.txt:16
+msgid "Create a new auto-numbered test topic:"
+msgstr "Vytvořit nový automaticky očíslovaný testovací článek:"
+
+#: core/data/Sandbox/WebHome.txt:9
+msgid "Create a new document by name:"
+msgstr "Nový dokument pod jménem:"
+
+#: core/data/Sandbox/WebHome.txt:10
+msgid "Create by Name"
+msgstr "Vytvořit pod jménem"
+
+#: core/templates/messages.tmpl:500
+#, fuzzy
+msgid "Create the topic"
+msgstr "Vytvořit tento článek"
+
+#: core/data/System/DefaultPreferences.txt:318
+#: core/data/System/DefaultPreferences.txt:320
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:14
+#: core/data/System/WebCreateNewTopicTemplate.txt:66
+#: core/lib/Foswiki/Render.pm:95
+msgid "Create this topic"
+msgstr "Vytvořit tento článek"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:284
+msgid ""
+"Create your personal %1 topic using your WikiName as topic name, and add the "
+"data you submitted to the topic."
+msgstr ""
+"Vytvořte Váš osobní %1 článek použitím Vašeho WikiName jako jména článku,a "
+"přidejte data které jste odeslali do článku."
+
+#: core/templates/messages.tmpl:352
+msgid "Creating a suitable Form Definition topic"
+msgstr "Vytvořte vhodný Definiční článek formuláře"
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:9
+#: core/templates/renamedelete.tmpl:10
+msgid "Current location:"
+msgstr "Nyní jste zde:"
+
+#: core/templates/oopsmore.tmpl:67
+msgid "Current parent:"
+msgstr "Současný nadřízený:"
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:23
+msgid "Current password"
+msgstr "Současné heslo"
+
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+msgid "Date"
+msgstr "Datum"
+
+#: core/templates/mailresetpassword.tmpl:5
+msgid "Dear %1"
+msgstr "Vážený %1"
+
+#: core/templates/oopsmore.tmpl:113
+msgid "Debug"
+msgstr "Ladění"
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#, fuzzy
+msgid "Default template"
+msgstr "Nemohu nalézt šablonu"
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: core/templates/renamedelete.tmpl:34 core/templates/renamedelete.tmpl:7
+msgid "Delete"
+msgstr "Smazat"
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:28
+msgid "Delete attachment"
+msgstr "Smazat přílohu"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:175
+#, fuzzy
+msgid "Delete last row"
+msgstr "Vymazat článek"
+
+#: core/templates/oopsmore.tmpl:35
+msgid "Delete topic"
+msgstr "Vymazat článek"
+
+#: core/templates/oopsmore.tmpl:36 core/templates/oopsmore.tmpl:38
+msgid "Delete topic..."
+msgstr "Vymazat článek..."
+
+#: PatternSkin/templates/attach.pattern.tmpl:47
+msgid "Describe the file so other people know what it is."
+msgstr "Popište soubor, tak aby ostatní lidé věděli o co jde."
+
+#: core/lib/Foswiki/Form.pm:272
+#, fuzzy
+msgid "Details in separate window"
+msgstr "Klikněte pro zobrazení detailů v odděleném okně"
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:6
+#, fuzzy
+msgid ""
+"Did you spell the topic name correctly? Remember, a topic name is case "
+"sensitive."
+msgstr ""
+"Ujistěte se, že jste napsal %1 korektně a zkuste to znova. Nezapomeňte, že %"
+"2 je citlivé na velikost písmen"
+
+#: core/data/System/VarMAKETEXT.txt:19
+msgid "Did you want to [[%1][reset %2's password]]?"
+msgstr "Chtěl jste  [[%1][vynulovat %2 heslo]]?"
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:14
+msgid "Difference:"
+msgstr "Rozdíly:"
+
+#: core/templates/preview.tmpl:11
+#, fuzzy
+msgid "Do not forget to save your changes"
+msgstr "<span class='twikiAlert'><b>Nezapomeňte</b></span> uložit Vaše změny."
+
+#: PatternSkin/templates/attach.pattern.tmpl:57 core/templates/attach.tmpl:47
+msgid "Do not show attachment in table"
+msgstr "Neukazovat přílohu v tabulce"
+
+#: core/data/System/WebSearchAdvanced.txt:68
+msgid "Don't show:"
+msgstr "Neukazuj:"
+
+#: core/templates/messages.tmpl:63
+msgid ""
+"During deletion of attachment =%1= an error was found. Please notify your %2 "
+"administrator."
+msgstr ""
+"Během mazání přílohy =%1= byla nalezena chyba. Prosím uvědomte Vašeho "
+"administratora %2."
+
+#: core/templates/messages.tmpl:55
+msgid ""
+"During move of attachment %1 to %2 an error was found. Please notify your %3 "
+"administrator."
+msgstr ""
+"Během přesunu Vaší přílohy %1 do %2 byla nalezena chyba. Prosím "
+"uvědomteVašeho administratora %3."
+
+#: core/templates/messages.tmpl:99
+msgid ""
+"During rename of topic %1 to %2 an error (%3) was found. Please notify your %"
+"4 administrator."
+msgstr ""
+"Během přejmenování Vašeho článku %1 na %2 se objevila chyba (%3). Prosím "
+"uvědomte Vašeho %4 administratora."
+
+#: core/templates/messages.tmpl:102
+msgid ""
+"During rename of web %1 to %2 an error (%3) was found. Please notify your %4 "
+"administrator."
+msgstr ""
+"Během přejmenování webu %1 na %2 se objevila chyba (%3). Prosím uvědomte %4 "
+"- administrátora."
+
+#: core/templates/messages.tmpl:382 core/templates/oopssaveerr.tmpl:17
+msgid ""
+"During save of %1 an error was found by the version control system. Please "
+"notify your %2 administrator."
+msgstr ""
+"Během ukládání %1 se objevila chyba u version control systému. Prosím "
+"uvědomte %2 - administrátora."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:109
+msgid "E-mail address:"
+msgstr "Emailová adresa:"
+
+#: core/templates/messages.tmpl:191
+msgid "E-mail changed successfully!"
+msgstr "Email byl úspěšně změněn!"
+
+#: core/templates/settings.tmpl:27
+msgid "Each preference has the syntax"
+msgstr "Každá preference má syntaxi"
+
+#: core/templates/viewtopicactionbuttons.tmpl:45
+msgid "Edit"
+msgstr "Změň"
+
+#: core/templates/oopsleaseconflict.tmpl:25
+msgid "Edit Anyway"
+msgstr "Přesto změň"
+
+#: PatternSkin/templates/edit.pattern.tmpl:17
+#, fuzzy
+msgid "Edit help"
+msgstr "Změňte text"
+
+#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:5
+msgid "Edit personal data"
+msgstr "Změňte vaše osobní údaje"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:170
+#, fuzzy
+msgid "Edit table"
+msgstr "Změňte text"
+
+#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
+msgid "Edit text"
+msgstr "Změňte text"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:171
+#, fuzzy
+msgid "Edit this table"
+msgstr "Změňte text tohoto článku"
+
+#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:18
+msgid "Edit this topic text"
+msgstr "Změňte text tohoto článku"
+
+#: core/templates/oopsmore.tmpl:13
+msgid "Edit topic preference settings"
+msgstr "Změňte nastavení tohoto článku"
+
+#: core/templates/messages.tmpl:308
+msgid ""
+"Either the code is not valid, or you have already confirmed your "
+"registration using it."
+msgstr ""
+
+#: core/templates/messages.tmpl:373
+msgid ""
+"Either you did not specify a file name, or the file you are trying to upload "
+"%1 has no content. You may not upload an empty file."
+msgstr ""
+"Buď jste nevložil jméno souboru nebo soubor %1, který se pokoušíte nahrát "
+"nemá žádný obsah. Nemůžete nahrát prázdný soubor."
+
+#: core/lib/Foswiki/UI/Register.pm:411 core/lib/Foswiki/UI/Register.pm:450
+msgid "Email has been disabled for this Foswiki installation"
+msgstr ""
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:75
+msgid "Enlarge edit box"
+msgstr "Zvětšit editovací prostor"
+
+#: core/templates/login.tmpl:7
+#, fuzzy
+msgid "Enter a new username and password to change identity"
+msgstr "Vložte nový účet a heslo pro změnu identity:"
+
+#: core/templates/login.sudo.tmpl:18
+msgid "Enter the Wiki Administrator user or login as set in %1"
+msgstr ""
+
+#: core/templates/messages.tmpl:241
+#, fuzzy
+msgid "Error registering new user"
+msgstr "Chyba při registraci uživatele %1"
+
+#: core/templates/messages.tmpl:232
+msgid "Error registering user %1"
+msgstr "Chyba při registraci uživatele %1"
+
+#: core/templates/messages.tmpl:381
+msgid "Error saving topic"
+msgstr "Chyba při uložení ćlánku"
+
+#: core/templates/login.tmpl:29
+#, fuzzy
+msgid "Error: %1"
+msgstr "Chyby"
+
+#: core/templates/messages.tmpl:454
+msgid "Error: File attachment at %1,%2 does not exist"
+msgstr "Chyba: Příloha v %1,%2 neexistuje"
+
+#: core/templates/messages.tmpl:456
+msgid ""
+"Error: Unsupported content type: %1 (Must be =text/html=, =text/plain= or "
+"=text/css=)"
+msgstr ""
+"Chyba: Nepodporovaný typ souboru: %1 (Musí být =text/html=, =text/plain= "
+"nebo =text/css=)"
+
+#: core/templates/messages.tmpl:455
+msgid "Error: Unsupported protocol. (Must be 'http://domain/...')"
+msgstr "Chyba: Nepodporovaný protokol. (Musí být 'http://domain/...')"
+
+#: core/templates/messages.tmpl:258
+msgid "Errors"
+msgstr "Chyby"
+
+#: core/templates/messages.tmpl:465
+msgid "Failed to include URL %1"
+msgstr "Chyba při vložení URL %1"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:32
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:21
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:26
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:90
+msgid "Fields marked %1 are required"
+msgstr "Pole označená %1 jsou nutná"
+
+#: core/templates/messages.tmpl:358
+msgid "File has been uploaded with different name"
+msgstr "Soubor byl nahrán pod odlišným jménem"
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:11
+msgid "Find similar topics"
+msgstr ""
+
+#: core/templates/oopsmore.tmpl:54 core/templates/oopsmore.tmpl:56
+msgid "Find topics that link to %1 ..."
+msgstr "Najít články které odkazují na %1 ..."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:283
+msgid ""
+"Finish creating an account for you, so that you can start editing pages "
+"using your WikiName."
+msgstr ""
+"Dokončete vytvoření Vašeho úćtu, tak, aby jste mohl začít měnit stránkys "
+"pouźitím Vašeho WikiName."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:93
+msgid "First Name:"
+msgstr "Křestní jméno:"
+
+#: PatternSkin/templates/edit.pattern.tmpl:30
+msgid "Force new revision"
+msgstr "Vynucení nové revize"
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:5
+msgid "Forgotten your password?"
+msgstr "Zapomněl jste Vaše heslo?"
+
+#: core/templates/messages.tmpl:330
+msgid "Form Definition %1 missing"
+msgstr "Definice formuláře %1 chybí"
+
+#: core/templates/messages.tmpl:335
+msgid "Form definition missing"
+msgstr "Definice formuláře chybí"
+
+#: core/templates/login.tmpl:3
+msgid "Foswiki User Authentication"
+msgstr ""
+
+#: core/templates/mailresetpassword.tmpl:3
+#, fuzzy
+msgid "Foswiki password reset for %1"
+msgstr "TWiki znovunastavení hesla pro %1"
+
+#: core/templates/oopschangelanguage.tmpl:12
+#, fuzzy
+msgid ""
+"Foswiki's user interface is available in several languages. If you want to "
+"change the language for this session, choose one of the following and hit "
+"\"Change language\". Otherwise, follow the \"Cancel\" link on the bottom of "
+"the page to return to the previous topic."
+msgstr ""
+"Uživatelské rozhraní TWiki je dostupné v nékolika jazycích. Pokud chcete "
+"jazyk pro toto sezení, vyberte jeden z následujících jazyků a stiskněte  "
+"\"Změň jazyk\". Jinak stiskněte odkaz \"Přerušit\" dole na stránce, aby jste "
+"se vrátil na předchozí článek."
+
+#: core/templates/settings.tmpl:26
+#, fuzzy
+msgid ""
+"Get help on <a target='Macros' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>Setting topic preferences</a>."
+msgstr ""
+"Nápověda pro <a target='Macros' onclick=\"return launchWindow('%1','Macros')"
+"\" href='%2' rel='nofollow'>Nastavení preferencí článku</a>."
+
+#: core/templates/renamebase.tmpl:66
+#, fuzzy
+msgid ""
+"Get help on <a target='ManagingTopics' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>Renaming and moving topics</a>."
+msgstr ""
+"Nápověda pro <a target='ManagingTopics' onclick=\"return launchWindow('%"
+"1','ManagingTopics')\" href=\"%2\" rel='nofollow'>Přejmenování a přesun "
+"článků</a>."
+
+#: core/templates/renamewebbase.tmpl:50
+#, fuzzy
+msgid ""
+"Get help on <a target='ManagingWebs' class='foswikiPopUp' href='%1' "
+"rel='nofollow'>Renaming and moving webs</a>."
+msgstr ""
+"Nápověda pro <a target='ManagingTopics' onclick=\"return launchWindow('%"
+"1','ManagingTopics')\" href=\"%2\" rel='nofollow'>Přejmenování a přesun "
+"článků</a>."
+
+#: core/data/System/WebSearch.txt:5 core/data/System/WebSearchAdvanced.txt:5
+msgid "Get notified on changes on this search"
+msgstr ""
+
+#: core/templates/foswiki.tmpl:81
+msgid "Go back"
+msgstr "Jdi zpět"
+
+#: core/templates/messages.tmpl:327
+msgid ""
+"Go back in your browser and insert information for all mandatory fields."
+msgstr "Jděte zpět v prohlížeči a vložte informace pro všechny nutné pole."
+
+#: core/templates/messages.tmpl:388 core/templates/oopssaveerr.tmpl:21
+msgid "Go back in your browser and save your changes locally."
+msgstr "Jděte zpět ve svém prohlížeči a uložte Vaše změny lokálně."
+
+#: core/templates/messages.tmpl:282
+msgid "Good examples:"
+msgstr "Dobré příklady:"
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:6
+msgid "Groups"
+msgstr "Skupiny"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:3
+msgid "Hello %1"
+msgstr "Vítejte %1"
+
+#: core/templates/foswiki.tmpl:105
+#, fuzzy
+msgid "Hello %1!"
+msgstr "Vítejte %1"
+
+#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:31
+#: core/templates/login.tmpl:50
+msgid "Help"
+msgstr "Nápověda"
+
+#: core/templates/attach.tmpl:45
+#, fuzzy
+msgid "Hide file"
+msgstr "Skryj nápovědu"
+
+#: core/templates/login.tmpl:50
+#, fuzzy
+msgid "Hide help"
+msgstr "Změňte text"
+
+#: core/templates/messages.tmpl:117
+msgid "Hierarchical Webs is currently disabled, you cannot create Nested webs."
+msgstr ""
+
+#: core/templates/registernotify.tmpl:16
+msgid "How about attaching your photo?"
+msgstr "Nechtěl by jste připojit Vaší fotografii?"
+
+#: core/templates/registerconfirm.tmpl:4
+msgid "How to activate your %1 registration"
+msgstr "Jak aktivovat Vaši %1 registraci"
+
+#: core/templates/registerfailednotremoved.tmpl:14
+msgid ""
+"However, sending a confirmation e-mail to %2 failed, suggesting that this "
+"may be a fraudulent registration.  The user '%1' could not be removed "
+"automatically."
+msgstr ""
+
+#: core/templates/registerfailedremoved.tmpl:14
+msgid ""
+"However, sending a confirmation e-mail to %2 failed, suggesting that this "
+"maye be a fraudulent registration.  The user '%1' was removed automatically. "
+"However you may have to remove the user's personal topic manually."
+msgstr ""
+
+#: core/templates/messages.tmpl:360
+msgid ""
+"However, the filename has been changed from %1 to %2. Please make a note of "
+"it."
+msgstr "Jakkoliv, soubor byl změněn z %1 na %2. Prosím učiňte o tom poznámku."
+
+#: core/templates/login.tmpl:65
+msgid "I forgot my password"
+msgstr "Zapomněl jsem své heslo"
+
+#: core/data/System/DefaultPreferences.txt:42
+#: core/data/System/WebPreferences.txt:34
+msgid "Ideas, requests, problems regarding %1? <a href='%2'>Send feedback</a>"
+msgstr ""
+"Nápady, požadavky, problémy týkající se %1? <a href='%2'>Pošli svoji reakci</"
+"a>"
+
+#: core/templates/messages.tmpl:344
+msgid "If this line isn't present see _upgrade_ section below"
+msgstr "Pokud se tato řádka neukazuje, zkontroluj _upgrade_ sekci dole"
+
+#: core/templates/messages.tmpl:338
+msgid "If this topic is missing create it, otherwise check it for errors."
+msgstr "Pokud tento článek chybí, vytvořte ho, jinak ho zkontrolujte na chyby."
+
+#: core/data/System/WebSearch.txt:43 core/data/System/WebSearchAdvanced.txt:97
+msgid ""
+"If you already know the name of the topic, enter the name of the topic into "
+"the [[%1][Jump box]] at the top"
+msgstr ""
+"Jestliže znáte název článku, vložte název článku do [[%1][Jump box]] nahoře"
+
+#: core/templates/messages.tmpl:425
+#, fuzzy
+msgid ""
+"If you are developing a Foswiki application, see %1 for a description of the "
+"correct parameters."
+msgstr ""
+"Pokud vytváříte <nop>TWikiApplication, podívejte se na  %1 pro popis "
+"správných parametrů."
+
+#: core/templates/messages.tmpl:490
+msgid "If you came here by clicking on a question mark link"
+msgstr "Pokud jste sem přišel stiskem otazníku"
+
+#: core/templates/messages.tmpl:247
+msgid "If you don't receive a verification email within the next hour, "
+msgstr ""
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:40
+msgid "If you enter a different name, make sure the topic does  exist."
+msgstr "Pokud vložíte rozdílné jméno, ujistěte se, že článek existuje."
+
+#: core/templates/registerconfirm.tmpl:14
+#: core/templates/registernotify.tmpl:23
+msgid ""
+"If you got this e-mail by mistake: Somebody (%1) registered at the %2 site "
+"using your mail address %3. Contact %4 if this is in error."
+msgstr ""
+"Pokud jste dostal tento mail omylem: Někdo (%1) se zaregistroval na %2 "
+"serveru s použitím Vaší emailové adresy %3. Kontaktujte %4 pokud je to chyba."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:303
+msgid "If you have any questions about registration, send an e-mail to %1."
+msgstr "Pokud máte libovolné otázky o registraci, pošlete email %1."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:46
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:36
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:39
+#: core/templates/login.tmpl:76
+#, fuzzy
+msgid "If you have any questions, please contact %1"
+msgstr "Pokud máte libovolné otázky, kontaktujte prosím %1."
+
+#: core/data/System/VarMAKETEXT.txt:16
+#: core/templates/mailresetpassword.tmpl:14
+msgid "If you have any questions, please contact %1."
+msgstr "Pokud máte libovolné otázky, kontaktujte prosím %1."
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:146
+#: core/templates/registernotify.tmpl:25
+msgid "If you haven't set a password yet or you want to reset it, go to: %1"
+msgstr ""
+"Pokud jste zatím nenastavil heslo nebo ho chcete znovu nastavit, jděte na: %1"
+
+#: core/templates/messages.tmpl:423
+msgid ""
+"If you received a link to this topic in an e-mail or just want to look at "
+"the topic, [[%1][cancel save]] to go to %2."
+msgstr ""
+"Pokud jste obdržel odkaz na tento článek v emailu nebo se chcete pouze "
+"podívat na článek, stiskněte [[%1][přerušit uložit]] aby jste přešli na %2."
+
+#: core/templates/messages.tmpl:499
+msgid "If you want to create the topic"
+msgstr "Pokud chcete vytvořit článek"
+
+#: core/templates/messages.tmpl:495
+msgid "If you would like to create this web"
+msgstr "Pokud chcete vytvořit tento web"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:13
+msgid ""
+"If your old e-mail addresses are all invalid (you can't receive mail there "
+"any more) and you have forgotten your password, please contact %1 for help."
+msgstr ""
+"Pokud je Vaše emailová adresa nefunkční (nemůžete odsud přijímat žádnou "
+"poštu) a zapomněl jste své heslo, pro pomoc kontaktujte %1."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:11
+msgid ""
+"If your user topic is not protected from changes by other people, and you "
+"don't register an e-mail address using this form, then your user account "
+"could be hijacked by someone else."
+msgstr ""
+"Pokud Váš osobní článek není chráněn před změnamiod ostatních lidí a vy jste "
+"nezaregistroval Váš email pomocí tohoto formuláře, potom by Váš účet mohl "
+"být převzat někým jiným."
+
+#: PatternSkin/templates/attach.pattern.tmpl:55 core/templates/attach.tmpl:39
+msgid "Images will be displayed, for other attachments a link will be created."
+msgstr "Obrázky budou zobrazeny, pro ostatní přílohy bude vytvořen odkaz."
+
+#: core/data/System/WebSearchAdvanced.txt:52
+msgid "In reversed order"
+msgstr "V obráceném pořadí"
+
+#: core/templates/messages.tmpl:363
+#, fuzzy
+msgid ""
+"In some cases, Foswiki changes the name of the uploaded file to make it safe "
+"and accessible across all platforms:"
+msgstr ""
+"V některých případech, TWiki změní jméno nahraného souboru tak, aby ho "
+"udělal bezpečným a přístupným ze všech platforem:"
+
+#: core/templates/messages.tmpl:272 core/templates/messages.tmpl:279
+msgid "Incorrect %1"
+msgstr "Chybné %1"
+
+#: core/templates/messages.tmpl:282
+msgid "Incorrect %1.WikiNames:"
+msgstr "Chybné %1.WikiNames:"
+
+#: core/templates/messages.tmpl:105
+msgid "Incorrect Password"
+msgstr "Chybné heslo"
+
+#: core/templates/messages.tmpl:421
+msgid "Incorrect parameters to the =%1= script"
+msgstr "Chybné parametry pro =%1= skript"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:6
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:6
+#: PatternSkin/data/System/WebLeftBarExample.txt:7
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:4
+#: PatternSkin/data/_default/WebLeftBar.txt:5
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:5
+msgid "Index"
+msgstr "Index"
+
+#: core/templates/messages.tmpl:367
+msgid ""
+"International (8-bit) characters are removed (replaced by US-ASCII "
+"equivalents for Latin-1)"
+msgstr ""
+
+#: core/templates/messages.tmpl:305
+msgid "Invalid Activation Code"
+msgstr "Chybný aktivační kód"
+
+#: core/templates/messages.tmpl:297
+msgid "Invalid e-mail address"
+msgstr "Chybná emailová adresa"
+
+#: core/templates/messages.tmpl:436
+msgid ""
+"It is probably OK to go ahead and edit - unless you intend to change data in "
+"a form attached to the topic. If %1 actually _does_ save the topic while you "
+"are editing, your changes will be merged, and nothing will be lost. Form "
+"data cannot easily be merged though, so in this case you are recommended to "
+"check with %1 first."
+msgstr ""
+"Pravděpodobně je v pořádku pokračovat a upravovat - pokud neplánujete měnit "
+"datave formuláři připojeném ke článku. Pokud %1 _uloží článek_ dokud ho Vy "
+"editujete, Vaše změny budou sloućeny a nic se neztratí. Data formuláře "
+"bohužel nemohou být jednoduše sloučena, proto se Vám v tomto případě "
+"doporučuje zkontrolovat nejdřive %1."
+
+#: core/templates/foswiki.tmpl:9
+#, fuzzy
+msgid ""
+"It's usually best to choose a <a target='WikiWord' class='foswikiPopUp' "
+"href='%1' rel='nofollow'>WikiWord</a> for the new topic name, otherwise "
+"automatic linking may not work. Characters not allowed in topic names, such "
+"as spaces will automatically be removed."
+msgstr ""
+"Obvykle je nejlépe vybrat <a target='WikiWord' onclick=\"return launchWindow"
+"('%1','WikiWord')\" href='%1' rel='nofollow'>WikiWord</a> pro nové jméno "
+"článku, jinak nebude fungovat automatické odkazování. Písmena nepovolená ve "
+"jménu článku, jako jsou mezery budou automaticky odstraněna."
+
+#: core/templates/renameweb.tmpl:17
+msgid ""
+"It's usually best to choose a short name for the new web, as it is easier to "
+"link to them later on. Characters not allowed in web names, such as spaces "
+"will automatically be removed."
+msgstr ""
+"Obvykle je nejlepší vybrat krátké jméno pro nový web, protože je lehčí "
+"tvořitodkazy na něj. Písmena nepovolená ve jménu článku, jako jsou mezery "
+"budou automaticky odstraněna."
+
+#: PatternSkin/data/System/WebLeftBarSearch.txt:2
+#: PatternSkin/data/System/WebTopBarExample.txt:7
+#: PatternSkin/templates/foswiki.pattern.tmpl:37
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:19
+msgid "Jump"
+msgstr "Přejdi na"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:97
+msgid "Last Name:"
+msgstr "Poslední jméno"
+
+#: core/data/System/WebSearchAdvanced.txt:50
+msgid "Last editor"
+msgstr "Poslední editor"
+
+#: core/data/System/WebSearchAdvanced.txt:49
+msgid "Last modified time"
+msgstr "Naposledy změněno"
+
+#: core/data/System/WebSearchAdvanced.txt:75
+msgid "Limit results to:"
+msgstr "Omezit výsledky na:"
+
+#. ($left)
+#. ($right)
+#: core/lib/Foswiki/UI/RDiff.pm:157 core/lib/Foswiki/UI/RDiff.pm:160
+msgid "Line: %1"
+msgstr "Řádek: %1"
+
+#. ($left, $right)
+#: core/lib/Foswiki/UI/RDiff.pm:319
+msgid "Line: %1 to %2"
+msgstr "Řádek: %1 až %2"
+
+#: core/templates/attach.tmpl:37
+#, fuzzy
+msgid "Link"
+msgstr "Mé odkazy"
+
+#: core/data/System/WebSearch.txt:44 core/data/System/WebSearchAdvanced.txt:98
+msgid "List all topics in the %1 web in alphabetical order"
+msgstr "Všechny články v %1 podle abecedy"
+
+#: core/data/System/WebSearch.txt:45 core/data/System/WebSearchAdvanced.txt:99
+msgid "List topics that start with the letter:"
+msgstr "Články, které začínají písmenem:"
+
+#: core/data/System/WebSearchAdvanced.txt:60
+#, fuzzy
+msgid "Literal search"
+msgstr "Hledej"
+
+#: core/data/Main/SitePreferences.txt:2
+#, fuzzy
+msgid "Local customisations of site-wide preferences"
+msgstr "%1 pro změnu preferencí webu"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:4
+msgid "Log In"
+msgstr "Přihlásit"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:5
+msgid "Log Out"
+msgstr "Odhlásit"
+
+#: core/templates/mailresetpassword.tmpl:9
+msgid "Login name %1"
+msgstr "Přihlášen %1"
+
+#: PatternSkin/data/System/PatternSkinElements.txt:200
+#: core/templates/login.tmpl:71
+msgid "Logon"
+msgstr "Přihlásit"
+
+#: core/templates/messages.tmpl:256
+msgid "Mail to"
+msgstr "Odeslat mail"
+
+#: core/data/System/WebSearchAdvanced.txt:56
+msgid "Make search:"
+msgstr "Hledání:"
+
+#: core/templates/messages.tmpl:220
+msgid "Missing Fields"
+msgstr "Chybějící pole"
+
+#: core/templates/messages.tmpl:36
+msgid "Missing action command"
+msgstr "Chybí příkaz akce"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:40
+msgid "Modify search"
+msgstr "Změň hledání"
+
+#: core/templates/oopsmore.tmpl:7
+msgid "More Actions on Topic %1"
+msgstr "Další akce s článkem %1"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "More formatting help"
+msgstr "Více nápovědy k formátování"
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:29
+#: core/templates/viewtopicactionbuttons.tmpl:76
+msgid "More topic actions..."
+msgstr "Další akce..."
+
+#: TwistyPlugin/data/System/TwistyPlugin.txt:574
+#, fuzzy
+msgid "More..."
+msgstr "více..."
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
+#: core/templates/moveattachment.tmpl:36
+msgid "Move"
+msgstr "Přesun"
+
+#: core/templates/moveattachment.tmpl:10
+msgid "Move attachment"
+msgstr "Přesun přílohy"
+
+#: core/templates/moveattachment.tmpl:22
+msgid "Move attachment to web:"
+msgstr "Přesun přílohy do:"
+
+#: core/templates/moveattachment.tmpl:7
+msgid "Move file attachment"
+msgstr "Přesun přílohy"
+
+#: core/templates/attachagain.tmpl:21
+#, fuzzy
+msgid "Move or delete attachment"
+msgstr "Přesun přílohy"
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:21
+msgid "Move to web:"
+msgstr "Přesun do:"
+
+#: core/templates/renamedelete.tmpl:16
+msgid "Move topic to web:"
+msgstr "Přesun článku do:"
+
+#: core/lib/Foswiki/UI/Manage.pm:1258
+#, fuzzy
+msgid "Move/Rename"
+msgstr "Přejmenovat"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:64
+msgid "My Links"
+msgstr "Mé odkazy"
+
+#: core/lib/Foswiki/Search.pm:880
+msgid "NEW"
+msgstr "NOVÝ"
+
+#: core/templates/oopsmore.tmpl:23
+#, fuzzy
+msgid "Name of copy:"
+msgstr "Počet článků"
+
+#: core/templates/messages.tmpl:111
+msgid "Name of new web is missing"
+msgstr "Chybí jméno nového webu"
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:8
+msgid "Navigate to a similar topic"
+msgstr ""
+
+#: core/templates/messages.tmpl:153
+msgid "New User Registration disabled"
+msgstr ""
+
+#: core/templates/messages.tmpl:144
+msgid "New User Registration not supported"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:35
+msgid "New e-mails (space-separated list)"
+msgstr "Nové emailové adresy (mezerou oddělený seznam)"
+
+#: MailerContrib/templates/mailnotify.tmpl:73
+#: MailerContrib/templates/mailnotify.tmpl:9
+msgid "New or changed topics in %1, since %2:"
+msgstr "Nový nebo změněný článek v %1, od %2:"
+
+#: core/templates/renamewebbase.tmpl:10
+msgid "New parent web:"
+msgstr "Nový nadřízený web"
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:24
+msgid "New password"
+msgstr "Nové heslo"
+
+#: core/templates/messages.tmpl:87
+msgid "New topic name %1 is not a %2"
+msgstr "Nové jméno článku %1 není %2"
+
+#: core/templates/renamewebbase.tmpl:7
+msgid "New web name:"
+msgstr "Nové jméno webu:"
+
+#: core/templates/oopsmore.tmpl:112
+msgid "Newer revision:"
+msgstr "Novější revize:"
+
+#: core/templates/oopsmore.tmpl:129
+msgid "No child topics"
+msgstr "Žádné podřízené články"
+
+#: core/templates/messages.tmpl:453
+msgid "No permission to view %1"
+msgstr "Nemáte právo pro prohlížení %1"
+
+#: core/templates/oopsmore.tmpl:124
+#, fuzzy
+msgid "No previous revision exists."
+msgstr "Prohlédni předchozí revize článku"
+
+#: core/templates/messages.tmpl:213
+msgid "No users to reset passwords for."
+msgstr "%Žádní uživatelé pro znovunastavení hesla"
+
+#: core/templates/renamedelete.tmpl:31
+msgid "Not recommended when deleting a topic."
+msgstr "Nedoporučeno při mazání článku"
+
+#: core/templates/moveattachment.tmpl:31
+msgid ""
+"Note that any URLs that refer to the attachment will be broken after this "
+"move."
+msgstr ""
+"Bohužel všechny odkazy (URL), které ukazují na tuto přílohu budou chybné po "
+"tomto přesunu."
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:144
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:13
+#: core/templates/messages.tmpl:310 core/templates/messages.tmpl:362
+#: core/templates/registerconfirm.tmpl:13
+#: core/templates/registernotify.tmpl:22
+msgid "Note:"
+msgstr "Poznámka:"
+
+#: core/data/System/VarMAKETEXT.txt:13
+msgid "Notes:"
+msgstr "Poznámky:"
+
+#: core/data/System/WebChangesAlert.txt:2
+#, fuzzy
+msgid "Notification help"
+msgstr "Upozornění:"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:9
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:9
+#: PatternSkin/data/System/WebLeftBarExample.txt:10
+#: PatternSkin/data/_default/WebLeftBar.txt:8
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:8
+msgid "Notifications"
+msgstr "Upozornění:"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:39
+#: PatternSkin/templates/searchbase.pattern.tmpl:5
+#: core/templates/search.text.tmpl:15 core/templates/searchformat.tmpl:10
+msgid "Number of topics:"
+msgstr "Počet článků"
+
+#: core/templates/foswiki.tmpl:80 core/templates/messages.tmpl:181
+#: core/templates/messages.tmpl:188 core/templates/oopsaccessdenied.tmpl:7
+#: core/templates/oopssaveerr.tmpl:14
+msgid "OK"
+msgstr "OK"
+
+#: core/templates/oopsmore.tmpl:112
+msgid "Older revision:"
+msgstr "Starší revize"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:291
+msgid "Once registered you can login using your %1 and password."
+msgstr "Po zaregistrování se můžete přihlášit jako %1 s Vaším heslem."
+
+#: core/templates/messages.tmpl:479
+msgid "Only members of the %1 are allowed to perform this action."
+msgstr "Pouze členové %1 jsou oprávnění provést tuto akci."
+
+#: core/templates/login.tmpl:8
+msgid ""
+"Oops: we could not recognize you. Try again or [[%1][reset your password]]."
+msgstr ""
+
+#: core/templates/renamedelete.tmpl:19
+msgid "Optionally change topic name:"
+msgstr "Volitelně změní jméno článku:"
+
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:32
+msgid "Optionally enter a different topic name:"
+msgstr "Volitelně vložte odlišné jméno článku:"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:122
+msgid "Organisation URL:"
+msgstr "URL organizace:"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:119
+msgid "Organisation name:"
+msgstr "Jméno organizace:"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:271
+msgid "Other Country"
+msgstr "Ostatní země"
+
+#: core/data/System/WebSearch.txt:42 core/data/System/WebSearchAdvanced.txt:96
+msgid "Other search options:"
+msgstr "Ostatní možnosti při hledání:"
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:5
+msgid "Otherwise, use this form to get a new one e-mailed to you."
+msgstr "Jinak použijte tento formulář aby jste dostal nový emailem."
+
+#: PatternSkin/data/System/PatternSkinElements.txt:195
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:34
+#: core/templates/login.tmpl:60
+msgid "Password"
+msgstr "Heslo"
+
+#: core/templates/messages.tmpl:174
+msgid "Password changed successfully!"
+msgstr "Změna hesla byla úspěšná!"
+
+#: core/templates/messages.tmpl:184
+#, fuzzy
+msgid "Password could not be changed"
+msgstr "Hesla si neodpovídají"
+
+#: core/templates/messages.tmpl:212 core/templates/messages.tmpl:216
+msgid "Password reset failed"
+msgstr "Znovunastavení hesla bylo neúspěšné"
+
+#: core/templates/messages.tmpl:226
+msgid "Passwords do not match"
+msgstr "Hesla si neodpovídají"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:60
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:74
+msgid "Personal Preferences"
+msgstr "Osobní preference"
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:62
+#: core/templates/oopsmore.tmpl:71
+msgid "Pick from a list"
+msgstr ""
+
+#: core/templates/messages.tmpl:133
+msgid "Pick one of the %1."
+msgstr "Vyberte jedno z %1."
+
+#: core/data/Trash/TrashAttachment.txt:3
+msgid "Placeholder for trashed attachments"
+msgstr "Místo pro vymazané přílohy"
+
+#: core/templates/messages.tmpl:269 core/templates/messages.tmpl:319
+msgid "Please contact %1 if you have any questions."
+msgstr "Prosím kontatujte %1 pokud máte libovolné otázky."
+
+#: core/templates/messages.tmpl:148 core/templates/messages.tmpl:157
+#: core/templates/messages.tmpl:236 core/templates/messages.tmpl:248
+msgid "Please contact %1."
+msgstr ""
+
+#: core/templates/login.sudo.tmpl:7
+#, fuzzy
+msgid "Please enter the Wiki admin password"
+msgstr "Vložte prosím Váš účet a heslo:"
+
+#: core/templates/login.tmpl:14
+#, fuzzy
+msgid "Please enter your username and password"
+msgstr "Vložte prosím Váš účet a heslo:"
+
+#: core/templates/messages.tmpl:71 core/templates/messages.tmpl:77
+#: core/templates/messages.tmpl:83
+msgid "Please go _back_ in your browser and try a new name."
+msgstr "Prosím jděte _zpět_ ve vašem prohlížeči a zkuste nové jméno."
+
+#: core/templates/messages.tmpl:374
+msgid "Please go back in your browser and check again."
+msgstr "Prosím jděte zpět ve Vašem prohlížeči a zkontrolujte to znova."
+
+#: core/templates/messages.tmpl:88
+#, fuzzy
+msgid ""
+"Please go back in your browser and choose a topic name that is a %1.WikiWord "
+"or check the allow non-Wiki Word box"
+msgstr ""
+"Prosím jděte zpět ve Vašem prohlížeči a vyberte název článku, který je %1."
+"WikiWord nebo zaškrtněte Nemusí být WikiWord volbu"
+
+#: core/templates/messages.tmpl:108 core/templates/messages.tmpl:112
+#: core/templates/messages.tmpl:119 core/templates/messages.tmpl:123
+#: core/templates/messages.tmpl:127 core/templates/messages.tmpl:137
+#: core/templates/messages.tmpl:223 core/templates/messages.tmpl:229
+#: core/templates/messages.tmpl:276 core/templates/messages.tmpl:288
+#: core/templates/messages.tmpl:294 core/templates/messages.tmpl:302
+#: core/templates/messages.tmpl:37 core/templates/messages.tmpl:41
+#: core/templates/messages.tmpl:59 core/templates/messages.tmpl:95
+msgid "Please go back in your browser and try again."
+msgstr "Jděte zpět ve Vašem browseru a zkuste to znova."
+
+#: core/templates/messages.tmpl:45
+msgid ""
+"Please make sure you spelled the %1 correctly and try again. If you get "
+"stuck, please mail %2."
+msgstr ""
+"Ujistéte se prosím, že jste napsal %1 správně, ješté jednou. Pokud jste se "
+"opravdu zasekl, prosím zašlete mail %2."
+
+#: core/templates/mailresetpassword.tmpl:12
+msgid ""
+"Please visit %1 to change your password to something more memorable for you."
+msgstr ""
+"Přejděte prosím na %1 a změňte Vaše heslo na něco, co si snáže zapamatujete."
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:12
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:12
+#: PatternSkin/data/System/WebLeftBarExample.txt:13
+#: PatternSkin/data/_default/WebLeftBar.txt:11
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:11
+msgid "Preferences"
+msgstr "Preference"
+
+#: PatternSkin/templates/settings.pattern.tmpl:13
+#: core/templates/settings.tmpl:7
+msgid "Preferences for"
+msgstr "Preference pro"
+
+#: core/lib/Foswiki/OopsException.pm:42
+msgid "Problem filling bath"
+msgstr ""
+
+#: PatternSkin/templates/attach.pattern.tmpl:53
+msgid "Properties"
+msgstr "Vlastnosti"
+
+#: core/data/System/WebSearchAdvanced.txt:62
+#, fuzzy
+msgid "Query Search"
+msgstr "Hledání ve webu"
+
+#: core/data/Main/SitePreferences.txt:7
+msgid ""
+"Quick edit of existing preferences (edit the topic text to set new "
+"preferences)"
+msgstr ""
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:173
+msgid "Quiet save"
+msgstr ""
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:10
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:10
+#: PatternSkin/data/System/WebLeftBarExample.txt:11
+#: PatternSkin/data/_default/WebLeftBar.txt:9
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:9
+msgid "RSS Feed"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:61
+#, fuzzy
+msgid "Raw edit"
+msgstr "Poslední editor"
+
+#: core/templates/registernotify.tmpl:10
+msgid ""
+"Read %1 to get a quick overview of this collaboration platform. To learn "
+"more, study the TwentyMinuteTutorial, which is accessible from the same link."
+msgstr ""
+"Přečtěte si prosím %1 aby jste získal přehled o této platformě ke "
+"spolupráci. Aby jste se naučil více, čtěte TwentyMinuteTutorial, který je "
+"odtud přístupný."
+
+#: PatternSkin/templates/edit.pattern.tmpl:30
+msgid "Read new revision help text in new window"
+msgstr "Přečtěte si nápovědu k nové revizi v novém okně"
+
+#: TipsContrib/data/System/TipsOfTheDayInclude.txt:11
+msgid "Read on"
+msgstr "Pročtěte si"
+
+#: core/data/Sandbox/WebHome.txt:21 core/data/System/WebSearch.txt:46
+#: core/data/System/WebSearchAdvanced.txt:100
+msgid "Recently changed topics"
+msgstr "Naposledy změněné články"
+
+#: core/lib/Foswiki/UI/Manage.pm:1257
+msgid "Refresh"
+msgstr ""
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:3
+#: core/templates/foswiki.tmpl:105
+msgid "Register"
+msgstr "Registruj"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:13
+msgid "Registered users can [[%1][change]] and [[%2][reset]] their passwords."
+msgstr ""
+"Registrovaní uživatelé mohou [[%1][změnit]] a [[%2][znovunastavit]] jejich "
+"hesla."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:2
+msgid "Registration"
+msgstr "Registrace"
+
+#: core/templates/messages.tmpl:308
+msgid "Registration codes can only be used once."
+msgstr ""
+
+#: core/data/System/WebSearchAdvanced.txt:61
+msgid "Regular expression search"
+msgstr "Hledání pomocí regulárních výrazů"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:81
+msgid "Related Topics"
+msgstr "Podobné články"
+
+#: TopicUserMappingContrib/data/Main/GroupTemplate.txt:9
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:53
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:43
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:44
+#: core/templates/messages.tmpl:477 core/templates/messages.tmpl:484
+msgid "Related topics:"
+msgstr "Podobné články:"
+
+#: core/templates/login.tmpl:67
+msgid "Remember me on this computer"
+msgstr ""
+
+#: core/templates/messages.tmpl:193
+msgid ""
+"Remember to update your user topic if you want your e-mail change to be "
+"reflected there as well."
+msgstr ""
+"Nezapomeňte změnit článek o Vás, pokud chcete aby Váš email tam byl také "
+"změněn."
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:5
+msgid "Remember your password?"
+msgstr "Pamatujete si Vaše heslo?"
+
+#: core/templates/messages.tmpl:51
+msgid "Remove the user from the group(s) %1 first."
+msgstr "Odstraň nejdřive uživatele ze skupiny(skupin) %1."
+
+#: core/templates/rename.tmpl:7 core/templates/renameweb.tmpl:7
+msgid "Rename"
+msgstr "Přejmenovat"
+
+#: core/templates/messages.tmpl:74 core/templates/messages.tmpl:80
+msgid "Rename failed"
+msgstr "Přejmenování selhalo"
+
+#: core/templates/oopsmore.tmpl:44
+msgid "Rename or move topic"
+msgstr "Přejmenovat nebo přesunout článek"
+
+#: core/data/System/RenameWeb.txt:1
+msgid "Rename, move or delete this web:"
+msgstr "Přejmenovat, přesunout nebo smazat web:"
+
+#: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
+#: core/templates/renameweb.tmpl:33
+msgid "Rename/Move"
+msgstr "Přejmenovat/Přesunout"
+
+#: core/templates/oopsmore.tmpl:45 core/templates/oopsmore.tmpl:47
+msgid "Rename/move topic..."
+msgstr "Přejmenovat/přesunout článek..."
+
+#: core/data/System/RenameWeb.txt:2
+msgid "Rename/move/delete web..."
+msgstr "Přejmenovat/přesunout/smazat web..."
+
+#: core/templates/form.tmpl:1
+msgid "Replace form..."
+msgstr "Nahraď formulář..."
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:3
+msgid "Reset Password"
+msgstr "Znovunastav heslo"
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:32
+msgid "Reset password"
+msgstr "Znovunastav heslo"
+
+#: core/templates/oopsmore.tmpl:121
+#, fuzzy
+msgid "Restore"
+msgstr "Registruj"
+
+#: core/templates/oopsmore.tmpl:116
+#, fuzzy
+msgid "Restore topic"
+msgstr "Vymazat článek"
+
+#: core/templates/oopsmore.tmpl:118
+#, fuzzy
+msgid "Restore topic to revision:"
+msgstr "Prohlédni předchozí revize článku"
+
+#: core/templates/oopsmore.tmpl:121
+#, fuzzy
+msgid "Restore topic to this revision"
+msgstr "Prohlédni předchozí revize článku"
+
+#: PatternSkin/templates/searchbase.pattern.tmpl:12
+msgid "Results from %1 web"
+msgstr "Výsledky z webu %1"
+
+#: core/templates/messages.tmpl:197
+msgid "Return to %1."
+msgstr "Návrat do %1."
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:25
+msgid "Retype new password"
+msgstr "Zopakujte Vaše nové heslo"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:115
+msgid "Retype password:"
+msgstr "Zopakujte Vaše heslo:"
+
+#: core/templates/messages.tmpl:27
+msgid "Rev %1 was saved by %2, while you were still editing."
+msgstr ""
+"Revize %1 byla uložena uživatelem %2, v době kdy Vy jste stále editoval."
+
+#: MailerContrib/templates/mailnotify.tmpl:44
+#: MailerContrib/templates/mailnotify.tmpl:76
+msgid "Review recent changes in:"
+msgstr "Zkontrolujte poslední změny v:"
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:19
+msgid "Revision"
+msgstr "Revize"
+
+#: core/templates/oopsmore.tmpl:103
+#, fuzzy
+msgid "Revisions"
+msgstr "Revize"
+
+#: PatternSkin/templates/settings.pattern.tmpl:25
+msgid "S = Save, C = Cancel"
+msgstr ""
+
+#: PatternSkin/templates/preview.pattern.tmpl:15
+#, fuzzy
+msgid "S = Save, Q = Quiet save, K = Save and Continue, D = Discard"
+msgstr "S = Ulož, Q = Ulož potichu, K = Bod návratu, D = Neukládat"
+
+#: PatternSkin/templates/edit.pattern.tmpl:53
+#, fuzzy
+msgid ""
+"S = Save, Q = Quiet save, K = Save and Continue, P = Preview, C = Cancel"
+msgstr "S = Ulož, Q = Ulož potichu, K = Bod návratu, P = Ukázka, C = Přerušit"
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:172
+#, fuzzy
+msgid "Save table"
+msgstr "Uloženo do:"
+
+#: core/templates/registerfailednotremoved.tmpl:20
+#: core/templates/registerfailedremoved.tmpl:21
+#: core/templates/registernotifyadmin.tmpl:16
+msgid "Saved to:"
+msgstr "Uloženo do:"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:7
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:7
+#: PatternSkin/data/System/WebLeftBarExample.txt:8
+#: PatternSkin/data/System/WebLeftBarSearch.txt:3
+#: PatternSkin/data/System/WebTopBarExample.txt:9
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:5
+#: PatternSkin/data/_default/WebLeftBar.txt:6
+#: PatternSkin/templates/foswiki.pattern.tmpl:38
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:6
+#: core/data/System/WebSearch.txt:24 core/data/System/WebSearchAdvanced.txt:31
+#: core/data/_default/WebHome.txt:11
+msgid "Search"
+msgstr "Hledej"
+
+#: core/templates/backlinksallwebs.tmpl:7
+#, fuzzy
+msgid "Search %1 Web only"
+msgstr "Hledej pouze v %1"
+
+#: core/templates/backlinksweb.tmpl:7
+#, fuzzy
+msgid "Search all webs"
+msgstr "H&ledej ve všech webech"
+
+#: core/templates/backlinksallwebs.tmpl:7 core/templates/backlinksweb.tmpl:7
+#: core/templates/oopsmore.tmpl:54
+msgid "Search all webs for topics that link to here"
+msgstr "Prohledej všechny weby pro články, které odkazují sem"
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#, fuzzy
+msgid "Search in all webs"
+msgstr "H&ledej ve všech webech"
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:25
+#, fuzzy
+msgid "Search more topics in this web"
+msgstr "Hledej podobné články ve všech veřejných webech"
+
+#: core/data/System/WebSearchAdvanced.txt:69
+msgid "Search string"
+msgstr "Hledej řetězec"
+
+#: core/templates/oopsmore.tmpl:56
+msgid "Search the %1 Web for topics that link to here"
+msgstr "Hledej články ve webu %1 které sem odkazují"
+
+#: core/data/System/WebSearch.txt:29 core/data/System/WebSearchAdvanced.txt:36
+msgid "Search where:"
+msgstr "Kde hledat:"
+
+#: PatternSkin/templates/searchbase.pattern.tmpl:1
+#: core/templates/search.tmpl:10 core/templates/searchformat.tmpl:9
+msgid "Searched:"
+msgstr "Prohledáno:"
+
+#: core/data/Trash/WebHome.txt:5
+msgid "Security Note:"
+msgstr "Bezpečnostní poznámka:"
+
+#: core/templates/messages.tmpl:47
+msgid "See %1 for a list of existing users or register as new user in %2."
+msgstr ""
+"Zkontrolujte %1 v seznamu existujících uživatelů nebo se zaregistrujte jako "
+"nový uživatel v %2."
+
+#: core/templates/messages.tmpl:331
+msgid "See %1 for information about Form Definitions."
+msgstr "Přečtěte si %1 pro informaci o definici formuláře."
+
+#: core/data/System/WebIndex.txt:4
+msgid "See also the faster %1"
+msgstr "Podívejte se také na rychlejší %1"
+
+#: core/data/System/WebTopicList.txt:4
+msgid "See also the verbose %1."
+msgstr "Podívejte se také na podrobnější %1."
+
+#: core/data/System/RenameWeb.txt:3 core/data/System/WebChanges.txt:6
+msgid "See also:"
+msgstr "Také:"
+
+#: core/templates/edit.tmpl:59
+msgid "See below for help in editing this page."
+msgstr ""
+
+#: core/templates/changeform.tmpl:13
+msgid "Select"
+msgstr "Vyber"
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:20
+msgid "Select a new local file to update attachment"
+msgstr "Vyberte nový lokální soubor pro změnu přílohy"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:33
+msgid "Select all"
+msgstr "Vyber vše"
+
+#: core/templates/oopsmore.tmpl:70
+#, fuzzy
+msgid "Select topic parent:"
+msgstr "Krok 1: Vyberte nadřízený článek"
+
+#: PatternSkin/templates/edit.pattern.tmpl:70 core/templates/edit.tmpl:48
+msgid "Select, copy and paste your signature text to the bottom of your entry"
+msgstr "Vyberte, zkopírujte a vložte Váš podpis na konec Vašeho zápisu"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:286
+msgid "Send you a confirmation of your registration by e-mail."
+msgstr "Odešle Vám potvrzení o Vaší registraci emailem."
+
+#: core/templates/oopsmore.tmpl:113
+msgid "Sequential"
+msgstr "Sekvenčně"
+
+#: core/lib/Foswiki/Form/Checkbox.pm:34
+msgid "Set all"
+msgstr "Nastav vše"
+
+#: core/templates/oopsmore.tmpl:74
+#, fuzzy
+msgid "Set new parent"
+msgstr "Nastavit nový nadřízený článek"
+
+#: core/templates/oopsmore.tmpl:63
+msgid "Set new topic parent"
+msgstr "Nastavit nový nadřízený článek"
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:11
+msgid "Show help"
+msgstr "Ukaž nápovědu"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:78
+msgid "Show tool-tip topic info on mouse-over of %1 links, on or off:"
+msgstr ""
+"Ukazovat krátký popis při přejetí myší přes odkaz %1, zapnout nebo vypnout:"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:75
+msgid "Shrink edit box"
+msgstr "Zmenšit editovací oblast"
+
+#: core/templates/oopsmore.tmpl:113
+msgid "Side by side"
+msgstr "Vedle sebe"
+
+#: core/data/System/WebSearchAdvanced.txt:31
+msgid "Simple search"
+msgstr "Hledej"
+
+#: core/data/Main/SitePreferences.txt:4
+msgid ""
+"Site-level preferences are located in %1, however this %2 prefs topic has "
+"override priority and should be used for local customisations. This allows "
+"for easier upgrades as you don't need to worry about the shipped preferences "
+"clobbering yours. It's easier to keep a handle on if you only copy over the "
+"settings you actually change."
+msgstr ""
+
+#: core/templates/attachtables.tmpl:4
+msgid "Size"
+msgstr "Velikost"
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:137
+#: core/templates/registernotify.tmpl:15
+msgid "Some add schedule information and vacation notice."
+msgstr "Někdo přidal informace o rozvrhu a poznámky o volnu."
+
+#: core/templates/messages.tmpl:366
+msgid "Some characters such as =&#126;=, =$=, =@=, =%= are removed"
+msgstr "Některé znaky jako je =&#126;=, =$=, =@=, =%= jsou mazány"
+
+#: core/templates/messages.tmpl:311
+msgid ""
+"Some mail tools have an error that causes them to send the same request "
+"twice when you click on a link. It you did this, it is possible that you "
+"actually *have* registered successfully."
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:136
+#: core/templates/registernotify.tmpl:14
+msgid ""
+"Some people turn it into a personal portal with favorite links, what they "
+"work on, what help they'd like, etc."
+msgstr ""
+"Někteří lidé to změní na svůj personální portál s nejoblíbenějšími odkazy, "
+"na čem pracují, apod."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:5
+msgid "Sorry, Registration has been temporarily disabled"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/BulkRegistration.txt:83
+#: TopicUserMappingContrib/data/System/BulkResetPassword.txt:17
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:21
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:13
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:16
+msgid "Sorry, the password system is currently read only, please contact %1"
+msgstr ""
+
+#: core/data/System/WebSearchAdvanced.txt:46
+msgid "Sort results by:"
+msgstr "Seřaď výsledky podle:"
+
+#: core/templates/messages.tmpl:364
+msgid "Spaces are replaced by underscores"
+msgstr "Mezery jsou nahrazeny podtržítky"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:11
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:11
+#: PatternSkin/data/System/WebLeftBarExample.txt:12
+#: PatternSkin/data/_default/WebLeftBar.txt:10
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:10
+msgid "Statistics"
+msgstr "Statistiky"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:297
+#: core/templates/messages.tmpl:207 core/templates/messages.tmpl:316
+msgid "Submit"
+msgstr "Potvrdit"
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:148
+#: core/templates/registerfailednotremoved.tmpl:16
+#: core/templates/registerfailedremoved.tmpl:17
+#: core/templates/registernotify.tmpl:18
+#: core/templates/registernotifyadmin.tmpl:12
+msgid "Submitted content:"
+msgstr "Potvrzený obsah:"
+
+#: MailerContrib/templates/mailnotify.tmpl:47
+#: MailerContrib/templates/mailnotify.tmpl:79
+#: MailerContrib/templates/newsletter.tmpl:20
+msgid "Subscribe / Unsubscribe in:"
+msgstr "Příhlásit/ Odhlásit z:"
+
+#: core/data/System/WebSearchAdvanced.txt:70
+msgid "Summaries"
+msgstr "Shrnutí"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:75
+msgid "Switch to monotype or propotional font"
+msgstr ""
+
+#: core/data/System/WebSearch.txt:25 core/data/System/WebSearchAdvanced.txt:32
+msgid ""
+"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal "
+"=\"web service\"=, but not =\"shampoo\"=, write:"
+msgstr ""
+"TIP: pro hledání všech článků, které obsahují =\"SOAP\"=, =\"WSDL\"=, a "
+"literal =\"web service\"=, ale ne =\"shampoo\"=, napište:"
+
+#: core/templates/messages.tmpl:510
+#, fuzzy
+msgid "Template %1 does not exist"
+msgstr "Web %1 neexistuje"
+
+#: core/data/Sandbox/WebHome.txt:6
+msgid "Test Topics"
+msgstr "Testovací články"
+
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:38
+msgid "Text body"
+msgstr "Tělo článku"
+
+#: core/templates/messages.tmpl:162 core/templates/messages.tmpl:200
+msgid "Thank you for registering"
+msgstr "Díky za Vaši registraci"
+
+#: core/templates/registernotify.tmpl:8
+msgid ""
+"Thank you for registering in the %1 collaboration platform. Please save this "
+"e-mail for future reference."
+msgstr ""
+"Díky za Vaši registraci v této %1 platformě pro spolupráci %1. Prosím uložte "
+"si tento email."
+
+#: core/templates/registerconfirm.tmpl:9
+msgid ""
+"Thank you for registering in the %1 collaboration platform. Your "
+"verification code is %2."
+msgstr ""
+"Díky za Vaši registraci v %1 - platformě pro spolupráci. Váš verifikační kód "
+"je %2."
+
+#: core/templates/messages.tmpl:528
+msgid "That user has already been activated "
+msgstr ""
+
+#: core/templates/messages.tmpl:280
+msgid ""
+"The %1 field must be your first and last name in %2, e.g. your capitalized "
+"first and last name with spaces removed."
+msgstr ""
+"%1 je Vaše křestní jméno, %2 Vaše příjmení, tj. Vaše Křestní jméno a "
+"příjmení bez mezer a s prvními písmeny velkými."
+
+#: core/templates/messages.tmpl:274
+msgid "The %1 field must match the {LoginNameFilterIn} filter for this site"
+msgstr ""
+
+#: core/templates/messages.tmpl:68
+msgid "The %1 topic already exists"
+msgstr "Článek %1 už existuje"
+
+#: core/templates/messages.tmpl:487
+msgid "The %1 web does not exist"
+msgstr "Web %1 neexistuje"
+
+#: core/data/Sandbox/WebHome.txt:4
+msgid ""
+"The %1 web is the sandbox you can use for testing. Everybody is welcome to "
+"add or delete some stuff. It is recommended to walk through the %2 to get a "
+"jumpstart on the %3 tool. A good rule of thumb is to add at the end of the "
+"page and sign and date it with your %4."
+msgstr ""
+"Web %1 je web, který můžete použít pro testování. Každý je vítán přidávat "
+"nebo mazat články. Doporučejeme Vám projít si %2 a získat přehled o "
+"pomůckách %3. Dobrý zvyk je podepsat se na konci stránky spolu s datumem a %"
+"4."
+
+#: TWikiCompatibilityPlugin/data/TWiki/WebAtom.txt:3
+#: TWikiCompatibilityPlugin/data/TWiki/WebRss.txt:5
+#: core/data/Trash/WebRss.txt:5 core/data/_default/WebAtom.txt:3
+#: core/data/_default/WebRss.txt:5
+msgid "The %1 web of Foswiki, the Free and Open Source Wiki."
+msgstr ""
+
+#: core/data/Sandbox/WebRss.txt:5
+msgid "The %1 web of Foswiki. Foswiki is the Free and Open Source Wiki."
+msgstr ""
+
+#: core/templates/messages.tmpl:155
+msgid "The Administrator has disabled new user registration."
+msgstr ""
+
+#: core/templates/messages.tmpl:306
+msgid "The activation code %1 is invalid."
+msgstr "Aktivační kód %1 je neplatný."
+
+#: core/templates/moveattachment.tmpl:29
+msgid "The attachment and any history will be moved to the new topic."
+msgstr "Přiloha a veškerá historie změn budou přesunuty do nového článku."
+
+#: core/templates/messages.tmpl:444
+msgid ""
+"The chances are good that %1 has simply navigated away from the edit page "
+"without saving."
+msgstr "%1 pravděpodobně odešel pryč z editování stránky bez uložení změn."
+
+#: core/templates/renamebase.tmpl:70
+msgid ""
+"The checkmarked topics will be updated (another form will appear which will "
+"_eventually_ allow you to rename any topics that were locked)"
+msgstr ""
+"Označené články budou změněny (ukáže se další formulář, který Vám _nakonec_ "
+"umožní přejmenovat libovolný článek, který byl zamknut)"
+
+#: core/templates/messages.tmpl:298
+msgid "The e-mail address for this account is not valid."
+msgstr "Emailová adresa pro tento účet není správná."
+
+#: core/templates/messages.tmpl:461
+msgid "The entry for user %1 was missing in the password system."
+msgstr "Záznam pro uživatele %1 chyběl systému."
+
+#: core/templates/messages.tmpl:359
+msgid "The file has been uploaded and attached properly to the %1 topic."
+msgstr "Soubor byl nahrán a v poŕadku připojen ke článku %1"
+
+#: core/templates/messages.tmpl:395
+msgid "The following topics are locked for edit, and cannot be moved:"
+msgstr "Následující ćlánky jsou zamćeny pro editování a nemohou být přesunuty:"
+
+#: core/templates/messages.tmpl:401
+msgid "The following topics refer to topics in this web, but are being edited:"
+msgstr ""
+"Následující články odkazují na články v tomto webu, ale nyní jsou editovány:"
+
+#: core/templates/messages.tmpl:398
+msgid ""
+"The following topics refer to topics in this web, but you are denied access "
+"to them:"
+msgstr ""
+"Následující články odkazují na články v tomto webu, ale Vy k nim máte "
+"zakázán přístup:"
+
+#: core/templates/messages.tmpl:337
+msgid "The form should be defined in the topic %1"
+msgstr "Formulář měl být definován ve článku %1"
+
+#: core/templates/messages.tmpl:442
+msgid "The lease on this topic expired %1 ago."
+msgstr "Zámek na tomto článku vypršel před %1"
+
+#: core/templates/messages.tmpl:93
+msgid "The name of the topic must not be empty."
+msgstr ""
+
+#: core/templates/moveattachment.tmpl:16
+msgid "The new topic chosen must already exist."
+msgstr "Nový vybraný článek už musí existovat."
+
+#: core/templates/messages.tmpl:16
+msgid "The new web has been created"
+msgstr "Nový web byl vytvořen"
+
+#: core/templates/messages.tmpl:106
+msgid "The password you entered in the *old password* field is incorrect."
+msgstr "Heslo, které jste vložil do *předchozího hesla* je nesprávná."
+
+#: core/templates/messages.tmpl:325
+msgid "The required field %1 was not filled in."
+msgstr "Požadované pole %1 nebylo vyplněno."
+
+#: core/templates/messages.tmpl:146
+msgid "The selected User System does not support new user registration."
+msgstr ""
+
+#: core/templates/messages.tmpl:340
+msgid "The topic is in an old format"
+msgstr "Článek je ve starém formátu"
+
+#: core/templates/messages.tmpl:227
+msgid "The two passwords you entered do not match."
+msgstr "Hesla, která jste vložil nesouhlasí."
+
+#: core/templates/messages.tmpl:530
+msgid "The user %1 has already been activated, and should be able to log in."
+msgstr ""
+
+#: core/templates/messages.tmpl:391
+msgid "There are problems with renaming this web:"
+msgstr "Problémy s přejmenováním tohoto webu:"
+
+#: core/templates/messages.tmpl:234
+#, fuzzy
+msgid "There has been a problem adding your user id to the Password system."
+msgstr ""
+"Objevil se problém v přidání Vašeho účtu do systému. Prosím kontaktujte %1."
+
+#: core/templates/messages.tmpl:343
+msgid "There should be a line that includes %1, look for %2 (or %3)"
+msgstr "Měly by zde být řádky, které obsahují %1, hledejte %2 (nebo%3)"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:6
+msgid "This Foswiki does _not_ support new User Registration"
+msgstr ""
+
+#: core/templates/messages.tmpl:350
+msgid "This can be automatically upgraded by:"
+msgstr "Toto může být automaticky upgradováno na:"
+
+#: core/templates/messages.tmpl:333
+msgid "This could be for several reasons:"
+msgstr "Mohlo se stát z několika příčin:"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:5
+#, fuzzy
+msgid ""
+"This form is used to change your registered e-mail addresses. Your "
+"registered e-mails are used by Foswiki for sending you e-mails, include "
+"notifications of password changes. The addresses you register via this form "
+"are kept secret and will *not* be published anywhere on this site."
+msgstr ""
+"Tento formulář je použit pro změnu Vaší zaregistrované emailové adresy. Vaše "
+"zaregistrované emaily jsou použity TWiki pro zasílání zpráv, zahrnující "
+"upozornění na změny hesla. Adresa, kterou jste zaregistroval přes tento "
+"formuláŕ jsou bezpečně uložena a *nebudou* publikována nikde na tomto "
+"serveru."
+
+#: TWikiCompatibilityPlugin/data/TWiki/WebNotify.txt:2
+#: core/data/Main/WebNotify.txt:2 core/data/Sandbox/WebNotify.txt:2
+#: core/data/System/WebNotify.txt:2 core/data/Trash/WebNotify.txt:2
+#: core/data/_default/WebNotify.txt:2
+msgid ""
+"This is a subscription service to be automatically notified by e-mail when "
+"topics change in this %1 web. This is a convenient service, so you do not "
+"have to come back and check all the time if something has changed. To "
+"subscribe, please add a bullet with your %2 in alphabetical order to this "
+"list:"
+msgstr ""
+"Toto je služba, kdy jste automaticky upozorněni emailem, pokud se změní "
+"článek v tomto %1 webu. Pro přihlášení, prosím přidejte odrážku s Vaším %2 v "
+"abecedním pořádku do tohoto seznamu:"
+
+#: MailerContrib/templates/mailnotify.tmpl:7
+#: MailerContrib/templates/mailnotify.tmpl:71
+msgid "This is an automated e-mail from %1."
+msgstr "Toto je automatický email od %1."
+
+#: core/templates/registerfailednotremoved.tmpl:9
+#: core/templates/registerfailedremoved.tmpl:9
+#: core/templates/registernotifyadmin.tmpl:8
+msgid "This is an automated e-mail notification of user registration in %1."
+msgstr "Toto je automatické upozornění na registraci uživatele v %1"
+
+#: core/data/Trash/WebHome.txt:2
+msgid ""
+"This is the Trash. Here you can undelete topics; deleted attachments are in "
+"TrashAttachment."
+msgstr ""
+"Tohle je Koš. Zde můžete obnovit články; smazané přílohy jsou v koši příloh"
+
+#: core/templates/renamedelete.tmpl:25
+msgid ""
+"This name has been chosen so it doesn't conflict with any other topics "
+"already in the %1 web."
+msgstr ""
+"Toto jméno bylo zvoleno tak, aby nekolidovalo s žádným článkem, který už je "
+"v %1 webu"
+
+#: core/templates/messages.tmpl:348
+msgid "This requires the form definition to be present."
+msgstr "Toto vyžaduje aby existovala definice formuláře."
+
+#: core/templates/messages.tmpl:292
+msgid "This site requires at least %1 character passwords"
+msgstr ""
+
+#: core/templates/viewprint.tmpl:13
+msgid "This topic:"
+msgstr "Tento článek:"
+
+#: core/templates/messages.tmpl:29
+msgid ""
+"Those changes have been merged with yours to create Rev %1. Text fields will "
+"have been merged, but other data such as form fields may have overwritten "
+"the other users changes. Please inspect the topic to make sure it is OK, "
+"especially if you made any changes to form fields."
+msgstr ""
+"Změny byly spojeny s Vašimi, pro vytvoření revize %1. Textové pole budou "
+"spojeny, ale ostatní data jako jsou pole formulářů mohou být přepsány "
+"změnami ostatních uživatelů. Prosím zkontrolujte článek aby jste se "
+"ujistili, že je vše v pořádku, obzvláště pokud jste udělal změny do polí "
+"formulářů."
+
+#: core/data/System/WebSearchAdvanced.txt:85
+msgid ""
+"To display the above search results in a topic, copy-paste the following "
+"markup:"
+msgstr ""
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:5
+#, fuzzy
+msgid ""
+"To edit pages on this Foswiki site, you must have a registered user name and "
+"password."
+msgstr ""
+"Pro editování stránek na tomto Webu musíte mít registrované uživatelské "
+"jméno aheslo."
+
+#: core/templates/oopsleaseconflict.tmpl:20
+msgid "To edit the topic anyway, click "
+msgstr "Pokud chcete článek přesto editovat, stiskněte "
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:84
+msgid "To register as a new user, simply fill out this form:"
+msgstr ""
+"Pro zaregistrování jako nový uživatel, jednoduše vyplňte tento formulář:"
+
+#: core/templates/oopsleaseconflict.tmpl:16
+msgid "To see if %1 has finished editing yet, click "
+msgstr "Pro kontrolu, jestli %1 už ukončil editaci, stiskněte "
+
+#: core/templates/renamebase.tmpl:30 core/templates/renameconfirm.tmpl:14
+msgid "To topic:"
+msgstr "K článku:"
+
+#: core/templates/renamebase.tmpl:23 core/templates/renameconfirm.tmpl:10
+msgid "To web:"
+msgstr "K webu:"
+
+#: PatternSkin/data/Main/WebLeftBarExample.txt:4
+#: PatternSkin/data/Sandbox/WebLeftBarExample.txt:4
+#: PatternSkin/data/System/WebLeftBarExample.txt:4
+#: PatternSkin/data/Trash/WebLeftBarExample.txt:3
+#: PatternSkin/data/_default/WebLeftBar.txt:3
+#: TWikiCompatibilityPlugin/data/TWiki/WebLeftBarExample.txt:3
+msgid "Toolbox"
+msgstr ""
+
+#: core/data/System/TopicDoesNotExistViewTemplate.txt:5
+#, fuzzy
+msgid "Topic %1 does not exist"
+msgstr "článek %1 neexistuje"
+
+#: core/templates/messages.tmpl:322
+msgid "Topic Save Error"
+msgstr "Chyba při uložení článku"
+
+#: PatternSkin/templates/attachtables.pattern.tmpl:15
+msgid "Topic attachments"
+msgstr "Přílohy článku"
+
+#: core/templates/messages.tmpl:346
+msgid "Topic can not be upgraded from old style category table"
+msgstr "Článek nemůže být upgradován ze starého stylu tabulky kategorií"
+
+#: core/data/System/WebSearchAdvanced.txt:48
+#: core/data/System/WebSearchAdvanced.txt:59
+msgid "Topic name"
+msgstr "Jméno článku"
+
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:47
+#: core/data/System/WebCreateNewTopicTemplate.txt:33
+msgid "Topic name:"
+msgstr "Jméno článku:"
+
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:54
+#: core/data/System/WebCreateNewTopicTemplate.txt:38
+msgid "Topic parent:"
+msgstr "Nadřízený článek"
+
+#: PatternSkin/templates/rdiff.pattern.tmpl:19
+#: PatternSkin/templates/view.pattern.tmpl:47
+#: PatternSkin/templates/view.pattern.tmpl:72 core/templates/viewprint.tmpl:14
+#, fuzzy
+msgid "Topic revision:"
+msgstr "Nadřízený článek"
+
+#: core/templates/oopssaveerr.tmpl:12
+msgid "Topic save error"
+msgstr "Chyba uložení článku"
+
+#: core/data/System/WebTemplateTopics.txt:2
+#, fuzzy
+msgid "Topic templates in %1 Web"
+msgstr "Články ve webu %1"
+
+#: core/data/System/WebSearch.txt:31 core/data/System/WebSearchAdvanced.txt:39
+msgid "Topic title"
+msgstr "Název článku"
+
+#: core/templates/messages.tmpl:26
+msgid "Topic was merged"
+msgstr "Článek byl spojen"
+
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:28
+#, fuzzy
+msgid "Topic will be named: "
+msgstr "Jméno článku:"
+
+#: core/templates/search.tmpl:14
+#, fuzzy
+msgid "Topics in %1 web"
+msgstr "Články ve webu %1"
+
+#: MailerContrib/templates/mailnotify.tmpl:14
+#: core/templates/search.text.tmpl:4
+msgid "Topics in %1 web:"
+msgstr "Články ve webu %1"
+
+#: core/data/System/WebSearchAdvanced.txt:76
+msgid "Topics per web"
+msgstr "Články na web"
+
+#: core/templates/renamewebbase.tmpl:29
+msgid "Topics which are currently being edited by other users in the %1 Web:"
+msgstr ""
+"Články ve webu %1, které jsou v současnosti editovány ostatními uživateli:"
+
+#: core/templates/renamewebbase.tmpl:32
+msgid ""
+"Topics which refer to this web and are are currently being edited by other "
+"users:"
+msgstr ""
+"Články které odkazují na tento web a jsou v současnosti editovány ostatními "
+"uživateli:"
+
+#: core/templates/renamewebbase.tmpl:35
+msgid ""
+"Topics which refer to this web that you do not have permission to change:"
+msgstr "Články, které odkazují na tento web, u kterých nemáte právo je změnit:"
+
+#: core/data/System/WebSearchAdvanced.txt:71
+msgid "Total matches"
+msgstr "Celkem vyhovuje"
+
+#: core/templates/oopsleaseconflict.tmpl:17
+msgid "Try Again"
+msgstr "Zkuste znova"
+
+#: TopicUserMappingContrib/data/System/NewUserTemplate.txt:76
+#, fuzzy
+msgid ""
+"Uncomment preference settings to activate them (remove the #-sign). Help and "
+"details on preference settings are available in %1."
+msgstr ""
+"Odkomentujte preferenční proměnné aby jste je aktivovali(odeberte značku #). "
+"Nápověda a detaily o preferenčních proměnných jsou dostupné v %1."
+
+#: core/templates/login.sudo.tmpl:5
+#, fuzzy
+msgid "Unrecognised user and/or password"
+msgstr "Nerozeznaný účet nebo heslo"
+
+#: core/templates/messages.tmpl:40
+msgid "Unrecognized action command %1"
+msgstr "Nerozeznaný příkaz akce: %1"
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:4
+msgid "Update attachment %1 on %2"
+msgstr "Změna přílohy %1 v %2"
+
+#: core/templates/renamebase.tmpl:50 core/templates/renamewebbase.tmpl:27
+msgid "Update links"
+msgstr ""
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:28
+#: PatternSkin/templates/attachnew.pattern.tmpl:7
+#: core/templates/attachagain.tmpl:21 core/templates/attachnew.tmpl:9
+msgid "Upload file"
+msgstr "Nahraj přílohu"
+
+#: PatternSkin/templates/attach.pattern.tmpl:38
+msgid "Upload up to %1 KB."
+msgstr "Maximální velikost přílohy je %1 KB."
+
+#: core/templates/messages.tmpl:378
+msgid "Uploaded file %1 exceeds limit of %2 KB"
+msgstr "Velikost přílohy %1 přesáhla limit %2 KB"
+
+#: core/templates/messages.tmpl:377
+msgid "Uploaded file is too big"
+msgstr "Příloha je příliš veliká"
+
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:5
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:5
+msgid "Use %1 instead."
+msgstr "Použijte spíše %1."
+
+#: PatternSkin/data/System/PatternSkinWebCreateNewTopicTemplate.txt:61
+#: core/data/System/WebCreateNewTopicTemplate.txt:43
+#, fuzzy
+msgid "Use template:"
+msgstr "Možné vzory pro formulář"
+
+#: core/templates/messages.tmpl:10
+msgid "User Account %1 Deleted"
+msgstr "Účet %1 byl vymazán"
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:15
+msgid "User Reference"
+msgstr "Uživatelské reference"
+
+#: PatternSkin/data/System/PatternSkinElements.txt:189
+#: core/templates/login.tmpl:42
+msgid "Username"
+msgstr "Váš účet"
+
+#: PatternSkin/data/System/WebLeftBarExample.txt:5
+msgid "Users"
+msgstr "Uživatelé"
+
+#: core/templates/messages.tmpl:171
+msgid ""
+"Users with automatically generated passwords should proceed immediately to "
+"[[%1][change password]] to change their password to something memorable."
+msgstr ""
+"Uživatelé s automaticky generovanými hesly by měli pokračovat do [[%1][změň "
+"heslo]] a změnit své heslo na něco zapamatovatelného."
+
+#: core/templates/attachtables.tmpl:37
+msgid "Version"
+msgstr "Verze"
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:10
+#, fuzzy
+msgid "Version history"
+msgstr "Historické verze %1"
+
+#: PatternSkin/templates/attachagain.pattern.tmpl:8
+msgid "Version history of %1"
+msgstr "Historické verze %1"
+
+#: core/templates/oopsmore.tmpl:107
+#, fuzzy
+msgid "View"
+msgstr "náhled"
+
+#: core/templates/oopsmore.tmpl:114
+msgid "View difference"
+msgstr "Zobraz rozdíly"
+
+#: core/templates/oopsmore.tmpl:104
+msgid "View previous topic revision"
+msgstr "Prohlédni předchozí revize článku"
+
+#: core/templates/oopsleaseconflict.tmpl:28
+msgid "View raw text without formatting"
+msgstr "Prohlédni nepracovaný text (bez formátování)"
+
+#: core/templates/oopsmore.tmpl:106
+#, fuzzy
+msgid "View revision:"
+msgstr "Ukaž revize"
+
+#: core/data/System/WebCreateNewTopicTemplate.txt:64
+#, fuzzy
+msgid "View templates"
+msgstr "Možné vzory pro formulář"
+
+#: PatternSkin/data/Main/PatternSkinUserViewTemplate.txt:10
+#: PatternSkin/templates/rdiff.pattern.tmpl:29
+#: core/templates/oopsleaseconflict.tmpl:28
+msgid "View topic"
+msgstr "Ukaž článek"
+
+#: core/templates/foswiki.tmpl:101
+msgid "View total topic history"
+msgstr "Ukaž celou historii článku"
+
+#: core/lib/Foswiki/OopsException.pm:46
+msgid "Warning"
+msgstr ""
+
+#: EditTablePlugin/data/System/EditTablePlugin.txt:179
+#, fuzzy
+msgid "Warning: 'include' topic does not exist!"
+msgstr "POZNÁMKA: Tento článek ještě neexistuje"
+
+#: core/templates/messages.tmpl:458
+msgid "Warning: Can't INCLUDE %1 repeatedly, topic is already included. %2"
+msgstr "Varování: INCLUDE %1 nelze provést opakovaně, článek je už zahrnut. %2"
+
+#: core/templates/messages.tmpl:459
+#, fuzzy
+msgid ""
+"Warning: Can't INCLUDE '%1', path is empty or contains illegal characters."
+msgstr "Varování: INCLUDE %1 nelze provést opakovaně, článek je už zahrnut. %2"
+
+#: core/templates/messages.tmpl:457
+#, fuzzy
+msgid "Warning: Can't find topic %1.%2"
+msgstr "Varování: Nemohu najít článek %1"
+
+#: core/lib/Foswiki/UI/Register.pm:868
+msgid "Warning: Could not send confirmation email"
+msgstr ""
+
+#: core/lib/Foswiki/UI/Register.pm:880
+msgid "Warning: Could not send confirmation email, email has been disabled"
+msgstr ""
+
+#: core/templates/messages.tmpl:466
+msgid "Warning: This site does not allow %<nop>INCLUDE% of URLs"
+msgstr "Varování: Tento server nepovoluje %<nop>INCLUDE% odkazů"
+
+#: core/data/System/WebSearch.txt:3
+msgid "Web Search"
+msgstr "Hledání ve webu"
+
+#: PatternSkin/data/System/WebLeftBarWebsList.txt:2
+msgid "Webs"
+msgstr "Weby"
+
+#: core/data/Sandbox/WebHome.txt:2 core/data/_default/WebHome.txt:2
+msgid "Welcome to the %1 web"
+msgstr "Vítejte do %1 webu"
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:282
+msgid ""
+"When %1 receives the form, it will mail an account activation code to the e-"
+"mail address you gave above. Enter that activation code in the following "
+"screen, or follow the link in the e-mail, to activate your account. Once "
+"your account is activated, %1 will:"
+msgstr ""
+"Když %1 obdrží formulář, odešle aktivační kód účtu na emailovou adresu, "
+"kterou jste zadal výše. Vložte tento aktivační kód na následující obrazovku "
+"nebo klikněte na odkaz v emailu, aby jste aktivoval váš účet. Jakmile je Váš "
+"úćet aktivován, %1 provede:"
+
+#: core/templates/messages.tmpl:243
+msgid "While attempting to email <noautolink>%1</noautolink>."
+msgstr ""
+
+#: core/templates/attachtables.tmpl:37 core/templates/attachtables.tmpl:4
+msgid "Who"
+msgstr "Kdo"
+
+#: core/templates/messages.tmpl:19
+msgid "Would you like to go to:"
+msgstr "Chcete jít na:"
+
+#: core/templates/messages.tmpl:262
+msgid "You are already registered"
+msgstr "Už jste registrován"
+
+#: core/templates/messages.tmpl:165
+msgid "You are also listed in the %1 topic"
+msgstr "Také jste uveden v článku %1"
+
+#: core/templates/messages.tmpl:392
+msgid "You are denied access to the following topics in the web:"
+msgstr "Nemáte přístup k tomuto článku:"
+
+#: core/templates/messages.tmpl:446
+msgid ""
+"You are encouraged to go ahead and edit - unless you intend to change data "
+"in a form attached to the topic. If %1 actually _does_ save while you are "
+"editing, your changes will be merged, and nothing will be lost. Form data "
+"cannot easily be merged though, so in this case you are recommended to check "
+"with %1 first."
+msgstr ""
+"Povzbuzujeme Vás k editaci článků - pokud nechcete změnit data ve formuláři "
+"připojenému ke článku. Pokud %1 nakonec uloží článek pokud vy editujete, "
+"Vaše změny budou spojeny a nic se neztratí. Data formulářů nemohou být tak "
+"lehce spojena, proto v tomto případě Vám doporučujeme nejdříve kontaktovat %"
+"1."
+
+#: PatternSkin/templates/view.pattern.tmpl:39
+msgid "You are here:"
+msgstr "Jste zde:"
+
+#: core/templates/messages.tmpl:115
+msgid ""
+"You are recommended to choose short names, preferably less than 10 "
+"characters, starting with an upper-case alphabetic character and using only "
+"alphanumeric characters. If you want to create a template web (a web just "
+"used as a base to create new webs) choose a name that starts with an "
+"underscore and has only alphanumeric characters."
+msgstr ""
+"Doporučujeme Vám vybrat krátké jméno, nejlépe kratší než 10 znaků, "
+"začínající velkým písmenem a použít pouze písmena a číslice. Pokud chcete "
+"vytvořit vzorový web (web použitý pouze jako základ pro vytvoření nových "
+"webů), vyberte jméno, které  začíná podtržitkem a obsahuje pouze "
+"alfanumerické znaky."
+
+#: core/templates/messages.tmpl:523
+msgid "You are trying to %1 an attachment that does not exist."
+msgstr "Zkoušíte %1 k příloze, která neexistuje."
+
+#: core/templates/messages.tmpl:511
+#, fuzzy
+msgid "You are trying to create a topic from a template that does not exist."
+msgstr "Zkoušíte %1 k článku, který neexistuje."
+
+#: core/templates/messages.tmpl:506
+#, fuzzy
+msgid ""
+"You are trying to perform an action on a topic that does not exist (action '%"
+"1')."
+msgstr "Zkoušíte %1 k článku, který neexistuje."
+
+#: core/templates/messages.tmpl:517
+#, fuzzy
+msgid "You are trying to rename a topic that does not exist."
+msgstr "Zkoušíte %1 k článku, který neexistuje."
+
+#: core/templates/messages.tmpl:496
+msgid ""
+"You can [[%1][create a new web]] if you have permission. Contact %2 if you "
+"have any questions."
+msgstr ""
+"Můžete [[%1][vytvoř nový web]] pokud k tomu máte práva. Kontaktujte %2, "
+"pokud máte nějaké otázky."
+
+#: core/templates/messages.tmpl:135
+msgid ""
+"You can also use the names of the standard HTML colors (black, silver, gray, "
+"white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
+"teal, or aqua)"
+msgstr ""
+"Můžete také použít jména standardních HTML barev  (black, silver, gray, "
+"white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, "
+"teal, or aqua)"
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:145
+#: core/templates/registernotify.tmpl:24
+msgid "You can change your password at via %1"
+msgstr "Můžete změnit Vaše heslo přes %1"
+
+#: core/templates/renameweb.tmpl:21
+msgid "You can give this web a different name."
+msgstr "Webu můžete dát jiné jméno."
+
+#: core/templates/oopschangelanguage.tmpl:7
+msgid ""
+"You can set your favorite language permanently by setting the %1 variable in "
+"your user topic."
+msgstr ""
+"Váš jazyk můžete permanentně nastavit nastavením proměnné %1 ve Vašem "
+"osobním článku."
+
+#: core/templates/messages.tmpl:263
+msgid "You cannot register twice, the name %1 is already registered."
+msgstr "Nemůžete se registrovat dvakrát, účet %1 už je zaregistrováno."
+
+#: core/templates/messages.tmpl:150 core/templates/messages.tmpl:159
+#: core/templates/messages.tmpl:238
+#, fuzzy
+msgid "You have *not* been registered."
+msgstr "Už jste registrován"
+
+#: core/templates/messages.tmpl:368
+msgid ""
+"You may be able to get your Wiki administrator to change the settings if "
+"they are inappropriate for your environment."
+msgstr ""
+"Váš Wiki administrátor může změnit nastavení, pokud jsou nevhodné pro Vaše "
+"prostředí."
+
+#: core/templates/messages.tmpl:532
+msgid ""
+"You may have clicked a registration verification link that you had already "
+"visited."
+msgstr ""
+
+#: core/templates/messages.tmpl:178
+msgid "You may need to close your browser to make this change take effect."
+msgstr "Musíte zavřít Váš prohlížeč, aby se změny projevily."
+
+#: core/templates/messages.tmpl:92
+msgid "You must pass a topic name."
+msgstr ""
+
+#: core/templates/registerconfirm.tmpl:11
+msgid ""
+"You now need to verify your e-mail address. You can do so by entering %1 in "
+"the form presented to you when this e-mail was sent, or by visiting %2"
+msgstr ""
+"Nyní je potřeba ověřit Vaši emailovou adresu. To můžete provést vložením %1 "
+"do formuláře, který se Vám zobrazil, když tento email byl odeslán nebo "
+"navštívením %2"
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:7
+#, fuzzy
+msgid ""
+"You really ought to register a valid e-mail address. If Foswiki can't find a "
+"registered e-mail for you in the secret database, it will look in your user "
+"topic for a line like this:"
+msgstr ""
+"Opravdu by jste měl zaregistrovat pravou emailovou adresu. Pokud TWiki "
+"nebude moci najít registrovaný email pro Vás ve své databázi, podívá se do "
+"Vašeho osobního článku pro ŕádek jako je tento:"
+
+#: core/templates/oopsmore.tmpl:23
+msgid "You will be able to review the copied topic before saving"
+msgstr ""
+
+#: core/templates/oopsmore.tmpl:121
+msgid "You will be able to review the topic before saving it to a new revision"
+msgstr ""
+
+#: core/templates/messages.tmpl:355
+msgid "You will probably have to ask your administrator, %1, to do this."
+msgstr ""
+"Pravděpodobně se budete muset zeptat Vašeho administrátora - %1, aby jste "
+"toto mohl udělat."
+
+#: TopicUserMappingContrib/data/System/ChangeEmailAddress.txt:33
+#: TopicUserMappingContrib/data/System/ChangePassword.txt:22
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:27
+msgid "Your %1.LoginName"
+msgstr "Vaše %1.PřihlašovacíJméno"
+
+#: core/templates/messages.tmpl:202
+msgid ""
+"Your activation code has been sent to %1.  Either click on the link in your "
+"e-mail or enter the code in the box below to activate your membership. (This "
+"code is of the form \"YourName.xxxxxxxxxx\")"
+msgstr ""
+"Váš aktivační kód byl odeslán do %1. Buď klikněte na odkaz ve Vašem emailu "
+"nebo vložte kód do pole níže, aby jste aktivoval Vaše členství. (Tento kód "
+"je ve formě \"VašeJméno.xxxxxxxxxx\")"
+
+#: core/templates/oopslanguagechanged.tmpl:16
+#, fuzzy
+msgid ""
+"Your language will be changed to %1 from the next screen. You will be "
+"redirected to there right now. If you aren't, [[%2][click to proceed]]."
+msgstr ""
+"Váš jazyk bude změněn na %1 od další obrazovky. Nyní tam budete "
+"přesměrováni. Pokud ne, [[%2][klikněte zde]] pro pokračování."
+
+#: core/templates/mailresetpassword.tmpl:10
+msgid "Your password has been changed to %1."
+msgstr "Vaše heslo bylo změnéno na %1."
+
+#: TopicUserMappingContrib/data/System/UserRegistration.txt:114
+msgid "Your password:"
+msgstr "Vaše heslo:"
+
+#: TopicUserMappingContrib/data/System/ManagingUsers.txt:134
+#: core/templates/registernotify.tmpl:12
+msgid ""
+"Your personal %1 topic is located at %2. You can customize it as you like:"
+msgstr "Váš osobní článek %1 je umístěn v %2. Můžete ho změnit, jak chcete:"
+
+#: core/templates/messages.tmpl:163
+msgid "Your personal Foswiki topic %1 has been created"
+msgstr ""
+
+#: core/templates/messages.tmpl:195
+#, fuzzy
+msgid ""
+"Your registered e-mail address(es) are updated to: <noautolink>%1</"
+"noautolink>."
+msgstr "Vaše zaregistrovaná adresa(y) jsou změnény na: %1"
+
+#: core/templates/messages.tmpl:245
+msgid ""
+"Your registration verification email has either failed, or is queued in the "
+"mail system."
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:70
+#, fuzzy
+msgid "Your signature to copy/paste"
+msgstr "Vaše značka pro kopírování/vložení:"
+
+#: core/templates/edit.tmpl:48
+msgid "Your signature to copy/paste:"
+msgstr "Vaše značka pro kopírování/vložení:"
+
+#: core/templates/messages.tmpl:186
+msgid ""
+"Your system may not support changing passwords through Foswiki. Check with "
+"your Wiki administrator."
+msgstr ""
+
+#: core/templates/messages.tmpl:11
+msgid "Your user name has been removed from the Authentication System."
+msgstr "Váš účet byl smazán z autentifikačního systému."
+
+#: core/templates/messages.tmpl:13
+msgid "Your user topic has not been renamed. Please e-mail %1 to request this."
+msgstr ""
+"Váš osobní článek nebyl pŕejmenován. Prosím pošlete email %1 s tímto "
+"požadavkem."
+
+#: core/templates/messages.tmpl:342
+#, fuzzy
+msgid "[[%1][Debug topic text]]."
+msgstr "Klikni na [[%1][Debug topic text]]."
+
+#: core/templates/settings.tmpl:28
+msgid ""
+"[multiple of 3 spaces] * [space] Set [space] VARIABLENAME [space] = [value]"
+msgstr ""
+"[násobek 3 mezer] * [mezera] Nastav [mezera] VARIABLENAME [mezera] = [mezera]"
+
+#: core/lib/Foswiki/I18N.pm:313
+msgid "_language_name"
+msgstr "Cesky"
+
+#: core/lib/Foswiki/Access.pm:207
+#, fuzzy
+msgid "access denied on root"
+msgstr "přístup ke článku nepovolen"
+
+#: core/lib/Foswiki/Access.pm:148
+msgid "access denied on topic"
+msgstr "přístup ke článku nepovolen"
+
+#: core/lib/Foswiki/Access.pm:181
+msgid "access denied on web"
+msgstr "přístup k webu nepovolen"
+
+#: core/lib/Foswiki/Access.pm:219
+#, fuzzy
+msgid "access not allowed on root"
+msgstr "přístup ke článku nepovolen"
+
+#: core/lib/Foswiki/Access.pm:168
+msgid "access not allowed on topic"
+msgstr "přístup ke článku nepovolen"
+
+#: core/lib/Foswiki/Access.pm:194
+msgid "access not allowed on web"
+msgstr "přístup nepovolen k webu"
+
+#: PatternSkin/templates/foswiki.pattern.tmpl:9
+msgid "accesskey='c'"
+msgstr "accesskey='c'"
+
+#: core/data/_default/WebHome.txt:11
+msgid "advanced search"
+msgstr "pokročilé hledání"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "and"
+msgstr "a"
+
+#: core/templates/attachtables.tmpl:12
+msgid "change, update, previous revisions, move, delete..."
+msgstr "změnit, aktualizovat, předchozí revize, přesunout, vymazat..."
+
+#: PatternSkin/templates/renamebase.pattern.tmpl:33
+msgid "checkboxes of referenced topics"
+msgstr "zatržení u odkazovaných článků"
+
+#: core/templates/messages.tmpl:417
+msgid "don't forget to check your Topic Settings"
+msgstr ""
+
+#: PatternSkin/templates/formtables.pattern.tmpl:28
+#, fuzzy
+msgid "edit"
+msgstr "(editovat)"
+
+#: core/templates/messages.tmpl:221
+msgid "fields are required."
+msgstr "pole jsou povinná"
+
+#: core/templates/attach.tmpl:5
+#, fuzzy
+msgid "has more information about attaching files."
+msgstr "Přečtěte si %1 pro informaci o definici formuláře."
+
+#: PatternSkin/templates/edit.pattern.tmpl:27
+#: PatternSkin/templates/edit.pattern.tmpl:30
+msgid "help"
+msgstr "nápověda"
+
+#: core/data/System/WikiSyntaxSummary.txt:17
+msgid "hints on good style"
+msgstr "nápověda k dobrému stylu"
+
+#: core/templates/oopsmore.tmpl:107
+msgid "in raw text format"
+msgstr "v neupraveném textovém formátu"
+
+#: core/templates/form.tmpl:3
+msgid "indicates mandatory fields"
+msgstr "označuje povinné pole"
+
+#: core/data/System/RenameWeb.txt:3
+msgid "looking for references in _all public webs_"
+msgstr "hledám odkazy ve _všech veřejných webech_"
+
+#: core/templates/attachtables.tmpl:12
+msgid "manage"
+msgstr "řídit"
+
+#: core/data/Trash/WebHome.txt:11
+msgid "more..."
+msgstr "více..."
+
+#: MailerContrib/templates/mailnotify.tmpl:16
+msgid "now %1"
+msgstr "nyní je %1"
+
+#: PatternSkin/data/System/WebLeftBarLogin.txt:3
+#: PatternSkin/templates/attachagain.pattern.tmpl:24
+#: PatternSkin/templates/attachagain.pattern.tmpl:28
+#: PatternSkin/templates/attachnew.pattern.tmpl:7
+#: PatternSkin/templates/edit.pattern.tmpl:36
+#: PatternSkin/templates/preview.pattern.tmpl:11
+#: PatternSkin/templates/renameattachmentdelete.pattern.tmpl:25
+#: PatternSkin/templates/settings.pattern.tmpl:22
+#: core/templates/changeform.tmpl:13 core/templates/foswiki.tmpl:105
+#: core/templates/moveattachment.tmpl:36 core/templates/preview.tmpl:18
+#: core/templates/rename.tmpl:20 core/templates/renameconfirm.tmpl:29
+#: core/templates/renamedelete.tmpl:34 core/templates/renameweb.tmpl:33
+#: core/templates/renamewebconfirm.tmpl:16
+msgid "or"
+msgstr "nebo"
+
+#: core/templates/preview.tmpl:13 core/templates/preview.tmpl:9
+#, fuzzy
+msgid "preview"
+msgstr "(ukázka)"
+
+#: core/lib/Foswiki/Render.pm:204
+msgid "put it back"
+msgstr "vložit zpátky"
+
+#: PatternSkin/templates/searchbase.pattern.tmpl:12
+#: core/data/System/WebChanges.txt:2
+msgid "retrieved at %1"
+msgstr "nalezeno v %1"
+
+#: core/templates/oopsmore.tmpl:39 core/templates/oopsmore.tmpl:48
+#, fuzzy
+msgid "scans links in _%1 web_ only"
+msgstr "hledám odkazy pouze v _%1 webu_"
+
+#: core/templates/oopsmore.tmpl:37 core/templates/oopsmore.tmpl:46
+#, fuzzy
+msgid "scans links in _all public webs_"
+msgstr "Hledej podobné články ve všech veřejných webech"
+
+#: core/templates/viewtopicactionbuttons.tmpl:14
+#, fuzzy
+msgid "title='Attach an image or document to this topic' accesskey='a'>&Attach"
+msgstr "Připoj obrázek nebo soubor k tomuto ćlánku"
+
+#: core/templates/viewtopicactionbuttons.tmpl:4
+#, fuzzy
+msgid "title='Create new topic' accesskey='c'>&Create"
+msgstr "value='Přerušit' accesskey='c'"
+
+#: core/templates/viewtopicactionbuttons.tmpl:17
+#, fuzzy
+msgid ""
+"title='Delete or rename this topic; set parent topic; view and compare "
+"revisions' accesskey='m'>&More topic actions"
+msgstr ""
+"Smazat nebo přejmenovat tento článek; nastavit nadřízený článek; ukaž a "
+"porovnej revize"
+
+#: core/templates/viewtopicactionbuttons.tmpl:7
+msgid "title='Edit this topic text' accesskey='e'>&Edit"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:21
+#, fuzzy
+msgid "title='Printable version of this topic' accesskey='p'>&Print version"
+msgstr "Verze pro vytištění tohoto článku"
+
+#: core/templates/viewtopicactionbuttons.tmpl:9
+#, fuzzy
+msgid "title='Raw Edit this topic text' accesskey='w'>Ra&w edit"
+msgstr "value='Přerušit' accesskey='c'"
+
+#: core/templates/viewtopicactionbuttons.tmpl:28
+#, fuzzy
+msgid ""
+"title='Search all webs for topics that link to here' accesskey='l'>A&ll Webs"
+msgstr "Prohledej všechny weby pro články, které odkazují sem"
+
+#: core/templates/viewtopicactionbuttons.tmpl:30
+#, fuzzy
+msgid ""
+"title='Search the %1 Web for topics that link to here' "
+"accesskey='b'>&Backlinks"
+msgstr "Hledej články ve webu %1 které sem odkazují"
+
+#: core/templates/viewtopicactionbuttons.tmpl:26
+#, fuzzy
+msgid ""
+"title='Search the %1 Web for topics that link to here' accesskey='b'>We&b"
+msgstr "Hledej články ve webu %1 které sem odkazují"
+
+#: core/templates/viewtopicactionbuttons.tmpl:38
+#, fuzzy
+msgid "title='View raw text without formatting' accesskey='r'>&Raw View"
+msgstr "Prohlédni nepracovaný text (bez formátování)"
+
+#: core/templates/viewtopicactionbuttons.tmpl:11
+msgid "title='View topic' accesskey='v'>&View topic"
+msgstr ""
+
+#: core/templates/viewtopicactionbuttons.tmpl:33
+#: core/templates/viewtopicactionbuttons.tmpl:35
+#, fuzzy
+msgid "title='View total topic history' accesskey='h'>&History"
+msgstr "Ukaž celou historii článku"
+
+#: core/lib/Foswiki.pm:4269
+msgid "user list truncated"
+msgstr ""
+
+#: PatternSkin/templates/edit.pattern.tmpl:47
+msgid "value='Cancel' accesskey='c'"
+msgstr "value='Přerušit' accesskey='c'"
+
+#: PatternSkin/templates/preview.pattern.tmpl:13
+msgid "value='Discard' accesskey='d'"
+msgstr "value='Zruš' accesskey='d'"
+
+#: PatternSkin/templates/edit.pattern.tmpl:45
+msgid "value='Preview' accesskey='p'"
+msgstr "value='Ukázka' accesskey='p'"
+
+#: PatternSkin/templates/edit.pattern.tmpl:41
+msgid "value='Quiet save' accesskey='q'"
+msgstr "value='Ulož a pokračuj' accesskey='q'"
+
+#: PatternSkin/templates/edit.pattern.tmpl:43
+#, fuzzy
+msgid "value='Save and Continue' accesskey='k'"
+msgstr "value='Ulož' accesskey='s'"
+
+#: PatternSkin/templates/edit.pattern.tmpl:39
+msgid "value='Save' accesskey='s'"
+msgstr "value='Ulož' accesskey='s'"
+
+#: core/templates/attachtables.tmpl:42
+msgid "view"
+msgstr "náhled"
+
+#: TopicUserMappingContrib/data/System/ResetPassword.txt:22
+msgid ""
+"you *must* have at least one valid registered e-mail to be able to reset "
+"your password. If none of your registered e-mail addresses is valid, and you "
+"have forgotten your password, contact %1."
+msgstr ""
+"*Musíte* mít alespoň jeden funkční registrovaný email, aby jste byl schopen "
+"resetovat Vaše heslo. Pokud žádný z Vašich registrovaných emailových adres "
+"není správný a Vy jste změnil Vaše heslo, kontaktujte %1."
+
+#~ msgid "%1 Web Home"
+#~ msgstr "%1 Domů"
+
+#~ msgid "(oops)"
+#~ msgstr "(Ou)"
+
+#~ msgid "(semicolon =;= for and)"
+#~ msgstr "(středník =;= pro *a*)"
+
+#, fuzzy
+#~ msgid "Create '%1'"
+#~ msgstr "Vy&tvořit"
+
+#~ msgid "Create personal sidebar"
+#~ msgstr "Vaše osobní stránka"
+
+#~ msgid "Do show:"
+#~ msgstr "Ukaž:"
+
+#, fuzzy
+#~ msgid "Do you wish to create the topic %1?"
+#~ msgstr "Pokud chcete vytvořit článek"
+
+#, fuzzy
+#~ msgid "List more similar topic in this web"
+#~ msgstr "Podobné články v tomto webu (jestli jsou)"
+
+#, fuzzy
+#~ msgid "Note: This topic does not exist"
+#~ msgstr "POZNÁMKA: Tento článek ještě neexistuje"
+
+#~ msgid "Opens page in new window"
+#~ msgstr "Otevře stránku v nvém okně"
+
+#~ msgid "Similar topics in this web (if any):"
+#~ msgstr "Podobné články v tomto webu (jestli jsou)"
+
+#~ msgid ""
+#~ "The %1 web of TWiki. TWiki is a Web-Based Collaboration Platform for the "
+#~ "Enterprise."
+#~ msgstr ""
+#~ "Web %1 vytvořený ve TWiki. TWiki je webově založená platforma pro "
+#~ "spolupráci pro libovolné prostředí."
+
+#, fuzzy
+#~ msgid "The topic %1 you are trying to access does not exist, yet."
+#~ msgstr "Zkoušíte %1 k článku, který neexistuje."
+
+#~ msgid "This topic has moved to %1."
+#~ msgstr "Článek byl přesunut do %1"
+
+#~ msgid ""
+#~ "This topic name is not recommended because it will not be linked "
+#~ "automatically. See %1 for details"
+#~ msgstr ""
+#~ "Takovéto jméno článku není doporučeno, protože nebude automaticky "
+#~ "spojováno. Podívejte se na %1 na detaily"
+
+#~ msgid "WARNING:"
+#~ msgstr "VAROVÁNÍ"
+
+#~ msgid "about !BookView"
+#~ msgstr "o !BookView"
+
+#~ msgid "about regular expression search"
+#~ msgstr "o hledání pomocí regulárních výrazů"
+
+#~ msgid "looking for references in _%1 web_ only"
+#~ msgstr "hledám odkazy pouze v _%1 webu_"
+
+#~ msgid "All topics in %1"
+#~ msgstr "Všechny články v %1"
+
+#, fuzzy
+#~ msgid ""
+#~ "It's usually best to choose a <a target='WikiWord' onclick=\"launchWindow"
+#~ "('%1','WikiWord'); return false;\" href='%2' rel='nofollow'>WikiWord</a> "
+#~ "for the new topic name, otherwise automatic linking may not work. "
+#~ "Characters not allowed in topic names, such as spaces will automatically "
+#~ "be removed."
+#~ msgstr ""
+#~ "Obvykle je nejlépe vybrat <a target='WikiWord' onclick=\"return "
+#~ "launchWindow('%1','WikiWord')\" href='%1' rel='nofollow'>WikiWord</a> pro "
+#~ "nové jméno článku, jinak nebude fungovat automatické odkazování. Písmena "
+#~ "nepovolená ve jménu článku, jako jsou mezery budou automaticky odstraněna."
+
+#~ msgid "You can see the differences [[%1][here]]."
+#~ msgstr "Zde můžete vidět rozdíly [[%1][zde]]."
+
+#, fuzzy
+#~ msgid "or [[%1][log in as administrator]]"
+#~ msgstr "Poznámka administrátoru"
+
+#, fuzzy
+#~ msgid "or %1"
+#~ msgstr "nyní je %1"
+
+#~ msgid "&WYSIWYG"
+#~ msgstr "&Editovat(WYSIWYG)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Please see <a target='Macros' onclick=\"return launchWindow('%"
+#~ "1','FileAttachment')\" href='' rel='nofollow'>FileAttachment</a> for more "
+#~ "information about attaching files."
+#~ msgstr ""
+#~ "*Nápověda:* Podívejte se na  <a target='Macros' onclick=\"return "
+#~ "launchWindow('%1','FileAttachment')\" href='' rel='nofollow'>Přílohy</a> "
+#~ "pro více informací o připojených souborech."
+
+#~ msgid "WYSIWYG"
+#~ msgstr "WYSIWIG"
+
+#~ msgid "value='Checkpoint' accesskey='k'"
+#~ msgstr "value='Kontrolní bod' accesskey='k'"
+
+#~ msgid "%1 has a list of other TWiki users."
+#~ msgstr "%1 má seznam ostatních uživatelů TWiki."
+
+#~ msgid "Click here"
+#~ msgstr "Klikni zde"
+
+#~ msgid ""
+#~ "During save of file %1 an error was found by the version control system. "
+#~ "Please notify your %2 administrator."
+#~ msgstr ""
+#~ "Během ukládání souboru %1 se objevila chyba u version control systému. "
+#~ "Prosím uvědomte %2 - administrátora."
+
+#, fuzzy
+#~ msgid "Hello %1!</strong>"
+#~ msgstr "Vítejte %1"
+
+#~ msgid ""
+#~ "Once you have created the topic, consider adding links in related topics "
+#~ "to the new topic so that there are more ways people can discover it."
+#~ msgstr ""
+#~ "Hned jak vytvoříte článek, pouvažujte o přidání odkazů v podobných "
+#~ "článcích na nový článek, tak aby bylo více cest jak mohou lidé článek "
+#~ "najít."
+
+#~ msgid "See %1 for more information."
+#~ msgstr "Přečtěte si %1 pro více informací."
+
+#~ msgid ""
+#~ "This form applies only if TWiki uses a {PasswordManager} that supports "
+#~ "changing passwords. Otherwise replace this topic with a note describing "
+#~ "how to change the password in your organization."
+#~ msgstr ""
+#~ "Tento formulář se uplatní pouze pokud TWiki užívá {PasswordManager}, "
+#~ "který podporujezměny hesel. Jinak nahraďte tento článek postupem jak "
+#~ "změnit heslo ve Vaší organizaci."
+
+#~ msgid ""
+#~ "*Bug:* Internet Explorer 4.0 or earlier: If you get an \"Internal Server "
+#~ "Error\" message when you upload a file, you need to try again. It should "
+#~ "work the second time."
+#~ msgstr ""
+#~ "*Chyba:* Internet Explorer 4.0 nebo dřívější: Pokud se ukáže chyba "
+#~ "\"Internal Server Error\" při nahrávání přílohy, zkuste to znova. Mělo by "
+#~ "to pracovat."
+
+#~ msgid ""
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow('%"
+#~ "1','ManagingWebs')\" href='%2' rel='nofollow'>Get help on managing webs</"
+#~ "a>"
+#~ msgstr ""
+#~ "<a target='ManagingWebs' onclick=\"return launchWindow('%"
+#~ "1','ManagingWebs')\" href='%2' rel='nofollow'>Nápověda k řízení webů</a>"
+
+#~ msgid "Added"
+#~ msgstr "Přidáno"
+
+#~ msgid "Deleted"
+#~ msgstr "Vymazáno"
+
+#~ msgid "Existing form data will be lost! (still available in old version)"
+#~ msgstr ""
+#~ "Existující data formulaře budou ztracena! (stále jsou dostupná ve starší "
+#~ "verzi)"
+
+#~ msgid "Hide attachments"
+#~ msgstr "Skryj přílohy"
+
+#~ msgid "History:"
+#~ msgstr "Historie"
+
+#~ msgid "Language Changed"
+#~ msgstr "Změna jazyka"
+
+#~ msgid "Not recommended when deleting a web."
+#~ msgstr "Nedoporučeno při mazání webu"
+
+#~ msgid "Notices:"
+#~ msgstr "Upozornění:"
+
+#~ msgid "Revision:"
+#~ msgstr "Revize:"
+
+#~ msgid "Save"
+#~ msgstr "Ulož"
+
+#~ msgid "Show attachments"
+#~ msgstr "Ukaž přílohy"
+
+#~ msgid ""
+#~ "Step 2: Continue to <input type='submit' class='twikiButton' "
+#~ "value='Edit' /> and save %1 to activate the new parent"
+#~ msgstr ""
+#~ "Krok 2: Pokračujte <input type='submit' class='twikiButton' "
+#~ "value='Editovat' /> a uložit %1 pro aktivaci nového nadřízeného článku"
+
+#~ msgid "Subwebs must be enabled."
+#~ msgstr "Podweby musí být povoleny."
+
+#, fuzzy
+#~ msgid "The checkmarked topics will be updated."
+#~ msgstr "Označené články budou změněny"
+
+#~ msgid "There is no size limit for uploaded files."
+#~ msgstr "Pro nahrávané soubory není stanoven žádný limit ve velikosti."
+
+#~ msgid "To *cancel* and discard any changes: Press the [Discard] button."
+#~ msgstr ""
+#~ "Pro *zrušení* a zahození jakýchkoliv změn: Stiskněte [Zahoď] tlačítko."
+
+#~ msgid "To *save* changes: Press the [Save Changes] button."
+#~ msgstr "Pro *uložení* změn: Stiskněte [Ulož změny] tlaćítko."
+
+#~ msgid ""
+#~ "To delete this web: move this web to the Trash web by renaming it to %1."
+#~ msgstr ""
+#~ "Pro smazání tohoto webu: přesuňte tento web do Koše, přejmenováním na %1."
+
+#~ msgid "To edit the topic anyway, hit 'Edit Anyway'."
+#~ msgstr "Pokud chcete článek přesto editovat, stiskněte 'Přesto editovat'."
+
+#~ msgid "To make *more changes*: Go back in your browser."
+#~ msgstr "Aby jste udělal *více změn*: Jděte zpět ve Vašem prohlížeči."
+
+#~ msgid "To see if %1 has finished editing yet, click 'Try Again'."
+#~ msgstr ""
+#~ "Pro kontrolu, jestli %1 už ukončil editaci, stiskněte 'Zkuste znova'."
+
+#~ msgid "Unchanged"
+#~ msgstr "Nezměněno"
+
+#~ msgid "Use monospace font"
+#~ msgstr "Použijte neproporcionální font"
+
+#~ msgid "Use proportional spaced font"
+#~ msgstr "Použije proporcionální font"
+
+#~ msgid "You can move the topic to a different web."
+#~ msgstr "Můžete přesunout článek na jiný web."
+
+#~ msgid "You can review your changes in your personal TWiki topic %1"
+#~ msgstr "Můžete zkontrolovat Vaše změny ve Vašem osobním TWiki článku %1"
+
+#~ msgid "none (remove topic parent)"
+#~ msgstr "žádný (odstraňte nadřízený článek)"
+
+#~ msgid "to edit the topic anyway."
+#~ msgstr "přesto editovat článek"
+
+#~ msgid "to see if %1 has finished editing yet."
+#~ msgstr "zjistit, zda %1 už ukončil editování"
+
+#, fuzzy
+#~ msgid "New Group"
+#~ msgstr "Skupiny"
+
+#~ msgid "&Attach"
+#~ msgstr "&Přílohy"
+
+#~ msgid "&Edit"
+#~ msgstr "&Editovat"
+
+#~ msgid "&More topic actions"
+#~ msgstr "Více akcí"
+
+#~ msgid "&Printable"
+#~ msgstr "&Pro tisk"
+
+#~ msgid "&View topic"
+#~ msgstr "Ukaž článek"
+
+#~ msgid "(More options in WebSearch)"
+#~ msgstr "(Více možností při hledání)"
+
+#~ msgid "A&ll Webs"
+#~ msgstr "Vš&echny weby"
+
+#~ msgid ""
+#~ "Checked topics will be updated to point to the new attachment location."
+#~ msgstr ""
+#~ "Označené články budou aktualizovány do bodu do nového umístění příloh."
+
+#~ msgid "Create (&WYSIWYG)"
+#~ msgstr "Vytvořit (&WISIWIG)"
+
+#~ msgid "Hide formatting help"
+#~ msgstr "Skryj nápovědu k formátování"
+
+#~ msgid "Horizontal size of text edit box:"
+#~ msgstr "Horizontální velikost editovacího pole:"
+
+#~ msgid "If you intend to do a full text search:"
+#~ msgstr "Pokud zamýšlíte hledat v textu:"
+
+#~ msgid "If you used the \"Jump\" feature to jump to this page:"
+#~ msgstr "Pokud jste použil \"Přejdi na\" pro skok na tuto stránku:"
+
+#~ msgid "If you would like to create this page:"
+#~ msgstr "Pokud chcete vytvořít tuto stránku:"
+
+#~ msgid "Not recommended when deleting an attachment."
+#~ msgstr "Nedoporučeno při mazání přilohy"
+
+#~ msgid "Please try again."
+#~ msgstr "Zkuste to prosím znovu."
+
+#~ msgid ""
+#~ "See <a href='%1'>100</a>, <a href='%2'>200</a>, <a href='%3'>400</a>, <a "
+#~ "href='%4'>800</a> most recent changes"
+#~ msgstr ""
+#~ "Prohlédněte si <a href='%1'>100</a>, <a href='%2'>200</a>, <a href='%"
+#~ "3'>400</a>, <a href='%4'>800</a> posledních změn"
+
+#~ msgid "See <a href='%1'>all</a> changes"
+#~ msgstr "Prohlédněte si <a href='%1'>všechny</a> změny"
+
+#~ msgid "Show formatting help"
+#~ msgstr "Ukaž nápovědu k formátování"
+
+#~ msgid ""
+#~ "Style of text edit box. =width: 99%= for full window width (default), "
+#~ "=width: auto= to disable."
+#~ msgstr ""
+#~ "Styl editovací oblasti. =šířka: 99%= pro celé okno (standardní), =šířka: "
+#~ "auto= nepoužít."
+
+#~ msgid ""
+#~ "Use the [[WebSearch][Search]] link on top of this page, or do a simple"
+#~ msgstr "Použijte [[WebSearch][Hledej]] na vrcholu stránky nebo jednoduše"
+
+#~ msgid "Vertical size of text edit box:"
+#~ msgstr "Vertikální velikost textového editovacího okna:"
+
+#~ msgid "We&b"
+#~ msgstr "We&b"
+
+#~ msgid "Write protect your home page: (set it to your %1)"
+#~ msgstr "Zamkněte Vaši stránku proti změnám: (nastavte ji na Váš %1)"

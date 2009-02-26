@@ -1,0 +1,9 @@
+%{ This is a default template }%%TMPL:INCLUDE{"edit"}%
+
+%TMPL:DEF{"titleaction"}%%MAKETEXT{"(edit text)"}%%TMPL:END%
+
+
+%TMPL:DEF{"pagetitle"}%<nop>%TOPIC% %MAKETEXT{"(edit text)"}%%TMPL:END%
+
+
+%TMPL:DEF{"form"}%<input type="hidden" name="editaction" value="text" />%TMPL:END%

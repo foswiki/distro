@@ -1,0 +1,174 @@
+Description: testcases for Foswiki extension tags verbatim, noautolink and pre
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+PRE is actually an HTML tag, but Foswiki performs extra processing on it
+
+---+ =verbatim=
+---++ Simple
+---+++ Expected
+<!-- expected 1 -->
+Outside verbatim
+<pre>
+Inside verbatim
+</pre>
+Outside verbatim
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside verbatim
+<verbatim>
+Inside verbatim
+</verbatim>
+Outside verbatim
+<!-- /actual -->
+
+---++ With parameters
+---+++ Expected
+<!-- expected 2 -->
+Outside verbatim with class
+<pre class="foswikiAlert">
+Inside verbatim with class
+</pre>
+Outside verbatim with class
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside verbatim with class
+<verbatim class="foswikiAlert">
+Inside verbatim with class
+</verbatim>
+Outside verbatim with class
+<!-- /actual -->
+
+---++ Indented
+---+++ Expected
+<!-- expected 3 -->
+Outside
+   <pre>
+Inside
+   </pre>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+   <verbatim>
+Inside
+   </verbatim>
+Outside
+<!-- /actual -->
+-----------------------------------------------------------------------
+---+ =pre=
+---++ Simple
+---+++ Expected
+<!-- expected 4 -->
+Outside
+<pre>
+Inside
+</pre>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+<pre>
+Inside
+</pre>
+Outside
+<!-- /actual -->
+
+---++ With parameters
+---+++ Expected
+<!-- expected 5 -->
+Outside
+<pre class="foswikiAlert">
+Inside
+</pre>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+<pre class="foswikiAlert">
+Inside
+</pre>
+Outside
+<!-- /actual -->
+
+---++ Indented
+---+++ Expected
+<!-- expected 6 -->
+Outside
+   <pre>
+Inside
+   </pre>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+   <pre>
+Inside
+   </pre>
+Outside
+<!-- /actual -->
+
+-----------------------------------------------------------------------
+---+ =noautolink=
+
+---++ Simple
+---+++ Expected
+<!-- expected 7 -->
+Outside
+<noautolink>
+Inside
+</noautolink>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+<noautolink>
+Inside
+</noautolink>
+Outside
+<!-- /actual -->
+
+---++ With parameters
+---+++ Expected
+<!-- expected 8 -->
+Outside
+<noautolink class="foswikiAlert">
+Inside
+</noautolink>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+<noautolink class="foswikiAlert">
+Inside
+</noautolink>
+Outside
+<!-- /actual -->
+
+---++ Indented
+---+++ Expected
+<!-- expected 9 -->
+Outside
+   <noautolink>
+Inside
+   </noautolink>
+Outside
+<!-- /expected -->
+---+++ Actual
+<!-- actual -->
+Outside
+   <noautolink>
+Inside
+   </noautolink>
+Outside
+<!-- /actual -->

@@ -1,0 +1,227 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: foswiki_20030201-5\n"
+"Report-Msgid-Bugs-To: foswiki@packages.debian.org\n"
+"POT-Creation-Date: 2008-07-16 11:58+0200\n"
+"PO-Revision-Date: 2005-09-04A 13:45-0300\n"
+"Last-Translator: Antonio S. de A. Terceiro <asaterceiro@inf.ufrgs.br>\n"
+"Language-Team: FoswikiBrasil <foswikibr@listas.softwarelivre.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+#, fuzzy
+#| msgid "Top-level URL of the server Foswiki runs under:"
+msgid "URL of the server Foswiki runs under:"
+msgstr "URL inicial do servidor onde o Foswiki roda:"
+
+#. Type: string
+#. Description
+#: ../templates:1001
+msgid ""
+"Please enter the web server URL (such as \"http://www.example.org/\"). "
+"Complete Foswiki URLs will be constructed from this value plus the string "
+"\"foswiki/\"."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../templates:2001
+msgid "Email address of the webmaster for this Foswiki:"
+msgstr "Endereço de e-mail to webmaster desse Foswiki:"
+
+#. Type: string
+#. Description
+#: ../templates:2001
+#, fuzzy
+#| msgid ""
+#| "This email address gets mail for new user registration, and is listed on "
+#| "the \"oops\" page when things go wrong."
+msgid ""
+"Please enter the email address that will receive new user registration mail. "
+"This address will also be displayed in the \"oops\" page when errors occur."
+msgstr ""
+"Esse endereço de e-mail recebe mensagens em registros de novos usuários, e é "
+"listado na página \"oops\" quando alguma coisa dá errado."
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+#, fuzzy
+#| msgid "Install default wiki Topic Set on initial install?"
+msgid "Perform install of default wiki Topic Set?"
+msgstr "Instalar conjunto de tópicos wiki inicial na primeira instalação?"
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Foswiki includes a complete \"starter kit\" which includes user registration "
+"pages, documentation, and tutorials."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+msgid ""
+"Accept this option unless you want to use an existing Foswiki data set (for "
+"instance, one left over from a previous installation)."
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../templates:3001
+#, fuzzy
+#| msgid ""
+#| "Foswiki includes a complete \"starter kit\" which includes user "
+#| "registration pages, documentation, and tutorials.  Only decline if you're "
+#| "re-installing Foswiki after deleting the package and want to keep the old "
+#| "data, or if you've got a Foswiki data set from your own manual install.  If "
+#| "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
+#| "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#| "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
+#| "your topics with the new version."
+msgid ""
+"If data/Main/WebHome.txt is present, the starter kit will not be unpacked. "
+"The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+"(and foswiki-pub.tar.gz) if you want to install it manually or compare the "
+"topics with the new version."
+msgstr ""
+"O Foswiki inclui um \"kit inicial\" completo que inclui páginas de registro de "
+"usuários, documentação e tutoriais. Só decline se você estiver reinstalando "
+"foswiki depois de remover o pacote e quiser manter os dados antigos, ou se "
+"você tiver seu próprio conjunto de dados de uma instalação manual anterior. "
+"Se data/Main/WebHome.txt existir, o kit inicial não vai ser extraído. Os "
+"arquivos do kit inicial podem ser encontrados em /usr/share/foswiki/foswiki-data."
+"tar.gz (e foswiki-pub.tar.gz), se você quiser instalá-lo manualmente ou "
+"comparar seus tópicos com a nova versão."
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid "Admin User Registration configuration required"
+msgstr "Configuração de Usuário Administrador necessária"
+
+#. Type: note
+#. Description
+#: ../templates:4001
+msgid ""
+"After you have created yourself a user, edit the Main.AdminGroup to "
+"restrict Admin privileges to that user."
+msgstr ""
+"Depois de criar um usuário para você, edite o Main.AdminGroup para "
+"restringir os privilégios de administrador para esse usuário."
+
+#. Type: string
+#. Description
+#: ../templates:5001
+msgid "Apache user allowed access to 'configure' script:"
+msgstr ""
+
+#. Type: string
+#. Description
+#. Translators, do not translate "'configure'" script's name
+#: ../templates:5001
+msgid ""
+"Please enter the username of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+
+#. Type: password
+#. Description
+#. Translators, do not translate "configuser" in the variable
+#: ../templates:6001
+msgid "Password for '${configuser}':"
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../templates:6001
+msgid ""
+"Please enter the password of the apache user who will be allowed to run the "
+"configure script at http://localhost/cgi-bin/foswiki/configure."
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Password confirmation:"
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../templates:7001
+msgid "Please re-enter the same password, for verification."
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid "Password mismatch"
+msgstr ""
+
+#. Type: error
+#. Description
+#: ../templates:8001
+msgid ""
+"The passwords you entered didn't match. You will have to enter them again."
+msgstr ""
+
+#~ msgid "Top-level URL of the server Foswiki runs under:"
+#~ msgstr "URL inicial do servidor onde o Foswiki roda:"
+
+#~ msgid ""
+#~ "For a normal install, this should be a URL for your web server's full "
+#~ "name, which is used to construct URLs on some pages.  The install will "
+#~ "serve up the data by adding \"foswiki\" to the end of this setting; it is "
+#~ "also needed for certain redirections."
+#~ msgstr ""
+#~ "Para uma instalação normal, essa deve deve a URL pro nome completo do seu "
+#~ "servidor, que é usada para construir URL's am alguma páginas. A "
+#~ "instalação vai fornecer essa informação adicionando \"foswiki\" ao final "
+#~ "desse valor; é necessário também pra alguns redirecionamentos."
+
+#~ msgid ""
+#~ "This email address gets mail for new user registration, and is listed on "
+#~ "the \"oops\" page when things go wrong."
+#~ msgstr ""
+#~ "Esse endereço de e-mail recebe mensagens em registros de novos usuários, "
+#~ "e é listado na página \"oops\" quando alguma coisa dá errado."
+
+#~ msgid "Install default wiki Topic Set on initial install?"
+#~ msgstr "Instalar conjunto de tópicos wiki inicial na primeira instalação?"
+
+#~ msgid ""
+#~ "Foswiki includes a complete \"starter kit\" which includes user "
+#~ "registration pages, documentation, and tutorials.  Only decline if you're "
+#~ "re-installing Foswiki after deleting the package and want to keep the old "
+#~ "data, or if you've got a Foswiki data set from your own manual install.  If "
+#~ "data/Main/WebHome.txt is present, the starter kit will not be unpacked.  "
+#~ "The starter kit files can be found in /usr/share/foswiki/foswiki-data.tar.gz "
+#~ "(and foswiki-pub.tar.gz), if you want to install it manually or compare "
+#~ "your topics with the new version."
+#~ msgstr ""
+#~ "O Foswiki inclui um \"kit inicial\" completo que inclui páginas de registro "
+#~ "de usuários, documentação e tutoriais. Só decline se você estiver "
+#~ "reinstalando foswiki depois de remover o pacote e quiser manter os dados "
+#~ "antigos, ou se você tiver seu próprio conjunto de dados de uma instalação "
+#~ "manual anterior. Se data/Main/WebHome.txt existir, o kit inicial não vai "
+#~ "ser extraído. Os arquivos do kit inicial podem ser encontrados em /usr/"
+#~ "share/foswiki/foswiki-data.tar.gz (e foswiki-pub.tar.gz), se você quiser "
+#~ "instalá-lo manualmente ou comparar seus tópicos com a nova versão."

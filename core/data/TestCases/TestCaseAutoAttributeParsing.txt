@@ -1,0 +1,72 @@
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+
+Description: ensure attribute parsing provides expected outcome
+
+[[%SCRIPTURL{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
+
+Designed by: Crawford Currie
+
+Expected outcome in each case is defined as the results of =extractParameters=, the Cairo equivalent to the attribute parser.
+
+This test uses the =STRICTTAG= feature of the !TestFixturePlugin, that simply creates a Foswiki::Attrs from the parameter and then outputs it using =stringify()=
+
+<table border=1>
+<tr><th>Input string</th>
+<th>Expected</th>
+<th>Strict</th>
+<th>Friendly</th>
+</tr>
+<tr><td>
+def="m\"no" pqr=" stu="vwx""
+</td><td>
+<!-- expected -->
+def="m\"no" pqr=" stu="
+<!-- /expected -->
+</td><td>
+<!-- actual -->
+%STRICTTAG{ def="m\"no" pqr=" stu="vwx""}%
+<!-- /actual -->
+</td><td>
+%FRIENDLYTAG{ def="m\"no" pqr=" stu="vwx""}%
+</td></tr>
+<tr><td>
+</td><td>
+<!-- expected BLANK -->
+<p />
+<!-- /expected -->
+</td><td>
+<!-- actual BLANK -->
+%STRICTTAG{  }%
+<!-- /actual -->
+</td><td>
+%FRIENDLYTAG{  }%
+</td></tr>
+<tr><td>
+bloody " hell
+</td><td>
+<!-- expected -->
+"bloody \" hell"
+<!-- /expected -->
+</td><td>
+<!-- actual -->
+%STRICTTAG{ bloody " hell}%
+<!-- /actual -->
+</td><td>
+%FRIENDLYTAG{ bloody " hell}%
+</td></tr>
+<tr><td>
+"abc\" def="ghi" jkl" def="mno" pqr=" stu="\"vwx""
+</td><td>
+<!-- expected -->
+"abc\" def=\"ghi\" jkl" def="mno" pqr=" stu="
+<!-- /expected -->
+</td><td>
+<!-- actual -->
+%STRICTTAG{ "abc\" def="ghi" jkl" def="mno" pqr=" stu="\"vwx""}%
+<!-- /actual -->
+</td><td>
+%FRIENDLYTAG{ "abc\" def="ghi" jkl" def="mno" pqr=" stu="\"vwx""}%
+</td></tr>
+</table>
+
+

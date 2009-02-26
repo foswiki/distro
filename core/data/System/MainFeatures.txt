@@ -1,0 +1,26 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+---+ Main Features
+
+   * *Any web browser:* Edit existing pages or create new pages by using any web browser. There is no need to upload pages.
+   * *Edit link:* To edit a page, simply click on the ==Edit== link at the top or bottom of the page.
+   * *Auto links:* Web pages are [[WikiWord][linked automatically]]. You do not need to learn HTML commands to link pages.
+   * *Text formatting:* Simple, powerful and easy-to-learn [[WikiSyntax][text formatting rules]]. Basically you write text like you would write an e-mail.
+   * *Webs:* Pages are grouped into [[%SYSTEMWEB%.SiteMap][webs]] (or collections). This allows you to set up separate collaboration groups.
+   * *Search:* [[WebSearch][Full text search]] with/without regular expressions. See a sample [[%SCRIPTURLPATH{"search"}%/%SYSTEMWEB%/?scope=text&search=learn][search result]].
+   * *E-mail notification:* Get [[WebChangesAlert][automatically notified]] when something has changed in a web.
+   * *Structured content:* Use DataForms to classify and categorize unstructured web pages and to create simple workflow systems.
+   * *File attachments:* [[FileAttachment][Upload]] and download any file as an attachment to a page by using your browser. This is similar to file attachments in an e-mail, but it happens on web pages.
+   * *Revision control:* All changes to pages and attachments are tracked. Retrieve previous page revisions; compare differences; find out who changed what and when.
+   * *Access control:* Define groups and impose fine-grained read and write [[AccessControl][access restrictions]] based on groups and users.
+   * *Macros:* Use [[macros]] to dynamically compose your pages. This allows you for example to include other pages, or show a search result embedded in a page.
+   * *Plugins:* Easily install program enhancements using external [[Plugins][plug-in modules]]. Developers can create plug-ins in Perl using the Foswiki Plugin API.
+   * *Templates and skins:* A flexible [[SkinTemplates][templating system]] separates program logic and presentation. [[Skins]] override template headers and footers; page content is unaffected.
+   * *Managing pages:* Individual pages can be renamed, moved and deleted through the browser.
+   * *Managing users:* Web-based [[UserRegistration][user registration]] and [[ChangePassword][change of password]].
+   * *Statistics:* Extract statistics of webs. Find out most popular pages and top contributors.
+   * *Preferences:* Multiple levels of preferences: DefaultPreferences for site-level, WebPreferences for each web, user level preferences, individual topics etc.
+   * *[[SimultaneousEdits][simultaneous page editing]]:* 
+   * *Referred-By:* Find the pages that contain links to a topic.
+
+---
+*Related Topics:* UserDocumentationCategory, AdminDocumentationCategory

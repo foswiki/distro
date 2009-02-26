@@ -1,0 +1,349 @@
+#!/usr/bin/perl -w
+use Benchmark qw(:all :hireswallclock);
+use vars qw( $begin );
+BEGIN { $begin = new Benchmark; }
+END{ print STDERR "\nTotal " . timestr(timediff(new Benchmark, $begin))."\n"; }
+#
+# Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 1999-2003 Peter Thoeny, peter@thoeny.com
+#
+# Based on parts of Ward Cunninghams original Wiki and JosWiki.
+# Copyright (C) 1998 Markus Peter - SPiN GmbH (warpi@spin.de)
+# Some changes by Dave Harris (drh@bhresearch.co.uk) incorporated
+#
+# For licensing info read license.txt file in the TWiki root.
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details, published at 
+# http://www.gnu.org/copyleft/gpl.html
+
+# Set library paths in @INC, at compile time
+BEGIN { unshift @INC, '.'; require 'setlib.cfg'; }
+
+use CGI::Carp qw( fatalsToBrowser );
+use CGI;
+
+use strict;
+
+&main();
+
+# Uncomment the body of either routine to enable debugging
+sub writeDebug
+{
+    my( $text ) = @_;
+#    TWiki::writeDebug( $text );
+}
+
+sub writeDebugTimes
+{
+    my( $text ) = @_;
+#    TWiki::writeDebugTimes( $text );
+}
+
+sub main
+{
+    my $query;
+    my $thePathInfo;
+    my $theRemoteUser;
+    my $theUrl;
+    use Data::Dumper;
+    if( $ENV{'DOCUMENT_ROOT'} ) {
+        # script is called by browser
+        $query = new CGI;
+        $thePathInfo = $query->path_info(); 
+        $theRemoteUser = $query->remote_user();
+        $theUrl = $query->url;
+
+        open(OF,'>/tmp/twiki_bm.cgi') || die "Store failed";
+        print OF Dumper(\$query, $thePathInfo, $theRemoteUser, $theUrl);
+        close(OF);
+        `chmod 777 /tmp/twiki_bm.cgi`
+    } else {
+        open(IF, "</tmp/twiki_bm.cgi")  || die "Retrieve failed";
+        undef $/;
+        my $blah = <IF>;
+        close(IF);
+        my ( $VAR1, $VAR2, $VAR3, $VAR4 );
+        eval $blah;
+        ( $query, $thePathInfo, $theRemoteUser, $theUrl ) =
+          ( $$VAR1, $VAR2, $VAR3, $VAR4 )
+    }
+
+    use TWiki;
+
+    ##### for debug only: Remove next 2 comments (but redirect does not work)
+    #print "Content-type: text/html\n\n";
+    #open(STDERR,'>&STDOUT'); # redirect error to browser
+    #$| = 1;                  # no buffering
+
+    my $theTopic = $query->param( 'topic' );
+
+    writeDebugTimes( "view - start $thePathInfo" );
+
+    my( $topic, $webName, $scriptUrlPath, $userName ) = 
+	&TWiki::initialize( $thePathInfo, $theRemoteUser, $theTopic, $theUrl, $query );
+
+    writeDebugTimes( "view - initialized" );
+
+    my $tmpl = "";
+    my $text = "";
+    my $meta = "";
+    my $rev = $query->param( "rev" );
+    my $maxrev = 1;
+    my $extra = "";
+    my $wikiUserName = &TWiki::userToWikiName( $userName );
+    my $revdate = "";
+    my $revuser = "";
+    my $viewRaw = $query->param( "raw" ) || "";
+    my $unlock  = $query->param( "unlock" ) || "";
+    my $skin    = $query->param( "skin" ) || &TWiki::Prefs::getPreferencesValue( "SKIN" );
+
+    # Set page generation mode to RSS if using an RSS skin
+    if( $skin =~ /^rss/ ) {
+	TWiki::setPageMode( 'rss' );
+    }
+
+    # get view template, standard view or a view with a different skin
+    $tmpl = &TWiki::Store::readTemplate( "view", $skin );
+    if( ! $tmpl ) {
+        TWiki::writeHeader( $query );
+        print "<html><body>\n"
+            . "<h1>TWiki Installation Error</h1>\n"
+            . "Template file view.tmpl not found or template directory \n"
+            . "$TWiki::templateDir not found.<p />\n"
+            . "Check the \$templateDir variable in TWiki.cfg.\n"
+            . "</body></html>\n";
+        return;
+    }
+    writeDebugTimes( "view - readTemplate" );
+
+    if( ! &TWiki::Store::webExists( $webName ) ) {
+        my $url = &TWiki::getOopsUrl( $webName, $topic, "oopsnoweb" );
+        TWiki::redirect( $query, $url );
+        return;
+    }
+    writeDebugTimes( "view - webExists" );
+
+    if( $unlock eq "on" ) {
+        # unlock topic, user cancelled out of edit
+        &TWiki::Store::lockTopic( $topic, "on" );
+    }
+
+    # Most recent topic read in even if earlier topic requested - makes
+    # code simpler and performance impact should be minimal
+    my $topicExists = &TWiki::Store::topicExists( $webName, $topic );
+    if( $topicExists ) {
+        if( $viewRaw ) {
+            $text = &TWiki::Store::readTopicRaw( $webName, $topic );
+        } else {
+            ( $meta, $text ) = &TWiki::Store::readTopic( $webName, $topic );
+        }
+        ( $revdate, $revuser, $maxrev ) = &TWiki::Store::getRevisionInfoFromMeta( $webName, $topic, $meta, "isoFormat" );
+        
+        writeDebug( "maxrev = $maxrev" );
+        if( $rev ) {
+            $rev =~ s/r?1\.//go;  # cut 'r' and major
+            if( $rev < 1 )       { $rev = 1; }
+            if( $rev > $maxrev ) { $rev = $maxrev; }
+        } else {
+            $rev = $maxrev;
+        }
+
+        if( $rev < $maxrev ) {
+            if( $viewRaw ) {
+                $text = &TWiki::Store::readTopicRaw( $webName, $topic, "1.$rev" );
+            } else {
+                ( $meta, $text ) = &TWiki::Store::readTopicVersion( $webName, $topic, "1.$rev" );
+            }
+            ( $revdate, $revuser ) = &TWiki::Store::getRevisionInfo( $webName, $topic, "1.$rev", 1 );
+            $extra .= "r1.$rev";
+        }
+
+    } else {
+        $rev = 1;
+        if( &TWiki::isWikiName( $topic ) || &TWiki::isAbbrev( $topic ) ) {
+            ( $meta, $text ) = &TWiki::Store::readTemplateTopic( "WebTopicViewTemplate" );
+        } else {
+            ( $meta, $text ) = &TWiki::Store::readTemplateTopic( "WebTopicNonWikiTemplate" );
+        }
+        $extra .= " (not exist)";
+    }
+
+    if( $viewRaw ) {
+	my $vtext = "<form><textarea readonly=\"readonly\" wrap=\"virtual\" rows=\"%EDITBOXHEIGHT%\" cols=\"%EDITBOXWIDTH%\">";
+	$vtext = &TWiki::handleCommonTags( $vtext, $topic );
+        $text =~ s/&/&amp\;/go;
+        $text =~ s/</&lt\;/go;
+        $text =~ s/>/&gt\;/go;
+        $text =~ s/\t/   /go;
+	$text = "$vtext$text</textarea></form>";
+	if( $viewRaw !~ /debug/i ) {
+	    $text =~ s/%META[\:A-Z]*{[^\}]*}%[\n\r]*//gos;
+	}
+    }
+
+    writeDebugTimes( "view - get rev info" );
+
+    if( ! $viewRaw ) {
+        $text = &TWiki::handleCommonTags( $text, $topic );
+        writeDebugTimes( "view - handleCommonTags done" );
+        $text = &TWiki::getRenderedVersion( $text );
+        writeDebugTimes( "view - getRendereredVersion done" );
+    }
+
+    if( $TWiki::doLogTopicView ) {
+        # write log entry
+        &TWiki::Store::writeLog( "view", "$webName.$topic", $extra );
+    }
+
+    my( $mirrorSiteName, $mirrorViewURL, $mirrorLink, $mirrorNote ) = &TWiki::readOnlyMirrorWeb( $webName );
+
+    if( $mirrorSiteName ) {
+        # disable edit and attach
+	# FIXME: won't work with non-default skins, see %EDITURL%
+        $tmpl =~ s/%EDITTOPIC%/$mirrorLink | <strike>Edit<\/strike>/o;
+        $tmpl =~ s/<a [^>]*?>Attach<\/a>/<strike>Attach<\/strike>/oi;
+        if( $topicExists ) {
+            # remove the NOINDEX meta tag
+            $tmpl =~ s/<meta name="robots"[^>]*>//goi;
+        } else {
+            $text = "";
+        }
+        $tmpl =~ s/%REVTITLE%//go;
+
+    } elsif( $rev < $maxrev ) {
+        # disable edit of previous revisions - FIXME consider change to use two templates
+	# FIXME: won't work with non-default skins, see %EDITURL%
+        $tmpl =~ s/%EDITTOPIC%/<strike>Edit<\/strike>/o;
+        $tmpl =~ s/<a [^>]*?>Attach<\/a>/<strike>Attach<\/strike>/oi;
+        $tmpl =~ s|<a [^>]*?>Rename/move<\/a>|<strike>Rename/move<\/strike>|oi;
+        $tmpl =~ s/%REVTITLE%/\(r1.$rev\)/go;
+        $tmpl =~ s/%REVARG%/&rev=1.$rev/go;
+    } else {
+	# Remove the NOINDEX meta tag (for robots) from both Edit and 
+	# Create pages
+	$tmpl =~ s/<meta name="robots"[^>]*>//goi;
+	my $editAction = $topicExists ? 'Edit' : 'Create';
+
+	# Special case for 'view' to handle %EDITTOPIC% and Edit vs. Create.
+	# New %EDITURL% variable is implemented by handleCommonTags, suffixes
+	# '?t=NNNN' to ensure that every Edit link is unique, fixing
+	# Codev.RefreshEditPage bug relating to caching of Edit page.
+	$tmpl =~ s!%EDITTOPIC%!<a href=\"%EDITURL%\"><b>$editAction</b></a>!go;
+
+	# FIXME: Implement ColasNahaboo's suggested %EDITLINK% along the 
+	# same lines, within handleCommonTags
+
+        $tmpl =~ s/%REVTITLE%//go;
+        $tmpl =~ s/%REVARG%//go;
+    }
+
+    my $i = $maxrev;
+    my $j = $maxrev;
+    my $revisions = "";
+    my $breakRev = 0;
+    if( ( $TWiki::numberOfRevisions > 0 ) && ( $TWiki::numberOfRevisions < $maxrev ) ) {
+        $breakRev = $maxrev - $TWiki::numberOfRevisions + 1;
+    }
+    while( $i > 0 ) {
+        if( $i == $rev) {
+            $revisions = "$revisions | r1.$i";
+        } else {
+            $revisions = "$revisions | <a href=\"$scriptUrlPath/view%SCRIPTSUFFIX%/%WEB%/%TOPIC%?rev=1.$i\">r1.$i</a>";
+        }
+        if( $i != 1 ) {
+            if( $i == $breakRev ) {
+                $i = 1;
+            } else {
+                $j = $i - 1;
+                $revisions = "$revisions | <a href=\"$scriptUrlPath/rdiff%SCRIPTSUFFIX%/%WEB%/%TOPIC%?rev1=1.$i&amp;rev2=1.$j\">&gt;</a>";
+            }
+        }
+        $i = $i - 1;
+    }
+    $tmpl =~ s/%REVISIONS%/$revisions/go;
+
+    if( $topicExists ) {
+        $revuser = &TWiki::userToWikiName( $revuser );
+        my $temp = &TWiki::getRenderedVersion( "r1.$rev - $revdate GMT - $revuser" );
+        $tmpl =~ s/%REVINFO%/$temp$mirrorNote/go;
+    } else {
+        $tmpl =~ s/%REVINFO%/$mirrorNote/go;
+    }
+
+    $tmpl = &TWiki::handleCommonTags( $tmpl, $topic );
+    if( $viewRaw ) {
+        $tmpl =~ s/%META{[^}]*}%//go;
+    } else {
+        $tmpl = &TWiki::handleMetaTags( $webName, $topic, $tmpl, $meta, ( $rev == $maxrev ) );
+    }
+    writeDebugTimes( "view - handleCommonTags for template done" );
+    $tmpl = &TWiki::getRenderedVersion( $tmpl, "", $meta ); ## better to use meta rendering?
+    $tmpl =~ s/%TEXT%/$text/go;
+    $tmpl =~ s/%MAXREV%/1.$maxrev/go;
+    $tmpl =~ s/%CURRREV%/1.$rev/go;
+    $tmpl =~ s|( ?) *</*nop/*>\n?|$1|gois;   # remove <nop> tags (PTh 06 Nov 2000)
+
+    # check access permission
+    my $viewAccessOK = &TWiki::Access::checkAccessPermission( "view", $wikiUserName, $text, $topic, $webName );
+    if( $TWiki::readTopicPermissionFailed ) {
+        # Can't read requested topic and/or included (or other accessed topics
+        # user could not be authenticated, may be not logged in yet?
+        my $viewauthFile = $ENV{'SCRIPT_FILENAME'};
+        $viewauthFile =~ s|/view|/viewauth|o;
+        if( ( ! $theRemoteUser ) && (-e $viewauthFile ) ) {
+            # try again with authenticated viewauth script
+            # instead of non authenticated view script
+            my $url = $ENV{"REQUEST_URI"};
+            if( $url ) {
+                # $url i.e. is "twiki/bin/view.cgi/Web/Topic?cms1=val1&cmd2=val2"
+                $url =~ s|/view|/viewauth|o;
+                $url = "$TWiki::urlHost$url";
+            } else {
+                $url = "$TWiki::urlHost$scriptUrlPath/$viewauthFile/$webName/$topic";
+            }
+            TWiki::redirect( $query, $url );
+            return;
+        }
+    }
+    if( ! $viewAccessOK ) {
+        my $url = &TWiki::getOopsUrl( $webName, $topic, "oopsaccessview" );
+        TWiki::redirect( $query, $url );
+        return;
+    }
+
+    writeDebugTimes( "view - checked access permissions" );
+
+    # Write header based on "contenttype" parameter, used to produce
+    # MIME types like text/plain or text/xml, e.g. for RSS feeds.
+    my $contentType = $query->param( "contenttype" );
+    if( $contentType ) {
+	TWiki::writeHeaderFull( $query, 'basic', $contentType, 0);
+        if( $skin =~ /^rss/ ) {
+            $tmpl =~ s/<img [^>]*>//g;  # remove image tags
+            $tmpl =~ s/<a [^>]*>//g;    # remove anchor tags
+            $tmpl =~ s/<\/a>//g;        # remove anchor tags
+        }
+    } elsif( $skin =~ /^rss/ ) {
+	TWiki::writeHeaderFull( $query, 'basic', 'text/xml', 0);
+        $tmpl =~ s/<img [^>]*>//g;  # remove image tags
+        $tmpl =~ s/<a [^>]*>//g;    # remove anchor tags
+        $tmpl =~ s/<\/a>//g;        # remove anchor tags
+    } else {
+        TWiki::writeHeader( $query );
+    }
+    
+    # print page content
+    print $tmpl;
+
+    writeDebugTimes( "view - done" );
+}
+
+# EOF

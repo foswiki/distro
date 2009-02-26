@@ -1,0 +1,8 @@
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
+%META:TOPICPARENT{name="Macros"}%
+#VarSESSIONVAR
+---+++ SESSIONVAR -- name of CGI and session variable that stores the session ID
+   * Syntax: =%<nop>SESSIONVAR%=
+   * Expand to: <tt>%SESSIONVAR%</tt>
+   * Related: UserAuthentication, [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarAUTHREALM][AUTHREALM]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSIONID][SESSIONID]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGIN][LOGIN]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarLOGOUT][LOGOUT]], [[%IF{"'%INCLUDINGTOPIC%'='Macros'" then="#"}%VarSESSION_VARIABLE][SESSION_VARIABLE]]
+

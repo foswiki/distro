@@ -1,0 +1,21 @@
+TWiki (R) - A Web Based Collaboration Platform
+==============================
+
+TWiki is a flexible and powerful web-based collaboration platform that allows you to run a dynamic intranet site, a project development space, a document management system, a knowledge base, an issue tracking system and many other groupware application. TWiki looks and feels like a normal intranet or Web site. Users can freely change or create content from any Web browser, without requiring special browser plugins. 
+
+Major companies like British Telecom, Sun Microsystems, Motorola and SAP depend on the TWiki platform to increase the productivity of their engineering teams. 
+
+Features include automatic link generation, full text search, authorization based on groups, Web form handling, email notification of changes, file attachments to Web pages, revision control of pages and attachments, and more. The server-side TWiki Plugins API provides developers with a simple way to build new groupware applications. 
+
+The GPLed TWiki software and over 100 Plugins can be downloaded from the TWiki.org web site, http://TWiki.org
+
+
+Deployment
+----------
+A side note in case you intend to use TWiki on your Intranet: TWiki is successfully deployed as a collaboration tool and dynamic Intranet tool at many major companies. You need to consider some important points to reach that goal. Do not underestimate the initial effort it takes to get a collaboration tool accepted within the company. Support from upper management is a must. A company with a culture that encourages information sharing is much more likely to succeed than one where information hoarding is the norm. There is also an initial "Catch 22" problem if you intend to use it as a knowledge base: "Why should I use the tool? There is so little information in it." An incentive program to reward contributions, and a dedicated knowledge engineer can help in the initial phase of deployment.
+
+
+TWiki Development
+----------------
+The place to collaborate on further TWiki development is at http://TWiki.org/cgi-bin/view/Codev/. ReadmeFirst tells you how to collaborate. Subscribe in WebNotify to stay up to date on latest development issues.
+
