@@ -36,11 +36,8 @@ BEGIN {
         $SIG{__DIE__} = \&Carp::confess;
     }
     $ENV{FOSWIKI_ACTION} = 'logon';
-    require FindBin;
-    my ($bin) = $FindBin::Bin =~ /^(.*)$/;
-    use Cwd ();
-    my ($setlibCfg) = Cwd::abs_path( "$bin/setlib.cfg" ) =~ /(.*)/;
-    require $setlibCfg;
+    @INC = ('.', grep { $_ ne '.' } @INC);
+    require 'setlib.cfg';
 }
 
 use Foswiki;
