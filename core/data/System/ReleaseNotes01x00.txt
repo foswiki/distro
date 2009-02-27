@@ -369,6 +369,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item913][Item913]] | JSCalendarContrib::addHEAD or Func::addToHEAD used in any xxxTagsHandler causes deep recursion |
 | [[%BUGS%/Item918][Item918]] | Small docu update for JSCalendarContrib |
 | [[%BUGS%/Item923][Item923]] | Adding two new fields to the default response header: Action and URI. |
+| [[%BUGS%/Item926][Item926]] | Foswiki.spec {AccessibleENV} must list FOSWIKI_ACTION instead of TWIKI_ACTION
 | [[%BUGS%/Item928][Item928]] | Update documentation of Foswiki::Request |
 | [[%BUGS%/Item945][Item945]] | RcsLite corrupts file's history |
 | [[%BUGS%/Item952][Item952]] | email failure for password reset, pwd change and i think rego too oops output broken |
