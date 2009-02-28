@@ -106,7 +106,6 @@ sub make_request {
     my ( $this, $req ) = @_;
 
     my $http = _req2http($req);
-    use Data::Dumper;
     my $ua = new LWP::UserAgent( timeout => 5, agent => '' );
     my $response = $ua->request($http);
     die 'Error performing request: ' . $response->message . "\n"

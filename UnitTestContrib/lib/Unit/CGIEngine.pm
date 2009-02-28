@@ -13,6 +13,7 @@ use Foswiki;
 use Foswiki::UI;
 use Foswiki::Request;
 use Storable qw(freeze thaw);
+use IO::Handle ();
 
 my $CRLF = "\015\012";
 
@@ -89,13 +90,16 @@ sub _req2cgi {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    CGI::initialize_globals();
 }
 
 sub make_request {
     my ( $this, $req ) = @_;
 
+    CGI::initialize_globals();
     my ( $env, $in ) = _req2cgi($req);
+
+    untie(*STDIN);
+    untie(*STDOUT);
 
     # Saving STDIN
     open my $stdin, '<&=', \*STDIN or die "Can't dup STDIN: $!";
