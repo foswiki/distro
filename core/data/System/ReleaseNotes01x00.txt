@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.2 - 26 Feb 2009
+---+!! Foswiki Release 1.0.3 - 28 Feb 2009
 
 %TOC%
 
@@ -17,11 +17,12 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
 
    * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
    * Foswiki 1.0.1 was released internally in the development community 23 Feb 2009 but we found a few important bugs that made us decide not to publish it and instead release a 1.0.2. It is a patch release with around 70 bug fixes and only very few minor enhancements.
-   * Foswiki 1.0.2 was built 25 Feb 2009 and published 27 Feb 2009. It is a patch release with around 80 bug fixes relative to 1.0.0 and only very few minor enhancements. 
+   * Foswiki 1.0.2 was built 25 Feb 2009 and again we decided to stop the publishing for quality reasons because of one important bug.
+   * Foswiki 1.0.3 was built 28 Feb 2009. It is a patch release with more than 80 bug fixes relative to 1.0.0 and only very few minor enhancements. 
 
 ---++ Pre-installed Extensions
 
-Foswiki 1.0.2 is shipped with the following:
+Foswiki 1.0 is shipped with the following:
 
    * *Plugins:* !CommentPlugin, !EditTablePlugin, !EmptyPlugin, !InterwikiPlugin, !PreferencesPlugin, !RenderListPlugin, !SlideShowPlugin, !SmiliesPlugin, !SpreadSheetPlugin, !TablePlugin, !TinyMCEPlugin, !TwistyPlugin, !WysiwygPlugin
    * *Contribs:* !BehaviourContrib, !JSCalendarContrib, !MailerContrib, !TipsContrib, !TopicUserMappingContrib
@@ -431,6 +432,25 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item1134][Item1134]] | Use of uninitialized value in string eq at .../lib/Foswiki/Meta.pm line 296. |
 | [[%BUGS%/Item1135][Item1135]] | Missing API documentation |
 | [[%BUGS%/Item6018][Item6018]] | GMTIME{}% does not return the right value for $week in ISO8601 |
+</noautolink>
+
+---++ Enhancements
+
+<noautolink>
+None
+</noautolink>
+
+---++ Foswiki Patch Release 1.0.3 Details
+
+---++ Fixes
+
+<noautolink>
+| [[%BUGS%/Item1141][Item1141]] | Foswiki::Func::addToHEAD Infinite recursion |
+| [[%BUGS%/Item1151][Item1151]] | statistics script is broken in release 1.0.2 and on trunk.foswiki.org |
+| [[%BUGS%/Item1152][Item1152]] | Foswiki fails in mod_perl and other similar environments after change related to Item906 |
+| [[%BUGS%/Item1155][Item1155]] | Webtopbar looks awful in IE6 because of transparent png |
+| [[%BUGS%/Item1158][Item1158]] | SMTP server other port than 25 is possible but not documented |
+| [[%BUGS%/Item1160][Item1160]] | Default users listed in WikiUsers are filed under the wrong letter |
 </noautolink>
 
 ---++ Enhancements

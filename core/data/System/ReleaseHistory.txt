@@ -4,6 +4,12 @@
 
 %TOC%
 
+---++ Foswiki Release 1.0.3 - 28 Feb 2008
+
+Both 1.0.1 and 1.0.2 were not published because they did not pass the final quality control. Another handful of bugs were fixed.
+
+Upgrade package for 1.0.3 is relative to 1.0.0.
+
 ---++ Foswiki Release 1.0.2 - 26 Feb 2008
 
 Same as 1.0.1 but with a handful of additional bug fixes.
