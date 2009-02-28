@@ -24,8 +24,16 @@ Foswiki is a fork from TWiki 4.2.3. Upgrades from all TWiki versions and earlier
 
 You are strongly advised to read the Foswiki:System.ReleaseNotes01x00 (also available in an HTML file in the root of your installation), which contains a list of changes from TWiki 4.2.3 to Foswiki 1.0. A number of system topics and macros (formerly known as TWiki variables) have been renamed, to better describe their purpose and, where appropriate, to rebrand to the Foswiki name.
 
+---++ Upgrade procedure - upgrading to a patch release
 
----++ Upgrade procedure
+Upgrading to a patch release - e.g. upgrading Foswiki 1.0.0 to 1.0.3 is easy and requires very little effort because these releases also comes as upgrade packages that..
+
+   * only contains the files that changed
+   * does not contain files you will normally have tailored. E.g. =Main.SitePreferences= will never be in an upgrade package.
+   
+For patch releases you will find a brief upgrade procedure on the download page for the release. Please follow this when you upgrade a patch release. It may contain small important steps that are unique to each patch release. E.g the procedure may suggest manual editing of the configure settings.
+
+---++ Upgrade procedure - upgrading major or minor version, or upgrading from TWiki. 
 
 The following is a high level view of the upgrade procedure:
 
