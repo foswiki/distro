@@ -3070,11 +3070,11 @@ sub addToHEAD {
 sub _visit {
     my ( $v, $visited, $list ) = @_;
     return if $visited->{$v};
+    $visited->{$v} = 1;
     foreach my $r ( @{ $v->{requires} } ) {
         _visit( $r, $visited, $list );
     }
     push( @$list, $v );
-    $visited->{$v} = 1;
 }
 
 sub _genHeaders {
