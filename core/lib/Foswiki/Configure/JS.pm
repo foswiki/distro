@@ -107,8 +107,9 @@ function toggleAllOptions(open) {
 }
 
 function getElementsByClassName(inRootElem, inClassName, inTag) {
+	var rootElem = inRootElem || document;
 	var tag = inTag || '*';
-	var elms = inRootElem.getElementsByTagName(tag);
+	var elms = rootElem.getElementsByTagName(tag);
 	var className = inClassName.replace(/\-/g, "\\-");
 	var re = new RegExp("\\b" + className + "\\b");
 	var el;
