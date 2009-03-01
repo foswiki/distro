@@ -393,7 +393,7 @@ sub param {
 
     my ( $key, @value ) = rearrange( [ 'NAME', [qw(VALUE VALUES)] ], @p );
 
-    return @{ $this->{param_list} } unless $key;
+    return @{ $this->{param_list} } unless defined $key;
     if ( defined $value[0] ) {
         push @{ $this->{param_list} }, $key
           unless exists $this->{param}{$key};
