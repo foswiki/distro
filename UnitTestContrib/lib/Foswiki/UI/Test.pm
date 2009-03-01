@@ -16,6 +16,10 @@ sub test {
             local $/ = undef;
             $response{$_} = <$fh>;
         }
+        if ( $session->{request}->method eq 'HEAD' ) {
+            $session->{response}->pushHeader( 'X-Result' =>
+                  Foswiki::urlEncode( freeze( $session->{request} ) ) );
+        }
         $session->{response}->print( freeze( \%response ) );
     }
 }

@@ -65,7 +65,7 @@ sub _req2cgi {
         $env{QUERY_STRING} = $req->query_string;
     }
     foreach my $h ( $req->header ) {
-        next if $h =~ /^Cookie|Content-Length$/i;
+        next if $h =~ /^(?:Cookie|Content-Length|User-Agent)$/i;
         my $v = $req->header($h);
         $h =~ tr/-/_/;
         $env{ 'HTTP_' . uc($h) } = $v;
@@ -83,6 +83,38 @@ sub _req2cgi {
         $env{AUTH_TYPE}   = 'Basic';
     }
     $env{PATH_INFO} = $req->path_info if $req->path_info;
+    $env{'HTTP_USER_AGENT'} = $req->userAgent() || $req->header('User-Agent');
+    return \%env, \$in;
+}
+
+sub _http2cgi {
+    my $http = shift;
+    my $in   = '';
+    my %env  = (
+        GATEWAY_INTERFACE => 'CGI/1.1',
+        SCRIPT_NAME       => '/bin/test',
+        SERVER_NAME       => 'EngineTests',
+        SERVER_PORT       => '80',
+        SERVER_PROTOCOL   => 'HTTP/1.1',
+        SERVER_SOFTWARE   => 'Foswiki',
+    );
+    $env{REQUEST_METHOD} = $http->method();
+    if ( $http->method eq 'POST' ) {
+        $in                  = $http->content;
+        $env{CONTENT_TYPE}   = $http->header('Content-Type');
+        $env{CONTENT_LENGTH} = $http->header('Content-Length');
+    }
+    else {
+        $env{QUERY_STRING} = $http->uri->query;
+    }
+    foreach my $h ( $http->header_field_names ) {
+        next if $h =~ /^Content-Length$/i;
+        my $v = $http->header($h);
+        $h =~ tr/-/_/;
+        $env{ 'HTTP_' . uc($h) } = $v;
+    }
+
+    # This implementation supports neither REMOTE_ADDR nor REMOTE_USER nor PATH_INFO.
     return \%env, \$in;
 }
 
@@ -92,10 +124,8 @@ sub set_up {
     CGI::initialize_globals();
 }
 
-sub make_request {
-    my ( $this, $req ) = @_;
-
-    my ( $env, $in ) = _req2cgi($req);
+sub _perform_request {
+    my ( $env, $in ) = @_;
 
     # Saving STDIN
     open my $stdin, '<&=', \*STDIN or die "Can't dup STDIN: $!";
@@ -125,6 +155,16 @@ sub make_request {
     open STDOUT, '>&=', $stdout or die "Can't restore STDOUT: $!";
     close $stdout;
     return HTTP::Message->parse($out);
+}
+
+sub make_request {
+    my ( $this, $req ) = @_;
+    return _perform_request( _req2cgi($req) );
+}
+
+sub make_bare_request {
+    my ( $this, $http ) = @_;
+    return _perform_request( _http2cgi($http) );
 }
 
 1;
