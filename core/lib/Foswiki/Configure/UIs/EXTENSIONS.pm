@@ -6,15 +6,14 @@ use strict;
 use Foswiki::Configure::Type;
 
 my @tableHeads =
-  qw(image topic description version installedVersion testedOn install );
+  qw( topic classification description version installedVersion compatibility install );
 my %headNames = (
-    image            => '',
     topic            => 'Extension',
+    classification   => 'Classification',
     description      => 'Description',
-    version          => 'Most&nbsp;Recent&nbsp;Version',
+    version          => 'Most Recent Version',
     installedVersion => 'Installed Version',
-    testedOn         => 'Tested On Foswiki',
-    testedOnOS       => 'Tested On OS',
+    compatibility    => 'Compatible with',
     install          => 'Action',
 );
 
@@ -33,6 +32,7 @@ sub _getListOfExtensions {
             print CGI::div("Consulting $place->{name}...");
             my $url =
               $place->{data} . 'FastReport?skin=text';
+            
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
                 my $page = $response->content();
@@ -92,8 +92,17 @@ sub ui {
     foreach my $key ( sort keys %$exts ) {
         my $ext = $exts->{$key};
         my $row = '';
+        my $version = '';
+		
         foreach my $f (@tableHeads) {
-            my $text;
+        
+        	if ( $f eq 'version' && $ext->{$f} ) {
+        	    # strip out the date
+	            $ext->{$f} =~ s/(\d+)\s\((.*)\)/$1/;
+	            $version = $ext->{$f};
+	        }
+        
+			my $text;
             if ( $f eq 'install' ) {
                 my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
                 my $scriptName = pop(@script);
@@ -106,21 +115,25 @@ sub ui {
                         . $ext->{repository}
                           . ';extension='
                             . $ext->{topic};
-                $text = 'Install';
+                
                 if ( $ext->{installedVersion} ) {
-                    $text = 'Upgrade';
+                    if ($ext->{installedVersion} eq $version) {
+                        $text = 'Up to date';
+                    } else {
+                        $text = 'Upgrade';
+                        $text = CGI::a( { href => $link }, $text );
+                    }
                     $installed++;
+                } else {
+                    $text = 'Install';
+                    $text = CGI::a( { href => $link }, $text );
                 }
-                $text = CGI::a( { href => $link }, $text );
             }
             else {
                 $text = $ext->{$f} || '-';
                 if ( $f eq 'topic' ) {
                     my $link = $ext->{data} . $ext->{topic};
                     $text = CGI::a( { href => $link }, $text );
-                } elsif ($f eq 'image' && $ext->{namespace} &&
-                           $ext->{namespace} ne 'Foswiki') {
-                    $text = "$text ($ext->{namespace})";
                 }
             }
             my %opts = ( valign => 'top' );
@@ -131,7 +144,11 @@ sub ui {
         }
         my @classes = ( $rows % 2 ? 'odd' : 'even' );
         if ($ext->{installedVersion}) {
-            push @classes, qw( patternAccessKeyInfo installed );
+            if ($ext->{installedVersion} eq $version) {
+	            push @classes, qw( patternAccessKeyInfo uptodate );
+	        } else {
+	            push @classes, qw( patternAccessKeyInfo upgrade );
+	        }
             push @classes, 'twikiExtension'
               if $ext->{installedVersion} =~ /\(TWiki\)/;
         }
@@ -139,15 +156,14 @@ sub ui {
         $rows++;
     }
     $table .= CGI::Tr(
-        { class => 'patternAccessKeyInfo' },
-        CGI::td(
-            { colspan => "7" },
+        CGI::th(
+            { colspan => scalar @tableHeads },
             $installed
               . ' extension'
                 . ( $installed == 1 ? '' : 's' )
                   . ' out of '
                     . $rows
-                      . ' already installed'
+                      . ' are installed'
                      )
          );
     my $page = <<INTRO;
@@ -172,34 +188,25 @@ sub _getInstalledVersion {
         $lib = 'Contrib';
     }
 
-    my $release;
+    my $version;
     my $from;
     foreach my $frm qw(Foswiki TWiki) {
         my $path = $frm.'::'.$lib.'::'.$module;
         eval "use $path";
         next if $@;
-
+        
         $from = $frm;
-        $release = eval '$'.$path.'::RELEASE';
+        $version = eval '$'.$path.'::VERSION' || '';
 
-        my $version;
-        $version = eval '$'.$path.'::VERSION';
-        if ($version) {
-            # tidy up the subversion rev number
-            $version =~ s/^\s*\$Rev:\s*(.*?)\s*\$$/$1/;
-            $version =~ s/(\d+)\s\((.*)\)/$1, $2/;
-            if ($release) {
-                $release .= " ($version)";
-            } else {
-                $release = $version;
-            }
-        }
-        $release ||= '';
-        $release =~ s/\$Date:\s*([^\$]*)\s*\$/$1/;
+		# tidy up the subversion rev number
+		$version =~ s/^\s*\$Rev:\s*(.*?)\s*\$$/$1/;
+        # strip out the date, as it won't be published with all extensions
+		$version =~ s/(\d+)\s\((.*)\)/$1/;        
+
         last;
     }
 
-    return ($release, $from);
+    return ($version, $from);
 }
 
 1;

@@ -214,17 +214,20 @@ table.extensionsTable th {
 }
 table.extensionsTable th,
 table.extensionsTable td {
-	padding-left:.5em;
-	padding-right:.5em;
+	padding:.5em;
+	line-height:1.2em;
 }
 table.extensionsTable .odd {
-	background:#f6fafc;
+	background:#fff; /*f6fafc*/
 }
 table.extensionsTable .even {
 	background:#fff;
 }
-table.extensionsTable .installed {
-	background:#D9F5D9;
+table.extensionsTable .uptodate {
+	background:#e8f9e8;
+}
+table.extensionsTable .upgrade {
+	background:#fff0f2;
 }
 table.extensionsTable .installed a:link,
 table.extensionsTable .installed a:visited {
