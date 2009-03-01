@@ -352,11 +352,8 @@ sub test_post_file {
         $uploads{'Temp2.dat'}->{headers},
         'Wrong update info'
     );
-    $this->assert_str_equals(
-        $content1,
-        $result->{'Temp.dat'},
-        'Wrong file contents'
-    );
+    $this->assert_str_equals( $content1, $result->{'Temp.dat'},
+        'Wrong file contents' );
     $this->assert_str_equals(
         $content2,
         $result->{'Temp2.dat'},
@@ -365,8 +362,21 @@ sub test_post_file {
 }
 
 sub test_alien_get {
-    my $this     = shift;
-    my $req      = new HTTP::Request( 'GET', '/bin/test?a' );
+    my $this = shift;
+
+    my $uri = '';
+    if ( $ENV{FOSWIKI_SERVER} ) {
+        $uri = $ENV{FOSWIKI_PORT}
+          && $ENV{FOSWIKI_PORT} == 443 ? 'https://' : 'http://';
+        $uri .= $ENV{FOSWIKI_SERVER};
+        $uri .= ':' . $ENV{FOSWIKI_PORT}
+          if $ENV{FOSWIKI_PORT} && $ENV{FOSWIKI_PORT} !~ /^(?:80|443)$/;
+        $uri .= $ENV{FOSWIKI_PATH} || '/bin';
+    }
+    else {
+        $uri = '/bin';
+    }
+    my $req      = new HTTP::Request( 'GET', $uri . '/test?a' );
     my $response = $this->make_bare_request($req);
     my $result   = thaw( $response->content )->{request};
     $this->assert_deep_equals(
@@ -375,7 +385,7 @@ sub test_alien_get {
         'Wrong parameter list'
     );
 
-    $req      = new HTTP::Request( 'GET', '/bin/test?a&b' );
+    $req      = new HTTP::Request( 'GET', $uri . '/test?a&b' );
     $response = $this->make_bare_request($req);
     $result   = thaw( $response->content )->{request};
     $this->assert_deep_equals(
@@ -384,7 +394,7 @@ sub test_alien_get {
         'Wrong parameter list'
     );
 
-    $req      = new HTTP::Request( 'GET', '/bin/test?a&b;=' );
+    $req      = new HTTP::Request( 'GET', $uri . '/test?a&b;=' );
     $response = $this->make_bare_request($req);
     $result   = thaw( $response->content )->{request};
     $this->assert_deep_equals(
