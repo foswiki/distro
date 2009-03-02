@@ -1349,6 +1349,7 @@ END
 =pod
 
 =cut
+
 sub test_is_EDITCELL_kept_after_save {
     my $this = shift;
 
@@ -1419,6 +1420,59 @@ NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
     $twiki->finish();
+}
+
+=pod
+
+Tests if CALC is rendered in view mode, if CALC is outside an EditTable
+
+=cut
+
+sub test_CALC_in_table_other_than_EDITTABLE {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+      Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+      
+        my $input = '
+| *Item Description* | *Qty* | *Reason* | *Unit Price* | *Total Price* |
+| Hej Ho | 4 | Hello | 50000 | %CALC{"$PRODUCT(R$ROW():C$COLUMN(-3)..R$ROW():C$COLUMN(-1))"}% |
+| Jah No | 2 | Hello | 150000 | %CALC{"$PRODUCT(R$ROW():C$COLUMN(-3)..R$ROW():C$COLUMN(-1))"}% |
+| | | | 0 | %CALC{"$PRODUCT(R$ROW():C$COLUMN(-3)..R$ROW():C$COLUMN(-1))"}% |
+| *Total* | | | | *%CALC{"$SUM($ABOVE())"}%* |
+
+%EDITTABLE{ format="| label | text, 40 |" changerows="off" }%
+| *Key* | *Value* |
+| Gender: | F %EDITCELL{select, 1, , F, M}% |
+| DOB: | 8 February 2009 %EDITCELL{date, 10}% |
+';
+
+   my $result = Foswiki::Func::expandCommonVariables( $input, $this->{test_topic}, $this->{test_web}, undef );
+   my $expected = '
+| *Item Description* | *Qty* | *Reason* | *Unit Price* | *Total Price* |
+| Hej Ho | 4 | Hello | 50000 | 200000 |
+| Jah No | 2 | Hello | 150000 | 300000 |
+| | | | 0 | 0 |
+| *Total* | | | | *500000* |
+
+
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="' . $viewUrlAuth . '#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+| *Key* | *Value* |
+| Gender: | F  |
+| DOB: | 8 February 2009  |
+<input type="hidden" name="etrows" value="3" />
+<input class="editTableEditImageButton" type="image" src="' . $pubUrlSystemWeb . '/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+</div><!-- /editTable -->';
+
+   $this->assert_str_equals( $expected, $result, 0 );
 }
 
 1;
