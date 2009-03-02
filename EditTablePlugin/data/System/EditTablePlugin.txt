@@ -191,17 +191,19 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 
 ---++ Installation Instructions
+Normally this plugin is distributed and automatically installed with Foswiki. The instructions below are meant for special installations.
 
-   * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your ($FOSWIKI_ROOT) directory.
-   * Alternatively,
-      * Manually resolve the dependencies listed below.
+   1 Download the ZIP file from the Plugin web (see below)
+   1 Unzip ==%TOPIC%.zip== in your ($FOSWIKI_ROOT) directory.
+      * Alternatively, manually resolve the dependencies listed below.
       %$DEPENDENCIES%
-   * The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.AccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
-   * Visit =configure= in your installation, and enable the plugin in the {Plugins} section.
-   * Test if the Plugin is correctly installed:
-      * Check above example if there is an *[&nbsp;Edit&nbsp;table&nbsp;]* button below the table in above example
-      * Click on *[&nbsp;Edit&nbsp;table&nbsp;]*, make changes and save the table
+   1 The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.AccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
+   1 Visit =configure= in your installation, and enable the plugin in the ={Plugins}= section.
+   1 In =configure=, edit ={PluginsOrder}= and write =<nop>EditTablePlugin= before =<nop>SpreadSheetPlugin=.
+
+Test if the Plugin is correctly installed:
+   * Check above example if there is an *[&nbsp;Edit&nbsp;table&nbsp;]* button below the table in above example
+   * Click on *[&nbsp;Edit&nbsp;table&nbsp;]*, make changes and save the table
 
 ---++ License
 
@@ -212,7 +214,8 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 |  Copyright: | &copy; 2008-2009, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.14 (17 Feb 2009) |
+|  Plugin Release: | 4.15 (2 Mar 2009) |
+|  Version: | %$VERSION% |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  08 Feb 2009: | 4.13: Fixed incidental removal of =EDITCELL= tags when a different table in the topic is edited. Improved display of linebreaks and TML inside cells. |
 |  07 Feb 2009: | 4.12: Protect =verbatim class="xxx"= during edit. |
