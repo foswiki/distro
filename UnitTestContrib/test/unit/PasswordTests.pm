@@ -140,7 +140,6 @@ sub doTests {
     }
 }
 
-
 sub TODO_test_htpasswd_plain {
     my $this = shift;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
@@ -211,14 +210,6 @@ sub test_htpasswd_md5 {
     my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
     $this->assert($impl);
     $this->doTests($impl,0);
-}
-
-sub detest_htpasswd_plain {
-    my $this = shift;
-    $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
-    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
-
-    $this->doTests($impl, 0);
 }
 
 sub test_htpasswd_apache {
