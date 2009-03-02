@@ -199,7 +199,6 @@ Normally this plugin is distributed and automatically installed with Foswiki. Th
       %$DEPENDENCIES%
    1 The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.AccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
    1 Visit =configure= in your installation, and enable the plugin in the ={Plugins}= section.
-   1 In =configure=, edit ={PluginsOrder}= and write =<nop>EditTablePlugin= before =<nop>SpreadSheetPlugin=.
 
 Test if the Plugin is correctly installed:
    * Check above example if there is an *[&nbsp;Edit&nbsp;table&nbsp;]* button below the table in above example
