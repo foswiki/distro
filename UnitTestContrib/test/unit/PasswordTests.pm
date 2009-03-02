@@ -18,7 +18,7 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    $this->{twiki} = new Foswiki();
+    $this->{fatwilly} = new Foswiki();
     $Foswiki::cfg{Htpasswd}{FileName} = "$Foswiki::cfg{TempfileDir}/junkpasswd";
     open(F, ">$Foswiki::cfg{Htpasswd}{FileName}") || die $!;
     print F "";
@@ -28,7 +28,7 @@ sub set_up {
 sub tear_down {
     my $this = shift;
     unlink $Foswiki::cfg{Htpasswd}{FileName};
-    $this->{twiki}->finish();
+    $this->{fatwilly}->finish();
     $this->SUPER::tear_down();
 }
 
@@ -143,7 +143,7 @@ sub doTests {
 sub TODO_test_htpasswd_plain {
     my $this = shift;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'plain';
-    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{fatwilly});
     $this->assert($impl);
     $this->doTests($impl);
 }
@@ -156,7 +156,7 @@ sub test_htpasswd_crypt_md5 {
         $this->annotate("CANNOT RUN crypt-md5 TESTS on OSX");
     }
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt-md5';
-    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{fatwilly});
     $this->assert($impl);
     $this->doTests($impl, 1);
 }
@@ -164,7 +164,7 @@ sub test_htpasswd_crypt_md5 {
 sub test_htpasswd_crypt_crypt {
     my $this = shift;
     $Foswiki::cfg{Htpasswd}{Encoding} = 'crypt';
-    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{fatwilly});
     $this->assert($impl);
     $this->doTests($impl, 1);
 }
@@ -190,7 +190,7 @@ sub test_htpasswd_sha1 {
     }
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'sha1';
-    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{fatwilly});
     $this->assert($impl);
     $this->doTests($impl,0);
 }
@@ -207,7 +207,7 @@ sub test_htpasswd_md5 {
     }
 
     $Foswiki::cfg{Htpasswd}{Encoding} = 'md5';
-    my $impl = new Foswiki::Users::HtPasswdUser($this->{twiki});
+    my $impl = new Foswiki::Users::HtPasswdUser($this->{fatwilly});
     $this->assert($impl);
     $this->doTests($impl,0);
 }
@@ -223,7 +223,7 @@ sub test_htpasswd_apache {
         $this->annotate("CANNOT RUN APACHE HTPASSWD TESTS: $mess");
     }
 
-    my $impl = Foswiki::Users::ApacheHtpasswdUser->new($this->{twiki});
+    my $impl = Foswiki::Users::ApacheHtpasswdUser->new($this->{fatwilly});
     # apache doesn't create the file, so need to init it
     open(F,">$Foswiki::cfg{Htpasswd}{FileName}");
     close(F);
