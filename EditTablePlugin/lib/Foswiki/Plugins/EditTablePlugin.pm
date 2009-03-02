@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2008 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
+# Copyright (C) 2008-2009 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
 # Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki
 # Contributors.
 #

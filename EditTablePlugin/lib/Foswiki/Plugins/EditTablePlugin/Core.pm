@@ -99,7 +99,6 @@ sub prepareForView {
     # my $text = $_[0]
     # my $topic = $_[1]
     # my $web = $_[2]
-    
     readTables(@_);
 
     my $query     = Foswiki::Func::getCgiQuery();
@@ -141,7 +140,7 @@ StaticMethod handleTmlInViewMode( $text, $topic, $web )
 Renders text while in view mode:
 - adds spaces around %BR% to render TML around linebreaks
 - add spaces around TML next to HTML tags, again to render TML
-- expands variables, for example %CALC%, if $Foswiki::cfg{PluginsOrder} does not list EditTablePlugin before SpreadSheetPlugin
+- expands variables, for example %CALC% 
 
 =cut
 
@@ -164,18 +163,9 @@ sub handleTmlInViewMode {
         addSpacesToTmlNextToHtml($tableText);
     }
 
-    # if the plugin reading order does not put EditTablePlugin in front of
-    # SpreadSheetPlugin, expand variables
-    my $counter = 0;
-    my %order =
-      map { $_ => $counter++ } split( /\s*,\s*/, $Foswiki::cfg{PluginsOrder} );
-    if (  !$order{'EditTablePlugin'}
-        || $order{EditTablePlugin} > $order{SpreadSheetPlugin} )
-    {
-        $tableData->{tablesTakenOutText} = Foswiki::Func::expandCommonVariables(
-            $tableData->{tablesTakenOutText},
-            $_[1], $_[2] );
-    }
+    $tableData->{tablesTakenOutText} =
+      Foswiki::Func::expandCommonVariables( $tableData->{tablesTakenOutText},
+        $_[1], $_[2] );
 }
 
 =pod
