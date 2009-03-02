@@ -99,6 +99,7 @@ sub prepareForView {
     # my $text = $_[0]
     # my $topic = $_[1]
     # my $web = $_[2]
+    
     readTables(@_);
 
     my $query     = Foswiki::Func::getCgiQuery();
@@ -137,6 +138,11 @@ sub readTables {
 
 StaticMethod handleTmlInViewMode( $text, $topic, $web )
 
+Renders text while in view mode:
+- adds spaces around %BR% to render TML around linebreaks
+- add spaces around TML next to HTML tags, again to render TML
+- expands variables, for example %CALC%, if $Foswiki::cfg{PluginsOrder} does not list EditTablePlugin before SpreadSheetPlugin
+
 =cut
 
 sub handleTmlInViewMode {
@@ -145,9 +151,8 @@ sub handleTmlInViewMode {
     # my $topic = $_[1]
     # my $web = $_[2]
 
-    my $tableData          = $tableMatrix{ $_[2] }{ $_[1] };
-    my $tablesTakenOutText = $tableData->{tablesTakenOutText};
-    my $editTableObjects   = $tableData->{editTableObjects};
+    my $tableData        = $tableMatrix{ $_[2] }{ $_[1] };
+    my $editTableObjects = $tableData->{editTableObjects};
 
     foreach my $editTableObject ( @{$editTableObjects} ) {
         my $tableText = \$editTableObject->{'text'};
@@ -157,6 +162,19 @@ sub handleTmlInViewMode {
 
         # add spaces around TML next to HTML
         addSpacesToTmlNextToHtml($tableText);
+    }
+
+    # if the plugin reading order does not put EditTablePlugin in front of
+    # SpreadSheetPlugin, expand variables
+    my $counter = 0;
+    my %order =
+      map { $_ => $counter++ } split( /\s*,\s*/, $Foswiki::cfg{PluginsOrder} );
+    if (  !$order{'EditTablePlugin'}
+        || $order{EditTablePlugin} > $order{SpreadSheetPlugin} )
+    {
+        $tableData->{tablesTakenOutText} = Foswiki::Func::expandCommonVariables(
+            $tableData->{tablesTakenOutText},
+            $_[1], $_[2] );
     }
 }
 
@@ -815,8 +833,8 @@ sub handleEditTableTag {
 
     # We allow expansion of macros in the EDITTABLE arguments so one can
     # set a macro that defines the arguments
-    $theArgs = Foswiki::Func::expandCommonVariables( $theArgs, $inTopic,
-                                                     $inWeb );
+    $theArgs =
+      Foswiki::Func::expandCommonVariables( $theArgs, $inTopic, $inWeb );
 
     extractParams( $theArgs, \%params );
 
@@ -1312,7 +1330,7 @@ sub inputElement {
                 -name    => 'calendar',
                 -onclick => "return showCalendar('id$theName','$ifFormat')",
                 -src     => Foswiki::Func::getPubUrlPath() . '/'
-                  . Foswiki::Func::getTwikiWebname()
+                  . $Foswiki::cfg{SystemWebName}
                   . '/JSCalendarContrib/img.gif',
                 -alt   => 'Calendar',
                 -align => 'middle'
@@ -1634,7 +1652,6 @@ BEGIN {
 sub new {
     my ($class) = @_;
     my $this = {};
-    $this->{parsed} = 0;
     bless $this, $class;
     return $this;
 }
@@ -1692,112 +1709,124 @@ sub parseText {
         m|</pre>|i      && ( $insidePRE = 0 );
         m|</verbatim>|i && ( $insidePRE = 0 );
 
-        if ( !$insidePRE ) {
+        next if $insidePRE;
 
-            if ( /$PATTERN_EDITTABLEPLUGIN/ && /$PATTERN_TABLEPLUGIN/ ) {
+        if ( /$PATTERN_EDITTABLEPLUGIN/ && /$PATTERN_TABLEPLUGIN/ ) {
 
-                # EDITTABLE and TABLE on one line (order does not matter)
-                _putTmpTagInTableTagLine($_);
-                $inEditTable = 1;
-                $tablesTakenOutText .= "<!--edittable$tableNum-->";
-                $doCopyLine = 0;
-                $editTableTag .= $_;
-                $hasEditTableTag = 1;
-            }
-            elsif (/$PATTERN_EDITTABLEPLUGIN/) {
+            # EDITTABLE and TABLE on one line (order does not matter)
+            _putTmpTagInTableTagLine($_);
+            $inEditTable = 1;
+            $tablesTakenOutText .= "<!--edittable$tableNum-->";
+            $doCopyLine = 0;
+            $editTableTag .= $_;
+            $hasEditTableTag = 1;
+        }
+        elsif (/$PATTERN_EDITTABLEPLUGIN/) {
 
-                # only EDITTABLE
-                if ( $storedTableRow ne '' ) {
+            # only EDITTABLE
+            if ( $storedTableRow ne '' ) {
 
 # store the TABLE tag from the previous line together with the current EDITTABLE tag
-                    _putTmpTagInTableTagLine($storedTableRow);
-                    $editTableTag .= $storedTableRow . "\n";
-                    $storedTableRow = '';
-                }
-                $inEditTable = 1;
-                $tablesTakenOutText .= "<!--edittable$tableNum-->";
-                $doCopyLine = 0;
-                $editTableTag .= $_;
-                $hasEditTableTag = 1;
-            }
-            elsif ( $inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
-
-                # TABLE on the line after EDITTABLE
-                # we will include it in the editTableTag
-                _putTmpTagInTableTagLine($_);
-                $doCopyLine = 0;
-                $editTableTag .= "\n" . $_;
-                $hasEditTableTag = 1;
-            }
-            elsif ( !$inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
-
-         # this might be TABLE on the line before EDITTABLE, but we are not sure
-                $storedTableRow = $_;
-                $doCopyLine     = 0;
-            }
-            elsif ( $storedTableRow ne '' ) {
-
-# we had stored the TABLE tag, but no EDITTABLE tag was just below it; add it to the text and clear
-                $tablesTakenOutText .= $storedTableRow . "\n";
+                _putTmpTagInTableTagLine($storedTableRow);
+                $editTableTag .= $storedTableRow . "\n";
                 $storedTableRow = '';
             }
-            if ( $inEditTable && !$hasEditTableTag ) {
+            $inEditTable = 1;
+            $tablesTakenOutText .= "<!--edittable$tableNum-->";
+            $doCopyLine = 0;
+            $editTableTag .= $_;
+            $hasEditTableTag = 1;
+        }
+        elsif ( $inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
 
-                if (/^\s*\|.*\|\s*$/) {
+            # TABLE on the line after EDITTABLE
+            # we will include it in the editTableTag
+            _putTmpTagInTableTagLine($_);
+            $doCopyLine = 0;
+            $editTableTag .= "\n" . $_;
+            $hasEditTableTag = 1;
+        }
+        elsif ( !$inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
 
-                    $doCopyLine = 0;
-                    push( @tableLines, $_ );
+         # this might be TABLE on the line before EDITTABLE, but we are not sure
+            $storedTableRow = $_;
+            $doCopyLine     = 0;
+        }
+        elsif ( $storedTableRow ne '' ) {
 
-                    # inside | table |
-                    $insideTABLE = 1;
-                    $line        = $_;
-                    $line =~ s/^(\s*\|)(.*)\|\s*$/$2/o;    # Remove starting '|'
-                    @row = split( /\|/o, $line, -1 );
-                    _trimCellsInRow( \@row );
-                    push( @tableMatrix, [@row] );
+# we had stored the TABLE tag, but no EDITTABLE tag was just below it; add it to the text and clear
+            $tablesTakenOutText .= $storedTableRow . "\n";
+            $storedTableRow = '';
+        }
+        if ( $inEditTable && !$hasEditTableTag ) {
+            if (/^\s*\|.*\|\s*$/) {
 
+                $doCopyLine = 0;
+                push( @tableLines, $_ );
+
+                # inside | table |
+                $insideTABLE = 1;
+                $line        = $_;
+                $line =~ s/^(\s*\|)(.*)\|\s*$/$2/o;    # Remove starting '|'
+                @row = split( /\|/o, $line, -1 );
+                _trimCellsInRow( \@row );
+                push( @tableMatrix, [@row] );
+
+            }
+            else {
+
+                # outside | table |
+                if ($insideTABLE) {
+
+                    # We were inside a table and are now outside of it so
+                    # save the table info into the Table object.
+                    $insideTABLE = 0;
+                    $inEditTable = 0;
+
+                    if ( @tableMatrix != 0 ) {
+
+                        # Save the table via its table number
+                        $$this{"TABLE_$tableNum"} = [@tableMatrix];
+                    }
+                    undef @tableMatrix;    # reset table matrix
                 }
                 else {
 
-                    # outside | table |
-                    if ($insideTABLE) {
-
-                        # We were inside a table and are now outside of it so
-                        # save the table info into the Table object.
-                        $insideTABLE = 0;
-                        $inEditTable = 0;
-
-                        if ( @tableMatrix != 0 ) {
-
-                            # Save the table via its table number
-                            $$this{"TABLE_$tableNum"} = [@tableMatrix];
-                        }
-                        undef @tableMatrix;    # reset table matrix
-                    }
-                    else {
-
-                        # not (or no longer) inside a table
-                        $doCopyLine  = 1;
-                        $inEditTable = 0;
-                    }
-                    my $tableRef;
-                    $tableRef->{'text'} = join( "\n", @tableLines );
-                    $tableRef->{'tag'} = $editTableTag;
-                    push( @{$editTableObjects}, $tableRef );
-                    $tableNum++;
-
-                    @tableLines   = ();
-                    $editTableTag = '';
+                    # not (or no longer) inside a table
+                    $doCopyLine  = 1;
+                    $inEditTable = 0;
                 }
+                my $tableRef;
+                $tableRef->{'text'} = join( "\n", @tableLines );
+                $tableRef->{'tag'} = $editTableTag;
+                push( @{$editTableObjects}, $tableRef );
+                $tableNum++;
+
+                @tableLines   = ();
+                $editTableTag = '';
             }
-        }    # if ( !$insidePRE )
+        }
 
         $tablesTakenOutText .= $_ . "\n" if $doCopyLine;
     }    # foreach
 
     # clean up hack that handles EDITTABLE correctly if at end
     $tablesTakenOutText =~ s/($RENDER_HACK)+$//go;
-    $this->{parsed}             = 1;
+
+    Foswiki::Func::writeDebug(
+        "- EditTablePlugin::parseText; tablesTakenOutText=\n$tablesTakenOutText"
+    ) if $Foswiki::Plugins::EditTablePlugin::debug;
+
+    if ($Foswiki::Plugins::EditTablePlugin::debug) {
+        my $text = '';
+        foreach my $eto ( @{$editTableObjects} ) {
+            $text .= "tag=$eto->{tag}\n";
+            $text .= "text=$eto->{text}\n";
+        }
+        Foswiki::Func::writeDebug(
+            "- EditTablePlugin::parseText; editTableObjects=\n$text");
+    }
+
     $this->{tablesTakenOutText} = $tablesTakenOutText;
     $this->{editTableObjects}   = $editTableObjects;
 }
