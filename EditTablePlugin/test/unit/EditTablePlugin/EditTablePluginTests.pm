@@ -30,8 +30,29 @@ sub set_up {
     $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
 }
 
-# This formats the text up to immediately before <nop>s are removed, so we
-# can see the nops.
+=pod
+
+trimSpaces( $text ) -> $text
+
+Removes spaces from both sides of the text.
+
+=cut
+
+sub trimSpaces {
+
+    #my $text = $_[0]
+
+    $_[0] =~ s/^[[:space:]]+//s; # trim at start
+    $_[0] =~ s/[[:space:]]+$//s; # trim at end
+}
+
+=pod
+
+This formats the text up to immediately before <nop>s are removed, so we
+can see the nops.
+
+=cut
+
 sub do_testHtmlOutput {
     my ( $this, $expected, $actual, $doRender ) = @_;
     my $session   = $this->{twiki};
@@ -60,6 +81,8 @@ sub do_testHtmlOutput {
 
 =pod
 
+Viewing a simple edit table.
+
 =cut
 
 sub test_viewSimple {
@@ -75,7 +98,7 @@ sub test_viewSimple {
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
 
-    my $raw_tag  = 'SOMETHING %EDITTABLE{}%';
+    my $input  = 'SOMETHING %EDITTABLE{}%';
     my $expected = <<END;
 SOMETHING <a name="edittable1"></a>
 <div class="editTable">
@@ -88,15 +111,17 @@ SOMETHING <a name="edittable1"></a>
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
 =pod
 
+param editbutton.
+
 =cut
 
-sub test_viewEditButton {
+sub test_param_editbutton {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -109,7 +134,7 @@ sub test_viewEditButton {
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
 
-    my $raw_tag  = '%EDITTABLE{editbutton="Edit me"}%';
+    my $input  = '%EDITTABLE{editbutton="Edit me"}%';
     my $expected = <<END;
 <a name="edittable1"></a>
 <div class="editTable">
@@ -122,12 +147,14 @@ sub test_viewEditButton {
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
 
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
 =pod
+
+Editing a simple table.
 
 =cut
 
@@ -172,9 +199,11 @@ EXPECTED
 
 =pod
 
+Pass param 'format' and edit the table.
+
 =cut
 
-sub test_editFormat {
+sub test_param_format_edit {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -222,6 +251,12 @@ EXPECTED
     $this->do_testHtmlOutput( lc $expected, lc $result, 0 );
     $twiki->finish();
 }
+
+=pod
+
+Adding a row and saving the table.
+
+=cut
 
 sub test_editAddRow {
     my $this = shift;
@@ -388,7 +423,7 @@ Test select dropdown box
 
 =cut
 
-sub test_SelectBox {
+sub test_param_format_selectbox {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -449,11 +484,11 @@ END
 
 =pod
 
-Test select dropdown box
+Test variables inside checkboxes and radio buttons
 
 =cut
 
-sub test_VariableExpansionInCheckboxAndRadioButtons {
+sub test_param_format_variable_expansion_in_checkbox_and_radio_buttons {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -511,11 +546,9 @@ END
 
 =pod
 
-Test variable placeholders like $percnt and $nop
-
 =cut
 
-sub test_VariablePlaceholdersView {
+sub test_param_format_with_variables {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -568,7 +601,13 @@ END
     $this->do_testHtmlOutput( $expected, $result, 1 );
 }
 
-sub test_VariablePlaceholdersEdit {
+=pod
+
+Format parameter with $percntY$percnt macros. Edit the table.
+
+=cut
+
+sub test_param_format_with_macro_placeholders_edit {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -626,7 +665,13 @@ END
     $twiki->finish();
 }
 
-sub test_saveNoFormat {
+=pod
+
+Saving a simple table.
+
+=cut
+
+sub test_save {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -688,7 +733,13 @@ NEWEXPECTED
     $twiki->finish();
 }
 
-sub test_saveWithHeaderAndFooter {
+=pod
+
+Saving a table with params headerrows and footerrows.
+
+=cut
+
+sub test_param_headerrows_and_footerrows_save {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -1027,6 +1078,12 @@ NEWEXPECTED
     $this->do_testHtmlOutput( $expected, $result, 1 );
 }
 
+=pod
+
+Test if stars are preserved after saving.
+
+=cut
+
 sub test_keepStars {
     my $this = shift;
     my $topicName = $this->{test_topic};
@@ -1133,7 +1190,7 @@ NEWEXPECTED
 
 =cut
 
-sub test_buttonRowAtTop {
+sub test_param_buttonrow_top {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -1146,7 +1203,7 @@ sub test_buttonRowAtTop {
     $this->{twiki}->{store}
       ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
 
-    my $raw_tag  = '%EDITTABLE{buttonrow="top"}%';
+    my $input  = '%EDITTABLE{buttonrow="top"}%';
     my $expected = <<END;
 <a name="edittable1"></a>
 <div class="editTable">
@@ -1159,11 +1216,11 @@ sub test_buttonRowAtTop {
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
-sub test_buttonRowAtTop_edit {
+sub test_param_buttonrow_top_edit {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -1211,6 +1268,12 @@ EXPECTED
 
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
+
+=pod
+
+Test if saving is keeping <verbatim> tags.
+
+=cut
 
 sub test_save_with_verbatim {
     my $this = shift;
@@ -1274,6 +1337,12 @@ NEWEXPECTED
     $twiki->finish();
 }
 
+=pod
+
+Test if an included table from a different topic is displayed.
+
+=cut
+
 sub test_INCLUDE_view {
     my $this = shift;
     
@@ -1300,7 +1369,7 @@ THIS
     my $pubUrlSystemWeb =
       Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
       
-    my $raw_tag  = '%EDITTABLE{}%
+    my $input  = '%EDITTABLE{}%
 
 %INCLUDE{"TopicToInclude"}%
 
@@ -1342,15 +1411,17 @@ THIS
 END
 
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
 =pod
 
+Test if macro EDITCELL is preserved after saving
+
 =cut
 
-sub test_is_EDITCELL_kept_after_save {
+sub test_macro_EDITCELL_save {
     my $this = shift;
 
     my $topicName = $this->{test_topic};
@@ -1478,20 +1549,150 @@ sub test_CALC_in_table_other_than_EDITTABLE {
    
    $this->assert_str_equals( $expected, $result, 0 );
 }
+
 =pod
 
-trimSpaces( $text ) -> $text
-
-Removes spaces from both sides of the text.
+Test if TablePlugin parameters are read if the tag is on the same line as EDITTABLE: TABLE after EDITTABLE
 
 =cut
 
-sub trimSpaces {
+sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
+    my $this = shift;
 
-    #my $text = $_[0]
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $cgi = $this->{request};
+    my $url = $cgi->url(-absolute => 1);
+    
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubPathSystemWeb = Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+      
+        my $input = '   * Set MYNAMES = Ed, Kenneth,Benny 
+   * Set EXTRACT = %CALC{ $LISTJOIN( - , $LISTIF($NOT($EXACT($item,)),$LEFT())) }% 
 
-    $_[0] =~ s/^[[:space:]]+(.*?)$/$1/s; # trim at start
-    $_[0] =~ s/^(.*?)[[:space:]]+$/$1/s; # trim at end
+%EDITTABLE{ quietsave="off" editbutton="Update table" format="| date,,%SERVERTIME{"$day $mon $year"}%,%e %b %Y | date,,,%e %b %Y | select,4,%MYNAMES% | text,20 | radio, 7, , :-), :cool:, :-I, :D, :mad:, :( | label,1,$percntEXTRACT$percnt |" }%%TABLE{initsort="1"}%
+| *Startdate* | *Stopdate* | *Who* | *What/Where* | *Icon* | *Details* |
+| 3 Jan 2008 | 22 Jan 2008 | Benny | Vacation | :-) | %EXTRACT% |';
+
+	my $result =
+      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      
+	my $expected = <<EXPECTED;
+ <ul>
+<li> Set MYNAMES = Ed, Kenneth,Benny 
+</li> <li> Set EXTRACT =  R0:C0..R0:C-1  
+</li></ul> 
+<p />
+<p />
+<nop>
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<nop>
+<nop>
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable"  border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th  valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column"><font color="#ffffff">Startdate</font></a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="/~arthur/unittestfoswiki/core/pub/System/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+			<th  valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Stopdate</font></a> </th>
+			<th  valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Who</font></a> </th>
+			<th  valign="top" class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">What/Where</font></a> </th>
+			<th  valign="top" class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Icon</font></a> </th>
+			<th  valign="top" class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Details</font></a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td  rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol2 foswikiLast"> Benny </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol3 foswikiLast"> Vacation </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
+		</tr>
+	</tbody></table>
+<input type="hidden" name="etrows" value="2" />
+<input class="foswikiButton editTableEditButton" type="submit" value="Update table" /> </form>
+</div><!-- /editTable -->
+<nop>
+EXPECTED
+	
+	$this->do_testHtmlOutput( $expected, $result, 1 );
+}
+
+=pod
+
+Test if TablePlugin parameters are read if the tag is on the same line as EDITTABLE: TABLE before EDITTABLE
+
+=cut
+
+sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $cgi = $this->{request};
+    my $url = $cgi->url(-absolute => 1);
+    
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubPathSystemWeb = Foswiki::Func::getPubUrlPath() . '/' . $Foswiki::cfg{SystemWebName};
+      
+        my $input = '   * Set MYNAMES = Ed, Kenneth,Benny 
+   * Set EXTRACT = %CALC{ $LISTJOIN( - , $LISTIF($NOT($EXACT($item,)),$LEFT())) }% 
+
+%TABLE{initsort="1"}%%EDITTABLE{ quietsave="off" editbutton="Update table" format="| date,,%SERVERTIME{"$day $mon $year"}%,%e %b %Y | date,,,%e %b %Y | select,4,%MYNAMES% | text,20 | radio, 7, , :-), :cool:, :-I, :D, :mad:, :( | label,1,$percntEXTRACT$percnt |" }%
+| *Startdate* | *Stopdate* | *Who* | *What/Where* | *Icon* | *Details* |
+| 3 Jan 2008 | 22 Jan 2008 | Benny | Vacation | :-) | %EXTRACT% |';
+
+	my $result =
+      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      
+	my $expected = <<EXPECTED;
+ <ul>
+<li> Set MYNAMES = Ed, Kenneth,Benny 
+</li> <li> Set EXTRACT =  R0:C0..R0:C-1  
+</li></ul> 
+<p />
+<nop>
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<nop>
+<nop>
+<table cellspacing="0" id="table1" cellpadding="0" class="foswikiTable"  border="1">
+	<thead>
+		<tr class="foswikiTableOdd foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<th  valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=0;table=1;up=1#sorted_table" title="Sort by this column"><font color="#ffffff">Startdate</font></a><span class="tableSortIcon tableSortUp"><img width="11" alt="Sorted ascending" src="/~arthur/unittestfoswiki/core/pub/System/DocumentGraphics/tablesortup.gif" title="Sorted ascending" height="13" border="0" /></span> </th>
+			<th  valign="top" class="foswikiTableCol1"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=1;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Stopdate</font></a> </th>
+			<th  valign="top" class="foswikiTableCol2"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=2;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Who</font></a> </th>
+			<th  valign="top" class="foswikiTableCol3"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=3;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">What/Where</font></a> </th>
+			<th  valign="top" class="foswikiTableCol4"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=4;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Icon</font></a> </th>
+			<th  valign="top" class="foswikiTableCol5 foswikiLastCol"> <a rel="nofollow" href="$url/$webName/$topicName?sortcol=5;table=1;up=0#sorted_table" title="Sort by this column"><font color="#ffffff">Details</font></a> </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="foswikiTableEven foswikiTableRowdataBgSorted0 foswikiTableRowdataBg0">
+			<td  rowspan="1" valign="top" class="foswikiTableCol0 foswikiSortedAscendingCol foswikiSortedCol foswikiFirstCol foswikiLast"> 3 Jan 2008 </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol1 foswikiLast"> 22 Jan 2008 </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol2 foswikiLast"> Benny </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol3 foswikiLast"> Vacation </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol4 foswikiLast"> <img src="$pubPathSystemWeb/SmiliesPlugin/smile.gif" alt="smile" title="smile" border="0" /> </td>
+			<td  rowspan="1" valign="top" class="foswikiTableCol5 foswikiLastCol foswikiLast"> %EXTRACT% </td>
+		</tr>
+	</tbody></table>
+<input type="hidden" name="etrows" value="2" />
+<input class="foswikiButton editTableEditButton" type="submit" value="Update table" /> </form>
+</div><!-- /editTable -->
+<nop>
+EXPECTED
+	
+	$this->do_testHtmlOutput( $expected, $result, 1 );
 }
 
 1;
