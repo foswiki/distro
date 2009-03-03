@@ -3,6 +3,7 @@
 #
 # KNOWN LIMITATATIONS: (feel free to add support for any of these, if needed ;-) )
 # * TWiki*DotPm (probably) gets converted to Foswiki*DotPm, should be: %SCRIPTURL{view}%/%SYSTEMWEB%/PerlDoc?module=Foswiki::*
+# * does not remove Benchmark and Appraisal rows from plugin description forms
 
 if [ $# -ne 1 ]
 then
