@@ -1470,9 +1470,28 @@ sub test_CALC_in_table_other_than_EDITTABLE {
 | DOB: | 8 February 2009  |
 <input type="hidden" name="etrows" value="3" />
 <input class="editTableEditImageButton" type="image" src="' . $pubUrlSystemWeb . '/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
-</div><!-- /editTable -->';
+</div><!-- /editTable -->
+';
 
+   trimSpaces($expected);
+   trimSpaces($result);
+   
    $this->assert_str_equals( $expected, $result, 0 );
+}
+=pod
+
+trimSpaces( $text ) -> $text
+
+Removes spaces from both sides of the text.
+
+=cut
+
+sub trimSpaces {
+
+    #my $text = $_[0]
+
+    $_[0] =~ s/^[[:space:]]+(.*?)$/$1/s; # trim at start
+    $_[0] =~ s/^(.*?)[[:space:]]+$/$1/s; # trim at end
 }
 
 1;
