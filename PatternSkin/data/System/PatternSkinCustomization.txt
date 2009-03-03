@@ -33,7 +33,7 @@ Let's say you want to simplify the bottom toolbar and remove all links except fo
    1 In =view.myskin.tmpl= you write:
    <blockquote><verbatim>
    %TMPL:INCLUDE{"view"}%
-   %TMPL:DEF{"top:toolbarbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim></blockquote>
+   %TMPL:DEF{"top:topicactionbuttons"}%%TMPL:P{"more_link"}%%TMPL:END%</verbatim></blockquote>
    1 For testing, view any topic and append to the topic name: =?cover=myskin=. You should see an effect now.
    1 To make the changes visible on all pages, go to [[%USERSWEB%.SitePreferences]] (to keep %WIKIPREFSTOPIC% intact) and write:
 <blockquote><pre>
