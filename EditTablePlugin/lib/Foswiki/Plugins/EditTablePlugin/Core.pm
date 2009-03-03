@@ -359,7 +359,6 @@ s/$editTablePluginRE/&handleEditTableTag( $web, $topic, $1, $2 )/geo;
 
                     # [Cancel] button pressed
                     doCancelEdit( $web, $topic );
-                    ASSERT(0) if DEBUG;
                     return;    # in case browser does not redirect
                 }
                 elsif ( $query->param('etaddrow') ) {
