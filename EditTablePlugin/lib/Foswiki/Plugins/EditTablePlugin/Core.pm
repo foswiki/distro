@@ -1,3 +1,13 @@
+=pod
+
+REFACTORING JOB:
+
+- put EDITTABLE params inside table->{params}
+- pass the table->{params} to handleEditTableTag so we don't rely on the EDITTABLE regex pattern again
+- make sure that text before and after the %EDITTABLE{}% tag are preserved
+
+=cut
+
 package Foswiki::Plugins::EditTablePlugin::Core;
 
 use strict;
@@ -575,7 +585,7 @@ s/^(\s*)\|(.*)/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdit, $do
                 $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM/$buttonRow/go;
             }
         }
-
+=pod
         if (   $doEdit
             && ( $mode & $MODE->{READ} )
             && ( $paramTableNr == $tableNr ) )
@@ -586,6 +596,7 @@ s/^(\s*)\|(.*)/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdit, $do
         else {
             removeTmpTagInTableTagLine($editTableTag);
         }
+=cut
         $resultText = $editTableTag . "\n" . $resultText;
 
         # render variables (only in view mode)
@@ -1573,16 +1584,21 @@ sub doEnableEdit {
 
     return 1;
 }
-
+=pod
+NO LONGER NEEDED?
 sub insertTmpTagInTableTagLine {
     $_[0] =~
 s/( "START_EDITTABLEPLUGIN_TMP_TAG")("END_EDITTABLEPLUGIN_TMP_TAG")/$1$_[1]$2/;
 }
+=cut
 
+=pod
+NO LONGER NEEDED?
 sub removeTmpTagInTableTagLine {
     $_[0] =~
       s/ "START_EDITTABLEPLUGIN_TMP_TAG"(.*?)"END_EDITTABLEPLUGIN_TMP_TAG"//go;
 }
+=cut
 
 =pod
 
