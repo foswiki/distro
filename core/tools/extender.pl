@@ -32,7 +32,6 @@ use Cwd;
 use File::Temp;
 use File::Copy;
 use File::Path;
-use UNIVERSAL::require;
 
 no warnings 'redefine';
 
@@ -79,8 +78,7 @@ BEGIN {
                 return $available{$module} = 0;
             }
         }
-        eval "use $module;";
-        if ($@) {
+        unless ( $module->use ) {
             print
 "Warning: $module is not available, some installer functions have been disabled\n";
             $available{$module} = 0;
@@ -102,6 +100,10 @@ BEGIN {
     # read setlib.cfg
     chdir('bin');
     require 'setlib.cfg';
+
+    # This has to be read after setlib.cfg, as it might not exist in the system
+    # so we will use the one we ship
+    require UNIVERSAL::require;
 
     # See if we can make a Foswiki. If we can, then we can save topic
     # and attachment histories. Key off Foswiki::Merge because it is
@@ -539,8 +541,7 @@ sub unpackArchive {
 sub unzip {
     my $archive = shift;
 
-    eval 'use Archive::Zip';
-    unless ($@) {
+    unless ( 'Archive::Zip'->use ) {
         my $zip           = Archive::Zip->new();
         my $numberOfFiles = $zip->read($archive);
         unless ( $numberOfFiles > 0 ) {
@@ -582,8 +583,7 @@ sub untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    eval 'use Archive::Tar';
-    unless ($@) {
+    unless ( 'Archive::Tar'->use ) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
         unless ( $numberOfFiles > 0 ) {
@@ -851,18 +851,15 @@ sub _install {
         $path = $source . '::' . $type . '::' . $rootModule;
     }
 
-    eval 'use ' . $path;
-    unless ($@) {
-        my $version = eval '$' . $path . '::VERSION';
-        if ($version) {
-            unless (
-                ask(
+    if ( $path->use ) {
+        # Module is already installed
+        # XXX SMELL: Could be more user-friendly:
+        # test that current version isn't newest
+        if ( my $version = $path->VERSION ) {
+            return 0
+              unless ask(
 "$MODULE version $version is already installed. Are you sure you want to re-install this module?"
-                )
-              )
-            {
-                return 0;
-            }
+              );
             print <<DONE;
 I will keep a backup of any files I overwrite.
 DONE
@@ -903,9 +900,9 @@ sub _validatePerlModule {
     # Do not use \w as this is localized, and might be tainted
     my $replacements = $module =~ s/[^a-zA-Z:_0-9]//g;
     print STDERR 'validatePerlModule removed '
-          . $replacements
-          . ' characters, leading to '
-          . $module ."\n"
+      . $replacements
+      . ' characters, leading to '
+      . $module . "\n"
       if $replacements;
     return $module;
 }
@@ -927,8 +924,7 @@ sub install {
     foreach my $row ( split( /\r?\n/, $data{DEPENDENCIES} ) ) {
         my ( $module, $condition, $trigger, $type, $desc ) =
           split( ',', $row, 5 );
-        $module =
-          Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
+        $module = Foswiki::Sandbox::untaint( $module, \&_validatePerlModule );
         if ( $trigger eq '1' ) {
 
             # ONLYIF usually isn't used, and is dangerous
