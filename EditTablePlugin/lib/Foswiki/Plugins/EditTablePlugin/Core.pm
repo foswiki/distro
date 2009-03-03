@@ -26,6 +26,7 @@ use Foswiki::Func;
 use CGI qw( :all );
 
 our $RENDER_HACK                  = "\n<nop>\n";
+our $PLACEHOLDER_ESCAPE_TAG       = 'E_T_P_NOP';
 our $DEFAULT_FIELD_SIZE           = 16;
 our $PLACEHOLDER_BUTTONROW_TOP    = 'PLACEHOLDER_BUTTONROW_TOP';
 our $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
@@ -49,7 +50,7 @@ our @formatExpanded;
 our $nrCols;
 our $warningMessage;
 
-our $PATTERN_EDITTABLEPLUGIN = '%EDITTABLE{(.*?)}%';
+our $PATTERN_EDITTABLEPLUGIN = '%EDITTABLE{(.*)}%'; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _protectVariablesInEditTableTagLine
 our $PATTERN_TABLEPLUGIN     = '%TABLE(?:{(.*?)})?%';
 our $PATTERN_TABLE_ROW_FULL  = '^(\s*)\|.*\|\s*$';
 our $PATTERN_TABLE_ROW       = '^(\s*)\|(.*)';
@@ -1687,6 +1688,8 @@ sub parseText {
     $topicText .= $RENDER_HACK
       ;    # appended stuff is a hack to handle EDITTABLE correctly if at end
 
+    $topicText =~ s/%EDITTABLE{(.*)}%/&_protectVariablesInEditTableTagLine($1)/ge;
+    
     foreach ( split( /\n/, $topicText ) ) {
 
         my $doCopyLine      = 1;
@@ -1787,6 +1790,7 @@ sub parseText {
                 }
                 my $tableRef;
                 $tableRef->{'text'} = join( "\n", @tableLines );
+                _unProtectVariables($editTableTag);
                 $tableRef->{'tag'} = $editTableTag;
                 push( @{$editTableObjects}, $tableRef );
                 $tableNum++;
@@ -1831,10 +1835,41 @@ Trim any leading and trailing white space and/or '*'.
 sub _trimCellsInRow {
     my ($rowCells) = @_;
     for my $cell ( @{$rowCells} ) {
-        $cell =~ s/^[[:space:]]+(.*?)$/$1/s;    # trim at start
-        $cell =~ s/^(.*?)[[:space:]]+$/$1/s;    # trim at end
+        $cell =~ s/^[[:space:]]+//s;    # trim at start
+        $cell =~ s/[[:space:]]+$//s;    # trim at end
     }
 }
+
+=pod
+
+Temporarily escapes variables by placing $PLACEHOLDER_ESCAPE_TAG after each % character.
+Also puts %TABLE{}% tags on a new line to better deal with TablePlugin variables: because $PATTERN_EDITTABLEPLUGIN is greedy this tag would otherwise be grabbed together with the EDITTABLE tag
+
+=cut
+
+sub _protectVariablesInEditTableTagLine {
+    my ( $tagLine ) = @_;
+
+	$tagLine =~ s/%/%$PLACEHOLDER_ESCAPE_TAG/go;
+		
+	# unprotect TABLE and put in on a new line
+	$tagLine =~ s/%$PLACEHOLDER_ESCAPE_TAG\s*TABLE/\n%TABLE/go;
+	
+	return "%EDITTABLE{$tagLine}%";
+}
+
+=pod
+
+Removes escaped variables.
+
+=cut
+
+sub _unProtectVariables {
+    # my $text = $_[0]
+
+	$_[0] =~ s/$PLACEHOLDER_ESCAPE_TAG//go; 
+}
+
 
 sub _putTmpTagInTableTagLine {
     $_[0] =~
