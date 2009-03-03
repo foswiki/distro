@@ -20,7 +20,7 @@ zeroresults="%IF{ "defined search" then="on" else="off" }%"
 <table id="foswikiSearchTable" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td colspan="2" class="foswikiFirstRow">
-  <input type="text" class="foswikiInputField foswikiFocus" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" /> 
+  <input type="text" class="foswikiInputField%IF{"'%URLPARAM{"search"}%'" else=" foswikiFocus"}%" name="search" value="%URLPARAM{ "search" encode="entity" }%" size="40" /> 
   <input type="submit" class="foswikiSubmit" value='%MAKETEXT{"Search"}%' /><span class="foswikiSmall">&nbsp;&nbsp;<a href='%SCRIPTURL{view}%/%BASEWEB%/WebSearchAdvanced?search=%URLPARAM{"search" encode="url"}%;type=%URLPARAM{"type" encode="url" default="word"}%;scope=%URLPARAM{"scope" encode="url"}%;web=%URLPARAM{"web" encode="url"}%;nosearch=%URLPARAM{"nosearch" encode="url"}%'>%MAKETEXT{"Advanced search"}%</a> | [[%SYSTEMWEB%.SearchHelp][%MAKETEXT{"Help"}%]]</span>
 <div class="foswikiSmall" style="padding:1em 0 0 0;">%MAKETEXT{"TIP: to search for all topics that contain =\"SOAP\"=, =\"WSDL\"=, a literal =\"web service\"=, but not =\"shampoo\"=, write:"}% <code>soap wsdl "web service" -shampoo</code></div>
 </td>
