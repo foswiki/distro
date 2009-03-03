@@ -77,14 +77,14 @@ sub initPlugin {
 }
 
 sub beforeCommonTagsHandler {
-    return unless $_[0] =~ /%EDIT(TABLE|CELL){.*}%/s;
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/o;
     require Foswiki::Plugins::EditTablePlugin::Core;
     Foswiki::Plugins::EditTablePlugin::Core::init();
     Foswiki::Plugins::EditTablePlugin::Core::prepareForView(@_);
 }
 
 sub commonTagsHandler {
-    return unless $_[0] =~ /%EDIT(TABLE|CELL){.*}%/s;
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/o;
 
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;

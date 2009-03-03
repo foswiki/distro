@@ -2,6 +2,7 @@ data/System/EditTablePlugin.txt 0644
 data/System/VarEDITTABLE.txt 0644
 lib/Foswiki/Plugins/EditTablePlugin.pm 0444
 lib/Foswiki/Plugins/EditTablePlugin/Core.pm 0444
+lib/Foswiki/Plugins/EditTablePlugin/Data.pm 0444
 pub/System/EditTablePlugin/btn_delete_disabled.gif 0644
 pub/System/EditTablePlugin/btn_delete_over.gif 0644
 pub/System/EditTablePlugin/btn_delete.gif 0644

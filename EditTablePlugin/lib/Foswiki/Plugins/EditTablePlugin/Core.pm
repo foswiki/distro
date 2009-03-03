@@ -1,66 +1,47 @@
-# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2008 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
-# Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org and
-# TWiki Contributors.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.
-#
-# This is the EditTablePlugin used to edit tables in place.
-
 package Foswiki::Plugins::EditTablePlugin::Core;
 
 use strict;
+use warnings;
 use Assert;
 use Foswiki::Func;
 use CGI qw( :all );
+use Foswiki::Plugins::EditTablePlugin::Data;
 
-our $RENDER_HACK                  = "\n<nop>\n";
-our $DEFAULT_FIELD_SIZE           = 16;
-our $PLACEHOLDER_BUTTONROW_TOP    = 'PLACEHOLDER_BUTTONROW_TOP';
-our $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
-our $HTML_TAGS =
-'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
+my $DEFAULT_FIELD_SIZE           = 16;
+my $PLACEHOLDER_BUTTONROW_TOP    = 'PLACEHOLDER_BUTTONROW_TOP';
+my $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
+my $HTML_TAGS =
+qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
 
-our $prefsInitialized;
-our $prefCHANGEROWS;
-our $prefEDIT_BUTTON;
-our $prefSAVE_BUTTON;
-our $prefQUIET_SAVE_BUTTON;
-our $prefADD_ROW_BUTTON;
-our $prefDELETE_LAST_ROW_BUTTON;
-our $prefCANCEL_BUTTON;
-our $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST;
-our $prefQUIETSAVE;
-our $preSp;
-our %params;
-our @format;
-our @formatExpanded;
-our $nrCols;
-our $warningMessage;
+my $prefsInitialized;
+my $prefCHANGEROWS;
+my $prefEDIT_BUTTON;
+my $prefSAVE_BUTTON;
+my $prefQUIET_SAVE_BUTTON;
+my $prefADD_ROW_BUTTON;
+my $prefDELETE_LAST_ROW_BUTTON;
+my $prefCANCEL_BUTTON;
+my $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST;
+my $prefQUIETSAVE;
+my $preSp;
+my %params;
+my @format;
+my @formatExpanded;
+my $nrCols;
+my $warningMessage;
 
-our $PATTERN_EDITTABLEPLUGIN = '%EDITTABLE{(.*?)}%';
-our $PATTERN_TABLEPLUGIN     = '%TABLE(?:{(.*?)})?%';
-our $PATTERN_TABLE_ROW_FULL  = '^(\s*)\|.*\|\s*$';
-our $PATTERN_TABLE_ROW       = '^(\s*)\|(.*)';
-our $MODE                    = {
+my $PATTERN_EDITTABLEPLUGIN = $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_EDITTABLEPLUGIN;
+my $PATTERN_TABLEPLUGIN = $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_TABLEPLUGIN;
+my $PATTERN_TABLE_ROW_FULL  = qr'^(\s*)\|.*\|\s*$'o;
+my $PATTERN_TABLE_ROW       = qr'^(\s*)\|(.*)'o;
+my $MODE                    = {
     READ      => ( 1 << 1 ),
     EDIT      => ( 1 << 2 ),
     SAVE      => ( 1 << 3 ),
     SAVEQUIET => ( 1 << 4 ),
 };
-our %tableMatrix;
-our $query;
+my %tableMatrix;
+my $query;
 
 =pod
 
@@ -102,12 +83,10 @@ sub prepareForView {
     readTables(@_);
 
     my $query     = Foswiki::Func::getCgiQuery();
-    my $isEditing = 0;
-    $isEditing = 1
-      if ( defined $query->param('etedit')
-        && defined $query->param('ettablenr') );
+    my $isEditing = defined $query->param('etedit')
+      && defined $query->param('ettablenr');
 
-    if ( !$isEditing ) {
+    unless ($isEditing) {
         handleTmlInViewMode(@_);
     }
 }
@@ -128,7 +107,7 @@ sub readTables {
     # my $web = $_[2]
 
     return if defined $tableMatrix{ $_[2] }{ $_[1] };
-    my $tableData = Foswiki::Plugins::TableData->new();
+    my $tableData = Foswiki::Plugins::EditTablePlugin::Data->new();
     $tableData->parseText( $_[0] );
     $tableMatrix{ $_[2] }{ $_[1] } = $tableData;
 }
@@ -137,10 +116,14 @@ sub readTables {
 
 StaticMethod handleTmlInViewMode( $text, $topic, $web )
 
-Renders text while in view mode:
+Users using the plugin would be confused when they enter newlines,
+which get replaced with %BR%, and thus might not render their TML
+
+So we hack it here so that all TML and HTML tags have spaces around them:
 - adds spaces around %BR% to render TML around linebreaks
 - add spaces around TML next to HTML tags, again to render TML
 - expands variables, for example %CALC% 
+Check Foswikibug:Item1017
 
 =cut
 
@@ -189,22 +172,22 @@ sub addSpacesToTmlNextToHtml {
     # cell, resulting in wrong alignment (when html tags are stripped in the
     # core table renderer)
 
-    my $TMLpattern = '[_*=]*';
-    my $pattern    = "
+    my $TMLpattern = qr/[_*=]*/o;
+    my $pattern    = qr(
 	[[:space:]]*		# any space
 	($TMLpattern)		# i1: optional TML syntax before html tag
 	(					# i2: html tag
-	<\/*				# start of tag (optional closing tag)
-	($HTML_TAGS)+		# i3: any of the html tags
+	</*				# start of tag (optional closing tag)
+	(?:$HTML_TAGS)+		# any of the html tags
 	[[:space:]]*     	# any space
 	.*?				    # anything before the end of tag
-	\/*>				# end of tag (optional closing tag)
+	/*>				# end of tag (optional closing tag)
 	)					# /i2
-	($TMLpattern)		# i4: optional TML syntax after html tag
+	($TMLpattern)		# i3: optional TML syntax after html tag
 	[[:space:]]*		# any space
-	";
+	)ox;
 
-    $$inTableTextRef =~ s/$pattern/$1 $2 $4/gox;
+    $$inTableTextRef =~ s/$pattern/$1 $2 $3/go;
 }
 
 =pod
@@ -939,7 +922,6 @@ sub handleTableEnd {
     $text .= "</div><!-- /editTable -->";
     $text .= "</noautolink>" if $doEdit;
 
-    #    $text .= "\n";
     return $text;
 }
 
@@ -1617,253 +1599,25 @@ sub stripCommentsFromRegex {
     return $cleanRegex;
 }
 
-=pod
-
-Helper class parses tables to take out table texts, and stores table cell data.
-
-=cut
-
-package Foswiki::Plugins::TableData;
-
-use vars qw(
-  %regex
-);
-
-BEGIN {
-    $PATTERN_EDITTABLEPLUGIN = '%EDITTABLE{(.*?)}%';
-    $PATTERN_TABLEPLUGIN     = '%TABLE(?:{(.*?)})?%';
-}
-
-=pod
-
-=cut
-
-sub new {
-    my ($class) = @_;
-    my $this = {};
-    bless $this, $class;
-    return $this;
-}
-
-=pod
-
-parseText($text)
-
-The guts of this routine was initially copied from SpreadSheetPlugin.pm
-and were used in the ChartPlugin Table object which this was copied from,
-but this has been modified to support the functionality needed by the
-EditTablePlugin.  One major change is to only count and save tables
-following an %EDITTABLE{.*}% tag.
-
-This routine basically returns an array of hashes where each hash
-contains the information for a single table.  Thus the first hash in the
-array represents the first table found on the topic page, the second hash
-in the array represents the second table found on the topic page, etc.
-
-=cut
-
-sub parseText {
-
-    my ( $this, $topicText ) = @_;
-
-    my $tableNum = 1;    # Table number (only count tables with EDITTABLE tag)
-    my @tableMatrix;     # Currently parsed table.
-
-    my $inEditTable    = 0;    # Flag to keep track if in an EDITTABLE table
-    my $insidePRE      = 0;
-    my $insideTABLE    = 0;
-    my $line           = '';
-    my @row            = ();
-    my @tableLines     = ();
-    my $editTableTag   = '';
-    my $storedTableRow = '';
-
-    my $tablesTakenOutText = '';
-    my $editTableObjects;
-
-    $topicText =~
-      s/\r//go;    # strip out all \r chars (may be pasted into a table cell)
-    $topicText =~ s/\\\n//go;    # Join lines ending in "\"
-    $topicText .= $RENDER_HACK
-      ;    # appended stuff is a hack to handle EDITTABLE correctly if at end
-
-    foreach ( split( /\n/, $topicText ) ) {
-
-        my $doCopyLine      = 1;
-        my $hasEditTableTag = 0;
-
-        # change state:
-        m|<pre\b|i      && ( $insidePRE = 1 );
-        m|<verbatim\b|i && ( $insidePRE = 1 );
-        m|</pre>|i      && ( $insidePRE = 0 );
-        m|</verbatim>|i && ( $insidePRE = 0 );
-
-        next if $insidePRE;
-
-        if ( /$PATTERN_EDITTABLEPLUGIN/ && /$PATTERN_TABLEPLUGIN/ ) {
-
-            # EDITTABLE and TABLE on one line (order does not matter)
-            _putTmpTagInTableTagLine($_);
-            $inEditTable = 1;
-            $tablesTakenOutText .= "<!--edittable$tableNum-->";
-            $doCopyLine = 0;
-            $editTableTag .= $_;
-            $hasEditTableTag = 1;
-        }
-        elsif (/$PATTERN_EDITTABLEPLUGIN/) {
-
-            # only EDITTABLE
-            if ( $storedTableRow ne '' ) {
-
-# store the TABLE tag from the previous line together with the current EDITTABLE tag
-                _putTmpTagInTableTagLine($storedTableRow);
-                $editTableTag .= $storedTableRow . "\n";
-                $storedTableRow = '';
-            }
-            $inEditTable = 1;
-            $tablesTakenOutText .= "<!--edittable$tableNum-->";
-            $doCopyLine = 0;
-            $editTableTag .= $_;
-            $hasEditTableTag = 1;
-        }
-        elsif ( $inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
-
-            # TABLE on the line after EDITTABLE
-            # we will include it in the editTableTag
-            _putTmpTagInTableTagLine($_);
-            $doCopyLine = 0;
-            $editTableTag .= "\n" . $_;
-            $hasEditTableTag = 1;
-        }
-        elsif ( !$inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
-
-         # this might be TABLE on the line before EDITTABLE, but we are not sure
-            $storedTableRow = $_;
-            $doCopyLine     = 0;
-        }
-        elsif ( $storedTableRow ne '' ) {
-
-# we had stored the TABLE tag, but no EDITTABLE tag was just below it; add it to the text and clear
-            $tablesTakenOutText .= $storedTableRow . "\n";
-            $storedTableRow = '';
-        }
-        if ( $inEditTable && !$hasEditTableTag ) {
-            if (/^\s*\|.*\|\s*$/) {
-
-                $doCopyLine = 0;
-                push( @tableLines, $_ );
-
-                # inside | table |
-                $insideTABLE = 1;
-                $line        = $_;
-                $line =~ s/^(\s*\|)(.*)\|\s*$/$2/o;    # Remove starting '|'
-                @row = split( /\|/o, $line, -1 );
-                _trimCellsInRow( \@row );
-                push( @tableMatrix, [@row] );
-
-            }
-            else {
-
-                # outside | table |
-                if ($insideTABLE) {
-
-                    # We were inside a table and are now outside of it so
-                    # save the table info into the Table object.
-                    $insideTABLE = 0;
-                    $inEditTable = 0;
-
-                    if ( @tableMatrix != 0 ) {
-
-                        # Save the table via its table number
-                        $$this{"TABLE_$tableNum"} = [@tableMatrix];
-                    }
-                    undef @tableMatrix;    # reset table matrix
-                }
-                else {
-
-                    # not (or no longer) inside a table
-                    $doCopyLine  = 1;
-                    $inEditTable = 0;
-                }
-                my $tableRef;
-                $tableRef->{'text'} = join( "\n", @tableLines );
-                $tableRef->{'tag'} = $editTableTag;
-                push( @{$editTableObjects}, $tableRef );
-                $tableNum++;
-
-                @tableLines   = ();
-                $editTableTag = '';
-            }
-        }
-
-        $tablesTakenOutText .= $_ . "\n" if $doCopyLine;
-    }    # foreach
-
-    # clean up hack that handles EDITTABLE correctly if at end
-    $tablesTakenOutText =~ s/($RENDER_HACK)+$//go;
-
-    Foswiki::Func::writeDebug(
-        "- EditTablePlugin::parseText; tablesTakenOutText=\n$tablesTakenOutText"
-    ) if $Foswiki::Plugins::EditTablePlugin::debug;
-
-    if ($Foswiki::Plugins::EditTablePlugin::debug) {
-        my $text = '';
-        foreach my $eto ( @{$editTableObjects} ) {
-            $text .= "tag=$eto->{tag}\n";
-            $text .= "text=$eto->{text}\n";
-        }
-        Foswiki::Func::writeDebug(
-            "- EditTablePlugin::parseText; editTableObjects=\n$text");
-    }
-
-    $this->{tablesTakenOutText} = $tablesTakenOutText;
-    $this->{editTableObjects}   = $editTableObjects;
-}
-
-=pod
-
-_trimCellsInRow (\@rowCells)
-
-Trim any leading and trailing white space and/or '*'.
-
-=cut
-
-sub _trimCellsInRow {
-    my ($rowCells) = @_;
-    for my $cell ( @{$rowCells} ) {
-        $cell =~ s/^[[:space:]]+(.*?)$/$1/s;    # trim at start
-        $cell =~ s/^(.*?)[[:space:]]+$/$1/s;    # trim at end
-    }
-}
-
-sub _putTmpTagInTableTagLine {
-    $_[0] =~
-s/(%TABLE{.*?)(}%)/$1 "START_EDITTABLEPLUGIN_TMP_TAG""END_EDITTABLEPLUGIN_TMP_TAG"$2/;
-}
-
-=pod
-
-Return the contents of the specified cell
-
-=cut
-
-sub getCell {
-    my ( $this, $tableNum, $row, $column ) = @_;
-
-    my @selectedTable = $this->getTable($tableNum);
-    my $value         = $selectedTable[$row][$column];
-    return $value;
-}
-
-=pod
-
-=cut
-
-sub getTable {
-    my ( $this, $tableNumber ) = @_;
-    my $table = $$this{"TABLE_$tableNumber"};
-    return @$table if defined($table);
-    return ();
-}
-
 1;
+
+__DATA__
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
+# Copyright (C) 2008-2009 Arthur Clemens, arthur@visiblearea.com and Foswiki contributors
+# Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org and
+# TWiki Contributors.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# As per the GPL, removal of this notice is prohibited.
+#
+# This is the EditTablePlugin used to edit tables in place.
