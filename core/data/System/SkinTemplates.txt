@@ -21,7 +21,7 @@ Skin templates are usually stored as text files with the extension =.tmpl=, thou
    * Directives are of the form ==%<nop>TMPL:&lt;key&gt;%== and ==%<nop>TMPL:&lt;key&gt;{"attr"}%==.
    * Directives:
       * ==%<nop>TMPL:INCLUDE{"file"}%==: Includes a template file. The file is found as described [[#FindingTemplates][below]].
-      * ==%<nop>TMPL:DEF{"block"}%==: Define a block. *All* text between this and the next =%<nop>TMPL:END%= directive is removed and saved for later use with  %<nop>TMPL:P=.
+      * ==%<nop>TMPL:DEF{"block"}%==: Define a block. *All* text between this and the next =%<nop>TMPL:END%= directive is removed and saved for later use with =%<nop>TMPL:P%=.
       * ==%<nop>TMPL:END%==: Ends a block definition.
       * ==%<nop>TMPL:P{"var"}%==: Includes a previously defined block.
       * ==%<nop>{...}%==: is a comment.
