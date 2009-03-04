@@ -193,6 +193,7 @@ sub check_dep {
 
     # check if the version satisfies the prerequisite
     if ( defined $dep->{version} ) {
+        $dep->{version} =~ s/>=?//;    # Remove > and >=
         if ( not eval { $module->VERSION( $dep->{version} ) } ) {
             $ok = 0;
             ( $msg = $@ ) =~ s/ at .*$//;
@@ -852,6 +853,7 @@ sub _install {
     }
 
     if ( $path->use ) {
+
         # Module is already installed
         # XXX SMELL: Could be more user-friendly:
         # test that current version isn't newest
