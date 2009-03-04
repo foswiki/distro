@@ -84,7 +84,7 @@ sub initPlugin {
     my $man = Foswiki::Func::getRegularExpression('mixedAlphaNum');
     my $ua = Foswiki::Func::getRegularExpression('upperAlpha');
     $sitePattern    = "([$ua][$man]+)";
-    $pagePattern    = "([${man}_\/][$man" . '\.\/\+\_\,\;\:\!\?\%\#\@\-]*?)';
+    $pagePattern    = "([${man}_\/][$man" . '\.\/\+\_\,\&\;\:\=\!\?\%\#\@\-]*?)';
 
     # Get plugin preferences from InterwikiPlugin topic
     $interLinkFormat =
