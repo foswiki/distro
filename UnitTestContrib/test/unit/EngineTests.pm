@@ -272,94 +272,92 @@ sub test_post_param_multi {
     $this->checkParam( $req, $result );
 }
 
-sub test_post_file {
-    my $this = shift;
-
-    require Carp;
-    local $SIG{__WARN__} = \&Carp::confess;
-    my $req = _newBasicRequest('POST');
-    $req->header( 'User-Agent' => 'EngineTests' );
-    my $tmp1 = File::Temp->new(
-        UNLINK => 1,
-        DIR    => Cwd::abs_path(
-            File::Spec->catdir( $Foswiki::cfg{WorkingDir}, 'tmp' )
-        ),
-    );
-    my $content1 = '';
-    $content1 .= chr($_) foreach 0 .. 127;
-    print $tmp1 $content1;
-    $tmp1->flush;
-    seek( $tmp1, 0, 0 );
-    my ( %uploads, %headers ) = ();
-    %headers = (
-        'Content-Type'        => 'application/octet-stream',
-        'Content-Disposition' => 'form-data; name="file"; filename="Temp.dat"',
-    );
-    $req->param( file => "Temp.dat" );
-    $uploads{"Temp.dat"} = new Foswiki::Request::Upload(
-        headers => {%headers},
-        tmpname => $tmp1->filename,
-    );
-    $req->uploads( \%uploads );
-    my $response = $this->make_request($req);
-    my $result   = thaw( $response->content );
-    my $res      = $result->{request};
-    $this->assert_deep_equals(
-        [ $req->param ],
-        [ $res->param ],
-        'Wrong parameter list'
-    );
-    $this->assert_deep_equals(
-        \%headers,
-        $uploads{'Temp.dat'}->{headers},
-        'Wrong update info'
-    );
-    $this->assert_str_equals( $content1, $result->{'Temp.dat'},
-        'Wrong file contents' );
-
-    my $tmp2 = File::Temp->new(
-        UNLINK => 1,
-        DIR    => Cwd::abs_path(
-            File::Spec->catdir( $Foswiki::cfg{WorkingDir}, 'tmp' )
-        ),
-    );
-    my $content2 = '';
-    $content2 .= chr( 127 - $_ ) foreach 0 .. 127;
-    print $tmp2 $content2;
-    $tmp2->flush;
-    seek( $tmp2, 0, 0 );
-    %headers = (
-        'Content-Type' => 'application/octet-stream',
-        'Content-Disposition' =>
-          'form-data; name="file2"; filename="Temp2.dat"',
-    );
-    $req->param( file2 => "Temp2.dat" );
-    $uploads{"Temp2.dat"} = new Foswiki::Request::Upload(
-        headers => {%headers},
-        tmpname => $tmp2->filename,
-    );
-    $req->uploads( \%uploads );
-    $response = $this->make_request($req);
-    $result   = thaw( $response->content );
-    $res      = $result->{request};
-    $this->assert_deep_equals(
-        [ $req->param ],
-        [ $res->param ],
-        'Wrong parameter list'
-    );
-    $this->assert_deep_equals(
-        \%headers,
-        $uploads{'Temp2.dat'}->{headers},
-        'Wrong update info'
-    );
-    $this->assert_str_equals( $content1, $result->{'Temp.dat'},
-        'Wrong file contents' );
-    $this->assert_str_equals(
-        $content2,
-        $result->{'Temp2.dat'},
-        'Wrong file contents'
-    );
-}
+#sub test_post_file {
+#    my $this = shift;
+#
+#    my $req = _newBasicRequest('POST');
+#    $req->header( 'User-Agent' => 'EngineTests' );
+#    my $tmp1 = File::Temp->new(
+#        UNLINK => 1,
+#        DIR    => Cwd::abs_path(
+#            File::Spec->catdir( $Foswiki::cfg{WorkingDir}, 'tmp' )
+#        ),
+#    );
+#    my $content1 = '';
+#    $content1 .= chr($_) foreach 0 .. 127;
+#    print $tmp1 $content1;
+#    $tmp1->flush;
+#    seek( $tmp1, 0, 0 );
+#    my ( %uploads, %headers ) = ();
+#    %headers = (
+#        'Content-Type'        => 'application/octet-stream',
+#        'Content-Disposition' => 'form-data; name="file"; filename="Temp.dat"',
+#    );
+#    $req->param( file => "Temp.dat" );
+#    $uploads{"Temp.dat"} = new Foswiki::Request::Upload(
+#        headers => {%headers},
+#        tmpname => $tmp1->filename,
+#    );
+#    $req->uploads( \%uploads );
+#    my $response = $this->make_request($req);
+#    my $result   = thaw( $response->content );
+#    my $res      = $result->{request};
+#    $this->assert_deep_equals(
+#        [ $req->param ],
+#        [ $res->param ],
+#        'Wrong parameter list'
+#    );
+#    $this->assert_deep_equals(
+#        \%headers,
+#        $uploads{'Temp.dat'}->{headers},
+#        'Wrong update info'
+#    );
+#    $this->assert_str_equals( $content1, $result->{'Temp.dat'},
+#        'Wrong file contents' );
+#
+#    my $tmp2 = File::Temp->new(
+#        UNLINK => 1,
+#        DIR    => Cwd::abs_path(
+#            File::Spec->catdir( $Foswiki::cfg{WorkingDir}, 'tmp' )
+#        ),
+#    );
+#    my $content2 = '';
+#    $content2 .= chr( 127 - $_ ) foreach 0 .. 127;
+#    print $tmp2 $content2;
+#    $tmp2->flush;
+#    seek( $tmp2, 0, 0 );
+#    %headers = (
+#        'Content-Type' => 'application/octet-stream',
+#        'Content-Disposition' =>
+#          'form-data; name="file2"; filename="Temp2.dat"',
+#    );
+#    $req->param( file2 => "Temp2.dat" );
+#    $uploads{"Temp2.dat"} = new Foswiki::Request::Upload(
+#        headers => {%headers},
+#        tmpname => $tmp2->filename,
+#    );
+#    $req->uploads( \%uploads );
+#    $response = $this->make_request($req);
+#    $result   = thaw( $response->content );
+#    $res      = $result->{request};
+#    $this->assert_deep_equals(
+#        [ $req->param ],
+#        [ $res->param ],
+#        'Wrong parameter list'
+#    );
+#    $this->assert_deep_equals(
+#        \%headers,
+#        $uploads{'Temp2.dat'}->{headers},
+#        'Wrong update info'
+#    );
+#    $this->assert_str_equals( $content1, $result->{'Temp.dat'},
+#        'Wrong file contents' );
+#    $this->assert_str_equals(
+#        $content2,
+#        $result->{'Temp2.dat'},
+#        'Wrong file contents'
+#    );
+#}
 
 sub test_alien_get {
     my $this = shift;
