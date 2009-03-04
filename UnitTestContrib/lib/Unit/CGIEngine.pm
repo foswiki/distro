@@ -84,7 +84,8 @@ sub _req2cgi {
         $env{AUTH_TYPE}   = 'Basic';
     }
     $env{PATH_INFO} = $req->path_info if $req->path_info;
-    $env{'HTTP_USER_AGENT'} = $req->userAgent() || $req->header('User-Agent');
+    my $ua = $req->userAgent() || $req->header('User-Agent');
+    $env{'HTTP_USER_AGENT'} = $ua if defined $ua;
     return \%env, \$in;
 }
 
@@ -114,8 +115,9 @@ sub _http2cgi {
         $h =~ tr/-/_/;
         $env{ 'HTTP_' . uc($h) } = $v;
     }
+    $env{REMOTE_ADDR} = '127.0.0.1';
 
-    # This implementation supports neither REMOTE_ADDR nor REMOTE_USER nor PATH_INFO.
+    # This implementation supports neither REMOTE_USER nor PATH_INFO.
     return \%env, \$in;
 }
 

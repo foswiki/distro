@@ -42,7 +42,7 @@ sub set_up {
     delete $Foswiki::cfg{ScriptUrlPaths};
 }
 
-sub test_simple {
+sub test_simple_request {
     my $this = shift;
     my $req  = new Foswiki::Request("");
 
@@ -404,14 +404,16 @@ sub test_alien_get {
     );
 }
 
-#sub test_simple_response {
-#    my $this = shift;
-#    my $req  = new Foswiki::Request;
-#    my $res  = new Foswiki::Response;
-#    $res->pushHeader( 'X-BLI' => 'teste' );
-#    $req->method('POST');
-#    $req->param( 'desired_test_response' => freeze($res) );
-#    my $response = $this->make_request($req);
-#}
+sub test_simple_response {
+    my $this = shift;
+    my $res  = new Foswiki::Response;
+    $res->pushHeader( 'X-BLI' => 'teste' );
+    
+    my $req  = new Foswiki::Request;
+    $req->method('POST');
+    $req->param( 'desired_test_response' => freeze($res) );
+    my $response = $this->make_request($req);
+    $this->assert_deep_equals(['teste'], [$response->header('X-Bli')], 'Wrong header value');
+}
 
 1;

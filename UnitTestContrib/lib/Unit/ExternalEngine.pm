@@ -98,8 +98,8 @@ sub _req2http {
               } keys %{ $req->cookies }
         )
     ) if scalar %{ $req->cookies };
-    $http->header(
-        'User-Agent' => ( $req->userAgent || $req->header('User-Agent') ) );
+    my $ua = $req->userAgent || $req->header('User-Agent');
+    $http->header( 'User-Agent' => $ua ) if $ua;
     $http->protocol('HTTP/1.1');
     return $http;
 }
@@ -107,8 +107,8 @@ sub _req2http {
 sub make_request {
     my ( $this, $req ) = @_;
 
-    my $http = _req2http($req);
-    my $ua = new LWP::UserAgent( timeout => 5, agent => '' );
+    my $http     = _req2http($req);
+    my $ua       = new LWP::UserAgent( timeout => 5, agent => '' );
     my $response = $ua->request($http);
     die 'Error performing request: ' . $response->message . "\n"
       unless $response->is_success;
