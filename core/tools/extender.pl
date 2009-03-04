@@ -193,12 +193,44 @@ sub check_dep {
 
     # check if the version satisfies the prerequisite
     if ( defined $dep->{version} ) {
-        $dep->{version} =~ s/>=?//;    # Remove > and >=
-        if ( not eval { $module->VERSION( $dep->{version} ) } ) {
+
+        # the version field is in fact a condition
+        if ( $dep->{version} =~ />=?\s*([0-9.]+)/ ) {
+
+            # Condition is >0 or >= 1.3
+            if ( not eval { $module->VERSION($1) } ) {
+
+                # But module doesn't meet this condition
+                $ok = 0;
+                ( $msg = $@ ) =~ s/ at .*$//;
+                return ( $ok, $msg );
+            }
+        }
+        elsif ( $dep->{version} =~ /<\s*([0-9.]+)/ ) {
+
+            # Condition is < 2.7
+            if ( $module->VERSION >= $1 ) {
+
+                # But module doesn't meet this condition
+                $ok = 0;
+                $msg =
+                    "Module $module is version v"
+                  . $module->VERSION
+                  . " and the dependency wants "
+                  . $dep->{version};
+                return ( $ok, $msg );
+            }
+        }
+        else {
             $ok = 0;
-            ( $msg = $@ ) =~ s/ at .*$//;
+            $msg =
+                "Module $module is version v"
+              . $module->VERSION
+              . " and the dependency wants "
+              . $dep->{version};
             return ( $ok, $msg );
         }
+
     }
 
     $msg = "$module v" . $module->VERSION . " loaded\n";
@@ -470,6 +502,8 @@ sub installPackage {
     if ( $script && -e $script ) {
         my $cmd = "perl $script";
         $cmd .= ' -a' if $noconfirm;
+        $cmd .= ' -d' if $downloadOK;
+        $cmd .= ' -r' if $reuseOK;
         $cmd .= ' -n' if $inactive;
         $cmd .= ' install';
         local $| = 0;
