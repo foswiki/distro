@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.3 - 28 Feb 2009
+---+!! Foswiki Release 1.0.4 - 06 Mar 2009
 
 %TOC%
 
@@ -18,7 +18,8 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.0, the first Foswiki was released on 09 Jan 2009.
    * Foswiki 1.0.1 was released internally in the development community 23 Feb 2009 but we found a few important bugs that made us decide not to publish it and instead release a 1.0.2. It is a patch release with around 70 bug fixes and only very few minor enhancements.
    * Foswiki 1.0.2 was built 25 Feb 2009 and again we decided to stop the publishing for quality reasons because of one important bug.
-   * Foswiki 1.0.3 was built 28 Feb 2009. It is a patch release with more than 80 bug fixes relative to 1.0.0 and only very few minor enhancements. 
+   * Foswiki 1.0.3 was built 28 Feb 2009. We decided to stop the publishing because of a severe bug in !EditTablePlugin introduced in 1.0.1 when fixing another bug. 
+   * Foswiki 1.0.4 was built 06 Mar 2009. It is a patch release with more than 90 bug fixes relative to 1.0.0 and only very few minor enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -451,6 +452,25 @@ None
 | [[%BUGS%/Item1155][Item1155]] | Webtopbar looks awful in IE6 because of transparent png |
 | [[%BUGS%/Item1158][Item1158]] | SMTP server other port than 25 is possible but not documented |
 | [[%BUGS%/Item1160][Item1160]] | Default users listed in WikiUsers are filed under the wrong letter |
+</noautolink>
+
+---++ Enhancements
+
+<noautolink>
+None
+</noautolink>
+
+---++ Foswiki Patch Release 1.0.4 Details
+
+---++ Fixes
+
+<noautolink>
+| [[%BUGS%/Item1055][Item1055]] | Find More Extensions should compare installed version with latest version |
+| [[%BUGS%/Item1172][Item1172]] | Foswiki::Request::param fails if parameter name is 0 or '' |
+| [[%BUGS%/Item1173][Item1173]] | Javascript error with find more extensions |
+| [[%BUGS%/Item1176][Item1176]] | Search page jumps focus to bottom |
+| [[%BUGS%/Item1184][Item1184]] | CALC inside table is not working |
+| [[%BUGS%/Item1189][Item1189]] | Typo !PatternSkinCustomization |
 </noautolink>
 
 ---++ Enhancements
