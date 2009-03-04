@@ -844,7 +844,7 @@ sub _install {
     my $path = $MODULE;
 
     if ( $path !~ /^(Foswiki|TWiki)::/ ) {
-        my $source = $1;
+        my $source = 'Foswiki';
         my $type   = 'Contrib';
         if ( $path =~ /Plugin$/ ) {
             $type = 'Plugins';
