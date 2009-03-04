@@ -4,19 +4,27 @@
 
 %TOC%
 
----++ Foswiki Release 1.0.3 - 28 Feb 2008
+---++ Foswiki Release 1.0.4 - 06 Mar 2009
 
-Both 1.0.1 and 1.0.2 were not published because they did not pass the final quality control. Another handful of bugs were fixed.
+Small update of 1.0.3 with 6 more bugs fixed incl a severe bug in !EditTablePlugin.
+
+Upgrade package for 1.0.4 is relative to 1.0.0.
+
+The number of bugfixes in 1.0.4 relative to 1.0.0 is 94. There are 4 minor enhancements.
+
+---++ Foswiki Release 1.0.3 - 28 Feb 2009
+
+Both 1.0.1 ,1.0.2, and 1.0.3 were not published because they did not pass the final quality control. Another handful of bugs were fixed.
 
 Upgrade package for 1.0.3 is relative to 1.0.0.
 
----++ Foswiki Release 1.0.2 - 26 Feb 2008
+---++ Foswiki Release 1.0.2 - 26 Feb 2009
 
 Same as 1.0.1 but with a handful of additional bug fixes.
 
 Upgrade package for 1.0.2 is relative to 1.0.0 since 1.0.1 was never published on the Foswiki website.
 
----++ Foswiki Release 1.0.1 - 24 Feb 2008
+---++ Foswiki Release 1.0.1 - 24 Feb 2009
 
 Patch release containing more than 70 bug fixes and some user interface improvements of configure. Due to a bug (Item1126) the development team decide not to publish this release but instead release 1.0.2 a few days later
 
@@ -28,7 +36,7 @@ Bug fix highlights:
    * Fixed a bug related to VIEW_TEMPLATE and preview
    * Enhanced the user interface of configure   
 
----++ Foswiki Release 1.0.0 - 09 Jan 2008
+---++ Foswiki Release 1.0.0 - 09 Jan 2009
 
 Foswiki is the old TWiki project under a new name. Restrictions on the use of the TWiki brand resulted in many of its developers continuing the project under the new Foswiki name. Foswiki is backwards compatible with all content from older TWiki installations. Foswiki 1.0.0 ships with a !TWikiCompatibilityPlugin installed and activated by default, thus enabling most extensions made for TWiki to work under Foswiki.
 
