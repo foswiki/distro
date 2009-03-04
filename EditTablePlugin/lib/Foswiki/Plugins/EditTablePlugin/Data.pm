@@ -13,7 +13,7 @@ Helper class parses tables to take out table texts, and stores table cell data.
 my $RENDER_HACK = "\n<nop>\n";
 my $PLACEHOLDER_ESCAPE_TAG       = 'E_T_P_NOP';
 
-our $PATTERN_EDITTABLEPLUGIN = qr'%EDITTABLE{(.*)}%'o; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _protectVariablesInEditTableTagLine
+our $PATTERN_EDITTABLEPLUGIN = qr'%EDITTABLE{(.*)}%'o; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _placeTABLEtagOnSeparateLine
 our $PATTERN_TABLEPLUGIN     = qr'%TABLE(?:{(.*?)})?%'o;
 
 =pod
@@ -71,7 +71,7 @@ sub parseText {
     $topicText .= $RENDER_HACK
       ;    # appended stuff is a hack to handle EDITTABLE correctly if at end
 
-    $topicText =~ s/%EDITTABLE{(.*)}%/&_protectVariablesInEditTableTagLine($1)/ge;
+    $topicText =~ s/%EDITTABLE{(.*)}%/&_placeTABLEtagOnSeparateLine($1)/ge;
 	
     foreach ( split( /\n/, $topicText ) ) {
 
@@ -168,7 +168,6 @@ sub parseText {
                 }
                 my $tableRef;
                 $tableRef->{'text'} = join( "\n", @tableLines );
-                _unProtectVariables($editTableTag);
                 $tableRef->{'tag'} = $editTableTag;
 
                 push( @{$editTableObjects}, $tableRef );
@@ -228,32 +227,17 @@ s/(%TABLE{.*?)(}%)/$1 "START_EDITTABLEPLUGIN_TMP_TAG""END_EDITTABLEPLUGIN_TMP_TA
 
 =pod
 
-Temporarily escapes variables by placing $PLACEHOLDER_ESCAPE_TAG after each % character.
-Also puts %TABLE{}% tags on a new line to better deal with TablePlugin variables: because $PATTERN_EDITTABLEPLUGIN is greedy this tag would otherwise be grabbed together with the EDITTABLE tag
+Puts %TABLE{}% tags on a new line to better deal with TablePlugin variables: because $PATTERN_EDITTABLEPLUGIN is greedy this tag would otherwise be grabbed together with the EDITTABLE tag
 
 =cut
 
-sub _protectVariablesInEditTableTagLine {
+sub _placeTABLEtagOnSeparateLine {
     my ( $tagLine ) = @_;
-
-	$tagLine =~ s/%/%$PLACEHOLDER_ESCAPE_TAG/go;
 		
 	# unprotect TABLE and put in on a new line
-	$tagLine =~ s/%$PLACEHOLDER_ESCAPE_TAG\s*TABLE/\n%TABLE/go;
+	$tagLine =~ s/%TABLE{/\n%TABLE{/go;
 	
 	return "%EDITTABLE{$tagLine}%";
-}
-
-=pod
-
-Removes escaped variables.
-
-=cut
-
-sub _unProtectVariables {
-    # my $text = $_[0]
-
-	$_[0] =~ s/$PLACEHOLDER_ESCAPE_TAG//go; 
 }
 
 =pod
