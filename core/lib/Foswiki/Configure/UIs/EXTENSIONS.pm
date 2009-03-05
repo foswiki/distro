@@ -5,8 +5,12 @@ use base 'Foswiki::Configure::UI';
 use strict;
 use Foswiki::Configure::Type;
 
+# THE FOLLOWING MUST BE MAINTAINED CONSISTENT WITH Extensions.FastReport
+# They describe the format of an extension topic.
 my @tableHeads =
   qw( topic classification description version installedVersion compatibility install );
+my $VERSION_LINE = qr/\n\|[\s\w-]*\s[Vv]ersion:\s*\|([^|]+)\|/;
+
 my %headNames = (
     topic            => 'Extension',
     classification   => 'Classification',
@@ -16,6 +20,18 @@ my %headNames = (
     compatibility    => 'Compatible with',
     install          => 'Action',
 );
+
+my @MNAMES  = qw(jan feb mar apr may jun jul aug sep oct nov dec);
+my $mnamess = join( '|', @MNAMES );
+my $MNAME   = qr/$mnamess/i;
+my %N2M;
+foreach ( 0 .. $#MNAMES ) { $N2M{ $MNAMES[$_] } = $_; }
+
+# Convert a date in the format dd Mmm yyyy to a unique integer
+sub d2n {
+    my ( $d, $m, $y ) = @_;
+    return ( $y * 12 + $N2M{ lc($m) } ) * 31 + $d;
+}
 
 # Download the report page from the repository, and extract a hash of
 # available extensions
@@ -30,9 +46,7 @@ sub _getListOfExtensions {
         foreach my $place ( @{ $this->{repositories} } ) {
             $place->{data} =~ s#/*$#/#;
             print CGI::div("Consulting $place->{name}...");
-            my $url =
-              $place->{data} . 'FastReport?skin=text';
-            
+            my $url      = $place->{data} . 'FastReport?skin=text';
             my $response = $this->getUrl($url);
             if ( !$response->is_error() ) {
                 my $page = $response->content();
@@ -62,11 +76,11 @@ sub _parseRow {
     my ( $this, $row, $place ) = @_;
     my %data;
     return '' unless $row =~ s/^ *(\w+): *(.*?) *$/$data{$1} = $2;''/gem;
-    ($data{installedVersion},
-     $data{namespace}) = $this->_getInstalledVersion( $data{topic} );
-    $data{repository}       = $place->{name};
-    $data{data}             = $place->{data};
-    $data{pub}              = $place->{pub};
+    ( $data{installedVersion}, $data{namespace} ) =
+      $this->_getInstalledVersion( $data{topic} );
+    $data{repository} = $place->{name};
+    $data{data}       = $place->{data};
+    $data{pub}        = $place->{pub};
     die "$row: " . Data::Dumper->Dump( [ \%data ] ) unless $data{topic};
     $this->{list}->{ $data{topic} } = \%data;
     return '';
@@ -81,51 +95,120 @@ sub ui {
     my $exts      = $this->_getListOfExtensions();
     foreach my $error ( @{ $this->{errors} } ) {
         $table .= CGI::Tr( { class => 'foswikiAlert' },
-                           CGI::td( { colspan => "7" }, $error ) );
+            CGI::td( { colspan => "7" }, $error ) );
     }
 
     $table .= CGI::Tr(
         join( '',
-              map { CGI::th( { valign => 'bottom' }, $headNames{$_} ) }
-                @tableHeads )
-       );
+            map { CGI::th( { valign => 'bottom' }, $headNames{$_} ) }
+              @tableHeads )
+    );
     foreach my $key ( sort keys %$exts ) {
-        my $ext = $exts->{$key};
-        my $row = '';
+        my $ext     = $exts->{$key};
+        my $row     = '';
         my $version = '';
-		
+
+
+        my @classes = ( $rows % 2 ? 'odd' : 'even' );
         foreach my $f (@tableHeads) {
-        
-        	if ( $f eq 'version' && $ext->{$f} ) {
-        	    # strip out the date
-	            $ext->{$f} =~ s/(\d+)\s\((.*)\)/$1/;
-	            $version = $ext->{$f};
-	        }
-        
-			my $text;
+
+            if ( $f eq 'version' && $ext->{$f} ) {
+
+                # strip out the date
+                $ext->{$f} =~ s/(\d+)\s\((.*)\)/$1/;
+                $version = $ext->{$f};
+            }
+
+            my $text;
             if ( $f eq 'install' ) {
                 my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
                 my $scriptName = pop(@script);
                 $scriptName =~ s/.*[\/\\]//;    # Fix for Item3511, on Win XP
 
                 my $link =
-                  $scriptName
-                    . '?action=InstallExtension'
-                      . ';repository='
-                        . $ext->{repository}
-                          . ';extension='
-                            . $ext->{topic};
-                
+                    $scriptName
+                  . '?action=InstallExtension'
+                  . ';repository='
+                  . $ext->{repository}
+                  . ';extension='
+                  . $ext->{topic};
+                $text = 'Install';
                 if ( $ext->{installedVersion} ) {
-                    if ($ext->{installedVersion} eq $version) {
-                        $text = 'Up to date';
-                    } else {
-                        $text = 'Upgrade';
-                        $text = CGI::a( { href => $link }, $text );
+                    if ( $ext->{installedVersion} eq 'HEAD' ) {
+
+                        # Unexpanded, assume pseudo-installed
+                        $link = '';
+                        $text = '(pseudo-installed)';
+                        $ext->{cssclass} = 'uptodate';
+                    }
+                    elsif ( $ext->{installedVersion} =~
+                        /^\s*(\d+)\.(\d+)(?:\.(\d+))/ )
+                    {
+
+                        # X.Y.Z
+                        # Combine into one number; allows up to 1000
+                        # revs in each field
+                        my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
+                        $text = 'Re-install';
+                        $ext->{cssclass} = 'uptodate';
+                        if ( $ext->{version} =~ /^\s*(\d+)\.(\d+)(?:\.(\d+))/ )
+                        {
+
+                            # Compatible version number
+                            my $arev = ( $1 * 1000 + $2 ) * 1000 + $3;
+                            if ( $arev > $irev ) {
+                                $text = 'Upgrade';
+                                $ext->{cssclass} = 'upgrade';
+                            }
+                        }
+                    }
+                    elsif ( $ext->{installedVersion} =~ /^\s*(\d+)\s/ ) {
+
+                        # SVN rev number
+                        my $gotrev = $1;
+                        $text = 'Re-install';
+                        $ext->{cssclass} = 'uptodate';
+                        if ( $ext->{version} =~ /^\s*(\d+)\s/ ) {
+                            my $availrev = $1;
+                            if ( $availrev > $gotrev ) {
+                                $text = 'Upgrade';
+                                $ext->{cssclass} = 'upgrade';
+                            }
+                        }
+                    }
+                    elsif ( $ext->{installedVersion} =~
+                        /(\d{4})-(\d\d)-(\d\d)/ ) {
+                        # ISO date
+                        my $idate = d2n( $3, $2, $1 );
+                        $text = 'Re-install';
+                        $ext->{cssclass} = 'uptodate';
+                        if ( $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
+                            my $adate = d2n( $3, $2, $1 );
+                            if ( $adate > $idate ) {
+                                $text = 'Upgrade';
+                                $ext->{cssclass} = 'upgrade';
+                            }
+                        }
+                    }
+                    elsif ( $ext->{installedVersion} =~
+                        /(\d{1,2}) ($MNAME) (\d{4})/ ) {
+
+                        # dd Mmm yyyy date
+                        my $idate = d2n( $1, $2, $3 );
+                        $text = 'Re-install';
+                        $ext->{cssclass} = 'uptodate';
+                        if ( $ext->{version} =~
+                               /(\d{1,2}) ($MNAME) (\d{4})/ ) {
+                            my $adate = d2n( $1, $2, $3 );
+                            if ( $adate > $idate ) {
+                                $text = 'Upgrade';
+                                $ext->{cssclass} = 'upgrade';
+                            }
+                        }
                     }
                     $installed++;
-                } else {
-                    $text = 'Install';
+                }
+                if ($link) {
                     $text = CGI::a( { href => $link }, $text );
                 }
             }
@@ -135,23 +218,24 @@ sub ui {
                     my $link = $ext->{data} . $ext->{topic};
                     $text = CGI::a( { href => $link }, $text );
                 }
+                elsif ($f eq 'image'
+                    && $ext->{namespace}
+                    && $ext->{namespace} ne 'Foswiki' )
+                {
+                    $text = "$text ($ext->{namespace})";
+                }
             }
             my %opts = ( valign => 'top' );
-            if ($ext->{namespace} && $ext->{namespace} ne 'Foswiki') {
+            if ( $ext->{namespace} && $ext->{namespace} ne 'Foswiki' ) {
                 $opts{class} = 'alienExtension';
             }
             $row .= CGI::td( \%opts, $text );
         }
-        my @classes = ( $rows % 2 ? 'odd' : 'even' );
-        if ($ext->{installedVersion}) {
-            if ($ext->{installedVersion} eq $version) {
-	            push @classes, qw( patternAccessKeyInfo uptodate );
-	        } else {
-	            push @classes, qw( patternAccessKeyInfo upgrade );
-	        }
-            push @classes, 'twikiExtension'
-              if $ext->{installedVersion} =~ /\(TWiki\)/;
-        }
+        push( @classes, 'patternAccessKeyInfo', $ext->{cssclass} )
+          if ($ext->{cssclass});
+        push( @classes, 'twikiExtension' )
+          if $ext->{installedVersion} &&
+            $ext->{installedVersion} =~ /\(TWiki\)/;
         $table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
         $rows++;
     }
@@ -160,12 +244,12 @@ sub ui {
             { colspan => scalar @tableHeads },
             $installed
               . ' extension'
-                . ( $installed == 1 ? '' : 's' )
-                  . ' out of '
-                    . $rows
-                      . ' are installed'
-                     )
-         );
+              . ( $installed == 1 ? '' : 's' )
+              . ' out of '
+              . $rows
+              . ' already installed'
+        )
+    );
     my $page = <<INTRO;
 <div class="foswikiHelp">Note that the webserver user has to be able to
 write files everywhere in your Foswiki installation. Otherwise you may see
@@ -188,25 +272,43 @@ sub _getInstalledVersion {
         $lib = 'Contrib';
     }
 
-    my $version;
+    # See if we have a compileable module
+    my $compileable = 0;
     my $from;
-    foreach my $frm qw(Foswiki TWiki) {
-        my $path = $frm.'::'.$lib.'::'.$module;
-        eval "use $path";
-        next if $@;
-        
-        $from = $frm;
-        $version = eval '$'.$path.'::VERSION' || '';
-
-		# tidy up the subversion rev number
-		$version =~ s/^\s*\$Rev:\s*(.*?)\s*\$$/$1/;
-        # strip out the date, as it won't be published with all extensions
-		$version =~ s/(\d+)\s\((.*)\)/$1/;        
-
-        last;
+    foreach $from qw(Foswiki TWiki) {
+        my $path = $from . '::' . $lib . '::' . $module;
+        eval "require $path";
+        unless ($@) {
+            $compileable = 1;    # found the module
+            last;
+        }
     }
 
-    return ($version, $from);
+    # Now scrape the version information from the .txt
+    my $release = '';
+    if ($compileable) {
+        foreach
+          my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ) )
+        {
+
+            # SMELL: can't use Foswiki store to do this lookup; relying on
+            # directories. Not a problem right now, but in the future.....
+            my $path = "$Foswiki::cfg{DataDir}/$web/$module.txt";
+            my $fh;
+            local $/;
+            if ( -e $path && open( $fh, '<', $path ) ) {
+                my $text = <$fh>;
+                if ( $text =~ /$VERSION_LINE/s ) {
+                    $release = $+;
+                    $release = 'HEAD' if $release =~ /%\$VERSION%/;
+                }
+                close($fh);
+            }
+            last;
+        }
+    }
+
+    return ( $release, $from );
 }
 
 1;
@@ -222,8 +324,6 @@ __DATA__
 # file as follows:
 #
 # Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

@@ -34,7 +34,7 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 
 |  Copyright: | Copyright (C) TWiki:Main.ThomasWeigert and TWiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | %$VERSION% (15 Dec 2008) |
+|  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  15 Dec 2008: | Arthur Clemens added reading of =Local= preferences. Foswiki version |
 |  05 Nov 2007: | Kenneth Lavrsen fixed problem when settings are hidden in html comments. These settings are now ignored. |
