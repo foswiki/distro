@@ -446,12 +446,15 @@ None
 ---++ Fixes
 
 <noautolink>
-| [[%BUGS%/Item1141][Item1141]] | Foswiki::Func::addToHEAD Infinite recursion |
-| [[%BUGS%/Item1151][Item1151]] | statistics script is broken in release 1.0.2 and on trunk.foswiki.org |
-| [[%BUGS%/Item1152][Item1152]] | Foswiki fails in mod_perl and other similar environments after change related to Item906 |
-| [[%BUGS%/Item1155][Item1155]] | Webtopbar looks awful in IE6 because of transparent png |
-| [[%BUGS%/Item1158][Item1158]] | SMTP server other port than 25 is possible but not documented |
-| [[%BUGS%/Item1160][Item1160]] | Default users listed in WikiUsers are filed under the wrong letter |
+| [[%BUGS%/Item1055][Item1055]] | Find More Extensions should compare installed version with latest version |
+| [[%BUGS%/Item1172][Item1172]] | Foswiki::Request::param fails if parameter name is 0 or '' |
+| [[%BUGS%/Item1173][Item1173]] | Javascript error with find more extensions |
+| [[%BUGS%/Item1176][Item1176]] | Search page jumps focus to bottom |
+| [[%BUGS%/Item1177][Item1177]] | configure doesn't install dependencies |
+| [[%BUGS%/Item1184][Item1184]] | CALC inside table is not working |
+| [[%BUGS%/Item1189][Item1189]] | Typo !PatternSkinCustomization |
+| [[%BUGS%/Item1197][Item1197]] | configure extension installer fails with taint error |
+| [[%BUGS%/Item1198][Item1198]] | configure extension installer reports all extension rev numbers wrong |
 </noautolink>
 
 ---++ Enhancements
@@ -476,7 +479,7 @@ None
 ---++ Enhancements
 
 <noautolink>
-None
+| [[%BUGS%/Item1604][Item1604]] | Implement use of RELEASE tag for extensions in addition to VERSION |
 </noautolink>
 
 ---
