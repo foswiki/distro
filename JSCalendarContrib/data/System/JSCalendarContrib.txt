@@ -56,7 +56,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  Author: | Foswiki:Main/CrawfordCurrie http://c-dot.co.uk |
 |  Copyright &copy;: | See [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Version: | %$VERSION% (16 Dec 2008) |
+|  Version: | %$VERSION% |
 | Change History: | |
 |  16 Dec 2008 | Foswiki version |
 |  10 Sep 2008 | Bugs:Item5991 Applied patch to fix rendering on IE7 .|

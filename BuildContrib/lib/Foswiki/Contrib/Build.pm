@@ -38,6 +38,8 @@ use File::Temp ();
 use POSIX      ();
 use diagnostics;
 use Carp ();
+use Foswiki::Time;
+
 our $basedir;
 our $buildpldir;
 our $libpath;
@@ -154,14 +156,18 @@ target and options.
 
 sub new {
     my ( $class, $project, $rootModule ) = @_;
-    my $this = bless( {
-        # Constants with internet paths
-        BUGSURL => $UPLOADSITEBUGS,
+    my $this = bless(
+        {
 
-        project => $project,
-        target  => 'test',
-        basedir => $basedir,
-    }, $class );
+            # Constants with internet paths
+            BUGSURL => $UPLOADSITEBUGS,
+
+            project => $project,
+            target  => 'test',
+            basedir => $basedir,
+        },
+        $class
+    );
 
     my $n    = 0;
     my $done = 0;
@@ -203,6 +209,17 @@ sub new {
     $stubpath =~ s/.*[\\\/]($targetProject[\\\/].*)\.pm/$1/;
     $stubpath =~ s/[\\\/]/::/g;
 
+    # Get %$RELEASE%
+    if (-e $this->{pm}) {
+        my $fh;
+        if (open($fh, "<", $this->{pm})) {
+            local $/;
+            my $text = <$fh>;
+            if ($text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/) {
+                $this->{RELEASE} = $2;
+            }
+        }
+    }
     # where data files live
     $this->{data_systemdir} =
       'data/' . ( ( $targetProject eq 'TWiki' ) ? 'TWiki' : 'System' );
@@ -293,10 +310,10 @@ sub new {
           CGI::table( { border => 1 }, CGI::Tr($cells) . $deptable );
     }
 
-    $this->{VERSION} =
-      $this->_get_svn_version() . ' ('
-      . POSIX::strftime( '%d %b %Y', localtime ) . ')';
-    $this->{DATE} = POSIX::strftime( '%T %d %B %Y', localtime );
+    $this->{VERSION} = $this->_get_svn_version();
+
+    # If not checked in, or we can't get to SVN, use the current time.
+    $this->{DATE} ||= Foswiki::Time::formatTime( time(), '$iso', 'gmtime' );
 
     local $/ = undef;
     my $stage;
@@ -453,6 +470,7 @@ sub _loadDependenciesFrom {
 
 sub _get_svn_version {
     my $this = shift;
+
     unless ( $this->{VERSION} ) {
         $this->{VERSION} = 0;
 
@@ -475,16 +493,38 @@ sub _get_svn_version {
 
             # svn info all the files in the manifest
             my $max = $this->{VERSION} || 0;
+            my $maxd = 0;
             eval {
                 my $log = $this->sys_action( 'svn', 'info', @files );
 
-                foreach my $line ( split( /\n/, $log ) ) {
+                my $getDate = 0;
+                foreach my $line ( split( "\n", $log ) ) {
                     if ( $line =~ /^Last Changed Rev: (.*)$/ ) {
-                        $max = $1 if $1 > $max;
+                        $getDate = 0;
+                        if ( $1 > $max ) {
+                            $max     = $1;
+                            $getDate = 1;
+                        }
+                    }
+                    elsif ($getDate
+                        && $line =~ /^Text Last Updated: (.*?) (.*) \(/m )
+                    {
+                        $maxd    = Foswiki::Time::parseTime("$1T$2");
+                        $getDate = 0;
+                    }
+                    elsif ($getDate
+                        && $line =~ /Last Changed Date: (.*?) (.*) \(/m )
+                    {
+                        $maxd    = Foswiki::Time::parseTime("$1T$2");
+                        $getDate = 0;
                     }
                 }
             };
-            $this->{VERSION} = $max;
+            $this->{DATE} =
+              Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
+            my $day = $this->{DATE};
+            $day =~ s/T.*//;
+            $this->{VERSION} = "$max ($day)";
         }
     }
     return $this->{VERSION};
@@ -876,13 +916,15 @@ sub filter_txt {
     $this->_filter_file(
         $from, $to,
         sub {
-            my ($this, $text) = @_;
+            my ( $this, $text ) = @_;
+
             # Replace the SVN revision with rev 1.
             # In release builds this gets replaced by latest revision later.
             $text =~ s/^(%META:TOPICINFO{.*)\$Rev:.*\$(.*}%)$/${1}1$2/m;
             $text =~ s/%\$(\w+)%/&_expand($this,$1)/geo;
             return $text;
-        });
+        }
+    );
 }
 
 sub _expand {
@@ -1001,10 +1043,11 @@ sub filter_pm {
     $this->_filter_file(
         $from, $to,
         sub {
-            my ($this, $text) = @_;
+            my ( $this, $text ) = @_;
             $text =~ s/\$Rev(:\s*\d+)?\s*\$/\$Rev\: $this->{VERSION} \$/gso;
             return $text;
-        });
+        }
+    );
 }
 
 =begin foswiki
@@ -1097,8 +1140,9 @@ Makes zip and tgz archives of the files in tmpDir. Also copies the installer.
 sub target_archive {
     my $this    = shift;
     my $project = $this->{project};
-    my $target = $project;
-    if (defined $this->{options}->{archive_prefix}) {
+    my $target  = $project;
+    if ( defined $this->{options}->{archive_prefix} ) {
+
         # optional archive name prefix
         $target = "$this->{options}->{archive_prefix}$target";
     }
@@ -1165,7 +1209,8 @@ sub target_archive {
     foreach my $f qw(.tgz .zip .txt _installer) {
         if ( -e "$this->{basedir}/$target$f" ) {
             print "$f in $this->{basedir}/$target$f\n";
-        } else {
+        }
+        else {
             print STDERR "WARNING: no $target$f was generated\n";
             $warn++;
         }
@@ -1720,8 +1765,9 @@ this would be straightforward to do if it were required.
 sub target_installer {
     my $this = shift;
 
-    return if defined $this->{options}->{installers}
-      && $this->{options}->{installers} =~ /none/;
+    return
+      if defined $this->{options}->{installers}
+          && $this->{options}->{installers} =~ /none/;
 
     # Add the install script to the manifest, unless it is already there
     unless (
@@ -2130,9 +2176,9 @@ sub _addDep {
 }
 
 my @twikiFilters = (
-    { RE => qr/\.pm$/, filter => '_twikify_perl' },
-    { RE => qr#/Config.spec$#, filter => '_twikify_perl' },
-    { RE => qr#/MANIFEST$#, filter => '_twikify_manifest' },
+    { RE => qr/\.pm$/,          filter => '_twikify_perl' },
+    { RE => qr#/Config.spec$#,  filter => '_twikify_perl' },
+    { RE => qr#/MANIFEST$#,     filter => '_twikify_manifest' },
     { RE => qr#/DEPENDENCIES$#, filter => '_twikify_perl' },
 );
 
@@ -2140,35 +2186,34 @@ my @twikiFilters = (
 # Useless for processing CSS, JS or anything else complex.
 sub target_twiki {
     my $this = shift;
-    my $r = "$this->{libdir}/$this->{project}";
+    my $r    = "$this->{libdir}/$this->{project}";
     $r =~ s#^$this->{basedir}/##;
-    push(@{ $this->{files} }, { name => "$r/MANIFEST" });
-    push(@{ $this->{files} }, { name => "$r/DEPENDENCIES" });
-    push(@{ $this->{files} }, { name => "$r/build.pl" });
+    push( @{ $this->{files} }, { name => "$r/MANIFEST" } );
+    push( @{ $this->{files} }, { name => "$r/DEPENDENCIES" } );
+    push( @{ $this->{files} }, { name => "$r/build.pl" } );
 
     foreach my $file ( @{ $this->{files} } ) {
         my $nf = $file->{name};
-        if ($file->{name} =~ m#^(data|pub)/System/(.*)$#) {
+        if ( $file->{name} =~ m#^(data|pub)/System/(.*)$# ) {
             $nf = "$1/TWiki/$2";
-        } elsif ($file->{name} =~ m#^lib/Foswiki/(.*)$#) {
+        }
+        elsif ( $file->{name} =~ m#^lib/Foswiki/(.*)$# ) {
             $nf = "lib/TWiki/$1";
         }
-        if ($nf ne $file->{name}) {
+        if ( $nf ne $file->{name} ) {
             my $filtered = 0;
             foreach my $filter (@twikiFilters) {
                 if ( $file->{name} =~ /$filter->{RE}/ ) {
                     my $fn = $filter->{filter};
-                    $this->$fn(
-                        $this->{basedir} . '/' . $file->{name},
-                        $this->{basedir} . '/' . $nf
-                       );
+                    $this->$fn( $this->{basedir} . '/' . $file->{name},
+                        $this->{basedir} . '/' . $nf );
                     $filtered = 1;
                     last;
                 }
             }
             unless ($filtered) {
                 $this->cp( $this->{basedir} . '/' . $file->{name},
-                           $this->{basedir} . '/' . $nf);
+                    $this->{basedir} . '/' . $nf );
             }
             $file->{name} = $nf;
             print "Created $file->{name}\n";
@@ -2182,7 +2227,7 @@ sub _twikify_perl {
     $this->_filter_file(
         $from, $to,
         sub {
-            my ($this, $text) = @_;
+            my ( $this, $text ) = @_;
             $text =~ s/Foswiki::/TWiki::/g;
             $text =~ s/new Foswiki\(\);/new TWiki();/g;
             $text =~ s/(use|require)\s+Foswiki;/$1 TWiki;/g;
@@ -2190,7 +2235,8 @@ sub _twikify_perl {
             $text =~ s/'foswiki'/'twiki'/g;
             $text =~ s/FOSWIKI_/TWIKI_/g;
             return $text;
-        });
+        }
+    );
 }
 
 sub _twikify_manifest {
@@ -2199,7 +2245,7 @@ sub _twikify_manifest {
     $this->_filter_file(
         $from, $to,
         sub {
-            my ($this, $text) = @_;
+            my ( $this, $text ) = @_;
             $text =~ s#^data/System#data/TWiki#gm;
             $text =~ s#^pub/System#pub/TWiki#gm;
             $text =~ s#^lib/Foswiki#lib/TWiki#gm;
@@ -2208,7 +2254,8 @@ sub _twikify_manifest {
 !option installers none
 $text
 HERE
-        });
+        }
+    );
 }
 
 1;

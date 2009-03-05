@@ -436,7 +436,8 @@ and in the installer script. The following tokens are supported:
    * =%$<nop>MANIFEST%= - table of files in MANIFEST
    * =%$<nop>FILES%= - hash keyed on file name mapping to permissions i.e. 'data/System/ThsiTopic.txt' => 0664, 'lib/Foswiki/Plugins/BlahPlugin.pm' => 0775
    * =%$<nop>DEPENDENCIES%= - list of dependencies from DEPENDENCIES
-   * =%$<nop>VERSION%= value of $VERSION
+   * =%$<nop>VERSION%= subversion number and the date of the most recent checkin
+   * =%$<nop>RELEASE%= value of the =$RELEASE= perl global variable from your master perl module
    * =%$<nop>DATE%= - local date
    * =%$<nop>POD%= - POD documentation for the package, excluding test modules.
    * =%$<nop>PREINSTALL%= - contents of PREINSTALL
@@ -445,10 +446,7 @@ and in the installer script. The following tokens are supported:
    * =%$<nop>POSTUNINSTALL%= - contents of POSTINSTALL
    * =%$<nop>BUGSURL%= - URL of bugs web
    * =%$<nop>INSTALL_INSTRUCTIONS%= - basic instructions for installing
-You can also create other tokens to be expanded by adding them in your
-=build.pl=. For example,
-
-TODO: add code sample here?
+*Note* =configure= uses the =| Version: |= row in the table in the extension topic to determine what version of the package is installed. In the sources this is normally set to =| Version: | %$VERSION% |=. When you =perl build.pl release=, %$VERSION% is *computed* by finding the most recent subversion checkin of any file listed in MANIFEST, so it's very reliable and low maintenance. You don't _have_ to use %$VERSION% in the =| Version: |= row of the extension topic - you can use your own version string if you want, or you can use %$RELEASE% which will take whatever value you have assigned to the $RELEASE variable in the extension master perl module. =configure= supports all of subversion revision numbers, manually generated triples (1.2.3), ISO dates, and =dd Mmmm yyy= format dates as valid revision identifiers.
 
 ---++ Upload
 When you are happy the release package is built correctly, you can
@@ -491,6 +489,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
 |  Version: | %$VERSION% |
 | Change&nbsp;History: | |
+|  5 Mar 2009 | Foswikitask:Item1198: Improved support for %<nop>$VERSION% (made it much more accurate) and changed the generated date format to ISO. Also added support for %<nop>$RELEASE%, an optional release identifier taken from the master perl module. |
 |  15 Feb 2009 | Foswikitask:Item1079: Added twiki target |
 |  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
