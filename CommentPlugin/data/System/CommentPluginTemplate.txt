@@ -209,7 +209,6 @@ Action added to action table directly above comment box
 </verbatim>
 <verbatim>
 %TMPL:DEF{OUTPUT:action}%%POS:BEFORE%%AC%NOP%TION{who="%URLPARAM{"action_who"}%" due="%URLPARAM{"action_due"}%"}% %URLPARAM{"action_comment" newline="<br />"}%<br />- Created by %WIKIUSERNAME%, %SERVERTIME%
-%ENDACTION%
 %TMPL:END%
 </verbatim>
 
