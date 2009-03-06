@@ -468,6 +468,8 @@ sub _loadDependenciesFrom {
     close(PF);
 }
 
+# SMELL: Would be good to change this to use SVN::Client, but Sven warns us
+# that SVN::Client doesn't work in most places :-(. Maybe some day.
 sub _get_svn_version {
     my $this = shift;
 
@@ -496,10 +498,9 @@ sub _get_svn_version {
             my $maxd = 0;
             eval {
                 my $log = $this->sys_action( 'svn', 'info', @files );
-
                 my $getDate = 0;
                 foreach my $line ( split( "\n", $log ) ) {
-                    if ( $line =~ /^Last Changed Rev: (.*)$/ ) {
+                    if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
                         $getDate = 0;
                         if ( $1 > $max ) {
                             $max     = $1;
@@ -507,19 +508,22 @@ sub _get_svn_version {
                         }
                     }
                     elsif ($getDate
-                        && $line =~ /^Text Last Updated: (.*?) (.*) \(/m )
+                        && $line =~ /^Text Last Updated: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
                     {
-                        $maxd    = Foswiki::Time::parseTime("$1T$2");
+                        $maxd    = Foswiki::Time::parseTime("$1T$2".($3||''));
                         $getDate = 0;
                     }
                     elsif ($getDate
-                        && $line =~ /Last Changed Date: (.*?) (.*) \(/m )
+                        && $line =~ /Last Changed Date: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
                     {
-                        $maxd    = Foswiki::Time::parseTime("$1T$2");
+                        $maxd    = Foswiki::Time::parseTime("$1T$2".($3||''));
                         $getDate = 0;
                     }
                 }
             };
+            if ($@) {
+                print STDERR "WARNING: Failed to shell out to svn: $@";
+            }
             $this->{DATE} =
               Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
             my $day = $this->{DATE};
