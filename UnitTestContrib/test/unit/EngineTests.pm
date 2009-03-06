@@ -73,6 +73,7 @@ sub test_simple {
         tmpname => $file->filename,
     );
     $req->uploads( \%uploads );
+}
 
 sub _newBasicRequest {
     my ($method) = @_;
