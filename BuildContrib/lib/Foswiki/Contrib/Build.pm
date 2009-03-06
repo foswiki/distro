@@ -474,14 +474,14 @@ sub _get_svn_version {
     my $this = shift;
 
     unless ( $this->{VERSION} ) {
-        $this->{VERSION} = 0;
+        my $max  = 0; # max SVN rev no
+        my $maxd = 0; # max date
 
         #Shelling out with a large number of files dies, killing the build.
         my $idx = 0;
         while ( $idx < scalar( @{ $this->{files} } ) ) {
             my @files;
 
-          # #@files = map { "$this->{basedir}/$_->{name}" } @{ $this->{files} };
             my $limit = $idx + 1000;
             $limit = scalar( @{ $this->{files} } )
               if $limit > scalar( @{ $this->{files} } );
@@ -494,8 +494,6 @@ sub _get_svn_version {
             }
 
             # svn info all the files in the manifest
-            my $max = $this->{VERSION} || 0;
-            my $maxd = 0;
             eval {
                 my $log = $this->sys_action( 'svn', 'info', @files );
                 my $getDate = 0;
@@ -524,12 +522,12 @@ sub _get_svn_version {
             if ($@) {
                 print STDERR "WARNING: Failed to shell out to svn: $@";
             }
-            $this->{DATE} =
-              Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
-            my $day = $this->{DATE};
-            $day =~ s/T.*//;
-            $this->{VERSION} = "$max ($day)";
         }
+        $this->{DATE} =
+          Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
+        my $day = $this->{DATE};
+        $day =~ s/T.*//;
+        $this->{VERSION} = "$max ($day)";
     }
     return $this->{VERSION};
 }
