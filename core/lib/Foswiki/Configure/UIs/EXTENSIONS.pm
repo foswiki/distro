@@ -27,10 +27,10 @@ my $MNAME   = qr/$mnamess/i;
 my %N2M;
 foreach ( 0 .. $#MNAMES ) { $N2M{ $MNAMES[$_] } = $_; }
 
-# Convert a date in the format dd Mmm yyyy to a unique integer
+# Convert a date in the formats dd mm yyyy or dd Mmm yyyy to a unique integer
 sub d2n {
     my ( $d, $m, $y ) = @_;
-    return ( $y * 12 + $N2M{ lc($m) } ) * 31 + $d;
+    return ( $y * 12 + $m ) * 31 + $d;
 }
 
 # Download the report page from the repository, and extract a hash of
@@ -142,20 +142,20 @@ sub ui {
                         $ext->{cssclass} = 'uptodate';
                     }
                     elsif ( $ext->{installedVersion} =~
-                        /^\s*(\d+)\.(\d+)(?:\.(\d+))/ )
+                        /^\s*v?(\d+)\.(\d+)(?:\.(\d+))/ )
                     {
 
-                        # X.Y.Z
+                        # X.Y, X.Y.Z, vX.Y, vX.Y.Z
                         # Combine into one number; allows up to 1000
                         # revs in each field
                         my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
                         $text = 'Re-install';
                         $ext->{cssclass} = 'uptodate';
-                        if ( $ext->{version} =~ /^\s*(\d+)\.(\d+)(?:\.(\d+))/ )
+                        if ( $ext->{version} =~ /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
                         {
 
                             # Compatible version number
-                            my $arev = ( $1 * 1000 + $2 ) * 1000 + $3;
+                            my $arev = ( $1 * 1000 + $2 ) * 1000 + ($3 || 0);
                             if ( $arev > $irev ) {
                                 $text = 'Upgrade';
                                 $ext->{cssclass} = 'upgrade';
@@ -194,12 +194,12 @@ sub ui {
                         /(\d{1,2}) ($MNAME) (\d{4})/ ) {
 
                         # dd Mmm yyyy date
-                        my $idate = d2n( $1, $2, $3 );
+                        my $idate = d2n( $1, $N2M{lc($2)}, $3 );
                         $text = 'Re-install';
                         $ext->{cssclass} = 'uptodate';
                         if ( $ext->{version} =~
                                /(\d{1,2}) ($MNAME) (\d{4})/ ) {
-                            my $adate = d2n( $1, $2, $3 );
+                            my $adate = d2n( $1, $N2M{lc($2)}, $3 );
                             if ( $adate > $idate ) {
                                 $text = 'Upgrade';
                                 $ext->{cssclass} = 'upgrade';
