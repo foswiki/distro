@@ -44,6 +44,7 @@ my $PATTERN_EDITTABLEPLUGIN = $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_
 my $PATTERN_TABLEPLUGIN = $Foswiki::Plugins::EditTablePlugin::Data::PATTERN_TABLEPLUGIN;
 my $PATTERN_TABLE_ROW_FULL  = qr'^(\s*)\|.*\|\s*$'o;
 my $PATTERN_TABLE_ROW       = qr'^(\s*)\|(.*)'o;
+my $PATTERN_SPREADSHEETPLUGIN_CALC  = qr'%CALC(?:{(.*)})?%'o;
 my $MODE                    = {
     READ      => ( 1 << 1 ),
     EDIT      => ( 1 << 2 ),
@@ -96,7 +97,8 @@ sub prepareForView {
     my $isEditing = defined $query->param('etedit')
       && defined $query->param('ettablenr');
 
-    unless ($isEditing) {
+	
+    if (!$isEditing) {
         handleTmlInViewMode(@_);
     }
 }
@@ -1240,6 +1242,7 @@ sub inputElement {
         my $isHeader = 0;
         $isHeader = 1 if ( $theValue =~ s/^\s*\*(.*)\*\s*$/$1/o );
         $text = $theValue;
+        $text =~ s/($PATTERN_SPREADSHEETPLUGIN_CALC)/handleSpreadsheetFormula($1)/geox;
 
         # To optimize things, only in the case where a read-only column is
         # being processed (inside of this unless() statement) do we actually
@@ -1613,6 +1616,30 @@ sub stripCommentsFromRegex {
 
     ( my $cleanRegex = $inRegex ) =~ s/\s*(.*?)\s*(#.*?)*(\r|\n|$)/$1/go;
     return $cleanRegex;
+}
+
+=pod
+
+StaticMethod _handleSpreadsheetFormula( $text ) -> $htmlTextfield
+
+Puts a SpreadSheetPlugin formula inside a read-only textfield to limit the screen size and keep it visible.
+Should be done only for label fields because the text is otherwise not editable.
+
+=cut
+
+sub handleSpreadsheetFormula {
+    my ( $inFormula ) = @_;
+
+	my $textfield = CGI::textfield(
+		{
+			class    => 'foswikiInputFieldReadOnly',
+			size     => 12,
+			value    => $inFormula,
+			readonly => 'readonly',
+			style    => 'font-weight:bold;',
+		}
+	);
+	return $textfield;
 }
 
 1;
