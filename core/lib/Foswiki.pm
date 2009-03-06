@@ -1240,7 +1240,6 @@ sub mapToIconFileName {
             return $default || $fileName;
         }
     }
-die ($this->{_ICONMAP}->{$fileExt} || $default ) if $fileName =~ /sniff/;
 
     return $this->{_ICONMAP}->{$fileExt} || $default || 'else';
 }
