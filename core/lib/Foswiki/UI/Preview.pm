@@ -93,7 +93,8 @@ sub preview {
     my $redirectTo = $query->param('redirectto') || '';
     $tmpl =~ s/%REDIRECTTO%/$redirectTo/go;
 
-    $tmpl =~ s/%FORMTEMPLATE%/$formName/g if $formName;
+    $formName ||= '';
+    $tmpl =~ s/%FORMTEMPLATE%/$formName/g;
 
     my $parent = $meta->get('TOPICPARENT');
     $parent = $parent->{name} if ($parent);
