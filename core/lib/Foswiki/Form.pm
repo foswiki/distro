@@ -55,7 +55,8 @@ reads it from the form definition topic on disc.
      the form definition topic. Note that this array should not be modified
      again after being passed into this constructor (it is not copied).
 
-May throw Foswiki::OopsException
+If the form cannot be read, will return undef to allow the caller to take
+appropriate action.
 
 =cut
 
@@ -71,7 +72,7 @@ sub new {
       Foswiki::Sandbox::untaint( $form, \&Foswiki::Sandbox::validateTopicName );
 
     unless ( $web && $form ) {
-        throw Error::Simple("Invalid form name");
+        return undef;
     }
 
     my $this = $session->{forms}->{"$web.$form"};
