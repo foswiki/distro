@@ -126,9 +126,9 @@ This plugin is pre-installed with your Foswiki release. You should not have to i
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 1.037 (16 Dec 2008) |
+|  Plugin Version: | 1.038 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
 |  16 Dec 2008 | 1.037 Foswiki version |
 |  30 Sep 2008 | 1.035 Fix sorting of attachment date column.  |
@@ -171,7 +171,5 @@ This plugin is pre-installed with your Foswiki release. You should not have to i
 |  Other Dependencies: | none |
 |  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
----
-*Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.StandardColors
