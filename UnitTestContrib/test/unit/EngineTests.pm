@@ -274,7 +274,7 @@ sub test_post_param_multi {
     $this->checkParam( $req, $result );
 }
 
-sub test_post_file {
+sub disabled_test_post_file {
     my $this = shift;
 
     require Carp;
