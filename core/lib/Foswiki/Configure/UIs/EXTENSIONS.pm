@@ -104,21 +104,10 @@ sub ui {
               @tableHeads )
     );
     foreach my $key ( sort keys %$exts ) {
-        my $ext     = $exts->{$key};
-        my $row     = '';
-        my $version = '';
+        my $ext = $exts->{$key};
+        my $row = '';
 
-
-        my @classes = ( $rows % 2 ? 'odd' : 'even' );
         foreach my $f (@tableHeads) {
-
-            if ( $f eq 'version' && $ext->{$f} ) {
-
-                # strip out the date
-                $ext->{$f} =~ s/(\d+)\s\((.*)\)/$1/;
-                $version = $ext->{$f};
-            }
-
             my $text;
             if ( $f eq 'install' ) {
                 my @script     = File::Spec->splitdir( $ENV{SCRIPT_NAME} );
@@ -138,8 +127,8 @@ sub ui {
 
                         # Unexpanded, assume pseudo-installed
                         $link = '';
-                        $text = '(pseudo-installed)';
-                        $ext->{cssclass} = 'uptodate';
+                        $text = 'pseudo-installed';
+                        $ext->{cssclass} = 'pseudoinstalled';
                     }
                     elsif ( $ext->{installedVersion} =~
                         /^\s*v?(\d+)\.(\d+)(?:\.(\d+))/ )
@@ -150,7 +139,7 @@ sub ui {
                         # revs in each field
                         my $irev = ( $1 * 1000 + $2 ) * 1000 + $3;
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'uptodate';
+                        $ext->{cssclass} = 'reinstall';
                         if ( $ext->{version} =~ /^\s*v?(\d+)\.(\d+)(?:\.(\d+))?/ )
                         {
 
@@ -167,7 +156,7 @@ sub ui {
                         # SVN rev number
                         my $gotrev = $1;
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'uptodate';
+                        $ext->{cssclass} = 'reinstall';
                         if ( $ext->{version} =~ /^\s*(\d+)\s/ ) {
                             my $availrev = $1;
                             if ( $availrev > $gotrev ) {
@@ -181,7 +170,7 @@ sub ui {
                         # ISO date
                         my $idate = d2n( $3, $2, $1 );
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'uptodate';
+                        $ext->{cssclass} = 'reinstall';
                         if ( $ext->{version} =~  /(\d{4})-(\d\d)-(\d\d)/ ) {
                             my $adate = d2n( $3, $2, $1 );
                             if ( $adate > $idate ) {
@@ -196,7 +185,7 @@ sub ui {
                         # dd Mmm yyyy date
                         my $idate = d2n( $1, $N2M{lc($2)}, $3 );
                         $text = 'Re-install';
-                        $ext->{cssclass} = 'uptodate';
+                        $ext->{cssclass} = 'reinstall';
                         if ( $ext->{version} =~
                                /(\d{1,2}) ($MNAME) (\d{4})/ ) {
                             my $adate = d2n( $1, $N2M{lc($2)}, $3 );
@@ -214,16 +203,19 @@ sub ui {
             }
             else {
                 $text = $ext->{$f} || '-';
+                $text =~ s/!(\w+)/$1/go; # remove ! escape syntax from text
                 if ( $f eq 'topic' ) {
                     my $link = $ext->{data} . $ext->{topic};
                     $text = CGI::a( { href => $link }, $text );
                 }
+=pod
                 elsif ($f eq 'image'
                     && $ext->{namespace}
                     && $ext->{namespace} ne 'Foswiki' )
                 {
                     $text = "$text ($ext->{namespace})";
                 }
+=cut
             }
             my %opts = ( valign => 'top' );
             if ( $ext->{namespace} && $ext->{namespace} ne 'Foswiki' ) {
@@ -231,17 +223,20 @@ sub ui {
             }
             $row .= CGI::td( \%opts, $text );
         }
-        push( @classes, 'patternAccessKeyInfo', $ext->{cssclass} )
-          if ($ext->{cssclass});
-        push( @classes, 'twikiExtension' )
-          if $ext->{installedVersion} &&
-            $ext->{installedVersion} =~ /\(TWiki\)/;
+        my @classes = ( $rows % 2 ? 'odd' : 'even' );
+        if ( $ext->{installedVersion} ) {
+            push @classes, 'installed';
+            push( @classes, $ext->{cssclass} ) if ($ext->{cssclass}); 
+            push @classes, 'twikiExtension'
+              if $ext->{installedVersion} =~ /\(TWiki\)/;
+        }
         $table .= CGI::Tr( { class => join( ' ', @classes ) }, $row );
         $rows++;
     }
     $table .= CGI::Tr(
-        CGI::th(
-            { colspan => scalar @tableHeads },
+        { class => 'patternAccessKeyInfo' },
+        CGI::td(
+            { colspan => "7" },
             $installed
               . ' extension'
               . ( $installed == 1 ? '' : 's' )
@@ -324,6 +319,8 @@ __DATA__
 # file as follows:
 #
 # Copyright (C) 2000-2006 TWiki Contributors. All Rights Reserved.
+# TWiki Contributors are listed in the AUTHORS file in the root
+# of this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

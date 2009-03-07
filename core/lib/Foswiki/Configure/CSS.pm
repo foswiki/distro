@@ -218,16 +218,17 @@ table.extensionsTable td {
 	line-height:1.2em;
 }
 table.extensionsTable .odd {
-	background:#fff; /*f6fafc*/
 }
 table.extensionsTable .even {
-	background:#fff;
 }
-table.extensionsTable .uptodate {
+table.extensionsTable .reinstall {
 	background:#e8f9e8;
 }
 table.extensionsTable .upgrade {
 	background:#fff0f2;
+}
+table.extensionsTable .pseudoinstalled {
+	background:#f2f2f2;
 }
 table.extensionsTable .installed a:link,
 table.extensionsTable .installed a:visited {
@@ -236,5 +237,5 @@ table.extensionsTable .installed a:visited {
 
 /* Used from EXTENSIONS when a non-foswiki extension is found */
 .alienExtension {
-	background:#fae0e0;
+	background:#ffffd6;
 }
