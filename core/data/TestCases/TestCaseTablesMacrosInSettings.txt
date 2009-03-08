@@ -2,6 +2,8 @@
 ---+ !TablePlugin and !EditTablePlugin test case - mixed order of EDITTABLE and TABLE tags
 _combined with macros_
 
+Description: Manual test of the combinations of TABLE and EDITTABLE macros with advanced tables and with the option strings defined as macros which again contain other macros
+
    * Set TABLESETTING = columnwidths="%ENCODE{"80"}% ,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"
    * Set EDITTABLESETTING = format="|text,10|text,10|text,%ENCODE{"3"}%|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" 
 

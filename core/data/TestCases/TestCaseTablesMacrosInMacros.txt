@@ -1,6 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
 ---+ !TablePlugin and !EditTablePlugin test case - mixed order of EDITTABLE and TABLE tags
 
+Description: Manual test of the combinations of TABLE and EDITTABLE macros with advanced tables and with the option strings containing other macros
+
 ---++ Test steps
 
    * All 4 tables look exactly the same
