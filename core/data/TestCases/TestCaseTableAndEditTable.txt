@@ -1,0 +1,43 @@
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+---+ Table followed by Editable table with lots of CALC
+
+
+---++ Test Steps
+
+   * Check that the top table has column widths 200, 150, 400 
+   * Check that all CALC results look resonable. The top table creates values used at the bottom table
+   * Edit the second table using !EditTablePlugin feature.
+      * Check that the CALC still calculates values in the top table
+      * Check that all CALCs are shown raw in the edited table
+      * Save the table without esiting anything and check in raw view that all the CALCs are preserved and not replaced by static text
+   * Edit the table again and add a row
+      * Check that the new row is added just before the footer row and not below it.
+      * Fill in some text and numbers like the rows above
+      * Save the table and check that the new row also contains the CALCs like the other rows
+      * Check we still have a valid footer row
+
+---++ Defining Table
+
+%TABLE{columnwidths="200,150,400"}%
+| *Item* | *Cost (USD)* | *Comments* |
+| Mechanics | 600 | All mechanical parts %CALC{"$SET(Mechanics,$T(R$ROW():C2))"}% |
+| Board A | 400 | Main board %CALC{"$SET(Mainbd,$T(R$ROW():C2))"}% |
+| Board B | 350 | Controller board %CALC{"$SET(Controlbd,$T(R$ROW():C2))"}% |
+| PSU | 300 | Power Supply  %CALC{"$SET(PSU,$T(R$ROW():C2))"}% |
+| Filter | 700 | Noise filter %CALC{"$SET(Filter,$T(R$ROW():C2))"}% |
+| Package | 200 | Enclosure %CALC{"$SET(Package,$T(R$ROW():C2))"}%  |
+
+---++ Cost of Items
+
+%TABLE{columnwidths="%ENCODE{"80"}%,50,150,50,50,50,50,50,70,70,50" dataalign="left,center,left,center,center,center,center,center,center,center,right,center" headeralign="left,center,left,center,center,center,center,center,center,center,right,center" headerrows="1"  footerrows="1"}% 
+%EDITTABLE{format="|text,10|text,%ENCODE{"3"}%|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,3|label,0,$percntCALC{$quot$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )$quot}$percnt|text,5|"}%
+| *Customer* | *Pass* | *Purpose* | *Qty* | *Mech Parts* | *Main bd* | *Control bd* | *PSU* | *Filter* | *Package* | *Cost (USD)* | *When (Q)* |
+| Eng A | P1 | Proto test | 3 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |
+| Eng B | P1 | Proto test | 2 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |
+| SW Eng | P1 | Proto test | 3 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |
+| Controlbd | P1 | Manuf test | 2 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |
+| Total | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUM($ABOVE())"}%* | |
+
+
+
+In the table above the CALC in edit mode is pretty annoying because it makes the columns far too wide. Future feature to check for.

@@ -1,0 +1,23 @@
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+---+ !EditTablePlugin with a combination of all field types
+
+---++ Test steps
+
+   * Check that the table looks normal and that there is a date and time in 2nd column that is now.
+   * Edit the table
+   * Check that you have one of each edit table type.
+   * Check that the first column gets a new row number. And that the row number is correct excluding the header from the count.
+   * Check that the 2nd column says "init"
+   * Check that the 3rd column says %<nop>SERVERTIME{"$day $mon $year $hour:$min"}% and not a static text
+   * Check that the last column shows a timestamp which is static text
+   * Save the table.
+   * Edit the table again. Check that the 3rd column is still %<nop>SERVERTIME{"$day $mon $year $hour:$min"}% and not a static text
+
+
+%EDITTABLE{ format="| row, -1 | text, 20, init | textarea,4x20, $percntSERVERTIME{$quot$day $mon $year $hour:$min$quot}$percnt | select, 1, one, two, three, four | radio, 3,:-),:-I,:-( | checkbox, 2, A, B, C, D | label, 0, %SERVERTIME{"$day $mon $year $hour:$min"}% |" changerows="on" }%
+| *No* | *Text field* | *Text area* | *Drop down* | *Mood* | *Check* | *Timestamp* |
+| 1 | init | %SERVERTIME{"$day $mon $year $hour:$min"}% | two | :-I | A | 08 Mar 2009 15:56 |
+| 2 | Hello | %SERVERTIME{"$day $mon $year $hour:$min"}% | two | :-( | A , C , D | 08 Mar 2009 15:57 |
+
+
+end of test

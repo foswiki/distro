@@ -1,0 +1,18 @@
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+---+ !EditTablePlugin and text areas tests
+
+---++ Test steps
+
+   * In the first table verify before you edit that the text in the right column is 6 lines of text
+   * Verify that the text is rendered as normal, normal, URL shown as link, normal, italic, and bold
+   * Edit the table. Make sure there is no leading or trailing space from previous bugs. Delete leading and trailing space
+   * Save
+   * Verify that the text is still rendered correctly
+   * Edit again and check that no new space is added
+   * Save and check rendering again.
+   * Edit and save several times
+   * Check in raw mode that the lines are separated by %lt;br /&gt; and no additional spaces
+
+
+%EDITTABLE{format="|text,10|textarea,10x40|"}%
+| Shortinfo: | blablabla<br />there's still a bug<br />http://dr.dk<br />lurking around<br />_italic_<br />*bold* |

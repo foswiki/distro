@@ -1,0 +1,59 @@
+%META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
+---+ !TablePlugin and !EditTablePlugin test case - mixed order of EDITTABLE and TABLE tags
+
+---++ Test steps
+
+   * All 4 tables look exactly the same
+   * All 4 tables can be edited
+   * All 4 tables have the column widths matching the settings in TABLE tag
+   * All 4 tables can be edited and saved and the CALC are not saved as their values
+   * The first column in view mode is 80 wide same as 2nd column
+   * The 3rd column in edit mode is a 3 character wide text field
+   * When editing one table the 3 others look like normal viewing.
+
+The purpose of ENCODE is to use a Macro with full {} syntax but without actually changing the text inside it.
+
+---++ TABLE before EDITTABLE - two lines
+
+%TABLE{columnwidths="%ENCODE{"80"}%,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%
+%EDITTABLE{format="|text,10|text,10|text,%ENCODE{"3"}%|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%
+| *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
+| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
+
+---++ EDITTABLE before TABLE - two lines
+
+%EDITTABLE{format="|text,10|text,10|text,%ENCODE{"3"}%|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%
+%TABLE{columnwidths="%ENCODE{"80"}%,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%
+| *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
+| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
+
+---++ TABLE before EDITTABLE - one line
+
+%TABLE{columnwidths="%ENCODE{"80"}%,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}% %EDITTABLE{format="|text,10|text,10|text,%ENCODE{"3"}%|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }%
+| *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
+| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
+
+
+---++ EDITTABLE before TABLE - one line
+
+%EDITTABLE{format="|text,10|text,10|text,%ENCODE{"3"}%|text,15|text,15|text,3|text,3|text,3|text,3|text,3|text,3|text,10|label,0|text,5|" }% 
+%TABLE{columnwidths="%ENCODE{"80"}%,80,50,110,150,50,50,50,50,50,70,70,50" dataalign="left,left,center,left,left,center,center,center,center,center,center,right,right,center" headeralign="center" headerrows="1" footerrows="1" headerislabel="on"}%
+| *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
+| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
+<nop>
