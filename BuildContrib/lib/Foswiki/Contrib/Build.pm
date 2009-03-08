@@ -307,7 +307,7 @@ sub new {
         my $cells =
           CGI::th('Name') . CGI::th('Version') . CGI::th('Description');
         $this->{DEPENDENCIES} =
-          CGI::table( { border => 1 }, CGI::Tr($cells) . $deptable );
+          CGI::table( { border => 1, class => 'foswikiTable' }, CGI::Tr($cells) . $deptable );
     }
 
     $this->{VERSION} = $this->_get_svn_version();
@@ -488,7 +488,7 @@ sub _get_svn_version {
             while ( $idx < $limit ) {
                 my $file =
                   ${ $this->{files} }[ $idx++ ]
-                  ;    #accessing ->{name} directly creats it.
+                  ;    #accessing ->{name} directly creates it.
                 push( @files,
                     $this->{basedir} . '/' . ( $file->{name} || '' ) );
             }
