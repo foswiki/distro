@@ -1,6 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
 ---+ !EditTablePlugin and text areas tests
 
+Description: Manual test testareas in %SYSTEMWEB%.EditTablePlugin. Tests that newlines in textareas are coded properly and that rendering of TML and html links is correct.
+
 ---++ Test steps
 
    * In the first table verify before you edit that the text in the right column is 6 lines of text

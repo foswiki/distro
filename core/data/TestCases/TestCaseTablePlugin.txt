@@ -1,6 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.1" version="$Rev$"}%
 
 ---+!! %SYSTEMWEB%.TablePlugin tests
+
+Description: Visual test of most of the features in %SYSTEMWEB%.TablePlugin
 
 %TOC%
 

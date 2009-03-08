@@ -1,6 +1,8 @@
 %META:TOPICINFO{author="ProjectContributor" date="1236525481" format="1.1" version="$Rev: 1340 $"}%
 ---+ !EditTablePlugin with a combination of all field types
 
+Description: Manual test of cell types and macro expansion in %SYSTEMWEB%.EditTablePlugin
+
 ---++ Test steps
 
    * Check that the table looks normal and that there is a date and time in 2nd column that is now.
