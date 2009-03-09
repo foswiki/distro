@@ -12,6 +12,7 @@ Description: Manual test of the combinations of TABLE and EDITTABLE macros with 
    * The first column in view mode is 80 wide same as 2nd column
    * The 3rd column in edit mode is a 3 character wide text field
    * When editing one table the 3 others look like normal viewing.
+   * In all 4 tables edit and add a row. The row must be added BEFORE the footer row
 
 The purpose of ENCODE is to use a Macro with full {} syntax but without actually changing the text inside it.
 
