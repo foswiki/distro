@@ -64,7 +64,7 @@ sub new {
     my ( $class, $session, $web, $form, $def ) = @_;
 
     ( $web, $form ) = $session->normalizeWebTopicName( $web, $form );
-print STDERR "form - $form\n";
+
     # Validate
     $web =
       Foswiki::Sandbox::untaint( $web, \&Foswiki::Sandbox::validateWebName );
