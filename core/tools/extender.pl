@@ -296,6 +296,7 @@ DONE
     my ( $ok, $msg ) = check_dep($dep);
 
     if ($ok) {
+        print $msg;
         return 1;
     }
 
