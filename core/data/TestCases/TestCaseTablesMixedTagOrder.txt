@@ -9,6 +9,7 @@ This test contains 4 identical tables all with both TABLE and EDITTABLE tags. Th
 
    * Verify that the 4 tables are identical with content and columnwidths
    * Edit each of the 4 tables using the edit table feature. Verify that they all 4 behave the same way
+   * In all 4 tables edit and add a row. The row must be added BEFORE the footer row
    
 
 ---++ TABLE before EDITTABLE - two lines
