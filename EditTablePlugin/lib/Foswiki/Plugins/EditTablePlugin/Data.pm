@@ -10,11 +10,11 @@ Helper class parses tables to take out table texts, and stores table cell data.
 
 =cut
 
-my $RENDER_HACK = "\n<nop>\n";
-my $PLACEHOLDER_ESCAPE_TAG       = 'E_T_P_NOP';
+my $RENDER_HACK            = "\n<nop>\n";
 
-our $PATTERN_EDITTABLEPLUGIN = qr'%EDITTABLE{(.*)}%'o; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _placeTABLEtagOnSeparateLine
-our $PATTERN_TABLEPLUGIN     = qr'%TABLE(?:{(.*?)})?%'o;
+our $PATTERN_EDITTABLEPLUGIN = qr'(%EDITTABLE{([^\n]*)}%)'o
+  ; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _placeTABLEtagOnSeparateLine
+our $PATTERN_TABLEPLUGIN = qr'%TABLE(?:{(.*?)})?%'o;
 
 =pod
 
@@ -47,87 +47,63 @@ in the array represents the second table found on the topic page, etc.
 =cut
 
 sub parseText {
-
-    my ( $this, $topicText ) = @_;
+    my ( $this, $inText ) = @_;
 
     my $tableNum = 1;    # Table number (only count tables with EDITTABLE tag)
     my @tableMatrix;     # Currently parsed table.
 
-    my $inEditTable    = 0;    # Flag to keep track if in an EDITTABLE table
-    my $insidePRE      = 0;
-    my $insideTABLE    = 0;
-    my $line           = '';
-    my @row            = ();
-    my @tableLines     = ();
-    my $editTableTag   = '';
-    my $storedTableRow = '';
+    my $isInEditTable = 0;     # Flag to keep track if in an EDITTABLE table
+    my $isInsidePRE   = 0;
+    my @tableLines    = ();    # list of table lines inside edit table
+    my $editTableData
+      ;    # holds data for each edit table: pretag, tag, posttag, text
 
     my $tablesTakenOutText = '';
     my $editTableObjects;
 
-    $topicText =~
-      s/\r//go;    # strip out all \r chars (may be pasted into a table cell)
-    $topicText =~ s/\\\n//go;    # Join lines ending in "\"
-    $topicText .= $RENDER_HACK
-      ;    # appended stuff is a hack to handle EDITTABLE correctly if at end
+    # appended stuff is a hack to handle EDITTABLE correctly if at end
+    $inText .= $RENDER_HACK;
 
-    $topicText =~ s/%EDITTABLE{(.*)}%/&_placeTABLEtagOnSeparateLine($1)/ge;
-	
-    foreach ( split( /\n/, $topicText ) ) {
+    # put TABLE tag (if any) on a separate line for easier parsing
+    $inText =~ s/$PATTERN_EDITTABLEPLUGIN/&_placeTABLEtagOnSeparateLine($2)/ge;
+
+    foreach ( split( /\n/, $inText ) ) {
 
         my $doCopyLine      = 1;
         my $hasEditTableTag = 0;
 
         # change state:
-        m#<(?:pre|verbatim)\b#i && ( $insidePRE++ );
-        m#</(?:pre|verbatim)>#i && ( $insidePRE-- );
+        m#<(?:pre|verbatim)\b#i && ( $isInsidePRE++ );
+        m#</(?:pre|verbatim)>#i && ( $isInsidePRE-- );
 
         # If we are in a pre or verbatim block, ignore it
-        next if $insidePRE;
+        if ($isInsidePRE) {
+            $tablesTakenOutText .= "$_\n";
+            next;
+        }
 
-        if (/$PATTERN_EDITTABLEPLUGIN/) {
-            if (/$PATTERN_TABLEPLUGIN/) {
+        if (/(.*?)$PATTERN_EDITTABLEPLUGIN([^\n]*)/) {
 
-                # EDITTABLE and TABLE on one line (order does not matter)
-                # NO LONGER NEEDED? _putTmpTagInTableTagLine($_);
-            }
-            elsif ( $storedTableRow ne '' ) {
+            $isInEditTable = 1;
+            $editTableData->{'pretag'}  .= $1 if $1;
+            $editTableData->{'tag'}     .= $2 if $2;
+            $editTableData->{'params'}  .= $3 if $3;
+            $editTableData->{'posttag'} .= $4 if $4;
 
-                # only EDITTABLE
-                # store the TABLE tag from the previous line together
-                # with the current EDITTABLE tag
-                # NO LONGER NEEDED? _putTmpTagInTableTagLine($storedTableRow);
-                $editTableTag .= $storedTableRow . "\n";
-                $storedTableRow = '';
-            }
-            $inEditTable = 1;
-            $tablesTakenOutText .= "<!--edittable$tableNum-->";
-            $doCopyLine = 0;
-            $editTableTag .= $_;
+            # create stub to be replaced after table parsing
+            $_               = "<!--%EDITTABLESTUB{$tableNum}%-->";
             $hasEditTableTag = 1;
         }
-        elsif ( $inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
+        elsif ( $isInEditTable && /$PATTERN_TABLEPLUGIN/ ) {
 
-            # TABLE on the line after EDITTABLE
-            # we will include it in the editTableTag
-            # NO LONGER NEEDED? _putTmpTagInTableTagLine($_);
+            # TABLE on a new line after EDITTABLE
             $doCopyLine = 0;
-            $editTableTag .= "\n" . $_;
+            $editTableData->{'posttag'} .= "\n"
+              if defined $editTableData->{'posttag'};
+            $editTableData->{'posttag'} .= $_;
             $hasEditTableTag = 1;
         }
-        elsif ( !$inEditTable && /$PATTERN_TABLEPLUGIN/ ) {
-
-         # this might be TABLE on the line before EDITTABLE, but we are not sure
-            $storedTableRow = $_;
-            $doCopyLine     = 0;
-        }
-        elsif ( $storedTableRow ne '' ) {
-
-# we had stored the TABLE tag, but no EDITTABLE tag was just below it; add it to the text and clear
-            $tablesTakenOutText .= $storedTableRow . "\n";
-            $storedTableRow = '';
-        }
-        if ( $inEditTable && !$hasEditTableTag ) {
+        if ( $isInEditTable && !$hasEditTableTag ) {
 
             if (/^\s*\|.*\|\s*$/) {
 
@@ -135,10 +111,9 @@ sub parseText {
                 push( @tableLines, $_ );
 
                 # inside | table |
-                $insideTABLE = 1;
-                $line        = $_;
+                my $line = $_;
                 $line =~ s/^(\s*\|)(.*)\|\s*$/$2/o;    # Remove starting '|'
-                @row = split( /\|/o, $line, -1 );
+                my @row = split( /\|/o, $line, -1 );
                 _trimCellsInRow( \@row );
                 push( @tableMatrix, [@row] );
 
@@ -146,12 +121,11 @@ sub parseText {
             else {
 
                 # outside | table |
-                if ($insideTABLE) {
+                if ($isInEditTable) {
 
                     # We were inside a table and are now outside of it so
                     # save the table info into the Table object.
-                    $insideTABLE = 0;
-                    $inEditTable = 0;
+                    $isInEditTable = 0;
 
                     if ( @tableMatrix != 0 ) {
 
@@ -163,42 +137,46 @@ sub parseText {
                 else {
 
                     # not (or no longer) inside a table
-                    $doCopyLine  = 1;
-                    $inEditTable = 0;
+                    $doCopyLine    = 1;
+                    $isInEditTable = 0;
                 }
-                my $tableRef;
-                $tableRef->{'text'} = join( "\n", @tableLines );
-                $tableRef->{'tag'} = $editTableTag;
+                $editTableData->{'text'} = join( "\n", @tableLines );
 
-                push( @{$editTableObjects}, $tableRef );
+               # also store everything in one variable so we can deal with TABLE
+                $editTableData->{'pretag'}  ||= '';
+                $editTableData->{'tag'}     ||= '';
+                $editTableData->{'posttag'} ||= '';
+
+                $editTableData->{'tagline'} =
+                    $editTableData->{'pretag'}
+                  . $editTableData->{'tag'}
+                  . $editTableData->{'posttag'};
+                push( @{$editTableObjects}, $editTableData );
                 $tableNum++;
 
-                @tableLines   = ();
-                $editTableTag = '';
+                @tableLines = ();
+                undef $editTableData;
             }
         }
 
         $tablesTakenOutText .= $_ . "\n" if $doCopyLine;
     }    # foreach
 
-    # clean up hack that handles EDITTABLE correctly if at end
-    $tablesTakenOutText =~ s/($RENDER_HACK)+$//go;
-
     if ($Foswiki::Plugins::EditTablePlugin::debug) {
+        use Data::Dumper;
         Foswiki::Func::writeDebug(
-"- EditTablePlugin::parseText; tablesTakenOutText=\n$tablesTakenOutText"
-        );
-        my $text = '';
-        foreach my $eto ( @{$editTableObjects} ) {
-            $text .= "tag=$eto->{tag}\n";
-            $text .= "text=$eto->{text}\n";
-        }
-        Foswiki::Func::writeDebug(
-            "- EditTablePlugin::parseText; editTableObjects=\n$text");
+            "- EditTablePlugin::parseText; editTableObjects="
+              . Dumper($editTableObjects) );
     }
 
-    $this->{tablesTakenOutText} = $tablesTakenOutText;
-    $this->{editTableObjects}   = $editTableObjects;
+    $this->{editTableObjects} = $editTableObjects;
+
+    my $text = $tablesTakenOutText;
+
+    # clean up hack that handles EDITTABLE correctly if at end
+    $text =~ s/$RENDER_HACK$//;
+
+    return $text;
 }
 
 =pod
@@ -212,18 +190,25 @@ Trim any leading and trailing white space and/or '*'.
 sub _trimCellsInRow {
     my ($rowCells) = @_;
     for my $cell ( @{$rowCells} ) {
-        $cell =~ s/^[[:space:]]+//s;    # trim at start
-        $cell =~ s/[[:space:]]+$//s;    # trim at end
+        _trimSpaces($cell);
     }
 }
 
 =pod
-NO LONGER NEEDED?
-sub _putTmpTagInTableTagLine {
-    $_[0] =~
-s/(%TABLE{.*?)(}%)/$1 "START_EDITTABLEPLUGIN_TMP_TAG""END_EDITTABLEPLUGIN_TMP_TAG"$2/;
-}
+
+_trimSpaces( $text ) -> $text
+
+Removes spaces from both sides of the text.
+
 =cut
+
+sub _trimSpaces {
+
+    #my $text = $_[0]
+
+    $_[0] =~ s/^[[:space:]]+//s;    # trim at start
+    $_[0] =~ s/[[:space:]]+$//s;    # trim at end
+}
 
 =pod
 
@@ -232,12 +217,12 @@ Puts %TABLE{}% tags on a new line to better deal with TablePlugin variables: bec
 =cut
 
 sub _placeTABLEtagOnSeparateLine {
-    my ( $tagLine ) = @_;
-		
-	# unprotect TABLE and put in on a new line
-	$tagLine =~ s/%TABLE{/\n%TABLE{/go;
-	
-	return "%EDITTABLE{$tagLine}%";
+    my ($tagLine) = @_;
+
+    # unprotect TABLE and put in on a new line
+    $tagLine =~ s/%TABLE{/\n%TABLE{/go;
+
+    return "%EDITTABLE{$tagLine}%";
 }
 
 =pod

@@ -30,8 +30,9 @@ our $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = '4.18';
+our $RELEASE = '4.19';
 
+our $pluginName   = 'EditTablePlugin';
 our $ENCODE_START = '--EditTableEncodeStart--';
 our $ENCODE_END   = '--EditTableEncodeEnd--';
 our $ASSET_URL    = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
@@ -39,11 +40,9 @@ our $web;
 our $topic;
 our $user;
 our $debug;
-our $query;
 our $usesJavascriptInterface;
 our $viewModeHeaderDone;
 our $editModeHeaderDone;
-our $prefsInitialized;
 
 sub initPlugin {
     ( $topic, $web, $user ) = @_;
@@ -55,7 +54,7 @@ sub initPlugin {
         return 0;
     }
 
-    $query = Foswiki::Func::getCgiQuery();
+    my $query = Foswiki::Func::getCgiQuery();
     if ( !$query ) {
         return 0;
     }
@@ -66,7 +65,6 @@ sub initPlugin {
       Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_JAVASCRIPTINTERFACE');
     $viewModeHeaderDone = 0;
     $editModeHeaderDone = 0;
-    $prefsInitialized   = 0;
 
     # Plugin correctly initialized
     Foswiki::Func::writeDebug(
@@ -76,23 +74,51 @@ sub initPlugin {
     return 1;
 }
 
+=pod
+
+Calls EditTablePlugin::Core::parseTables to lift out tables and put them back later.
+But because tables inside INCLUDEd topics won't expand - beforeCommonTagsHandler is called only once for the parent topic - parseTables needs to get called for included topics separatedly in commonTagsHandler.
+
+We cannot do table parsing in commonTagsHandler because by then the TML has been rendered, and tags like %ICON{pdf}% rendered to their <img ... /> equivalent.
+
+=cut
+
 sub beforeCommonTagsHandler {
     return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/o;
+    Foswiki::Func::writeDebug(
+        "EditTablePlugin::beforeCommonTagsHandler( $web.$topic )")
+      if $debug;
+
     require Foswiki::Plugins::EditTablePlugin::Core;
     Foswiki::Plugins::EditTablePlugin::Core::init();
-    Foswiki::Plugins::EditTablePlugin::Core::prepareForView(@_);
+    Foswiki::Plugins::EditTablePlugin::Core::parseTables( $_[0], $_[1], $_[2] );
 }
 
-sub commonTagsHandler {
-    return unless $_[0] =~ /%EDIT(?:TABLE|CELL){.*}%/o;
+=pod
 
+Calls EditTablePlugin::Core::parseTables for INCLUDEd topics.
+
+=cut
+
+sub commonTagsHandler {
+    return unless $_[0] =~ /%EDIT(?:TABLE|CELL|TABLESTUB){.*}%/o;
+
+    Foswiki::Func::writeDebug(
+        "EditTablePlugin::commonTagsHandler( $web.$topic )")
+      if $debug;
+      
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;
+
+    Foswiki::Plugins::EditTablePlugin::Core::parseTables( $_[0], $_[1], $_[2] );
     Foswiki::Plugins::EditTablePlugin::Core::process( $_[0], $_[1], $_[2],
         $topic, $web );
 }
 
 sub postRenderingHandler {
+    Foswiki::Func::writeDebug(
+        "EditTablePlugin::postRenderingHandler( $web.$topic )")
+      if $debug;
     $_[0] =~ s/$ENCODE_START(.*?)$ENCODE_END/decodeValue($1)/geos;
 }
 
@@ -184,6 +210,12 @@ EOF
     Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN', $header );
 }
 
+=begin TML
+
+If param javscriptinterface="off", adds field to html meta.
+
+=cut
+
 sub addJavaScriptInterfaceDisabledToHead {
     my ($tableNr) = @_;
 
@@ -196,6 +228,12 @@ sub addJavaScriptInterfaceDisabledToHead {
     Foswiki::Func::addToHEAD( 'EDITTABLEPLUGIN_NO_JAVASCRIPTINTERFACE',
         $header );
 }
+
+=begin TML
+
+Adds number of header rows and footer rows to html meta fields.
+
+=cut
 
 sub addHeaderAndFooterCountToHead {
     my ( $headerCount, $footerCount ) = @_;
