@@ -42,28 +42,35 @@ MESSAGE
 }
 chdir $wd;           # Return after loading extender.pl
 
-sub test_check_dep {
+sub test_check_dep_not_perl {
     my ($this) = @_;
-
-    my ( $ok, $message );
 
     # Check an external dependency
     # 0, Module is type external, and cannot be automatically checked.
-    ( $ok, $message ) = Foswiki::Extender::check_dep(
+    my ( $ok, $message ) = Foswiki::Extender::check_dep(
         { type => "external", name => "libpcap", version => "1.0.0" } );
     $this->assert_equals( 0, $ok );
     $this->assert_matches( qr/cannot be automatically checked/, $message );
+}
+
+sub test_check_dep_carp {
+    my ($this) = @_;
 
     # Check a normal instally dependency
     # 1, Carp v1.03 loaded
-    ( $ok, $message ) =
+    my ( $ok, $message ) =
       Foswiki::Extender::check_dep( { type => "perl", name => "Carp" } );
     $this->assert_equals( 1, $ok );
     $this->assert_matches( qr/Carp v.* loaded/, $message );
 
+}
+
+sub test_check_dep_version_too_high {
+    my ($this) = @_;
+
     # Check a normal installed dependency with an absurd high version number
     # 0, HTML::Parser version 21.1 required--this is only version 1.05
-    ( $ok, $message ) = Foswiki::Extender::check_dep(
+    my ( $ok, $message ) = Foswiki::Extender::check_dep(
         { type => "cpan", name => "HTML::Parser", version => "21.1" } );
     $this->assert_equals( 0, $ok );
     $this->assert_matches(
