@@ -72,4 +72,32 @@ sub test_check_dep {
 
 }
 
+sub test_check_dep_version_with_superior {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with an absurd high version number
+    # 0, HTML::Parser version 21.1 required--this is only version 1.05
+    my ( $ok, $message ) = Foswiki::Extender::check_dep(
+        { type => "cpan", name => "HTML::Parser", version => ">=21.1" } );
+    $this->assert_equals( 0, $ok );
+    $this->assert_matches(
+        qr/HTML::Parser version 21\.1 required--this is only version/,
+        $message );
+
+}
+
+sub test_check_dep_version_with_rev {
+    my ($this) = @_;
+
+    # Check a normal installed dependency with an absurd high version number
+    # 0, HTML::Parser version 21.1 required--this is only version 1.05
+    my ( $ok, $message ) = Foswiki::Extender::check_dep(
+        { type => "perl", name => "Foswiki::Contrib::JSCalendarContrib", version => ">=0.961" } );
+    $this->assert_equals( 1, $ok );
+    $this->assert_matches(
+        qr/Foswiki::Contrib::JSCalendarContrib v.* loaded/,
+        $message );
+
+}
+
 1;
