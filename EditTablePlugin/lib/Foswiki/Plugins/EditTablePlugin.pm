@@ -30,7 +30,7 @@ our $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = '4.19';
+our $RELEASE = '4.20';
 
 our $pluginName   = 'EditTablePlugin';
 our $ENCODE_START = '--EditTableEncodeStart--';
@@ -106,7 +106,7 @@ sub commonTagsHandler {
     Foswiki::Func::writeDebug(
         "EditTablePlugin::commonTagsHandler( $web.$topic )")
       if $debug;
-      
+
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;
 

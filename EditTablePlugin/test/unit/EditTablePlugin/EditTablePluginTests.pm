@@ -2138,6 +2138,85 @@ EXPECTED
 
 =pod
 
+Test if saving is keeping <verbatim> tags outside of tables.
+
+=cut
+
+sub test_save_with_encode_param_and_footerrows {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+        Foswiki::Func::getUrlHost()
+      . Foswiki::Func::getPubUrlPath() . '/'
+      . $Foswiki::cfg{SystemWebName};
+
+    my $input = <<INPUT;
+%TABLE{columnwidths="%ENCODE{"80"}%,80" dataalign="left,center" headeralign="left,center" headerrows="1" footerrows="1"}%
+%EDITTABLE{}%
+| *Customer* | *Pass* |
+| A | B |
+| *Customer* | *Pass* |
+INPUT
+    my $query = new Unit::Request(
+        {
+            etedit    => ['on'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    my $twiki = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $twiki;
+
+    $query = new Unit::Request(
+        {
+            etsave    => ['on'],
+            etrows    => ['2'],
+            ettablenr => ['1'],
+        }
+    );
+
+    $query->path_info("/$webName/$topicName");
+
+    Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
+        $input );
+
+    $twiki = new Foswiki( undef, $query );
+    my $response = new Unit::Response;
+    $Foswiki::Plugins::SESSION = $twiki;
+
+    my ( $saveResult, $ecode ) = $this->capture(
+        sub {
+            $response->print(
+                Foswiki::Func::expandCommonVariables(
+                    $input, $this->{test_topic}, $this->{test_web}, undef
+                )
+            );
+        }
+    );
+
+    my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
+
+    my $expected = <<NEWEXPECTED;
+%TABLE{columnwidths="%ENCODE{"80"}%,80" dataalign="left,center" headeralign="left,center" headerrows="1" footerrows="1"}%
+%EDITTABLE{}%
+| *Customer* | *Pass* |
+| A | B |
+| | |
+| *Customer* | *Pass* |
+NEWEXPECTED
+    $this->assert_str_equals( $expected, $newtext, 0 );
+
+    $twiki->finish();
+}
+
+=pod
+
 Tests to add:
 
 test_SETTING_CHANGEROWS
