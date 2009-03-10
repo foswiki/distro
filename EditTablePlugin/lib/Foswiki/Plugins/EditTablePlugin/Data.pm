@@ -10,7 +10,7 @@ Helper class parses tables to take out table texts, and stores table cell data.
 
 =cut
 
-my $RENDER_HACK            = "\n<nop>\n";
+my $RENDER_HACK = "\n<nop>\n";
 
 our $PATTERN_EDITTABLEPLUGIN = qr'(%EDITTABLE{([^\n]*)}%)'o
   ; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _placeTABLEtagOnSeparateLine
@@ -60,6 +60,7 @@ sub parseText {
 
     my $tablesTakenOutText = '';
     my $editTableObjects;
+    my $rowWithTABLEtag = '';
 
     # appended stuff is a hack to handle EDITTABLE correctly if at end
     $inText .= $RENDER_HACK;
@@ -93,6 +94,21 @@ sub parseText {
             # create stub to be replaced after table parsing
             $_               = "<!--%EDITTABLESTUB{$tableNum}%-->";
             $hasEditTableTag = 1;
+
+            if (/$PATTERN_TABLEPLUGIN/) {
+
+                # EDITTABLE and TABLE on one line (order does not matter)
+            }
+            elsif ( $rowWithTABLEtag ne '' ) {
+
+                # only EDITTABLE
+                # store the TABLE tag from the previous line together
+                # with the current EDITTABLE tag
+                $editTableData->{'pretag'} ||= '';
+                $editTableData->{'pretag'} =
+                  $rowWithTABLEtag . "\n" . $editTableData->{'pretag'};
+                $rowWithTABLEtag = '';
+            }
         }
         elsif ( $isInEditTable && /$PATTERN_TABLEPLUGIN/ ) {
 
@@ -102,6 +118,18 @@ sub parseText {
               if defined $editTableData->{'posttag'};
             $editTableData->{'posttag'} .= $_;
             $hasEditTableTag = 1;
+        }
+        elsif ( !$isInEditTable && /$PATTERN_TABLEPLUGIN/ ) {
+
+         # this might be TABLE on the line before EDITTABLE, but we are not sure
+            $rowWithTABLEtag = $_;
+            $doCopyLine      = 0;
+        }
+        elsif ( $rowWithTABLEtag ne '' ) {
+
+# we had stored the TABLE tag, but no EDITTABLE tag was just below it; add it to the text and clear
+            $tablesTakenOutText .= $rowWithTABLEtag . "\n";
+            $rowWithTABLEtag = '';
         }
         if ( $isInEditTable && !$hasEditTableTag ) {
 
@@ -151,6 +179,7 @@ sub parseText {
                     $editTableData->{'pretag'}
                   . $editTableData->{'tag'}
                   . $editTableData->{'posttag'};
+                delete $editTableData->{'tag'};
                 push( @{$editTableObjects}, $editTableData );
                 $tableNum++;
 
