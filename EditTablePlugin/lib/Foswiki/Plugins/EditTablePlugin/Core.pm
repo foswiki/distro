@@ -235,8 +235,6 @@ sub processText {
 		$editTableTag = Foswiki::Func::expandCommonVariables($editTableTag);
 		$editTableTag =~ s/TMP_ETP_STUB_TAG/EDITTABLE/o;
 
-Foswiki::Func::writeDebug("QQQ editTableTag=$editTableTag");
-
         if ( ( $mode & $MODE->{READ} ) || ( $tableNr == $inSaveTableNr ) ) {
 
             $paramTableNr = $query->param('ettablenr')
