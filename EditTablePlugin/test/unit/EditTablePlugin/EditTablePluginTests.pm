@@ -22,7 +22,7 @@ sub set_up {
 
     $this->SUPER::set_up();
 
-    #    $this->{sup} = $this->{twiki}->getScriptUrl(0, 'view');
+    #    $this->{sup} = $this->{session}->getScriptUrl(0, 'view');
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
     $Foswiki::cfg{AllowInlineScript} = 0;
     $Foswiki::cfg{TablePlugin}{Attributes} =
@@ -56,16 +56,14 @@ can see the nops.
 
 sub do_testHtmlOutput {
     my ( $this, $expected, $actual, $doRender ) = @_;
-    my $session   = $this->{twiki};
+    my $session   = $this->{session};
     my $webName   = $this->{test_web};
     my $topicName = $this->{test_topic};
 
     if ($doRender) {
         $actual =
           Foswiki::Func::expandCommonVariables( $actual, $webName, $topicName );
-        $actual =
-          $session->renderer->getRenderedVersion( $actual, $webName,
-            $topicName );
+        $actual = Foswiki::Func::renderText( $actual, $webName, $topicName );
     }
 
     # remove ever changing bgcolors from table cells
@@ -110,7 +108,7 @@ BEFORE AFTER<a name="edittable1"></a>
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
@@ -149,7 +147,7 @@ sub test_render_simple_pre {
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
@@ -184,7 +182,7 @@ sub test_render_simple {
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
@@ -281,8 +279,7 @@ sub test_param_editbutton {
       . Foswiki::Func::getPubUrlPath() . '/'
       . $Foswiki::cfg{SystemWebName};
 
-    $this->{twiki}->{store}
-      ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
+    Foswiki::Func::saveTopic( $webName, $topicName, undef, "XXX" );
 
     my $input    = '%EDITTABLE{editbutton="Edit me"}%';
     my $expected = <<END;
@@ -297,7 +294,7 @@ sub test_param_editbutton {
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
 
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
@@ -1495,8 +1492,7 @@ sub test_param_buttonrow_top {
       . Foswiki::Func::getPubUrlPath() . '/'
       . $Foswiki::cfg{SystemWebName};
 
-    $this->{twiki}->{store}
-      ->saveTopic( $this->{twiki}->{user}, $webName, $topicName, "XXX" );
+    Foswiki::Func::saveTopic( $webName, $topicName, undef, "XXX" );
 
     my $input    = '%EDITTABLE{buttonrow="top"}%';
     my $expected = <<END;
@@ -1511,7 +1507,7 @@ sub test_param_buttonrow_top {
 </div><!-- /editTable -->
 END
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
@@ -1729,8 +1725,7 @@ sub test_INCLUDE_view {
 
     # Create topic to include
     my $includedTopic = "TopicToInclude";
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, $includedTopic, <<THIS);
+    Foswiki::Func::saveTopic( $this->{test_web}, $includedTopic, undef, <<THIS);
 %EDITTABLE{ format="| row, -1 | text, 20, init | select, 1, not started, starting, ongoing, completed | checkbox, 3,:-),:-I,:-( | date, 20 |" changerows="on" quietsave="on"}%
 | *URL* | *Name* | *By* | *Comment* | *Timestamp* |
 | 1 | Unified field theory | not started | :-) , :-I , :-( | 1 Apr 2012 |
@@ -1793,7 +1788,7 @@ THIS
 END
 
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
     $this->do_testHtmlOutput( $expected, $result, 0 );
 }
 
@@ -1970,7 +1965,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_last {
 | 3 Jan 2008 | 22 Jan 2008 | Benny | Vacation | :-) | %EXTRACT% |';
 
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
 
     my $expected = <<EXPECTED;
  <ul>
@@ -2042,7 +2037,7 @@ sub test_TABLE_on_same_line_as_EDITTABLE_TABLE_first {
 | 3 Jan 2008 | 22 Jan 2008 | Benny | Vacation | :-) | %EXTRACT% |';
 
     my $result =
-      $this->{twiki}->handleCommonTags( $input, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
 
     my $expected = <<EXPECTED;
  <ul>

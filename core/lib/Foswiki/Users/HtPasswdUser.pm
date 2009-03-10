@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::Users::HtPasswdUser
@@ -43,8 +44,9 @@ sub new {
         require Digest::SHA1;
         import Digest::SHA1 qw( sha1 );
     }
-    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' ) &&
-          ($Foswiki::cfg{DetailedOS} eq 'darwin')) {
+    elsif (( $Foswiki::cfg{Htpasswd}{Encoding} eq 'crypt-md5' )
+        && ( $Foswiki::cfg{DetailedOS} eq 'darwin' ) )
+    {
         print STDERR "ERROR: crypt-md5 FAILS on OSX (no fix in 2008)\n";
         throw Error::Simple("ERROR: crypt-md5 FAILS on OSX (no fix in 2008)");
     }
@@ -107,27 +109,30 @@ sub _readPasswd {
     if ( !-e $Foswiki::cfg{Htpasswd}{FileName} ) {
         return $data;
     }
-    open( IN_FILE, "<$Foswiki::cfg{Htpasswd}{FileName}" )
+    my $IN_FILE;
+    open( $IN_FILE, "<$Foswiki::cfg{Htpasswd}{FileName}" )
       || throw Error::Simple(
         $Foswiki::cfg{Htpasswd}{FileName} . ' open failed: ' . $! );
     my $line = '';
-    while ( defined( $line = <IN_FILE> ) ) {
+    while ( defined( $line = <$IN_FILE> ) ) {
         if ( $Foswiki::cfg{Htpasswd}{Encoding} eq 'md5' ) {    # htdigest format
             if ( $line =~ /^(.*?):(.*?):(.*?)(?::(.*))?$/ ) {
+
                 # implicit untaint OK; data from htpasswd
                 $data->{$1}->{pass} = $3;
                 $data->{$1}->{emails} = $4 || '';
             }
         }
-        else {                                               # htpasswd format
+        else {                                                 # htpasswd format
             if ( $line =~ /^(.*?):(.*?)(?::(.*))?$/ ) {
+
                 # implicit untaint OK; data from htpasswd
                 $data->{$1}->{pass} = $2;
                 $data->{$1}->{emails} = $3 || '';
             }
         }
     }
-    close(IN_FILE);
+    close($IN_FILE);
     $this->{passworddata} = $data;
     return $data;
 }
@@ -143,7 +148,7 @@ sub _dumpPasswd {
               . $db->{$_}->{pass} . ':'
               . $db->{$_}->{emails} . "\n";
         }
-        else {                                               # htpasswd format
+        else {                                                 # htpasswd format
             $s .=
               $_ . ':' . $db->{$_}->{pass} . ':' . $db->{$_}->{emails} . "\n";
         }
@@ -257,7 +262,7 @@ sub fetchPass {
 
 sub setPassword {
     my ( $this, $login, $newUserPassword, $oldUserPassword ) = @_;
-    ASSERT( $login ) if DEBUG; 
+    ASSERT($login) if DEBUG;
     if ( defined($oldUserPassword) ) {
         unless ( $oldUserPassword eq '1' ) {
             return 0 unless $this->checkPassword( $login, $oldUserPassword );
@@ -278,7 +283,8 @@ sub setPassword {
         my $e = shift;
         $this->{error} = $!;
         print STDERR "ERROR: failed to resetPassword - $! ($e)";
-	$this->{error} = 'unknown error in resetPassword' unless ($this->{error} && length($this->{error}));
+        $this->{error} = 'unknown error in resetPassword'
+          unless ( $this->{error} && length( $this->{error} ) );
         return undef;
     };
 

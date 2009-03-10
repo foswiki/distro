@@ -35,9 +35,10 @@ sub search {
     $searchString =~ s/(?<!\\)\\[<>]/\\b/g;
     $searchString =~ s/^(.*)$/\\b$1\\b/go if $options->{'wordboundaries'};
     my $doMatch;
-    if ($options->{casesensitive}) {
+    if ( $options->{casesensitive} ) {
         $doMatch = sub { $_[0] =~ m/$searchString/ };
-    } else {
+    }
+    else {
         $doMatch = sub { $_[0] =~ m/$searchString/i };
     }
   FILE:

@@ -595,6 +595,7 @@ lib/Foswiki/Users/ApacheHtpasswdUser.pm 0444
 lib/Foswiki/Users/HtPasswdUser.pm 0444
 lib/Foswiki/Users/Password.pm 0444
 lib/Foswiki/Users/BaseUserMapping.pm 0444
+lib/Foswiki/WebFilter.pm 0444
 locale/Foswiki.pot 0444
 locale/bg.po 0444
 locale/cs.po 0444

@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::UI::Search
@@ -55,10 +56,11 @@ sub search {
     my $webName = $session->{webName};
     my $topic   = $session->{topicName};
 
-    unless ( $session->{store}->webExists($webName) ) {
+    unless ( $session->webExists($webName) ) {
         require Foswiki::OopsException;
         throw Foswiki::OopsException(
-            'accessdenied', status => 403,
+            'accessdenied',
+            status => 403,
             def    => 'no_such_web',
             web    => $webName,
             topic  => $topic,
@@ -71,33 +73,10 @@ sub search {
     # work (didn't on the dev box -- perl 5.004_4 and CGI.pm 2.36 on
     # Linux (Slackware 2.0.33) with Apache 1.2.  That being the case,
     # we need to parse them out here.
-
-  #    my @webs          = $query->param( 'web' ) || ( $webName ); #doesn't work
-
-# Note for those unused to Perlishness:
-# -------------------------------------
-# The pipeline at the end of this assignment splits the full query
-# string on '&' or ';' and selects out the params that begin with 'web=',
-# replacing them with whatever is after that.  In the case of a
-# single list of webs passed as a string (say, from a text entry
-# field) it does more processing than it needs to to get the
-# correct string, but so what?  The pipline is the second
-# parameter to the join, and consists of the last two lines.  The
-# join takes the results of the pipeline and strings them back
-# together, space delimited, which is exactly what &searchWeb
-# needs.
-# Note that mod_perl/cgi appears to use ';' as separator, whereas plain cgi uses '&'
-
+    # SMELL: surely this has been fixed by now?
+    # my @webs = $query->param( 'web' ) || ( $webName ); #didn't work
     my $attrWeb = join ' ', grep { s/^web=(.*)$/$1/ }
       split( /[&;]/, $query->query_string );
-
-    # need to unescape URL-encoded data since we use the raw query_string
-    # suggested by JeromeBouvattier
-    $attrWeb =~ tr/+/ /;                                  # pluses become spaces
-    $attrWeb =~ s/%([0-9a-fA-F]{2})/pack('c',hex($1))/ge; # %20 becomes space
-
-    # 'scalar' is used below to get the scalar value of the parameter
-    # because it returns the empty string for undef.
 
     my $text = $session->search->searchWeb(
 
@@ -105,32 +84,32 @@ sub search {
         _callback      => undef,
         _cbdata        => undef,
         'inline'       => 0,
-        'search'       => scalar $query->param('search'),
+        'search'       => $query->param('search'),
         'web'          => $attrWeb,
-        'topic'        => scalar $query->param('topic'),
-        'excludetopic' => scalar $query->param('excludetopic'),
-        'scope'        => scalar $query->param('scope'),
-        'order'        => scalar $query->param('order'),
-        'type'         => scalar $query->param('type')
-          || $session->{prefs}->getPreferencesValue('SEARCHDEFAULTTTYPE'),
-        'regex'           => scalar $query->param('regex'),
-        'limit'           => scalar $query->param('limit'),
-        'reverse'         => scalar $query->param('reverse'),
-        'casesensitive'   => scalar $query->param('casesensitive'),
-        'nosummary'       => scalar $query->param('nosummary'),
-        'nosearch'        => scalar $query->param('nosearch'),
-        'noheader'        => scalar $query->param('noheader'),
-        'nototal'         => scalar $query->param('nototal'),
-        'bookview'        => scalar $query->param('bookview'),
-        'showlock'        => scalar $query->param('showlock'),
-        'expandvariables' => scalar $query->param('expandvariables'),
-        'noempty'         => scalar $query->param('noempty'),
-        'template'        => scalar $query->param('template'),
-        'header'          => scalar $query->param('header'),
-        'format'          => scalar $query->param('format'),
-        'multiple'        => scalar $query->param('multiple'),
-        'separator'       => scalar $query->param('separator'),
-        'subweb'          => scalar $query->param('subweb')
+        'topic'        => $query->param('topic'),
+        'excludetopic' => $query->param('excludetopic'),
+        'scope'        => $query->param('scope'),
+        'order'        => $query->param('order'),
+        'type'         => $query->param('type')
+          || $session->{prefs}->getPreference('SEARCHDEFAULTTTYPE'),
+        'regex'           => $query->param('regex'),
+        'limit'           => $query->param('limit'),
+        'reverse'         => $query->param('reverse'),
+        'casesensitive'   => $query->param('casesensitive'),
+        'nosummary'       => $query->param('nosummary'),
+        'nosearch'        => $query->param('nosearch'),
+        'noheader'        => $query->param('noheader'),
+        'nototal'         => $query->param('nototal'),
+        'bookview'        => $query->param('bookview'),
+        'showlock'        => $query->param('showlock'),
+        'expandvariables' => $query->param('expandvariables'),
+        'noempty'         => $query->param('noempty'),
+        'template'        => $query->param('template'),
+        'header'          => $query->param('header'),
+        'format'          => $query->param('format'),
+        'multiple'        => $query->param('multiple'),
+        'separator'       => $query->param('separator'),
+        'subweb'          => $query->param('subweb')
     );
 
     $session->writeCompletePage($text);
@@ -141,7 +120,8 @@ sub search {
 sub _contentCallback {
     Foswiki::spamProof( $_[1] );
 
-  #FIXME: if you're going to define a callback, you have to convert from TML too
+    # FIXME: if you're going to define a callback, you have to
+    # convert from TML too
     print $_[1];
 }
 

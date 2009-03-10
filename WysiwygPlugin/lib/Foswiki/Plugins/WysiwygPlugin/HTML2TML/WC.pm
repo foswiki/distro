@@ -40,9 +40,9 @@ package WC;
 
 =cut
 
-our ($NO_TML, $NO_HTML, $NO_BLOCK_TML, $NOP_ALL, $BLOCK_TML, $BR2NL);
-our ($CHECKn, $CHECKw, $CHECKs, $NBSP, $NBBR, $TAB, $PON, $POFF, $WS);
-our ($VERY_CLEAN, $PROTECTED, $KEEP_ENTITIES, $KEEP_WS);
+our ( $NO_TML, $NO_HTML, $NO_BLOCK_TML, $NOP_ALL, $BLOCK_TML, $BR2NL );
+our ( $CHECKn, $CHECKw, $CHECKs, $NBSP, $NBBR, $TAB, $PON, $POFF, $WS );
+our ( $VERY_CLEAN, $PROTECTED, $KEEP_ENTITIES, $KEEP_WS );
 
 $NO_HTML       = 1 << 0;
 $NO_TML        = 1 << 1;
@@ -54,19 +54,19 @@ $KEEP_WS       = 1 << 6;
 $PROTECTED     = 1 << 7;
 $KEEP_ENTITIES = 1 << 8;
 
-$BLOCK_TML    = $NO_BLOCK_TML;
+$BLOCK_TML = $NO_BLOCK_TML;
 
 my %cc = (
-    'NBSP'   => 14, # unbreakable space
-    'NBBR'   => 15, # para break required
-    'CHECKn' => 16, # require adjacent newline (\n or $NBBR)
-    'CHECKs' => 17, # require adjacent space character (' ' or $NBSP)
-    'CHECKw' => 18, # require adjacent whitespace (\s|$NBBR|$NBSP)
-    'CHECK1' => 19, # start of wiki-word
-    'CHECK2' => 20, # end of wiki-word
-    'TAB'    => 21, # list indent
-    'PON'    => 22, # protect on
-    'POFF'   => 23, # protect off
+    'NBSP'   => 14,    # unbreakable space
+    'NBBR'   => 15,    # para break required
+    'CHECKn' => 16,    # require adjacent newline (\n or $NBBR)
+    'CHECKs' => 17,    # require adjacent space character (' ' or $NBSP)
+    'CHECKw' => 18,    # require adjacent whitespace (\s|$NBBR|$NBSP)
+    'CHECK1' => 19,    # start of wiki-word
+    'CHECK2' => 20,    # end of wiki-word
+    'TAB'    => 21,    # list indent
+    'PON'    => 22,    # protect on
+    'POFF'   => 23,    # protect off
 );
 
 =pod
@@ -80,8 +80,8 @@ non-breaking whitespace.
 
 =cut
 
-$NBSP   = chr($cc{NBSP});
-$NBBR   = chr($cc{NBBR});
+$NBSP = chr( $cc{NBSP} );
+$NBBR = chr( $cc{NBBR} );
 
 =pod
 
@@ -102,14 +102,14 @@ process.
 
 =cut
 
-$CHECKn = chr($cc{CHECKn});
-$CHECKs = chr($cc{CHECKs});
-$CHECKw = chr($cc{CHECKw});
-$CHECK1 = chr($cc{CHECK1});
-$CHECK2 = chr($cc{CHECK2});
-$TAB    = chr($cc{TAB});
-$PON    = chr($cc{PON});
-$POFF   = chr($cc{POFF});
+$CHECKn = chr( $cc{CHECKn} );
+$CHECKs = chr( $cc{CHECKs} );
+$CHECKw = chr( $cc{CHECKw} );
+$CHECK1 = chr( $cc{CHECK1} );
+$CHECK2 = chr( $cc{CHECK2} );
+$TAB    = chr( $cc{TAB} );
+$PON    = chr( $cc{PON} );
+$POFF   = chr( $cc{POFF} );
 $WS     = qr/[$NBSP$NBBR$CHECKn$CHECKs$CHECKw$CHECK1$CHECK2$TAB\s]*/;
 
 =pod
@@ -125,7 +125,7 @@ REs for matching delimiters of wikiwords, must be consistent with TML2HTML.pm
 
 sub debugEncode {
     my $string = shift;
-    while (my ($k, $v) = each %cc) {
+    while ( my ( $k, $v ) = each %cc ) {
         my $c = chr($v);
         $string =~ s/$c/\%$k/g;
     }
@@ -133,18 +133,18 @@ sub debugEncode {
 }
 
 # Maps of tag types
-our (%SELFCLOSING, $EMPHTAG);
+our ( %SELFCLOSING, $EMPHTAG );
 
-%SELFCLOSING = (img => 1);
+%SELFCLOSING = ( img => 1 );
 
 # Map that specifies tags to be renamed to a canonical name
 %EMPHTAG = (
-    b => 'strong',
-    i => 'em',
-    tt => 'code',
+    b      => 'strong',
+    i      => 'em',
+    tt     => 'code',
     strong => 'strong',
-    em => 'em',
-    code => 'code',
+    em     => 'em',
+    code   => 'code',
 );
 
 1;

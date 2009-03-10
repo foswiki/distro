@@ -36,7 +36,7 @@ use strict;
 
 require Foswiki;
 
-our $VERSION = '$Rev$'; # Subversion rev number
+our $VERSION = '$Rev$';    # Subversion rev number
 
 # Constants
 our @ISOMONTH = (
@@ -64,7 +64,7 @@ our %MON2NUM = (
     dec => 11
 );
 
-our $TZSTRING; # timezone string for servertime; "Z" or "+01:00" etc.
+our $TZSTRING;    # timezone string for servertime; "Z" or "+01:00" etc.
 
 =begin TML
 
@@ -111,13 +111,13 @@ If the date format was not recognised, will return 0.
 sub parseTime {
     my ( $date, $defaultLocal ) = @_;
 
-    $date =~ s/^\s*//;  #remove leading spaces without de-tainting.
+    $date =~ s/^\s*//;    #remove leading spaces without de-tainting.
     $date =~ s/\s*$//;
 
     require Time::Local;
 
     # NOTE: This routine *will break* if input is not one of below formats!
-    my $tzadj = 0;    # Zulu
+    my $tzadj = 0;        # Zulu
     if ($defaultLocal) {
 
         # Local time at midnight on the epoch gives us minus the
@@ -132,6 +132,7 @@ sub parseTime {
     if ( $date =~ /(\d+)\s+([a-z]{3})\s+(\d+)(?:[-\s]+(\d+):(\d+))?/i ) {
         my $year = $3;
         $year -= 1900 if ( $year > 1900 );
+
         #TODO: %MON2NUM needs to be updated to use i8n
         #TODO: and should really work for long form of the month name too.
         return Time::Local::timegm( 0, $5 || 0, $4 || 0, $1, $MON2NUM{ lc($2) },
@@ -140,9 +141,12 @@ sub parseTime {
 
     # ISO date 2001-12-31T23:59:59+01:00
     # Sven is going to presume that _all_ ISO dated must have a 'T' in them.
-    if (($date =~ /T/) && ( $date =~
+    if (
+        ( $date =~ /T/ )
+        && ( $date =~
 /(\d\d\d\d)(?:-(\d\d)(?:-(\d\d))?)?(?:T(\d\d)(?::(\d\d)(?::(\d\d(?:\.\d+)?))?)?)?(Z|[-+]\d\d(?::\d\d)?)?/
-      ) )
+        )
+      )
     {
         my ( $Y, $M, $D, $h, $m, $s, $tz ) =
           ( $1, $2 || 1, $3 || 1, $4 || 0, $5 || 0, $6 || 0, $7 || '' );
@@ -159,7 +163,8 @@ sub parseTime {
     }
 
     #any date that leads with a year (2 digit years too)
-    if ($date =~ m|^
+    if (
+        $date =~ m|^
                     (\d\d+)                                 #year
                     (?:\s*[/\s.-]\s*                        #datesep
                         (\d\d?)                             #month
@@ -176,32 +181,35 @@ sub parseTime {
                             )?
                         )?
                     )?
-                    $|x) {
-        #no defaulting yet so we can detect the 2009--12 error
-        my ( $year, $M, $D, $h, $m, $s ) =
-          ( $1, $2 , $3, $4, $5, $6 );
+                    $|x
+      )
+    {
 
-        #without range checking on the 12 Jan 2009 case above, there is abmiguity - what is 14 Jan 12 ?
-        #similarly, how would you decide what Jan 02 and 02 Jan are?
-        #$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
+        #no defaulting yet so we can detect the 2009--12 error
+        my ( $year, $M, $D, $h, $m, $s ) = ( $1, $2, $3, $4, $5, $6 );
+
+#without range checking on the 12 Jan 2009 case above, there is abmiguity - what is 14 Jan 12 ?
+#similarly, how would you decide what Jan 02 and 02 Jan are?
+#$month_p = $MON2NUM{ lc($month_p) } if (defined($MON2NUM{ lc($month_p) }));
 
         #range checks
-        return 0 if (defined($M) && ($M < 1 || $M > 12));
-        my $month = ($M || 1)-1;
-        return 0 if (defined($D) && ($D < 0 || $D > $MONTHLENS[$month]));
-        return 0 if (defined($h) && ($h < 0 || $h > 24));
-        return 0 if (defined($m) && ($m < 0 || $m > 60));
-        return 0 if (defined($s) && ($s < 0 || $s > 60));
+        return 0 if ( defined($M) && ( $M < 1 || $M > 12 ) );
+        my $month = ( $M || 1 ) - 1;
+        return 0 if ( defined($D) && ( $D < 0 || $D > $MONTHLENS[$month] ) );
+        return 0 if ( defined($h) && ( $h < 0 || $h > 24 ) );
+        return 0 if ( defined($m) && ( $m < 0 || $m > 60 ) );
+        return 0 if ( defined($s) && ( $s < 0 || $s > 60 ) );
 
-        my $day = $D || 1;
+        my $day  = $D || 1;
         my $hour = $h || 0;
-        my $min = $m || 0;
-        my $sec = $s || 0;
+        my $min  = $m || 0;
+        my $sec  = $s || 0;
 
         #TODO: unhappily, this means 09 == 1909 not 2009
         $year -= 1900 if ( $year > 1900 );
 
-        return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) - $tzadj;
+        return Time::Local::timegm( $sec, $min, $hour, $day, $month, $year ) -
+          $tzadj;
     }
 
     #TODO: returning  0 makes it very hard to detect parse errors :(
@@ -295,11 +303,12 @@ sub formatTime {
     $value =~ s/\$ye/sprintf('%.2u',$year%100)/gei;
     $value =~ s/\$epoch/$epochSeconds/gi;
 
-    if ($value =~ /\$tz/) {
+    if ( $value =~ /\$tz/ ) {
         my $tz_str;
         if ( $outputTimeZone eq 'servertime' ) {
             ( $sec, $min, $hour, $day, $mon, $year, $wday ) =
               localtime($epochSeconds);
+
             # SMELL: how do we get the different timezone strings (and when
             # we add usertime, then what?)
             $tz_str = 'Local';
@@ -311,21 +320,23 @@ sub formatTime {
         }
         $value =~ s/\$tz/$tz_str/gei;
     }
-    if ($value =~ /\$isotz/) {
+    if ( $value =~ /\$isotz/ ) {
         my $tz_str = 'Z';
         if ( $outputTimeZone ne 'gmtime' ) {
+
             # servertime
             # time zone designator (+hh:mm or -hh:mm)
             # cached.
-            unless (defined $TZSTRING) {
+            unless ( defined $TZSTRING ) {
                 my $offset = _tzOffset();
-                my $sign = ($offset < 0) ? '-' : '+';
+                my $sign = ( $offset < 0 ) ? '-' : '+';
                 $offset = abs($offset);
-                my $hours = int($offset / 3600);
-                my $mins = int(($offset - $hours * 3600) / 60);
-                if ($hours || $mins) {
-                    $TZSTRING = sprintf("$sign%02d:%02d", $hours, $mins);
-                } else {
+                my $hours = int( $offset / 3600 );
+                my $mins = int( ( $offset - $hours * 3600 ) / 60 );
+                if ( $hours || $mins ) {
+                    $TZSTRING = sprintf( "$sign%02d:%02d", $hours, $mins );
+                }
+                else {
                     $TZSTRING = 'Z';
                 }
             }
@@ -343,33 +354,36 @@ sub formatTime {
 # domain."
 # Note that unit tests rely on this function being here.
 sub _tzOffset {
-	my $time = time();
-	my @l = localtime($time);
-	my @g = gmtime($time);
+    my $time = time();
+    my @l    = localtime($time);
+    my @g    = gmtime($time);
 
-	my $off =
-      $l[0] - $g[0]
-        + ($l[1] - $g[1]) * 60
-          + ($l[2] - $g[2]) * 3600;
+    my $off = $l[0] - $g[0] + ( $l[1] - $g[1] ) * 60 + ( $l[2] - $g[2] ) * 3600;
 
-	# subscript 7 is yday.
+    # subscript 7 is yday.
 
-	if ($l[7] == $g[7]) {
-		# done
-	} elsif ($l[7] == $g[7] + 1) {
-		$off += 86400;
-	} elsif ($l[7] == $g[7] - 1) {
-		$off -= 86400;
-	} elsif ($l[7] < $g[7]) {
-		# crossed over a year boundary.
-		# localtime is beginning of year, gmt is end
-		# therefore local is ahead
-		$off += 86400;
-	} else {
-		$off -= 86400;
-	}
+    if ( $l[7] == $g[7] ) {
 
-	return $off;
+        # done
+    }
+    elsif ( $l[7] == $g[7] + 1 ) {
+        $off += 86400;
+    }
+    elsif ( $l[7] == $g[7] - 1 ) {
+        $off -= 86400;
+    }
+    elsif ( $l[7] < $g[7] ) {
+
+        # crossed over a year boundary.
+        # localtime is beginning of year, gmt is end
+        # therefore local is ahead
+        $off += 86400;
+    }
+    else {
+        $off -= 86400;
+    }
+
+    return $off;
 }
 
 # Returns the ISO8601 week number for a date.
@@ -378,25 +392,29 @@ sub _tzOffset {
 # Day of year is 0..364 (or 365) where 0==Jan1
 # From http://www.perlmonks.org/?node_id=710571
 sub _weekNumber {
-    my( $dayOfWeek, $dayOfYear, $year ) = @_;
+    my ( $dayOfWeek, $dayOfYear, $year ) = @_;
+
     # rebase dow to Monday==0
-    $dayOfWeek = ($dayOfWeek + 6) % 7;
+    $dayOfWeek = ( $dayOfWeek + 6 ) % 7;
 
     # Locate the nearest Thursday, by locating the Monday at
     # or before and going forwards 3 days)
     my $dayOfNearestThurs = $dayOfYear - $dayOfWeek + 3;
 
     my $daysInThisYear = _daysInYear($year);
-    #print STDERR "dow:$dayOfWeek, doy:$dayOfYear, $year = thu:$dayOfNearestThurs ($daysInThisYear)\n";
+
+#print STDERR "dow:$dayOfWeek, doy:$dayOfYear, $year = thu:$dayOfNearestThurs ($daysInThisYear)\n";
 
     # Is nearest thursday in last year or next year?
-    if ($dayOfNearestThurs < 0) {
+    if ( $dayOfNearestThurs < 0 ) {
+
         # Nearest Thurs is last year
         # We are at the start of the year
         # Adjust by the number of days in LAST year
-        $dayOfNearestThurs += _daysInYear($year - 1);
+        $dayOfNearestThurs += _daysInYear( $year - 1 );
     }
-    if ($dayOfNearestThurs >= $daysInThisYear) {
+    if ( $dayOfNearestThurs >= $daysInThisYear ) {
+
         # Nearest Thurs is next year
         # We are at the end of the year
         # Adjust by the number of days in THIS year
@@ -404,7 +422,7 @@ sub _weekNumber {
     }
 
     # Which week does the Thurs fall into?
-    return int ($dayOfNearestThurs / 7) + 1;
+    return int( $dayOfNearestThurs / 7 ) + 1;
 }
 
 # Returns the number of...
@@ -524,9 +542,9 @@ If the format is not recognised, will return empty interval [0,0].
 
 sub parseInterval {
     my ($interval) = @_;
-    my @lt    = localtime();
+    my @lt = localtime();
     my $today = sprintf( '%04d-%02d-%02d', $lt[5] + 1900, $lt[4] + 1, $lt[3] );
-    my $now   = $today . sprintf( 'T%02d:%02d:%02d', $lt[2], $lt[1], $lt[0] );
+    my $now = $today . sprintf( 'T%02d:%02d:%02d', $lt[2], $lt[1], $lt[0] );
 
     # replace $now and $today shortcuts
     $interval =~ s/\$today/$today/g;
@@ -536,41 +554,43 @@ sub parseInterval {
     $interval = $interval . '/' . $interval
       unless ( $interval =~ /\// );
 
-    my ($first, $last) = split( /\//, $interval, 2 );
+    my ( $first, $last ) = split( /\//, $interval, 2 );
     my ( $start, $end );
 
     # first translate dates into seconds from epoch,
     # in the second loop we will examine interval durations.
 
     if ( $first !~ /^P/ ) {
+
         # complete with parts from "-01-01T00:00:00"
-        if ( length($first) < length('0000-01-01T00:00:00')) {
-            $first .= substr( '0000-01-01T00:00:00', length( $first ) );
+        if ( length($first) < length('0000-01-01T00:00:00') ) {
+            $first .= substr( '0000-01-01T00:00:00', length($first) );
         }
         $start = parseTime( $first, 1 );
     }
 
-    if ($last !~ /^P/) {
+    if ( $last !~ /^P/ ) {
+
         # complete with parts from "-12-31T23:59:60"
         # check last day of month
         # TODO: do we do leap years?
-        if ( length( $last ) == 7 ) {
+        if ( length($last) == 7 ) {
             my $month = substr( $last, 5 );
-            $last .= '-'.$MONTHLENS[ $month - 1 ];
+            $last .= '-' . $MONTHLENS[ $month - 1 ];
         }
-        if ( length($last) < length('0000-12-31T23:59:59')) {
-            $last .= substr( '0000-12-31T23:59:59', length( $last ) );
+        if ( length($last) < length('0000-12-31T23:59:59') ) {
+            $last .= substr( '0000-12-31T23:59:59', length($last) );
         }
         $end = parseTime( $last, 1 );
     }
 
-    if (!defined($start)) {
-        $start = ($end || 0) - _parseDuration( $first );
+    if ( !defined($start) ) {
+        $start = ( $end || 0 ) - _parseDuration($first);
     }
-    if (!defined($end)) {
-        $end = $start + _parseDuration( $last );
+    if ( !defined($end) ) {
+        $end = $start + _parseDuration($last);
     }
-    return ( $start || 0, $end || 0);
+    return ( $start || 0, $end || 0 );
 }
 
 sub _parseDuration {

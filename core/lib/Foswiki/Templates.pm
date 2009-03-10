@@ -217,8 +217,8 @@ sub readTemplate {
 
     # SMELL: unchecked implicit untaint?
     while ( $text =~ /%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/s ) {
-        $text =~
-s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $web )/geo;
+        $text =~ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/
+          _readTemplateFile( $this, $1, $skins, $web )/ge;
     }
 
     # Kill comments, marked by %{ ... }%
@@ -283,7 +283,6 @@ s/%TMPL\:INCLUDE{[\s\"]*(.*?)[\"\s]*}%/_readTemplateFile( $this, $1, $skins, $we
 sub _readTemplateFile {
     my ( $this, $name, $skins, $web ) = @_;
     my $session = $this->{session};
-    my $store   = $session->{store};
 
     $skins = $session->getSkin() unless defined($skins);
 
@@ -299,7 +298,18 @@ sub _readTemplateFile {
     # if the name ends in .tmpl, then this is an explicit include from
     # the templates directory. No further searching required.
     if ( $name =~ /\.tmpl$/ ) {
-        return Foswiki::readFile( $Foswiki::cfg{TemplateDir} . '/' . $name );
+        my $F;
+        if ( open( $F, '<', $Foswiki::cfg{TemplateDir} . '/' . $name ) ) {
+            local $/;
+            my $data = <$F>;
+            close($F);
+            return $data;
+        }
+        else {
+            $session->logger->log( 'warning',
+                "$Foswiki::cfg{TemplateDir}/$name: $!" );
+            return '';
+        }
     }
 
     my $userdirweb  = $web;
@@ -312,14 +322,16 @@ sub _readTemplateFile {
 
         # if the name can be parsed into $web.$name, then this is an attempt
         # to explicit include that topic. No further searching required.
-        if (
-            validateTopic(
-                $session,     $store, $session->{user},
-                $userdirname, $userdirweb
-            )
-          )
-        {
-            return retrieveTopic( $store, $userdirweb, $userdirname );
+        if ( $session->topicExists( $userdirweb, $userdirname ) ) {
+            my $meta =
+              Foswiki::Meta->load( $session, $userdirweb, $userdirname );
+
+            # Check we are allowed access
+            unless ( $meta->haveAccess( 'VIEW', $session->{user} ) ) {
+                return $this->{session}->inlineAlert( 'alerts', 'access_denied',
+                    "$userdirweb.$userdirname" );
+            }
+            return $meta->text();
         }
     }
     else {
@@ -383,12 +395,9 @@ sub _readTemplateFile {
                 my ( $web1, $name1 ) =
                   $session->normalizeWebTopicName( $web, $file );
 
-                if (
-                    validateTopic(
-                        $session, $store, $session->{user}, $name1, $web1
-                    )
-                  )
-                {
+                if ( $session->topicExists( $web1, $name1 ) ) {
+
+                    # recursion prevention.
                     next
                       if (
                         defined(
@@ -396,21 +405,22 @@ sub _readTemplateFile {
                               ->{ 'topic' . $session->{user}, $name1, $web1 }
                         )
                       );
-
-                    #recursion prevention.
                     $this->{files}
                       ->{ 'topic' . $session->{user}, $name1, $web1 } = 1;
-                    return retrieveTopic( $store, $web1, $name1 );
+
+                    # access control
+                    my $meta = Foswiki::Meta->load( $session, $web1, $name1 );
+                    next unless $meta->haveAccess( 'VIEW', $session->{user} );
+
+                    return $meta->text();
                 }
             }
-            else {
-                if ( validateFile($file) ) {
-                    next if ( defined( $this->{files}->{$file} ) );
+            elsif ( -e $file ) {
+                next if ( defined( $this->{files}->{$file} ) );
 
-                    #recursion prevention.
-                    $this->{files}->{$file} = 1;
-                    return Foswiki::readFile($file);
-                }
+                #recursion prevention.
+                $this->{files}->{$file} = 1;
+                return Foswiki::readFile($file);
             }
         }
     }
@@ -421,24 +431,6 @@ sub _readTemplateFile {
     #print STDERR "Template $name could not be found anywhere\n";
     #Is Failing Silently the best option here?
     return '';
-}
-
-sub validateFile {
-    my $file = shift;
-    return -e $file;
-}
-
-sub validateTopic {
-    my ( $session, $store, $user, $topic, $web ) = @_;
-    return $store->topicExists( $web, $topic )
-      && $session->security->checkAccessPermission( 'VIEW', $user, undef, undef,
-        $topic, $web );
-}
-
-sub retrieveTopic {
-    my ( $store, $web, $topic ) = @_;
-    my ( $meta, $text ) = $store->readTopic( undef, $web, $topic, undef );
-    return $text;
 }
 
 1;

@@ -42,7 +42,7 @@ are referenced.
 sub new {
     my ( $class, $session, $web ) = @_;
     my $this = bless( {}, $class );
-    $this->{web} = $web;
+    $this->{web}     = $web;
     $this->{session} = $session;
     return $this;
 }
@@ -57,9 +57,8 @@ Get the name of the parent topic of the given topic
 sub getParent {
     my ( $this, $topic ) = @_;
 
-    if ( ! defined( $this->{parent}{$topic} )) {
-        my( $meta, $text ) =
-          Foswiki::Func::readTopic( $this->{web}, $topic );
+    if ( !defined( $this->{parent}{$topic} ) ) {
+        my ( $meta, $text ) = Foswiki::Func::readTopic( $this->{web}, $topic );
         my $parent = $meta->get('TOPICPARENT');
         $this->{parent}{$topic} = $parent->{name} if $parent;
         $this->{parent}{$topic} ||= '';

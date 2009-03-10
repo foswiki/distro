@@ -23,6 +23,6 @@ use base qw(Unit::TestSuite);
 
 sub include_tests {
     return qw(TranslatorTests WysiwygPluginTests);
-};
+}
 
 1;

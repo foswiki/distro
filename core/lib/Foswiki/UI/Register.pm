@@ -77,13 +77,14 @@ sub register_cgi {
         if ($needApproval) {
             throw Error::Simple('Approval code has not been written!');
         }
-        complete($session);
+        _complete($session);
     }
     elsif ( $action eq 'resetPassword' ) {
-        resetPassword($session);
+        require Foswiki::UI::Passwords;
+        Foswiki::UI::Passwords::resetpasswd($session);
     }
     elsif ( $action eq 'approve' ) {
-        complete($session);
+        _complete($session);
     }
     else {
         registerAndNext($session);
@@ -136,7 +137,8 @@ sub bulkRegister {
 
     unless ( $session->{users}->isAdmin($user) ) {
         throw Foswiki::OopsException(
-            'accessdenied', status => 403,
+            'accessdenied',
+            status => 403,
             def    => 'only_group',
             web    => $web,
             topic  => $topic,
@@ -145,13 +147,13 @@ sub bulkRegister {
     }
 
     #-- Read the topic containing the table of people to be registered
+    my $meta = Foswiki::Meta->load( $session, $web, $topic );
 
-    my ( $meta, $text ) =
-      $session->{store}->readTopic( undef, $web, $topic, undef );
     my @fields;
     my @data;
     my $gotHdr = 0;
-    foreach my $line ( split( /\r?\n/, $text ) ) {
+    foreach my $line ( split( /\r?\n/, $meta->text ) ) {
+
         # unchecked implicit untaint OK - this function is for admins only
         if ( $line =~ /^\s*\|\s*(.*?)\s*\|\s*$/ ) {
             if ($gotHdr) {
@@ -192,14 +194,18 @@ sub bulkRegister {
     ( $logWeb, $logTopic ) = $session->normalizeWebTopicName( '', $logTopic );
 
     #-- Save the LogFile as designated, link back to the source topic
+    $meta = Foswiki::Meta->new( $session, $logWeb, $logTopic, $log );
+    unless ( $meta->haveAccess('CHANGE') ) {
+        throw Foswiki::AccessControlException( 'CHANGE', $session->{user},
+            $logWeb, $logTopic, $Foswiki::Meta::reason );
+    }
     $meta->put( 'TOPICPARENT', { name => $web . '.' . $topic } );
-    my $err =
-      $session->{store}->saveTopic( $user, $logWeb, $logTopic, $log, $meta );
+    $meta->save();
 
     $session->leaveContext('absolute_urls');
 
     my $nurl = $session->getScriptUrl( 1, 'view', $web, $logTopic );
-    $session->redirect( $nurl );
+    $session->redirect($nurl);
 }
 
 # Register a single user during a bulk registration process
@@ -253,8 +259,7 @@ sub _registerSingleBulkUser {
 "$b1 $row->{WikiName} has been added to the password and user mapping managers\n";
 
         if ( $settings->{doOverwriteTopics}
-            || !$session->{store}
-            ->topicExists( $row->{webName}, $row->{WikiName} ) )
+            || !$session->topicExists( $row->{webName}, $row->{WikiName} ) )
         {
             $log .= _createUserTopic( $session, $row );
         }
@@ -274,7 +279,7 @@ sub _registerSingleBulkUser {
 
     #if ($Foswiki::cfg{EmailUserDetails}) {
     # If you want it, write it.
-    # _sendEmail($session, 'registernotifybulk', $data );
+    # sendEmail($session, 'registernotifybulk', $data );
     #    $log .= $b1.' Password email disabled\n';
     #}
 
@@ -322,24 +327,17 @@ Hopefully we will get workflow integrated and rewrite this to be table driven
 
 sub registerAndNext {
     my ($session) = @_;
-    register($session);
+    _innerRegister($session);
     if ( $Foswiki::cfg{Register}{NeedVerification} ) {
         _requireVerification($session);
     }
     else {
-        complete($session);
+        _complete($session);
     }
 }
 
-=begin TML
-
----++ StaticMethod register($session)
-
-This is called through: UserRegistration -> RegisterCgiScript -> here
-
-=cut
-
-sub register {
+# This is called through: UserRegistration -> RegisterCgiScript -> here
+sub _innerRegister {
     my ($session) = @_;
 
     my $query = $session->{request};
@@ -374,26 +372,27 @@ sub _requireVerification {
     require Data::Dumper;
 
     my $file = _codeFile( $data->{VerificationCode} );
-    open( F, ">$file" ) or throw Error::Simple( 'Failed to open file: ' . $! );
-    print F '# Verification code', "\n";
+    my $F;
+    open( $F, ">$file" ) or throw Error::Simple( 'Failed to open file: ' . $! );
+    print $F '# Verification code', "\n";
 
     # SMELL: wierd jiggery-pokery required, otherwise Data::Dumper screws
     # up the form fields when it saves. Perl bug? Probably to do with
     # chucking around arrays, instead of references to them.
     my $form = $data->{form};
     $data->{form} = undef;
-    print F Data::Dumper->Dump( [ $data, $form ], [ 'data', 'form' ] );
+    print $F Data::Dumper->Dump( [ $data, $form ], [ 'data', 'form' ] );
     $data->{form} = $form;
-    close(F);
+    close($F);
 
-    $session->logEvent('regstart',
+    $session->logEvent( 'regstart',
         $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
         $data->{Email}, $data->{WikiName} );
 
     my $em = $data->{Email};
 
     if ( $Foswiki::cfg{EnableEmail} ) {
-        my $err = _sendEmail( $session, 'registerconfirm', $data );
+        my $err = sendEmail( $session, 'registerconfirm', $data );
 
         if ($err) {
             throw Foswiki::OopsException(
@@ -425,335 +424,6 @@ sub _requireVerification {
         web    => $data->{webName},
         topic  => $topic,
         params => [$em]
-    );
-}
-
-=begin TML
-
----++ StaticMethod resetPassword($session)
-
-Generates a password. Mails it to them and asks them to change it. Entry
-point intended to be called from UI::run
-
-=cut
-
-sub resetPassword {
-    my $session = shift;
-    my $query   = $session->{request};
-    my $topic   = $session->{topicName};
-    my $web     = $session->{webName};
-    my $user    = $session->{user};
-
-    unless ( $Foswiki::cfg{EnableEmail} ) {
-        my $err = $session->i18n->maketext(
-            'Email has been disabled for this Foswiki installation');
-        throw Foswiki::OopsException(
-            'attention',
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_bad',
-            params => [$err]
-        );
-    }
-
-    my @userNames = $query->param('LoginName');
-    unless (@userNames) {
-        throw Foswiki::OopsException( 'attention', def => 'no_users_to_reset' );
-    }
-    my $introduction = $query->param('Introduction') || '';
-
-    # need admin priv if resetting bulk, or resetting another user
-    my $isBulk = ( scalar(@userNames) > 1 );
-
-    if ($isBulk) {
-
-        # Only admin is able to reset more than one password or
-        # another user's password.
-        unless ( $session->{users}->isAdmin($user) ) {
-            throw Foswiki::OopsException(
-                'accessdenied', status => 403,
-                def    => 'only_group',
-                web    => $web,
-                topic  => $topic,
-                params => [ $Foswiki::cfg{SuperAdminGroup} ]
-            );
-        }
-    }
-    else {
-
-        # Anyone can reset a single password - important because by definition
-        # the user cannot authenticate
-        # Note that the passwd script must NOT authenticate!
-    }
-
-    # Collect all messages into one string
-    my $message = '';
-    my $good    = 1;
-    foreach my $userName (@userNames) {
-        $good = $good
-          && _resetUsersPassword( $session, $userName, $introduction,
-            \$message );
-    }
-
-    my $action = '';
-
-    # Redirect to a page that tells what happened
-    if ($good) {
-        unless ($isBulk) {
-
-            # one user; refine the change password link to include their
-            # username (can't use logged in user - by definition this won't
-            # be them!)
-            $action = '?username=' . $userNames[0];
-        }
-
-        throw Foswiki::OopsException(
-            'attention',
-            status => 200,
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_ok',
-            params => [$message]
-        );
-    }
-    else {
-        throw Foswiki::OopsException(
-            'attention',
-            topic  => $Foswiki::cfg{HomeTopicName},
-            def    => 'reset_bad',
-            params => [$message]
-        );
-    }
-}
-
-# return status
-sub _resetUsersPassword {
-    my ( $session, $login, $introduction, $pMess ) = @_;
-
-    my $users = $session->{users};
-
-    unless ($login) {
-        $$pMess .= $session->inlineAlert( 'alertsnohtml', 'bad_user', '' );
-        return 0;
-    }
-
-    my $user    = $users->getCanonicalUserID($login);
-    my $message = '';
-    unless ( $user && $users->userExists($user) ) {
-
-        # Not an error.
-        $$pMess .=
-          $session->inlineAlert( 'alertsnohtml', 'missing_user', $login );
-        return 0;
-    }
-
-    require Foswiki::Users;
-    my $password = Foswiki::Users::randomPassword();
-
-    unless ( $users->setPassword( $user, $password, 1 ) ) {
-        $$pMess .= $session->inlineAlert( 'alertsnohtml', 'reset_bad', $user );
-        return 0;
-    }
-
-    # absolute URL context for email generation
-    $session->enterContext('absolute_urls');
-
-    my @em   = $users->getEmails($user);
-    my $sent = 0;
-    if ( !scalar(@em) ) {
-        $$pMess .=
-          $session->inlineAlert( 'alertsnohtml', 'no_email_for', $user );
-    }
-    else {
-        my $ln = $users->getLoginName($user);
-        my $wn = $users->getWikiName($user);
-        foreach my $email (@em) {
-            my $err = _sendEmail(
-                $session,
-                'mailresetpassword',
-                {
-                    webName      => $Foswiki::cfg{UsersWebName},
-                    LoginName    => $ln,
-                    Name         => Foswiki::spaceOutWikiWord($wn),
-                    WikiName     => $wn,
-                    Email        => $email,
-                    PasswordA    => $password,
-                    Introduction => $introduction,
-                }
-            );
-
-            if ($err) {
-                $$pMess .=
-                  $session->inlineAlert(
-                      'alertsnohtml', 'generic', $err );
-            }
-            else {
-                $sent = 1;
-            }
-        }
-    }
-
-    $session->leaveContext('absolute_urls');
-
-    if ($sent) {
-        $$pMess .= $session->inlineAlert(
-            'alertsnohtml', 'new_sys_pass',
-            $users->getLoginName($user),
-            $users->getWikiName($user)
-        );
-    }
-
-    return $sent;
-}
-
-=begin TML
-
----++ StaticMethod changePassword( $session )
-
-Change the user's password and/or email. Details of the user and password
-are passed in CGI parameters.
-
-   1 Checks required fields have values
-   2 get wikiName and userName from getUserByEitherLoginOrWikiName(username)
-   3 check passwords match each other, and that the password is correct, otherwise 'wrongpassword'
-   4 Foswiki::User::updateUserPassword
-   5 'oopschangepasswd'
-
-The NoPasswdUser case is not handled.
-
-An admin user can change other user's passwords.
-
-=cut
-
-sub changePassword {
-    my $session = shift;
-
-    my $topic       = $session->{topicName};
-    my $webName     = $session->{webName};
-    my $query       = $session->{request};
-    my $requestUser = $session->{user};
-
-    my $oldpassword = $query->param('oldpassword');
-    my $login       = $query->param('username');
-    my $passwordA   = $query->param('password');
-    my $passwordB   = $query->param('passwordA');
-    my $email       = $query->param('email');
-    my $topicName   = $query->param('TopicName');
-
-    # check if required fields are filled in
-    unless ($login) {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'missing_fields',
-            params => ['username']
-        );
-    }
-
-    my $users = $session->{users};
-
-    unless ($login) {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'not_a_user',
-            params => [$login]
-        );
-    }
-
-    my $changePass = 0;
-    if ( defined $passwordA || defined $passwordB ) {
-        unless ( defined $passwordA ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'missing_fields',
-                params => ['password']
-            );
-        }
-
-        # check if passwords are identical
-        if ( $passwordA ne $passwordB ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web   => $webName,
-                topic => $topic,
-                def   => 'password_mismatch'
-            );
-        }
-        $changePass = 1;
-    }
-
-    # check if required fields are filled in
-    unless ( defined $oldpassword || $users->isAdmin($requestUser) ) {
-        throw Foswiki::OopsException(
-            'attention',
-            web    => $webName,
-            topic  => $topic,
-            def    => 'missing_fields',
-            params => ['oldpassword']
-        );
-    }
-
-    unless ( $users->isAdmin($requestUser)
-        || $users->checkPassword( $login, $oldpassword ) )
-    {
-        throw Foswiki::OopsException(
-            'attention',
-            web   => $webName,
-            topic => $topic,
-            def   => 'wrong_password'
-        );
-    }
-
-    my $cUID = $users->getCanonicalUserID($login);
-    if ( defined $email ) {
-        my $return = $users->setEmails( $cUID, split( /\s+/, $email ) );
-    }
-
-    # OK - password may be changed
-    if ($changePass) {
-        if ( length($passwordA) < $Foswiki::cfg{MinPasswordLength} ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web    => $webName,
-                topic  => $topic,
-                def    => 'bad_password',
-                params => [ $Foswiki::cfg{MinPasswordLength} ]
-            );
-        }
-
-        unless ( $users->setPassword( $cUID, $passwordA, $oldpassword ) ) {
-            throw Foswiki::OopsException(
-                'attention',
-                web   => $webName,
-                topic => $topic,
-                def   => 'password_not_changed'
-            );
-        }
-        else {
-            $session->logEvent('changepasswd', $login );
-        }
-
-        # OK - password changed
-        throw Foswiki::OopsException(
-            'attention',
-            status => 200,
-            web   => $webName,
-            topic => $topic,
-            def   => 'password_changed'
-        );
-    }
-
-    # must be just email
-    throw Foswiki::OopsException(
-        'attention',
-        status => 200,
-        web    => $webName,
-        topic  => $topic,
-        def    => 'email_changed',
-        params => [$email]
     );
 }
 
@@ -854,7 +524,8 @@ sub deleteUser {
     $users->removeUser($cUID);
 
     throw Foswiki::OopsException(
-        'attention', status => 200,
+        'attention',
+        status => 200,
         def    => 'remove_user_done',
         web    => $webName,
         topic  => $topic,
@@ -863,7 +534,7 @@ sub deleteUser {
 }
 
 # Complete a registration
-sub complete {
+sub _complete {
     my ($session) = @_;
 
     my $topic = $session->{topicName};
@@ -881,8 +552,9 @@ sub complete {
         $data->{webName} = $web;
     }
 
-    $data->{WikiName} = Foswiki::Sandbox::untaint(
-        $data->{WikiName}, \&Foswiki::Sandbox::validateTopicName);
+    $data->{WikiName} =
+      Foswiki::Sandbox::untaint( $data->{WikiName},
+        \&Foswiki::Sandbox::validateTopicName );
     throw Error::Simple('bad WikiName after reload') unless $data->{WikiName};
 
     if ( !exists $data->{LoginName} ) {
@@ -896,15 +568,20 @@ sub complete {
 
     my $users = $session->{users};
     try {
-        unless ( defined($data->{Password}) ) {
-            #SMELL: should give consideration to disabling $Foswiki::cfg{Register}{HidePasswd} 
-            #though that may reduce the conf options an admin has..
-            #OR, a better option would be that the rego email would thus point the user to the resetPasswd url.
+        unless ( defined( $data->{Password} ) ) {
+
+#SMELL: should give consideration to disabling $Foswiki::cfg{Register}{HidePasswd}
+#though that may reduce the conf options an admin has..
+#OR, a better option would be that the rego email would thus point the user to the resetPasswd url.
             $data->{Password} = Foswiki::Users::randomPassword();
+
             #add data to the form so it can go out in the registration emails.
-            push(@{ $data->{form} }, {name=>'Password', value=>$data->{Password} });
+            push(
+                @{ $data->{form} },
+                { name => 'Password', value => $data->{Password} }
+            );
         }
-        
+
         my $cUID = $users->addUser(
             $data->{LoginName}, $data->{WikiName},
             $data->{Password},  $data->{Email}
@@ -916,7 +593,8 @@ sub complete {
         my $e = shift;
 
         # Log the error
-        $session->logger->log('warning', 'Registration failed: ' . $e->stringify() );
+        $session->logger->log( 'warning',
+            'Registration failed: ' . $e->stringify() );
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -940,12 +618,9 @@ sub complete {
         # inform user and admin about the registration.
         $status = _emailRegistrationConfirmations( $session, $data );
 
-        # write log entry
-        if ( $Foswiki::cfg{Log}{register} ) {
-            $session->logEvent('register',
-                $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
-                $data->{Email}, $data->{WikiName} );
-        }
+        $session->logEvent( 'register',
+            $Foswiki::cfg{UsersWebName} . '.' . $data->{WikiName},
+            $data->{Email}, $data->{WikiName} );
 
         if ($status) {
             $status = $session->i18n->maketext(
@@ -969,7 +644,8 @@ sub complete {
     # WikiGuest, and an email was correctly sent.
     if (   $safe2login
         && $session->{user} eq
-        $session->{users}->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} ) )
+        $session->{users}->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} )
+      )
     {
 
         # let the client session know that we're logged in. (This probably
@@ -998,21 +674,15 @@ sub complete {
 #appearing in the homepage and to fetch photos into the topic
 sub _createUserTopic {
     my ( $session, $row ) = @_;
-    my $store    = $session->{store};
     my $template = 'NewUserTemplate';
-    my ( $meta, $text );
-    if ( $store->topicExists( $Foswiki::cfg{UsersWebName}, $template ) ) {
+    my $fromWeb  = $TWiki::cfg{UsersWebName};
 
-        # Use the local customised version
-        ( $meta, $text ) =
-          $store->readTopic( undef, $Foswiki::cfg{UsersWebName}, $template );
-    }
-    else {
+    if ( !$session->topicExists( $Foswiki::cfg{UsersWebName}, $template ) ) {
 
-        # Use the default read-only version
-        ( $meta, $text ) =
-          $store->readTopic( undef, $Foswiki::cfg{SystemWebName}, $template );
+        # Use the default version
+        $fromWeb = $Foswiki::cfg{SystemWebName};
     }
+    my $tobj = Foswiki::Meta->load( $session, $fromWeb, $template );
 
     my $log =
         $b1
@@ -1020,7 +690,7 @@ sub _createUserTopic {
       . $Foswiki::cfg{UsersWebName} . '.'
       . $row->{WikiName} . "\n"
       . "$b1 !RegistrationHandler:\n"
-      . _writeRegistrationDetailsToTopic( $session, $row, $meta, $text );
+      . _writeRegistrationDetailsToTopic( $session, $row, $tobj );
     return $log;
 }
 
@@ -1028,43 +698,62 @@ sub _createUserTopic {
 # or FormFields on the user's topic.
 #
 sub _writeRegistrationDetailsToTopic {
-    my ( $session, $data, $meta, $text ) = @_;
+    my ( $session, $data, $templateTopicObject ) = @_;
 
     ASSERT( $data->{WikiName} ) if DEBUG;
 
-    # TODO - there should be some way of overwriting meta without
-    # blatting the content.
-
-    my ( $before, $repeat, $after ) = split( /%SPLIT%/, $text, 3 );
+    my ( $before, $repeat, $after );
+    ( $before, $repeat, $after ) =
+      split( /%SPLIT%/, $templateTopicObject->text(), 3 )
+      if $templateTopicObject;
     $before = '' unless defined($before);
     $after  = '' unless defined($after);
 
+    my $user = $data->{WikiName};
+    my $topicObject =
+      Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName}, $user );
     my $log;
     my $addText;
-    my $form = $meta->get('FORM');
+
+    $topicObject->copyFrom($templateTopicObject);
+
+    my $form = $templateTopicObject->get('FORM');
     if ($form) {
-        ( $meta, $addText ) =
-          _populateUserTopicForm( $session, $form->{name}, $meta, $data );
+        ( $topicObject, $addText ) =
+          _populateUserTopicForm( $session, $form->{name}, $topicObject,
+            $data );
         $log = "$b2 Using Form Fields\n";
     }
     else {
         $addText = _getRegFormAsTopicContent($data);
         $log     = "$b2 Using Bullet Fields\n";
     }
-    $text = $before . $addText . $after;
+    my $text = $before . $addText . $after;
 
-    my $user = $data->{WikiName};
-    $text =
-      $session->expandVariablesOnTopicCreation( $text, $user,
-        $Foswiki::cfg{UsersWebName}, $user );
+    # Note: it may look dangerous to override the user this way, but
+    # it's actually quite safe, because only a subset of tags are
+    # expanded during topic creation. If the set of tags expanded is
+    # extended, then the impact has to be considered.
+    my $safe = $session->{user};
+    $session->{user} = $user;
+    try {
+        $text = $topicObject->expandNewTopic($text);
+        my $agent = $Foswiki::cfg{Register}{RegistrationAgentWikiName};
+        $session->{user} = $session->{users}->getCanonicalUserID($agent);
+        $topicObject->put( 'TOPICPARENT',
+            { name => $Foswiki::cfg{UsersTopicName} } );
+        $topicObject->text($text);
 
-    $meta->put( 'TOPICPARENT', { 'name' => $Foswiki::cfg{UsersTopicName} } );
-
-    $session->{store}->saveTopic(
-        $session->{users}->getCanonicalUserID($Foswiki::cfg{Register}{RegistrationAgentWikiName}),
-        $Foswiki::cfg{UsersWebName},
-        $user, $text, $meta
-    );
+        unless ( $topicObject->haveAccess('CHANGE') ) {
+            throw Foswiki::AccessControlException( 'CHANGE', $agent,
+                $topicObject->web, $topicObject->topic,
+                $Foswiki::Meta::reason );
+        }
+        $topicObject->save();
+    }
+    finally {
+        $session->{user} = $safe;
+    };
     return $log;
 }
 
@@ -1166,7 +855,8 @@ sub _emailRegistrationConfirmations {
     if ($err) {
 
         # don't tell the user about this one
-        $session->logger->log('warning', 'Could not confirm registration: ' . $err );
+        $session->logger->log( 'warning',
+            'Could not confirm registration: ' . $err );
     }
 
     return $warnings;
@@ -1183,14 +873,14 @@ sub _buildConfirmationEmail {
     $templateText =~ s/%WIKINAME%/$data->{WikiName}/go;
     $templateText =~ s/%EMAILADDRESS%/$data->{Email}/go;
 
-    $templateText =
-      $session->handleCommonTags( $templateText, $Foswiki::cfg{UsersWebName},
+    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
         $data->{WikiName} );
+    $templateText = $topicObject->expandMacros($templateText);
 
     #add LoginName to make it clear to new users
     my $loginName = $b1 . ' LoginName: ' . $data->{LoginName} . "\n";
 
-    #SMELL: this means we fail hard if there are 2 FORMDATA vars -
+    # SMELL: this means we fail hard if there are 2 FORMDATA vars -
     #       like in multi-part mime - txt & html
     my ( $before, $after ) = split( /%FORMDATA%/, $templateText );
     $before .= $loginName;
@@ -1200,8 +890,9 @@ sub _buildConfirmationEmail {
         if ( ( $name eq 'Password' ) && ($hidePassword) ) {
             $value = '*******';
         }
-        if ( ( $name ne 'Confirm' ) and 
-            ( $name ne 'LoginName' ) ) {        #skip LoginName - we've put it on top.
+        if (    ( $name ne 'Confirm' )
+            and ( $name ne 'LoginName' ) )
+        {    #skip LoginName - we've put it on top.
             $before .= $b1 . ' ' . $name . ': ' . $value . "\n";
         }
     }
@@ -1237,15 +928,16 @@ sub _validateRegistration {
     }
 
     # Check if login name matches expectations
-    unless ( $session->{users}->{loginManager}->isValidLoginName(
-        $data->{LoginName} )) {
+    unless ( $session->{users}->{loginManager}
+        ->isValidLoginName( $data->{LoginName} ) )
+    {
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
             topic  => $session->{topicName},
             def    => 'bad_loginname',
             params => [ $data->{LoginName} ]
-           );
+        );
     }
 
     # Check if the login name is already registered
@@ -1265,7 +957,6 @@ sub _validateRegistration {
     my $user     = $users->getCanonicalUserID( $data->{LoginName} );
     my $wikiname = $users->getWikiName($user);
 
-    my $store = $session->{store};
     if (
         $user
         &&
@@ -1279,7 +970,7 @@ sub _validateRegistration {
 #user has an entry in the mapping system (if AllowLoginName == off, then entry is automatic)
         (
             ( !$Foswiki::cfg{Register}{AllowLoginName} )
-            || $store->topicExists( $Foswiki::cfg{UsersWebName},
+            || $session->topicExists( $Foswiki::cfg{UsersWebName},
                 $wikiname )    #mapping from new login exists
         )
       )
@@ -1294,7 +985,9 @@ sub _validateRegistration {
     }
 
     #new user's topic already exists
-    if ( $store->topicExists( $Foswiki::cfg{UsersWebName}, $data->{WikiName} ) ) {
+    if ( $session->topicExists( $Foswiki::cfg{UsersWebName}, $data->{WikiName} )
+      )
+    {
         throw Foswiki::OopsException(
             'attention',
             web    => $data->{webName},
@@ -1386,8 +1079,9 @@ sub _validateRegistration {
     }
 }
 
+# Package private
 # sends $p->{template} to $p->{Email} with a bunch of substitutions.
-sub _sendEmail {
+sub sendEmail {
     my ( $session, $template, $p ) = @_;
 
     my $text = $session->templates->readTemplate($template);
@@ -1400,8 +1094,9 @@ sub _sendEmail {
     $text =~ s/%INTRODUCTION%/$p->{Introduction}/go;
     $text =~ s/%VERIFICATIONCODE%/$p->{VerificationCode}/go;
     $text =~ s/%PASSWORD%/$p->{PasswordA}/go;
-    $text = $session->handleCommonTags( $text, $Foswiki::cfg{UsersWebName},
+    my $topicObject = Foswiki::Meta->new( $session, $Foswiki::cfg{UsersWebName},
         $p->{WikiName} );
+    $text = $topicObject->expandMacros($text);
 
     return $session->net->sendEmail($text);
 }
@@ -1427,6 +1122,7 @@ sub _clearPendingRegistrationsForUser {
     # Remove the integer code to leave just the wikiname
     $file =~ s/\.\d+$//;
     foreach my $f (<$file.*>) {
+
         # Read from disc, implictly validated
         unlink( Foswiki::Sandbox::untaintUnchecked($f) );
     }
@@ -1500,9 +1196,10 @@ sub _getDataFromQuery {
     my $data = {};
     foreach ( $query->param() ) {
         if (/^(Twk([0-9])(.*))/) {
-            my @values = $query->param( $1 ) || ();
+            my @values   = $query->param($1) || ();
             my $required = $2;
-            my $name   = $3;
+            my $name     = $3;
+
             # deal with multivalue fields like checkboxen
             my $value = join( ',', @values );
 
@@ -1514,12 +1211,14 @@ sub _getDataFromQuery {
             # these data before they are used in dangerous ways.
             # DO NOT UNTAINT THESE DATA HERE!
             $data->{$name} = $value;
-            push( @{ $data->{form} },
-                  {
-                      required => $required,
-                      name => $name,
-                      value => $value,
-                  } );
+            push(
+                @{ $data->{form} },
+                {
+                    required => $required,
+                    name     => $name,
+                    value    => $value,
+                }
+            );
         }
     }
 

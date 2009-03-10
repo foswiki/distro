@@ -27,8 +27,8 @@ sub new {
     my ( $class, $session ) = @_;
 
     my $this = $class->SUPER::new($session);
-    $this->{apache} =
-      new Apache::Htpasswd( { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
+    $this->{apache} = new Apache::Htpasswd(
+        { passwdFile => $Foswiki::cfg{Htpasswd}{FileName} } );
 
     return $this;
 }

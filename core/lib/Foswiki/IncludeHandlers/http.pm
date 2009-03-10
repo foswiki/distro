@@ -5,7 +5,7 @@
 ---+ package Foswiki::IncludeHandlers::http
 
 This package is designed to be lazy-loaded when Foswiki sees
-an INCLUDE macro with the hhtp: protocol. It implements a single
+an INCLUDE macro with the http: protocol. It implements a single
 method INCLUDE. Also handles https:
 
 =cut
@@ -18,10 +18,10 @@ use Foswiki;
 
 # Fetch content from a URL for inclusion by an INCLUDE
 sub INCLUDE {
-    my ( $ignore, $session,  $control, $options ) = @_;
+    my ( $ignore, $session, $control, $options ) = @_;
 
     my $text = '';
-    my $url = $control->{_DEFAULT};
+    my $url  = $control->{_DEFAULT};
 
     # For speed, read file directly if URL matches an attachment directory
     # on this server
@@ -35,39 +35,31 @@ sub INCLUDE {
 
         # FIXME: Check for MIME type, not file suffix
         if ( $incAtt =~ m/\.(txt|html?)$/i ) {
-            unless (
-                $session->{store}->attachmentExists(
-                    $incWeb, $incTopic, $incAtt )
-              )
+            unless ( $session->attachmentExists( $incWeb, $incTopic, $incAtt ) )
             {
-                return $session->_includeWarning(
-                    $control->{warn}, 'bad_attachment', $url );
+                return $session->_includeWarning( $control->{warn},
+                    'bad_attachment', $url );
             }
-            if ( $incWeb ne $control->{inWeb}
-                   || $incTopic ne $control->{inTopic} ) {
+            my $topicObject =
+              Foswiki::Meta->new( $session, $incWeb, $incTopic );
+            if (   $incWeb ne $control->{inWeb}
+                || $incTopic ne $control->{inTopic} )
+            {
 
                 # CODE_SMELL: Does not account for not yet authenticated user
-                unless (
-                    $session->security->checkAccessPermission(
-                        'VIEW',    $session->{user}, undef, undef,
-                        $incTopic, $incWeb
-                    )
-                  )
-                {
-                    return $session->_includeWarning(
-                        $control->{warn}, 'access_denied',
-                        "$incWeb.$incTopic" );
+                unless ( $topicObject->haveAccess('VIEW') ) {
+                    return $session->_includeWarning( $control->{warn},
+                        'access_denied', "$incWeb.$incTopic" );
                 }
             }
-            $text = $session->{store}->readAttachment(
-                undef, $incWeb, $incTopic, $incAtt );
+            $text = $topicObject->readAttachment($incAtt);
             $text =
               _cleanupIncludedHTML( $text, $session->{urlHost},
                 $Foswiki::cfg{PubUrlPath}, $options )
               unless $control->{raw};
-            $text = Foswiki::applyPatternToIncludedText(
-                $text, $control->{pattern} )
-              if ($control->{pattern});
+            $text =
+              Foswiki::applyPatternToIncludedText( $text, $control->{pattern} )
+              if ( $control->{pattern} );
             $text = "<literal>\n" . $text . "\n</literal>"
               if ( $options->{literal} );
             return $text;
@@ -82,8 +74,8 @@ sub INCLUDE {
     # SMELL: should use the URI module from CPAN to parse the URL
     # SMELL: but additional CPAN adds to code bloat
     unless ( $url =~ m!^https?:! ) {
-        $text = $session->_includeWarning(
-            $control->{warn}, 'bad_protocol', $url );
+        $text =
+          $session->_includeWarning( $control->{warn}, 'bad_protocol', $url );
         return $text;
     }
 
@@ -103,11 +95,12 @@ sub INCLUDE {
         }
         else {
             $text =
-              $session->_includeWarning(
-                  $control->{warn}, 'bad_content', $contentType );
+              $session->_includeWarning( $control->{warn}, 'bad_content',
+                $contentType );
         }
-        $text = Foswiki::applyPatternToIncludedText(
-            $text, $control->{pattern} ) if ($control->{pattern});
+        $text =
+          Foswiki::applyPatternToIncludedText( $text, $control->{pattern} )
+          if ( $control->{pattern} );
         $text = "<literal>\n" . $text . "\n</literal>"
           if ( $options->{literal} );
     }
@@ -141,7 +134,8 @@ sub _cleanupIncludedHTML {
       ;    # replace newlines in html tags with space
     $text =~ s/(\s(?:href|src|action)=(["']))(.*?)\2/$1 .
       _rewriteURLInInclude( $host, $path, $3 ).$2/geis
-        unless ( $options->{disablerewriteurls} );
+
+      unless ( $options->{disablerewriteurls} );
 
     return $text;
 }

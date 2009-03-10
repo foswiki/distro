@@ -77,8 +77,8 @@ sub new {
 
     return $this unless defined($string);
 
-    $string =~
-      s/\\(["'])/$Foswiki::TranslationToken.sprintf("%.2u", ord($1))/ge; # escapes
+    $string =~ s/\\(["'])/$Foswiki::TranslationToken.sprintf("%.2u", ord($1))/ge
+      ;    # escapes
 
     my $sep = ( $friendly ? "[\\s,]" : "\\s" );
     my $first = 1;
@@ -126,6 +126,7 @@ sub new {
 
             # otherwise the whole string - sans padding - is the default
             else {
+
                 # SMELL: unchecked implicit untaint?
                 if ( $string =~ m/^\s*(.*?)\s*$/s
                     && !defined( $this->{$DEFAULTKEY} ) )
@@ -135,6 +136,7 @@ sub new {
                 last;
             }
         }
+
         # SMELL: unchecked implicit untaint?
         elsif ( $string =~ m/^\s*(.*?)\s*$/s ) {
             $this->{$DEFAULTKEY} = $1 if ($first);
@@ -142,7 +144,7 @@ sub new {
         }
     }
     foreach my $k ( keys %$this ) {
-        $this->{$k} =~ s/$Foswiki::TranslationToken(\d\d)/chr($1)/geo;   # escapes
+        $this->{$k} =~ s/$Foswiki::TranslationToken(\d\d)/chr($1)/geo; # escapes
     }
     return $this;
 }

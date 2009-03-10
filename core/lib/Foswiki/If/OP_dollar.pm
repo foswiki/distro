@@ -34,8 +34,7 @@ sub evaluate {
     }
 
     $text = "%$text%";
-    Foswiki::expandAllTags( $session, \$text, $session->{topicName},
-        $session->{webName} );
+    Foswiki::innerExpandMacros( $session, \$text, $domain{tom} );
 
     return $text || '';
 }

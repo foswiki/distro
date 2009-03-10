@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.2" version="$Rev$"}%
 ---+ The Smilies Plugin <nop>:-)
 
 Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon.

@@ -138,8 +138,9 @@ sub upgradeCategoryTable {
                 push @items, ( [ $catname, $catmod, $catvalue ] );
             }
         }
-        my $prefs = $session->{prefs};
-        my $listForms = $prefs->getWebPreferencesValue( 'WEBFORMS', $web );
+        my $prefs     = $session->{prefs};
+        my $webObject = Foswiki::Meta->new( $session, $web );
+        my $listForms = $webObject->getPreference('WEBFORMS');
         $listForms =~ s/^\s*//go;
         $listForms =~ s/\s*$//go;
         my @formTemplates = split( /\s*,\s*/, $listForms );
@@ -147,9 +148,8 @@ sub upgradeCategoryTable {
         $defaultFormTemplate = $formTemplates[0] if (@formTemplates);
 
         if ( !$defaultFormTemplate ) {
-            $session->logger->log(
-                'warning',
-                "Form: can't get form definition to convert category table "
+            $session->logger->log( 'warning',
+                    "Form: can't get form definition to convert category table "
                   . " for topic $web.$topic" );
             foreach my $oldCat (@items) {
                 my $name  = $oldCat->[0];
@@ -194,8 +194,8 @@ sub upgradeCategoryTable {
 
     }
     else {
-        $session->logger->log('warning',
-            "Form: get find category template twikicatitems for Web $web");
+        $session->logger->log( 'warning',
+            "Form: get find category template twikicatitems for Web $web" );
     }
     return $text;
 }
@@ -221,6 +221,7 @@ sub _getOldAttachAttr {
         ( $before, $filePath, $after ) =
           split( /<(?:\/)*TwkFilePath>/, $atext );
         if ( !$filePath ) { $filePath = ''; }
+
         # SMELL: unchecked implicit untaint
         $filePath =~ s/<TwkData value="(.*)">//go;
         if   ($1) { $filePath = $1; }
@@ -341,6 +342,42 @@ sub upgradeFrom1v0beta {
         $att->{date} = $date;
         $att->{user} = $users->webDotWikiName( $att->{user} );
     }
+}
+
+# Read meta-data encoded using the discredited symmetrical encoding
+# method from pre 1.1
+sub readSymmetricallyEncodedMETA {
+    my ( $meta, $type, $args ) = @_;
+
+    my $keys = {};
+
+    $args =~ s/\s*([^=]+)="([^"]*)"/
+      _symmetricalDataDecode( $1, $2, $keys )/ge;
+
+    if ( defined( $keys->{name} ) ) {
+
+        # don't attempt to save it keyed unless it has a name
+        $meta->putKeyed( $type, $keys );
+    }
+    else {
+        $meta->put( $type, $keys );
+    }
+    return 1;
+}
+
+sub _symmetricalDataDecode {
+    my ( $key, $value, $res ) = @_;
+
+    # Old decoding retained for backward compatibility.
+    # This encoding is badly broken, because the encoded
+    # symbols are symmetrical, and use an encoded symbol (%).
+    $value =~ s/%_N_%/\n/g;
+    $value =~ s/%_Q_%/\"/g;
+    $value =~ s/%_P_%/%/g;
+
+    $res->{$key} = $value;
+
+    return '';
 }
 
 1;

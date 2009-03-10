@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1117992408" format="1.0" version="$Rev: 13647 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1117992408" format="1.0" version="$Rev$"}%
 
 Description: Automated search function tests.
 
@@ -12,7 +12,7 @@ Designed by: Crawford Currie
 ---++ Expected
 <!-- expected expand rex DEFAULT -->
 <span class="patternSearched">Searched: <b><noautolink>hit me with your rhythm stick</noautolink></b></span><span id="foswikiNumberOfResultsContainer"></span><span id="foswikiModifySearchContainer"></span>
-<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (GMT)</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4>
+<h4 class="patternSearchResultsHeader" style="background-color:yellow"><span class="foswikiLeft"><b>Results from TestCases web</b> retrieved at @TIME (@REX(GMT|Local))</span><span class="foswikiRight"></span><br class="foswikiClear" /></h4>
 <div class="patternSearchResult"><div class="foswikiTopRow"><div class="foswikiLeft"><a href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoSearch"><b>TestCaseAutoSearch</b></a> </div>
 <div class="foswikiRight foswikiSRAuthor">
 <a href="%SCRIPTURLPATH{"view"}%/%USERSWEB%/@WIKIWORD">@WIKIWORD</a></div>

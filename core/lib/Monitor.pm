@@ -40,13 +40,14 @@ use vars qw(@times @methodStats);
 sub get_stat_info {
 
     # open and read the main stat file
-    if ( !open( _INFO, "</proc/$_[0]/stat" ) ) {
+    my $_INFO;
+    if ( !open( $_INFO, "</proc/$_[0]/stat" ) ) {
 
         # Failed
         return { vsize => 0, rss => 0 };
     }
-    my @info = split( /\s+/, <_INFO> );
-    close(_INFO);
+    my @info = split( /\s+/, <$_INFO> );
+    close($_INFO);
 
     # these are all the props (skip some)
     # pid(0) comm(1) state ppid pgrp session tty

@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::UI::Statistics
@@ -71,13 +72,14 @@ sub statistics {
 
     require Foswiki::Time;
     unless ($logDate) {
-        $logDate = Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
+        $logDate =
+          Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
     }
 
     my $logMonth;
     my $logYear;
     if ( $logDate =~ /^(\d\d\d\d)(\d\d)$/ ) {
-        $logYear = $1;
+        $logYear  = $1;
         $logMonth = $2;
     }
     else {
@@ -85,7 +87,8 @@ sub statistics {
         return;
     }
 
-    my $logMonthYear = $Foswiki::Time::ISOMONTH[$logMonth - 1].' '.$logYear;
+    my $logMonthYear =
+      $Foswiki::Time::ISOMONTH[ $logMonth - 1 ] . ' ' . $logYear;
     _printMsg( $session, "* Statistics for $logMonthYear" );
 
     # Copy the log file to temp file, since analysis could take some time
@@ -97,29 +100,33 @@ sub statistics {
     my $data = _collectLogData( $session, "1 $logMonthYear" );
 
     my @weblist;
-    my $webSet = $session->{request}->param('webs') ||
-      $session->{requestedWebName};
+    my $webSet = $session->{request}->param('webs')
+      || $session->{requestedWebName};
     if ($webSet) {
 
         # do specific webs
-        foreach my $web (split( /,\s*/, $webSet )) {
-            $web = Foswiki::Sandbox::untaint(
-                $web, \&Foswiki::Sandbox::validateWebName);
-            push(@weblist, $web) if $web;
+        foreach my $web ( split( /,\s*/, $webSet ) ) {
+            $web = Foswiki::Sandbox::untaint( $web,
+                \&Foswiki::Sandbox::validateWebName );
+            push( @weblist, $web ) if $web;
         }
     }
     else {
 
         # otherwise do all user webs:
-        @weblist = $session->{store}->getListOfWebs('user');
+        my $root = Foswiki::Meta->new($session);
+        my $it   = $root->eachWeb();
+        while ( $it->hasNext() ) {
+            my $w = $it->next();
+            next unless $Foswiki::WebFilter::user->ok( $session, $w );
+            push( @weblist, $w );
+        }
     }
     my $firstTime = 1;
     foreach my $web (@weblist) {
         try {
-            $destWeb = _processWeb(
-                $session,     $web,            $logMonthYear,
-                $data, $firstTime
-            );
+            $destWeb =
+              _processWeb( $session, $web, $logMonthYear, $data, $firstTime );
         }
         catch Foswiki::AccessControlException with {
             _printMsg( $session,
@@ -195,21 +202,21 @@ sub _collectLogData {
     $start = Foswiki::Time::parseTime($start);
 
     my $data = {
-        viewRef => {}, # Hash of hashes, counts topic views by (web, topic)
-        contribRef => {}, # Hash of hashes, counts uploads/saves by (web, user)
-        # Hashes for each type of statistic, one hash entry per web
-        statViewsRef=>{},
-        statSavesRef=>{},
-        statUploadsRef=>{}
-       };
+        viewRef    => {},  # Hash of hashes, counts topic views by (web, topic)
+        contribRef => {},  # Hash of hashes, counts uploads/saves by (web, user)
+             # Hashes for each type of statistic, one hash entry per web
+        statViewsRef   => {},
+        statSavesRef   => {},
+        statUploadsRef => {}
+    };
 
     my $users = $session->{users};
 
-    my $it = $session->logger->eachEventSince($start, 'info');
+    my $it = $session->logger->eachEventSince( $start, 'info' );
     while ( $it->hasNext() ) {
         my $line = $it->next();
         my $date = shift(@$line);
-        my ( $logFileUserName );
+        my ($logFileUserName);
 
         while ( !$logFileUserName && scalar(@$line) ) {
             $logFileUserName = shift @$line;
@@ -232,10 +239,10 @@ sub _collectLogData {
         next if ( $opName && $opName =~ /(changepasswd)/ );
 
 # .+ is used because topics name can contain stuff like !, (, ), =, -, _ and they should have stats anyway
-        if ( $webTopic
-               && $opName
-                 && $webTopic =~
-                   /(^$Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}$|$Foswiki::regex{abbrevRegex}|.+)/
+        if (   $webTopic
+            && $opName
+            && $webTopic =~
+/(^$Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex}$|$Foswiki::regex{abbrevRegex}|.+)/
           )
         {
             my $webName   = $1;
@@ -252,14 +259,14 @@ sub _collectLogData {
             }
             elsif ( $opName eq 'save' ) {
                 $data->{statSavesRef}->{$webName}++;
-                $data->{contribRef}->{$webName}
-                  { $users->webDotWikiName($logFileUserName) }++;
+                $data->{contribRef}
+                  ->{$webName}{ $users->webDotWikiName($logFileUserName) }++;
 
             }
             elsif ( $opName eq 'upload' ) {
                 $data->{statUploadsRef}->{$webName}++;
-                $data->{contribRef}->{$webName}
-                  { $users->webDotWikiName($logFileUserName) }++;
+                $data->{contribRef}
+                  ->{$webName}{ $users->webDotWikiName($logFileUserName) }++;
 
             }
             elsif ( $opName eq 'rename' ) {
@@ -285,9 +292,8 @@ sub _collectLogData {
             }
         }
         else {
-            $session->logger->log(
-                'debug', 'WebStatistics: Bad logfile line ' .
-                  join('|', @$line) );
+            $session->logger->log( 'debug',
+                'WebStatistics: Bad logfile line ' . join( '|', @$line ) );
         }
     }
 
@@ -295,10 +301,7 @@ sub _collectLogData {
 }
 
 sub _processWeb {
-    my (
-        $session,      $web,            $theLogMonthYear,
-        $data, $isFirstTime
-    ) = @_;
+    my ( $session, $web, $theLogMonthYear, $data, $isFirstTime ) = @_;
 
     my ( $topic, $user ) = ( $session->{topicName}, $session->{user} );
 
@@ -322,7 +325,8 @@ sub _processWeb {
     my (@topViews) =
       _getTopList( $Foswiki::cfg{Stats}{TopViews}, $web, $data->{viewRef} );
     my (@topContribs) =
-      _getTopList( $Foswiki::cfg{Stats}{TopContrib}, $web, $data->{contribRef} );
+      _getTopList( $Foswiki::cfg{Stats}{TopContrib}, $web,
+        $data->{contribRef} );
 
     # Print information to stdout
     my $statTopViews        = '';
@@ -341,76 +345,67 @@ sub _processWeb {
 
     my $tmp;
     my $statsTopic = $Foswiki::cfg{Stats}{TopicName};
-
-    # DEBUG
-    # $statsTopic = 'TestStatistics';		# Create this by hand
-    if ( $session->{store}->topicExists( $web, $statsTopic ) ) {
-        my ( $meta, $text ) =
-          $session->{store}->readTopic( undef, $web, $statsTopic, undef );
-        my @lines = split( /\r?\n/, $text );
-        my $statLine;
-        my $idxStat = -1;
-        my $idxTmpl = -1;
-        for ( my $x = 0 ; $x < @lines ; $x++ ) {
-            $tmp = $lines[$x];
-
-            # Check for existing line for this month+year
-            if ( $tmp =~ /$theLogMonthYear/ ) {
-                $idxStat = $x;
-            }
-            elsif ( $tmp =~ /<\!\-\-statDate\-\->/ ) {
-                $statLine = $tmp;
-                $idxTmpl  = $x;
-            }
-        }
-        if ( !$statLine ) {
-            $statLine =
-'| <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |';
-        }
-        $statLine =~ s/<\!\-\-statDate\-\->/$theLogMonthYear/;
-        $statLine =~ s/<\!\-\-statViews\-\->/ $statViews/;
-        $statLine =~ s/<\!\-\-statSaves\-\->/ $statSaves/;
-        $statLine =~ s/<\!\-\-statUploads\-\->/ $statUploads/;
-        $statLine =~ s/<\!\-\-statTopViews\-\->/$statTopViews/;
-        $statLine =~ s/<\!\-\-statTopContributors\-\->/$statTopContributors/;
-
-        if ( $idxStat >= 0 ) {
-
-            # entry already exists, need to update
-            $lines[$idxStat] = $statLine;
-
-        }
-        elsif ( $idxTmpl >= 0 ) {
-
-            # entry does not exist, add after <!--statDate--> line
-            $lines[$idxTmpl] = "$lines[$idxTmpl]\n$statLine";
-
-        }
-        else {
-
-            # entry does not exist, add at the end
-            $lines[@lines] = $statLine;
-        }
-        $text = join( "\n", @lines );
-        $text .= "\n";
-        $session->{store}->saveTopic(
-            $user, $web,
-            $statsTopic,
-            $text, $meta,
-            {
-                minor   => 1,
-                dontlog => 1
-            }
-        );
-
-        _printMsg( $session, "  - Topic $statsTopic updated" );
-
-    }
-    else {
+    unless ( $session->topicExists( $web, $statsTopic ) ) {
         _printMsg( $session,
             "! Warning: No updates done, topic $web.$statsTopic does not exist"
         );
+        return $web;
     }
+
+    # DEBUG
+    # $statsTopic = 'TestStatistics';		# Create this by hand
+    my $meta = Foswiki::Meta->load( $session, $web, $statsTopic );
+    Fosiki::UI::checkAccess( $session, 'CHANGE', $meta );
+    my @lines = split( /\r?\n/, $meta->text );
+    my $statLine;
+    my $idxStat = -1;
+    my $idxTmpl = -1;
+    for ( my $x = 0 ; $x < @lines ; $x++ ) {
+        $tmp = $lines[$x];
+
+        # Check for existing line for this month+year
+        if ( $tmp =~ /$theLogMonthYear/ ) {
+            $idxStat = $x;
+        }
+        elsif ( $tmp =~ /<\!\-\-statDate\-\->/ ) {
+            $statLine = $tmp;
+            $idxTmpl  = $x;
+        }
+    }
+    if ( !$statLine ) {
+        $statLine =
+'| <!--statDate--> | <!--statViews--> | <!--statSaves--> | <!--statUploads--> | <!--statTopViews--> | <!--statTopContributors--> |';
+    }
+    $statLine =~ s/<\!\-\-statDate\-\->/$theLogMonthYear/;
+    $statLine =~ s/<\!\-\-statViews\-\->/ $statViews/;
+    $statLine =~ s/<\!\-\-statSaves\-\->/ $statSaves/;
+    $statLine =~ s/<\!\-\-statUploads\-\->/ $statUploads/;
+    $statLine =~ s/<\!\-\-statTopViews\-\->/$statTopViews/;
+    $statLine =~ s/<\!\-\-statTopContributors\-\->/$statTopContributors/;
+
+    if ( $idxStat >= 0 ) {
+
+        # entry already exists, need to update
+        $lines[$idxStat] = $statLine;
+
+    }
+    elsif ( $idxTmpl >= 0 ) {
+
+        # entry does not exist, add after <!--statDate--> line
+        $lines[$idxTmpl] = "$lines[$idxTmpl]\n$statLine";
+
+    }
+    else {
+
+        # entry does not exist, add at the end
+        $lines[@lines] = $statLine;
+    }
+    my $text = join( "\n", @lines );
+    $text .= "\n";
+    $meta->text($text);
+    $meta->save( minor => 1, dontlog => 1 );
+
+    _printMsg( $session, "  - Topic $statsTopic updated" );
 
     return $web;
 }
@@ -493,7 +488,7 @@ sub _printMsg {
             $msg .= CGI::br();
         }
         $msg =~
-          s/==([A-Z]*)==/'=='.CGI::span( { class=>'foswikiAlert' }, $1 ).'=='/ge;
+s/==([A-Z]*)==/'=='.CGI::span( { class=>'foswikiAlert' }, $1 ).'=='/ge;
     }
     $session->{response}->print( $msg . "\n" ) if $msg;
 }

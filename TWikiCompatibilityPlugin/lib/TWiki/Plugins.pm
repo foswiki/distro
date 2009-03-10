@@ -6,6 +6,6 @@ use Foswiki::Plugins;
 # separately from $Foswiki::Plugins::VERSION.
 our $VERSION = 1.2;
 
-*TWiki::Plugins::SESSION =\*Foswiki::Plugins::SESSION;
+*TWiki::Plugins::SESSION = \*Foswiki::Plugins::SESSION;
 
 1;

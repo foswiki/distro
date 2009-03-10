@@ -113,6 +113,35 @@ sub next {
     return $n;
 }
 
+=begin twiki
+
+---++ ObjectMethod all() -> @list
+
+Exhaust the iterator. Return all remaining elements in the iteration
+as a list. The returned list should be considered to be immutable.
+
+This method is cheap if it is called when the cursor is at the first
+element in the iteration, and expensive otherwise, as it requires a list
+copy to be made.
+
+=cut
+
+sub all {
+    my $this = shift;
+    if ( $this->{index} ) {
+        my @copy = @{ $this->{list} };    # don't damage the original list
+        splice( @copy, 0, $this->{index} );
+        $this->{index} = scalar( @{ $this->{list} } );
+        return @copy;
+    }
+    else {
+
+        # At the start (good)
+        $this->{index} = scalar( @{ $this->{list} } );
+        return @{ $this->{list} };
+    }
+}
+
 1;
 __DATA__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/

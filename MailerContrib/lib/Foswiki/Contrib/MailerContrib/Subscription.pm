@@ -41,13 +41,13 @@ Create a new subscription.
 sub new {
     my ( $class, $topics, $depth, $opts ) = @_;
 
-    ASSERT(defined($opts) && $opts =~ /^\d*$/) if DEBUG;
+    ASSERT( defined($opts) && $opts =~ /^\d*$/ ) if DEBUG;
 
     my $this = bless( {}, $class );
 
-    $this->{topics} = $topics || '';
-    $this->{depth} = $depth || 0;
-    $this->{options} = $opts || 0;
+    $this->{topics}  = $topics || '';
+    $this->{depth}   = $depth  || 0;
+    $this->{options} = $opts   || 0;
 
     $topics =~ s/[^\w\*]//g;
     $topics =~ s/\*/\.\*\?/g;
@@ -64,8 +64,9 @@ Return a string representation of this object, in Web<nop>Notify format.
 =cut
 
 sub stringify {
-    my $this = shift;
+    my $this   = shift;
     my $record = $this->{topics};
+
     # convert RE back to wildcard
     $record =~ s/\.\*\?/\*/;
     $record .= $this->getMode();
@@ -92,13 +93,13 @@ sub matches {
 
     return 1 if ( $topic =~ $this->{topicsRE} );
 
-    $depth = $this->{depth} unless defined( $depth );
+    $depth = $this->{depth} unless defined($depth);
     $depth ||= 0;
 
-    if ( $depth && $db) {
-        my $parent = $db->getParent( $topic );
+    if ( $depth && $db ) {
+        my $parent = $db->getParent($topic);
         $parent =~ s/^.*\.//;
-        return $this->matches( $parent, $db, $depth - 1 ) if ( $parent );
+        return $this->matches( $parent, $db, $depth - 1 ) if ($parent);
     }
 
     return 0;
@@ -118,17 +119,18 @@ specified by another subscription. Thus:
 =cut
 
 sub covers {
-    my( $this, $tother, $db ) = @_;
-    
+    my ( $this, $tother, $db ) = @_;
+
     #* should win always.
-    return 1 if ($this->{topics} eq '*');
+    return 1 if ( $this->{topics} eq '*' );
 
     # Does the mode cover the other subscription?
-    return 0 unless
-      (($this->{options} & $tother->{options}) == $tother->{options});
+    return 0
+      unless (
+        ( $this->{options} & $tother->{options} ) == $tother->{options} );
 
     # do they match without taking into account the depth?
-    return 0 unless( $this->matches($tother->{topics}, undef, 0) );
+    return 0 unless ( $this->matches( $tother->{topics}, undef, 0 ) );
 
     # if we have a depth and they don't, that's already catered for
     # by the matches test above
@@ -138,7 +140,7 @@ sub covers {
 
     # if we have a depth and they have a depth, then there is coverage
     # if our depth is >= their depth
-    return 0 unless( $this->{depth} >= $tother->{depth} );
+    return 0 unless ( $this->{depth} >= $tother->{depth} );
 
     return 1;
 }
@@ -154,8 +156,8 @@ specified in WebNotify.
 sub getMode {
     my $this = shift;
 
-    if ($this->{options} & $MailerConst::FULL_TOPIC) {
-        return '!' if ($this->{options} & $MailerConst::ALWAYS);
+    if ( $this->{options} & $MailerConst::FULL_TOPIC ) {
+        return '!' if ( $this->{options} & $MailerConst::ALWAYS );
         return '?';
     }
     return '';
@@ -169,10 +171,10 @@ Compare two subscriptions.
 =cut
 
 sub equals {
-    my( $this, $tother ) = @_;
-    return 0 unless ($this->{options} eq $tother->{options});
-    return 0 unless ($this->{depth} == $tother->{depth});
-    return 0 unless ($this->{topics} eq $tother->{topics});
+    my ( $this, $tother ) = @_;
+    return 0 unless ( $this->{options} eq $tother->{options} );
+    return 0 unless ( $this->{depth} == $tother->{depth} );
+    return 0 unless ( $this->{topics} eq $tother->{topics} );
 }
 
 1;

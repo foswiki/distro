@@ -18,12 +18,11 @@
 # As per the GPL, removal of this notice is prohibited.
 # Authors: Eugen Mayer, http://foswiki.org/Main/EugenMayer
 
-
 package Foswiki::Plugins::SlideShowPlugin;
 
 use vars qw(
-        $web $topic $user $installWeb $VERSION $RELEASE $debug $addedHead
-    );
+  $web $topic $user $installWeb $VERSION $RELEASE $debug $addedHead
+);
 
 $addedHead = 0;
 
@@ -37,42 +36,39 @@ $VERSION = '$Rev$';
 # of the version number in PLUGINDESCRIPTIONS.
 $RELEASE = '18 Feb 2009';
 
-
-sub initPlugin
-{
+sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 1 ) {
-        Foswiki::Func::writeWarning( "Version mismatch between SlideShowPlugin and Plugins.pm" );
+    if ( $Foswiki::Plugins::VERSION < 1 ) {
+        Foswiki::Func::writeWarning(
+            "Version mismatch between SlideShowPlugin and Plugins.pm");
         return 0;
     }
 
     return 1;
 }
 
-
-sub commonTagsHandler
-{
+sub commonTagsHandler {
 ### my ( $text, $topic, $web ) = @_;   # do not uncomment, use $_[0], $_[1]... instead
-    if( $_[0] =~ /%SLIDESHOWSTART/ ) {
-		_addHeader();
+    if ( $_[0] =~ /%SLIDESHOWSTART/ ) {
+        _addHeader();
         require Foswiki::Plugins::SlideShowPlugin::SlideShow;
-        Foswiki::Plugins::SlideShowPlugin::SlideShow::init( $installWeb );
-        $_[0] = Foswiki::Plugins::SlideShowPlugin::SlideShow::handler( @_ );
+        Foswiki::Plugins::SlideShowPlugin::SlideShow::init($installWeb);
+        $_[0] = Foswiki::Plugins::SlideShowPlugin::SlideShow::handler(@_);
     }
 }
 
 sub _addHeader {
 
-	return if $addedHead;
+    return if $addedHead;
     $header .= <<'EOF';
 <style type="text/css" media="all">
 @import url("%PUBURL%/%SYSTEMWEB%/SlideShowPlugin/slideshow.css");
 </style>
 EOF
     Foswiki::Func::addToHEAD( 'SLIDESHOWPLUGIN', $header );
-   	$addedHead = 1;
+    $addedHead = 1;
 }
 
 1;

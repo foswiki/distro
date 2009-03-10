@@ -193,7 +193,8 @@ sub _hoistDOT {
 
         }
     }
-    elsif ( !ref( $node->{op} ) && $node->{op} eq $Foswiki::Infix::Node::NAME ) {
+    elsif ( !ref( $node->{op} ) && $node->{op} eq $Foswiki::Infix::Node::NAME )
+    {
         if ( $node->{params}[0] eq 'name' ) {
 
             # Special case for the topic name

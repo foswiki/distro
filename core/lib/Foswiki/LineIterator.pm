@@ -24,10 +24,13 @@ Create a new iterator over the given file handle.
 
 sub new {
     my ( $class, $fh ) = @_;
-    my $this = bless( {
-        nextLine => undef,
-        handle => $fh,
-    }, $class );
+    my $this = bless(
+        {
+            nextLine => undef,
+            handle   => $fh,
+        },
+        $class
+    );
     Foswiki::LineIterator::next($this);
     $this->{process} = undef;
     $this->{filter}  = undef;
@@ -84,7 +87,7 @@ while ($it->hasNext()) {
 =cut
 
 sub next {
-    my ($this)  = @_;
+    my ($this) = @_;
     my $curLine = $this->{nextLine};
     local $/ = "\n";
     while (1) {
@@ -99,8 +102,8 @@ sub next {
         last if !$this->{filter};
         last unless &{ $this->{filter} }( $this->{nextLine} );
     }
-    $curLine = &{ $this->{process} }($curLine) if
-      defined $curLine && $this->{process};
+    $curLine = &{ $this->{process} }($curLine)
+      if defined $curLine && $this->{process};
     return $curLine;
 }
 

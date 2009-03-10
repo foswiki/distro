@@ -124,16 +124,20 @@ sub load {
 
     unless ($allDisabled) {
         if ( $query && defined( $query->param('debugenableplugins') ) ) {
-            foreach my $pn (split(
-                /[,\s]+/, $query->param('debugenableplugins') )) {
-                push (@pluginList, Foswiki::Sandbox::untaint(
-                    $pn,
-                    sub {
-                        throw Error::Simple(
-                            'Bad debugenableplugins') unless
-                              $pn =~ /^\w+$/;
-                        return $pn;
-                    }));
+            foreach
+              my $pn ( split( /[,\s]+/, $query->param('debugenableplugins') ) )
+            {
+                push(
+                    @pluginList,
+                    Foswiki::Sandbox::untaint(
+                        $pn,
+                        sub {
+                            throw Error::Simple('Bad debugenableplugins')
+                              unless $pn =~ /^\w+$/;
+                            return $pn;
+                        }
+                    )
+                );
             }
         }
         else {
@@ -152,7 +156,7 @@ sub load {
                 }
             }
             foreach my $plugin ( sort keys %{ $Foswiki::cfg{Plugins} } ) {
-                next unless ref($Foswiki::cfg{Plugins}{$plugin}) eq 'HASH';
+                next unless ref( $Foswiki::cfg{Plugins}{$plugin} ) eq 'HASH';
                 if ( $Foswiki::cfg{Plugins}{$plugin}{Enabled}
                     && !$already{$plugin} )
                 {
@@ -187,8 +191,8 @@ sub load {
 
         # Report initialisation errors
         if ( $p->{errors} ) {
-            $this->{session}->logger->log(
-                'warning', join( "\n", @{ $p->{errors} } ) );
+            $this->{session}
+              ->logger->log( 'warning', join( "\n", @{ $p->{errors} } ) );
         }
         $lookup{$pn} = $p;
     }
@@ -226,7 +230,7 @@ Initialisation that is done after the user is known.
 sub enable {
     my $this     = shift;
     my $prefs    = $this->{session}->{prefs};
-    my $dissed   = $prefs->getPreferencesValue('DISABLEDPLUGINS') || '';
+    my $dissed   = $prefs->getPreference('DISABLEDPLUGINS') || '';
     my %disabled = map { $_ => 1 } split( /,\s*/, $dissed );
 
     # Set the session for this call stack
@@ -246,8 +250,8 @@ sub enable {
 
         # Report initialisation errors
         if ( $plugin->{errors} ) {
-            $this->{session}->logger->log(
-                'warning', join( "\n", @{ $plugin->{errors} } ) );
+            $this->{session}
+              ->logger->log( 'warning', join( "\n", @{ $plugin->{errors} } ) );
         }
     }
 }
@@ -364,9 +368,7 @@ sub _handleFAILEDPLUGINS {
         my $web = $plugin->topicWeb();
         $text .= CGI::Tr(
             { valign => 'top' },
-            CGI::td(
-                ' ' . ($web ? "$web." : '!').$plugin->{name}.' '
-              )
+            CGI::td( ' ' . ( $web ? "$web." : '!' ) . $plugin->{name} . ' ' )
               . $td
         );
     }
@@ -422,7 +424,7 @@ sub _handleACTIVATEDPLUGINS {
     foreach my $plugin ( @{ $this->{plugins} } ) {
         unless ( $plugin->{disabled} ) {
             my $web = $plugin->topicWeb();
-            $text .= ($web ? "$web." : '!')."$plugin->{name}, ";
+            $text .= ( $web ? "$web." : '!' ) . "$plugin->{name}, ";
         }
     }
     $text =~ s/\,\s*$//o;

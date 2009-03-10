@@ -51,30 +51,34 @@ sub new {
     $this->{L2U} = {
         $Foswiki::cfg{AdminUserLogin}   => $this->{mapping_id} . '333',
         $Foswiki::cfg{DefaultUserLogin} => $this->{mapping_id} . '666',
-        unknown                       => $this->{mapping_id} . '999',
+        unknown                         => $this->{mapping_id} . '999',
         ProjectContributor              => $this->{mapping_id} . '111',
-        $Foswiki::cfg{Register}{RegistrationAgentWikiName}        => $this->{mapping_id} . '222'
+        $Foswiki::cfg{Register}{RegistrationAgentWikiName} =>
+          $this->{mapping_id} . '222'
     };
     $this->{U2L} = {
         $this->{mapping_id} . '333' => $Foswiki::cfg{AdminUserLogin},
         $this->{mapping_id} . '666' => $Foswiki::cfg{DefaultUserLogin},
         $this->{mapping_id} . '999' => 'unknown',
         $this->{mapping_id} . '111' => 'ProjectContributor',
-        $this->{mapping_id} . '222' => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+        $this->{mapping_id}
+          . '222' => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
     };
     $this->{U2W} = {
         $this->{mapping_id} . '333' => $Foswiki::cfg{AdminUserWikiName},
         $this->{mapping_id} . '666' => $Foswiki::cfg{DefaultUserWikiName},
         $this->{mapping_id} . '999' => 'UnknownUser',
         $this->{mapping_id} . '111' => 'ProjectContributor',
-        $this->{mapping_id} . '222' => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+        $this->{mapping_id}
+          . '222' => $Foswiki::cfg{Register}{RegistrationAgentWikiName}
     };
     $this->{W2U} = {
         $Foswiki::cfg{AdminUserWikiName}   => $this->{mapping_id} . '333',
         $Foswiki::cfg{DefaultUserWikiName} => $this->{mapping_id} . '666',
-        UnknownUser                      => $this->{mapping_id} . '999',
-        ProjectContributor               => $this->{mapping_id} . '111',
-        $Foswiki::cfg{Register}{RegistrationAgentWikiName}    => $this->{mapping_id} . '222'
+        UnknownUser                        => $this->{mapping_id} . '999',
+        ProjectContributor                 => $this->{mapping_id} . '111',
+        $Foswiki::cfg{Register}{RegistrationAgentWikiName} =>
+          $this->{mapping_id} . '222'
     };
     $this->{U2E} =
       { $this->{mapping_id} . '333' => $Foswiki::cfg{WebMasterEmail} };
@@ -83,9 +87,10 @@ sub new {
     $this->{GROUPS} = {
         $Foswiki::cfg{SuperAdminGroup} => [
             $this->{mapping_id} . '333',
-            $this->{mapping_id} . '222'     #so registration can still take place on an otherwise locked down USERSWEB
+            $this->{mapping_id}
+              . '222' #so registration can still take place on an otherwise locked down USERSWEB
         ],
-        BaseGroup               => [
+        BaseGroup => [
             $this->{mapping_id} . '333',
             $this->{mapping_id} . '666',
             $this->{mapping_id} . '999',
@@ -353,10 +358,10 @@ sub findUserByWikiName {
         }
         elsif ( $this->{L2U}->{$wn} ) {
 
-            # The wikiname is also a login name for the purposes of this
-            # mapping. We have to do this because Foswiki defines access controls
-            # in terms of mapped users, and if a wikiname is *missing* from the
-            # mapping there is "no such user".
+           # The wikiname is also a login name for the purposes of this
+           # mapping. We have to do this because Foswiki defines access controls
+           # in terms of mapped users, and if a wikiname is *missing* from the
+           # mapping there is "no such user".
             push( @users, $this->{L2U}->{$wn} );
         }
     }

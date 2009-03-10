@@ -29,10 +29,14 @@ of possible values.
 # intelligence is in the individual field types.
 
 package Foswiki::Form;
+use base 'Foswiki::Meta';
 
 use strict;
 use Assert;
 use Error qw( :try );
+
+use Foswiki::Form::FieldDefinition;
+use Foswiki::Form::ListFieldDefinition;
 
 # The following are reserved as URL parameters to scripts and may not be
 # used as field names in forms.
@@ -43,20 +47,19 @@ my %reservedFieldNames = map { $_ => 1 }
 
 =begin TML
 
----++ ClassMethod new ( $session, $web, $form, \@def )
+---++ ClassMethod new ( $session, $web, $topic, \@def )
 
 Looks up a form in the session object or, if it hasn't been read yet,
 reads it from the form definition topic on disc.
    * =$web= - default web to recover form from, if =$form= doesn't
      specify a web
-   * =$form= - name of the form
+   * =$topic= - name of the topic that contains the form definition
    * =\@def= - optional. A reference to a list of field definitions.
      If present, these definitions will be used, rather than any read from
-     the form definition topic. Note that this array should not be modified
-     again after being passed into this constructor (it is not copied).
+     the form definition topic.
 
-If the form cannot be read, will return undef to allow the caller to take
-appropriate action.
+May throw Foswiki::OopsException. If the form definition topic does not
+exist, will return undef.
 
 =cut
 
@@ -78,32 +81,21 @@ sub new {
     my $this = $session->{forms}->{"$web.$form"};
     unless ($this) {
 
-        $this = bless(
-            {
-                session => $session,
-                web     => $web,
-                topic   => $form,
-            },
-            $class
-        );
+        # Got to have either a def or a topic
+        unless ( $def || $session->topicExists( $web, $form ) ) {
+            return undef;
+        }
 
+        $this = $class->SUPER::new( $session, $web, $form );
         $session->{forms}->{"$web.$form"} = $this;
 
+        unless ( $def || $this->haveAccess('VIEW') ) {
+            throw TWiki::AccessControlException( 'VIEW', $session->{user}, $web,
+                $form, $Foswiki::Meta::reason );
+        }
+
         unless ($def) {
-
-            my $store = $session->{store};
-
-            # Read topic that defines the form
-            if ( $store->topicExists( $web, $form ) ) {
-                my ( $meta, $text ) =
-                  $store->readTopic( $session->{user}, $web, $form, undef );
-
-                $this->{fields} = _parseFormDefinition( $this, $meta, $text );
-            }
-            else {
-                delete $session->{forms}->{"$web.$form"};
-                return undef;
-            }
+            $this->{fields} = $this->_parseFormDefinition();
         }
         elsif ( ref($def) eq 'ARRAY' ) {
             $this->{fields} = $def;
@@ -130,13 +122,11 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
-    undef $this->{web};
-    undef $this->{topic};
     foreach ( @{ $this->{fields} } ) {
         $_->finish();
     }
     undef $this->{fields};
-    undef $this->{session};
+    $this->SUPER::finish();
 }
 
 =begin TML
@@ -161,12 +151,12 @@ sub fieldTitle2FieldName {
 #   2nd - name, title, type, size, vals, tooltip, attributes
 #   Possible attributes are "M" (mandatory field)
 sub _parseFormDefinition {
-    my ( $this, $meta, $text ) = @_;
+    my $this = shift;
 
-    my $store   = $this->{session}->{store};
     my @fields  = ();
     my $inBlock = 0;
-    $text =~ s/\r//g;
+    my $text    = $this->text();
+
     $text =~ s/\\\n//g;    # remove trailing '\' and join continuation lines
 
 # | *Name:* | *Type:* | *Size:* | *Value:*  | *Tooltip message:* | *Attributes:* |
@@ -194,9 +184,7 @@ sub _parseFormDefinition {
             $size ||= '';
 
             $vals ||= '';
-            $vals =
-              $this->{session}
-              ->handleCommonTags( $vals, $this->{web}, $this->{topic}, $meta );
+            $vals = $this->expandMacros($vals);
             $vals =~ s/<\/?(nop|noautolink)\/?>//go;
             $vals =~ s/^\s+//g;
             $vals =~ s/\s+$//g;
@@ -231,8 +219,8 @@ sub _parseFormDefinition {
                 tooltip       => $tooltip,
                 attributes    => $attributes,
                 definingTopic => $definingTopic,
-                web           => $this->{web},
-                topic         => $this->{topic}
+                web           => $this->web(),
+                topic         => $this->topic()
             );
             push( @fields, $fieldDef );
 
@@ -263,7 +251,6 @@ sub createField {
             return 'Foswiki::Form::' . ucfirst($1);
         }
     );
-
     eval 'require ' . $class;
     if ($@) {
 
@@ -271,43 +258,41 @@ sub createField {
         require Foswiki::Form::FieldDefinition;
         $class = 'Foswiki::Form::FieldDefinition';
     }
-    return $class->new( session => $this->{session}, type => $type, @_ );
+    return $class->new( session => $this->session(), type => $type, @_ );
 }
 
 # Generate a link to the given topic, so we can bring up details in a
 # separate window.
 sub _link {
-    my ( $this, $meta, $string, $tooltip, $topic ) = @_;
+    my ( $this, $string, $tooltip, $topic ) = @_;
 
     $string =~ s/[\[\]]//go;
 
     $topic ||= $string;
     my $defaultToolTip =
-      $this->{session}->i18n->maketext('Details in separate window');
+      $this->session->i18n->maketext('Details in separate window');
     $tooltip ||= $defaultToolTip;
 
     my $web;
     ( $web, $topic ) =
-      $this->{session}->normalizeWebTopicName( $this->{web}, $topic );
+      $this->session->normalizeWebTopicName( $this->{web}, $topic );
 
     my $link;
 
-    my $store = $this->{session}->{store};
-    if ( $store->topicExists( $web, $topic ) ) {
+    if ( $this->session->topicExists( $web, $topic ) ) {
         $link = CGI::a(
             {
                 target => $topic,
                 title  => $tooltip,
-                href =>
-                  $this->{session}->getScriptUrl( 0, 'view', $web, $topic ),
-                rel => 'nofollow'
+                href => $this->session->getScriptUrl( 0, 'view', $web, $topic ),
+                rel  => 'nofollow'
             },
             $string
         );
     }
     else {
-        my $expanded =
-          $this->{session}->handleCommonTags( $string, $web, $topic, $meta );
+        my $that = Foswiki::Meta->new( $this->session, $this->web, $topic );
+        my $expanded = $that->expandMacros($string);
         if ( $tooltip ne $defaultToolTip ) {
             $link = CGI::span( { title => $tooltip }, $expanded );
         }
@@ -319,13 +304,20 @@ sub _link {
     return $link;
 }
 
+sub stringify {
+    my $this = shift;
+    my $fs   = "| *Name* | *Type* | *Size* | *Attributes* |\n";
+    foreach my $fieldDef ( @{ $this->{fields} } ) {
+        $fs .= $fieldDef->stringify();
+    }
+    return $fs;
+}
+
 =begin TML
 
----++ ObjectMethod renderForEdit( $web, $topic, $meta ) -> $html
+---++ ObjectMethod renderForEdit( $topicObject ) -> $html
 
-   * =$web= the web of the topic being rendered
-   * =$topic= the topic being rendered
-   * =$meta= the meta data for the form
+   * =$topicObject= the topic being rendered
 
 Render the form fields for entry during an edit session, using data values
 from $meta
@@ -333,20 +325,19 @@ from $meta
 =cut
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $meta ) = @_;
-    ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
+    my ( $this, $topicObject ) = @_;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     require CGI;
-    my $session = $this->{session};
+    my $session = $this->session;
 
     if ( $this->{mandatoryFieldsPresent} ) {
         $session->enterContext('mandatoryfields');
     }
     my $tmpl = $session->templates->readTemplate("form");
-    $tmpl = $session->handleCommonTags( $tmpl, $web, $topic, $meta );
+    $tmpl = $topicObject->expandMacros($tmpl);
 
     # Note: if WEBFORMS preference is not set, can only delete form.
-    $tmpl =~ s/%FORMTITLE%/_link(
-        $this, $meta, $this->{web}.'.'.$this->{topic})/ge;
+    $tmpl =~ s/%FORMTITLE%/$this->_link( $this->web.'.'.$this->topic )/ge;
     my ( $text, $repeatTitledText, $repeatUntitledText, $afterText ) =
       split( /%REPEAT%/, $tmpl );
 
@@ -361,19 +352,16 @@ sub renderForEdit {
 
             # Special handling for untitled labels.
             # SMELL: Assumes that uneditable fields are not multi-valued
-            $tmp   = $repeatUntitledText;
-            $value = $session->{renderer}->getRenderedVersion(
-                $session->handleCommonTags(
-                    $fieldDef->{value},
-                    $web, $topic, $meta
-                )
-            );
+            $tmp = $repeatUntitledText;
+            $value =
+              $topicObject->renderTML(
+                $topicObject->expandMacros( $fieldDef->{value} ) );
         }
         else {
             $tmp = $repeatTitledText;
 
             if ( defined( $fieldDef->{name} ) ) {
-                my $field = $meta->get( 'FIELD', $fieldDef->{name} );
+                my $field = $topicObject->get( 'FIELD', $fieldDef->{name} );
                 $value = $field->{value};
             }
             my $extra = '';    # extras on col 0
@@ -381,9 +369,7 @@ sub renderForEdit {
             unless ( defined($value) ) {
                 my $dv = $fieldDef->getDefaultValue($value);
                 if ( defined($dv) ) {
-                    $dv =
-                      $this->{session}
-                      ->handleCommonTags( $dv, $web, $topic, $meta );
+                    $dv    = $topicObject->expandMacros($dv);
                     $value = Foswiki::expandStandardEscapes($dv);    # Item2837
                 }
             }
@@ -403,15 +389,15 @@ sub renderForEdit {
             }
             else {
                 ( $extra, $value ) =
-                  $fieldDef->renderForEdit( $web, $topic, $value );
+                  $fieldDef->renderForEdit( $topicObject, $value );
             }
 
             if ( $fieldDef->isMandatory() ) {
                 $extra .= CGI::span( { class => 'foswikiAlert' }, ' *' );
             }
 
-            $tmp =~ s/%ROWTITLE%/_link(
-                $this, $meta, $title, $tooltip, $definingTopic )/ge;
+            $tmp =~ s/%ROWTITLE%/
+              $this->_link( $title, $tooltip, $definingTopic )/ge;
             $tmp =~ s/%ROWEXTRA%/$extra/g;
         }
         $tmp =~ s/%ROWVALUE%/$value/g;
@@ -424,7 +410,7 @@ sub renderForEdit {
 
 =begin TML
 
----++ ObjectMethod renderHidden( $meta ) -> $html
+---++ ObjectMethod renderHidden( $topicObject ) -> $html
 
 Render form fields found in the meta as hidden inputs, so they pass
 through edits untouched.
@@ -432,13 +418,13 @@ through edits untouched.
 =cut
 
 sub renderHidden {
-    my ( $this, $meta ) = @_;
-    ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
+    my ( $this, $topicObject ) = @_;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
 
     my $text = '';
 
     foreach my $field ( @{ $this->{fields} } ) {
-        $text .= $field->renderHidden($meta);
+        $text .= $field->renderHidden($topicObject);
     }
 
     return $text;
@@ -446,12 +432,12 @@ sub renderHidden {
 
 =begin TML
 
----++ ObjectMethod getFieldValuesFromQuery($query, $metaObject) -> ( $seen, \@missing )
+---++ ObjectMethod getFieldValuesFromQuery($query, $topicObject) -> ( $seen, \@missing )
 
 Extract new values for form fields from a query.
 
    * =$query= - the query
-   * =$metaObject= - the meta object that is storing the form values
+   * =$topicObject= - the meta object that is storing the form values
 
 For each field, if there is a value in the query, use it.
 Otherwise if there is already entry for the field in the meta, keep it.
@@ -463,19 +449,19 @@ missing from the query.
 =cut
 
 sub getFieldValuesFromQuery {
-    my ( $this, $query, $meta ) = @_;
-    ASSERT( $meta->isa('Foswiki::Meta') ) if DEBUG;
+    my ( $this, $query, $topicObject ) = @_;
+    ASSERT( $topicObject->isa('Foswiki::Meta') ) if DEBUG;
     my @missing;
     my $seen = 0;
 
     # Remove the old defs so we apply the
     # order in the form definition, and not the
     # order in the previous meta object. See Item1982.
-    my @old = $meta->find('FIELD');
-    $meta->remove('FIELD');
+    my @old = $topicObject->find('FIELD');
+    $topicObject->remove('FIELD');
     foreach my $fieldDef ( @{ $this->{fields} } ) {
         my ( $set, $present ) =
-          $fieldDef->populateMetaFromQueryData( $query, $meta, \@old );
+          $fieldDef->populateMetaFromQueryData( $query, $topicObject, \@old );
         if ($present) {
             $seen++;
         }
@@ -548,15 +534,16 @@ sub getFields {
 }
 
 sub renderForDisplay {
-    my ( $this, $meta ) = @_;
+    my ( $this, $topicObject ) = @_;
 
-    my $templates = $this->{session}->templates;
+    my $templates = $this->session->templates;
     $templates->readTemplate('formtables');
 
-    my $text        = '';
+    my $text = $templates->expandTemplate('FORM:display:header');
+
     my $rowTemplate = $templates->expandTemplate('FORM:display:row');
     foreach my $fieldDef ( @{ $this->{fields} } ) {
-        my $fm = $meta->get( 'FIELD', $fieldDef->{name} );
+        my $fm = $topicObject->get( 'FIELD', $fieldDef->{name} );
         next unless $fm;
         my $fa = $fm->{attributes} || '';
         unless ( $fa =~ /H/ ) {
@@ -568,11 +555,11 @@ sub renderForDisplay {
             $text .= $fieldDef->renderForDisplay( $row, $fm->{value} );
         }
     }
-    $text = $templates->expandTemplate('FORM:display:header') . $text;
+
     $text .= $templates->expandTemplate('FORM:display:footer');
 
     # substitute remaining placeholders in footer and header
-    $text =~ s/%A_TITLE%/$this->{web}.$this->{topic}/g;
+    $text =~ s/%A_TITLE%/$this->getPath()/ge;
 
     return $text;
 }
@@ -592,7 +579,7 @@ sub _extractPseudoFieldDefs {
         # Fields are name, value, title, but there is no other type
         # information so we have to treat them all as "text" :-(
         my $fieldDef = new Foswiki::Form::FieldDefinition(
-            session    => $this->{session},
+            session    => $this->session,
             name       => $field->{name},
             title      => $field->{title} || $field->{name},
             attributes => $field->{attributes} || ''

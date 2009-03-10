@@ -22,7 +22,9 @@ Designed by: Crawford Currie
 <!-- manual expected  -->
 <p />
 <h1><a name="Not_Found"> </a> Not Found </h1>
-The requested URL %ATTACHURLPATH%/noexist was not found on this server.<P>
+<span class='foswikiAlert'>
+      Failed to include URL <a href="%ATTACHURLPATH%/noexist" target="_top">http://daphne/foswiki/trunk/core/pub/TestCases/TestCaseAutoIncludeAttachment/noexist</a> Not Found
+</span>
 <HR>
 <!-- manual /expected -->
 ---++ Actual

@@ -211,7 +211,6 @@ else {
 
 =cut
 
-# TSA: Forced to make this a object method
 sub _IP2SID {
     my ( $this, $sid ) = @_;
 
@@ -220,20 +219,21 @@ sub _IP2SID {
     return undef unless $ip;    # no IP address, can't map
 
     my %ips;
-    if ( open( IPMAP, '<', $Foswiki::cfg{WorkingDir} . '/tmp/ip2sid' ) ) {
+    my $IPMAP;
+    if ( open( $IPMAP, '<', $Foswiki::cfg{WorkingDir} . '/tmp/ip2sid' ) ) {
         local $/ = undef;
-        %ips = map { split( /:/, $_ ) } split( /\r?\n/, <IPMAP> );
-        close(IPMAP);
+        %ips = map { split( /:/, $_ ) } split( /\r?\n/, <$IPMAP> );
+        close($IPMAP);
     }
     if ($sid) {
 
         # known SID, map the IP addr to it
         $ips{$ip} = $sid;
-        open( IPMAP, '>', $Foswiki::cfg{WorkingDir} . '/tmp/ip2sid' )
+        open( $IPMAP, '>', $Foswiki::cfg{WorkingDir} . '/tmp/ip2sid' )
           || die
 "Failed to open ip2sid map for write. Ask your administrator to make sure that the {Sessions}{Dir} is writable by the webserver user.";
-        print IPMAP map { "$_:$ips{$_}\n" } keys %ips;
-        close(IPMAP);
+        print $IPMAP map { "$_:$ips{$_}\n" } keys %ips;
+        close($IPMAP);
     }
     else {
 
@@ -346,6 +346,7 @@ sub loadSession {
     # variable (which may have been set manually by a unit test,
     # or it might have come from Apache).
     if ($authUser) {
+
         # SMELL: is there any way to get evil data into the CGI session such
         # that this untaint is less than safe?
         my $cUID = Foswiki::Sandbox::untaintUnchecked(
@@ -367,6 +368,7 @@ sub loadSession {
     if (   ( $authUser && $authUser ne $Foswiki::cfg{DefaultUserLogin} )
         && ( $query && $query->param('logout') ) )
     {
+
         # SMELL: is there any way to get evil data into the CGI session such
         # that this untaint is less than safe?
         my $sudoUser = Foswiki::Sandbox::untaintUnchecked(
@@ -374,7 +376,7 @@ sub loadSession {
 
         if ($sudoUser) {
             _trace( $this, "User is logging out to $sudoUser" );
-            $session->logEvent('sudo logout', '',
+            $session->logEvent( 'sudo logout', '',
                 'from ' . ( $authUser || '' ), $sudoUser );
             $this->{_cgisession}->clear('SUDOFROMAUTHUSER');
             $authUser = $sudoUser;
@@ -384,16 +386,21 @@ sub loadSession {
 
             #TODO: consider if we should risk passing on the urlparams on logout
             my $path_info = $query->path_info();
-            if (my $topic = $query->param('topic')) {   #we should at least respect the ?topic= request
-                my $topicRequest = Foswiki::Sandbox::untaintUnchecked($query->param('topic'));
-                my ($web, $topic) = $this->{session}->normalizeWebTopicName(undef, $topicRequest);
-                $path_info = '/'.$web.'/'.$topic;
+            if ( my $topic = $query->param('topic') )
+            {    #we should at least respect the ?topic= request
+                my $topicRequest =
+                  Foswiki::Sandbox::untaintUnchecked( $query->param('topic') );
+                my ( $web, $topic ) =
+                  $this->{session}
+                  ->normalizeWebTopicName( undef, $topicRequest );
+                $path_info = '/' . $web . '/' . $topic;
             }
 
             my $redirectUrl;
             if ($path_info) {
                 $redirectUrl = $query->url() . $path_info;
-            } else {
+            }
+            else {
                 $redirectUrl = $query->referer();
             }
 
@@ -405,9 +412,10 @@ sub loadSession {
     $query->delete('logout');
     $this->userLoggedIn($authUser);
 
-    $session->{SESSION_TAGS}{SESSIONID} = $this->{_cgisession}->id();
-    $session->{SESSION_TAGS}{SESSIONVAR} =
-      $Foswiki::LoginManager::Session::NAME;
+    $session->{prefs}->setInternalPreferences(
+        SESSIONID  => $this->{_cgisession}->id(),
+        SESSIONVAR => $CGI::Session::NAME
+    );
 
     return $authUser;
 }
@@ -488,9 +496,10 @@ sub expireDeadSessions {
 
     opendir( D, "$Foswiki::cfg{WorkingDir}/tmp" ) || return;
     foreach my $file ( readdir(D) ) {
+
         # Validate
         next unless $file =~ /^((passthru|cgisess)_[0-9a-f]{32})$/;
-        $file = $1; # untaint validated file name
+        $file = $1;    # untaint validated file name
 
         my @stat = stat("$Foswiki::cfg{WorkingDir}/tmp/$file");
 
@@ -503,7 +512,8 @@ sub expireDeadSessions {
         # mtime. As a fallback we also check ctime. Files are deleted when
         # they expire.
         my $lat = $stat[9] || $stat[10] || 0;
-        unlink "$Foswiki::cfg{WorkingDir}/tmp/$file" if ( $time - $lat >= $exp );
+        unlink "$Foswiki::cfg{WorkingDir}/tmp/$file"
+          if ( $time - $lat >= $exp );
         next;
     }
     closedir D;
@@ -528,7 +538,7 @@ sub userLoggedIn {
     my ( $this, $authUser, $wikiName ) = @_;
 
     my $session = $this->{session};
-    if ($session->{users}) {
+    if ( $session->{users} ) {
         $session->{user} = $session->{users}->getCanonicalUserID($authUser);
     }
     return undef if $session->inContext('command_line');
@@ -556,7 +566,7 @@ sub userLoggedIn {
             if ( defined( $session->{remoteUser} )
                 && $session->inContext('sudo_login') )
             {
-                $session->logEvent('sudo login', '',
+                $session->logEvent( 'sudo login', '',
                     'from ' . ( $session->{remoteUser} || '' ), $authUser );
                 $this->{_cgisession}
                   ->param( 'SUDOFROMAUTHUSER', $session->{remoteUser} );
@@ -647,6 +657,7 @@ sub _rewriteURL {
 
         # strip off existing params
         my $params = "?$Foswiki::LoginManager::Session::NAME=$sessionId";
+
         # implicit untaint is OK because recombined with url later
         if ( $url =~ s/\?(.*)$// ) {
             $params .= ';' . $1;
@@ -745,9 +756,9 @@ sub _pushCookie {
     my $this = shift;
 
     my $cookie = CGI::Cookie->new(
-        -name  => $Foswiki::LoginManager::Session::NAME,
-        -value => $this->{_cgisession}->id(),
-        -path  => '/',
+        -name     => $Foswiki::LoginManager::Session::NAME,
+        -value    => $this->{_cgisession}->id(),
+        -path     => '/',
         -httponly => 1
     );
 
@@ -995,9 +1006,10 @@ $Foswiki::cfg{LoginNameFilterIn}
 =cut
 
 sub isValidLoginName {
-    my ($this, $name) = @_;
-    ASSERT(! ref($name) ) if DEBUG;	#this function was erroniously marked as static
-    
+    my ( $this, $name ) = @_;
+    ASSERT( !ref($name) )
+      if DEBUG;    #this function was erroniously marked as static
+
     return $name =~ /$Foswiki::cfg{LoginNameFilterIn}/;
 }
 
@@ -1037,8 +1049,8 @@ sub _LOGOUTURL {
 
     return $session->getScriptUrl(
         0, 'view',
-        $session->{SESSION_TAGS}{BASEWEB},
-        $session->{SESSION_TAGS}{BASETOPIC},
+        $session->{prefs}->getPreference('BASEWEB'),
+        $session->{prefs}->getPreference('BASETOPIC'),
         'logout' => 1
     );
 }
@@ -1175,7 +1187,7 @@ TODO: what does it do?
 sub _skinSelect {
     my $this    = shift;
     my $session = $this->{session};
-    my $skins   = $session->{prefs}->getPreferencesValue('SKINS');
+    my $skins   = $session->{prefs}->getPreference('SKINS');
     my $skin    = $session->getSkin();
     my @skins   = split( /,/, $skins );
     unshift( @skins, 'default' );

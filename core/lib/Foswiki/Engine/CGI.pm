@@ -41,7 +41,7 @@ sub prepareConnection {
     if ( $ENV{SERVER_PORT} && $ENV{SERVER_PORT} == 443 ) {
         $req->secure(1);
     }
-    $req->serverPort($ENV{SERVER_PORT});
+    $req->serverPort( $ENV{SERVER_PORT} );
 }
 
 sub prepareQueryParameters {

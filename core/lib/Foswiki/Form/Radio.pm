@@ -16,17 +16,15 @@ sub new {
 }
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     my $selected = '';
     my $session  = $this->{session};
     my %attrs;
     foreach my $item ( @{ $this->getOptions() } ) {
         $attrs{$item} = {
-            class => $this->cssClasses(
-                'foswikiRadioButton'
-            ),
-            label => $session->handleCommonTags( $item, $web, $topic )
+            class => $this->cssClasses( 'foswikiRadioButton' ),
+            label => $topicObject->expandMacros($item)
         };
 
         $selected = $item if ( $item eq $value );

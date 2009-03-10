@@ -12,8 +12,7 @@ method INCLUDE.
 
 use Foswiki::IncludeHandlers::http;
 
-*{'Foswiki::IncludeHandlers::https::'} =
-  \*{'Foswiki::IncludeHandlers::http::'};
+*{'Foswiki::IncludeHandlers::https::'} = \*{'Foswiki::IncludeHandlers::http::'};
 
 1;
 

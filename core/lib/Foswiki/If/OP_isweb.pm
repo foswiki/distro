@@ -29,7 +29,7 @@ sub evaluate {
         'No context in which to evaluate "' . $a->stringify() . '"' )
       unless $session;
     my $web = $a->_evaluate(@_) || '';
-    return $session->{store}->webExists($web) ? 1 : 0;
+    return $session->webExists($web) ? 1 : 0;
 }
 
 1;
@@ -91,7 +91,7 @@ sub evaluate {
     throw Error::Simple('No context in which to evaluate "'.
                           $a->stringify().'"') unless $session;
     my $web = $a->_evaluate(@_) || '';
-    return $session->{store}->webExists($web) ? 1 : 0;
+    return $session->webExists($web) ? 1 : 0;
 }
 
 1;
@@ -153,7 +153,7 @@ sub evaluate {
     throw Error::Simple('No context in which to evaluate "'.
                           $a->stringify().'"') unless $session;
     my $web = $a->_evaluate(@_) || '';
-    return $session->{store}->webExists($web) ? 1 : 0;
+    return $session->webExists($web) ? 1 : 0;
 }
 
 1;

@@ -42,7 +42,7 @@ sub evaluate {
           $session->normalizeWebTopicName( $session->{webName}, $v );
         my $result = undef;
         try {
-            my $submeta = $domain{tom}->getMetaFor( $w, $t );
+            my $submeta = Foswiki::Meta->load( $domain{tom}->session, $w, $t );
             my $b       = $pnode->{params}[1];
             my $res     = $b->evaluate( tom => $submeta, data => $submeta );
             if ( ref($res) eq 'ARRAY' ) {

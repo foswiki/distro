@@ -5,20 +5,53 @@ use strict;
 
 ---+ package Foswiki::Prefs
 
-The Prefs class is a singleton that implements management of preferences.
-It uses a stack of Foswiki::Prefs::PrefsCache objects to store the
-preferences for global, web, user and topic contexts, and provides
-the means to look up preferences in these.
+Preferences are set in topics, using either 'Set' lines embedded in the
+topic text, or via PREFERENCE meta-data attached to the topic. A preference
+value has three _scopes_:
+   * _Global_ scope
+   * _Local_ scope
+   * _Topic_ scope
 
-Preferences from different places stack on top of each other, so there
-are global preferences, then site, then web (and subweb and subsubweb),
-then topic, included topic and so on. Each level of the stack is tagged with
-a type identifier.
+In _global_ scope, the value of a preference is determined by examining
+settings of the variable at different levels; default preferences, site level,
+parent web level, web level, user level, and topic level. To determine a
+preference value in global scope, you have to know what topic the topic is
+referenced in, to provide the scope for the request.
 
-The module also maintains a separate of the preferences found in every topic
-and web it reads. This supports the lookup of preferences for webs and topics
-that are not on the stack, and must not be chained in (you can't allow
-a user to override protections from their home topic!)
+A preference may be optionally defined in _Local_ scope, in which case the
+topic definition of the variable is always taken when it is referenced in
+the topic where it is defined. This is a special case to deal with the case
+where a preference has to have a different value in the defining topic.
+
+Values in global and local scope are accessed using =getPreference=/
+
+The final scope is _topic_ scope. In this scope, the value of the preference
+is taken directly from the contents of the topic, and is not overridden by
+wider scopes. Topic scope is used for access controls, and is accessed using
+=getTopicPreference=.
+
+Because the highest cost in evaluating preferences is reading the individual
+topics, preferences read from a topic are cached.
+
+An object of type Foswiki::Prefs is a singleton that provides an interface
+to this cache. Normally the cache is repopulated for each request, though
+it would be feasible to cache it on disc if some invalidation mechanism
+were available to deal with topic changes.
+
+As well as the caches for the individual topics there is a stack for each
+level of preferences; DEFAULT, SITE, USER, SESSION, WEB, TOPIC and PLUGIN.
+The head of each stack represents the current state of that preference
+context.
+
+Whenever one or more stacks has been pushed, the Prefs object is "finalised"
+to generate the general prefs tables. These tables reflect the current state
+of the preferences context, taking into account finalisation at different
+levels in the scoping. There are two tables for finalised value, one for
+locals and another for globals, and a third table that stores an internal
+preferences table that overrides the other two. This is used for transitory
+preferences, such as the including context during transclusion, and for
+preferences that must not be overriden by any user action, such as the
+session ID.
 
 =cut
 
@@ -26,7 +59,10 @@ package Foswiki::Prefs;
 
 use Assert;
 
-require Foswiki::Prefs::PrefsCache;
+require Foswiki::Prefs::Cache;
+
+# Preference stacks, in order of evaluation (SESSION overrides DEFAULT)
+our @levels = qw( DEFAULT PLUGIN SITE USER WEB TOPIC SESSION );
 
 =begin TML
 
@@ -39,14 +75,24 @@ pushed onto the stack.
 
 sub new {
     my ( $class, $session, $cache ) = @_;
-    my $this = bless( { session => $session }, $class );
+    my $this = bless(
+        {
+            session   => $session,
+            stacks    => {},         # hash of stacks, indexed by @levels
+            topics    => {},         # hash of Foswiki::Prefs::Cache objects
+            internals => {},         # Foswiki internals
+            finalised => undef,      # the finalised preferences cache
+            locals    => undef,      # locals cache
+        },
+        $class
+    );
 
-    push( @{ $this->{PREFS} }, $cache ) if defined($cache);
+    foreach my $level (@levels) {
+        $this->{stacks}->{$level} = [];
+    }
 
-    # $this->{TOPICS} - hash of Foswiki::Prefs objects, for solitary topics
-    # $this->{WEBS} - hash of Foswiki::Prefs objects, for solitary webs
-    # remember what "Local" means
-    $this->{LOCAL} = $session->{webName} . '.' . $this->{session}->{topicName};
+    # Always have a session stack, so no point creating it lazily
+    push( @{ $this->{stacks}->{SESSION} }, new Foswiki::Prefs::Cache() );
 
     return $this;
 }
@@ -64,92 +110,212 @@ Break circular references.
 sub finish {
     my $this = shift;
 
-    foreach ( @{ $this->{PREFS} } ) {
-        $_->finish();
+    foreach my $topic ( values %{ $this->{cache} } ) {
+        $topic->finish();
     }
-    undef $this->{PREFS};
-
-    foreach ( values %{ $this->{TOPICS} } ) {
-        $_->finish();
-    }
-    undef $this->{TOPICS};
-
-    foreach ( values %{ $this->{WEBS} } ) {
-        $_->finish();
-    }
-    undef $this->{WEBS};
-
-    undef $this->{LOCAL};
+    undef $this->{cache};
+    undef $this->{stacks};
+    undef $this->{values};
+    undef $this->{locals};
+    undef $this->{internals};
     undef $this->{session};
 }
 
-=begin TML
-
----++ ObjectMethod pushPreferences( $web, $topic, $type, $prefix )
-   * =$web= - web to read from
-   * =$topic= - topic to read
-   * =$type= - DEFAULT, SITE, USER, SESSION, WEB, TOPIC or PLUGIN
-   * =$prefix= - key prefix for all preferences (used for plugins)
-Reads preferences from the given topic, and pushes them onto the
-preferences stack.
-
-=cut
-
-sub pushPreferences {
-    my ( $this, $web, $topic, $type, $prefix ) = @_;
-    my $top;
-
-    if ( $this->{PREFS} ) {
-        $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
+# Look up, lazy-loading if required, the preferences cache for a topic
+# or web.
+sub _getCache {
+    my ( $this, $web, $topic ) = @_;
+    ASSERT( $this->{session} ) if DEBUG;
+    my $path = $web;
+    $path .= ".$topic" if $topic;
+    unless ( $this->{cache}->{$path} ) {
+        my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+        $meta->getPreference('ANY');    # to force a cache load
     }
-
-    my $req =
-      new Foswiki::Prefs::PrefsCache( $this, $top, $type, $web, $topic, $prefix );
-
-    if ($req) {
-        push( @{ $this->{PREFS} }, $req );
-        $req->finalise($this);
-    }
+    return $this->{cache}->{$path};
 }
 
 =begin TML
 
----++ ObjectMethod pushWebPreferences( $web )
+---++ ObjectMethod loadPreferences( $topicObject ) -> $cache
 
-Pushes web preferences. Web preferences for a particular web depend
-on the preferences of all containing webs.
+Invoked from Foswiki::Meta to load the preferences into the preferences
+cache. used as part of the lazy-loading of preferences.
+
+Web preferences are loaded from the {WebPrefsTopicName}.
 
 =cut
 
-sub pushWebPreferences {
-    my ( $this, $web ) = @_;
-
-    my @webPath = split( /[\/\.]/, $web );
-    my $path = '';
-    foreach my $tmp (@webPath) {
-        $path .= '/' if $path;
-        $path .= $tmp;
-        $this->pushPreferences( $path, $Foswiki::cfg{WebPrefsTopicName}, 'WEB' );
+sub loadPreferences {
+    my ( $this, $topicObject ) = @_;
+    my $path = $topicObject->getPath();
+    $topicObject->session->logger->log( 'debug',
+        "Loading preferences for $path\n" )
+      if DEBUG;
+    my $cache;
+    if ( $topicObject->topic() ) {
+        $cache = new Foswiki::Prefs::Cache($topicObject);
     }
+    elsif ( $topicObject->web() ) {
+
+        # Link to the cache for the web preferences topic
+        $cache =
+          $this->_getCache( $topicObject->web(),
+            $Foswiki::cfg{WebPrefsTopicName} );
+    }
+    else {
+
+        # Use the site preferences
+        $cache = $this->{stacks}->{SITE}[-1];
+    }
+
+    $this->{cache}->{$path} = $cache;
+
+    return $cache;
 }
 
 =begin TML
 
----++ ObjectMethod pushGlobalPreferences()
-Add global preferences to this preferences stack.
+---++ ObjectMethod pushTopicContext( $web, $topic )
+
+Reconfigures the preferences so that general preference values appear
+to come from $web.$topic. The topic context can be popped again using 
+popTopicContext.
 
 =cut
 
-sub pushGlobalPreferences {
+sub pushTopicContext {
+    my ( $this, $web, $topic ) = @_;
+    my $session = $this->{session};
+
+    # Push the web preferences and topic preferences of the new context
+    # The act of pushing will inherit the preferences of the topic
+    # already at the head of the stack.
+    push(
+        @{ $this->{stacks}->{WEB} },
+        $this->_getCache( $web, $Foswiki::cfg{WebPrefsTopicName} )
+    );
+    push( @{ $this->{stacks}->{TOPIC} }, $this->_getCache( $web, $topic ) );
+
+    # Also push a new session stack, to accept local session vars e.g.
+    # include params
+    push(
+        @{ $this->{stacks}->{SESSION} },
+        new Foswiki::Prefs::Cache( $this->{stacks}->{SESSION}[-1] )
+    );
+    $this->{values} = undef;
+}
+
+=begin TML
+
+---+++ popTopicContext()
+
+Returns the context to the state it was in before the
+=pushTopicContext= was last called.
+
+=cut
+
+sub popTopicContext {
+    my $this    = shift;
+    my $session = $this->{session};
+    pop( @{ $this->{stacks}->{TOPIC} } );
+    pop( @{ $this->{stacks}->{WEB} } );
+    pop( @{ $this->{stacks}->{SESSION} } );
+    $this->{values} = undef;
+    return (
+        $this->{stacks}->{WEB}[-1]->{web},
+        $this->{stacks}->{TOPIC}[-1]->{topic}
+    );
+}
+
+=begin TML
+
+---++ ObjectMethod setPluginPreferences( $web, $plugin )
+
+Reads preferences from the given plugin topic and injects them into
+the plugin preferences cache. Preferences cannot be finalised in
+plugin topics.
+
+=cut
+
+sub setPluginPreferences {
+    my ( $this, $web, $plugin ) = @_;
+    unless ( scalar( @{ $this->{stacks}->{PLUGIN} } ) ) {
+
+        # Create pseudo-topic for collating plugins preferences
+        push( @{ $this->{stacks}->{PLUGIN} }, new Foswiki::Prefs::Cache() );
+    }
+
+    # And load it with values from the plugin topic
+    my $topic = $this->_getCache( $web, $plugin );
+    while ( my ( $k, $v ) = each %{ $topic->{values} } ) {
+        $this->{stacks}->{PLUGIN}[-1]
+          ->insert( 'Set', uc($plugin) . '_' . $k, $v );
+    }
+    $this->{values} = undef;
+}
+
+=begin TML
+
+---++ ObjectMethod pushUserPreferences( $wikiname )
+
+Reads preferences from the given user topic and pushes them to the head
+of the user preferences stack.
+
+=cut
+
+sub pushUserPreferences {
+    my ( $this, $wn ) = @_;
+    push(
+        @{ $this->{stacks}->{USER} },
+        $this->_getCache( $Foswiki::cfg{UsersWebName}, $wn )
+    );
+    $this->{values} = undef;
+}
+
+=begin TML
+
+---++ ObjectMethod popUserPreferences()
+
+Pop the preferences pushed by an earlier pushUserPreferences.
+
+=cut
+
+sub popUserPreferences {
+    my ( $this, $wn ) = @_;
+    ASSERT( scalar( @{ $this->{stacks}->{USER} } ) > 1 ) if DEBUG;
+    pop( @{ $this->{stacks}->{USER} } );
+    $this->{values} = undef;
+}
+
+=begin TML
+
+---++ ObjectMethod loadDefaultPreferences()
+Add default preferences to this preferences stack.
+
+=cut
+
+sub loadDefaultPreferences {
     my $this = shift;
 
-    # Default prefs first, from read-only web
-    my $prefs = $this->pushPreferences( $Foswiki::cfg{SystemWebName},
-        $Foswiki::cfg{SitePrefsTopicName}, 'DEFAULT' );
-
+    push(
+        @{ $this->{stacks}->{DEFAULT} },
+        $this->_getCache(
+            $Foswiki::cfg{SystemWebName},
+            $Foswiki::cfg{SitePrefsTopicName}
+        )
+    );
+    $this->{values} = undef;
 }
 
-sub pushGlobalPreferencesSiteSpecific {
+=begin TML
+
+---++ ObjectMethod loadSitePreferences()
+Add local site preferences to this preferences stack.
+
+=cut
+
+sub loadSitePreferences {
     my $this = shift;
 
     # Then local site prefs
@@ -157,198 +323,154 @@ sub pushGlobalPreferencesSiteSpecific {
         my ( $lweb, $ltopic ) =
           $this->{session}
           ->normalizeWebTopicName( undef, $Foswiki::cfg{LocalSitePreferences} );
-        $this->pushPreferences( $lweb, $ltopic, 'SITE' );
+        push( @{ $this->{stacks}->{SITE} },
+            $this->_getCache( $lweb, $ltopic ) );
+        $this->{values} = undef;
     }
 }
 
 =begin TML
 
----++ ObjectMethod pushPreferencesValues( $type, \%values )
-Push a new preference level using type and values given
+---++ ObjectMethod setSessionPreferences( %values )
+
+Set the preference values in the parameters in the SESSION stack.
 
 =cut
 
-sub pushPreferenceValues {
-    my ( $this, $type, $values ) = @_;
+sub setSessionPreferences {
+    my ( $this, %values ) = @_;
 
-    return unless $values;
-
-    my $top;
-    if ( $this->{PREFS} ) {
-        $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
+    my $req = $this->{stacks}->{SESSION}[-1];
+    my $num = 0;
+    while ( my ( $k, $v ) = each %values ) {
+        $num += $req->insert( 'Set', $k, $v );
     }
 
-    my $req = new Foswiki::Prefs::PrefsCache( $this, $top, $type );
+    # Force re-finalisation
+    $this->{values} = undef;
 
-    foreach my $key ( keys %$values ) {
-        my $val = $values->{$key} || '';
-        $req->insert( 'Set', $key, $val );
+    return $num;
+}
+
+=begin TML
+
+---++ ObjectMethod setInternalPreferences( %values )
+
+Designed specifically for imposing the value of preferences on a short-term
+basis in the code, internal preferences override all other definitions of
+the same tag. This function should be used with great care.
+
+For those who are used to the old code, internal preferences replace the old
+SESSION_TAGS field from the Foswiki object.
+
+=cut
+
+sub setInternalPreferences {
+    my ( $this, %values ) = @_;
+
+    while ( my ( $k, $v ) = each %values ) {
+        $this->{internals}->{$k} = $v;
     }
-
-    push( @{ $this->{PREFS} }, $req );
-    $req->finalise($this);
 }
 
 =begin TML
 
----++ ObjectMethod mark()
-Return a marker representing the current top of the preferences
-stack. Used to remember the stack when new web and topic preferences
-are pushed during a topic include.
-
-=cut
-
-sub mark {
-    my $this = shift;
-    return scalar( @{ $this->{PREFS} } );
-}
-
-=begin TML
-
----++ ObjectMethod restore( $mark )
-Resets the preferences stack to the given mark, to recover after a topic
-include.
-
-=cut
-
-sub restore {
-    my ( $this, $where ) = @_;
-    ASSERT($where) if DEBUG;
-    splice( @{ $this->{PREFS} }, $where );
-}
-
-=begin TML
-
----++ ObjectMethod getPreferencesValue( $key ) -> $value
+---++ ObjectMethod getPreference( $key ) -> $value
    * =$key - key to look up
 
-Returns the value of the preference =$key=, or undef.
-
-Looks up local preferences when the level
-topic is the same as the current web,topic in the session.
+Returns the finalised preference value.
 
 =cut
 
-sub getPreferencesValue {
-    my ( $this, $key ) = @_;
+sub getPreference {
+    my ( $this, $key, $scope ) = @_;
 
-    return undef unless @{ $this->{PREFS} };
-    my $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
-    my $lk  = $this->{LOCAL} . '-' . $key;
-    if ( defined( $top->{locals}{$lk} ) ) {
-        return $top->{locals}{$lk};
+    $this->_finalise();
+    ASSERT( $this->{values} ) if DEBUG;
+
+    if ( defined $this->{internals}->{$key} ) {
+        return $this->{internals}->{$key};
+    }
+    elsif ( defined $this->{locals}->{$key} ) {
+        return $this->{locals}->{$key};
     }
     else {
-        return $top->{values}{$key};
+        return $this->{values}->{$key};
     }
 }
 
 =begin TML
 
----++ ObjectMethod isFinalised( $key )
-Return true if $key is finalised somewhere in the prefs stack
+---++ ObjectMethod getTopicPreference( $topicObject, $key ) -> $value
+   * =$topicObject= - context of the request
+   * =$key= - key to look up
+
+Returns the unfinalised topic preference value.
 
 =cut
 
-sub isFinalised {
-    my ( $this, $key ) = @_;
+sub getTopicPreference {
+    my ( $this, $topicObject, $key ) = @_;
+    my ( $web, $topic ) = ( $topicObject->web, $topicObject->topic );
+    ASSERT($web) if DEBUG;
+    my $cache = $this->_getCache( $web, $topic );
 
-    foreach my $level ( @{ $this->{PREFS} } ) {
-        return 1 if $level->{final}{$key};
+#    if ($key eq 'WEBBGCOLOR') {
+#        print STDERR $topicObject->getPath().": $key ";
+#        print STDERR $topicObject->getPath().": $key ".($cache->get( $key )||'undef');
+#    }
+    return undef unless $cache;
+    return $cache->get($key);
+}
+
+sub _finalise {
+    my ( $this, $whereSet ) = @_;
+
+    # $whereSet is an optional ref to a hash, which we use for ALLVARIABLES.
+    # We only populate it if we are asked to.
+
+    return if $this->{values};
+
+    my %values    = ();
+    my %finalised = ();
+    foreach my $level (@levels) {
+        next unless $this->{stacks}->{$level};
+        next unless scalar( @{ $this->{stacks}->{$level} } );
+        my $top = $this->{stacks}->{$level}->[-1];
+        while ( my ( $k, $v ) = each %{ $top->{values} } ) {
+            unless ( $finalised{$k} ) {
+                $values{$k} = $v;
+                if ($whereSet) {
+                    $whereSet->{$k} =
+                      ( $top->{web} ? "$top->{web}.$top->{topic}" : $level );
+                }
+            }
+        }
+
+        # Update finalisation for the next level
+        my $finals = $top->{values}->{FINALPREFERENCES};
+        if ($finals) {
+            foreach my $fk ( split( /[\s,]+/, $finals ) ) {
+
+                # Record *where* it was finalised
+                $finalised{$fk} = 1;
+            }
+        }
     }
+    $this->{values}    = \%values;
+    $this->{finalised} = \%finalised;
 
-    return 0;
-}
-
-=begin TML
-
----++ ObjectMethod getTopicPreferencesValue( $key, $web, $topic ) -> $value
-
-Recover a preferences value that is defined in a specific topic. Does
-not recover web, user or global settings.
-
-Intended for use in protections mechanisms, where the order doesn't match
-the prefs stack.
-
-=cut
-
-sub getTopicPreferencesValue {
-    my ( $this, $key, $web, $topic ) = @_;
-
-    return undef unless defined $web && defined $topic;
-    my $wtn = $web . '.' . $topic;
-
-    unless ( $this->{TOPICS}{$wtn} ) {
-        $this->{TOPICS}{$wtn} =
-          new Foswiki::Prefs::PrefsCache( $this, undef, 'TOPIC', $web, $topic );
+    # Compute locals
+    my %locals = ();
+    if ( $this->{stacks}->{TOPIC}
+        && scalar( @{ $this->{stacks}->{TOPIC} } ) )
+    {
+        my $top = $this->{stacks}->{TOPIC}->[-1];
+        while ( my ( $k, $v ) = each %{ $top->{locals} } ) {
+            $locals{$k} = $v;    # Locals are not affected by finalisation
+        }
     }
-    return $this->{TOPICS}{$wtn}->{values}{$key};
-}
-
-=begin TML
-
----++ getTextPreferencesValue( $key, $text, $meta, $web, $topic ) -> $value
-Get a preference value from the settings in the text (and/or optional $meta).
-The values read are *not* cached.
-
-=cut
-
-sub getTextPreferencesValue {
-    my ( $this, $key, $text, $meta, $web, $topic ) = @_;
-
-    my $wtn = $web . '.' . $topic;
-
-    my $cache = new Foswiki::Prefs::PrefsCache( $this, undef, 'TOPIC' );
-    $cache->loadPrefsFromText( $text, $meta, $web, $topic );
-
-    return $cache->{values}{$key};
-}
-
-=begin TML
-
----++ ObjectMethod getWebPreferencesValue( $key, $web ) -> $value
-
-Recover a preferences value that is defined in the webhome topic of
-a specific web.. Does not recover user or global settings, but
-does recover settings from containing webs.
-
-Intended for use in protections mechanisms, where the order doesn't match
-the prefs stack.
-
-=cut
-
-sub getWebPreferencesValue {
-    my ( $this, $key, $web ) = @_;
-
-    return undef unless defined $web;
-
-    my $wtn = $web . '.' . $Foswiki::cfg{WebPrefsTopicName};
-
-    unless ( $this->{WEBS}{$wtn} ) {
-        my $blank = new Foswiki::Prefs( $this->{session} );
-        $blank->pushWebPreferences($web);
-        $this->{WEBS}{$wtn} = $blank;
-    }
-
-    return $this->{WEBS}{$wtn}->getPreferencesValue($key);
-}
-
-=begin TML
-
----+++ setPreferencesValue($name, $val)
-
-Set a preferences value. The preference is set in the context at the
-top of the preference stack, whatever the current state may be.
-
-The preference is not serialised.
-
-=cut
-
-sub setPreferencesValue {
-    my ( $this, $name, $value ) = @_;
-
-    my $top = $this->{PREFS}[ $#{ $this->{PREFS} } ];
-    return $top->insert( 'Set', $name, $value );
+    $this->{locals} = \%locals;
 }
 
 =begin TML
@@ -360,22 +482,24 @@ Generate a TML-formatted version of the current preferences
 =cut
 
 sub stringify {
-    my ( $this, $html ) = @_;
-    my $s = '';
+    my $this = shift;
 
-    my %shown;
-    $html = 1 unless defined $html;
+    # Refinalise to populate %whereSet
+    undef $this->{values};
+    my %whereSet;
+    $this->_finalise( \%whereSet );
 
-    foreach my $ptr ( reverse @{ $this->{PREFS} } ) {
-        $s .= $ptr->stringify( $html, \%shown );
+    my @list;
+    foreach my $k ( sort keys %{ $this->{values} } ) {
+        my $val = Foswiki::entityEncode( $this->{values}->{$k} );
+        push( @list,
+            "   * " . "Set $k = \"$val\" " . ( $whereSet{$k} || 'unknown' ) );
     }
-
-    if ($html) {
-        return CGI::table( { class => 'foswikiTable' }, $s );
+    foreach my $k ( sort keys %{ $this->{locals} } ) {
+        my $val = Foswiki::entityEncode( $this->{locals}->{$k} );
+        push( @list, "   * " . "Local $k = \"$val\"" );
     }
-    else {
-        return $s;
-    }
+    return join( "\n", @list ) . "\n";
 }
 
 1;
@@ -390,8 +514,7 @@ __DATA__
 # file as follows:
 #
 # Copyright (C) 2000-2007 Peter Thoeny, peter@thoeny.org
-# and TWiki Contributors. All Rights Reserved. TWiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
+# and TWiki Contributors. All Rights Reserved.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

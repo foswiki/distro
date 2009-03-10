@@ -24,9 +24,11 @@ sub evaluate {
     return 0 unless defined $val;
     if ( ref($val) eq 'ARRAY' ) {
         return scalar(@$val);
-    } elsif ( ref($val) eq 'HASH' ) {
-        return scalar(keys %$val);
-    } elsif ( !ref($val) ) {
+    }
+    elsif ( ref($val) eq 'HASH' ) {
+        return scalar( keys %$val );
+    }
+    elsif ( !ref($val) ) {
         return length($val);
     }
     return 1;

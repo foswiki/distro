@@ -8,10 +8,10 @@ use strict;
 
 use Foswiki::LineIterator;
 
-sub new { return Foswiki::LineIterator::new(@_); }
+sub new      { return Foswiki::LineIterator::new(@_); }
 sub _DESTROY { return Foswiki::LineIterator::_DESTROY(@_); }
-sub hasNext { return Foswiki::LineIterator::hasNext(@_); }
-sub next { return Foswiki::LineIterator::next(@_); }
+sub hasNext  { return Foswiki::LineIterator::hasNext(@_); }
+sub next     { return Foswiki::LineIterator::next(@_); }
 
 1;
 

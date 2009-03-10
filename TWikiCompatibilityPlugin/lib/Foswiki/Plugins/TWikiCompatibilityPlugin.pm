@@ -18,21 +18,21 @@
 
 =cut
 
-
 package Foswiki::Plugins::TWikiCompatibilityPlugin;
 
 # Always use strict to enforce variable scoping
 use strict;
 
-require Foswiki::Func;    # The plugins API
-require Foswiki::Plugins; # For the API version
-use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
-$VERSION = '$Rev$';
-$RELEASE = 'Foswiki-1.0';
-$TWiki::RELEASE = 'TWiki 4.2.3';
-$SHORTDESCRIPTION = 'add TWiki personality to Foswiki';
+require Foswiki::Func;       # The plugins API
+require Foswiki::Plugins;    # For the API version
+use vars
+  qw( $VERSION $RELEASE $SHORTDESCRIPTION $debug $pluginName $NO_PREFS_IN_TOPIC );
+$VERSION           = '$Rev$';
+$RELEASE           = 'Foswiki-1.0';
+$TWiki::RELEASE    = 'TWiki 4.2.3';
+$SHORTDESCRIPTION  = 'add TWiki personality to Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
-$pluginName = 'TWikiCompatibilityPlugin';
+$pluginName        = 'TWikiCompatibilityPlugin';
 
 =begin TML
 
@@ -45,7 +45,7 @@ $pluginName = 'TWikiCompatibilityPlugin';
 =cut
 
 sub initPlugin {
-    my( $topic, $web, $user, $installWeb ) = @_;
+    my ( $topic, $web, $user, $installWeb ) = @_;
 
     #initialise the augmented template path
     augmentedTemplatePath();
@@ -66,28 +66,45 @@ This may not be enough for Plugins that do have in topic preferences.
 sub earlyInitPlugin {
 
     my $session = $Foswiki::Plugins::SESSION;
-    if (($session->{webName} eq 'TWiki') &&
-            (!Foswiki::Func::topicExists($session->{webName}, $session->{topicName}))) {
-        my $TWikiWebTopicNameConversion = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TWikiWebTopicNameConversion};
+    if (
+        ( $session->{webName} eq 'TWiki' )
+        && (
+            !Foswiki::Func::topicExists(
+                $session->{webName}, $session->{topicName}
+            )
+        )
+      )
+    {
+        my $TWikiWebTopicNameConversion =
+          $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+          {TWikiWebTopicNameConversion};
         $session->{webName} = $Foswiki::cfg{SystemWebName};
-        if (defined($TWikiWebTopicNameConversion->{$session->{topicName}})) {
+        if (
+            defined( $TWikiWebTopicNameConversion->{ $session->{topicName} } ) )
+        {
             $session->{topicName} =
-                    $TWikiWebTopicNameConversion->{$session->{topicName}};
-#print STDERR "converted to $session->{topicName}";
+              $TWikiWebTopicNameConversion->{ $session->{topicName} };
+
+            #print STDERR "converted to $session->{topicName}";
         }
     }
-    my $MainWebTopicNameConversion = $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{MainWebTopicNameConversion};
-    if (($session->{webName} eq 'Main') &&
-            (defined($MainWebTopicNameConversion->{$session->{topicName}}))) {
+    my $MainWebTopicNameConversion =
+      $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}
+      {MainWebTopicNameConversion};
+    if (   ( $session->{webName} eq 'Main' )
+        && ( defined( $MainWebTopicNameConversion->{ $session->{topicName} } ) )
+      )
+    {
         $session->{topicName} =
-            $MainWebTopicNameConversion->{$session->{topicName}};
-#print STDERR "converted to $session->{topicName}";
+          $MainWebTopicNameConversion->{ $session->{topicName} };
+
+        #print STDERR "converted to $session->{topicName}";
     }
 
     #Map TWIKIWEB to SYSTEMWEB and MAINWEB to USERSWEB
     #TODO: should we test for existance and other things?
-    Foswiki::Func::setPreferencesValue('TWIKIWEB', 'TWiki');
-    Foswiki::Func::setPreferencesValue('MAINWEB', '%USERSWEB%');
+    Foswiki::Func::setPreferencesValue( 'TWIKIWEB', 'TWiki' );
+    Foswiki::Func::setPreferencesValue( 'MAINWEB',  '%USERSWEB%' );
 
     # Load TWiki::Func and TWiki::Plugins, for badly written plugins
     # which rely on them being there without using them first
@@ -99,22 +116,30 @@ sub earlyInitPlugin {
 }
 
 sub augmentedTemplatePath {
+
     #TWikiCompatibility, need to test to see if there is a twiki.skin tmpl
     #allow the user to set the compatibility tempalte path too
-    unless (defined($Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath})) {
+    unless (
+        defined(
+            $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath}
+        )
+      )
+    {
         my @cfgTemplatePath = split( /\s*,\s*/, $Foswiki::cfg{TemplatePath} );
         my @templatePath = ();
         foreach my $path (@cfgTemplatePath) {
-            push(@templatePath, $path);
-            if ($path =~ /^(.*)\$name(.*)$/) {
+            push( @templatePath, $path );
+            if ( $path =~ /^(.*)\$name(.*)$/ ) {
+
                 #SMELL: hardcoded foswiki and twiki
-                push(@templatePath, "$1twiki$2");
+                push( @templatePath, "$1twiki$2" );
             }
         }
-        $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath} = \@templatePath;
+        $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath} =
+          \@templatePath;
     }
 
-    return @{$Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath}};
+    return @{ $Foswiki::cfg{Plugins}{TWikiCompatibilityPlugin}{TemplatePath} };
 }
 
 =pod
@@ -130,6 +155,7 @@ we look in the 'other' place, and modify them if that file does exist.
 =cut
 
 sub NOT_postRenderingHandler {
+
     # do not uncomment, use $_[0], $_[1]... instead
     #my $text = shift;
 
@@ -138,25 +164,29 @@ sub NOT_postRenderingHandler {
     #$_[0] =~ s|($hostUrl)($hostUrl)|$1|g;
 
 #    $_[0] =~ s/(.*)($Foswiki::cfg{PubUrlPath}\/)(TWiki|$Foswiki::cfg{SystemWebName})([^"']*)/$1.validatePubURL($2, $3, $4)/ge;
-    $_[0] =~ s/(.*)($Foswiki::cfg{PubUrlPath}\/)([^"'\/]*)([^"'<]*)/$1.validatePubURL($2, $3, $4, $1)/gem;
+    $_[0] =~
+s/(.*)($Foswiki::cfg{PubUrlPath}\/)([^"'\/]*)([^"'<]*)/$1.validatePubURL($2, $3, $4, $1)/gem;
 }
 
 sub validatePubURL {
-    my ($pubUrl, $web, $file) = @_;
-print STDERR "validatePubURL($pubUrl, $web, $file)\n";
-    my %map = ('TWiki' => $Foswiki::cfg{SystemWebName},
-		$Foswiki::cfg{SystemWebName} => 'TWiki');
+    my ( $pubUrl, $web, $file ) = @_;
+    print STDERR "validatePubURL($pubUrl, $web, $file)\n";
+    my %map = (
+        'TWiki'                      => $Foswiki::cfg{SystemWebName},
+        $Foswiki::cfg{SystemWebName} => 'TWiki'
+    );
 
     #TODO: make into a hash - and see if we can persist it for fastcgi etc..
-    my $filePath = $Foswiki::cfg{PubDir}.'/'.$web.$file;
-    unless (-e $filePath) {
-	$web = $map{$web};
-	$filePath = $Foswiki::cfg{PubDir}.'/'.$web.$file;
-	unless (-e $filePath) {
-	    print STDERR "   validatePubURL($pubUrl, $web, $file) ($filePath) - can't find file ine either $map{$web} or $web\n";
-	}
+    my $filePath = $Foswiki::cfg{PubDir} . '/' . $web . $file;
+    unless ( -e $filePath ) {
+        $web      = $map{$web};
+        $filePath = $Foswiki::cfg{PubDir} . '/' . $web . $file;
+        unless ( -e $filePath ) {
+            print STDERR
+"   validatePubURL($pubUrl, $web, $file) ($filePath) - can't find file ine either $map{$web} or $web\n";
+        }
     }
-    return $pubUrl.$web.$file;
+    return $pubUrl . $web . $file;
 }
 
 1;

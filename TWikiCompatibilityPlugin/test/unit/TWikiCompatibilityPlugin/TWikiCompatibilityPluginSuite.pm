@@ -1,6 +1,6 @@
 package TWikiCompatibilityPluginSuite;
 use base 'Unit::TestSuite';
 
-sub include_tests { return 'TWikiFuncTests' };
+sub include_tests { return 'TWikiFuncTests' }
 
 1;

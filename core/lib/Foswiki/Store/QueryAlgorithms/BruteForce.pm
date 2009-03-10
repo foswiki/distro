@@ -1,4 +1,4 @@
-# Please see the bottom of this file for license and copyright information
+# See the bottom of this file for license and copyright information
 
 =begin TML
 
@@ -21,7 +21,7 @@ package Foswiki::Store::QueryAlgorithms::BruteForce;
 
 use strict;
 
-require Foswiki::Meta;
+use Foswiki::Meta ();
 
 sub query {
     my ( $query, $web, $topics, $store ) = @_;
@@ -48,7 +48,8 @@ sub query {
     local $/;
     foreach my $topic (@$topics) {
         next unless open( FILE, '<', "$sDir/$topic.txt" );
-        my $meta = new Foswiki::Meta( $store->{session}, $web, $topic, <FILE> );
+        my $meta =
+          Foswiki::Meta->new( $store->{session}, $web, $topic, <FILE> );
         close(FILE);
         my $match = $query->evaluate( tom => $meta, data => $meta );
         if ($match) {
@@ -59,7 +60,7 @@ sub query {
 }
 
 1;
-__DATA__
+__END__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
@@ -70,8 +71,6 @@ __DATA__
 # file as follows:
 #
 # Copyright (C) 2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

@@ -27,12 +27,13 @@ sub run {
     while ( scalar @args ) {
         my $name;
         my $arg = shift @args;
-        if ( $arg =~ /^-([a-z0-9_]+)/) {
-            ($name, $arg) = (TAINT($1), shift( @args ));
-        } elsif ( $arg =~ /([a-z0-9_]+)=(.*)$/i ) {
-            ($name, $arg) = (TAINT($1), TAINT($2));
+        if ( $arg =~ /^-([a-z0-9_]+)/ ) {
+            ( $name, $arg ) = ( TAINT($1), shift(@args) );
         }
-        if ($name && $name eq 'user' ) {
+        elsif ( $arg =~ /([a-z0-9_]+)=(.*)$/i ) {
+            ( $name, $arg ) = ( TAINT($1), TAINT($2) );
+        }
+        if ( $name && $name eq 'user' ) {
             $this->{user} = $arg;
         }
         elsif ($name) {
@@ -41,7 +42,7 @@ sub run {
             push @{ $this->{params}->{$name} }, $arg;
         }
         else {
-            $this->{path_info} = $arg; # keep it tainted
+            $this->{path_info} = $arg;    # keep it tainted
         }
     }
     my $req = $this->prepare;

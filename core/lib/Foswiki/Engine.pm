@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+!! package Foswiki::Engine
@@ -147,11 +148,12 @@ sub prepareQueryParameters {
     my @pairs = split /[&;]/, $queryString;
     my ( $param, $value, %params, @plist );
     foreach my $pair (@pairs) {
-        ( $param, $value ) = split('=', $pair, 2);
+        ( $param, $value ) = split( '=', $pair, 2 );
+
         # url decode
         $param =~ tr/+/ /;
         $param =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
-        if (defined $value) {
+        if ( defined $value ) {
             $value =~ tr/+/ /;
             $value =~ s/%([0-9A-F]{2})/chr(hex($1))/gei;
         }
@@ -262,7 +264,7 @@ take any appropriate finalize actions, such as delete temporary files.
 
 sub finalize {
     my ( $this, $res, $req ) = @_;
-    $this->finalizeUploads($res, $req);
+    $this->finalizeUploads( $res, $req );
     $this->finalizeHeaders( $res, $req );
     $this->finalizeBody($res);
 }

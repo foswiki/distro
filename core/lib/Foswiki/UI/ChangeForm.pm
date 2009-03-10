@@ -18,30 +18,28 @@ require Foswiki;
 
 =begin TML
 
----+ ClassMethod generate( $session, $theWeb, $theTopic, $editaction )
+---+ ClassMethod generate( $session, $web, $topic, $editaction )
 
 Generate the page that supports selection of the form.
 
 =cut
 
 sub generate {
-    my ( $session, $web, $topic, $editaction ) = @_;
+    my ( $session, $topicObject, $editaction ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
     my $page = $session->templates->readTemplate('changeform');
     my $q    = $session->{request};
 
-    my $store = $session->{store};
     my $formName = $q->param('formtemplate') || '';
     unless ($formName) {
-        my ( $meta, $tmp ) = $store->readTopic( undef, $web, $topic, undef );
-        my $form = $meta->get('FORM');
+        my $form = $topicObject->get('FORM');
         $formName = $form->{name} if $form;
     }
     $formName = 'none' if ( !$formName );
 
-    my $prefs = $session->{prefs};
-    my $legalForms = $prefs->getWebPreferencesValue( 'WEBFORMS', $web );
+    my $webObject = Foswiki::Meta->new( $session, $topicObject->web );
+    my $legalForms = $webObject->getWebPreference('WEBFORMS');
     $legalForms =~ s/^\s*//;
     $legalForms =~ s/\s*$//;
     my @forms = split( /[,\s]+/, $legalForms );
@@ -62,10 +60,10 @@ sub generate {
         $props->{checked} = 'checked' if $form eq $formName;
         $formList .= CGI::input($props);
         my ( $formWeb, $formTopic ) =
-          $session->normalizeWebTopicName( $web, $form );
+          $session->normalizeWebTopicName( $topicObject->web, $form );
         my $formLabelContent =
           '&nbsp;'
-          . ( $store->topicExists( $formWeb, $formTopic )
+          . ( $session->topicExists( $formWeb, $formTopic )
             ? '[[' . $formWeb . '.' . $formTopic . '][' . $form . ']]'
             : $form );
         $formList .= CGI::label( { for => $formElemId }, $formLabelContent );
@@ -83,8 +81,8 @@ sub generate {
       if $editaction;
     $page =~ s/%EDITACTION%/$text/go;
 
-    $page = $session->handleCommonTags( $page, $web, $topic );
-    $page = $session->renderer->getRenderedVersion( $page, $web, $topic );
+    $page = $topicObject->expandMacros($page);
+    $page = $topicObject->renderTML($page);
 
     $text = CGI::hidden( -name => 'text', -value => $q->param('text') );
     $page =~ s/%TEXT%/$text/go;

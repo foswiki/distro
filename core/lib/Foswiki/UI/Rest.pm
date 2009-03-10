@@ -26,6 +26,7 @@ sub rest {
     # the path_info, but we *can* persuade Foswiki to ignore it.
     my $topic = $query->param('topic');
     if ($topic) {
+
         # SMELL: excess brackets in RE?
         unless ( $topic =~ /((?:.*[\.\/])+)(.*)/ ) {
             my $res = $session->{response};
@@ -93,6 +94,7 @@ sub rest {
         throw Foswiki::EngineException( 401,
             "ERROR: (400) Invalid REST invocation", $res );
     }
+
     # implicit untaint OK - validated below
     my ( $subject, $verb ) = ( $1, $2 );
 
@@ -125,7 +127,7 @@ sub rest {
     my $endPoint = $query->param('endPoint');
     if ( defined($endPoint) ) {
         my $nurl = $session->getScriptUrl( 1, 'view', '', $endPoint );
-        $session->redirect( $nurl );
+        $session->redirect($nurl);
     }
     else {
         $session->writeCompletePage($result) if $result;

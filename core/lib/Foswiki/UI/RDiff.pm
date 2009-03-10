@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::UI::RDiff
@@ -46,16 +47,19 @@ my %format = (
 #| Return: =$text= | Formatted html text |
 #| TODO: | this should move to Render.pm |
 sub _renderCellData {
-    my ( $session, $data, $web, $topic ) = @_;
-    ASSERT($topic) if DEBUG;
-    if ($data) {
-        $data =~ s(^%META:FIELD{(.*)}%.*$)
-          (_renderAttrs($1,'|*FORM FIELD $title*|$name|$value|'))gem;
-        $data =~ s(^%META:([A-Z]+){(.*)}%$)
-          ('|*META '.$1.'*|'._renderAttrs($2).'|')gem;
+    my ( $session, $data, $topicObject ) = @_;
 
-        $data = $session->handleCommonTags( $data, $web, $topic );
-        $data = $session->renderer->getRenderedVersion( $data, $web, $topic );
+    if ($data) {
+
+        # SMELL: assumption about storage of meta-data embedded in topic
+        # text
+        $data =~ s/^%META:FIELD{(.*)}%.*$/
+          _renderAttrs($1, '|*FORM FIELD $title*|$name|$value|')/gem;
+        $data =~ s/^%META:([A-Z]+){(.*)}%$/
+          '|*META '.$1.'*|'._renderAttrs($2).'|'/gem;
+
+        $data = $topicObject->expandMacros($data);
+        $data = $topicObject->renderTML($data);
 
         # Match up table tags, remove comments
         if ( $data =~ m/<\/?(th|td|table)\b/i ) {
@@ -90,7 +94,7 @@ sub _renderAttrs {
     require Foswiki::Store;
     if ($f) {
         for my $key ( keys %$attrs ) {
-            my $av = Foswiki::Store::dataDecode( $attrs->{$key} );
+            my $av = Foswiki::Meta::dataDecode( $attrs->{$key} );
             $f =~ s/\$$key\b/$av/g;
         }
     }
@@ -129,11 +133,11 @@ sub _sideBySideRow {
 #| Return: =$result= | Formatted html text |
 #| TODO: | this should move to Render.pm |
 sub _renderSideBySide {
-    my ( $session, $web, $topic, $diffType, $left, $right ) = @_;
+    my ( $session, $topicObject, $diffType, $left, $right ) = @_;
     my $result = '';
 
-    $left  = _renderCellData( $session, $left,  $web, $topic );
-    $right = _renderCellData( $session, $right, $web, $topic );
+    $left  = _renderCellData( $session, $left,  $topicObject );
+    $right = _renderCellData( $session, $right, $topicObject );
 
     if ( $diffType eq '-' ) {
         $result .= _sideBySideRow( $left, $right, '-', 'u' );
@@ -268,37 +272,36 @@ sub _sequentialRow {
 #| Return: =$result= | Formatted html text |
 #| TODO: | this should move to Render.pm |
 sub _renderSequential {
-    my ( $session, $web, $topic, $diffType, $left, $right ) = @_;
+    my ( $session, $topicObject, $diffType, $left, $right ) = @_;
     my $result = '';
-    ASSERT($topic) if DEBUG;
 
 #note: I have made the colspan 9 to make sure that it spans all columns (thought there are only 2 now)
     if ( $diffType eq '-' ) {
         $result .=
           _sequentialRow( '#FFD7D7', 'Deleted', 'Deleted',
-            _renderCellData( $session, $left, $web, $topic ),
+            _renderCellData( $session, $left, $topicObject ),
             '-', '&lt;', $session );
     }
     elsif ( $diffType eq '+' ) {
         $result .=
           _sequentialRow( '#D0FFD0', 'Added', 'Added',
-            _renderCellData( $session, $right, $web, $topic ),
+            _renderCellData( $session, $right, $topicObject ),
             '+', '&gt;', $session );
     }
     elsif ( $diffType eq 'u' ) {
         $result .=
           _sequentialRow( undef, 'Unchanged', 'Unchanged',
-            _renderCellData( $session, $right, $web, $topic ),
+            _renderCellData( $session, $right, $topicObject ),
             'u', '', $session );
     }
     elsif ( $diffType eq 'c' ) {
         $result .=
           _sequentialRow( '#D0FFD0', 'Changed', 'Deleted',
-            _renderCellData( $session, $left, $web, $topic ),
+            _renderCellData( $session, $left, $topicObject ),
             '-', '&lt;', $session );
         $result .=
           _sequentialRow( undef, 'Changed', 'Added',
-            _renderCellData( $session, $right, $web, $topic ),
+            _renderCellData( $session, $right, $topicObject ),
             '+', '&gt;', $session );
     }
     elsif ( $diffType eq 'l' && $left ne '' && $right ne '' ) {
@@ -334,7 +337,7 @@ sub _renderSequential {
 #| Return: =$text= | output html for one renderes revision diff |
 #| TODO: | move into Render.pm |
 sub _renderRevisionDiff {
-    my ( $session, $web, $topic, $sdiffArray_ref, $renderStyle ) = @_;
+    my ( $session, $topicObject, $sdiffArray_ref, $renderStyle ) = @_;
 
     #combine sequential array elements that are the same diffType
     my @diffArray = ();
@@ -383,14 +386,14 @@ sub _renderRevisionDiff {
             $next_ref = undef;
         }
         if ( $renderStyle eq 'sequential' ) {
-            $result .= _renderSequential( $session, $web, $topic, @$diff_ref );
+            $result .= _renderSequential( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'sidebyside' ) {
             $result .= CGI::Tr(
                 CGI::td( { width => '50%' }, '' ),
                 CGI::td( { width => '50%' }, '' )
             );
-            $result .= _renderSideBySide( $session, $web, $topic, @$diff_ref );
+            $result .= _renderSideBySide( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'debug' ) {
             $result .= _renderDebug(@$diff_ref);
@@ -401,14 +404,14 @@ sub _renderRevisionDiff {
     #don't forget the last one ;)
     if ($diff_ref) {
         if ( $renderStyle eq 'sequential' ) {
-            $result .= _renderSequential( $session, $web, $topic, @$diff_ref );
+            $result .= _renderSequential( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'sidebyside' ) {
             $result .= CGI::Tr(
                 CGI::td( { width => '50%' }, '' ),
                 CGI::td( { width => '50%' }, '' )
             );
-            $result .= _renderSideBySide( $session, $web, $topic, @$diff_ref );
+            $result .= _renderSideBySide( $session, $topicObject, @$diff_ref );
         }
         elsif ( $renderStyle eq 'debug' ) {
             $result .= _renderDebug(@$diff_ref);
@@ -427,7 +430,7 @@ sub _renderRevisionDiff {
 
 =begin TML
 
----++ StaticMethod diff( $session, $web, $topic, $query )
+---++ StaticMethod diff( $session )
 
 =diff= command handler.
 This method is designed to be
@@ -451,21 +454,23 @@ TODO:
 sub diff {
     my $session = shift;
 
-    my $query   = $session->{request};
-    my $webName = $session->{webName};
-    my $topic   = $session->{topicName};
+    my $query = $session->{request};
+    my $web   = $session->{webName};
+    my $topic = $session->{topicName};
 
-    Foswiki::UI::checkWebExists( $session, $webName, $topic, 'diff' );
-    Foswiki::UI::checkTopicExists( $session, $webName, $topic, 'diff' );
+    Foswiki::UI::checkWebExists( $session, $web, 'diff' );
+    Foswiki::UI::checkTopicExists( $session, $web, $topic, 'diff' );
+
+    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
 
     my $renderStyle =
          $query->param('render')
-      || $session->{prefs}->getPreferencesValue('DIFFRENDERSTYLE')
+      || $session->{prefs}->getPreference('DIFFRENDERSTYLE')
       || 'sequential';
     my $diffType = $query->param('type') || 'history';
     my $contextLines = $query->param('context');
     unless ( defined $contextLines ) {
-        $session->{prefs}->getPreferencesValue('DIFFCONTEXTLINES');
+        $session->{prefs}->getPreference('DIFFCONTEXTLINES');
         $contextLines = 3 unless defined $contextLines;
     }
     my $rev1 = $query->param('rev1');
@@ -481,19 +486,18 @@ sub diff {
     $after  ||= '';
     $tail   ||= '';
 
-    my $maxrev = $session->{store}->getRevisionNumber( $webName, $topic );
-    $maxrev =~ s/r?1\.//go;          # cut 'r' and major
+    my $maxrev = $topicObject->getMaxRevNo();
 
     if ( $diffType eq 'last' ) {
         $rev1 = $maxrev;
         $rev2 = $maxrev - 1;
     }
 
-    $rev1 = $session->{store}->cleanUpRevID($rev1);
+    $rev1 = Foswiki::Store::cleanUpRevID($rev1);
     $rev1 = $maxrev if ( $rev1 < 1 );
     $rev1 = $maxrev if ( $rev1 > $maxrev );
 
-    $rev2 = $session->{store}->cleanUpRevID($rev2);
+    $rev2 = Foswiki::Store::cleanUpRevID($rev2);
     $rev2 = 1 if ( $rev2 < 1 );
     $rev2 = $maxrev if ( $rev2 > $maxrev );
 
@@ -502,14 +506,13 @@ sub diff {
 
     $before =~ s/%REVTITLE1%/$revTitle1/go;
     $before =~ s/%REVTITLE2%/$revTitle2/go;
-    $before = $session->handleCommonTags( $before, $webName, $topic );
-    $before =
-      $session->renderer->getRenderedVersion( $before, $webName, $topic );
+    $before = $topicObject->expandMacros($before);
+    $before = $topicObject->renderTML($before);
 
     my $page = $before;
 
     # do one or more diffs
-    $difftmpl = $session->handleCommonTags( $difftmpl, $webName, $topic );
+    $difftmpl = $topicObject->expandMacros($difftmpl);
     my $r1             = $rev1;
     my $r2             = $rev2;
     my $isMultipleDiff = 0;
@@ -519,7 +522,20 @@ sub diff {
         $isMultipleDiff = 1;
     }
 
+    my %topicObject;
+
     do {
+
+        # Load the revs being diffed
+        $topicObject{$r1} =
+          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
+            $r1 )
+          unless $topicObject{$r1};
+        $topicObject{$r2} =
+          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
+            $r2 )
+          unless $topicObject{$r2};
+
         my $diff = $difftmpl;
         $diff =~ s/%REVTITLE1%/$r1/go;
         $diff =~ s/%REVTITLE2%/$r2/go;
@@ -532,23 +548,44 @@ sub diff {
                 $r2, $r1 );
         }
         else {
-            $rInfo =
-              $session->renderer->renderRevisionInfo( $webName, $topic, undef,
-                $r1, '$date - $wikiusername' );
-            $rInfo2 =
-              $session->renderer->renderRevisionInfo( $webName, $topic, undef,
-                $r1, '$rev ($date - $time) - $wikiusername' );
+            $rInfo = $session->renderer->renderRevisionInfo( $topicObject, $r1,
+                '$date - $wikiusername' );
+            $rInfo2 = $session->renderer->renderRevisionInfo( $topicObject, $r1,
+                '$rev ($date - $time) - $wikiusername' );
         }
 
         # eliminate white space to prevent wrap around in HR table:
         $rInfo  =~ s/\s+/&nbsp;/g;
         $rInfo2 =~ s/\s+/&nbsp;/g;
-        my $diffArrayRef =
-          $session->{store}
-          ->getRevisionDiff( $session->{user}, $webName, $topic, $r2, $r1,
-            $contextLines );
-        $text = _renderRevisionDiff( $session, $webName, $topic, $diffArrayRef,
-            $renderStyle );
+
+        # Check access rights
+        my $rd;
+        if ( !$topicObject{$r1}->haveAccess() ) {
+            $rd = [ [ '-', " *Revision $1 is unreadable* ", '' ] ];
+            if ( !$topicObject{$r2}->haveAccess() ) {
+                push( @$rd, [ '+', '', " *Revision $r2 is unreadable* " ] );
+            }
+            else {
+                foreach ( split( "\n", $r2 ) ) {
+                    push( @$rd, [ '+', '', $_ ] );
+                }
+            }
+        }
+        elsif ( !$topicObject{$r2}->haveAccess() ) {
+            $rd = [ [ '+', '', " *Revision $r2 is unreadable* " ] ];
+            foreach ( split( "\n", $r1 ) ) {
+                push( @$rd, [ '-', $_, '' ] );
+            }
+        }
+        else {
+            $rd =
+              $topicObject{$r1}
+              ->getDifferences( $topicObject{$r2}, $contextLines );
+        }
+
+        $text =
+          _renderRevisionDiff( $session, $topicObject, $rd, $renderStyle );
+
         $diff =~ s/%REVINFO1%/$rInfo/go;
         $diff =~ s/%REVINFO2%/$rInfo2/go;
         $diff =~ s/%TEXT%/$text/go;
@@ -558,9 +595,7 @@ sub diff {
         $r2 = 1 if ( $r2 < 1 );
     } while ( $diffType eq 'history' && ( $r1 > $rev2 || $r1 == 1 ) );
 
-    if ( $Foswiki::cfg{Log}{rdiff} ) {
-        $session->logEvent('rdiff', $webName . '.' . $topic, "$rev1 $rev2" );
-    }
+    $session->logEvent( 'rdiff', $web . '.' . $topic, "$rev1 $rev2" );
 
     my $i         = $maxrev;
     my $j         = $maxrev;
@@ -579,9 +614,8 @@ sub diff {
         $revisions .= ' '
           . CGI::a(
             {
-                href => $session->getScriptUrl(
-                    0, 'view', $webName, $topic, rev => $i
-                ),
+                href =>
+                  $session->getScriptUrl( 0, 'view', $web, $topic, rev => $i ),
                 rel => 'nofollow'
             },
             'r' . $i
@@ -600,7 +634,7 @@ sub diff {
                       . CGI::a(
                         {
                             href => $session->getScriptUrl(
-                                0, 'rdiff', $webName, $topic,
+                                0, 'rdiff', $web, $topic,
                                 rev1 => $i,
                                 rev2 => $j
                             ),
@@ -620,15 +654,14 @@ sub diff {
     while ( $i >= $rev2 ) {
         $revTitle = CGI::a(
             {
-                href => $session->getScriptUrl(
-                    0, 'view', $webName, $topic, rev => $i
-                ),
+                href =>
+                  $session->getScriptUrl( 0, 'view', $web, $topic, rev => $i ),
                 rel => 'nofollow'
             },
             $i
         );
         my $revInfo =
-          $session->renderer->renderRevisionInfo( $webName, $topic, undef, $i );
+          $session->renderer->renderRevisionInfo( $topicObject, undef, $i );
         $tailResult .= $tail;
         $tailResult =~ s/%REVTITLE%/$revTitle/go;
         $tailResult =~ s/%REVINFO%/$revInfo/go;
@@ -639,8 +672,8 @@ sub diff {
     $after =~ s/%CURRREV%/$rev1/go;
     $after =~ s/%MAXREV%/$maxrev/go;
 
-    $after = $session->handleCommonTags( $after, $webName, $topic );
-    $after = $session->renderer->getRenderedVersion( $after, $webName, $topic );
+    $after = $topicObject->expandMacros($after);
+    $after = $topicObject->renderTML($after);
     $page .= $after;
 
     $session->writeCompletePage($page);
@@ -658,8 +691,6 @@ __DATA__
 # file as follows:
 #
 # Copyright (C) 1999-2007 TWiki Contributors. All Rights Reserved.
-# TWiki Contributors are listed in the AUTHORS file in the root
-# of this distribution. NOTE: Please extend that file, not this notice.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

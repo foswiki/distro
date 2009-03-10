@@ -11,7 +11,7 @@ use Error qw( :try );
 my $TEST_WEB_NAME = 'TemporaryTableFormattingTestWebTableFormatting';
 
 sub new {
-    my $self = shift()->SUPER::new('TableFormatting', @_);
+    my $self = shift()->SUPER::new( 'TableFormatting', @_ );
     return $self;
 }
 
@@ -19,29 +19,31 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-#    $this->{sup} = $this->{twiki}->getScriptUrl(0, 'view');
+
+    #    $this->{sup} = $this->{session}->getScriptUrl(0, 'view');
     $Foswiki::cfg{AntiSpam}{RobotsAreWelcome} = 1;
-    $Foswiki::cfg{AntiSpam}{EmailPadding} = 'STUFFED';
-    $Foswiki::cfg{AllowInlineScript} = 1;
-    $ENV{SCRIPT_NAME} = ''; #  required by fake sort URLs in expected text
+    $Foswiki::cfg{AntiSpam}{EmailPadding}     = 'STUFFED';
+    $Foswiki::cfg{AllowInlineScript}          = 1;
+    $ENV{SCRIPT_NAME} = '';    #  required by fake sort URLs in expected text
 }
 
 # This formats the text up to immediately before <nop>s are removed, so we
 # can see the nops.
 sub do_test {
-    my ($this, $expected, $actual) = @_;
-    my $session = $this->{twiki};
-    my $webName = $this->{test_web};
+    my ( $this, $expected, $actual ) = @_;
+    my $session   = $this->{session};
+    my $webName   = $this->{test_web};
     my $topicName = $this->{test_topic};
 
-    $actual = $session->handleCommonTags( $actual, $webName, $topicName );
-    $actual = $session->renderer->getRenderedVersion( $actual, $webName, $topicName );
+    $actual =
+      Foswiki::Func::expandCommonVariables( $actual, $topicName, $webName );
+    $actual = Foswiki::Func::renderText( $actual, $webName, $topicName );
 
-    $this->assert_html_equals($expected, $actual);
+    $this->assert_html_equals( $expected, $actual );
 }
 
 sub test_simpleTableusing {
-    my $this = shift;
+    my $this     = shift;
     my $expected = <<EXPECTED;
 <nop>
 <nop>
@@ -68,15 +70,14 @@ EXPECTED
 | 2 | 3 |
 | ok | bad |
 ACTUAL
-    $this->do_test($expected, $actual);
+    $this->do_test( $expected, $actual );
 }
-
 
 sub test_simpleTheadTableUsingTablePlugin {
     my $this = shift;
 
     my $cgi = $this->{request};
-    my $url = $cgi->url(-absolute => 1);
+    my $url = $cgi->url( -absolute => 1 );
 
     my $expected = <<EXPECTED;
 <nop>
@@ -106,11 +107,11 @@ EXPECTED
 | 2 | 3 |
 | ok | bad |
 ACTUAL
-    $this->do_test($expected, $actual);
+    $this->do_test( $expected, $actual );
 }
 
 sub test_simpleTfootTableusingTablePlugin {
-    my $this = shift;
+    my $this     = shift;
     my $expected = <<EXPECTED;
 <nop>
 <nop>
@@ -141,14 +142,14 @@ EXPECTED
 | 2 | 3 |
 | *ok* | *bad* |
 ACTUAL
-    $this->do_test($expected, $actual);
+    $this->do_test( $expected, $actual );
 }
 
 sub test_doubleTheadTableUsingTablePlugin {
     my $this = shift;
 
     my $cgi = $this->{request};
-    my $url = $cgi->url(-absolute => 1);
+    my $url = $cgi->url( -absolute => 1 );
 
     my $expected = <<EXPECTED;
 <nop>
@@ -184,14 +185,14 @@ EXPECTED
 | 2 | 3 |
 | ok | bad |
 ACTUAL
-    $this->do_test($expected, $actual);
+    $this->do_test( $expected, $actual );
 }
 
 sub test_doubleTheadandTfootTableusingTablePlugin {
     my $this = shift;
 
     my $cgi = $this->{request};
-    my $url = $cgi->url(-absolute => 1);
+    my $url = $cgi->url( -absolute => 1 );
 
     my $expected = <<EXPECTED;
 <nop>
@@ -231,7 +232,7 @@ EXPECTED
 | 2 | 3 |
 | *ok* | *bad* |
 ACTUAL
-    $this->do_test($expected, $actual);
+    $this->do_test( $expected, $actual );
 }
 
 =pod
@@ -243,10 +244,10 @@ Test sorting of Size column (format: '1.1 K')
 sub test_sort_size {
     my $this = shift;
 
-    my $cgi = $this->{request};
-    my $url = $cgi->url(-absolute => 1);
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
-    
+
     my $actual = <<ACTUAL;
 %TABLE{initsort="3" initdirection="up"}%
 | *Title* | *Date* | *Size* | *Span date* |
@@ -308,8 +309,8 @@ ACTUAL
 	</tbody>
 </table>
 EXPECTED
-    
-    $this->do_test($expected, $actual);
+
+    $this->do_test( $expected, $actual );
 }
 
 =pod
@@ -321,10 +322,10 @@ Test sorting of Date column with HTML tags before the date
 sub test_sort_dateWithHtml {
     my $this = shift;
 
-    my $cgi = $this->{request};
-    my $url = $cgi->url(-absolute => 1);
+    my $cgi             = $this->{request};
+    my $url             = $cgi->url( -absolute => 1 );
     my $pubUrlSystemWeb = Foswiki::Func::getPubUrlPath() . '/System';
-    
+
     my $actual = <<ACTUAL;
 %TABLE{initsort="4" initdirection="up"}%
 | *Title* | *Date* | *Size* | *Span date* |
@@ -392,8 +393,8 @@ ACTUAL
 	</tbody>
 </table>
 EXPECTED
-    
-    $this->do_test($expected, $actual);
+
+    $this->do_test( $expected, $actual );
 }
 
 1;

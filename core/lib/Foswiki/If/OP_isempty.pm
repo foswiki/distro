@@ -28,8 +28,7 @@ sub evaluate {
     my $eval = $a->_evaluate(@_);
     return 1 unless $eval;
     return 0 if ( $session->{request}->param($eval) );
-    return 0 if ( $session->{prefs}->getPreferencesValue($eval) );
-    return 0 if ( $session->{SESSION_TAGS}{$eval} );
+    return 0 if ( $session->{prefs}->getPreference($eval) );
     return 1;
 }
 

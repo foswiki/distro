@@ -1,3 +1,4 @@
+
 =begin TML
 
 Read [[%ATTACHURL%/doc/html/reference.html][the Mishoo documentation]] or
@@ -19,37 +20,38 @@ use vars qw( $VERSION $RELEASE $SHORTDESCRIPTION );
 
 $VERSION = '$Rev$';
 $RELEASE = '03 Aug 2008';
-$SHORTDESCRIPTION = "[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
+$SHORTDESCRIPTION =
+"[[http://dynarch.com/mishoo/calendar.epl][Mishoo JSCalendar]], packaged for use by plugins, skins and add-ons";
 
 # Max width of different mishoo format components
 my %w = (
-    a => 3,	# abbreviated weekday name
-    A => 9,	# full weekday name
-    b => 3,	# abbreviated month name
-    B => 9,	# full month name
-    C => 2,	# century number
-    d => 2,	# the day of the month ( 00 .. 31 )
-    e => 2,	# the day of the month ( 0 .. 31 )
-    H => 2,	# hour ( 00 .. 23 )
-    I => 2,	# hour ( 01 .. 12 )
-    j => 3,	# day of the year ( 000 .. 366 )
-    k => 2,	# hour ( 0 .. 23 )
-    l => 2,	# hour ( 1 .. 12 )
-    m => 2,	# month ( 01 .. 12 )
-    M => 2,	# minute ( 00 .. 59 )
-    n => 1,	# a newline character
-    p => 2,	# 'PM' or 'AM'
-    P => 2,	# 'pm' or 'am'
-    S => 2,	# second ( 00 .. 59 )
-    s => 12,# number of seconds since Epoch
-    t => 1,	# a tab character
-    U => 2,	# the week number
-    u => 1,	# the day of the week ( 1 .. 7, 1 = MON )
-    W => 2,	# the week number
-    w => 1,	# the day of the week ( 0 .. 6, 0 = SUN )
-    V => 2,	# the week number
-    y => 2,	# year without the century ( 00 .. 99 )
-    Y => 4,	# year including the century ( ex. 1979 )
+    a => 3,               # abbreviated weekday name
+    A => 9,               # full weekday name
+    b => 3,               # abbreviated month name
+    B => 9,               # full month name
+    C => 2,               # century number
+    d => 2,               # the day of the month ( 00 .. 31 )
+    e => 2,               # the day of the month ( 0 .. 31 )
+    H => 2,               # hour ( 00 .. 23 )
+    I => 2,               # hour ( 01 .. 12 )
+    j => 3,               # day of the year ( 000 .. 366 )
+    k => 2,               # hour ( 0 .. 23 )
+    l => 2,               # hour ( 1 .. 12 )
+    m => 2,               # month ( 01 .. 12 )
+    M => 2,               # minute ( 00 .. 59 )
+    n => 1,               # a newline character
+    p => 2,               # 'PM' or 'AM'
+    P => 2,               # 'pm' or 'am'
+    S => 2,               # second ( 00 .. 59 )
+    s => 12,              # number of seconds since Epoch
+    t => 1,               # a tab character
+    U => 2,               # the week number
+    u => 1,               # the day of the week ( 1 .. 7, 1 = MON )
+    W => 2,               # the week number
+    w => 1,               # the day of the week ( 0 .. 6, 0 = SUN )
+    V => 2,               # the week number
+    y => 2,               # year without the century ( 00 .. 99 )
+    Y => 4,               # year including the century ( ex. 1979 )
 );
 
 =begin TML
@@ -78,7 +80,7 @@ my $toDate = Foswiki::Contrib::JSCalendarContrib::renderDateForEdit(
 =cut
 
 sub renderDateForEdit {
-    my ($name, $value, $format, $options) = @_;
+    my ( $name, $value, $format, $options ) = @_;
 
     $format ||= $Foswiki::cfg{JSCalendarContrib}{format} || '%e %B %Y';
 
@@ -87,24 +89,24 @@ sub renderDateForEdit {
     # Work out how wide it has to be from the format
     # SMELL: add a space because pattern skin default fonts on FF make the
     # box half a character too narrow if the exact size is used
-    my $wide = $format.' ';
+    my $wide = $format . ' ';
     $wide =~ s/(%(.))/$w{$2} ? ('_' x $w{$2}) : $1/ge;
     $options ||= {};
-    $options->{name} = $name;
-    $options->{id} = 'id_'.$name;
+    $options->{name}  = $name;
+    $options->{id}    = 'id_' . $name;
     $options->{value} = $value || '';
     $options->{size} ||= length($wide);
 
     return CGI::textfield($options)
       . CGI::image_button(
-          -name => 'img_'.$name,
-          -onclick =>
-            "javascript: return showCalendar('id_$name','$format')",
-            -src=> Foswiki::Func::getPubUrlPath() . '/' .
-              $Foswiki::cfg{SystemWebName} .
-                  '/JSCalendarContrib/img.gif',
-          -alt => 'Calendar',
-          -align => 'middle');
+        -name    => 'img_' . $name,
+        -onclick => "javascript: return showCalendar('id_$name','$format')",
+        -src     => Foswiki::Func::getPubUrlPath() . '/'
+          . $Foswiki::cfg{SystemWebName}
+          . '/JSCalendarContrib/img.gif',
+        -alt   => 'Calendar',
+        -align => 'middle'
+      );
 }
 
 =begin TML
@@ -190,16 +192,17 @@ sub addHEAD {
     my $setup = shift;
     $setup ||= 'calendar-setup';
     my $style = $Foswiki::cfg{JSCalendarContrib}{style} || 'blue';
-    my $lang = $Foswiki::cfg{JSCalendarContrib}{lang} || 'en';
-    my $base = '%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib';
+    my $lang  = $Foswiki::cfg{JSCalendarContrib}{lang}  || 'en';
+    my $base  = '%PUBURLPATH%/%SYSTEMWEB%/JSCalendarContrib';
     eval {
         require Foswiki::Contrib::BehaviourContrib;
-        if (defined(&Foswiki::Contrib::BehaviourContrib::addHEAD)) {
+        if ( defined(&Foswiki::Contrib::BehaviourContrib::addHEAD) ) {
             Foswiki::Contrib::BehaviourContrib::addHEAD();
-        } else {
-            Foswiki::Func::addToHEAD(
-                'BEHAVIOURCONTRIB',
-                '<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>');
+        }
+        else {
+            Foswiki::Func::addToHEAD( 'BEHAVIOURCONTRIB',
+'<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/BehaviourContrib/behaviour.compressed.js"></script>'
+            );
         }
     };
     my $head = <<HERE;
@@ -217,7 +220,7 @@ HERE
     $head = <<HERE;
 <script type='text/javascript' src='$base/$setup.js'></script>
 HERE
-    Foswiki::Func::addToHEAD( 'JSCALENDARCONTRIB_'.$setup, $head );
+    Foswiki::Func::addToHEAD( 'JSCALENDARCONTRIB_' . $setup, $head );
 }
 
 1;

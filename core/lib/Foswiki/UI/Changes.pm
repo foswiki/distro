@@ -15,15 +15,12 @@ require Foswiki::Time;
 sub changes {
     my $session = shift;
 
-    my $query   = $session->{request};
-    my $webName = $session->{webName};
-    my $topic   = $session->{topicName};
+    my $query = $session->{request};
+    my $webObject = Foswiki::Meta->new( $session, $session->{webName} );
 
-    Foswiki::UI::checkWebExists( $session, $webName, $topic, 'find changes in' );
+    Foswiki::UI::checkWebExists( $session, $webObject->web, 'find changes in' );
 
-    my $skin = $session->getSkin();
-
-    my $text = $session->templates->readTemplate( 'changes', $skin );
+    my $text = $session->templates->readTemplate('changes');
 
     my ( $page, $eachChange, $after ) = split( /%REPEAT%/, $text );
 
@@ -34,7 +31,7 @@ sub changes {
           . 'This page is showing major changes only. '
           . CGI::a(
             {
-                href => $query->url() . "/$webName?minor=1",
+                href => $query->url() . '/' . $webObject->web() . '?minor=1',
                 rel  => 'nofollow'
             },
             'View all changes'
@@ -44,7 +41,7 @@ sub changes {
     }
     my %done = ();
 
-    my $iterator = $session->{store}->eachChange( $webName, 0 );
+    my $iterator = $webObject->eachChange(0);
 
     while ( $iterator->hasNext() ) {
         my $change = $iterator->next();
@@ -52,12 +49,11 @@ sub changes {
           if ( !$showMinor && $change->{more} && $change->{more} =~ /minor/ );
         next if $done{ $change->{topic} };
         next
-          unless $session->{store}->topicExists( $webName, $change->{topic} );
+          unless $session->topicExists( $webObject->web, $change->{topic} );
         try {
-            my $summary = $session->renderer->summariseChanges(
-                $session->{user}, $webName,
-                $change->{topic}, $change->{revision}
-            );
+            my $topicObject =
+              Foswiki::Meta->new( $session, $webObject->web, $change->{topic} );
+            my $summary = $topicObject->summariseChanges( $change->{revision} );
             my $thisChange = $eachChange;
             $thisChange =~ s/%TOPICNAME%/$change->{topic}/go;
             my $wikiuser =
@@ -74,9 +70,7 @@ sub changes {
             }
             $thisChange =~ s/%TIME%/$time/g;
             $thisChange =~ s/%REVISION%/$srev/go;
-            $thisChange =
-              $session->renderer->getRenderedVersion( $thisChange, $webName,
-                $change->{topic} );
+            $thisChange = $topicObject->renderTML($thisChange);
             $thisChange =~ s/%TEXTHEAD%/$summary/go;
             $page .= $thisChange;
         }
@@ -86,15 +80,16 @@ sub changes {
         };
         $done{ $change->{topic} } = 1;
     }
-    if ( $Foswiki::cfg{Log}{changes} ) {
 
-        # write log entry
-        $session->logEvent('changes', $webName, '' );
-    }
+    $session->logEvent( 'changes', $webObject->web(), '' );
+
     $page .= $after;
 
-    $page = $session->handleCommonTags( $page, $webName, $topic );
-    $page = $session->renderer->getRenderedVersion( $page, $webName, $topic );
+    my $topicObject =
+      Foswiki::Meta->new( $session, $session->{webName},
+        $session->{topicName} );
+    $page = $topicObject->expandMacros($page);
+    $page = $topicObject->renderTML($page);
 
     $session->writeCompletePage($page);
 }

@@ -54,16 +54,18 @@ Triggered on auth fail
 =cut
 
 sub forceAuthentication {
-    my $this  = shift;
+    my $this    = shift;
     my $session = $this->{session};
-    my $query = $session->{request};
+    my $query   = $session->{request};
 
     # See if there is an 'auth' version
     # of this script, may be a result of not being logged in.
-    my $newAction  = $query->action() . 'auth';
+    my $newAction = $query->action() . 'auth';
 
-    if ( !$query->remote_user() &&
-           exists $Foswiki::cfg{SwitchBoard}{$newAction} ) {
+    if ( !$query->remote_user()
+        && exists $Foswiki::cfg{SwitchBoard}{$newAction} )
+    {
+
         # Assemble the new URL using the host, the changed script name,
         # and the path info.
         my $url = $session->getScriptUrl( 1, $newAction );
@@ -90,10 +92,10 @@ Content of a login link
 =cut
 
 sub loginUrl {
-    my $this  = shift;
+    my $this    = shift;
     my $session = $this->{session};
-    my $topic = $session->{topicName};
-    my $web   = $session->{webName};
+    my $topic   = $session->{topicName};
+    my $web     = $session->{webName};
     return $session->getScriptUrl( 0, 'logon', $web, $topic, @_ );
 }
 
@@ -110,16 +112,13 @@ if it needs to challenge the user
 sub login {
     my ( $this, $query, $session ) = @_;
 
-    my $url = $session->getScriptUrl(
-        0, 'viewauth',
-        $session->{webName},
-        $session->{topicName},
-        t => time()
-    );
+    my $url =
+      $session->getScriptUrl( 0, 'viewauth', $session->{webName},
+        $session->{topicName}, t => time() );
 
     $url .= ( ';' . $query->query_string() ) if $query->query_string();
 
-    $session->redirect( $url, 1 ); # with passthrough
+    $session->redirect( $url, 1 );    # with passthrough
 }
 
 =begin TML

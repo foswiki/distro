@@ -15,13 +15,12 @@ sub new {
 }
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     return (
         '',
         CGI::textfield(
-            -class =>
-              $this->cssClasses( 'foswikiInputField' ),
+            -class => $this->cssClasses('foswikiInputField'),
             -name  => $this->{name},
             -size  => $this->{size},
             -value => $value

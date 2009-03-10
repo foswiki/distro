@@ -80,8 +80,11 @@ sub setup_new_session() {
     $ENV{SCRIPT_NAME} = "view";
 
     # close this Foswiki session - its using the wrong mapper and login
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( undef, $query );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( undef, $query );
+    $this->{test_topicObject} =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
 }
 
 sub set_up_user {
@@ -91,12 +94,12 @@ sub set_up_user {
     my $userWikiName;
     my $user_id;
 
-    if ( $this->{twiki}->{users}->supportsRegistration() ) {
+    if ( $this->{session}->{users}->supportsRegistration() ) {
         $userWikiName = 'JoeDoe';
         $userLogin    = $userWikiName;
         $userLogin    = 'joe' if ( $Foswiki::cfg{Register}{AllowLoginName} );
         $user_id =
-          $this->{twiki}->{users}
+          $this->{session}->{users}
           ->addUser( $userLogin, $userWikiName, 'secrect_password',
             'email@home.org.au' );
         $this->annotate(
@@ -104,9 +107,9 @@ sub set_up_user {
         );
     }
     else {
-        $userLogin    = $Foswiki::cfg{AdminUserLogin};
-        $user_id      = $this->{twiki}->{users}->getCanonicalUserID($userLogin);
-        $userWikiName = $this->{twiki}->{users}->getWikiName($user_id);
+        $userLogin = $Foswiki::cfg{AdminUserLogin};
+        $user_id   = $this->{session}->{users}->getCanonicalUserID($userLogin);
+        $userWikiName = $this->{session}->{users}->getWikiName($user_id);
         $this->annotate("no rego support (using admin)\n");
     }
     $this->{userLogin}    = $userLogin;
@@ -121,7 +124,7 @@ sub verify_WikiNameTopicUserMapping {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{user_id},
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
 sub verify_LoginNameTopicUserMapping {
@@ -130,7 +133,7 @@ sub verify_LoginNameTopicUserMapping {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{user_id},
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
 #legacy topic forms
@@ -140,7 +143,7 @@ sub verify_valid_login_no_Mapper_in_cUID {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userLogin},
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
 sub verify_valid_wikiname_no_Mapper_in_cUID {
@@ -149,7 +152,7 @@ sub verify_valid_wikiname_no_Mapper_in_cUID {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userWikiName},
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
 sub verify_web_and_wikiname_no_Mapper_in_cUID {
@@ -158,8 +161,8 @@ sub verify_web_and_wikiname_no_Mapper_in_cUID {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests(
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ),
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} )
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ),
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} )
     );
 }
 
@@ -170,7 +173,7 @@ sub verify_valid_login_no_Mapper_in_cUID_NOAllowLoginName {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userLogin},
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
 sub verify_valid_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
@@ -180,7 +183,7 @@ sub verify_valid_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests( $this->{userWikiName},
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ) );
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ) );
 }
 
 sub verify_web_and_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
@@ -190,8 +193,8 @@ sub verify_web_and_wikiname_no_Mapper_in_cUID_NOAllowLoginName {
     $this->setup_new_session();
     $this->set_up_user();
     $this->std_tests(
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} ),
-        $this->{twiki}->{users}->webDotWikiName( $this->{user_id} )
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} ),
+        $this->{session}->{users}->webDotWikiName( $this->{user_id} )
     );
 }
 
@@ -213,21 +216,20 @@ sub std_tests {
     my $CuidWithMappers = $TopicTemplate;
     $CuidWithMappers =~ s/UUUUUUUUUU/$serializedName/e;
 
-    $this->assert_not_null( $this->{twiki}->{user} );
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{test_web},
-        'CuidWithMappers',      $CuidWithMappers
-    );
+    $this->assert_not_null( $this->{session}->{user} );
+    Foswiki::Func::saveTopic( $this->{test_web}, 'CuidWithMappers', undef,
+        $CuidWithMappers );
 
     #test that all 4 raw internal values are ok cUIDs
-    my ( $date, $user, $rev, $comment ) =
-      $this->{twiki}->{store}
-      ->getRevisionInfo( $this->{test_web}, 'CuidWithMappers' );
-    $this->assert_not_null($user);
+    my $nob =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'CuidWithMappers' );
+    my $info = $nob->getRevisionInfo();
+    $this->assert_not_null( $info->{author} );
 
-    my ( $meta, $text ) =
-      $this->{twiki}->{store}->readTopic( $this->{twiki}->{user},
-        $this->{test_web}, 'CuidWithMappers' );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'CuidWithMappers' );
 
     my $topicinfo = $meta->get('TOPICINFO');
     $this->assert_not_null( $topicinfo->{author} );
@@ -254,9 +256,8 @@ sub std_tests {
     #render attahcment tables, and rev history of attachment tables,
     #all must be wikiname
     my $renderedMeta =
-      $this->{twiki}
-      ->attach->renderMetaData( $this->{test_web}, 'CuidWithMappers', $meta,
-        { template => 'attachtables.tmpl' } );
+      $this->{session}
+      ->attach->renderMetaData( $meta, { template => 'attachtables.tmpl' } );
     $this->assert_not_null($renderedMeta);
 
     #TODO: redo this with custom tmpl and check each username
@@ -277,7 +278,7 @@ THIS
 ###########################################
 sub verify_BaseMapping_handleUser {
     my $this        = shift;
-    my $basemapping = $this->{twiki}->{users}->{basemapping};
+    my $basemapping = $this->{session}->{users}->{basemapping};
 
     #ObjectMethod handlesUser ( $cUID, $login, $wikiname)
     $this->assert( !$basemapping->handlesUser() );
@@ -288,7 +289,11 @@ sub verify_BaseMapping_handleUser {
         $basemapping->handlesUser( undef, $Foswiki::cfg{DefaultUserLogin} ) );
     $this->assert( $basemapping->handlesUser( undef, 'unknown' ) );
     $this->assert( $basemapping->handlesUser( undef, 'ProjectContributor' ) );
-    $this->assert( $basemapping->handlesUser( undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName} ) );
+    $this->assert(
+        $basemapping->handlesUser(
+            undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+        )
+    );
 
     $this->assert(
         $basemapping->handlesUser(
@@ -304,7 +309,11 @@ sub verify_BaseMapping_handleUser {
     $this->assert(
         $basemapping->handlesUser( undef, undef, 'ProjectContributor' ) );
     $this->assert(
-        $basemapping->handlesUser( undef, undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName} ) );
+        $basemapping->handlesUser(
+            undef, undef,
+            $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+        )
+    );
 
     $this->assert(
         $basemapping->handlesUser(
@@ -314,7 +323,8 @@ sub verify_BaseMapping_handleUser {
     );
     $this->assert(
         $basemapping->handlesUser(
-            undef, $Foswiki::cfg{DefaultUserLogin},
+            undef,
+            $Foswiki::cfg{DefaultUserLogin},
             $Foswiki::cfg{DefaultUserWikiName}
         )
     );
@@ -327,7 +337,9 @@ sub verify_BaseMapping_handleUser {
     );
     $this->assert(
         $basemapping->handlesUser(
-            undef, $Foswiki::cfg{Register}{RegistrationAgentWikiName}, $Foswiki::cfg{Register}{RegistrationAgentWikiName}
+            undef,
+            $Foswiki::cfg{Register}{RegistrationAgentWikiName},
+            $Foswiki::cfg{Register}{RegistrationAgentWikiName}
         )
     );
 

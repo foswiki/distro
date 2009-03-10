@@ -11,43 +11,43 @@ use Foswiki::Contrib::JSCalendarContrib;
 
 sub new {
     my $class = shift;
-    my $this = $class->SUPER::new( @_ );
-    my $size = $this->{size} || '';
+    my $this  = $class->SUPER::new(@_);
+    my $size  = $this->{size} || '';
     $size =~ s/[^\d]//g;
-    $size = 20 if( !$size || $size < 1 ); # length(31st September 2007)=19
+    $size = 20 if ( !$size || $size < 1 );    # length(31st September 2007)=19
     $this->{size} = $size;
     return $this;
 }
 
 sub renderForEdit {
-    my( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     $value = CGI::textfield(
-        { name => $this->{name},
-          id => 'id'.$this->{name},
-          size=> $this->{size},
-          value => $value,
-          class => $this->can('cssClasses') ?
-            $this->cssClasses('foswikiInputField', 'foswikiEditFormDateField') :
-              'foswikiInputField foswikiEditFormDateField'});
-    my $ifFormat = $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
-    Foswiki::Contrib::JSCalendarContrib::addHEAD( 'foswiki' );
-    my $button .= CGI::image_button(
-        -name => 'calendar',
-        -onclick =>
-          "return showCalendar('id$this->{name}','$ifFormat')",
-        -src=> $Foswiki::cfg{PubUrlPath} . '/' .
-          $Foswiki::cfg{SystemWebName} .
-            '/JSCalendarContrib/img.gif',
-        -alt => 'Calendar',
-        -class => 'foswikiButton foswikiEditFormCalendarButton' );
-    $value .= CGI::span(
-        { -class => 'foswikiMakeVisible' },
-        '&nbsp;' . $button
+        {
+            name  => $this->{name},
+            id    => 'id' . $this->{name},
+            size  => $this->{size},
+            value => $value,
+            class => $this->can('cssClasses')
+            ? $this->cssClasses( 'foswikiInputField',
+                'foswikiEditFormDateField' )
+            : 'foswikiInputField foswikiEditFormDateField'
+        }
     );
-    my $session = $this->{session};
-    $value = $session->renderer->getRenderedVersion(
-        $session->handleCommonTags( $value, $web, $topic ));
+    my $ifFormat = $Foswiki::cfg{JSCalendarContrib}{format} || '%e %b %Y';
+    Foswiki::Contrib::JSCalendarContrib::addHEAD('foswiki');
+    my $button .= CGI::image_button(
+        -name    => 'calendar',
+        -onclick => "return showCalendar('id$this->{name}','$ifFormat')",
+        -src     => $Foswiki::cfg{PubUrlPath} . '/'
+          . $Foswiki::cfg{SystemWebName}
+          . '/JSCalendarContrib/img.gif',
+        -alt   => 'Calendar',
+        -class => 'foswikiButton foswikiEditFormCalendarButton'
+    );
+    $value .=
+      CGI::span( { -class => 'foswikiMakeVisible' }, '&nbsp;' . $button );
+    $value = $topicObject->renderTML( $topicObject->expandMacros($value) );
 
     return ( '', $value );
 }

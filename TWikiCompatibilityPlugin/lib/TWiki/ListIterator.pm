@@ -8,9 +8,9 @@ use strict;
 
 use Foswiki::ListIterator;
 
-sub new { return Foswiki::ListIterator::new(@_); }
+sub new     { return Foswiki::ListIterator::new(@_); }
 sub hasNext { return Foswiki::ListIterator::hasNext(@_); }
-sub next { return Foswiki::ListIterator::next(@_); }
+sub next    { return Foswiki::ListIterator::next(@_); }
 
 1;
 

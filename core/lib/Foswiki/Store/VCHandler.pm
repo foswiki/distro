@@ -2,32 +2,36 @@
 
 =begin TML
 
----+ package Foswiki::Store::RcsFile
+---+ package Foswiki::Store::VCHandler
 
 This class is PACKAGE PRIVATE to Store, and should never be
-used from anywhere else. It is the base class of implementations of stores
-that manipulate RCS format files.
+used from anywhere else. It is the base class of implementations
+individual file handler objects used with stores that manipulate
+files stored in a version control system (phew!).
 
 The general contract of the methods on this class and its subclasses
 calls for errors to be signalled by Error::Simple exceptions.
 
-Refer to Store.pm for models of usage.
+There are a number of references to RCS below; however this class is
+also useful for other VC implementations.
+
+For readers who are familiar with Foswiki version 1.0.0, this class
+is analagous to =Foswiki::Store::RcsFile=.
 
 =cut
 
-package Foswiki::Store::RcsFile;
+package Foswiki::Store::VCHandler;
 
 use strict;
-use warnings;
 use Assert;
 
-require File::Copy;
-require File::Spec;
-require File::Path;
-require File::Basename;
+use File::Copy     ();
+use File::Spec     ();
+use File::Path     ();
+use File::Basename ();
 
-require Foswiki::Store;
-require Foswiki::Sandbox;
+use Foswiki::Store   ();
+use Foswiki::Sandbox ();
 
 =begin TML
 
@@ -45,7 +49,8 @@ sub new {
 
     $this->{web} = $web;
 
-    if ($topic) {
+    if ( $web && $topic ) {
+        my $rcsSubDir = ( $Foswiki::cfg{RCS}{useSubDir} ? '/RCS' : '' );
 
         $this->{topic} = $topic;
 
@@ -54,16 +59,26 @@ sub new {
 
             $this->{file} =
                 $Foswiki::cfg{PubDir} . '/' 
-              . $web . '/' 
-              . $topic . '/'
+              . $web . '/'
+              . $this->{topic} . '/'
               . $attachment;
-            $this->{rcsFile} = $this->{file} . ',v';
+            $this->{rcsFile} =
+                $Foswiki::cfg{PubDir} . '/' 
+              . $web . '/' 
+              . $topic
+              . $rcsSubDir . '/'
+              . $attachment . ',v';
 
         }
         else {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
-            $this->{rcsFile} = $this->{file} . ',v';
+            $this->{rcsFile} =
+                $Foswiki::cfg{DataDir} . '/' 
+              . $web
+              . $rcsSubDir . '/'
+              . $topic
+              . '.txt,v';
         }
     }
 
@@ -92,8 +107,6 @@ sub finish {
     undef $this->{attachment};
     undef $this->{searchFn};
     undef $this->{session};
-
-    return;
 }
 
 # Used in subclasses for late initialisation during object creation
@@ -111,28 +124,21 @@ sub init {
             $this->initText();
         }
     }
-
-    return;
 }
 
 # Make any missing paths on the way to this file
-# SMELL: duplicates CPAN File::Tree::mkpath
 sub mkPathTo {
 
     my $file = shift;
 
-    ASSERT(UNTAINTED($file)) if DEBUG;
-
+    $file = Foswiki::Sandbox::untaintUnchecked($file);
     my $path = File::Basename::dirname($file);
     eval { File::Path::mkpath( $path, 0, $Foswiki::cfg{RCS}{dirPermission} ); };
     if ($@) {
-        throw Error::Simple("RCS: failed to create ${path}: $!");
+        throw Error::Simple("VCHandler: failed to create ${path}: $!");
     }
-
-    return;
 }
 
-# SMELL: this should use Foswiki::Time
 sub _epochToRcsDateTime {
     my ($dateTime) = @_;
 
@@ -156,11 +162,11 @@ sub _controlFileName {
 
 =begin TML
 
----++ ObjectMethod getRevisionInfo($version) -> ($rev, $date, $user, $comment)
+---++ ObjectMethod getRevisionInfo($version) -> \%info
 
    * =$version= if 0 or undef, or out of range (version number > number of revs) will return info about the latest revision.
 
-Returns (rev, date, user, comment) where rev is the number of the rev for which the info was recovered, date is the date of that rev (epoch s), user is the login name of the user who saved that rev, and comment is the comment associated with the rev.
+Returns info where version is the number of the rev for which the info was recovered, date is the date of that rev (epoch s), user is the canonical user ID of the user who saved that rev, and comment is the comment associated with the rev.
 
 Designed to be overridden by subclasses, which can call up to this method
 if file-based rev info is required.
@@ -169,14 +175,14 @@ if file-based rev info is required.
 
 sub getRevisionInfo {
     my ($this) = @_;
-    my $fileDate = $this->getTimestamp();
-    return (
-        1,
-        $fileDate,
-        $this->{session}->{users}
+
+    return {
+        version => 1,
+        date    => $this->getTimestamp(),
+        author  => $this->{session}->{users}
           ->getCanonicalUserID( $Foswiki::cfg{DefaultUserLogin} ),
-        'Default revision information'
-    );
+        comment => 'Default revision information',
+    };
 }
 
 =begin TML
@@ -207,7 +213,7 @@ sub getLatestRevisionTime {
 
 =begin TML
 
----+++ ObjectMethod getWorkArea( $key ) -> $directorypath
+---+++ ClassMethod getWorkArea( $key ) -> $directorypath
 
 Gets a private directory uniquely identified by $key. The directory is
 intended as a work area for plugins.
@@ -218,7 +224,7 @@ $Foswiki::cfg{WorkingDir}/work_areas
 =cut
 
 sub getWorkArea {
-    my ( $this, $key ) = @_;
+    my ( $class, $key ) = @_;
 
     # untaint and detect nasties
     $key = Foswiki::Sandbox::normalizeFileName($key);
@@ -248,20 +254,16 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 sub getTopicNames {
     my $this = shift;
 
-    opendir my $DIR, $Foswiki::cfg{DataDir} . '/' . $this->{web};
+    opendir DIR, $Foswiki::cfg{DataDir} . '/' . $this->{web};
 
-    my @topicList;
-    foreach my $f (readdir($DIR)) {
-        # Validate and untaint
-        next unless $f =~ /^(.*)\.txt$/;
-        $f = $1;
-        # Second parameter allows non-wiki-word topic names
-        if ( Foswiki::isValidTopicName($f, 1)) {
-            push(@topicList, $1);
-        }
-    }
-    closedir($DIR);
-    return sort @topicList;
+    # the name filter is used to ensure we don't return filenames
+    # that contain illegal characters as topic names.
+    my @topicList =
+      sort
+      map { /^(.*)\.txt$/; $1; }
+      grep { !/$Foswiki::cfg{NameFilter}/ && /\.txt$/ } readdir(DIR);
+    closedir(DIR);
+    return @topicList;
 }
 
 =begin TML
@@ -275,20 +277,15 @@ Gets a list of names of subwebs in the current web
 sub getWebNames {
     my $this = shift;
     my $dir  = $Foswiki::cfg{DataDir} . '/' . $this->{web};
-    if ( opendir( my $DIR, $dir ) ) {
-        my @list;
-        foreach my $web (readdir($DIR)) {
-            # Second parameter validates hidden web names
-            if ( Foswiki::isValidWebName($web, 1)
-                && -d $dir . '/' . $web ) {
-                $web =~ /^(.*)$/; # untaint validated web name
-                push(@list, $1);
-            }
-        }
-        closedir($DIR);
-        return sort @list;
+    my @tmpList;
+    if ( opendir( DIR, $dir ) ) {
+        @tmpList =
+          map { Foswiki::Sandbox::untaintUnchecked($_) }
+          grep { !/\./ && !/$Foswiki::cfg{NameFilter}/ && -d $dir . '/' . $_ }
+          readdir(DIR);
+        closedir(DIR);
     }
-    return ();
+    return @tmpList;
 }
 
 =begin TML
@@ -297,7 +294,7 @@ sub getWebNames {
 
 Search for a string in the content of a web. The search must be over all
 content and all formatted meta-data, though the latter search type is
-deprecated (use searchMetaData instead).
+deprecated (use queries instead).
 
    * =$searchString= - the search string, in egrep format if regex
    * =$web= - The web to search in
@@ -330,32 +327,27 @@ sub searchInWebContent {
     }
 
     no strict 'refs';
-    return &{ $this->{searchFn} }(
-        # the undef was previously the sandbox
-        $searchString, $topics, $options, $sDir, undef, $this->{web}
-    );
+    return &{ $this->{searchFn} }( $searchString, $topics, $options, $sDir,
+        $Foswiki::sandbox );
     use strict 'refs';
 }
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, \@topics) -> \%matches
+---++ ObjectMethod searchInWebMetaData($query, \@topics, $store) -> \%matches
 
-Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
+Search for a meta-data expression in the content of a web. =$query= must
+be a =Foswiki::Query= object.
 
 Returns a reference to a hash that maps the names of topics that all matched
 to the result of the query expression (e.g. if the query expression is
 'TOPICPARENT.name' then you will get back a hash that maps topic names
 to their parent.
 
-SMELL: this is *really* inefficient!
-
 =cut
 
 sub searchInWebMetaData {
-    my ( $this, $query, $topics ) = @_;
-
-    my $store = $this->{session}->{store};
+    my ( $this, $query, $topics, $store ) = @_;
 
     unless ( $this->{queryFn} ) {
         eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
@@ -390,8 +382,6 @@ sub moveWeb {
             $Foswiki::cfg{PubDir} . '/' . $newWeb
         );
     }
-
-    return;
 }
 
 =begin TML
@@ -408,9 +398,7 @@ if the main file revision is required.
 =cut
 
 sub getRevision {
-    my $this = shift;
-    ASSERT( defined($this->{file}) ) if DEBUG;
-
+    my ($this) = @_;
     return readFile( $this, $this->{file} );
 }
 
@@ -424,8 +412,6 @@ Establishes if there is stored data associated with this handler.
 
 sub storedDataExists {
     my $this = shift;
-    ASSERT( defined($this->{file}) ) if DEBUG;
-    
     return -e $this->{file};
 }
 
@@ -443,7 +429,8 @@ sub getTimestamp {
     my $date = 0;
     if ( -e $this->{file} ) {
 
-        # SMELL: Why big number if fail?
+        # If the stat fails, stamp it with some arbitrary static
+        # time in the past (00:40:05 on 5th Jan 1989)
         $date = ( stat $this->{file} )[9] || 600000000;
     }
     return $date;
@@ -451,51 +438,57 @@ sub getTimestamp {
 
 =begin TML
 
----++ ObjectMethod restoreLatestRevision( $user )
+---++ ObjectMethod restoreLatestRevision( $cUID )
 
 Restore the plaintext file from the revision at the head.
 
 =cut
 
 sub restoreLatestRevision {
-    my ( $this, $user ) = @_;
+    my ( $this, $cUID ) = @_;
 
     my $rev  = $this->numRevisions();
     my $text = $this->getRevision($rev);
 
     # If there is no ,v, create it
     unless ( -e $this->{rcsFile} ) {
-        $this->addRevisionFromText( $text, "restored", $user, time() );
+        $this->addRevisionFromText( $text, "restored", $cUID, time() );
     }
     else {
         saveFile( $this, $this->{file}, $text );
     }
-
-    return;
 }
 
 =begin TML
 
----++ ObjectMethod removeWeb( $web )
+---++ ObjectMethod remove()
 
-   * =$web= - web being removed
-
-Destroy a web, utterly. Removed the data and attachments in the web.
+Destroy, utterly. Remove the data and attachments in the web.
 
 Use with great care! No backup is taken!
 
 =cut
 
-sub removeWeb {
+sub remove {
     my $this = shift;
 
-    # Just make sure of the context
-    ASSERT( !$this->{topic} ) if DEBUG;
+    if ( !$this->{topic} ) {
 
-    _rmtree( $Foswiki::cfg{DataDir} . '/' . $this->{web} );
-    _rmtree( $Foswiki::cfg{PubDir} . '/' . $this->{web} );
+        # Web
+        _rmtree( $Foswiki::cfg{DataDir} . '/' . $this->{web} );
+        _rmtree( $Foswiki::cfg{PubDir} . '/' . $this->{web} );
+    }
+    else {
 
-    return;
+        # Topic or attachment
+        unlink( $this->{file} );
+        unlink( $this->{rcsFile} );
+        if ( !$this->{attachment} ) {
+            _rmtree($Foswiki::cfg{PubDir} . '/'
+                  . $this->{web} . '/'
+                  . $this->{topic} );
+        }
+    }
 }
 
 =begin TML
@@ -514,7 +507,7 @@ sub moveTopic {
 
     # Move data file
     my $new =
-      new Foswiki::Store::RcsFile( $this->{session}, $newWeb, $newTopic, '' );
+      new Foswiki::Store::VCHandler( $this->{session}, $newWeb, $newTopic, '' );
     _moveFile( $this->{file}, $new->{file} );
 
     # Move history
@@ -524,13 +517,12 @@ sub moveTopic {
     }
 
     # Move attachments
-    my $from = $Foswiki::cfg{PubDir} . '/' . $this->{web} . '/' . $this->{topic};
+    my $from =
+      $Foswiki::cfg{PubDir} . '/' . $this->{web} . '/' . $this->{topic};
     if ( -e $from ) {
         my $to = $Foswiki::cfg{PubDir} . '/' . $newWeb . '/' . $newTopic;
         _moveFile( $from, $to );
     }
-
-    return;
 }
 
 =begin TML
@@ -548,7 +540,7 @@ sub copyTopic {
     my $oldTopic = $this->{topic};
 
     my $new =
-      new Foswiki::Store::RcsFile( $this->{session}, $newWeb, $newTopic, '' );
+      new Foswiki::Store::VCHandler( $this->{session}, $newWeb, $newTopic, '' );
 
     _copyFile( $this->{file}, $new->{file} );
     if ( -e $this->{rcsFile} ) {
@@ -556,26 +548,21 @@ sub copyTopic {
     }
 
     if (
-        opendir(
-            my $DIR,
+        opendir( DIR,
             $Foswiki::cfg{PubDir} . '/' . $this->{web} . '/' . $this->{topic}
         )
       )
     {
-        foreach my $att ( readdir $DIR ) {
-            next if $att =~ /^\./;
-            # Read from attachment store, can assume valid
+        for my $att ( grep { !/^\./ } readdir DIR ) {
             $att = Foswiki::Sandbox::untaintUnchecked($att);
             my $oldAtt =
-              new Foswiki::Store::RcsFile( $this->{session}, $this->{web},
+              new Foswiki::Store::VCHandler( $this->{session}, $this->{web},
                 $this->{topic}, $att );
             $oldAtt->copyAttachment( $newWeb, $newTopic );
         }
 
-        closedir $DIR;
+        closedir DIR;
     }
-
-    return;
 }
 
 =begin TML
@@ -591,7 +578,7 @@ sub moveAttachment {
 
     # FIXME might want to delete old directories if empty
     my $new =
-      Foswiki::Store::RcsFile->new( $this->{session}, $newWeb, $newTopic,
+      Foswiki::Store::VCHandler->new( $this->{session}, $newWeb, $newTopic,
         $newAttachment );
 
     _moveFile( $this->{file}, $new->{file} );
@@ -599,8 +586,6 @@ sub moveAttachment {
     if ( -e $this->{rcsFile} ) {
         _moveFile( $this->{rcsFile}, $new->{rcsFile} );
     }
-
-    return;
 }
 
 =begin TML
@@ -619,7 +604,7 @@ sub copyAttachment {
     my $attachment = $this->{attachment};
 
     my $new =
-      Foswiki::Store::RcsFile->new( $this->{session}, $newWeb, $newTopic,
+      Foswiki::Store::VCHandler->new( $this->{session}, $newWeb, $newTopic,
         $attachment );
 
     _copyFile( $this->{file}, $new->{file} );
@@ -627,8 +612,6 @@ sub copyAttachment {
     if ( -e $this->{rcsFile} ) {
         _copyFile( $this->{rcsFile}, $new->{rcsFile} );
     }
-
-    return;
 }
 
 =begin TML
@@ -646,40 +629,39 @@ sub isAsciiDefault {
 
 =begin TML
 
----++ ObjectMethod setLock($lock, $user)
+---++ ObjectMethod setLock($lock, $cUID)
 
 Set a lock on the topic, if $lock, otherwise clear it.
-$user is a wikiname.
+$cUID is a cUID.
 
 SMELL: there is a tremendous amount of potential for race
 conditions using this locking approach.
 
+It would be nice to use flock to do this, but the API is unreliable
+(doesn't work on all platforms)
+
 =cut
 
 sub setLock {
-    my ( $this, $lock, $user ) = @_;
-
-    $user = $this->{session}->{user} unless $user;
+    my ( $this, $lock, $cUID ) = @_;
 
     my $filename = _controlFileName( $this, 'lock' );
     if ($lock) {
         my $lockTime = time();
-        saveFile( $this, $filename, $user . "\n" . $lockTime );
+        saveFile( $this, $filename, $cUID . "\n" . $lockTime );
     }
     else {
         unlink $filename
           || throw Error::Simple(
-            'RCS: failed to delete ' . $filename . ': ' . $! );
+            'VCHandler: failed to delete ' . $filename . ': ' . $! );
     }
-
-    return;
 }
 
 =begin TML
 
----++ ObjectMethod isLocked( ) -> ($user, $time)
+---++ ObjectMethod isLocked( ) -> ($cUID, $time)
 
-See if a twiki lock exists. Return the lock user and lock time if it does.
+See if a lock exists. Return the lock user and lock time if it does.
 
 =cut
 
@@ -714,9 +696,8 @@ sub setLease {
     elsif ( -e $filename ) {
         unlink $filename
           || throw Error::Simple(
-            'RCS: failed to delete ' . $filename . ': ' . $! );
+            'VCHandler: failed to delete ' . $filename . ': ' . $! );
     }
-    return;
 }
 
 =begin TML
@@ -736,7 +717,7 @@ sub getLease {
         my $lease = { split( /\r?\n/, $t ) };
         return $lease;
     }
-    return;
+    return undef;
 }
 
 =begin TML
@@ -751,21 +732,19 @@ some store implementations when a topic is created, but never saved.
 sub removeSpuriousLeases {
     my ($this) = @_;
     my $web = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/';
-    my $W;
-    if ( opendir( $W, $web ) ) {
-        foreach my $f ( readdir($W) ) {
-            # Validate, untaint, and unlink
+    if ( opendir( W, $web ) ) {
+        foreach my $f ( readdir(W) ) {
             if ( $f =~ /^(.*)\.lease$/ ) {
                 if ( !-e "$1.txt,v" ) {
-                    unlink("$1.lease");
+                    unlink($f);
                 }
             }
         }
-        closedir($W);
+        closedir(W);
     }
-    return;
 }
 
+# Used by subclasses
 sub saveStream {
     my ( $this, $fh ) = @_;
 
@@ -773,20 +752,19 @@ sub saveStream {
 
     mkPathTo( $this->{file} );
     my $F;
-    open( $F, '>', $this->{file} )
-      || throw Error::Simple( 'RCS: open ' . $this->{file} . ' failed: ' . $! );
+    open( $F, '>' . $this->{file} )
+      || throw Error::Simple(
+        'VCHandler: open ' . $this->{file} . ' failed: ' . $! );
     binmode($F)
       || throw Error::Simple(
-        'RCS: failed to binmode ' . $this->{file} . ': ' . $! );
+        'VCHandler: failed to binmode ' . $this->{file} . ': ' . $! );
     my $text;
-    binmode($F);
-
     while ( read( $fh, $text, 1024 ) ) {
         print $F $text;
     }
     close($F)
       || throw Error::Simple(
-        'RCS: close ' . $this->{file} . ' failed: ' . $! );
+        'VCHandler: close ' . $this->{file} . ' failed: ' . $! );
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
 
@@ -799,10 +777,8 @@ sub _copyFile {
     mkPathTo($to);
     unless ( File::Copy::copy( $from, $to ) ) {
         throw Error::Simple(
-            'RCS: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
+            'VCHandler: copy ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
-
-    return;
 }
 
 sub _moveFile {
@@ -811,37 +787,33 @@ sub _moveFile {
     mkPathTo($to);
     unless ( File::Copy::move( $from, $to ) ) {
         throw Error::Simple(
-            'RCS: move ' . $from . ' to ' . $to . ' failed: ' . $! );
+            'VCHandler: move ' . $from . ' to ' . $to . ' failed: ' . $! );
     }
-
-    return;
 }
 
+# Used by subclasses
 sub saveFile {
     my ( $this, $name, $text ) = @_;
 
-    ASSERT(UNTAINTED($name)) if DEBUG;
-
     mkPathTo($name);
-
     my $FILE;
-    open( $FILE, '>', $name )
+    open( $FILE, '>' . $name )
       || throw Error::Simple(
-        'RCS: failed to create file ' . $name . ': ' . $! );
+        'VCHandler: failed to create file ' . $name . ': ' . $! );
     binmode($FILE)
-      || throw Error::Simple( 'RCS: failed to binmode ' . $name . ': ' . $! );
+      || throw Error::Simple(
+        'VCHandler: failed to binmode ' . $name . ': ' . $! );
     print $FILE $text;
     close($FILE)
       || throw Error::Simple(
-        'RCS: failed to create file ' . $name . ': ' . $! );
-    return;
+        'VCHandler: failed to create file ' . $name . ': ' . $! );
+    return undef;
 }
 
+# Used by subclasses
 sub readFile {
     my ( $this, $name ) = @_;
-
-    ASSERT(UNTAINTED($name)) if DEBUG;
-
+    ASSERT($name) if DEBUG;
     my $data;
     my $IN_FILE;
     if ( open( $IN_FILE, '<', $name ) ) {
@@ -854,12 +826,11 @@ sub readFile {
     return $data;
 }
 
+# Used by subclasses
 sub mkTmpFilename {
-    my $tmpdir = $Foswiki::cfg{WorkingDir}.'/tmp';
-    my $file = _mktemp( 'twikiAttachmentXXXXXX', $tmpdir );
-    # Constructed, so known to be valid
-    return Foswiki::Sandbox::untaintUnchecked(
-        File::Spec->catfile( $tmpdir, $file ));
+    my $tmpdir = File::Spec->tmpdir();
+    my $file = _mktemp( 'foswikiAttachmentXXXXXX', $tmpdir );
+    return File::Spec->catfile( $tmpdir, $file );
 }
 
 # Adapted from CPAN - File::MkTemp
@@ -912,19 +883,20 @@ sub _mktemp {
 # remove a directory and all subdirectories.
 sub _rmtree {
     my $root = shift;
+    my $D;
 
-    if ( opendir( my $D, $root ) ) {
-        foreach my $entry ( readdir($D) ) {
-            next if $entry =~ /^\.+$/;
-            $entry = Foswiki::Sandbox::untaintUnchecked( $entry );
-            $entry = $root . '/' . $entry;
+    if ( opendir( $D, $root ) ) {
+        foreach my $entry ( grep { !/^\.+$/ } readdir($D) ) {
+            $entry =~ /^(.*)$/;
+            $entry = $root . '/' . $1;
             if ( -d $entry ) {
                 _rmtree($entry);
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple(
-                        'RCS: Failed to delete file ' . $entry . ': ' . $! );
+                    throw Error::Simple( 'VCHandler: Failed to delete file ' 
+                          . $entry . ': '
+                          . $! );
                 }
                 else {
 
@@ -941,7 +913,7 @@ sub _rmtree {
         if ( !rmdir($root) ) {
             if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
                 throw Error::Simple(
-                    'RCS: Failed to delete ' . $root . ': ' . $! );
+                    'VCHandler: Failed to delete ' . $root . ': ' . $! );
             }
             else {
                 print STDERR 'WARNING: Failed to delete ' . $root . ': ' . $!,
@@ -949,7 +921,6 @@ sub _rmtree {
             }
         }
     }
-    return;
 }
 
 =begin TML
@@ -963,12 +934,226 @@ Return a text stream that will supply the text stored in the topic.
 sub getStream {
     my ($this) = shift;
     my $strm;
-    unless ( open( $strm, '<', $this->{file} ) ) {
+    unless ( open( $strm, '<' . $this->{file} ) ) {
         throw Error::Simple(
-            'RCS: stream open ' . $this->{file} . ' failed: ' . $! );
+            'VCHandler: stream open ' . $this->{file} . ' failed: ' . $! );
     }
     return $strm;
 }
+
+=begin TML
+
+---++ ObjectMethod getAttachmentAttributes($web, $topic, $attachment)
+
+returns [stat] for any given web, topic, $attachment
+
+=cut
+
+sub getAttachmentAttributes {
+    my ( $this, $web, $topic, $attachment ) = @_;
+    ASSERT( defined $attachment ) if DEBUG;
+
+    my $dir = dirForTopicAttachments( $web, $topic );
+    my @stat = stat( $dir . "/" . $attachment );
+
+    return @stat;
+}
+
+# as long as stat is defined, return an emulated set of attributes for that
+# attachment.
+sub _constructAttributesForAutoAttached {
+    my ( $file, $stat ) = @_;
+
+    my %pairs = (
+        name    => $file,
+        version => '',
+        path    => $file,
+        size    => $stat->[7],
+        date    => $stat->[9],
+
+#        user    => 'UnknownUser',  #safer _not_ to default - Foswiki will fill it in when it needs to
+        comment      => '',
+        attr         => '',
+        autoattached => '1'
+    );
+
+    if ( $#$stat > 0 ) {
+        return \%pairs;
+    }
+    else {
+        return undef;
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod getAttachmentList($web, $topic)
+
+returns {} of filename => { key => value, key2 => value } for any given web, topic
+Ignores files starting with _ or ending with ,v
+
+=cut
+
+sub getAttachmentList {
+    my ( $this, $web, $topic ) = @_;
+    my $dir = dirForTopicAttachments( $web, $topic );
+
+    opendir DIR, $dir || return '';
+    my %attachmentList = ();
+    my @files = sort grep { m/^[^\.*_]/ } readdir(DIR);
+    @files = grep { !/.*,v/ } @files;
+    foreach my $attachment (@files) {
+        my @stat = stat( $dir . "/" . $attachment );
+        $attachmentList{$attachment} =
+          _constructAttributesForAutoAttached( $attachment, \@stat );
+    }
+    closedir(DIR);
+    return %attachmentList;
+}
+
+sub dirForTopicAttachments {
+    my ( $web, $topic ) = @_;
+    return $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
+}
+
+=begin TML
+
+---++ ObjectMethod stringify()
+
+Generate string representation for debugging
+
+=cut
+
+sub stringify {
+    my $this = shift;
+    my @reply;
+    foreach my $key qw(web topic attachment file rcsFile) {
+        if ( defined $this->{$key} ) {
+            push( @reply, "$key=$this->{$key}" );
+        }
+    }
+    return join( ',', @reply );
+}
+
+# Chop out recognisable path components to prevent hacking based on error
+# messages
+sub hidePath {
+    my ( $this, $erf ) = @_;
+    $erf =~ s#.*(/\w+/\w+\.[\w,]*)$#...$1#;
+    return $erf;
+}
+
+=begin TML
+
+---++ ObjectMethod recordChange($cUID, $rev, $more)
+Record that the file changed
+
+=cut
+
+sub recordChange {
+    my ( $this, $cUID, $rev, $more ) = @_;
+    $more ||= '';
+
+    my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
+    return unless ( !-e $file || -w $file );    # no point if we can't write it
+
+    my @changes =
+      map {
+        my @row = split( /\t/, $_, 5 );
+        \@row
+      }
+      split( /[\r\n]+/, readFile( $this, $file ) );
+
+    # Forget old stuff
+    my $cutoff = time() - $Foswiki::cfg{Store}{RememberChangesFor};
+    while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
+        shift(@changes);
+    }
+
+    # Add the new change to the end of the file
+    # SMELL: this ought to store the cUID
+    my $wikiname = $this->{session}->{users}->getWikiName($cUID);
+    push( @changes, [ $this->{topic}, $wikiname, time(), $rev, $more ] );
+    my $text = join( "\n", map { join( "\t", @$_ ); } @changes );
+
+    saveFile( $this, $file, $text );
+}
+
+=begin TML
+
+---++ ObjectMethod eachChange($since) -> $iterator
+
+Return iterator over changes - see Store for details
+
+=cut
+
+sub eachChange {
+    my ( $this, $since ) = @_;
+    my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
+    require Foswiki::ListIterator;
+
+    if ( -r $file ) {
+
+        # Could use a LineIterator to avoid reading the whole
+        # file, but it hardly seems worth it.
+        my @changes =
+          map {
+
+            # Create a hash for this line
+            {
+                topic    => $_->[0],
+                user     => $_->[1],
+                time     => $_->[2],
+                revision => $_->[3],
+                more     => $_->[4]
+            };
+          }
+          grep {
+
+            # Filter on time
+            $_->[2] && $_->[2] >= $since
+          }
+          map {
+
+            # Split line into an array
+            my @row = split( /\t/, $_, 5 );
+            \@row;
+          }
+          reverse split( /[\r\n]+/, readFile( $this, $file ) );
+
+        return new Foswiki::ListIterator( \@changes );
+    }
+    else {
+        my $changes = [];
+        return new Foswiki::ListIterator($changes);
+    }
+}
+
+1;
+
+__END__
+
+Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
+Foswiki Contributors are listed in the AUTHORS file in the root of
+this distribution. NOTE: Please extend that file, not this notice.
+
+Additional copyrights apply to some of the code in this file, as follows
+
+Copyright (C) 2002 John Talintyre, john.talintyre@btinternet.com
+Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
+Copyright (C) 2001-2008 TWiki Contributors. All Rights Reserved.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. For
+more details read LICENSE in the root of this distribution.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+As per the GPL, removal of this notice is prohibited.
 
 =begin TML
 
@@ -1009,24 +1194,23 @@ Must be provided by subclasses.
 
 =begin TML
 
----++ ObjectMethod addRevisionFromText($text, $comment, $user, $date)
+---++ ObjectMethod addRevisionFromText($text, $comment, $cUID, $date)
 
 Add new revision. Replace file with text.
    * =$text= of new revision
    * =$comment= checkin comment
-   * =$user= is a wikiname.
+   * =$cUID= is a cUID.
    * =$date= in epoch seconds; may be ignored
 
 *Virtual method* - must be implemented by subclasses
 
 =begin TML
 
----++ ObjectMethod addRevisionFromStream($fh, $comment, $user, $date)
+---++ ObjectMethod addRevisionFromStream($fh, $comment, $cUID, $date)
 
 Add new revision. Replace file with contents of stream.
    * =$fh= filehandle for contents of new revision
-   * =$comment= checkin comment
-   * =$user= is a wikiname.
+   * =$cUID= is a cUID.
    * =$date= in epoch seconds; may be ignored
 
 *Virtual method* - must be implemented by subclasses
@@ -1035,12 +1219,12 @@ Add new revision. Replace file with contents of stream.
 
 =begin TML
 
----++ ObjectMethod replaceRevision($text, $comment, $user, $date)
+---++ ObjectMethod replaceRevision($text, $comment, $cUID, $date)
 
 Replace the top revision.
    * =$text= is the new revision
    * =$date= is in epoch seconds.
-   * =$user= is a wikiname.
+   * =$cUID= is a cUID.
    * =$comment= is a string
 
 *Virtual method* - must be implemented by subclasses
@@ -1089,257 +1273,3 @@ given epoch-secs time, or undef it none could be found.
 
 =cut
 
-=begin TML
-
----++ ObjectMethod getAttachmentAttributes($web, $topic, $attachment)
-
-returns [stat] for any given web, topic, $attachment
-SMELL - should this return a hash of arbitrary attributes so that 
-SMELL + attributes supported by the underlying filesystem are supported
-SMELL + (eg: windows directories supporting photo "author", "dimension" fields)
-
-=cut
-
-sub getAttachmentAttributes {
-    my ( $this, $web, $topic, $attachment ) = @_;
-    ASSERT( defined $attachment ) if DEBUG;
-
-    my $dir = dirForTopicAttachments( $web, $topic );
-    my @stat = stat( $dir . "/" . $attachment );
-
-    return @stat;
-}
-
-# as long as stat is defined, return an emulated set of attributes for that
-# attachment.
-sub _constructAttributesForAutoAttached {
-    my ( $file, $stat ) = @_;
-
-    my %pairs = (
-        name    => $file,
-        version => '',
-        path    => $file,
-        size    => $stat->[7],
-        date    => $stat->[9],
-
-#        user    => 'UnknownUser',  #safer _not_ to default - Foswiki will fill it in when it needs to
-        comment      => '',
-        attr         => '',
-        autoattached => '1'
-    );
-
-    if ( $#$stat > 0 ) {
-        return \%pairs;
-    }
-    else {
-        return;
-    }
-}
-
-=begin TML
-
----++ ObjectMethod getAttachmentList($web, $topic)
-
-returns {} of filename => { key => value, key2 => value } for any given web, topic
-Ignores files starting with _ or ending with ,v
-
-=cut
-
-sub getAttachmentList {
-    my ( $this, $web, $topic ) = @_;
-    my $dir = dirForTopicAttachments( $web, $topic );
-
-    my %attachmentList = ();
-    if ( opendir( my $DIR, $dir ) ) {
-        my @files = sort grep { m/^[^\.*_]/ } readdir($DIR);
-        @files = grep { !/.*,v/ } @files;
-        foreach my $attachment (@files) {
-            my @stat = stat( $dir . "/" . $attachment );
-            $attachmentList{$attachment} =
-              _constructAttributesForAutoAttached( $attachment, \@stat );
-        }
-        closedir($DIR);
-    }
-    return %attachmentList;
-}
-
-sub dirForTopicAttachments {
-    my ( $web, $topic ) = @_;
-    return $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
-}
-
-=begin TML
-
----++ ObjectMethod stringify()
-
-Generate string representation for debugging
-
-=cut
-
-sub stringify {
-    my $this = shift;
-    my @reply;
-    foreach my $key qw(web topic attachment file rcsFile) {
-        if ( defined $this->{$key} ) {
-            push( @reply, "$key=$this->{$key}" );
-        }
-    }
-    return join( ',', @reply );
-}
-
-# Chop out recognisable path components to prevent hacking based on error
-# messages
-sub hidePath {
-    my ( $this, $erf ) = @_;
-    return $erf if DEBUG;
-    $erf =~ s#.*(/\w+/\w+\.[\w,]*)$#...$1#;
-    return $erf;
-}
-
-=begin TML
-
----++ ObjectMethod recordChange($user, $rev, $more)
-Record that the file changed
-
-=cut
-
-sub recordChange {
-    my ( $this, $user, $rev, $more ) = @_;
-    $more ||= '';
-
-    # Store wikiname in the change log
-    $user = $this->{session}->{users}->getWikiName($user);
-
-    my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
-    return unless ( !-e $file || -w $file );    # no point if we can't write it
-
-    my @changes =
-      map {
-        my @row = split( /\t/, $_, 5 );
-        \@row
-      }
-      split( /[\r\n]+/, readFile( $this, $file ) );
-
-    # Forget old stuff
-    my $cutoff = time() - $Foswiki::cfg{Store}{RememberChangesFor};
-    while ( scalar(@changes) && $changes[0]->[2] < $cutoff ) {
-        shift(@changes);
-    }
-
-    # Add the new change to the end of the file
-    push( @changes, [ $this->{topic}, $user, time(), $rev, $more ] );
-    my $text = join( "\n", map { join( "\t", @$_ ); } @changes );
-
-    saveFile( $this, $file, $text );
-    return;
-}
-
-=begin TML
-
----++ ObjectMethod eachChange($since) -> $iterator
-
-Return iterator over changes - see Store for details
-
-=cut
-
-sub eachChange {
-    my ( $this, $since ) = @_;
-    my $file = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/.changes';
-    require Foswiki::ListIterator;
-
-    if ( -r $file ) {
-
-        # SMELL: could use a LineIterator to avoid reading the whole
-        # file, but it hardle seems worth it.
-        my @changes =
-          map {
-
-            # Create a hash for this line
-            {
-                topic    => $_->[0],
-                user     => $_->[1],
-                time     => $_->[2],
-                revision => $_->[3],
-                more     => $_->[4]
-            };
-          }
-          grep {
-
-            # Filter on time
-            $_->[2] && $_->[2] >= $since
-          }
-          map {
-
-            # Split line into an array
-            my @row = split( /\t/, $_, 5 );
-            \@row;
-          }
-          reverse split( /[\r\n]+/, readFile( $this, $file ) );
-
-        return new Foswiki::ListIterator( \@changes );
-    }
-    else {
-        my $changes = [];
-        return new Foswiki::ListIterator($changes);
-    }
-}
-
-=begin TML
-
----++ ObjectMethod checkedSysCommand($command, ...) -> $result
-
-Executes a system command, throwing an error if a non-zero exit
-code is returned.
-
-=cut
-
-sub checkedSysCommand {
-    my $this = shift;
-    my $command = shift;
-    my ( $result, $exit ) = Foswiki::Sandbox->sysCommand( $command, @_ );
-    if ($exit) {
-        my %p = @_;
-        my $params = join(' ', map { "$_=>$p{$_}" } keys %p);
-        if (DEBUG) {
-            # Throw a proper wobbly
-            throw Error::Simple( $command . ' '.$params
-                                 . ' failed: ' . $result );
-        } else {
-            print STDERR $command . ' ' . $params
-              . ' failed: ' . $result;
-            # Throw a sanitised version
-            throw Error::Simple( $command . ' of '
-                                   . $this->hidePath( $this->{file} )
-                                     . ' failed: ' . $result );
-        }
-    }
-    return $result;
-}
-
-1;
-__DATA__
-# Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
-#
-# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
-# Additional copyrights apply to some or all of the code in this
-# file as follows:
-#
-# Copyright (C) 2002 John Talintyre, john.talintyre@btinternet.com
-# Copyright (C) 2002-2007 Peter Thoeny, peter@thoeny.org
-# and TWiki Contributors. All Rights Reserved. TWiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-#
-# As per the GPL, removal of this notice is prohibited.

@@ -53,7 +53,7 @@ sub set_up {
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
 
-    $this->{twiki}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
 
     my $text;
 
@@ -72,8 +72,8 @@ sub set_up {
 
     # Must create a new twiki to force re-registration of users
     $Foswiki::cfg{EnableEmail} = 1;
-    $this->{twiki} = new Foswiki();
-    $this->{twiki}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
+    $this->{session} = new Foswiki();
+    $this->{session}->net->setMailHandler( \&FoswikiFnTestCase::sentMail );
     @FoswikiFnTestCase::mails = ();
 
     @specs = (
@@ -204,61 +204,64 @@ sub set_up {
     }
     foreach my $web ( $this->{test_web}, $testWeb2 ) {
         my $meta =
-          new Foswiki::Meta( $this->{twiki}, $web, $Foswiki::cfg{NotifyTopicName} );
+          Foswiki::Meta->new( $this->{session}, $web,
+            $Foswiki::cfg{NotifyTopicName} );
         $meta->put( "TOPICPARENT", { name => "$web.WebHome" } );
-        Foswiki::Func::saveTopic( $web, $Foswiki::cfg{NotifyTopicName},
-            $meta, "Before\n${s}After" );
+        Foswiki::Func::saveTopic(
+            $web,  $Foswiki::cfg{NotifyTopicName},
+            $meta, "Before\n${s}After"
+        );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic1" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic1" );
         $meta->put( "TOPICPARENT", { name => "WebHome" } );
         Foswiki::Func::saveTopic( $web, "TestTopic1", $meta,
             "This is TestTopic1 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic11" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic11" );
         $meta->put( "TOPICPARENT", { name => "TestTopic1" } );
         Foswiki::Func::saveTopic( $web, "TestTopic11", $meta,
             "This is TestTopic11 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic111" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic111" );
         $meta->put( "TOPICPARENT", { name => "TestTopic11" } );
         Foswiki::Func::saveTopic( $web, "TestTopic111", $meta,
             "This is TestTopic111 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic112" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic112" );
         $meta->put( "TOPICPARENT", { name => "TestTopic11" } );
         Foswiki::Func::saveTopic( $web, "TestTopic112", $meta,
             "This is TestTopic112 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic12" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic12" );
         $meta->put( "TOPICPARENT", { name => "TestTopic1" } );
         Foswiki::Func::saveTopic( $web, "TestTopic12", $meta,
             "This is TestTopic12 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic121" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic121" );
         $meta->put( "TOPICPARENT", { name => "TestTopic12" } );
         Foswiki::Func::saveTopic( $web, "TestTopic121", $meta,
             "This is TestTopic121 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic122" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic122" );
         $meta->put( "TOPICPARENT", { name => "TestTopic12" } );
         Foswiki::Func::saveTopic( $web, "TestTopic122", $meta,
             "This is TestTopic122 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic1221" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic1221" );
         $meta->put( "TOPICPARENT", { name => "TestTopic122" } );
         Foswiki::Func::saveTopic( $web, "TestTopic1221", $meta,
             "This is TestTopic1221 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic2" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic2" );
         $meta->put( "TOPICPARENT", { name => "WebHome" } );
         Foswiki::Func::saveTopic( $web, "TestTopic2", $meta, "Dylsexia rules" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopic21" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopic21" );
         $meta->put( "TOPICPARENT", { name => "$web.TestTopic2" } );
         Foswiki::Func::saveTopic( $web, "TestTopic21", $meta,
             "This is TestTopic21 so there" );
 
-        $meta = new Foswiki::Meta( $this->{twiki}, $web, "TestTopicDenied" );
+        $meta = Foswiki::Meta->new( $this->{session}, $web, "TestTopicDenied" );
         Foswiki::Func::saveTopic( $web, "TestTopicDenied", $meta,
             "   * Set ALLOWTOPICVIEW = TestUser1" );
 
@@ -357,7 +360,7 @@ sub testSimple {
     my $this = shift;
 
     my @webs = ( $this->{test_web}, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{twiki}, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0 );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -414,7 +417,7 @@ sub testSubweb {
     my $this = shift;
 
     my @webs = ( $testWeb2, $this->{users_web} );
-    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{twiki}, 0 );
+    Foswiki::Contrib::MailerContrib::mailNotify( \@webs, $this->{session}, 0 );
 
     #print "REPORT\n",join("\n\n", @FoswikiFnTestCase::mails);
 
@@ -535,13 +538,13 @@ sub testExcluded {
 HERE
 
     my $meta =
-      new Foswiki::Meta( $this->{twiki}, $this->{test_web},
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{twiki}, 0 );
+        $this->{session}, 0 );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -564,13 +567,13 @@ gribble.com
 HERE
 
     my $meta =
-      new Foswiki::Meta( $this->{twiki}, $this->{test_web},
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
     Foswiki::Contrib::MailerContrib::mailNotify( [ $this->{test_web} ],
-        $this->{twiki}, 0 );
+        $this->{session}, 0 );
 
     my %matched;
     foreach my $message (@FoswikiFnTestCase::mails) {
@@ -590,15 +593,15 @@ sub test_5949 {
    * TestUser1: SpringCabbage
 HERE
     my $meta =
-      new Foswiki::Meta( $this->{twiki}, $this->{test_web},
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
         $meta, "Before\n${s}After", $meta );
 
-    my $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( <<HERE, $wn->stringify() );
 Before
    * %USERSWEB%.TestUser1: SpringCabbage
@@ -617,7 +620,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
 
     #start by removing all subscriptions
     my $meta =
-      new Foswiki::Meta( $this->{twiki}, $this->{test_web},
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{NotifyTopicName} );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.WebHome" } );
     Foswiki::Func::saveTopic( $this->{test_web}, $Foswiki::cfg{NotifyTopicName},
@@ -646,10 +649,11 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'WebIndex'
         )
     );
-    my $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n", $wn->stringify(1) );
+    my $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
+        $wn->stringify(1) );
 
     $topicList = '*';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
@@ -664,10 +668,11 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'WebHome'
         )
     );
-    $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n", $wn->stringify(1) );
+    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
+        $wn->stringify(1) );
 
     $topicList = '-*';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
@@ -677,9 +682,9 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'WebHome'
         )
     );
-    $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
 
     #removing * results in nothing.
     $this->assert_null( $wn->stringify(1) );
@@ -702,10 +707,11 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n", $wn->stringify(1) );
+    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
+    $this->assert_str_equals( "   * %USERSWEB%.$who: $topicList\n",
+        $wn->stringify(1) );
 
     $topicList = 'WebIndex';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
@@ -725,9 +731,9 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert_str_equals( "   * %USERSWEB%.$who: WebHome (2) $topicList\n",
         $wn->stringify(1) );
 
@@ -750,9 +756,9 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
             $defaultWeb, $who, $topicList
@@ -778,9 +784,9 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    $wn =
-      new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-        $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+    $wn = new Foswiki::Contrib::MailerContrib::WebNotify(
+        $Foswiki::Plugins::SESSION, $this->{test_web},
+        $Foswiki::cfg{NotifyTopicName}, 1 );
     $this->assert(
         !Foswiki::Contrib::MailerContrib::isSubscribedTo(
             $defaultWeb, $who, $topicList
@@ -812,11 +818,12 @@ sub test_changeSubscription_and_isSubScribedTo_API {
             $defaultWeb, $who, 'SomethingElse'
         )
     );
-    #TODO: not quite implemented - needs a 'covers' test
-    #$wn =
-    #  new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
-    #    $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
-    #$this->assert_str_equals( "   * $who: WebIndex\n", $wn->stringify(1) );
+
+  #TODO: not quite implemented - needs a 'covers' test
+  #$wn =
+  #  new Foswiki::Contrib::MailerContrib::WebNotify( $Foswiki::Plugins::SESSION,
+  #    $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
+  #$this->assert_str_equals( "   * $who: WebIndex\n", $wn->stringify(1) );
 }
 
 1;

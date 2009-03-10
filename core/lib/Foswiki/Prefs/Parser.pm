@@ -24,35 +24,23 @@ my $settingPrefPrefix = 'PREFERENCE_';
 
 =begin TML
 
----++ ClassMethod new() -> topic parser object
+---++ StaticFunction parse( $topicObject, $prefs )
 
-Construct a new parser object.
-
-=cut
-
-sub new {
-    return bless {}, $_[0];
-}
-
-=begin TML
-
----++ ObjectMethod parseText( $text, $prefs )
-
-Parse settings from text and add them to the preferences in $prefs
+Parse settings from the topic and add them to the preferences in $prefs
 
 =cut
 
-sub parseText {
-    my ( $this, $text, $prefs, $keyPrefix ) = @_;
+sub parse {
+    my ( $topicObject, $prefs ) = @_;
 
-    $text =~ tr/\r//d;
+    # Process text first
     my $key   = '';
     my $value = '';
     my $type;
-    foreach ( split( "\n", $text ) ) {
+    foreach ( split( "\n", $topicObject->text() ) ) {
         if (m/$Foswiki::regex{setVarRegex}/os) {
             if ( defined $type ) {
-                $prefs->insert( $type, $keyPrefix . $key, $value );
+                $prefs->insert( $type, $key, $value );
             }
             $type  = $1;
             $key   = $2;
@@ -65,50 +53,34 @@ sub parseText {
                 $value .= "\n" . $_;
             }
             else {
-                $prefs->insert( $type, $keyPrefix . $key, $value );
+                $prefs->insert( $type, $key, $value );
                 undef $type;
             }
         }
     }
     if ( defined $type ) {
-        $prefs->insert( $type, $keyPrefix . $key, $value );
+        $prefs->insert( $type, $key, $value );
     }
-}
 
-=begin TML
-
----++ ObjectMethod parseMeta( $metaObject, $prefs )
-
-Traverses through all PREFERENCE attributes of the meta object, creating one 
-setting named with $settingPrefPrefix . 'title' for each.  It also 
-creates an entry named with the field 'name', which is a cleaned-up, 
-space-removed version of the title.
-
-Settings are added to the $prefs passed.
-
-=cut
-
-sub parseMeta {
-    my ( $this, $meta, $prefs, $keyPrefix ) = @_;
-
-    my @fields = $meta->find('PREFERENCE');
+    # Now process PREFERENCEs
+    my @fields = $topicObject->find('PREFERENCE');
     foreach my $field (@fields) {
-        my $title         = $field->{title};
-        my $prefixedTitle = $settingPrefPrefix . $title;
-        my $value         = $field->{value};
-        my $type          = $field->{type} || 'Set';
-        $prefs->insert( $type, $prefixedTitle, $value );
+        my $type  = $field->{type} || 'Set';
+        my $value = $field->{value};
+        my $name  = $field->{name};
+        $prefs->insert( $type, $name, $value );
 
-        #SMELL: Why do we insert both based on title and name?
-        my $name = $field->{name};
-        $prefs->insert( $type, $keyPrefix . $name, $value );
+        # SMELL: What is this mysterious undocumented code for? It inserts
+        # PREFERENCE_<pref title> but that's all I can work out :-(
+        # I can't find any clues in Codev either.
+        $prefs->insert( $type, 'PREFERENCE_' . $field->{title}, $value );
     }
 
     # Note that the use of the "S" attribute to support settings in
     # form fields has been deprecated.
-    my $form = $meta->get('FORM');
+    my $form = $topicObject->get('FORM');
     if ($form) {
-        my @fields = $meta->find('FIELD');
+        my @fields = $topicObject->find('FIELD');
         foreach my $field (@fields) {
             my $title      = $field->{title};
             my $attributes = $field->{attributes};

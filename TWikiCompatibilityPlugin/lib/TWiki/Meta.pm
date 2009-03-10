@@ -4,7 +4,7 @@ use Foswiki::Meta;
 
 sub new {
     shift;
-    return new Foswiki::Meta(@_);
+    return Foswiki::Meta->new(@_);
 }
 
 1;

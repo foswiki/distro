@@ -50,19 +50,17 @@ sub finish {
 
 =begin TML
 
----++ ObjectMethod renderMetaData( $web, $topic, $meta, $args ) -> $text
+---++ ObjectMethod renderMetaData( $topicObject, $args ) -> $text
 
 Generate a table of attachments suitable for the bottom of a topic
 view, using templates for the header, footer and each row.
-   * =$web= the web
-   * =$topic= the topic
-   * =$meta= meta-data hash for the topic
+   * =$topicObject= the topic
    * =$args= hash of attachment arguments
 
 =cut
 
 sub renderMetaData {
-    my ( $this, $web, $topic, $meta, $attrs ) = @_;
+    my ( $this, $topicObject, $attrs ) = @_;
 
     my $showAll  = $attrs->{all};
     my $showAttr = $showAll ? 'h' : '';
@@ -70,7 +68,7 @@ sub renderMetaData {
     my $title    = $attrs->{title} || '';
     my $tmplname = $attrs->{template} || 'attachtables';
 
-    my @attachments = $meta->find('FILEATTACHMENT');
+    my @attachments = $topicObject->find('FILEATTACHMENT');
     return '' unless @attachments;
 
     my $templates = $this->{session}->templates;
@@ -85,7 +83,7 @@ sub renderMetaData {
         my $attrAttr = $attachment->{attr};
 
         if ( !$attrAttr || ( $showAttr && $attrAttr =~ /^[$showAttr]*$/ ) ) {
-            $rows .= _formatRow( $this, $web, $topic, $attachment, $row );
+            $rows .= _formatRow( $this, $topicObject, $attachment, $row );
         }
     }
 
@@ -102,21 +100,19 @@ sub renderMetaData {
 
 =begin TML
 
----++ ObjectMethod formatVersions ( $web, $topic, $attrs ) -> $text
+---++ ObjectMethod formatVersions ( $topicObject, $attrs ) -> $text
 
 Generate a version history table for a single attachment
-   * =$web= - the web
-   * =$topic= - the topic
+   * =$topicObject= - the topic
    * =$attrs= - Hash of meta-data attributes
 
 =cut
 
 sub formatVersions {
-    my ( $this, $web, $topic, %attrs ) = @_;
+    my ( $this, $topicObject, %attrs ) = @_;
 
-    my $store     = $this->{session}->{store};
     my $users     = $this->{session}->{users};
-    my $latestRev = $store->getRevisionNumber( $web, $topic, $attrs{name} );
+    my $latestRev = $topicObject->getMaxRevNo( $attrs{name} );
 
     my $templates = $this->{session}->templates;
     $templates->readTemplate('attachtables');
@@ -128,22 +124,13 @@ sub formatVersions {
     my $rows = '';
 
     for ( my $rev = $latestRev ; $rev >= 1 ; $rev-- ) {
-        my ( $date, $user, $minorRev, $comment ) =
-          $store->getRevisionInfo( $web, $topic, $rev, $attrs{name} );
+        my $info =
+          $topicObject->getAttachmentRevisionInfo( $attrs{name}, $rev );
+        $info->{name} = $attrs{name};
+        $info->{attr} = $attrs{attr};
+        $info->{size} = $attrs{size};
 
-        $rows .= _formatRow(
-            $this, $web, $topic,
-            {
-                name    => $attrs{name},
-                version => $rev,
-                date    => $date,
-                user    => $user,
-                comment => $comment,
-                attr    => $attrs{attr},
-                size    => $attrs{size}
-            },
-            $row
-        );
+        $rows .= _formatRow( $this, $topicObject, $info, $row );
     }
 
     return "$header$rows$footer";
@@ -155,19 +142,19 @@ sub formatVersions {
 #| =$info= | hash containing fields name, user (user (not wikiname) who uploaded this revision), date (date of _this revision_ of the attachment), command and version  (the required revision; required to be a full (major.minor) revision number) |
 #| =$tmpl= | The template of a row |
 sub _formatRow {
-    my ( $this, $web, $topic, $info, $tmpl ) = @_;
+    my ( $this, $topicObject, $info, $tmpl ) = @_;
 
     my $row = $tmpl;
 
-    $row =~ s/%A_(\w+)%/_expandAttrs( $this,$1,$web,$topic,$info)/ge;
+    $row =~ s/%A_(\w+)%/_expandAttrs( $this, $1, $topicObject, $info)/ge;
     $row =~ s/$Foswiki::TranslationToken/%/go;
 
     return $row;
 }
 
 sub _expandAttrs {
-    my ( $this, $attr, $web, $topic, $info ) = @_;
-    my $file  = $info->{name} || '';
+    my ( $this, $attr, $topicObject, $info ) = @_;
+    my $file = $info->{name} || '';
     my $users = $this->{session}->{users};
 
     require Foswiki::Time;
@@ -176,21 +163,7 @@ sub _expandAttrs {
         return $info->{version};
     }
     elsif ( $attr eq 'ICON' ) {
-        my $picked = $this->{session}->mapToIconFileName($file);
-        if (!defined($picked) || ($picked eq '')) {
-            return '';
-        }
-        my $url = $this->{session}->getIconUrl( 0, $picked );
-        return CGI::img(
-            {
-                src    => $url,
-                width  => 16,
-                height => 16,
-                align  => 'top',
-                alt    => $picked || '',
-                border => 0
-            }
-        );
+        return $this->{session}->ICON( { _DEFAULT => $file } );
     }
     elsif ( $attr eq 'EXT' ) {
 
@@ -201,7 +174,7 @@ sub _expandAttrs {
     }
     elsif ( $attr eq 'URL' ) {
         return $this->{session}->getScriptUrl(
-            0, 'viewfile', $web, $topic,
+            0, 'viewfile', $topicObject->web, $topicObject->topic,
             rev => $info->{version} || undef,
             filename => $file
         );
@@ -238,7 +211,11 @@ sub _expandAttrs {
         return Foswiki::Time::formatTime( $info->{date} || 0 );
     }
     elsif ( $attr eq 'USER' ) {
-        my $user = $info->{user} || 'UnknownUser';
+
+        # Must be able to expand either user or author, depending on whether
+        # info came from attachment meta-data (user), or
+        # revision info (author)
+        my $user = $info->{author} || $info->{user} || 'UnknownUser';
         my $cUID;
         if ($user) {
             $cUID = $users->getCanonicalUserID($user);
@@ -260,29 +237,25 @@ sub _expandAttrs {
 
 =begin TML
 
----++ ObjectMethod getAttachmentLink( $user, $web, $topic, $name, $meta ) -> $html
+---++ ObjectMethod getAttachmentLink( $topicObject, $name ) -> $html
 
-   * =$user= - User doing the reading
-   * =$web= - Name of the web
-   * =$topic= - Name of the topic
+   * =$topicObject= - The topic
    * =$name= - Name of the attachment
-   * =$meta= - Meta object that contains the meta info
 
 Build a link to the attachment, suitable for insertion in the topic.
 
 =cut
 
 sub getAttachmentLink {
-    my ( $this, $user, $web, $topic, $attName, $meta ) = @_;
+    my ( $this, $topicObject, $attName ) = @_;
 
-    my $att = $meta->get( 'FILEATTACHMENT', $attName );
+    my $att = $topicObject->get( 'FILEATTACHMENT', $attName );
     my $fileComment = $att->{comment};
     $fileComment = $attName unless ($fileComment);
 
     my $fileLink = '';
     my $imgSize  = '';
     my $prefs    = $this->{session}->{prefs};
-    my $store    = $this->{session}->{store};
 
     # I18N: URL-encode the attachment filename
     my $fileURL = Foswiki::urlEncodeAttachment($attName);
@@ -297,9 +270,8 @@ sub getAttachmentLink {
         # downloaded. When you upload an image to Foswiki and checkmark
         # the link checkbox, Foswiki will generate the width and height
         # img parameters, speeding up the page rendering.
-        my $stream =
-          $store->getAttachmentStream( $user, $web, $topic, $attName );
-        my ( $nx, $ny ) = &_imgsize( $stream, $attName );
+        my $stream = $topicObject->getAttachmentStream($attName);
+        my ( $nx, $ny ) = _imgsize( $stream, $attName );
         my @attrs;
 
         if ( $nx > 0 && $ny > 0 ) {
@@ -307,7 +279,7 @@ sub getAttachmentLink {
             $imgSize = "width='$nx' height='$ny'";
         }
 
-        $fileLink = $prefs->getPreferencesValue('ATTACHEDIMAGEFORMAT');
+        $fileLink = $prefs->getPreference('ATTACHEDIMAGEFORMAT');
         unless ($fileLink) {
             push( @attrs, src => "%ATTACHURLPATH%/$fileURL" );
             push( @attrs, alt => $attName );
@@ -317,7 +289,7 @@ sub getAttachmentLink {
     else {
 
         # normal attached file
-        $fileLink = $prefs->getPreferencesValue('ATTACHEDFILELINKFORMAT');
+        $fileLink = $prefs->getPreference('ATTACHEDFILELINKFORMAT');
         unless ($fileLink) {
             return "   * [[%ATTACHURL%/$fileURL][$attName]]: $fileComment";
         }
@@ -328,7 +300,8 @@ sub getAttachmentLink {
     $fileLink =~ s/\$name/$fileURL/;
     $fileLink =~ s/\$name/$attName/;
 
-# Expand \t and \n early (only in the format, not in the comment) - Bugs:Item4581
+    # Expand \t and \n early (only in the format, not
+    # in the comment) - TWikibug:Item4581
     $fileLink =~ s/\\t/\t/go;
     $fileLink =~ s/\\n/\n/go;
     $fileLink =~ s/\$comment/$fileComment/g;

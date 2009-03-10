@@ -36,14 +36,12 @@ sub finish {
 }
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     return (
         '',
         CGI::textarea(
-            -class => $this->cssClasses(
-                'foswikiTextarea'
-            ),
+            -class   => $this->cssClasses( 'foswikiTextarea' ),
             -cols    => $this->{cols},
             -rows    => $this->{rows},
             -name    => $this->{name},

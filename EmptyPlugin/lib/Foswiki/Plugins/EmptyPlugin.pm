@@ -52,8 +52,8 @@ package Foswiki::Plugins::EmptyPlugin;
 # Always use strict to enforce variable scoping
 use strict;
 
-require Foswiki::Func;    # The plugins API
-require Foswiki::Plugins; # For the API version
+require Foswiki::Func;       # The plugins API
+require Foswiki::Plugins;    # For the API version
 
 # $VERSION is referred to by Foswiki, and is the only global variable that
 # *must* exist in this package.
@@ -108,12 +108,12 @@ FOOBARSOMETHING. This avoids namespace issues.
 =cut
 
 sub initPlugin {
-    my( $topic, $web, $user, $installWeb ) = @_;
+    my ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
-    if( $Foswiki::Plugins::VERSION < 2.0 ) {
+    if ( $Foswiki::Plugins::VERSION < 2.0 ) {
         Foswiki::Func::writeWarning( 'Version mismatch between ',
-                                     __PACKAGE__, ' and Plugins.pm' );
+            __PACKAGE__, ' and Plugins.pm' );
         return 0;
     }
 
@@ -136,9 +136,9 @@ sub initPlugin {
     # seen in the topic text.
     Foswiki::Func::registerTagHandler( 'EXAMPLETAG', \&_EXAMPLETAG );
 
-    # Allow a sub to be called from the REST interface 
+    # Allow a sub to be called from the REST interface
     # using the provided alias
-    Foswiki::Func::registerRESTHandler('example', \&restExample);
+    Foswiki::Func::registerRESTHandler( 'example', \&restExample );
 
     # Plugin correctly initialized
     return 1;

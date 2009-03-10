@@ -4,7 +4,8 @@ use Foswiki;
 
 sub TWiki::new {
     my ( $this, $loginName, $query, $initialContext ) = @_;
-    if( ! $Foswiki::Plugins::SESSION && UNIVERSAL::isa( $query, 'CGI' ) ) {
+    if ( !$Foswiki::Plugins::SESSION && UNIVERSAL::isa( $query, 'CGI' ) ) {
+
         # Compatibility: User gave a CGI object
         # This probably means we're inside a script
         $query = undef;

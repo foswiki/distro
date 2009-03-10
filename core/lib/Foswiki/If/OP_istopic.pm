@@ -28,8 +28,7 @@ sub evaluate {
     my ( $web, $topic ) = ( $session->{webName}, $a->_evaluate(@_) );
     return 0 unless defined $topic;    # null topic cannot possibly exist
     ( $web, $topic ) = $session->normalizeWebTopicName( $web, $topic );
-
-    return $session->{store}->topicExists( $web, $topic ) ? 1 : 0;
+    return $session->topicExists( $web, $topic ) ? 1 : 0;
 }
 
 1;
@@ -92,7 +91,7 @@ sub evaluate {
     return 0 unless defined $topic; # null topic cannot possibly exist
     ($web, $topic) = $session->normalizeWebTopicName($web, $topic);
 
-    return $session->{store}->topicExists($web, $topic) ? 1 : 0;
+    return $session->topicExists($web, $topic) ? 1 : 0;
 }
 
 1;
@@ -155,7 +154,7 @@ sub evaluate {
     return 0 unless defined $topic; # null topic cannot possibly exist
     ($web, $topic) = $session->normalizeWebTopicName($web, $topic);
 
-    return $session->{store}->topicExists($web, $topic) ? 1 : 0;
+    return $session->topicExists($web, $topic) ? 1 : 0;
 }
 
 1;

@@ -1,5 +1,6 @@
 # Users Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::Users
@@ -408,8 +409,8 @@ Returns undef if the user does not exist.
 sub getCanonicalUserID {
     my ( $this, $identifier ) = @_;
     my $cUID;
-
     # Someone we already know?
+
     if ( defined( $this->{login2cUID}->{$identifier} ) ) {
         $cUID = $this->{login2cUID}->{$identifier};
     }
@@ -437,6 +438,7 @@ sub getCanonicalUserID {
                 );
             }
         }
+
         unless ($cUID) {
 
             # Finally see if it's a valid user wikiname
@@ -596,6 +598,7 @@ sub isInList {
         $ident =~ s/^($Foswiki::cfg{UsersWebName}|%USERSWEB%|%MAINWEB%)\.//;
         next unless $ident;
         my $identCUID = $this->getCanonicalUserID($ident);
+
         if ( defined $identCUID ) {
             return 1 if ( $identCUID eq $cUID );
         }
@@ -622,6 +625,7 @@ sub getLoginName {
     return $this->{cUID2Login}->{$cUID}
       if ( defined( $this->{cUID2Login}->{$cUID} ) );
 
+    ASSERT( $this->{basemapping} );
     my $mapping = $this->_getMapping($cUID);
     my $login;
     if ( $cUID && $mapping ) {
@@ -885,7 +889,7 @@ Otherwise returns 1 on success, undef on failure.
 
 sub setPassword {
     my ( $this, $cUID, $newPassU, $oldPassU ) = @_;
-    ASSERT( $cUID ) if DEBUG; 
+    ASSERT($cUID) if DEBUG;
     return $this->_getMapping($cUID)
       ->setPassword( $this->getLoginName($cUID), $newPassU, $oldPassU );
 }

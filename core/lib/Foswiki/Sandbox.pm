@@ -44,7 +44,7 @@ sub TRACE { 0 }
 our $REAL_SAFE_PIPE_OPEN;
 our $EMULATED_SAFE_PIPE_OPEN;
 our $SAFE;
-our $CMDQUOTE; # leave undef until _assessPipeSupport has run
+our $CMDQUOTE;    # leave undef until _assessPipeSupport has run
 
 # TODO: Sandbox module should probably use custom 'die' handler so that
 # output goes only to web server error log - otherwise it might give
@@ -56,7 +56,7 @@ sub _assessPipeSupport {
 
     # filter the support based on what platforms are proven not to work.
 
-    $REAL_SAFE_PIPE_OPEN = 1;
+    $REAL_SAFE_PIPE_OPEN     = 1;
     $EMULATED_SAFE_PIPE_OPEN = 1;
 
     # from the Activestate Docco this is _only_ defined on ActiveState Perl
@@ -70,9 +70,12 @@ sub _assessPipeSupport {
     $SAFE = ( $REAL_SAFE_PIPE_OPEN || $EMULATED_SAFE_PIPE_OPEN ) ? 1 : 0;
 
     # Shell quoting - shell used only on non-safe platforms
-    if ( $Foswiki::cfg{OS} eq 'UNIX'
-           || ( $Foswiki::cfg{OS} eq 'WINDOWS'
-                  && $Foswiki::cfg{DetailedOS} eq 'cygwin' ) ) {
+    if (
+        $Foswiki::cfg{OS} eq 'UNIX'
+        || (   $Foswiki::cfg{OS} eq 'WINDOWS'
+            && $Foswiki::cfg{DetailedOS} eq 'cygwin' )
+      )
+    {
         $CMDQUOTE = "'";
     }
     else {
@@ -117,10 +120,10 @@ the untaint function to return undef.
 =cut
 
 sub untaint {
-    my $datum = shift;
+    my $datum  = shift;
     my $method = shift;
-    ASSERT(ref($method)) if DEBUG;
-    $datum = &$method($datum, @_);
+    ASSERT( ref($method) ) if DEBUG;
+    $datum = &$method( $datum, @_ );
 
     if ( defined $datum ) {
         $datum =~ /^(.*)$/;
@@ -140,7 +143,7 @@ validation with untaint(). Returns the name, or undef if it is invalid.
 
 sub validateWebName {
     my $web = shift;
-    return $web if Foswiki::isValidWebName($web, 1);
+    return $web if Foswiki::isValidWebName( $web, 1 );
     return undef;
 }
 
@@ -155,7 +158,7 @@ validation with untaint(). Returns the name, or undef if it is invalid.
 
 sub validateTopicName {
     my $topic = shift;
-    return $topic if Foswiki::isValidTopicName($topic, 1);
+    return $topic if Foswiki::isValidTopicName( $topic, 1 );
     return undef;
 }
 
@@ -277,6 +280,7 @@ sub _buildCommandLine {
         my @targs;
         for my $t (@tmplarg) {
             if ( $t =~ /%(.*?)(?:\|([A-Z]))?%/ ) {
+
                 # implicit untaint of template OK
                 my ( $p, $flag ) = ( $1, $2 );
                 if ( !exists $params{$p} ) {
@@ -304,6 +308,7 @@ sub _buildCommandLine {
                     }
                     elsif ( $flag eq 'F' ) {
                         $param = normalizeFileName($param);
+
                         # Some command interpreters are too stupid to deal
                         # with filenames that start with a non-alphanumeric
                         $param = "./$param" if $param =~ /^[^\w\/\\]/;
@@ -447,7 +452,7 @@ sub sysCommand {
 
     # Build argument list from template
     my @args = _buildCommandLine( $pTmpl, %params );
-    if ( $REAL_SAFE_PIPE_OPEN ) {
+    if ($REAL_SAFE_PIPE_OPEN) {
 
         # Real safe pipes, open from process directly - works
         # for most Unix/Linux Perl platforms and on Cygwin.  Based on
@@ -487,7 +492,7 @@ sub sysCommand {
         }
 
     }
-    elsif ( $EMULATED_SAFE_PIPE_OPEN ) {
+    elsif ($EMULATED_SAFE_PIPE_OPEN) {
 
         # Safe pipe emulation mostly on Windows platforms
 
@@ -562,9 +567,10 @@ sub sysCommand {
             $cmd =
                 $path . ' ' 
               . $CMDQUOTE
-              . join( $CMDQUOTE . ' ' . $CMDQUOTE,
-                      map { s/$CMDQUOTE/\\$CMDQUOTE/go; $_ } @args )
-              . $CMDQUOTE;
+              . join(
+                $CMDQUOTE . ' ' . $CMDQUOTE,
+                map { s/$CMDQUOTE/\\$CMDQUOTE/go; $_ } @args
+              ) . $CMDQUOTE;
         }
 
         if (   ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' )
@@ -593,8 +599,11 @@ sub sysCommand {
     }
 
     if (TRACE) {
-        $cmd ||= $path . ' ' . $CMDQUOTE .
-          join( $CMDQUOTE . ' ' . $CMDQUOTE, @args ) . $CMDQUOTE;
+        $cmd ||=
+            $path . ' '
+          . $CMDQUOTE
+          . join( $CMDQUOTE . ' ' . $CMDQUOTE, @args )
+          . $CMDQUOTE;
         $data ||= '';
         print STDERR $cmd, ' -> ', $data, "\n";
     }

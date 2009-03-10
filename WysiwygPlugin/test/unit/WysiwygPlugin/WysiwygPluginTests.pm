@@ -39,11 +39,11 @@ sub set_up {
     $this->SUPER::set_up();
 
     $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
-    $WC::encoding = undef;
-    $WC::safe_entities = undef;
-    $Foswiki::cfg{Site}{CharSet} = undef;
-    $Foswiki::cfg{Site}{Locale} = undef;
-    $Foswiki::cfg{Site}{UseLocale} = 0;
+    $WC::encoding                                  = undef;
+    $WC::safe_entities                             = undef;
+    $Foswiki::cfg{Site}{CharSet}                   = undef;
+    $Foswiki::cfg{Site}{Locale}                    = undef;
+    $Foswiki::cfg{Site}{UseLocale}                 = 0;
 }
 
 sub tear_down {
@@ -55,145 +55,165 @@ sub tear_down {
 sub anal {
     my $out = shift;
     my @s;
-    foreach my $i (split(//, $out)) {
+    foreach my $i ( split( //, $out ) ) {
         my $n = ord($i);
-        if ($n > 127) {
-            push(@s, $n);
-        } else {
-            push(@s, $i);
+        if ( $n > 127 ) {
+            push( @s, $n );
+        }
+        else {
+            push( @s, $i );
         }
     }
-    return join(' ', @s);
+    return join( ' ', @s );
 }
 
 sub save_test {
-    my ($this, $charset, $firstchar, $lastchar) = @_;
+    my ( $this, $charset, $firstchar, $lastchar ) = @_;
 
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
     my @test;
-    for (my $i = $firstchar; $i <= $lastchar; $i++) {
-        push(@test, chr($i));
+    for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
+        push( @test, chr($i) );
     }
-    my $text = join('', @test).".";
-    my $t = $charset ? Encode::encode($charset, $text) : $text;
+    my $text = join( '', @test ) . ".";
+    my $t = $charset ? Encode::encode( $charset, $text ) : $text;
 
-    my $query = new Unit::Request({
-        'wysiwyg_edit' => [ 1 ],
-        'action_save' => [ 1 ],
-        'text' => [ $t ],
-    });
-    $query->path_info("/$this->{test_web}/WysiwygPluginTest" );
-    $query->param(text => $t);
+    my $query = new Unit::Request(
+        {
+            'wysiwyg_edit' => [1],
+            'action_save'  => [1],
+            'text'         => [$t],
+        }
+    );
+    $query->path_info("/$this->{test_web}/WysiwygPluginTest");
+    $query->param( text => $t );
     $query->method('GET');
 
-    $Foswiki::Plugins::SESSION = new Foswiki('guest', $query );
-	# charset definition affects output, so it is a response method and
-	# can only be adjusted after creating session object.
-	$Foswiki::Plugins::SESSION->{response}->charset($charset) if $charset;
+    $Foswiki::Plugins::SESSION = new Foswiki( 'guest', $query );
+
+    # charset definition affects output, so it is a response method and
+    # can only be adjusted after creating session object.
+    $Foswiki::Plugins::SESSION->{response}->charset($charset) if $charset;
 
     require Foswiki::UI::Save;
-    my ($dummy, $result) =
-      $this->capture(
-          sub {
-              my $ok = Foswiki::UI::Save::save($Foswiki::Plugins::SESSION);
-              $Foswiki::engine->finalize(
-                  $Foswiki::Plugins::SESSION->{response},
-                  $Foswiki::Plugins::SESSION->{request});
-              return $ok;
-          });
+    my ( $dummy, $result ) = $this->capture(
+        sub {
+            my $fn = $this->getUIFn('save');
+            no strict 'refs';
+            my $ok = &$fn($Foswiki::Plugins::SESSION);
+            use strict 'refs';
+            $Foswiki::engine->finalize(
+                $Foswiki::Plugins::SESSION->{response},
+                $Foswiki::Plugins::SESSION->{request}
+            );
+            return $ok;
+        }
+    );
 
-    $this->assert(!$result, $result);
-    my ($meta, $out) = Foswiki::Func::readTopic(
-        $this->{test_web}, 'WysiwygPluginTest');
+    $this->assert( !$result, $result );
+    my ( $meta, $out ) =
+      Foswiki::Func::readTopic( $this->{test_web}, 'WysiwygPluginTest' );
 
     $out =~ s/\s*$//s;
 
-    $this->assert($t eq $out, "'".anal($out)."' !=\n'".anal($t)."'");
+    $this->assert( $t eq $out, "'" . anal($out) . "' !=\n'" . anal($t) . "'" );
 }
 
 sub TML2HTML_test {
-    my ($this, $charset, $firstchar, $lastchar) = @_;
+    my ( $this, $charset, $firstchar, $lastchar ) = @_;
 
     # Is this enough? Regexes are inited before we get here, aren't they?
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
     my @test;
-    for (my $i = $firstchar; $i <= $lastchar; $i++) {
-        push(@test, chr($i));
+    for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
+        push( @test, chr($i) );
     }
-    my $text = join('', @test).".";
-    my $query = new Unit::Request({
-        'wysiwyg_edit' => [ 1 ],
-        # REST parameters are always UTF8 encoded
-        'text' => [ Encode::encode_utf8($text) ],
-    });
+    my $text = join( '', @test ) . ".";
+    my $query = new Unit::Request(
+        {
+            'wysiwyg_edit' => [1],
+
+            # REST parameters are always UTF8 encoded
+            'text' => [ Encode::encode_utf8($text) ],
+        }
+    );
     $query->method('GET');
 
-    my $foswiki = new Foswiki('guest', $query );
-	$foswiki->{response}->charset($charset) if $charset;
+    my $foswiki = new Foswiki( 'guest', $query );
+    $foswiki->{response}->charset($charset) if $charset;
 
-    my ($out, $result) = $this->capture(
+    my ( $out, $result ) = $this->capture(
         sub {
-            my $ok = Foswiki::Plugins::WysiwygPlugin::_restTML2HTML(
-                $foswiki, undef, undef, $foswiki->{response});
-            $Foswiki::engine->finalize(
-                $foswiki->{response},
-                $foswiki->{request});
+            my $ok =
+              Foswiki::Plugins::WysiwygPlugin::_restTML2HTML( $foswiki, undef,
+                undef, $foswiki->{response} );
+            $Foswiki::engine->finalize( $foswiki->{response},
+                $foswiki->{request} );
             return $ok;
-        });
+        }
+    );
 
-    $this->assert(!$result, $result);
+    $this->assert( !$result, $result );
+
     # Strip ASCII header
-    $this->assert_matches(qr/Content-Type: text\/plain;charset=UTF-8/, anal($out));
+    $this->assert_matches( qr/Content-Type: text\/plain;charset=UTF-8/,
+        anal($out) );
     $out =~ s/^.*?\r\n\r\n//s;
 
     $out = Encode::decode_utf8($out);
 
     my $id = "<!--$Foswiki::Plugins::WysiwygPlugin::SECRET_ID-->";
-    $this->assert($out =~ s/^\s*$id<p>\s*//s, anal($out));
+    $this->assert( $out =~ s/^\s*$id<p>\s*//s, anal($out) );
     $out =~ s/\s*<\/p>\s*$//s;
 
     require Foswiki::Plugins::WysiwygPlugin::Constants;
     Foswiki::Plugins::WysiwygPlugin::Constants::mapUnicode2HighBit($out);
 
-    $this->assert($text eq $out, "'".anal($out)."' !=\n'".anal($text)."'");
+    $this->assert( $text eq $out,
+        "'" . anal($out) . "' !=\n'" . anal($text) . "'" );
 }
 
 sub HTML2TML_test {
-    my ($this, $charset, $firstchar, $lastchar) = @_;
+    my ( $this, $charset, $firstchar, $lastchar ) = @_;
 
     # Is this enough? Regexes are inited before we get here, aren't they?
     $Foswiki::cfg{Site}{CharSet} = $charset;
 
     my @test;
-    for (my $i = $firstchar; $i <= $lastchar; $i++) {
-        push(@test, chr($i));
+    for ( my $i = $firstchar ; $i <= $lastchar ; $i++ ) {
+        push( @test, chr($i) );
     }
-    my $text = join('', @test).".";
-    my $query = new Unit::Request({
-        'wysiwyg_edit' => [ 1 ],
-        # REST parameters are always UTF8 encoded
-        'text' => [ Encode::encode_utf8($text) ],
-    });
+    my $text = join( '', @test ) . ".";
+    my $query = new Unit::Request(
+        {
+            'wysiwyg_edit' => [1],
+
+            # REST parameters are always UTF8 encoded
+            'text' => [ Encode::encode_utf8($text) ],
+        }
+    );
     $query->method('GET');
-    my $foswiki = new Foswiki('guest', $query );
-	$foswiki->{response}->charset($charset) if $charset;
+    my $foswiki = new Foswiki( 'guest', $query );
+    $foswiki->{response}->charset($charset) if $charset;
 
-    my ($out, $result) = $this->capture(
+    my ( $out, $result ) = $this->capture(
         sub {
-            my $ok = Foswiki::Plugins::WysiwygPlugin::_restHTML2TML(
-              $foswiki, undef, undef, $foswiki->{response});
-            $Foswiki::engine->finalize(
-                $foswiki->{response},
-                $foswiki->{request});
+            my $ok =
+              Foswiki::Plugins::WysiwygPlugin::_restHTML2TML( $foswiki, undef,
+                undef, $foswiki->{response} );
+            $Foswiki::engine->finalize( $foswiki->{response},
+                $foswiki->{request} );
             return $ok;
-        });
+        }
+    );
 
-    $this->assert(!$result, $result);
+    $this->assert( !$result, $result );
+
     # Strip ASCII header
-    $this->assert_matches(qr/Content-Type: text\/plain;charset=UTF-8/,
-                          anal($out));
+    $this->assert_matches( qr/Content-Type: text\/plain;charset=UTF-8/,
+        anal($out) );
     $out =~ s/^.*?\r\n\r\n//s;
 
     $out = Encode::decode_utf8($out);
@@ -203,102 +223,105 @@ sub HTML2TML_test {
 
     $out =~ s/\s*$//s;
 
-    $this->assert_str_equals($text, $out,
-                             "'".anal($out)."' !=\n'".anal($text)."'");
+    $this->assert_str_equals( $text, $out,
+        "'" . anal($out) . "' !=\n'" . anal($text) . "'" );
 }
 
 # tests for various charsets
 sub test_restTML2HTML_undef {
     my $this = shift;
-    $this->TML2HTML_test(undef, 127, 255);
+    $this->TML2HTML_test( undef, 127, 255 );
 }
 
 sub test_restTML2HTML_iso_8859_1 {
     my $this = shift;
-    $this->TML2HTML_test('iso-8859-1', 127, 255);
+    $this->TML2HTML_test( 'iso-8859-1', 127, 255 );
 }
 
 sub test_restTML2HTML_iso_8859_15 {
     my $this = shift;
-    $this->TML2HTML_test('iso-8859-15', 127, 163);
-    $this->TML2HTML_test('iso-8859-15', 169, 179);
-    $this->TML2HTML_test('iso-8859-15', 181, 183);
-    $this->TML2HTML_test('iso-8859-15', 191, 255);
+    $this->TML2HTML_test( 'iso-8859-15', 127, 163 );
+    $this->TML2HTML_test( 'iso-8859-15', 169, 179 );
+    $this->TML2HTML_test( 'iso-8859-15', 181, 183 );
+    $this->TML2HTML_test( 'iso-8859-15', 191, 255 );
 }
 
 sub test_restTML2HTML_utf_8 {
     my $this = shift;
-    $this->TML2HTML_test('utf-8', 127, 300);
-    $this->TML2HTML_test('utf-8', 301, 400);
-    $this->TML2HTML_test('utf-8', 401, 500);
+    $this->TML2HTML_test( 'utf-8', 127, 300 );
+    $this->TML2HTML_test( 'utf-8', 301, 400 );
+    $this->TML2HTML_test( 'utf-8', 401, 500 );
+
     # Chinese
-    $this->TML2HTML_test('utf-8', 8000, 9000);
+    $this->TML2HTML_test( 'utf-8', 8000, 9000 );
 }
 
 sub test_restHTML2TML_undef {
     my $this = shift;
-    $this->HTML2TML_test(undef, 127, 255);
+    $this->HTML2TML_test( undef, 127, 255 );
 }
 
 sub test_restHTML2TML_iso_8859_1 {
     my $this = shift;
-    $this->HTML2TML_test('iso-8859-1', 127, 255);
+    $this->HTML2TML_test( 'iso-8859-1', 127, 255 );
 }
 
 sub test_restHTML2TML_iso_8859_15 {
     my $this = shift;
-    $this->HTML2TML_test('iso-8859-15', 127, 163);
-    $this->HTML2TML_test('iso-8859-15', 169, 179);
-    $this->HTML2TML_test('iso-8859-15', 181, 183);
-    $this->HTML2TML_test('iso-8859-15', 191, 255);
+    $this->HTML2TML_test( 'iso-8859-15', 127, 163 );
+    $this->HTML2TML_test( 'iso-8859-15', 169, 179 );
+    $this->HTML2TML_test( 'iso-8859-15', 181, 183 );
+    $this->HTML2TML_test( 'iso-8859-15', 191, 255 );
 }
 
 sub test_restHTML2TML_utf_8 {
     my $this = shift;
-    $this->HTML2TML_test('utf-8', 127, 300);
-    $this->HTML2TML_test('utf-8', 301, 400);
-    $this->HTML2TML_test('utf-8', 401, 500);
+    $this->HTML2TML_test( 'utf-8', 127, 300 );
+    $this->HTML2TML_test( 'utf-8', 301, 400 );
+    $this->HTML2TML_test( 'utf-8', 401, 500 );
+
     # Chinese
-    $this->HTML2TML_test('utf-8', 8000, 9000);
+    $this->HTML2TML_test( 'utf-8', 8000, 9000 );
 }
 
 sub test_save_undef {
     my $this = shift;
-    $this->save_test(undef, 127, 255);
+    $this->save_test( undef, 127, 255 );
 }
 
 sub test_save_iso_8859_1 {
     my $this = shift;
-    $this->save_test('iso-8859-1', 127, 255);
+    $this->save_test( 'iso-8859-1', 127, 255 );
 }
 
 sub test_save_iso_8859_15 {
     my $this = shift;
-    $this->save_test('iso-8859-15', 127, 163);
-    $this->save_test('iso-8859-15', 169, 179);
-    $this->save_test('iso-8859-15', 181, 183);
-    $this->save_test('iso-8859-15', 191, 255);
+    $this->save_test( 'iso-8859-15', 127, 163 );
+    $this->save_test( 'iso-8859-15', 169, 179 );
+    $this->save_test( 'iso-8859-15', 181, 183 );
+    $this->save_test( 'iso-8859-15', 191, 255 );
 }
 
 sub test_save_utf_8a {
     my $this = shift;
-    $this->save_test('utf-8', 127, 300);
+    $this->save_test( 'utf-8', 127, 300 );
 }
 
 sub test_save_utf_8b {
     my $this = shift;
-    $this->save_test('utf-8', 301, 400);
+    $this->save_test( 'utf-8', 301, 400 );
 }
 
 sub test_save_utf_8d {
     my $this = shift;
-    $this->save_test('utf-8', 401, 500);
+    $this->save_test( 'utf-8', 401, 500 );
 }
 
 sub test_save_utf_8e {
     my $this = shift;
+
     # Chinese
-    $this->save_test('utf-8', 8000, 9000);
+    $this->save_test( 'utf-8', 8000, 9000 );
 }
 
 1;

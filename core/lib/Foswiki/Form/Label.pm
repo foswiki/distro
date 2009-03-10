@@ -9,22 +9,20 @@ sub isEditable {
 }
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     # Changing labels through the URL is a feature for Foswiki applications,
     # even though it's not accessible for standard edits. Some contribs
     # may want to override this to make labels editable.
-    my $session = $this->{session};
     my $renderedValue =
-      $session->renderer->getRenderedVersion(
-        $session->handleCommonTags( $value, $web, $topic ) );
+      $topicObject->renderTML( $topicObject->expandMacros($value) );
     return (
         '',
         CGI::hidden(
             -name  => $this->{name},
             -value => $value
           )
-          . CGI::div( $renderedValue )
+          . CGI::div($renderedValue)
     );
 }
 

@@ -4,13 +4,39 @@
 
 ---+ package Foswiki::Meta
 
-All topics have *data* (text) and *meta-data* (information about the
-topic). Meta-data includes information such as file attachments, form fields,
-topic parentage etc. When Foswiki loads a topic from the store, it represents
-the meta-data in the topic using an object of this class.
+Objects of this class act as handles onto real store objects. An
+object of this class can represent the Foswiki root, a web, or a topic.
 
-A meta-data object is a hash of different types of meta-data (keyed on
-the type, such as 'FIELD' and 'TOPICINFO').
+Meta objects interact with the store using only the methods of
+Foswiki::Store. The rest of the core should interact only with Meta
+objects; the only exception to this are the *Exists methods that are
+published by the store interface (and facaded by the Foswiki class).
+
+A meta object exists in one of two states; either unloaded, in which case
+it is simply a lightweight handle to a store location, and loaded, in
+which case it acts as a portal onto the actual store content of a specific
+revision of the topic.
+
+An unloaded object is constructed by the =new= constructor on this class,
+passing one to three parameters depending on whether the object represents the
+root, a web, or a topic.
+
+A loaded object may be constructed by calling the =load= constructor, or
+a previously constructed object may be converted to 'loaded' state by
+calling =reload=.
+
+Unloaded objects return 0 from =getLoadedRev=, or the loaded revision
+otherwise. =reload= allows you to load different revisions of the same
+topic.
+
+An unloaded object can be populated through calls to =text($text)=, =put=
+and =putKeyed=. Such an object can be saved using =save()= to create a new
+revision of the topic.
+
+To the caller, a meta object carries two types of data. The first
+is the "plain text" of the topic, which is accessible through the =text()=
+method. The object also behaves as a hash of different types of
+meta-data (keyed on the type, such as 'FIELD' and 'FILEATTACHMENT').
 
 Each entry in the hash is an array, where each entry in the array
 contains another hash of the key=value pairs, corresponding to a
@@ -35,13 +61,14 @@ Pictorially,
       * [0] -> { name => '...' ... }
       * [1] -> { name => '...' ... }
 
-As well as the meta-data, the object also stores the web name, topic
-name and topic text.
+This module also include some methods to support embedding meta-data for
+topics directly in topic text, a la the traditional Foswiki store
+(getEmbeddedStoreForm and setEmbeddedStoreForm)
 
 API version $Date$ (revision $Rev$)
 
 *Since* _date_ indicates where functions or parameters have been added since
-the baseline of the API (TWiki release 4.2.3). The _date_ indicates the
+the baseline of the API (Foswiki release 4.2.3). The _date_ indicates the
 earliest date of a Foswiki release that will support that function or
 parameter.
 
@@ -64,37 +91,65 @@ use strict;
 use Error qw(:try);
 use Assert;
 
+our $reason;
 our $VERSION = '$Rev$';
+
+# Version for the embedding format (increment when embedding format changes)
+our $EMBEDDING_FORMAT_VERSION = 1.1;
+
+# defaults for trunctation of summary text
+our $TMLTRUNC   = 162;
+our $PLAINTRUNC = 70;
+our $MINTRUNC   = 16;
+
+# max number of lines in a summary (best to keep it even)
+our $SUMMARYLINES = 6;
+
+############# GENERIC METHODS #############
 
 =begin TML
 
 ---++ ClassMethod new($session, $web, $topic)
    * =$session= - a Foswiki object (e.g. =$Foswiki::Plugins::SESSION=)
-   * =$web=, =$topic= - the topic that the metadata relates to
-Construct a new, empty object to contain meta-data for the given topic.
+   * =$web=, =$topic= - the pathname of the object. If both are undef,
+     this object is a handle for the root container. If $topic is undef,
+     it is the handle to a web. Otherwise it's a handle to a topic.
+   * $text - optional raw text, which may include embedded meta-data. Will
+     be passed to =setEmbeddedStoreForm= to initialise the object. Only valid
+     if =$web= and =$topic= are defined.
+Construct a new, empty object. This method is used to create lightweight
+handles for store objects, especially in cases where the full content of
+the actual object will *not* be loaded. If you need to interact with the
+existing content of the stored object, use the =load= method instead.
 
 =cut
 
 sub new {
     my ( $class, $session, $web, $topic, $text ) = @_;
-
-    # $text - optional raw text to convert to meta-data form
+    ASSERT( $session->isa('Foswiki') ) if DEBUG;
     my $this = bless( { _session => $session }, $class );
+
+    # Normalise web path (replace [./]+ with /)
+    $web =~ tr#/.#/#s if $web;
 
     # Note: internal fields are prepended with _. All uppercase
     # fields will be assumed to be meta-data.
 
-    ASSERT($web)   if DEBUG;
-    ASSERT($topic) if DEBUG;
-
     $this->{_web}   = $web;
     $this->{_topic} = $topic;
-    $this->{_text}  = '';
+    $this->{_text}  = undef;    # topics only
+         # Preferences cache object. We store a pointer, rather than looking
+         # up the name each time, because we want to be able to invalidate the
+         # loaded preferences if this object is reloaded with a different rev
+         # (and therefore different prefs). The preferences cache does not take
+         # topic revs into account.
+    $this->{_preferences} = undef;
 
     $this->{FILEATTACHMENT} = [];
 
     if ( defined $text ) {
-        $session->{store}->extractMetaData( $this, $text );
+        ASSERT( defined($web) && defined($topic) ) if DEBUG;
+        $this->setEmbeddedStoreForm($text);
     }
 
     return $this;
@@ -115,6 +170,7 @@ sub finish {
     undef $this->{_web};
     undef $this->{_topic};
     undef $this->{_text};
+    undef $this->{_preferences};
     undef $this->{_session};
 }
 
@@ -162,6 +218,322 @@ sub topic {
 
 =begin TML
 
+---++ ObjectMethod getPath() -> $objectpath
+
+Get the canonical content access path for the object
+
+=cut
+
+sub getPath {
+    my $this = shift;
+    my $path = $this->{_web};
+
+    return '' unless $path;
+    return $path unless $this->{_topic};
+    $path .= ".$this->{_topic}";
+    return $path;
+}
+
+=begin TML
+
+---++ ObjectMethod getPreference( $key ) -> $value
+
+Get a preferences value for a preference defined in the object. Note that
+web preferences always inherit from parent webs, but topic preferences
+are strictly local to topics.
+
+=cut
+
+sub getPreference {
+    my ( $this, $key ) = @_;
+    my $scope;
+
+    # make sure the preferences are parsed and cached
+    unless ( $this->{_preferences} ) {
+        $this->{_preferences} =
+          $this->{_session}->{prefs}->loadPreferences($this);
+    }
+    return $this->{_preferences}->get($key);
+}
+
+=begin TML
+
+---++ ObjectMethod getContainer() -> $containerObject
+
+Get the container of this object; for example, the web that a topic is within
+
+=cut
+
+sub getContainer {
+    my $this = shift;
+
+    if ( $this->{_topic} ) {
+        return Foswiki::Meta->new( $this->{_session}, $this->{_web} );
+    }
+    if ( $this->{_web} ) {
+        return Foswiki::Meta->new( $this->{_session} );
+    }
+    ASSERT(0) if DEBUG;
+    return undef;
+}
+
+=begin TML
+
+---++ ObjectMethod stringify( $debug ) -> $string
+
+Return a string version of the meta object. $debug adds
+extra debug info.
+
+=cut
+
+sub stringify {
+    my ( $this, $debug ) = @_;
+    my $s = $this->{_web};
+    if ( $this->{_topic} ) {
+        $s .= ".$this->{_topic} ";
+        $s .= $this->{_loadedRev} || '(not loaded)' if $debug;
+        $s .= "\n" . $this->getEmbeddedStoreForm();
+    }
+    return $s;
+}
+
+############# WEB METHODS #############
+
+=begin TML
+
+---++ ObjectMethod populateNewWeb( [$baseWeb [, $opts]] )
+
+$baseWeb is the name of an existing web (a template web). If the
+base web is a system web, all topics in it
+will be copied into this web. If it is a normal web, only topics starting
+with 'Web' will be copied. If no base web is specified, an empty web
+(with no topics) will be created. If it is specified but does not exist,
+an error will be thrown.
+
+$opts is a ref to a hash that contains settings to be modified in
+the web preferences topic in the new web.
+
+=cut
+
+sub populateNewWeb {
+    my ( $this, $templateWeb, $opts ) = @_;
+    ASSERT( $this->{_web} )    if DEBUG;
+    ASSERT( !$this->{_topic} ) if DEBUG;
+
+    my $session = $this->{_session};
+    if ($templateWeb) {
+        unless ( $session->webExists($templateWeb) ) {
+            throw Error::Simple(
+                'Template web ' . $templateWeb . ' does not exist' );
+        }
+
+        my $tWebObject = Foswiki::Meta->new( $session, $templateWeb );
+        my $it = $tWebObject->eachTopic();
+        while ( $it->hasNext() ) {
+            my $topic = $it->next();
+            next unless ( $templateWeb =~ /^_/ || $topic =~ /^Web/ );
+            my $topicObject =
+              Foswiki::Meta->new( $this->{_session}, $templateWeb, $topic );
+            $topicObject->saveAs( $this->{_web}, $topic );
+        }
+    }
+
+    # Make sure there is a preferences topic; this is how we know it's a web
+    my $prefsTopicObject;
+    if (
+        !$session->topicExists(
+            $this->{_web}, $Foswiki::cfg{WebPrefsTopicName}
+        )
+      )
+    {
+        $prefsTopicObject = Foswiki::Meta->new(
+            $this->{_session},                $this->{_web},
+            $Foswiki::cfg{WebPrefsTopicName}, 'Preferences'
+        );
+        $prefsTopicObject->save();
+    }
+
+    # patch WebPreferences in new web. We ignore permissions, because
+    # we are creating a new web here.
+    if ($opts) {
+        $prefsTopicObject ||=
+          Foswiki::Meta->load( $this->{_session}, $this->{_web},
+            $Foswiki::cfg{WebPrefsTopicName} );
+        my $text = $prefsTopicObject->text;
+        foreach my $key (%$opts) {
+            $text =~
+              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm;
+        }
+        $prefsTopicObject->text($text);
+        $prefsTopicObject->save();
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod searchInText($searchString, \@topics, \%options ) -> \%map
+
+Search for a string in the content of a web. The search must be over all
+content and all formatted meta-data, though the latter search type is
+deprecated (use queries instead).
+
+   * =$searchString= - the search string, in egrep format if regex
+   * =\@topics= - reference to a list of names of topics to search, or undef to search all topics in the web
+   * =\%options= - reference to an options hash
+The =\%options= hash may contain the following options:
+   * =type= - if =regex= will perform a egrep-syntax RE search (default '')
+   * =casesensitive= - false to ignore case (defaulkt true)
+   * =files_without_match= - true to return files only (default false)
+
+The return value is a reference to a hash which maps each matching topic
+name to a list of the lines in that topic that matched the search,
+as would be returned by 'grep'. If =files_without_match= is specified, it will
+return on the first match in each topic (i.e. it will return only one
+match per topic, and will not return matching lines).
+
+=cut
+
+sub searchInText {
+    my ( $this, $searchString, $topics, $options ) = @_;
+    ASSERT( !$this->{_topic} ) if DEBUG;
+    unless ($topics) {
+        my $it   = $this->eachTopic();
+        my @list = $it->all();
+        $topics = \@list;
+    }
+    return $this->{_session}->{store}
+      ->searchInWebContent( $searchString, $this->{_web}, $topics, $options );
+}
+
+=begin TML
+
+---++ ObjectMethod query($query, \@topics) -> \%matches
+
+Search for a meta-data expression in the content of a web.
+=$query= must be a =Foswiki::Query= object.
+
+Returns a reference to a hash that maps the names of topics that all matched
+to the result of the query expression (e.g. if the query expression is
+'TOPICPARENT.name' then you will get back a hash that maps topic names
+to their parent.
+
+=cut
+
+sub query {
+    my ( $this, $query, $topics ) = @_;
+    return $this->{_session}->{store}
+      ->searchInWebMetaData( $query, $this->{_web}, $topics );
+}
+
+=begin TML
+
+---++ ObjectMethod eachWeb( $all ) -> $iterator
+
+Return an iterator over each subweb. If =$all= is set, will return a list of all
+web names *under* the current location. Returns web pathnames relative to
+$this.
+
+Only valid on webs and the root.
+
+=cut
+
+sub eachWeb {
+    my ( $this, $all ) = @_;
+
+    ASSERT( !$this->{_topic} ) if DEBUG;
+    return $this->{_session}->{store}->eachWeb( $this->{_web}, $all );
+
+}
+
+=begin TML
+
+---++ ObjectMethod eachTopic() -> $iterator
+
+Return an iterator over each topic name in the web. Only valid on webs.
+
+=cut
+
+sub eachTopic {
+    my ($this) = @_;
+    ASSERT( !$this->{_topic} ) if DEBUG;
+    ASSERT( $this->{_web} ) if DEBUG;    # no topics allowed in root level
+    return $this->{_session}->{store}->eachTopic( $this->{_web} );
+}
+
+=begin TML
+
+---++ ObjectMethod eachChange( $time ) -> $iterator
+
+Get an iterator over the list of all the changes in the web between
+=$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
+guaranteed to return any changes that occurred before (now - 
+{Store}{RememberChangesFor}). Changes are returned in most-recent-first
+order.
+
+Only valid for a web.
+
+=cut
+
+sub eachChange {
+    my ( $this, $time ) = @_;
+    ASSERT( !$this->{_topic} ) if DEBUG;
+    ASSERT( $this->{_web} ) if DEBUG;    # not valid at root level
+    return $this->{_session}->{store}->eachChange( $this, $time );
+}
+
+############# TOPIC METHODS #############
+
+=begin TML
+
+---++ StaticMethod load($session, $web, $topic, $rev) -> $meta
+
+This method will load (or otherwise fetch) the meta-data for a named web/topic.
+
+This method is functionally identical to:
+<verbatim>
+$this = Foswiki::Meta->new( $session, $web, $topic );
+$this->reload( $rev );
+</verbatim>
+
+=cut
+
+sub load {
+    my ( $class, $session, $web, $topic, $rev ) = @_;
+    ASSERT( $session->isa('Foswiki') ) if DEBUG;
+    my $this = new( $class, $session, $web, $topic );
+    $this->reload($rev);
+    return $this;
+}
+
+=begin TML
+
+---++ ObjectMethod reload($rev)
+
+Reload the object from the store; perhaps because we haven't loaded it yet,
+or we are looking at a different rev. See =getLoadedRev= to determine what
+revision is currently being viewed.
+
+=cut
+
+sub reload {
+    my ( $this, $rev ) = @_;
+    if ( defined $rev ) {
+        $rev = Foswiki::Store::cleanUpRevID($rev);
+    }
+    else {
+        $rev = $this->{_loadedRev};    # if any
+    }
+    foreach my $field ( keys %$this ) {
+        next if $field =~ /^_(web|topic|session)/;
+        $this->{$field} = undef;
+    }
+    $this->{FILEATTACHMENT} = [];
+    $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
+    $this->{_preferences} = undef;
+}
+
+=begin TML
+
 ---++ ObjectMethod text([$text]) -> $text
 
 Get/set the topic body text. If $text is undef, gets the value, if it is
@@ -171,8 +543,14 @@ defined, sets the value to that and returns the new text.
 
 sub text {
     my ( $this, $val ) = @_;
+    ASSERT( $this->{_topic} ) if DEBUG;
     if ( defined($val) ) {
         $this->{_text} = $val;
+    }
+    else {
+
+        # Lazy load
+        $this->reload() unless defined( $this->{_text} );
     }
     return $this->{_text};
 }
@@ -231,7 +609,8 @@ sub putKeyed {
         my $i = scalar(@$data);
         while ( $keyName && $i-- ) {
             if ( defined $data->[$i]->{name}
-                   && $data->[$i]->{name} eq $keyName ) {
+                && $data->[$i]->{name} eq $keyName )
+            {
                 $data->[$i] = $args;
                 return;
             }
@@ -293,7 +672,8 @@ sub get {
     if ($data) {
         if ( defined $keyValue ) {
             foreach my $item (@$data) {
-                return $item if ($item->{name} and ( $item->{name} eq $keyValue ));
+                return $item
+                  if ( $item->{name} and ( $item->{name} eq $keyValue ) );
             }
         }
         else {
@@ -351,7 +731,7 @@ sub remove {
         my $data    = $this->{$type};
         my @newData = ();
         foreach my $item (@$data) {
-            if ( $item->{name} ne $keyValue ) {
+            if ( $item->{name} && $item->{name} ne $keyValue ) {
                 push @newData, $item;
             }
         }
@@ -429,40 +809,71 @@ sub count {
 
 =begin TML
 
----++ ObjectMethod getRevisionInfo($fromrev) -> ( $date, $author, $rev, $comment )
+---++ ObjectMethod setRevisionInfo( \%opts )
+
+Set TOPICINFO information on the object, as specified by the parameters.
+   * =version= - the revision number
+   * =time= - the time stamp
+   * =author= - the user id
+   * + additional data fields to save e.g. reprev, comment
+
+=cut
+
+sub setRevisionInfo {
+    my ( $this, $data ) = @_;
+
+    # compatibility; older versions of the code use
+    # RCS rev numbers. Save with them so old code can
+    # read these topics
+    my %args = %$data;
+    $args{version} = 1 if $args{version} < 1;
+    $args{version} = '1.' . $args{version};
+    $args{format}  = $EMBEDDING_FORMAT_VERSION,
+
+      $this->put( 'TOPICINFO', \%args );
+}
+
+=begin TML
+
+---++ ObjectMethod getRevisionInfo($fromrev) -> \%info
+
+   * =$fromrev= revision number. If 0, undef, or out-of-range, will get info about the most recent revision.
 
 Try and get revision info from the meta information, or, if it is not
 present, kick down to the Store module for the same information.
 
-Returns ( $revDate, $author, $rev, $comment )
-
-$rev is an integer revision number.
+Return %info with at least:
+| date | in epochSec |
+| user | user *object* |
+| version | the revision number |
+| comment | comment in the VC system, may or may not be the same as the comment in embedded meta-data |
 
 =cut
 
 sub getRevisionInfo {
-    my ( $this, $fromrev ) = @_;
-    my $store = $this->{_session}->{store};
+    my $this = shift;
 
+    my $info;
     my $topicinfo = $this->get('TOPICINFO');
-
-    my ( $date, $author, $rev, $comment );
     if ($topicinfo) {
-        $date   = $topicinfo->{date};
-        $author = $topicinfo->{author};
-        $rev    = $topicinfo->{version};
-        $rev =~ s/^\$Rev(:\s*\d+)?\s*\$$/0/;    # parse out SVN keywords in doc
-        $rev =~ s/^\d+\.//;
-        $comment = '';
-        if ( !$fromrev || $rev eq $fromrev ) {
-            return ( $date, $author, $rev, $comment );
-        }
-    }
+        $info = {
+            date    => $topicinfo->{date},
+            author  => $topicinfo->{author},
+            version => $topicinfo->{version},
+        };
 
-    # Different rev, or no topic info, delegate to Store
-    ( $date, $author, $rev, $comment ) =
-      $store->getRevisionInfo( $this->{_web}, $this->{_topic}, $fromrev );
-    return ( $date, $author, $rev, $comment );
+        # parse out SVN keywords in doc
+        $info->{version} =~ s/^\$Rev(:\s*\d+)?\s*\$$/0/;
+
+        # Chuck away RCS major rev number
+        $info->{version} =~ s/^\d+\.//;
+    }
+    else {
+
+        # Delegate to the store
+        $info = $this->{_session}->{store}->getRevisionInfo($this);
+    }
+    return $info;
 }
 
 =begin TML
@@ -521,42 +932,6 @@ sub merge {
             }
         }
     }
-}
-
-=begin TML
-
----++ ObjectMethod stringify( $types ) -> $string
-
-Return a string version of the meta object. Uses \n to separate lines.
-If =$types= is specified, return only types
-that match it. Types should be a perl regular expression.
-
-=cut
-
-sub stringify {
-    my ( $this, $types ) = @_;
-    my $s = '';
-    $types ||= qr/^[A-Z]+$/;
-
-    foreach my $type ( grep { /$types/ } keys %$this ) {
-        foreach my $item ( @{ $this->{$type} } ) {
-
-            #remove the internal 'info.rev'
-            my $topicRev = $item->{'rev'};
-            if ( $type eq 'TOPICINFO' ) {
-                undef $item->{'rev'};
-            }
-            my @itemKeys = sort keys %$item;
-            $s .= "$type: "
-              . join( ' ',
-                map { "$_='" . ( $item->{$_} || '' ) . "'" } @itemKeys )
-              . "\n";
-            if ( $type eq 'TOPICINFO' && defined($topicRev) ) {
-                $item->{'rev'} = $topicRev;
-            }
-        }
-    }
-    return $s;
 }
 
 =begin TML
@@ -719,6 +1094,1083 @@ sub renderFormFieldForDisplay {
     return $format;
 }
 
+# Enable this for debug. Done as a sub to allow perl to optimise it out.
+sub MONITOR_ACLS { 0 }
+
+=begin TML
+
+---++ ObjectMethod haveAccess($mode, $cUID) -> $boolean
+
+   * =$mode=  - 'VIEW', 'CHANGE', 'CREATE', etc.
+   * =$cUID=    - Canonical user id (defaults to current user)
+Check if the user has the given mode of access to the topic. This call
+may result in the topic being read.
+
+=cut
+
+sub haveAccess {
+    my ( $this, $mode, $cUID ) = @_;
+    $cUID ||= $this->{_session}->{user};
+    if ( defined $this->{_topic} && !defined $this->{_text} ) {
+        $this->reload();
+    }
+    my $session = $this->{_session};
+    undef $reason;
+
+    print STDERR "Check $mode access $cUID to ",
+      ( $this->{_web} || 'undef' ), '.', ( $this->{_topic} || 'undef' ), "\n"
+      if MONITOR_ACLS;
+
+    # super admin is always allowed
+    if ( $session->{users}->isAdmin($cUID) ) {
+        print STDERR "$cUID - ADMIN\n" if MONITOR_ACLS;
+        return 1;
+    }
+
+    $mode = uc($mode);
+
+    my ( $allowText, $denyText );
+    if ( $this->{_topic} ) {
+
+        # extract the * Set (ALLOWTOPIC|DENYTOPIC)$mode
+        $allowText = $this->getPreference( 'ALLOWTOPIC' . $mode );
+        $denyText  = $this->getPreference( 'DENYTOPIC' . $mode );
+
+        # Check DENYTOPIC
+        if ( defined($denyText) ) {
+            if ( $denyText =~ /\S$/ ) {
+                if ( $session->{users}->isInList( $cUID, $denyText ) ) {
+                    $reason =
+                      $session->i18n->maketext('access denied on topic');
+                    print STDERR $reason, "\n" if MONITOR_ACLS;
+                    return 0;
+                }
+            }
+            else {
+
+                # If DENYTOPIC is empty, don't deny _anyone_
+                print STDERR "DENYTOPIC is empty\n" if MONITOR_ACLS;
+                return 1;
+            }
+        }
+
+        # Check ALLOWTOPIC. If this is defined the user _must_ be in it
+        if ( defined($allowText) && $allowText =~ /\S/ ) {
+            if ( $session->{users}->isInList( $cUID, $allowText ) ) {
+                print STDERR "in ALLOWTOPIC\n" if MONITOR_ACLS;
+                return 1;
+            }
+            $reason = $session->i18n->maketext('access not allowed on topic');
+            print STDERR $reason, "\n" if MONITOR_ACLS;
+            return 0;
+        }
+        $this = $this->getContainer();    # Web
+    }
+
+    if ( $this->{_web} ) {
+
+        # Check DENYWEB, but only if DENYTOPIC is not set (even if it
+        # is empty - empty means "don't deny anybody")
+        unless ( defined($denyText) ) {
+            $denyText = $this->getPreference( 'DENYWEB' . $mode );
+            if ( defined($denyText)
+                && $session->{users}->isInList( $cUID, $denyText ) )
+            {
+                $reason = $session->i18n->maketext('access denied on web');
+                print STDERR $reason, "\n" if MONITOR_ACLS;
+                return 0;
+            }
+        }
+
+        # Check ALLOWWEB. If this is defined and not overridden by
+        # ALLOWTOPIC, the user _must_ be in it.
+        $allowText = $this->getPreference( 'ALLOWWEB' . $mode );
+
+        if ( defined($allowText) && $allowText =~ /\S/ ) {
+            unless ( $session->{users}->isInList( $cUID, $allowText ) ) {
+                $reason = $session->i18n->maketext('access not allowed on web');
+                print STDERR $reason, "\n" if MONITOR_ACLS;
+                return 0;
+            }
+        }
+
+    }
+    else {
+
+        # No web, we are checking at the root. Check DENYROOT and ALLOWROOT.
+        $denyText = $this->getPreference( 'DENYROOT' . $mode );
+        if ( defined($denyText)
+            && $session->{users}->isInList( $cUID, $denyText ) )
+        {
+            $reason = $session->i18n->maketext('access denied on root');
+            print STDERR $reason, "\n" if MONITOR_ACLS;
+            return 0;
+        }
+
+        $allowText = $this->getPreference( 'ALLOWROOT' . $mode );
+
+        if ( defined($allowText) && $allowText =~ /\S/ ) {
+            unless ( $session->{users}->isInList( $cUID, $allowText ) ) {
+                $reason =
+                  $session->i18n->maketext('access not allowed on root');
+                print STDERR $reason, "\n" if MONITOR_ACLS;
+                return 0;
+            }
+        }
+    }
+
+    if (MONITOR_ACLS) {
+        print STDERR "OK, permitted\n";
+        print STDERR "ALLOW: $allowText\n" if defined $allowText;
+        print STDERR "DENY: $denyText\n"   if defined $denyText;
+    }
+    return 1;
+}
+
+=begin TML
+
+---++ ObjectMethod save( %options  )
+
+Save the current object, invoking appropriate plugin handlers
+   * =%options= - Hash of options, may include:
+      * =forcenewrevision= -
+      * =timetravel= -
+      * =dontlog= - don't log this change in log
+      * =hide= - if the attachment is to be hidden in normal topic view
+      * =comment= - comment for save
+      * =file= - Temporary file name to upload
+      * =minor= - True if this is a minor change (used in log)
+      * =savecmd= - Save command
+      * =forcedate= - grr
+      * =unlock= -
+      * =author= - cUID of author of change
+
+=cut
+
+sub save {
+    my $this = shift;
+    ASSERT( scalar(@_) % 2 == 0 );
+    my %opts = @_;
+
+    my $plugins = $this->{_session}->{plugins};
+
+    # Semantics inherited from Cairo. See
+    # Foswiki:Codev.BugBeforeSaveHandlerBroken
+    if ( $plugins->haveHandlerFor('beforeSaveHandler') ) {
+        my $before = '';
+
+        # Break up the tom and write the meta into the topic text.
+        # Nasty compatibility requirement.
+        my $text = $this->getEmbeddedStoreForm();
+        $before = $this->stringify();
+
+        $plugins->dispatch( 'beforeSaveHandler', $text, $this->{_topic},
+            $this->{_web}, $this );
+
+        # If there are no changes in the object, assemble a new tom
+        # from the text. Nasty compatibility requirement.
+        if ( $this->stringify() eq $before ) {
+
+            # reassemble the tom. there may be new meta in the text.
+            my $after =
+              Foswiki::Meta->new( $this->{_session}, $this->{_web},
+                $this->{_topic}, $text );
+            $text = $after->text();
+            $this = $after;
+        }
+    }
+
+    my $signal;
+    try {
+        $this->saveAs( $this->{_web}, $this->{_topic}, %opts );
+    }
+    catch Error::Simple with {
+        $signal = shift;
+    };
+
+    # Semantics inherited from Cairo. See
+    # TWiki:Codev.BugBeforeSaveHandlerBroken
+    if ( $plugins->haveHandlerFor('afterSaveHandler') ) {
+        my $text = $this->getEmbeddedStoreForm();
+        my $error = $signal ? $signal->{-text} : undef;
+        $plugins->dispatch( 'afterSaveHandler', $text, $this->{_topic},
+            $this->{_web}, $error, $this );
+    }
+
+    throw $signal if $signal;
+
+    if ( !$opts{dontlog} ) {
+        $this->{_session}->logEvent(
+            'save',
+            $this->{_web} . '.' . $this->{_topic},
+            $opts{minor} ? 'minor' : '',
+            $this->{_session}->{user}
+        );
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod saveAs( $web, $topic, %options  )
+
+Save the current topic to a store location. Only works on topics.
+*without* invoking plugins handlers.
+   * =$web.$topic= - where to move to
+   * =%options= - Hash of options, may include:
+      * =forcenewrevision= -
+      * =timetravel= -
+      * =dontlog= - don't log this change in log
+      * =hide= - if the attachment is to be hidden in normal topic view
+      * =comment= - comment for save
+      * =file= - Temporary file name to upload
+      * =minor= - True if this is a minor change (used in log)
+      * =savecmd= - Save command
+      * =forcedate= - grr
+      * =unlock= -
+      * =author= - cUID of author of change
+
+=cut
+
+sub saveAs {
+    my $this     = shift;
+    my $newWeb   = shift;
+    my $newTopic = shift;
+    ASSERT( scalar(@_) % 2 == 0 ) if DEBUG;
+    my %opts = @_;
+    my $cUID = $opts{author} || $this->{_session}->{user};
+
+    $this->{_web}   = $newWeb   if $newWeb;
+    $this->{_topic} = $newTopic if $newTopic;
+    ASSERT( $this->{_web} && $this->{_topic} ) if DEBUG;
+    $this->_atomicLock($cUID);
+    my $error;
+    try {
+        $this->{_loadedRev} =
+          $this->{_session}->{store}->saveTopic( $this, $cUID, \%opts );
+    }
+    finally {
+        $this->_atomicUnlock($cUID);
+    };
+}
+
+sub _atomicLock {
+    my ($this, $cUID) = @_;
+    if ( $this->{_topic} ) {
+
+        # Topic
+        $this->{_session}->{store}->lockTopic($this, $cUID);
+    }
+    else {
+
+        # Web: Recursively lock subwebs and topics
+        my $it = $this->eachWeb();
+        while ( $it->hasNext() ) {
+            my $web = $this->{_web} . '/' . $it->next();
+            my $meta = Foswiki::Meta->new( $this->{_session}, $web );
+            $meta->_atomicLock($cUID);
+        }
+        $it = $this->eachTopic();
+        while ( $it->hasNext() ) {
+            my $meta =
+              Foswiki::Meta->new( $this->{_session}, $this->{_web},
+                $it->next() );
+            $meta->_atomicLock($cUID);
+        }
+    }
+}
+
+sub _atomicUnlock {
+    my ($this, $cUID) = @_;
+    if ( $this->{_topic} ) {
+        $this->{_session}->{store}->unlockTopic($this, $cUID);
+    }
+    else {
+        my $it = $this->eachWeb();
+        while ( $it->hasNext() ) {
+            my $web = $this->{_web} . '/' . $it->next();
+            my $meta = Foswiki::Meta->new( $this->{_session}, $web );
+            $meta->_atomicUnlock($cUID);
+        }
+        $it = $this->eachTopic();
+        while ( $it->hasNext() ) {
+            my $meta =
+              Foswiki::Meta->new( $this->{_session}, $this->{_web},
+                $it->next() );
+            $meta->_atomicUnlock($cUID);
+        }
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod move($to, %opts)
+
+Move this object (web or topic) to a store location specified by the
+object $to. %opts may include:
+   * =user= - cUID of the user doing the moving.
+
+=cut
+
+sub move {
+    my ( $this, $to, %opts ) = @_;
+
+    my $cUID = $opts{user} || $this->{_session}->{user};
+
+    if ( $this->{_topic} ) {
+
+        # Move topic
+
+        $this->_atomicLock($cUID);
+        $to->_atomicLock($cUID);
+
+        # Clear outstanding leases. We assume that the caller has checked
+        # that the lease is OK to kill.
+        $this->clearLease() if $this->getLease();
+        try {
+            $this->put(
+                'TOPICMOVED',
+                {
+                    from => $this->getPath(),
+                    to   => $to->getPath(),
+                    date => time(),
+                    by   => $cUID,
+                }
+            );
+            $this->save();    # to save the metadata change
+            $this->{_session}->{store}->moveTopic( $this, $to, $cUID );
+            $to->reload();
+        }
+        finally {
+            $this->_atomicUnlock($cUID);
+            $to->_atomicUnlock($cUID);
+        };
+
+    }
+    else {
+
+        # Move web
+        ASSERT( !$this->{_session}->{store}->webExists( $to->{_web} ),
+            $to->{_web} )
+          if DEBUG;
+        $this->_atomicLock($cUID);
+        $this->{_session}->{store}->moveWeb( $this, $to, $cUID );
+
+        # No point in unlocking $this - it's moved!
+        $to->_atomicUnlock($cUID);
+    }
+
+    # Log rename
+    my $old = $this->{_web} . '.' . ( $this->{_topic} || '' );
+    my $new = $to->{_web} . '.' .   ( $to->{_topic}   || '' );
+    $this->{_session}
+      ->logEvent( 'rename', $old, "moved to $new", $this->{_session}->{user} );
+
+    # alert plugins of topic move
+    $this->{_session}->{plugins}
+      ->dispatch( 'afterRenameHandler', $this->{_web}, $this->{_topic} || '',
+        '', $to->{_web}, $to->{_topic} || '', '' );
+}
+
+=begin TML
+
+---++ ObjectMethod deleteMostRecentRevision(%opts)
+Delete (or elide) the most recent revision of this. Only works on topics.
+
+=%opts= may include
+   * =user= - cUID of user doing the unlocking
+
+=cut
+
+sub deleteMostRecentRevision {
+    my ($this, %opts) = @_;
+    my $rev;
+    my $cUID = $opts{user} || $this->{_session}->{user};
+
+    $this->_atomicLock($cUID);
+    try {
+        $rev = $this->{_session}->{store}->delRev($this, $cUID);
+    }
+    finally {
+        $this->_atomicUnlock($cUID);
+    };
+
+    # TODO: delete entry in .changes
+
+    # write log entry
+    $this->{_session}->writeLog(
+        'cmd',
+        $this->{_web} . '.' . $this->{_topic},
+        " delRev $rev by " . $this->{_session}->{user}
+    );
+}
+
+=begin TML
+
+---++ ObjectMethod replaceMostRecentRevision( %opts )
+Replace the most recent revision with whatever is in the memory copy.
+Only works on topics.
+
+%opts may include:
+   * =user= - cUID of the user doing the action
+
+=cut
+
+sub replaceMostRecentRevision {
+    my $this = shift;
+    my %opts = @_;
+
+    my $cUID = $opts{user} || $this->{_session}->{user};
+
+    $this->_atomicLock($cUID);
+
+    try {
+        $this->{_session}->{store}->repRev( $this, $cUID, @_ );
+    }
+    finally {
+        $this->_atomicUnlock($cUID);
+    };
+    if ( $TWiki::cfg{Log}{save} && !$opts{dontlog} ) {
+        my $info = $this->getRevisionInfo();
+
+        # write log entry
+        require Foswiki::Time;
+        my $extra = "repRev $info->{version} by " . $cUID . ' ';
+        $extra .= Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' );
+        $extra .= ' minor' if ( $opts{minor} );
+        $this->{_session}->writeLog(
+            $opts{timetravel} ? 'cmd' : 'save',
+            $this->getPath(),
+            $extra, $cUID
+        );
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod getMaxRevNo([$attachment]) -> $integer
+
+Get the revision number of the most recent revision of the topic,
+irrespective of which rev is currently loaded.
+
+$attachment is optional, and if provided will get the max rev of an attachment
+on the topic.
+
+Only valid on topics.
+
+=cut
+
+sub getMaxRevNo {
+    my ( $this, $attachment ) = @_;
+    ASSERT( $this->{_topic} ) if DEBUG;
+    return $this->{_session}->{store}->getRevisionNumber( $this, $attachment );
+}
+
+=begin TML
+
+---++ ObjectMethod getLoadedRev() -> $integer
+
+Get the currently loaded revision. Result will be a revision number or
+0 if no revision has been loaded. Only valid on topics.
+
+=cut
+
+sub getLoadedRev {
+    my $this = shift;
+    ASSERT( $this->{_topic} ) if DEBUG;
+    return $this->{_loadedRev} || 0;
+}
+
+=begin TML
+
+---++ ObjectMethod removeFromStore( $attachment )
+   * =$attachment= - optional, provide to delete an attachment
+
+Use with great care! Removes all trace of the given web, topic
+or attachment from the store, possibly including all its history.
+
+=cut
+
+sub removeFromStore {
+    my ( $this, $attachment ) = @_;
+    my $store = $this->{_session}->{store};
+    ASSERT( $this->{_web} ) if DEBUG;
+    ASSERT( !$attachment || $this->{_topic} ) if DEBUG;
+
+    if ( !$store->webExists( $this->{_web} ) ) {
+        throw Error::Simple( 'No such web ' . $this->{_web} );
+    }
+    if ( $this->{_topic}
+        && !$store->topicExists( $this->{_web}, $this->{_topic} ) )
+    {
+        throw Error::Simple(
+            'No such topic ' . $this->{_web} . '.' . $this->{_topic} );
+    }
+
+    if (
+        $attachment
+        && !$store->attachmentExists(
+            $this->{_web}, $this->{_topic}, $attachment
+        )
+      )
+    {
+        throw Error::Simple( 'No such attachment '
+              . $this->{_web} . '.'
+              . $this->{_topic} . '.'
+              . $attachment );
+    }
+
+    $store->remove($this);
+}
+
+=begin TML
+
+---++ ObjectMethod getDifferences( $topicObject, $contextLines ) -> \@diffArray
+
+Return reference to an array of [ diffType, $right, $left ]
+   * =$topicObject2= - the tom to diff against (must be the same topic)
+   * =$contextLines= - number of lines of context required
+Both $this and $topicObject2 must contain loaded revisions of the same topic.
+
+=cut
+
+sub getDifferences {
+    my ( $this, $topicObject2, $contextLines ) = @_;
+    ASSERT(  $topicObject2->{_web} eq $this->{_web}
+          && $topicObject2->{_topic} eq $this->{_topic} )
+      if DEBUG;
+    ASSERT( $this->{_loadedRev} )         if DEBUG;
+    ASSERT( $topicObject2->{_loadedRev} ) if DEBUG;
+    return $this->{_session}->{store}
+      ->getRevisionDiff( $this, $topicObject2, $contextLines );
+}
+
+=begin TML
+
+---++ ObjectMethod getRevisionAtTime( $time ) -> $rev
+   * =$time= - time (in epoch secs) for the rev
+
+Get the revision number for a topic at a specific time.
+Returns a single-digit rev number or undef if it couldn't be determined
+(either because the topic isn't that old, or there was a problem)
+
+=cut
+
+sub getRevisionAtTime {
+    my ( $this, $time ) = @_;
+    ASSERT( $this->{_topic} ) if DEBUG;
+    return $this->{_session}->{store}->getRevisionAtTime( $this, $time );
+}
+
+=begin TML
+
+---++ ObjectMethod setLease( $length )
+
+Take out an lease on the given topic for this user for $length seconds.
+
+See =getLease= for more details about Leases.
+
+=cut
+
+sub setLease {
+    my ( $this, $length ) = @_;
+    my $t     = time();
+    my $lease = {
+        user    => $this->{_session}->{user},
+        expires => $t + $length,
+        taken   => $t
+    };
+    return $this->{_session}->{store}->setLease( $this, $lease );
+}
+
+=begin TML
+
+---++ ObjectMethod getLease() -> $lease
+
+If there is an lease on the topic, return the lease, otherwise undef.
+A lease is a block of meta-information about a topic that can be
+recovered (this is a hash containing =user=, =taken= and =expires=).
+Leases are taken out when a topic is edited. Only one lease
+can be active on a topic at a time. Leases are used to warn if
+another user is already editing a topic.
+
+=cut
+
+sub getLease {
+    my $this = shift;
+    return $this->{_session}->{store}->getLease($this);
+}
+
+=begin TML
+
+---++ ObjectMethod clearLease()
+
+Cancel the current lease.
+
+See =getLease= for more details about Leases.
+
+=cut
+
+sub clearLease {
+    my $this = shift;
+    $this->{_session}->{store}->setLease($this);
+}
+
+############# ATTACHMENTS ON TOPICS #############
+
+=begin TML
+
+---++ ObjectMethod getAttachmentRevisionInfo($attachment, $rev) -> \%info
+   * =$attachment= - attachment name
+   * =$rev= - optional integer attachment revision number
+Get revision info for an attachment. Only valid on topics.
+
+$info will contain at least: date, author, version, comment
+
+=cut
+
+sub getAttachmentRevisionInfo {
+    my ( $this, $attachment, $fromrev ) = @_;
+
+    return $this->{_session}->{store}
+      ->getRevisionInfo( $this, $fromrev, $attachment );
+}
+
+=begin TML
+
+---++ ObjectMethod attach ( %opts )
+
+   * =%opts= may include:
+      * =name= - Name of the attachment
+      * =dontlog= - don't log this change in twiki log
+      * =comment= - comment for save
+      * =hide= - if the attachment is to be hidden in normal topic view
+      * =stream= - Stream of file to upload
+      * =file= - Name of a file to use for the attachment data. Ignored if
+        =stream= is set.
+      * =filepath= - Client path to file
+      * =filesize= - Size of uploaded data
+      * =filedate= - Date
+      * =tmpFilename= - Pathname of the server file the stream is
+        attached to. Required if =stream= is set.
+      * =author= - cUID of author of change
+
+Saves a new revision of the attachment, invoking plugin handlers as
+appropriate.
+
+If file is not set, this is a properties-only save.
+
+=cut
+
+sub attach {
+    my $this = shift;
+    my %opts = @_;
+    my $action;
+    my $plugins = $this->{_session}->{plugins};
+
+    # update topic
+    if ( $opts{file} && !$opts{stream} ) {
+        open( $opts{stream}, '<', $opts{file} )
+          || throw Error::Simple( 'Could not open ' . $opts{file} );
+        binmode( $opts{stream} )
+          || throw Error::Simple( $opts{file} . ' binmode failed: ' . $! );
+        $opts{tmpFilename} = $opts{file};
+    }
+
+    my $attrs;
+    if ( $opts{stream} ) {
+        $action = 'upload';
+        $attrs  = {
+            name        => $opts{name},
+            attachment  => $opts{name},
+            stream      => $opts{stream},
+            tmpFilename => $opts{tmpFilename},
+            author      => $this->{_session}->{user},
+            comment     => $opts{comment} || '',
+        };
+
+        if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
+
+            # Because of the way CGI works, the stream is actually attached
+            # to a file that is already on disc. So all we need to do
+            # is determine that filename, close the stream, process the
+            # upload and then reopen the stream on the resultant file.
+            close( $opts{stream} );
+            if ( !defined( $attrs->{tmpFilename} ) ) {
+                throw Error::Simple(
+"Cannot call beforeAttachmentSaveHandler; CGI did not provide a temporary file name"
+                );
+            }
+            $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
+                $this->{_topic}, $this->{_web} );
+            open( $opts{stream}, "<$attrs->{tmpFilename}" );
+            binmode( $opts{stream} );
+        }
+
+        my $error = '';
+        try {
+
+            # Note that we don't update the topic until the attachment is
+            # saved, in case of error.
+            $this->{_session}->{store}
+              ->saveAttachment(
+                  $this, $opts{name}, $opts{stream},
+                  $opts{author} || $this->{_session}->{user});
+        }
+        catch Error::Simple with {
+            $error = shift;
+        };
+        my $fileVersion = $this->getMaxRevNo( $opts{name} );
+        $attrs->{version} = $fileVersion;
+        $attrs->{path}    = $opts{filepath} if ( defined( $opts{filepath} ) );
+        $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
+        $attrs->{date}    = $opts{filedate} if ( defined( $opts{filedate} ) );
+
+        if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
+            $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
+                $this->{_topic}, $this->{_web},
+                $error ? $error->{-text} : undef );
+        }
+        throw $error if $error;
+    }
+    else {
+
+        # Property change
+        $action        = 'save';
+        $attrs         = $this->get( 'FILEATTACHMENT', $opts{name} );
+        $attrs->{name} = $opts{name};
+        $attrs->{comment} = $opts{comment} if ( defined( $opts{comment} ) );
+    }
+    $attrs->{attr} = ( $opts{hide} ) ? 'h' : '';
+    delete $attrs->{stream};
+    delete $attrs->{tmpFilename};
+    $this->putKeyed( 'FILEATTACHMENT', $attrs );
+
+    if ( $opts{createlink} ) {
+        my $text = $this->text();
+        $text .=
+          $this->{_session}->attach->getAttachmentLink( $this, $opts{name} );
+        $this->text($text);
+    }
+
+    $this->saveAs();
+
+    if ( !$opts{dontlog} ) {
+        $this->{_session}->logEvent(
+            $action,     $this->{_web} . '.' . $this->{_topic},
+            $opts{name}, $this->{_session}->{user}
+        );
+    }
+}
+
+=begin TML
+
+---++ ObjectMethod hasAttachment( $name ) -> $boolean
+Test if the named attachment exists. Only valid on topics.
+
+=cut
+
+sub hasAttachment {
+    my ( $this, $name ) = @_;
+    return $this->{_session}->{store}
+      ->attachmentExists( $this->{_web}, $this->{_topic}, $name );
+}
+
+=begin TML
+
+---++ ObjectMethod readAttachment( $name [, $rev] ) -> $data
+Read the named attachment (optional rev) and return the content as
+a scalar.
+
+=cut
+
+sub readAttachment {
+    my ( $this, $name, $rev ) = @_;
+    return $this->{_session}->{store}->readAttachment( $this, $name, $rev );
+}
+
+=begin TML
+
+---++ ObjectMethod moveAttachment( $name, $to, %opts ) -> $data
+Move the named attachment to the topic indicates by $to.
+=%opts= may include:
+   * =new_name= - new name for the attachment
+   * =user= - cUID of user doing the moving
+
+=cut
+
+sub moveAttachment {
+    my $this = shift;
+    my $name = shift;
+    my $to   = shift;
+    my %opts = @_;
+    my $cUID = $opts{user} || $this->{_session}->{user};
+
+    my $newName = $opts{new_name} || $name;
+
+    $this->_atomicLock($cUID);
+    $to->_atomicLock($cUID);
+
+    try {
+        $this->{_session}->{store}
+          ->moveAttachment( $this, $name, $to, $newName, $cUID);
+        $this->reload();
+        $to->reload();
+    }
+    finally {
+        $to->_atomicUnlock($cUID);
+        $this->_atomicUnlock($cUID);
+    };
+
+    # alert plugins of attachment move
+    $this->{_session}->{plugins}
+      ->dispatch( 'afterRenameHandler', $this->{_web}, $this->{_topic}, $name,
+        $to->{_web}, $to->{_topic}, $newName );
+
+    $this->{_session}->logEvent(
+        'move',
+        $this->{_web} . '.'
+          . $this->{_topic} . '.'
+          . $name
+          . ' moved to '
+          . $to->{_web} . '.'
+          . $to->{_topic} . '.'
+          . $newName,
+        $cUID
+    );
+}
+
+=begin TML
+
+---++ ObjectMethod getAttachmentStream( $attName ) -> \*STREAM
+
+   * =$attName= - Name of the attachment
+
+Open a standard input stream from an attachment. Only valid on topics.
+
+=cut
+
+sub getAttachmentStream {
+    my ( $this, $attachment ) = @_;
+    return $this->{_session}->{store}
+      ->getAttachmentStream( $this, $attachment );
+}
+
+=begin TML
+
+---++ ObjectMethod expandNewTopic( $text ) -> $text
+Expand only that subset of Foswiki variables that are
+expanded during topic creation. Returns the expanded text.
+Only valid on topics.
+
+=cut
+
+sub expandNewTopic {
+    my ( $this, $text ) = @_;
+    return $this->{_session}->expandMacrosOnTopicCreation( $text, $this );
+}
+
+=begin TML
+
+---++ ObjectMethod expandMacros( $text ) -> $text
+Expand only all Foswiki variables that are
+expanded during topic view. Returns the expanded text.
+Only valid on topics.
+
+=cut
+
+sub expandMacros {
+    my ( $this, $text ) = @_;
+    return $this->{_session}->expandMacros( $text, $this );
+}
+
+=begin TML
+
+---++ ObjectMethod renderTML( $text ) -> $text
+Render all TML constructs in the text into HTML. Returns the rendered text.
+Only valid on topics.
+
+=cut
+
+sub renderTML {
+    my ( $this, $text ) = @_;
+    return $this->{_session}->renderer->getRenderedVersion( $text, $this );
+}
+
+=begin TML
+
+---++ ObjectMethod summariseText( $flags [, $text] ) -> $tml
+
+Makes a plain text summary of the topic text by simply trimming a bit
+off the top. Truncates to $TMTRUNC chars or, if a number is specified
+in $flags, to that length.
+
+If $text is defined, use it in place of the topic text.
+
+=cut
+
+sub summariseText {
+    my ( $this, $flags, $text ) = @_;
+
+    $flags ||= '';
+
+    $text = $this->text() unless defined $text;
+    my $htext = $this->session->renderer->TML2PlainText( $text, $this, $flags );
+    $htext =~ s/\n+/ /g;
+
+    # SMELL: need to avoid splitting within multi-byte characters
+    # by encoding bytes as Perl UTF-8 characters.
+    # This avoids splitting within a Unicode codepoint (or a UTF-16
+    # surrogate pair, which is encoded as a single Perl UTF-8 character),
+    # but we ideally need to avoid splitting closely related Unicode
+    # codepoints.
+    # Specifically, this means Unicode combining character sequences (e.g.
+    # letters and accents)
+    # Might be better to split on \b if possible.
+
+    # limit to n chars
+    my $nchar = $flags;
+    unless ( $nchar =~ s/^.*?([0-9]+).*$/$1/ ) {
+        $nchar = $TMLTRUNC;
+    }
+    $nchar = $MINTRUNC if ( $nchar < $MINTRUNC );
+    $htext =~
+      s/^(.{$nchar}.*?)($Foswiki::regex{mixedAlphaNumRegex}).*$/$1$2 \.\.\./s;
+
+    # We do not want the summary to contain any $variable that formatted
+    # searches can interpret to anything (Item3489).
+    # Especially new lines (Item2496)
+    # To not waste performance we simply replace $ by $<nop>
+    $htext =~ s/\$/\$<nop>/g;
+
+    # Escape Interwiki links and other side effects introduced by
+    # plugins later in the rendering pipeline (Item4748)
+    $htext =~ s/\:/<nop>\:/g;
+    $htext =~ s/\s+/ /g;
+
+    return $this->session->renderer->protectPlainText($htext);
+}
+
+=begin TML
+
+---++ ObjectMethod summariseChanges( $orev, $nrev, $tml) -> $text
+
+Generate a (max 3 line) summary of the differences between the revs.
+
+   * =$orev= - older rev, if not defined will use ($nrev - 1)
+   * =$nrev= - later rev, if not defined defaults to latest
+   * =$tml= - if true will generate renderable TML (i.e. HTML with NOPs.
+     If false will generate a summary suitable for use in plain text
+    (mail, for example)
+
+If there is only one rev, a topic summary will be returned.
+
+If =$tml= is not set, all HTML will be removed.
+
+In non-tml, lines are truncated to 70 characters. Differences are shown using + and - to indicate added and removed text.
+
+=cut
+
+sub summariseChanges {
+    my ( $this, $orev, $nrev, $tml ) = @_;
+    my $summary  = '';
+    my $session  = $this->session();
+    my $renderer = $session->renderer();
+
+    $nrev = $this->getMaxRevNo() unless $nrev;
+
+    $orev = $nrev - 1 unless defined($orev);
+
+    ASSERT( $orev >= 0 && $nrev >= $orev ) if DEBUG;
+
+    $this->reload($nrev);
+
+    my $ntext = '';
+    if ( $this->haveAccess('VIEW') ) {
+
+        # Only get the text if we have access to nrev
+        $ntext = $this->text();
+    }
+
+    return '' if ( $orev == $nrev );    # same rev, no differences
+
+    my $metaPick = qr/^[A-Z](?!OPICINFO)/;    # all except TOPICINFO
+
+    $ntext =
+        $renderer->TML2PlainText( $ntext, $this, 'nonop' ) . "\n"
+      . $this->stringify($metaPick);
+
+    my $oldTopicObject =
+      Foswiki::Meta->new( $session, $this->web, $this->topic );
+    unless ( $oldTopicObject->haveAccess('VIEW') ) {
+
+        # No access to old rev, make a blank topic object
+        $oldTopicObject =
+          Foswiki::Meta->new( $session, $this->web, $this->topic, '' );
+    }
+    my $otext =
+      $renderer->TML2PlainText( $oldTopicObject->text(), $oldTopicObject,
+        'nonop' )
+      . "\n"
+      . $oldTopicObject->stringify($metaPick);
+
+    require Foswiki::Merge;
+    my $blocks = Foswiki::Merge::simpleMerge( $otext, $ntext, qr/[\r\n]+/ );
+
+    # sort through, keeping one line of context either side of a change
+    my @revised;
+    my $getnext  = 0;
+    my $prev     = '';
+    my $ellipsis = $tml ? '&hellip;' : '...';
+    my $trunc    = $tml ? $TMLTRUNC : $PLAINTRUNC;
+    while ( scalar @$blocks && scalar(@revised) < $SUMMARYLINES ) {
+        my $block = shift(@$blocks);
+        next unless $block =~ /\S/;
+        my $trim = length($block) > $trunc;
+        $block =~ s/^(.{$trunc}).*$/$1/ if ($trim);
+        if ( $block =~ m/^[-+]/ ) {
+            if ($tml) {
+                $block =~ s/^-(.*)$/CGI::del( $1 )/se;
+                $block =~ s/^\+(.*)$/CGI::ins( $1 )/se;
+            }
+            elsif ( $session->inContext('rss') ) {
+                $block =~ s/^-/REMOVED: /;
+                $block =~ s/^\+/INSERTED: /;
+            }
+            push( @revised, $prev ) if $prev;
+            $block .= $ellipsis if $trim;
+            push( @revised, $block );
+            $getnext = 1;
+            $prev    = '';
+        }
+        else {
+            if ($getnext) {
+                $block .= $ellipsis if $trim;
+                push( @revised, $block );
+                $getnext = 0;
+                $prev    = '';
+            }
+            else {
+                $prev = $block;
+            }
+        }
+    }
+    if ($tml) {
+        $summary = join( CGI::br(), @revised );
+    }
+    else {
+        $summary = join( "\n", @revised );
+    }
+
+    unless ($summary) {
+        $summary = $this->summariseText( '', $ntext );
+    }
+
+    if ( !$tml ) {
+        $summary = $renderer->protectPlainText($summary);
+    }
+    return $summary;
+}
+
 =begin TML
 
 ---++ ObjectMethod getEmbeddedStoreForm() -> $text
@@ -733,27 +2185,27 @@ sub getEmbeddedStoreForm {
     my $this = shift;
     $this->{_text} ||= '';
 
-    require Foswiki::Store;
+    require Foswiki::Store;    # for encoding
 
-    my $start = $this->_writeTypes(qw/TOPICINFO TOPICPARENT/);
-    my $end   = $this->_writeTypes(qw/FORM FIELD FILEATTACHMENT TOPICMOVED/);
-
-    # append remaining meta data
-    $end .= $this->_writeTypes(
-        qw/not TOPICINFO TOPICPARENT FORM FIELD FILEATTACHMENT TOPICMOVED/);
-    my $text = $start . $this->{_text};
-    $end = "\n" . $end if $end;
-    $text .= $end;
-    return $text;
+    my $text = $this->_writeTypes( 'TOPICINFO', 'TOPICPARENT' );
+    $text .= $this->{_text};
+    my $end =
+      $this->_writeTypes( 'FORM', 'FIELD', 'FILEATTACHMENT', 'TOPICMOVED' )
+      . $this->_writeTypes(
+        'not',   'TOPICINFO',      'TOPICPARENT', 'FORM',
+        'FIELD', 'FILEATTACHMENT', 'TOPICMOVED'
+      );
+    $text .= "\n" if $end;
+    return $text . $end;
 }
 
-# STATIC Write a meta-data key=value pair
+# PRIVATE STATIC Write a meta-data key=value pair
 # The encoding is reversed in _readKeyValues
 sub _writeKeyValue {
     my ( $key, $value ) = @_;
 
     if ( defined($value) ) {
-        $value = Foswiki::Store::dataEncode($value);
+        $value = dataEncode($value);
     }
     else {
         $value = '';
@@ -762,7 +2214,7 @@ sub _writeKeyValue {
     return $key . '="' . $value . '"';
 }
 
-# STATIC: Write all the key=value pairs for the types listed
+# PRIVATE STATIC: Write all the key=value pairs for the types listed
 sub _writeTypes {
     my ( $this, @types ) = @_;
 
@@ -793,9 +2245,6 @@ sub _writeTypes {
                 $sep = ' ';
             }
             foreach my $key ( sort keys %$item ) {
-
-                #don't store the rev created in addTOPICINFO
-                next if ( $type eq 'TOPICINFO' && $key eq 'rev' );
                 if ( $key ne 'name' ) {
                     $text .= $sep;
                     $text .= _writeKeyValue( $key, $item->{$key} );
@@ -809,53 +2258,181 @@ sub _writeTypes {
     return $text;
 }
 
-# Note: not published as part of the interface; private to Foswiki
-# Add TOPICINFO type data to the object, as specified by the parameters.
-#    * =$rev= - the revision number
-#    * =$time= - the time stamp
-#    * =$user= - the user id
-#    * =$repRev= - is the save in progress a repRev
-# SMELL: Duplicate rev control info in the topic
-sub addTOPICINFO {
-    my ( $this, $rev, $time, $user, $repRev, $format ) = @_;
-    $rev = 1 if $rev < 1;
-    my $users = $this->{_session}->{users};
+=begin TML
 
-    my %options = (
+---++ ObjectMethod setEmbeddedStoreForm( $text )
 
-        # compatibility; older versions of the code use
-        # RCS rev numbers save with them so old code can
-        # read these topics
-        version => '1.' . $rev,
-        rev     => $rev,
-        date    => $time,
-        author  => $user,
-        format  => $format,
-    );
+Populate this object with embedded meta-data from $text. This method
+is a utility provided for use with stores that store data embedded in
+topic text. Only valid on topics.
 
-    # if this is a reprev, then store the revision that was affected.
-    # Required so we can tell when a merge is based on something that
-    # is *not* the original rev where another users' edit started.
-    # See Bugs:Item1897.
-    $options{reprev} = '1.' . $rev if $repRev;
+Note: line endings must be normalised to \n *before* calling this method.
 
-    $this->put( 'TOPICINFO', \%options );
+=cut
+
+sub setEmbeddedStoreForm {
+    my ( $this, $text ) = @_;
+
+    my $format = $EMBEDDING_FORMAT_VERSION;
+
+    # head meta-data
+    $text =~ s/^%META:TOPICINFO{(.*)}%\n/
+      $this->put( 'TOPICINFO', _readKeyValues( $1 ));''/gem;
+
+    my $ti = $this->get('TOPICINFO');
+    if ($ti) {
+        $format = $ti->{format} || 0;
+
+        # Make sure we update the topic format for when we save
+        $ti->{format} = $EMBEDDING_FORMAT_VERSION;
+
+        # add the rev derived from version=''
+        if ( $ti->{version} ) {
+            $ti->{version} =~ /\d*\.(\d*)/;
+            $ti->{rev} = $1;
+        }
+        else {
+            $ti->{version} = $ti->{rev} = 0;
+        }
+    }
+
+    # Other meta-data
+    my $endMeta = 0;
+    if ( $format < 1.1 ) {
+        require Foswiki::Compatibility;
+        if (
+            $text =~ s/^%META:([^{]+){(.*)}%\n/
+              Foswiki::Compatibility::readSymmetricallyEncodedMETA(
+                  $this, $1, $2 ); ''/gem
+          )
+        {
+            $endMeta = 1;
+        }
+    }
+    else {
+        if (
+            $text =~ s/^%META:([^{]+){(.*)}%\n/
+              $this->_readMETA($1, $2, $format); ''/gem
+          )
+        {
+            $endMeta = 1;
+        }
+    }
+
+    # eat the extra newline put in to separate text from tail meta-data
+    $text =~ s/\n$//s if $endMeta;
+
+    # If there is no meta data then convert from old format
+    if ( !$this->count('TOPICINFO') ) {
+        if ( $text =~ /<!--FoswikiAttachment-->/ ) {
+            require Foswiki::Compatibility;
+            $text = Foswiki::Compatibility::migrateToFileAttachmentMacro(
+                $this->{_session}, $this, $text );
+        }
+
+        if ( $text =~ /<!--FoswikiCat-->/ ) {
+            require Foswiki::Compatibility;
+            $text =
+              Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
+                $this->{_web}, $this->{_topic}, $this, $text );
+        }
+    }
+    elsif ( $format eq '1.0beta' ) {
+        require Foswiki::Compatibility;
+
+        # This format used live at DrKW for a few months
+        if ( $text =~ /<!--FoswikiCat-->/ ) {
+            $text =
+              Foswiki::Compatibility::upgradeCategoryTable( $this->{_session},
+                $this->{_web}, $this->{_topic}, $this, $text );
+        }
+        Foswiki::Compatibility::upgradeFrom1v0beta( $this->{_session}, $this );
+        if ( $this->count('TOPICMOVED') ) {
+            my $moved = $this->get('TOPICMOVED');
+            $this->put( 'TOPICMOVED', $moved );
+        }
+    }
+
+    if ( $format < 1.1 ) {
+
+        # compatibility; topics version 1.0 and earlier equivalenced tab
+        # with three spaces. Respect that.
+        $text =~ s/\t/   /g;
+    }
+
+    $this->{_text} = $text;
 }
 
-# This method will load (or otherwise fetch) the meta-data for a named
-# web/topic.
-# The request might be satisfied by a read from the store, or it might be
-# satisfied from a cache. The caller doesn't care.
-#
-# This is an object method rather than a static method because it depends on
-# the implementation of Meta - it might be this base class, or it might be a
-# caching subclass, for example.
+sub _readMETA {
+    my ( $this, $type, $args, $format ) = @_;
 
-sub getMetaFor {
-    my ( $this, $web, $topic ) = @_;
+    my $keys = _readKeyValues($args);
+    if ( defined( $keys->{name} ) ) {
 
-    my ( $m, $t ) = $this->session->{store}->readTopic( undef, $web, $topic );
-    return $m;    # $t is already in $m->text()
+        # save it keyed if it has a name
+        $this->putKeyed( $type, $keys );
+    }
+    else {
+        $this->put( $type, $keys );
+    }
+    return 1;
+}
+
+# STATIC Build a hash by parsing name=value comma separated pairs
+# SMELL: duplication of Foswiki::Attrs, using a different
+# system of escapes :-(
+sub _readKeyValues {
+    my ($args) = @_;
+    my %res;
+
+    # Format of data is name='value' name1='value1' [...]
+    $args =~ s/\s*([^=]+)="([^"]*)"/
+      $res{$1} = dataDecode( $2 ), ''/ge;
+
+    return \%res;
+}
+
+=begin TML
+
+---++ StaticMethod dataEncode( $uncoded ) -> $coded
+
+Encode meta-data field values, escaping out selected characters.
+The encoding is chosen to avoid problems with parsing the attribute
+values in embedded meta-data, while minimising the number of
+characters encoded so searches can still work (fairly) sensibly.
+
+The encoding has to be exported because Foswiki (and plugins) use
+encoded field data in other places e.g. RDiff, mainly as a shorthand
+for the properly parsed meta object. Some day we may be able to
+eliminate that....
+
+=cut
+
+sub dataEncode {
+    my $datum = shift;
+
+    $datum =~ s/([%"\r\n{}])/'%'.sprintf('%02x',ord($1))/ge;
+    return $datum;
+}
+
+=begin TML
+
+---++ StaticMethod dataDecode( $encoded ) -> $decoded
+
+Decode escapes in a string that was encoded using dataEncode
+
+The encoding has to be exported because Foswiki (and plugins) use
+encoded field data in other places e.g. RDiff, mainly as a shorthand
+for the properly parsed meta object. Some day we may be able to
+eliminate that....
+
+=cut
+
+sub dataDecode {
+    my $datum = shift;
+
+    $datum =~ s/%([\da-f]{2})/chr(hex($1))/gei;
+    return $datum;
 }
 
 1;
@@ -872,8 +2449,7 @@ Additional copyrights apply to some or all of the code in this
 file as follows:
 
 Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
-and TWiki Contributors. All Rights Reserved. TWiki Contributors
-are listed in the AUTHORS file in the root of this distribution.
+and TWiki Contributors. All Rights Reserved.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

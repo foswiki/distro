@@ -115,7 +115,7 @@ sub new {
     my $template = shift;
     my $this     = $class->SUPER::new();
     $this->{template} = $template;
-    $this->{status} = 500; # default server error
+    $this->{status}   = 500;         # default server error
     ASSERT( scalar(@_) % 2 == 0, join( ";", map { $_ || 'undef' } @_ ) )
       if DEBUG;
     while ( my $key = shift @_ ) {
@@ -153,8 +153,9 @@ sub stringify {
         $session->templates->readTemplate( 'oops' . $this->{template},
             $session->getSkin() );
         my $message = $session->templates->expandTemplate( $this->{def} );
-        $message =
-          $session->handleCommonTags( $message, $this->{web}, $this->{topic} );
+        my $topicObject =
+          Foswiki::Meta->new( $session, $this->{web}, $this->{topic} );
+        $message = $topicObject->expandMacros($message);
         my $n = 1;
         foreach my $param ( @{ $this->{params} } ) {
             $message =~ s/%PARAM$n%/$param/g;
@@ -203,17 +204,17 @@ can be overridden using the 'status => ' parameter to the constructor.
 =cut
 
 sub generate {
-    my ($this, $session ) = @_;
+    my ( $this, $session ) = @_;
 
-    my @p = $this->_prepareResponse( $session );
+    my @p = $this->_prepareResponse($session);
     $session->{response}->status( $this->{status} );
     require Foswiki::UI::Oops;
-    Foswiki::UI::Oops::oops($session, $this->{web}, $this->{topic},
-                            $session->{request}, 0);
+    Foswiki::UI::Oops::oops( $session, $this->{web}, $this->{topic},
+        $session->{request}, 0 );
 }
 
 sub _prepareResponse {
-    my ($this, $session ) = @_;
+    my ( $this, $session ) = @_;
     my @p = ();
 
     $this->{template} = "oops$this->{template}"

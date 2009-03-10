@@ -33,13 +33,13 @@ use base 'Foswiki::Plugins::WysiwygPlugin::HTML2TML::Base';
 use strict;
 
 sub new {
-    my( $class, $text ) = @_;
+    my ( $class, $text ) = @_;
 
     my $this = {};
 
-    $this->{tag} = '';
+    $this->{tag}      = '';
     $this->{nodeType} = 3;
-    $this->{text} = $text;
+    $this->{text}     = $text;
     return bless( $this, $class );
 }
 
@@ -47,30 +47,32 @@ sub new {
 # Do *not* add lt or gt, as you will turn > and < in plain text into HTML
 # tags!
 my %text_entities = (
-    quot => 34, amp => 38,
-   );
-my $text_entities_re = join('|', keys %text_entities);
+    quot => 34,
+    amp  => 38,
+);
+my $text_entities_re = join( '|', keys %text_entities );
 
 sub generate {
-    my( $this, $options ) = @_;
+    my ( $this, $options ) = @_;
     my $t = $this->{text};
 
-    if (!($options & $WC::KEEP_WS)) {
+    if ( !( $options & $WC::KEEP_WS ) ) {
         $t =~ s/\t/   /g;
         $t =~ s/\n/$WC::CHECKw/g;
         $t =~ s/  +/ /g;
     }
-    if( $options & $WC::NOP_ALL ) {
+    if ( $options & $WC::NOP_ALL ) {
+
         # escape all embedded wikiwords
         $t =~ s/$WC::STARTWW($Foswiki::regex{wikiWordRegex})/<nop>$1/go;
         $t =~ s/$WC::STARTWW($Foswiki::regex{abbrevRegex})/<nop>$1/go;
         $t =~ s/\[/<nop>[/g;
     }
-    unless ($options & $WC::KEEP_ENTITIES) {
+    unless ( $options & $WC::KEEP_ENTITIES ) {
         $t =~ s/&($text_entities_re);/chr($text_entities{$1})/ego;
         $t =~ s/&nbsp;/$WC::NBSP/g;
     }
-    return (0, $t);
+    return ( 0, $t );
 }
 
 sub stringify {

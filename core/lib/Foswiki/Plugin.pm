@@ -89,13 +89,15 @@ use vars qw( @registrableHandlers %deprecated );
 
 sub new {
     my ( $class, $session, $name, $module ) = @_;
-    ASSERT(UNTAINTED($name)) if DEBUG;
+    ASSERT( UNTAINTED($name) ) if DEBUG;
     my $this = bless(
         {
             session => $session,
-            name    => $name   || '',
-            module  => $module, # if undef, use discovery
-        }, $class );
+            name    => $name || '',
+            module  => $module,       # if undef, use discovery
+        },
+        $class
+    );
 
     return $this;
 }
@@ -127,31 +129,38 @@ sub finish {
 # handlers. Return the user resulting from the user handler call.
 sub load {
     my ($this) = @_;
-    my $p = $Foswiki::cfg{Plugins}{$this->{name}}{Module};
+    my $p = $Foswiki::cfg{Plugins}{ $this->{name} }{Module};
 
-    if (defined $p) {
+    if ( defined $p ) {
         eval "use $p";
         if ($@) {
-            push(@{ $this->{errors} },
-                 "$p could not be loaded.  Errors were:\n$@\n----");
+            push(
+                @{ $this->{errors} },
+                "$p could not be loaded.  Errors were:\n$@\n----"
+            );
             $this->{disabled} = 1;
             return undef;
-        } else {
+        }
+        else {
             $this->{module} = $p;
         }
-    } else {
-        push(@{ $this->{errors} },
-             "$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} is not defined - re-run configure\n---");
+    }
+    else {
+        push(
+            @{ $this->{errors} },
+"$this->{name} could not be loaded. No \$Foswiki::cfg{Plugins}{$this->{name}}{Module} is not defined - re-run configure\n---"
+        );
         $this->{disabled} = 1;
         return undef;
     }
 
     my $noTopic = eval '$' . $p . '::NO_PREFS_IN_TOPIC';
     $this->{no_topic} = $noTopic;
-    $this->{topicWeb} = undef; # not known yet
+    $this->{topicWeb} = undef;      # not known yet
 
     unless ($noTopic) {
-        if (!$this->topicWeb()) {
+        if ( !$this->topicWeb() ) {
+
             # not found
             push(
                 @{ $this->{errors} },
@@ -213,8 +222,7 @@ sub registerSettings {
     }
     my $prefs = $this->{session}->{prefs};
     if ( !$this->{no_topic} ) {
-        $prefs->pushPreferences( $this->{topicWeb}, $this->{name}, 'PLUGIN',
-            uc( $this->{name} ) . '_' );
+        $prefs->setPluginPreferences( $this->topicWeb(), $this->{name} );
     }
 }
 
@@ -232,7 +240,7 @@ sub registerHandlers {
         $Foswiki::Plugins::SESSION->{topicName},
         $Foswiki::Plugins::SESSION->{webName},
         $users->getLoginName( $Foswiki::Plugins::SESSION->{user} ),
-        $this->{topicWeb}
+        $this->topicWeb()
     );
     use strict 'refs';
 
@@ -301,7 +309,7 @@ sub getDescription {
     unless ( defined $this->{description} ) {
         my $pref  = uc( $this->{name} ) . '_SHORTDESCRIPTION';
         my $prefs = $this->{session}->{prefs};
-        $this->{description} = $prefs->getPreferencesValue($pref) || '';
+        $this->{description} = $prefs->getPreference($pref) || '';
     }
     if ( $this->{disabled} ) {
         return ' !' . $this->{name} . ': (disabled)';
@@ -313,9 +321,8 @@ sub getDescription {
     $version = $release . ', ' . $version if $release;
 
     my $web = $this->topicWeb();
-    my $result = ' ' . ($web ? "$web." : '!') . $this->{name} . ' ';
-    $result .=
-      CGI::span( { class => 'foswikiGrayText foswikiSmall' },
+    my $result = ' ' . ( $web ? "$web." : '!' ) . $this->{name} . ' ';
+    $result .= CGI::span( { class => 'foswikiGrayText foswikiSmall' },
         '(' . $version . ')' );
     $result .= ': ' . $this->{description};
     return $result;
@@ -333,18 +340,21 @@ Find the web that has the topic for this plugin by searching the
 sub topicWeb {
     my $this = shift;
 
-    unless ( $this->{topicWeb}) {
-        # Find the plugin topic, if required
-        my $store = $this->{session}->{store};
+    unless ( $this->{topicWeb} ) {
 
-        foreach my $web (split(/[, ]+/,
-                               $Foswiki::cfg{Plugins}{WebSearchPath}),
-                         $this->{session}->{webName}) {
-            if ( $store->topicExists( $web, $this->{name} ) ) {
+        # Find the plugin topic, if required
+        my $session = $this->{session};
+
+        foreach
+          my $web ( split( /[, ]+/, $Foswiki::cfg{Plugins}{WebSearchPath} ),
+            $session->{webName} )
+        {
+            if ( $session->topicExists( $web, $this->{name} ) ) {
                 $this->{topicWeb} = $web;
                 last;
             }
         }
+        ASSERT( $this->{topicWeb} ) if DEBUG;
     }
     return $this->{topicWeb};
 }

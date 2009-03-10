@@ -19,14 +19,22 @@ sub preview {
     my $topic = $session->{topicName};
     my $user  = $session->{user};
 
-    my ( $meta, $text, $saveOpts, $merged ) =
-      Foswiki::UI::Save::buildNewTopic( $session, 'preview' );
+    # SMELL: it's probably not good to do this here, because a preview may
+    # give enough time for a new topic with the same name to be created.
+    # It would be better to do it only on an actual save.
+
+    $topic = Foswiki::UI::Save::expandAUTOINC( $session, $web, $topic );
+
+    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+
+    my ( $saveOpts, $merged ) =
+      Foswiki::UI::Save::buildNewTopic( $session, $topicObject, 'preview' );
 
     # Note: param(formtemplate) has already been decoded by buildNewTopic
     # so the $meta entry reflects if it was used.
     # get form fields to pass on
     my $formFields = '';
-    my $form = $meta->get('FORM') || '';
+    my $form = $topicObject->get('FORM') || '';
     my $formName;
     if ($form) {
         $formName = $form->{name};    # used later on as well
@@ -41,20 +49,20 @@ sub preview {
                 params => [ $web, $formName ]
             );
         }
-        $formFields = $formDef->renderHidden( $meta, 0 );
+        $formFields = $formDef->renderHidden( $topicObject, 0 );
     }
 
+    my $text = $topicObject->text();
     $session->{plugins}->dispatch( 'afterEditHandler', $text, $topic, $web );
 
-    my $skin     = $session->getSkin();
-    my $template = $session->{prefs}->getPreferencesValue('VIEW_TEMPLATE')
+    my $template = $session->{prefs}->getPreference('VIEW_TEMPLATE')
       || 'preview';
-    my $tmpl = $session->templates->readTemplate( $template, $skin );
+    my $tmpl = $session->templates->readTemplate($template);
 
     # if a VIEW_TEMPLATE is set, but does not exist or is not readable,
     # revert to 'preview' template (same code as View.pm)
     if ( !$tmpl && $template ne 'preview' ) {
-        $tmpl = $session->templates->readTemplate( 'preview', $skin );
+        $tmpl = $session->templates->readTemplate('preview');
     }
 
     my $content = '';
@@ -68,12 +76,12 @@ sub preview {
 
         # put the text we have inside this template's content
         $content =~ s/%TEXT%/$text/go;
-        
+
         # now we are ready to put the expanded and styled topic content in the
         # 'normal' preview template
     }
 
-    $tmpl = $session->templates->readTemplate( 'preview', $skin );
+    $tmpl = $session->templates->readTemplate('preview');
 
     if ( $saveOpts->{minor} ) {
         $tmpl =~ s/%DONTNOTIFYCHECKBOX%/checked="checked"/go;
@@ -96,18 +104,14 @@ sub preview {
     $formName ||= '';
     $tmpl =~ s/%FORMTEMPLATE%/$formName/g;
 
-    my $parent = $meta->get('TOPICPARENT');
+    my $parent = $topicObject->get('TOPICPARENT');
     $parent = $parent->{name} if ($parent);
     $parent ||= '';
     $tmpl =~ s/%TOPICPARENT%/$parent/g;
 
-    $session->enterContext( 'can_render_meta', $meta );
-
     my $displayText = $content;
-    $displayText =
-      $session->handleCommonTags( $displayText, $web, $topic, $meta );
-    $displayText =
-      $session->renderer->getRenderedVersion( $displayText, $web, $topic );
+    $displayText = $topicObject->expandMacros($displayText);
+    $displayText = $topicObject->renderTML($displayText);
 
     # Disable links and inputs in the text
     $displayText =~
@@ -122,8 +126,8 @@ sub preview {
     # note: preventing linkage in rendered form can only happen in templates
     # see formtables.tmpl
 
-    $tmpl = $session->handleCommonTags( $tmpl, $web, $topic, $meta );
-    $tmpl = $session->renderer->getRenderedVersion( $tmpl, $web, $topic );
+    $tmpl = $topicObject->expandMacros($tmpl);
+    $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/%TEXT%/$displayText/go;
 
     # write the hidden form fields

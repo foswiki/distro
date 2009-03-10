@@ -48,16 +48,12 @@ sub getOptions {
         my $session = $this->{session};
         my ( $fieldWeb, $fieldTopic ) =
           $session->normalizeWebTopicName( $this->{web}, $topic );
-        my $store = $session->{store};
-        if ( $store->topicExists( $fieldWeb, $fieldTopic ) ) {
-            my ( $meta, $text ) =
-              $store->readTopic( $session->{user}, $fieldWeb, $fieldTopic,
-                undef );
+        if ( $session->topicExists( $fieldWeb, $fieldTopic ) ) {
+            my $meta = Foswiki::Meta->load( $session, $fieldWeb, $fieldTopic );
+            next unless $meta->haveAccess('VIEW');
 
             # Process SEARCHES for Lists
-            $text =
-              $this->{session}
-              ->handleCommonTags( $text, $this->{web}, $topic, $meta );
+            my $text = $meta->expandMacros( $meta->text() );
 
             # SMELL: yet another table parser
             my $inBlock = 0;
@@ -84,7 +80,7 @@ sub getOptions {
 1;
 __DATA__
 
-Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
+Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 
 # Copyright (C) 2008-2009 Foswiki Contributors. All Rights Reserved.
 # Foswiki Contributors are listed in the AUTHORS file in the root

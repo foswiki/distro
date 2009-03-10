@@ -10,7 +10,7 @@ use base 'Foswiki::Form';
 
 # need to check whether we were invoked from a plugin
 # or from somewhere else
-unless( $Foswiki::Plugins::SESSION ) {
+unless ($Foswiki::Plugins::SESSION) {
     my $fatwilly = new TWiki;
 }
 

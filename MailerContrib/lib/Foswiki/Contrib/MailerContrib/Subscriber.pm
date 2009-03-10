@@ -66,8 +66,8 @@ subscription
 sub getEmailAddresses {
     my $this = shift;
 
-    unless ( defined( $this->{emails} )) {
-        $this->{emails} = getEmailAddressesForUser( $this->{name});
+    unless ( defined( $this->{emails} ) ) {
+        $this->{emails} = getEmailAddressesForUser( $this->{name} );
     }
     return $this->{emails};
 }
@@ -81,34 +81,41 @@ subscription. Static method provided for use by other modules.
 =cut
 
 sub getEmailAddressesForUser {
-    my $name = shift;
+    my $name   = shift;
     my $emails = [];
 
     return $emails unless $name;
 
     if ( $name =~ /^$Foswiki::cfg{MailerContrib}{EmailFilterIn}$/ ) {
         push( @{$emails}, $name );
-    } else {
+    }
+    else {
         my $users = $Foswiki::Plugins::SESSION->{users};
-        if ($users->can('findUserByWikiName')) {
+        if ( $users->can('findUserByWikiName') ) {
+
             # User is represented by a wikiname. Map to a canonical
             # userid.
             my $list = $users->findUserByWikiName($name);
             foreach my $user (@$list) {
+
                 # Automatically expands groups
                 push( @{$emails}, $users->getEmails($user) );
             }
-        } else {
+        }
+        else {
+
             # Old code; use the user object
             my $user = $users->findUser( $name, undef, 1 );
-            if( $user ) {
+            if ($user) {
                 push( @{$emails}, $user->emails() );
-            } else {
-                $user = $users->findUser(
-                    $name, $name, 1 );
-                if( $user ) {
+            }
+            else {
+                $user = $users->findUser( $name, $name, 1 );
+                if ($user) {
                     push( @{$emails}, $user->emails() );
-                } else {
+                }
+                else {
+
                     # unknown - can't find an email
                     $emails = [];
                 }
@@ -122,41 +129,43 @@ sub getEmailAddressesForUser {
 # the fewest subscriptions are kept that are needed to cover all
 # topics.
 sub _addAndOptimise {
-    my( $this, $set, $new ) = @_;
+    my ( $this, $set, $new ) = @_;
 
     # Don't add already covered duplicates
     my $i = 0;
     my @remove;
-    foreach my $known (@{$this->{$set}}) {
+    foreach my $known ( @{ $this->{$set} } ) {
         return if $known->covers($new);
-        if( $new->covers( $known )) {
+        if ( $new->covers($known) ) {
+
             # remove anything covered by the new subscription
-            unshift(@remove, $i);
+            unshift( @remove, $i );
         }
         $i++;
     }
     foreach $i (@remove) {
-        splice(@{$this->{$set}}, $i, 1);
+        splice( @{ $this->{$set} }, $i, 1 );
     }
-    push( @{$this->{$set}}, $new );
+    push( @{ $this->{$set} }, $new );
 }
 
 # Subtract a subscription from an internal list. Do the best job
 # you can in the face of wildcards.
 sub _subtract {
-    my( $this, $set, $new ) = @_;
+    my ( $this, $set, $new ) = @_;
 
     my $i = 0;
     my @remove;
-    foreach my $known (@{$this->{$set}}) {
-        if( $new->covers( $known )) {
+    foreach my $known ( @{ $this->{$set} } ) {
+        if ( $new->covers($known) ) {
+
             # remove anything covered by the new subscription
-            unshift(@remove, $i);
+            unshift( @remove, $i );
         }
         $i++;
     }
     foreach $i (@remove) {
-        splice(@{$this->{$set}}, $i, 1);
+        splice( @{ $this->{$set} }, $i, 1 );
     }
 }
 
@@ -192,16 +201,18 @@ sub unsubscribe {
     my ( $this, $subs ) = @_;
 
     $this->_addAndOptimise( 'unsubscriptions', $subs );
-    if ($subs->matches('*')) {
+    if ( $subs->matches('*') ) {
+
         # -* makes no sense and causes evaluation problems.
         $this->_subtract( 'unsubscriptions', $subs );
     }
     $this->_subtract( 'subscriptions', $subs );
-    #TODO: should look at removing redundant exclusions ie a - SubScribe (2) when there is no positive subscription
-    
+
+#TODO: should look at removing redundant exclusions ie a - SubScribe (2) when there is no positive subscription
+
     #if there are no subscriptions, there is no point luging around the unsubs
-    if (scalar(@{$this->{'subscriptions'}}) == 0) {
-        undef @{$this->{'unsubscriptions'}};
+    if ( scalar( @{ $this->{'subscriptions'} } ) == 0 ) {
+        undef @{ $this->{'unsubscriptions'} };
     }
 }
 
@@ -216,15 +227,15 @@ that matches if we do, undef otherwise.
 =cut
 
 sub isSubscribedTo {
-   my ( $this, $topic, $db ) = @_;
+    my ( $this, $topic, $db ) = @_;
 
-   foreach my $subscription ( @{$this->{subscriptions}} ) {
-       if ( $subscription->matches( $topic, $db )) {
-           return $subscription;
-       }
-   }
+    foreach my $subscription ( @{ $this->{subscriptions} } ) {
+        if ( $subscription->matches( $topic, $db ) ) {
+            return $subscription;
+        }
+    }
 
-   return undef;
+    return undef;
 }
 
 =pod
@@ -237,15 +248,15 @@ Check if we have an unsubscription from the given topic. Return the subscription
 =cut
 
 sub isUnsubscribedFrom {
-   my ( $this, $topic, $db ) = @_;
+    my ( $this, $topic, $db ) = @_;
 
-   foreach my $subscription ( @{$this->{unsubscriptions}} ) {
-       if ( $subscription->matches( $topic, $db )) {
-           return $subscription;
-       }
-   }
+    foreach my $subscription ( @{ $this->{unsubscriptions} } ) {
+        if ( $subscription->matches( $topic, $db ) ) {
+            return $subscription;
+        }
+    }
 
-   return undef;
+    return undef;
 }
 
 =pod
@@ -257,22 +268,20 @@ Return a string representation of this object, in Web<nop>Notify format.
 
 sub stringify {
     my $this = shift;
-    my $subs = join( ' ',
-                     map { $_->stringify(); }
-                     @{$this->{subscriptions}} );
-    my $unsubs = join( " - ",
-                       map { $_->stringify(); }
-                       @{$this->{unsubscriptions}} );
+    my $subs =
+      join( ' ', map { $_->stringify(); } @{ $this->{subscriptions} } );
+    my $unsubs =
+      join( " - ", map { $_->stringify(); } @{ $this->{unsubscriptions} } );
     $unsubs = " - $unsubs" if $unsubs;
 
     my $name = $this->{name};
-    if ($name =~ /^$Foswiki::regex{wikiWordRegex}$/) {
-        $name = '%USERSWEB%.'.$name;
-    } elsif ($name !~ /^$Foswiki::cfg{MailerContrib}{EmailFilterIn}$/) {
-        $name = $name =~ /'/ ? '"'.$name.'"' : "'$name'";
+    if ( $name =~ /^$Foswiki::regex{wikiWordRegex}$/ ) {
+        $name = '%USERSWEB%.' . $name;
     }
-    return "   * " . $name . ": " .
-      $subs . $unsubs;
+    elsif ( $name !~ /^$Foswiki::cfg{MailerContrib}{EmailFilterIn}$/ ) {
+        $name = $name =~ /'/ ? '"' . $name . '"' : "'$name'";
+    }
+    return "   * " . $name . ": " . $subs . $unsubs;
 }
 
 1;

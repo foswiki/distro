@@ -20,7 +20,7 @@ use Foswiki;
 sub INCLUDE {
     my ( $ignore, $session, $control, $params ) = @_;
     my $class = $control->{_DEFAULT};
-    $class =~ s/[a-z]+://; # remove protocol
+    $class =~ s/[a-z]+://;    # remove protocol
     return '' unless $class && $class =~ /^Foswiki/;
     $class =~ s/[^\w:]//g;
 
@@ -34,11 +34,12 @@ sub INCLUDE {
     }
     return '' unless $pmfile;
 
-    open( PMFILE, '<', $pmfile ) || return '';
+    my $PMFILE;
+    open( $PMFILE, '<', $pmfile ) || return '';
     my $inPod = 0;
-    my $pod = '';
+    my $pod   = '';
     local $/ = "\n";
-    while ( my $line = <PMFILE> ) {
+    while ( my $line = <$PMFILE> ) {
         if ( $line =~ /^=(begin (twiki|TML|html)|pod)/ ) {
             $inPod = 1;
         }
@@ -49,13 +50,13 @@ sub INCLUDE {
             $pod .= $line;
         }
     }
-    close(PMFILE);
+    close($PMFILE);
 
     $pod =~ s/.*?%STARTINCLUDE%//s;
     $pod =~ s/%STOPINCLUDE%.*//s;
 
-    $pod = Foswiki::applyPatternToIncludedText(
-        $pod, $control->{pattern} ) if ($control->{pattern});
+    $pod = Foswiki::applyPatternToIncludedText( $pod, $control->{pattern} )
+      if ( $control->{pattern} );
 
     # Adjust the root heading level
     if ( $params->{level} ) {
@@ -65,7 +66,7 @@ sub INCLUDE {
         return $pod if length($minhead) == 100;
         my $newroot = '+' x $params->{level};
         $minhead =~ s/\+/\\+/g;
-        $pod =~ s/^---$minhead/---$newroot/gm;
+        $pod     =~ s/^---$minhead/---$newroot/gm;
     }
     return $pod;
 }

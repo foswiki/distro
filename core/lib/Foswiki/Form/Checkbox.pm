@@ -22,7 +22,7 @@ sub getDefaultValue { undef }
 sub isMultiValued { 1 }
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     my $session = $this->{session};
     my $extra   = '';
@@ -50,7 +50,7 @@ sub renderForEdit {
         # NOTE: Does not expand $item in label
         $attrs{$item} = {
             class => $this->cssClasses('foswikiCheckbox'),
-            label => $session->handleCommonTags( $item, $web, $topic ),
+            label => $topicObject->expandMacros($item),
         };
 
         if ( $isSelected{$item} ) {

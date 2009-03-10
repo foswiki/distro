@@ -5,6 +5,8 @@
 package Foswiki::I18N::Fallback;
 use base 'Foswiki::I18N';
 
+use strict;
+
 sub new {
     my $class = shift;
     my $this = bless( {}, $class );
@@ -43,9 +45,11 @@ sub _handlePlurals {
     # bad hack, but Locale::Maketext does it the same way ;)
     return
       $number . ' '
-      . ( ( $number == 1 )
+      . (
+        ( $number == 1 )
         ? $singular
-        : ( $plural ? ($plural) : ( $singular . 's' ) ) );
+        : ( $plural ? ($plural) : ( $singular . 's' ) )
+      );
 }
 
 sub language {

@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+ package Foswiki::UI::Oops
@@ -54,9 +55,8 @@ the =$query= are added as hiddens into the expanded template.
 sub oops {
     my ( $session, $web, $topic, $query, $keep ) = @_;
 
-    # Foswikitask:Item885: web and topic are required to have values for
-    # handleCommonTags.
-    $web ||= $session->{webName};
+    # Foswikitask:Item885: web and topic are required to have values
+    $web   ||= $session->{webName};
     $topic ||= $session->{topicName};
 
     my $tmplName;
@@ -117,8 +117,9 @@ sub oops {
             my $blah = $session->templates->expandTemplate($def);
             $tmplData =~ s/%INSTANTIATE%/$blah/;
         }
-        $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
-        $n = 1;
+        my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+        $tmplData = $topicObject->expandMacros($tmplData);
+        $n        = 1;
         foreach my $param (@params) {
 
             # Entity-encode, to block any potential HTML payload
@@ -126,11 +127,11 @@ sub oops {
             $tmplData =~ s/%PARAM$n%/$param/g;
             $n++;
         }
+
         # Suppress missing params
         $tmplData =~ s/%PARAM\d+%//g;
-        $tmplData = $session->handleCommonTags( $tmplData, $web, $topic );
-        $tmplData =
-          $session->renderer->getRenderedVersion( $tmplData, $web, $topic );
+        $tmplData = $topicObject->expandMacros($tmplData);
+        $tmplData = $topicObject->renderTML($tmplData);
     }
 
     $session->writeCompletePage($tmplData);

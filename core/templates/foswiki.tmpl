@@ -110,3 +110,7 @@
 %{ title string in page: }%
 %TMPL:DEF{"pagetitle"}%%TMPL:P{"webaction"}%%TMPL:END%
 %TMPL:DEF{"pagetitlestylewrapper"}%<h1>%TMPL:P{"pagetitle"}%</h1>%TMPL:END%%TMPL:P{"htmldoctype"}%%TMPL:P{"head"}%%TMPL:P{"bodystart"}%%TMPL:P{"main"}%%TMPL:P{"bodyend"}%
+
+%{ formatting macros }%
+%{ webListIndent - used in WEBLIST }%
+%TMPL:DEF{"webListIndent"}%<span class='foswikiWebIndent'></span>%TMPL:END%

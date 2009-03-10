@@ -107,9 +107,8 @@ sub isMandatory { return shift->{attributes} =~ /M/ }
 
 =begin TML
 
----++ renderForEdit( $web, $topic, $value ) -> ($col0html, $col1html)
-   =$web= - the web containing the topic being edited
-   =$topic= - the topic being edited
+---++ renderForEdit( $topicObject, $value ) -> ($col0html, $col1html)
+   =$topicObject= - the topic being edited
 Render the field for editing. Returns two chunks of HTML; the
 =$col0html= is appended to the HTML for the first column in the
 form table, and the =$col1html= is used as the content of the second column.
@@ -117,7 +116,7 @@ form table, and the =$col1html= is used as the content of the second column.
 =cut
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     # Treat like text, make it reasonably long, add a warning
     return (
@@ -347,6 +346,17 @@ sub renderForDisplay {
     $format =~ s/\$definingTopic/$definingTopic/g;
 
     return $format;
+}
+
+# Debug
+sub stringify {
+    my $this = shift;
+    my $s    = '| '
+      . $this->{name} . ' | '
+      . $this->{type} . ' | '
+      . $this->{size} . ' | '
+      . $this->{attributes} . " |\n";
+    return $s;
 }
 
 1;

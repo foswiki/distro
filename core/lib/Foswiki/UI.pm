@@ -1,4 +1,5 @@
 # See bottom of file for license and copyright information
+
 =begin TML
 
 ---+!! package Foswiki::UI
@@ -13,7 +14,7 @@ use strict;
 BEGIN {
     $Foswiki::cfg{SwitchBoard} ||= {};
     $Foswiki::cfg{SwitchBoard}{attach} =
-      [ 'Foswiki::UI::Upload', 'attach', { attach => 1 } ];
+      [ 'Foswiki::UI::Attach', 'attach', { attach => 1 } ];
     $Foswiki::cfg{SwitchBoard}{changes} =
       [ 'Foswiki::UI::Changes', 'changes', { changes => 1 } ];
     $Foswiki::cfg{SwitchBoard}{edit} =
@@ -35,9 +36,9 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{register} =
       [ 'Foswiki::UI::Register', 'register_cgi', { register => 1 } ];
     $Foswiki::cfg{SwitchBoard}{rename} =
-      [ 'Foswiki::UI::Manage', 'rename', { rename => 1 } ];
+      [ 'Foswiki::UI::Rename', 'rename', { rename => 1 } ];
     $Foswiki::cfg{SwitchBoard}{resetpasswd} =
-      [ 'Foswiki::UI::Register', 'resetPassword', { resetpasswd => 1 } ];
+      [ 'Foswiki::UI::Passwords', 'resetPassword', { resetpasswd => 1 } ];
     $Foswiki::cfg{SwitchBoard}{rest} =
       [ 'Foswiki::UI::Rest', 'rest', { rest => 1 } ];
     $Foswiki::cfg{SwitchBoard}{save} =
@@ -51,7 +52,7 @@ BEGIN {
     $Foswiki::cfg{SwitchBoard}{viewauth} =
       [ 'Foswiki::UI::View', 'view', { view => 1 } ];
     $Foswiki::cfg{SwitchBoard}{viewfile} =
-      [ 'Foswiki::UI::View', 'viewfile', { viewfile => 1 } ];
+      [ 'Foswiki::UI::Viewfile', 'viewfile', { viewfile => 1 } ];
     $Foswiki::cfg{SwitchBoard}{view} =
       [ 'Foswiki::UI::View', 'view', { view => 1 } ];
 }
@@ -143,16 +144,17 @@ sub execute {
         # Read cached post parameters
         my $passthruFilename =
           $Foswiki::cfg{WorkingDir} . '/tmp/passthru_' . $cache;
-        if ( open( F, '<', $passthruFilename ) ) {
+        my $F;
+        if ( open( $F, '<', $passthruFilename ) ) {
             local $/;
             if (TRACE_PASSTHRU) {
                 print STDERR "Passthru: Loading cache for ", $req->url(),
                   '?', $req->query_string(), "\n";
                 print STDERR <F>, "\n";
-                close(F);
-                open( F, '<' . $passthruFilename );
+                close($F);
+                open( $F, '<' . $passthruFilename );
             }
-            $req->load( \*F );
+            $req->load($F);
             close(F);
             unlink($passthruFilename);
             $req->delete('foswiki_redirect_cache');
@@ -188,7 +190,8 @@ sub execute {
                 # Login manager did not want to authenticate, perhaps because
                 # we are already authenticated.
                 my $exception = new Foswiki::OopsException(
-                    'accessdenied', status => 403,
+                    'accessdenied',
+                    status => 403,
                     web    => $e->{web},
                     topic  => $e->{topic},
                     def    => 'topic_access',
@@ -213,7 +216,7 @@ sub execute {
             else {
                 my $mess = $e->stringify();
                 print STDERR $mess;
-                $session->logger->log('warning',$mess);
+                $session->logger->log( 'warning', $mess );
 
                 # tell the browser where to look for more help
                 my $text =
@@ -269,7 +272,7 @@ sub logon {
 
 =begin TML
 
----++ StaticMethod checkWebExists( $session, $web, $topic, $op )
+---++ StaticMethod checkWebExists( $session, $web, $op )
 
 Check if the web exists. If it doesn't, will throw an oops exception.
  $op is the user operation being performed.
@@ -277,15 +280,16 @@ Check if the web exists. If it doesn't, will throw an oops exception.
 =cut
 
 sub checkWebExists {
-    my ( $session, $webName, $topic, $op ) = @_;
+    my ( $session, $webName, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    unless ( $session->{store}->webExists($webName) ) {
+    unless ( $session->webExists($webName) ) {
         throw Foswiki::OopsException(
-            'accessdenied', status => 403,
+            'accessdenied',
+            status => 403,
             def    => 'no_such_web',
             web    => $webName,
-            topic  => $topic,
+            topic  => $Foswiki::cfg{WebPrefsTopicName},
             params => [$op]
         );
     }
@@ -301,14 +305,15 @@ if it doesn't. $op is the user operation being performed.
 =cut
 
 sub checkTopicExists {
-    my ( $session, $webName, $topic, $op ) = @_;
+    my ( $session, $web, $topic, $op ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    unless ( $session->{store}->topicExists( $webName, $topic ) ) {
+    unless ( $session->topicExists( $web, $topic ) ) {
         throw Foswiki::OopsException(
-            'accessdenied', status => 403,
+            'accessdenied',
+            status => 403,
             def    => 'no_such_topic',
-            web    => $webName,
+            web    => $web,
             topic  => $topic,
             params => [$op]
         );
@@ -317,7 +322,7 @@ sub checkTopicExists {
 
 =pod TML
 
----++ StaticMethod checkAccess( $web, $topic, $mode, $user )
+---++ StaticMethod checkAccess( $session, $mode, $topicObject )
 
 Check if the given mode of access by the given user to the given
 web.topic is permissible, throwing a Foswiki::OopsException if not.
@@ -325,47 +330,19 @@ web.topic is permissible, throwing a Foswiki::OopsException if not.
 =cut
 
 sub checkAccess {
-    my ( $session, $web, $topic, $mode, $user ) = @_;
+    my ( $session, $mode, $topicObject ) = @_;
     ASSERT( $session->isa('Foswiki') ) if DEBUG;
 
-    unless (
-        $session->security->checkAccessPermission(
-            $mode, $user, undef, undef, $topic, $web
-        )
-      )
-    {
+    unless ( $topicObject->haveAccess($mode) ) {
         throw Foswiki::OopsException(
-            'accessdenied', status => 403,
+            'accessdenied',
+            status => 403,
             def    => 'topic_access',
-            web    => $web,
-            topic  => $topic,
-            params => [ $mode, $session->security->getReason() ]
+            web    => $topicObject->web,
+            topic  => $topicObject->topic,
+            params => [ $mode, $Foswiki::Meta::reason ]
         );
     }
-}
-
-=begin TML
-
----++ StaticMethod readTemplateTopic( $session, $theTopicName ) -> ( $meta, $text )
-
-Read a topic from the Foswiki web, or if that fails from the current
-web.
-
-=cut
-
-sub readTemplateTopic {
-    my ( $session, $theTopicName ) = @_;
-    ASSERT( $session->isa('Foswiki') ) if DEBUG;
-
-    my $web = $Foswiki::cfg{SystemWebName};
-    if ( $session->{store}->topicExists( $session->{webName}, $theTopicName ) )
-    {
-
-        # try to read from current web, if found
-        $web = $session->{webName};
-    }
-    return $session->{store}
-      ->readTopic( $session->{user}, $web, $theTopicName, undef );
 }
 
 =begin TML
@@ -385,7 +362,7 @@ $Foswiki::cfg{SwitchBoard}{publish} = [ "Foswiki::Contrib::Publish", "publish", 
 
 sub run {
     my ( $method, %context ) = @_;
-    
+
     if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
         $context{command_line} = 1;
     }

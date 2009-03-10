@@ -40,6 +40,7 @@ sub parse {
     $text =~ s/\r\n/\n/gs;
     $text =~ s/\r/\n/gs;
     $text =~ s/^(.*?)\n\n//s;
+
     # untaint is OK, checked below
     my $httpHeader = $1;
     $this->{content} = $text;
@@ -50,9 +51,10 @@ sub parse {
     $httpHeader = "\n$httpHeader\n";
     foreach my $header ( split( /\n(?=![ \t])/, $httpHeader ) ) {
         if ( $header =~ /^(.*?): (.*)$/s ) {
+
             # implicit untaint is OK for header names,
             # but values need to be retainted
-            $this->{headers}->{ lc($1) } = TAINT( $2 );
+            $this->{headers}->{ lc($1) } = TAINT($2);
         }
         else {
             $this->{code}    = 400;

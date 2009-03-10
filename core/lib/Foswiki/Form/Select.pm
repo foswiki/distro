@@ -89,7 +89,7 @@ sub finish {
 sub isMultiValued { return shift->{type} =~ /\+multi/; }
 
 sub renderForEdit {
-    my ( $this, $web, $topic, $value ) = @_;
+    my ( $this, $topicObject, $value ) = @_;
 
     my $choices = '';
 
@@ -112,7 +112,7 @@ sub renderForEdit {
         $size = $this->{minSize};
     }
     my $params = {
-        class => $this->cssClasses( 'foswikiSelect' ),
+        class => $this->cssClasses('foswikiSelect'),
         name  => $this->{name},
         size  => $this->{size},
     };

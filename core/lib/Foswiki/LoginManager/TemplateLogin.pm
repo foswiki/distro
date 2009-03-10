@@ -192,18 +192,16 @@ sub login {
     # TODO: add JavaScript password encryption in the template
     # to use a template)
     $origurl ||= '';
-    $session->{prefs}->pushPreferenceValues(
-        'SESSION',
-        {
-            ORIGURL => Foswiki::_encode( 'entity', $origurl ),
-            BANNER  => $banner,
-            NOTE    => $note,
-            ERROR   => $error
-        }
+    $session->{prefs}->setSessionPreferences(
+        ORIGURL => Foswiki::_encode( 'entity', $origurl ),
+        BANNER  => $banner,
+        NOTE    => $note,
+        ERROR   => $error
     );
 
-    $tmpl = $session->handleCommonTags( $tmpl, $web, $topic );
-    $tmpl = $session->renderer->getRenderedVersion( $tmpl, '' );
+    my $topicObject = Foswiki::Meta->new( $session, $web, $topic );
+    $tmpl = $topicObject->expandMacros($tmpl);
+    $tmpl = $topicObject->renderTML($tmpl);
     $tmpl =~ s/<nop>//g;
     $session->writeCompletePage($tmpl);
 }

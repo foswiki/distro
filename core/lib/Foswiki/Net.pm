@@ -18,6 +18,8 @@ use strict;
 use Assert;
 use Error qw( :try );
 
+our $LWPAvailable;
+
 # note that the session is *optional*
 sub new {
     my ( $class, $session ) = @_;
@@ -107,8 +109,13 @@ sub getExternalResource {
         return new Foswiki::Net::HTTPResponse("Bad URL: $url");
     }
 
-    eval "use LWP";
-    unless ($@) {
+    # Don't remove $LWPAvailable; it is required to disable LWP when unit
+    # testing
+    unless ( defined $LWPAvailable ) {
+        eval 'require LWP';
+        $LWPAvailable = ($@) ? 0 : 1;
+    }
+    if ($LWPAvailable) {
         return _GETUsingLWP( $this, $url );
     }
 
@@ -153,8 +160,8 @@ sub getExternalResource {
         my ( $proxyHost, $proxyPort );
         if ( $this->{session} && $this->{session}->{prefs} ) {
             my $prefs = $this->{session}->{prefs};
-            $proxyHost = $prefs->getPreferencesValue('PROXYHOST');
-            $proxyPort = $prefs->getPreferencesValue('PROXYPORT');
+            $proxyHost = $prefs->getPreference('PROXYHOST');
+            $proxyPort = $prefs->getPreference('PROXYPORT');
         }
         $proxyHost ||= $Foswiki::cfg{PROXY}{HOST};
         $proxyPort ||= $Foswiki::cfg{PROXY}{PORT};
@@ -225,7 +232,7 @@ sub _GETUsingLWP {
     $request = HTTP::Request->new( GET => $url );
     '$Rev$' =~ /([0-9]+)/;
     my $revstr = $1;
-    $request->header( 'User-Agent' => 'Foswiki::Net/'
+    $request->header( 'User-Agent' => 'Foswiki::Net/' 
           . $revstr
           . " libwww-perl/$LWP::VERSION" );
     require Foswiki::Net::UserCredAgent;
@@ -240,8 +247,8 @@ sub _installMailHandler {
     my $handler = 0;       # Not undef
     if ( $this->{session} && $this->{session}->{prefs} ) {
         my $prefs = $this->{session}->{prefs};
-        $this->{MAIL_HOST}  = $prefs->getPreferencesValue('SMTPMAILHOST');
-        $this->{HELLO_HOST} = $prefs->getPreferencesValue('SMTPSENDERHOST');
+        $this->{MAIL_HOST}  = $prefs->getPreference('SMTPMAILHOST');
+        $this->{HELLO_HOST} = $prefs->getPreference('SMTPSENDERHOST');
     }
 
     $this->{MAIL_HOST}  ||= $Foswiki::cfg{SMTP}{MAILHOST};
@@ -260,7 +267,7 @@ sub _installMailHandler {
             require Net::SMTP;
         };
         if ($@) {
-            $this->{session}->logger->log('warning', "SMTP not available: $@")
+            $this->{session}->logger->log( 'warning', "SMTP not available: $@" )
               if ( $this->{session} );
         }
         else {
@@ -332,7 +339,7 @@ sub sendEmail {
         }
         catch Error::Simple with {
             my $e = shift->stringify();
-            $this->{session}->logger->log('warning', $e);
+            $this->{session}->logger->log( 'warning', $e );
 
             # be nasty to errors that we didn't throw. They may be
             # caused by SMTP or perl, and give away info about the
@@ -340,7 +347,8 @@ sub sendEmail {
             $e = join( "\n", grep( /^ERROR/, split( /\n/, $e ) ) );
 
             unless ( $e =~ /^ERROR/ ) {
-                $e = "Mail could not be sent - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
+                $e =
+"Mail could not be sent - please ask your %WIKIWEBMASTER% to look at the Foswiki warning log.";
             }
             $errors .= $e . "\n";
             sleep($back_off);
@@ -371,18 +379,23 @@ sub _sendEmailBySendmail {
 s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1.$2.$3._fixLineLength($4)/geois;
     $text = "$header\n\n$body";    # rebuild message
 
-    open( MAIL, '|' . $Foswiki::cfg{MailProgram} )
+    my $MAIL;
+    open( $MAIL, '|' . $Foswiki::cfg{MailProgram} )
       || die "ERROR: Can't send mail using Foswiki::cfg{MailProgram}";
-    print MAIL $text;
-    close(MAIL);
-    #SMELL: this is bizzare. on a freeBSD server, I've seen sendmail return 17152
-    #(17152 >> 8) == 67 == EX_NOUSER - however, the mail log says that the error was
-    #EX_TEMPFAIL == 75, and that (as per oreilly book) the email is cued. The email
-    #does reach the user, but they are very confused because they were told that the
-    #rego failed completely.
-    #Sven has ameneded the oops_message for the verify emails to be less positive that
-    #everything has failed, but.
-    die "ERROR: Exit code ".($? << 8)." ($?) from Foswiki::cfg{MailProgram}" if $?;
+    print $MAIL $text;
+    close($MAIL);
+
+#SMELL: this is bizzare. on a freeBSD server, I've seen sendmail return 17152
+#(17152 >> 8) == 67 == EX_NOUSER - however, the mail log says that the error was
+#EX_TEMPFAIL == 75, and that (as per oreilly book) the email is cued. The email
+#does reach the user, but they are very confused because they were told that the
+#rego failed completely.
+#Sven has ameneded the oops_message for the verify emails to be less positive that
+#everything has failed, but.
+    die "ERROR: Exit code "
+      . ( $? << 8 )
+      . " ($?) from Foswiki::cfg{MailProgram}"
+      if $?;
 }
 
 sub _sendEmailByNetSMTP {
@@ -468,7 +481,8 @@ s/([\n\r])(From|To|CC|BCC)(\:\s*)([^\n\r]*)/$1 . $2 . $3 . _fixLineLength( $4 )/
     die $mess . "Can't connect to '$this->{MAIL_HOST}'" unless $smtp;
 
     if ( $Foswiki::cfg{SMTP}{Username} ) {
-        $smtp->auth( $Foswiki::cfg{SMTP}{Username}, $Foswiki::cfg{SMTP}{Password} );
+        $smtp->auth( $Foswiki::cfg{SMTP}{Username},
+            $Foswiki::cfg{SMTP}{Password} );
     }
     $smtp->mail($from) || die $mess . $smtp->message;
     $smtp->to( @to, { SkipBad => 1 } ) || die $mess . $smtp->message;
