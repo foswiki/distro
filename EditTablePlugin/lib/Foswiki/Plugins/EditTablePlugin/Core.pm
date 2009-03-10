@@ -210,6 +210,8 @@ sub processText {
 
         my $tableText    = $editTableObject->{'text'};
         my $editTableTag = $editTableObject->{'tagline'};
+		
+		
 
        # store processed lines of this tableText
        # the list of lines will be put back into the topic text after processing
@@ -227,6 +229,13 @@ sub processText {
             $editTableTag =
               $editTableObject->{'pretag'} . $editTableObject->{'posttag'};
         }
+
+		# expand macros in tagline without creating infinite recursion:
+		$editTableTag =~ s/%EDITTABLE{/%TMP_ETP_STUB_TAG{/o;
+		$editTableTag = Foswiki::Func::expandCommonVariables($editTableTag);
+		$editTableTag =~ s/TMP_ETP_STUB_TAG/EDITTABLE/o;
+
+Foswiki::Func::writeDebug("QQQ editTableTag=$editTableTag");
 
         if ( ( $mode & $MODE->{READ} ) || ( $tableNr == $inSaveTableNr ) ) {
 

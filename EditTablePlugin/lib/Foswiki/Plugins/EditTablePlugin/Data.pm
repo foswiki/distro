@@ -174,7 +174,7 @@ sub parseText {
                 $editTableData->{'pretag'}  ||= '';
                 $editTableData->{'tag'}     ||= '';
                 $editTableData->{'posttag'} ||= '';
-
+				
                 $editTableData->{'tagline'} =
                     $editTableData->{'pretag'}
                   . $editTableData->{'tag'}
