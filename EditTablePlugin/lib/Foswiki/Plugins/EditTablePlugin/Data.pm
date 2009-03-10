@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Assert;
 
-=pod
+=begin TML
 
 Helper class parses tables to take out table texts, and stores table cell data.
 
@@ -14,9 +14,9 @@ my $RENDER_HACK = "\n<nop>\n";
 
 our $PATTERN_EDITTABLEPLUGIN = qr'(%EDITTABLE{([^\n]*)}%)'o
   ; # NOTE: greedy match to catch macros inside the parameters - but this requires special handling of TABLE tags directly follow the EDITTABLE tags (on the same line) - see _placeTABLEtagOnSeparateLine
-our $PATTERN_TABLEPLUGIN = qr'%TABLE(?:{(.*?)})?%'o;
+our $PATTERN_TABLEPLUGIN = qr'%TABLE(?:{(.*)})?%'o;
 
-=pod
+=begin TML
 
 Constructor
 
@@ -29,7 +29,7 @@ sub new {
     return $this;
 }
 
-=pod
+=begin TML
 
 parseText($text)
 
@@ -174,7 +174,7 @@ sub parseText {
                 $editTableData->{'pretag'}  ||= '';
                 $editTableData->{'tag'}     ||= '';
                 $editTableData->{'posttag'} ||= '';
-				
+
                 $editTableData->{'tagline'} =
                     $editTableData->{'pretag'}
                   . $editTableData->{'tag'}
@@ -194,7 +194,7 @@ sub parseText {
     if ($Foswiki::Plugins::EditTablePlugin::debug) {
         use Data::Dumper;
         Foswiki::Func::writeDebug(
-            "- EditTablePlugin::parseText; editTableObjects="
+            "- EditTablePlugin::Data::parseText; editTableObjects="
               . Dumper($editTableObjects) );
     }
 
@@ -208,7 +208,7 @@ sub parseText {
     return $text;
 }
 
-=pod
+=begin TML
 
 _trimCellsInRow (\@rowCells)
 
@@ -223,7 +223,7 @@ sub _trimCellsInRow {
     }
 }
 
-=pod
+=begin TML
 
 _trimSpaces( $text ) -> $text
 
@@ -239,7 +239,7 @@ sub _trimSpaces {
     $_[0] =~ s/[[:space:]]+$//s;    # trim at end
 }
 
-=pod
+=begin TML
 
 Puts %TABLE{}% tags on a new line to better deal with TablePlugin variables: because $PATTERN_EDITTABLEPLUGIN is greedy this tag would otherwise be grabbed together with the EDITTABLE tag
 
@@ -254,7 +254,7 @@ sub _placeTABLEtagOnSeparateLine {
     return "%EDITTABLE{$tagLine}%";
 }
 
-=pod
+=begin TML
 
 Return the contents of the specified cell
 
@@ -268,7 +268,7 @@ sub getCell {
     return $value;
 }
 
-=pod
+=begin TML
 
 Return an entire table, or an empty list
 
