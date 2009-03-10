@@ -2,25 +2,23 @@ package Unit::Response;
 use base 'Foswiki::Response';
 use strict;
 
-our $response; # for proper finalization
+our $response;    # for proper finalization
 
 BEGIN {
     use Foswiki;
     use CGI;
     my $_new = \&Foswiki::new;
     no warnings 'redefine';
-    *Foswiki::new =
-      sub {
-          my $t = $_new->(@_);
-          $response = $t->{response};
-          return $t;
-      };
+    *Foswiki::new = sub {
+        my $t = $_new->(@_);
+        $response = $t->{response};
+        return $t;
+    };
     my $_finish = \&Foswiki::finish;
-    *Foswiki::finish =
-      sub {
-          $_finish->(@_);
-          undef $response;
-      };
+    *Foswiki::finish = sub {
+        $_finish->(@_);
+        undef $response;
+    };
     use warnings 'redefine';
 }
 

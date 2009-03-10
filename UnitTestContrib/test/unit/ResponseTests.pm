@@ -8,40 +8,48 @@ use Foswiki::Response;
 
 sub test_empty_new {
     my $this = shift;
-    my $res = new Foswiki::Response;
+    my $res  = new Foswiki::Response;
 
-    $this->assert_null($res->status, 'Non-empty initial status');
-    $this->assert_null($res->body,   'Non-empty initial body');
-    $this->assert_matches('ISO-8859-1', $res->charset, 'Bad default initial charset');
-    
+    $this->assert_null( $res->status, 'Non-empty initial status' );
+    $this->assert_null( $res->body,   'Non-empty initial body' );
+    $this->assert_matches( 'ISO-8859-1', $res->charset,
+        'Bad default initial charset' );
+
     my @cookies = $res->cookies();
-    $this->assert_str_equals(0, scalar @cookies, '$res->cookies not empty');
+    $this->assert_str_equals( 0, scalar @cookies, '$res->cookies not empty' );
 
     my $ref = $res->headers;
-    $this->assert_str_equals('HASH', ref($ref), '$res->headers did not return HASHREF');
-    $this->assert_num_equals(0, (scalar keys %$ref), 'Non-empty initial headers');
+    $this->assert_str_equals( 'HASH', ref($ref),
+        '$res->headers did not return HASHREF' );
+    $this->assert_num_equals(
+        0,
+        ( scalar keys %$ref ),
+        'Non-empty initial headers'
+    );
 }
 
 sub test_status {
     my $this = shift;
-    my $res = new Foswiki::Response;
+    my $res  = new Foswiki::Response;
 
-    my @status = (200, 302, 401, 402, '404 not found', 500);
+    my @status = ( 200, 302, 401, 402, '404 not found', 500 );
     foreach (@status) {
         $res->status($_);
-        $this->assert_str_equals($_, $res->status, 'Wrong return value from status()');
+        $this->assert_str_equals( $_, $res->status,
+            'Wrong return value from status()' );
     }
     $res->status('ivalid status');
-    $this->assert_null($res->status, 'It was possible to set an invalid status');
+    $this->assert_null( $res->status,
+        'It was possible to set an invalid status' );
 }
 
 sub test_charset {
     my $this = shift;
-    my $res = new Foswiki::Response;
+    my $res  = new Foswiki::Response;
 
     foreach (qw(utf8 iso-8859-1 iso-8859-15 utf16)) {
         $res->charset($_);
-        $this->assert_str_equals($_, $res->charset, 'Wrong charset value');
+        $this->assert_str_equals( $_, $res->charset, 'Wrong charset value' );
     }
 }
 
@@ -134,8 +142,12 @@ sub test_cookie {
         -domain => 'localhost'
     );
     my $c2 = new CGI::Cookie( -name => 'Foo', -value => 'Bar' );
-    $res->cookies([$c1, $c2]);
-    $this->assert_deep_equals([$c1, $c2], [$res->cookies], 'Wrong returned cookies');
+    $res->cookies( [ $c1, $c2 ] );
+    $this->assert_deep_equals(
+        [ $c1, $c2 ],
+        [ $res->cookies ],
+        'Wrong returned cookies'
+    );
 }
 
 sub test_body {
@@ -193,11 +205,7 @@ sub test_redirect {
         $res->getHeader('Status'),
         'Wrong returned Status header'
     );
-    $this->assert_deep_equals(
-        [$cookie],
-        [ $res->cookies ],
-        'Wrong cookie!'
-    );
+    $this->assert_deep_equals( [$cookie], [ $res->cookies ], 'Wrong cookie!' );
 }
 
 sub test_header {
@@ -222,13 +230,24 @@ sub test_header {
         $res->getHeader('Content-Type'),
         'Wrong content-type'
     );
-    $this->assert_str_equals('200 OK', $res->getHeader('Status'), 'Wrong status');
-    $this->assert_str_equals('close', $res->getHeader('Connection'), 'Wrong custom header value');
-    $this->assert_not_null($res->getHeader('expires'), 'Expires header not defined');
-    $this->assert_not_null($res->getHeader('date'), 'Date header not defined');
-    $this->assert_str_equals('utf8', $res->charset, 'charset object field not defined');
-    $this->assert_deep_equals([$cookie], [$res->cookies], 'Cookie not defined');
+    $this->assert_str_equals( '200 OK', $res->getHeader('Status'),
+        'Wrong status' );
+    $this->assert_str_equals(
+        'close',
+        $res->getHeader('Connection'),
+        'Wrong custom header value'
+    );
+    $this->assert_not_null( $res->getHeader('expires'),
+        'Expires header not defined' );
+    $this->assert_not_null( $res->getHeader('date'),
+        'Date header not defined' );
+    $this->assert_str_equals( 'utf8', $res->charset,
+        'charset object field not defined' );
+    $this->assert_deep_equals(
+        [$cookie],
+        [ $res->cookies ],
+        'Cookie not defined'
+    );
 }
-
 
 1;

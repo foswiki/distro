@@ -24,11 +24,11 @@ sub testSimple {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    
+
     my $raw_tag  = '%ADDTOHEAD{text="QQQ"}%%RENDERHEAD%';
     my $expected = "<!--  --> QQQ";
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $raw_tag, $topicName, $webName );
     $this->assert_equals( $expected, $result );
 }
 
@@ -37,31 +37,37 @@ sub testOrderWithRequires {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    
-    my $raw_tag  = '%ADDTOHEAD{"first" text="QQQ FIRST"}%%ADDTOHEAD{"second" text="QQQ SECOND" requires="third"}%%ADDTOHEAD{"third" text="QQQ THIRD"}%%RENDERHEAD%';
-    my $expected = "<!-- first --> QQQ FIRST"
-        . "\n<!-- third --> QQQ THIRD"
-        . "\n<!-- second --> QQQ SECOND";
+
+    my $raw_tag =
+'%ADDTOHEAD{"first" text="QQQ FIRST"}%%ADDTOHEAD{"second" text="QQQ SECOND" requires="third"}%%ADDTOHEAD{"third" text="QQQ THIRD"}%%RENDERHEAD%';
+    my $expected =
+        "<!-- first --> QQQ FIRST"
+      . "\n<!-- third --> QQQ THIRD"
+      . "\n<!-- second --> QQQ SECOND";
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $raw_tag, $topicName, $webName );
     $this->assert_equals( $expected, $result );
 }
 
 sub testTopicArgument {
     my $this = shift;
 
-    my $topicName = $this->{test_topic};
-    my $webName   = $this->{test_web};
-    my $testTopicWithHead = 'testTopicWithHead';
+    my $topicName             = $this->{test_topic};
+    my $webName               = $this->{test_web};
+    my $testTopicWithHead     = 'testTopicWithHead';
     my $fullTestTopicWithHead = "$webName\.$testTopicWithHead";
-    
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user}, $webName, $testTopicWithHead, "THIS IS ANOTHER TOPIC" );
-   
-    my $raw_tag  = '%ADDTOHEAD{"testtopic" topic="' . $fullTestTopicWithHead . '"}%%RENDERHEAD%';
+
+    Foswiki::Func::saveTopic( $webName, $testTopicWithHead, undef,
+        "THIS IS ANOTHER TOPIC" );
+
+    my $raw_tag =
+        '%ADDTOHEAD{"testtopic" topic="'
+      . $fullTestTopicWithHead
+      . '"}%%RENDERHEAD%';
 
     my $expected = "<!-- testtopic --> THIS IS ANOTHER TOPIC";
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $raw_tag, $topicName, $webName );
     $this->assert_equals( $expected, $result );
 }
 
@@ -70,11 +76,11 @@ sub testFuncSimple {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    Foswiki::Func::addToHEAD("first", "QQQ");
+    Foswiki::Func::addToHEAD( "first", "QQQ" );
     my $raw_tag  = '%RENDERHEAD%';
     my $expected = "<!-- first --> QQQ";
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $raw_tag, $topicName, $webName );
     $this->assert_equals( $expected, $result );
 }
 
@@ -83,15 +89,16 @@ sub testFuncRequires {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    Foswiki::Func::addToHEAD("first", "QQQ FIRST");
-    Foswiki::Func::addToHEAD("second", "QQQ SECOND", "third");
-    Foswiki::Func::addToHEAD("third", "QQQ THIRD");
-    my $raw_tag  = '%RENDERHEAD%';
-    my $expected = "<!-- first --> QQQ FIRST"
-        . "\n<!-- third --> QQQ THIRD"
-        . "\n<!-- second --> QQQ SECOND";
+    Foswiki::Func::addToHEAD( "first",  "QQQ FIRST" );
+    Foswiki::Func::addToHEAD( "second", "QQQ SECOND", "third" );
+    Foswiki::Func::addToHEAD( "third",  "QQQ THIRD" );
+    my $raw_tag = '%RENDERHEAD%';
+    my $expected =
+        "<!-- first --> QQQ FIRST"
+      . "\n<!-- third --> QQQ THIRD"
+      . "\n<!-- second --> QQQ SECOND";
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $raw_tag, $topicName, $webName );
     $this->assert_equals( $expected, $result );
 }
 
@@ -106,11 +113,14 @@ sub testFuncStyle {
 
     my $topicName = $this->{test_topic};
     my $webName   = $this->{test_web};
-    Foswiki::Func::addToHEAD('PATTERN_STYLE','<link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />');
-    my $raw_tag  = '%RENDERHEAD%';
-    my $expected = '<!-- PATTERN_STYLE --> <link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />';
+    Foswiki::Func::addToHEAD( 'PATTERN_STYLE',
+'<link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />'
+    );
+    my $raw_tag = '%RENDERHEAD%';
+    my $expected =
+'<!-- PATTERN_STYLE --> <link id="twikiLayoutCss" rel="stylesheet" type="text/css" href="PatternSkin/layout.css" media="all" />';
     my $result =
-      $this->{twiki}->handleCommonTags( $raw_tag, $webName, $topicName );
+      Foswiki::Func::expandCommonVariables( $raw_tag, $topicName, $webName );
     $this->assert_equals( $expected, $result );
 }
 

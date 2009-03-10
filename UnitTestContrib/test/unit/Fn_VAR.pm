@@ -10,7 +10,7 @@ use Foswiki;
 use Error qw( :try );
 
 sub new {
-    my $self = shift()->SUPER::new('VAR', @_);
+    my $self = shift()->SUPER::new( 'VAR', @_ );
     return $self;
 }
 
@@ -19,34 +19,40 @@ sub test_VAR {
 
     my $result;
 
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{test_web},
-        'WebPreferences', <<SPLOT);
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<SPLOT);
    * Set BLEEGLE = gibbut
 SPLOT
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{users_web},
-        'WebPreferences', <<SPLOT);
+    $topicObject->save();
+
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<SPLOT);
    * Set BLEEGLE = frabbeque
 SPLOT
+    $topicObject->save();
 
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki();
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    $result = $topicObject->expandMacros("%VAR{\"VAR\"}%");
+    $this->assert_equals( "", $result );
+    $result = $topicObject->expandMacros(
+        "%VAR{\"BLEEGLE\" web=\"$this->{users_web}\"}%");
+    $this->assert_equals( "frabbeque", $result );
 
-    $result = $this->{twiki}->handleCommonTags("%VAR{\"VAR\"}%", $this->{test_web}, $this->{test_topic});
-    $this->assert_equals("", $result);
+    $result = $topicObject->expandMacros(
+        "%VAR{\"BLEEGLE\" web=\"$this->{test_web}\"}%");
+    $this->assert_equals( "gibbut", $result );
 
-    $result = $this->{twiki}->handleCommonTags("%VAR{\"BLEEGLE\" web=\"$this->{users_web}\"}%", $this->{users_web}, $this->{test_topic});
-    $this->assert_equals("frabbeque", $result);
+    $result = $topicObject->expandMacros("%VAR{\"BLEEGLE\"}%");
+    $this->assert_equals( "gibbut", $result );
 
-    $result = $this->{twiki}->handleCommonTags("%VAR{\"BLEEGLE\" web=\"$this->{test_web}\"}%", $this->{test_web}, $this->{test_topic});
-    $this->assert_equals("gibbut", $result);
-
-    $result = $this->{twiki}->handleCommonTags("%VAR{\"BLEEGLE\"}%", $this->{test_web}, $this->{test_topic});
-    $this->assert_equals("gibbut", $result);
-
-    $result = $this->{twiki}->handleCommonTags("%VAR%", $this->{test_web}, $this->{test_topic});
-    $this->assert_equals('', $result);
+    $result = $topicObject->expandMacros("%VAR%");
+    $this->assert_equals( '', $result );
 }
 
 1;

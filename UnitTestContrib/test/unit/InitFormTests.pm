@@ -30,7 +30,6 @@ The testcases below assume that the correct interpretation is the one used in Ed
 
 =cut
 
-
 use base qw( FoswikiTestCase );
 use Error qw( :try );
 
@@ -41,12 +40,12 @@ use Unit::Request;
 use Unit::Response;
 use Error qw( :try );
 
-my $testweb = "TestWeb";
+my $testweb    = "TestWeb";
 my $testtopic1 = "InitTestTopic1";
 my $testtopic2 = "InitTestTopic2";
 my $testtopic3 = "InitTestTopic3";
-my $testform = "InitTestForm";
-my $testtmpl = "InitTestTemplate";
+my $testform   = "InitTestForm";
+my $testtmpl   = "InitTestTemplate";
 
 my $user;
 my $testuser1 = "TestUser1";
@@ -54,8 +53,8 @@ my $testuser2 = "TestUser2";
 
 my $setup_failure = '';
 
-my $aurl; # Holds the %ATTACHURL%
-my $surl;# Holds the %SCRIPTURL%
+my $aurl;    # Holds the %ATTACHURL%
+my $surl;    # Holds the %SCRIPTURL%
 
 my $testtmpl1 = <<'HERE';
 %META:TOPICINFO{author="WikiGuest" date="1124568292" format="1.1" version="1.2"}%
@@ -136,198 +135,371 @@ sub set_up {
     $this->SUPER::set_up();
 
     my $query = new Unit::Request();
-    $this->{twiki}    = new Foswiki( undef, $query );
+    $this->{session}  = new Foswiki( undef, $query );
     $this->{request}  = $query;
     $this->{response} = new Unit::Response();
-    $user = $this->{twiki}->{user};
+    $user             = $this->{session}->{user};
 
-    $aurl = $this->{twiki}->getPubUrl( 1, $testweb, $testform );
-    $surl = $this->{twiki}->getScriptUrl(1);
+    $aurl = $this->{session}->getPubUrl( 1, $testweb, $testform );
+    $surl = $this->{session}->getScriptUrl(1);
 
-    $this->{twiki}->{store}->createWeb( $user, $testweb );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $testweb );
+    $webObject->populateNewWeb();
 
-    $Foswiki::Plugins::SESSION = $this->{twiki};
-    Foswiki::Func::saveTopicText( $testweb, $testtopic1,      $testtext1, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testtopic2,      $testtext2, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testtopic3,      $testtext3, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testform,        $testform1, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, $testtmpl,        $testtmpl1, 1, 1 );
-    Foswiki::Func::saveTopicText( $testweb, "MyeditTemplate", $edittmpl1, 1, 1 );
-    $this->{twiki}->enterContext('edit');
+    $Foswiki::Plugins::SESSION = $this->{session};
+    Foswiki::Func::saveTopicText( $testweb, $testtopic1, $testtext1, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testtopic2, $testtext2, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testtopic3, $testtext3, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testform,   $testform1, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, $testtmpl,   $testtmpl1, 1, 1 );
+    Foswiki::Func::saveTopicText( $testweb, "MyeditTemplate", $edittmpl1, 1,
+        1 );
+    $this->{session}->enterContext('edit');
 }
 
 sub tear_down {
     my $this = shift;
-    $this->removeWebFixture($this->{twiki}, $testweb);
-    $this->{twiki}->finish();
+    $this->removeWebFixture( $this->{session}, $testweb );
+    $this->{session}->finish();
     $this->SUPER::tear_down();
 }
 
 # The right form values are created
 
 sub get_formfield {
-  # Not done at this point. Could walk the form to the right field and then
-  # do a more precise comparison.
-  my ($fld, $text) = @_;
-  return $text;
+
+    # Not done at this point. Could walk the form to the right field and then
+    # do a more precise comparison.
+    my ( $fld, $text ) = @_;
+    return $text;
 }
 
 sub setup_formtests {
-  my ( $this, $web, $topic, $params ) = @_;
+    my ( $this, $web, $topic, $params ) = @_;
 
-  $this->{twiki}->{webName} = $web;
-  $this->{twiki}->{topicName} = $topic;
-  my $render = $this->{twiki}->renderer;
+    $this->{session}->{webName}   = $web;
+    $this->{session}->{topicName} = $topic;
+    my $render = $this->{session}->renderer;
 
-  use Foswiki::Attrs;
-  my $attr = new Foswiki::Attrs( $params );
-  foreach my $k ( keys %$attr ) {
-    next if $k eq '_RAW';
-    $this->{request}->param( -name=>$k, -value=>$attr->{$k});
-  }
+    use Foswiki::Attrs;
+    my $attr = new Foswiki::Attrs($params);
+    foreach my $k ( keys %$attr ) {
+        next if $k eq '_RAW';
+        $this->{request}->param( -name => $k, -value => $attr->{$k} );
+    }
 
-  # Now generate the form. We pass a template which throws everything away
-  # but the form to allow for simpler analysis.
-  my ( $text, $tmpl ) = Foswiki::UI::Edit::init_edit( $this->{twiki}, 'myedit' );
+    # Now generate the form. We pass a template which throws everything away
+    # but the form to allow for simpler analysis.
+    my ( $text, $tmpl ) =
+      Foswiki::UI::Edit::init_edit( $this->{session}, 'myedit' );
 
-  return $tmpl;
+    return $tmpl;
 
 }
 
 sub test_form {
     my $this = shift;
 
-    my $text = setup_formtests( $this, $testweb, $testtopic1, "formtemplate=\"$testweb.$testform\"" );
+    my $text = setup_formtests( $this, $testweb, $testtopic1,
+        "formtemplate=\"$testweb.$testform\"" );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
-Simple description of problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="' . $aurl . '"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="' . $aurl . '" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%ATTACHURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+Simple description of problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="' . $aurl . '"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+        '<input type="text" name="History2" value="' 
+          . $aurl
+          . '" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 }
 
 sub test_tmpl_form {
+
     # Pass formTemplate and templateTopic
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, $testtopic1, "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\"" );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
-Simple description of problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="' . $aurl . '" />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="' . $aurl . '" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%ATTACHURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, $testtopic1,
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\""
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+Simple description of problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="' . $aurl . '" />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+        '<input type="text" name="History2" value="' 
+          . $aurl
+          . '" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
 
 sub test_tmpl_form_new {
+
     # Pass formTemplate and templateTopic to empty topic
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, "${testtopic1}XXXXXXXXXX", "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\"" );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="_An issue_" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
----+ Example problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%SCRIPTURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="%SCRIPTURL%" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%SCRIPTURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%SCRIPTURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, "${testtopic1}XXXXXXXXXX",
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\""
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="_An issue_" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+---+ Example problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%SCRIPTURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History2" value="%SCRIPTURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%SCRIPTURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%SCRIPTURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
 
 sub test_tmpl_form_existingform {
+
     # Pass formTemplate and templateTopic to topic with form
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, "$testtopic2", "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\"" );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="_An issue_" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
----+ Example problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%SCRIPTURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="%SCRIPTURL%" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%SCRIPTURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%SCRIPTURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, "$testtopic2",
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\""
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="_An issue_" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+---+ Example problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%SCRIPTURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History2" value="%SCRIPTURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%SCRIPTURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%SCRIPTURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
 
 sub test_tmpl_form_params {
+
     # Pass query parameters
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, "$testtopic1", "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"_An issue_\" IssueDescription=\"---+ Example problem\" IssueType=\"Defect\" History1=\"%SCRIPTURL%\" History2=\"%SCRIPTURL%\" History3=\"\$percntSCRIPTURL%\" History4=\"\$percntSCRIPTURL%\" " );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="_An issue_" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
----+ Example problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%SCRIPTURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="%SCRIPTURL%" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%SCRIPTURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%SCRIPTURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, "$testtopic1",
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"_An issue_\" IssueDescription=\"---+ Example problem\" IssueType=\"Defect\" History1=\"%SCRIPTURL%\" History2=\"%SCRIPTURL%\" History3=\"\$percntSCRIPTURL%\" History4=\"\$percntSCRIPTURL%\" "
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="_An issue_" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+---+ Example problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%SCRIPTURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History2" value="%SCRIPTURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%SCRIPTURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%SCRIPTURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
 
 sub test_tmpl_form_existingform_params {
+
     # Pass query parameters, with field values present
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, "$testtopic2", "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"My first defect\" IssueDescription=\"Simple description of problem\" IssueType=\"Enhancement\" History1=\"%ATTACHURL%\" History2=\"%ATTACHURL%\" History3=\"\$percntATTACHURL%\" History4=\"\$percntATTACHURL%\" " );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
-Simple description of problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption" selected="selected">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%ATTACHURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%ATTACHURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, "$testtopic2",
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"My first defect\" IssueDescription=\"Simple description of problem\" IssueType=\"Enhancement\" History1=\"%ATTACHURL%\" History2=\"%ATTACHURL%\" History3=\"\$percntATTACHURL%\" History4=\"\$percntATTACHURL%\" "
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+Simple description of problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption" selected="selected">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%ATTACHURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History2" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
 
 sub test_tmpl_form_new_params {
+
     # Pass query parameters, new topic
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, "${testtopic1}XXXXXXXXXX", "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"My first defect\" IssueDescription=\"Simple description of problem\" IssueType=\"Enhancement\" History1=\"%ATTACHURL%\" History2=\"%ATTACHURL%\" History3=\"\$percntATTACHURL%\" History4=\"\$percntATTACHURL%\" " );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
-Simple description of problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption" selected="selected">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%ATTACHURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%ATTACHURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, "${testtopic1}XXXXXXXXXX",
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"My first defect\" IssueDescription=\"Simple description of problem\" IssueType=\"Enhancement\" History1=\"%ATTACHURL%\" History2=\"%ATTACHURL%\" History3=\"\$percntATTACHURL%\" History4=\"\$percntATTACHURL%\" "
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+Simple description of problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption" selected="selected">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%ATTACHURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History2" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
 
 sub test_tmpl_form_notext_params {
+
     # Pass query parameters, no text
     my $this = shift;
-    
-    my $text = setup_formtests( $this, $testweb, $testtopic1, "formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"My first defect\" IssueDescription=\"Simple description of problem\" IssueType=\"Enhancement\" History1=\"%ATTACHURL%\" History2=\"%ATTACHURL%\" History3=\"\$percntATTACHURL%\" History4=\"\$percntATTACHURL%\" text=\"\"" );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
-Simple description of problem</textarea>', get_formfield(2, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption" selected="selected">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%ATTACHURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="text" name="History2" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(5, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="%ATTACHURL%"  />', get_formfield(6, $text));
-    $this->assert_html_matches('<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />', get_formfield(7, $text));
+    my $text = setup_formtests( $this, $testweb, $testtopic1,
+"formtemplate=\"$testweb.$testform\" templatetopic=\"$testweb.$testtmpl\" IssueName=\"My first defect\" IssueDescription=\"Simple description of problem\" IssueType=\"Enhancement\" History1=\"%ATTACHURL%\" History2=\"%ATTACHURL%\" History3=\"\$percntATTACHURL%\" History4=\"\$percntATTACHURL%\" text=\"\""
+    );
+
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+Simple description of problem</textarea>', get_formfield( 2, $text )
+    );
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption">Defect</option><option class="foswikiOption" selected="selected">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%ATTACHURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History2" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 5, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="%ATTACHURL%"  />',
+        get_formfield( 6, $text ) );
+    $this->assert_html_matches(
+'<input type="text" name="History4" value="%ATTACHURL%" size="20" class="foswikiInputField" />',
+        get_formfield( 7, $text )
+    );
 
 }
-
 
 # Purpose:  Just edit the form topic, do not provide any init values
 # Verifies: All values are kept intact, in particular:
@@ -335,16 +507,29 @@ Simple description of problem</textarea>', get_formfield(2, $text));
 #              * No expansion if $percnt
 sub test_dont_expand_on_edit {
     my $this = shift;
-    
+
     my $text = setup_formtests( $this, $testweb, $testtopic3 );
 
-    $this->assert_html_matches('<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />', get_formfield(1, $text));
-    $this->assert_html_matches('<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
-Simple description of problem</textarea>', get_formfield(2, $text));
-    #  $this->assert_matches(qr/<select [^>]+><option ([^>]+| selected)>Defect<\/option>/, get_formfield(3, $text));
-    $this->assert_html_matches('<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>', get_formfield(3, $text));
-    $this->assert_html_matches('<input type="hidden" name="History1" value="%SCRIPTURL%"  />', get_formfield(4, $text));
-    $this->assert_html_matches('<input type="hidden" name="History3" value="$percntSCRIPTURL%"  />', get_formfield(6, $text));
+    $this->assert_html_matches(
+'<input type="text" name="IssueName" value="My first defect" size="73" class="foswikiInputField foswikiMandatory" />',
+        get_formfield( 1, $text )
+    );
+    $this->assert_html_matches(
+'<textarea name="IssueDescription"  rows="5" cols="55" class="foswikiTextarea">
+Simple description of problem</textarea>', get_formfield( 2, $text )
+    );
+
+#  $this->assert_matches(qr/<select [^>]+><option ([^>]+| selected)>Defect<\/option>/, get_formfield(3, $text));
+    $this->assert_html_matches(
+'<select name="IssueType" class="foswikiSelect" size="1"><option class="foswikiOption" selected="selected">Defect</option><option class="foswikiOption">Enhancement</option><option class="foswikiOption">Other</option></select>',
+        get_formfield( 3, $text )
+    );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History1" value="%SCRIPTURL%"  />',
+        get_formfield( 4, $text ) );
+    $this->assert_html_matches(
+        '<input type="hidden" name="History3" value="$percntSCRIPTURL%"  />',
+        get_formfield( 6, $text ) );
 }
 
 1;

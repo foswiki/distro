@@ -14,30 +14,35 @@ sub list_tests {
 
 sub include_tests {
     my $this = shift;
-    push(@INC, '.');
+    push( @INC, '.' );
     my @list;
-    opendir(DIR, ".") || die "Failed to open .";
-    foreach my $i (sort readdir(DIR)) {
+    opendir( DIR, "." ) || die "Failed to open .";
+    foreach my $i ( sort readdir(DIR) ) {
         next if $i =~ /^Empty/ || $i =~ /^\./;
-        if ($i =~ /^Fn_[A-Z]+\.pm$/ || $i =~ /^.*Tests\.pm$/) {
-            push(@list, $i);
+        if ( $i =~ /^Fn_[A-Z]+\.pm$/ || $i =~ /^.*Tests\.pm$/ ) {
+            push( @list, $i )
+              unless $i =~ /EngineTests\.pm/;
+
+            # the engine tests break logging, so do them last
         }
     }
     closedir(DIR);
 
     # Add standard extensions tests
     my $read_manifest = 0;
-    my $home = "../..";
-    unless (-e "$home/lib/MANIFEST") {
+    my $home          = "../..";
+    unless ( -e "$home/lib/MANIFEST" ) {
         $home = $ENV{FOSWIKI_HOME};
     }
     require Cwd;
     $home = Cwd::abs_path($home);
 
     print STDERR "Getting extensions from $home/lib/MANIFEST\n";
-    if (open(F, "$home/lib/MANIFEST")) {
+    if ( open( F, "$home/lib/MANIFEST" ) ) {
         $read_manifest = 1;
-    } else {
+    }
+    else {
+
         # dunno which extensions we require
         $read_manifest = 0;
     }
@@ -46,15 +51,18 @@ sub include_tests {
         while (<F>) {
             if (m#^!include ([\w.]+)/.*?/(\w+)$#) {
                 my $d = "$home/test/unit/$2";
-                next unless (-e "$d/${2}Suite.pm");
-                push(@INC, $d);
-                push(@list, "${2}Suite.pm");
+                next unless ( -e "$d/${2}Suite.pm" );
+                push( @INC,  $d );
+                push( @list, "${2}Suite.pm" );
             }
         }
         close(F);
     }
-    print STDERR "Running tests from ",join(', ', @list),"\n";
+    push( @list, "EngineTests.pm" );
+
+    print STDERR "Running tests from ", join( ', ', @list ), "\n";
+
     return @list;
-};
+}
 
 1;

@@ -7,6 +7,9 @@ use strict;
 use Foswiki;
 use Foswiki::UI::Save;
 use Error qw( :try );
+use Unit::Request;
+
+our $UI_FN;
 
 my $testform1 = <<'HERE';
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
@@ -55,7 +58,7 @@ A guest of this Foswiki web, not unlike yourself. You can leave your trace behin
 HERE
 
 sub new {
-    my $self = shift()->SUPER::new('Save', @_);
+    my $self = shift()->SUPER::new( 'Save', @_ );
     return $self;
 }
 
@@ -64,143 +67,161 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
+    $UI_FN ||= $this->getUIFn('save');
+
     $this->{test_user_2_forename} = 'Buck';
-    $this->{test_user_2_surname} = 'Rogers';
+    $this->{test_user_2_surname}  = 'Rogers';
     $this->{test_user_2_wikiname} =
-      $this->{test_user_forename}.$this->{test_user_surname};
+      $this->{test_user_forename} . $this->{test_user_surname};
     $this->{test_user_2_login} = 'buck';
     $this->{test_user_2_email} = 'rogers@example.com';
-    $this->registerUser($this->{test_user_2_login},
-                        $this->{test_user_2_forename},
-                        $this->{test_user_2_surname},
-                        $this->{test_user_2_email});
+    $this->registerUser(
+        $this->{test_user_2_login},   $this->{test_user_2_forename},
+        $this->{test_user_2_surname}, $this->{test_user_2_email}
+    );
 
-	$this->{twiki}->{store}->saveTopic(
-        $this->{test_user_login}, $this->{test_web}, 'TestForm1',
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm1',
         $testform1, undef );
+    $topicObject->save();
 
-	$this->{twiki}->{store}->saveTopic(
-        $this->{test_user_2_login}, $this->{test_web}, 'TestForm2',
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm2',
         $testform2, undef );
+    $topicObject->save();
 
-	$this->{twiki}->{store}->saveTopic(
-        $this->{test_user_login}, $this->{test_web}, 'TestForm3',
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm3',
         $testform3, undef );
+    $topicObject->save();
 
-	$this->{twiki}->{store}->saveTopic(
-        $this->{test_user_login}, $this->{test_web}, 'TestForm4',
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm4',
         $testform4, undef );
+    $topicObject->save();
 
-	$this->{twiki}->{store}->saveTopic(
-        $this->{test_user_2_login}, $this->{test_web},
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{WebPrefsTopicName}, <<CONTENT);
    * Set WEBFORMS = TestForm1,TestForm2,TestForm3,TestForm4
 CONTENT
+    $topicObject->save();
 
-    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $Foswiki::Plugins::SESSION = $this->{session};
 }
 
 # AUTOINC
 sub test_AUTOINC {
-    my $this = shift;
-    my $query = new Unit::Request({
-        action => [ 'save' ],
-        text => [ 'nowt' ],
-    });
-    $query->path_info( '/' . $this->{test_web}.'.TestAutoAUTOINC00' );
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action => ['save'],
+            text   => ['nowt'],
+        }
+    );
+    $query->path_info( '/' . $this->{test_web} . '.TestAutoAUTOINC00' );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&$UI_FN, $this->{session} );
     my $seen = 0;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
-        if($t eq 'TestAuto00') {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+        if ( $t eq 'TestAuto00' ) {
             $seen = 1;
-        } elsif( !$old{$t}) {
-            $this->assert(0, "Unexpected topic $t");
+        }
+        elsif ( !$old{$t} ) {
+            $this->assert( 0, "Unexpected topic $t" );
         }
     }
     $this->assert($seen);
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
     $seen = 0;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
-        if($t =~ /^TestAuto0[01]$/) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+        if ( $t =~ /^TestAuto0[01]$/ ) {
             $seen++;
-        } elsif( !$old{$t}) {
-            $this->assert(0, "Unexpected topic $t");
+        }
+        elsif ( !$old{$t} ) {
+            $this->assert( 0, "Unexpected topic $t" );
         }
     }
-    $this->assert_equals(2,$seen);
+    $this->assert_equals( 2, $seen );
 }
-
 
 # 10X
 sub test_XXXXXXXXXX {
-    my $this = shift;
-    my $query = new Unit::Request({
-        action => [ 'save' ],
-        text => [ 'nowt' ],
-    });
-    $query->path_info( '/' . $this->{test_web}.'.TestTopicXXXXXXXXXX' );
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action => ['save'],
+            text   => ['nowt'],
+        }
+    );
+    $query->path_info( '/' . $this->{test_web} . '.TestTopicXXXXXXXXXX' );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&$UI_FN, $this->{session} );
     my $seen = 0;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
-        if($t eq 'TestTopic0') {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+        if ( $t eq 'TestTopic0' ) {
             $seen = 1;
-        } elsif( !$old{$t}) {
-            $this->assert(0, "Unexpected topic $t");
+        }
+        elsif ( !$old{$t} ) {
+            $this->assert( 0, "Unexpected topic $t" );
         }
     }
     $this->assert($seen);
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
     $seen = 0;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
-        if($t =~ /^TestTopic[01]$/) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+        if ( $t =~ /^TestTopic[01]$/ ) {
             $seen++;
-        } elsif( !$old{$t}) {
-            $this->assert(0, "Unexpected topic $t");
+        }
+        elsif ( !$old{$t} ) {
+            $this->assert( 0, "Unexpected topic $t" );
         }
     }
-    $this->assert_equals(2,$seen);
+    $this->assert_equals( 2, $seen );
 }
 
 # 9X
 sub test_XXXXXXXXX {
-    my $this = shift;
-    my $query = new Unit::Request({
-        action => [ 'save' ],
-        text => [ 'nowt' ],
-    });
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action => ['save'],
+            text   => ['nowt'],
+        }
+    );
     $query->path_info("/$this->{test_web}/TestTopicXXXXXXXXX");
     $this->assert(
-        !$this->{twiki}->{store}->topicExists($this->{test_web},'TestTopic0'));
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+        !$this->{session}->topicExists( $this->{test_web}, 'TestTopic0' ) );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $this->assert(!$this->{twiki}->{store}->topicExists($this->{test_web},'TestTopic0'));
+    $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(
+        !$this->{session}->topicExists( $this->{test_web}, 'TestTopic0' ) );
     my $seen = 0;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
-        if($t eq 'TestTopicXXXXXXXXX') {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+        if ( $t eq 'TestTopicXXXXXXXXX' ) {
             $seen = 1;
-        } elsif( !$old{$t}) {
-            $this->assert(0, "Unexpected topic $t");
+        }
+        elsif ( !$old{$t} ) {
+            $this->assert( 0, "Unexpected topic $t" );
         }
     }
     $this->assert($seen);
@@ -208,237 +229,298 @@ sub test_XXXXXXXXX {
 
 #11X
 sub test_XXXXXXXXXXX {
-    my $this = shift;
-    my $query = new Unit::Request({
-        action => [ 'save' ],
-        text => [ 'nowt' ],
-    });
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action => ['save'],
+            text   => ['nowt'],
+        }
+    );
     $query->path_info("/$this->{test_web}/TestTopicXXXXXXXXXXX");
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
         $old{$t} = 1;
     }
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    $this->capture( \&$UI_FN, $this->{session} );
     my $seen = 0;
-    foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
-        if($t eq 'TestTopic0') {
+    foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
+        if ( $t eq 'TestTopic0' ) {
             $seen = 1;
-        } elsif( !$old{$t}) {
-            $this->assert(0, "Unexpected topic $t");
+        }
+        elsif ( !$old{$t} ) {
+            $this->assert( 0, "Unexpected topic $t" );
         }
     }
     $this->assert($seen);
 }
 
 sub test_emptySave {
-    my $this = shift;
-    my $query = new Unit::Request({
-        action => [ 'save' ],
-        topic => [ $this->{test_web}.'.EmptyTestSaveScriptTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
-                                                  'EmptyTestSaveScriptTopic');
-    $this->assert_matches(qr/^\s*$/, $text);
-    $this->assert_null($meta->get('FORM'));
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.EmptyTestSaveScriptTopic' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'EmptyTestSaveScriptTopic' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/^\s*$/, $text );
+    $this->assert_null( $meta->get('FORM') );
 }
 
 sub test_simpleTextSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-        text => [ 'CORRECT' ],
-        action => [ 'save' ],
-        topic => [ $this->{test_web}.'.DeleteTestSaveScriptTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
-                                                 'DeleteTestSaveScriptTopic');
-    $this->assert_matches(qr/CORRECT/, $text);
-    $this->assert_null($meta->get('FORM'));
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text   => ['CORRECT'],
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.DeleteTestSaveScriptTopic' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'DeleteTestSaveScriptTopic' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/CORRECT/, $text );
+    $this->assert_null( $meta->get('FORM') );
 }
 
 sub test_templateTopicTextSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-        text => [ 'Template Topic' ],
-        action => [ 'save' ],
-        topic => [ $this->{test_web}.'.TemplateTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $query = new Unit::Request({
-        templatetopic => [ 'TemplateTopic' ],
-        action => [ 'save' ],
-        topic => [ $this->{test_web}.'.TemplateTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopic');
-    $this->assert_matches(qr/Template Topic/, $text);
-    $this->assert_null($meta->get('FORM'));
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text   => ['Template Topic'],
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.TemplateTopic' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $query = new Unit::Request(
+        {
+            templatetopic => ['TemplateTopic'],
+            action        => ['save'],
+            topic         => [ $this->{test_web} . '.TemplateTopic' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'TemplateTopic' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/Template Topic/, $text );
+    $this->assert_null( $meta->get('FORM') );
 }
 
 # Save over existing topic
 sub test_prevTopicTextSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-                         text => [ 'WRONG' ],
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.PrevTopicTextSave' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $query = new Unit::Request({
-                         text => [ 'CORRECT' ],
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.PrevTopicTextSave' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicTextSave');
-    $this->assert_matches(qr/CORRECT/, $text);
-    $this->assert_null($meta->get('FORM'));
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text   => ['WRONG'],
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.PrevTopicTextSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $query = new Unit::Request(
+        {
+            text   => ['CORRECT'],
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.PrevTopicTextSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'PrevTopicTextSave' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/CORRECT/, $text );
+    $this->assert_null( $meta->get('FORM') );
 }
 
 # Save over existing topic with no text
 sub test_prevTopicEmptyTextSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-                         text => [ 'CORRECT' ],
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.PrevTopicEmptyTextSave' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $query = new Unit::Request({
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.PrevTopicEmptyTextSave' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicEmptyTextSave');
-    $this->assert_matches(qr/^\s*CORRECT\s*$/, $text);
-    $this->assert_null($meta->get('FORM'));
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text   => ['CORRECT'],
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.PrevTopicEmptyTextSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $query = new Unit::Request(
+        {
+            action => ['save'],
+            topic  => [ $this->{test_web} . '.PrevTopicEmptyTextSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'PrevTopicEmptyTextSave' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/^\s*CORRECT\s*$/, $text );
+    $this->assert_null( $meta->get('FORM') );
 }
 
 sub test_simpleFormSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-                         text => [ 'CORRECT' ],
-                         formtemplate => [ 'TestForm1' ],
-                         action => [ 'save' ],
-                         'Textfield' =>
-                         [ 'Flintstone' ],
-                         topic => [ $this->{test_web}.'.SimpleFormSave' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave'));
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave');
-    $this->assert_matches(qr/^CORRECT\s*$/, $text);
-    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text         => ['CORRECT'],
+            formtemplate => ['TestForm1'],
+            action       => ['save'],
+            'Textfield'  => ['Flintstone'],
+            topic        => [ $this->{test_web} . '.SimpleFormSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave' ) );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'SimpleFormSave' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/^CORRECT\s*$/, $text );
+    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
+
     # field default values should be all ''
-    $this->assert_str_equals('Flintstone', $meta->get('FIELD', 'Textfield' )->{value});
+    $this->assert_str_equals( 'Flintstone',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
 }
 
 sub test_templateTopicFormSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-                         text => [ 'Template Topic' ],
-                         formtemplate => [ 'TestForm1' ],
-                         'Select' =>
-                         [ 'Value_1' ],
-                         'Textfield' =>
-                         [ 'Fred' ],
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.TemplateTopic' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text         => ['Template Topic'],
+            formtemplate => ['TestForm1'],
+            'Select'     => ['Value_1'],
+            'Textfield'  => ['Fred'],
+            action       => ['save'],
+            topic        => [ $this->{test_web} . '.TemplateTopic' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
 
-    my($xmeta, $xtext) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopic');
-    $query = new Unit::Request({
-                         templatetopic => [ 'TemplateTopic' ],
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.TemplateTopicAgain' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
-                                                  'TemplateTopicAgain');
-    $this->assert_matches(qr/Template Topic/, $text);
-    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
+    my $xmeta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'TemplateTopic' );
+    my $xtext = $xmeta->text;
+    $query = new Unit::Request(
+        {
+            templatetopic => ['TemplateTopic'],
+            action        => ['save'],
+            topic         => [ $this->{test_web} . '.TemplateTopicAgain' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'TemplateTopicAgain' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/Template Topic/, $text );
+    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
 
-    $this->assert_str_equals('Value_1', $meta->get('FIELD', 'Select' )->{value});
-    $this->assert_str_equals('Fred', $meta->get('FIELD', 'Textfield' )->{value});
+    $this->assert_str_equals( 'Value_1',
+        $meta->get( 'FIELD', 'Select' )->{value} );
+    $this->assert_str_equals( 'Fred',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
 }
 
 sub test_prevTopicFormSave {
-    my $this = shift;
-    my $query = new Unit::Request({
-                         text => [ 'Template Topic' ],
-                         formtemplate => [ 'TestForm1' ],
-                         'Select' =>
-                         [ 'Value_1' ],
-                         'Textfield' =>
-                         [ 'Rubble' ],
-                         action => [ 'save' ],
-                         topic => [ $this->{test_web}.'.PrevTopicFormSave' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $query = new Unit::Request({
-                      action => [ 'save' ],
-                      'Textfield' =>
-                      [ 'Barney' ],
-                      topic => [ $this->{test_web}.'.PrevTopicFormSave' ]
-                     });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'PrevTopicFormSave');
-    $this->assert_matches(qr/Template Topic/, $text);
-    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
-    $this->assert_str_equals('Value_1', $meta->get('FIELD','Select')->{value});
-    $this->assert_str_equals('Barney', $meta->get('FIELD','Textfield')->{value});
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            text         => ['Template Topic'],
+            formtemplate => ['TestForm1'],
+            'Select'     => ['Value_1'],
+            'Textfield'  => ['Rubble'],
+            action       => ['save'],
+            topic        => [ $this->{test_web} . '.PrevTopicFormSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $query = new Unit::Request(
+        {
+            action      => ['save'],
+            'Textfield' => ['Barney'],
+            topic       => [ $this->{test_web} . '.PrevTopicFormSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'PrevTopicFormSave' );
+    my $text = $meta->text;
+    $this->assert_matches( qr/Template Topic/, $text );
+    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
+    $this->assert_str_equals( 'Value_1',
+        $meta->get( 'FIELD', 'Select' )->{value} );
+    $this->assert_str_equals( 'Barney',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
 }
 
 sub test_simpleFormSave1 {
-    my $this = shift;
-    my $query = new Unit::Request({
-                         action => [ 'save' ],
-			 text   => [ $testtext_nometa ],
-                         formtemplate => [ 'TestForm1' ],
-                         'Select' => [ 'Value_2' ],
-                         'Radio' => [ '3' ],
-                         'Checkbox' => [ 'red' ],
-                         'CheckboxandButtons' => [ 'hamster' ],
-                         'Textfield' => [ 'Test' ],
-			 topic  => [ $this->{test_web}.'.SimpleFormTopic' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormTopic'));
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormTopic');
-    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
-    $this->assert_str_equals('Test', $meta->get('FIELD', 'Textfield' )->{value});
+    my $this  = shift;
+    my $query = new Unit::Request(
+        {
+            action               => ['save'],
+            text                 => [$testtext_nometa],
+            formtemplate         => ['TestForm1'],
+            'Select'             => ['Value_2'],
+            'Radio'              => ['3'],
+            'Checkbox'           => ['red'],
+            'CheckboxandButtons' => ['hamster'],
+            'Textfield'          => ['Test'],
+            topic                => [ $this->{test_web} . '.SimpleFormTopic' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormTopic' ) );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'SimpleFormTopic' );
+    my $text = $meta->text;
+    $this->assert_str_equals( 'TestForm1', $meta->get('FORM')->{name} );
+    $this->assert_str_equals( 'Test',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
 
 }
 
@@ -446,68 +528,91 @@ sub test_simpleFormSave1 {
 # are deleted.
 sub test_simpleFormSave2 {
     my $this = shift;
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki();
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
 
-    my $oldmeta = new Foswiki::Meta( $this->{twiki}, $this->{test_web}, 'SimpleFormSave2');
+    my $oldmeta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'SimpleFormSave2' );
     my $oldtext = $testtext1;
-    $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
-    $this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $this->{test_web}, 'SimpleFormSave2',
-                                $testform1, $oldmeta );
-    my $query = new Unit::Request({
-                         action => [ 'save' ],
-			 text   => [ $testtext_nometa ],
-                         formtemplate => [ 'TestForm3' ],
-                         'Select' => [ 'Value_2' ],
-                         'Radio' => [ '3' ],
-                         'Checkbox' => [ 'red' ],
-                         'CheckboxandButtons' => [ 'hamster' ],
-                         'Textfield' => [ 'Test' ],
-			 topic  => [ $this->{test_web}.'.SimpleFormSave2' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave2'));
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave2');
-    $this->assert_str_equals('TestForm3', $meta->get('FORM')->{name});
-    $this->assert_str_equals('Test', $meta->get('FIELD', 'Textfield' )->{value});
-    $this->assert_null($meta->get('FIELD', 'CheckboxandButtons' ));
+    $oldmeta->setEmbeddedStoreForm($oldtext);
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'SimpleFormSave2', $testform1 );
+    $meta->copyFrom($oldmeta);
+    $meta->save( user => $this->{test_user_login} );
+
+    my $query = new Unit::Request(
+        {
+            action               => ['save'],
+            text                 => [$testtext_nometa],
+            formtemplate         => ['TestForm3'],
+            'Select'             => ['Value_2'],
+            'Radio'              => ['3'],
+            'Checkbox'           => ['red'],
+            'CheckboxandButtons' => ['hamster'],
+            'Textfield'          => ['Test'],
+            topic                => [ $this->{test_web} . '.SimpleFormSave2' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave2' ) );
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'SimpleFormSave2' );
+    my $text = $meta->text;
+    $this->assert_str_equals( 'TestForm3', $meta->get('FORM')->{name} );
+    $this->assert_str_equals( 'Test',
+        $meta->get( 'FIELD', 'Textfield' )->{value} );
+    $this->assert_null( $meta->get( 'FIELD', 'CheckboxandButtons' ) );
 }
 
 # meta data (other than FORM, FIELD, TOPICPARENT, etc.) is preserved
 # during saves.
 sub test_simpleFormSave3 {
     my $this = shift;
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki();
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
 
-    my $oldmeta = new Foswiki::Meta(
-        $this->{twiki}, $this->{test_web}, 'SimpleFormSave3');
+    my $oldmeta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'SimpleFormSave3' );
     my $oldtext = $testtext1;
-    $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
-    $this->{twiki}->{store}->saveTopic(
-        $this->{test_user_login}, $this->{test_web}, 'SimpleFormSave3',
-        $testform1, $oldmeta );
+    $oldmeta->setEmbeddedStoreForm($oldtext);
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'SimpleFormSave3', $testform1 );
+    $meta->copyFrom($oldmeta);
+    $meta->save( user => $this->{test_user_login} );
+
     my $query = new Unit::Request(
         {
-            action => [ 'save' ],
-            text   => [ $testtext_nometa ],
-            formtemplate => [ 'TestForm1' ],
-            'Select' => [ 'Value_2' ],
-            'Radio' => [ '3' ],
-            'Checkbox' => [ 'red' ],
-            'CheckboxandButtons' => [ 'hamster' ],
-            'Textfield' => [ 'Test' ],
-            topic  => [ $this->{test_web}.'.SimpleFormSave3' ]
-           });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    $this->assert($this->{twiki}->{store}->topicExists($this->{test_web}, 'SimpleFormSave3'));
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'SimpleFormSave3');
+            action               => ['save'],
+            text                 => [$testtext_nometa],
+            formtemplate         => ['TestForm1'],
+            'Select'             => ['Value_2'],
+            'Radio'              => ['3'],
+            'Checkbox'           => ['red'],
+            'CheckboxandButtons' => ['hamster'],
+            'Textfield'          => ['Test'],
+            topic                => [ $this->{test_web} . '.SimpleFormSave3' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(
+        $this->{session}->topicExists( $this->{test_web}, 'SimpleFormSave3' ) );
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'SimpleFormSave3' );
+    my $text = $meta->text;
     $this->assert($meta);
-    $this->assert_str_equals('UserTopic', $meta->get('PREFERENCE', 'VIEW_TEMPLATE' )->{value});
+    $this->assert_str_equals( 'UserTopic',
+        $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' )->{value} );
 
 }
 
@@ -516,41 +621,47 @@ sub test_simpleFormSave3 {
 sub test_templateTopicWithMeta {
     my $this = shift;
 
-    Foswiki::Func::saveTopicText($this->{test_web},"TemplateTopic",$testtext1);
+    Foswiki::Func::saveTopicText( $this->{test_web}, "TemplateTopic",
+        $testtext1 );
     my $query = new Unit::Request(
         {
-            templatetopic => [ 'TemplateTopic' ],
-            action => [ 'save' ],
-            topic => [ $this->{test_web}.'.TemplateTopicWithMeta' ]
-           });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'TemplateTopicWithMeta');
+            templatetopic => ['TemplateTopic'],
+            action        => ['save'],
+            topic         => [ $this->{test_web} . '.TemplateTopicWithMeta' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web},
+        'TemplateTopicWithMeta' );
+    my $text = $meta->text;
     my $pref = $meta->get( 'PREFERENCE', 'VIEW_TEMPLATE' );
     $this->assert_not_null($pref);
-    $this->assert_str_equals('UserTopic', $pref->{value});
+    $this->assert_str_equals( 'UserTopic', $pref->{value} );
 }
 
 #Mergeing is only enabled if the topic text comes from =text= and =originalrev= is &gt; 0 and is not the same as the revision number of the most recent revision. If mergeing is enabled both the topic and the meta-data are merged.
 
 sub test_merge {
     my $this = shift;
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki();
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
 
     # Set up the original topic that the two edits started on
-    my $oldmeta = new Foswiki::Meta(
-        $this->{twiki}, $this->{test_web}, 'MergeSave');
+    my $oldmeta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'MergeSave' );
     my $oldtext = $testtext1;
-    $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
-    $this->{twiki}->{store}->saveTopic( $this->{test_user_2_login},
-                                $this->{test_web}, 'MergeSave',
-                                $testform4, $oldmeta );
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(
-        undef, $this->{test_web}, 'MergeSave');
-    my( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    my $original = "${orgRev}_$orgDate";
+    $oldmeta->setEmbeddedStoreForm($oldtext);
+    $oldmeta->text($testform4);
+    $oldmeta->save( user => $this->{test_user_2_login} );
+
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
+    my $text     = $meta->text;
+    my $info     = $meta->getRevisionInfo();
+    my $original = "$info->{version}_$info->{date}";
 
     #print STDERR "Starting at $original\n";
 
@@ -558,67 +669,74 @@ sub test_merge {
     # forcing a revision increment.
     my $query1 = new Unit::Request(
         {
-            action => [ 'save' ],
-            text   => [ "Soggy bat" ],
-            originalrev => $original,
-            forcenewrevision => 1,
-            formtemplate => [ 'TestForm4' ],
-            'Select' => [ 'Value_2' ],
-            'Radio' => [ '3' ],
-            'Checkbox' => [ 'red' ],
-            'CheckboxandButtons' => [ 'hamster' ],
-            'Textfield' => [ 'Bat' ],
-            'Textarea' => [ <<GUMP ],
+            action               => ['save'],
+            text                 => ["Soggy bat"],
+            originalrev          => $original,
+            forcenewrevision     => 1,
+            formtemplate         => ['TestForm4'],
+            'Select'             => ['Value_2'],
+            'Radio'              => ['3'],
+            'Checkbox'           => ['red'],
+            'CheckboxandButtons' => ['hamster'],
+            'Textfield'          => ['Bat'],
+            'Textarea'           => [ <<GUMP ],
 Glug Glug
 Blog Glog
 Bungdit Din
 Glaggie
 GUMP
-            topic  => [ $this->{test_web}.'.MergeSave' ]
-           });
-    # Do the save
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query1);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    my( $r1Date, $r1Auth, $r1Rev ) = $meta->getRevisionInfo();
+            topic => [ $this->{test_web} . '.MergeSave' ]
+        }
+    );
 
-    #print STDERR "First edit saved as ${r1Rev}_$r1Date\n";
+    # Do the save
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query1 );
+    $this->capture( \&$UI_FN, $this->{session} );
+    $info = $meta->getRevisionInfo();
+
+    #print STDERR "First edit saved as $info->{version}_$info->{date}\n";
 
     # Build a second query for the other save, based on the same original
     # version as the previous edit
     my $query2 = new Unit::Request(
         {
-            action => [ 'save' ],
-            text   => [ "Wet rat" ],
-            originalrev => $original,
-            formtemplate => [ 'TestForm4' ],
-            'Select' => [ 'Value_2' ],
-            'Radio' => [ '3' ],
-            'Checkbox' => [ 'red' ],
-            'CheckboxandButtons' => [ 'hamster' ],
-            'Textfield' => [ 'Rat' ],
-            'Textarea' => [ <<GUMP ],
+            action               => ['save'],
+            text                 => ["Wet rat"],
+            originalrev          => $original,
+            formtemplate         => ['TestForm4'],
+            'Select'             => ['Value_2'],
+            'Radio'              => ['3'],
+            'Checkbox'           => ['red'],
+            'CheckboxandButtons' => ['hamster'],
+            'Textfield'          => ['Rat'],
+            'Textarea'           => [ <<GUMP ],
 Spletter Glug
 Blog Splut
 Bungdit Din
 GUMP
-            topic  => [ $this->{test_web}.'.MergeSave' ]
-           });
+            topic => [ $this->{test_web} . '.MergeSave' ]
+        }
+    );
+
     # Do the save. This time we expect a merge exception
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_2_login}, $query2);
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_2_login}, $query2 );
     try {
-        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    } catch Foswiki::OopsException with {
+        $this->capture( \&$UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals('merge_notice', $e->{def});
-    } otherwise {
-        $this->assert(0, shift);
+        $this->assert_str_equals( 'merge_notice', $e->{def} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
     };
 
     # Get the merged topic and pick it apart
-    ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
-                                                  'MergeSave');
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
+    $text = $meta->text;
     my $e = <<'END';
 <div class="twikiConflict"><b>CONFLICT</b> original 1:</div>
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
@@ -628,20 +746,20 @@ Soggy bat
 Wet rat
 <div class="twikiConflict"><b>CONFLICT</b> end</div>
 END
-    $this->assert_str_equals($e, $text);
+    $this->assert_str_equals( $e, $text );
 
-    my $v = $meta->get('FIELD', 'Select');
-    $this->assert_str_equals('Value_2', $v->{value});
-    $v = $meta->get('FIELD', 'Radio');
-    $this->assert_str_equals('3', $v->{value});
-    $v = $meta->get('FIELD', 'Checkbox');
-    $this->assert_str_equals('red', $v->{value});
-    $v = $meta->get('FIELD', 'CheckboxandButtons');
-    $this->assert_str_equals('hamster', $v->{value});
-    $v = $meta->get('FIELD', 'Textfield');
-    $this->assert_str_equals('<del>Bat</del><ins>Rat</ins>', $v->{value});
-    $v = $meta->get('FIELD', 'Textarea');
-    $this->assert_str_equals(<<ZIS, $v->{value});
+    my $v = $meta->get( 'FIELD', 'Select' );
+    $this->assert_str_equals( 'Value_2', $v->{value} );
+    $v = $meta->get( 'FIELD', 'Radio' );
+    $this->assert_str_equals( '3', $v->{value} );
+    $v = $meta->get( 'FIELD', 'Checkbox' );
+    $this->assert_str_equals( 'red', $v->{value} );
+    $v = $meta->get( 'FIELD', 'CheckboxandButtons' );
+    $this->assert_str_equals( 'hamster', $v->{value} );
+    $v = $meta->get( 'FIELD', 'Textfield' );
+    $this->assert_str_equals( '<del>Bat</del><ins>Rat</ins>', $v->{value} );
+    $v = $meta->get( 'FIELD', 'Textarea' );
+    $this->assert_str_equals( <<ZIS, $v->{value} );
 <del>Glug </del><ins>Spletter </ins>Glug
 Blog <del>Glog
 </del><ins>Splut
@@ -650,87 +768,94 @@ Glaggie
 ZIS
 }
 
-sub test_restoreRevision {
-    my $this = shift;
-    
-    # first write topic without meta
-    my $query = new Unit::Request({
-        text => [ 'FIRST REVISION' ],
-        action => [ 'save' ],
-        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    
-    # retrieve revision number
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
-    my( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    my $original = "${orgRev}_$orgDate";
-    $this->assert_equals(1, $orgRev);
-        
-    # write second revision with meta
-    $query = new Unit::Request({
-                         action => [ 'save' ],
-			 text   => [ 'SECOND REVISION' ],
-			             originalrev => $original,
-                         forcenewrevision => 1,
-                         formtemplate => [ 'TestForm1' ],
-                         'Select' => [ 'Value_2' ],
-                         'Radio' => [ '3' ],
-                         'Checkbox' => [ 'red' ],
-                         'CheckboxandButtons' => [ 'hamster' ],
-                         'Textfield' => [ 'Test' ],
-			 topic  => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
-                        });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-
-    ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
-    ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    $original = "${orgRev}_$orgDate";
-    $this->assert_equals(2, $orgRev);
-
-    # now restore topic to revision 1
-    # the form should be removed as well
-    $query = new Unit::Request({
-        action => [ 'manage' ],
-        rev => 1,
-        forcenewrevision => 1,
-        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
-    ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    $original = "${orgRev}_$orgDate";
-    $this->assert_equals(3, $orgRev);
-    $this->assert_matches(qr/FIRST REVISION/, $text);
-    $this->assert_null($meta->get('FORM'));
-    
-    # and restore topic to revision 2
-    # the form should be re-appended
-    $query = new Unit::Request({
-        action => [ 'manage' ],
-        rev => 2,
-        forcenewrevision => 1,
-        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
-       });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
-    ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    $original = "${orgRev}_$orgDate";
-    $this->assert_equals(4, $orgRev);
-    $this->assert_matches(qr/SECOND REVISION/, $text);
-    $this->assert_not_null($meta->get('FORM'));
-    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
-    # field default values should be all ''
-    $this->assert_str_equals('Test', $meta->get('FIELD', 'Textfield' )->{value});
-}
+# CC commented this test out, because it doesn't bear any relationship to any
+# documented interaction mode for the save script :-/
+#sub test_restoreRevision {
+#    my $this = shift;
+#
+#    # first write topic without meta
+#    my $query = new Unit::Request({
+#        text => [ 'FIRST REVISION' ],
+#        action => [ 'save' ],
+#        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#       });
+#    $this->{session}->finish();
+#    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+#    $this->capture( \&$UI_FN, $this->{session});
+#
+#    # retrieve revision number
+#    my $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    my $text = $meta->text;
+#    my $info = $meta->getRevisionInfo();
+#
+#    my $original = "$info->{version}_$info->{date}";
+#    $this->assert_equals(1, $info->{version});
+#
+#    # write second revision with meta
+#    $query = new Unit::Request({
+#                         action => [ 'save' ],
+#			 text   => [ 'SECOND REVISION' ],
+#			             originalrev => $original,
+#                         forcenewrevision => 1,
+#                         formtemplate => [ 'TestForm1' ],
+#                         'Select' => [ 'Value_2' ],
+#                         'Radio' => [ '3' ],
+#                         'Checkbox' => [ 'red' ],
+#                         'CheckboxandButtons' => [ 'hamster' ],
+#                         'Textfield' => [ 'Test' ],
+#			 topic  => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#                        });
+#    $this->{session}->finish();
+#    $this->{session} = new Foswiki( $this->{test_user_login}, $query);
+#    $this->capture( \&$UI_FN, $this->{session});
+#
+#    $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    $text = $meta->text;
+#    $info = $meta->getRevisionInfo();
+#    $original = "$info->{version}_$info->{date}";
+#    $this->assert_equals(2, $info->{version});
+#
+#    # now restore topic to revision 1
+#    # the form should be removed as well
+#    $query = new Unit::Request({
+#        action => [ 'manage' ],
+#        rev => 1,
+#        forcenewrevision => 1,
+#        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#       });
+#    $this->{session}->finish();
+#    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+#    $this->capture( \&$UI_FN, $this->{session});
+#    $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    $text = $meta->text;
+#    $info = $meta->getRevisionInfo();
+#    $original = "$info->{version}_$info->{date}";
+#    $this->assert_equals(3, $info->{version});
+#    $this->assert_matches(qr/FIRST REVISION/, $text);
+#    $this->assert_null($meta->get('FORM'));
+#
+#    # and restore topic to revision 2
+#    # the form should be re-appended
+#    $query = new Unit::Request({
+#        action => [ 'manage' ],
+#        rev => 2,
+#        forcenewrevision => 1,
+#        topic => [ $this->{test_web}.'.DeleteTestRestoreRevisionTopic' ]
+#       });
+#    $this->{session}->finish();
+#    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+#    $this->capture( \&$UI_FN, $this->{session});
+#    $meta = Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'DeleteTestRestoreRevisionTopic');
+#    $text = $meta->text;
+#    $info = $meta->getRevisionInfo();
+#    $original = "$info->{version}_$info->{date}";
+#    $this->assert_equals(4, $info->{rev});
+#    $this->assert_matches(qr/SECOND REVISION/, $text);
+#    $this->assert_not_null($meta->get('FORM'));
+#    $this->assert_str_equals('TestForm1', $meta->get('FORM')->{name});
+#    # field default values should be all ''
+#    $this->assert_str_equals('Test', $meta->get('FIELD', 'Textfield' )->{value});
+#}
 
 # test interaction with reprev. Testcase:
 #
@@ -747,90 +872,112 @@ sub test_1897 {
     # make sure we have time to complete the test
     $Foswiki::cfg{ReplaceIfEditedAgainWithin} = 7200;
 
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki($this->{test_user_login});
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login} );
 
-    my $oldmeta = new Foswiki::Meta(
-        $this->{twiki}, $this->{test_web}, 'MergeSave');
+    my $oldmeta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'MergeSave' );
     my $oldtext = $testtext1;
     my $query;
-    $this->{twiki}->{store}->extractMetaData( $oldmeta, $oldtext );
+    $oldmeta->setEmbeddedStoreForm($oldtext);
 
     # First, user A saves to create rev 1
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{test_web}, 'MergeSave',
-                                "Smelly\ncat", $oldmeta );
-    my($meta, $text) = $this->{twiki}->{store}->readTopic(
-        undef, $this->{test_web}, 'MergeSave');
-    my( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'MergeSave',
+        "Smelly\ncat", $oldmeta );
+    $meta->save();
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
+    my $text = $meta->text();
+    my $info = $meta->getRevisionInfo();
+    my ( $orgDate, $orgAuth, $orgRev ) =
+      ( $info->{date}, $info->{author}, $info->{version} );
 
-    $this->assert_equals(1, $orgRev);
-    $this->assert_str_equals("Smelly\ncat", $text);
+    $this->assert_equals( 1, $orgRev );
+    $this->assert_str_equals( "Smelly\ncat", $text );
 
     my $original = "${orgRev}_$orgDate";
-    sleep(1); # tick the clock to ensure the date changes
+    sleep(1);    # tick the clock to ensure the date changes
 
     # A saves again, reprev triggers to create rev 1 again
     $query = new Unit::Request(
         {
-            action => [ 'save' ],
-            text   => [ "Sweaty\ncat" ],
+            action      => ['save'],
+            text        => ["Sweaty\ncat"],
             originalrev => $original,
-            topic  => [ $this->{test_web}.'.MergeSave' ]
-           });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query);
-    $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
+            topic       => [ $this->{test_web} . '.MergeSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $this->capture( \&$UI_FN, $this->{session} );
 
     # make sure it's still rev 1 as expected
-    ($meta, $text) = $this->{twiki}->{store}->readTopic(
-        undef, $this->{test_web}, 'MergeSave');
-    ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    $this->assert_equals(1, $orgRev);
-    $this->assert_str_equals("Sweaty\ncat\n", $text);
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
+    $text = $meta->text();
+    $info = $meta->getRevisionInfo();
+    ( $orgDate, $orgAuth, $orgRev ) =
+      ( $info->{date}, $info->{author}, $info->{version} );
+    $this->assert_equals( 1, $orgRev );
+    $this->assert_str_equals( "Sweaty\ncat\n", $text );
 
     # User B saves; make sure we get a merge notice.
     $query = new Unit::Request(
         {
-            action => [ 'save' ],
-            text   => [ "Smelly\nrat" ],
+            action      => ['save'],
+            text        => ["Smelly\nrat"],
             originalrev => $original,
-            topic  => [ $this->{test_web}.'.MergeSave' ]
-           });
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki( $this->{test_user_2_login}, $query);
+            topic       => [ $this->{test_web} . '.MergeSave' ]
+        }
+    );
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_2_login}, $query );
     try {
-        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    } catch Foswiki::OopsException with {
+        $this->capture( \&$UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals('merge_notice', $e->{def});
-    } otherwise {
-        $this->assert(0, shift);
+        $this->assert_str_equals( 'merge_notice', $e->{def} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
     };
 
-    ($meta, $text) = $this->{twiki}->{store}->readTopic(undef, $this->{test_web},
-                                                'MergeSave');
-    ( $orgDate, $orgAuth, $orgRev ) = $meta->getRevisionInfo();
-    $this->assert_equals(2, $orgRev);
-    $this->assert_str_equals("<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>", $text);
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
+    $text = $meta->text();
+
+    $info = $meta->getRevisionInfo();
+    ( $orgDate, $orgAuth, $orgRev ) =
+      ( $info->{date}, $info->{author}, $info->{version} );
+    $this->assert_equals( 2, $orgRev );
+    $this->assert_str_equals(
+"<del>Sweaty\n</del><ins>Smelly\n</ins><del>cat\n</del><ins>rat\n</ins>",
+        $text
+    );
 }
 
 sub test_missingTemplateTopic {
     my $this = shift;
-    $this->{twiki}->finish();
-    my $query = new Unit::Request({
-        templatetopic => [ 'NonExistantTemplateTopic' ],
-        action => [ 'save' ],
-        topic => [ $this->{test_web}.'.FlibbleDeDib' ]
-       });
-    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $this->{session}->finish();
+    my $query = new Unit::Request(
+        {
+            templatetopic => ['NonExistantTemplateTopic'],
+            action        => ['save'],
+            topic         => [ $this->{test_web} . '.FlibbleDeDib' ]
+        }
+    );
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
-        $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
-    } catch Foswiki::OopsException with {
+        $this->capture( \&$UI_FN, $this->{session} );
+    }
+    catch Foswiki::OopsException with {
         my $e = shift;
-        $this->assert_str_equals('no_such_topic_template', $e->{def});
-    } otherwise {
-        $this->assert(0, shift);
+        $this->assert_str_equals( 'no_such_topic_template', $e->{def} );
+    }
+    otherwise {
+        $this->assert( 0, shift );
     };
 }
 

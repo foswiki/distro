@@ -5,49 +5,50 @@ use base 'Tie::Handle';
 use strict;
 
 sub new {
-    my ($class, $baseName) = @_;
+    my ( $class, $baseName ) = @_;
     return eval "tie(*$baseName, \$class, \$baseName)";
 }
 
 sub DESTROY {
     my $this = shift;
-    { local $^W = 0; untie(*$this->{baseName}) }
+    { local $^W = 0; untie( *$this->{baseName} ) }
 }
 
 sub TIEHANDLE {
-    my ($class, $baseName) = @_;
-    my $this = bless({}, $class);
+    my ( $class, $baseName ) = @_;
+    my $this = bless( {}, $class );
     $this->{baseName} = $baseName;
+
     # dup the base file handle, otherwise we get an infinite recursion
     # when printing
     my $fh;
-    open($fh, ">&$baseName") || die "Failed to dup $baseName; $!";
+    open( $fh, ">&$baseName" ) || die "Failed to dup $baseName; $!";
     $this->{principal} = $fh;
     return $this;
 }
 
 sub UNTIE {
     my $this = shift;
-    close($this->{principal}) if $this->{principal};
-    foreach my $tee (@{$this->{tees}}) {
+    close( $this->{principal} ) if $this->{principal};
+    foreach my $tee ( @{ $this->{tees} } ) {
         close($tee);
     }
 }
 
 sub teeTo {
-    my ($this, $fh) = @_;
-    push(@{$this->{tees}}, $fh);
+    my ( $this, $fh ) = @_;
+    push( @{ $this->{tees} }, $fh );
 }
 
 sub PRINT {
     my $this = shift;
     my $fh;
 
-    if ($this->{principal}) {
-        $fh = *{$this->{principal}};
+    if ( $this->{principal} ) {
+        $fh = *{ $this->{principal} };
         print $fh @_;
     }
-    foreach my $tee (@{$this->{tees}}) {
+    foreach my $tee ( @{ $this->{tees} } ) {
         $fh = *{$tee};
         print $fh @_;
     }
@@ -55,23 +56,27 @@ sub PRINT {
 
 sub OPEN {
     my $this = $_[0];
+
     # Redirect the principal; leave the tees alone
     my $fh;
+
     # Must use 3 arg form; passing @_ doesn't work
-    my $status = open($fh, $_[1], $_[2]);
+    my $status = open( $fh, $_[1], $_[2] );
     if ($status) {
-        close($this->{principal}) if $this->{principal};
+        close( $this->{principal} ) if $this->{principal};
         $this->{principal} = $fh;
-    } else {
-        print STDERR "Open failed: ",join(' ',@_)." - $!\n";
+    }
+    else {
+        print STDERR "Open failed: ", join( ' ', @_ ) . " - $!\n";
     }
     return $status;
 }
 
 sub CLOSE {
     my $this = shift;
+
     # Close the principal, keeping the tees
-    close($this->{principal}) if $this->{principal};
+    close( $this->{principal} ) if $this->{principal};
     undef $this->{principal};
     return 1;
 }

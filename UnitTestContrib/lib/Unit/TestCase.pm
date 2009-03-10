@@ -12,15 +12,19 @@ use vars qw( $differ );
 
 sub new {
     my $class = shift;
-    my $this = bless({
-       annotations => [],
-       expect_failure => 0 }, $class);
+    my $this  = bless(
+        {
+            annotations    => [],
+            expect_failure => 0
+        },
+        $class
+    );
     return $this;
 }
 
 sub set_up {
     my $this = shift;
-    @{$this->{annotations}} = ();
+    @{ $this->{annotations} } = ();
     $this->{expect_failure} = 0;
 }
 
@@ -28,7 +32,7 @@ sub tear_down {
 }
 
 sub _fixture_test {
-    my ($this, $set_up, $test) = @_;
+    my ( $this, $set_up, $test ) = @_;
     $this->$set_up();
     $this->$test();
 }
@@ -60,16 +64,17 @@ sub fixture_groups {
 }
 
 sub list_tests {
-    my ($this, $suite) = @_;
+    my ( $this, $suite ) = @_;
     die "No suite" unless $suite;
     my @tests;
     my @verifies;
     my $clz = new Devel::Symdump($suite);
-    for my $i ($clz->functions()) {
-        if ($i =~ /^$suite\:\:test/) {
-            push(@tests, $i);
-        } elsif ($i =~ /^$suite\:\:(verify.*$)/) {
-            push(@verifies, $1);
+    for my $i ( $clz->functions() ) {
+        if ( $i =~ /^$suite\:\:test/ ) {
+            push( @tests, $i );
+        }
+        elsif ( $i =~ /^$suite\:\:(verify.*$)/ ) {
+            push( @verifies, $1 );
         }
     }
     my $fg = $this->fixture_groups();
@@ -77,27 +82,31 @@ sub list_tests {
     # Generate a verify method for each combination of the different
     # fixture methods
     my @setups = ();
-    push(@tests, _gen_verification_functions(
-        \@setups, $suite, \@verifies,
-        $this->fixture_groups()));
+    push(
+        @tests,
+        _gen_verification_functions(
+            \@setups, $suite, \@verifies, $this->fixture_groups()
+        )
+    );
     return @tests;
 }
 
 sub _gen_verification_functions {
-    my $setups = shift;
-    my $suite = shift;
+    my $setups   = shift;
+    my $suite    = shift;
     my $verifies = shift;
-    my $group = shift;
+    my $group    = shift;
     my @tests;
     foreach my $setup_function (@$group) {
-        push(@$setups, $setup_function);
-        if (scalar(@_)) {
-            push (@tests, _gen_verification_functions(
-                $setups, $suite, $verifies, @_));
-        } else {
+        push( @$setups, $setup_function );
+        if ( scalar(@_) ) {
+            push( @tests,
+                _gen_verification_functions( $setups, $suite, $verifies, @_ ) );
+        }
+        else {
             foreach my $verify (@$verifies) {
-                my $fn = $suite.'::'.$verify.'_'.join('_', @$setups);
-                my $sup = join(';', map { '$this->'.$_.'()' } @$setups);
+                my $fn = $suite . '::' . $verify . '_' . join( '_', @$setups );
+                my $sup = join( ';', map { '$this->' . $_ . '()' } @$setups );
                 my $code = <<SUB;
 *$fn = sub {
     my \$this = shift;
@@ -107,7 +116,7 @@ sub _gen_verification_functions {
 SUB
                 eval $code;
                 die $@ if $@;
-                push(@tests, $fn);
+                push( @tests, $fn );
             }
         }
         pop(@$setups);
@@ -116,118 +125,127 @@ SUB
 }
 
 sub assert {
-    my ($this, $bool, $mess) = @_;
+    my ( $this, $bool, $mess ) = @_;
     return 1 if $bool;
     $mess ||= "Assertion failed";
-    $mess = join("\n", @{$this->{annotations}})."\n".$mess;
+    $mess = join( "\n", @{ $this->{annotations} } ) . "\n" . $mess;
     $mess = Carp::longmess($mess);
     die $mess;
 }
 
 sub assert_equals {
-    my ($this, $expected, $got, $mess) = @_;
-    if (defined($got) && defined($expected)) {
-        $this->assert($expected eq $got,
-                      $mess || "Expected:'$expected'\n But got:'$got'\n");
-    } elsif (!defined($got)) {
+    my ( $this, $expected, $got, $mess ) = @_;
+    if ( defined($got) && defined($expected) ) {
+        $this->assert( $expected eq $got,
+            $mess || "Expected:'$expected'\n But got:'$got'\n" );
+    }
+    elsif ( !defined($got) ) {
         $this->assert_null($expected);
-    } else {
+    }
+    else {
         $this->assert_null($got);
     }
 }
 
 sub assert_not_null {
-    my ($this, $wot, $mess) = @_;
-    $this->assert(defined($wot), $mess);
+    my ( $this, $wot, $mess ) = @_;
+    $this->assert( defined($wot), $mess );
 }
 
 sub assert_null {
-    my ($this, $wot, $mess) = @_;
-    $this->assert(!defined($wot), $mess);
+    my ( $this, $wot, $mess ) = @_;
+    $this->assert( !defined($wot), $mess );
 }
 
 sub assert_str_equals {
-    my ($this, $expected, $got, $mess) = @_;
+    my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($expected eq $got, $mess || "Expected:'$expected'\n But got:'$got'\n");
+    $this->assert( $expected eq $got,
+        $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
 
 sub assert_str_not_equals {
-    my ($this, $expected, $got, $mess) = @_;
+    my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($expected ne $got, $mess || "Expected:'$expected'\n And got:'$got'\n");
+    $this->assert( $expected ne $got,
+        $mess || "Expected:'$expected'\n And got:'$got'\n" );
 }
 
 sub assert_num_equals {
-    my ($this, $expected, $got, $mess) = @_;
+    my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($expected == $got, $mess || "Expected:'$expected'\n But got:'$got'\n");
+    $this->assert( $expected == $got,
+        $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
 
 sub assert_matches {
-    my ($this, $expected, $got, $mess) = @_;
+    my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($got =~ /$expected/, $mess || "Expected:'$expected'\n But got:'$got'\n");
+    $this->assert( $got =~ /$expected/,
+        $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
 
 sub assert_does_not_match {
-    my ($this, $expected, $got, $mess) = @_;
+    my ( $this, $expected, $got, $mess ) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($got !~ /$expected/, $mess || "Expected:'$expected'\n And got:'$got'\n");
+    $this->assert( $got !~ /$expected/,
+        $mess || "Expected:'$expected'\n And got:'$got'\n" );
 }
 
 sub assert_deep_equals {
-    my ($this, $expected, $got, $mess, $sniffed) = @_;
+    my ( $this, $expected, $got, $mess, $sniffed ) = @_;
 
     $sniffed = {} unless $sniffed;
 
-    if (ref($expected)) {
+    if ( ref($expected) ) {
+
         # Cycle eliminator.
-        if (defined($sniffed->{$expected})) {
-            $this->assert_equals($sniffed->{$expected}, $got);
+        if ( defined( $sniffed->{$expected} ) ) {
+            $this->assert_equals( $sniffed->{$expected}, $got );
             return;
         }
 
         $sniffed->{$expected} = $got;
     }
 
-    if (UNIVERSAL::isa($expected, 'ARRAY')) {
-        $this->assert(UNIVERSAL::isa($got, 'ARRAY'));
-        for ( 0..$#$expected ) {
-            $this->assert_deep_equals($expected->[$_], $got->[$_],
-                                      $mess, $sniffed);
+    if ( UNIVERSAL::isa( $expected, 'ARRAY' ) ) {
+        $this->assert( UNIVERSAL::isa( $got, 'ARRAY' ) );
+        for ( 0 .. $#$expected ) {
+            $this->assert_deep_equals( $expected->[$_], $got->[$_], $mess,
+                $sniffed );
         }
     }
-    elsif (UNIVERSAL::isa($expected, 'HASH')) {
-        $this->assert(UNIVERSAL::isa($got, 'HASH'));
+    elsif ( UNIVERSAL::isa( $expected, 'HASH' ) ) {
+        $this->assert( UNIVERSAL::isa( $got, 'HASH' ) );
         my %matched;
         for ( keys %$expected ) {
-            $this->assert_deep_equals($expected->{$_}, $got->{$_},
-                                      $mess, $sniffed);
+            $this->assert_deep_equals( $expected->{$_}, $got->{$_}, $mess,
+                $sniffed );
             $matched{$_} = 1;
         }
-        for (keys %$got) {
-            $this->assert($matched{$_});
+        for ( keys %$got ) {
+            $this->assert( $matched{$_} );
         }
     }
-    elsif (UNIVERSAL::isa($expected, 'REF') ||
-        UNIVERSAL::isa($expected, 'SCALAR')) {
-        $this->assert_equals(ref($expected), ref($got), $mess);
-        $this->assert_deep_equals($$expected, $$got, $mess, $sniffed);
+    elsif (UNIVERSAL::isa( $expected, 'REF' )
+        || UNIVERSAL::isa( $expected, 'SCALAR' ) )
+    {
+        $this->assert_equals( ref($expected), ref($got), $mess );
+        $this->assert_deep_equals( $$expected, $$got, $mess, $sniffed );
     }
     else {
-        $this->assert_equals($expected, $got, $mess);
+        $this->assert_equals( $expected, $got, $mess );
     }
 }
 
 sub annotate {
-    my ($this, $mess) = @_;
-    push(@{$this->{annotations}}, $mess) if defined($mess);
+    my ( $this, $mess ) = @_;
+    push( @{ $this->{annotations} }, $mess ) if defined($mess);
 }
 
 sub expect_failure {
@@ -239,37 +257,35 @@ sub expect_failure {
 # which is tolerant of unbalanced tags, so the actual may have unbalanced
 # tags which will _not_ be detected.
 sub assert_html_equals {
-    my( $this, $e, $a, $mess ) = @_;
+    my ( $this, $e, $a, $mess ) = @_;
 
-    my ($package, $filename, $line) = caller(0);
-    my $opts =
-      {
-       options => 'rex',
-       reporter =>
-       \&Unit::HTMLDiffer::defaultReporter,
-       result => ''
-      };
+    my ( $package, $filename, $line ) = caller(0);
+    my $opts = {
+        options  => 'rex',
+        reporter => \&Unit::HTMLDiffer::defaultReporter,
+        result   => ''
+    };
 
     $mess ||= "$a\ndoes not equal\n$e";
-    $this->assert($e, "$filename:$line\n$mess");
-    $this->assert($a, "$filename:$line\n$mess");
+    $this->assert( $e, "$filename:$line\n$mess" );
+    $this->assert( $a, "$filename:$line\n$mess" );
     $differ ||= new Unit::HTMLDiffer();
-    if( $differ->diff($e, $a, $opts)) {
-        $this->assert(0, "$filename:$line\n$mess\n$opts->{result}");
+    if ( $differ->diff( $e, $a, $opts ) ) {
+        $this->assert( 0, "$filename:$line\n$mess\n$opts->{result}" );
     }
 }
 
 # See if a block of HTML occurs in a larger
 # block of HTML. Both blocks must be well-formed HTML.
 sub assert_html_matches {
-    my ($this, $e, $a, $mess ) = @_;
+    my ( $this, $e, $a, $mess ) = @_;
 
     $differ ||= new Unit::HTMLDiffer();
 
     $mess ||= "$a\ndoes not match\n$e";
-    my ($package, $filename, $line) = caller(0);
-    unless( $differ->html_matches($e, $a)) {
-        $this->assert(0, "$filename:$line\n$mess");
+    my ( $package, $filename, $line ) = caller(0);
+    unless ( $differ->html_matches( $e, $a ) ) {
+        $this->assert( 0, "$filename:$line\n$mess" );
     }
 }
 
@@ -283,38 +299,38 @@ sub capture {
     my $proc = shift;
 
     require File::Temp;
-    my $tmpdir = File::Temp::tempdir(CLEANUP => 1);
+    my $tmpdir = File::Temp::tempdir( CLEANUP => 1 );
     my $tmpfilename = "$tmpdir/data";
 
-    my $text = undef;
+    my $text     = undef;
     my $response = undef;
-    my @params = @_;
+    my @params   = @_;
     my $result;
-    my ( $release ) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
+    my ($release) = $Foswiki::RELEASE =~ /-(\d+)\.\d+\.\d+/;
 
     {
         local *STDOUT;
         open STDOUT, ">", $tmpfilename
-	  or die "Can't open temporary STDOUT file $tmpfilename: $!";
+          or die "Can't open temporary STDOUT file $tmpfilename: $!";
 
-        $result = &$proc( @params );
+        $result = &$proc(@params);
     }
 
-        $response =
-          UNIVERSAL::isa( $params[0], 'Foswiki' )
-          ? $params[0]->{response}
-          : $Foswiki::Plugins::SESSION->{response};
+    $response =
+      UNIVERSAL::isa( $params[0], 'Foswiki' )
+      ? $params[0]->{response}
+      : $Foswiki::Plugins::SESSION->{response};
 
-        # Capture headers
-        Foswiki::Engine->finalizeCookies($response);
-        foreach my $header ( keys %{ $response->headers } ) {
-            $text .= $header . ': ' . $_ . "\x0D\x0A"
-              foreach $response->getHeader($header);
-        }
-        $text .= "\x0D\x0A";
+    # Capture headers
+    Foswiki::Engine->finalizeCookies($response);
+    foreach my $header ( keys %{ $response->headers } ) {
+        $text .= $header . ': ' . $_ . "\x0D\x0A"
+          foreach $response->getHeader($header);
+    }
+    $text .= "\x0D\x0A";
 
-        # Capture body
-        $text .= $response->body() if $response->body();
+    # Capture body
+    $text .= $response->body() if $response->body();
 
     return ( $text, $result );
 }

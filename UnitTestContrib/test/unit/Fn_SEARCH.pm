@@ -9,6 +9,7 @@ use base qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Error qw( :try );
+use Assert;
 
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
@@ -19,15 +20,19 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
-    # Turn UseLocale off; otherwise the Ok+Topic Ok-Topic lexical sort
-    # order gets reversed
-    $Foswiki::cfg{UseLocale} = 0;
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, 'OkTopic', "BLEEGLE blah/matchme.blah" );
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, 'Ok-Topic', "BLEEGLE dontmatchme.blah" );
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, 'Ok+Topic', "BLEEGLE dont.matchmeblah" );
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkTopic',
+        "BLEEGLE blah/matchme.blah" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkATopic',
+        "BLEEGLE dontmatchme.blah" );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'OkBTopic',
+        "BLEEGLE dont.matchmeblah" );
+    $topicObject->save();
 }
 
 sub fixture_groups {
@@ -80,23 +85,22 @@ SUB
 sub verify_simple {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"BLEEGLE" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
+      );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_Item4692 {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"BLEEGLE" topic="NonExistant" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"BLEEGLE" topic="NonExistant" nonoise="on" format="$topic"}%');
 
     $this->assert_str_equals( '', $result );
 }
@@ -105,164 +109,178 @@ sub verify_angleb {
     my $this = shift;
 
     # Test regex with \< and \>, used in rename searches
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"\<matc[h]me\>" type="regex" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"\<matc[h]me\>" type="regex" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 }
 
 sub verify_topicName {
     my $this = shift;
 
     # Test topic name search
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"Ok.*" type="regex" scope="topic" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Ok.*" type="regex" scope="topic" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_regex_trivial {
-    my $this   = shift;
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $this = shift;
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_literal {
     my $this = shift;
 
     # literal
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_keyword {
     my $this = shift;
 
     # keyword
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_word {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"blah" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/,  $result );
-    $this->assert_matches( qr/Ok-Topic/, $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
+
+    # 'blah' is in OkATopic, but not as a word
+    $this->assert_does_not_match( qr/OkBTopic/, $result, $result );
 }
 
 sub verify_separator {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"name~\'*Topic\'" type="query" nonoise="on" format="$topic" separator=","}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_str_equals( "Ok+Topic,Ok-Topic,OkTopic", $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'*Topic\'" type="query" nonoise="on" format="$topic" separator=","}%'
+      );
+
+    $this->assert_str_equals( "OkATopic,OkBTopic,OkTopic", $result );
 }
 
 sub verify_separator_with_header {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"name~\'*Topic\'" type="query" header="RESULT:" nonoise="on" format="$topic" separator=","}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"name~\'*Topic\'" type="query" header="RESULT:" nonoise="on" format="$topic" separator=","}%'
+      );
 
     # FIXME: The first , shouldn't be there, but Arthur knows why
     # waiting for him to fix, and as I can't put this test into TODO...
-    $this->assert_str_equals( "RESULT:
-Ok+Topic,Ok-Topic,OkTopic", $result );
+    $this->assert_str_equals(
+        "RESULT:
+OkATopic,OkBTopic,OkTopic", $result
+    );
 }
 
 sub verify_regex_match {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"match" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"match" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_literal_match {
     my $this = shift;
 
     # literal
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"match" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"match" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_keyword_match {
     my $this = shift;
 
     # keyword
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"match" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"match" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_word_match {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"match" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_does_not_match( qr/OkTopic/,   $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"match" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_does_not_match( qr/OkTopic/,  $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 }
 
 sub verify_regex_matchme {
@@ -271,42 +289,45 @@ sub verify_regex_matchme {
     # ---------------------
     # Search string 'matchme'
     # regex
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_literal_matchme {
     my $this = shift;
 
     # literal
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_keyword_matchme {
     my $this = shift;
 
     # keyword
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_matches( qr/OkTopic/,   $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_matches( qr/OkTopic/,  $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
 }
 
@@ -314,14 +335,15 @@ sub verify_word_matchme {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -331,28 +353,30 @@ sub verify_minus_regex {
     # ---------------------
     # Search string 'matchme -dont'
     # regex
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme -dont" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_does_not_match( qr/OkTopic/,   $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme -dont" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_does_not_match( qr/OkTopic/,  $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 }
 
 sub verify_minus_literal {
     my $this = shift;
 
     # literal
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme -dont" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_does_not_match( qr/OkTopic/,   $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme -dont" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_does_not_match( qr/OkTopic/,  $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -360,14 +384,15 @@ sub verify_minus_keyword {
     my $this = shift;
 
     # keyword
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme -dont" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme -dont" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -375,14 +400,15 @@ sub verify_minus_word {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"matchme -dont" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"matchme -dont" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -392,14 +418,15 @@ sub verify_slash_regex {
     # ---------------------
     # Search string 'blah/matchme.blah'
     # regex
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah/matchme.blah" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah/matchme.blah" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -407,14 +434,15 @@ sub verify_slash_literal {
     my $this = shift;
 
     # literal
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah/matchme.blah" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah/matchme.blah" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -422,14 +450,15 @@ sub verify_slash_keyword {
     my $this = shift;
 
     # keyword
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah/matchme.blah" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah/matchme.blah" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -437,14 +466,15 @@ sub verify_slash_word {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"blah/matchme.blah" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"blah/matchme.blah" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_matches( qr/OkTopic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
 
 }
 
@@ -454,14 +484,15 @@ sub verify_quote_regex {
     # ---------------------
     # Search string 'BLEEGLE dont'
     # regex
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"\"BLEEGLE dont\"" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_does_not_match( qr/OkTopic/,   $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"\"BLEEGLE dont\"" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_does_not_match( qr/OkTopic/,  $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
 
 }
 
@@ -469,14 +500,15 @@ sub verify_quote_literal {
     my $this = shift;
 
     # literal
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"\"BLEEGLE dont\"" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
 
-    $this->assert_does_not_match( qr/OkTopic/,   $result );
-    $this->assert_does_not_match( qr/Ok\+Topic/, $result );
-    $this->assert_does_not_match( qr/Ok-Topic/,  $result );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"\"BLEEGLE dont\"" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
+
+    $this->assert_does_not_match( qr/OkTopic/,  $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
 
 }
 
@@ -484,14 +516,15 @@ sub verify_quote_keyword {
     my $this = shift;
 
     # keyword
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"\"BLEEGLE dont\"" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"\"BLEEGLE dont\"" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_does_not_match( qr/OkTopic/, $result );
-    $this->assert_matches( qr/Ok-Topic/,  $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 
 }
 
@@ -499,28 +532,27 @@ sub verify_quote_word {
     my $this = shift;
 
     # word
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"\"BLEEGLE dont\"" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"\"BLEEGLE dontm\"" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
 
     $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/Ok-Topic/, $result );
-    $this->assert_matches( qr/Ok\+Topic/, $result );
+    $this->assert_does_not_match( qr/OkBTopic/, $result );
+    $this->assert_matches( qr/OkATopic/, $result );
 }
 
 sub verify_SEARCH_3860 {
     my $this = shift;
-    my $result =
-      $this->{twiki}
-      ->handleCommonTags( <<'HERE', $this->{test_web}, $this->{test_topic} );
+
+    my $result = $this->{test_topicObject}->expandMacros( <<'HERE');
 %SEARCH{"BLEEGLE" topic="OkTopic" format="$wikiname $wikiusername" nonoise="on" }%
 HERE
-    my $wn = $this->{twiki}->{users}->getWikiName( $this->{twiki}->{user} );
+    my $wn = $this->{session}->{users}->getWikiName( $this->{session}->{user} );
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
-    $result =
-      $this->{twiki}
-      ->handleCommonTags( <<'HERE', $this->{test_web}, $this->{test_topic} );
+
+    $result = $this->{test_topicObject}->expandMacros( <<'HERE');
 %SEARCH{"BLEEGLE" topic="OkTopic" format="$createwikiname $createwikiusername" nonoise="on" }%
 HERE
     $this->assert_str_equals( "$wn $this->{users_web}.$wn\n", $result );
@@ -530,29 +562,28 @@ sub verify_search_empty_regex {
     my $this = shift;
 
     my $result =
-      $this->{twiki}->handleCommonTags(
-        '%SEARCH{"" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"" type="regex" scope="text" nonoise="on" format="$topic"}%');
     $this->assert_str_equals( "", $result );
 }
 
 sub verify_search_empty_literal {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
     $this->assert_str_equals( "", $result );
 }
 
 sub verify_search_empty_keyword {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
     $this->assert_str_equals( "", $result );
 }
 
@@ -560,49 +591,48 @@ sub verify_search_empty_word {
     my $this = shift;
 
     my $result =
-      $this->{twiki}->handleCommonTags(
-        '%SEARCH{"" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"" type="word" scope="text" nonoise="on" format="$topic"}%');
     $this->assert_str_equals( "", $result );
 }
 
 sub verify_search_numpty_regex {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"something.Very/unLikelyTo+search-for;-\)" type="regex" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"something.Very/unLikelyTo+search-for;-\)" type="regex" scope="text" nonoise="on" format="$topic"}%'
+      );
     $this->assert_str_equals( "", $result );
 }
 
 sub verify_search_numpty_literal {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"something.Very/unLikelyTo+search-for;-)" type="literal" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"something.Very/unLikelyTo+search-for;-)" type="literal" scope="text" nonoise="on" format="$topic"}%'
+      );
     $this->assert_str_equals( "", $result );
 }
 
 sub verify_search_numpty_keyword {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"something.Very/unLikelyTo+search-for;-)" type="keyword" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"something.Very/unLikelyTo+search-for;-)" type="keyword" scope="text" nonoise="on" format="$topic"}%'
+      );
     $this->assert_str_equals( "", $result );
 }
 
 sub verify_search_numpty_word {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"something.Very/unLikelyTo+search-for;-)" type="word" scope="text" nonoise="on" format="$topic"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"something.Very/unLikelyTo+search-for;-)" type="word" scope="text" nonoise="on" format="$topic"}%'
+      );
     $this->assert_str_equals( "", $result );
 }
 
@@ -620,36 +650,33 @@ This text is fill in text which is there to ensure that the unique word below do
 %META:FIELD{name="Name" attributes="" title="Name" value="!AnnaAnchor"}%
 HERE
 
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user},  $this->{test_web},
-        'FormattedSearchTopic1', $text
-    );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'FormattedSearchTopic1', $text );
+    $topicObject->save();
 }
 
 sub verify_formatted_search_summary_with_exclamation_marks {
     my $this    = shift;
-    my $session = $this->{twiki};
+    my $session = $this->{session};
 
     $this->set_up_for_formatted_search();
     my $actual, my $expected;
-    $actual = $session->handleCommonTags(
-'%SEARCH{"Anna" topic="FormattedSearchTopic1" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="$summary"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
     $actual =
-      $session->renderer->getRenderedVersion( $actual, $this->{test_web},
-        $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Anna" topic="FormattedSearchTopic1" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="$summary"}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
     $expected =
 '<nop>MichaelAnchor and <nop>AnnaAnchor lived in Skagen in <nop>DenmarkEurope!. There is a very nice museum you can visit!';
     $this->assert_str_equals( $expected, $actual );
 
-    $actual = $session->handleCommonTags(
-'%SEARCH{"Anna" topic="FormattedSearchTopic1" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="$formfield(Name)"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
     $actual =
-      $session->renderer->getRenderedVersion( $actual, $this->{test_web},
-        $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Anna" topic="FormattedSearchTopic1" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="$formfield(Name)"}%'
+      );
+    $actual   = $this->{test_topicObject}->renderTML($actual);
     $expected = '<nop>AnnaAnchor';
     $this->assert_str_equals( $expected, $actual );
 }
@@ -670,8 +697,10 @@ somethig after
 %META:TOPICMOVED{by="TopicUserMapping_guest" date="1176311052" from="Sandbox.TestETP" to="Sandbox.TestEarlyTimeProtocol"}%
 %META:FILEATTACHMENT{name="README" comment="Blah Blah" date="1157965062" size="5504"}%
 HERE
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, 'QueryTopic', $text );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'QueryTopic',
+        $text );
+    $topicObject->save();
 
     $text = <<'HERE';
 %META:TOPICINFO{author="TopicUserMapping_guest" date="12" format="1.1" version="1.2"}%
@@ -689,16 +718,22 @@ third line
 %META:FILEATTACHMENT{name="porn.gif" comment="Cor" date="15062" size="15504"}%
 %META:FILEATTACHMENT{name="flib.xml" comment="Cor" date="1157965062" size="1"}%
 HERE
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, 'QueryTopicTwo', $text );
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'QueryTopicTwo',
+        $text );
+    $topicObject->save();
 
-    $this->{twiki}->finish();
+    $this->{session}->finish();
     my $query = new Unit::Request("");
     $query->path_info("/$this->{test_web}/$this->{test_topic}");
 
-    $this->{twiki} = new Foswiki( undef, $query );
-    $this->assert_str_equals( $this->{test_web}, $this->{twiki}->{webName} );
-    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $this->{session} = new Foswiki( undef, $query );
+    $this->assert_str_equals( $this->{test_web}, $this->{session}->{webName} );
+    $Foswiki::Plugins::SESSION = $this->{session};
+
+    $this->{test_topicObject} =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
 }
 
 # NOTE: most query ops are tested in Fn_IF.pm, and are not re-tested here
@@ -709,10 +744,10 @@ sub verify_parentQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"parent.name=\'WebHome\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"parent.name=\'WebHome\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
@@ -720,10 +755,10 @@ sub verify_attachmentSizeQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"attachments[size > 0]"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"attachments[size > 0]"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
@@ -731,10 +766,10 @@ sub verify_attachmentSizeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}->handleCommonTags(
-        '%SEARCH{"META:FILEATTACHMENT[size > 10000]"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"META:FILEATTACHMENT[size > 10000]"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -742,10 +777,10 @@ sub verify_indexQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"attachments[name=\'flib.xml\']"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"attachments[name=\'flib.xml\']"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -753,10 +788,10 @@ sub verify_gropeQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"Lastname=\'Peel\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"Lastname=\'Peel\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
@@ -764,10 +799,10 @@ sub verify_4580Query1 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*SMONG*\' AND Lastname=\'Peel\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"text ~ \'*SMONG*\' AND Lastname=\'Peel\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -775,10 +810,10 @@ sub verify_4580Query2 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*FURTLE*\' AND Lastname=\'Peel\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"text ~ \'*FURTLE*\' AND Lastname=\'Peel\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
@@ -786,10 +821,10 @@ sub verify_gropeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"Lastname=\'Peel\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"Lastname=\'Peel\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic QueryTopicTwo', $result );
 }
 
@@ -797,10 +832,10 @@ sub verify_formQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"form.name=\'TestyForm\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"form.name=\'TestyForm\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -808,9 +843,10 @@ sub verify_formQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}->handleCommonTags( '%SEARCH{"TestForm"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"TestForm"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
@@ -818,48 +854,49 @@ sub verify_formQuery3 {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}->handleCommonTags(
-        '%SEARCH{"TestForm[name=\'Field1\'].value=\'A Field\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"TestForm[name=\'Field1\'].value=\'A Field\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
 sub verify_formQuery4 {
     my $this = shift;
 
-    if ($Foswiki::cfg{OS} eq 'WINDOWS'
-          && $Foswiki::cfg{DetailedOS} ne 'cygwin') {
+    if (   $Foswiki::cfg{OS} eq 'WINDOWS'
+        && $Foswiki::cfg{DetailedOS} ne 'cygwin' )
+    {
         $this->expect_failure();
         $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
     }
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"TestForm.Field1=\'A Field\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"TestForm.Field1=\'A Field\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
 sub verify_formQuery5 {
     my $this = shift;
 
-    if ($Foswiki::cfg{OS} eq 'WINDOWS'
-          && $Foswiki::cfg{DetailedOS} ne 'cygwin') {
+    if (   $Foswiki::cfg{OS} eq 'WINDOWS'
+        && $Foswiki::cfg{DetailedOS} ne 'cygwin' )
+    {
         $this->expect_failure();
         $this->annotate("THIS IS WINDOWS; Test will fail because of Item1072");
     }
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"TestyForm.form=\'form good\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"TestyForm.form=\'form good\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
     $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"TestyForm.FORM=\'FORM GOOD\'"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"TestyForm.FORM=\'FORM GOOD\'"' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -867,10 +904,11 @@ sub verify_refQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
-    my $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"parent.name/(Firstname ~ \'*mm?\' AND Field2=2)"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"parent.name/(Firstname ~ \'*mm?\' AND Field2=2)"'
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 }
 
@@ -881,8 +919,9 @@ sub test_badQuery1 {
     my $this = shift;
 
     $this->set_up_for_queries();
-    my $result = $this->{twiki}->handleCommonTags( '%SEARCH{"A * B"' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros( '%SEARCH{"A * B"' . $stdCrap );
     $this->assert_matches( qr/Error was: Syntax error in 'A \* B' at ' \* B'/s,
         $result );
 }
@@ -931,26 +970,29 @@ We have committed to take steps towards $vE reinventing our cyber-key players an
 %META:FIELD{name="FieldD" attributes="" title="Banother Field" value="$vD"}%
 %META:FIELD{name="FieldE" attributes="" title="Banother Field" value="$vE"}%
 HERE
-        $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-            $this->{test_web}, "QueryTopic$n", $text );
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, $this->{test_web},
+            "QueryTopic$n", $text );
+        $topicObject->save();
     }
     require Benchmark;
 
     # Search using a regular expression
-    my $start  = new Benchmark;
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"^[%]META:FIELD{name=\"FieldA\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldB\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldC\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldD\".*\bvalue=\"A\"|^[%]META:FIELD{name=\"FieldE\".*\bvalue=\"A\"" type="regex" nonoise="on" format="$topic" separator=" "}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $start = new Benchmark;
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"^[%]META:FIELD{name=\"FieldA\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldB\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldC\".*\bvalue=\"A\";^[%]META:FIELD{name=\"FieldD\".*\bvalue=\"A\"|^[%]META:FIELD{name=\"FieldE\".*\bvalue=\"A\"" type="regex" nonoise="on" format="$topic" separator=" "}%'
+      );
     my $retime = Benchmark::timediff( new Benchmark, $start );
     $this->assert_str_equals( 'QueryTopic1 QueryTopic2', $result );
 
     # Repeat using a query
-    $start  = new Benchmark;
-    $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"FieldA=\'A\' AND FieldB=\'A\' AND FieldC=\'A\' AND (FieldD=\'A\' OR FieldE=\'A\')" type="query" nonoise="on" format="$topic" separator=" "}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    $start = new Benchmark;
+    $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"FieldA=\'A\' AND FieldB=\'A\' AND FieldC=\'A\' AND (FieldD=\'A\' OR FieldE=\'A\')" type="query" nonoise="on" format="$topic" separator=" "}%'
+      );
     my $querytime = Benchmark::timediff( new Benchmark, $start );
     $this->assert_str_equals( 'QueryTopic1 QueryTopic2', $result );
     print STDERR "Query " . Benchmark::timestr($querytime),
@@ -960,10 +1002,10 @@ HERE
 sub verify_4347 {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-"%SEARCH{\"$this->{test_topic}\" scope=\"topic\" nonoise=\"on\" format=\"\$formfield(Blah)\"}%",
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+"%SEARCH{\"$this->{test_topic}\" scope=\"topic\" nonoise=\"on\" format=\"\$formfield(Blah)\"}%"
+      );
     $this->assert_str_equals( '', $result );
 }
 
@@ -971,28 +1013,29 @@ sub verify_likeQuery {
     my $this = shift;
 
     $this->set_up_for_queries();
+
     my $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"text ~ \'*SMONG*\'" ' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"text ~ \'*SMONG*\'" ' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
     $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap,
-        $this->{test_web}, $this->{test_topic} );
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'QueryTopicTwo' );
     $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"text ~ \'*SMONG*\'" ' . $stdCrap,
-        $this->{test_web}, 'QueryTopicTwo' );
+      $topicObject->expandMacros( '%SEARCH{"text ~ \'*SMONG*\'" ' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
-    $result =
-      $this->{twiki}
-      ->handleCommonTags( '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap,
-        $this->{test_web}, 'QueryTopicTwo' );
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'QueryTopicTwo' );
+    $result = $topicObject->expandMacros(
+        '%SEARCH{"text ~ \'*QueryTopicTwo*\'" ' . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
 }
@@ -1001,62 +1044,63 @@ sub verify_likeQuery2 {
     my $this = shift;
 
     $this->set_up_for_queries();
-    my $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*SMONG*\'" web="'
+
+    my $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"text ~ \'*SMONG*\'" web="'
           . $this->{test_web} . '" '
-          . $stdCrap,
-        $this->{test_web}, $this->{test_topic}
-    );
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
-    $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*QueryTopicTwo*\'" web="'
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"text ~ \'*QueryTopicTwo*\'" web="'
           . $this->{test_web} . '" '
-          . $stdCrap,
-        $this->{test_web}, $this->{test_topic}
-    );
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
-    $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*SMONG*\'" web="'
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'QueryTopicTwo' );
+    $result =
+      $topicObject->expandMacros( '%SEARCH{"text ~ \'*SMONG*\'" web="'
           . $this->{test_web} . '" '
-          . $stdCrap,
-        $this->{test_web}, 'QueryTopicTwo'
-    );
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
-    $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*QueryTopicTwo*\'" web="'
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'QueryTopicTwo' );
+    $result =
+      $topicObject->expandMacros( '%SEARCH{"text ~ \'*QueryTopicTwo*\'" web="'
           . $this->{test_web} . '" '
-          . $stdCrap,
-        $this->{test_web}, 'QueryTopicTwo'
-    );
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopicTwo', $result );
 
-    $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*Notinthetopics*\'" web="'
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        'QueryTopicTwo' );
+    $result =
+      $topicObject->expandMacros( '%SEARCH{"text ~ \'*Notinthetopics*\'" web="'
           . $this->{test_web} . '" '
-          . $stdCrap,
-        $this->{test_web}, 'QueryTopicTwo'
-    );
+          . $stdCrap );
     $this->assert_str_equals( '', $result );
 
-    $result = $this->{twiki}->handleCommonTags(
-        '%SEARCH{"text ~ \'*before. Another*\'" web="'
+    $result =
+      $this->{test_topicObject}
+      ->expandMacros( '%SEARCH{"text ~ \'*before. Another*\'" web="'
           . $this->{test_web} . '" '
-          . $stdCrap,
-        $this->{test_web}, $this->{test_topic}
-    );
+          . $stdCrap );
     $this->assert_str_equals( 'QueryTopic', $result );
 }
 
 sub test_pattern {
     my $this = shift;
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"BLEEGLE" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BLEEGLE (.*?)blah.*)Y"}%'
+      );
     $this->assert_matches( qr/Xdontmatchme\.Y/, $result );
     $this->assert_matches( qr/Xdont.matchmeY/,  $result );
     $this->assert_matches( qr/XY/,              $result );
@@ -1066,10 +1110,11 @@ sub test_badpattern {
     my $this = shift;
 
     # The (??{ pragma cannot be run at runtime since perl 5.5
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"BLEEGLE" topic="Ok+Topic,Ok-Topic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%',
-        $this->{test_web}, $this->{test_topic}
-    );
+
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"BLEEGLE" topic="OkATopic,OkBTopic,OkTopic" nonoise="on" format="X$pattern(.*?BL(??{\'E\' x 2})GLE( .*?)blah.*)Y"}%'
+      );
 
     # If (??{ is evaluated, the topics should match:
     $this->assert_does_not_match( qr/XdontmatchmeY/,  $result );
@@ -1121,36 +1166,51 @@ sub test_validatepattern {
 sub verify_formatOfLinks {
     my $this = shift;
 
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session},
         $this->{test_web}, 'Item977', "---+ Apache
 
 Apache is the [[http://www.apache.org/httpd/][well known web server]].
-" );
+"
+    );
+    $topicObject->save();
 
-    my $result = $this->{twiki}->handleCommonTags(
-'%SEARCH{"Item977" scope="topic" nonoise="on" format="$summary"}%',
-        $this->{test_web}, $this->{test_topic}
+    my $result =
+      $this->{test_topicObject}->expandMacros(
+        '%SEARCH{"Item977" scope="topic" nonoise="on" format="$summary"}%');
+
+    $this->assert_str_equals( 'Apache Apache is the well known web server.',
+        $result );
+
+#TODO: these test should move to a proper testing of Render.pm - will happen during
+#extractFormat feature
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+'Apache is the [[http://www.apache.org/httpd/][well known web server]].'
+        )
     );
 
-    $this->assert_str_equals( 'Apache Apache is the well known web server.',   $result );
-
-    #TODO: these test should move to a proper testing of Render.pm - will happen during
-    #extractFormat feature
-    $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[http://www.apache.org/httpd/][well known web server]].'));
-
     #test a few others to try to not break things
-    $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[http://www.apache.org/httpd/ well known web server]].'));
-    $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[ApacheServer][well known web server]].'));
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+'Apache is the [[http://www.apache.org/httpd/ well known web server]].'
+        )
+    );
+    $this->assert_str_equals(
+        'Apache is the well known web server.',
+        $this->{session}->{renderer}->TML2PlainText(
+            'Apache is the [[ApacheServer][well known web server]].')
+    );
 
     #SMELL: an unexpected result :/
     $this->assert_str_equals( 'Apache is the   well known web server  .',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the [[well known web server]].'));
+        $this->{session}->{renderer}
+          ->TML2PlainText('Apache is the [[well known web server]].') );
     $this->assert_str_equals( 'Apache is the well known web server.',
-                $this->{twiki}->{renderer}->TML2PlainText('Apache is the well known web server.'));
-
+        $this->{session}->{renderer}
+          ->TML2PlainText('Apache is the well known web server.') );
 
 }
 

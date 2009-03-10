@@ -8,6 +8,7 @@ use base qw( FoswikiFnTestCase );
 
 use Foswiki;
 use Error qw( :try );
+use Assert;
 
 sub new {
     my $self = shift()->SUPER::new( 'IF', @_ );
@@ -58,7 +59,7 @@ sub test_8 {
     my $this = shift;
     $this->simpleTest(
         test => '$ WIKINAME = \''
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} ) . "'",
+          . Foswiki::Func::getWikiName( $this->{session}->{user} ) . "'",
         then => 1,
         else => 0
     );
@@ -68,7 +69,7 @@ sub test_8a {
     my $this = shift;
     $this->simpleTest(
         test => '$ \'WIKINAME\' = \''
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} ) . "'",
+          . Foswiki::Func::getWikiName( $this->{session}->{user} ) . "'",
         then => 1,
         else => 0
     );
@@ -279,7 +280,7 @@ sub test_42 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -291,7 +292,7 @@ sub test_42a {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+            Foswiki::Func::getWikiName( $this->{session}->{user} )
           )
           . "' ingroup 'WikiGuest'",
         then => 0,
@@ -302,7 +303,7 @@ sub test_42a {
 sub test_42b {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $this->{twiki}->{user} . "' ingroup 'WikiGuest'",
+        test => "'" . $this->{session}->{user} . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -313,7 +314,7 @@ sub test_43 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -325,7 +326,7 @@ sub test_43a {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+            Foswiki::Func::getWikiName( $this->{session}->{user} )
           )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
@@ -337,7 +338,7 @@ sub test_43b {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $this->{twiki}->{user}
+          . $this->{session}->{user}
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -350,7 +351,7 @@ sub test_44 {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+            Foswiki::Func::getWikiName( $this->{session}->{user} )
           )
           . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
@@ -362,7 +363,7 @@ sub test_44a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
@@ -373,7 +374,7 @@ sub test_44b {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . $this->{twiki}->{user}
+          . $this->{session}->{user}
           . "' ingroup '$Foswiki::cfg{SuperAdminGroup}'",
         then => 0,
         else => 1
@@ -386,7 +387,7 @@ sub test_45 {
     $this->simpleTest(
         test => "'"
           . Foswiki::Func::wikiToUserName(
-            Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+            Foswiki::Func::getWikiName( $this->{session}->{user} )
           )
           . "' ingroup 'GropeGroup'",
         then => 1,
@@ -398,7 +399,7 @@ sub test_45a {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
@@ -411,7 +412,7 @@ sub test_45b {
     # Test using cUID should FAIL. Users of %IF should only use login and
     # display names, the cUID is internal use only.
     $this->simpleTest(
-        test => "'" . $this->{twiki}->{user} . "' ingroup 'GropeGroup'",
+        test => "'" . $this->{session}->{user} . "' ingroup 'GropeGroup'",
         then => 0,
         else => 1
     );
@@ -571,7 +572,7 @@ sub test_62 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
@@ -582,7 +583,7 @@ sub test_63 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup 'ThereHadBetterBeNoSuchGroup'",
         then => 0,
         else => 1
@@ -593,7 +594,7 @@ sub test_64 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup '"
           . $Foswiki::cfg{SuperAdminGroup} . "'",
         then => 0,
@@ -605,7 +606,7 @@ sub test_65 {
     my $this = shift;
     $this->simpleTest(
         test => "'"
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} )
+          . Foswiki::Func::getWikiName( $this->{session}->{user} )
           . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
@@ -615,7 +616,9 @@ sub test_65 {
 sub test_66 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $Foswiki::cfg{AdminUserWikiName} . "' ingroup 'WikiGuest'",
+        test => "'"
+          . $Foswiki::cfg{AdminUserWikiName}
+          . "' ingroup 'WikiGuest'",
         then => 0,
         else => 1
     );
@@ -647,7 +650,9 @@ sub test_68 {
 sub test_69 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $Foswiki::cfg{AdminUserWikiName} . "' ingroup 'GropeGroup'",
+        test => "'"
+          . $Foswiki::cfg{AdminUserWikiName}
+          . "' ingroup 'GropeGroup'",
         then => 0,
         else => 1
     );
@@ -772,7 +777,9 @@ sub test_80 {
 sub test_81 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $Foswiki::cfg{DefaultUserLogin} . "' ingroup 'GropeGroup'",
+        test => "'"
+          . $Foswiki::cfg{DefaultUserLogin}
+          . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
     );
@@ -854,7 +861,9 @@ sub test_88 {
 sub test_89 {
     my $this = shift;
     $this->simpleTest(
-        test => "'" . $Foswiki::cfg{DefaultUserLogin} . "' ingroup 'GropeGroup'",
+        test => "'"
+          . $Foswiki::cfg{DefaultUserLogin}
+          . "' ingroup 'GropeGroup'",
         then => 1,
         else => 0
     );
@@ -882,22 +891,38 @@ sub test_93 {
 
 sub test_93a {
     my $this = shift;
-    $this->simpleTest( test => "istopic fields[name='nonExistantField']", then => 0, else => 1 );
+    $this->simpleTest(
+        test => "istopic fields[name='nonExistantField']",
+        then => 0,
+        else => 1
+    );
 }
 
 sub test_93b {
     my $this = shift;
-    $this->simpleTest( test => "istopic fields[name='nonExistantField'].value", then => 0, else => 1 );
+    $this->simpleTest(
+        test => "istopic fields[name='nonExistantField'].value",
+        then => 0,
+        else => 1
+    );
 }
 
 sub test_93c {
     my $this = shift;
-    $this->simpleTest( test => "defined fields[name='nonExistantField']", then => 0, else => 1 );
+    $this->simpleTest(
+        test => "defined fields[name='nonExistantField']",
+        then => 0,
+        else => 1
+    );
 }
 
 sub test_93d {
     my $this = shift;
-    $this->simpleTest( test => "defined fields[name='nonExistantField'].value", then => 0, else => 1 );
+    $this->simpleTest(
+        test => "defined fields[name='nonExistantField'].value",
+        then => 0,
+        else => 1
+    );
 }
 
 sub test_94 {
@@ -929,50 +954,45 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
 
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user},
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session},
         $this->{users_web},
         "GropeGroup",
         "   * Set GROUP = "
-          . Foswiki::Func::getWikiName( $this->{twiki}->{user} ) . "\n"
+          . Foswiki::Func::getWikiName( $this->{session}->{user} ) . "\n"
     );
+    $topicObject->save();
 
     # Create WebHome topic to trap existance errors related to
     # normalizeWebTopicName
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user},
-        $this->{test_web},
-        "WebHome",
-        "Gormless gimboid\n"
+    $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web},
+        "WebHome",        "Gormless gimboid\n"
     );
+    $topicObject->save();
 }
 
 sub simpleTest {
     my ( $this, %test ) = @_;
-    $this->{twiki}->enterContext('test');
+    $this->{session}->enterContext('test');
     $Foswiki::cfg{Fnargle} = 'Fleeble';
     $Foswiki::cfg{A}{B} = 'C';
-    $this->{request}->param('notempty','v');
-    $this->{request}->param('empty','');
-    $this->{request}->param('notempty','v');
-    $this->{request}->param('empty','');
-    $this->{twiki}->{prefs}->setPreferencesValue( 'NOTEMPTY', 'V' );
-    $this->{twiki}->{prefs}->setPreferencesValue( 'EMPTY', '' );
-    $this->{twiki}->{SESSION_TAGS}{'SNOTEMPTY'}='V';
-    $this->{twiki}->{SESSION_TAGS}{'SEMPTY'}='';
-
-    my $meta =
-      new Foswiki::Meta( $this->{twiki}, $this->{test_web}, $this->{test_topic} );
+    $this->{request}->param( 'notempty', 'v' );
+    $this->{request}->param( 'empty',    '' );
+    $this->{request}->param( 'notempty', 'v' );
+    $this->{request}->param( 'empty',    '' );
+    $this->{session}->{prefs}
+      ->setInternalPreferences( 'NOTEMPTY' => 'V', 'EMPTY' => '' );
+    $this->{session}->{prefs}
+      ->setSessionPreferences( 'SNOTEMPTY' => 'V', 'SEMPTY' => '' );
     my $text = '%IF{"'
       . $test{test}
       . '" then="'
       . $test{then}
       . '" else="'
       . $test{else} . '"}%';
-    my $result =
-      $this->{twiki}
-      ->handleCommonTags( $text, $this->{test_web}, $this->{test_topic},
-        $meta );
+    my $result = $this->{test_topicObject}->expandMacros($text);
+
     #print STDERR "$text => $result\n";
     $this->assert_equals( '1', $result, $text . " => " . $result );
 }
@@ -980,18 +1000,18 @@ sub simpleTest {
 sub test_INCLUDEparams {
     my $this = shift;
 
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, "DeadHerring", <<'SMELL');
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
+        <<'SMELL');
 one %IF{ "defined NAME" then="1" else="0" }%
 two %IF{ "$ NAME='%NAME%'" then="1" else="0" }%
 three %IF{ "$ NAME=$ 'NAME{}'" then="1" else="0" }%
 SMELL
+    $topicObject->save();
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
-    my $result =
-      $this->{twiki}
-      ->handleCommonTags( $text, $this->{test_web}, $this->{test_topic} );
+    my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_matches( qr/^\s*one 1\s+two 1\s+three 1\s*$/s, $result );
 }
 
@@ -1006,10 +1026,8 @@ sub test_badIF {
     );
 
     foreach my $test (@tests) {
-        my $text = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
-        my $result =
-          $this->{twiki}
-          ->handleCommonTags( $text, $this->{test_web}, $this->{test_topic} );
+        my $text   = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
+        my $result = $this->{test_topicObject}->expandMacros($text);
         $result =~ s/^.*foswikiAlert'>\s*//s;
         $result =~ s/\s*<\/span>\s*//s;
         $this->assert( $result =~ s/^.*}:\s*//s );
@@ -1020,30 +1038,31 @@ sub test_badIF {
 sub test_ContentAccessSyntax {
     my $this = shift;
 
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, "DeadHerring", <<'SMELL');
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadHerring",
+        <<'SMELL');
 one %IF{ "BleaghForm.Wibble='Woo'" then="1" else="0" }%
 %META:FORM{name="BleaghForm"}%
 %META:FIELD{name="Wibble" title="Wobble" value="Woo"}%
 SMELL
+    $topicObject->save();
     my $text = <<'PONG';
 %INCLUDE{"DeadHerring" NAME="Red" warn="on"}%
 PONG
-    my $result =
-      $this->{twiki}
-      ->handleCommonTags( $text, $this->{test_web}, $this->{test_topic} );
+    my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_matches( qr/^\s*one 1\s*$/s, $result );
 }
 
 sub test_ALLOWS_and_EXISTS {
     my $this = shift;
-    my $wn   = Foswiki::Func::getWikiName( $this->{twiki}->{user} );
-    $this->{twiki}->{store}
-      ->saveTopic( $this->{twiki}->{user}, $this->{test_web}, "DeadDog",
+    my $wn   = Foswiki::Func::getWikiName( $this->{session}->{user} );
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, "DeadDog",
         <<PONG);
    * Set ALLOWTOPICVIEW = WibbleFloon
    * Set ALLOWTOPICCHANGE = $wn
 PONG
+    $meta->save();
 
     my @tests;
     push(
@@ -1181,16 +1200,17 @@ PONG
             expect => "0"
         }
     );
-
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki();
-    $this->{twiki}->{webName} = $this->{test_web};    # hack
+    $this->{session}->finish();
+    my $request = new Unit::Request( {} );
+    $request->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( undef, $request );
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
 
     foreach my $test (@tests) {
-        my $text = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
-        my $result =
-          $this->{twiki}
-          ->handleCommonTags( $text, $this->{test_web}, $this->{test_topic} );
+        my $text   = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
+        my $result = $meta->expandMacros($text);
         $this->assert_str_equals( $test->{expect}, $result,
             "$text: '$result'" );
     }
@@ -1201,13 +1221,11 @@ sub test_DOS {
     my $text = <<'PONG';
    * Set LOOP = %IF{"$ LOOP = '1'" then="ping" else="pong"}%
 PONG
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, $this->{test_topic}, $text );
-    $this->{twiki}->{prefs}
-      ->pushPreferences( $this->{test_web}, $this->{test_topic}, 'TOPIC' );
-    my $result =
-      $this->{twiki}
-      ->handleCommonTags( $text, $this->{test_web}, $this->{test_topic} );
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic}, $text );
+    $topicObject->save();
+    my $result = $this->{test_topicObject}->expandMacros($text);
     $this->assert_str_equals( "   * Set LOOP = pong\n", $result );
 }
 
@@ -1216,59 +1234,57 @@ sub test_TOPICINFO {
 
     my $topicName = 'TopicInfo';
 
-    $this->{twiki}->{store}->saveTopic( $this->{twiki}->{user},
-        $this->{test_web}, $topicName, <<PONG);
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topicName,
+        <<PONG);
 oneapeny twoapenny we all fall down
 PONG
-    my ( $meta, $text ) =
-      $this->{twiki}->{store}
-      ->readTopic( $this->{twiki}->{user}, $this->{test_web}, $topicName );
+    $meta->save();
+
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $topicName );
     my $ti = $meta->get('TOPICINFO');
 
     $this->assert_str_equals( $ti->{version}, '1.1' );
-    $this->assert_str_equals( $ti->{rev},     '1', $ti->{rev} );
     $this->assert(
-        $this->{twiki}->{store}->topicExists( $this->{test_web}, $topicName ) );
+        $this->{session}->topicExists( $this->{test_web}, $topicName ) );
 
 #TODO: these need to be moved into Fn_META and then implemented (its a really simple change in Foswiki.pm
 #    $this->assert_str_equals(
-#        $this->{twiki}->handleCommonTags(
-#            '%META{"info.rev"}%', $this->{test_web}, $topicName
-#        ),
+#        $meta->expandMacros'%META{"info.rev"}%'),
 #        '1'
 #    );
 #    $this->assert_str_equals(
-#        $this->{twiki}->handleCommonTags(
-#            '%META{"info.rev"}%', $this->{test_web}, $topicName
-#        ),
+#        $meta->expandMacros{'%META{"info.rev"}%'),
 #        '1'
 #    );
 #    $this->assert_str_equals(
-#        $this->{twiki}->handleCommonTags(
-#            '%META{"' . $this->{test_web} . '.' . $topicName . '/info.rev"}%',
-#            $this->{test_web}, $topicName
-#        ),
+#        $meta->expandMacros('%META{"' . $this->{test_web} . '.' . $topicName . '/info.rev"}%'),
 #        '1'
 #    );
 
     my @tests;
-    push(@tests,
-         {
-             test => "info.version = '1.1'",
-             expect => "1",
-         });
-    push(@tests,
-         {
-             test => "info.rev = '1'",
-             expect => "1",
-         });
+    push(
+        @tests,
+        {
+            test   => "info.version = '1.1'",
+            expect => "1",
+        }
+    );
+    push(
+        @tests,
+        {
+            test   => "info.rev = '1'",
+            expect => "1",
+        }
+    );
 
     push(
         @tests,
         {
             test   => "'$this->{test_web}.$topicName'/info.version = '1.1'",
             expect => "1"
-           }
+        }
     );
     push(
         @tests,
@@ -1301,16 +1317,14 @@ PONG
     );
 
     foreach my $test (@tests) {
-        my $text = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
-        my $result =
-          $this->{twiki}
-          ->handleCommonTags( $text, $this->{test_web}, $topicName, $meta );
+        my $text   = '%IF{"' . $test->{test} . '" then="1" else="0"}%';
+        my $result = $meta->expandMacros($text);
+
         #print STDERR "RUN $text => $result\n";
         $this->assert_str_equals( $test->{expect}, $result,
             "$text: '$result'" );
     }
 }
-
 
 sub test_ISEMPTY_PARAM_NOTTHERE {
     my $this = shift;
@@ -1373,62 +1387,230 @@ sub test_ISEMPTY_EXPR_UNDEF {
 sub test_d2n {
     my $this = shift;
 
-#TRUE cases
-    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2007-03-26')", then => 1, else => 0);
+    #TRUE cases
+    $this->simpleTest(
+        test => "d2n('2007-03-26') = d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
 
-    $this->simpleTest(test => "d2n('2007-03-27') != d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-04-26') != d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2008-03-26') != d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2007-03-27')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2007-04-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2008-03-26')", then => 1, else => 0);
+    $this->simpleTest(
+        test => "d2n('2007-03-27') != d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-04-26') != d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2008-03-26') != d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') != d2n('2007-03-27')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') != d2n('2007-04-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') != d2n('2008-03-26')",
+        then => 1,
+        else => 0
+    );
 
-    $this->simpleTest(test => "d2n('2007-03-27') > d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-04-26') > d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2008-03-26') > d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-27') >= d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-04-26') >= d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2008-03-26') >= d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') < d2n('2007-03-27')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') < d2n('2007-04-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') < d2n('2008-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-03-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-03-27')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-04-26')", then => 1, else => 0);
-    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2008-03-26')", then => 1, else => 0);
+    $this->simpleTest(
+        test => "d2n('2007-03-27') > d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-04-26') > d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2008-03-26') > d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') >= d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-27') >= d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-04-26') >= d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2008-03-26') >= d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') < d2n('2007-03-27')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') < d2n('2007-04-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') < d2n('2008-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') <= d2n('2007-03-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') <= d2n('2007-03-27')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') <= d2n('2007-04-26')",
+        then => 1,
+        else => 0
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') <= d2n('2008-03-26')",
+        then => 1,
+        else => 0
+    );
 
-#FALSE cases
-    $this->simpleTest(test => "d2n('2007-03-26') != d2n('2007-03-26')", then => 0, else => 1);
+    #FALSE cases
+    $this->simpleTest(
+        test => "d2n('2007-03-26') != d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
 
-    $this->simpleTest(test => "d2n('2007-03-27') = d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-04-26') = d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2008-03-26') = d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2007-03-27')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2007-04-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') = d2n('2008-03-26')", then => 0, else => 1);
+    $this->simpleTest(
+        test => "d2n('2007-03-27') = d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-04-26') = d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2008-03-26') = d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') = d2n('2007-03-27')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') = d2n('2007-04-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') = d2n('2008-03-26')",
+        then => 0,
+        else => 1
+    );
 
-    $this->simpleTest(test => "d2n('2007-03-27') < d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-04-26') < d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2008-03-26') < d2n('2007-03-26')", then => 0, else => 1);
+    $this->simpleTest(
+        test => "d2n('2007-03-27') < d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-04-26') < d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2008-03-26') < d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+
 #    $this->simpleTest(test => "d2n('2007-03-26') <= d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-27') <= d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-04-26') <= d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2008-03-26') <= d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') > d2n('2007-03-27')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') > d2n('2007-04-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') > d2n('2008-03-26')", then => 0, else => 1);
+    $this->simpleTest(
+        test => "d2n('2007-03-27') <= d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-04-26') <= d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2008-03-26') <= d2n('2007-03-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') > d2n('2007-03-27')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') > d2n('2007-04-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') > d2n('2008-03-26')",
+        then => 0,
+        else => 1
+    );
+
 #    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-03-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-03-27')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2007-04-26')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('2007-03-26') >= d2n('2008-03-26')", then => 0, else => 1);
+    $this->simpleTest(
+        test => "d2n('2007-03-26') >= d2n('2007-03-27')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') >= d2n('2007-04-26')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('2007-03-26') >= d2n('2008-03-26')",
+        then => 0,
+        else => 1
+    );
 
 #try to examine the root of my looking into this - d2n('13 Oct 2008') >= d2n('2008/12/1')
-    $this->simpleTest(test => "d2n('2008/10/13') >= d2n('2008/12/1')", then => 0, else => 1);
-    $this->simpleTest(test => "d2n('13 Oct 2008') >= d2n('2008/12/1')", then => 0, else => 1);
-
+    $this->simpleTest(
+        test => "d2n('2008/10/13') >= d2n('2008/12/1')",
+        then => 0,
+        else => 1
+    );
+    $this->simpleTest(
+        test => "d2n('13 Oct 2008') >= d2n('2008/12/1')",
+        then => 0,
+        else => 1
+    );
 
 }
-
 
 1;

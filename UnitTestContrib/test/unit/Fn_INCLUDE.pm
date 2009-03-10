@@ -10,7 +10,7 @@ use Foswiki;
 use Error qw( :try );
 
 sub new {
-    my $self = shift()->SUPER::new('INCLUDE', @_);
+    my $self = shift()->SUPER::new( 'INCLUDE', @_ );
     return $self;
 }
 
@@ -18,13 +18,13 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
     $this->{other_web} = "$this->{test_web}other";
-    $this->{twiki}->{store}->createWeb( $this->{twiki}->{user},
-                                        $this->{other_web} );
+    my $webObject = Foswiki::Meta->new( $this->{session}, $this->{other_web} );
+    $webObject->populateNewWeb();
 }
 
 sub tear_down {
     my $this = shift;
-    $this->removeWebFixture( $this->{twiki}, $this->{other_web} );
+    $this->removeWebFixture( $this->{session}, $this->{other_web} );
     $this->SUPER::tear_down();
 }
 
@@ -33,11 +33,12 @@ sub tear_down {
 # are correctly honoured.
 sub test_webExpansion {
     my $this = shift;
+
     # Create topic to include
     my $includedTopic = "TopicToInclude";
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{other_web},
-        $includedTopic, <<THIS);
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        <<THIS);
 <literal>
 1 [[$includedTopic][one]] $includedTopic
 </literal>
@@ -60,12 +61,16 @@ $includedTopic 6
 12 [[#anchor][$includedTopic]]
 13 [[#$includedTopic][$includedTopic]]
 THIS
+    $inkyDink->save();
+
     # Expand an include in the context of the test web
-    my $text = $this->{twiki}->handleCommonTags(
-        "%INCLUDE{$this->{other_web}.$includedTopic}%",
-        $this->{test_web}, $this->{test_topic});
-    my @get = split(/\n/, $text);
-    my @expect = split(/\n/, <<THIS);
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $this->{test_topic} );
+    my $text = $topicObject->expandMacros(
+        "%INCLUDE{$this->{other_web}.$includedTopic}%");
+    my @get    = split( /\n/, $text );
+    my @expect = split( /\n/, <<THIS);
 <literal>
 1 [[$includedTopic][one]] $includedTopic
 </literal>
@@ -88,8 +93,8 @@ $this->{other_web}.$includedTopic 6
 12 [[#anchor][$includedTopic]]
 13 [[#$includedTopic][$includedTopic]]
 THIS
-    while (my $e = pop(@expect)) {
-        $this->assert_str_equals($e, pop(@get));
+    while ( my $e = pop(@expect) ) {
+        $this->assert_str_equals( $e, pop(@get) );
     }
 
 }
@@ -97,41 +102,43 @@ THIS
 # Test include of a section when there is no such section in the included
 # topic
 sub test_3158 {
-    my $this = shift;
+    my $this          = shift;
     my $includedTopic = "TopicToInclude";
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{other_web},
-        $includedTopic, <<THIS);
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        <<THIS);
 Snurfle
 %STARTSECTION{"suction"}%
 Such a section!
 %ENDSECTION{"suction"}%
 Out of scope
 THIS
-    my $text = $this->{twiki}->handleCommonTags(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\"}%",
-        $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals("\nSuch a section!\n", $text);
+    $inkyDink->save();
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\"}%");
+    $this->assert_str_equals( "\nSuch a section!\n", $text );
 
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{other_web},
-        $includedTopic, <<THIS);
+    $inkyDink->text(<<THIS);
 %STARTSECTION{"nosuction"}%
 No such section!
 %ENDSECTION{"nosuction"}%
 THIS
+    $inkyDink->save();
 
     #warnings are off
-    $text = $this->{twiki}->handleCommonTags(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"off\"}%",
-        $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals('', $text);
+    $text =
+      $this->{test_topicObject}->expandMacros(
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"off\"}%"
+      );
+    $this->assert_str_equals( '', $text );
 
     #warning on
-    $text = $this->{twiki}->handleCommonTags(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"on\"}%",
-        $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals(<<HERE, $text."\n");
+    $text =
+      $this->{test_topicObject}->expandMacros(
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"on\"}%"
+      );
+    $this->assert_str_equals( <<HERE, $text . "\n" );
 
 
 
@@ -141,17 +148,18 @@ THIS
 HERE
 
     #custom warning
-    $text = $this->{twiki}->handleCommonTags(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"consider yourself warned\"}%",
-        $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals('consider yourself warned', $text);
+    $text =
+      $this->{test_topicObject}->expandMacros(
+"%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"suction\" warn=\"consider yourself warned\"}%"
+      );
+    $this->assert_str_equals( 'consider yourself warned', $text );
 }
 
 # INCLUDE{"" section=""}% should act as though section was not set (ie, return the entire topic)
 sub test_5649 {
-    my $this = shift;
+    my $this          = shift;
     my $includedTopic = "TopicToInclude";
-    my $topicText = <<THIS;
+    my $topicText     = <<THIS;
 Snurfle
 %STARTSECTION{"suction"}%
 Such a section!
@@ -160,14 +168,16 @@ Out of scope
 THIS
     my $handledTopicText = $topicText;
     $handledTopicText =~ s/%(START|END)SECTION{"suction"}%//g;
-    
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{other_web},
-        $includedTopic, $topicText);
-    my $text = $this->{twiki}->handleCommonTags(
-        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"\"}%",
-        $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals($handledTopicText, $text."\n");    #add \n because handleCommonTags removes it :/
+
+    my $inkyDink =
+      Foswiki::Meta->new( $this->{session}, $this->{other_web}, $includedTopic,
+        $topicText );
+    $inkyDink->save();
+    my $text =
+      $this->{test_topicObject}->expandMacros(
+        "%INCLUDE{\"$this->{other_web}.$includedTopic\" section=\"\"}%");
+    $this->assert_str_equals( $handledTopicText, $text . "\n" )
+      ;    #add \n because expandMacros removes it :/
 }
 
 1;

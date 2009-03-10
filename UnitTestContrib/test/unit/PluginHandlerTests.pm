@@ -56,7 +56,7 @@ use Symbol qw(delete_package);
 my $systemWeb = "TemporaryPluginHandlersSystemWeb";
 
 sub new {
-    my $self = shift()->SUPER::new("PluginHandlers", @_);
+    my $self = shift()->SUPER::new( "PluginHandlers", @_ );
     return $self;
 }
 
@@ -64,15 +64,18 @@ sub new {
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
+
     # Disable all plugins
-    foreach my $key (keys %{$Foswiki::cfg{Plugins}}) {
-        next unless ref($Foswiki::cfg{Plugins}{$key}) eq 'HASH';
+    foreach my $key ( keys %{ $Foswiki::cfg{Plugins} } ) {
+        next unless ref( $Foswiki::cfg{Plugins}{$key} ) eq 'HASH';
         $Foswiki::cfg{Plugins}{$key}{Enabled} = 0;
     }
+
     # Locate the code
     my $found;
     foreach my $inc (@INC) {
-        if (-e "$inc/Foswiki/Plugins/EmptyPlugin.pm") {
+        if ( -e "$inc/Foswiki/Plugins/EmptyPlugin.pm" ) {
+
             # Found it
             $found = $inc;
             last;
@@ -80,17 +83,17 @@ sub set_up {
     }
     die "Can't find code" unless $found;
     $this->{code_root} = "$found/Foswiki/Plugins/";
-    $this->{twiki}->{store}->createWeb($this->{twiki}->{user},
-                                       $systemWeb,
-                                       $Foswiki::cfg{SystemWebName});
+    my $webObject = Foswiki::Meta->new( $this->{session}, $systemWeb );
+    $webObject->populateNewWeb( $Foswiki::cfg{SystemWebName} );
     $Foswiki::cfg{SystemWebName} = $systemWeb;
+    $Foswiki::cfg{Plugins}{WebSearchPath} = $systemWeb;
 }
 
 sub tear_down {
     my $this = shift;
 
-    $this->removeWebFixture($this->{twiki}, $systemWeb);
-    unlink($this->{plugin_pm});
+    $this->removeWebFixture( $this->{session}, $systemWeb );
+    unlink( $this->{plugin_pm} );
     Symbol::delete_package("Foswiki::Foswiki::$this->{plugin_name}");
     $this->SUPER::tear_down();
 }
@@ -99,10 +102,10 @@ sub tear_down {
 # body of the plugin. $code will normally be at least one handler
 # implementation, sometimes more than one.
 sub makePlugin {
-    my ($this, $test, $code) = @_;
+    my ( $this, $test, $code ) = @_;
 
     $this->{plugin_name} = ucfirst("${test}Plugin");
-    $this->{plugin_pm} = $this->{code_root}.$this->{plugin_name}.".pm";
+    $this->{plugin_pm}   = $this->{code_root} . $this->{plugin_name} . ".pm";
 
     $code = <<HERE;
 package Foswiki::Plugins::$this->{plugin_name};
@@ -119,42 +122,45 @@ sub initPlugin {
 $code
 1;
 HERE
-    open(F, ">$this->{plugin_pm}") ||
-      die "Failed to open $this->{plugin_pm}: $!";
+    open( F, ">$this->{plugin_pm}" )
+      || die "Failed to open $this->{plugin_pm}: $!";
     print F $code;
     close(F);
     try {
-        $this->{twiki}->{store}->saveTopic(
-            $this->{twiki}->{users}->findUserByWikiName($Foswiki::cfg{AdminUserWikiName})->[0],
-            $Foswiki::cfg{SystemWebName},
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, $Foswiki::cfg{SystemWebName},
             $this->{plugin_name}, <<'EOF');
    * Set PLUGINVAR = Blah
 EOF
-    } catch Foswiki::AccessControlException with {
-        $this->assert(0,shift->stringify());
-    } catch Error::Simple with {
-        $this->assert(0,shift->stringify());
+        $topicObject->save();
+    }
+    catch Foswiki::AccessControlException with {
+        $this->assert( 0, shift->stringify() );
+    }
+    catch Error::Simple with {
+        $this->assert( 0, shift->stringify() );
     };
-    $Foswiki::cfg{Plugins}{$this->{plugin_name}}{Enabled} = 1;
-    $Foswiki::cfg{Plugins}{$this->{plugin_name}}{Module} =
-        "Foswiki::Plugins::$this->{plugin_name}";
-    $this->{twiki}->finish();
-    $this->{twiki} = new Foswiki(); # default user
+    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Enabled} = 1;
+    $Foswiki::cfg{Plugins}{ $this->{plugin_name} }{Module} =
+      "Foswiki::Plugins::$this->{plugin_name}";
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();    # default user
     eval "\$Foswiki::Plugins::$this->{plugin_name}::tester = \$this;";
-    $this->checkCalls(1, 'initPlugin');
-    $Foswiki::Plugins::SESSION = $this->{twiki};
+    $this->checkCalls( 1, 'initPlugin' );
+    $Foswiki::Plugins::SESSION = $this->{session};
 }
 
 sub checkCalls {
-    my ($this, $number, $name) = @_;
-    my $saw = eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{$name} || 0";
-    $this->assert_equals(
-        $number, $saw, "calls($name) $saw != $number ".join(' ',caller));
+    my ( $this, $number, $name ) = @_;
+    my $saw =
+      eval "\$Foswiki::Plugins::$this->{plugin_name}::called->{$name} || 0";
+    $this->assert_equals( $number, $saw,
+        "calls($name) $saw != $number " . join( ' ', caller ) );
 }
 
 sub test_commonTagsHandlers {
     my $this = shift;
-    $this->makePlugin('beforeCommonTagsHandler', <<'HERE');
+    $this->makePlugin( 'beforeCommonTagsHandler', <<'HERE');
 sub beforeCommonTagsHandler {
     #my( $text, $topic, $theWeb, $meta ) = @_;
     $tester->assert_str_equals('Zero', $_[0], "ONE $_[0]");
@@ -186,19 +192,20 @@ sub afterCommonTagsHandler {
     $called->{afterCommonTagsHandler}++;
 }
 HERE
+
     # Crude test to ensure all handlers are called, and in the right order.
     # Doesn't verify that they are called at the right time
-    my $meta = new Foswiki::Meta($this->{twiki}, "Werb", "Tropic");
-    $meta->put('WIBBLE', { wibble => 'Wibble' } );
-    Foswiki::Func::expandCommonVariables("Zero", "Tropic", "Werb", $meta);
-    $this->checkCalls(1, 'beforeCommonTagsHandler');
-    $this->checkCalls(1, 'commonTagsHandler');
-    $this->checkCalls(1, 'afterCommonTagsHandler');
+    my $meta = Foswiki::Meta->new( $this->{session}, "Werb", "Tropic" );
+    $meta->put( 'WIBBLE', { wibble => 'Wibble' } );
+    Foswiki::Func::expandCommonVariables( "Zero", "Tropic", "Werb", $meta );
+    $this->checkCalls( 1, 'beforeCommonTagsHandler' );
+    $this->checkCalls( 1, 'commonTagsHandler' );
+    $this->checkCalls( 1, 'afterCommonTagsHandler' );
 }
 
 sub test_earlyInit {
     my $this = shift;
-    $this->makePlugin('earlyInitPlugin', <<'HERE');
+    $this->makePlugin( 'earlyInitPlugin', <<'HERE');
 sub earlyInitPlugin {
     # $tester not set up yet
     die "EIP $called->{earlyInitPlugin}" if  $called->{earlyInitPlugin};
@@ -221,9 +228,9 @@ sub initializeUserHandler {
     die "PATH $path" unless $path eq (Foswiki::Func::getCgiQuery->path_info() || 'undef');
 }
 HERE
-    $this->checkCalls(1, 'earlyInitPlugin');
-    $this->checkCalls(1, 'initPlugin');
-    $this->checkCalls(1, 'initializeUserHandler');
+    $this->checkCalls( 1, 'earlyInitPlugin' );
+    $this->checkCalls( 1, 'initPlugin' );
+    $this->checkCalls( 1, 'initializeUserHandler' );
 }
 
 # Test that the rendering handlers are called in the correct sequence.
@@ -237,9 +244,10 @@ HERE
 # an id to the text to say its been called and make sure that text can be
 # written.
 use vars qw( @oprelines @iprelines );
+
 sub test_renderingHandlers {
     my $this = shift;
-    $this->makePlugin('renderingHandlers', <<'HERE');
+    $this->makePlugin( 'renderingHandlers', <<'HERE');
 # Called after verbatim, literal, head, textareas, script have
 # all been removed, but *before* PRE is removed
 sub startRenderingHandler {
@@ -396,8 +404,8 @@ TEXTAREA
 HERE
     @oprelines = ();
     @iprelines = ();
-    my $out = Foswiki::Func::renderText($text, "Gruntfos")."\n";
-    $this->assert_str_equals(<<HERE, $out);
+    my $out = Foswiki::Func::renderText( $text, "Gruntfos" ) . "\n";
+    $this->assert_str_equals( <<HERE, $out );
 postRenderingHandler
 endRenderingHandler
 preRenderingHandler
@@ -421,26 +429,26 @@ SCRIPT
 TEXTAREA
 </textarea>
 HERE
-    $this->assert_str_equals('', $iprelines[0]);
-    $this->assert_str_equals('PRE', $iprelines[1]);
-    $this->assert_str_equals('preRenderingHandler', $oprelines[0]);
-    $this->assert_str_equals('startRenderingHandler', $oprelines[1]);
-    $this->assert_str_equals('<!--xliteralNUMBERx-->', $oprelines[2]);
-    $this->assert_str_equals('<!--xverbatimNUMBERx-->', $oprelines[3]);
-    $this->assert_str_equals('<!--xpreNUMBERx-->', $oprelines[4]);
-    $this->assert_str_equals('<!--xheadNUMBERx-->', $oprelines[5]);
-    $this->assert_str_equals('<!--xscriptNUMBERx-->', $oprelines[6]);
-    $this->assert_str_equals('<!--xtextareaNUMBERx-->', $oprelines[7]);
-    $this->assert_str_equals('<nop>', $oprelines[8]);
-    $this->checkCalls(1, 'preRenderingHandler');
-    $this->checkCalls(1, 'startRenderingHandler');
-    $this->checkCalls(1, 'endRenderingHandler');
-    $this->checkCalls(1, 'postRenderingHandler');
+    $this->assert_str_equals( '',                        $iprelines[0] );
+    $this->assert_str_equals( 'PRE',                     $iprelines[1] );
+    $this->assert_str_equals( 'preRenderingHandler',     $oprelines[0] );
+    $this->assert_str_equals( 'startRenderingHandler',   $oprelines[1] );
+    $this->assert_str_equals( '<!--xliteralNUMBERx-->',  $oprelines[2] );
+    $this->assert_str_equals( '<!--xverbatimNUMBERx-->', $oprelines[3] );
+    $this->assert_str_equals( '<!--xpreNUMBERx-->',      $oprelines[4] );
+    $this->assert_str_equals( '<!--xheadNUMBERx-->',     $oprelines[5] );
+    $this->assert_str_equals( '<!--xscriptNUMBERx-->',   $oprelines[6] );
+    $this->assert_str_equals( '<!--xtextareaNUMBERx-->', $oprelines[7] );
+    $this->assert_str_equals( '<nop>',                   $oprelines[8] );
+    $this->checkCalls( 1, 'preRenderingHandler' );
+    $this->checkCalls( 1, 'startRenderingHandler' );
+    $this->checkCalls( 1, 'endRenderingHandler' );
+    $this->checkCalls( 1, 'postRenderingHandler' );
 }
 
 sub test_afterAttachmentSaveHandler {
     my $this = shift;
-    $this->makePlugin('afterAttachmentSaveHandler', <<'HERE');
+    $this->makePlugin( 'afterAttachmentSaveHandler', <<'HERE');
 sub afterAttachmentSaveHandler {
     my ($attachmentAttrHash, $topic, $web, $error) = @_;
     $called->{afterAttachmentSaveHandler}++;
@@ -450,7 +458,7 @@ HERE
 
 sub test_afterEditHandler {
     my $this = shift;
-    $this->makePlugin('afterEditHandler', <<'HERE');
+    $this->makePlugin( 'afterEditHandler', <<'HERE');
 sub afterEditHandler {
     my( $text, $topic, $web ) = @_;
     $called->{afterEditHandler}++;
@@ -460,7 +468,7 @@ HERE
 
 sub test_afterRenameHandler {
     my $this = shift;
-    $this->makePlugin('afterRenameHandler', <<'HERE');
+    $this->makePlugin( 'afterRenameHandler', <<'HERE');
 sub afterRenameHandler {
     my ($oldWeb, $oldTopic, $oldAttachment, $newWeb,
         $newTopic, $newAttachment) = @_;
@@ -471,7 +479,7 @@ HERE
 
 sub test_afterSaveHandler {
     my $this = shift;
-    $this->makePlugin('afterSaveHandler', <<'HERE');
+    $this->makePlugin( 'afterSaveHandler', <<'HERE');
 sub afterSaveHandler {
     my ($theText, $theTopic, $theWeb, $error, $meta) = @_;
     $called->{afterSaveHandler}++;
@@ -481,7 +489,7 @@ HERE
 
 sub test_beforeAttachmentSaveHandler {
     my $this = shift;
-    $this->makePlugin('beforeAttachmentSaveHandler', <<'HERE');
+    $this->makePlugin( 'beforeAttachmentSaveHandler', <<'HERE');
 sub beforeAttachmentSaveHandler {
     my( $attrHashRef, $topic, $web ) = @_;
     $called->{beforeAttachmentSaveHandler}++;
@@ -491,7 +499,7 @@ HERE
 
 sub test_beforeEditHandler {
     my $this = shift;
-    $this->makePlugin('beforeEditHandler', <<'HERE');
+    $this->makePlugin( 'beforeEditHandler', <<'HERE');
 sub beforeEditHandler {
     my( $text, $topic, $web, $meta ) = @_;
     $called->{beforeEditHandler}++;
@@ -501,7 +509,7 @@ HERE
 
 sub test_beforeSaveHandler {
     my $this = shift;
-    $this->makePlugin('beforeSaveHandler', <<'HERE');
+    $this->makePlugin( 'beforeSaveHandler', <<'HERE');
 sub beforeSaveHandler {
     my ( $theText, $theTopic, $theWeb, $meta ) = @_;
     $called->{beforeSaveHandler}++;
@@ -511,7 +519,7 @@ HERE
 
 sub test_modifyHeaderHandler {
     my $this = shift;
-    $this->makePlugin('modifyHeaderHandler', <<'HERE');
+    $this->makePlugin( 'modifyHeaderHandler', <<'HERE');
 sub modifyHeaderHandler {
     my ($headers, $query) = @_;
     $called->{modifyHeaderHandler}++;
@@ -521,7 +529,7 @@ HERE
 
 sub test_mergeHandler {
     my $this = shift;
-    $this->makePlugin('mergeHandler', <<'HERE');
+    $this->makePlugin( 'mergeHandler', <<'HERE');
 sub mergeHandler {
     my ($diff, $old, $new, $info) = @_;
     $called->{mergeHandler}++;
@@ -531,7 +539,7 @@ HERE
 
 sub test_redirectrequestHandler {
     my $this = shift;
-    $this->makePlugin('redirectrequestHandler', <<'HERE');
+    $this->makePlugin( 'redirectrequestHandler', <<'HERE');
 sub redirectrequestHandler {
     my ( $query, $url ) = @_;
     $called->{redirectrequestHandler}++;
@@ -541,7 +549,7 @@ HERE
 
 sub test_registrationHandler {
     my $this = shift;
-    $this->makePlugin('registrationHandler', <<'HERE');
+    $this->makePlugin( 'registrationHandler', <<'HERE');
 sub registrationHandler {
     my ( $web, $wikiName, $loginName ) = @_;
     $called->{registrationHandler}++;
@@ -551,7 +559,7 @@ HERE
 
 sub test_renderFormFieldForEditHandler {
     my $this = shift;
-    $this->makePlugin('renderFormFieldForEditHandler', <<'HERE');
+    $this->makePlugin( 'renderFormFieldForEditHandler', <<'HERE');
 sub renderFormFieldForEditHandler {
     my ($name, $type, $size, $value, $attributes, $possibleValues) = @_;
     $called->{renderFormFieldForEditHandler}++;
@@ -561,7 +569,7 @@ HERE
 
 sub test_renderWikiWordHandler {
     my $this = shift;
-    $this->makePlugin('renderWikiWordHandler', <<'HERE');
+    $this->makePlugin( 'renderWikiWordHandler', <<'HERE');
 sub renderWikiWordHandler {
     my ($text) = @_;
     $called->{renderWikiWordHandler}++;
@@ -571,7 +579,7 @@ HERE
 
 sub test_writeHeaderHandler {
     my $this = shift;
-    $this->makePlugin('writeHeaderHandler', <<'HERE');
+    $this->makePlugin( 'writeHeaderHandler', <<'HERE');
 sub writeHeaderHandler {
     my ($query) = @_;
     $called->{writeHeaderHandler}++;

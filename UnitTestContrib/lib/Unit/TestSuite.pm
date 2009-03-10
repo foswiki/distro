@@ -8,7 +8,6 @@ sub include_tests {
 
 1;
 
-
 __DATA__
 
 =pod

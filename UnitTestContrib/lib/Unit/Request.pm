@@ -1,16 +1,15 @@
 package Unit::Request;
 use base 'Foswiki::Request';
 
-
 sub setUrl {
     my ( $this, $queryString ) = @_;
 
-#print STDERR "---- setUrl($queryString)\n";
+    #print STDERR "---- setUrl($queryString)\n";
 
-    my $path = $queryString;
+    my $path      = $queryString;
     my $urlParams = '';
-    if ($queryString =~ /(.*)\?(.*)/) {
-        $path = $1;
+    if ( $queryString =~ /(.*)\?(.*)/ ) {
+        $path      = $1;
         $urlParams = $2;
     }
 
@@ -25,10 +24,12 @@ sub setUrl {
     }
     foreach my $param (@plist) {
         $this->queryParam( $param, $params{$param} );
-#print STDERR "\t setting $param, ".join(',', @{$params{$param}})."\n";
+
+        #print STDERR "\t setting $param, ".join(',', @{$params{$param}})."\n";
     }
-    $this->path_info(Foswiki::Sandbox::untaintUnchecked($path));
-#print STDERR "pathinfo = $path\n";
+    $this->path_info( Foswiki::Sandbox::untaintUnchecked($path) );
+
+    #print STDERR "pathinfo = $path\n";
 }
 
 1;

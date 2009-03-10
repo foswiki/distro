@@ -35,6 +35,8 @@ test/unit/Fn_SEP.pm 0644
 test/unit/Fn_URLPARAM.pm 0644
 test/unit/Fn_USERINFO.pm 0644
 test/unit/Fn_VAR.pm 0644
+test/unit/Fn_TOPICLIST.pm 0644
+test/unit/Fn_WEBLIST.pm 0644
 test/unit/FormDefTests.pm 0644
 test/unit/FormattingTests.pm 0644
 test/unit/FuncTests.pm 0644

@@ -14,11 +14,12 @@ my $testtopic2 = "TestTopic2";
 use vars qw( $codedir );
 
 BEGIN {
+
     # create a fabby little type, just to make sure it gets called
     $codedir = File::Temp::tempdir( CLEANUP => 1 );
-    mkdir("$codedir/Foswiki") || die $!;
+    mkdir("$codedir/Foswiki")      || die $!;
     mkdir("$codedir/Foswiki/Form") || die $!;
-    open(F, ">$codedir/Foswiki/Form/Nuffin.pm") || die $!;
+    open( F, ">$codedir/Foswiki/Form/Nuffin.pm" ) || die $!;
 
     my $code = <<CODE;
 package Foswiki::Form::Nuffin;
@@ -36,7 +37,7 @@ sub renderForDisplay {
 CODE
     print F $code;
     close(F) || die $!;
-    push(@INC, $codedir);
+    push( @INC, $codedir );
 }
 
 # Set up the test fixture
@@ -44,96 +45,189 @@ sub set_up {
     my $this = shift;
     $this->SUPER::set_up();
 
-    Foswiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef, <<HERE );
+    Foswiki::Func::saveTopic( $this->{test_web}, "WebPreferences", undef,
+        <<HERE );
    * Set WEBFORMS = InitializationForm
 HERE
 
-    my $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $testtopic1);
-    $meta->put('FORM', { name=>"InitializationForm" });
+    my $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testtopic1 );
+    $meta->put( 'FORM', { name => "InitializationForm" } );
     $meta->putKeyed(
         'FIELD',
-        { name=>"IssueName",
-          attributes=>"M", title=>"Issue Name", value=>"_An issue_"});
+        {
+            name       => "IssueName",
+            attributes => "M",
+            title      => "Issue Name",
+            value      => "_An issue_"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"IssueDescription",
-          attributes=>"", title=>"Issue Description", value=>"---+ Example problem"});
+        {
+            name       => "IssueDescription",
+            attributes => "",
+            title      => "Issue Description",
+            value      => "---+ Example problem"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue1",
-          attributes=>"", title=>"Issue 1:", value=>"*Defect*"});
+        {
+            name       => "Issue1",
+            attributes => "",
+            title      => "Issue 1:",
+            value      => "*Defect*"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue2",
-          attributes=>"", title=>"Issue 2:", value=>"Enhancement"});
+        {
+            name       => "Issue2",
+            attributes => "",
+            title      => "Issue 2:",
+            value      => "Enhancement"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue3",
-          attributes=>"", title=>"Issue 3:", value=>"Defect, None"});
+        {
+            name       => "Issue3",
+            attributes => "",
+            title      => "Issue 3:",
+            value      => "Defect, None"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue4",
-          attributes=>"", title=>"Issue 4:", value=>"Defect"});
+        {
+            name       => "Issue4",
+            attributes => "",
+            title      => "Issue 4:",
+            value      => "Defect"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue5",
-          attributes=>"", title=>"Issue 5:", value=>"Foo, Baz"});
+        {
+            name       => "Issue5",
+            attributes => "",
+            title      => "Issue 5:",
+            value      => "Foo, Baz"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"State",
-          attributes=>"H", title=>"State", value=>"Invisible"});
+        {
+            name       => "State",
+            attributes => "H",
+            title      => "State",
+            value      => "Invisible"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Anothertopic",
-          attributes=>"", title=>"Another topic", value=>"GRRR "});
+        {
+            name       => "Anothertopic",
+            attributes => "",
+            title      => "Another topic",
+            value      => "GRRR "
+        }
+    );
 
     Foswiki::Func::saveTopic( $this->{test_web}, $testtopic1, $meta, 'TT1' );
 
-    $meta = new Foswiki::Meta($this->{twiki}, $this->{test_web}, $testtopic2);
-    $meta->put('FORM', { name=>"InitializationForm",
-                     });
+    $meta =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, $testtopic2 );
+    $meta->put( 'FORM', { name => "InitializationForm", } );
     $meta->putKeyed(
         'FIELD',
-        { name=>"IssueName",
-          attributes=>"M", title=>"Issue Name", value=>"_An issue_"});
+        {
+            name       => "IssueName",
+            attributes => "M",
+            title      => "Issue Name",
+            value      => "_An issue_"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"IssueDescription",
-          attributes=>"", title=>"IssueDescription", value=>"| abc | 123 |\r\n| def | ghk |"});
+        {
+            name       => "IssueDescription",
+            attributes => "",
+            title      => "IssueDescription",
+            value      => "| abc | 123 |\r\n| def | ghk |"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue1",
-          attributes=>"", title=>"Issue1", value=>"*no web*"});
+        {
+            name       => "Issue1",
+            attributes => "",
+            title      => "Issue1",
+            value      => "*no web*"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue2",
-          attributes=>"", title=>"Issue2", value=>",   * abc\r\n   * def\r\n      * geh\r\n   * ijk"});
+        {
+            name       => "Issue2",
+            attributes => "",
+            title      => "Issue2",
+            value      => ",   * abc\r\n   * def\r\n      * geh\r\n   * ijk"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue3",
-          attributes=>"", title=>"Issue3", value=>"_hello world_"});
+        {
+            name       => "Issue3",
+            attributes => "",
+            title      => "Issue3",
+            value      => "_hello world_"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue4",
-          attributes=>"", title=>"Issue4", value=>",   * high"});
+        {
+            name       => "Issue4",
+            attributes => "",
+            title      => "Issue4",
+            value      => ",   * high"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Issue5",
-          attributes=>"", title=>"Issue5", value=>"Foo, Baz"});
+        {
+            name       => "Issue5",
+            attributes => "",
+            title      => "Issue5",
+            value      => "Foo, Baz"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"State",
-          attributes=>"H", title=>"State", value=>"Invisible"});
+        {
+            name       => "State",
+            attributes => "H",
+            title      => "State",
+            value      => "Invisible"
+        }
+    );
     $meta->putKeyed(
         'FIELD',
-        { name=>"Anothertopic",
-          attributes=>"", title=>"Another topic", value=>"GRRR "});
+        {
+            name       => "Anothertopic",
+            attributes => "",
+            title      => "Another topic",
+            value      => "GRRR "
+        }
+    );
     Foswiki::Func::saveTopic( $this->{test_web}, $testtopic2, $meta, 'TT2' );
 }
 
 sub setForm {
     my $this = shift;
-    Foswiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef, <<HERE );
+    Foswiki::Func::saveTopic( $this->{test_web}, "InitializationForm", undef,
+        <<HERE );
 | *Name*            | *Type*       | *Size* | *Values*      |
 | Issue Name        | text         | 40     |               |
 | State             | radio        |        | none          |
@@ -151,25 +245,47 @@ HERE
 sub test_render_formfield_raw {
 
     my $this = shift;
-    my($meta, $text) =
-      $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic2);
-    my $render = $this->{twiki}->renderer;
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic2 );
+    my $text   = $meta->text;
+    my $render = $this->{session}->renderer;
     my $res;
 
-    $res = $meta->renderFormFieldForDisplay( "IssueDescription", '| $title | $value |', { newline=>'NL', bar=>"BAR" } );
+    $res = $meta->renderFormFieldForDisplay(
+        "IssueDescription",
+        '| $title | $value |',
+        { newline => 'NL', bar => "BAR" }
+    );
 
-    $this->assert_str_equals('| IssueDescription | BAR abc BAR 123 BARNLBAR def BAR ghk BAR |', $res);
+    $this->assert_str_equals(
+        '| IssueDescription | BAR abc BAR 123 BARNLBAR def BAR ghk BAR |',
+        $res );
 
-    $res = $meta->renderFormFieldForDisplay( "Issue1", '$value > $title', { newline=>'NL', bar=>"BAR" } );
-    $this->assert_str_equals('*no web* > Issue1', $res);
-    $res = $meta->renderFormFieldForDisplay( "Issue2", '$value', { newline=>'NL', bar=>"BAR" } );
-    $this->assert_str_equals(',   * abcNL   * defNL      * gehNL   * ijk', $res);
-    $res = $meta->renderFormFieldForDisplay( "Issue3", '$value', { newline=>'NL', bar=>"BAR" } );
-    $this->assert_str_equals('_hello world_', $res);
-    $res = $meta->renderFormFieldForDisplay( "Issue4", '$value > $title', { newline=>'NL', bar=>"BAR" } );
-    $this->assert_str_equals(',   * high > Issue4', $res);
-    $res = $meta->renderFormFieldForDisplay( "State", '', { newline=>'NL', bar=>"BAR" } );
-    $this->assert_str_equals('', $res);
+    $res = $meta->renderFormFieldForDisplay(
+        "Issue1",
+        '$value > $title',
+        { newline => 'NL', bar => "BAR" }
+    );
+    $this->assert_str_equals( '*no web* > Issue1', $res );
+    $res =
+      $meta->renderFormFieldForDisplay( "Issue2", '$value',
+        { newline => 'NL', bar => "BAR" } );
+    $this->assert_str_equals( ',   * abcNL   * defNL      * gehNL   * ijk',
+        $res );
+    $res =
+      $meta->renderFormFieldForDisplay( "Issue3", '$value',
+        { newline => 'NL', bar => "BAR" } );
+    $this->assert_str_equals( '_hello world_', $res );
+    $res = $meta->renderFormFieldForDisplay(
+        "Issue4",
+        '$value > $title',
+        { newline => 'NL', bar => "BAR" }
+    );
+    $this->assert_str_equals( ',   * high > Issue4', $res );
+    $res =
+      $meta->renderFormFieldForDisplay( "State", '',
+        { newline => 'NL', bar => "BAR" } );
+    $this->assert_str_equals( '', $res );
 
 }
 
@@ -179,10 +295,11 @@ sub test_render_formfield_with_form {
 
     $this->setForm();
 
-    my($meta, $text) =
-      $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic2);
-    my $res = $meta->renderFormForDisplay();
-    $this->assert_html_equals(<<HERE, $res);
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic2 );
+    my $text = $meta->text;
+    my $res  = $meta->renderFormForDisplay();
+    $this->assert_html_equals( <<HERE, $res );
 <div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
@@ -197,11 +314,12 @@ _hello world_
 Foo, Baz
 </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
-    ($meta, $text) =
-      $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
-    $res = $meta->renderFormForDisplay();
+    $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
+    $text = $meta->text;
+    $res  = $meta->renderFormForDisplay();
 
-    $this->assert_html_equals(<<HERE, $res);
+    $this->assert_html_equals( <<HERE, $res );
 <div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Name </td><td>
 _An issue_
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> Issue Description </td><td>
@@ -221,12 +339,15 @@ HERE
 sub test_render_for_edit {
     my $this = shift;
     $this->setForm();
-    my ($meta, $text) =
-      $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
-    my $formDef = new Foswiki::Form(
-        $this->{twiki}, $this->{test_web}, "InitializationForm" );
-    my $res = $formDef->renderForEdit($this->{test_web}, $testtopic1, $meta);
-my $expected = <<HERE;
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
+    my $text = $meta->text;
+    my $formDef =
+      new Foswiki::Form( $this->{session}, $this->{test_web},
+        "InitializationForm" );
+    my $res = $formDef->renderForEdit($meta);
+
+    my $expected = <<HERE;
 <div class="foswikiForm foswikiEditForm"><table class="foswikiFormTable">
 <tr>
 <th class="foswikiFormTableHRow" colspan="2"><a rel="nofollow" target="InitializationForm" href="%VIEWURL%/TemporaryRenderFormTestsTestWebRenderFormTests/InitializationForm" title="Details in separate window">TemporaryRenderFormTestsTestWebRenderFormTests.InitializationForm</a> <input type="submit" name="action_replaceform" value='Replace form...' class="foswikiChangeFormButton foswikiButton" /></th>
@@ -245,30 +366,32 @@ HERE
 
     #Foswiki::Func::writeDebug("-----------------\n$res\n------------------");
 
-    my $viewUrl = $this->{twiki}->getScriptUrl(0, 'view');
+    my $viewUrl = $this->{session}->getScriptUrl( 0, 'view' );
     $expected =~ s/%VIEWURL%/$viewUrl/g;
 
-    $this->assert_html_equals($expected, $res);
+    $this->assert_html_equals( $expected, $res );
 }
 
 sub test_render_hidden {
     my $this = shift;
     $this->setForm();
-    my ($meta, $text) =
-      $this->{twiki}->{store}->readTopic(undef, $this->{test_web}, $testtopic1);
-    my $formDef = new Foswiki::Form(
-        $this->{twiki}, $this->{test_web}, "InitializationForm" );
+    my $meta =
+      Foswiki::Meta->load( $this->{session}, $this->{test_web}, $testtopic1 );
+    my $text = $meta->text;
+    my $formDef =
+      new Foswiki::Form( $this->{session}, $this->{test_web},
+        "InitializationForm" );
     my $res = $formDef->renderHidden($meta);
-    $this->assert_html_equals(<<'HERE', $res);
+    $this->assert_html_equals( <<'HERE', $res );
 <input type="hidden" name="IssueName" value="_An issue_"  /><input type="hidden" name="State" value="Invisible"  /><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><input type="hidden" name="Issue1" value="*Defect*"  /><input type="hidden" name="Issue2" value="Enhancement"  /><input type="hidden" name="Issue3" value="Defect"  /><input type="hidden" name="Issue3" value="None"  /><input type="hidden" name="Issue4" value="Defect"  /><input type="hidden" name="Issue5" value="Foo"  /><input type="hidden" name="Issue5" value="Baz"  />
 HERE
 }
 
 sub test_nondefined_form {
-    my $this = shift;
-    my $web = $this->{test_web};
+    my $this  = shift;
+    my $web   = $this->{test_web};
     my $topic = 'FormDoesntExist';
-   
+
     my $rawtext = '
 %META:FORM{name="NonExistantPluginTestForm"}%
 %META:FIELD{name="ExtensionName" attributes="" title="ExtensionName" value="Example"}%
@@ -282,13 +405,13 @@ sub test_nondefined_form {
 %META:FIELD{name="ModificationPolicy" attributes="" title="ModificationPolicy" value="ContactAuthorFirst"}%';
 
     Foswiki::Func::saveTopic( $web, $topic, undef, $rawtext );
-        
-    my ($meta, $text) =
-      $this->{twiki}->{store}->readTopic(undef, $web, $topic);
-    my $res = $meta->renderFormForDisplay();
 
-    $this->assert_html_equals(<<'HERE', $res);
-<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm</h3></noautolink> " else="<h3> TemporaryRenderFormTestsTestWebRenderFormTests.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
+    my $meta = Foswiki::Meta->load( $this->{session}, $web, $topic );
+    my $text = $meta->text;
+    my $res  = $meta->renderFormForDisplay();
+
+    $this->assert_html_equals( <<HERE, $res );
+<span class="foswikiAlert">%MAKETEXT{"Form definition '[_1]' not found" args="NonExistantPluginTestForm"}%</span><div class="foswikiForm">%IF{"context preview" then="<noautolink><h3>$web.NonExistantPluginTestForm</h3></noautolink> " else="<h3> $web.NonExistantPluginTestForm <span class='foswikiSmall'><a href='%SCRIPTURL{edit}%/%WEB%/%TOPIC%?t=%GMTIME{\$epoch}%;action=form'>%MAKETEXT{"edit"}%</a></span></h3>"}%<table class='foswikiFormTable' border='1'>%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ModificationPolicy </td><td>
 ContactAuthorFirst
 </td></tr>%IF{"context preview" then="</noautolink>"}%%IF{"context preview" then="<noautolink>"}%<tr valign='top'><td class='foswikiFormTableRow foswikiFirstCol' align='right'> ExtensionName </td><td>
 Example
@@ -308,7 +431,7 @@ http://
 No
 </td></tr>%IF{"context preview" then="</noautolink>"}%</table></div><!-- /foswikiForm -->
 HERE
-    
+
 }
 
 1;

@@ -10,25 +10,24 @@ use Foswiki;
 use Error qw( :try );
 
 sub new {
-    my $self = shift()->SUPER::new('GROUPS', @_);
+    my $self = shift()->SUPER::new( 'GROUPS', @_ );
     return $self;
 }
 
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    $this->{twiki}->{store}->saveTopic(
-        $this->{twiki}->{user}, $this->{users_web},
-        "GropeGroup",
-        "   * Set GROUP = ScumBag,WikiGuest\n");
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{users_web}, "GropeGroup",
+        "   * Set GROUP = ScumBag,WikiGuest\n" );
+    $topicObject->save();
 }
 
 sub test_basic {
     my $this = shift;
 
-    my $ui = $this->{twiki}->handleCommonTags(
-        '%GROUPS%', $this->{test_web}, $this->{test_topic});
-    $this->assert_str_equals(<<HUMPH, "$ui\n");
+    my $ui = $this->{test_topicObject}->expandMacros('%GROUPS%');
+    $this->assert_str_equals( <<HUMPH, "$ui\n" );
 | *Group* | *Members* |
 | <nop>AdminGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |
 | <nop>BaseGroup | [[TemporaryGROUPSUsersWeb.AdminUser][AdminUser]] [[TemporaryGROUPSUsersWeb.WikiGuest][WikiGuest]] [[TemporaryGROUPSUsersWeb.UnknownUser][UnknownUser]] [[TemporaryGROUPSUsersWeb.ProjectContributor][ProjectContributor]] [[TemporaryGROUPSUsersWeb.RegistrationAgent][RegistrationAgent]] |

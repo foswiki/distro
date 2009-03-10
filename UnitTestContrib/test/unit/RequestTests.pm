@@ -10,7 +10,7 @@ use Foswiki::Request::Upload;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up(@_);
-    $Foswiki::cfg{ScriptUrlPath} = '/twiki/bin';
+    $Foswiki::cfg{ScriptUrlPath} = '/fatwilly/bin';
     delete $Foswiki::cfg{ScriptUrlPaths};
 }
 
