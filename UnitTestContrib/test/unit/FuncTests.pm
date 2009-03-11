@@ -691,10 +691,8 @@ sub test_getExternalResource {
     $this->assert_equals( 200, $response->code() );
     $Foswiki::Net::HTTPResponseAvailable = 0;
     $this->assert_str_equals( 'OK', $response->message() );
-    $this->assert_matches(
-        qr/text\/html; charset=utf-8/s,
-        lc( $response->header('content-type') )
-    );
+    $this->assert_matches( qr/text\/html; charset=(?:utf-?8|iso-8859-1)/is,
+        ~~ $response->header('content-type') ); # ~~ forces scalar context
     $this->assert_matches(
         qr/Foswiki - The free and open source enterprise wiki/s,
         $response->content() );
@@ -957,24 +955,52 @@ sub test_getPluginPreferences {
 
 sub test_getRevisionAtTime {
     my $this = shift;
-    my $t1 = Foswiki::Time::parseTime("21 Jun 2001");
+    my $t1   = Foswiki::Time::parseTime("21 Jun 2001");
     Foswiki::Func::saveTopic(
-        $this->{test_web}, "ShutThatDoor",
+        $this->{test_web},
+        "ShutThatDoor",
         undef, "Glum",
-        { comment => 'Initial revision',
-          forcenewrevision => 1,
-          forcedate => $t1});
+        {
+            comment          => 'Initial revision',
+            forcenewrevision => 1,
+            forcedate        => $t1
+        }
+    );
     my $t2 = Foswiki::Time::parseTime("21 Jun 2003");
     Foswiki::Func::saveTopic(
-        $this->{test_web}, "ShutThatDoor",
+        $this->{test_web},
+        "ShutThatDoor",
         undef, "Happy",
-        { comment => 'New revision',
-          forcenewrevision => 1,
-          forcedate => $t2});
-    $this->assert_equals(0, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t1 - 60));
-    $this->assert_equals(1, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t1 + 60));
-    $this->assert_equals(1, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t2 - 60));
-    $this->assert_equals(2, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t2 + 60));
+        {
+            comment          => 'New revision',
+            forcenewrevision => 1,
+            forcedate        => $t2
+        }
+    );
+    $this->assert_equals(
+        0,
+        Foswiki::Func::getRevisionAtTime(
+            $this->{test_web}, "ShutThatDoor", $t1 - 60
+        )
+    );
+    $this->assert_equals(
+        1,
+        Foswiki::Func::getRevisionAtTime(
+            $this->{test_web}, "ShutThatDoor", $t1 + 60
+        )
+    );
+    $this->assert_equals(
+        1,
+        Foswiki::Func::getRevisionAtTime(
+            $this->{test_web}, "ShutThatDoor", $t2 - 60
+        )
+    );
+    $this->assert_equals(
+        2,
+        Foswiki::Func::getRevisionAtTime(
+            $this->{test_web}, "ShutThatDoor", $t2 + 60
+        )
+    );
 }
 
 1;
