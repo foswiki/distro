@@ -42,6 +42,7 @@ sub set_up {
 
 sub test_public {
     my $this = shift;
+
     # separator=", " 	Line separator Default: "$n" (new line)
     my $text = $this->{test_topicObject}->expandMacros('%WEBLIST%');
     $this->assert_str_equals( join( "\n", @allWebs ), $text );
@@ -53,7 +54,8 @@ sub test_template {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
     $this->assert_str_equals( join( "\n", @templateWebs ), $text );
 }
 
@@ -61,7 +63,8 @@ sub test_separator {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST{separator=";"}%');
+    my $text =
+      $this->{test_topicObject}->expandMacros('%WEBLIST{separator=";"}%');
     $this->assert_str_equals( join( ';', @allWebs ), $text );
 }
 
@@ -75,8 +78,8 @@ sub test_format {
     my $text =
       $this->{test_topicObject}
       ->expandMacros('%WEBLIST{"$name:$qname:$web" web="sponge"}%');
-    $this->assert_str_equals(
-        join( "\n", map { "$_:\"$_\":sponge" } @allWebs ), $text );
+    $this->assert_str_equals( join( "\n", map { "$_:\"$_\":sponge" } @allWebs ),
+        $text );
     $text =
       $this->{test_topicObject}->expandMacros('%WEBLIST{"$name:$qname:$web"}%');
     $this->assert_str_equals( join( "\n", map { "$_:\"$_\":" } @allWebs ),
@@ -86,8 +89,8 @@ sub test_format {
     $text =
       $this->{test_topicObject}
       ->expandMacros('%WEBLIST{format="$name:$qname:$web" web="sponge"}%');
-    $this->assert_str_equals(
-        join( "\n", map { "$_:\"$_\":sponge" } @allWebs ), $text );
+    $this->assert_str_equals( join( "\n", map { "$_:\"$_\":sponge" } @allWebs ),
+        $text );
 }
 
 sub test_subwebs {
@@ -156,14 +159,13 @@ sub test_webs {
 sub test_WEBLIST_all {
     my $this = shift;
 
-    my $text = ' %WEBLIST{format="#$name#" separator=" "}% ';
-    $this->{test_topicObject}->expandMacros($text);
+    my $text =
+      $this->{test_topicObject}
+      ->expandMacros(' %WEBLIST{format="#$name#" separator=" "}% ');
 
-    foreach my $web (
-        $this->{test_web},
-        "$this->{test_web}/Subweb",
-        $Foswiki::cfg{UsersWebName}, 'Sandbox', $Foswiki::cfg{SystemWebName}
-      )
+    foreach my $web ( $this->{test_web}, "$this->{test_web}/Subweb",
+        $Foswiki::cfg{UsersWebName},
+        'Sandbox', $Foswiki::cfg{SystemWebName} )
     {
         $this->assert_matches( qr!#$web#!, $text );
     }
@@ -173,16 +175,20 @@ sub test_WEBLIST_relative {
     my $this = shift;
 
     my $text =
-      ' %WEBLIST{format="#$name#" separator=" " subwebs="' . $this->{test_web} . '"}% ';
-    $text = $this->{test_topicObject}->expandMacros($text);
-    $this->assert_matches( qr!#$this->{test_web}#!, $text );
+      $this->{test_topicObject}
+      ->expandMacros( ' %WEBLIST{format="#$name#" separator=" " subwebs="'
+          . $this->{test_web}
+          . '"}% ' );
+    $this->assert_matches( qr!#$this->{test_web}/Subweb#!, $text );
 }
 
 sub test_WEBLIST_end {
     my $this = shift;
 
-    my $text = ' %WEBLIST{format="#$name#" separator=" " subwebs="'
-      . $this->{test_web} . '/Subweb"}% ';
+    my $text =
+        ' %WEBLIST{format="#$name#" separator=" " subwebs="'
+      . $this->{test_web}
+      . '/Subweb"}% ';
     $text = $this->{test_topicObject}->expandMacros($text);
     $this->assert_equals( '  ', $text );
 }
