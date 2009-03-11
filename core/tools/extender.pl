@@ -219,7 +219,10 @@ sub check_dep {
     $moduleVersion = 0;
     {
         local $SIG{__WARN__} = \&check_non_perl_versions;
-        my $version = $module->VERSION;
+
+        # Providing 0 as version number as version checking is done below
+        # and without it, perl < 5.10 won't trigger the warning
+        my $version = $module->VERSION(0);
         $moduleVersion ||= $version;
     }
 
@@ -937,16 +940,17 @@ sub _install {
         # Try to catch those until all VERSION are correct
         {
             local $SIG{__WARN__} = \&check_non_perl_versions;
-            my $version = $path->VERSION;
+
+            # Providing 0 as version number as version checking is done below
+            # and without it, perl < 5.10 won't trigger the warning
+            my $version = $path->VERSION(0);
             $moduleVersion ||= $version;
         }
 
         if ($moduleVersion) {
             return 0
-              unless ask(
-                          "$MODULE version $moduleVersion is already installed."
-                        . " Are you sure you want to re-install this module?"
-              );
+              unless ask( "$MODULE version $moduleVersion is already installed."
+                  . " Are you sure you want to re-install this module?" );
             print "I will keep a backup of any files I overwrite.";
         }
     }
