@@ -59,7 +59,6 @@ sub test_getViewUrl {
 
     $result = TWiki::Func::getViewUrl( "Sausages", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
-    $this->assert_matches( qr!!,                      $result );
 
     $result = TWiki::Func::getViewUrl( "", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );

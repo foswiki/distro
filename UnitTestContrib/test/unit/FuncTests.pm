@@ -69,7 +69,6 @@ sub test_getViewUrl {
 
     $result = Foswiki::Func::getViewUrl( "Sausages", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
-    $this->assert_matches( qr!!,                      $result );
 
     $result = Foswiki::Func::getViewUrl( "", "AndMash" );
     $this->assert_matches( qr!/$ss/Sausages/AndMash!, $result );
