@@ -1186,9 +1186,9 @@ sub inputElement {
           unless ( $theValue eq '' );
 
         #$theValue = "\*$theValue\*" if ( $isHeader and $digestedCellValue );
-        $text = "\*$text\*" if ($isHeader);
+        $text = "*$text" if $isHeader;
         $text .= ' ' . hiddenField( $preSp, $theName, $theValue );
-
+        $text .= '*' if $isHeader;
     }
     elsif ( $type eq 'textarea' ) {
         my ( $rows, $cols ) = split( /x/, $size );
