@@ -171,14 +171,16 @@ sub assert_matches {
     my ($this, $expected, $got, $mess) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($got =~ /$expected/, $mess || "Expected:'$expected'\n But got:'$got'\n");
+    $this->assert( scalar( $got =~ /$expected/ ),
+        $mess || "Expected:'$expected'\n But got:'$got'\n" );
 }
 
 sub assert_does_not_match {
     my ($this, $expected, $got, $mess) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
-    $this->assert($got !~ /$expected/, $mess || "Expected:'$expected'\n And got:'$got'\n");
+    $this->assert( scalar( $got !~ /$expected/ ),
+        $mess || "Expected:'$expected'\n And got:'$got'\n" );
 }
 
 sub assert_deep_equals {
