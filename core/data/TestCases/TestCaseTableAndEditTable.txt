@@ -14,8 +14,9 @@ Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macro
    * Edit the table again and add a row
       * Check that the new row is added just before the footer row and not below it.
       * Fill in some text and numbers like the rows above
-      * Save the table and check that the new row also contains the CALCs like the other rows
+   * Save the table and check that the new row also contains the CALCs like the other rows
       * Check we still have a valid footer row
+      * Check that the EDITTABLE still contains Macros and not just static values.
 
 ---++ Defining Table
 
