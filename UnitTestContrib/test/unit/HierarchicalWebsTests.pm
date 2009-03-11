@@ -331,7 +331,7 @@ sub test_squab_subweb_wih_topic {
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
     $this->assert_matches(
-qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="foswikiLink">$testWebSubWeb</a>!,
+qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb">$testWebSubWeb</a>!,
         $text
     );
 }
@@ -357,7 +357,7 @@ sub test_squab_full_path_with_topic {
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
     $this->assert_matches(
-qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb" class="foswikiLink">$testWeb.$testWebSubWeb</a>!,
+qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb">$testWeb.$testWebSubWeb</a>!,
         $text
     );
 }
@@ -383,7 +383,7 @@ sub test_squab_path_to_topic_in_subweb {
       Foswiki::Meta->new( $this->{session}, $testWeb, 'NonExistant' );
     $text = $topicObject->renderTML($text);
     $this->assert_matches(
-qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$Foswiki::cfg{HomeTopicName}" class="foswikiLink">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!,
+qr!<a href=".*view$Foswiki::cfg{ScriptSuffix}/$testWeb/$testWebSubWeb/$Foswiki::cfg{HomeTopicName}">$testWeb.$testWebSubWeb.$Foswiki::cfg{HomeTopicName}</a>!,
         $text
     );
 
