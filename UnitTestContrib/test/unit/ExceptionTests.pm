@@ -82,7 +82,7 @@ sub upchuck {
 }
 
 # Test for DEPRECATED redirect
-sub test_redirectOopsException {
+sub deprecated_test_redirectOopsException {
     my $this = shift;
     my $t    = new Foswiki();
     my ( $output, $result ) = $this->capture( \&upchuck, $t );
