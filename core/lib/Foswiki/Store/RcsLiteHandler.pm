@@ -454,6 +454,7 @@ sub addRevisionFromStream {
 
 sub _addRevision {
     my ( $this, $isStream, $data, $log, $author, $date ) = @_;
+
     _ensureProcessed($this);
     if ( $this->{state} eq 'nocommav' && -e $this->{file} ) {
 
@@ -778,11 +779,10 @@ sub getRevisionAtTime {
     my $version = 1;
 
     _ensureProcessed($this);
-
     $version = $this->{head};
-
-    while ( $version > 1 && $this->{revs}[$version]->{date} > $date ) {
+    while ( $this->{revs}[$version]->{date} > $date ) {
         $version--;
+        return 0 if $version == 0;
     }
 
     return $version;

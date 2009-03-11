@@ -546,7 +546,7 @@ WARN
         # text is expected to contain %META as well as text.
         $topicObject->text( $query->param('text') );
         try {
-            $topicObject->replaceMostRecentRevision( timetravel => 1 );
+            $topicObject->replaceMostRecentRevision( forcedate => 1 );
         }
         catch Error::Simple with {
             throw Foswiki::OopsException(

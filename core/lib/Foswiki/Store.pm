@@ -323,6 +323,7 @@ Returns the number of the revision saved.
 
 =cut
 
+# SMELL: should support the same options as saveTopic
 sub saveAttachment {
     my( $this, $topicObject, $name, $stream, $cUID ) = @_;
     die "Abstract base class";
@@ -337,7 +338,8 @@ Save a topic or attachment _without_ invoking plugin handlers.
    * =$cUID= - cUID of user doing the saving
    * =$options= - Ref to hash of options
 =$options= may include:
-   * =forcenewrevision=
+   * =forcenewrevision= - force a new revision even if one isn't needed
+   * =forcedate= - force the revision date to be this (epoch secs)
    * =minor= - True if this is a minor change (used in log)
    * =author= - cUID of author of the change
 
@@ -359,8 +361,9 @@ content is taken from the content currently loaded in $topicObject.
 
 Parameters and return value as saveTopic, except
    * =%options= - as for saveTopic, with the extra options:
-      * =timetravel= - if we want to force the deposited revision
-        to look as much like the revision specified in =$rev= as possible.
+      * =forcedate= - if we want to force the deposited revision
+        to look as much like the revision specified in =$rev= as possible by
+        reusing the original checkin date.
       * =operation= - set to the name of the operation performing the save.
         This is used only in the log, and is normally =cmd= or =save=. It
         defaults to =save=.
@@ -368,7 +371,7 @@ Parameters and return value as saveTopic, except
 Used to try to avoid the deposition of 'unecessary' revisions, for example
 where a user quickly goes back and fixes a spelling error.
 
-Also provided as a means for administrators to rewrite history (timetravel).
+Also provided as a means for administrators to rewrite history (forcedate).
 
 It is up to the store implementation if this is different
 to a normal save or not.

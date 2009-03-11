@@ -106,6 +106,7 @@ sub initText {
 sub addRevisionFromText {
     my ( $this, $text, $comment, $user, $date ) = @_;
     $this->init();
+print STDERR "Wrap: Forced save at $date $this->{file}\n" if $date;
 
     unless ( -e $this->{rcsFile} ) {
         _lock($this);

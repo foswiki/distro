@@ -1232,18 +1232,7 @@ sub haveAccess {
 ---++ ObjectMethod save( %options  )
 
 Save the current object, invoking appropriate plugin handlers
-   * =%options= - Hash of options, may include:
-      * =forcenewrevision= -
-      * =timetravel= -
-      * =dontlog= - don't log this change in log
-      * =hide= - if the attachment is to be hidden in normal topic view
-      * =comment= - comment for save
-      * =file= - Temporary file name to upload
-      * =minor= - True if this is a minor change (used in log)
-      * =savecmd= - Save command
-      * =forcedate= - grr
-      * =unlock= -
-      * =author= - cUID of author of change
+   * =%options= - Hash of options, see saveAs for list of keys
 
 =cut
 
@@ -1317,17 +1306,19 @@ Save the current topic to a store location. Only works on topics.
 *without* invoking plugins handlers.
    * =$web.$topic= - where to move to
    * =%options= - Hash of options, may include:
-      * =forcenewrevision= -
-      * =timetravel= -
+      * =forcenewrevision= - force an increment in the revision number,
+        even if content doesn't change.
       * =dontlog= - don't log this change in log
-      * =hide= - if the attachment is to be hidden in normal topic view
       * =comment= - comment for save
-      * =file= - Temporary file name to upload
       * =minor= - True if this is a minor change (used in log)
-      * =savecmd= - Save command
-      * =forcedate= - grr
-      * =unlock= -
-      * =author= - cUID of author of change
+      * =savecmd= - Save command (core use only)
+      * =forcedate= - force the revision date to be this (core only)
+      * =author= - cUID of author of change (core only - default current user)
+
+Note that the %options are passed on verbatim from Foswiki::Func::saveTopic,
+so an extension author can in fact use all these options. However those
+marked "core only" are for core use only and should *not* be used in
+extensions.
 
 =cut
 
@@ -1511,6 +1502,7 @@ Replace the most recent revision with whatever is in the memory copy.
 Only works on topics.
 
 %opts may include:
+   * =forcedate= - try and re-use the date of the original check
    * =user= - cUID of the user doing the action
 
 =cut
@@ -1538,7 +1530,7 @@ sub replaceMostRecentRevision {
         $extra .= Foswiki::Time::formatTime( $info->{date}, '$rcs', 'gmtime' );
         $extra .= ' minor' if ( $opts{minor} );
         $this->{_session}->writeLog(
-            $opts{timetravel} ? 'cmd' : 'save',
+            $opts{forcedate} ? 'cmd' : 'save',
             $this->getPath(),
             $extra, $cUID
         );

@@ -956,5 +956,27 @@ sub test_getPluginPreferences {
     $this->assert( !Foswiki::Func::getPluginPreferencesFlag($pvar) );
 }
 
+sub test_getRevisionAtTime {
+    my $this = shift;
+    my $t1 = Foswiki::Time::parseTime("21 Jun 2001");
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, "ShutThatDoor",
+        undef, "Glum",
+        { comment => 'Initial revision',
+          forcenewrevision => 1,
+          forcedate => $t1});
+    my $t2 = Foswiki::Time::parseTime("21 Jun 2003");
+    Foswiki::Func::saveTopic(
+        $this->{test_web}, "ShutThatDoor",
+        undef, "Happy",
+        { comment => 'New revision',
+          forcenewrevision => 1,
+          forcedate => $t2});
+    $this->assert_equals(0, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t1 - 60));
+    $this->assert_equals(1, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t1 + 60));
+    $this->assert_equals(1, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t2 - 60));
+    $this->assert_equals(2, Foswiki::Func::getRevisionAtTime($this->{test_web}, "ShutThatDoor",$t2 + 60));
+}
+
 1;
 

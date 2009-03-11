@@ -375,7 +375,6 @@ sub saveTopic {
     my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     my $currentRev = $handler->numRevisions() || 0;
     my $nextRev = $currentRev + 1;
-
     if ( $currentRev && !$options->{forcenewrevision} ) {
 
         # See if we want to replace the existing top revision
@@ -398,7 +397,7 @@ sub saveTopic {
     }
     $topicObject->setRevisionInfo(
         {
-            date    => time(),
+            date    => $options->{forcedate} || time(),
             author  => $cUID,
             version => $nextRev
         }
@@ -406,7 +405,7 @@ sub saveTopic {
 
     $handler->addRevisionFromText(
         $topicObject->getEmbeddedStoreForm(),
-        'save topic', $cUID );
+        'save topic', $cUID, $options->{forcedate} );
 
     # just in case they are not sequential
     $nextRev = $handler->numRevisions();
@@ -425,7 +424,7 @@ sub repRev {
 
     my $info = $topicObject->getRevisionInfo();
 
-    if ( $options{timetravel} ) {
+    if ( $options{forcedate} ) {
 
         # We are trying to force the rev to be saved with the same date
         # and user as the prior rev. However, exactly the same date may
@@ -630,9 +629,9 @@ sub searchInWebContent {
 
 # Documented in Foswiki::Store
 sub getRevisionAtTime {
-    my ( $this, $web, $topic, $time ) = @_;
+    my ( $this, $topicObject, $time ) = @_;
 
-    my $handler = $this->getHandler( $web, $topic );
+    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
     return $handler->getRevisionAtTime($time);
 }
 
