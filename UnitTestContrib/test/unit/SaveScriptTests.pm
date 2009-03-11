@@ -738,13 +738,13 @@ GUMP
       Foswiki::Meta->load( $this->{session}, $this->{test_web}, 'MergeSave' );
     $text = $meta->text;
     my $e = <<'END';
-<div class="twikiConflict"><b>CONFLICT</b> original 1:</div>
+<div class="foswikiConflict"><b>CONFLICT</b> original 1:</div>
 | *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
-<div class="twikiConflict"><b>CONFLICT</b> version 2:</div>
+<div class="foswikiConflict"><b>CONFLICT</b> version 2:</div>
 Soggy bat
-<div class="twikiConflict"><b>CONFLICT</b> version new:</div>
+<div class="foswikiConflict"><b>CONFLICT</b> version new:</div>
 Wet rat
-<div class="twikiConflict"><b>CONFLICT</b> end</div>
+<div class="foswikiConflict"><b>CONFLICT</b> end</div>
 END
     $this->assert_str_equals( $e, $text );
 

@@ -491,7 +491,7 @@ sub merge3 {
     return join( '', @out );
 }
 
-my $conflictAttrs = { class => 'twikiConflict' };
+my $conflictAttrs = { class => 'foswikiConflict' };
 
 # SMELL: internationalisation?
 my $conflictB = CGI::b('CONFLICT');

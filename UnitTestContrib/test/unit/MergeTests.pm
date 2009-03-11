@@ -122,9 +122,9 @@ sub test_M3_shortStrings4 {
 
     $this->assert_str_equals(
         <<'END',
-1 <div class="twikiConflict"><b>CONFLICT</b> version b:</div>
-b <div class="twikiConflict"><b>CONFLICT</b> version c:</div>
-c <div class="twikiConflict"><b>CONFLICT</b> end</div>
+1 <div class="foswikiConflict"><b>CONFLICT</b> version b:</div>
+b <div class="foswikiConflict"><b>CONFLICT</b> version c:</div>
+c <div class="foswikiConflict"><b>CONFLICT</b> end</div>
 2 3 4 c 5 
 END
         $d
@@ -173,10 +173,10 @@ sub test_M3_shortStrings8 {
     $d = _merge3( $a, $b, $c ) . "\n";
     $this->assert_str_equals(
         <<'END',
-1 2 <div class="twikiConflict"><b>CONFLICT</b> original a:</div>
-3 <div class="twikiConflict"><b>CONFLICT</b> version b:</div>
-change <div class="twikiConflict"><b>CONFLICT</b> version c:</div>
-other <div class="twikiConflict"><b>CONFLICT</b> end</div>
+1 2 <div class="foswikiConflict"><b>CONFLICT</b> original a:</div>
+3 <div class="foswikiConflict"><b>CONFLICT</b> version b:</div>
+change <div class="foswikiConflict"><b>CONFLICT</b> version c:</div>
+other <div class="foswikiConflict"><b>CONFLICT</b> end</div>
 4 5 
 END
         $d
@@ -230,11 +230,11 @@ EOF
     $e = <<"EOF";
 Some text.<br>
 The first version.<br>
-<div class=\"twikiConflict\"><b>CONFLICT</b> version r2:</div>
+<div class=\"foswikiConflict\"><b>CONFLICT</b> version r2:</div>
 New text in version "b".<br>
-<div class=\"twikiConflict\"><b>CONFLICT</b> version r3:</div>
+<div class=\"foswikiConflict\"><b>CONFLICT</b> version r3:</div>
 Alternatively, new text in version "c".<br>
-<div class=\"twikiConflict\"><b>CONFLICT</b> end</div>
+<div class=\"foswikiConflict\"><b>CONFLICT</b> end</div>
 Very nice.<br>
 EOF
 
