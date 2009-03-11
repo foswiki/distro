@@ -532,15 +532,13 @@ sub verify_quote_word {
     my $this = shift;
 
     # word
-
     my $result =
       $this->{test_topicObject}->expandMacros(
-'%SEARCH{"\"BLEEGLE dontm\"" type="word" scope="text" nonoise="on" format="$topic"}%'
+'%SEARCH{"\"BLEEGLE dont\"" type="word" scope="text" nonoise="on" format="$topic"}%'
       );
-
     $this->assert_does_not_match( qr/OkTopic/,  $result );
-    $this->assert_does_not_match( qr/OkBTopic/, $result );
-    $this->assert_matches( qr/OkATopic/, $result );
+    $this->assert_does_not_match( qr/OkATopic/, $result );
+    $this->assert_matches( qr/OkBTopic/, $result );
 }
 
 sub verify_SEARCH_3860 {
