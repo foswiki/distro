@@ -117,7 +117,7 @@ HERE
     $this->assert($result =~ /Status: 302/);
     my $viewUrl = Foswiki::Func::getScriptUrl(
         $this->{test_web}, $this->{test_topic}, 'view');
-    $this->assert_matches(qr/Location: $viewUrl\n/s, $result);
+    $this->assert_matches(qr/^Location: $viewUrl\r$/m, $result);
     my ($meta, $text) =
       Foswiki::Func::readTopic($this->{test_web}, $this->{test_topic});
     $this->assert_str_equals(<<HERE, $text);
