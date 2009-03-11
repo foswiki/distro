@@ -13,7 +13,6 @@ sub new {
 }
 
 my @allWebs;
-my @rootWebs;
 my @templateWebs;
 
 sub set_up {
@@ -25,19 +24,45 @@ sub set_up {
       Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Subweb" );
     $webObject->populateNewWeb();
     Foswiki::Func::readTemplate('foswiki');
-    @allWebs      = Foswiki::Func::getListOfWebs('user,public');
-    @rootWebs     = grep { !/\// } @allWebs;
-    @templateWebs = Foswiki::Func::getListOfWebs('template');
+    @allWebs      = Foswiki::Func::getListOfWebs('user,public,allowed');
+    @templateWebs = Foswiki::Func::getListOfWebs('template,allowed');
+}
+
+# The spec of the "webs" and "subwebs" parameters are utterly fucked.
+# "webs" specifies a set of webs to consider. If it is undefined, then it
+# defaults to all root level webs. Otherwise it is treated as an ordered
+# list of web names. There are two pseudo-webs that can be included in this
+# list, 'public' and 'webtemplate' which each generate complete lists of
+# _all_ webs with "user,public,allowed" and "template,allowed" characteristics
+# respectively. Obviously this can result in the same web being included in
+# the list multiple times.
+# If "subwebs" is also defined, then it is taken as the pathname of *a single
+# web*. In this case, "public" and "webtemplate" become lists of webs
+# relative to this web.
+
+sub test_public {
+    my $this = shift;
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST%');
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+    $text = $this->{test_topicObject}->expandMacros('%WEBLIST{webs="public"}%');
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
+}
+
+sub test_template {
+    my $this = shift;
+
+    # separator=", " 	Line separator Default: "$n" (new line)
+    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
+    $this->assert_str_equals( join( "\n", @templateWebs ), $text );
 }
 
 sub test_separator {
     my $this = shift;
 
     # separator=", " 	Line separator Default: "$n" (new line)
-    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST%');
-    $this->assert_str_equals( join( "\n", @rootWebs ), $text );
-    $text = $this->{test_topicObject}->expandMacros('%WEBLIST{separator=";"}%');
-    $this->assert_str_equals( join( ';', @rootWebs ), $text );
+    my $text = $this->{test_topicObject}->expandMacros('%WEBLIST{separator=";"}%');
+    $this->assert_str_equals( join( ';', @allWebs ), $text );
 }
 
 sub test_format {
@@ -51,10 +76,10 @@ sub test_format {
       $this->{test_topicObject}
       ->expandMacros('%WEBLIST{"$name:$qname:$web" web="sponge"}%');
     $this->assert_str_equals(
-        join( "\n", map { "$_:\"$_\":sponge" } @rootWebs ), $text );
+        join( "\n", map { "$_:\"$_\":sponge" } @allWebs ), $text );
     $text =
       $this->{test_topicObject}->expandMacros('%WEBLIST{"$name:$qname:$web"}%');
-    $this->assert_str_equals( join( "\n", map { "$_:\"$_\":" } @rootWebs ),
+    $this->assert_str_equals( join( "\n", map { "$_:\"$_\":" } @allWebs ),
         $text );
 
     # format="format" 	(Alternative to above) Default: "$name"
@@ -62,19 +87,17 @@ sub test_format {
       $this->{test_topicObject}
       ->expandMacros('%WEBLIST{format="$name:$qname:$web" web="sponge"}%');
     $this->assert_str_equals(
-        join( "\n", map { "$_:\"$_\":sponge" } @rootWebs ), $text );
+        join( "\n", map { "$_:\"$_\":sponge" } @allWebs ), $text );
 }
 
 sub test_subwebs {
     my $this = shift;
 
-    # subwebs="Sandbox" show sub-webs of this web (recursively) Default: ""
+    # subwebs="" show sub-webs of this web (recursively) Default: ""
     my $text =
       $this->{test_topicObject}
       ->expandMacros( '%WEBLIST{subwebs="' . $this->{test_web} . '"}%' );
     $this->assert_str_equals( "$this->{test_web}/Subweb", $text );
-    $text =
-      $this->{test_topicObject}->expandMacros('%TMPL:P{"webListIndent"}%');
 }
 
 sub test_indentedname {
@@ -98,14 +121,14 @@ sub test_marker {
     my $text =
       $this->{test_topicObject}->expandMacros(
         '%WEBLIST{selection="' . $allWebs[1] . '" format="$name$marker"}%' );
-    my @munged = @rootWebs;
+    my @munged = @allWebs;
     $munged[1] = "$munged[1]selected=\"selected\"";
     $this->assert_str_equals( join( "\n", @munged ), $text );
     $text =
       $this->{test_topicObject}->expandMacros( '%WEBLIST{selection="'
           . $allWebs[1]
           . '" marker="sponge" format="$name$marker"}%' );
-    @munged = @rootWebs;
+    @munged = @allWebs;
     $munged[1] = "$munged[1]sponge";
     $this->assert_str_equals( join( "\n", @munged ), $text );
 }
@@ -122,10 +145,49 @@ sub test_webs {
       ->expandMacros( '%WEBLIST{webs="' . $this->{test_web} . '"}%' );
     $this->assert_str_equals( $this->{test_web}, $text );
     $text = $this->{test_topicObject}->expandMacros('%WEBLIST{webs="public"}%');
-    $this->assert_str_equals( join( "\n", @rootWebs ), $text );
+    $this->assert_str_equals( join( "\n", @allWebs ), $text );
     $text =
       $this->{test_topicObject}->expandMacros('%WEBLIST{webs="webtemplate"}%');
     $this->assert_str_equals( join( "\n", @templateWebs ), $text );
 }
 
+# Tests moved from HierarchicalWebsTests.pm
+
+sub test_WEBLIST_all {
+    my $this = shift;
+
+    my $text = ' %WEBLIST{format="#$name#" separator=" "}% ';
+    $this->{test_topicObject}->expandMacros($text);
+
+    foreach my $web (
+        $this->{test_web},
+        "$this->{test_web}/Subweb",
+        $Foswiki::cfg{UsersWebName}, 'Sandbox', $Foswiki::cfg{SystemWebName}
+      )
+    {
+        $this->assert_matches( qr!#$web#!, $text );
+    }
+}
+
+sub test_WEBLIST_relative {
+    my $this = shift;
+
+    my $text =
+      ' %WEBLIST{format="#$name#" separator=" " subwebs="' . $this->{test_web} . '"}% ';
+    $text = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_matches( qr!#$this->{test_web}#!, $text );
+}
+
+sub test_WEBLIST_end {
+    my $this = shift;
+
+    my $text = ' %WEBLIST{format="#$name#" separator=" " subwebs="'
+      . $this->{test_web} . '/Subweb"}% ';
+    $text = $this->{test_topicObject}->expandMacros($text);
+    $this->assert_equals( '  ', $text );
+}
+
 1;
+__END__
+%WEBLIST{ webs="webtemplate,public" }%
+%WEBLIST{ webs="public" }%

@@ -1206,6 +1206,35 @@ sub getIconUrl {
 
 =begin TML
 
+---++ ObjectMethod deepWebList($filter, $web) -> @list
+
+Deep list subwebs of the named web. $filter is a Foswiki::WebFilter
+object that is used to filter the list. The listing of subwebs is
+dependent on $Foswiki::cfg{EnableHierarchicalWebs} being true.
+
+Webs are returned as absolute web pathnames.
+
+=cut
+
+sub deepWebList {
+    my ($this, $filter, $rootWeb) = @_;
+    my @list;
+    my $webObject = new Foswiki::Meta($this, $rootWeb);
+    my $it = $webObject->eachWeb($Foswiki::cfg{EnableHierarchicalWebs});
+    return $it->all() unless $filter;
+    while ( $it->hasNext() ) {
+        my $w = $rootWeb || '';
+        $w .= '/' if $w;
+        $w .= $it->next();
+        if ($filter->ok( $this, $w )) {
+            push( @list, $w );
+        }
+    }
+    return @list;
+}
+
+=begin TML
+
 ---++ ObjectMethod mapToIconFileName( $fileName, $default ) -> $fileName
 
 Maps from a filename (or just the extension) to the name of the
@@ -3613,40 +3642,42 @@ sub SEARCH {
 
 sub WEBLIST {
     my ( $this, $params ) = @_;
+
+    # List of webs to consider; default is all public webs
+    my $webs     = $params->{webs} || 'public';
+    my @webslist = split( /,\s*/, $webs );
+
+    # Modifier on "public" and "webtemplate" pseudo-webs
+    my $rootWeb = $params->{subwebs};
+
+    # the web= parameter, *not* the web being listed
+    my $web = $params->{web} || '';
+    $web =~ s#\.#/#go;
+
+    # Output format
     my $format = $params->{_DEFAULT} || $params->{'format'} || '$name';
     $format ||= '$name';
+
     my $separator = $params->{separator} || "\n";
     $separator =~ s/\$n/\n/;
-    my $web       = $params->{web}       || '';
-    my $webs      = $params->{webs}      || 'public';
+
     my $selection = $params->{selection} || '';
-    my $showWeb   = $params->{subwebs}   || '';
-    my $parent = $showWeb ? "$showWeb/" : '';
     $selection =~ s/\,/ /g;
     $selection = " $selection ";
-    my $marker = $params->{marker} || 'selected="selected"';
-    $web =~ s#\.#/#go;
-    my $swom     = Foswiki::Meta->new( $this, $showWeb || undef );
-    my @list     = ();
-    my @webslist = split( /,\s*/, $webs );
-    require Foswiki::WebFilter;
 
+    my $marker = $params->{marker} || 'selected="selected"';
+
+    my @list     = ();
     foreach my $aweb (@webslist) {
-        if ( $aweb eq 'public' ) {
-            my $f  = new Foswiki::WebFilter('user,public,allowed');
-            my $it = $swom->eachWeb();
-            while ( $it->hasNext() ) {
-                my $w = $parent . $it->next();
-                push( @list, $w ) if $f->ok( $this, $w );
+        if ($aweb =~ /^(public|webtemplate)$/) {
+            require Foswiki::WebFilter;
+            my $filter;
+            if ( $aweb eq 'public' ) {
+                $filter = new Foswiki::WebFilter('user,public,allowed');
+            } elsif ( $aweb eq 'webtemplate' ) {
+                $filter = new Foswiki::WebFilter('template,allowed');
             }
-        }
-        elsif ( $aweb eq 'webtemplate' ) {
-            my $f  = new Foswiki::WebFilter('template,allowed');
-            my $it = $swom->eachWeb();
-            while ( $it->hasNext() ) {
-                my $w = $parent . $it->next();
-                push( @list, $w ) if $f->ok( $this, $w );
-            }
+            push( @list, $this->deepWebList($filter, $rootWeb));
         }
         else {
             push( @list, $aweb ) if ( $this->webExists($aweb) );

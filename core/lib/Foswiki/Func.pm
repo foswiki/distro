@@ -1040,20 +1040,11 @@ as follows:
 
 sub getListOfWebs {
     my $filter = shift;
+    my $web = shift;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     require Foswiki::WebFilter;
-    my $rom = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, @_ );
-    my $it = $rom->eachWeb( $Foswiki::cfg{EnableHierarchicalWebs} );
-    return $it->all() unless $filter;
     my $f = new Foswiki::WebFilter($filter);
-    my @list;
-
-    while ( $it->hasNext() ) {
-        my $wn = $it->next();
-        next unless $f->ok( $Foswiki::Plugins::SESSION, $wn );
-        push( @list, $wn );
-    }
-    return @list;
+    return $Foswiki::Plugins::SESSION->deepWebList($f, $web);
 }
 
 =begin TML

@@ -570,8 +570,9 @@ sub eachTopic {
 # Documented in Foswiki::Store
 sub eachWeb {
     my ( $this, $web, $all ) = @_;
+    $web ||= '';
 
-    my $handler = $this->getHandler( $web || '' );
+    my $handler = $this->getHandler( $web );
     my @list = $handler->getWebNames();
     if ($all) {
         my @path = @list;
@@ -581,7 +582,8 @@ sub eachWeb {
             push( @list, $wp );
             my $it = $this->eachWeb( $sp . $wp, $all );
             while ( $it->hasNext() ) {
-                push( @path, "$wp/" . $it->next() );
+                my $more = $it->next();
+                push( @path, "$wp/" . $more );
             }
         }
     }
