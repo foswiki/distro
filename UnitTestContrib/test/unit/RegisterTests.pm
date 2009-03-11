@@ -535,7 +535,7 @@ sub registerVerifyOk {
         $this->assert_str_equals( "confirm", $e->{def}, $e->stringify() );
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( qr/$encodedTestUserEmail/, $e->stringify() );
+        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -620,7 +620,7 @@ sub verify_registerBadVerify {
         my $e = shift;
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( qr/$encodedTestUserEmail/, $e->stringify() );
+        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
         $this->assert_str_equals( "attention", $e->{template} );
         $this->assert_str_equals( "confirm",   $e->{def} );
     }
@@ -898,7 +898,7 @@ sub verify_duplicateActivation {
         $this->assert_str_equals( "confirm", $e->{def}, $e->stringify() );
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( qr/$encodedTestUserEmail/, $e->stringify() );
+        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
@@ -1506,7 +1506,7 @@ sub test_3951 {
         $this->assert_str_equals( "thanks", $e->{def}, $e->stringify() );
         my $encodedTestUserEmail =
           Foswiki::entityEncode( $this->{new_user_email} );
-        $this->assert_matches( qr/$encodedTestUserEmail/, $e->stringify() );
+        $this->assert_matches( $this->{new_user_email}, $e->{params}->[0], $e->stringify() );
     }
     catch Foswiki::AccessControlException with {
         my $e = shift;
