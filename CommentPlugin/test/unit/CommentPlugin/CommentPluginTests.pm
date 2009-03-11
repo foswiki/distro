@@ -236,16 +236,17 @@ HERE
 
     if ( $topic eq $this->{test_topic} && $web eq $this->{test_web} ) {
         if ( $type eq "top" ) {
-            $this->assert_matches( qr/$comm.*TopOfTopic/s, $text );
+            $this->assert_matches( qr/^$comm.*^TopOfTopic/ms, $text );
         }
         elsif ( $type eq "bottom" ) {
-            $this->assert_matches( qr/BottomOfTopic.*$comm/s, $text );
+            $this->assert_matches( qr/^BottomOfTopic.*^$comm/ms, $text );
         }
         elsif ( $type eq "above" ) {
-            $this->assert_matches( qr/TopOfTopic.*$comm.*$refexpr/s, $text );
+            $this->assert_matches( qr/^TopOfTopic.*^$comm.*$refexpr/ms, $text );
         }
         elsif ( $type eq "below" ) {
-            $this->assert_matches( qr/$refexpr.*$comm.*BottomOfTopic/s, $text );
+            $this->assert_matches( qr/$refexpr.*$comm.*^BottomOfTopic/ms,
+                $text );
         }
     }
 }
