@@ -39,7 +39,7 @@ sub generate {
     $formName = 'none' if ( !$formName );
 
     my $webObject = Foswiki::Meta->new( $session, $topicObject->web );
-    my $legalForms = $webObject->getWebPreference('WEBFORMS');
+    my $legalForms = $webObject->getPreference('WEBFORMS');
     $legalForms =~ s/^\s*//;
     $legalForms =~ s/\s*$//;
     my @forms = split( /[,\s]+/, $legalForms );

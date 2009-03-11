@@ -981,4 +981,31 @@ sub test_missingTemplateTopic {
     };
 }
 
+sub test_addform {
+    my $this = shift;
+    $this->{session}->finish();
+    my $query = new Unit::Request(
+        {
+            action        => ['addform'],
+            topic         => [ "$this->{test_web}.$this->{test_topic}" ]
+        }
+    );
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    try {
+        my ($text, $result) =
+          $this->capture( $UI_FN, $this->{session} );
+        $this->assert(!$result, $result);
+        $this->assert_matches(
+            qr/input value="TestForm1" name="formtemplate"/, $text);
+        $this->assert_matches(
+            qr/value="TestForm2" name="formtemplate"/, $text);
+        $this->assert_matches(
+            qr/value="TestForm3" name="formtemplate"/, $text);
+        $this->assert_matches(
+            qr/value="TestForm4" name="formtemplate"/, $text);
+    } catch Error::Simple with {
+        $this->assert( 0, shift );
+    };
+}
+
 1;
