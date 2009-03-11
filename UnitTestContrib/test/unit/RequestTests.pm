@@ -279,17 +279,17 @@ sub perform_url_test {
     );
 
     $this->assert_matches(
-        $base . $absolute . $query,
+        $base . $absolute . $path . $query,
         $req->url( -full => 1, -query => 1, -path => 1 ),
         'Wrong FULL+PATH_INFO+QUERY_STRING url'
     );
     $this->assert_matches(
-        $absolute . $query,
+        $absolute . $path . $query,
         $req->url( -absolute => 1, -query => 1, -path => 1 ),
         'Wrong ABSOLUTE+PATH_INFO+QUERY_STRING url'
     );
     $this->assert_matches(
-        $action . $Foswiki::cfg{ScriptSuffix} . $query,
+        $action . $Foswiki::cfg{ScriptSuffix} . $path . $query,
         $req->url( -relative => 1, -query => 1, -path => 1 ),
         'Wrong RELATIVE+PATH_INFO+QUERY_STRING url'
     );
