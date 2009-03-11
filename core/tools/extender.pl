@@ -230,7 +230,7 @@ sub check_dep {
     if ( defined $dep->{version} ) {
 
         # the version field is in fact a condition
-        if ( $dep->{version} =~ />=?\s*([0-9.]+)/ ) {
+        if ( $dep->{version} =~ /^\s*(?:>=?)?\s*([0-9.]+)/ ) {
 
             # Condition is >0 or >= 1.3
             my $requiredVersion = $1;
@@ -240,7 +240,8 @@ sub check_dep {
             if ( $moduleVersion < $requiredVersion ) {
 
                 # But module doesn't meet this condition
-                ( $msg = $@ ) =~ s/ at .*$//;
+                $msg = "$module version $requiredVersion required"
+                  . "--this is only version $moduleVersion";
                 $ok = 0;
                 return ( $ok, $msg );
             }
