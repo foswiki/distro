@@ -28,6 +28,8 @@ use Foswiki::Plugins::WysiwygPlugin;
 use strict;
 use Carp;
 
+my $UI_FN;
+
 sub new {
     my $self = shift()->SUPER::new(@_);
     return $self;
@@ -37,6 +39,7 @@ sub set_up {
     my $this = shift;
 
     $this->SUPER::set_up();
+    $UI_FN ||= $this->getUIFn('save');
 
     $Foswiki::cfg{Plugins}{WysiwygPlugin}{Enabled} = 1;
     $WC::encoding                                  = undef;
@@ -99,9 +102,8 @@ sub save_test {
     require Foswiki::UI::Save;
     my ( $dummy, $result ) = $this->capture(
         sub {
-            my $fn = $this->getUIFn('save');
             no strict 'refs';
-            my $ok = &$fn($Foswiki::Plugins::SESSION);
+            my $ok = &$UI_FN($Foswiki::Plugins::SESSION);
             use strict 'refs';
             $Foswiki::engine->finalize(
                 $Foswiki::Plugins::SESSION->{response},
@@ -158,8 +160,9 @@ sub TML2HTML_test {
     $this->assert( !$result, $result );
 
     # Strip ASCII header
-    $this->assert_matches( qr/Content-Type: text\/plain;charset=UTF-8/,
-        anal($out) );
+    $this->assert_matches( qr/Content-Type: *text\/plain; *charset=UTF-8/i,
+                           $out,
+                           anal($out) );
     $out =~ s/^.*?\r\n\r\n//s;
 
     $out = Encode::decode_utf8($out);
@@ -212,7 +215,8 @@ sub HTML2TML_test {
     $this->assert( !$result, $result );
 
     # Strip ASCII header
-    $this->assert_matches( qr/Content-Type: text\/plain;charset=UTF-8/,
+    $this->assert_matches( qr/Content-Type: *text\/plain; *charset=UTF-8/,
+                           $out,
         anal($out) );
     $out =~ s/^.*?\r\n\r\n//s;
 
