@@ -110,11 +110,8 @@ function submitHandler(evt) {
 	var ilen = sEditTable.numrows;
 
     for (var rowpos = 0; rowpos < ilen; rowpos++) {
-    	if (rowpos+1 == sEditTable.headerRows) {
-			//continue;
-		}
         var inpname = 'etrow_id' + (rowpos + 1);
-        var row_id = sEditTable.revidx[rowpos] + 1;
+        var row_id = sEditTable.revidx[rowpos + 1];
         var inp = document.createElement('INPUT');
         inp.setAttribute('type', 'hidden');
         inp.setAttribute('name', inpname);
