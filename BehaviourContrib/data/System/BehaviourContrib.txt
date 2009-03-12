@@ -278,7 +278,7 @@ You can also set the global [[%SYSTEMWEB%.PreferenceSettings][preference setting
 |  04 Jun 2006 | 1.0  First Version. Included Behaviour version: 1.1. |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 %META:FILEATTACHMENT{name="behaviour.js" attr="" autoattached="1" comment="" date="1162075796" path="behaviour.compressed.js" size="2902" user="UnknownUser" version=""}%
 

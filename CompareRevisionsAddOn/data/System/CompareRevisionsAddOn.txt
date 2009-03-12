@@ -176,7 +176,7 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Other Dependencies: | none |
 |  Perl Version: | 5.008 |
 |  Add-on Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 __Related Topic:__ %SYSTEMWEB%.ContributedAddOns
 

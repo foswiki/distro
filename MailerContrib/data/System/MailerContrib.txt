@@ -210,8 +210,8 @@ Many thanks to the following sponsors for supporting this work:
 |  1 Oct 2004 | 1.002 Peter<nop>Thoeny provided additional documentation |
 |  27 Sep 2004 | 1.001 runnable as CGI script, minor bugfixes, removed dependency on DB<nop>CacheContrib |
 |  8 Sep 2004 | 1.000 Initial version |
-|  Home: | Foswiki:Extensions/%TOPIC% |
-|  Feedback: | Foswiki:Extensions/%TOPIC%Dev |
+|  Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 %META:FILEATTACHMENT{name="wikiringlogo20x20.png" attr="h" comment="" version="1"}%
 %META:FILEATTACHMENT{name="logo.gif" attr="h" comment="" version="1"}%

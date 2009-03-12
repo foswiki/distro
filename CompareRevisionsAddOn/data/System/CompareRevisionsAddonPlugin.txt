@@ -36,6 +36,6 @@ Test: <nop>CompareRevisionsAddOnPlugin is %IF{"context CompareRevisionsAddOnPlug
 |  Other Dependencies: | none |
 |  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/CompareRevisionsAddOn |
-|  Feedback: | http://foswiki.org/Extensions/CompareRevisionsAddOnDev |
+|  Support: | http://foswiki.org/Support/CompareRevisionsAddOn |
 
 __Related Topics:__ DeveloperDocumentationCategory, AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]

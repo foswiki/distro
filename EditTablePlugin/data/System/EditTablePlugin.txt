@@ -215,6 +215,7 @@ Test if the Plugin is correctly installed:
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 4.20 (12 Mar 2009) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  12 Mar 2009: | 4:20: Fixed several bugs related to use of macros in EDITTABLE and TABLE tags |
 |  08 Feb 2009: | 4.13: Fixed incidental removal of =EDITCELL= tags when a different table in the topic is edited. Improved display of linebreaks and TML inside cells. |
 |  07 Feb 2009: | 4.12: Protect =verbatim class="xxx"= during edit. |
 |  16 Dec 2008: | 4.11: Kenneth Lavrsen: Foswiki version |
@@ -263,7 +264,7 @@ Test if the Plugin is correctly installed:
 |  Dependencies: | %$DEPENDENCIES% |
 |  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 %META:FILEATTACHMENT{name="EditTablePluginCalendarExample.gif" attr="h" comment="" date="1071283396" path="EditTablePluginCalendarExample.gif" size="7823" user="ProjectContributor" version="1.1"}%
 %META:FILEATTACHMENT{name="ScreenshotEditCell1.gif" attr="h" comment="Screenshot" date="1077050633" path="ScreenshotEditCell1.gif" size="2017" user="ProjectContributor" version="1.1"}%

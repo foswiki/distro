@@ -74,6 +74,6 @@ It's a part of the default distribution of the Foswiki Core.
 |  4.2.0 | 22 Jan 2008 - Distributed with TWiki 4.2.0 |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Contrib Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev | 
+|  Support: | http://foswiki.org/Support/%TOPIC% | 
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. Please add comments/questions/remarks to the Dev topic instead. -->

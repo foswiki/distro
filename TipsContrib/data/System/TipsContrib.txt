@@ -48,7 +48,7 @@ This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for admi
 |  10 Oct 2005: | Initial version - Packaging by TWiki:Main.LynnwoodBrown |
 |  Dependencies: | Foswiki:Extensions.SpreadSheetPlugin 18 Dec 2006 (r12315) |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %USERSWEB%.SitePreferences

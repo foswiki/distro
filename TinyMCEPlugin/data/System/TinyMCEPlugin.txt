@@ -144,7 +144,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14538 | First release |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 Many thanks to the following sponsors for supporting this work:
    * [[http://ilog.fr][ILOG]]
