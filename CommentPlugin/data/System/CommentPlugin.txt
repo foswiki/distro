@@ -280,8 +280,8 @@ Another great extension from the <a style="text-decoration:none" href="http://wi
 |  4889 | Chopped down from !PeterMasiar version, removing several parameters, savecomment script, changing way templates are done. Major rewrite, atcherly. |
 |  4882 | Update from !PeterMasiar's 2.0 version, plus documentation and small code improvements. |
 |  4745 | 06 Mar 2002 initial commit |
-|  Plugin Home: | Foswiki:Extensions/%TOPIC% |
-|  Feedback: | Foswiki:Extensions/%TOPIC%Dev |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 *Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 

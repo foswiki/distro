@@ -192,7 +192,7 @@ For further troubleshooting and feedback, go to Foswiki:Extensions/PatternSkinDe
 |  08 Aug 2004: | Initial version (v1.0.0) |
 |  Dependencies: | Foswiki:Extensions/TwistyContrib (automatically supported by Dakar) |
 |  Skin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev | %STOPINCLUDE%
+|  Support: | http://foswiki.org/Support/%TOPIC% | %STOPINCLUDE%
 |  Download: | http://foswiki.org/Extensions/%TOPIC% |
 
 

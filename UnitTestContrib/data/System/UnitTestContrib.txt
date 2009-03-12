@@ -50,7 +50,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  5 Sep 2007 | Added logging |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Contrib Home: | http://foswiki.org/Extensions/UnitTestContrib |
-|  Feedback: | http://foswiki.org/Extensions/UnitTestContribDev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 __Related Topics:__ [[%SYSTEMWEB%.Contribs][Contribs]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences
 

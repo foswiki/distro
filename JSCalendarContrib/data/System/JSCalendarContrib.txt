@@ -73,7 +73,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  14 Aug 2004 | Separated out from !SharedCode module |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* %USERSWEB%.SitePreferences

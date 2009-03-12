@@ -39,9 +39,8 @@ Many thanks to the following sponsors for supporting this work:
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPlugin |
-|  Feedback: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPluginDev |
-|  Appraisal: | http://nextwiki.org/bin/view/Extensions/TWikiCompatibilityPluginAppraisal |
+|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
 ---
 *Related Topics:* [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.DeveloperDocumentationCategory, %SYSTEMWEB%.AdminDocumentationCategory, %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences

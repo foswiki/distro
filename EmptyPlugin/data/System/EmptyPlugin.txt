@@ -27,5 +27,5 @@ If you want to redefine a preference setting, for example in %USERSWEB%.SitePref
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Version: | %$VERSION% |
 |  Home: | http://foswiki.org/Extensions/%TOPIC%Dev |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Support: | http://foswiki.org/Support/%TOPIC% |
 
