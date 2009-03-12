@@ -151,7 +151,7 @@ sub processText {
       = @_;
 
     my $mode = $inMode;
-    my $doSave = ( $mode & $MODE->{SAVE} ) || 0;
+    my $doSave = ( $mode == $MODE->{SAVE} ) ? 1 : 0;
 
     $query = Foswiki::Func::getCgiQuery();
 
@@ -206,14 +206,15 @@ sub processText {
     # LOOP THROUGH TABLES
     foreach my $editTableObject ( @{$editTableObjects} ) {
 
+        my $tableText    = $editTableObject->{'text'};
+        my $editTableTag = $editTableObject->{'tagline'};
+
         if ($Foswiki::Plugins::EditTablePlugin::debug) {
             use Data::Dumper;
             Foswiki::Func::writeDebug(
-                "processText; editTableObject=" . Dumper($editTableObject) );
+                "EditTablePlugin::Core::processText; editTableObject="
+                  . Dumper($editTableObject) );
         }
-
-        my $tableText    = $editTableObject->{'text'};
-        my $editTableTag = $editTableObject->{'tagline'};
 
        # store processed lines of this tableText
        # the list of lines will be put back into the topic text after processing
@@ -331,6 +332,12 @@ sub processText {
         my ( $headerRowCount, $footerRowCount ) =
           getHeaderAndFooterCount($editTableTag);
 
+        if ($Foswiki::Plugins::EditTablePlugin::debug) {
+            Foswiki::Func::writeDebug(
+"EditTablePlugin::Core::processText; headerRowCount=$headerRowCount; footerRowCount=$footerRowCount"
+            );
+        }
+
         # END FOOTER AND HEADER ROW COUNT
         # ========================================
 
@@ -373,7 +380,8 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $theRowNr, $do
 
                 next;
             }    # if ( $doEdit || $doSave )
-                 # just render the row: EDITCELL and format tokens
+
+            # just render the row: EDITCELL and format tokens
             my $isNewRow = 0;
 s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdit, $doSave, $web, $topic )/eo;
 
@@ -382,6 +390,12 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         }    # for (@lines)
              # END LOOP THROUGH LINES
              # ========================================
+
+        if ($Foswiki::Plugins::EditTablePlugin::debug) {
+            use Data::Dumper;
+            Foswiki::Func::writeDebug(
+                "EditTablePlugin::Core::processText; rows=" . Dumper(@rows) );
+        }
 
         # ========================================
         # WRITE OUT PROCESSED ROWS
@@ -454,6 +468,19 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
                     $topic
                 );
                 push @bodyRows, $newRow;
+            }
+
+            if ($Foswiki::Plugins::EditTablePlugin::debug) {
+                use Data::Dumper;
+                Foswiki::Func::writeDebug(
+                    "EditTablePlugin::Core::processText; headerRows="
+                      . Dumper(@headerRows) );
+                Foswiki::Func::writeDebug(
+                    "EditTablePlugin::Core::processText; bodyRows="
+                      . Dumper(@bodyRows) );
+                Foswiki::Func::writeDebug(
+                    "EditTablePlugin::Core::processText; footerRows="
+                      . Dumper(@footerRows) );
             }
 
             my @combinedRows = ( @headerRows, @bodyRows, @footerRows );
@@ -1266,13 +1293,37 @@ sub handleTableRow {
         $thePre, $theRow, $theTableNr, $isNewRow, $theRowNr,
         $doEdit, $doSave, $inWeb,      $inTopic
     ) = @_;
+
+    if ($Foswiki::Plugins::EditTablePlugin::debug) {
+        Foswiki::Func::writeDebug(
+                "EditTablePlugin::Core::handleTableRow; params="
+              . "\n\t thePre=$thePre"
+              . "\n\t theRow=$theRow"
+              . "\n\t theTableNr=$theTableNr"
+              . "\n\t isNewRow=$isNewRow"
+              . "\n\t theRowNr=$theRowNr"
+              . "\n\t doEdit=$doEdit"
+              . "\n\t doSave=$doSave"
+              . "\n\t inWeb=$inWeb"
+              . "\n\t inTopic=$inTopic" );
+    }
+
     $thePre |= '';
     my $text = "$thePre\|";
 
     if ($doEdit) {
         $theRow =~ s/\|\s*$//o;
+
+        # retrieve any params sent by javascript interface (see edittable.js)
         my $rowID = $query->param("etrow_id$theRowNr");
         $rowID = $theRowNr if !defined $rowID;
+
+        if ($Foswiki::Plugins::EditTablePlugin::debug) {
+            Foswiki::Func::writeDebug( "\t query->param(etrow_id$theRowNr)="
+                  . $query->param("etrow_id$theRowNr")
+                  . ";rowID=$rowID" );
+        }
+
         my @cells;
         my $isNewRowFromHeader = ( $theRowNr <= 1 ) && ( $params{'header'} );
         @cells =
@@ -1292,6 +1343,12 @@ sub handleTableRow {
             $col += 1;
             $cellDefined = 0;
             $val = $isNewRow ? undef : $query->param("etcell${rowID}x$col");
+
+            if ($Foswiki::Plugins::EditTablePlugin::debug) {
+                Foswiki::Func::writeDebug(
+                    "\t rowID=$rowID; isNewRow=$isNewRow; val=$val");
+            }
+
             if ( $val && $val =~ /^Chkbx: (etcell.*)/ ) {
 
       # Multiple checkboxes, val has format "Chkbx: etcell4x2x2 etcell4x2x3 ..."
@@ -1403,6 +1460,11 @@ sub handleTableRow {
     # render final value in view mode (not edit or save)
     Foswiki::Plugins::EditTablePlugin::decodeFormatTokens($text)
       if ( !$doSave && !$doEdit );
+
+    if ($Foswiki::Plugins::EditTablePlugin::debug) {
+        Foswiki::Func::writeDebug(
+            "EditTablePlugin::Core::handleTableRow; return text=$text");
+    }
 
     return $text;
 }
