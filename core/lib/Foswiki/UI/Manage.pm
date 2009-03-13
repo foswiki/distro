@@ -873,8 +873,8 @@ sub _renameweb {
     foreach my $ref (@$refs) {
         $ref =~ s/\./\//go;
         my (@path) = split( /\//, $ref );
-        my $webTopic = pop(@path);
-        my $webIter = join( "/", @path );
+        my $webTopic = Foswiki::Sandbox::untaint( pop(@path), \&Foswiki::Sandbox::validateWebName );
+        my $webIter = Foswiki::Sandbox::untaint( join( "/", @path ), \&Foswiki::Sandbox::validateTopicName );
         $store->clearLease( $webIter, $webTopic );
     }
 
