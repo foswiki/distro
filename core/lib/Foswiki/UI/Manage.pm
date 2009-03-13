@@ -1352,7 +1352,21 @@ sub _getReferringTopicsListFromURL {
     my $query = $session->{request};
     my @result;
     foreach my $topic ( $query->param('referring_topics') ) {
-        push @result, $topic;
+        my ( $itemWeb, $itemTopic ) =
+          $session->normalizeWebTopicName( '', $topic );
+
+        # Check validity of web and topic
+        $itemWeb = Foswiki::Sandbox::untaint(
+            $itemWeb, \&Foswiki::Sandbox::validateWebName);
+        $itemTopic = Foswiki::Sandbox::untaint(
+            $itemTopic, \&Foswiki::Sandbox::validateTopicName);
+
+        # Skip web.topic that fails validation
+        next unless ($itemWeb && $itemTopic);
+
+        ASSERT($itemWeb !~ /\./) if DEBUG; # cos we will split on . later
+
+        push @result, "$itemWeb.$itemTopic";
     }
     return \@result;
 }
@@ -1393,15 +1407,16 @@ sub getReferringTopics {
         my $searchString = Foswiki::Render::getReferenceRE(
             $web, $topic,
             grep    => 1,
-            sameweb => ( $searchWeb eq $web )
+            interweb => ( $searchWeb ne $web )
           )
           . '|'
           . Foswiki::Render::getReferenceRE(
             $web, $topic,
             grep    => 1,
-            sameweb => ( $searchWeb eq $web ),
+            interweb => ( $searchWeb ne $web ),
             url     => 1
           );
+
         my @topicList = $store->getTopicNames($searchWeb);
         my $matches =
           $store->searchInWebContent( $searchString, $searchWeb, \@topicList,
@@ -1441,17 +1456,7 @@ sub _updateReferringTopics {
     };
 
     foreach my $item (@$refs) {
-        my ( $itemWeb, $itemTopic ) =
-          $session->normalizeWebTopicName( '', $item );
-
-        # Check validity of web and topic
-        $itemWeb = Foswiki::Sandbox::untaint( $itemWeb,
-            \&Foswiki::Sandbox::validateWebName );
-        $itemTopic = Foswiki::Sandbox::untaint( $itemTopic,
-            \&Foswiki::Sandbox::validateTopicName );
-
-        # Skip web.topic that fails validation
-        next unless ( $itemWeb && $itemTopic );
+        my ( $itemWeb, $itemTopic ) = split('.', $item, 2);
 
         if ( $store->topicExists( $itemWeb, $itemTopic ) ) {
             $store->lockTopic( $cUID, $itemWeb, $itemTopic );
@@ -1494,8 +1499,7 @@ sub _updateWebReferringTopics {
     };
 
     foreach my $item (@$refs) {
-        my ( $itemWeb, $itemTopic ) =
-          $session->normalizeWebTopicName( '', $item );
+        my ( $itemWeb, $itemTopic ) = split('.', $item, 2);
 
         if ( $store->topicExists( $itemWeb, $itemTopic ) ) {
             $store->lockTopic( $cUID, $itemWeb, $itemTopic );
