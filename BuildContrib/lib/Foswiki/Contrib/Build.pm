@@ -1388,14 +1388,17 @@ sub _getTopicName {
     # Example input:  TWiki-4.0.0-beta6
     # Example output: TWikiRelease04x00x00beta06
 
-    # Append 'Release' to first (word) part of name if followed by -
-    $topicname =~ s/^(\w+)\-/${1}Release/;
+    if ( $topicname =~ m{\d+\.\d+\.\d+} ) {
 
-    # Zero-pad numbers to two digits
-    $topicname =~ s/(\d+)/sprintf("%0.2i",$1)/ge;
+	# Append 'Release' to first (word) part of name if followed by -
+	$topicname =~ s/^(\w+)\-/${1}Release/;
 
-    # replace . with x
-    $topicname =~ s/\./x/g;
+	# Zero-pad numbers to two digits
+    	$topicname =~ s/(\d+)/sprintf("%0.2i",$1)/ge;
+
+    	# replace . with x
+    	$topicname =~ s/\./x/g;
+    }
 
     # remove dashes
     $topicname =~ s/\-//g;
