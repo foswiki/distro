@@ -303,8 +303,8 @@ sub _renameWeb {
 
     # If the user is not allowed to rename anything in the current
     # web - stop here
-    Foswiki::UI::checkAccess( $session, $oldWeb, undef, 'RENAME',
-        $session->{user} );
+    my $webObject = new Foswiki::Meta( $session, $oldWeb );
+    Foswiki::UI::checkAccess( $session, 'RENAME', $webObject);
 
     my $newParentWeb = $query->param('newparentweb') || '';
 
@@ -358,13 +358,12 @@ sub _renameWeb {
     # - stop here
     # This also ensures we check root webs for ALLOWROOTRENAME and
     # DENYROOTRENAME
-    Foswiki::UI::checkAccess( $session, $oldParentWeb || undef,
-        undef, 'RENAME', $session->{user} );
+    $webObject = new Foswiki::Meta( $session, $oldParentWeb || undef );
+    Foswiki::UI::checkAccess( $session, 'RENAME', $webObject );
 
 # If old web is a root web then also stop if ALLOW/DENYROOTCHANGE prevents access
     if ( !$oldParentWeb ) {
-        Foswiki::UI::checkAccess( $session, $oldParentWeb || undef,
-            undef, 'CHANGE', $session->{user} );
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
     }
 
     my $newTopic;
@@ -392,8 +391,7 @@ sub _renameWeb {
         }
 
         # Check if we have change permission in the new parent
-        Foswiki::UI::checkAccess( $session, $newParentWeb || undef,
-            undef, 'CHANGE', $session->{user} );
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
     }
 
     if ( !$newWeb || $confirm ) {
@@ -443,8 +441,7 @@ sub _renameWeb {
                     && $info->{modify}{$ref}{leaseuser} ne $cUID );
                 $info->{modify}{$ref}{summary} = $refs{$ref};
                 $info->{modify}{$ref}{access} =
-                  $topicObject->checkAccessPermission( 'CHANGE',
-                    $session->{user} );
+                  $topicObject->haveAccess( 'CHANGE' );
                 if ( !$info->{modify}{$ref}{access} ) {
                     $info->{modify}{$ref}{accessReason} =
                       $Foswiki::Meta::reason;
@@ -602,10 +599,9 @@ sub _renameWeb {
 
     # also remove lease on all referring topics
     foreach my $ref (@$refs) {
-        $ref =~ s/\./\//go;
-        my (@path) = split( /\//, $ref );
+        my @path = split( /[.\/]/, $ref );
         my $webTopic    = pop(@path);
-        my $webIter     = join( "/", @path );
+        my $webIter     = join( '/', @path );
         my $topicObject = Foswiki::Meta->new( $session, $webIter, $webTopic );
         $topicObject->clearLease();
     }
@@ -1070,9 +1066,11 @@ sub _newTopicScreen {
 # are resolved.
 
 sub _newWebScreen {
-    my ( $session, $from, $to, $confirm, $infoRef ) = @_;
+    my ( $session, $from, $toWeb, $confirm, $infoRef ) = @_;
 
-    my @newParentPath = split( '/', $to->web );
+    $toWeb = $from->web() unless ($toWeb);
+
+    my @newParentPath = split( '/', $toWeb );
     my $newSubWeb     = pop(@newParentPath);
     my $newParent     = join( '/', @newParentPath );
 
@@ -1080,7 +1078,7 @@ sub _newWebScreen {
     if ( $confirm eq 'getlock' ) {
         $tmpl = $session->templates->readTemplate('renamewebconfirm');
     }
-    elsif ( $to->web eq $Foswiki::cfg{TrashWebName} ) {
+    elsif ( $toWeb eq $Foswiki::cfg{TrashWebName} ) {
         $tmpl = $session->templates->readTemplate('renamewebdelete');
     }
     else {
@@ -1088,7 +1086,7 @@ sub _newWebScreen {
     }
 
     # Trashing a web; look for a non-conflicting name
-    if ( $to->web eq $Foswiki::cfg{TrashWebName} ) {
+    if ( $toWeb eq $Foswiki::cfg{TrashWebName} ) {
         my $renamedWeb = $Foswiki::cfg{TrashWebName} . '/' . $from->web;
         my $n          = 1;
         my $base       = $renamedWeb;
@@ -1096,7 +1094,7 @@ sub _newWebScreen {
             $renamedWeb = $base . $n;
             $n++;
         }
-        $to = Foswiki::Meta->new( $session, $renamedWeb );
+        $toWeb = $renamedWeb;
     }
 
     $tmpl =~ s/%NEW_PARENTWEB%/$newParent/go;
@@ -1189,8 +1187,10 @@ sub _newWebScreen {
     }
     $tmpl =~ s/%LOCAL_SEARCH%/$search/go;
 
-    $tmpl = $from->expandMacros($tmpl);
-    $tmpl = $from->renderTML($tmpl);
+    my $fromWebHome = new Foswiki::Meta(
+        $session, $from->web, $Foswiki::cfg{HomeTopicName});
+    $tmpl = $fromWebHome->expandMacros($tmpl);
+    $tmpl = $fromWebHome->renderTML($tmpl);
     $session->writeCompletePage($tmpl);
 }
 
@@ -1202,7 +1202,20 @@ sub _getReferringTopicsListFromURL {
     my $query = $session->{cgiQuery};
     my @result;
     foreach my $topic ( $query->param('referring_topics') ) {
-        push @result, $topic;
+        my ( $itemWeb, $itemTopic ) =
+          $session->normalizeWebTopicName( '', $topic );
+
+        # Check validity of web and topic
+        $itemWeb = Foswiki::Sandbox::untaint(
+            $itemWeb, \&Foswiki::Sandbox::validateWebName);
+        $itemTopic = Foswiki::Sandbox::untaint(
+            $itemTopic, \&Foswiki::Sandbox::validateTopicName);
+
+        # Skip web.topic that fails validation
+        next unless ($itemWeb && $itemTopic);
+
+        ASSERT($itemWeb !~ /\./) if DEBUG; # cos we will split on . later
+        push @result, "$itemWeb.$itemTopic";
     }
     return \@result;
 }
@@ -1231,20 +1244,20 @@ sub _getReferringTopics {
     }
     my %results;
     foreach my $searchWeb (@webs) {
-        my $sameWeb = $searchWeb eq $om->web();
-        next if ( $allWebs && $sameWeb );
+        my $interWeb = ($searchWeb ne $om->web());
+        next if ( $allWebs && !$interWeb );
 
         # Search for both the twiki form and the URL form
         my $searchString = Foswiki::Render::getReferenceRE(
             $om->web(), $om->topic(),
             grep    => 1,
-            sameweb => $sameWeb
+            interweb => $interWeb
         );
         $searchString .= '|'
           . Foswiki::Render::getReferenceRE(
             $om->web(), $om->topic(),
             grep    => 1,
-            sameweb => $sameWeb,
+            interweb => $interWeb,
             url     => 1
           );
         my @topicList = ();
@@ -1292,8 +1305,7 @@ sub _updateReferringTopics {
     $options->{pre} = 1;    # process lines in PRE blocks
 
     foreach my $item (@$refs) {
-        my ( $itemWeb, $itemTopic ) =
-          $session->normalizeWebTopicName( '', $item );
+        my ( $itemWeb, $itemTopic ) = split(/\./, $item, 2);
 
         if ( $session->topicExists( $itemWeb, $itemTopic ) ) {
             my $topicObject =

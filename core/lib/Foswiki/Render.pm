@@ -1918,9 +1918,9 @@ sub getReferenceRE {
 
                 # web name used to refer to a topic
                 $re =
-                    $bow . '\.'
+                    $bow
                   . $matchWeb
-                  . '(\.[$Foswiki::regex{mixedAlphaNum}]+)'
+                  . "(\.[$Foswiki::regex{mixedAlphaNum}]+)"
                   . $eow;
             }
             else {

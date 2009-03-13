@@ -1642,7 +1642,7 @@ sub getDifferences {
    * =$time= - time (in epoch secs) for the rev
 
 Get the revision number for a topic at a specific time.
-Returns a single-digit rev number or undef if it couldn't be determined
+Returns a single-digit rev number or 0 if it couldn't be determined
 (either because the topic isn't that old, or there was a problem)
 
 =cut
