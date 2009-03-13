@@ -125,6 +125,8 @@ The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .
 
 *Note:* When you use the =configure= page for the first time to save any settings, you will be prompted to enter a password for the =configure= page. This password is used for all subsequent configuration changes, as well as for logging in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Even after a =configure= password has been set, access to the =configure= page should still be restricted by the web server, in order to avoid revealing internal information to potential attackers.
 
+For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
+
 #ConfigureFoswiki
 ---+++ Configure Foswiki
 
@@ -141,14 +143,17 @@ If there is a problem with your setup that prevents you from accessing the =conf
 
 By enabling authentication, you can control access to your site and track the activity of your users. *This is particularly important for sites that are publicly accessible on the web.*  You are strongly encouraged to read [[%SYSTEMWEB%.UserAuthentication]] and Foswiki:Support.UserAuthenticationSupplement for further information about managing users and access controls for your Foswiki site.
 
-The most common authentication methods used for public Foswiki installations are Template Login and Apache Login.
-   * The advantages of Template Login are that it can be set up without touching the web server configuration, and that users can log off without restarting the browser.
-   * The advantage of Apache Login is that if you have an existing website authentication scheme using Apache modules, such as =mod_auth_ldap= or =mod_auth_mysql=, you can just plug in directly to them. The disadvantage is that because the user identity is cached in the browser, you can log in, but you can't log out again unless you restart the browser.
-   * If the instructions below are followed for either of these authentication methods, the password databases will be compatible allowing you to switch between them at a later date. 
+The most common authentication methods used for public Foswiki installations are Template Login and Apache Login. They have the following relative advantages:
+   * Template Login can be set up without any web server configuration, and users can log off without restarting the browser. As the login page is just a Wiki page, you can customize it to suit your needs.
+   * Apache Login allows you to use any Apache-module based authentication scheme, such as =mod_auth_ldap= or =mod_auth_mysql=. However, as your browser is caching your login, you must restart the browser to log out.
+
+Note that the password databases for both of these authentication mechanisms are compatible, so you can switch between them at a later date. 
+
+To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
 
 ---++++ Template Login authentication
 
-With Template Login enabled, when Foswiki needs to authenticate the user, it will redirect to a login web page. A list of all users is shown in the [[%USERSWEB%.WikiUsers]] topic.
+With Template Login enabled, when Foswiki needs to authenticate the user, it will redirect to a login web page. A list of all users is shown in the =<noautolink>%USERSWEB%.WikiUsers</noautolink>= topic.
 
 To setup Template Login, perform the following steps:
 
@@ -157,10 +162,10 @@ To setup Template Login, perform the following steps:
       1 Select =Foswiki::Users::HtPasswdUser= for ={PasswordManager}=.
       1 Select =Foswiki::Users::TopicUserMapping= for ={UserMappingManager}=.
       1 Save your settings.
-   1 *Verify that registration works.* Register yourself using the [[%SYSTEMWEB%.UserRegistration]] topic.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
+   1 *Verify that registration works.* Register yourself using the =[[%SYSTEMWEB%.UserRegistration]]= topic in your Foswiki installation. Note if you are viewing this page via the =INSTALL.html= file, then you can access the user registration page by entering =<noautolink>%SYSTEMWEB%.UserRegistration</noautolink>= into the "Jump" text box at the top right of any Foswiki page in your installation.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
    1 *Check that authentication works.* Edit a topic by clicking on the =Edit= link at the top or bottom of a topic. If you have been authenticated, then you will see the edit page; otherwise, you will see an error message.
 
-As Template Login uses a web page for its login prompt, there is a great deal of flexibility in customizing the login page for your purposes.
+As Template Login uses a wiki page for its login prompt, there is a great deal of flexibility in customizing the login page for your purposes.
 
 ---++++ Apache Login authentication
 
@@ -180,16 +185,21 @@ To setup Apache Login, perform the following steps:
       require valid-user
       </FilesMatch></verbatim></sticky>
       You can also refer to the sample =foswiki_httpd_conf.txt= and =bin/.htaccess.txt= files to see how the appropriate Apache directives are specified.
-   1 *Verify that registration works.* Register yourself using the [[%SYSTEMWEB%.UserRegistration]] topic.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
+   1 *Verify that registration works.* Register yourself using the =[[%SYSTEMWEB%.UserRegistration]]= topic in your Foswiki installation. Note if you are viewing this page via the =INSTALL.html= file, then you can access the user registration page by entering =<noautolink>%SYSTEMWEB%.UserRegistration</noautolink>= into the "Jump" text box at the top right of any Foswiki page in your installation.<br /> Check that the password manager recognizes the new user by verifying that a new line is added to the =foswiki/data/.htpassswd= file, with the username and encrypted password. If the user and password information was not added, you probably got a path wrong, or the directory permissions on =foswiki/data= or =foswiki/data/.htpasswd= may not be set to allow the web server user to modify the file.
    1 *Check that authentication works.* Edit a topic by clicking on the =Edit= link at the top or bottom of a topic. If you have been authenticated, then you will see the edit page; otherwise, you will see an error message.
 
 #DefineAdminUser
 ---+++ Define the administrator user(s)
 
-Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. After installing Foswiki, you should register a user that you will use to administer Foswiki. To make this user an administrator, add the WikiName for the user to the =AdminGroup=, defined in the =[[%USERSWEB%.AdminGroup]]= topic:
+Administrators have read and write access to any topic, regardless of any access controls that have been applied to the topic or its web. After installing Foswiki, you should register a user that you will use to administer Foswiki. To make this user an administrator, add the WikiName for the user to the =AdminGroup=, defined in the =[[%USERSWEB%.AdminGroup]]= topic in your Foswiki installation.
+
+To make it easier to follow the instructions in this section, you can view this installation guide using your Foswiki site by entering =%SYSTEMWEB%.InstallationGuide= into the "Jump" text box. By doing this instead of using the =INSTALL.html= file from the distribution, you will be able to use the embedded hyperlinks to jump directly to the referenced pages.
+
+To add an initial administrator to the =AdminGroup=, perform the following steps:
+
    * If you are not already logged in with your WikiName, then login.
    * Go to the =[[%USERSWEB%.AdminGroup]]= topic and select the "internal admin login" link. Login using the password you set on the =configure= page.
-   * After logging as the internal admin, edit the =[[%USERSWEB%.AdminGroup]]= topic. Follow the instructions on the page carefully and add your WikiName to the group.
+   * After logging as the internal admin, edit the =%USERSWEB%.AdminGroup= topic. Follow the instructions on the page carefully and add your WikiName to the group.
    * Test that you have been added successfully: On the =[[%USERSWEB%.AdminGroup]]= page, select the "Logout link" and logout from being the internal admin. Select the "Edit" link for the =[[%USERSWEB%.AdminGroup]]= page. If you successfully added yourself as an admin user, you should see the edit page.
 
 Once the =AdminGroup= is no longer empty, then any member of the group can add subsequent members &mdash; you do not have to use the internal admin login.
