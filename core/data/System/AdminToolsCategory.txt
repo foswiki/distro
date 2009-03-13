@@ -4,7 +4,7 @@ Manage your whole site from one screen.
 
    * %ICON{help}% Documentation: [[ReferenceManual][Reference Manual]]
    * %ICON{wrench}% [[Site Tools]]: [[%SCRIPTURLPATH{"configure"}%][Configure]], %WIKIPREFSTOPIC%, InterWikis, [[%SYSTEMWEB%.Macros][Macros]], [[DocumentGraphics][Doc Graphics]], [[%SYSTEMWEB%.InstalledPlugins][Installed Plugins report]]
-   * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
+   * %ICON{persons}% Manage [[%USERSWEB%.%WIKIUSERSTOPIC%][Users]]: [[UserRegistration][Register]], [[%USERSWEB%.WikiGroups][Groups]], %SYSTEMWEB%.NewUserTemplate, %SYSTEMWEB%.UserForm, ResetPassword, ChangePassword
    * %ICON{indexlist}% Manage Content: [[ManagingTopics][Topics]], [[ManagingWebs][Webs]], YouAreHere
    * %ICON{folder}% Webs:
   <table width="100%" border="0" cellspacing="2" bgcolor="#000000" cellpadding="3">
