@@ -155,7 +155,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
       * Set SHORTDESCRIPTION = Edit tables using edit fields, date pickers and drop down boxes
 
    * Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
-      * Set DEBUG = 0
+      * Set DEBUG = 1
 
    * Set JAVASCRIPTINTERFACE to 1 to be able to directly move and delete row without page refresh. Can be overridden with parameter =javascriptinterface=.
       * Set JAVASCRIPTINTERFACE = 1

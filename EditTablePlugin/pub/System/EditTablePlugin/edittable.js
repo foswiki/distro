@@ -17,7 +17,7 @@ var sEditTable;
 // array of edittables
 var sRowSelection;
 var sAlternatingColors = [];
-var DEBUG = 0; // not used
+var DEBUG = 0;
 
 /**
 
@@ -110,16 +110,19 @@ function submitHandler(evt) {
 
 	var ilen = sEditTable.numrows;
 
+	var DEBUG_TXT = "";
     for (var rowpos = 0; rowpos < ilen; rowpos++) {
         var inpname = 'etrow_id' + (rowpos + 1);
-        var row_id = sEditTable.revidx[rowpos] + 1;
+        var row_id = sEditTable.revidx[rowpos + 1];
+        if (!row_id) continue;
+        DEBUG_TXT += rowpos + ",row_id=" + row_id + ";";
         var inp = document.createElement('INPUT');
         inp.setAttribute('type', 'hidden');
         inp.setAttribute('name', inpname);
         inp.setAttribute('value', '' + row_id);
         sEditTable.tableform.appendChild(inp);
     }
-	
+	if (DEBUG) alert(DEBUG_TXT);
     return true;
 }
 
