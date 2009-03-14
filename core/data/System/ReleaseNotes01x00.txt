@@ -126,7 +126,7 @@ As part of the first Foswiki product release, various topics and terms were chan
 
 TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandFor have been removed. </noautolink>
 
----+++ Topic names changed in System web (former TWiki web)
+---+++ Topic names changed in Main web
 
 <noautolink>
 | *Old name* | *New name* |
@@ -139,12 +139,15 @@ TWikiPlannedFeatures, TWikiReleaseNotes04x00, TWikiSite, and WhatDoesTWikiStandF
 | TWikiGuest | WikiGuest |
 | TWikiRegistrationAgent | RegistrationAgent |
 | TWikiAdminUser | AdminUser |
+</noautolink>
 
-Note that the change from TWikiAdminGroup to AdminGroup has no practical implication when upgrading from TWiki to Foswiki. The topics with an ALLOW setting set to TWikiAdminGroup will still prevent users from accessing or editing and the AdminGroup members can edit anything. You must however make sure the TWikiAdminGroup topic exists in the Main web and that it is protected against editing: when migrating, make sure it is copied over from the old Main web along with all other user and group topics.
+These changes have the following consequences when upgrading from TWiki to Foswiki:
 
-When you upgrade from TWiki, copy the old TWikiUsers topic to WikiUsers and manually add the AdminUser, ProjectContributor, and RegistrationAgent users.
+   * You can either continue to use <nop>TWikiAdminGroup as your administrators group, or migrate your admin users to the [[%USERSWEB%.AdminGroup]] topic.
+   * The users in the <nop>TWikiUsers topic must be merged into the [[%USERSWEB%.WikiUsers]] topic.
+   * Your site preference settings from Main.<nop>TWikiPreferences must be copied to the [[%USERSWEB%.SitePreferences]] topic.
 
-Your old Main.TWikiPreferences settings must be copied to the new Main.SitePreferences topic. </noautolink>
+Please see %SYSTEMWEB%.UpgradeGuide#CopyUsersAndCustomizations for more information.
 
 ---++ Important Changes since Foswiki 1.0.0
 
