@@ -171,16 +171,40 @@ sub assert_matches {
     my ($this, $expected, $got, $mess) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
+    if ( $] < 5.010 ) {
+
+        # See perl bug http://rt.perl.org/rt3/Public/Bug/Display.html?id=22354
+        no warnings;
+        $* = $expected =~ /\(\?[^-]*m/;
+        use warnings;
+    }
     $this->assert( scalar( $got =~ /$expected/ ),
         $mess || "Expected:'$expected'\n But got:'$got'\n" );
+    if ( $] < 5.010 ) {
+        no warnings;
+        $* = 0;
+        use warnings;
+    }
 }
 
 sub assert_does_not_match {
     my ($this, $expected, $got, $mess) = @_;
     $this->assert_not_null($expected);
     $this->assert_not_null($got);
+    if ( $] < 5.010 ) {
+
+        # See perl bug http://rt.perl.org/rt3/Public/Bug/Display.html?id=22354
+        no warnings;
+        $* = /\(\?[^-]*m/;
+        use warnings;
+    }
     $this->assert( scalar( $got !~ /$expected/ ),
         $mess || "Expected:'$expected'\n And got:'$got'\n" );
+    if ( $] < 5.010 ) {
+        no warnings;
+        $* = 0;
+        use warnings;
+    }
 }
 
 sub assert_deep_equals {
