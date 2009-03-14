@@ -158,6 +158,29 @@ no initdirection specified, column 3
 | 2 | def | stu | 31 Dec 1999 |
 | 3 | ghi | pqr | 15 Jan 2006 |
 
+---++ no sort
+
+sort="off"
+%TABLE{sort="off"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+sort="off", initsort="1"
+%TABLE{sort="off" initsort="1"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
+sort="off", headerrows=1", footerrows="1" 
+%TABLE{sort="off" headerrows=1" footerrows="1"}%
+| *One* | *Two* | *Three* | *Four* |
+| 1 | abc | vwx | 01 Jan 1900 |
+| 2 | def | stu | 31 Dec 1999 |
+| 3 | ghi | pqr | 15 Jan 2006 |
+
 ---++ headercolor
 <verbatim>
 %TABLE{headercolor="#990000" headerbg="#eeeeee" headerbgsorted="#dddddd"}%
