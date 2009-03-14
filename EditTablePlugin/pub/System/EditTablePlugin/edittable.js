@@ -1,12 +1,9 @@
 // sEditTable.js
 //
-// By Byron Darrah
+// By Byron Darrah, Arthur Clemens
 //
 // This code adds support to the Foswiki EditTablesPlugin for dynamically
 // manipulating rows within a table.
-// 
-// Small refactoring by Arthur Clemens
-// TODO: all functions should be moved from global space to a foswiki.EditTable object
 
 /**
 
@@ -17,7 +14,7 @@ var sEditTable;
 // array of edittables
 var sRowSelection;
 var sAlternatingColors = [];
-var DEBUG = 1;
+var DEBUG = 0;
 
 /**
 
