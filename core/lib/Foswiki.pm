@@ -3111,15 +3111,15 @@ sub ADDTOHEAD {
 
 sub FORMFIELD {
     my ( $this, $args, $topicObject ) = @_;
-    my $query = $this->{request};
-    # SMELL: horrible hack
-    $args->{rev} = $query->param('rev') if ($query);
     if ( $args->{topic} ) {
         my ($web, $topic ) =
           $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
-        return '' unless isValidWebName( $web );
-        return '' unless isValidTopicName( $topic );
         $topicObject = new Foswiki::Meta( $this, $web, $topic );
+    } else {
+        # SMELL: horrible hack; assumes the current rev comes from the 'rev'
+        # parameter. There has to be a better way!
+        my $query = $this->{request};
+        $args->{rev} ||= $query->param('rev') if ($query);
     }
     return $this->renderer->renderFORMFIELD( $args, $topicObject );
 }

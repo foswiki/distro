@@ -920,6 +920,8 @@ sub renderFORMFIELD {
         $format = '$value';
     }
 
+    # SMELL: this local creation of a cache looks very suspicious. Suspect
+    # this may have been a one-off optimisation.
     my $formTopicObject = $this->{ffCache}{ $topicObject->getPath().$rev };
     unless ($formTopicObject) {
         $formTopicObject = Foswiki::Meta->load(
