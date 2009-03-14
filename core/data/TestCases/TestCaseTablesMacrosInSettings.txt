@@ -30,10 +30,10 @@ The purpose of ENCODE is to use a Macro with full {} syntax but without actually
 %TABLE{%TABLESETTING%}%
 %EDITTABLE{%EDITTABLESETTING%}%
 | *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
-| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project A | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project B | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project C | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project D | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
 | Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
 
 ---++ EDITTABLE before TABLE - two lines
@@ -41,20 +41,20 @@ The purpose of ENCODE is to use a Macro with full {} syntax but without actually
 %EDITTABLE{%EDITTABLESETTING%}%
 %TABLE{%TABLESETTING%}%
 | *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
-| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project A | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project B | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project C | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project D | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
 | Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
 
 ---++ TABLE before EDITTABLE - one line
 
 %TABLE{%TABLESETTING%}% %EDITTABLE{%EDITTABLESETTING%}%
 | *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
-| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project A | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project B | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project C | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project D | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
 | Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
 
 
@@ -62,9 +62,10 @@ The purpose of ENCODE is to use a Macro with full {} syntax but without actually
 
 %EDITTABLE{%EDITTABLESETTING%}% %TABLE{%TABLESETTING%}%
 | *Project* | *Customer* | *Pass* | *Type* | *Purpose* | *Qty* | *Radios* | *Controllers* | *Hubs* | *Tuners* | *Hybrid* | *Unit Cost (USD)* | *Total Cost (USD)* | *When (Q)* |
-| Project X | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project X | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
-| Project Y | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project A | Engineering | A | PK2 | Eng Test | 2 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project B | Factory | A | PC2 | Fact Test | 1 | 4 | | 2 | 2 | | 6214 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project C | Eng | P1 | CT5 | Eng Test | 1 | 2 | 1 | | | 1 | 3502 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
+| Project D | SW | P3 | CT5 | SW Dev | 2 | 4 | 2 | | 2 | | 6345 | %CALC{"$EVAL($T(R$ROW():C6) * $T(R$ROW():C$COLUMN(-1)))"}% | Q1 |
 | Total | | | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C6..R$ROW(-1):C6, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | | *%CALC{"$SUM($ABOVE())"}%* | |
-<nop>
+
+-- end of test

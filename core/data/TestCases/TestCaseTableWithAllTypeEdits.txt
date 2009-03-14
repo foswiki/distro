@@ -11,7 +11,7 @@ Description: Manual test of cell types and macro expansion in %SYSTEMWEB%.EditTa
    * Check that the first column gets a new row number. And that the row number is correct excluding the header from the count.
    * Check that the 2nd column says "init"
    * Check that the 3rd column says %<nop>SERVERTIME{"$day $mon $year $hour:$min"}% and not a static text
-   * Check that the last column shows a timestamp which is static text
+   * Check that the last column shows a time stamp which is static text
    * Save the table.
    * Edit the table again. Check that the 3rd column is still %<nop>SERVERTIME{"$day $mon $year $hour:$min"}% and not a static text
 
@@ -22,4 +22,4 @@ Description: Manual test of cell types and macro expansion in %SYSTEMWEB%.EditTa
 | 2 | Hello | %SERVERTIME{"$day $mon $year $hour:$min"}% | two | :-( | A , C , D | 08 Mar 2009 15:57 |
 
 
-end of test
+-- end of test

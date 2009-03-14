@@ -6,17 +6,16 @@ Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macro
 ---++ Test Steps
 
    * Check that the top table has column widths 200, 150, 400 
-   * Check that all CALC results look resonable. The top table creates values used at the bottom table
+   * Check that all CALC results look reasonable. The top table creates values used at the bottom table
    * Edit the second table using !EditTablePlugin feature.
       * Check that the CALC still calculates values in the top table
       * Check that all CALCs are shown raw in the edited table
-      * Save the table without esiting anything and check in raw view that all the CALCs are preserved and not replaced by static text
+      * Save the table without editing anything and check in raw view that all the CALCs are preserved and not replaced by static text
    * Edit the table again and add a row
       * Check that the new row is added just before the footer row and not below it.
       * Fill in some text and numbers like the rows above
-   * Save the table and check that the new row also contains the CALCs like the other rows
+      * Save the table and check that the new row also contains the CALCs like the other rows
       * Check we still have a valid footer row
-      * Check that the EDITTABLE still contains Macros and not just static values.
 
 ---++ Defining Table
 
@@ -40,6 +39,6 @@ Description: Manual test of the combinations of TABLE, EDITTABLE, and CALC macro
 | Controlbd | P1 | Manuf test | 2 | 1 | 1 | 1 | 1 | 1 | 0 | %CALC{"$EVAL(  $T(R$ROW():C4) * ($T(R$ROW():C5)*$GET(Mechanics) + $T(R$ROW():C6)*$GET(Mainbd) + $T(R$ROW():C7)*$GET(Controlbd) + $T(R$ROW():C8)*$GET(PSU) + $T(R$ROW():C9)*$GET(Filter) + $T(R$ROW():C10)*$GET(Package)) )"}% | Q309 |
 | Total | | | *%CALC{"$SUM($ABOVE())"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUMPRODUCT(R2:C4..R$ROW(-1):C4, R2:C$COLUMN(0)..R$ROW(-1):C$COLUMN(0))"}%* | *%CALC{"$SUM($ABOVE())"}%* | |
 
-
+-- end of test
 
 In the table above the CALC in edit mode is pretty annoying because it makes the columns far too wide. Future feature to check for.
