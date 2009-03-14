@@ -152,6 +152,7 @@ sub viewfile {
 
     #print STDERR "HUH $fatwilly->{response}->{body}\n>$text<>$result<\n";
     $fatwilly->finish();
+    1 if $UI_FN;
 
     return $result;
 }
