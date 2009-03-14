@@ -296,15 +296,14 @@ sub _safeTopicName {
 sub _renameWeb {
     my ( $session, $oldWeb ) = @_;
 
-    my $old = Foswiki::Meta->new( $session, $oldWeb );
+    my $oldWebObject = Foswiki::Meta->new( $session, $oldWeb );
 
     my $query = $session->{request};
     my $cUID  = $session->{user};
 
     # If the user is not allowed to rename anything in the current
     # web - stop here
-    my $webObject = new Foswiki::Meta( $session, $oldWeb );
-    Foswiki::UI::checkAccess( $session, 'RENAME', $webObject);
+    Foswiki::UI::checkAccess( $session, 'RENAME', $oldWebObject);
 
     my $newParentWeb = $query->param('newparentweb') || '';
 
@@ -350,6 +349,7 @@ sub _renameWeb {
         }
     }
 
+    # Determine the parent of the 'from' web
     my @tmp = split( /[\/\.]/, $oldWeb );
     pop(@tmp);
     my $oldParentWeb = join( '/', @tmp );
@@ -358,12 +358,14 @@ sub _renameWeb {
     # - stop here
     # This also ensures we check root webs for ALLOWROOTRENAME and
     # DENYROOTRENAME
-    $webObject = new Foswiki::Meta( $session, $oldParentWeb || undef );
-    Foswiki::UI::checkAccess( $session, 'RENAME', $webObject );
+    my $oldParentWebObject = new Foswiki::Meta(
+        $session, $oldParentWeb || undef );
+    Foswiki::UI::checkAccess( $session, 'RENAME', $oldParentWebObject );
 
-# If old web is a root web then also stop if ALLOW/DENYROOTCHANGE prevents access
+    # If old web is a root web then also stop if ALLOW/DENYROOTCHANGE
+    # prevents access
     if ( !$oldParentWeb ) {
-        Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $oldParentWebObject );
     }
 
     my $newTopic;
@@ -391,7 +393,8 @@ sub _renameWeb {
         }
 
         # Check if we have change permission in the new parent
-        Foswiki::UI::checkAccess( $session, 'CHANGE', $webObject );
+        my $newParentWebObject = new Foswiki::Meta( $session, $newParentWeb );
+        Foswiki::UI::checkAccess( $session, 'CHANGE', $newParentWebObject );
     }
 
     if ( !$newWeb || $confirm ) {
@@ -405,8 +408,8 @@ sub _renameWeb {
 
         # get a topic list for all the topics referring to this web,
         # and build up a hash containing permissions and lock info.
-        my $refs0 = _getReferringTopics( $session, $old, 0 );
-        my $refs1 = _getReferringTopics( $session, $old, 1 );
+        my $refs0 = _getReferringTopics( $session, $oldWebObject, 0 );
+        my $refs1 = _getReferringTopics( $session, $oldWebObject, 1 );
         %refs = ( %$refs0, %$refs1 );
 
         $info->{referring}{refs0} = $refs0;
@@ -415,8 +418,7 @@ sub _renameWeb {
         my $lease_ref;
         foreach my $ref ( keys %refs ) {
             if ( defined($ref) && $ref ne "" ) {
-                $ref =~ s/\./\//go;
-                my (@path) = split( /\//, $ref );
+                my (@path) = split( /[.\/]/, $ref );
                 my $webTopic = pop(@path);
                 my $webIter = join( '/', @path );
 
@@ -453,13 +455,13 @@ sub _renameWeb {
 
         # Lease topics and build
         # up a hash containing permissions and lock info.
-        my $owom = Foswiki::Meta->new( $session, $old->web );
-        my $it = $owom->eachWeb();
-        _leaseContents( $session, $info, $old->web, $confirm );
+        my $it = $oldWebObject->eachWeb();
+        _leaseContents( $session, $info, $oldWebObject->web, $confirm );
         while ( $it->hasNext() ) {
             my $subweb = $it->next();
             next unless $Foswiki::WebFilter::public->ok( $session, $subweb );
-            _leaseContents( $session, $info, $old->web . "/$subweb", $confirm );
+            _leaseContents( $session, $info,
+                            $oldWebObject->web . '/' . $subweb, $confirm );
         }
 
         if (   !$info->{totalReferralAccess}
@@ -555,32 +557,32 @@ sub _renameWeb {
         {
 
             # Has user selected new name yet?
-            _newWebScreen( $session, $old, $newWeb, $confirm, $info );
+            _newWebScreen( $session, $oldWebObject, $newWeb, $confirm, $info );
             return;
         }
     }
 
-    my $to = Foswiki::Meta->new( $session, $newWeb );
+    my $newWebObject = Foswiki::Meta->new( $session, $newWeb );
 
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $old );
-    Foswiki::UI::checkAccess( $session, 'CHANGE', $to );
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $oldWebObject );
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $newWebObject );
 
     my $refs = _getReferringTopicsListFromURL($session);
 
     # update referrers.  We need to do this before moving,
     # because there might be topics inside the newWeb which need updating.
     _updateReferringTopics( $session, $refs, \&_replaceWebReferences,
-        { oldWeb => $old, newWeb => $to } );
+        { oldWeb => $oldWeb, newWeb => $newWeb } );
 
     # Now, we can move the web.
     try {
-        $old->move($to);
+        $oldWebObject->move($newWebObject);
     }
     catch Error with {
         my $e = shift;
         throw Foswiki::OopsException(
             'attention',
-            web    => $old->web,
+            web    => $oldWeb,
             topic  => '',
             def    => 'rename_web_err',
             params => [ $e->{-text}, $newWeb ]
@@ -769,15 +771,14 @@ sub _moveTopicOrAttachment {
 
 # _replaceTopicReferences( $text, \%options ) -> $text
 #
-#Callback designed for use with forEachLine, to replace topic references.
-#\%options contains:
+# Callback designed for use with forEachLine, to replace topic references.
+# \%options contains:
 #   * =oldWeb= => Web of reference to replace
 #   * =oldTopic= => Topic of reference to replace
 #   * =newWeb= => Web of new reference
 #   * =newTopic= => Topic of new reference
 #   * =inWeb= => the web which the text we are presently processing resides in
 #   * =fullPaths= => optional, if set forces all links to full web.topic form
-#For a usage example see Foswiki::UI::Manage.pm
 sub _replaceTopicReferences {
     my ( $text, $args ) = @_;
 
@@ -794,16 +795,11 @@ sub _replaceTopicReferences {
     my $newTopic = $args->{newTopic};
     my $repl     = $newTopic;
 
-    # Canonicalise web names by converting . to /
-    my $inWeb = $args->{inWeb};
-    $inWeb =~ s#\.#/#g;
     my $newWeb = $args->{newWeb};
-    $newWeb =~ s#\.#/#g;
     my $oldWeb = $args->{oldWeb};
-    $oldWeb =~ s#\.#/#g;
     my $sameWeb = ( $oldWeb eq $newWeb );
 
-    if ( $inWeb ne $newWeb || $args->{fullPaths} ) {
+    if ( $args->{inWeb} ne $newWeb || $args->{fullPaths} ) {
         $repl = $newWeb . '.' . $repl;
     }
 
@@ -832,12 +828,11 @@ sub _doReplace {
 
 # _replaceWebReferences( $text, \%options ) -> $text
 #
-#Callback designed for use with forEachLine, to replace web references.
-#\%options contains:
+# Callback designed for use with forEachLine, to replace text references
+# to a web.
+# \%options contains:
 #   * =oldWeb= => Web of reference to replace
 #   * =newWeb= => Web of new reference
-#For a usage example see Foswiki::UI::Manage.pm
-#
 sub _replaceWebReferences {
     my ( $text, $args ) = @_;
 
@@ -845,18 +840,14 @@ sub _replaceWebReferences {
     ASSERT( defined $args->{newWeb} ) if DEBUG;
 
     my $newWeb = $args->{newWeb};
-    $newWeb =~ s#\.#/#g;
     my $oldWeb = $args->{oldWeb};
-    $oldWeb =~ s#\.#/#g;
 
     return $text if $oldWeb eq $newWeb;
 
     my $re = Foswiki::Render::getReferenceRE( $oldWeb, undef );
-
     $text =~ s/$re/$newWeb$1/g;
 
     $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, url => 1 );
-
     $text =~ s#$re#/$newWeb/#g;
 
     return $text;
@@ -864,27 +855,35 @@ sub _replaceWebReferences {
 
 # _replaceWebInternalReferences( $from, $to )
 #
-#Change within-web wikiwords that refer to the topic $from so they
-#point to $to.
+# Change within-web wikiwords that refer to the topic $from so they
+# point to $to. $from and $to are Foswiki::Meta.
 sub _replaceWebInternalReferences {
     my ( $session, $from, $to ) = @_;
 
     my $renderer  = $session->renderer;
-    my $webObject = Foswiki::Meta->new( $session, $from->web );
+    my $webObject = Foswiki::Meta->new( $session, $from->web());
     my $it        = $webObject->eachTopic();
+    my $oldTopic  = $from->topic();
 
     my $options = {
 
         # exclude this topic from the list
-        topics  => [ $it->all() ],
-        inWeb   => $from->web,
-        inTopic => $from->topic,
-        oldWeb  => $from->web,
-        newWeb  => $from->web,
+        topics    => [ grep { !/^$oldTopic$/ } $it->all() ],
+
+        inWeb     => $from->web,
+        inTopic   => $from->topic,
+
+        oldWeb    => $from->web,
+        #oldTopic => will be filled in by _replaceInternalRefs
+
+        newWeb    => $from->web,
+        #newTopic => will be filled in by _replaceInternalRefs
     };
 
     my $text = $to->text();
 
+    # Replace references that were internal to the source web; they are
+    # now inter-web
     $text = $renderer->forEachLine( $text, \&_replaceInternalRefs, $options );
 
     $to->forEachSelectedValue( qw/^(FIELD|TOPICPARENT)$/, undef,
@@ -896,7 +895,7 @@ sub _replaceWebInternalReferences {
 
     # Ok, let's look for links to topics in the
     # new web and remove their web qualifiers
-    $webObject = Foswiki::Meta->new( $session, $to->web );
+    $webObject = Foswiki::Meta->new( $session, $to->web());
     $it = $webObject->eachTopic();
 
     $options = {
@@ -904,10 +903,15 @@ sub _replaceWebInternalReferences {
         # exclude this topic from the list
         topics    => [ $it->all() ],
         fullPaths => 0,
+
         inWeb     => $to->web,
-        inTopic   => $from->topic,
+        inTopic   => $to->topic,
+
         oldWeb    => $to->web,
+        #oldTopic => will be filled in by _replaceInternalRefs
+
         newWeb    => $to->web,
+        #newTopic => will be filled in by _replaceInternalRefs
     };
 
     $text = $renderer->forEachLine( $text, \&_replaceInternalRefs, $options );
@@ -923,9 +927,14 @@ sub _replaceWebInternalReferences {
 
 }
 
-# callback used by _replaceWebInternalReferences
+# callback used by _replaceWebInternalReferences to correct references
+# to topics that were in the same web previously, but are now in a
+# different web because the topic has moved. $args should be populated
+# with oldWeb and newWeb already, so just need to add each topic as we
+# process it.
 sub _replaceInternalRefs {
     my ( $text, $args ) = @_;
+
     foreach my $topic ( @{ $args->{topics} } ) {
         $args->{fullPaths} = ( $topic ne $args->{inTopic} )
           if ( !defined( $args->{fullPaths} ) );
