@@ -17,6 +17,7 @@ var sEditTable;
 // array of edittables
 var sRowSelection;
 var sAlternatingColors = [];
+var DEBUG = 0; // not used
 
 /**
 
@@ -111,7 +112,7 @@ function submitHandler(evt) {
 
     for (var rowpos = 0; rowpos < ilen; rowpos++) {
         var inpname = 'etrow_id' + (rowpos + 1);
-        var row_id = sEditTable.revidx[rowpos + 1];
+        var row_id = sEditTable.revidx[rowpos] + 1;
         var inp = document.createElement('INPUT');
         inp.setAttribute('type', 'hidden');
         inp.setAttribute('name', inpname);
