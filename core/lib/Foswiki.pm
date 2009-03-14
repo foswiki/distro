@@ -3110,10 +3110,18 @@ sub ADDTOHEAD {
 }
 
 sub FORMFIELD {
-    my ( $this, $params, $topicObject ) = @_;
+    my ( $this, $args, $topicObject ) = @_;
     my $query = $this->{request};
-    $params->{rev} = $query->param('rev') if ($query);
-    return $this->renderer->renderFORMFIELD( $params, $topicObject );
+    # SMELL: horrible hack
+    $args->{rev} = $query->param('rev') if ($query);
+    if ( $args->{topic} ) {
+        my ($web, $topic ) =
+          $this->normalizeWebTopicName( $topicObject->web, $args->{topic} );
+        return '' unless isValidWebName( $web );
+        return '' unless isValidTopicName( $topic );
+        $topicObject = new Foswiki::Meta( $this, $web, $topic );
+    }
+    return $this->renderer->renderFORMFIELD( $args, $topicObject );
 }
 
 sub TMPLP {

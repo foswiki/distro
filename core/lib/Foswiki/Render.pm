@@ -910,45 +910,35 @@ sub renderFORMFIELD {
     my ( $this, $params, $topicObject ) = @_;
 
     my $formField = $params->{_DEFAULT};
+    return '' unless defined $formField;
     my $altText   = $params->{alttext};
     my $default   = $params->{default};
-    my $rev       = $params->{rev};
+    my $rev       = $params->{rev} || '';
     my $format    = $params->{format};
 
-    unless ($format) {
-
-        # if null format explicitly set, return empty
-        # SMELL: it's not clear what this does; the implication
-        # is that it does something that violates Foswiki tag syntax,
-        # so I've had to comment it out....
-        # return '' if ( $args =~ m/format\s*=/o);
-        # Otherwise default to value
+    unless (defined $format) {
         $format = '$value';
     }
 
-    my ( $formWeb, $formTopic ) = $this->{session}->normalizeWebTopicName(
-        $params->{web}   || $topicObject->web,
-        $params->{topic} || $topicObject->topic
-    );
-
-    my $formTopicObject = $this->{ffCache}{ $formWeb . '.' . $formTopic };
+    my $formTopicObject = $this->{ffCache}{ $topicObject->getPath().$rev };
     unless ($formTopicObject) {
-        $formTopicObject =
-          Foswiki::Meta->new( $this->{session}, $formWeb, $formTopic, $rev );
+        $formTopicObject = Foswiki::Meta->load(
+            $this->{session}, $topicObject->web, $topicObject->topic, $rev );
         unless ( $formTopicObject->haveAccess('VIEW') ) {
 
             # Access violation, create dummy meta with empty text, so
             # it looks like it was already loaded.
-            $formTopicObject =
-              Foswiki::Meta->new( $this->{session}, $formWeb, $formTopic, '' );
+            $formTopicObject = Foswiki::Meta->new(
+                $this->{session}, $topicObject->web, $topicObject->topic, '' );
         }
-        $this->{ffCache}{ $formWeb . '.' . $formTopic } = $formTopicObject;
+        $this->{ffCache}{ $formTopicObject->getPath().$rev } =
+          $formTopicObject;
     }
 
     my $text   = Foswiki::expandStandardEscapes($format);
     my $found  = 0;
     my $title  = '';
-    my @fields = $topicObject->find('FIELD');
+    my @fields = $formTopicObject->find('FIELD');
     foreach my $field (@fields) {
         my $name = $field->{name};
         $title = $field->{title} || $name;
@@ -963,7 +953,7 @@ sub renderFORMFIELD {
             $text =~ s/\$value/$value/go;
             $text =~ s/\$name/$name/g;
             if ( $text =~ m/\$form/ ) {
-                my @defform = $topicObject->find('FORM');
+                my @defform = $formTopicObject->find('FORM');
                 my $form  = $defform[0];     # only one form per topic
                 my $fname = $form->{name};
                 $text =~ s/\$form/$fname/g;
