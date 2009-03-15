@@ -31,7 +31,7 @@
 	background:none;
 }
 .editTableActionSelectedCell {
-	background-color:#069;
+	background:#069;
 }
 .foswikiTableEven textarea,
 .foswikiTableEven .editTableTextarea,
@@ -47,16 +47,15 @@
 	margin:0 2px;
 }
 .editTableRowSeparator {
-	padding:0;
-	margin:0;
-	line-height:1px;
-	border:none;
-	background-color:#fff;
+	background-color:#eee;
 	height:4px;
 	cursor:default;
 }
-.editTableRowSeparatorHover {
+.editTableMoveMode .editTableRowSeparator {
+}
+.editTableMoveMode .editTableRowSeparatorHover {
 	background-color:#069;
+	height:10px;
 	cursor:move;
 }
 .editTableMoveMode .editTableActionCell img {
@@ -64,10 +63,4 @@
 }
 .editTableMoveMode .editTableActionSelectedCell img {
 	visibility:visible;
-}
-.editTableMoveMode .editTableRowSeparator {
-	/**/
-}
-.editTableMoveMode .editTableRowSeparator {
-	background-image:url(separator_bg_anim.gif);
 }
