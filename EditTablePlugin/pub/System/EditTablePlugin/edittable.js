@@ -15,10 +15,31 @@ var sEditTable;
 var sRowSelection;
 var sAlternatingColors = [];
 var LAST_ROW_NR = -1;
+
+// workaround for non-Firebug:
+var console;
 if (!console) {
-	var console;
-	console.debug = alert;
+	function Console() {}
+	Console.prototype.debug = function(msg) {
+		window.alert(msg);
+	}
+	Console.prototype.log = function(msg) {
+		window.alert(msg);
+	}
+	Console.prototype.assert = function(test, msg) {
+		if (!test) window.alert("assert fails:" + msg);
+	}
+	Console.prototype.dir = function(obj) {
+		var text = "";
+		for (var i in obj) {
+			text += i + "=" + obj[i] + "\n";
+		}
+		window.alert(text);
+	}
+	console = new Console();
 }
+
+// Global settings:
 var PERFORM_UNIT_TESTS = 0; // only a couple, see bottom
 var DEBUG = 0;
 
@@ -820,7 +841,6 @@ function EditTable(tableform, inRowContainer, headerRows, footerRows) {
     }
     
 	if (DEBUG) {
-		console.debug("EditTable:");
 		console.dir(this);
 	}
 	
