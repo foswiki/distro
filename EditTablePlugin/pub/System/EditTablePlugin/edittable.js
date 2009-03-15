@@ -14,6 +14,12 @@ var sEditTable;
 // array of edittables
 var sRowSelection;
 var sAlternatingColors = [];
+var LAST_ROW_NR = -1;
+if (!console) {
+	var console;
+	console.debug = alert;
+}
+var PERFORM_UNIT_TESTS = 0; // only a couple, see bottom
 var DEBUG = 0;
 
 /**
@@ -79,16 +85,14 @@ function edittableInit(form_name, asset_url, headerRows, footerRows) {
         alert("Something went wrong: EditTable javascript features cannot be enabled.\n");
         return;
     }
-    attachEvent(tableform, 'submit', submitHandler);
+    attachEvent(tableform, 'submit', submitTable);
     
     var somerow = searchNodeTreeForTagName(tableform, "TR");
     
     if (somerow != null) {
         var row_container = somerow.parentNode;
-        sEditTable = new EditTableObject(tableform, row_container);
+        sEditTable = new EditTable(tableform, row_container, headerRows, footerRows);
     }
-	sEditTable.headerRows = headerRows;
-	sEditTable.footerRows = footerRows;
 	 if (somerow != null) {
 		insertActionButtons(asset_url);
         insertRowSeparators();
@@ -99,27 +103,29 @@ function edittableInit(form_name, asset_url, headerRows, footerRows) {
 }
 
 /**
-
+Create the etrow_id# inputs to tell the server about row changes we made.
+We will create new hidden fields with name etrow_id{n} where n is the key to existing etcell{n}x{m} fields.
 */
-// Create the etrow_id# inputs to tell the server about row changes we made.
-function submitHandler(evt) {
-	if (!evt) var evt = window.event;
+function submitTable(evt) {
 
-	var ilen = sEditTable.numrows;
+	var ilen = sEditTable.revidx.length;
 
 	var DEBUG_TXT = "";
     for (var rowpos = 0; rowpos < ilen; rowpos++) {
         var inpname = 'etrow_id' + (rowpos + 1);
         var row_id = sEditTable.revidx[rowpos] + 1;
-        if (!row_id) continue;
-        DEBUG_TXT += rowpos + ",row_id=" + row_id + ";";
+
+		DEBUG_TXT += "\n" + rowpos + " => name=" + inpname + " => value=" + row_id;
+
         var inp = document.createElement('INPUT');
         inp.setAttribute('type', 'hidden');
         inp.setAttribute('name', inpname);
         inp.setAttribute('value', '' + row_id);
         sEditTable.tableform.appendChild(inp);
     }
-	if (DEBUG) alert(DEBUG_TXT);
+	if (DEBUG) {
+		console.debug(DEBUG_TXT);
+	}
     return true;
 }
 
@@ -183,10 +189,11 @@ function insertActionButtonsMove(asset_url) {
     for (var rowpos = 0; rowpos < sEditTable.numrows; rowpos++) {
         var rownr = sEditTable.revidx[rowpos];
         var child = sEditTable.rows[rownr];
+
         if (child.tagName == 'TR') {
-        	var isHeaderRow = (rowpos < sEditTable.headerRows);
-        	var isFooterRow = (rowpos < sEditTable.headerRows + sEditTable.footerRows); // footer rows are written just below the header, and before the body
-        	if (isHeaderRow || isFooterRow) {
+        	var isHeader = isHeaderRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr);
+        	var isFooter = isFooterRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr, sEditTable.numrows);
+        	if (isHeader || isFooter) {
         	    action_cell = document.createElement('TH');
         	    action_butt = document.createElement('SPAN');
         	} else {
@@ -236,9 +243,9 @@ function insertActionButtonsDelete(asset_url) {
         var rownr = sEditTable.revidx[rowpos];
         var child = sEditTable.rows[rownr];
         if (child.tagName == 'TR') {
-        	var isHeaderRow = (rowpos < sEditTable.headerRows);
-        	var isFooterRow = (rowpos < sEditTable.headerRows + sEditTable.footerRows); // footer rows are written just below the header, and before the body
-        	if (isHeaderRow || isFooterRow) {
+        	var isHeader = isHeaderRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr);
+        	var isFooter = isFooterRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr, sEditTable.numrows);
+        	if (isHeader || isFooter) {
         	    action_cell = document.createElement('TH');
         	    action_butt = document.createElement('SPAN');
         	} else {
@@ -291,10 +298,10 @@ function insertRowSeparators() {
     
     for (var rowpos = 0; rowpos < sEditTable.numrows; rowpos++) {
         var rownr = sEditTable.revidx[rowpos];
-        var isHeaderRow = (rowpos < sEditTable.headerRows);
-		var isFooterRow = (rowpos < sEditTable.headerRows + sEditTable.footerRows); // footer rows are written just below the header, and before the body
-		if (isHeaderRow || isFooterRow) {
-			//
+        var isHeader = isHeaderRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr);
+		var isFooter = isFooterRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr, sEditTable.numrows); // footer rows are written just below the header, and before the body
+		if (isHeader || isFooter) {
+			// nothing
 		} else {
 			child = sEditTable.rows[rownr];
 			columns = countRowColumns(child);
@@ -302,7 +309,7 @@ function insertRowSeparators() {
 			child.parentNode.insertBefore(sep_row, child);
 		}
     }
-    sep_row = makeSeparatorRow(null, columns);
+    sep_row = makeSeparatorRow(LAST_ROW_NR, columns);
     child.parentNode.appendChild(sep_row);
     sEditTable.last_separator = sep_row;
 }
@@ -537,14 +544,17 @@ function deleteHandler(evt) {
     var rownr = getEventAttr(evt, 'rownr');
     var from_row_pos = sEditTable.positions[rownr];
     
+    if (DEBUG) {
+    	console.debug("deleteHandler rownr:" + rownr + "; from_row_pos=" + from_row_pos);
+    }
+    
     // Remove the from_row from the table.
     
     var from_row_elem = sEditTable.rows[rownr];
     from_row_elem.parentNode.removeChild(from_row_elem.previousSibling);
     from_row_elem.parentNode.removeChild(from_row_elem);
-    
-    // Update all rows after from_row.
-    
+        
+    // Update all rows after from_row
     for (var rowpos = from_row_pos + 1; rowpos < sEditTable.numrows; rowpos++) {
         var rownum = sEditTable.revidx[rowpos];
         var newpos = rowpos - 1;
@@ -552,6 +562,9 @@ function deleteHandler(evt) {
         sEditTable.revidx[newpos] = rownum;
         updateRowlabels(rownum, -1);
     }
+    
+    // remove array reference
+    sEditTable.revidx.pop();
     
     if (sRowSelection.rownum == rownr) {
         selectRow(null);
@@ -561,14 +574,6 @@ function deleteHandler(evt) {
     sEditTable.tableform.etrows.value = sEditTable.numrows - (sEditTable.headerRows + sEditTable.footerRows);
     
     fixStyling();
-}
-
-/**
-to write
-*/
-function addHandler() {
-    //
-    
 }
 
 /**
@@ -601,12 +606,19 @@ function fixStyling() {
 	if (!sEditTable) return;
     // style even/uneven rows
     var ilen = sEditTable.numrows;
+    var colorIndex = 0;
+    
     for (var i = 0; i < ilen; i++) {
-        var num = sEditTable.revidx[i];
-        var tr = sEditTable.rows[num];
+        var rownr = sEditTable.revidx[i];
+        var tr = sEditTable.rows[rownr];
+        
+        var isHeader = isHeaderRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr);
+		var isFooter = isFooterRowArrayOrder(sEditTable.headerRows, sEditTable.footerRows, rownr, sEditTable.numrows);
+		
+		if (isHeader || isFooter) continue;
         var tableCells = tr.getElementsByTagName('TD');
-        var alternate = (i % 2 == 0) ? 0: 1;
-        var className = (i % 2 == 0) ? 'foswikiTableEven': 'foswikiTableOdd';
+        var alternate = (colorIndex % 2 == 0) ? 0: 1;
+        var className = (colorIndex % 2 == 0) ? 'foswikiTableEven': 'foswikiTableOdd';
         
         
         if (!sAlternatingColors[alternate]) {
@@ -624,6 +636,7 @@ function fixStyling() {
             cell.removeAttribute('bgColor');
             cell.setAttribute('bgColor', sAlternatingColors[alternate]);
         }
+        colorIndex++;
     }
     
     // style last row
@@ -645,11 +658,11 @@ function moveRow(from_row, to_row) {
 	if (!sEditTable) return;
     var from_row_pos = sEditTable.positions[from_row];
     var to_row_pos;
-
+        
     // If the end separator row was selected, use the last row.
     
-    if (to_row == null) {
-        to_row_pos = sEditTable.numrows - 1;
+    if (to_row == LAST_ROW_NR) {
+        to_row_pos = sEditTable.numrows - 1 - sEditTable.footerRows;
         to_row = sEditTable.revidx[to_row_pos];
     } else {
         to_row_pos = sEditTable.positions[to_row];
@@ -659,7 +672,10 @@ function moveRow(from_row, to_row) {
         }
     }
     
-    
+   	if (DEBUG) {
+		console.debug("moveRow; from_row_pos=" + from_row_pos + ";to_row_pos=" + to_row_pos);
+	}
+	
     var inc = 1;
     if (to_row_pos == -1 || from_row_pos > to_row_pos) {
         inc = -1;
@@ -758,60 +774,59 @@ rows in a table, and making a map of row numbers to row positions (and the
 reverse).
 */
 
-function EditTableObject(tableform, row_container) {
+function EditTable(tableform, inRowContainer, headerRows, footerRows) {
     this.tableform = tableform;
     this.rows = new Array();
     this.positions = new Array();
     this.revidx = new Array();
     this.numrows = 0;
-    this.headerRows = 0;
-    this.footerRows = 0;
+    this.headerRows = headerRows;
+    this.footerRows = footerRows;
     this.last_separator = null;
-    var got_thead = 0;
-    var first_head = 0;
     
+    var row_container = inRowContainer;
     
-    // If rows are contained in <THEAD> and <TBODY> elements, then we must be
-    // sure to iterate over all of them.
-    
+    // first get the number of rows
     while (row_container != null) {
-      
-        // If there were any rows before the first thead, we'll have to correct
-        // our notion of the row positions, because browsers display the header
-        // above the body instead of in the order they appear in the DOM.
-        
-        if (row_container.tagName == "THEAD" && got_thead == 0) {
-            first_head = this.numrows;
-            got_thead = 1;
-        }
-
-        var row_elem = row_container.firstChild;
+    	var row_elem = row_container.firstChild;
         while (row_elem != null) {
             if (row_elem.tagName == "TR") {
-                this.rows[this.numrows] = row_elem;
-                this.positions[this.numrows] = this.numrows - first_head;
-                this.revidx[this.numrows - first_head] = this.numrows;
-                this.numrows++;
+            	this.numrows++;
             }
             row_elem = row_elem.nextSibling;
         }
-        
-        // Now make any necessary position adjustments to account for an
-        // out-of-order THEAD.
-      
-        if (first_head > 0) {
-            var num_headrows = this.numrows - first_head;
-            for (var body_rownum = 0; body_rownum < first_head; body_rownum++) {
-                this.positions[body_rownum] = body_rownum + num_headrows;
-                this.revidx[body_rownum + num_headrows] = body_rownum;
-            }
-            first_head = 0;
-        }     
-        
         row_container = row_container.nextSibling;
     }
+    
+    // now store everything in arrays
+    row_container = inRowContainer;
+    var bodyAndHeaderRows = this.numrows - this.footerRows;
+    
+    var rowCounter = 0;
+    while (row_container != null) {
+    	var row_elem = row_container.firstChild;
+        while (row_elem != null) {
+            if (row_elem.tagName == "TR") {
+            	var id = getRowId(this.headerRows, this.footerRows, rowCounter, this.numrows);
+            	var index = id;
+                this.rows[index] = row_elem;
+                this.positions[index] = index;
+                this.revidx[index] = id;
+                rowCounter++;
+            }
+            row_elem = row_elem.nextSibling;
+        }
+        row_container = row_container.nextSibling;
+    }
+    
+	if (DEBUG) {
+		console.debug("EditTable:");
+		console.dir(this);
+	}
+	
     return this;
 }
+
 
 /**
 
@@ -862,6 +877,80 @@ function init() {
 }
 
 /**
+param inHeaderRows: number of header rows
+param inFooterRows: number of footer rows
+param inRowNumber: row number (zero-index)
+*/
+function isHeaderRowHtmlOrder(inHeaderRows, inFooterRows, inRowNumber) {
+	return inHeaderRows && inRowNumber < inHeaderRows;
+}
+
+/**
+param inHeaderRows: number of header rows
+param inFooterRows: number of footer rows
+param inRowNumber: row number (zero-index)
+*/
+function isFooterRowHtmlOrder(inHeaderRows, inFooterRows, inRowNumber) {
+	if (isHeaderRowHtmlOrder(inHeaderRows, inFooterRows, inRowNumber)) return false;
+	var firstFooterRow = inHeaderRows;
+	return inFooterRows && (inRowNumber >= firstFooterRow) && (inRowNumber < (firstFooterRow + inFooterRows));
+}
+
+/**
+param inHeaderRows: number of header rows
+param inFooterRows: number of footer rows
+param inRowNumber: row number (zero-index)
+*/
+function isHeaderRowArrayOrder(inHeaderRows, inFooterRows, inRowNumber) {
+	return inHeaderRows && inRowNumber < inHeaderRows;
+}
+
+/**
+param inHeaderRows: number of header rows
+param inFooterRows: number of footer rows
+param inRowNumber: row number (zero-index)
+param inRowCount: total number of rows
+*/
+function isFooterRowArrayOrder(inHeaderRows, inFooterRows, inRowNumber, inRowCount) {
+	if (isHeaderRowArrayOrder(inHeaderRows, inFooterRows, inRowNumber)) return false;
+	var firstFooterRow = inRowCount - inFooterRows;
+	return inFooterRows && (inRowNumber >= firstFooterRow);
+}
+
+/**
+param inHeaderRows: number of header rows
+param inFooterRows: number of footer rows
+param inRowNumber: row number (zero-index)
+param inRowCount: total number of rows
+*/
+function getRowId(inHeaderRows, inFooterRows, inRowNumber, inRowCount) {
+
+	var isHeader = isHeaderRowHtmlOrder(inHeaderRows, inFooterRows, inRowNumber);
+	if (isHeader) {
+		return inRowNumber;
+	}
+	
+	// else
+	var isFooter = isFooterRowHtmlOrder(inHeaderRows, inFooterRows, inRowNumber);
+	if (isFooter) {
+		var headerAndBodyRows = inRowCount - inFooterRows;
+		return headerAndBodyRows + inRowNumber - inHeaderRows;
+	}
+	
+	// else: body row
+	return inRowNumber - inFooterRows;
+}
+
+/**
+Array Remove - By John Resig (MIT Licensed)
+*/
+Array.prototype.remove = function(from, to) {
+	var rest = this.slice((to || from) + 1 || this.length);
+	this.length = from < 0 ? this.length + from : from;
+	return this.push.apply(this, rest);
+};
+
+/**
 Copied from foswikiEvent.js.
 */
 function addLoadEvent(inFunction, inDoPrepend) {
@@ -886,6 +975,57 @@ function addLoadEvent(inFunction, inDoPrepend) {
     }
 }
 
+function testFunctions() {
+
+	// test isHeaderRowHtmlOrder
+	console.assert(isHeaderRowHtmlOrder(1,1,0) == 1, "isHeaderRowHtmlOrder true");
+	console.assert(isHeaderRowHtmlOrder(1,1,1) == 0, "isHeaderRowHtmlOrder false 1");
+	console.assert(isHeaderRowHtmlOrder(1,1,2) == 0, "isHeaderRowHtmlOrder false 2");
+	console.assert(isHeaderRowHtmlOrder(1,1,3) == 0, "isHeaderRowHtmlOrder false 3");
+    
+    // test isFooterRowHtmlOrder
+    console.assert(isFooterRowHtmlOrder(1,1,0) == 0, "isFooterRowHtmlOrder false 1");
+	console.assert(isFooterRowHtmlOrder(1,1,1) == 1, "isFooterRowHtmlOrder true");
+	console.assert(isFooterRowHtmlOrder(1,1,2) == 0, "isFooterRowHtmlOrder false 2");
+	console.assert(isFooterRowHtmlOrder(1,1,3) == 0, "isFooterRowHtmlOrder false 3");
+    
+    // test isFooterRowHtmlOrder with 2 header rows and 2 footer rows
+    console.assert(isFooterRowHtmlOrder(2,2,0) == 0, "isFooterRowHtmlOrder 2/2 false 1");
+	console.assert(isFooterRowHtmlOrder(2,2,1) == 0, "isFooterRowHtmlOrder 2/2 false 2");
+	console.assert(isFooterRowHtmlOrder(2,2,2) == 1, "isFooterRowHtmlOrder 2/2 true 1");
+	console.assert(isFooterRowHtmlOrder(2,2,3) == 1, "isFooterRowHtmlOrder 2/2 true 2");
+	console.assert(isFooterRowHtmlOrder(2,2,4) == 0, "isFooterRowHtmlOrder 2/2 false 3");
+	
+	// test isHeaderRowArrayOrder
+	console.assert(isHeaderRowArrayOrder(1,1,0) == 1, "isHeaderRowArrayOrder true");
+	console.assert(isHeaderRowArrayOrder(1,1,1) == 0, "isHeaderRowArrayOrder false 1");
+	console.assert(isHeaderRowArrayOrder(1,1,2) == 0, "isHeaderRowArrayOrder false 2");
+	console.assert(isHeaderRowArrayOrder(1,1,3) == 0, "isHeaderRowArrayOrder false 3");
+	
+    // test isFooterRowArrayOrder
+    console.assert(isFooterRowArrayOrder(1,1,0,4) == 0, "isFooterRowArrayOrder false 1");
+	console.assert(isFooterRowArrayOrder(1,1,1,4) == 0, "isFooterRowArrayOrder false 2");
+	console.assert(isFooterRowArrayOrder(1,1,2,4) == 0, "isFooterRowArrayOrder false 3");
+	console.assert(isFooterRowArrayOrder(1,1,3,4) == 1, "isFooterRowArrayOrder true");
+    
+    // test getRowId
+    console.assert(getRowId(1,1,0,5) == 0, "getRowId 1");
+    console.assert(getRowId(1,1,1,5) == 4, "getRowId 2");
+    console.assert(getRowId(1,1,2,5) == 1, "getRowId 3");
+    console.assert(getRowId(1,1,3,5) == 2, "getRowId 4");
+    console.assert(getRowId(1,1,4,5) == 3, "getRowId 5");
+    
+    // test getRowId
+    console.assert(getRowId(2,2,0,5) == 0, "getRowId 2/2 1");
+    console.assert(getRowId(2,2,1,5) == 1, "getRowId 2/2 2");
+    console.assert(getRowId(2,2,2,5) == 3, "getRowId 2/2 3");
+    console.assert(getRowId(2,2,3,5) == 4, "getRowId 2/2 4");
+    console.assert(getRowId(2,2,4,5) == 2, "getRowId 2/2 5");
+}
+
+// END OF FUNCTIONS
+
+if (PERFORM_UNIT_TESTS) addLoadEvent(testFunctions, 1);
 addLoadEvent(init);
 
 /**

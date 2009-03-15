@@ -151,7 +151,7 @@ sub processText {
       = @_;
 
     my $mode = $inMode;
-    my $doSave = ( $mode == $MODE->{SAVE} ) ? 1 : 0;
+    my $doSave = ( $mode & $MODE->{SAVE} ) ? 1 : 0;
 
     $query = Foswiki::Func::getCgiQuery();
 
@@ -1213,7 +1213,7 @@ sub inputElement {
           unless ( $theValue eq '' );
 
         #$theValue = "\*$theValue\*" if ( $isHeader and $digestedCellValue );
-        $text = "\*$text\*" if ($isHeader);
+        $text = "\*$text\*" if $isHeader;
         $text .= ' ' . hiddenField( $preSp, $theName, $theValue );
     }
     elsif ( $type eq 'textarea' ) {
