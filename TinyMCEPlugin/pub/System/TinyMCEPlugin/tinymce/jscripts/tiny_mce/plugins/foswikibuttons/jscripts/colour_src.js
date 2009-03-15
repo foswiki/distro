@@ -15,24 +15,32 @@
   As per the GPL, removal of this notice is prohibited.
 */
 
-// invoked on load from the body of the dialog
-function init() {
-	tinyMCEPopup.resizeToInnerSize();
-}
+var ColoursDlg = {
 
-// Functions specific to the actions of the colour-setting dialog
-function setColour(colour) {
-	var inst = tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));
-    var s = inst.selection.getSelectedHTML();
-    if (s.length > 0) {
-        tinyMCEPopup.execCommand('mceBeginUndoLevel');
-        // Styled spans don't work inside the editor for some reason
-        s = '<font class="WYSIWYG_COLOR" color="' +
-            colour
-            + '">' + s + '</font>';
-        tinyMCE.execCommand('mceInsertContent', false, s);
-        tinyMCE.triggerNodeChange();
-        tinyMCEPopup.execCommand('mceEndUndoLevel');
+	preInit : function() {
+		tinyMCEPopup.requireLangPack();
+    },
+
+    // invoked on load from the body of the dialog
+    init: function(ed) {
+        tinyMCEPopup.resizeToInnerSize();
+    },
+
+    // Functions specific to the actions of the colour-setting dialog
+    set: function(colour) {
+        var ted = tinyMCE.activeEditor;
+        var s = ted.selection.getContent();
+        if (s.length > 0) {
+            // Styled spans don't work inside the editor for some reason
+            s = '<font class="WYSIWYG_COLOR" color="' +
+                colour
+                + '">' + s + '</font>';
+            ted.selection.setContent(s);
+            ted.nodeChanged();
+        }
+		tinyMCEPopup.close();
     }
-    tinyMCEPopup.close();
-}
+};
+
+ColoursDlg.preInit();
+tinyMCEPopup.onInit.add(ColoursDlg.init, ColoursDlg);

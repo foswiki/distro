@@ -56,7 +56,7 @@ For a full explanation of the available options, and guidance on reconfiguring T
    foswikipuburl_callback : "FoswikiTiny.convertPubURL",
    save_callback : "FoswikiTiny.saveCallback",
    %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
-   plugins : "table,searchreplace,autosave,paste,foswikibuttons,foswikiimage%IF{"$TINYMCEPLUGIN_DEBUG" then=",devkit"}%%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
+   plugins : "table,searchreplace,autosave,paste,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
    foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
    foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
    theme_advanced_toolbar_align : "left",
@@ -119,6 +119,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Mar 2009 | Foswikitask:Item930: Crawford Currie upgraded to Tiny MCE 3.2.2 and recoded all the standard plugins that had to be recoded |
 |  21 Jan 2009 | Foswikitask:Item833: Eugen Mayer added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) |
 |  06 Dec 2008 | Foswikitask:Item5859: Eugen Mayer removed XHR headers that were banjaxing NTLM |
 |  03 Dec 2008 | Re-released for the Foswiki project |

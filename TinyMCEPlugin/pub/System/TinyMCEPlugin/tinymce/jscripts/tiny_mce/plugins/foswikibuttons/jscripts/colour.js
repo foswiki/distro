@@ -1,5 +1,4 @@
-function init(){tinyMCEPopup.resizeToInnerSize();}
-function setColour(colour){var inst=tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));var s=inst.selection.getSelectedHTML();if(s.length>0){tinyMCEPopup.execCommand('mceBeginUndoLevel');s='<font class="WYSIWYG_COLOR" color="'+
+var ColoursDlg={preInit:function(){tinyMCEPopup.requireLangPack();},init:function(ed){tinyMCEPopup.resizeToInnerSize();},set:function(colour){var ted=tinyMCE.activeEditor;var s=ted.selection.getContent();if(s.length>0){s='<font class="WYSIWYG_COLOR" color="'+
 colour
-+'">'+s+'</font>';tinyMCE.execCommand('mceInsertContent',false,s);tinyMCE.triggerNodeChange();tinyMCEPopup.execCommand('mceEndUndoLevel');}
-tinyMCEPopup.close();}
++'">'+s+'</font>';ted.selection.setContent(s);ted.nodeChanged();}
+tinyMCEPopup.close();}};ColoursDlg.preInit();tinyMCEPopup.onInit.add(ColoursDlg.init,ColoursDlg);
