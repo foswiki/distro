@@ -98,7 +98,7 @@ First choose the best configuration method for your web server. With Apache, the
    * The easiest and best way is to use the Foswiki:Support.ApacheConfigGenerator tool to generate a safe, working config file for your Foswiki installation, based on the options you choose in the tool.
    * If you can't use the online configuration generator, a sample config file called =foswiki_httpd_conf.txt= can be found in the root of the foswiki installation.
    * Ensure that web access is denied to all Foswiki subdirectories other than =bin= and =pub=. The Foswiki:Support.ApacheConfigGenerator tool will generate the appropriate settings; the =foswiki_httpd_conf.txt= file also has examples of configuring Apache appropriately.
-   * Ensure there is either a =<noautolink>ScriptAlias<noautolink>= directive or an =Options Exec<nop>CGI= directive for the =bin= subdirectory, so that the scripts there will be executed by Apache.
+   * Ensure there is either a =<noautolink>ScriptAlias<noautolink>= directive for the =bin= subdirectory, or an =Alias= directive with =SetHandler cgi-script= and =Options Exec<nop>CGI= directives for the =bin= subdirectory, so that the =bin= scripts will be executed by Apache.
    * *Note:* you must restart Apache after making changes to your config files for the changes to take effect.
 
 *If you are using a .htaccess file:* 
