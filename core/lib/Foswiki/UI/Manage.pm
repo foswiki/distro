@@ -1456,7 +1456,7 @@ sub _updateReferringTopics {
     };
 
     foreach my $item (@$refs) {
-        my ( $itemWeb, $itemTopic ) = split('.', $item, 2);
+        my ( $itemWeb, $itemTopic ) = split('\.', $item, 2);
 
         if ( $store->topicExists( $itemWeb, $itemTopic ) ) {
             $store->lockTopic( $cUID, $itemWeb, $itemTopic );
@@ -1499,7 +1499,7 @@ sub _updateWebReferringTopics {
     };
 
     foreach my $item (@$refs) {
-        my ( $itemWeb, $itemTopic ) = split('.', $item, 2);
+        my ( $itemWeb, $itemTopic ) = split('\.', $item, 2);
 
         if ( $store->topicExists( $itemWeb, $itemTopic ) ) {
             $store->lockTopic( $cUID, $itemWeb, $itemTopic );
