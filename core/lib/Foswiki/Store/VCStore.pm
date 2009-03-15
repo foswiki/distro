@@ -574,19 +574,16 @@ sub eachWeb {
     my $handler = $this->getHandler( $web );
     my @list = $handler->getWebNames();
     if ($all) {
-        my @path = @list;
-        my $sp = $web ? "$web/" : '';
-        @list = ();
-        while ( my $wp = pop(@path) ) {
-            push( @list, $wp );
-            my $it = $this->eachWeb( $sp . $wp, $all );
-            while ( $it->hasNext() ) {
-                my $more = $it->next();
-                push( @path, "$wp/" . $more );
-            }
+        my $root = $web ? "$web/" : '';
+        my @expandedList;
+        while ( my $wp = shift(@list) ) {
+            push( @expandedList, $wp );
+            my $it = $this->eachWeb( $root . $wp, $all );
+            push( @expandedList, map { "$wp/$_" } $it->all() );
         }
+        @list = @expandedList;
     }
-    @list = sort @list;
+    @list = sort(@list);
     require Foswiki::ListIterator;
     return new Foswiki::ListIterator( \@list );
 }

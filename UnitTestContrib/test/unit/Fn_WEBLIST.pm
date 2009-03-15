@@ -21,9 +21,14 @@ sub set_up {
     $this->SUPER::set_up();
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
     my $webObject =
-      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Subweb" );
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1" );
     $webObject->populateNewWeb();
-    Foswiki::Func::readTemplate('foswiki');
+    $webObject =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1/Dive2" );
+    $webObject->populateNewWeb();
+    $webObject =
+      Foswiki::Meta->new( $this->{session}, "$this->{test_web}/Dive1/Dive2/Dive3" );
+    $webObject->populateNewWeb();    Foswiki::Func::readTemplate('foswiki');
     @allWebs      = Foswiki::Func::getListOfWebs('user,public,allowed');
     @templateWebs = Foswiki::Func::getListOfWebs('template,allowed');
 }
@@ -100,7 +105,11 @@ sub test_subwebs {
     my $text =
       $this->{test_topicObject}
       ->expandMacros( '%WEBLIST{subwebs="' . $this->{test_web} . '"}%' );
-    $this->assert_str_equals( "$this->{test_web}/Subweb", $text );
+    $this->assert_str_equals( <<THIS, "$text\n" );
+$this->{test_web}/Dive1
+$this->{test_web}/Dive1/Dive2
+$this->{test_web}/Dive1/Dive2/Dive3
+THIS
 }
 
 sub test_indentedname {
@@ -111,8 +120,11 @@ sub test_indentedname {
     my $text =
       $this->{test_topicObject}->expandMacros(
         '%WEBLIST{"$indentedname" subwebs="' . $this->{test_web} . '"}%' );
-    $this->assert_str_equals( "<span class='foswikiWebIndent'></span>Subweb",
-        $text );
+    $this->assert_str_equals( <<THIS, "$text\n");
+<span class='foswikiWebIndent'></span>Dive1
+<span class='foswikiWebIndent'></span><span class='foswikiWebIndent'></span>Dive2
+<span class='foswikiWebIndent'></span><span class='foswikiWebIndent'></span><span class='foswikiWebIndent'></span>Dive3
+THIS
 }
 
 sub test_marker {
@@ -163,7 +175,7 @@ sub test_WEBLIST_all {
       $this->{test_topicObject}
       ->expandMacros(' %WEBLIST{format="#$name#" separator=" "}% ');
 
-    foreach my $web ( $this->{test_web}, "$this->{test_web}/Subweb",
+    foreach my $web ( $this->{test_web}, "$this->{test_web}/Dive1",
         $Foswiki::cfg{UsersWebName},
         'Sandbox', $Foswiki::cfg{SystemWebName} )
     {
@@ -179,7 +191,7 @@ sub test_WEBLIST_relative {
       ->expandMacros( ' %WEBLIST{format="#$name#" separator=" " subwebs="'
           . $this->{test_web}
           . '"}% ' );
-    $this->assert_matches( qr!#$this->{test_web}/Subweb#!, $text );
+    $this->assert_matches( qr!#$this->{test_web}/Dive1#!, $text );
 }
 
 sub test_WEBLIST_end {
@@ -188,7 +200,7 @@ sub test_WEBLIST_end {
     my $text =
         ' %WEBLIST{format="#$name#" separator=" " subwebs="'
       . $this->{test_web}
-      . '/Subweb"}% ';
+      . '/Dive1/Dive2/Dive3"}% ';
     $text = $this->{test_topicObject}->expandMacros($text);
     $this->assert_equals( '  ', $text );
 }
