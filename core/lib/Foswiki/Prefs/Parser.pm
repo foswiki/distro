@@ -73,7 +73,8 @@ sub parse {
         # SMELL: What is this mysterious undocumented code for? It inserts
         # PREFERENCE_<pref title> but that's all I can work out :-(
         # I can't find any clues in Codev either.
-        $prefs->insert( $type, 'PREFERENCE_' . $field->{title}, $value );
+	# (later) added ifdefined, to remove error log line
+        $prefs->insert( $type, 'PREFERENCE_' . $field->{title}, $value ) if (defined($field->{title}));
     }
 
     # Note that the use of the "S" attribute to support settings in
@@ -82,7 +83,6 @@ sub parse {
     if ($form) {
         my @fields = $topicObject->find('FIELD');
         foreach my $field (@fields) {
-            my $title      = $field->{title};
             my $attributes = $field->{attributes};
             if ( $attributes && $attributes =~ /S/o ) {
                 my $value = $field->{value};
