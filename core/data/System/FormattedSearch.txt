@@ -108,11 +108,11 @@ To get this:
 
 *Write this:*
 
-=%<nop>SEARCH{ "*Back to\:* <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
+=%<nop>SEARCH{ "\*Back to:\* <nop>FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [<nop>[$topic][Answer...]]" }%=
 
 *To get this:*
 
-%SEARCH{ "*Back to\:* FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
+%SEARCH{ "\*Back to:\* FrequentlyAskedQuestions" scope="text" type="regex" nosearch="on" nototal="on" header="FAQs:" format="   * $pattern(.*?FAQ\:[\n\r]*([^\n\r]+).*) [[$topic][Answer...]]" }%
 
 
 ---+++ Nested Search
