@@ -10,6 +10,7 @@ use Foswiki::Plugins::EditTablePlugin::Data;
 my $DEFAULT_FIELD_SIZE           = 16;
 my $PLACEHOLDER_BUTTONROW_TOP    = 'PLACEHOLDER_BUTTONROW_TOP';
 my $PLACEHOLDER_BUTTONROW_BOTTOM = 'PLACEHOLDER_BUTTONROW_BOTTOM';
+my $PLACEHOLDER_SEPARATOR_SEARCH_RESULTS = 'PLACEHOLDER_SEPARATOR_SEARCH_RESULTS';
 my $HTML_TAGS =
 qr'var|ul|u|tt|tr|th|td|table|sup|sub|strong|strike|span|small|samp|s|pre|p|ol|li|kbd|ins|img|i|hr|h|font|em|div|dfn|del|code|cite|center|br|blockquote|big|b|address|acronym|abbr|a';
 
@@ -170,7 +171,7 @@ sub processText {
     my $topic = $query->param('ettabletopic') || $inTopic;
     my $web   = $query->param('ettableweb')   || $inWeb;
 
-    my $paramTableNr  = 0;
+    my $paramTableNr  = $query->param('ettablenr') || 0;
     my $tableNr       = 0;    # current EditTable table
     my $isParamTable  = 0;
     my $rowNr         = 0;    # current row number; starting at 1
@@ -200,6 +201,8 @@ sub processText {
     }
     my $tableData = $tableMatrix{$web}{$topic};
 
+	handleSearchResultsBelowEditTables($topicText, $paramTableNr, $tableData);
+	
     my $editTableObjects = $tableData->{editTableObjects};
 
     # ========================================
@@ -245,8 +248,6 @@ sub processText {
 
         if ( ( $mode & $MODE->{READ} ) || ( $tableNr == $inSaveTableNr ) ) {
 
-            $paramTableNr = $query->param('ettablenr')
-              || 0;    # only on save and edit
             $etrowsParam = $query->param('etrows');
             $etrows =
               ( defined $etrowsParam )
@@ -500,7 +501,21 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         # END WRITE OUT PROCESSED ROWS
         # ========================================
 
+
         # ========================================
+        # START PUT PROCESSED TABLE BACK IN TEXT
+        my $resultText = join( "", @result );
+
+		my $searchResultsText = $editTableObject->{'searchResults'} || '';
+		$resultText .= $searchResultsText;
+		
+        $resultText = "$editTableTag\n$resultText";
+
+        Foswiki::Func::writeDebug(
+"EditTablePlugin::Core::processText - after processing, resultText before expandCommonVariables:$resultText"
+        ) if $Foswiki::Plugins::EditTablePlugin::debug;
+
+		# ========================================
         # FORM END
         my $rowCount = 0;
         if ( ( $mode & $MODE->{READ} ) && !$doEdit ) {
@@ -515,16 +530,12 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
                 $includingTopic, $rowCount,       $doEdit,
                 $headerRowCount, $footerRowCount, $addedRowCount
             );
-            push( @result, $tableEnd );
+            $resultText .= $tableEnd;
         }
 
         # END FORM END
         # ========================================
-
-        # ========================================
-        # START PUT PROCESSED TABLE BACK IN TEXT
-        my $resultText = join( "", @result );
-
+        
         # button row at top or bottom
         if ( ( $mode & $MODE->{READ} ) ) {
             my $pos = $params{'buttonrow'} || 'bottom';
@@ -540,13 +551,7 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
                 $resultText =~ s/$PLACEHOLDER_BUTTONROW_BOTTOM/$buttonRow/go;
             }
         }
-
-        $resultText = $editTableTag . "\n" . $resultText;
-
-        Foswiki::Func::writeDebug(
-"EditTablePlugin::Core::processText - after processing, resultText before expandCommonVariables:$resultText"
-        ) if $Foswiki::Plugins::EditTablePlugin::debug;
-
+        
         # render variables (only in view mode)
         $resultText = Foswiki::Func::expandCommonVariables($resultText)
           if ( !$doEdit && ( $mode & $MODE->{READ} ) );
@@ -562,7 +567,6 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
         @rows           = ();
         @result         = ();
         $isParamTable   = 0;
-        $paramTableNr   = 0;
         $headerRowCount = 0;
         $footerRowCount = 0;
 
@@ -1629,6 +1633,38 @@ sub handleTmlInTables {
 
     # add spaces around TML next to HTML
     addSpacesToTmlNextToHtml( $_[0] );
+}
+
+=begin TML
+
+Handles search results that is formatted as table below an EDITTABLE tag.
+
+For instance:
+
+%EDITTABLE{}%
+| *Project* | *Assignee* | *Launch Date* |
+%SEARCH{search="test" topic="*" format="| $formfield(name) | $formfield(author) | $formfield(date) |" nonoise="on" limit="5"}%
+
+=cut
+
+sub handleSearchResultsBelowEditTables {
+    
+    # my $text = $_[0]
+    # my $editTableNr = $_[1]
+    # my $tableData = $_[2]
+    
+    $_[0] =~ s/(<!--%EDITTABLESTUB{([0-9]+)}%-->\s+)((\s*)\|.*\|)\s+/addSearchResultsTableTextToTableObject($_[2], $_[1], $1, $2, $3)/geos;
+}
+
+sub addSearchResultsTableTextToTableObject {
+	my ($inTableData, $inEditTableNr, $inTag, $inTableNumber, $inTableText) = @_;
+        
+    # do not offer expanded table in edit mode
+    return "$inTag$inTableText\n" if ($inEditTableNr == $inTableNumber);
+
+	$inTableData->{editTableObjects}->[$inTableNumber - 1]->{searchResults} = "$inTableText\n";
+    
+    return $inTag;
 }
 
 =begin TML
