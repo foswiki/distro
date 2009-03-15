@@ -270,7 +270,8 @@ sub loadSession {
         return $authUser;
     }
 
-    return $Foswiki::cfg{AdminUserLogin} if $session->inContext('command_line');
+    return $session->{request}->{remote_user} || $authUser
+      if $session->inContext('command_line');
 
     my $query = $session->{request};
 
