@@ -697,7 +697,7 @@ return null;delete t.editors[e.id];if(t.activeEditor==e){each(t.editors,function
 e.destroy();return e;},execCommand:function(c,u,v){var t=this,ed=t.get(v),w;switch(c){case"mceFocus":ed.focus();return true;case"mceAddEditor":case"mceAddControl":if(!t.get(v))
 new tinymce.Editor(v,t.settings).render();return true;case"mceAddFrameControl":w=v.window;w.tinyMCE=tinyMCE;w.tinymce=tinymce;tinymce.DOM.doc=w.document;tinymce.DOM.win=w;ed=new tinymce.Editor(v.element_id,v);ed.render();if(tinymce.isIE){function clr(){ed.destroy();w.detachEvent('onunload',clr);w=w.tinyMCE=w.tinymce=null;};w.attachEvent('onunload',clr);}
 v.page_window=null;return true;case"mceRemoveEditor":case"mceRemoveControl":if(ed)
-ed.remove();return true;case'mceToggleEditor':alert("Tacky2");if(!ed){t.execCommand('mceAddControl',0,v);return true;}
+ed.remove();return true;case'mceToggleEditor':if(!ed){t.execCommand('mceAddControl',0,v);return true;}
 if(ed.isHidden())
 ed.show();else
 ed.hide();return true;}
