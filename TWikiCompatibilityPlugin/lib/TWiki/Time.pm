@@ -11,7 +11,7 @@ use vars qw( @ISOMONTH @WEEKDAY @MONTHLENS %MON2NUM );
 @ISOMONTH  = @Foswiki::Time::ISOMONTH;
 @WEEKDAY   = @Foswiki::Time::WEEKDAY;
 @MONTHLENS = @Foswiki::Time::MONTHLENS;
-@MON2NUM   = @Foswiki::Time::MON2NUM;
+%MON2NUM   = %Foswiki::Time::MON2NUM;
 
 sub parseTime      { Foswiki::Time::parseTime(@_) }
 sub formatTime     { Foswiki::Time::formatTime(@_) }
