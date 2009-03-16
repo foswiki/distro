@@ -665,4 +665,66 @@ sub test_leaseReleasemeLetMeGo {
     $this->assert_null($lease, $lease);
 }
 
+sub test_renameWeb_1307 {
+    my $this = shift;
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, "$this->{test_web}/Renamedweb" );
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, "$this->{test_web}/Renamedweb/Subweb" );
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, "$this->{test_web}/Notrenamedweb" );
+
+    my $vue = "$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, "$this->{test_web}/Notrenamedweb",
+        'ReferringTopic',
+        <<CONTENT );
+$this->{test_web}.Renamedweb.Subweb
+$this->{test_web}/Renamedweb/Subweb
+$this->{test_web}.Notrenamedweb.Subweb
+$this->{test_web}/Notrenamedweb/Subweb
+$vue/$this->{test_web}/Renamedweb/WebHome
+$vue/$this->{test_web}/Renamedweb/SubwebWebHome
+CONTENT
+
+    my $query = new Unit::Request(
+        {
+            action   => 'renameweb',
+            newparentweb => "$this->{test_web}/Notrenamedweb",
+            newsubweb => "Renamedweb",
+            referring_topics => [ "$this->{test_web}/Notrenamedweb/ReferringTopic" ],
+        }
+       );
+    $query->path_info("/$this->{test_web}/Renamedweb/WebHome");
+
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+    my ($text, $exit) = $this->capture( \&Foswiki::UI::Manage::rename, $this->{twiki} );
+    $this->assert(!$exit);
+    $this->assert(Foswiki::Func::webExists("$this->{test_web}/Notrenamedweb/Renamedweb"));
+    $this->assert(!Foswiki::Func::webExists("$this->{test_web}/Renamedweb"));
+    my ($me, $te) = Foswiki::Func::readTopic(
+        "$this->{test_web}/Notrenamedweb", 'ReferringTopic' );
+    my @lines = split(/\n/, $te);
+    $this->assert_str_equals(
+        "$this->{test_web}/Notrenamedweb/Renamedweb.Subweb",
+        $lines[0]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Notrenamedweb/Renamedweb/Subweb",
+        $lines[1]);
+    $this->assert_str_equals(
+        "$this->{test_web}.Notrenamedweb.Subweb",
+        $lines[2]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Notrenamedweb/Subweb",
+        $lines[3]);
+    $this->assert_str_equals(
+        "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/WebHome",
+        $lines[4]);
+ $this->assert_str_equals(
+     "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/SubwebWebHome",
+     $lines[5]);
+}
+
 1;
