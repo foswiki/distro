@@ -350,7 +350,6 @@ sub _action_editSettings {
     $tmpl =~ s/%ORIGINALREV%/$info->{version}/g;
 
     $session->writeCompletePage($tmpl);
-
 }
 
 sub _action_saveSettings {
@@ -361,20 +360,19 @@ sub _action_saveSettings {
 
     # set up editing session
     require Foswiki::Meta;
-    my $currTopicObject = Foswiki::Meta->load( $session, $web, $topic );
-    my $newTopicObject = Foswiki::Meta->new( $session, $web, $topic );
-    $newTopicObject->copyFrom($currTopicObject);
+    my $newTopicObject = Foswiki::Meta->load( $session, $web, $topic );
 
     my $query       = $session->{request};
     my $settings    = $query->param('text');
     my $originalrev = $query->param('originalrev');
 
     $newTopicObject->remove('PREFERENCE');    # delete previous settings
-     # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires use in code
-     # that parses multiline settings line by line.
+    # Note: $Foswiki::regex{setVarRegex} cannot be used as it requires
+    # use in code that parses multiline settings line by line.
     $settings =~
-s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
-       (_handleSave($web, $topic, $1, $2, $3, $newTopicObject))mgeo;
+      s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
+        (_parsePreferenceValue($newTopicObject, $1, $2, $3))mgeo;
+
 
     my $saveOpts = {};
     $saveOpts->{minor}            = 1;    # don't notify
@@ -388,6 +386,8 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
         if (   $info->{version} ne $originalrev
             && $info->{author} ne $session->{user} )
         {
+            my $currTopicObject = Foswiki::Meta->load(
+                $session, $web, $topic );
             $newTopicObject->merge($currTopicObject);
         }
     }
@@ -411,8 +411,8 @@ s(^(?:\t|   )+\*\s+(Set|Local)\s+($Foswiki::regex{tagNameRegex})\s*=\s*?(.*)$)
     $session->redirect( $session->redirectto($viewURL) );
 }
 
-sub _handleSave {
-    my ( $web, $topic, $type, $name, $value, $meta ) = @_;
+sub _parsePreferenceValue {
+    my ( $topicObject, $type, $name, $value ) = @_;
 
     $value =~ s/^\s*(.*?)\s*$/$1/ge;
 
@@ -422,7 +422,7 @@ sub _handleSave {
         value => $value,
         type  => $type
     };
-    $meta->putKeyed( 'PREFERENCE', $args );
+    $topicObject->putKeyed( 'PREFERENCE', $args );
     return '';
 }
 
