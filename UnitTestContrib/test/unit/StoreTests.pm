@@ -57,7 +57,7 @@ sub tear_down {
     $this->SUPER::tear_down();
 }
 
-#===============================================================================
+#============================================================================
 # tests
 sub test_CreateEmptyWeb {
     my $this = shift;
@@ -77,9 +77,12 @@ sub test_CreateWeb {
 
 #create a web using _default
 #TODO how should this fail if we are testing a store impl that does not have a _deault web ?
-    Foswiki::Func::createWeb( $web, '_default' );
-    $this->assert( $this->{session}->webExists($web) );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->populateNewWeb('_default', { WEBBGCOLOR => 'SITEMAPLIST' });
+    $this->assert( $this->{session}->webExists($web) );
+    $this->assert_equals('SITEMAPLIST',
+                         $webObject->getPreference('WEBBGCOLOR'));
+    $this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
     my $it        = $webObject->eachTopic();
     my @topics    = $it->all();
     $webObject->removeFromStore();

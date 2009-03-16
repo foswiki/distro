@@ -332,8 +332,8 @@ sub populateNewWeb {
         while ( $it->hasNext() ) {
             my $topic = $it->next();
             next unless ( $templateWeb =~ /^_/ || $topic =~ /^Web/ );
-            my $topicObject =
-              Foswiki::Meta->new( $this->{_session}, $templateWeb, $topic );
+            my $topicObject = Foswiki::Meta->load(
+                $this->{_session}, $templateWeb, $topic );
             $topicObject->saveAs( $this->{_web}, $topic );
         }
     }
@@ -360,7 +360,7 @@ sub populateNewWeb {
           Foswiki::Meta->load( $this->{_session}, $this->{_web},
             $Foswiki::cfg{WebPrefsTopicName} );
         my $text = $prefsTopicObject->text;
-        foreach my $key (%$opts) {
+        foreach my $key (keys %$opts) {
             $text =~
               s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm;
         }
