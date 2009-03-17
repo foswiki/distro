@@ -81,7 +81,7 @@ Init variables again. If called from INCLUDE this is the first time we init
 
 =cut
 
-sub initInIncludedTopic {
+sub initIncludedTopic {
     $preSp = '' unless $preSp;
     getPreferencesValues();
 }
