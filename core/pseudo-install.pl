@@ -80,7 +80,7 @@ sub usage {
     
     check out a new trunk, create a default LocalSite.cfg, install and enable
     all the plugins for the default distribution (and then run the unit tests)
-        svn co http://svn.fosiki.org/trunk
+        svn co http://svn.foswiki.org/trunk
         cd trunk/core
         ./pseudo-install -A developer
         cd test/unit

@@ -1767,8 +1767,8 @@ sub logEvent {
     my $user     = shift;
 
     return
-      if ( defined $Fosiki::cfg{Log}{$action}
-        && !$Fosiki::cfg{Log}{$action} );
+      if ( defined $Foswiki::cfg{Log}{$action}
+        && !$Foswiki::cfg{Log}{$action} );
 
     $user ||= $this->{user};
     $user = ( $this->{users}->getLoginName($user) || 'unknown' )
