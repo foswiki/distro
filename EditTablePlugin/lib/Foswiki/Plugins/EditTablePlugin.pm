@@ -110,7 +110,7 @@ sub commonTagsHandler {
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;
 
-    Foswiki::Plugins::EditTablePlugin::Core::initInIncludedTopic();
+    Foswiki::Plugins::EditTablePlugin::Core::initIncludedTopic();
     Foswiki::Plugins::EditTablePlugin::Core::parseTables( $_[0], $_[1], $_[2] );
     Foswiki::Plugins::EditTablePlugin::Core::process( $_[0], $_[1], $_[2],
         $topic, $web );
