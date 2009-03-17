@@ -248,6 +248,9 @@ sub getPreference {
     my ( $this, $key ) = @_;
     my $scope;
 
+    unless ($this->{_web} && $this->{_topic}) {
+        return $this->{_session}->{prefs}->getPreference($key);
+    }
     # make sure the preferences are parsed and cached
     unless ( $this->{_preferences} ) {
         $this->{_preferences} =
@@ -1117,8 +1120,7 @@ sub haveAccess {
     my $session = $this->{_session};
     undef $reason;
 
-    print STDERR "Check $mode access $cUID to ",
-      ( $this->{_web} || 'undef' ), '.', ( $this->{_topic} || 'undef' ), "\n"
+    print STDERR "Check $mode access $cUID to ".$this->getPath()."\n"
       if MONITOR_ACLS;
 
     # super admin is always allowed
@@ -1199,6 +1201,7 @@ sub haveAccess {
 
         # No web, we are checking at the root. Check DENYROOT and ALLOWROOT.
         $denyText = $this->getPreference( 'DENYROOT' . $mode );
+
         if ( defined($denyText)
             && $session->{users}->isInList( $cUID, $denyText ) )
         {

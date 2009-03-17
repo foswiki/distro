@@ -17,6 +17,8 @@ use Error qw(:try);
 use Foswiki::UI     ();
 use Foswiki::Render ();
 
+our $MARKER = "\02\03";
+
 =begin TML
 
 ---++ StaticMethod rename( $session )
@@ -459,6 +461,7 @@ sub _renameWeb {
         _leaseContents( $session, $info, $oldWebObject->web, $confirm );
         while ( $it->hasNext() ) {
             my $subweb = $it->next();
+            require Foswiki::WebFilter;
             next unless $Foswiki::WebFilter::public->ok( $session, $subweb );
             _leaseContents( $session, $info,
                             $oldWebObject->web . '/' . $subweb, $confirm );
@@ -595,6 +598,7 @@ sub _renameWeb {
     _releaseContents( $session, $newWeb );
     while ( $it->hasNext() ) {
         my $subweb = $it->next();
+        require Foswiki::WebFilter;
         next unless $Foswiki::WebFilter::public->ok( $session, $subweb );
         _releaseContents( $session, "$newWeb/$subweb" );
     }
@@ -818,10 +822,10 @@ sub _replaceTopicReferences {
 sub _doReplace {
     my ( $match, $web, $repl ) = @_;
 
-    # Bugs:Item4661 If there is a web defined in the match, then
+    # TWikibug:Item4661 If there is a web defined in the match, then
     # make sure there's a web defined in the replacement.
     if ( $match =~ /\./ && $repl !~ /\./ ) {
-        $repl = "$web.$repl";
+        $repl = $web . '.' . $repl;
     }
     return $repl;
 }
@@ -838,17 +842,24 @@ sub _replaceWebReferences {
 
     ASSERT( defined $args->{oldWeb} ) if DEBUG;
     ASSERT( defined $args->{newWeb} ) if DEBUG;
+    ASSERT( $text !~ /$MARKER/ ) if DEBUG;
 
     my $newWeb = $args->{newWeb};
     my $oldWeb = $args->{oldWeb};
 
     return $text if $oldWeb eq $newWeb;
 
+    # Replace stand-alone web references with $MARKER, to
+    # prevent matching $newWeb as a URL fragment in the second RE
     my $re = Foswiki::Render::getReferenceRE( $oldWeb, undef );
-    $text =~ s/$re/$newWeb$1/g;
+    $text =~ s/$re/$MARKER$1/g;
 
+    # Now do URLs.
     $re = Foswiki::Render::getReferenceRE( $oldWeb, undef, url => 1 );
     $text =~ s#$re#/$newWeb/#g;
+
+    # Finally do the marker.
+    $text =~ s/$MARKER/$newWeb/g;
 
     return $text;
 }

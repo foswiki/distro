@@ -18,7 +18,10 @@ sub new {
     return $self;
 }
 
-# Set up the test fixture
+# Set up the test fixture. The idea behind the tests is to populate a
+# set of strategically-selected topics with text that contains all the
+# relevant reference syntaxes. Then after each different type of rename,
+# we can check that those references have been redirected appropriately.
 sub set_up {
     my $this = shift;
 
@@ -35,6 +38,7 @@ sub set_up {
     $webObject->populateNewWeb();
     $Foswiki::Plugins::SESSION = $this->{session};
 
+    # Topic text that contains all the different kinds of topic reference
     my $originaltext = <<THIS;
 1 $this->{test_web}.OldTopic
 $this->{test_web}.OldTopic 2
@@ -67,10 +71,11 @@ protected $this->{test_web}.OldTopic
 </noautolink>
 THIS
 
+    # Strategically-selected set of identical topics in the test web
     foreach my $topic ( 'OldTopic', 'OtherTopic', 'random', 'Random', 'ranDom' )
     {
-        my $meta =
-          Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic );
+        my $meta = Foswiki::Meta->new(
+            $this->{session}, $this->{test_web}, $topic, $originaltext );
         $meta->putKeyed(
             'FIELD',
             {
@@ -107,14 +112,12 @@ THIS
             }
         );
         $meta->put( "TOPICPARENT", { name => "$this->{test_web}.OldTopic" } );
-        $meta =
-          Foswiki::Meta->new( $this->{session}, $this->{test_web}, $topic,
-            $originaltext, $meta );
         $meta->save();
     }
 
-    my $meta =
-      Foswiki::Meta->new( $this->{session}, $this->{new_web}, 'OtherTopic' );
+    # Topic in the new web
+    my $meta = Foswiki::Meta->new(
+        $this->{session}, $this->{new_web}, 'OtherTopic', $originaltext );
     $meta->putKeyed(
         'FIELD',
         {
@@ -151,7 +154,6 @@ THIS
         }
     );
     $meta->put( "TOPICPARENT", { name => "$this->{test_web}.OldTopic" } );
-    $meta->text($originaltext);
     $meta->save();
 
     my $topicObject =
@@ -163,6 +165,8 @@ THIS
 sub tear_down {
     my $this = shift;
     $this->removeWebFixture( $this->{session}, $this->{new_web} );
+    $this->removeWebFixture( $this->{session}, "Renamedweb$this->{test_web}")
+      if ($this->{session}->webExists("Renamedweb$this->{test_web}"));
     $this->SUPER::tear_down();
 }
 
@@ -299,7 +303,7 @@ THIS
 # Warning; this is a bit of a lottery, as you might have webs that refer
 # to the topic outside the test set. For this reason the test is forgiving
 # if a ref outside of the test webs is found.
-sub test_referringTopicsAllWebs {
+sub test_renameTopic_find_referring_topics_in_all_webs {
     my $this = shift;
     my $ott  = 'Old Topic';
     my $lott = lc($ott);
@@ -354,7 +358,7 @@ THIS
 }
 
 # Test references to a topic in this web, where the topic is not a wikiword
-sub test_referringTopicsNotAWikiWord {
+sub test_renameTopic_find_referring_topics_when_renamed_topic_is_not_a_WikiWord {
     my $this = shift;
     my $ott  = 'ranDom';
     my $lott = lc($ott);
@@ -437,7 +441,7 @@ THIS
 }
 
 # Rename OldTopic to NewTopic within the same web
-sub test_rename_oldwebnewtopic {
+sub test_renameTopic_same_web_new_topic_name {
     my $this  = shift;
     my $query = new Unit::Request(
         {
@@ -561,7 +565,7 @@ THIS
 }
 
 # Rename OldTopic to a different web, keeping the same topic name
-sub test_rename_newweboldtopic {
+sub test_renameTopic_new_web_same_topic_name {
     my $this  = shift;
     my $query = new Unit::Request(
         {
@@ -689,7 +693,7 @@ THIS
 #    * New script is view, not oops
 #    * New topic name is changed
 #    * In the new topic, the initial letter is changed to upper case
-sub test_rename_from_lowercase {
+sub test_renameTopic_with_lowercase_first_letter {
     my $this      = shift;
     my $topictext = <<THIS;
 One lowercase
@@ -726,7 +730,7 @@ Twolowercase
 THIS
 }
 
-sub test_accessRenameRestrictedTopic {
+sub test_renameTopic_TOPICRENAME_access_denied {
     my $this      = shift;
     my $topictext = "   * Set ALLOWTOPICRENAME = GungaDin\n";
     my $topicObject =
@@ -760,7 +764,7 @@ sub test_accessRenameRestrictedTopic {
     }
 }
 
-sub test_accessRenameRestrictedWeb {
+sub test_renameTopic_WEBRENAME_access_denied {
     my $this      = shift;
     my $topictext = "   * Set ALLOWWEBRENAME = GungaDin\n";
     my $topicObject =
@@ -795,7 +799,7 @@ sub test_accessRenameRestrictedWeb {
 }
 
 # Purpose: verify that leases are removed when a topic is renamed
-sub test_leaseReleaseMeLetMeGo {
+sub test_renameTopic_ensure_leases_are_released {
     my $this = shift;
 
     # Grab a lease
@@ -846,6 +850,140 @@ sub test_makeSafeTopicName {
         print("expected=$expected.\n") if $debug;
         $this->assert( $result eq $expected );
     }
+}
+
+# Move a subweb, ensuring that static links to that subweb are re-pointed
+sub test_renameWeb_1307a {
+    my $this = shift;
+    my $m = Foswiki::Meta->new( $this->{session},
+                                "$this->{test_web}/Renamedweb" );
+    $m->populateNewWeb();
+    $m = Foswiki::Meta->new( $this->{session},
+                                "$this->{test_web}/Renamedweb/Subweb" );
+    $m->populateNewWeb();
+    $m = Foswiki::Meta->new( $this->{session},
+                                "$this->{test_web}/Notrenamedweb" );
+    $m->populateNewWeb();
+    my $vue = "$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+    $m = Foswiki::Meta->new( 
+        $this->{session}, "$this->{test_web}/Notrenamedweb",
+        'ReferringTopic', <<CONTENT );
+$this->{test_web}.Renamedweb.Subweb
+$this->{test_web}/Renamedweb/Subweb
+$this->{test_web}.Notrenamedweb.Subweb
+$this->{test_web}/Notrenamedweb/Subweb
+$vue/$this->{test_web}/Renamedweb/WebHome
+$vue/$this->{test_web}/Renamedweb/SubwebWebHome
+CONTENT
+    $m->save();
+
+    my $query = new Unit::Request(
+        {
+            action   => 'renameweb',
+            newparentweb => "$this->{test_web}/Notrenamedweb",
+            newsubweb => "Renamedweb",
+            referring_topics => [ $m->getPath() ],
+        }
+    );
+    $query->path_info("/$this->{test_web}/Renamedweb/WebHome");
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text, $exit) = $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(!$exit);
+    $this->assert(Foswiki::Func::webExists(
+        "$this->{test_web}/Notrenamedweb/Renamedweb"));
+    $this->assert(!Foswiki::Func::webExists(
+        "$this->{test_web}/Renamedweb"));
+    $m = Foswiki::Meta->load(
+        $this->{session}, "$this->{test_web}/Notrenamedweb",
+        'ReferringTopic' );
+    my @lines = split(/\n/, $m->text());
+    $this->assert_str_equals(
+        "$this->{test_web}/Notrenamedweb/Renamedweb.Subweb", $lines[0]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Notrenamedweb/Renamedweb/Subweb", $lines[1]);
+    $this->assert_str_equals(
+        "$this->{test_web}.Notrenamedweb.Subweb", $lines[2]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Notrenamedweb/Subweb", $lines[3]);
+    $this->assert_str_equals(
+        "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/WebHome", $lines[4]);
+    $this->assert_str_equals(
+        "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/SubwebWebHome",
+        $lines[5]);
+}
+
+# Move a root web, ensuring that static links are re-pointed
+sub test_renameWeb_1307b {
+    my $this = shift;
+    my $m = Foswiki::Meta->new( $this->{session},
+                                "Renamed$this->{test_web}" );
+    $m->populateNewWeb();
+    $m = Foswiki::Meta->new( $this->{session},
+                                "Renamed$this->{test_web}/Subweb" );
+    $m->populateNewWeb();
+    $m = Foswiki::Meta->new( $this->{session},
+                                "$this->{test_web}" );
+    $m->populateNewWeb();
+    my $vue = "$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+    $m = Foswiki::Meta->new(
+        $this->{session}, "$this->{test_web}",
+        'ReferringTopic', <<CONTENT );
+Renamed$this->{test_web}.Subweb
+Renamed$this->{test_web}/Subweb
+$this->{test_web}.Subweb
+$this->{test_web}/Subweb
+$vue/Renamed$this->{test_web}/WebHome
+$vue/Renamed$this->{test_web}/SubwebWebHome
+CONTENT
+    $m->save();
+
+    # need rename access on the root for this one, which is a bit of a
+    # faff to set up, so we'll cheat a bit and add the user to the admin
+    # group. Fortunately we have a private users web.
+    my $grope = Foswiki::Meta->new(
+        $this->{session},
+        $this->{users_web},
+        $Foswiki::cfg{SuperAdminGroup}, <<EOF);
+   * Set GROUP = $this->{test_user_wikiname}
+EOF
+   $grope->save();
+
+    my $query = new Unit::Request(
+        {
+            action   => 'renameweb',
+            newparentweb => $this->{test_web},
+            newsubweb => "Renamed$this->{test_web}",
+            referring_topics => [ $m->getPath() ],
+        }
+    );
+    $query->path_info("/Renamed$this->{test_web}/WebHome");
+
+    $this->{session}->finish();
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text, $exit) = $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert(!$exit);
+    $this->assert(Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}"));
+    $this->assert(!Foswiki::Func::webExists("Renamed$this->{test_web}"));
+    $m = Foswiki::Meta->load(
+        $this->{session}, "$this->{test_web}",
+        'ReferringTopic' );
+    my @lines = split(/\n/, $m->text());
+    $this->assert_str_equals(
+        "$this->{test_web}/Renamed$this->{test_web}.Subweb", $lines[0]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Renamed$this->{test_web}/Subweb", $lines[1]);
+    $this->assert_str_equals(
+        "$this->{test_web}.Subweb", $lines[2]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Subweb", $lines[3]);
+    $this->assert_str_equals(
+        "$vue/$this->{test_web}/Renamed$this->{test_web}/WebHome", $lines[4]);
+    $this->assert_str_equals(
+        "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome", $lines[5]);
 }
 
 1;
