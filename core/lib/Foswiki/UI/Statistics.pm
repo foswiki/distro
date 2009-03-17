@@ -355,7 +355,7 @@ sub _processWeb {
     # DEBUG
     # $statsTopic = 'TestStatistics';		# Create this by hand
     my $meta = Foswiki::Meta->load( $session, $web, $statsTopic );
-    Fosiki::UI::checkAccess( $session, 'CHANGE', $meta );
+    Foswiki::UI::checkAccess( $session, 'CHANGE', $meta );
     my @lines = split( /\r?\n/, $meta->text );
     my $statLine;
     my $idxStat = -1;
