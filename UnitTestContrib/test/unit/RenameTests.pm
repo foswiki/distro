@@ -109,6 +109,8 @@ THIS
 sub tear_down {
     my $this = shift;
     $this->removeWebFixture($this->{twiki},$this->{new_web});
+    $this->removeWebFixture($this->{twiki},"Renamed$this->{new_web}")
+      if ($this->{twiki}->{store}->webExists("Renamed$this->{new_web}"));
     $this->SUPER::tear_down();
 }
 
@@ -665,7 +667,7 @@ sub test_leaseReleasemeLetMeGo {
     $this->assert_null($lease, $lease);
 }
 
-sub test_renameWeb_1307 {
+sub test_renameWeb_1307a {
     my $this = shift;
     $this->{twiki}->{store}->createWeb(
         $this->{twiki}->{user}, "$this->{test_web}/Renamedweb" );
@@ -724,6 +726,80 @@ CONTENT
         $lines[4]);
  $this->assert_str_equals(
      "$vue/$this->{test_web}/Notrenamedweb/Renamedweb/SubwebWebHome",
+     $lines[5]);
+}
+
+sub test_renameWeb_1307b {
+    my $this = shift;
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, "Renamed$this->{test_web}" );
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, "Renamed$this->{test_web}/Subweb" );
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, "$this->{test_web}" );
+    my $vue = "$Foswiki::cfg{DefaultUrlHost}/$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}";
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, "$this->{test_web}",
+        'ReferringTopic',
+        <<CONTENT );
+Renamed$this->{test_web}.Subweb
+Renamed$this->{test_web}/Subweb
+$this->{test_web}.Subweb
+$this->{test_web}/Subweb
+$vue/Renamed$this->{test_web}/WebHome
+$vue/Renamed$this->{test_web}/SubwebWebHome
+CONTENT
+
+    # need rename access on the root for this one, which is a bit of a
+    # faff to set up, so we'll cheat a bit and add the user to the admin
+    # group. Fortunately we have a private users web.
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user},
+        $this->{users_web},
+        $Foswiki::cfg{SuperAdminGroup}, <<EOF);
+   * Set GROUP = $this->{test_user_wikiname}
+EOF
+
+    my $query = new Unit::Request(
+        {
+            action   => 'renameweb',
+            newparentweb => $this->{test_web},
+            newsubweb => "Renamed$this->{test_web}",
+            referring_topics => [ "$this->{test_web}/ReferringTopic" ],
+        }
+       );
+    $query->path_info("/Renamed$this->{test_web}/WebHome");
+
+    $this->{twiki}->finish();
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{twiki};
+
+    my ($text, $exit) = $this->capture(
+        \&Foswiki::UI::Manage::rename, $this->{twiki} );
+
+    $this->assert(!$exit);
+    $this->assert(Foswiki::Func::webExists("$this->{test_web}/Renamed$this->{test_web}"));
+    $this->assert(!Foswiki::Func::webExists("Renamed$this->{test_web}"));
+    my ($me, $te) = Foswiki::Func::readTopic(
+        "$this->{test_web}", 'ReferringTopic' );
+    my @lines = split(/\n/, $te);
+    $this->assert_str_equals(
+        "$this->{test_web}/Renamed$this->{test_web}.Subweb",
+        $lines[0]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Renamed$this->{test_web}/Subweb",
+        $lines[1]);
+    $this->assert_str_equals(
+        "$this->{test_web}.Subweb",
+        $lines[2]);
+    $this->assert_str_equals(
+        "$this->{test_web}/Subweb",
+        $lines[3]);
+    $this->assert_str_equals(
+        "$vue/$this->{test_web}/Renamed$this->{test_web}/WebHome",
+        $lines[4]);
+ $this->assert_str_equals(
+     "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome",
      $lines[5]);
 }
 

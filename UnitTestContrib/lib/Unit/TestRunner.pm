@@ -48,7 +48,7 @@ sub start {
                 try {
                     $tester->$test();
                     $passes++;
-                } catch Error::Simple with {
+                } catch Error with {
                     my $e = shift;
                     print "*** ",$e->stringify(),"\n";
                     if ($tester->{expect_failure}) {

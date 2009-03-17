@@ -37,6 +37,9 @@ my $SUMMARYLINES = 6;
 my $STARTWW = qr/^|(?<=[\s\(])/m;
 my $ENDWW   = qr/$|(?=[\s,.;:!?)])/m;
 
+# General purpose marker
+my $MARKER = "\02\03";
+
 # marker used to tage the start of a table
 my $TABLEMARKER = "\0\1\2TABLE\2\1\0";
 
@@ -2231,11 +2234,13 @@ sub replaceWebReferences {
 
     my $re = getReferenceRE( $oldWeb, undef );
 
-    $text =~ s/$re/$newWeb$1/g;
+    $text =~ s/$re/$MARKER$1/g;
 
     $re = getReferenceRE( $oldWeb, undef, url => 1 );
 
     $text =~ s#$re#/$newWeb/#g;
+
+    $text =~ s/$MARKER/$newWeb/g;
 
     return $text;
 }
