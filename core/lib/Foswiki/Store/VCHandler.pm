@@ -254,7 +254,8 @@ Return a topic list, e.g. =( 'WebChanges',  'WebHome', 'WebIndex', 'WebNotify' )
 sub getTopicNames {
     my $this = shift;
 
-    opendir DIR, $Foswiki::cfg{DataDir} . '/' . $this->{web};
+    opendir DIR, $Foswiki::cfg{DataDir} . '/' . $this->{web}
+      or return ();
 
     # the name filter is used to ensure we don't return filenames
     # that contain illegal characters as topic names.
