@@ -82,11 +82,7 @@ Init variables again. If called from INCLUDE this is the first time we init
 =cut
 
 sub reinit {
-    $preSp                      = '' unless $preSp;
-    %params                     = () unless %params;
-    @format                     = () unless @format;
-    @formatExpanded             = () unless @formatExpanded;
-
+    $preSp = '' unless $preSp;
     getPreferencesValues();
 }
 
