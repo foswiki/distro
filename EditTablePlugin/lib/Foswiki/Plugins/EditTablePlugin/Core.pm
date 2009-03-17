@@ -81,7 +81,7 @@ Init variables again. If called from INCLUDE this is the first time we init
 
 =cut
 
-sub reinit {
+sub initInIncludedTopic {
     $preSp = '' unless $preSp;
     getPreferencesValues();
 }
@@ -607,6 +607,8 @@ s/$PATTERN_TABLE_ROW/handleTableRow( $1, $2, $tableNr, $isNewRow, $rowNr, $doEdi
 
 =begin TML
 
+Read preferences from plugin topic of preferences.
+
 =cut
 
 sub getPreferencesValues {
@@ -638,9 +640,11 @@ sub getPreferencesValues {
     $prefDELETE_LAST_ROW_BUTTON = Foswiki::Func::getPreferencesValue(
         "\U$pluginName\E_DELETE_LAST_ROW_BUTTON")
       || 'Delete last row';
+      
     $prefCANCEL_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_CANCEL_BUTTON")
       || 'Cancel';
+      
     $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST =
       Foswiki::Func::getPreferencesValue(
         "\U$pluginName\E_INCLUDED_TOPIC_DOES_NOT_EXIST")

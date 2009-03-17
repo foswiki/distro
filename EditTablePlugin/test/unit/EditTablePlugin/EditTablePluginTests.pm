@@ -1740,7 +1740,7 @@ THIS
     my $viewUrlAuthTestTopic =
       Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
     my $viewUrlAuthOtherTopic =
-      Foswiki::Func::getScriptUrl( $webName, 'TopicToInclude', 'viewauth' );
+      Foswiki::Func::getScriptUrl( $webName, $includedTopic, 'viewauth' );
     my $pubUrlSystemWeb =
         Foswiki::Func::getUrlHost()
       . Foswiki::Func::getPubUrlPath() . '/'
@@ -1783,6 +1783,59 @@ THIS
 <input type="hidden" name="ettablenr" value="2" />
 <input type="hidden" name="etedit" value="on" />
 <input type="hidden" name="etrows" value="0" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
+</div><!-- /editTable -->
+END
+
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
+    $this->do_testHtmlOutput( $expected, $result, 0 );
+}
+
+=pod
+
+Includes a topic that has an EDITTABLE with param 'include' set: the table definition is in a third topic.
+
+=cut
+
+sub test_INCLUDE_include {
+    my $this = shift;
+
+    # Create topic with talbe definition
+    my $tableDefTopic = "QmsCommentTable";
+    Foswiki::Func::saveTopic( $this->{test_web}, $tableDefTopic, undef, <<THIS);
+%EDITTABLE{ header="|* Section *|* Description *|* Severity *|*  Status *|* Originator & Date *|" format="| text, 10 | textarea, 10x60  | select, 1, Major, Minor, Note | select, 1, Originated, Assessed, Performed, Rejected | text, 20 |" changerows="on" }%
+THIS
+
+    my $includeTopic = "ProcedureSysarch000Comments";
+    Foswiki::Func::saveTopic( $this->{test_web}, $includeTopic, undef, <<THIS);
+%EDITTABLE{ include="QmsCommentTable" }%
+|*Section*|*Description*|*Severity*|*Status*|*Originator & Date*|
+THIS
+
+    # include this in our test topic
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuthTestTopic =
+      Foswiki::Func::getScriptUrl( $webName, $includeTopic, 'viewauth' );
+
+    my $viewUrlAuthOtherTopic =
+      Foswiki::Func::getScriptUrl( $webName, $includeTopic, 'viewauth' );
+
+    my $pubUrlSystemWeb =
+        Foswiki::Func::getUrlHost()
+      . Foswiki::Func::getPubUrlPath() . '/'
+      . $Foswiki::cfg{SystemWebName};
+
+    my $input = '%INCLUDE{"ProcedureSysarch000Comments"}%';
+
+    my $expected = <<END;
+<div class="editTable">
+<form name="edittable1_TemporaryEditTableFunctionsTestWebEditTableFunctions_TestTopicEditTableFunctions" action="$viewUrlAuthTestTopic#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+|*Section*|*Description*|*Severity*|*Status*|*Originator & Date*|
+<input type="hidden" name="etrows" value="1" />
 <input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" /> </form>
 </div><!-- /editTable -->
 END
