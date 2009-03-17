@@ -77,6 +77,21 @@ sub init {
 
 =begin TML
 
+Init variables again. If called from INCLUDE this is the first time we init
+
+=cut
+
+sub reinit {
+    $preSp                      = '' unless $preSp;
+    %params                     = () unless %params;
+    @format                     = () unless @format;
+    @formatExpanded             = () unless @formatExpanded;
+
+    getPreferencesValues();
+}
+
+=begin TML
+
 StaticMethod parseTables($text, $topic, $web)
 
 Read and parse table data once for each topic.
