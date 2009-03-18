@@ -365,6 +365,7 @@ The following Perl !CPAN modules are used by Foswiki:
 | Algorithm::Diff (included with Foswiki) | |
 | CGI | Versions 2.89 and 3.37 must be avoided. Most version from 3.15 and onwards should work. |
 | CGI::Carp | &gt;=1.26 |
+| CGI::Session | &gt;=4.30 (included with Foswiki) Versions 4.20 and before have Foswikibug:1306 |
 | Config | &gt;=0 |
 | Cwd | &gt;=3.05 |
 | Data::Dumper | &gt;=2.121 |
@@ -380,7 +381,7 @@ The following Perl !CPAN modules are used by Foswiki:
 
 You can check version numbers from the command line (replace "ModuleName" with the name of the module):
 
-<pre>perl -e 'use ModuleName; print $ModuleName::VERSION."\n"' </pre>
+<pre>perl -le 'use ModuleName; print "ModuleName"->VERSION' </pre>
 
 ---+++ Optional !CPAN modules
 
@@ -389,7 +390,6 @@ The following Perl modules may be used by Foswiki. See Foswiki:Support.HowToInst
 | *Module* | *Preferred version* | *Description* |
 | Archive::Tar | | May be required by the Extensions Installer in configure if command line tar or unzip is not available |
 | CGI::Cookie | &gt;=1.24 | Used for session support |
-| CGI::Session | &gt;=3.95 | Highly recommended for session support |
 | Digest::base | | |
 | Digest::SHA1 | | |
 | Jcode | | Used for !I18N support with perl 5.6 |
