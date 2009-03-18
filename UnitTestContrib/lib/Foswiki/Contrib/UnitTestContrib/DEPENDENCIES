@@ -5,4 +5,4 @@
 Algorithm::Diff,>=0,cpan,required
 HTML::Entities,>=0,cpan,required
 TestFixturePlugin,>=0,perl,optional, used for semi-automatic test cases (TestCases web)
-Encode,>=2.32,cpan,required
+Encode,>=2.32,cpan,required, other versions may work, but 2.12 is known bad
