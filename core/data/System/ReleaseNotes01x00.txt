@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.4 - 06 Mar 2009
+---+!! Foswiki Release 1.0.4 - 19 Mar 2009
 
 %TOC%
 
@@ -19,7 +19,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.1 was released internally in the development community 23 Feb 2009 but we found a few important bugs that made us decide not to publish it and instead release a 1.0.2. It is a patch release with around 70 bug fixes and only very few minor enhancements.
    * Foswiki 1.0.2 was built 25 Feb 2009 and again we decided to stop the publishing for quality reasons because of one important bug.
    * Foswiki 1.0.3 was built 28 Feb 2009. We decided to stop the publishing because of a severe bug in !EditTablePlugin introduced in 1.0.1 when fixing another bug. 
-   * Foswiki 1.0.4 was built 06 Mar 2009. It is a patch release with more than 90 bug fixes relative to 1.0.0 and only very few minor enhancements.
+   * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 100 bug fixes relative to 1.0.0 and only very few minor enhancements.
 
 ---++ Pre-installed Extensions
 
@@ -472,12 +472,38 @@ None
 ---++ Fixes
 
 <noautolink>
+| [[%BUGS%/Item993][Item993]] | Log is (too) inaccurate |
 | [[%BUGS%/Item1055][Item1055]] | Find More Extensions should compare installed version with latest version |
 | [[%BUGS%/Item1172][Item1172]] | Foswiki::Request::param fails if parameter name is 0 or '' |
 | [[%BUGS%/Item1173][Item1173]] | Javascript error with find more extensions |
 | [[%BUGS%/Item1176][Item1176]] | Search page jumps focus to bottom |
+| [[%BUGS%/Item1177][Item1177]] | configure doesn't install dependencies |
 | [[%BUGS%/Item1184][Item1184]] | CALC inside table is not working |
-| [[%BUGS%/Item1189][Item1189]] | Typo !PatternSkinCustomization |
+| [[%BUGS%/Item1189][Item1189]] | typo !PatternSkinCustomization |
+| [[%BUGS%/Item1197][Item1197]] | configure extension installer fails with taint error |
+| [[%BUGS%/Item1198][Item1198]] | configure extension installer reports all extension rev numbers wrong |
+| [[%BUGS%/Item1212][Item1212]] | save from preview does not work |
+| [[%BUGS%/Item1214][Item1214]] | Add 'px' if no size unit is passed |
+| [[%BUGS%/Item1217][Item1217]] | PatternSkinCssCookbookNoLeftBar advice could be a little more useful |
+| [[%BUGS%/Item1221][Item1221]] | EditTablePlugin cannot read a TABLE tag with macros |
+| [[%BUGS%/Item1227][Item1227]] | !PermittedRedirectHostUrls don't show up in the configure web page |
+| [[%BUGS%/Item1236][Item1236]] | foswiki has problems with "special" characters in usernames (e.g. +) |
+| [[%BUGS%/Item1242][Item1242]] | EditTablePlugin cannot move rows correctly when we have footerrows |
+| [[%BUGS%/Item1267][Item1267]] | statistics cronjob does not work |
+| [[%BUGS%/Item1268][Item1268]] | EditTablePlugin javascript does not save the changes in the last row of a table |
+| [[%BUGS%/Item1274][Item1274]] | admin tools topic should list WikiGroups topic. |
+| [[%BUGS%/Item1276][Item1276]] | Setting new parent for a normal web seems to fail |
+| [[%BUGS%/Item1281][Item1281]] | initial configure advice on creating admin user could be a little more direct |
+| [[%BUGS%/Item1292][Item1292]] | !EditTablePlugin puts line between EDITTABLE and TABLE with search results |
+| [[%BUGS%/Item1293][Item1293]] | PurePerl SEARCH crashes on distributed topic  |
+| [[%BUGS%/Item1299][Item1299]] | Moving a web or single topic does not corrently update links in topics |
+| [[%BUGS%/Item1300][Item1300]] | Foswiki::Store::createWeb uses hash values as keys when changing WebPreferences |
+| [[%BUGS%/Item1306][Item1306]] | When your IP address changes after authentication you cannot reauthenticate and server may crash |
+| [[%BUGS%/Item1307][Item1307]] | Moving a web does not correctly update links to the moved web |
+| [[%BUGS%/Item1308][Item1308]] | EditTablePlugin has problems with included topics with included edittable definition |
+| [[%BUGS%/Item1316][Item1316]] | Disable IP Matching by default to avoid problems for people moving between LAN and WLAN or using load share gateways |
+| [[%BUGS%/Item8055][Item8055]] | Adding TWiki::ListIterator and TWiki::LineIterator to TWikiCompatibilityPlugin |
+| [[%BUGS%/Item8072][Item8072]] | Error in Bridge between TWiki::Time and Foswiki::Time   |
 </noautolink>
 
 ---++ Enhancements
