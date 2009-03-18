@@ -283,13 +283,18 @@ $Foswiki::cfg{Sessions}{ExpireCookiesAfter} = 0;
 $Foswiki::cfg{Sessions}{IDsInURLs} = 0;
 
 # **BOOLEAN EXPERT**
-# It's important to check that the user trying to use a session is the
-# same user who originally created the session. Foswiki does this by making
-# sure, before initializing a previously stored session, that the IP
-# address stored in the session matches the IP address of the user asking
-# for that session. Turn this off if a client IP address may change during
-# the lifetime of a session (unlikely)
-$Foswiki::cfg{Sessions}{UseIPMatching} = 1;
+# It is possible to enable a check that the user trying to use a session
+# is on the same IP address that was used when the session was created.
+# This gives a small increase in security. Public web sites can easily be
+# accessed by different users from the same IP address when they access
+# through the same proxy gateway, meaning that the protection is limited.
+# Additionally people get more and more mobile using a mix of LAN, WLAN, 
+# and 3G modems and they will often change IP address several times per day.
+# For these users IP matching causes the need to re-authenticate all the time.
+# IP matching is therefore disabled by default and should only be enabled if
+# you are sure the users IP address never changes during the lifetime of a
+# session.
+$Foswiki::cfg{Sessions}{UseIPMatching} = 0;
 
 # **BOOLEAN EXPERT**
 # For compatibility with older versions, Foswiki supports the mapping of the
