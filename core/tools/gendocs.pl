@@ -47,7 +47,7 @@ find( \&eachfile, ( $Config->{root}.'/lib' ));
 
 open(F, ">$Config->{root}/data/Foswiki/SourceCode.txt") or die $!;
 print F <<__TOPIC__;
----+!! TWiki Source Code Packages
+---+!! Foswiki Source Code Packages
 
 %X% This documentation is automatically generated from the =pod=, so it always matches the running code
 
