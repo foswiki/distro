@@ -306,14 +306,6 @@ sub stage_gendocs {
     $this->cp( "$this->{tmpDir}/AUTHORS",
         "$this->{tmpDir}/pub/System/ProjectContributor/AUTHORS" );
 
-    for my $script qw( view rdiff ) {
-        $this->cp(
-            "$this->{tmpDir}/bin/$script",
-            "$this->{tmpDir}/bin/${script}auth"
-        );
-        $this->prot( "0555", "$this->{tmpDir}/bin/${script}auth" );
-    }
-
 #SMELL: these should probably abort the build if they return errors / oopies
 #replaced by the simpler INSTALL.html
 #    print `cd $this->{basedir}/bin ; ./view System.CompleteDocumentation skin plain | $this->{basedir}/tools/fix_local_links.pl > $this->{tmpDir}/CompleteDocumentation.html`;
