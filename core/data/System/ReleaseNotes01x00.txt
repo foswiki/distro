@@ -159,6 +159,7 @@ Fixed 70 bugs since Foswiki 1.0.0. Quite many of these are bugs that originate f
    * Fixed a bug related to RcsLite corrupting topic history
    * Enhanced the user interface of configure
    * Added approx. 30 more bugs to the list of bugs fixed in 1.0.0 that we missed in the 1.0.0 version of these release notes.
+   * Foswiki ships with {Sessions}{UseIPMatching} disabled by default now because the problems are getting bigger than the minimal security it gives
 
 See full list of fixed bugs below.
 
