@@ -1,6 +1,6 @@
 package CGI::Session::Driver;
 
-# $Id: Driver.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: Driver.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 #use diagnostics;
@@ -8,7 +8,7 @@ use strict;
 use Carp;
 use CGI::Session::ErrorHandler;
 
-$CGI::Session::Driver::VERSION = "4.20";
+$CGI::Session::Driver::VERSION = '4.38';
 @CGI::Session::Driver::ISA     = qw(CGI::Session::ErrorHandler);
 
 sub new {
@@ -17,6 +17,20 @@ sub new {
 
     unless ( ref $args ) {
         croak "$class->new(): Invalid argument type passed to driver";
+    }
+
+    # Set defaults.
+
+    if (! $args->{TableName}) {
+        $args->{TableName} = 'sessions';
+    }
+
+    if (! $args->{IdColName}) {
+        $args->{IdColName} = 'id';
+    }
+
+    if (! $args->{DataColName}) {
+        $args->{DataColName} = 'a_session';
     }
 
     # perform a shallow copy of $args, to prevent modification

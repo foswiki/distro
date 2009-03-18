@@ -1,20 +1,21 @@
 package CGI::Session;
 
-# $Id: Session.pm 353 2006-12-05 02:10:19Z markstos $
+# $Id: Session.pm 456 2009-01-03 01:16:43Z markstos $
 
 use strict;
 use Carp;
 use CGI::Session::ErrorHandler;
 
 @CGI::Session::ISA      = qw( CGI::Session::ErrorHandler );
-$CGI::Session::VERSION  = '4.20';
+$CGI::Session::VERSION  = '4.40';
 $CGI::Session::NAME     = 'CGISESSID';
 $CGI::Session::IP_MATCH = 0;
 
-sub STATUS_NEW      () { 1 }        # denotes session that's just created
-sub STATUS_MODIFIED () { 2 }        # denotes session that needs synchronization
-sub STATUS_DELETED  () { 4 }        # denotes session that needs deletion
-sub STATUS_EXPIRED  () { 8 }        # denotes session that was expired.
+sub STATUS_UNSET    () { 1 << 0 } # denotes session that's resetted
+sub STATUS_NEW      () { 1 << 1 } # denotes session that's just created
+sub STATUS_MODIFIED () { 1 << 2 } # denotes session that needs synchronization
+sub STATUS_DELETED  () { 1 << 3 } # denotes session that needs deletion
+sub STATUS_EXPIRED  () { 1 << 4 } # denotes session that was expired.
 
 sub import {
     my ($class, @args) = @_;
@@ -56,11 +57,16 @@ sub new {
         #
         # Called as a class method as in CGI::Session->new()
         #
+
+        # Start fresh with error reporting. Errors in past objects shouldn't affect this one. 
+        $class->set_error('');
+
         $self = $class->load( @args );
         if (not defined $self) {
             return $class->set_error( "new(): failed: " . $class->errstr );
         }
     }
+
     my $dataref = $self->{_DATA};
     unless ($dataref->{_SESSION_ID}) {
         #
@@ -80,6 +86,7 @@ sub new {
         }
         $dataref->{_SESSION_ID} = $id;
         $dataref->{_SESSION_CTIME} = $dataref->{_SESSION_ATIME} = time();
+        $dataref->{_SESSION_REMOTE_ADDR} = $ENV{REMOTE_ADDR} || "";
         $self->_set_status( STATUS_NEW );
     }
     return $self;
@@ -189,19 +196,19 @@ sub dump {
 sub _set_status {
     my $self    = shift;
     croak "_set_status(): usage error" unless @_;
-    $self->{_STATUS} |= $_ for @_;
+    $self->{_STATUS} |= $_[0];
 }
 
 
 sub _unset_status {
     my $self = shift;
     croak "_unset_status(): usage error" unless @_;
-    $self->{_STATUS} &= ~$_ for @_;
+    $self->{_STATUS} &= ~$_[0];
 }
 
 
 sub _reset_status {
-    $_[0]->{_STATUS} = 0;
+    $_[0]->{_STATUS} = STATUS_UNSET;
 }
 
 sub _test_status {
@@ -218,11 +225,13 @@ sub flush {
     # return unless defined $self;
 
     return unless $self->id;            # <-- empty session
-    return if !defined($self->{_STATUS}) or $self->{_STATUS} == 0;    # <-- neither new, nor deleted nor modified
+    
+    # neither new, nor deleted nor modified
+    return if !defined($self->{_STATUS}) or $self->{_STATUS} == STATUS_UNSET;
 
     if ( $self->_test_status(STATUS_NEW) && $self->_test_status(STATUS_DELETED) ) {
         $self->{_DATA} = {};
-        return $self->_unset_status(STATUS_NEW, STATUS_DELETED);
+        return $self->_unset_status(STATUS_NEW | STATUS_DELETED);
     }
 
     my $driver      = $self->_driver();
@@ -236,14 +245,14 @@ sub flush {
         return $self->_unset_status(STATUS_DELETED);
     }
 
-    if ( $self->_test_status(STATUS_NEW) || $self->_test_status(STATUS_MODIFIED) ) {
+    if ( $self->_test_status(STATUS_NEW | STATUS_MODIFIED) ) {
         my $datastr = $serializer->freeze( $self->dataref );
         unless ( defined $datastr ) {
             return $self->set_error( "flush(): couldn't freeze data: " . $serializer->errstr );
         }
         defined( $driver->store($self->id, $datastr) ) or
             return $self->set_error( "flush(): couldn't store datastr: " . $driver->errstr);
-        $self->_unset_status(STATUS_NEW, STATUS_MODIFIED);
+        $self->_unset_status(STATUS_NEW | STATUS_MODIFIED);
     }
     return 1;
 }
@@ -446,7 +455,7 @@ sub find {
     return 1;
 }
 
-# $Id: Session.pm 353 2006-12-05 02:10:19Z markstos $
+# $Id: Session.pm 456 2009-01-03 01:16:43Z markstos $
 
 =pod
 
@@ -462,85 +471,39 @@ CGI::Session - persistent session data in CGI applications
 
     $CGISESSID = $session->id();
 
-    # send proper HTTP header with cookies:
+    # Send proper HTTP header with cookies:
     print $session->header();
 
-    # storing data in the session
+    # Storing data in the session:
     $session->param('f_name', 'Sherzod');
     # or
     $session->param(-name=>'l_name', -value=>'Ruzmetov');
 
-    # flush the data from memory to the storage driver at least before your
-    # program finishes since auto-flushing can be unreliable
+    # Flush the data from memory to the storage driver at least before your
+    # program finishes since auto-flushing can be unreliable.
     $session->flush();
 
-    # retrieving data
+    # Retrieving data:
     my $f_name = $session->param('f_name');
     # or
     my $l_name = $session->param(-name=>'l_name');
 
-    # clearing a certain session parameter
+    # Clearing a certain session parameter:
     $session->clear(["l_name", "f_name"]);
 
-    # expire '_is_logged_in' flag after 10 idle minutes:
+    # Expire '_is_logged_in' flag after 10 idle minutes:
     $session->expire('is_logged_in', '+10m')
 
-    # expire the session itself after 1 idle hour
+    # Expire the session itself after 1 idle hour:
     $session->expire('+1h');
 
-    # delete the session for good
+    # Delete the session for good:
     $session->delete();
+    $session->flush(); # Recommended practice says use flush() after delete().
 
 =head1 DESCRIPTION
 
-CGI-Session is a Perl5 library that provides an easy, reliable and modular session management system across HTTP requests.
-Persistency is a key feature for such applications as shopping carts, login/authentication routines, and application that
-need to carry data across HTTP requests. CGI::Session does that and many more.
-
-=head1 TRANSLATIONS
-
-This document is also available in Japanese.
-
-=over 4
-
-=item o 
-
-Translation based on 4.14: http://digit.que.ne.jp/work/index.cgi?Perldoc/ja
-
-=item o
-
-Translation based on 3.11, including Cookbook and Tutorial: http://perldoc.jp/docs/modules/CGI-Session-3.11/
-
-=back
-
-=head1 TO LEARN MORE
-
-Current manual is optimized to be used as a quick reference. To learn more both about the philosophy and CGI::Session
-programming style, consider the following:
-
-=over 4
-
-=item *
-
-L<CGI::Session::Tutorial|CGI::Session::Tutorial> - extended CGI::Session manual. Also includes library architecture and driver specifications.
-
-=item *
-
-We also provide mailing lists for CGI::Session users. To subscribe to the list or browse the archives visit https://lists.sourceforge.net/lists/listinfo/cgi-session-user
-
-=item *
-
-B<RFC 2965> - "HTTP State Management Mechanism" found at ftp://ftp.isi.edu/in-notes/rfc2965.txt
-
-=item *
-
-L<CGI|CGI> - standard CGI library
-
-=item *
-
-L<Apache::Session|Apache::Session> - another fine alternative to CGI::Session.
-
-=back
+CGI::Session provides an easy, reliable and modular session management system across HTTP requests.
 
 =head1 METHODS
 
@@ -555,6 +518,8 @@ Following is the overview of all the available methods accessible via CGI::Sessi
 =head2 new( $dsn, $query||$sid )
 
 =head2 new( $dsn, $query||$sid, \%dsn_args )
+
+=head2 new( $dsn, $query||$sid, \%dsn_args, \%session_params )
 
 Constructor. Returns new session object, or undef on failure. Error message is accessible through L<errstr() - class method|CGI::Session::ErrorHandler/errstr>. If called on an already initialized session will re-initialize the session based on already configured object. This is only useful after a call to L<load()|/"load">.
 
@@ -572,6 +537,14 @@ If called with two arguments first will be treated as $dsn, and second will be t
     $s = CGI::Session->new("serializer:storable;id:incr", $sid);
     # etc...
 
+Briefly, C<new()> will return an initialized session object with a valid id, whereas C<load()> may return
+an empty session object with an undefined id.
+
+Tests are provided (t/new_with_undef.t and t/load_with_undef.t) to clarify the result of calling C<new()> and C<load()>
+with undef, or with an initialized CGI object with an undefined or fake CGISESSID.
+
+You are strongly advised to run the old-fashioned 'make test TEST_FILES=t/new_with_undef.t TEST_VERBOSE=1'
+or the new-fangled 'prove -v t/new_with_undef.t', for both new*.t and load*.t, and examine the output.
 
 Following data source components are supported:
 
@@ -598,18 +571,32 @@ For example, to get CGI::Session store its data using DB_File and serialize data
 
 If called with three arguments, first two will be treated as in the previous example, and third argument will be C<\%dsn_args>, which will be passed to C<$dsn> components (namely, driver, serializer and id generators) for initialization purposes. Since all the $dsn components must initialize to some default value, this third argument should not be required for most drivers to operate properly.
 
+If called with four arguments, the first three match previous examples. The fourth argument must be a hash reference with parameters to be used by the CGI::Session object. (see \%session_params above )
+
+The following is a list of the current keys:
+
+=over
+
+=item *
+
+B<name> - Name to use for the cookie/query parameter name. This defaults to CGISESSID. This can be altered or accessed by the C<name> accessor.
+
+=back
+
 undef is acceptable as a valid placeholder to any of the above arguments, which will force default behavior.
 
 =head2 load()
 
-=head2 load($query||$sid)
+=head2 load( $query||$sid )
 
-=head2 load($dsn, $query||$sid)
+=head2 load( $dsn, $query||$sid )
 
-=head2 load($dsn, $query, \%dsn_args);
+=head2 load( $dsn, $query, \%dsn_args )
+
+=head2 load( $dsn, $query, \%dsn_args, \%session_params )
 
 Accepts the same arguments as new(), and also returns a new session object, or
-undef on failure.  The difference is, L<new()|/"new"> can create new session if
+undef on failure.  The difference is, L<new()|/"new"> can create a new session if
 it detects expired and non-existing sessions, but C<load()> does not.
 
 C<load()> is useful to detect expired or non-existing sessions without forcing the library to create new sessions. So now you can do something like this:
@@ -627,7 +614,16 @@ C<load()> is useful to detect expired or non-existing sessions without forcing t
         $s = $s->new() or die $s->errstr;
     }
 
-Notice, all I<expired> sessions are empty, but not all I<empty> sessions are expired!
+Notice: All I<expired> sessions are empty, but not all I<empty> sessions are expired!
+
+Briefly, C<new()> will return an initialized session object with a valid id, whereas C<load()> may return
+an empty session object with an undefined id.
+
+Tests are provided (t/new_with_undef.t and t/load_with_undef.t) to clarify the result of calling C<new()> and C<load()>
+with undef, or with an initialized CGI object with an undefined or fake CGISESSID.
+
+You are strongly advised to run the old-fashioned 'make test TEST_FILES=t/new_with_undef.t TEST_VERBOSE=1'
+or the new-fangled 'prove -v t/new_with_undef.t', for both new*.t and load*.t, and examine the output.
 
 =cut
 
@@ -637,7 +633,7 @@ Notice, all I<expired> sessions are empty, but not all I<empty> sessions are exp
 sub load {
     my $class = shift;
     return $class->set_error( "called as instance method")    if ref $class;
-    return $class->set_error( "Too many arguments")  if @_ > 4;
+    return $class->set_error( "Too many arguments provided to load()")  if @_ > 5;
 
     my $self = bless {
         _DATA       => {
@@ -657,11 +653,11 @@ sub load {
         _OBJECTS    => {},          # keeps necessary objects
         _DRIVER_ARGS=> {},          # arguments to be passed to driver
         _CLAIMED_ID => undef,       # id **claimed** by client
-        _STATUS     => 0,           # status of the session object
+        _STATUS     => STATUS_UNSET,# status of the session object
         _QUERY      => undef        # query object
     }, $class;
 
-    my ($dsn,$query_or_sid,$dsn_args,$update_atime);
+    my ($dsn,$query_or_sid,$dsn_args,$update_atime,$params);
     # load($query||$sid)
     if ( @_ == 1 ) {
         $self->_set_query_or_sid($_[0]);
@@ -671,10 +667,22 @@ sub load {
     elsif ( @_ > 1 ) {
         ($dsn, $query_or_sid, $dsn_args,$update_atime) = @_;
 
+        # Make it backwards-compatible (update_atime is an undocumented key in %$params).
+        # In fact, update_atime as a key is not used anywhere in the code as yet.
+        # This patch is part of the patch for RT#33437.
+        if ( ref $update_atime and ref $update_atime eq 'HASH' ) {
+            $params = {%$update_atime};
+            $update_atime = $params->{'update_atime'};
+
+            if ($params->{'name'}) {
+                $self->{_NAME} = $params->{'name'};
+            }
+        }
+
         # Since $update_atime is not part of the public API
         # we ignore any value but the one we use internally: 0.
         if (defined $update_atime and $update_atime ne '0') {
-            return $class->set_error( "Too many arguments");
+            return $class->set_error( "Too many arguments to load(). First extra argument was: $update_atime");
          }
 
         if ( defined $dsn ) {      # <-- to avoid 'Uninitialized value...' warnings
@@ -689,6 +697,9 @@ sub load {
     }
 
     $self->_load_pluggables();
+
+    # Did load_pluggable fail? If so, return undef, just like $class->set_error() would
+    return undef if $class->errstr;
 
     if (not defined $self->{_CLAIMED_ID}) {
         my $query = $self->query();
@@ -737,8 +748,8 @@ sub load {
     # checking for expiration ticker
     if ( $self->{_DATA}->{_SESSION_ETIME} ) {
         if ( ($self->{_DATA}->{_SESSION_ATIME} + $self->{_DATA}->{_SESSION_ETIME}) <= time() ) {
-            $self->_set_status( STATUS_EXPIRED );   # <-- so client can detect expired sessions
-            $self->_set_status( STATUS_DELETED );   # <-- session should be removed from database
+            $self->_set_status( STATUS_EXPIRED |    # <-- so client can detect expired sessions
+                                STATUS_DELETED );   # <-- session should be removed from database
             $self->flush();                         # <-- flush() will do the actual removal!
             return $self;
         }
@@ -885,16 +896,18 @@ reference to an array, only the named parameters are cleared.
 
 Synchronizes data in memory  with the copy serialized by the driver. Call flush() 
 if you need to access the session from outside the current session object. You should
-at least call flush() before your program exits. 
+call flush() sometime before your program exits. 
 
 As a last resort, CGI::Session will automatically call flush for you just
-before the program terminates or session object goes out of scope. This automatic
-behavior was the recommended behavior until the 4.x series. Automatic flushing
-has since proven to be unreliable, and in some cases is now required in places
-that worked with 3.x. For further details see:
+before the program terminates or session object goes out of scope. Automatic
+flushing has proven to be unreliable, and in some cases is now required
+in places that worked with CGI::Session 3.x. 
 
- http://rt.cpan.org/Ticket/Display.html?id=17541
- http://rt.cpan.org/Ticket/Display.html?id=17299
+Always explicitly calling C<flush()> on the session before the
+program exits is recommended. For extra safety, call it immediately after
+every important session update.
+
+Also see L<A Warning about Auto-flushing>
 
 =head2 atime()
 
@@ -1057,7 +1070,10 @@ L<is_empty()|/"is_empty"> is useful only if you wanted to catch requests for exp
 
 =head2 delete()
 
-Deletes a session from the data store and empties session data from memory, completely, so subsequent read/write requests on the same object will fail. Technically speaking, it will only set object's status to I<STATUS_DELETED> and will trigger L<flush()|/"flush">, and flush() will do the actual removal.
+Sets the objects status to be "deleted".  Subsequent read/write requests on the
+same object will fail.  To physically delete it from the data store you need to call L<flush()>.
+CGI::Session attempts to do this automatically when the object is being destroyed (usually as
+the script exits), but see L<A Warning about Auto-flushing>.
 
 =head2 find( \&code )
 
@@ -1078,7 +1094,8 @@ Notice, above \&code didn't have to do anything, because load(), which is called
         my ($session) = @_;
         next if $session->is_empty;    # <-- already expired?!
         if ( ($session->ctime + 3600*240) <= time() ) {
-            $session->delete() or warn "couldn't remove " . $session->id . ": " . $session->errstr;
+            $session->delete();
+            $session->flush(); # Recommended practice says use flush() after delete().
         }
     }
 
@@ -1257,11 +1274,6 @@ Full name: B<CGI::Session::Serialize::freezethaw>
 L<yaml|CGI::Session::Serialize::yaml> - serializes data using YAML. Requires L<YAML> or L<YAML::Syck>.
 Full name: B<CGI::Session::Serialize::yaml>
 
-=item *
-
-L<json|CGI::Session::Serialize::json> - serializes data using JSON. Requires L<JSON::Syck>.
-Full name: B<CGI::Session::Serialize::json>
-
 =back
 
 =head2 ID GENERATORS
@@ -1285,6 +1297,70 @@ L<static|CGI::Session::ID::static> - generates static session ids. B<CGI::Sessio
 
 =back
 
+=head1 A Warning about Auto-flushing
+
+Auto-flushing can be unreliable for the following reasons. Explict flushing
+after key session updates is recommended. 
+
+=over 4
+
+=item If the C<DBI> handle goes out of scope before the session variable
+
+For database-stored sessions, if the C<DBI> handle has gone out of scope before
+the auto-flushing happens, auto-flushing will fail.
+
+=item Circular references
+
+If the calling code contains a circular reference, it's possible that your
+C<CGI::Session> object will not be destroyed until it is too late for
+auto-flushing to work. You can find circular references with a tool like
+L<Devel::Cycle>.
+
+In particular, these modules are known to contain circular references which
+lead to this problem:
+
+=over 4
+
+=item CGI::Application::Plugin::DebugScreen V 0.06
+
+=item CGI::Application::Plugin::ErrorPage before version 1.20
+
+=back
+
+=item Signal handlers
+
+If your application may receive signals, there is an increased chance that the
+signal will arrive after the session was updated but before it is auto-flushed
+at object destruction time.
+
+=back
+
+=head1 A Warning about UTF8
+
+Trying to use UTF8 in a program which uses CGI::Session has lead to problems. See RT#21981 and RT#28516.
+
+In the first case the user tried "use encoding 'utf8';" in the program, and in the second case the user tried
+"$dbh->do(qq|set names 'utf8'|);".
+
+Until this problem is understood and corrected, users are advised to avoid UTF8 in conjunction with CGI::Session.
+
+For details, see: http://rt.cpan.org/Public/Bug/Display.html?id=28516 (and ...id=21981).
+
+=head1 TRANSLATIONS
+
+This document is also available in Japanese.
+
+=over 4
+
+=item o 
+
+Translation based on 4.14: http://digit.que.ne.jp/work/index.cgi?Perldoc/ja
+
+=item o
+
+Translation based on 3.11, including Cookbook and Tutorial: http://perldoc.jp/docs/modules/CGI-Session-3.11/
+
+=back
 
 =head1 CREDITS
 
@@ -1308,7 +1384,16 @@ CGI::Session evolved to what it is today with the help of following developers. 
 
 =item Shawn Sorichetti
 
+=item Ron Savage
+
+=item Rhesa Rozendaal
+
+He suggested Devel::Cycle to help debugging.
+
 =back
+
+Also, many people on the CGI::Application and CGI::Session mailing lists have contributed ideas and
+suggestions, and battled publicly with bugs, all of which has helped.
 
 =head1 COPYRIGHT
 
@@ -1320,16 +1405,16 @@ This library is free software. You can modify and or distribute it under the sam
 You can see what the developers have been up to since the last release by
 checking out the code repository. You can browse the Subversion repository from here:
 
- http://svn.cromedome.net/
+ http://svn.cromedome.net/repos/CGI-Session
 
 Or check it directly with C<svn> from here:
 
- svn://svn.cromedome.net/CGI-Session
+ https://svn.cromedome.net/repos/CGI-Session
 
 =head1 SUPPORT
 
-If you need help using CGI::Session consider the mailing list. You can ask the list by sending your questions to
-cgi-session-user@lists.sourceforge.net .
+If you need help using CGI::Session, ask on the mailing list. You can ask the
+list by sending your questions to cgi-session-user@lists.sourceforge.net .
 
 You can subscribe to the mailing list at https://lists.sourceforge.net/lists/listinfo/cgi-session-user .
 
@@ -1337,29 +1422,39 @@ Bug reports can be submitted at http://rt.cpan.org/NoAuth/ReportBug.html?Queue=C
 
 =head1 AUTHOR
 
-Sherzod Ruzmetov E<lt>sherzodr@cpan.orgE<gt>, http://author.handalak.com/
+Sherzod Ruzmetov C<sherzodr@cpan.org>
 
 Mark Stosberg became a co-maintainer during the development of 4.0. C<markstos@cpan.org>.
 
-=head1 SEE ALSO
+Ron Savage became a co-maintainer during the development of 4.30. C<rsavage@cpan.org>.
+
+If you would like support, ask on the mailing list as describe above. The
+maintainers and other users are subscribed to it. 
+
+=head1 SEE ALSO 
+
+To learn more both about the philosophy and CGI::Session programming style,
+consider the following:
 
 =over 4
 
 =item *
 
-L<CGI::Session::Tutorial|CGI::Session::Tutorial> - extended CGI::Session manual
+L<CGI::Session::Tutorial|CGI::Session::Tutorial> - extended CGI::Session manual. Also includes library architecture and driver specifications.
 
 =item *
 
-B<RFC 2965> - "HTTP State Management Mechanism" found at ftp://ftp.isi.edu/in-notes/rfc2965.txt
+We also provide mailing lists for CGI::Session users. To subscribe to the list
+or browse the archives visit
+https://lists.sourceforge.net/lists/listinfo/cgi-session-user
+
+=item * B<RFC 2109> - The primary spec for cookie handing in use, defining the  "Cookie:" and "Set-Cookie:" HTTP headers.
+Available at L<http://www.ietf.org/rfc/rfc2109.txt>. A newer spec, RFC 2965 is meant to obsolete it with "Set-Cookie2" 
+and "Cookie2" headers, but even of 2008, the newer spec is not widely supported. See L<http://www.ietf.org/rfc/rfc2965.txt>
 
 =item *
 
-L<CGI|CGI> - standard CGI library
-
-=item *
-
-L<Apache::Session|Apache::Session> - another fine alternative to CGI::Session
+L<Apache::Session|Apache::Session> - an alternative to CGI::Session.
 
 =back
 

@@ -1,6 +1,6 @@
 package CGI::Session::Driver::DBI;
 
-# $Id: DBI.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: DBI.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 
@@ -9,7 +9,7 @@ use Carp;
 use CGI::Session::Driver;
 
 @CGI::Session::Driver::DBI::ISA = ( "CGI::Session::Driver" );
-$CGI::Session::Driver::DBI::VERSION = "4.20";
+$CGI::Session::Driver::DBI::VERSION = '4.38';
 
 
 sub init {
@@ -47,9 +47,7 @@ sub table_name {
 
     no strict 'refs';
     if ( @_ ) {
-        my $new_name = shift;
-        $self->{TableName}           = $new_name;
-        ${ $class . "::TABLE_NAME" } = $new_name;
+        $self->{TableName} = shift;
     }
 
     unless (defined $self->{TableName}) {
@@ -67,13 +65,16 @@ sub retrieve {
 
 
     my $dbh = $self->{Handle};
-    my $sth = $dbh->prepare_cached("SELECT a_session FROM " . $self->table_name . " WHERE id=?", undef, 3);
+    my $sth = $dbh->prepare_cached("SELECT $self->{DataColName} FROM " . $self->table_name . " WHERE $self->{IdColName}=?", undef, 3);
     unless ( $sth ) {
         return $self->set_error( "retrieve(): DBI->prepare failed with error message " . $dbh->errstr );
     }
     $sth->execute( $sid ) or return $self->set_error( "retrieve(): \$sth->execute failed with error message " . $sth->errstr);
 
     my ($row) = $sth->fetchrow_array();
+
+    $sth->finish;
+
     return 0 unless $row;
     return $row;
 }
@@ -87,17 +88,20 @@ sub store {
 
 
     my $dbh = $self->{Handle};
-    my $sth = $dbh->prepare_cached("SELECT id FROM " . $self->table_name . " WHERE id=?", undef, 3);
+    my $sth = $dbh->prepare_cached("SELECT $self->{IdColName} FROM " . $self->table_name . " WHERE $self->{IdColName}=?", undef, 3);
     unless ( defined $sth ) {
         return $self->set_error( "store(): \$dbh->prepare failed with message " . $sth->errstr );
     }
 
     $sth->execute( $sid ) or return $self->set_error( "store(): \$sth->execute failed with message " . $sth->errstr );
+    my $rc = $sth->fetchrow_array;
+    $sth->finish;
+
     my $action_sth;
-    if ( $sth->fetchrow_array ) {
-        $action_sth = $dbh->prepare_cached("UPDATE " . $self->table_name . " SET a_session=? WHERE id=?", undef, 3);
+    if ( $rc ) {
+        $action_sth = $dbh->prepare_cached("UPDATE " . $self->table_name . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?", undef, 3);
     } else {
-        $action_sth = $dbh->prepare_cached("INSERT INTO " . $self->table_name . " (a_session, id) VALUES(?, ?)", undef, 3);
+        $action_sth = $dbh->prepare_cached("INSERT INTO " . $self->table_name . " ($self->{DataColName}, $self->{IdColName}) VALUES(?, ?)", undef, 3);
     }
     
     unless ( defined $action_sth ) {
@@ -105,6 +109,9 @@ sub store {
     }
     $action_sth->execute($datastr, $sid)
         or return $self->set_error( "store(): \$action_sth->execute failed " . $action_sth->errstr );
+
+    $action_sth->finish;
+
     return 1;
 }
 
@@ -114,7 +121,7 @@ sub remove {
     my ($sid) = @_;
     croak "remove(): usage error" unless $sid;
 
-   my $rc = $self->{Handle}->do( 'DELETE FROM '. $self->table_name .' WHERE id= ?',{},$sid );
+   my $rc = $self->{Handle}->do( 'DELETE FROM ' . $self->table_name . " WHERE $self->{IdColName}= ?", {}, $sid );
     unless ( $rc ) {
         croak "remove(): \$dbh->do failed!";
     }
@@ -125,6 +132,11 @@ sub remove {
 
 sub DESTROY {
     my $self = shift;
+
+    unless ( defined $self->{Handle} && $self->{Handle} -> ping ) {
+        $self->set_error(__PACKAGE__ . '::DESTROY(). Database handle has gone away');
+        return;
+	}
 
     unless ( $self->{Handle}->{AutoCommit} ) {
         $self->{Handle}->commit;
@@ -144,13 +156,16 @@ sub traverse {
     }
 
     my $tablename = $self->table_name();
-    my $sth = $self->{Handle}->prepare_cached("SELECT id FROM $tablename", undef, 3) 
+    my $sth = $self->{Handle}->prepare_cached("SELECT $self->{IdColName} FROM $tablename", undef, 3) 
         or return $self->set_error("traverse(): couldn't prepare SQL statement. " . $self->{Handle}->errstr);
     $sth->execute() or return $self->set_error("traverse(): couldn't execute statement $sth->{Statement}. " . $sth->errstr);
 
     while ( my ($sid) = $sth->fetchrow_array ) {
         $coderef->($sid);
     }
+
+    $sth->finish;
+
     return 1;
 }
 
@@ -187,10 +202,32 @@ Before you can use any DBI-based session drivers you need to make sure compatibl
 
 Your session table can define additional columns, but the above two are required. Name of the session table is expected to be I<sessions> by default. You may use a different name if you wish. To do this you have to pass I<TableName> as part of your C< \%dsn_args >:
 
-    $s = new CGI::Session("driver:sqlite", undef, {TableName=>'my_sessions'});
-    $s = new CGI::Session("driver:mysql", undef, {
-                                        TableName=>'my_sessions', 
-                                        DataSource=>'dbi:mysql:shopping_cart'});
+    $s = new CGI::Session('driver:sqlite', undef, {TableName=>'my_sessions'});
+    $s = new CGI::Session('driver:mysql', undef,
+    {
+        TableName=>'my_sessions',
+        DataSource=>'dbi:mysql:shopping_cart'.
+    });
+
+To use different column names, change the 'create table' statement, and then simply do this:
+
+    $s = new CGI::Session('driver:pg', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        DataSource=>'dbi:pg:dbname=project',
+    });
+
+or
+
+    $s = new CGI::Session('driver:pg', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        Handle=>$dbh,
+    });
 
 =head1 DRIVER ARGUMENTS
 

@@ -1,13 +1,13 @@
 package CGI::Session::Serialize::storable;
 
-# $Id: storable.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: storable.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 use Storable;
 require CGI::Session::ErrorHandler;
 
-$CGI::Session::Serialize::storable::VERSION = "4.20";
-@CGI::Session::Serialize::ISA               = ( "CGI::Session::ErrorHandler" );
+$CGI::Session::Serialize::storable::VERSION = '4.38';
+@CGI::Session::Serialize::storable::ISA               = ( "CGI::Session::ErrorHandler" );
 
 =pod
 

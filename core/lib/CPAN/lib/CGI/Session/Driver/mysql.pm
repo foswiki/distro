@@ -1,13 +1,13 @@
 package CGI::Session::Driver::mysql;
 
-# $Id: mysql.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: mysql.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 use Carp;
 use CGI::Session::Driver::DBI;
 
 @CGI::Session::Driver::mysql::ISA       = qw( CGI::Session::Driver::DBI );
-$CGI::Session::Driver::mysql::VERSION   = "4.20";
+$CGI::Session::Driver::mysql::VERSION   = '4.38';
 
 sub _mk_dsnstr {
     my ($class, $dsn) = @_;
@@ -47,18 +47,17 @@ sub store {
     croak "store(): usage error" unless $sid && $datastr;
 
     my $dbh = $self->{Handle};
-    $dbh->do("REPLACE INTO " . $self->table_name . " (id, a_session) VALUES(?, ?)", undef, $sid, $datastr)
+    $dbh->do("INSERT INTO " . $self->table_name .
+			 " ($self->{IdColName}, $self->{DataColName}) VALUES(?, ?) ON DUPLICATE KEY UPDATE $self->{DataColName} = ?",
+			 undef, $sid, $datastr, $datastr)
         or return $self->set_error( "store(): \$dbh->do failed " . $dbh->errstr );
     return 1;
 }
 
 
-# If the table name hasn't been defined yet, check this location for 3.x compatibility
 sub table_name {
     my $self = shift;
-    unless (defined $self->{TableName}) {
-        $self->{TableName} = $CGI::Session::MySQL::TABLE_NAME;
-    }
+
     return  $self->SUPER::table_name(@_);
 }
 
@@ -74,11 +73,11 @@ CGI::Session::Driver::mysql - CGI::Session driver for MySQL database
 
 =head1 SYNOPSIS
 
-    $s = new CGI::Session( "driver:mysql", $sid);
-    $s = new CGI::Session( "driver:mysql", $sid, { DataSource  => 'dbi:mysql:test',
+    $s = new CGI::Session( 'driver:mysql', $sid);
+    $s = new CGI::Session( 'driver:mysql', $sid, { DataSource  => 'dbi:mysql:test',
                                                    User        => 'sherzodr',
                                                    Password    => 'hello' });
-    $s = new CGI::Session( "driver:mysql", $sid, { Handle => $dbh } );
+    $s = new CGI::Session( 'driver:mysql', $sid, { Handle => $dbh } );
 
 =head1 DESCRIPTION
 
@@ -92,19 +91,49 @@ defined as a primary key, or at least "unique", like this:
      a_session TEXT NOT NULL
   );
 
+To use different column names, change the 'create table' statement, and then simply do this:
+
+    $s = new CGI::Session('driver:mysql', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        DataSource=>'dbi:mysql:project',
+    });
+
+or
+
+    $s = new CGI::Session('driver:mysql', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        Handle=>$dbh,
+    });
+
 =head2 DRIVER ARGUMENTS
 
 B<mysql> driver supports all the arguments documented in L<CGI::Session::Driver::DBI|CGI::Session::Driver::DBI>. In addition, I<DataSource> argument can optionally leave leading "dbi:mysql:" string out:
 
-    $s = new CGI::Session( "driver:mysql", $sid, {DataSource=>'shopping_cart'});
+    $s = new CGI::Session( 'driver:mysql', $sid, {DataSource=>'shopping_cart'});
     # is the same as:
-    $s = new CGI::Session( "driver:mysql", $sid, {DataSource=>'dbi:mysql:shopping_cart'});
+    $s = new CGI::Session( 'driver:mysql', $sid, {DataSource=>'dbi:mysql:shopping_cart'});
 
 =head2 BACKWARDS COMPATIBILITY
 
-For backwards compatibility, you can also set the table like this before calling C<new()>. However, it is not recommended because it can cause conflicts in a persistent environment. 
+As of V 4.30, the global variable $CGI::Session::MySQL::TABLE_NAME cannot be used to set the session
+table's name.
 
-    $CGI::Session::MySQL::TABLE_NAME = 'my_sessions';
+This is due to changes in CGI::Session::Driver's new() method, which now allows the table's name to be
+changed (as well as allowing both the 'id' column name and the 'a_session' column name to be changed).
+
+See the documentation for CGI::Session::Driver::DBI for details.
+
+In particular, the new syntax for C<new()> applies to all database drivers, whereas the old - and bad -
+global variable method only applied to MySQL.
+
+Alternately, call $session -> table_name('new_name') just after creating the session object if you wish to
+change the session table's name.
 
 =head1 LICENSING
 

@@ -11,7 +11,7 @@ our $CURRENT;
 sub ok_later (&;$);
     
 
-$CGI::Session::Test::Default::VERSION = '4.20';
+$CGI::Session::Test::Default::VERSION = '4.38';
 
 =head1 CGI::Session::Test::Default
 
@@ -87,9 +87,9 @@ sub run {
         ok(1, "=== 1 ===");
         my $session = CGI::Session->load() or die CGI::Session->errstr;
         ok($session, "empty session should be created");
-        ok(!$session->id);
-        ok($session->is_empty);
-        ok(!$session->is_expired);
+        ok(!$session->id, 'Id is empty');
+        ok($session->is_empty, 'Session is empty');
+        ok(!$session->is_expired, 'Session is not expired');
 
         undef $session;
 
@@ -258,8 +258,8 @@ sub run {
 
         #
         # creating a simple object to be stored into session
-        my $simple_class = SimpleObjectClass->new();
-        ok($simple_class, "SimpleObjectClass created successfully");
+        my $simple_class = CGI::Session::Test::SimpleObjectClass->new();
+        ok($simple_class, "CGI::Session::Test::SimpleObjectClass created successfully");
 
         $simple_class->name("Sherzod Ruzmetov");
         $simple_class->emails(0, 'sherzodr@handalak.com');
@@ -282,8 +282,8 @@ sub run {
         
         ok($session->param("overloaded_object") eq "ABCDEFG");
         
-        my $simple_class2 = SimpleObjectClass->new();
-        ok($simple_class2, "SimpleObjectClass created successfully");
+        my $simple_class2 = CGI::Session::Test::SimpleObjectClass->new();
+        ok($simple_class2, "CGI::Session::Test::SimpleObjectClass created successfully");
 
         $simple_class2->name("Sherzod Ruzmetov");
         $simple_class2->emails(0, 'sherzodr@handalak.com');
@@ -314,7 +314,7 @@ sub run {
 
 
         my $simple_object = $session->param("simple_object");
-        ok(ref $simple_object eq "SimpleObjectClass", "SimpleObjectClass loaded successfully");
+        ok(ref $simple_object eq "CGI::Session::Test::SimpleObjectClass", "CGI::Session::Test::SimpleObjectClass loaded successfully");
 
         my $dsn = CGI::Session->parse_dsn($self->{dsn});
         ok_later { $simple_object->name eq "Sherzod Ruzmetov" };
@@ -328,7 +328,7 @@ sub run {
         ok(!defined($session->param("embedded_simple_and_overloaded")->[0]),"First element of anonymous array undef");
         
         my $simple_object2 = $session->param("embedded_simple_and_overloaded")->[1];
-        ok(ref $simple_object2 eq "SimpleObjectClass", "SimpleObjectClass loaded successfully");
+        ok(ref $simple_object2 eq "CGI::Session::Test::SimpleObjectClass", "CGI::Session::Test::SimpleObjectClass loaded successfully");
 
         ok_later { $simple_object2->name eq "Sherzod Ruzmetov" };
         ok_later { $simple_object2->emails(1) eq 'sherzodr@cpan.org' };
@@ -386,7 +386,7 @@ sub ok_later (&;$) {
 sub DESTROY { 1; }
 
 
-package SimpleObjectClass;
+package CGI::Session::Test::SimpleObjectClass;
 use strict;
 use Class::Struct;
 
