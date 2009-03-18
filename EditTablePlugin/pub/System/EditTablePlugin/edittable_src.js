@@ -168,6 +168,7 @@ function attachEvent(obj, evtype, handler) {
 
 */
 function detachEvent(obj, evtype, handler) {
+	if (!handler) return;
     if (window.addEventListener) {
         // Mozilla, Netscape, Firefox
         obj.removeEventListener(evtype, handler, false);
@@ -217,6 +218,7 @@ function insertActionButtonsMove(asset_url) {
         	if (isHeader || isFooter) {
         	    action_cell = document.createElement('TH');
         	    action_butt = document.createElement('SPAN');
+        	    action_butt.innerHTML = '<!--//-->';
         	} else {
 	            action_cell = document.createElement('TD');
 	            action_butt = createActionButtonMove(asset_url, rownr);
@@ -229,7 +231,7 @@ function insertActionButtonsMove(asset_url) {
         }
     }
     // set styling for the last action_cell to remove the bottom border
-    //addClass(action_cell, 'foswikiLast');
+    addClass(action_cell, 'foswikiLast');
 }
 
 function createActionButtonMove (asset_url, rownr) {
@@ -248,6 +250,7 @@ function createActionButtonMove (asset_url, rownr) {
 	
 	action_butt.handler = moveHandler;
 	attachEvent(action_butt, 'click', action_butt.handler);
+	
 	addClass(action_butt, 'editTableActionButton');
 	action_butt.rownr = rownr;
 	return action_butt;
@@ -269,13 +272,14 @@ function insertActionButtonsDelete(asset_url) {
         	if (isHeader || isFooter) {
         	    action_cell = document.createElement('TH');
         	    action_butt = document.createElement('SPAN');
+        	    action_butt.innerHTML = '<!--//-->';
         	} else {
 	            action_cell = document.createElement('TD');
 	            action_butt = createActionButtonDelete(asset_url, rownr);
 				action_cell.moveButton = action_butt;
 				addClass(action_cell, 'editTableActionCell');
 	        }
-			action_cell.id = 'et_actioncell' + rownr;			
+			action_cell.id = 'et_actioncell' + rownr;
 			action_cell.deleteButton = action_butt;
 			action_cell.appendChild(action_butt);
             insertAfter(action_cell, child.lastChild);
@@ -344,16 +348,12 @@ function makeSeparatorRow(rownr, columns) {
     // row td (background)
     var sep_cell = document.createElement('TD');
     sep_cell.colSpan = columns;
-    sep_cell.style.padding = '0px';
-    sep_cell.style.spacing = '0px';
-    sep_cell.style.border = '0px';
-    sep_cell.style.height = '0px';
     sep_cell.rownr = rownr;
     
     // row filler, because td needs element to have height
     var filling_cell = document.createElement('DIV');
+    filling_cell.innerHTML = '<!--//-->';
     filling_cell.rownr = rownr;
-    addClass(filling_cell, 'editTableRowSeparator');
     sep_cell.appendChild(filling_cell);
     
     sep_row.rownr = rownr;
@@ -460,11 +460,11 @@ function moveHandler(evt) {
 }
 
 function addSeparatorAnimation() {
-	addClass(sEditTable.rows[0].parentNode.parentNode, 'editTableMoveMode');
+	addClass(sEditTable.tableform, 'editTableMoveMode');
 }
 
 function removeSeparatorAnimation() {
-	removeClass(sEditTable.rows[0].parentNode.parentNode, 'editTableMoveMode');
+	removeClass(sEditTable.tableform, 'editTableMoveMode');
 }
 
 /**

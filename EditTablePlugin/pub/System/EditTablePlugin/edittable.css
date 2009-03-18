@@ -48,14 +48,20 @@
 }
 .editTableRowSeparator {
 	background-color:#eee;
-	height:4px;
+	height:5px;
 	cursor:default;
 }
-.editTableMoveMode .editTableRowSeparator {
+.editTableRowSeparator td {
+	margin:0;
+	padding:0;
 }
+.editTableMoveMode .editTableRowSeparator {
+	background-image:url(separator_bg_anim.gif);
+}
+.editTableRowSeparatorHover,
 .editTableMoveMode .editTableRowSeparatorHover {
-	background-color:#069;
-	height:10px;
+	background:#069;
+	height:13px;
 	cursor:move;
 }
 .editTableMoveMode .editTableActionCell img {
