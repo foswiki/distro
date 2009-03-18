@@ -1,9 +1,9 @@
 package CGI::Session::ErrorHandler;
 
-# $Id: ErrorHandler.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: ErrorHandler.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
-$CGI::Session::ErrorHandler::VERSION = "4.20";
+$CGI::Session::ErrorHandler::VERSION = '4.38';
 
 =pod
 
@@ -13,7 +13,7 @@ CGI::Session::ErrorHandler - error handling routines for CGI::Session
 
 =head1 SYNOPSIS
 
-    require CGI::Session::ErrorHandler
+    require CGI::Session::ErrorHandler;
     @ISA = qw( CGI::Session::ErrorHandler );
 
     sub some_method {

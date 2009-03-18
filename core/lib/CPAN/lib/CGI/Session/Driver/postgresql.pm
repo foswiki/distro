@@ -1,6 +1,6 @@
 package CGI::Session::Driver::postgresql;
 
-# $Id: postgresql.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: postgresql.pm 447 2008-11-01 03:46:08Z markstos $
 
 # CGI::Session::Driver::postgresql - PostgreSQL driver for CGI::Session
 #
@@ -15,7 +15,7 @@ use Carp "croak";
 use CGI::Session::Driver::DBI;
 use DBD::Pg qw(PG_BYTEA PG_TEXT);
 
-$CGI::Session::Driver::postgresql::VERSION = '4.20';
+$CGI::Session::Driver::postgresql::VERSION = '4.38';
 @CGI::Session::Driver::postgresql::ISA     = qw( CGI::Session::Driver::DBI );
 
 
@@ -50,8 +50,8 @@ sub store {
         # There is a race condition were two clients could run this code concurrently,
         # and both end up trying to insert. That's why we check for "duplicate" below
         my $sth = $dbh->prepare(
-             "INSERT INTO " . $self->table_name . " (a_session,id)  SELECT ?, ? 
-                WHERE NOT EXISTS (SELECT 1 FROM " . $self->table_name . " WHERE id=? LIMIT 1)");
+             "INSERT INTO " . $self->table_name . " ($self->{DataColName},$self->{IdColName})  SELECT ?, ? 
+                WHERE NOT EXISTS (SELECT 1 FROM " . $self->table_name . " WHERE $self->{IdColName}=? LIMIT 1)");
 
         $sth->bind_param(1,$datastr,{ pg_type => $type });
         $sth->bind_param(2, $sid);
@@ -59,7 +59,7 @@ sub store {
         my $rv = '';
         eval { $rv = $sth->execute(); };
         if ( $rv eq '0E0' or (defined $@ and $@ =~ m/duplicate/i) ) {
-            my $sth = $dbh->prepare("UPDATE " . $self->table_name . " SET a_session=? WHERE id=?");
+            my $sth = $dbh->prepare("UPDATE " . $self->table_name . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?");
             $sth->bind_param(1,$datastr,{ pg_type => $type });
             $sth->bind_param(2,$sid);
             $sth->execute;
@@ -112,6 +112,26 @@ and within your code use:
     $session = new CGI::Session("driver:PostgreSQL", undef, {Handle=>$dbh, ColumnType=>"binary"});
 
 Please note the I<ColumnType> argument. PostgreSQL's text type has problems when trying to hold a null character. (Known as C<"\0"> in Perl, not to be confused with SQL I<NULL>). If you know there is no chance of ever having a null character in the serialized data, you can leave off the I<ColumnType> attribute. Using a I<BYTEA> column type and C<< ColumnType => 'binary' >> is recommended when using L<Storable|CGI::Session::Serialize::storable> as the serializer or if there's any possibility that a null value will appear in any of the serialized data.
+
+To use different column names, change the 'create table' statement, and then simply do this:
+
+    $s = new CGI::Session('driver:pg', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        DataSource=>'dbi:pg:dbname=project',
+    });
+
+or
+
+    $s = new CGI::Session('driver:pg', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        Handle=>$dbh,
+    });
 
 For more details see L<CGI::Session::Driver::DBI|CGI::Session::Driver::DBI>, parent class.
 

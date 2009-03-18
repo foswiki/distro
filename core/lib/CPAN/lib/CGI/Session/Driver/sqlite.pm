@@ -1,6 +1,6 @@
 package CGI::Session::Driver::sqlite;
 
-# $Id: sqlite.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: sqlite.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 
@@ -9,7 +9,7 @@ use base 'CGI::Session::Driver::DBI';
 use DBI qw(SQL_BLOB);
 use Fcntl;
 
-$CGI::Session::Driver::sqlite::VERSION    = "4.20";
+$CGI::Session::Driver::sqlite::VERSION    = '4.38';
 
 sub init {
     my $self = shift;
@@ -31,20 +31,37 @@ sub store {
 
     my $dbh = $self->{Handle};
 
-    my $sth = $dbh->prepare("SELECT id FROM " . $self->table_name . " WHERE id=?");
+    my $sth = $dbh->prepare("SELECT $self->{IdColName} FROM " . $self->table_name . " WHERE $self->{IdColName}=?");
     unless ( defined $sth ) {
         return $self->set_error( "store(): \$sth->prepare failed with message " . $dbh->errstr );
     }
 
     $sth->execute( $sid ) or return $self->set_error( "store(): \$sth->execute failed with message " . $dbh->errstr );
     if ( $sth->fetchrow_array ) {
-        __ex_and_ret($dbh,"UPDATE " . $self->table_name . " SET a_session=? WHERE id=?",$datastr,$sid)
+        __ex_and_ret($dbh,"UPDATE " . $self->table_name . " SET $self->{DataColName}=? WHERE $self->{IdColName}=?",$datastr,$sid)
             or return $self->set_error( "store(): serialize to db failed " . $dbh->errstr );
     } else {
-        __ex_and_ret($dbh,"INSERT INTO " . $self->table_name . " (a_session,id) VALUES(?, ?)",$datastr, $sid)
+        __ex_and_ret($dbh,"INSERT INTO " . $self->table_name . " ($self->{DataColName},$self->{IdColName}) VALUES(?, ?)",$datastr, $sid)
             or return $self->set_error( "store(): serialize to db failed " . $dbh->errstr );
     }
     return 1;
+}
+
+sub DESTROY {
+    my $self = shift;
+
+    unless ( $self->{Handle} -> ping ) {
+        $self->set_error(__PACKAGE__ . '::DESTROY(). Database handle has gone away');
+        return;
+	}
+
+    unless ( $self->{Handle}->{AutoCommit} ) {
+        $self->{Handle}->commit;
+    }
+
+    if ( $self->{_disconnect} ) {
+        undef $self->{Handle};
+    }
 }
 
 sub __ex_and_ret {
@@ -74,6 +91,16 @@ CGI::Session::Driver::sqlite - CGI::Session driver for SQLite
 
     $s = new CGI::Session("driver:sqlite", $sid, {DataSource=>'/my/folder/sessions.sqlt'});
     $s = new CGI::Session("driver:sqlite", $sid, {Handle=>$dbh});
+
+or
+
+    $s = new CGI::Session('driver:sqlite', undef,
+    {
+        TableName=>'session',
+        IdColName=>'my_id',
+        DataColName=>'my_data',
+        Handle=>$dbh,
+    });
 
 =head1 DESCRIPTION
 

@@ -1,6 +1,6 @@
 package CGI::Session::Serialize::default;
 
-# $Id: default.pm 351 2006-11-24 14:16:50Z markstos $ 
+# $Id: default.pm 447 2008-11-01 03:46:08Z markstos $ 
 
 use strict;
 use Safe;
@@ -12,7 +12,7 @@ use vars qw( %overloaded );
 require overload;
 
 @CGI::Session::Serialize::default::ISA = ( "CGI::Session::ErrorHandler" );
-$CGI::Session::Serialize::default::VERSION = '4.20';
+$CGI::Session::Serialize::default::VERSION = '4.38';
 
 
 sub freeze {
@@ -48,8 +48,12 @@ sub __walk {
     my %seen;
     my @filter = __scan(shift);
     local %overloaded;
-    
-    while (defined(my $x = shift @filter)) {
+
+    # We allow the value assigned to a key to be undef.
+    # Hence the defined() test is not in the while().
+
+    while (@filter) {
+		defined(my $x = shift @filter) or next;
         $seen{refaddr $x || ''}++ and next;
           
         my $r = reftype $x or next;

@@ -1,6 +1,6 @@
 package CGI::Session::Driver::file;
 
-# $Id: file.pm 351 2006-11-24 14:16:50Z markstos $
+# $Id: file.pm 447 2008-11-01 03:46:08Z markstos $
 
 use strict;
 
@@ -19,7 +19,7 @@ BEGIN {
 }
 
 @CGI::Session::Driver::file::ISA        = ( "CGI::Session::Driver" );
-$CGI::Session::Driver::file::VERSION    = "4.20";
+$CGI::Session::Driver::file::VERSION    = '4.38';
 $FileName                               = "cgisess_%s";
 $NoFlock                                = 0;
 $UMask                                  = 0660;
@@ -44,6 +44,14 @@ sub init {
 
 sub _file {
     my ($self,$sid) = @_;
+    my $id = $sid;
+    $id =~ s|\\|/|g;
+
+	if ($id =~ m|/|)
+    {
+        return $self->set_error( "_file(): Session ids cannot contain \\ or / chars: $sid" );
+    }
+
     return File::Spec->catfile($self->{Directory}, sprintf( $FileName, $sid ));
 }
 
@@ -114,12 +122,9 @@ sub store {
 
 
 sub remove {
-    my $self = shift;
+    my $self  = shift;
     my ($sid) = @_;
-
-    my $directory = $self->{Directory};
-    my $file      = sprintf( $FileName, $sid );
-    my $path      = File::Spec->catfile($directory, $file);
+    my $path  = $self -> _file($sid);
     unlink($path) or return $self->set_error( "remove(): couldn't unlink '$path': $!" );
     return 1;
 }
@@ -185,6 +190,8 @@ Naming conventions of session files are defined by C<$CGI::Session::Driver::file
 Default value of this variable is I<cgisess_%s>, where %s will be replaced with respective session ID. Should
 you wish to set your own FileName template, do so before requesting for session object:
 
+    use CGI::Session::Driver::file; # This line is mandatory.
+    # Time passes...
     $CGI::Session::Driver::file::FileName = "%s.dat";
     $s = new CGI::Session();
 
