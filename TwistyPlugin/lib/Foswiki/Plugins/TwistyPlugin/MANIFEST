@@ -1,5 +1,6 @@
 data/System/TwistyPlugin.txt 0644
 lib/Foswiki/Plugins/TwistyPlugin.pm 0444
+lib/Foswiki/Plugins/TwistyPlugin/Accordion.pm 0444
 pub/System/TwistyPlugin/twisty.js 0644
 pub/System/TwistyPlugin/twisty.css 0644
 pub/System/TwistyPlugin/twisty.dojo.js 0644
