@@ -204,6 +204,23 @@ This handler is called very early, immediately after =earlyInitPlugin=.
 
 =begin TML
 
+---++ finishPlugin()
+
+Called when Foswiki is shutting down, this handler can be used by the plugin
+to release resources - for example, shut down open database connections,
+release allocated memory etc.
+
+Note that it's important to break any cycles in memory allocated by plugins,
+or that memory will be lost when Foswiki is run in a persistent context
+e.g. mod_perl.
+
+=cut
+
+#sub finishPlugin {
+#}
+
+=begin TML
+
 ---++ registrationHandler($web, $wikiName, $loginName )
    * =$web= - the name of the web in the current CGI query
    * =$wikiName= - users wiki name

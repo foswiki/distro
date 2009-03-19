@@ -89,6 +89,9 @@ Break circular references.
 # documentation" of the live fields in the object.
 sub finish {
     my $this = shift;
+
+    $this->dispatch('finishPlugin');
+
     undef $this->{registeredHandlers};
     foreach ( @{ $this->{plugins} } ) {
         $_->finish();

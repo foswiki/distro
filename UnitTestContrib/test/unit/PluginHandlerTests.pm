@@ -40,7 +40,7 @@ use strict;
 # test.
 #
 # The handlers that are not currently tested are represented in the code
-# below using a function called "detest_<handlername>". If you are going
+# below using a function called "test_<handlername>". If you are going
 # to write a test for the handler, rename it to "test_<handlername>" and
 # start coding....
 #
@@ -585,6 +585,19 @@ sub writeHeaderHandler {
     $called->{writeHeaderHandler}++;
 }
 HERE
+}
+
+sub test_finishPlugin {
+    my $this = shift;
+    $this->makePlugin( 'finishPlugin', <<'HERE');
+sub finishPlugin {
+    $called->{finishPlugin}++;
+}
+HERE
+
+    $this->{session}->finish();
+    $this->checkCalls( 1, 'finishPlugin' );
+    $this->{session} = new Foswiki();
 }
 
 1;

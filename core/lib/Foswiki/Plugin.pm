@@ -51,6 +51,7 @@ use vars qw( @registrableHandlers %deprecated );
     'completePageHandler',              # 1.100
     'earlyInitPlugin',                  # 1.020
     'endRenderingHandler',              # 1.000 DEPRECATED
+    'finishPlugin',                     # 2.100
     'initPlugin',                       # 1.000
     'initializeUserHandler',            # 1.010
     'insidePREHandler',                 # 1.000 DEPRECATED
