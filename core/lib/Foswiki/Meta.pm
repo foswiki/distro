@@ -444,7 +444,7 @@ sub eachWeb {
     my ( $this, $all ) = @_;
 
     ASSERT( !$this->{_topic} ) if DEBUG;
-    return $this->{_session}->{store}->eachWeb( $this->{_web}, $all );
+    return $this->{_session}->{store}->eachWeb( $this, $all );
 
 }
 
@@ -460,7 +460,27 @@ sub eachTopic {
     my ($this) = @_;
     ASSERT( !$this->{_topic} ) if DEBUG;
     ASSERT( $this->{_web} ) if DEBUG;    # no topics allowed in root level
-    return $this->{_session}->{store}->eachTopic( $this->{_web} );
+    return $this->{_session}->{store}->eachTopic( $this );
+}
+
+=begin TML
+
+---++ ObjectMethod eachAttachment() -> $iterator
+
+Return an iterator over each attachment name in the topic.
+Only valid on topics.
+
+The list of the names of attachments stored for the given topic may be a
+longer list than the list that comes from the topic meta-data, which may
+only lists the attachments that are normally visible to the user.
+
+=cut
+
+sub eachAttachment {
+    my ($this) = @_;
+    ASSERT( $this->{_topic} ) if DEBUG;
+    ASSERT( $this->{_web} ) if DEBUG;
+    return $this->{_session}->{store}->eachAttachment( $this );
 }
 
 =begin TML

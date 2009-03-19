@@ -1,5 +1,3 @@
-use strict;
-
 #
 # Unit tests for Foswiki::Func
 #
@@ -8,6 +6,7 @@ package FuncTests;
 
 use base qw(FoswikiFnTestCase);
 
+use strict;
 use Foswiki;
 use Foswiki::Func;
 
@@ -1001,6 +1000,28 @@ sub test_getRevisionAtTime {
             $this->{test_web}, "ShutThatDoor", $t2 + 60
         )
     );
+}
+
+sub test_getAttachmentList {
+    my $this = shift;
+
+    my $f = "$Foswiki::cfg{TempfileDir}/testfile.gif";
+    $this->assert(open(F, ">", $f));
+    print F "Naff\n";
+    close(F);
+    my $meta =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, $this->{test_topic}, "One" );
+    $meta->attach(
+        name    => "testfile.gif",
+        file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
+        comment => "a comment"
+    );
+    $meta->save();
+    my @list = Foswiki::Func::getAttachmentList(
+        $this->{test_web}, $this->{test_topic});
+    my $list = join(' ', @list);
+    $this->assert_str_equals("testfile.gif", $list);
 }
 
 1;

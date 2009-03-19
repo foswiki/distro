@@ -277,7 +277,8 @@ Gets a list of names of subwebs in the current web
 
 sub getWebNames {
     my $this = shift;
-    my $dir  = $Foswiki::cfg{DataDir} . '/' . $this->{web};
+    my $dir  = $Foswiki::cfg{DataDir};
+    $dir .= '/' . $this->{web} if defined $this->{web};
     my @tmpList;
     if ( opendir( DIR, $dir ) ) {
         @tmpList =
@@ -942,24 +943,6 @@ sub getStream {
     return $strm;
 }
 
-=begin TML
-
----++ ObjectMethod getAttachmentAttributes($web, $topic, $attachment)
-
-returns [stat] for any given web, topic, $attachment
-
-=cut
-
-sub getAttachmentAttributes {
-    my ( $this, $web, $topic, $attachment ) = @_;
-    ASSERT( defined $attachment ) if DEBUG;
-
-    my $dir = dirForTopicAttachments( $web, $topic );
-    my @stat = stat( $dir . "/" . $attachment );
-
-    return @stat;
-}
-
 # as long as stat is defined, return an emulated set of attributes for that
 # attachment.
 sub _constructAttributesForAutoAttached {
@@ -988,33 +971,92 @@ sub _constructAttributesForAutoAttached {
 
 =begin TML
 
----++ ObjectMethod getAttachmentList($web, $topic)
+---++ ObjectMethod synchroniseAttachmentsList(\@old) -> @new
 
-returns {} of filename => { key => value, key2 => value } for any given web, topic
-Ignores files starting with _ or ending with ,v
+Synchronise the attachment list from meta-data with what's actually
+stored in the DB. Returns an ARRAY of FILEATTACHMENTs. These can be
+put in the new tom.
+
+This function is only called when the {AutoAttachPubFiles} configuration
+option is set.
+
+=cut
+
+# IDEA On Windows machines where the underlying filesystem can store arbitary
+# meta data against files, this might replace/fulfil the COMMENT purpose
+#
+# TODO consider logging when things are added to metadata
+
+sub synchroniseAttachmentsList {
+    my ( $this, $attachmentsKnownInMeta ) = @_;
+
+    my %filesListedInPub = $this->_getAttachmentStats();
+    my %filesListedInMeta = ();
+
+    # You need the following lines if you want metadata to supplement
+    # the filesystem
+    if ( defined $attachmentsKnownInMeta ) {
+        %filesListedInMeta =
+          map { $_->{name} => $_ } @$attachmentsKnownInMeta;
+    }
+
+    foreach my $file ( keys %filesListedInPub ) {
+        if ( $filesListedInMeta{$file} ) {
+
+            # Bring forward any missing yet wanted attributes
+            foreach my $field qw(comment attr user version) {
+                if ( $filesListedInMeta{$file}{$field} ) {
+                    $filesListedInPub{$file}{$field} =
+                      $filesListedInMeta{$file}{$field};
+                }
+            }
+        }
+    }
+
+    # A comparison of the keys of the $filesListedInMeta and %filesListedInPub
+    # would show files that were in Meta but have disappeared from Pub.
+
+    # Do not change this from array to hash, you would lose the
+    # proper attachment sequence
+    my @deindexedBecauseMetaDoesnotIndexAttachments =
+      values(%filesListedInPub);
+
+    return @deindexedBecauseMetaDoesnotIndexAttachments;
+}
+
+=begin TML
+
+---++ ObjectMethod getAttachmentList() -> @list
+
+Get list of attachment names actually stored for topic.
 
 =cut
 
 sub getAttachmentList {
-    my ( $this, $web, $topic ) = @_;
-    my $dir = dirForTopicAttachments( $web, $topic );
+    my $this = shift;
+    my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
+    opendir DIR, $dir || return ();
+    my @files = grep { !/^[.*_]/ && !/,v$/ } readdir(DIR);
+    closedir(DIR);
+    return @files;
+}
 
-    opendir DIR, $dir || return '';
+# returns {} of filename => { key => value, key2 => value }
+# for any given web, topic
+sub _getAttachmentStats {
+    my $this = shift;
     my %attachmentList = ();
-    my @files = sort grep { m/^[^\.*_]/ } readdir(DIR);
-    @files = grep { !/.*,v/ } @files;
-    foreach my $attachment (@files) {
+    my $dir = "$Foswiki::cfg{PubDir}/$this->{web}/$this->{topic}";
+    foreach my $attachment ($this->getAttachmentList()) {
         my @stat = stat( $dir . "/" . $attachment );
         $attachmentList{$attachment} =
           _constructAttributesForAutoAttached( $attachment, \@stat );
     }
-    closedir(DIR);
     return %attachmentList;
 }
 
-sub dirForTopicAttachments {
+sub _dirForTopicAttachments {
     my ( $web, $topic ) = @_;
-    return $Foswiki::cfg{PubDir} . '/' . $web . '/' . $topic;
 }
 
 =begin TML

@@ -119,8 +119,7 @@ sub readTopic {
 
         my @knownAttachments = $topicObject->find('FILEATTACHMENT');
         my @attachmentsFoundInPub =
-          _synchroniseAttachmentsList( $this, $topicObject->web,
-            $topicObject->topic, \@knownAttachments );
+          $handler->synchroniseAttachmentsList( \@knownAttachments );
         my @validAttachmentsFound;
         foreach my $foundAttachment (@attachmentsFoundInPub) {
             my ( $fileName, $origName ) =
@@ -146,56 +145,6 @@ sub readTopic {
     }
 
     return $handler->numRevisions();
-}
-
-# Synchronise the attachment list with what's actually on disk Returns an ARRAY
-# of FILEATTACHMENTs. These can be put in the new tom.
-#
-# This function is only called when the AutoAttachPubFiles configuration
-# option is set.
-#
-# IDEA On Windows machines where the underlying filesystem can store arbitary
-# meta data against files, this might replace/fulfil the COMMENT purpose
-#
-# TODO consider logging when things are added to metadata
-
-sub _synchroniseAttachmentsList {
-    my ( $this, $web, $topic, $attachmentsKnownInMeta ) = @_;
-    my $session = $this->{session};
-    ASSERT( UNIVERSAL::isa( $session, 'Foswiki' ) ) if DEBUG;
-
-    my $handler = $this->getHandler( $web, $topic );
-    my %filesListedInPub = $handler->getAttachmentList( $web, $topic );
-    my %filesListedInMeta = ();
-
-    # You need the following lines if you want metadata to supplement
-    # the filesystem
-    if ( defined $attachmentsKnownInMeta ) {
-        %filesListedInMeta =
-          map { $_->{name} => $_ } @$attachmentsKnownInMeta;
-    }
-
-    foreach my $file ( keys %filesListedInPub ) {
-        if ( $filesListedInMeta{$file} ) {
-
-            # Bring forward any missing yet wanted attributes
-            foreach my $field qw(comment attr user version) {
-                if ( $filesListedInMeta{$file}{$field} ) {
-                    $filesListedInPub{$file}{$field} =
-                      $filesListedInMeta{$file}{$field};
-                }
-            }
-        }
-    }
-
-    # A comparison of the keys of the $filesListedInMeta and %filesListedInPub
-    # would show files that were in Meta but have disappeared from Pub.
-
-    # Do not change this from array to hash, you would lose the
-    # proper attachment sequence
-    my @deindexedBecauseMetaDoesnotIndexAttachments = values(%filesListedInPub);
-
-    return @deindexedBecauseMetaDoesnotIndexAttachments;
 }
 
 # Documented in Foswiki::Store
@@ -556,20 +505,32 @@ sub eachChange {
 }
 
 # Documented in Foswiki::Store
-sub eachTopic {
-    my ( $this, $web ) = @_;
+sub eachAttachment {
+    my ($this, $topicObject) = @_;
 
-    my $handler = $this->getHandler($web);
+    my $handler = $this->getHandler( $topicObject->web, $topicObject->topic );
+    my @list = $handler->getAttachmentList();
+    require Foswiki::ListIterator;
+    return new Foswiki::ListIterator(\@list);
+}
+
+# Documented in Foswiki::Store
+sub eachTopic {
+    my ( $this, $webObject ) = @_;
+
+    my $handler = $this->getHandler($webObject->web);
     my @list    = $handler->getTopicNames();
 
     require Foswiki::ListIterator;
-    return return new Foswiki::ListIterator( \@list );
+    return new Foswiki::ListIterator( \@list );
 }
 
 # Documented in Foswiki::Store
 sub eachWeb {
-    my ( $this, $web, $all ) = @_;
-    $web ||= '';
+    my ( $this, $webObject, $all ) = @_;
+    # Undocumented; this fn actually accepts a web name as well. This is
+    # to make the recursion more efficient.
+    my $web = ref($webObject) ? $webObject->web : $webObject;
 
     my $handler = $this->getHandler( $web );
     my @list = $handler->getWebNames();

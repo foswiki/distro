@@ -512,4 +512,26 @@ sub test_eachChange {
     $this->assert( !$it->hasNext() );
 }
 
+sub test_eachAttachment {
+    my $this = shift;
+
+    my $meta =
+      Foswiki::Meta->new(
+          $this->{session}, $this->{test_web}, $this->{test_topic}, "One" );
+    $meta->attach(
+        name    => "testfile.gif",
+        file    => "$Foswiki::cfg{TempfileDir}/testfile.gif",
+        comment => "a comment"
+    );
+    $meta->save();
+    my $f = "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/noise.dat";
+    $this->assert(open(F, ">", $f));
+    print F "Naff\n";
+    close(F);
+    $this->assert(-e $f);
+    my $it = $this->{session}->{store}->eachAttachment($meta);
+    my $list = join(' ', sort $it->all());
+    $this->assert_str_equals("noise.dat testfile.gif", $list);
+}
+
 1;

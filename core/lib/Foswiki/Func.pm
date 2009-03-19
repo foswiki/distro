@@ -1620,6 +1620,23 @@ sub readTopicText {
 
 =begin TML
 
+---+++ getAttachmentList( $web, $topic ) -> @list
+Get a list of the attachments on the given topic.
+
+=cut
+
+sub getAttachmentList {
+    my ($web, $topic) = @_;
+    ( $web, $topic ) =
+      $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
+    my $topicObject = Foswiki::Meta->new(
+        $Foswiki::Plugins::SESSION, $web, $topic );
+    my $it = $topicObject->eachAttachment();
+    return sort $it->all();
+}
+
+=begin TML
+
 ---+++ attachmentExists( $web, $topic, $attachment ) -> $boolean
 
 Test if attachment exists

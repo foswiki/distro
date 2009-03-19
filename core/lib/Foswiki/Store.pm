@@ -517,7 +517,26 @@ sub eachChange {
 
 =begin TML
 
----++ ObjectMethod eachTopic( $web ) -> $iterator
+---++ ObjectMethod eachAttachment( $topicObject ) -> \$iterator
+
+Return an iterator over the list of attachments stored for the given
+topic. This will get a list of the attachments actually stored for the
+topic, which may be a longer list than the list that comes from the
+topic meta-data, which only lists the attachments that are normally
+visible to the user.
+
+the iterator iterates over attachment names.
+
+=cut
+
+sub eachAttachment {
+    my( $this, $topicObject ) = @_ ;
+    die "Abstract base class";
+}
+
+=begin TML
+
+---++ ObjectMethod eachTopic( $webObject ) -> $iterator
 
 Get list of all topics in a web as an iterator
    * =$web= - Web name, required, e.g. ='Sandbox'=
@@ -525,7 +544,7 @@ Get list of all topics in a web as an iterator
 =cut
 
 sub eachTopic {
-    my( $this, $web ) = @_ ;
+    my( $this, $webObject ) = @_ ;
     die "Abstract base class";
 }
 
