@@ -16,8 +16,13 @@ use File::Copy qw(copy);
 use IO::File;
 use Error qw( :try );
 
-require Foswiki;
-require Foswiki::Sandbox;
+use Foswiki                         ();
+use Foswiki::Sandbox                ();
+use Foswiki::UI                     ();
+use Foswiki::WebFilter              ();
+use Foswiki::Time                   ();
+use Foswiki::Meta                   ();
+use Foswiki::AccessControlException ();
 
 my $debug = 0;
 
@@ -70,7 +75,6 @@ sub statistics {
     _printMsg( $session, '!Do not interrupt this script!' );
     _printMsg( $session, '(Please wait until page download has finished)' );
 
-    require Foswiki::Time;
     unless ($logDate) {
         $logDate =
           Foswiki::Time::formatTime( time(), '$year$mo', 'servertime' );
@@ -220,6 +224,8 @@ sub _collectLogData {
 
         while ( !$logFileUserName && scalar(@$line) ) {
             $logFileUserName = shift @$line;
+            # Use Func::getCanonicalUserID because it accepts login,
+            # wikiname or web.wikiname
             $logFileUserName =
               Foswiki::Func::getCanonicalUserID($logFileUserName);
         }
