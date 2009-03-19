@@ -211,15 +211,17 @@ sub getExternalResource {
 
 =begin TML
 
----+++ getCgiQuery( ) -> $query
+---+++ getRequestObject( ) -> $query
 
-Get CGI query object. Important: Plugins cannot assume that scripts run under CGI, Plugins must always test if the CGI query object is set
+Get the request object. This is a subclass of Foswiki::Request. The request
+object can be used to get the parameters passed to the request, either
+via CGI or on the command ine (depending on how the script was called).
 
-Return: =$query= CGI query object; or 0 if script is called as a shell script
+*Since:* 31 Mar 2009
 
 =cut
 
-sub getCgiQuery {
+sub getRequestObject {
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
     return $Foswiki::Plugins::SESSION->{request};
 }
@@ -1623,6 +1625,8 @@ sub readTopicText {
 ---+++ getAttachmentList( $web, $topic ) -> @list
 Get a list of the attachments on the given topic.
 
+*Since:* 31 Mar 2009
+
 =cut
 
 sub getAttachmentList {
@@ -1921,7 +1925,7 @@ when the old parameters are restored. if you want to change any parameter
 values, you will need to do that in the current CGI query before redirecting
 e.g.
 <verbatim>
-my $query = Foswiki::Func::getCgiQuery();
+my $query = Foswiki::Func::getRequestObject();
 $query->param(-name => 'text', -value => 'Different text');
 Foswiki::Func::redirectCgiQuery(
   undef, Foswiki::Func::getScriptUrl($web, $topic, 'edit'), 1);
@@ -2928,6 +2932,16 @@ sub getDataDir {
 =cut
 
 sub getPubDir { return $Foswiki::cfg{PubDir}; }
+
+=begin TML
+
+---+++ getCgiQuery( ) -> $query
+
+*Deprecated* 31 Mar 2009 - use getRequestObject instead.
+
+=cut
+
+sub getCgiQuery { return getRequestObject(); }
 
 # Removed; it was never used
 sub checkDependencies {

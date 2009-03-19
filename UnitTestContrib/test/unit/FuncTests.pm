@@ -906,7 +906,7 @@ sub test_setPreferences {
     Foswiki::Func::setPreferencesValue( "PSIBG", "KJHD" );
     $this->assert_str_equals( "KJHD",
         Foswiki::Func::getPreferencesValue("PSIBG") );
-    my $q = Foswiki::Func::getCgiQuery();
+    my $q = Foswiki::Func::getRequestObject();
 
     ####
     Foswiki::Func::saveTopicText( $this->{test_web},
