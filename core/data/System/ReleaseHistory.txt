@@ -6,7 +6,7 @@
 
 ---++ Foswiki Release 1.0.4 - 19 Mar 2009
 
-Small update of 1.0.3 with 32 more bugs fixed incl some severe bugs in !EditTablePlugin.
+Small update of 1.0.3 with 33 more bugs fixed incl some severe bugs in !EditTablePlugin.
 
 Upgrade package for 1.0.4 is relative to 1.0.0.
 

@@ -502,6 +502,7 @@ None
 | [[%BUGS%/Item1307][Item1307]] | Moving a web does not correctly update links to the moved web |
 | [[%BUGS%/Item1308][Item1308]] | EditTablePlugin has problems with included topics with included edittable definition |
 | [[%BUGS%/Item1316][Item1316]] | Disable IP Matching by default to avoid problems for people moving between LAN and WLAN or using load share gateways |
+| [[%BUGS%/Item1332][Item1332]] | querystrings with semicolon or & but no valid parameter assignment gives error log entries |
 | [[%BUGS%/Item8055][Item8055]] | Adding TWiki::ListIterator and TWiki::LineIterator to TWikiCompatibilityPlugin |
 | [[%BUGS%/Item8072][Item8072]] | Error in Bridge between TWiki::Time and Foswiki::Time   |
 </noautolink>
