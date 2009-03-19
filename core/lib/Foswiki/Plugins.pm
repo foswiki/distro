@@ -39,7 +39,7 @@ as kernel methods may change between Foswiki releases.
 
 =cut
 
-$VERSION = '2.0';
+$VERSION = '2.1';
 
 $inited = 0;
 
