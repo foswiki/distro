@@ -313,5 +313,6 @@ Many thanks to the following sponsors for supporting this work:
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/%$UPLOADTARGETWEB%/%$MODULE% |
+|  Support: | %$UPLOADTARGETSCRIPT%/view%$UPLOADTARGETSUFFIX%/Support/%$MODULE% |
 
 <!-- Do _not_ attempt to edit this topic; it is auto-generated. -->
