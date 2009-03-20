@@ -1573,7 +1573,7 @@ END
             $a =~ /name="([^"]*)"/;
             my $name = $1;
             next if $uploaded{$name};
-            next if $name =~ /^$to(\.zip|\.tgz|_installer|\.md5)$/;
+            next if $name =~ /^$to(\.zip|\.tgz|_installer|\.md5|\.sha1)$/;
             $a =~ /comment="([^"]*)"/;
             my $comment = $1;
             $a =~ /attr="([^"]*)"/;
@@ -1599,7 +1599,7 @@ END
     return unless $doup;
 
     # Upload the standard files
-    foreach my $ext qw(.zip .tgz _installer .md5) {
+    foreach my $ext qw(.zip .tgz _installer .md5 .sha1) {
         my $name = $to . $ext;
         next if $uploaded{$name};
         $this->_uploadAttachment( $userAgent, $user, $pass, $to . $ext,
@@ -1937,7 +1937,7 @@ sub _manicollect {
     elsif (!-d 
         && /^\w.*\w$/
         && !/^(DEPENDENCIES|MANIFEST|(PRE|POST)INSTALL|build\.pl)$/
-        && !/$collector->{project}\.(md5|zip|tgz|txt)/ )
+        && !/$collector->{project}\.(md5|zip|tgz|txt|sha1)/ )
     {
         my $n     = $File::Find::name;
         my @a     = stat($n);
