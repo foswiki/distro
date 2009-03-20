@@ -1,6 +1,7 @@
 foswiki (1.0.4-1) unstable; urgency=low
 
   * upgrade to foswiki 1.0.4
+  * added Warning to configure Extension installer to _not_ use it
 
  -- Sven Dowideit <SvenDowideit@fosiki.com>  Fri, 20 Mar 2009 09:53:40 +0100
 
