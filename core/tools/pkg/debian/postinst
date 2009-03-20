@@ -97,6 +97,7 @@ case "$1" in
 #	    fi
 #	done
 
+	#note that only apache2 really seems to exist in Etch etc, but the others I've left for historical reasons
 	servers="apache apache-perl apache-ssl apache2"
 	for server in $servers; do
 		if [ `which $server` ]; then
