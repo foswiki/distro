@@ -1,4 +1,4 @@
-foswiki (1.0.0-1) unstable; urgency=low
+foswiki (1.0.4-1) unstable; urgency=low
 
   In order to improve the package's security, Foswiki configuration
   script can now only be accessed at
