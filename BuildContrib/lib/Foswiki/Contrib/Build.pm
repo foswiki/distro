@@ -1187,9 +1187,10 @@ sub target_archive {
     foreach my $f qw(.tgz _installer .zip) {
         push( @fs, "$target$f" ) if ( -e "$target$f" );
     }
+
     eval "require Digest::MD5";
     if ($@) {
-        print STDERR "WARNING: Digest::MD5 not installed; cannot checksum\n";
+        print STDERR "WARNING: Digest::MD5 not installed; cannot generate MD5 checksum\n";
     }
     else {
         open( CS, '>', "$target.md5" ) || die $!;
@@ -1204,6 +1205,25 @@ sub target_archive {
         close(CS);
         print "MD5 checksums in $this->{basedir}/$target.md5\n";
     }
+
+    eval "require Digest::SHA";
+    if ($@) {
+        print STDERR "WARNING: Digest::SHA not installed; cannot generate SHA1 checksum\n";
+    }
+    else {
+        open( CS, '>', "$target.sha1" ) || die $!;
+        foreach my $file (@fs) {
+            open( F, '<', $file );
+            local $/;
+            my $data = <F>;
+            close(F);
+            my $cs = Digest::SHA::sha1_hex($data);
+            print CS "$cs  $file\n";
+        }
+        close(CS);
+        print "SHA1 checksums in $this->{basedir}/$target.sha1\n";
+    }
+
     $this->popd();
     $this->popd();
 
