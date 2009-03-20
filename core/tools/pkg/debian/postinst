@@ -99,6 +99,7 @@ case "$1" in
 
 	servers="apache apache-perl apache-ssl apache2"
 	for server in $servers; do
+		if [ `which $server` ]; then
 		if [ -e /etc/$server/conf.d ]; then
 			includefile=/etc/foswiki/apache.conf
 			if [ -e /etc/$server/conf.d/foswiki.conf ]; then
@@ -113,6 +114,7 @@ case "$1" in
 				apache-modconf $server enable authn_file
 				apache-modconf $server enable rewrite
 			fi
+		fi
 		fi
 	done
 
