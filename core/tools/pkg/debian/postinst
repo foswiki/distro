@@ -66,13 +66,7 @@ perl -pi~ -e 's{/(/cgi-bin)}{$1}g;' /etc/foswiki/apache.conf
 rm /etc/foswiki/*~
 
 db_get foswiki/wikiwebmaster
-# do rcs checkout first?
-#TODO: these settings should move to Main.SitePreferences
-if [ ! -e /var/lib/foswiki/data/System/DefaultPreferences.txt ]; then
-	perl -pi~ -e '$U=q{'"$RET"'}; s/^(.*\*\s*Set\s*WIKIWEBMASTER\s*=\s*).*(\r?\n)$/\1$U\2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
-	#force default to use sendmail by setting SMTPMAILHOST to blank
-	perl -pi~ -e 's/^(\s*\*\s*Set\s*SMTPMAILHOST\s*=\s*).*(\r\n)$/$1$2/;' /var/lib/foswiki/data/System/DefaultPreferences.txt
-fi
+perl -pi~ -e '$U=q{'"$RET"'}; s{WEBMASTEREMAIL}{$U}g;' /etc/foswiki/LocalSite.cfg
 
 # user + password authorized to run configure script
 db_get foswiki/adminuser
@@ -143,6 +137,9 @@ case "$1" in
 			fi
 		       	$HTPASSWDCMD -b /var/lib/foswiki/data/.htpasswd "$configuser" "$configpassword"
 			chown $WIKI_OWNER.www-data /var/lib/foswiki/data/.htpasswd
+			#add the same password into the LocalLib.cfg
+			passwordhash=`grep "$configuser" /var/lib/foswiki/data/.htpasswd | sed "s/$configuser://"`
+			perl -pi~ -e '$U=q{'"$passwordhash"'}; s{PASSWORD}{$U}g;' /etc/foswiki/LocalSite.cfg
 		fi
 	fi
 
