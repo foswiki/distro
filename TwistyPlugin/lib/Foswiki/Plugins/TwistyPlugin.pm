@@ -3,7 +3,6 @@
 # Copyright (C) Michael Daum
 # Copyright (C) Arthur Clemens, arthur@visiblearea.com
 # Copyright (C) Rafael Alvarez, soronthar@sourceforge.net
-# Copyright (C) Eugen Mayer, mayer@impressive-media.de
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,9 +28,6 @@ use Foswiki::Func;
 use CGI::Cookie;
 use strict;
 
-# custom Twisty implementations
-use Foswiki::Plugins::TwistyPlugin::Accordion;
-
 use vars
   qw( $VERSION $RELEASE $pluginName @modes $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
@@ -44,7 +40,7 @@ $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.5.3';
+$RELEASE = '1.5.2';
 
 $pluginName = 'TwistyPlugin';
 
@@ -74,10 +70,6 @@ sub initPlugin {
     Foswiki::Func::registerTagHandler( 'ENDTWISTY',       \&_ENDTWISTYTOGGLE );
     Foswiki::Func::registerTagHandler( 'TWISTYTOGGLE',    \&_TWISTYTOGGLE );
     Foswiki::Func::registerTagHandler( 'ENDTWISTYTOGGLE', \&_ENDTWISTYTOGGLE );
-    
-    # this macros our for TWISTY types ( modes ) which need section in the TWISTY section
-    Foswiki::Func::registerTagHandler( 'TWISTYITEM',      \&_TWISTYITEM );
-    Foswiki::Func::registerTagHandler( 'ENDTWISTYITEM',   \&_ENDTWISTYITEM );
 
     return 1;
 }
@@ -153,24 +145,12 @@ sub _TWISTY {
     my ( $session, $params, $theTopic, $theWeb ) = @_;
 
     _addHeader();
-    
     $twistyCount++;
     my $id = $params->{'id'};
     if ( !defined $id || $id eq '' ) {
         $params->{'id'} = _createId( $params->{'id'}, $theWeb, $theTopic );
-    }    
-   # lets add the current mode to the stack so other elements can use it ( END, ITEMS )
-   my $mode = $params->{'mode'} || $prefMode;
-   
-   if($mode eq "accordion") {
-       # SMELL:sadly we cant do this globaly, as the defaul one does this in the _TWISTYTOGGLE method and we cant
-       # extract it from there, as the macro can be called directly 
-       unshift @modes, $mode;
-       return Foswiki::Plugins::TwistyPlugin::Accordion::_accordionStart(@_);
-   }
-   # add new types here
-   # default
-   return _TWISTYBUTTON(@_) . _TWISTYTOGGLE(@_);
+    }
+    return _TWISTYBUTTON(@_) . _TWISTYTOGGLE(@_);
 }
 
 sub _TWISTYTOGGLE {
@@ -183,6 +163,7 @@ sub _TWISTYTOGGLE {
     my $idTag = $id . 'toggle';
     my $mode = $params->{'mode'} || $prefMode;
     unshift @modes, $mode;
+
     my $isTrigger = 0;
     my $cookieState = _readCookie( $session, $idTag );
     my @propList =
@@ -202,9 +183,6 @@ sub _ENDTWISTYTOGGLE {
 "<span class='foswikiAlert'>woops, ordering error: got an ENDTWISTY before seeing a TWISTY</span>"
       unless $mode;
 
-    # ok lets switch case all the types
-    return Foswiki::Plugins::TwistyPlugin::Accordion::_accordionEnd(@_) if($mode eq "accordion"); 
-        
     my $modeTag = ($mode) ? '</' . $mode . '>' : '';
     return $modeTag . _wrapInContentHtmlClose($mode);
 }
@@ -456,19 +434,4 @@ sub _wrapInContainerDivIfNoJavascripClose {
     return '</' . $mode . '><!--/twistyPlugin foswikiMakeVisibleInline-->';
 }
 
-sub _TWISTYITEM {
-   my ( $session, $params, $theTopic, $theWeb ) = @_;
-   # the last started TWISTY added his mode / type to our global modes stack, so we can get the type out of it
-   my $type = $modes[0];   
-   return Foswiki::Plugins::TwistyPlugin::Accordion::_accordionItemStart(@_) if($type eq "accordion");
-   # add new types here
-}
-
-sub _ENDTWISTYITEM {
-   my ( $session, $params, $theTopic, $theWeb ) = @_;
-   # the last started TWISTY added his mode / type to our global modes stack, so we can get the type out of it
-   my $type = $modes[0];   
-   return Foswiki::Plugins::TwistyPlugin::Accordion::_accordionItemEnd(@_) if($type eq "accordion");
-    # add new types here
-}
 1;

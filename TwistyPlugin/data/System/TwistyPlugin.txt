@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="EugenMayer" date="1237430220" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1195487956" format="1.1" version="1.1"}%
 ---+!! <nop>%TOPIC%
 
 *A "twisty" is an interface toggle control to show and hide content.*
@@ -446,7 +446,7 @@ Usage: =%<nop>TWISTY{ ... }% Toggable contents %<nop>ENDTWISTY%=
     | =link=         | Link label | Link label for both show and hide links  | optional |
     | =hidelink=     | Link label | Hide link label  | optional |
     | =showlink=     | Link label | Show link label  | optional |
-    | =mode=         | ="div"=, ="span"= or "accordion" ( see below ) | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup. %BR% Also used to define the type of the Twisty ( default, accordion, tabs ) | optional, defaults to =&lt;span&gt;= |
+    | =mode=         | ="div"= or ="span"= | Specify if the Twisty Toggle section will use a =&lt;div&gt;= or a =&lt;span&gt;= tag. Note that if the contents contains block elements such as =div=, =mode= should be =div= as well to create valid HTML markup.  | optional, defaults to =&lt;span&gt;= |
 	| =showimgleft=  | Image url | Specify the url of an image that will be displayed with the show link at the left side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
 	| =hideimgleft=  | Image url | Specify the url of an image that will be displayed with the hide link at the left side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
 	| =showimgright= | Image url | Specify the url of an image that will be displayed with the show link at the right side of the link. <br />You may use [[%SYSTEMWEB%.Macros#VarICONURLPATH][ICONURLPATH]] to display one of the %SYSTEMWEB%.DocumentGraphics icons. Alternatively use an image attached to the topic. | optional, defaults to no image |
@@ -551,23 +551,6 @@ This is useful if both the show and the hide button take the same arguments.
       * Will end the most inner unclosed Twisty Toggle section, using the proper tag
    * Example: =%<nop>ENDTWISTYTOGGLE%=
    * Related: [[#VarTWISTYTOGGLE][TWISTYTOGGLE]]
-
-#VarTWISTYITEM
----+++ TWISTYITEM
-*The Twisty closure*
-   * Syntax: =%<nop>TWISTYITEM{"LABEL"}%=
-      * Starts a new TWISTY sub item, with the label =Test=
-   * Example: =%<nop>TWISTYITEM{"test"}%=
-   * Related: [[#ENDTWISTYITEM][ENDTWISTYITEM]]
-It is .e.g used for defining tabs or accordion sections
-
-#VarENDTWISTYITEM
----+++ ENDTWISTYITEM
-*The Twisty closure*
-   * Syntax: =%<nop>ENDTWISTYITEM%=
-      * Ends a TWISTY item defintion 
-   * Example: =%<nop>ENDTWISTYITEM%=
-   * Related: [[#TWISTYITEM][TWISTYITEM]]
 </div>
 
 ---++ Working with other Javascript libraries
@@ -581,31 +564,6 @@ If you want to use a different Javascript library than the default Foswiki Javas
       * For example, append to the url: =?skin=dojo,pattern= %BR%
       or write: =Set SKIN = dojo,pattern=
       * For this, Foswiki:Extensions/DojoToolkitContrib needs to be installed
-
-
----++ Additional Twisty types
----+++ Accordion
-You can have the accordion effect using TwistyPlugin with the common syntax. You can have a look at the demo on [[http://jqueryui.com/demos/accordion/]] to see how it will look like.
-You will need to have install JQueryPlugin or JQueryCompatibiltyModePlugin ( yes it works with bots ). You will also have to include the ui.accordion.js somewhere.. please consider the documentation of both JQuery plugins to see how this works ( 1 minute job ). In the end, you can use it that way:
-
-<verbatim>
-%TWISTY{mode="accordion"}%
-
-%TWISTYITEM{"General""}%
-Here you have the general content
-%ENDTWISTYITEM%
-%TWISTYITEM{"Advanced""}%
-Here you have the advanced content
-%ENDTWISTYITEM%
-%TWISTYITEM{"Experts""}%
-Here you have the experts content
-%ENDTWISTYITEM%
-
-%ENDTWISTY{}%
-</verbatim>
-
-You can have as many TWISTYITEMS ( Sections ) as you like. Have fun :)
-
 
 #PluginSettings
 ---++ Plugin Settings
@@ -636,14 +594,14 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>T
 %$DEPENDECIES%
    * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
 
+
 ---++ Plugin Info
 
-|  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens, Foswiki:Main.EugenMayer |
-|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens, EugenMayer |
+|  Authors: | Foswiki:Main.RafaelAlvarez, Foswiki:Main.MichaelDaum, Foswiki:Main.ArthurClemens |
+|  Copyright  | Copyright (C) Rafael Alvarez; Michael Daum, Arthur Clemens |
 |  License: | [[http://www.gnu.org/copyleft/gpl.html][GPL]] |
-|  Plugin&nbsp;Version: | 19 Mar 2009 (version 1.5.3) |
+|  Plugin&nbsp;Version: | 29 Jan 2009 (version 1.5.2) |
 |  Change&nbsp;History: | <!-- versions below in reverse order -->&nbsp; |
-|  19 Mar 2009 | 1.5.3 Added the possibility to add new Twisty types. Added TWISTYITEM to be able to have subsections in TWISTY. Added an JQuery accordion implementation |
 |  03 Dec 2008 | 1.5.1 Added parameter =linkclass=. Foswiki version |
 |  27 Nov 2008 | 1.5 Foswiki release; added option to use other Javascript libraries. |
 |  08 Oct 2008 | 1.4.11, 1.4.12 It is now possible to have a twisty on the same line without a linebreak. |
