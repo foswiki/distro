@@ -102,6 +102,7 @@ install: build
 	cp -pR lib/* debian/foswiki/var/lib/foswiki/lib/
 
 	cp -p debian/apache.conf debian/foswiki/etc/foswiki/
+	cp -p debian/ShorterUrl.conf debian/foswiki/etc/foswiki/
 #move LocalSite.cfg to /etc/foswiki
 	cp debian/LocalSite.cfg debian/foswiki/etc/foswiki/LocalSite.cfg
 

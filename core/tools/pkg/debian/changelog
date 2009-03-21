@@ -1,3 +1,9 @@
+foswiki (1.0.4-2) unstable; urgency=low
+
+  * add a ShorterUrl.conf that can be 'just linked'
+
+ -- Sven Dowideit <SvenDowideit@fosiki.com>  Fri, 20 Mar 2009 09:53:40 +0100
+
 foswiki (1.0.4-1) unstable; urgency=low
 
   * upgrade to foswiki 1.0.4
