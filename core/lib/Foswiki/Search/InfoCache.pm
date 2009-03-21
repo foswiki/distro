@@ -9,6 +9,10 @@ Support package; cache of topic info. When information about search hits is
 compiled for output, this cache is used to avoid recovering the same info
 about the same topic more than once.
 
+TODO: this is going to transform from an ugly duckling into the ResultSet Iterator
+
+I have the feeling that we should make result sets immutable
+
 =cut
 
 use strict;
@@ -17,8 +21,8 @@ use Assert;
 use Foswiki::Meta ();
 
 sub new {
-    my ( $class, $session, $web ) = @_;
-    my $this = bless( { _session => $session, _web => $web }, $class );
+    my ( $class, $session, $web, $topicList ) = @_;
+    my $this = bless( { _session => $session, _web => $web, topicList=> $topicList }, $class );
     return $this;
 }
 
@@ -91,11 +95,11 @@ sub getRev1Info {
 
 # Sort a topic list using cached info
 sub sortTopics {
-    my ( $this, $topics, $sortfield, $revSort ) = @_;
+    my ( $this, $sortfield, $revSort ) = @_;
     ASSERT($sortfield);
 
     # populate the cache for each topic
-    foreach my $topic (@$topics) {
+    foreach my $topic (@{$this->{topicList}}) {
         if ( $sortfield =~ /^creat/ ) {
 
             # The act of getting the info will cache it
@@ -116,14 +120,14 @@ sub sortTopics {
           $info->{tom}->session->{users}->getWikiName( $info->{editby} );
     }
     if ($revSort) {
-        @$topics = map { $_->[1] }
+        @{$this->{topicList}} = map { $_->[1] }
           sort { _compare( $b->[0], $a->[0] ) }
-          map { [ $this->{$_}->{$sortfield}, $_ ] } @$topics;
+          map { [ $this->{$_}->{$sortfield}, $_ ] } @{$this->{topicList}};
     }
     else {
-        @$topics = map { $_->[1] }
+        @{$this->{topicList}} = map { $_->[1] }
           sort { _compare( $a->[0], $b->[0] ) }
-          map { [ $this->{$_}->{$sortfield}, $_ ] } @$topics;
+          map { [ $this->{$_}->{$sortfield}, $_ ] } @{$this->{topicList}};
     }
 }
 
