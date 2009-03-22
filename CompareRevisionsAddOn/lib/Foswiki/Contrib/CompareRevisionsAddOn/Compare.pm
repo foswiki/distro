@@ -21,9 +21,6 @@ package Foswiki::Contrib::CompareRevisionsAddOn::Compare;
 
 use strict;
 
-use CGI::Carp qw(fatalsToBrowser);
-use CGI;
-
 use Foswiki::UI;
 use Foswiki::Func;
 use Foswiki::Plugins;
@@ -59,7 +56,8 @@ sub compare {
 
     # Check, if interweave or sidebyside
 
-    my $renderStyle = $query->param('render')
+    my $renderStyle =
+         $query->param('render')
       || &Foswiki::Func::getPreferencesValue( "COMPARERENDERSTYLE", $webName )
       || 'interweave';
     $interweave = $renderStyle eq 'interweave';
@@ -126,8 +124,8 @@ sub compare {
 
     # get and process templates
 
-    my $tmpl =
-      Foswiki::Func::readTemplate( $interweave ? 'compareinterweave' : 'comparesidebyside' );
+    my $tmpl = Foswiki::Func::readTemplate(
+        $interweave ? 'compareinterweave' : 'comparesidebyside' );
 
     $tmpl =~ s/\%META{.*?\}\%\s*//g;    # Meta data already processed
                                         # in _getTree
@@ -137,8 +135,7 @@ sub compare {
     $tmpl =~ s/%REVINFO1%/$revinfo1/g;
     $tmpl =~ s/%REVINFO2%/$revinfo2/g;
     $tmpl = Foswiki::Func::renderText( $tmpl, $webName );
-	$tmpl =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois
-      ;
+    $tmpl =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois;
 
     my (
         $tmpl_before, $tmpl_us, $tmpl_u, $tmpl_c,
@@ -154,7 +151,7 @@ sub compare {
 
     # Start the output
 
-	my $output = $tmpl_before;
+    my $output = $tmpl_before;
 
     # Compare the trees
 
@@ -259,9 +256,11 @@ sub compare {
               . ( $i - 1 )
               . (
                 $query->param('skin') ? '&skin=' . $query->param('skin') : '' )
-              . ( $query->param('context')
+              . (
+                $query->param('context')
                 ? '&context=' . $query->param('context')
-                : '' )
+                : ''
+              )
               . '&render='
               . $renderStyle
               . '">&lt;</a>';
@@ -284,7 +283,7 @@ sub compare {
       ;    # remove <nop> and <noautolink> tags
 
     $output .= $tmpl_after;
-	$session->writeCompletePage($output, 'view');
+    $session->writeCompletePage( $output, 'view' );
 
 }
 
@@ -296,7 +295,8 @@ sub _getTree {
 
     # Read document
 
-    my ( $meta, $text ) = Foswiki::Func::readTopic( $webName, $topicName, $rev );
+    my ( $meta, $text ) =
+      Foswiki::Func::readTopic( $webName, $topicName, $rev );
     $text .= "\n" . '%META{"form"}%';
     $text .= "\n" . '%META{"attachments"}%';
 

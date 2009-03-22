@@ -20,7 +20,6 @@
 #
 # As per the GPL, removal of this notice is prohibited.
 
-
 use strict;
 use warnings;
 
@@ -36,7 +35,7 @@ BEGIN {
         $SIG{__DIE__} = \&Carp::confess;
     }
     $ENV{FOSWIKI_ACTION} = 'compare';
-    @INC = ('.', grep { $_ ne '.' } @INC);
+    @INC = ( '.', grep { $_ ne '.' } @INC );
     require 'setlib.cfg';
 }
 

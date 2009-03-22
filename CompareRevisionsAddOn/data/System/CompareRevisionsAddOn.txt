@@ -162,8 +162,9 @@ __Note:__ You do not need to install anything on the browser to use this add-on.
 |  Plugin Author: | Foswiki:Main.KennethLavrsen |
 |  Copyright &copy;: | 2006, !JChristophFuchs; 2008 Kenneth Lavrsen and Foswiki Contributors | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 09 Jan 2009  |
+|  Plugin Version: | 22 Mar 2009  |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  22 Mar 2009 | Gilmar Santos Jr: ported to [[Foswiki:Development/FoswikiStandAlone][FSA architecture]] (Foswiki:Tasks/Item1352) |
 |  09 Jan 2009 | Gilmar Santos Jr: fixed ambigous print (Foswiki:Tasks.Item716) |
 |  08 Dec 2008 | Kenneth Lavrsen: Changed the author to myself. !JChristophFuchs is the original author but announced in 2006 that he no longer maintains this plugin. So now I officially take the task as maintainer. Plugin is changed to Foswiki namespace and tested and works under Foswiki 1.0.0. Policy is now feel free to modify but please do not break compatibility. | 
 |  07 Nov 2007 | Arthur Clemens: Updated for TWiki 4.2  |
