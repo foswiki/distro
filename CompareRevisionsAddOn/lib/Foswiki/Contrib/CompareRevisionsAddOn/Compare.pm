@@ -46,7 +46,7 @@ sub compare {
 
     $Foswiki::Plugins::SESSION = $session;
 
-    my $query   = $session->{cgiQuery};
+    my $query   = $session->{request};
     my $webName = $session->{webName};
     my $topic   = $session->{topicName};
 
@@ -154,8 +154,7 @@ sub compare {
 
     # Start the output
 
-    print CGI::header();
-    print $tmpl_before;
+	my $output = $tmpl_before;
 
     # Compare the trees
 
@@ -187,7 +186,7 @@ sub compare {
             if ($skip) {
 
                 unless ($unchangedSkipped) {
-                    print $tmpl_us;
+                    $output .= $tmpl_us;
                     $unchangedSkipped = 1;
                 }
                 next;
@@ -235,7 +234,7 @@ sub compare {
         # Do the replacement of %TEXT1% and %TEXT2% simultaneously
         # to prevent difficulties with text containing '%TEXT2%'
         $tmpl =~ s/%TEXT(1|2)%/$1==1?$text1:$text2/ge;
-        print $tmpl;
+        $output .= $tmpl;
 
     }
 
@@ -284,8 +283,8 @@ sub compare {
     $tmpl_after =~ s/( ?) *<\/?(nop|noautolink)\/?>\n?/$1/gois
       ;    # remove <nop> and <noautolink> tags
 
-    print $tmpl_after;
-    print CGI::end_html();
+    $output .= $tmpl_after;
+	$session->writeCompletePage($output, 'view');
 
 }
 
