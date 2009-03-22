@@ -144,7 +144,7 @@ Preference settings local to your site should be set in [[%LOCALSITEPREFS%]] (th
 
 ---+++ Search Settings
 
-   * Default type for search, one of: keyword (for search engine like syntax), regex (for RegularExpression search), or literal (for verbatim search)
+   * Default type for search bin script, one of: keyword (for search engine like syntax), regex (for RegularExpression search), or literal (for verbatim search). It does not influence the default for the WebSearch
       * Set SEARCHDEFAULTTTYPE = keyword
    * Default for =%<nop>SEARCH{}%= macro, one of: keyword, regex, or literal
       * Set SEARCHVARDEFAULTTYPE = literal
