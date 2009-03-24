@@ -119,7 +119,7 @@ Different script execution mechanisms are disabled in different ways; see your w
 
 To limit access to a particular user, set up a =.htpasswd= file that contains the user name and password that Apache will use to authenticate the user:
    * Change to the =foswiki/data= directory.
-   * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. Enter a password when prompted. Note this username cannot be used later on to register in Foswiki.
+   * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. _Choose the username with care:_ the username cannot be an existing login name for your Foswiki installation, nor can it be used later on to register in Foswiki. Enter a password when prompted.
 
 The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files show how to configure Apache so that the =configure= page will be protected using the user and password held in the =data/.htpasswd= file. The Apache config file or .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Ensure the user specified in the directive matches the &lt;username&gt; you used when creating the .htpasswd file.
 
