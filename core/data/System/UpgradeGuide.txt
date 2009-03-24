@@ -80,7 +80,7 @@ The =configure= page mentioned in this document is accessible via your web brows
       * Verify all of the configuration settings on the =configure= page, including any new settings added in the new version. Save the configuration after you have completed your changes.
       * To wipe out all your settings and start configuring from a fresh installation, just delete the =&lt;newwiki&gt;/lib/LocalSite.cfg= file and run =configure=.
    * Additional resources
-      * Foswiki:Support.InstallationGuide
+      * Foswiki:System.InstallationGuide
       * Foswiki:Support.InstallingOnSpecificPlatforms
       * Foswiki:Support.ApacheConfigGenerator
       * Foswiki:Support.SettingFileAccessRightsLinuxUnix
