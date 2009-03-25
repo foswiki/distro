@@ -210,16 +210,17 @@ sub new {
     $stubpath =~ s/[\\\/]/::/g;
 
     # Get %$RELEASE%
-    if (-e $this->{pm}) {
+    if ( -e $this->{pm} ) {
         my $fh;
-        if (open($fh, "<", $this->{pm})) {
+        if ( open( $fh, "<", $this->{pm} ) ) {
             local $/;
             my $text = <$fh>;
-            if ($text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/) {
+            if ( $text =~ /\$RELEASE\s*=\s*(['"])(.*?)\1/ ) {
                 $this->{RELEASE} = $2;
             }
         }
     }
+
     # where data files live
     $this->{data_systemdir} =
       'data/' . ( ( $targetProject eq 'TWiki' ) ? 'TWiki' : 'System' );
@@ -307,7 +308,8 @@ sub new {
         my $cells =
           CGI::th('Name') . CGI::th('Version') . CGI::th('Description');
         $this->{DEPENDENCIES} =
-          CGI::table( { border => 1, class => 'foswikiTable' }, CGI::Tr($cells) . $deptable );
+          CGI::table( { border => 1, class => 'foswikiTable' },
+            CGI::Tr($cells) . $deptable );
     }
 
     $this->{VERSION} = $this->_get_svn_version();
@@ -474,8 +476,8 @@ sub _get_svn_version {
     my $this = shift;
 
     unless ( $this->{VERSION} ) {
-        my $max  = 0; # max SVN rev no
-        my $maxd = 0; # max date
+        my $max  = 0;    # max SVN rev no
+        my $maxd = 0;    # max date
 
         #Shelling out with a large number of files dies, killing the build.
         my $idx = 0;
@@ -506,25 +508,28 @@ sub _get_svn_version {
                         }
                     }
                     elsif ($getDate
-                        && $line =~ /^Text Last Updated: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                        && $line =~
+                        /^Text Last Updated: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
                     {
-                        $maxd    = Foswiki::Time::parseTime("$1T$2".($3||''));
+                        $maxd =
+                          Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
                         $getDate = 0;
                     }
                     elsif ($getDate
-                        && $line =~ /Last Changed Date: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                        && $line =~
+                        /Last Changed Date: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
                     {
-                        $maxd    = Foswiki::Time::parseTime("$1T$2".($3||''));
+                        $maxd =
+                          Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
                         $getDate = 0;
                     }
                 }
             };
             if ($@) {
-                print STDERR "WARNING: Failed to shell out to svn: $@";
+                #print STDERR "WARNING: Failed to shell out to svn: $@";
             }
         }
-        $this->{DATE} =
-          Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
+        $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
         my $day = $this->{DATE};
         $day =~ s/T.*//;
         $this->{VERSION} = "$max ($day)";
@@ -1410,14 +1415,14 @@ sub _getTopicName {
 
     if ( $topicname =~ m{\d+\.\d+\.\d+} ) {
 
-	# Append 'Release' to first (word) part of name if followed by -
-	$topicname =~ s/^(\w+)\-/${1}Release/;
+        # Append 'Release' to first (word) part of name if followed by -
+        $topicname =~ s/^(\w+)\-/${1}Release/;
 
-	# Zero-pad numbers to two digits
-    	$topicname =~ s/(\d+)/sprintf("%0.2i",$1)/ge;
+        # Zero-pad numbers to two digits
+        $topicname =~ s/(\d+)/sprintf("%0.2i",$1)/ge;
 
-    	# replace . with x
-    	$topicname =~ s/\./x/g;
+        # replace . with x
+        $topicname =~ s/\./x/g;
     }
 
     # remove dashes
@@ -2200,7 +2205,7 @@ sub _addDep {
     return '';
 }
 
-my @twikiFilters = (
+our @twikiFilters = (
     { RE => qr/\.pm$/,          filter => '_twikify_perl' },
     { RE => qr#/Config.spec$#,  filter => '_twikify_perl' },
     { RE => qr#/MANIFEST$#,     filter => '_twikify_manifest' },
@@ -2259,6 +2264,8 @@ sub _twikify_perl {
             $text =~ s/foswiki\([A-Z][A-Za-z]\+\)/twiki$1/g;
             $text =~ s/'foswiki'/'twiki'/g;
             $text =~ s/FOSWIKI_/TWIKI_/g;
+            $text =~ s/foswikiNewLink/twikiNewLink/g; # CSS
+            $text =~ s/new Foswiki/new TWiki/g;
             return $text;
         }
     );

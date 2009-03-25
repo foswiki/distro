@@ -66,6 +66,7 @@ sub readManifest {
     my ( $baseDir, $path, $file, $noManifestFileHook ) = @_;
     $file ||= '';
     $file = $path . $file if $path;
+
     #print STDERR "---- $baseDir, $path, $file\n";
 
     unless ( $file && open( PF, '<' . $file ) ) {
@@ -98,8 +99,8 @@ sub readManifest {
             my $name = $1;
             $name =~ s/^"(.*)"$/$1/;
             my $permissions = $2;
-            my $desc        = $3 || '';
-            if ($noci && $desc !~ /\(noci\)/) {
+            my $desc = $3 || '';
+            if ( $noci && $desc !~ /\(noci\)/ ) {
                 $desc .= " (noci)";
             }
             unless ($permissions) {
@@ -122,7 +123,8 @@ sub readManifest {
                 else {
                     $permissions = '0444';
                 }
-                if (-d $baseDir.'/'.$name) {
+                if ( -d $baseDir . '/' . $name ) {
+
                     #default directories to traversable.
                     $permissions = '0775';
                 }
