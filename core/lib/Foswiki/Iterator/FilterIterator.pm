@@ -2,13 +2,13 @@
 
 =begin
 
----+ package Foswiki::FilterIterator
+---+ package Foswiki::Iterator::FilterIterator
 
 Iterator that filters another iterator based on the results from a function.
 
 =cut
 
-package Foswiki::FilterIterator;
+package Foswiki::Iterator::FilterIterator;
 use base 'Foswiki::Iterator';
 
 use strict;

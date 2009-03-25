@@ -2,14 +2,14 @@
 
 =begin
 
----+ package Foswiki::ProcessIterator
+---+ package Foswiki::Iterator::ProcessIterator
 
 Iterator that filters another iterator by calling an external process on each
 element in the iteration.
 
 =cut
 
-package Foswiki::ProcessIterator;
+package Foswiki::Iterator::ProcessIterator;
 use base 'Foswiki::Iterator';
 
 use strict;
