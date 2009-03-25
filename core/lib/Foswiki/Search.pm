@@ -18,7 +18,7 @@ require Foswiki::Sandbox;
 require Foswiki::Render;    # SMELL: expensive
 require Foswiki::Search::InfoCache;
 require Foswiki::ListIterator;
-require Foswiki::FilterIterator;
+require Foswiki::Iterator::FilterIterator;
 
 my $queryParser;
 
@@ -176,7 +176,7 @@ sub _getTopicList {
     my ( $this, $webObject, $options ) = @_;
 
     # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
-    $options->{excludeTopics} = _makeTopicPattern($options->{excludeTopics}) 
+    $options->{excludeTopics} = _makeTopicPattern($options->{excludeTopics})
 		if ($options->{excludeTopics});
 
     my $topicFilter;
@@ -214,7 +214,7 @@ sub _getTopicList {
 
     $it = $webObject->eachTopic() unless (defined($it));
 
-    my $filterIter = new Foswiki::FilterIterator($it, sub {
+    my $filterIter = new Foswiki::Iterator::FilterIterator($it, sub {
                     my $item = shift;
                     #my $data = shift;
                     return unless !$topicFilter || $item =~ /$topicFilter/;
