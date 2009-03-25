@@ -390,7 +390,6 @@ lib/Foswiki.pm 0444
 lib/Foswiki.spec 0444
 lib/Foswiki/Access.pm 0444
 lib/Foswiki/AccessControlException.pm 0444
-lib/Foswiki/AggregateIterator.pm 0444
 lib/Foswiki/Attach.pm 0444
 lib/Foswiki/Attrs.pm 0444
 lib/Foswiki/Compatibility.pm 0444
@@ -533,8 +532,11 @@ lib/Foswiki/Infix/Error.pm 0444
 lib/Foswiki/Infix/Node.pm 0444
 lib/Foswiki/Infix/Parser.pm 0444
 lib/Foswiki/Iterator.pm 0444
+lib/Foswiki/AggregateIterator.pm 0444
+lib/Foswiki/Iterator/FilterIterator.pm 0444
 lib/Foswiki/LineIterator.pm 0444
 lib/Foswiki/ListIterator.pm 0444
+lib/Foswiki/Iterator/ProcessIterator.pm 0444
 lib/Foswiki/Logger.pm 0444
 lib/Foswiki/Logger/PlainFile.pm 0444
 lib/Foswiki/LoginManager.pm 0444
@@ -1038,4 +1040,3 @@ working/README 0444
 working/registration_approvals/README 0444
 working/tmp/README 0444
 working/work_areas/README 0444
-
