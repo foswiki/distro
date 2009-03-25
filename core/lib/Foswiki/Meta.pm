@@ -540,6 +540,8 @@ revision is currently being viewed.
 
 sub reload {
     my ( $this, $rev ) = @_;
+
+    return unless $this->{_topic};
     if ( defined $rev ) {
         $rev = Foswiki::Store::cleanUpRevID($rev);
     }
