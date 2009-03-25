@@ -17,6 +17,8 @@ require Foswiki;
 require Foswiki::Sandbox;
 require Foswiki::Render;    # SMELL: expensive
 require Foswiki::Search::InfoCache;
+require Foswiki::ListIterator;
+require Foswiki::FilterIterator;
 
 my $queryParser;
 
@@ -171,39 +173,65 @@ sub _translateSpace {
 # get a list of topics to search in the web, filtered by the $topic
 # spec
 sub _getTopicList {
-    my ( $this, $webObject, $topicFilter, $options ) = @_;
+    my ( $this, $webObject, $options ) = @_;
 
-    if ($topicFilter) {
+    # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
+    $options->{excludeTopics} = _makeTopicPattern($options->{excludeTopics}) 
+		if ($options->{excludeTopics});
+
+    my $topicFilter;
+    my $it;
+    if ($options->{includeTopics}) {
+    	# E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
+    	$options->{includeTopics} = _makeTopicPattern($options->{includeTopics});
 
         # limit search to topic list
-        if ( $topicFilter =~
+        if ( $options->{includeTopics} =~
             /^\^\([\_\-\+$Foswiki::regex{mixedAlphaNum}\|]+\)\$$/ )
         {
 
             # topic list without wildcards
             # for speed, do not get all topics in web
             # but convert topic pattern into topic list
-            my $topics = $topicFilter;
+            my $topics = $options->{includeTopics};
             $topics =~ s/^\^\(//o;
             $topics =~ s/\)\$//o;
 
             # build list from topic pattern
-            return grep( $this->{session}->topicExists( $webObject->web, $_ ),
+            #TODO: erm, what about non-case senstive?
+            my @list =
+            grep( $this->{session}->topicExists( $webObject->web, $_ ),
                 split( /\|/, $topics ) );
+            $it = new Foswiki::ListIterator(\@list);
         }
         elsif ( !$options->{caseSensitive} ) {
-            $topicFilter = qr/$topicFilter/i;
+            $topicFilter = qr/$options->{includeTopics}/i;
         }
         else {
-            $topicFilter = qr/$topicFilter/;
+            $topicFilter = qr/$options->{includeTopics}/;
         }
     }
 
+    $it = $webObject->eachTopic() unless (defined($it));
+
+    my $filterIter = new Foswiki::FilterIterator($it, sub {
+                    my $item = shift;
+                    #my $data = shift;
+                    return unless !$topicFilter || $item =~ /$topicFilter/;
+
+                    # exclude topics, Codev.ExcludeWebTopicsFromSearch
+                    if ( $options->{caseSensitive} && $options->{excludeTopics} ) {
+                        return if $item =~ /$options->{excludeTopics}/i;
+                    }
+                    elsif ($options->{excludeTopics}) {
+                        return if $item =~ /$options->{excludeTopics}/;
+                   }
+                    return 1;
+                });
+
     my @topicList = ();
-    my $it        = $webObject->eachTopic();
-    while ( $it->hasNext() ) {
-        my $tn = $it->next();
-        next unless !$topicFilter || $tn =~ /$topicFilter/;
+    while ( $filterIter->hasNext() ) {
+        my $tn = $filterIter->next();
         push( @topicList, $tn );
     }
 
@@ -280,7 +308,7 @@ sub _getListOfWebs {
         $excludeWeb{$web} = 1;    # eliminate duplicates
     }
 
-    return @webs;    
+    return @webs;
 }
 
 # Run a search over a list of topics - @tokens is a list of
@@ -411,7 +439,7 @@ SMELL: If =template= is defined =bookview= will not work
 
 SMELL: it seems that if you define =_callback= or =inline= then you are
 	responsible for converting the TML to HTML yourself!
-	
+
 FIXME: =callback= cannot work with format parameter (consider format='| $topic |'
 
 =cut
@@ -499,12 +527,6 @@ sub searchWeb {
     my @webs = $this->_getListOfWebs($webName, $recurse, $searchAllFlag);
     #to help later processing (formatResults)
     $params{numberOfWebs} = scalar(@webs);
-
-    # E.g. "Bug*, *Patch" ==> "^(Bug.*|.*Patch)$"
-    $topic = _makeTopicPattern($topic);
-
-    # E.g. "Web*, FooBar" ==> "^(Web.*|FooBar)$"
-    $excludeTopic = _makeTopicPattern($excludeTopic);
 
     my $output = '';
     my $tmpl   = '';
@@ -661,18 +683,14 @@ sub searchWeb {
         my $options = {
             casesensitive  => $caseSensitive,
             wordboundaries => $wordBoundaries,
+            includeTopics  => $topic,
+            excludeTopics  => $excludeTopic,
+
         };
 
         # Run the search on topics in this web
-        my @topicList = _getTopicList( $this, $webObject, $topic, $options );
+        my @topicList = _getTopicList( $this, $webObject, $options );
 
-        # exclude topics, Codev.ExcludeWebTopicsFromSearch
-        if ( $caseSensitive && $excludeTopic ) {
-            @topicList = grep( !/$excludeTopic/, @topicList );
-        }
-        elsif ($excludeTopic) {
-            @topicList = grep( !/$excludeTopic/i, @topicList );
-        }
         next if ( $noEmpty && !@topicList );    # Nothing to show for this web
 
         if ( $type eq 'query' ) {
@@ -736,8 +754,12 @@ the implementation of %SORT{"" limit="" order="" reverse="" date=""}%
 sub sortResults {
     my ($this, $web, $infoCache, %params) = @_;
     my $session = $this->{session};
-    
-    my $limit         = $params{limit} || '';
+
+    my $sortOrder   = $params{order}        || '';
+    my $revSort     = Foswiki::isTrue( $params{reverse} );
+    my $date        = $params{date}         || '';
+    my $limit       = $params{limit}        || '';
+
     #SMELL: duplicated code - removeme
     # Limit search results
     if ( $limit =~ /(^\d+$)/o ) {
@@ -750,9 +772,7 @@ sub sortResults {
         $limit = 0;
     }
     $limit = 32000 unless ($limit);
-    my $sortOrder    = $params{order}    || '';
-    my $revSort      = Foswiki::isTrue( $params{reverse} );
-    my $date    = $params{date}      || '';
+
 
     # sort the topic list by date, author or topic name, and cache the
     # info extracted to do the sorting
@@ -765,21 +785,21 @@ sub sortResults {
         # SMELL: In Dakar this seems to be pointless since latest rev
         # time is taken from topic instead of dir list.
         my $slack = 10;
-        if ( $limit + 2 * $slack < scalar(@{$infoCache->{topicList}}) ) {
+        if ( $limit + 2 * $slack < scalar(@{$infoCache->{list}}) ) {
 
             # sort by approx latest rev time
             my @tmpList =
               map  { $_->[1] }
               sort { $a->[0] <=> $b->[0] }
               map  { [ $session->getApproxRevTime( $web, $_ ), $_ ] }
-              @{$infoCache->{topicList}};
+              @{$infoCache->{list}};
             @tmpList = reverse(@tmpList) if ($revSort);
 
             # then shorten list and build the hashes for date and author
             my $idx = $limit + $slack;
-            @{$infoCache->{topicList}} = ();
+            @{$infoCache->{list}} = ();
             foreach (@tmpList) {
-                push( @{$infoCache->{topicList}}, $_ );
+                push( @{$infoCache->{list}}, $_ );
                 $idx -= 1;
                 last if $idx <= 0;
             }
@@ -800,10 +820,10 @@ sub sortResults {
         # note no extraction of topic info here, as not needed
         # for the sort. Instead it will be read lazily, later on.
         if ($revSort) {
-            @{$infoCache->{topicList}} = sort { $b cmp $a } @{$infoCache->{topicList}};
+            @{$infoCache->{list}} = sort { $b cmp $a } @{$infoCache->{list}};
         }
         else {
-            @{$infoCache->{topicList}} = sort { $a cmp $b } @{$infoCache->{topicList}};
+            @{$infoCache->{list}} = sort { $a cmp $b } @{$infoCache->{list}};
         }
     }
 
@@ -811,13 +831,13 @@ sub sortResults {
         require Foswiki::Time;
         my @ends       = Foswiki::Time::parseInterval($date);
         my @resultList = ();
-        foreach my $topic (@{$infoCache->{topicList}}) {
+        foreach my $topic (@{$infoCache->{list}}) {
             # if date falls out of interval: exclude topic from result
             my $topicdate = $session->getApproxRevTime( $web, $topic );
             push( @resultList, $topic )
               unless ( $topicdate < $ends[0] || $topicdate > $ends[1] );
         }
-        @{$infoCache->{topicList}} = @resultList;
+        @{$infoCache->{list}} = @resultList;
     }
 }
 
@@ -884,10 +904,10 @@ sub formatResults{
     my $template     = $params{template} || '';
     my $topic        = $params{topic}    || '';
     my $type         = $params{type}     || '';
-    
+
     my $ttopics = 0;
     my $searchResult = '';
-    
+
     # header and footer of $web
     my ( $beforeText, $repeatText, $afterText ) =
       split( /%REPEAT%/, $tmplTable );
@@ -910,7 +930,8 @@ sub formatResults{
     # output the list of topics in $web
     my $ntopics    = 0;
     my $headerDone = $noHeader;
-    foreach my $topic (@{$infoCache->{topicList}}) {
+    while ($infoCache->hasNext()) {
+        my $topic = $infoCache->next();
         my $forceRendering = 0;
         my $info           = $infoCache->get($topic);
 
@@ -1134,7 +1155,7 @@ s/\$pattern\((.*?\s*\.\*)\)/_extractPattern( $text, $1 )/ges;
         last if ( $ntopics >= $limit );
     }    # end topic loop
 
-    #TOSO: SMELL: huh, why do we need another webObject?
+    #TODO: SMELL: huh, why do we need another webObject?
     my $webWebObject = Foswiki::Meta->new( $session, $web );
 
     # output footer only if hits in web
@@ -1186,7 +1207,7 @@ the relevant formfield from the given meta data.
 
 In addition to the name of a field =args= can be appended with a commas
 followed by a string format (\d+)([,\s*]\.\.\.)?). This supports the formatted
-search function $formfield and is used to shorten the returned string or a 
+search function $formfield and is used to shorten the returned string or a
 hyphenated string.
 
 =cut

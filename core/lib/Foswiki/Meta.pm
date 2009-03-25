@@ -489,7 +489,7 @@ sub eachAttachment {
 
 Get an iterator over the list of all the changes in the web between
 =$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
-guaranteed to return any changes that occurred before (now - 
+guaranteed to return any changes that occurred before (now -
 {Store}{RememberChangesFor}). Changes are returned in most-recent-first
 order.
 
@@ -585,7 +585,7 @@ sub text {
 Put a hash of key=value pairs into the given type set in this meta. This
 will *not* replace another value with the same name (for that see =putKeyed=)
 
-For example, 
+For example,
 <verbatim>
 $meta->put( 'FIELD', { name => 'MaxAge', title => 'Max Age', value =>'103' } );
 </verbatim>

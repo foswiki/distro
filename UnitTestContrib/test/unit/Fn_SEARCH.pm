@@ -10,6 +10,7 @@ use base qw( FoswikiFnTestCase );
 use Foswiki;
 use Error qw( :try );
 use Assert;
+use Foswiki::Search;
 
 sub new {
     my $self = shift()->SUPER::new( 'SEARCH', @_ );
@@ -1210,6 +1211,82 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
         $this->{session}->{renderer}
           ->TML2PlainText('Apache is the well known web server.') );
 
+}
+
+sub _getTopicList {
+    my $this = shift;
+    my $web = shift;
+    my $options = shift;
+
+#    my $options = {
+#        casesensitive  => $caseSensitive,
+#        wordboundaries => $wordBoundaries,
+#        includeTopics  => $topic,
+#        excludeTopics  => $excludeTopic,
+#    };
+
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    # Run the search on topics in this web
+    my $search = $this->{session}->search();
+    my @topicList = $search->_getTopicList($webObject, $options );
+    return \@topicList;
+}
+
+sub test_getTopicList {
+    my $this = shift;
+
+    #no topics specified..
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
+                            $this->_getTopicList($this->{test_web}, {}),
+                            'no filters, all topics in test_web');
+    $this->assert_deep_equals(
+                            ['WebAtom', 'WebChanges', 'WebCreateNewTopic', 'WebHome', 'WebIndex', 'WebLeftBar',
+                             'WebNotify', 'WebPreferences', 'WebRss', 'WebSearch', 'WebSearchAdvanced', 'WebStatistics', 'WebTopicList'],
+                            $this->_getTopicList('_default', {}),
+                            'no filters, all topics in test_web');
+    #use wildcards
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkBTopic', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web}, {
+                                    includeTopics => 'Ok*'
+                                                                     }),
+                            'comma separated list');
+    $this->assert_deep_equals(
+                            ['WebAtom', 'WebChanges', 'WebCreateNewTopic', 'WebHome', 'WebIndex', 'WebLeftBar',
+                             'WebNotify', 'WebPreferences', 'WebRss', 'WebSearch', 'WebSearchAdvanced', 'WebStatistics', 'WebTopicList'],
+                            $this->_getTopicList('_default', {
+                                    includeTopics => 'Web*'
+                                                              }),
+                            'no filters, all topics in test_web');
+    #comma separated list specifed for inclusion
+    $this->assert_deep_equals(
+                            ['TestTopicSEARCH', 'OkTopic'],
+                            $this->_getTopicList($this->{test_web}, {
+                                    includeTopics => 'TestTopicSEARCH,OkTopic,NoSuchTopic'
+                                                                     }),
+                            'comma separated list');
+    $this->assert_deep_equals(
+                            ['WebStatistics', 'WebCreateNewTopic' ],
+                            $this->_getTopicList('_default', {
+                                    includeTopics => 'WebStatistics, WebCreateNewTopic, NoSuchTopic'
+                                                              }),
+                            'no filters, all topics in test_web');
+
+    #excludes
+    $this->assert_deep_equals(
+                            ['OkATopic', 'OkTopic', 'TestTopicSEARCH', 'WebPreferences'],
+                            $this->_getTopicList($this->{test_web}, {
+						excludeTopics=> 'NoSuchTopic,OkBTopic'
+								}),
+                            'no filters, all topics in test_web');
+    $this->assert_deep_equals(
+                            ['WebAtom', 'WebChanges', 'WebCreateNewTopic', 'WebHome', 'WebIndex', 'WebLeftBar',
+                             'WebNotify', 'WebPreferences', 'WebRss', 'WebSearchAdvanced', 'WebStatistics', 'WebTopicList'],
+                            $this->_getTopicList('_default', {
+						excludeTopics=> 'WebSearch'
+								}),
+                            'no filters, all topics in test_web');
 }
 
 1;
