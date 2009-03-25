@@ -5,12 +5,13 @@
 ---+ package Foswiki::Store::RcsWrap
 
 Implementation of =Foswiki::Store= for stores that use the RCS version
-control system to manage disk files.
+control system to manage disk files. This class inherits most of its
+functionality from =Foswiki::Store::VCStore=, which it shares with
+=Foswiki::Store::RcsLite=.
 
 For readers who are familiar with Foswiki version 1.0, this class
-has no equivalent in Foswiki 1.0.
-The equivalent of the old =Foswiki::Store::RcsWrap= is the new
-=Foswiki::Store::RcsWrapHandler=.
+has no equivalent in Foswiki 1.0. The equivalent of the old
+=Foswiki::Store::RcsWrap= is the new =Foswiki::Store::RcsWrapHandler=.
 
 =cut
 
@@ -20,9 +21,11 @@ use base 'Foswiki::Store::VCStore';
 use strict;
 use Assert;
 
+# This constructor is required to hide the =Foswiki::Store::RcsWrapHandler=
+# class during construction, so that the core can simply say "give me a new
+# XXX store" without having to pass additional parameters.
 sub new {
     my ( $class, $session ) = @_;
-    ASSERT($session) if DEBUG;
     return $class->SUPER::new( $session, 'Foswiki::Store::RcsWrapHandler' );
 }
 

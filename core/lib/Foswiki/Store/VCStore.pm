@@ -4,27 +4,26 @@
 
 ---+ package Foswiki::Store::VCStore
 
-Partial implementation of Foswiki::Store. The methods of this class are
-documented in Foswiki::Store.
+Almost-complete implementation of =Foswiki::Store=. The methods
+of this class implement the =Foswiki::Store= interface.
 
-This class is an abstract base class for a store implemented using a
-version control system, such as RCS. It implements most of the methods
-of =Foswiki::Store=. It interacts with the store itself by using a handler
-object to interact with each individual file stored in the version control
-system. The handler object must implement the interface specified by
+The store uses a "handler" class to handle all interactions with the
+actual version control system (and via it with the actual file system).
+A "handler" is created for each individual file in the file system, and
+this handler then brokers all requests to open, read, write etc the file.
+The handler object must implement the interface specified by
 =Foswiki::Store::VCHandler=.
 
-The store relies on a handler class to handle all interactions with the
-actual version control system. The main responsibility of this class is
-to support storing Foswiki data in plain text files, and to ensure that
-Foswiki::Meta representing Foswiki data is maintained in synchronisation
-with the files in the VC system.
+The main additional responsibilities of _this_ class are to support storing
+Foswiki meta-data in plain text files, and to ensure that the =Foswiki::Meta=
+for a page is maintained in synchronisation with the files on disk.
 
-Reference implementations of this base class are =Foswiki::Store::RcsWrap=
-and =Fowiki::Store::RcsLite=.
+All that is required to create a working store is to subclass this class
+and override the 'new' method to specify the actual handler to use. See
+Foswiki::Store::RcsWrap for an example subclass.
 
 For readers who are familiar with Foswiki version 1.0, the functionality
-in this class previously resided in =Foswiki::Store=.
+in this class _previously_ resided in =Foswiki::Store=.
 
 =cut
 
@@ -53,6 +52,9 @@ BEGIN {
 ---++ ClassMethod new($session, $impl)
 
 Construct a VCStore module, using the chosen handler ($impl) class.
+
+Do not construct a VCStore directly; instead construct a subclass,
+such as Foswiki::Store::RcsWrap, which hides the handler implementation.
 
 =cut
 

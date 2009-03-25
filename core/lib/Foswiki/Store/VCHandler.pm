@@ -5,7 +5,7 @@
 ---+ package Foswiki::Store::VCHandler
 
 This class is PACKAGE PRIVATE to Store, and should never be
-used from anywhere else. It is the base class of implementations
+used from anywhere else. It is the base class of implementations of
 individual file handler objects used with stores that manipulate
 files stored in a version control system (phew!).
 
@@ -13,7 +13,8 @@ The general contract of the methods on this class and its subclasses
 calls for errors to be signalled by Error::Simple exceptions.
 
 There are a number of references to RCS below; however this class is
-also useful for other VC implementations.
+useful as a base class for handlers for all kinds of version control
+systems which use files on disk.
 
 For readers who are familiar with Foswiki version 1.0.0, this class
 is analagous to =Foswiki::Store::RcsFile=.

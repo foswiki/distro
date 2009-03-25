@@ -5,14 +5,15 @@
 ---+ package Foswiki::Store
 
 This class is a pure virtual base class that specifies the interface
-layer between the "real" store provider - which is hidden behind a handler -
-and the rest of the Foswiki system. Subclasses of this class are
+between the actual store implementation and the rest of the Foswiki
+system.
+
+Subclasses of this class (known as "store implementations") are
 responsible for checking for topic existance, access permissions, and
-all the other general admin tasks that are common to all store
-implementations.
+all the other general admin tasks required of a store.
 
 This class knows *nothing* about how the data is actually _stored_ -
-that knowledge is entirely encapsulated in the handlers.
+that knowledge is entirely encapsulated in the implementation.
 
 The general contract for methods in the class requires that errors
 are signalled using exceptions. Foswiki::AccessControlException is
@@ -20,7 +21,9 @@ used for access control exceptions, and Error::Simple for all other
 types of error.
 
 Reference implementations of this base class are =Foswiki::Store::RcsWrap=
-and =Foswiki::Store::RcsLite=.
+and =Foswiki::Store::RcsLite= (these are both implemented in terms of
+VCStore, which is an abstract implementation of a store based on a
+version control system).
 
 Methods of this class and all subclasses should *only* be called from
 =Foswiki= and =Foswiki::Meta=. All other system components must delegate
@@ -61,8 +64,9 @@ BEGIN {
 
 ---++ StaticMethod createNewStore($session, $impl)
 
-Factory method. Construct a Store module, using the chosen
+Construct a Store module, using the chosen
 implementation class.
+
 =$impl= is the class name of the actual store implementation.
 
 =cut
