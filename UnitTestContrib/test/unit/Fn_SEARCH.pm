@@ -1154,4 +1154,86 @@ Apache is the [[http://www.apache.org/httpd/][well known web server]].
 
 }
 
+sub verify_casesensitivesetting {
+    my $this    = shift;
+    my $session = $this->{session};
+
+    my $actual, my $expected;
+    
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $this->assert_str_equals( $expected, $actual );
+
+#topic scope
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{twiki}->handleCommonTags(
+'%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%',
+        $this->{test_web}, $this->{test_topic}
+      );
+    #$actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>Ok+Topic,<nop>Ok-Topic,<nop>OkTopic';
+    $this->assert_str_equals( $expected, $actual );
+
+}
+
+
 1;
