@@ -2270,6 +2270,46 @@ NEWEXPECTED
 
 =pod
 
+This TML has caused infinite recursion in Foswiki 1.0.4.
+
+=cut
+
+sub test_render_simple_with_verbatim_and_unfinished_table_rows {
+    my $this = shift;
+
+    my $topicName = $this->{test_topic};
+    my $webName   = $this->{test_web};
+    my $viewUrlAuth =
+      Foswiki::Func::getScriptUrl( $webName, $topicName, 'viewauth' );
+    my $pubUrlSystemWeb =
+        Foswiki::Func::getUrlHost()
+      . Foswiki::Func::getPubUrlPath() . '/'
+      . $Foswiki::cfg{SystemWebName};
+
+    my $input    = '%EDITTABLE{format="textarea, 4x20"}%
+| x | <verbatim> y
+z </verbatim> |';
+
+    my $expected = <<END;
+<a name="edittable1"></a>
+<div class="editTable">
+<form name="edittable1" action="$viewUrlAuth#edittable1" method="post">
+<input type="hidden" name="ettablenr" value="1" />
+<input type="hidden" name="etedit" value="on" />
+<input type="hidden" name="etrows" value="0" />
+<input class="editTableEditImageButton" type="image" src="$pubUrlSystemWeb/EditTablePlugin/edittable.gif" alt="Edit this table" />
+</form>
+</div><!-- /editTable -->
+| x | <verbatim> y
+z </verbatim> |
+END
+    my $result =
+      Foswiki::Func::expandCommonVariables( $input, $topicName, $webName );
+    $this->do_testHtmlOutput( $expected, $result, 0 );
+}
+
+=pod
+
 Tests to add:
 
 test_SETTING_CHANGEROWS
