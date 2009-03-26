@@ -37,6 +37,7 @@ use File::Path ();
 use File::Temp ();
 use POSIX      ();
 use diagnostics;
+use warnings;
 use Carp ();
 use Foswiki::Time;
 
@@ -470,6 +471,25 @@ sub _loadDependenciesFrom {
     close(PF);
 }
 
+# Search the current working directory and its parents
+# for a directory called git
+# Also checks if this directory contains a svn subdir
+# which indicates the use of git-svn
+sub _findPathToDotGitDir {
+    my $this = shift;
+
+    require File::Spec;
+    require Cwd;
+    my @dirlist = File::Spec->splitdir( Cwd::getcwd() );
+    do {
+        my $gitdir = File::Spec->catdir( @dirlist, ".git", "svn" );
+        return wantarray ? ( $gitdir, 1 ) : $gitdir;
+        $gitdir = File::Spec->catdir( @dirlist, ".git" );
+        return $gitdir if -d $gitdir;
+    } while( pop @dirlist );
+    return;
+}
+
 # SMELL: Would be good to change this to use SVN::Client, but Sven warns us
 # that SVN::Client doesn't work in most places :-(. Maybe some day.
 sub _get_svn_version {
@@ -488,16 +508,34 @@ sub _get_svn_version {
             $limit = scalar( @{ $this->{files} } )
               if $limit > scalar( @{ $this->{files} } );
             while ( $idx < $limit ) {
-                my $file =
-                  ${ $this->{files} }[ $idx++ ]
-                  ;    #accessing ->{name} directly creates it.
-                push( @files,
-                    $this->{basedir} . '/' . ( $file->{name} || '' ) );
+                if ( ${ $this->{files} }[ $idx ]->{name} ) {
+                    my $file = $this->{basedir} . '/' . ${ $this->{files} }[ $idx ]->{name};
+                    if( -f $file ) {
+                        push @files, $file;
+                    }
+                    elsif( $file !~ m/\/$/ ) { # Ignore directories
+                        print STDERR "WARNING: $file is in MANIFEST, but it doesn't exist\n";
+                    }
+                    else { # Directory, create if it does not exist
+                        File::Path::mkpath($file);
+                    }
+                }
+                $idx++;
             }
 
             # svn info all the files in the manifest
             eval {
-                my $log = $this->sys_action( 'svn', 'info', @files );
+                my @command;
+                if( -d ".svn" ) {
+                    @command = qw(svn info);
+                }
+                elsif ( my ( $gitdir, $gitsvn ) =
+                    $this->_findPathToDotGitDir() ) {
+                    @command = qw(git log -1 --pretty=medium --date=iso --);
+                }
+                die "Cannot find a proper command to search history."
+                    unless @command;
+                my $log = $this->sys_action( @command, @files );
                 my $getDate = 0;
                 foreach my $line ( split( "\n", $log ) ) {
                     if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
@@ -521,6 +559,20 @@ sub _get_svn_version {
                     {
                         $maxd =
                           Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
+                        $getDate = 0;
+                    }
+                    # For git svn
+                    elsif ( $line =~ /^\s+git-svn-id: \S+\@(\d+)\s/ ) {
+                        if ( $1 > $max ) {
+                            $max = $1;
+                        }
+                        $getDate = 0;
+                    }
+                    elsif ($line =~
+                        /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                    {
+                        $maxd =
+                          Foswiki::Time::parseTime( "$1T$2$3" );
                         $getDate = 0;
                     }
                 }
@@ -753,7 +805,7 @@ sub sys_action {
     }
     return '' if ( $this->{-n} );
     my $output = `$cmd`;
-    die 'Failed to ' . $cmd . ': ' . $? if ($?);
+    die 'Failed to ' . $cmd . ': ' . ($? >> 8) if $? >> 8;
     return $output;
 }
 
