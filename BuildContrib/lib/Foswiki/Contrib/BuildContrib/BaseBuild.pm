@@ -82,7 +82,7 @@ sub readManifest {
     my $noci = 0;
     my %options;
     while ( $line = <PF> ) {
-        next if $line =~ /^\s*#/;
+        next if $line =~ /^\s*(?:#|$)/;
         if ( $line =~ /^!include\s+(\S+)\s*$/ ) {
             push( @otherModules, $1 );
         }
