@@ -15,7 +15,7 @@ for details.
 =cut
 
 sub search {
-    my ( $searchString, $topics, $options, $sDir ) = @_;
+    my ( $searchString, $web, $topics, $store, $options ) = @_;
 
     local $/ = "\n";
     my %seen;
@@ -41,6 +41,10 @@ sub search {
     else {
         $doMatch = sub { $_[0] =~ m/$searchString/i };
     }
+
+    #SMELL, TODO, replace with Store call.
+    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
+
   FILE:
     foreach my $file (@$topics) {
         next unless open( FILE, '<', "$sDir/$file.txt" );

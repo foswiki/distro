@@ -680,6 +680,7 @@ sub searchWeb {
             && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
 
+#TODO: actually want to pass the entire SEARCH params - so that each search backend can optimise if it suites its impl
         my $options = {
             casesensitive  => $caseSensitive,
             wordboundaries => $wordBoundaries,
@@ -694,7 +695,7 @@ sub searchWeb {
         next if ( $noEmpty && !@topicList );    # Nothing to show for this web
 
         if ( $type eq 'query' ) {
-            my $matches = $webObject->query( $query, \@topicList );
+            my $matches = $webObject->query( $query, \@topicList, $options );
             @topicList = keys %$matches;
         }
         else {

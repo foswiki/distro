@@ -59,13 +59,13 @@ sub new {
             $this->{attachment} = $attachment;
 
             $this->{file} =
-                $Foswiki::cfg{PubDir} . '/' 
+                $Foswiki::cfg{PubDir} . '/'
               . $web . '/'
               . $this->{topic} . '/'
               . $attachment;
             $this->{rcsFile} =
-                $Foswiki::cfg{PubDir} . '/' 
-              . $web . '/' 
+                $Foswiki::cfg{PubDir} . '/'
+              . $web . '/'
               . $topic
               . $rcsSubDir . '/'
               . $attachment . ',v';
@@ -75,7 +75,7 @@ sub new {
             $this->{file} =
               $Foswiki::cfg{DataDir} . '/' . $web . '/' . $topic . '.txt';
             $this->{rcsFile} =
-                $Foswiki::cfg{DataDir} . '/' 
+                $Foswiki::cfg{DataDir} . '/'
               . $web
               . $rcsSubDir . '/'
               . $topic
@@ -317,9 +317,8 @@ match per topic, and will not return matching lines).
 =cut
 
 sub searchInWebContent {
-    my ( $this, $searchString, $topics, $options ) = @_;
+    my ( $this, $searchString, $web, $topics, $store, $options ) = @_;
     ASSERT( defined $options ) if DEBUG;
-    my $sDir = $Foswiki::cfg{DataDir} . '/' . $this->{web} . '/';
 
     unless ( $this->{searchFn} ) {
         eval "require $Foswiki::cfg{RCS}{SearchAlgorithm}";
@@ -330,8 +329,7 @@ sub searchInWebContent {
     }
 
     no strict 'refs';
-    return &{ $this->{searchFn} }( $searchString, $topics, $options, $sDir,
-        $Foswiki::sandbox );
+    return &{ $this->{searchFn} }( $searchString, $web, $topics, $store, $options, $Foswiki::sandbox );
     use strict 'refs';
 }
 
@@ -350,7 +348,7 @@ to their parent.
 =cut
 
 sub searchInWebMetaData {
-    my ( $this, $query, $topics, $store ) = @_;
+    my ( $this, $query, $web, $topics, $store, $options ) = @_;
 
     unless ( $this->{queryFn} ) {
         eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
@@ -361,7 +359,7 @@ sub searchInWebMetaData {
     }
 
     no strict 'refs';
-    return &{ $this->{queryFn} }( $query, $this->{web}, $topics, $store );
+    return &{ $this->{queryFn} }( $query, $web, $topics, $store, $options );
     use strict 'refs';
 }
 
@@ -897,7 +895,7 @@ sub _rmtree {
             }
             elsif ( !unlink($entry) && -e $entry ) {
                 if ( $Foswiki::cfg{OS} ne 'WINDOWS' ) {
-                    throw Error::Simple( 'VCHandler: Failed to delete file ' 
+                    throw Error::Simple( 'VCHandler: Failed to delete file '
                           . $entry . ': '
                           . $! );
                 }
@@ -1316,4 +1314,3 @@ given epoch-secs time, or undef it none could be found.
 *Virtual method* - must be implemented by subclasses
 
 =cut
-

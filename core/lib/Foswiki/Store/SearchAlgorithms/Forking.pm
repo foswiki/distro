@@ -17,7 +17,7 @@ for details.
 =cut
 
 sub search {
-    my ( $searchString, $topics, $options, $sDir ) = @_;
+    my ( $searchString, $web, $topics, $store, $options ) = @_;
 
     # Default (Forking) search
 
@@ -68,6 +68,9 @@ sub search {
     $maxTopicsInSet = 128 if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' );
     my @take    = @$topics;
     my $matches = '';
+
+    #SMELL, TODO, replace with Store call.
+    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
 
     while (my @set = splice( @take, 0, $maxTopicsInSet )) {
         @set = map { "$sDir/$_.txt" } @set;

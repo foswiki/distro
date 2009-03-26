@@ -508,7 +508,7 @@ sub getApproxRevTime {
 
 Get an iterator over the list of all the changes in the given web between
 =$time= and now. $time is a time in seconds since 1st Jan 1970, and is not
-guaranteed to return any changes that occurred before (now - 
+guaranteed to return any changes that occurred before (now -
 {Store}{RememberChangesFor}). Changes are returned in most-recent-first
 order.
 
@@ -602,7 +602,7 @@ sub copyTopic {
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, $web, \@topics) -> \%matches
+---++ ObjectMethod searchInWebMetaData($query, $web, \@topics, \%options) -> \%matches
 
 Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
 
@@ -614,7 +614,7 @@ to their parent.
 =cut
 
 sub searchInWebMetaData {
-    my( $this, $query, $web, $topics ) = @_;
+    my( $this, $query, $web, $topics, $options ) = @_;
     die "Abstract base class";
 }
 

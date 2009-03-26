@@ -571,12 +571,12 @@ sub copyTopic {
 
 # Documented in Foswiki::Store
 sub searchInWebMetaData {
-    my ( $this, $query, $web, $topics ) = @_;
+    my ( $this, $query, $web, $topics, $options ) = @_;
     ASSERT($query);
     ASSERT( UNIVERSAL::isa( $query, 'Foswiki::Query::Node' ) );
 
     my $handler = $this->getHandler($web);
-    return $handler->searchInWebMetaData( $query, $topics, $this );
+    return $handler->searchInWebMetaData( $query, $web, $topics, $this, $options );
 }
 
 # Documented in Foswiki::Store
@@ -584,7 +584,7 @@ sub searchInWebContent {
     my ( $this, $searchString, $web, $topics, $options ) = @_;
 
     my $handler = $this->getHandler($web);
-    return $handler->searchInWebContent( $searchString, $topics, $options );
+    return $handler->searchInWebContent( $searchString, $web, $topics, $this, $options );
 }
 
 # Documented in Foswiki::Store

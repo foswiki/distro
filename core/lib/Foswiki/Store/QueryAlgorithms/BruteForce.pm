@@ -24,7 +24,7 @@ use strict;
 use Foswiki::Meta ();
 
 sub query {
-    my ( $query, $web, $topics, $store ) = @_;
+    my ( $query, $web, $topics, $store, $options ) = @_;
 
     if ( scalar(@$topics) > 6 ) {
         require Foswiki::Query::HoistREs;
