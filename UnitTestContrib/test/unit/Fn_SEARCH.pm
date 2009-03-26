@@ -1289,4 +1289,78 @@ sub test_getTopicList {
                             'no filters, all topics in test_web');
 }
 
+sub verify_casesensitivesetting {
+    my $this    = shift;
+    my $session = $this->{session};
+
+    my $actual, my $expected;
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"BLEEGLE" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"bleegle" type="regex" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic,<nop>TestTopicSEARCH';
+    $this->assert_str_equals( $expected, $actual );
+
+#topic scope
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="on" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"Ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
+    $this->assert_str_equals( $expected, $actual );
+
+    $actual =
+      $this->{test_topicObject}->expandMacros(
+'%SEARCH{"ok" type="regex" scope="topic" multiple="on" casesensitive="off" nosearch="on" noheader="on" nototal="on" format="<nop>$topic" separator=","}%'
+      );
+    $actual = $this->{test_topicObject}->renderTML($actual);
+    $expected = '<nop>OkATopic,<nop>OkBTopic,<nop>OkTopic';
+    $this->assert_str_equals( $expected, $actual );
+
+}
+
+
 1;

@@ -204,7 +204,7 @@ sub _getTopicList {
                 split( /\|/, $topics ) );
             $it = new Foswiki::ListIterator(\@list);
         }
-        elsif ( !$options->{caseSensitive} ) {
+        elsif ( !$options->{casesensitive} ) {
             $topicFilter = qr/$options->{includeTopics}/i;
         }
         else {
@@ -220,7 +220,7 @@ sub _getTopicList {
                     return unless !$topicFilter || $item =~ /$topicFilter/;
 
                     # exclude topics, Codev.ExcludeWebTopicsFromSearch
-                    if ( $options->{caseSensitive} && $options->{excludeTopics} ) {
+                    if ( $options->{casesensitive} && $options->{excludeTopics} ) {
                         return if $item =~ /$options->{excludeTopics}/i;
                     }
                     elsif ($options->{excludeTopics}) {
@@ -313,11 +313,16 @@ sub _getListOfWebs {
 
 # Run a search over a list of topics - @tokens is a list of
 # search terms to be ANDed together
+#SMELL: this code assumes that calling the search backend repeatedly is faster than
+#telling the backend all the ANDed tokens and letting it do it - Sven thinks we
+#should push this code into the search impl (and thus the @$tokens would be equiv to @query
+#Similarly, both the topic&text scopes shoudl be delegated, as the combination may well be
+#instant for more intellegent Store/Index systems
 sub _searchTopics {
-    my ( $this, $webObject, $scope, $type, $options, $tokens, @topicList ) = @_;
+    my ( $this, $webObject, $options, $tokens, @topicList ) = @_;
 
     # default scope is 'text'
-    $scope = 'text' unless ( $scope =~ /^(topic|all)$/ );
+    $options->{'scope'} = 'text' unless ( $options->{'scope'} =~ /^(topic|all)$/ );
 
     # AND search - search once for each token, ANDing result together
     foreach my $token (@$tokens) {
@@ -332,12 +337,12 @@ sub _searchTopics {
 
         # scope can be 'topic' (default), 'text' or "all"
         # scope='text', e.g. Perl search on topic name:
-        unless ( $scope eq 'text' ) {
+        unless ( $options->{'scope'} eq 'text' ) {
             my $qtoken = $token;
 
             # FIXME I18N
-            $qtoken = quotemeta($qtoken) if ( $type ne 'regex' );
-            if ( $options->{'caseSensitive'} ) {
+            $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
+            if ( $options->{'casesensitive'} ) {
 
                 # fix for Codev.SearchWithNoPipe
                 @scopeTopicList = grep( /$qtoken/, @topicList );
@@ -348,15 +353,16 @@ sub _searchTopics {
         }
 
         # scope='text', e.g. grep search on topic text:
-        unless ( $scope eq 'topic' ) {
+        unless ( $options->{'scope'} eq 'topic' ) {
             my $matches = $webObject->searchInText(
                 $token,
                 \@topicList,
                 {
-                    type                => $type,
-                    scope               => $scope,
+                    type                => $options->{'type'},
+                    scope               => $options->{'scope'},
                     casesensitive       => $options->{'casesensitive'},
                     wordboundaries      => $options->{'wordboundaries'},
+                    #SMELL, TODO: huh? why would we want to make life hard for ourselves and hard code this???
                     files_without_match => 1
                 }
             );
@@ -686,7 +692,8 @@ sub searchWeb {
             wordboundaries => $wordBoundaries,
             includeTopics  => $topic,
             excludeTopics  => $excludeTopic,
-
+            scope          => $scope,
+            type           => $type,
         };
 
         # Run the search on topics in this web
@@ -700,7 +707,7 @@ sub searchWeb {
         }
         else {
             @topicList =
-              _searchTopics( $this, $webObject, $scope, $type, $options,
+              _searchTopics( $this, $webObject, $options,
                 \@tokens, @topicList );
         }
 
