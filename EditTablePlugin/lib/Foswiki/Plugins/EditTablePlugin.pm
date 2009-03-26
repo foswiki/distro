@@ -43,6 +43,7 @@ our $debug;
 our $usesJavascriptInterface;
 our $viewModeHeaderDone;
 our $editModeHeaderDone;
+our $recursionBlock;
 
 sub initPlugin {
     ( $topic, $web, $user ) = @_;
@@ -107,6 +108,8 @@ sub commonTagsHandler {
         "EditTablePlugin::commonTagsHandler( $web.$topic )")
       if $debug;
 
+    return if $recursionBlock;
+    $recursionBlock = 1;
     addViewModeHeadersToHead();
     require Foswiki::Plugins::EditTablePlugin::Core;
 
@@ -114,6 +117,7 @@ sub commonTagsHandler {
     Foswiki::Plugins::EditTablePlugin::Core::parseTables( $_[0], $_[1], $_[2] );
     Foswiki::Plugins::EditTablePlugin::Core::process( $_[0], $_[1], $_[2],
         $topic, $web );
+    $recursionBlock = 0;
 }
 
 sub postRenderingHandler {

@@ -1669,7 +1669,7 @@ sub handleSearchResultsBelowEditTables {
     # my $tableData = $_[2]
 
     $_[0] =~
-s/(<!--%EDITTABLESTUB{([0-9]+)}%-->\s+)((\s*)\|.*\|)\s+/addSearchResultsTableTextToTableObject($_[2], $_[1], $1, $2, $3)/geos;
+s/(<!--%EDITTABLESTUB{([0-9]+)}%-->[ ]*\n)((?:[ \t]*\|[^\n]*\|[ \t]*\n)+)/addSearchResultsTableTextToTableObject($_[2], $_[1], $1, $2, $3)/geos;
 }
 
 sub addSearchResultsTableTextToTableObject {
