@@ -513,28 +513,21 @@ sub _get_svn_version {
                     if( -f $file ) {
                         push @files, $file;
                     }
-                    elsif( $file !~ m/\/$/ ) { # Ignore directories
-                        print STDERR "WARNING: $file is in MANIFEST, but it doesn't exist\n";
-                    }
-                    else { # Directory, create if it does not exist
+                    elsif( $file =~ /\/$/ ) { # Directory, create if it does not exist
                         File::Path::mkpath($file);
+                    }
+                    elsif( ! -d $file ) { # Ignore directories
+                        print STDERR "WARNING: $file is in MANIFEST, but it doesn't exist\n";
                     }
                 }
                 $idx++;
             }
 
-            # svn info all the files in the manifest
-            eval {
-                my @command;
-                if( -d ".svn" ) {
-                    @command = qw(svn info);
-                }
-                elsif ( my ( $gitdir, $gitsvn ) =
-                    $this->_findPathToDotGitDir() ) {
-                    @command = qw(git log -1 --pretty=medium --date=iso --);
-                }
-                die "Cannot find a proper command to search history."
-                    unless @command;
+            # Get revision info all the files in the manifest
+            # To find the latest one
+            my @command;
+            if( -d ".svn" ) {
+                @command = qw(svn info);
                 my $log = $this->sys_action( @command, @files );
                 my $getDate = 0;
                 foreach my $line ( split( "\n", $log ) ) {
@@ -547,38 +540,30 @@ sub _get_svn_version {
                     }
                     elsif ($getDate
                         && $line =~
-                        /^Text Last Updated: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                        /(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
                     {
                         $maxd =
-                          Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
-                        $getDate = 0;
-                    }
-                    elsif ($getDate
-                        && $line =~
-                        /Last Changed Date: ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
-                    {
-                        $maxd =
-                          Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
-                        $getDate = 0;
-                    }
-                    # For git svn
-                    elsif ( $line =~ /^\s+git-svn-id: \S+\@(\d+)\s/ ) {
-                        if ( $1 > $max ) {
-                            $max = $1;
-                        }
-                        $getDate = 0;
-                    }
-                    elsif ($line =~
-                        /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m )
-                    {
-                        $maxd =
-                          Foswiki::Time::parseTime( "$1T$2$3" );
+                        Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
                         $getDate = 0;
                     }
                 }
-            };
-            if ($@) {
-                #print STDERR "WARNING: Failed to shell out to svn: $@";
+            }
+            elsif ( my ( $gitdir, $gitsvn ) =
+                $this->_findPathToDotGitDir() ) {
+                @command = qw(git log -1 --pretty=medium --date=iso --);
+                my $log = $this->sys_action( @command, @files );
+                if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
+                    $max = $1 if $1 > $max;
+                }
+                else {
+                    die 'You have un-published changes. Please "git svn dcommit"';
+                }
+                if ($log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m ) {
+                    $maxd = Foswiki::Time::parseTime( "$1T$2$3" );
+                }
+            }
+            else {
+                die "Cannot find a proper command to search history.";
             }
         }
         $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
