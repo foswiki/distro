@@ -564,6 +564,8 @@ sub reload {
 Get/set the topic body text. If $text is undef, gets the value, if it is
 defined, sets the value to that and returns the new text.
 
+Be Warned - it can return undef - when a topic exists but has no topicText.
+
 =cut
 
 sub text {
@@ -575,6 +577,7 @@ sub text {
     else {
 
         # Lazy load
+        #SMELL: will reload repeatedly if there is no topic text - ie if the topic is all META
         $this->reload() unless defined( $this->{_text} );
     }
     return $this->{_text};

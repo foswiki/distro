@@ -1362,5 +1362,32 @@ sub verify_casesensitivesetting {
 
 }
 
+sub verify_Item6082_Search {
+    my $this    = shift;
+
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'TestForm',
+        <<'FORM');
+| *Name*         | *Type* | *Size* | *Value*   | *Tooltip message* | *Attributes* |
+| Why | text | 32 | | Mandatory field | M |
+| Ecks | select | 1 | %SEARCH{"TestForm.Ecks~'Blah*'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}% | | |
+FORM
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web}, 'SplodgeOne',
+        <<FORM);
+%META:FORM{name="TestForm"}%
+%META:FIELD{name="Ecks" attributes="" title="X" value="Blah"}%
+FORM
+    $topicObject->save();
+
+    my $actual =
+      $topicObject->expandMacros(
+'%SEARCH{"TestForm.Ecks~\'Blah*\'" type="query" order="topic" separator="," format="$topic;$formfield(Ecks)" nonoise="on"}%'
+      );
+    my $expected = 'SplodgeOne;Blah';
+    $this->assert_str_equals( $expected, $actual );
+
+}
 
 1;

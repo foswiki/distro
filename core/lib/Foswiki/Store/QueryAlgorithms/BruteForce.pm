@@ -47,7 +47,9 @@ sub query {
     foreach my $topic (@$topics) {
         my $meta =
           Foswiki::Meta->new( $store->{session}, $web, $topic);#, <FILE> );
-        next unless $meta->text; #trigger a lazy reload #TODO: make explicit
+        #this 'lazy load will become useful when @$topics becomes an infoCache
+        $meta->reload() unless ( $meta->getLoadedRev() > 0 );
+        next unless ( $meta->getLoadedRev() > 0 );
 
         my $match = $query->evaluate( tom => $meta, data => $meta );
         if ($match) {
