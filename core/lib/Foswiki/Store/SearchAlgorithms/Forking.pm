@@ -67,10 +67,9 @@ sub search {
     ##heck, on pre WinXP its only 2048, post XP its 8192 - http://support.microsoft.com/kb/830473
     $maxTopicsInSet = 128 if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' );
     my @take    = @$topics;
-    my @set     = splice( @take, 0, $maxTopicsInSet );
     my $matches = '';
 
-    while (@set) {
+    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
         @set = map { "$sDir/$_.txt" } @set;
         my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
             $program,
@@ -92,7 +91,6 @@ sub search {
 # throw Error::Simple("$program Grep for '$searchString' returned error")
         }
         $matches .= $m;
-        @set = splice( @take, 0, $maxTopicsInSet );
     }
     my %seen;
 

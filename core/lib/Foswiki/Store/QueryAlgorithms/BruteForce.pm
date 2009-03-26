@@ -26,8 +26,6 @@ use Foswiki::Meta ();
 sub query {
     my ( $query, $web, $topics, $store ) = @_;
 
-    my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
-
     if ( scalar(@$topics) > 6 ) {
         require Foswiki::Query::HoistREs;
         my @filter = Foswiki::Query::HoistREs::hoist($query);
@@ -47,10 +45,10 @@ sub query {
     my %matches;
     local $/;
     foreach my $topic (@$topics) {
-        next unless open( FILE, '<', "$sDir/$topic.txt" );
         my $meta =
-          Foswiki::Meta->new( $store->{session}, $web, $topic, <FILE> );
-        close(FILE);
+          Foswiki::Meta->new( $store->{session}, $web, $topic);#, <FILE> );
+        next unless $meta->text; #trigger a lazy reload #TODO: make explicit
+
         my $match = $query->evaluate( tom => $meta, data => $meta );
         if ($match) {
             $matches{$topic} = $match;
