@@ -573,7 +573,7 @@ sub copyTopic {
 sub searchInWebMetaData {
     my ( $this, $query, $web, $topics, $options ) = @_;
     ASSERT($query);
-    ASSERT( UNIVERSAL::isa( $query, 'Foswiki::Query::Node' ) );
+    ASSERT( UNIVERSAL::isa( $query, 'Foswiki::Query::Node' ) || UNIVERSAL::isa( $query, 'Foswiki::Search::Node' ) );
 
     my $handler = $this->getHandler($web);
     return $handler->searchInWebMetaData( $query, $web, $topics, $this, $options );

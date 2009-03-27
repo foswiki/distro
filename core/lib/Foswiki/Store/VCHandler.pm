@@ -338,28 +338,46 @@ sub searchInWebContent {
 ---++ ObjectMethod searchInWebMetaData($query, \@topics, $store) -> \%matches
 
 Search for a meta-data expression in the content of a web. =$query= must
-be a =Foswiki::Query= object.
+be a =Foswiki::*::Node= object.
 
 Returns a reference to a hash that maps the names of topics that all matched
 to the result of the query expression (e.g. if the query expression is
 'TOPICPARENT.name' then you will get back a hash that maps topic names
 to their parent.
 
+This will become a 'query engine' factory that will allow us to plug in different
+query 'types' (Sven has code for 'tag' and 'attachment' waiting for this)
+
+TODO: needs a rename.
+
 =cut
 
 sub searchInWebMetaData {
     my ( $this, $query, $web, $topics, $store, $options ) = @_;
 
-    unless ( $this->{queryFn} ) {
-        eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
-        die
-"Bad {RCS}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
-          if $@;
-        $this->{queryFn} = $Foswiki::cfg{RCS}{QueryAlgorithm} . '::query';
+    my $engine;
+    if ($options->{type} eq 'query') {
+        unless ( $this->{queryFn} ) {
+            eval "require $Foswiki::cfg{RCS}{QueryAlgorithm}";
+            die
+    "Bad {RCS}{QueryAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+              if $@;
+            $this->{queryFn} = $Foswiki::cfg{RCS}{QueryAlgorithm} . '::query';
+        }
+        $engine = $this->{queryFn};
+    } else {
+        unless ( $this->{searchQueryFn} ) {
+            eval "require $Foswiki::cfg{RCS}{SearchAlgorithm}";
+            die
+    "Bad {RCS}{SearchAlgorithm}; suggest you run configure and select a different algorithm\n$@"
+              if $@;
+            $this->{searchQueryFn} = $Foswiki::cfg{RCS}{SearchAlgorithm} . '::query';
+        }
+        $engine = $this->{searchQueryFn};
     }
 
     no strict 'refs';
-    return &{ $this->{queryFn} }( $query, $web, $topics, $store, $options );
+    return &{ $engine }( $query, $web, $topics, $store, $options );
     use strict 'refs';
 }
 

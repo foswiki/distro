@@ -19,6 +19,8 @@ speed and memory size. It also depends on the complexity of the query.
 
 package Foswiki::Store::QueryAlgorithms::BruteForce;
 
+use Foswiki::Search::Node;
+
 use strict;
 
 use Foswiki::Meta ();
@@ -29,16 +31,17 @@ sub query {
     if ( scalar(@$topics) > 6 ) {
         require Foswiki::Query::HoistREs;
         my @filter = Foswiki::Query::HoistREs::hoist($query);
-        foreach my $token (@filter) {
-            my $m = $store->searchInWebContent(
-                $token, $web, $topics,
-                {
-                    type                => 'regex',
-                    casesensitive       => 1,
-                    files_without_match => 1,
-                }
-            );
+        if (scalar(@filter)) {
+            my $searchOptions = {
+                        type                => 'regex',
+                        casesensitive       => 1,
+                        files_without_match => 1,
+                    };
+            my $searchQuery = new Foswiki::Search::Node($query->toString(), \@filter, $searchOptions);
+            my $m = $store->searchInWebMetaData($searchQuery, $web, $topics, $searchOptions);
             @$topics = keys %$m;
+        } else {
+            #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
         }
     }
 

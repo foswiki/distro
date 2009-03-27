@@ -20,7 +20,9 @@ require Foswiki::Search::InfoCache;
 require Foswiki::ListIterator;
 require Foswiki::Iterator::FilterIterator;
 
+#TODO: move these into a more appropriate place - they are function objects so can persist for a _long_ time
 my $queryParser;
+my $searchParser;
 
 BEGIN {
 
@@ -101,73 +103,6 @@ sub _countPattern {
     };
 
     return $count;
-}
-
-# Split the search string into tokens depending on type of search.
-# Search is an 'AND' of all tokens - various syntaxes implemented
-# by this routine.
-sub _tokensFromSearchString {
-    my ( $this, $searchString, $type ) = @_;
-
-    my @tokens = ();
-    if ( $type eq 'regex' ) {
-
-        # Regular expression search Example: soap;wsdl;web service;!shampoo
-        @tokens = split( /;/, $searchString );
-
-    }
-    elsif ( $type eq 'literal' || $type eq 'query' ) {
-
-        if ( $searchString eq '' ) {
-
-            # Legacy: empty search returns nothing
-        }
-        else {
-
-            # Literal search (old style) or query
-            $tokens[0] = $searchString;
-        }
-
-    }
-    else {
-
-        # Keyword search (Google-style) - implemented by converting
-        # to regex format. Example: soap +wsdl +"web service" -shampoo
-
-        # Prevent tokenizing on spaces in "literal string"
-        $searchString =~ s/(\".*?)\"/&_translateSpace($1)/geo;
-        $searchString =~ s/[\+\-]\s+//go;
-
-        # Build pattern of stop words
-        my $prefs = $this->{session}->{prefs};
-        my $stopWords = $prefs->getPreference('SEARCHSTOPWORDS') || '';
-        $stopWords =~ s/[\s\,]+/\|/go;
-        $stopWords =~ s/[\(\)]//go;
-
-        # Tokenize string taking account of literal strings, then remove
-        # stop words and convert '+' and '-' syntax.
-        @tokens = map {
-            s/^\+//o;
-            s/^\-/\!/o;
-            s/^"//o;
-            $_
-          }    # remove +, change - to !, remove "
-          grep { !/^($stopWords)$/i }    # remove stopwords
-          map { s/$Foswiki::TranslationToken/ /go; $_ }    # restore space
-          split( /[\s]+/, $searchString );                 # split on spaces
-    }
-
-    return @tokens;
-}
-
-# Convert spaces into translation token characters (typically NULs),
-# preventing tokenization.
-#
-# FIXME: Terminology confusing here!
-sub _translateSpace {
-    my $text = shift;
-    $text =~ s/\s+/$Foswiki::TranslationToken/go;
-    return $text;
 }
 
 # get a list of topics to search in the web, filtered by the $topic
@@ -309,96 +244,6 @@ sub _getListOfWebs {
     }
 
     return @webs;
-}
-
-# Run a search over a list of topics - @tokens is a list of
-# search terms to be ANDed together
-#SMELL: this code assumes that calling the search backend repeatedly is faster than
-#telling the backend all the ANDed tokens and letting it do it - Sven thinks we
-#should push this code into the search impl (and thus the @$tokens would be equiv to @query
-#Similarly, both the topic&text scopes shoudl be delegated, as the combination may well be
-#instant for more intellegent Store/Index systems
-sub _searchTopics {
-    my ( $this, $webObject, $options, $tokens, @topicList ) = @_;
-
-    # default scope is 'text'
-    $options->{'scope'} = 'text' unless ( $options->{'scope'} =~ /^(topic|all)$/ );
-
-    # AND search - search once for each token, ANDing result together
-    foreach my $token (@$tokens) {
-
-        my $invertSearch = 0;
-
-        $invertSearch = ( $token =~ s/^\!//o );
-
-        # flag for AND NOT search
-        my @scopeTextList  = ();
-        my @scopeTopicList = ();
-
-        # scope can be 'topic' (default), 'text' or "all"
-        # scope='text', e.g. Perl search on topic name:
-        unless ( $options->{'scope'} eq 'text' ) {
-            my $qtoken = $token;
-
-            # FIXME I18N
-            $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
-            if ( $options->{'casesensitive'} ) {
-
-                # fix for Codev.SearchWithNoPipe
-                @scopeTopicList = grep( /$qtoken/, @topicList );
-            }
-            else {
-                @scopeTopicList = grep( /$qtoken/i, @topicList );
-            }
-        }
-
-        # scope='text', e.g. grep search on topic text:
-        unless ( $options->{'scope'} eq 'topic' ) {
-            my $matches = $webObject->searchInText(
-                $token,
-                \@topicList,
-                {
-                    type                => $options->{'type'},
-                    scope               => $options->{'scope'},
-                    casesensitive       => $options->{'casesensitive'},
-                    wordboundaries      => $options->{'wordboundaries'},
-                    #SMELL, TODO: huh? why would we want to make life hard for ourselves and hard code this???
-                    files_without_match => 1
-                }
-            );
-            @scopeTextList = keys %$matches;
-        }
-
-        if ( @scopeTextList && @scopeTopicList ) {
-
-            # join 'topic' and 'text' lists
-            push( @scopeTextList, @scopeTopicList );
-            my %seen = ();
-
-            # make topics unique
-            @scopeTextList = sort grep { !$seen{$_}++ } @scopeTextList;
-        }
-        elsif (@scopeTopicList) {
-            @scopeTextList = @scopeTopicList;
-        }
-
-        if ($invertSearch) {
-
-            # do AND NOT search
-            my %seen = ();
-            foreach my $topic (@scopeTextList) {
-                $seen{$topic} = 1;
-            }
-            @scopeTextList = ();
-            foreach my $topic (@topicList) {
-                push( @scopeTextList, $topic ) unless ( $seen{$topic} );
-            }
-        }
-
-        # reduced topic list for next token
-        @topicList = @scopeTextList;
-    }
-    return @topicList;
 }
 
 sub _makeTopicPattern {
@@ -627,40 +472,56 @@ sub searchWeb {
     }
 
     my $query;
-    my @tokens;
 
-    if ( $type eq 'query' ) {
-        if ( length($searchString) == 0 ) {
-            #default search should return no results
-            $searchString = '1 = 2';
-            #shortcircuit the search
-            #FIXME: this breaks the per-web summary output that is hidden in the foreach
-            @webs = ();
-        }
+#TODO: actually want to pass the entire SEARCH params - so that each search backend can optimise if it suites its impl
+        my $options = {
+            casesensitive  => $caseSensitive,
+            wordboundaries => $wordBoundaries,
+            includeTopics  => $topic,
+            excludeTopics  => $excludeTopic,
+            scope          => $scope,
+            type           => $type,
+        };
+
+    if ( length($searchString) == 0 ) {
+        #default search should return no results
+        $searchString = '1 = 2';
+        #shortcircuit the search
+        #FIXME: this breaks the per-web summary output that is hidden in the foreach
+        @webs = ();
+    }
+
+    my $theParser;
+    if ($type eq 'query') {
         unless ( defined($queryParser) ) {
             require Foswiki::Query::Parser;
             $queryParser = new Foswiki::Query::Parser();
         }
-        my $error = '';
-        try {
-            $query = $queryParser->parse($searchString);
+        $theParser = $queryParser;
+    } else {
+        unless ( defined($searchParser) ) {
+            require Foswiki::Search::Parser;
+            $searchParser = new Foswiki::Search::Parser($session);
         }
-        catch Foswiki::Infix::Error with {
-
-            # Pass the error on to the caller
-            throw Error::Simple( shift->stringify() );
-        };
-        return $error unless $query;
+        $theParser = $searchParser;
     }
-    else {
+    my $error = '';
+    try {
+        $query = $theParser->parse($searchString, $options);
+    }
+    catch Foswiki::Infix::Error with {
 
-        # Split the search string into tokens depending on type of search -
-        # each token is ANDed together by actual search
-        @tokens = _tokensFromSearchString( $this, $searchString, $type );
+        # Pass the error on to the caller
+        throw Error::Simple( shift->stringify() );
+    };
+    return $error unless $query;
 
+    #TODO:
+    unless ($type eq 'query')
+    {
         #shorcircuit the search foreach below for a zero result search
         #FIXME: this breaks the per-web summary output that is hidden in the foreach
-        @webs = () unless scalar(@tokens);    #default
+        @webs = () unless scalar(@{$query->{tokens}});    #default
     }
 
     # Loop through webs
@@ -686,36 +547,19 @@ sub searchWeb {
             && ( $thisWebNoSearchAll =~ /on/i || $web =~ /^[\.\_]/ )
             && $web ne $session->{webName} );
 
-#TODO: actually want to pass the entire SEARCH params - so that each search backend can optimise if it suites its impl
-        my $options = {
-            casesensitive  => $caseSensitive,
-            wordboundaries => $wordBoundaries,
-            includeTopics  => $topic,
-            excludeTopics  => $excludeTopic,
-            scope          => $scope,
-            type           => $type,
-        };
-
         # Run the search on topics in this web
         my @topicList = _getTopicList( $this, $webObject, $options );
 
         next if ( $noEmpty && !@topicList );    # Nothing to show for this web
 
-        if ( $type eq 'query' ) {
-            my $matches = $webObject->query( $query, \@topicList, $options );
-            @topicList = keys %$matches;
-        }
-        else {
-            @topicList =
-              _searchTopics( $this, $webObject, $options,
-                \@tokens, @topicList );
-        }
+        my $matches = $webObject->query( $query, \@topicList, $options );
+        @topicList = keys %$matches;
 
         # the current Web's Result Set
         my $infoCache = new Foswiki::Search::InfoCache( $session, $web, \@topicList);
 
         $this->sortResults($web, $infoCache, %params);
-        my ($web_ttopics, $web_searchResult) = $this->formatResults($tmplTable, $tmplNumber, $webObject, \@tokens, $infoCache, %params);
+        my ($web_ttopics, $web_searchResult) = $this->formatResults($tmplTable, $tmplNumber, $webObject, $query, $infoCache, %params);
         $ttopics += $web_ttopics;
         $searchResult .= $web_searchResult;
     }    # end of: foreach my $web ( @webs )
@@ -856,11 +700,10 @@ the implementation of %FORMAT{}%
 
 =cut
 sub formatResults{
-    my ($this, $tmplTable, $tmplNumber, $webObject, $refTokens, $infoCache, %params) = @_;
+    my ($this, $tmplTable, $tmplNumber, $webObject, $query, $infoCache, %params) = @_;
     my $session = $this->{session};
     my $users = $session->{users};
     my $web = $webObject->web;
-    my @tokens = @$refTokens;
     my $thisWebNoSearchAll = $webObject->getPreference('NOSEARCHALL') || '';
 
 
@@ -980,6 +823,8 @@ sub formatResults{
 
         my @multipleHitLines = ();
         if ($doMultiple) {
+            #TODO: i wonder if this shoudl be a HoistRE..
+            my @tokens = @{$query->{tokens}};
             my $pattern = $tokens[$#tokens];   # last token in an AND search
             $pattern = quotemeta($pattern) if ( $type ne 'regex' );
             unless ($text) {

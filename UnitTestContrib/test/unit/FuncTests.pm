@@ -1024,5 +1024,46 @@ sub test_getAttachmentList {
     $this->assert_str_equals("testfile.gif", $list);
 }
 
-1;
+=begin TML
 
+---+++ searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
+
+Search for a string in the content of a web. The search is over all content, including meta-data. Meta-data matches will be returned as formatted lines within the topic content (meta-data matches are returned as lines of the format %META:\w+{.*}%)
+   * =$searchString= - the search string, in egrep format
+   * =$web= - The web to search in
+   * =\@topics= - reference to a list of topics to search
+   * =\%option= - reference to an options hash
+The =\%options= hash may contain the following options:
+   * =type= - if =regex= will perform a egrep-syntax RE search (default '')
+   * =casesensitive= - false to ignore case (defaulkt true)
+   * =files_without_match= - true to return files only (default false). If =files_without_match= is specified, it will return on the first match in each topic (i.e. it will return only one match per topic, and will not return matching lines).
+
+The return value is a reference to a hash which maps each matching topic
+name to a list of the lines in that topic that matched the search,
+as would be returned by 'grep'.
+
+To iterate over the returned topics use:
+<verbatim>
+my $result = Foswiki::Func::searchInWebContent( "Slimy Toad", $web, \@topics,
+   { casesensitive => 0, files_without_match => 0 } );
+foreach my $topic (keys %$result ) {
+   foreach my $matching_line ( @{$result->{$topic}} ) {
+      ...etc
+</verbatim>
+
+
+sub searchInWebContent {
+
+    my ( $searchString, $web, $topics, $options ) = @_;
+    ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
+    my $webObject = Foswiki::Meta->new( $Foswiki::Plugins::SESSION, $web );
+    return $webObject->searchInText( $searchString, $topics, $options );
+}
+
+=cut
+
+sub test_searchInWebContent {
+    my $this = shift;
+}
+
+1;
