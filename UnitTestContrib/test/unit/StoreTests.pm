@@ -78,9 +78,9 @@ sub test_CreateWeb {
 #create a web using _default
 #TODO how should this fail if we are testing a store impl that does not have a _deault web ?
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
-    $webObject->populateNewWeb('_default', { WEBBGCOLOR => 'SITEMAPLIST' });
+    $webObject->populateNewWeb('_default', { WEBBGCOLOR => '#737373', SITEMAPLIST => 'on' });
     $this->assert( $this->{session}->webExists($web) );
-    $this->assert_equals('SITEMAPLIST',
+    $this->assert_equals('#737373',
                          $webObject->getPreference('WEBBGCOLOR'));
     $this->assert_equals('on', $webObject->getPreference('SITEMAPLIST'));
     my $it        = $webObject->eachTopic();
