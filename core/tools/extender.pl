@@ -619,7 +619,7 @@ sub unpackArchive {
 sub unzip {
     my $archive = shift;
 
-    unless ( 'Archive::Zip'->use ) {
+    if ( 'Archive::Zip'->use ) {
         my $zip           = Archive::Zip->new();
         my $numberOfFiles = $zip->read($archive);
         unless ( $numberOfFiles > 0 ) {
@@ -661,7 +661,7 @@ sub untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    unless ( 'Archive::Tar'->use ) {
+    if ( 'Archive::Tar'->use ) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
         unless ( $numberOfFiles > 0 ) {
@@ -675,7 +675,7 @@ sub untar {
             my $target = $file;
 
             my $err = $tar->extract_file( $file, $target );
-            unless ($err) {
+            if ($err) {
                 print STDERR 'Failed to extract ', $file, ' from tar file ',
                   $tar, ". Archive may be corrupt.\n";
                 return 0;
