@@ -53,6 +53,18 @@ iterator object:
 =cut
 
 sub next { ASSERT('Pure virtual function called') if DEBUG; }
+
+
+=begin TML
+
+---++ reset() -> $boolean
+
+resets the iterator to the begining - returns false if it can't
+
+=cut
+
+sub reset { ASSERT('Pure virtual function called') if DEBUG; }
+
 1;
 
 __END__

@@ -293,7 +293,7 @@ sub getWebNames {
 
 =begin TML
 
----++ ObjectMethod searchInWebContent($searchString, $web, \@topics, \%options ) -> \%map
+---++ ObjectMethod searchInWebContent($searchString, $web, $inputTopicSet, \%options ) -> \%map
 
 Search for a string in the content of a web. The search must be over all
 content and all formatted meta-data, though the latter search type is
@@ -317,7 +317,7 @@ match per topic, and will not return matching lines).
 =cut
 
 sub searchInWebContent {
-    my ( $this, $searchString, $web, $topics, $store, $options ) = @_;
+    my ( $this, $searchString, $web, $inputTopicSet, $store, $options ) = @_;
     ASSERT( defined $options ) if DEBUG;
 
     unless ( $this->{searchFn} ) {
@@ -329,13 +329,13 @@ sub searchInWebContent {
     }
 
     no strict 'refs';
-    return &{ $this->{searchFn} }( $searchString, $web, $topics, $store, $options, $Foswiki::sandbox );
+    return &{ $this->{searchFn} }( $searchString, $web, $inputTopicSet, $store, $options, $Foswiki::sandbox );
     use strict 'refs';
 }
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, \@topics, $store) -> \%matches
+---++ ObjectMethod searchInWebMetaData($query, $inputTopicSet, $store) -> \%matches
 
 Search for a meta-data expression in the content of a web. =$query= must
 be a =Foswiki::*::Node= object.
@@ -353,7 +353,7 @@ TODO: needs a rename.
 =cut
 
 sub searchInWebMetaData {
-    my ( $this, $query, $web, $topics, $store, $options ) = @_;
+    my ( $this, $query, $web, $inputTopicSet, $store, $options ) = @_;
 
     my $engine;
     if ($options->{type} eq 'query') {
@@ -377,7 +377,7 @@ sub searchInWebMetaData {
     }
 
     no strict 'refs';
-    return &{ $engine }( $query, $web, $topics, $store, $options );
+    return &{ $engine }( $query, $web, $inputTopicSet, $store, $options );
     use strict 'refs';
 }
 

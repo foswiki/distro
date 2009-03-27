@@ -1228,7 +1228,14 @@ sub _getTopicList {
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     # Run the search on topics in this web
     my $search = $this->{session}->search();
-    my @topicList = $search->_getTopicList($webObject, $options );
+    my $iter = $search->_getTopicList($webObject, $options );
+
+    ASSERT(UNIVERSAL::isa( $iter, 'Foswiki::Iterator' )) if DEBUG;
+    my @topicList = ();
+    while (my $t = $iter->next()) {
+        push(@topicList, $t);
+    }
+
     return \@topicList;
 }
 

@@ -602,7 +602,7 @@ sub copyTopic {
 
 =begin TML
 
----++ ObjectMethod searchInWebMetaData($query, $web, \@topics, \%options) -> \%matches
+---++ ObjectMethod searchInWebMetaData($query, $web, $inputTopicSet, \%options) -> \%matches
 
 Search for a meta-data expression in the content of a web. =$query= must be a =Foswiki::Query= object.
 
@@ -614,7 +614,7 @@ to their parent.
 =cut
 
 sub searchInWebMetaData {
-    my( $this, $query, $web, $topics, $options ) = @_;
+    my( $this, $query, $web, $inputTopicSet, $options ) = @_;
     die "Abstract base class";
 }
 

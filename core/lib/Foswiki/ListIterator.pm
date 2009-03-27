@@ -11,6 +11,7 @@ Iterator over a perl list
 
 package Foswiki::ListIterator;
 use base 'Foswiki::Iterator';
+use Assert;
 
 use strict;
 
@@ -26,6 +27,9 @@ any way.
 
 sub new {
     my ( $class, $list ) = @_;
+
+    ASSERT(!defined($list) || UNIVERSAL::isa( $list, 'ARRAY' )) if DEBUG;
+
     my $this = bless(
         {
             list    => $list,
@@ -140,6 +144,27 @@ sub all {
         $this->{index} = scalar( @{ $this->{list} } );
         return @{ $this->{list} };
     }
+}
+
+=begin TML
+
+---++ reset() -> $boolean
+
+Start at the begining of the list
+<verbatim>
+$it->reset();
+while ($it->hasNext()) {
+   ...
+</verbatim>
+
+=cut
+
+sub reset {
+    my ($this) = @_;
+    $this->{next} = undef;
+    $this->{index} = 0;
+
+    return 1;
 }
 
 1;

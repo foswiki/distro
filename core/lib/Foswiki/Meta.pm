@@ -410,7 +410,7 @@ sub searchInText {
 
 =begin TML
 
----++ ObjectMethod query($query, \@topics, \%options) -> \%matches
+---++ ObjectMethod query($query, $inputTopicSet, \%options) -> \%matches
 
 Search for a meta-data expression in the content of a web.
 =$query= must be a =Foswiki::Query= object.
@@ -423,9 +423,9 @@ to their parent.
 =cut
 
 sub query {
-    my ( $this, $query, $topics, $options ) = @_;
+    my ( $this, $query, $inputTopicSet, $options ) = @_;
     return $this->{_session}->{store}
-      ->searchInWebMetaData( $query, $this->{_web}, $topics, $options );
+      ->searchInWebMetaData( $query, $this->{_web}, $inputTopicSet, $options );
 }
 
 =begin TML

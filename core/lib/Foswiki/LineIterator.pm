@@ -107,6 +107,13 @@ sub next {
     return $curLine;
 }
 
+# See Foswiki::Iterator for a description of the general iterator contract
+sub reset {
+    my ($this) = @_;
+
+    return;
+}
+
 1;
 __DATA__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/

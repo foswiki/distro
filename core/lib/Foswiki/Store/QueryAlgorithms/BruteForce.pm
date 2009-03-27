@@ -26,9 +26,12 @@ use strict;
 use Foswiki::Meta ();
 
 sub query {
-    my ( $query, $web, $topics, $store, $options ) = @_;
+    my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
 
-    if ( scalar(@$topics) > 6 ) {
+    my $topicSet = $inputTopicSet;
+
+#TODO: howto ask iterator for list length?
+#    if ( scalar(@$topics) > 6 ) {
         require Foswiki::Query::HoistREs;
         my @filter = Foswiki::Query::HoistREs::hoist($query);
         if (scalar(@filter)) {
@@ -38,16 +41,18 @@ sub query {
                         files_without_match => 1,
                     };
             my $searchQuery = new Foswiki::Search::Node($query->toString(), \@filter, $searchOptions);
-            my $m = $store->searchInWebMetaData($searchQuery, $web, $topics, $searchOptions);
-            @$topics = keys %$m;
+            my $m = $store->searchInWebMetaData($searchQuery, $web, $topicSet, $searchOptions);
+            my @matches = keys %$m;
+            $topicSet = new Foswiki::ListIterator(\@matches);
         } else {
             #print STDERR "WARNING: couldn't hoistREs on ".$query->toString();
         }
-    }
+#    }
 
     my %matches;
     local $/;
-    foreach my $topic (@$topics) {
+    while ( $topicSet->hasNext() ) {
+        my $topic = $topicSet->next();
         my $meta =
           Foswiki::Meta->new( $store->{session}, $web, $topic);#, <FILE> );
         #this 'lazy load will become useful when @$topics becomes an infoCache

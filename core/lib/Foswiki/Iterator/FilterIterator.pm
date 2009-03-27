@@ -60,6 +60,17 @@ sub next {
     return $this->{next};
 }
 
+# See Foswiki::Iterator for a description of the general iterator contract
+sub reset {
+    my ($this) = @_;
+
+    return unless ($this->{iterator}->reset());
+    $this->{next} = undef;
+    $this->{pending} = 0;
+
+    return 1;
+}
+
 1;
 __DATA__
 

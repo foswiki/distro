@@ -11,14 +11,14 @@ use Assert;
 
 Forking implementation of the RCS cache search.
 
----++ search($searchString, $topics, $options, $sDir) -> \%seen
+---++ search($searchString, $inputTopicSet, $options, $sDir) -> \%seen
 Search .txt files in $dir for $searchString. See RcsFile::searchInWebContent
 for details.
 
 =cut
 
 sub search {
-    my ( $searchString, $web, $topics, $store, $options ) = @_;
+    my ( $searchString, $web, $inputTopicSet, $store, $options ) = @_;
 
     # Default (Forking) search
 
@@ -67,34 +67,40 @@ sub search {
       #SMELL: the following while loop should probably be made by sysCommand, as this is a leaky abstraction.
     ##heck, on pre WinXP its only 2048, post XP its 8192 - http://support.microsoft.com/kb/830473
     $maxTopicsInSet = 128 if ( $Foswiki::cfg{DetailedOS} eq 'MSWin32' );
-    my @take    = @$topics;
     my $matches = '';
 
     #SMELL, TODO, replace with Store call.
     my $sDir = $Foswiki::cfg{DataDir} . '/' . $web . '/';
 
-    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
-        @set = map { "$sDir/$_.txt" } @set;
-        my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
-            $program,
-            TOKEN => $searchString,
-            FILES => \@set
-        );
+#    while (my @set = splice( @take, 0, $maxTopicsInSet )) {
+#        @set = map { "$sDir/$_.txt" } @set;
+    my @set;
+    $inputTopicSet->reset();
+    while ( $inputTopicSet->hasNext() ) {
+        my $tn = $inputTopicSet->next();
+        push(@set, "$sDir/$tn.txt");
+        if (($#set >= $maxTopicsInSet)      #replace with character count..
+            || !($inputTopicSet->hasNext())) {
+            my ( $m, $exit ) = Foswiki::Sandbox->sysCommand(
+                $program,
+                TOKEN => $searchString,
+                FILES => \@set
+            );
+            @set = ();
+            # man grep: "Normally, exit status is 0 if selected lines are found
+            # and 1 otherwise. But the exit status is 2 if an error occurred,
+            # unless the -q or --quiet or --silent option is used and a selected
+            # line is found."
+            if ( $exit > 1 ) {
+                #TODO: need to work out a way to alert the admin there is a problem, without
+                #      filling up the log files with repeated SEARCH's
 
-        # man grep: "Normally, exit status is 0 if selected lines are found
-        # and 1 otherwise. But the exit status is 2 if an error occurred,
-        # unless the -q or --quiet or --silent option is used and a selected
-        # line is found."
-        if ( $exit > 1 ) {
-
-    #TODO: need to work out a way to alert the admin there is a problem, without
-    #      filling up the log files with repeated SEARCH's
-
-# NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
-#       or a file it does not have permission to open, so throwing here gives wrong search results.
-# throw Error::Simple("$program Grep for '$searchString' returned error")
+                # NOTE: we ignore the error, because grep returns an error if it comes across a broken file link
+                #       or a file it does not have permission to open, so throwing here gives wrong search results.
+                # throw Error::Simple("$program Grep for '$searchString' returned error")
+            }
+            $matches .= $m;
         }
-        $matches .= $m;
     }
     my %seen;
 
@@ -111,99 +117,84 @@ sub search {
 this is the new way -
 =cut
 sub query {
-    my ( $query, $web, $topics, $store, $options ) = @_;
-
-# Run a search over a list of topics - @tokens is a list of
-# search terms to be ANDed together
-#SMELL: this code assumes that calling the search backend repeatedly is faster than
-#telling the backend all the ANDed tokens and letting it do it - Sven thinks we
-#should push this code into the search impl (and thus the @$tokens would be equiv to @query
-#Similarly, both the topic&text scopes shoudl be delegated, as the combination may well be
-#instant for more intellegent Store/Index systems
-#sub _searchTopics {
-#    my ( $this, $webObject, $options, $query, @topicList ) = @_;
-
+    my ( $query, $web, $inputTopicSet, $store, $options ) = @_;
     ASSERT(scalar(@{$query->{tokens}}) > 0) if DEBUG;
 
     # default scope is 'text'
     $options->{'scope'} = 'text' unless ( defined($options->{'scope'}) && $options->{'scope'} =~ /^(topic|all)$/ );
 
-    my @topicList = @$topics;
+    my $topicSet = $inputTopicSet;
+    ASSERT(UNIVERSAL::isa( $topicSet, 'Foswiki::Iterator' )) if DEBUG;
+
+    my %completeMatch;
+
 #print STDERR "######## Forking search ($web) tokens ".scalar(@{$query->{tokens}})." : ".join(',', @{$query->{tokens}})."\n";
     # AND search - search once for each token, ANDing result together
     foreach my $token (@{$query->{tokens}}) {
 
+        # flag for AND NOT search
         my $invertSearch = 0;
-
         $invertSearch = ( $token =~ s/^\!//o );
 
-        # flag for AND NOT search
-        my @scopeTextList  = ();
-        my @scopeTopicList = ();
-
         # scope can be 'topic' (default), 'text' or "all"
-        # scope='text', e.g. Perl search on topic name:
+        # scope='topic', e.g. Perl search on topic name:
+        my %topicMatches;
         unless ( $options->{'scope'} eq 'text' ) {
             my $qtoken = $token;
 
-            # FIXME I18N
-            $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
-            if ( $options->{'casesensitive'} ) {
+            my @topicList;
+            $topicSet->reset();
+            while ( $topicSet->hasNext() ) {
+                my $topic = $topicSet->next();
 
-                # fix for Codev.SearchWithNoPipe
-                @scopeTopicList = grep( /$qtoken/, @topicList );
-            }
-            else {
-                @scopeTopicList = grep( /$qtoken/i, @topicList );
+                # FIXME I18N
+                $qtoken = quotemeta($qtoken) if ( $options->{'type'} ne 'regex' );
+                if ( $options->{'casesensitive'} ) {
+
+                    # fix for Codev.SearchWithNoPipe
+                    #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/ );
+                    $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/ );
+                }
+                else {
+                    #push(@scopeTopicList, $topic) if ( $topic =~ /$qtoken/i );
+                    $topicMatches{$topic} = 1 if ( $topic =~ /$qtoken/i );
+                }
             }
         }
 
         # scope='text', e.g. grep search on topic text:
+        my $textMatches;
         unless ( $options->{'scope'} eq 'topic' ) {
-            my $matches = search( $token, $web, $topics, $store, $options );
-
-            @scopeTextList = keys %$matches;
+            $textMatches = search( $token, $web, $topicSet, $store, $options );
         }
 
-        if ( @scopeTextList && @scopeTopicList ) {
-
-            # join 'topic' and 'text' lists
-            push( @scopeTextList, @scopeTopicList );
-            my %seen = ();
-
-            # make topics unique
-            @scopeTextList = sort grep { !$seen{$_}++ } @scopeTextList;
-        }
-        elsif (@scopeTopicList) {
-            @scopeTextList = @scopeTopicList;
+        #bring the text matches into the topicMatch hash
+        if ($textMatches) {
+            @topicMatches{ keys %$textMatches } = values %$textMatches;
         }
 
+        my @scopeTextList = ();
         if ($invertSearch) {
-
-            # do AND NOT search
-            my %seen = ();
-            foreach my $topic (@scopeTextList) {
-                $seen{$topic} = 1;
+            $topicSet->reset();
+            while ( $topicSet->hasNext() ) {
+                my $topic = $topicSet->next();
+                #push( @scopeTextList, $topic )
+                if ( $topicMatches{$topic} ) {
+                    #remove this match
+                    delete $completeMatch{$topic};
+                }
             }
-            @scopeTextList = ();
-            foreach my $topic (@topicList) {
-                push( @scopeTextList, $topic ) unless ( $seen{$topic} );
-            }
+        } else {
+            #TODO: the sad thing about this is we lose info
+            %completeMatch = %topicMatches;
         }
-
         # reduced topic list for next token
-        @topicList = @scopeTextList;
+        @scopeTextList = keys(%completeMatch);
+        $topicSet = new Foswiki::ListIterator(\@scopeTextList);
     }
 
-    #TODO: um, yeah :(
-    my %hackMatch;
-    foreach my $t (@topicList) {
-        $hackMatch{$t} = 1;
-    }
-
-    return \%hackMatch;
+    return \%completeMatch;
 }
-
 
 1;
 __DATA__

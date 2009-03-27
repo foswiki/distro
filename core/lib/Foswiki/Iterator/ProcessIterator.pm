@@ -48,6 +48,15 @@ sub next {
     return &{ $this->{process} }( $this->{iterator}->next(), $this->{data} );
 }
 
+# See Foswiki::Iterator for a description of the general iterator contract
+sub reset {
+    my ($this) = @_;
+
+    #TODO: need to carefully consider what side effects this has
+
+    return;
+}
+
 1;
 __DATA__
 # Foswiki - The Free and Open Source Wiki, http://foswiki.org/

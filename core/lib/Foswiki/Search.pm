@@ -163,14 +163,14 @@ sub _getTopicList {
                    }
                     return 1;
                 });
+    return $filterIter;
 
-    my @topicList = ();
-    while ( $filterIter->hasNext() ) {
-        my $tn = $filterIter->next();
-        push( @topicList, $tn );
-    }
-
-    return @topicList;
+#    my @topicList = ();
+#    while ( $filterIter->hasNext() ) {
+#        my $tn = $filterIter->next();
+#        push( @topicList, $tn );
+#    }
+#    return @topicList;
 }
 
 #convert a comma separated list of webs into the list we'll process
@@ -548,12 +548,12 @@ sub searchWeb {
             && $web ne $session->{webName} );
 
         # Run the search on topics in this web
-        my @topicList = _getTopicList( $this, $webObject, $options );
+        my $inputTopicSet = _getTopicList( $this, $webObject, $options );
 
-        next if ( $noEmpty && !@topicList );    # Nothing to show for this web
+        next if ( $noEmpty && !$inputTopicSet->hasNext() );    # Nothing to show for this web
 
-        my $matches = $webObject->query( $query, \@topicList, $options );
-        @topicList = keys %$matches;
+        my $matches = $webObject->query( $query, $inputTopicSet, $options );
+        my @topicList = keys %$matches;
 
         # the current Web's Result Set
         my $infoCache = new Foswiki::Search::InfoCache( $session, $web, \@topicList);
