@@ -110,7 +110,11 @@ sub readTopic {
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
 
-    return $handler->numRevisions()
+    #use the potentially more risky in topic version number for speed
+    my $ri = $topicObject->get('TOPICINFO');
+    $ri = {version=>1} unless (defined($ri));
+
+    return $ri->{version}
       unless $Foswiki::cfg{AutoAttachPubFiles};
 
     # Override meta with that blended from pub.
@@ -146,7 +150,7 @@ sub readTopic {
           if @validAttachmentsFound;
     }
 
-    return $handler->numRevisions();
+    return $ri->{version}
 }
 
 # Documented in Foswiki::Store

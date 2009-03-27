@@ -554,6 +554,8 @@ sub reload {
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
+    #remove any non-numeric rev's (like the $rev stuff from svn)
+    $this->{_loadedRev} = 1 unless ($this->{_loadedRev} =~ /^\d+$/);
     $this->{_preferences} = undef;
 }
 
