@@ -632,29 +632,18 @@ sub putKeyed {
     my ( $this, $type, $args ) = @_;
 
     my $data = $this->{$type};
-
-    if (!defined($this->{"_INDEX_$type"})) {
-        #making putKeyed closed to O(1)
-        $this->{"_INDEX_$type"} = {};
-        
-        #in case the _INDEX was lost, re-build it
-        if (defined($data)) {
-#TODO: this happens ~5% - putAll and copyFrom etc
-            for (my $i = 0; $i < scalar(@$data); $i++) {
-                $this->{"_INDEX_$type"}->{$data->[$i]->{name}} = $i;
-            }
-        }
-    }
-    my $index = $this->{"_INDEX_$type"};
     if ($data) {
         my $keyName = $args->{name};
         ASSERT($keyName) if DEBUG;
-
-        if (defined($index->{$keyName})) {
-            $data->[$index->{$keyName}] = $args;
-            return;
+        my $i = scalar(@$data);
+        while ( $keyName && $i-- ) {
+            if ( defined $data->[$i]->{name}
+                && $data->[$i]->{name} eq $keyName )
+            {
+                $data->[$i] = $args;
+                return;
+            }
         }
-        $index->{$keyName} = scalar(@$data);
         push @$data, $args;
     }
     else {
@@ -711,10 +700,6 @@ sub get {
     my $data = $this->{$type};
     if ($data) {
         if ( defined $keyValue ) {
-            if (defined($this->{"_INDEX_$type"}) && 
-                    defined($this->{"_INDEX_$type"}->{$keyValue})) {
-                return $data->[$this->{"_INDEX_$type"}->{$keyValue}];
-            }
             foreach my $item (@$data) {
                 return $item
                   if ( $item->{name} and ( $item->{name} eq $keyValue ) );
