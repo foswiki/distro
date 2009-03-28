@@ -149,11 +149,6 @@ sub renderParent {
         $text = $format;
         $text =~ s/\$web/$pWeb/g;
         $text =~ s/\$topic/$pTopic/g;
-<<<<<<< HEAD:core/lib/Foswiki/Render.pm
-        unshift( @stack, $text );
-        last if $dontRecurse;
-        $parent = $store->getTopicParent( $pWeb, $pTopic );
-=======
         if( ! $depth or $currentDepth == $depth ) {
             unshift( @stack, $text );
         }
@@ -166,7 +161,6 @@ sub renderParent {
           Foswiki::Meta->load( $this->{session}, $pWeb, $pTopic );
         my $parentMeta = $topicObject->get('TOPICPARENT');
         $parent = $parentMeta->{name} if $parentMeta;
->>>>>>> 6a9059c... Item1381: Added depth option to meta parent:core/lib/Foswiki/Render.pm
     }
     $text = join( $usesep, @stack );
 
