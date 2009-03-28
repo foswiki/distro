@@ -101,6 +101,7 @@ Render parent meta-data
 sub renderParent {
     my ( $this, $topicObject, $ah ) = @_;
     my $dontRecurse = $ah->{dontrecurse} || 0;
+    my $depth       = $ah->{depth}       || 0;
     my $noWebHome   = $ah->{nowebhome}   || 0;
     my $prefix      = $ah->{prefix}      || '';
     my $suffix      = $ah->{suffix}      || '';
@@ -122,8 +123,11 @@ sub renderParent {
     $parent = $parentMeta->{name} if $parentMeta;
 
     my @stack;
+    my $currentDepth = 0;
+    $depth = 1 if $dontRecurse;
 
     while ($parent) {
+        $currentDepth++;
         ( $pWeb, $pTopic ) =
           $this->{session}->normalizeWebTopicName( $pWeb, $parent );
         $parent = $pWeb . '.' . $pTopic;
@@ -134,8 +138,10 @@ sub renderParent {
         $text = $format;
         $text =~ s/\$web/$pWeb/g;
         $text =~ s/\$topic/$pTopic/g;
-        unshift( @stack, $text );
-        last if $dontRecurse;
+        if( ! $depth or $currentDepth == $depth ) {
+            unshift( @stack, $text );
+        }
+        last if $currentDepth == $depth;
 
         # Compromise; rather than supporting a hack in the store to support
         # rapid access to parent meta (as in TWiki) accept the hit
