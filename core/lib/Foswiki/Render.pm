@@ -112,6 +112,7 @@ Render parent meta-data
 sub renderParent {
     my ( $this, $web, $topic, $meta, $ah ) = @_;
     my $dontRecurse = $ah->{dontrecurse} || 0;
+    my $depth       = $ah->{depth}       || 0;
     my $noWebHome   = $ah->{nowebhome}   || 0;
     my $prefix      = $ah->{prefix}      || '';
     my $suffix      = $ah->{suffix}      || '';
@@ -133,8 +134,11 @@ sub renderParent {
     $parent = $parentMeta->{name} if $parentMeta;
 
     my @stack;
+    my $currentDepth = 0;
+    $depth = 1 if $dontRecurse;
 
     while ($parent) {
+        $currentDepth++;
         ( $pWeb, $pTopic ) =
           $this->{session}->normalizeWebTopicName( $pWeb, $parent );
         $parent = $pWeb . '.' . $pTopic;
@@ -145,9 +149,24 @@ sub renderParent {
         $text = $format;
         $text =~ s/\$web/$pWeb/g;
         $text =~ s/\$topic/$pTopic/g;
+<<<<<<< HEAD:core/lib/Foswiki/Render.pm
         unshift( @stack, $text );
         last if $dontRecurse;
         $parent = $store->getTopicParent( $pWeb, $pTopic );
+=======
+        if( ! $depth or $currentDepth == $depth ) {
+            unshift( @stack, $text );
+        }
+        last if $currentDepth == $depth;
+
+        # Compromise; rather than supporting a hack in the store to support
+        # rapid access to parent meta (as in TWiki) accept the hit
+        # of reading the whole topic.
+        my $topicObject =
+          Foswiki::Meta->load( $this->{session}, $pWeb, $pTopic );
+        my $parentMeta = $topicObject->get('TOPICPARENT');
+        $parent = $parentMeta->{name} if $parentMeta;
+>>>>>>> 6a9059c... Item1381: Added depth option to meta parent:core/lib/Foswiki/Render.pm
     }
     $text = join( $usesep, @stack );
 
