@@ -56,8 +56,8 @@ sub query {
         my $meta =
           Foswiki::Meta->new( $store->{session}, $web, $topic);#, <FILE> );
         #this 'lazy load will become useful when @$topics becomes an infoCache
-        $meta->reload() unless ( $meta->getLoadedRev() > 0 );
-        next unless ( $meta->getLoadedRev() > 0 );
+        $meta->reload() unless ( $meta->getLoadedRev() );
+        next unless ( $meta->getLoadedRev() );
 
         my $match = $query->evaluate( tom => $meta, data => $meta );
         if ($match) {

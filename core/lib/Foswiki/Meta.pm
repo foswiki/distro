@@ -554,8 +554,7 @@ sub reload {
     }
     $this->{FILEATTACHMENT} = [];
     $this->{_loadedRev} = $this->{_session}->{store}->readTopic( $this, $rev );
-    #remove any non-numeric rev's (like the $rev stuff from svn)
-    $this->{_loadedRev} = 1 unless ($this->{_loadedRev} =~ /^\d+$/);
+    #SMELL: removed see getLoadedRevision - should remove any non-numeric rev's (like the $rev stuff from svn)
     $this->{_preferences} = undef;
 }
 
@@ -1608,6 +1607,10 @@ sub getMaxRevNo {
 
 Get the currently loaded revision. Result will be a revision number or
 0 if no revision has been loaded. Only valid on topics.
+
+SMELL: while the docco says '$integer' its untrue. it will return whatever is in the 
+File's META::TOPICINFO - which for core topics is a $Rev$ string.
+forcing the value to an integer atm forces a reload (thousands of readFiles more)
 
 =cut
 
