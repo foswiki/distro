@@ -19,12 +19,34 @@ sub start {
     # First use all the tests to get them compiled
     while (scalar(@files)) {
         my $suite = shift @files;
+        $suite =~ s/::(\w+)$//;
+        my $testToRun = $1;
         $suite =~ s/^(.*?)(\w+)\.pm$/$2/;
-        if ($1) {
-            push(@INC, $1);
-        }
+        push( @INC, $1 ) if $1 && -d $1;
         eval "use $suite";
         if ($@) {
+
+            # Try to be clever, look for it
+            if ( $@ =~ /Can't locate \Q$suite\E\.pm in \@INC/ ) {
+                $testToRun = $testToRun ? "::$testToRun" : '';
+                print "Looking for $suite$testToRun...\n";
+                require File::Find;
+                my $found = 0;
+                File::Find::find(
+                    {
+                        wanted => sub {
+                            /^$suite/
+                              && $File::Find::name =~ /^\.\/(.*\.pm)$/
+                              && ( $found = 1 )
+                              && ( print("Found $1\n") )
+                              && unshift( @files, $1 . $testToRun );
+                        },
+                        follow => 1
+                    },
+                    '.'
+                );
+                next if $found;
+            }
             my $m = "*** Failed to use $suite: $@";
             print $m;
             push(@{$this->{failures}}, $m);
@@ -38,7 +60,14 @@ sub start {
         } else {
             # Get a list of the test methods in the class
             my @tests = $tester->list_tests($suite);
-            unless (scalar(@tests)) {
+            if ($testToRun) {
+                @tests = grep { /^${suite}::$testToRun$/ } @tests;
+                if ( !@tests ) {
+                    print "*** No test called $testToRun in $suite\n";
+                    next;
+                }
+            }
+            unless ( scalar(@tests) ) {
                 print "*** No tests in $suite\n";
                 next;
             }
