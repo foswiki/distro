@@ -54,7 +54,10 @@ sub set_up {
 
 sub tear_down {
     my $this = shift;
+    File::Path::rmtree("$Foswiki::cfg{DataDir}/$web");
+    File::Path::rmtree("$Foswiki::cfg{PubDir}/$web");
     $this->{twiki}->finish() if $this->{twiki};
+    $this->SUPER::tear_down();
 }
 
 # Field that can only have one copy
@@ -213,6 +216,98 @@ sub test_copyFrom {
     $this->assert($d->{collected} =~ s/FIELD.value:aval;//);
     $this->assert($d->{collected} =~ s/FIELD.value:bval;//);
     $this->assert_str_equals("", $d->{collected});
+}
+
+sub test_parent {
+    my $this = shift;
+    $this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, $web);
+
+    my $testTopic = "TestParent";
+    for my $depth ( 1..5 ) {
+        my $child = $testTopic . $depth;
+        my $parent = $testTopic . ( $depth + 1 );
+        my $text = "This is ancestor number $depth";
+        my $meta = Foswiki::Meta->new($this->{twiki}, $web, $child );
+        $meta->put( "TOPICPARENT", { name => $parent } );
+        $this->{twiki}->{store}->saveTopic(
+            $this->{twiki}->{user}, $web, $child,
+            $text, $meta );
+    }
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $web, $testTopic . '6',
+        "Final ancestor" );
+
+    for my $depth ( 1..5 ) {
+        my $child = $testTopic . $depth;
+        my ( $meta, $text ) = $this->{twiki}->{store}->readTopic(
+            $this->{twiki}->{user}, $web, $child );
+        my $parent = $meta->getParent();
+        $this->assert_str_equals( $parent, $testTopic . ( $depth + 1 ),
+            "getParent failed at depth $depth" );
+
+        $this->{twiki}->enterContext( 'can_render_meta', $meta );
+        # Test basic parent
+        my $str = $this->{twiki}->handleCommonTags(
+            '%META{"parent"}%', $web, $child, $meta );
+        $this->assert_str_equals( $str,
+            join( " &gt; ", map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse $depth+1 .. 6));
+
+        # Test norecurse
+        $str = $this->{twiki}->handleCommonTags(
+            '%META{"parent" dontrecurse="on"}%', $web, $child, $meta );
+        $this->assert_str_equals( $str, "[[$web.$parent][$parent]]" );
+
+        # Test depth
+        for my $subDepth ( 1 .. 5 - $depth  ) {
+            $str = $this->{twiki}->handleCommonTags(
+                '%META{"parent" depth="' . $subDepth . '"}%', $web, $child, $meta );
+            my $parentDepth = $subDepth + $depth;
+            $this->assert_str_equals( $str, "[[$web.${testTopic}$parentDepth][${testTopic}$parentDepth]]" );
+        }
+
+        # Test prefix and suffix
+        $str = $this->{twiki}->handleCommonTags(
+            '%META{"parent" prefix="Before" suffix="After"}%', $web, $child, $meta );
+        $this->assert_str_equals( $str,
+            "Before" .
+            join( " &gt; ", map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse $depth+1 .. 6)
+            . "After");
+
+        # Test format
+        $str = $this->{twiki}->handleCommonTags(
+            '%META{"parent" format="$web.$topic"}%', $web, $child, $meta );
+        $this->assert_str_equals( $str,
+            join( " &gt; ", map { "$web.$testTopic$_" } reverse $depth+1 .. 6));
+
+        # Test separator
+        $str = $this->{twiki}->handleCommonTags(
+            '%META{"parent" separator=" << "}%', $web, $child, $meta );
+        $this->assert_str_equals( $str,
+            join( " << ", map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse $depth+1 .. 6));
+
+    }
+
+    # Test nowebhome
+    my ($text, $str);
+    my $meta = Foswiki::Meta->new( $this->{twiki}, $web, $testTopic . '6' );
+    $meta->put( "TOPICPARENT", { name => $Foswiki::cfg{HomeTopicName} } );
+    $this->{twiki}->{store}->saveTopic(
+        $this->{twiki}->{user}, $web, $testTopic . '6',
+        "Final ancestor with WebHome as parent", $meta );
+    ( $meta, $text ) = $this->{twiki}->{store}->readTopic(
+        $this->{twiki}->{user}, $web, $testTopic . '1' );
+    $this->{twiki}->enterContext( 'can_render_meta', $meta );
+    $str = $this->{twiki}->handleCommonTags(
+        '%META{"parent"}%', $web, $testTopic . '1', $meta );
+    $this->assert_str_equals( $str,
+        join( " &gt; ", map { "[[$web.$_][$_]]" }
+        ( 'WebHome', map { "$testTopic$_" } reverse 2 .. 6)));
+    $str = $this->{twiki}->handleCommonTags(
+        '%META{"parent" nowebhome="on"}%', $web, $testTopic . '1' );
+    $this->assert_str_equals( $str,
+        join( " &gt; ", map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse 2 .. 6));
+
 }
 
 1;
