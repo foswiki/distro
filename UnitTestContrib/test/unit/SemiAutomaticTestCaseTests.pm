@@ -51,7 +51,7 @@ sub run_testcase {
     my $query = new Unit::Request(
         {
             test               => 'compare',
-            debugenableplugins => 'TestFixturePlugin,InterwikiPlugin',
+            debugenableplugins => 'TestFixturePlugin,SpreadSheetPlugin,InterwikiPlugin',
             skin               => 'pattern'
         }
     );
