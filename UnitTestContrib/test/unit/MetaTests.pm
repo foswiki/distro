@@ -51,7 +51,10 @@ sub set_up {
 
 sub tear_down {
     my $this = shift;
-    $this->{session}->finish() if $this->{session};
+    $this->removeWebFixture( $this->{session}, $web )
+      if $this->{session}->webExists($web);
+    $this->{session}->finish() if $this->{twiki};
+    $this->SUPER::tear_down();
 }
 
 # Field that can only have one copy
@@ -209,6 +212,119 @@ sub test_copyFrom {
     $this->assert( $d->{collected} =~ s/FIELD.value:aval;// );
     $this->assert( $d->{collected} =~ s/FIELD.value:bval;// );
     $this->assert_str_equals( "", $d->{collected} );
+}
+
+sub test_parent {
+    my $this = shift;
+    my $webObject = Foswiki::Meta->new( $this->{session}, $web );
+    $webObject->populateNewWeb();
+
+    my $testTopic = "TestParent";
+    for my $depth ( 1 .. 5 ) {
+        my $child  = $testTopic . $depth;
+        my $parent = $testTopic . ( $depth + 1 );
+        my $text   = "This is ancestor number $depth";
+        my $topicObject =
+          Foswiki::Meta->new( $this->{session}, $web, $child, $text );
+        $topicObject->put( "TOPICPARENT", { name => $parent } );
+        $topicObject->save();
+    }
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $web,
+        $testTopic . '6',
+        'Final ancestor'
+    );
+    $topicObject->save();
+
+    for my $depth ( 1 .. 5 ) {
+        my $child       = $testTopic . $depth;
+        my $topicObject = Foswiki::Meta->load( $this->{session}, $web, $child );
+        my $parent      = $topicObject->getParent();
+        $this->assert_str_equals(
+            $parent,
+            $testTopic . ( $depth + 1 ),
+            "getParent failed at depth $depth"
+        );
+
+        # Test basic parent
+        my $str = $topicObject->expandMacros('%META{"parent"}%');
+        $this->assert_str_equals(
+            $str,
+            join( " &gt; ",
+                map { "[[$web.$testTopic$_][$testTopic$_]]" }
+                  reverse $depth + 1 .. 6 )
+        );
+
+        # Test norecurse
+        $str = $topicObject->expandMacros('%META{"parent" dontrecurse="on"}%');
+        $this->assert_str_equals( $str, "[[$web.$parent][$parent]]" );
+
+        # Test depth
+        for my $subDepth ( 1 .. 5 - $depth ) {
+            $str = $topicObject->expandMacros(
+                '%META{"parent" depth="' . $subDepth . '"}%' );
+            my $parentDepth = $subDepth + $depth;
+            $this->assert_str_equals( $str,
+                "[[$web.${testTopic}$parentDepth][${testTopic}$parentDepth]]" );
+        }
+
+        # Test prefix and suffix
+        $str = $topicObject->expandMacros(
+            '%META{"parent" prefix="Before" suffix="After"}%');
+        $this->assert_str_equals(
+            $str,
+            "Before"
+              . join( " &gt; ",
+                map { "[[$web.$testTopic$_][$testTopic$_]]" }
+                  reverse $depth + 1 .. 6 )
+              . "After"
+        );
+
+        # Test format
+        $str =
+          $topicObject->expandMacros('%META{"parent" format="$web.$topic"}%');
+        $this->assert_str_equals(
+            $str,
+            join( " &gt; ",
+                map { "$web.$testTopic$_" } reverse $depth + 1 .. 6 )
+        );
+
+        # Test separator
+        $str = $topicObject->expandMacros('%META{"parent" separator=" << "}%');
+        $this->assert_str_equals(
+            $str,
+            join( " << ",
+                map { "[[$web.$testTopic$_][$testTopic$_]]" }
+                  reverse $depth + 1 .. 6 )
+        );
+
+    }
+
+    # Test nowebhome
+    $topicObject = Foswiki::Meta->new(
+        $this->{session}, $web,
+        $testTopic . '6',
+        'Final ancestor with WebHome as parent'
+    );
+    $topicObject->put( "TOPICPARENT",
+        { name => $web . '.' . $Foswiki::cfg{HomeTopicName} } );
+    $topicObject->save();
+    $topicObject =
+      Foswiki::Meta->load( $this->{session}, $web, $testTopic . '1' );
+    my $str = $topicObject->expandMacros('%META{"parent"}%');
+    $this->assert_str_equals(
+        $str,
+        join( " &gt; ",
+            map { "[[$web.$_][$_]]" }
+              ( 'WebHome', map { "$testTopic$_" } reverse 2 .. 6 ) )
+    );
+    $str = $topicObject->expandMacros('%META{"parent" nowebhome="on"}%');
+    $this->assert_str_equals(
+        $str,
+        join( " &gt; ",
+            map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse 2 .. 6 )
+    );
+
 }
 
 1;
