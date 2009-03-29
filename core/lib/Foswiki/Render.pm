@@ -153,14 +153,7 @@ sub renderParent {
             unshift( @stack, $text );
         }
         last if $currentDepth == $depth;
-
-        # Compromise; rather than supporting a hack in the store to support
-        # rapid access to parent meta (as in TWiki) accept the hit
-        # of reading the whole topic.
-        my $topicObject =
-          Foswiki::Meta->load( $this->{session}, $pWeb, $pTopic );
-        my $parentMeta = $topicObject->get('TOPICPARENT');
-        $parent = $parentMeta->{name} if $parentMeta;
+        $parent = $store->getTopicParent( $pWeb, $pTopic );
     }
     $text = join( $usesep, @stack );
 
