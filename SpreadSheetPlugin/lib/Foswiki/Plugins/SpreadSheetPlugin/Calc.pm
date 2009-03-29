@@ -1,7 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2008 Foswiki Contributors
+# Copyright (C) 2008-2009 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -254,6 +254,10 @@ sub doFunc
             # FORMAT not recognized, just return value
             $result = $value;
         }
+
+    } elsif( $theFunc eq "EMPTY" ) {
+        $result = 1;
+        $result = 0 if( length( $theAttr ) > 0 );
 
     } elsif( $theFunc eq "EXACT" ) {
         $result = 0;
@@ -659,8 +663,38 @@ sub doFunc
                     $result = $string;
                 }
             }
+        }    
+
+    } elsif( $theFunc =~ /^(MIDSTRING|SUBSTRING)$/ ) {
+        my( $string, $start, $num ) = split ( /,\s*/, $theAttr, 3 );
+        $result = '';
+        if( $start && $num ) {
+            $start-- unless ($start < 1);
+            eval '$result = substr( $string, $start, $num )';
         }
-    
+
+    } elsif( $theFunc =~ /^(LEFTSTRING)$/ ) {
+        my( $string, $num ) = split ( /,\s*/, $theAttr, 2 );
+        $string = "" unless ( defined $string );
+        $num = 1 if( !defined $num );
+        eval '$result = substr( $string, 0, $num )';
+        
+    } elsif( $theFunc =~ /^(RIGHTSTRING)$/ ) {
+        my( $string, $num ) = split ( /,\s*/, $theAttr, 2 );
+        $string = "" unless ( defined $string );
+        $num = 1 if( !defined $num );
+        $num = 0 if( $num < 0);
+        my $start = length( $string ) - $num;
+        $start = 0 if $start <0;
+        eval '$result = substr( $string, $start, $num )';
+
+    } elsif( $theFunc eq "INSERTSTRING" ) {
+        my( $string, $start, $new ) = split ( /,\s*/, $theAttr, 3 );
+        $string = "" unless ( defined $string );
+        $start = _getNumber( $start );
+        eval 'substr( $string, $start, 0, $new )';
+        $result = $string;
+
     } elsif( $theFunc eq "TRANSLATE" ) {
         $result = $theAttr;
         # greedy match for comma separated parameters (in case first parameter has embedded commas)
