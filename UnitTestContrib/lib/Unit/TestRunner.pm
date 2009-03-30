@@ -7,57 +7,85 @@ use Error qw(:try);
 
 sub new {
     my $class = shift;
-    return bless({}, $class);
+    return bless( {}, $class );
 }
 
 sub start {
-    my $this = shift;
+    my $this  = shift;
     my @files = @_;
-    @{$this->{failures}} = ();
+    @{ $this->{failures} } = ();
     my $passes = 0;
 
     # First use all the tests to get them compiled
-    while (scalar(@files)) {
+    while ( scalar(@files) ) {
         my $suite = shift @files;
-        $suite =~ s/::(\w+)$//;
-        my $testToRun = $1;
-        $suite =~ s/^(.*?)(\w+)\.pm$/$2/;
-        push( @INC, $1 ) if $1 && -d $1;
+        $suite =~ s/\/$//;   # Trim final slash, for completion lovers like Sven
+        my $testToRun;
+        if ( $suite =~ s/::(\w+)$// ) {
+            $testToRun = $1;
+        }
+        if ( $suite =~ s/^(.*?)(\w+)\.pm$/$2/ ) {
+            push( @INC, $1 ) if $1 && -d $1;
+        }
         eval "use $suite";
         if ($@) {
 
             # Try to be clever, look for it
             if ( $@ =~ /Can't locate \Q$suite\E\.pm in \@INC/ ) {
-                $testToRun = $testToRun ? "::$testToRun" : '';
-                print "Looking for $suite$testToRun...\n";
+                my $testToFind = $testToRun ? "::$testToRun" : '';
+                print "Looking for $suite$testToFind...\n";
                 require File::Find;
-                my $found = 0;
+                my @found;
                 File::Find::find(
                     {
                         wanted => sub {
                             /^$suite/
                               && $File::Find::name =~ /^\.\/(.*\.pm)$/
-                              && ( $found = 1 )
-                              && ( print("Found $1\n") )
-                              && unshift( @files, $1 . $testToRun );
+                              && ( print("\tFound $1\n") )
+                              && push( @found, $1 . $testToFind );
                         },
                         follow => 1
                     },
                     '.'
                 );
-                next if $found;
+
+                # Try to be even smarter: favor test suites
+                # unless a specific test was requested
+                my @suite = grep { /Suite.pm/ } @found;
+                if ( $#found and @suite ) {
+                    if ($testToFind) {
+                        @found = grep { !/Suite.pm/ } @found;
+                        print "$testToRun is most likely not in @suite"
+                          . ", removing it\n";
+                        unshift @files, @found;
+                    }
+                    else {
+                        print "Found "
+                          . scalar(@found)
+                          . " tests,"
+                          . " favoring @suite\n";
+                        unshift @files, @suite;
+                    }
+                }
+                else {
+                    unshift @files, @found;
+                }
+                next if @found;
             }
             my $m = "*** Failed to use $suite: $@";
             print $m;
-            push(@{$this->{failures}}, $m);
+            push( @{ $this->{failures} }, $m );
             next;
         }
         print "Running $suite\n";
         my $tester = $suite->new($suite);
-        if ($tester->isa('Unit::TestSuite')) {
+        if ( $tester->isa('Unit::TestSuite') ) {
+
             # Get a list of included tests
-            push(@files, $tester->include_tests());
-        } else {
+            push( @files, $tester->include_tests() );
+        }
+        else {
+
             # Get a list of the test methods in the class
             my @tests = $tester->list_tests($suite);
             if ($testToRun) {
@@ -77,17 +105,23 @@ sub start {
                 try {
                     $tester->$test();
                     $passes++;
-                } catch Error with {
+                }
+                catch Error with {
                     my $e = shift;
-                    print "*** ",$e->stringify(),"\n";
-                    if ($tester->{expect_failure}) {
+                    print "*** ", $e->stringify(), "\n";
+                    if ( $tester->{expect_failure} ) {
                         $this->{expected_failures}++;
-                    } else {
+                    }
+                    else {
                         $this->{unexpected_failures}++;
                     }
-                    push(@{$this->{failures}}, $test."\n".$e->stringify());
-                } otherwise {
-                    if ($tester->{expect_failure}) {
+                    push(
+                        @{ $this->{failures} },
+                        $test . "\n" . $e->stringify()
+                    );
+                }
+                otherwise {
+                    if ( $tester->{expect_failure} ) {
                         $this->{unexpected_passes}++;
                     }
                 };
@@ -96,18 +130,19 @@ sub start {
         }
     }
 
-    if ($this->{unexpected_failures} || $this->{unexpected_passes}) {
-        print $this->{unexpected_failures}." failures\n"
+    if ( $this->{unexpected_failures} || $this->{unexpected_passes} ) {
+        print $this->{unexpected_failures} . " failures\n"
           if $this->{unexpected_failures};
-        print $this->{unexpected_passes}." unexpected passes\n"
+        print $this->{unexpected_passes} . " unexpected passes\n"
           if $this->{unexpected_passes};
-        print  join("\n---------------------------\n",
-                    @{$this->{failures}}),"\n";
+        print join( "\n---------------------------\n", @{ $this->{failures} } ),
+          "\n";
         print "$passes of ", $passes + $this->{unexpected_failures},
           " test cases passed\n";
-        return scalar(@{$this->{failures}});
-    } else {
-        print $this->{expected_failures}." expected failures\n"
+        return scalar( @{ $this->{failures} } );
+    }
+    else {
+        print $this->{expected_failures} . " expected failures\n"
           if $this->{expected_failures};
         print "All tests passed ($passes)\n";
         return 0;
