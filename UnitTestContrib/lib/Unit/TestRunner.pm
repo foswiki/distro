@@ -19,33 +19,49 @@ sub start {
     # First use all the tests to get them compiled
     while ( scalar(@files) ) {
         my $suite = shift @files;
-        $suite =~ s/::(\w+)$//;
-        my $testToRun = $1;
-        $suite =~ s/^(.*?)(\w+)\.pm$/$2/;
-        push( @INC, $1 ) if $1 && -d $1;
+        $suite =~ s/\/$//;   # Trim final slash, for completion lovers like Sven
+        my $testToRun;
+        if ( $suite =~ s/::(\w+)$// ) {
+            $testToRun = $1;
+        }
+        if ( $suite =~ s/^(.*?)(\w+)\.pm$/$2/ ) {
+            push( @INC, $1 ) if $1 && -d $1;
+        }
         eval "use $suite";
         if ($@) {
 
             # Try to be clever, look for it
             if ( $@ =~ /Can't locate \Q$suite\E\.pm in \@INC/ ) {
-                $testToRun = $testToRun ? "::$testToRun" : '';
-                print "Looking for $suite$testToRun...\n";
+                my $testToFind = $testToRun ? "::$testToRun" : '';
+                print "Looking for $suite$testToFind...\n";
                 require File::Find;
-                my $found = 0;
+                my @found;
                 File::Find::find(
                     {
                         wanted => sub {
                             /^$suite/
                               && $File::Find::name =~ /^\.\/(.*\.pm)$/
-                              && ( $found = 1 )
-                              && ( print("Found $1\n") )
-                              && unshift( @files, $1 . $testToRun );
+                              && ( print("\tFound $1\n") )
+                              && push( @found, $1 . $testToFind );
                         },
                         follow => 1
                     },
                     '.'
                 );
-                next if $found;
+
+                # Try to be even smarter: favor test suites
+                my @suite = grep { /Suite.pm/ } @found;
+                if ( $#found and @suite ) {
+                    print "Found "
+                      . scalar(@found)
+                      . " tests,"
+                      . " favoring @suite\n";
+                    unshift @files, @suite;
+                }
+                else {
+                    unshift @files, @found;
+                }
+                next if @found;
             }
             my $m = "*** Failed to use $suite: $@";
             print $m;
