@@ -50,13 +50,22 @@ sub start {
                 );
 
                 # Try to be even smarter: favor test suites
+                # unless a specific test was requested
                 my @suite = grep { /Suite.pm/ } @found;
                 if ( $#found and @suite ) {
-                    print "Found "
-                      . scalar(@found)
-                      . " tests,"
-                      . " favoring @suite\n";
-                    unshift @files, @suite;
+                    if ($testToFind) {
+                        @found = grep { !/Suite.pm/ } @found;
+                        print "$testToRun is most likely not in @suite"
+                          . ", removing it\n";
+                        unshift @files, @found;
+                    }
+                    else {
+                        print "Found "
+                          . scalar(@found)
+                          . " tests,"
+                          . " favoring @suite\n";
+                        unshift @files, @suite;
+                    }
                 }
                 else {
                     unshift @files, @found;
