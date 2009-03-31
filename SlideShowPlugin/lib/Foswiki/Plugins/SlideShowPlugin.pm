@@ -24,7 +24,6 @@ use vars qw(
   $web $topic $user $installWeb $VERSION $RELEASE $debug $addedHead
 );
 
-$addedHead = 0;
 
 # This should always be $Rev$ so that Foswiki can determine the checked-in
 # status of the plugin. It is used by the build automation tools, so
@@ -40,6 +39,7 @@ sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;
 
     # check for Plugins.pm versions
+    $addedHead = 0;
     if ( $Foswiki::Plugins::VERSION < 1 ) {
         Foswiki::Func::writeWarning(
             "Version mismatch between SlideShowPlugin and Plugins.pm");
