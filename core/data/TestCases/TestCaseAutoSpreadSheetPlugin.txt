@@ -16,7 +16,7 @@ Designed by: Kenneth Lavrsen
 | -5 | -5 | -5 |
 | 0 | 0 | 0 |
 | 11 | 11 | 11 |
-| %<nop>CALC{"$SUM($ABOVE())"}% | <!-- expected above -->10<!-- /expected --> | <!-- actual -->%CALC{"$SUM($ABOVE())"}%<!-- /actual --> |
+| %<nop>CALC{"$ABOVE()"}% | <!-- expected above -->R0:C3..R5:C3<!-- /expected --> | <!-- actual -->%CALC{"$ABOVE()"}%<!-- /actual --> |
 
 #FuncABS
 ---+++ ABS( num ) -- absolute value of a number
@@ -73,16 +73,39 @@ Designed by: Kenneth Lavrsen
 
 #FuncCOLUMN
 ---+++ COLUMN( offset ) -- current column number
-   * The current table column number with an optional offset
-   * Syntax: ==$COLUMN( _offset_ )==
-   * Example: ==%<nop>CALC{"$COLUMN()"}%== returns ==2== for the second column
-   * Related: =[[#FuncROW][$ROW()]]=, =[[#FuncT][$T()]]=
+
+| *Test* | *Expected* | *Actual* |
+| Normal | 2 | 3 |
+| Test %<nop>CALC{"$COLUMN()"}% | A | B |
+| Expected | <!-- expected column1 -->2<!-- /expected --> | B |
+| Actual | <!-- actual -->%CALC{"$COLUMN()"}%<!-- /actual --> | B |
+| | | |
+| Offset 2 | | |
+| Test %<nop>CALC{"$COLUMN(2)"}% | A | B |
+| Expected | <!-- expected column2 -->4<!-- /expected --> | B |
+| Actual | <!-- actual -->%CALC{"$COLUMN(2)"}%<!-- /actual --> | B |
+| | | |
+| Offset -1 | | |
+| Test %<nop>CALC{"$COLUMN(-1)"}% | A | B |
+| Expected | <!-- expected column -->1<!-- /expected --> | B |
+| Actual | <!-- actual -->%CALC{"$COLUMN(-1)"}%<!-- /actual --> | B |
 
 #FuncCOUNTITEMS
 ---+++ COUNTITEMS( list ) -- count individual items in a list
-   * Syntax: ==$COUNTITEMS( list )==
-   * Example: ==%<nop>CALC{"$COUNTITEMS($ABOVE())"}%== returns ==Closed: 1, Open: 2== assuming one cell above the current cell contains ==Closed== and two cells contain ==Open==
-   * Related: =[[#FuncCOUNTSTR][$COUNTSTR()]]=, =[[#FuncLIST][$LIST()]]=
+
+| *Test* | *Expected* | *Actual* |
+| A | A | A |
+| A | A | A |
+| B | B | B |
+| C | C | C |
+| C | C | C |
+| C | C | C |
+| C | C | C |
+| C | C | C |
+| %<nop>CALC{"$COUNTITEMS(R2:C2..R9:C2)"}% | <!-- expected countitems1 -->A: 2<br /> B: 1<br /> C: 5<!-- /expected --> | <!-- actual -->%CALC{"$COUNTITEMS(R2:C2..R9:C2)"}%<!-- /actual --> |
+
+| Test | Expected | Actual |
+| %<nop>CALC{"$COUNTITEMS(R1:C2..R1:C2)"}% | <!-- expected countitems2 -->Expected: 1<!-- /expected --> | <!-- actual -->%CALC{"$COUNTITEMS(R1:C2..R1:C2)"}%<!-- /actual --> |
 
 #FuncCOUNTSTR
 ---+++ COUNTSTR( list, str ) -- count the number of cells in a list equal to a given string
@@ -715,9 +738,20 @@ Designed by: Kenneth Lavrsen
 
 #FuncSUM
 ---+++ SUM( list ) -- sum of a list or range of cells
-   * Syntax: ==$SUM( list )==
-   * Example: To sum up column 5 excluding the title row, write ==%<nop>CALC{"$SUM(R2:C5..R$ROW(-1):C5)"}%== in the last row; or simply ==%<nop>CALC{"$SUM($ABOVE())"}%==
-   * Related: =[[#FuncLIST][$LIST()]]=, =[[#FuncPRODUCT][$PRODUCT()]]=, =[[#FuncSUMPRODUCT][$SUMPRODUCT()]]=, =[[#FuncWORKINGDAYS][$WORKINGDAYS()]]=
+
+| *Test* | *Expected* | *Actual* |
+| 4 | 4 | 4 |
+| -5 | -5 | -5 |
+| 0 | 0 | 0 |
+| 11 | 11 | 11 |
+| %<nop>CALC{"$SUM($ABOVE())"}% | <!-- expected sum1 -->10<!-- /expected --> | <!-- actual -->%CALC{"$SUM($ABOVE())"}%<!-- /actual --> |
+
+| *Test* | *Expected* | *Actual* |
+| 0 | 0 | 0 |
+| 0 | 0 | 0 |
+| 0 | 0 | 0 |
+| 0 | 0 | 0 |
+| %<nop>CALC{"$SUM($ABOVE())"}% | <!-- expected sum2 -->0<!-- /expected --> | <!-- actual -->%CALC{"$SUM($ABOVE())"}%<!-- /actual --> |
 
 #FuncSUMDAYS
 ---+++ SUMDAYS( list ) -- sum the days in a list or range of cells
