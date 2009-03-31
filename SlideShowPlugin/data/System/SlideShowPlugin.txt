@@ -140,8 +140,9 @@ Page %SLIDENUM% of %SLIDEMAX%
 |  Author: | Foswiki:Main.EugenMayer, Foswiki:Main.ArthurClemens |
 |  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 18 Feb 2009 |
+|  Plugin Version: | 31 Mar 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  31 Mar 2009: | [[Foswiki:Main.GilmarSantosJr][GilmarSantosJr]]: Make it work on persistent environemnts |
 |  18 Feb 2009: | Fixed =HIDECOMMENTS= to really hide the comment if value is =on= - otherwise the comment is shown in the comments section; added customizable =COMMENTS_LABEL= for all non-English speaking people. Updated default template and css; cleaned up code: now uses a =cover= instead of a =skin= so the style of the installed skin is used (unless redefined in the css file); use a custom template; when in slideshow mode, hide topic text; removed extraneously generated spaces; improved error messages; from the button "End presentation" link back to the start button. |
 |  05 Feb 2009: | Updated graphics; made html and css validate. |
 |  21 Jan 2009: | Exchanged the current default skin by something which is not written in totaly broken html and looking acceptable ( still needs an update, still table ugly design..). You can style by CSS now %BR% Tuned the docs a bit|
