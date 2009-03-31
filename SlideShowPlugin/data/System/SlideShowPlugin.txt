@@ -133,7 +133,7 @@ Page %SLIDENUM% of %SLIDEMAX%
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
      | ==lib/Foswiki/Plugins/%TOPIC%/SlideShow.pm== | Plugin Perl module |
      | ==pub/System/*.gif== | Various button image files |
-   * Run the [[%SCRIPTURL{"configure"}][configure]] script, and enable the plugin in the {Plugins} section.
+   * Run the [[%SCRIPTURL{"configure"}%][configure]] script, and enable the plugin in the ={Plugins}= section.
    * Test above example if the installation was successful.
 
 ---++ Plugin info
