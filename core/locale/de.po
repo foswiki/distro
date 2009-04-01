@@ -20,7 +20,7 @@ msgstr ""
 #. ($days)
 #: core/lib/Foswiki/Time.pm:316
 msgid "%*(%1,day) "
-msgstr "%*(%1,Tag) "
+msgstr "%*(%1,Tag)"
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:319
