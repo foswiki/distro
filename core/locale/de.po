@@ -32,7 +32,7 @@ msgstr "%*(%1,Minute) "
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:325
 msgid "%*(%1,second) "
-msgstr "%*(%1,Sekunde)"
+msgstr "%*(%1,Sekunde) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:7
