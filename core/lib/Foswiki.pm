@@ -1779,8 +1779,9 @@ sub logEvent {
         if ($cgiQuery) {
             my $agent = $cgiQuery->user_agent();
             if ($agent) {
-                $agent =~ m/([\w]+)/;
-                $extra .= ' ' . $1;
+                if ( $agent =~ m/([\w]+)/ ) {
+                    $extra .= ' ' . $1;
+                }
             }
         }
     }
