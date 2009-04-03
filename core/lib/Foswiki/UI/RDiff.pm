@@ -527,14 +527,15 @@ sub diff {
     do {
 
         # Load the revs being diffed
-        $topicObject{$r1} =
-          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
-            $r1 )
+        $topicObject{$r1} = Foswiki::Meta->load(
+            $session, $topicObject->web, $topicObject->topic, $r1 )
           unless $topicObject{$r1};
-        $topicObject{$r2} =
-          Foswiki::Meta->load( $session, $topicObject->web, $topicObject->topic,
-            $r2 )
+        ASSERT($topicObject{$r1}->getLoadedRev() == $r1, $topicObject{$r1}->getLoadedRev()." == $r1") if DEBUG;
+
+        $topicObject{$r2} = Foswiki::Meta->load(
+            $session, $topicObject->web, $topicObject->topic, $r2 )
           unless $topicObject{$r2};
+        ASSERT($topicObject{$r2}->getLoadedRev() == $r2, $topicObject{$r2}->getLoadedRev()." == $r2") if DEBUG;
 
         my $diff = $difftmpl;
         $diff =~ s/%REVTITLE1%/$r1/go;

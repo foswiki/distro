@@ -110,17 +110,25 @@ sub readTopic {
     $text =~ s/\r//g;    # Remove carriage returns
     $topicObject->setEmbeddedStoreForm($text);
 
-    #use the potentially more risky in topic version number for speed
-    my $ri = $topicObject->get('TOPICINFO');
-    $ri = {version=>1} unless (defined($ri));
+    # Use the potentially more risky topic version number for speed
+    my $gotRev;
+    my $ri = $topicObject->get( 'TOPICINFO' );
+    if (defined($ri)) {
+        $gotRev = $ri->{version};
+    } else {
+        # SMELL: Risky. In most cases, I reckon this is going to be OK.
+        # Alt kick down to to the handler to get the real deal?
+        # Sven reckons it is too slow. Synch the TOPICINFO version number
+        # with the handler on save, so they can never get out of step?
+        # C.
+        $gotRev = $version;
+    }
 
-    return $ri->{version}
-      unless $Foswiki::cfg{AutoAttachPubFiles};
-
-    # Override meta with that blended from pub.
-    # only check the currently requested topic
-    if (   $topicObject->web eq $this->{session}->{webName}
-        && $topicObject->topic eq $this->{session}->{topicName} )
+    # Add attachments that are new from reading the pub directory.
+    # Only check the currently requested topic.
+    if ( $Foswiki::cfg{AutoAttachPubFiles}
+           && $topicObject->web eq $this->{session}->{webName}
+             && $topicObject->topic eq $this->{session}->{topicName} )
     {
 
         my @knownAttachments = $topicObject->find('FILEATTACHMENT');
@@ -128,11 +136,12 @@ sub readTopic {
           $handler->synchroniseAttachmentsList( \@knownAttachments );
         my @validAttachmentsFound;
         foreach my $foundAttachment (@attachmentsFoundInPub) {
+            # test if the attachment filename would need sanitizing,
+            # if so, ignore it.
             my ( $fileName, $origName ) =
               Foswiki::Sandbox::sanitizeAttachmentName(
                 $foundAttachment->{name} );
 
-        #test if the attachment filenam would need sanitizing, if so, ignore it.
             if ( $fileName ne $origName ) {
                 $this->{session}->logger->log( 'warning',
                         'AutoAttachPubFiles ignoring '
@@ -150,7 +159,7 @@ sub readTopic {
           if @validAttachmentsFound;
     }
 
-    return $ri->{version}
+    return Foswiki::Store::cleanUpRevID( $gotRev || 1 );
 }
 
 # Documented in Foswiki::Store
