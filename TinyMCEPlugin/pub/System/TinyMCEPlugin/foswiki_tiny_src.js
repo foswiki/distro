@@ -40,7 +40,7 @@ var FoswikiTiny = {
         return url;
     },
 
-    enableSave: function(enabled) {
+    enableSaveButton: function(enabled) {
         var status = enabled ? null : "disabled";
         var elm = document.getElementById("save");
         if (elm) {
@@ -90,34 +90,32 @@ var FoswikiTiny = {
         FoswikiTiny.initialisedFromServer = true;
     },
 
+    onSubmitHandler : false,
+
     // Convert HTML content to textarea. Called from the WYSIWYG->raw switch
     switchToRaw : function (editor) {
-        // As shown by OliverKrueger in Item5138, trivial text may include
-        // UTF-8 chars. These need to be encoded to entities before we can
-        // pass the string back to the server. This is done in triggerSave,
-        // but note that it requires cleanup:true to work.
-        //SMELL: how? editor.triggerSave(false, true);
         var text = editor.getContent();
 
-        // Evaluate post-processors
+        // Evaluate post-processors attached from plugins
         for (var i = 0; i < FoswikiTiny.html2tml.length; i++) {
             var cb = FoswikiTiny.html2tml[i];
             text = cb.apply(editor, [ editor, text ]);
         }
-        FoswikiTiny.enableSave(false);
+        FoswikiTiny.enableSaveButton(false);
         editor.getElement().value =
             "Please wait... retrieving page from server.";
         FoswikiTiny.transform(
             editor, "html2tml", text,
             function (text, req, o) {
                 this.getElement().value = text;
-                FoswikiTiny.enableSave(true);
+                FoswikiTiny.enableSaveButton(true);
             },
             function (type, req, o) {
                 this.setContent("<div class='foswikiAlert'>"
                                 + "There was a problem retrieving "
                                 + o.url + ": "
                                 + type + " " + req.status + "</div>");
+                //FoswikiTiny.enableSaveButton(true); leave save disabled
             });
         // Add the button for the switch back to WYSIWYG mode
         var eid = editor.id;
@@ -147,7 +145,21 @@ var FoswikiTiny = {
             var editor = tinyMCE.getInstanceById(eid);
             editor.isNotDirty = false;
             return true;
-        }
+        },
+        // Ooo-err. Stomp on the default submit handler and
+        // forcibly disable the editor to prevent a call to
+        // the TMCE save. This in turn blocks the getContent
+        // that would otherwise wipe out the content of the
+        // textarea with the DOM. We'd better make damn sure we
+        // remove this handler when we switch back!
+        this.onSubmitHandler = function(ed, e) {
+            // SMELL: Editor.initialized is undocumented and liable
+            // to break when we upgrade TMCE
+            editor.initialized = false;
+        };
+        // SMELL: Event.addToTop() is undocumented and liable
+        // to break when we upgrade TMCE
+        editor.onSubmit.addToTop(this.onSubmitHandler);
     },
 
     // Convert textarea content to HTML. This is invoked from the content
@@ -159,7 +171,11 @@ var FoswikiTiny = {
         // Get the textarea content
         var text = editor.getElement().value;
 
-        FoswikiTiny.enableSave(false);
+        if (this.onSubmitHandler) {
+            editor.onSubmit.remove(this.onSubmitHandler);
+            this.onSubmitHandler = null;
+        }
+        FoswikiTiny.enableSaveButton(false);
         editor.setContent("<span class='foswikiAlert'>"
                           + "Please wait... retrieving page from server."
                           + "</span>");
@@ -173,7 +189,7 @@ var FoswikiTiny = {
                 }
                 this.setContent(text);
                 this.isNotDirty = true;
-                FoswikiTiny.enableSave(true);
+                FoswikiTiny.enableSaveButton(true);
             },
             function (type, req, o) {
                 // Handle a failure
@@ -181,7 +197,7 @@ var FoswikiTiny = {
                                 + "There was a problem retrieving "
                                 + o.url + ": "
                                 + type + " " + req.status + "</div>");
-                //FoswikiTiny.enableSave(true); leave save disabled
+                //FoswikiTiny.enableSaveButton(true); leave save disabled
             });
 
         // Hide the conversion button, if it exists

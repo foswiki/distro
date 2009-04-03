@@ -1,4 +1,3 @@
-
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # This program is free software; you can redistribute it and/or
@@ -18,9 +17,71 @@ use strict;
 
 use Assert;
 
-our $VERSION          = '$Rev$';
-our $RELEASE          = '21 Jan 2009';
-our $SHORTDESCRIPTION = 'Integration of TinyMCE with WysiwygPlugin';
+our $VERSION           = '$Rev$';
+our $RELEASE           = '21 Jan 2009';
+our $SHORTDESCRIPTION  = 'Integration of the !TinyMCE WYSIWYG Editor';
+our $NO_PREFS_IN_TOPIC = 1;
+
+# Defaults for TINYMCEPLUGIN_INIT and INIT_browser. Defined as our vars to
+# allow other extensions to override them.
+# PLEASE ENSURE THE PLUGIN TOPIC EXAMPLES ARE KEPT IN SYNCH!
+our $defaultINIT       = <<'HERE';
+mode:"textareas",
+editor_selector : "foswikiWysiwygEdit",
+save_on_tinymce_forms: true,
+cleanup : true,
+theme : "advanced",
+convert_urls : true,
+relative_urls : false,
+remove_script_host : false,
+dialog_type: "modal",
+setupcontent_callback : FoswikiTiny.setUpContent,
+urlconverter_callback : "FoswikiTiny.convertLink",
+foswikipuburl_callback : "FoswikiTiny.convertPubURL",
+save_callback : "FoswikiTiny.saveCallback",
+%IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
+plugins : "table,searchreplace,autosave,paste,foswikibuttons,foswikiimage%IF{ "context TinyMCEUsabilityUpgradePluginEnabled" then=",foswikilink" else=""}%",
+foswiki_secret_id : "%WYSIWYG_SECRET_ID%",
+foswiki_vars : { PUBURLPATH : "%PUBURLPATH%", PUBURL : "%PUBURL%", WEB : "%WEB%", TOPIC : "%TOPIC%", ATTACHURL : "%ATTACHURL%", ATTACHURLPATH : "%ATTACHURLPATH%", VIEWSCRIPTURL : "%SCRIPTURL{view}%", SCRIPTSUFFIX: "%SCRIPTSUFFIX%", SCRIPTURL : "%SCRIPTURL%", SYSTEMWEB: "%SYSTEMWEB%" },
+theme_advanced_toolbar_align : "left",
+foswikibuttons_formats : [
+{ name: "Normal", el: "", style: null },
+{ name: "Heading 1", el: "h1", style: false },
+{ name: "Heading 2", el: "h2", style: false },
+{ name: "Heading 3", el: "h3", style: false },
+{ name: "Heading 4", el: "h4", style: false },
+{ name: "Heading 5", el: "h5", style: false },
+{ name: "Heading 6", el: "h6", style: false },
+{ name: "VERBATIM", el: "pre", style: "TMLverbatim" },
+{ name: "LITERAL", el: "span", style: "WYSIWYG_LITERAL" },
+{ name: "Protect on save", el: null, style: "WYSIWYG_PROTECTED" },
+{ name: "Protect forever", el: null, style: "WYSIWYG_STICKY" }
+],
+paste_create_paragraphs : true,
+paste_create_linebreaks : false,
+paste_convert_middot_lists : true,
+paste_convert_headers_to_strong : false,
+paste_remove_spans: true,
+paste_remove_styles: true,
+paste_strip_class_attributes: "all",
+theme_advanced_buttons1 : "foswikiformat,separator,bold,italic,tt,colour,removeformat,separator,bullist,numlist,outdent,indent,separator,link,unlink,anchor,separator,attach,image,charmap,hr,separator,undo,redo,separator,search,replace",
+theme_advanced_buttons2: "tablecontrols,separator,code,hide",
+theme_advanced_buttons3: "",
+theme_advanced_toolbar_location: "top",
+theme_advanced_resize_horizontal : false,
+theme_advanced_resizing : true,
+theme_advanced_path: false,
+theme_advanced_statusbar_location : "bottom",
+keep_styles : false,
+gecko_spellcheck : true,
+content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
+HERE
+our %defaultINIT_BROWSER     = (
+    MSIE => 'paste_auto_cleanup_on_paste : true',
+    OPERA => '',
+    GECKO => '',
+    SAFARI => '',
+   );
 
 use Foswiki::Func;
 
@@ -101,9 +162,7 @@ sub beforeEditHandler {
     }
 
     my $init = Foswiki::Func::getPreferencesValue('TINYMCEPLUGIN_INIT')
-      || <<'HERE';
-'
-HERE
+      || $defaultINIT;
     my $extras = '';
 
     # The order of these conditions is important, because browsers
@@ -121,8 +180,8 @@ HERE
         $extras = 'MSIE';
     }
     if ($extras) {
-        $extras =
-          Foswiki::Func::getPreferencesValue( 'TINYMCEPLUGIN_INIT_' . $extras );
+        $extras = Foswiki::Func::getPreferencesValue(
+            'TINYMCEPLUGIN_INIT_' . $extras ) || $defaultINIT_BROWSER{$extras};
         if ( defined $extras ) {
             $init = join( ',', ( split( ',', $init ), split( ',', $extras ) ) );
         }

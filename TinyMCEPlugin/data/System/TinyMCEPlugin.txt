@@ -34,14 +34,13 @@ First follow the installation instructions to install the Plugin:
    * *Enable* the TinyMCEPlugin in =configure=.
    * *Click* on edit of any topic.
 
----++ Settings
-You can override this setting by defining TINYMCEPLUGIN_DEBUG to enable some simple debug features.
-   * Set DEBUG = 0
+---++ Preferences
+If you want to change any of the preferences you are recommended to copy the examples below and paste them into your own [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. The settings in this topic are just examples and have no effect.
 
-This setting contains all the options passed to the TinyMCE editor on startup. 
-For a full explanation of the available options, and guidance on reconfiguring TinyMCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. Note the inclusion of the Pattern Skin standard CSS files in the =content_css= setting.
-<verbatim>
-   * Set INIT = mode:"textareas",
+The [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =TINYMCEPLUGIN_INIT= lets you redefine all the options passed to the Tiny MCE editor on startup. For a full explanation of the available options, and
+guidance on reconfiguring Tiny MCE, see the [[http://wiki.moxiecode.com/index.php/TinyMCE:Configuration][Moxicode TinyMCE Wiki]]. The default options are as follows. Note the inclusion of the Pattern Skin standard CSS files in the
+=content_css= setting.
+<verbatim>   * Set TINYMCEPLUGIN_INIT = mode:"textareas",
    editor_selector : "foswikiWysiwygEdit",
    save_on_tinymce_forms: true,
    cleanup : true,
@@ -49,10 +48,9 @@ For a full explanation of the available options, and guidance on reconfiguring T
    convert_urls : true,
    relative_urls : false,
    remove_script_host : false,
+   dialog_type: "modal",
    setupcontent_callback : FoswikiTiny.setUpContent,
    urlconverter_callback : "FoswikiTiny.convertLink",
-   hide_instance_callback : FoswikiTiny.switchToRaw,
-   show_instance_callback : FoswikiTiny.switchToWYSIWYG,
    foswikipuburl_callback : "FoswikiTiny.convertPubURL",
    save_callback : "FoswikiTiny.saveCallback",
    %IF{"$TINYMCEPLUGIN_DEBUG" then="debug:true,"}%
@@ -88,22 +86,27 @@ For a full explanation of the available options, and guidance on reconfiguring T
    theme_advanced_resizing : true,
    theme_advanced_path: false,
    theme_advanced_statusbar_location : "bottom",
+   keep_styles : false,
+   gecko_spellcheck : true,
    content_css : "%PUBURLPATH%/%SYSTEMWEB%/TinyMCEPlugin/wysiwyg%IF{"$TINYMCEPLUGIN_DEBUG" then="_src"}%.css,%PUBURLPATH%/%SYSTEMWEB%/SkinTemplates/base.css,%FOSWIKI_STYLE_URL%,%FOSWIKI_COLORS_URL%"
 </verbatim>
-   * Additional settings for specific browsers.
-      * Warning: if you enable =paste_auto_cleanup_on_paste then it automatically implies =past_use_dialog= on all non-MSIE browsers.
-      * Set INIT_MSIE = paste_auto_cleanup_on_paste : true
-      * Set INIT_OPERA = 
-      * Set INIT_GECKO = 
-      * Set INIT_SAFARI = 
+You can set additional options for specific browsers. You can define extra options for MSIE, OPERA, GECKO and SAFARI. For example,
+<verbatim>   * Set TINYMCEPLUGIN_INIT_MSIE = paste_auto_cleanup_on_paste : true
+</verbatim>
+   * Warning: if you enable =paste_auto_cleanup_on_paste then it automatically implies =paste_use_dialog= on all non-MSIE browsers.
 
-You can override these settings in the same way as any other [[%SYSTEMWEB%.PreferenceSettings][preference settings]], by setting e.g. =TINYMCEPLUGIN_INIT= in the site, web or topic preferences. You are *not* recommended to edit the setting here.
+You can *disable* the plugin in any web or topic, or for any specific user, by setting =TINYMCEPLUGIN_DISABLE= to 1. e.g.
+<verbatim>   * Set TINYMCEPLUGIN_DISABLE = 1
+</verbatim>
 
-   * You can *disable* the plugin in any web or topic, or for any specific user, by setting the =TINYMCEPLUGIN_DISABLE= preference to 1.
-   * Some browsers don't support !TinyMCE. You can prevent the editor from
-     being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror|Opera)=.   
+Some browsers don't support Tiny MCE. You can prevent the editor from
+being invoked on these browsers by setting =TINYMCEPLUGIN_BAD_BROWSERS= to a regular expression that matches the user-agent string for any broken browsers. The default is =(?i-xsm:Konqueror|Opera)=. For a full list of supported browsers see http://wiki.moxiecode.com/index.php/TinyMCE:Compatibility
 
 %INCLUDE{"%SYSTEMWEB%.WysiwygPluginSettings"}%
+
+You can use the [[%SYSTEMWEB%.PreferenceSettings][preference setting]] =TINYMCEPLUGIN_DEBUG= to make the editor load uncompressed Javascript and CSS. This is very helpful when debugging. e.g.
+<verbatim>   * Set TINYMCEPLUGIN_DEBUG = 1
+</verbatim>
 
 ---++ Frequently Asked Questions
 
@@ -115,14 +118,15 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 
 |  Author: | [[http://c-dot.co.uk][Crawford Currie]] |
 |  Copyright: | &copy; 2007-2008 Crawford Currie http://c-dot.co.uk |
-|             | This package also includes the complete sources for version 2.1.1.1 of the !TinyMCE editor |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
+|             | This package also includes the complete sources for version 3.2.2 of the !TinyMCE editor which is covered by [[http://tinymce.moxiecode.com/license.php][its own license]]. |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  3 Apr 2009 | Foswikitask:Item1383: Optimised the preferences Foswikitask:Item8094: fixed the pickaxe |
 |  15 Mar 2009 | Foswikitask:Item930: Crawford Currie upgraded to Tiny MCE 3.2.2 and recoded all the standard plugins that had to be recoded |
-|  21 Jan 2009 | Foswikitask:Item833: Eugen Mayer added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) |
-|  06 Dec 2008 | Foswikitask:Item5859: Eugen Mayer removed XHR headers that were banjaxing NTLM |
-|  03 Dec 2008 | Re-released for the Foswiki project |
+|  21 Jan 2009 | Foswikitask:Item833: added SYSTEMWEB to foswiki_vars, simplifying the activation of the foswikilink dialog of Extensions.TinyMCEUsabilityUpgradePlugin (if installed) - Eugen Mayer |
+|  06 Dec 2008 | Foswikitask:Item5859: removed XHR headers that were banjaxing NTLM - Eugen Mayer |
+|  03 Dec 2008 | Crawford Currie re-released for the Foswiki project |
 |  03 Aug 2008 | TWiki 4.2.1 release version |
 |  04 May 2008 | TWikibug:Item5547: Change mechanism by which TMCE recognises textareas to camp on. Use class instead of element name. |
 |  12 Apr 2008 | TWikibug:Item4946: I think I have finally fixed non-iso-8859-1 character sets. Painful. |
