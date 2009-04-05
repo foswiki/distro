@@ -2429,9 +2429,13 @@ sub innerExpandMacros {
     my $memTopic = $this->{prefs}->getPreference('TOPIC');
     my $memWeb   = $this->{prefs}->getPreference('WEB');
 
+    # Historically this couldn't be called on web objects.
+    my $webContext = $topicObject->web || $this->{webName};
+    my $topicContext = $topicObject->topic || $this->{topicName};
+
     $this->{prefs}->setInternalPreferences(
-        TOPIC => $topicObject->topic,
-        WEB   => $topicObject->web
+        TOPIC => $topicContext,
+        WEB   => $webContext
     );
 
     # Escape ' !%VARIABLE%'
@@ -2794,11 +2798,15 @@ sub expandMacros {
     #their verbatim blocks safetly.
     $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
 
+    # Require defaults for plugin handlers :-(
+    my $webContext = $topicObject->web || $this->{webName};
+    my $topicContext = $topicObject->topic || $this->{topicName};
+
     my $memW = $this->{prefs}->getPreference('INCLUDINGWEB');
     my $memT = $this->{prefs}->getPreference('INCLUDINGTOPIC');
     $this->{prefs}->setInternalPreferences(
-        INCLUDINGWEB   => $topicObject->web,
-        INCLUDINGTOPIC => $topicObject->topic
+        INCLUDINGWEB   => $webContext,
+        INCLUDINGTOPIC => $topicContext
     );
 
     $this->innerExpandMacros( \$text, $topicObject );
@@ -2806,8 +2814,11 @@ sub expandMacros {
     $text = $this->renderer->takeOutBlocks( $text, 'verbatim', $verbatim );
 
     # Plugin Hook
-    $this->{plugins}->dispatch( 'commonTagsHandler', $text, $topicObject->topic,
-        $topicObject->web, 0, $topicObject );
+    $this->{plugins}->dispatch(
+        'commonTagsHandler', $text,
+        $topicContext,
+        $webContext,
+        0, $topicObject );
 
     # process tags again because plugin hook may have added more in
     $this->innerExpandMacros( \$text, $topicObject );
@@ -2832,8 +2843,8 @@ sub expandMacros {
 
     # Foswiki Plugin Hook (for cache Plugins only)
     $this->{plugins}
-      ->dispatch( 'afterCommonTagsHandler', $text, $topicObject->topic,
-        $topicObject->web, $topicObject );
+      ->dispatch( 'afterCommonTagsHandler', $text, $topicContext,
+        $webContext, $topicObject );
 
     return $text;
 }
