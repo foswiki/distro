@@ -36,9 +36,7 @@ use File::Find ();
 use File::Path ();
 use File::Temp ();
 use POSIX      ();
-use diagnostics;
 use warnings;
-use Carp ();
 use Foswiki::Time;
 
 our $basedir;
@@ -68,7 +66,9 @@ my $targetProject;       # Foswiki or TWiki
 
 my $collector;           # general purpose handle for collecting stuff
 
-$SIG{__DIE__} = sub { Carp::confess $_[0] };
+# use diagnostics;
+# use Carp ();
+# $SIG{__DIE__} = sub { Carp::confess $_[0] };
 
 my @stageFilters = (
     { RE => qr/\.txt$/, filter => 'filter_txt' },
@@ -483,10 +483,10 @@ sub _findPathToDotGitDir {
     my @dirlist = File::Spec->splitdir( Cwd::getcwd() );
     do {
         my $gitdir = File::Spec->catdir( @dirlist, ".git", "svn" );
-        return wantarray ? ( $gitdir, 1 ) : $gitdir;
+        return wantarray ? ( $gitdir, 1 ) : $gitdir if -d $gitdir;
         $gitdir = File::Spec->catdir( @dirlist, ".git" );
         return $gitdir if -d $gitdir;
-    } while( pop @dirlist );
+    } while ( pop @dirlist );
     return;
 }
 
@@ -508,16 +508,20 @@ sub _get_svn_version {
             $limit = scalar( @{ $this->{files} } )
               if $limit > scalar( @{ $this->{files} } );
             while ( $idx < $limit ) {
-                if ( ${ $this->{files} }[ $idx ]->{name} ) {
-                    my $file = $this->{basedir} . '/' . ${ $this->{files} }[ $idx ]->{name};
-                    if( -f $file ) {
+                if ( ${ $this->{files} }[$idx]->{name} ) {
+                    my $file =
+                      $this->{basedir} . '/'
+                      . ${ $this->{files} }[$idx]->{name};
+                    if ( -f $file ) {
                         push @files, $file;
                     }
-                    elsif( $file =~ /\/$/ ) { # Directory, create if it does not exist
+                    elsif ( $file =~ /\/$/ )
+                    {    # Directory, create if it does not exist
                         File::Path::mkpath($file);
                     }
-                    elsif( ! -d $file ) { # Ignore directories
-                        print STDERR "WARNING: $file is in MANIFEST, but it doesn't exist\n";
+                    elsif ( !-d $file ) {    # Ignore directories
+                        print STDERR
+"WARNING: $file is in MANIFEST, but it doesn't exist\n";
                     }
                 }
                 $idx++;
@@ -525,45 +529,68 @@ sub _get_svn_version {
 
             # Get revision info all the files in the manifest
             # To find the latest one
-            my @command;
-            if( -d ".svn" ) {
-                @command = qw(svn info);
-                my $log = $this->sys_action( @command, @files );
-                my $getDate = 0;
-                foreach my $line ( split( "\n", $log ) ) {
-                    if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
-                        $getDate = 0;
-                        if ( $1 > $max ) {
-                            $max     = $1;
-                            $getDate = 1;
+            unless (
+                eval {
+                    local $SIG{__DIE__};
+                    my @command;
+                    if ( -d ".svn" ) {
+                        @command = qw(svn info);
+                        my $log = $this->sys_action( @command, @files );
+                        my $getDate = 0;
+                        foreach my $line ( split( "\n", $log ) ) {
+                            if ( $line =~ /^Last Changed Rev: (\d+)/ ) {
+                                $getDate = 0;
+                                if ( $1 > $max ) {
+                                    $max     = $1;
+                                    $getDate = 1;
+                                }
+                            }
+                            elsif ($getDate
+                                && $line =~
+/(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m
+                              )
+                            {
+                                $maxd = Foswiki::Time::parseTime(
+                                    "$1T$2" . ( $3 || '' ) );
+                                $getDate = 0;
+                            }
                         }
                     }
-                    elsif ($getDate
-                        && $line =~
-                        /(?:^Text Last Updated|Last Changed Date): ([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                    elsif ( my ( $gitdir, $gitsvn ) =
+                        $this->_findPathToDotGitDir() )
                     {
-                        $maxd =
-                        Foswiki::Time::parseTime( "$1T$2" . ( $3 || '' ) );
-                        $getDate = 0;
+                        @command = qw(git log -1 --pretty=medium --date=iso --);
+                        my $log = $this->sys_action( @command, @files );
+                        if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
+                            $max = $1 if $1 > $max;
+                        }
+                        else {
+                            die 'You have un-published changes.'
+                              . ' Please "git svn dcommit"';
+                        }
+                        if ( $log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m )
+                        {
+                            $maxd = Foswiki::Time::parseTime("$1T$2$3");
+                        }
                     }
+                    else {
+                        die "Cannot find a proper command to search history.";
+                    }
+                    1;
                 }
-            }
-            elsif ( my ( $gitdir, $gitsvn ) =
-                $this->_findPathToDotGitDir() ) {
-                @command = qw(git log -1 --pretty=medium --date=iso --);
-                my $log = $this->sys_action( @command, @files );
-                if ( $log =~ /^\s+git-svn-id: \S+\@(\d+)\s/m ) {
-                    $max = $1 if $1 > $max;
-                }
-                else {
-                    die 'You have un-published changes. Please "git svn dcommit"';
-                }
-                if ($log =~ /^Date:\s+([\d-]+) ([\d:]+) ([-+\d]+)?/m ) {
-                    $maxd = Foswiki::Time::parseTime( "$1T$2$3" );
-                }
-            }
-            else {
-                die "Cannot find a proper command to search history.";
+              )
+            {
+
+                # This is commented out because it's annoying
+                # when auto-porting extensions
+                # print STDERR "WARNING: $@";
+                $maxd = time() unless $maxd;
+                $max =
+                  Foswiki::Time::formatTime( $maxd, '$year$mo$day', 'gmtime' )
+                  unless $max;
+
+                # People shouldn't test $@ for that reason, but they do...
+                $@ = undef;
             }
         }
         $this->{DATE} = Foswiki::Time::formatTime( $maxd, '$iso', 'gmtime' );
@@ -790,7 +817,7 @@ sub sys_action {
     }
     return '' if ( $this->{-n} );
     my $output = `$cmd`;
-    die 'Failed to ' . $cmd . ': ' . ($? >> 8) if $? >> 8;
+    die 'Failed to ' . $cmd . ': ' . ( $? >> 8 ) if $? >> 8;
     return $output;
 }
 
@@ -1007,11 +1034,7 @@ sub build_js {
     my $text = <IF>;
     close(IF);
 
-    eval "require JavaScript::Minifier";
-    if ($@) {
-        print STDERR "Cannot squish: no JavaScript::Minifier found\n";
-    }
-    else {
+    if ( eval { require JavaScript::Minifier } ) {
         $text = JavaScript::Minifier::minify( input => $text );
 
         if ( open( IF, '<', $to ) ) {
@@ -1026,6 +1049,9 @@ sub build_js {
         print OF $text unless ( $this->{-n} );
         close(OF) unless ( $this->{-n} );
         print STDERR "Generated $to from $from\n";
+    }
+    else {
+        print STDERR "Cannot squish: no JavaScript::Minifier found\n";
     }
     return 1;
 }
@@ -1050,11 +1076,7 @@ sub build_css {
     my $text = <IF>;
     close(IF);
 
-    eval "require CSS::Minifier";
-    if ($@) {
-        print STDERR "Cannot squish: no CSS::Minifier found\n";
-    }
-    else {
+    if ( eval { require CSS::Minifier } ) {
         $text = CSS::Minifier::minify( input => $text );
 
         if ( open( IF, '<', $to ) ) {
@@ -1069,6 +1091,9 @@ sub build_css {
         print OF $text unless ( $this->{-n} );
         close(OF) unless ( $this->{-n} );
         print STDERR "Generated $to from $from\n";
+    }
+    else {
+        print STDERR "Cannot squish: no CSS::Minifier found\n";
     }
     return 1;
 }
@@ -1230,11 +1255,7 @@ sub target_archive {
         push( @fs, "$target$f" ) if ( -e "$target$f" );
     }
 
-    eval "require Digest::MD5";
-    if ($@) {
-        print STDERR "WARNING: Digest::MD5 not installed; cannot generate MD5 checksum\n";
-    }
-    else {
+    if ( eval { require Digest::MD5 } ) {
         open( CS, '>', "$target.md5" ) || die $!;
         foreach my $file (@fs) {
             open( F, '<', $file );
@@ -1247,12 +1268,12 @@ sub target_archive {
         close(CS);
         print "MD5 checksums in $this->{basedir}/$target.md5\n";
     }
-
-    eval "require Digest::SHA";
-    if ($@) {
-        print STDERR "WARNING: Digest::SHA not installed; cannot generate SHA1 checksum\n";
-    }
     else {
+        print STDERR
+          "WARNING: Digest::MD5 not installed; cannot generate MD5 checksum\n";
+    }
+
+    if ( eval { require Digest::SHA } ) {
         open( CS, '>', "$target.sha1" ) || die $!;
         foreach my $file (@fs) {
             open( F, '<', $file );
@@ -1264,6 +1285,10 @@ sub target_archive {
         }
         close(CS);
         print "SHA1 checksums in $this->{basedir}/$target.sha1\n";
+    }
+    else {
+        print STDERR
+          "WARNING: Digest::SHA not installed; cannot generate SHA1 checksum\n";
     }
 
     $this->popd();
@@ -1479,8 +1504,7 @@ necessary.
 sub target_upload {
     my $this = shift;
 
-    require LWP;
-    if ($@) {
+    unless ( eval { require LWP } ) {
         print STDERR 'LWP is not installed; cannot upload', "\n";
         return 0;
     }
@@ -2155,8 +2179,8 @@ sub target_dependencies {
     my $this = shift;
     local $/ = "\n";
 
-    eval 'use B::PerlReq';
-    die "B::PerlReq is required for 'dependencies': $@" if $@;
+    die "B::PerlReq is required for 'dependencies': $@"
+      unless eval "use B::PerlReq; 1";
 
     foreach my $m (
         'strict',   'vars',     'diagnostics', 'base',
@@ -2301,7 +2325,7 @@ sub _twikify_perl {
             $text =~ s/foswiki\([A-Z][A-Za-z]\+\)/twiki$1/g;
             $text =~ s/'foswiki'/'twiki'/g;
             $text =~ s/FOSWIKI_/TWIKI_/g;
-            $text =~ s/foswikiNewLink/twikiNewLink/g; # CSS
+            $text =~ s/foswikiNewLink/twikiNewLink/g;          # CSS
             $text =~ s/new Foswiki/new TWiki/g;
             return $text;
         }
