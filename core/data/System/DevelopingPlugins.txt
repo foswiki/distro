@@ -200,9 +200,14 @@ Some extensions have setup requirements that are best integrated into =configure
 =Config.spec= files are read during configuration. Once a =Config.spec= has defined a configuration item, it is available for edit through the standard =configure= interface. =Config.spec= files are stored in the 'plugin directory' e.g. =lib/Foswiki/Plugins/BathPlugin/Config.spec=.
 
 ---+++ Structure of a <code>Config.spec</code> file
-The =Config.spec= file for a plugin starts with the plugin announcing what it is:
+The =Config.spec= file for a plugin starts with a line that declares what section the configuration should appear in. The standard for all extensions is:
 <verbatim>
-# ---+ BathPlugin
+# ---+ Extensions
+</verbatim>
+Next we have a sub-heading for the configuration specific to this extension,
+and the actual configuration options:
+<verbatim>
+# ----++ BathPlugin
 # This plugin senses the level of water in your bath, and ensures the plug
 # is not removed while the water is still warm.
 </verbatim> 
@@ -225,6 +230,19 @@ The type (e.g. =**SELECT**= ) tells =configure= to how to prompt for the value. 
 if( $Foswiki::cfg{BathPlugin}{TempSensorEnabled} && $curTemperature > 50 ) {
     die "The bathwater is too hot for comfort";
 }
+</verbatim>
+You can use other =$Foswiki::cfg= values in other settings,
+but you must be sure they are only evaluated under program control, and
+not when this file is parsed by perl. For example:
+<verbatim>
+$Foswiki::cfg{BathPlugin}{MyBath} = "$Foswiki::cfg{PubDir}/enamel.gif"; # BAD
+# Perl will interpolate variables in double-quotes, so $Foswiki::cfg{PubDir}
+# will be evaluated at configuration time, which will make reconfiguration
+# difficult.
+
+$Foswiki::cfg{BathPlugin}{MyBath} = '$Foswiki::cfg{PubDir}/enamel.gif; # GOOD
+# The single quotes make sure $Foswiki::cfg{PubDir} will only be evaluated
+# at run-time.
 </verbatim>
 
 The =Config.spec= file is read by configure, and =configure= then writes =LocalSite.cfg= with the values chosen by the local site admin.

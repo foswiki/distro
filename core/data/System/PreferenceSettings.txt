@@ -15,6 +15,6 @@
       1 Parent webs !WebPreferences
       1 !WebPreferences
       1 In user topics
-      1 In Plugin documentation topics
+      1 In (some) plugin documentation topics
       1 In topics
    * Preference settings can be _finalised_, which means they can't be redefined

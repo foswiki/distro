@@ -1,70 +1,19 @@
-# Configuration file of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+# Configuration of Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+# See bottom of file for license and copyright information.
 #
-# Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors
-# Copyright (C) 2008-2009 Foswiki Contributors.
-# All Rights Reserved. TWiki Contributors and Foswiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
+# This configuration file is held in 'foswiki/lib' directory. Do not edit
+# this file! Instead, create a new private file called "LocalSite.cfg" and
+# add your customised settings there. That way, there is no risk of your
+# local settings being overwritten when you upgrade.
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version. For
-# more details read LICENSE in the root of this distribution.
-#
-# As per the GPL, removal of this notice is prohibited.
-#
-# This configuration file is held in 'foswiki/lib' directory. You can edit
-# this file directly to set your configuration, but it's much MUCH better
-# to leave this file untouched and create a new file called "LocalSite.cfg"
-# That way, there is no risk of your local settings being overwritten when
-# you upgrade.
-#
-# See 'setlib.cfg' in 'bin' directory to configure non-standard location
-# for 'lib' directory or Perl modules.
+# See 'setlib.cfg' in the 'bin' directory for how to configure a non-standard
+# include path for Perl modules.
 #
 # Note that the comments in this file are formatted specifically so
-# that the 'configure' script can extract documentation from here.
-# You are *strongly* advised not to edit this file!
+# that the 'configure' script can extract documentation from here. See
+# http://foswiki.org/System/DevelopingPlugins#Integrating_with_configure
+# for details of the syntax used.
 #
-# You can alter the most recent revision of a topic using
-# /edit/web/topic?cmd=repRev
-#    * use only as a last resort, as history is altered
-#    * you must be in AdminGroup
-#    * you will be presented with normal edit box, but this will also
-#      include meta information, modify this with extreme care
-#
-# You can delete the most recent revision of a topic using
-# /edit/web/topic?cmd=delRev
-#    * use only as a last resort, as history is lost
-#    * you must be in AdminGroup
-#    * fill in some dummy text in the edit box
-#    * ignore preview output
-#    * when you press save, last revision will be deleted
-#
-# ======================================================================
-# This page is used to set up the configuration options for Foswiki. Certain of
-# the settings are required; these are marked with a
-# <font color="red">*</font>. Fill in the settings, and then select 'Update'.
-# The settings will be updated and you will be returned to this page. Any
-# errors in your configuration will be <font color="red">highlighted</font>
-# below.
-# <p />
-# If you are installing Foswiki for the first time, and you are on a
-# Unix or Linux platform and behind a firewall, the only section you
-# should need to worry about below is "General path settings".
-# <p />
-# If you are on a public site, you will need to consider carefully
-# how you are going to manage authentication and access control.
-# <p />
-# There are a number of documentation topics describing how to
-# configure Foswiki for different platforms, and a lot of support
-# available at Foswiki.org. The configuration settings currently in
-# use can be managed using the 'configure' script.
-#
-# If your Foswiki site is working, the front page should be
-# <a href="$Foswiki::cfg{ScriptUrlPath}/view$Foswiki::cfg{ScriptSuffix}">right here</a>
-
 # NOTE FOR DEVELOPERS: you can use $Foswiki::cfg variables in other settings,
 # but you must be sure they are only evaluated under program control and
 # not when this file is loaded. For example:
@@ -77,7 +26,7 @@ my $OS = $Foswiki::cfg{OS} || '';
 
 #---+ General path settings
 # If you are a first-time installer; once you have set up the next
-# six paths below, your Foswiki should work - try it. You can always come
+# six paths below, your wiki should work - try it. You can always come
 # back and tweak other settings later.<p />
 # <b>Security Note:</b> Only the URL paths listed below should
 # be browseable from the web. If you expose any other directories (such as
@@ -88,7 +37,7 @@ my $OS = $Foswiki::cfg{OS} || '';
 # $Foswiki::cfg{DefaultUrlHost} = 'http://your.domain.com';
 
 # **STRING**
-# If your host has aliases (such as both www.foswiki.org and foswiki.org
+# If your host has aliases (such as both www.mywiki.net and mywiki.net
 # and some IP addresses) you need to tell Foswiki that redirecting to them
 # is OK. Foswiki uses redirection as part of its normal mode of operation
 # when it changes between editing and viewing.
@@ -137,7 +86,7 @@ $Foswiki::cfg{PermittedRedirectHostUrls} = '';
 
 # **PATH M**
 # Directory where Foswiki stores files that are required for the management
-# of Foswiki, but are not normally required to be browsed from the web.
+# of Foswiki, but are not required to be browsed from the web.
 # A number of subdirectories will be created automatically under this
 # directory:
 # <ul><li>{WorkingDir}<tt>/tmp/</tt> - used for security-related temporary
@@ -1302,3 +1251,21 @@ $Foswiki::cfg{PluginsOrder} = 'TWikiCompatibilityPlugin,SpreadSheetPlugin';
 # For Extensions with the same name in more than one repository, the <strong>last</strong> matching repository in the list will be chosen, so Foswiki.org should always be last in the list for maximum compatibility.
 $Foswiki::cfg{ExtensionsRepositories} = 'Foswiki.org=(http://foswiki.org/Extensions/,http://foswiki.org/pub/Extensions/)';
 1;
+__END__
+#
+# Copyright (C) 2008-2009 Foswiki Contributors. Foswiki Contributors
+# are listed in the AUTHORS file in the root of this distribution.
+# NOTE: Please extend that file, not this notice.
+#
+# Additional copyrights apply to some or all of the code in this module
+# as follows:
+# Copyright (C) 1999-2007 Peter Thoeny, peter@thoeny.org and
+# TWiki Contributors.# All Rights Reserved. 
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version. For
+# more details read LICENSE in the root of this distribution.
+#
+# As per the GPL, removal of this notice is prohibited.
