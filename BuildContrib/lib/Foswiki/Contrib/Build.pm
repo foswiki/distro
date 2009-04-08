@@ -2320,8 +2320,8 @@ sub _twikify_perl {
         sub {
             my ( $this, $text ) = @_;
             $text =~ s/Foswiki::/TWiki::/g;
-            $text =~ s/new Foswiki\(\);/new TWiki();/g;
-            $text =~ s/(use|require)\s+Foswiki;/$1 TWiki;/g;
+            $text =~ s/new Foswiki\s*\(\s*\);/new TWiki();/g;
+            $text =~ s/\b(use|require)\s+Foswiki/$1 TWiki/g;
             $text =~ s/foswiki\([A-Z][A-Za-z]\+\)/twiki$1/g;
             $text =~ s/'foswiki'/'twiki'/g;
             $text =~ s/FOSWIKI_/TWIKI_/g;
