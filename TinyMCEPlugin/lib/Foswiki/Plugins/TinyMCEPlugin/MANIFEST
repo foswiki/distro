@@ -8,8 +8,13 @@ pub/System/TinyMCEPlugin/foswiki.js 0644
 pub/System/TinyMCEPlugin/foswiki_src.js 0644
 pub/System/TinyMCEPlugin/foswiki_tiny.js 0644
 pub/System/TinyMCEPlugin/foswiki_tiny_src.js 0644
+pub/System/TinyMCEPlugin/anchor.gif 0777
+pub/System/TinyMCEPlugin/indent.gif 0777
+pub/System/TinyMCEPlugin/link.gif 0777
+pub/System/TinyMCEPlugin/outdent.gif 0777
 pub/System/TinyMCEPlugin/screenshot.gif 0777
 pub/System/TinyMCEPlugin/tinymce.gif 0777
+pub/System/TinyMCEPlugin/unlink.gif 0777
 pub/System/TinyMCEPlugin/tinymce/build.bat 0644
 pub/System/TinyMCEPlugin/tinymce/build.xml 0644
 pub/System/TinyMCEPlugin/tinymce/changelog.txt 0644
