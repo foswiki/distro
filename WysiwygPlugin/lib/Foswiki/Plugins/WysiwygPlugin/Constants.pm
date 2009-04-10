@@ -4,40 +4,41 @@ package Foswiki::Plugins::WysiwygPlugin::Constants;
 
 use strict;
 
-our ( %ALWAYS_BLOCK, $ALWAYS_BLOCK_S, $STARTWW, $ENDWW, $PROTOCOL );
-
 # HTML elements that are strictly block type, as defined by
 # http://www.htmlhelp.com/reference/html40/block.html.
 # Block type elements do not require
 # <br /> to be generated for newlines on the boundary - see WC::isInline.
-%ALWAYS_BLOCK = map { $_ => 1 }
+our %ALWAYS_BLOCK = map { $_ => 1 }
   qw( ADDRESS BLOCKQUOTE CENTER DIR DIV DL FIELDSET FORM H1 H2 H3 H4 H5 H6
   HR ISINDEX MENU NOFRAMES NOSCRIPT OL P PRE TABLE UL );
-$ALWAYS_BLOCK_S = join( '|', keys %ALWAYS_BLOCK );
+our $ALWAYS_BLOCK_S = join( '|', keys %ALWAYS_BLOCK );
 
-$STARTWW  = qr/^|(?<=[ \t\n\(\!])/om;
-$ENDWW    = qr/$|(?=[ \t\n\,\.\;\:\!\?\)])/om;
-$PROTOCOL = qr/^(file|ftp|gopher|https?|irc|news|nntp|telnet|mailto):/;
+our $STARTWW  = qr/^|(?<=[ \t\n\(\!])/om;
+our $ENDWW    = qr/$|(?=[ \t\n\,\.\;\:\!\?\)])/om;
+our $PROTOCOL = qr/^(file|ftp|gopher|https?|irc|news|nntp|telnet|mailto):/;
 
-our (%KNOWN_COLOUR);
+# Colours with colour settings in DefaultPreferences.
+our @TML_COLOURS = (
+    'BLACK',  'MAROON', 'PURPLE', 'PINK',       'RED',   'ORANGE',
+    'YELLOW', 'LIME',   'AQUA',   'AQUAMARINE', 'GREEN', 'OLIVE',
+    'BROWN',  'NAVY',   'TEAL',   'BLUE',       'GRAY',  'SILVER',
+    'WHITE',
+);
 
-# Colours with colour settings in DefaultPreferences. WTF does Foswiki see
-# fit to *redefine* the standard colors? e.g. ORANGE below is *not* orange.
-# For goodness sakes!
-%KNOWN_COLOUR = (
+# Map of possible colours back to TML %COLOUR%...%ENDCOLOR%
+our %HTML2TML_COLOURMAP = (
     BLACK      => 'BLACK',
     '#000000'  => 'BLACK',
     MAROON     => 'MAROON',
     '#800000'  => 'MAROON',
     PURPLE     => 'PURPLE',
     '#800080'  => 'PURPLE',
-    PINK       => 'PINK',
+    FUCHSIA    => 'PINK',
     '#FF00FF'  => 'PINK',
     RED        => 'RED',
     '#FF0000'  => 'RED',
     ORANGE     => 'ORANGE',
     '#FF6600'  => 'ORANGE',
-    '#FFA500'  => 'ORANGE',    # HTML standard
     YELLOW     => 'YELLOW',
     '#FFFF00'  => 'YELLOW',
     LIME       => 'LIME',
@@ -51,7 +52,6 @@ our (%KNOWN_COLOUR);
     '#808000'  => 'OLIVE',
     BROWN      => 'BROWN',
     '#996633'  => 'BROWN',
-    '#A52A2A'  => 'BROWN',     # HTML standard
     NAVY       => 'NAVY',
     '#000080'  => 'NAVY',
     TEAL       => 'TEAL',

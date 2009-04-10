@@ -1280,41 +1280,48 @@ sub _handleFONT {
     my %atts = %{ $this->{attrs} };
 
     # Try to convert font tags into %COLOUR%..%ENDCOLOR%
-    # First extract the colour
+
+    # First extract the colour from a style= param, if we can.
     my $colour;
-    if ( $atts{style} ) {
-        my $style = $atts{style};
-        if ( $style =~ s/(^|\s|;)color\s*:\s*([^\s;]+);?//i ) {
-            $colour = $2;
-            delete $atts{style} if $style =~ /^[\s;]*$/;
-        }
+    if ( defined $atts{style}
+        && $atts{style} =~ s/(^|\s|;)color\s*:\s*(#?\w+)\s*(;|$)// )
+    {
+        $colour = $2;
     }
-    if ( $atts{color} ) {
+
+    # override it with a color= param, if there is one.
+    if ( defined $atts{color} ) {
         $colour = $atts{color};
-        delete $atts{color};
     }
 
-    # The presence of the class forces it to be converted to a
-    # Foswiki variable
-    if ( !_removeClass( \%atts, 'WYSIWYG_COLOUR' ) ) {
-        delete $atts{class};
-        if (   scalar( keys %atts ) > 0
-            || !$colour
-            || $colour !~ /^([a-z]+|#[0-9A-Fa-f]{6})$/i )
-        {
-            return ( 0, undef );
+    # The presence of the WYSIWYG_COLOR class _forces_ the tag to be
+    # converted to a Foswiki colour macro, as long as the colour is
+    # recognised.
+    if ( hasClass( \%atts, 'WYSIWYG_COLOR' ) ) {
+        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
+        if ( defined $percentColour ) {
+
+            # All other font information will be lost.
+            my ( $f, $kids ) = $this->_flatten($options);
+            return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
         }
     }
 
-    # OK, just the colour
-    $colour = $WC::KNOWN_COLOUR{ uc($colour) };
-    if ( !$colour ) {
-
-        # Not a recognised colour
-        return ( 0, undef );
+    # May still be able to convert if there is no other font information.
+    delete $atts{class} if defined $atts{class} && $atts{class} =~ /^\s*$/;
+    delete $atts{style} if defined $atts{style} && $atts{style} =~ /^[\s;]*$/;
+    delete $atts{color} if defined $atts{color};
+    if ( defined $colour && !scalar keys %atts ) {
+        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
+        if ( defined $percentColour ) {
+            my ( $f, $kids ) = $this->_flatten($options);
+            return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
+        }
     }
-    my ( $f, $kids ) = $this->_flatten($options);
-    return ( $f, '%' . uc($colour) . '%' . $kids . '%ENDCOLOR%' );
+
+    # Either the colour can't be mapped, or we can't do the conversion
+    # without loss of information
+    return ( 0, undef );
 }
 
 # FORM
@@ -1455,14 +1462,32 @@ sub _handleSPAN {
         return _emphasis( @_, '=' );
     }
 
-    # Remove all other classes
-    delete $atts{class};
+    # If we have WYSIWYG_COLOR and the colour can be mapped, then convert
+    # to a macro.
+    if ( _removeClass( \%atts, 'WYSIWYG_COLOR' ) ) {
+        my $colour;
+        if ( $atts{style} ) {
+            my $style = $atts{style};
+            if ( $style =~ s/(^|\s|;)color\s*:\s*(#?\w+)\s*(;|$)// ) {
+                $colour = $2;
+            }
+        }
+        my $percentColour = $WC::HTML2TML_COLOURMAP{ uc($colour) };
+        if ( defined $percentColour ) {
+            my ( $f, $kids ) = $this->_flatten($options);
+            return ( $f, '%' . $percentColour . '%' . $kids . '%ENDCOLOR%' );
+        }
+    }
+
+    # Remove all other (non foswiki) classes
+    if ( defined $atts{class} && $atts{class} !~ /foswiki/ ) {
+        delete $atts{class};
+    }
 
     if ( $options & $WC::VERY_CLEAN ) {
 
-        # remove style attribute if cleaning aggressively. Have to do this
-        # because Foswiki generates these.
-        delete $atts{style} if defined $atts{style};
+        # remove style attribute if cleaning aggressively.
+        #        delete $atts{style} if defined $atts{style};
     }
 
     # ignore the span tag if there are no other attrs
@@ -1494,7 +1519,7 @@ sub _handleTABLE {
     my @table;
     return ( 0, undef )
       unless $this->_isConvertableTable( $options | $WC::NO_BLOCK_TML,
-              \@table );
+        \@table );
 
     my $maxrow = 0;
     my $row;

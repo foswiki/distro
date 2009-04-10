@@ -259,11 +259,9 @@ sub _getRenderedVersion {
     $text =~ s/<\/img>//gi;
 
     # Handle colour tags specially (hack, hack, hackity-HACK!)
-    my $colourMatch = join( '|', grep( /^[A-Z]/, keys %WC::KNOWN_COLOUR ) );
-    while ( $text =~
-        s#%($colourMatch)%(.*?)%ENDCOLOR%#<font color="\L$1\E">$2</font>#og )
-    {
-    }
+    my $colourMatch = join( '|', grep( /^[A-Z]/, @WC::TML_COLOURS ) );
+    $text =~ s#%($colourMatch)%(.*?)%ENDCOLOR%#
+      _getNamedColour($1, $2)#oge;
 
     # Convert Foswiki tags to spans outside protected text
     $text = $this->_processTags($text);
@@ -505,6 +503,24 @@ s/$WC::STARTWW(($Foswiki::regex{webNameRegex}\.)?$Foswiki::regex{wikiWordRegex}(
     $text =~ s/(<nop>)/$this->_liftOut($1, 'PROTECTED')/ge;
 
     return $text;
+}
+
+sub _getNamedColour {
+    my ( $name, $t ) = @_;
+    my $epr = Foswiki::Func::getPreferencesValue($name);
+
+    # Match <font color="x" and style="color:x"
+    if (
+        defined $epr
+        && (   $epr =~ /color=["'](#?\w+)['"]/
+            || $epr =~ /color\s*:\s*(#?\w+)/ )
+      )
+    {
+        return "<span class='WYSIWYG_COLOR' style='color:$1'>$t</span>";
+    }
+
+    # Can't map to a 'real' colour; leave the variables
+    return '%' . $name . '%' . $t . '%ENDCOLOR%';
 }
 
 sub _addClass {

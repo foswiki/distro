@@ -1556,10 +1556,10 @@ BLAH
         name => 'fontconv',
         exec => $HTML2TML,
         html => <<HERE,
-<font color="red" class="WYSIWYG_COLOUR">red</font>
+<font color="red" class="WYSIWYG_COLOR">red</font>
 <font style="color:green">green</font>
 <font style="border:1;color:blue">blue</font>
-<font class="WYSIWYG_COLOUR" style="border:1;color:yellow">yellow</font>
+<font class="WYSIWYG_COLOR" style="border:1;color:yellow">yellow</font>
 <font color="brown">brown</font>
 HERE
         tml => <<HERE,

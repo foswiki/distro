@@ -161,8 +161,7 @@ sub TML2HTML_test {
 
     # Strip ASCII header
     $this->assert_matches( qr/Content-Type: *text\/plain; *charset=UTF-8/i,
-                           $out,
-                           anal($out) );
+        $out, anal($out) );
     $out =~ s/^.*?\r\n\r\n//s;
 
     $out = Encode::decode_utf8($out);
@@ -216,8 +215,7 @@ sub HTML2TML_test {
 
     # Strip ASCII header
     $this->assert_matches( qr/Content-Type: *text\/plain; *charset=UTF-8/,
-                           $out,
-        anal($out) );
+        $out, anal($out) );
     $out =~ s/^.*?\r\n\r\n//s;
 
     $out = Encode::decode_utf8($out);

@@ -165,6 +165,7 @@ Many thanks to the following sponsors for supporting this work:
 |  License | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
 |  Plugin Version: | %$VERSION% |
 |  Change History: | |
+|  10 Apr 2009 | Foswikitask:Item1394: fixed colour handling |
 |  03 Dec 2008 | Foswikitask:Item6041: fixed empty bullet list problem. Foswiki version |
 |  22 Oct 2008 | Fixed TWikibug:Item5961 (emphasis), TWikibug:Item6089 (backslash in verbatim) |
 |  7 Aug 2008 | Fixed TWikibug:Item5707 (mod_perl) |
