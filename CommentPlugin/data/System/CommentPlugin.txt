@@ -78,7 +78,7 @@ A set of default comment templates are shipped with the plugin - see also Commen
 | =threadmode= | Wiki thread mode comment, signed and dated (server time) |
 | =tableprepend= | Comments, signed and dated (server time), formatted as an HTML table row, added below the anchor (which must be in an HTML &lt;table>) |
 | =tableappend= | Comments, signed and dated (server time), formatted as an HTML table row, added above the anchor (which must be in an HTML &lt;table>) |
-| =action= | Action added to action table directly above comment box (see <a href="#Installation">Plugin Installation Instructions</a> below for immportant notes) |
+| =action= | Action added to action table directly above comment box (see <a href="#Installation">Plugin Installation Instructions</a> below for important notes) |
 | =table= | Tablerows adding on end |
 | =toctalk= | Talk using TOC adding on end |
 | =bookmark= | Create a list of annotated bookmarks |
@@ -228,7 +228,7 @@ These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in indiv
 #Installation
 ---++ Plugin Installation Instructions
 	* This plugin is pre-installed in most releases. However if you need to upgrade the plugin for any reason:
-	* Download the archive file from the Plugin web (see below)
+	* Download the archive file from the Extensions web (see below)
 	* Unpack the archive in your Foswiki installation directory.
 		* You may need to correct file permissions
 	* Run ==%TOPIC%_installer== to automatically check and install other modules that this module depends on, and enable the plugin.
