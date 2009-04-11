@@ -78,7 +78,7 @@ A set of default comment templates are shipped with the plugin - see also Commen
 | =threadmode= | Wiki thread mode comment, signed and dated (server time) |
 | =tableprepend= | Comments, signed and dated (server time), formatted as an HTML table row, added below the anchor (which must be in an HTML &lt;table>) |
 | =tableappend= | Comments, signed and dated (server time), formatted as an HTML table row, added above the anchor (which must be in an HTML &lt;table>) |
-| =action= | Action added to action table directly above comment box (see <a href="#Installation">Plugin Installation Instructions</a> below for immportant notes) |
+| =action= | Action added to action table directly above comment box (see <a href="#Installation">Plugin Installation Instructions</a> below for important notes) |
 | =table= | Tablerows adding on end |
 | =toctalk= | Talk using TOC adding on end |
 | =bookmark= | Create a list of annotated bookmarks |
