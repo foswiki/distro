@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107727656" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107727656" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ <nop>RSS news feed of topic changes
 
@@ -14,6 +14,6 @@ For other Foswiki webs, replace =/%MAINWEB%/= with the name of the web:
 
 ---
 *See also:*
-	* %SYSTEMWEB%.WebRssBase - help on Foswiki RSS news feeds
+   * %SYSTEMWEB%.WebRssBase - help on Foswiki RSS news feeds
 
 [[%SYSTEMWEB%.TipsOfTheDay][See More Tips...]]

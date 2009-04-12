@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 15569 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev: 15569 $"}%
 ---+ User Form
 
 This is a maintenance topic, used by the Wiki administrator.

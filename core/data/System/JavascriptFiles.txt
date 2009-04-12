@@ -5,4 +5,4 @@ This topic contains javascript files that are included by skin templates, and ma
 
 *Related Topics:* SkinTemplates, [[Skins]]
 
-	* Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
+   * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup

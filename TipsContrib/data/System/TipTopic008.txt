@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107569481" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107569481" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Escaping Foswiki rendering
 
@@ -9,7 +9,7 @@ For Example:
 <pre>
 &lt;verbatim&gt;
 | *Header1* | *Header1* |
-| Data1	  | Data2	  |
+| Data1     | Data2     |
 &lt;/verbatim&gt;
 </pre>
 

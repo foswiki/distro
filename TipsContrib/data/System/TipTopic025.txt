@@ -1,14 +1,14 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107572937" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107572937" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ !SpreadSheetPlugin for dynamic content
 
 Over 60 formulae are available through the SpreadSheetPlugin.
 
 For Example:
-	* =$AVERAGE()=
-	* =$IF()=
-	* =$REPLACE()=
-	* =$TIME()=
+   * =$AVERAGE()=
+   * =$IF()=
+   * =$REPLACE()=
+   * =$TIME()=
 
 A formula can be placed anywhere in a topic. not just in a Foswiki table.
 

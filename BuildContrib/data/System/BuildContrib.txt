@@ -494,7 +494,7 @@ Another great Foswiki extension from the <a style="text-decoration:none" href="h
 |  31 Jan 2009 | Macro expansion works even in non-english locales (Foswikitask:Item924) |
 |  03 Dec 2008 | Re-release for Foswiki; copyright assigned to Foswiki Contributors |
 |  31 Aug 2008 | TWikibug:Item5971 BuildContrib broken upload on 4.2.2 with template login. Also adding query to optionally skip topic attachment upload. |
-|  22 Apr 2008 | TWikibug:Item5556 BuildContrib defaults all unspecified permissions to 664 && TWikibug:Item5455  	 BuildContrib doesn't cope with larger numbers of files - TWiki:Main.SvenDowideit|
+|  22 Apr 2008 | TWikibug:Item5556 BuildContrib defaults all unspecified permissions to 664 && TWikibug:Item5455   BuildContrib doesn't cope with larger numbers of files - TWiki:Main.SvenDowideit|
 |  31 Jan 2008 | TWikibug:Item4751 support spaces in MANIFEST TWikibug:Item4990 removed dependency on external md5sum program TWikibug:Item5309 added tidy target |
 |  10 Sep 2007 | TWikibug:Item4600 upload !VarXXX topics to Plugins web, to support pluggable documentation architecture. Minor doc improvements. TWikibug:Item3839 add build script at the root to help with building several plugins in one session TWikibug:Item4601 remove duplicate installer script (.pl) |
 |  13599 | TWikibug:Item2006 fixed default permissions to allow group write, and rewrote the main (this) doc to be more useful. TWikibug:Item3624 added a pause between uploads (20s) |

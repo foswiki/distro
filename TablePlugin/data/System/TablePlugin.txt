@@ -1,27 +1,27 @@
-%META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.0" version="$Rev: 16047 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.1" version="$Rev: 16047 $"}%
 ---+ Table Plugin
 
 Gives extra control of table display:
-	* Allows sorting
-	* Changing table properties like border width, cell spacing and cell padding
-	* Changing background color and text color for header cells
-	* Changing background color and text color for data cells - colors can _alternate_
-	* Table attributes can be set and overridden in this order:
-		* Default =TABLEATTRIBUTES= Plugin setting in this topic.
-		* A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences) or web-level (any WebPreferences), e.g.
-			* =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
-		* Before a table using =%<nop>TABLE{...}%=
+   * Allows sorting
+   * Changing table properties like border width, cell spacing and cell padding
+   * Changing background color and text color for header cells
+   * Changing background color and text color for data cells - colors can _alternate_
+   * Table attributes can be set and overridden in this order:
+      * Default =TABLEATTRIBUTES= Plugin setting in this topic.
+      * A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences) or web-level (any WebPreferences), e.g.
+         * =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
+      * Before a table using =%<nop>TABLE{...}%=
    * Row spans
 
 ---++ Sorting
 
 Click on column heading text to sort by a column.  Initial column will be sorted in descending order, click again to get ascending order.  The type of data in the cell is determined automatically:
 
-	* date if format is:
-		* dd MMM YYYY - hh:mm (MMM is Jan, Feb, etc.)
-		* dd-MMM-YY or dd-MMM-YYYY (can be / or space in place of -) (MMM is Jan, Feb, etc)
-	* number is digits, with optional decimal point
-	* otherwise treated as text
+   * date if format is:
+      * dd MMM YYYY - hh:mm (MMM is Jan, Feb, etc.)
+      * dd-MMM-YY or dd-MMM-YYYY (can be / or space in place of -) (MMM is Jan, Feb, etc)
+   * number is digits, with optional decimal point
+   * otherwise treated as text
 
 ---++ Row spans
 
@@ -43,18 +43,18 @@ Table cells with a single caret indicate follow-up rows of multi-row spans. For 
 Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
 
-	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
-		* Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns
+   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+      * Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns
 
-	* Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
-		* Set DEBUG = 0
+   * Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
+      * Set DEBUG = 0
 
-	* Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=.
-		* #Set SORT = none
-		* Set SORT = all
+   * Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=.
+      * #Set SORT = none
+      * Set SORT = all
 
-	* Default table attributes:
-		* Set TABLEATTRIBUTES = tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"
+   * Default table attributes:
+      * Set TABLEATTRIBUTES = tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"
 
 ---++ Table Attributes
 
@@ -76,9 +76,9 @@ Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cells
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
 | 1 | C | Chose new colours | John | 1-Dec-02 | |
 | 2 | X | Release | John | 1-Apr-02 | |
-| 3 |	| Get feedback | Anne | 1-Feb-02 | |
+| 3 | | Get feedback | Anne | 1-Feb-02 | |
 | 12 | C | Spec error handling | Jack | 1-Dec-02 | |
-| 5 |	| Abc | John | | |
+| 5 | | Abc | John | | |
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
 
 ---+++ Table with 4 digit year dates and no use of %<nop>TABLE{...}%
@@ -113,16 +113,16 @@ Information for programmers.
 ---++ Plugin Installation Instructions
 This plugin is pre-installed with your Foswiki release. You should not have to install it other than to do an upgrade.
 
-	* Download the ZIP file from the Plugin web (see below)
-	* Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-	  | *File:* | *Description:* |
-	  | ==data/System/%TOPIC%.txt== | Plugin topic |
-	  | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-	  | ==lib/Foswiki/Plugins/%TOPIC%/Core.pm== | Plugin Perl module |
-	* Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
-	* Test if the plugin is correctly installed:
-		* Check above example if the table renders as expected
-		* Try click on heading to sort.  Other tables should also be sortable
+   * Download the ZIP file from the Plugin web (see below)
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
+     | *File:* | *Description:* |
+     | ==data/System/%TOPIC%.txt== | Plugin topic |
+     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
+     | ==lib/Foswiki/Plugins/%TOPIC%/Core.pm== | Plugin Perl module |
+   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
+   * Test if the plugin is correctly installed:
+      * Check above example if the table renders as expected
+      * Try click on heading to sort.  Other tables should also be sortable
 
 ---++ Plugin Info
 

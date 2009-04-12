@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 7557 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev$"}%
 ---+ !WebLeftBar Cookbook
 
 *Instructions and tips how to use WebLeftBarPersonalTemplate*.

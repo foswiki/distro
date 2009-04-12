@@ -9,17 +9,17 @@
 <script type="text/javascript">
 //<![CDATA[
 function openTemplateWindow () {
-	var window = foswiki.Window.openPopup(
-		"%SCRIPTURL{view}%/",
-			{
-    			topic:"WebTemplateTopics",
-    			web:"%SYSTEMWEB%",
-    			template:"viewplain",
-    			attributes:"resizable=1,scrollbars=1,status=1,toolbar=1",
-    			urlparams:"web=%BASEWEB%"
-    		}
-    	);
-	return false;
+    var window = foswiki.Window.openPopup(
+        "%SCRIPTURL{view}%/",
+            {
+                topic:"WebTemplateTopics",
+                web:"%SYSTEMWEB%",
+                template:"viewplain",
+                attributes:"resizable=1,scrollbars=1,status=1,toolbar=1",
+                urlparams:"web=%BASEWEB%"
+            }
+        );
+    return false;
 }
 function getQueryUrl() {
 	return "%SCRIPTURLPATH{view}%/%BASEWEB%/%BASETOPIC%?%QUERYSTRING%;pickparent=1"

@@ -1,3 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1042728360" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1042728360" format="1.1" version="$Rev$"}%
 
 SOME EXAMPLES OF THE PLUGIN

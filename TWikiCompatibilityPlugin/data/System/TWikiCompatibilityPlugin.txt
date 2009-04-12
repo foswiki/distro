@@ -17,8 +17,8 @@ to add similar auto-compatibility for attachments, add (or uncomment) the follow
 your Apache configuration _in the =pub= section_
 
 <verbatim>
-	#for TWikiCompatibility
-	ErrorDocument 404 /foswiki/bin/viewfile
+    #for TWikiCompatibility
+    ErrorDocument 404 /foswiki/bin/viewfile
 </verbatim>
 
 ---+++ TODO:

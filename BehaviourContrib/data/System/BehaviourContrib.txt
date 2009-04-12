@@ -23,9 +23,9 @@ Behaviour lets you use CSS selectors to specify elements to add javascript event
 
 <verbatim>
 <li>
-	<a onclick="this.parentNode.removeChild(this)" href="#">
-		Click me to delete me
-	</a>
+    <a onclick="this.parentNode.removeChild(this)" href="#">
+        Click me to delete me
+    </a>
 </li>
 </verbatim>
 
@@ -33,9 +33,9 @@ You can use:
 
 <verbatim>
 <ul id="example">
-	<li>
-		<a href="/someurl">Click me to delete me</a>
-	</li>
+    <li>
+        <a href="/someurl">Click me to delete me</a>
+    </li>
 </ul>
 </verbatim>
 
@@ -43,12 +43,12 @@ And then use css selectors to select that element and add javascript functions t
 
 <verbatim>
 var myrules = {
-	'#example li' : function(el){
-		el.onclick = function(){
-			this.parentNode.removeChild(this);
+    '#example li' : function(el){
+        el.onclick = function(){
+            this.parentNode.removeChild(this);
 
-		}
-	}
+        }
+    }
 };
 
 Behaviour.register(myrules);
@@ -67,19 +67,19 @@ Include the javascript file:
 In your code you create a "rules" object, with sub-objects for each html element class name or id:
 <verbatim>
 var myrules = {
-	'.classname' : function(element) {
-		// element event
-		element.onclick = function() {
-			// code here
-		}
-	},
-	
-	'#id' : function(element) {
-		// element event
-		element.onclick = function() {
-			// code here
-		}
-	}
+    '.classname' : function(element) {
+        // element event
+        element.onclick = function() {
+            // code here
+        }
+    },
+    
+    '#id' : function(element) {
+        // element event
+        element.onclick = function() {
+            // code here
+        }
+    }
 };
 </verbatim>
 
@@ -87,11 +87,11 @@ Or use nested identifiers:
 
 <verbatim>
 var myrules = {
-	'.menu li a' : function(element) {
-		element.onclick = function() {
-			// code here
-		}
-	}
+    '.menu li a' : function(element) {
+        element.onclick = function() {
+            // code here
+        }
+    }
 };
 </verbatim>
 
@@ -114,51 +114,51 @@ MOUSE OVER ME
 <script type="text/javascript">
 // <![CDATA[
 var myrules = {
-	'#demoblock' : function(el) {
-		var defaultColor = '#A3D6F8';
-		var highlightColor = '#4A7FB5';
-		
-		el.style.backgroundColor = defaultColor;
-		
-		el.onmouseover = function() {
-			this.style.backgroundColor = highlightColor;
-			return false;
-		}
-		el.onmouseout = function() {
-			this.style.backgroundColor = defaultColor;
-			return false;
-		}
-	},
-	'#demoblock span' : function(el) {
-		
-		var text = el.innerHTML;
-		
-		var fisherYates = function (inArray) {
-		  var i = inArray.length;
-		  if ( i == 0 ) return false;
-		  while ( --i ) {
-			 var j = Math.floor( Math.random() * ( i + 1 ) );
-			 var tempi = inArray[i];
-			 var tempj = inArray[j];
-			 inArray[i] = tempj;
-			 inArray[j] = tempi;
-		   }
-		}
-		
-		var randomize = function(inText) {
-			var letters = inText.split('');
-			fisherYates(letters);
-			return letters.join('');
-		}
-		el.onmouseover = function() {
-			this.innerHTML = randomize(text);
-			return false;
-		}
-		el.onmouseout = function() {
-			this.innerHTML = text;
-			return false;
-		}
-	}
+    '#demoblock' : function(el) {
+        var defaultColor = '#A3D6F8';
+        var highlightColor = '#4A7FB5';
+        
+        el.style.backgroundColor = defaultColor;
+        
+        el.onmouseover = function() {
+            this.style.backgroundColor = highlightColor;
+            return false;
+        }
+        el.onmouseout = function() {
+            this.style.backgroundColor = defaultColor;
+            return false;
+        }
+    },
+    '#demoblock span' : function(el) {
+        
+        var text = el.innerHTML;
+        
+        var fisherYates = function (inArray) {
+          var i = inArray.length;
+          if ( i == 0 ) return false;
+          while ( --i ) {
+             var j = Math.floor( Math.random() * ( i + 1 ) );
+             var tempi = inArray[i];
+             var tempj = inArray[j];
+             inArray[i] = tempj;
+             inArray[j] = tempi;
+           }
+        }
+        
+        var randomize = function(inText) {
+            var letters = inText.split('');
+            fisherYates(letters);
+            return letters.join('');
+        }
+        el.onmouseover = function() {
+            this.innerHTML = randomize(text);
+            return false;
+        }
+        el.onmouseout = function() {
+            this.innerHTML = text;
+            return false;
+        }
+    }
 };
 Behaviour.register(myrules);
 // ]]>
@@ -174,51 +174,51 @@ Creates:
 <script type="text/javascript">
 // <![CDATA[
 var myrules = {
-	'#demoblock' : function(el) {
-		var defaultColor = '#A3D6F8';
-		var highlightColor = '#4A7FB5';
-		
-		el.style.backgroundColor = defaultColor;
-		
-		el.onmouseover = function() {
-			this.style.backgroundColor = highlightColor;
-			return false;
-		}
-		el.onmouseout = function() {
-			this.style.backgroundColor = defaultColor;
-			return false;
-		}
-	},
-	'#demoblock span' : function(el) {
-		
-		var text = el.innerHTML;
-		
-		var fisherYates = function (inArray) {
-		  var i = inArray.length;
-		  if ( i == 0 ) return false;
-		  while ( --i ) {
-			 var j = Math.floor( Math.random() * ( i + 1 ) );
-			 var tempi = inArray[i];
-			 var tempj = inArray[j];
-			 inArray[i] = tempj;
-			 inArray[j] = tempi;
-		   }
-		}
-		
-		var randomize = function(inText) {
-			var letters = inText.split('');
-			fisherYates(letters);
-			return letters.join('');
-		}
-		el.onmouseover = function() {
-			this.innerHTML = randomize(text);
-			return false;
-		}
-		el.onmouseout = function() {
-			this.innerHTML = text;
-			return false;
-		}
-	}
+    '#demoblock' : function(el) {
+        var defaultColor = '#A3D6F8';
+        var highlightColor = '#4A7FB5';
+        
+        el.style.backgroundColor = defaultColor;
+        
+        el.onmouseover = function() {
+            this.style.backgroundColor = highlightColor;
+            return false;
+        }
+        el.onmouseout = function() {
+            this.style.backgroundColor = defaultColor;
+            return false;
+        }
+    },
+    '#demoblock span' : function(el) {
+        
+        var text = el.innerHTML;
+        
+        var fisherYates = function (inArray) {
+          var i = inArray.length;
+          if ( i == 0 ) return false;
+          while ( --i ) {
+             var j = Math.floor( Math.random() * ( i + 1 ) );
+             var tempi = inArray[i];
+             var tempj = inArray[j];
+             inArray[i] = tempj;
+             inArray[j] = tempi;
+           }
+        }
+        
+        var randomize = function(inText) {
+            var letters = inText.split('');
+            fisherYates(letters);
+            return letters.join('');
+        }
+        el.onmouseover = function() {
+            this.innerHTML = randomize(text);
+            return false;
+        }
+        el.onmouseout = function() {
+            this.innerHTML = text;
+            return false;
+        }
+    }
 };
 Behaviour.register(myrules);
 // ]]>
@@ -230,14 +230,14 @@ Behaviour code leaks memory on Windows Explorer prior to version 7. To prevent l
 
 <verbatim>
 var myrules = {
-	'table.test td' : function(element) {
-		element.onmouseover = function() {
-			this.style.backgroundColor = highlightColor;
-			return false;
-		}
-		element = null; // by setting this IE will not leak  
-	}
-};	
+    'table.test td' : function(element) {
+        element.onmouseover = function() {
+            this.style.backgroundColor = highlightColor;
+            return false;
+        }
+        element = null; // by setting this IE will not leak  
+    }
+};
 Behaviour.register(myrules);
 </verbatim>
 

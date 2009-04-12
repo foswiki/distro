@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.0" version="$Rev: 16686 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111931141" format="1.1" version="$Rev: 16686 $"}%
 ---+ The <nop>RegistrationAgent User
 
 This is a user used by Foswiki when it registers new users. This user has special access to write to [[%WIKIUSERSTOPIC%]], and does not need an entry in the password system.

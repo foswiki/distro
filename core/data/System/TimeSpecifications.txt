@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---++ Time Specifications
 Foswiki recognises the following formats for date/time strings. For all strings the time is optional.
    * 31 Dec 2001 - 23:59

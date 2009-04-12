@@ -181,8 +181,8 @@ Using either a template or a topic template, copy this definition in your custom
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
 #patternTopBarContentsOuter {
-	height:64px; /* top bar height; make room for header columns */
-	overflow:hidden;
+   height:64px; /* top bar height; make room for header columns */
+   overflow:hidden;
 }
 %TMPL:END%
 </verbatim>
@@ -250,7 +250,7 @@ and add:
 #patternClearHeaderLeft,
 #patternClearHeaderRight,
 #patternTopBarContentsOuter {
-	height:0px;
+   height:0px;
 }%TMPL:END%
 </verbatim></blockquote>
 

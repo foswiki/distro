@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1167346194" format="1.0" version="$Rev: 16686 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1167346194" format="1.1" version="$Rev: 16686 $"}%
 %SPLIT%
    * %KEY%: %VALUE%%SPLIT%
 

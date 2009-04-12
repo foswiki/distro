@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1107570894" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1107570894" format="1.1" version="$Rev$"}%
 %META:TOPICPARENT{name="TipsOfTheDay"}%
 ---+ Foswiki Skins 
 

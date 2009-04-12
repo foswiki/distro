@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ %MAKETEXT{"[_1] Recent Changes in [_2] Web" args="%URLPARAM{"limit" default="50"}%, <nop>%BASEWEB%"}% <span style="font-size: 50%">%MAKETEXT{"retrieved at [_1]" args="%DISPLAYTIME{"$hour:$min ($tz)"}%"}%</span>
 
 %SEARCH{"'1'" web="%BASEWEB%" type="query" nosearch="on" noheader="on" order="modified" limit="%URLPARAM{"limit" default="50"}%" reverse="on"}%

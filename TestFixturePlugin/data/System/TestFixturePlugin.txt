@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.0" version="$Rev: 14046 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.1" version="$Rev: 14046 $"}%
 
 ---+!! %TOPIC%
 
@@ -41,25 +41,25 @@ You specify your actual test markup in the same way:
 </verbatim>
 
 Some notes about the comparison process:
-	1 The comparison is performed by Algorithm::Diff, which compares the HTML structures found in the text. See the documentation on Algorithm::Diff for help.
-	* whitespace is effectively ignored.
-	* The comparison is _insensitive_ to the order of parameters to the tags, but _all_ parameters must be present.
-	* All HTML entities are _normalised_ to &amp;#dd; style decimal entities before comparison, so &amp;lt; will match &amp;#60;
+   1 The comparison is performed by Algorithm::Diff, which compares the HTML structures found in the text. See the documentation on Algorithm::Diff for help.
+   * whitespace is effectively ignored.
+   * The comparison is _insensitive_ to the order of parameters to the tags, but _all_ parameters must be present.
+   * All HTML entities are _normalised_ to &amp;#dd; style decimal entities before comparison, so &amp;lt; will match &amp;#60;
    1 The *actual* text is read from the raw source of the topic. No processing is done on it (except as described under =expand= and =rex=, above)
-	1 The comparison is done on the &lt;body&gt; of the topic only. At present there is no way to compare the &lt;head&gt;.
-	1 =expected= and =actual= blocks are matched up in the order they occur;
-	1 If an =actual= marker is left open in the text ( has no matching =/actual= ), all text up to the end of the topic will be taken as part of the test. This allows for testing markup at the end of topics.
-	1 If a =/actual= tag occurs before a =actual= tag, all text from the start of the topic up to that tag is taken as the =actual= text. This allows for testing markup at the start of topics.
-	1 =actual= and =expected= blocks can occur in any order, but there must be one =actual= for each =expected=.
+   1 The comparison is done on the &lt;body&gt; of the topic only. At present there is no way to compare the &lt;head&gt;.
+   1 =expected= and =actual= blocks are matched up in the order they occur;
+   1 If an =actual= marker is left open in the text ( has no matching =/actual= ), all text up to the end of the topic will be taken as part of the test. This allows for testing markup at the end of topics.
+   1 If a =/actual= tag occurs before a =actual= tag, all text from the start of the topic up to that tag is taken as the =actual= text. This allows for testing markup at the start of topics.
+   1 =actual= and =expected= blocks can occur in any order, but there must be one =actual= for each =expected=.
     1 If there are differences, the report will indicate which =actual= / =expected= pair the difference was found in. The pairs are numbered from the start of the topic (number 1).
 
 ---+ Settings
-	* Description:
+   * Description:
 *DO NOT CHANGE THIS TEXT* it is used in TestCases.TestCaseAutoFinalPrefs!
-		* Set SHORTDESCRIPTION = Support for automatic tests
+      * Set SHORTDESCRIPTION = Support for automatic tests
 
 ---+ Plugin Installation Instructions
-	* The plugin is installed automatically when the source tree is checked out of subversion. There is no other way to install it.
+   * The plugin is installed automatically when the source tree is checked out of subversion. There is no other way to install it.
 
 ---+ Plugin Info
 

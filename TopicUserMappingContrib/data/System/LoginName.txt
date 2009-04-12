@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1158277691" format="1.0" version="$Rev: 15569 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1158277691" format="1.1" version="$Rev: 15569 $"}%
 %META:TOPICPARENT{name="ChangePassword"}%
 ---+ The name you log in with
 

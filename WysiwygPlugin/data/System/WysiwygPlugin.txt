@@ -12,16 +12,16 @@ This plugin provides a generic framework that supports editing of topics using a
 %TOC%
 
 ---++ Features
-	* Supports the input of malformed HTML
-	* Full round-trip (TML -> XHTML -> TML)
-	* Framework is editor-agnostic
+   * Supports the input of malformed HTML
+   * Full round-trip (TML -> XHTML -> TML)
+   * Framework is editor-agnostic
 
 ---++ Details
 ---+++ What's in the package
 The package includes the following pieces:
-	* TML (topic markup language) to HTML translator
-	* HTML to TML translator (with stand-alone script)
-	* Generic plugin for automating the translation during editing
+   * TML (topic markup language) to HTML translator
+   * HTML to TML translator (with stand-alone script)
+   * Generic plugin for automating the translation during editing
 
 ---+++ How it works
 The plugin works by translating the topic text into HTML when someone edits a topic. The HTML is then fed to the WYSIWYG editor. On save, the edited HTML is run through the reverse translation before saving to the topic. TML is used in preference to HTML in the stored topic wherever possible, though HTML may be used if the translator can't find a suitable TML equivalent..
