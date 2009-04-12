@@ -89,8 +89,8 @@ Your local installation may add more template types as well - see [[#TemPlates][
 #TemPlates
 ---++ Customisation
 Customisation of the comment plugin requires
-	* familiarity with HTML forms
-	* some familiarity with the [[%SYSTEMWEB%.SkinTemplates][Skin Templates]].
+   * familiarity with HTML forms
+   * some familiarity with the [[%SYSTEMWEB%.SkinTemplates][Skin Templates]].
 
 To define a comment type, you have to provide two simple template definitions in the template file; one for the prompt box, and one for the generated output. If we have a template type "mytype", these are named =PROMPT:mytype= and =OUTPUT:mytype= respectively. See =comments.tmpl= in the templates directory for examples.
 
@@ -154,9 +154,9 @@ then the template will be expanded as
 
 ---++++ Special macros
 As well as support for all the usual macros in templates, the following special macros are supported in the =PROMPT= definition:
-	 | *Macro* | *Description* |
-	 | =%<nop>DISABLED%= | Set to 'disabled' when you cannot comment (e.g. in preview mode). |
-	 | =%<nop>MESSAGE%= | The text specified by =default=. This may be overridden by a helpful message when the prompt is DISABLED. |
+    | *Macro* | *Description* |
+    | =%<nop>DISABLED%= | Set to 'disabled' when you cannot comment (e.g. in preview mode). |
+    | =%<nop>MESSAGE%= | The text specified by =default=. This may be overridden by a helpful message when the prompt is DISABLED. |
 
 *EXPERT* Note that when a comment is saved, the =save= script is invoked on the target topic, with a number of parameters provided by the comment form. Normally the CommentPlugin will provide these fields in the form, but experts can also provide the fields themselves in order to get finer control over what is submitted, or you might want to define your own HTML forms that do comment submission. The parameters that the CommentPlugin recognises are as follows:
 | *CGI parameter* | *Description* |
@@ -205,19 +205,19 @@ The =OUTPUT= template defines the format for the text that actually gets embedde
 
 There are also four position tags that are used to indicate where the comment should be placed, relative to the =location= defined in the =%COMMENT= tag:
 
-	 | =%<nop>POS:TOP%= | If present, comments will be inserted *at the top of the topic* i.e. before any other text |
-	 | =%<nop>POS:BOTTOM%= | If present, comments will be inserted *at the end of the topic* i.e. after all existing text |
-	 | =%<nop>POS:BEFORE%= | If present, comments will be inserted <b>immediately before the =%<nop>COMMENT%= tag</b> |
-	 | =%<nop>POS:AFTER%= | If present, comments will be inserted <b>immediately after the =%<nop>COMMENT%= tag</b> |
+    | =%<nop>POS:TOP%= | If present, comments will be inserted *at the top of the topic* i.e. before any other text |
+    | =%<nop>POS:BOTTOM%= | If present, comments will be inserted *at the end of the topic* i.e. after all existing text |
+    | =%<nop>POS:BEFORE%= | If present, comments will be inserted <b>immediately before the =%<nop>COMMENT%= tag</b> |
+    | =%<nop>POS:AFTER%= | If present, comments will be inserted <b>immediately after the =%<nop>COMMENT%= tag</b> |
 Note that these position tags are obviously mutually exclusive. If you define more than one, the result is undefined. If none is present, the default is taken from the plugin setting =DEFAULT_TYPE=
 
-	 | =%<nop>COMMENTPROMPT%= | Use with a custom form. If present, the comment prompt will be positioned here. |
-	 
+    | =%<nop>COMMENTPROMPT%= | Use with a custom form. If present, the comment prompt will be positioned here. |
+    
 All the [[TemplateTopics#TemplateTopicsVars][usual macros]] that can be used in a topic template can also be used in an =OUTPUT= template.
 
 ---++ Settings
 <!-- Not used by the plugin
-	* Set SHORTDESCRIPTION = Quickly post comments to a page without an edit/preview/save cycle.
+   * Set SHORTDESCRIPTION = Quickly post comments to a page without an edit/preview/save cycle.
 -->
 Two [[%SYSTEMWEB%.PreferenceSettings][preference settings]] are recognised by the CommentPlugin:
 | *Preference* | *Default* | *Description* |
@@ -227,15 +227,15 @@ These can be set in !%USERSWEB%.SitePreferences, in !WebPreferences, or in indiv
 
 #Installation
 ---++ Plugin Installation Instructions
-	* This plugin is pre-installed in most releases. However if you need to upgrade the plugin for any reason:
-	* Download the archive file from the Extensions web (see below)
-	* Unpack the archive in your Foswiki installation directory.
-		* You may need to correct file permissions
-	* Run ==%TOPIC%_installer== to automatically check and install other modules that this module depends on, and enable the plugin.
-	* Alternatively,
-		* Manually resolve the dependencies listed below.
-		%$DEPENDENCIES%
-	* Use =configure= to enable the plugin
+   * This plugin is pre-installed in most releases. However if you need to upgrade the plugin for any reason:
+   * Download the archive file from the Extensions web (see below)
+   * Unpack the archive in your Foswiki installation directory.
+      * You may need to correct file permissions
+   * Run ==%TOPIC%_installer== to automatically check and install other modules that this module depends on, and enable the plugin.
+   * Alternatively,
+      * Manually resolve the dependencies listed below.
+      %$DEPENDENCIES%
+   * Use =configure= to enable the plugin
 
 Note that if you want to use the =action= template then you must also:
    1 Install the Foswiki:Extensions/ActionTrackerPlugin;

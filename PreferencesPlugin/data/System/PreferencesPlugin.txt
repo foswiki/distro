@@ -11,23 +11,23 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 
 ---++ Syntax Rules
 
-	* =%<nop>EDITPREFERENCES{ "topic" }%=
-		* _topic_ references a [[%SYSTEMWEB%.DataForms][DataForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
-		* If a [[%SYSTEMWEB%.PreferenceSettings][preference setting]] is not mentioned in the form referenced by _topic_, a text input box of the specified length is provided.
-		* Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %SYSTEMWEB%.DataForms.
+   * =%<nop>EDITPREFERENCES{ "topic" }%=
+      * _topic_ references a [[%SYSTEMWEB%.DataForms][DataForm]] defining the format of the edit fields for preferences. It may be prefixed by a web.
+      * If a [[%SYSTEMWEB%.PreferenceSettings][preference setting]] is not mentioned in the form referenced by _topic_, a text input box of the specified length is provided.
+      * Otherwise, the input can be through textareas, select, radio, checkbox, date, or text, as provided by %SYSTEMWEB%.DataForms.
    * =%<nop>EDITPREFERENCES%=
       * Edit existing preferences in the topic using a simple text field.
 ---++ Examples
-	* =%<nop>EDITPREFERENCES%= 
-	* =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.DefaultPreferencesForm" }%= 
+   * =%<nop>EDITPREFERENCES%= 
+   * =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.DefaultPreferencesForm" }%= 
 
 ---++ Plugin Settings
-	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
-		* Set SHORTDESCRIPTION = Allows editing of preferences using fields predefined in a form
+   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+      * Set SHORTDESCRIPTION = Allows editing of preferences using fields predefined in a form
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
-	* If the installation was successful, an edit button should appear below:
+   * If the installation was successful, an edit button should appear below:
 %EDITPREFERENCES%
 
 ---++ Plugin Info

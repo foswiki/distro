@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %STARTINCLUDE%
    * <span style='background : %VAR{"WEBBGCOLOR" web="%BASEWEB%"}%'>You are currently in the <nop>%BASEWEB% web. The color code for this web is this background, so you know where you are.</span>
    * If you are not familiar with the <nop>%WIKITOOLNAME% collaboration platform, please visit %SYSTEMWEB%.WelcomeGuest first.

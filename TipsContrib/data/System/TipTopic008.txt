@@ -9,7 +9,7 @@ For Example:
 <pre>
 &lt;verbatim&gt;
 | *Header1* | *Header1* |
-| Data1	  | Data2	  |
+| Data1     | Data2     |
 &lt;/verbatim&gt;
 </pre>
 

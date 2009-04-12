@@ -6,36 +6,36 @@ Displays a rotating "Tip of the Day" to help familiarize new users with Foswiki 
 %TOC%
 
 ---++ Summary of Contents
-	* Set on =TipTopic= topics providing brief lessons on Foswiki features. See %SYSTEMWEB%.TipsTopics.
-	* Set of topics for creating and managing =TipTopicXXX= topics. See %SYSTEMWEB%.TipsOfTheDayAdmin.
+   * Set on =TipTopic= topics providing brief lessons on Foswiki features. See %SYSTEMWEB%.TipsTopics.
+   * Set of topics for creating and managing =TipTopicXXX= topics. See %SYSTEMWEB%.TipsOfTheDayAdmin.
 
 ---++ Detailed Documentation
-	* See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
-	* See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
+   * See %SYSTEMWEB%.TipsOfTheDayAdmin for instructions on managing and displaying tips.
+   * See %SYSTEMWEB%.TipsOfTheDayAddNew for instructions for adding new custom tips.
 
 ---++ Settings
 
 This extension requires no settings.  See %SYSTEMWEB%.TipsOfTheDayAdmin for administration details.
 
-	* One line description:
-	* Set SHORTDESCRIPTION = Displays rotating list of "Tip-of-the-day"
+   * One line description:
+   * Set SHORTDESCRIPTION = Displays rotating list of "Tip-of-the-day"
 
 ---++ CSS used by !TipsContrib
 
-	* .tipsOfTheDay - overall container
-	* .tipsOfTheDayContents - container for tipsOfTheDayHeader and tipsOfTheDayText
-	* strong.tipsOfTheDayHeader - header that says "Tip of the Day"
-	* .tipsOfTheDayText - the tip; contains title and tip summary and link "Read on"
-	* .tipsOfTheDayTitle - title of the tip; the link to the tip topic
+   * .tipsOfTheDay - overall container
+   * .tipsOfTheDayContents - container for tipsOfTheDayHeader and tipsOfTheDayText
+   * strong.tipsOfTheDayHeader - header that says "Tip of the Day"
+   * .tipsOfTheDayText - the tip; contains title and tip summary and link "Read on"
+   * .tipsOfTheDayTitle - title of the tip; the link to the tip topic
 
 ---++ Installation Instructions
 
 *Note:* You do not need to install anything on the browser to use this contrib package. The following instructions are for the administrator who installs the package on the server where Foswiki is running.
 
-	* Download the ZIP file from the Plugin web (see below)
-	* Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-	  | *File:* | *Description:* |
-	  %$MANIFEST%
+   * Download the ZIP file from the Plugin web (see below)
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
+     | *File:* | *Description:* |
+     %$MANIFEST%
 
 ---++ Contrib Info
 

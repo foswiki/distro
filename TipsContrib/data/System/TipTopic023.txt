@@ -3,14 +3,14 @@
 ---+ Control table attributes with !TablePlugin
 
 The TablePlugin gives extra control of table display:
-	* Allows sorting
-	* Changing table properties like border width, cell spacing and cell padding
-	* Changing background color and text color for header cells
-	* Changing background color and text color for data cells - colors can _alternate_
-	* Table attributes can be set and overridden in this order:
-		* Default =TABLEATTRIBUTES= Plugin setting in this topic
-		* A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences), web-level (any WebPreferences), or topic level. For example:
-			* =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
+   * Allows sorting
+   * Changing table properties like border width, cell spacing and cell padding
+   * Changing background color and text color for header cells
+   * Changing background color and text color for data cells - colors can _alternate_
+   * Table attributes can be set and overridden in this order:
+      * Default =TABLEATTRIBUTES= Plugin setting in this topic
+      * A =TABLEATTRIBUTES= preferences setting on site-level (%USERSWEB%.SitePreferences), web-level (any WebPreferences), or topic level. For example:
+         * =Set TABLEATTRIBUTES = tableborder="0" cellpadding="1" ...=
 
 To change table characteristics place =%<nop>TABLE{...}%= before the table.
 

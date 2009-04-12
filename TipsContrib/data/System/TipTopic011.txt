@@ -5,8 +5,8 @@
 To include the contents of a web page or Foswiki topic, use =%<nop>INCLUDE{"page"}%=.
 
 Examples:
-	* =%<nop>INCLUDE{"http://www.google.com/"}%=
-	* =%<nop>INCLUDE{"%SYSTEMWEB%.WebHome"}%=
-	* =%<nop>INCLUDE{"WebHome"}%=
+   * =%<nop>INCLUDE{"http://www.google.com/"}%=
+   * =%<nop>INCLUDE{"%SYSTEMWEB%.WebHome"}%=
+   * =%<nop>INCLUDE{"WebHome"}%=
 
 [[TipsOfTheDay][See More Tips...]]

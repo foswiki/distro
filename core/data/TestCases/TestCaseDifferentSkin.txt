@@ -19,7 +19,7 @@ NB. Tested by visual inspection only.
 %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=print
 
 ---++ Print current skin
-	* Is there a better way to invoke the printable view of pattern?
+   * Is there a better way to invoke the printable view of pattern?
 %SCRIPTURL{"view"}%/%WEB%/%TOPIC%?skin=print.%SKIN%
 
 ---++ Traditional

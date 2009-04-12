@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 %TWISTY{showlink="&#9658; %MAKETEXT{"Notification help"}%" hidelink="&#9660; %MAKETEXT{"Notification help"}%" linkclass="foswikiButton" remember="on"}%
 <div class="foswikiHelp" style="padding-top:0;">
 ---+++ Web Changes Notification Service

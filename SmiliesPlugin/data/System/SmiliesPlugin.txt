@@ -40,29 +40,29 @@ Here is the list of smilies supported by this plugin. To add others, attach new 
 Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
 a plugin setting of this plugin write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>SMILIESPLUGIN_TOPIC%==
 
-	* One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
-	* Set SHORTDESCRIPTION = Render smilies as icons, like :-) for =&nbsp;:-)= or :eek: for =&nbsp;:eek:=
+   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+   * Set SHORTDESCRIPTION = Render smilies as icons, like :-) for =&nbsp;:-)= or :eek: for =&nbsp;:eek:=
 
-	* The name of the topic containig your Smilies. Use format =web.topic=. Default: ==%SYSTEMWEB%.SmiliesPlugin==
-	* #Set TOPIC = %SYSTEMWEB%.SmiliesPlugin
+   * The name of the topic containig your Smilies. Use format =web.topic=. Default: ==%SYSTEMWEB%.SmiliesPlugin==
+   * #Set TOPIC = %SYSTEMWEB%.SmiliesPlugin
 
-	* The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). Default: ==&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;==
+   * The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). Default: ==&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;==
 <verbatim>
-	* #Set FORMAT = <img src="$url" alt="$emoticon" title="$emoticon" border="0" />
+   * #Set FORMAT = <img src="$url" alt="$emoticon" title="$emoticon" border="0" />
 </verbatim>
 
 ---++ Plugin Installation Instructions
 This plugin is installed by default with a Foswiki release. You should not need to install the plugin unless it is for an upgrade.
-	* Download the ZIP file from the Plugin web (see below)
-	* Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
+   * Download the ZIP file from the Plugin web (see below)
+   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
      | *File:* | *Description:* |
      | ==data/System/%TOPIC%.txt== | Plugin topic |
      | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
      | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
      | ==pub/System/%TOPIC%/*.gif== | Plugin icon files |
-	* Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
-	* Test if the plugin is correctly installed:
-	* You will see a series of icons on next line: <br />
+   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
+   * Test if the plugin is correctly installed:
+   * You will see a series of icons on next line: <br />
         :-) :) :cool: :( :o :D ;) :p :rolleyes: :mad: :eek: :confused: >:-) >;-) :-X :ok: :yes: :no: :love: :skull:
 
 ---++ Plugin Info

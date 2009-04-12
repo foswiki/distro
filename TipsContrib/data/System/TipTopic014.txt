@@ -5,11 +5,11 @@
 One can attach files to any topic. The action of attaching a file to a topic is similar to attaching a file to an e-mail. The link to attach a file is located at the end of the topic. 
 
 Features:
-	* Browse file to upload
-	* "Link" checkbox - to inline images
-	* "Hide file" checkbox
-	* Version control
-	* "manage" link to see older revisions and to change properties
+   * Browse file to upload
+   * "Link" checkbox - to inline images
+   * "Hide file" checkbox
+   * Version control
+   * "manage" link to see older revisions and to change properties
 
 [[FileAttachment][More Information...]]
 

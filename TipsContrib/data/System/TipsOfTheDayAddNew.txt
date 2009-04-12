@@ -10,7 +10,7 @@ Custom tips are located in the %MAINWEB% web. You can add custom tips that are s
 
 <form name="newlocal" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%MAINWEB%/">
 <!--
-| Last topic:	  | %CALC{$SET(ctopic, %SEARCH{ "CustomTipTopic[0-9]" scope="topic" web="%MAINWEB%" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ctopic)}% |
+| Last topic:     | %CALC{$SET(ctopic, %SEARCH{ "CustomTipTopic[0-9]" scope="topic" web="%MAINWEB%" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ctopic)}% |
 | Next available: | %CALC{$SET(cnext, $INT($VALUE($GET(ctopic)) + 1))$GET(cnext)}% |
 | Zero pad to 3:  | %CALC{$SET(cnext, $REPLACE(0000$GET(cnext),1,$INT(1 + $LENGTH($GET(cnext)))))$GET(cnext)}% |
 | New topic name: | %CALC{$SET(ctopic, CustomTipTopic$GET(cnext))$GET(ctopic)}% |
@@ -26,7 +26,7 @@ New Custom Tip: <nop>%CALC{$GET(ctopic)}% <input type="submit" value="Create" />
 Official tips are located in the %SYSTEMWEB% web. Please do not submit new tips on your local installation since they will get lost on a upgrade. Contribute to the Tips Contrib to add new official tips.
 <form name="new" action="%SCRIPTURLPATH%/edit%SCRIPTSUFFIX%/%WEB%/">
 <!--
-| Last topic:	  | %CALC{$SET(ttopic, %SEARCH{ "TipTopic[0-9]" scope="topic" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ttopic)}% |
+| Last topic:     | %CALC{$SET(ttopic, %SEARCH{ "TipTopic[0-9]" scope="topic" type="regex" nosearch="on" nototal="on" reverse="on" limit="1" format="$topic" }%)$GET(ttopic)}% |
 | Next available: | %CALC{$SET(tnext, $INT($VALUE($GET(ttopic)) + 1))$GET(tnext)}% |
 | Zero pad to 3:  | %CALC{$SET(tnext, $REPLACE(0000$GET(tnext),1,$INT(1 + $LENGTH($GET(tnext)))))$GET(tnext)}% |
 | New topic name: | %CALC{$SET(ttopic, TipTopic$GET(tnext))$GET(ttopic)}% |

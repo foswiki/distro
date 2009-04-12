@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+!! 20 Minute Tutorial
 
 _This step-by-step, hands-on tutorial gets you up to speed with all the Foswiki basics..._

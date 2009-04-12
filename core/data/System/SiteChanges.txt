@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.0" version="$Rev$"}%
+%META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
 ---+ Recently Changed Topics in %URLPARAM{"web" default="all"}% Webs
 <style>
 #changesForm .foswikiFormStep {padding:.5em 0; border-width:0;}
@@ -93,11 +93,11 @@ if (now) {
   updateLastTimeCheckedOption(now);
 }
 function updateLastTimeCheckedOption (inDate) {
-	var el = document.getElementById('last_time_checked');
-	if (el) {
-		el.value=inDate;
+    var el = document.getElementById('last_time_checked');
+    if (el) {
+        el.value=inDate;
         el.text = "last time I checked";
-	}
+    }
 }
 function setOptionSelected (inId) {
   if (DEBUG) alert("setOptionSelected:inId=" + inId);

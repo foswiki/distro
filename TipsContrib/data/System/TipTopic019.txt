@@ -11,8 +11,8 @@ Example comment within a sentence:
 Example spanning multiple lines:
 <verbatim>
 <!--
-	* Useful to hide settings:
-		* Set EXAMPLE = This is hidden
+   * Useful to hide settings:
+      * Set EXAMPLE = This is hidden
 -->
 </verbatim>
 
