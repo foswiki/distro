@@ -24,114 +24,30 @@ each request.
 
 ---++ Installation Instructions
 
-The following instructions assumes foswiki's root directory to be
-=/var/www/foswiki=.  Adjust it according to your local installation.
+Install [[Foswiki:Extensions/ModPerlEngineContrib][ModPerlEngineContrib]]
+either manually (download the package and extract its contents over your
+foswiki directory) or using [[%SCRIPTURL{"configure"}%][configure]] script
+(under =Extensions= section, push the =Find More Extensions= button).
 
-%X% %RED% run =configure= script *before* enabling this contrib or else Apache
-will not start, reporting an error about missing lib/LocalSite.cfg %ENDCOLOR%
+Visit the [[Foswiki:Support/ApacheConfigGenerator][apache config generator]]
+and fill the fields according to your environment. Select __mod_perl__ as your
+__Runtime Engine__ and choose your apache version. Push the ==Update config file== 
+button and you'll get your config file.
 
-%X% =configure= script should be configured as showed bellow, plus the hints at
-Foswiki:Support/ProtectingYourConfiguration
-
----+++ Apache 2.x / mod_perl 2.x
-
-<verbatim>
-PerlSwitches -wT
-PerlRequire /var/www/foswiki/tools/mod_perl_startup.pl
-
-Alias /foswiki/pub /var/www/foswiki/pub
-Alias /foswiki/bin /var/www/foswiki/bin
-
-<Directory "/var/www/foswiki/bin">
-    Options +ExecCGI
-    SetHandler perl-script
-    PerlResponseHandler Foswiki::Engine::Apache
-    <Files "configure">
-        SetHandler cgi-script
-    </Files>
-</Directory>
-</verbatim>
-
----+++ Apache 1.3 / mod_perl 1.x
-
-<verbatim>
-PerlTaintCheck On
-PerlWarn On
-PerlRequire /var/www/foswiki/tools/mod_perl_startup.pl
-
-Alias /foswiki/pub /var/www/foswiki/pub
-Alias /foswiki/bin /var/www/foswiki/bin
-
-<Directory "/var/www/foswiki/bin">
-    Options +ExecCGI
-    SetHandler perl-script
-    PerlHandler Foswiki::Engine::Apache
-    <Files "configure">
-        SetHandler cgi-script
-    </Files>
-</Directory>
-</verbatim>
+%X% %RED% When installed for the first time, foswiki *must* be configured. Run
+[[%SCRIPTURL{"configure"}%][configure]] script *before* enabling this contrib
+or else Apache will not start, reporting an error about missing
+lib/LocalSite.cfg %ENDCOLOR%
 
 ---+++ Foswiki configuration tunning
 
-Fork new processes under =mod_perl= can be very slow, so some configuration changes are recommended.
+Fork new processes under =mod_perl= can be very slow, so some configuration
+changes are recommended.
 
-Access the =configure= script and click the =Yes, I've read all the documentation= button.
+Access the [[%SCRIPTURL{"configure"}%][configure]] script and click the =Yes, I've read all the documentation= button.
 Go to =Store Settings=:
    * ={StoreImpl}=: adjust to =RcsLite=
    * ={RCS}{SearchAlgorithm}=: use =Foswiki::Store::SearchAlgorithms::PurePerl= or Foswiki:Extensions/NativeSearchContrib
-
----+++ Apache Authentication
-
-If you're using =Foswiki::LoginManager::ApacheLogin= you'll need an extra
-subsection in =Directory= configuration:
-
-<verbatim>
-<Directory "/var/www/foswiki/bin">
-    # (...)
-    <FilesMatch "(attach|edit|manage|rename|save|upload|.*auth|rest|login|logon).*">
-        AuthType Basic
-        AuthName 'Enter your WikiName: (First name and last name, no space, no
-dots, capitalized, e.g. JohnSmith). Cancel to register if you do not have one.'
-        
-        AuthUserFile "/var/www/foswiki/data/.htpasswd"
-        Require valid-user
-    </FilesMatch>
-</Directory>
-</verbatim>
-
----+++ Shorter URLs
-
-In order to use [[Foswiki:Support/ShorterUrlCookbook][shorter URLs]] take a
-look at the following examples.
-
----++++ Dedicated web server
-
-If your web server (or =VirtualHost=) only serves Foswiki:
-
-<verbatim>
-    Alias /pub  /var/www/foswiki/pub
-    Alias /bin  /var/www/foswiki/bin
-    Alias /     /var/www/foswiki/bin/view/
-
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} ^/+bin/+view/+   [NC]
-    RewriteRule ^/+bin/+view/+(.*)  /$1         [L,R]
-</verbatim>
-
----++++ Non-dedicated web server
-
-If Foswiki is accessed through a path (assuming =/wiki/=):
-
-<verbatim>
-    Alias /wiki/pub  /var/www/foswiki/pub
-    Alias /wiki/bin  /var/www/foswiki/bin
-    Alias /wiki      /var/www/foswiki/bin/view
-
-    RewriteEngine On
-    RewriteCond %{REQUEST_URI} ^/+wiki/+bin/+view/+   [NC]
-    RewriteRule ^/+wiki/+bin/+view/+(.*)  /wiki/$1         [L,R]
-</verbatim>
 
 ---++ Known Issues
 
@@ -144,14 +60,20 @@ If Foswiki is accessed through a path (assuming =/wiki/=):
    [[http://httpd.apache.org/docs/2.2/mod/core.html#filesmatch][FilesMatch]] 
    and list all the exceptions.
 
+---++ List of Files
+
+   | *File* | *Description* |
+%$MANIFEST%
+
 ---++ Info
 
 |  Author(s): | Foswiki:Main.GilmarSantosJr |
 |  Copyright: | &copy; 2009 Gilmar Santos Jr and Foswiki Contributors |
 |  License: | [[http://www.gnu.org/licenses/gpl.html][GPL (Gnu General Public License)]] |
-|  Version: | %$VERSION% |
+|  Version: | %$RELEASE% (12 Apr 2009) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
-|  12 Jan 2009 | Initial Release |
+|  12 Apr 2009 (0.9.1) | Improved documentation |
+|  12 Jan 2009 (0.9.0) | Initial Release |
 |  Dependencies: | %$DEPENDENCIES% |
 |  Home page: | http://foswiki.org/Extensions/ModPerlEngineContrib |
 
