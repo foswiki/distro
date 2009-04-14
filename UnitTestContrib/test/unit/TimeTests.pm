@@ -105,8 +105,8 @@ sub test_parseTimeLocal {
 sub test_generateIsoOffset {
     my $this = shift;
 
-    # South Australia has a half-hour TZ difference; handy
-    $ENV{TZ} = 'Asia/Katmandu';    # GMT+09.30
+    # Nepal has a wierd TZ difference; handy
+    $ENV{TZ} = 'Asia/Katmandu';    # GMT+05:45
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
     my $tt = Foswiki::Time::parseTime('2009-02-07T10:22+05:45');
