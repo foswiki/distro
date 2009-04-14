@@ -13,27 +13,26 @@ use strict;
 use Assert;
 use Error qw(:try);
 
-require Foswiki::Time;
+use Foswiki::Time ();
 
 # Used to generate unique placeholders for when we lift blocks out of the
 # text during rendering.
-use vars qw( $placeholderMarker );
-$placeholderMarker = 0;
+our $placeholderMarker = 0;
 
 # Used to generate unique anchors
-my %anchornames = ();
+our %anchornames = ();
 
 # limiting lookbehind and lookahead for wikiwords and emphasis
 # use like \b
 #SMELL: they really limit the number of places emphasis can happen.
-my $STARTWW = qr/^|(?<=[\s\(])/m;
-my $ENDWW   = qr/$|(?=[\s,.;:!?)])/m;
+our $STARTWW = qr/^|(?<=[\s\(])/m;
+our $ENDWW   = qr/$|(?=[\s,.;:!?)])/m;
 
 # marker used to tage the start of a table
-my $TABLEMARKER = "\0\1\2TABLE\2\1\0";
+our $TABLEMARKER = "\0\1\2TABLE\2\1\0";
 
 # Marker used to indicate table rows that are valid header/footer rows
-my $TRMARK = "is\1all\1th";
+our $TRMARK = "is\1all\1th";
 
 BEGIN {
 
@@ -399,8 +398,8 @@ sub _makeAnchorHeading {
     # - filter out $Foswiki::regex{headerPatternNoTOC} ( '!!' and '%NOTOC%' )
     my $anchorName = $this->_makeUniqueAnchorName( $topicObject, $text, 0 );
 
-    #  if the generated uniqe anchor name is 'compatible', it won't change:
-    my $compatAnchorName = $this->_makeAnchorName( $anchorName, 1 );
+    #  if the generated unique anchor name is 'compatible', it won't change:
+    my $compatAnchorName = $this->_makeAnchorName( $text, 1 );
 
     # filter '!!', '%NOTOC%'
     $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
