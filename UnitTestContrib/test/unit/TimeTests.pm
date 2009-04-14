@@ -106,16 +106,19 @@ sub test_generateIsoOffset {
     my $this = shift;
 
     # South Australia has a half-hour TZ difference; handy
-    $ENV{TZ} = 'Australia/South';    # +10.30
+    $ENV{TZ} = 'Asia/Katmandu';    # GMT+09.30
     POSIX::tzset();
     undef $Foswiki::Time::TZSTRING;
-    my $tt = Foswiki::Time::parseTime('2009-02-07T10:22+10:30');
-
+    my $tt = Foswiki::Time::parseTime('2009-02-07T10:22+05:45');
+    # Should be 04:37 GMT
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = gmtime($tt);
+    $this->assert_equals(4, $hour);
+    $this->assert_equals(37, $min);
     # Generate server time string
-    $this->assert_str_equals( '2009-02-07T10:22:00+10:30',
+    $this->assert_str_equals( '2009-02-07T10:22:00+05:45',
         Foswiki::Time::formatTime( $tt, 'iso', 'servertime' ) );
-    $tt = Foswiki::Time::parseTime('2009-02-07T10:22Z');
-    $this->assert_str_equals( '2009-02-07T20:52:00+10:30',
+    $tt = Foswiki::Time::parseTime('2009-02-07T00:00Z');
+    $this->assert_str_equals( '2009-02-07T05:45:00+05:45',
         Foswiki::Time::formatTime( $tt, 'iso', 'servertime' ) );
 }
 
