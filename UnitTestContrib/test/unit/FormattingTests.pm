@@ -564,24 +564,13 @@ EXPECTED
 sub test_USInHeader {
     my $this     = shift;
 
-    # Force a site charset that will generate _ in the header
-    $Foswiki::cfg{Site}{CharSet} = 'iso-8859-1';
-
     my $expected = <<EXPECTED;
-<nop><h3><a name="Test_with_link_in_header_Undersc"></a>Test with link in header: Underscore_topic</h3>
+<nop><h3><a name="Test_with_link_in_header_Unders"></a>Test with link in header: Underscore_topic</h3>
 EXPECTED
 
     my $actual = <<ACTUAL;
 ---+++ Test with link in header: Underscore_topic
 ACTUAL
-    $this->do_test( $expected, $actual );
-
-    # Repeat with a charset that should generate encoded chars
-    $Foswiki::cfg{Site}{CharSet} = 'utf-8';
-    $expected = <<EXPECTED;
-<nop><h3><a name="Test%20with%20link%20in%20header:%20Unders"></a>Test with link in header: Underscore_topic</h3>
-EXPECTED
-
     $this->do_test( $expected, $actual );
 }
 
