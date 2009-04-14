@@ -143,9 +143,8 @@ sub test_CreateSimpleMetaTopic {
     # Clear out stuff that blocks assert_deep_equals
     $meta->remove('TOPICINFO');
     $readMeta->remove('TOPICINFO');
-    $meta->{_session}   = $readMeta->{_session}   = undef;
-    $meta->{_loadedRev} = $readMeta->{_loadedRev} = undef;
-
+    $meta->{_preferences} = $meta->{_session}   = $readMeta->{_session}   = undef;
+    $meta->{_preferences} = $meta->{_loadedRev} = $readMeta->{_loadedRev} = undef;
     $this->assert_deep_equals( $meta, $readMeta );
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
     $webObject->removeFromStore();
@@ -397,7 +396,7 @@ sub beforeAttachmentSaveHandler {
     die "comment $attrHash->{comment}"
       unless $attrHash->{comment} eq "a comment";
 
-    open( F, "<" . $attrHash->{tmpFilename} )
+    open( F, '<', $attrHash->{tmpFilename} )
       || die "$attrHash->{tmpFilename}: $!";
     local $/ = undef;
     my $text = <F>;
@@ -405,7 +404,7 @@ sub beforeAttachmentSaveHandler {
 
     $text =~ s/two/four/;
 
-    open( F, ">" . $attrHash->{tmpFilename} )
+    open( F, '>', $attrHash->{tmpFilename} )
       || die "$attrHash->{tmpFilename}: $!";
     print F $text;
     close(F) || die "$attrHash->{tmpFilename}: $!";
@@ -455,7 +454,9 @@ sub test_attachmentSaveHandlers {
 
     $this->assert( $meta->hasAttachment("testfile.gif") );
 
-    my $text = $meta->readAttachment("testfile.gif");
+    my $fh = $meta->openAttachment("testfile.gif", '<');
+    my $text = <$fh>;
+    close($fh);
     $this->assert_str_equals( "one four three", $text );
 
     my $webObject = Foswiki::Meta->new( $this->{session}, $web );
