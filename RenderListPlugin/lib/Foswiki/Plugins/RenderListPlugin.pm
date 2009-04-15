@@ -22,13 +22,25 @@ package Foswiki::Plugins::RenderListPlugin;    # change the package name and $pl
 
 # =========================
 use vars qw(
-        $web $topic $user $installWeb $VERSION $RELEASE $pluginName
-        $debug $pubUrl $attachUrl
+        $web $topic $user $installWeb
+        $pubUrl $attachUrl
     );
 
-$VERSION = '$Rev: 16234 $';
-$RELEASE = '2.1';
-$pluginName = 'RenderListPlugin';  # Name of this Plugin
+our $VERSION = '$Rev: 16234 $';
+our $RELEASE = '2.1';
+our $pluginName = 'RenderListPlugin';  # Name of this Plugin
+our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION = 'Render bullet lists in a variety of formats';
+
+our %defaultThemes = (
+    THREAD => 'tree, 1',
+    HOME   => 'icon, 1, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif',
+    ORG    => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif',
+    GROUP  => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/group.gif',
+    EMAIL  => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/email.gif',
+    TREND  => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/trend.gif',
+    FILE   => 'icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/file.gif',
+);
 
 # =========================
 sub initPlugin
@@ -41,15 +53,11 @@ sub initPlugin
         return 0;
     }
 
-    # Get plugin debug flag
-    $debug = Foswiki::Func::getPreferencesFlag( "\U$pluginName\E_DEBUG" );
-
     # one time initialization
     $pubUrl = Foswiki::Func::getUrlHost() . Foswiki::Func::getPubUrlPath();
     $attachUrl = "$pubUrl/$installWeb/$pluginName";
 
     # Plugin correctly initialized
-    Foswiki::Func::writeDebug( "- Foswiki::Plugins::${pluginName}::initPlugin( $web.$topic ) is OK" ) if $debug;
     return 1;
 }
 
@@ -57,8 +65,6 @@ sub initPlugin
 sub startRenderingHandler
 {
 ### my ( $text, $web ) = @_;   # do not uncomment, use $_[0], $_[1] instead
-
-    Foswiki::Func::writeDebug( "- ${pluginName}::startRenderingHandler( $_[1] )" ) if $debug;
 
     # This handler is called by getRenderedVersion just before the line loop
 
@@ -85,8 +91,14 @@ sub handleRenderList
     my $depth = &Foswiki::Func::extractNameValuePair( $theAttr, "depth" );
     my $theme = &Foswiki::Func::extractNameValuePair( $theAttr, "theme" ) ||
                 &Foswiki::Func::extractNameValuePair( $theAttr );
-    $theme = "RENDERLISTPLUGIN_" . uc( $theme ) . "_THEME";
-    $theme = &Foswiki::Func::getPreferencesValue( $theme ) || "unrecognized theme type";
+    $theme = uc($theme || '');
+    if (defined $defaultThemes{$theme}) {
+        $theme = $defaultThemes{$theme};
+    } else {
+        $theme = "RENDERLISTPLUGIN_${theme}_THEME";
+        $theme = &Foswiki::Func::getPreferencesValue( $theme )
+          || "unrecognized theme type";
+    }
     my ( $type, $params ) = split( /, */, $theme, 2 );
     $type = lc( $type );
 

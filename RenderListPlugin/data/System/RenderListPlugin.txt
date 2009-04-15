@@ -1,7 +1,10 @@
 %META:TOPICINFO{author="ProjectContributor" date="1191140874" format="1.1" version="$Rev: 14713 $"}%
 ---+ Render List Plugin
 
-Render bullet lists in a variety of formats
+<!--
+   * Set SHORTDESCRIPTION = Render bullet lists in a variety of formats
+-->
+%SHORTDESCRIPTION%
 
 ---++ Syntax Rules
 
@@ -319,46 +322,28 @@ Render bullet lists in a variety of formats
 
 </td></tr></table>
 
----++ <nop>%TOPIC% Settings
-
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>RENDERPLUGIN_SHORTDESCRIPTION%==
-
-   * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
-      * Set SHORTDESCRIPTION = Render bullet lists in a variety of formats
-
-   * Debug plugin: (See output in =data/debug.txt=)
-      * Set DEBUG = 0
-
-   * Themes are named =&lt;SOMETHING&gt;_THEME= and contain a comma delimited list of render type with parameters:
-      * Set THREAD_THEME = tree, 1
-      * Set HOME_THEME = icon, 1, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif
-      * Set ORG_THEME = icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif
-      * Set GROUP_THEME = icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/group.gif
-      * Set EMAIL_THEME = icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/email.gif
-      * Set TREND_THEME = icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/trend.gif
-      * Set FILE_THEME = icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/file.gif
+---++ Themes
+Themes are defined by setting a [[%SYSTEMWEB%.PreferenceSettings][preference]] called =RENDERLISTPLUGIN_&lt;SOMETHING&gt;_THEME= (for example, =RENDERLISTPLUGIN_THREAD_THEME= ) and contain a comma-delimited list of render type and parameters. The default themes are:
+| *Theme* | *Render type* |
+| THREAD | tree, 1 |
+| HOME | icon, 1, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif |
+| ORG | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/home.gif |
+| GROUP | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/group.gif |
+| EMAIL | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/email.gif |
+| TREND | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/trend.gif |
+| FILE | icon, 0, 16, 16, %ATTACHURL%/empty.gif, %ATTACHURL%/dot_udr.gif, %ATTACHURL%/dot_ud.gif, %ATTACHURL%/dot_ur.gif, %ATTACHURL%/file.gif |
 
 ---++ Plugin Installation Instructions
-
-*Note:* You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the Foswiki server.
-
-   * Download the ZIP file from the Plugin Home (see below)
-   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-     | *File:* | *Description:* |
-     | ==data/System/%TOPIC%.txt== | Plugin topic |
-     | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
-     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==pub/System/%TOPIC%/*.gif== | Image files for themes |
-   * Run the [[%SCRIPTURL%/configure%SCRIPTSUFFIX%][configure]] script to enable the Plugin
+%$INSTALL_INSTRUCTIONS%
    * Test if the installation was successful: See if above examples work
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki
-Contributors; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2006-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors; 2008 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 16 Dec 2008 (2.1) |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  15 Apr 2009: | 2.2: Crawford Currie. Moved default themes out of plugin topic for efficiency. |
 |  16 Dec 2008: | 2.1: Kenneth Lavrsen. Foswiki version |
 |  15 Jan 2008: | 2.0: Kenneth Lavrsen. No more reporting warnings in the error log when a render list starts at deeper level than 1 | 
 |  30 Sep 2007: | Added %SYSTEMWEB%.VarRENDERLIST to have it listed in [[%SYSTEMWEB%.Macros][Macros]] |
@@ -373,9 +358,6 @@ Contributors; 2008 Foswiki Contributors |
 |  11 Dec 2003: | Added =focus= and =depth= parameters |
 |  05 Dec 2003: | Fixed rendering issue with IE; added EMAIL_THEME |
 |  02 Dec 2003: | Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
