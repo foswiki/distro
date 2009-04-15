@@ -52,7 +52,7 @@ Designed by: Crawford Currie
 <ul>
 <li>
 <ul>
-<li> <a href="?@URLPARAMS#Don_39t_32ignore">Don't ignore</a>
+<li> <a href="?@URLPARAMS#Don_39t_32ignore_32_32except_32this">Don't ignore</a>
 </li>
 </ul>
 </li>

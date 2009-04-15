@@ -392,6 +392,8 @@ sub _makeAnchorHeading {
     # - Build '<nop><h1><a name='atext'></a> heading </h1>' markup
     # - Initial '<nop>' is needed to prevent subsequent matches.
     # filter '!!', '%NOTOC%'
+    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
+
     my $html = '<nop><h' . $level . '>'
       . $this->_makeAnchorTarget( $topicObject, $text )
         . ' ' . $text . ' </h' . $level . '>';
@@ -402,8 +404,6 @@ sub _makeAnchorHeading {
 # Make an anchor that can be used as the target of links.
 sub _makeAnchorTarget {
     my ($this, $topicObject, $text) = @_;
-
-    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
 
     my $goodAnchor = $this->_makeAnchorName( $text );
     my $html = CGI::a( {
@@ -435,6 +435,7 @@ sub _makeAnchorName {
     my ( $this, $text ) = @_;
 
     $text =~ s/^\s*(.*?)\s*$/$1/;
+    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//go;
 
     if ( $text =~ /^$Foswiki::regex{anchorRegex}$/ ) {
         # accept, already valid -- just remove leading #
@@ -2070,6 +2071,7 @@ sub renderTOC {
                 my ( $level, $text ) = ( $1, $2 );
                 $text =~ s/^\s*(.*?)\s*$/$1/;
 
+                my $atext = $text;
                 $text =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.*//o;
                 # Ignore empty headings
                 next unless $text;
@@ -2078,7 +2080,7 @@ sub renderTOC {
                 $level = length( $level ) if ( $i == 1 );
                 if ( ( $level >= $minDepth ) && ( $level <= $maxDepth ) ) {
                     my $anchor = $this->_makeAnchorNameUnique(
-                        $topicObject, $this->_makeAnchorName( $text ));
+                        $topicObject, $this->_makeAnchorName( $atext ));
                     my $target = {
                         anchor => $anchor,
                         text   => $text,
