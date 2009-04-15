@@ -10,7 +10,8 @@ Iterator over the lines read from a file handle.
 =cut
 
 package Foswiki::LineIterator;
-use base 'Foswiki::Iterator';
+use Foswiki::Iterator ();
+@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
 

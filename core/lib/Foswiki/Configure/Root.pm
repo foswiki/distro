@@ -3,10 +3,8 @@
 #
 # The root of all configurations
 package Foswiki::Configure::Root;
-
-use Foswiki::Configure::Section;
-
-use base 'Foswiki::Configure::Section';
+use Foswiki::Configure::Section ();
+@ISA = ( 'Foswiki::Configure::Section' );
 
 use strict;
 

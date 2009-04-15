@@ -1,7 +1,8 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::PLUGINS;
-use base 'Foswiki::Configure::UIs::Section';
+use Foswiki::Configure::UIs::Section ();
+@ISA = ( 'Foswiki::Configure::UIs::Section' );
 
 use strict;
 

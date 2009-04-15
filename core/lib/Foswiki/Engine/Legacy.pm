@@ -14,6 +14,7 @@ phase invoked from the END block happens.
 =cut
 
 package Foswiki::Engine::Legacy;
+
 use strict;
 
 our @ISA;

@@ -14,7 +14,7 @@ use strict;
 use Error qw( :try );
 use Assert;
 
-require Foswiki;
+use Foswiki ();
 
 =begin TML
 

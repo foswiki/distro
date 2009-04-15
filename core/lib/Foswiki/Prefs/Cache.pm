@@ -14,7 +14,7 @@ package Foswiki::Prefs::Cache;
 use strict;
 use Assert;
 
-use Foswiki::Prefs::Parser;
+use Foswiki::Prefs::Parser ();
 
 =begin TML
 
@@ -88,6 +88,7 @@ Returns 1 if the preference was defined, 0 otherwise.
 sub insert {
     my ( $this, $type, $key, $value ) = @_;
 
+    $value = '' unless defined $value;
     $value =~ tr/\t/ /;                  # replace TAB by space
     $value =~ s/([^\\])\\n/$1\n/g;       # replace \n by new line
     $value =~ s/([^\\])\\\\n/$1\\n/g;    # replace \\n by \n

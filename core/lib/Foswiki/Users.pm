@@ -60,19 +60,13 @@ package Foswiki::Users;
 use strict;
 use Assert;
 
-require Foswiki::AggregateIterator;
+use Foswiki::AggregateIterator ();
+use Foswiki::LoginManager      ();
 
 #use Monitor;
 #Monitor::MonitorMethod('Foswiki::Users');
 
 BEGIN {
-
-    # Do a dynamic 'use locale' for this module
-    if ( $Foswiki::cfg{UseLocale} ) {
-        require locale;
-        import locale();
-    }
-
     # no point calling rand() without this
     # See Camel-3 pp 800.  "Do not call =srand()= multiple times in your
     # program ... just do it once at the top of your program or you won't
@@ -92,7 +86,12 @@ sub new {
     my ( $class, $session ) = @_;
     my $this = bless( { session => $session }, $class );
 
-    require Foswiki::LoginManager;
+    # Do a dynamic 'use locale' for this module
+    if ( $Foswiki::cfg{UseLocale} ) {
+        require locale;
+        import locale();
+    }
+
     $this->{loginManager} = Foswiki::LoginManager::makeLoginManager($session);
 
     # setup the cgi session, from a cookie or the url. this may return

@@ -1,10 +1,8 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::URLPATH;
-
-use strict;
-
-use base 'Foswiki::Configure::Types::STRING';
+use Foswiki::Configure::Types::STRING ();
+@ISA = ( 'Foswiki::Configure::Types::STRING' );
 
 1;
 __DATA__

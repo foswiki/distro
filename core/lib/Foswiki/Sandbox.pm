@@ -34,9 +34,9 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-require File::Spec;
+use File::Spec ();
 
-require Foswiki;
+use Foswiki ();
 
 # Set to 1 to trace commands to STDERR
 sub TRACE { 0 }

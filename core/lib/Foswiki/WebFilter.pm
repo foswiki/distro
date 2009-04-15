@@ -43,11 +43,9 @@ sub ok {
     return 1;
 }
 
-use vars qw( $public $user $user_allowed);
-
-$public       = new Foswiki::WebFilter('public');
-$user         = new Foswiki::WebFilter('user');
-$user_allowed = new Foswiki::WebFilter('user,allowed');
+our $public       = new Foswiki::WebFilter('public');
+our $user         = new Foswiki::WebFilter('user');
+our $user_allowed = new Foswiki::WebFilter('user,allowed');
 
 1;
 __END__

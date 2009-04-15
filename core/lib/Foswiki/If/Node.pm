@@ -9,11 +9,12 @@ Node class for the result of an If statement parse
 =cut
 
 package Foswiki::If::Node;
-use base 'Foswiki::Query::Node';
+use Foswiki::Query::Node ();
+@ISA = ( 'Foswiki::Query::Node' );
 
 use strict;
 
-require Foswiki::Infix::Node;
+use Foswiki::Infix::Node ();
 
 sub newLeaf {
     my ( $class, $val, $type ) = @_;

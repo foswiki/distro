@@ -32,11 +32,9 @@ package Foswiki::Plugin;
 use strict;
 use Assert;
 
-require Foswiki::Plugins;
+use Foswiki::Plugins ();
 
-use vars qw( @registrableHandlers %deprecated );
-
-@registrableHandlers = (    # Foswiki::Plugins::VERSION:
+our @registrableHandlers = (    # Foswiki::Plugins::VERSION:
     'afterAttachmentSaveHandler',       # 1.022
     'afterCommonTagsHandler',           # 1.024
     'afterEditHandler',                 # 1.010
@@ -69,7 +67,7 @@ use vars qw( @registrableHandlers %deprecated );
 );
 
 # deprecated handlers
-%deprecated = (
+our %deprecated = (
     startRenderingHandler => 1,
     outsidePREHandler     => 1,
     insidePREHandler      => 1,
@@ -355,7 +353,7 @@ sub topicWeb {
                 last;
             }
         }
-        ASSERT( $this->{topicWeb} ) if DEBUG;
+        ASSERT( $this->{topicWeb}, $this->{name} ) if DEBUG;
     }
     return $this->{topicWeb};
 }

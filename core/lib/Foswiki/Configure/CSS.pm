@@ -2,8 +2,6 @@ package Foswiki::Configure::CSS;
 
 use strict;
 
-use vars qw( $css );
-
 sub css {
     local $/ = undef;
     return <DATA>;

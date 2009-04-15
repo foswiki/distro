@@ -14,7 +14,7 @@ package Foswiki::IncludeHandlers::doc;
 
 use strict;
 
-use Foswiki;
+use Foswiki ();
 
 # Include embedded doc in a core module
 sub INCLUDE {

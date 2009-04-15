@@ -9,7 +9,8 @@ Iterator that filters another iterator based on the results from a function.
 =cut
 
 package Foswiki::Iterator::FilterIterator;
-use base 'Foswiki::Iterator';
+use Foswiki::Iterator ();
+@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
 use Assert;

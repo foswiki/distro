@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::UPDATE;
-use base 'Foswiki::Configure::UI';
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
 
-use Foswiki::Configure::UI;
-use Foswiki::Configure::FoswikiCfg;
+use Foswiki::Configure::FoswikiCfg ();
 
 sub ui {
     my ( $this, $root, $valuer, $updated ) = @_;

@@ -59,7 +59,7 @@ package Foswiki::Prefs;
 
 use Assert;
 
-require Foswiki::Prefs::Cache;
+use Foswiki::Prefs::Cache ();
 
 # Preference stacks, in order of evaluation (SESSION overrides DEFAULT)
 our @levels = qw( DEFAULT PLUGIN SITE USER WEB TOPIC SESSION );

@@ -13,7 +13,7 @@ package Foswiki::Merge;
 use strict;
 use Assert;
 
-require CGI;
+use CGI ();
 
 =begin TML
 

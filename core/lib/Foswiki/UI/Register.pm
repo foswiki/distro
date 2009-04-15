@@ -14,9 +14,9 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-require Foswiki;
-require Foswiki::OopsException;
-require Foswiki::Sandbox;
+use Foswiki ();
+use Foswiki::OopsException ();
+use Foswiki::Sandbox ();
 
 # Keys from the user data that should *not* be included in
 # the user topic.

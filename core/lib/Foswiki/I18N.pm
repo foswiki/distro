@@ -30,7 +30,8 @@ package Foswiki::I18N;
 use strict;
 use Assert;
 
-use vars qw( $initialised @initErrors );
+our $initialised;
+our @initErrors;
 
 =begin TML
 
@@ -75,14 +76,15 @@ BEGIN {
     # we only need to proceed if user wants internationalisation support
     return unless $Foswiki::cfg{UserInterfaceInternationalisation};
 
-# no languages enabled is the same as disabling {UserInterfaceInternationalisation}
+    # no languages enabled is the same as disabling
+    # {UserInterfaceInternationalisation}
     my @languages = available_languages();
     return unless ( scalar(@languages) );
 
     # we first assume it's ok
     $initialised = 1;
 
-    eval "use base 'Locale::Maketext'";
+    eval "use Locale::Maketext ()";
     if ($@) {
         $initialised = 0;
         push( @initErrors,
@@ -90,6 +92,8 @@ BEGIN {
               . $@
               . "\nInstall the module or turn off {UserInterfaceInternationalisation}"
         );
+    } else {
+        @Foswiki::I18N::ISA = ( 'Locale::Maketext' );
     }
 
     unless ( $Foswiki::cfg{LocalesDir} && -e $Foswiki::cfg{LocalesDir} ) {

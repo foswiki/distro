@@ -11,7 +11,8 @@ If if becomes useful, it will become a set of Nodes as for Foswiki::Query
 =cut
 
 package Foswiki::Search::Node;
-#use base 'Foswiki::Infix::Node';
+use Foswiki::Infix::Node ();
+@ISA = ( 'Foswiki::Infix::Node' );
 
 use Assert;
 use Error qw( :try );

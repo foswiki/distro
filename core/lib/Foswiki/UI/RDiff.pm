@@ -14,8 +14,8 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-require Foswiki;
-require Foswiki::UI;
+use Foswiki ();
+use Foswiki::UI ();
 
 #TODO: this needs to be exposed to plugins and whoever might want to over-ride the rendering of diffs
 #Hash, indexed by diffType (+,-,c,u,l.....)

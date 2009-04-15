@@ -1,6 +1,6 @@
 package Assert;
-use base 'Exporter';
-require 5.006;
+use Exporter;
+@ISA = ( 'Exporter' );
 
 # Derived from Carp::Assert
 # Copyright 2004 Crawford Currie
@@ -19,16 +19,15 @@ require 5.006;
 
 use strict;
 
-use vars qw(@ISA $VERSION %EXPORT_TAGS $DIRTY);
+our %EXPORT_TAGS = (
+    NDEBUG => ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'],
+    DEBUG  => ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'],
+);
 
-BEGIN {
-    $VERSION = '0.01';
-    $DIRTY = $ENV{PATH}; # Used in TAINT
+our $VERSION = '$Rev$';
+our $DIRTY = $ENV{PATH}; # Used in TAINT
 
-    $EXPORT_TAGS{NDEBUG} = ['ASSERT', 'UNTAINTED', 'TAINT', 'DEBUG'];
-    $EXPORT_TAGS{DEBUG}  = $EXPORT_TAGS{NDEBUG};
-    Exporter::export_tags(qw(NDEBUG DEBUG));
-}
+Exporter::export_tags(qw(NDEBUG DEBUG));
 
 # constant.pm, alas, adds too much load time (yes, I benchmarked it)
 sub ASSERTS_ON  { 1 }    # CONSTANT

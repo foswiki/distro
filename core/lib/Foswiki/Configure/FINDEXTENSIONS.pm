@@ -3,13 +3,13 @@
 #
 # Plug-in module for finding and handling plugins
 package Foswiki::Configure::FINDEXTENSIONS;
-use base 'Foswiki::Configure::Pluggable';
+use Foswiki::Configure::Pluggable ();
+@ISA = ( 'Foswiki::Configure::Pluggable' );
 
 use strict;
 
-use Foswiki::Configure::Pluggable;
-use Foswiki::Configure::Type;
-use Foswiki::Configure::Value;
+use Foswiki::Configure::Type ();
+use Foswiki::Configure::Value ();
 
 sub new {
     my ($class) = @_;

@@ -12,7 +12,8 @@ following fields:
 =cut
 
 package Foswiki::EngineException;
-use base 'Error';
+use Error ();
+@ISA = ( 'Error' );
 
 use strict;
 

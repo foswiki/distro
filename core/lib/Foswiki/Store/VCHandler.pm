@@ -26,6 +26,7 @@ package Foswiki::Store::VCHandler;
 use strict;
 use Assert;
 
+use IO::File       ();
 use File::Copy     ();
 use File::Spec     ();
 use File::Path     ();
@@ -771,7 +772,7 @@ sub saveStream {
 
     mkPathTo( $this->{file} );
     my $F;
-    open( $F, '>' . $this->{file} )
+    open( $F, '>', $this->{file} )
       || throw Error::Simple(
         'VCHandler: open ' . $this->{file} . ' failed: ' . $! );
     binmode($F)
@@ -786,8 +787,6 @@ sub saveStream {
         'VCHandler: close ' . $this->{file} . ' failed: ' . $! );
 
     chmod( $Foswiki::cfg{RCS}{filePermission}, $this->{file} );
-
-    return '';
 }
 
 sub _copyFile {
@@ -942,22 +941,86 @@ sub _rmtree {
     }
 }
 
+{
+    # Package that ties a filehandle to a memory string for reading
+    package Foswiki::Store::_MemoryFile;
+
+    sub TIEHANDLE {
+        my ($class, $data) = @_;
+        return bless({data => $data, size => length($data), ptr => 0}, $class);
+    }
+
+    sub READ {
+        my $this = shift;
+        my ( undef, $len, $offset ) = @_;
+        if ($this->{size} - $this->{ptr} < $len) {
+            $len = $this->{size} - $this->{ptr};
+        }
+        return 0 unless $len;
+        $_[0] = substr($this->{data}, $this->{ptr}, $len);
+        $this->{ptr} += $len;
+        return $len;
+    }
+
+    sub READLINE {
+        my $this = shift;
+        return undef if $this->{ptr} == $this->{size};
+        return substr($this->{data}, $this->{ptr}) if !defined $/;
+        my $start = $this->{ptr};
+        while ($this->{ptr} < $this->{size}
+                 && substr($this->{data}, $this->{ptr}, 1) ne $/) {
+            $this->{ptr}++;
+        }
+        $this->{ptr}++ if $this->{ptr} < $this->{size};
+        return substr($this->{data}, $start, $this->{ptr} - $start);
+    }
+
+    sub CLOSE {
+        my $this = shift;
+        $this->{data} = undef;
+    }
+}
+
 =begin TML
 
----++ ObjectMethod getStream() -> \*STREAM
+---++ ObjectMethod openStream($mode, %opts) -> $fh
 
-Return a text stream that will supply the text stored in the topic.
+Opens a file handle onto the store. This method is primarily to
+support virtual file systems.
+
+=$mode= can be '&lt;', '&gt;' or '&gt;&gt;' for read, write, and append
+respectively. %
+
+=%opts= can take different settings depending on =$mode=.
+   * =$mode='&lt;'=
+      * =version= - revision of the object to open e.g. =version => 6=
+        Default behaviour is to return the latest revision. Note that it is
+        much more efficient to pass undef than to pass the number of the
+        latest revision.
+   * =$mode='&gt;'= or ='&gt;&gt;'
+      * no options
 
 =cut
 
-sub getStream {
-    my ($this) = shift;
-    my $strm;
-    unless ( open( $strm, '<' . $this->{file} ) ) {
-        throw Error::Simple(
-            'VCHandler: stream open ' . $this->{file} . ' failed: ' . $! );
+sub openStream {
+    my ($this, $mode, %opts) = @_;
+    my $stream;
+    if ($mode eq '<' && $opts{version}) {
+        # Bulk load the revision and tie a filehandle
+        require Symbol;
+        $stream = Symbol::gensym; # create an anonymous glob
+        tie(*$stream, 'Foswiki::Store::_MemoryFile',
+            $this->getRevision($opts{version}));
+    } else {
+        if ($mode =~ />/) {
+            mkPathTo($this->{file});
+        }
+        unless ( open( $stream, $mode, $this->{file} )) {
+            throw Error::Simple(
+                'VCHandler: stream open ' . $this->{file} . ' failed: ' . $! );
+        }
     }
-    return $strm;
+    return $stream;
 }
 
 # as long as stat is defined, return an emulated set of attributes for that

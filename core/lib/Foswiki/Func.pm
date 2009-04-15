@@ -52,9 +52,9 @@ use strict;
 use Error qw( :try );
 use Assert;
 
-require Foswiki;
-require Foswiki::Plugins;
-require Foswiki::Meta;
+use Foswiki ();
+use Foswiki::Plugins ();
+use Foswiki::Meta ();
 
 =begin TML
 
@@ -1076,7 +1076,7 @@ the web preferences topic in the new web.
 
 <verbatim>
 use Error qw( :try );
-use Foswiki::AccessControlException;
+use Foswiki::AccessControlException ();
 
 try {
     Foswiki::Func::createWeb( "Newweb" );
@@ -1110,7 +1110,7 @@ Move (rename) a web.
 
 <verbatim>
 use Error qw( :try );
-use Foswiki::AccessControlException;
+use Foswiki::AccessControlException ();
 
 try {
     Foswiki::Func::moveWeb( "Oldweb", "Newweb" );
@@ -1289,7 +1289,7 @@ sub checkTopicEditLock {
                 param4   => $script
             );
             my $login = $session->{users}->getLoginName($who);
-            return ( $url, $login, $remain / 60 );
+            return ( $url, $login || $who, $remain / 60 );
         }
     }
     return ( '', '', 0 );
@@ -1691,6 +1691,10 @@ foreach my $a ( @attachments ) {
 }
 </verbatim>
 
+This is the way 99% of extensions will access attachments.
+See =Foswiki::Meta::openAttachment= for a lower level interface that does
+not check access controls.
+
 =cut
 
 sub readAttachment {
@@ -1705,17 +1709,19 @@ sub readAttachment {
             $Foswiki::Plugins::SESSION->{user},
             $web, $topic, $Foswiki::Meta::reason );
     }
-    return $topicObject->readAttachment( $name, $rev );
+    my $fh = $topicObject->openAttachment( $name, '<', version => $rev );
+    local $/;
+    return <$fh>;
 }
 
 =begin TML
 
 ---+++ saveAttachment( $web, $topic, $attachment, \%opts )
-
    * =$web= - web for topic
    * =$topic= - topic to atach to
    * =$attachment= - name of the attachment
    * =\%opts= - Ref to hash of options
+Create an attachment on the given topic.
 =\%opts= may include:
 | =dontlog= | don't log this change in twiki log |
 | =comment= | comment for save |
@@ -1740,6 +1746,8 @@ Save an attachment to the store for a topic. On success, returns undef. If there
       ...
    };
 </verbatim>
+This is the way 99% of extensions will create new attachments. See
+=Foswiki::Meta::openAttachment= for a much lower-level interface.
 
 =cut
 

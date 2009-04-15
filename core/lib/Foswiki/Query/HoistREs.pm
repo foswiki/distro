@@ -16,8 +16,8 @@ package Foswiki::Query::HoistREs;
 
 use strict;
 
-use Foswiki::Infix::Node;
-use Foswiki::Query::Node;
+use Foswiki::Infix::Node ();
+use Foswiki::Query::Node ();
 
 # Try to optimise a query by hoisting regular expression searches
 # out of the query

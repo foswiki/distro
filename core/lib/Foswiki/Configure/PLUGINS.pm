@@ -2,13 +2,14 @@
 
 # Plug-in module for finding and handling plugins
 package Foswiki::Configure::PLUGINS;
-use base 'Foswiki::Configure::Pluggable';
+use Foswiki::Configure::Pluggable ();
+@ISA = ( 'Foswiki::Configure::Pluggable' );
 
 use strict;
 
-use Foswiki::Configure::Pluggable;
-use Foswiki::Configure::Type;
-use Foswiki::Configure::Value;
+use Foswiki::Configure::Pluggable ();
+use Foswiki::Configure::Type ();
+use Foswiki::Configure::Value ();
 
 my $scanner = Foswiki::Configure::Type::load('SELECTCLASS');
 

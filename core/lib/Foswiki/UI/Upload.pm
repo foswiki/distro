@@ -14,10 +14,10 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-require Foswiki;
-require Foswiki::UI;
-require Foswiki::Sandbox;
-require Foswiki::OopsException;
+use Foswiki ();
+use Foswiki::UI ();
+use Foswiki::Sandbox ();
+use Foswiki::OopsException ();
 
 =begin TML
 

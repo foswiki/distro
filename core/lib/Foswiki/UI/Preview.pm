@@ -5,11 +5,11 @@ package Foswiki::UI::Preview;
 use strict;
 use Error qw( :try );
 
-require Foswiki;
-require Foswiki::UI::Save;
-require Foswiki::OopsException;
+use Foswiki ();
+use Foswiki::UI::Save ();
+use Foswiki::OopsException ();
 
-require Assert;
+use Assert;
 
 sub preview {
     my $session = shift;

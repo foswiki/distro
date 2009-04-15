@@ -4,14 +4,12 @@
 # base configuration (content of LocalSite.cfg) but also can
 #
 package Foswiki::Configure::UIs::PasswordProtected;
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
 
-use Foswiki::Configure::UI;
-
-use base 'Foswiki::Configure::UI';
-
-use Foswiki::Configure::Type;
+use Foswiki::Configure::Type ();
 
 sub ui {
     my $this   = shift;

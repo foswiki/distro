@@ -10,7 +10,8 @@ Combine multiple iterators into a single iteration.
 =cut
 
 package Foswiki::AggregateIterator;
-use base 'Foswiki::Iterator';
+use Foswiki::Iterator ();
+@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
 

@@ -14,7 +14,7 @@ package Foswiki::IncludeHandlers::http;
 
 use strict;
 
-use Foswiki;
+use Foswiki ();
 
 # Fetch content from a URL for inclusion by an INCLUDE
 sub INCLUDE {
@@ -52,7 +52,10 @@ sub INCLUDE {
                         'access_denied', "$incWeb.$incTopic" );
                 }
             }
-            $text = $topicObject->readAttachment($incAtt);
+            my $fh = $topicObject->openAttachment($incAtt, '<');
+            local $/;
+            $text = <$fh>;
+            $fh->close();
             $text =
               _cleanupIncludedHTML( $text, $session->{urlHost},
                 $Foswiki::cfg{PubUrlPath}, $options )

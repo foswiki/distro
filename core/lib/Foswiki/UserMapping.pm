@@ -33,7 +33,7 @@ __Note:__ in all the following documentation, =$cUID= refers to a
 package Foswiki::UserMapping;
 
 use Assert;
-use Error;
+use Error ();
 
 =begin TML
 

@@ -18,7 +18,7 @@ package Foswiki::Prefs::Parser;
 use strict;
 use Assert;
 
-require Foswiki;
+use Foswiki ();
 
 my $settingPrefPrefix = 'PREFERENCE_';
 

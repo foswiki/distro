@@ -7,7 +7,8 @@
 # different behaviours for each of level 0 (the root), level 1 (twisty
 # sections) and level > 1 (subsection).
 package Foswiki::Configure::UIs::Section;
-use base 'Foswiki::Configure::UI';
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
 

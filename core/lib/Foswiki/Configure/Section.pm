@@ -1,8 +1,8 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Section;
-
-use base 'Foswiki::Configure::Item';
+use Foswiki::Configure::Item ();
+@ISA = ( 'Foswiki::Configure::Item' );
 
 use strict;
 

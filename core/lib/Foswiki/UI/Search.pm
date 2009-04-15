@@ -12,7 +12,7 @@ package Foswiki::UI::Search;
 
 use strict;
 
-require Foswiki;
+use Foswiki ();
 
 =begin TML
 

@@ -1,12 +1,12 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Value;
+use Foswiki::Configure::Item ();
+@ISA = ( 'Foswiki::Configure::Item' );
 
 use strict;
 
-use base 'Foswiki::Configure::Item';
-
-use Foswiki::Configure::Type;
+use Foswiki::Configure::Type ();
 
 # The opts are additional parameters, and by convention may
 # be a number (for a string length), a comma separated list of values

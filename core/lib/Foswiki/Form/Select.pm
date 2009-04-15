@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Select;
-use base 'Foswiki::Form::ListFieldDefinition';
+use Foswiki::Form::ListFieldDefinition ();
+@ISA = ( 'Foswiki::Form::ListFieldDefinition' );
 
 use strict;
 use Assert;

@@ -12,7 +12,7 @@ package Foswiki::Configure::Valuer;
 
 use strict;
 
-use Foswiki::Configure::Type;
+use Foswiki::Configure::Type ();
 
 sub new {
     my ( $class, $defaults, $values ) = @_;

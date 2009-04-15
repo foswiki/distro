@@ -48,12 +48,12 @@
 package Foswiki::Configure::FoswikiCfg;
 
 use strict;
-use Data::Dumper;
+use Data::Dumper ();
 
-use Foswiki::Configure::Section;
-use Foswiki::Configure::Value;
-use Foswiki::Configure::Pluggable;
-use Foswiki::Configure::Item;
+use Foswiki::Configure::Section ();
+use Foswiki::Configure::Value ();
+use Foswiki::Configure::Pluggable ();
+use Foswiki::Configure::Item ();
 
 # Used in saving, when we need a callback. Otherwise the methods here are
 # all static.
@@ -112,8 +112,7 @@ sub _loadSpecsFrom {
     # Inner class that represents section headings temporarily during the
     # parse. They are expanded to section blocks at the end.
     package SectionMarker;
-
-    use base 'Foswiki::Configure::Item';
+    @SectionMarker::ISA = ( 'Foswiki::Configure::Item' );
 
     sub new {
         my ( $class, $depth, $head ) = @_;

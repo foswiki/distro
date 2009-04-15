@@ -1,10 +1,11 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::FINDEXTENSIONS;
-use base 'Foswiki::Configure::UIs::Section';
+use Foswiki::Configure::UIs::Section ();
+@ISA = ( 'Foswiki::Configure::UIs::Section' );
 
 use strict;
-use Foswiki::Configure::Type;
+use Foswiki::Configure::Type ();
 
 sub close_html {
     my ( $this, $section ) = @_;

@@ -1,11 +1,11 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::CGISetup;
+use Foswiki::Configure::Checker ();
+@ISA = ( 'Foswiki::Configure::Checker' );
 
 use strict;
 
-use base 'Foswiki::Configure::Checker';
-
-use File::Spec;
+use File::Spec ();
 
 sub untaintUnchecked {
     my ($string) = @_;

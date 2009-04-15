@@ -11,13 +11,12 @@
 # string ::= single quoted string, use \' to escape a quote, or \w+
 
 package Foswiki::Configure::Types::PERL;
+use Foswiki::Configure::Type ();
+@ISA = ( 'Foswiki::Configure::Type' );
 
 use strict;
 
-use Foswiki::Configure::Type;
-use Data::Dumper;
-
-use base 'Foswiki::Configure::Type';
+use Data::Dumper ();
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

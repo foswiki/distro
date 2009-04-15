@@ -60,12 +60,12 @@ BEGIN {
 use Error qw(:try);
 use Assert;
 
-use Foswiki;
-use Foswiki::Request;
-use Foswiki::Response;
-use Foswiki::OopsException;
-use Foswiki::EngineException;
-use CGI;
+use Foswiki ();
+use Foswiki::Request ();
+use Foswiki::Response ();
+use Foswiki::OopsException ();
+use Foswiki::EngineException ();
+use CGI ();
 
 # Used to lazily load UI handler modules
 our %isInitialized = ();

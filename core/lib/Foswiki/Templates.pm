@@ -33,7 +33,7 @@ package Foswiki::Templates;
 use strict;
 use Assert;
 
-require Foswiki::Attrs;
+use Foswiki::Attrs ();
 
 =begin TML
 

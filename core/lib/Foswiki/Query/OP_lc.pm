@@ -7,7 +7,8 @@
 =cut
 
 package Foswiki::Query::OP_lc;
-use base 'Foswiki::Query::UnaryOP';
+use Foswiki::Query::UnaryOP ();
+@ISA = ( 'Foswiki::Query::UnaryOP' );
 
 use strict;
 

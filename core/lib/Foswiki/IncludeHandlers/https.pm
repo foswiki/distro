@@ -10,7 +10,7 @@ method INCLUDE.
 
 =cut
 
-use Foswiki::IncludeHandlers::http;
+use Foswiki::IncludeHandlers::http ();
 
 *{'Foswiki::IncludeHandlers::https::'} = \*{'Foswiki::IncludeHandlers::http::'};
 

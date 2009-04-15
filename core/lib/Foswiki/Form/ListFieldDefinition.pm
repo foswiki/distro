@@ -10,7 +10,8 @@ can *store* multiple values.
 =cut
 
 package Foswiki::Form::ListFieldDefinition;
-use base 'Foswiki::Form::FieldDefinition';
+use Foswiki::Form::FieldDefinition ();
+@ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 use strict;
 use Assert;

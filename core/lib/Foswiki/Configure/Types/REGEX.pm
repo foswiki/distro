@@ -1,12 +1,9 @@
 # See bottom of file for license and copyright information
-
 package Foswiki::Configure::Types::REGEX;
+use Foswiki::Configure::Types::STRING ();
+@ISA = ( 'Foswiki::Configure::Types::STRING' );
 
 use strict;
-
-use Foswiki::Configure::Types::STRING;
-
-use base 'Foswiki::Configure::Types::STRING';
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;

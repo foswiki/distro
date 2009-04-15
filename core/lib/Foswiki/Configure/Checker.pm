@@ -1,12 +1,13 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checker;
-use base qw(Foswiki::Configure::UI);
+use w(Foswiki::Configure::UI ();
+@ISA = ( qw(Foswiki::Configure::UI) );
 
 use strict;
 
-require File::Spec;
-require CGI;
+use File::Spec ();
+use CGI ();
 
 sub guessed {
     my ( $this, $error ) = @_;

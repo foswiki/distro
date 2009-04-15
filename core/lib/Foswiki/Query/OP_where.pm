@@ -7,7 +7,8 @@
 =cut
 
 package Foswiki::Query::OP_where;
-use base 'Foswiki::Query::BinaryOP';
+use Foswiki::Query::BinaryOP ();
+@ISA = ( 'Foswiki::Query::BinaryOP' );
 
 use strict;
 

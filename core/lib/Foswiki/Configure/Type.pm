@@ -10,7 +10,7 @@ use strict;
 
 use CGI qw( :any );
 
-use vars qw( %knownTypes );
+our %knownTypes;
 
 sub new {
     my ( $class, $id ) = @_;

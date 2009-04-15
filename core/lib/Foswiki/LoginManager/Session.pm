@@ -15,9 +15,10 @@ It also redefines =name= method, to avoid creating CGI object.
 =cut
 
 package Foswiki::LoginManager::Session;
+use CGI::Session ();
+@ISA = ( 'CGI::Session' );
 
 use strict;
-use base 'CGI::Session';
 
 *VERSION = \$CGI::Session::VERSION;
 *NAME    = \$CGI::Session::NAME;

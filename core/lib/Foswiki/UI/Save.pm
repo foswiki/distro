@@ -14,10 +14,10 @@ use strict;
 use Error qw( :try );
 use Assert;
 
-require Foswiki;
-require Foswiki::UI;
-require Foswiki::Meta;
-require Foswiki::OopsException;
+use Foswiki ();
+use Foswiki::UI ();
+use Foswiki::Meta ();
+use Foswiki::OopsException ();
 
 # Used by save and preview
 sub buildNewTopic {

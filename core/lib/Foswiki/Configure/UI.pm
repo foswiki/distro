@@ -11,10 +11,11 @@
 package Foswiki::Configure::UI;
 
 use strict;
-use File::Spec;
-use FindBin;
+use File::Spec ();
+use FindBin ();
 
-use vars qw ($totwarnings $toterrors);
+our $totwarnings;
+our $toterrors;
 
 sub new {
     my ( $class, $item ) = @_;

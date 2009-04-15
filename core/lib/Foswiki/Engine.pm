@@ -17,7 +17,7 @@ package Foswiki::Engine;
 use strict;
 use Error qw( :try );
 use Assert;
-use Scalar::Util;
+use Scalar::Util ();
 
 =begin TML
 

@@ -13,7 +13,7 @@ package Foswiki::UI::Statistics;
 use strict;
 use Assert;
 use File::Copy qw(copy);
-use IO::File;
+use IO::File ();
 use Error qw( :try );
 
 use Foswiki                         ();

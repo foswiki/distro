@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::Value;
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
-use base 'Foswiki::Configure::UI';
 
 # Generates the appropriate HTML for getting a value to configure the
 # entry. The actual input field is decided by the type.

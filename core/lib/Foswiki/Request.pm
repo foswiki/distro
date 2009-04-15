@@ -53,13 +53,14 @@ Fields:
 =cut
 
 package Foswiki::Request;
+use CGI ();
+@ISA = ( 'CGI' );
 
 use strict;
 use Assert;
-use Error;
-use IO::File;
+use Error ();
+use IO::File ();
 use CGI::Util qw(rearrange);
-use base 'CGI';
 
 =begin TML
 

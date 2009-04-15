@@ -16,8 +16,8 @@ package Foswiki::Infix::Parser;
 use strict;
 use Assert;
 use Error qw( :try );
-require Foswiki::Infix::Error;
-require Foswiki::Infix::Node;
+use Foswiki::Infix::Error ();
+use Foswiki::Infix::Node ();
 
 # Set to 1 for debug
 sub MONITOR_PARSER { 0 }

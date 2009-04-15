@@ -17,9 +17,7 @@ package Foswiki::Plugins;
 use strict;
 use Assert;
 
-require Foswiki::Plugin;
-
-use vars qw ( $VERSION $SESSION $inited );
+use Foswiki::Plugin ();
 
 =begin TML
 
@@ -39,9 +37,9 @@ as kernel methods may change between Foswiki releases.
 
 =cut
 
-$VERSION = '2.1';
+our $VERSION = '2.1';
 
-$inited = 0;
+our $inited = 0;
 
 my %onlyOnceHandlers = (
     registrationHandler           => 1,
@@ -50,6 +48,8 @@ my %onlyOnceHandlers = (
     renderFormFieldForEditHandler => 1,
     renderWikiWordHandler         => 1,
 );
+
+our $SESSION;
 
 =begin TML
 

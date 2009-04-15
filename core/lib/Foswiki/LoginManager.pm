@@ -51,13 +51,12 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-require Foswiki::Sandbox;
+use Foswiki::Sandbox ();
 
 # Marker chars
-use vars qw( $M1 $M2 $M3 );
-$M1 = chr(5);
-$M2 = chr(6);
-$M3 = chr(7);
+our $M1 = chr(5);
+our $M2 = chr(6);
+our $M3 = chr(7);
 
 =begin TML
 

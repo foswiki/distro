@@ -270,8 +270,9 @@ sub getAttachmentLink {
         # downloaded. When you upload an image to Foswiki and checkmark
         # the link checkbox, Foswiki will generate the width and height
         # img parameters, speeding up the page rendering.
-        my $stream = $topicObject->getAttachmentStream($attName);
+        my $stream = $topicObject->openAttachment($attName, '<');
         my ( $nx, $ny ) = _imgsize( $stream, $attName );
+        $stream->close();
         my @attrs;
 
         if ( $nx > 0 && $ny > 0 ) {

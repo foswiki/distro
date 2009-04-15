@@ -137,13 +137,14 @@ sub new {
 
     $this->{_web}   = $web;
     $this->{_topic} = $topic;
-    $this->{_text}  = undef;    # topics only
-         # Preferences cache object. We store a pointer, rather than looking
-         # up the name each time, because we want to be able to invalidate the
-         # loaded preferences if this object is reloaded with a different rev
-         # (and therefore different prefs). The preferences cache does not take
-         # topic revs into account.
-    $this->{_preferences} = undef;
+    #$this->{_text}  = undef;    # topics only
+
+    # Preferences cache object. We store a pointer, rather than looking
+    # up the name each time, because we want to be able to invalidate the
+    # loaded preferences if this object is reloaded with a different rev
+    # (and therefore different prefs). The preferences cache does not take
+    # topic revs into account.
+    #$this->{_preferences} = undef;
 
     $this->{FILEATTACHMENT} = [];
 
@@ -198,7 +199,7 @@ Get/set the web name associated with the object.
 sub web {
     my ( $this, $web ) = @_;
     $this->{_web} = $web if defined $web;
-    return $_[0]->{_web};
+    return $this->{_web};
 }
 
 =begin TML
@@ -230,7 +231,7 @@ sub getPath {
 
     return '' unless $path;
     return $path unless $this->{_topic};
-    $path .= ".$this->{_topic}";
+    $path .= '.'.$this->{_topic};
     return $path;
 }
 
@@ -1766,7 +1767,7 @@ sub getAttachmentRevisionInfo {
 
    * =%opts= may include:
       * =name= - Name of the attachment
-      * =dontlog= - don't log this change in twiki log
+      * =dontlog= - don't log this change
       * =comment= - comment for save
       * =hide= - if the attachment is to be hidden in normal topic view
       * =stream= - Stream of file to upload
@@ -1792,7 +1793,6 @@ sub attach {
     my $action;
     my $plugins = $this->{_session}->{plugins};
 
-    # update topic
     if ( $opts{file} && !$opts{stream} ) {
         open( $opts{stream}, '<', $opts{file} )
           || throw Error::Simple( 'Could not open ' . $opts{file} );
@@ -1804,6 +1804,7 @@ sub attach {
     my $attrs;
     if ( $opts{stream} ) {
         $action = 'upload';
+
         $attrs  = {
             name        => $opts{name},
             attachment  => $opts{name},
@@ -1814,7 +1815,7 @@ sub attach {
         };
 
         if ( $plugins->haveHandlerFor('beforeAttachmentSaveHandler') ) {
-
+            # SMELL: the attachment handler requires a file on disc
             # Because of the way CGI works, the stream is actually attached
             # to a file that is already on disc. So all we need to do
             # is determine that filename, close the stream, process the
@@ -1827,35 +1828,32 @@ sub attach {
             }
             $plugins->dispatch( 'beforeAttachmentSaveHandler', $attrs,
                 $this->{_topic}, $this->{_web} );
-            open( $opts{stream}, "<$attrs->{tmpFilename}" );
+            open( $opts{stream}, '<', $attrs->{tmpFilename} )
+              || die "Internal error: $!";
             binmode( $opts{stream} );
         }
 
-        my $error = '';
+        my $error;
         try {
-
-            # Note that we don't update the topic until the attachment is
-            # saved, in case of error.
             $this->{_session}->{store}
               ->saveAttachment(
                   $this, $opts{name}, $opts{stream},
                   $opts{author} || $this->{_session}->{user});
-        }
-        catch Error::Simple with {
+        } catch Error with {
             $error = shift;
         };
+
         my $fileVersion = $this->getMaxRevNo( $opts{name} );
         $attrs->{version} = $fileVersion;
-        $attrs->{path}    = $opts{filepath} if ( defined( $opts{filepath} ) );
-        $attrs->{size}    = $opts{filesize} if ( defined( $opts{filesize} ) );
-        $attrs->{date}    = $opts{filedate} if ( defined( $opts{filedate} ) );
+        $attrs->{path} = $opts{filepath} if ( defined( $opts{filepath} ) );
+        $attrs->{size} = $opts{filesize} if ( defined( $opts{filesize} ) );
+        $attrs->{date} = $opts{filedate} if ( defined( $opts{filedate} ) );
 
         if ( $plugins->haveHandlerFor('afterAttachmentSaveHandler') ) {
             $plugins->dispatch( 'afterAttachmentSaveHandler', $attrs,
-                $this->{_topic}, $this->{_web},
-                $error ? $error->{-text} : undef );
+                                $this->{_topic}, $this->{_web},
+                                $error ? $error->{-text} : undef );
         }
-        throw $error if $error;
     }
     else {
 
@@ -1902,15 +1900,34 @@ sub hasAttachment {
 
 =begin TML
 
----++ ObjectMethod readAttachment( $name [, $rev] ) -> $data
-Read the named attachment (optional rev) and return the content as
-a scalar.
+---+++ openAttachment($attachment, $mode, %opts) -> $fh
+   * =$attachment= - the attachment
+   * =$mode= - mode to open the attachment in
+Opens a stream onto the attachment. This method is primarily to
+support virtual file systems, and as such access controls are *not*
+checked, plugin handlers are *not* called, and it does *not* update the
+meta-data in the topicObject.
+
+=$mode= can be '&lt;', '&gt;' or '&gt;&gt;' for read, write, and append
+respectively.
+
+=%opts= can take different settings depending on =$mode=.
+   * =$mode='&lt;'=
+      * =version= - revision of the object to open e.g. =version => 6=
+   * =$mode='&gt;'= or ='&gt;&gt;'
+      * no options
+Errors will be signalled by an =Error= exception.
+
+See also =attach= if this function is too basic for you.
 
 =cut
 
-sub readAttachment {
-    my ( $this, $name, $rev ) = @_;
-    return $this->{_session}->{store}->readAttachment( $this, $name, $rev );
+sub openAttachment {
+    my ($this, $attachment, $mode, @opts) = @_;
+
+    return $this->{_session}->{store}
+      ->openAttachment($this, $attachment, $mode, @opts);
+
 }
 
 =begin TML
@@ -1962,22 +1979,6 @@ sub moveAttachment {
           . $newName,
         $cUID
     );
-}
-
-=begin TML
-
----++ ObjectMethod getAttachmentStream( $attName ) -> \*STREAM
-
-   * =$attName= - Name of the attachment
-
-Open a standard input stream from an attachment. Only valid on topics.
-
-=cut
-
-sub getAttachmentStream {
-    my ( $this, $attachment ) = @_;
-    return $this->{_session}->{store}
-      ->getAttachmentStream( $this, $attachment );
 }
 
 =begin TML

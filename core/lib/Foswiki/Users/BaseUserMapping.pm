@@ -25,11 +25,12 @@ prefix 'BaseUserMapping_'.
 =cut
 
 package Foswiki::Users::BaseUserMapping;
-use base 'Foswiki::UserMapping';
+use Foswiki::UserMapping ();
+@ISA = ( 'Foswiki::UserMapping' );
 
 use strict;
 use Assert;
-use Error;
+use Error ();
 
 =begin TML
 

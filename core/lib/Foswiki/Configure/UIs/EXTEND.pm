@@ -1,13 +1,14 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::EXTEND;
-use base 'Foswiki::Configure::UI';
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
-use File::Temp;
-use File::Copy;
-use File::Spec;
-use Cwd;
+use File::Temp ();
+use File::Copy ();
+use File::Spec ();
+use Cwd ();
 
 sub ui {
     my $this  = shift;

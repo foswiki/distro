@@ -1,12 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::AUTH;
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
-
-use Foswiki::Configure::UI;
-
-use base 'Foswiki::Configure::UI';
 
 my %nonos = (
     cfgAccess => 1,

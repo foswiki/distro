@@ -16,11 +16,11 @@ is analagous to the old =Foswiki::Store::RcsWrap=.
 =cut
 
 package Foswiki::Store::RcsWrapHandler;
-use base 'Foswiki::Store::VCHandler';
+use Foswiki::Store::VCHandler ();
+@ISA = ( 'Foswiki::Store::VCHandler' );
 
 use strict;
 use File::Copy ();
-use Assert;
 
 use Foswiki::Store   ();
 use Foswiki::Sandbox ();
@@ -106,9 +106,10 @@ sub initText {
 sub addRevisionFromText {
     my ( $this, $text, $comment, $user, $date ) = @_;
     $this->init();
-print STDERR "Wrap: Forced save at $date $this->{file}\n" if $date;
+    #print STDERR "Wrap: Forced save at $date $this->{file}\n" if $date;
 
-    unless ( -e $this->{rcsFile} ) {
+    unless ( -e $this->{rcsFile} ) {#
+        # SMELL: what is this for?
         _lock($this);
         _ci( $this, $comment, $user, $date );
     }

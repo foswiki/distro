@@ -2,8 +2,6 @@ package Foswiki::Configure::JS;
 
 use strict;
 
-use vars qw( $js1 $js2 );
-
 sub js1 {
     local $/ = undef;
     return <DATA>;

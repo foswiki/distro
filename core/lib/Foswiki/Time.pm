@@ -34,7 +34,7 @@ package Foswiki::Time;
 
 use strict;
 
-require Foswiki;
+use Foswiki ();
 
 our $VERSION = '$Rev$';    # Subversion rev number
 
@@ -125,7 +125,6 @@ sub parseTime {
         # is -01:00Z
         $tzadj = -Time::Local::timelocal( 0, 0, 0, 1, 0, 70 );
     }
-
     # try "31 Dec 2001 - 23:59"  (Foswiki date)
     # or "31 Dec 2001"
     #TODO: allow /.: too
@@ -260,9 +259,9 @@ sub formatTime {
         $outputTimeZone = 'gmtime';
     }
 
-    my ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday );
+    my ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst );
     if ( $outputTimeZone eq 'servertime' ) {
-        ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday ) =
+        ( $sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst ) =
           localtime($epochSeconds);
     }
     else {

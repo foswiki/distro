@@ -13,12 +13,12 @@ use strict;
 use Assert;
 use Error qw( :try );
 
-require Foswiki;
-require Foswiki::Sandbox;
-require Foswiki::Render;    # SMELL: expensive
-require Foswiki::Search::InfoCache;
-require Foswiki::ListIterator;
-require Foswiki::Iterator::FilterIterator;
+use Foswiki ();
+use Foswiki::Sandbox ();
+use Foswiki::Render ();    # SMELL: expensive
+use Foswiki::Search::InfoCache ();
+use Foswiki::ListIterator ();
+use Foswiki::Iterator::FilterIterator ();
 
 #TODO: move these into a more appropriate place - they are function objects so can persist for a _long_ time
 my $queryParser;

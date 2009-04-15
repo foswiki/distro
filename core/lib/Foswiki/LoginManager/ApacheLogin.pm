@@ -20,7 +20,8 @@ methods of this class.
 =cut
 
 package Foswiki::LoginManager::ApacheLogin;
-use base 'Foswiki::LoginManager';
+use Foswiki::LoginManager ();
+@ISA = ( 'Foswiki::LoginManager' );
 
 use strict;
 use Assert;

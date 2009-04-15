@@ -10,7 +10,8 @@ element in the iteration.
 =cut
 
 package Foswiki::Iterator::ProcessIterator;
-use base 'Foswiki::Iterator';
+use Foswiki::Iterator ();
+@ISA = ( 'Foswiki::Iterator' );
 
 use strict;
 use Assert;

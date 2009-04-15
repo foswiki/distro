@@ -84,10 +84,10 @@ the function or parameter.
 # AND ENSURE ALL POD DOCUMENTATION IS COMPLETE AND ACCURATE.
 
 package Foswiki::OopsException;
-use base 'Error';
+use Error ();
+@ISA = ( 'Error' );
 
 use strict;
-use Error;
 use Assert;
 
 our $VERSION = '$Rev';

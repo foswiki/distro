@@ -19,7 +19,8 @@ able to do it better....
 =cut
 
 package Foswiki::Query::Node;
-use base 'Foswiki::Infix::Node';
+use Foswiki::Infix::Node ();
+@ISA = ( 'Foswiki::Infix::Node' );
 
 use Assert;
 use Error qw( :try );
@@ -41,9 +42,7 @@ or supported types. The type name should be given without the leading 'META:'
 
 =cut
 
-use vars qw ( %aliases %isArrayType );
-
-%aliases = (
+our %aliases = (
     attachments => 'META:FILEATTACHMENT',
     fields      => 'META:FIELD',
     form        => 'META:FORM',
@@ -53,7 +52,7 @@ use vars qw ( %aliases %isArrayType );
     preferences => 'META:PREFERENCE',
 );
 
-%isArrayType =
+our %isArrayType =
   map { $_ => 1 } qw( FILEATTACHMENT FIELD PREFERENCE );
 
 # $data is the indexed object

@@ -11,7 +11,7 @@ Class to encapsulate uploaded file info.
 package Foswiki::Request::Upload;
 
 use strict;
-use IO::File;
+use IO::File ();
 
 =begin TML
 

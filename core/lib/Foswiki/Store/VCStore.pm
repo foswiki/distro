@@ -28,9 +28,11 @@ in this class _previously_ resided in =Foswiki::Store=.
 =cut
 
 package Foswiki::Store::VCStore;
-use base 'Foswiki::Store';
+use Foswiki::Store ();
+@ISA = ( 'Foswiki::Store' );
 
 use strict;
+
 use Assert;
 use Error qw( :try );
 
@@ -213,15 +215,6 @@ sub moveAttachment {
 }
 
 # Documented in Foswiki::Store
-sub getAttachmentStream {
-    my ( $this, $topicObject, $att ) = @_;
-
-    my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $att );
-    return $handler->getStream();
-}
-
-# Documented in Foswiki::Store
 sub attachmentExists {
     my ( $this, $web, $topic, $att ) = @_;
     my $handler = $this->getHandler( $web, $topic, $att );
@@ -258,12 +251,12 @@ sub moveWeb {
 }
 
 # Documented in Foswiki::Store
-sub readAttachment {
-    my ( $this, $topicObject, $attachment, $rev ) = @_;
+sub openAttachment {
+    my ( $this, $topicObject, $att, $mode, @opts ) = @_;
 
     my $handler =
-      $this->getHandler( $topicObject->web, $topicObject->topic, $attachment );
-    return $handler->getRevision($rev);
+      $this->getHandler( $topicObject->web, $topicObject->topic, $att );
+    return $handler->openStream($mode, @opts);
 }
 
 # Documented in Foswiki::Store

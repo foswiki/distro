@@ -11,10 +11,11 @@ If if becomes useful, it will become a set of Nodes as for Foswiki::Query
 =cut
 
 package Foswiki::Search::Parser;
-#use base 'Foswiki::Infix::Parser';
+use Foswiki::Infix::Parser ();
+@ISA = ( 'Foswiki::Infix::Parser' );
 
-use Foswiki::Search::Node;
-use Foswiki::Infix::Error;
+use Foswiki::Search::Node ();
+use Foswiki::Infix::Error ();
 
 use Assert;
 use Error qw( :try );

@@ -33,6 +33,11 @@ For readers who are familiar with Foswiki version 1.0.0, this class
 _describes_ the interface to the old =Foswiki::Store= without actually
 _implementing_ it.
 
+Note that most methods are passed a Foswiki::Meta object. This pattern is
+employed to reinforce the encapsulation of a "path" in a meta object, and
+also to allow the store to modify META fields in the object, something it
+would be unable to do if passed $web, $topic.
+
 =cut
 
 package Foswiki::Store;
@@ -47,7 +52,7 @@ use Foswiki::Meta                   ();
 use Foswiki::Sandbox                ();
 use Foswiki::AccessControlException ();
 
-require UNIVERSAL::require;
+use UNIVERSAL::require ();
 
 our $STORE_FORMAT_VERSION = '1.1';
 
@@ -177,21 +182,6 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod getAttachmentStream( $topicObject, $attName ) -> \*STREAM
-   * =$topicObject= - The topic
-   * =$attName= - Name of the attachment (required)
-
-Open a standard input stream from an attachment.
-
-=cut
-
-sub getAttachmentStream {
-    my ( $this, $topicObject, $att ) = @_;
-    die "Abstract base class";
-}
-
-=begin TML
-
 ---++ ObjectMethod attachmentExists( $web, $topic, $att ) -> $boolean
 
 Determine if the attachment already exists on the given topic
@@ -231,16 +221,27 @@ sub moveWeb {
 
 =begin TML
 
----++ ObjectMethod readAttachment( $topicObject, $attachment, $rev  ) -> $text
+---++ ObjectMethod openAttachment( $topicObject, $attachment, $mode, %opts  ) -> $text
 
-Read the given version of an attachment, returning the content.
+Opens a stream onto the attachment. This method is primarily to
+support virtual file systems, and as such access controls are *not*
+checked, plugin handlers are *not* called, and it does *not* update the
+meta-data in the topicObject.
 
-If $rev is not given, the most recent rev is assumed.
+=$mode= can be '&lt;', '&gt;' or '&gt;&gt;' for read, write, and append
+respectively. %
+
+=%opts= can take different settings depending on =$mode=.
+   * =$mode='&lt;'=
+      * =version= - revision of the object to open e.g. =version => 6=
+   * =$mode='&gt;'= or ='&gt;&gt;'
+      * no options
+Errors will be signalled by an =Error= exception.
 
 =cut
 
-sub readAttachment {
-    my ( $this, $topicObject, $attachment, $rev ) = @_;
+sub openAttachment {
+    my ( $this, $topicObject, $attachment, $mode, %opts ) = @_;
     die "Abstract base class";
 }
 

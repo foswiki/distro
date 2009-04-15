@@ -1,6 +1,5 @@
 package Foswiki::Configure::UIs::LANGUAGES;
-use base 'Foswiki::Configure::UIs::Section';
-
-use strict;
+use Foswiki::Configure::UIs::Section ();
+@ISA = ( 'Foswiki::Configure::UIs::Section' );
 
 1;

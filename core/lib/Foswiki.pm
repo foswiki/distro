@@ -45,12 +45,20 @@ with CGI accelerators such as mod_perl.
 use strict;
 use Assert;
 use Error qw( :try );
-use CGI;    # Always required to get html generation tags;
+use Monitor ();
 
-use Foswiki::Response;
-use Foswiki::Request;
-use Foswiki::Logger;
-use Foswiki::Meta;
+# Components that all requests need
+use Foswiki::Configure::Load ();
+use Foswiki::Response        ();
+use Foswiki::Request         ();
+use Foswiki::Logger          ();
+use Foswiki::Meta            ();
+use Foswiki::Sandbox         ();
+use Foswiki::Time            ();
+use Foswiki::Prefs           ();
+use Foswiki::Plugins         ();
+use Foswiki::Store           ();
+use Foswiki::Users           ();
 
 require 5.005;    # For regex objects and internationalisation
 
@@ -135,10 +143,6 @@ sub _getLibDir {
 }
 
 BEGIN {
-    require Monitor;
-    require Foswiki::Sandbox;                  # system command sandbox
-    require Foswiki::Configure::Load;          # read configuration files
-
     if (DEBUG) {
 
         # If ASSERTs are on, then warnings are errors. Paranoid,
@@ -636,7 +640,7 @@ sub writeCompletePage {
         chomp($text);
     }
 
-    $this->generateHTTPHeaders( undef, $pageType, $contentType );
+    $this->generateHTTPHeaders( $pageType, $contentType );
     my $hdr = $this->{response}->printHeaders;
 
     # Call final handler
@@ -647,20 +651,17 @@ sub writeCompletePage {
 
 =begin TML
 
----++ ObjectMethod generateHTTPHeaders( $query, $pageType, $contentType ) -> $header
+---++ ObjectMethod generateHTTPHeaders( $pageType, $contentType ) -> $header
 
 All parameters are optional.
 
-   * =$query= CGI query object | Session CGI query (there is no good reason to set this)
    * =$pageType= - May be "edit", which will cause headers to be generated that force caching for 24 hours, to prevent Codev.BackFromPreviewLosesText bug, which caused data loss with IE5 and IE6.
    * =$contentType= - page content type | text/html
 
 =cut
 
 sub generateHTTPHeaders {
-    my ( $this, $query, $pageType, $contentType ) = @_;
-
-    $query = $this->{request} unless $query;
+    my ( $this, $pageType, $contentType ) = @_;
 
     # Handle Edit pages - future versions will extend to caching
     # of other types of page, with expiry time driven by page type.
@@ -671,7 +672,6 @@ sub generateHTTPHeaders {
     if ( $pageType && $pageType eq 'edit' ) {
 
         # Get time now in HTTP header format
-        require Foswiki::Time;
         my $lastModifiedString =
           Foswiki::Time::formatTime( time, '$http', 'gmtime' );
 
@@ -693,7 +693,8 @@ sub generateHTTPHeaders {
 
     # DEPRECATED plugins header handler. Plugins should use
     # modifyHeaderHandler instead.
-    $pluginHeaders = $this->{plugins}->dispatch( 'writeHeaderHandler', $query )
+    $pluginHeaders = $this->{plugins}->dispatch(
+        'writeHeaderHandler', $this->{request} )
       || '';
     if ($pluginHeaders) {
         foreach ( split /\r?\n/, $pluginHeaders ) {
@@ -836,17 +837,14 @@ sub redirect {
     my ( $this, $url, $passthru ) = @_;
     ASSERT( defined $url );
 
-    my $query = $this->{request};
+    return unless $this->{request};
 
-    # if we got here without a query, there's not much more we can do
-    return unless $query;
-
-    if ( $passthru && defined $query->method() ) {
+    if ( $passthru && defined $this->{request}->method() ) {
         my $existing = '';
         if ( $url =~ s/\?(.*)$// ) {
             $existing = $1;    # implicit untaint OK; recombined later
         }
-        if ( $query->method() eq 'POST' ) {
+        if ( $this->{request}->method() eq 'POST' ) {
 
             # Redirecting from a post to a get
             my $cache = $this->cacheQuery();
@@ -855,8 +853,8 @@ sub redirect {
             }
         }
         else {
-            if ( $query->query_string() ) {
-                $url .= '?' . $query->query_string();
+            if ( $this->{request}->query_string() ) {
+                $url .= '?' . $this->{request}->query_string();
             }
             if ($existing) {
                 if ( $url =~ /\?/ ) {
@@ -896,7 +894,8 @@ sub redirect {
 
     # SMELL: this is a bad breaking of encapsulation: the loginManager
     # should just modify the url, then the redirect should only happen here.
-    return !$this->{users}->{loginManager}->redirectCgiQuery( $query, $url );
+    return !$this->{users}->{loginManager}->redirectCgiQuery(
+        $this->{request}, $url );
 }
 
 =begin TML
@@ -1254,13 +1253,15 @@ sub mapToIconFileName {
             my ( $web, $topic ) =
               $this->normalizeWebTopicName( $this->{webName}, $iconTopic );
             my $topicObject = Foswiki::Meta->new( $this, $web, $topic );
-            local $/ = undef;
+            local $/;
             try {
-                my $icons = $topicObject->getAttachmentStream('_filetypes.txt');
+                my $icons = $topicObject->openAttachment(
+                    '_filetypes.txt', '<');
                 %{ $this->{_ICONMAP} } = split( /\s+/, <$icons> );
-                close($icons);
+                $icons->close();
             }
-            catch Error::Simple with {
+            catch Error with {
+                ASSERT(0, $_[0] ) if DEBUG;
                 %{ $this->{_ICONMAP} } = ();
             };
         }
@@ -1368,19 +1369,15 @@ sub new {
     $this->{_HTMLHEADERS} = {};
     $this->{context}      = $initialContext;
 
-    require Foswiki::Prefs;
     my $prefs = new Foswiki::Prefs($this);
     $this->{prefs} = $prefs;
-    require Foswiki::Plugins;
     $this->{plugins} = new Foswiki::Plugins($this);
-    require Foswiki::Store;
     $this->{store} = Foswiki::Store::createNewStore( $this,
         "Foswiki::Store::$Foswiki::cfg{StoreImpl}" );
 
     # use login as a default (set when running from cmd line)
     $this->{remoteUser} = $login;
 
-    require Foswiki::Users;
     $this->{users}      = new Foswiki::Users($this);
     $this->{remoteUser} = $this->{users}->{remoteUser};
 
@@ -1581,8 +1578,6 @@ sub renderer {
 
     unless ( $this->{renderer} ) {
         require Foswiki::Render;
-
-        # requires preferences (such as LINKTOOLTIPINFO)
         $this->{renderer} = new Foswiki::Render($this);
     }
     return $this->{renderer};
@@ -1637,7 +1632,6 @@ sub i18n {
 
     unless ( $this->{i18n} ) {
         require Foswiki::I18N;
-
         # language information; must be loaded after
         # *all possible preferences sources* are available
         $this->{i18n} = new Foswiki::I18N($this);

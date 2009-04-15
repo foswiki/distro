@@ -12,7 +12,8 @@ See documentation of that class for descriptions of the methods of this class.
 =cut
 
 package Foswiki::Users::HtPasswdUser;
-use base 'Foswiki::Users::Password';
+use Foswiki::Users::Password ();
+@ISA = ( 'Foswiki::Users::Password' );
 
 use strict;
 use Assert;

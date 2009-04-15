@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright details
 package Foswiki::Form::Label;
-use base 'Foswiki::Form::FieldDefinition';
+use Foswiki::Form::FieldDefinition ();
+@ISA = ( 'Foswiki::Form::FieldDefinition' );
 
 use strict;
 

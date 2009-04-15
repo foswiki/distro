@@ -3,7 +3,8 @@
 # Locale::Maketext isn't available.
 
 package Foswiki::I18N::Fallback;
-use base 'Foswiki::I18N';
+use Foswiki::I18N ();
+@ISA = ( 'Foswiki::I18N' );
 
 use strict;
 

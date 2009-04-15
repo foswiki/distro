@@ -1,12 +1,8 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 15996 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
 
 Description: tests for TOCs included from other topics and with funny deprecated syntaxes.
 
-<i>This test also demonstrates that redundant anchor names (either specified in TML syntax or
-generated using the =makeUniqueAnchorName()= subroutine in =Render.pm=)
-now get renamed automatically; currently, this is actually done twice (once for TOC and once
-for the topic contents), yet all references must be in sync at any time. %BR%
-For details cf. TWiki:Codev/FixAnchorHandling, TWikibug:Item1607 </i>
+*NOTE: requires {RequireCompatibleAnchors} = 0*
 
 [[%SCRIPTURLPATH{"view"}%/%WEB%/%TOPIC%?test=compare&amp;debugenableplugins=TestFixturePlugin&skin=pattern][run this test]]
 
@@ -44,19 +40,19 @@ Designed by: Crawford Currie
 <div class="foswikiToc">
 <span class="foswikiTocTitle">The Top</span>
 <ul>
-<li> <a href="?@URLPARAMS#H1_1">H1 <!--1--></a>
+<li> <a href="?@URLPARAMS#H1_32_60_33_45_451_45_45_62">H1 <!--1--></a>
 <ul>
 <li> <a href="?@URLPARAMS#H2">H2</a>
 </li>
 </ul>
 </li>
-<li> <a href="?@URLPARAMS#H1_2">H1 <!--2--></a>
+<li> <a href="?@URLPARAMS#H1_32_60_33_45_452_45_45_62">H1 <!--2--></a>
 <ul>
 <li> <a href="?@URLPARAMS#H2_AN1">H2</a>
 <ul>
 <li>
 <ul>
-<li> <a href="?@URLPARAMS#Don_t_ignore">Don't ignore</a>
+<li> <a href="?@URLPARAMS#Don_39t_32ignore">Don't ignore</a>
 </li>
 </ul>
 </li>
@@ -64,15 +60,15 @@ Designed by: Crawford Currie
 </li>
 </ul>
 </li>
-<li> <a href="?@URLPARAMS#hash_H1">hash H1</a>
+<li> <a href="?@URLPARAMS#hash_32H1">hash H1</a>
 <ul>
 <li> <a href="?@URLPARAMS#H2_AN2">H2</a>
 </li>
 </ul>
 </li>
-<li> <a href="?@URLPARAMS#hash_H1_AN1">hash H1</a>
+<li> <a href="?@URLPARAMS#hash_32H1_AN1">hash H1</a>
 <ul>
-<li> <a href="?@URLPARAMS#normal_H2">normal H2</a>
+<li> <a href="?@URLPARAMS#normal_32H2">normal H2</a>
 </li>
 </ul>
 </li>

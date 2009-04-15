@@ -3,18 +3,18 @@
 
 Monitoring package. Instrument the code like this:
 
-use Monitor;
+use Monitor ();
 Monitor::MARK("Description of event");
 Monitor::MARK("Another event");
 
 or, to monitor all the calls to a module
 
-use Monitor;
+use Monitor ();
 Monitor::MonitorMethod('Foswiki::Users');
 
 or a function
 
-use Monitor;
+use Monitor ();
 Monitor::MonitorMethod('Foswiki::Users', 'getCanonicalUserID');
 
 Then set the environment variable FOSWIKI_MONITOR to a perl true value, and

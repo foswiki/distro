@@ -1,9 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::UIs::Root;
-use base 'Foswiki::Configure::UIs::Section';
+use Foswiki::Configure::UIs::Section ();
+@ISA = ( 'Foswiki::Configure::UIs::Section' );
 
-use Foswiki::Configure::UI;
+use Foswiki::Configure::UI ();
 
 # Visit the nodes in a tree of configuration items, and generate
 # their UIs.

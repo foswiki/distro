@@ -12,14 +12,14 @@ package Foswiki::UI::View;
 
 use strict;
 use integer;
-use Monitor;
+use Monitor ();
 use Assert;
 
-require Foswiki;
-require Foswiki::UI;
-require Foswiki::Sandbox;
-require Foswiki::OopsException;
-require Foswiki::Store;
+use Foswiki ();
+use Foswiki::UI ();
+use Foswiki::Sandbox ();
+use Foswiki::OopsException ();
+use Foswiki::Store ();
 
 =begin TML
 
@@ -328,6 +328,13 @@ sub view {
     $session->enterContext('rss') if $session->getSkin() =~ /\brss/;
 
     my $page;
+
+    if ($query->param('xml')) {
+        require Foswiki::TOM;
+        $page = Foswiki::TOM->new->TML2TOM($text);
+        $session->writeCompletePage( $page, 'view', 'text/xml' );
+        return;
+    }
 
     # Legacy: If the _only_ skin is 'text' it is used like this:
     # http://.../view/Codev/MyTopic?skin=text&contenttype=text/plain&raw=on

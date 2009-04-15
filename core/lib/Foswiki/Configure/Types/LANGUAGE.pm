@@ -1,11 +1,9 @@
 # See bottom of file for license and copyright information
-
 package Foswiki::Configure::Types::LANGUAGE;
+use Foswiki::Configure::Types::BOOLEAN ();
+@ISA = ( 'Foswiki::Configure::Types::BOOLEAN' );
 
-# Enable switch for the languages array
 use strict;
-
-use base 'Foswiki::Configure::Types::BOOLEAN';
 
 # When any language changes, delete the cache
 sub onUpdate {

@@ -1,10 +1,9 @@
 # See bottom of file for license and copyright information
 package Foswiki::Configure::Checkers::RCS::asciiFileSuffixes;
+use Foswiki::Configure::Checker ();
+@ISA = ( 'Foswiki::Configure::Checker' );
 
 use strict;
-
-use Foswiki::Configure::Checker;
-use base 'Foswiki::Configure::Checker';
 
 sub check { return shift->checkRE('{RCS}{asciiFileSuffixes}'); }
 

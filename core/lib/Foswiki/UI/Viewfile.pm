@@ -137,20 +137,19 @@ sub viewfile {
 
     Foswiki::UI::checkAccess( $session, 'VIEW', $topicObject );
 
-    # SMELL: Maybe could be less memory hungry if get a file handle
-    # and set response body to it. This way engines could send data the
-    # best way possible to each one
-    my $fileContent = $topicObject->readAttachment( $fileName, $rev );
+    my $fh = $topicObject->openAttachment( $fileName, '<', version => $rev );
 
     my $type   = _suffixToMimeType($fileName);
-    my $length = length($fileContent);
     my $dispo  = 'inline;filename=' . $fileName;
 
     #re-set to 200, in case this was a 404 or other redirect
     $session->{response}->status(200);
     $session->{response}
       ->header( -type => $type, qq(Content-Disposition="$dispo") );
-    $session->{response}->print($fileContent);
+    local $/;
+    # SMELL: Maybe could be less memory hungry if we could
+    # set the response body to the file handle.
+    $session->{response}->print(<$fh>);
 }
 
 sub _suffixToMimeType {

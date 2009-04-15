@@ -13,7 +13,7 @@ package Foswiki::UI::Oops;
 use strict;
 use Assert;
 
-require Foswiki;
+use Foswiki ();
 
 =begin TML
 

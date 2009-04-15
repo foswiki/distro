@@ -1,5 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Search::InfoCache;
+use Foswiki::ListIterator ();
+@ISA = ( 'Foswiki::ListIterator' );
 
 =begin TML
 
@@ -17,10 +19,7 @@ I have the feeling that we should make result sets immutable
 
 use strict;
 use Assert;
-
 use Foswiki::Meta ();
-use base 'Foswiki::ListIterator';
-
 
 =pod
 ---++ Foswiki::Search::InfoCache::new($session, $defaultWeb, \@topicList)

@@ -19,10 +19,9 @@ speed and memory size. It also depends on the complexity of the query.
 
 package Foswiki::Store::QueryAlgorithms::BruteForce;
 
-use Foswiki::Search::Node;
-
 use strict;
 
+use Foswiki::Search::Node ();
 use Foswiki::Meta ();
 
 sub query {

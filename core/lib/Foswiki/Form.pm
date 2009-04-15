@@ -29,14 +29,15 @@ of possible values.
 # intelligence is in the individual field types.
 
 package Foswiki::Form;
-use base 'Foswiki::Meta';
+use Foswiki::Meta ();
+@ISA = ( 'Foswiki::Meta' );
 
 use strict;
 use Assert;
 use Error qw( :try );
 
-use Foswiki::Form::FieldDefinition;
-use Foswiki::Form::ListFieldDefinition;
+use Foswiki::Form::FieldDefinition ();
+use Foswiki::Form::ListFieldDefinition ();
 
 # The following are reserved as URL parameters to scripts and may not be
 # used as field names in forms.

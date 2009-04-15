@@ -16,10 +16,9 @@ use strict;
 sub MONITOR_EVAL { 0 }
 
 # Leaf token types
-use vars qw ($NAME $STRING $NUMBER);
-$NAME   = 1;
-$NUMBER = 2;
-$STRING = 3;
+our $NAME   = 1;
+our $NUMBER = 2;
+our $STRING = 3;
 
 =begin TML
 

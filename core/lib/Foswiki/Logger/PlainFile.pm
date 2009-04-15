@@ -1,6 +1,7 @@
 # See bottom of file for license and copyright information
 package Foswiki::Logger::PlainFile;
-use base 'Foswiki::Logger';
+use Foswiki::Logger ();
+@ISA = ( 'Foswiki::Logger' );
 
 =begin TML
 
@@ -25,8 +26,8 @@ use strict;
 
 use Assert;
 
-use Foswiki::Time;
-use Foswiki::ListIterator;
+use Foswiki::Time ();
+use Foswiki::ListIterator ();
 
 # Local symbol used so we can override it during unit testing
 sub _time { return time() }
@@ -76,7 +77,8 @@ sub log {
 
     # Private subclass of LineIterator that splits events into fields
     package Foswiki::Logger::EventIterator;
-    use base 'Foswiki::LineIterator';
+    require Foswiki::LineIterator;
+    @Foswiki::Logger::EventIterator::ISA = ( 'Foswiki::LineIterator' );
 
     sub new {
         my ( $class, $fh, $threshold, $level ) = @_;

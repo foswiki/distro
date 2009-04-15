@@ -1,10 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Types::URL;
+use Foswiki::Configure::Type ();
+@ISA = ( 'Foswiki::Configure::Type' );
 
 use strict;
-
-use base 'Foswiki::Configure::Type';
 
 sub new {
     my $class = shift;

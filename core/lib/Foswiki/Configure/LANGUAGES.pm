@@ -1,14 +1,10 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::LANGUAGES;
+use Foswiki::Configure::Pluggable ();
+@ISA = ( 'Foswiki::Configure::Pluggable' );
 
 use strict;
-
-use Foswiki::Configure::Pluggable;
-
-use base 'Foswiki::Configure::Pluggable';
-
-use Error;
 
 sub new {
     my ($class) = @_;

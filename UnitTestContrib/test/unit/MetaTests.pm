@@ -5,7 +5,7 @@ use strict;
 
 package MetaTests;
 
-use base qw(FoswikiTestCase);
+use base qw(FoswikiFnTestCase);
 
 use Foswiki;
 use Foswiki::Meta;
@@ -324,7 +324,81 @@ sub test_parent {
         join( " &gt; ",
             map { "[[$web.$testTopic$_][$testTopic$_]]" } reverse 2 .. 6 )
     );
+}
 
+sub test_attachmentStreams {
+    my $this = shift;
+
+    #--- Simple write and read
+    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>');
+    $this->assert($fh);
+    print $fh 'Twas brillig, and the slithy toves';
+    close($fh);
+
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $this->assert($fh);
+    local $/;
+    my $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('Twas brillig, and the slithy toves', $x);
+
+    #--- Appending write
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>>');
+    $this->assert($fh);
+    print $fh " did gyre and gimbal in the wabe";
+    close($fh);
+
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('Twas brillig, and the slithy toves did gyre and gimbal in the wabe', $x);
+
+    #--- Reading older versions
+
+    # Rev 1
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $this->{test_topicObject}->attach(
+        name => 'dat.dis',
+        dontlog => 1,
+        comment => "Shiver me timbers",
+        hide => 0,
+        stream => $fh);
+    close($fh);
+
+    # Rev 2
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>');
+    $this->assert($fh);
+    print $fh "All mimsy were the borogroves";
+    close($fh);
+
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $this->{test_topicObject}->attach(
+        name => 'dat.dis',
+        dontlog => 1,
+        comment => "Pieces of eight",
+        hide => 0,
+        stream => $fh);
+    close($fh);
+
+    $this->assert_equals(2, $this->{test_topicObject}->getMaxRevNo('dat.dis'));
+
+    # Latest rev (rev 2)
+    $fh = $this->{test_topicObject}->openAttachment( 'dat.dis', '<');
+    $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('All mimsy were the borogroves', $x);
+
+    $fh = $this->{test_topicObject}->openAttachment(
+        'dat.dis', '<', version => 1);
+    $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('Twas brillig, and the slithy toves did gyre and gimbal in the wabe', $x);
+
+    $fh = $this->{test_topicObject}->openAttachment(
+        'dat.dis', '<', version => 2);
+    $x = <$fh>;
+    close($fh);
+    $this->assert_str_equals('All mimsy were the borogroves', $x);
 }
 
 1;

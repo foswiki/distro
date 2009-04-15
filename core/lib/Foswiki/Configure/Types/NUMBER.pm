@@ -1,12 +1,9 @@
 # See bottom of file for license and copyright information
-
 package Foswiki::Configure::Types::NUMBER;
+use Foswiki::Configure::Type ();
+@ISA = ( 'Foswiki::Configure::Type' );
 
 use strict;
-
-use Foswiki::Configure::Type;
-
-use base 'Foswiki::Configure::Type';
 
 sub prompt {
     my ( $this, $id, $opts, $value ) = @_;
