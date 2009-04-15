@@ -568,32 +568,19 @@ If you want to use a different Javascript library than the default Foswiki Javas
 #PluginSettings
 ---++ Plugin Settings
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>TWISTYPLUGIN_SHORTDESCRIPTION%==
+You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+| *Preference* | *Meaning* | *Default* |
+| =TWISTYSHOWLINK= | For example: =More...= | %MAKETEXT{"More..."}% |
+| =TWISTYHIDELINK= | For example: =Close= | %MAKETEXT{"Close"}% |
+| =TWISTYMODE= | Either =div= or =span= | =span= |
+| =TWISTYREMEMBER= | Either =on= or =off=. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared | not specified |
 
-   * Set TWISTYSHOWLINK = %MAKETEXT{"More..."}%
-      * For example: =More...=
-   * Set TWISTYHIDELINK = %MAKETEXT{"Close"}%
-      * For example: =Close=
-   * Set TWISTYMODE = 
-      * Either =div= or =span=; =span= if nothing set
-   * Set TWISTYREMEMBER = 
-      * Either =on= or =off=; default is not specified. If set to =on= all Twisty states will be stored in a FOSWIKIPREF cookie; if set to =off= the FOSWIKIPREF cookie will be cleared
-
+<!--
    * Set SHORTDESCRIPTION = Twisty section !JavaScript library to open/close content dynamically
-   * Set DEBUG = 0
+-->
    
 ---++ Plugin Installation Instructions
-   * Download the ZIP file from the Plugin web (see below)
-   * Unzip it in your Foswiki installation directory. Content: 
-     | *File:* | *Description:* |
-%$MANIFEST%
-
-   * Optionally, if it exists, run ==%TOPIC%_installer== to automatically check and install other Foswiki modules that this module depends on. You can also do this step manually.
-   * Alternatively, manually make sure the dependencies listed in the table below are resolved.
-%$DEPENDECIES%
-   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
-
+%$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Info
 

@@ -24,25 +24,21 @@
 
 package Foswiki::Plugins::TwistyPlugin;
 
-use Foswiki::Func;
-use CGI::Cookie;
+use Foswiki::Func ();
+use CGI::Cookie ();
 use strict;
 
 use vars
-  qw( $VERSION $RELEASE $pluginName @modes $doneHeader $doneDefaults $twistyCount
+  qw( @modes $doneHeader $doneDefaults $twistyCount
   $prefMode $prefShowLink $prefHideLink $prefRemember);
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
+our $VERSION = '$Rev$';
 
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.5.2';
+our $RELEASE = '1.5.2';
+our $SHORTDESCRIPTION = 'Twisty section Javascript library to open/close content dynamically';
+our $NO_PREFS_IN_TOPIC = 1;
 
-$pluginName = 'TwistyPlugin';
+our $pluginName = 'TwistyPlugin';
 
 my $TWISTYPLUGIN_COOKIE_PREFIX  = "TwistyPlugin_";
 my $TWISTYPLUGIN_CONTENT_HIDDEN = 0;
@@ -85,11 +81,11 @@ sub _setDefaults {
     $prefShowLink =
          Foswiki::Func::getPreferencesValue('TWISTYSHOWLINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYSHOWLINK')
-      || '';
+      || '%MAKETEXT{"More..."}%';
     $prefHideLink =
          Foswiki::Func::getPreferencesValue('TWISTYHIDELINK')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYHIDELINK')
-      || '';
+      || '%MAKETEXT{"Close"}%';
     $prefRemember =
          Foswiki::Func::getPreferencesValue('TWISTYREMEMBER')
       || Foswiki::Func::getPluginPreferencesValue('TWISTYREMEMBER')

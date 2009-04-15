@@ -739,7 +739,7 @@ Above table is created manually. Another Plugin could build the table dynamicall
 You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 
 <!--
-   * Set SHORTDESCRIPTION = Add spreadsheet calculation like ="$SUM( $ABOVE() )"= to Foswiki tables and other topic text
+   * Set SHORTDESCRIPTION = Add spreadsheet calculations like ="$SUM( $ABOVE() )"= to Foswiki tables and other topic text
 -->
 | *Preference* | *Meaning* | *Default* |
 | =SPREADSHEETPLUGIN_DEBUG= | \
