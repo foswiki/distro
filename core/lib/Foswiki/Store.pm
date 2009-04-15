@@ -751,8 +751,8 @@ some store implementations when a topic is created, but never saved.
 =cut
 
 sub removeSpuriousLeases {
-    my( $this, $web ) = @_;
-    die "Abstract base class";
+    #my( $this, $web ) = @_;
+    # default is a no-op
 }
 
 1;

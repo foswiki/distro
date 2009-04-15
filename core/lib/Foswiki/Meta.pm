@@ -460,7 +460,11 @@ Return an iterator over each topic name in the web. Only valid on webs.
 sub eachTopic {
     my ($this) = @_;
     ASSERT( !$this->{_topic} ) if DEBUG;
-    ASSERT( $this->{_web} ) if DEBUG;    # no topics allowed in root level
+    if (!$this->{_web}) {
+        # Root
+        require Foswiki::ListIterator;
+        return new Foswiki::ListIterator([]);
+    }
     return $this->{_session}->{store}->eachTopic( $this );
 }
 
@@ -1741,6 +1745,46 @@ sub clearLease {
     $this->{_session}->{store}->setLease($this);
 }
 
+=begin TML
+
+---++ ObjectMethod onTick($time)
+
+Method invoked at regular intervals, usually by a cron job. The job of
+this method is to prod the store into cleaning up expired leases, and
+any other admin job that needs doing at regular intervals.
+
+=cut
+
+sub onTick {
+    my ($this, $time) = @_;
+
+    if (!$this->{_topic}) {
+        my $it = $this->eachWeb();
+        while ($it->hasNext()) {
+            my $web = $it->next();
+            $web = $this->getPath()."/$web" if $this->getPath();
+            my $m = new Foswiki::Meta($this->{_session}, $web);
+            $m->onTick($time);
+        }
+        $it = $this->eachTopic();
+        while ($it->hasNext()) {
+            my $topic = $it->next();
+            my $topicObject = new Foswiki::Meta(
+                $this->{_session}, $this->getPath(), $topic);
+            $topicObject->onTick($time);
+        }
+        # Clean up spurious leases that may have been left behind
+        # during cancelled topic creation
+        $this->{_session}->{store}
+          ->removeSpuriousLeases( $this->getPath() );
+    } else {
+        my $lease = $this->getLease();
+        if( $lease && $lease->{expires} < $time) {
+            $this->clearLease();
+        }
+    }
+}
+
 ############# ATTACHMENTS ON TOPICS #############
 
 =begin TML
@@ -2509,7 +2553,7 @@ sub dataDecode {
 
 1;
 
-__DATA__
+__END__
 
 Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/, http://Foswiki.org/
 
