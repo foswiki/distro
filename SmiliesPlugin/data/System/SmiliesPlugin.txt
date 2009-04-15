@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111929255" format="1.2" version="$Rev$"}%
 ---+ The Smilies Plugin <nop>:-)
 
 Smilies are common in e-mail messages and bulletin board posts. They are used to convey an emotion, such as a smile :<nop>-) or a frown :<nop>-( . This plugin automatically converts certain smilies to a nice small icon.
@@ -21,14 +20,14 @@ Here is the list of smilies supported by this plugin. To add others, attach new 
 | <nop>:p           | %ATTACHURL%/tongue.gif      | "stick out tongue" |
 | <nop>:-p          | %ATTACHURL%/tongue.gif      | "stick out tongue" |
 | <nop>:rolleyes:   | %ATTACHURL%/rolleyes.gif    | "roll eyes (sarcastic)" |
-| <nop>:mad:        | %ATTACHURL%/mad.gif         | "mad!" |
+| <nop>:mad:        | %ATTACHURL%/mad.gif         | "mad" |
 | <nop>:eek:        | %ATTACHURL%/eek.gif         | "eek!" |
 | <nop>:confused:   | %ATTACHURL%/confused.gif    | "confused" |
-| <nop>&nbsp;>:-)   | %ATTACHURL%/devil.gif       | "hehe!" |
-| <nop>:devil:      | %ATTACHURL%/devil.gif       | "hehe!" |
-| <nop>&nbsp;>;-)   | %ATTACHURL%/devilwink.gif   | "hehe! (friendly)" |
-| <nop>:devilish:   | %ATTACHURL%/devilwink.gif   | "hehe! (friendly)" |
-| <nop>:-X          | %ATTACHURL%/sealed.gif      | "sealed lips" |
+| <nop>&nbsp;>:-)   | %ATTACHURL%/devil.gif       | "evil" |
+| <nop>:devil:      | %ATTACHURL%/devil.gif       | "evil" |
+| <nop>&nbsp;>;-)   | %ATTACHURL%/devilwink.gif   | "devilish" |
+| <nop>:devilish:   | %ATTACHURL%/devilwink.gif   | "devilish" |
+| <nop>:-X          | %ATTACHURL%/sealed.gif      | "my lips are sealed" |
 | <nop>:ok:         | %ATTACHURL%/thumbs.gif      | "thumbs up" |
 | <nop>:yes:        | %ATTACHURL%/yes.gif         | "yes" |
 | <nop>:no:         | %ATTACHURL%/no.gif          | "no" |
@@ -37,32 +36,17 @@ Here is the list of smilies supported by this plugin. To add others, attach new 
 
 ---++ <nop>%TOPIC% Global Settings
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting of this plugin write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>SMILIESPLUGIN_TOPIC%==
-
-   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+<!--
    * Set SHORTDESCRIPTION = Render smilies as icons, like :-) for =&nbsp;:-)= or :eek: for =&nbsp;:eek:=
-
-   * The name of the topic containig your Smilies. Use format =web.topic=. Default: ==%SYSTEMWEB%.SmiliesPlugin==
-   * #Set TOPIC = %SYSTEMWEB%.SmiliesPlugin
-
-   * The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). Default: ==&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;==
-<verbatim>
-   * #Set FORMAT = <img src="$url" alt="$emoticon" title="$emoticon" border="0" />
-</verbatim>
+-->
+| *Preference* | *Meaning* | *Default* |
+| =SMILIESPLUGIN_TOPIC= | The name of the topic containing your Smilies. Use format =web.topic=. | %SYSTEMWEB%.SmiliesPlugin |
+| =SMILIESPLUGIN_FORMAT= | The way the _emoticon_ is displayed. You can use ==$emoticon== (e.g. =:<nop>D=), ==$url== (e.g. =%<nop>ATTACHURL%/biggrin.gif=) and ==$tooltip== (e.g. ="big grin"=). | =&lt;img src="$url" alt="$tooltip" title="$tooltip" border="0" /&gt;= |
 
 ---++ Plugin Installation Instructions
-This plugin is installed by default with a Foswiki release. You should not need to install the plugin unless it is for an upgrade.
-   * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-     | *File:* | *Description:* |
-     | ==data/System/%TOPIC%.txt== | Plugin topic |
-     | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
-     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==pub/System/%TOPIC%/*.gif== | Plugin icon files |
-   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
-   * Test if the plugin is correctly installed:
-   * You will see a series of icons on next line: <br />
+%$INSTALL_INSTRUCTIONS%
+   * Test if the plugin is correctly installed: you will see a series of icons on next line: <br />
         :-) :) :cool: :( :o :D ;) :p :rolleyes: :mad: :eek: :confused: >:-) >;-) :-X :ok: :yes: :no: :love: :skull:
 
 ---++ Plugin Info
@@ -71,6 +55,7 @@ This plugin is installed by default with a Foswiki release. You should not need 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 04 Jan 2009 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  13 Jan 2009: | Removed default preferences from this topic |
 |  04 Jan 2009: | Foswiki version - Fixed the use of SMILIESPLUGIN_TOPIC so you can create your own smily collection that does not get overwritten when upgrading Foswiki |
 |  21 Nov 2007: | Doc improvements |
 |  16 Mar 2005: | Fixed typo "scull" |
@@ -93,23 +78,23 @@ This plugin is installed by default with a Foswiki release. You should not need 
 ---
 *Related Topics:* %SYSTEMWEB%.DefaultPreferences, %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]]
 
-%META:FILEATTACHMENT{name="biggrin.gif" attr="h" comment="" date="1071216488" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\biggrin.gif" size="152" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="confused.gif" attr="h" comment="" date="1071216502" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\confused.gif" size="110" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="cool.gif" attr="h" comment="" date="1071216522" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\cool.gif" size="124" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="eek.gif" attr="h" comment="" date="1071216532" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\eek.gif" size="1264" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="frown.gif" attr="h" comment="" date="1071216543" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\frown.gif" size="94" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="indifferent.gif" attr="h" comment="" date="1071216555" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\indifferent.gif" size="132" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="mad.gif" attr="h" comment="" date="1071216566" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\mad.gif" size="154" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="redface.gif" attr="h" comment="" date="1071216576" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\redface.gif" size="136" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="rolleyes.gif" attr="h" comment="" date="1071216591" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\rolleyes.gif" size="1784" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="smile.gif" attr="h" comment="" date="1071216609" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\smile.gif" size="93" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="tongue.gif" attr="h" comment="" date="1071216632" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\tongue.gif" size="338" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="wink.gif" attr="h" comment="" date="1071216641" path="C:\Data\MyTWiki\Plugins\SmiliesPlugin\pub\TWiki\SmiliesPlugin\wink.gif" size="135" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="devil.gif" attr="h" comment="" date="1077002192" path="C:\Data\Temp\devil.gif" size="139" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="devilwink.gif" attr="h" comment="" date="1077002138" path="C:\Data\Temp\devilwink.gif" size="141" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="sealed.gif" attr="h" comment="" date="1093124420" path="C:\Data\Temp\1\sealed.gif" size="142" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="thumbs.gif" attr="h" comment="" date="1093124440" path="C:\Data\Temp\1\thumbs.gif" size="166" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="yes.gif" attr="h" comment="" date="1093124449" path="C:\Data\Temp\1\yes.gif" size="262" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="no.gif" attr="h" comment="" date="1093124458" path="C:\Data\Temp\1\no.gif" size="468" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="love.gif" attr="h" comment="" date="1093124471" path="C:\Data\Temp\1\love.gif" size="379" user="ProjectContributor" version="1.1"}%
-%META:FILEATTACHMENT{name="skull.gif" attr="h" comment="" date="1093124482" path="C:\Data\Temp\1\skull.gif" size="1006" user="ProjectContributor" version="1.1"}%
+%META:FILEATTACHMENT{name="biggrin.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="confused.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="cool.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="eek.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="frown.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="indifferent.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="mad.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="redface.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="rolleyes.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="smile.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="tongue.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="wink.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="devil.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="devilwink.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="sealed.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="thumbs.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="yes.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="no.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="love.gif" attr="h" version="1.1"}%
+%META:FILEATTACHMENT{name="skull.gif" attr="h" version="1.1"}%

@@ -23,7 +23,7 @@ package Foswiki::Plugins::SmiliesPlugin;
 
 use strict;
 
-use Foswiki::Func;
+use Foswiki::Func ();
 
 use vars qw( $VERSION $RELEASE
   %smiliesUrls %smiliesEmotions
