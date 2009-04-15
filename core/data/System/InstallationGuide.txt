@@ -115,23 +115,24 @@ First choose the best configuration method for your web server. With Apache, the
 
 Different script execution mechanisms are disabled in different ways; see your web server configuration and documentation for more details.
 
+#ProtectConfigure
 *Protect the configure script:* You should never leave the =configure= script open to the public. Limit access to the =bin/configure= script to either localhost, an IP address or a specific user using basic Apache authentication. The Foswiki:Support.ApacheConfigGenerator lets you setup who has access to the =configure= script. Also see the =foswiki-httpd-conf.txt= or =bin/.htaccess.txt= file for an example of the setting required to protect the =configure= script.
 
 To limit access to a particular user, set up a =.htpasswd= file that contains the user name and password that Apache will use to authenticate the user:
    * Change to the =foswiki/data= directory.
    * Issue the command =htpasswd -c .htpasswd &lt;username&gt;=, where &lt;username&gt; is the name of the user you will use to access the =configure= script. _Choose the username with care:_ the username cannot be an existing login name for your Foswiki installation, nor can it be used later on to register in Foswiki. Enter a password when prompted.
 
-The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files show how to configure Apache so that the =configure= page will be protected using the user and password held in the =data/.htpasswd= file. The Apache config file or .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Ensure the user specified in the directive matches the &lt;username&gt; you used when creating the .htpasswd file.
+The Foswiki:Support.ApacheConfigGenerator tool and the sample config files and .htaccess files show how to configure Apache so that the =configure= web page will be protected using the user and password held in the =data/.htpasswd= file. The Apache config file or .htaccess file will have a =Require user &lt;username&gt;= directive to restrict access to the =configure= script. Ensure the user specified in the directive matches the &lt;username&gt; you used when creating the .htpasswd file.
 
-*Note:* When you use the =configure= page for the first time to save any settings, you will be prompted to enter a password for the =configure= page. This password is used for all subsequent configuration changes, as well as for logging in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Even after a =configure= password has been set, access to the =configure= page should still be restricted by the web server, in order to avoid revealing internal information to potential attackers.
+*Note:* In addition to any web server security protection that you have set up, when saving any configuration settings for the first time on the =configure= web page, you will be prompted to set a configuration password. This password must be entered on all subsequent configuration changes, and is also used to log in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Even after a =configure= password has been set, access to the =configure= page should still be restricted by the web server, in order to avoid revealing internal information to potential attackers.
 
 For more information, refer to Foswiki:Support.ProtectingYourConfiguration.
 
 #ConfigureFoswiki
 ---+++ Configure Foswiki
 
-*Run the =configure= script* from your browser (enter =http://yourdomain/foswiki/bin/configure= into your browser address bar).
-   * When you run =configure= for the first time, you can only edit the section =General Path Settings=. Make any required changes, and save the settings. You will be prompted to set a password for the =configure= page &mdash; this password will be used for all subsequent configuration changes, as well as for logging in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]").
+*Run the =configure= script* from your browser: enter =http://yourdomain/foswiki/bin/configure= into your browser address bar.
+   * When you access the =configure= web page for the first time, you can only edit the section =General Path Settings=. Make any required changes, and save the settings, whether or not you needed to make any changes. You will be prompted to set a password for the =configure= page: this password must be entered for all subsequent configuration changes, and is also used to log in via the internal admin link (see the section "[[#DefineAdminUser][Define the administrator user(s)]]"). Note the configuration password is separate from any web server security you have set up for the =configure= web page (see "[[#ProtectConfigure][Protect the configure script]]").
    * Continue configuring Foswiki. Resolve any errors or warnings highlighted on the configure page.
    * If your web server can be accessed by more than one domain name make sure to add the additional alternative URLs to ={PermittedRedirectHostUrls}=
    * Setup the _Mail and Proxies_ section. The ={WebMasterEmail}= and ={SMTP}{MAILHOST}= settings must be defined so Foswiki can send registration emails. Many ISPs have introduced authentication when sending emails to fight spam so you may also have to set ={SMTP}{Username}= and ={SMTP}{Password}=. If you do not want to enable sending registration emails or want to enable it later you can uncheck ={EnableEmail}=.
