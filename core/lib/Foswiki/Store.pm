@@ -221,6 +221,43 @@ sub moveWeb {
 
 =begin TML
 
+---++ ObjectMethod testAttachment( $topicObject, $attachment, $test ) -> $value
+
+Performs a type test on the given attachment file.
+    * =$attachment= - name of the attachment to test e.g =lolcat.gif=
+    * =$test= - the test to perform e.g. ='r'=
+
+The return value is the value that would be returned by the standard
+perl file operations, as indicated by $type
+
+    * r File is readable by current user (tests Foswiki permissions)
+    * w File is writable by current user (tests Foswiki permissions)
+    * e File exists.
+    * z File has zero size.
+    * s File has nonzero size (returns size).
+    * T File is an ASCII text file (heuristic guess).
+    * B File is a "binary" file (opposite of T).
+    * M Last modification time (epoch seconds).
+    * A Last access time (epoch seconds).
+
+Note that all these types should behave as the equivalent standard perl
+operator behaves, except M and A which are independent of the script start
+time (see perldoc -f -X for more information)
+
+Other standard Perl file tests may also be supported on some store
+implementations, but cannot be relied on.
+
+Errors will be signalled by an Error::Simple exception.
+
+=cut
+
+sub testAttachment {
+    my ($this, $attachment, $test) = @_;
+    die "Abstract base class";
+}
+
+=begin TML
+
 ---++ ObjectMethod openAttachment( $topicObject, $attachment, $mode, %opts  ) -> $text
 
 Opens a stream onto the attachment. This method is primarily to

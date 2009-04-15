@@ -251,6 +251,14 @@ sub moveWeb {
 }
 
 # Documented in Foswiki::Store
+sub testAttachment {
+    my ($this, $topicObject, $attachment, $test) = @_;
+    my $handler = $this->getHandler(
+        $topicObject->web, $topicObject->topic, $attachment);
+    return $handler->test( $test );
+}
+
+# Documented in Foswiki::Store
 sub openAttachment {
     my ( $this, $topicObject, $att, $mode, @opts ) = @_;
 

@@ -764,6 +764,11 @@ sub removeSpuriousLeases {
     }
 }
 
+sub test {
+    my ($this, $test) = @_;
+    return eval "-$test '$this->{file}'";
+}
+
 # Used by subclasses
 sub saveStream {
     my ( $this, $fh ) = @_;

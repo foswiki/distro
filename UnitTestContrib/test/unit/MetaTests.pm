@@ -401,4 +401,33 @@ sub test_attachmentStreams {
     $this->assert_str_equals('All mimsy were the borogroves', $x);
 }
 
+sub test_testAttachment {
+    my $this = shift;
+
+    my $fh = $this->{test_topicObject}->openAttachment('dis.dat', '>');
+    print $fh "No! Not the bore worms!";
+    close($fh);
+
+    $fh = $this->{test_topicObject}->openAttachment('dis.dat', '<');
+    $this->{test_topicObject}->attach(
+        name => 'dat.dis',
+        dontlog => 1,
+        comment => "Pieces of eight",
+        hide => 0,
+        stream => $fh);
+
+    my $t = time;
+    $this->assert($this->{test_topicObject}->hasAttachment('dat.dis'));
+
+    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'e'));
+    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'r'));
+    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'w'));
+    $this->assert(!$this->{test_topicObject}->testAttachment('dat.dis', 'z'));
+    $this->assert_equals(23, $this->{test_topicObject}->testAttachment('dat.dis', 's'));
+    $this->assert($this->{test_topicObject}->testAttachment('dat.dis', 'T'));
+    $this->assert(!$this->{test_topicObject}->testAttachment('dat.dis', 'B'));
+    $this->assert($t, $this->{test_topicObject}->testAttachment('dat.dis', 'M'));
+    $this->assert($t, $this->{test_topicObject}->testAttachment('dat.dis', 'A'));
+}
+
 1;
