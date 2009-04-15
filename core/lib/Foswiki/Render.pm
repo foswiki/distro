@@ -19,9 +19,6 @@ use Foswiki::Time ();
 # text during rendering.
 our $placeholderMarker = 0;
 
-# Used to generate unique anchors
-our %anchornames = ();
-
 # limiting lookbehind and lookahead for wikiwords and emphasis
 # use like \b
 #SMELL: they really limit the number of places emphasis can happen.
@@ -391,129 +388,72 @@ sub _fixedFontText {
 # from %<nop>TOC%
 sub _makeAnchorHeading {
     my ( $this, $text, $level, $topicObject ) = @_;
-    $text =~ s/^\s*(.*?)\s*$/$1/;
 
     # - Build '<nop><h1><a name='atext'></a> heading </h1>' markup
     # - Initial '<nop>' is needed to prevent subsequent matches.
-    # - filter out $Foswiki::regex{headerPatternNoTOC} ( '!!' and '%NOTOC%' )
-    my $anchorName = $this->_makeUniqueAnchorName( $topicObject, $text, 0 );
-
-    #  if the generated unique anchor name is 'compatible', it won't change:
-    my $compatAnchorName = $this->_makeAnchorName( $text, 1 );
-
     # filter '!!', '%NOTOC%'
-    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
-    my $html = '<nop><h' . $level . '>';
-    $html .= CGI::a( { name => $anchorName }, '' );
-    if ( $compatAnchorName ne $anchorName ) {
-        $compatAnchorName =
-          $this->_makeUniqueAnchorName( $topicObject, $anchorName, 1 );
-        $html .= CGI::a( { name => $compatAnchorName }, '' );
-    }
-    $html .= ' ' . $text . ' </h' . $level . '>';
+    my $html = '<nop><h' . $level . '>'
+      . $this->_makeAnchorTarget( $topicObject, $text )
+        . ' ' . $text . ' </h' . $level . '>';
 
     return $html;
 }
 
-# =$anchorName= - the unprocessed anchor name
-# =$compatibilityMode= - SMELL: compatibility with *what*?? Who knows. :-(
-# Build a valid HTML anchor name
+# Make an anchor that can be used as the target of links.
+sub _makeAnchorTarget {
+    my ($this, $topicObject, $text) = @_;
+
+    $text =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
+
+    my $goodAnchor = $this->_makeAnchorName( $text );
+    my $html = CGI::a( {
+        name => $this->_makeAnchorNameUnique($topicObject, $goodAnchor),
+    }, '' );
+
+    if ($Foswiki::cfg{RequireCompatibleAnchors}) {
+        # Add in extra anchors compatible with old formats, as required
+        require Foswiki::Compatibility;
+        my @extras = Foswiki::Compatibility::makeCompatibleAnchors( $text );
+        foreach my $extra ( @extras ) {
+            next if ($extra eq $goodAnchor);
+            $html .= CGI::a( {
+                name => $this->_makeAnchorNameUnique( $topicObject, $extra ),
+            }, '' );
+        }
+    }
+    return $html;
+}
+
+# Make an anchor name from the base test in =$anchorName=
+# 1. Given the same text, this function must always return the same
+#    anchor name
+# 2. NAME tokens must begin with a letter ([A-Za-z]) and may be
+#    followed by any number of letters, digits ([0-9]), hyphens ("-"),
+#    underscores ("_"), colons (":"), and periods (".").
+#    (from http://www.w3.org/TR/html401/struct/links.html#h-12.2.1)
 sub _makeAnchorName {
-    my ( $this, $anchorName, $compatibilityMode ) = @_;
+    my ( $this, $text ) = @_;
 
-    if (  !$compatibilityMode
-        && $anchorName =~ /^$Foswiki::regex{anchorRegex}$/ )
-    {
+    $text =~ s/^\s*(.*?)\s*$/$1/;
 
+    if ( $text =~ /^$Foswiki::regex{anchorRegex}$/ ) {
         # accept, already valid -- just remove leading #
-        return substr( $anchorName, 1 );
+        return substr( $text, 1 );
     }
 
-    # strip out potential links so they don't get rendered.
-    # remove double bracket link
-    $anchorName =~ s/\[(?:\[.*?\])?\[(.*?)\]\s*\]/$1/g;
+    # $anchorName is a *byte* string. If it contains any wide characters
+    # the following will not work.
+    ASSERT($text !~ /[^\x00-\xFF]/) if DEBUG;
 
-    # add an _ before bare WikiWords
-    $anchorName =~ s/($Foswiki::regex{wikiWordRegex})/_$1/go;
+    # use _ as an escape character to escape any byte outside the
+    # range specified by http://www.w3.org/TR/html401/struct/links.html
+    $text =~ s/([^A-Z0-9:.])/'_'.sprintf('%02d', ord($1))/gie;
 
-    if ($compatibilityMode) {
-
-        # remove leading/trailing underscores first, allowing them to be
-        # reintroduced
-        $anchorName =~ s/^[\s#_]*//;
-        $anchorName =~ s/[\s_]*$//;
-    }
-    $anchorName =~ s/<\/?[a-zA-Z][^>]*>//gi;    # remove HTML tags
-    $anchorName =~ s/&#?[a-zA-Z0-9]+;//g;       # remove HTML entities
-    $anchorName =~ s/&//g;                      # remove &
-         # filter TOC excludes if not at beginning
-    $anchorName =~ s/^(.+?)\s*$Foswiki::regex{headerPatternNoTOC}.*/$1/o;
-
-    # filter '!!', '%NOTOC%'
-    $anchorName =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
-
-    # For most common alphabetic-only character encodings (i.e. iso-8859-*),
-    # remove non-alpha characters
-    if ( !defined( $Foswiki::cfg{Site}{CharSet} )
-        || $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859-?/i )
-    {
-        $anchorName =~ s/[^$Foswiki::regex{mixedAlphaNum}]+/_/g;
-    }
-    $anchorName =~ s/__+/_/g;    # remove excessive '_' chars
-    if ( !$compatibilityMode ) {
-        $anchorName =~ s/^[\s#_]+//;    # no leading space nor '#', '_'
-    }
-
-    # limit to 32 chars - FIXME: Use Unicode chars before truncate
-    $anchorName =~ s/^(.{32})(.*)$/$1/;
-    if ( !$compatibilityMode ) {
-        $anchorName =~ s/[\s_]+$//;     # no trailing space, nor '_'
-    }
-
-    return Foswiki::urlEncode($anchorName);
+    return $text;
 }
 
-# dispose of the set of known unique anchornames in order to inhibit the
-# 'relabeling' of anchor names if the same topic is processed more than once,
-# cf. explanation in Foswiki::expandMacros()
-sub _eraseAnchorNameMemory {
-    %anchornames = ();
-}
-
-# =$anchorName= - the unprocessed anchor name
-# =$compatibilityMode= - SMELL: compatibility with *what*?? Who knows. :-(
-# Build a valid HTML anchor name (unique w.r.t. the list stored in
-# %anchornames)
-sub _makeUniqueAnchorName {
-    my ( $this, $topicObject, $text, $compatibilityMode ) = @_;
-    my $web   = $topicObject->web() || '';
-    my $topic = $topicObject->topic() || '';
-
-    my $anchorName = $this->_makeAnchorName( $text, $compatibilityMode );
-
-    # ensure that the generated anchor name is unique
-    my $cnt    = 1;
-    my $prefix = $web . '.' . $topic . '#';
-    my $suffix = '';
-    while ( exists $anchornames{ $prefix . $anchorName . $suffix } ) {
-
-# $anchorName.$suffix must _always_ be 'compatible', or things would get complicated
-        $suffix = '_AN' . $cnt++;
-
-        # limit resulting name to 32 chars
-        $anchorName = substr( $anchorName, 0, 32 - length($suffix) );
-
-        # this is only needed because '__' would not be 'compatible'
-        $anchorName =~ s/_+$//g;
-    }
-    $anchorName .= $suffix;
-    $anchornames{ $prefix . $anchorName } = 1;
-
-    return $anchorName;
-}
-
-# Returns =title='...'= tooltip info in case LINKTOOLTIPINFO perferences variable is set.
-# Warning: Slower performance if enabled.
+# Returns =title='...'= tooltip info if the LINKTOOLTIPINFO preference
+# is set. Warning: Slower performance if enabled.
 sub _linkToolTipInfo {
     my ( $this, $web, $topic ) = @_;
     unless ( defined( $this->{LINKTOOLTIPINFO} ) ) {
@@ -688,8 +628,10 @@ sub _renderExistingWikiWord {
     my @attrs;
     my $href = $this->{session}->getScriptUrl( 0, 'view', $web, $topic );
     if ($anchor) {
-        $anchor = $this->_makeAnchorName($anchor);
-        $href   = "$href#$anchor";
+        $anchor = $this->_makeAnchorName( $anchor );
+        # No point in trying to make it unique; just aim at the first
+        # occurrence
+        $href   = $href.'#'.Foswiki::urlEncode($anchor);
     }
     my $cssClassName = "$currentTopic$currentWebHome";
     $cssClassName =~ s/^(.*?)\s*$/$1/ if $cssClassName;
@@ -997,8 +939,6 @@ sub getRenderedVersion {
 
     @{ $this->{LIST} } = ();
 
-    %anchornames = ();
-
     # Initial cleanup
     $text =~ s/\r//g;
 
@@ -1128,10 +1068,19 @@ s/(^|(?<!url)[-*\s(|])($Foswiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;
     $text =~ s/$Foswiki::TranslationToken(#x?[0-9a-f]+;)/&$1/goi;
     $text =~ s/$Foswiki::TranslationToken(\w+;)/&$1/go;
 
-# '#WikiName' anchors (moved in front in order to retain original names if possible)
-# SMELL: in case this type of anchor (presumably user-defined) gets renamed, it should be noted somewhere
+    # clear the set of unique anchornames in order to inhibit
+    # the 'relabeling' of anchor names if the same topic is processed
+    # more than once, cf. explanation in expandMacros()
+    $this->_clearAnchorNames( $topicObject );
+
+    # '#WikiName' anchors. Don't attempt to make these unique; renaming
+    # user-defined anchors is not sensible.
+    # SMELL: if a user-defined anchor gets renamed, it should be warned
+    # about somewhere.
     $text =~ s/^(\#)($Foswiki::regex{wikiWordRegex})/
-      CGI::a({name=>$this->_makeUniqueAnchorName($topicObject, $2)},'')/geom;
+      CGI::a({
+          name => $this->_makeAnchorName($2)
+         }, '')/geom;
 
     # Headings
     # '<h6>...</h6>' HTML rule
@@ -1934,7 +1883,6 @@ sub getReferenceRE {
             }
         }
     }
-
     return $re;
 }
 
@@ -2046,15 +1994,6 @@ a plugin (where head and script sections are already protected)
 
 =cut
 
-# We need to keep track of the 'TOC topics' here in order to ensure
-# that each of these topics is only processed once (this is due to
-# the fact that the renaming of ambiguous anchors has to work
-# context-less and cannot recognize whether a particular heading has
-# been converted before)--alternatively, we could just clear the
-# 'anchorname memory' and keep reprocessing topics (the latter
-# solution is slower if the same TOC is included multiple times)
-# current solution: let _TOC() clear the hash which holds the
-# anchornames
 sub renderTOC {
     my ( $this, $text, $topicObject, $params, $isSameTopic ) = @_;
     ASSERT( UNIVERSAL::isa( $topicObject, 'Foswiki::Meta' ) )  if DEBUG;
@@ -2102,101 +2041,96 @@ sub renderTOC {
         push @qparams, $name => $query->param($name);
     }
 
+    # Extract anchor targets. This has to generate *identical* anchor
+    # targets to normal rendering.
+
+
     # clear the set of unique anchornames in order to inhibit
     # the 'relabeling' of anchor names if the same topic is processed
     # more than once, cf. explanation in expandMacros()
-    $this->_eraseAnchorNameMemory();
+    $this->_clearAnchorNames( $topicObject );
 
     # NB: While we're processing $text line by line here,
-    # $this->getRendereredVersion() 'allocates' unique anchor
-    # names by first replacing '#WikiWord', followed by
-    # regex{headerPatternHt} and
-    # regex{headerPatternDa}. In order to stay in sync and not
-    # 'clutter'/slow down the renderer, we have to adhere to this
-    # order here as well
+    # getRendereredVersion() 'allocates' unique anchor
+    # names by first replacing regex{headerPatternHt} followed by
+    # regex{headerPatternDa}. We have to adhere to this
+    # order here as well.
     my @regexps = (
-        '^(\#)(' . $Foswiki::regex{wikiWordRegex} . ')',
         $Foswiki::regex{headerPatternHt},
         $Foswiki::regex{headerPatternDa}
     );
     my @lines    = split( /\r?\n/, $text );
-    my %anchors  = ();
-    my %headings = ();
-    my %levels   = ();
-    for my $i ( 0 .. $#regexps ) {
-        my $lineno = 0;
-
-        # SMELL: use forEachLine
-        foreach my $line (@lines) {
-            $lineno++;
+    my @targets;
+    my $lineno = 0;
+  LINE: foreach my $line (@lines) {
+        $lineno++;
+        for my $i ( 0 .. $#regexps ) {
             if ( $line =~ m/$regexps[$i]/ ) {
-                my ( $level, $heading ) = ( $1, $2 );
-                my $anchor =
-                  $this->_makeUniqueAnchorName( $topicObject, $heading );
+                # c.f. _makeAnchorHeading
+                my ( $level, $text ) = ( $1, $2 );
+                $text =~ s/^\s*(.*?)\s*$/$1/;
 
-                if ( $i > 0 ) {
+                $text =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.*//o;
+                # Ignore empty headings
+                next unless $text;
 
-                    # SMELL: needed only because _makeAnchorHeading
-                    # uses it
-                    my $compatAnchor = $this->_makeAnchorName( $anchor, 1 );
-                    $compatAnchor =
-                      $this->_makeUniqueAnchorName( $topicObject, $anchor, 1 )
-                        if ( $compatAnchor ne $anchor );
+                # $i == 1 is $Foswiki::regex{headerPatternDa}
+                $level = length( $level ) if ( $i == 1 );
+                if ( ( $level >= $minDepth ) && ( $level <= $maxDepth ) ) {
+                    my $anchor = $this->_makeAnchorNameUnique(
+                        $topicObject, $this->_makeAnchorName( $text ));
+                    my $target = {
+                        anchor => $anchor,
+                        text   => $text,
+                        level  => $level,
+                    };
+                    push(@targets, $target);
 
-                    $heading =~ s/\s*$Foswiki::regex{headerPatternNoTOC}.+$//go;
-                    next unless $heading;
-
-                    $level = length $level if ( $i == 2 );
-                    if ( ( $level >= $minDepth ) && ( $level <= $maxDepth ) ) {
-                        $anchors{$lineno}  = $anchor;
-                        $headings{$lineno} = $heading;
-                        $levels{$lineno}   = $level;
-                    }
+                    next LINE;
                 }
             }
         }
     }
 
-    foreach my $lineno ( sort { $a <=> $b } ( keys %headings ) ) {
-        my ( $level, $line, $anchor ) =
-          ( $levels{$lineno}, $headings{$lineno}, $anchors{$lineno} );
-        $highest = $level if ( $level < $highest );
-        my $tabs = "\t" x $level;
+    foreach my $a ( @targets ) {
+        my $text = $a->{text};
+        $highest = $a->{level} if ( $a->{level} < $highest );
+        my $tabs = "\t" x $a->{level};
 
         # Remove *bold*, _italic_ and =fixed= formatting
-        $line =~
+        $text =~
 s/(^|[\s\(])\*([^\s]+?|[^\s].*?[^\s])\*($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
-        $line =~
+        $text =~
 s/(^|[\s\(])_+([^\s]+?|[^\s].*?[^\s])_+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
-        $line =~
+        $text =~
 s/(^|[\s\(])=+([^\s]+?|[^\s].*?[^\s])=+($|[\s\,\.\;\:\!\?\)])/$1$2$3/g;
 
         # Prevent WikiLinks
-        $line =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;    # '[[...][...]]'
-        $line =~ s/\[\[(.*?)\]\]/$1/ge;          # '[[...]]'
-        $line =~
+        $text =~ s/\[\[.*?\]\[(.*?)\]\]/$1/g;    # '[[...][...]]'
+        $text =~ s/\[\[(.*?)\]\]/$1/ge;          # '[[...]]'
+        $text =~
 s/([\s\(])($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex})/$1<nop>$3/go
           ;                                      # 'Web.TopicName'
-        $line =~
+        $text =~
           s/([\s\(])($Foswiki::regex{wikiWordRegex})/$1<nop>$2/go; # 'TopicName'
-        $line =~ s/([\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/go;  # 'TLA'
-        $line =~
+        $text =~ s/([\s\(])($Foswiki::regex{abbrevRegex})/$1<nop>$2/go;  # 'TLA'
+        $text =~
           s/([\s\-\*\(])([$Foswiki::regex{mixedAlphaNum}]+\:)/$1<nop>$2/go
           ;    # 'Site:page' Interwiki link
                # Prevent manual links
-        $line =~ s/<[\/]?a\b[^>]*>//gi;
+        $text =~ s/<[\/]?a\b[^>]*>//gi;
 
         # create linked bullet item, using a relative link to anchor
         my $target =
           $isSameTopic
-          ? Foswiki::_make_params( 0, '#' => $anchor, @qparams )
+          ? Foswiki::_make_params( 0, '#' => $a->{anchor}, @qparams )
           : $this->{session}->getScriptUrl(
             0, 'view', $topicObject->web, $topicObject->topic,
-            '#' => $anchor,
+            '#' => $a->{anchor},
             @qparams
           );
-        $line = $tabs . '* ' . CGI::a( { href => $target }, $line );
-        $result .= "\n" . $line;
+        $text = $tabs . '* ' . CGI::a( { href => $target }, $text );
+        $result .= "\n" . $text;
     }
 
     if ($result) {
@@ -2215,6 +2149,44 @@ s/([\s\(])($Foswiki::regex{webNameRegex})\.($Foswiki::regex{wikiWordRegex})/$1<n
     else {
         return '';
     }
+}
+
+# Clear anchor names in the given topic. This is so that the same anchor
+# names can be generated for each time the same topic is %INCLUDEd (the
+# same anchor target will be generated for each time the topic is included.
+# C'est la vie.
+sub _clearAnchorNames {
+    my ($this, $topicObject) = @_;
+    $this->{_anchorNames}{$topicObject->getPath()} = ();
+}
+
+# Generate a unique name for an anchor in the given topic
+#
+# Note that anchor names generated this way are unique since the last call
+# to clearAnchorNames for the given topic. The anchor names are cleared
+# (1) whenever a new session is started and (2) whenever a new %TOC macro
+# is rendered.
+sub _makeAnchorNameUnique {
+    my ($this, $topicObject, $anchorName) = @_;
+    my $cnt    = 1;
+    my $suffix = '';
+    my $context = $topicObject->getPath();
+    $this->{_anchorNames}{$context} ||= ();
+    while ( exists $this->{_anchorNames}{$context}{$anchorName.$suffix} ) {
+
+        # $anchorName.$suffix must _always_ be 'compatible', or things
+        # would get complicated (whatever that means)
+        $suffix = '_AN' . $cnt++;
+
+        # limit resulting name to 32 chars
+        $anchorName = substr( $anchorName, 0, 32 - length($suffix) );
+
+        # this is only needed because '__' would not be 'compatible'
+        $anchorName =~ s/_+$//g;
+    }
+    $anchorName .= $suffix;
+    $this->{_anchorNames}{$context}{$anchorName} = 1;
+    return $anchorName;
 }
 
 =begin TML

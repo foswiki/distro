@@ -14,6 +14,8 @@ my $VIEW_UI_FN;
 sub set_up {
     my $this = shift;
     $this->SUPER::set_up;
+    # Testcases are written using good anchors
+    $Foswiki::cfg{RequireCompatibleAnchors} = 0;
     $VIEW_UI_FN ||= $this->getUIFn('view');
 }
 

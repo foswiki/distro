@@ -380,6 +380,82 @@ sub _symmetricalDataDecode {
     return '';
 }
 
+# IF cfg{RequireCompatibleAnchors}
+
+# Return a list of alternative anchor names generated using old generations
+# of anchor name generator
+sub makeCompatibleAnchors {
+    my ( $text ) = @_;
+    my @anchors;
+
+    # Use the old algorithm to generate the old style, non-unique, anchor
+    # target.
+    my $badAnchor = _makeBadAnchorName( $text, 0 );
+    push(@anchors, $badAnchor),
+
+    # There's an even older algorithm we have to allow for
+    my $worseAnchor = _makeBadAnchorName( $text, 1 );
+    if ($worseAnchor ne $badAnchor) {
+        push(@anchors, $worseAnchor ),
+    }
+
+    return @anchors;
+}
+
+# Make an anchor name using the seriously flawed (tm)Wiki anchor generation
+# algorithm(s). This code is taken verbatim from Foswiki 1.0.4.
+sub _makeBadAnchorName {
+    my ( $anchorName, $compatibilityMode ) = @_;
+    if (  !$compatibilityMode
+        && $anchorName =~ /^$Foswiki::regex{anchorRegex}$/ )
+    {
+
+        # accept, already valid -- just remove leading #
+        return substr( $anchorName, 1 );
+    }
+
+    # strip out potential links so they don't get rendered.
+    # remove double bracket link
+    $anchorName =~ s/\[(?:\[.*?\])?\[(.*?)\]\s*\]/$1/g;
+
+    # add an _ before bare WikiWords
+    $anchorName =~ s/($Foswiki::regex{wikiWordRegex})/_$1/go;
+
+    if ($compatibilityMode) {
+
+        # remove leading/trailing underscores first, allowing them to be
+        # reintroduced
+        $anchorName =~ s/^[\s#_]*//;
+        $anchorName =~ s/[\s_]*$//;
+    }
+    $anchorName =~ s/<\/?[a-zA-Z][^>]*>//gi;    # remove HTML tags
+    $anchorName =~ s/&#?[a-zA-Z0-9]+;//g;       # remove HTML entities
+    $anchorName =~ s/&//g;                      # remove &
+    # filter TOC excludes if not at beginning
+    $anchorName =~ s/^(.+?)\s*$Foswiki::regex{headerPatternNoTOC}.*/$1/o;
+
+    # filter '!!', '%NOTOC%'
+    $anchorName =~ s/$Foswiki::regex{headerPatternNoTOC}//o;
+
+    # For most common alphabetic-only character encodings (i.e. iso-8859-*),
+    # remove non-alpha characters
+    if ( !defined( $Foswiki::cfg{Site}{CharSet} )
+        || $Foswiki::cfg{Site}{CharSet} =~ /^iso-?8859-?/i )
+    {
+        $anchorName =~ s/[^$Foswiki::regex{mixedAlphaNum}]+/_/g;
+    }
+    $anchorName =~ s/__+/_/g;    # remove excessive '_' chars
+    if ( !$compatibilityMode ) {
+        $anchorName =~ s/^[\s#_]+//;    # no leading space nor '#', '_'
+    }
+    # limit to 32 chars
+    $anchorName =~ s/^(.{32})(.*)$/$1/;
+    if ( !$compatibilityMode ) {
+        $anchorName =~ s/[\s_]+$//;    # no trailing space, nor '_'
+    }
+    return $anchorName;
+}
+
 1;
 __DATA__
 # Module of Foswiki - The Free and Open Source Wiki, http://foswiki.org/

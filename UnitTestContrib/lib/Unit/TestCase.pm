@@ -253,7 +253,7 @@ sub assert_deep_equals {
             $matched{$_} = 1;
         }
         for ( keys %$got ) {
-            $this->assert( $matched{$_} );
+            $this->assert( $matched{$_}, $_ );
         }
     }
     elsif (UNIVERSAL::isa( $expected, 'REF' )
