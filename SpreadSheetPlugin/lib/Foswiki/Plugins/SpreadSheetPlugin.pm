@@ -27,18 +27,12 @@ package Foswiki::Plugins::SpreadSheetPlugin;
 
 # =========================
 use vars qw(
-        $web $topic $user $installWeb $VERSION $RELEASE $debug $skipInclude $doInit
+        $web $topic $user $installWeb $debug $skipInclude $doInit
     );
 
-# This should always be $Rev: 13748 $ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev: 13748 $';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '29 Mar 2009';
+our $VERSION = '$Rev: 13748 $';
+our $RELEASE = '29 Mar 2009';
+our $NO_PREFS_IN_TOPIC = 1;
 
 $doInit = 0;
 
@@ -54,10 +48,10 @@ sub initPlugin
     }
 
     # Get plugin debug flag
-    $debug = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_DEBUG" );
+    $debug = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_DEBUG" ) || 0;
 
     # Flag to skip calc if in include
-    $skipInclude = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_SKIPINCLUDE" );
+    $skipInclude = Foswiki::Func::getPreferencesFlag( "SPREADSHEETPLUGIN_SKIPINCLUDE" ) || 1;
 
     # Plugin correctly initialized
     Foswiki::Func::writeDebug( "- Foswiki::Plugins::SpreadSheetPlugin::initPlugin( $web.$topic ) is OK" ) if $debug;

@@ -736,35 +736,26 @@ Above table is created manually. Another Plugin could build the table dynamicall
 
 ---++ Plugin Settings
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SPREADSHEETPLUGIN_SHORTDESCRIPTION%==
+You can override some default settings in the plugin by setting the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 
-   * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
-      * Set SHORTDESCRIPTION = Add spreadsheet calculation like ="$SUM( $ABOVE() )"= to Foswiki tables and other topic text
+<!--
+   * Set SHORTDESCRIPTION = Add spreadsheet calculation like ="$SUM( $ABOVE() )"= to Foswiki tables and other topic text
+-->
+| *Preference* | *Meaning* | *Default* |
+| =SPREADSHEETPLUGIN_DEBUG= | \
+Debug plugin: (See output in =data/debug.txt=) | 0 |
+| =SPREADSHEETPLUGIN_SKIPINCLUDE= | \
+Do not handle =%<nop>CALC{}%= variable in included \
+topic while including topic | 1 |
+| =SPREADSHEETPLUGIN_DONTSPACE= | Comma-delimited list of \
+[[%SYSTEMWEB%.WikiWord][WikiWords]] to exclude from being spaced out by \
+the ==$PROPERSPACE(text)== function. | \
+<noautolink>CodeWarrior, MacDonald, McIntosh, RedHat, SuSE</noautolink> |
 
-   * Debug plugin: (See output in =data/debug.txt=)
-      * Set DEBUG = 0
-
-   * Do not handle =%<nop>CALC{}%= variable in included topic while including topic: (default: 1)
-      * Set SKIPINCLUDE = 1
-
-<noautolink>
-   * [[%SYSTEMWEB%.WikiWord][WikiWords]] to exclude from being spaced out by the ==$PROPERSPACE(text)== function. This comma delimited list can be overloaded by a DONTSPACE [[%SYSTEMWEB%.PreferenceSettings][preference setting]]:
-      * Set DONTSPACE = CodeWarrior, MacDonald, McIntosh, RedHat, SuSE
-</noautolink>
-
+Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DONTSPACE= preference for historical reasons.
 
 ---++ Plugin Installation Instructions
-
-*Note:* You do not need to install anything on the browser to use this plugin. Below installation instructions are for the administrator who needs to install this plugin on the Foswiki server. 
-
-   * Download the ZIP file from the <nop>%TOPIC% home
-   * Unzip ==SpreadSheetPlugin.zip== in your Foswiki installation directory. Content:
-     | *File:* | *Description:* |
-     | ==data/System/%TOPIC%.txt== | Plugin topic |
-     | ==data/System/%TOPIC%.txt,v== | Plugin topic repository |
-     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-   * Visit =configure= in your Foswiki installation, and enable the Plugin in the {Plugins} section.
+%$INSTALL_INSTRUCTIONS%
    * Test if the "Total" in the first table in this topic is correct.
 
 ---++ Plugin Info
@@ -816,9 +807,6 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>S
 |  01 Jun 2001: | Fixed insecure dependencies for $MIN() and $MAX() |
 |  16 Apr 2001: | Fixed div by 0 bug in $AVERAGE() |
 |  17 Mar 2001: | Initial version with $ABOVE(), $AVERAGE(), $COLUMN(), $COUNTITEMS(), $EVAL(), $INT(), $LEFT(), $LOWER(), $MAX(), $MIN(), $ROW(), $SUM(), $T(), $UPPER() |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 

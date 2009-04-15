@@ -1292,8 +1292,7 @@ sub _properSpace
 
     unless( $dontSpaceRE ) {
         $dontSpaceRE = &Foswiki::Func::getPreferencesValue( "DONTSPACE" ) ||
-                       &Foswiki::Func::getPreferencesValue( "SPREADSHEETPLUGIN_DONTSPACE" ) ||
-                       "UnlikelyGibberishWikiWord";
+                       &Foswiki::Func::getPreferencesValue( "SPREADSHEETPLUGIN_DONTSPACE" ) || "CodeWarrior, MacDonald, McIntosh, RedHat, SuSE";
         $dontSpaceRE =~ s/[^a-zA-Z0-9\,\s]//go;
         $dontSpaceRE = "(" . join( "|", split( /[\,\s]+/, $dontSpaceRE ) ) . ")";
         # Example: "(RedHat|McIntosh)"
