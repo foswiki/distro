@@ -1052,6 +1052,17 @@ $Foswiki::cfg{PROXY}{PORT} = '';
 
 #---+ Miscellaneous settings
 
+# **BOOLEAN**
+# 'Anchors' are positions within a Foswiki page that can be targeted in
+# a URL using the <tt>#anchor</tt> syntax. The format of these anchors has
+# changed several times. If this option is set, Foswiki will generate extra
+# redundant anchors that are compatible with the old formats. If it is not
+# set, the links will still work but will go to the head of the target page.
+# There is a small performance cost for enabling this option. Set it if
+# your site has been around for a long time, and you want existing external
+# links to the internals of pages to continue to work.
+$Foswiki::cfg{RequireCompatibleAnchors} = 0;
+
 # **NUMBER**
 # Number of top viewed topics to show in statistics topic
 $Foswiki::cfg{Stats}{TopViews} = 10;
