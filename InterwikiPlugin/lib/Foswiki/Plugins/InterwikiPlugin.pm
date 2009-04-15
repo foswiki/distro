@@ -37,28 +37,17 @@ package Foswiki::Plugins::InterwikiPlugin;
 
 use strict;
 
-require Foswiki::Func;       # The plugins API
-require Foswiki::Plugins;    # For the API version
+use Foswiki::Func ();       # The plugins API
+use Foswiki::Plugins ();    # For the API version
 
-use vars qw(
-  $VERSION
-  $RELEASE
-  $interWeb
-  $interLinkFormat
-  $sitePattern
-  $pagePattern
-  %interSiteTable
-);
+our $VERSION = '$Rev$';
+our $RELEASE = '15 Apr 2009';
+our $NO_PREFS_IN_TOPIC = 1;
 
-# This should always be $Rev$ so that TWiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '03 Aug 2008';
+our $interLinkFormat;
+our $sitePattern;
+our $pagePattern;
+our %interSiteTable;
 
 BEGIN {
 
@@ -73,15 +62,6 @@ BEGIN {
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
 
-    $interWeb = $installWeb;
-
-    # check for Plugins.pm versions
-    if ( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning(
-            "Version mismatch between InterwikiPlugin and Plugins.pm");
-        return 0;
-    }
-
     # Regexes for the Site:page format InterWiki reference
     my $man = Foswiki::Func::getRegularExpression('mixedAlphaNum');
     my $ua  = Foswiki::Func::getRegularExpression('upperAlpha');
@@ -93,11 +73,11 @@ sub initPlugin {
       Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_INTERLINKFORMAT')
       || '<a href="$url" title="$tooltip"><noautolink>$label</noautolink></a>';
 
-    my $interTopic =
-      Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_RULESTOPIC')
-      || 'InterWikis';
-    ( $interWeb, $interTopic ) =
-      Foswiki::Func::normalizeWebTopicName( $interWeb, $interTopic );
+    my ($interWeb, $interTopic) =
+      Foswiki::Func::normalizeWebTopicName(
+          $installWeb,
+          Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_RULESTOPIC')
+              || 'InterWikis' );
 
     my $text = Foswiki::Func::readTopicText( $interWeb, $interTopic, undef, 1 );
 
