@@ -25,20 +25,15 @@ package Foswiki::Plugins::PreferencesPlugin;
 
 use strict;
 
-require Foswiki::Func;    # The plugins API
-require Foswiki::Plugins; # For the API version
+use Foswiki::Func ();    # The plugins API
+use Foswiki::Plugins (); # For the API version
 
-use vars qw( $VERSION $RELEASE @shelter );
+use vars qw( @shelter );
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = 'Foswiki-1.0';
+our $VERSION = '$Rev$';
+our $RELEASE = 'Foswiki-1.0';
+our $SHORTDESCRIPTION = 'Allows editing of preferences using fields predefined in a form';
+our $NO_PREFS_IN_TOPIC = 1;
 
 my $MARKER = "\007";
 
@@ -85,7 +80,7 @@ sub beforeCommonTagsHandler {
 
     if ( $action eq 'edit' ) {
         Foswiki::Func::setTopicEditLock( $web, $topic, 1 );
-        
+
         # Replace setting values by form fields but not inside comments Item4816
         my $outtext = '';
         my $insidecomment = 0;
@@ -101,7 +96,7 @@ sub beforeCommonTagsHandler {
             $outtext .= $token;
         }
         $_[0] = $outtext;
-          
+
         $_[0] =~ s/%EDITPREFERENCES({.*?})?%/
           _generateControlButtons($web, $topic)/ge;
         my $viewUrl = Foswiki::Func::getScriptUrl(

@@ -1,4 +1,3 @@
-%META:TOPICINFO{author="ProjectContributor" date="1115527529" format="1.0" version="$Rev$"}%
 ---+!! <nop>%TOPIC%
 
 Allows editing of preferences using fields predefined in a %SYSTEMWEB%.DataForms. However, the edit fields are inlined in the text, similar to how tables are edited in Foswiki:Extensions/EditTablePlugin.
@@ -21,9 +20,9 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
    * =%<nop>EDITPREFERENCES%= 
    * =%<nop>EDITPREFERENCES{ "%<nop>SYSTEMWEB%.DefaultPreferencesForm" }%= 
 
----++ Plugin Settings
-   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+<!--
       * Set SHORTDESCRIPTION = Allows editing of preferences using fields predefined in a form
+-->
 
 ---++ Plugin Installation Instructions
 %$INSTALL_INSTRUCTIONS%
@@ -44,10 +43,6 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 |  26 May 2005: | Crawford Currie recoded to use code from Form.pm to render form fields. |
 |  08 May 2005: | Add plugin preference to define default input length  |
 |  07 May 2005: | Initial version |
-|  Foswiki Dependency: | $Foswiki::Plugins::VERSION 1.026 |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 

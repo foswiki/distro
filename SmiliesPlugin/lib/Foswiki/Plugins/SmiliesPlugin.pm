@@ -32,6 +32,7 @@ use vars qw(
 our $VERSION = '$Rev$';
 our $RELEASE = '03 Apr 2009';
 our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION = 'Render smilies like :-) as icons';
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;

@@ -43,6 +43,7 @@ use Foswiki::Plugins ();    # For the API version
 our $VERSION = '$Rev$';
 our $RELEASE = '15 Apr 2009';
 our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION = 'Link ExternalSite:Page text to external sites based on aliases defined in a rules topic';
 
 our $interLinkFormat;
 our $sitePattern;
