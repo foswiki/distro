@@ -25,29 +25,16 @@ use strict;
 
 use Foswiki::Func ();
 
-use vars qw( $VERSION $RELEASE
+use vars qw(
   %smiliesUrls %smiliesEmotions
   $smiliesPubUrl $allPattern $smiliesFormat );
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '04 Jan 2009';
+our $VERSION = '$Rev$';
+our $RELEASE = '03 Apr 2009';
+our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
     my ( $topic, $web, $user, $installWeb ) = @_;
-
-    # check for Plugins.pm versions
-    if ( $Foswiki::Plugins::VERSION < 1.026 ) {
-        Foswiki::Func::writeWarning(
-            "Version mismatch between InterwikiPlugin and Plugins.pm");
-        return 0;
-    }
 
     # Get plugin preferences
     $smiliesFormat = Foswiki::Func::getPreferencesValue('SMILIESPLUGIN_FORMAT')
