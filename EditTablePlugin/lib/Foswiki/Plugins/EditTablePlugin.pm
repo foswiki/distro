@@ -22,20 +22,15 @@ package Foswiki::Plugins::EditTablePlugin;
 
 use strict;
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
 our $VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
 our $RELEASE = '4.21';
 
 our $pluginName   = 'EditTablePlugin';
 our $ENCODE_START = '--EditTableEncodeStart--';
 our $ENCODE_END   = '--EditTableEncodeEnd--';
 our $ASSET_URL    = '%PUBURL%/%SYSTEMWEB%/EditTablePlugin';
+our $NO_PREFS_IN_TOPIC = 1;
+our $SHORTDESCRIPTION = 'Edit tables using edit fields, date pickers and drop down boxes';
 our $web;
 our $topic;
 our $user;
@@ -63,7 +58,8 @@ sub initPlugin {
     # Get plugin debug flag
     $debug = Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_DEBUG');
     $usesJavascriptInterface =
-      Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_JAVASCRIPTINTERFACE');
+      Foswiki::Func::getPreferencesFlag('EDITTABLEPLUGIN_JAVASCRIPTINTERFACE')
+          || 1;
     $viewModeHeaderDone = 0;
     $editModeHeaderDone = 0;
 

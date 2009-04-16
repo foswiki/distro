@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1191744279" format="1.1" version="$Rev$"}%
 ---+!! Edit Table Plugin
 
-Edit tables in place, using edit fields and drop down boxes, without having to edit the complete topic. 
+%SHORTDESCRIPTION%
 
 Simply add an *[&nbsp;Edit&nbsp;table&nbsp;]* button to an existing table by writing =%<nop>EDITTABLE{}%= directly above the table. This can be added to tables that are formatted with TablePlugin: add the =EDITTABLE= macro just above or below the =TABLE= tag. It can also be used without any =TABLE= tag.
 
@@ -148,35 +148,22 @@ Table in edit mode:
 
 ---++ Plugin Settings
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>EDITTABLEPLUGIN_SHORTDESCRIPTION%==
-
-   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+<!--
       * Set SHORTDESCRIPTION = Edit tables using edit fields, date pickers and drop down boxes
-
-   * Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
-      * Set DEBUG = 0
-
-   * Set JAVASCRIPTINTERFACE to 1 to be able to directly move and delete row without page refresh. Can be overridden with parameter =javascriptinterface=.
-      * Set JAVASCRIPTINTERFACE = 1
-   
-   * Default for change rows flag: =on=, =off=, =add=
-      * Set CHANGEROWS = on
-
-   * Default flag for quiet save option: =on= to show the Quiet Save button, =off= to hide
-      * Set QUIETSAVE = on
-
-   * Default edit button: Specify =button text=, or specify =alternate text, image URL=. Note: Texts inside =%<nop>MAKETEXT{}%= are translated into other languages.
-      * #Set EDIT_BUTTON = %MAKETEXT{"Edit table"}%
-      * Set EDIT_BUTTON = %MAKETEXT{"Edit this table"}%, %ATTACHURL%/edittable.gif
-      * Set SAVE_BUTTON = %MAKETEXT{"Save table"}%
-      * Set QUIET_SAVE_BUTTON = %MAKETEXT{"Quiet save"}%
-      * Set ADD_ROW_BUTTON = %MAKETEXT{"Add row"}%
-      * Set DELETE_LAST_ROW_BUTTON = %MAKETEXT{"Delete last row"}%
-      * Set CANCEL_BUTTON = %MAKETEXT{"Cancel"}%
-   
-   * Default help texts
-      * Set INCLUDED_TOPIC_DOES_NOT_EXIST = <span class="foswikiAlert">%MAKETEXT{"Warning: 'include' topic does not exist!"}%</span>
+-->
+Note: Texts inside =%<nop>MAKETEXT{}%= are translated into other languages.
+| *Preference* | *Meaning* | *Default* |
+| EDITTABLEPLUGIN_JAVASCRIPTINTERFACE | Set to 0 to be disable the ability to directly move and delete row without page refresh. Can be overridden with parameter =javascriptinterface= | 1 |
+| EDITTABLEPLUGIN_CHANGEROWS | Default for change rows flag: =on=, =off=, =add= | on |
+| EDITTABLEPLUGIN_QUIETSAVE | Default flag for quiet save option: =on= to show the Quiet Save button, =off= to hide | on |
+| EDITTABLEPLUGIN_EDIT_BUTTON | Specify =button text=, or =alternate text, image URL=.  | %MAKETEXT{"Edit this table"}%, %ATTACHURL%/edittable.gif |
+| EDITTABLEPLUGIN_SAVE_BUTTON | Specify =button text=, or =alternate text, image URL=.  | %MAKETEXT{"Save table"}% |
+| EDITTABLEPLUGIN_QUIET_SAVE_BUTTON | Specify =button text=, or =alternate text, image URL=.  | %MAKETEXT{"Quiet save"}% |
+| EDITTABLEPLUGIN_ADD_ROW_BUTTON | Specify =button text=, or =alternate text, image URL=.  | %MAKETEXT{"Add row"}% |
+| EDITTABLEPLUGIN_DELETE_LAST_ROW_BUTTON | Specify =button text=, or =alternate text, image URL=.  | %MAKETEXT{"Delete last row"}% |
+| EDITTABLEPLUGIN_CANCEL_BUTTON | Specify =button text=, or =alternate text, image URL=.  | %MAKETEXT{"Cancel"}% |
+| EDITTABLEPLUGIN_INCLUDED_TOPIC_DOES_NOT_EXIST | Default help texts | <span class="foswikiAlert">%MAKETEXT{"Warning: 'include' topic does not exist!"}%</span> |
    
 *Note:* The Plugin uses base settings like date format, language and style from the JSCalendarContrib.
 
@@ -191,15 +178,7 @@ a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, =
 
 
 ---++ Installation Instructions
-Normally this plugin is distributed and automatically installed with Foswiki. The instructions below are meant for special installations.
-
-   1 Download the ZIP file from the Plugin web (see below)
-   1 Unzip ==%TOPIC%.zip== in your ($FOSWIKI_ROOT) directory.
-      * Alternatively, manually resolve the dependencies listed below.
-      %$DEPENDENCIES%
-   1 The Plugin depends on the =viewauth= script to authenticate the user. As described in %SYSTEMWEB%.AccessControl, copy the =view= script to =viewauth= (or better, create a symbolic link) and add =viewauth= to the list of authenticated scripts in the =.htaccess= file.
-   1 Visit =configure= in your installation, and enable the plugin in the ={Plugins}= section.
-
+%$INSTALL_INSTRUCTIONS%
 Test if the Plugin is correctly installed:
    * Check above example if there is an *[&nbsp;Edit&nbsp;table&nbsp;]* button below the table in above example
    * Click on *[&nbsp;Edit&nbsp;table&nbsp;]*, make changes and save the table

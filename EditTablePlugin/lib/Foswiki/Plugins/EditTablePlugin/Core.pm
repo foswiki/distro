@@ -623,32 +623,32 @@ sub getPreferencesValues {
 
     $prefEDIT_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_EDIT_BUTTON")
-      || 'Edit table';
+      ||  '%MAKETEXT{"Edit this table"}%, %ATTACHURL%/edittable.gif';
 
     $prefSAVE_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_SAVE_BUTTON")
-      || 'Save table';
+      || '%MAKETEXT{"Save table"}%';
 
     $prefQUIET_SAVE_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_QUIET_SAVE_BUTTON")
-      || 'Quiet save';
+      || '%MAKETEXT{"Quiet save"}%';
 
     $prefADD_ROW_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_ADD_ROW_BUTTON")
-      || 'Add row';
+      || '%MAKETEXT{"Add row"}%';
 
     $prefDELETE_LAST_ROW_BUTTON = Foswiki::Func::getPreferencesValue(
         "\U$pluginName\E_DELETE_LAST_ROW_BUTTON")
-      || 'Delete last row';
+      || '%MAKETEXT{"Delete last row"}%';
       
     $prefCANCEL_BUTTON =
       Foswiki::Func::getPreferencesValue("\U$pluginName\E_CANCEL_BUTTON")
-      || 'Cancel';
+      || '%MAKETEXT{"Cancel"}%';
       
     $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST =
       Foswiki::Func::getPreferencesValue(
         "\U$pluginName\E_INCLUDED_TOPIC_DOES_NOT_EXIST")
-      || 'Warning: \'include\' topic does not exist!';
+      || '<span class="foswikiAlert">%MAKETEXT{"Warning: \'include\' topic does not exist!"}%</span>';
 }
 
 =begin TML
