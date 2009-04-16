@@ -165,10 +165,10 @@ sub getUIFn {
     my $script = shift;
     require Foswiki::UI;
     $this->assert( $Foswiki::cfg{SwitchBoard}{$script}, $script );
-    my $fn = $Foswiki::cfg{SwitchBoard}{$script}->[0];
+    my $fn = $Foswiki::cfg{SwitchBoard}{$script}->{package};
     eval "require $fn";
     die $@ if $@;
-    $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->[1];
+    $fn .= '::' . $Foswiki::cfg{SwitchBoard}{$script}->{function};
     return \&$fn;
 }
 
