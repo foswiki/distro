@@ -179,7 +179,7 @@ sub handleRequest {
         my @array = @$dispatcher;
         $dispatcher = {
             package  => $array[0],
-            function => $array{1],
+            function => $array[1],
             context  => $array[2],
         };
     }
