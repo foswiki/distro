@@ -1713,7 +1713,8 @@ sub handler {
 
         $sortTablesInText = 0;
         $sortAttachments  = 0;
-        my $tmp = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT');
+        my $tmp = Foswiki::Func::getPreferencesValue('TABLEPLUGIN_SORT')
+          || 'all';
         if ( !$tmp || $tmp =~ /^all$/oi ) {
             $sortTablesInText = 1;
             $sortAttachments  = 1;
@@ -1723,7 +1724,8 @@ sub handler {
         }
 
         $pluginAttrs =
-          Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES');
+          Foswiki::Func::getPreferencesValue('TABLEPLUGIN_TABLEATTRIBUTES')
+              || 'tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"';
         $prefsAttrs = Foswiki::Func::getPreferencesValue('TABLEATTRIBUTES');
         _setDefaults();
 

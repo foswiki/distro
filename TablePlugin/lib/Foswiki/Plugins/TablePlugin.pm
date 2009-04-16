@@ -26,20 +26,15 @@ use strict;
 
 package Foswiki::Plugins::TablePlugin;
 
-require Foswiki::Func;    # The plugins API
-require Foswiki::Plugins; # For the API version
+use Foswiki::Func ();    # The plugins API
+use Foswiki::Plugins (); # For the API version
 
-use vars qw( $topic $installWeb $VERSION $RELEASE $initialised );
+use vars qw( $topic $installWeb $initialised );
 
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '1.038';
+our $VERSION = '$Rev$';
+our $RELEASE = '1.038';
+our $SHORTDESCRIPTION = 'Control attributes of tables and sorting of table columns';
+our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
     my( $web, $user );
@@ -62,7 +57,8 @@ sub initPlugin {
 sub preRenderingHandler {
     ### my ( $text, $removed ) = @_;
 
-    my $sort = Foswiki::Func::getPreferencesValue( 'TABLEPLUGIN_SORT' );
+    my $sort = Foswiki::Func::getPreferencesValue( 'TABLEPLUGIN_SORT' )
+      || 'all';
     return unless ($sort && $sort =~ /^(all|attachments)$/) ||
       $_[0] =~ /%TABLE{.*?}%/;
 
