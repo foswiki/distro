@@ -1,8 +1,8 @@
 # See bottom of file for license and copyright information
 
 package Foswiki::Configure::Checker;
-use w(Foswiki::Configure::UI ();
-@ISA = ( qw(Foswiki::Configure::UI) );
+use Foswiki::Configure::UI ();
+@ISA = ( 'Foswiki::Configure::UI' );
 
 use strict;
 
