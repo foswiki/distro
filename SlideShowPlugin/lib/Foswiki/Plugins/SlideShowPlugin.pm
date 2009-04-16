@@ -21,19 +21,13 @@
 package Foswiki::Plugins::SlideShowPlugin;
 
 use vars qw(
-  $web $topic $user $installWeb $VERSION $RELEASE $debug $addedHead
+  $web $topic $user $installWeb $debug $addedHead
 );
 
-
-# This should always be $Rev$ so that Foswiki can determine the checked-in
-# status of the plugin. It is used by the build automation tools, so
-# you should leave it alone.
-$VERSION = '$Rev$';
-
-# This is a free-form string you can use to "name" your own plugin version.
-# It is *not* used by the build automation tools, but is reported as part
-# of the version number in PLUGINDESCRIPTIONS.
-$RELEASE = '31 Mar 2009';
+our $VERSION = '$Rev$';
+our $RELEASE = '31 Mar 2009';
+our $SHORTDESCRIPTION = 'Create web based presentations based on topics with headings';
+our $NO_PREFS_IN_TOPIC = 1;
 
 sub initPlugin {
     ( $topic, $web, $user, $installWeb ) = @_;

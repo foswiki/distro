@@ -1,7 +1,7 @@
 %META:TOPICINFO{author="ProjectContributor" date="1217665619" format="1.1" version="$Rev: 15746 $"}%
 ---+!! Slide Show Plugin
 
-Converts a topic with headings into a slideshow.
+%SHORTDESCRIPTION%
 
 %TOC%
 
@@ -78,22 +78,15 @@ This text is not part of the slideshow
 
 ---++ <nop>%TOPIC% preferences
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, i.e. ==%<nop>SLIDESHOWPLUGIN_SHORTDESCRIPTION%==
-
-   * One line description, is shown in the %SYSTEMWEB%.TextFormattingRules topic:
+You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
+<!--
       * Set SHORTDESCRIPTION = Create web based presentations based on topics with headings.
+-->
 
-   * Debug plugin: (See output in =data/debug.txt=)
-      * Set DEBUG = 0
-
-   * Default template for slides:
-      * Set TEMPLATE = SlideShowPlugin
-
-   * Label for Comments section
-      * Set COMMENTS_LABEL = Comments
-      
-   * Hide text starting with a =---+++ %COMMENTS_LABEL%= heading:
-      * Set HIDECOMMENTS = 
+| *Preference* | *Meaning* | *Default* |
+| SLIDESHOWPLUGIN_TEMPLATE | Default template for slides: | SlideShowPlugin |
+| SLIDESHOWPLUGIN_COMMENTS_LABEL | Label for Comments section | Comments |
+| SLIDESHOWPLUGIN_HIDECOMMENTS | Hide text starting with a =---+++ %COMMENTS_LABEL%= heading | |
 
 ---++ Default slide template
 
@@ -123,17 +116,7 @@ Page %SLIDENUM% of %SLIDEMAX%
 </verbatim>
 
 ---++ Plugin installation instructions
-
-*Note:* You do not need to install anything on the browser to use this plugin. The following instructions are for the administrator who installs the plugin on the server where Foswiki is running. 
-
-   * Download the ZIP file from the Plugin Home (see below)
-   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-     | *File:* | *Description:* |
-     | ==data/System/%TOPIC%.txt== | Plugin topic |
-     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==lib/Foswiki/Plugins/%TOPIC%/SlideShow.pm== | Plugin Perl module |
-     | ==pub/System/*.gif== | Various button image files |
-   * Run the [[%SCRIPTURL{"configure"}%][configure]] script, and enable the plugin in the ={Plugins}= section.
+%$INSTALL_INSTRUCTIONS%
    * Test above example if the installation was successful.
 
 ---++ Plugin info
@@ -158,9 +141,6 @@ Page %SLIDENUM% of %SLIDEMAX%
 |  23 Nov 2002: | Added =%<nop>SLIDENAVLAST%= template keyword; using print Skin for presentation mode |
 |  19 Nov 2002: | Added "Start presentation" and "End presentation" buttons; added =%<nop>SLIDENAVFIRST%=, =%<nop>SLIDENAVPREV%=, =%<nop>SLIDENAVNEXT%= template keywords |
 |  17 Nov 2002: | Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
