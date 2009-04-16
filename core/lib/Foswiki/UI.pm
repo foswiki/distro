@@ -174,6 +174,16 @@ sub handleRequest {
         return $res;
     }
 
+    if (ref($dispatcher) eq 'ARRAY') {
+        # Old-style array entry in switchboard from a plugin
+        my @array = @$dispatcher;
+        $dispatcher = {
+            package  => $array[0],
+            function => $array{1],
+            context  => $array[2],
+        };
+    }
+
     if ( $dispatcher->{package} && !$isInitialized{$dispatcher->{package}} ) {
         eval qq(use $dispatcher->{package});
         die $@ if $@;
