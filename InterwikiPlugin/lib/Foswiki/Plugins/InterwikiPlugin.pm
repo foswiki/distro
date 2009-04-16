@@ -72,7 +72,7 @@ sub initPlugin {
     # Get plugin preferences from InterwikiPlugin topic
     $interLinkFormat =
       Foswiki::Func::getPreferencesValue('INTERWIKIPLUGIN_INTERLINKFORMAT')
-      || '<a href="$url" title="$tooltip"><noautolink>$label</noautolink></a>';
+      || '<a class="interwikiLink" href="$url" title="$tooltip"><noautolink>$label</noautolink></a>';
 
     my ($interWeb, $interTopic) =
       Foswiki::Func::normalizeWebTopicName(
