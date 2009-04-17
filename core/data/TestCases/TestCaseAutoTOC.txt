@@ -15,15 +15,15 @@ Designed by: Crawford Currie
 <a name=foswikiTOC />
 <div class="foswikiToc">
 <ul>
-<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Nonsense">Nonsense</a>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#ANonsense">Nonsense</a>
 <ul>
-<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Makes">Makes</a>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#AMakes">Makes</a>
 <ul>
-<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Content">Content</a>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#AContent">Content</a>
 </li>
 </ul>
 </li>
-<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#Tests">Tests</a>
+<li> <a href="%SCRIPTURLPATH{"view"}%/%WEB%/TocFixture?@URLPARAMS#ATests">Tests</a>
 </li>
 </ul>
 </li>
@@ -40,19 +40,19 @@ Designed by: Crawford Currie
 <div class="foswikiToc">
 <span class="foswikiTocTitle">The Top</span>
 <ul>
-<li> <a href="?@URLPARAMS#H1_32_60_33_45_451_45_45_62">H1 <!--1--></a>
+<li> <a href="?@URLPARAMS#AH1_32_60_33_45_451_45_45_62">H1 <!--1--></a>
 <ul>
-<li> <a href="?@URLPARAMS#H2">H2</a>
+<li> <a href="?@URLPARAMS#AH2">H2</a>
 </li>
 </ul>
 </li>
-<li> <a href="?@URLPARAMS#H1_32_60_33_45_452_45_45_62">H1 <!--2--></a>
+<li> <a href="?@URLPARAMS#AH1_32_60_33_45_452_45_45_62">H1 <!--2--></a>
 <ul>
-<li> <a href="?@URLPARAMS#H2_AN1">H2</a>
+<li> <a href="?@URLPARAMS#AH2_AN1">H2</a>
 <ul>
 <li>
 <ul>
-<li> <a href="?@URLPARAMS#Don_39t_32ignore_32_32except_32this">Don't ignore</a>
+<li> <a href="?@URLPARAMS#ADon_39t_32ignore_32_32except_32this">Don't ignore</a>
 </li>
 </ul>
 </li>
@@ -60,15 +60,15 @@ Designed by: Crawford Currie
 </li>
 </ul>
 </li>
-<li> <a href="?@URLPARAMS#hash_32H1">hash H1</a>
+<li> <a href="?@URLPARAMS#Ahash_32H1">hash H1</a>
 <ul>
-<li> <a href="?@URLPARAMS#H2_AN2">H2</a>
+<li> <a href="?@URLPARAMS#AH2_AN2">H2</a>
 </li>
 </ul>
 </li>
-<li> <a href="?@URLPARAMS#hash_32H1_AN1">hash H1</a>
+<li> <a href="?@URLPARAMS#Ahash_32H1_AN1">hash H1</a>
 <ul>
-<li> <a href="?@URLPARAMS#normal_32H2">normal H2</a>
+<li> <a href="?@URLPARAMS#Anormal_32H2">normal H2</a>
 </li>
 </ul>
 </li>
