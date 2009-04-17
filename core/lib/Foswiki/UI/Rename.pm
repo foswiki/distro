@@ -223,6 +223,8 @@ sub _renameTopic {
 
     }
 
+    return undef unless (!$query || $query->method() eq 'POST');
+
     # Update references in referring pages - not applicable to attachments.
     my $refs;
     unless ($attachment) {
@@ -564,6 +566,8 @@ sub _renameWeb {
             return;
         }
     }
+
+    return unless (!$query || $query->method() eq 'POST');
 
     my $newWebObject = Foswiki::Meta->new( $session, $newWeb );
 
