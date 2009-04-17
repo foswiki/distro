@@ -48,6 +48,7 @@ BEGIN {
         package => 'Foswiki::UI::Manage',
         function => 'manage',
         context => { manage => 1 },
+        allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{oops} = {
         package => 'Foswiki::UI::Oops',
@@ -73,16 +74,20 @@ BEGIN {
         package => 'Foswiki::UI::Register',
         function => 'register_cgi',
         context => { register => 1 },
+        allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rename} = {
-        package => 'Foswiki::UI::Rename',
+        package => 'Foswiki::UI::Manage',
         function => 'rename',
         context => { rename => 1 },
+        # Rename is 2 stage; protect in Foswiki::UI::Rename
+        #allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
         package => 'Foswiki::UI::Passwords',
         function => 'resetPassword',
         context => { resetpasswd => 1 },
+        allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rest} = {
         package => 'Foswiki::UI::Rest',
@@ -93,8 +98,8 @@ BEGIN {
         package => 'Foswiki::UI::Save',
         function => 'save',
         context => { save => 1 },
-        allow => { POST => 1 }
-       };
+        allow => { POST => 1 },
+    };
     $Foswiki::cfg{SwitchBoard}{search} = {
         package => 'Foswiki::UI::Search',
         function => 'search',
@@ -109,6 +114,7 @@ BEGIN {
         package => 'Foswiki::UI::Upload',
         function => 'upload',
         context => { upload => 1 },
+        allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{viewauth} = {
         package => 'Foswiki::UI::View',
