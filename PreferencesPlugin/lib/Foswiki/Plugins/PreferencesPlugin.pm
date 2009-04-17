@@ -117,11 +117,16 @@ sub beforeCommonTagsHandler {
 
     } elsif( $action eq 'save' ) {
 
-        my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
-        # SMELL: unchecked implicit untaint of value?
-        $text =~ s(^((?:\t|   )+\*\s(Set|Local)\s)(\w+)\s\=\s(.*)$)
-          ($1._saveSet($query, $web, $topic, $3, $4, $formDef))mgeo;
-        Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
+        # Make sure the request came from POST
+        if ($query && $query->method() ne 'POST') {
+            # silently ignore it if the request didn't come from a POST
+        } else {
+            my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
+            # SMELL: unchecked implicit untaint of value?
+            $text =~ s(^((?:\t|   )+\*\s(Set|Local)\s)(\w+)\s\=\s(.*)$)
+              ($1._saveSet($query, $web, $topic, $3, $4, $formDef))mgeo;
+            Foswiki::Func::saveTopic( $web, $topic, $meta, $text );
+        }
         Foswiki::Func::setTopicEditLock( $web, $topic, 0 );
         # Finish with a redirect so that the *new* values are seen
         my $viewUrl = Foswiki::Func::getScriptUrl( $web, $topic, 'view' );
