@@ -361,7 +361,7 @@ sub test_render_for_edit {
 <tr><th align="right">Issue Name</th><td align="left"><input type="text" name="IssueName" value="_An issue_" size="40" class="foswikiInputField" /></td></tr>
 <tr><th align="right">State</th><td align="left"><table><tr><td><label><input type="radio" name="State" value="none"  label="none" class="foswikiRadioButton"/>none</label></td></tr></table></td></tr>
 <tr><th align="right">Issue Description</th><td align="left"><input type="hidden" name="IssueDescription" value="---+ Example problem"  /><div><nop><h1>
-<a name="Example_32problem"> </a> Example problem </h1></div></td></tr>
+<a name="AExample_32problem"> </a> Example problem </h1></div></td></tr>
 <tr><th align="right">Issue 1</th><td align="left"><select name="Issue1" class="foswikiSelect" size="1"></select></td></tr>
 <tr><th align="right">Issue 2EXTRA</th><td align="left">SWEET</td></tr>
 <tr><th align="right">Issue 3</th><td align="left"><table></table><input type="hidden" name="Issue3" value="" /></td></tr>
