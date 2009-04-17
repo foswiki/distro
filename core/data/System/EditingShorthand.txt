@@ -464,7 +464,7 @@ a@b.com
 <pre>
 &lt;literal&gt;
 | Not | A | Table |
-&lt;literal&gt;
+&lt;/literal&gt;
 </pre>
 </td>
 <td>
@@ -489,7 +489,7 @@ a@b.com
 This div is required
 </div>
 </verbatim>
-=&lt;sticky&gt;=
+=&lt;/sticky&gt;=
 </td>
 <td>
 <sticky>
