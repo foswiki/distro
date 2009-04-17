@@ -443,12 +443,15 @@ sub _makeAnchorName {
     }
 
     # $anchorName is a *byte* string. If it contains any wide characters
-    # the following will not work.
+    # the encoding algorithm will not work.
     ASSERT($text !~ /[^\x00-\xFF]/) if DEBUG;
 
     # use _ as an escape character to escape any byte outside the
     # range specified by http://www.w3.org/TR/html401/struct/links.html
-    $text =~ s/([^A-Z0-9:.])/'_'.sprintf('%02d', ord($1))/gie;
+    $text =~ s/([^A-Za-z0-9:.])/'_'.sprintf('%02d', ord($1))/ge;
+
+    # Ensure the anchor always starts with an [A-Za-z]
+    $text = 'A'.$text;
 
     return $text;
 }
