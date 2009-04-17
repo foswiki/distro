@@ -23,7 +23,7 @@ package Foswiki::Plugins::EditTablePlugin;
 use strict;
 
 our $VERSION = '$Rev$';
-our $RELEASE = '4.21';
+our $RELEASE = '4.22';
 
 our $pluginName   = 'EditTablePlugin';
 our $ENCODE_START = '--EditTableEncodeStart--';

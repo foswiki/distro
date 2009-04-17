@@ -745,19 +745,12 @@ sub handleEditTableTag {
 
     # include topic to read definitions
     my $iTopic = Foswiki::Func::extractNameValuePair( $theArgs, 'include' );
-    my $iTopicExists = 0;
     if ($iTopic) {
-        if ( $iTopic =~ /^([^\.]+)\.(.*)$/o ) {
-            $inWeb  = $1;
-            $iTopic = $2;
-        }
+	($inWeb, $iTopic) = Foswiki::Func::normalizeWebTopicName($inWeb, $iTopic);
 
-        $iTopicExists = Foswiki::Func::topicExists( $inWeb, $iTopic )
-          if $iTopic ne '';
-        if ( $iTopic && !$iTopicExists ) {
+        unless (Foswiki::Func::topicExists( $inWeb, $iTopic )) {
             $warningMessage = $prefMESSAGE_INCLUDED_TOPIC_DOES_NOT_EXIST;
-        }
-        if ($iTopicExists) {
+        } else {
 
             my $text = Foswiki::Func::readTopicText( $inWeb, $iTopic );
             $text =~ /$PATTERN_EDITTABLEPLUGIN/os;
