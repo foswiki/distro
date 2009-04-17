@@ -85,7 +85,7 @@ sub viewfile {
         # The next element on the path has to be the topic name
         $topic = shift(@path);
         if ( !$topic ) {
-            Foswiki::OopsException(
+            throw Foswiki::OopsException(
                 'attention',
                 def    => 'no_such_attachment',
                 web    => $web,
