@@ -169,7 +169,8 @@ sub processText {
     $query = Foswiki::Func::getCgiQuery();
 
     # Item1458 ignore all saving unless it happened using POST method.
-    $doSave = 0 if ( defined $query && uc($query->method()) ne 'POST' );
+    $doSave = 0
+      if ( $query && $query->method() && uc($query->method()) ne 'POST' );
 
     if ($Foswiki::Plugins::EditTablePlugin::debug) {
         Foswiki::Func::writeDebug(
