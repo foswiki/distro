@@ -536,7 +536,7 @@ EXPECTED
         }
     );
     $query->path_info("/$webName/$topicName");
-    $query->method('GET');
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
@@ -555,7 +555,7 @@ EXPECTED
             $Foswiki::engine->finalize( $twiki->{response}, $twiki->{request} );
         }
     );
-    $this->assert( $saveResult =~ /Status: 302/ );
+    $this->assert_matches( qr/Status: 302/, $saveResult );
 
     my ( $meta, $newtext ) = Foswiki::Func::readTopic( $webName, $topicName );
 
