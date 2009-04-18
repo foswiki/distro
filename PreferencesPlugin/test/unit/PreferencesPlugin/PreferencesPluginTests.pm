@@ -98,7 +98,7 @@ sub test_save {
 HERE
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic},
                             undef, $input );
-    $query->method('GET');
+    $query->method('POST');
 
     my $twiki = new Foswiki(undef, $query);
     $Foswiki::Plugins::SESSION = $twiki;
