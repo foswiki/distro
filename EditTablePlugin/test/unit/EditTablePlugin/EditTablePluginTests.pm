@@ -219,8 +219,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -230,13 +230,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -258,7 +259,7 @@ LINE
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -376,8 +377,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
@@ -400,7 +401,7 @@ INPUT
 </div><!-- /editTable --></noautolink>
 EXPECTED
     $this->do_testHtmlOutput( lc $expected, lc $result, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -435,8 +436,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
@@ -476,8 +477,8 @@ EXPECTED
 
     $query->path_info("/$webName/$topicName");
 
-    $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $result =
       Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
@@ -541,9 +542,9 @@ EXPECTED
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -552,7 +553,8 @@ EXPECTED
                     $input, $this->{test_topic}, $this->{test_web}, undef
                 )
             );
-            $Foswiki::engine->finalize( $twiki->{response}, $twiki->{request} );
+            $Foswiki::engine->finalize( $fatwilly->{response},
+                $fatwilly->{request} );
         }
     );
     $this->assert_matches( qr/Status: 302/, $saveResult );
@@ -568,7 +570,7 @@ NEWEXPECTED
 
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -602,8 +604,8 @@ sub test_param_format_selectbox {
 | c | c | c | c |
 INPUT
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
@@ -636,7 +638,7 @@ INPUT
 END
 
     $this->do_testHtmlOutput( $expected, $result, 1 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -667,8 +669,8 @@ sub test_param_format_variable_expansion_in_checkbox_and_radio_buttons {
 %EDITTABLE{format="| radio, 1, :skull:, :cool: | checkbox, 1, :skull:, :cool: |"}%
 INPUT
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
@@ -700,7 +702,7 @@ INPUT
 END
 
     $this->do_testHtmlOutput( $expected, $result, 1 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -793,8 +795,8 @@ INPUT
     );
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
@@ -826,7 +828,7 @@ END
 
     $this->do_testHtmlOutput( $expected, $result, 1 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -850,7 +852,7 @@ sub test_save {
     my $input = <<INPUT;
 %EDITTABLE{}%
 | *URL* | *Name* | *By* | *Comment* |
-| http://twiki.org | Foswiki | me | dodo |
+| http://foswiki.org | Foswiki | me | dodo |
 INPUT
     my $query = new Unit::Request(
         {
@@ -861,8 +863,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -872,13 +874,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -895,11 +898,11 @@ INPUT
     my $expected = <<NEWEXPECTED;
 %EDITTABLE{}%
 | *URL* | *Name* | *By* | *Comment* |
-| http://twiki.org | Foswiki | me | dodo |
+| http://foswiki.org | Foswiki | me | dodo |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -938,8 +941,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -950,13 +953,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -982,7 +986,7 @@ INPUT
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1022,8 +1026,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -1034,13 +1038,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -1067,7 +1072,7 @@ BEFORE_EDITTABLE %EDITTABLE{format="|text,10|text,10|text,3|text,15|text,15|text
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1099,8 +1104,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     $query                     = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1108,11 +1113,12 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
             $response->print(
@@ -1130,7 +1136,7 @@ INPUT
 | DEF | |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1163,8 +1169,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     $query                     = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1172,11 +1178,12 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
             $response->print(
@@ -1195,7 +1202,7 @@ INPUT
 | Blabla 5 | 16 Nov 2007 | 21 Nov 2007 | |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1229,8 +1236,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     $query                     = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1238,11 +1245,12 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
             $response->print(
@@ -1259,7 +1267,7 @@ INPUT
 | DEF | |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1385,8 +1393,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     $query                     = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1394,11 +1402,12 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
             $response->print(
@@ -1414,7 +1423,7 @@ INPUT
 | * <small>Name of the client (prefilled)</small> |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1444,8 +1453,8 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     $query                     = new Unit::Request(
         {
             etsave    => ['on'],
@@ -1453,11 +1462,12 @@ INPUT
         }
     );
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
             $response->print(
@@ -1473,7 +1483,7 @@ INPUT
 | <small><table><tr><td>TD...Technical Documentation <br />TM...Translation Management <br />PC...Product Catalogs </td><td>PS...Processes and Systems <br />FM...Feedback Management <br />KL...Knowledge Logistics</td></tr></table></small> |
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1536,8 +1546,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
     my $result =
       Foswiki::Func::expandCommonVariables( $text, $topicName, $webName,
         undef );
@@ -1594,8 +1604,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -1605,13 +1615,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -1632,7 +1643,7 @@ INPUT
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1670,8 +1681,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -1681,13 +1692,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -1711,7 +1723,7 @@ INSIDE VERBATIM
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -1882,8 +1894,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -1893,13 +1905,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -1925,7 +1938,7 @@ INPUT
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -2164,8 +2177,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my $result =
       Foswiki::Func::expandCommonVariables( $input, $this->{test_topic},
@@ -2186,7 +2199,7 @@ INPUT
 </div><!-- /editTable --></noautolink>
 EXPECTED
     $this->do_testHtmlOutput( lc $expected, lc $result, 0 );
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -2223,8 +2236,8 @@ INPUT
 
     $query->path_info("/$webName/$topicName");
 
-    my $twiki = new Foswiki( undef, $query );
-    $Foswiki::Plugins::SESSION = $twiki;
+    my $fatwilly = new Foswiki( undef, $query );
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     $query = new Unit::Request(
         {
@@ -2235,13 +2248,14 @@ INPUT
     );
 
     $query->path_info("/$webName/$topicName");
+    $query->method('POST');
 
     Foswiki::Func::saveTopic( $this->{test_web}, $this->{test_topic}, undef,
         $input );
 
-    $twiki = new Foswiki( undef, $query );
+    $fatwilly = new Foswiki( undef, $query );
     my $response = new Unit::Response;
-    $Foswiki::Plugins::SESSION = $twiki;
+    $Foswiki::Plugins::SESSION = $fatwilly;
 
     my ( $saveResult, $ecode ) = $this->capture(
         sub {
@@ -2265,7 +2279,7 @@ INPUT
 NEWEXPECTED
     $this->assert_str_equals( $expected, $newtext, 0 );
 
-    $twiki->finish();
+    $fatwilly->finish();
 }
 
 =pod
@@ -2286,7 +2300,7 @@ sub test_render_simple_with_verbatim_and_unfinished_table_rows {
       . Foswiki::Func::getPubUrlPath() . '/'
       . $Foswiki::cfg{SystemWebName};
 
-    my $input    = '%EDITTABLE{format="textarea, 4x20"}%
+    my $input = '%EDITTABLE{format="textarea, 4x20"}%
 | x | <verbatim> y
 z </verbatim> |';
 
