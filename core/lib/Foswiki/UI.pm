@@ -26,7 +26,7 @@ BEGIN {
     # with Foswiki 1.0.0 and 1.0.4.
 
     $Foswiki::cfg{SwitchBoard}{attach} = {
-        package => 'Foswiki::UI::Attach',
+        package => 'Foswiki::UI::Upload',
         function => 'attach',
         context => { attach => 1 },
     };
