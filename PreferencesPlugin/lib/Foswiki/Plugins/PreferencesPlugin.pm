@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# Copyright (C) 2005-2007  Foswiki Contributors.
+# Copyright (C) 2005-2009  Foswiki Contributors.
 # All Rights Reserved. Foswiki Contributors are listed in the
 # AUTHORS file in the root of this distribution.
 # NOTE: Please extend that file, not this notice.
@@ -31,7 +31,7 @@ use Foswiki::Plugins (); # For the API version
 use vars qw( @shelter );
 
 our $VERSION = '$Rev$';
-our $RELEASE = 'Foswiki-1.0';
+our $RELEASE = '19 Apr 2009';
 our $SHORTDESCRIPTION = 'Allows editing of preferences using fields predefined in a form';
 our $NO_PREFS_IN_TOPIC = 1;
 

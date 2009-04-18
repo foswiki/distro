@@ -31,10 +31,11 @@ In edit mode, the edit button is replaced by Save and Cancel buttons, with their
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) TWiki:Main.ThomasWeigert and TWiki Contributors |
+|  Copyright: | Copyright (C) Foswiki:Main.ThomasWeigert and Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | %$VERSION% |
+|  Plugin Version: | 19 Apr 2009 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  19 Apr 2009: | Ignore all saving unless it happened by saving a form using POST method. |
 |  15 Dec 2008: | Arthur Clemens added reading of =Local= preferences. Foswiki version |
 |  05 Nov 2007: | Kenneth Lavrsen fixed problem when settings are hidden in html comments. These settings are now ignored. |
 |  23 Jun 2007: | Crawford Currie added testcases, recoded to work without a form definition, fixed for TWiki 4.2 |
