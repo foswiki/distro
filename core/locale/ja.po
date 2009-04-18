@@ -462,8 +462,8 @@ msgid "..."
 msgstr "…"
 
 #: core/templates/oopsmore.tmpl:14
-msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
-msgstr "本トピック <a href='%1' rel='nofollow'>設定を編集します</a>"
+msgid "Edit settings for this topic"
+msgstr "本トピック 設定を編集します"
 
 #: core/data/System/WebChanges.txt:8
 msgid ""
@@ -1710,7 +1710,7 @@ msgid ""
 "as spaces will automatically be removed."
 msgstr ""
 "新トピックを作成する時、<a target='WikiWord' class='twikiPopUp' href='%1' "
-"rel='nofollow'>WikiWord</a>を使用したほうがいいです。そうしないと、オートリン"
+"rel='nofollow'>WikiWord</a>を½¿用したほうがいいです。そうしないと、オートリン"
 "クの生成が無効になる可能性があります。他に、トピック名として認められないキャ"
 "ラクター、例えばスペースは自動的に削除されます。"
 

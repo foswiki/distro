@@ -7,22 +7,25 @@ msgstr ""
 "Project-Id-Version: Foswiki $Id\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2009-01-05 10:53+0100\n"
+"PO-Revision-Date: 2009-04-01 21:13+0200\n"
 "Last-Translator: André Ulrich <andre.ulrich@kontextwork.de>\n"
 "Language-Team: Foswiki German Translation Team <none>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #. ($days)
 #: core/lib/Foswiki/Time.pm:316
 msgid "%*(%1,day) "
-msgstr "%*(%1,Tag) "
+msgstr "%*(%1,Tag)"
 
 #. ($hours)
 #: core/lib/Foswiki/Time.pm:319
 msgid "%*(%1,hour) "
-msgstr "%*(%1,Stunde) "
+msgstr "%*(%1,Stunde)"
 
 #. ($mins)
 #: core/lib/Foswiki/Time.pm:322
@@ -32,7 +35,7 @@ msgstr "%*(%1,Minute) "
 #. ($secs)
 #: core/lib/Foswiki/Time.pm:325
 msgid "%*(%1,second) "
-msgstr "%*(%1,Sekunde)"
+msgstr "%*(%1,Sekunde) "
 
 #: core/templates/oopsgeneric.tmpl:12 core/templates/oopsgeneric.tmpl:14
 #: core/templates/oopsgeneric.tmpl:16 core/templates/oopsgeneric.tmpl:7
@@ -42,7 +45,7 @@ msgstr "%1"
 #: core/templates/registerfailednotremoved.tmpl:3
 #: core/templates/registerfailedremoved.tmpl:3
 msgid "%1 - Registration failure for %2 (%3)"
-msgstr "%1 - Registrierung von %2 (%3) fehlgeschlagen"
+msgstr "%1 - Registrierung von %2 (%3) fehlgeschlagen!"
 
 #: TopicUserMappingContrib/data/System/ManagingUsers.txt:116
 #: core/templates/registernotify.tmpl:3
@@ -459,9 +462,9 @@ msgid "..."
 msgstr "..."
 
 #: core/templates/oopsmore.tmpl:14
-msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
+msgid "Edit settings for this topic"
 msgstr ""
-"Für dieses Topic <a href='%1' rel='nofollow'>Einstellungen bearbeiten</a>"
+"Für dieses Topic Einstellungen bearbeiten"
 
 #: core/data/System/WebChanges.txt:8
 msgid ""

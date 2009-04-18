@@ -461,8 +461,8 @@ msgid "..."
 msgstr "..."
 
 #: core/templates/oopsmore.tmpl:14
-msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
-msgstr "<a href='%1' rel='nofollow'>Editar preferências</a> para este tópico"
+msgid "Edit settings for this topic"
+msgstr "Editar preferências para este tópico"
 
 #: core/data/System/WebChanges.txt:8
 msgid ""

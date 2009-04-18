@@ -479,8 +479,8 @@ msgid "..."
 msgstr "..."
 
 #: core/templates/oopsmore.tmpl:14
-msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
-msgstr "<a href='%1' rel='nofollow'>Редактировать настройки</a> этой темы"
+msgid "Edit settings for this topic"
+msgstr "Редактировать настройки этой темы"
 
 #: core/data/System/WebChanges.txt:8
 msgid ""
@@ -3157,7 +3157,7 @@ msgstr "Тем в разделе"
 #: core/templates/renamewebbase.tmpl:29
 msgid "Topics which are currently being edited by other users in the %1 Web:"
 msgstr ""
-"Темы, которые в настоящее время редактируются другими пользователями в "
+"Темы, которые в настоящее время редактируются другими пользователями в "
 "разделе %1:"
 
 #: core/templates/renamewebbase.tmpl:32
