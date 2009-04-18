@@ -27,24 +27,22 @@ use CGI qw( :cgi -any );
 use strict;
 
 use Assert;
-use Encode;
+use Encode ();
 
-use Foswiki::Func;       # The plugins API
-use Foswiki::Plugins;    # For the API version
-use Foswiki::Plugins::WysiwygPlugin::Constants;
+use Foswiki::Func ();       # The plugins API
+use Foswiki::Plugins ();    # For the API version
+use Foswiki::Plugins::WysiwygPlugin::Constants ();
 
-use vars
-  qw( $VERSION $RELEASE $SHORTDESCRIPTION $SECRET_ID $NO_PREFS_IN_TOPIC );
 use vars qw( $html2tml $tml2html $recursionBlock $imgMap );
 use vars qw( %TWikiCompatibility @refs );
 
-$SHORTDESCRIPTION  = 'Translator framework for Wysiwyg editors';
-$NO_PREFS_IN_TOPIC = 1;
-$VERSION           = '$Rev$';
+our $SHORTDESCRIPTION  = 'Translator framework for Wysiwyg editors';
+our $NO_PREFS_IN_TOPIC = 1;
+our $VERSION           = '$Rev$';
 
-$RELEASE = '03 Aug 2008';
+our $RELEASE = '03 Aug 2008';
 
-$SECRET_ID =
+our $SECRET_ID =
 'WYSIWYG content - do not remove this comment, and never use this identical text in your topics';
 
 sub WHY { 1 }
@@ -772,6 +770,11 @@ sub _restHTML2TML {
 sub _restUpload {
     my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
+    # Item1458 ignore uploads not using POST
+    if ($query && uc($query->method()) ne 'POST') {
+        returnRESTResult($response, 405, "Method not Allowed");
+        return undef;
+    }
     my ( $web, $topic ) =
       Foswiki::Func::normalizeWebTopicName( undef, $query->param('topic') );
     $web =

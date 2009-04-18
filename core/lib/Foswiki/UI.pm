@@ -20,6 +20,12 @@ BEGIN {
     # allow - hash of HTTP methods to allow (all others are denied)
     # deny - hash of HTTP methods that are denied (all others are allowed)
     # 'deny' is not tested if 'allow' is defined
+
+    # The switchboard can contain entries either as hashes or as arrays.
+    # The array format specifies [0] package, [1] function, [2] context
+    # and should be used when declaring scripts from plugins that must work
+    # with Foswiki 1.0.0 and 1.0.4.
+
     $Foswiki::cfg{SwitchBoard}{attach} = {
         package => 'Foswiki::UI::Attach',
         function => 'attach',
@@ -205,15 +211,16 @@ sub handleRequest {
     } elsif ( defined $req->method()
               && (
                 ( defined $dispatcher->{allow}
-                  && !$dispatcher->{allow}->{$req->method()} )
+                  && !$dispatcher->{allow}->{uc($req->method())} )
                 ||
                 ( defined $dispatcher->{deny}
-                  && $dispatcher->{deny}->{$req->method()} )
+                  && $dispatcher->{deny}->{uc($req->method())} )
               )
             ) {
         $res = new Foswiki::Response();
-        $res->header( -type => 'text/html', -status => '403' );
-        $res->print($req->method().' denied for '.$req->action());
+        $res->header( -type => 'text/html', -status => '405' );
+        $res->print('Bad Request: '.uc($req->method()).' denied for '
+                      .$req->action());
         return $res;
     }
 

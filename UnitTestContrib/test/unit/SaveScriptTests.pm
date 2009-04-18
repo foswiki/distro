@@ -121,6 +121,7 @@ sub test_AUTOINC {
     );
     $query->path_info( '/' . $this->{test_web} . '.TestAutoAUTOINC00' );
     $this->{session}->finish();
+    $query->method('post');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
     foreach my $t ( Foswiki::Func::getTopicList( $this->{test_web} ) ) {
@@ -138,6 +139,7 @@ sub test_AUTOINC {
     }
     $this->assert($seen);
     $this->{session}->finish();
+    $query->method('pOsT');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     $this->capture( \&$UI_FN, $this->{session} );
     $seen = 0;
@@ -968,6 +970,7 @@ sub test_missingTemplateTopic {
             topic         => [ $this->{test_web} . '.FlibbleDeDib' ]
         }
     );
+    $query->method('post');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
         $this->capture( \&$UI_FN, $this->{session} );
@@ -987,9 +990,10 @@ sub test_addform {
     my $query = new Unit::Request(
         {
             action        => ['addform'],
-            topic         => [ "$this->{test_web}.$this->{test_topic}" ]
+            topic         => [ "$this->{test_web}.$this->{test_topic}" ],
         }
     );
+    $query->method('POST');
     $this->{session} = new Foswiki( $this->{test_user_login}, $query );
     try {
         my ($text, $result) =
@@ -1005,6 +1009,27 @@ sub test_addform {
             qr/value="TestForm4" name="formtemplate"/, $text);
     } catch Error::Simple with {
         $this->assert( 0, shift );
+    };
+}
+
+sub test_get {
+    my $this = shift;
+
+    $this->{session}->finish();
+    my $query = new Unit::Request(
+        {
+            action        => ['save'],
+            topic         => [ "$this->{test_web}.$this->{test_topic}" ]
+        }
+    );
+    $query->method('GET');
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+
+    try {
+        my ($text, $result) =
+          $this->capture( $UI_FN, $this->{session} );
+        $this->assert_matches( qr/^Status: 403.*$/m, $text );
+    } catch Error::Simple with {
     };
 }
 
