@@ -412,7 +412,8 @@ sub rename {
         return;
     }
 
-    return undef unless (!$query || $query->method() eq 'POST');
+    return undef if ($query && $query->method() &&
+                       uc($query->method()) ne 'POST');
 
     # Update references in referring pages - not applicable to attachments.
     my $refs;
@@ -882,7 +883,7 @@ sub _renameweb {
         }
     }
 
-    return undef unless (!$query || $query->method() eq 'POST');
+    return undef if ($query && $query->method() && $query->method() ne 'POST');
 
     # Update references in referring pages
     my $refs =

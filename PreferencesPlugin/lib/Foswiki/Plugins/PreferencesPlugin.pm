@@ -122,7 +122,7 @@ sub beforeCommonTagsHandler {
 
     } elsif( $action eq 'save' ) {
 
-        if ($query && $query->method() ne 'POST') {
+        if ($query && $query->method() && uc($query->method()) ne 'POST') {
             # silently ignore it if the request didn't come from a POST
         } else {
             my( $meta, $text ) = Foswiki::Func::readTopic( $web, $topic );
