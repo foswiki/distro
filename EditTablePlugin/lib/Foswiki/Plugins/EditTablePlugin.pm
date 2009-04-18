@@ -30,7 +30,7 @@ our $VERSION = '$Rev$';
 # This is a free-form string you can use to "name" your own plugin version.
 # It is *not* used by the build automation tools, but is reported as part
 # of the version number in PLUGINDESCRIPTIONS.
-our $RELEASE = '4.22';
+our $RELEASE = '4.23';
 
 our $pluginName   = 'EditTablePlugin';
 our $ENCODE_START = '--EditTableEncodeStart--';
