@@ -317,7 +317,7 @@ Should call finalizeCookies and then send $res' headers to client.
 sub finalizeHeaders {
     my ( $this, $res, $req ) = @_;
     $this->finalizeCookies($res);
-    if ( $req && $req->method() eq 'HEAD' ) {
+    if ( $req && $req->method() && uc($req->method()) eq 'HEAD' ) {
         $res->body('');
         $res->deleteHeader('Content-Length');
     }

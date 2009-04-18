@@ -771,7 +771,7 @@ sub _restUpload {
     my ( $session, $plugin, $verb, $response ) = @_;
     my $query = Foswiki::Func::getCgiQuery();
     # Item1458 ignore uploads not using POST
-    if ($query && uc($query->method()) ne 'POST') {
+    if ($query && $query->method() && uc($query->method()) ne 'POST') {
         returnRESTResult($response, 405, "Method not Allowed");
         return undef;
     }
