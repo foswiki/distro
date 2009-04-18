@@ -11,7 +11,7 @@
 
 
 %TMPL:DEF{"settings"}%---++ %MAKETEXT{"Edit topic preference settings"}%
-   * %MAKETEXT{"<a href='[_1]' rel='nofollow'>Edit settings</a> for this topic" args="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%?action=editSettings"}%
+   * <form action="%SCRIPTURLPATH{"manage"}%/%WEB%/%TOPIC%" method="POST"><input type="submit" value="%MAKETEXT{"Edit settings for this topic"}%" /> <input type="hidden" name="action" value="editSettings" /></form>
 %TMPL:END%
 
 
