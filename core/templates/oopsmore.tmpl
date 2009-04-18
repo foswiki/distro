@@ -18,7 +18,7 @@
 
 %TMPL:DEF{"copy"}%---++ %MAKETEXT{"Copy topic"}%
 <p>%MAKETEXT{"Copy text and form data to a new topic (no attachments will be copied though)."}%</p>
-<form action="%SCRIPTURL{manage}%/%WEB%/">
+<form action="%SCRIPTURL{manage}%/%WEB%/" method="post">
 %MAKETEXT{"Name of copy:"}% <input type="text" name="topic" class="foswikiInputField" value="%TOPIC%Copy" size="30" /> <input type="submit" class="foswikiButton" value="%MAKETEXT{"Copy topic"}%" /> <span class="foswikiGrayText">%MAKETEXT{"You will be able to review the copied topic before saving"}%</span>
 %TMPL:P{"nonwikiword"}%
 <input type="hidden" name="action" value="create" />
