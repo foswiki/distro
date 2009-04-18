@@ -213,10 +213,9 @@ Test if the Plugin is correctly installed:
 
 |  Copyright: | &copy; 2008-2009, Arthur Clemens and Foswiki Contributors; Copyright &copy; 2002-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors  | 
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 4.23 (18 Apr 2009) |
+|  Plugin Version: | 4.22 (18 Apr 2009) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  18 Apr 2009: | 4.23: Ignore all saving unless it happened by saving a form using POST method |
-|  17 Apr 2009: | 4.22: Fixed including edit parameters from subwebs |
+|  18 Apr 2009: | 4.22: Ignore all saving unless it happened by saving a form using POST method. <br />Fixed including edit parameters from subwebs. <br />Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. |
 |  26 Mar 2009: | 4.21: Fixed a problem with plugin going into deep recursive orbit when a table is followed by text containing vertical bars but not valid table row. |
 |  17 Mar 2009: | 4.20: Fixed several bugs related to use of macros in EDITTABLE and TABLE tags |
 |  08 Feb 2009: | 4.13: Fixed incidental removal of =EDITCELL= tags when a different table in the topic is edited. Improved display of linebreaks and TML inside cells. |
