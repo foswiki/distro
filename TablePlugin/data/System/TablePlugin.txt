@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.1" version="$Rev: 16047 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1191730164" format="1.0" version="$Rev: 16047 $"}%
 ---+ Table Plugin
 
 Gives extra control of table display:
@@ -40,25 +40,18 @@ Table cells with a single caret indicate follow-up rows of multi-row spans. For 
 
 ---++ <nop>%TOPIC% Global Settings
 
-Plugin settings are stored as [[%SYSTEMWEB%.PreferenceSettings][preference settings]]. To reference
-a plugin setting write ==%<nop>&lt;plugin&gt;_&lt;setting&gt;%==, for example, ==%<nop>INTERWIKIPLUGIN_SHORTDESCRIPTION%==
+You can override the default settings for the plugin by defining the following [[%SYSTEMWEB%.PreferenceSettings][preferences]].
 
-   * One line description, shown in the %SYSTEMWEB%.TextFormattingRules topic:
+<!--
       * Set SHORTDESCRIPTION = Control attributes of tables and sorting of table columns
-
-   * Set DEBUG to 1 to get debug messages in =data/debug.txt=.  Default: =0=
-      * Set DEBUG = 0
-
-   * Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=.
-      * #Set SORT = none
-      * Set SORT = all
-
-   * Default table attributes:
-      * Set TABLEATTRIBUTES = tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows"
+-->
+| *Preference* | *Meaning* | *Default* |
+| TABLEPLUGIN_SORT | Make all tables in a topic sortable. If this is set to =all=, all tables that have a header row (including those that do not have %TABLE before them) will be made sortable. If set to =none=, only tables with %TABLE will be sortable. Topic rendering is faster if this is set to =none=. | all |
+| TABLEPLUGIN_TABLEATTRIBUTES | Default table attributes | tableborder="1" cellpadding="0" cellspacing="0" valign="top" headercolor="#ffffff" headerbg="#687684" headerbgsorted="#334455" databg="#ffffff,#edf4f9" databgsorted="#f1f7fc,#ddebf6" tablerules="rows" |
 
 ---++ Table Attributes
 
-Attributes are defined as a =TABLEATTRIBUTES= Plugin setting in this topic, a =TABLEATTRIBUTES= preferences setting, or on line before the table using =%<nop>TABLE{...}%=:
+Attributes are defined as a =TABLEATTRIBUTES= [[%SYSTEMWEB%.PreferenceSettings][preference]], or on the line before the table using =%<nop>TABLE{...}%=:
 %INCLUDE{"%SYSTEMWEB%.VarTABLE" section="table_attributes"}%
 
 The =%<nop>TABLE{...}%= settings override =TABLEATTRIBUTES= preferences settings, which override the =TABLEATTRIBUTES= Plugin settings. 
@@ -76,9 +69,9 @@ Line before table: =%<nop>TABLE{ sort="on" tableborder="0" cellpadding="4" cells
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
 | 1 | C | Chose new colours | John | 1-Dec-02 | |
 | 2 | X | Release | John | 1-Apr-02 | |
-| 3 | | Get feedback | Anne | 1-Feb-02 | |
+| 3 |   | Get feedback | Anne | 1-Feb-02 | |
 | 12 | C | Spec error handling | Jack | 1-Dec-02 | |
-| 5 | | Abc | John | | |
+| 5 |   | Abc | John | | |
 | *Num* | *Status* | *Action* | *Who* | *When* | *Progress* |
 
 ---+++ Table with 4 digit year dates and no use of %<nop>TABLE{...}%
@@ -111,25 +104,18 @@ Information for programmers.
 
 
 ---++ Plugin Installation Instructions
-This plugin is pre-installed with your Foswiki release. You should not have to install it other than to do an upgrade.
-
-   * Download the ZIP file from the Plugin web (see below)
-   * Unzip ==%TOPIC%.zip== in your Foswiki installation directory. Content:
-     | *File:* | *Description:* |
-     | ==data/System/%TOPIC%.txt== | Plugin topic |
-     | ==lib/Foswiki/Plugins/%TOPIC%.pm== | Plugin Perl module |
-     | ==lib/Foswiki/Plugins/%TOPIC%/Core.pm== | Plugin Perl module |
-   * Visit =configure= in your Foswiki installation, and enable the plugin in the {Plugins} section.
+%$INSTALL_INSTRUCTIONS%
    * Test if the plugin is correctly installed:
       * Check above example if the table renders as expected
       * Try click on heading to sort.  Other tables should also be sortable
 
 ---++ Plugin Info
 
-|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008 Foswiki Contributors |
+|  Copyright: | Copyright (C) 2001-2008 TWiki:Main/JohnTalintyre, Peter Thoeny, peter@thoeny.org and TWiki Contributors; &copy; 2008-2009 Foswiki Contributors |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 1.037 (16 Dec 2008) |
+|  Plugin Version: | 1.038 (19 Apr 2009) |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  19 Apr 2009 | 1.038 Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Fixed an issue where TablePlugin produced invalid css if no 'px' or '%' is passed in a size parameter. <br />Small refactoring in style attribute handling. |
 |  16 Dec 2008 | 1.037 Foswiki version |
 |  30 Sep 2008 | 1.035 Fix sorting of attachment date column.  |
 |  03 Aug 2008 | 1.034 TWiki 4.2.1 release version |
@@ -167,11 +153,6 @@ This plugin is pre-installed with your Foswiki release. You should not have to i
 |  29 Nov 2001 | PTh: Fixed Perl warnings |
 |  16 Nov 2001 | PTh: Added table border, cell spacing, cell padding, gif files |
 |  07 Oct 2001 | JT: Initial version |
-|  CPAN Dependencies: | none |
-|  Other Dependencies: | none |
-|  Perl Version: | 5.008 |
 |  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
 |  Support: | http://foswiki.org/Support/%TOPIC% |
 
----
-*Related Topics:* %USERSWEB%.SitePreferences, [[%SYSTEMWEB%.Plugins][Plugins]], %SYSTEMWEB%.StandardColors
