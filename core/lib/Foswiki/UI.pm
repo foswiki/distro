@@ -205,40 +205,6 @@ sub handleRequest {
     $sub = $dispatcher->{package} . '::' if $dispatcher->{package};
     $sub .= $dispatcher->{function};
 
-    if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
-        $dispatcher->{context}->{command_line} = 1;
-    } elsif ( defined $req->method()
-              && (
-                ( defined $dispatcher->{allow}
-                  && !$dispatcher->{allow}->{uc($req->method())} )
-                ||
-                ( defined $dispatcher->{deny}
-                  && $dispatcher->{deny}->{uc($req->method())} )
-              )
-            ) {
-        $res = new Foswiki::Response();
-        $res->header( -type => 'text/html', -status => '405' );
-        $res->print('Bad Request: '.uc($req->method()).' denied for '
-                      .$req->action());
-        return $res;
-    }
-
-    $res = execute( $req, \&$sub, %{$dispatcher->{context}} );
-    return $res;
-}
-
-=begin TML
-
----++ StaticMethod execute($req, $sub, %initialContext) -> $res
-
-Creates a Foswiki session object with %initalContext and calls
-$sub method. Returns the Foswiki::Response object generated
-
-=cut
-
-sub execute {
-    my ( $req, $sub, %initialContext ) = @_;
-
     my $cache = $req->param('foswiki_redirect_cache');
 
     # Never trust input data from a query. We will only accept
@@ -264,12 +230,45 @@ sub execute {
             $req->delete('foswiki_redirect_cache');
             print STDERR "Passthru: Loaded and unlinked $passthruFilename\n"
               if TRACE_PASSTHRU;
+            $req->method('POST');
         }
         else {
             print STDERR "Passthru: Could not find $passthruFilename\n"
               if TRACE_PASSTHRU;
         }
     }
+    if ( UNIVERSAL::isa( $Foswiki::engine, 'Foswiki::Engine::CLI' ) ) {
+        $dispatcher->{context}->{command_line} = 1;
+    } elsif ( defined $req->method()
+              && (
+                ( defined $dispatcher->{allow}
+                  && !$dispatcher->{allow}->{uc($req->method())} )
+                ||
+                ( defined $dispatcher->{deny}
+                  && $dispatcher->{deny}->{uc($req->method())} )
+              )
+            ) {
+        $res = new Foswiki::Response();
+        $res->header( -type => 'text/html', -status => '405' );
+        $res->print('Bad Request: '.uc($req->method()).' denied for '
+                      .$req->action());
+        return $res;
+    }
+    $res = _execute( $req, \&$sub, %{$dispatcher->{context}} );
+    return $res;
+}
+
+=begin TML
+
+---++ StaticMethod _execute($req, $sub, %initialContext) -> $res
+
+Creates a Foswiki session object with %initalContext and calls
+$sub method. Returns the Foswiki::Response object generated
+
+=cut
+
+sub _execute {
+    my ( $req, $sub, %initialContext ) = @_;
 
     # DO NOT pass in $req->remoteUser here (even though it appears to be right)
     # because it may occlude the login manager.
