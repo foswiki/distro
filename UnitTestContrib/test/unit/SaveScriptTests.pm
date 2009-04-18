@@ -109,6 +109,7 @@ sub test_AUTOINC {
     });
     $query->path_info( '/' . $this->{test_web}.'.TestAutoAUTOINC00' );
     $this->{twiki}->finish();
+    $query->method('post');
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     my %old;
     foreach my $t ($this->{twiki}->{store}->getTopicNames( $this->{test_web})) {
@@ -125,6 +126,7 @@ sub test_AUTOINC {
     }
     $this->assert($seen);
     $this->{twiki}->finish();
+    $query->method('pOsT');
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
     $seen = 0;
@@ -823,6 +825,7 @@ sub test_missingTemplateTopic {
         action => [ 'save' ],
         topic => [ $this->{test_web}.'.FlibbleDeDib' ]
        });
+    $query->method('post');
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     try {
         $this->capture( \&Foswiki::UI::Save::save, $this->{twiki});
@@ -831,6 +834,55 @@ sub test_missingTemplateTopic {
         $this->assert_str_equals('no_such_topic_template', $e->{def});
     } otherwise {
         $this->assert(0, shift);
+    };
+}
+
+sub test_addform {
+    my $this = shift;
+    $this->{twiki}->finish();
+    my $query = new Unit::Request(
+        {
+            action        => ['addform'],
+            topic         => [ "$this->{test_web}.$this->{test_topic}" ],
+        }
+    );
+    $query->method('POST');
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+    try {
+        my ($text, $result) =
+          $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
+        $this->assert(!$result, $result);
+        $this->assert_matches(
+            qr/input value="TestForm1" name="formtemplate"/, $text);
+        $this->assert_matches(
+            qr/value="TestForm2" name="formtemplate"/, $text);
+        $this->assert_matches(
+            qr/value="TestForm3" name="formtemplate"/, $text);
+        $this->assert_matches(
+            qr/value="TestForm4" name="formtemplate"/, $text);
+    } catch Error::Simple with {
+        $this->assert( 0, shift );
+    };
+}
+
+sub test_get {
+    my $this = shift;
+
+    $this->{twiki}->finish();
+    my $query = new Unit::Request(
+        {
+            action        => ['save'],
+            topic         => [ "$this->{test_web}.$this->{test_topic}" ]
+        }
+    );
+    $query->method('GET');
+    $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
+
+    try {
+        my ($text, $result) =
+          $this->capture( \&Foswiki::UI::Save::save, $this->{twiki} );
+        $this->assert_matches( qr/^Status: 403.*$/m, $text );
+    } catch Error::Simple with {
     };
 }
 
