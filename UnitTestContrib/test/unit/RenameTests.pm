@@ -320,6 +320,7 @@ sub test_rename_oldwebnewtopic {
     $this->{twiki}->finish();
     # The topic in the path should not matter
     $query->path_info( "/$this->{test_web}/SanityCheck" );
+    $query->method('POST');
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
     $this->capture(\&Foswiki::UI::Manage::rename, $this->{twiki} );
@@ -438,6 +439,7 @@ sub test_rename_newweboldtopic {
                         });
 
     $query->path_info("/$this->{test_web}" );
+    $query->method('POST');
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
@@ -572,6 +574,7 @@ THIS
     });
 
     $query->path_info("/$this->{test_web}" );
+    $query->method('POST');
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
@@ -603,6 +606,7 @@ sub test_accessRenameRestrictedTopic {
                         });
 
     $query->path_info("/$this->{test_web}" );
+    $query->method('POST');
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
@@ -630,6 +634,7 @@ sub test_accessRenameRestrictedWeb {
                         });
 
     $query->path_info("/$this->{test_web}" );
+    $query->method('POST');
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
@@ -657,6 +662,7 @@ sub test_leaseReleasemeLetMeGo {
                         });
 
     $query->path_info("/$this->{test_web}" );
+    $query->method('POST');
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
     $Foswiki::Plugins::SESSION = $this->{twiki};
@@ -698,6 +704,7 @@ CONTENT
         }
        );
     $query->path_info("/$this->{test_web}/Renamedweb/WebHome");
+    $query->method('POST');
 
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
@@ -769,6 +776,7 @@ EOF
         }
        );
     $query->path_info("/Renamed$this->{test_web}/WebHome");
+    $query->method('POST');
 
     $this->{twiki}->finish();
     $this->{twiki} = new Foswiki( $this->{test_user_login}, $query );
