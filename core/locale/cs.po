@@ -470,8 +470,8 @@ msgid "..."
 msgstr "..."
 
 #: core/templates/oopsmore.tmpl:14
-msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
-msgstr "<a href='%1' rel='nofollow'>Změnit nastavení</a> pro tento článek"
+msgid "Edit settings for this topic"
+msgstr "Změnit nastavení pro tento článek"
 
 #: core/data/System/WebChanges.txt:8
 msgid ""

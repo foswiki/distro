@@ -425,8 +425,8 @@ msgid "..."
 msgstr "..."
 
 #: ../core/templates/oopsmore.tmpl:14
-msgid "<a href='%1' rel='nofollow'>Edit settings</a> for this topic"
-msgstr "<a href='%1' rel='nofollow'>Modifier les paramètres</a> de cette page"
+msgid "Edit settings for this topic"
+msgstr "Modifier les paramètres de cette page"
 
 #: ../core/data/System/WebChanges.txt:8
 msgid "<a href='%1'>RSS feed</a>, recent changes with <a href='%2'>50</a>, <a href='%3' rel='nofollow'>100</a>, <a href='%4' rel='nofollow'>200</a>, <a href='%5' rel='nofollow'>500</a>, <a href='%6' rel='nofollow'>1000</a> topics, <a href='%7' rel='nofollow'>all changes</a>"
