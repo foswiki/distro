@@ -201,7 +201,7 @@
 
 %MAKETEXT{"Your activation code has been sent to [_1].  Either click on the link in your e-mail or enter the code in the box below to activate your membership. (This code is of the form \"YourName.xxxxxxxxxx\")" args="%PARAM1%"}%
 
-<form action="%SCRIPTURLPATH{"register"}%" method=get>
+<form action="%SCRIPTURLPATH{"register"}%" method="post">
 <input type="hidden" name="action" value="verify" size="20" />
 <input type="text" name="code" size="20" />
 <input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
@@ -310,7 +310,7 @@
 *%MAKETEXT{"Note:"}%*
 %MAKETEXT{"Some mail tools have an error that causes them to send the same request twice when you click on a link. It you did this, it is possible that you actually *have* registered successfully."}%
 
-<form action="%SCRIPTURLPATH{"register"}%" method=get>
+<form action="%SCRIPTURLPATH{"register"}%" method="post">
 <input type="hidden" name="action" value="verify" size="20" />
 <input type="text" name="code" size="20" />
 <input type="submit" class="foswikiSubmit" value=' %MAKETEXT{"Submit"}% ' />
