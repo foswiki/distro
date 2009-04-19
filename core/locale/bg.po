@@ -1415,6 +1415,10 @@ msgstr "Ако имате въпроси, моля свържате се с %1."
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "Ако не сте задали парола все още или желаете д я промените, отидете на  %1"
 
+#: core/templates/messages.tmpl:420
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
 #: core/templates/messages.tmpl:423
 msgid "If you received a link to this topic in an e-mail or just want to look at the topic, [[%1][cancel save]] to go to %2."
 msgstr ""

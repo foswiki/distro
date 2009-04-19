@@ -1368,6 +1368,10 @@ msgstr "任何问题，请联系 %1。"
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "若您尚未设定密码，或想重设密码，请到: %1"
 
+#: core/templates/messages.tmpl:420
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
 #: core/templates/messages.tmpl:423
 msgid "If you received a link to this topic in an e-mail or just want to look at the topic, [[%1][cancel save]] to go to %2."
 msgstr "若您从收到的电子邮件连到这儿或只是浏览这个主题，请 [[%1][取消存档]] 并转到 %2。"
