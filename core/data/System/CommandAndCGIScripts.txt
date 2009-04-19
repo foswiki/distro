@@ -322,7 +322,7 @@ CGI gateway to the =%<nop>SEARCH%= functionality driven by the following CGI par
 | =date="..."= | limits the results to those pages with latest edit time in the given [[TimeSpecifications#TimeIntervals][time interval]].  | All results |
 | =reverse="on"= | Reverse the direction of the search | Ascending search |
 | =casesensitive="on"= | Case sensitive search | Ignore case |
-| =bookview="on"= | BookView search, e.g. show complete topic text | Show topic summary |
+| =bookview="on"= | BookView search, e.g. show complete topic text. Very resource demanding. Use only with small result sets | Show entire topic content of found topics |
 | =nonoise="on"= | Shorthand for =nosummary="on" nosearch="on" nototal="on" zeroresults="off" noheader="on" noempty="on"= | Off |
 | =nosummary="on"= | Show topic title only | Show topic summary |
 | =nosearch="on"= | Suppress search string | Show search string |
