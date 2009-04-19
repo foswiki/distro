@@ -128,7 +128,7 @@ BEGIN {
         context => { view => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{viewfile} = {
-        package => 'Foswiki::UI::Viewfile',
+        package => 'Foswiki::UI::View',
         function => 'viewfile',
         context => { viewfile => 1 },
     };
