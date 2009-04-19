@@ -81,7 +81,6 @@ BEGIN {
         package => 'Foswiki::UI::Register',
         function => 'register_cgi',
         context => { register => 1 },
-        allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rename} = {
         package => 'Foswiki::UI::Rename',
