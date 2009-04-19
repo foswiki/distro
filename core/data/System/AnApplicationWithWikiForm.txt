@@ -40,7 +40,7 @@ HTML forms have nothing to do with data forms, except that they are a way to cre
 
 Example HTML form:
 <verbatim>
-<form action="%SCRIPTURLPATH{edit}%/%WEB%/">
+<form action="%SCRIPTURLPATH{edit}%/%WEB%/" method="post">
 Name of the new topic: %BR%
 <input type="text" name="topic" class="foswikiInputField" size="32" />
 
