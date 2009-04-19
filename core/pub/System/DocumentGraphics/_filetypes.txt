@@ -15,6 +15,7 @@ cab zip
 class java
 cmd bat
 cpp c
+css css
 dll dll
 doc doc
 else else
@@ -49,7 +50,7 @@ mdb mdb
 mde mdb
 mov mov
 mp2 wav
-mp3 wav
+mp3 mp3
 mp4 mov
 mpa mov
 mpe mov
@@ -85,6 +86,8 @@ sh sh
 shared sniff
 shtml html
 sniff sniff
+svg svg
+swf swf
 tar zip
 taz zip
 text txt
@@ -95,6 +98,7 @@ ttf ttf
 txt txt
 tz zip
 vbs mov
+vector vector
 vsd vsd
 wav wav
 wri wri
