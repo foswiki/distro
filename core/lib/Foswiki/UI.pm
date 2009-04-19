@@ -90,7 +90,7 @@ BEGIN {
         #allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{resetpasswd} = {
-        package => 'Foswiki::UI::Passwords',
+        package => 'Foswiki::UI::Register',
         function => 'resetPassword',
         context => { resetpasswd => 1 },
         allow => { POST => 1 },
