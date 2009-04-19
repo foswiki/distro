@@ -190,8 +190,6 @@ TODO:
 | *Parameter* | *Description* | *Default* |
 | =action= | =register= or =verify= or =resetPassword= or =approve= | |
 
-*%X% Note:* The =register= script can only be called via the HTTP POST method. Make sure you specify =method="post"= if you call the =register= script via a form action. It is not possible to call =register= from an =&lt;A href= link.
-
 ---+++ =rename=
 Used for renaming webs, topics and attachments.
 
