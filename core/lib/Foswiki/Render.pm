@@ -1794,6 +1794,9 @@ sub getReferenceRE {
 
     # Convert . and / to [./] (subweb separators)
     $matchWeb =~ s#[./]#[./]#go;
+    
+    # Item1468 - Convert '+'  to '\+' as '+' can be used in topic names
+    $topic =~ s/[+]/\\+/go;
 
     # Note use of \< and \> to match the empty string at the
     # edges of a word.
