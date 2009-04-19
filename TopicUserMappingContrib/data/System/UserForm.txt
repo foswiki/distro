@@ -34,7 +34,7 @@ To make a copy, follow these steps:
       1 Take a copy of this topic and save it to %IF{"istopic '%USERSWEB%.UserForm'" then="[[%USERSWEB%.UserForm]]" else="%USERSWEB%.<nop>UserForm"}%
       1 When editing your new !UserForm topic, change the entries in the data form definition. You may remove all explanation around the table.
    * Automatically: %BR%
-   <form action="%SCRIPTURL{manage}%/%WEB%/"><input type="hidden" name="topic" value="%USERSWEB%.UserForm" ><input type="submit" class="foswikiButton" value="Make a copy for me now" /><input type="hidden" name="action" value="create" /><input type="hidden" name="onlynewtopic" value="on" /><input type="hidden" name="templatetopic" value="%WEB%.%TOPIC%" /><input type="hidden" name="section" value="definition" /><input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" /><input type="hidden" name="nowysiwyg" value="1" /></form> %BR%
+   <form action="%SCRIPTURL{manage}%/%WEB%/" method="post"><input type="hidden" name="topic" value="%USERSWEB%.UserForm" ><input type="submit" class="foswikiButton" value="Make a copy for me now" /><input type="hidden" name="action" value="create" /><input type="hidden" name="onlynewtopic" value="on" /><input type="hidden" name="templatetopic" value="%WEB%.%TOPIC%" /><input type="hidden" name="section" value="definition" /><input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" /><input type="hidden" name="nowysiwyg" value="1" /></form> %BR%
    <span class="foswikiGrayText">you will return here after saving</span>
 
 %X% Note that your form changes will only be visible in a user topic after it has been saved. %BR%
@@ -48,9 +48,9 @@ To use your new user form for new (registering) users, create a copy of %IF{"ist
       1 Set the topic form to your custom %IF{"istopic '%USERSWEB%.UserForm'" then="%USERSWEB%.UserForm" else="%USERSWEB%.<nop>UserForm"}% topic
    
    * Automatically: %BR%
-   <form action="%SCRIPTURL{manage}%/%WEB%/"><input type="hidden" name="topic" value="%USERSWEB%.NewUserTemplate" ><input type="submit" class="foswikiButton" value="Make a copy for me now" /><input type="hidden" name="action" value="create" /><input type="hidden" name="onlynewtopic" value="on" /><input type="hidden" name="templatetopic" value="%SYSTEMWEB%.NewUserTemplate" /><input type="hidden" name="formtemplate" value="%USERSWEB%.UserForm" /><input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" /><input type="hidden" name="nowysiwyg" value="1" /></form> %BR%
+   <form action="%SCRIPTURL{manage}%/%WEB%/" method="post"><input type="hidden" name="topic" value="%USERSWEB%.NewUserTemplate" ><input type="submit" class="foswikiButton" value="Make a copy for me now" /><input type="hidden" name="action" value="create" /><input type="hidden" name="onlynewtopic" value="on" /><input type="hidden" name="templatetopic" value="%SYSTEMWEB%.NewUserTemplate" /><input type="hidden" name="formtemplate" value="%USERSWEB%.UserForm" /><input type="hidden" name="redirectto" value="%WEB%.%TOPIC%" /><input type="hidden" name="nowysiwyg" value="1" /></form> %BR%
    <span class="foswikiGrayText">you will return here after saving</span>
 
 ---
-*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.UserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
+*Related topics:* %USERSWEB%.%WIKIUSERSTOPIC%, %USERSWEB%.PatternSkinUserViewTemplate, %SYSTEMWEB%.NewUserTemplate, %USERSWEB%.UserHomepageHeader, %SYSTEMWEB%.DataForms, %SYSTEMWEB%.UserRegistration
 

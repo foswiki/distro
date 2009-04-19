@@ -51,7 +51,7 @@
 
 
 %TMPL:DEF{"formstart"}%#NewTopic
-<form name="newtopicform" id="newtopicform" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/">
+<form name="newtopicform" id="newtopicform" action="%SCRIPTURLPATH{manage}%/%BASEWEB%/" method="post">
 <input type="hidden" name="action" value="create" />
 <input type="hidden" name="onlynewtopic" value="on" />%TMPL:END%
 

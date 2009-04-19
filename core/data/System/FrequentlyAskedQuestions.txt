@@ -10,7 +10,7 @@ This is a real FAQ, and also a demo of an easily implemented knowledge-base solu
 %X% These topics are for frequently asked questions *including* answers; please ask support questions in the Foswiki:Support web.
 New FAQ topics are based on the FaqTemplate.
 
-<form action="%SCRIPTURL{"edit"}%/%WEB%/">
+<form action="%SCRIPTURL{"edit"}%/%WEB%/" method="post">
 New FAQ topic: &nbsp; (Use a name in WikiNotation) <br />
 <input type="text" name="topic" size="32" />
 <input type="hidden" name="onlywikiname" value="on" />
