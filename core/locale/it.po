@@ -1620,6 +1620,10 @@ msgstr "Per qualsiasi richiesta contattare %1."
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "Se non hai già definito una password o vuoi ridefinirla, vai a %1"
 
+#: core/templates/messages.tmpl:420
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
 #: core/templates/messages.tmpl:423
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "

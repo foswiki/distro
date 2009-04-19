@@ -81,6 +81,8 @@ BEGIN {
         package => 'Foswiki::UI::Register',
         function => 'register_cgi',
         context => { register => 1 },
+        # method verify must allow GET; protect in Foswiki::UI::Register
+        #allow => { POST => 1 },
     };
     $Foswiki::cfg{SwitchBoard}{rename} = {
         package => 'Foswiki::UI::Rename',

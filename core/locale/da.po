@@ -1617,6 +1617,10 @@ msgstr ""
 "Hvis du ikke har valgt et password endnu, eller du ønsker at nulstille det, "
 "så gå til: %1"
 
+#: core/templates/messages.tmpl:420
+msgid "The =%1= script can only be called with POST method."
+msgstr "Scriptet =%1= kan kun kaldes med metoden POST."
+
 #: core/templates/messages.tmpl:423
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "

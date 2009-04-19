@@ -1415,6 +1415,10 @@ msgstr "Kontakta %1 om du har frågor."
 msgid "If you haven't set a password yet or you want to reset it, go to: %1"
 msgstr "Om du inte valt ett lösenord ännu eller vill nollställa det så gå till: %1"
 
+#: core/templates/messages.tmpl:420
+msgid "The =%1= script can only be called with POST method."
+msgstr "Skriptet =%1= kan endast kallas med metoden POST."
+
 #: core/templates/messages.tmpl:423
 msgid "If you received a link to this topic in an e-mail or just want to look at the topic, [[%1][cancel save]] to go to %2."
 msgstr "Om du mottog en länk till denna sida per e-post eller bara vill titta på sidan så  [[%1][avbryt sparandet]] och gå till %2."

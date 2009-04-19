@@ -51,7 +51,19 @@ sub register_cgi {
 
     # NB. bulkRegister invoked from ManageCgiScript.
 
-    my $action = $session->{request}->param('action') || '';
+    my $query = $session->{request};
+    my $action = $query->param('action') || '';
+    
+    if ( $action ne 'verify' && $query && $query->method() &&
+                                uc($query->method()) ne 'POST') {
+        throw Foswiki::OopsException(
+            'attention',
+            web   => $session->{webName},
+            topic => $session->{topicName},
+            def   => 'post_method_only',
+            params => [ 'upload' ]
+        );    
+    }
 
     if ( $action eq 'register' ) {
         if ( !$session->inContext('registration_supported') ) {

@@ -1596,6 +1596,10 @@ msgstr ""
 "Als je nog geen wachtwoord hebt ingesteld, of als je het wachtwoord opnieuw "
 "wilt instellen, ga dan naar %1"
 
+#: core/templates/messages.tmpl:420
+msgid "The =%1= script can only be called with POST method."
+msgstr ""
+
 #: core/templates/messages.tmpl:423
 msgid ""
 "If you received a link to this topic in an e-mail or just want to look at "
