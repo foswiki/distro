@@ -80,7 +80,7 @@ Rename a web via the Tools section in each %WEBPREFSTOPIC% topic.  You may delet
 You may only rename a web if you have the following permissions
    * You must be allowed to rename and changes topics in the web you want to rename
    * You must be allowed to rename topics in the parent web of the web you want to rename
-!   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.SitePreferences]].
+   * If the web is a root web (i.e. it has no parent web) then you must have permission to both create and rename root webs. These permissions are controlled by the ALLOWROOTCHANGE preference, which can be set in [[%USERSWEB%.SitePreferences]].
    * If you move the web to another parent web you must be allowed to create and change topics in the new parent web.
    
 When you rename a web Foswiki will try and update all links that refer to the old web. You should note that links only get updated in topics that you are allowed to edit. If you use access rights in the Foswiki installation it is generally best to let an administrator rename webs to avoid too many broken links. 
