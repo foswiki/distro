@@ -93,7 +93,7 @@ Performs a range of management functions.
 | =action= | One of =create=, =createweb=, =changePassowrd=, =resetPassword=, =bulkRegister=, =deleteUserAccount=, =editSettings=, =saveSettings=, =restoreRevision= | none |
 
 ---++++ =action=create=
-Alternative entry point for creation, via =edit=, of a new topic, used by screens that support several actions using =manage.
+Alternative entry point for creation, via =edit=, of a new topic, used by screens that support several actions using =manage=.
 | *Parameter* | *Description* | *Default* |
 | =topic= | Name of topic to create (can be web.topic) | none |
 Other parameters are the same as for =edit=.
@@ -277,6 +277,13 @@ The parameters are interpreted in according to the following rules.
 Merging is only enabled if the topic text comes from =text= and =originalrev= is &gt; 0 and is not the same as the revision number of the most recent revision. If merging is enabled both the topic and the meta-data are merged.
 
 Form field values are passed in parameters named 'field' - for example, if I have a field =Status= the parameter name is =Status=.
+
+*%X% Note:* The =save= script should only be called via http POST method, not GET. Make sure to specify the ="post"= method if you call the =save= script via a form action. Example:
+<pre>
+&lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
+    ...
+&lt;/form&gt;
+</pre>
 
 ---+++ =search=
 CGI gateway to the =%<nop>SEARCH%= functionality driven by the following CGI parameters:
