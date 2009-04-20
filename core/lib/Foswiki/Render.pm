@@ -2050,8 +2050,8 @@ sub getReferenceRE {
     # Convert . and / to [./] (subweb separators)
     $matchWeb =~ s#[./]#[./]#go;
     
-    # Item1468 - Quote special characters
-    $topic = quotemeta($topic);
+    # Item1468/5791 - Quote special characters
+    $topic = quotemeta($topic) if defined $topic;
 
     # Note use of \< and \> to match the empty string at the
     # edges of a word.
