@@ -1779,7 +1779,8 @@ sub createWeb {
         my ( $meta, $text ) = $this->readTopic( undef, $newWeb, $wpt, undef );
         foreach my $key (keys %$opts) {
             $text =~
-              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm;
+              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
+                if defined $opts->{$key};
         }
         $this->saveTopic( $user, $newWeb, $wpt, $text, $meta );
     }
