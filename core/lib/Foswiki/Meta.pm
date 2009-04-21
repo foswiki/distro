@@ -366,7 +366,8 @@ sub populateNewWeb {
         my $text = $prefsTopicObject->text;
         foreach my $key (keys %$opts) {
             $text =~
-              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm;
+              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
+                if defined $opts->{$key};
         }
         $prefsTopicObject->text($text);
         $prefsTopicObject->save();
