@@ -1081,9 +1081,9 @@ s/(^|(?<!url)[-*\s(|])($Foswiki::regex{linkProtocolPattern}:([^\s<>"]+[^\s*.,!?;
     # user-defined anchors is not sensible.
     # SMELL: if a user-defined anchor gets renamed, it should be warned
     # about somewhere.
-    $text =~ s/^(\#)($Foswiki::regex{wikiWordRegex})/
+    $text =~ s/^(\#$Foswiki::regex{wikiWordRegex})/
       CGI::a({
-          name => $this->_makeAnchorName($2)
+          name => $this->_makeAnchorName($1)
          }, '')/geom;
 
     # Headings
@@ -1792,9 +1792,12 @@ sub getReferenceRE {
 
     my $matchWeb = $web;
 
-    # Convert . and / to [./] (subweb separators)
-    $matchWeb =~ s#[./]#[./]#go;
-    
+    # Convert . and / to [./] (subweb separators) and quote
+    # special characters
+    $matchWeb =~ s#[./]#$TABLEMARKER#g;
+    $matchWeb = quotemeta( $matchWeb );
+    $matchWeb =~ s#$TABLEMARKER#[./]#g;
+
     # Item1468/5791 - Quote special characters
     $topic = quotemeta($topic) if defined $topic;
 
