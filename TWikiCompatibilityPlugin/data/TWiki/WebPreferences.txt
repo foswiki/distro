@@ -6,3 +6,7 @@ Preferences
 ---+++ Don't advertise the TWiki Compatibility web
       * Set SITEMAPLIST = 
       * Set NOSEARCHALL = on
+---+++ Admin group only
+      * Set ALLOWWEBCHANGE = %USERSWEB%.AdminGroup
+      * Set ALLOWWEBRENAME = %USERSWEB%.AdminGroup
+      * Set ALLOWTOPICCHANGE = %USERSWEB%.AdminGroup
