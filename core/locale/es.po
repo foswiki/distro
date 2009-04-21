@@ -1622,7 +1622,7 @@ msgstr ""
 
 #: core/templates/messages.tmpl:420
 msgid "The =%1= script can only be called with POST method."
-msgstr ""
+msgstr "El =%1= script solo puede ser llamado por el metodo POST."
 
 #: core/templates/messages.tmpl:423
 msgid ""
