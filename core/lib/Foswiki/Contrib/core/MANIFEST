@@ -1,5 +1,5 @@
-#this is a _just_ the core directory, and will be build up into the final
 #release package from trunk/core/lib/MANIFEST using INCLUDES
+#this is a _just_ the core directory, and will be build up into the final
 AUTHORS 0444
 COPYING 0444
 COPYRIGHT 0444
@@ -664,6 +664,7 @@ pub/System/DocumentGraphics/DocumentGraphics_Text_updated.psd 0644
 pub/System/DocumentGraphics/_filetypes.txt 0644
 pub/System/DocumentGraphics/addon.gif 0644
 pub/System/DocumentGraphics/air.gif 0644
+pub/System/DocumentGraphics/airplane.gif 0644
 pub/System/DocumentGraphics/application.gif 0644
 pub/System/DocumentGraphics/arrowbdown.gif 0644
 pub/System/DocumentGraphics/arrowbleft.gif 0644
@@ -677,12 +678,15 @@ pub/System/DocumentGraphics/arrowright.gif 0644
 pub/System/DocumentGraphics/arrowup.gif 0644
 pub/System/DocumentGraphics/as.gif 0644
 pub/System/DocumentGraphics/attachfile.gif 0644
+pub/System/DocumentGraphics/award.gif 0644
 pub/System/DocumentGraphics/bat.gif 0644
+pub/System/DocumentGraphics/bed.gif 0644
 pub/System/DocumentGraphics/blank-bg.gif 0644
 pub/System/DocumentGraphics/blank.gif 0644
 pub/System/DocumentGraphics/bmp.gif 0644
 pub/System/DocumentGraphics/book.gif 0644
 pub/System/DocumentGraphics/bubble.gif 0644
+pub/System/DocumentGraphics/bug.gif 0644
 pub/System/DocumentGraphics/building.gif 0644
 pub/System/DocumentGraphics/buildings.gif 0644
 pub/System/DocumentGraphics/c.gif 0644
@@ -730,6 +734,7 @@ pub/System/DocumentGraphics/flag-gray.gif 0644
 pub/System/DocumentGraphics/flag.gif 0644
 pub/System/DocumentGraphics/folder.gif 0644
 pub/System/DocumentGraphics/fon.gif 0644
+pub/System/DocumentGraphics/food.gif 0644
 pub/System/DocumentGraphics/gear.gif 0644
 pub/System/DocumentGraphics/gif.gif 0644
 pub/System/DocumentGraphics/globe.gif 0644
@@ -739,9 +744,11 @@ pub/System/DocumentGraphics/go_fb.gif 0644
 pub/System/DocumentGraphics/go_ff.gif 0644
 pub/System/DocumentGraphics/go_forward.gif 0644
 pub/System/DocumentGraphics/go_start.gif 0644
+pub/System/DocumentGraphics/graduation.gif 0644
 pub/System/DocumentGraphics/group.gif 0644
 pub/System/DocumentGraphics/h.gif 0644
 pub/System/DocumentGraphics/hand.gif 0644
+pub/System/DocumentGraphics/heart.gif 0644
 pub/System/DocumentGraphics/help.gif 0644
 pub/System/DocumentGraphics/hlp.gif 0644
 pub/System/DocumentGraphics/home.gif 0644
@@ -789,6 +796,7 @@ pub/System/DocumentGraphics/lockfoldergray.gif 0644
 pub/System/DocumentGraphics/locktopic.gif 0644
 pub/System/DocumentGraphics/locktopicgray.gif 0644
 pub/System/DocumentGraphics/logout.gif 0644
+pub/System/DocumentGraphics/luggage.gif 0644
 pub/System/DocumentGraphics/mail.gif 0644
 pub/System/DocumentGraphics/map.gif 0644
 pub/System/DocumentGraphics/mdb.gif 0644
@@ -822,6 +830,10 @@ pub/System/DocumentGraphics/png.gif 0644
 pub/System/DocumentGraphics/ppt.gif 0644
 pub/System/DocumentGraphics/presentation.gif 0644
 pub/System/DocumentGraphics/printtopic.gif 0644
+pub/System/DocumentGraphics/processing-32-bg.gif 0644
+pub/System/DocumentGraphics/processing-32.gif 0644
+pub/System/DocumentGraphics/processing-bg.gif 0644
+pub/System/DocumentGraphics/processing.gif 0644
 pub/System/DocumentGraphics/proportional.gif 0644
 pub/System/DocumentGraphics/ps.gif 0644
 pub/System/DocumentGraphics/psd.gif 0644
@@ -853,6 +865,7 @@ pub/System/DocumentGraphics/stargold.gif 0644
 pub/System/DocumentGraphics/starred.gif 0644
 pub/System/DocumentGraphics/statistics.gif 0644
 pub/System/DocumentGraphics/stop.gif 0644
+pub/System/DocumentGraphics/svg.gif 0644
 pub/System/DocumentGraphics/swf.gif 0644
 pub/System/DocumentGraphics/table.gif 0644
 pub/System/DocumentGraphics/tablesortdiamond.gif 0644
@@ -904,6 +917,7 @@ pub/System/DocumentGraphics/uweb-o.gif 0644
 pub/System/DocumentGraphics/uweb-o12.gif 0644
 pub/System/DocumentGraphics/uweb-oo.gif 0644
 pub/System/DocumentGraphics/uweb-os.gif 0644
+pub/System/DocumentGraphics/vector.gif 0644
 pub/System/DocumentGraphics/video.gif 0644
 pub/System/DocumentGraphics/viewtopic.gif 0644
 pub/System/DocumentGraphics/vsd.gif 0644
@@ -1037,4 +1051,3 @@ working/README 0444
 working/registration_approvals/README 0444
 working/tmp/README 0444
 working/work_areas/README 0444
-
