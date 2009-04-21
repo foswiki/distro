@@ -1,5 +1,5 @@
 %META:TOPICINFO{author="ProjectContributor" date="1231502400" format="1.1" version="$Rev$"}%
----+!! Foswiki Release 1.0.4 - 19 Mar 2009
+---+!! Foswiki Release 1.0.5 - 25 Apr 2009
 
 %TOC%
 
@@ -20,6 +20,7 @@ Foswiki is the old TWiki project under a new name. Restrictions on the use of th
    * Foswiki 1.0.2 was built 25 Feb 2009 and again we decided to stop the publishing for quality reasons because of one important bug.
    * Foswiki 1.0.3 was built 28 Feb 2009. We decided to stop the publishing because of a severe bug in !EditTablePlugin introduced in 1.0.1 when fixing another bug. 
    * Foswiki 1.0.4 was built 19 Mar 2009. It is a patch release with more than 100 bug fixes relative to 1.0.0 and only very few minor enhancements.
+   * Foswiki 1.0.5 was built 25 Apr 2009. It is a patch release with more than 120 bug fixes relative to 1.0.0 and a few enhancements. This patch release further enhances the robustness and the security of the Foswiki software.
 
 ---++ Pre-installed Extensions
 
@@ -50,6 +51,7 @@ Foswiki is much more secure than TWiki 4.2.4.
    * Functions QUERYPARAMS, ORIGURL (skin macro) are secured against XSS attacks. QUERYPARAMS, like URLPARAM, is now encoded with the new, safe encoding.
    * The print preview link is no longer vulnerable to XSS attacks.
    * Additional security fixes have been made, based on security audits performed by the Foswiki team. Sensitive data from the topic text and web client requests are validated for safety.
+   * From Foswiki 1.0.5 an additional security feature has been added so that saving data now requires the http method POST.
 
 ---+++ Upgrading From TWiki 4.2
 
@@ -148,6 +150,20 @@ These changes have the following consequences when upgrading from TWiki to Foswi
    * Your site preference settings from Main.<nop>TWikiPreferences must be copied to the [[%USERSWEB%.SitePreferences]] topic.
 
 Please see %SYSTEMWEB%.UpgradeGuide#CopyUsersAndCustomizations for more information.
+
+---++ Important Changes since Foswiki 1.0.4
+
+An additional security feature has been added so that saving data now requires the http method POST. This means that it is no longer possible to store data via an "&lt;a href=..." link or img tag. It also means that if you have an application with an HTML form that creates new topics you must specify in the form tag method="post". This change is done to further tighten the security of Foswiki.
+
+<pre>
+&lt;form name="new" action="%<nop>SCRIPTURLPATH{save}%/Sandbox/" method="post"&gt;
+    ...
+&lt;/form&gt;
+</pre>
+
+The template webs _default and _empty are frequent targets for spammers because these webs are normally not monitored very carefully by the community around a Foswiki installation. These webs are now write protected so on an administrator can edit topics in these webs. When an administrator creates a new web it is important to remember to remove the access restriction from the !WebPreferences in the new web.
+
+SpreadSheetPlugin now has the new functions: $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), $INSERTSTRING()
 
 ---++ Important Changes since Foswiki 1.0.0
 
@@ -334,7 +350,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 
 ---++ Foswiki Patch Release 1.0.1 Details
 
----++ Fixes
+---+++ Fixes
 
 <noautolink>
 | [[%BUGS%/Item707][Item707]] | System.InstallationGuide has incorrect link to list of users |
@@ -413,7 +429,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item8051][Item8051]] | Use of uninitialized value in list assignment |
 </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 | [[%BUGS%/Item523][Item523]] | Small user interface improvements to configure |
@@ -425,7 +441,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 
 ---++ Foswiki Patch Release 1.0.2 Details
 
----++ Fixes
+---+++ Fixes
 
 <noautolink>
 | [[%BUGS%/Item630][Item630]] | Fix the code in extender.pl to use UNIVERSAL::require instead of eval use |
@@ -439,7 +455,7 @@ Since the fork of Foswiki happened while TWiki 4.2.3 was the current release, al
 | [[%BUGS%/Item6018][Item6018]] | GMTIME{}% does not return the right value for $week in ISO8601 |
 </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 None
@@ -447,7 +463,7 @@ None
 
 ---++ Foswiki Patch Release 1.0.3 Details
 
----++ Fixes
+---+++ Fixes
 
 <noautolink>
 | [[%BUGS%/Item1055][Item1055]] | Find More Extensions should compare installed version with latest version |
@@ -461,7 +477,7 @@ None
 | [[%BUGS%/Item1198][Item1198]] | configure extension installer reports all extension rev numbers wrong |
 </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 None
@@ -469,7 +485,7 @@ None
 
 ---++ Foswiki Patch Release 1.0.4 Details
 
----++ Fixes
+---+++ Fixes
 
 <noautolink>
 | [[%BUGS%/Item993][Item993]] | Log is (too) inaccurate |
@@ -507,10 +523,47 @@ None
 | [[%BUGS%/Item8072][Item8072]] | Error in Bridge between TWiki::Time and Foswiki::Time   |
 </noautolink>
 
----++ Enhancements
+---+++ Enhancements
 
 <noautolink>
 | [[%BUGS%/Item1604][Item1604]] | Implement use of RELEASE tag for extensions in addition to VERSION |
+</noautolink>
+
+---++ Foswiki Patch Release 1.0.5 Details
+
+---+++ Fixes
+
+<noautolink>
+| [[%BUGS%/Item1050][Item1050]] | Explanation at {ExtensionsRepositories} is not clear |
+| [[%BUGS%/Item1214][Item1214]] | In TablePlugin - Add 'px' if no size unit is passed |
+| [[%BUGS%/Item1343][Item1343]] | TinyMCEQuickHelp has bad META format, missing line feed causes it to show in topic text. |
+| [[%BUGS%/Item1349][Item1349]] | Sandbox executes "-"  instead of requested program on Strawberry perl on Windows XP |
+| [[%BUGS%/Item1354][Item1354]] | SEARCHDEFAULTTYPE causes confusing and the misspelling means that people think this is the problem |
+| [[%BUGS%/Item1358][Item1358]] | EditTablePlugin deep recurses in many cases |
+| [[%BUGS%/Item1372][Item1372]] | Plugin installation fails on Windows - extender.pl can't find Archive::Tar |
+| [[%BUGS%/Item1384][Item1384]] | Creating webs with empty field values in the submit form fails |
+| [[%BUGS%/Item1388][Item1388]] | View topic since and other settings are not connected |
+| [[%BUGS%/Item1403][Item1403]] | Use of uninitialized value at lib/Foswiki.pm |
+| [[%BUGS%/Item1413][Item1413]] | System.WebLeftBarSearch search field javascript not blanking box when focused |
+| [[%BUGS%/Item1443][Item1443]] | We still have 1.0 format in distributed topics |
+| [[%BUGS%/Item1451][Item1451]] | Typos on System.TextFormattingRules |
+| [[%BUGS%/Item1453][Item1453]] | Too hard to create new switchboard entries, doc is poor |
+| [[%BUGS%/Item1456][Item1456]] | Access viewfile without web/file results in oops |
+| [[%BUGS%/Item1458][Item1458]] | Don't allow saving data when http method is GET |
+| [[%BUGS%/Item1468][Item1468]] | Topics with regex quantifier characters such as + in their names prevent other topics from being moved |
+| [[%BUGS%/Item1472][Item1472]] | Remove bookview from WebSearchAdvanced. And update docu to warn about it |
+| [[%BUGS%/Item1485][Item1485]] | _default web permissions are wrong |
+| [[%BUGS%/Item5791][Item5791]] | Topics using parenthesis in name cause regex errors |
+| [[%BUGS%/Item8124][Item8124]] | TCP TWiki web preferences too open |
+</noautolink>
+
+---+++ Enhancements
+
+<noautolink>
+| [[%BUGS%/Item1374][Item1374]] | Add New New $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), $INSERTSTRING() functions to SpreadSheetPlugin |
+| [[%BUGS%/Item1381][Item1381]] | Add depth parameter to META |
+| [[%BUGS%/Item1474][Item1474]] | DocumentGraphics new images |
+| [[%BUGS%/Item4163][Item4163]] | Bulgarian translation |
 </noautolink>
 
 ---
