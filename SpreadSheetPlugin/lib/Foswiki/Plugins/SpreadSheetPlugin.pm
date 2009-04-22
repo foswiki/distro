@@ -1,7 +1,7 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
 # Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org
-# Copyright (C) 2008 Foswiki Contributors
+# Copyright (C) 2008-2009 Foswiki Contributors
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

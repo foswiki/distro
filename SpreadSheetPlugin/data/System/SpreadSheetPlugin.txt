@@ -541,7 +541,7 @@ Conventions for Syntax:
    * Finds one text =string=, within another =text=, and returns the number of the starting position of =string=, from the first character of =text=. This search is a %SYSTEMWEB%.RegularExpression search; use =$FIND()= for non-regular expression searching. Starting position is 1; a 0 is returned if nothing is matched
    * Syntax: ==$SEARCH( string, text, _start_ )==
    * Example: ==%<nop>CALC{"$SEARCH([uy], fluffy)"}%== returns ==3==
-   * Example: ==%<nop>CALC{"$SEARCH([uy], fluffy, 3)"}%== returns ==6==
+   * Example: ==%<nop>CALC{"$SEARCH([uy], fluffy, 4)"}%== returns ==6==
    * Example: ==%<nop>CALC{"$SEARCH([abc], fluffy,)"}%== returns ==0==
    * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=
 
@@ -762,8 +762,9 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 
 |  Copyright: | Copyright (C) 2001-2007 Peter Thoeny, peter@thoeny.org and TWiki Contributors;  &copy; 2008-2009 Foswiki Contributors  |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | 29 Mar 2009 |
+|  Plugin Version: | 22 Apr 2009 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
+|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Foswikitask:Item5471: Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
 |  29 Mar 2009: | Added $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), and $INSERTSTRING() |
 |  06 Jan 2009: | Foswikitask:Item4835: Allow SUBSTITUTE and REPLACE to return values 0 and '' |
 |  16 Dec 2008: | Foswiki version - no new features |
