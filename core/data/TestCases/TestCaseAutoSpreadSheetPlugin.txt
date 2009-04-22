@@ -603,10 +603,31 @@ Designed by: Kenneth Lavrsen
 
 #FuncREPLACE
 ---+++ REPLACE( text, start, num, new ) -- replace part of a text string
-   * Replace =num= number of characters of text string =text=, starting at =start=, with new text =new=. Starting position is 1; use a negative =start= to count from the end of the text
-   * Syntax: ==$REPLACE( text, start, num, new )==
-   * Example: ==%<nop>CALC{"$REPLACE(abcdefghijk, 6, 5, *)"}%== returns ==abcde*k==
-   * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSEARCH][$SEARCH()]]=, =[[#FuncSUBSTITUTE][$SUBSTITUTE()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
+
+   * Test: %<nop>CALC{"$REPLACE(abcdefghijk, 6, 5, *)"}%
+   * Expected: <!-- expected replace1 -->abcde*k<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$REPLACE(abcdefghijk, 6, 5, *)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$REPLACE(10xxx, 2, 1, .)"}%
+   * Expected: <!-- expected replace2 -->1.xxx<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$REPLACE(10xxx, 2, 1, .)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$REPLACE(, 2, 1, .)"}%
+   * Expected: <!-- expected replace3 --><!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$REPLACE(, 2, 1, .)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$REPLACE(10xxx, 2, 1, )"}%
+   * Expected: <!-- expected replace4 -->1xxx<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$REPLACE(10xxx, 2, 1, )"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$REPLACE(10xxx, -2, 1, *)"}%
+   * Expected: <!-- expected replace5 -->10x*x<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$REPLACE(10xxx, -2, 1, *)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$REPLACE(10xxx, 2, 0, *)"}% (replace nothing at a position is actually same as inserting)
+   * Expected: <!-- expected replace6 -->1*0xxx<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$REPLACE(10xxx, 2, 0, *)"}%<!-- /actual -->
+
 
 #FuncRIGHT
 ---+++ RIGHT( ) -- address range of cells to the right of the current cell

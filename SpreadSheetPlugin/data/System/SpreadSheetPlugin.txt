@@ -764,7 +764,7 @@ Note that the =DONTSPACE= global preference overrides the =SPREADSHEETPLUGIN_DON
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
 |  Plugin Version: | 22 Apr 2009 |
 |  Change History: | <!-- specify latest version first -->&nbsp; |
-|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Foswikitask:Item5471: Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
+|  22 Apr 2009: | Removed support for settings in the plugin topic which is a bad idea anyway as they get overwritten at each Foswiki upgrade. Define the global settings in <nop>%USERSWEB%.SitePreferences instead. <br />Foswikitask:Item5471: Fixed replacing 0 in REPLACE. Fixed FIND/SEARCH handling of empty strings and corrected documentation for SEARCH |
 |  29 Mar 2009: | Added $EMPTY(), $LEFTSTRING(), $RIGHTSTRING(), SUBSTRING(), and $INSERTSTRING() |
 |  06 Jan 2009: | Foswikitask:Item4835: Allow SUBSTITUTE and REPLACE to return values 0 and '' |
 |  16 Dec 2008: | Foswiki version - no new features |
