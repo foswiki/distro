@@ -430,7 +430,7 @@ WARN
             last if ( $session->topicExists( $w, $t ) );
         }
         my $viewURL = $session->getScriptUrl( 1, 'view', $w, $t );
-        $session->redirect( $viewURL, undef, 1 );
+        $session->redirect($session->redirectto($viewURL), undef, 1 );
 
         return;
     }
@@ -484,6 +484,9 @@ WARN
         }
 
         # drop through
+    } else {
+      # redirect to topic view or any other redirectto specified as an url param
+      $redirecturl = $session->redirectto($session->getScriptUrl( 1, 'view', $web, $topic ));
     }
 
     if ( $saveaction eq 'quietsave' ) {
@@ -516,8 +519,6 @@ WARN
         );
     }
 
-    #success - redirect to topic view (unless its a checkpoint save)
-    $redirecturl ||= $session->getScriptUrl( 1, 'view', $web, $topic );
 
     if ( $adminCmd eq 'delRev' ) {
 
