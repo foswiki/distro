@@ -433,7 +433,7 @@ escaped:
 <p />
 <a class="foswikiCurrentTopicLink" href="%SCRIPTURLPATH{"view"}%/TestCases/TestCaseAutoFormatting#MyAnchor">Jump</a>
 <p />
-<a name="AMyAnchor"></a> To here
+<a name="MyAnchor"></a> To here
 <!-- /expected -->
 ---+++ Actual
 <!-- actual -->
