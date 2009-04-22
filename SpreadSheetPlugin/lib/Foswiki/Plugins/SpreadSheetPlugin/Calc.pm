@@ -638,9 +638,8 @@ sub doFunc
         $start-- unless ($start < 1);
         $num = 0 unless( $num );
         $replace = "" unless( defined $replace );
-        if( eval 'substr( $string, $start, $num, $replace )' ) {
-            $result = $string;
-        }
+        eval 'substr( $string, $start, $num, $replace )';
+        $result = $string;
 
     } elsif( $theFunc eq "SUBSTITUTE" ) {
         my( $string, $from, $to, $inst, $options ) = split( /,\s*/, $theAttr );
