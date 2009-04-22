@@ -553,6 +553,7 @@ None
 | [[%BUGS%/Item1468][Item1468]] | Topics with regex quantifier characters such as + in their names prevent other topics from being moved |
 | [[%BUGS%/Item1472][Item1472]] | Remove bookview from WebSearchAdvanced. And update docu to warn about it |
 | [[%BUGS%/Item1485][Item1485]] | _default web permissions are wrong |
+| [[%BUGS%/Item5471][Item5471]] | The character 0 cannot be replaced using the replace-funtion of the SpreadSheetPlugin |
 | [[%BUGS%/Item5791][Item5791]] | Topics using parenthesis in name cause regex errors |
 | [[%BUGS%/Item8124][Item8124]] | TCP TWiki web preferences too open |
 </noautolink>
