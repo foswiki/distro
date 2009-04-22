@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev: 15996 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1111930902" format="1.0" version="$Rev$"}%
 
 Description: tests for TOCs included from other topics and with funny deprecated syntaxes.
 
@@ -40,43 +40,53 @@ Designed by: Crawford Currie
 <!-- /actual -->
 </td></tr><tr valign="top"><td>
 <!-- expected expand rex wine -->
-<a name=foswikiTOC />
+<a name="foswikiTOC"></a>
 <div class="foswikiToc">
 <span class="foswikiTocTitle">The Top</span>
 <ul>
-<li> <a href="?@URLPARAMS#H1_1">H1 <!--1--></a>
+<li> <a href="?@URLPARAMS#H1_1"> H1 <!--1--></a>
 <ul>
-<li> <a href="?@URLPARAMS#H2">H2</a>
+<li> <a href="?@URLPARAMS#H2"> H2</a>
 </li>
-</ul>
+</ul> 
 </li>
-<li> <a href="?@URLPARAMS#H1_2">H1 <!--2--></a>
+<li> <a href="?@URLPARAMS#H1_2"> H1 <!--2--></a>
 <ul>
-<li> <a href="?@URLPARAMS#H2_AN1">H2</a>
+<li> <a href="?@URLPARAMS#H2_AN1"> H2</a>
+</li>
+<li> <a href="?@URLPARAMS#S_BE_2"> S∆BE 2</a>
+</li>
+<li> <a href="?@URLPARAMS#S_BE_2_AN1"> S÷BE 2</a>
+</li>
+<li> <a href="?@URLPARAMS#1_2_Section_A"> 1.2 Section A</a>
+</li>
+<li> <a href="?@URLPARAMS#A"> ∆ÿ≈</a>
+</li>
+<li> <a href="?@URLPARAMS#1"> ∆ÿ≈ 1</a>
 <ul>
 <li>
 <ul>
-<li> <a href="?@URLPARAMS#Don_t_ignore">Don't ignore</a>
+<li> <a href="?@URLPARAMS#Don_t_ignore"> Don't ignore</a>
 </li>
-</ul>
+</ul> 
 </li>
-</ul>
+</ul> 
 </li>
-</ul>
+</ul> 
 </li>
-<li> <a href="?@URLPARAMS#hash_H1">hash H1</a>
+<li> <a href="?@URLPARAMS#hash_H1"> hash H1</a>
 <ul>
-<li> <a href="?@URLPARAMS#H2_AN2">H2</a>
+<li> <a href="?@URLPARAMS#H2_AN2"> H2</a>
 </li>
-</ul>
+</ul> 
 </li>
-<li> <a href="?@URLPARAMS#hash_H1_AN1">hash H1</a>
+<li> <a href="?@URLPARAMS#hash_H1_AN1"> hash H1</a>
 <ul>
 <li> <a href="?@URLPARAMS#normal_H2">normal H2</a>
 </li>
-</ul>
+</ul> 
 </li>
-</ul>
+</ul> 
 </div>
 <!-- /expected -->
 </td><td>
@@ -94,6 +104,16 @@ Some more text
 text
 ---++ H2
 The rest
+---++ S∆BE 2
+Danish Letters
+---++ S÷BE 2
+German/Swedish
+---++ 1.2 Section A
+Numbered chapters
+---++ ∆ÿ≈
+Fully none English
+---++ ∆ÿ≈ 1
+Fully none English plus digit
 
 ---#!! Ignore me H1
 ---#### Don't ignore %NOTOC% except this
