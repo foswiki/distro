@@ -185,12 +185,46 @@ Designed by: Kenneth Lavrsen
 
 #FuncFIND
 ---+++ FIND( string, text, start ) -- find one string within another string
-   * Finds one text =string=, within another =text=, and returns the number of the starting position of =string=, from the first character of =text=. This search is case sensitive and is not a regular expression search; use =$SEARCH()= for regular expression searching. Starting position is 1; a 0 is returned if nothing is matched.
-   * Syntax: ==$FIND( string, text, _start_ )==
-   * Example: ==%<nop>CALC{"$FIND(f, fluffy)"}%== returns ==1==
-   * Example: ==%<nop>CALC{"$FIND(f, fluffy, 2)"}%== returns ==4==
-   * Example: ==%<nop>CALC{"$FIND(@, fluffy, 1)"}%== returns ==0==
-   * Related: =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncSEARCH][$SEARCH()]]=
+
+   * Test: %<nop>CALC{"$FIND(f, fluffy)"}%
+   * Expected: <!-- expected find1 -->1<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(f, fluffy)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$FIND(f, fluffy, 2)"}%
+   * Expected: <!-- expected find2 -->4<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(f, fluffy, 2)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$FIND(y, fluffy, 6)"}%
+   * Expected: <!-- expected find3 -->6<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(y, fluffy, 6)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$FIND(u, fluffy, 6)"}%
+   * Expected: <!-- expected find4 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(u, fluffy, 6)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$FIND(@, fluffy, 1)"}%
+   * Expected: <!-- expected find5 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(@, fluffy, 1)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$FIND(, fluffy, 0)"}%
+   * Expected: <!-- expected find6 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(, fluffy, 0)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$FIND(f, , 0)"}%
+   * Expected: <!-- expected find7 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(f, , 0)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$FIND(,,)"}%
+   * Expected: <!-- expected find8 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(,,)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$FIND(f, fluffy, 9)"}%
+   * Expected: <!-- expected find9 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(f, fluffy, 9)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$FIND(kit, fluffy kitten)"}%
+   * Expected: <!-- expected search9 -->8<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(kit, fluffy kitten)"}%<!-- /actual -->
 
 #FuncFORMAT
 ---+++ FORMAT( type, precision, number ) -- format a number to a certain type and precision
@@ -627,12 +661,43 @@ Designed by: Kenneth Lavrsen
 
 #FuncSEARCH
 ---+++ SEARCH( string, text, start ) -- search a string within a text
-   * Finds one text =string=, within another =text=, and returns the number of the starting position of =string=, from the first character of =text=. This search is a %SYSTEMWEB%.RegularExpression search; use =$FIND()= for non-regular expression searching. Starting position is 1; a 0 is returned if nothing is matched
-   * Syntax: ==$SEARCH( string, text, _start_ )==
-   * Example: ==%<nop>CALC{"$SEARCH([uy], fluffy)"}%== returns ==3==
-   * Example: ==%<nop>CALC{"$SEARCH([uy], fluffy, 3)"}%== returns ==6==
-   * Example: ==%<nop>CALC{"$SEARCH([abc], fluffy,)"}%== returns ==0==
-   * Related: =[[#FuncFIND][$FIND()]]=, =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=
+
+   * Test: %<nop>CALC{"$SEARCH([uy], fluffy)"}%
+   * Expected: <!-- expected search1 -->3<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH([uy], fluffy)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SEARCH([uy], fluffy, 4)"}%
+   * Expected: <!-- expected search2 -->6<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH([uy], fluffy, 4)"}%<!-- /actual -->
+  
+   * Test: %<nop>CALC{"$FIND([ua], fluffy, 6)"}%
+   * Expected: <!-- expected search3 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$FIND(u, fluffy, 6)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$SEARCH([abc], fluffy,)"}%
+   * Expected: <!-- expected search4 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH([abc], fluffy,)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$SEARCH(, fluffy, 0)"}%
+   * Expected: <!-- expected search5 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH(, fluffy, 0)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SEARCH(f, , 0)"}%
+   * Expected: <!-- expected search6 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH(f, , 0)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SEARCH(,,)"}%
+   * Expected: <!-- expected search7 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH(,,)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SEARCH(f, fluffy, 9)"}%
+   * Expected: <!-- expected search8 -->0<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH(f, fluffy, 9)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$SEARCH(k[ia]t, fluffy kitten)"}%
+   * Expected: <!-- expected search9 -->8<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SEARCH(kit, fluffy kitten)"}%<!-- /actual -->
+
 
 #FuncSET
 ---+++ SET( name, value ) -- set a variable for later use
@@ -669,13 +734,31 @@ Designed by: Kenneth Lavrsen
 
 #FuncSUBSTITUTE
 ---+++ SUBSTITUTE( text, old, new, instance, option ) -- substitute text
-   * Substitutes =new= text for =old= text in a =text= string. =instance= specifies which occurance of =old= you want to replace. If you specify =instance=, only that instance is replaced. Otherwise, every occurance is changed to the new text. A literal search is performed by default; a %SYSTEMWEB%.RegularExpression search if the =option= is set to ==r==
-   * Syntax: ==$SUBSTITUTE( text, old, _new_, _instance_, _option_ )==
-   * Example: ==%<nop>CALC{"$SUBSTITUTE(Good morning, morning, day)"}%== returns ==Good day==
-   * Example: ==%<nop>CALC{"$SUBSTITUTE(Q2-2002, 2, 3)"}%== returns ==Q3-3003==
-   * Example: ==%<nop>CALC{"$SUBSTITUTE(Q2-2002,2, 3, 3)"}%== returns ==Q2-2003==
-   * Example: ==%<nop>CALC{"$SUBSTITUTE(abc123def, [0-9], 9, , r)"}%== returns ==abc999def==
-   * Related: =[[#FuncINSERTSTRING][$INSERTSTRING()]]=, =[[#FuncLEFTSTRING][$LEFTSTRING()]]=, =[[#FuncREPLACE][$REPLACE()]]=, =[[#FuncRIGHTSTRING][$RIGHTSTRING()]]=, =[[#FuncSUBSTRING][$SUBSTRING()]]=, =[[#FuncTRANSLATE][$TRANSLATE()]]=
+
+   * Test: %<nop>CALC{"$SUBSTITUTE(Good morning, morning, day)"}%
+   * Expected: <!-- expected substitute1 -->Good day<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(Good morning, morning, day)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SUBSTITUTE(Q2-2002, 2, 3)"}%
+   * Expected: <!-- expected substitute2 -->Q3-3003<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(Q2-2002, 2, 3)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SUBSTITUTE(Q2-2002,2, 3, 3)"}%
+   * Expected: <!-- expected substitute3 -->Q2-2003<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(Q2-2002,2, 3, 3)"}%<!-- /actual -->
+   
+   * Test: %<nop>CALC{"$SUBSTITUTE(abc123def, [0-9], 9, , r)"}%
+   * Expected: <!-- expected substitute4 -->abc999def<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(abc123def, [0-9], 9, , r)"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SUBSTITUTE(Q2-2002, , )"}%
+   * Expected: <!-- expected substitute2 -->Q2-2002<!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(Q2-2002, , )"}%<!-- /actual -->
+
+   * Test: %<nop>CALC{"$SUBSTITUTE(, 2, 3)"}%
+   * Expected: <!-- expected substitute2 --><!-- /expected -->
+   * Actual: <!-- actual -->%CALC{"$SUBSTITUTE(, 2, 3)"}%<!-- /actual -->
+
 
 #FuncSUBSTRING
 ---+++ SUBSTRING( text, start, num ) -- extract a substring out of a text string

@@ -619,13 +619,15 @@ sub doFunc
 
     } elsif( $theFunc =~ /^(FIND|SEARCH)$/ ) {
         my( $searchString, $string, $pos ) = split( /,\s*/, $theAttr, 3 );
+        $string = '' unless ( defined $string );
+        $searchString = '' unless (defined $searchString );
         $result = 0;
         $pos--;
         $pos = 0 if( $pos < 0 );
-        pos( $string ) = $pos if( $pos );
         $searchString = quotemeta( $searchString ) if( $theFunc eq "FIND" );
+        pos( $string ) = $pos if( $pos );
         # using zero width lookahead '(?=...)' to keep pos at the beginning of match
-        if( eval '$string =~ m/(?=$searchString)/g' && $string ) {
+        if( $searchString ne '' && eval '$string =~ m/(?=$searchString)/g' ) {
             $result = pos( $string ) + 1;
         }
 
@@ -977,7 +979,7 @@ sub doFunc
         my $eval = "";
         $i = 0;
         my @arr =
-            grep { ! /^TWIKI_GREP_REMOVE$/ }
+            grep { ! /^FOSWIKI_GREP_REMOVE$/ }
             map {
                 $item = $_;
                 $_ = $cmd;
@@ -992,7 +994,7 @@ sub doFunc
                 } elsif( $eval ) {
                     $_ = $item;
                 } else {
-                    $_ = "TWIKI_GREP_REMOVE";
+                    $_ = "FOSWIKI_GREP_REMOVE";
                 }
             } getList( $str );
         $result = _listToDelimitedString( @arr );
@@ -1293,7 +1295,7 @@ sub _properSpace
     unless( $dontSpaceRE ) {
         $dontSpaceRE = &Foswiki::Func::getPreferencesValue( "DONTSPACE" ) ||
                        &Foswiki::Func::getPreferencesValue( "SPREADSHEETPLUGIN_DONTSPACE" ) ||
-                       "UnlikelyGibberishWikiWord";
+                       "CodeWarrior, MacDonald, McIntosh, RedHat, SuSE";
         $dontSpaceRE =~ s/[^a-zA-Z0-9\,\s]//go;
         $dontSpaceRE = "(" . join( "|", split( /[\,\s]+/, $dontSpaceRE ) ) . ")";
         # Example: "(RedHat|McIntosh)"
