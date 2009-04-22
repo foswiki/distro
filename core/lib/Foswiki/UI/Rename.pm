@@ -86,8 +86,6 @@ sub _renameTopic {
         }
     );
 
-    my $breakLock = $query->param('breaklock');
-
     my $confirm = $query->param('confirm');
 
     unless ( $session->topicExists( $oldWeb, $oldTopic ) ) {
@@ -375,7 +373,6 @@ sub _renameWeb {
 
     my $newTopic;
     my $lockFailure = '';
-    my $breakLock   = $query->param('breaklock');
     my $confirm     = $query->param('confirm') || '';
 
     Foswiki::UI::checkWebExists( $session, $oldWeb,

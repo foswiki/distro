@@ -31,6 +31,8 @@ our $TABLEMARKER = "\0\1\2TABLE\2\1\0";
 # Marker used to indicate table rows that are valid header/footer rows
 our $TRMARK = "is\1all\1th";
 
+our $REMARKER = "\0";
+
 BEGIN {
 
     # Do a dynamic 'use locale' for this module
@@ -1794,9 +1796,10 @@ sub getReferenceRE {
 
     # Convert . and / to [./] (subweb separators) and quote
     # special characters
-    $matchWeb =~ s#[./]#$TABLEMARKER#g;
+    $matchWeb =~ s#[./]#$REMARKER#g;
     $matchWeb = quotemeta( $matchWeb );
-    $matchWeb =~ s#$TABLEMARKER#[./]#g;
+    # $REMARKER is escaped by quotemeta so we need to match the escape
+    $matchWeb =~ s#\\$REMARKER#[./]#go;
 
     # Item1468/5791 - Quote special characters
     $topic = quotemeta($topic) if defined $topic;
