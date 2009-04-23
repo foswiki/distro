@@ -14,21 +14,20 @@ package Foswiki::Contrib::MailerContrib;
 
 use strict;
 
-use URI;
+use URI ();
 use CGI qw(-any);
 
-require Foswiki;
-require Foswiki::Plugins;
-require Foswiki::Time;
-require Foswiki::Func;
-require Foswiki::Contrib::MailerContrib::WebNotify;
-require Foswiki::Contrib::MailerContrib::Change;
-require Foswiki::Contrib::MailerContrib::UpData;
+use Foswiki ();
+use Foswiki::Plugins ();
+use Foswiki::Time ();
+use Foswiki::Func ();
+use Foswiki::Contrib::MailerContrib::WebNotify ();
+use Foswiki::Contrib::MailerContrib::Change ();
+use Foswiki::Contrib::MailerContrib::UpData ();
 
-use vars qw ( $VERSION $RELEASE $verbose );
-
-$VERSION = '$Rev$';
-$RELEASE = '03 Dec 2008';
+our $VERSION = '$Rev$';
+our $RELEASE = '23 Apr 2009';
+our $verbose = 0;
 
 # PROTECTED STATIC ensure the contrib is initernally initialised
 sub initContrib {
