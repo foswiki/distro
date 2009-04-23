@@ -162,6 +162,7 @@ Many thanks to the following sponsors for supporting this work:
 |  License: | GPL |
 |  Version: | %$VERSION% |
 |  Change History: | |
+|  23 Apr 2009 | Foswikitask:Item1501: Minor bug in logfile output fixed |
 |  03 Dec 2008 | Re-released for the Foswiki project |
 |  15 Oct 2008 | TWikibug:Item: generalised code to enable Foswiki:Extensions.SubscribePlugin to delegate parsing to %TOPIC% - Foswiki:Main.SvenDowideit |
 |  14 Oct 2008 | TWikibug:Item6066: fixed issue for user mappings where cuid != login  - Foswiki:Main.SvenDowideit |

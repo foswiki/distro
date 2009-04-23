@@ -232,8 +232,9 @@ sub stringify {
     my $this = shift;
     my $subscribersOnly = shift || 0;
 
-    my $page = $this->{pretext} if (!$subscribersOnly);
+    my $page = '';
 
+    $page .= $this->{pretext} if (!$subscribersOnly);
     foreach my $name ( sort keys %{$this->{subscribers}} ) {
         my $subscriber = $this->{subscribers}{$name};
         $page .= $subscriber->stringify() . "\n";
