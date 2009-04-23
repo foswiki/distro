@@ -122,4 +122,4 @@ var TEXT_MODIFY_SEARCH = foswiki.getMetaTag('TEXT_MODIFY_SEARCH');
 var SCRIPTURLPATH = foswiki.getMetaTag('SCRIPTURLPATH');
 var SCRIPTSUFFIX = foswiki.getMetaTag('SCRIPTSUFFIX');
 var WEB = foswiki.getMetaTag('WEB');
-var TOPIC = foswiki.getMetaTag('TOPIC');
+var TOPIC = foswiki.getMetaTag('WEBTOPIC');
