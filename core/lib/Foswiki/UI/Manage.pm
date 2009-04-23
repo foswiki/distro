@@ -163,12 +163,15 @@ sub _action_createweb {
     # Get options from the form (only those options that are already
     # set in the template WebPreferences topic are changed, so we can
     # just copy everything)
+    my $me = $session->{users}->getWikiName($cUID);
     my $opts = {
 
         # Set permissions such that only the creating user can modify the
         # web preferences
-        ALLOWTOPICCHANGE => $session->{users}->getWikiName($cUID),
+        ALLOWTOPICCHANGE => $me,
         ALLOWTOPICRENAME => 'nobody',
+        ALLOWWEBCHANGE => $me,
+        ALLOWWEBRENAME => $me,
     };
     foreach my $p ( $query->param() ) {
         $opts->{ uc($p) } = $query->param($p);

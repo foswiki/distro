@@ -62,8 +62,7 @@ sub test_CreateEmptyWeb {
 	$this->assert_not_null( $this->{twiki}->{store} );
 	
 	#create an empty web
-	$this->assert( ! $this->{twiki}->{store}->createWeb($this->{twiki}->{user},$web));		#TODO: how can this succeed without a user? to check perms?
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+	$this->assert( ! $this->{twiki}->{store}->createWeb($this->{twiki}->{user},$web));
 	my @topics = $this->{twiki}->{store}->getTopicNames($web);
 	$this->assert_equals( 1, scalar(@topics), join(" ",@topics) );#we expect there to be only the home topic
 	$this->{twiki}->{store}->removeWeb($this->{twiki}->{user}, $web);
@@ -76,8 +75,7 @@ sub test_CreateWeb {
 	
 	#create a web using _default 
 	#TODO how should this fail if we are testing a store impl that does not have a _deault web ?
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	my @topics = $this->{twiki}->{store}->getTopicNames($web);
 	my @defaultTopics = $this->{twiki}->{store}->getTopicNames('_default');
 	$this->assert_equals( $#topics, $#defaultTopics,
@@ -105,8 +103,7 @@ sub test_CreateWebWithNonExistantBaseWeb {
 sub test_CreateSimpleTopic {
     my $this = shift;
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
 	my $meta = undef;
@@ -125,8 +122,7 @@ sub test_CreateSimpleTopic {
 sub test_CreateSimpleMetaTopic {
     my $this = shift;
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
 	my $text = '';
@@ -150,8 +146,7 @@ sub test_CreateSimpleMetaTopic {
 sub test_CreateSimpleCompoundTopic {
     my $this = shift;
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
 	my $text = "This is some test text\n   * some list\n   * content\n :) :)";
@@ -174,27 +169,39 @@ sub test_CreateSimpleCompoundTopic {
 	$this->{twiki}->{store}->removeWeb($this->{twiki}->{user}, $web);
 }
 
+sub createTestWeb {
+    my $this = shift;
+    my $me = $this->{twiki}->{users}->getWikiName($this->{twiki}->{user});
+	$this->{twiki}->{store}->createWeb(
+        $this->{twiki}->{user}, $web, '_default',
+        {
+            ALLOWTOPICCHANGE => $me,
+            ALLOWTOPICRENAME => 'nobody',
+            ALLOWWEBCHANGE => $me,
+            ALLOWWEBRENAME => $me,
+        });
+	$this->assert( $this->{twiki}->{store}->webExists($web) );
+}
+
 sub test_getRevisionInfo {
     my $this = shift;
-
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	my $text = "This is some test text\n   * some list\n   * content\n :) :)";
 	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
-	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
+	$this->{twiki}->{store}->saveTopic( $this->{twiki}->{user}, $web, $topic, $text, $meta );
 
 	$this->assert_equals(1, $this->{twiki}->{store}->getRevisionNumber($web, $topic));
 
     $text .= "\nnewline";
-	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta, { forcenewrevision => 1 } );
+	$this->{twiki}->{store}->saveTopic( $this->{twiki}->{user}, $web, $topic, $text, $meta, { forcenewrevision => 1 } );
 
-	my ($readMeta, $readText) = $this->{twiki}->{store}->readTopic($this->{test_user_login}, $web, $topic);
+	my ($readMeta, $readText) = $this->{twiki}->{store}->readTopic(undef, $web, $topic);
     # ignore whitspace at end of data
     $readText =~ s/\s*$//s;
 	$this->assert_equals($text, $readText);
 	$this->assert_equals(2, $this->{twiki}->{store}->getRevisionNumber($web, $topic));
 	my ( $infodate, $infouser, $inforev, $infocomment ) = $this->{twiki}->{store}->getRevisionInfo($web, $topic);
-	$this->assert_equals($this->{test_user_login}, $infouser);
+	$this->assert_equals($this->{twiki}->{user}, $infouser);
 	$this->assert_equals(2, $inforev);
 	
 	#TODO
@@ -205,8 +212,7 @@ sub test_getRevisionInfo {
 sub test_moveTopic {
     my $this = shift;
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	my $text = "This is some test text\n   * some list\n   * content\n :) :)";
 	my $meta = new Foswiki::Meta($this->{twiki}, $web, $topic);
 	$this->{twiki}->{store}->saveTopic( $this->{test_user_login}, $web, $topic, $text, $meta );
@@ -229,7 +235,7 @@ sub test_moveTopic {
 sub test_leases {
     my $this = shift;
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
+    $this->createTestWeb();
     my $testtopic = $Foswiki::cfg{HomeTopicName};
 
     my $lease = $this->{twiki}->{store}->getLease($web, $testtopic);
@@ -273,8 +279,7 @@ sub test_beforeSaveHandlerChangeText {
         value  => "fieldvalue",
        };
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
     # inject a handler directly into the plugins object
@@ -311,8 +316,7 @@ sub test_beforeSaveHandlerChangeMeta {
         value  => "fieldvalue",
        };
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
     # inject a handler directly into the plugins object
@@ -346,8 +350,7 @@ sub test_beforeSaveHandlerChangeBoth {
         value  => "fieldvalue",
        };
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
-	$this->assert( $this->{twiki}->{store}->webExists($web) );
+    $this->createTestWeb();
 	$this->assert( ! $this->{twiki}->{store}->topicExists($web, $topic) );
 	
     # inject a handler directly into the plugins object
@@ -410,7 +413,7 @@ sub test_attachmentSaveHandlers {
         value  => "fieldvalue",
        };
 
-	$this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web, '_default');
+    $this->createTestWeb();
 	$this->{twiki}->{store}->saveTopic( $this->{twiki}->{user}, $web, $topic, "", undef );
 
     # SMELL: assumed implementation
@@ -434,7 +437,7 @@ sub test_attachmentSaveHandlers {
 
 sub test_eachChange {
     my $this = shift;
-    $this->{twiki}->{store}->createWeb($this->{twiki}->{user}, $web);
+    $this->createTestWeb();
     $Foswiki::cfg{Store}{RememberChangesFor} = 5; # very bad memory
     sleep(1);
     my $start = time();

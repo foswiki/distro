@@ -1767,22 +1767,19 @@ sub createWeb {
     }
 
     foreach my $topic (@topicList) {
-        $this->copyTopic( $user, $baseWeb, $topic, $newWeb, $topic );
-    }
-
-    # patch WebPreferences in new web
-    my $wpt = $Foswiki::cfg{WebPrefsTopicName};
-
-    return unless $this->topicExists( $newWeb, $wpt );
-
-    if ($opts) {
-        my ( $meta, $text ) = $this->readTopic( undef, $newWeb, $wpt, undef );
-        foreach my $key (keys %$opts) {
-            $text =~
-              s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
-                if defined $opts->{$key};
+        if ($topic eq $Foswiki::cfg{WebPrefsTopicName} && $opts) {
+            # patch WebPreferences in new web
+            my ( $meta, $text ) = $this->readTopic(
+                undef, $baseWeb, $topic, undef );
+            foreach my $key (keys %$opts) {
+                $text =~
+                  s/($Foswiki::regex{setRegex}$key\s*=).*?$/$1 $opts->{$key}/gm
+                    if defined $opts->{$key};
+            }
+            $this->saveTopic( $user, $newWeb, $topic, $text, $meta );
+        } else {
+            $this->copyTopic( $user, $baseWeb, $topic, $newWeb, $topic );
         }
-        $this->saveTopic( $user, $newWeb, $wpt, $text, $meta );
     }
 }
 
