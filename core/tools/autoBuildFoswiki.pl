@@ -44,19 +44,12 @@ chomp($foswikihome);
 #TODO: add a trivial and correct LocalSite.cfg
 `chmod -R 777 data pub`;
 
-#TODO: replace this code with 'configure' from comandline
-my $localsite = getLocalSite($foswikihome);
-open(LS, ">$foswikihome/lib/LocalSite.cfg");
-print LS $localsite;
-close(LS);
-
-
-`perl pseudo-install.pl developer`;
+`perl pseudo-install.pl -A developer`;
 
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
 chdir('test/unit');
-my $unitTests = "export FOSWIKI_LIBS=; export FOSWIKI_HOME=$foswikihome;perl ../bin/TestRunner.pl -clean FoswikiSuite.pm 2>&1 > $foswikihome/Foswiki-UnitTests.log";
+my $unitTests = "export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; perl ../bin/TestRunner.pl -clean FoswikiSuite.pm 2>&1 > $foswikihome/Foswiki-UnitTests.log";
 my $return = `$unitTests`;
 my $errorcode = $? >> 8;
 unless ($errorcode == 0) {
@@ -100,7 +93,7 @@ print "\n\n ready to build release\n";
 #   4. perl build.pl release
 #      * Note: if you specify a release name the script will attempt to commit to svn 
 chdir('lib');
-`perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
+`export FOSWIKI_LIBS=$foswikihome/lib; export FOSWIKI_HOME=$foswikihome; perl ../tools/build.pl release -auto > $foswikihome/Foswiki-build.log 2>&1`;
 
 chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
