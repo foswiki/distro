@@ -45,13 +45,13 @@ chomp($foswikihome);
 `chmod -R 777 data pub`;
 
 #TODO: replace this code with 'configure' from comandline
-my $localsite = getLocalSite($foswikihome);
-open(LS, ">$foswikihome/lib/LocalSite.cfg");
-print LS $localsite;
-close(LS);
+#my $localsite = getLocalSite($foswikihome);
+#open(LS, ">$foswikihome/lib/LocalSite.cfg");
+#print LS $localsite;
+#close(LS);
 
 
-`perl pseudo-install.pl developer`;
+`perl pseudo-install.pl -A developer`;
 
 #run unit tests
 #TODO: testrunner should exit == 0 if no errors?
