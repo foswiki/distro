@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1234443922" format="1.1" reprev="1.2" version="1.2"}%
+%META:TOPICINFO{author="ProjectContributor" date="1234443922" format="1.1"  version="1.2"}%
 ---+!! <nop>ImageGalleryPlugin
 <table style="float:right">
 <tr>
@@ -23,7 +23,7 @@ below).
 
 ---++ Example
 %IMAGEGALLERY{size="large" exclude="logo"}%
-<span class="twikiAlert foswikiAlert">%NRIMAGES{exclude="logo"}%</span> images found.
+<span class="foswikiAlert">%NRIMAGES{exclude="logo"}%</span> images found.
 
 
 ---++ Syntax
@@ -161,8 +161,9 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  Plugin Author: | Michael Daum, Will Norris |
 |  Copyright &copy;: | 2002-2009, Will Norris; 2005-2009, Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]]) |
-|  Plugin Version: | v4.00 |
+|  Plugin Version: | v5.00 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  24 Apr 2009 | converted to foswiki plugin |
 |  12 Feb 2009 | interface improvements; creating more accurate thumbnails |
 |  31 Jan 2009 | added VarIMAGEGALLERY and VarNRIMAGES documentation topics |
 |  29 Dec 2008 | temporary fix to work under Foswiki |
@@ -178,7 +179,7 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
 |  17 Jan 2008 | default to sorting by name instead of by date |
 |  13 Nov 2007 | replaced plugin topic settings with =configure= settings |
 |  19 Sep 2007 | store auto-computed images in an images subdir of its own |
-|  19 Feb 2007 | make proper use TWiki-4 API; \
+|  19 Feb 2007 | make proper use T*-4 API; \
                  don't use inline css, put them into the html header instead |
 |  24 Jul 2006 | working around Image::Magick crashes reading svg image files |
 |  20 Mar 2006 | added =sort= and =reverse= arguments; \
@@ -199,13 +200,13 @@ Note, that the $comment variable will only display =&lt;comment&gt;= , that is w
                  support for multiple galleries per topic |
 |  27 Apr 2005 | complete rewrite |
 |  01 Aug 2003 | Updates from feedback from a Windows installation |
-|  25 Jul 2003 | Initial version posted to TWiki.org |
+|  25 Jul 2003 | Initial version |
 |  15 Mar 2002 | Initial (internal) version |
-|  CPAN Dependencies: | CPAN:Graphics::Magick or CPAN:Image::Magick |
+|  CPAN Dependencies: | %$DEPENDENCIES% |
 |  Other Dependencies: |  |
 |  Perl Version: | 5.8 |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
-|  Feedback: | http://foswiki.org/Extensions/%TOPIC%Dev |
+|  Plugin Home: | Foswiki:Extensions/%TOPIC% |
+|  Support: | Foswiki:Support/%TOPIC% |
 
 
 %META:FILEATTACHMENT{name="wikiringlogo40x40.png" attachment="wikiringlogo40x40.png" attr="h" comment="" date="1189787359" path="wikiringlogo40x40.png" size="2571" stream="wikiringlogo40x40.png" tmpFilename="" user="ProjectContributor" version="1"}%

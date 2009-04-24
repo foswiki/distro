@@ -1,3 +1,0 @@
-Graphics::Magick,>=1.1.11,cpan,Required.
-Image::Magick,>=6.2.4.5,cpan,Optional.
-

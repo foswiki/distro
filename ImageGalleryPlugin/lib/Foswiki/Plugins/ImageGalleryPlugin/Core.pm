@@ -1,3 +1,5 @@
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
+#
 # Copyright (C) 2002-2009 Will Norris. All Rights Reserved. (wbniv@saneasylumstudios.com)
 # Copyright (C) 2005-2009 Michael Daum http://michaeldaumconsulting.com
 #
@@ -13,7 +15,7 @@
 # http://www.gnu.org/copyleft/gpl.html
 #
 # =========================
-package TWiki::Plugins::ImageGalleryPlugin::Core;
+package Foswiki::Plugins::ImageGalleryPlugin::Core;
 
 use strict;
 use constant DEBUG => 0; # toggle me
@@ -31,47 +33,47 @@ sub new {
 
   # Graphics::Magick is less buggy than Image::Magick
   my $impl = 
-    $TWiki::cfg{ImageGalleryPlugin}{Impl} || 
-    $TWiki::cfg{ImagePlugin}{Impl} || 'Image::Magick'; 
+    $Foswiki::cfg{ImageGalleryPlugin}{Impl} || 
+    $Foswiki::cfg{ImagePlugin}{Impl} || 'Image::Magick'; 
 
   eval "use $impl";
   die $@ if $@;
   $this->{mage} = new $impl;
 
   $this->{id} = $id;
-  $this->{query} = TWiki::Func::getCgiQuery();
+  $this->{query} = Foswiki::Func::getCgiQuery();
   $this->{topic} = $topic;
   $this->{web} = $web;
   $this->{doRefresh} = 0;
   $this->{errorMsg} = ''; # from image mage
 
-  $this->{wikiName} = TWiki::Func::getWikiName();
-  $this->{pubDir} = TWiki::Func::getPubDir();
+  $this->{wikiName} = Foswiki::Func::getWikiName();
+  $this->{pubDir} = $Foswiki::cfg{PubDir};
   $this->{imagesDir} = $this->{pubDir}.'/images';
-  $this->{pubUrlPath} = TWiki::Func::getPubUrlPath();
-  $this->{twikiWebName} = TWiki::Func::getTwikiWebname();
+  $this->{pubUrlPath} = Foswiki::Func::getPubUrlPath();
+  $this->{foswikiWebName} = $Foswiki::cfg{SystemWebName};
 
-  my $defaultThumbSizes = $TWiki::cfg{Plugins}{ImageGalleryPlugin}{ThumbSizes} || [];
+  my $defaultThumbSizes = $Foswiki::cfg{ImageGalleryPlugin}{ThumbSizes};
   # get predefined thumbnail sizes
   %{$this->{thumbSizes}} = (
     thin => '25x25',
     small => '50x50',
     medium => '95x95',
     large => '150x150',
-    huge => '250x250',
-    @$defaultThumbSizes,
+    huge => '350x350',
+    %$defaultThumbSizes,
   );
-  
+
   # get style url
-  my $hostUrl = $TWiki::cfg{DefaultUrlHost};
+  my $hostUrl = $Foswiki::cfg{DefaultUrlHost};
     
   # get image mimes
   unless (%imageSuffixes) {
-    my $mimeTypesFilename = $TWiki::cfg{MimeTypesFileName};
-    writeDebug("reading suffix file $mimeTypesFilename");
-    my $excludeSuffix = $TWiki::cfg{ImageGalleryPlugin}{ExcludeSuffix};
+    my $mimeTypesFilename = $Foswiki::cfg{MimeTypesFileName};
+    #writeDebug("reading suffix file $mimeTypesFilename");
+    my $excludeSuffix = $Foswiki::cfg{ImageGalleryPlugin}{ExcludeSuffix};
     $excludeSuffix = 'psd' unless defined $excludeSuffix;
-    my $fileContent = TWiki::Func::readFile($mimeTypesFilename);
+    my $fileContent = Foswiki::Func::readFile($mimeTypesFilename);
     foreach my $line (split(/\r?\n/, $fileContent)) {
       next if $line =~ /^#/;
       next if $line =~ /^$/;
@@ -106,7 +108,7 @@ sub new {
 sub isImage {
   my ($this, $attachment) = @_;
      
-  writeDebug("called isImage(". $attachment->{name}.")");
+  #writeDebug("called isImage(". $attachment->{name}.")");
 
   my $suffix = '';
   if ($attachment->{name} =~ /.*\.(.+?)$/) {
@@ -114,8 +116,8 @@ sub isImage {
   }
 
   my $result = defined $imageSuffixes{$suffix};
-  writeDebug("not an image") unless $result;
-  writeDebug("this is an image") if $result;
+  #writeDebug("not an image") unless $result;
+  #writeDebug("this is an image") if $result;
   return $result;
 }
 
@@ -125,9 +127,7 @@ sub init {
 
   # read attributes
   $this->{size} = $params->{size};
-  unless (defined ($this->{size})) {
-    $params->{size} = TWiki::Func::getPreferencesValue("IMAGESIZE") || 'medium';
-  }
+  $this->{size} = 'medium' unless defined $this->{size};
   my $thumbsize = $this->{thumbSizes}{$this->{size}} || $this->{size};
   my $thumbwidth = 95;
   my $thumbheight = 95;
@@ -144,7 +144,7 @@ sub init {
   $this->{thumbwidth} = $thumbwidth;
   $this->{thumbheight} = $thumbheight;
 
-  writeDebug("size=$this->{size} thumbsize=$thumbsize thumbwidth=$thumbwidth thumbheight=$thumbheight");
+  #writeDebug("size=$this->{size} thumbsize=$thumbsize thumbwidth=$thumbwidth thumbheight=$thumbheight");
   
   my $topics = 
     $params->{_DEFAULT}
@@ -157,7 +157,7 @@ sub init {
   # normalize topic names
   foreach my $theTopic (split(/,\s*/, $topics)) {
     my $theWeb;
-    ($theWeb, $theTopic) = TWiki::Func::normalizeWebTopicName($this->{web}, $theTopic);
+    ($theWeb, $theTopic) = Foswiki::Func::normalizeWebTopicName($this->{web}, $theTopic);
     push @{$this->{topics}}, "$theWeb.$theTopic";
   }
 
@@ -332,12 +332,12 @@ sub renderImage {
   if ($this->{doDocRels}) {
     $result .=
       "<link rel='parent' href='".
-       TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view').
+       Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view').
       "' title='Thumbnails' />\n";
     if ($firstImg && $firstImg->{name} ne $filename) {
       $result .=
         "<link rel='first' href='".
-        TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+        Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
           'id'=>$this->{id},
           'filename'=>$firstImg->{name},
           '#'=>"igp$this->{id}"
@@ -346,7 +346,7 @@ sub renderImage {
     if ($lastImg && $lastImg->{name} ne $filename) {
       $result .=
           "<link rel='last' href='".
-          TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+          Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
             'id'=>$this->{id},
             'filename'=>$lastImg->{name},
             '#'=>"igp$this->{id}"
@@ -355,7 +355,7 @@ sub renderImage {
     if ($nextImg && $nextImg->{name} ne $filename) {
       $result .=
           "<link rel='next' href='".
-          TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+          Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
             'id'=>$this->{id},
             'filename'=>$nextImg->{name},
             '#'=>"igp$this->{id}"
@@ -364,7 +364,7 @@ sub renderImage {
     if ($prevImg && $prevImg->{name} ne $filename) {
       $result .=
         "<link rel='previous' href='".
-        TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+        Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
           'id'=>$this->{id},
           'filename'=>$prevImg->{name},
           '#'=>"igp$this->{id}"
@@ -400,7 +400,7 @@ sub renderImage {
 
   if ($firstImg && $firstImg->{name} ne $filename) {
     $result .= "<a class='igpNaviFirst' title='go to first' href='".
-    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
       'id'=>$this->{id},
       'filename'=>$firstImg->{name},
       '#'=>"igp$this->{id}"
@@ -410,7 +410,7 @@ sub renderImage {
   }
   if ($prevImg) {
     $result .= "<a class='igpNaviPrev' title='go to previous' href='".
-    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
       'id'=>$this->{id},
       'filename'=>$prevImg->{name},
       '#'=>"igp$this->{id}"
@@ -420,7 +420,7 @@ sub renderImage {
   }
   if ($nextImg) {
     $result .= "<a class='igpNaviNext' title='go to next' href='".
-    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
       'id'=>$this->{id},
       'filename'=>$nextImg->{name},
       '#'=>"igp$this->{id}"
@@ -430,7 +430,7 @@ sub renderImage {
   }
   if ($lastImg && $lastImg->{name} ne $filename) {
     $result .= "<a class='igpNaviLast' title='go to last' href='".
-    TWiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
+    Foswiki::Func::getScriptUrl($this->{web}, $this->{topic}, 'view',
       'id'=>$this->{id},
       'filename'=>$lastImg->{name},
       '#'=>"igp$this->{id}"
@@ -439,7 +439,7 @@ sub renderImage {
     $result .= "<span class='igpNaviLast igpNaviDisabled '><span>last</span></span>";
   }
   $result .= "<a class='igpNaviDone' href='".
-    TWiki::Func::getScriptUrl($this->{web},$this->{topic}, 'view', "#"=>"igp$this->{id}").
+    Foswiki::Func::getScriptUrl($this->{web},$this->{topic}, 'view', "#"=>"igp$this->{id}").
     "'><span>done</span></a>";
 
   $result .= "<br clear='both' /></td></tr>\n</table>\n";
@@ -451,7 +451,7 @@ sub renderImage {
 sub renderFormatted {
   my $this = shift;
   
-  writeDebug("renderFormatted()");
+  #writeDebug("renderFormatted()");
 
   if (!@{$this->{images}}) {
     return renderError($this->{warn}); 
@@ -499,7 +499,7 @@ sub renderThumbnails {
 
   my $this = shift;
 
-  writeDebug("renderThumbnails()");
+  #writeDebug("renderThumbnails()");
 
   if (!@{$this->{images}}) {
     return renderError($this->{warn}); 
@@ -522,7 +522,7 @@ sub renderThumbnails {
       . "<table class='igpThumbNail' cellspacing='0' cellpadding='0'"
       . "style='width:".($this->{thumbwidth}+15)."px; height:".($this->{thumbheight}+15)."px;'>"
       . "<tr><td >"
-      . "<a href='".TWiki::Func::getViewUrl($this->{web}, $this->{topic})
+      . "<a href='".Foswiki::Func::getViewUrl($this->{web}, $this->{topic})
       . "?id=$this->{id}&filename=$image->{name}#igp$this->{id}' "
       . ">"
       . "<img src='$this->{imagesPubUrl}/thumb_$image->{name}"
@@ -570,22 +570,22 @@ sub renderThumbnails {
 sub getImages {
   my $this = shift;
 
-  writeDebug("getImages(" . join(', ', @{$this->{topics}}) . ") called");
+  #writeDebug("getImages(" . join(', ', @{$this->{topics}}) . ") called");
 
   # collect images from all topics
   my @images;
   foreach my $webtopic (@{$this->{topics}}) {
-    my ($theWeb, $theTopic) = TWiki::Func::normalizeWebTopicName($this->{web}, $webtopic);
-    writeDebug("reading from $theWeb.$theTopic");
-    my $viewAccessOK = TWiki::Func::checkAccessPermission("view", $this->{wikiName}, undef, 
+    my ($theWeb, $theTopic) = Foswiki::Func::normalizeWebTopicName($this->{web}, $webtopic);
+    #writeDebug("reading from $theWeb.$theTopic");
+    my $viewAccessOK = Foswiki::Func::checkAccessPermission("view", $this->{wikiName}, undef, 
       $theTopic, $theWeb);
 
     if (!$viewAccessOK) {
-      writeDebug("no view access to ... skipping");
+      #writeDebug("no view access to ... skipping");
       next;
     }
 
-    my ($meta, undef) = TWiki::Func::readTopic($theWeb, $theTopic);
+    my ($meta, undef) = Foswiki::Func::readTopic($theWeb, $theTopic);
 
     foreach my $image ($meta->find('FILEATTACHMENT')) {
       next unless $this->isImage($image);
@@ -595,8 +595,9 @@ sub getImages {
       # SMELL work around for Image::Magick segfaulting reading svg image files
       next if !$this->{listsvg} && $image->{name} =~ /svgz?$/i;
 
+      my $size = $image->{size} || 0;
       $image->{IGP_comment} = getImageTitle($image);
-      $image->{IGP_sizeK} = sprintf("%dk", $image->{size} / 1024);
+      $image->{IGP_sizeK} = sprintf("%dk", $size / 1024);
       $image->{IGP_topic} = $theTopic;
       $image->{IGP_web} = $theWeb;
 
@@ -611,7 +612,7 @@ sub getImages {
 
       # check for file existence
       if (! -e $image->{IGP_filename}) {
-        TWiki::Func::writeWarning("attachment error in " .
+        Foswiki::Func::writeWarning("attachment error in " .
           "$image->{IGP_web}.$image->{IGP_topic}: " .
           "no such file '$image->{IGP_filename}'");
         next;
@@ -620,7 +621,7 @@ sub getImages {
       push @images, $image;
     }
   }
-  writeDebug("found ".scalar(@images)." images");
+  #writeDebug("found ".scalar(@images)." images");
 
   # order images
   my @sortedImages;
@@ -688,7 +689,7 @@ sub getImages {
 sub computeImageSize {
   my ($this, $image) = @_;
   
-  writeDebug("computeImageSize($image->{name})");
+  #writeDebug("computeImageSize($image->{name})");
 
   my $entry = $this->{info}{$image->{name}};
   if (!$this->{doRefresh} && $entry) {
@@ -756,7 +757,7 @@ sub computeImageSize {
       $height = $width * $aspect;
     } 
   }
-  writeDebug("aspect=$aspect thumbwidth=$width, thumbheight=$height");
+  #writeDebug("aspect=$aspect thumbwidth=$width, thumbheight=$height");
 
 
   $image->{IGP_thumbwidth} = int($width+0.5);
@@ -788,7 +789,7 @@ sub computeImageSize {
   $entry->{imgChanged} = $imgChanged;
   $this->{info}{$entry->{name}} = $entry;
 
-  writeDebug("done computeImageSize");
+  #writeDebug("done computeImageSize");
 }
 
 # =========================
@@ -815,7 +816,7 @@ sub replaceVars {
     $format =~ s/\$name/$imageName/gos;
     $format =~ s/\$size/$image->{size}/gos;
     $format =~ s/\$wikiusername/$image->{user}/gos;
-    $format =~ s/\$username/TWiki::Func::wikiToUserName($image->{user})/geos;
+    $format =~ s/\$username/Foswiki::Func::wikiToUserName($image->{user})/geos;
     $format =~ s/\$thumburl/$this->{imagesPubUrl}\/thumb_$imageName/gos;
     $format =~ s/\$imageurl/$this->{imagesPubUrl}\/$imageName/gos;
     $format =~ s/\$origurl/$image->{IGP_url}/gos;
@@ -873,7 +874,7 @@ sub processImage {
       $this->{mage}->Resize(geometry=>"$image->{IGP_width}x$image->{IGP_height}");
   }
   if ($error =~ /(\d+):/) {
-    writeDebug("Transform(): error=$error");
+    #writeDebug("Transform(): error=$error");
     $this->{errorMsg} .= " $error";
     return 0 if $1 >= 400;
   }
@@ -898,7 +899,7 @@ sub processImage {
 }
 
 # =========================
-# stolen form TWiki::handleTime() 
+# stolen form Foswiki::handleTime() 
 sub formatTime {
   my ($time, $format) = @_;
   $format ||= '$day $mon $year - $hour:$min';
@@ -929,12 +930,12 @@ sub normalizeFileName {
 
   #writeDebug("normalizeFileName($fileName)");
 
-  if (defined &TWiki::Sandbox::normalizeFileName) {
-    return TWiki::Sandbox::normalizeFileName($fileName);
+  if (defined &Foswiki::Sandbox::normalizeFileName) {
+    return Foswiki::Sandbox::normalizeFileName($fileName);
   }
 
-  if (defined &TWiki::normalizeFileName) {
-    return TWiki::normalizeFileName($fileName);
+  if (defined &Foswiki::normalizeFileName) {
+    return Foswiki::normalizeFileName($fileName);
   }
     
   return $fileName;
@@ -944,7 +945,7 @@ sub normalizeFileName {
 sub renderError {
   my $msg = shift;
   return '' unless $msg;
-  return "<span class='twikiAlert'>Error: $msg</span>" ;
+  return "<span class='foswikiAlert'>Error: $msg</span>" ;
 }
 
 # =========================
@@ -973,7 +974,7 @@ sub readInfo {
   $this->{infoChanged} = 1;
   return unless -e $this->{infoFile};
 
-  my $text = TWiki::Func::readFile($this->{infoFile});
+  my $text = Foswiki::Func::readFile($this->{infoFile});
   foreach my $line (split(/\n/, $text)) {
     my $entry;
     if ($line =~ /^name=(.*), version=(.*), origwidth=(.*), origheight=(.*), width=(.*), height=(.*), thumbwidth=(.*), thumbheight=(.*)$/) {
@@ -1031,13 +1032,13 @@ sub writeInfo {
 
   #writeDebug("writing infoFile=$this->{infoFile}");
 
-  TWiki::Func::saveFile($this->{infoFile}, $text);
+  Foswiki::Func::saveFile($this->{infoFile}, $text);
 }
 
 # =========================
 # static
 sub writeDebug {
-  #TWiki::Func::writeDebug("ImageGalleryPlugin - $_[0]");
+  #Foswiki::Func::writeDebug("ImageGalleryPlugin - $_[0]");
   print STDERR "ImageGalleryPlugin - $_[0]\n" if DEBUG;
 }
 
