@@ -58,6 +58,29 @@ use vars qw( $VERSION $RELEASE );
 
 our $hupRecieved = 0;
 
+=begin TML
+
+---++ Configuration
+
+=MaxRequrests= limits the number of requests one backend process is allowed to
+serve before it will terminate and respawn a substitute.  This can be used to
+fight back memory leaks in the application where the processes memory
+consumption grows over time. Default is 100 requests.  Lower this limit when
+processes tend to grow too fast over time exceeding your server's memory
+capacities. A negative value disables this heuristics. Reasonable values are
+roughly 10 or 20 depending on the profile of additional plugins and libraries.
+
+Note also, that mod_fcgid has got similar configuration parameters. Alas, this
+project is abandoned at the time of this writing. mod_fastcgi on the other hand
+is missing this option, as far as I can say. 
+
+The actual value of =MaxRequest= also depends on the maximum number of parallel
+threads and fcgi backend processes that are allowed to be spawned by the web server.
+
+=cut
+
+our $maxRequests = $Foswiki::cfg{FastCGIContrib}{MaxRequests} || 100;
+
 sub run {
     my ( $this, $listen, $args ) = @_;
 
@@ -115,7 +138,8 @@ sub run {
         }
 
         my $mtime = ( stat $localSiteCfg )[9];
-        if ( $mtime > $lastMTime || $hupRecieved ) {
+        $maxRequests--;
+        if ( $mtime > $lastMTime || $hupRecieved || $maxRequests == 0) {
             $r->LastCall();
             if ($manager) {
                 kill SIGHUP, $manager->pm_parameter('MANAGER_PID');
@@ -126,7 +150,7 @@ sub run {
         }
         $manager && $manager->pm_post_dispatch();
     }
-    reExec() if $hupRecieved;
+    reExec() if $hupRecieved || $maxRequests == 0;
     FCGI::CloseSocket($sock) if $sock;
 }
 
