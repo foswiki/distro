@@ -78,13 +78,13 @@ BEGIN {
                 return $available{$module} = 0;
             }
         }
-        unless ( $module->use ) {
+        if ( eval "use $module; 1;" ) {
+            $available{$module} = 1;
+        }
+        else {
             print "Warning: $module is not available,"
               . " some installer functions have been disabled\n";
             $available{$module} = 0;
-        }
-        else {
-            $available{$module} = 1;
         }
         return $available{$module};
     };
@@ -100,10 +100,6 @@ BEGIN {
     # read setlib.cfg
     chdir('bin');
     require 'setlib.cfg';
-
-    # This has to be read after setlib.cfg, as it might not exist in the system
-    # so we will use the one we ship
-    require UNIVERSAL::require;
 
     # See if we can make a Foswiki. If we can, then we can save topic
     # and attachment histories. Key off Foswiki::Merge because it is
@@ -203,11 +199,9 @@ sub check_dep {
         return ( $ok, $msg );
     }
 
-    # try to load the module, using CPAN:UNIVERSAL::require
-    # This is roughly equivalent to eval { require $module }
-    # but should be way more readable
+    # try to load the module
     my $module = $dep->{name};
-    if ( not $module->require ) {
+    if ( not eval "require $module" ) {
         $ok = 0;
         ( $msg = $@ ) =~ s/ in .*$/\n/s;
         return ( $ok, $msg );
@@ -619,7 +613,7 @@ sub unpackArchive {
 sub unzip {
     my $archive = shift;
 
-    if ( 'Archive::Zip'->use ) {
+    if ( not eval 'require Archive::Zip' ) {
         my $zip           = Archive::Zip->new();
         my $err = $zip->read($archive);
         if ( $err ) {
@@ -661,7 +655,7 @@ sub untar {
 
     my $compressed = ( $archive =~ /z$/i ) ? 'z' : '';
 
-    if ( 'Archive::Tar'->use ) {
+    if ( not eval 'require Archive::Tar' ) {
         my $tar = Archive::Tar->new();
         my $numberOfFiles = $tar->read( $archive, $compressed );
         unless ( $numberOfFiles > 0 ) {
@@ -929,7 +923,7 @@ sub _install {
         $path = $source . '::' . $type . '::' . $rootModule;
     }
 
-    if ( $path->use ) {
+    if ( eval "use $path; 1;" ) {
 
         # Module is already installed
         # XXX SMELL: Could be more user-friendly:

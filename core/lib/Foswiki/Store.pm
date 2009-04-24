@@ -52,8 +52,6 @@ use Foswiki::Meta                   ();
 use Foswiki::Sandbox                ();
 use Foswiki::AccessControlException ();
 
-use UNIVERSAL::require ();
-
 our $STORE_FORMAT_VERSION = '1.1';
 
 BEGIN {
@@ -79,10 +77,10 @@ implementation class.
 sub createNewStore {
     my ( $session, $impl ) = @_;
 
-    $impl->require();
+    eval "require $impl";
     ASSERT( !$@, $@ ) if DEBUG;
 
-    return new $impl($session);
+    return $impl->new($session);
 }
 
 =begin TML
