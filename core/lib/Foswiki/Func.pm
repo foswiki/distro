@@ -1654,11 +1654,11 @@ $web and $topic are parsed as described in the documentation for =normalizeWebTo
 sub attachmentExists {
     my ( $web, $topic, $attachment ) = @_;
     ASSERT($Foswiki::Plugins::SESSION) if DEBUG;
-
     ( $web, $topic ) =
       $Foswiki::Plugins::SESSION->normalizeWebTopicName( $web, $topic );
-    return $Foswiki::Plugins::SESSION->attachmentExists( $web, $topic,
-        $attachment );
+    my $topicObject = Foswiki::Meta->new(
+        $Foswiki::Plugins::SESSION, $web, $topic );
+    return $topicObject->hasAttachment( $attachment );
 }
 
 =begin TML

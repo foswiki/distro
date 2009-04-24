@@ -6,17 +6,13 @@ use strict;
 use Foswiki;
 use Foswiki::UI::Rename;
 use Error ':try';
+use File::Temp;
 
 my $notawwtopic1 = "random";
 my $notawwtopic2 = "Random";
 my $notawwtopic3 = "ranDom";
 my $debug        = 0;
 my $UI_FN;
-
-sub new {
-    my $self = shift()->SUPER::new(@_);
-    return $self;
-}
 
 # Set up the test fixture. The idea behind the tests is to populate a
 # set of strategically-selected topics with text that contains all the
@@ -984,6 +980,164 @@ EOF
         "$vue/$this->{test_web}/Renamed$this->{test_web}/WebHome", $lines[4]);
     $this->assert_str_equals(
         "$vue/$this->{test_web}/Renamed$this->{test_web}/SubwebWebHome", $lines[5]);
+}
+
+sub test_rename_attachment {
+    my $this = shift;
+
+    my $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, 'NewTopic');
+    $to->text('Wibble');
+    $to->save();
+
+    # returns undef on OSX with 3.15 version of CGI module (works on 3.42)
+    my $stream = new File::Temp(UNLINK => 0);
+    print $stream "Blah Blah";
+    $stream->close();
+    $stream->unlink_on_destroy(1);
+
+    $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, $this->{test_topic});
+    $to->attach(name => 'dis.dat', file => $stream->filename);
+
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            attachment       => ['dis.dat'],
+            newtopic         => ['NewTopic'],
+            newweb           => $this->{test_web},
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text, $result) = $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert_matches(qr/Status: 302/, $text);
+    $this->assert_matches(qr#/$this->{test_web}/NewTopic#, $text);
+    $this->assert(!Foswiki::Func::attachmentExists(
+        $this->{test_web}, $this->{test_topic}, 'dis.dat'));
+    $this->assert(Foswiki::Func::attachmentExists(
+        $this->{test_web}, 'NewTopic', 'dis.dat'));
+}
+
+sub test_rename_attachment_not_in_meta {
+    my $this = shift;
+
+    my $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, 'NewTopic');
+    $to->text('Wibble');
+    $to->save();
+
+    $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, $this->{test_topic});
+    my $fh = $to->openAttachment('dis.dat', '>');
+    print $fh "Oh no not again";
+    close ($fh);
+
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            attachment       => ['dis.dat'],
+            newtopic         => ['NewTopic'],
+            newweb           => $this->{test_web},
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text, $result) = $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert_matches(qr/Status: 302/, $text);
+    $this->assert_matches(qr#/$this->{test_web}/NewTopic#, $text);
+    $this->assert(!Foswiki::Func::attachmentExists(
+        $this->{test_web}, $this->{test_topic}, 'dis.dat'));
+    $this->assert(Foswiki::Func::attachmentExists(
+        $this->{test_web}, 'NewTopic', 'dis.dat'));
+}
+
+sub test_rename_attachment_no_dest_topic {
+    my $this = shift;
+
+    my $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, $this->{test_topic});
+    my $fh = $to->openAttachment('dis.dat', '>');
+    print $fh "Oh no not again";
+    close ($fh);
+
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            attachment       => ['dis.dat'],
+            newtopic         => ['NewTopic'],
+            newweb           => $this->{test_web},
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    try {
+        my ($text, $result) = $this->capture( \&$UI_FN, $this->{session} );
+        $this->assert(0, "$result $text");
+    } catch Foswiki::OopsException with {
+        my $e = shift;
+        $this->assert_equals('no_such_topic', $e->{def});
+        $this->assert_equals('NewTopic', $e->{topic});
+    } otherwise {
+        $this->assert(0, shift);
+    };
+}
+
+# Check that an attachment in meta-data but not on the disc can be renamed
+sub test_rename_attachment_not_on_disc {
+    my $this = shift;
+
+    my $stream = new File::Temp(UNLINK => 0);
+    print $stream "Blah Blah";
+    $stream->close();
+    $stream->unlink_on_destroy(1);
+
+    my $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, $this->{test_topic});
+    $to->attach(name => 'dis.dat', file => $stream->filename);
+
+    unless( -e "$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/dis.dat" ) {
+        $this->expect_failure();
+        $this->annotate("Attachment not on disc");
+        $this->assert(0);
+    }
+
+    unlink("$Foswiki::cfg{PubDir}/$this->{test_web}/$this->{test_topic}/dis.dat");
+
+    $to = new Foswiki::Meta(
+        $this->{session}, $this->{test_web}, 'NewTopic');
+    $to->text('Wibble');
+    $to->save();
+
+    $this->{session}->finish();
+
+    my $query = new Unit::Request(
+        {
+            attachment       => ['dis.dat'],
+            newtopic         => ['NewTopic'],
+            newweb           => $this->{test_web},
+        }
+    );
+
+    $query->path_info("/$this->{test_web}/$this->{test_topic}");
+    $this->{session} = new Foswiki( $this->{test_user_login}, $query );
+    $Foswiki::Plugins::SESSION = $this->{session};
+    my ($text, $result) = $this->capture( \&$UI_FN, $this->{session} );
+    $this->assert_matches(qr/Status: 302/, $text);
+    $this->assert_matches(qr#/$this->{test_web}/NewTopic#, $text);
+    $this->assert(!Foswiki::Func::attachmentExists(
+        $this->{test_web}, $this->{test_topic}, 'dis.dat'));
+    $this->assert(Foswiki::Func::attachmentExists(
+        $this->{test_web}, 'NewTopic', 'dis.dat'));
 }
 
 1;

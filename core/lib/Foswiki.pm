@@ -3051,20 +3051,6 @@ sub topicExists {
 
 =begin TML
 
----++ ObjectMethod attachmentExists( $web, $topic, $att ) -> $boolean
-
-Determine if the attachment already exists on the given topic
-
-=cut
-
-sub attachmentExists {
-    my ( $this, $web, $topic, $att ) = @_;
-
-    return $this->{store}->attachmentExists( $web, $topic, $att );
-}
-
-=begin TML
-
 ---+++ ObjectMethod getWorkArea( $key ) -> $directorypath
 
 Gets a private directory uniquely identified by $key. The directory is

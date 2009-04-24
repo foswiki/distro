@@ -56,13 +56,13 @@ sub rename {
         $new_url = _renameWeb( $session, $oldWeb );
     }
     else {
-        $new_url = _renameTopic( $session, $oldWeb, $oldTopic );
+        $new_url = _renameTopicOrAttachment( $session, $oldWeb, $oldTopic );
     }
     $session->redirect( $new_url, undef, 1 ) if $new_url;
 }
 
 # Rename a topic
-sub _renameTopic {
+sub _renameTopicOrAttachment {
     my ( $session, $oldWeb, $oldTopic ) = @_;
 
     my $query = $session->{cgiQuery};

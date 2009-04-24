@@ -180,8 +180,10 @@ sub moveAttachment {
     my $handler =
       $this->getHandler( $oldTopicObject->web, $oldTopicObject->topic,
         $oldAttachment );
-    $handler->moveAttachment( $newTopicObject->web, $newTopicObject->topic,
-        $newAttachment );
+    if ($handler->storedDataExists()) {
+        $handler->moveAttachment( $newTopicObject->web, $newTopicObject->topic,
+                                  $newAttachment );
+    }
 
     # Modify the cache of the old topic
     my $fileAttachment =
@@ -216,9 +218,13 @@ sub moveAttachment {
 
 # Documented in Foswiki::Store
 sub attachmentExists {
-    my ( $this, $web, $topic, $att ) = @_;
-    my $handler = $this->getHandler( $web, $topic, $att );
-    return $handler->storedDataExists();
+    my ( $this, $topicObject, $att ) = @_;
+    my $handler = $this->getHandler(
+        $topicObject->web, $topicObject->topic, $att );
+    return 1 if $handler->storedDataExists();
+    # Filestore denies knowledge of it; check the meta
+    $topicObject->reload() unless $topicObject->getLoadedRev();
+    return defined $topicObject->get( 'FILEATTACHMENT', $att );
 }
 
 # Documented in Foswiki::Store

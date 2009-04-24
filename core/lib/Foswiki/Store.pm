@@ -182,14 +182,14 @@ sub moveAttachment {
 
 =begin TML
 
----++ ObjectMethod attachmentExists( $web, $topic, $att ) -> $boolean
+---++ ObjectMethod attachmentExists( $topicObject, $att ) -> $boolean
 
 Determine if the attachment already exists on the given topic
 
 =cut
 
 sub attachmentExists {
-    my( $this, $web, $topic, $att ) = @_;
+    my( $this, $topicObject, $att ) = @_;
     die "Abstract base class";
 }
 

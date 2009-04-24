@@ -1637,13 +1637,8 @@ sub removeFromStore {
             'No such topic ' . $this->{_web} . '.' . $this->{_topic} );
     }
 
-    if (
-        $attachment
-        && !$store->attachmentExists(
-            $this->{_web}, $this->{_topic}, $attachment
-        )
-      )
-    {
+    if ( $attachment
+           && !$store->attachmentExists( $this, $attachment ) ) {
         throw Error::Simple( 'No such attachment '
               . $this->{_web} . '.'
               . $this->{_topic} . '.'
@@ -1939,8 +1934,7 @@ Test if the named attachment exists. Only valid on topics.
 
 sub hasAttachment {
     my ( $this, $name ) = @_;
-    return $this->{_session}->{store}
-      ->attachmentExists( $this->{_web}, $this->{_topic}, $name );
+    return $this->{_session}->{store}->attachmentExists( $this, $name );
 }
 
 =begin TML
@@ -2048,8 +2042,7 @@ sub moveAttachment {
           ->moveAttachment( $this, $name, $to, $newName, $cUID);
         $this->reload();
         $to->reload();
-    }
-    finally {
+    } finally {
         $to->_atomicUnlock($cUID);
         $this->_atomicUnlock($cUID);
     };
