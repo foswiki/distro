@@ -682,7 +682,7 @@ sub test_changeSubscription_and_isSubScribedTo_API {
         $this->{test_web}, $Foswiki::cfg{NotifyTopicName}, 1 );
 
     #removing * results in nothing.
-    $this->assert_null( $wn->stringify(1) );
+    $this->assert_equals( '', $wn->stringify(1) );
 
     $topicList = 'WebHome (2)';
     Foswiki::Contrib::MailerContrib::changeSubscription( $defaultWeb, $who,
