@@ -103,9 +103,15 @@ if ($SvensAutomatedBuilds) {
 	`scp ../*/*.tgz distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	`scp ../*/*.md5 distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	my $buildOutput = `ls -alh *auto*`;
+	my $emailDestination = 'Builds@fosiki.com';
+	if ($buildOutput eq '') {
+	   #Raise the alarm, no files actually built
+	   $buildOutput .= "\nERROR: Unit test did not fail, but no output files found, please consult build log.\n";
+	   $emailDestination = 'foswiki-svn@lists.sourceforge.net';
+	}
 	$buildOutput .= "\n";
 	$buildOutput .= `grep 'All tests passed' $foswikihome/Foswiki-UnitTests.log`;
-	sendEmail('Builds@fosiki.com', "Subject: Foswiki $foswikiBranch built OK\n\n see http://fosiki.com/Foswiki_$foswikiBranch/ for output files.\n".$buildOutput);
+	sendEmail($emailDestination, "Subject: Foswiki $foswikiBranch built OK\n\n see http://fosiki.com/Foswiki_$foswikiBranch/ for output files.\n".$buildOutput);
 }
 
 
