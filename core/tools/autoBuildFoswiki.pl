@@ -98,10 +98,10 @@ chdir('lib');
 chdir($foswikihome);
 if ($SvensAutomatedBuilds) {
 	#push the files to my server - http://fosiki.com/
-	`scp Foswiki* distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	`scp ../*/*.zip distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	`scp ../*/*.tgz distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	`scp ../*/*.md5 distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
+	`scp Foswiki* distributedinformation\@fosiki.com:~/www/Foswiki_$foswikiBranch/` ;
 	my $buildOutput = `ls -alh *auto*`;
 	my $emailDestination = 'Builds@fosiki.com';
 	if ($buildOutput eq '') {
