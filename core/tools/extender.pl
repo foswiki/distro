@@ -807,7 +807,14 @@ sub _emplace {
         print "Install $target, permissions $MANIFEST->{$file}->{perms}\n";
         unless ($inactive) {
             if ( -e $target ) {
-                unless ( File::Copy::move( $target, "$target.bak" ) ) {
+                # Save current permissions, remove write protect for Windows sake,  
+                # Back up the file and then restore the original permissions
+                my $mode = (stat($file))[2];
+                chmod( oct(600), "$target");
+                chmod( oct(600), "$target.bak") if ( -e "$target.bak");
+                if ( File::Copy::move( $target, "$target.bak" ) ) {
+                    chmod( $mode, "$target.bak");
+                } else {
                     print STDERR "Could not create $target.bak: $!\n";
                 }
             }
