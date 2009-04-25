@@ -363,7 +363,7 @@ sub searchWeb {
     my $caseSensitive = Foswiki::isTrue( $params{casesensitive} );
     my $excludeTopic  = $params{excludetopic} || '';
     my $doExpandVars  = Foswiki::isTrue( $params{expandvariables} );
-    my $format        = $params{format} || '';
+    my $format        = defined $params{format} ? $params{format} : '';
     my $header        = $params{header};
     my $inline        = $params{inline};
     my $limit         = $params{limit} || '';
@@ -387,7 +387,7 @@ sub searchWeb {
     my $sortOrder    = $params{order}    || '';
     my $revSort      = Foswiki::isTrue( $params{reverse} );
     my $scope        = $params{scope}    || '';
-    my $searchString = $params{search}   || '';
+    my $searchString = defined $params{search} ? $params{search} : '';
     my $separator    = $params{separator};
     my $template     = $params{template} || '';
     my $topic        = $params{topic}    || '';
