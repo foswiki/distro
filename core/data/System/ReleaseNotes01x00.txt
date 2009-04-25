@@ -535,6 +535,7 @@ None
 
 <noautolink>
 | [[%BUGS%/Item647][Item647]] | You cannot SEARCH for the Value of "0" |
+| [[%BUGS%/Item931][Item931]] | Correct and simplify the {AuthScripts} documentation in configure |
 | [[%BUGS%/Item978][Item978]] | rewriteshbang.pl does not work with files as extracted from tgz |
 | [[%BUGS%/Item1050][Item1050]] | Explanation at {ExtensionsRepositories} is not clear |
 | [[%BUGS%/Item1214][Item1214]] | In TablePlugin - Add 'px' if no size unit is passed |
