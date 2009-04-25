@@ -63,10 +63,12 @@ sub _req2http {
                         qq{Content-Disposition: form-data; name="$p"});
                     if ( my $fh = $req->upload($p) ) {
                         $http->add_content(qq(; filename="$v"));
-                        $http->add_content( $CRLF 
-                              . $_ . ': '
-                              . $req->{uploads}{$v}{headers}{$_} )
-                          foreach keys %{ $req->{uploads}{$v}->{headers} };
+                        while ( my ( $hdr, $value ) =
+                            each %{ $req->{uploads}{$v}{headers} } )
+                        {
+                            next if uc($hdr) eq 'CONTENT-DISPOSITION';
+                            $http->add_content( $CRLF . $hdr . ': ' . $value );
+                        }
                         local $/ = undef;
                         $v = <$fh>;
                     }

@@ -291,7 +291,6 @@ sub test_post_param_multi {
 #    my ( %uploads, %headers ) = ();
 #    %headers = (
 #        'Content-Type'        => 'application/octet-stream',
-#        'Content-Disposition' => 'form-data; name="file"; filename="Temp.dat"',
 #    );
 #    $req->param( file => "Temp.dat" );
 #    $uploads{"Temp.dat"} = new Foswiki::Request::Upload(
