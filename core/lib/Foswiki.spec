@@ -327,19 +327,13 @@ $Foswiki::cfg{SuperAdminGroup} = 'AdminGroup';
 $Foswiki::cfg{UsersTopicName} = 'WikiUsers';
 
 # **STRING 100 EXPERT**
-# Comma-separated list of scripts that require the user to authenticate.
-# With TemplateLogin, any time an unauthenticated user attempts to access
-# one of these scripts, they will be redirected to the login script. With
-# ApacheLogin, they will be redirected to the logon script (note
-# login and logon; they are different scripts). This approach means that
-# only the logon script needs to be specified as require valid-user when
-# using Apache authentication.
-# <p/>
-# If you want finer access control (e.g. authorised users only in one web
-# but open access in another) then you should *clear* this list, and use
-# Foswiki Permissions to control access. Users wishing to make changes will
-# have to log in by clicking a "log in" link instead of being automatically
-# redirected when they try to edit.
+# Comma-separated list of scripts in the bin directory that require the user to
+# authenticate. Any time an unauthenticated user attempts to access one of these
+# scripts, they will be required to authenticate. With TemplateLogin, they are
+# redirected to the login script. With ApacheLogin the web server directly asks
+# the browser to authenticate without redirecting to a login page and for this
+# reason the bin scripts must be configured for authentication in the webserver
+# configuration.
 $Foswiki::cfg{AuthScripts} = 'attach,edit,manage,rename,save,upload,viewauth,rdiffauth,rest';
 
 # **STRING 80 EXPERT**
