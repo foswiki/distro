@@ -126,7 +126,6 @@ return sOut;
   <td>
   <select class="foswikiSelect" %NOREGISTRATION%  name="Twk1Country" size="1">
   <option selected value="">Select...</option>
-  <option>USA</option>
   <option>Albania</option>
   <option>Algeria</option>
   <option>Andorra</option>
