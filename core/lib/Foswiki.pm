@@ -214,6 +214,7 @@ BEGIN {
         SEARCH            => \&SEARCH,
         SEP               => \&SEP,
         SERVERTIME        => \&SERVERTIME,
+        SHOWPREFERENCE    => \&SHOWPREFERENCE,
         SPACEDTOPIC       => \&SPACEDTOPIC_deprecated,
         SPACEOUT          => \&SPACEOUT,
         'TMPL:P'          => \&TMPLP,
@@ -4220,6 +4221,11 @@ sub GROUPS {
     }
 
     return '| *Group* | *Members* |' . "\n" . join( "\n", sort @table );
+}
+
+sub SHOWPREFERENCE {
+    my ( $this, $params ) = @_;
+    return $this->{prefs}->stringify( $params->{_DEFAULT} );
 }
 
 1;

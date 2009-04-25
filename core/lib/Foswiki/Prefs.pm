@@ -27,8 +27,7 @@ Values in global and local scope are accessed using =getPreference=/
 
 The final scope is _topic_ scope. In this scope, the value of the preference
 is taken directly from the contents of the topic, and is not overridden by
-wider scopes. Topic scope is used for access controls, and is accessed using
-=getTopicPreference=.
+wider scopes. Topic scope is used for access controls.
 
 Because the highest cost in evaluating preferences is reading the individual
 topics, preferences read from a topic are cached.
@@ -399,30 +398,7 @@ sub getPreference {
     }
 }
 
-=begin TML
-
----++ ObjectMethod getTopicPreference( $topicObject, $key ) -> $value
-   * =$topicObject= - context of the request
-   * =$key= - key to look up
-
-Returns the unfinalised topic preference value.
-
-=cut
-
-sub getTopicPreference {
-    my ( $this, $topicObject, $key ) = @_;
-    my ( $web, $topic ) = ( $topicObject->web, $topicObject->topic );
-    ASSERT($web) if DEBUG;
-    my $cache = $this->_getCache( $web, $topic );
-
-#    if ($key eq 'WEBBGCOLOR') {
-#        print STDERR $topicObject->getPath().": $key ";
-#        print STDERR $topicObject->getPath().": $key ".($cache->get( $key )||'undef');
-#    }
-    return undef unless $cache;
-    return $cache->get($key);
-}
-
+# Evaluate all the stacks to generate finalised preferences
 sub _finalise {
     my ( $this, $whereSet ) = @_;
 
@@ -436,11 +412,14 @@ sub _finalise {
     foreach my $level (@levels) {
         next unless $this->{stacks}->{$level};
         next unless scalar( @{ $this->{stacks}->{$level} } );
+        # Examine values at each level in the stack
         my $top = $this->{stacks}->{$level}->[-1];
         while ( my ( $k, $v ) = each %{ $top->{values} } ) {
+            # If this key has not been finalised
             unless ( $finalised{$k} ) {
                 $values{$k} = $v;
                 if ($whereSet) {
+                    # Record where this value was set for debugging
                     $whereSet->{$k} =
                       ( $top->{web} ? "$top->{web}.$top->{topic}" : $level );
                 }
@@ -475,30 +454,38 @@ sub _finalise {
 
 =begin TML
 
----++ObjectMethod stringify() -> $text
+---++ ObjectMethod stringify([$key]) -> $text
 
-Generate a TML-formatted version of the current preferences
+Generate TML-formatted information about the key (all keys if $key is undef)
 
 =cut
 
 sub stringify {
-    my $this = shift;
+    my ($this, $key) = @_;
 
     # Refinalise to populate %whereSet
     undef $this->{values};
     my %whereSet;
     $this->_finalise( \%whereSet );
 
+    my @keys = defined $key ? ( $key ) : sort keys %{ $this->{values} };
     my @list;
-    foreach my $k ( sort keys %{ $this->{values} } ) {
+    foreach my $k ( @keys ) {
         my $val = Foswiki::entityEncode( $this->{values}->{$k} );
-        push( @list,
-            "   * " . "Set $k = \"$val\" " . ( $whereSet{$k} || 'unknown' ) );
+        push( @list, '   * Set '."$k = \"$val\"");
+        if (defined $whereSet{$k}) {
+            push( @list, "      * $k was "
+                    .($this->{finalised}->{$k} ? '*finalised*' : 'defined')
+                      ." in <nop>$whereSet{$k}");
+        }
     }
-    foreach my $k ( sort keys %{ $this->{locals} } ) {
+    @keys = defined $key ? ( $key ) : sort keys %{ $this->{locals} };
+    foreach my $k ( @keys ) {
+        next unless defined $this->{locals}->{$k};
         my $val = Foswiki::entityEncode( $this->{locals}->{$k} );
-        push( @list, "   * " . "Local $k = \"$val\"" );
+        push( @list, '   * Local '."$k = \"$val\"" );
     }
+
     return join( "\n", @list ) . "\n";
 }
 

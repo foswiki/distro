@@ -1,0 +1,9 @@
+%META:TOPICPARENT{name="Macros"}%
+#VarSHOWPREFERENCE
+---+++ SHOWPREFERENCE -- show where a preference/all preferences is/are defined.
+   * =%<nop>SHOWPREFERENCE%=
+      * Show all preferences
+   * =%<nop>SHOWPREFERENCE{"PREFERENCENAME"}%=
+      * Show just preference PREFERENCENAME.
+For example, =%<nop>SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%= shows:
+%SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%
