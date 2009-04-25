@@ -3622,7 +3622,7 @@ sub SEARCH {
     $params->{inline}    = 1;
     $params->{baseweb}   = $topicObject->web;
     $params->{basetopic} = $topicObject->topic;
-    $params->{search}    = $params->{_DEFAULT} if ( $params->{_DEFAULT} );
+    $params->{search}    = $params->{_DEFAULT} if defined $params->{_DEFAULT};
     $params->{type}      = $this->{prefs}->getPreference('SEARCHVARDEFAULTTYPE')
       unless ( $params->{type} );
     my $s;
