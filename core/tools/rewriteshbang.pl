@@ -68,9 +68,12 @@ foreach my $file (grep { -f && /^\w+$/ } readdir D) {
     close F;
 
     if( $contents =~ s/^#!\s*\S+/#!$new/s ) {
+        my $mode = (stat($file))[2];
+        chmod( oct(600), "$file");
         open(F, ">$file") || die $!;
         print F $contents;
         close F;
+        chmod( $mode, "$file");
         print "$file modified\n";
         $changed++;
     } else {
