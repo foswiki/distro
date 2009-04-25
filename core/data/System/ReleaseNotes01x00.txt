@@ -559,6 +559,7 @@ None
 | [[%BUGS%/Item1493][Item1493]] | More screen shows wrong link to parent if the topic is in a subweb. |
 | [[%BUGS%/Item1502][Item1502]] | Raw Edit javascript for resize window and font does not work in IE |
 | [[%BUGS%/Item1505][Item1505]] | Plugin installation fails on windows - read-only files cannot be replaced. |
+| [[%BUGS%/Item1524][Item1524]] | Country list on registration form is not 100% alphabetical |
 | [[%BUGS%/Item5471][Item5471]] | The character 0 cannot be replaced using the replace-funtion of the SpreadSheetPlugin |
 | [[%BUGS%/Item5791][Item5791]] | Topics using parenthesis in name cause regex errors |
 | [[%BUGS%/Item8124][Item8124]] | TCP TWiki web preferences too open |
