@@ -473,8 +473,8 @@ sub diff {
         $session->{prefs}->getPreference('DIFFCONTEXTLINES');
         $contextLines = 3 unless defined $contextLines;
     }
-    my $rev1 = $query->param('rev1');
-    my $rev2 = $query->param('rev2');
+    my $revHigh = $query->param('rev1');
+    my $revLow = $query->param('rev2');
 
     my $skin = $session->getSkin();
     my $tmpl = $session->templates->readTemplate( 'rdiff', $skin );
@@ -489,23 +489,23 @@ sub diff {
     my $maxrev = $topicObject->getMaxRevNo();
 
     if ( $diffType eq 'last' ) {
-        $rev1 = $maxrev;
-        $rev2 = $maxrev - 1;
+        $revHigh = $maxrev;
+        $revLow = $maxrev - 1;
     }
 
-    $rev1 = Foswiki::Store::cleanUpRevID($rev1);
-    $rev1 = $maxrev if ( $rev1 < 1 );
-    $rev1 = $maxrev if ( $rev1 > $maxrev );
+    $revHigh = Foswiki::Store::cleanUpRevID($revHigh);
+    $revHigh = $maxrev if ( $revHigh < 1 );
+    $revHigh = $maxrev if ( $revHigh > $maxrev );
 
-    $rev2 = Foswiki::Store::cleanUpRevID($rev2);
-    $rev2 = 1 if ( $rev2 < 1 );
-    $rev2 = $maxrev if ( $rev2 > $maxrev );
+    $revLow = Foswiki::Store::cleanUpRevID($revLow);
+    $revLow = 1 if ( $revLow < 1 );
+    $revLow = $maxrev if ( $revLow > $maxrev );
 
-    my $revTitle1 = $rev1;
-    my $revTitle2 = ( $rev1 != $rev2 ) ? $rev2 : '';
+    my $revTitleHigh = $revHigh;
+    my $revTitleLow = ( $revHigh != $revLow ) ? $revLow : '';
 
-    $before =~ s/%REVTITLE1%/$revTitle1/go;
-    $before =~ s/%REVTITLE2%/$revTitle2/go;
+    $before =~ s/%REVTITLE1%/$revTitleHigh/go;
+    $before =~ s/%REVTITLE2%/$revTitleLow/go;
     $before = $topicObject->expandMacros($before);
     $before = $topicObject->renderTML($before);
 
@@ -513,12 +513,12 @@ sub diff {
 
     # do one or more diffs
     $difftmpl = $topicObject->expandMacros($difftmpl);
-    my $r1             = $rev1;
-    my $r2             = $rev2;
+    my $rHigh            = $revHigh;
+    my $rLow             = $revLow;
     my $isMultipleDiff = 0;
 
-    if ( ( $diffType eq 'history' ) && ( $r1 > $r2 + 1 ) ) {
-        $r2             = $r1 - 1;
+    if ( ( $diffType eq 'history' ) && ( $rHigh > $rLow + 1 ) ) {
+        $rLow            = $rHigh - 1;
         $isMultipleDiff = 1;
     }
 
@@ -527,31 +527,31 @@ sub diff {
     do {
 
         # Load the revs being diffed
-        $topicObject{$r1} = Foswiki::Meta->load(
-            $session, $topicObject->web, $topicObject->topic, $r1 )
-          unless $topicObject{$r1};
-        ASSERT($topicObject{$r1}->getLoadedRev() == $r1, $topicObject{$r1}->getLoadedRev()." == $r1") if DEBUG;
+        $topicObject{$rHigh} = Foswiki::Meta->load(
+            $session, $topicObject->web, $topicObject->topic, $rHigh )
+          unless $topicObject{$rHigh};
+        ASSERT($topicObject{$rHigh}->getLoadedRev() == $rHigh, $topicObject{$rHigh}->getLoadedRev()." == $rHigh") if DEBUG;
 
-        $topicObject{$r2} = Foswiki::Meta->load(
-            $session, $topicObject->web, $topicObject->topic, $r2 )
-          unless $topicObject{$r2};
-        ASSERT($topicObject{$r2}->getLoadedRev() == $r2, $topicObject{$r2}->getLoadedRev()." == $r2") if DEBUG;
+        $topicObject{$rLow} = Foswiki::Meta->load(
+            $session, $topicObject->web, $topicObject->topic, $rLow )
+          unless $topicObject{$rLow};
+        ASSERT($topicObject{$rLow}->getLoadedRev() == $rLow, $topicObject{$rLow}->getLoadedRev()." == $rLow") if DEBUG;
 
         my $diff = $difftmpl;
-        $diff =~ s/%REVTITLE1%/$r1/go;
-        $diff =~ s/%REVTITLE2%/$r2/go;
+        $diff =~ s/%REVTITLE1%/$rHigh/go;
+        $diff =~ s/%REVTITLE2%/$rLow/go;
 
         my $rInfo  = '';
         my $rInfo2 = '';
         my $text;
-        if ( $r1 > $r2 + 1 ) {
+        if ( $rHigh > $rLow + 1 ) {
             $rInfo = $session->i18n->maketext( "Changes from r[_1] to r[_2]",
-                $r2, $r1 );
+                $rLow, $rHigh );
         }
         else {
-            $rInfo = $session->renderer->renderRevisionInfo( $topicObject, $r1,
+            $rInfo = $session->renderer->renderRevisionInfo( $topicObject, $rHigh,
                 '$date - $wikiusername' );
-            $rInfo2 = $session->renderer->renderRevisionInfo( $topicObject, $r1,
+            $rInfo2 = $session->renderer->renderRevisionInfo( $topicObject, $rHigh,
                 '$rev ($date - $time) - $wikiusername' );
         }
 
@@ -561,27 +561,27 @@ sub diff {
 
         # Check access rights
         my $rd;
-        if ( !$topicObject{$r1}->haveAccess() ) {
-            $rd = [ [ '-', " *Revision $1 is unreadable* ", '' ] ];
-            if ( !$topicObject{$r2}->haveAccess() ) {
-                push( @$rd, [ '+', '', " *Revision $r2 is unreadable* " ] );
+        if ( !$topicObject{$rHigh}->haveAccess() ) {
+            $rd = [ [ '-', " *Revision $rHigh is unreadable* ", '' ] ];
+            if ( !$topicObject{$rLow}->haveAccess() ) {
+                push( @$rd, [ '+', '', " *Revision $rLow is unreadable* " ] );
             }
             else {
-                foreach ( split( "\n", $r2 ) ) {
+                foreach ( split( "\n", $rLow ) ) {
                     push( @$rd, [ '+', '', $_ ] );
                 }
             }
         }
-        elsif ( !$topicObject{$r2}->haveAccess() ) {
-            $rd = [ [ '+', '', " *Revision $r2 is unreadable* " ] ];
-            foreach ( split( "\n", $r1 ) ) {
+        elsif ( !$topicObject{$rLow}->haveAccess() ) {
+            $rd = [ [ '+', '', " *Revision $rLow is unreadable* " ] ];
+            foreach ( split( "\n", $rHigh ) ) {
                 push( @$rd, [ '-', $_, '' ] );
             }
         }
         else {
             $rd =
-              $topicObject{$r1}
-              ->getDifferences( $topicObject{$r2}, $contextLines );
+              $topicObject{$rLow}
+              ->getDifferences( $topicObject{$rHigh}, $contextLines );
         }
 
         $text =
@@ -591,12 +591,12 @@ sub diff {
         $diff =~ s/%REVINFO2%/$rInfo2/go;
         $diff =~ s/%TEXT%/$text/go;
         $page .= $diff;
-        $r1 = $r1 - 1;
-        $r2 = $r2 - 1;
-        $r2 = 1 if ( $r2 < 1 );
-    } while ( $diffType eq 'history' && ( $r1 > $rev2 || $r1 == 1 ) );
+        $rHigh = $rHigh - 1;
+        $rLow = $rLow - 1;
+        $rLow = 1 if ( $rLow < 1 );
+    } while ( $diffType eq 'history' && ( $rHigh > $revLow || $rHigh == 1 ) );
 
-    $session->logEvent( 'rdiff', $web . '.' . $topic, "$rev1 $rev2" );
+    $session->logEvent( 'rdiff', $web . '.' . $topic, "$revHigh $revLow" );
 
     my $i         = $maxrev;
     my $j         = $maxrev;
@@ -626,7 +626,7 @@ sub diff {
                 $i = 1;
             }
             else {
-                if ( ( $i == $rev1 ) && ( !$isMultipleDiff ) ) {
+                if ( ( $i == $revHigh ) && ( !$isMultipleDiff ) ) {
                     $revisions .= ' ' . $revSeperator;
                 }
                 else {
@@ -649,10 +649,10 @@ sub diff {
         $i--;
     }
 
-    $i = $rev1;
+    $i = $revHigh;
     my $tailResult = '';
     my $revTitle   = '';
-    while ( $i >= $rev2 ) {
+    while ( $i >= $revLow ) {
         $revTitle = CGI::a(
             {
                 href =>
@@ -670,7 +670,7 @@ sub diff {
     }
     $after =~ s/%TAIL%/$tailResult/go;
     $after =~ s/%REVISIONS%/$revisions/go;
-    $after =~ s/%CURRREV%/$rev1/go;
+    $after =~ s/%CURRREV%/$revHigh/go;
     $after =~ s/%MAXREV%/$maxrev/go;
 
     $after = $topicObject->expandMacros($after);

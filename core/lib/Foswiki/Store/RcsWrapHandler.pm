@@ -320,6 +320,7 @@ sub getRevisionInfo {
 }
 
 # implements VCHandler
+# rev1 is the lower, rev2 is the higher revision
 sub revisionDiff {
     my ( $this, $rev1, $rev2, $contextLines ) = @_;
     my $tmp = '';

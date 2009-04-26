@@ -317,8 +317,8 @@ sub getWorkArea {
 
 Return reference to an array of [ diffType, $right, $left ]
    * =$topicObject= - the topic
-   * =$rev1= Integer revision number
-   * =$rev2= Integer revision number
+   * =$rev1= Integer revision number, lower revision
+   * =$rev2= Integer revision number, higher revision
    * =$contextLines= - number of lines of context required
 
 =cut

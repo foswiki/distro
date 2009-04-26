@@ -555,6 +555,7 @@ sub _delLastRevision {
 # implements VCHandler
 # Recovers the two revisions and uses sdiff on them. Simplest way to do
 # this operation.
+# rev1 is the lower, rev2 is the higher revision
 sub revisionDiff {
     my ( $this, $rev1, $rev2, $contextLines ) = @_;
     my @list;

@@ -290,6 +290,7 @@ sub getWorkArea {
 }
 
 # Documented in Foswiki::Store
+# topicObject1 is the lower revision, topicObject2 is the higher revision
 sub getRevisionDiff {
     my ( $this, $topicObject1, $topicObject2, $contextLines ) = @_;
     ASSERT( defined($contextLines) ) if DEBUG;

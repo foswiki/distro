@@ -1653,9 +1653,10 @@ sub removeFromStore {
 ---++ ObjectMethod getDifferences( $topicObject, $contextLines ) -> \@diffArray
 
 Return reference to an array of [ diffType, $right, $left ]
-   * =$topicObject2= - the tom to diff against (must be the same topic)
+   * =$topicObject2= - the higher revision tom to diff against (must be the same topic)
    * =$contextLines= - number of lines of context required
-Both $this and $topicObject2 must contain loaded revisions of the same topic.
+Both $this and $topicObject2 must contain loaded revisions of the same topic
+with $this being the lower and $topicObject2 the higher revision
 
 =cut
 
