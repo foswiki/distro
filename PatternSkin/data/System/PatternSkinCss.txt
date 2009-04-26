@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1141775863" format="1.1" version="$Rev: 14045 $"}%
+%META:TOPICINFO{author="ProjectContributor" date="1141775863" format="1.1" version="$Rev$"}%
 ---+!! CSS elements in !PatternSkin
 
 This page is a reference for all CSS classes used in PatternSkin.
@@ -16,7 +16,7 @@ If you want to learn how to create your own look or skin based on !PatternSkin, 
 ---++ Naming conventions
 
    * All !PatternSkin specific classes have the prefix =pattern=: patternEditPage, patternTopicAction, etcetera. 
-   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =twiki=: foswikiButton, foswikiToc, etcetera. See for a complete list CascadingStyleSheets.
+   * Foswiki specific classes (emitted by the Foswiki engine) have the prefix =foswiki=: foswikiButton, foswikiToc, etcetera. See for a complete list CascadingStyleSheets.
    * Positional containers are referred by id, for instance =#patternSideBar=.
 
 ---++ Namespaces
