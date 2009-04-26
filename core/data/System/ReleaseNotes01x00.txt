@@ -548,6 +548,7 @@ None
 | [[%BUGS%/Item1388][Item1388]] | View topic since and other settings are not connected |
 | [[%BUGS%/Item1403][Item1403]] | Use of uninitialized value at lib/Foswiki.pm |
 | [[%BUGS%/Item1413][Item1413]] | System.WebLeftBarSearch search field javascript not blanking box when focused |
+| [[%BUGS%/Item1416][Item1416]] | TOC anchor links broken |
 | [[%BUGS%/Item1443][Item1443]] | We still have 1.0 format in distributed topics |
 | [[%BUGS%/Item1451][Item1451]] | Typos on System.TextFormattingRules |
 | [[%BUGS%/Item1453][Item1453]] | Too hard to create new switchboard entries, doc is poor |
