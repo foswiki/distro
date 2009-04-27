@@ -37,6 +37,7 @@ defined in topics. A lot of the macros you will encounter are of this type.
 
 Preferences can be defined by the user in various places.
 
+#FinalMacros
 ---+++ Setting Preferences
 You can set macros in all the following places:
    1 default level in [[%SYSTEMWEB%.DefaultPreferences][%SYSTEMWEB%.DefaultPreferences]] (*not* recommended)
@@ -48,7 +49,7 @@ You can set macros in all the following places:
    1 topic level in topics in webs
    1 session macros (if sessions are enabled)
 
-Settings at higher-numbered levels override settings of the same macro at lower numbered levels, unless the macro was included in the setting of FINALPREFERENCES at a lower-numbered level, in which case it is locked at the value it has at that level.
+Settings at higher-numbered levels override settings of the same macro at lower numbered levels, _unless the macro was included in the setting of FINALPREFERENCES_ (finalised) at a lower-numbered level, in which case it is locked at the value it has at that level.
 
 If you are setting a preference and using it in the same topic, note that Foswiki reads all the [[%SYSTEMWEB%.PreferenceSettings][preference settings]] from the saved version of the topic before it displays anything.  This means you can use a macro anywhere in the topic, even if you set it somewhere inconspicuous near the end. *But beware:*  it also means that if you change the setting of a macro you are using in the same topic, ==Preview== will show the wrong thing, and you must ==Save== the topic to see it correctly.
 

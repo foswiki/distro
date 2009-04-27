@@ -9,17 +9,15 @@ Access Control allows you restrict access to single topics and entire webs, by i
 %TOC%
 
 #ImportantConsideration
----++ An important control consideration
+---++ An important consideration
 
-Open, freeform editing is the essence of WikiCulture - what makes Foswiki different and often more effective than other collaboration tools. For that reason, it is strongly recommended that decisions to restrict read or write access to a web or a topic are made with great care - the more restrictions, the less Wiki in the mix. Experience shows that _unrestricted write access_ works very well because:
+Open, freeform editing is the essence of WikiCulture - what makes Foswiki different and often more effective than other collaboration tools. For that reason, it is strongly recommended that the decision to restrict read or write access to a web or a topic is made with great care - the more restrictions, the less Wiki in the mix. Experience shows that _unrestricted write access_ works very well because:
    * *Peer influence* is enough to ensure that only relevant content is posted.
    * *Peer editing* - the ability for anyone to rearrange all content on a page - keeps topics focused.
    * In Foswiki, content is transparently preserved under *revision control*:
       * Edits can be undone by the administrator (per default a member of %USERSWEB%.AdminGroup; see [[#ManagingGroups]]).
       * Users are encouraged to edit and refactor (condense a long topic), since there's a safety net.
-As a *collaboration guideline*:
-   * Create broad-based Groups (for more and varied input), and...
-   * Avoid creating view-only Users (if you can read it, you should be able to contribute to it).
+As a *collaboration guideline*, create broad-based Groups (for more and varied input), and avoid creating view-only Users (if you can read it, you should be able to contribute to it).
 
 ---++ Permissions settings of the webs on this Foswiki site
 %INCLUDE{SitePermissions}%
@@ -34,17 +32,24 @@ As a *collaboration guideline*:
 
 ---++ Users and groups
 
-Access control is based on the familiar concept of users and groups. Users are defined by their WikiNames. They can then be organized in unlimited combinations by inclusion in one or more user Groups. For convenience, Groups can also be included in other Groups. 
+Access control is based on the familiar concept of users and groups. Users
+are defined by their WikiNames. They can then be organized in unlimited
+combinations by inclusion in one or more user Groups. Groups can also be
+included in other Groups.
 
 ---+++ Managing Users
 
-A user can create an account in UserRegistration. The following actions are performed:
+In standard Foswiki a user can create an account in UserRegistration. The following actions are performed:
    * WikiName and encrypted password are recorded using the password manager if authentication is enabled.
    * A confirmation e-mail is sent to the user.
    * A user home page with the WikiName of the user is created in the %USERSWEB% web.
    * The user is added to the %USERSWEB%.%WIKIUSERSTOPIC% topic.
 
 The default visitor name is %USERSWEB%.WikiGuest. This is the non-authenticated user.
+
+%X% Your local Foswiki may have an alternate user mapping manager installed
+which doesn't support user registration. Check with your Wiki administrator
+if you are in doubt.
 
 #ManagingGroups
 ---+++ Managing Groups
@@ -58,7 +63,7 @@ Groups are defined by group topics located in the ==%USERSWEB%== web. To create 
 The GROUP setting is a comma-separated list of users and/or other groups. Example:
    * ==Set GROUP = %USERSWEB%.<nop>SomeUser, %USERSWEB%.<nop>OtherUser, %USERSWEB%.<nop>SomeGroup==
 
-The ALLOWTOPICCHANGE setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
+The =ALLOWTOPICCHANGE= setting defines who is allowed to change the group topic; it is a comma delimited list of users and groups. You typically want to restrict that to the members of the group itself, so it should contain the name of the topic. This prevents users not in the group from editing the topic to give themselves or others access. For example, for the <nop>KasabianGroup topic write:
    * ==Set <nop>ALLOWTOPICCHANGE = %USERSWEB%.<nop>KasabianGroup==
 
 %X% Foswiki has strict formatting rules. Make sure you have three spaces, an asterisk, and an extra space in front of any access control rule.
@@ -66,21 +71,31 @@ The ALLOWTOPICCHANGE setting defines who is allowed to change the group topic; i
 #SuperAdminGroup
 ---+++ The Super Admin Group
 
-A number of Foswiki functions (for example, renaming webs) are only available to administrators. Administrators are simply users who belong to the *SuperAdminGroup*. This is a standard user group, the name of which is defined by {SuperAdminGroup} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default name of this group is the =AdminGroup=. The system administrator may have chosen a different name for this group if your local Foswiki uses an alternate group mapping manager but for simplicity we will use the default name !AdminGroup in the rest of this topic.
+A number of Foswiki functions (for example, renaming webs) are only available to administrators. Administrators are simply users who belong to the *SuperAdminGroup*. This is a standard user group, the name of which is defined by {SuperAdminGroup} setting in [[%SCRIPTURLPATH{"configure"}%][configure]]. The default name of this group is the =AdminGroup=. The system administrator may have chosen a different name for this group if your local Foswiki uses an alternate group mapping manager, but for simplicity we will use the default name !AdminGroup in the rest of this topic.
 
 You can create new administrators simply by adding them to the %USERSWEB%.AdminGroup topic. For example,
    * ==Set <nop>GROUP = <nop>%USERSWEB%.ElizabethWindsor, <nop>%USERSWEB%.TonyBlair==
-A member of the Super Admin Group has unrestricted access throughout the Foswiki, so only trusted staff should be added to this group.
+A member of the Super Admin Group has *unrestricted access* throughout the wiki, so only trusted staff should be added to this group.
 
 ---++ Restricting Access
 
-You can define who is allowed to read or write to a web or a topic. Note that some plugins may not respect access permissions.
+Access to webs and topics is controlled by setting the values of certain
+[[PreferenceSettings][preferences]]. These names of these preferences have the general form:
+
+_permission_ _context_ _mode_
+
+Where _permission is =ALLOW= or =DENY=, _context_ is =TOPIC=, =WEB=, or =ROOT=, and _mode_ is =VIEW=, =CHANGE=, or =RENAME=. For example, the preference =ALLOWTOPICCHANGE= lists who is allowed to change
+topics in the current web.
 
    * Restricting VIEW blocks viewing and searching of content. When you restric VIEW to a topic or web, this also restricts [[VarINCLUDE][INCLUDE]] and [[FormattedSearch][Formatted SEARCH]] from showing the content of the topics.
    * Restricting CHANGE blocks creating new topics, changing topics or attaching files.
    * Restricting RENAME prevents renaming of topics within a web.
    
 %X% *There is an important distinction between CHANGE access and RENAME access.* A user can CHANGE a topic, but thanks to version control their changes cannot be lost (the history of the topic before the change is recorded). However if a topic or web is renamed, that history may be lost. Typically a site will only give RENAME access to administrators and content owners.
+
+%X% Be warned that some plugins may not respect access permissions.
+
+%I% [[Macros#FinalMacros][FINALPREFERENCES]] affects access controls, allowing you to prevent changes to access control settings while still allowing edit access to topics. 
 
 ---+++ Controlling access to a Web
 
@@ -111,7 +126,7 @@ Creation and renaming of sub-webs is controlled by the WEBCHANGE setting on the 
       * ==Set <nop>DENYTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>ALLOWTOPICRENAME = &lt; comma-delimited list of users and groups &gt;==
 
-Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the WebLeftBar - may also be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
+Remember when opening up access to specific topics within a restricted web that other topics in the web - for example, the !WebLeftBar - may also be accessed when viewing the topics. The message you get when you are denied access should tell you what topic you were not permitted to access.
 
 *Be careful* with empty values for any of these.
 
@@ -144,13 +159,13 @@ The easiest way to apply the same access control rules for attachments as apply 
 
 That way all the controls that apply to the topic also apply to attachments to the topic. Other types of webserver have similar support.
 
-%H% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
+%X% Images embedded in topics will load much slower since each image will be delivered by the =viewfile= script.
 
 #RootWebs
 ---+++ Controlling who can manage top-level webs
 
 Top level webs are a special case, because they don't have a parent web with a %WEBPREFSTOPIC%. So there has to be a special control just for the root level.
-   * You can define these settings in the %USERSWEB%.%WIKIPREFSTOPIC% topic, preferable towards the end of the topic:
+   * You can define these settings in the %LOCALSITEPREFS% topic, preferably towards the end of the topic:
       * ==Set <nop>DENYROOTCHANGE = &lt; comma-delimited list of users and groups &gt;==
       * ==Set <nop>ALLOWROOTCHANGE = &lt; comma-delimited list of users and groups &gt;==
 Note that you do *not* require =ROOTCHANGE= access to rename an existing top-level web. You just need =WEBCHANGE= in the web itself.
@@ -215,7 +230,7 @@ If needed, you can further restrict access to selected webs with ALLOWWEBVIEW an
 Use the following setup to authenticate users for topic viewing in all webs and to restrict access to selected webs. Requires UserAuthentication to be enabled.
 
    1 The simple way is to add this to =%WEBPREFSTOPIC%= in all webs.
-      * ==Set <nop>DENYWEBVIEW = WikiGuest==
+      * ==Set <nop>DENYWEBVIEW = !WikiGuest==
    1. *Restrict* view access to selected users and groups. Set one or both of these settings in its %WEBPREFSTOPIC% topic:
       * ==Set <nop>ALLOWWEBVIEW = &lt; list of users and groups &gt;==
       * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
@@ -232,6 +247,14 @@ Use the following setup to provide unrestricted viewing access to open webs, wit
       * ==Set <nop>DENYWEBVIEW = &lt; list of users and groups &gt;==
       * ==Set <nop>ALLOWWEBVIEW = &lt; list of users and groups &gt;==
       * *Note:* =DENYWEBVIEW= is evaluated before =ALLOWWEBVIEW=. Access is denied if the authenticated person is in the =DENYWEBVIEW= list, or not in the =ALLOWWEBVIEW= list. Access is granted if =DENYWEBVIEW= and =ALLOWWEBVIEW= are not defined.
+
+---+++ Show control settings
+You can list the access controls affecting a topic using the =%<nop>SHOWPREFERENCE% macro in the topic, thus:
+<verbatim>
+%SHOWPREFERENCE{"DENYWEBVIEW,ALLOWWEBVIEW,DENYWEBCHANGE,ALLOWWEBCHANGE,DENYWEBRENAME,ALLOWWEBRENAME"}%
+</verbatim>
+For this topic, this displays:
+%SHOWPREFERENCE{"DENYWEBVIEW,ALLOWWEBVIEW,DENYWEBCHANGE,ALLOWWEBCHANGE,DENYWEBRENAME,ALLOWWEBRENAME"}%
 
 ---+++ Hide control settings
 

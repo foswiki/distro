@@ -471,7 +471,7 @@ sub stringify {
     my @keys = defined $key ? ( $key ) : sort keys %{ $this->{values} };
     my @list;
     foreach my $k ( @keys ) {
-        my $val = Foswiki::entityEncode( $this->{values}->{$k} );
+        my $val = Foswiki::entityEncode( $this->{values}->{$k} || '' );
         push( @list, '   * Set '."$k = \"$val\"");
         if (defined $whereSet{$k}) {
             push( @list, "      * $k was "

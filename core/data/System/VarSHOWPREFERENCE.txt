@@ -1,9 +1,12 @@
 %META:TOPICPARENT{name="Macros"}%
 #VarSHOWPREFERENCE
----+++ SHOWPREFERENCE -- show where a preference/all preferences is/are defined.
+---+++ SHOWPREFERENCE -- show where preferences are defined.
+Preference values are shown in a bulleted list.
    * =%<nop>SHOWPREFERENCE%=
       * Show all preferences
    * =%<nop>SHOWPREFERENCE{"PREFERENCENAME"}%=
-      * Show just preference PREFERENCENAME.
-For example, =%<nop>SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%= shows:
+      * Show a single preference, For example, =%<nop>SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%= shows:
 %SHOWPREFERENCE{"ATTACHFILESIZELIMIT"}%
+   * =%<nop>SHOWPREFERENCE{"PREFERENCENAME,PREFERENCENAME,..."}%=
+      * Show all of the preferences in a comma-separated list of preference names. This is particularly useful for reviewing the access controls that apply to a topic. For example, =%<nop>SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%= shows:
+%SHOWPREFERENCE{"DENYWEBCHANGE,ALLOWWEBCHANGE"}%

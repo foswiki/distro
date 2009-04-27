@@ -4225,7 +4225,15 @@ sub GROUPS {
 
 sub SHOWPREFERENCE {
     my ( $this, $params ) = @_;
-    return $this->{prefs}->stringify( $params->{_DEFAULT} );
+    my $tml = '';
+    if ( $params->{_DEFAULT} ) {
+        foreach my $preference ( split(/[, ]+/, $params->{_DEFAULT} )) {
+            $tml .= $this->{prefs}->stringify( $preference );
+        }
+    } else {
+        $tml = $this->{prefs}->stringify();
+    }
+    return $tml;
 }
 
 1;
