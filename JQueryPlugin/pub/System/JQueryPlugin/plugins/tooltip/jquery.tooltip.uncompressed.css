@@ -1,0 +1,55 @@
+/* jquery.tooltip */
+#tooltip {
+  position: absolute;
+  z-index: 3000;
+  padding: 5px;
+}
+#tooltip h3, 
+#tooltip div { 
+  margin: 0; 
+  overflow:hidden;
+  color:black;
+  font-size:11px;
+}
+
+#tooltip.foswiki {
+  font-family:Arial,sans-serif;
+  padding:5px;
+  max-width:200px;
+  background:#F6F6BD;
+  border:1px solid #9C9CA0;
+  color:black;
+}
+#tooltip.foswiki h3 {
+  text-align: center;
+  border:0px;
+}
+#tooltip.foswiki div { 
+  margin-top:5px;
+  text-align: left; 
+}
+#tooltip.bubble {
+  opacity: 0.9;
+  background-image: url('tooltip-bubble.png');
+  background-repeat:no-repeat;
+  padding:5em 1em 1em 1em;
+  height:100px;
+  width:220px;
+  font-family:Arial,sans-serif;
+}
+#tooltip.bubble.viewport-right {
+  background: url('tooltip-bubble-reverse.png');
+}
+#tooltip.bubble h3 {
+  font-size:13px;
+  font-weight:bold;
+  border-bottom:1px solid #ddd;
+  padding:0px 0px 2px 0px;
+  margin:0px 0px 2px 0px;
+}
+#tooltip.bubble div {
+  width: 220px; 
+  text-align: left;
+}
+
+

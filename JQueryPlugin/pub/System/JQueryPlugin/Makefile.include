@@ -1,0 +1,25 @@
+FOSWIKI_ROOT=~/foswiki/trunk/core
+MINIFYJS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
+MINIFYCSS=FOSWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
+GZIP=gzip
+CAT=cat
+
+.SUFFIXES: .js .css
+.PHONY: $(SUBDIRS)
+
+all: $(TARGET) $(TARGET:.js=.js.gz) $(TARGET:.css=.css.gz) $(SUBDIRS)
+
+%.js: %.uncompressed.js
+	@echo creating $@ from $<
+	@$(MINIFYJS) $< > $@
+
+%.gz: %
+	@echo compressing $< to $@
+	@$(GZIP) -c $< > $@
+
+%.css: %.uncompressed.css
+	@echo creating $@ from $<
+	@$(MINIFYCSS) $< > $@
+
+$(SUBDIRS):
+	@$(MAKE) -C $@
