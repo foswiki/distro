@@ -1,9 +1,5 @@
-# Copyright (c) 2007-2009 Michael Daum, http://michaeldaumconsulting.com
+# Plugin for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 # 
-# and TWiki Contributors. All Rights Reserved. TWiki Contributors
-# are listed in the AUTHORS file in the root of this distribution.
-# NOTE: Please extend that file, not this notice.
-#
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
@@ -14,9 +10,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-# For licensing info read LICENSE file in the TWiki root.
-
-package TWiki::Plugins::JQueryPlugin;
+package Foswiki::Plugins::JQueryPlugin;
 use strict;
 use vars qw( 
   $VERSION $RELEASE $SHORTDESCRIPTION 
@@ -31,30 +25,29 @@ $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
 $header = <<'HERE';
-<link rel="stylesheet" href="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
+<link rel="stylesheet" href="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.css" type="text/css" media="all" />
 <script type="text/javascript">
-var twiki;
-if (!twiki) {
-  twiki = {};
+var foswiki;
+if (!foswiki) {
+  foswiki = {};
 }
-twiki.scriptUrl = "%SCRIPTURL%";
-twiki.scriptUrlPath = "%SCRIPTURLPATH%";
-twiki.pubUrl = "%PUBURL%";
-twiki.pubUrlPath = '%PUBURLPATH%';
-twiki.systemWebName = '%SYSTEMWEB%';
-twiki.twikiWebName = '%TWIKIWEB%';
-twiki.usersWebName = '%USERSWEB%';
-twiki.wikiName = '%WIKINAME%';
-twiki.loginName = '%USERNAME%';
-twiki.wikiUserName = '%WIKIUSERNAME%';
-twiki.serverTime = '%SERVERTIME%';
-twiki.ImagePluginEnabled = %IF{"context ImagePluginEnabled" then="true" else="false"}%;
-twiki.MathModePluginEnabled = %IF{"context MathModePluginEnabled" then="true" else="false"}%;
-var foswiki = twiki; // temporary alias
+foswiki.scriptUrl = "%SCRIPTURL%";
+foswiki.scriptUrlPath = "%SCRIPTURLPATH%";
+foswiki.pubUrl = "%PUBURL%";
+foswiki.pubUrlPath = '%PUBURLPATH%';
+foswiki.systemWebName = '%SYSTEMWEB%';
+foswiki.usersWebName = '%USERSWEB%';
+foswiki.wikiName = '%WIKINAME%';
+foswiki.loginName = '%USERNAME%';
+foswiki.wikiUserName = '%WIKIUSERNAME%';
+foswiki.serverTime = '%SERVERTIME%';
+foswiki.ImagePluginEnabled = %IF{"context ImagePluginEnabled" then="true" else="false"}%;
+foswiki.MathModePluginEnabled = %IF{"context MathModePluginEnabled" then="true" else="false"}%;
+var twiki = foswiki; // temporary alias: DEPRECATED
 </script>
-<script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery-all.js"></script>
+<script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.js"></script>
 <script type="text/javascript">
-ChiliBook.recipeFolder = twiki.pubUrlPath+'/'+twiki.twikiWebName+'/JQueryPlugin/chili/';
+ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/chili/';
 ChiliBook.automaticSelector = 'pre';
 //ChiliBook.lineNumbers = true;
 </script>
@@ -67,17 +60,17 @@ sub initPlugin {
 
   $doneInit = 0;
   $doneHeader = 0;
-  TWiki::Func::registerTagHandler('BUTTON', \&handleButton );
-  TWiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
-  TWiki::Func::registerTagHandler('CLEAR', \&handleClear );
-  TWiki::Func::registerTagHandler('TABPANE', \&handleTabPane );
-  TWiki::Func::registerTagHandler('ENDTABPANE', \&handleEndTabPane );
-  TWiki::Func::registerTagHandler('TAB', \&handleTab );
-  TWiki::Func::registerTagHandler('ENDTAB', \&handleEndTab );
-  TWiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript );
-  TWiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle );
-  TWiki::Func::registerTagHandler('JQTHEME', \&handleJQueryTheme );
-  TWiki::Func::registerTagHandler('JQIMAGESURLPATH', \&handleJQueryImagesUrlPath );
+  Foswiki::Func::registerTagHandler('BUTTON', \&handleButton );
+  Foswiki::Func::registerTagHandler('TOGGLE', \&handleToggle );
+  Foswiki::Func::registerTagHandler('CLEAR', \&handleClear );
+  Foswiki::Func::registerTagHandler('TABPANE', \&handleTabPane );
+  Foswiki::Func::registerTagHandler('ENDTABPANE', \&handleEndTabPane );
+  Foswiki::Func::registerTagHandler('TAB', \&handleTab );
+  Foswiki::Func::registerTagHandler('ENDTAB', \&handleEndTab );
+  Foswiki::Func::registerTagHandler('JQSCRIPT', \&handleJQueryScript );
+  Foswiki::Func::registerTagHandler('JQSTYLE', \&handleJQueryStyle );
+  Foswiki::Func::registerTagHandler('JQTHEME', \&handleJQueryTheme );
+  Foswiki::Func::registerTagHandler('JQIMAGESURLPATH', \&handleJQueryImagesUrlPath );
 
   return 1;
 }
@@ -93,32 +86,32 @@ sub commonTagsHandler {
 sub initCore {
   return if $doneInit;
   $doneInit = 1;
-  require TWiki::Plugins::JQueryPlugin::Core;
-  TWiki::Plugins::JQueryPlugin::Core::init(@_);
+  require Foswiki::Plugins::JQueryPlugin::Core;
+  Foswiki::Plugins::JQueryPlugin::Core::init(@_);
 }
 
 ###############################################################################
 sub handleButton {
   initCore();
-  return TWiki::Plugins::JQueryPlugin::Core::handleButton(@_);
+  return Foswiki::Plugins::JQueryPlugin::Core::handleButton(@_);
 }
 
 ###############################################################################
 sub handleToggle {
   initCore();
-  return TWiki::Plugins::JQueryPlugin::Core::handleToggle(@_);
+  return Foswiki::Plugins::JQueryPlugin::Core::handleToggle(@_);
 }
 
 ###############################################################################
 sub handleTabPane {
   initCore();
-  return TWiki::Plugins::JQueryPlugin::Core::handleTabPane(@_);
+  return Foswiki::Plugins::JQueryPlugin::Core::handleTabPane(@_);
 }
 
 ###############################################################################
 sub handleTab {
   initCore();
-  return TWiki::Plugins::JQueryPlugin::Core::handleTab(@_);
+  return Foswiki::Plugins::JQueryPlugin::Core::handleTab(@_);
 }
 
 ###############################################################################
@@ -143,7 +136,7 @@ sub handleJQueryScript {
   my $scriptFileName = $params->{_DEFAULT};
   return '' unless $scriptFileName;
   $scriptFileName .= '.js' unless $scriptFileName =~ /\.js$/;
-  return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/$scriptFileName\"></script>";
+  return "<script type=\"text/javascript\" src=\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$scriptFileName\"></script>";
 }
 
 ###############################################################################
@@ -153,7 +146,7 @@ sub handleJQueryStyle {
   my $styleFileName = $params->{_DEFAULT};
   return '' unless $styleFileName;
   $styleFileName .= '.css' unless $styleFileName =~ /\.css$/;
-  return "<style type='text/css'>\@import url('%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/$styleFileName');</style>";
+  return "<style type='text/css'>\@import url('%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/$styleFileName');</style>";
 }
 
 ###############################################################################
@@ -163,15 +156,15 @@ sub handleJQueryTheme {
   my $themeName = $params->{_DEFAULT};
   return '' unless $themeName;
 
-  return "<style type='text/css'>\@import url(\"%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/themes/$themeName/$themeName.all.css\");</style>";
+  return "<style type='text/css'>\@import url(\"%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/themes/$themeName/$themeName.all.css\");</style>";
 }
 
 ###############################################################################
 sub handleJQueryImagesUrlPath {
   my ($session, $params, $theTopic, $theWeb) = @_;   
   my $image = $params->{_DEFAULT};
-  return "%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/images/$image" if defined $image;
-  return "%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/images";
+  return "%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/$image" if defined $image;
+  return "%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images";
 }
 
 1;
