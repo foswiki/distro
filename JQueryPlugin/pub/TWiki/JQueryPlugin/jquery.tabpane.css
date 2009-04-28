@@ -1,8 +1,5 @@
-.jqTabPane {
-  display:none; /* switched on by plugin */
-}
 .twikiFormSteps .jqTabPane {
-  margin:5px 0px 10px;
+  margin:0px;
 }
 .jqTabPane form {
   margin:0px;
@@ -25,7 +22,7 @@ ul.jqTabGroup {
   margin:0px !important;
   padding:0px !important;
   list-style:none;
-  padding-top:1px; /* IE6+IE7 fix */
+  padding-top:1px !important; /* IE6+IE7 fix */
 }
 ul.jqTabGroup li {
   background-color: transparent;
@@ -78,4 +75,8 @@ ul.jqTabGroup li.current a {
   background-image: url('tab_left_on.png') !important;
   _background-image: url('tab_left_on.gif') !important; /* IE 6 */
   color: #333;
+}
+
+.jqTabPane .fltMakeIndexWrapper {
+  margin:0px;
 }

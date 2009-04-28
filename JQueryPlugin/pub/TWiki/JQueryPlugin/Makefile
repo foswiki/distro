@@ -1,4 +1,4 @@
-TWIKIROOT=~/twiki/trunk/core
+FOSWIKI_ROOT=~/foswiki/trunk/core
 TARGET= \
   effects.blind.js \
   effects.bounce.js \
@@ -16,21 +16,24 @@ TARGET= \
   jquery-all.css \
   jquery-all.js \
   jquery.autocomplete.js \
+  jquery.blockUI.js \
   jquery.cycle.js \
   jquery.cycle.trans.js \
   jquery.debug.js \
   jquery.form.js \
+  jquery.ifixpng.js \
   jquery.maskedinput.js \
+  jquery.media.js \
   jquery.rating.css \
   jquery.rating.js \
   jquery.shake.js \
+  jquery.simplemodal.js \
   jquery.spinner.js \
   jquery.superfish.css \
   jquery.superfish.js \
   jquery.validate.additional-methods.js \
   jquery.validate.js \
   jquery.wikiword.js \
-  jquery.ifixpng.js \
   ui.accordion.js \
   ui.core.js \
   ui.datepicker.js \
@@ -45,8 +48,8 @@ TARGET= \
   ui.tabs.js
 
 
-MINIFYJS=TWIKICPAN=$(TWIKIROOT)/lib/CPAN/lib $(TWIKIROOT)/tools/minifyjs
-MINIFYCSS=TWIKICPAN=$(TWIKIROOT)/lib/CPAN/lib $(TWIKIROOT)/tools/minifycss
+MINIFYJS=TWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifyjs
+MINIFYCSS=TWIKICPAN=$(FOSWIKI_ROOT)/lib/CPAN/lib $(FOSWIKI_ROOT)/tools/minifycss
 GZIP=gzip
 
 

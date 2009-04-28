@@ -16,7 +16,7 @@ package TWiki::Plugins::JQueryPlugin::Core;
 use strict;
 use constant DEBUG => 0; # toggle me
 
-use vars qw($tabPaneCounter $tabCounter $jqueryFormHeader $iconTopic);
+use vars qw($tabPaneCounter $tabCounter $jqueryFormHeader @iconSearchPath $toggleCounter);
 
 $jqueryFormHeader=<<'HERE';
 <script type="text/javascript" src="%PUBURLPATH%/%TWIKIWEB%/JQueryPlugin/jquery.form.js"></script>
@@ -24,8 +24,10 @@ HERE
 
 ###############################################################################
 sub init {
-  $tabPaneCounter = 0;
-  $tabCounter = 0;
+  $tabPaneCounter = int(rand(1000));
+  $tabCounter = int(rand(1000));
+  @iconSearchPath = ();
+  $toggleCounter = 0;
 }
 
 ###############################################################################
@@ -33,23 +35,21 @@ sub handleTabPane {
   my ($session, $params, $theTopic, $theWeb) = @_;
 
   my $tpId = 'jqTabPane'.($tabPaneCounter++);
-  my $select = $params->{select} || '';
+  my $select = $params->{select} || 1;
   my $autoMaxExpand = $params->{automaxexpand} || 'off';
-
-  $select =~ s/[^\d]//go;
-  $select ||= 1;
 
   $autoMaxExpand = ($autoMaxExpand eq 'on')?'true':'false';
 
-
-  TWiki::Func::addToHEAD($tpId, <<"EOS");
+  my $javascript = <<"EOS";
 <script type="text/javascript">
+//<![CDATA[
 jQuery(function(\$) {
-  \$("#$tpId").tabpane({select:$select, autoMaxExpand:$autoMaxExpand});
+  \$("#$tpId").tabpane({select:'$select', autoMaxExpand:$autoMaxExpand});
 });
+//]]>
 </script>
 EOS
-
+  TWiki::Func::addToHEAD("jqTabPane:$tpId", $javascript);
   return "<div class=\"jqTabPane\" id=\"$tpId\">";
 }
 
@@ -63,7 +63,8 @@ sub handleTab {
   my $afterLoadHandler = $params->{afterload} || '';
   my $url = $params->{url} || '';
   my $container = $params->{container} || '';
-  my $tabId = 'jqTab'.($tabCounter++);
+  my $tabId = $params->{id};
+  $tabId = 'jqTab'.($tabCounter++) unless defined $tabId;
 
   my @metaData = ();
   if ($beforeHandler) {
@@ -105,20 +106,31 @@ sub handleToggle {
   $style .= "background-color:$theBackground;" if $theBackground;
   $style .= "color:$theForeground;" if $theForeground;
   $style .= $theStyle if $theStyle;
-  $style = "style=\"$style\" " if $style;
+  $style = "style='$style'" if $style;
 
-  my $result = 
-   '<a '.
-   'href="#" '.
-   "onclick=\"twiki.JQueryPlugin.toggle('$theTarget', '$theEffect'); return false;\" ".
-   'title="'.$theTitle.'" '.
-   $style.
-   '>'.
-   '<i></i><span><span></span><i></i>'.
-   expandVariables($theText,$theWeb, $theTopic).
-   '</span></a>';
+  my $showEffect;
+  my $hideEffect;
+  if ($theEffect eq 'fade') {
+    $showEffect = $hideEffect = "animate({height:'toggle', opacity:'toggle'},'fast')";
+  } elsif ($theEffect eq 'slide') {
+    $showEffect = $hideEffect = "slideToggle('fast')";
+  } elsif ($theEffect eq 'ease') {
+    $showEffect = $hideEffect = "slideToggle({duration:400, easing:'easeInOutQuad'})";
+  } elsif ($theEffect eq 'bounce') {
+    $showEffect = "slideUp({ duration:300, easing:'easeInQuad'})";
+    $hideEffect = "slideDown({ duration:500, easing:'easeOutBounce'})";
+  } else {
+    $showEffect = $hideEffect = "toggle()";
+  }
+  my $cmd = "\$('$theTarget').each(function() {\$(this).is(':visible')?\$(this).$showEffect:\$(this).$hideEffect;})";
 
-  return $result;
+  $toggleCounter++;
+  my $toggleId = "toggle$toggleCounter";
+
+  return
+   "<a id='toggle$toggleCounter' href='#' onclick=\"$cmd; return false;\" title='".$theTitle."' ".$style.'>'.
+   "<span>".
+   expandVariables($theText,$theWeb, $theTopic).'</span></a>';
 }
 
 ###############################################################################
@@ -198,15 +210,25 @@ sub getIconUrlPath {
 
   return '' unless $iconName;
 
-  my $iconWeb = TWiki::Func::getTwikiWebname();
-  $iconName =~ s/^.*\.(.*?)$/$1/;
-
-  unless ($iconTopic) {
-    $iconTopic = TWiki::Func::getPreferencesValue('JQUERYPLUGIN_ICONTOPIC')
-      || 'FamFamFamSilkIcons';
+  unless (@iconSearchPath) {
+    my $iconSearchPath = 
+      TWiki::Func::getPreferencesValue('JQUERYPLUGIN_ICONSEARCHPATH')
+      || 'FamFamFamSilkIcons, FamFamFamSilkCompanion1Icons, FamFamFamFlagIcons, FamFamFamMiniIcons, FamFamFamMintIcons';
+    @iconSearchPath = split(/\s*,\s*/, $iconSearchPath);
   }
 
-  return TWiki::Func::getPubUrlPath().'/'.$iconWeb.'/'.$iconTopic.'/'.$iconName.'.png';
+  $iconName =~ s/^.*\.(.*?)$/$1/;
+  my $iconPath;
+  my $iconWeb = TWiki::Func::getTwikiWebname();
+  my $pubSystemDir = TWiki::Func::getPubDir().'/'.TWiki::Func::getTwikiWebname();
+
+  foreach my $path (@iconSearchPath) {
+    if (-f $pubSystemDir.'/'.$path.'/'.$iconName.'.png') {
+      return TWiki::Func::getPubUrlPath().'/'.$iconWeb.'/'.$path.'/'.$iconName.'.png';
+    }
+  }
+
+  return '';
 }
 
 ###############################################################################

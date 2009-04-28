@@ -38,8 +38,8 @@
       var currentTabId;
       $thisPane.children(".jqTab").each(function() {
         var title = $('h2', this).eq(0).remove().text();
-        $tabGroup.append('<li'+(index == thisOpts.select?' class="current"':'')+'><a href="javascript:void(0)" data="'+this.id+'">'+title+'</a></li>');
-        if (index == thisOpts.select) {
+        $tabGroup.append('<li'+((index == thisOpts.select || this.id == thisOpts.select)?' class="current"':'')+'><a href="javascript:void(0)" data="'+this.id+'">'+title+'</a></li>');
+        if (index == thisOpts.select || this.id == thisOpts.select) {
           currentTabId = this.id;
           $(this).addClass("current");
         } else {
@@ -48,7 +48,9 @@
         }
         index++;
       });
-      switchTab(currentTabId, currentTabId, thisOpts);
+      if (currentTabId) {
+        switchTab(currentTabId, currentTabId, thisOpts);
+      }
 
       /* establish auto max expand */
       if (thisOpts.autoMaxExpand) {
@@ -68,7 +70,6 @@
         }
         return false;
       });
-      $thisPane.css("display", "block"); // show() does not work in some browsers :(
     });
   };
 

@@ -1,7 +1,7 @@
-%META:TOPICINFO{author="ProjectContributor" date="1227031715" format="1.1" reprev="1.6" version="$Rev$"}%
+%META:TOPICINFO{author="micha" date="1236872297" format="1.1" reprev="1.2" version="1.2"}%
 ---+!! %TOPIC%
 
-Demo of the <nop>TWikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
+Demo of the <nop>TWikiWidgets implemented by the %TWIKIWEB%.JQueryPlugin
 
 %TOC%
 
@@ -11,16 +11,33 @@ Demo of the <nop>TWikiWidgets implemented by the %SYSTEMWEB%.JQueryPlugin
 %BUTTON{"%MAKETEXT{"Info"}%" icon="information"}%
 %BUTTON{"%MAKETEXT{"Add"}%" icon="add"}%
 %BUTTON{"%MAKETEXT{"Delete"}%" icon="delete"}%
+%BUTTON{"%MAKETEXT{"Globe"}%" icon="world_key"}%
 %CLEAR%
+%BR%
 
 ---++ Toggles
-%TOGGLE{target="#lorem_area" text="$percntX$percnt Slide" effect="slide"}%
+%TOGGLE{
+  target="#lorem_area" 
+  text="Toggle"
+  effect="toggle"
+}%
 
-<input type="button" value="Toggle" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'toggle')" />
-<input type="button" value="Fade " onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'fade')"/>
-<input type="button" value="Slide" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'slide')"/>
-<input type="button" value="Bounce" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'bounce')"/>
-<input type="button" value="Ease" onclick="twiki.JQueryPlugin.toggle('#lorem_area', 'ease')"/>
+%TOGGLE{
+  target="#lorem_area"
+  text="Fade"
+  effect="fade"
+}%
+
+%TOGGLE{
+  target="#lorem_area"
+  text="Slide" 
+  effect="slide"
+}%
+
+%TOGGLE{target="#lorem_area" text="$percntX$percnt Bounce" effect="bounce"}%
+
+%TOGGLE{target="#lorem_area" text="$percntX$percnt Ease" effect="ease"}%
+
 
 <div id="lorem_area" style="border:1px solid #ccc;padding:5px;width:250px">
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla dui turpis,
@@ -318,6 +335,7 @@ $(".pics").cycle({fx:'scrollLeft'});
   </body>
 </html>
 </verbatim>
+
 
 %META:FILEATTACHMENT{name="beach1.jpg" attachment="beach1.jpg" attr="" comment="" date="1224090781" path="beach1.jpg" size="20327" stream="IO::File=GLOB(0x8e9d47c)" tmpFilename="/var/tmp/CGItemp27605" user="ProjectContributor" version="1"}%
 %META:FILEATTACHMENT{name="beach2.jpg" attachment="beach2.jpg" attr="" comment="" date="1224090795" path="beach2.jpg" size="21480" stream="IO::File=GLOB(0x8e9f36c)" tmpFilename="/var/tmp/CGItemp30447" user="ProjectContributor" version="1"}%

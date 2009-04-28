@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" date="1231767301" format="1.1" version="1.2"}%
+%META:TOPICINFO{author="micha" date="1239024595" format="1.1" version="1.2"}%
 ---+!! %TOPIC%
 <!--
    * Set SHORTDESCRIPTION = jQuery <nop>JavaScript library for Foswiki
@@ -16,6 +16,7 @@
   </td>
 </tr>
 </table>
+
 This plugin contains the latest version of the [[http://jquery.com][jQuery]]
 <nop>JavaScript library. 
 
@@ -40,11 +41,13 @@ See the Sandbox.JQueryPluginExamples page for a demo of a couple of widgets used
    1 [[http://cherne.net/brian/resources/jquery.hoverIntent.html][jquery.hoverIntent]]: similar to jQuery's hover. However, onMouseOver hoverIntent tracks the user's mouse and waits until it slows down before calling the onMouseOver function   
    1 [[http://medienfreunde.com/lab/innerfade/][jquery.innerfade]]: a more flexible version of Slideshow   
    1 [[http://digitalbush.com/projects/masked-input-plugin/][jquery.maskedinput]]: mask the characters allowed in an input field.    
+   1 [[http://www.malsup.com/jquery/media/][jquery.media]]: supports unobtrusive conversion of standard markup into rich media content, e.g.  Flash, Quicktime, Windows Media Player, Real Player, MP3, Silverlight, PDF and more
    1 [[http://docs.jquery.com/Plugins/Metadata][jquery.metadata]]: read metadata from classes, attributes or elements   
    1 [[http://methvin.com/jquery/jq-corner.html][jquery.nifty]]: create rounded corners, TODO: replace with   
    1 [[http://www.fyneworks.com/jquery/star-rating/][jquery.rating]]: create a non-obstrusive star rating control   
    1 jquery.shrinkurls:  shrink link long link texts  
    1 jquery.spinner: simple jQuery spinner  
+   1 [[http://www.ericmmartin.com/projects/simplemodal/][jquery.simplemodal]]: provides a simple interface to create a modal dialog
    1 [[http://users.tpg.com.au/j_birch/plugins/superfish/][jquery.superfish]]: multi-tiered dropdown menus including a time delay on mouseover   
    1 jquery.tabpane: create a tabpane widget  (non-ui version)  
    1 [[http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/][jquery.tooltip]]: create customizable tooltips   
@@ -87,15 +90,55 @@ The following themes are provided:
    * Sandbox.PluginTestJQueryPlugin.txt 	 	
    * Sandbox.JQueryPluginExamples.txt
 
+---++ Chili Syntax Highlighting
+[[http://noteslog.com/chili/reference/][jquery.chili]]: client side syntax highlighting has been added to the JQueryPlugin.
+
+Syntax can be highlighted using the *&lt;verbatim&gt;* tag and the <u>class</u> attribute:
+
+<verbatim class="html">
+<verbatim class="html">
+
+<html>
+  <head>
+    <title>Hello World</title>
+  </head>
+  <body>
+    <font size="24px">Hello World</font>
+  </body>
+</html>
+
+</verbatim>
+</verbatim>
+
+Available class attributes:
+| =cplusplus= | C++ |
+| =csharp= | C# |
+| =css= | Cascading Style Sheets |
+| =delphi= | Delphi |
+| =html= | Hypertext Markup Language |
+| =java= | Java |
+| =js= | !JavaScript |
+| =lotusscript= | !LotusScript |
+| =php-f= | Hypertext Preprocessor -f |
+| =php= | Hypertext Preprocessor |
+| =sql= | Structured Query Language |
+| =tml= | Wiki Markup Language |
+
 ---++ Installation Instructions
 %$INSTALL_INSTRUCTIONS%
 
 ---++ Plugin Info
-|  Plugin Author(s): | Michael Daum, Main.EugenMayer |
+|  Plugin Author(s): | Michael Daum |
 |  Copyright: | 2007-2009 Michael Daum http://michaeldaumconsulting.com |
 |  License: | GPL |
-|  Plugin Version: | v1.15 |
+|  Plugin Version: | v1.99 |
 |  Change History: | <!-- versions below in reverse order -->&nbsp; |
+|  28 Apr 2009: | added jquery.media, jquery.simplemodal, shell highlightning for chilli |
+|  03 Feb 2009: | fixed tabpane not being rendered using a rest handler; \
+                  added id to tabs that can be used to init the first active one; \
+                  added compressed version of blockUI; \
+                  replaced ICONTOPIC preference variable with ICONSEARCHPATH to search for icons \
+                  in multiple directories (defaults to all of <nop>FamFamFamContrib) |
 |  15 Jan 2009: | fixed click target for relative urls in %<nop>BUTTON{}%; yet another jquery.wikiword fix |
 |  13 Jan 2009: | fixed jquery.wikiword not to depend on outside string libraries; \
                   added foswiki alias to global javascript variables (Eugen Mayer) |
@@ -123,7 +166,8 @@ The following themes are provided:
 |  10 Oct 2007: | upgraded to jQuery-1.1.4; compressed js and css |
 |  12 Jul 2007: | initial package containing jQuery-1.1.3.1 |
 |  Dependencies: | %$DEPENDENCIES% |
-|  Plugin Home: | http://foswiki.org/Extensions/%TOPIC% |
+|  Plugin Home: | Foswiki:Extensions/%TOPIC% |
+|  Support: | Foswiki:Support/%TOPIC% |
 
 
 %META:FILEATTACHMENT{name="wikiringlogo40x40.png" attachment="wikiringlogo40x40.png" attr="h" comment="" date="1189787359" path="wikiringlogo40x40.png" size="2571" stream="wikiringlogo40x40.png" tmpFilename="" user="ProjectContributor" version="1"}%

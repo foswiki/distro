@@ -26,7 +26,7 @@ use vars qw(
 );
 
 $VERSION = '$Rev$';
-$RELEASE = '1.15'; 
+$RELEASE = '1.99'; 
 $SHORTDESCRIPTION = 'jQuery <nop>JavaScript library for Foswiki';
 $NO_PREFS_IN_TOPIC = 1;
 
@@ -37,6 +37,8 @@ var twiki;
 if (!twiki) {
   twiki = {};
 }
+twiki.scriptUrl = "%SCRIPTURL%";
+twiki.scriptUrlPath = "%SCRIPTURLPATH%";
 twiki.pubUrl = "%PUBURL%";
 twiki.pubUrlPath = '%PUBURLPATH%';
 twiki.systemWebName = '%SYSTEMWEB%';
@@ -131,7 +133,7 @@ sub handleEndTabPane {
 
 ###############################################################################
 sub handleClear {
-  return "<span class='twikiClear'></span>";
+  return "<span class='foswikiClear'></span>";
 }
 
 ###############################################################################

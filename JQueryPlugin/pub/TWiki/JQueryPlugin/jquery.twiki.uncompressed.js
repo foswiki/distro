@@ -13,43 +13,6 @@ twiki.JQueryPlugin = new function () {
 }
 
 /**
-  * Animate the target object.
-  * This is called by a %TOGGLE% button
-  * @public
-  * @param target : (String or expression) jquery expression
-  * @param effet : "fade|slide|fadeslide"
-  * @return the target jquery object
-*/
-twiki.JQueryPlugin.toggle = function(target, effect) {
-  switch (effect) {
-    case "fade":
-      $(target).animate(
-        {height:'toggle', opacity:'toggle'},"fast"
-      );
-      break;
-    case "slide":
-      $(target).slideToggle("fast");
-      break;
-    case "ease":
-      $(target).slideToggle({duration:200, easing:'easeInOutQuad'});
-      break;
-    case "bounce":
-      if ($(target).is(":visible")) {
-        $(target).slideUp({ duration:200, easing:'easeInOutQuad'});
-      } else {
-        $(target).slideDown({ duration:500, easing:'easeOutBounce'});
-      }
-      break;
-    case "toggle":
-    default:
-      return $(target).toggle();
-      break;
-  }
-
-  return $(target);
-}
-
-/**
  * make live easier with wrt rounded corners
  */
 $.fn.extend({
@@ -228,20 +191,6 @@ $(function(){
   }
 
   /********************************************************
-   * jquery buttons using "unobstructive html"
-   * disabled in favour of %BUTTON% tag
-   */
-  if (false) {
-    $('.jqButton').each(function(){
-      var b = $(this);
-      var tt = b.text();
-      b.text('').prepend('<i></i>').append(
-        $('<span>').text(tt).append('<i></i><span></span>')
-      );
-    });
-  }
-
-  /********************************************************
    * tooltips 
    */
   if (false) {
@@ -286,9 +235,22 @@ $(function(){
   }
 
   /********************************************************
+   * media stuff
+   */
+  if (false) {
+    $.fn.media.defaults.mp3Player = twiki.pubUrlPath+'/TWiki/JQueryPlugin/mediaplayer/player.swf';
+    $.fn.media.defaults.flvPlayer = twiki.pubUrlPath+'/TWiki/JQueryPlugin/mediaplayer/player.swf';
+    $.fn.media.defaults.players.flash.eAttrs.allowfullscreen = 'true';
+    $(".media a[href*=.flv]").media();
+    $(".media a[href*=.swf]").media();
+    $(".media a[href*=.mp3]").media();
+  }
+  
+  /********************************************************
    * finally show treeviews 
    */
   if ($jqTreeviews) {
     $jqTreeviews.css('display', 'block');
   }
+
 });

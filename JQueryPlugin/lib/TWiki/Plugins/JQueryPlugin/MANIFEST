@@ -16,6 +16,7 @@ pub/TWiki/JQueryPlugin/btn_left.gif 0644
 pub/TWiki/JQueryPlugin/btn_red_left.gif 0644
 pub/TWiki/JQueryPlugin/btn_red_right.gif 0644
 pub/TWiki/JQueryPlugin/btn_right.gif 0644
+pub/TWiki/JQueryPlugin/chili/bash.js 0644
 pub/TWiki/JQueryPlugin/chili/cplusplus.js 0644
 pub/TWiki/JQueryPlugin/chili/csharp.js 0644
 pub/TWiki/JQueryPlugin/chili/css.js 0644
@@ -24,10 +25,10 @@ pub/TWiki/JQueryPlugin/chili/html.js 0644
 pub/TWiki/JQueryPlugin/chili/java.js 0644
 pub/TWiki/JQueryPlugin/chili/js.js 0644
 pub/TWiki/JQueryPlugin/chili/lotusscript.js 0644
-pub/TWiki/JQueryPlugin/chili/mysql.js 0644
 pub/TWiki/JQueryPlugin/chili/php-f.js 0644
 pub/TWiki/JQueryPlugin/chili/php.js 0644
 pub/TWiki/JQueryPlugin/chili/recipes.js 0644
+pub/TWiki/JQueryPlugin/chili/sql.js 0644
 pub/TWiki/JQueryPlugin/chili/tml.js 0644
 pub/TWiki/JQueryPlugin/delete.gif 0644
 pub/TWiki/JQueryPlugin/effects.blind.js 0644
@@ -134,6 +135,7 @@ pub/TWiki/JQueryPlugin/jquery.autocomplete.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.bgiframe.js 0644
 pub/TWiki/JQueryPlugin/jquery.bgiframe.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.blockUI.js 0644
+pub/TWiki/JQueryPlugin/jquery.blockUI.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.blockUI.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.chili.js 0644
 pub/TWiki/JQueryPlugin/jquery.chili.uncompressed.js 0644
@@ -165,6 +167,9 @@ pub/TWiki/JQueryPlugin/jquery.js 0644
 pub/TWiki/JQueryPlugin/jquery.maskedinput.js 0644
 pub/TWiki/JQueryPlugin/jquery.maskedinput.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.maskedinput.uncompressed.js 0644
+pub/TWiki/JQueryPlugin/jquery.media.js 0644
+pub/TWiki/JQueryPlugin/jquery.media.js.gz 0644
+pub/TWiki/JQueryPlugin/jquery.media.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.metadata.js 0644
 pub/TWiki/JQueryPlugin/jquery.metadata.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.nifty.css 0644
@@ -181,6 +186,9 @@ pub/TWiki/JQueryPlugin/jquery.shake.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.shake.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.shrinkurls.js 0644
 pub/TWiki/JQueryPlugin/jquery.shrinkurls.uncompressed.js 0644
+pub/TWiki/JQueryPlugin/jquery.simplemodal.js 0644
+pub/TWiki/JQueryPlugin/jquery.simplemodal.js.gz 0644
+pub/TWiki/JQueryPlugin/jquery.simplemodal.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/jquery.spinner.js 0644
 pub/TWiki/JQueryPlugin/jquery.spinner.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.spinner.uncompressed.js 0644
@@ -214,7 +222,14 @@ pub/TWiki/JQueryPlugin/jquery.wikiword.js 0644
 pub/TWiki/JQueryPlugin/jquery.wikiword.js.gz 0644
 pub/TWiki/JQueryPlugin/jquery.wikiword.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/Makefile 0644
+pub/TWiki/JQueryPlugin/mediaplayer/player.swf 0644
+pub/TWiki/JQueryPlugin/mediaplayer/swfobject.js 0644
+pub/TWiki/JQueryPlugin/mediaplayer/yt.swf 0644
 pub/TWiki/JQueryPlugin/MenuArrow.gif 0644
+pub/TWiki/JQueryPlugin/opacity20.png 0644
+pub/TWiki/JQueryPlugin/opacity40.png 0644
+pub/TWiki/JQueryPlugin/opacity60.png 0644
+pub/TWiki/JQueryPlugin/opacity80.png 0644
 pub/TWiki/JQueryPlugin/shade1.png 0644
 pub/TWiki/JQueryPlugin/star.gif 0644
 pub/TWiki/JQueryPlugin/tab_horiz.gif 0644
@@ -367,5 +382,6 @@ pub/TWiki/JQueryPlugin/ui.tabs.js 0644
 pub/TWiki/JQueryPlugin/ui.tabs.js.gz 0644
 pub/TWiki/JQueryPlugin/ui.tabs.uncompressed.js 0644
 pub/TWiki/JQueryPlugin/wikiringlogo40x40.png 0644
+pub/TWiki/JQueryPlugin/x.png 0644
 tools/minifycss 0755
 tools/minifyjs 0755
