@@ -30,23 +30,23 @@ Include the jQuery javascript we need
 
 
 ---++ Spinner
-<button onclick="$('#spinner').spinner({image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner.png'});$('#spinner').show();">Start spinner</button>
+<button onclick="$('#spinner').spinner({image: '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner.png'});$('#spinner').show();">Start spinner</button>
 <button onclick="$('#spinner').spinner('stop').hide();">Stop</button> 
 
 <div id="spinner"></div>
 
-<button onclick="$('#spinnerbig').spinner({height: 48,width: 48,speed: 50, frames:12, image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner_big.png'}).show();">Start big spinner</button>
+<button onclick="$('#spinnerbig').spinner({height: 48,width: 48,speed: 50, frames:12, image: '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner_big.png'}).show();">Start big spinner</button>
 <button onclick="$('#spinnerbig').spinner('stop').hide();">Stop</button> 
 
 <div id="spinnerbig"></div>
 
-<button onclick="$('#spinnerfast').spinner({height: 32,width: 32,speed: 25, image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner.png'}).show();">Start fast spinner</button>
+<button onclick="$('#spinnerfast').spinner({height: 32,width: 32,speed: 25, image: '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner.png'}).show();">Start fast spinner</button>
 <button onclick="$('#spinnerfast').spinner('stop').hide();">Stop</button> 
 
 <div id="spinnerfast"></div>
 
 
-<button onclick="$('#spinnerbigfast').spinner({height: 48,width: 48,speed: 25, frames:12, image: '%PUBURLPATH%/TWiki/JQueryPlugin/images/spinner_big.png'}).show();">Start big fast spinner</button>
+<button onclick="$('#spinnerbigfast').spinner({height: 48,width: 48,speed: 25, frames:12, image: '%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/images/spinner_big.png'}).show();">Start big fast spinner</button>
 <button onclick="$('#spinnerbigfast').spinner('stop').hide();">Stop</button> 
 
 <div id="spinnerbigfast"></div>
