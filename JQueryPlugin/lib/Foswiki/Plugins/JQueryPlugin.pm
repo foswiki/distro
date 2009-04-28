@@ -47,7 +47,7 @@ var twiki = foswiki; // temporary alias: DEPRECATED
 </script>
 <script type="text/javascript" src="%PUBURLPATH%/%SYSTEMWEB%/JQueryPlugin/jquery-all.js"></script>
 <script type="text/javascript">
-ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/chili/';
+ChiliBook.recipeFolder = foswiki.pubUrlPath+'/'+foswiki.systemWebName+'/JQueryPlugin/plugins/chili/recipes/';
 ChiliBook.automaticSelector = 'pre';
 //ChiliBook.lineNumbers = true;
 </script>

@@ -1,4 +1,8 @@
-SUBDIRS=base smoothness
+SUBDIRS=\
+  base \
+  smoothness \
+  lightness \
+  redmond 
 
 all: $(SUBDIRS)
 

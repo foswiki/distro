@@ -1,2 +1,2 @@
-all: jquery.cookie.js jquery.cookie.js.gz
+TARGET=jquery.cookie.js
 -include ../../Makefile.include

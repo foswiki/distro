@@ -1,6 +1,4 @@
--include ../../Makefile.include
-
-all: ui.base.css ui.base.css.gz ui.all.css ui.all.css.gz
+TARGET=ui.base.css ui.all.css
 
 UI_BASE_SOURCE= \
   ui.core.css \
@@ -16,6 +14,8 @@ UI_ALL_SOURCE= \
   $(UI_BASE_SOURCE) \
   ui.theme.css
 
+-include ../../Makefile.include
+
 ui.base.uncompressed.css: $(UI_BASE_SOURCE)
 	@echo creating $@
 	@$(CAT) $(UI_BASE_SOURCE) > $@
@@ -23,3 +23,4 @@ ui.base.uncompressed.css: $(UI_BASE_SOURCE)
 ui.all.uncompressed.css: $(UI_ALL_SOURCE)
 	@echo creating $@
 	@$(CAT) $(UI_ALL_SOURCE) > $@
+
