@@ -73,6 +73,7 @@ sub PERMITTED {
 # are initialized from is WebHome. Thus these tests also test reading a topic
 # other than the current topic.
 
+# Test that explicitly defined users are denied topic view
 sub test_denytopic {
     my $this = shift;
     my $topicObject =
@@ -80,7 +81,7 @@ sub test_denytopic {
         $this->{test_topic}, <<THIS);
 If DENYTOPIC is set to a list of wikinames
     * people in the list will be DENIED.
-\t* Set DENYTOPICVIEW = MrGreen
+   * Set DENYTOPICVIEW = MrGreen
    * Set DENYTOPICVIEW = MrYellow,$this->{users_web}.MrOrange,%USERSWEB%.ReservoirDogsGroup
 THIS
     $topicObject->save();
@@ -96,6 +97,7 @@ THIS
 
 }
 
+# Test that an empty DENYTOPIC doesn't deny anyone
 sub test_empty_denytopic {
     my $this = shift;
     my $topicObject =
@@ -116,6 +118,7 @@ THIS
     $this->PERMITTED( "view", $MrBlue );
 }
 
+# Test that explicitly defined ALLOWTOPIC excludes everyone else
 sub test_allowtopic {
     my $this = shift;
     my $topicObject =
@@ -124,7 +127,7 @@ sub test_allowtopic {
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
    2. everyone else is DENIED
-\t* Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
+   * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
 
@@ -137,6 +140,8 @@ THIS
     $this->DENIED( "view", $MrBlue );
 }
 
+# Test that explicitly defined ALLOWTOPIC excludes everyone else
+# Renew the session after each check to force refresh of any caches
 sub test_allowtopic_a {
     my $this = shift;
     my $topicObject =
@@ -145,7 +150,7 @@ sub test_allowtopic_a {
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
    2. everyone else is DENIED
-\t* Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
+   * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
 
@@ -170,6 +175,9 @@ THIS
     $this->DENIED( "view", $MrBlue );
 }
 
+# Test that explicitly defined ALLOWTOPIC excludes everyone else
+# Renew the session after each check to force refresh of any caches,
+# but don't provide a context,
 sub test_allowtopic_b {
     my $this = shift;
     my $topicObject =
@@ -178,7 +186,7 @@ sub test_allowtopic_b {
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
    2. everyone else is DENIED
-\t* Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
+   * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     $topicObject->save();
 
@@ -200,6 +208,8 @@ THIS
     $this->DENIED( "view", $MrBlue );
 }
 
+# Test that explicitly defined ALLOWTOPIC excludes everyone else
+# Access control in META:PREFERENCE
 sub test_allowtopic_c {
     my $this = shift;
     my $topicObject =
@@ -208,8 +218,8 @@ sub test_allowtopic_c {
 If ALLOWTOPIC is set
    1. people in the list are PERMITTED
    2. everyone else is DENIED
-%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="%25USERSWEB%25.MrOrange MrYellow"}%
 THIS
+    $topicObject->putKeyed('PREFERENCE', { name=>"ALLOWTOPICVIEW", title=>"ALLOWTOPICVIEW", type=>"Set", value=>"%USERSWEB%.MrOrange MrYellow" });
     $topicObject->save();
 
     # renew Foswiki, so WebPreferences gets re-read
@@ -230,6 +240,7 @@ THIS
     $this->DENIED( "view", $MrBlue );
 }
 
+# Test that DENYWEB works in a top-level web with no finalisation
 sub test_denyweb {
     my $this = shift;
     my $topicObject =
@@ -237,7 +248,7 @@ sub test_denyweb {
         $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
 If DENYWEB is set to a list of wikiname
     * people in the list are DENIED access
-\t* Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
+   * Set DENYWEBVIEW = $this->{users_web}.MrOrange %USERSWEB%.MrBlue
 THIS
     $topicObject->save();
 
@@ -256,6 +267,7 @@ THIS
     $this->DENIED( "view", $MrBlue );
 }
 
+# Test that ALLOWWEB works in a top-level web with no finalisation
 sub test_allow_web {
     my $this        = shift;
     my $topicObject = Foswiki::Meta->new(
@@ -265,7 +277,7 @@ sub test_allow_web {
 If ALLOWWEB is set to a list of wikinames
     * people in the list will be PERMITTED
     * everyone else will be DENIED
-\t* Set ALLOWWEBVIEW = MrGreen MrYellow MrWhite
+   * Set ALLOWWEBVIEW = MrGreen MrYellow MrWhite
 THIS
         , undef
     );
@@ -286,7 +298,30 @@ THIS
     $this->DENIED( "view", $MrBlue );
 }
 
-sub checkSettings {
+# Test that Web.UserName is equivalent to UserName in ACLs
+sub test_webDotUserName {
+    my $this        = shift;
+    my $topicObject = Foswiki::Meta->new(
+        $this->{session}, $this->{test_web}, $this->{test_topic},
+        <<THIS
+If ALLOWTOPIC is set
+   1. people in the list are PERMITTED
+   2. everyone else is DENIED
+   * Set ALLOWTOPICVIEW = MrYellow,%USERSWEB%.MrOrange,Nosuchweb.MrGreen,%MAINWEB%.MrBlue,%SYSTEMWEB%.MrWhite
+THIS
+        , undef
+    );
+    $topicObject->save();
+    $this->{session}->finish();
+    $this->{session} = new Foswiki();
+    $this->PERMITTED( "VIEW", $MrOrange );
+    $this->DENIED( "VIEW", $MrGreen );
+    $this->PERMITTED( "VIEW", $MrYellow );
+    $this->DENIED( "VIEW", $MrWhite );
+    $this->PERMITTED( "view", $MrBlue );
+}
+
+sub _checkSettings {
     my ( $this, $meta ) = @_;
 
     $this->assert(
@@ -311,11 +346,12 @@ sub checkSettings {
     );
 }
 
+# Test a * Set embedded in text
 sub test_SetInText {
     my $this = shift;
 
     my $text = <<THIS;
-\t* Set ALLOWTOPICVIEW = %USERSWEB%.MrGreen
+   * Set ALLOWTOPICVIEW = %USERSWEB%.MrGreen
 THIS
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
@@ -327,9 +363,10 @@ THIS
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic} );
-    $this->checkSettings($topicObject);
+    $this->_checkSettings($topicObject);
 }
 
+# Test a set in meta-data
 sub test_setInMETA {
     my $this = shift;
 
@@ -351,15 +388,15 @@ sub test_setInMETA {
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic} );
 
-    $this->checkSettings($topicObject);
+    $this->_checkSettings($topicObject);
 }
 
-# Which takes precedence; a setting in text, or a META:PREFERENCE?
+# Check that a PREFERENCE takes precedence over a setting in text
 sub test_setInSetAndMETA {
     my $this = shift;
 
     my $text = <<THIS;
-\t* Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
+   * Set ALLOWTOPICVIEW = %USERSWEB%.MrOrange
 THIS
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
@@ -378,52 +415,41 @@ THIS
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic} );
-    $this->checkSettings($topicObject);
+    $this->_checkSettings($topicObject);
 }
 
-sub test_setInEmbed {
-    my $this = shift;
-
-    my $text = <<THIS;
-%META:PREFERENCE{name="ALLOWTOPICVIEW" title="ALLOWTOPICVIEW" type="Set" value="%25USERSWEB%25.MrGreen"}%
-THIS
-    my $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic}, $text );
-    $topicObject->save();
-    $this->{session}->finish();
-
-    $this->{session} = new Foswiki();
-    $topicObject =
-      Foswiki::Meta->new( $this->{session}, $this->{test_web},
-        $this->{test_topic} );
-    $this->checkSettings($topicObject);
-}
-
-sub test_hierarchical_subweb_controls_Item2815 {
+# Test that hierarchical subweb controls override the parent web
+sub test_subweb_controls_override_parent {
     my $this   = shift;
     my $subweb = "$this->{test_web}.SubWeb";
 
     $Foswiki::cfg{EnableHierarchicalWebs} = 1;
-    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
-    $webObject->populateNewWeb();
+
+    # First build a parent web with view restricted to MrGreen
     my $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $this->{test_topic}, "Nowt" );
     $topicObject->save();
+
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $this->{test_web},
         $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
-\t* Set ALLOWWEBVIEW = MrGreen
+   * Set ALLOWWEBVIEW = MrGreen
 THIS
     $topicObject->save();
+
+    # Now build a subweb with view restricted to MrOrange
+    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
+    $webObject->populateNewWeb();
     $topicObject =
       Foswiki::Meta->new( $this->{session}, $subweb,
         $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
-\t* Set ALLOWWEBVIEW = MrOrange
+   * Set ALLOWWEBVIEW = MrOrange
 THIS
     $topicObject->save();
     $this->{session}->finish();
+
+    # Ensure that MrOrange can read the subweb and MrGreen the parent web
     $this->{session} = new Foswiki();
     $this->PERMITTED( "VIEW", $MrOrange, $subweb );
     $this->DENIED( "VIEW", $MrGreen, $subweb );
@@ -431,25 +457,73 @@ THIS
     $this->DENIED( "VIEW", $MrOrange );
 }
 
-sub test_webDotUserName {
-    my $this        = shift;
-    my $topicObject = Foswiki::Meta->new(
-        $this->{session}, $this->{test_web}, $this->{test_topic},
-        <<THIS
-If ALLOWTOPIC is set
-   1. people in the list are PERMITTED
-   2. everyone else is DENIED
-\t* Set ALLOWTOPICVIEW = MrYellow,%USERSWEB%.MrOrange,Nosuchweb.MrGreen,%MAINWEB%.MrBlue,%SYSTEMWEB%.MrWhite
+# Test that controls are inherited from parent webs
+sub test_subweb_inherits_from_parent {
+    my $this   = shift;
+    my $subweb = "$this->{test_web}.SubWeb";
+
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    # First build a parent web with view restricted to MrGreen, and
+    # finalise the setting
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+   * Set ALLOWWEBVIEW = MrGreen
+   * Set FINALPREFERENCES = ALLOWWEBVIEW
 THIS
-        , undef
-    );
+    $topicObject->save();
+
+    # Now build a subweb with no restrictions
+    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
+    $webObject->populateNewWeb();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $subweb,
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+THIS
     $topicObject->save();
     $this->{session}->finish();
+
     $this->{session} = new Foswiki();
-    $this->PERMITTED( "VIEW", $MrOrange );
-    $this->DENIED( "VIEW", $MrGreen );
-    $this->PERMITTED( "VIEW", $MrYellow );
-    $this->DENIED( "VIEW", $MrWhite );
-    $this->PERMITTED( "view", $MrBlue );
+    $this->PERMITTED( "VIEW", $MrGreen, $subweb );
+    $this->DENIED( "VIEW", $MrOrange, $subweb );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->DENIED( "VIEW", $MrOrange );
 }
+
+# Test that finalised controls in parent web override the subweb controls
+sub test_finalised_parent_overrides_subweb {
+    my $this   = shift;
+    my $subweb = "$this->{test_web}.SubWeb";
+
+    $Foswiki::cfg{EnableHierarchicalWebs} = 1;
+
+    # First build a parent web with view restricted to MrGreen, and
+    # finalise the setting
+    my $topicObject =
+      Foswiki::Meta->new( $this->{session}, $this->{test_web},
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+   * Set ALLOWWEBVIEW = MrGreen
+   * Set FINALPREFERENCES = ALLOWWEBVIEW
+THIS
+    $topicObject->save();
+
+    # Now build a subweb with view restricted to MrOrange
+    my $webObject = Foswiki::Meta->new( $this->{session}, $subweb );
+    $webObject->populateNewWeb();
+    $topicObject =
+      Foswiki::Meta->new( $this->{session}, $subweb,
+        $Foswiki::cfg{WebPrefsTopicName}, <<THIS);
+   * Set ALLOWWEBVIEW = MrOrange
+THIS
+    $topicObject->save();
+    $this->{session}->finish();
+
+    $this->{session} = new Foswiki();
+    $this->DENIED( "VIEW", $MrOrange, $subweb );
+    $this->PERMITTED( "VIEW", $MrGreen, $subweb );
+    $this->PERMITTED( "VIEW", $MrGreen );
+    $this->DENIED( "VIEW", $MrOrange );
+}
+
 1;
